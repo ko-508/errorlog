@@ -6,7 +6,9 @@ GitHub Actions から実行される想定。
 import csv
 import os
 import re
+import smtplib
 from datetime import date
+from email.mime.text import MIMEText
 from pathlib import Path
 
 DAILY_COUNT = int(os.getenv("DAILY_COUNT", "3"))
@@ -45,6 +47,33 @@ TOOL_TAGS = {
     "grafana": "Grafana",
     "datadog": "Datadog",
 }
+
+
+LOW_STOCK_THRESHOLD = 10
+
+
+def send_low_stock_alert(remaining_count: int) -> None:
+    gmail_user = os.getenv("GMAIL_USER")
+    gmail_password = os.getenv("GMAIL_APP_PASSWORD")
+    if not gmail_user or not gmail_password:
+        print("メール通知: GMAIL_USER / GMAIL_APP_PASSWORD 未設定のためスキップ")
+        return
+
+    body = (
+        f"ErrorLog のストック記事が残り {remaining_count} 件になりました。\n\n"
+        f"scripts/queue.csv に新しい記事を追加してください。\n"
+        f"https://github.com/ko-508/errorlog/blob/main/scripts/queue.csv"
+    )
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = f"[ErrorLog] ストック残り {remaining_count} 記事 — 補充が必要です"
+    msg["From"] = gmail_user
+    msg["To"] = gmail_user
+
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+        smtp.starttls()
+        smtp.login(gmail_user, gmail_password)
+        smtp.send_message(msg)
+    print(f"通知メール送信済み: 残り {remaining_count} 記事")
 
 
 def safe_filename(tool: str, code: str) -> str:
@@ -149,6 +178,9 @@ def main() -> None:
         writer.writerows(remaining)
 
     print(f"\n{published_count} 件を公開しました。残りキュー: {len(remaining)} 件")
+
+    if len(remaining) < LOW_STOCK_THRESHOLD:
+        send_low_stock_alert(len(remaining))
 
 
 if __name__ == "__main__":

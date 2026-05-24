@@ -20,6 +20,9 @@ jobs:
           python-version: '3.12'
 
       - name: Publish daily articles
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: python scripts/daily_publish.py
 
       - name: Commit and push
