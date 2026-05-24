@@ -1,0 +1,31 @@
+name: Daily Article Publish
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 毎日 09:00 JST (UTC 00:00)
+  workflow_dispatch:      # 手動実行も可能
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Publish daily articles
+        run: python scripts/daily_publish.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add content/posts/ scripts/queue.csv
+          git diff --staged --quiet && echo "新しい記事なし（キューが空か全てスキップ）" && exit 0
+          git commit -m "daily: $(date +%Y-%m-%d) の記事を公開"
+          git push
