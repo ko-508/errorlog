@@ -39,6 +39,7 @@ details.toc .inner a { color: var(--primary); }
 .tool-badge-aws        { background: rgba(255,153,0,.15);  color:#cc7700; border:1px solid rgba(255,153,0,.35); }
 .tool-badge-firebase   { background: rgba(255,160,0,.15);  color:#e08000; border:1px solid rgba(255,160,0,.35); }
 .tool-badge-github-api { background: rgba(110,84,148,.15); color:#6e5494; border:1px solid rgba(110,84,148,.35); }
+.tool-badge-openai-api { background: rgba(16,163,127,.15);  color:#0d8f70; border:1px solid rgba(16,163,127,.35); }
 
 /* 関連記事セクション */
 .related-posts { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
