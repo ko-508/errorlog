@@ -6,6 +6,7 @@ defaultContentLanguage = "ja"
 
 [params]
   description = "Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説"
+  images = ["og-image.png"]
   author = "ErrorLog"
   ShowReadingTime = false
   ShowShareButtons = false
