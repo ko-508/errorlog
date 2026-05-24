@@ -17,9 +17,11 @@ QUEUE_PATH = BASE / "queue.csv"
 POSTS_DIR = BASE.parent / "content" / "posts"
 
 TOOL_TAGS = {
+    "docker_compose": "Docker Compose",
     "docker": "Docker",
     "aws": "AWS",
     "firebase": "Firebase",
+    "github_actions": "GitHub Actions",
     "github_api": "GitHub API",
     "openai_api": "OpenAI API",
     "kubernetes": "Kubernetes",
@@ -27,6 +29,21 @@ TOOL_TAGS = {
     "stripe": "Stripe",
     "slack": "Slack",
     "gcp": "GCP",
+    "podman": "Podman",
+    "minikube": "Minikube",
+    "azure": "Azure",
+    "supabase": "Supabase",
+    "vercel": "Vercel",
+    "terraform": "Terraform",
+    "ansible": "Ansible",
+    "gitlab": "GitLab",
+    "bitbucket": "Bitbucket",
+    "postman": "Postman",
+    "jenkins": "Jenkins",
+    "circleci": "CircleCI",
+    "prometheus": "Prometheus",
+    "grafana": "Grafana",
+    "datadog": "Datadog",
 }
 
 
