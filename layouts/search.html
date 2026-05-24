@@ -1,0 +1,82 @@
+{{- define "main" }}
+
+<header class="page-header">
+    <h1>{{- (printf "%s&nbsp;" .Title ) | htmlUnescape -}}
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+    </h1>
+    {{- if .Description }}
+    <div class="post-description">
+        {{ .Description }}
+    </div>
+    {{- end }}
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+        {{- partial "translation_list.html" . -}}
+    </div>
+    {{- end }}
+</header>
+
+<div id="searchbox" class="searchbox">
+    <input id="searchInput" disabled placeholder="{{ .Params.placeholder | default (printf "%s ↵" .Title) }}"
+        aria-label="search" type="search" autocomplete="off" maxlength="64">
+    <ul id="searchResults" class="searchResults" aria-label="search results"></ul>
+</div>
+
+<div class="popular-searches">
+    <p class="popular-searches-label">よく検索されるワード</p>
+    <div class="popular-searches-tags">
+        <a href="#" onclick="setSearch('Docker 403'); return false;">Docker 403</a>
+        <a href="#" onclick="setSearch('AWS 403'); return false;">AWS 403</a>
+        <a href="#" onclick="setSearch('GitHub 401'); return false;">GitHub 401</a>
+        <a href="#" onclick="setSearch('Firebase 403'); return false;">Firebase 403</a>
+        <a href="#" onclick="setSearch('Docker 500'); return false;">Docker 500</a>
+        <a href="#" onclick="setSearch('AWS 500'); return false;">AWS 500</a>
+        <a href="#" onclick="setSearch('404'); return false;">404</a>
+        <a href="#" onclick="setSearch('502'); return false;">502</a>
+    </div>
+</div>
+
+<style>
+.popular-searches {
+    margin-top: 1.5rem;
+}
+.popular-searches-label {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    margin-bottom: 0.6rem;
+}
+.popular-searches-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.popular-searches-tags a {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    color: var(--secondary);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+}
+.popular-searches-tags a:hover {
+    background: var(--tertiary);
+    color: var(--primary);
+}
+</style>
+
+<script>
+function setSearch(term) {
+    const input = document.getElementById('searchInput');
+    input.value = term;
+    input.dispatchEvent(new Event('input'));
+    input.focus();
+}
+</script>
+
+{{- end }}{{/* end main */}}
