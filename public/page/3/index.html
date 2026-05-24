@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.161.1"><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>ErrorLog - エラーコード解決ガイド</title>
+
+<meta name="description" content="Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="http://localhost:1313/errorlog/">
+<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/errorlog/index.xml" title="rss">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 403 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebaseのセキュリティルールによってアクセスが拒否された。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+Firestoreまたは Cloud StorageのセキュリティルールがWriteやReadを許可していない ログインしていない状態でログイン必須のデータにアクセスしている 別のユーザーが所有するデータに対して書き込みを試みている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+Firebaseコンソールの「Rules Playground」でルールのシミュレーションを実行して拒否理由を確認する セキュリティルールで request.auth != null の条件を正しく設定する ルールの条件式にデバッグ用の debug()関数を追加してログを確認する まとめ Firebase の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_403/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 404 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebaseプロジェクト内の指定したリソースやドキュメントが存在しない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+FirestoreのドキュメントIDまたはパスが間違っている Cloud Functionsのエンドポイントのパスが誤っている 対象のコレクションやドキュメントがまだ作成されていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+Firebaseコンソールで対象のコレクションとドキュメントの存在を目視確認する Cloud FunctionsのURLをコンソールのFunctions一覧画面からコピーして使う データが存在しない場合はアプリ側で「データなし」の状態を適切に処理する まとめ Firebase の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_404/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 429 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 429 とは何か？（公式の定義） 429 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebaseの利用枠（クォータ）の上限を超えた。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 429 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+無料プラン（Sparkプラン）のFirestore読み取り・書き込み上限に達した Cloud Functionsの呼び出し回数が上限を超えた 認証メールの送信回数が上限に達した 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+Firebaseコンソールの「使用量と請求」でどの枠が上限に達しているか確認する 有料プラン（Blazeプラン）へアップグレードする クライアント側のキャッシュを活用してFirestoreへの読み取りリクエスト数を減らす まとめ Firebase の 429 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 429 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_429/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 500 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 500 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 500 とは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebase側のサーバーで予期しない内部エラーが発生した。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+Firebaseの内部的な障害であり、利用者の設定の問題ではない場合が多い Cloud Functionsのコードで処理されない例外（エラー）が発生している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+status.firebase.google.com で障害情報を確認する Cloud Functionsのログ（コンソールの「Functions」→「ログ」）でスタックトレースを確認する 数分後に再試行する まとめ Firebase の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 500 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_500/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 503 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 503 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 503 とは何か？（公式の定義） 503 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebaseのサービスが一時的に利用できない状態になっている。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 503 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+Firebaseがメンテナンスまたは過負荷状態になっている Cloud Functionsのコールドスタートが設定されたタイムアウトを超えた 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+status.firebase.google.com でサービス状態を確認する Cloud Functionsのタイムアウト設定を関数設定画面から延長する 数分後に再試行する まとめ Firebase の 503 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 503 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_503/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">GitHub API の 400 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、GitHub API を使っているときに表示される 400 というエラーの意味と、その直し方を順を追って説明します。
+GitHub API の 400 とは何か？（公式の定義） 400 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+GitHub API の文脈では、このコードは次のことを意味します。
+GitHubのAPIに送ったリクエストの形式が正しくない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） GitHub API で 400 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+リクエストボディのJSON形式が壊れている 必須のフィールドが抜けている パラメータの値が許容される範囲や形式を外れている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+GitHubのAPIドキュメントで必須フィールドを確認する JSONを整形ツールで検証してから送信する エラーレスポンスの「errors」配列で問題のフィールド名を特定する まとめ GitHub API の 400 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to GitHub API の 400 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_400/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">GitHub API の 401 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、GitHub API を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。
+GitHub API の 401 とは何か？（公式の定義） 401 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+GitHub API の文脈では、このコードは次のことを意味します。
+GitHubへの認証に失敗した。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） GitHub API で 401 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+個人アクセストークン（PAT）が間違っているか期限切れになっている Authorizationヘッダーの書き方が誤っている（Bearer の付け忘れなど） 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+GitHub設定のDeveloper settingsでトークンの有効期限を確認する Authorization: Bearer {トークン} の形式でヘッダーを設定しているか確認する トークンを再発行して使い直す まとめ GitHub API の 401 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to GitHub API の 401 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_401/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">GitHub API の 403 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、GitHub API を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
+GitHub API の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+GitHub API の文脈では、このコードは次のことを意味します。
+認証は成功したが、その操作の権限がない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） GitHub API で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+使用しているトークンに必要なスコープ（権限）が付与されていない 組織の管理者がAPIアクセスを制限するSSO設定をしている GitHubの標準的なレート制限に達している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+トークンの設定画面でスコープ一覧を確認し、必要なものを追加する Organization設定でSSOの認可を行う X-RateLimit-Remaining レスポンスヘッダーで残りリクエスト数を確認する まとめ GitHub API の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to GitHub API の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_403/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">GitHub API の 404 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、GitHub API を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
+GitHub API の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+GitHub API の文脈では、このコードは次のことを意味します。
+指定したリポジトリ・ユーザー・コンテンツが見つからない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） GitHub API で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+リポジトリ名またはユーザー名の綴りが間違っている プライベートリポジトリに対して権限のないトークンでアクセスしている ブランチ名またはファイルパスが間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+GitHubのWebブラウザで同じURLにアクセスして存在を確認する プライベートリポジトリの場合はトークンにrepoスコープがあるか確認する 大文字・小文字を含めてリポジトリ名を正確に確認する まとめ GitHub API の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to GitHub API の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_404/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">GitHub API の 422 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、GitHub API を使っているときに表示される 422 というエラーの意味と、その直し方を順を追って説明します。
+GitHub API の 422 とは何か？（公式の定義） 422 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+GitHub API の文脈では、このコードは次のことを意味します。
+リクエストの形式は正しいが、データの検証に失敗した。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） GitHub API で 422 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+作ろうとしているブランチ名やタグ名がすでに存在する IssueやPull Requestのフィールドに不正な値が入っている GitHubの仕様上、許可されていない操作を試みている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+エラーレスポンスの「errors」フィールドで詳細な理由を確認する 重複しているリソース名を変更するか既存のものを削除する GitHubの公式APIリファレンスで許容値を確認する まとめ GitHub API の 422 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to GitHub API の 422 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_422/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://localhost:1313/errorlog/page/2/">
+      «&nbsp;前へ&nbsp;
+    </a>
+    <a class="next" href="http://localhost:1313/errorlog/page/4/">次へ&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

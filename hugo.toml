@@ -1,0 +1,21 @@
+baseURL = "https://ユーザー名.github.io/errorlog/"
+locale = "ja"
+title = "ErrorLog - エラーコード解決ガイド"
+theme = "PaperMod"
+defaultContentLanguage = "ja"
+
+[params]
+  description = "Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説"
+  author = "ErrorLog"
+  ShowReadingTime = false
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  hideDescriptionInList = true
+  disableSpecial1stPost = true
+
+[params.homeInfoParams]
+  Title = "エラーコード解決ガイド"
+  Content = "Docker・AWS・GitHub API・Firebase のエラーを素早く解決するための記事一覧です。"
+
+[markup.goldmark.renderer]
+  unsafe = true

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>GitHub API の 500 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="">
+<meta name="description" content="この記事では、**GitHub API** を使っているときに表示される **500** というエラーの意味と、その直し方を順を追って説明します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="http://localhost:1313/errorlog/posts/github_api_500/">
+<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/posts/github_api_500/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      GitHub API の 500 エラー：原因と解決策
+    </h1>
+    <div class="post-description">
+      この記事では、**GitHub API** を使っているときに表示される **500** というエラーの意味と、その直し方を順を追って説明します。
+    </div>
+    <div class="post-meta">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><blockquote>
+<p>この記事では、<strong>GitHub API</strong> を使っているときに表示される <strong>500</strong> というエラーの意味と、その直し方を順を追って説明します。</p>
+</blockquote>
+<hr>
+<h2 id="github-api-の-500-とは何か公式の定義">GitHub API の 500 とは何か？（公式の定義）<a hidden class="anchor" aria-hidden="true" href="#github-api-の-500-とは何か公式の定義">#</a></h2>
+<p><strong>500</strong> は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。</p>
+<p>GitHub API の文脈では、このコードは次のことを意味します。</p>
+<blockquote>
+<p>GitHub側のサーバーで予期しない問題が発生した。</p>
+</blockquote>
+<p>このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
+多くの場合、設定の見直しや手順の確認だけで解決できます。</p>
+<hr>
+<h2 id="このエラーが発生する主な原因起きる理由の整理">このエラーが発生する主な原因（起きる理由の整理）<a hidden class="anchor" aria-hidden="true" href="#このエラーが発生する主な原因起きる理由の整理">#</a></h2>
+<p>GitHub API で 500 が出るときに、最もよく見られる原因を挙げます。
+自分の状況に当てはまるものを探してみてください。</p>
+<ul>
+<li>GitHubの内部的な障害であり、利用者側の問題ではない</li>
+</ul>
+<hr>
+<h2 id="具体的な解決手順とチェックリスト順番どおりに試す">具体的な解決手順とチェックリスト（順番どおりに試す）<a hidden class="anchor" aria-hidden="true" href="#具体的な解決手順とチェックリスト順番どおりに試す">#</a></h2>
+<p>上の原因ごとの対処法を、実行できる手順の形でまとめました。
+<strong>上から順番に試す</strong>ことで、多くの場合は解決に近づけます。</p>
+<ol>
+<li>githubstatus.com で現在の障害情報を確認する</li>
+<li>数分後に再試行する</li>
+<li>同じ操作をWebブラウザ上から試して問題が再現するか確認する</li>
+</ol>
+<hr>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>GitHub API の <strong>500</strong> エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
+チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。</p>
+<p>それでも解決しない場合は、次の方法を試してください。</p>
+<ul>
+<li>GitHub API の公式ドキュメントで最新の情報を確認する</li>
+<li>エラーメッセージの全文をコピーして検索エンジンで調べる</li>
+<li>公式のコミュニティフォーラムやサポートに問い合わせる</li>
+</ul>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:1313/errorlog/posts/github_api_429/">
+    <span class="title">« 前へ</span>
+    <span>GitHub API の 429 エラー：原因と解決策</span>
+  </a>
+  <a class="next" href="http://localhost:1313/errorlog/posts/github_api_502/">
+    <span class="title">次へ »</span>
+    <span>GitHub API の 502 エラー：原因と解決策</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

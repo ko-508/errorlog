@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.161.1"><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>ErrorLog - エラーコード解決ガイド</title>
+
+<meta name="description" content="Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="http://localhost:1313/errorlog/">
+<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/errorlog/index.xml" title="rss">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 403 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+認証は成功したが、そのリソースへのアクセス権限がない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+プライベートリポジトリへの読み取り・書き込み権限がない 組織のアクセスポリシーで制限されている 使用しているアカウントに必要な役割が割り当てられていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+リポジトリのオーナーに権限付与を依頼する Docker Hubの組織設定でチームの権限を確認する 使用アカウントのロールを管理者画面から確認する まとめ Docker の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_403/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 404 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+指定したリソース（イメージやコンテナ）が見つからない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+イメージ名またはタグ名の綴りが間違っている 指定したバージョンのイメージが存在しない ローカルにイメージが存在せず、リモートにも公開されていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+docker images でローカルのイメージ一覧を確認する Docker Hubでイメージ名とタグが正しいか検索する docker pull イメージ名:タグ で明示的に取得する まとめ Docker の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_404/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 409 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 409 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 409 とは何か？（公式の定義） 409 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+リクエストの内容がサーバーの現在の状態と矛盾している。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 409 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+同じ名前のコンテナがすでに動いているか停止状態で残っている 同じポートを複数のコンテナが使おうとしている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+docker ps -a で同名コンテナを確認し docker rm コンテナ名 で削除する docker run 時に –name を変更するか既存コンテナを先に削除する -p オプションで別のポート番号を指定する まとめ Docker の 409 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 409 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_409/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 422 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 422 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 422 とは何か？（公式の定義） 422 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+リクエスト自体の形式は正しいが、中身のデータが処理できない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 422 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+docker-compose.ymlの設定値が仕様の範囲外になっている 環境変数の型や値が期待されるものと合っていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+docker-compose configコマンドで設定ファイルの内容を検証する 公式の設定リファレンスで各項目の型と許容値を確認する まとめ Docker の 422 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 422 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_422/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 429 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 429 とは何か？（公式の定義） 429 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+短時間に送ったリクエスト数が上限を超えた。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 429 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+Docker Hubへのイメージ取得回数が無料枠の上限に達した CI/CDパイプラインが短時間に大量のpullを実行している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+Docker Hubにログインすることで取得上限を引き上げる（無料アカウントでも向上） よく使うイメージをプライベートレジストリまたはローカルキャッシュに保存する pullの頻度を下げるようにCI設定を見直す まとめ Docker の 429 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 429 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_429/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 500 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 500 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 500 とは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+Dockerデーモン（バックグラウンドプロセス）で予期しない問題が起きた。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+Dockerデーモン自体がクラッシュまたは異常な状態になっている ディスクの空き容量がなくなっている Dockerのデータが壊れている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+sudo systemctl restart docker または Docker Desktopを再起動する df -h でディスク容量を確認し、docker system pruneで不要データを削除する Dockerのログ（/var/log/docker.log）でエラーの詳細を確認する まとめ Docker の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 500 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_500/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 502 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 502 とは何か？（公式の定義） 502 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+中継サーバー（プロキシや上流のサーバー）から不正な応答を受け取った。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 502 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+プライベートレジストリとDockerデーモン間のネットワークに問題がある レジストリのプロキシ設定が間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+curl でレジストリのURLに直接アクセスできるか確認する /etc/docker/daemon.json のプロキシ設定を見直す まとめ Docker の 502 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 502 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_502/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker の 503 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Docker を使っているときに表示される 503 というエラーの意味と、その直し方を順を追って説明します。
+Docker の 503 とは何か？（公式の定義） 503 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Docker の文脈では、このコードは次のことを意味します。
+サーバーが過負荷または保守中のため、リクエストを処理できない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Docker で 503 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+Docker Hubが一時的なメンテナンス中または過負荷状態になっている プライベートレジストリのサーバーが停止している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+Docker Hubのステータスページ（status.docker.com）で障害情報を確認する 数分待ってから再度試す 内製のレジストリの場合はサーバーの稼働状態を確認する まとめ Docker の 503 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Docker の 503 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_503/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 400 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 400 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 400 とは何か？（公式の定義） 400 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebaseへのリクエストの形式または内容が正しくない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 400 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+FirestoreのクエリでWHERE句の組み合わせが複合インデックスを必要とする状態になっている 認証に使うメールアドレスの形式が正しくない SDKのメソッドに渡したデータの型が間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+Firebaseコンソールの「Firestore」→「インデックス」タブでインデックスの追加が必要か確認する エラーメッセージ内のURLからインデックスを直接作成できる場合はリンクをクリックして作成する SDKのドキュメントで各メソッドの引数の型を確認する まとめ Firebase の 400 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 400 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_400/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Firebase の 401 エラー：原因と解決策
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> この記事では、Firebase を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。
+Firebase の 401 とは何か？（公式の定義） 401 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
+Firebase の文脈では、このコードは次のことを意味します。
+Firebaseへのアクセスに有効な認証情報が提供されていない。
+このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
+このエラーが発生する主な原因（起きる理由の整理） Firebase で 401 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
+FirebaseのIDトークンの有効期限が切れている（通常1時間） サービスアカウントの鍵ファイルが古いか間違っている 環境変数GOOGLE_APPLICATION_CREDENTIALSが正しく設定されていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
+クライアントSDKでauth.currentUser.getIdToken(true)を呼び出してトークンを強制更新する Firebaseコンソールでサービスアカウントの鍵を再生成してダウンロードする 環境変数のパスが鍵ファイルの実際の場所と一致しているか確認する まとめ Firebase の 401 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+それでも解決しない場合は、次の方法を試してください。
+Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
+  <a class="entry-link" aria-label="post link to Firebase の 401 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_401/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="http://localhost:1313/errorlog/">
+      «&nbsp;前へ&nbsp;
+    </a>
+    <a class="next" href="http://localhost:1313/errorlog/page/3/">次へ&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
