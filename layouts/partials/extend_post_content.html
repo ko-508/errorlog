@@ -10,11 +10,22 @@
   {{- if $related }}
   <div class="related-posts">
     <h3>同じツールの記事</h3>
-    <ul>
-      {{- range first 6 $related }}
-      <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+    {{- range first 6 $related }}
+    <article class="post-entry">
+      <header class="entry-header">
+        {{- with index .Params.tags 0 }}
+        <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+        {{- end }}
+        <h2 class="entry-hint-parent">{{ .Title }}</h2>
+      </header>
+      {{- if .Description }}
+      <div class="entry-content">
+        <p>{{ .Description }}</p>
+      </div>
       {{- end }}
-    </ul>
+      <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+    </article>
+    {{- end }}
   </div>
   {{- end }}
 {{- end }}
