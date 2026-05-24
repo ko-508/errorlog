@@ -36,6 +36,11 @@ defaultContentLanguage = "ja"
   url = "/tags/"
   weight = 20
 
+[[menus.main]]
+  name = "アーカイブ"
+  url = "/archives/"
+  weight = 30
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
