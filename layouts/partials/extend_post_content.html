@@ -1,0 +1,20 @@
+{{- $tags := .Params.tags }}
+{{- $currentPage := . }}
+{{- if $tags }}
+  {{- $related := slice }}
+  {{- range .Site.RegularPages }}
+    {{- if and (ne .Permalink $currentPage.Permalink) (intersect .Params.tags $tags) }}
+      {{- $related = $related | append . }}
+    {{- end }}
+  {{- end }}
+  {{- if $related }}
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <ul>
+      {{- range first 6 $related }}
+      <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+{{- end }}
