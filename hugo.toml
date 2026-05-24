@@ -17,5 +17,13 @@ defaultContentLanguage = "ja"
   Title = "エラーコード解決ガイド"
   Content = "Docker・AWS・GitHub API・Firebase のエラーを素早く解決するための記事一覧です。"
 
+[[menus.main]]
+  name = "検索"
+  url = "/errorlog/search/"
+  weight = 10
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 [markup.goldmark.renderer]
   unsafe = true
