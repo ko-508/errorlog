@@ -4,6 +4,9 @@ title = "ErrorLog - エラーコード解決ガイド"
 theme = "PaperMod"
 defaultContentLanguage = "ja"
 
+[params.verification]
+  google = "qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"
+
 [params]
   description = "Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説"
   author = "ErrorLog"
