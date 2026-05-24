@@ -20,6 +20,10 @@ defaultContentLanguage = "ja"
   theme_color = "#1a1a2e"
   msapplication_TileColor = "#1a1a2e"
 
+[params.label]
+  icon = "logo.png"
+  iconHeight = 35
+
 [params.homeInfoParams]
   Title = "エラーコード解決ガイド"
   Content = "Docker・AWS・GitHub API・Firebase のエラーを素早く解決するための記事一覧です。"
