@@ -4,6 +4,8 @@ title = "ErrorLog - エラーコード解決ガイド"
 theme = "PaperMod"
 defaultContentLanguage = "ja"
 
+paginate = 26
+
 [params]
   description = "Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説"
   images = ["og-image.png"]

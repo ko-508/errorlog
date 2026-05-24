@@ -1,6 +1,6 @@
 ---
 title: "GitHub API の 502 エラー：原因と解決策"
-date: 2026-05-24
+date: 2026-01-01
 description: "この記事では、GitHub API を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。"
 tags: ["GitHub API"]
 errorCode: "502"
