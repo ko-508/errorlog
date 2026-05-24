@@ -7,7 +7,7 @@ defaultContentLanguage = "ja"
 paginate = 26
 
 [params]
-  description = "Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説"
+  description = "開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"
   images = ["og-image.png"]
   author = "ErrorLog"
   ShowReadingTime = false
@@ -26,7 +26,7 @@ paginate = 26
 
 [params.homeInfoParams]
   Title = "エラーコード解決ガイド"
-  Content = "Docker・AWS・GitHub API・Firebase のエラーを素早く解決するための記事一覧です。"
+  Content = "開発・運用で遭遇するエラーコードの原因と解決策を、ツール別にまとめたリファレンスです。"
 
 [[menus.main]]
   name = "検索"
