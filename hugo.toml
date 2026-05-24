@@ -19,7 +19,7 @@ defaultContentLanguage = "ja"
 
 [[menus.main]]
   name = "検索"
-  url = "/errorlog/search/"
+  url = "/search/"
   weight = 10
 
 [outputs]
