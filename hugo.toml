@@ -12,6 +12,9 @@ defaultContentLanguage = "ja"
   ShowPostNavLinks = true
   hideDescriptionInList = true
   disableSpecial1stPost = true
+  ShowToc = true
+  TocOpen = true
+  ShowCodeCopyButtons = true
 
 [params.homeInfoParams]
   Title = "エラーコード解決ガイド"
@@ -21,6 +24,11 @@ defaultContentLanguage = "ja"
   name = "検索"
   url = "/search/"
   weight = 10
+
+[[menus.main]]
+  name = "タグ"
+  url = "/tags/"
+  weight = 20
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
