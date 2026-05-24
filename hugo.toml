@@ -21,8 +21,7 @@ defaultContentLanguage = "ja"
   msapplication_TileColor = "#1a1a2e"
 
 [params.label]
-  icon = "logo.png"
-  iconHeight = 35
+  iconSVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 116 30" height="28"><text x="0" y="23" font-family="&apos;Courier New&apos;,Courier,monospace" font-size="23" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg>'
 
 [params.homeInfoParams]
   Title = "エラーコード解決ガイド"
