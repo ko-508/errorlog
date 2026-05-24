@@ -20,4 +20,16 @@
 .related-posts ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.35rem; }
 .related-posts a { color: var(--primary); text-decoration: none; font-size: 0.9rem; }
 .related-posts a:hover { text-decoration: underline; }
+
+/* ライトモード: 背景を白から薄いグレーへ */
+:root {
+  --theme: rgb(244, 244, 247);
+  --entry: rgb(250, 250, 252);
+  --border: rgb(222, 222, 228);
+}
+
+/* 目次リンクをより暗く */
+details.toc .inner a {
+  color: var(--primary);
+}
 </style>
