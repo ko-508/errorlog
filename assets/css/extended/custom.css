@@ -56,6 +56,19 @@ details.toc .inner a { color: var(--primary); }
 }
 .popular-searches-tags a:hover { background: var(--tertiary); color: var(--primary); }
 
+/* エラーコード番号（カード右端） */
+.error-code-num {
+  font-size: 2rem;
+  font-weight: 900;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--secondary);
+  opacity: 0.35;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  align-self: center;
+}
+
 /* 免責事項 */
 .post-content p:last-of-type em,
 .md-content p:last-of-type em {
