@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 400 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 400 エラーの原因と解決策。OpenAI APIへのリクエストの形式または内容に誤りがある。対処手順をわかりやすく解説します。"
+description: "OpenAI API の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["OpenAI API"]
 errorCode: "400"
 ---

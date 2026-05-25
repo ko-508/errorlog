@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 429 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 429 エラーの原因と解決策。短時間に送ったリクエストが「二次的なレート制限」に引っかかった。対処手順をわかりやすく解説します。"
+description: "GitHub API の 429 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["GitHub API"]
 errorCode: "429"
 ---

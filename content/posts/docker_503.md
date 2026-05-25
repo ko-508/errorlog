@@ -1,7 +1,7 @@
 ---
 title: "Docker の 503 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 503 エラーの原因と解決策。サーバーが過負荷または保守中のため、リクエストを処理できない。対処手順をわかりやすく解説します。"
+description: "Docker の 503 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "503"
 ---

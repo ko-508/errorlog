@@ -1,7 +1,7 @@
 ---
 title: "Stripe の 401 エラー：原因と解決策"
 date: 2026-05-25
-description: "Stripe の 401 エラーの原因と解決策。Stripe APIキーが無効または不正な形式で指定されている。対処手順をわかりやすく解説します。"
+description: "Stripe の 401 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Stripe"]
 errorCode: "401"
 ---

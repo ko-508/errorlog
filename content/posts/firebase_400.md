@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 400 エラー：原因と解決策"
 date: 2026-01-01
-description: "Firebase の 400 エラーの原因と解決策。Firebaseへのリクエストの形式または内容が正しくない。対処手順をわかりやすく解説します。"
+description: "Firebase の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "400"
 ---

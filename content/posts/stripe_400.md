@@ -1,7 +1,7 @@
 ---
 title: "Stripe の 400 エラー：原因と解決策"
 date: 2026-05-25
-description: "Stripe の 400 エラーの原因と解決策。Stripe APIへのリクエストの形式または内容に誤りがある。対処手順をわかりやすく解説します。"
+description: "Stripe の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Stripe"]
 errorCode: "400"
 ---

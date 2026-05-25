@@ -1,7 +1,7 @@
 ---
 title: "Docker の 400 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 400 エラーの原因と解決策。リクエストの形式が正しくないため、サーバーが処理を拒否した。対処手順をわかりやすく解説します。"
+description: "Docker の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "400"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes の 400 エラー：原因と解決策"
 date: 2026-05-25
-description: "Kubernetes の 400 エラーの原因と解決策。Kubernetes APIサーバーへのリクエストの形式または内容が正しくない。対処手順をわかりやすく解説します。"
+description: "Kubernetes の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Kubernetes"]
 errorCode: "400"
 ---

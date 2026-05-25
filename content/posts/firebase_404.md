@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 404 エラー：原因と解決策"
 date: 2026-01-01
-description: "Firebase の 404 エラーの原因と解決策。Firebaseプロジェクト内の指定したリソースやドキュメントが存在しない。対処手順をわかりやすく解説します。"
+description: "Firebase の 404 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "404"
 ---

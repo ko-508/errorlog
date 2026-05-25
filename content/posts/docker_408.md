@@ -1,7 +1,7 @@
 ---
 title: "Docker の 408 エラー：原因と解決策"
 date: 2026-05-24
-description: "Docker の 408 エラーの原因と解決策。クライアントがタイムアウト時間内にリクエストを完了できなかった。対処手順をわかりやすく解説します。"
+description: "Docker の 408 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "408"
 ---

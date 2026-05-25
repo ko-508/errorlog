@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 400 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 400 エラーの原因と解決策。GitHubのAPIに送ったリクエストの形式が正しくない。対処手順をわかりやすく解説します。"
+description: "GitHub API の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["GitHub API"]
 errorCode: "400"
 ---

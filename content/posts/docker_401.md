@@ -1,7 +1,7 @@
 ---
 title: "Docker の 401 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 401 エラーの原因と解決策。認証情報が提供されていないか、認証に失敗した。対処手順をわかりやすく解説します。"
+description: "Docker の 401 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "401"
 ---

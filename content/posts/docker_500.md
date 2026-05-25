@@ -1,7 +1,7 @@
 ---
 title: "Docker の 500 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 500 エラーの原因と解決策。Dockerデーモン（バックグラウンドプロセス）で予期しない問題が起きた。対処手順をわかりやすく解説します。"
+description: "Docker の 500 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "500"
 ---

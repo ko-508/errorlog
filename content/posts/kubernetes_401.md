@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes の 401 エラー：原因と解決策"
 date: 2026-05-25
-description: "Kubernetes の 401 エラーの原因と解決策。Kubernetes APIサーバーへの認証に失敗した。対処手順をわかりやすく解説します。"
+description: "Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Kubernetes"]
 errorCode: "401"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Docker の 504 エラー：原因と解決策"
 date: 2026-05-24
-description: "Docker の 504 エラーの原因と解決策。Dockerデーモンがプロキシ経由で上流サーバーへの応答を待ったがタイムアウトした。対処手順をわかりやすく解説します。"
+description: "Docker の 504 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "504"
 ---

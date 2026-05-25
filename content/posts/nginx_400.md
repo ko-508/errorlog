@@ -1,7 +1,7 @@
 ---
 title: "Nginx の 400 エラー：原因と解決策"
 date: 2026-05-25
-description: "Nginx の 400 エラーの原因と解決策。クライアントからのリクエストの形式が正しくない。対処手順をわかりやすく解説します。"
+description: "Nginx の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Nginx"]
 errorCode: "400"
 ---

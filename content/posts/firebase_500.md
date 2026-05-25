@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 500 エラー：原因と解決策"
 date: 2026-01-01
-description: "Firebase の 500 エラーの原因と解決策。Firebase側のサーバーで予期しない内部エラーが発生した。対処手順をわかりやすく解説します。"
+description: "Firebase の 500 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "500"
 ---

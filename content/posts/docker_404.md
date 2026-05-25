@@ -1,7 +1,7 @@
 ---
 title: "Docker の 404 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 404 エラーの原因と解決策。指定したリソース（イメージやコンテナ）が見つからない。対処手順をわかりやすく解説します。"
+description: "Docker の 404 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "404"
 ---

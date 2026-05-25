@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 504 エラー：原因と解決策"
 date: 2026-05-24
-description: "GitHub API の 504 エラーの原因と解決策。GitHubのサーバーがリクエストの処理を時間内に完了できなかった。対処手順をわかりやすく解説します。"
+description: "GitHub API の 504 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["GitHub API"]
 errorCode: "504"
 ---

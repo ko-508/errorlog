@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 409 エラー：原因と解決策"
 date: 2026-05-24
-description: "Firebase の 409 エラーの原因と解決策。Firestoreのトランザクションが他の操作と競合し、完了できなかった。対処手順をわかりやすく解説します。"
+description: "Firebase の 409 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "409"
 ---

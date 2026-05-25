@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 403 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 403 エラーの原因と解決策。認証は成功したが、その操作の権限がない。対処手順をわかりやすく解説します。"
+description: "GitHub API の 403 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["GitHub API"]
 errorCode: "403"
 ---

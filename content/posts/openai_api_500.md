@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 500 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 500 エラーの原因と解決策。OpenAI側のサーバーで予期しないエラーが発生した。対処手順をわかりやすく解説します。"
+description: "OpenAI API の 500 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["OpenAI API"]
 errorCode: "500"
 ---

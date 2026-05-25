@@ -1,7 +1,7 @@
 ---
 title: "Docker の 429 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 429 エラーの原因と解決策。短時間に送ったリクエスト数が上限を超えた。対処手順をわかりやすく解説します。"
+description: "Docker の 429 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "429"
 ---
