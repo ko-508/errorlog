@@ -167,12 +167,8 @@ def main() -> None:
 
         # H1 と説明文を抽出
         title = f"{tool} の {code} エラー：原因と解決策"
-        description = ""
-        for line in content.splitlines():
-            stripped = line.strip()
-            if stripped.startswith("> "):
-                description = re.sub(r"\*+(.+?)\*+", r"\1", stripped[2:].strip())
-                break
+        meaning = row["official_meaning"].strip().rstrip("。")
+        description = f"{tool} の {code} エラーの原因と解決策。{meaning}。対処手順をわかりやすく解説します。"
 
         # H1 を除いた本文
         lines = content.splitlines(keepends=True)
