@@ -52,6 +52,37 @@ TOOL_TAGS = {
 LOW_STOCK_THRESHOLD = 10
 
 
+def _send_gmail(subject: str, body: str) -> None:
+    gmail_user = os.getenv("GMAIL_USER")
+    gmail_password = os.getenv("GMAIL_APP_PASSWORD")
+    if not gmail_user or not gmail_password:
+        print("メール通知: GMAIL_USER / GMAIL_APP_PASSWORD 未設定のためスキップ")
+        return
+    msg = MIMEText(body, "plain", "utf-8")
+    msg["Subject"] = subject
+    msg["From"] = gmail_user
+    msg["To"] = gmail_user
+    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
+        smtp.starttls()
+        smtp.login(gmail_user, gmail_password)
+        smtp.send_message(msg)
+
+
+def send_publish_report(published_count: int, remaining_count: int) -> None:
+    from datetime import datetime
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    body = (
+        f"{now} に {published_count} 記事を公開しました。\n\n"
+        f"残りキュー: {remaining_count} 件\n"
+        f"https://ko-508.github.io/errorlog/"
+    )
+    _send_gmail(
+        f"[ErrorLog] {published_count} 記事を公開しました（残り {remaining_count} 件）",
+        body,
+    )
+    print(f"公開通知メール送信済み")
+
+
 def send_low_stock_alert(remaining_count: int) -> None:
     gmail_user = os.getenv("GMAIL_USER")
     gmail_password = os.getenv("GMAIL_APP_PASSWORD")
@@ -64,16 +95,11 @@ def send_low_stock_alert(remaining_count: int) -> None:
         f"scripts/queue.csv に新しい記事を追加してください。\n"
         f"https://github.com/ko-508/errorlog/blob/main/scripts/queue.csv"
     )
-    msg = MIMEText(body, "plain", "utf-8")
-    msg["Subject"] = f"[ErrorLog] ストック残り {remaining_count} 記事 — 補充が必要です"
-    msg["From"] = gmail_user
-    msg["To"] = gmail_user
-
-    with smtplib.SMTP("smtp.gmail.com", 587) as smtp:
-        smtp.starttls()
-        smtp.login(gmail_user, gmail_password)
-        smtp.send_message(msg)
-    print(f"通知メール送信済み: 残り {remaining_count} 記事")
+    _send_gmail(
+        f"[ErrorLog] ストック残り {remaining_count} 記事 — 補充が必要です",
+        body,
+    )
+    print(f"低ストック通知メール送信済み: 残り {remaining_count} 記事")
 
 
 def safe_filename(tool: str, code: str) -> str:
@@ -178,6 +204,9 @@ def main() -> None:
         writer.writerows(remaining)
 
     print(f"\n{published_count} 件を公開しました。残りキュー: {len(remaining)} 件")
+
+    if published_count > 0:
+        send_publish_report(published_count, len(remaining))
 
     if len(remaining) < LOW_STOCK_THRESHOLD:
         send_low_stock_alert(len(remaining))
