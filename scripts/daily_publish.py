@@ -187,7 +187,7 @@ def main() -> None:
 
         tags = extract_tags(filename)
         tags_line = f'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
-        error_code = Path(filename).stem.split("_")[-1]
+        error_code = row["status_code"].strip()
 
         frontmatter = (
             f'---\n'
