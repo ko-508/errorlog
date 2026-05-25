@@ -21,6 +21,8 @@ POSTS_DIR = BASE.parent / "content" / "posts"
 TOOL_TAGS = {
     "docker_compose": "Docker Compose",
     "docker": "Docker",
+    "aws_s3": "AWS S3",
+    "aws_lambda": "AWS Lambda",
     "aws": "AWS",
     "firebase": "Firebase",
     "github_actions": "GitHub Actions",
