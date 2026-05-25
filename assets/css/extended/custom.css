@@ -64,6 +64,11 @@ details.toc .inner a { color: var(--primary); }
 .tool-badge-datadog        { background: rgba(99,44,166,.15);   color:#632ca6; border:1px solid rgba(99,44,166,.35); }
 .tool-badge-aws-s3         { background: rgba(255,153,0,.15);   color:#cc7700; border:1px solid rgba(255,153,0,.35); }
 .tool-badge-aws-lambda     { background: rgba(255,153,0,.15);   color:#cc7700; border:1px solid rgba(255,153,0,.35); }
+.tool-badge-shopify        { background: rgba(150,191,71,.15);  color:#5a8f00; border:1px solid rgba(150,191,71,.35); }
+.tool-badge-zoom           { background: rgba(45,140,255,.15);  color:#1d6fcc; border:1px solid rgba(45,140,255,.35); }
+.tool-badge-chatwork       { background: rgba(230,0,24,.15);    color:#c00015; border:1px solid rgba(230,0,24,.35); }
+.tool-badge-freee          { background: rgba(0,168,132,.15);   color:#00a884; border:1px solid rgba(0,168,132,.35); }
+.tool-badge-base           { background: rgba(60,60,60,.15);    color:#3c3c3c; border:1px solid rgba(60,60,60,.35); }
 
 /* 関連記事セクション */
 .related-posts { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }

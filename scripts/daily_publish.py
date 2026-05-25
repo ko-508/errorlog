@@ -48,6 +48,11 @@ TOOL_TAGS = {
     "prometheus": "Prometheus",
     "grafana": "Grafana",
     "datadog": "Datadog",
+    "shopify": "Shopify",
+    "zoom": "Zoom",
+    "chatwork": "Chatwork",
+    "freee": "freee",
+    "base": "BASE",
 }
 
 
