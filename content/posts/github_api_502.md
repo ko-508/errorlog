@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 502 エラー：原因と解決策"
 date: 2026-01-01
-description: "この記事では、GitHub API を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。"
+description: "GitHub API の 502 エラーの原因と解決策。GitHubのインフラ内部で、あるサーバーが別のサーバーから不正な応答を受け取った。対処手順をわかりやすく解説します。"
 tags: ["GitHub API"]
 errorCode: "502"
 ---

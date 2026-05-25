@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 422 エラー：原因と解決策"
 date: 2026-05-24
-description: "この記事では、Firebase を使っているときに表示される 422 というエラーの意味と、その直し方を順を追って説明します。"
+description: "Firebase の 422 エラーの原因と解決策。Firebaseへのリクエストは形式的に正しいが、データの内容が検証ルールを満たしていない。対処手順をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "422"
 ---

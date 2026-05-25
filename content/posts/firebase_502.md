@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 502 エラー：原因と解決策"
 date: 2026-05-24
-description: "この記事では、Firebase を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。"
+description: "Firebase の 502 エラーの原因と解決策。Firebase HostingまたはCloud Functionsの中継サーバーが上流から不正な応答を受け取った。対処手順をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "502"
 ---

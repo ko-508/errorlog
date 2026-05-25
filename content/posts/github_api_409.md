@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 409 エラー：原因と解決策"
 date: 2026-05-24
-description: "この記事では、GitHub API を使っているときに表示される 409 というエラーの意味と、その直し方を順を追って説明します。"
+description: "GitHub API の 409 エラーの原因と解決策。リクエストの内容がGitHubリソースの現在の状態と競合している。対処手順をわかりやすく解説します。"
 tags: ["GitHub API"]
 errorCode: "409"
 ---

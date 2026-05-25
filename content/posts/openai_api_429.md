@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 429 エラー：原因と解決策"
 date: 2026-05-24
-description: "この記事では、OpenAI API を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。"
+description: "OpenAI API の 429 エラーの原因と解決策。APIのレート制限または月次利用上限に達した。対処手順をわかりやすく解説します。"
 tags: ["OpenAI API"]
 errorCode: "429"
 ---

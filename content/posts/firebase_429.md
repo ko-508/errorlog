@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 429 エラー：原因と解決策"
 date: 2026-01-01
-description: "この記事では、Firebase を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。"
+description: "Firebase の 429 エラーの原因と解決策。Firebaseの利用枠（クォータ）の上限を超えた。対処手順をわかりやすく解説します。"
 tags: ["Firebase"]
 errorCode: "429"
 ---

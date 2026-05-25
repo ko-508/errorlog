@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 401 エラー：原因と解決策"
 date: 2026-05-24
-description: "この記事では、OpenAI API を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。"
+description: "OpenAI API の 401 エラーの原因と解決策。OpenAI APIキーが無効または期限切れになっている。対処手順をわかりやすく解説します。"
 tags: ["OpenAI API"]
 errorCode: "401"
 ---
