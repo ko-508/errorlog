@@ -12,6 +12,8 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    outputs:
+      deployed: ${{ steps.push.outputs.deployed }}
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -28,10 +30,25 @@ jobs:
         run: python scripts/daily_publish.py
 
       - name: Commit and push
+        id: push
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
           git add content/posts/ scripts/queue.csv
-          git diff --staged --quiet && echo "新しい記事なし（キューが空か全てスキップ）" && exit 0
-          git commit -m "daily: $(date +%Y-%m-%d) の記事を公開"
-          git push
+          if git diff --staged --quiet; then
+            echo "新しい記事なし（キューが空か全てスキップ）"
+            echo "deployed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "daily: $(date +%Y-%m-%d) の記事を公開"
+            git push
+            echo "deployed=true" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    needs: publish
+    if: needs.publish.outputs.deployed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
