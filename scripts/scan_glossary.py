@@ -148,28 +148,38 @@ def main() -> None:
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    print("記事を走査中...")
-    counter = scan_terms()
-
-    if not counter:
-        print("対象用語が見つかりませんでした。")
-        return
-
-    print("\n頻出用語 TOP 20:")
-    for term, count in counter.most_common(20):
-        print(f"  {term}: {count}回")
-
-    # 未作成ページの上位を抽出
     GLOSSARY_DIR.mkdir(parents=True, exist_ok=True)
     existing = {p.stem for p in GLOSSARY_DIR.glob("*.md") if p.stem != "_index"}
 
-    to_create = []
-    for term, count in counter.most_common():
-        slug = safe_slug(term)
-        if slug not in existing:
-            to_create.append((term, slug))
-        if len(to_create) >= TOP_COUNT:
-            break
+    force_all = os.getenv("FORCE_ALL", "0") == "1"
+
+    if force_all:
+        # 全用語を頻度に関係なく生成
+        print("FORCE_ALL モード: 全用語を生成します...")
+        to_create = [
+            (term, safe_slug(term))
+            for term in TERM_LIST
+            if safe_slug(term) not in existing
+        ]
+    else:
+        print("記事を走査中...")
+        counter = scan_terms()
+
+        if not counter:
+            print("対象用語が見つかりませんでした。")
+            return
+
+        print("\n頻出用語 TOP 20:")
+        for term, count in counter.most_common(20):
+            print(f"  {term}: {count}回")
+
+        to_create = []
+        for term, count in counter.most_common():
+            slug = safe_slug(term)
+            if slug not in existing:
+                to_create.append((term, slug))
+            if len(to_create) >= TOP_COUNT:
+                break
 
     if not to_create:
         print("\n新規作成が必要な用語ページはありません。")
