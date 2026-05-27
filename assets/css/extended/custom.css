@@ -108,6 +108,15 @@ details.toc .inner a { color: var(--primary); }
   color: var(--primary);
 }
 
+/* 用語集・記事本文 見出し間隔 */
+.post-content h2 {
+  margin-top: 2.2rem;
+  margin-bottom: 0.6rem;
+}
+.post-content p + p {
+  margin-top: 0.8rem;
+}
+
 /* 人気検索タグ */
 .popular-searches { margin-top: 1.5rem; }
 .popular-searches-label { font-size: 0.85rem; color: var(--secondary); margin-bottom: 0.6rem; }

@@ -7,7 +7,12 @@
   {{- end }}
 </header>
 
-{{- $pages := where site.RegularPages "Params.tags" "intersect" (slice "word") }}
+{{- $pages := slice }}
+{{- range site.RegularPages }}
+  {{- if in .Params.tags "word" }}
+    {{- $pages = $pages | append . }}
+  {{- end }}
+{{- end }}
 {{- $sorted := sort $pages ".Title" "asc" }}
 
 {{- if not $sorted }}
