@@ -6,6 +6,8 @@ defaultContentLanguage = "ja"
 
 paginate = 26
 
+mainSections = ["posts"]
+
 [params]
   description = "開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"
   images = ["og-image.png"]
