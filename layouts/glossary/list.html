@@ -1,12 +1,6 @@
 {{- define "main" }}
-<header class="page-header">
-  <h1>{{ .Title }}</h1>
-  {{- with .Description }}
-  <div class="post-description">{{ . }}</div>
-  {{- end }}
-</header>
 
-{{- /* site.Pages から glossary セクションの通常ページだけ収集 */}}
+{{/* ── ページ収集 ─────────────────────────── */}}
 {{- $pages := slice }}
 {{- range site.Pages }}
   {{- if and (eq .Section "glossary") (eq .Kind "page") }}
@@ -15,26 +9,23 @@
 {{- end }}
 {{- $pages = sort $pages ".Title" "asc" }}
 
-{{- if not $pages }}
-<p class="glossary-empty">用語ページが見つかりません。</p>
-{{- else }}
-
-{{/* ── あいうえお索引バー ────────────────────── */}}
-{{- $rows := slice
-  (slice "あ" "い" "う" "え" "お")
-  (slice "か" "き" "く" "け" "こ")
-  (slice "さ" "し" "す" "せ" "そ")
-  (slice "た" "ち" "つ" "て" "と")
-  (slice "な" "に" "ぬ" "ね" "の")
-  (slice "は" "ひ" "ふ" "へ" "ほ")
-  (slice "ま" "み" "む" "め" "も")
-  (slice "や" "ゆ" "よ")
-  (slice "ら" "り" "る" "れ" "ろ")
-  (slice "わ" "を" "ん")
-  (slice "A")
+{{/* ── 行定義（key=セクションID, label=表示名, chars=マッチ文字列） */}}
+{{- $rowDefs := slice
+  (dict "key" "あ" "label" "あ行" "chars" (slice "あ" "い" "う" "え" "お"))
+  (dict "key" "か" "label" "か行" "chars" (slice "か" "き" "く" "け" "こ"))
+  (dict "key" "さ" "label" "さ行" "chars" (slice "さ" "し" "す" "せ" "そ"))
+  (dict "key" "た" "label" "た行" "chars" (slice "た" "ち" "つ" "て" "と"))
+  (dict "key" "な" "label" "な行" "chars" (slice "な" "に" "ぬ" "ね" "の"))
+  (dict "key" "は" "label" "は行" "chars" (slice "は" "ひ" "ふ" "へ" "ほ"))
+  (dict "key" "ま" "label" "ま行" "chars" (slice "ま" "み" "む" "め" "も"))
+  (dict "key" "や" "label" "や行" "chars" (slice "や" "ゆ" "よ"))
+  (dict "key" "ら" "label" "ら行" "chars" (slice "ら" "り" "る" "れ" "ろ"))
+  (dict "key" "わ" "label" "わ行" "chars" (slice "わ" "を" "ん"))
+  (dict "key" "A"  "label" "A〜Z" "chars" (slice "A"))
 }}
 
-{{- $kana2hira := dict
+{{/* ── カタカナ→ひらがな変換表 */}}
+{{- $k2h := dict
   "ア" "あ" "イ" "い" "ウ" "う" "エ" "え" "オ" "お"
   "カ" "か" "キ" "き" "ク" "く" "ケ" "け" "コ" "こ"
   "サ" "さ" "シ" "し" "ス" "す" "セ" "せ" "ソ" "そ"
@@ -46,45 +37,98 @@
   "ラ" "ら" "リ" "り" "ル" "る" "レ" "れ" "ロ" "ろ"
   "ワ" "わ" "ヲ" "を" "ン" "ん"
   "ァ" "あ" "ィ" "い" "ゥ" "う" "ェ" "え" "ォ" "お"
+  "ガ" "か" "ギ" "き" "グ" "く" "ゲ" "け" "ゴ" "こ"
+  "ザ" "さ" "ジ" "し" "ズ" "す" "ゼ" "せ" "ゾ" "そ"
+  "ダ" "た" "ヂ" "ち" "ヅ" "つ" "デ" "て" "ド" "と"
+  "バ" "は" "ビ" "ひ" "ブ" "ふ" "ベ" "へ" "ボ" "ほ"
+  "パ" "は" "ピ" "ひ" "プ" "ふ" "ペ" "へ" "ポ" "ほ"
 }}
 
-<nav class="glossary-index">
-  {{- range $rows }}
-  <span class="gi-row">
-    {{- range . }}
-    <a href="#gi-{{ . }}" class="gi-link">{{ . }}</a>
-    {{- end }}
-  </span>
-  {{- end }}
-</nav>
-
-{{/* ── 行ごとにグループ化して表示 ─────────────── */}}
-{{- range $rows }}
+{{/* ── 行グループを事前構築（用語のある行だけ保持） */}}
+{{- $groups := slice }}
+{{- range $rowDefs }}
   {{- $row := . }}
-  {{- $group := slice }}
+  {{- $items := slice }}
   {{- range $pages }}
-    {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-    {{- $first := substr $term 0 1 }}
-    {{- $h := index $kana2hira $first | default $first }}
-    {{- $match := false }}
-    {{- range $row }}
-      {{- if eq $h . }}{{- $match = true }}{{- end }}
-      {{- if and (eq . "A") (findRE "^[A-Za-z]" $term) }}{{- $match = true }}{{- end }}
+    {{- $label := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+    {{- $first := substr $label 0 1 }}
+    {{- $h := index $k2h $first | default $first }}
+    {{- $hit := false }}
+    {{- range $row.chars }}
+      {{- if eq $h . }}{{- $hit = true }}{{- end }}
+      {{- if and (eq . "A") (findRE "^[A-Za-z0-9]" $label) }}{{- $hit = true }}{{- end }}
     {{- end }}
-    {{- if $match }}{{- $group = $group | append . }}{{- end }}
+    {{- if $hit }}{{- $items = $items | append . }}{{- end }}
   {{- end }}
-  {{- if $group }}
-  <section class="glossary-section" id="gi-{{ index $row 0 }}">
-    <h2 class="glossary-initial">{{ index $row 0 }}</h2>
-    <ul class="glossary-cards">
-      {{- range $group }}
-      {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-      <li><a class="glossary-card" href="{{ .Permalink }}">{{ $term }}</a></li>
-      {{- end }}
-    </ul>
-  </section>
+  {{- if $items }}
+    {{- $groups = $groups | append (dict "row" $row "items" $items) }}
   {{- end }}
 {{- end }}
 
-{{- end }}
+{{/* ── ページ本体 ───────────────────────── */}}
+<div class="gindex-page">
+
+  <header class="gindex-header">
+    <h1 class="gindex-title">{{ .Title }}</h1>
+    {{- with .Description }}
+    <p class="gindex-desc">{{ . }}</p>
+    {{- end }}
+  </header>
+
+  {{- if not $groups }}
+  <p class="glossary-empty">用語ページが見つかりません。</p>
+  {{- else }}
+
+  {{/* ── ナビゲーション */}}
+  <nav class="gnav" aria-label="五十音インデックス">
+    <button class="gnav-btn is-active" data-row="all">すべて</button>
+    {{- range $groups }}
+    <button class="gnav-btn" data-row="gi-{{ .row.key }}">{{ .row.label }}</button>
+    {{- end }}
+  </nav>
+
+  {{/* ── 用語セクション */}}
+  <div class="gindex-body" id="gindex-body">
+    {{- range $groups }}
+    <section class="glossary-section" id="gi-{{ .row.key }}">
+      <h2 class="glossary-initial">{{ .row.label }}</h2>
+      <ul class="glossary-cards">
+        {{- range .items }}
+        {{- $label := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+        <li><a class="glossary-card" href="{{ .Permalink }}">{{ $label }}</a></li>
+        {{- end }}
+      </ul>
+    </section>
+    {{- end }}
+  </div>
+
+  {{- end }}
+</div>
+
+<script>
+(function () {
+  var nav  = document.querySelector('.gnav');
+  var body = document.getElementById('gindex-body');
+  if (!nav || !body) return;
+
+  nav.addEventListener('click', function (e) {
+    var btn = e.target.closest('.gnav-btn');
+    if (!btn) return;
+
+    nav.querySelectorAll('.gnav-btn').forEach(function (b) {
+      b.classList.remove('is-active');
+    });
+    btn.classList.add('is-active');
+
+    var target = btn.dataset.row;
+    body.querySelectorAll('.glossary-section').forEach(function (sec) {
+      sec.style.display = (target === 'all' || sec.id === target) ? '' : 'none';
+    });
+
+    /* 上へスクロール */
+    body.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+})();
+</script>
+
 {{- end }}

@@ -1,58 +1,66 @@
 {{- define "main" }}
 
-<article class="post-single">
-  <header class="post-header">
-    <h1 class="post-title">{{ .Title }}</h1>
-    {{- with .Description }}
-    <div class="post-description">{{ . }}</div>
-    {{- end }}
-  </header>
-
-  <div class="post-content">
-    {{- .Content }}
-  </div>
-</article>
-
-{{/* タイトルから用語名を抽出: "APIとは？わかりやすく解説" → "API" */}}
 {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
 
-{{/* ── 関連する用語 ────────────────────────────── */}}
-{{- $relTerms := slice }}
-{{- range where .Site.RegularPages "Section" "glossary" }}
-  {{- $otherTerm := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-  {{- if and (ne .Permalink $.Permalink) (in $.RawContent $otherTerm) }}
-    {{- $relTerms = $relTerms | append . }}
-  {{- end }}
-{{- end }}
+<article class="gterm-article">
 
-{{- if $relTerms }}
-<div class="related-posts">
-  <h3>関連する用語</h3>
-  <ul class="glossary-related-list">
-    {{- range $relTerms }}
-    <li><a href="{{ .Permalink }}">{{ .Title | replaceRE "とは？わかりやすく解説$" "" }}</a></li>
+  {{/* ── ヘッダー */}}
+  <header class="gterm-header">
+    <p class="gterm-breadcrumb"><a href="{{ "/glossary/" | relURL }}">用語集</a> &rsaquo; {{ $term }}</p>
+    <h1 class="gterm-title">{{ $term }}</h1>
+    <p class="gterm-subtitle">とは？わかりやすく解説</p>
+  </header>
+
+  {{/* ── 本文 */}}
+  <div class="gterm-body post-content">
+    {{- .Content }}
+  </div>
+
+  {{/* ── 関連する用語 */}}
+  {{- $relTerms := slice }}
+  {{- range where site.RegularPages "Section" "glossary" }}
+    {{- $other := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+    {{- if and (ne .Permalink $.Permalink) (in $.RawContent $other) }}
+      {{- $relTerms = $relTerms | append . }}
     {{- end }}
-  </ul>
-</div>
-{{- end }}
-
-{{/* ── この用語が出てくる記事 ──────────────────── */}}
-{{- $relPosts := slice }}
-{{- range where .Site.RegularPages "Section" "posts" }}
-  {{- if in .RawContent $term }}
-    {{- $relPosts = $relPosts | append . }}
   {{- end }}
-{{- end }}
 
-{{- if $relPosts }}
-<div class="related-posts">
-  <h3>「{{ $term }}」が出てくる記事</h3>
-  <ul class="glossary-related-list">
-    {{- range first 10 $relPosts }}
-    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+  {{- if $relTerms }}
+  <section class="gterm-related">
+    <h2 class="gterm-related-title">関連する用語</h2>
+    <ul class="glossary-related-list">
+      {{- range $relTerms }}
+      <li><a href="{{ .Permalink }}">{{ .Title | replaceRE "とは？わかりやすく解説$" "" }}</a></li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
+  {{/* ── この用語が出てくる記事 */}}
+  {{- $relPosts := slice }}
+  {{- range where site.RegularPages "Section" "posts" }}
+    {{- if in .RawContent $term }}
+      {{- $relPosts = $relPosts | append . }}
     {{- end }}
-  </ul>
-</div>
-{{- end }}
+  {{- end }}
+
+  {{- if $relPosts }}
+  <section class="gterm-related">
+    <h2 class="gterm-related-title">「{{ $term }}」が出てくる記事</h2>
+    <ul class="gterm-posts">
+      {{- range first 8 $relPosts }}
+      <li>
+        <a class="gterm-post-link" href="{{ .Permalink }}">{{ .Title }}</a>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+
+  <div class="gterm-back">
+    <a href="{{ "/glossary/" | relURL }}">&larr; 用語集一覧に戻る</a>
+  </div>
+
+</article>
 
 {{- end }}
