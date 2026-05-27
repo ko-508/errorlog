@@ -7,30 +7,81 @@
   {{- end }}
 </header>
 
+{{/* Hugo の taxonomy から word タグのページを取得 */}}
+{{- $wordTag := index site.Taxonomies.tags "word" }}
 {{- $pages := slice }}
-{{- range site.RegularPages }}
-  {{- if in .Params.tags "word" }}
-    {{- $pages = $pages | append . }}
-  {{- end }}
+{{- if $wordTag }}
+  {{- $pages = $wordTag.Pages.ByTitle }}
 {{- end }}
-{{- $sorted := sort $pages ".Title" "asc" }}
 
-{{- if not $sorted }}
-<p>用語ページがまだありません。</p>
+{{- if not $pages }}
+<p style="color:var(--secondary)">用語ページがまだありません。</p>
 {{- else }}
-<div class="glossary-list">
-  {{- range $sorted }}
-  <article class="post-entry">
-    <header class="entry-header">
-      <h2>{{ .Title }}</h2>
-    </header>
-    {{- with .Description }}
-    <div class="entry-content"><p>{{ . }}</p></div>
-    {{- end }}
-    <a class="entry-link" aria-label="{{ .Title }}" href="{{ .Permalink }}"></a>
-  </article>
+
+{{/* あいうえお索引 */}}
+{{- $initials := slice "あ" "い" "う" "え" "お" "か" "き" "く" "け" "こ" "さ" "し" "す" "せ" "そ" "た" "ち" "つ" "て" "と" "な" "に" "ぬ" "ね" "の" "は" "ひ" "ふ" "へ" "ほ" "ま" "み" "む" "め" "も" "や" "ゆ" "よ" "ら" "り" "る" "れ" "ろ" "わ" "A" }}
+
+<nav class="glossary-index">
+  {{- range $initials }}
+  <a href="#gi-{{ . }}" class="gi-link">{{ . }}</a>
   {{- end }}
-</div>
+</nav>
+
+{{/* 各グループを表示 */}}
+{{- range $initials }}
+  {{- $initial := . }}
+  {{- $group := slice }}
+  {{- range $pages }}
+    {{- $t := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+    {{- $first := substr $t 0 1 }}
+    {{/* カタカナをひらがなに変換して比較 */}}
+    {{- $h := $first | lower }}
+    {{- if eq $h $initial }}
+      {{- $group = $group | append . }}
+    {{- else if and (eq $initial "A") (findRE "^[A-Za-z]" $t) }}
+      {{- $group = $group | append . }}
+    {{- end }}
+  {{- end }}
+  {{- if $group }}
+  <section class="glossary-section" id="gi-{{ $initial }}">
+    <h2 class="glossary-initial">{{ $initial }}</h2>
+    <div class="glossary-cards">
+      {{- range $group }}
+      {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+      <a class="glossary-card" href="{{ .Permalink }}">
+        <span class="glossary-card-term">{{ $term }}</span>
+        {{- with .Description }}
+        <span class="glossary-card-desc">{{ . | truncate 40 }}</span>
+        {{- end }}
+      </a>
+      {{- end }}
+    </div>
+  </section>
+  {{- end }}
 {{- end }}
 
+{{/* 上記グループに入らなかったもの（記号・その他）*/}}
+{{- $rest := slice }}
+{{- range $pages }}
+  {{- $t := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+  {{- $first := substr $t 0 1 }}
+  {{- $matched := false }}
+  {{- if findRE "^[A-Za-zぁ-ん]" $first }}{{- $matched = true }}{{- end }}
+  {{- if not $matched }}{{- $rest = $rest | append . }}{{- end }}
+{{- end }}
+{{- if $rest }}
+<section class="glossary-section" id="gi-other">
+  <h2 class="glossary-initial">その他</h2>
+  <div class="glossary-cards">
+    {{- range $rest }}
+    {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+    <a class="glossary-card" href="{{ .Permalink }}">
+      <span class="glossary-card-term">{{ $term }}</span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+{{- end }}
 {{- end }}
