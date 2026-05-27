@@ -1,8 +1,12 @@
 /* ライトモード背景 */
-:root {
-  --theme: rgb(244, 244, 247);
-  --entry: rgb(250, 250, 252);
-  --border: rgb(222, 222, 228);
+:root:not(.dark) {
+  --theme: #eaeaee;
+  --entry: #f2f2f5;
+  --border: #d4d4da;
+  background: #eaeaee;
+}
+body:not(.dark) {
+  background: #eaeaee;
 }
 
 /* スクロール連動ヘッダー */
