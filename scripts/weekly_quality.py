@@ -84,7 +84,9 @@ def main() -> None:
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    files = sorted(POSTS_DIR.glob("*.md"))[:BATCH_SIZE]
+    # mtime 昇順（最後に更新された日時が古いファイルを優先）
+    # 修正済みファイルは mtime が更新されるため自然にキューの末尾へ回る
+    files = sorted(POSTS_DIR.glob("*.md"), key=lambda p: p.stat().st_mtime)[:BATCH_SIZE]
     if not files:
         print("記事が見つかりません。")
         return
