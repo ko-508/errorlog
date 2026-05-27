@@ -144,6 +144,7 @@ def main() -> None:
             f'---\n'
             f'title: "{term}とは？わかりやすく解説"\n'
             f'description: "{term}の意味をわかりやすく説明します。エラー解決に役立つ基本用語の解説です。"\n'
+            f'tags: ["word"]\n'
             f'layout: "glossary"\n'
             f'---\n\n'
         )

@@ -1,6 +1,7 @@
 ---
 title: "JSONとは？わかりやすく解説"
 description: "JSONの意味をわかりやすく説明します。エラー解決に役立つ基本用語の解説です。"
+tags: ["word"]
 layout: "glossary"
 ---
 

@@ -16,3 +16,57 @@
   }, { passive: true });
 })();
 </script>
+
+{{- if and .IsPage (eq .Section "posts") }}
+<script>
+(function () {
+  var TERMS = [
+    {{- range where site.RegularPages "Params.tags" "intersect" (slice "word") }}
+    [{{ .Title | replaceRE "とは？わかりやすく解説$" "" | jsonify }}, {{ .Permalink | jsonify }}],
+    {{- end }}
+  ];
+  // 長い用語を先にマッチさせる
+  TERMS.sort(function (a, b) { return b[0].length - a[0].length; });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var content = document.querySelector('.post-content');
+    if (!content) return;
+    var linked = {};
+
+    var SKIP = { A: 1, CODE: 1, PRE: 1, SCRIPT: 1, STYLE: 1 };
+
+    function walk(node) {
+      if (node.nodeType === 3) { // テキストノード
+        var par = node.parentElement;
+        if (!par || SKIP[par.tagName]) return;
+        for (var i = 0; i < TERMS.length; i++) {
+          var term = TERMS[i][0], url = TERMS[i][1];
+          if (linked[term]) continue;
+          var idx = node.textContent.indexOf(term);
+          if (idx < 0) continue;
+          var before = document.createTextNode(node.textContent.slice(0, idx));
+          var a = document.createElement('a');
+          a.href = url;
+          a.textContent = term;
+          a.className = 'glossary-link';
+          var after = document.createTextNode(node.textContent.slice(idx + term.length));
+          var p = node.parentNode;
+          p.insertBefore(before, node);
+          p.insertBefore(a, node);
+          p.insertBefore(after, node);
+          p.removeChild(node);
+          linked[term] = true;
+          walk(after);
+          return;
+        }
+      } else if (node.nodeType === 1 && !SKIP[node.tagName]) {
+        var children = Array.from(node.childNodes);
+        for (var j = 0; j < children.length; j++) walk(children[j]);
+      }
+    }
+
+    walk(content);
+  });
+})();
+</script>
+{{- end }}

@@ -7,15 +7,17 @@
   {{- end }}
 </header>
 
-{{- $pages := .Pages.ByTitle }}
-{{- if not $pages }}
+{{- $pages := where site.RegularPages "Params.tags" "intersect" (slice "word") }}
+{{- $sorted := sort $pages ".Title" "asc" }}
+
+{{- if not $sorted }}
 <p>用語ページがまだありません。</p>
 {{- else }}
 <div class="glossary-list">
-  {{- range $pages }}
+  {{- range $sorted }}
   <article class="post-entry">
     <header class="entry-header">
-      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+      <h2>{{ .Title }}</h2>
     </header>
     {{- with .Description }}
     <div class="entry-content"><p>{{ . }}</p></div>

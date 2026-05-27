@@ -1,6 +1,7 @@
 ---
 title: "RESTとは？わかりやすく解説"
 description: "RESTの意味をわかりやすく説明します。エラー解決に役立つ基本用語の解説です。"
+tags: ["word"]
 layout: "glossary"
 ---
 
