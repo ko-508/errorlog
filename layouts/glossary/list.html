@@ -7,7 +7,7 @@
   {{- end }}
 </header>
 
-{{- $pages := (where site.RegularPages "Section" "glossary").ByTitle }}
+{{- $pages := .Pages.ByTitle }}
 {{- if not $pages }}
 <p>用語ページがまだありません。</p>
 {{- else }}

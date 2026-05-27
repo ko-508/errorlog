@@ -1,9 +1,8 @@
-/* ライトモード背景（PaperMod は .dark を body に付与する） */
-body:not(.dark) {
+/* ライトモード背景（PaperMod は html[data-theme="dark"] でダークモードを制御する） */
+html:not([data-theme="dark"]) {
   --theme: #eaeaee;
   --entry: #f2f2f5;
   --border: #d4d4da;
-  background: #eaeaee;
 }
 
 /* スクロール連動ヘッダー */
