@@ -78,6 +78,30 @@ details.toc .inner a { color: var(--primary); }
 .related-posts { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .related-posts h3 { font-size: 0.95rem; margin-bottom: 0.6rem; color: var(--secondary); }
 
+/* 用語集 関連リンク */
+.glossary-related-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.glossary-related-list li a {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  font-size: 0.85rem;
+  color: var(--secondary);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.glossary-related-list li a:hover {
+  background: var(--tertiary);
+  color: var(--primary);
+}
+
 /* 人気検索タグ */
 .popular-searches { margin-top: 1.5rem; }
 .popular-searches-label { font-size: 0.85rem; color: var(--secondary); margin-bottom: 0.6rem; }
