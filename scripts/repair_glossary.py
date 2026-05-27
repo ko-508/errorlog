@@ -85,7 +85,7 @@ def main() -> None:
     client = anthropic.Anthropic(api_key=api_key)
 
     bad_files = [
-        p for p in sorted(GLOSSARY_DIR.glob("*.md"))
+        p for p in sorted(GLOSSARY_DIR.glob("*.md"), key=lambda p: p.stat().st_mtime)
         if p.name != "_index.md" and is_bad(p)
     ]
 
