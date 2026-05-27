@@ -1,0 +1,56 @@
+name: Weekly Glossary Update
+
+on:
+  schedule:
+    - cron: '0 2 * * 0'  # 毎週日曜 11:00 JST (UTC 02:00)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  glossary:
+    runs-on: ubuntu-latest
+    outputs:
+      deployed: ${{ steps.push.outputs.deployed }}
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Scan and generate glossary pages
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TOP_COUNT: "10"
+        run: python scripts/scan_glossary.py
+
+      - name: Commit and push
+        id: push
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add content/glossary/
+          if git diff --staged --quiet; then
+            echo "新規用語ページなし"
+            echo "deployed=false" >> $GITHUB_OUTPUT
+          else
+            git commit -m "glossary: $(date +%Y-%m-%d) 用語集を更新"
+            git push
+            echo "deployed=true" >> $GITHUB_OUTPUT
+          fi
+
+  deploy:
+    needs: glossary
+    if: needs.glossary.outputs.deployed == 'true'
+    uses: ./.github/workflows/deploy.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

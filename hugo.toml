@@ -43,6 +43,11 @@ paginate = 26
   url = "/archives/"
   weight = 30
 
+[[menus.main]]
+  name = "用語集"
+  url = "/glossary/"
+  weight = 40
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
