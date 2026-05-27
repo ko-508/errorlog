@@ -1,0 +1,40 @@
+name: Weekly Quality Improvement
+
+on:
+  schedule:
+    - cron: "0 21 * * 0"   # 月曜 6:00 JST (= 日曜 21:00 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run quality improvement
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BATCH_SIZE: "20"
+        run: python scripts/weekly_quality.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.email "bot@users.noreply.github.com"
+          git config user.name "Quality Bot"
+          git add content/posts/
+          if git diff --cached --quiet; then
+            echo "変更なし。コミットをスキップします。"
+          else
+            git commit -m "quality: 文章品質の自動改善 $(date +%Y-%m-%d)"
+            git push
+          fi
