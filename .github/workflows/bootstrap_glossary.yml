@@ -19,7 +19,12 @@ jobs:
       - name: Install dependencies
         run: pip install anthropic
 
-      - name: Generate all glossary terms
+      - name: Discover new terms from articles
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/discover_terms.py
+
+      - name: Generate glossary pages for all terms
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           FORCE_ALL: "1"
@@ -29,7 +34,7 @@ jobs:
         run: |
           git config user.email "bot@users.noreply.github.com"
           git config user.name "Glossary Bot"
-          git add content/glossary/
+          git add content/glossary/ scripts/terms.json
           if git diff --cached --quiet; then
             echo "変更なし。"
           else
