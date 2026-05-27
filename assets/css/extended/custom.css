@@ -1,11 +1,8 @@
-/* ライトモード背景 */
-:root:not(.dark) {
+/* ライトモード背景（PaperMod は .dark を body に付与する） */
+body:not(.dark) {
   --theme: #eaeaee;
   --entry: #f2f2f5;
   --border: #d4d4da;
-  background: #eaeaee;
-}
-body:not(.dark) {
   background: #eaeaee;
 }
 
