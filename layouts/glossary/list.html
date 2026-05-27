@@ -1,0 +1,29 @@
+{{- define "main" }}
+
+<header class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{- with .Description }}
+  <div class="post-description">{{ . }}</div>
+  {{- end }}
+</header>
+
+{{- $pages := .RegularPages | sort "Title" }}
+{{- if not $pages }}
+<p>用語ページがまだありません。</p>
+{{- else }}
+<div class="glossary-list">
+  {{- range $pages }}
+  <article class="post-entry">
+    <header class="entry-header">
+      <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+    </header>
+    {{- with .Description }}
+    <div class="entry-content"><p>{{ . }}</p></div>
+    {{- end }}
+    <a class="entry-link" aria-label="{{ .Title }}" href="{{ .Permalink }}"></a>
+  </article>
+  {{- end }}
+</div>
+{{- end }}
+
+{{- end }}
