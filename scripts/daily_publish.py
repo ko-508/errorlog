@@ -1,6 +1,6 @@
 """
-queue.csv から毎日 DAILY_COUNT 件取り出してコンテンツを生成し content/posts/ に追加する。
-GitHub Actions から実行される想定。
+queue.csv から毎日 DAILY_COUNT 件取り出し、Claude API で記事を生成して
+content/posts/ に追加する。GitHub Actions から実行される想定。
 """
 
 import csv
@@ -11,12 +11,15 @@ from datetime import date
 from email.mime.text import MIMEText
 from pathlib import Path
 
+import anthropic
+
 DAILY_COUNT = int(os.getenv("DAILY_COUNT", "3"))
 
 BASE = Path(__file__).parent
-TEMPLATE_PATH = BASE / "template.md"
 QUEUE_PATH = BASE / "queue.csv"
 POSTS_DIR = BASE.parent / "content" / "posts"
+
+LOW_STOCK_THRESHOLD = 10
 
 TOOL_TAGS = {
     "docker_compose": "Docker Compose",
@@ -56,8 +59,7 @@ TOOL_TAGS = {
 }
 
 
-LOW_STOCK_THRESHOLD = 10
-
+# ─── メール通知 ────────────────────────────────────────────
 
 def _send_gmail(subject: str, body: str) -> None:
     gmail_user = os.getenv("GMAIL_USER")
@@ -81,22 +83,16 @@ def send_publish_report(published_count: int, remaining_count: int) -> None:
     body = (
         f"{now} に {published_count} 記事を公開しました。\n\n"
         f"残りキュー: {remaining_count} 件\n"
-        f"https://ko-508.github.io/errorlog/"
+        f"https://errorlog.jp/"
     )
     _send_gmail(
         f"[ErrorLog] {published_count} 記事を公開しました（残り {remaining_count} 件）",
         body,
     )
-    print(f"公開通知メール送信済み")
+    print("公開通知メール送信済み")
 
 
 def send_low_stock_alert(remaining_count: int) -> None:
-    gmail_user = os.getenv("GMAIL_USER")
-    gmail_password = os.getenv("GMAIL_APP_PASSWORD")
-    if not gmail_user or not gmail_password:
-        print("メール通知: GMAIL_USER / GMAIL_APP_PASSWORD 未設定のためスキップ")
-        return
-
     body = (
         f"ErrorLog のストック記事が残り {remaining_count} 件になりました。\n\n"
         f"scripts/queue.csv に新しい記事を追加してください。\n"
@@ -109,14 +105,11 @@ def send_low_stock_alert(remaining_count: int) -> None:
     print(f"低ストック通知メール送信済み: 残り {remaining_count} 記事")
 
 
+# ─── ユーティリティ ────────────────────────────────────────
+
 def safe_filename(tool: str, code: str) -> str:
     name = f"{tool}_{code}".lower()
     return re.sub(r"[^a-z0-9_]", "_", name) + ".md"
-
-
-def format_list(raw: str, marker: str) -> str:
-    items = [item.strip() for item in raw.split("|") if item.strip()]
-    return "\n".join(f"{marker} {item}" for item in items)
 
 
 def extract_tags(filename: str) -> list[str]:
@@ -127,8 +120,62 @@ def extract_tags(filename: str) -> list[str]:
     return []
 
 
+# ─── Claude API で記事生成 ──────────────────────────────────
+
+def generate_article(client: anthropic.Anthropic, row: dict) -> str:
+    """Claude API を使って高品質な記事本文を生成する。"""
+    tool = row["tool"].strip()
+    code = row["status_code"].strip()
+    meaning = row["official_meaning"].strip()
+    causes = [c.strip() for c in row["causes"].split("|") if c.strip()]
+    solutions = [s.strip() for s in row["solutions"].split("|") if s.strip()]
+
+    causes_text = "\n".join(f"- {c}" for c in causes)
+    solutions_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(solutions))
+
+    prompt = f"""あなたは日本人向けの開発者向けテクニカルライターです。
+以下の情報をもとに、**{tool} の {code} エラー**についての解説記事を日本語で書いてください。
+
+## 基本情報
+- ツール: {tool}
+- エラーコード: {code}
+- 公式の意味: {meaning}
+- よくある原因:
+{causes_text}
+- 解決策:
+{solutions_text}
+
+## 記事の要件
+- Markdown形式で書く（H2見出しを使う）
+- H1タイトル行は**含めない**（フロントマターで設定するため）
+- 冒頭に1〜2文でエラーの概要を説明する
+- 「よくある原因」セクションでは、各原因を具体的に説明する（なぜそうなるか）
+- 「解決手順」セクションでは、各ステップに**具体的なコマンドや設定例**をコードブロックで示す
+- ツール固有のコマンド・設定ファイル名・UIの場所を明記する
+- 最後に「それでも解決しない場合」のセクションを追加する
+- 全体で600〜900文字程度
+- 難しい英語用語には括弧で日本語説明を添える
+- 読者は「エラーが出て焦っている日本人エンジニア」を想定する
+
+記事本文のみを出力してください（前置きや説明は不要）。"""
+
+    message = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=2048,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return message.content[0].text
+
+
+# ─── メイン ───────────────────────────────────────────────
+
 def main() -> None:
-    template = TEMPLATE_PATH.read_text(encoding="utf-8")
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        print("エラー: ANTHROPIC_API_KEY が設定されていません。")
+        return
+
+    client = anthropic.Anthropic(api_key=api_key)
 
     with open(QUEUE_PATH, encoding="utf-8", newline="") as f:
         rows = list(csv.DictReader(f))
@@ -147,42 +194,24 @@ def main() -> None:
     for row in to_publish:
         tool = row["tool"].strip()
         code = row["status_code"].strip()
-
-        content = (
-            template
-            .replace("{tool}", tool)
-            .replace("{status_code}", code)
-            .replace("{official_meaning}", row["official_meaning"].strip())
-            .replace("{causes_list}", format_list(row["causes"], "-"))
-            .replace("{solutions_list}", format_list(row["solutions"], "1."))
-        )
-
         filename = safe_filename(tool, code)
         out = POSTS_DIR / filename
 
-        # 既存ファイルがあればスキップ（重複防止）
         if out.exists():
             print(f"SKIP {filename} （既に存在）")
             continue
 
-        # H1 と説明文を抽出
+        print(f"生成中: {tool} {code} ...")
+        try:
+            body = generate_article(client, row)
+        except Exception as e:
+            print(f"  API エラー: {e}")
+            continue
+
         title = f"{tool} の {code} エラー：原因と解決策"
         description = f"{tool} の {code} エラーの原因と解決策をわかりやすく解説します。"
-
-        # H1 を除いた本文
-        lines = content.splitlines(keepends=True)
-        body = content
-        for i, line in enumerate(lines):
-            if line.startswith("# "):
-                rest = lines[i + 1:]
-                while rest and rest[0].strip() == "":
-                    rest.pop(0)
-                body = "".join(rest)
-                break
-
         tags = extract_tags(filename)
-        tags_line = f'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
-        error_code = row["status_code"].strip()
+        tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
 
         frontmatter = (
             f'---\n'
@@ -190,12 +219,12 @@ def main() -> None:
             f'date: {today}\n'
             f'description: "{description}"\n'
             f'{tags_line}'
-            f'errorCode: "{error_code}"\n'
+            f'errorCode: "{code}"\n'
             f'---\n\n'
         )
 
         out.write_text(frontmatter + body, encoding="utf-8")
-        print(f"公開: {filename}  →  {title}")
+        print(f"  公開: {filename}  →  {title}")
         published_count += 1
 
     # キューを更新
