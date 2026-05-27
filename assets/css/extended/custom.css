@@ -103,6 +103,11 @@ details.toc .inner a { color: var(--primary); }
   align-self: center;
 }
 
+/* 行間 */
+.post-content {
+  line-height: 2;
+}
+
 /* 免責事項 */
 .post-content p:last-of-type em,
 .md-content p:last-of-type em {
