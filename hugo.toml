@@ -1,4 +1,4 @@
-baseURL = "https://ko-508.github.io/errorlog/"
+baseURL = "https://errorlog.jp/"
 locale = "ja"
 title = "ErrorLog - エラーコード解決ガイド"
 theme = "PaperMod"
