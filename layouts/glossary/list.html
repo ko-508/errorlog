@@ -7,80 +7,84 @@
   {{- end }}
 </header>
 
-{{/* Hugo の taxonomy から word タグのページを取得 */}}
-{{- $wordTag := index site.Taxonomies.tags "word" }}
+{{- /* site.Pages から glossary セクションの通常ページだけ収集 */}}
 {{- $pages := slice }}
-{{- if $wordTag }}
-  {{- $pages = $wordTag.Pages.ByTitle }}
+{{- range site.Pages }}
+  {{- if and (eq .Section "glossary") (eq .Kind "page") }}
+    {{- $pages = $pages | append . }}
+  {{- end }}
 {{- end }}
+{{- $pages = sort $pages ".Title" "asc" }}
 
 {{- if not $pages }}
-<p style="color:var(--secondary)">用語ページがまだありません。</p>
+<p class="glossary-empty">用語ページが見つかりません。</p>
 {{- else }}
 
-{{/* あいうえお索引 */}}
-{{- $initials := slice "あ" "い" "う" "え" "お" "か" "き" "く" "け" "こ" "さ" "し" "す" "せ" "そ" "た" "ち" "つ" "て" "と" "な" "に" "ぬ" "ね" "の" "は" "ひ" "ふ" "へ" "ほ" "ま" "み" "む" "め" "も" "や" "ゆ" "よ" "ら" "り" "る" "れ" "ろ" "わ" "A" }}
+{{/* ── あいうえお索引バー ────────────────────── */}}
+{{- $rows := slice
+  (slice "あ" "い" "う" "え" "お")
+  (slice "か" "き" "く" "け" "こ")
+  (slice "さ" "し" "す" "せ" "そ")
+  (slice "た" "ち" "つ" "て" "と")
+  (slice "な" "に" "ぬ" "ね" "の")
+  (slice "は" "ひ" "ふ" "へ" "ほ")
+  (slice "ま" "み" "む" "め" "も")
+  (slice "や" "ゆ" "よ")
+  (slice "ら" "り" "る" "れ" "ろ")
+  (slice "わ" "を" "ん")
+  (slice "A")
+}}
+
+{{- $kana2hira := dict
+  "ア" "あ" "イ" "い" "ウ" "う" "エ" "え" "オ" "お"
+  "カ" "か" "キ" "き" "ク" "く" "ケ" "け" "コ" "こ"
+  "サ" "さ" "シ" "し" "ス" "す" "セ" "せ" "ソ" "そ"
+  "タ" "た" "チ" "ち" "ツ" "つ" "テ" "て" "ト" "と"
+  "ナ" "な" "ニ" "に" "ヌ" "ぬ" "ネ" "ね" "ノ" "の"
+  "ハ" "は" "ヒ" "ひ" "フ" "ふ" "ヘ" "へ" "ホ" "ほ"
+  "マ" "ま" "ミ" "み" "ム" "む" "メ" "め" "モ" "も"
+  "ヤ" "や" "ユ" "ゆ" "ヨ" "よ"
+  "ラ" "ら" "リ" "り" "ル" "る" "レ" "れ" "ロ" "ろ"
+  "ワ" "わ" "ヲ" "を" "ン" "ん"
+  "ァ" "あ" "ィ" "い" "ゥ" "う" "ェ" "え" "ォ" "お"
+}}
 
 <nav class="glossary-index">
-  {{- range $initials }}
-  <a href="#gi-{{ . }}" class="gi-link">{{ . }}</a>
+  {{- range $rows }}
+  <span class="gi-row">
+    {{- range . }}
+    <a href="#gi-{{ . }}" class="gi-link">{{ . }}</a>
+    {{- end }}
+  </span>
   {{- end }}
 </nav>
 
-{{/* 各グループを表示 */}}
-{{- range $initials }}
-  {{- $initial := . }}
+{{/* ── 行ごとにグループ化して表示 ─────────────── */}}
+{{- range $rows }}
+  {{- $row := . }}
   {{- $group := slice }}
   {{- range $pages }}
-    {{- $t := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-    {{- $first := substr $t 0 1 }}
-    {{/* カタカナをひらがなに変換して比較 */}}
-    {{- $h := $first | lower }}
-    {{- if eq $h $initial }}
-      {{- $group = $group | append . }}
-    {{- else if and (eq $initial "A") (findRE "^[A-Za-z]" $t) }}
-      {{- $group = $group | append . }}
+    {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
+    {{- $first := substr $term 0 1 }}
+    {{- $h := index $kana2hira $first | default $first }}
+    {{- $match := false }}
+    {{- range $row }}
+      {{- if eq $h . }}{{- $match = true }}{{- end }}
+      {{- if and (eq . "A") (findRE "^[A-Za-z]" $term) }}{{- $match = true }}{{- end }}
     {{- end }}
+    {{- if $match }}{{- $group = $group | append . }}{{- end }}
   {{- end }}
   {{- if $group }}
-  <section class="glossary-section" id="gi-{{ $initial }}">
-    <h2 class="glossary-initial">{{ $initial }}</h2>
-    <div class="glossary-cards">
+  <section class="glossary-section" id="gi-{{ index $row 0 }}">
+    <h2 class="glossary-initial">{{ index $row 0 }}</h2>
+    <ul class="glossary-cards">
       {{- range $group }}
       {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-      <a class="glossary-card" href="{{ .Permalink }}">
-        <span class="glossary-card-term">{{ $term }}</span>
-        {{- with .Description }}
-        <span class="glossary-card-desc">{{ . | truncate 40 }}</span>
-        {{- end }}
-      </a>
+      <li><a class="glossary-card" href="{{ .Permalink }}">{{ $term }}</a></li>
       {{- end }}
-    </div>
+    </ul>
   </section>
   {{- end }}
-{{- end }}
-
-{{/* 上記グループに入らなかったもの（記号・その他）*/}}
-{{- $rest := slice }}
-{{- range $pages }}
-  {{- $t := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-  {{- $first := substr $t 0 1 }}
-  {{- $matched := false }}
-  {{- if findRE "^[A-Za-zぁ-ん]" $first }}{{- $matched = true }}{{- end }}
-  {{- if not $matched }}{{- $rest = $rest | append . }}{{- end }}
-{{- end }}
-{{- if $rest }}
-<section class="glossary-section" id="gi-other">
-  <h2 class="glossary-initial">その他</h2>
-  <div class="glossary-cards">
-    {{- range $rest }}
-    {{- $term := .Title | replaceRE "とは？わかりやすく解説$" "" }}
-    <a class="glossary-card" href="{{ .Permalink }}">
-      <span class="glossary-card-term">{{ $term }}</span>
-    </a>
-    {{- end }}
-  </div>
-</section>
 {{- end }}
 
 {{- end }}
