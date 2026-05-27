@@ -29,3 +29,33 @@
   </div>
   {{- end }}
 {{- end }}
+{{- $errorCode := .Params.errorCode }}
+{{- if $errorCode }}
+  {{- $sameCode := slice }}
+  {{- range .Site.RegularPages }}
+    {{- if and (ne .Permalink $currentPage.Permalink) (eq .Params.errorCode $errorCode) }}
+      {{- $sameCode = $sameCode | append . }}
+    {{- end }}
+  {{- end }}
+  {{- if $sameCode }}
+  <div class="related-posts related-by-code">
+    <h3>他のツールの {{ $errorCode }} エラー</h3>
+    {{- range first 8 $sameCode }}
+    <article class="post-entry">
+      <header class="entry-header">
+        {{- with index .Params.tags 0 }}
+        <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+        {{- end }}
+        <h2 class="entry-hint-parent">{{ .Title }}</h2>
+      </header>
+      {{- if .Description }}
+      <div class="entry-content">
+        <p>{{ .Description }}</p>
+      </div>
+      {{- end }}
+      <a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+    </article>
+    {{- end }}
+  </div>
+  {{- end }}
+{{- end }}

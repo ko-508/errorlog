@@ -28,7 +28,7 @@ jobs:
       - name: Scan and generate glossary pages
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TOP_COUNT: "10"
+          TOP_COUNT: "20"
         run: python scripts/scan_glossary.py
 
       - name: Commit and push

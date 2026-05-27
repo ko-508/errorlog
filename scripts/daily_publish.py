@@ -122,8 +122,37 @@ def extract_tags(filename: str) -> list[str]:
 
 # ─── Claude API で記事生成 ──────────────────────────────────
 
+# ⑦ 静的な指示部分をシステムプロンプトに分離してキャッシュ対象にする
+_ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任のテクニカルライターです。
+開発・運用中にエラーコードに直面した日本人エンジニアへ、原因と解決策を的確に解説する記事を執筆します。
+
+## 記事の要件
+- Markdown形式で書く（H2見出しのみ使用）
+- H1タイトル行は含めない（フロントマターで設定するため）
+- 冒頭に1〜2文でエラーの概要を書く
+- 「よくある原因」セクション：各原因を具体的に説明する（なぜそうなるかを必ず書く）
+- 「解決手順」セクション：各ステップに具体的なコマンドや設定例をコードブロックで示す
+- ツール固有のコマンド・設定ファイル名・UIの場所（例：「Cloud Console → IAM → ...」）を明記する
+- 「それでも解決しない場合」セクションを最後に追加する
+- 全体で1200〜1800文字程度
+- 難しい英語用語には括弧で日本語補足を添える（例：「ペイロード（リクエストの本体データ）」）
+- ただし Docker、API、JSON のような一般語への補足は不要
+
+## 文体
+- ですます調で書く
+- 断定的に書く（「できます」より「します」）
+- 読者は「エラーが出て焦っている日本人エンジニア」
+
+## コードブロック
+- 言語名を必ず指定する（bash, python, yaml, json, javascript 等）
+- プレースホルダーは `<your-project-id>` 形式で示す
+- コメントは日本語で書く
+
+記事本文のみを出力してください。前置きや説明文は不要です。"""
+
+
 def generate_article(client: anthropic.Anthropic, row: dict) -> str:
-    """Claude API を使って高品質な記事本文を生成する。"""
+    """Claude API を使って記事本文を生成する（システムプロンプトキャッシュ使用）。"""
     tool = row["tool"].strip()
     code = row["status_code"].strip()
     meaning = row["official_meaning"].strip()
@@ -133,36 +162,25 @@ def generate_article(client: anthropic.Anthropic, row: dict) -> str:
     causes_text = "\n".join(f"- {c}" for c in causes)
     solutions_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(solutions))
 
-    prompt = f"""あなたは日本人向けの開発者向けテクニカルライターです。
-以下の情報をもとに、**{tool} の {code} エラー**についての解説記事を日本語で書いてください。
+    user_prompt = f"""以下の情報をもとに **{tool} の {code} エラー** の解説記事を書いてください。
 
-## 基本情報
 - ツール: {tool}
 - エラーコード: {code}
 - 公式の意味: {meaning}
 - よくある原因:
 {causes_text}
 - 解決策:
-{solutions_text}
-
-## 記事の要件
-- Markdown形式で書く（H2見出しを使う）
-- H1タイトル行は**含めない**（フロントマターで設定するため）
-- 冒頭に1〜2文でエラーの概要を説明する
-- 「よくある原因」セクションでは、各原因を具体的に説明する（なぜそうなるか）
-- 「解決手順」セクションでは、各ステップに**具体的なコマンドや設定例**をコードブロックで示す
-- ツール固有のコマンド・設定ファイル名・UIの場所を明記する
-- 最後に「それでも解決しない場合」のセクションを追加する
-- 全体で600〜900文字程度
-- 難しい英語用語には括弧で日本語説明を添える
-- 読者は「エラーが出て焦っている日本人エンジニア」を想定する
-
-記事本文のみを出力してください（前置きや説明は不要）。"""
+{solutions_text}"""
 
     message = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=2048,
-        messages=[{"role": "user", "content": prompt}],
+        max_tokens=3000,
+        system=[{
+            "type": "text",
+            "text": _ARTICLE_SYSTEM_PROMPT,
+            "cache_control": {"type": "ephemeral"},
+        }],
+        messages=[{"role": "user", "content": user_prompt}],
     )
     return message.content[0].text
 
@@ -209,7 +227,12 @@ def main() -> None:
             continue
 
         title = f"{tool} の {code} エラー：原因と解決策"
-        description = f"{tool} の {code} エラーの原因と解決策をわかりやすく解説します。"
+        meaning_text = row["official_meaning"].strip()
+        causes_list = [c.strip() for c in row["causes"].split("|") if c.strip()]
+        meaning_short = meaning_text if len(meaning_text) <= 45 else meaning_text[:45] + "…"
+        cause_hint = causes_list[0][:30] if causes_list else ""
+        description = f"{meaning_short}。{cause_hint}など、{tool} {code} エラーの原因と解決策を解説。"
+        description = description[:120]
         tags = extract_tags(filename)
         tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
 
@@ -223,7 +246,14 @@ def main() -> None:
             f'---\n\n'
         )
 
-        out.write_text(frontmatter + body, encoding="utf-8")
+        disclaimer = (
+            "\n\n---\n\n"
+            "*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。"
+            "ソフトウェアの仕様は予告なく変更されることがあります。"
+            "最新の情報は各ツールの公式サポートページをご確認ください。"
+            "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
+        )
+        out.write_text(frontmatter + body + disclaimer, encoding="utf-8")
         print(f"  公開: {filename}  →  {title}")
         published_count += 1
 

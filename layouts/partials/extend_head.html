@@ -7,3 +7,21 @@
   gtag('js', new Date());
   gtag('config', 'G-CXKKVNQKRX');
 </script>
+{{- if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ .Description | jsonify }},
+  "datePublished": {{ .Date.Format "2006-01-02" | jsonify }},
+  {{- with .Lastmod }}"dateModified": {{ .Format "2006-01-02" | jsonify }},{{ end }}
+  "url": {{ .Permalink | jsonify }},
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ .Site.Title | jsonify }},
+    "url": {{ .Site.BaseURL | jsonify }}
+  }
+}
+</script>
+{{- end }}

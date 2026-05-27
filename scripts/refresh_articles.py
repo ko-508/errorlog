@@ -205,7 +205,7 @@ def main() -> None:
         if "lastmod:" in fm_block:
             new_fm = re.sub(r"lastmod:.*", f"lastmod: {today}", fm_block)
         else:
-            new_fm = fm_block.replace("---\n", f"---\nlastmod: {today}\n", 1)
+            new_fm = re.sub(r"\n---\n$", f"\nlastmod: {today}\n---\n", fm_block)
 
         md_path.write_text(new_fm + "\n" + new_body, encoding="utf-8")
         print(f"    完了: {title}")
