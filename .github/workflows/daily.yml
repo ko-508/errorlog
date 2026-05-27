@@ -2,8 +2,7 @@ name: Daily Article Publish
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # 毎日 09:00 JST (UTC 00:00)
-    - cron: '0 9 * * *'  # 毎日 18:00 JST (UTC 09:00)
+    - cron: '0 1 * * *'  # 毎日 10:00 JST (UTC 01:00)
   workflow_dispatch:      # 手動実行も可能
 
 permissions:
@@ -27,6 +26,7 @@ jobs:
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          DAILY_COUNT: "6"
         run: python scripts/daily_publish.py
 
       - name: Commit and push
