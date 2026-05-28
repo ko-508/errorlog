@@ -182,6 +182,8 @@ def convert(src: Path, zenn_articles_dir: Path, new_only: bool) -> bool:
 
 def main() -> None:
     new_only = "--new-only" in sys.argv
+    force    = "--force" in sys.argv
+    limit    = int(os.getenv("ZENN_LIMIT", "0"))  # 0 = 無制限
 
     zenn_articles_dir = ZENN_DIR / "articles"
     zenn_articles_dir.mkdir(parents=True, exist_ok=True)
@@ -193,10 +195,13 @@ def main() -> None:
     for src in posts:
         if src.name.startswith("_"):
             continue
-        ok = convert(src, zenn_articles_dir, new_only)
+        ok = convert(src, zenn_articles_dir, new_only and not force)
         if ok:
             written += 1
             print(f"  ✓ {src.stem}")
+            if limit > 0 and written >= limit:
+                print(f"  (ZENN_LIMIT={limit} に達したため停止)")
+                break
         else:
             skipped += 1
 
