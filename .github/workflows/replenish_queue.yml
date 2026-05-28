@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       add_count:
-        description: 'Items to add (default: 180)'
-        default: '180'
+        description: 'Items to add (default: 90)'
+        default: '90'
 
 permissions:
   contents: write
@@ -35,7 +35,7 @@ jobs:
       - name: Replenish queue
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          ADD_COUNT: ${{ github.event.inputs.add_count || '180' }}
+          ADD_COUNT: ${{ github.event.inputs.add_count || '90' }}
         run: python scripts/replenish_queue.py
 
       - name: Generate tool articles
