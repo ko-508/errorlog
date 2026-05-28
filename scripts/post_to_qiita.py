@@ -123,6 +123,19 @@ def main() -> None:
         print("エラー: QIITA_ACCESS_TOKEN が設定されていません。")
         sys.exit(1)
 
+    # トークン確認
+    req_test = urllib.request.Request(
+        f"{QIITA_API}/authenticated_user",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    try:
+        with urllib.request.urlopen(req_test) as resp:
+            user = json.loads(resp.read())
+            print(f"認証成功: {user.get('id')} (フォロワー: {user.get('followers_count')})")
+    except urllib.error.HTTPError as e:
+        print(f"認証エラー {e.code}: {e.read().decode()[:200]}")
+        sys.exit(1)
+
     posted = load_posted()
     posts  = sorted(POSTS_DIR.glob("*.md"), key=get_article_date)
 
