@@ -1,0 +1,50 @@
+name: Sync to Zenn
+
+on:
+  workflow_run:
+    workflows: ["Daily Article Publish"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: errorlog
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ko-508/zenn-content
+          token: ${{ secrets.ZENN_GITHUB_TOKEN }}
+          path: zenn-content
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Sync articles to Zenn format
+        env:
+          ZENN_DIR: ${{ github.workspace }}/zenn-content
+        working-directory: errorlog
+        run: python scripts/zenn_sync.py --new-only
+
+      - name: Commit and push to zenn-content
+        working-directory: zenn-content
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add articles/
+          if git diff --staged --quiet; then
+            echo "no new articles"
+          else
+            git commit -m "sync: $(date +%Y-%m-%d) new articles from errorlog.jp"
+            git push
+          fi
