@@ -1,14 +1,18 @@
 name: Pre-Publish Quality Check
 
 on:
+  # 新規・更新された記事を即時チェック
   push:
     paths:
       - 'content/posts/**.md'
+  # 全記事を週次でローテーションチェック（mtime 昇順で古いものから処理）
+  schedule:
+    - cron: '0 20 * * 3'   # 毎週水曜 05:00 JST (UTC 水曜 20:00)
   workflow_dispatch:
     inputs:
       batch:
-        description: '処理件数（デフォルト: 10）'
-        default: '10'
+        description: '処理件数（デフォルト: 20）'
+        default: '20'
 
 permissions:
   contents: write
@@ -31,7 +35,8 @@ jobs:
       - name: Run quality check
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          BATCH: ${{ github.event.inputs.batch || '10' }}
+          # push 時は 10 件、スケジュール/手動は 20 件
+          BATCH: ${{ github.event_name == 'push' && '10' || github.event.inputs.batch || '20' }}
         run: python scripts/check_quality.py
 
       - name: Commit fixes
@@ -42,6 +47,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "修正なし"
           else
-            git commit -m "quality: 投稿前品質チェック自動修正 [skip ci]"
+            git commit -m "quality: 品質チェック自動修正 [skip ci]"
             git push
           fi
