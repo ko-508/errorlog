@@ -22,7 +22,7 @@ errorCode: "500"
 
 ## このエラーの意味
 
-**500** は、[Kubernetes](/glossary/kubernetes/) が「[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーまたはコント[ロール](/glossary/ロール/)プレーンで予期しない内部エラーが発生した。」という状態のときに表示されます。
+**500** は、[Kubernetes](/glossary/kubernetes/) が「[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーまたはコントロールプレーンで予期しない内部エラーが発生した。」という状態のときに表示されます。
 
 エラーが出ても、データが消えたり壊れたりするわけではないので安心してください。
 
@@ -40,7 +40,7 @@ errorCode: "500"
 
 ## 解決手順（上から順に試す）
 
-1. kubectl get componentstatuses でコント[ロール](/glossary/ロール/)プレーンの状態を確認する
+1. kubectl get componentstatuses でコントロールプレーンの状態を確認する
 1. [API](/glossary/api/)サーバーのログでスタックトレースを確認する
 1. カスタム[Webhook](/glossary/webhook/)を使っている場合は[Webhook](/glossary/webhook/)のログを確認する
 
@@ -48,10 +48,10 @@ errorCode: "500"
 
 ## それでも解決しない場合
 
-- **[Kubernetes](/glossary/kubernetes/) のサ[ポート](/glossary/ポート/)に問い合わせる**：エラーメッセージの全文をスクリーンショットで送ると対応が早くなります
+- **[Kubernetes](/glossary/kubernetes/) のサポートに問い合わせる**：エラーメッセージの全文をスクリーンショットで送ると対応が早くなります
 - **公式ヘルプページを検索する**：「500 [Kubernetes](/glossary/kubernetes/)」で検索すると関連ページが見つかることがあります
 - **時間をおいて再試行する**：[Kubernetes](/glossary/kubernetes/) 側で一時的な問題が起きているケースもあります
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サ[ポート](/glossary/ポート/)ページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
