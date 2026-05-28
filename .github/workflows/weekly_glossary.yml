@@ -42,17 +42,20 @@ jobs:
           TOP_COUNT: "20"
         run: python scripts/scan_glossary.py
 
+      - name: Insert glossary links into posts
+        run: python scripts/insert_glossary_links.py
+
       - name: Commit and push
         id: push
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add content/glossary/ scripts/terms.json
+          git add content/glossary/ content/posts/ scripts/terms.json
           if git diff --staged --quiet; then
             echo "新規用語ページなし"
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "glossary: $(date +%Y-%m-%d) 用語集を更新"
+            git commit -m "glossary: $(date +%Y-%m-%d) 用語集を更新・記事にリンク挿入"
             git push
             echo "deployed=true" >> $GITHUB_OUTPUT
           fi
