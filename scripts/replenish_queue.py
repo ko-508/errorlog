@@ -23,7 +23,7 @@ from pathlib import Path
 import google.generativeai as genai
 from google.generativeai.types import Tool
 
-ADD_COUNT = int(os.getenv("ADD_COUNT", "30"))
+ADD_COUNT = int(os.getenv("ADD_COUNT", "180"))
 
 BASE       = Path(__file__).parent
 POSTS_DIR  = BASE.parent / "content" / "posts"

@@ -6,8 +6,8 @@ on:
   workflow_dispatch:
     inputs:
       add_count:
-        description: '追加件数（デフォルト: 30）'
-        default: '30'
+        description: '追加件数（デフォルト: 180）'
+        default: '180'
 
 permissions:
   contents: write
@@ -37,7 +37,7 @@ jobs:
       - name: Replenish queue
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          ADD_COUNT: ${{ github.event.inputs.add_count || '30' }}
+          ADD_COUNT: ${{ github.event.inputs.add_count || '180' }}
         run: python scripts/replenish_queue.py
 
       - name: Commit and push
