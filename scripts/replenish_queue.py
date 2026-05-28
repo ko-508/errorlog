@@ -142,6 +142,8 @@ def research_with_gemini(
         return None
 
 
+
+
 def main() -> None:
     gemini_key = os.getenv("GEMINI_API_KEY")
     if not gemini_key:
