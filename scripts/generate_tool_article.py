@@ -14,7 +14,9 @@ Step 2: Claude で日本語記事を執筆
   python scripts/generate_tool_article.py "GitHub Actions"
 """
 
+import json
 import os
+import random
 import re
 import sys
 from datetime import date
@@ -100,40 +102,41 @@ def safe_slug(tool: str) -> str:
     return s
 
 
-def main() -> None:
-    if len(sys.argv) < 2:
-        print("使い方: python scripts/generate_tool_article.py <ツール名>")
-        sys.exit(1)
+TOOLS_PATH = BASE / "tools.json"
+COUNT = int(os.getenv("COUNT", "3"))
 
-    tool = " ".join(sys.argv[1:])
 
-    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
-    gemini_key    = os.getenv("GEMINI_API_KEY")
-    if not anthropic_key:
-        print("エラー: ANTHROPIC_API_KEY が必要です。")
-        sys.exit(1)
+def get_covered_tools() -> set[str]:
+    """既存のツール解説記事から生成済みのツール名を返す。"""
+    covered = set()
+    for md in POSTS_DIR.glob("tool_*.md"):
+        text = md.read_text(encoding="utf-8")
+        m = re.search(r'^title:\s*"(.+?) とは', text, re.MULTILINE)
+        if m:
+            covered.add(m.group(1).strip())
+    return covered
 
-    claude = anthropic.Anthropic(api_key=anthropic_key)
 
+def generate_one(
+    tool: str,
+    claude: anthropic.Anthropic,
+    gemini=None,
+) -> Path:
+    """1本のツール解説記事を生成して保存する。"""
     research = ""
-    if gemini_key:
-        print(f"[1/2] Gemini で {tool} をリサーチ中...")
+    if gemini:
+        print(f"  [Gemini] {tool} をリサーチ中...")
         try:
-            gemini   = google_genai.Client(api_key=gemini_key)
             research = research_with_gemini(gemini, tool)
         except Exception as e:
             print(f"  Gemini スキップ（{e}）")
-    else:
-        print("[1/2] GEMINI_API_KEY なし → Gemini スキップ")
 
-    step = "3/3" if gemini_key else "2/2"
-    print(f"[{step}] Claude で記事を執筆中...")
+    print(f"  [Claude] {tool} の記事を執筆中...")
     body = write_with_claude(claude, tool, research)
 
     slug  = safe_slug(tool)
     today = date.today().isoformat()
-    fname = f"tool_{slug}.md"
-    out   = POSTS_DIR / fname
+    out   = POSTS_DIR / f"tool_{slug}.md"
 
     frontmatter = (
         f'---\n'
@@ -143,10 +146,45 @@ def main() -> None:
         f'tags: ["tool-guide"]\n'
         f'---\n\n'
     )
-
     out.write_text(frontmatter + body, encoding="utf-8")
-    print(f"\n生成完了: {out}")
-    print(f"確認: cat {out}")
+    return out
+
+
+def main() -> None:
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+    gemini_key    = os.getenv("GEMINI_API_KEY")
+    if not anthropic_key:
+        print("エラー: ANTHROPIC_API_KEY が必要です。")
+        sys.exit(1)
+
+    claude = anthropic.Anthropic(api_key=anthropic_key)
+    gemini = None
+    if gemini_key:
+        try:
+            gemini = google_genai.Client(api_key=gemini_key)
+        except Exception:
+            pass
+
+    # コマンドライン引数でツール指定 or 自動選択
+    if len(sys.argv) > 1:
+        targets = [" ".join(sys.argv[1:])]
+    else:
+        all_tools = json.loads(TOOLS_PATH.read_text(encoding="utf-8"))["tools"]
+        covered   = get_covered_tools()
+        uncovered = [t for t in all_tools if t not in covered]
+        if not uncovered:
+            print("全ツールの解説記事が生成済みです。")
+            return
+        random.shuffle(uncovered)
+        targets = uncovered[:COUNT]
+        print(f"未作成ツール: {len(uncovered)} 件 → {len(targets)} 件を生成")
+
+    for tool in targets:
+        print(f"\n▶ {tool}")
+        out = generate_one(tool, claude, gemini)
+        print(f"  → {out.name}")
+
+    print(f"\n完了: {len(targets)} 件")
 
 
 if __name__ == "__main__":

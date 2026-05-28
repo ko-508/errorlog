@@ -2,14 +2,14 @@ name: Weekly Article Refresh
 
 on:
   schedule:
-    - cron: '0 3 * * 5'   # 豈朱ｱ驥第屆 12:00 JST (UTC 03:00)
+    - cron: '0 3 * * 5'
   workflow_dispatch:
     inputs:
       refresh_days:
-        description: '譛邨よ峩譁ｰ縺九ｉ縺ｮ譌･謨ｰ髢ｾ蛟､・医ョ繝輔か繝ｫ繝・ 30・・
+        description: 'Days since last update (default: 30)'
         default: '30'
       max_refresh:
-        description: '譛螟ｧ蜃ｦ逅・ｻｶ謨ｰ・医ョ繝輔か繝ｫ繝・ 20・・
+        description: 'Max articles to refresh (default: 20)'
         default: '20'
 
 permissions:
@@ -47,10 +47,9 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           git add content/posts/
           if git diff --staged --quiet; then
-            echo "譖ｴ譁ｰ蟇ｾ雎｡縺ｪ縺・
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "refresh: $(date +%Y-%m-%d) 險倅ｺ九ｒ譛譁ｰ迚医↓譖ｴ譁ｰ"
+            git commit -m "refresh: $(date +%Y-%m-%d) update articles"
             git push
             echo "deployed=true" >> $GITHUB_OUTPUT
           fi

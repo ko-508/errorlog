@@ -2,11 +2,11 @@ name: Replenish Article Queue
 
 on:
   schedule:
-    - cron: '0 4 1 * *'   # 豈取怦1譌･ 13:00 JST (UTC 04:00)
+    - cron: '0 4 1 * *'
   workflow_dispatch:
     inputs:
       add_count:
-        description: '霑ｽ蜉莉ｶ謨ｰ・医ョ繝輔か繝ｫ繝・ 180・・
+        description: 'Items to add (default: 180)'
         default: '180'
 
 permissions:
@@ -25,28 +25,34 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install google-genai
+        run: pip install anthropic google-genai
 
-      # Step 1: Reddit繝ｻX繝ｻHackerNews 縺九ｉ繝医Ξ繝ｳ繝峨ヤ繝ｼ繝ｫ繧堤匱隕九＠縺ｦ tools.json 縺ｫ霑ｽ蜉
       - name: Discover trending tools
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/discover_tools.py
 
-      # Step 2: tools.json 縺ｮ蜈ｨ繝・・繝ｫ ﾃ・繧ｨ繝ｩ繝ｼ繧ｳ繝ｼ繝峨〒譛ｪ繧ｫ繝舌・蛻・ｒ Gemini 縺ｧ繝ｪ繧ｵ繝ｼ繝・      - name: Replenish queue
+      - name: Replenish queue
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           ADD_COUNT: ${{ github.event.inputs.add_count || '180' }}
         run: python scripts/replenish_queue.py
 
+      - name: Generate tool articles
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          COUNT: "3"
+        run: python scripts/generate_tool_article.py
+
       - name: Commit and push
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add scripts/queue.csv scripts/tools.json
+          git add scripts/queue.csv scripts/tools.json content/posts/
           if git diff --staged --quiet; then
-            echo "螟画峩縺ｪ縺・
+            echo "no changes"
           else
-            git commit -m "queue: $(date +%Y-%m-%d) 繧ｭ繝･繝ｼ陬懷・繝ｻ繝・・繝ｫ譖ｴ譁ｰ"
+            git commit -m "queue: $(date +%Y-%m-%d) replenish queue and tool articles"
             git push
           fi
