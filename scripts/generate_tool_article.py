@@ -109,17 +109,25 @@ def main() -> None:
 
     anthropic_key = os.getenv("ANTHROPIC_API_KEY")
     gemini_key    = os.getenv("GEMINI_API_KEY")
-    if not anthropic_key or not gemini_key:
-        print("エラー: ANTHROPIC_API_KEY / GEMINI_API_KEY が必要です。")
+    if not anthropic_key:
+        print("エラー: ANTHROPIC_API_KEY が必要です。")
         sys.exit(1)
 
-    claude  = anthropic.Anthropic(api_key=anthropic_key)
-    gemini  = google_genai.Client(api_key=gemini_key)
+    claude = anthropic.Anthropic(api_key=anthropic_key)
 
-    print(f"[1/2] Gemini で {tool} をリサーチ中...")
-    research = research_with_gemini(gemini, tool)
+    research = ""
+    if gemini_key:
+        print(f"[1/2] Gemini で {tool} をリサーチ中...")
+        try:
+            gemini   = google_genai.Client(api_key=gemini_key)
+            research = research_with_gemini(gemini, tool)
+        except Exception as e:
+            print(f"  Gemini スキップ（{e}）")
+    else:
+        print("[1/2] GEMINI_API_KEY なし → Gemini スキップ")
 
-    print(f"[2/2] Claude で記事を執筆中...")
+    step = "3/3" if gemini_key else "2/2"
+    print(f"[{step}] Claude で記事を執筆中...")
     body = write_with_claude(claude, tool, research)
 
     slug  = safe_slug(tool)
