@@ -2,8 +2,8 @@ name: Daily Article Publish
 
 on:
   schedule:
-    - cron: '0 1 * * *'  # 毎日 10:00 JST (UTC 01:00)
-  workflow_dispatch:      # 手動実行も可能
+    - cron: '0 1 * * *'   # 毎日 10:00 JST (UTC 01:00)
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -32,6 +32,32 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           DAILY_COUNT: "6"
         run: python scripts/daily_publish.py
+
+      # 新規生成された記事にその場で品質チェックとリンク挿入を実行
+      - name: Quality check new articles
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          NEW=$(git status --porcelain content/posts/ | grep -E '^\?\?' | awk '{print $2}' | grep '\.md$')
+          if [ -z "$NEW" ]; then
+            echo "新規記事なし。スキップ。"
+            exit 0
+          fi
+          echo "$NEW" | while IFS= read -r f; do
+            echo "品質チェック: $f"
+            python scripts/check_quality.py "$f"
+          done
+
+      - name: Insert glossary links into new articles
+        run: |
+          NEW=$(git status --porcelain content/posts/ | grep -E '^\?\?' | awk '{print $2}' | grep '\.md$')
+          if [ -z "$NEW" ]; then
+            exit 0
+          fi
+          echo "$NEW" | while IFS= read -r f; do
+            echo "リンク挿入: $f"
+            python scripts/insert_glossary_links.py "$f"
+          done
 
       - name: Commit and push
         id: push

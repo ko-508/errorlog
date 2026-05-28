@@ -1,16 +1,16 @@
-name: Monthly Article Refresh
+name: Weekly Article Refresh
 
 on:
   schedule:
-    - cron: '0 3 1 * *'   # 毎月1日 12:00 JST (UTC 03:00)
+    - cron: '0 3 * * 5'   # 毎週金曜 12:00 JST (UTC 03:00)
   workflow_dispatch:
     inputs:
       refresh_days:
         description: '最終更新からの日数閾値（デフォルト: 30）'
         default: '30'
       max_refresh:
-        description: '最大処理件数（デフォルト: 30）'
-        default: '30'
+        description: '最大処理件数（デフォルト: 20）'
+        default: '20'
 
 permissions:
   contents: write
@@ -37,7 +37,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           REFRESH_DAYS: ${{ github.event.inputs.refresh_days || '30' }}
-          MAX_REFRESH: ${{ github.event.inputs.max_refresh || '30' }}
+          MAX_REFRESH: ${{ github.event.inputs.max_refresh || '20' }}
         run: python scripts/refresh_articles.py
 
       - name: Commit and push
