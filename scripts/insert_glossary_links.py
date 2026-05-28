@@ -35,8 +35,9 @@ GLOSSARY_DIR = BASE.parent / "content" / "glossary"
 # ひらがな: U+3040–U+309F（小文字・濁点・半濁点・繰り返し記号を含む全域）
 _RANGE_HIRAGANA = "぀-ゟ"
 
-# カタカナ（全角）: U+30A0–U+30FF（ヲ〜ン、長音符ー、小文字ァ等を含む全域）
-_RANGE_KATAKANA_FW = "゠-ヿ"
+# カタカナ（全角）: U+30A1–U+30FA（ァ〜ヺ）+ U+30FC（ー長音符）
+# U+30A0(゠二重ハイフン) と U+30FB(・中点) は語区切り記号なので除外
+_RANGE_KATAKANA_FW = "ァ-ヺー"
 
 # カタカナ（半角）: U+FF65–U+FF9F（半角ｦ〜ﾟ）
 _RANGE_KATAKANA_HW = "･-ﾟ"
