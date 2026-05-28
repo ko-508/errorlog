@@ -11,6 +11,7 @@ import json
 import os
 import re
 import sys
+import time
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -177,6 +178,8 @@ def main() -> None:
 
         if count >= QIITA_COUNT:
             break
+
+        time.sleep(5)
 
     save_posted(posted)
     print(f"\n完了: {count} 件投稿")
