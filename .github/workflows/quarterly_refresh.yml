@@ -2,14 +2,14 @@ name: Weekly Article Refresh
 
 on:
   schedule:
-    - cron: '0 3 * * 5'   # 毎週金曜 12:00 JST (UTC 03:00)
+    - cron: '0 3 * * 5'   # 豈朱ｱ驥第屆 12:00 JST (UTC 03:00)
   workflow_dispatch:
     inputs:
       refresh_days:
-        description: '最終更新からの日数閾値（デフォルト: 30）'
+        description: '譛邨よ峩譁ｰ縺九ｉ縺ｮ譌･謨ｰ髢ｾ蛟､・医ョ繝輔か繝ｫ繝・ 30・・
         default: '30'
       max_refresh:
-        description: '最大処理件数（デフォルト: 20）'
+        description: '譛螟ｧ蜃ｦ逅・ｻｶ謨ｰ・医ョ繝輔か繝ｫ繝・ 20・・
         default: '20'
 
 permissions:
@@ -30,7 +30,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic google-generativeai
+        run: pip install anthropic google-genai
 
       - name: Refresh outdated articles
         env:
@@ -47,10 +47,10 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           git add content/posts/
           if git diff --staged --quiet; then
-            echo "更新対象なし"
+            echo "譖ｴ譁ｰ蟇ｾ雎｡縺ｪ縺・
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "refresh: $(date +%Y-%m-%d) 記事を最新版に更新"
+            git commit -m "refresh: $(date +%Y-%m-%d) 險倅ｺ九ｒ譛譁ｰ迚医↓譖ｴ譁ｰ"
             git push
             echo "deployed=true" >> $GITHUB_OUTPUT
           fi

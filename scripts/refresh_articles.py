@@ -17,8 +17,8 @@ from datetime import date, datetime
 from pathlib import Path
 
 import anthropic
-import google.generativeai as genai
-from google.generativeai.types import Tool, GenerateContentConfig
+from google import genai as google_genai
+from google.genai import types as genai_types
 
 REFRESH_DAYS = int(os.getenv("REFRESH_DAYS", "90"))
 MAX_REFRESH = int(os.getenv("MAX_REFRESH", "20"))
@@ -84,9 +84,12 @@ def research_with_gemini(gemini_model, title: str, old_body: str) -> str:
 調査結果を箇条書きでまとめてください。日本語で回答してください。"""
 
     try:
-        response = gemini_model.generate_content(
-            prompt,
-            tools=[Tool(google_search={})]
+        response = gemini_model.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(
+                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
+            ),
         )
         return response.text
     except Exception as e:
@@ -151,8 +154,8 @@ def main() -> None:
         return
 
     claude_client = anthropic.Anthropic(api_key=anthropic_key)
-    genai.configure(api_key=gemini_key)
-    gemini_model = genai.GenerativeModel("gemini-2.0-flash")
+    gemini_client = google_genai.Client(api_key=gemini_key)
+    gemini_model = gemini_client
 
     md_files = sorted(POSTS_DIR.glob("*.md"))
     if not md_files:

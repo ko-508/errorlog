@@ -20,8 +20,8 @@ import re
 from pathlib import Path
 
 
-import google.generativeai as genai
-from google.generativeai.types import Tool
+from google import genai as google_genai
+from google.genai import types as genai_types
 
 ADD_COUNT = int(os.getenv("ADD_COUNT", "180"))
 
@@ -102,9 +102,12 @@ def research_with_gemini(
 }}"""
 
     try:
-        response = model.generate_content(
-            prompt,
-            tools=[Tool(google_search={})],
+        response = gemini_client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(
+                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
+            ),
         )
         text = response.text.strip()
 
@@ -145,8 +148,7 @@ def main() -> None:
         print("エラー: GEMINI_API_KEY が設定されていません。")
         return
 
-    genai.configure(api_key=gemini_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    gemini_client = google_genai.Client(api_key=gemini_key)
 
     tools = load_tools()
     covered = get_covered_pairs()
@@ -175,7 +177,7 @@ def main() -> None:
     results: list[dict] = []
     for i, (tool, code) in enumerate(targets, 1):
         print(f"  [{i:2d}/{len(targets)}] {tool} {code}")
-        row = research_with_gemini(model, tool, code)
+        row = research_with_gemini(gemini_client, tool, code)
         if row:
             results.append(row)
             print(f"         → {row['official_meaning'][:50]}")

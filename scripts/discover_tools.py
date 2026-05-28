@@ -14,8 +14,8 @@ import json
 import os
 from pathlib import Path
 
-import google.generativeai as genai
-from google.generativeai.types import Tool
+from google import genai as google_genai
+from google.genai import types as genai_types
 
 BASE       = Path(__file__).parent
 TOOLS_PATH = BASE / "tools.json"
@@ -60,9 +60,12 @@ def discover_with_gemini(model, existing: list[str]) -> list[str]:
 説明・番号・記号は不要です。"""
 
     try:
-        response = model.generate_content(
-            prompt,
-            tools=[Tool(google_search={})],
+        response = gemini_client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(
+                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
+            ),
         )
         lines = response.text.strip().splitlines()
         new_tools: list[str] = []
@@ -85,8 +88,7 @@ def main() -> None:
         print("エラー: GEMINI_API_KEY が設定されていません。")
         return
 
-    genai.configure(api_key=gemini_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    gemini_client = google_genai.Client(api_key=gemini_key)
 
     existing = load_tools()
     print(f"既存ツール数: {len(existing)}")

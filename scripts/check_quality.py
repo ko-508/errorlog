@@ -38,8 +38,8 @@ def fact_check_with_gemini(title: str, body: str) -> str:
     誤りがあれば箇条書きで返し、なければ空文字を返す。
     """
     try:
-        import google.generativeai as genai
-        from google.generativeai.types import Tool
+        from google import genai as google_genai
+        from google.genai import types as genai_types
     except ImportError:
         return ""
 
@@ -47,8 +47,7 @@ def fact_check_with_gemini(title: str, body: str) -> str:
     if not gemini_key:
         return ""
 
-    genai.configure(api_key=gemini_key)
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    gemini_client = google_genai.Client(api_key=gemini_key)
 
     prompt = f"""以下の日本語技術記事（エラーログ解説）の事実確認をしてください。
 
@@ -69,9 +68,12 @@ def fact_check_with_gemini(title: str, body: str) -> str:
 説明や前置きは不要です。"""
 
     try:
-        response = model.generate_content(
-            prompt,
-            tools=[Tool(google_search={})],
+        response = gemini_client.models.generate_content(
+            model="gemini-2.0-flash",
+            contents=prompt,
+            config=genai_types.GenerateContentConfig(
+                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
+            ),
         )
         result = response.text.strip()
         return "" if result == "問題なし" else result

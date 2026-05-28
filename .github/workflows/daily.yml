@@ -2,7 +2,7 @@ name: Daily Article Publish
 
 on:
   schedule:
-    - cron: '0 1 * * *'   # 毎日 10:00 JST (UTC 01:00)
+    - cron: '0 1 * * *'   # 豈取律 10:00 JST (UTC 01:00)
   workflow_dispatch:
 
 permissions:
@@ -23,7 +23,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic google-generativeai
+        run: pip install anthropic google-genai
 
       - name: Publish daily articles
         env:
@@ -41,7 +41,7 @@ jobs:
             python scripts/insert_glossary_links.py "$f"
           done
 
-      # 投稿後チェック: 新着 6 件を Gemini 事実確認 + Claude 修正
+      # 謚慕ｨｿ蠕後メ繧ｧ繝・け: 譁ｰ逹 6 莉ｶ繧・Gemini 莠句ｮ溽｢ｺ隱・+ Claude 菫ｮ豁｣
       - name: Quality check (post-publish, newest 6 with Gemini)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -55,10 +55,10 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           git add content/posts/ scripts/queue.csv
           if git diff --staged --quiet; then
-            echo "新しい記事なし（キューが空か全てスキップ）"
+            echo "譁ｰ縺励＞險倅ｺ九↑縺暦ｼ医く繝･繝ｼ縺檎ｩｺ縺句・縺ｦ繧ｹ繧ｭ繝・・・・
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
-            git commit -m "daily: $(date +%Y-%m-%d) の記事を公開"
+            git commit -m "daily: $(date +%Y-%m-%d) 縺ｮ險倅ｺ九ｒ蜈ｬ髢・
             git push
             echo "deployed=true" >> $GITHUB_OUTPUT
           fi
