@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 
-Sitemap: https://ko-508.github.io/errorlog/sitemap.xml
+Sitemap: https://errorlog.jp/sitemap.xml
