@@ -23,7 +23,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic
+        run: pip install anthropic google-generativeai
 
       - name: Publish daily articles
         env:
@@ -33,31 +33,20 @@ jobs:
           DAILY_COUNT: "6"
         run: python scripts/daily_publish.py
 
-      # 新規生成された記事にその場で品質チェックとリンク挿入を実行
-      - name: Quality check new articles
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          NEW=$(git status --porcelain content/posts/ | grep -E '^\?\?' | awk '{print $2}' | grep '\.md$')
-          if [ -z "$NEW" ]; then
-            echo "新規記事なし。スキップ。"
-            exit 0
-          fi
-          echo "$NEW" | while IFS= read -r f; do
-            echo "品質チェック: $f"
-            python scripts/check_quality.py "$f"
-          done
-
       - name: Insert glossary links into new articles
         run: |
           NEW=$(git status --porcelain content/posts/ | grep -E '^\?\?' | awk '{print $2}' | grep '\.md$')
-          if [ -z "$NEW" ]; then
-            exit 0
-          fi
+          if [ -z "$NEW" ]; then exit 0; fi
           echo "$NEW" | while IFS= read -r f; do
-            echo "リンク挿入: $f"
             python scripts/insert_glossary_links.py "$f"
           done
+
+      # 今日と昨日の記事 12 件（新しい順）を Gemini 事実確認 + Claude 修正
+      - name: Quality check (today + yesterday, newest 12)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/check_quality.py --newest 12
 
       - name: Commit and push
         id: push
