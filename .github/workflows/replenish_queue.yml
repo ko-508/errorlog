@@ -2,12 +2,12 @@ name: Replenish Article Queue
 
 on:
   schedule:
-    - cron: '0 4 * * 6'   # 毎週土曜 13:00 JST (UTC 04:00)
+    - cron: '0 4 1 * *'   # 毎月1日 13:00 JST (UTC 04:00)
   workflow_dispatch:
     inputs:
       add_count:
-        description: '追加件数（デフォルト: 20）'
-        default: '20'
+        description: '追加件数（デフォルト: 30）'
+        default: '30'
 
 permissions:
   contents: write
@@ -27,21 +27,27 @@ jobs:
       - name: Install dependencies
         run: pip install google-generativeai
 
+      # Step 1: Reddit・X・HackerNews からトレンドツールを発見して tools.json に追加
+      - name: Discover trending tools
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/discover_tools.py
+
+      # Step 2: tools.json の全ツール × エラーコードで未カバー分を Gemini でリサーチ
       - name: Replenish queue
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          ADD_COUNT: ${{ github.event.inputs.add_count || '20' }}
+          ADD_COUNT: ${{ github.event.inputs.add_count || '30' }}
         run: python scripts/replenish_queue.py
 
       - name: Commit and push
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add scripts/queue.csv
+          git add scripts/queue.csv scripts/tools.json
           if git diff --staged --quiet; then
-            echo "追加なし"
+            echo "変更なし"
           else
-            COUNT=$(git diff HEAD scripts/queue.csv | grep '^+[^+]' | wc -l)
-            git commit -m "queue: $(date +%Y-%m-%d) キューを補充（+${COUNT}件）"
+            git commit -m "queue: $(date +%Y-%m-%d) キュー補充・ツール更新"
             git push
           fi

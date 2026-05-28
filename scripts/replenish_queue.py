@@ -19,32 +19,23 @@ import random
 import re
 from pathlib import Path
 
+
 import google.generativeai as genai
 from google.generativeai.types import Tool
 
-ADD_COUNT = int(os.getenv("ADD_COUNT", "20"))
+ADD_COUNT = int(os.getenv("ADD_COUNT", "30"))
 
-BASE      = Path(__file__).parent
-POSTS_DIR = BASE.parent / "content" / "posts"
+BASE       = Path(__file__).parent
+POSTS_DIR  = BASE.parent / "content" / "posts"
 QUEUE_PATH = BASE / "queue.csv"
+TOOLS_PATH = BASE / "tools.json"
 
 FIELDNAMES = ["tool", "status_code", "official_meaning", "causes", "solutions"]
 
-# 対象ツール（daily_publish.py の TOOL_TAGS に準拠）
-TOOLS = [
-    "Docker", "Docker Compose",
-    "AWS", "AWS S3", "AWS Lambda",
-    "Firebase", "GCP", "Azure", "Supabase", "Vercel",
-    "GitHub API", "GitHub Actions",
-    "OpenAI API",
-    "Kubernetes", "Minikube", "Podman",
-    "Nginx",
-    "Stripe", "Slack", "Shopify", "Zoom", "Chatwork", "freee", "BASE",
-    "Terraform", "Ansible",
-    "GitLab", "Bitbucket", "Postman",
-    "Jenkins", "CircleCI",
-    "Prometheus", "Grafana", "Datadog",
-]
+
+def load_tools() -> list[str]:
+    """tools.json からツールリストを読み込む。"""
+    return json.loads(TOOLS_PATH.read_text(encoding="utf-8"))["tools"]
 
 # 対象エラーコード
 ERROR_CODES = [
@@ -157,12 +148,13 @@ def main() -> None:
     genai.configure(api_key=gemini_key)
     model = genai.GenerativeModel("gemini-2.0-flash")
 
+    tools = load_tools()
     covered = get_covered_pairs()
-    print(f"カバー済み: {len(covered)} 件")
+    print(f"ツール数: {len(tools)} / カバー済み: {len(covered)} 件")
 
     # 未カバーの (tool, code) を列挙
     uncovered: list[tuple[str, str]] = []
-    for tool in TOOLS:
+    for tool in tools:
         slug = tool_to_slug(tool)
         for code in ERROR_CODES:
             if (slug, code) not in covered:
