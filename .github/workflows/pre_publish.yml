@@ -1,18 +1,22 @@
 name: Pre-Publish Quality Check
 
 on:
-  # 新規・更新された記事の即時チェック（push 時）
-  push:
-    paths:
-      - 'content/posts/**.md'
-  # 既存記事のバックログを消化（日次・mtime 昇順で古いものから処理）
+  # 投稿前チェック: 毎日 09:30 JST (UTC 00:30) に直近6件を確認
   schedule:
-    - cron: '0 22 * * *'   # 毎日 07:00 JST (UTC 前日 22:00)
+    - cron: '30 0 * * *'
+  # バックログ消化: 手動実行時は古い順で処理
   workflow_dispatch:
     inputs:
+      mode:
+        description: '処理モード'
+        type: choice
+        options:
+          - newest   # 新しい順（投稿前チェック用）
+          - oldest   # 古い順（バックログ消化用）
+        default: newest
       batch:
-        description: '処理件数（デフォルト: 10）'
-        default: '10'
+        description: '処理件数'
+        default: '6'
 
 permissions:
   contents: write
@@ -35,8 +39,14 @@ jobs:
       - name: Run quality check
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          BATCH: ${{ github.event.inputs.batch || '10' }}
-        run: python scripts/check_quality.py
+        run: |
+          MODE="${{ github.event.inputs.mode || 'newest' }}"
+          BATCH="${{ github.event.inputs.batch || '6' }}"
+          if [ "$MODE" = "newest" ]; then
+            python scripts/check_quality.py --newest "$BATCH"
+          else
+            BATCH="$BATCH" python scripts/check_quality.py
+          fi
 
       - name: Commit fixes
         run: |
@@ -46,6 +56,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "修正なし"
           else
-            git commit -m "quality: 品質チェック自動修正 [skip ci]"
+            git commit -m "quality: 投稿前品質チェック自動修正 [skip ci]"
             git push
           fi

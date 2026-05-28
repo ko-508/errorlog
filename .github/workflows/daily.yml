@@ -41,12 +41,12 @@ jobs:
             python scripts/insert_glossary_links.py "$f"
           done
 
-      # 今日と昨日の記事 12 件（新しい順）を Gemini 事実確認 + Claude 修正
-      - name: Quality check (today + yesterday, newest 12)
+      # 投稿後チェック: 新着 6 件を Gemini 事実確認 + Claude 修正
+      - name: Quality check (post-publish, newest 6 with Gemini)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python scripts/check_quality.py --newest 12
+        run: python scripts/check_quality.py --newest 6
 
       - name: Commit and push
         id: push
