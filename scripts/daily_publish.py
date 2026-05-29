@@ -229,10 +229,10 @@ def main() -> None:
         title = f"{tool} の {code} エラー：原因と解決策"
         meaning_text = row["official_meaning"].strip()
         causes_list = [c.strip() for c in row["causes"].split("|") if c.strip()]
-        meaning_short = meaning_text if len(meaning_text) <= 45 else meaning_text[:45] + "…"
-        cause_hint = causes_list[0][:30] if causes_list else ""
-        description = f"{meaning_short}。{cause_hint}など、{tool} {code} エラーの原因と解決策を解説。"
-        description = description[:120]
+        meaning_clean = meaning_text.rstrip("。．")
+        if len(meaning_clean) > 60:
+            meaning_clean = meaning_clean[:60].rstrip("。．、,")
+        description = f"{meaning_clean}。{tool} {code} エラーの原因と解決策を解説します。"
         tags = extract_tags(filename)
         tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
 
