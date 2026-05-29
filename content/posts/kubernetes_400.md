@@ -4,58 +4,275 @@ date: 2026-05-25
 description: "Kubernetes の 400 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Kubernetes"]
 errorCode: "400"
+lastmod: 2026-05-29
 ---
 
-> この記事では、**[Kubernetes](/glossary/kubernetes/)** を使っているときに表示される **400** というエラーの意味と、その直し方を順を追って説明します。
+## エラーの概要
+
+[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーへの[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400エラーです。マニフェストファイルの構文エラー、[API](/glossary/api/)仕様に違反するフィールド値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。このエラーはクラスタとの通信に成功した後、サーバー側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
+
+## 実際のエラーメッセージ例
+
+```json
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "error validating data: ValidationError(Pod.spec.containers[0].resources.limits): invalid type for io.k8s.api.core.v1.ResourceList: got \"string\", expected \"object\"",
+  "reason": "BadRequest",
+  "code": 400
+}
+```
+
+```bash
+error: error validating "deployment.yaml": error validating data: 
+[ValidationError(Deployment.spec.template.spec.containers[0].ports[0].containerPort): 
+invalid type for io.k8s.api.core.v1.ContainerPort: got "string", expected "integer", 
+ValidationError(Deployment.spec.template.spec.containers[0].image): string length must be non-empty]
+```
+
+## よくある原因と解決手順
+
+### 原因1: YAML構文エラーまたはフィールド型の不一致
+
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型フィールドを文字列で指定したり、オブジェクト型フィールドにスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
+
+**Before（エラーが起きるコード）：**
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: "8080"  # 文字列型で指定
+    resources:
+      limits:
+        memory: 512Mi          # オブジェクト型だが不正
+        cpu: "1"              # 数値型だが文字列
+```
+
+**After（修正後）：**
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 8080      # 整数型で指定
+    resources:
+      limits:
+        memory: 512Mi
+        cpu: "1"               # CPU値は文字列でも有効
+      requests:
+        memory: 256Mi
+        cpu: "500m"
+```
+
+### 原因2: 必須フィールドの欠落
+
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須フィールド（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)サーバーは最小限のリソース定義すら受け付けません。
+
+**Before（エラーが起きるコード）：**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-container
+        # imageフィールドが欠落
+        ports:
+        - containerPort: 80
+```
+
+**After（修正後）：**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web-container
+        image: nginx:1.21      # 必須フィールドを追加
+        ports:
+        - containerPort: 80
+```
+
+### 原因3: APIバージョンまたはリソース種別の不一致
+
+**なぜ発生するか：** 廃止された[API](/glossary/api/)バージョンを使用したり、クラスタにインストールされていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、バージョン間での互換性問題が頻繁に起きます。
+
+**Before（エラーが起きるコード）：**
+```bash
+kubectl apply -f - <<EOF
+apiVersion: extensions/v1beta1  # Kubernetes 1.16+で廃止
+kind: Deployment
+metadata:
+  name: old-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:1.0
+EOF
+```
+
+**After（修正後）：**
+```bash
+kubectl apply -f - <<EOF
+apiVersion: apps/v1  # 現在サポートされているバージョン
+kind: Deployment
+metadata:
+  name: old-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:1.0
+EOF
+```
+
+### 原因4: セレクタラベルの不一致
+
+**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod テンプレートの`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証エラーが発生します。
+
+**Before（エラーが起きるコード）：**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+      environment: production
+  template:
+    metadata:
+      labels:
+        app: myapp
+        # environmentラベルが欠落
+        version: v1
+```
+
+**After（修正後）：**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deploy
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+      environment: production
+  template:
+    metadata:
+      labels:
+        app: myapp
+        environment: production  # セレクタと一致させる
+        version: v1
+```
+
+## Kubernetes固有の注意点
+
+### ServiceAccountとRBAC設定
+400エラーは[認可](/glossary/認可/)エラー（403）ではなく検証エラーですが、ServiceAccountが適切に設定されていない場合、リソース作成時に引き続き400が発生することがあります。`kubectl auth can-i`コマンドで権限確認を併せて実施してください。
+
+```bash
+kubectl auth can-i create deployments --as=system:serviceaccount:default:my-sa -n default
+```
+
+### Namespace指定の欠落
+リソース定義で`metadata.namespace`を明示しない場合、デフォルト[Namespace](/glossary/namespace/)に作成されます。別の[Namespace](/glossary/namespace/)に配置する場合は、明示的に指定するか、`-n`フラグを使用してください。
+
+```bash
+kubectl apply -f deployment.yaml -n production
+```
+
+### CRD（CustomResourceDefinition）のバージョン不一致
+インストール済みのCRDのバージョンと、マニフェストファイルの[API](/glossary/api/)バージョンが一致していない場合、400エラーが発生します。`kubectl api-resources`で確認可能です。
+
+```bash
+kubectl api-resources | grep customresource
+```
+
+### 環境変数置換の不完全性
+テンプレート化されたマニフェストファイルで、プレースホルダーが置換されないまま送信された場合、不正な[YAML](/glossary/yaml/)値として認識されます。envsubstやkustomizeを使用する際は、置換前のファイルをバイパスしないよう注意してください。
+
+## それでも解決しない場合
+
+### ログ確認とデバッグコマンド
+
+[API](/glossary/api/)サーバーのログを直接確認して、より詳細なエラーメッセージを取得してください。
+
+```bash
+# クラスタログの確認（マネージドKubernetesの場合はプロバイダーのコンソール使用）
+kubectl logs -n kube-system deployment/kube-apiserver --tail=100
+
+# リクエストの詳細を確認
+kubectl apply -f deployment.yaml -v=8  # 最高レベルのverbosity
+
+# マニフェストの検証（サーバーに送信前にドライラン）
+kubectl apply -f deployment.yaml --dry-run=client -o yaml
+```
+
+### 公式ドキュメントへの参照
+
+- **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)仕様** - https://kubernetes.io/docs/reference/kubernetes-api/ で各リソースのスキーマ定義を確認
+- **[API](/glossary/api/)サーバーの検証ルール** - https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation
+- **廃止[API](/glossary/api/)バージョンのマイグレーション** - https://kubernetes.io/docs/reference/using-api/deprecation-guide/
+
+### コミュニティリソース
+
+問題が解決しない場合は、以下で検索してください。
+
+- **[Kubernetes](/glossary/kubernetes/) GitHub Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)バージョンやバリデーション関連のバグ報告）
+- **Stack Overflow** - `[kubernetes] 400` タグでの質問検索
+- **CNCF Slack** - #kubernetes-users チャネルでの相談
 
 ---
 
-## Kubernetes の 400 とは何か？（公式の定義）
-
-**400** は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
-
-[Kubernetes](/glossary/kubernetes/) の文脈では、このコードは次のことを意味します。
-
-> [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーへの[リクエスト](/glossary/リクエスト/)の形式または内容が正しくない。
-
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。
-
----
-
-## このエラーが発生する主な原因（起きる理由の整理）
-
-[Kubernetes](/glossary/kubernetes/) で 400 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。
-
-- [YAML](/glossary/yaml/)または[JSON](/glossary/json/)の[マニフェスト](/glossary/マニフェスト/)に書き方の誤りがある
-- 必須フィールド（apiVersion・kind・metadata.name等）が欠けている
-- フィールドの値が許容される型や範囲を外れている
-
----
-
-## 具体的な解決手順とチェックリスト（順番どおりに試す）
-
-上の原因ごとの対処法を、実行できる手順の形でまとめました。
-**上から順番に試す**ことで、多くの場合は解決に近づけます。
-
-1. kubectl apply --dry-run=client -f <マニフェスト> で構文エラーを事前確認する
-1. kubectl explain <リソース名> で必須フィールドと型を確認する
-1. エラーメッセージのfieldPath欄で問題のフィールドを特定する
-
----
-
-## まとめ
-
-[Kubernetes](/glossary/kubernetes/) の **400** エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-
-それでも解決しない場合は、次の方法を試してください。
-
-- [Kubernetes](/glossary/kubernetes/) の公式ドキュメントで最新の情報を確認する
-- エラーメッセージの全文をコピーして検索エンジンで調べる
-- 公式のコミュニティフォーラムやサポートに問い合わせる
-
----
-
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様や[API](/glossary/api/)の動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

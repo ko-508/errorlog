@@ -7,53 +7,174 @@ errorCode: "404"
 lastmod: 2026-05-29
 ---
 
-## Docker の 404 とは何か？（公式の定義）
+## エラーの概要
 
-**404** は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
+[Docker](/glossary/docker/) で 404 エラーが発生するのは、指定したイメージまたは[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR などのイメージ保管先）に存在しないことを意味します。このエラーは `docker pull`、`docker run`、`docker push` などのコマンド実行時に表示され、イメージ名の誤字、存在しないタグの指定、アクセス権限の不足などが主な原因です。
 
-[Docker](/glossary/docker/) の文脈では、このコードは次のことを意味します。
+## 実際のエラーメッセージ例
 
-> 指定したリソース（[イメージ](/glossary/イメージ/)や[コンテナ](/glossary/コンテナ/)）がレジストリ（イメージを保管するサーバー）に見つからない。
+```bash
+$ docker pull myapp:latest
+Error response from daemon: manifest not found: myapp:latest
+```
 
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、名前の確認や設定の見直しだけで解決できます。
+```json
+{
+  "errors": [
+    {
+      "code": "NAME_UNKNOWN",
+      "message": "repository myapp not found",
+      "detail": {}
+    }
+  ]
+}
+```
 
----
+## よくある原因と解決手順
 
-## このエラーが発生する主な原因（起きる理由の整理）
+### 原因1：イメージ名またはタグの誤字
 
-[Docker](/glossary/docker/) で 404 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。
+[Docker](/glossary/docker/) Hub や ECR に存在するイメージ名でも、1文字でも間違っていれば 404 エラーが発生します。大文字小文字の混在や、アンダースコア・ハイフンの混同が典型的です。
 
-- [イメージ](/glossary/イメージ/)名またはタグ名（バージョン番号）の綴りが間違っている
-- 指定したバージョンの[イメージ](/glossary/イメージ/)がレジストリに存在しない
-- [Docker Hub](/glossary/docker-hub/)以外のプライベートレジストリを使っている場合、認証情報が正しくない
-- ローカル環境（自分のパソコン）にイメージが存在せず、リモート（インターネット上）にも公開されていない
+**Before（エラーが起きる例）：**
 
----
+```bash
+docker pull ubuntu:Latest
+docker pull myapp:1.0.0_beta
+docker run node:16-alphine node app.js
+```
 
-## 具体的な解決手順とチェックリスト（順番どおりに試す）
+**After（修正後）：**
 
-上の原因ごとの対処法を、実行できる手順の形でまとめました。
-**上から順番に試す**ことで、多くの場合は解決に近づけます。
+```bash
+docker pull ubuntu:latest
+docker pull myapp:1.0.0-beta
+docker run node:16-alpine node app.js
+```
 
-1. `docker images` コマンドでローカルの[イメージ](/glossary/イメージ/)一覧を確認する
-1. [Docker Hub](/glossary/docker-hub/)（公式の[イメージ](/glossary/イメージ/)配布サイト）でイメージ名とタグが正しいか検索する
-1. `docker pull イメージ名:タグ` コマンドで明示的に取得する
-1. プライベートレジストリを使用する場合は、`docker login` で認証情報を確認する
+### 原因2：指定したタグがレジストリに存在しない
 
----
+イメージ名は正しくても、そのバージョン（タグ）が公開されていない場合があります。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)やカスタムイメージで頻発します。
 
-## まとめ
+**Before（エラーが起きる例）：**
 
-[Docker](/glossary/docker/) の **404** エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+```bash
+docker pull postgres:13.5
+docker pull mycompany/api:feature-branch
+```
 
-それでも解決しない場合は、次の方法を試してください。
+**After（修正後）：**
 
-- [Docker](/glossary/docker/) の公式ドキュメントで最新の情報を確認する
-- エラーメッセージの全文をコピーして検索エンジンで調べる
-- 公式のコミュニティフォーラムやサポートに問い合わせる
+```bash
+# 利用可能なタグを確認してから実行
+docker pull postgres:13
+docker pull mycompany/api:v1.2.0
+```
+
+利用可能なタグを確認するコマンド：
+
+```bash
+curl -s https://registry.hub.docker.com/v2/library/postgres/tags/list | jq .
+```
+
+### 原因3：フルネームの省略形を使用している
+
+[Docker](/glossary/docker/) Hub のイメージを参照する際、[レジストリ](/glossary/レジストリ/) URL を省略した形式（`ubuntu` など）が使用できますが、[プライベートレジストリ](/glossary/プライベートレジストリ/)やアカウント配下の[リポジトリ](/glossary/リポジトリ/)では完全な URL を指定する必要があります。
+
+**Before（エラーが起きる例）：**
+
+```bash
+docker pull myapp
+docker run mycompany/backend:latest
+```
+
+**After（修正後）：**
+
+```bash
+docker pull docker.io/library/myapp:latest
+docker pull <your-registry-url>/mycompany/backend:latest
+```
+
+### 原因4：レジストリにログインしていない
+
+[プライベートレジストリ](/glossary/プライベートレジストリ/)やプライベートリポジトリの場合、認証済みの状態でないと 404 エラーが発生することがあります。
+
+**Before（エラーが起きる例）：**
+
+```bash
+docker pull myregistry.azurecr.io/myapp:latest
+```
+
+**After（修正後）：**
+
+```bash
+az acr login --name myregistry
+docker pull myregistry.azurecr.io/myapp:latest
+```
+
+## ツール固有の注意点
+
+### Docker Hub との連携
+[Docker](/glossary/docker/) Hub の無料アカウントでイメージをプッシュした場合、デフォルトではプライベートリポジトリになります。他のマシンから `docker pull` する場合は、明示的にログイン（`docker login`）が必要です。
+
+```bash
+docker login -u <your-username>
+docker pull <your-username>/<your-repo>:<tag>
+```
+
+### AWS ECR（Amazon Elastic Container Registry）での注意
+ECR ではイメージリポジトリが明示的に存在する必要があります。[リポジトリ](/glossary/リポジトリ/)作成前にプッシュしようとすると 404 が発生します。
+
+```bash
+# Before：エラーが発生
+aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin <account-id>.dkr.ecr.ap-northeast-1.amazonaws.com
+docker push <account-id>.dkr.ecr.ap-northeast-1.amazonaws.com/myapp:latest
+
+# After：リポジトリを先に作成
+aws ecr create-repository --repository-name myapp --region ap-northeast-1
+docker push <account-id>.dkr.ecr.ap-northeast-1.amazonaws.com/myapp:latest
+```
+
+### プライベート Docker Compose 環境
+`docker-compose.yml` でカスタムイメージを参照する場合、ビルドコンテキストが正しく指定されていないと 404 になります。
+
+```yaml
+# Before：存在しないイメージを参照
+services:
+  web:
+    image: myapp:latest
+
+# After：ローカルでビルドするか、正しいレジストリを指定
+services:
+  web:
+    build: ./web
+    image: myregistry.io/myapp:latest
+```
+
+## それでも解決しない場合
+
+### デバッグに役立つコマンド
+```bash
+# 実際に pull できるかテスト（ドライラン）
+docker pull --dry-run <image>:<tag>
+
+# レジストリの接続状態確認
+curl -I https://registry.hub.docker.com/v2/
+
+# Docker デーモンのデバッグログを確認
+dockerd --debug 2>&1 | grep -i "404\|not found"
+
+# ローカルにキャッシュされたイメージ一覧
+docker images
+```
+
+### 公式リソース
+- [Docker Registry HTTP API V2 仕様](https://docs.docker.com/registry/spec/api/)
+- [Docker Hub リポジトリ管理ガイド](https://docs.docker.com/docker-hub/repos/)
+- [Docker コマンドリファレンス](https://docs.docker.com/engine/reference/commandline/)
+
+### コミュニティリソース
+[Docker](/glossary/docker/) の GitHub Issues（https://github.com/moby/moby/issues）では同様の事例が多数報告されており、検索すれば解決策が見つかる可能性があります。プライベートレジストリの設定に関する問題は、該当するレジストリ（ECR、GCR、Azure Container Registry など）の公式ドキュメントも合わせて確認してください。
 
 ---
 
