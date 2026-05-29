@@ -33,7 +33,7 @@ jobs:
       - name: Sync articles to Zenn format
         env:
           ZENN_DIR: ${{ github.workspace }}/zenn-content
-          ZENN_LIMIT: "5"
+          ZENN_LIMIT: "0"
         working-directory: errorlog
         run: python scripts/zenn_sync.py --new-only
 
