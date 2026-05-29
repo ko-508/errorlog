@@ -7,51 +7,215 @@ errorCode: "401"
 lastmod: 2026-05-29
 ---
 
-## Docker の 401 とは何か？（公式の定義）
+## エラーの概要
 
-**401** は、[HTTP](/glossary/http/) 標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
+[Docker](/glossary/docker/) で 401 エラーが発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
 
-[Docker](/glossary/docker/) の文脈では、このコードは次のことを意味します。
+## 実際のエラーメッセージ例
 
-> 認証情報が提供されていないか、[認証](/glossary/認証/)に失敗した。
+```
+Error response from daemon: unauthorized: incorrect username or password
+```
 
-具体的には、Docker イメージをダウンロードしたり、[レジストリ](/glossary/レジストリ/)（イメージを保管するサーバー）にアップロードしたりする際に、本人確認がうまくいかなかったときに表示されるエラーです。
+```json
+{
+  "errors": [
+    {
+      "code": "UNAUTHORIZED",
+      "message": "authentication required",
+      "detail": null
+    }
+  ]
+}
+```
 
-このエラーが出たときは、次の「原因」の節を確認してください。
+```
+Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: authentication required
+```
 
----
+## よくある原因と解決手順
 
-## このエラーが発生する主な原因
+### 原因1: docker login コマンドを実行していない
 
-[Docker](/glossary/docker/) で 401 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してください。
+[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)を利用する際に、事前に `docker login` で[認証](/glossary/認証/)を済ませていないと 401 エラーが発生します。
 
-- `docker login` コマンドを実行していない
-- [認証](/glossary/認証/)[トークン](/glossary/トークン/)（アクセス権を証明する一時的な文字列）の有効期限が切れている
-- [レジストリ](/glossary/レジストリ/) の URL が間違っているか、入力ミスがある
-- Docker アカウントのパスワードが変更されたままログイン情報が更新されていない
+**Before（エラーが起きる状態）**
+```bash
+docker pull my-private-repo.azurecr.io/myapp:latest
+# Error response from daemon: unauthorized
+```
 
----
+**After（修正後）**
+```bash
+# Azure Container Registry の場合
+docker login my-private-repo.azurecr.io -u <username> -p <password>
 
-## 具体的な解決手順とチェックリスト
+# Docker Hub の場合
+docker login -u <your-docker-username> -p <your-token>
 
-上の原因ごとの対処法を、実行できる手順の形でまとめました。
-上から順番に試すことで、多くの場合は解決します。
+# その後、pull/push が成功する
+docker pull my-private-repo.azurecr.io/myapp:latest
+```
 
-1. `docker login` コマンドで再度ログインします（Docker Hub の場合は ID とパスワードを入力）
-1. `~/.docker/config.json` ファイルを削除して `docker login` をやり直します
-2. 接続先の[レジストリ](/glossary/レジストリ/) URL を公式ドキュメントで確認し、正しいアドレスでログインします
+### 原因2: 認証トークンの有効期限切れまたは無効なトークン
 
----
+アクセストークン（Personal Access Token）が期限切れになった、または削除されると 401 エラーが起きます。[Docker](/glossary/docker/) Hub やクラウドレジストリで新しい[トークン](/glossary/トークン/)を生成する必要があります。
 
-## 解決しない場合の次のステップ
+**Before（エラーが起きる状態）**
+```bash
+# 古いトークンまたは期限切れトークンで認証
+docker login -u myuser -p dckr_pat_old_expired_token_abc123
+docker push myrepo/myimage:latest
+# Error response from daemon: unauthorized: authentication required
+```
 
-上記の手順で解決しない場合は、次の方法を試してください。
+**After（修正後）**
+```bash
+# Docker Hub から新しい Personal Access Token を取得
+# 1. hub.docker.com にログイン
+# 2. Account Settings > Security > New Access Token を生成
+# 3. Token scope で適切な権限を選択（Read, Write, Delete）
 
-- [Docker](/glossary/docker/) の公式ドキュメントで最新の情報を確認する
-- エラーメッセージの全文をコピーして検索エンジンで調べる
-- 公式のコミュニティフォーラムや技術サポートに問い合わせる
-- ファイアウォールやプロキシの設定がレジストリへの接続をブロックしていないか確認する
+docker login -u myuser -p dckr_pat_new_valid_token_xyz789
+docker push myrepo/myimage:latest
+# Success
+```
+
+### 原因3: 認証情報の保存形式が誤っている
+
+`~/.docker/config.json` が破損しているか、base64 エンコードの形式が不正な場合、[認証](/glossary/認証/)が失敗します。
+
+**Before（エラーが起きる状態）**
+```bash
+# config.json が破損している場合
+cat ~/.docker/config.json
+# {
+#   "auths": {
+#     "registry.example.com": {
+#       "auth": "invalid_base64_string_=="
+#     }
+#   }
+# }
+
+docker pull registry.example.com/myapp:latest
+# Error response from daemon: unauthorized
+```
+
+**After（修正後）**
+```bash
+# config.json をリセットして再度ログイン
+rm ~/.docker/config.json
+docker login registry.example.com -u <your-username> -p <your-password>
+
+# 正しい形式で保存される
+cat ~/.docker/config.json
+# {
+#   "auths": {
+#     "registry.example.com": {
+#       "auth": "dXNlcm5hbWU6cGFzc3dvcmQ="
+#     }
+#   }
+# }
+
+docker pull registry.example.com/myapp:latest
+```
+
+### 原因4: レジストリのホスト名が誤っている
+
+[プライベートレジストリ](/glossary/プライベートレジストリ/)へアクセスする際、ホスト名やレジストリアドレスが誤っていると認証情報が使われず 401 エラーになります。
+
+**Before（エラーが起きる状態）**
+```bash
+# 誤ったホスト名で push しようとする
+docker login myregistry.azurecr.io
+docker push myregistry.azurecr.io/myapp:latest
+
+# 別のマシンで、設定したホスト名と異なるアドレスでアクセス
+docker pull wrong-registry-name.azurecr.io/myapp:latest
+# Error response from daemon: unauthorized
+```
+
+**After（修正後）**
+```bash
+# ホスト名を統一する
+docker login myregistry.azurecr.io -u <username> -p <password>
+docker tag myapp:latest myregistry.azurecr.io/myapp:latest
+docker push myregistry.azurecr.io/myapp:latest
+```
+
+## Docker 固有の注意点
+
+### Docker Hub の場合
+
+[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。パスワード直接認証は推奨されていません。
+
+```bash
+# 正しい方法：PAT を使用
+docker login -u <your-username> -p <your-pat-token>
+
+# エラーが出る方法：パスワード直接使用（廃止予定）
+docker login -u <your-username> -p <your-password>
+```
+
+### Azure Container Registry (ACR) の場合
+
+ACR では管理者アカウントか Service Principal による[認証](/glossary/認証/)が必要です。
+
+```bash
+# 管理者アカウント有効化
+az acr update -n <your-acr-name> --admin-enabled true
+
+# 認証情報取得
+az acr credential show -n <your-acr-name>
+
+# ログイン
+docker login <your-acr-name>.azurecr.io -u <username> -p <password>
+```
+
+### AWS Elastic Container Registry (ECR) の場合
+
+ECR は[トークン](/glossary/トークン/)が短命（12 時間）なため、定期的に更新が必要です。
+
+```bash
+# トークンを取得してログイン
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+
+# または aws-cli v1 の場合
+$(aws ecr get-login --no-include-email --region <region>)
+```
+
+## それでも解決しない場合
+
+### デバッグコマンド
+
+```bash
+# Docker のデバッグモードで実行
+DOCKER_CONTENT_TRUST=1 docker pull <image> 2>&1 | head -50
+
+# 認証情報が正しく保存されているか確認
+docker config view --pretty
+
+# ログをより詳しく出力
+docker pull --verbose <image>
+
+# レジストリへの接続確認
+curl -v https://<registry-host>/v2/ -u <username>:<password>
+```
+
+### 確認すべきポイント
+
+- `~/.docker/config.json` の認証情報が正しく保存されているか
+- `docker logout` してから再度 `docker login` する
+- ファイアウォールや[プロキシ](/glossary/プロキシ/)設定で[レジストリ](/glossary/レジストリ/)へのアクセスがブロックされていないか
+- IP アドレス制限が[レジストリ](/glossary/レジストリ/)に設定されていないか
+- レジストリサーバーが実際にオンラインか（ステータスページで確認）
+
+### 公式ドキュメント・リソース
+
+- [Docker 公式：Authenticate with Docker Hub](https://docs.docker.com/engine/reference/commandline/login/)
+- [Docker 公式：Configure authentication for Docker Daemon](https://docs.docker.com/engine/security/authenticate/)
+- [Azure Container Registry：Authenticate with ACR](https://learn.microsoft.com/ja-jp/azure/container-registry/container-registry-authentication)
+- [AWS ECR：Private registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registries.html)
 
 ---
 

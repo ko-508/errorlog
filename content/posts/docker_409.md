@@ -7,38 +7,186 @@ errorCode: "409"
 lastmod: 2026-05-29
 ---
 
-## Docker の 409 とは何か？（公式の定義）
+## エラーの概要
 
-**409** は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
+[Docker](/glossary/docker/)の409エラーは、[HTTP](/glossary/http/)標準仕様で「Conflict（競合）」を示す[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Daemon が[コンテナ](/glossary/コンテナ/)やイメージの操作を受け付けられない状態を表します。通常、リソースの重複、[ポート](/glossary/ポート/)の競合、不正な[コンテナ](/glossary/コンテナ/)の状態遷移などが原因となります。このエラーが発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しています。
 
-[Docker](/glossary/docker/) の文脈では、このコードは次のことを意味します。
+## 実際のエラーメッセージ例
 
-> [リクエスト](/glossary/リクエスト/)の内容がサーバーの現在の状態と矛盾している。
+```json
+{
+  "message": "Error response from daemon: Conflict. The container name \"/web-app\" is already in use by container \"abc123def456\". You have to remove (or rename) that container to be able to reuse that name."
+}
+```
 
-このエラーが出たときは、次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。
+```bash
+Error response from daemon: Conflict. You cannot remove a running container abc123def456. Stop the container before attempting removal, or force remove
+```
 
----
+## よくある原因と解決手順
 
-## このエラーが発生する主な原因
+### 原因1：同じ名前のコンテナが既に存在している
 
-[Docker](/glossary/docker/) で 409 が出るときに、最もよく見られる原因を挙げます。
+同じ名前の[コンテナ](/glossary/コンテナ/)が実行中または停止状態で残っているため、新たに[コンテナ](/glossary/コンテナ/)を作成・起動できない場合に発生します。
 
-- 同じ名前のコンテナー（仮想的な独立した実行環境）がすでに動いているか停止状態で残っている
-- 同じ[ポート](/glossary/ポート/)（通信用の窓口番号）を複数のコンテナーが使おうとしている
-- イメージ（コンテナーのテンプレート）が既に存在する状態で再度ビルドしようとしている
+**Before（エラーが起きる状況）:**
+```bash
+docker run --name web-app -p 8080:80 nginx
+# Error: Conflict. The container name "/web-app" is already in use
+```
 
----
+**After（修正後）:**
+```bash
+# 既存のコンテナを確認
+docker ps -a | grep web-app
 
-## 具体的な解決手順
+# 停止中のコンテナを削除
+docker rm web-app
 
-上の原因ごとの対処法を、実行できる手順の形でまとめました。
-上から順番に試すことで、多くの場合は解決に近づけます。
+# 新しいコンテナを作成
+docker run --name web-app -p 8080:80 nginx
+```
 
-1. `docker ps -a` コマンドで同名コンテナーを確認し、`docker rm コンテナー名` で削除する
-1. `docker run` コマンド実行時に `--name` オプションで別の名前を指定するか、既存コンテナーを先に削除する
-2. `-p` オプションで別の[ポート](/glossary/ポート/)番号を指定する（例：`-p 8080:80`）
-3. 既存イメージを削除してから再度ビルドする場合は、`docker rmi イメージ名` を実行する
+### 原因2：複数のコンテナが同じポートを使用しようとしている
+
+ホストマシンの同じ[ポート](/glossary/ポート/)を複数の[コンテナ](/glossary/コンテナ/)がバインドしようとすると、[ポート](/glossary/ポート/)競合により409エラーが発生します。
+
+**Before（エラーが起きる状況）:**
+```bash
+docker run -d --name app1 -p 8080:80 nginx
+docker run -d --name app2 -p 8080:80 apache
+# Error: Conflict. The port is already in use
+```
+
+**After（修正後）:**
+```bash
+# 実行中のコンテナを確認
+docker ps
+
+# ポート使用状況を確認
+docker port app1
+
+# 異なるポートを指定
+docker run -d --name app2 -p 8081:80 apache
+```
+
+### 原因3：イメージビルド時のキャッシュ競合
+
+同じイメージ名またはタグで複数回ビルドを試行する場合、既に存在するイメージとの競合が発生します。
+
+**Before（エラーが起きる状況）:**
+```bash
+docker build -t myapp:1.0 .
+# 同じタグで再度ビルド
+docker build -t myapp:1.0 .
+# Error: Conflict during image layer processing
+```
+
+**After（修正後）:**
+```bash
+# 既存イメージを削除
+docker rmi myapp:1.0
+
+# または異なるタグを使用
+docker build -t myapp:1.0-new .
+
+# または --no-cache オプションで強制ビルド
+docker build --no-cache -t myapp:1.0 .
+```
+
+## Docker固有の注意点
+
+### コンテナのライフサイクル管理
+
+[Docker](/glossary/docker/)で409エラーが頻発する場合、[コンテナ](/glossary/コンテナ/)管理に関する細かい仕様が影響しています。停止中の[コンテナ](/glossary/コンテナ/)も`docker ps -a`で確認できるリソースとして存在し、同じ名前で新規作成できません。本番環境では[コンテナ](/glossary/コンテナ/)の自動削除オプションを活用することが推奨されます。
+
+```bash
+# --rm オプションで終了時に自動削除
+docker run --rm --name temp-app nginx
+
+# または停止と同時に削除
+docker container prune -f
+```
+
+### Docker Composeでの競合
+
+[Docker](/glossary/docker/) Composeを使用する場合、`docker-compose.yml`内で定義したサービス名が既に[コンテナ](/glossary/コンテナ/)として存在していると409エラーが発生します。
+
+**Before:**
+```yaml
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+```
+
+```bash
+docker-compose up -d
+# 再度実行時に競合発生
+docker-compose up -d
+```
+
+**After:**
+```bash
+# 既存コンテナを停止・削除
+docker-compose down
+
+# 改めて起動
+docker-compose up -d
+
+# または既存リソースを保持したまま更新
+docker-compose up -d --no-recreate
+```
+
+### ボリュームとネットワークの競合
+
+[コンテナ](/glossary/コンテナ/)削除時に関連リソースが残っていると、同じ名前で再作成できない場合があります。
+
+```bash
+# 未使用リソースをすべてクリーンアップ
+docker system prune -a --volumes
+
+# または特定のボリュームを削除
+docker volume rm <volume-name>
+```
+
+## それでも解決しない場合
+
+### ログの確認方法
+
+[Docker](/glossary/docker/) Daemonのログを確認することで、より詳細な原因を特定できます。
+
+```bash
+# 最近のDocker Daemonログを表示
+journalctl -u docker -n 50 -f
+
+# または DockerホストでSyslogを確認
+tail -f /var/log/syslog | grep docker
+```
+
+### デバッグコマンド
+
+```bash
+# 全リソースの概要を表示
+docker system df
+
+# 具体的なコンテナ・イメージ情報を確認
+docker inspect <container-or-image-id>
+
+# ネットワーク情報の確認
+docker network ls
+docker network inspect <network-name>
+```
+
+### 公式リソース
+
+- [Docker公式ドキュメント：Docker API リファレンス](https://docs.docker.com/engine/api/)
+- [Docker公式ドキュメント：トラブルシューティング](https://docs.docker.com/config/daemon/troubleshoot/)
+- [GitHub Issues：docker/cli](https://github.com/moby/moby/issues)
+
+409エラーの原因が不明な場合は、`docker version`と`docker info`で環境情報を確認し、GitHub Issuesで同様のケースが報告されていないか検索することが有効です。
 
 ---
 

@@ -7,39 +7,223 @@ errorCode: "429"
 lastmod: 2026-05-29
 ---
 
-## Docker の 429 とは何か？（公式の定義）
+## エラーの概要
 
-**429** は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
+[Docker](/glossary/docker/) の 429 エラーは、[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 429（Too Many Requests）を意味し、短時間に送信された[リクエスト](/glossary/リクエスト/)数が上限を超えたことを示します。[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して過度なアクセスが集中した場合、[レート制限](/glossary/レート制限/)により一時的に[リクエスト](/glossary/リクエスト/)が拒否されます。特に [CI/CD](/glossary/ci-cd/) パイプラインや複数マシンからの並行アクセスで頻繁に発生します。
 
-[Docker](/glossary/docker/) の文脈では、このコードは次のことを意味します。
+## 実際のエラーメッセージ例
 
-> 短時間に送った[リクエスト](/glossary/リクエスト/)数が上限を超えました。
+[Docker](/glossary/docker/) コマンド実行時のエラーメッセージ：
 
-このエラーが出たときは、次の「原因」の節を確認してください。
+```
+Error response from daemon: manifest unknown: manifest unknown
+Error pulling image <your-image>: rate limit exceeded
+```
 
----
+[Docker](/glossary/docker/) Compose でのビルド時：
 
-## このエラーが発生する主な原因
+```json
+{
+  "error": "too many requests",
+  "details": "You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limits"
+}
+```
 
-[Docker](/glossary/docker/) で 429 が出るときに、最もよく見られる原因を挙げます。
+## よくある原因と解決手順
 
-- [Docker](/glossary/docker/) Hub へのイメージ（コンテナの基になるファイル）取得回数が無料枠の上限に達した
-- [CI/CD](/glossary/ci-cd/)パイプライン（自動化した構築・テスト・配置の流れ）が短時間に大量の pull（イメージのダウンロード）を実行している
-- ローカルネットワーク内で複数のマシンから同時に同じレジストリーにアクセスしている
+### 原因1：Docker Hub のレート制限に達している
 
----
+[Docker](/glossary/docker/) Hub の無料プランでは、[認証](/glossary/認証/)なしで6時間に100回の pull に制限されています。[CI/CD](/glossary/ci-cd/) で頻繁にイメージをダウンロードする環境では、この上限に達しやすくなります。
 
-## 具体的な解決手順
+**Before（エラーが起きる設定）：**
 
-上の原因ごとの対処法を、実行できる手順の形でまとめました。
-上から順番に試すことで、多くの場合は解決できます。
+```bash
+docker pull ubuntu:latest
+docker pull nginx:latest
+docker pull postgres:latest
+# ... 100回以上のpullを短時間に実行
+```
 
-1. [Docker](/glossary/docker/) Hub にログインすることで取得上限を引き上げる（無料ユーザーは 6 時間に 100 回、有料ユーザーは無制限）
-2. よく使うイメージを[プライベートレジストリー](/glossary/プライベートレジストリー/)（組織内限定の保管場所）またはローカルキャッシュに保存する
-3. pull の頻度を下げるよう CI 設定を見直し、不要な再取得を削減する
-4. 複数マシンでのアクセスがある場合は、共有キャッシュの導入を検討する
+**After（修正後）：**
 
-それでも解決しない場合は、[Docker](/glossary/docker/) の公式ドキュメントで最新の情報を確認するか、公式のコミュニティフォーラムやサポートに問い合わせることをお勧めします。
+```bash
+# Docker Hubにログイン（認証ユーザーは200リクエスト/6時間）
+docker login -u <your-username> -p <your-password>
+
+# その後、イメージを pull
+docker pull ubuntu:latest
+```
+
+ログイン情報を[環境変数](/glossary/環境変数/)で設定する場合：
+
+```bash
+echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+docker pull <your-image>
+```
+
+### 原因2：CI/CD パイプラインで短時間に大量の pull が発生している
+
+複数のジョブが並行して実行され、同じ[レジストリ](/glossary/レジストリ/)に対して同時にアクセスしている場合、[レート制限](/glossary/レート制限/)に引っかかります。
+
+**Before（エラーが起きる設定）：**
+
+```yaml
+# .github/workflows/ci.yml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: [1, 2, 3, 4, 5]
+    steps:
+      - name: Pull image
+        run: docker pull <your-image>:v${{ matrix.version }}
+```
+
+**After（修正後）：**
+
+```yaml
+# .github/workflows/ci.yml
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+      - name: Pull image with concurrency control
+        run: |
+          for version in 1 2 3 4 5; do
+            docker pull <your-image>:v$version
+            sleep 2  # リクエスト間隔を設ける
+          done
+```
+
+### 原因3：複数マシンから同時にレジストリにアクセスしている
+
+ローカルネットワークや [Kubernetes](/glossary/kubernetes/) クラスタ内で複数ノードが同時に同じイメージをダウンロードしている場合、集約的なアクセスが[レート制限](/glossary/レート制限/)を超えます。
+
+**Before（エラーが起きる設定）：**
+
+```yaml
+# docker-compose.yml
+services:
+  app1:
+    image: <your-registry>/<your-image>:latest
+  app2:
+    image: <your-registry>/<your-image>:latest
+  app3:
+    image: <your-registry>/<your-image>:latest
+
+# 3つのコンテナが同時に起動 → 同じイメージを3回 pull
+```
+
+**After（修正後）：**
+
+```yaml
+# docker-compose.yml
+services:
+  app1:
+    image: <your-registry>/<your-image>:latest
+  app2:
+    image: <your-registry>/<your-image>:latest
+  app3:
+    image: <your-registry>/<your-image>:latest
+
+# イメージを事前に pull してキャッシュ
+# docker pull <your-registry>/<your-image>:latest
+# その後、docker-compose up -d で起動（pull はスキップされる）
+```
+
+より確実な解決：
+
+```bash
+# 事前にすべてのマシンでイメージをプリロード
+docker pull <your-registry>/<your-image>:latest
+
+# Docker Compose では pull ポリシーを制御
+docker-compose up -d --pull never
+```
+
+## ツール固有の注意点
+
+### Docker レジストリの認証設定
+
+[Docker](/glossary/docker/) Hub 以外の[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、`~/.docker/config.json` で認証情報を設定することで、[レート制限](/glossary/レート制限/)を回避できる場合があります。
+
+```bash
+# プライベートレジストリにログイン
+docker login <your-registry.com>
+```
+
+設定ファイルは自動生成され、以後のアクセスで[認証](/glossary/認証/)が有効になります。
+
+### Docker Build のキャッシュ戦略
+
+`docker build` 時に複数のベースイメージを使用する場合、イメージキャッシュを活用してレジストリアクセスを削減できます。
+
+```dockerfile
+# 複数ステージビルドでベースイメージの pull 回数を削減
+FROM ubuntu:22.04 as builder
+RUN apt-get update && apt-get install -y build-essential
+
+FROM ubuntu:22.04
+COPY --from=builder /usr/bin/gcc /usr/bin/gcc
+```
+
+### Kubernetes での image pull policy
+
+[Kubernetes](/glossary/kubernetes/) を使用する場合、`imagePullPolicy` を `IfNotPresent` に設定して、ノード上に[キャッシュ](/glossary/キャッシュ/)されたイメージを優先的に使用します。
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example
+spec:
+  containers:
+  - name: app
+    image: <your-image>:latest
+    imagePullPolicy: IfNotPresent  # ローカルキャッシュを優先
+```
+
+## それでも解決しない場合
+
+### デバッグコマンド
+
+現在のレート制限状態を確認：
+
+```bash
+# Docker Hub API で残りリクエスト数を確認
+curl -i https://hub.docker.com/v2/
+# レスポンスヘッダの RateLimit-* を確認
+```
+
+ローカルのイメージキャッシュを確認：
+
+```bash
+docker images | grep <your-image>
+```
+
+### 公式ドキュメント参照
+
+- [Docker Hub Rate Limiting](https://docs.docker.com/docker-hub/rate-limiting/)：[レート制限](/glossary/レート制限/)の詳細仕様
+- [Docker Engine API Reference](https://docs.docker.com/engine/api/)：[REST](/glossary/rest/) [API](/glossary/api/) の詳細
+
+### コミュニティリソース
+
+GitHub Issues で同様の問題を検索：
+
+```bash
+# Docker 公式リポジトリで issue を検索
+# https://github.com/moby/moby/issues?q=429+rate+limit
+```
+
+Stackoverflow や [Docker](/glossary/docker/) Community Forums でも、実装例や回避方法が共有されています。[Docker](/glossary/docker/) Pro/Team プランへのアップグレードも検討に値します。
 
 ---
 

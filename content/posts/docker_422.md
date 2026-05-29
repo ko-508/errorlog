@@ -7,56 +7,173 @@ errorCode: "422"
 lastmod: 2026-05-29
 ---
 
-この記事では、**[Docker](/glossary/docker/)** を使っているときに表示される **422** というエラーの意味と、その直し方を順を追って説明します。
+## エラーの概要
 
----
+[Docker](/glossary/docker/) で 422 エラーが発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/) またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) との通信時にこのエラーが返される典型的なシナリオは、不正なイメージタグ指定、設定値の型違反、あるいは [API](/glossary/api/) スキーマの検証失敗です。
 
-## Docker の 422 とは何か？（公式の定義）
+## 実際のエラーメッセージ例
 
-**422** は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
+```json
+{
+  "message": "invalid tag format",
+  "code": 422
+}
+```
 
-[Docker](/glossary/docker/) の文脈では、このコードは次のことを意味します。
+```bash
+$ docker push myregistry.example.com/app:invalid@tag
+Error response from daemon: invalid tag format
+```
 
-> [リクエスト](/glossary/リクエスト/)自体の形式は正しいが、中身のデータが処理できない（バリデーションエラー）。
+```yaml
+# docker-compose.yml でエラーが発生
+ERROR: The Compose file is invalid because:
+Service 'web' has invalid value for ports: ports must be an integer or string
+```
 
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。
+## よくある原因と解決手順
 
----
+### 1. イメージタグの形式が不正
 
-## このエラーが発生する主な原因（起きる理由の整理）
+[Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/) [API](/glossary/api/) は [RFC](/glossary/rfc/) 6391 に基づいたタグ形式を要求します。許可されない文字（`@` や大文字の混在）が含まれている場合に 422 が返されます。
 
-[Docker](/glossary/docker/) で 422 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。
+**Before（エラーが起きる例）：**
+```bash
+docker tag myimage:latest myregistry.example.com/app:INVALID@latest
+docker push myregistry.example.com/app:INVALID@latest
+# Error: invalid tag format
+```
 
-- docker-compose.ymlまたはdocker-compose.yamlの設定値が仕様の範囲外になっている
-- [環境変数](/glossary/環境変数/)の型や値が期待されるものと合っていない
-- Dockerイメージのバージョンアップに伴い、設定項目の仕様が変わっている
+**After（修正後）：**
+```bash
+# タグは小文字のみで、「:」で区切る
+docker tag myimage:latest myregistry.example.com/app:v1.0.0
+docker push myregistry.example.com/app:v1.0.0
+```
 
----
+### 2. docker-compose.yml の設定値の型違反
 
-## 具体的な解決手順とチェックリスト（順番どおりに試す）
+`ports`、`mem_limit`、`cpu_shares` など、数値型を期待するフィールドに文字列を指定するとバリデーション失敗で 422 が返されます。
 
-上の原因ごとの対処法を、実行できる手順の形でまとめました。
-**上から順番に試す**ことで、多くの場合は解決に近づけます。
+**Before（エラーが起きる例）：**
+```yaml
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080"  # 文字列のままだと型エラー
+    mem_limit: "512"  # 文字列だと失敗する場合がある
+```
 
-1. `docker-compose config`コマンドで設定ファイルの内容を検証する
-1. 設定ファイルの構文が正しいかYAMLバリデーター（形式チェックツール）で確認する
-1. 公式の設定リファレンスで各項目の型と許容値を確認する
-1. 使用しているDockerとDocker Composeのバージョンを確認し、設定が最新仕様に対応しているか確認する
+**After（修正後）：**
+```yaml
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"  # ホストポート:コンテナポートの形式
+    mem_limit: 536870912  # バイト単位の数値、または "512m" 形式の文字列
+```
 
----
+### 3. マニフェスト JSON の構造が不正
 
-## まとめ
+[Docker](/glossary/docker/) イメージをプッシュする際に、レイヤーのダイジェスト値が不正な形式である場合、[レジストリ](/glossary/レジストリ/)が 422 で拒否します。
 
-[Docker](/glossary/docker/) の **422** エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
+**Before（エラーが起きる例）：**
+```bash
+# イメージをビルド中に破損したマニフェスト参照
+docker build -t myapp:broken .
+docker push myregistry.example.com/myapp:broken
+# Error: invalid manifest: sha256: invalid digest
+```
 
-それでも解決しない場合は、次の方法を試してください。
+**After（修正後）：**
+```bash
+# イメージを再度ビルドしてプッシュ
+docker build -t myregistry.example.com/myapp:v1.0.0 .
+docker push myregistry.example.com/myapp:v1.0.0
+# 正規のダイジェスト形式で処理される
+```
 
-- [Docker](/glossary/docker/) の公式ドキュメントで最新の情報を確認する
-- エラーメッセージの全文をコピーして検索エンジンで調べる
-- 公式のコミュニティフォーラムやサポートに問い合わせる
+### 4. API リクエストのボディスキーマ不整合
+
+[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須フィールドが欠落しているか、型が異なるとバリデーション失敗で 422 が返されます。
+
+**Before（エラーが起きる例）：**
+```bash
+curl -X POST http://localhost:2375/containers/create \
+  -H "Content-Type: application/json" \
+  -d '{"Hostname": "test"}'
+# 422: ExposedPorts must be a map
+```
+
+**After（修正後）：**
+```bash
+curl -X POST http://localhost:2375/containers/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "Image": "ubuntu:latest",
+    "Hostname": "test",
+    "ExposedPorts": {}
+  }'
+```
+
+## Docker 固有の注意点
+
+### Docker Compose バージョンと設定値の互換性
+
+`docker-compose.yml` で `version: '3.8'` を指定した場合、古い構文（`1.0` 時代の短縮[ポート](/glossary/ポート/)指定）は 422 で拒否されます。バージョンと設定内容の整合性を確認してください。
+
+### レジストリ認証後のプッシュ時エラー
+
+[Docker](/glossary/docker/) Hub や Private Registry にログイン後、プッシュ時に 422 が出る場合は、イメージ名が登録済みプロジェクトのパス構造に一致しているか確認します。
+
+```bash
+# 認証は成功したが 422 エラーが出る場合
+docker login -u <username> myregistry.example.com
+
+# プッシュ前にタグ形式をチェック
+docker image ls | grep myimage
+# タグが完全なレジストリパスになっているか確認
+```
+
+### BuildKit キャッシュとダイジェスト値
+
+`DOCKER_BUILDKIT=1` を使用している場合、キャッシュレイヤーのダイジェスト不整合で 422 が発生することがあります。この場合は `--no-cache` フラグを使用してビルドを再実行してください。
+
+```bash
+DOCKER_BUILDKIT=1 docker build --no-cache -t myapp:v1 .
+```
+
+## それでも解決しない場合
+
+### ログ確認とデバッグコマンド
+
+[Docker](/glossary/docker/) Daemon のログを確認し、より詳細なエラー情報を取得します。
+
+```bash
+# systemd でコンテナを実行している場合
+journalctl -u docker -f
+
+# macOS / Windows の Docker Desktop の場合
+cat ~/.docker/daemon.json | jq .
+
+# Docker API への直接リクエストをテスト
+curl -v --unix-socket /var/run/docker.sock \
+  -X GET http://localhost/version
+```
+
+### 公式ドキュメント参照
+
+[Docker](/glossary/docker/) Compose 設定リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API スキーマ検証エラーの場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」ドキュメントの `POST /containers/create` セクションを参照します。
+
+### 環境別の確認ポイント
+
+- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/) バージョンを確認し、サポートされているイメージマニフェスト形式を検証します
+- **[Kubernetes](/glossary/kubernetes/) 経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy` 設定とイメージレジストリの [CORS](/glossary/cors/) 設定を確認します
+- **[CI/CD](/glossary/ci-cd/) パイプライン**: GitHub Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックをテストします
 
 ---
 

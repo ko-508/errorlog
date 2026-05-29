@@ -4,53 +4,233 @@ date: 2026-05-27
 description: "Kubernetes の 500 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Kubernetes"]
 errorCode: "500"
+lastmod: 2026-05-29
 ---
 
-> **[Kubernetes](/glossary/kubernetes/)** を使っているときに **500** というエラーが出た場合、このページで解決できます。難しい知識は不要です。上から順に確認していきましょう。
+## エラーの概要
 
----
+[Kubernetes](/glossary/kubernetes/)環境で500エラーが発生した場合、[API](/glossary/api/)サーバーまたはコントロールプレーンコンポーネントで予期しない内部エラーが生じています。このエラーはクラスタ全体の管理機能に影響を与える可能性があり、迅速な対応が必要です。500エラーが返される場合、リソースの作成・更新・削除やクラスタ情報の取得が失敗することになります。
 
-## まずこれだけ試してください
+## 実際のエラーメッセージ例
 
-難しいことを調べる前に、次の3つを確認してください。多くの場合、これだけで解決します。
+```bash
+$ kubectl apply -f deployment.yaml
+Error from server (InternalError): error when creating "deployment.yaml": Internal error occurred: <unknown>
+```
 
-1. **一度ログアウトして、再度ログインする**
-2. **ブラウザのキャッシュ・Cookieをクリアして再試行する**
-3. **しばらく待ってから（5〜10分後）再試行する**
+```json
+{
+  "apiVersion": "v1",
+  "kind": "Status",
+  "metadata": {},
+  "status": "Failure",
+  "message": "Internal error occurred: etcd server failed",
+  "reason": "InternalError",
+  "code": 500
+}
+```
 
----
+## よくある原因と解決手順
 
-## このエラーの意味
+### 1. etcdデータベースの障害
 
-**500** は、[Kubernetes](/glossary/kubernetes/) が「[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーまたはコントロールプレーンで予期しない内部エラーが発生した。」という状態のときに表示されます。
+**なぜ発生するか**：etcdは[Kubernetes](/glossary/kubernetes/)クラスタの状態を保持する分散キー・バリューストアです。etcdが応答しない、ディスク満杯、または不整合が発生すると[API](/glossary/api/)サーバーは500エラーを返します。
 
-エラーが出ても、データが消えたり壊れたりするわけではないので安心してください。
+**Before（エラーが起きる状態）**：
+```bash
+$ kubectl get nodes
+Error from server (InternalError): Internal error occurred: etcd server failed
+```
 
----
+**After（解決手順）**：
+```bash
+# 1. etcdのヘルスチェック実行
+kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl endpoint health
 
-## よくある原因
+# 2. etcdメンバーの状態確認
+kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl member list
 
-このエラーが出るときによく見られるパターンです。自分の状況に近いものを探してみてください。
+# 3. etcdポッドを再起動（自動復旧を待つ）
+kubectl delete pod etcd-<master-node-name> -n kube-system
 
-- [API](/glossary/api/)サーバーのバグや一時的な過負荷により内部処理が失敗した
-- etcdとの通信に問題が生じている
-- カスタムAdmission [Webhook](/glossary/webhook/)がパニックを起こしている
+# 4. APIサーバーのログを確認
+kubectl logs -n kube-system -l component=kube-apiserver --tail=100
+```
 
----
+### 2. APIサーバーのメモリ不足またはクラッシュ
 
-## 解決手順（上から順に試す）
+**なぜ発生するか**：[API](/glossary/api/)サーバーはクラスタのすべてのリソース定義をメモリに保持しています。大規模クラスタやメモリ制限が厳しい環境では、メモリ不足（OOM）によりプロセスがクラッシュし500エラーが多発します。
 
-1. kubectl get componentstatuses でコントロールプレーンの状態を確認する
-1. [API](/glossary/api/)サーバーのログでスタックトレースを確認する
-1. カスタム[Webhook](/glossary/webhook/)を使っている場合は[Webhook](/glossary/webhook/)のログを確認する
+**Before（エラーが起きる状態）**：
+```yaml
+# メモリ制限が不足している設定例
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+  - name: kube-apiserver
+    image: k8s.gcr.io/kube-apiserver:v1.24.0
+    resources:
+      limits:
+        memory: "256Mi"  # 不足している
+      requests:
+        memory: "128Mi"
+```
 
----
+**After（修正後）**：
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube-apiserver
+  namespace: kube-system
+spec:
+  containers:
+  - name: kube-apiserver
+    image: k8s.gcr.io/kube-apiserver:v1.24.0
+    resources:
+      limits:
+        memory: "2Gi"  # 十分なメモリを確保
+      requests:
+        memory: "1Gi"
+```
+
+### 3. RBAC設定またはServiceAccountの権限不足
+
+**なぜ発生するか**：[API](/glossary/api/)サーバーが特定のリソースへのアクセス権限を適切に検証できない、または権限チェック中にエラーが発生すると500エラーが返されます。特にカスタムリソースに対して[RBAC](/glossary/rbac/)ルールが不完全な場合に顕著です。
+
+**Before（エラーが起きる状態）**：
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: incomplete-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+  # watch権限が不足している
+```
+
+**After（修正後）**：
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: complete-role
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods/log"]
+  verbs: ["get"]
+- apiGroups: [""]
+  resources: ["pods/status"]
+  verbs: ["get"]
+```
+
+### 4. APIサーバーのプラグイン・アドミッション設定エラー
+
+**なぜ発生するか**：MutatingAdmissionWebhookやValidatingAdmissionWebhookが正常に動作していない場合、または[Webhook](/glossary/webhook/)が応答しない場合、[API](/glossary/api/)サーバーはすべての[リクエスト](/glossary/リクエスト/)に対して500エラーを返すことがあります。
+
+**Before（エラーが起きる状態）**：
+```yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: failing-webhook
+webhooks:
+- name: validate.example.com
+  clientConfig:
+    url: "https://webhook.example.com:443/validate"
+  rules:
+  - operations: ["CREATE", "UPDATE"]
+    apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+  failurePolicy: Fail  # Webhookが応答しないと全リクエストが失敗
+```
+
+**After（修正後）**：
+```yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: safe-webhook
+webhooks:
+- name: validate.example.com
+  clientConfig:
+    url: "https://webhook.example.com:443/validate"
+    caBundle: <base64-encoded-ca-cert>
+  rules:
+  - operations: ["CREATE", "UPDATE"]
+    apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+  failurePolicy: Ignore  # Webhook失敗時も処理を継続
+  timeoutSeconds: 5
+```
+
+## Kubernetes固有の注意点
+
+**kube-apiserverのログ確認**：
+```bash
+# マスターノード上で直接ログを確認
+journalctl -u kubelet -f | grep apiserver
+
+# または kubeadm環境では
+kubectl logs -n kube-system deployment/kube-apiserver --tail=200
+```
+
+**etcdの容量確認**：etcdのディスク使用率が95%以上に達するとアラームが発生し、書き込み操作が失敗します。
+```bash
+kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl alarm list
+```
+
+**[API](/glossary/api/)サーバーのフラグ確認**：不正なフラグや互換性のないバージョン指定も500エラーを引き起こします。
+```bash
+kubectl get pod -n kube-system kube-apiserver-<master-node-name> -o jsonpath='{.spec.containers[0].command}' | tr ',' '\n'
+```
+
+**[Webhook](/glossary/webhook/)・Admission制御チェーン**：複数の[Webhook](/glossary/webhook/)がある場合、どれが失敗しているか特定するために[Webhook](/glossary/webhook/)のログを確認してください。
+```bash
+kubectl logs -n kube-system -l component=webhook-server --tail=100
+```
 
 ## それでも解決しない場合
 
-- **[Kubernetes](/glossary/kubernetes/) のサポートに問い合わせる**：エラーメッセージの全文をスクリーンショットで送ると対応が早くなります
-- **公式ヘルプページを検索する**：「500 [Kubernetes](/glossary/kubernetes/)」で検索すると関連ページが見つかることがあります
-- **時間をおいて再試行する**：[Kubernetes](/glossary/kubernetes/) 側で一時的な問題が起きているケースもあります
+**確認すべきログの場所**：
+- マスターノードのsyslog：`journalctl -u kubelet -f`
+- [API](/glossary/api/)サーバーコンテナログ：`kubectl logs -n kube-system -l component=kube-apiserver`
+- etcdログ：`kubectl logs -n kube-system -l component=etcd`
+- kube-controller-managerログ：`kubectl logs -n kube-system -l component=kube-controller-manager`
+
+**デバッグコマンド**：
+```bash
+# APIサーバーの詳細情報取得
+kubectl cluster-info dump --output-directory=./cluster-dump
+
+# kubeAPIサーバーのメトリクス確認
+kubectl top nodes
+kubectl top pods -n kube-system
+
+# イベント確認
+kubectl get events -n kube-system --sort-by='.lastTimestamp'
+```
+
+**公式ドキュメント参照**：
+- [Troubleshooting Kubernetes clusters](https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/)
+- [API Server Authentication and Authorization](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)
+- [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
+
+**コミュニティリソース**：
+- [Kubernetes GitHub Issues](https://github.com/kubernetes/kubernetes/issues)
+- [Stack Overflow - kubernetes tag](https://stackoverflow.com/questions/tagged/kubernetes)
+- [Kubernetes Slack Community](https://kubernetes.slack.com)
 
 ---
 

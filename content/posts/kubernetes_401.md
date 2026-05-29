@@ -4,53 +4,219 @@ date: 2026-05-25
 description: "Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Kubernetes"]
 errorCode: "401"
+lastmod: 2026-05-29
 ---
 
-> **[Kubernetes](/glossary/kubernetes/)** を使っているときに **401** というエラーが出た場合、このページで解決できます。難しい知識は不要です。上から順に確認していきましょう。
+## エラーの概要
 
+[Kubernetes](/glossary/kubernetes/)で401エラーが発生するのは、[API](/glossary/api/)サーバーへの[リクエスト](/glossary/リクエスト/)に対して[認証](/glossary/認証/)に失敗した状態を示します。[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れ、認証情報の不足、または権限がないServiceAccountの使用が典型的な原因です。このエラーが出ると、kubectlコマンドの実行やPodから[API](/glossary/api/)サーバーへのアクセスが拒否されます。
+
+## 実際のエラーメッセージ例
+
+```
+error: You must be logged in to the server (Unauthorized)
+```
+
+```json
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "Unauthorized",
+  "reason": "Unauthorized",
+  "code": 401
+}
+```
+
+## よくある原因と解決手順
+
+### 原因1: kubeconfig認証情報の有効期限切れ
+
+[Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。[トークン](/glossary/トークン/)が期限切れになると、[API](/glossary/api/)サーバーが要求を拒否します。
+
+**Before（エラーが起きる状態）:**
+
+```bash
+kubectl get pods
+# error: You must be logged in to the server (Unauthorized)
+```
+
+**After（修正後）:**
+
+```bash
+# 現在のクラスタ情報を確認
+kubectl cluster-info
+
+# kubeconfig を更新（EKS の場合）
+aws eks update-kubeconfig --region <your-region> --name <your-cluster>
+
+# または GKE の場合
+gcloud container clusters get-credentials <your-cluster> --region <your-region>
+
+# 修正後、動作確認
+kubectl get nodes
+```
+
+### 原因2: ServiceAccountの認証トークンが無効または不足している
+
+Podが[API](/glossary/api/)サーバーにアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が必要です。[トークン](/glossary/トークン/)がマウントされていない、または無効な場合に401が発生します。
+
+**Before（エラーが起きる状態）:**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  serviceAccountName: test-account
+  automountServiceAccountToken: false  # トークンがマウントされない
+  containers:
+  - name: app
+    image: curlimages/curl
+    command: ["curl", "-v", "https://kubernetes.default.svc.cluster.local/api/v1/namespaces"]
+```
+
+**After（修正後）:**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  serviceAccountName: test-account
+  automountServiceAccountToken: true  # トークンをマウント
+  containers:
+  - name: app
+    image: curlimages/curl
+    command: ["curl", "-v", "https://kubernetes.default.svc.cluster.local/api/v1/namespaces", "--cacert", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt", "-H", "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"]
+```
+
+### 原因3: RBACロールバインディングが設定されていない
+
+[Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)に成功しても[RBAC](/glossary/rbac/)（ロールベースアクセス制御）で権限がない場合、403ではなく401として返されることがあります。ServiceAccountに適切なClusterRoleやRoleがバインドされていません。
+
+**Before（エラーが起きる状態）:**
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: minimal-account
+  namespace: default
 ---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  namespace: default
+spec:
+  serviceAccountName: minimal-account
+  containers:
+  - name: app
+    image: curlimages/curl
+    command: ["curl", "-v", "https://kubernetes.default.svc.cluster.local/api/v1/pods", "-H", "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)", "--cacert", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"]
+```
 
-## まずこれだけ試してください
+**After（修正後）:**
 
-難しいことを調べる前に、次の3つを確認してください。多くの場合、これだけで解決します。
-
-1. **一度ログアウトして、再度ログインする**
-2. **ブラウザのキャッシュ・Cookieをクリアして再試行する**
-3. **しばらく待ってから（5〜10分後）再試行する**
-
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: minimal-account
+  namespace: default
 ---
-
-## このエラーの意味
-
-**401** は、[Kubernetes](/glossary/kubernetes/) が「[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーへの[認証](/glossary/認証/)に失敗した。」という状態のときに表示されます。
-
-エラーが出ても、データが消えたり壊れたりするわけではないので安心してください。
-
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
 ---
-
-## よくある原因
-
-このエラーが出るときによく見られるパターンです。自分の状況に近いものを探してみてください。
-
-- kubeconfigの認証情報が古くなっているか無効になっている
-- ServiceAccountの[トークン](/glossary/トークン/)が期限切れになっている
-- 対象クラスターのコンテキストが正しく設定されていない
-
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pod-reader-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: pod-reader
+subjects:
+- kind: ServiceAccount
+  name: minimal-account
+  namespace: default
 ---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+  namespace: default
+spec:
+  serviceAccountName: minimal-account
+  containers:
+  - name: app
+    image: curlimages/curl
+    command: ["curl", "-v", "https://kubernetes.default.svc.cluster.local/api/v1/pods", "-H", "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)", "--cacert", "/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"]
+```
 
-## 解決手順（上から順に試す）
+## Kubernetes固有の注意点
 
-1. kubectl config get-contexts でアクティブなコンテキストを確認する
-1. クラウドプロバイダーの[CLI](/glossary/cli/)でkubeconfigを再取得する（例：aws eks update-kubeconfig）
-1. ServiceAccount[トークン](/glossary/トークン/)を再生成してSecretを更新する
+**認証方式の確認:** [Kubernetes](/glossary/kubernetes/)は複数の認証方式をサポートしています。クラスタの認証設定を確認してください。
 
----
+```bash
+# APIサーバーの起動オプションを確認（マスターノードでの実行）
+ps aux | grep kube-apiserver | grep -E "authentication|authorization"
+```
+
+**ServiceAccount [トークン](/glossary/トークン/)のマウント確認:** デフォルトではすべてのServiceAccountの[トークン](/glossary/トークン/)が自動的にPodにマウントされます。マウント先は `/var/run/secrets/kubernetes.io/serviceaccount/` です。
+
+```bash
+# Pod内でトークンを確認
+kubectl exec <pod-name> -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
+```
+
+**名前空間を指定した[認証](/glossary/認証/):** RoleBindingとClusterRoleBindingを混同しないでください。名前空間限定の権限が必要な場合はRoleを、クラスタ全体なら ClusterRoleを使用します。
+
+```bash
+# RoleBindingの確認
+kubectl get rolebindings --all-namespaces
+kubectl get clusterrolebindings
+```
 
 ## それでも解決しない場合
 
-- **[Kubernetes](/glossary/kubernetes/) のサポートに問い合わせる**：エラーメッセージの全文をスクリーンショットで送ると対応が早くなります
-- **公式ヘルプページを検索する**：「401 [Kubernetes](/glossary/kubernetes/)」で検索すると関連ページが見つかることがあります
-- **時間をおいて再試行する**：[Kubernetes](/glossary/kubernetes/) 側で一時的な問題が起きているケースもあります
+**kubectlの詳細ログを確認:**
+
+```bash
+kubectl get pods -v 8
+# または
+export KUBECONFIG=~/.kube/config
+kubectl get pods --alsologtostderr=true --v=10
+```
+
+**[API](/glossary/api/)サーバーのログを確認（クラスタ管理者向け）:**
+
+```bash
+# マスターノードでのログ確認
+journalctl -u kubelet -n 100
+# または
+kubectl logs -n kube-system <api-server-pod-name>
+```
+
+**kubeconfig の内容を検証:**
+
+```bash
+kubectl config view
+# 認証情報の詳細を確認
+kubectl auth can-i get pods --as=system:serviceaccount:default:default
+```
+
+公式ドキュメントの「[Authenticating](https://kubernetes.io/docs/reference/access-authn-authz/authentication/)」および「[RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)」ページで詳細な設定方法が記載されています。GitHub Issues で類似の事例を検索する際は、kubeconfig の認証方式（aws-iam-authenticator、gcloud、certificate など）を明示すると解決しやすくなります。
 
 ---
 
