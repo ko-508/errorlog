@@ -95,7 +95,8 @@ def get_frontmatter_block(text: str) -> str:
 
 
 def body_char_count(body: str) -> int:
-    text = re.sub(r'```[\s\S]*?```', '', body)
+    text = re.sub(r'```[\s\S]*?```', '', body)       # コードブロック除去
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # リンク→テキストのみ
     text = re.sub(r'[#\-*`>\[\]()!]', '', text)
     return len(text.replace(' ', '').replace('\n', ''))
 
