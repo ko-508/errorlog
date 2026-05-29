@@ -4,53 +4,216 @@ date: 2026-05-27
 description: "Stripe の 404 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Stripe"]
 errorCode: "404"
+lastmod: 2026-05-29
 ---
 
-> **Stripe** を使っているときに **404** というエラーが出た場合、このページで解決できます。難しい知識は不要です。上から順に確認していきましょう。
+## エラーの概要
 
----
+Stripe [API](/glossary/api/)で404エラーが返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripeサーバー上に存在しないか、アクセス権限のないリソースへのアクセスを試みたことを示します。このエラーは[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe [API](/glossary/api/)の標準[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の一つで、[REST](/glossary/rest/) [API](/glossary/api/)とも統合型のNode.js/Python [SDK](/glossary/sdk/)でも同じ形式で返されます。
 
-## まずこれだけ試してください
+## 実際のエラーメッセージ例
 
-難しいことを調べる前に、次の3つを確認してください。多くの場合、これだけで解決します。
+[REST](/glossary/rest/) [API](/glossary/api/)での404[レスポンス](/glossary/レスポンス/)：
 
-1. **一度ログアウトして、再度ログインする**
-2. **ブラウザのキャッシュ・Cookieをクリアして再試行する**
-3. **しばらく待ってから（5〜10分後）再試行する**
+```json
+{
+  "error": {
+    "code": "resource_missing",
+    "message": "No such customer: cus_InvalidID123",
+    "param": "id",
+    "type": "invalid_request_error"
+  }
+}
+```
 
----
+Node.js [SDK](/glossary/sdk/)での404エラー例：
 
-## このエラーの意味
+```javascript
+try {
+  const customer = await stripe.customers.retrieve('cus_InvalidID123');
+} catch (error) {
+  console.error(error.message);
+  // Error: No such customer: cus_InvalidID123
+}
+```
 
-**404** は、Stripe が「指定したStripeリソース（Customer・PaymentIntent等）が見つからない。」という状態のときに表示されます。
+## よくある原因と解決手順
 
-エラーが出ても、データが消えたり壊れたりするわけではないので安心してください。
+### 原因1：リソースIDの指定ミスまたはコピペエラー
 
----
+Stripe [API](/glossary/api/)[リクエスト](/glossary/リクエスト/)で使用するIDが正確でない場合、404エラーが発生します。特に顧客IDやPaymentIntent IDは英数字が長く、一文字の違いで見つからなくなります。
 
-## よくある原因
+Before（エラーが起きるコード）：
 
-このエラーが出るときによく見られるパターンです。自分の状況に近いものを探してみてください。
+```python
+import stripe
 
-- IDの文字列が間違っているかコピーミスがある
-- テスト環境と本番環境でリソースを混在させてアクセスしている
-- リソースがすでに削除されている
+stripe.api_key = "sk_live_..."
 
----
+# IDをハードコーディングまたは手入力した場合の例
+customer = stripe.Customer.retrieve("cus_1234567890")  # 実際には存在しないID
+```
 
-## 解決手順（上から順に試す）
+After（修正後）：
 
-1. Stripe[ダッシュボード](/glossary/ダッシュボード/)で対象のIDを検索して存在を確認する
-1. テスト用IDはsk_test_で始まる[API](/glossary/api/)キーでのみ取得可能なことを確認する
-1. [API](/glossary/api/)キーのモード（テスト/本番）とリソースのモードが一致しているか確認する
+```python
+import stripe
 
----
+stripe.api_key = "sk_live_..."
+
+# ダッシュボードから正確なIDをコピーして使用
+customer = stripe.Customer.retrieve("cus_1a2b3c4d5e6f7g8h9i")
+
+# または、顧客情報を先に作成してから取得
+customer = stripe.Customer.create(
+    email="user@example.com",
+    description="Test Customer"
+)
+retrieved = stripe.Customer.retrieve(customer.id)
+```
+
+### 原因2：テスト環境と本番環境のAPIキー混在
+
+テスト用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripe は環境ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
+
+Before（エラーが起きるコード）：
+
+```javascript
+const stripe = require('stripe');
+
+// 本番キーを使用して初期化
+const stripeClient = stripe('sk_live_abcd1234...');
+
+// しかし、テスト環境で作成したPaymentIntentのIDを指定
+const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345');
+// Error: 404 Not Found
+```
+
+After（修正後）：
+
+```javascript
+const stripe = require('stripe');
+
+// 環境に合わせたキーを使用
+const apiKey = process.env.NODE_ENV === 'production' 
+  ? process.env.STRIPE_LIVE_KEY 
+  : process.env.STRIPE_TEST_KEY;
+
+const stripeClient = stripe(apiKey);
+
+// テスト環境ではテストで作成したIDのみを参照
+const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345');
+```
+
+### 原因3：リソースが削除済みまたは有効期限切れ
+
+Stripe上で削除されたリソースや、有効期限が切れた支払いセッションへのアクセス試行で404が返されます。特に Payment Link や Checkout Session は一定期間後に参照できなくなるケースがあります。
+
+Before（エラーが起きるコード）：
+
+```python
+import stripe
+
+stripe.api_key = "sk_test_..."
+
+# 削除済みの顧客IDにアクセス
+try:
+    customer = stripe.Customer.retrieve("cus_deleted12345")
+except stripe.error.InvalidRequestError as e:
+    print(e)  # 404 returned
+```
+
+After（修正後）：
+
+```python
+import stripe
+
+stripe.api_key = "sk_test_..."
+
+# 削除前に顧客の存在を確認し、存在しない場合は新規作成
+try:
+    customer = stripe.Customer.retrieve("cus_deleted12345")
+except stripe.error.InvalidRequestError as e:
+    if e.http_status == 404:
+        # 新しい顧客として作成
+        customer = stripe.Customer.create(
+            email="user@example.com",
+            description="Recreated Customer"
+        )
+        print(f"Customer created: {customer.id}")
+```
+
+## Stripe固有の注意点
+
+### APIバージョンの違いによる404
+
+Stripe では複数の[API](/glossary/api/)バージョンをサポートしており、古いバージョンの[API](/glossary/api/)を使用していると、新しいバージョンで追加されたリソースにアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)設定で指定された[API](/glossary/api/)バージョンと、コード内で使用しているバージョンを統一する必要があります。
+
+```bash
+# リクエストヘッダーでAPIバージョンを明示的に指定
+curl https://api.stripe.com/v1/customers/cus_test123 \
+  -H "Stripe-Version: 2023-10-16" \
+  -u sk_test_...:
+```
+
+### Webhook署名検証とリソースID
+
+[Webhook](/glossary/webhook/) で受け取ったイベントのリソースIDを直後に参照する場合、わずかな遅延で404が返ることがあります。Stripeのイベント処理は非同期のため、リトライロジックを実装することが推奨されます。
+
+```python
+def handle_webhook(event):
+    if event['type'] == 'payment_intent.succeeded':
+        payment_intent_id = event['data']['object']['id']
+        
+        # リトライロジックを実装
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                pi = stripe.PaymentIntent.retrieve(payment_intent_id)
+                return pi
+            except stripe.error.InvalidRequestError as e:
+                if e.http_status == 404 and attempt < max_retries - 1:
+                    time.sleep(1)  # 1秒待機して再試行
+                else:
+                    raise
+```
+
+### 連携アプリのアカウント制限
+
+Stripe Connect でアカウント間のリソースアクセスを試みる場合、適切な[認可](/glossary/認可/)[ヘッダー](/glossary/ヘッダー/)がないと404が返されます。 `Stripe-Account` [ヘッダー](/glossary/ヘッダー/)を正確に指定する必要があります。
+
+```javascript
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+// Connected Account のリソースにアクセス
+const customer = await stripe.customers.retrieve(
+  'cus_connected123',
+  { stripeAccount: 'acct_partner1234567890' }
+);
+```
 
 ## それでも解決しない場合
 
-- **Stripe のサポートに問い合わせる**：エラーメッセージの全文をスクリーンショットで送ると対応が早くなります
-- **公式ヘルプページを検索する**：「404 Stripe」で検索すると関連ページが見つかることがあります
-- **時間をおいて再試行する**：Stripe 側で一時的な問題が起きているケースもあります
+### ログとデバッグ情報の確認
+
+Stripe [ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に送信された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を確認できます。ここで正確なエラーメッセージとリソースIDを再度検証してください。
+
+### 公式ドキュメント
+
+以下のページで詳細情報が入手できます：
+- 「[API](/glossary/api/) Errors」ページ：全エラータイプと対応方法の完全なリスト
+- 「Authentication」ページ：[API](/glossary/api/)キーの正しい使い分け方法
+- 「[API](/glossary/api/) Versioning」ページ：バージョン管理のベストプラクティス
+
+### サポート情報の収集
+
+解決しない場合は、Stripe サポートに以下の情報を提供してください：
+- 問題が発生した正確な日時（タイムゾーム付き）
+- 使用した[API](/glossary/api/)キー（テストキーか本番キーか）
+- 実際の[リクエスト](/glossary/リクエスト/)内容（個人情報を除外）
+- [Webhook](/glossary/webhook/) ID （該当する場合）
+
+GitHub の stripe-node や stripe-python [リポジトリ](/glossary/リポジトリ/)の Issues セクションで、類似の問題が報告されていないか確認することも有効です。
 
 ---
 

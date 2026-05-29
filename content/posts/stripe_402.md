@@ -4,53 +4,236 @@ date: 2026-05-25
 description: "Stripe の 402 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Stripe"]
 errorCode: "402"
+lastmod: 2026-05-29
 ---
 
-> **Stripe** を使っているときに **402** というエラーが出た場合、このページで解決できます。難しい知識は不要です。上から順に確認していきましょう。
+## エラーの概要
 
----
+Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。カード拒否、残高不足、不正利用の疑い、または3Dセキュア[認証](/glossary/認証/)の失敗など、支払い側の問題で決済が完了できない状態を示しています。このエラーが発生した場合、決済データ自体は失われていませんが、[トランザクション](/glossary/トランザクション/)は成功していません。
 
-## まずこれだけ試してください
+## 実際のエラーメッセージ例
 
-難しいことを調べる前に、次の3つを確認してください。多くの場合、これだけで解決します。
+```json
+{
+  "error": {
+    "code": "card_declined",
+    "message": "Your card was declined",
+    "type": "card_error",
+    "charge": "ch_1234567890abcdef"
+  }
+}
+```
 
-1. **一度ログアウトして、再度ログインする**
-2. **ブラウザのキャッシュ・Cookieをクリアして再試行する**
-3. **しばらく待ってから（5〜10分後）再試行する**
+```json
+{
+  "error": {
+    "code": "insufficient_funds",
+    "message": "The card has insufficient funds",
+    "type": "card_error",
+    "decline_code": "insufficient_funds"
+  }
+}
+```
 
----
+## よくある原因と解決手順
 
-## このエラーの意味
+### 原因1：カード情報の入力誤りまたは期限切れ
 
-**402** は、Stripe が「決済の処理が失敗した（カードの拒否など）。」という状態のときに表示されます。
+カード番号、有効期限、CVCの入力に誤りがあるか、カード自体が既に有効期限を迎えている場合、Stripeは決済を拒否します。
 
-エラーが出ても、データが消えたり壊れたりするわけではないので安心してください。
+**Before（エラーが起きるコード）:**
+```javascript
+const payment = await stripe.confirmCardPayment(clientSecret, {
+  payment_method: {
+    card: {
+      number: '4242424242424241', // 最後の桁が誤り
+      exp_month: 12,
+      exp_year: 2023, // 既に期限切れ
+      cvc: '999'
+    }
+  }
+});
+```
 
----
+**After（修正後）:**
+```javascript
+const payment = await stripe.confirmCardPayment(clientSecret, {
+  payment_method: {
+    card: {
+      number: '4242424242424242', // 正しいテストカード番号
+      exp_month: 12,
+      exp_year: 2025, // 有効な年
+      cvc: '314'
+    }
+  }
+});
+```
 
-## よくある原因
+### 原因2：カード会社による拒否（不正利用判定、残高不足など）
 
-このエラーが出るときによく見られるパターンです。自分の状況に近いものを探してみてください。
+カード会社の判断で決済がブロックされる場合があります。金額が大きい、カード利用国と異なる国からのアクセス、利用限度額超過などが理由として考えられます。
 
-- カード番号・有効期限・CVCのいずれかが正しくない
-- カードの残高不足または利用限度額を超えている
-- カード会社が不正利用と判断して[トランザクション](/glossary/トランザクション/)をブロックした
+**Before（エラーが起きるコード）:**
+```python
+import stripe
 
----
+stripe.api_key = "sk_live_<your-secret-key>"
 
-## 解決手順（上から順に試す）
+charge = stripe.Charge.create(
+  amount=999999,  # 異常に大きい金額
+  currency="jpy",
+  source="tok_visa",
+  description="High-risk transaction"
+)
+```
 
-1. [エラーレスポンス](/glossary/エラーレスポンス/)のdecline_codeで拒否理由の詳細を確認する
-1. テスト環境ではStripeが提供するテスト用カード番号（4242 4242 4242 4242）を使う
-1. カスタマーに対して別のカードを使用するよう案内する
+**After（修正後）:**
+```python
+import stripe
 
----
+stripe.api_key = "sk_live_<your-secret-key>"
+
+# 金額を妥当な範囲に修正し、メタデータで取引内容を明確化
+charge = stripe.Charge.create(
+  amount=50000,  # 妥当な金額
+  currency="jpy",
+  source="tok_visa",
+  description="Standard transaction",
+  metadata={"order_id": "ord_12345"}
+)
+```
+
+### 原因3：3Dセキュア認証の失敗または未完了
+
+3Dセキュア[認証](/glossary/認証/)が必須の場合、`off_session` [パラメータ](/glossary/パラメータ/)の設定ミスや[認証](/glossary/認証/)フローの不完全な実装によって402エラーが発生します。
+
+**Before（エラーが起きるコード）:**
+```javascript
+const {paymentIntent, error} = await stripe.confirmCardPayment(
+  clientSecret,
+  {
+    payment_method: {
+      card: cardElement
+    }
+    // 3D Secureの設定を指定していない
+  }
+);
+```
+
+**After（修正後）:**
+```javascript
+const {paymentIntent, error} = await stripe.confirmCardPayment(
+  clientSecret,
+  {
+    payment_method: {
+      card: cardElement,
+      billing_details: {
+        name: "John Doe"
+      }
+    }
+  },
+  {
+    handleActions: true  // 3D Secureチャレンジを自動処理
+  }
+);
+```
+
+### 原因4：PaymentIntentのステータス確認の遅延
+
+非同期処理でPaymentIntentの最終ステータスを確認する前に決済[リクエスト](/glossary/リクエスト/)を再送信すると、重複処理が発生して402エラーになる場合があります。
+
+**Before（エラーが起きるコード）:**
+```python
+# 同じPaymentIntentで複数回confirmを呼び出し
+intent = stripe.PaymentIntent.retrieve(pi_id)
+intent.confirm()  # 1回目
+intent.confirm()  # 2回目でエラー
+```
+
+**After（修正後）:**
+```python
+# PaymentIntentのステータス確認後、必要な場合のみ確認
+intent = stripe.PaymentIntent.retrieve(pi_id)
+
+if intent.status == "requires_confirmation":
+  intent.confirm()
+elif intent.status == "succeeded":
+  print("Already confirmed")
+```
+
+## Stripe固有の注意点
+
+### テストカード番号の使い分け
+
+本番環境で402エラーが頻発する場合、開発環境での検証が不十分な可能性があります。Stripeが提供するテストカード番号を使用して事前に各シナリオをテストしてください。
+
+- `4242424242424242` - 決済成功
+- `4000000000000002` - card_declined（一般的な拒否）
+- `4000002500003155` - insufficient_funds（残高不足）
+- `4000002000000003` - requires_3d_secure（3D Secure認証必須）
+
+### decline_codeの確認
+
+[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `decline_code` フィールドを確認することで、より正確な原因特定ができます。
+
+```python
+import stripe
+
+try:
+  charge = stripe.Charge.create(
+    amount=5000,
+    currency="jpy",
+    source="tok_visa"
+  )
+except stripe.error.CardError as e:
+  error_code = e.decline_code
+  print(f"Decline code: {error_code}")
+  # stolen_card, lost_card, insufficient_funds など
+```
+
+### WebhookイベントのLost Transaction チェック
+
+決済処理が失敗しても、`charge.failed` イベントが webhook に送信されます。これを適切にハンドリングして、ユーザーに失敗理由を正確に伝えることが重要です。
+
+```python
+@app.route('/webhook', methods=['POST'])
+def handle_webhook():
+  event = stripe.Event.construct_from(
+    json.loads(request.data), stripe.api_key
+  )
+  
+  if event['type'] == 'charge.failed':
+    charge = event['data']['object']
+    print(f"Charge failed: {charge['failure_code']}")
+    # 失敗内容をデータベースに記録
+  
+  return '', 200
+```
 
 ## それでも解決しない場合
 
-- **Stripe のサポートに問い合わせる**：エラーメッセージの全文をスクリーンショットで送ると対応が早くなります
-- **公式ヘルプページを検索する**：「402 Stripe」で検索すると関連ページが見つかることがあります
-- **時間をおいて再試行する**：Stripe 側で一時的な問題が起きているケースもあります
+### ログ確認とデバッグ方法
+
+Stripe Dashboard の「Logs」セクションで [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の全詳細を確認できます。以下の情報を記録してください。
+
+- **Request ID** - `req_` で始まる一意識別子
+- **Charge ID** - `ch_` で始まるチャージ ID
+- **PaymentIntent ID** - `pi_` で始まるペイメント ID
+- **Decline Code** - `insufficient_funds` など具体的な拒否理由
+
+### 公式ドキュメント参照
+
+- **Stripe エラーコード解説** - https://stripe.com/docs/error-codes（各エラーの詳細と対応方法）
+- **Payment Intent ガイド** - https://stripe.com/docs/payments/payment-intents（決済フロー全体の理解）
+- **3D Secure 実装ガイド** - https://stripe.com/docs/payments/3d-secure（強力認証の設定方法）
+
+### コミュニティと支援
+
+問題が解決しない場合、以下のリソースを活用してください。
+
+- **Stripe サポート** - Dashboard内の「Contact Support」から直接問い合わせ（本番環境のエラーは優先対応）
+- **GitHub Issues** - stripe/stripe-js でのコミュニティ報告例
+- **Stripe [API](/glossary/api/) リファレンス** - https://stripe.com/docs/api （最新の仕様確認）
 
 ---
 
