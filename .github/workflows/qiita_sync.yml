@@ -1,9 +1,6 @@
 name: Sync to Qiita
 
 on:
-  workflow_run:
-    workflows: ["Daily Article Publish"]
-    types: [completed]
   workflow_dispatch:
     inputs:
       count:
