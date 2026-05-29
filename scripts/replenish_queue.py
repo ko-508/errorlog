@@ -84,7 +84,15 @@ def research_with_gemini(
     """
     prompt = f"""{tool} で HTTP ステータスコード {code} が発生するケースについて調べてください。
 
-以下の形式で JSON のみ返してください（前置き・説明不要）:
+## 需要フィルタリング（重要）
+まず以下を確認してください：
+- Reddit、Stack Overflow、GitHub Issues、X（Twitter）等で「{tool} {code}」に関する実際の問題報告が複数存在するか
+- Google 検索で「{tool} {code} error」「{tool} {code} エラー」の検索結果が十分に存在するか
+
+上記が確認できない場合（誰も報告していないマイナーな組み合わせ）は、
+JSON の代わりに {{"skip": true}} のみ返してください。
+
+確認できた場合は以下の形式で JSON のみ返してください（前置き・説明不要）:
 {{
   "official_meaning": "このエラーコードの意味を {tool} の文脈で1文（日本語）",
   "causes": [
@@ -118,6 +126,11 @@ def research_with_gemini(
             return None
 
         data = json.loads(m.group(0))
+
+        if data.get("skip"):
+            print(f"    需要なし（問題報告が確認できないためスキップ）")
+            return None
+
         causes    = "|".join(str(c).strip() for c in data.get("causes", [])[:5] if c)
         solutions = "|".join(str(s).strip() for s in data.get("solutions", [])[:5] if s)
         meaning   = str(data.get("official_meaning", "")).strip()
