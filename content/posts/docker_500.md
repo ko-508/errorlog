@@ -4,7 +4,9 @@ date: 2026-01-01
 description: "Docker の 500 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Docker"]
 errorCode: "500"
+lastmod: 2026-05-29
 ---
+
 ## Docker の 500 とは何か？（公式の定義）
 
 **500** は、[HTTP](/glossary/http/) 標準仕様（[RFC](/glossary/rfc/) 9110）で定められている[ステータスコード](/glossary/ステータスコード/)の一つです。
@@ -25,7 +27,8 @@ errorCode: "500"
 
 - [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)（バックグラウンドプロセス）自体がクラッシュまたは異常な状態になっている
 - ディスクの空き容量がなくなっている
-- [Docker](/glossary/docker/) のデータが壊れている
+- [Docker](/glossary/docker/) のデータが破損（ファイルが傷んで使えなくなっている）している
+- メモリ不足により [Docker](/glossary/docker/) が正常に動作していない
 
 ---
 
@@ -34,9 +37,10 @@ errorCode: "500"
 上の原因ごとの対処法を、実行できる手順の形でまとめました。
 **上から順番に試す**ことで、多くの場合は解決に近づけます。
 
-1. `sudo systemctl restart docker` または [Docker](/glossary/docker/) Desktop を再起動する
-2. `df -h` でディスク容量を確認し、`docker system prune` で不要データを削除する
-3. [Docker](/glossary/docker/) のログ（`/var/log/docker.log`）でエラーの詳細を確認する
+1. [Docker](/glossary/docker/) を再起動する：`sudo systemctl restart docker`（Linux の場合）、または [Docker](/glossary/docker/) Desktop のメニューから「Restart」を選択する（Windows・Mac の場合）
+2. `df -h` でディスク容量を確認し、`docker system prune` で不要なデータを削除する
+3. `free -h`（Linux）または タスクマネージャー（Windows）でメモリ使用量を確認する
+4. [Docker](/glossary/docker/) のログ（Linux では `/var/log/docker.log`、[Docker](/glossary/docker/) Desktop では アプリケーション設定内）でエラーの詳細を確認する
 
 ---
 
