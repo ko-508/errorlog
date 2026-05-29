@@ -1,7 +1,7 @@
 ---
 title: "Minikube の 401 エラー：原因と解決策"
 date: 2026-05-29
-description: "Minikubeクラスターへの認証に失敗した。。kubeconfigのクラスター設定が古くなっているまたは誤など、Minikube 401 エラーの原因と解決策を解説。"
+description: "Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。"
 tags: ["Minikube"]
 errorCode: "401"
 ---

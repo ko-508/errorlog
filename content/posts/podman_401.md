@@ -1,7 +1,7 @@
 ---
 title: "Podman の 401 エラー：原因と解決策"
 date: 2026-05-28
-description: "レジストリへの認証に失敗した。。podman loginを実行していないなど、Podman 401 エラーの原因と解決策を解説。"
+description: "レジストリへの認証に失敗した。Podman 401 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "401"
 ---

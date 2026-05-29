@@ -1,7 +1,7 @@
 ---
 title: "Podman の 503 エラー：原因と解決策"
 date: 2026-05-29
-description: "Podmanサービスまたはレジストリが一時的に利用できない。。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。"
+description: "Podmanサービスまたはレジストリが一時的に利用できない。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "503"
 ---
