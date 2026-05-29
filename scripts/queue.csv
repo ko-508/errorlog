@@ -1,7 +1,4 @@
 tool,status_code,official_meaning,causes,solutions
-Podman,503,Podmanサービスまたはレジストリが一時的に利用できない。,Podman APIサービスが起動していない|コンテナレジストリが一時的に停止またはメンテナンス中|ネットワーク接続に問題がある,systemctl status podman.socket でサービスの状態を確認する|レジストリのステータスページで障害情報を確認する|systemctl start podman.socket でサービスを起動する
-Minikube,400,Minikubeクラスターへのリクエストの形式が正しくない。,kubectl applyするマニフェストのYAMLに構文エラーがある|必須フィールドが欠けているか型が間違っている|minikubeコマンドのオプション指定が誤っている,kubectl apply --dry-run=client -f <マニフェスト> で事前確認する|minikube --helpで正しいオプションを確認する|kubectl explain <リソース名> で必須フィールドを確認する
-Minikube,401,Minikubeクラスターへの認証に失敗した。,kubeconfigのクラスター設定が古くなっているまたは誤っている|Minikubeを再起動したことで証明書が変わった|kubectlが別のクラスターのコンテキストを使っている,minikube update-context でkubeconfigを更新する|kubectl config use-context minikube でコンテキストを切り替える|minikube stop && minikube start でクラスターを再起動する
 Minikube,403,RBAC設定によりリソースへのアクセスが拒否された。,デフォルトのServiceAccountに必要な権限がない|RoleBindingまたはClusterRoleBindingが設定されていない|Minikubeのアドオン（dashboard等）に必要な権限が付与されていない,kubectl auth can-i <verb> <resource> で権限を確認する|必要な権限を持つRoleを作成してRoleBindingで付与する|minikube addons enable <アドオン名> でアドオンを有効化する
 Minikube,404,指定したKubernetesリソースが見つからない。,Namespaceの指定が間違っているか省略されている|リソースがまだデプロイされていないか削除されている|Minikubeクラスターが停止している,minikube status でクラスターの状態を確認する|kubectl get <リソース> -A でNamespaceを横断して確認する|kubectl get events でデプロイ失敗の理由を調べる
 Minikube,500,Minikubeクラスターの内部で予期しないエラーが発生した。,Minikubeのノード内部でAPIサーバーがクラッシュしている|ディスク容量不足でetcdのデータが破損した|Minikubeのバージョンがkubectlと互換性がない,minikube logs でクラスターのログを確認する|minikube delete && minikube start でクラスターをリセットする|minikube version と kubectl version でバージョンの互換性を確認する
