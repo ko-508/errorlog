@@ -1,0 +1,54 @@
+name: Expand Thin Articles
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_expand:
+        description: 'Max articles to expand per run (default: 10)'
+        default: '10'
+      force:
+        description: 'Force rewrite all articles (1=yes, 0=no)'
+        default: '0'
+
+permissions:
+  contents: write
+
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Expand thin articles
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MAX_EXPAND: ${{ github.event.inputs.max_expand || '10' }}
+          FORCE: ${{ github.event.inputs.force || '0' }}
+        run: python scripts/expand_articles.py
+
+      - name: Insert glossary links into expanded articles
+        run: |
+          for f in $(git diff --name-only content/posts/); do
+            python scripts/insert_glossary_links.py "$f"
+          done
+
+      - name: Commit and push
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add content/posts/
+          if git diff --staged --quiet; then
+            echo "no changes"
+          else
+            git commit -m "expand: $(date +%Y-%m-%d) thin articles expanded"
+            git push
+          fi
