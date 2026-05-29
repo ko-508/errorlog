@@ -1,11 +1,14 @@
 """
 Hugo 記事を Zenn 形式に変換して ZENN_DIR に出力するスクリプト。
+scripts/zenn_synced.json で同期済み記事の最終同期日を管理し、
+lastmod が更新された記事は自動的に再同期する。
 
 使い方:
-  ZENN_DIR=../zenn-content python scripts/zenn_sync.py
-  ZENN_DIR=../zenn-content python scripts/zenn_sync.py --new-only
+  ZENN_DIR=../zenn-content python scripts/zenn_sync.py           # 新規＋更新のみ
+  ZENN_DIR=../zenn-content python scripts/zenn_sync.py --force   # 全記事強制同期
 """
 
+import json
 import os
 import re
 import sys
@@ -14,6 +17,7 @@ from pathlib import Path
 BASE      = Path(__file__).parent
 POSTS_DIR = BASE.parent / "content" / "posts"
 ZENN_DIR  = Path(os.getenv("ZENN_DIR", str(BASE.parent.parent / "zenn-content")))
+MANIFEST  = BASE / "zenn_synced.json"
 
 TOOL_EMOJI: dict[str, str] = {
     "docker":        "🐳",
@@ -47,8 +51,20 @@ DEFAULT_EMOJI_TOOL  = "🔧"
 DEFAULT_EMOJI_ERROR = "🚫"
 
 
+def load_manifest() -> dict:
+    if MANIFEST.exists():
+        return json.loads(MANIFEST.read_text(encoding="utf-8"))
+    return {}
+
+
+def save_manifest(manifest: dict) -> None:
+    MANIFEST.write_text(
+        json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2),
+        encoding="utf-8",
+    )
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
-    """Hugo frontmatter を解析して (dict, body) を返す。"""
     if not text.startswith("---"):
         return {}, text
 
@@ -61,7 +77,6 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     fm: dict = {}
 
     for line in fm_text.splitlines():
-        # tags: ["Docker", "500"] 形式
         m_tags = re.match(r'^tags:\s*\[(.+)\]', line)
         if m_tags:
             fm["tags"] = [
@@ -80,20 +95,22 @@ def parse_frontmatter(text: str) -> tuple[dict, str]:
     return fm, body
 
 
+def article_date(fm: dict) -> str:
+    """lastmod があればそれを、なければ date を返す。"""
+    return fm.get("lastmod") or fm.get("date") or "1970-01-01"
+
+
 def make_zenn_slug(hugo_stem: str) -> str:
-    """Hugo ファイル名から Zenn スラグを生成する（12-50文字、[a-z0-9-]）。"""
     slug = "el-" + re.sub(r"[^a-z0-9]", "-", hugo_stem.lower())
     slug = re.sub(r"-+", "-", slug).strip("-")
     if len(slug) > 50:
         slug = slug[:50].rstrip("-")
-    # 12文字未満の場合は末尾をパディング
     while len(slug) < 12:
         slug += "-x"
     return slug
 
 
 def pick_emoji(stem: str, tags: list[str]) -> str:
-    """記事に合った絵文字を選ぶ。"""
     if stem.startswith("tool_"):
         key = stem[5:].lower()
         for tool_key, emoji in TOOL_EMOJI.items():
@@ -110,7 +127,6 @@ def pick_emoji(stem: str, tags: list[str]) -> str:
 
 
 def make_zenn_topics(tags: list[str], stem: str) -> list[str]:
-    """Zenn トピックスを生成する（max 5, 各 2-20文字, 小文字英数字とハイフン）。"""
     topics: list[str] = []
 
     for tag in tags:
@@ -127,7 +143,6 @@ def make_zenn_topics(tags: list[str], stem: str) -> list[str]:
         if len(topics) >= 4:
             break
 
-    # errorcode タグを追加
     if "error" not in " ".join(topics) and not stem.startswith("tool_"):
         topics.append("error")
 
@@ -138,31 +153,50 @@ def make_zenn_topics(tags: list[str], stem: str) -> list[str]:
 
 
 def strip_internal_links(body: str) -> str:
-    """サイト内リンク（/glossary/, /posts/）をプレーンテキストに変換する。"""
     body = re.sub(r'\[([^\]]+)\]\(/glossary/[^)]+\)', r'\1', body)
     body = re.sub(r'\[([^\]]+)\]\(/posts/[^)]+\)', r'\1', body)
     return body
 
 
-def convert(src: Path, zenn_articles_dir: Path, new_only: bool) -> bool:
-    """1記事を変換して Zenn 形式で書き出す。書き出した場合は True。"""
+def needs_sync(stem: str, fm: dict, manifest: dict, zenn_articles_dir: Path, force: bool) -> bool:
+    """同期が必要かどうかを判定する。"""
+    if force:
+        return True
+
+    zenn_slug = make_zenn_slug(stem)
+    out_path  = zenn_articles_dir / f"{zenn_slug}.md"
+
+    # Zennファイルが存在しない → 新規
+    if not out_path.exists():
+        return True
+
+    # マニフェストに記録がない → 同期が必要
+    if stem not in manifest:
+        return True
+
+    # 記事の更新日 > 最終同期日 → 更新あり
+    return article_date(fm) > manifest[stem]
+
+
+def convert(src: Path, zenn_articles_dir: Path, manifest: dict, force: bool) -> tuple[bool, str]:
+    """1記事を変換して Zenn 形式で書き出す。(書き出したか, 記事日付) を返す。"""
     text = src.read_text(encoding="utf-8")
     fm, body = parse_frontmatter(text)
 
     if fm.get("draft", "").lower() == "true":
-        return False
+        return False, ""
 
-    stem      = src.stem
-    zenn_slug = make_zenn_slug(stem)
-    out_path  = zenn_articles_dir / f"{zenn_slug}.md"
+    stem = src.stem
 
-    if new_only and out_path.exists():
-        return False
+    if not needs_sync(stem, fm, manifest, zenn_articles_dir, force):
+        return False, ""
 
-    tags   = fm.get("tags") if isinstance(fm.get("tags"), list) else []
-    emoji  = pick_emoji(stem, tags)
-    topics = make_zenn_topics(tags, stem)
-    title  = fm.get("title", stem)
+    zenn_slug  = make_zenn_slug(stem)
+    out_path   = zenn_articles_dir / f"{zenn_slug}.md"
+    tags       = fm.get("tags") if isinstance(fm.get("tags"), list) else []
+    emoji      = pick_emoji(stem, tags)
+    topics     = make_zenn_topics(tags, stem)
+    title      = fm.get("title", stem)
     topics_str = "[" + ", ".join(f'"{t}"' for t in topics) + "]"
 
     zenn_fm = (
@@ -177,26 +211,27 @@ def convert(src: Path, zenn_articles_dir: Path, new_only: bool) -> bool:
 
     body = strip_internal_links(body)
     out_path.write_text(zenn_fm + body, encoding="utf-8")
-    return True
+    return True, article_date(fm)
 
 
 def main() -> None:
-    new_only = "--new-only" in sys.argv
-    force    = "--force" in sys.argv
-    limit    = int(os.getenv("ZENN_LIMIT", "0"))  # 0 = 無制限
+    force = "--force" in sys.argv
+    limit = int(os.getenv("ZENN_LIMIT", "0"))
 
     zenn_articles_dir = ZENN_DIR / "articles"
     zenn_articles_dir.mkdir(parents=True, exist_ok=True)
 
-    posts   = sorted(POSTS_DIR.glob("*.md"))
-    written = 0
-    skipped = 0
+    manifest = load_manifest()
+    posts    = sorted(POSTS_DIR.glob("*.md"))
+    written  = 0
+    skipped  = 0
 
     for src in posts:
         if src.name.startswith("_"):
             continue
-        ok = convert(src, zenn_articles_dir, new_only and not force)
+        ok, synced_date = convert(src, zenn_articles_dir, manifest, force)
         if ok:
+            manifest[src.stem] = synced_date
             written += 1
             print(f"  ✓ {src.stem}")
             if limit > 0 and written >= limit:
@@ -205,7 +240,8 @@ def main() -> None:
         else:
             skipped += 1
 
-    print(f"\n完了: {written} 件書き出し / {skipped} 件スキップ")
+    save_manifest(manifest)
+    print(f"\n完了: {written} 件同期 / {skipped} 件スキップ")
 
 
 if __name__ == "__main__":

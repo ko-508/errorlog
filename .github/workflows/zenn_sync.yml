@@ -35,7 +35,7 @@ jobs:
           ZENN_DIR: ${{ github.workspace }}/zenn-content
           ZENN_LIMIT: "0"
         working-directory: errorlog
-        run: python scripts/zenn_sync.py --new-only
+        run: python scripts/zenn_sync.py
 
       - name: Commit and push to zenn-content
         working-directory: zenn-content
@@ -46,6 +46,20 @@ jobs:
           if git diff --staged --quiet; then
             echo "no new articles"
           else
-            git commit -m "sync: $(date +%Y-%m-%d) new articles from errorlog.jp"
+            git commit -m "sync: $(date +%Y-%m-%d) articles from errorlog.jp"
+            git push
+          fi
+
+      - name: Commit manifest to errorlog repo
+        working-directory: errorlog
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add scripts/zenn_synced.json
+          if git diff --staged --quiet; then
+            echo "no manifest changes"
+          else
+            git commit -m "zenn: update sync manifest"
+            git pull --rebase
             git push
           fi
