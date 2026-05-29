@@ -93,8 +93,8 @@
   "image": {{ .Permalink }},
     {{- end }}
   {{- end -}}
-  "datePublished": {{ $pubDate.Format "2006-01-02" | jsonify }},
-  "dateModified": {{ $modDate.Format "2006-01-02" | jsonify }},
+  "datePublished": {{ $pubDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
+  "dateModified": {{ $modDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
   {{- with (.Params.author | default site.Params.author) }}
   "author":
     {{- if (or (eq (printf "%T" .) "[]string") (eq (printf "%T" .) "[]interface {}")) -}}
