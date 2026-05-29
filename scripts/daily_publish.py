@@ -77,17 +77,25 @@ def _send_gmail(subject: str, body: str) -> None:
         smtp.send_message(msg)
 
 
-def send_publish_report(published_count: int, remaining_count: int) -> None:
+def make_zenn_slug(stem: str) -> str:
+    slug = "el-" + re.sub(r"[^a-z0-9]", "-", stem.lower())
+    slug = re.sub(r"-+", "-", slug).strip("-")
+    return slug[:50] if len(slug) > 50 else slug
+
+
+def send_publish_report(published_count: int, remaining_count: int, articles: list[dict]) -> None:
     from datetime import datetime
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
-    body = (
-        f"{now} に {published_count} 記事を公開しました。\n\n"
-        f"残りキュー: {remaining_count} 件\n"
-        f"https://errorlog.jp/"
-    )
+    lines = [f"{now} に {published_count} 記事を公開しました。\n"]
+    for a in articles:
+        zenn_slug = make_zenn_slug(a["stem"])
+        lines.append(f"・{a['title']}")
+        lines.append(f"  errorlog.jp: https://errorlog.jp/posts/{a['stem']}/")
+        lines.append(f"  Zenn:        https://zenn.dev/errorlog/articles/{zenn_slug}\n")
+    lines.append(f"残りキュー: {remaining_count} 件")
     _send_gmail(
         f"[ErrorLog] {published_count} 記事を公開しました（残り {remaining_count} 件）",
-        body,
+        "\n".join(lines),
     )
     print("公開通知メール送信済み")
 
@@ -208,6 +216,7 @@ def main() -> None:
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
     published_count = 0
+    published_articles: list[dict] = []
 
     for row in to_publish:
         tool = row["tool"].strip()
@@ -256,6 +265,7 @@ def main() -> None:
         out.write_text(frontmatter + body + disclaimer, encoding="utf-8")
         print(f"  公開: {filename}  →  {title}")
         published_count += 1
+        published_articles.append({"stem": out.stem, "title": title})
 
     # キューを更新
     fieldnames = ["tool", "status_code", "official_meaning", "causes", "solutions"]
@@ -267,7 +277,7 @@ def main() -> None:
     print(f"\n{published_count} 件を公開しました。残りキュー: {len(remaining)} 件")
 
     if published_count > 0:
-        send_publish_report(published_count, len(remaining))
+        send_publish_report(published_count, len(remaining), published_articles)
 
     if len(remaining) < LOW_STOCK_THRESHOLD:
         send_low_stock_alert(len(remaining))
