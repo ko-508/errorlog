@@ -199,7 +199,7 @@ errorlog.jpの記事規格（生ログ例・Before/Afterコード対比）に沿
 """
 
     response = client.models.generate_content(
-        model="gemini-1.5-flash",
+        model="gemini-2.0-flash-lite",
         contents=prompt,
         config=types.GenerateContentConfig(
             system_instruction=(
