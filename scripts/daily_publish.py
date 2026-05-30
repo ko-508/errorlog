@@ -84,8 +84,9 @@ def make_zenn_slug(stem: str) -> str:
 
 
 def send_publish_report(published_count: int, remaining_count: int, articles: list[dict]) -> None:
-    from datetime import datetime
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    from datetime import datetime, timezone, timedelta
+    JST = timezone(timedelta(hours=9))
+    now = datetime.now(JST).strftime("%Y-%m-%d %H:%M JST")
     lines = [f"{now} に {published_count} 記事を公開しました。\n"]
     for a in articles:
         zenn_slug = make_zenn_slug(a["stem"])
