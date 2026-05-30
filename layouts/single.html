@@ -56,6 +56,20 @@
     {{- end }}
   </header>
 
+  {{- /* ── 検証環境パネル ── */}}
+  {{- with .Params.env }}
+  {{- $env := . }}
+  <div class="env-panel">
+    <span class="env-panel__label">検証環境</span>
+    <ul class="env-panel__list">
+      {{- with index $env "os"      }}<li><span class="env-panel__key">OS</span><span class="env-panel__val">{{ . }}</span></li>{{ end }}
+      {{- with index $env "runtime" }}<li><span class="env-panel__key">Runtime</span><span class="env-panel__val">{{ . }}</span></li>{{ end }}
+      {{- with index $env "tool"    }}<li><span class="env-panel__key">Tool</span><span class="env-panel__val">{{ . }}</span></li>{{ end }}
+      {{- with index $env "version" }}<li><span class="env-panel__key">Version</span><span class="env-panel__val">{{ . }}</span></li>{{ end }}
+    </ul>
+  </div>
+  {{- end }}
+
   {{- /* ── 3段要約パネル ── */}}
   {{- if or .Description $causeText }}
   <div class="summary-panel">

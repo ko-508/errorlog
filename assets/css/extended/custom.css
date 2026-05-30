@@ -120,6 +120,49 @@ details.toc .inner a { color: var(--primary); }
 }
 
 /* ══════════════════════════════════════════════
+   E-E-A-T 検証環境パネル
+   ══════════════════════════════════════════════ */
+.env-panel {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+  margin: 0 0 1rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.env-panel__label {
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+.env-panel__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.1rem;
+  align-items: baseline;
+}
+.env-panel__key {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--secondary);
+}
+.env-panel__key::after { content: ":\00a0"; }
+.env-panel__val {
+  font-size: 0.76rem;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--primary);
+}
+
+/* ══════════════════════════════════════════════
    関連記事セクション（トピッククラスター）
    ══════════════════════════════════════════════ */
 .related-posts {
