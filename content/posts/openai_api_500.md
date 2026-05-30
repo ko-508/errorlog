@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "OpenAI APIで500エラーが返される場合、OpenAIのサーバー側で予期しない内部エラーが発生していることを示します。"
 tags: ["OpenAI API"]
 errorCode: "500"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

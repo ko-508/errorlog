@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "Firebase の 409 Conflict エラーは、Firestore のトランザクション処理が他の同時実行操作との競合によって失敗したことを示します。"
 tags: ["Firebase"]
 errorCode: "409"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

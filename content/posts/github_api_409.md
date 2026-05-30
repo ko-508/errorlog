@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソース現在の状態と矛盾していることを示すステータスコードです。"
 tags: ["GitHub API"]
 errorCode: "409"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

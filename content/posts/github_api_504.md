@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。"
 tags: ["GitHub API"]
 errorCode: "504"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

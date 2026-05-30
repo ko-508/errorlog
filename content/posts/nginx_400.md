@@ -4,7 +4,7 @@ date: 2026-05-25
 description: "Nginx における 400 エラーは、クライアントから送信されたリクエストが HTTP 仕様に違反していることを示します。"
 tags: ["Nginx"]
 errorCode: "400"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

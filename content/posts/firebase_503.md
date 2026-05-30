@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。"
 tags: ["Firebase"]
 errorCode: "503"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

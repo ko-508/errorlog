@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "429エラーは、OpenAI APIのレート制限に達したときに返されるToo Many Requestsを意味します。OpenAI APIは、API キーごとにTPM（1分あたりのトークン数）やRPM（1分あたりのリクエスト数）に上限を設定"
 tags: ["OpenAI API"]
 errorCode: "429"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

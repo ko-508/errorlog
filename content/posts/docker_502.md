@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。"
 tags: ["Docker"]
 errorCode: "502"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

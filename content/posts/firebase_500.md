@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Firebase における 500 エラーは、Firebase サーバー側で予期しない内部エラーが発生したことを示すHTTP ステータスコードです。"
 tags: ["Firebase"]
 errorCode: "500"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

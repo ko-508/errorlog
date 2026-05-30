@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Dockerの503エラーは、HTTP標準仕様（RFC 9110）で「Service Unavailable」を意味し、リクエスト対象のサーバーが一時的に利用不可能な状態にあることを示します。"
 tags: ["Docker"]
 errorCode: "503"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

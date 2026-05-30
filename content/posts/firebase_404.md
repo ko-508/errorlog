@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Firebaseで404エラーが返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsのエンドポイント、Realtime Databaseのパスなど）がFirebaseプロジェクト内に存在しないこと"
 tags: ["Firebase"]
 errorCode: "404"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

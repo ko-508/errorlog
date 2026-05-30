@@ -4,7 +4,7 @@ date: 2026-05-26
 description: "Nginx が 500 Internal Server Error を返すのは、Nginx または バックエンドアプリケーション（PHP-FPM、uWSGI、Node.js など）で予期しない内部エラーが発生したことを示します。"
 tags: ["Nginx"]
 errorCode: "500"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

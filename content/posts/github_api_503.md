@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "GitHub APIにおける503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、またはAPIレート制限に達した場合に発生します。"
 tags: ["GitHub API"]
 errorCode: "503"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

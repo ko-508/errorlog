@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "GitHub APIで500エラーが発生する場合、GitHub側のサーバーで予期しない内部エラーが発生していることを示します。クライアント側の設定ミスではなく、サーバー側の障害またはAPIの不具合が原因です。"
 tags: ["GitHub API"]
 errorCode: "500"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

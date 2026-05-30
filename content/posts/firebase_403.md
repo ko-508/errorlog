@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Firebase の 403 エラーは「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールがリクエストをブロックしている状態です。"
 tags: ["Firebase"]
 errorCode: "403"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

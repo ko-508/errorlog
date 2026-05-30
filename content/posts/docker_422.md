@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Docker で 422 エラーが発生するのは、Docker API またはコンテナレジストリへのリクエストが構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。"
 tags: ["Docker"]
 errorCode: "422"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

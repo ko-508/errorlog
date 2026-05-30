@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Docker の 429 エラーは、HTTP ステータスコード 429（Too Many Requests）を意味し、短時間に送信されたリクエスト数が上限を超えたことを示します。"
 tags: ["Docker"]
 errorCode: "429"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

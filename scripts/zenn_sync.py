@@ -1,13 +1,18 @@
 """
 Hugo 記事を Zenn 形式に変換して ZENN_DIR に出力するスクリプト。
-scripts/zenn_synced.json で同期済み記事の最終同期日を管理し、
-lastmod が更新された記事は自動的に再同期する。
+scripts/zenn_synced.json で同期済み記事の最終同期「日時」を管理し、
+ファイルの mtime が最終同期タイムスタンプより新しければ自動再同期する。
+
+・lastmod は表示用（サイトに表示する最終更新日）として維持する
+・同期判定はファイルの実際の更新時刻（mtime）で行うため
+  同日に複数回更新した場合も確実に再同期される
 
 使い方:
   ZENN_DIR=../zenn-content python scripts/zenn_sync.py           # 新規＋更新のみ
   ZENN_DIR=../zenn-content python scripts/zenn_sync.py --force   # 全記事強制同期
 """
 
+import datetime
 import json
 import os
 import re
@@ -158,15 +163,19 @@ def strip_internal_links(body: str) -> str:
     return body
 
 
-def needs_sync(stem: str, fm: dict, manifest: dict, zenn_articles_dir: Path, force: bool) -> bool:
-    """同期が必要かどうかを判定する。"""
+def needs_sync(src: Path, stem: str, manifest: dict, zenn_articles_dir: Path, force: bool) -> bool:
+    """同期が必要かどうかを判定する。
+
+    判定基準: ファイルの mtime > マニフェストの最終同期タイムスタンプ
+    同日複数回の更新にも対応するため日付ではなく時刻で比較する。
+    """
     if force:
         return True
 
     zenn_slug = make_zenn_slug(stem)
     out_path  = zenn_articles_dir / f"{zenn_slug}.md"
 
-    # Zennファイルが存在しない → 新規
+    # Zenn ファイルが存在しない → 新規
     if not out_path.exists():
         return True
 
@@ -174,12 +183,20 @@ def needs_sync(stem: str, fm: dict, manifest: dict, zenn_articles_dir: Path, for
     if stem not in manifest:
         return True
 
-    # 記事の更新日 > 最終同期日 → 更新あり
-    return article_date(fm) > manifest[stem]
+    # ファイルの実際の更新時刻
+    file_mtime = datetime.datetime.fromtimestamp(src.stat().st_mtime)
+
+    # マニフェストの値を datetime にパース（旧形式の日付文字列も許容）
+    try:
+        last_sync = datetime.datetime.fromisoformat(manifest[stem])
+    except (ValueError, TypeError):
+        return True  # パース失敗 → 念のため再同期
+
+    return file_mtime > last_sync
 
 
 def convert(src: Path, zenn_articles_dir: Path, manifest: dict, force: bool) -> tuple[bool, str]:
-    """1記事を変換して Zenn 形式で書き出す。(書き出したか, 記事日付) を返す。"""
+    """1記事を変換して Zenn 形式で書き出す。(書き出したか, 同期タイムスタンプ) を返す。"""
     text = src.read_text(encoding="utf-8")
     fm, body = parse_frontmatter(text)
 
@@ -188,7 +205,7 @@ def convert(src: Path, zenn_articles_dir: Path, manifest: dict, force: bool) -> 
 
     stem = src.stem
 
-    if not needs_sync(stem, fm, manifest, zenn_articles_dir, force):
+    if not needs_sync(src, stem, manifest, zenn_articles_dir, force):
         return False, ""
 
     zenn_slug  = make_zenn_slug(stem)
@@ -211,7 +228,8 @@ def convert(src: Path, zenn_articles_dir: Path, manifest: dict, force: bool) -> 
 
     body = strip_internal_links(body)
     out_path.write_text(zenn_fm + body, encoding="utf-8")
-    return True, article_date(fm)
+    # 同期完了時刻を ISO datetime で返す（マニフェストに記録）
+    return True, datetime.datetime.now().isoformat()
 
 
 def main() -> None:

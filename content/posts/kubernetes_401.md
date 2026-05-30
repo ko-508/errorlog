@@ -4,7 +4,7 @@ date: 2026-05-25
 description: "Kubernetesで401エラーが発生するのは、APIサーバーへのリクエストに対して認証に失敗した状態を示します。認証トークンの有効期限切れ、認証情報の不足、または権限がないServiceAccountの使用が典型的な原因です。"
 tags: ["Kubernetes"]
 errorCode: "401"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

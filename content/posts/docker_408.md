@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "408 Request Timeout は、HTTP標準仕様（RFC 9110）で定められたステータスコードです。Docker環境では、クライアントがリクエストを完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に"
 tags: ["Docker"]
 errorCode: "408"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

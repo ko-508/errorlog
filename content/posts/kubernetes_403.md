@@ -4,7 +4,7 @@ date: 2026-05-25
 description: "Kubernetes の 403 エラーは「Forbidden」を意味し、リクエストの認証は成功しているものの、そのリソースに対する操作権限（RBAC: Role-Based Access Control）がないことを示します。"
 tags: ["Kubernetes"]
 errorCode: "403"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "504 Gateway Timeout は、Docker デーモンがプロキシ経由で上流サーバーへのリクエストに応答を待つ際に、設定されたタイムアウト時間を超過したことを示すHTTPステータスコードです。"
 tags: ["Docker"]
 errorCode: "504"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

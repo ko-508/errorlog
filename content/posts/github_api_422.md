@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "422 Unprocessable Entity は、HTTPリクエストの形式は正しいものの、送信されたデータが GitHub API の検証ルールに違反している場合に返されるステータスコードです。"
 tags: ["GitHub API"]
 errorCode: "422"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

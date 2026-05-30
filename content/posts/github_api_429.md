@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "GitHub APIの429エラーは「Too Many Requests」を意味し、レート制限に達したことを示します。GitHubは不正アクセスやDDoS攻撃から保護するため、APIリクエスト数に制限を設けており、この上限を超えると429が"
 tags: ["GitHub API"]
 errorCode: "429"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

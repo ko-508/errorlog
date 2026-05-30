@@ -4,7 +4,7 @@ date: 2026-05-27
 description: "Stripe APIで404エラーが返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripeサーバー上に存在しないか、アクセス権限のないリソースへのアクセスを試みたことを示します。"
 tags: ["Stripe"]
 errorCode: "404"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 ## エラーの概要
 

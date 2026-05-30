@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "502 Bad Gateway は、OpenAI API のリクエストがOpenAIのサーバーに到達したものの、バックエンドサーバーから無効な応答が返された、またはタイムアウトしたことを示します。"
 tags: ["OpenAI API"]
 errorCode: "502"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

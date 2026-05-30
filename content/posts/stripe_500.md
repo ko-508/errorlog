@@ -4,7 +4,7 @@ date: 2026-05-27
 description: "Stripe API で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。"
 tags: ["Stripe"]
 errorCode: "500"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 ## エラーの概要
 

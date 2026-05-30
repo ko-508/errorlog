@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "GitHub APIで 401 Unauthorizedエラーが発生するのは、リクエストに対する認証が失敗した場合です。このエラーは、認証情報が完全に欠落している、形式が正しくない、または無効な状態を示しています。"
 tags: ["GitHub API"]
 errorCode: "401"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

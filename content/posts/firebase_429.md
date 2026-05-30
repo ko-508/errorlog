@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "429 Too Many Requests は、Firebase のレート制限に達したことを示す HTTP ステータスコードです。"
 tags: ["Firebase"]
 errorCode: "429"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要

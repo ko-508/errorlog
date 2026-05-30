@@ -1,6 +1,7 @@
 ---
 title: "Slack とは？特徴・機能・料金・比較まとめ"
 date: 2026-05-28
+lastmod: 2026-05-31
 description: "Slack の特徴・できること・料金プラン・似たツールとの比較を解説。"
 tags: ["tool-guide"]
 ---

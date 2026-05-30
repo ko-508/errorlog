@@ -1,6 +1,7 @@
 ---
 title: "Gemini API の 429 エラー：無料枠クォータ枯渇と解決策"
 date: 2026-05-30
+lastmod: 2026-05-31
 description: "gemini-2.0-flashの無料枠を自動化パイプラインで使い切りRESOURCE_EXHAUSTEDが発生。モデル切り替えとリトライ実装で解決します。"
 tags: ["GCP"]
 ---

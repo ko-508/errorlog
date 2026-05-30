@@ -1,6 +1,7 @@
 ---
 title: "Slack の 500 エラー：原因と解決策"
 date: 2026-05-28
+lastmod: 2026-05-31
 description: "Slack側のサーバーで予期しない内部エラーが発生した。Slackのインフラで一時的な障害が起きているなど、Slack 500 エラーの原因と解決策を解説。"
 tags: ["Slack"]
 errorCode: "500"

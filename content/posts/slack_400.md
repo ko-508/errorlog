@@ -4,7 +4,7 @@ date: 2026-05-27
 description: "Slackの400エラーは、Slack APIへのリクエストが不正な形式で送信されたか、必須のパラメータが不足していることを示します。"
 tags: ["Slack"]
 errorCode: "400"
-lastmod: 2026-05-29
+lastmod: 2026-05-31
 ---
 
 ## エラーの概要
