@@ -274,15 +274,15 @@ def main():
     client   = _ga4_client()
     data     = fetch_ga4_data(client)
 
-    print("Gemini分析中...")
+    print("Claude分析中...")
     analysis = analyze_with_gemini(data)
 
     report = build_report(data, analysis)
     REPORT_PATH.write_text(report, encoding="utf-8")
 
     import re
-    m = re.search(r"### 4[^\n]*\n+[-・]?\s*(.+)", analysis)
-    top_action = m.group(1).strip() if m else "（抽出できませんでした）"
+    m = re.search(r"#{2,4}\s*4[^\n]*\n+[-・*]?\s*(.+)", analysis)
+    top_action = m.group(1).strip() if m else analysis.split("\n")[-1].strip() or "（抽出できませんでした）"
 
     print(f"\n✅ レポート保存: {REPORT_PATH.relative_to(BASE)}")
     print(f"🎯 最重要アクション: {top_action}\n")
