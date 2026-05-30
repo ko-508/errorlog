@@ -56,16 +56,18 @@ POST /v1/projects/<project-id>/databases/(default)/documents:query
 
 Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に[インデックス](/glossary/インデックス/)を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（`<`, `>`, `<=`, `>=`）を使用することはできません。
 
+**Before（複数フィールドで不等式を使用）：**
+
 ```javascript
-// ❌ エラーになる例：複数フィールドで不等式を使用
 db.collection('users')
   .where('age', '>', 18)
   .where('score', '<', 100)
   .get();
 ```
 
+**After（修正後）：**
+
 ```javascript
-// ✅ 修正後：単一フィールドの不等式のみ使用
 db.collection('users')
   .where('age', '>', 18)
   .where('status', '==', 'active')
@@ -78,26 +80,32 @@ db.collection('users')
 
 Firebase Authentication で不正な形式のメールアドレスやパスワード、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)が渡された場合に 400 エラーが発生します。
 
+**Before（無効なメールアドレス形式）：**
+
 ```javascript
-// ❌ エラーになる例：無効なメールアドレス形式
 firebase.auth().createUserWithEmailAndPassword('user@', 'password123')
   .catch(error => console.error(error));
 ```
 
+**After（修正後）：**
+
 ```javascript
-// ✅ 修正後：正しいメールアドレス形式
 firebase.auth().createUserWithEmailAndPassword('user@example.com', 'password123')
   .catch(error => console.error(error));
 ```
 
 パスワードは最低 6 文字である必要があります。
 
+**Before（パスワードが短すぎる）：**
+
 ```javascript
-// ❌ エラーになる例：パスワードが短すぎる
 firebase.auth().createUserWithEmailAndPassword('user@example.com', '123')
   .catch(error => console.error(error));
+```
 
-// ✅ 修正後：6文字以上のパスワード
+**After（修正後）：**
+
+```javascript
 firebase.auth().createUserWithEmailAndPassword('user@example.com', 'securePassword123')
   .catch(error => console.error(error));
 ```
@@ -106,8 +114,9 @@ firebase.auth().createUserWithEmailAndPassword('user@example.com', 'securePasswo
 
 Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 エラーが発生します。
 
+**Before（undefined を含むオブジェクト）：**
+
 ```javascript
-// ❌ エラーになる例：undefined を含むオブジェクト
 const userData = {
   name: 'John',
   email: undefined,
@@ -116,8 +125,9 @@ const userData = {
 db.collection('users').doc('user1').set(userData);
 ```
 
+**After（修正後）：**
+
 ```javascript
-// ✅ 修正後：undefined を除外またはnullに変更
 const userData = {
   name: 'John',
   email: null,
@@ -128,13 +138,17 @@ db.collection('users').doc('user1').set(userData);
 
 循環参照を含むオブジェクトも不正です。
 
+**Before（循環参照）：**
+
 ```javascript
-// ❌ エラーになる例：循環参照
 const obj = { name: 'test' };
 obj.self = obj;  // 循環参照
 db.collection('items').doc('item1').set(obj);
+```
 
-// ✅ 修正後：循環参照を除去
+**After（修正後）：**
+
+```javascript
 const obj = { name: 'test', parent: 'root' };
 db.collection('items').doc('item1').set(obj);
 ```
@@ -143,15 +157,17 @@ db.collection('items').doc('item1').set(obj);
 
 Firebase [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、Content-Type [ヘッダー](/glossary/ヘッダー/)や[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が不正だと 400 エラーが発生します。
 
+**Before（Content-Type が誤っている）：**
+
 ```bash
-# ❌ エラーになる例：Content-Type が誤っている
 curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -d '{"email":"user@example.com","password":"password123"}'
 ```
 
+**After（修正後）：**
+
 ```bash
-# ✅ 修正後：正しい Content-Type
 curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \
   -H "Content-Type: application/json" \
   -d '{"email":"user@example.com","password":"password123","returnSecureToken":true}'
@@ -161,11 +177,15 @@ curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNe
 
 ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 エラーが発生します。
 
-```javascript
-// ❌ エラーになる例：スラッシュを含むドキュメント ID
-db.collection('users').doc('user/123').set({ name: 'John' });
+**Before（スラッシュを含むドキュメント ID）：**
 
-// ✅ 修正後：スラッシュを別の文字に置換
+```javascript
+db.collection('users').doc('user/123').set({ name: 'John' });
+```
+
+**After（修正後）：**
+
+```javascript
 db.collection('users').doc('user_123').set({ name: 'John' });
 ```
 
@@ -175,8 +195,9 @@ db.collection('users').doc('user_123').set({ name: 'John' });
 
 Realtime Database は [JSON](/glossary/json/) で表現できる値のみをサポートしており、Date オブジェクトなどの JavaScript 固有のオブジェクトを直接書き込むことができません。
 
+**Before（Date オブジェクトを直接書き込み）：**
+
 ```javascript
-// ❌ エラーになる例：Date オブジェクトを直接書き込み
 const data = {
   name: 'John',
   createdAt: new Date()
@@ -195,8 +216,9 @@ db.ref('users/user1').set(data);
 
 Cloud Functions の[HTTP](/glossary/http/) トリガーで[リクエストボディ](/glossary/リクエストボディ/)が正しくパースされていない場合も 400 エラーが発生します。Express フレームワークを使用する際は、ボディパーサーミドルウェアを明示的に設定する必要があります。
 
+**Before（ボディパーサーなし）：**
+
 ```javascript
-// ❌ エラーになる例：ボディパーサーなし
 const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
@@ -207,8 +229,9 @@ app.post('/api/users', (req, res) => {
 });
 ```
 
+**After（修正後）：**
+
 ```javascript
-// ✅ 修正後：ボディパーサーミドルウェアを追加
 const functions = require('firebase-functions');
 const express = require('express');
 const app = express();
@@ -226,8 +249,9 @@ exports.api = functions.https.onRequest(app);
 
 Firebase Security Rules が厳しく設定されている場合、有効な[認証](/glossary/認証/)[トークン](/glossary/トークン/)がない、または期限切れの[トークン](/glossary/トークン/)を使用していると 400 エラーが発生する可能性があります。ID [トークン](/glossary/トークン/)の有効期限は 1 時間であるため、定期的にリフレッシュが必要です。
 
+**After（修正後）：**
+
 ```javascript
-// ✅ 推奨：定期的にトークンをリフレッシュ
 firebase.auth().currentUser.getIdToken(true)
   .then(idToken => {
     // 最新のトークンを使用

@@ -37,7 +37,7 @@ curl -i https://api.github.com/repos/<owner>/<repo>/pulls
 
 **なぜ発生するか：** GitHubは処理時間に制限を設けており、膨大なプルリクエストやIssue一覧の取得など、サーバー負荷が高い操作を実行すると[タイムアウト](/glossary/タイムアウト/)します。特に[コミット](/glossary/コミット/)履歴やファイル差分の取得で発生しやすいです。
 
-Before（エラーが起きる実装）：
+**Before（エラーが起きる実装）：**
 
 ```python
 import requests
@@ -51,7 +51,7 @@ response = requests.get(
 )
 ```
 
-After（修正後）：
+**After（修正後）：**
 
 ```python
 import requests
@@ -86,14 +86,14 @@ while True:
 
 **なぜ発生するか：** 無効な認証情報を使用する場合、GitHubのサーバー側で追加の検証処理が発生し、[タイムアウト](/glossary/タイムアウト/)の原因となることがあります。特にPersonal Access Tokenや[OAuth](/glossary/oauth/) tokenが期限切れの場合、サーバー側が余計な処理を実行します。
 
-Before（[認証](/glossary/認証/)エラーの実装）：
+**Before（[認証](/glossary/認証/)エラーの実装）：**
 
 ```bash
 curl -H "Authorization: token <expired-token>" \
   https://api.github.com/user
 ```
 
-After（修正後）：
+**After（修正後）：**
 
 ```bash
 # トークンの有効性を事前確認
@@ -110,7 +110,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 
 **なぜ発生するか：** 複数の[リクエスト](/glossary/リクエスト/)を短時間に大量送信すると、GitHubのサーバーが処理しきれず504が発生します。特に[CI/CD](/glossary/ci-cd/)パイプラインやスクリプトで並列[リクエスト](/glossary/リクエスト/)を送った場合に起きやすいです。
 
-Before（並列[リクエスト](/glossary/リクエスト/)で504になる実装）：
+**Before（並列[リクエスト](/glossary/リクエスト/)で504になる実装）：**
 
 ```python
 import concurrent.futures
@@ -131,7 +131,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
     results = [f.result() for f in futures]
 ```
 
-After（[リクエスト](/glossary/リクエスト/)を制御する修正）：
+**After（[リクエスト](/glossary/リクエスト/)を制御する修正）：**
 
 ```python
 import requests

@@ -53,7 +53,10 @@
 {{- end }}
 
 {{- /* Before/After セクションが存在するか */}}
-{{- $hasBeforeAfter := findRE "\\*\\*Before" $rawContent 1 }}
+{{- $hasBeforeAfter := findRE "\\*\\*Before|\\*\\*修正前" $rawContent 1 }}
+
+{{- /* 解決策-only セクション（B/C 型記事）が存在するか */}}
+{{- $remedies := findRE "\\*\\*解決策[（(][^）)]*[）)]" $rawContent }}
 
 {{- /* 生ログ：最初のコードブロック（言語行を除く3行） */}}
 {{- $logSnippet := "" }}
@@ -127,10 +130,19 @@
       <span class="summary-text">{{ $causeText }}</span>
     </div>
     {{- end }}
-    {{- if $hasBeforeAfter }}
+    {{- if or $hasBeforeAfter $remedies }}
     <div class="summary-row">
       <span class="summary-label summary-label--fix">対策</span>
-      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+      <span class="summary-text">
+        {{- if $hasBeforeAfter -}}
+        <a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a>
+        {{- end -}}
+        {{- range $i, $r := $remedies -}}
+        {{- $anchor := cond (eq $i 0) "first-remedy" (printf "remedy-%d" $i) -}}
+        {{- $title  := $r | replaceRE "\\*\\*解決策[（(]([^）)]*)[）)]" "$1" -}}
+        <a href="#{{ $anchor }}" class="summary-fix-link">↓ {{ $title }}</a>
+        {{- end -}}
+      </span>
     </div>
     {{- end }}
   </div>
@@ -228,7 +240,7 @@
   if (!content) return;
 
   var firstCompare = true;
-  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_BEFORE = /Before|エラーが起きる|修正前/;
   var RE_AFTER  = /After|修正後/;
 
   content.querySelectorAll('p strong').forEach(function (el) {
@@ -347,6 +359,38 @@
         rp.style.minHeight = h + 'px';
       });
     }(left, right));
+  });
+})();
+
+/* ── 解決策-only セクション（Before/After なし記事用テンプレート） ── */
+(function () {
+  var RE_REM = /^解決策[（(]/;
+  var remIdx = 0;
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_REM.test(el.textContent)) return;
+    var label = el.closest('p');
+    if (label.dataset.remedy) return;
+    label.dataset.remedy = '1';
+    var elems = [];
+    var cursor = label.nextElementSibling;
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_REM.test(s.textContent)) break;
+      elems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'code-remedy';
+    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
+    remIdx++;
+    label.parentNode.insertBefore(wrap, label);
+    wrap.appendChild(label);
+    elems.forEach(function (e) { wrap.appendChild(e); });
+    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
+    wrap.style.setProperty('padding-left',  '1rem',              'important');
+    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
+    wrap.style.setProperty('margin-bottom', '1rem',              'important');
   });
 })();
 </script>
