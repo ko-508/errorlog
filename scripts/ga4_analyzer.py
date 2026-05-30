@@ -1,19 +1,19 @@
 """
 GA4 週次分析・Gemini改善提案エンジン
 
-必要な環境変数:
-  GA4_PROPERTY_ID       GA4プロパティID（数字のみ。例: 123456789）
-  GA4_CREDENTIALS_JSON  サービスアカウントキーのJSON文字列
-  GEMINI_API_KEY        Gemini API キー
+必要な環境変数（GitHub Secrets）:
+  GA4_PROPERTY_ID          GA4プロパティID（数字のみ）
+  GA4_OAUTH_CLIENT_ID      OAuthクライアントID
+  GA4_OAUTH_CLIENT_SECRET  OAuthクライアントシークレット
+  GA4_OAUTH_REFRESH_TOKEN  OAuthリフレッシュトークン
+  GEMINI_API_KEY           Gemini API キー
 
 実行:
   python scripts/ga4_analyzer.py
 """
 
-import json
 import os
 import sys
-import tempfile
 from datetime import date, timedelta
 from pathlib import Path
 
@@ -22,61 +22,58 @@ BASE        = Path(__file__).parent.parent
 REPORTS_DIR = BASE / "reports" / "ga4"
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
-TODAY      = date.today()
+TODAY       = date.today()
 REPORT_PATH = REPORTS_DIR / f"report_{TODAY.strftime('%Y%m%d')}.md"
 
 # ── 設定 ──────────────────────────────────────────────────────────────────────
 PROPERTY_ID   = os.environ.get("GA4_PROPERTY_ID", "").strip()
-CREDENTIALS   = os.environ.get("GA4_CREDENTIALS_JSON", "").strip()
+CLIENT_ID     = os.environ.get("GA4_OAUTH_CLIENT_ID", "").strip()
+CLIENT_SECRET = os.environ.get("GA4_OAUTH_CLIENT_SECRET", "").strip()
+REFRESH_TOKEN = os.environ.get("GA4_OAUTH_REFRESH_TOKEN", "").strip()
 GEMINI_KEY    = os.environ.get("GEMINI_API_KEY", "").strip()
-TOP_PAGES     = 20   # ページ別レポートの上限件数
-TOP_CITIES    = 15   # 都市別レポートの上限件数
+TOP_PAGES     = 20
+TOP_CITIES    = 15
 
 
-# ── GA4 認証セットアップ ───────────────────────────────────────────────────────
+# ── OAuth2 認証 ───────────────────────────────────────────────────────────────
 
-def _setup_credentials() -> str | None:
-    """サービスアカウントJSONを一時ファイルに書き出し、パスを返す。"""
-    if not CREDENTIALS:
-        return None
-    try:
-        json.loads(CREDENTIALS)  # 壊れたJSONを早期検出
-    except json.JSONDecodeError as e:
-        print(f"[ERROR] GA4_CREDENTIALS_JSON のJSONが不正です: {e}", file=sys.stderr)
-        sys.exit(1)
-    tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False)
-    tmp.write(CREDENTIALS)
-    tmp.flush()
-    return tmp.name
+def _build_credentials():
+    from google.oauth2.credentials import Credentials
+    return Credentials(
+        token=None,
+        refresh_token=REFRESH_TOKEN,
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
+        token_uri="https://oauth2.googleapis.com/token",
+        scopes=["https://www.googleapis.com/auth/analytics.readonly"],
+    )
+
+
+def _ga4_client():
+    from google.analytics.data_v1beta import BetaAnalyticsDataClient
+    creds = _build_credentials()
+    return BetaAnalyticsDataClient(credentials=creds)
 
 
 # ── GA4 データ取得 ────────────────────────────────────────────────────────────
 
-def _ga4_client(cred_path: str | None):
-    from google.analytics.data_v1beta import BetaAnalyticsDataClient
-    if cred_path:
-        return BetaAnalyticsDataClient.from_service_account_file(cred_path)
-    return BetaAnalyticsDataClient()  # Application Default Credentials
-
-
-def _run_report(client, property_id: str, dimensions: list, metrics: list,
-                date_range_days: int = 7) -> list[dict]:
+def _run_report(client, dimensions: list, metrics: list, days: int = 7) -> list[dict]:
     from google.analytics.data_v1beta.types import (
         DateRange, Dimension, Metric, RunReportRequest,
     )
     end   = TODAY.strftime("%Y-%m-%d")
-    start = (TODAY - timedelta(days=date_range_days - 1)).strftime("%Y-%m-%d")
+    start = (TODAY - timedelta(days=days - 1)).strftime("%Y-%m-%d")
 
     req = RunReportRequest(
-        property=f"properties/{property_id}",
+        property=f"properties/{PROPERTY_ID}",
         dimensions=[Dimension(name=d) for d in dimensions],
         metrics=[Metric(name=m) for m in metrics],
         date_ranges=[DateRange(start_date=start, end_date=end)],
     )
     response = client.run_report(req)
+    dim_names = [h.name for h in response.dimension_headers]
+    met_names = [h.name for h in response.metric_headers]
 
-    dim_names  = [h.name for h in response.dimension_headers]
-    met_names  = [h.name for h in response.metric_headers]
     rows = []
     for row in response.rows:
         r = {}
@@ -91,67 +88,29 @@ def _run_report(client, property_id: str, dimensions: list, metrics: list,
     return rows
 
 
-def fetch_ga4_data(client, pid: str) -> dict:
+def fetch_ga4_data(client) -> dict:
     print("GA4データ取得中...")
 
-    # 1. 日別ユーザー推移
-    daily = _run_report(
-        client, pid,
-        dimensions=["date"],
-        metrics=["activeUsers", "newUsers", "sessions"],
-    )
+    daily = _run_report(client, ["date"], ["activeUsers", "newUsers", "sessions"])
     daily.sort(key=lambda r: r.get("date", ""))
 
-    # 2. ページ別PV・エンゲージメント
     pages = _run_report(
-        client, pid,
-        dimensions=["pagePath", "pageTitle"],
-        metrics=["screenPageViews", "averageSessionDuration", "engagementRate"],
+        client,
+        ["pagePath", "pageTitle"],
+        ["screenPageViews", "averageSessionDuration", "engagementRate"],
     )
     pages.sort(key=lambda r: -r.get("screenPageViews", 0))
     pages = pages[:TOP_PAGES]
 
-    # 3. 都市別ユーザー
-    cities = _run_report(
-        client, pid,
-        dimensions=["city"],
-        metrics=["activeUsers"],
-    )
+    cities = _run_report(client, ["city"], ["activeUsers"])
     cities.sort(key=lambda r: -r.get("activeUsers", 0))
     cities = cities[:TOP_CITIES]
 
+    print(f"  日別:{len(daily)}件 / ページ:{len(pages)}件 / 都市:{len(cities)}件")
     return {"daily": daily, "pages": pages, "cities": cities}
 
 
-# ── データ → テキストブロック ──────────────────────────────────────────────────
-
-def _fmt_daily(daily: list[dict]) -> str:
-    lines = ["日付,アクティブユーザー,新規ユーザー,セッション数"]
-    for r in daily:
-        lines.append(
-            f"{r.get('date','')},{int(r.get('activeUsers',0))},"
-            f"{int(r.get('newUsers',0))},{int(r.get('sessions',0))}"
-        )
-    return "\n".join(lines)
-
-
-def _fmt_pages(pages: list[dict]) -> str:
-    lines = ["ページパス,PV数,平均エンゲージメント時間(秒),エンゲージメント率"]
-    for r in pages:
-        lines.append(
-            f"{r.get('pagePath','')},{int(r.get('screenPageViews',0))},"
-            f"{r.get('averageSessionDuration',0):.1f},"
-            f"{r.get('engagementRate',0):.2f}"
-        )
-    return "\n".join(lines)
-
-
-def _fmt_cities(cities: list[dict]) -> str:
-    lines = ["都市,アクティブユーザー"]
-    for r in cities:
-        lines.append(f"{r.get('city','')},{int(r.get('activeUsers',0))}")
-    return "\n".join(lines)
-
+# ── データ整形 ────────────────────────────────────────────────────────────────
 
 def _totals(daily: list[dict]) -> dict:
     if not daily:
@@ -163,14 +122,35 @@ def _totals(daily: list[dict]) -> dict:
     }
 
 
+def _fmt_daily(daily):
+    lines = ["日付,アクティブUU,新規UU,セッション"]
+    for r in daily:
+        lines.append(
+            f"{r.get('date','')},{int(r.get('activeUsers',0))},"
+            f"{int(r.get('newUsers',0))},{int(r.get('sessions',0))}"
+        )
+    return "\n".join(lines)
+
+
+def _fmt_pages(pages):
+    lines = ["ページパス,PV,エンゲージ時間(秒),エンゲージ率"]
+    for r in pages:
+        lines.append(
+            f"{r.get('pagePath','')},{int(r.get('screenPageViews',0))},"
+            f"{r.get('averageSessionDuration',0):.1f},"
+            f"{r.get('engagementRate',0):.2f}"
+        )
+    return "\n".join(lines)
+
+
+def _fmt_cities(cities):
+    lines = ["都市,アクティブUU"]
+    for r in cities:
+        lines.append(f"{r.get('city','')},{int(r.get('activeUsers',0))}")
+    return "\n".join(lines)
+
+
 # ── Gemini 分析 ───────────────────────────────────────────────────────────────
-
-_SYSTEM = (
-    "あなたはWebメディアのグロースアナリストです。"
-    "提供されたGA4の生データのみを根拠に分析し、ソースにない情報は推測しないこと。"
-    "出力はMarkdown形式で、見出しは##を使用すること。"
-)
-
 
 def analyze_with_gemini(data: dict) -> str:
     if not GEMINI_KEY:
@@ -187,42 +167,46 @@ def analyze_with_gemini(data: dict) -> str:
 このデータのみを根拠として、以下3つの観点で構造化分析を行ってください。
 
 === 集計サマリー ===
-期間合計アクティブユーザー: {totals['active']}
-期間合計新規ユーザー: {totals['new']}
-期間合計セッション数: {totals['sessions']}
+アクティブユーザー合計: {totals['active']}
+新規ユーザー合計: {totals['new']}
+セッション合計: {totals['sessions']}
 
-=== 日別ユーザー推移（CSV）===
+=== 日別推移（CSV）===
 {_fmt_daily(data['daily'])}
 
-=== ページ別パフォーマンス（上位{TOP_PAGES}件、CSV）===
+=== ページ別パフォーマンス（上位{TOP_PAGES}件）===
 {_fmt_pages(data['pages'])}
 
-=== 都市別ユーザー（上位{TOP_CITIES}件、CSV）===
+=== 都市別ユーザー（上位{TOP_CITIES}件）===
 {_fmt_cities(data['cities'])}
 
-## 出力要件（厳守）
+## 出力要件（Markdown形式、##見出し使用）
 
 ### 1. アクセス分析：伸びた記事と原因の因果関係
-- PV上位3記事を特定し、アクセスが集まった理由をデータから論理的に推論する
-- 地域分布データと組み合わせて流入特性を分析する
+PV上位3記事を特定し、アクセスが集まった理由をデータから論理的に推論する。
+地域データと組み合わせて流入特性も分析する。
 
 ### 2. エンゲージメント改善：離脱リスクページの特定と具体策
-- 平均エンゲージメント時間が短いページ（下位3件）を特定する
-- errorlog.jp の記事規格（生のログ例・Before/Afterコード対比）に沿った具体的な改善案を提示する
+エンゲージメント時間が短いページ（下位3件）を特定する。
+errorlog.jpの記事規格（生ログ例・Before/Afterコード対比）に沿った具体的な改善案を提示する。
 
-### 3. コンテンツ戦略：次に狙うべき高価値キーワード配分の最適化案
-- 現在のページ構成から手薄なツール・エラーコードを特定する
-- 次の1週間で優先的に書くべき記事テーマを3件、根拠とともに提案する
+### 3. コンテンツ戦略：次に書くべき高価値記事の提案
+現在のページ構成から手薄なツール・エラーコードを特定する。
+次の1週間で優先的に書くべき記事テーマを3件、根拠とともに提案する。
 
-### 4. 最重要アクション（1行）
-- 上記分析全体で最も優先度が高い改善アクションを1文で出力する
+### 4. 最重要アクション（1文）
+上記分析全体で最も優先度が高い改善アクションを1文で出力する。
 """
 
     response = client.models.generate_content(
         model="gemini-1.5-flash",
         contents=prompt,
         config=types.GenerateContentConfig(
-            system_instruction=_SYSTEM,
+            system_instruction=(
+                "あなたはWebメディアのグロースアナリストです。"
+                "提供されたGA4データのみを根拠に分析し、ソースにない情報は推測しないこと。"
+                "出力はMarkdown形式で、見出しは##を使用すること。"
+            ),
             temperature=0.3,
             max_output_tokens=4096,
         ),
@@ -236,7 +220,7 @@ def build_report(data: dict, analysis: str) -> str:
     totals = _totals(data["daily"])
     period = f"{TODAY - timedelta(days=6)} 〜 {TODAY}"
 
-    sections = [
+    lines = [
         f"# GA4 週次分析レポート {TODAY.strftime('%Y-%m-%d')}",
         f"\n**集計期間:** {period}  ",
         f"**アクティブユーザー:** {totals['active']}  ",
@@ -248,71 +232,64 @@ def build_report(data: dict, analysis: str) -> str:
         "|------|------------|-------|----------|",
     ]
     for r in data["daily"]:
-        sections.append(
+        lines.append(
             f"| {r.get('date','')} | {int(r.get('activeUsers',0))} "
             f"| {int(r.get('newUsers',0))} | {int(r.get('sessions',0))} |"
         )
 
-    sections += [
-        "\n## 生データ：ページ別パフォーマンス（上位）\n",
+    lines += [
+        "\n## 生データ：ページ別パフォーマンス（上位10件）\n",
         "| ページ | PV | エンゲージ時間(秒) | エンゲージ率 |",
         "|--------|-----|----------------|------------|",
     ]
     for r in data["pages"][:10]:
         path = r.get("pagePath", "")[:50]
-        sections.append(
+        lines.append(
             f"| {path} | {int(r.get('screenPageViews',0))} "
             f"| {r.get('averageSessionDuration',0):.1f} "
             f"| {r.get('engagementRate',0):.2f} |"
         )
 
-    sections += [
+    lines += [
         "\n## 生データ：都市別ユーザー\n",
         "| 都市 | アクティブUU |",
         "|------|------------|",
     ]
     for r in data["cities"]:
-        sections.append(f"| {r.get('city','')} | {int(r.get('activeUsers',0))} |")
+        lines.append(f"| {r.get('city','')} | {int(r.get('activeUsers',0))} |")
 
-    sections += [
-        "\n---\n",
-        "## AI分析レポート（Gemini）\n",
-        analysis,
-    ]
-    return "\n".join(sections)
+    lines += ["\n---\n", "## AI分析レポート（Gemini）\n", analysis]
+    return "\n".join(lines)
 
 
 # ── エントリポイント ───────────────────────────────────────────────────────────
 
 def main():
-    if not PROPERTY_ID:
-        print("[ERROR] GA4_PROPERTY_ID が未設定です。", file=sys.stderr)
+    missing = [k for k, v in {
+        "GA4_PROPERTY_ID": PROPERTY_ID,
+        "GA4_OAUTH_CLIENT_ID": CLIENT_ID,
+        "GA4_OAUTH_CLIENT_SECRET": CLIENT_SECRET,
+        "GA4_OAUTH_REFRESH_TOKEN": REFRESH_TOKEN,
+    }.items() if not v]
+    if missing:
+        print(f"[ERROR] 未設定の環境変数: {', '.join(missing)}", file=sys.stderr)
         sys.exit(1)
 
-    cred_path = _setup_credentials()
-    try:
-        client   = _ga4_client(cred_path)
-        data     = fetch_ga4_data(client, PROPERTY_ID)
-        print(f"  日別: {len(data['daily'])}件 / ページ: {len(data['pages'])}件 / 都市: {len(data['cities'])}件")
+    client   = _ga4_client()
+    data     = fetch_ga4_data(client)
 
-        print("Gemini分析中...")
-        analysis = analyze_with_gemini(data)
+    print("Gemini分析中...")
+    analysis = analyze_with_gemini(data)
 
-        report = build_report(data, analysis)
-        REPORT_PATH.write_text(report, encoding="utf-8")
+    report = build_report(data, analysis)
+    REPORT_PATH.write_text(report, encoding="utf-8")
 
-        # 最重要アクションを抽出してターミナルに表示
-        import re
-        m = re.search(r"### 4[^\n]*\n+[-・]?\s*(.+)", analysis)
-        top_action = m.group(1).strip() if m else "（抽出できませんでした）"
+    import re
+    m = re.search(r"### 4[^\n]*\n+[-・]?\s*(.+)", analysis)
+    top_action = m.group(1).strip() if m else "（抽出できませんでした）"
 
-        print(f"\n✅ レポート保存: {REPORT_PATH.relative_to(BASE)}")
-        print(f"🎯 最重要アクション: {top_action}\n")
-
-    finally:
-        if cred_path:
-            import os as _os
-            _os.unlink(cred_path)
+    print(f"\n✅ レポート保存: {REPORT_PATH.relative_to(BASE)}")
+    print(f"🎯 最重要アクション: {top_action}\n")
 
 
 if __name__ == "__main__":

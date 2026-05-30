@@ -1,0 +1,6 @@
+public/
+client_secret*.json
+get_refresh_token.py
+add_sa_to_ga4.py
+*.pyc
+__pycache__/
