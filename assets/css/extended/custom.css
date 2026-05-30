@@ -70,9 +70,102 @@ details.toc .inner a { color: var(--primary); }
 .tool-badge-freee          { background: rgba(0,168,132,.15);   color:#00a884; border:1px solid rgba(0,168,132,.35); }
 .tool-badge-base           { background: rgba(60,60,60,.15);    color:#3c3c3c; border:1px solid rgba(60,60,60,.35); }
 
-/* 関連記事セクション */
-.related-posts { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
-.related-posts h3 { font-size: 0.95rem; margin-bottom: 0.6rem; color: var(--secondary); }
+/* CLS 防止：画像は常に幅 100%、高さ自動 */
+.post-content img,
+.md-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════
+   モバイル Before/After トグル（< 900px）
+   ══════════════════════════════════════════════ */
+@media (max-width: 899px) {
+  .code-compare__side--before {
+    display: none;
+    margin-top: 0.5rem;
+  }
+  .code-compare__side--before.is-open {
+    display: block;
+  }
+  .code-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.55rem 0.9rem;
+    margin-bottom: 0.5rem;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--secondary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .code-toggle-btn:hover,
+  .code-toggle-btn[aria-expanded="true"] {
+    background: var(--tertiary);
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+}
+@media (min-width: 900px) {
+  .code-toggle-btn { display: none; }
+}
+
+/* ══════════════════════════════════════════════
+   関連記事セクション（トピッククラスター）
+   ══════════════════════════════════════════════ */
+.related-posts {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.related-posts__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 0.85rem;
+}
+.related-posts__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.related-posts__item {
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--entry);
+  transition: border-color 0.15s;
+}
+.related-posts__item:hover { border-color: var(--primary); }
+.related-posts__link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  line-height: 1.4;
+}
+.related-posts__link:hover { text-decoration: underline; }
+.related-posts__desc {
+  font-size: 0.8rem;
+  color: var(--secondary);
+  margin: 0.25rem 0 0 0;
+  line-height: 1.5;
+}
 
 /* 記事内 用語リンク */
 .glossary-link {

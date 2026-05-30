@@ -1,5 +1,9 @@
-{{- $tags := .Params.tags }}
 {{- $currentPage := . }}
+{{- $tags      := .Params.tags }}
+{{- $errorCode := .Params.errorCode }}
+{{- $tool      := index $tags 0 | default "" }}
+
+{{- /* ── 同一ツール（タグ）の関連記事：最大3件 ── */}}
 {{- if $tags }}
   {{- $related := slice }}
   {{- range .Site.RegularPages }}
@@ -7,55 +11,52 @@
       {{- $related = $related | append . }}
     {{- end }}
   {{- end }}
+  {{- $related = first 3 $related }}
   {{- if $related }}
-  <div class="related-posts">
-    <h3>同じツールの記事</h3>
-    {{- range first 6 $related }}
-    <article class="post-entry">
-      <header class="entry-header">
-        {{- with index .Params.tags 0 }}
-        <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
-        {{- end }}
-        <h2 class="entry-hint-parent">{{ .Title }}</h2>
-      </header>
-      {{- if .Description }}
-      <div class="entry-content">
-        <p>{{ .Description }}</p>
-      </div>
+  <section class="related-posts">
+    <p class="related-posts__title">他の {{ $tool }} エラーの解決策</p>
+    <ul class="related-posts__list">
+      {{- range $related }}
+      <li class="related-posts__item">
+        <a href="{{ .Permalink }}" class="related-posts__link">
+          {{- with .Params.errorCode }}<span class="error-badge">{{ . }}</span>{{ end }}
+          {{- .Title }}
+        </a>
+        {{- with .Description }}<p class="related-posts__desc">{{ . }}</p>{{ end }}
+      </li>
       {{- end }}
-      <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
-    </article>
-    {{- end }}
-  </div>
+    </ul>
+  </section>
   {{- end }}
 {{- end }}
-{{- $errorCode := .Params.errorCode }}
+
+{{- /* ── 同一エラーコードの関連記事（重複除外・最大3件） ── */}}
 {{- if $errorCode }}
   {{- $sameCode := slice }}
   {{- range .Site.RegularPages }}
-    {{- if and (ne .Permalink $currentPage.Permalink) (eq .Params.errorCode $errorCode) }}
+    {{- if and (ne .Permalink $currentPage.Permalink)
+               (eq .Params.errorCode $errorCode)
+               (not (intersect .Params.tags $tags)) }}
       {{- $sameCode = $sameCode | append . }}
     {{- end }}
   {{- end }}
+  {{- $sameCode = first 3 $sameCode }}
   {{- if $sameCode }}
-  <div class="related-posts related-by-code">
-    <h3>他のツールの {{ $errorCode }} エラー</h3>
-    {{- range first 8 $sameCode }}
-    <article class="post-entry">
-      <header class="entry-header">
-        {{- with index .Params.tags 0 }}
-        <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
-        {{- end }}
-        <h2 class="entry-hint-parent">{{ .Title }}</h2>
-      </header>
-      {{- if .Description }}
-      <div class="entry-content">
-        <p>{{ .Description }}</p>
-      </div>
+  <section class="related-posts">
+    <p class="related-posts__title">{{ $errorCode }} エラー — 他ツールの解決策</p>
+    <ul class="related-posts__list">
+      {{- range $sameCode }}
+      <li class="related-posts__item">
+        <a href="{{ .Permalink }}" class="related-posts__link">
+          {{- with index .Params.tags 0 }}
+          <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+          {{- end }}
+          {{- .Title }}
+        </a>
+        {{- with .Description }}<p class="related-posts__desc">{{ . }}</p>{{ end }}
+      </li>
       {{- end }}
-      <a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}"></a>
-    </article>
-    {{- end }}
-  </div>
+    </ul>
+  </section>
   {{- end }}
 {{- end }}

@@ -221,6 +221,21 @@
     wrap.appendChild(left);
     wrap.appendChild(right);
 
+    // モバイルトグル（900px 未満でデフォルト折りたたみ）
+    left.classList.add('code-compare__side--before');
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'code-toggle-btn';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
+    toggleBtn.addEventListener('click', function () {
+      var open = left.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open
+        ? '▴ 修正前のコード（Before）を非表示'
+        : '▾ 修正前のコード（Before）を表示';
+    });
+    wrap.insertBefore(toggleBtn, left);
+
     // ラベル行の高さを揃えてコードブロックの開始位置を統一
     (function(l, r) {
       requestAnimationFrame(function() {
