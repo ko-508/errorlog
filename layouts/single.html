@@ -10,6 +10,9 @@
   {{- $causeText = index $causeMatch 0 | replaceRE "### 原因\\d+[：:]" "" }}
 {{- end }}
 
+{{- /* Before/After セクションが存在するか */}}
+{{- $hasBeforeAfter := findRE "\\*\\*Before" $rawContent 1 }}
+
 {{- /* 生ログ：最初のコードブロック（言語行を除く3行） */}}
 {{- $logSnippet := "" }}
 {{- $rawParts := split $rawContent "```" }}
@@ -68,10 +71,12 @@
       <span class="summary-text">{{ $causeText }}</span>
     </div>
     {{- end }}
+    {{- if $hasBeforeAfter }}
     <div class="summary-row">
       <span class="summary-label summary-label--fix">対策</span>
-      <span class="summary-text">↓ Before / After コードで確認</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
     </div>
+    {{- end }}
   </div>
   {{- end }}
 
@@ -124,34 +129,53 @@
   var content = document.querySelector('.post-content');
   if (!content) return;
 
-  // Before / After コードブロックにクラスを付与
+  var firstCompare = true;
+
+  // "Before" ラベル段落を起点にペアを検出・ラップ
   content.querySelectorAll('p strong').forEach(function (el) {
-    var t = el.textContent;
-    var isBefore = /Before|エラーが起きる/.test(t);
-    var isAfter  = /After|修正後/.test(t);
-    if (!isBefore && !isAfter) return;
+    if (!/Before|エラーが起きる/.test(el.textContent)) return;
 
-    var p = el.closest('p');
-    if (!p) return;
-    var next = p.nextElementSibling;
-    if (next && !next.classList.contains('highlight')) {
-      next = next.nextElementSibling;
-    }
-    if (next && next.classList.contains('highlight')) {
-      next.classList.add(isBefore ? 'code-before' : 'code-after');
-    }
-  });
+    var beforeLabel = el.closest('p');
+    var beforeCode  = beforeLabel.nextElementSibling;
+    if (!beforeCode || !beforeCode.classList.contains('highlight')) return;
 
-  // Before + After が連続する場合は横並びラッパーで包む
-  content.querySelectorAll('.code-before').forEach(function (before) {
-    var after = before.nextElementSibling;
-    if (after && after.classList.contains('code-after')) {
-      var wrap = document.createElement('div');
-      wrap.className = 'code-compare';
-      before.parentNode.insertBefore(wrap, before);
-      wrap.appendChild(before);
-      wrap.appendChild(after);
+    // Before の次：After ラベル段落 or After コード
+    var cursor     = beforeCode.nextElementSibling;
+    var afterLabel = null;
+    var afterCode  = null;
+
+    if (cursor) {
+      var s = cursor.querySelector('strong');
+      if (s && /After|修正後/.test(s.textContent)) {
+        afterLabel = cursor;
+        afterCode  = cursor.nextElementSibling;
+      } else if (cursor.classList.contains('highlight')) {
+        afterCode = cursor;
+      }
     }
+    if (!afterCode || !afterCode.classList.contains('highlight')) return;
+
+    // 装飾クラスを付与
+    beforeCode.classList.add('code-before');
+    afterCode.classList.add('code-after');
+
+    // 2カラム構造を組み立て
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className  = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    left.appendChild(beforeLabel);
+    left.appendChild(beforeCode);
+    if (afterLabel) right.appendChild(afterLabel);
+    right.appendChild(afterCode);
+    wrap.appendChild(left);
+    wrap.appendChild(right);
   });
 })();
 </script>

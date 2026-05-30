@@ -442,6 +442,13 @@ html[data-theme="dark"] .summary-label--symptom { background: rgba(255,77,77,.15
 html[data-theme="dark"] .summary-label--cause   { background: rgba(255,153,0,.15);  color: #ffaa33; }
 html[data-theme="dark"] .summary-label--fix     { background: rgba(46,204,113,.15); color: #3dd68c; }
 .summary-text { color: var(--primary); line-height: 1.5; }
+.summary-fix-link {
+  color: #1a9e50;
+  text-decoration: none;
+  font-weight: 600;
+}
+.summary-fix-link:hover { text-decoration: underline; }
+html[data-theme="dark"] .summary-fix-link { color: #3dd68c; }
 
 /* ══════════════════════════════════════════════
    記事詳細：生エラーログパネル
@@ -499,8 +506,7 @@ html[data-theme="dark"] .code-after  { background: rgba(46,204,113,.07); }
     gap: 0.75rem;
     align-items: flex-start;
   }
-  .code-compare > .code-before,
-  .code-compare > .code-after {
+  .code-compare__side {
     flex: 1;
     min-width: 0;
     overflow-x: auto;
