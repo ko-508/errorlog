@@ -23,7 +23,7 @@ Slack側のサーバー環境で予期しないエラーが発生しており、
 https://status.slack.com
 ```
 
-このページで「All Systems Operational」と表示されていれば、Slack側に広範な障害は発生していません。「Investigating」や「Degraded Performance」などの表示がある場合は、Slack側で対応中の問題があります。この場合、障害が解決されるまで待機するしかありません。
+このページで「All Systems Operational」と表示されていれば、Slack側に広範な障害は発生していません。「Investigating」や「Degraded Performance」などの表示がある場合は、Slack側で対応中の問題があります。この場合、障害が解決されるまで待機してください。
 
 **ステップ2：数秒の遅延を入れて再試行する**
 
