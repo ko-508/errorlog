@@ -1,0 +1,43 @@
+name: Weekly GA4 Analysis
+
+on:
+  schedule:
+    - cron: "0 22 * * 0"   # 月曜 7:00 JST (= 日曜 22:00 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install google-analytics-data google-genai
+
+      - name: Run GA4 analyzer
+        env:
+          GA4_PROPERTY_ID:       ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_CREDENTIALS_JSON:  ${{ secrets.GA4_CREDENTIALS_JSON }}
+          GEMINI_API_KEY:        ${{ secrets.GEMINI_API_KEY }}
+        run: python scripts/ga4_analyzer.py
+
+      - name: Commit and push report
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add reports/ga4/
+          if git diff --staged --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "ga4: 週次分析レポート $(date +%Y-%m-%d)"
+            git push
+          fi
