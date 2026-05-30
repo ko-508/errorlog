@@ -1,5 +1,5 @@
 ---
-title: "Docker Compose が .env を読めない：WindowsのPowerShellが生成するUTF-16 BOM問題"
+title: "Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策"
 date: 2026-05-30
 description: "PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。"
 tags: ["Docker Compose", "Docker"]
