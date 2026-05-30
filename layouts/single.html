@@ -1,5 +1,47 @@
 {{- define "main" }}
 
+{{- /* ── TechArticle JSON-LD（GEO / AI 検索向け構造化データ） ── */}}
+{{- $pubDate := .Date }}
+{{- $modDate := .Lastmod }}
+{{- if .Lastmod.IsZero }}{{- $modDate = .Date }}{{- end }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": {{ .Title | plainify | jsonify }},
+  "description": {{ with .Description }}{{ . | plainify | jsonify }}{{ else }}{{ .Summary | plainify | truncate 160 | jsonify }}{{ end }},
+  "inLanguage": "ja",
+  "url": {{ .Permalink | jsonify }},
+  "datePublished": {{ $pubDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
+  "dateModified": {{ $modDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
+  "articleSection": "Error Troubleshooting",
+  "proficiencyLevel": "Intermediate",
+  "keywords": [{{ range $i, $t := .Params.tags }}{{ if $i }}, {{ end }}{{ $t | jsonify }}{{ end }}{{ with .Params.errorCode }}, {{ printf "HTTP %s" . | jsonify }}, {{ . | jsonify }}{{ end }}],
+  "author": {
+    "@type": "Organization",
+    "name": {{ site.Title | jsonify }},
+    "url": {{ site.BaseURL | jsonify }}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.Title | jsonify }},
+    "url": {{ site.BaseURL | jsonify }}
+  }{{ with .Params.error_cause }},
+  "mainEntity": {
+    "@type": "HowTo",
+    "name": {{ $.Title | plainify | jsonify }},
+    "description": {{ . | jsonify }}{{ with $.Params.error_remedy }},
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "解決手順",
+        "text": {{ . | jsonify }}
+      }
+    ]{{ end }}
+  }{{ end }}
+}
+</script>
+
 {{- /* ── 要約パネル用データ抽出 ── */}}
 {{- $rawContent := .RawContent }}
 
@@ -116,6 +158,16 @@
   </div>
   {{- end }}
 
+  {{- /* ── 解決率フィードバック UI ── */}}
+  <div class="feedback-panel" id="feedback-panel">
+    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
+    <div class="feedback-panel__btns">
+      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
+      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
+    </div>
+    <p class="feedback-panel__thanks"></p>
+  </div>
+
   {{- partial "extend_post_content.html" . }}
 
   <footer class="post-footer">
@@ -139,6 +191,36 @@
 </article>
 
 <script>
+/* ── 解決率フィードバック ── */
+(function () {
+  var panel = document.getElementById('feedback-panel');
+  if (!panel) return;
+  var title = {{ .Title | jsonify }};
+  panel.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-status]');
+    if (!btn || panel.dataset.voted) return;
+    panel.dataset.voted = '1';
+    if (typeof gtag === 'function') {
+      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
+    }
+    var btnsEl = panel.querySelector('.feedback-panel__btns');
+    var qEl    = panel.querySelector('.feedback-panel__q');
+    var thxEl  = panel.querySelector('.feedback-panel__thanks');
+    btnsEl.style.transition = 'opacity 0.3s';
+    btnsEl.style.opacity    = '0';
+    setTimeout(function () {
+      btnsEl.style.display = 'none';
+      qEl.style.display    = 'none';
+      thxEl.textContent    = 'Thank you for your feedback!';
+      thxEl.style.display  = 'block';
+      thxEl.style.opacity  = '0';
+      thxEl.style.transition = 'opacity 0.4s';
+      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
+    }, 300);
+  });
+})();
+
+/* ── Before / After コード比較 ── */
 (function () {
   var content = document.querySelector('.post-content');
   if (!content) return;

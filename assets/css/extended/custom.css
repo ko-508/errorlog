@@ -163,6 +163,53 @@ details.toc .inner a { color: var(--primary); }
 }
 
 /* ══════════════════════════════════════════════
+   解決率フィードバック UI
+   ══════════════════════════════════════════════ */
+.feedback-panel {
+  margin: 2rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-align: center;
+}
+.feedback-panel__q {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 0 0 0.75rem;
+}
+.feedback-panel__btns {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.feedback-btn {
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--theme);
+  color: var(--primary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.feedback-btn--yes:hover { background: rgba(46,204,113,.15); border-color: #2ecc71; color: #1a9e50; }
+.feedback-btn--no:hover  { background: rgba(255,77,77,.1);  border-color: #ff4d4d; color: #cc2200; }
+html[data-theme="dark"] .feedback-btn--yes:hover { color: #3dd68c; }
+html[data-theme="dark"] .feedback-btn--no:hover  { color: #ff7755; }
+.feedback-panel__thanks {
+  display: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2ecc71;
+  margin: 0;
+}
+html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
+
+/* ══════════════════════════════════════════════
    関連記事セクション（トピッククラスター）
    ══════════════════════════════════════════════ */
 .related-posts {

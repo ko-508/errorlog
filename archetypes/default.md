@@ -5,6 +5,8 @@ draft: true
 description: ""
 tags: [""]
 errorCode: ""
+error_cause: ""
+error_remedy: ""
 env:
   os: ""
   runtime: ""
