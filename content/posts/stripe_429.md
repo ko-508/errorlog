@@ -166,7 +166,7 @@ app.post("/webhook", async (req, res) => {
 ### 原因3: 冪等性キーを設定せず重複リクエストを送信している
 
 **なぜ発生するか**  
-API 呼び出し時にネットワークタイムアウトが発生し、アプリケーション側で同じリクエストを何度も再送する場合、Stripe 側でそれらをすべてカウントします。冪等性キー（何度実行しても結果が同じになる識別子）を指定すれば、同一キーのリクエストは1回目の結果を返すため、重複カウントを防げます。
+API 呼び出し時にネットワークタイムアウトが発生し、アプリケーション側で同じリクエストを何度も再送する場合、Stripe 側でそれらをすべてカウントします。冪等性キー（同一キーのリクエストは1回目の結果のみ反映する識別子）を指定すれば、重複カウントを防げます。
 
 **Before（エラーが起きるコード）**
 
@@ -252,7 +252,7 @@ stripe.api_key = "sk_test_<your-secret-key>"
 
 @shared_task
 def process_charge_completion(charge_id):
-    # 非同期で実行するため、メインのリクエストハンドラを圧迫しない
+    # 非同期で実行するため、メインのリクエストハンドラーを圧迫しない
     charge = stripe.Charge.retrieve(charge_id)
     # 追加処理...
 
@@ -271,10 +271,10 @@ def webhook_handler():
 
 ### 確認すべきログとコマンド
 
-Stripe ダッシュボードの **Developers > Events** セクションで、429 エラーが発生した正確な時刻と頻度を確認できます。また、以下のコマンドで API 呼び出し履歴を確認してください。
+Stripe ダッシューボードの **Developers > Events** セクションで、429 エラーが発生した正確な時刻と頻度を確認できます。また、以下のコマンドで API 呼び出し履歴を確認してください。
 
 ```bash
-# curl で Stripe イベント一覧を取得し、429 エラーをフィルタ
+# curl で Stripe イベント一覧を取得し、429 エラーをフィルター
 curl -u sk_test_<your-secret-key>: \
   "https://api.stripe.com/v1/events?type=*.api_request_failure" \
   | grep -i "rate_limit"
@@ -288,9 +288,9 @@ curl -u sk_test_<your-secret-key>: \
 
 ### コミュニティリソース
 
-GitHub の公式 Stripe ライブラリ（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に、大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが多いです。
+GitHub の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に、大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが一般的です。
 
-公式 Stripe Slack コミュニティでも、エンジニアサポートチームが実装パターンのアドバイスを提供しています。
+公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装パターンのアドバイスを提供しています。
 
 ---
 

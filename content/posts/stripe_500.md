@@ -6,10 +6,9 @@ tags: ["Stripe"]
 errorCode: "500"
 lastmod: 2026-05-29
 ---
-
 ## エラーの概要
 
-Stripe [API](/glossary/api/)で500エラーが返される場合、Stripe側のサーバーで予期しない内部エラーが発生していることを示します。このエラーはStripeのインフラストラクチャの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500エラー発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)キーの実装が重要になることです。
+Stripe [API](/glossary/api/) で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。このエラーは Stripe のインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または [API](/glossary/api/) 実装側の互換性問題など複数の原因で発生します。重要な点は、500 エラー発生時に [リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性キー](/glossary/冪等性/)（何度実行しても同じ結果になる特性）の実装が重要になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -40,11 +39,11 @@ Content-Type: application/json
 
 ## よくある原因と解決手順
 
-### 原因1: Stripe側の一時的な障害またはメンテナンス
+### 原因1: Stripe 側の一時的な障害またはメンテナンス
 
-[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)への[リクエスト](/glossary/リクエスト/)が失敗しており、ログに「500」が返されている場合、Stripe側で予定外または予定内のメンテナンスが実施されている可能性があります。
+[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)への [リクエスト](/glossary/リクエスト/)が失敗し、ログに「500」が返されている場合、Stripe 側で予定外または予定内のメンテナンスが実施されている可能性があります。
 
-**Before（対処なし）:**
+**修正前（対処なし）:**
 ```python
 import stripe
 
@@ -60,7 +59,7 @@ except stripe.error.APIError as e:
     print(f"Error: {e.http_status}")  # 500が返される
 ```
 
-**After（障害確認と再試行）:**
+**修正後（障害確認と再試行）:**
 ```python
 import stripe
 import time
@@ -98,11 +97,11 @@ def create_charge_with_retry():
                 raise
 ```
 
-### 原因2: APIバージョン互換性の問題またはリクエスト形式エラー
+### 原因2: API バージョン互換性の問題またはリクエスト形式エラー
 
-古い[API](/glossary/api/)バージョン指定や廃止された[パラメータ](/glossary/パラメータ/)を使用している場合、サーバー側で500エラーが発生することがあります。
+古い [API](/glossary/api/) バージョン指定や廃止された [パラメーター](/glossary/パラメーター/)を使用している場合、サーバー側で 500 エラーが発生することがあります。
 
-**Before（古いバージョン、不正な[パラメータ](/glossary/パラメータ/)）:**
+**修正前（古いバージョン、不正な [パラメーター](/glossary/パラメーター/)）:**
 ```python
 import stripe
 
@@ -110,7 +109,7 @@ stripe.api_key = "sk_live_xxxxx"
 stripe.api_version = "2015-10-16"  # 極度に古いバージョン
 
 try:
-    # 廃止されたパラメータ
+    # 廃止されたパラメーター
     charge = stripe.Charge.create(
         amount=2000,
         currency="jpy",
@@ -121,12 +120,12 @@ except stripe.error.APIError:
     pass
 ```
 
-**After（現在のバージョン、正しい[パラメータ](/glossary/パラメータ/)）:**
+**修正後（現在のバージョン、正しい [パラメーター](/glossary/パラメーター/)）:**
 ```python
 import stripe
 
 stripe.api_key = "sk_live_xxxxx"
-# APIバージョン指定なし（最新版を使用）または明示的に現在のバージョン
+# API バージョン指定なし（最新版を使用）または明示的に現在のバージョン
 stripe.api_version = "2023-10-16"
 
 try:
@@ -143,9 +142,9 @@ except stripe.error.APIError as e:
 
 ### 原因3: 冪等性キーの不正または重複
 
-Stripeでは[冪等性](/glossary/冪等性/)キーを使用して同じ[リクエスト](/glossary/リクエスト/)の重複実行を防ぎます。[冪等性](/glossary/冪等性/)キーが正しく設定されていない場合や、複数の[リクエスト](/glossary/リクエスト/)で同じキーを誤用すると500エラーが発生することがあります。
+Stripe では [冪等性キー](/glossary/冪等性/)を使用して同じ [リクエスト](/glossary/リクエスト/)の重複実行を防ぎます。[冪等性キー](/glossary/冪等性/)が正しく設定されていない場合や、複数の [リクエスト](/glossary/リクエスト/)で同じキーを誤用すると 500 エラーが発生することがあります。
 
-**Before（[冪等性](/glossary/冪等性/)キーなし、または重複）:**
+**修正前（[冪等性キー](/glossary/冪等性/)なし、または重複）:**
 ```python
 import stripe
 
@@ -170,7 +169,7 @@ charge2 = stripe.Charge.create(
 )
 ```
 
-**After（[冪等性](/glossary/冪等性/)キーの正しい使用）:**
+**修正後（[冪等性キー](/glossary/冪等性/)の正しい使用）:**
 ```python
 import stripe
 import uuid
@@ -209,9 +208,9 @@ charge2 = create_charge_safely(3000, "jpy", "tok_visa")
 
 ## ツール固有の注意点
 
-### Webhook処理での500エラー
+### Webhook 処理での 500 エラー
 
-[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)でStripeからのPOST[リクエスト](/glossary/リクエスト/)を処理中に500を返すと、Stripeは自動的に再試行します。正しい署名検証後に処理を進める必要があります。
+[Webhook](/glossary/webhook/) [エンドポイント](/glossary/エンドポイント/)で Stripe からの POST [リクエスト](/glossary/リクエスト/)を処理中に 500 を返すと、Stripe は自動的に再試行します。正しい署名検証後に処理を進める必要があります。
 
 ```python
 import stripe
@@ -247,9 +246,9 @@ def webhook():
         return {"status": "received"}, 200
 ```
 
-### Stripeライブラリのバージョン
+### Stripe ライブラリのバージョン
 
-古い `stripe-python` ライブラリを使用していると、[API](/glossary/api/)仕様の変更に対応していない可能性があります。
+古い `stripe-python` ライブラリを使用していると、[API](/glossary/api/) 仕様の変更に対応していない可能性があります。
 
 ```bash
 # 最新バージョンへ更新
@@ -264,7 +263,7 @@ pip install --upgrade stripe
 import stripe
 import logging
 
-# Stripeライブラリのログを有効化
+# Stripe ライブラリのログを有効化
 logging.basicConfig(level=logging.DEBUG)
 
 stripe.api_key = "sk_live_xxxxx"
@@ -276,10 +275,10 @@ charge = stripe.Charge.create(amount=2000, currency="jpy", source="tok_visa")
 
 公式ドキュメントの確認ポイント：
 - Stripe [API](/glossary/api/) Reference（https://stripe.com/docs/api）：使用しているエンドポイントの最新仕様確認
-- [API](/glossary/api/) Versioning（https://stripe.com/docs/api/versioning）：APIバージョンの管理方法
+- [API](/glossary/api/) Versioning（https://stripe.com/docs/api/versioning）：API バージョンの管理方法
 - Error Handling（https://stripe.com/docs/error-handling）：エラータイプの詳細
 
-問題が継続する場合は、Stripe公式サポート（https://support.stripe.com/contact）に問い合わせてください。リクエストIDを含めることで調査が効率化されます。
+問題が継続する場合は、Stripe 公式サポート（https://support.stripe.com/contact）に問い合わせてください。リクエスト ID を含めることで調査が効率化されます。
 
 ---
 

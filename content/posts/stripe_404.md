@@ -157,7 +157,7 @@ curl https://api.stripe.com/v1/customers/cus_test123 \
 
 ### Webhook署名検証とリソースID
 
-Webhookで受け取ったイベントのリソースIDを直後に参照する場合、わずかな遅延で404が返ることがあります。Stripeのイベント処理は非同期のため、リトライロジックを実装することが推奨されます。
+Webhookで受け取ったイベントのリソースIDを直後に参照する場合、わずかな遅延で404が返ることがあります。Stripeのイベント処理は非同期（システムの順序が保証されない処理方式）のため、リトライロジック（失敗時に再度試みる処理）を実装することが推奨されます。
 
 ```python
 def handle_webhook(event):
@@ -177,14 +177,14 @@ def handle_webhook(event):
                     raise
 ```
 
-### 連携アプリのアカウント制限
+### Stripe Connectのアカウント制限
 
-Stripe Connectでアカウント間のリソースアクセスを試みる場合、適切な認可ヘッダーがないと404が返されます。`Stripe-Account`ヘッダーを正確に指定する必要があります。
+Stripe Connect（複数のビジネスアカウント間での連携）でアカウント間のリソースアクセスを試みる場合、適切な認可ヘッダーがないと404が返されます。`Stripe-Account`ヘッダーを正確に指定する必要があります。
 
 ```javascript
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// Connected Accountのリソースにアクセス
+// 連携アカウントのリソースにアクセス
 const customer = await stripe.customers.retrieve(
   'cus_connected123',
   { stripeAccount: 'acct_partner1234567890' }
