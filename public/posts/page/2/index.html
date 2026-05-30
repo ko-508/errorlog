@@ -1,439 +1,177 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Posts | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="">
-<meta name="description" content="Posts - ErrorLog - エラーコード解決ガイド">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/errorlog/posts/">
-<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/errorlog/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/posts/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-認証は成功したが、そのリソースへのアクセス権限がない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-プライベートリポジトリへの読み取り・書き込み権限がない 組織のアクセスポリシーで制限されている 使用しているアカウントに必要な役割が割り当てられていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-リポジトリのオーナーに権限付与を依頼する Docker Hubの組織設定でチームの権限を確認する 使用アカウントのロールを管理者画面から確認する まとめ Docker の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-指定したリソース（イメージやコンテナ）が見つからない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-イメージ名またはタグ名の綴りが間違っている 指定したバージョンのイメージが存在しない ローカルにイメージが存在せず、リモートにも公開されていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-docker images でローカルのイメージ一覧を確認する Docker Hubでイメージ名とタグが正しいか検索する docker pull イメージ名:タグ で明示的に取得する まとめ Docker の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 409 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 409 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 409 とは何か？（公式の定義） 409 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-リクエストの内容がサーバーの現在の状態と矛盾している。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 409 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-同じ名前のコンテナがすでに動いているか停止状態で残っている 同じポートを複数のコンテナが使おうとしている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-docker ps -a で同名コンテナを確認し docker rm コンテナ名 で削除する docker run 時に –name を変更するか既存コンテナを先に削除する -p オプションで別のポート番号を指定する まとめ Docker の 409 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 409 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_409/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 422 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 422 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 422 とは何か？（公式の定義） 422 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-リクエスト自体の形式は正しいが、中身のデータが処理できない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 422 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-docker-compose.ymlの設定値が仕様の範囲外になっている 環境変数の型や値が期待されるものと合っていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-docker-compose configコマンドで設定ファイルの内容を検証する 公式の設定リファレンスで各項目の型と許容値を確認する まとめ Docker の 422 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 422 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_422/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 429 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 429 とは何か？（公式の定義） 429 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-短時間に送ったリクエスト数が上限を超えた。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 429 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Docker Hubへのイメージ取得回数が無料枠の上限に達した CI/CDパイプラインが短時間に大量のpullを実行している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Docker Hubにログインすることで取得上限を引き上げる（無料アカウントでも向上） よく使うイメージをプライベートレジストリまたはローカルキャッシュに保存する pullの頻度を下げるようにCI設定を見直す まとめ Docker の 429 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 429 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_429/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 500 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 500 とは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-Dockerデーモン（バックグラウンドプロセス）で予期しない問題が起きた。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Dockerデーモン自体がクラッシュまたは異常な状態になっている ディスクの空き容量がなくなっている Dockerのデータが壊れている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-sudo systemctl restart docker または Docker Desktopを再起動する df -h でディスク容量を確認し、docker system pruneで不要データを削除する Dockerのログ（/var/log/docker.log）でエラーの詳細を確認する まとめ Docker の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 500 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 502 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 502 とは何か？（公式の定義） 502 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-中継サーバー（プロキシや上流のサーバー）から不正な応答を受け取った。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 502 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-プライベートレジストリとDockerデーモン間のネットワークに問題がある レジストリのプロキシ設定が間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-curl でレジストリのURLに直接アクセスできるか確認する /etc/docker/daemon.json のプロキシ設定を見直す まとめ Docker の 502 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 502 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_502/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 503 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 503 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 503 とは何か？（公式の定義） 503 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-サーバーが過負荷または保守中のため、リクエストを処理できない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 503 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Docker Hubが一時的なメンテナンス中または過負荷状態になっている プライベートレジストリのサーバーが停止している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Docker Hubのステータスページ（status.docker.com）で障害情報を確認する 数分待ってから再度試す 内製のレジストリの場合はサーバーの稼働状態を確認する まとめ Docker の 503 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 503 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_503/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 400 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 400 とは何か？（公式の定義） 400 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebaseへのリクエストの形式または内容が正しくない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 400 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-FirestoreのクエリでWHERE句の組み合わせが複合インデックスを必要とする状態になっている 認証に使うメールアドレスの形式が正しくない SDKのメソッドに渡したデータの型が間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Firebaseコンソールの「Firestore」→「インデックス」タブでインデックスの追加が必要か確認する エラーメッセージ内のURLからインデックスを直接作成できる場合はリンクをクリックして作成する SDKのドキュメントで各メソッドの引数の型を確認する まとめ Firebase の 400 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 400 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 401 とは何か？（公式の定義） 401 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebaseへのアクセスに有効な認証情報が提供されていない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 401 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-FirebaseのIDトークンの有効期限が切れている（通常1時間） サービスアカウントの鍵ファイルが古いか間違っている 環境変数GOOGLE_APPLICATION_CREDENTIALSが正しく設定されていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-クライアントSDKでauth.currentUser.getIdToken(true)を呼び出してトークンを強制更新する Firebaseコンソールでサービスアカウントの鍵を再生成してダウンロードする 環境変数のパスが鍵ファイルの実際の場所と一致しているか確認する まとめ Firebase の 401 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 401 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_401/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="http://localhost:1313/errorlog/posts/">
-      «&nbsp;前へ&nbsp;
-    </a>
-    <a class="next" href="http://localhost:1313/errorlog/posts/page/3/">次へ&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Posts | ErrorLog - エラーコード解決ガイド</title><meta name=description content="Posts - ErrorLog - エラーコード解決ガイド"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/><link crossorigin=anonymous href=/assets/css/stylesheet.b9cff24519a34895d20bc540b347c06e2c91b03d1a21e9e4f1860d0b97aa5485.css integrity="sha256-uc/yRRmjSJXSC8VAs0fAbiyRsD0aIenk8YYNC5eqVIU=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/posts/index.xml title=rss><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Posts"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Posts"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"}]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><header class=page-header><h1>Posts</h1></header><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-minikube">Minikube</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Minikube の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeへの認証に失敗して401エラーが発生します。このエラーは kubeconfig の設定が Minikube クラスターと一致していない場合に起こります。
+よくある原因 kubeconfig のクラスター設定が古くなっているまたは誤っている
+kubeconfig ファイルに保存されている Minikube クラスターの接続情報（API サーバーのアドレスや認証トークン）が、現在の Minikube の状態と一致していません。これは kubeconfig を手動編集したり、環境が予期せず変更されたりすることで発生します。
+Minikube を再起動したことで証明書が変わった
+Minikube を停止して再起動すると、クラスターの認証に使う証明書が更新される場合があります。古い証明書情報が kubeconfig に残ったまま、新しい証明書を持つクラスターにアクセスしようとするため、認証が失敗します。
+kubectl が別のクラスターのコンテキストを使っている
+複数の Kubernetes クラスターを管理している場合、kubeconfig に複数のコンテキスト（クラスター接続設定）が存在します。kubectl が誤って Minikube 以外のクラスターに接続しようとすると、そのクラスターの認証情報を用いて 401 エラーが発生します。
+解決手順 ステップ1：kubeconfig を Minikube の現在の設定で更新する
+以下のコマンドを実行してください：
+minikube update-context このコマンドは Minikube クラスターの現在の認証情報と接続先を読み取り、kubeconfig ファイル（通常は ~/.kube/config）を自動的に更新します。証明書や API サーバーのアドレスが最新の状態に修正されます。
+ステップ2：kubectl のコンテキストを Minikube に切り替える
+現在使用しているコンテキストを確認します：
+kubectl config current-context 以下のコマンドで Minikube コンテキストに切り替えます：
+kubectl config use-context minikube これにより、以降の kubectl 操作は Minikube クラスターに対して実行されます。現在のコンテキストを再確認して、minikube と表示されることを確認してください：
+...</p></div><div class=entry-code-preview><pre><code>minikube update-context
+</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Minikube の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-podman">Podman</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Podman の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Podman で 403 エラーが発生した場合、認証には成功していますがリソースへのアクセス権限がない状態です。プライベートリポジトリへのアクセスやシステムのセキュリティポリシーが原因となることがほとんどです。
+よくある原因 プライベートリポジトリへの権限不足
+プライベートコンテナレジストリ（Quay.io、Docker Hub のプライベートリポジトリ、組織内レジストリなど）に対して、ログイン済みのユーザーが読み取り・書き込み権限を持たないために発生します。認証トークンやクレデンシャル（認証情報）は有効ですが、そのユーザー・サービスアカウント（プログラムが用いるアカウント）が対象リポジトリへのアクセス許可を受けていないため、403 が返されます。
+コンテナレジストリの組織ポリシー制限
+企業内のコンテナレジストリでは、チームごと・プロジェクトごとにアクセス権限を分けていることがあります。あなたのユーザーアカウントがそのチームに属していない、または組織の設定で該当リポジトリへのアクセスが明示的に禁止されている場合に 403 が発生します。
+SELinux のポリシーがコンテナプロセスをブロック
+Red Hat 系の Linux（RHEL、CentOS、Fedora など）で SELinux が有効な場合、コンテナプロセスがホストのファイルシステムやネットワークリソースへのアクセスを SELinux ポリシーで拒否されることがあります。認証は Podman で成功していても、SELinux の粒度の細かいアクセス制御により、403 相当の動作となります。
+解決手順 ステップ 1：認証情報が正しく保存されているか確認
+まず、Podman に登録されているログイン情報を確認します。
+podman login &lt;registry-url> プロンプトでユーザー名とパスワード（またはアクセストークン）を入力し、ログインに成功することを確認してください。ログイン情報は ~/.config/containers/auth.json に保存されます。
+ステップ 2：リポジトリ権限をコンテナレジストリの管理画面で確認
+Docker Hub、Quay.io などのレジストリの Web UI にログインして、対象リポジトリの権限設定を確認します。
+Docker Hub： アカウント設定 → Organizations → 対象組織 → Members で、自分のロール（Owner、Write、Read など）を確認 Quay.io： Settings → Permissions タブで、チームメンバーシップと権限レベルを確認 組織内レジストリ： 管理者に権限付与を依頼 ここで自分のアカウントが「Read（読み取り）」のみであれば、プッシュはできません。必要に応じてリポジトリオーナーに権限昇格を依頼してください。
+ステップ 3：SELinux が有効な環境での場合、ポリシーを一時的に無効化して検証
+...</p></div><div class=entry-code-preview><pre><code>podman login &lt;registry-url&gt;
+</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Podman の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-podman">Podman</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Podman の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Podman で 404 エラーが発生した場合、指定したイメージまたはコンテナーがシステム上に見つからないことを意味します。コマンド実行時にイメージ名やコンテナー名の指定に問題があるケースがほとんどです。
+よくある原因 イメージ名またはタグ名の綴りが間違っている
+Podman コマンドを実行する際、イメージ名のスペルミスやタグ名の入力誤りがあると 404 エラーが発生します。例えば podman run ubuntu:latestt のように「latestt」と誤入力した場合、そのタグは存在しないため見つかりません。レジストリー名を含める場合（例：docker.io/ubuntu）も、プレフィックスの綴り間違いが原因となることがあります。
+ローカルにもリモートにもイメージが存在しない
+イメージ名が正しく入力されていても、Podman がローカルストレージ内にそのイメージを持たず、かつリモートレジストリー（Docker Hub など）にも存在しない場合、404 エラーが返されます。Podman は podman run 実行時に自動的にリモートレジストリーを検索しますが、該当イメージがどこにも存在しなければ処理が失敗します。
+コンテナー名またはコンテナー ID の指定が間違っている
+podman stop、podman rm、podman inspect などのコンテナー操作コマンドでも 404 エラーが出現します。コンテナー名やコンテナー ID を誤って入力すると、Podman がそのコンテナーを特定できず、エラーが発生します。例えば podman stop my-contain のように名前を1文字間違えた場合、指定したコンテナーが見つかりません。
+解決手順 ステップ 1: ローカルのイメージ一覧を確認する
+まず Podman に保存されているイメージを確認します。
+podman images このコマンドで、ローカルストレージに存在するすべてのイメージが表示されます。出力にはリポジトリー名、タグ、イメージ ID、サイズなどが含まれます。実行に失敗したコマンドで指定したイメージ名とタグが、この一覧に含まれているか確認してください。例えば ubuntu:latest を探している場合、リポジトリー列に「ubuntu」、タグ列に「latest」がある行があるかチェックします。
+ステップ 2: リモートレジストリーでイメージを検索する
+ローカルにイメージが見つからない場合、リモートレジストリーで検索します。
+podman search &lt;image-name> 例えば podman search nginx を実行すると、Docker Hub に登録されているすべての nginx 関連イメージが表示されます。検索結果から目的のイメージを特定し、正確なイメージ名を確認してください。リモートレジストリーにイメージが存在する場合、podman pull でダウンロードしてからコンテナーを起動します。
+...</p></div><div class=entry-code-preview><pre><code>podman images
+</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Podman の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-podman">Podman</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>Podman の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Podman 500 エラーは内部的な予期しないエラーが発生したことを示す深刻なエラーです。ストレージ破損やディスク容量不足が原因となることが多いため、段階的に対処する必要があります。
+よくある原因 Podmanのストレージが破損している
+Podmanはコンテナのメタデータとレイヤーをローカルストレージに保存していますが、不正なシャットダウンや予期しない電源遮断によってこのストレージが破損することがあります。破損すると、Podmanがコンテナの情報を読み込めなくなり、500エラーが発生します。
+コンテナのオーバーレイファイルシステムに問題がある
+Podmanはコンテナのファイルシステムを管理するためにオーバーレイFS（ファイルシステムを階層化する仕組み）を使用しています。このオーバーレイの設定ファイルが破損したり矛盾したりすると、Podmanはコンテナを起動・管理できず、500エラーで応答します。
+ディスクの空き容量がなくなっている
+Podmanがコンテナイメージをプルしたり、コンテナを実行したりする際にディスク容量が必要ですが、容量不足になるとファイル書き込みに失敗し、内部エラーが発生します。特にコンテナの操作中に容量が満杯になった場合、ストレージの状態が不安定になります。
+解決手順 ステップ 1：ディスク容量を確認する
+まずは最も簡単な原因を排除します。ディスク使用状況を確認してください。
+df -h 出力結果で / や /var のパーティションが 90% 以上になっていないか確認します。もし容量が逼迫している場合は、不要なファイルを削除してから先に進みます。
+ステップ 2：Podmanの不要データを削除する
+ディスク容量に余裕がある場合でも、使用していないコンテナやイメージが蓄積していることがあります。以下のコマンドで不要データをクリーンアップします。
+podman system prune -a このコマンドは使用されていないコンテナ、イメージ、ネットワークを削除します。-a フラグをつけるとすべての未使用イメージを削除します。削除対象の一覧が表示されるので、確認して進めてください。
+ステップ 3：ログを確認して具体的なエラー内容を把握する
+Podman関連のログファイルを確認することで、より詳細なエラー原因を特定できます。
+journalctl -u podman -n 50 システムジャーナルの最新 50 行を確認すると、Podmanが記録した詳細なエラーメッセージが表示されます。ストレージ破損を示すメッセージ（例：「storage driver error」）がないか確認します。
+ステップ 4：ストレージをリセットする（最後の手段）
+上記の手順でも解決しない場合、Podmanのストレージを完全にリセットします。このコマンドはすべてのコンテナとイメージを削除するため、本番環境での実行には特に注意が必要です。
+podman system reset 実行前に、重要なコンテナやイメージをバックアップしておくことを強く推奨します。このコマンドの後、Podmanの初期状態から再度構築する必要があります。
+リセット後、再度イメージをプルしてコンテナを起動してください。
+podman pull &lt;your-image-name> podman run -d &lt;your-image-name> それでも解決しない場合 上記の手順を実行してもエラーが続く場合は、システムレベルの問題である可能性があります。以下を確認してください。
+ファイルシステムの破損：fsck コマンドでファイルシステムの整合性をチェックしてください。ただし、マウント状態では実行できないため、ライブUSBなどから起動して実行します。
+SELinux の設定：RHEL系システムを使用している場合、SELinuxがPodmanの操作をブロックしていないか確認します。getenforce で状態を確認し、必要に応じてコンテキストをリセットしてください。
+Podmanの再インストール：パッケージマネージャー経由で Podman をアンインストール後、再度インストールすることで、破損した設定ファイルを修復できます。
+# Debian/Ubuntu の場合 sudo apt remove podman sudo apt install podman # RHEL/CentOS の場合 sudo dnf remove podman sudo dnf install podman それでも問題が解決しない場合は、Podmanのバージョンアップが有効な可能性もあります。公式ドキュメント（https://podman.io）で最新の既知問題を確認してください。
+...</p></div><div class=entry-code-preview><pre><code>df -h
+</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Podman の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_500/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-podman">Podman</span>
+<span class=error-badge>503</span></div><h2 class=entry-hint-parent>Podman の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Podman の 503 エラーが発生した場合、Podman API サービスやコンテナレジストリが一時的に利用できない状態です。以下の手順で原因を特定し、解決します。
+よくある原因 Podman API サービスが起動していない
+Podman を使用する際、バックグラウンドで動作する Podman API サービス（podman.socket）が停止しています。このサービスが起動していないと、コンテナの管理操作やレジストリへのアクセスができなくなります。特に、Podman をシステムサービスとして起動する場合や、リモート接続を使用する場合に多く発生します。
+コンテナレジストリが一時的に停止またはメンテナンス中
+Docker Hub や Quay.io などのコンテナレジストリが予期しないダウンタイムやメンテナンス作業中の場合、イメージのプル操作時に 503 エラーが返されます。これはレジストリ側の問題であるため、レジストリの復旧を待つ必要があります。
+ネットワーク接続に問題がある
+Podman が実行されているホストとコンテナレジストリ間のネットワーク接続が切断されている、またはファイアウォールルールがレジストリへのアクセスをブロックしている場合、503 エラーが発生します。DNS 解決の失敗も同様の症状を引き起こします。
+解決手順 ステップ 1: Podman API サービスの状態を確認する
+まず、Podman API サービスが正常に起動しているか確認します。以下のコマンドを実行してください。
+systemctl status podman.socket 出力例として active (running) と表示されていれば、サービスは起動しています。inactive (dead) や failed と表示されている場合は、次のステップでサービスを起動します。
+ステップ 2: Podman API サービスを起動する
+サービスが停止している場合、以下のコマンドで起動します。
+systemctl start podman.socket システムブート時に自動的にサービスが起動するように設定する場合は、以下のコマンドを実行してください。
+systemctl enable podman.socket ステップ 3: ネットワーク接続を確認する
+レジストリへの接続テストを行います。以下のコマンドでインターネット接続を確認してください。
+ping 8.8.8.8 接続が確認できない場合は、ネットワークインターフェースの設定を確認するか、ファイアウォール設定を見直します。DNS 解決を確認する場合は以下を実行します。
+...</p></div><div class=entry-code-preview><pre><code>systemctl status podman.socket
+</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Podman の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_503/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>408</span></div><h2 class=entry-hint-parent>Firebase の 408 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase 408 エラーはクライアント側からのリクエストがタイムアウト時間内に完了できず、Firebase サーバーが接続を切断した状態です。ネットワーク環境またはアプリケーションの処理速度が原因となります。
+よくある原因 ネットワーク接続の不安定性
+WiFi や 4G 接続が途中で断絶したり、パケット損失が発生したりするとリクエストが完了されません。特に移動中のモバイル環境や、企業のファイアウォール経由でのアクセスでは接続が中断されやすくなります。Firebase サーバーはリクエスト到着を待ちますが、タイムアウト時間（デフォルト 30 秒程度）を超えると接続を切断し 408 を返します。
+クライアント側の処理遅延
+リクエスト送信前の処理（データベースクエリ、ファイル読み込み、画像圧縮など）が想定より長くかかると、タイムアウト発動前にエラーとなります。特に大容量データの同期や複雑な認証処理では、クライアント内での遅延が積み重なりやすいです。
+Firebase クライアント SDK の設定不足
+デフォルトのタイムアウト値がアプリケーション要件に合わず、処理時間が長いトランザクション（バッチ書き込みなど）で頻発します。
+解決手順 ステップ 1：ネットワーク接続を確認する
+まずクライアント環境のネットワーク状態を確認します。WiFi 接続が不安定でないか、通信速度が著しく低下していないか確認してください。
+Android 環境での確認例：
+ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); NetworkInfo activeNetwork = cm.getActiveNetworkInfo(); boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting(); Log.d("Network", "接続状態: " + isConnected); Web 環境での確認例：
+// ネットワーク接続状態の確認 if (navigator.onLine) { console.log("オンライン状態"); } else { console.log("オフライン状態"); } ステップ 2：Firebase クライアント SDK のタイムアウト設定を延長する
+Android での設定例：
+FirebaseDatabase database = FirebaseDatabase.getInstance(); // タイムアウトを 60 秒に延長（デフォルト: 30秒） database.setLogLevel(Logger.Level.DEBUG); DatabaseReference ref = database.getReference(); // 接続タイムアウトの明示的な設定 ref.child("your-path").addValueEventListener(new ValueEventListener() { @Override public void onDataChange(DataSnapshot snapshot) { // 処理 } @Override public void onCancelled(DatabaseError error) { Log.e("Firebase", "エラーコード: " + error.getCode()); } }); Web（JavaScript）での設定例：
+...</p></div><div class=entry-code-preview><pre><code>ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+boolean isConnected = activeNetwork != null &amp;&amp; activeNetwork.isConnectedOrConnecting();</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Firebase の 408 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_408/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>504</span></div><h2 class=entry-hint-parent>Firebase の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase HostingまたはCloud Functionsのバックエンド処理がタイムアウトし、クライアントに504エラーが返される状況です。この記事では原因の特定と具体的な解決方法を解説します。
+よくある原因 Cloud Functionsの処理時間がFirebase Hostingのタイムアウトを超えている
+Firebase HostingからCloud Functionsを呼び出す場合、Hostingの統合タイムアウト制限（通常60秒）内に関数が応答を返す必要があります。データベースクエリが遅い、外部APIの呼び出しが遅延している、複雑な計算処理が走っているなど、処理時間が長くなると504エラーが発生します。
+コールドスタート時の初期化処理に時間がかかっている
+Cloud Functionsは関数が実行されていない状態から起動する際（コールドスタート）、メモリ確保、ライブラリの読み込み、データベース接続の初期化などの処理が発生します。この初期化処理がタイムアウト制限内に完了しないと504エラーになります。特にNode.jsで大量の依存ライブラリをインポートしている場合に顕著です。
+外部サービスへの依存処理の遅延
+Cloud Functionsから外部APIやサードパーティサービスを呼び出す場合、そのサービスの応答時間がFirebaseのタイムアウト制限を超えると504エラーになります。ネットワーク状況が悪い、外部サービスが過負荷状態である、タイムゾーン違いでレスポンスが遅くなるなどの原因が考えられます。
+解決手順 手順1: Cloud Functionsのタイムアウト設定を確認・延長する
+Firebase Console（console.firebase.google.com）にアクセスし、プロジェクトを選択します。左メニューから「ビルド」→「Cloud Functions」を開き、該当の関数をクリックします。「トリガー」タブでタイムアウト値を確認し、必要に応じて変更します。
+# コマンドラインでデプロイする場合、firebase.json で設定する gcloud functions deploy &lt;関数名> \ --runtime nodejs18 \ --timeout=540s \ --memory=512MB \ --region=asia-northeast1 タイムアウト値は最大540秒（9分）まで延長できます。ただし処理が本当に長い場合は、後述の最適化を優先してください。
+手順2: 初期化処理をグローバルスコープに移動しコールドスタートを高速化する
+Cloud Functionsでは、関数のハンドラ外（グローバルスコープ）に記述した処理はコールドスタート時に1回だけ実行され、以後のリクエストで再実行されません。データベース接続、ライブラリの初期化、認証情報の読み込みなどをグローバルスコープに移動します。
+// 悪い例：毎回実行される exports.myFunction = functions.https.onRequest((req, res) => { const db = admin.database(); // 毎回初期化される const query = db.ref('users').orderByChild('age').limitToFirst(100); query.once('value').then(snapshot => { res.send(snapshot.val()); }); }); // 良い例：初期化は1回だけ const admin = require('firebase-admin'); admin.initializeApp(); const db = admin.database(); // グローバルスコープで1回だけ実行 exports.myFunction = functions.https.onRequest((req, res) => { const query = db.ref('users').orderByChild('age').limitToFirst(100); query.once('value').then(snapshot => { res.send(snapshot.val()); }); }); 手順3: 数分後に再試行する
+...</p></div><div class=entry-code-preview><pre><code># コマンドラインでデプロイする場合、firebase.json で設定する
+gcloud functions deploy &lt;関数名&gt; \
+  --runtime nodejs18 \</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Firebase の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_504/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>GCP の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP で 404 エラーが表示される場合、指定したリソースが見つからないことを意味します。リソース名の誤りやプロジェクト・リージョンの不一致が主な原因です。
+よくある原因 リソース名またはIDの綴りが間違っている
+GCP のリソースID（インスタンス名、バケット名、サービスアカウント名など）は大文字小文字を区別します。また、ハイフンとアンダースコアの混同、数字の誤入力もよくある原因です。API リクエストやコマンド実行時に誤ったリソース名を指定すると、システムが該当するリソースを見つけられず 404 エラーが返されます。
+リソースが別のプロジェクトまたはリージョンに存在している
+GCP では同じリソース名でも複数のプロジェクトやリージョンに存在できます。別のプロジェクトで作成したリソースにアクセスしようとしたり、異なるリージョン（例：us-central1 と asia-northeast1）を指定して検索したりすると、現在のコンテキストでは見つかりません。
+リソースがすでに削除されている
+削除されたリソースへのアクセスや参照は 404 エラーになります。特にスクリプトやパイプラインの実行時に、削除完了の確認がないまま同じリソースに再度アクセスしようとするケースで発生しやすいです。
+解決手順 ステップ 1: Google Cloud Console でプロジェクトとリージョンを確認する
+Google Cloud Console（https://console.cloud.google.com）にアクセスして、画面上部のプロジェクト選択ドロップダウンで正しいプロジェクトが選択されていることを確認します。次に、リソースのページ（Compute Engine、Cloud Storage、Cloud SQL など）を開き、画面上部またはフィルタセクションでリージョンが正しく設定されていることを確かめます。
+ステップ 2: gcloud コマンドでリソース一覧を確認する
+実際のリソースが存在するかどうか、以下のコマンドで確認します。
+# Compute Engine インスタンスの場合 gcloud compute instances list --project=&lt;your-project-id> --zones=&lt;your-zone> # Cloud Storage バケットの場合 gcloud storage buckets list --project=&lt;your-project-id> # Cloud SQL インスタンスの場合 gcloud sql instances list --project=&lt;your-project-id> リソースが表示されれば、リソースIDと現在のプロジェクト・リージョンを確認します。
+ステップ 3: API リクエストのパラメータを確認する
+...</p></div><div class=entry-code-preview><pre><code># Compute Engine インスタンスの場合
+gcloud compute instances list --project=&lt;your-project-id&gt; --zones=&lt;your-zone&gt;
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>429</span></div><h2 class=entry-hint-parent>GCP の 429 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP で 429 エラーが発生した場合、これはリクエストレート制限（Rate Limiting）に達したことを意味します。Google Cloud のサービス側がリクエスト数の上限に到達し、それ以上の処理を受け付けられない状態です。
+よくある原因 ループ処理でAPIを呼び出す間隔を設けていない
+for ループや while ループの中で API を呼び出す際に、リクエスト間の待機時間（ウェイト）を設定していないと、数秒間に数千のリクエストが送信されます。GCP のクォータはプロジェクト単位で時間枠ごとに制限されているため、瞬間的な高頻度リクエストは即座にレート制限に引っかかります。
+クォータが低いAPIを高頻度で実行している
+Google Cloud のすべての API に等しいクォータが割り当てられているわけではありません。例えば Cloud Vision API や Cloud Translation API は、デフォルトのクォータが比較的低く設定されています。これらのAPI を大量のデータに対して実行すると、数分でクォータを消費し切ってしまいます。
+複数のサービスが同じプロジェクトのクォータを共有して消費している
+1つのプロジェクト内で複数のマイクロサービスやバッチ処理ジョブが並行して同じ API を呼び出している場合、クォータは各サービスで共有されます。一つのサービスが高頻度でリクエストを送ると、他のサービスのリクエストが拒否される可能性があります。
+解決手順 1. Google Cloud Console でクォータを確認する
+まずどのAPIのクォータに到達したかを特定します。
+Google Cloud Console（https://console.cloud.google.com）にアクセスします 左側のメニューから「IAMと管理」→「クォータと上限」を選択します 該当するサービス（例：Cloud Vision API、Compute Engine API）を検索します 「現在の利用状況」列でクォータの消費状況を確認します 上限に近い数値が表示されている API が 429 エラーの原因です 2. リトライ処理に指数バックオフを実装する
+短期的な対策として、クライアント側でリトライロジックを追加します。429 エラーが返された時に、指数的に待機時間を増やしながら再試行します。
+import time from google.api_core.gapic_v1 import client_info from google.cloud import vision import google.api_core.exceptions def call_api_with_backoff(func, max_retries=5): """指数バックオフ付きのAPIリトライ関数""" retry_count = 0 wait_time = 1 # 初回の待機時間は1秒 while retry_count &lt; max_retries: try: return func() except google.api_core.exceptions.TooManyRequests: # 429 エラーをキャッチ if retry_count >= max_retries - 1: raise print(f"レート制限に達しました。{wait_time}秒待機します...") time.sleep(wait_time) wait_time *= 2 # 次回の待機時間を2倍にする retry_count += 1 # 使用例 client = vision.ImageAnnotatorClient() def analyze_image(): # APIの呼び出し処理 return client.batch_annotate_images(requests) result = call_api_with_backoff(analyze_image) または Python の tenacity ライブラリを使用することもできます。
+...</p></div><div class=entry-code-preview><pre><code>import time
+from google.api_core.gapic_v1 import client_info
+from google.cloud import vision</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 429 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_429/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>GCP の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP（Google Cloud Platform）で500エラーが返される場合、これはGoogle Cloud側の内部的な問題を示しており、ほとんどのケースでは利用者側の設定では解決できません。
+よくある原因 Google Cloud内部の予期しないエラー
+GCP側のサーバーやサービスで予期しないエラーが発生している状態です。このエラーが返される時点で、リクエストはGoogleのサーバーに到達していますが、処理途中で想定外の問題（メモリリーク、デッドロック、内部バグなど）が発生しています。利用者側のAPIキー設定、認証情報、リクエスト形式はすべて正しいにもかかわらず、Google側のシステムが適切に応答できない状態です。
+一時的なサービス障害
+GCPの各サービス（Compute Engine、Cloud Storage、Cloud SQL、BigQuery等）は複数のサーバーで冗長構成されていますが、ローリングアップデート、メンテナンス、または予期しないインフラの問題によって、リクエストを処理するサーバーが一時的に利用不可になることがあります。その結果、500エラーが返されます。
+解決手順 ステップ1：Google Cloud Status Dashboardで障害情報を確認する
+まず、GCP全体の障害状況を把握します。
+https://status.cloud.google.com/ このページにアクセスして、対象のサービス（例：Compute Engine、Cloud Storage）に赤いインシデントアイコンが表示されていないか確認します。黄色は軽微な問題、赤は重大な障害を示します。障害が報告されている場合は、復旧を待つしかありません。
+ステップ2：数分後に再試行する（指数バックオフ戦略）
+一時的なエラーの可能性が高いため、即座に同じリクエストを送信するのではなく、待機してから再試行します。コード内に指数バックオフ機構を実装してください。
+import time import requests from google.auth.transport.requests import Request from google.oauth2 import service_account # 認証情報の準備 credentials = service_account.Credentials.from_service_account_file( '&lt;path-to-service-account-key>.json' ) url = 'https://compute.googleapis.com/compute/v1/projects/&lt;your-project-id>/zones/asia-northeast1-a/instances' # 指数バックオフで再試行 max_retries = 5 retry_count = 0 wait_seconds = 1 while retry_count &lt; max_retries: try: headers = {'Authorization': f'Bearer {credentials.token}'} response = requests.get(url, headers=headers, timeout=10) if response.status_code == 500: retry_count += 1 print(f'500エラーを受信。{wait_seconds}秒後に再試行します...') time.sleep(wait_seconds) wait_seconds *= 2 # 次の待機時間を2倍にする else: print(f'成功: {response.status_code}') break except Exception as e: print(f'リクエスト失敗: {e}') break if retry_count == max_retries: print('最大再試行回数に達しました。Google Cloud Supportに連絡してください。') ステップ3：Google Cloud Console上でも同じエラーが発生するか確認する
+...</p></div><div class=entry-code-preview><pre><code>https://status.cloud.google.com/
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_500/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://errorlog.jp/posts/>«&nbsp;前へ&nbsp;
+</a><a class=next href=https://errorlog.jp/posts/page/3/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

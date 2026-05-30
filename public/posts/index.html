@@ -1,436 +1,152 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Posts | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="">
-<meta name="description" content="Posts - ErrorLog - エラーコード解決ガイド">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/errorlog/posts/">
-<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/errorlog/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/posts/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 400 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 400 とは何か？（公式の定義） 400 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-AWSサービスへのリクエストにパラメータの誤りがある。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 400 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-必須のパラメータが不足しているか、型が間違っている ARN（リソースの識別子）の書き方が誤っている サービスのAPIバージョンが古い 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-AWSのエラーレスポンス内の「message」フィールドで不足パラメータを特定する ARNを管理コンソールからコピーして使う 使用しているSDKやCLIを最新版に更新する まとめ AWS の 400 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 400 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 401 とは何か？（公式の定義） 401 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-認証情報が無効または期限切れになっている。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 401 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-アクセスキーIDまたはシークレットアクセスキーが間違っている セッショントークンの有効期限が切れている（一時的な認証の場合） 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-aws configure list で現在の認証設定を確認する aws configure で認証情報を再入力する STS（一時的なトークン）を使っている場合は再発行する まとめ AWS の 401 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 401 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_401/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-認証は成功したが、操作を実行するIAM権限が不足している。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-IAMポリシーに必要なActionが含まれていない リソースレベルの制限により特定のARNへのアクセスが拒否されている SCP（サービスコントロールポリシー）によりOrganizationレベルで制限されている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-IAMポリシーシミュレーターで操作の可否を事前確認する エラーメッセージ内の「Action」と「Resource」を確認してポリシーを修正する CloudTrailで拒否されたAPIコールの詳細を確認する まとめ AWS の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-指定したAWSリソース（バケット・インスタンスなど）が見つからない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-リソース名またはIDの綴りが間違っている リソースが別のリージョンに存在する リソースがすでに削除されている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-管理コンソールで対象リソースの存在とリージョンを目視確認する AWS CLIで –region パラメータを明示的に指定する リソースの命名規則（大文字小文字の区別など）を再確認する まとめ AWS の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 429 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 429 とは何か？（公式の定義） 429 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-単位時間あたりのAPIリクエスト数がサービスの上限を超えた。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 429 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-ループ処理の中でAPIを呼び出す間隔を設けていない 複数のプロセスが同時に同じAPIを叩いている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-リトライ処理に「指数バックオフ（待機時間を徐々に延ばす方法）」を組み込む AWS SDKの標準リトライ機能を有効化する Service Quotasコンソールから上限の引き上げを申請する まとめ AWS の 429 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 429 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_429/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 500 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 500 とは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-AWS側で予期しない問題が発生した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-AWSの内部的な障害であり、利用者側の設定の問題ではない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-AWS Service Healthダッシュボードで障害情報を確認する 数分後に同じリクエストを再試行する（冪等性のある操作の場合） AWSサポートにケースを起票する まとめ AWS の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 500 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 502 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 502 とは何か？（公式の定義） 502 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-ロードバランサーまたはAPI GatewayがバックエンドのEC2やLambdaから不正な応答を受け取った。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 502 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-バックエンドのアプリケーションが異常終了している Lambda関数のタイムアウト時間を超えて処理が終わらなかった ALBとターゲットグループのヘルスチェックが失敗している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-EC2インスタンスのアプリケーションログを確認する Lambdaのタイムアウト設定を関数設定画面から延長する ALBのターゲットグループで「ヘルスステータス」を確認する まとめ AWS の 502 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 502 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_502/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">AWS の 503 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、AWS を使っているときに表示される 503 というエラーの意味と、その直し方を順を追って説明します。
-AWS の 503 とは何か？（公式の定義） 503 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-AWS の文脈では、このコードは次のことを意味します。
-AWSのサービスが一時的に利用できない状態になっている。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） AWS で 503 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-対象リソースの容量が上限に達している AWSサービス側で障害が発生している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-AWS Service Healthダッシュボードで障害情報を確認する Auto Scalingの設定を見直してキャパシティを確保する 数分後に再試行する まとめ AWS の 503 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-AWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to AWS の 503 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/aws_503/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 400 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 400 とは何か？（公式の定義） 400 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-リクエストの形式が正しくないため、サーバーが処理を拒否した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 400 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Dockerfileの書き方に誤りがある APIリクエストのJSON形式が壊れている 使用しているDockerのバージョンが古い 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Dockerfileの構文をdocker build –no-cacheで再確認する エラーメッセージ内のJSONを整形ツールで検証する docker –versionで最新版かどうか確認し、古ければ更新する まとめ Docker の 400 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 400 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Docker の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Docker を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。
-Docker の 401 とは何か？（公式の定義） 401 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Docker の文脈では、このコードは次のことを意味します。
-認証情報が提供されていないか、認証に失敗した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Docker で 401 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-docker loginを実行していない 認証トークンの有効期限が切れている レジストリのURLが間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-docker loginコマンドで再度ログインする ~/.docker/config.jsonを削除してdocker loginをやり直す 接続先のレジストリURLを公式ドキュメントで確認する まとめ Docker の 401 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Docker の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker の 401 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/docker_401/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="http://localhost:1313/errorlog/posts/page/2/">次へ&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Posts | ErrorLog - エラーコード解決ガイド</title><meta name=description content="Posts - ErrorLog - エラーコード解決ガイド"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/><link crossorigin=anonymous href=/assets/css/stylesheet.b9cff24519a34895d20bc540b347c06e2c91b03d1a21e9e4f1860d0b97aa5485.css integrity="sha256-uc/yRRmjSJXSC8VAs0fAbiyRsD0aIenk8YYNC5eqVIU=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/posts/index.xml title=rss><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Posts"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Posts"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"}]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><header class=page-header><h1>Posts</h1></header><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-docker-compose">Docker Compose</span></div><h2 class=entry-hint-parent>Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策</h2></header><div class=entry-content><p>Windows環境でDocker Composeを使う際、PowerShellで作成した.envファイルが原因でコンテナが起動できないケースがあります。エラーメッセージに\xff\xfeやunexpected characterが含まれている場合、ファイルのエンコードが原因です。
+エラーの全文 failed to read C:\Users\user\project\.env: line 1: unexpected character "?" in variable name "\xff\xfeG\x00O\x00O\x00G\x00L\x00E\x00_\x00A\x00P\x00I\x00_\x00K\x00E\x00Y\x00=\x00A\x00I\x00z\x00a\x00..." \xff\xfe はUTF-16 LEのBOM（Byte Order Mark）です。続く\x00が各文字の後ろに並んでいることから、ファイル全体がUTF-16 LEで保存されていることがわかります。Docker ComposeのenvファイルパーサーはUTF-8（BOMなし）のみを受け付けるため、このファイルを読み込もうとした瞬間にクラッシュします。
+よくある原因 PowerShellのechoコマンドはUTF-16 LEで書き出す WindowsのPowerShell（5.1系）では、リダイレクト演算子>やechoコマンドがデフォルトでUTF-16 LE（BOM付き）を使用します。
+# これをやってはいけない echo GOOGLE_API_KEY=AIzaSy... > .env # → .envがUTF-16 LE（BOM付き）で保存される Linuxや macOSのシェルと違い、PowerShellは歴史的な経緯からUTF-16をデフォルトエンコードとして採用しています。echoやSet-Contentを使う限り、意識しない限りこの問題が発生します。
+VSCodeのエンコード設定が変わっている場合 VSCodeでファイルを新規作成・保存する際、右下のステータスバーが「UTF-16 LE」になっているとDocker Composeが読めないファイルが生成されます。
+診断方法 .envファイルの先頭バイトを確認します。
+# 先頭4バイトを16進数で確認 $bytes = [System.IO.File]::ReadAllBytes(".env") $bytes[0..3] | ForEach-Object { $_.ToString("X2") } 正常（UTF-8 BOMなし）:
+47 4F 4F 47 ← "GOOG"の文字コード（例：GOOGLE_API_KEY=...） 異常（UTF-16 LE BOM付き）:
+FF FE 47 00 ← \xff\xfe がBOM、その後\x00が混入 解決手順 方法1：既存の.envファイルをUTF-8に変換する（即時対応） # UTF-16で書かれた.envをUTF-8（BOMなし）に変換して上書き $content = Get-Content ".env" -Encoding Unicode -Raw [System.IO.File]::WriteAllText( (Resolve-Path ".env").Path, $content.Trim() + "`n", [System.Text.UTF8Encoding]::new($false) ) $falseは「BOMを付けない」を意味します。UTF8Encoding::new($true)にするとBOM付きになるため注意してください。
+...</p></div><div class=entry-code-preview><pre><code>failed to read C:\Users\user\project\.env: line 1: unexpected character &#34;?&#34; in variable name &#34;\xff\xfeG\x00O\x00O\x00G\x00L\x00E\x00_\x00A\x00P\x00I\x00_\x00K\x00E\x00Y\x00=\x00A\x00I\x00z\x00a\x00...&#34;
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策" href=https://errorlog.jp/posts/docker_compose_env_utf16_bom_windows/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Docker Compose の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker Composeで400エラーが発生する場合、compose.ymlの設定に問題があるか、コマンドのオプション指定が誤っている可能性があります。設定ファイルの検証とコマンドの確認により、ほぼすべてのケースで解決します。
+よくある原因 compose.ymlのYAML書式エラー YAML形式の構文ミスが最も多い原因です。インデント（スペース）の不一致、タブ文字の混在、コロンの後の空白忘れなどが該当します。YAMLはインデントに非常に敏感であり、2文字か4文字のスペースで統一する必要があります。タブ文字を使用するとパーサーが正しく解釈できず、400エラーが発生します。
+サービス定義の必須キー不足または型エラー serviceセクション内で必須キーが欠けている、または値の型が仕様と異なる場合も400エラーになります。例えば、portsに文字列を指定すべきところに数値を指定したり、environmentに配列ではなくオブジェクト形式を使用したりすると、Docker Composeは設定を受け入れません。
+docker composeコマンドのオプション指定誤り docker compose up --detachなど、存在しないオプションを指定した場合や、オプションの値の形式が間違っている場合も400エラーが返されます。オプション名のスペル間違いや、廃止されたオプションの使用もこれに該当します。
+解決手順 ステップ1：docker compose configで設定を検証する まず、compose.ymlが正しく解析されているか確認します。以下のコマンドを実行してください。
+docker compose config このコマンドはDocker Composeが解析した設定をそのまま出力します。エラーがあれば、その時点で具体的なエラーメッセージが表示されます。メッセージに行番号が含まれている場合は、その箇所を重点的に確認してください。
+ステップ2：compose.ymlのYAML構文をチェックする インデント、コロン、引用符などの構文を確認します。以下の点に注意してください。
+# 正しい例 version: '3.8' services: web: image: nginx:latest ports: - "80:80" environment: - NGINX_HOST=example.com - NGINX_PORT=80 db: image: mysql:8.0 volumes: - db_data:/var/lib/mysql ports: - "3306:3306" volumes: db_data: # 間違った例 version: '3.8' services: web: image: nginx:latest ports: - "80:80" # インデント不足 environment: NGINX_HOST: example.com # キーと値の関係が不明確 YAMLリンターツール（例：yamllint）をローカルにインストールして検査することも有効です。
+# yamllintのインストール（Pythonが必要） pip install yamllint # compose.ymlを検査 yamllint compose.yml ステップ3：サービス定義の型を確認する 各サービスの主要キーの値の型が正しいか確認します。portsとvolumesは配列形式が必須です。
+...</p></div><div class=entry-code-preview><pre><code>docker compose config
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_400/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Docker Compose の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker Composeで401エラーが発生した場合、コンテナーレジストリーへの認証に失敗しています。このエラーはプライベートイメージをpullしようとする際に最も頻繁に起こります。
+よくある原因 docker loginを実行していない
+docker composeを実行する前にdocker loginコマンドで認証を済ませていないと、プライベートレジストリーのイメージをpullできません。認証情報が保存されていないため、レジストリー側は401（認証が必要）で応答します。
+compose.yml内のimageフィールドでプライベートレジストリーを参照しているが認証されていない
+compose.ymlでプライベートレジストリーのイメージを指定している場合、そのレジストリーに対する認証が完了していないと401エラーになります。例えば image: myregistry.azurecr.io/myapp:latest のようなURLが含まれているのに認証がないパターンです。
+CI/CD環境で認証情報が渡されていない
+GitHub ActionsやJenkinsなどのCI/CD環境ではローカルのdocker loginが存在しません。認証情報を環境変数またはシークレット経由で明示的に渡す必要があります。これを忘れるとdocker compose pullが失敗します。
+解決手順 ステップ1：ローカル環境での認証を確認する
+まずdocker loginコマンドでレジストリーに認証します。Docker Hubの場合は以下を実行します。
+docker login プロンプトに従ってユーザー名とパスワードを入力します。プライベートレジストリー（Azure Container Registry、AWS ECR、GCP Artifact Registryなど）の場合はレジストリーURLを指定します。
+docker login &lt;レジストリーURL> # 例：Azure Container Registryの場合 docker login myregistry.azurecr.io ステップ2：compose.ymlのimageフィールドを確認する
+compose.ymlでイメージパスが正確に指定されているか確認します。プライベートレジストリーを使用している場合、フルパスにレジストリーURLを含める必要があります。
+version: '3.8' services: app: image: myregistry.azurecr.io/myapp:latest # または image: &lt;レジストリーURL>/&lt;リポジトリー>:&lt;タグ> ステップ3：docker compose pullを実行する
+認証後、docker compose pullコマンドでイメージをpullしてから、docker compose upを実行します。
+docker compose pull docker compose up -d ステップ4：CI/CD環境での認証設定
+GitHub Actionsの場合、以下のようにシークレットを使用して認証情報を渡します。
+- name: Log in to Container Registry run: | echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login \ -u "${{ secrets.REGISTRY_USERNAME }}" \ --password-stdin &lt;レジストリーURL> - name: Pull and run Docker Compose run: docker compose pull && docker compose up -d GitLabの場合は、.gitlab-ci.yml内で環境変数を設定します。
+...</p></div><div class=entry-code-preview><pre><code>docker login
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span></div><h2 class=entry-hint-parent>Gemini API の 429 エラー：無料枠クォータ枯渇と解決策</h2></header><div class=entry-content><p>Gemini API を自動化スクリプトやバックグラウンドジョブに組み込んだ際、無料枠のクォータを短時間で使い切り 429 RESOURCE_EXHAUSTED が連続発生するケースがあります。特に複数リクエストを並列・連続で投げる処理では、1回のバッチ実行で当日分のクォータが尽きることがあります。
+エラーの全文 429 RESOURCE_EXHAUSTED. { 'error': { 'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details.\n * Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n * Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_input_token_count, limit: 0, model: gemini-2.0-flash\n Please retry in 48.403305959s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{ '@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '48s' }] } } limit: 0 はクォータ残量がゼロになったことを示します。retryDelay にリトライまでの待機秒数が返ってきます。
+よくある原因 自動化パイプラインでの連続呼び出し 30分ごとに RSS フィードを取得してスコアリングするような自動パイプラインでは、1サイクルで複数記事を連続して API に送ります。無料枠の制限は以下の2軸で管理されます。
+...</p></div><div class=entry-code-preview><pre><code>429 RESOURCE_EXHAUSTED. {
+  &#39;error&#39;: {
+    &#39;code&#39;: 429,</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Gemini API の 429 エラー：無料枠クォータ枯渇と解決策" href=https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-minikube">Minikube</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Minikube の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeでリソースへのアクセスを試みたときに403エラーが返される場合、RBAC（ロールベースアクセス制御）設定によってアクセス権限が拒否されています。このエラーは開発環境でも本番環境でも発生し、適切な権限設定で解決します。
+よくある原因 デフォルトのServiceAccountに必要な権限がない
+Minikubeではデフォルトでdefault ServiceAccountが使用されますが、このアカウントには最小限の権限しか持っていません。Podやその他のリソースに対して読み取り・書き込み操作を行おうとすると、デフォルトServiceAccountに対応する権限がないため403エラーが発生します。
+RoleBindingまたはClusterRoleBindingが設定されていない
+Roleを作成しても、そのRoleをServiceAccountに紐付けるRoleBindingが存在しないと権限は有効になりません。ServiceAccountとRoleの結合関係が欠落している場合、403エラーで操作が拒否されます。
+Minikubeのアドオン（ダッシュボードなど）に必要な権限が付与されていない
+Minikubeに含まれるダッシュボードやメトリクス取得機能などのアドオンは、クラスタ内で特定のリソースにアクセスする必要があります。アドオンが有効化されていない、または不完全な権限設定で実行されている場合、ダッシュボードやメトリクス取得時に403エラーが発生します。
+解決手順 ステップ1：現在の権限を確認する
+kubectl auth can-iコマンドを使用して、現在のユーザーがリソースに対して特定の操作を実行できるかを確認します。
+# デフォルトのdefault ServiceAccountで確認 kubectl auth can-i get pods --as=system:serviceaccount:default:default # 特定の操作が許可されているか確認 kubectl auth can-i create deployments --as=system:serviceaccount:default:default # 詳細な理由を表示 kubectl auth can-i get pods --as=system:serviceaccount:default:default -v=9 このコマンドでnoと返される場合、権限がないことが確定します。
+ステップ2：必要な権限を持つRoleを作成する
+アクセスしたいリソースに対するRoleを作成します。例えば、Podの読み取りと作成が必要な場合：
+apiVersion: rbac.authorization.k8s.io/v1 kind: Role metadata: name: pod-reader namespace: default rules: - apiGroups: [""] resources: ["pods"] verbs: ["get", "list", "watch"] - apiGroups: [""] resources: ["pods"] verbs: ["create", "update", "patch", "delete"] このYAMLをrole.yamlとして保存し、以下のコマンドで適用します：
+kubectl apply -f role.yaml ステップ3：RoleBindingを作成してServiceAccountに権限を付与する
+作成したRoleをdefault ServiceAccountに紐付けます：
+...</p></div><div class=entry-code-preview><pre><code># デフォルトのdefault ServiceAccountで確認
+kubectl auth can-i get pods --as=system:serviceaccount:default:default
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Minikube の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-minikube">Minikube</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Minikube の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikube で 404 エラーが出た場合、指定した Kubernetes リソースが見つからないことを示しています。このエラーは開発環境でよく発生し、適切な確認手順で迅速に解決できます。
+よくある原因 Namespace の指定が間違っているか省略されている
+Kubernetes ではリソースは必ず Namespace 内に存在します。kubectl get pod のように Namespace を指定せずコマンドを実行すると、デフォルトの default Namespace のみを検索します。リソースが別の Namespace に存在する場合、404 エラーが返されます。例えば kube-system Namespace にあるシステムポッドは、Namespace 指定なしでは見つかりません。
+リソースがまだデプロイされていないか削除されている
+Deployment やポッドの作成コマンドを実行しても、イメージのダウンロードやスケジューリングに時間がかかります。その間に kubectl get pod &lt;pod-name> を実行すると 404 になります。また、明示的に削除したリソースや、前回のセッションで作成したリソースも見つかりません。
+Minikube クラスターが停止している
+Minikube クラスターが停止している状態では、すべての Kubernetes API のリクエストが失敗し、404 を含むエラーが返されます。クラスターが起動していても、kube-apiserver などのコアコンポーネントが正常に動作していない場合も同様です。
+解決手順 ステップ 1：Minikube クラスターの状態を確認する
+まず最初にクラスター全体が正常に起動しているか確認します。
+minikube status 以下の出力が目標です。
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured クラスターが停止している場合は起動します。
+minikube start ステップ 2：Namespace 全体でリソースを検索する
+...</p></div><div class=entry-code-preview><pre><code>minikube status
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Minikube の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-minikube">Minikube</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>Minikube の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeでクラスター内部の予期しないエラーが発生し、HTTP ステータス 500 が返されている状況です。API サーバーの不安定性やリソース枯渇が主な原因となります。
+よくある原因 API サーバーのクラッシュ
+Minikube のノード内部で動作する Kubernetes の API サーバーが予期せず停止している状態です。メモリ不足や CPU リソースの枯渇により、API サーバープロセスが OOM Killer によって強制終了されたり、無限ループに陥ったりすることで発生します。この場合、クラスターへのすべての API 呼び出しが 500 エラーで応答するようになります。
+ディスク容量不足による etcd の破損
+Minikube が使用するディスク容量が枯渇すると、Kubernetes の状態管理を担当する etcd（分散キーバリューストア）のデータが正常に書き込まれなくなります。破損したデータベースの読み込みに失敗するため、API サーバーが正常に起動できず、すべてのリクエストで 500 エラーを返すようになります。
+Minikube と kubectl のバージョン互換性の不一致
+Minikube クラスター内の Kubernetes バージョンと、ローカルにインストールされている kubectl のバージョンが大きく異なる場合、API の仕様変更により通信がうまく成立しません。特に kubectl が新しすぎる場合、古い API バージョンを呼び出そうとしてサーバー側で予期しないエラーが発生します。
+解決手順 ステップ1：クラスターのログを確認する
+まず Minikube の内部ログを確認し、API サーバーがクラッシュしている、またはディスク容量が不足していないかを調査します。
+minikube logs 出力を確認し、「Out of memory」や「No space left on device」といったメッセージがないか探します。API サーバーのクラッシュログが表示されていれば、原因がより明確になります。
+ステップ2：バージョンの互換性を確認する
+Minikube と kubectl のバージョンを確認し、互換性が保たれているか検証します。
+...</p></div><div class=entry-code-preview><pre><code>minikube logs
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Minikube の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_500/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-minikube">Minikube</span>
+<span class=error-badge>503</span></div><h2 class=entry-hint-parent>Minikube の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeでサービスにアクセスしたときに503エラーが返される場合、クラスター自体が正常に動作していないか、デプロイしたサービスが停止している状態です。この記事では、原因の特定方法と解決手順を説明します。
+よくある原因 Minikubeが停止または起動中の状態
+Minikubeクラスターが完全に起動していないか、停止している場合、すべてのサービスへのリクエストが503エラーになります。起動処理が途中で止まっているケースもあり、この場合はクラスターが部分的にしか動作していないため、一部のサービスだけが利用できなくなります。
+Podがクラッシュループに陥っている
+デプロイしたPodがコンテナーの起動に失敗し、再起動を繰り返すクラッシュループ状態に陥ると、そのPod内で動作するサービスは利用できず503エラーが返されます。これはアプリケーションのバグ、設定ファイルの誤り、環境変数の不足などが原因で発生します。
+リソース不足
+Minikubeに割り当てたCPUやメモリが不足すると、Podが正常に起動できなくなり、サービスが停止します。特にメモリ不足でPodが強制終了された場合、リクエストを処理するリソースがないため503エラーが返されます。
+解決手順 1. クラスターの状態を確認する
+まずMinikubeが正常に動作しているか確認します。
+minikube status 出力例：
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running すべてが「Running」になっていることを確認してください。もし「Stopped」と表示される場合は、以下のコマンドで起動します。
+minikube start 起動処理には数分かかります。完了後、再度 minikube status で確認してください。
+2. Podの状態を確認する
+クラスターが起動している場合、次にデプロイしたPodの状態を確認します。
+kubectl get pods -A 出力例：
+NAMESPACE NAME READY STATUS
+default my-app-deployment-5d4f8c9b2 1/1 Running
+kube-system coredns-558bd4d5ec-abc12 1/1 Running 「CrashLoopBackOff」または「ImagePullBackOff」というステータスのPodがないか確認してください。問題のあるPodが見つかった場合、詳細情報を取得します。
+kubectl describe pod &lt;pod-name> -n &lt;namespace> 例：
+kubectl describe pod my-app-deployment-5d4f8c9b2 -n default 出力の「Events」セクションにエラー内容が表示されます。ログを確認する場合は以下を実行します。
+kubectl logs &lt;pod-name> -n &lt;namespace> 3. リソースを増やして再起動する
+...</p></div><div class=entry-code-preview><pre><code>minikube status
+</code></pre></div><footer class=entry-footer><span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Minikube の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_503/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-hugo">Hugo</span></div><h2 class=entry-hint-parent>Hugo PaperMod で datePublished が 0001-01-01 になるバグ：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Hugo（PaperMod テーマ）で構築したサイトの構造化データ（JSON-LD）を Google のリッチリザルトテストで確認したところ、datePublished と dateModified に 0001-01-01T00:00:00Z という明らかに誤った日付が出力されていた。記事のフロントマターには正しく date: 2026-05-29 を設定していたにもかかわらず、構造化データには Go の「ゼロ値」に相当する日付が混入していた。
+実際のエラー出力例 Google のリッチリザルトテストおよびページソースで確認された JSON-LD の内容：
+{ "@context": "https://schema.org", "@type": "BlogPosting", "headline": "Docker の 404 エラー：原因と解決策", "datePublished": 0001-01-01 00:00:00 +0000 UTC, "dateModified": 0001-01-01 00:00:00 +0000 UTC, "publisher": { "@type": "Organization", "name": "ErrorLog" } } これは有効な JSON ですらなく、Google ボットがパースに失敗する状態だった。
+原因 PaperMod テーマの themes/PaperMod/layouts/_partials/templates/schema_json.html における日付出力の実装が問題だった。
+問題のあったテンプレートコード（Before）：
+"datePublished": {{ .PublishDate }}, "dateModified": {{ .Lastmod }}, Hugo テンプレートで {{ .PublishDate }} を素のまま展開すると、Go の time.Time 型がデフォルト形式でシリアライズされる。この形式は 0001-01-01 00:00:00 +0000 UTC のような文字列になり、JSON として無効な出力になる。
+さらに .PublishDate はフロントマターに publishDate を明示しない場合にゼロ値（0001-01-01）になることがある（Hugo のバージョンや設定により挙動が異なる）。lastmod も同様で、フロントマターに未設定の場合にゼロ値が返る。
+...</p></div><div class=entry-code-preview><pre><code>{
+  &#34;@context&#34;: &#34;https://schema.org&#34;,
+  &#34;@type&#34;: &#34;BlogPosting&#34;,</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Hugo PaperMod で datePublished が 0001-01-01 になるバグ：原因と解決策" href=https://errorlog.jp/posts/hugo_papermod_schema_date/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-minikube">Minikube</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Minikube の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeクラスターへのリクエスト形式が正しくなく、マニフェストのYAML構文エラーやオプション指定の誤りが原因で発生するエラーです。本記事では原因特定と解決方法をステップバイステップで解説します。
+よくある原因 kubectl applyするマニフェストのYAMLに構文エラーがある YAMLはインデント（スペース数）に厳密です。タブ文字を使ったり、インデント幅が不統一だったりすると、Minikubeはリクエストを正しく解析できず400エラーが発生します。また、コロン（:）やハイフン（-）の位置がズレていても同様です。例えば kind: Pod と kind:Pod では後者が構文エラーになります。
+必須フィールドが欠けているか型が間違っている Kubernetesリソースには必ず指定する必須フィールドがあります。Deploymentなら apiVersion、kind、metadata、spec は必須です。また replicas は整数型なのに文字列 "3" で指定したり、ports の containerPort に文字列を指定すると、Minikubeが型の不一致を検出して400エラーを返します。
+minikubeコマンドのオプション指定が誤っている minikube start --vm-driver=docker のように廃止されたオプションを使ったり、オプションの形式が間違っていたりすると400エラーが発生します。バージョンアップに伴いオプション名が変更されることもあるため、使用しているMinikubeバージョンに対応したオプションを確認する必要があります。
+解決手順 1. マニフェストをdry-runで事前確認する マニフェストファイルを実際に適用する前に、構文エラーと必須フィールドの不足を検出します。
+kubectl apply --dry-run=client -f &lt;マニフェスト.yaml> 例えば以下のコマンドを実行します。
+kubectl apply --dry-run=client -f deployment.yaml 出力にエラーメッセージが表示されれば、その箇所を修正してください。成功時は deployment.apps/example created (dry run) と表示されます。
+2. マニフェストのYAML構文をチェックする YAMLの妥当性を検証するオンラインツール（例：yamllint）を使うか、ローカルでlintツールを実行します。
+# yamllintをインストール pip install yamllint # マニフェストをチェック yamllint deployment.yaml インデント幅は通常2スペースか4スペースで統一してください。タブ文字は使わないようにします。
+3. 正しいオプションをminikube –helpで確認する 使用しているMinikubeのバージョンで有効なオプションを確認します。
+minikube start --help 出力例から、現在有効なオプションを確認してください。例えば --vm-driver は古いバージョンのMinikubeでは --driver に変更されています。
+...</p></div><div class=entry-code-preview><pre><code>kubectl apply --dry-run=client -f &lt;マニフェスト.yaml&gt;
+</code></pre></div><footer class=entry-footer><span title='2026-05-29 00:00:00 +0000 UTC'>2026年5月29日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Minikube の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_400/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://errorlog.jp/posts/page/2/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

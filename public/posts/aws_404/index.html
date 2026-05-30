@@ -1,262 +1,106 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>AWS の 404 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="">
-<meta name="description" content="この記事では、**AWS** を使っているときに表示される **404** というエラーの意味と、その直し方を順を追って説明します。">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/errorlog/posts/aws_404/">
-<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/posts/aws_404/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <h1 class="post-title entry-hint-parent">
-      AWS の 404 エラー：原因と解決策
-    </h1>
-    <div class="post-description">
-      この記事では、**AWS** を使っているときに表示される **404** というエラーの意味と、その直し方を順を追って説明します。
-    </div>
-    <div class="post-meta">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
-
-</div>
-  </header> 
-  <div class="post-content md-content"><blockquote>
-<p>この記事では、<strong>AWS</strong> を使っているときに表示される <strong>404</strong> というエラーの意味と、その直し方を順を追って説明します。</p>
-</blockquote>
-<hr>
-<h2 id="aws-の-404-とは何か公式の定義">AWS の 404 とは何か？（公式の定義）<a hidden class="anchor" aria-hidden="true" href="#aws-の-404-とは何か公式の定義">#</a></h2>
-<p><strong>404</strong> は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。</p>
-<p>AWS の文脈では、このコードは次のことを意味します。</p>
-<blockquote>
-<p>指定したAWSリソース（バケット・インスタンスなど）が見つからない。</p>
-</blockquote>
-<p>このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。</p>
-<hr>
-<h2 id="このエラーが発生する主な原因起きる理由の整理">このエラーが発生する主な原因（起きる理由の整理）<a hidden class="anchor" aria-hidden="true" href="#このエラーが発生する主な原因起きる理由の整理">#</a></h2>
-<p>AWS で 404 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。</p>
-<ul>
-<li>リソース名またはIDの綴りが間違っている</li>
-<li>リソースが別のリージョンに存在する</li>
-<li>リソースがすでに削除されている</li>
-</ul>
-<hr>
-<h2 id="具体的な解決手順とチェックリスト順番どおりに試す">具体的な解決手順とチェックリスト（順番どおりに試す）<a hidden class="anchor" aria-hidden="true" href="#具体的な解決手順とチェックリスト順番どおりに試す">#</a></h2>
-<p>上の原因ごとの対処法を、実行できる手順の形でまとめました。
-<strong>上から順番に試す</strong>ことで、多くの場合は解決に近づけます。</p>
-<ol>
-<li>管理コンソールで対象リソースの存在とリージョンを目視確認する</li>
-<li>AWS CLIで &ndash;region パラメータを明示的に指定する</li>
-<li>リソースの命名規則（大文字小文字の区別など）を再確認する</li>
-</ol>
-<hr>
-<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
-<p>AWS の <strong>404</strong> エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。</p>
-<p>それでも解決しない場合は、次の方法を試してください。</p>
-<ul>
-<li>AWS の公式ドキュメントで最新の情報を確認する</li>
-<li>エラーメッセージの全文をコピーして検索エンジンで調べる</li>
-<li>公式のコミュニティフォーラムやサポートに問い合わせる</li>
-</ul>
-<hr>
-<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
-
-
-  </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="http://localhost:1313/errorlog/posts/aws_403/">
-    <span class="title">« 前へ</span>
-    <span>AWS の 403 エラー：原因と解決策</span>
-  </a>
-  <a class="next" href="http://localhost:1313/errorlog/posts/aws_429/">
-    <span class="title">次へ »</span>
-    <span>AWS の 429 エラー：原因と解決策</span>
-  </a>
-</nav>
-
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>AWS の 404 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="AWS,HTTP404,404エラー"><meta name=description content="AWS の 404 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/aws_404/><link crossorigin=anonymous href=/assets/css/stylesheet.b9cff24519a34895d20bc540b347c06e2c91b03d1a21e9e4f1860d0b97aa5485.css integrity="sha256-uc/yRRmjSJXSC8VAs0fAbiyRsD0aIenk8YYNC5eqVIU=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/aws_404/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/aws_404/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="AWS の 404 エラー：原因と解決策"><meta property="og:description" content="AWS の 404 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="AWS"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="AWS の 404 エラー：原因と解決策"><meta name=twitter:description content="AWS の 404 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"AWS の 404 エラー：原因と解決策","item":"https://errorlog.jp/posts/aws_404/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"AWS の 404 エラー：原因と解決策","name":"AWS の 404 エラー：原因と解決策","description":"AWS の 404 エラーの原因と解決策をわかりやすく解説します。","keywords":["AWS"],"articleBody":"エラーの概要 AWS の 404 エラーは「Not Found」を意味し、指定したリソースが見つからないことを示します。S3 バケット、EC2 インスタンス、API Gateway、Lambda 関数など、あらゆる AWS サービスで発生する可能性があります。このエラーが返される場合、リソースが存在しない、リソース名が誤っている、別のリージョンに存在している、またはアクセス権限がないなどの原因が考えられます。\n実際のエラーメッセージ例 S3 へのアクセス時のエラーレスポンス：\n\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e NoSuchKey The specified key does not exist. nonexistent-file.txt my-bucket 4TZ432A73F8A1A1A SlFydFBhMjMzMzM3L2ZpbGUuanNvbg== AWS CLI でのエラーメッセージ：\n{ \"Error\": { \"Code\": \"ResourceNotFoundException\", \"Message\": \"Could not connect to the endpoint URL: https://dynamodb..amazonaws.com/\" }, \"ResponseMetadata\": { \"RequestId\": \"12345678-1234-1234-1234-123456789012\", \"HTTPStatusCode\": 404, \"HTTPHeaders\": { \"date\": \"Thu, 15 Jan 2024 10:30:00 GMT\" } } } よくある原因と解決手順 原因 1：リソース名またはリソース ID のスペルが誤っている リソース名に小文字・大文字の違いやハイフンの位置が異なると 404 エラーが発生します。AWS では大文字小文字を区別するサービスが多いため、タイプミスは高確率で 404 につながります。\nBefore（エラーが起きる例）：\n# S3 バケト名が誤っている aws s3 cp myfile.txt s3://my-backet/path/ # Lambda 関数名が誤っている aws lambda invoke --function-name MyLamda output.json After（修正後）：\n# 正しいバケト名を指定 aws s3 cp myfile.txt s3://my-bucket/path/ # 正しい関数名を指定（大文字小文字を確認） aws lambda invoke --function-name myLambda output.json 原因 2：リソースが別のリージョンに存在している AWS ではリソースがリージョン単位で管理されます。東京リージョン（ap-northeast-1）に作成した EC2 インスタンスを、シンガポール（ap-southeast-1）から参照しようとすると 404 になります。\nBefore（エラーが起きる例）：\n# デフォルトリージョン us-east-1 で検索（実際には ap-northeast-1 に存在） aws ec2 describe-instances --instance-ids i-0123456789abcdef0 # 返値： # An error occurred (InvalidInstanceID.NotFound) when calling the DescribeInstances operation: The instance ID 'i-0123456789abcdef0' does not exist After（修正後）：\n# 正しいリージョンを指定 aws ec2 describe-instances \\ --instance-ids i-0123456789abcdef0 \\ --region ap-northeast-1 # または AWS CLI の設定ファイルでデフォルトリージョンを設定 # ~/.aws/config の [default] セクションに以下を追加 # region = ap-northeast-1 原因 3：リソースが削除されているか、まだ作成されていない リソース作成直後に即座にアクセスしようとすると、リソースの初期化完了前にアクセスしたために 404 が返される場合があります。また、別のユーザーがリソースを削除している可能性もあります。\nBefore（エラーが起きる例）：\n# DynamoDB テーブル作成直後にすぐクエリ実行 aws dynamodb create-table \\ --table-name MyTable \\ --attribute-definitions AttributeName=id,AttributeType=S \\ --key-schema AttributeName=id,KeyType=HASH \\ --billing-mode PAY_PER_REQUEST # 即座にクエリ実行（テーブル初期化完了前） aws dynamodb get-item \\ --table-name MyTable \\ --key '{\"id\":{\"S\":\"test\"}}' After（修正後）：\n# テーブル作成後、ステータスが ACTIVE になるまで待機 aws dynamodb wait table-exists --table-name MyTable # その後でクエリ実行 aws dynamodb get-item \\ --table-name MyTable \\ --key '{\"id\":{\"S\":\"test\"}}' ツール固有の注意点 S3 でよくある 404 の原因 S3 バケトポリシーでパブリックアクセスがブロックされている場合、バケトやオブジェクトが存在しても 404 が返されることがあります。これはセキュリティ上の理由から仕様通りの動作です。\n# バケトが存在するか確認 aws s3api head-bucket --bucket my-bucket --region ap-northeast-1 # オブジェクトが存在するか確認（IAM 権限が必要） aws s3api head-object --bucket my-bucket --key path/to/file.txt API Gateway での 404 エラー API Gateway の ステージが正しく設定されていない、または リソースパスが定義されていない場合に 404 が返されます。\n# API ID とリソース ID を確認 aws apigateway get-rest-apis aws apigateway get-resources --rest-api-id # エンドポイント URL がステージ名を含んでいるか確認 # 正しい形式：https://.execute-api..amazonaws.com// DynamoDB での ResourceNotFoundException テーブルが存在しないか、テーブル名のスペルが誤っている場合に発生します。オンデマンド課金の場合、テーブル作成直後にアクセスしても初期化完了前であれば 404 になる可能性があります。\n# テーブルのステータスを確認 aws dynamodb describe-table --table-name MyTable --region ap-northeast-1 | grep TableStatus # テーブル一覧から存在確認 aws dynamodb list-tables --region ap-northeast-1 Lambda での ResourceNotFoundException 関数が存在しないか、エイリアスまたはバージョン指定が誤っている場合に発生します。\n# 関数の存在確認 aws lambda get-function --function-name myLambda --region ap-northeast-1 # エイリアスやバージョンを指定している場合 aws lambda get-function --function-name myLambda:LIVE --region ap-northeast-1 それでも解決しない場合 AWS CloudTrail でリクエストの詳細ログを確認し、エラーの発生箇所を特定します。CloudTrail は AWS マネジメントコンソールから有効化できます。\n# CloudTrail イベント履歴を確認（CLI の場合） aws cloudtrail lookup-events \\ --lookup-attributes AttributeKey=ResourceName,AttributeValue=my-bucket \\ --region ap-northeast-1 \\ --max-results 10 AWS Support に問い合わせる際は、以下の情報を準備してください。\nリージョン名 リソース ARN（Amazon Resource Name） リクエスト ID（レスポンスヘッダーに含まれます） CloudTrail のイベントログ抜粋 公式ドキュメントの「AWS リソースへのアクセスのトラブルシューティング」や「IAM ベストプラクティス」も参考になります。GitHub Issues では、特定のサービス（S3、Lambda など）の問題報告が集約されているため、同じ問題の解決事例を検索するとよいでしょう。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"383","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/aws_404/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>404</span></div><h1 class="post-title entry-hint-parent">AWS の 404 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
+<span class=summary-text>AWS の 404 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
+<span class=summary-text>↓ Before / After コードで確認</span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+&lt;Error&gt;
+    &lt;Code&gt;NoSuchKey&lt;/Code&gt;
+    &lt;Message&gt;The specified key does not exist.&lt;/Message&gt;
+    &lt;Key&gt;nonexistent-file.txt&lt;/Key&gt;
+    &lt;BucketName&gt;my-bucket&lt;/BucketName&gt;
+    &lt;RequestId&gt;4TZ432A73F8A1A1A&lt;/RequestId&gt;
+    &lt;HostId&gt;SlFydFBhMjMzMzM3L2ZpbGUuanNvbg==&lt;/HostId&gt;</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a0-1%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9%e5%90%8d%e3%81%be%e3%81%9f%e3%81%af%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9-id-%e3%81%ae%e3%82%b9%e3%83%9a%e3%83%ab%e3%81%8c%e8%aa%a4%e3%81%a3%e3%81%a6%e3%81%84%e3%82%8b aria-label="原因 1：リソース名またはリソース ID のスペルが誤っている">原因 1：リソース名またはリソース ID のスペルが誤っている</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-2%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9%e3%81%8c%e5%88%a5%e3%81%ae%e3%83%aa%e3%83%bc%e3%82%b8%e3%83%a7%e3%83%b3%e3%81%ab%e5%ad%98%e5%9c%a8%e3%81%97%e3%81%a6%e3%81%84%e3%82%8b aria-label="原因 2：リソースが別のリージョンに存在している">原因 2：リソースが別のリージョンに存在している</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9%e3%81%8c%e5%89%8a%e9%99%a4%e3%81%95%e3%82%8c%e3%81%a6%e3%81%84%e3%82%8b%e3%81%8b%e3%81%be%e3%81%a0%e4%bd%9c%e6%88%90%e3%81%95%e3%82%8c%e3%81%a6%e3%81%84%e3%81%aa%e3%81%84 aria-label="原因 3：リソースが削除されているか、まだ作成されていない">原因 3：リソースが削除されているか、まだ作成されていない</a></li></ul></li><li><a href=#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label=ツール固有の注意点>ツール固有の注意点</a><ul><li><a href=#s3-%e3%81%a7%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b-404-%e3%81%ae%e5%8e%9f%e5%9b%a0 aria-label="S3 でよくある 404 の原因">S3 でよくある 404 の原因</a></li><li><a href=#api-gateway-%e3%81%a7%e3%81%ae-404-%e3%82%a8%e3%83%a9%e3%83%bc aria-label="API Gateway での 404 エラー">API Gateway での 404 エラー</a></li><li><a href=#dynamodb-%e3%81%a7%e3%81%ae-resourcenotfoundexception aria-label="DynamoDB での ResourceNotFoundException">DynamoDB での ResourceNotFoundException</a></li><li><a href=#lambda-%e3%81%a7%e3%81%ae-resourcenotfoundexception aria-label="Lambda での ResourceNotFoundException">Lambda での ResourceNotFoundException</a></li></ul></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>AWS の 404 エラーは「Not Found」を意味し、指定したリソースが見つからないことを示します。S3 <a href=/glossary/%E3%83%90%E3%82%B1%E3%83%83%E3%83%88/>バケット</a>、EC2 <a href=/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/>インスタンス</a>、<a href=/glossary/api/>API</a> Gateway、Lambda 関数など、あらゆる AWS サービスで発生する可能性があります。このエラーが返される場合、リソースが存在しない、リソース名が誤っている、別のリージョンに存在している、またはアクセス権限がないなどの原因が考えられます。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><p>S3 へのアクセス時の<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/>エラーレスポンス</a>：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-xml data-lang=xml><span style=display:flex><span><span style=color:#75715e>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;Error&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;Code&gt;</span>NoSuchKey<span style=color:#f92672>&lt;/Code&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;Message&gt;</span>The specified key does not exist.<span style=color:#f92672>&lt;/Message&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;Key&gt;</span>nonexistent-file.txt<span style=color:#f92672>&lt;/Key&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;BucketName&gt;</span>my-bucket<span style=color:#f92672>&lt;/BucketName&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;RequestId&gt;</span>4TZ432A73F8A1A1A<span style=color:#f92672>&lt;/RequestId&gt;</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&lt;HostId&gt;</span>SlFydFBhMjMzMzM3L2ZpbGUuanNvbg==<span style=color:#f92672>&lt;/HostId&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>&lt;/Error&gt;</span>
+</span></span></code></pre></div><p>AWS <a href=/glossary/cli/>CLI</a> でのエラーメッセージ：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Error&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Code&#34;</span>: <span style=color:#e6db74>&#34;ResourceNotFoundException&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Message&#34;</span>: <span style=color:#e6db74>&#34;Could not connect to the endpoint URL: https://dynamodb.&lt;region&gt;.amazonaws.com/&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;ResponseMetadata&#34;</span>: {
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;RequestId&#34;</span>: <span style=color:#e6db74>&#34;12345678-1234-1234-1234-123456789012&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;HTTPStatusCode&#34;</span>: <span style=color:#ae81ff>404</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;HTTPHeaders&#34;</span>: {
+</span></span><span style=display:flex><span>            <span style=color:#f92672>&#34;date&#34;</span>: <span style=color:#e6db74>&#34;Thu, 15 Jan 2024 10:30:00 GMT&#34;</span>
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因-1リソース名またはリソース-id-のスペルが誤っている>原因 1：リソース名またはリソース ID のスペルが誤っている<a hidden class=anchor aria-hidden=true href=#原因-1リソース名またはリソース-id-のスペルが誤っている>#</a></h3><p>リソース名に小文字・大文字の違いやハイフンの位置が異なると 404 エラーが発生します。AWS では大文字小文字を区別するサービスが多いため、タイプミスは高確率で 404 につながります。</p><p><strong>Before（エラーが起きる例）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># S3 バケト名が誤っている</span>
+</span></span><span style=display:flex><span>aws s3 cp myfile.txt s3://my-backet/path/
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Lambda 関数名が誤っている</span>
+</span></span><span style=display:flex><span>aws lambda invoke --function-name MyLamda output.json
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 正しいバケト名を指定</span>
+</span></span><span style=display:flex><span>aws s3 cp myfile.txt s3://my-bucket/path/
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 正しい関数名を指定（大文字小文字を確認）</span>
+</span></span><span style=display:flex><span>aws lambda invoke --function-name myLambda output.json
+</span></span></code></pre></div><h3 id=原因-2リソースが別のリージョンに存在している>原因 2：リソースが別のリージョンに存在している<a hidden class=anchor aria-hidden=true href=#原因-2リソースが別のリージョンに存在している>#</a></h3><p>AWS ではリソースがリージョン単位で管理されます。東京リージョン（ap-northeast-1）に作成した EC2 <a href=/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/>インスタンス</a>を、シンガポール（ap-southeast-1）から参照しようとすると 404 になります。</p><p><strong>Before（エラーが起きる例）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># デフォルトリージョン us-east-1 で検索（実際には ap-northeast-1 に存在）</span>
+</span></span><span style=display:flex><span>aws ec2 describe-instances --instance-ids i-0123456789abcdef0
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 返値：</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># An error occurred (InvalidInstanceID.NotFound) when calling the DescribeInstances operation: The instance ID &#39;i-0123456789abcdef0&#39; does not exist</span>
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 正しいリージョンを指定</span>
+</span></span><span style=display:flex><span>aws ec2 describe-instances <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --instance-ids i-0123456789abcdef0 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --region ap-northeast-1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># または AWS CLI の設定ファイルでデフォルトリージョンを設定</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># ~/.aws/config の [default] セクションに以下を追加</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># region = ap-northeast-1</span>
+</span></span></code></pre></div><h3 id=原因-3リソースが削除されているかまだ作成されていない>原因 3：リソースが削除されているか、まだ作成されていない<a hidden class=anchor aria-hidden=true href=#原因-3リソースが削除されているかまだ作成されていない>#</a></h3><p>リソース作成直後に即座にアクセスしようとすると、リソースの初期化完了前にアクセスしたために 404 が返される場合があります。また、別のユーザーがリソースを削除している可能性もあります。</p><p><strong>Before（エラーが起きる例）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># DynamoDB テーブル作成直後にすぐクエリ実行</span>
+</span></span><span style=display:flex><span>aws dynamodb create-table <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --table-name MyTable <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --attribute-definitions AttributeName<span style=color:#f92672>=</span>id,AttributeType<span style=color:#f92672>=</span>S <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --key-schema AttributeName<span style=color:#f92672>=</span>id,KeyType<span style=color:#f92672>=</span>HASH <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --billing-mode PAY_PER_REQUEST
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 即座にクエリ実行（テーブル初期化完了前）</span>
+</span></span><span style=display:flex><span>aws dynamodb get-item <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --table-name MyTable <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --key <span style=color:#e6db74>&#39;{&#34;id&#34;:{&#34;S&#34;:&#34;test&#34;}}&#39;</span>
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># テーブル作成後、ステータスが ACTIVE になるまで待機</span>
+</span></span><span style=display:flex><span>aws dynamodb wait table-exists --table-name MyTable
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># その後でクエリ実行</span>
+</span></span><span style=display:flex><span>aws dynamodb get-item <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --table-name MyTable <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --key <span style=color:#e6db74>&#39;{&#34;id&#34;:{&#34;S&#34;:&#34;test&#34;}}&#39;</span>
+</span></span></code></pre></div><h2 id=ツール固有の注意点>ツール固有の注意点<a hidden class=anchor aria-hidden=true href=#ツール固有の注意点>#</a></h2><h3 id=s3-でよくある-404-の原因>S3 でよくある 404 の原因<a hidden class=anchor aria-hidden=true href=#s3-でよくある-404-の原因>#</a></h3><p>S3 バケトポリシーでパブリックアクセスがブロックされている場合、バケトやオブジェクトが存在しても 404 が返されることがあります。これはセキュリティ上の理由から仕様通りの動作です。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># バケトが存在するか確認</span>
+</span></span><span style=display:flex><span>aws s3api head-bucket --bucket my-bucket --region ap-northeast-1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># オブジェクトが存在するか確認（IAM 権限が必要）</span>
+</span></span><span style=display:flex><span>aws s3api head-object --bucket my-bucket --key path/to/file.txt
+</span></span></code></pre></div><h3 id=api-gateway-での-404-エラー>API Gateway での 404 エラー<a hidden class=anchor aria-hidden=true href=#api-gateway-での-404-エラー>#</a></h3><p><a href=/glossary/api/>API</a> Gateway の ステージが正しく設定されていない、または リソースパスが定義されていない場合に 404 が返されます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># API ID とリソース ID を確認</span>
+</span></span><span style=display:flex><span>aws apigateway get-rest-apis
+</span></span><span style=display:flex><span>aws apigateway get-resources --rest-api-id &lt;api-id&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># エンドポイント URL がステージ名を含んでいるか確認</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 正しい形式：https://&lt;api-id&gt;.execute-api.&lt;region&gt;.amazonaws.com/&lt;stage-name&gt;/&lt;resource-path&gt;</span>
+</span></span></code></pre></div><h3 id=dynamodb-での-resourcenotfoundexception>DynamoDB での ResourceNotFoundException<a hidden class=anchor aria-hidden=true href=#dynamodb-での-resourcenotfoundexception>#</a></h3><p>テーブルが存在しないか、テーブル名のスペルが誤っている場合に発生します。オンデマンド課金の場合、テーブル作成直後にアクセスしても初期化完了前であれば 404 になる可能性があります。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># テーブルのステータスを確認</span>
+</span></span><span style=display:flex><span>aws dynamodb describe-table --table-name MyTable --region ap-northeast-1 | grep TableStatus
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># テーブル一覧から存在確認</span>
+</span></span><span style=display:flex><span>aws dynamodb list-tables --region ap-northeast-1
+</span></span></code></pre></div><h3 id=lambda-での-resourcenotfoundexception>Lambda での ResourceNotFoundException<a hidden class=anchor aria-hidden=true href=#lambda-での-resourcenotfoundexception>#</a></h3><p>関数が存在しないか、エイリアスまたはバージョン指定が誤っている場合に発生します。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 関数の存在確認</span>
+</span></span><span style=display:flex><span>aws lambda get-function --function-name myLambda --region ap-northeast-1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># エイリアスやバージョンを指定している場合</span>
+</span></span><span style=display:flex><span>aws lambda get-function --function-name myLambda:LIVE --region ap-northeast-1
+</span></span></code></pre></div><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><p>AWS CloudTrail で<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>の詳細ログを確認し、エラーの発生箇所を特定します。CloudTrail は AWS マネジメントコンソールから有効化できます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># CloudTrail イベント履歴を確認（CLI の場合）</span>
+</span></span><span style=display:flex><span>aws cloudtrail lookup-events <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --lookup-attributes AttributeKey<span style=color:#f92672>=</span>ResourceName,AttributeValue<span style=color:#f92672>=</span>my-bucket <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --region ap-northeast-1 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --max-results <span style=color:#ae81ff>10</span>
+</span></span></code></pre></div><p>AWS Support に問い合わせる際は、以下の情報を準備してください。</p><ul><li>リージョン名</li><li>リソース ARN（Amazon Resource Name）</li><li><a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a> ID（レスポンスヘッダーに含まれます）</li><li>CloudTrail のイベントログ抜粋</li></ul><p>公式ドキュメントの「AWS リソースへのアクセスのトラブルシューティング」や「<a href=/glossary/iam/>IAM</a> ベストプラクティス」も参考になります。GitHub Issues では、特定のサービス（S3、Lambda など）の問題報告が集約されているため、同じ問題の解決事例を検索するとよいでしょう。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_422/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_400/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_403/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 404 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>指定したKubernetesリソースが見つからない。Minikube 404 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Minikube の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>指定したイメージまたはコンテナが見つからない。イメージ名またはタグ名の綴りが間違っているなど、Podman 404 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>指定したGoogle Cloudリソースが見つからない。GCP 404 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="GCP の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Slack の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-nginx">Nginx</span><h2 class=entry-hint-parent>Nginx の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Nginx の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Nginx の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_404/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/aws/>AWS</a></li></ul></footer></article><script>(function(){var e=document.querySelector(".post-content");if(!e)return;e.querySelectorAll("p strong").forEach(function(e){var t,n,s=e.textContent,o=/Before|エラーが起きる/.test(s),i=/After|修正後/.test(s);if(!o&&!i)return;if(n=e.closest("p"),!n)return;t=n.nextElementSibling,t&&!t.classList.contains("highlight")&&(t=t.nextElementSibling),t&&t.classList.contains("highlight")&&t.classList.add(o?"code-before":"code-after")}),e.querySelectorAll(".code-before").forEach(function(e){var t,n=e.nextElementSibling;n&&n.classList.contains("code-after")&&(t=document.createElement("div"),t.className="code-compare",e.parentNode.insertBefore(t,e),t.appendChild(e),t.appendChild(n))})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

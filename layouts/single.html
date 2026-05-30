@@ -1,0 +1,159 @@
+{{- define "main" }}
+
+{{- /* ── 要約パネル用データ抽出 ── */}}
+{{- $rawContent := .RawContent }}
+
+{{- /* 原因：最初の "### 原因N：" 見出しテキスト */}}
+{{- $causeText := "" }}
+{{- $causeMatch := findRE "### 原因\\d+[：:].+" $rawContent 1 }}
+{{- if $causeMatch }}
+  {{- $causeText = index $causeMatch 0 | replaceRE "### 原因\\d+[：:]" "" }}
+{{- end }}
+
+{{- /* 生ログ：最初のコードブロック（言語行を除く3行） */}}
+{{- $logSnippet := "" }}
+{{- $rawParts := split $rawContent "```" }}
+{{- if gt (len $rawParts) 2 }}
+  {{- $codePart := index $rawParts 1 }}
+  {{- $codeLines := split $codePart "\n" }}
+  {{- if gt (len $codeLines) 1 }}
+    {{- $logSnippet = delimit (first 8 (after 1 $codeLines)) "\n" }}
+  {{- end }}
+{{- end }}
+
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <div class="post-badges">
+      {{- with index .Params.tags 0 }}
+      <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+      {{- end }}
+      {{- with .Params.errorCode }}
+      <span class="error-badge">{{ . }}</span>
+      {{- end }}
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      {{ .Title }}
+      {{- if .Draft }}
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+      {{- end }}
+    </h1>
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+      {{- partial "translation_list.html" . -}}
+      {{- partial "edit_post.html" . -}}
+      {{- partial "post_canonical.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- /* ── 3段要約パネル ── */}}
+  {{- if or .Description $causeText }}
+  <div class="summary-panel">
+    {{- if .Description }}
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">{{ .Description }}</span>
+    </div>
+    {{- end }}
+    {{- if $causeText }}
+    <div class="summary-row">
+      <span class="summary-label summary-label--cause">原因</span>
+      <span class="summary-text">{{ $causeText }}</span>
+    </div>
+    {{- end }}
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text">↓ Before / After コードで確認</span>
+    </div>
+  </div>
+  {{- end }}
+
+  {{- /* ── 生エラーログ ── */}}
+  {{- if $logSnippet }}
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>{{- $logSnippet -}}</code></pre>
+  </div>
+  {{- end }}
+
+  {{- $isHidden := (.Param "cover.hiddenInSingle") | default (.Param "cover.hidden") | default false }}
+  {{- partial "cover.html" (dict "cxt" . "IsSingle" true "isHidden" $isHidden) }}
+  {{- if (.Param "ShowToc") }}
+  {{- partial "toc.html" . }}
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content md-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  {{- partial "extend_post_content.html" . }}
+
+  <footer class="post-footer">
+    {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
+    <ul class="post-tags">
+      {{- range ($.GetTerms $tags) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- if (.Param "ShowPostNavLinks") }}
+    {{- partial "post_nav_links.html" . }}
+    {{- end }}
+    {{- if (and site.Params.ShowShareButtons (ne .Params.disableShare true)) }}
+    {{- partial "share_icons.html" . -}}
+    {{- end }}
+  </footer>
+
+  {{- if (.Param "comments") }}
+  {{- partial "comments.html" . }}
+  {{- end }}
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  // Before / After コードブロックにクラスを付与
+  content.querySelectorAll('p strong').forEach(function (el) {
+    var t = el.textContent;
+    var isBefore = /Before|エラーが起きる/.test(t);
+    var isAfter  = /After|修正後/.test(t);
+    if (!isBefore && !isAfter) return;
+
+    var p = el.closest('p');
+    if (!p) return;
+    var next = p.nextElementSibling;
+    if (next && !next.classList.contains('highlight')) {
+      next = next.nextElementSibling;
+    }
+    if (next && next.classList.contains('highlight')) {
+      next.classList.add(isBefore ? 'code-before' : 'code-after');
+    }
+  });
+
+  // Before + After が連続する場合は横並びラッパーで包む
+  content.querySelectorAll('.code-before').forEach(function (before) {
+    var after = before.nextElementSibling;
+    if (after && after.classList.contains('code-after')) {
+      var wrap = document.createElement('div');
+      wrap.className = 'code-compare';
+      before.parentNode.insertBefore(wrap, before);
+      wrap.appendChild(before);
+      wrap.appendChild(after);
+    }
+  });
+})();
+</script>
+
+{{- end }}{{/* end main */}}

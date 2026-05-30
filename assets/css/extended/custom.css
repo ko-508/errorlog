@@ -340,3 +340,169 @@ details.toc .inner a { color: var(--primary); }
   color: var(--secondary);
   line-height: 1.7;
 }
+
+/* ══════════════════════════════════════════════
+   バッジ共通
+   ══════════════════════════════════════════════ */
+.entry-badges,
+.post-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.entry-badges .tool-badge,
+.post-badges .tool-badge {
+  margin-bottom: 0;
+}
+
+.error-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.5px;
+  background: rgba(255,77,77,.1);
+  color: #cc2200;
+  border: 1px solid rgba(255,77,77,.3);
+}
+html[data-theme="dark"] .error-badge {
+  background: rgba(255,77,77,.15);
+  color: #ff7755;
+  border-color: rgba(255,77,77,.35);
+}
+
+/* ══════════════════════════════════════════════
+   カード：コードプレビュー（チラ見せ）
+   ══════════════════════════════════════════════ */
+.entry-code-preview {
+  margin: 0.5rem 0 0;
+  padding: 0.45rem 0.75rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  max-height: 4.8rem;
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+}
+.entry-code-preview pre {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+.entry-code-preview code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--secondary);
+  white-space: pre;
+}
+
+/* ══════════════════════════════════════════════
+   記事詳細：要約パネル（現象・原因・対策）
+   ══════════════════════════════════════════════ */
+.summary-panel {
+  margin: 1rem 0 1.5rem;
+  padding: 0.85rem 1rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+.summary-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+}
+.summary-label {
+  flex-shrink: 0;
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+  min-width: 2.6rem;
+  text-align: center;
+  line-height: 1.6;
+}
+.summary-label--symptom { background: rgba(255,77,77,.1);  color: #cc2200; }
+.summary-label--cause   { background: rgba(255,153,0,.1);  color: #cc7700; }
+.summary-label--fix     { background: rgba(46,204,113,.1); color: #1a9e50; }
+html[data-theme="dark"] .summary-label--symptom { background: rgba(255,77,77,.15);  color: #ff7755; }
+html[data-theme="dark"] .summary-label--cause   { background: rgba(255,153,0,.15);  color: #ffaa33; }
+html[data-theme="dark"] .summary-label--fix     { background: rgba(46,204,113,.15); color: #3dd68c; }
+.summary-text { color: var(--primary); line-height: 1.5; }
+
+/* ══════════════════════════════════════════════
+   記事詳細：生エラーログパネル
+   ══════════════════════════════════════════════ */
+.raw-log-panel {
+  margin: 0 0 1.75rem;
+  border: 1px solid rgba(255,77,77,.25);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.raw-log-label {
+  padding: 0.35rem 0.85rem;
+  background: rgba(255,77,77,.08);
+  border-bottom: 1px solid rgba(255,77,77,.2);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #cc2200;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+html[data-theme="dark"] .raw-log-label {
+  background: rgba(255,77,77,.12);
+  color: #ff7755;
+}
+.raw-log-code {
+  margin: 0;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 180px;
+  overflow-y: auto;
+  background: var(--entry);
+  color: var(--secondary);
+}
+
+/* ══════════════════════════════════════════════
+   Before / After コードブロック
+   ══════════════════════════════════════════════ */
+.code-before {
+  border-left: 4px solid #ff4d4d;
+  background: rgba(255,77,77,.04);
+}
+.code-after {
+  border-left: 4px solid #2ecc71;
+  background: rgba(46,204,113,.04);
+}
+html[data-theme="dark"] .code-before { background: rgba(255,77,77,.07); }
+html[data-theme="dark"] .code-after  { background: rgba(46,204,113,.07); }
+
+@media (min-width: 900px) {
+  .code-compare {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .code-compare > .code-before,
+  .code-compare > .code-after {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+  }
+}

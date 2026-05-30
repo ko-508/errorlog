@@ -1,293 +1,119 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Posts | ErrorLog - エラーコード解決ガイド</title><meta name=description content="Posts - ErrorLog - エラーコード解決ガイド"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/><link crossorigin=anonymous href=/assets/css/stylesheet.b9cff24519a34895d20bc540b347c06e2c91b03d1a21e9e4f1860d0b97aa5485.css integrity="sha256-uc/yRRmjSJXSC8VAs0fAbiyRsD0aIenk8YYNC5eqVIU=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/posts/index.xml title=rss><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Posts"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Posts"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"}]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><header class=page-header><h1>Posts</h1></header><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>GCP の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP の 403 エラー：認証済みだが権限がない場合の対処方法 GCP で 403 エラーが発生した場合、あなたの認証（ログイン）は成功していますが、操作しようとしたリソースへのアクセス権限がないことを意味します。焦らず、以下の手順で原因を特定して対処しましょう。
+よくある原因 IAM ポリシーに必要なロールが付与されていない GCP のリソース操作には、IAM（Identity and Access Management：アイデンティティとアクセス管理）で適切なロールが割り当てられている必要があります。たとえば、Compute Engine インスタンスを起動するには「Compute Instance Admin」ロールが必須です。ロールが不足していると 403 エラーが発生します。
+組織ポリシーがリソースの作成や変更を制限している 企業の GCP 環境では、セキュリティポリシーによってリソース作成が制限されていることがあります。個人に権限があってもポリシーが阻止していれば、操作は失敗します。
+API が対象プロジェクトで有効化されていない 使用したい GCP サービス（Cloud Storage API、BigQuery API など）が有効になっていないと、403 エラーが返されます。
+解決手順 1. IAM ロールを確認・追加する Google Cloud Console で対象プロジェクトを開き、左側メニューから「IAM と管理」→「IAM」をクリックします。自分のメールアドレスを探し、割り当てられているロールを確認してください。
+必要なロールが不足している場合は、「プリンシパルを追加」ボタンから自分のメールアドレスを入力し、必要なロールを付与します。
+2. コマンドラインでポリシーを確認する gcloud コマンドでも確認可能です：
+gcloud projects get-iam-policy &lt;project-id> &lt;project-id> は実際のプロジェクト ID に置き換えてください。出力されたポリシーから、自分のアカウントに必要なロールが含まれているか確認します。
+3. API を有効化する Cloud Console で対象プロジェクトを開き、「APIとサービス」→「ライブラリ」をクリックします。使いたい API を検索して、「有効にする」ボタンを押してください。
+有効化には数秒～数分かかる場合があります。
+それでも解決しない場合 組織ポリシーの確認：企業の GCP 環境の場合、組織管理者に組織ポリシーが制限していないか確認してください キャッシュのクリア：ブラウザのキャッシュをクリアし、Cloud Console を再度読み込んでください 別のプロジェクトで試す：テスト用プロジェクトで同じ操作を試し、プロジェクト固有の問題か確認します Google Cloud サポートに問い合わせ：上記の対策でも解決しない場合は、GCP のサポートに詳細なエラーメッセージを添えて相談してください 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</p></div><div class=entry-code-preview><pre><code>gcloud projects get-iam-policy &lt;project-id&gt;
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>Kubernetes の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Kubernetes環境で500エラーが発生した場合、APIサーバーまたはコントロールプレーンコンポーネントで予期しない内部エラーが生じています。このエラーはクラスタ全体の管理機能に影響を与える可能性があり、迅速な対応が必要です。500エラーが返される場合、リソースの作成・更新・削除やクラスタ情報の取得が失敗することになります。
+実際のエラーメッセージ例 $ kubectl apply -f deployment.yaml Error from server (InternalError): error when creating "deployment.yaml": Internal error occurred: &lt;unknown> { "apiVersion": "v1", "kind": "Status", "metadata": {}, "status": "Failure", "message": "Internal error occurred: etcd server failed", "reason": "InternalError", "code": 500 } よくある原因と解決手順 1. etcdデータベースの障害 なぜ発生するか：etcdはKubernetesクラスタの状態を保持する分散キー・バリューストアです。etcdが応答しない、ディスク満杯、または不整合が発生するとAPIサーバーは500エラーを返します。
+Before（エラーが起きる状態）：
+$ kubectl get nodes Error from server (InternalError): Internal error occurred: etcd server failed After（解決手順）：
+# 1. etcdのヘルスチェック実行 kubectl exec -it etcd-&lt;master-node-name> -n kube-system -- etcdctl endpoint health # 2. etcdメンバーの状態確認 kubectl exec -it etcd-&lt;master-node-name> -n kube-system -- etcdctl member list # 3. etcdポッドを再起動（自動復旧を待つ） kubectl delete pod etcd-&lt;master-node-name> -n kube-system # 4. APIサーバーのログを確認 kubectl logs -n kube-system -l component=kube-apiserver --tail=100 2. APIサーバーのメモリ不足またはクラッシュ なぜ発生するか：APIサーバーはクラスタのすべてのリソース定義をメモリに保持しています。大規模クラスタやメモリ制限が厳しい環境では、メモリ不足（OOM）によりプロセスがクラッシュし500エラーが多発します。
+...</p></div><div class=entry-code-preview><pre><code>$ kubectl apply -f deployment.yaml
+Error from server (InternalError): error when creating &#34;deployment.yaml&#34;: Internal error occurred: &lt;unknown&gt;
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Kubernetes の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_500/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+<span class=error-badge>503</span></div><h2 class=entry-hint-parent>Kubernetes の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Kubernetes環境で503エラーが発生するのは、クライアントからのリクエストに対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、バックエンドのPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示されるHTTPステータスコードです。本エラーは一時的な問題である場合が多く、Podの自動復旧により解決することもあります。
+実際のエラーメッセージ例 HTTP/1.1 503 Service Unavailable
+Content-Type: text/html; charset=utf-8
+Connection: close
+&lt;html>
+&lt;body>&lt;h1>503 Service Unavailable&lt;/h1>
+No servers are available to handle this request.
+&lt;/body>&lt;/html> { "kind": "Status", "apiVersion": "v1", "metadata": {}, "status": "Failure", "message": "no endpoints available for service", "reason": "ServiceUnavailable", "code": 503 } よくある原因と解決手順 原因1：対象ServiceのEndpointsが空の状態 なぜ発生するか Serviceに紐づくPodがすべて停止しているか、Selectorラベルが一致していない場合、Endpointsが生成されず、トラフィックを受け取るPodが存在しない状態になります。
+Before（エラーが起きる状況）
+apiVersion: v1 kind: Service metadata: name: app-service spec: selector: app: myapp ports: - port: 80 targetPort: 8080 --- apiVersion: v1 kind: Pod metadata: name: app-pod labels: app: wrongapp # Selectorと一致していない spec: containers: - name: app image: myapp:latest ports: - containerPort: 8080 After（修正後）
+...</p></div><div class=entry-code-preview><pre><code>HTTP/1.1 503 Service Unavailable
+Content-Type: text/html; charset=utf-8
+Connection: close</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Kubernetes の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_503/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-nginx">Nginx</span>
+<span class=error-badge>502</span></div><h2 class=entry-hint-parent>Nginx の 502 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。クライアント側のリクエストは正常に到達していますが、Nginx がバックエンドとの通信に失敗した状態です。このエラーが出ているということは、Nginx 自体は稼働していますが、その背後のアプリケーションレイヤーに問題があることを示唆しています。
+実際のエラーメッセージ例 ブラウザに表示されるデフォルトのエラーページ：
+502 Bad Gateway
+nginx/1.24.0 Nginx アクセスログの出力例：
+192.168.1.100 - - [15/Jan/2025:10:23:45 +0900] "GET /api/users HTTP/1.1" 502 173 "-" "Mozilla/5.0" エラーログ（/var/log/nginx/error.log）の出力例：
+2025/01/15 10:23:45 [error] 1234#1234: *567 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET /api/users HTTP/1.1", upstream: "http://127.0.0.1:8000/api/users" よくある原因と解決手順 原因1：バックエンドアプリケーションサーバーが起動していない バックエンドのアプリケーションサーバー（Gunicorn、Node.js、Apache 等）がダウンしているか、完全に起動していない状況です。Nginx はそのポートへの接続を試みますが、誰も応答していないため 502 が返されます。
+Before（エラーが起きている状態）
+# バックエンドサーバーが起動していない $ ps aux | grep gunicorn # → gunicorn のプロセスが見つからない $ curl http://127.0.0.1:8000 # → Connection refused After（修正後）
+...</p></div><div class=entry-code-preview><pre><code>502 Bad Gateway
 
-<head><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Posts | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="">
-<meta name="description" content="Posts - ErrorLog - エラーコード解決ガイド">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/errorlog/posts/">
-<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/errorlog/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/posts/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 429 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 429 とは何か？（公式の定義） 429 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-短時間に送ったリクエストが「二次的なレート制限」に引っかかった。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 429 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-短時間に同じエンドポイントへ大量のリクエストを送っている 自動化スクリプトがループでAPIを叩き続けている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Retry-After レスポンスヘッダーに記載された秒数だけ待ってから再試行する リクエスト間に意図的な待機時間（sleep）を設ける GitHub Appsの認証を使うことで個人トークンより高いレート制限を利用する まとめ GitHub API の 429 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 429 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_429/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 500 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 500 とは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-GitHub側のサーバーで予期しない問題が発生した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-GitHubの内部的な障害であり、利用者側の問題ではない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-githubstatus.com で現在の障害情報を確認する 数分後に再試行する 同じ操作をWebブラウザ上から試して問題が再現するか確認する まとめ GitHub API の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 500 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 502 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 502 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 502 とは何か？（公式の定義） 502 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-GitHubのインフラ内部で、あるサーバーが別のサーバーから不正な応答を受け取った。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 502 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-GitHubのデプロイやメンテナンス中に発生することが多い 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-githubstatus.com で障害情報を確認する 数分後に再試行する まとめ GitHub API の 502 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 502 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_502/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 503 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 503 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 503 とは何か？（公式の定義） 503 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-GitHubのサービスが一時的に利用できない状態になっている。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 503 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-GitHubがメンテナンスモードに入っている GitHubのインフラで過負荷が発生している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-githubstatus.com でメンテナンス情報を確認する Retry-After ヘッダーがある場合はその時間だけ待ってから再試行する まとめ GitHub API の 503 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 503 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_503/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="http://localhost:1313/errorlog/posts/page/3/">
-      «&nbsp;前へ&nbsp;
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+nginx/1.24.0</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Nginx の 502 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_502/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-nginx">Nginx</span>
+<span class=error-badge>503</span></div><h2 class=entry-hint-parent>Nginx の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Nginx の 503 Service Unavailable エラーは、Nginx がリクエストを処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、バックエンドが全て利用不可能な状態を示します。クライアントが発した正当なリクエストであっても、サーバー側の問題によって処理できないため、Nginx がこのエラーを返します。このエラーは一時的な問題である場合が多く、バックエンド側の復旧やNginx設定の修正で解決することがほとんどです。
+実際のエラーメッセージ例 ブラウザで表示される場合：
+503 Service Unavailable
+Service Unavailable
+The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later. Nginxのエラーログに出力される場合：
+2024/01/15 14:32:01 [error] 12345#12345: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "example.com" よくある原因と解決手順 原因1：バックエンドサーバーがダウンしている バックエンドの全てのサーバーがダウンしているか、起動していない状態です。Nginx設定の upstream ブロックで指定したサーバーへの接続がタイムアウトまたは拒否されます。
+Before（エラーが起きる状態）：
+upstream app_backend { server 127.0.0.1:8080; server 127.0.0.1:8081; } server { listen 80; server_name example.com; location / { proxy_pass http://app_backend; } } この設定で 8080 と 8081 のポートが起動していない場合、503 エラーが返されます。
+...</p></div><div class=entry-code-preview><pre><code>503 Service Unavailable
+Service Unavailable
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Nginx の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_503/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-nginx">Nginx</span>
+<span class=error-badge>504</span></div><h2 class=entry-hint-parent>Nginx の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやAPI）からのレスポンスを一定時間待ちきれず、タイムアウトした状況を示すエラーです。Nginxそのものは正常に動作していますが、バックエンド側の処理時間が長すぎるか、サーバーが応答していない可能性があります。
+実際のエラーメッセージ例 ブラウザに表示される場合：
+504 Gateway Timeout Nginxのエラーログ（/var/log/nginx/error.log）に記録される例：
+2024/01/15 14:32:10 [error] 1234#1234: *567 upstream timed out (110: Connection timed out) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "POST /api/process HTTP/1.1", upstream: "http://127.0.0.1:8000/api/process" curlで確認した場合：
+{ "status": 504, "error": "Gateway Timeout", "message": "The upstream server failed to respond in time" } よくある原因と解決手順 原因1: proxy_read_timeout（デフォルト60秒）の設定が短すぎる バックエンドの処理時間がNginxのタイムアウト設定を超えています。データベースクエリの実行時間が長い、外部APIの応答が遅い、ファイル処理に時間がかかるなど、様々な理由で発生します。
+Before（デフォルト設定）:
+upstream backend { server 127.0.0.1:8000; } server { listen 80; server_name example.com; location /api/ { proxy_pass http://backend; # proxy_read_timeout のデフォルト値は60秒 } } After（タイムアウト延長）:
+...</p></div><div class=entry-code-preview><pre><code>504 Gateway Timeout
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Nginx の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_504/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-slack">Slack</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Slack の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Slackの400エラーは、Slack APIへのリクエストが不正な形式で送信されたか、必須のパラメータが不足していることを示します。クライアントアプリケーション、ボット、Webhookからの連携時に頻出するエラーで、リクエスト自体がサーバーに拒否される状態です。データは破損しないため、設定やリクエスト内容を修正すれば解決できます。
+実際のエラーメッセージ例 Slack APIから返されるエラーレスポンスの例：
+{ "ok": false, "error": "invalid_arg_name", "provided": "converstion_id" } Webhookの場合の典型的なエラー応答：
+{ "ok": false, "error": "no_text", "needed": "text" } よくある原因と解決手順 原因1：必須パラメータの欠落 なぜ発生するか
+Slack APIのエンドポイントごとに異なる必須パラメータが定められています。これらが欠けているとAPIが400を返します。例えばメッセージ投稿には「channel」と「text」が必須です。
+Before（エラーが起きる場合）
+import requests token = "&lt;your-slack-bot-token>" headers = {"Authorization": f"Bearer {token}"} # textパラメータが欠落している data = { "channel": "C123456789" } response = requests.post( "https://slack.com/api/chat.postMessage", headers=headers, json=data ) print(response.json()) # {"ok": false, "error": "no_text"} After（修正後）
+import requests token = "&lt;your-slack-bot-token>" headers = {"Authorization": f"Bearer {token}"} # textパラメータを追加 data = { "channel": "C123456789", "text": "Hello from my bot" } response = requests.post( "https://slack.com/api/chat.postMessage", headers=headers, json=data ) print(response.json()) # {"ok": true, "ts": "1234567890.000001"} 原因2：Content-Typeヘッダーの誤り なぜ発生するか
+Slack APIはリクエストボディの形式をContent-Typeで判定します。application/jsonを指定すべきところにapplication/x-www-form-urlencodedで送信すると、パラメータ解析に失敗します。
+...</p></div><div class=entry-code-preview><pre><code>{
+  &#34;ok&#34;: false,
+  &#34;error&#34;: &#34;invalid_arg_name&#34;,</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_400/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-slack">Slack</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Slack の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack 401 エラーが発生する原因と解決方法 Slack API を使用する際に 401 エラーが返される場合、アプリケーションが Slack に正しく認証できていません。このエラーが発生すると、ボット機能やカスタムアプリが機能しなくなるため、迅速な対応が必要です。
+よくある原因 トークンが無効または期限切れになっている Bot トークン（xoxb で始まる）や User OAuth トークン（xoxp で始まる）が期限切れになったり、無効な状態になったりしている場合、API リクエストは 401 エラーで拒否されます。特に、セキュリティアップデートやトークンのローテーション（定期的な更新）後に発生することが多いです。
+OAuth スコープが不足している OAuth スコープ（権限範囲）は、アプリが何ができるかを制限する仕組みです。必要なスコープが不足していると、API コールが拒否されます。例えば、メッセージ送信には chat:write スコープが必要ですが、これが許可されていないと 401 エラーが発生します。
+アプリがワークスペースからアンインストールされた ワークスペースの管理者がアプリをアンインストールした場合、そのトークンはもはや有効ではありません。再度認証が必要になります。
+解決手順 ステップ 1: トークンを再生成する Slack ワークスペースの管理画面にアクセスし、以下の手順を実行してください。
+Slack App Directory にログイン 対象のアプリを選択 左メニューから「OAuth & Permissions」をクリック 「Bot Token Revoked」の場合、「Reinstall to Workspace」をクリック 新しいトークンを環境変数に設定 export SLACK_BOT_TOKEN="xoxb-新しいトークン" ステップ 2: OAuth スコープを確認・追加する 必要なスコープが設定されているか確認しましょう。
+App 設定の「OAuth & Permissions」セクションを開く 「Scopes」の「Bot Token Scopes」を確認 必要なスコープが無い場合は「Add an OAuth Scope」をクリックして追加 一般的に必要なスコープの例：
+- chat:write（メッセージ送信）
+- channels:read（チャンネル情報取得）
+- users:read（ユーザー情報取得）
+- reactions:write（リアクション追加） スコープを追加した後は、必ず「Reinstall to Workspace」をクリックして再インストールしてください。
+...</p></div><div class=entry-code-preview><pre><code>export SLACK_BOT_TOKEN=&#34;xoxb-新しいトークン&#34;
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-slack">Slack</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Slack の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 403 エラーの原因と解決方法 Slack API を使用してメッセージを送信したり、チャンネルを操作しようとした際に 403 エラーが返される場合があります。このエラーは認証（ログイン）には成功しているものの、実行しようとした操作やアクセス対象のチャンネルに対する権限がないことを示しています。
+よくある原因と詳しい説明 Bot トークンに投稿権限がない Bot を作成して API を利用する際、Bot トークンに「特定のチャンネルへの投稿権限」が付与されていないケースが多くあります。Bot は作成直後では、どのチャンネルにアクセス可能かが明確に定義されていないため、権限不足で 403 エラーが発生します。
+プライベートチャンネルに Bot が招待されていない プライベートチャンネル（招待されたメンバーのみがアクセス可能）の場合、Bot を明示的にチャンネルに招待する必要があります。招待されていない Bot がそのチャンネルへのアクセスを試みると、403 エラーが返されます。
+Enterprise Grid での Organization レベル制限 Enterprise Grid（大規模組織向けプラン）では、Organization 管理者が Bot のアクセスを制限している場合があります。この場合、ワークスペース管理者が権限を設定するだけでは解決しません。
+解決手順 手順 1: Bot をチャンネルに招待する まず最初に、Bot をチャンネルに招待してください。Slack クライアント上で以下を実行します：
+/invite @Bot名 例えば、Bot の名前が myapp の場合：
+/invite @myapp これにより、Bot がチャンネルのメンバーとなり、基本的なアクセス権が付与されます。
+手順 2: OAuth スコープの確認と追加 Slack アプリの管理画面で、必要なスコープ（権限）が設定されているか確認します。
+Slack アプリ管理画面にアクセスします 左メニューの 「OAuth & Permissions」 をクリック 「Bot Token Scopes」 セクションで以下のスコープが含まれているか確認： chat:write - メッセージ送信権限 channels:read - チャンネル閲覧権限 groups:write - プライベートチャンネルへの書き込み権限 スコープが不足していればクリックして追加し、画面下部の 「Save Changes」 をクリックします。
+...</p></div><div class=entry-code-preview><pre><code>/invite @Bot名
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-slack">Slack</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Slack の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack 404 エラーの原因と解決方法 Slack API を使用する際に 404 エラーが返される場合、指定したチャンネル・メッセージ・ユーザーが見つからないことを意味します。このエラーは開発初期段階でよく遭遇するもので、原因を理解することで素早く対応できます。
+よくある原因 チャンネル ID またはユーザー ID が間違っている Slack API は ID 値に厳密です。チャンネル ID が「C123ABC」のはずが「C123ABD」と入力されていると、API は該当するリソースを見つけられず 404 を返します。IDは文字種の大文字小文字を区別しているため、コピペ時の誤りやタイプミスに注意が必要です。
+チャンネル名を ID の代わりに使っている 初心者がよく犯す間違いです。「#general」や「#random」といったチャンネル「名」を API に直接指定してはいけません。Slack API では必ずチャンネル ID（例：C0G9QF9GZ）形式での指定が必須です。
+対象リソースが削除されている チャンネルやメッセージが削除された後、そのリソースへのアクセスを試みると 404 が返されます。キャッシュされた ID から古い参照が残っていないか確認しましょう。
+解決手順 1. conversations.list API でチャンネル ID を確認 まず、利用可能なチャンネル一覧とその ID を取得します。
+curl -X GET 'https://slack.com/api/conversations.list' \ -H 'Authorization: Bearer xoxb-YOUR_BOT_TOKEN' \ -d 'limit=100' レスポンスから、対象チャンネルの「id」フィールドを確認してください。
+2. users.list API でユーザー ID を確認 ユーザーに関連するエラーの場合は、以下を実行します。
+curl -X GET 'https://slack.com/api/users.list' \ -H 'Authorization: Bearer xoxb-YOUR_BOT_TOKEN' 目的のユーザーの「id」フィールド（U12345ABC 形式）を記録してください。
+...</p></div><div class=entry-code-preview><pre><code>curl -X GET &#39;https://slack.com/api/conversations.list&#39; \
+  -H &#39;Authorization: Bearer xoxb-YOUR_BOT_TOKEN&#39; \
+  -d &#39;limit=100&#39;</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_404/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://errorlog.jp/posts/page/3/>«&nbsp;前へ&nbsp;
+</a><a class=next href=https://errorlog.jp/posts/page/5/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

@@ -63,17 +63,32 @@
 {{- $class = "post-entry tag-entry" }}
 {{- end }}
 
+{{- /* コードプレビュー：最初のコードブロックから3行抽出 */}}
+{{- $codeSnippet := "" }}
+{{- $rawParts := split $page.RawContent "```" }}
+{{- if gt (len $rawParts) 2 }}
+  {{- $codePart := index $rawParts 1 }}
+  {{- $codeLines := split $codePart "\n" }}
+  {{- if gt (len $codeLines) 1 }}
+    {{- $codeSnippet = delimit (first 3 (after 1 $codeLines)) "\n" }}
+  {{- end }}
+{{- end }}
+
 <article class="{{ $class }}">
-  {{- $isHidden := (.Param "cover.hiddenInList") | default (.Param "cover.hidden") | default false }}
-  {{- partial "cover.html" (dict "cxt" . "IsSingle" false "isHidden" $isHidden) }}
+  {{- $isHidden := ($page.Param "cover.hiddenInList") | default ($page.Param "cover.hidden") | default false }}
+  {{- partial "cover.html" (dict "cxt" $page "IsSingle" false "isHidden" $isHidden) }}
   <header class="entry-header">
-    {{- with index .Params.tags 0 }}
-    <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
-    {{- end }}
+    <div class="entry-badges">
+      {{- with index $page.Params.tags 0 }}
+      <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+      {{- end }}
+      {{- with $page.Params.errorCode }}
+      <span class="error-badge">{{ . }}</span>
+      {{- end }}
+    </div>
     <h2 class="entry-hint-parent">
-      {{- .Title }}
-      {{- with .Params.errorCode }}<span class="error-code-num">{{ . }}</span>{{- end }}
-      {{- if .Draft }}
+      {{- $page.Title }}
+      {{- if $page.Draft }}
       <span class="entry-hint" title="Draft">
         <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
           <path
@@ -83,17 +98,20 @@
       {{- end }}
     </h2>
   </header>
-  {{- if (ne (.Param "hideSummary") true) }}
+  {{- if (ne ($page.Param "hideSummary") true) }}
   <div class="entry-content">
-    <p>{{ .Summary | plainify | htmlUnescape }}{{ if .Truncated }}...{{ end }}</p>
+    <p>{{ $page.Summary | plainify | htmlUnescape }}{{ if $page.Truncated }}...{{ end }}</p>
   </div>
   {{- end }}
-  {{- if not (.Param "hideMeta") }}
+  {{- if $codeSnippet }}
+  <div class="entry-code-preview"><pre><code>{{- $codeSnippet -}}</code></pre></div>
+  {{- end }}
+  {{- if not ($page.Param "hideMeta") }}
   <footer class="entry-footer">
-    {{- partial "post_meta.html" . -}}
+    {{- partial "post_meta.html" $page -}}
   </footer>
   {{- end }}
-  <a class="entry-link" aria-label="post link to {{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+  <a class="entry-link" aria-label="post link to {{ $page.Title | plainify }}" href="{{ $page.Permalink }}"></a>
 </article>
 {{- end }}
 

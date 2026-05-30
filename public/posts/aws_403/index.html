@@ -1,262 +1,119 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>AWS の 403 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="">
-<meta name="description" content="この記事では、**AWS** を使っているときに表示される **403** というエラーの意味と、その直し方を順を追って説明します。">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/errorlog/posts/aws_403/">
-<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/posts/aws_403/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main">
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <h1 class="post-title entry-hint-parent">
-      AWS の 403 エラー：原因と解決策
-    </h1>
-    <div class="post-description">
-      この記事では、**AWS** を使っているときに表示される **403** というエラーの意味と、その直し方を順を追って説明します。
-    </div>
-    <div class="post-meta">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
-
-</div>
-  </header> 
-  <div class="post-content md-content"><blockquote>
-<p>この記事では、<strong>AWS</strong> を使っているときに表示される <strong>403</strong> というエラーの意味と、その直し方を順を追って説明します。</p>
-</blockquote>
-<hr>
-<h2 id="aws-の-403-とは何か公式の定義">AWS の 403 とは何か？（公式の定義）<a hidden class="anchor" aria-hidden="true" href="#aws-の-403-とは何か公式の定義">#</a></h2>
-<p><strong>403</strong> は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。</p>
-<p>AWS の文脈では、このコードは次のことを意味します。</p>
-<blockquote>
-<p>認証は成功したが、操作を実行するIAM権限が不足している。</p>
-</blockquote>
-<p>このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。</p>
-<hr>
-<h2 id="このエラーが発生する主な原因起きる理由の整理">このエラーが発生する主な原因（起きる理由の整理）<a hidden class="anchor" aria-hidden="true" href="#このエラーが発生する主な原因起きる理由の整理">#</a></h2>
-<p>AWS で 403 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。</p>
-<ul>
-<li>IAMポリシーに必要なActionが含まれていない</li>
-<li>リソースレベルの制限により特定のARNへのアクセスが拒否されている</li>
-<li>SCP（サービスコントロールポリシー）によりOrganizationレベルで制限されている</li>
-</ul>
-<hr>
-<h2 id="具体的な解決手順とチェックリスト順番どおりに試す">具体的な解決手順とチェックリスト（順番どおりに試す）<a hidden class="anchor" aria-hidden="true" href="#具体的な解決手順とチェックリスト順番どおりに試す">#</a></h2>
-<p>上の原因ごとの対処法を、実行できる手順の形でまとめました。
-<strong>上から順番に試す</strong>ことで、多くの場合は解決に近づけます。</p>
-<ol>
-<li>IAMポリシーシミュレーターで操作の可否を事前確認する</li>
-<li>エラーメッセージ内の「Action」と「Resource」を確認してポリシーを修正する</li>
-<li>CloudTrailで拒否されたAPIコールの詳細を確認する</li>
-</ol>
-<hr>
-<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
-<p>AWS の <strong>403</strong> エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。</p>
-<p>それでも解決しない場合は、次の方法を試してください。</p>
-<ul>
-<li>AWS の公式ドキュメントで最新の情報を確認する</li>
-<li>エラーメッセージの全文をコピーして検索エンジンで調べる</li>
-<li>公式のコミュニティフォーラムやサポートに問い合わせる</li>
-</ul>
-<hr>
-<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
-
-
-  </div>
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-    </ul>
-<nav class="paginav">
-  <a class="prev" href="http://localhost:1313/errorlog/posts/aws_401/">
-    <span class="title">« 前へ</span>
-    <span>AWS の 401 エラー：原因と解決策</span>
-  </a>
-  <a class="next" href="http://localhost:1313/errorlog/posts/aws_404/">
-    <span class="title">次へ »</span>
-    <span>AWS の 404 エラー：原因と解決策</span>
-  </a>
-</nav>
-
-  </footer>
-</article>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>AWS の 403 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="AWS,HTTP403,403エラー"><meta name=description content="AWS の 403 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/aws_403/><link crossorigin=anonymous href=/assets/css/stylesheet.b9cff24519a34895d20bc540b347c06e2c91b03d1a21e9e4f1860d0b97aa5485.css integrity="sha256-uc/yRRmjSJXSC8VAs0fAbiyRsD0aIenk8YYNC5eqVIU=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/aws_403/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/aws_403/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="AWS の 403 エラー：原因と解決策"><meta property="og:description" content="AWS の 403 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="AWS"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="AWS の 403 エラー：原因と解決策"><meta name=twitter:description content="AWS の 403 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"AWS の 403 エラー：原因と解決策","item":"https://errorlog.jp/posts/aws_403/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"AWS の 403 エラー：原因と解決策","name":"AWS の 403 エラー：原因と解決策","description":"AWS の 403 エラーの原因と解決策をわかりやすく解説します。","keywords":["AWS"],"articleBody":"エラーの概要 AWS の 403 エラーは、HTTP ステータスコード 403 Forbidden として返されます。これは認証（ユーザーが本人であることの確認）には成功したものの、実行しようとしている操作に対する IAM（Identity and Access Management）権限が不足していることを意味します。AWS リソースへのアクセス、API 呼び出し、AWS マネジメントコンソール上での操作など、様々な場面で発生する一般的なエラーです。\n実際のエラーメッセージ例 AWS CLI でよく見かける 403 エラーレスポンスを示します。\n{ \"Error\": { \"Code\": \"AccessDenied\", \"Message\": \"User: arn:aws:iam::123456789012:user/john-dev is not authorized to perform: s3:GetObject on resource: arn:aws:s3:::my-bucket/config.json\" } } また、AWS マネジメントコンソール上では、より簡潔なエラーが表示されることもあります。\nUser: arn:aws:iam::123456789012:user/jane-admin is not authorized to perform: ec2:DescribeInstances on resource: * よくある原因と解決手順 原因 1：IAM ポリシーに必要な Action が含まれていない IAM ポリシーに、実行したい操作（Action）が明示的に許可されていない場合、403 エラーが発生します。例えば S3 バケットから読み取りはできるが、アップロード（PutObject）が許可されていない状況が典型的です。\nBefore（エラーが起きる IAM ポリシー）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": [ \"s3:GetObject\" ], \"Resource\": \"arn:aws:s3:::my-bucket/*\" } ] } このポリシーでは GetObject（読み取り）のみが許可されているため、PutObject でアップロードしようとするとアクセス拒否されます。\nAfter（修正後）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": [ \"s3:GetObject\", \"s3:PutObject\" ], \"Resource\": \"arn:aws:s3:::my-bucket/*\" } ] } 原因 2：リソースレベルの制限によるアクセス拒否 IAM ポリシー内の Resource フィールドで、特定の ARN（Amazon Resource Name）のみが許可されているため、他のリソースへのアクセスが拒否される場合があります。ワイルドカード（*）の使い方を見直す必要があります。\nBefore（特定のバケットのみ許可）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": \"ec2:DescribeInstances\", \"Resource\": \"arn:aws:ec2:ap-northeast-1:123456789012:instance/i-1234567890abcdef0\" } ] } このポリシーでは、指定されたインスタンス ID のみへのアクセスが許可されるため、別のインスタンスにアクセスするときに 403 が発生します。\nAfter（修正後）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": \"ec2:DescribeInstances\", \"Resource\": \"*\" } ] } 原因 3：SCP（サービスコントロールポリシー）による組織全体での制限 AWS Organizations を使用している場合、SCP によって特定の操作やサービスが組織レベルで制限されていることがあります。IAM ポリシーで許可されていても、SCP で拒否されていれば 403 エラーが発生します。\n確認するコマンド（AWS CLI）：\naws organizations list-policies \\ --filter SERVICE_CONTROL_POLICY \\ --region us-east-1 SCP を確認した後、必要に応じて組織管理アカウントで SCP を調整します。\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Deny\", \"Action\": \"s3:*\", \"Resource\": \"*\" } ] } このような SCP があると、IAM ユーザーがどのような権限を持っていても S3 へのすべてのアクセスが拒否されます。\n原因 4：一時的なセッショントークンの有効期限切れ AssumeRole を使用して一時的なクレデンシャルを取得している場合、セッショントークン（SessionToken）の有効期限が切れると 403 エラーが発生することがあります。\nBefore（期限切れトークンを使用）：\nexport AWS_ACCESS_KEY_ID=\"ASIAZZZZZZZZZZZZZZ\" export AWS_SECRET_ACCESS_KEY=\"\" export AWS_SESSION_TOKEN=\"\" aws s3 ls s3://my-bucket After（新しいトークンを取得）：\naws sts assume-role \\ --role-arn arn:aws:iam::123456789012:role/my-role \\ --role-session-name my-session \\ --duration-seconds 3600 出力されたクレデンシャルを環境変数に設定してから実行します。\n原因 5：リソースベースのポリシーによるクロスアカウントアクセス拒否 S3 バケットや KMS キーなど、リソースベースのポリシー（Resource-based Policy）で特定のアカウントやロールからのアクセスが明示的に拒否されている場合があります。\n確認コマンド（S3 バケットポリシーの場合）：\naws s3api get-bucket-policy \\ --bucket my-bucket \\ --region ap-northeast-1 リソースベースのポリシーに、ユーザーの ARN が Allow されていることを確認してください。\nツール固有の注意点 AWS サービスごとの 403 原因の違い S3 の 403 エラー： S3 へのアクセスが拒否される場合は、バケットポリシー、IAM ポリシー、ACL（Access Control List）、そして ブロックパブリックアクセス設定の 4 層すべてを確認する必要があります。以下の順序で確認してください。\n# バケットポリシーの確認 aws s3api get-bucket-policy --bucket # ブロックパブリックアクセス設定の確認 aws s3api get-public-access-block --bucket # ACL の確認 aws s3api get-bucket-acl --bucket IAM ロール使用時の 403 エラー： EC2 インスタンスや Lambda 関数で IAM ロールを使用している場合、ロールの信頼ポリシー（Trust Relationship）が正しく設定されているか確認してください。信頼ポリシーが不適切だと、ロール自体を AssumeRole できず 403 が発生します。\naws iam get-role \\ --role-name \\ --query 'Role.AssumeRolePolicyDocument' API Gateway / CloudFront を経由したアクセスの 403： API Gateway のリソースポリシーや CloudFront のオリジンアクセスコントロール（OAC）で制限されている場合も 403 が返されます。特に CloudFront 経由で S3 にアクセスする場合は、OAC の設定漏れがよくある原因です。\nKMS キーへのアクセス拒否： S3 のサーバーサイド暗号化（SSE-KMS）を使用する場合、KMS キーの操作権限が別途必要です。IAM ポリシーで kms:Decrypt および kms:GenerateDataKey が許可されていることを確認してください。\n{ \"Effect\": \"Allow\", \"Action\": [ \"kms:Decrypt\", \"kms:GenerateDataKey\" ], \"Resource\": \"arn:aws:kms:ap-northeast-1:123456789012:key/\" } それでも解決しない場合 ログとデバッグ方法 AWS CloudTrail を有効にすることで、403 エラーが発生した時点での詳細情報を確認できます。\naws cloudtrail lookup-events \\ --lookup-attributes AttributeKey=EventName,AttributeValue=GetObject \\ --max-items 10 \\ --region ap-northeast-1 CloudTrail ログには、拒否の理由が詳細に記録されているため、「どのステートメントで拒否されたのか」が明確になります。\nIAM ポリシーシミュレーターも有効なツールです。AWS マネジメントコンソールから IAM → ポリシーシミュレーター へアクセスし、特定のユーザーが特定のアクションを実行できるか事前テストできます。\n公式ドキュメント AWS 公式ドキュメントの「IAM トラブルシューティング」ページに、403 エラーの詳細な診断フローが記載されています。また「IAM ポリシーの例」では、各サービスごとの推奨ポリシーテンプレートが提供されています。\nコミュニティリソース GitHub の AWS CDK や Terraform コミュニティでも、同様の 403 エラー事例が共有されています。「403 AccessDenied」で検索すると、実際の環境での解決例が見つかることが多くあります。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"400","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/aws_403/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>403</span></div><h1 class="post-title entry-hint-parent">AWS の 403 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
+<span class=summary-text>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
+<span class=summary-text>↓ Before / After コードで確認</span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
+  &#34;Error&#34;: {
+    &#34;Code&#34;: &#34;AccessDenied&#34;,
+    &#34;Message&#34;: &#34;User: arn:aws:iam::123456789012:user/john-dev is not authorized to perform: s3:GetObject on resource: arn:aws:s3:::my-bucket/config.json&#34;
+  }
+}
+</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a0-1iam-%e3%83%9d%e3%83%aa%e3%82%b7%e3%83%bc%e3%81%ab%e5%bf%85%e8%a6%81%e3%81%aa-action-%e3%81%8c%e5%90%ab%e3%81%be%e3%82%8c%e3%81%a6%e3%81%84%e3%81%aa%e3%81%84 aria-label="原因 1：IAM ポリシーに必要な Action が含まれていない">原因 1：IAM ポリシーに必要な Action が含まれていない</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-2%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9%e3%83%ac%e3%83%99%e3%83%ab%e3%81%ae%e5%88%b6%e9%99%90%e3%81%ab%e3%82%88%e3%82%8b%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e6%8b%92%e5%90%a6 aria-label="原因 2：リソースレベルの制限によるアクセス拒否">原因 2：リソースレベルの制限によるアクセス拒否</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-3scp%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e3%82%b3%e3%83%b3%e3%83%88%e3%83%ad%e3%83%bc%e3%83%ab%e3%83%9d%e3%83%aa%e3%82%b7%e3%83%bc%e3%81%ab%e3%82%88%e3%82%8b%e7%b5%84%e7%b9%94%e5%85%a8%e4%bd%93%e3%81%a7%e3%81%ae%e5%88%b6%e9%99%90 aria-label="原因 3：SCP（サービスコントロールポリシー）による組織全体での制限">原因 3：SCP（サービスコントロールポリシー）による組織全体での制限</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-4%e4%b8%80%e6%99%82%e7%9a%84%e3%81%aa%e3%82%bb%e3%83%83%e3%82%b7%e3%83%a7%e3%83%b3%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e5%88%87%e3%82%8c aria-label="原因 4：一時的なセッショントークンの有効期限切れ">原因 4：一時的なセッショントークンの有効期限切れ</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-5%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9%e3%83%99%e3%83%bc%e3%82%b9%e3%81%ae%e3%83%9d%e3%83%aa%e3%82%b7%e3%83%bc%e3%81%ab%e3%82%88%e3%82%8b%e3%82%af%e3%83%ad%e3%82%b9%e3%82%a2%e3%82%ab%e3%82%a6%e3%83%b3%e3%83%88%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e6%8b%92%e5%90%a6 aria-label="原因 5：リソースベースのポリシーによるクロスアカウントアクセス拒否">原因 5：リソースベースのポリシーによるクロスアカウントアクセス拒否</a></li></ul></li><li><a href=#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label=ツール固有の注意点>ツール固有の注意点</a><ul><li><a href=#aws-%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e3%81%94%e3%81%a8%e3%81%ae-403-%e5%8e%9f%e5%9b%a0%e3%81%ae%e9%81%95%e3%81%84 aria-label="AWS サービスごとの 403 原因の違い">AWS サービスごとの 403 原因の違い</a></li></ul></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a><ul><li><a href=#%e3%83%ad%e3%82%b0%e3%81%a8%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e6%96%b9%e6%b3%95 aria-label=ログとデバッグ方法>ログとデバッグ方法</a></li><li><a href=#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88 aria-label=公式ドキュメント>公式ドキュメント</a></li><li><a href=#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9 aria-label=コミュニティリソース>コミュニティリソース</a></li></ul></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>AWS の 403 エラーは、<a href=/glossary/http/>HTTP</a> <a href=/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/>ステータスコード</a> 403 Forbidden として返されます。これは<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>（ユーザーが本人であることの確認）には成功したものの、実行しようとしている操作に対する <a href=/glossary/iam/>IAM</a>（Identity and Access Management）権限が不足していることを意味します。AWS リソースへのアクセス、<a href=/glossary/api/>API</a> 呼び出し、AWS マネジメントコンソール上での操作など、様々な場面で発生する一般的なエラーです。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><p>AWS <a href=/glossary/cli/>CLI</a> でよく見かける 403 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/>エラーレスポンス</a>を示します。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Error&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Code&#34;</span>: <span style=color:#e6db74>&#34;AccessDenied&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Message&#34;</span>: <span style=color:#e6db74>&#34;User: arn:aws:iam::123456789012:user/john-dev is not authorized to perform: s3:GetObject on resource: arn:aws:s3:::my-bucket/config.json&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>また、AWS マネジメントコンソール上では、より簡潔なエラーが表示されることもあります。</p><pre tabindex=0><code>User: arn:aws:iam::123456789012:user/jane-admin is not authorized to perform: ec2:DescribeInstances on resource: *
+</code></pre><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因-1iam-ポリシーに必要な-action-が含まれていない>原因 1：IAM ポリシーに必要な Action が含まれていない<a hidden class=anchor aria-hidden=true href=#原因-1iam-ポリシーに必要な-action-が含まれていない>#</a></h3><p><a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>に、実行したい操作（Action）が明示的に許可されていない場合、403 エラーが発生します。例えば S3 <a href=/glossary/%E3%83%90%E3%82%B1%E3%83%83%E3%83%88/>バケット</a>から読み取りはできるが、アップロード（PutObject）が許可されていない状況が典型的です。</p><p><strong>Before（エラーが起きる <a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;s3:GetObject&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:s3:::my-bucket/*&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>この<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>では GetObject（読み取り）のみが許可されているため、PutObject でアップロードしようとするとアクセス拒否されます。</p><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;s3:GetObject&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;s3:PutObject&#34;</span>
+</span></span><span style=display:flex><span>      ],
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:s3:::my-bucket/*&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=原因-2リソースレベルの制限によるアクセス拒否>原因 2：リソースレベルの制限によるアクセス拒否<a hidden class=anchor aria-hidden=true href=#原因-2リソースレベルの制限によるアクセス拒否>#</a></h3><p><a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>内の Resource フィールドで、特定の ARN（Amazon Resource Name）のみが許可されているため、他のリソースへのアクセスが拒否される場合があります。ワイルドカード（*）の使い方を見直す必要があります。</p><p><strong>Before（特定の<a href=/glossary/%E3%83%90%E3%82%B1%E3%83%83%E3%83%88/>バケット</a>のみ許可）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: <span style=color:#e6db74>&#34;ec2:DescribeInstances&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:ec2:ap-northeast-1:123456789012:instance/i-1234567890abcdef0&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>この<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>では、指定された<a href=/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/>インスタンス</a> ID のみへのアクセスが許可されるため、別の<a href=/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/>インスタンス</a>にアクセスするときに 403 が発生します。</p><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: <span style=color:#e6db74>&#34;ec2:DescribeInstances&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;*&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=原因-3scpサービスコントロールポリシーによる組織全体での制限>原因 3：SCP（サービスコントロールポリシー）による組織全体での制限<a hidden class=anchor aria-hidden=true href=#原因-3scpサービスコントロールポリシーによる組織全体での制限>#</a></h3><p>AWS Organizations を使用している場合、SCP によって特定の操作やサービスが組織レベルで制限されていることがあります。<a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>で許可されていても、SCP で拒否されていれば 403 エラーが発生します。</p><p><strong>確認するコマンド（AWS <a href=/glossary/cli/>CLI</a>）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws organizations list-policies <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --filter SERVICE_CONTROL_POLICY <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --region us-east-1
+</span></span></code></pre></div><p>SCP を確認した後、必要に応じて組織管理アカウントで SCP を調整します。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Deny&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: <span style=color:#e6db74>&#34;s3:*&#34;</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;*&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>このような SCP があると、<a href=/glossary/iam/>IAM</a> ユーザーがどのような権限を持っていても S3 へのすべてのアクセスが拒否されます。</p><h3 id=原因-4一時的なセッショントークンの有効期限切れ>原因 4：一時的なセッショントークンの有効期限切れ<a hidden class=anchor aria-hidden=true href=#原因-4一時的なセッショントークンの有効期限切れ>#</a></h3><p>AssumeRole を使用して一時的な<a href=/glossary/%E3%82%AF%E3%83%AC%E3%83%87%E3%83%B3%E3%82%B7%E3%83%A3%E3%83%AB/>クレデンシャル</a>を取得している場合、セッショントークン（SessionToken）の有効期限が切れると 403 エラーが発生することがあります。</p><p><strong>Before（期限切れ<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>を使用）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>export AWS_ACCESS_KEY_ID<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;ASIAZZZZZZZZZZZZZZ&#34;</span>
+</span></span><span style=display:flex><span>export AWS_SECRET_ACCESS_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&lt;secret&gt;&#34;</span>
+</span></span><span style=display:flex><span>export AWS_SESSION_TOKEN<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&lt;expired-token&gt;&#34;</span>
+</span></span><span style=display:flex><span>aws s3 ls s3://my-bucket
+</span></span></code></pre></div><p><strong>After（新しい<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>を取得）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws sts assume-role <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --role-arn arn:aws:iam::123456789012:role/my-role <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --role-session-name my-session <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --duration-seconds <span style=color:#ae81ff>3600</span>
+</span></span></code></pre></div><p>出力された<a href=/glossary/%E3%82%AF%E3%83%AC%E3%83%87%E3%83%B3%E3%82%B7%E3%83%A3%E3%83%AB/>クレデンシャル</a>を<a href=/glossary/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0/>環境変数</a>に設定してから実行します。</p><h3 id=原因-5リソースベースのポリシーによるクロスアカウントアクセス拒否>原因 5：リソースベースのポリシーによるクロスアカウントアクセス拒否<a hidden class=anchor aria-hidden=true href=#原因-5リソースベースのポリシーによるクロスアカウントアクセス拒否>#</a></h3><p>S3 <a href=/glossary/%E3%83%90%E3%82%B1%E3%83%83%E3%83%88/>バケット</a>や KMS キーなど、リソースベースの<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>（Resource-based Policy）で特定のアカウントや<a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>からのアクセスが明示的に拒否されている場合があります。</p><p><strong>確認コマンド（S3 バケットポリシーの場合）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws s3api get-bucket-policy <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --bucket my-bucket <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --region ap-northeast-1
+</span></span></code></pre></div><p>リソースベースの<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>に、ユーザーの ARN が Allow されていることを確認してください。</p><h2 id=ツール固有の注意点>ツール固有の注意点<a hidden class=anchor aria-hidden=true href=#ツール固有の注意点>#</a></h2><h3 id=aws-サービスごとの-403-原因の違い>AWS サービスごとの 403 原因の違い<a hidden class=anchor aria-hidden=true href=#aws-サービスごとの-403-原因の違い>#</a></h3><p><strong>S3 の 403 エラー：</strong>
+S3 へのアクセスが拒否される場合は、バケットポリシー、<a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>、ACL（Access Control List）、そして ブロックパブリックアクセス設定の 4 層すべてを確認する必要があります。以下の順序で確認してください。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># バケットポリシーの確認</span>
+</span></span><span style=display:flex><span>aws s3api get-bucket-policy --bucket &lt;your-bucket&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># ブロックパブリックアクセス設定の確認</span>
+</span></span><span style=display:flex><span>aws s3api get-public-access-block --bucket &lt;your-bucket&gt;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># ACL の確認</span>
+</span></span><span style=display:flex><span>aws s3api get-bucket-acl --bucket &lt;your-bucket&gt;
+</span></span></code></pre></div><p><strong><a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>使用時の 403 エラー：</strong>
+EC2 <a href=/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/>インスタンス</a>や Lambda 関数で <a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>を使用している場合、<a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>の信頼<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>（Trust Relationship）が正しく設定されているか確認してください。信頼<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>が不適切だと、<a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>自体を AssumeRole できず 403 が発生します。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws iam get-role <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --role-name &lt;your-role-name&gt; <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --query <span style=color:#e6db74>&#39;Role.AssumeRolePolicyDocument&#39;</span>
+</span></span></code></pre></div><p><strong><a href=/glossary/api/>API</a> Gateway / CloudFront を経由したアクセスの 403：</strong>
+<a href=/glossary/api/>API</a> Gateway のリソースポリシーや CloudFront のオリジンアクセスコントロール（OAC）で制限されている場合も 403 が返されます。特に CloudFront 経由で S3 にアクセスする場合は、OAC の設定漏れがよくある原因です。</p><p><strong>KMS キーへのアクセス拒否：</strong>
+S3 のサーバーサイド<a href=/glossary/%E6%9A%97%E5%8F%B7%E5%8C%96/>暗号化</a>（SSE-KMS）を使用する場合、KMS キーの操作権限が別途必要です。<a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>で <code>kms:Decrypt</code> および <code>kms:GenerateDataKey</code> が許可されていることを確認してください。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Action&#34;</span>: [
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;kms:Decrypt&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;kms:GenerateDataKey&#34;</span>
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:kms:ap-northeast-1:123456789012:key/&lt;key-id&gt;&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><h3 id=ログとデバッグ方法>ログとデバッグ方法<a hidden class=anchor aria-hidden=true href=#ログとデバッグ方法>#</a></h3><p>AWS CloudTrail を有効にすることで、403 エラーが発生した時点での詳細情報を確認できます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws cloudtrail lookup-events <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --lookup-attributes AttributeKey<span style=color:#f92672>=</span>EventName,AttributeValue<span style=color:#f92672>=</span>GetObject <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --max-items <span style=color:#ae81ff>10</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --region ap-northeast-1
+</span></span></code></pre></div><p>CloudTrail ログには、拒否の理由が詳細に記録されているため、「どのステートメントで拒否されたのか」が明確になります。</p><p><a href=/glossary/iam/>IAM</a> ポリシーシミュレーターも有効なツールです。AWS マネジメントコンソールから <a href=/glossary/iam/>IAM</a> → ポリシーシミュレーター へアクセスし、特定のユーザーが特定のアクションを実行できるか事前テストできます。</p><h3 id=公式ドキュメント>公式ドキュメント<a hidden class=anchor aria-hidden=true href=#公式ドキュメント>#</a></h3><p>AWS 公式ドキュメントの「<a href=/glossary/iam/>IAM</a> トラブルシューティング」ページに、403 エラーの詳細な診断フローが記載されています。また「<a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>の例」では、各サービスごとの推奨ポリシーテンプレートが提供されています。</p><h3 id=コミュニティリソース>コミュニティリソース<a hidden class=anchor aria-hidden=true href=#コミュニティリソース>#</a></h3><p>GitHub の AWS CDK や Terraform コミュニティでも、同様の 403 エラー事例が共有されています。「403 AccessDenied」で検索すると、実際の環境での解決例が見つかることが多くあります。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_422/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_400/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_404/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 403 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>RBAC設定によりリソースへのアクセスが拒否された。Minikube 403 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Minikube の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>認証は成功したが、そのリソースへのアクセス権限がない。プライベートリポジトリへの読み取り・書き込み権限がないなど、Podman 403 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="GCP の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Slack の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-nginx">Nginx</span><h2 class=entry-hint-parent>Nginx の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Nginx の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Nginx の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_403/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/aws/>AWS</a></li></ul></footer></article><script>(function(){var e=document.querySelector(".post-content");if(!e)return;e.querySelectorAll("p strong").forEach(function(e){var t,n,s=e.textContent,o=/Before|エラーが起きる/.test(s),i=/After|修正後/.test(s);if(!o&&!i)return;if(n=e.closest("p"),!n)return;t=n.nextElementSibling,t&&!t.classList.contains("highlight")&&(t=t.nextElementSibling),t&&t.classList.contains("highlight")&&t.classList.add(o?"code-before":"code-after")}),e.querySelectorAll(".code-before").forEach(function(e){var t,n=e.nextElementSibling;n&&n.classList.contains("code-after")&&(t=document.createElement("div"),t.className="code-compare",e.parentNode.insertBefore(t,e),t.appendChild(e),t.appendChild(n))})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

@@ -1,435 +1,159 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head>
-	<meta name="generator" content="Hugo 0.161.1"><script src="/errorlog/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=errorlog/livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>ErrorLog - エラーコード解決ガイド</title>
-
-<meta name="description" content="Docker・AWS・GitHub API・Firebaseのエラーコードを原因から解決策まで解説">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/errorlog/">
-<link crossorigin="anonymous" href="/errorlog/assets/css/stylesheet.89ca4972ab5e6aaa05e9a0dae0c4bb64b26585bc79e36f5cf33614eea0283abe.css" integrity="sha256-icpJcqteaqoF6aDa4MS7ZLJlhbx5429c8zYU7qAoOr4=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/errorlog/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/errorlog/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/errorlog/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/errorlog/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/errorlog/safari-pinned-tab.svg">
-<meta name="theme-color" content="#2e2e33">
-<meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/errorlog/index.xml" title="rss">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/errorlog/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script>
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/errorlog/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)">ErrorLog - エラーコード解決ガイド</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebaseのセキュリティルールによってアクセスが拒否された。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Firestoreまたは Cloud StorageのセキュリティルールがWriteやReadを許可していない ログインしていない状態でログイン必須のデータにアクセスしている 別のユーザーが所有するデータに対して書き込みを試みている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Firebaseコンソールの「Rules Playground」でルールのシミュレーションを実行して拒否理由を確認する セキュリティルールで request.auth != null の条件を正しく設定する ルールの条件式にデバッグ用の debug()関数を追加してログを確認する まとめ Firebase の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebaseプロジェクト内の指定したリソースやドキュメントが存在しない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-FirestoreのドキュメントIDまたはパスが間違っている Cloud Functionsのエンドポイントのパスが誤っている 対象のコレクションやドキュメントがまだ作成されていない 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Firebaseコンソールで対象のコレクションとドキュメントの存在を目視確認する Cloud FunctionsのURLをコンソールのFunctions一覧画面からコピーして使う データが存在しない場合はアプリ側で「データなし」の状態を適切に処理する まとめ Firebase の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 429 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 429 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 429 とは何か？（公式の定義） 429 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebaseの利用枠（クォータ）の上限を超えた。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 429 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-無料プラン（Sparkプラン）のFirestore読み取り・書き込み上限に達した Cloud Functionsの呼び出し回数が上限を超えた 認証メールの送信回数が上限に達した 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-Firebaseコンソールの「使用量と請求」でどの枠が上限に達しているか確認する 有料プラン（Blazeプラン）へアップグレードする クライアント側のキャッシュを活用してFirestoreへの読み取りリクエスト数を減らす まとめ Firebase の 429 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 429 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_429/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 500 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 500 とは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebase側のサーバーで予期しない内部エラーが発生した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Firebaseの内部的な障害であり、利用者の設定の問題ではない場合が多い Cloud Functionsのコードで処理されない例外（エラー）が発生している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-status.firebase.google.com で障害情報を確認する Cloud Functionsのログ（コンソールの「Functions」→「ログ」）でスタックトレースを確認する 数分後に再試行する まとめ Firebase の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 500 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Firebase の 503 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、Firebase を使っているときに表示される 503 というエラーの意味と、その直し方を順を追って説明します。
-Firebase の 503 とは何か？（公式の定義） 503 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-Firebase の文脈では、このコードは次のことを意味します。
-Firebaseのサービスが一時的に利用できない状態になっている。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） Firebase で 503 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-Firebaseがメンテナンスまたは過負荷状態になっている Cloud Functionsのコールドスタートが設定されたタイムアウトを超えた 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-status.firebase.google.com でサービス状態を確認する Cloud Functionsのタイムアウト設定を関数設定画面から延長する 数分後に再試行する まとめ Firebase の 503 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-Firebase の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Firebase の 503 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/firebase_503/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 400 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 400 とは何か？（公式の定義） 400 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-GitHubのAPIに送ったリクエストの形式が正しくない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 400 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-リクエストボディのJSON形式が壊れている 必須のフィールドが抜けている パラメータの値が許容される範囲や形式を外れている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-GitHubのAPIドキュメントで必須フィールドを確認する JSONを整形ツールで検証してから送信する エラーレスポンスの「errors」配列で問題のフィールド名を特定する まとめ GitHub API の 400 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 400 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 401 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 401 とは何か？（公式の定義） 401 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-GitHubへの認証に失敗した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 401 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-個人アクセストークン（PAT）が間違っているか期限切れになっている Authorizationヘッダーの書き方が誤っている（Bearer の付け忘れなど） 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-GitHub設定のDeveloper settingsでトークンの有効期限を確認する Authorization: Bearer {トークン} の形式でヘッダーを設定しているか確認する トークンを再発行して使い直す まとめ GitHub API の 401 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 401 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_401/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 403 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 403 とは何か？（公式の定義） 403 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-認証は成功したが、その操作の権限がない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 403 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-使用しているトークンに必要なスコープ（権限）が付与されていない 組織の管理者がAPIアクセスを制限するSSO設定をしている GitHubの標準的なレート制限に達している 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-トークンの設定画面でスコープ一覧を確認し、必要なものを追加する Organization設定でSSOの認可を行う X-RateLimit-Remaining レスポンスヘッダーで残りリクエスト数を確認する まとめ GitHub API の 403 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 403 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 404 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 404 とは何か？（公式の定義） 404 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-指定したリポジトリ・ユーザー・コンテンツが見つからない。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 404 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-リポジトリ名またはユーザー名の綴りが間違っている プライベートリポジトリに対して権限のないトークンでアクセスしている ブランチ名またはファイルパスが間違っている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-GitHubのWebブラウザで同じURLにアクセスして存在を確認する プライベートリポジトリの場合はトークンにrepoスコープがあるか確認する 大文字・小文字を含めてリポジトリ名を正確に確認する まとめ GitHub API の 404 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 404 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">GitHub API の 422 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p> この記事では、GitHub API を使っているときに表示される 422 というエラーの意味と、その直し方を順を追って説明します。
-GitHub API の 422 とは何か？（公式の定義） 422 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。
-GitHub API の文脈では、このコードは次のことを意味します。
-リクエストの形式は正しいが、データの検証に失敗した。
-このエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。
-このエラーが発生する主な原因（起きる理由の整理） GitHub API で 422 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。
-作ろうとしているブランチ名やタグ名がすでに存在する IssueやPull Requestのフィールドに不正な値が入っている GitHubの仕様上、許可されていない操作を試みている 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。
-エラーレスポンスの「errors」フィールドで詳細な理由を確認する 重複しているリソース名を変更するか既存のものを削除する GitHubの公式APIリファレンスで許容値を確認する まとめ GitHub API の 422 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。
-それでも解決しない場合は、次の方法を試してください。
-GitHub API の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやサポートに問い合わせる 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様やAPIの動作は予告なく変更されることがあります。最新かつ正確な情報については、各ツールの公式ドキュメントを必ずご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。
-</p>
-  </div>
-  <footer class="entry-footer">
-
-<span title='2026-05-24 00:00:00 +0000 UTC'>2026年5月24日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to GitHub API の 422 エラー：原因と解決策" href="http://localhost:1313/errorlog/posts/github_api_422/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="http://localhost:1313/errorlog/page/2/">
-      «&nbsp;前へ&nbsp;
-    </a>
-    <a class="next" href="http://localhost:1313/errorlog/page/4/">次へ&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/errorlog/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a>
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta name=generator content="Hugo 0.161.1"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ErrorLog - エラーコード解決ガイド</title><meta name=description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/><link crossorigin=anonymous href=/assets/css/stylesheet.b9cff24519a34895d20bc540b347c06e2c91b03d1a21e9e4f1860d0b97aa5485.css integrity="sha256-uc/yRRmjSJXSC8VAs0fAbiyRsD0aIenk8YYNC5eqVIU=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/index.xml title=rss><link rel=alternate type=application/json href=https://errorlog.jp/index.json title=json><link rel=alternate hreflang=ja href=https://errorlog.jp/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="ErrorLog - エラーコード解決ガイド"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="ErrorLog - エラーコード解決ガイド"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","url":"https://errorlog.jp/","description":"開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス","logo":"https://errorlog.jp/favicon.ico","sameAs":[]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>503</span></div><h2 class=entry-hint-parent>GCP の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP（Google Cloud Platform）で503エラーが発生した場合、Google Cloudサービス側が一時的に利用できない状態です。このエラーは、サービスのメンテナンスや過負荷、またはサーバーレスサービスの起動遅延が主な原因です。
+よくある原因 GCPサービスのメンテナンスまたは過負荷状態
+Google Cloud全体またはあなたが利用しているサービス（Cloud Run、Cloud Functions、Cloud SQL等）がメンテナンス中または過負荷状態に陥っている場合に503エラーが発生します。これはGCP側の問題であり、ユーザーのアプリケーションコードには原因がありません。
+Cloud Runのコールドスタート時のタイムアウト
+Cloud Runでは、デプロイ直後またはしばらくリクエストがない状態から新しいリクエストが来た場合、インスタンスの起動に時間がかかります。この起動中（コールドスタート）にリクエストがタイムアウトすると、503エラーが返されます。デフォルト設定では最小インスタンス数が0に設定されているため、起動待ちの間にリクエストが失敗しやすくなります。
+リージョンの容量不足
+特定のGCPリージョンで一時的に容量が足りなくなり、新しいインスタンスやリソースを作成できない状態に陥ることがあります。この場合も503エラーが返されます。
+解決手順 ステップ1：GCPサービスの状態を確認する
+まず、GCP側で障害が発生していないか確認します。status.cloud.google.comにアクセスしてください。
+# または curl コマンドでサービス状態ページを確認 curl https://status.cloud.google.com ページ上で「Service Status」から各サービスの状態を確認します。赤色やオレンジ色の警告が表示されている場合は、GCP側の問題です。この場合は復旧を待つしかありません。
+ステップ2：Cloud Runの場合は min-instances を設定する
+Cloud Runを使用している場合、最小インスタンス数をを1以上に設定してコールドスタートを根絶します。
+gcloud run deploy &lt;your-service-name> \ --min-instances=1 \ --region=&lt;your-region> \ --project=&lt;your-project-id> 既存サービスの設定を変更する場合は以下を実行します。
+gcloud run services update &lt;your-service-name> \ --min-instances=1 \ --region=&lt;your-region> \ --project=&lt;your-project-id> Cloud Consoleから設定する場合は、Cloud Run → サービス一覧 → 対象サービスをクリック → 「編集して新しいリビジョンをデプロイ」 → 「詳細設定」→「最小インスタンス数」を1に変更します。
+ステップ3：数分待機してから再試行する
+GCP側の過負荷状態である場合、通常は数分～数十分で復旧します。指数バックオフ（最初は短い待機時間、失敗するたびに待機時間を増やす）を実装して自動再試行します。
+import requests import time def fetch_with_retry(url, max_retries=5): for attempt in range(max_retries): try: response = requests.get(url, timeout=10) response.raise_for_status() return response except requests.exceptions.HTTPError as e: if e.response.status_code == 503: wait_time = 2 ** attempt # 1秒、2秒、4秒、8秒、16秒... print(f"503エラー発生。{wait_time}秒後に再試行します...") time.sleep(wait_time) else: raise raise Exception("最大リトライ回数に達しました") ステップ4：ログを確認してアプリケーションの問題がないか確認する
+...</p></div><div class=entry-code-preview><pre><code># または curl コマンドでサービス状態ページを確認
+curl https://status.cloud.google.com
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_503/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+<span class=error-badge>409</span></div><h2 class=entry-hint-parent>OpenAI API の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API で 409 エラーが返される場合、リクエストの内容がサーバー上のリソースの現在の状態と競合しています。通常、既に進行中の操作や重複したリソースが原因となります。
+よくある原因 Fine-tuningジョブの重複実行
+同じトレーニングデータやモデルに対して、既に実行中のFine-tuningジョブがあるのに、さらに同じ設定で新しいジョブを作成しようとするとこのエラーが発生します。OpenAI API はアカウント内で同時に実行できるFine-tuningジョブの数に制限があり、また同一のトレーニングデータセットに対して並行実行できないためです。
+ファイルのアップロード競合
+Files API を使用してトレーニングファイルをアップロードする際に、既にアップロード中や処理中のファイルIDに対して再度アップロードリクエストを送信すると競合が発生します。同じファイルIDに複数のアップロード操作が並行実行されようとするとき、この409エラーが返されます。
+モデルカスタマイズの状態競合
+Fine-tuning済みモデルに対して、訓練完了前にさらに別のFine-tuningジョブを開始しようとした場合、リソースの状態競合として扱われることがあります。
+解決手順 ステップ1：実行中のFine-tuningジョブを確認する
+まず現在実行中のジョブを一覧表示して、重複するジョブがないか確認します。
+# 実行中のFine-tuningジョブを一覧表示 curl https://api.openai.com/v1/fine_tuning/jobs \ -H "Authorization: Bearer $OPENAI_API_KEY" レスポンスを確認して、対象のトレーニングデータと同じ設定のジョブが既に running または queued 状態で存在していないか確認します。
+ステップ2：完了済みジョブの確認とクリーンアップ
+既に完了したジョブが大量に残っていないか確認し、必要に応じて確認します。
+# 特定のジョブの詳細情報を確認 curl https://api.openai.com/v1/fine_tuning/jobs/&lt;job-id> \ -H "Authorization: Bearer $OPENAI_API_KEY" ステータスが succeeded や failed であれば、新しいジョブは作成できます。running の場合は完了まで待機する必要があります。
+ステップ3：ファイルのアップロード状態を確認する
+Files API でアップロード済みファイルの状態を確認します。
+# アップロード済みファイル一覧を取得 curl https://api.openai.com/v1/files \ -H "Authorization: Bearer $OPENAI_API_KEY" # 特定のファイル情報を確認 curl https://api.openai.com/v1/files/&lt;file-id> \ -H "Authorization: Bearer $OPENAI_API_KEY" ファイルのステータスが processed になっていることを確認してから、Fine-tuningジョブを再度作成します。
+ステップ4：新しいFine-tuningジョブを作成する
+競合するジョブがないことを確認した後、新しいジョブを作成します。
+...</p></div><div class=entry-code-preview><pre><code># 実行中のFine-tuningジョブを一覧表示
+curl https://api.openai.com/v1/fine_tuning/jobs \
+  -H &#34;Authorization: Bearer $OPENAI_API_KEY&#34;</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to OpenAI API の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_409/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+<span class=error-badge>422</span></div><h2 class=entry-hint-parent>OpenAI API の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI APIで422エラーが発生するのは、リクエストの構文は正しいものの、含まれるデータが処理要件を満たしていないときです。特にFine-tuningでよく出現するエラーです。
+よくある原因 Fine-tuningのJSONLファイル形式が不正
+Fine-tuningに使用するJSONLファイルの各行が、OpenAIが定める正しい形式になっていない場合、422エラーが返されます。例えば、JSON形式で統一されていなかったり、不要なフィールドが含まれていたり、必須フィールドが欠けていたりすると、OpenAI側で処理できないと判断されるためです。
+messagesフォーマットが要件と異なる
+Fine-tuningのデータセットでは、各サンプルがmessages配列を含む必要があります。その配列内のメッセージオブジェクトがroleとcontentフィールドを持っていなかったり、roleの値が不正な値（例：「user_message」など）だったりすると、422エラーが返されます。OpenAIは厳密なスキーマ検証を行うため、わずかな形式のズレでも拒否されるのです。
+データセット件数が最小要件を下回っている
+Fine-tuningには最低限のサンプル数（通常は10件以上、推奨は50件以上）が必要です。これを満たさないデータセットをアップロードしようとすると、422エラーで拒否されます。
+JSONLファイルに無効なJSON行が含まれている
+各行が有効なJSON形式になっていない場合、422エラーが返されます。例えば、シングルクォートの使用、末尾のカンマ、エスケープ漏れなども原因になります。
+解決手順 1. JSONLファイルの形式を確認する
+Fine-tuningデータは、1行1個の有効なJSONオブジェクトからなるJSONL形式である必要があります。以下が正しいサンプルです。
+{"messages": [{"role": "system", "content": "あなたは優秀なアシスタントです。"}, {"role": "user", "content": "こんにちは"}, {"role": "assistant", "content": "こんにちは。何かお手伝いできることはありますか？"}]}
+{"messages": [{"role": "system", "content": "あなたは優秀なアシスタントです。"}, {"role": "user", "content": "天気は？"}, {"role": "assistant", "content": "申し訳ございませんが、リアルタイムの天気情報は提供できません。"}]} ファイルの各行が独立した有効なJSONであることをテキストエディタで目視確認します。
+2. Pythonでファイルの検証を行う
+以下のスクリプトで、JSONL形式とmessagesの構造を自動検証します。
+import json def validate_jsonl(file_path): with open(file_path, 'r', encoding='utf-8') as f: for line_num, line in enumerate(f, start=1): try: data = json.loads(line) # messagesフィールドが存在するか確認 if 'messages' not in data: print(f"行 {line_num}: 'messages' フィールドが見つかりません") continue # messagesは配列か確認 if not isinstance(data['messages'], list): print(f"行 {line_num}: 'messages' が配列ではありません") continue # 各メッセージが role と content を持つか確認 for msg_num, msg in enumerate(data['messages']): if 'role' not in msg or 'content' not in msg: print(f"行 {line_num}、メッセージ {msg_num}: 'role' または 'content' が見つかりません") if msg.get('role') not in ['system', 'user', 'assistant']: print(f"行 {line_num}、メッセージ {msg_num}: roleが不正です（値：{msg.get('role')}）") except json.JSONDecodeError as e: print(f"行 {line_num}: JSON形式エラー - {e}") print("検証完了") validate_jsonl('&lt;your-file-path>.jsonl') 3. データセット件数を確認する
+...</p></div><div class=entry-code-preview><pre><code>{&#34;messages&#34;: [{&#34;role&#34;: &#34;system&#34;, &#34;content&#34;: &#34;あなたは優秀なアシスタントです。&#34;}, {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;こんにちは&#34;}, {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: &#34;こんにちは。何かお手伝いできることはありますか？&#34;}]}
+{&#34;messages&#34;: [{&#34;role&#34;: &#34;system&#34;, &#34;content&#34;: &#34;あなたは優秀なアシスタントです。&#34;}, {&#34;role&#34;: &#34;user&#34;, &#34;content&#34;: &#34;天気は？&#34;}, {&#34;role&#34;: &#34;assistant&#34;, &#34;content&#34;: &#34;申し訳ございませんが、リアルタイムの天気情報は提供できません。&#34;}]}
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to OpenAI API の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_422/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-podman">Podman</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Podman の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>Podman実行時に「400 Bad Request」が出ています。このエラーはPodman APIまたはレジストリへのリクエスト形式が正しくないことを示しており、コマンドオプションやイメージ指定の誤りが原因です。
+よくある原因 podman runコマンドのオプション指定が誤っている
+podman run のオプション順序やフラグの書き方が間違っていると、Podmanはリクエストを解析できず400エラーを返します。例えば、値が必要なオプション（--name、--memory など）に値を渡さない、または重複定義した場合に発生します。イメージ指定の前に全てのオプションを配置する必要があります。
+イメージ名またはタグの書き方が間違っている
+イメージ名やタグの形式が不正だとリクエストが成立しません。レジストリが指定されていない場合、Podmanはデフォルトレジストリから検索しますが、タグ内に無効な文字が含まれていたり、参照形式が壊れていたりするとエラーになります。
+Podman APIソケットへのリクエストのJSON形式が壊れている
+REST APIを直接呼び出す場合、JSONペイロードの構文エラーや必須フィールドの不足があると400エラーが発生します。curlなどでAPIを叩く際にダブルクォートの閉じ忘れやカンマの欠落が原因になります。
+解決手順 ステップ1：コマンドオプションの正しい書き方を確認する
+# 使用しているサブコマンドのヘルプを表示 podman help run # よく使うオプション例 podman run --name &lt;コンテナ名> --memory 512m --cpus 1 &lt;イメージ名>:&lt;タグ> podman help run でオプション一覧と説明を確認し、オプション順序やフラグの記述が正しいか検証します。イメージ指定は必ずオプション指定の後に配置してください。
+ステップ2：イメージ名とタグをpodman searchで検証する
+# イメージ検索でレジストリに存在するか確認 podman search alpine # タグ付きで正確なイメージ名を指定 podman run alpine:3.18 /bin/sh # レジストリを明示的に指定する場合 podman run docker.io/library/alpine:3.18 /bin/sh podman search で目的のイメージがレジストリに存在し、正確なタグ名を確認します。タグが存在しない、または大文字小文字が異なっている場合も400エラーになります。
+ステップ3：Podmanをバージョン確認し、必要に応じて更新する
+# 現在のPodmanバージョンを確認 podman --version # 古い場合はシステムパッケージマネージャーで更新 # Red Hat系の場合 sudo dnf update podman # Debian系の場合 sudo apt update && sudo apt upgrade podman 古いバージョンではAPI仕様が異なり、新しいオプションが存在しないか動作が異なる可能性があります。
+...</p></div><div class=entry-code-preview><pre><code># 使用しているサブコマンドのヘルプを表示
+podman help run
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Podman の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_400/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-podman">Podman</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Podman の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Podmanでコンテナイメージをpullやpushしようとすると、401認証エラーが発生することがあります。このエラーはレジストリへの認証に失敗したときに出現し、適切な認証情報がないか有効期限切れの状態を示しています。
+よくある原因 podman loginを実行していない Podmanでレジストリからイメージを取得するには、事前に認証を完了する必要があります。ログイン処理を行わずにpullコマンドを実行すると、認証情報がないため401エラーが発生します。特に新しい環境構築時や、別のレジストリを利用する場合に見落とされやすいです。
+認証トークンの有効期限が切れている レジストリが発行した認証トークンには有効期限が設定されていることが多いです。数週間から数ヶ月経過すると、以前ログインした認証情報が無効化されてしまい、401エラーが返されます。
+~/.config/containers/auth.jsonの認証情報が古い Podmanはログイン時の認証情報を ~/.config/containers/auth.json に保存します。このファイルの内容が古い、破損している、または複数のレジストリ情報が混在していると、401エラーが発生することがあります。
+解決手順 ステップ1：現在のログイン状態を確認する まず、どのレジストリに対して認証情報が保存されているか確認します。
+# auth.jsonの内容を確認 cat ~/.config/containers/auth.json ファイルが存在しない場合や、対象のレジストリURLが記載されていなければ、ログインが必要です。
+ステップ2：対象のレジストリに再ログインする 次のコマンドでレジストリに対してpodman loginを実行します。レジストリURLは正確に指定してください。
+# Docker Hubの場合 podman login docker.io # プライベートレジストリの場合（例：プライベートGCR） podman login gcr.io # ユーザー名とパスワードを聞かれるので入力する # Username: &lt;your-username> # Password: &lt;your-password> ログインが成功すると、認証情報が ~/.config/containers/auth.json に保存されます。
+ステップ3：auth.jsonを削除して再ログインする 上記ステップで解決しない場合、auth.jsonを完全に削除した上で再度ログインしてください。この方法で古い認証情報をクリアできます。
+# auth.jsonを削除 rm ~/.config/containers/auth.json # 再度ログイン処理を実行 podman login &lt;レジストリURL> 削除後、新しい認証情報が~/.config/containers/auth.jsonに保存されます。
+ステップ4：レジストリURLが正しく指定されているか確認する pullやpushコマンドを実行する際、指定しているレジストリURLが正確か確認します。レジストリURLが異なると、別のレジストリとして認識され、認証エラーが発生します。
+# 正しいレジストリURLでpullを実行 podman pull docker.io/library/ubuntu:latest # pullが成功することを確認 podman images ログイン後にpullコマンドを再度実行して、401エラーが解消されたか確認します。
+...</p></div><div class=entry-code-preview><pre><code># auth.jsonの内容を確認
+cat ~/.config/containers/auth.json
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Podman の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-tool-guide">tool-guide</span></div><h2 class=entry-hint-parent>Slack とは？特徴・機能・料金・比較まとめ</h2></header><div class=entry-content><p>Slack とは Slack は、チーム内のコミュニケーションを一元化するビジネスチャットプラットフォームです。メッセージのやりとり、ファイル共有、外部ツール連携など、仕事に必要な連絡手段をひとつの場所にまとめられます。開発チームはもちろん、営業やマーケティング、カスタマーサポートなど、様々な職種で導入されています。
+主な特徴・できること チャネルベースのコミュニケーション - プロジェクトやトピック別にチャネルを作成し、会話を整理できます。公開チャネルで情報を共有し、プライベートチャネルで限定的な議論を進めることが可能です。
+スレッド機能 - チャネル内の特定のメッセージに対して返信を付けられるため、複数の議論が混在しません。
+豊富なインテグレーション - GitHub、Jira、Datadog、PagerDuty など、開発現場で使われるツールとの連携に対応しています。エラーログやアラート通知を Slack に自動送信できるため、トラブルシューティング時の対応が迅速になります。
+検索機能 - 過去のメッセージやファイルを素早く検索でき、情報資産として活用できます。
+モバイルアプリ - iOS・Android 対応で、外出先からもチームとの連絡が取れます。
+ワークフロー自動化 - メッセージ送信やアラート通知を条件付きで自動化できます。
+ゲストアカウント - 外部の協力者やクライアントを限定的に招待可能です。
+料金プラン プラン 月額料金（ユーザー当たり） 主な機能 フリー 0 円 90 日間のメッセージ履歴、基本的なチャネル機能 Pro 800 円（年払いで割引あり） 無制限のメッセージ履歴、高度なインテグレーション、優先サポート Business+ 1,200 円（年払いで割引あり） 全機能、SAML SSO、監査ログ、ゲストマネジメント Enterprise Grid 要見積もり カスタマイズ可能な機能、ハイレベルなセキュリティ、専任サポート 似たツールとの比較 特性 Slack Microsoft Teams Discord 主な用途 ビジネスコミュニケーション 企業内コラボレーション ゲーミング・コミュニティ インテグレーション数 2,000+ Office 365 統合 限定的 価格帯 800円/月～ 400円/月～ 基本無料 チーム規模向け 小～大規模 中～大規模 小～中規模 開発者向け機能 充実 標準的 基本的 こんな人・チームに向いている 開発チーム - Git リポジトリやデプロイツールと連携させて、開発フローを効率化できます。CI/CD パイプライン（継続的インテグレーション・デプロイメント）からのエラー通知を Slack に集約することで、本番環境のトラブルシューティング対応を素早く始められます。
+...</p></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack とは？特徴・機能・料金・比較まとめ" href=https://errorlog.jp/posts/tool_slack/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-slack">Slack</span>
+<span class=error-badge>429</span></div><h2 class=entry-hint-parent>Slack の 429 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack 429 エラーの原因と解決策 Slack APIへのリクエストが短時間に集中し、レート制限を超えた場合に発生するエラーです。429レスポンスが返された場合、一時的に再試行を延期する必要があります。
+よくある原因 ループ処理内での API 呼び出し間隔がない
+ループで複数のメッセージ送信やユーザー情報取得を行う際、各リクエストの間に待機時間を設けないと、短時間に大量のリクエストが Slack API に到達します。Slack API のレート制限は一般的にメソッドごと、時間帯ごとに設定されており、例えば chat.postMessage は 1 分間に数十～数百リクエストの上限があります。待機なしで 100 件のメッセージを送信しようとすると、ほぼ確実に 429 エラーが発生します。
+API Tier に応じた呼び出し頻度を超過している
+Slack API の各メソッドは複数の Tier（Tier1 から 4 など）に分類されており、Tier ごとに分あたりのリクエスト上限が異なります。例えば高頻度で呼び出される Tier3 メソッドは上限が厳しく、定時実行のバッチ処理や大量ユーザー取得時に超過しやすくなります。公式ドキュメントで確認しないまま実装すると、本番環境で突然 429 エラーが増加します。
+非同期処理なしで一気にリクエストを送信している
+Promise.all や for-of ループで複数の API 呼び出しを並列実行すると、すべてのリクエストがほぼ同時刻に Slack サーバーに到達します。これは単純な順序実行よりも効率的に見えますが、Slack 側のレート制限はセッション単位で集計されるため、並列数が多いほど制限に引っかかりやすくなります。
+解決手順 Retry-After ヘッダーを確認して待機する
+429 レスポンスには Retry-After ヘッダーが含まれており、何秒待つべきかが明記されています。このヘッダー値を読み出し、その秒数待ってから再試行してください。
+// Node.js + axios の例 async function callSlackAPIWithRetry(url, data) { try { const response = await axios.post(url, data, { headers: { Authorization: `Bearer &lt;your-bot-token>` } }); return response.data; } catch (error) { if (error.response?.status === 429) { const retryAfter = parseInt(error.response.headers['retry-after'], 10); console.log(`レート制限に達しました。${retryAfter}秒待機します。`); await new Promise(resolve => setTimeout(resolve, retryAfter * 1000)); return callSlackAPIWithRetry(url, data); // 再試行 } throw error; } } 各メソッドの API Tier を確認し、呼び出し間隔を設定する
+...</p></div><div class=entry-code-preview><pre><code>// Node.js &#43; axios の例
+async function callSlackAPIWithRetry(url, data) {
+  try {</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack の 429 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_429/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-slack">Slack</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>Slack の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack API利用時に500エラーが返される場合、Slack側のサーバーで予期しない内部エラーが発生しています。ほとんどのケースは一時的な障害ですが、適切な対応手順を踏む必要があります。
+よくある原因 Slackのインフラで一時的な障害が起きている
+Slack側のサーバー環境で予期しないエラーが発生しており、APIリクエスト（Slack APIへの要求）を処理できない状態です。これは大規模なデータベース更新、サーバーメンテナンス、トラフィック急増などが原因で発生します。ユーザー側の設定やコードに問題がなくても、Slack側の問題で500エラーが返されることがあります。特にWorkspaceの規模が大きい場合や、バッチ処理で短時間に大量のAPIリクエストを送信している場合に発生しやすい傾向があります。
+解決手順 ステップ1：Slack公式の障害情報を確認する
+まず status.slack.com にアクセスして、現在の障害状況を確認します。
+https://status.slack.com このページで「All Systems Operational」と表示されていれば、Slack側に広範な障害は発生していません。「Investigating」や「Degraded Performance」などの表示がある場合は、Slack側で対応中の問題があります。この場合、障害が解決されるまで待機してください。
+ステップ2：数秒の遅延を入れて再試行する
+一時的な障害の場合、数秒後に同じリクエストを再送すると成功することがあります。以下はPythonでの再試行実装例です。
+import requests import time from requests.adapters import HTTPAdapter from urllib3.util.retry import Retry # リトライ戦略の設定 session = requests.Session() retry_strategy = Retry( total=3, backoff_factor=2, # 2秒、4秒、8秒の間隔でリトライ status_forcelist=[500, 502, 503, 504] ) adapter = HTTPAdapter(max_retries=retry_strategy) session.mount("https://", adapter) # Slack APIへのリクエスト例 headers = { "Authorization": "Bearer &lt;your-bot-token>", "Content-Type": "application/json" } response = session.post( "https://slack.com/api/chat.postMessage", headers=headers, json={ "channel": "&lt;your-channel-id>", "text": "テストメッセージ" } ) print(response.status_code) print(response.json()) このコードは自動的に500エラーで最大3回まで再試行しており、各再試行間隔は2秒、4秒、8秒となります。
+...</p></div><div class=entry-code-preview><pre><code>https://status.slack.com
+</code></pre></div><footer class=entry-footer><span title='2026-05-28 00:00:00 +0000 UTC'>2026年5月28日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Slack の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_500/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>GCP の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP 400 エラーの原因と解決方法 Google Cloud Platform (GCP) で 400 エラーが返される場合、API リクエストに含まれるパラメータに問題があることを示しています。このエラーは「クライアント側の誤り」として分類され、リクエスト自体が不正な形式であることを意味します。
+よくある原因 必須フィールドの欠落または型の誤り API リクエストに必須フィールドが含まれていないか、データ型が異なっている場合に発生します。例えば、Compute Engine インスタンス作成時に machineType（マシンタイプ）を指定しなかったり、数値で指定すべきを文字列で送信したりすると、400 エラーが返されます。
+リソース識別子の書き方の誤り プロジェクト ID、リージョン（地域）、ゾーン（データセンター）の指定が間違っている場合です。例えば us-central1-a であるべきを us-central-1-a と記載すると、API が認識できずエラーになります。
+JSON フォーマットの破損 リクエストボディの JSON が正しい形式でない場合も 400 エラーの原因です。引用符の閉じ忘れ、カンマの欠落、不正な文字エンコードなどが該当します。
+解決手順 1. エラーレスポンスから問題箇所を特定する まずは API のエラーレスポンスを確認してください。details フィールドに、どのフィールドが不正かが記載されています。
+gcloud compute instances create my-instance \ --zone=us-central1-a 返されたエラーメッセージを読み込み、Invalid value for field など記載されている箇所をメモします。
+2. 詳細ログで原因を追跡する gcloud コマンドに --verbosity=debug オプションを付けることで、詳細ログを表示できます。
+gcloud compute instances create my-instance \ --zone=us-central1-a \ --machine-type=n1-standard-1 \ --verbosity=debug このログにはリクエストの完全な内容が表示されるため、JSON の構文エラーなどを発見しやすくなります。
+3. クライアントライブラリのバリデーション機能を活用する Python などの公式クライアントライブラリを使用することで、リクエスト送信前にパラメータをチェックできます。
+...</p></div><div class=entry-code-preview><pre><code>gcloud compute instances create my-instance \
+  --zone=us-central1-a
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_400/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-gcp">GCP</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>GCP の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP の 401 エラーが出た時の対処法 GCP（Google Cloud Platform）で 401 エラーが発生するのは、Google Cloud API への認証情報（認証用の資格情報）が無効になっているか、有効期限が切れている状態です。このエラーが出ると、Cloud Functions やデータベースなど GCP のサービスが一切利用できなくなります。
+よくある原因 1. サービスアカウントキーの期限切れ
+サービスアカウントキー（JSON ファイル形式の認証情報）には有効期限があります。長期間使用していなかったり、セキュリティポリシーで期限切れになっている場合があります。特に本番環境では定期的なキーローテーションが行われるため、古いキーを使い続けると 401 エラーが発生します。
+2. Application Default Credentials（ADC）の未設定
+ADC とは、GCP が自動的に認証情報を探す仕組みです。環境変数が正しく設定されていない、または gcloud コマンドでのログイン情報が失われている場合、API 呼び出しが認証できず 401 エラーになります。
+3. アクセストークンの有効期限切れ
+API 呼び出しに使うアクセストークンは 1 時間で自動的に無効になります。長時間連続実行するプログラムでトークンをリフレッシュ（更新）していないと、1 時間経過後に 401 エラーが発生します。
+解決手順 ステップ 1: アクティブなアカウントを確認する
+まず、現在どのアカウントで gcloud が設定されているか確認しましょう。
+gcloud auth list 出力結果から、使いたいアカウントの横に * マークがついているか確認してください。
+ステップ 2: Application Default Credentials を再設定する
+ADC をリセットして再ログインします。
+gcloud auth application-default login このコマンドを実行するとブラウザが自動的に開き、Google アカウントでのログインが求められます。ログインが完了すると、認証情報がローカルに保存されます。
+...</p></div><div class=entry-code-preview><pre><code>gcloud auth list
+</code></pre></div><footer class=entry-footer><span title='2026-05-27 00:00:00 +0000 UTC'>2026年5月27日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to GCP の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_401/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://errorlog.jp/page/2/>«&nbsp;前へ&nbsp;
+</a><a class=next href=https://errorlog.jp/page/4/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>
