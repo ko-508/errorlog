@@ -34,6 +34,8 @@ details.toc .inner a { color: var(--primary); }
   letter-spacing: 0.6px;
   text-transform: uppercase;
   margin-bottom: 0.4rem;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 .tool-badge-docker     { background: rgba(36,150,237,.15); color:#2496ed; border:1px solid rgba(36,150,237,.35); }
 .tool-badge-aws        { background: rgba(255,153,0,.15);  color:#cc7700; border:1px solid rgba(255,153,0,.35); }
@@ -461,6 +463,8 @@ details.toc .inner a { color: var(--primary); }
   background: rgba(255,77,77,.1);
   color: #cc2200;
   border: 1px solid rgba(255,77,77,.3);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 html[data-theme="dark"] .error-badge {
   background: rgba(255,77,77,.15);
