@@ -21,7 +21,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install google-analytics-data google-genai
+        run: pip install google-analytics-data anthropic
 
       - name: Run GA4 analyzer
         env:
@@ -29,7 +29,7 @@ jobs:
           GA4_OAUTH_CLIENT_ID:      ${{ secrets.GA4_OAUTH_CLIENT_ID }}
           GA4_OAUTH_CLIENT_SECRET:  ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
           GA4_OAUTH_REFRESH_TOKEN:  ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
-          GEMINI_API_KEY:           ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
         run: python scripts/ga4_analyzer.py
 
       - name: Commit and push report

@@ -30,7 +30,7 @@ PROPERTY_ID   = os.environ.get("GA4_PROPERTY_ID", "").strip()
 CLIENT_ID     = os.environ.get("GA4_OAUTH_CLIENT_ID", "").strip()
 CLIENT_SECRET = os.environ.get("GA4_OAUTH_CLIENT_SECRET", "").strip()
 REFRESH_TOKEN = os.environ.get("GA4_OAUTH_REFRESH_TOKEN", "").strip()
-GEMINI_KEY    = os.environ.get("GEMINI_API_KEY", "").strip()
+ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 TOP_PAGES     = 20
 TOP_CITIES    = 15
 
@@ -153,13 +153,12 @@ def _fmt_cities(cities):
 # ── Gemini 分析 ───────────────────────────────────────────────────────────────
 
 def analyze_with_gemini(data: dict) -> str:
-    if not GEMINI_KEY:
-        return "（GEMINI_API_KEY 未設定のため AI 分析をスキップ）"
+    if not ANTHROPIC_KEY:
+        return "（ANTHROPIC_API_KEY 未設定のため AI 分析をスキップ）"
 
-    from google import genai
-    from google.genai import types
+    import anthropic
 
-    client  = genai.Client(api_key=GEMINI_KEY)
+    client  = anthropic.Anthropic(api_key=ANTHROPIC_KEY)
     totals  = _totals(data["daily"])
     period  = f"{TODAY - timedelta(days=6)} 〜 {TODAY}"
 
@@ -198,20 +197,17 @@ errorlog.jpの記事規格（生ログ例・Before/Afterコード対比）に沿
 上記分析全体で最も優先度が高い改善アクションを1文で出力する。
 """
 
-    response = client.models.generate_content(
-        model="gemini-2.0-flash-lite",
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=(
-                "あなたはWebメディアのグロースアナリストです。"
-                "提供されたGA4データのみを根拠に分析し、ソースにない情報は推測しないこと。"
-                "出力はMarkdown形式で、見出しは##を使用すること。"
-            ),
-            temperature=0.3,
-            max_output_tokens=4096,
+    message = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=4096,
+        system=(
+            "あなたはWebメディアのグロースアナリストです。"
+            "提供されたGA4データのみを根拠に分析し、ソースにない情報は推測しないこと。"
+            "出力はMarkdown形式で、見出しは##を使用すること。"
         ),
+        messages=[{"role": "user", "content": prompt}],
     )
-    return response.text
+    return message.content[0].text
 
 
 # ── レポート生成 ──────────────────────────────────────────────────────────────
