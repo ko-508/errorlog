@@ -158,7 +158,8 @@
   </div>
   {{- end }}
 
-  {{- /* ── 解決率フィードバック UI ── */}}
+  {{- /* ── 解決率フィードバック UI（errorCode がある記事のみ） ── */}}
+  {{- with .Params.errorCode }}
   <div class="feedback-panel" id="feedback-panel">
     <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
     <div class="feedback-panel__btns">
@@ -167,6 +168,7 @@
     </div>
     <p class="feedback-panel__thanks"></p>
   </div>
+  {{- end }}{{/* errorCode */}}
 
   {{- partial "extend_post_content.html" . }}
 
