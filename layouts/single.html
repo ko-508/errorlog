@@ -183,7 +183,8 @@
         el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
         el.style.setProperty('overflow',      'hidden',       'important');
       } else {
-        // 言語指定なしの plain <pre>
+        // 言語指定なしの plain <pre>：Chroma と同じベース色 #272822 を明示
+        sp(el, 'background-color', '#272822');
         sp(el, 'background-image', grad);
         sp(el, 'padding-left',     '1rem');
         sp(el, 'box-sizing',       'border-box');
