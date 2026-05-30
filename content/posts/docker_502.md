@@ -1,7 +1,7 @@
 ---
 title: "Docker の 502 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 502 エラーの原因と解決策をわかりやすく解説します。"
+description: "502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。"
 tags: ["Docker"]
 errorCode: "502"
 lastmod: 2026-05-29

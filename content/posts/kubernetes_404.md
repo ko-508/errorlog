@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes の 404 エラー：原因と解決策"
 date: 2026-05-26
-description: "Kubernetes の 404 エラーの原因と解決策をわかりやすく解説します。"
+description: "Kubernetesの404エラーは、APIサーバーが指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとしたエンドポイントが存在しないことを示します。"
 tags: ["Kubernetes"]
 errorCode: "404"
 lastmod: 2026-05-29

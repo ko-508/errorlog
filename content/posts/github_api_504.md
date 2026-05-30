@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 504 エラー：原因と解決策"
 date: 2026-05-24
-description: "GitHub API の 504 エラーの原因と解決策をわかりやすく解説します。"
+description: "GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。"
 tags: ["GitHub API"]
 errorCode: "504"
 lastmod: 2026-05-29

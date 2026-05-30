@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 401 エラー：原因と解決策"
 date: 2026-01-01
-description: "Firebase の 401 エラーの原因と解決策をわかりやすく解説します。"
+description: "Firebase の 401 エラーは、Firebaseサーバーへのリクエストに対して「認証情報が不足している、または無効である」という応答です。"
 tags: ["Firebase"]
 errorCode: "401"
 lastmod: 2026-05-29

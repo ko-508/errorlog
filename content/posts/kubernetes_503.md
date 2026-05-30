@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes の 503 エラー：原因と解決策"
 date: 2026-05-27
-description: "Kubernetes の 503 エラーの原因と解決策をわかりやすく解説します。"
+description: "Kubernetes環境で503エラーが発生するのは、クライアントからのリクエストに対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。"
 tags: ["Kubernetes"]
 errorCode: "503"
 lastmod: 2026-05-29

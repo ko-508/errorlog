@@ -1,7 +1,7 @@
 ---
 title: "Stripe の 400 エラー：原因と解決策"
 date: 2026-05-25
-description: "Stripe の 400 エラーの原因と解決策をわかりやすく解説します。"
+description: "Stripe APIへのリクエストが400 Bad Requestを返す場合、リクエストの形式またはパラメータに問題があることを意味します。"
 tags: ["Stripe"]
 errorCode: "400"
 lastmod: 2026-05-29

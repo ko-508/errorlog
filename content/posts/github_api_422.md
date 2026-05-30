@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 422 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 422 エラーの原因と解決策をわかりやすく解説します。"
+description: "422 Unprocessable Entity は、HTTPリクエストの形式は正しいものの、送信されたデータが GitHub API の検証ルールに違反している場合に返されるステータスコードです。"
 tags: ["GitHub API"]
 errorCode: "422"
 lastmod: 2026-05-29

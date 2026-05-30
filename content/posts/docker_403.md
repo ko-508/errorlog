@@ -1,7 +1,7 @@
 ---
 title: "Docker の 403 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 403 エラーの原因と解決策をわかりやすく解説します。"
+description: "Docker の 403 エラーは、認証（ログイン）には成功したものの、対象のリソース（イメージ、レジストリ、ボリューム等）へのアクセス権限がないことを示します。"
 tags: ["Docker"]
 errorCode: "403"
 lastmod: 2026-05-29

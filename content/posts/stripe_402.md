@@ -1,7 +1,7 @@
 ---
 title: "Stripe の 402 エラー：原因と解決策"
 date: 2026-05-25
-description: "Stripe の 402 エラーの原因と解決策をわかりやすく解説します。"
+description: "Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。"
 tags: ["Stripe"]
 errorCode: "402"
 lastmod: 2026-05-29

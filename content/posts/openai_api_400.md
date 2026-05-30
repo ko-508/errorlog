@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 400 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 400 エラーの原因と解決策をわかりやすく解説します。"
+description: "OpenAI APIで400エラーが返される場合、リクエストの形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、サーバー側の問題ではなく、クライアント（あなたのコード）から送信されたリクエストが仕様に合致し"
 tags: ["OpenAI API"]
 errorCode: "400"
 lastmod: 2026-05-29

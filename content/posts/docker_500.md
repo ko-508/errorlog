@@ -1,7 +1,7 @@
 ---
 title: "Docker の 500 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 500 エラーの原因と解決策をわかりやすく解説します。"
+description: "Docker環境で500エラーが発生する場合、Dockerデーモンが予期しない内部エラーに遭遇していることを示しています。"
 tags: ["Docker"]
 errorCode: "500"
 lastmod: 2026-05-29

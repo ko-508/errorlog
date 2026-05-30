@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 503 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 503 エラーの原因と解決策をわかりやすく解説します。"
+description: "OpenAI APIにおいて503エラーは「Service Unavailable」を意味し、OpenAIのサーバーが一時的に利用不可能な状態であることを示します。"
 tags: ["OpenAI API"]
 errorCode: "503"
 lastmod: 2026-05-29

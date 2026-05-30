@@ -1,7 +1,7 @@
 ---
 title: "Nginx の 504 エラー：原因と解決策"
 date: 2026-05-27
-description: "Nginx の 504 エラーの原因と解決策をわかりやすく解説します。"
+description: "504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやAPI）からのレスポンスを一定時間待ちきれず、タイムアウトした状況を示すエラーです。"
 tags: ["Nginx"]
 errorCode: "504"
 lastmod: 2026-05-29

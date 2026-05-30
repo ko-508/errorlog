@@ -1,7 +1,7 @@
 ---
 title: "Docker の 400 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 400 エラーの原因と解決策をわかりやすく解説します。"
+description: "Docker の 400 エラーは、クライアント側のリクエストが不正な形式であることを示すHTTPステータスコードです。Docker デーモンとの通信（コンテナの操作、イメージのプッシュ・プル、API呼び出し）の際に、形式不正なリクエストが"
 tags: ["Docker"]
 errorCode: "400"
 lastmod: 2026-05-29

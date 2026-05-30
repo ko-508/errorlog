@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 404 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。"
+description: "GitHub APIで404エラーが返される場合、リクエストで指定したリソース（リポジトリ、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。"
 tags: ["GitHub API"]
 errorCode: "404"
 lastmod: 2026-05-29

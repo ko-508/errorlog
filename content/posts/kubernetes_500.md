@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes の 500 エラー：原因と解決策"
 date: 2026-05-27
-description: "Kubernetes の 500 エラーの原因と解決策をわかりやすく解説します。"
+description: "Kubernetes環境で500エラーが発生した場合、APIサーバーまたはコントロールプレーンコンポーネントで予期しない内部エラーが生じています。このエラーはクラスタ全体の管理機能に影響を与える可能性があり、迅速な対応が必要です。"
 tags: ["Kubernetes"]
 errorCode: "500"
 lastmod: 2026-05-29

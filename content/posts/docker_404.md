@@ -1,7 +1,7 @@
 ---
 title: "Docker の 404 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 404 エラーの原因と解決策をわかりやすく解説します。"
+description: "Docker で 404 エラーが発生するのは、指定したイメージまたはリポジトリがレジストリ（Docker Hub や ECR などのイメージ保管先）に存在しないことを意味します。"
 tags: ["Docker"]
 errorCode: "404"
 lastmod: 2026-05-29

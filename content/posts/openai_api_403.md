@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 403 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 403 エラーの原因と解決策をわかりやすく解説します。"
+description: "OpenAI APIの403エラーは、認証には成功しましたが、そのAPIキーに対してリクエストされたモデルやエンドポイントへのアクセス権限がない場合に発生します。認可エラーと呼ばれ、認証エラー（401）とは異なります。"
 tags: ["OpenAI API"]
 errorCode: "403"
 lastmod: 2026-05-29

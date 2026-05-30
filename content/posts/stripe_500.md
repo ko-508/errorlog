@@ -1,7 +1,7 @@
 ---
 title: "Stripe の 500 エラー：原因と解決策"
 date: 2026-05-27
-description: "Stripe の 500 エラーの原因と解決策をわかりやすく解説します。"
+description: "Stripe API で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。"
 tags: ["Stripe"]
 errorCode: "500"
 lastmod: 2026-05-29

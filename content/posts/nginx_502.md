@@ -1,7 +1,7 @@
 ---
 title: "Nginx の 502 エラー：原因と解決策"
 date: 2026-05-27
-description: "Nginx の 502 エラーの原因と解決策をわかりやすく解説します。"
+description: "502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。"
 tags: ["Nginx"]
 errorCode: "502"
 lastmod: 2026-05-29

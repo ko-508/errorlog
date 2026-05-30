@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 502 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 502 エラーの原因と解決策をわかりやすく解説します。"
+description: "502 Bad Gateway は、OpenAI API のリクエストがOpenAIのサーバーに到達したものの、バックエンドサーバーから無効な応答が返された、またはタイムアウトしたことを示します。"
 tags: ["OpenAI API"]
 errorCode: "502"
 lastmod: 2026-05-29

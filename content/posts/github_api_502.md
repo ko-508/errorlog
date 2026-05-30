@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 502 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 502 エラーの原因と解決策をわかりやすく解説します。"
+description: "502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。"
 tags: ["GitHub API"]
 errorCode: "502"
 lastmod: 2026-05-29

@@ -1,7 +1,7 @@
 ---
 title: "Nginx の 403 エラー：原因と解決策"
 date: 2026-05-25
-description: "Nginx の 403 エラーの原因と解決策をわかりやすく解説します。"
+description: "Nginx の 403 Forbidden エラーは、クライアント（ブラウザ）が特定のファイルやディレクトリへのアクセスを試みたとき、Nginx がそのリソースの存在は確認できるが、アクセス権限がないと判断したときに発生します。"
 tags: ["Nginx"]
 errorCode: "403"
 lastmod: 2026-05-29

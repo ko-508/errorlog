@@ -1,7 +1,7 @@
 ---
 title: "Nginx の 404 エラー：原因と解決策"
 date: 2026-05-25
-description: "Nginx の 404 エラーの原因と解決策をわかりやすく解説します。"
+description: "Nginx が受け取ったリクエストに対して、指定されたパスにファイルやリソースが見つからないときに 404 エラーが返されます。"
 tags: ["Nginx"]
 errorCode: "404"
 lastmod: 2026-05-29

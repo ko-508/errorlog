@@ -1,7 +1,7 @@
 ---
 title: "Docker の 401 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 401 エラーの原因と解決策をわかりやすく解説します。"
+description: "Docker で 401 エラーが発生するのは、レジストリ（Docker Hub や ECR、プライベートレジストリなど）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。"
 tags: ["Docker"]
 errorCode: "401"
 lastmod: 2026-05-29

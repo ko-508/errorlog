@@ -1,7 +1,7 @@
 ---
 title: "Docker の 409 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker の 409 エラーの原因と解決策をわかりやすく解説します。"
+description: "Dockerの409エラーは、HTTP標準仕様で「Conflict（競合）」を示すステータスコードです。Docker Daemon がコンテナやイメージの操作を受け付けられない状態を表します。"
 tags: ["Docker"]
 errorCode: "409"
 lastmod: 2026-05-29

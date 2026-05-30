@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes の 400 エラー：原因と解決策"
 date: 2026-05-25
-description: "Kubernetes の 400 エラーの原因と解決策をわかりやすく解説します。"
+description: "Kubernetes APIサーバーへのリクエストが不正な形式や内容であることを示すHTTP 400エラーです。マニフェストファイルの構文エラー、API仕様に違反するフィールド値、または不完全なリクエストボディが原因となります。"
 tags: ["Kubernetes"]
 errorCode: "400"
 lastmod: 2026-05-29

@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 401 エラー：原因と解決策"
 date: 2026-05-24
-description: "OpenAI API の 401 エラーの原因と解決策をわかりやすく解説します。"
+description: "OpenAI APIで401エラーが返される場合、リクエストの認証に失敗したことを意味します。これは提供されたAPIキーが無効、期限切れ、または不正な形式であることを示しており、APIサーバーがクライアントの身元を確認できない状態です。"
 tags: ["OpenAI API"]
 errorCode: "401"
 lastmod: 2026-05-29

@@ -1,7 +1,7 @@
 ---
 title: "GitHub API の 400 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub API の 400 エラーの原因と解決策をわかりやすく解説します。"
+description: "GitHub APIの400エラーは「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。リクエストの形式が不正だったり、必須パラメータが不足していたり、パラメータ値が無効だったりするときに発生します。"
 tags: ["GitHub API"]
 errorCode: "400"
 lastmod: 2026-05-29

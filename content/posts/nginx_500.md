@@ -1,7 +1,7 @@
 ---
 title: "Nginx の 500 エラー：原因と解決策"
 date: 2026-05-26
-description: "Nginx の 500 エラーの原因と解決策をわかりやすく解説します。"
+description: "Nginx が 500 Internal Server Error を返すのは、Nginx または バックエンドアプリケーション（PHP-FPM、uWSGI、Node.js など）で予期しない内部エラーが発生したことを示します。"
 tags: ["Nginx"]
 errorCode: "500"
 lastmod: 2026-05-29
