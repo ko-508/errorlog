@@ -130,50 +130,67 @@
   if (!content) return;
 
   var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
 
-  // "Before" ラベル段落を起点にペアを検出・ラップ
   content.querySelectorAll('p strong').forEach(function (el) {
-    if (!/Before|エラーが起きる/.test(el.textContent)) return;
+    if (!RE_BEFORE.test(el.textContent)) return;
 
     var beforeLabel = el.closest('p');
-    var beforeCode  = beforeLabel.nextElementSibling;
-    if (!beforeCode || !beforeCode.classList.contains('highlight')) return;
+    if (beforeLabel.dataset.compared) return;
 
-    // Before の次：After ラベル段落 or After コード
-    var cursor     = beforeCode.nextElementSibling;
-    var afterLabel = null;
-    var afterCode  = null;
+    // After ラベルが現れるまで要素を収集
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
 
-    if (cursor) {
-      var s = cursor.querySelector('strong');
-      if (s && /After|修正後/.test(s.textContent)) {
-        afterLabel = cursor;
-        afterCode  = cursor.nextElementSibling;
-      } else if (cursor.classList.contains('highlight')) {
-        afterCode = cursor;
-      }
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
     }
-    if (!afterCode || !afterCode.classList.contains('highlight')) return;
+    if (!afterLabel) return;
 
-    // 装飾クラスを付与
-    beforeCode.classList.add('code-before');
-    afterCode.classList.add('code-after');
+    // After ラベル以降を収集（次の見出し or Before/After 強調で終了）
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
 
-    // 2カラム構造を組み立て
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    // 各サイドの最初のコードブロックに装飾クラスを付与
+    var tagged = false;
+    beforeElems.forEach(function (e) {
+      if (!tagged && e.classList.contains('highlight')) { e.classList.add('code-before'); tagged = true; }
+    });
+    tagged = false;
+    afterElems.forEach(function (e) {
+      if (!tagged && e.classList.contains('highlight')) { e.classList.add('code-after'); tagged = true; }
+    });
+
+    // 2カラムラッパーを構築
     var wrap = document.createElement('div');
     wrap.className = 'code-compare';
     if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
 
     var left  = document.createElement('div');
-    left.className  = 'code-compare__side';
+    left.className = 'code-compare__side';
     var right = document.createElement('div');
     right.className = 'code-compare__side';
 
     beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
     left.appendChild(beforeLabel);
-    left.appendChild(beforeCode);
-    if (afterLabel) right.appendChild(afterLabel);
-    right.appendChild(afterCode);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
     wrap.appendChild(left);
     wrap.appendChild(right);
   });
