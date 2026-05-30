@@ -1,114 +1,817 @@
-<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Firebase の 503 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="Firebase,HTTP503,503エラー"><meta name=description content="Firebase の 503 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/firebase_503/><link crossorigin=anonymous href=/assets/css/stylesheet.3138a156a2cc44de6777fe2ee09d69126e641edd9405347bcb9154a1433eefe9.css integrity="sha256-MTihVqLMRN5nd/4u4J1pEm5kHt2UBTR7y5FUoUM+7+k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/firebase_503/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/firebase_503/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Firebase の 503 エラー：原因と解決策"><meta property="og:description" content="Firebase の 503 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="Firebase"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Firebase の 503 エラー：原因と解決策"><meta name=twitter:description content="Firebase の 503 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"Firebase の 503 エラー：原因と解決策","item":"https://errorlog.jp/posts/firebase_503/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Firebase の 503 エラー：原因と解決策","name":"Firebase の 503 エラー：原因と解決策","description":"Firebase の 503 エラーの原因と解決策をわかりやすく解説します。","keywords":["Firebase"],"articleBody":"エラーの概要 Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、サーバー側の問題またはアプリケーション側の設定不備が原因となります。\n実際のエラーメッセージ例 { \"error\": { \"code\": 503, \"message\": \"The service is currently unavailable. Please try again later.\" } } firebase_error_code: SERVICE_UNAVAILABLE\rError: Failed to fetch data from Firebase: 503 Service Unavailable\rat XMLHttpRequest.onload (firebase-app.js:1234) よくある原因と解決手順 原因1：Firebase プロジェクトの API 割り当て制限 Firebase は API 呼び出し数に制限を設定しており、短時間に大量のリクエストを送信すると 503 エラーが返されます。\nBefore（エラーが起きるコード）\n// 制限なしのループでリアルタイムリッスンを開始 for (let i = 0; i \u003c 1000; i++) { db.collection('users').doc(`user_${i}`).onSnapshot((doc) =\u003e { console.log(doc.data()); }); } After（修正後）\n// バッチ処理と遅延を導入 async function fetchUsersInBatches() { const batchSize = 10; for (let i = 0; i \u003c 1000; i += batchSize) { const batch = []; for (let j = 0; j \u003c batchSize; j++) { batch.push( db.collection('users').doc(`user_${i + j}`).get() ); } await Promise.all(batch); await new Promise(resolve =\u003e setTimeout(resolve, 100)); // 100ms 待機 } } 原因2：Cloud Functions のタイムアウトとメモリ不足 Cloud Functions が長時間実行中にタイムアウトするか、割り当てられたメモリを超えると、Firebase API が 503 を返します。\nBefore（エラーが起きるコード）\n// タイムアウト設定がなく、大規模データ処理を実行 exports.processData = functions.https.onCall(async (data, context) =\u003e { const snapshot = await admin.firestore().collection('large_dataset').get(); const processed = snapshot.docs.map(doc =\u003e { // 同期処理で各ドキュメントを加工 return complexCalculation(doc.data()); }); return { success: true }; }); After（修正後）\n// タイムアウト・メモリ設定を明示し、非同期バッチ処理を導入 exports.processData = functions .runWith({ timeoutSeconds: 540, memory: '2GB' }) .https.onCall(async (data, context) =\u003e { const query = admin.firestore() .collection('large_dataset') .limit(100); let startAfter = null; while (true) { let snapshot = query; if (startAfter) { snapshot = snapshot.startAfter(startAfter); } const docs = await snapshot.get(); if (docs.empty) break; // バッチ単位で処理 await Promise.all( docs.docs.map(doc =\u003e complexCalculationAsync(doc.data())) ); startAfter = docs.docs[docs.docs.length - 1]; } return { success: true }; }); 原因3：認証トークンの有効期限切れまたは無効な認証 Firebase Authentication のセッションが期限切れになったり、Security Rules で認証を要求しているにもかかわらずトークンが無い場合、Firestore や Realtime Database は 503 に見えるエラーを返すことがあります。\nBefore（エラーが起きるコード）\n// ログイン直後、トークンリフレッシュなしで長時間リクエスト送信 firebase.auth().signInWithEmailAndPassword(email, password); // 1時間後... db.collection('protected_data').get().then(snapshot =\u003e { // 403 or 503 が返される可能性がある }); After（修正後）\n// トークン自動リフレッシュを設定 firebase.auth().onAuthStateChanged(async (user) =\u003e { if (user) { const token = await user.getIdToken(true); // 強制リフレッシュ db.collection('protected_data').get().then(snapshot =\u003e { console.log(snapshot.docs); }); } }); Firebase 固有の注意点 Cloud Firestore と Realtime Database の違い\nFirestore では 503 エラーが多く発生するのは、複雑なクエリが実行されている場合です。特に複合インデックスが未作成の状態で大規模クエリを実行すると 503 が返されます。Firebase Console から「Firestore \u003e インデックス」を確認し、提案されているインデックスをすべて作成してください。\nリージョン制約による 503\nFirebase プロジェクトが特定のリージョンに制限されている場合、異なるリージョンからのリクエストが 503 を返すことがあります。Cloud Functions のリージョン設定を確認してください。\n// リージョンを明示的に指定 exports.processData = functions .region('asia-northeast1') .https.onCall(async (data, context) =\u003e { // 処理 }); レート制限のクォータ確認\nFirebase Console の「プロジェクト設定 \u003e 使用状況」でリアルタイム API 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。\nそれでも解決しない場合 確認すべきログとデバッグ手順\n# Firebase CLI でプロジェクトの接続確認 firebase emulators:start # Cloud Functions のログを確認 firebase functions:log Cloud Console の「Cloud Logging」で該当時刻のエラーログを検索します。フィルター条件を以下のように設定してください：\nresource.type=\"cloud_function\"\rseverity=\"ERROR\"\rtimestamp\u003e=\"\u003cエラーが発生した時刻\u003e\" 公式ドキュメント\nFirebase Quotas and Limits Cloud Functions のトラブルシューティング Firestore インデックスの管理 コミュニティリソース\nFirebase GitHub Issues や Stack Overflow で同様の 503 エラーが報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などのキーワードで検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、エラーが発生した正確な時刻と firebase-debug.log ファイルを準備しておくと対応が迅速になります。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"401","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/firebase_503/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-firebase">Firebase</span>
-<span class=error-badge>503</span></div><h1 class="post-title entry-hint-parent">Firebase の 503 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
-<span class=summary-text>Firebase の 503 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
-<span class=summary-text>Firebase プロジェクトの API 割り当て制限</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
-<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Firebase の 503 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="Firebase, HTTP503, 503エラー">
+<meta name="description" content="Firebase の 503 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="https://errorlog.jp/posts/firebase_503/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://errorlog.jp/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
+<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/firebase_503/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
+<meta property="og:url" content="https://errorlog.jp/posts/firebase_503/">
+  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
+  <meta property="og:title" content="Firebase の 503 エラー：原因と解決策">
+  <meta property="og:description" content="Firebase の 503 エラーの原因と解決策をわかりやすく解説します。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
+    <meta property="article:tag" content="Firebase">
+      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
+  <meta name="twitter:title" content="Firebase の 503 エラー：原因と解決策">
+  <meta name="twitter:description" content="Firebase の 503 エラーの原因と解決策をわかりやすく解説します。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://errorlog.jp/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Firebase の 503 エラー：原因と解決策",
+      "item": "https://errorlog.jp/posts/firebase_503/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Firebase の 503 エラー：原因と解決策",
+  "name": "Firebase の 503 エラー：原因と解決策",
+  "description": "Firebase の 503 エラーの原因と解決策をわかりやすく解説します。",
+  "keywords": [
+    "Firebase"
+  ],
+  "articleBody": "エラーの概要 Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、サーバー側の問題またはアプリケーション側の設定不備が原因となります。\n実際のエラーメッセージ例 { \"error\": { \"code\": 503, \"message\": \"The service is currently unavailable. Please try again later.\" } } firebase_error_code: SERVICE_UNAVAILABLE\rError: Failed to fetch data from Firebase: 503 Service Unavailable\rat XMLHttpRequest.onload (firebase-app.js:1234) よくある原因と解決手順 原因1：Firebase プロジェクトの API 割り当て制限 Firebase は API 呼び出し数に制限を設定しており、短時間に大量のリクエストを送信すると 503 エラーが返されます。\nBefore（エラーが起きるコード）\n// 制限なしのループでリアルタイムリッスンを開始 for (let i = 0; i \u003c 1000; i++) { db.collection('users').doc(`user_${i}`).onSnapshot((doc) =\u003e { console.log(doc.data()); }); } After（修正後）\n// バッチ処理と遅延を導入 async function fetchUsersInBatches() { const batchSize = 10; for (let i = 0; i \u003c 1000; i += batchSize) { const batch = []; for (let j = 0; j \u003c batchSize; j++) { batch.push( db.collection('users').doc(`user_${i + j}`).get() ); } await Promise.all(batch); await new Promise(resolve =\u003e setTimeout(resolve, 100)); // 100ms 待機 } } 原因2：Cloud Functions のタイムアウトとメモリ不足 Cloud Functions が長時間実行中にタイムアウトするか、割り当てられたメモリを超えると、Firebase API が 503 を返します。\nBefore（エラーが起きるコード）\n// タイムアウト設定がなく、大規模データ処理を実行 exports.processData = functions.https.onCall(async (data, context) =\u003e { const snapshot = await admin.firestore().collection('large_dataset').get(); const processed = snapshot.docs.map(doc =\u003e { // 同期処理で各ドキュメントを加工 return complexCalculation(doc.data()); }); return { success: true }; }); After（修正後）\n// タイムアウト・メモリ設定を明示し、非同期バッチ処理を導入 exports.processData = functions .runWith({ timeoutSeconds: 540, memory: '2GB' }) .https.onCall(async (data, context) =\u003e { const query = admin.firestore() .collection('large_dataset') .limit(100); let startAfter = null; while (true) { let snapshot = query; if (startAfter) { snapshot = snapshot.startAfter(startAfter); } const docs = await snapshot.get(); if (docs.empty) break; // バッチ単位で処理 await Promise.all( docs.docs.map(doc =\u003e complexCalculationAsync(doc.data())) ); startAfter = docs.docs[docs.docs.length - 1]; } return { success: true }; }); 原因3：認証トークンの有効期限切れまたは無効な認証 Firebase Authentication のセッションが期限切れになったり、Security Rules で認証を要求しているにもかかわらずトークンが無い場合、Firestore や Realtime Database は 503 に見えるエラーを返すことがあります。\nBefore（エラーが起きるコード）\n// ログイン直後、トークンリフレッシュなしで長時間リクエスト送信 firebase.auth().signInWithEmailAndPassword(email, password); // 1時間後... db.collection('protected_data').get().then(snapshot =\u003e { // 403 or 503 が返される可能性がある }); After（修正後）\n// トークン自動リフレッシュを設定 firebase.auth().onAuthStateChanged(async (user) =\u003e { if (user) { const token = await user.getIdToken(true); // 強制リフレッシュ db.collection('protected_data').get().then(snapshot =\u003e { console.log(snapshot.docs); }); } }); Firebase 固有の注意点 Cloud Firestore と Realtime Database の違い\nFirestore では 503 エラーが多く発生するのは、複雑なクエリが実行されている場合です。特に複合インデックスが未作成の状態で大規模クエリを実行すると 503 が返されます。Firebase Console から「Firestore \u003e インデックス」を確認し、提案されているインデックスをすべて作成してください。\nリージョン制約による 503\nFirebase プロジェクトが特定のリージョンに制限されている場合、異なるリージョンからのリクエストが 503 を返すことがあります。Cloud Functions のリージョン設定を確認してください。\n// リージョンを明示的に指定 exports.processData = functions .region('asia-northeast1') .https.onCall(async (data, context) =\u003e { // 処理 }); レート制限のクォータ確認\nFirebase Console の「プロジェクト設定 \u003e 使用状況」でリアルタイム API 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。\nそれでも解決しない場合 確認すべきログとデバッグ手順\n# Firebase CLI でプロジェクトの接続確認 firebase emulators:start # Cloud Functions のログを確認 firebase functions:log Cloud Console の「Cloud Logging」で該当時刻のエラーログを検索します。フィルター条件を以下のように設定してください：\nresource.type=\"cloud_function\"\rseverity=\"ERROR\"\rtimestamp\u003e=\"\u003cエラーが発生した時刻\u003e\" 公式ドキュメント\nFirebase Quotas and Limits Cloud Functions のトラブルシューティング Firestore インデックスの管理 コミュニティリソース\nFirebase GitHub Issues や Stack Overflow で同様の 503 エラーが報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などのキーワードで検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、エラーが発生した正確な時刻と firebase-debug.log ファイルを準備しておくと対応が迅速になります。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
+  "wordCount" : "401",
+  "inLanguage": "ja",
+  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-29T00:00:00Z\"",
+  "author":{
+    "@type": "Person",
+    "name": "ErrorLog"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://errorlog.jp/posts/firebase_503/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ErrorLog - エラーコード解決ガイド",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://errorlog.jp/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
+    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
+  </text>
+</svg>
+</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://errorlog.jp/search/" title="検索">
+                    <span>検索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/tags/" title="タグ">
+                    <span>タグ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                    <span>アーカイブ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/glossary/" title="用語集">
+                    <span>用語集</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <div class="post-badges">
+      <span class="tool-badge tool-badge-firebase">Firebase</span>
+      <span class="error-badge">503</span>
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      Firebase の 503 エラー：原因と解決策
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header>
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">Firebase の 503 エラーの原因と解決策をわかりやすく解説します。</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--cause">原因</span>
+      <span class="summary-text">Firebase プロジェクトの API 割り当て制限</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+    </div>
+  </div>
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>{
   &#34;error&#34;: {
     &#34;code&#34;: 503,
     &#34;message&#34;: &#34;The service is currently unavailable. Please try again later.&#34;
   }
 }
-</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01firebase-%e3%83%97%e3%83%ad%e3%82%b8%e3%82%a7%e3%82%af%e3%83%88%e3%81%ae-api-%e5%89%b2%e3%82%8a%e5%bd%93%e3%81%a6%e5%88%b6%e9%99%90 aria-label="原因1：Firebase プロジェクトの API 割り当て制限">原因1：Firebase プロジェクトの API 割り当て制限</a></li><li><a href=#%e5%8e%9f%e5%9b%a02cloud-functions-%e3%81%ae%e3%82%bf%e3%82%a4%e3%83%a0%e3%82%a2%e3%82%a6%e3%83%88%e3%81%a8%e3%83%a1%e3%83%a2%e3%83%aa%e4%b8%8d%e8%b6%b3 aria-label="原因2：Cloud Functions のタイムアウトとメモリ不足">原因2：Cloud Functions のタイムアウトとメモリ不足</a></li><li><a href=#%e5%8e%9f%e5%9b%a03%e8%aa%8d%e8%a8%bc%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e5%88%87%e3%82%8c%e3%81%be%e3%81%9f%e3%81%af%e7%84%a1%e5%8a%b9%e3%81%aa%e8%aa%8d%e8%a8%bc aria-label=原因3：認証トークンの有効期限切れまたは無効な認証>原因3：認証トークンの有効期限切れまたは無効な認証</a></li></ul></li><li><a href=#firebase-%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label="Firebase 固有の注意点">Firebase 固有の注意点</a></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、サーバー側の問題またはアプリケーション側の設定不備が原因となります。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;error&#34;</span>: {
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;code&#34;</span>: <span style=color:#ae81ff>503</span>,
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;The service is currently unavailable. Please try again later.&#34;</span>
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><pre tabindex=0><code>firebase_error_code: SERVICE_UNAVAILABLE
+</code></pre>
+  </div> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目次</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
+            <li>
+                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
+            <li>
+                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
+                    
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a01firebase-%e3%83%97%e3%83%ad%e3%82%b8%e3%82%a7%e3%82%af%e3%83%88%e3%81%ae-api-%e5%89%b2%e3%82%8a%e5%bd%93%e3%81%a6%e5%88%b6%e9%99%90" aria-label="原因1：Firebase プロジェクトの API 割り当て制限">原因1：Firebase プロジェクトの API 割り当て制限</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a02cloud-functions-%e3%81%ae%e3%82%bf%e3%82%a4%e3%83%a0%e3%82%a2%e3%82%a6%e3%83%88%e3%81%a8%e3%83%a1%e3%83%a2%e3%83%aa%e4%b8%8d%e8%b6%b3" aria-label="原因2：Cloud Functions のタイムアウトとメモリ不足">原因2：Cloud Functions のタイムアウトとメモリ不足</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a03%e8%aa%8d%e8%a8%bc%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e5%88%87%e3%82%8c%e3%81%be%e3%81%9f%e3%81%af%e7%84%a1%e5%8a%b9%e3%81%aa%e8%aa%8d%e8%a8%bc" aria-label="原因3：認証トークンの有効期限切れまたは無効な認証">原因3：認証トークンの有効期限切れまたは無効な認証</a></li></ul>
+            </li>
+            <li>
+                <a href="#firebase-%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="Firebase 固有の注意点">Firebase 固有の注意点</a></li>
+            <li>
+                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
+<p>Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、サーバー側の問題またはアプリケーション側の設定不備が原因となります。</p>
+<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;error&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;code&#34;</span>: <span style="color:#ae81ff">503</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;The service is currently unavailable. Please try again later.&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><pre tabindex="0"><code>firebase_error_code: SERVICE_UNAVAILABLE
 Error: Failed to fetch data from Firebase: 503 Service Unavailable
 at XMLHttpRequest.onload (firebase-app.js:1234)
-</code></pre><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1firebase-プロジェクトの-api-割り当て制限>原因1：Firebase プロジェクトの API 割り当て制限<a hidden class=anchor aria-hidden=true href=#原因1firebase-プロジェクトの-api-割り当て制限>#</a></h3><p>Firebase は <a href=/glossary/api/>API</a> 呼び出し数に制限を設定しており、短時間に大量の<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>を送信すると 503 エラーが返されます。</p><p><strong>Before（エラーが起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// 制限なしのループでリアルタイムリッスンを開始
-</span></span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>1000</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>`user_</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>i</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>).<span style=color:#a6e22e>onSnapshot</span>((<span style=color:#a6e22e>doc</span>) =&gt; {
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>data</span>());
-</span></span><span style=display:flex><span>  });
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// バッチ処理と遅延を導入
-</span></span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>fetchUsersInBatches</span>() {
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>batchSize</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>;
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>1000</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>+=</span> <span style=color:#a6e22e>batchSize</span>) {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>batch</span> <span style=color:#f92672>=</span> [];
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>j</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>j</span> <span style=color:#f92672>&lt;</span> <span style=color:#a6e22e>batchSize</span>; <span style=color:#a6e22e>j</span><span style=color:#f92672>++</span>) {
-</span></span><span style=display:flex><span>      <span style=color:#a6e22e>batch</span>.<span style=color:#a6e22e>push</span>(
-</span></span><span style=display:flex><span>        <span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>`user_</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>i</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>j</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>).<span style=color:#a6e22e>get</span>()
-</span></span><span style=display:flex><span>      );
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> Promise.<span style=color:#a6e22e>all</span>(<span style=color:#a6e22e>batch</span>);
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> <span style=color:#66d9ef>new</span> Promise(<span style=color:#a6e22e>resolve</span> =&gt; <span style=color:#a6e22e>setTimeout</span>(<span style=color:#a6e22e>resolve</span>, <span style=color:#ae81ff>100</span>)); <span style=color:#75715e>// 100ms 待機
-</span></span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h3 id=原因2cloud-functions-のタイムアウトとメモリ不足>原因2：Cloud Functions のタイムアウトとメモリ不足<a hidden class=anchor aria-hidden=true href=#原因2cloud-functions-のタイムアウトとメモリ不足>#</a></h3><p>Cloud Functions が長時間実行中に<a href=/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/>タイムアウト</a>するか、割り当てられたメモリを超えると、Firebase <a href=/glossary/api/>API</a> が 503 を返します。</p><p><strong>Before（エラーが起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// タイムアウト設定がなく、大規模データ処理を実行
-</span></span></span><span style=display:flex><span><span style=color:#a6e22e>exports</span>.<span style=color:#a6e22e>processData</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>functions</span>.<span style=color:#a6e22e>https</span>.<span style=color:#a6e22e>onCall</span>(<span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>context</span>) =&gt; {
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>snapshot</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>admin</span>.<span style=color:#a6e22e>firestore</span>().<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;large_dataset&#39;</span>).<span style=color:#a6e22e>get</span>();
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>processed</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>snapshot</span>.<span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>doc</span> =&gt; {
-</span></span><span style=display:flex><span>    <span style=color:#75715e>// 同期処理で各ドキュメントを加工
-</span></span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>complexCalculation</span>(<span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>data</span>());
-</span></span><span style=display:flex><span>  });
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> { <span style=color:#a6e22e>success</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span> };
-</span></span><span style=display:flex><span>});
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// タイムアウト・メモリ設定を明示し、非同期バッチ処理を導入
-</span></span></span><span style=display:flex><span><span style=color:#a6e22e>exports</span>.<span style=color:#a6e22e>processData</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>functions</span>
-</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>runWith</span>({
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>timeoutSeconds</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>540</span>,
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>memory</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;2GB&#39;</span>
-</span></span><span style=display:flex><span>  })
-</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>https</span>.<span style=color:#a6e22e>onCall</span>(<span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>context</span>) =&gt; {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>query</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>admin</span>.<span style=color:#a6e22e>firestore</span>()
-</span></span><span style=display:flex><span>      .<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;large_dataset&#39;</span>)
-</span></span><span style=display:flex><span>      .<span style=color:#a6e22e>limit</span>(<span style=color:#ae81ff>100</span>);
-</span></span><span style=display:flex><span>    
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>startAfter</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span>;
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>while</span> (<span style=color:#66d9ef>true</span>) {
-</span></span><span style=display:flex><span>      <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>snapshot</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>query</span>;
-</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>startAfter</span>) {
-</span></span><span style=display:flex><span>        <span style=color:#a6e22e>snapshot</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>snapshot</span>.<span style=color:#a6e22e>startAfter</span>(<span style=color:#a6e22e>startAfter</span>);
-</span></span><span style=display:flex><span>      }
-</span></span><span style=display:flex><span>      <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>docs</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>snapshot</span>.<span style=color:#a6e22e>get</span>();
-</span></span><span style=display:flex><span>      
-</span></span><span style=display:flex><span>      <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>empty</span>) <span style=color:#66d9ef>break</span>;
-</span></span><span style=display:flex><span>      
-</span></span><span style=display:flex><span>      <span style=color:#75715e>// バッチ単位で処理
-</span></span></span><span style=display:flex><span>      <span style=color:#66d9ef>await</span> Promise.<span style=color:#a6e22e>all</span>(
-</span></span><span style=display:flex><span>        <span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>doc</span> =&gt; <span style=color:#a6e22e>complexCalculationAsync</span>(<span style=color:#a6e22e>doc</span>.<span style=color:#a6e22e>data</span>()))
-</span></span><span style=display:flex><span>      );
-</span></span><span style=display:flex><span>      
-</span></span><span style=display:flex><span>      <span style=color:#a6e22e>startAfter</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>docs</span>[<span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>docs</span>.<span style=color:#a6e22e>length</span> <span style=color:#f92672>-</span> <span style=color:#ae81ff>1</span>];
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> { <span style=color:#a6e22e>success</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>true</span> };
-</span></span><span style=display:flex><span>  });
-</span></span></code></pre></div><h3 id=原因3認証トークンの有効期限切れまたは無効な認証>原因3：認証トークンの有効期限切れまたは無効な認証<a hidden class=anchor aria-hidden=true href=#原因3認証トークンの有効期限切れまたは無効な認証>#</a></h3><p>Firebase Authentication のセッションが期限切れになったり、Security Rules で<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>を要求しているにもかかわらず<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>が無い場合、Firestore や Realtime Database は 503 に見えるエラーを返すことがあります。</p><p><strong>Before（エラーが起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// ログイン直後、トークンリフレッシュなしで長時間リクエスト送信
-</span></span></span><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>signInWithEmailAndPassword</span>(<span style=color:#a6e22e>email</span>, <span style=color:#a6e22e>password</span>);
-</span></span><span style=display:flex><span><span style=color:#75715e>// 1時間後...
-</span></span></span><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;protected_data&#39;</span>).<span style=color:#a6e22e>get</span>().<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>snapshot</span> =&gt; {
-</span></span><span style=display:flex><span>  <span style=color:#75715e>// 403 or 503 が返される可能性がある
-</span></span></span><span style=display:flex><span>});
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// トークン自動リフレッシュを設定
-</span></span></span><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>onAuthStateChanged</span>(<span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>user</span>) =&gt; {
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>user</span>) {
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>token</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>user</span>.<span style=color:#a6e22e>getIdToken</span>(<span style=color:#66d9ef>true</span>); <span style=color:#75715e>// 強制リフレッシュ
-</span></span></span><span style=display:flex><span>    <span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;protected_data&#39;</span>).<span style=color:#a6e22e>get</span>().<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>snapshot</span> =&gt; {
-</span></span><span style=display:flex><span>      <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#a6e22e>snapshot</span>.<span style=color:#a6e22e>docs</span>);
-</span></span><span style=display:flex><span>    });
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>});
-</span></span></code></pre></div><h2 id=firebase-固有の注意点>Firebase 固有の注意点<a hidden class=anchor aria-hidden=true href=#firebase-固有の注意点>#</a></h2><p><strong>Cloud Firestore と Realtime Database の違い</strong></p><p>Firestore では 503 エラーが多く発生するのは、複雑なクエリが実行されている場合です。特に複合<a href=/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/>インデックス</a>が未作成の状態で大規模クエリを実行すると 503 が返されます。Firebase Console から「Firestore > <a href=/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/>インデックス</a>」を確認し、提案されている<a href=/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/>インデックス</a>をすべて作成してください。</p><p><strong>リージョン制約による 503</strong></p><p>Firebase プロジェクトが特定のリージョンに制限されている場合、異なるリージョンからの<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>が 503 を返すことがあります。Cloud Functions のリージョン設定を確認してください。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// リージョンを明示的に指定
-</span></span></span><span style=display:flex><span><span style=color:#a6e22e>exports</span>.<span style=color:#a6e22e>processData</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>functions</span>
-</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>region</span>(<span style=color:#e6db74>&#39;asia-northeast1&#39;</span>)
-</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>https</span>.<span style=color:#a6e22e>onCall</span>(<span style=color:#66d9ef>async</span> (<span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>context</span>) =&gt; {
-</span></span><span style=display:flex><span>    <span style=color:#75715e>// 処理
-</span></span></span><span style=display:flex><span>  });
-</span></span></code></pre></div><p><strong><a href=/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/>レート制限</a>のクォータ確認</strong></p><p>Firebase Console の「プロジェクト設定 > 使用状況」でリアルタイム <a href=/glossary/api/>API</a> 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。</p><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><p><strong>確認すべきログとデバッグ手順</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Firebase CLI でプロジェクトの接続確認</span>
-</span></span><span style=display:flex><span>firebase emulators:start
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Cloud Functions のログを確認</span>
-</span></span><span style=display:flex><span>firebase functions:log
-</span></span></code></pre></div><p>Cloud Console の「Cloud Logging」で該当時刻のエラーログを検索します。フィルター条件を以下のように設定してください：</p><pre tabindex=0><code>resource.type=&#34;cloud_function&#34;
+</code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
+<h3 id="原因1firebase-プロジェクトの-api-割り当て制限">原因1：Firebase プロジェクトの API 割り当て制限<a hidden class="anchor" aria-hidden="true" href="#原因1firebase-プロジェクトの-api-割り当て制限">#</a></h3>
+<p>Firebase は <a href="/glossary/api/">API</a> 呼び出し数に制限を設定しており、短時間に大量の<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を送信すると 503 エラーが返されます。</p>
+<p><strong>Before（エラーが起きるコード）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 制限なしのループでリアルタイムリッスンを開始
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">`user_</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>).<span style="color:#a6e22e">onSnapshot</span>((<span style="color:#a6e22e">doc</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">data</span>());
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// バッチ処理と遅延を導入
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fetchUsersInBatches</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">batchSize</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1000</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">batchSize</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">batch</span> <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">j</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">batchSize</span>; <span style="color:#a6e22e">j</span><span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">batch</span>.<span style="color:#a6e22e">push</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">`user_</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">j</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>).<span style="color:#a6e22e">get</span>()
+</span></span><span style="display:flex;"><span>      );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> Promise.<span style="color:#a6e22e">all</span>(<span style="color:#a6e22e">batch</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise(<span style="color:#a6e22e">resolve</span> =&gt; <span style="color:#a6e22e">setTimeout</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#ae81ff">100</span>)); <span style="color:#75715e">// 100ms 待機
+</span></span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="原因2cloud-functions-のタイムアウトとメモリ不足">原因2：Cloud Functions のタイムアウトとメモリ不足<a hidden class="anchor" aria-hidden="true" href="#原因2cloud-functions-のタイムアウトとメモリ不足">#</a></h3>
+<p>Cloud Functions が長時間実行中に<a href="/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/">タイムアウト</a>するか、割り当てられたメモリを超えると、Firebase <a href="/glossary/api/">API</a> が 503 を返します。</p>
+<p><strong>Before（エラーが起きるコード）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// タイムアウト設定がなく、大規模データ処理を実行
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">processData</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">functions</span>.<span style="color:#a6e22e">https</span>.<span style="color:#a6e22e">onCall</span>(<span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">context</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">snapshot</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">admin</span>.<span style="color:#a6e22e">firestore</span>().<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;large_dataset&#39;</span>).<span style="color:#a6e22e">get</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">processed</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">snapshot</span>.<span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">doc</span> =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 同期処理で各ドキュメントを加工
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">complexCalculation</span>(<span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">data</span>());
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> };
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// タイムアウト・メモリ設定を明示し、非同期バッチ処理を導入
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">processData</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">functions</span>
+</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">runWith</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">timeoutSeconds</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">540</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">memory</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;2GB&#39;</span>
+</span></span><span style="display:flex;"><span>  })
+</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">https</span>.<span style="color:#a6e22e">onCall</span>(<span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">context</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">query</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">admin</span>.<span style="color:#a6e22e">firestore</span>()
+</span></span><span style="display:flex;"><span>      .<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;large_dataset&#39;</span>)
+</span></span><span style="display:flex;"><span>      .<span style="color:#a6e22e">limit</span>(<span style="color:#ae81ff">100</span>);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">startAfter</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">snapshot</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">query</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">startAfter</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">snapshot</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">snapshot</span>.<span style="color:#a6e22e">startAfter</span>(<span style="color:#a6e22e">startAfter</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">docs</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">snapshot</span>.<span style="color:#a6e22e">get</span>();
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">empty</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// バッチ単位で処理
+</span></span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">await</span> Promise.<span style="color:#a6e22e">all</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">doc</span> =&gt; <span style="color:#a6e22e">complexCalculationAsync</span>(<span style="color:#a6e22e">doc</span>.<span style="color:#a6e22e">data</span>()))
+</span></span><span style="display:flex;"><span>      );
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">startAfter</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">docs</span>[<span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">docs</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">success</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> };
+</span></span><span style="display:flex;"><span>  });
+</span></span></code></pre></div><h3 id="原因3認証トークンの有効期限切れまたは無効な認証">原因3：認証トークンの有効期限切れまたは無効な認証<a hidden class="anchor" aria-hidden="true" href="#原因3認証トークンの有効期限切れまたは無効な認証">#</a></h3>
+<p>Firebase Authentication のセッションが期限切れになったり、Security Rules で<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>を要求しているにもかかわらず<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>が無い場合、Firestore や Realtime Database は 503 に見えるエラーを返すことがあります。</p>
+<p><strong>Before（エラーが起きるコード）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// ログイン直後、トークンリフレッシュなしで長時間リクエスト送信
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">signInWithEmailAndPassword</span>(<span style="color:#a6e22e">email</span>, <span style="color:#a6e22e">password</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 1時間後...
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;protected_data&#39;</span>).<span style="color:#a6e22e">get</span>().<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">snapshot</span> =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 403 or 503 が返される可能性がある
+</span></span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// トークン自動リフレッシュを設定
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">onAuthStateChanged</span>(<span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">user</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">user</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">getIdToken</span>(<span style="color:#66d9ef">true</span>); <span style="color:#75715e">// 強制リフレッシュ
+</span></span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;protected_data&#39;</span>).<span style="color:#a6e22e">get</span>().<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">snapshot</span> =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#a6e22e">snapshot</span>.<span style="color:#a6e22e">docs</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h2 id="firebase-固有の注意点">Firebase 固有の注意点<a hidden class="anchor" aria-hidden="true" href="#firebase-固有の注意点">#</a></h2>
+<p><strong>Cloud Firestore と Realtime Database の違い</strong></p>
+<p>Firestore では 503 エラーが多く発生するのは、複雑なクエリが実行されている場合です。特に複合<a href="/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/">インデックス</a>が未作成の状態で大規模クエリを実行すると 503 が返されます。Firebase Console から「Firestore &gt; <a href="/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/">インデックス</a>」を確認し、提案されている<a href="/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/">インデックス</a>をすべて作成してください。</p>
+<p><strong>リージョン制約による 503</strong></p>
+<p>Firebase プロジェクトが特定のリージョンに制限されている場合、異なるリージョンからの<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>が 503 を返すことがあります。Cloud Functions のリージョン設定を確認してください。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// リージョンを明示的に指定
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">exports</span>.<span style="color:#a6e22e">processData</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">functions</span>
+</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">region</span>(<span style="color:#e6db74">&#39;asia-northeast1&#39;</span>)
+</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">https</span>.<span style="color:#a6e22e">onCall</span>(<span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">context</span>) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 処理
+</span></span></span><span style="display:flex;"><span>  });
+</span></span></code></pre></div><p><strong><a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>のクォータ確認</strong></p>
+<p>Firebase Console の「プロジェクト設定 &gt; 使用状況」でリアルタイム <a href="/glossary/api/">API</a> 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。</p>
+<h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
+<p><strong>確認すべきログとデバッグ手順</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Firebase CLI でプロジェクトの接続確認</span>
+</span></span><span style="display:flex;"><span>firebase emulators:start
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Cloud Functions のログを確認</span>
+</span></span><span style="display:flex;"><span>firebase functions:log
+</span></span></code></pre></div><p>Cloud Console の「Cloud Logging」で該当時刻のエラーログを検索します。フィルター条件を以下のように設定してください：</p>
+<pre tabindex="0"><code>resource.type=&#34;cloud_function&#34;
 severity=&#34;ERROR&#34;
 timestamp&gt;=&#34;&lt;エラーが発生した時刻&gt;&#34;
-</code></pre><p><strong>公式ドキュメント</strong></p><ul><li><a href=https://firebase.google.com/docs/firestore/quotas>Firebase Quotas and Limits</a></li><li><a href=https://cloud.google.com/functions/docs/troubleshooting/functions-framework>Cloud Functions のトラブルシューティング</a></li><li><a href=https://firebase.google.com/docs/firestore/query-data/index-overview>Firestore インデックスの管理</a></li></ul><p><strong>コミュニティリソース</strong></p><p>Firebase GitHub Issues や Stack Overflow で同様の 503 エラーが報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などのキーワードで検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、エラーが発生した正確な時刻と <code>firebase-debug.log</code> ファイルを準備しておくと対応が迅速になります。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 408 エラー：原因と解決策</h2></header><div class=entry-content><p>クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="post link to Firebase の 408 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_408/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="post link to Firebase の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_422/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 502 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 502 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_502/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_400/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 503 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeクラスターのサービスが一時的に利用できない。Minikube 503 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Minikube の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Podmanサービスまたはレジストリが一時的に利用できない。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Google Cloudサービスが一時的に利用できない状態になっている。GCPのサービスがメンテナンス中または過負荷状態になっているなど、GCP 503 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="GCP の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 503 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-nginx">Nginx</span><h2 class=entry-hint-parent>Nginx の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Nginx の 503 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Nginx の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 503 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 503 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="AWS の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_503/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker">Docker</span><h2 class=entry-hint-parent>Docker の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker の 503 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Docker の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_503/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/firebase/>Firebase</a></li></ul></footer></article><script>(function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/Before|エラーが起きる/,n=/After|修正後/,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,a,r,c,l,d,u,h,m,f,i=s.closest("p");if(i.dataset.compared)return;for(o=i.nextElementSibling,h=[],c=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){c=o;break}h.push(o),o=o.nextElementSibling}if(!c)return;for(l=[],o=c.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;l.push(o),o=o.nextElementSibling}if(!l.length)return;a=!1,h.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-before"),a=!0)}),a=!1,l.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-after"),a=!0)}),r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),d=document.createElement("div"),d.className="code-compare__side",u=document.createElement("div"),u.className="code-compare__side",i.parentNode.insertBefore(r,i),i.dataset.compared="1",d.appendChild(i),h.forEach(function(e){d.appendChild(e)}),u.appendChild(c),l.forEach(function(e){u.appendChild(e)}),r.appendChild(d),r.appendChild(u)})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+</code></pre><p><strong>公式ドキュメント</strong></p>
+<ul>
+<li><a href="https://firebase.google.com/docs/firestore/quotas">Firebase Quotas and Limits</a></li>
+<li><a href="https://cloud.google.com/functions/docs/troubleshooting/functions-framework">Cloud Functions のトラブルシューティング</a></li>
+<li><a href="https://firebase.google.com/docs/firestore/query-data/index-overview">Firestore インデックスの管理</a></li>
+</ul>
+<p><strong>コミュニティリソース</strong></p>
+<p>Firebase GitHub Issues や Stack Overflow で同様の 503 エラーが報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などのキーワードで検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、エラーが発生した正確な時刻と <code>firebase-debug.log</code> ファイルを準備しておくと対応が迅速になります。</p>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 408 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 408 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_408/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 504 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_504/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 409 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 409 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_409/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 422 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 422 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_422/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 502 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_502/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 400 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 400 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_400/"></a>
+    </article>
+  </div>
+  <div class="related-posts related-by-code">
+    <h3>他のツールの 503 エラー</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-minikube">Minikube</span>
+        <h2 class="entry-hint-parent">Minikube の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Minikubeクラスターのサービスが一時的に利用できない。Minikube 503 エラーの原因と解決策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Minikube の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-podman">Podman</span>
+        <h2 class="entry-hint-parent">Podman の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Podmanサービスまたはレジストリが一時的に利用できない。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Podman の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-gcp">GCP</span>
+        <h2 class="entry-hint-parent">GCP の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Google Cloudサービスが一時的に利用できない状態になっている。GCPのサービスがメンテナンス中または過負荷状態になっているなど、GCP 503 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="GCP の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+        <h2 class="entry-hint-parent">Kubernetes の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Kubernetes の 503 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Kubernetes の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-nginx">Nginx</span>
+        <h2 class="entry-hint-parent">Nginx の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Nginx の 503 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Nginx の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+        <h2 class="entry-hint-parent">OpenAI API の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>OpenAI API の 503 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="OpenAI API の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 503 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="AWS の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_503/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker">Docker</span>
+        <h2 class="entry-hint-parent">Docker の 503 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Docker の 503 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Docker の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_503/"></a>
+    </article>
+  </div>
+
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://errorlog.jp/tags/firebase/">Firebase</a></li>
+    </ul>
+  </footer>
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
+
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_BEFORE.test(el.textContent)) return;
+
+    var beforeLabel = el.closest('p');
+    if (beforeLabel.dataset.compared) return;
+
+    
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
+
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterLabel) return;
+
+    
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
+
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      
+      
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
+
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
+    left.appendChild(beforeLabel);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
+
+    
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+
+    
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
+  });
+})();
+</script>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a><script>
+(function () {
+  var header = document.querySelector('.header');
+  if (!header) return;
+  var prev = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var cur = window.scrollY;
+    if (cur <= 0) {
+      header.classList.remove('header--hidden');
+    } else if (cur > prev && cur > 60) {
+      header.classList.add('header--hidden');
+    } else if (cur < prev) {
+      header.classList.remove('header--hidden');
+    }
+    prev = cur;
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

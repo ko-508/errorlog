@@ -1,106 +1,823 @@
-<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>AWS の 401 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="AWS,HTTP401,401エラー"><meta name=description content="AWS の 401 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/aws_401/><link crossorigin=anonymous href=/assets/css/stylesheet.3138a156a2cc44de6777fe2ee09d69126e641edd9405347bcb9154a1433eefe9.css integrity="sha256-MTihVqLMRN5nd/4u4J1pEm5kHt2UBTR7y5FUoUM+7+k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/aws_401/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/aws_401/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="AWS の 401 エラー：原因と解決策"><meta property="og:description" content="AWS の 401 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="AWS"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="AWS の 401 エラー：原因と解決策"><meta name=twitter:description content="AWS の 401 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"AWS の 401 エラー：原因と解決策","item":"https://errorlog.jp/posts/aws_401/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"AWS の 401 エラー：原因と解決策","name":"AWS の 401 エラー：原因と解決策","description":"AWS の 401 エラーの原因と解決策をわかりやすく解説します。","keywords":["AWS"],"articleBody":"エラーの概要 AWS で 401 エラーが返される場合、リクエストに含まれる認証情報が無効であることを示しています。AWS API、SDK、CLI のいずれかを使用する際に、アクセスキー、シークレットアクセスキー、セッショントークン、または IAM ロールの認証情報が不正または期限切れの状態で送信されると発生します。このエラーは認証層での問題であり、比較的簡単に解決できるケースがほとんどです。\n実際のエラーメッセージ例 AWS CLI を使用した場合：\n$ aws s3 ls An error occurred (InvalidAccessKeyId.NotFound) when calling the ListBuckets operation: The AWS Access Key Id you provided does not exist in our records. AWS SDK（Python）での JSON レスポンス例：\n{ \"Error\": { \"Code\": \"UnrecognizedClientException\", \"Message\": \"The security token included in the request is invalid\" } } API Gateway 経由での呼び出しでのエラー：\nHTTP/1.1 401 Unauthorized { \"message\": \"Unauthorized\" } よくある原因と解決手順 原因1：アクセスキーが無効または存在しない AWS IAM ユーザーのアクセスキーが削除されたり、誤入力されたりしている場合に発生します。特に手動で環境変数やConfigファイルに設定した場合は打ち間違いが多いです。\nBefore（エラーが起きるコマンド）：\nexport AWS_ACCESS_KEY_ID=\"AKIAIOSFODNN7EXAMPLE_WRONG\" export AWS_SECRET_ACCESS_KEY=\"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\" aws ec2 describe-instances After（修正後）：\n# IAM コンソールで現在のアクセスキーを確認 # または新しいアクセスキーを生成してから設定 export AWS_ACCESS_KEY_ID=\"AKIAIOSFODNN7EXAMPLE\" export AWS_SECRET_ACCESS_KEY=\"wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY\" aws ec2 describe-instances 確認手順は以下の通りです。AWS マネジメントコンソールで IAM → ユーザー → セキュリティ認証情報タブ を開き、アクセスキーが有効（Active）な状態であることを確認してください。無効な場合は新しいアクセスキーを生成する必要があります。\n原因2：セッショントークンの有効期限切れ AssumeRole や一時的な認証情報を使用している場合、セッショントークンには有効期限があります（デフォルト 1 時間）。時間が経過すると 401 エラーが発生します。\nBefore（トークン期限切れの状態）：\nimport boto3 from datetime import datetime # 1時間前に取得したセッション認証情報を使用 session_token = \"AQoDYXdzEJr...(expired)\" client = boto3.client( 's3', aws_access_key_id='ASIAJ...', aws_secret_access_key='...', aws_session_token=session_token ) response = client.list_buckets() # 401 エラー After（トークンを再取得）：\nimport boto3 # IAM ロールを持つ EC2 インスタンスまたは ECS タスクでは自動更新される # または AssumeRole を再実行してトークンを更新 sts_client = boto3.client('sts') assumed_role = sts_client.assume_role( RoleArn='arn:aws:iam:::role/', RoleSessionName='my-session' ) credentials = assumed_role['Credentials'] client = boto3.client( 's3', aws_access_key_id=credentials['AccessKeyId'], aws_secret_access_key=credentials['SecretAccessKey'], aws_session_token=credentials['SessionToken'] ) response = client.list_buckets() # 成功 セッション認証情報の有効期限は credentials['Expiration'] で確認できます。定期的に AssumeRole を再実行して新しいトークンを取得するか、IAM ロール付きの EC2・ECS リソースで実行する場合は自動更新に任せてください。\n原因3：IAM ポリシーが適切に設定されていない 認証情報自体は有効でも、実行しようとしている操作に対する IAM ポリシーが不足している場合があります。この場合でも 401 エラーが返される（より正確には 403 Forbidden との区別が曖昧）ことがあります。\nBefore（権限不足のポリシー）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": \"s3:GetObject\", \"Resource\": \"arn:aws:s3:::my-bucket/public/*\" } ] } 上記のポリシーで s3:ListBucket を実行しようとすると 401 に近い扱いになります。\nAfter（必要な操作を許可）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": [ \"s3:ListBucket\", \"s3:GetObject\" ], \"Resource\": [ \"arn:aws:s3:::my-bucket\", \"arn:aws:s3:::my-bucket/*\" ] } ] } AWS ポリシーシミュレーター（IAM コンソール → ユーザー/ロール選択 → ポリシーシミュレーター）を使用して、実際の操作が許可されているか事前に確認できます。\n原因4：AWS CLI 設定ファイルの破損または不完全な設定 ~/.aws/credentials や ~/.aws/config ファイルが不正な形式か、必須フィールドが不足している場合があります。\nBefore（不完全な credentials ファイル）：\n[default] aws_access_key_id = AKIAIOSFODNN7EXAMPLE # aws_secret_access_key が記載されていない After（正しい形式）：\n[default] aws_access_key_id = AKIAIOSFODNN7EXAMPLE aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY region = ap-northeast-1 設定ファイルの形式を確認するには、以下のコマンドで現在の設定を表示できます：\naws configure list aws sts get-caller-identity # 認証情報が有効かテスト AWS ツール固有の注意点 API Gateway の 401 エラー： API Gateway に IAM 認証を設定している場合、リクエストに Authorization ヘッダーが正しく含まれていない、または署名が無効な可能性があります。AWS CLI や SDK を使用すると自動で署名されますが、curl や外部ツール使用時は AWS Signature Version 4 で手動署名が必要です。\nCognito ユーザープール認証の場合： OAuth 2.0 または OpenID Connect の ID トークン検証で 401 が発生する場合、トークンの有効期限切れやクライアント ID の不一致が原因です。aws cognito-idp initiate-auth でトークンを再取得するか、リフレッシュトークンで更新してください。\nLambda 実行時の認証情報： EC2 や ECS 内の Lambda 関数から AWS リソースにアクセスする場合、IAM 実行ロール（Execution Role）に必要なポリシーが付与されていることを確認してください。ロールは Lambda 関数作成時に指定される必要があります。\nCloudFormation やスタック操作： IAM ユーザーが CloudFormation スタックを作成・更新する場合、そのユーザーに cloudformation:CreateStack、iam:PassRole などのポリシーが必要です。不足していると 401 ではなく 403 Forbidden になることもあります。\nそれでも解決しない場合 AWS CLI デバッグログの確認：\naws s3 ls --debug 2\u003e\u00261 | grep -i \"authorization\\|credential\" このコマンドで認証情報の送信状況を詳しく確認できます。\nCloudTrail でリクエスト失敗の詳細を確認： AWS マネジメントコンソールの CloudTrail サービスで、失敗した API コール（errorCode: “InvalidAccessKeyId” など）の詳細ログを確認してください。リージョンやソース IP アドレスなどの情報が記録されています。\nSTS エンドポイントの動作確認：\naws sts get-caller-identity --profile このコマンドで成功すれば、基本的な認証情報は有効です。失敗する場合は認証情報そのものが無効です。\n公式ドキュメント参照：\nAWS SDK トラブルシューティング: https://docs.aws.amazon.com/ja_jp/sdkref/latest/guide/troubleshooting.html IAM トラブルシューティング: https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_general.html API Gateway 認証: https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/api-gateway-authentication-and-access-control.html GitHub Issues や AWS Support： 特定のサービス（例えば boto3）で一貫して 401 が返される場合は、該当リポジトリの GitHub Issues で同様の報告がないか検索してください。解決策が記載されていることもあります。個別のアカウント問題の場合は AWS Support に問い合わせることをお勧めします。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"411","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/aws_401/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-aws">AWS</span>
-<span class=error-badge>401</span></div><h1 class="post-title entry-hint-parent">AWS の 401 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
-<span class=summary-text>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
-<span class=summary-text>アクセスキーが無効または存在しない</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
-<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>$ aws s3 ls
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AWS の 401 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="AWS, HTTP401, 401エラー">
+<meta name="description" content="AWS の 401 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="https://errorlog.jp/posts/aws_401/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://errorlog.jp/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
+<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/aws_401/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
+<meta property="og:url" content="https://errorlog.jp/posts/aws_401/">
+  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
+  <meta property="og:title" content="AWS の 401 エラー：原因と解決策">
+  <meta property="og:description" content="AWS の 401 エラーの原因と解決策をわかりやすく解説します。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
+    <meta property="article:tag" content="AWS">
+      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
+  <meta name="twitter:title" content="AWS の 401 エラー：原因と解決策">
+  <meta name="twitter:description" content="AWS の 401 エラーの原因と解決策をわかりやすく解説します。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://errorlog.jp/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "AWS の 401 エラー：原因と解決策",
+      "item": "https://errorlog.jp/posts/aws_401/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AWS の 401 エラー：原因と解決策",
+  "name": "AWS の 401 エラー：原因と解決策",
+  "description": "AWS の 401 エラーの原因と解決策をわかりやすく解説します。",
+  "keywords": [
+    "AWS"
+  ],
+  "articleBody": "エラーの概要 AWS で 401 エラーが返される場合、リクエストに含まれる認証情報が無効であることを示しています。AWS API、SDK、CLI のいずれかを使用する際に、アクセスキー、シークレットアクセスキー、セッショントークン、または IAM ロールの認証情報が不正または期限切れの状態で送信されると発生します。このエラーは認証層での問題であり、比較的簡単に解決できるケースがほとんどです。\n実際のエラーメッセージ例 AWS CLI を使用した場合：\n$ aws s3 ls An error occurred (InvalidAccessKeyId.NotFound) when calling the ListBuckets operation: The AWS Access Key Id you provided does not exist in our records. AWS SDK（Python）での JSON レスポンス例：\n{ \"Error\": { \"Code\": \"UnrecognizedClientException\", \"Message\": \"The security token included in the request is invalid\" } } API Gateway 経由での呼び出しでのエラー：\nHTTP/1.1 401 Unauthorized { \"message\": \"Unauthorized\" } よくある原因と解決手順 原因1：アクセスキーが無効または存在しない AWS IAM ユーザーのアクセスキーが削除されたり、誤入力されたりしている場合に発生します。特に手動で環境変数やConfigファイルに設定した場合は打ち間違いが多いです。\nBefore（エラーが起きるコマンド）：\nexport AWS_ACCESS_KEY_ID=\"AKIAIOSFODNN7EXAMPLE_WRONG\" export AWS_SECRET_ACCESS_KEY=\"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\" aws ec2 describe-instances After（修正後）：\n# IAM コンソールで現在のアクセスキーを確認 # または新しいアクセスキーを生成してから設定 export AWS_ACCESS_KEY_ID=\"AKIAIOSFODNN7EXAMPLE\" export AWS_SECRET_ACCESS_KEY=\"wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY\" aws ec2 describe-instances 確認手順は以下の通りです。AWS マネジメントコンソールで IAM → ユーザー → セキュリティ認証情報タブ を開き、アクセスキーが有効（Active）な状態であることを確認してください。無効な場合は新しいアクセスキーを生成する必要があります。\n原因2：セッショントークンの有効期限切れ AssumeRole や一時的な認証情報を使用している場合、セッショントークンには有効期限があります（デフォルト 1 時間）。時間が経過すると 401 エラーが発生します。\nBefore（トークン期限切れの状態）：\nimport boto3 from datetime import datetime # 1時間前に取得したセッション認証情報を使用 session_token = \"AQoDYXdzEJr...(expired)\" client = boto3.client( 's3', aws_access_key_id='ASIAJ...', aws_secret_access_key='...', aws_session_token=session_token ) response = client.list_buckets() # 401 エラー After（トークンを再取得）：\nimport boto3 # IAM ロールを持つ EC2 インスタンスまたは ECS タスクでは自動更新される # または AssumeRole を再実行してトークンを更新 sts_client = boto3.client('sts') assumed_role = sts_client.assume_role( RoleArn='arn:aws:iam:::role/', RoleSessionName='my-session' ) credentials = assumed_role['Credentials'] client = boto3.client( 's3', aws_access_key_id=credentials['AccessKeyId'], aws_secret_access_key=credentials['SecretAccessKey'], aws_session_token=credentials['SessionToken'] ) response = client.list_buckets() # 成功 セッション認証情報の有効期限は credentials['Expiration'] で確認できます。定期的に AssumeRole を再実行して新しいトークンを取得するか、IAM ロール付きの EC2・ECS リソースで実行する場合は自動更新に任せてください。\n原因3：IAM ポリシーが適切に設定されていない 認証情報自体は有効でも、実行しようとしている操作に対する IAM ポリシーが不足している場合があります。この場合でも 401 エラーが返される（より正確には 403 Forbidden との区別が曖昧）ことがあります。\nBefore（権限不足のポリシー）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": \"s3:GetObject\", \"Resource\": \"arn:aws:s3:::my-bucket/public/*\" } ] } 上記のポリシーで s3:ListBucket を実行しようとすると 401 に近い扱いになります。\nAfter（必要な操作を許可）：\n{ \"Version\": \"2012-10-17\", \"Statement\": [ { \"Effect\": \"Allow\", \"Action\": [ \"s3:ListBucket\", \"s3:GetObject\" ], \"Resource\": [ \"arn:aws:s3:::my-bucket\", \"arn:aws:s3:::my-bucket/*\" ] } ] } AWS ポリシーシミュレーター（IAM コンソール → ユーザー/ロール選択 → ポリシーシミュレーター）を使用して、実際の操作が許可されているか事前に確認できます。\n原因4：AWS CLI 設定ファイルの破損または不完全な設定 ~/.aws/credentials や ~/.aws/config ファイルが不正な形式か、必須フィールドが不足している場合があります。\nBefore（不完全な credentials ファイル）：\n[default] aws_access_key_id = AKIAIOSFODNN7EXAMPLE # aws_secret_access_key が記載されていない After（正しい形式）：\n[default] aws_access_key_id = AKIAIOSFODNN7EXAMPLE aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY region = ap-northeast-1 設定ファイルの形式を確認するには、以下のコマンドで現在の設定を表示できます：\naws configure list aws sts get-caller-identity # 認証情報が有効かテスト AWS ツール固有の注意点 API Gateway の 401 エラー： API Gateway に IAM 認証を設定している場合、リクエストに Authorization ヘッダーが正しく含まれていない、または署名が無効な可能性があります。AWS CLI や SDK を使用すると自動で署名されますが、curl や外部ツール使用時は AWS Signature Version 4 で手動署名が必要です。\nCognito ユーザープール認証の場合： OAuth 2.0 または OpenID Connect の ID トークン検証で 401 が発生する場合、トークンの有効期限切れやクライアント ID の不一致が原因です。aws cognito-idp initiate-auth でトークンを再取得するか、リフレッシュトークンで更新してください。\nLambda 実行時の認証情報： EC2 や ECS 内の Lambda 関数から AWS リソースにアクセスする場合、IAM 実行ロール（Execution Role）に必要なポリシーが付与されていることを確認してください。ロールは Lambda 関数作成時に指定される必要があります。\nCloudFormation やスタック操作： IAM ユーザーが CloudFormation スタックを作成・更新する場合、そのユーザーに cloudformation:CreateStack、iam:PassRole などのポリシーが必要です。不足していると 401 ではなく 403 Forbidden になることもあります。\nそれでも解決しない場合 AWS CLI デバッグログの確認：\naws s3 ls --debug 2\u003e\u00261 | grep -i \"authorization\\|credential\" このコマンドで認証情報の送信状況を詳しく確認できます。\nCloudTrail でリクエスト失敗の詳細を確認： AWS マネジメントコンソールの CloudTrail サービスで、失敗した API コール（errorCode: “InvalidAccessKeyId” など）の詳細ログを確認してください。リージョンやソース IP アドレスなどの情報が記録されています。\nSTS エンドポイントの動作確認：\naws sts get-caller-identity --profile このコマンドで成功すれば、基本的な認証情報は有効です。失敗する場合は認証情報そのものが無効です。\n公式ドキュメント参照：\nAWS SDK トラブルシューティング: https://docs.aws.amazon.com/ja_jp/sdkref/latest/guide/troubleshooting.html IAM トラブルシューティング: https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_general.html API Gateway 認証: https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/api-gateway-authentication-and-access-control.html GitHub Issues や AWS Support： 特定のサービス（例えば boto3）で一貫して 401 が返される場合は、該当リポジトリの GitHub Issues で同様の報告がないか検索してください。解決策が記載されていることもあります。個別のアカウント問題の場合は AWS Support に問い合わせることをお勧めします。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
+  "wordCount" : "411",
+  "inLanguage": "ja",
+  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-29T00:00:00Z\"",
+  "author":{
+    "@type": "Person",
+    "name": "ErrorLog"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://errorlog.jp/posts/aws_401/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ErrorLog - エラーコード解決ガイド",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://errorlog.jp/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
+    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
+  </text>
+</svg>
+</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://errorlog.jp/search/" title="検索">
+                    <span>検索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/tags/" title="タグ">
+                    <span>タグ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                    <span>アーカイブ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/glossary/" title="用語集">
+                    <span>用語集</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <div class="post-badges">
+      <span class="tool-badge tool-badge-aws">AWS</span>
+      <span class="error-badge">401</span>
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      AWS の 401 エラー：原因と解決策
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header>
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">AWS の 401 エラーの原因と解決策をわかりやすく解説します。</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--cause">原因</span>
+      <span class="summary-text">アクセスキーが無効または存在しない</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+    </div>
+  </div>
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>$ aws s3 ls
 An error occurred (InvalidAccessKeyId.NotFound) when calling the ListBuckets operation: The AWS Access Key Id you provided does not exist in our records.
-</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%82%ad%e3%83%bc%e3%81%8c%e7%84%a1%e5%8a%b9%e3%81%be%e3%81%9f%e3%81%af%e5%ad%98%e5%9c%a8%e3%81%97%e3%81%aa%e3%81%84 aria-label=原因1：アクセスキーが無効または存在しない>原因1：アクセスキーが無効または存在しない</a></li><li><a href=#%e5%8e%9f%e5%9b%a02%e3%82%bb%e3%83%83%e3%82%b7%e3%83%a7%e3%83%b3%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e5%88%87%e3%82%8c aria-label=原因2：セッショントークンの有効期限切れ>原因2：セッショントークンの有効期限切れ</a></li><li><a href=#%e5%8e%9f%e5%9b%a03iam-%e3%83%9d%e3%83%aa%e3%82%b7%e3%83%bc%e3%81%8c%e9%81%a9%e5%88%87%e3%81%ab%e8%a8%ad%e5%ae%9a%e3%81%95%e3%82%8c%e3%81%a6%e3%81%84%e3%81%aa%e3%81%84 aria-label="原因3：IAM ポリシーが適切に設定されていない">原因3：IAM ポリシーが適切に設定されていない</a></li><li><a href=#%e5%8e%9f%e5%9b%a04aws-cli-%e8%a8%ad%e5%ae%9a%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%ae%e7%a0%b4%e6%90%8d%e3%81%be%e3%81%9f%e3%81%af%e4%b8%8d%e5%ae%8c%e5%85%a8%e3%81%aa%e8%a8%ad%e5%ae%9a aria-label="原因4：AWS CLI 設定ファイルの破損または不完全な設定">原因4：AWS CLI 設定ファイルの破損または不完全な設定</a></li></ul></li><li><a href=#aws-%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label="AWS ツール固有の注意点">AWS ツール固有の注意点</a></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>AWS で 401 エラーが返される場合、<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>に含まれる認証情報が無効であることを示しています。AWS <a href=/glossary/api/>API</a>、<a href=/glossary/sdk/>SDK</a>、<a href=/glossary/cli/>CLI</a> のいずれかを使用する際に、アクセスキー、シークレットアクセスキー、セッショントークン、または <a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>の認証情報が不正または期限切れの状態で送信されると発生します。このエラーは認証層での問題であり、比較的簡単に解決できるケースがほとんどです。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><p>AWS <a href=/glossary/cli/>CLI</a> を使用した場合：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>$ aws s3 ls
-</span></span><span style=display:flex><span>An error occurred <span style=color:#f92672>(</span>InvalidAccessKeyId.NotFound<span style=color:#f92672>)</span> when calling the ListBuckets operation: The AWS Access Key Id you provided does not exist in our records.
-</span></span></code></pre></div><p>AWS <a href=/glossary/sdk/>SDK</a>（Python）での <a href=/glossary/json/>JSON</a> <a href=/glossary/%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/>レスポンス</a>例：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Error&#34;</span>: {
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Code&#34;</span>: <span style=color:#e6db74>&#34;UnrecognizedClientException&#34;</span>,
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Message&#34;</span>: <span style=color:#e6db74>&#34;The security token included in the request is invalid&#34;</span>
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p><a href=/glossary/api/>API</a> Gateway 経由での呼び出しでのエラー：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>HTTP/1.1 <span style=color:#ae81ff>401</span> Unauthorized
-</span></span><span style=display:flex><span><span style=color:#f92672>{</span>
-</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Unauthorized&#34;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
-</span></span></code></pre></div><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1アクセスキーが無効または存在しない>原因1：アクセスキーが無効または存在しない<a hidden class=anchor aria-hidden=true href=#原因1アクセスキーが無効または存在しない>#</a></h3><p>AWS <a href=/glossary/iam/>IAM</a> ユーザーのアクセスキーが削除されたり、誤入力されたりしている場合に発生します。特に手動で<a href=/glossary/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0/>環境変数</a>やConfigファイルに設定した場合は打ち間違いが多いです。</p><p><strong>Before（エラーが起きるコマンド）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>export AWS_ACCESS_KEY_ID<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;AKIAIOSFODNN7EXAMPLE_WRONG&#34;</span>
-</span></span><span style=display:flex><span>export AWS_SECRET_ACCESS_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&#34;</span>
-</span></span><span style=display:flex><span>aws ec2 describe-instances
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># IAM コンソールで現在のアクセスキーを確認</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># または新しいアクセスキーを生成してから設定</span>
-</span></span><span style=display:flex><span>export AWS_ACCESS_KEY_ID<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;AKIAIOSFODNN7EXAMPLE&#34;</span>
-</span></span><span style=display:flex><span>export AWS_SECRET_ACCESS_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY&#34;</span>
-</span></span><span style=display:flex><span>aws ec2 describe-instances
-</span></span></code></pre></div><p>確認手順は以下の通りです。AWS マネジメントコンソールで <a href=/glossary/iam/>IAM</a> → ユーザー → セキュリティ認証情報タブ を開き、アクセスキーが有効（Active）な状態であることを確認してください。無効な場合は新しいアクセスキーを生成する必要があります。</p><h3 id=原因2セッショントークンの有効期限切れ>原因2：セッショントークンの有効期限切れ<a hidden class=anchor aria-hidden=true href=#原因2セッショントークンの有効期限切れ>#</a></h3><p>AssumeRole や一時的な認証情報を使用している場合、セッショントークンには有効期限があります（デフォルト 1 時間）。時間が経過すると 401 エラーが発生します。</p><p><strong>Before（<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>期限切れの状態）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> boto3
-</span></span><span style=display:flex><span><span style=color:#f92672>from</span> datetime <span style=color:#f92672>import</span> datetime
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 1時間前に取得したセッション認証情報を使用</span>
-</span></span><span style=display:flex><span>session_token <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;AQoDYXdzEJr...(expired)&#34;</span>
-</span></span><span style=display:flex><span>client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;s3&#39;</span>,
-</span></span><span style=display:flex><span>    aws_access_key_id<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;ASIAJ...&#39;</span>,
-</span></span><span style=display:flex><span>    aws_secret_access_key<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;...&#39;</span>,
-</span></span><span style=display:flex><span>    aws_session_token<span style=color:#f92672>=</span>session_token
-</span></span><span style=display:flex><span>)
-</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> client<span style=color:#f92672>.</span>list_buckets()  <span style=color:#75715e># 401 エラー</span>
-</span></span></code></pre></div><p><strong>After（<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>を再取得）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> boto3
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># IAM ロールを持つ EC2 インスタンスまたは ECS タスクでは自動更新される</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># または AssumeRole を再実行してトークンを更新</span>
-</span></span><span style=display:flex><span>sts_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;sts&#39;</span>)
-</span></span><span style=display:flex><span>assumed_role <span style=color:#f92672>=</span> sts_client<span style=color:#f92672>.</span>assume_role(
-</span></span><span style=display:flex><span>    RoleArn<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;arn:aws:iam::&lt;account-id&gt;:role/&lt;role-name&gt;&#39;</span>,
-</span></span><span style=display:flex><span>    RoleSessionName<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;my-session&#39;</span>
-</span></span><span style=display:flex><span>)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>credentials <span style=color:#f92672>=</span> assumed_role[<span style=color:#e6db74>&#39;Credentials&#39;</span>]
-</span></span><span style=display:flex><span>client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;s3&#39;</span>,
-</span></span><span style=display:flex><span>    aws_access_key_id<span style=color:#f92672>=</span>credentials[<span style=color:#e6db74>&#39;AccessKeyId&#39;</span>],
-</span></span><span style=display:flex><span>    aws_secret_access_key<span style=color:#f92672>=</span>credentials[<span style=color:#e6db74>&#39;SecretAccessKey&#39;</span>],
-</span></span><span style=display:flex><span>    aws_session_token<span style=color:#f92672>=</span>credentials[<span style=color:#e6db74>&#39;SessionToken&#39;</span>]
-</span></span><span style=display:flex><span>)
-</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> client<span style=color:#f92672>.</span>list_buckets()  <span style=color:#75715e># 成功</span>
-</span></span></code></pre></div><p>セッション認証情報の有効期限は <code>credentials['Expiration']</code> で確認できます。定期的に AssumeRole を再実行して新しい<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>を取得するか、<a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>付きの EC2・ECS リソースで実行する場合は自動更新に任せてください。</p><h3 id=原因3iam-ポリシーが適切に設定されていない>原因3：IAM ポリシーが適切に設定されていない<a hidden class=anchor aria-hidden=true href=#原因3iam-ポリシーが適切に設定されていない>#</a></h3><p>認証情報自体は有効でも、実行しようとしている操作に対する <a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>が不足している場合があります。この場合でも 401 エラーが返される（より正確には 403 Forbidden との区別が曖昧）ことがあります。</p><p><strong>Before（権限不足の<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: <span style=color:#e6db74>&#34;s3:GetObject&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: <span style=color:#e6db74>&#34;arn:aws:s3:::my-bucket/public/*&#34;</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>  ]
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>上記の<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>で <code>s3:ListBucket</code> を実行しようとすると 401 に近い扱いになります。</p><p><strong>After（必要な操作を許可）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Version&#34;</span>: <span style=color:#e6db74>&#34;2012-10-17&#34;</span>,
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Statement&#34;</span>: [
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Effect&#34;</span>: <span style=color:#e6db74>&#34;Allow&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Action&#34;</span>: [
-</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;s3:ListBucket&#34;</span>,
-</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;s3:GetObject&#34;</span>
-</span></span><span style=display:flex><span>      ],
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;Resource&#34;</span>: [
-</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;arn:aws:s3:::my-bucket&#34;</span>,
-</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;arn:aws:s3:::my-bucket/*&#34;</span>
-</span></span><span style=display:flex><span>      ]
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>  ]
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>AWS ポリシーシミュレーター（<a href=/glossary/iam/>IAM</a> <a href=/glossary/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB/>コンソール</a> → ユーザー/<a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>選択 → ポリシーシミュレーター）を使用して、実際の操作が許可されているか事前に確認できます。</p><h3 id=原因4aws-cli-設定ファイルの破損または不完全な設定>原因4：AWS CLI 設定ファイルの破損または不完全な設定<a hidden class=anchor aria-hidden=true href=#原因4aws-cli-設定ファイルの破損または不完全な設定>#</a></h3><p><code>~/.aws/credentials</code> や <code>~/.aws/config</code> ファイルが不正な形式か、必須フィールドが不足している場合があります。</p><p><strong>Before（不完全な credentials ファイル）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-ini data-lang=ini><span style=display:flex><span><span style=color:#66d9ef>[default]</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>aws_access_key_id</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>AKIAIOSFODNN7EXAMPLE</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># aws_secret_access_key が記載されていない</span>
-</span></span></code></pre></div><p><strong>After（正しい形式）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-ini data-lang=ini><span style=display:flex><span><span style=color:#66d9ef>[default]</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>aws_access_key_id</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>AKIAIOSFODNN7EXAMPLE</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>aws_secret_access_key</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
-</span></span><span style=display:flex><span><span style=color:#a6e22e>region</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>ap-northeast-1</span>
-</span></span></code></pre></div><p>設定ファイルの形式を確認するには、以下のコマンドで現在の設定を表示できます：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws configure list
-</span></span><span style=display:flex><span>aws sts get-caller-identity  <span style=color:#75715e># 認証情報が有効かテスト</span>
-</span></span></code></pre></div><h2 id=aws-ツール固有の注意点>AWS ツール固有の注意点<a hidden class=anchor aria-hidden=true href=#aws-ツール固有の注意点>#</a></h2><p><strong><a href=/glossary/api/>API</a> Gateway の 401 エラー：</strong>
-<a href=/glossary/api/>API</a> Gateway に <a href=/glossary/iam/>IAM</a> <a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>を設定している場合、<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>に <code>Authorization</code> <a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>が正しく含まれていない、または署名が無効な可能性があります。AWS <a href=/glossary/cli/>CLI</a> や <a href=/glossary/sdk/>SDK</a> を使用すると自動で署名されますが、curl や外部ツール使用時は AWS Signature Version 4 で手動署名が必要です。</p><p><strong>Cognito ユーザープール<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>の場合：</strong>
-<a href=/glossary/oauth/>OAuth</a> 2.0 または OpenID Connect の ID <a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>検証で 401 が発生する場合、<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>の有効期限切れやクライアント ID の不一致が原因です。<code>aws cognito-idp initiate-auth</code> で<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>を再取得するか、リフレッシュトークンで更新してください。</p><p><strong>Lambda 実行時の認証情報：</strong>
-EC2 や ECS 内の Lambda 関数から AWS リソースにアクセスする場合、<a href=/glossary/iam/>IAM</a> 実行<a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>（Execution Role）に必要な<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>が付与されていることを確認してください。<a href=/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/>ロール</a>は Lambda 関数作成時に指定される必要があります。</p><p><strong>CloudFormation やスタック操作：</strong>
-<a href=/glossary/iam/>IAM</a> ユーザーが CloudFormation スタックを作成・更新する場合、そのユーザーに <code>cloudformation:CreateStack</code>、<code>iam:PassRole</code> などの<a href=/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/>ポリシー</a>が必要です。不足していると 401 ではなく 403 Forbidden になることもあります。</p><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><p><strong>AWS <a href=/glossary/cli/>CLI</a> デバッグログの確認：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws s3 ls --debug 2&gt;&amp;<span style=color:#ae81ff>1</span> | grep -i <span style=color:#e6db74>&#34;authorization\|credential&#34;</span>
-</span></span></code></pre></div><p>このコマンドで認証情報の送信状況を詳しく確認できます。</p><p><strong>CloudTrail で<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>失敗の詳細を確認：</strong>
-AWS マネジメントコンソールの CloudTrail サービスで、失敗した <a href=/glossary/api/>API</a> コール（errorCode: &ldquo;InvalidAccessKeyId&rdquo; など）の詳細ログを確認してください。リージョンやソース IP アドレスなどの情報が記録されています。</p><p><strong>STS <a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>の動作確認：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>aws sts get-caller-identity --profile &lt;your-profile&gt;
-</span></span></code></pre></div><p>このコマンドで成功すれば、基本的な認証情報は有効です。失敗する場合は認証情報そのものが無効です。</p><p><strong>公式ドキュメント参照：</strong></p><ul><li>AWS <a href=/glossary/sdk/>SDK</a> トラブルシューティング: <a href=https://docs.aws.amazon.com/ja_jp/sdkref/latest/guide/troubleshooting.html>https://docs.aws.amazon.com/ja_jp/sdkref/latest/guide/troubleshooting.html</a></li><li><a href=/glossary/iam/>IAM</a> トラブルシューティング: <a href=https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_general.html>https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_general.html</a></li><li><a href=/glossary/api/>API</a> Gateway <a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>: <a href=https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/api-gateway-authentication-and-access-control.html>https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/api-gateway-authentication-and-access-control.html</a></li></ul><p><strong>GitHub Issues や AWS Support：</strong>
-特定のサービス（例えば boto3）で一貫して 401 が返される場合は、該当<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>の GitHub Issues で同様の報告がないか検索してください。解決策が記載されていることもあります。個別のアカウント問題の場合は AWS Support に問い合わせることをお勧めします。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_422/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_400/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_404/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 401 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker-compose">Docker Compose</span><h2 class=entry-hint-parent>Docker Compose の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Docker Compose の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Minikube の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>レジストリへの認証に失敗した。Podman 401 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="GCP の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Slack の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_401/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/aws/>AWS</a></li></ul></footer></article><script>(function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/Before|エラーが起きる/,n=/After|修正後/,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,a,r,c,l,d,u,h,m,f,i=s.closest("p");if(i.dataset.compared)return;for(o=i.nextElementSibling,h=[],c=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){c=o;break}h.push(o),o=o.nextElementSibling}if(!c)return;for(l=[],o=c.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;l.push(o),o=o.nextElementSibling}if(!l.length)return;a=!1,h.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-before"),a=!0)}),a=!1,l.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-after"),a=!0)}),r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),d=document.createElement("div"),d.className="code-compare__side",u=document.createElement("div"),u.className="code-compare__side",i.parentNode.insertBefore(r,i),i.dataset.compared="1",d.appendChild(i),h.forEach(function(e){d.appendChild(e)}),u.appendChild(c),l.forEach(function(e){u.appendChild(e)}),r.appendChild(d),r.appendChild(u)})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+</code></pre>
+  </div> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目次</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
+            <li>
+                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
+            <li>
+                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
+                    
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a01%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e3%82%ad%e3%83%bc%e3%81%8c%e7%84%a1%e5%8a%b9%e3%81%be%e3%81%9f%e3%81%af%e5%ad%98%e5%9c%a8%e3%81%97%e3%81%aa%e3%81%84" aria-label="原因1：アクセスキーが無効または存在しない">原因1：アクセスキーが無効または存在しない</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a02%e3%82%bb%e3%83%83%e3%82%b7%e3%83%a7%e3%83%b3%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e5%88%87%e3%82%8c" aria-label="原因2：セッショントークンの有効期限切れ">原因2：セッショントークンの有効期限切れ</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a03iam-%e3%83%9d%e3%83%aa%e3%82%b7%e3%83%bc%e3%81%8c%e9%81%a9%e5%88%87%e3%81%ab%e8%a8%ad%e5%ae%9a%e3%81%95%e3%82%8c%e3%81%a6%e3%81%84%e3%81%aa%e3%81%84" aria-label="原因3：IAM ポリシーが適切に設定されていない">原因3：IAM ポリシーが適切に設定されていない</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a04aws-cli-%e8%a8%ad%e5%ae%9a%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%ae%e7%a0%b4%e6%90%8d%e3%81%be%e3%81%9f%e3%81%af%e4%b8%8d%e5%ae%8c%e5%85%a8%e3%81%aa%e8%a8%ad%e5%ae%9a" aria-label="原因4：AWS CLI 設定ファイルの破損または不完全な設定">原因4：AWS CLI 設定ファイルの破損または不完全な設定</a></li></ul>
+            </li>
+            <li>
+                <a href="#aws-%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="AWS ツール固有の注意点">AWS ツール固有の注意点</a></li>
+            <li>
+                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
+<p>AWS で 401 エラーが返される場合、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>に含まれる認証情報が無効であることを示しています。AWS <a href="/glossary/api/">API</a>、<a href="/glossary/sdk/">SDK</a>、<a href="/glossary/cli/">CLI</a> のいずれかを使用する際に、アクセスキー、シークレットアクセスキー、セッショントークン、または <a href="/glossary/iam/">IAM</a> <a href="/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/">ロール</a>の認証情報が不正または期限切れの状態で送信されると発生します。このエラーは認証層での問題であり、比較的簡単に解決できるケースがほとんどです。</p>
+<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
+<p>AWS <a href="/glossary/cli/">CLI</a> を使用した場合：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ aws s3 ls
+</span></span><span style="display:flex;"><span>An error occurred <span style="color:#f92672">(</span>InvalidAccessKeyId.NotFound<span style="color:#f92672">)</span> when calling the ListBuckets operation: The AWS Access Key Id you provided does not exist in our records.
+</span></span></code></pre></div><p>AWS <a href="/glossary/sdk/">SDK</a>（Python）での <a href="/glossary/json/">JSON</a> <a href="/glossary/%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/">レスポンス</a>例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Error&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Code&#34;</span>: <span style="color:#e6db74">&#34;UnrecognizedClientException&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Message&#34;</span>: <span style="color:#e6db74">&#34;The security token included in the request is invalid&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><a href="/glossary/api/">API</a> Gateway 経由での呼び出しでのエラー：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">401</span> Unauthorized
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Unauthorized&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
+<h3 id="原因1アクセスキーが無効または存在しない">原因1：アクセスキーが無効または存在しない<a hidden class="anchor" aria-hidden="true" href="#原因1アクセスキーが無効または存在しない">#</a></h3>
+<p>AWS <a href="/glossary/iam/">IAM</a> ユーザーのアクセスキーが削除されたり、誤入力されたりしている場合に発生します。特に手動で<a href="/glossary/%E7%92%B0%E5%A2%83%E5%A4%89%E6%95%B0/">環境変数</a>やConfigファイルに設定した場合は打ち間違いが多いです。</p>
+<p><strong>Before（エラーが起きるコマンド）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export AWS_ACCESS_KEY_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;AKIAIOSFODNN7EXAMPLE_WRONG&#34;</span>
+</span></span><span style="display:flex;"><span>export AWS_SECRET_ACCESS_KEY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY&#34;</span>
+</span></span><span style="display:flex;"><span>aws ec2 describe-instances
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># IAM コンソールで現在のアクセスキーを確認</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># または新しいアクセスキーを生成してから設定</span>
+</span></span><span style="display:flex;"><span>export AWS_ACCESS_KEY_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;AKIAIOSFODNN7EXAMPLE&#34;</span>
+</span></span><span style="display:flex;"><span>export AWS_SECRET_ACCESS_KEY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY&#34;</span>
+</span></span><span style="display:flex;"><span>aws ec2 describe-instances
+</span></span></code></pre></div><p>確認手順は以下の通りです。AWS マネジメントコンソールで <a href="/glossary/iam/">IAM</a> → ユーザー → セキュリティ認証情報タブ を開き、アクセスキーが有効（Active）な状態であることを確認してください。無効な場合は新しいアクセスキーを生成する必要があります。</p>
+<h3 id="原因2セッショントークンの有効期限切れ">原因2：セッショントークンの有効期限切れ<a hidden class="anchor" aria-hidden="true" href="#原因2セッショントークンの有効期限切れ">#</a></h3>
+<p>AssumeRole や一時的な認証情報を使用している場合、セッショントークンには有効期限があります（デフォルト 1 時間）。時間が経過すると 401 エラーが発生します。</p>
+<p><strong>Before（<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>期限切れの状態）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> datetime <span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1時間前に取得したセッション認証情報を使用</span>
+</span></span><span style="display:flex;"><span>session_token <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AQoDYXdzEJr...(expired)&#34;</span>
+</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;s3&#39;</span>,
+</span></span><span style="display:flex;"><span>    aws_access_key_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ASIAJ...&#39;</span>,
+</span></span><span style="display:flex;"><span>    aws_secret_access_key<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;...&#39;</span>,
+</span></span><span style="display:flex;"><span>    aws_session_token<span style="color:#f92672">=</span>session_token
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>list_buckets()  <span style="color:#75715e"># 401 エラー</span>
+</span></span></code></pre></div><p><strong>After（<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>を再取得）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># IAM ロールを持つ EC2 インスタンスまたは ECS タスクでは自動更新される</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># または AssumeRole を再実行してトークンを更新</span>
+</span></span><span style="display:flex;"><span>sts_client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;sts&#39;</span>)
+</span></span><span style="display:flex;"><span>assumed_role <span style="color:#f92672">=</span> sts_client<span style="color:#f92672">.</span>assume_role(
+</span></span><span style="display:flex;"><span>    RoleArn<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;arn:aws:iam::&lt;account-id&gt;:role/&lt;role-name&gt;&#39;</span>,
+</span></span><span style="display:flex;"><span>    RoleSessionName<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;my-session&#39;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>credentials <span style="color:#f92672">=</span> assumed_role[<span style="color:#e6db74">&#39;Credentials&#39;</span>]
+</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;s3&#39;</span>,
+</span></span><span style="display:flex;"><span>    aws_access_key_id<span style="color:#f92672">=</span>credentials[<span style="color:#e6db74">&#39;AccessKeyId&#39;</span>],
+</span></span><span style="display:flex;"><span>    aws_secret_access_key<span style="color:#f92672">=</span>credentials[<span style="color:#e6db74">&#39;SecretAccessKey&#39;</span>],
+</span></span><span style="display:flex;"><span>    aws_session_token<span style="color:#f92672">=</span>credentials[<span style="color:#e6db74">&#39;SessionToken&#39;</span>]
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>list_buckets()  <span style="color:#75715e"># 成功</span>
+</span></span></code></pre></div><p>セッション認証情報の有効期限は <code>credentials['Expiration']</code> で確認できます。定期的に AssumeRole を再実行して新しい<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>を取得するか、<a href="/glossary/iam/">IAM</a> <a href="/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/">ロール</a>付きの EC2・ECS リソースで実行する場合は自動更新に任せてください。</p>
+<h3 id="原因3iam-ポリシーが適切に設定されていない">原因3：IAM ポリシーが適切に設定されていない<a hidden class="anchor" aria-hidden="true" href="#原因3iam-ポリシーが適切に設定されていない">#</a></h3>
+<p>認証情報自体は有効でも、実行しようとしている操作に対する <a href="/glossary/iam/">IAM</a> <a href="/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/">ポリシー</a>が不足している場合があります。この場合でも 401 エラーが返される（より正確には 403 Forbidden との区別が曖昧）ことがあります。</p>
+<p><strong>Before（権限不足の<a href="/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/">ポリシー</a>）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: <span style="color:#e6db74">&#34;arn:aws:s3:::my-bucket/public/*&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>上記の<a href="/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/">ポリシー</a>で <code>s3:ListBucket</code> を実行しようとすると 401 に近い扱いになります。</p>
+<p><strong>After（必要な操作を許可）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Version&#34;</span>: <span style="color:#e6db74">&#34;2012-10-17&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Effect&#34;</span>: <span style="color:#e6db74">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Action&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;s3:ListBucket&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;s3:GetObject&#34;</span>
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;Resource&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;arn:aws:s3:::my-bucket&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;arn:aws:s3:::my-bucket/*&#34;</span>
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>AWS ポリシーシミュレーター（<a href="/glossary/iam/">IAM</a> <a href="/glossary/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB/">コンソール</a> → ユーザー/<a href="/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/">ロール</a>選択 → ポリシーシミュレーター）を使用して、実際の操作が許可されているか事前に確認できます。</p>
+<h3 id="原因4aws-cli-設定ファイルの破損または不完全な設定">原因4：AWS CLI 設定ファイルの破損または不完全な設定<a hidden class="anchor" aria-hidden="true" href="#原因4aws-cli-設定ファイルの破損または不完全な設定">#</a></h3>
+<p><code>~/.aws/credentials</code> や <code>~/.aws/config</code> ファイルが不正な形式か、必須フィールドが不足している場合があります。</p>
+<p><strong>Before（不完全な credentials ファイル）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[default]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">aws_access_key_id</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">AKIAIOSFODNN7EXAMPLE</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># aws_secret_access_key が記載されていない</span>
+</span></span></code></pre></div><p><strong>After（正しい形式）：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[default]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">aws_access_key_id</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">AKIAIOSFODNN7EXAMPLE</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">aws_secret_access_key</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">region</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">ap-northeast-1</span>
+</span></span></code></pre></div><p>設定ファイルの形式を確認するには、以下のコマンドで現在の設定を表示できます：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws configure list
+</span></span><span style="display:flex;"><span>aws sts get-caller-identity  <span style="color:#75715e"># 認証情報が有効かテスト</span>
+</span></span></code></pre></div><h2 id="aws-ツール固有の注意点">AWS ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#aws-ツール固有の注意点">#</a></h2>
+<p><strong><a href="/glossary/api/">API</a> Gateway の 401 エラー：</strong>
+<a href="/glossary/api/">API</a> Gateway に <a href="/glossary/iam/">IAM</a> <a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>を設定している場合、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>に <code>Authorization</code> <a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>が正しく含まれていない、または署名が無効な可能性があります。AWS <a href="/glossary/cli/">CLI</a> や <a href="/glossary/sdk/">SDK</a> を使用すると自動で署名されますが、curl や外部ツール使用時は AWS Signature Version 4 で手動署名が必要です。</p>
+<p><strong>Cognito ユーザープール<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>の場合：</strong>
+<a href="/glossary/oauth/">OAuth</a> 2.0 または OpenID Connect の ID <a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>検証で 401 が発生する場合、<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の有効期限切れやクライアント ID の不一致が原因です。<code>aws cognito-idp initiate-auth</code> で<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>を再取得するか、リフレッシュトークンで更新してください。</p>
+<p><strong>Lambda 実行時の認証情報：</strong>
+EC2 や ECS 内の Lambda 関数から AWS リソースにアクセスする場合、<a href="/glossary/iam/">IAM</a> 実行<a href="/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/">ロール</a>（Execution Role）に必要な<a href="/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/">ポリシー</a>が付与されていることを確認してください。<a href="/glossary/%E3%83%AD%E3%83%BC%E3%83%AB/">ロール</a>は Lambda 関数作成時に指定される必要があります。</p>
+<p><strong>CloudFormation やスタック操作：</strong>
+<a href="/glossary/iam/">IAM</a> ユーザーが CloudFormation スタックを作成・更新する場合、そのユーザーに <code>cloudformation:CreateStack</code>、<code>iam:PassRole</code> などの<a href="/glossary/%E3%83%9D%E3%83%AA%E3%82%B7%E3%83%BC/">ポリシー</a>が必要です。不足していると 401 ではなく 403 Forbidden になることもあります。</p>
+<h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
+<p><strong>AWS <a href="/glossary/cli/">CLI</a> デバッグログの確認：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws s3 ls --debug 2&gt;&amp;<span style="color:#ae81ff">1</span> | grep -i <span style="color:#e6db74">&#34;authorization\|credential&#34;</span>
+</span></span></code></pre></div><p>このコマンドで認証情報の送信状況を詳しく確認できます。</p>
+<p><strong>CloudTrail で<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>失敗の詳細を確認：</strong>
+AWS マネジメントコンソールの CloudTrail サービスで、失敗した <a href="/glossary/api/">API</a> コール（errorCode: &ldquo;InvalidAccessKeyId&rdquo; など）の詳細ログを確認してください。リージョンやソース IP アドレスなどの情報が記録されています。</p>
+<p><strong>STS <a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>の動作確認：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws sts get-caller-identity --profile &lt;your-profile&gt;
+</span></span></code></pre></div><p>このコマンドで成功すれば、基本的な認証情報は有効です。失敗する場合は認証情報そのものが無効です。</p>
+<p><strong>公式ドキュメント参照：</strong></p>
+<ul>
+<li>AWS <a href="/glossary/sdk/">SDK</a> トラブルシューティング: <a href="https://docs.aws.amazon.com/ja_jp/sdkref/latest/guide/troubleshooting.html">https://docs.aws.amazon.com/ja_jp/sdkref/latest/guide/troubleshooting.html</a></li>
+<li><a href="/glossary/iam/">IAM</a> トラブルシューティング: <a href="https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_general.html">https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_general.html</a></li>
+<li><a href="/glossary/api/">API</a> Gateway <a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>: <a href="https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/api-gateway-authentication-and-access-control.html">https://docs.aws.amazon.com/ja_jp/apigateway/latest/developerguide/api-gateway-authentication-and-access-control.html</a></li>
+</ul>
+<p><strong>GitHub Issues や AWS Support：</strong>
+特定のサービス（例えば boto3）で一貫して 401 が返される場合は、該当<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>の GitHub Issues で同様の報告がないか検索してください。解決策が記載されていることもあります。個別のアカウント問題の場合は AWS Support に問い合わせることをお勧めします。</p>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 409 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_409/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 422 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_422/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 504 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_504/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 400 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_400/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_404/"></a>
+    </article>
+  </div>
+  <div class="related-posts related-by-code">
+    <h3>他のツールの 401 エラー</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+        <h2 class="entry-hint-parent">Docker Compose の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Docker Compose の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_compose_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-minikube">Minikube</span>
+        <h2 class="entry-hint-parent">Minikube の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Minikube の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-podman">Podman</span>
+        <h2 class="entry-hint-parent">Podman の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>レジストリへの認証に失敗した。Podman 401 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Podman の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-gcp">GCP</span>
+        <h2 class="entry-hint-parent">GCP の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GCP の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="GCP の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-slack">Slack</span>
+        <h2 class="entry-hint-parent">Slack の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Slack の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Slack の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/slack_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+        <h2 class="entry-hint-parent">Kubernetes の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Kubernetes の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-stripe">Stripe</span>
+        <h2 class="entry-hint-parent">Stripe の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Stripe の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Stripe の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/stripe_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+        <h2 class="entry-hint-parent">OpenAI API の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>OpenAI API の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="OpenAI API の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_401/"></a>
+    </article>
+  </div>
+
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://errorlog.jp/tags/aws/">AWS</a></li>
+    </ul>
+  </footer>
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
+
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_BEFORE.test(el.textContent)) return;
+
+    var beforeLabel = el.closest('p');
+    if (beforeLabel.dataset.compared) return;
+
+    
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
+
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterLabel) return;
+
+    
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
+
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      
+      
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
+
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
+    left.appendChild(beforeLabel);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
+
+    
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+
+    
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
+  });
+})();
+</script>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a><script>
+(function () {
+  var header = document.querySelector('.header');
+  if (!header) return;
+  var prev = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var cur = window.scrollY;
+    if (cur <= 0) {
+      header.classList.remove('header--hidden');
+    } else if (cur > prev && cur > 60) {
+      header.classList.add('header--hidden');
+    } else if (cur < prev) {
+      header.classList.remove('header--hidden');
+    }
+    prev = cur;
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -489,16 +489,7 @@ html[data-theme="dark"] .raw-log-label {
 /* ══════════════════════════════════════════════
    Before / After コードブロック
    ══════════════════════════════════════════════ */
-.code-before {
-  border-left: 4px solid #ff4d4d;
-  background: rgba(255,77,77,.04);
-}
-.code-after {
-  border-left: 4px solid #2ecc71;
-  background: rgba(46,204,113,.04);
-}
-html[data-theme="dark"] .code-before { background: rgba(255,77,77,.07); }
-html[data-theme="dark"] .code-after  { background: rgba(46,204,113,.07); }
+/* 色付けは JS インラインスタイルで管理（box-shadow + background）*/
 
 @media (min-width: 900px) {
   .code-compare {
@@ -509,6 +500,10 @@ html[data-theme="dark"] .code-after  { background: rgba(46,204,113,.07); }
   .code-compare__side {
     flex: 1;
     min-width: 0;
+  }
+  /* コードブロックのみ横スクロール許可 */
+  .code-compare__side > .highlight,
+  .code-compare__side > pre {
     overflow-x: auto;
   }
 }

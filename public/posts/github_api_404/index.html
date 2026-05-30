@@ -1,80 +1,824 @@
-<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>GitHub API の 404 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="GitHub API,HTTP404,404エラー"><meta name=description content="GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/github_api_404/><link crossorigin=anonymous href=/assets/css/stylesheet.3138a156a2cc44de6777fe2ee09d69126e641edd9405347bcb9154a1433eefe9.css integrity="sha256-MTihVqLMRN5nd/4u4J1pEm5kHt2UBTR7y5FUoUM+7+k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/github_api_404/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/github_api_404/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="GitHub API の 404 エラー：原因と解決策"><meta property="og:description" content="GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="GitHub API"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="GitHub API の 404 エラー：原因と解決策"><meta name=twitter:description content="GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"GitHub API の 404 エラー：原因と解決策","item":"https://errorlog.jp/posts/github_api_404/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"GitHub API の 404 エラー：原因と解決策","name":"GitHub API の 404 エラー：原因と解決策","description":"GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。","keywords":["GitHub API"],"articleBody":"エラーの概要 GitHub APIで404エラーが返される場合、リクエストで指定したリソース（リポジトリ、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。このエラーはGitHub APIの認証が成功している場合でも発生し、エンドポイントのURLやパラメータの誤りが主な原因となります。\n実際のエラーメッセージ例 { \"message\": \"Not Found\", \"documentation_url\": \"https://docs.github.com/rest/reference/repos#get-a-repository\", \"status\": 404 } { \"message\": \"Validation Failed\", \"errors\": [ { \"message\": \"The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.\", \"resource\": \"Search\", \"field\": \"q\", \"code\": \"invalid\" } ], \"documentation_url\": \"https://docs.github.com/rest/reference/search\" } よくある原因と解決手順 原因1：リポジトリ名またはオーナー名のスペルミス APIエンドポイントで指定したリポジトリ名やオーナー名に誤りがあると、サーバーがそのリソースを検索できず404が返されます。\nBefore（エラーが起きるコード）:\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos/microsoft/vscode/contents/LICENCE.md この例は、実際のLICENSE.mdファイルをLICENCE.md（英国式スペル）と誤って指定しているため、404が返されます。\nAfter（修正後）:\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos/microsoft/vscode/contents/LICENSE.md 原因2：プライベートリポジトリへのアクセス権限不足 プライベートリポジトリにアクセスする際、認証トークンが不足していたり、有効期限が切れていたり、そのリポジトリへのアクセス権限がないと404が返されます。GitHub APIは権限がない場合、存在しないふりをする設計になっています。\nBefore（認証情報なし）:\nimport requests response = requests.get( \"https://api.github.com/repos/myorg/private-repo\" ) print(response.status_code) # 404 After（認証情報付き）:\nimport requests headers = { \"Authorization\": \"token \", \"Accept\": \"application/vnd.github.v3+json\" } response = requests.get( \"https://api.github.com/repos/myorg/private-repo\", headers=headers ) print(response.status_code) # 200 原因3：APIのバージョンやエンドポイント形式の変更 GitHub APIのバージョン更新により、エンドポイント形式が変わった場合や、非推奨となったエンドポイントを使用している場合に404が返されます。\nBefore（古いエンドポイント形式）:\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos///pulls//reviews After（現在推奨されるエンドポイント）:\ncurl -H \"Authorization: token \" \\ \"https://api.github.com/repos///pulls//reviews\" \\ -H \"Accept: application/vnd.github.v3+json\" 原因4：パスパラメータの欠落またはフォーマット誤り ブランチ名、タグ名、ファイルパスなどを含むエンドポイントでは、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。\nBefore（エンコード不足）:\ncurl -H \"Authorization: token \" \\ \"https://api.github.com/repos/myorg/myrepo/contents/path/my file.txt\" After（URLエンコード済み）:\ncurl -H \"Authorization: token \" \\ \"https://api.github.com/repos/myorg/myrepo/contents/path/my%20file.txt\" ツール固有の注意点 GitHub REST APIとGraphQL APIの違い GitHub APIには2つのタイプがあり、404の原因や対応方法が異なります。\nREST APIでは、エンドポイントのパス形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。\n# プルリクエスト取得 https://api.github.com/repos///pulls/ # プルリクエストレビュー取得 https://api.github.com/repos///pulls//reviews GraphQL APIを使う場合は、クエリの構造が異なり、404ではなく異なる形式のエラーレスポンスが返される可能性があります。\n組織とチームの権限確認 公開リポジトリであっても、組織の設定により特定のエンドポイント（例：/orgs//members）が非公開の場合、権限がないユーザーには404が返されます。適切なスコープを持つPersonal Access Tokenを使用してください。\nリリース・タグ・ブランチの存在確認 タグやブランチ名を指定するエンドポイント（例：/repos///contents/?ref=）では、指定した参照が存在しなければ404が返されます。以下のコマンドで先に存在確認を行いましょう。\n# ブランチ一覧確認 curl -H \"Authorization: token \" \\ \"https://api.github.com/repos///branches\" # タグ一覧確認 curl -H \"Authorization: token \" \\ \"https://api.github.com/repos///tags\" それでも解決しない場合 確認すべきポイントとデバッグ手順 トークンの有効性確認：以下のコマンドでトークンが有効かつ正しいスコープを持つか確認します。 curl -H \"Authorization: token \" \\ https://api.github.com/user リソースの実在確認：ブラウザでGitHub.comにログインし、対象のリポジトリ・ユーザー・ファイルが本当に存在するか目視確認してください。\nAPIレスポンスヘッダーの確認：以下のコマンドで詳細情報を取得します。\ncurl -i -H \"Authorization: token \" \\ \"https://api.github.com/repos//\" 公式ドキュメント参照 GitHub REST API ドキュメント：https://docs.github.com/rest トラブルシューティングガイド：https://docs.github.com/rest/guides/troubleshooting 認証ガイド：https://docs.github.com/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens コミュニティリソース 問題が解決しない場合は、以下を参照してください：\nGitHub Community Forum：https://github.com/orgs/community/discussions GitHub API関連のStack Overflow：github-api タグ付き質問 GitHub Status Page：https://www.githubstatus.com （APIの障害有無確認） 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"236","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/github_api_404/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-github-api">GitHub API</span>
-<span class=error-badge>404</span></div><h1 class="post-title entry-hint-parent">GitHub API の 404 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
-<span class=summary-text>GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
-<span class=summary-text>リポジトリ名またはオーナー名のスペルミス</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
-<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>GitHub API の 404 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="GitHub API, HTTP404, 404エラー">
+<meta name="description" content="GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="https://errorlog.jp/posts/github_api_404/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://errorlog.jp/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
+<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/github_api_404/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
+<meta property="og:url" content="https://errorlog.jp/posts/github_api_404/">
+  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
+  <meta property="og:title" content="GitHub API の 404 エラー：原因と解決策">
+  <meta property="og:description" content="GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
+    <meta property="article:tag" content="GitHub API">
+      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
+  <meta name="twitter:title" content="GitHub API の 404 エラー：原因と解決策">
+  <meta name="twitter:description" content="GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://errorlog.jp/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "GitHub API の 404 エラー：原因と解決策",
+      "item": "https://errorlog.jp/posts/github_api_404/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "GitHub API の 404 エラー：原因と解決策",
+  "name": "GitHub API の 404 エラー：原因と解決策",
+  "description": "GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。",
+  "keywords": [
+    "GitHub API"
+  ],
+  "articleBody": "エラーの概要 GitHub APIで404エラーが返される場合、リクエストで指定したリソース（リポジトリ、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。このエラーはGitHub APIの認証が成功している場合でも発生し、エンドポイントのURLやパラメータの誤りが主な原因となります。\n実際のエラーメッセージ例 { \"message\": \"Not Found\", \"documentation_url\": \"https://docs.github.com/rest/reference/repos#get-a-repository\", \"status\": 404 } { \"message\": \"Validation Failed\", \"errors\": [ { \"message\": \"The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.\", \"resource\": \"Search\", \"field\": \"q\", \"code\": \"invalid\" } ], \"documentation_url\": \"https://docs.github.com/rest/reference/search\" } よくある原因と解決手順 原因1：リポジトリ名またはオーナー名のスペルミス APIエンドポイントで指定したリポジトリ名やオーナー名に誤りがあると、サーバーがそのリソースを検索できず404が返されます。\nBefore（エラーが起きるコード）:\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos/microsoft/vscode/contents/LICENCE.md この例は、実際のLICENSE.mdファイルをLICENCE.md（英国式スペル）と誤って指定しているため、404が返されます。\nAfter（修正後）:\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos/microsoft/vscode/contents/LICENSE.md 原因2：プライベートリポジトリへのアクセス権限不足 プライベートリポジトリにアクセスする際、認証トークンが不足していたり、有効期限が切れていたり、そのリポジトリへのアクセス権限がないと404が返されます。GitHub APIは権限がない場合、存在しないふりをする設計になっています。\nBefore（認証情報なし）:\nimport requests response = requests.get( \"https://api.github.com/repos/myorg/private-repo\" ) print(response.status_code) # 404 After（認証情報付き）:\nimport requests headers = { \"Authorization\": \"token \", \"Accept\": \"application/vnd.github.v3+json\" } response = requests.get( \"https://api.github.com/repos/myorg/private-repo\", headers=headers ) print(response.status_code) # 200 原因3：APIのバージョンやエンドポイント形式の変更 GitHub APIのバージョン更新により、エンドポイント形式が変わった場合や、非推奨となったエンドポイントを使用している場合に404が返されます。\nBefore（古いエンドポイント形式）:\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos///pulls//reviews After（現在推奨されるエンドポイント）:\ncurl -H \"Authorization: token \" \\ \"https://api.github.com/repos///pulls//reviews\" \\ -H \"Accept: application/vnd.github.v3+json\" 原因4：パスパラメータの欠落またはフォーマット誤り ブランチ名、タグ名、ファイルパスなどを含むエンドポイントでは、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。\nBefore（エンコード不足）:\ncurl -H \"Authorization: token \" \\ \"https://api.github.com/repos/myorg/myrepo/contents/path/my file.txt\" After（URLエンコード済み）:\ncurl -H \"Authorization: token \" \\ \"https://api.github.com/repos/myorg/myrepo/contents/path/my%20file.txt\" ツール固有の注意点 GitHub REST APIとGraphQL APIの違い GitHub APIには2つのタイプがあり、404の原因や対応方法が異なります。\nREST APIでは、エンドポイントのパス形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。\n# プルリクエスト取得 https://api.github.com/repos///pulls/ # プルリクエストレビュー取得 https://api.github.com/repos///pulls//reviews GraphQL APIを使う場合は、クエリの構造が異なり、404ではなく異なる形式のエラーレスポンスが返される可能性があります。\n組織とチームの権限確認 公開リポジトリであっても、組織の設定により特定のエンドポイント（例：/orgs//members）が非公開の場合、権限がないユーザーには404が返されます。適切なスコープを持つPersonal Access Tokenを使用してください。\nリリース・タグ・ブランチの存在確認 タグやブランチ名を指定するエンドポイント（例：/repos///contents/?ref=）では、指定した参照が存在しなければ404が返されます。以下のコマンドで先に存在確認を行いましょう。\n# ブランチ一覧確認 curl -H \"Authorization: token \" \\ \"https://api.github.com/repos///branches\" # タグ一覧確認 curl -H \"Authorization: token \" \\ \"https://api.github.com/repos///tags\" それでも解決しない場合 確認すべきポイントとデバッグ手順 トークンの有効性確認：以下のコマンドでトークンが有効かつ正しいスコープを持つか確認します。 curl -H \"Authorization: token \" \\ https://api.github.com/user リソースの実在確認：ブラウザでGitHub.comにログインし、対象のリポジトリ・ユーザー・ファイルが本当に存在するか目視確認してください。\nAPIレスポンスヘッダーの確認：以下のコマンドで詳細情報を取得します。\ncurl -i -H \"Authorization: token \" \\ \"https://api.github.com/repos//\" 公式ドキュメント参照 GitHub REST API ドキュメント：https://docs.github.com/rest トラブルシューティングガイド：https://docs.github.com/rest/guides/troubleshooting 認証ガイド：https://docs.github.com/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens コミュニティリソース 問題が解決しない場合は、以下を参照してください：\nGitHub Community Forum：https://github.com/orgs/community/discussions GitHub API関連のStack Overflow：github-api タグ付き質問 GitHub Status Page：https://www.githubstatus.com （APIの障害有無確認） 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
+  "wordCount" : "236",
+  "inLanguage": "ja",
+  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-29T00:00:00Z\"",
+  "author":{
+    "@type": "Person",
+    "name": "ErrorLog"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://errorlog.jp/posts/github_api_404/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ErrorLog - エラーコード解決ガイド",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://errorlog.jp/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
+    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
+  </text>
+</svg>
+</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://errorlog.jp/search/" title="検索">
+                    <span>検索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/tags/" title="タグ">
+                    <span>タグ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                    <span>アーカイブ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/glossary/" title="用語集">
+                    <span>用語集</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <div class="post-badges">
+      <span class="tool-badge tool-badge-github-api">GitHub API</span>
+      <span class="error-badge">404</span>
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      GitHub API の 404 エラー：原因と解決策
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header>
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--cause">原因</span>
+      <span class="summary-text">リポジトリ名またはオーナー名のスペルミス</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+    </div>
+  </div>
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>{
   &#34;message&#34;: &#34;Not Found&#34;,
   &#34;documentation_url&#34;: &#34;https://docs.github.com/rest/reference/repos#get-a-repository&#34;,
   &#34;status&#34;: 404
 }
-</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e5%90%8d%e3%81%be%e3%81%9f%e3%81%af%e3%82%aa%e3%83%bc%e3%83%8a%e3%83%bc%e5%90%8d%e3%81%ae%e3%82%b9%e3%83%9a%e3%83%ab%e3%83%9f%e3%82%b9 aria-label=原因1：リポジトリ名またはオーナー名のスペルミス>原因1：リポジトリ名またはオーナー名のスペルミス</a></li><li><a href=#%e5%8e%9f%e5%9b%a02%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e3%81%b8%e3%81%ae%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e6%a8%a9%e9%99%90%e4%b8%8d%e8%b6%b3 aria-label=原因2：プライベートリポジトリへのアクセス権限不足>原因2：プライベートリポジトリへのアクセス権限不足</a></li><li><a href=#%e5%8e%9f%e5%9b%a03api%e3%81%ae%e3%83%90%e3%83%bc%e3%82%b8%e3%83%a7%e3%83%b3%e3%82%84%e3%82%a8%e3%83%b3%e3%83%89%e3%83%9d%e3%82%a4%e3%83%b3%e3%83%88%e5%bd%a2%e5%bc%8f%e3%81%ae%e5%a4%89%e6%9b%b4 aria-label=原因3：APIのバージョンやエンドポイント形式の変更>原因3：APIのバージョンやエンドポイント形式の変更</a></li><li><a href=#%e5%8e%9f%e5%9b%a04%e3%83%91%e3%82%b9%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf%e3%81%ae%e6%ac%a0%e8%90%bd%e3%81%be%e3%81%9f%e3%81%af%e3%83%95%e3%82%a9%e3%83%bc%e3%83%9e%e3%83%83%e3%83%88%e8%aa%a4%e3%82%8a aria-label=原因4：パスパラメータの欠落またはフォーマット誤り>原因4：パスパラメータの欠落またはフォーマット誤り</a></li></ul></li><li><a href=#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label=ツール固有の注意点>ツール固有の注意点</a><ul><li><a href=#github-rest-api%e3%81%a8graphql-api%e3%81%ae%e9%81%95%e3%81%84 aria-label="GitHub REST APIとGraphQL APIの違い">GitHub REST APIとGraphQL APIの違い</a></li><li><a href=#%e7%b5%84%e7%b9%94%e3%81%a8%e3%83%81%e3%83%bc%e3%83%a0%e3%81%ae%e6%a8%a9%e9%99%90%e7%a2%ba%e8%aa%8d aria-label=組織とチームの権限確認>組織とチームの権限確認</a></li><li><a href=#%e3%83%aa%e3%83%aa%e3%83%bc%e3%82%b9%e3%82%bf%e3%82%b0%e3%83%96%e3%83%a9%e3%83%b3%e3%83%81%e3%81%ae%e5%ad%98%e5%9c%a8%e7%a2%ba%e8%aa%8d aria-label=リリース・タグ・ブランチの存在確認>リリース・タグ・ブランチの存在確認</a></li></ul></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a><ul><li><a href=#%e7%a2%ba%e8%aa%8d%e3%81%99%e3%81%b9%e3%81%8d%e3%83%9d%e3%82%a4%e3%83%b3%e3%83%88%e3%81%a8%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e6%89%8b%e9%a0%86 aria-label=確認すべきポイントとデバッグ手順>確認すべきポイントとデバッグ手順</a></li><li><a href=#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88%e5%8f%82%e7%85%a7 aria-label=公式ドキュメント参照>公式ドキュメント参照</a></li><li><a href=#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9 aria-label=コミュニティリソース>コミュニティリソース</a></li></ul></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>GitHub <a href=/glossary/api/>API</a>で404エラーが返される場合、<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>で指定したリソース（<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。このエラーはGitHub <a href=/glossary/api/>API</a>の<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>が成功している場合でも発生し、<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>のURLや<a href=/glossary/%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF/>パラメータ</a>の誤りが主な原因となります。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Not Found&#34;</span>,
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;documentation_url&#34;</span>: <span style=color:#e6db74>&#34;https://docs.github.com/rest/reference/repos#get-a-repository&#34;</span>,
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;status&#34;</span>: <span style=color:#ae81ff>404</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Validation Failed&#34;</span>,
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;errors&#34;</span>: [
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;resource&#34;</span>: <span style=color:#e6db74>&#34;Search&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;field&#34;</span>: <span style=color:#e6db74>&#34;q&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;code&#34;</span>: <span style=color:#e6db74>&#34;invalid&#34;</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>  ],
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;documentation_url&#34;</span>: <span style=color:#e6db74>&#34;https://docs.github.com/rest/reference/search&#34;</span>
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1リポジトリ名またはオーナー名のスペルミス>原因1：リポジトリ名またはオーナー名のスペルミス<a hidden class=anchor aria-hidden=true href=#原因1リポジトリ名またはオーナー名のスペルミス>#</a></h3><p><a href=/glossary/api/>API</a><a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>で指定した<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>名やオーナー名に誤りがあると、サーバーがそのリソースを検索できず404が返されます。</p><p><strong>Before（エラーが起きるコード）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  https://api.github.com/repos/microsoft/vscode/contents/LICENCE.md
-</span></span></code></pre></div><p>この例は、実際の<code>LICENSE.md</code>ファイルを<code>LICENCE.md</code>（英国式スペル）と誤って指定しているため、404が返されます。</p><p><strong>After（修正後）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  https://api.github.com/repos/microsoft/vscode/contents/LICENSE.md
-</span></span></code></pre></div><h3 id=原因2プライベートリポジトリへのアクセス権限不足>原因2：プライベートリポジトリへのアクセス権限不足<a hidden class=anchor aria-hidden=true href=#原因2プライベートリポジトリへのアクセス権限不足>#</a></h3><p>プライベートリポジトリにアクセスする際、<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a><a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>が不足していたり、有効期限が切れていたり、その<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>へのアクセス権限がないと404が返されます。GitHub <a href=/glossary/api/>API</a>は権限がない場合、存在しないふりをする設計になっています。</p><p><strong>Before（認証情報なし）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> requests
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> requests<span style=color:#f92672>.</span>get(
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;https://api.github.com/repos/myorg/private-repo&#34;</span>
-</span></span><span style=display:flex><span>)
-</span></span><span style=display:flex><span>print(response<span style=color:#f92672>.</span>status_code)  <span style=color:#75715e># 404</span>
-</span></span></code></pre></div><p><strong>After（認証情報付き）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> requests
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>headers <span style=color:#f92672>=</span> {
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Authorization&#34;</span>: <span style=color:#e6db74>&#34;token &lt;your-github-token&gt;&#34;</span>,
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Accept&#34;</span>: <span style=color:#e6db74>&#34;application/vnd.github.v3+json&#34;</span>
-</span></span><span style=display:flex><span>}
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> requests<span style=color:#f92672>.</span>get(
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;https://api.github.com/repos/myorg/private-repo&#34;</span>,
-</span></span><span style=display:flex><span>    headers<span style=color:#f92672>=</span>headers
-</span></span><span style=display:flex><span>)
-</span></span><span style=display:flex><span>print(response<span style=color:#f92672>.</span>status_code)  <span style=color:#75715e># 200</span>
-</span></span></code></pre></div><h3 id=原因3apiのバージョンやエンドポイント形式の変更>原因3：APIのバージョンやエンドポイント形式の変更<a hidden class=anchor aria-hidden=true href=#原因3apiのバージョンやエンドポイント形式の変更>#</a></h3><p>GitHub <a href=/glossary/api/>API</a>のバージョン更新により、<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>形式が変わった場合や、非推奨となった<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>を使用している場合に404が返されます。</p><p><strong>Before（古い<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>形式）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;/reviews
-</span></span></code></pre></div><p><strong>After（現在推奨される<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;/reviews&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  -H <span style=color:#e6db74>&#34;Accept: application/vnd.github.v3+json&#34;</span>
-</span></span></code></pre></div><h3 id=原因4パスパラメータの欠落またはフォーマット誤り>原因4：パスパラメータの欠落またはフォーマット誤り<a hidden class=anchor aria-hidden=true href=#原因4パスパラメータの欠落またはフォーマット誤り>#</a></h3><p><a href=/glossary/%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81/>ブランチ</a>名、タグ名、ファイルパスなどを含む<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>では、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。</p><p><strong>Before（エンコード不足）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;https://api.github.com/repos/myorg/myrepo/contents/path/my file.txt&#34;</span>
-</span></span></code></pre></div><p><strong>After（URLエンコード済み）:</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;https://api.github.com/repos/myorg/myrepo/contents/path/my%20file.txt&#34;</span>
-</span></span></code></pre></div><h2 id=ツール固有の注意点>ツール固有の注意点<a hidden class=anchor aria-hidden=true href=#ツール固有の注意点>#</a></h2><h3 id=github-rest-apiとgraphql-apiの違い>GitHub REST APIとGraphQL APIの違い<a hidden class=anchor aria-hidden=true href=#github-rest-apiとgraphql-apiの違い>#</a></h3><p>GitHub <a href=/glossary/api/>API</a>には2つのタイプがあり、404の原因や対応方法が異なります。</p><p><a href=/glossary/rest/>REST</a> <a href=/glossary/api/>API</a>では、<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>のパス形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># プルリクエスト取得</span>
-</span></span><span style=display:flex><span>https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># プルリクエストレビュー取得</span>
-</span></span><span style=display:flex><span>https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;/reviews
-</span></span></code></pre></div><p><a href=/glossary/graphql/>GraphQL</a> <a href=/glossary/api/>API</a>を使う場合は、クエリの構造が異なり、404ではなく異なる形式の<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/>エラーレスポンス</a>が返される可能性があります。</p><h3 id=組織とチームの権限確認>組織とチームの権限確認<a hidden class=anchor aria-hidden=true href=#組織とチームの権限確認>#</a></h3><p>公開<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>であっても、組織の設定により特定の<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>（例：<code>/orgs/&lt;org>/members</code>）が非公開の場合、権限がないユーザーには404が返されます。適切な<a href=/glossary/%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97/>スコープ</a>を持つPersonal Access Tokenを使用してください。</p><h3 id=リリースタグブランチの存在確認>リリース・タグ・ブランチの存在確認<a hidden class=anchor aria-hidden=true href=#リリースタグブランチの存在確認>#</a></h3><p>タグや<a href=/glossary/%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81/>ブランチ</a>名を指定する<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>（例：<code>/repos/&lt;owner>/&lt;repo>/contents/&lt;path>?ref=&lt;branch></code>）では、指定した参照が存在しなければ404が返されます。以下のコマンドで先に存在確認を行いましょう。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># ブランチ一覧確認</span>
-</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/branches&#34;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># タグ一覧確認</span>
-</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/tags&#34;</span>
-</span></span></code></pre></div><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><h3 id=確認すべきポイントとデバッグ手順>確認すべきポイントとデバッグ手順<a hidden class=anchor aria-hidden=true href=#確認すべきポイントとデバッグ手順>#</a></h3><ol><li><strong><a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>の有効性確認</strong>：以下のコマンドで<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>が有効かつ正しい<a href=/glossary/%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97/>スコープ</a>を持つか確認します。</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  https://api.github.com/user
-</span></span></code></pre></div><ol start=2><li><p><strong>リソースの実在確認</strong>：ブラウザでGitHub.comにログインし、対象の<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>・ユーザー・ファイルが本当に存在するか目視確認してください。</p></li><li><p><strong><a href=/glossary/api/>API</a>レスポンスヘッダーの確認</strong>：以下のコマンドで詳細情報を取得します。</p></li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -i -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;&#34;</span>
-</span></span></code></pre></div><h3 id=公式ドキュメント参照>公式ドキュメント参照<a hidden class=anchor aria-hidden=true href=#公式ドキュメント参照>#</a></h3><ul><li><strong>GitHub <a href=/glossary/rest/>REST</a> <a href=/glossary/api/>API</a> ドキュメント</strong>：https://docs.github.com/rest</li><li><strong>トラブルシューティングガイド</strong>：https://docs.github.com/rest/guides/troubleshooting</li><li><strong><a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>ガイド</strong>：https://docs.github.com/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens</li></ul><h3 id=コミュニティリソース>コミュニティリソース<a hidden class=anchor aria-hidden=true href=#コミュニティリソース>#</a></h3><p>問題が解決しない場合は、以下を参照してください：</p><ul><li><strong>GitHub Community Forum</strong>：https://github.com/orgs/community/discussions</li><li><strong>GitHub <a href=/glossary/api/>API</a>関連のStack Overflow</strong>：<a href=https://stackoverflow.com/questions/tagged/github-api>github-api タグ付き質問</a></li><li><strong>GitHub Status Page</strong>：https://www.githubstatus.com （<a href=/glossary/api/>API</a>の障害有無確認）</li></ul><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-github-api">GitHub API</span><h2 class=entry-hint-parent>GitHub API の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>GitHub API の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to GitHub API の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/github_api_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-github-api">GitHub API</span><h2 class=entry-hint-parent>GitHub API の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>GitHub API の 504 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to GitHub API の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/github_api_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-github-api">GitHub API</span><h2 class=entry-hint-parent>GitHub API の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>GitHub API の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to GitHub API の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/github_api_400/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-github-api">GitHub API</span><h2 class=entry-hint-parent>GitHub API の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>GitHub API の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to GitHub API の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/github_api_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-github-api">GitHub API</span><h2 class=entry-hint-parent>GitHub API の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>GitHub API の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to GitHub API の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/github_api_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-github-api">GitHub API</span><h2 class=entry-hint-parent>GitHub API の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>GitHub API の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to GitHub API の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/github_api_422/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 404 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>指定したKubernetesリソースが見つからない。Minikube 404 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Minikube の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>指定したイメージまたはコンテナが見つからない。イメージ名またはタグ名の綴りが間違っているなど、Podman 404 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>指定したGoogle Cloudリソースが見つからない。GCP 404 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="GCP の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Slack の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-nginx">Nginx</span><h2 class=entry-hint-parent>Nginx の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Nginx の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Nginx の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_404/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_404/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/github-api/>GitHub API</a></li></ul></footer></article><script>(function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/Before|エラーが起きる/,n=/After|修正後/,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,a,r,c,l,d,u,h,m,f,i=s.closest("p");if(i.dataset.compared)return;for(o=i.nextElementSibling,h=[],c=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){c=o;break}h.push(o),o=o.nextElementSibling}if(!c)return;for(l=[],o=c.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;l.push(o),o=o.nextElementSibling}if(!l.length)return;a=!1,h.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-before"),a=!0)}),a=!1,l.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-after"),a=!0)}),r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),d=document.createElement("div"),d.className="code-compare__side",u=document.createElement("div"),u.className="code-compare__side",i.parentNode.insertBefore(r,i),i.dataset.compared="1",d.appendChild(i),h.forEach(function(e){d.appendChild(e)}),u.appendChild(c),l.forEach(function(e){u.appendChild(e)}),r.appendChild(d),r.appendChild(u)})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+</code></pre>
+  </div> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目次</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
+            <li>
+                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
+            <li>
+                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
+                    
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a01%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e5%90%8d%e3%81%be%e3%81%9f%e3%81%af%e3%82%aa%e3%83%bc%e3%83%8a%e3%83%bc%e5%90%8d%e3%81%ae%e3%82%b9%e3%83%9a%e3%83%ab%e3%83%9f%e3%82%b9" aria-label="原因1：リポジトリ名またはオーナー名のスペルミス">原因1：リポジトリ名またはオーナー名のスペルミス</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a02%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e3%81%b8%e3%81%ae%e3%82%a2%e3%82%af%e3%82%bb%e3%82%b9%e6%a8%a9%e9%99%90%e4%b8%8d%e8%b6%b3" aria-label="原因2：プライベートリポジトリへのアクセス権限不足">原因2：プライベートリポジトリへのアクセス権限不足</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a03api%e3%81%ae%e3%83%90%e3%83%bc%e3%82%b8%e3%83%a7%e3%83%b3%e3%82%84%e3%82%a8%e3%83%b3%e3%83%89%e3%83%9d%e3%82%a4%e3%83%b3%e3%83%88%e5%bd%a2%e5%bc%8f%e3%81%ae%e5%a4%89%e6%9b%b4" aria-label="原因3：APIのバージョンやエンドポイント形式の変更">原因3：APIのバージョンやエンドポイント形式の変更</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a04%e3%83%91%e3%82%b9%e3%83%91%e3%83%a9%e3%83%a1%e3%83%bc%e3%82%bf%e3%81%ae%e6%ac%a0%e8%90%bd%e3%81%be%e3%81%9f%e3%81%af%e3%83%95%e3%82%a9%e3%83%bc%e3%83%9e%e3%83%83%e3%83%88%e8%aa%a4%e3%82%8a" aria-label="原因4：パスパラメータの欠落またはフォーマット誤り">原因4：パスパラメータの欠落またはフォーマット誤り</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="ツール固有の注意点">ツール固有の注意点</a><ul>
+                    
+            <li>
+                <a href="#github-rest-api%e3%81%a8graphql-api%e3%81%ae%e9%81%95%e3%81%84" aria-label="GitHub REST APIとGraphQL APIの違い">GitHub REST APIとGraphQL APIの違い</a></li>
+            <li>
+                <a href="#%e7%b5%84%e7%b9%94%e3%81%a8%e3%83%81%e3%83%bc%e3%83%a0%e3%81%ae%e6%a8%a9%e9%99%90%e7%a2%ba%e8%aa%8d" aria-label="組織とチームの権限確認">組織とチームの権限確認</a></li>
+            <li>
+                <a href="#%e3%83%aa%e3%83%aa%e3%83%bc%e3%82%b9%e3%82%bf%e3%82%b0%e3%83%96%e3%83%a9%e3%83%b3%e3%83%81%e3%81%ae%e5%ad%98%e5%9c%a8%e7%a2%ba%e8%aa%8d" aria-label="リリース・タグ・ブランチの存在確認">リリース・タグ・ブランチの存在確認</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a><ul>
+                    
+            <li>
+                <a href="#%e7%a2%ba%e8%aa%8d%e3%81%99%e3%81%b9%e3%81%8d%e3%83%9d%e3%82%a4%e3%83%b3%e3%83%88%e3%81%a8%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e6%89%8b%e9%a0%86" aria-label="確認すべきポイントとデバッグ手順">確認すべきポイントとデバッグ手順</a></li>
+            <li>
+                <a href="#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88%e5%8f%82%e7%85%a7" aria-label="公式ドキュメント参照">公式ドキュメント参照</a></li>
+            <li>
+                <a href="#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9" aria-label="コミュニティリソース">コミュニティリソース</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
+<p>GitHub <a href="/glossary/api/">API</a>で404エラーが返される場合、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>で指定したリソース（<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。このエラーはGitHub <a href="/glossary/api/">API</a>の<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>が成功している場合でも発生し、<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>のURLや<a href="/glossary/%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF/">パラメータ</a>の誤りが主な原因となります。</p>
+<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Not Found&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;documentation_url&#34;</span>: <span style="color:#e6db74">&#34;https://docs.github.com/rest/reference/repos#get-a-repository&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;status&#34;</span>: <span style="color:#ae81ff">404</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Validation Failed&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;errors&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;resource&#34;</span>: <span style="color:#e6db74">&#34;Search&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;field&#34;</span>: <span style="color:#e6db74">&#34;q&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;code&#34;</span>: <span style="color:#e6db74">&#34;invalid&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;documentation_url&#34;</span>: <span style="color:#e6db74">&#34;https://docs.github.com/rest/reference/search&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
+<h3 id="原因1リポジトリ名またはオーナー名のスペルミス">原因1：リポジトリ名またはオーナー名のスペルミス<a hidden class="anchor" aria-hidden="true" href="#原因1リポジトリ名またはオーナー名のスペルミス">#</a></h3>
+<p><a href="/glossary/api/">API</a><a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>で指定した<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>名やオーナー名に誤りがあると、サーバーがそのリソースを検索できず404が返されます。</p>
+<p><strong>Before（エラーが起きるコード）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  https://api.github.com/repos/microsoft/vscode/contents/LICENCE.md
+</span></span></code></pre></div><p>この例は、実際の<code>LICENSE.md</code>ファイルを<code>LICENCE.md</code>（英国式スペル）と誤って指定しているため、404が返されます。</p>
+<p><strong>After（修正後）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  https://api.github.com/repos/microsoft/vscode/contents/LICENSE.md
+</span></span></code></pre></div><h3 id="原因2プライベートリポジトリへのアクセス権限不足">原因2：プライベートリポジトリへのアクセス権限不足<a hidden class="anchor" aria-hidden="true" href="#原因2プライベートリポジトリへのアクセス権限不足">#</a></h3>
+<p>プライベートリポジトリにアクセスする際、<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a><a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>が不足していたり、有効期限が切れていたり、その<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>へのアクセス権限がないと404が返されます。GitHub <a href="/glossary/api/">API</a>は権限がない場合、存在しないふりをする設計になっています。</p>
+<p><strong>Before（認証情報なし）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;https://api.github.com/repos/myorg/private-repo&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>print(response<span style="color:#f92672">.</span>status_code)  <span style="color:#75715e"># 404</span>
+</span></span></code></pre></div><p><strong>After（認証情報付き）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Authorization&#34;</span>: <span style="color:#e6db74">&#34;token &lt;your-github-token&gt;&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;Accept&#34;</span>: <span style="color:#e6db74">&#34;application/vnd.github.v3+json&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;https://api.github.com/repos/myorg/private-repo&#34;</span>,
+</span></span><span style="display:flex;"><span>    headers<span style="color:#f92672">=</span>headers
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>print(response<span style="color:#f92672">.</span>status_code)  <span style="color:#75715e"># 200</span>
+</span></span></code></pre></div><h3 id="原因3apiのバージョンやエンドポイント形式の変更">原因3：APIのバージョンやエンドポイント形式の変更<a hidden class="anchor" aria-hidden="true" href="#原因3apiのバージョンやエンドポイント形式の変更">#</a></h3>
+<p>GitHub <a href="/glossary/api/">API</a>のバージョン更新により、<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>形式が変わった場合や、非推奨となった<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>を使用している場合に404が返されます。</p>
+<p><strong>Before（古い<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>形式）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;/reviews
+</span></span></code></pre></div><p><strong>After（現在推奨される<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;/reviews&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Accept: application/vnd.github.v3+json&#34;</span>
+</span></span></code></pre></div><h3 id="原因4パスパラメータの欠落またはフォーマット誤り">原因4：パスパラメータの欠落またはフォーマット誤り<a hidden class="anchor" aria-hidden="true" href="#原因4パスパラメータの欠落またはフォーマット誤り">#</a></h3>
+<p><a href="/glossary/%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81/">ブランチ</a>名、タグ名、ファイルパスなどを含む<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>では、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。</p>
+<p><strong>Before（エンコード不足）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;https://api.github.com/repos/myorg/myrepo/contents/path/my file.txt&#34;</span>
+</span></span></code></pre></div><p><strong>After（URLエンコード済み）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;https://api.github.com/repos/myorg/myrepo/contents/path/my%20file.txt&#34;</span>
+</span></span></code></pre></div><h2 id="ツール固有の注意点">ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#ツール固有の注意点">#</a></h2>
+<h3 id="github-rest-apiとgraphql-apiの違い">GitHub REST APIとGraphQL APIの違い<a hidden class="anchor" aria-hidden="true" href="#github-rest-apiとgraphql-apiの違い">#</a></h3>
+<p>GitHub <a href="/glossary/api/">API</a>には2つのタイプがあり、404の原因や対応方法が異なります。</p>
+<p><a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a>では、<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>のパス形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># プルリクエスト取得</span>
+</span></span><span style="display:flex;"><span>https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># プルリクエストレビュー取得</span>
+</span></span><span style="display:flex;"><span>https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/pulls/&lt;number&gt;/reviews
+</span></span></code></pre></div><p><a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a>を使う場合は、クエリの構造が異なり、404ではなく異なる形式の<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/">エラーレスポンス</a>が返される可能性があります。</p>
+<h3 id="組織とチームの権限確認">組織とチームの権限確認<a hidden class="anchor" aria-hidden="true" href="#組織とチームの権限確認">#</a></h3>
+<p>公開<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>であっても、組織の設定により特定の<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>（例：<code>/orgs/&lt;org&gt;/members</code>）が非公開の場合、権限がないユーザーには404が返されます。適切な<a href="/glossary/%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97/">スコープ</a>を持つPersonal Access Tokenを使用してください。</p>
+<h3 id="リリースタグブランチの存在確認">リリース・タグ・ブランチの存在確認<a hidden class="anchor" aria-hidden="true" href="#リリースタグブランチの存在確認">#</a></h3>
+<p>タグや<a href="/glossary/%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81/">ブランチ</a>名を指定する<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>（例：<code>/repos/&lt;owner&gt;/&lt;repo&gt;/contents/&lt;path&gt;?ref=&lt;branch&gt;</code>）では、指定した参照が存在しなければ404が返されます。以下のコマンドで先に存在確認を行いましょう。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ブランチ一覧確認</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/branches&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># タグ一覧確認</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/tags&#34;</span>
+</span></span></code></pre></div><h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
+<h3 id="確認すべきポイントとデバッグ手順">確認すべきポイントとデバッグ手順<a hidden class="anchor" aria-hidden="true" href="#確認すべきポイントとデバッグ手順">#</a></h3>
+<ol>
+<li><strong><a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の有効性確認</strong>：以下のコマンドで<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>が有効かつ正しい<a href="/glossary/%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97/">スコープ</a>を持つか確認します。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  https://api.github.com/user
+</span></span></code></pre></div><ol start="2">
+<li>
+<p><strong>リソースの実在確認</strong>：ブラウザでGitHub.comにログインし、対象の<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>・ユーザー・ファイルが本当に存在するか目視確認してください。</p>
+</li>
+<li>
+<p><strong><a href="/glossary/api/">API</a>レスポンスヘッダーの確認</strong>：以下のコマンドで詳細情報を取得します。</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -i -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;&#34;</span>
+</span></span></code></pre></div><h3 id="公式ドキュメント参照">公式ドキュメント参照<a hidden class="anchor" aria-hidden="true" href="#公式ドキュメント参照">#</a></h3>
+<ul>
+<li><strong>GitHub <a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a> ドキュメント</strong>：https://docs.github.com/rest</li>
+<li><strong>トラブルシューティングガイド</strong>：https://docs.github.com/rest/guides/troubleshooting</li>
+<li><strong><a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>ガイド</strong>：https://docs.github.com/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens</li>
+</ul>
+<h3 id="コミュニティリソース">コミュニティリソース<a hidden class="anchor" aria-hidden="true" href="#コミュニティリソース">#</a></h3>
+<p>問題が解決しない場合は、以下を参照してください：</p>
+<ul>
+<li><strong>GitHub Community Forum</strong>：https://github.com/orgs/community/discussions</li>
+<li><strong>GitHub <a href="/glossary/api/">API</a>関連のStack Overflow</strong>：<a href="https://stackoverflow.com/questions/tagged/github-api">github-api タグ付き質問</a></li>
+<li><strong>GitHub Status Page</strong>：https://www.githubstatus.com （<a href="/glossary/api/">API</a>の障害有無確認）</li>
+</ul>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-github-api">GitHub API</span>
+        <h2 class="entry-hint-parent">GitHub API の 409 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GitHub API の 409 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to GitHub API の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_409/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-github-api">GitHub API</span>
+        <h2 class="entry-hint-parent">GitHub API の 504 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GitHub API の 504 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to GitHub API の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_504/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-github-api">GitHub API</span>
+        <h2 class="entry-hint-parent">GitHub API の 400 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GitHub API の 400 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to GitHub API の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_400/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-github-api">GitHub API</span>
+        <h2 class="entry-hint-parent">GitHub API の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GitHub API の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to GitHub API の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-github-api">GitHub API</span>
+        <h2 class="entry-hint-parent">GitHub API の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GitHub API の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to GitHub API の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-github-api">GitHub API</span>
+        <h2 class="entry-hint-parent">GitHub API の 422 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GitHub API の 422 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to GitHub API の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_422/"></a>
+    </article>
+  </div>
+  <div class="related-posts related-by-code">
+    <h3>他のツールの 404 エラー</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-minikube">Minikube</span>
+        <h2 class="entry-hint-parent">Minikube の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>指定したKubernetesリソースが見つからない。Minikube 404 エラーの原因と解決策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Minikube の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-podman">Podman</span>
+        <h2 class="entry-hint-parent">Podman の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>指定したイメージまたはコンテナが見つからない。イメージ名またはタグ名の綴りが間違っているなど、Podman 404 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Podman の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-gcp">GCP</span>
+        <h2 class="entry-hint-parent">GCP の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>指定したGoogle Cloudリソースが見つからない。GCP 404 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="GCP の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-slack">Slack</span>
+        <h2 class="entry-hint-parent">Slack の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Slack の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Slack の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/slack_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-stripe">Stripe</span>
+        <h2 class="entry-hint-parent">Stripe の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Stripe の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Stripe の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/stripe_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+        <h2 class="entry-hint-parent">Kubernetes の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Kubernetes の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Kubernetes の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-nginx">Nginx</span>
+        <h2 class="entry-hint-parent">Nginx の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Nginx の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Nginx の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_404/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+        <h2 class="entry-hint-parent">OpenAI API の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>OpenAI API の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="OpenAI API の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_404/"></a>
+    </article>
+  </div>
+
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://errorlog.jp/tags/github-api/">GitHub API</a></li>
+    </ul>
+  </footer>
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
+
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_BEFORE.test(el.textContent)) return;
+
+    var beforeLabel = el.closest('p');
+    if (beforeLabel.dataset.compared) return;
+
+    
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
+
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterLabel) return;
+
+    
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
+
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      
+      
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
+
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
+    left.appendChild(beforeLabel);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
+
+    
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+
+    
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
+  });
+})();
+</script>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a><script>
+(function () {
+  var header = document.querySelector('.header');
+  if (!header) return;
+  var prev = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var cur = window.scrollY;
+    if (cur <= 0) {
+      header.classList.remove('header--hidden');
+    } else if (cur > prev && cur > 60) {
+      header.classList.add('header--hidden');
+    } else if (cur < prev) {
+      header.classList.remove('header--hidden');
+    }
+    prev = cur;
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

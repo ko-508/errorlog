@@ -1,13 +1,729 @@
-<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>AWS の 500 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="AWS,HTTP500,500エラー"><meta name=description content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/aws_500/><link crossorigin=anonymous href=/assets/css/stylesheet.3138a156a2cc44de6777fe2ee09d69126e641edd9405347bcb9154a1433eefe9.css integrity="sha256-MTihVqLMRN5nd/4u4J1pEm5kHt2UBTR7y5FUoUM+7+k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/aws_500/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/aws_500/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="AWS の 500 エラー：原因と解決策"><meta property="og:description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="AWS"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="AWS の 500 エラー：原因と解決策"><meta name=twitter:description content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"AWS の 500 エラー：原因と解決策","item":"https://errorlog.jp/posts/aws_500/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"AWS の 500 エラー：原因と解決策","name":"AWS の 500 エラー：原因と解決策","description":"AWS の 500 エラーの原因と解決策をわかりやすく解説します。","keywords":["AWS"],"articleBody":"AWS の 500 エラーとは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。\nAWS の文脈では、このコードは次のことを意味します。\nAWS側で予期しない問題が発生した。通常はサーバー側の処理に失敗したことを示します。\nこのエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。\nこのエラーが発生する主な原因（起きる理由の整理） AWS で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。\nAWS側の内部障害：AWSのインフラ側で一時的なシステム問題が発生している 設定エラー：IAM権限（AWSへのアクセス権限）やリソース設定が不適切 タイムアウト：リクエストの処理に時間がかかりすぎている メモリ不足：Lambda関数やアプリケーションのメモリリソースが枯渇している 通信エラー：ネットワーク接続の問題やAPIエンドポイントの障害 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。\nAWS Service Health ダッシュボードで現在の障害情報を確認する\nAWSマネジメントコンソールにログインし、サービスの状態を確認 障害が報告されていれば、解決を待つ 数分後に同じリクエストを再試行する\n一時的なエラーの場合、時間を置くことで解決することが多い 冪等性のある操作（何度実行しても結果が同じ操作）であることを確認してから実行 IAM権限とリソース設定を確認する\n使用しているIAM ロールが必要な権限を持っているか確認 Lambda関数のタイムアウト時間やメモリ設定を見直す セキュリティグループやネットワークACL（ファイアウォール機能）の設定を確認 エラーログを詳しく確認する\nCloudWatch Logs（ログ管理サービス）でアプリケーションログを確認 エラーメッセージの詳細から原因を特定する AWSサポートにケースを起票する\n上記の手順で解決しない場合は、公式のサポートに問い合わせる まとめ AWS の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。\nそれでも解決しない場合は、次の方法を試してください。\nAWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやAWSサポートに問い合わせる CloudTrail（操作ログ）を確認して、どの操作でエラーが発生したかを特定する 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"59","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/aws_500/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-aws">AWS</span>
-<span class=error-badge>500</span></div><h1 class="post-title entry-hint-parent">AWS の 500 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
-<span class=summary-text>AWS の 500 エラーの原因と解決策をわかりやすく解説します。</span></div></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#aws-%e3%81%ae-500-%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%a8%e3%81%af%e4%bd%95%e3%81%8b%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9a%e7%be%a9 aria-label="AWS の 500 エラーとは何か？（公式の定義）">AWS の 500 エラーとは何か？（公式の定義）</a></li><li><a href=#%e3%81%93%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%8c%e7%99%ba%e7%94%9f%e3%81%99%e3%82%8b%e4%b8%bb%e3%81%aa%e5%8e%9f%e5%9b%a0%e8%b5%b7%e3%81%8d%e3%82%8b%e7%90%86%e7%94%b1%e3%81%ae%e6%95%b4%e7%90%86 aria-label=このエラーが発生する主な原因（起きる理由の整理）>このエラーが発生する主な原因（起きる理由の整理）</a></li><li><a href=#%e5%85%b7%e4%bd%93%e7%9a%84%e3%81%aa%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86%e3%81%a8%e3%83%81%e3%82%a7%e3%83%83%e3%82%af%e3%83%aa%e3%82%b9%e3%83%88%e9%a0%86%e7%95%aa%e3%81%a9%e3%81%8a%e3%82%8a%e3%81%ab%e8%a9%a6%e3%81%99 aria-label=具体的な解決手順とチェックリスト（順番どおりに試す）>具体的な解決手順とチェックリスト（順番どおりに試す）</a></li><li><a href=#%e3%81%be%e3%81%a8%e3%82%81 aria-label=まとめ>まとめ</a></li></ul></div></details><div class="post-content md-content"><h2 id=aws-の-500-エラーとは何か公式の定義>AWS の 500 エラーとは何か？（公式の定義）<a hidden class=anchor aria-hidden=true href=#aws-の-500-エラーとは何か公式の定義>#</a></h2><p><strong>500</strong> は、<a href=/glossary/http/>HTTP</a>標準仕様（<a href=/glossary/rfc/>RFC</a> 9110）で定められている<a href=/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/>ステータスコード</a>の一つです。</p><p>AWS の文脈では、このコードは次のことを意味します。</p><blockquote><p>AWS側で予期しない問題が発生した。通常はサーバー側の処理に失敗したことを示します。</p></blockquote><p>このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。</p><hr><h2 id=このエラーが発生する主な原因起きる理由の整理>このエラーが発生する主な原因（起きる理由の整理）<a hidden class=anchor aria-hidden=true href=#このエラーが発生する主な原因起きる理由の整理>#</a></h2><p>AWS で 500 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。</p><ul><li><strong>AWS側の内部障害</strong>：AWSのインフラ側で一時的なシステム問題が発生している</li><li><strong>設定エラー</strong>：IAM権限（AWSへのアクセス権限）やリソース設定が不適切</li><li><strong>タイムアウト</strong>：リクエストの処理に時間がかかりすぎている</li><li><strong>メモリ不足</strong>：Lambda関数やアプリケーションのメモリリソースが枯渇している</li><li><strong>通信エラー</strong>：ネットワーク接続の問題やAPIエンドポイントの障害</li></ul><hr><h2 id=具体的な解決手順とチェックリスト順番どおりに試す>具体的な解決手順とチェックリスト（順番どおりに試す）<a hidden class=anchor aria-hidden=true href=#具体的な解決手順とチェックリスト順番どおりに試す>#</a></h2><p>上の原因ごとの対処法を、実行できる手順の形でまとめました。
-<strong>上から順番に試す</strong>ことで、多くの場合は解決に近づけます。</p><ol><li><p><strong>AWS Service Health ダッシュボード</strong>で現在の障害情報を確認する</p><ul><li>AWSマネジメントコンソールにログインし、サービスの状態を確認</li><li>障害が報告されていれば、解決を待つ</li></ul></li><li><p>数分後に同じ<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>を再試行する</p><ul><li>一時的なエラーの場合、時間を置くことで解決することが多い</li><li><a href=/glossary/%E5%86%AA%E7%AD%89%E6%80%A7/>冪等性</a>のある操作（何度実行しても結果が同じ操作）であることを確認してから実行</li></ul></li><li><p><strong>IAM権限</strong>と<strong>リソース設定</strong>を確認する</p><ul><li>使用しているIAM ロールが必要な権限を持っているか確認</li><li>Lambda関数のタイムアウト時間やメモリ設定を見直す</li><li>セキュリティグループやネットワークACL（ファイアウォール機能）の設定を確認</li></ul></li><li><p><strong>エラーログ</strong>を詳しく確認する</p><ul><li>CloudWatch Logs（ログ管理サービス）でアプリケーションログを確認</li><li>エラーメッセージの詳細から原因を特定する</li></ul></li><li><p>AWSサポートにケースを起票する</p><ul><li>上記の手順で解決しない場合は、公式のサポートに問い合わせる</li></ul></li></ol><hr><h2 id=まとめ>まとめ<a hidden class=anchor aria-hidden=true href=#まとめ>#</a></h2><p>AWS の <strong>500</strong> エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。</p><p>それでも解決しない場合は、次の方法を試してください。</p><ul><li>AWS の公式ドキュメントで最新の情報を確認する</li><li>エラーメッセージの全文をコピーして検索エンジンで調べる</li><li>公式のコミュニティフォーラムやAWSサポートに問い合わせる</li><li>CloudTrail（操作ログ）を確認して、どの操作でエラーが発生したかを特定する</li></ul><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_422/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_400/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-aws">AWS</span><h2 class=entry-hint-parent>AWS の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to AWS の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/aws_403/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 500 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeクラスターの内部で予期しないエラーが発生した。Minikube 500 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Minikube の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Podmanシステムで予期しない内部エラーが発生した。Podman 500 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Google Cloudサービス側で予期しない内部エラーが発生した。GCPの内部的な障害であり利用者側の設定の問題ではないなど、GCP 500 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="GCP の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack側のサーバーで予期しない内部エラーが発生した。Slackのインフラで一時的な障害が起きているなど、Slack 500 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Slack の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 500 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 500 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-nginx">Nginx</span><h2 class=entry-hint-parent>Nginx の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Nginx の 500 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Nginx の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_500/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 500 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_500/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/aws/>AWS</a></li></ul></footer></article><script>(function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/Before|エラーが起きる/,n=/After|修正後/,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,a,r,c,l,d,u,h,m,f,i=s.closest("p");if(i.dataset.compared)return;for(o=i.nextElementSibling,h=[],c=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){c=o;break}h.push(o),o=o.nextElementSibling}if(!c)return;for(l=[],o=c.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;l.push(o),o=o.nextElementSibling}if(!l.length)return;a=!1,h.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-before"),a=!0)}),a=!1,l.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-after"),a=!0)}),r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),d=document.createElement("div"),d.className="code-compare__side",u=document.createElement("div"),u.className="code-compare__side",i.parentNode.insertBefore(r,i),i.dataset.compared="1",d.appendChild(i),h.forEach(function(e){d.appendChild(e)}),u.appendChild(c),l.forEach(function(e){u.appendChild(e)}),r.appendChild(d),r.appendChild(u)})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AWS の 500 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="AWS, HTTP500, 500エラー">
+<meta name="description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="https://errorlog.jp/posts/aws_500/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://errorlog.jp/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
+<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/aws_500/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
+<meta property="og:url" content="https://errorlog.jp/posts/aws_500/">
+  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
+  <meta property="og:title" content="AWS の 500 エラー：原因と解決策">
+  <meta property="og:description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
+    <meta property="article:tag" content="AWS">
+      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
+  <meta name="twitter:title" content="AWS の 500 エラー：原因と解決策">
+  <meta name="twitter:description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://errorlog.jp/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "AWS の 500 エラー：原因と解決策",
+      "item": "https://errorlog.jp/posts/aws_500/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AWS の 500 エラー：原因と解決策",
+  "name": "AWS の 500 エラー：原因と解決策",
+  "description": "AWS の 500 エラーの原因と解決策をわかりやすく解説します。",
+  "keywords": [
+    "AWS"
+  ],
+  "articleBody": "AWS の 500 エラーとは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。\nAWS の文脈では、このコードは次のことを意味します。\nAWS側で予期しない問題が発生した。通常はサーバー側の処理に失敗したことを示します。\nこのエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。\nこのエラーが発生する主な原因（起きる理由の整理） AWS で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。\nAWS側の内部障害：AWSのインフラ側で一時的なシステム問題が発生している 設定エラー：IAM権限（AWSへのアクセス権限）やリソース設定が不適切 タイムアウト：リクエストの処理に時間がかかりすぎている メモリ不足：Lambda関数やアプリケーションのメモリリソースが枯渇している 通信エラー：ネットワーク接続の問題やAPIエンドポイントの障害 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。\nAWS Service Health ダッシュボードで現在の障害情報を確認する\nAWSマネジメントコンソールにログインし、サービスの状態を確認 障害が報告されていれば、解決を待つ 数分後に同じリクエストを再試行する\n一時的なエラーの場合、時間を置くことで解決することが多い 冪等性のある操作（何度実行しても結果が同じ操作）であることを確認してから実行 IAM権限とリソース設定を確認する\n使用しているIAM ロールが必要な権限を持っているか確認 Lambda関数のタイムアウト時間やメモリ設定を見直す セキュリティグループやネットワークACL（ファイアウォール機能）の設定を確認 エラーログを詳しく確認する\nCloudWatch Logs（ログ管理サービス）でアプリケーションログを確認 エラーメッセージの詳細から原因を特定する AWSサポートにケースを起票する\n上記の手順で解決しない場合は、公式のサポートに問い合わせる まとめ AWS の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。\nそれでも解決しない場合は、次の方法を試してください。\nAWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやAWSサポートに問い合わせる CloudTrail（操作ログ）を確認して、どの操作でエラーが発生したかを特定する 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
+  "wordCount" : "59",
+  "inLanguage": "ja",
+  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-29T00:00:00Z\"",
+  "author":{
+    "@type": "Person",
+    "name": "ErrorLog"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://errorlog.jp/posts/aws_500/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ErrorLog - エラーコード解決ガイド",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://errorlog.jp/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
+    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
+  </text>
+</svg>
+</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://errorlog.jp/search/" title="検索">
+                    <span>検索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/tags/" title="タグ">
+                    <span>タグ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                    <span>アーカイブ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/glossary/" title="用語集">
+                    <span>用語集</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <div class="post-badges">
+      <span class="tool-badge tool-badge-aws">AWS</span>
+      <span class="error-badge">500</span>
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      AWS の 500 エラー：原因と解決策
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header>
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">AWS の 500 エラーの原因と解決策をわかりやすく解説します。</span>
+    </div>
+  </div> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目次</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#aws-%e3%81%ae-500-%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%a8%e3%81%af%e4%bd%95%e3%81%8b%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9a%e7%be%a9" aria-label="AWS の 500 エラーとは何か？（公式の定義）">AWS の 500 エラーとは何か？（公式の定義）</a></li>
+            <li>
+                <a href="#%e3%81%93%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%8c%e7%99%ba%e7%94%9f%e3%81%99%e3%82%8b%e4%b8%bb%e3%81%aa%e5%8e%9f%e5%9b%a0%e8%b5%b7%e3%81%8d%e3%82%8b%e7%90%86%e7%94%b1%e3%81%ae%e6%95%b4%e7%90%86" aria-label="このエラーが発生する主な原因（起きる理由の整理）">このエラーが発生する主な原因（起きる理由の整理）</a></li>
+            <li>
+                <a href="#%e5%85%b7%e4%bd%93%e7%9a%84%e3%81%aa%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86%e3%81%a8%e3%83%81%e3%82%a7%e3%83%83%e3%82%af%e3%83%aa%e3%82%b9%e3%83%88%e9%a0%86%e7%95%aa%e3%81%a9%e3%81%8a%e3%82%8a%e3%81%ab%e8%a9%a6%e3%81%99" aria-label="具体的な解決手順とチェックリスト（順番どおりに試す）">具体的な解決手順とチェックリスト（順番どおりに試す）</a></li>
+            <li>
+                <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
+            </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="aws-の-500-エラーとは何か公式の定義">AWS の 500 エラーとは何か？（公式の定義）<a hidden class="anchor" aria-hidden="true" href="#aws-の-500-エラーとは何か公式の定義">#</a></h2>
+<p><strong>500</strong> は、<a href="/glossary/http/">HTTP</a>標準仕様（<a href="/glossary/rfc/">RFC</a> 9110）で定められている<a href="/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/">ステータスコード</a>の一つです。</p>
+<p>AWS の文脈では、このコードは次のことを意味します。</p>
+<blockquote>
+<p>AWS側で予期しない問題が発生した。通常はサーバー側の処理に失敗したことを示します。</p>
+</blockquote>
+<p>このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
+多くの場合、設定の見直しや手順の確認だけで解決できます。</p>
+<hr>
+<h2 id="このエラーが発生する主な原因起きる理由の整理">このエラーが発生する主な原因（起きる理由の整理）<a hidden class="anchor" aria-hidden="true" href="#このエラーが発生する主な原因起きる理由の整理">#</a></h2>
+<p>AWS で 500 が出るときに、最もよく見られる原因を挙げます。
+自分の状況に当てはまるものを探してみてください。</p>
+<ul>
+<li><strong>AWS側の内部障害</strong>：AWSのインフラ側で一時的なシステム問題が発生している</li>
+<li><strong>設定エラー</strong>：IAM権限（AWSへのアクセス権限）やリソース設定が不適切</li>
+<li><strong>タイムアウト</strong>：リクエストの処理に時間がかかりすぎている</li>
+<li><strong>メモリ不足</strong>：Lambda関数やアプリケーションのメモリリソースが枯渇している</li>
+<li><strong>通信エラー</strong>：ネットワーク接続の問題やAPIエンドポイントの障害</li>
+</ul>
+<hr>
+<h2 id="具体的な解決手順とチェックリスト順番どおりに試す">具体的な解決手順とチェックリスト（順番どおりに試す）<a hidden class="anchor" aria-hidden="true" href="#具体的な解決手順とチェックリスト順番どおりに試す">#</a></h2>
+<p>上の原因ごとの対処法を、実行できる手順の形でまとめました。
+<strong>上から順番に試す</strong>ことで、多くの場合は解決に近づけます。</p>
+<ol>
+<li>
+<p><strong>AWS Service Health ダッシュボード</strong>で現在の障害情報を確認する</p>
+<ul>
+<li>AWSマネジメントコンソールにログインし、サービスの状態を確認</li>
+<li>障害が報告されていれば、解決を待つ</li>
+</ul>
+</li>
+<li>
+<p>数分後に同じ<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を再試行する</p>
+<ul>
+<li>一時的なエラーの場合、時間を置くことで解決することが多い</li>
+<li><a href="/glossary/%E5%86%AA%E7%AD%89%E6%80%A7/">冪等性</a>のある操作（何度実行しても結果が同じ操作）であることを確認してから実行</li>
+</ul>
+</li>
+<li>
+<p><strong>IAM権限</strong>と<strong>リソース設定</strong>を確認する</p>
+<ul>
+<li>使用しているIAM ロールが必要な権限を持っているか確認</li>
+<li>Lambda関数のタイムアウト時間やメモリ設定を見直す</li>
+<li>セキュリティグループやネットワークACL（ファイアウォール機能）の設定を確認</li>
+</ul>
+</li>
+<li>
+<p><strong>エラーログ</strong>を詳しく確認する</p>
+<ul>
+<li>CloudWatch Logs（ログ管理サービス）でアプリケーションログを確認</li>
+<li>エラーメッセージの詳細から原因を特定する</li>
+</ul>
+</li>
+<li>
+<p>AWSサポートにケースを起票する</p>
+<ul>
+<li>上記の手順で解決しない場合は、公式のサポートに問い合わせる</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
+<p>AWS の <strong>500</strong> エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
+チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。</p>
+<p>それでも解決しない場合は、次の方法を試してください。</p>
+<ul>
+<li>AWS の公式ドキュメントで最新の情報を確認する</li>
+<li>エラーメッセージの全文をコピーして検索エンジンで調べる</li>
+<li>公式のコミュニティフォーラムやAWSサポートに問い合わせる</li>
+<li>CloudTrail（操作ログ）を確認して、どの操作でエラーが発生したかを特定する</li>
+</ul>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 409 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_409/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 422 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_422/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 504 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_504/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 400 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_400/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-aws">AWS</span>
+        <h2 class="entry-hint-parent">AWS の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to AWS の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_403/"></a>
+    </article>
+  </div>
+  <div class="related-posts related-by-code">
+    <h3>他のツールの 500 エラー</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-minikube">Minikube</span>
+        <h2 class="entry-hint-parent">Minikube の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Minikubeクラスターの内部で予期しないエラーが発生した。Minikube 500 エラーの原因と解決策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Minikube の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-podman">Podman</span>
+        <h2 class="entry-hint-parent">Podman の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Podmanシステムで予期しない内部エラーが発生した。Podman 500 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Podman の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-gcp">GCP</span>
+        <h2 class="entry-hint-parent">GCP の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Google Cloudサービス側で予期しない内部エラーが発生した。GCPの内部的な障害であり利用者側の設定の問題ではないなど、GCP 500 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="GCP の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-slack">Slack</span>
+        <h2 class="entry-hint-parent">Slack の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Slack側のサーバーで予期しない内部エラーが発生した。Slackのインフラで一時的な障害が起きているなど、Slack 500 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Slack の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/slack_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+        <h2 class="entry-hint-parent">Kubernetes の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Kubernetes の 500 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Kubernetes の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-stripe">Stripe</span>
+        <h2 class="entry-hint-parent">Stripe の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Stripe の 500 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Stripe の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/stripe_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-nginx">Nginx</span>
+        <h2 class="entry-hint-parent">Nginx の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Nginx の 500 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Nginx の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_500/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+        <h2 class="entry-hint-parent">OpenAI API の 500 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>OpenAI API の 500 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="OpenAI API の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_500/"></a>
+    </article>
+  </div>
+
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://errorlog.jp/tags/aws/">AWS</a></li>
+    </ul>
+  </footer>
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
+
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_BEFORE.test(el.textContent)) return;
+
+    var beforeLabel = el.closest('p');
+    if (beforeLabel.dataset.compared) return;
+
+    
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
+
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterLabel) return;
+
+    
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
+
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      
+      
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
+
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
+    left.appendChild(beforeLabel);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
+
+    
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+
+    
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
+  });
+})();
+</script>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a><script>
+(function () {
+  var header = document.querySelector('.header');
+  if (!header) return;
+  var prev = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var cur = window.scrollY;
+    if (cur <= 0) {
+      header.classList.remove('header--hidden');
+    } else if (cur > prev && cur > 60) {
+      header.classList.add('header--hidden');
+    } else if (cur < prev) {
+      header.classList.remove('header--hidden');
+    }
+    prev = cur;
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

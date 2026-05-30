@@ -165,17 +165,33 @@
     }
     if (!afterElems.length) return;
 
-    // 各サイドの最初のコードブロックに装飾クラスを付与
-    var tagged = false;
-    beforeElems.forEach(function (e) {
-      if (!tagged && e.classList.contains('highlight')) { e.classList.add('code-before'); tagged = true; }
-    });
-    tagged = false;
-    afterElems.forEach(function (e) {
-      if (!tagged && e.classList.contains('highlight')) { e.classList.add('code-after'); tagged = true; }
-    });
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      // border-left は使わない（background-clip 次第で背景の外に浮くため）。
+      // グラデーションで左 4px をストライプ、残りをティントにする。
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
 
-    // 2カラムラッパーを構築
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        // Chroma の background-color はそのまま残し、上に gradient を重ねる
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        // 言語指定なしの plain <pre>
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    // 2カラムラッパーを先に構築（paintBlock のラッパー挿入と干渉しないよう順番を先にする）
     var wrap = document.createElement('div');
     wrap.className = 'code-compare';
     if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
@@ -191,8 +207,32 @@
     beforeElems.forEach(function (e) { left.appendChild(e); });
     right.appendChild(afterLabel);
     afterElems.forEach(function (e) { right.appendChild(e); });
+
+    // DOM 確定後に色付け（ラッパー div を挿入しても left/right 内に収まる）
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
     wrap.appendChild(left);
     wrap.appendChild(right);
+
+    // ラベル行の高さを揃えてコードブロックの開始位置を統一
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
   });
 })();
 </script>

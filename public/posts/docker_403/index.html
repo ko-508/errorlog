@@ -1,111 +1,835 @@
-<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Docker の 403 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="Docker,HTTP403,403エラー"><meta name=description content="Docker の 403 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/docker_403/><link crossorigin=anonymous href=/assets/css/stylesheet.3138a156a2cc44de6777fe2ee09d69126e641edd9405347bcb9154a1433eefe9.css integrity="sha256-MTihVqLMRN5nd/4u4J1pEm5kHt2UBTR7y5FUoUM+7+k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/docker_403/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/docker_403/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Docker の 403 エラー：原因と解決策"><meta property="og:description" content="Docker の 403 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="Docker"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Docker の 403 エラー：原因と解決策"><meta name=twitter:description content="Docker の 403 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"Docker の 403 エラー：原因と解決策","item":"https://errorlog.jp/posts/docker_403/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Docker の 403 エラー：原因と解決策","name":"Docker の 403 エラー：原因と解決策","description":"Docker の 403 エラーの原因と解決策をわかりやすく解説します。","keywords":["Docker"],"articleBody":"エラーの概要 Docker の 403 エラーは、認証（ログイン）には成功したものの、対象のリソース（イメージ、レジストリ、ボリューム等）へのアクセス権限がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な認証トークンの権限が原因で発生することがほとんどです。Docker CLI、Docker Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。\n実際のエラーメッセージ例 Error response from daemon: Head \"https://registry-1.docker.io/v2/myuser/myimage/manifests/latest\": unauthorized: authentication required\r403 Forbidden { \"errors\": [ { \"code\": \"DENIED\", \"message\": \"permission denied\", \"detail\": \"requested access to the resource is denied\" } ] } docker push myrepo/myimage:tag\rdenied: requested access to the resource is denied よくある原因と解決手順 原因1：Docker Hub のログイン認証が無効または権限不足 なぜ発生するか：Docker CLI がログインしていない状態、または無効なトークンでリポジトリにアクセスしようとすると、403 エラーが返されます。特にプライベートリポジトリの場合、認証なしでのアクセスが拒否されます。\nBefore（エラーが起きるコマンド）\n# ログインせずにプライベートリポジトリをプルしようとする docker pull myusername/private-image:latest # または古い認証情報で実行 docker push myrepo/myimage:tag After（修正後のコマンド）\n# Docker Hub にログイン docker login # プロンプトで以下を入力： # Username: # Password: # その後にプルまたはプッシュを実行 docker pull myusername/private-image:latest docker push myrepo/myimage:tag 認証情報が有効か確認する方法：\n# ログイン状態を確認 cat ~/.docker/config.json | jq '.auths' # 認証トークンをリフレッシュ docker logout docker login 原因2：リポジトリの所有者または権限設定が不一致 なぜ発生するか：Docker Hub でリポジトリを作成した時点の所有者と異なるアカウント、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。\nBefore（エラーが起きる状況）\n# ユーザーAが作成した org/repo にユーザーBがログインしてアクセス docker login # ユーザーB としてログイン docker push org/repo:v1.0 # Error: denied: requested access to the resource is denied After（修正後の対応）\nリポジトリの所有者が Docker Hub Web UI でアクセス権限を明示的に付与する必要があります：\nDocker Hub Web UI \u003e Repository \u003e Settings \u003e Collaborators\r→ ユーザーB を追加し、\"Write\" 権限を付与 その後、ユーザーB は以下を実行：\ndocker logout docker login # ユーザーB で再度ログイン docker push org/repo:v1.0 原因3：プライベートレジストリの認証情報が Kubernetes に未登録 なぜ発生するか：Docker コンテナを Kubernetes クラスタで実行する際、プライベートレジストリの認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。\nBefore（エラーが起きる設定）\napiVersion: v1 kind: Pod metadata: name: my-app spec: containers: - name: app image: myregistry.azurecr.io/myimage:latest # imagePullSecrets が指定されていない → 403 エラー After（修正後の設定）\n# まずシークレットを作成 kubectl create secret docker-registry myregistrysecret \\ --docker-server=myregistry.azurecr.io \\ --docker-username= \\ --docker-password= \\ --docker-email= apiVersion: v1 kind: Pod metadata: name: my-app spec: containers: - name: app image: myregistry.azurecr.io/myimage:latest imagePullSecrets: - name: myregistrysecret # ← シークレット参照を追加 Docker 固有の注意点 Docker Desktop での認証の永続化 Docker Desktop（Mac/Windows）では、~/.docker/config.json に認証情報が保存されますが、Credential Helper を使用している場合、トークンの有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：\n# Credential Helper を経由してキャッシュを削除 docker logout docker login --username Docker Compose と認証 Docker Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で認証を明示的に指定できます：\nversion: '3.9' services: myapp: image: myregistry.example.com/myimage:latest # Compose は docker login の認証情報を自動的に使用するため、 # 別途設定は不要だが、CI/CD環境では明示的に login が必要 Docker Registry API での 403 自身が構築したプライベート Docker Registry（Docker Distribution）にアクセスする場合、Basic 認証またはトークン認証が有効か確認：\n# Basic 認証でテスト curl -u username:password https://your-registry.com/v2/ # 401 が返されたら、認証情報が間違っている # 403 が返されたら、ユーザーに対象リポジトリへのアクセス権限がない それでも解決しない場合 確認すべきログと情報 Docker デーモンのログを確認して詳細なエラーを特定します：\n# Docker Desktop (Mac) cat ~/Library/Containers/com.docker.docker/Data/log/vm/docker.log # Docker Desktop (Windows) type \"%APPDATA%\\Docker\\log.txt\" # Docker Engine (Linux) journalctl -u docker --no-pager | tail -50 レジストリへのアクセステストを以下で実施：\n# 認証情報の確認 docker info | grep \"Registries\" # 特定のリポジトリへの権限テスト curl -H \"Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths[\"registry-1.docker.io\"].auth')\" \\ https://registry-1.docker.io/v2//manifests/latest 公式ドキュメント参照 Docker Hub Authentication：アクセストークンの生成と管理 Docker Registry HTTP API：レジストリ API 仕様 Kubernetes Image Pull Secrets：Kubernetes での認証設定 コミュニティリソース GitHub の Docker Issues や Docker Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に CI/CD パイプライン内での 403 エラーは、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"399","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/docker_403/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-docker">Docker</span>
-<span class=error-badge>403</span></div><h1 class="post-title entry-hint-parent">Docker の 403 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
-<span class=summary-text>Docker の 403 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
-<span class=summary-text>Docker Hub のログイン認証が無効または権限不足</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
-<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>Error response from daemon: Head &#34;https://registry-1.docker.io/v2/myuser/myimage/manifests/latest&#34;: 
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Docker の 403 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="Docker, HTTP403, 403エラー">
+<meta name="description" content="Docker の 403 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="https://errorlog.jp/posts/docker_403/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://errorlog.jp/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
+<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/docker_403/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
+<meta property="og:url" content="https://errorlog.jp/posts/docker_403/">
+  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
+  <meta property="og:title" content="Docker の 403 エラー：原因と解決策">
+  <meta property="og:description" content="Docker の 403 エラーの原因と解決策をわかりやすく解説します。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
+    <meta property="article:tag" content="Docker">
+      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
+  <meta name="twitter:title" content="Docker の 403 エラー：原因と解決策">
+  <meta name="twitter:description" content="Docker の 403 エラーの原因と解決策をわかりやすく解説します。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://errorlog.jp/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Docker の 403 エラー：原因と解決策",
+      "item": "https://errorlog.jp/posts/docker_403/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Docker の 403 エラー：原因と解決策",
+  "name": "Docker の 403 エラー：原因と解決策",
+  "description": "Docker の 403 エラーの原因と解決策をわかりやすく解説します。",
+  "keywords": [
+    "Docker"
+  ],
+  "articleBody": "エラーの概要 Docker の 403 エラーは、認証（ログイン）には成功したものの、対象のリソース（イメージ、レジストリ、ボリューム等）へのアクセス権限がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な認証トークンの権限が原因で発生することがほとんどです。Docker CLI、Docker Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。\n実際のエラーメッセージ例 Error response from daemon: Head \"https://registry-1.docker.io/v2/myuser/myimage/manifests/latest\": unauthorized: authentication required\r403 Forbidden { \"errors\": [ { \"code\": \"DENIED\", \"message\": \"permission denied\", \"detail\": \"requested access to the resource is denied\" } ] } docker push myrepo/myimage:tag\rdenied: requested access to the resource is denied よくある原因と解決手順 原因1：Docker Hub のログイン認証が無効または権限不足 なぜ発生するか：Docker CLI がログインしていない状態、または無効なトークンでリポジトリにアクセスしようとすると、403 エラーが返されます。特にプライベートリポジトリの場合、認証なしでのアクセスが拒否されます。\nBefore（エラーが起きるコマンド）\n# ログインせずにプライベートリポジトリをプルしようとする docker pull myusername/private-image:latest # または古い認証情報で実行 docker push myrepo/myimage:tag After（修正後のコマンド）\n# Docker Hub にログイン docker login # プロンプトで以下を入力： # Username: # Password: # その後にプルまたはプッシュを実行 docker pull myusername/private-image:latest docker push myrepo/myimage:tag 認証情報が有効か確認する方法：\n# ログイン状態を確認 cat ~/.docker/config.json | jq '.auths' # 認証トークンをリフレッシュ docker logout docker login 原因2：リポジトリの所有者または権限設定が不一致 なぜ発生するか：Docker Hub でリポジトリを作成した時点の所有者と異なるアカウント、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。\nBefore（エラーが起きる状況）\n# ユーザーAが作成した org/repo にユーザーBがログインしてアクセス docker login # ユーザーB としてログイン docker push org/repo:v1.0 # Error: denied: requested access to the resource is denied After（修正後の対応）\nリポジトリの所有者が Docker Hub Web UI でアクセス権限を明示的に付与する必要があります：\nDocker Hub Web UI \u003e Repository \u003e Settings \u003e Collaborators\r→ ユーザーB を追加し、\"Write\" 権限を付与 その後、ユーザーB は以下を実行：\ndocker logout docker login # ユーザーB で再度ログイン docker push org/repo:v1.0 原因3：プライベートレジストリの認証情報が Kubernetes に未登録 なぜ発生するか：Docker コンテナを Kubernetes クラスタで実行する際、プライベートレジストリの認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。\nBefore（エラーが起きる設定）\napiVersion: v1 kind: Pod metadata: name: my-app spec: containers: - name: app image: myregistry.azurecr.io/myimage:latest # imagePullSecrets が指定されていない → 403 エラー After（修正後の設定）\n# まずシークレットを作成 kubectl create secret docker-registry myregistrysecret \\ --docker-server=myregistry.azurecr.io \\ --docker-username= \\ --docker-password= \\ --docker-email= apiVersion: v1 kind: Pod metadata: name: my-app spec: containers: - name: app image: myregistry.azurecr.io/myimage:latest imagePullSecrets: - name: myregistrysecret # ← シークレット参照を追加 Docker 固有の注意点 Docker Desktop での認証の永続化 Docker Desktop（Mac/Windows）では、~/.docker/config.json に認証情報が保存されますが、Credential Helper を使用している場合、トークンの有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：\n# Credential Helper を経由してキャッシュを削除 docker logout docker login --username Docker Compose と認証 Docker Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で認証を明示的に指定できます：\nversion: '3.9' services: myapp: image: myregistry.example.com/myimage:latest # Compose は docker login の認証情報を自動的に使用するため、 # 別途設定は不要だが、CI/CD環境では明示的に login が必要 Docker Registry API での 403 自身が構築したプライベート Docker Registry（Docker Distribution）にアクセスする場合、Basic 認証またはトークン認証が有効か確認：\n# Basic 認証でテスト curl -u username:password https://your-registry.com/v2/ # 401 が返されたら、認証情報が間違っている # 403 が返されたら、ユーザーに対象リポジトリへのアクセス権限がない それでも解決しない場合 確認すべきログと情報 Docker デーモンのログを確認して詳細なエラーを特定します：\n# Docker Desktop (Mac) cat ~/Library/Containers/com.docker.docker/Data/log/vm/docker.log # Docker Desktop (Windows) type \"%APPDATA%\\Docker\\log.txt\" # Docker Engine (Linux) journalctl -u docker --no-pager | tail -50 レジストリへのアクセステストを以下で実施：\n# 認証情報の確認 docker info | grep \"Registries\" # 特定のリポジトリへの権限テスト curl -H \"Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths[\"registry-1.docker.io\"].auth')\" \\ https://registry-1.docker.io/v2//manifests/latest 公式ドキュメント参照 Docker Hub Authentication：アクセストークンの生成と管理 Docker Registry HTTP API：レジストリ API 仕様 Kubernetes Image Pull Secrets：Kubernetes での認証設定 コミュニティリソース GitHub の Docker Issues や Docker Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に CI/CD パイプライン内での 403 エラーは、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
+  "wordCount" : "399",
+  "inLanguage": "ja",
+  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-29T00:00:00Z\"",
+  "author":{
+    "@type": "Person",
+    "name": "ErrorLog"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://errorlog.jp/posts/docker_403/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ErrorLog - エラーコード解決ガイド",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://errorlog.jp/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
+    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
+  </text>
+</svg>
+</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://errorlog.jp/search/" title="検索">
+                    <span>検索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/tags/" title="タグ">
+                    <span>タグ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                    <span>アーカイブ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/glossary/" title="用語集">
+                    <span>用語集</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <div class="post-badges">
+      <span class="tool-badge tool-badge-docker">Docker</span>
+      <span class="error-badge">403</span>
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      Docker の 403 エラー：原因と解決策
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header>
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">Docker の 403 エラーの原因と解決策をわかりやすく解説します。</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--cause">原因</span>
+      <span class="summary-text">Docker Hub のログイン認証が無効または権限不足</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+    </div>
+  </div>
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>Error response from daemon: Head &#34;https://registry-1.docker.io/v2/myuser/myimage/manifests/latest&#34;: 
 unauthorized: authentication required
 403 Forbidden
-</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01docker-hub-%e3%81%ae%e3%83%ad%e3%82%b0%e3%82%a4%e3%83%b3%e8%aa%8d%e8%a8%bc%e3%81%8c%e7%84%a1%e5%8a%b9%e3%81%be%e3%81%9f%e3%81%af%e6%a8%a9%e9%99%90%e4%b8%8d%e8%b6%b3 aria-label="原因1：Docker Hub のログイン認証が無効または権限不足">原因1：Docker Hub のログイン認証が無効または権限不足</a></li><li><a href=#%e5%8e%9f%e5%9b%a02%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e3%81%ae%e6%89%80%e6%9c%89%e8%80%85%e3%81%be%e3%81%9f%e3%81%af%e6%a8%a9%e9%99%90%e8%a8%ad%e5%ae%9a%e3%81%8c%e4%b8%8d%e4%b8%80%e8%87%b4 aria-label=原因2：リポジトリの所有者または権限設定が不一致>原因2：リポジトリの所有者または権限設定が不一致</a></li><li><a href=#%e5%8e%9f%e5%9b%a03%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%83%ac%e3%82%b8%e3%82%b9%e3%83%88%e3%83%aa%e3%81%ae%e8%aa%8d%e8%a8%bc%e6%83%85%e5%a0%b1%e3%81%8c-kubernetes-%e3%81%ab%e6%9c%aa%e7%99%bb%e9%8c%b2 aria-label="原因3：プライベートレジストリの認証情報が Kubernetes に未登録">原因3：プライベートレジストリの認証情報が Kubernetes に未登録</a></li></ul></li><li><a href=#docker-%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label="Docker 固有の注意点">Docker 固有の注意点</a><ul><li><a href=#docker-desktop-%e3%81%a7%e3%81%ae%e8%aa%8d%e8%a8%bc%e3%81%ae%e6%b0%b8%e7%b6%9a%e5%8c%96 aria-label="Docker Desktop での認証の永続化">Docker Desktop での認証の永続化</a></li><li><a href=#docker-compose-%e3%81%a8%e8%aa%8d%e8%a8%bc aria-label="Docker Compose と認証">Docker Compose と認証</a></li><li><a href=#docker-registry-api-%e3%81%a7%e3%81%ae-403 aria-label="Docker Registry API での 403">Docker Registry API での 403</a></li></ul></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a><ul><li><a href=#%e7%a2%ba%e8%aa%8d%e3%81%99%e3%81%b9%e3%81%8d%e3%83%ad%e3%82%b0%e3%81%a8%e6%83%85%e5%a0%b1 aria-label=確認すべきログと情報>確認すべきログと情報</a></li><li><a href=#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88%e5%8f%82%e7%85%a7 aria-label=公式ドキュメント参照>公式ドキュメント参照</a></li><li><a href=#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9 aria-label=コミュニティリソース>コミュニティリソース</a></li></ul></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p><a href=/glossary/docker/>Docker</a> の 403 エラーは、<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>（ログイン）には成功したものの、対象のリソース（イメージ、<a href=/glossary/%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/>レジストリ</a>、ボリューム等）へのアクセス権限がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a><a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>の権限が原因で発生することがほとんどです。<a href=/glossary/docker/>Docker</a> <a href=/glossary/cli/>CLI</a>、<a href=/glossary/docker/>Docker</a> Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><pre tabindex=0><code>Error response from daemon: Head &#34;https://registry-1.docker.io/v2/myuser/myimage/manifests/latest&#34;: 
+</code></pre>
+  </div> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目次</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
+            <li>
+                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
+            <li>
+                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
+                    
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a01docker-hub-%e3%81%ae%e3%83%ad%e3%82%b0%e3%82%a4%e3%83%b3%e8%aa%8d%e8%a8%bc%e3%81%8c%e7%84%a1%e5%8a%b9%e3%81%be%e3%81%9f%e3%81%af%e6%a8%a9%e9%99%90%e4%b8%8d%e8%b6%b3" aria-label="原因1：Docker Hub のログイン認証が無効または権限不足">原因1：Docker Hub のログイン認証が無効または権限不足</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a02%e3%83%aa%e3%83%9d%e3%82%b8%e3%83%88%e3%83%aa%e3%81%ae%e6%89%80%e6%9c%89%e8%80%85%e3%81%be%e3%81%9f%e3%81%af%e6%a8%a9%e9%99%90%e8%a8%ad%e5%ae%9a%e3%81%8c%e4%b8%8d%e4%b8%80%e8%87%b4" aria-label="原因2：リポジトリの所有者または権限設定が不一致">原因2：リポジトリの所有者または権限設定が不一致</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a03%e3%83%97%e3%83%a9%e3%82%a4%e3%83%99%e3%83%bc%e3%83%88%e3%83%ac%e3%82%b8%e3%82%b9%e3%83%88%e3%83%aa%e3%81%ae%e8%aa%8d%e8%a8%bc%e6%83%85%e5%a0%b1%e3%81%8c-kubernetes-%e3%81%ab%e6%9c%aa%e7%99%bb%e9%8c%b2" aria-label="原因3：プライベートレジストリの認証情報が Kubernetes に未登録">原因3：プライベートレジストリの認証情報が Kubernetes に未登録</a></li></ul>
+            </li>
+            <li>
+                <a href="#docker-%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="Docker 固有の注意点">Docker 固有の注意点</a><ul>
+                    
+            <li>
+                <a href="#docker-desktop-%e3%81%a7%e3%81%ae%e8%aa%8d%e8%a8%bc%e3%81%ae%e6%b0%b8%e7%b6%9a%e5%8c%96" aria-label="Docker Desktop での認証の永続化">Docker Desktop での認証の永続化</a></li>
+            <li>
+                <a href="#docker-compose-%e3%81%a8%e8%aa%8d%e8%a8%bc" aria-label="Docker Compose と認証">Docker Compose と認証</a></li>
+            <li>
+                <a href="#docker-registry-api-%e3%81%a7%e3%81%ae-403" aria-label="Docker Registry API での 403">Docker Registry API での 403</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a><ul>
+                    
+            <li>
+                <a href="#%e7%a2%ba%e8%aa%8d%e3%81%99%e3%81%b9%e3%81%8d%e3%83%ad%e3%82%b0%e3%81%a8%e6%83%85%e5%a0%b1" aria-label="確認すべきログと情報">確認すべきログと情報</a></li>
+            <li>
+                <a href="#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88%e5%8f%82%e7%85%a7" aria-label="公式ドキュメント参照">公式ドキュメント参照</a></li>
+            <li>
+                <a href="#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9" aria-label="コミュニティリソース">コミュニティリソース</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
+<p><a href="/glossary/docker/">Docker</a> の 403 エラーは、<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>（ログイン）には成功したものの、対象のリソース（イメージ、<a href="/glossary/%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/">レジストリ</a>、ボリューム等）へのアクセス権限がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a><a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の権限が原因で発生することがほとんどです。<a href="/glossary/docker/">Docker</a> <a href="/glossary/cli/">CLI</a>、<a href="/glossary/docker/">Docker</a> Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。</p>
+<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
+<pre tabindex="0"><code>Error response from daemon: Head &#34;https://registry-1.docker.io/v2/myuser/myimage/manifests/latest&#34;: 
 unauthorized: authentication required
 403 Forbidden
-</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;errors&#34;</span>: [
-</span></span><span style=display:flex><span>    {
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;code&#34;</span>: <span style=color:#e6db74>&#34;DENIED&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;permission denied&#34;</span>,
-</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;detail&#34;</span>: <span style=color:#e6db74>&#34;requested access to the resource is denied&#34;</span>
-</span></span><span style=display:flex><span>    }
-</span></span><span style=display:flex><span>  ]
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><pre tabindex=0><code>docker push myrepo/myimage:tag
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;errors&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;code&#34;</span>: <span style="color:#e6db74">&#34;DENIED&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;permission denied&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;detail&#34;</span>: <span style="color:#e6db74">&#34;requested access to the resource is denied&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><pre tabindex="0"><code>docker push myrepo/myimage:tag
 denied: requested access to the resource is denied
-</code></pre><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1docker-hub-のログイン認証が無効または権限不足>原因1：Docker Hub のログイン認証が無効または権限不足<a hidden class=anchor aria-hidden=true href=#原因1docker-hub-のログイン認証が無効または権限不足>#</a></h3><p>なぜ発生するか：<a href=/glossary/docker/>Docker</a> <a href=/glossary/cli/>CLI</a> がログインしていない状態、または無効な<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>で<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>にアクセスしようとすると、403 エラーが返されます。特にプライベートリポジトリの場合、<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>なしでのアクセスが拒否されます。</p><p><strong>Before（エラーが起きるコマンド）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># ログインせずにプライベートリポジトリをプルしようとする</span>
-</span></span><span style=display:flex><span>docker pull myusername/private-image:latest
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># または古い認証情報で実行</span>
-</span></span><span style=display:flex><span>docker push myrepo/myimage:tag
-</span></span></code></pre></div><p><strong>After（修正後のコマンド）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Docker Hub にログイン</span>
-</span></span><span style=display:flex><span>docker login
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># プロンプトで以下を入力：</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Username: &lt;your-username&gt;</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Password: &lt;your-password-or-access-token&gt;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># その後にプルまたはプッシュを実行</span>
-</span></span><span style=display:flex><span>docker pull myusername/private-image:latest
-</span></span><span style=display:flex><span>docker push myrepo/myimage:tag
-</span></span></code></pre></div><p>認証情報が有効か確認する方法：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># ログイン状態を確認</span>
-</span></span><span style=display:flex><span>cat ~/.docker/config.json | jq <span style=color:#e6db74>&#39;.auths&#39;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 認証トークンをリフレッシュ</span>
-</span></span><span style=display:flex><span>docker logout
-</span></span><span style=display:flex><span>docker login
-</span></span></code></pre></div><h3 id=原因2リポジトリの所有者または権限設定が不一致>原因2：リポジトリの所有者または権限設定が不一致<a hidden class=anchor aria-hidden=true href=#原因2リポジトリの所有者または権限設定が不一致>#</a></h3><p>なぜ発生するか：<a href=/glossary/docker/>Docker</a> Hub で<a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>を作成した時点の所有者と異なるアカウント、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。</p><p><strong>Before（エラーが起きる状況）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># ユーザーAが作成した org/repo にユーザーBがログインしてアクセス</span>
-</span></span><span style=display:flex><span>docker login  <span style=color:#75715e># ユーザーB としてログイン</span>
-</span></span><span style=display:flex><span>docker push org/repo:v1.0
-</span></span><span style=display:flex><span><span style=color:#75715e># Error: denied: requested access to the resource is denied</span>
-</span></span></code></pre></div><p><strong>After（修正後の対応）</strong></p><p><a href=/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/>リポジトリ</a>の所有者が <a href=/glossary/docker/>Docker</a> Hub Web UI でアクセス権限を明示的に付与する必要があります：</p><pre tabindex=0><code>Docker Hub Web UI &gt; Repository &gt; Settings &gt; Collaborators
+</code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
+<h3 id="原因1docker-hub-のログイン認証が無効または権限不足">原因1：Docker Hub のログイン認証が無効または権限不足<a hidden class="anchor" aria-hidden="true" href="#原因1docker-hub-のログイン認証が無効または権限不足">#</a></h3>
+<p>なぜ発生するか：<a href="/glossary/docker/">Docker</a> <a href="/glossary/cli/">CLI</a> がログインしていない状態、または無効な<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>で<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>にアクセスしようとすると、403 エラーが返されます。特にプライベートリポジトリの場合、<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>なしでのアクセスが拒否されます。</p>
+<p><strong>Before（エラーが起きるコマンド）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ログインせずにプライベートリポジトリをプルしようとする</span>
+</span></span><span style="display:flex;"><span>docker pull myusername/private-image:latest
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># または古い認証情報で実行</span>
+</span></span><span style="display:flex;"><span>docker push myrepo/myimage:tag
+</span></span></code></pre></div><p><strong>After（修正後のコマンド）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Docker Hub にログイン</span>
+</span></span><span style="display:flex;"><span>docker login
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># プロンプトで以下を入力：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Username: &lt;your-username&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Password: &lt;your-password-or-access-token&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># その後にプルまたはプッシュを実行</span>
+</span></span><span style="display:flex;"><span>docker pull myusername/private-image:latest
+</span></span><span style="display:flex;"><span>docker push myrepo/myimage:tag
+</span></span></code></pre></div><p>認証情報が有効か確認する方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ログイン状態を確認</span>
+</span></span><span style="display:flex;"><span>cat ~/.docker/config.json | jq <span style="color:#e6db74">&#39;.auths&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 認証トークンをリフレッシュ</span>
+</span></span><span style="display:flex;"><span>docker logout
+</span></span><span style="display:flex;"><span>docker login
+</span></span></code></pre></div><h3 id="原因2リポジトリの所有者または権限設定が不一致">原因2：リポジトリの所有者または権限設定が不一致<a hidden class="anchor" aria-hidden="true" href="#原因2リポジトリの所有者または権限設定が不一致">#</a></h3>
+<p>なぜ発生するか：<a href="/glossary/docker/">Docker</a> Hub で<a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>を作成した時点の所有者と異なるアカウント、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。</p>
+<p><strong>Before（エラーが起きる状況）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ユーザーAが作成した org/repo にユーザーBがログインしてアクセス</span>
+</span></span><span style="display:flex;"><span>docker login  <span style="color:#75715e"># ユーザーB としてログイン</span>
+</span></span><span style="display:flex;"><span>docker push org/repo:v1.0
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Error: denied: requested access to the resource is denied</span>
+</span></span></code></pre></div><p><strong>After（修正後の対応）</strong></p>
+<p><a href="/glossary/%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA/">リポジトリ</a>の所有者が <a href="/glossary/docker/">Docker</a> Hub Web UI でアクセス権限を明示的に付与する必要があります：</p>
+<pre tabindex="0"><code>Docker Hub Web UI &gt; Repository &gt; Settings &gt; Collaborators
 → ユーザーB を追加し、&#34;Write&#34; 権限を付与
-</code></pre><p>その後、ユーザーB は以下を実行：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>docker logout
-</span></span><span style=display:flex><span>docker login  <span style=color:#75715e># ユーザーB で再度ログイン</span>
-</span></span><span style=display:flex><span>docker push org/repo:v1.0
-</span></span></code></pre></div><h3 id=原因3プライベートレジストリの認証情報が-kubernetes-に未登録>原因3：プライベートレジストリの認証情報が Kubernetes に未登録<a hidden class=anchor aria-hidden=true href=#原因3プライベートレジストリの認証情報が-kubernetes-に未登録>#</a></h3><p>なぜ発生するか：<a href=/glossary/docker/>Docker</a> <a href=/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/>コンテナ</a>を <a href=/glossary/kubernetes/>Kubernetes</a> クラスタで実行する際、<a href=/glossary/%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/>プライベートレジストリ</a>の認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。</p><p><strong>Before（エラーが起きる設定）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Pod</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>my-app</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>app</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>myregistry.azurecr.io/myimage:latest</span>
-</span></span><span style=display:flex><span>  <span style=color:#75715e># imagePullSecrets が指定されていない → 403 エラー</span>
-</span></span></code></pre></div><p><strong>After（修正後の設定）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># まずシークレットを作成</span>
-</span></span><span style=display:flex><span>kubectl create secret docker-registry myregistrysecret <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  --docker-server<span style=color:#f92672>=</span>myregistry.azurecr.io <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  --docker-username<span style=color:#f92672>=</span>&lt;your-username&gt; <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  --docker-password<span style=color:#f92672>=</span>&lt;your-password&gt; <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  --docker-email<span style=color:#f92672>=</span>&lt;your-email&gt;
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Pod</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>my-app</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>containers</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>app</span>
-</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>myregistry.azurecr.io/myimage:latest</span>
-</span></span><span style=display:flex><span>  <span style=color:#f92672>imagePullSecrets</span>:
-</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myregistrysecret </span> <span style=color:#75715e># ← シークレット参照を追加</span>
-</span></span></code></pre></div><h2 id=docker-固有の注意点>Docker 固有の注意点<a hidden class=anchor aria-hidden=true href=#docker-固有の注意点>#</a></h2><h3 id=docker-desktop-での認証の永続化>Docker Desktop での認証の永続化<a hidden class=anchor aria-hidden=true href=#docker-desktop-での認証の永続化>#</a></h3><p><a href=/glossary/docker/>Docker</a> Desktop（Mac/Windows）では、<code>~/.docker/config.json</code> に認証情報が保存されますが、Credential Helper を使用している場合、<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Credential Helper を経由してキャッシュを削除</span>
-</span></span><span style=display:flex><span>docker logout
-</span></span><span style=display:flex><span>docker login --username &lt;your-username&gt;
-</span></span></code></pre></div><h3 id=docker-compose-と認証>Docker Compose と認証<a hidden class=anchor aria-hidden=true href=#docker-compose-と認証>#</a></h3><p><a href=/glossary/docker/>Docker</a> Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>を明示的に指定できます：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#e6db74>&#39;3.9&#39;</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>services</span>:
-</span></span><span style=display:flex><span>  <span style=color:#f92672>myapp</span>:
-</span></span><span style=display:flex><span>    <span style=color:#f92672>image</span>: <span style=color:#ae81ff>myregistry.example.com/myimage:latest</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># Compose は docker login の認証情報を自動的に使用するため、</span>
-</span></span><span style=display:flex><span>    <span style=color:#75715e># 別途設定は不要だが、CI/CD環境では明示的に login が必要</span>
-</span></span></code></pre></div><h3 id=docker-registry-api-での-403>Docker Registry API での 403<a hidden class=anchor aria-hidden=true href=#docker-registry-api-での-403>#</a></h3><p>自身が構築したプライベート <a href=/glossary/docker/>Docker</a> Registry（<a href=/glossary/docker/>Docker</a> Distribution）にアクセスする場合、Basic <a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>または<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a><a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>が有効か確認：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Basic 認証でテスト</span>
-</span></span><span style=display:flex><span>curl -u username:password https://your-registry.com/v2/
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 401 が返されたら、認証情報が間違っている</span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 403 が返されたら、ユーザーに対象リポジトリへのアクセス権限がない</span>
-</span></span></code></pre></div><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><h3 id=確認すべきログと情報>確認すべきログと情報<a hidden class=anchor aria-hidden=true href=#確認すべきログと情報>#</a></h3><p><a href=/glossary/docker/>Docker</a> <a href=/glossary/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3/>デーモン</a>のログを確認して詳細なエラーを特定します：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># Docker Desktop (Mac)</span>
-</span></span><span style=display:flex><span>cat ~/Library/Containers/com.docker.docker/Data/log/vm/docker.log
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Docker Desktop (Windows)</span>
-</span></span><span style=display:flex><span>type <span style=color:#e6db74>&#34;%APPDATA%\Docker\log.txt&#34;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Docker Engine (Linux)</span>
-</span></span><span style=display:flex><span>journalctl -u docker --no-pager | tail -50
-</span></span></code></pre></div><p><a href=/glossary/%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/>レジストリ</a>へのアクセステストを以下で実施：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 認証情報の確認</span>
-</span></span><span style=display:flex><span>docker info | grep <span style=color:#e6db74>&#34;Registries&#34;</span>
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 特定のリポジトリへの権限テスト</span>
-</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: Bearer </span><span style=color:#66d9ef>$(</span>cat ~/.docker/config.json | jq -r <span style=color:#e6db74>&#39;.auths[&#34;registry-1.docker.io&#34;].auth&#39;</span><span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  https://registry-1.docker.io/v2/&lt;your-repo&gt;/manifests/latest
-</span></span></code></pre></div><h3 id=公式ドキュメント参照>公式ドキュメント参照<a hidden class=anchor aria-hidden=true href=#公式ドキュメント参照>#</a></h3><ul><li><a href=https://docs.docker.com/docker-hub/access-tokens/>Docker Hub Authentication</a>：アクセストークンの生成と管理</li><li><a href=https://docs.docker.com/registry/spec/api/>Docker Registry HTTP API</a>：<a href=/glossary/%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/>レジストリ</a> <a href=/glossary/api/>API</a> 仕様</li><li><a href=https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/>Kubernetes Image Pull Secrets</a>：<a href=/glossary/kubernetes/>Kubernetes</a> での認証設定</li></ul><h3 id=コミュニティリソース>コミュニティリソース<a hidden class=anchor aria-hidden=true href=#コミュニティリソース>#</a></h3><p>GitHub の <a href=/glossary/docker/>Docker</a> Issues や <a href=/glossary/docker/>Docker</a> Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に <a href=/glossary/ci-cd/>CI/CD</a> パイプライン内での 403 エラーは、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker-compose">Docker Compose</span><h2 class=entry-hint-parent>Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策</h2></header><div class=entry-content><p>PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。</p></div><a class=entry-link aria-label="post link to Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策" href=https://errorlog.jp/posts/docker_compose_env_utf16_bom_windows/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker">Docker</span><h2 class=entry-hint-parent>Docker の 408 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker の 408 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Docker の 408 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_408/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker">Docker</span><h2 class=entry-hint-parent>Docker の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker の 504 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Docker の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker">Docker</span><h2 class=entry-hint-parent>Docker の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Docker の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_400/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker">Docker</span><h2 class=entry-hint-parent>Docker の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Docker の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker">Docker</span><h2 class=entry-hint-parent>Docker の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>Docker の 404 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Docker の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_404/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 403 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>RBAC設定によりリソースへのアクセスが拒否された。Minikube 403 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Minikube の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>認証は成功したが、そのリソースへのアクセス権限がない。プライベートリポジトリへの読み取り・書き込み権限がないなど、Podman 403 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="GCP の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Slack の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-nginx">Nginx</span><h2 class=entry-hint-parent>Nginx の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>Nginx の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Nginx の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/nginx_403/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 403 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_403/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/docker/>Docker</a></li></ul></footer></article><script>(function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/Before|エラーが起きる/,n=/After|修正後/,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,a,r,c,l,d,u,h,m,f,i=s.closest("p");if(i.dataset.compared)return;for(o=i.nextElementSibling,h=[],c=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){c=o;break}h.push(o),o=o.nextElementSibling}if(!c)return;for(l=[],o=c.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;l.push(o),o=o.nextElementSibling}if(!l.length)return;a=!1,h.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-before"),a=!0)}),a=!1,l.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-after"),a=!0)}),r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),d=document.createElement("div"),d.className="code-compare__side",u=document.createElement("div"),u.className="code-compare__side",i.parentNode.insertBefore(r,i),i.dataset.compared="1",d.appendChild(i),h.forEach(function(e){d.appendChild(e)}),u.appendChild(c),l.forEach(function(e){u.appendChild(e)}),r.appendChild(d),r.appendChild(u)})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+</code></pre><p>その後、ユーザーB は以下を実行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker logout
+</span></span><span style="display:flex;"><span>docker login  <span style="color:#75715e"># ユーザーB で再度ログイン</span>
+</span></span><span style="display:flex;"><span>docker push org/repo:v1.0
+</span></span></code></pre></div><h3 id="原因3プライベートレジストリの認証情報が-kubernetes-に未登録">原因3：プライベートレジストリの認証情報が Kubernetes に未登録<a hidden class="anchor" aria-hidden="true" href="#原因3プライベートレジストリの認証情報が-kubernetes-に未登録">#</a></h3>
+<p>なぜ発生するか：<a href="/glossary/docker/">Docker</a> <a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>を <a href="/glossary/kubernetes/">Kubernetes</a> クラスタで実行する際、<a href="/glossary/%E3%83%97%E3%83%A9%E3%82%A4%E3%83%99%E3%83%BC%E3%83%88%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/">プライベートレジストリ</a>の認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。</p>
+<p><strong>Before（エラーが起きる設定）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-app</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">app</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">myregistry.azurecr.io/myimage:latest</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># imagePullSecrets が指定されていない → 403 エラー</span>
+</span></span></code></pre></div><p><strong>After（修正後の設定）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># まずシークレットを作成</span>
+</span></span><span style="display:flex;"><span>kubectl create secret docker-registry myregistrysecret <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --docker-server<span style="color:#f92672">=</span>myregistry.azurecr.io <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --docker-username<span style="color:#f92672">=</span>&lt;your-username&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --docker-password<span style="color:#f92672">=</span>&lt;your-password&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --docker-email<span style="color:#f92672">=</span>&lt;your-email&gt;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-app</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">containers</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">app</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">myregistry.azurecr.io/myimage:latest</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">imagePullSecrets</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">myregistrysecret </span> <span style="color:#75715e"># ← シークレット参照を追加</span>
+</span></span></code></pre></div><h2 id="docker-固有の注意点">Docker 固有の注意点<a hidden class="anchor" aria-hidden="true" href="#docker-固有の注意点">#</a></h2>
+<h3 id="docker-desktop-での認証の永続化">Docker Desktop での認証の永続化<a hidden class="anchor" aria-hidden="true" href="#docker-desktop-での認証の永続化">#</a></h3>
+<p><a href="/glossary/docker/">Docker</a> Desktop（Mac/Windows）では、<code>~/.docker/config.json</code> に認証情報が保存されますが、Credential Helper を使用している場合、<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Credential Helper を経由してキャッシュを削除</span>
+</span></span><span style="display:flex;"><span>docker logout
+</span></span><span style="display:flex;"><span>docker login --username &lt;your-username&gt;
+</span></span></code></pre></div><h3 id="docker-compose-と認証">Docker Compose と認証<a hidden class="anchor" aria-hidden="true" href="#docker-compose-と認証">#</a></h3>
+<p><a href="/glossary/docker/">Docker</a> Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>を明示的に指定できます：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.9&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">myapp</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">myregistry.example.com/myimage:latest</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Compose は docker login の認証情報を自動的に使用するため、</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 別途設定は不要だが、CI/CD環境では明示的に login が必要</span>
+</span></span></code></pre></div><h3 id="docker-registry-api-での-403">Docker Registry API での 403<a hidden class="anchor" aria-hidden="true" href="#docker-registry-api-での-403">#</a></h3>
+<p>自身が構築したプライベート <a href="/glossary/docker/">Docker</a> Registry（<a href="/glossary/docker/">Docker</a> Distribution）にアクセスする場合、Basic <a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>または<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a><a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>が有効か確認：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Basic 認証でテスト</span>
+</span></span><span style="display:flex;"><span>curl -u username:password https://your-registry.com/v2/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 401 が返されたら、認証情報が間違っている</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 403 が返されたら、ユーザーに対象リポジトリへのアクセス権限がない</span>
+</span></span></code></pre></div><h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
+<h3 id="確認すべきログと情報">確認すべきログと情報<a hidden class="anchor" aria-hidden="true" href="#確認すべきログと情報">#</a></h3>
+<p><a href="/glossary/docker/">Docker</a> <a href="/glossary/%E3%83%87%E3%83%BC%E3%83%A2%E3%83%B3/">デーモン</a>のログを確認して詳細なエラーを特定します：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Docker Desktop (Mac)</span>
+</span></span><span style="display:flex;"><span>cat ~/Library/Containers/com.docker.docker/Data/log/vm/docker.log
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Docker Desktop (Windows)</span>
+</span></span><span style="display:flex;"><span>type <span style="color:#e6db74">&#34;%APPDATA%\Docker\log.txt&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Docker Engine (Linux)</span>
+</span></span><span style="display:flex;"><span>journalctl -u docker --no-pager | tail -50
+</span></span></code></pre></div><p><a href="/glossary/%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/">レジストリ</a>へのアクセステストを以下で実施：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 認証情報の確認</span>
+</span></span><span style="display:flex;"><span>docker info | grep <span style="color:#e6db74">&#34;Registries&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 特定のリポジトリへの権限テスト</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: Bearer </span><span style="color:#66d9ef">$(</span>cat ~/.docker/config.json | jq -r <span style="color:#e6db74">&#39;.auths[&#34;registry-1.docker.io&#34;].auth&#39;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  https://registry-1.docker.io/v2/&lt;your-repo&gt;/manifests/latest
+</span></span></code></pre></div><h3 id="公式ドキュメント参照">公式ドキュメント参照<a hidden class="anchor" aria-hidden="true" href="#公式ドキュメント参照">#</a></h3>
+<ul>
+<li><a href="https://docs.docker.com/docker-hub/access-tokens/">Docker Hub Authentication</a>：アクセストークンの生成と管理</li>
+<li><a href="https://docs.docker.com/registry/spec/api/">Docker Registry HTTP API</a>：<a href="/glossary/%E3%83%AC%E3%82%B8%E3%82%B9%E3%83%88%E3%83%AA/">レジストリ</a> <a href="/glossary/api/">API</a> 仕様</li>
+<li><a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/">Kubernetes Image Pull Secrets</a>：<a href="/glossary/kubernetes/">Kubernetes</a> での認証設定</li>
+</ul>
+<h3 id="コミュニティリソース">コミュニティリソース<a hidden class="anchor" aria-hidden="true" href="#コミュニティリソース">#</a></h3>
+<p>GitHub の <a href="/glossary/docker/">Docker</a> Issues や <a href="/glossary/docker/">Docker</a> Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に <a href="/glossary/ci-cd/">CI/CD</a> パイプライン内での 403 エラーは、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。</p>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+        <h2 class="entry-hint-parent">Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策" href="https://errorlog.jp/posts/docker_compose_env_utf16_bom_windows/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker">Docker</span>
+        <h2 class="entry-hint-parent">Docker の 408 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Docker の 408 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Docker の 408 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_408/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker">Docker</span>
+        <h2 class="entry-hint-parent">Docker の 504 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Docker の 504 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Docker の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_504/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker">Docker</span>
+        <h2 class="entry-hint-parent">Docker の 400 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Docker の 400 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Docker の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_400/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker">Docker</span>
+        <h2 class="entry-hint-parent">Docker の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Docker の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Docker の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker">Docker</span>
+        <h2 class="entry-hint-parent">Docker の 404 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Docker の 404 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Docker の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_404/"></a>
+    </article>
+  </div>
+  <div class="related-posts related-by-code">
+    <h3>他のツールの 403 エラー</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-minikube">Minikube</span>
+        <h2 class="entry-hint-parent">Minikube の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>RBAC設定によりリソースへのアクセスが拒否された。Minikube 403 エラーの原因と解決策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Minikube の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-podman">Podman</span>
+        <h2 class="entry-hint-parent">Podman の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>認証は成功したが、そのリソースへのアクセス権限がない。プライベートリポジトリへの読み取り・書き込み権限がないなど、Podman 403 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Podman の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-gcp">GCP</span>
+        <h2 class="entry-hint-parent">GCP の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GCP の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="GCP の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-slack">Slack</span>
+        <h2 class="entry-hint-parent">Slack の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Slack の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Slack の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/slack_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-stripe">Stripe</span>
+        <h2 class="entry-hint-parent">Stripe の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Stripe の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Stripe の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/stripe_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+        <h2 class="entry-hint-parent">Kubernetes の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Kubernetes の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Kubernetes の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-nginx">Nginx</span>
+        <h2 class="entry-hint-parent">Nginx の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Nginx の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Nginx の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_403/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+        <h2 class="entry-hint-parent">OpenAI API の 403 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>OpenAI API の 403 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="OpenAI API の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_403/"></a>
+    </article>
+  </div>
+
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://errorlog.jp/tags/docker/">Docker</a></li>
+    </ul>
+  </footer>
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
+
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_BEFORE.test(el.textContent)) return;
+
+    var beforeLabel = el.closest('p');
+    if (beforeLabel.dataset.compared) return;
+
+    
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
+
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterLabel) return;
+
+    
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
+
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      
+      
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
+
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
+    left.appendChild(beforeLabel);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
+
+    
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+
+    
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
+  });
+})();
+</script>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a><script>
+(function () {
+  var header = document.querySelector('.header');
+  if (!header) return;
+  var prev = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var cur = window.scrollY;
+    if (cur <= 0) {
+      header.classList.remove('header--hidden');
+    } else if (cur > prev && cur > 60) {
+      header.classList.add('header--hidden');
+    } else if (cur < prev) {
+      header.classList.remove('header--hidden');
+    }
+    prev = cur;
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

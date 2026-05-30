@@ -1,67 +1,354 @@
-<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Firebase の 401 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="Firebase,HTTP401,401エラー"><meta name=description content="Firebase の 401 エラーの原因と解決策をわかりやすく解説します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/firebase_401/><link crossorigin=anonymous href=/assets/css/stylesheet.3138a156a2cc44de6777fe2ee09d69126e641edd9405347bcb9154a1433eefe9.css integrity="sha256-MTihVqLMRN5nd/4u4J1pEm5kHt2UBTR7y5FUoUM+7+k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/firebase_401/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta property="og:url" content="https://errorlog.jp/posts/firebase_401/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Firebase の 401 エラー：原因と解決策"><meta property="og:description" content="Firebase の 401 エラーの原因と解決策をわかりやすく解説します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-29T00:00:00+00:00"><meta property="article:tag" content="Firebase"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Firebase の 401 エラー：原因と解決策"><meta name=twitter:description content="Firebase の 401 エラーの原因と解決策をわかりやすく解説します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"Firebase の 401 エラー：原因と解決策","item":"https://errorlog.jp/posts/firebase_401/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Firebase の 401 エラー：原因と解決策","name":"Firebase の 401 エラー：原因と解決策","description":"Firebase の 401 エラーの原因と解決策をわかりやすく解説します。","keywords":["Firebase"],"articleBody":"エラーの概要 Firebase の 401 エラーは、Firebaseサーバーへのリクエストに対して「認証情報が不足している、または無効である」という応答です。IDトークンの有効期限切れ、サービスアカウント認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。このエラーが発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。\n実際のエラーメッセージ例 { \"error\": { \"code\": 401, \"message\": \"Unauthorized\", \"errors\": [ { \"domain\": \"global\", \"reason\": \"unauthorized\", \"message\": \"The caller does not have permission\" } ] } } Error: Failed to get document (401): The caller does not have permission at Object.catch (/app/node_modules/firebase/firestore.js:123) よくある原因と解決手順 原因 1: IDトークンの有効期限が切れている Firebase Authentication では、IDトークンは発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこのエラーが発生します。\nBefore（エラーが起きるコード）\n// トークンをキャッシュして使い続けている const cachedToken = localStorage.getItem('firebaseToken'); const response = await fetch('https://firestore.googleapis.com/v1/projects//databases/(default)/documents/users', { headers: { 'Authorization': `Bearer ${cachedToken}` } }); After（修正後）\n// 常に最新のトークンを取得する const user = firebase.auth().currentUser; const freshToken = await user.getIdToken(true); // true で強制リフレッシュ const response = await fetch('https://firestore.googleapis.com/v1/projects//databases/(default)/documents/users', { headers: { 'Authorization': `Bearer ${freshToken}` } }); 原因 2: サービスアカウント認証鍵ファイルが無効または古い Node.js や Python でサーバーサイド処理を行う場合、サービスアカウントの JSON 鍵ファイルが削除されたり、ローテーションされたりすると 401 が発生します。\nBefore（エラーが起きるコード）\n# 旧い鍵ファイルを参照している import firebase_admin from firebase_admin import credentials, firestore cred = credentials.Certificate('/path/to/old-key.json') firebase_admin.initialize_app(cred) db = firestore.client() doc = db.collection('users').document('user1').get() After（修正後）\n# Firebase Console から最新の鍵ファイルをダウンロード import firebase_admin from firebase_admin import credentials, firestore import os key_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS') if not key_path: raise ValueError('GOOGLE_APPLICATION_CREDENTIALS env var not set') cred = credentials.Certificate(key_path) firebase_admin.initialize_app(cred) db = firestore.client() doc = db.collection('users').document('user1').get() 原因 3: セキュリティルールが拒否設定になっている Cloud Firestore / Realtime Database のセキュリティルールが、そのユーザーに対して読み取り/書き込みを禁止していると 401 が返されます。\nBefore（エラーが起きるルール）\nrules_version = '2';\rservice cloud.firestore {\rmatch /databases/{database}/documents {\rmatch /{document=**} {\rallow read, write: if false; // すべてのアクセスを拒否\r}\r}\r} After（修正後）\nrules_version = '2';\rservice cloud.firestore {\rmatch /databases/{database}/documents {\rmatch /users/{userId} {\rallow read, write: if request.auth.uid == userId; // ユーザー本人のみアクセス可\r}\rmatch /public/{document=**} {\rallow read: if request.auth != null; // 認証済みユーザーは読み取り可\r}\r}\r} 原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定 サーバー環境で GOOGLE_APPLICATION_CREDENTIALS が正しく設定されていないと、SDK が認証情報を見つけられず 401 が発生します。\nBefore（エラーが起きる設定）\n# .env ファイルに記述しているだけで、実際には読み込まれていない GOOGLE_APPLICATION_CREDENTIALS=./serviceAccountKey.json After（修正後）\n# シェル環境で明示的にエクスポート export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/serviceAccountKey.json node app.js # または Docker での実行 docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \\ -v $(pwd)/serviceAccountKey.json:/app/serviceAccountKey.json \\ my-app:latest Firebase 固有の注意点 Cloud Firestore / Realtime Database のセキュリティルール検証 セキュリティルールの構文エラーや論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能かテストしてください。\n// Firebase Console のシミュレーター実行例\rリクエスト: read\rコレクション: /users/user123\r認証ユーザーID: user123\r結果: ✅ Allow Firebase Authentication の状態確認 クライアント側でユーザーが正しく認証されているか確認します。認証されていないユーザーでも SDK がリクエストを送信してしまい、401 が返される場合があります。\nfirebase.auth().onAuthStateChanged((user) =\u003e { if (user) { console.log('User authenticated:', user.uid); } else { console.log('No user authenticated'); // ここで 401 が出ている場合が多い } }); REST API の Authorization ヘッダー形式 Firebase REST API を直接呼び出す場合、Authorization ヘッダーのフォーマットが正確でないと 401 が返されます。\n# 正しい形式 curl -H \"Authorization: Bearer \" \\ https://firestore.googleapis.com/v1/projects//databases/(default)/documents/users # 誤った形式（スペース忘れなど） curl -H \"Authorization:Bearer \" \\ # ❌ スペースなし それでも解決しない場合 ログの確認方法 Firebase Console の「ログ」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。\n# gcloud CLI で Firestore アクセスログを確認 gcloud logging read \"resource.type=cloud_firestore_instance\" --limit=50 --format=json # Cloud Functions のログを確認 gcloud functions log read \u003cfunction-name\u003e --limit=50 デバッグ用のセキュリティルール（開発環境のみ） 本番環境では使用禁止ですが、開発中の一時的なデバッグには以下のルールが有効です。\nrules_version = '2';\rservice cloud.firestore {\rmatch /databases/{database}/documents {\rmatch /{document=**} {\rallow read, write: if request.auth != null; // 開発環境デバッグ用\r}\r}\r} 公式ドキュメント参照 Cloud Firestore セキュリティルール Firebase Authentication トークンの管理 Service Account キーの管理 コミュニティリソース Firebase コミュニティ StackOverflow の firebase タグ、または firebase-tools GitHub Issues で同様の事例を検索し、解決策を参照することをお勧めします。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"441","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-29T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/firebase_401/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
-<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-firebase">Firebase</span>
-<span class=error-badge>401</span></div><h1 class="post-title entry-hint-parent">Firebase の 401 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
-<span class=summary-text>Firebase の 401 エラーの原因と解決策をわかりやすく解説します。</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
-<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
+<!DOCTYPE html>
+<html lang="ja" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Firebase の 401 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
+<meta name="keywords" content="Firebase, HTTP401, 401エラー">
+<meta name="description" content="Firebase の 401 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="author" content="ErrorLog">
+<link rel="canonical" href="https://errorlog.jp/posts/firebase_401/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://errorlog.jp/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
+<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<meta name="theme-color" content="#1a1a2e">
+<meta name="msapplication-TileColor" content="#1a1a2e">
+<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/firebase_401/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
+<meta property="og:url" content="https://errorlog.jp/posts/firebase_401/">
+  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
+  <meta property="og:title" content="Firebase の 401 エラー：原因と解決策">
+  <meta property="og:description" content="Firebase の 401 エラーの原因と解決策をわかりやすく解説します。">
+  <meta property="og:locale" content="ja">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
+    <meta property="article:tag" content="Firebase">
+      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
+  <meta name="twitter:title" content="Firebase の 401 エラー：原因と解決策">
+  <meta name="twitter:description" content="Firebase の 401 エラーの原因と解決策をわかりやすく解説します。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://errorlog.jp/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Firebase の 401 エラー：原因と解決策",
+      "item": "https://errorlog.jp/posts/firebase_401/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Firebase の 401 エラー：原因と解決策",
+  "name": "Firebase の 401 エラー：原因と解決策",
+  "description": "Firebase の 401 エラーの原因と解決策をわかりやすく解説します。",
+  "keywords": [
+    "Firebase"
+  ],
+  "articleBody": "エラーの概要 Firebase の 401 エラーは、Firebaseサーバーへのリクエストに対して「認証情報が不足している、または無効である」という応答です。IDトークンの有効期限切れ、サービスアカウント認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。このエラーが発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。\n実際のエラーメッセージ例 { \"error\": { \"code\": 401, \"message\": \"Unauthorized\", \"errors\": [ { \"domain\": \"global\", \"reason\": \"unauthorized\", \"message\": \"The caller does not have permission\" } ] } } Error: Failed to get document (401): The caller does not have permission at Object.catch (/app/node_modules/firebase/firestore.js:123) よくある原因と解決手順 原因 1: IDトークンの有効期限が切れている Firebase Authentication では、IDトークンは発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこのエラーが発生します。\nBefore（エラーが起きるコード）\n// トークンをキャッシュして使い続けている const cachedToken = localStorage.getItem('firebaseToken'); const response = await fetch('https://firestore.googleapis.com/v1/projects//databases/(default)/documents/users', { headers: { 'Authorization': `Bearer ${cachedToken}` } }); After（修正後）\n// 常に最新のトークンを取得する const user = firebase.auth().currentUser; const freshToken = await user.getIdToken(true); // true で強制リフレッシュ const response = await fetch('https://firestore.googleapis.com/v1/projects//databases/(default)/documents/users', { headers: { 'Authorization': `Bearer ${freshToken}` } }); 原因 2: サービスアカウント認証鍵ファイルが無効または古い Node.js や Python でサーバーサイド処理を行う場合、サービスアカウントの JSON 鍵ファイルが削除されたり、ローテーションされたりすると 401 が発生します。\nBefore（エラーが起きるコード）\n# 旧い鍵ファイルを参照している import firebase_admin from firebase_admin import credentials, firestore cred = credentials.Certificate('/path/to/old-key.json') firebase_admin.initialize_app(cred) db = firestore.client() doc = db.collection('users').document('user1').get() After（修正後）\n# Firebase Console から最新の鍵ファイルをダウンロード import firebase_admin from firebase_admin import credentials, firestore import os key_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS') if not key_path: raise ValueError('GOOGLE_APPLICATION_CREDENTIALS env var not set') cred = credentials.Certificate(key_path) firebase_admin.initialize_app(cred) db = firestore.client() doc = db.collection('users').document('user1').get() 原因 3: セキュリティルールが拒否設定になっている Cloud Firestore / Realtime Database のセキュリティルールが、そのユーザーに対して読み取り/書き込みを禁止していると 401 が返されます。\nBefore（エラーが起きるルール）\nrules_version = '2';\rservice cloud.firestore {\rmatch /databases/{database}/documents {\rmatch /{document=**} {\rallow read, write: if false; // すべてのアクセスを拒否\r}\r}\r} After（修正後）\nrules_version = '2';\rservice cloud.firestore {\rmatch /databases/{database}/documents {\rmatch /users/{userId} {\rallow read, write: if request.auth.uid == userId; // ユーザー本人のみアクセス可\r}\rmatch /public/{document=**} {\rallow read: if request.auth != null; // 認証済みユーザーは読み取り可\r}\r}\r} 原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定 サーバー環境で GOOGLE_APPLICATION_CREDENTIALS が正しく設定されていないと、SDK が認証情報を見つけられず 401 が発生します。\nBefore（エラーが起きる設定）\n# .env ファイルに記述しているだけで、実際には読み込まれていない GOOGLE_APPLICATION_CREDENTIALS=./serviceAccountKey.json After（修正後）\n# シェル環境で明示的にエクスポート export GOOGLE_APPLICATION_CREDENTIALS=$(pwd)/serviceAccountKey.json node app.js # または Docker での実行 docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \\ -v $(pwd)/serviceAccountKey.json:/app/serviceAccountKey.json \\ my-app:latest Firebase 固有の注意点 Cloud Firestore / Realtime Database のセキュリティルール検証 セキュリティルールの構文エラーや論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能かテストしてください。\n// Firebase Console のシミュレーター実行例\rリクエスト: read\rコレクション: /users/user123\r認証ユーザーID: user123\r結果: ✅ Allow Firebase Authentication の状態確認 クライアント側でユーザーが正しく認証されているか確認します。認証されていないユーザーでも SDK がリクエストを送信してしまい、401 が返される場合があります。\nfirebase.auth().onAuthStateChanged((user) =\u003e { if (user) { console.log('User authenticated:', user.uid); } else { console.log('No user authenticated'); // ここで 401 が出ている場合が多い } }); REST API の Authorization ヘッダー形式 Firebase REST API を直接呼び出す場合、Authorization ヘッダーのフォーマットが正確でないと 401 が返されます。\n# 正しい形式 curl -H \"Authorization: Bearer \" \\ https://firestore.googleapis.com/v1/projects//databases/(default)/documents/users # 誤った形式（スペース忘れなど） curl -H \"Authorization:Bearer \" \\ # ❌ スペースなし それでも解決しない場合 ログの確認方法 Firebase Console の「ログ」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。\n# gcloud CLI で Firestore アクセスログを確認 gcloud logging read \"resource.type=cloud_firestore_instance\" --limit=50 --format=json # Cloud Functions のログを確認 gcloud functions log read \u003cfunction-name\u003e --limit=50 デバッグ用のセキュリティルール（開発環境のみ） 本番環境では使用禁止ですが、開発中の一時的なデバッグには以下のルールが有効です。\nrules_version = '2';\rservice cloud.firestore {\rmatch /databases/{database}/documents {\rmatch /{document=**} {\rallow read, write: if request.auth != null; // 開発環境デバッグ用\r}\r}\r} 公式ドキュメント参照 Cloud Firestore セキュリティルール Firebase Authentication トークンの管理 Service Account キーの管理 コミュニティリソース Firebase コミュニティ StackOverflow の firebase タグ、または firebase-tools GitHub Issues で同様の事例を検索し、解決策を参照することをお勧めします。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
+  "wordCount" : "441",
+  "inLanguage": "ja",
+  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-29T00:00:00Z\"",
+  "author":{
+    "@type": "Person",
+    "name": "ErrorLog"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://errorlog.jp/posts/firebase_401/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ErrorLog - エラーコード解決ガイド",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://errorlog.jp/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
+    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
+  </text>
+</svg>
+</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://errorlog.jp/search/" title="検索">
+                    <span>検索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/tags/" title="タグ">
+                    <span>タグ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                    <span>アーカイブ</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://errorlog.jp/glossary/" title="用語集">
+                    <span>用語集</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <div class="post-badges">
+      <span class="tool-badge tool-badge-firebase">Firebase</span>
+      <span class="error-badge">401</span>
+    </div>
+    <h1 class="post-title entry-hint-parent">
+      Firebase の 401 エラー：原因と解決策
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
+
+</div>
+  </header>
+  <div class="summary-panel">
+    <div class="summary-row">
+      <span class="summary-label summary-label--symptom">現象</span>
+      <span class="summary-text">Firebase の 401 エラーの原因と解決策をわかりやすく解説します。</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+    </div>
+  </div>
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>{
   &#34;error&#34;: {
     &#34;code&#34;: 401,
     &#34;message&#34;: &#34;Unauthorized&#34;,
     &#34;errors&#34;: [
       {
         &#34;domain&#34;: &#34;global&#34;,
-        &#34;reason&#34;: &#34;unauthorized&#34;,</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a0-1-id%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e3%81%8c%e5%88%87%e3%82%8c%e3%81%a6%e3%81%84%e3%82%8b aria-label="原因 1: IDトークンの有効期限が切れている">原因 1: IDトークンの有効期限が切れている</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-2-%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e3%82%a2%e3%82%ab%e3%82%a6%e3%83%b3%e3%83%88%e8%aa%8d%e8%a8%bc%e9%8d%b5%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%8c%e7%84%a1%e5%8a%b9%e3%81%be%e3%81%9f%e3%81%af%e5%8f%a4%e3%81%84 aria-label="原因 2: サービスアカウント認証鍵ファイルが無効または古い">原因 2: サービスアカウント認証鍵ファイルが無効または古い</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-3-%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3%e3%83%ab%e3%83%bc%e3%83%ab%e3%81%8c%e6%8b%92%e5%90%a6%e8%a8%ad%e5%ae%9a%e3%81%ab%e3%81%aa%e3%81%a3%e3%81%a6%e3%81%84%e3%82%8b aria-label="原因 3: セキュリティルールが拒否設定になっている">原因 3: セキュリティルールが拒否設定になっている</a></li><li><a href=#%e5%8e%9f%e5%9b%a0-4-%e7%92%b0%e5%a2%83%e5%a4%89%e6%95%b0-google_application_credentials-%e3%81%8c%e6%9c%aa%e8%a8%ad%e5%ae%9a aria-label="原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定">原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定</a></li></ul></li><li><a href=#firebase-%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label="Firebase 固有の注意点">Firebase 固有の注意点</a><ul><li><a href=#cloud-firestore--realtime-database-%e3%81%ae%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3%e3%83%ab%e3%83%bc%e3%83%ab%e6%a4%9c%e8%a8%bc aria-label="Cloud Firestore / Realtime Database のセキュリティルール検証">Cloud Firestore / Realtime Database のセキュリティルール検証</a></li><li><a href=#firebase-authentication-%e3%81%ae%e7%8a%b6%e6%85%8b%e7%a2%ba%e8%aa%8d aria-label="Firebase Authentication の状態確認">Firebase Authentication の状態確認</a></li><li><a href=#rest-api-%e3%81%ae-authorization-%e3%83%98%e3%83%83%e3%83%80%e3%83%bc%e5%bd%a2%e5%bc%8f aria-label="REST API の Authorization ヘッダー形式">REST API の Authorization ヘッダー形式</a></li></ul></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a><ul><li><a href=#%e3%83%ad%e3%82%b0%e3%81%ae%e7%a2%ba%e8%aa%8d%e6%96%b9%e6%b3%95 aria-label=ログの確認方法>ログの確認方法</a></li><li><a href=#%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e7%94%a8%e3%81%ae%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3%e3%83%ab%e3%83%bc%e3%83%ab%e9%96%8b%e7%99%ba%e7%92%b0%e5%a2%83%e3%81%ae%e3%81%bf aria-label=デバッグ用のセキュリティルール（開発環境のみ）>デバッグ用のセキュリティルール（開発環境のみ）</a></li><li><a href=#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88%e5%8f%82%e7%85%a7 aria-label=公式ドキュメント参照>公式ドキュメント参照</a></li><li><a href=#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9 aria-label=コミュニティリソース>コミュニティリソース</a></li></ul></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>Firebase の 401 エラーは、Firebaseサーバーへの<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>に対して「認証情報が不足している、または無効である」という応答です。ID<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>の有効期限切れ、<a href=/glossary/%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/>サービスアカウント</a>認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。このエラーが発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
-</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;error&#34;</span>: {
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;code&#34;</span>: <span style=color:#ae81ff>401</span>,
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Unauthorized&#34;</span>,
-</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;errors&#34;</span>: [
-</span></span><span style=display:flex><span>      {
-</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;global&#34;</span>,
-</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;reason&#34;</span>: <span style=color:#e6db74>&#34;unauthorized&#34;</span>,
-</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;The caller does not have permission&#34;</span>
-</span></span><span style=display:flex><span>      }
-</span></span><span style=display:flex><span>    ]
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>}
-</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>Error: Failed to get document <span style=color:#f92672>(</span>401<span style=color:#f92672>)</span>: The caller does not have permission
-</span></span><span style=display:flex><span>    at Object.catch <span style=color:#f92672>(</span>/app/node_modules/firebase/firestore.js:123<span style=color:#f92672>)</span>
-</span></span></code></pre></div><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因-1-idトークンの有効期限が切れている>原因 1: IDトークンの有効期限が切れている<a hidden class=anchor aria-hidden=true href=#原因-1-idトークンの有効期限が切れている>#</a></h3><p>Firebase Authentication では、ID<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>は発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこのエラーが発生します。</p><p><strong>Before（エラーが起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// トークンをキャッシュして使い続けている
-</span></span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>cachedToken</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>localStorage</span>.<span style=color:#a6e22e>getItem</span>(<span style=color:#e6db74>&#39;firebaseToken&#39;</span>);
-</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>response</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>fetch</span>(<span style=color:#e6db74>&#39;https://firestore.googleapis.com/v1/projects/&lt;project-id&gt;/databases/(default)/documents/users&#39;</span>, {
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>headers</span><span style=color:#f92672>:</span> {
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;Authorization&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Bearer </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>cachedToken</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>});
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// 常に最新のトークンを取得する
-</span></span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>user</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>currentUser</span>;
-</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>freshToken</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>user</span>.<span style=color:#a6e22e>getIdToken</span>(<span style=color:#66d9ef>true</span>); <span style=color:#75715e>// true で強制リフレッシュ
-</span></span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>response</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>fetch</span>(<span style=color:#e6db74>&#39;https://firestore.googleapis.com/v1/projects/&lt;project-id&gt;/databases/(default)/documents/users&#39;</span>, {
-</span></span><span style=display:flex><span>  <span style=color:#a6e22e>headers</span><span style=color:#f92672>:</span> {
-</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#39;Authorization&#39;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`Bearer </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>freshToken</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>
-</span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>});
-</span></span></code></pre></div><h3 id=原因-2-サービスアカウント認証鍵ファイルが無効または古い>原因 2: サービスアカウント認証鍵ファイルが無効または古い<a hidden class=anchor aria-hidden=true href=#原因-2-サービスアカウント認証鍵ファイルが無効または古い>#</a></h3><p>Node.js や Python でサーバーサイド処理を行う場合、<a href=/glossary/%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/>サービスアカウント</a>の <a href=/glossary/json/>JSON</a> 鍵ファイルが削除されたり、ローテーションされたりすると 401 が発生します。</p><p><strong>Before（エラーが起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># 旧い鍵ファイルを参照している</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> firebase_admin
-</span></span><span style=display:flex><span><span style=color:#f92672>from</span> firebase_admin <span style=color:#f92672>import</span> credentials, firestore
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>cred <span style=color:#f92672>=</span> credentials<span style=color:#f92672>.</span>Certificate(<span style=color:#e6db74>&#39;/path/to/old-key.json&#39;</span>)
-</span></span><span style=display:flex><span>firebase_admin<span style=color:#f92672>.</span>initialize_app(cred)
-</span></span><span style=display:flex><span>db <span style=color:#f92672>=</span> firestore<span style=color:#f92672>.</span>client()
-</span></span><span style=display:flex><span>doc <span style=color:#f92672>=</span> db<span style=color:#f92672>.</span>collection(<span style=color:#e6db74>&#39;users&#39;</span>)<span style=color:#f92672>.</span>document(<span style=color:#e6db74>&#39;user1&#39;</span>)<span style=color:#f92672>.</span>get()
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#75715e># Firebase Console から最新の鍵ファイルをダウンロード</span>
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> firebase_admin
-</span></span><span style=display:flex><span><span style=color:#f92672>from</span> firebase_admin <span style=color:#f92672>import</span> credentials, firestore
-</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>key_path <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>getenv(<span style=color:#e6db74>&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span>)
-</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> key_path:
-</span></span><span style=display:flex><span>    <span style=color:#66d9ef>raise</span> <span style=color:#a6e22e>ValueError</span>(<span style=color:#e6db74>&#39;GOOGLE_APPLICATION_CREDENTIALS env var not set&#39;</span>)
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span>cred <span style=color:#f92672>=</span> credentials<span style=color:#f92672>.</span>Certificate(key_path)
-</span></span><span style=display:flex><span>firebase_admin<span style=color:#f92672>.</span>initialize_app(cred)
-</span></span><span style=display:flex><span>db <span style=color:#f92672>=</span> firestore<span style=color:#f92672>.</span>client()
-</span></span><span style=display:flex><span>doc <span style=color:#f92672>=</span> db<span style=color:#f92672>.</span>collection(<span style=color:#e6db74>&#39;users&#39;</span>)<span style=color:#f92672>.</span>document(<span style=color:#e6db74>&#39;user1&#39;</span>)<span style=color:#f92672>.</span>get()
-</span></span></code></pre></div><h3 id=原因-3-セキュリティルールが拒否設定になっている>原因 3: セキュリティルールが拒否設定になっている<a hidden class=anchor aria-hidden=true href=#原因-3-セキュリティルールが拒否設定になっている>#</a></h3><p>Cloud Firestore / Realtime Database のセキュリティルールが、そのユーザーに対して読み取り/書き込みを禁止していると 401 が返されます。</p><p><strong>Before（エラーが起きるルール）</strong></p><pre tabindex=0><code>rules_version = &#39;2&#39;;
+        &#34;reason&#34;: &#34;unauthorized&#34;,</code></pre>
+  </div> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">目次</span>
+    </summary>
+
+    <div class="inner"><ul>
+            <li>
+                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
+            <li>
+                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
+            <li>
+                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
+                    
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0-1-id%e3%83%88%e3%83%bc%e3%82%af%e3%83%b3%e3%81%ae%e6%9c%89%e5%8a%b9%e6%9c%9f%e9%99%90%e3%81%8c%e5%88%87%e3%82%8c%e3%81%a6%e3%81%84%e3%82%8b" aria-label="原因 1: IDトークンの有効期限が切れている">原因 1: IDトークンの有効期限が切れている</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0-2-%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e3%82%a2%e3%82%ab%e3%82%a6%e3%83%b3%e3%83%88%e8%aa%8d%e8%a8%bc%e9%8d%b5%e3%83%95%e3%82%a1%e3%82%a4%e3%83%ab%e3%81%8c%e7%84%a1%e5%8a%b9%e3%81%be%e3%81%9f%e3%81%af%e5%8f%a4%e3%81%84" aria-label="原因 2: サービスアカウント認証鍵ファイルが無効または古い">原因 2: サービスアカウント認証鍵ファイルが無効または古い</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0-3-%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3%e3%83%ab%e3%83%bc%e3%83%ab%e3%81%8c%e6%8b%92%e5%90%a6%e8%a8%ad%e5%ae%9a%e3%81%ab%e3%81%aa%e3%81%a3%e3%81%a6%e3%81%84%e3%82%8b" aria-label="原因 3: セキュリティルールが拒否設定になっている">原因 3: セキュリティルールが拒否設定になっている</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a0-4-%e7%92%b0%e5%a2%83%e5%a4%89%e6%95%b0-google_application_credentials-%e3%81%8c%e6%9c%aa%e8%a8%ad%e5%ae%9a" aria-label="原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定">原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定</a></li></ul>
+            </li>
+            <li>
+                <a href="#firebase-%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="Firebase 固有の注意点">Firebase 固有の注意点</a><ul>
+                    
+            <li>
+                <a href="#cloud-firestore--realtime-database-%e3%81%ae%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3%e3%83%ab%e3%83%bc%e3%83%ab%e6%a4%9c%e8%a8%bc" aria-label="Cloud Firestore / Realtime Database のセキュリティルール検証">Cloud Firestore / Realtime Database のセキュリティルール検証</a></li>
+            <li>
+                <a href="#firebase-authentication-%e3%81%ae%e7%8a%b6%e6%85%8b%e7%a2%ba%e8%aa%8d" aria-label="Firebase Authentication の状態確認">Firebase Authentication の状態確認</a></li>
+            <li>
+                <a href="#rest-api-%e3%81%ae-authorization-%e3%83%98%e3%83%83%e3%83%80%e3%83%bc%e5%bd%a2%e5%bc%8f" aria-label="REST API の Authorization ヘッダー形式">REST API の Authorization ヘッダー形式</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a><ul>
+                    
+            <li>
+                <a href="#%e3%83%ad%e3%82%b0%e3%81%ae%e7%a2%ba%e8%aa%8d%e6%96%b9%e6%b3%95" aria-label="ログの確認方法">ログの確認方法</a></li>
+            <li>
+                <a href="#%e3%83%87%e3%83%90%e3%83%83%e3%82%b0%e7%94%a8%e3%81%ae%e3%82%bb%e3%82%ad%e3%83%a5%e3%83%aa%e3%83%86%e3%82%a3%e3%83%ab%e3%83%bc%e3%83%ab%e9%96%8b%e7%99%ba%e7%92%b0%e5%a2%83%e3%81%ae%e3%81%bf" aria-label="デバッグ用のセキュリティルール（開発環境のみ）">デバッグ用のセキュリティルール（開発環境のみ）</a></li>
+            <li>
+                <a href="#%e5%85%ac%e5%bc%8f%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88%e5%8f%82%e7%85%a7" aria-label="公式ドキュメント参照">公式ドキュメント参照</a></li>
+            <li>
+                <a href="#%e3%82%b3%e3%83%9f%e3%83%a5%e3%83%8b%e3%83%86%e3%82%a3%e3%83%aa%e3%82%bd%e3%83%bc%e3%82%b9" aria-label="コミュニティリソース">コミュニティリソース</a>
+            </li>
+        </ul>
+        </li>
+        </ul>
+    </div>
+</details>
+
+  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
+<p>Firebase の 401 エラーは、Firebaseサーバーへの<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>に対して「認証情報が不足している、または無効である」という応答です。ID<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の有効期限切れ、<a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/">サービスアカウント</a>認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。このエラーが発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。</p>
+<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;error&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;code&#34;</span>: <span style="color:#ae81ff">401</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Unauthorized&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errors&#34;</span>: [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;domain&#34;</span>: <span style="color:#e6db74">&#34;global&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;reason&#34;</span>: <span style="color:#e6db74">&#34;unauthorized&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;The caller does not have permission&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Error: Failed to get document <span style="color:#f92672">(</span>401<span style="color:#f92672">)</span>: The caller does not have permission
+</span></span><span style="display:flex;"><span>    at Object.catch <span style="color:#f92672">(</span>/app/node_modules/firebase/firestore.js:123<span style="color:#f92672">)</span>
+</span></span></code></pre></div><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
+<h3 id="原因-1-idトークンの有効期限が切れている">原因 1: IDトークンの有効期限が切れている<a hidden class="anchor" aria-hidden="true" href="#原因-1-idトークンの有効期限が切れている">#</a></h3>
+<p>Firebase Authentication では、ID<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>は発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこのエラーが発生します。</p>
+<p><strong>Before（エラーが起きるコード）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// トークンをキャッシュして使い続けている
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">cachedToken</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">localStorage</span>.<span style="color:#a6e22e">getItem</span>(<span style="color:#e6db74">&#39;firebaseToken&#39;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;https://firestore.googleapis.com/v1/projects/&lt;project-id&gt;/databases/(default)/documents/users&#39;</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Authorization&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`Bearer </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">cachedToken</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 常に最新のトークンを取得する
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">user</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">currentUser</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">freshToken</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">getIdToken</span>(<span style="color:#66d9ef">true</span>); <span style="color:#75715e">// true で強制リフレッシュ
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;https://firestore.googleapis.com/v1/projects/&lt;project-id&gt;/databases/(default)/documents/users&#39;</span>, {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;Authorization&#39;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`Bearer </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">freshToken</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="原因-2-サービスアカウント認証鍵ファイルが無効または古い">原因 2: サービスアカウント認証鍵ファイルが無効または古い<a hidden class="anchor" aria-hidden="true" href="#原因-2-サービスアカウント認証鍵ファイルが無効または古い">#</a></h3>
+<p>Node.js や Python でサーバーサイド処理を行う場合、<a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9%E3%82%A2%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88/">サービスアカウント</a>の <a href="/glossary/json/">JSON</a> 鍵ファイルが削除されたり、ローテーションされたりすると 401 が発生します。</p>
+<p><strong>Before（エラーが起きるコード）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 旧い鍵ファイルを参照している</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> firebase_admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> firebase_admin <span style="color:#f92672">import</span> credentials, firestore
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cred <span style="color:#f92672">=</span> credentials<span style="color:#f92672">.</span>Certificate(<span style="color:#e6db74">&#39;/path/to/old-key.json&#39;</span>)
+</span></span><span style="display:flex;"><span>firebase_admin<span style="color:#f92672">.</span>initialize_app(cred)
+</span></span><span style="display:flex;"><span>db <span style="color:#f92672">=</span> firestore<span style="color:#f92672">.</span>client()
+</span></span><span style="display:flex;"><span>doc <span style="color:#f92672">=</span> db<span style="color:#f92672">.</span>collection(<span style="color:#e6db74">&#39;users&#39;</span>)<span style="color:#f92672">.</span>document(<span style="color:#e6db74">&#39;user1&#39;</span>)<span style="color:#f92672">.</span>get()
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Firebase Console から最新の鍵ファイルをダウンロード</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> firebase_admin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> firebase_admin <span style="color:#f92672">import</span> credentials, firestore
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>key_path <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getenv(<span style="color:#e6db74">&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> key_path:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;GOOGLE_APPLICATION_CREDENTIALS env var not set&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cred <span style="color:#f92672">=</span> credentials<span style="color:#f92672">.</span>Certificate(key_path)
+</span></span><span style="display:flex;"><span>firebase_admin<span style="color:#f92672">.</span>initialize_app(cred)
+</span></span><span style="display:flex;"><span>db <span style="color:#f92672">=</span> firestore<span style="color:#f92672">.</span>client()
+</span></span><span style="display:flex;"><span>doc <span style="color:#f92672">=</span> db<span style="color:#f92672">.</span>collection(<span style="color:#e6db74">&#39;users&#39;</span>)<span style="color:#f92672">.</span>document(<span style="color:#e6db74">&#39;user1&#39;</span>)<span style="color:#f92672">.</span>get()
+</span></span></code></pre></div><h3 id="原因-3-セキュリティルールが拒否設定になっている">原因 3: セキュリティルールが拒否設定になっている<a hidden class="anchor" aria-hidden="true" href="#原因-3-セキュリティルールが拒否設定になっている">#</a></h3>
+<p>Cloud Firestore / Realtime Database のセキュリティルールが、そのユーザーに対して読み取り/書き込みを禁止していると 401 が返されます。</p>
+<p><strong>Before（エラーが起きるルール）</strong></p>
+<pre tabindex="0"><code>rules_version = &#39;2&#39;;
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
@@ -69,7 +356,8 @@ service cloud.firestore {
     }
   }
 }
-</code></pre><p><strong>After（修正後）</strong></p><pre tabindex=0><code>rules_version = &#39;2&#39;;
+</code></pre><p><strong>After（修正後）</strong></p>
+<pre tabindex="0"><code>rules_version = &#39;2&#39;;
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId} {
@@ -80,42 +368,58 @@ service cloud.firestore {
     }
   }
 }
-</code></pre><h3 id=原因-4-環境変数-google_application_credentials-が未設定>原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定<a hidden class=anchor aria-hidden=true href=#原因-4-環境変数-google_application_credentials-が未設定>#</a></h3><p>サーバー環境で <code>GOOGLE_APPLICATION_CREDENTIALS</code> が正しく設定されていないと、<a href=/glossary/sdk/>SDK</a> が認証情報を見つけられず 401 が発生します。</p><p><strong>Before（エラーが起きる設定）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># .env ファイルに記述しているだけで、実際には読み込まれていない</span>
-</span></span><span style=display:flex><span>GOOGLE_APPLICATION_CREDENTIALS<span style=color:#f92672>=</span>./serviceAccountKey.json
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># シェル環境で明示的にエクスポート</span>
-</span></span><span style=display:flex><span>export GOOGLE_APPLICATION_CREDENTIALS<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>pwd<span style=color:#66d9ef>)</span>/serviceAccountKey.json
-</span></span><span style=display:flex><span>node app.js
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># または Docker での実行</span>
-</span></span><span style=display:flex><span>docker run -e GOOGLE_APPLICATION_CREDENTIALS<span style=color:#f92672>=</span>/app/serviceAccountKey.json <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  -v <span style=color:#66d9ef>$(</span>pwd<span style=color:#66d9ef>)</span>/serviceAccountKey.json:/app/serviceAccountKey.json <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  my-app:latest
-</span></span></code></pre></div><h2 id=firebase-固有の注意点>Firebase 固有の注意点<a hidden class=anchor aria-hidden=true href=#firebase-固有の注意点>#</a></h2><h3 id=cloud-firestore--realtime-database-のセキュリティルール検証>Cloud Firestore / Realtime Database のセキュリティルール検証<a hidden class=anchor aria-hidden=true href=#cloud-firestore--realtime-database-のセキュリティルール検証>#</a></h3><p>セキュリティルールの構文エラーや論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能かテストしてください。</p><pre tabindex=0><code>// Firebase Console のシミュレーター実行例
+</code></pre><h3 id="原因-4-環境変数-google_application_credentials-が未設定">原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定<a hidden class="anchor" aria-hidden="true" href="#原因-4-環境変数-google_application_credentials-が未設定">#</a></h3>
+<p>サーバー環境で <code>GOOGLE_APPLICATION_CREDENTIALS</code> が正しく設定されていないと、<a href="/glossary/sdk/">SDK</a> が認証情報を見つけられず 401 が発生します。</p>
+<p><strong>Before（エラーが起きる設定）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># .env ファイルに記述しているだけで、実際には読み込まれていない</span>
+</span></span><span style="display:flex;"><span>GOOGLE_APPLICATION_CREDENTIALS<span style="color:#f92672">=</span>./serviceAccountKey.json
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># シェル環境で明示的にエクスポート</span>
+</span></span><span style="display:flex;"><span>export GOOGLE_APPLICATION_CREDENTIALS<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/serviceAccountKey.json
+</span></span><span style="display:flex;"><span>node app.js
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># または Docker での実行</span>
+</span></span><span style="display:flex;"><span>docker run -e GOOGLE_APPLICATION_CREDENTIALS<span style="color:#f92672">=</span>/app/serviceAccountKey.json <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -v <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>/serviceAccountKey.json:/app/serviceAccountKey.json <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  my-app:latest
+</span></span></code></pre></div><h2 id="firebase-固有の注意点">Firebase 固有の注意点<a hidden class="anchor" aria-hidden="true" href="#firebase-固有の注意点">#</a></h2>
+<h3 id="cloud-firestore--realtime-database-のセキュリティルール検証">Cloud Firestore / Realtime Database のセキュリティルール検証<a hidden class="anchor" aria-hidden="true" href="#cloud-firestore--realtime-database-のセキュリティルール検証">#</a></h3>
+<p>セキュリティルールの構文エラーや論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能かテストしてください。</p>
+<pre tabindex="0"><code>// Firebase Console のシミュレーター実行例
 リクエスト: read
 コレクション: /users/user123
 認証ユーザーID: user123
 結果: ✅ Allow
-</code></pre><h3 id=firebase-authentication-の状態確認>Firebase Authentication の状態確認<a hidden class=anchor aria-hidden=true href=#firebase-authentication-の状態確認>#</a></h3><p>クライアント側でユーザーが正しく<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>されているか確認します。<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>されていないユーザーでも <a href=/glossary/sdk/>SDK</a> が<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>を送信してしまい、401 が返される場合があります。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>onAuthStateChanged</span>((<span style=color:#a6e22e>user</span>) =&gt; {
-</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>user</span>) {
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;User authenticated:&#39;</span>, <span style=color:#a6e22e>user</span>.<span style=color:#a6e22e>uid</span>);
-</span></span><span style=display:flex><span>  } <span style=color:#66d9ef>else</span> {
-</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#39;No user authenticated&#39;</span>);
-</span></span><span style=display:flex><span>    <span style=color:#75715e>// ここで 401 が出ている場合が多い
-</span></span></span><span style=display:flex><span>  }
-</span></span><span style=display:flex><span>});
-</span></span></code></pre></div><h3 id=rest-api-の-authorization-ヘッダー形式>REST API の Authorization ヘッダー形式<a hidden class=anchor aria-hidden=true href=#rest-api-の-authorization-ヘッダー形式>#</a></h3><p>Firebase <a href=/glossary/rest/>REST</a> <a href=/glossary/api/>API</a> を直接呼び出す場合、Authorization <a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>のフォーマットが正確でないと 401 が返されます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 正しい形式</span>
-</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: Bearer &lt;ID_TOKEN&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  https://firestore.googleapis.com/v1/projects/&lt;project-id&gt;/databases/<span style=color:#f92672>(</span>default<span style=color:#f92672>)</span>/documents/users
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># 誤った形式（スペース忘れなど）</span>
-</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization:Bearer &lt;ID_TOKEN&gt;&#34;</span> <span style=color:#ae81ff>\
-</span></span></span><span style=display:flex><span>  <span style=color:#75715e># ❌ スペースなし</span>
-</span></span></code></pre></div><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><h3 id=ログの確認方法>ログの確認方法<a hidden class=anchor aria-hidden=true href=#ログの確認方法>#</a></h3><p>Firebase Console の「ログ」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># gcloud CLI で Firestore アクセスログを確認</span>
-</span></span><span style=display:flex><span>gcloud logging read <span style=color:#e6db74>&#34;resource.type=cloud_firestore_instance&#34;</span> --limit<span style=color:#f92672>=</span><span style=color:#ae81ff>50</span> --format<span style=color:#f92672>=</span>json
-</span></span><span style=display:flex><span>
-</span></span><span style=display:flex><span><span style=color:#75715e># Cloud Functions のログを確認</span>
-</span></span><span style=display:flex><span>gcloud functions log read &lt;<span style=color:#66d9ef>function</span>-name&gt; --limit<span style=color:#f92672>=</span><span style=color:#ae81ff>50</span>
-</span></span></code></pre></div><h3 id=デバッグ用のセキュリティルール開発環境のみ>デバッグ用のセキュリティルール（開発環境のみ）<a hidden class=anchor aria-hidden=true href=#デバッグ用のセキュリティルール開発環境のみ>#</a></h3><p>本番環境では使用禁止ですが、開発中の一時的なデバッグには以下のルールが有効です。</p><pre tabindex=0><code>rules_version = &#39;2&#39;;
+</code></pre><h3 id="firebase-authentication-の状態確認">Firebase Authentication の状態確認<a hidden class="anchor" aria-hidden="true" href="#firebase-authentication-の状態確認">#</a></h3>
+<p>クライアント側でユーザーが正しく<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>されているか確認します。<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>されていないユーザーでも <a href="/glossary/sdk/">SDK</a> が<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を送信してしまい、401 が返される場合があります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">onAuthStateChanged</span>((<span style="color:#a6e22e">user</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">user</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;User authenticated:&#39;</span>, <span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">uid</span>);
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;No user authenticated&#39;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ここで 401 が出ている場合が多い
+</span></span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="rest-api-の-authorization-ヘッダー形式">REST API の Authorization ヘッダー形式<a hidden class="anchor" aria-hidden="true" href="#rest-api-の-authorization-ヘッダー形式">#</a></h3>
+<p>Firebase <a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a> を直接呼び出す場合、Authorization <a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>のフォーマットが正確でないと 401 が返されます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 正しい形式</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: Bearer &lt;ID_TOKEN&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  https://firestore.googleapis.com/v1/projects/&lt;project-id&gt;/databases/<span style="color:#f92672">(</span>default<span style="color:#f92672">)</span>/documents/users
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 誤った形式（スペース忘れなど）</span>
+</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization:Bearer &lt;ID_TOKEN&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e"># ❌ スペースなし</span>
+</span></span></code></pre></div><h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
+<h3 id="ログの確認方法">ログの確認方法<a hidden class="anchor" aria-hidden="true" href="#ログの確認方法">#</a></h3>
+<p>Firebase Console の「ログ」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># gcloud CLI で Firestore アクセスログを確認</span>
+</span></span><span style="display:flex;"><span>gcloud logging read <span style="color:#e6db74">&#34;resource.type=cloud_firestore_instance&#34;</span> --limit<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span> --format<span style="color:#f92672">=</span>json
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Cloud Functions のログを確認</span>
+</span></span><span style="display:flex;"><span>gcloud functions log read &lt;<span style="color:#66d9ef">function</span>-name&gt; --limit<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>
+</span></span></code></pre></div><h3 id="デバッグ用のセキュリティルール開発環境のみ">デバッグ用のセキュリティルール（開発環境のみ）<a hidden class="anchor" aria-hidden="true" href="#デバッグ用のセキュリティルール開発環境のみ">#</a></h3>
+<p>本番環境では使用禁止ですが、開発中の一時的なデバッグには以下のルールが有効です。</p>
+<pre tabindex="0"><code>rules_version = &#39;2&#39;;
 service cloud.firestore {
   match /databases/{database}/documents {
     match /{document=**} {
@@ -123,8 +427,431 @@ service cloud.firestore {
     }
   }
 }
-</code></pre><h3 id=公式ドキュメント参照>公式ドキュメント参照<a hidden class=anchor aria-hidden=true href=#公式ドキュメント参照>#</a></h3><ul><li><a href=https://firebase.google.com/docs/firestore/security/get-started>Cloud Firestore セキュリティルール</a></li><li><a href=https://firebase.google.com/docs/auth/admin/manage-sessions>Firebase Authentication トークンの管理</a></li><li><a href=https://cloud.google.com/iam/docs/keys-create-delete>Service Account キーの管理</a></li></ul><h3 id=コミュニティリソース>コミュニティリソース<a hidden class=anchor aria-hidden=true href=#コミュニティリソース>#</a></h3><p>Firebase コミュニティ StackOverflow の <code>firebase</code> タグ、または <a href=https://github.com/firebase/firebase-tools/issues>firebase-tools GitHub Issues</a> で同様の事例を検索し、解決策を参照することをお勧めします。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=related-posts><h3>同じツールの記事</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 408 エラー：原因と解決策</h2></header><div class=entry-content><p>クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="post link to Firebase の 408 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_408/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="post link to Firebase の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_504/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 409 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_409/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 422 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_422/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 502 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 502 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_502/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-firebase">Firebase</span><h2 class=entry-hint-parent>Firebase の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>Firebase の 400 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="post link to Firebase の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/firebase_400/></a></article></div><div class="related-posts related-by-code"><h3>他のツールの 401 エラー</h3><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-docker-compose">Docker Compose</span><h2 class=entry-hint-parent>Docker Compose の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。</p></div><a class=entry-link aria-label="Docker Compose の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-minikube">Minikube</span><h2 class=entry-hint-parent>Minikube の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Minikube の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/minikube_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-podman">Podman</span><h2 class=entry-hint-parent>Podman の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>レジストリへの認証に失敗した。Podman 401 エラーの原因と解決策を解説。</p></div><a class=entry-link aria-label="Podman の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/podman_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-gcp">GCP</span><h2 class=entry-hint-parent>GCP の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>GCP の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="GCP の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/gcp_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-slack">Slack</span><h2 class=entry-hint-parent>Slack の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Slack の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Slack の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/slack_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-kubernetes">Kubernetes</span><h2 class=entry-hint-parent>Kubernetes の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Kubernetes の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/kubernetes_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-stripe">Stripe</span><h2 class=entry-hint-parent>Stripe の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Stripe の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="Stripe の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/stripe_401/></a></article><article class=post-entry><header class=entry-header><span class="tool-badge tool-badge-openai-api">OpenAI API</span><h2 class=entry-hint-parent>OpenAI API の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>OpenAI API の 401 エラーの原因と解決策をわかりやすく解説します。</p></div><a class=entry-link aria-label="OpenAI API の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/openai_api_401/></a></article></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/firebase/>Firebase</a></li></ul></footer></article><script>(function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/Before|エラーが起きる/,n=/After|修正後/,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,a,r,c,l,d,u,h,m,f,i=s.closest("p");if(i.dataset.compared)return;for(o=i.nextElementSibling,h=[],c=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){c=o;break}h.push(o),o=o.nextElementSibling}if(!c)return;for(l=[],o=c.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;l.push(o),o=o.nextElementSibling}if(!l.length)return;a=!1,h.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-before"),a=!0)}),a=!1,l.forEach(function(e){!a&&e.classList.contains("highlight")&&(e.classList.add("code-after"),a=!0)}),r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),d=document.createElement("div"),d.className="code-compare__side",u=document.createElement("div"),u.className="code-compare__side",i.parentNode.insertBefore(r,i),i.dataset.compared="1",d.appendChild(i),h.forEach(function(e){d.appendChild(e)}),u.appendChild(c),l.forEach(function(e){u.appendChild(e)}),r.appendChild(d),r.appendChild(u)})})()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
-<span>Powered by
-<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
-<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
-</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>
+</code></pre><h3 id="公式ドキュメント参照">公式ドキュメント参照<a hidden class="anchor" aria-hidden="true" href="#公式ドキュメント参照">#</a></h3>
+<ul>
+<li><a href="https://firebase.google.com/docs/firestore/security/get-started">Cloud Firestore セキュリティルール</a></li>
+<li><a href="https://firebase.google.com/docs/auth/admin/manage-sessions">Firebase Authentication トークンの管理</a></li>
+<li><a href="https://cloud.google.com/iam/docs/keys-create-delete">Service Account キーの管理</a></li>
+</ul>
+<h3 id="コミュニティリソース">コミュニティリソース<a hidden class="anchor" aria-hidden="true" href="#コミュニティリソース">#</a></h3>
+<p>Firebase コミュニティ StackOverflow の <code>firebase</code> タグ、または <a href="https://github.com/firebase/firebase-tools/issues">firebase-tools GitHub Issues</a> で同様の事例を検索し、解決策を参照することをお勧めします。</p>
+<hr>
+<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
+
+
+  </div>
+  <div class="related-posts">
+    <h3>同じツールの記事</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 408 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 408 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_408/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 504 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_504/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 409 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 409 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_409/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 422 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 422 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_422/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 502 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_502/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-firebase">Firebase</span>
+        <h2 class="entry-hint-parent">Firebase の 400 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Firebase の 400 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="post link to Firebase の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_400/"></a>
+    </article>
+  </div>
+  <div class="related-posts related-by-code">
+    <h3>他のツールの 401 エラー</h3>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+        <h2 class="entry-hint-parent">Docker Compose の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Docker Compose の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_compose_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-minikube">Minikube</span>
+        <h2 class="entry-hint-parent">Minikube の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Minikube の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-podman">Podman</span>
+        <h2 class="entry-hint-parent">Podman の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>レジストリへの認証に失敗した。Podman 401 エラーの原因と解決策を解説。</p>
+      </div>
+      <a class="entry-link" aria-label="Podman の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-gcp">GCP</span>
+        <h2 class="entry-hint-parent">GCP の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>GCP の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="GCP の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-slack">Slack</span>
+        <h2 class="entry-hint-parent">Slack の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Slack の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Slack の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/slack_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
+        <h2 class="entry-hint-parent">Kubernetes の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Kubernetes の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-stripe">Stripe</span>
+        <h2 class="entry-hint-parent">Stripe の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>Stripe の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="Stripe の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/stripe_401/"></a>
+    </article>
+    <article class="post-entry">
+      <header class="entry-header">
+        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
+        <h2 class="entry-hint-parent">OpenAI API の 401 エラー：原因と解決策</h2>
+      </header>
+      <div class="entry-content">
+        <p>OpenAI API の 401 エラーの原因と解決策をわかりやすく解説します。</p>
+      </div>
+      <a class="entry-link" aria-label="OpenAI API の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_401/"></a>
+    </article>
+  </div>
+
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://errorlog.jp/tags/firebase/">Firebase</a></li>
+    </ul>
+  </footer>
+</article>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+
+  var firstCompare = true;
+  var RE_BEFORE = /Before|エラーが起きる/;
+  var RE_AFTER  = /After|修正後/;
+
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_BEFORE.test(el.textContent)) return;
+
+    var beforeLabel = el.closest('p');
+    if (beforeLabel.dataset.compared) return;
+
+    
+    var cursor      = beforeLabel.nextElementSibling;
+    var beforeElems = [];
+    var afterLabel  = null;
+
+    while (cursor) {
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
+      beforeElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterLabel) return;
+
+    
+    var afterElems = [];
+    cursor = afterLabel.nextElementSibling;
+
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
+      afterElems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    if (!afterElems.length) return;
+
+    function paintBlock(el, lineColor) {
+      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
+      
+      
+      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
+
+      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
+
+      if (el.classList.contains('highlight')) {
+        
+        var inner = el.querySelector('pre') || el.querySelector('div');
+        if (inner) {
+          sp(inner, 'background-image', grad);
+          sp(inner, 'padding-left',     '1rem');
+        }
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('overflow',      'hidden',       'important');
+      } else {
+        
+        sp(el, 'background-image', grad);
+        sp(el, 'padding-left',     '1rem');
+        sp(el, 'box-sizing',       'border-box');
+        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
+        el.style.setProperty('margin',        '0',            'important');
+      }
+    }
+    
+    var wrap = document.createElement('div');
+    wrap.className = 'code-compare';
+    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
+
+    var left  = document.createElement('div');
+    left.className = 'code-compare__side';
+    var right = document.createElement('div');
+    right.className = 'code-compare__side';
+
+    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
+    beforeLabel.dataset.compared = '1';
+    left.appendChild(beforeLabel);
+    beforeElems.forEach(function (e) { left.appendChild(e); });
+    right.appendChild(afterLabel);
+    afterElems.forEach(function (e) { right.appendChild(e); });
+
+    
+    beforeElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#ff4d4d');
+    });
+    afterElems.forEach(function (e) {
+      if (e.classList.contains('highlight') || e.tagName === 'PRE')
+        paintBlock(e, '#2ecc71');
+    });
+    wrap.appendChild(left);
+    wrap.appendChild(right);
+
+    
+    (function(l, r) {
+      requestAnimationFrame(function() {
+        var lp = l.firstElementChild;
+        var rp = r.firstElementChild;
+        if (!lp || !rp) return;
+        lp.style.minHeight = '';
+        rp.style.minHeight = '';
+        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
+        lp.style.minHeight = h + 'px';
+        rp.style.minHeight = h + 'px';
+      });
+    }(left, right));
+  });
+})();
+</script>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a><script>
+(function () {
+  var header = document.querySelector('.header');
+  if (!header) return;
+  var prev = window.scrollY;
+  window.addEventListener('scroll', function () {
+    var cur = window.scrollY;
+    if (cur <= 0) {
+      header.classList.remove('header--hidden');
+    } else if (cur > prev && cur > 60) {
+      header.classList.add('header--hidden');
+    } else if (cur < prev) {
+      header.classList.remove('header--hidden');
+    }
+    prev = cur;
+  }, { passive: true });
+})();
+</script>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'コピー';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'コピーされました!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'コピー';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
