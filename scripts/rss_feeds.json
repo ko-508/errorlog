@@ -1,9 +1,10 @@
 [
-  {"name": "Docker Blog",       "url": "https://www.docker.com/blog/feed/",            "category": "Docker"},
-  {"name": "AWS News",          "url": "https://aws.amazon.com/blogs/aws/feed/",        "category": "AWS"},
-  {"name": "GitHub Blog",       "url": "https://github.blog/feed/",                    "category": "GitHub"},
-  {"name": "Kubernetes Blog",   "url": "https://kubernetes.io/feed.xml",               "category": "K8s"},
-  {"name": "HashiCorp Blog",    "url": "https://www.hashicorp.com/blog/feed.xml",      "category": "IaC"},
-  {"name": "The GitHub ReadME", "url": "https://github.blog/engineering/feed/",        "category": "GitHub"},
-  {"name": "Google Cloud Blog", "url": "https://cloudblog.withgoogle.com/rss/",        "category": "GCP"}
+  {"id": "98a3a9bb-83af-40a0-8b07-9bf2f0923c54", "name": "Docker Blog",       "url": "https://www.docker.com/blog/feed/",              "category": "Docker"},
+  {"id": "51e2fe29-c7c4-415d-a7c9-870ec667ba1f", "name": "AWS News",          "url": "https://aws.amazon.com/blogs/aws/feed/",          "category": "AWS"},
+  {"id": "3bd7ec16-bd7f-4337-a8b9-c8cff37e8220", "name": "GitHub Blog",       "url": "https://github.blog/feed/",                       "category": "GitHub"},
+  {"id": "6e79d10a-0ad8-4e2d-931f-8a080e10e62f", "name": "Firebase Blog",     "url": "https://firebase.blog/feeds/posts/default",       "category": "Firebase"},
+  {"id": "57761df2-d73d-4511-99cb-ec693805720d", "name": "Kubernetes Blog",   "url": "https://kubernetes.io/feed.xml",                  "category": "K8s"},
+  {"id": "cbe0ca05-8923-4aa0-93f2-b3e3f9513a1a", "name": "HashiCorp Blog",   "url": "https://www.hashicorp.com/blog/feed.xml",         "category": "IaC"},
+  {"id": "9541046b-80d6-44aa-b4e4-d99be0630b09", "name": "The GitHub ReadME", "url": "https://github.blog/engineering/feed/",           "category": "GitHub"},
+  {"id": "b198d9eb-da27-49b8-9f2d-2cc0ea948444", "name": "Google Cloud Blog", "url": "https://cloudblog.withgoogle.com/rss/",           "category": "GCP"}
 ]
