@@ -6,10 +6,9 @@ tags: ["Docker"]
 errorCode: "404"
 lastmod: 2026-05-31
 ---
-
 ## エラーの概要
 
-[Docker](/glossary/docker/) で 404 エラーが発生するのは、指定したイメージまたは[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR などのイメージ保管先）に存在しないことを意味します。このエラーは `docker pull`、`docker run`、`docker push` などのコマンド実行時に表示され、イメージ名の誤字、存在しないタグの指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。
+[Docker](/glossary/docker/)で404エラーが発生するのは、指定したイメージまたは[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hubやエクリプスなどのイメージ保管先）に存在しないことを意味します。このエラーは`docker pull`、`docker run`、`docker push`などのコマンド実行時に表示され、イメージ名の誤字、存在しないタグの指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -34,7 +33,7 @@ Error response from daemon: manifest not found: myapp:latest
 
 ### 原因1：イメージ名またはタグの誤字
 
-[Docker](/glossary/docker/) Hub や ECR に存在するイメージ名でも、1文字でも間違っていれば 404 エラーが発生します。大文字小文字の混在や、アンダースコア・ハイフンの混同が典型的です。
+[Docker](/glossary/docker/) Hubやエクリプスに存在するイメージ名でも、1文字でも間違っていれば404エラーが発生します。大文字小文字の混在や、アンダースコア・ハイフンの混同が典型的です。
 
 **Before（エラーが起きる例）：**
 
@@ -79,7 +78,7 @@ curl -s https://registry.hub.docker.com/v2/library/postgres/tags/list | jq .
 
 ### 原因3：フルネームの省略形を使用している
 
-[Docker](/glossary/docker/) Hub のイメージを参照する際、[レジストリ](/glossary/レジストリ/) URL を省略した形式（`ubuntu` など）が使用できますが、[プライベートレジストリ](/glossary/プライベートレジストリ/)やアカウント配下の[リポジトリ](/glossary/リポジトリ/)では完全な URL を指定する必要があります。
+[Docker](/glossary/docker/) Hubのイメージを参照する際、[レジストリ](/glossary/レジストリ/)URLを省略した形式（`ubuntu`など）が使用できますが、[プライベートレジストリ](/glossary/プライベートレジストリ/)やアカウント配下の[リポジトリ](/glossary/リポジトリ/)では完全なURLを指定する必要があります。
 
 **Before（エラーが起きる例）：**
 
@@ -97,7 +96,7 @@ docker pull <your-registry-url>/mycompany/backend:latest
 
 ### 原因4：レジストリにログインしていない
 
-[プライベートレジストリ](/glossary/プライベートレジストリ/)やプライベートリポジトリの場合、認証済みの状態でないと 404 エラーが発生することがあります。
+[プライベートレジストリ](/glossary/プライベートレジストリ/)やプライベートリポジトリの場合、認証済みの状態でないと404エラーが発生することがあります。
 
 **Before（エラーが起きる例）：**
 
@@ -114,8 +113,8 @@ docker pull myregistry.azurecr.io/myapp:latest
 
 ## ツール固有の注意点
 
-### Docker Hub との連携
-[Docker](/glossary/docker/) Hub の無料アカウントでイメージをプッシュした場合、デフォルトではプライベートリポジトリになります。他のマシンから `docker pull` する場合は、明示的にログイン（`docker login`）が必要です。
+### Docker Hubとの連携
+[Docker](/glossary/docker/) Hubの無料アカウントでイメージをプッシュした場合、デフォルトではプライベートリポジトリになります。他のマシンから`docker pull`する場合は、明示的にログイン（`docker login`）が必要です。
 
 ```bash
 docker login -u <your-username>
@@ -123,7 +122,7 @@ docker pull <your-username>/<your-repo>:<tag>
 ```
 
 ### AWS ECR（Amazon Elastic Container Registry）での注意
-ECR ではイメージリポジトリが明示的に存在する必要があります。[リポジトリ](/glossary/リポジトリ/)作成前にプッシュしようとすると 404 が発生します。
+ECRではイメージリポジトリが明示的に存在する必要があります。[リポジトリ](/glossary/リポジトリ/)作成前にプッシュしようとすると404が発生します。
 
 ```bash
 # Before：エラーが発生
@@ -135,8 +134,8 @@ aws ecr create-repository --repository-name myapp --region ap-northeast-1
 docker push <account-id>.dkr.ecr.ap-northeast-1.amazonaws.com/myapp:latest
 ```
 
-### プライベート Docker Compose 環境
-`docker-compose.yml` でカスタムイメージを参照する場合、ビルドコンテキストが正しく指定されていないと 404 になります。
+### プライベートDocker Compose環境
+`docker-compose.yml`でカスタムイメージを参照する場合、ビルドコンテキストが正しく指定されていないと404になります。
 
 ```yaml
 # Before：存在しないイメージを参照
@@ -155,13 +154,13 @@ services:
 
 ### デバッグに役立つコマンド
 ```bash
-# 実際に pull できるかテスト（ドライラン）
+# 実際にpullできるかテスト（ドライラン）
 docker pull --dry-run <image>:<tag>
 
 # レジストリの接続状態確認
 curl -I https://registry.hub.docker.com/v2/
 
-# Docker デーモンのデバッグログを確認
+# Dockerデーモンのデバッグログを確認
 dockerd --debug 2>&1 | grep -i "404\|not found"
 
 # ローカルにキャッシュされたイメージ一覧
@@ -169,12 +168,12 @@ docker images
 ```
 
 ### 公式リソース
-- [Docker Registry HTTP API V2 仕様](https://docs.docker.com/registry/spec/api/)
-- [Docker Hub リポジトリ管理ガイド](https://docs.docker.com/docker-hub/repos/)
-- [Docker コマンドリファレンス](https://docs.docker.com/engine/reference/commandline/)
+- [Docker Registry HTTP API V2仕様](https://docs.docker.com/registry/spec/api/)
+- [Docker Hubリポジトリ管理ガイド](https://docs.docker.com/docker-hub/repos/)
+- [Dockerコマンドリファレンス](https://docs.docker.com/engine/reference/commandline/)
 
 ### コミュニティリソース
-[Docker](/glossary/docker/) の GitHub Issues（https://github.com/moby/moby/issues）では同様の事例が多数報告されており、検索すれば解決策が見つかる可能性があります。プライベートレジストリの設定に関する問題は、該当するレジストリ（ECR、GCR、Azure Container Registry など）の公式ドキュメントも合わせて確認してください。
+[Docker](/glossary/docker/)のGitHub Issues（https://github.com/moby/moby/issues）では同様の事例が多数報告されており、検索すれば解決策が見つかる可能性があります。プライベートレジストリの設定に関する問題は、該当するレジストリ（ECR、GCR、Azure Container Registryなど）の公式ドキュメントも合わせて確認してください。
 
 ---
 

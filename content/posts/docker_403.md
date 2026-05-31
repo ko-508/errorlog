@@ -6,8 +6,7 @@ tags: ["Docker"]
 errorCode: "403"
 lastmod: 2026-05-31
 ---
-
-## エラーの概要
+# エラーの概要
 
 [Docker](/glossary/docker/) の 403 エラーは、[認証](/glossary/認証/)（ログイン）には成功したものの、対象のリソース（イメージ、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。
 
@@ -110,7 +109,7 @@ docker push org/repo:v1.0
 
 ### 原因3：プライベートレジストリの認証情報が Kubernetes に未登録
 
-なぜ発生するか：[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)を [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。
+なぜ発生するか：[Docker](/glossary/docker/) コンテナを [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。
 
 **Before（エラーが起きる設定）**
 
@@ -191,7 +190,7 @@ curl -u username:password https://your-registry.com/v2/
 
 ### 確認すべきログと情報
 
-[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認して詳細なエラーを特定します：
+[Docker](/glossary/docker/) デーモンのログを確認して詳細なエラーを特定します：
 
 ```bash
 # Docker Desktop (Mac)
@@ -218,7 +217,7 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 ### 公式ドキュメント参照
 
 - [Docker Hub Authentication](https://docs.docker.com/docker-hub/access-tokens/)：アクセストークンの生成と管理
-- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) 仕様
+- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：レジストリ [API](/glossary/api/) 仕様
 - [Kubernetes Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)：[Kubernetes](/glossary/kubernetes/) での認証設定
 
 ### コミュニティリソース
