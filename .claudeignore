@@ -1,0 +1,8 @@
+content/posts/
+scripts/rss_processed.json
+public/
+resources/
+.hugo_build.lock
+__pycache__/
+*.pyc
+.git/

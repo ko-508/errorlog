@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   analyze:
@@ -32,14 +33,135 @@ jobs:
           ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
         run: python scripts/ga4_analyzer.py
 
+      - name: Run GA4 feedback loop (Task 07 + 08)
+        env:
+          GA4_PROPERTY_ID:         ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/ga4_feedback_loop.py
+
       - name: Commit and push report
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add reports/ga4/
+          git add reports/ga4/ scripts/rewrite_priority.json
+          git add content/posts/ 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "変更なし"
           else
             git commit -m "ga4: 週次分析レポート $(date +%Y-%m-%d)"
             git push
           fi
+
+      - name: Create bottleneck issue (Task 08)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs   = require('fs');
+            const path = require('path');
+            const dir  = 'reports/ga4';
+
+            // Find the latest bottleneck file written this run
+            let files;
+            try {
+              files = fs.readdirSync(dir)
+                .filter(f => f.startsWith('bottleneck_') && f.endsWith('.json'))
+                .sort()
+                .reverse();
+            } catch (e) {
+              console.log('reports/ga4 not found – skip issue creation');
+              return;
+            }
+            if (!files.length) {
+              console.log('No bottleneck file – skip');
+              return;
+            }
+
+            let data;
+            try {
+              data = JSON.parse(fs.readFileSync(path.join(dir, files[0]), 'utf8'));
+            } catch (e) {
+              console.log('Failed to parse bottleneck JSON – skip');
+              return;
+            }
+
+            const pages = (data.pages || []);
+            if (!pages.length) {
+              console.log('No bottleneck pages – skip');
+              return;
+            }
+
+            const tableRows = pages.map((p, i) => {
+              const title  = (p.pageTitle || p.pagePath || '').slice(0, 60);
+              const pv     = Math.round(p.screenPageViews || 0);
+              const dur    = (p.averageSessionDuration || 0).toFixed(1);
+              const eng    = ((p.engagementRate || 0) * 100).toFixed(1);
+              const bounce = p.bounceRate != null
+                ? ((p.bounceRate) * 100).toFixed(1) + '%'
+                : 'N/A';
+              return `| ${i+1} | ${title} | \`${p.pagePath}\` | ${pv} | ${dur}s | ${eng}% | ${bounce} |`;
+            }).join('\n');
+
+            const body = [
+              '## 概要',
+              `GA4 週次分析（${data.generated_at}）より、過去 ${data.period_days} 日間で**エンゲージメント時間が短い記事**を抽出しました。`,
+              `対象条件: PV ≥ ${data.threshold_pv} のページから滞在時間昇順 上位 ${data.top_n} 件。`,
+              '',
+              '## ボトルネックページ一覧',
+              '',
+              '| # | タイトル | パス | PV | 平均滞在 | エンゲージ率 | 直帰率 |',
+              '|---|----------|------|-----|---------|------------|------|',
+              tableRows,
+              '',
+              '## 改善アクション候補',
+              '- [ ] エラーメッセージ実例の追加・更新',
+              '- [ ] Before/After コード対比の充実',
+              '- [ ] 見出し構成の見直し（ユーザーが求める情報を上部に）',
+              '- [ ] 内部リンク・関連記事の追加',
+              '- [ ] `expand_articles.py` による本文拡張',
+              '',
+              '> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。',
+            ].join('\n');
+
+            // Ensure label exists
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo:  context.repo.repo,
+                name:  'ga4-bottleneck',
+                color: '0075ca',
+                description: 'GA4 weekly bottleneck report',
+              });
+            } catch (_) { /* already exists */ }
+
+            const { data: issue } = await github.rest.issues.create({
+              owner:  context.repo.owner,
+              repo:   context.repo.repo,
+              title:  `【GA4週次レポート】要UI・導線改善ボトルネック記事一覧 (${data.generated_at})`,
+              body:   body,
+              labels: ['ga4-bottleneck'],
+            });
+            console.log(`Issue created: #${issue.number}  ${issue.html_url}`);
+
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: `🚨 ${context.workflow} 失敗 (${new Date().toISOString().slice(0,10)})`,
+              body: [
+                '## パイプライン停止検知',
+                '',
+                `- **ワークフロー**: \`${context.workflow}\``,
+                `- **実行ログ**: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                `- **失敗日時**: ${new Date().toISOString()}`,
+                '',
+                '確認後、このIssueをクローズしてください。',
+              ].join('\n'),
+              labels: ['pipeline-failure'],
+            });

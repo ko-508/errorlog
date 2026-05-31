@@ -240,8 +240,8 @@
   if (!content) return;
 
   var firstCompare = true;
-  var RE_BEFORE = /Before|エラーが起きる|修正前/;
-  var RE_AFTER  = /After|修正後/;
+  var RE_BEFORE = /before|エラーが起きる|修正前/i;
+  var RE_AFTER  = /after|修正後/i;
 
   content.querySelectorAll('p strong').forEach(function (el) {
     if (!RE_BEFORE.test(el.textContent)) return;
@@ -364,6 +364,8 @@
 
 /* ── 解決策-only セクション（Before/After なし記事用テンプレート） ── */
 (function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
   var RE_REM = /^解決策[（(]/;
   var remIdx = 0;
   content.querySelectorAll('p strong').forEach(function (el) {

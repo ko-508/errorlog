@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   replenish:
@@ -56,3 +57,24 @@ jobs:
             git commit -m "queue: $(date +%Y-%m-%d) replenish queue and tool articles"
             git push
           fi
+
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              title: `🚨 ${context.workflow} 失敗 (${new Date().toISOString().slice(0,10)})`,
+              body: [
+                '## パイプライン停止検知',
+                '',
+                `- **ワークフロー**: \`${context.workflow}\``,
+                `- **実行ログ**: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+                `- **失敗日時**: ${new Date().toISOString()}`,
+                '',
+                '確認後、このIssueをクローズしてください。',
+              ].join('\n'),
+              labels: ['pipeline-failure'],
+            });

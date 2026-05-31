@@ -3,9 +3,10 @@ queue.csv 自動補充スクリプト。
 
 動作:
   1. content/posts/ と queue.csv からカバー済み (tool, code) を確認
-  2. 未カバーの組み合わせをシャッフルして ADD_COUNT 件選択
-  3. Gemini + Google検索で原因・解決策をリサーチ
-  4. queue.csv に追記
+  2. SEO API（スタブ）+ Gemini でトレンドキーワードを自律収集
+  3. 未カバーの組み合わせをトレンド優先でソートして ADD_COUNT 件選択
+  4. Gemini + Google検索で原因・解決策をリサーチ
+  5. queue.csv に追記
 
 実行:
   python scripts/replenish_queue.py
@@ -19,7 +20,6 @@ import random
 import re
 from pathlib import Path
 
-
 from google import genai as google_genai
 from google.genai import types as genai_types
 
@@ -32,17 +32,185 @@ TOOLS_PATH = BASE / "tools.json"
 
 FIELDNAMES = ["tool", "status_code", "official_meaning", "causes", "solutions"]
 
-
-def load_tools() -> list[str]:
-    """tools.json からツールリストを読み込む。"""
-    return json.loads(TOOLS_PATH.read_text(encoding="utf-8"))["tools"]
-
 # 対象エラーコード
 ERROR_CODES = [
     "400", "401", "402", "403", "404", "405",
     "408", "409", "410", "422", "429",
     "500", "502", "503", "504",
 ]
+
+
+# ─── SEO API インターフェース（DataForSEO / Ahrefs MCP 統合用） ────────────
+#
+# 日本市場パラメータ（全リクエストで強制適用・変更禁止）
+SEO_LANGUAGE_CODE = "ja"
+SEO_LOCATION_CODE = 2392  # Japan（ISO 3166-1 numeric）
+
+
+class SEOApiClient:
+    """外部 SEO ツール API ラッパー。
+
+    DataForSEO MCP / Ahrefs Remote MCP 等との接続インターフェース。
+    現在はスタブ（Gemini フォールバックを使用）。外部 API 接続時は
+    各メソッドを実装するか、サブクラスでオーバーライドすること。
+
+    全リクエストに SEO_LANGUAGE_CODE / SEO_LOCATION_CODE が強制付与される。
+    """
+
+    def __init__(self) -> None:
+        self.language_code = SEO_LANGUAGE_CODE
+        self.location_code = SEO_LOCATION_CODE
+        self._base_params  = {
+            "language_code": self.language_code,
+            "location_code": self.location_code,
+        }
+
+    def get_search_volume(self, keyword: str) -> dict | None:
+        """キーワードの月間検索ボリュームを取得する。
+
+        DataForSEO 実装例:
+            POST /v3/keywords_data/google_ads/search_volume/live
+            body = {**self._base_params, "keywords": [keyword]}
+
+        Ahrefs 実装例:
+            POST /v3/keywords-explorer/overview
+            body = {**self._base_params, "keyword": keyword}
+
+        Returns:
+            {"keyword": str, "volume": int, "competition": float} | None
+        """
+        # TODO: 外部 API 実装時にここを置き換える
+        return None
+
+    def get_trending_error_keywords(self, tool: str) -> list[dict]:
+        """ツールに関連するトレンドエラーキーワードを取得する。
+
+        DataForSEO 実装例:
+            POST /v3/keywords_data/google_trends/explore/live
+            body = {**self._base_params, "keywords": [f"{tool} error"]}
+
+        Returns:
+            [{"tool": str, "error_code": str, "volume": int, "trend": str}, ...]
+        """
+        # TODO: 外部 API 実装時にここを置き換える
+        return []
+
+    def get_rising_queries(self, technology: str) -> list[str]:
+        """急上昇中の検索クエリを取得する（Google Trends 相当）。
+
+        DataForSEO 実装例:
+            POST /v3/keywords_data/google_trends/explore/live
+            body = {**self._base_params, "keywords": [technology],
+                    "type": "web_search", "category_code": 5}
+
+        Returns:
+            ["query1", "query2", ...]
+        """
+        # TODO: 外部 API 実装時にここを置き換える
+        return []
+
+
+# ─── トレンドキーワード収集 ──────────────────────────────────────────────────
+
+# Gemini フォールバック対象のモダンテクノロジーリスト
+_TREND_TECH = [
+    "Next.js", "Podman", "Bun", "Deno", "Hono", "Astro", "Remix",
+    "Turborepo", "Vite", "Prisma", "Supabase", "Vercel", "Cloudflare Workers",
+]
+
+
+def _collect_trending_with_gemini(
+    gemini_client,
+    tools: list[str],
+    covered: set[tuple[str, str]],
+) -> list[tuple[str, str]]:
+    """Gemini + Google Search で日本市場のトレンドエラーを自律収集する。
+
+    SEO_LANGUAGE_CODE="ja" / SEO_LOCATION_CODE=2392 に対応する日本語クエリで検索。
+    """
+    trend_tools = [t for t in tools if t in _TREND_TECH] or tools[:5]
+    results: list[tuple[str, str]] = []
+
+    for tool in trend_tools[:4]:  # レート制限を考慮して上位4件のみ
+        prompt = f"""日本のエンジニア（言語: ja / 地域: Japan）が最近「{tool}」で遭遇している
+HTTPエラーコードを調べてください。
+
+対象: Zenn, Qiita, Stack Overflow Japan, GitHub Issues, X（旧Twitter）での報告
+
+以下のJSONのみ返してください（前置き不要）:
+{{"trending_codes": ["404", "429"]}}
+
+候補エラーコード: 400 401 402 403 404 405 408 409 410 422 429 500 502 503 504"""
+
+        try:
+            response = gemini_client.models.generate_content(
+                model="gemini-2.0-flash",
+                contents=prompt,
+                config=genai_types.GenerateContentConfig(
+                    tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
+                ),
+            )
+            m = re.search(r'"trending_codes"\s*:\s*\[([^\]]*)\]', response.text)
+            if not m:
+                continue
+            codes = [
+                c.strip().strip('"').strip("'")
+                for c in m.group(1).split(",")
+                if c.strip().strip('"').strip("'")
+            ]
+            slug = tool_to_slug(tool)
+            for code in codes:
+                if code in ERROR_CODES and (slug, code) not in covered:
+                    results.append((tool, code))
+                    print(f"    トレンド検出: {tool} {code} (ja/Japan)")
+        except Exception as e:
+            print(f"    [WARN] トレンド収集失敗 ({tool}): {e}")
+
+    return results
+
+
+def collect_trending_keywords(
+    seo_client: SEOApiClient,
+    gemini_client,
+    tools: list[str],
+    covered: set[tuple[str, str]],
+) -> list[tuple[str, str]]:
+    """SEO API（実装済み時）+ Gemini でトレンドキーワードを収集する。
+
+    Args:
+        seo_client: SEOApiClient（スタブまたは実装済みクライアント）
+        gemini_client: Gemini クライアント（フォールバック用）
+        tools: ツールリスト
+        covered: カバー済みペアのセット
+
+    Returns:
+        トレンドの (tool, error_code) タプルリスト（優先度順）
+    """
+    results: list[tuple[str, str]] = []
+
+    # SEO API 経由でトレンド取得（API 実装済みの場合）
+    for tool in tools[:20]:
+        api_rows = seo_client.get_trending_error_keywords(tool)
+        for row in api_rows:
+            code = row.get("error_code", "")
+            slug = tool_to_slug(tool)
+            if code in ERROR_CODES and (slug, code) not in covered:
+                results.append((tool, code))
+                print(f"    SEO API トレンド: {tool} {code} (vol={row.get('volume', '?')})")
+
+    # SEO API が空の場合は Gemini でフォールバック
+    if not results:
+        print("  SEO API スタブ中 — Gemini フォールバックでトレンド収集")
+        results = _collect_trending_with_gemini(gemini_client, tools, covered)
+
+    return results
+
+
+# ─── ユーティリティ ──────────────────────────────────────────────────────────
+
+def load_tools() -> list[str]:
+    """tools.json からツールリストを読み込む。"""
+    return json.loads(TOOLS_PATH.read_text(encoding="utf-8"))["tools"]
 
 
 def tool_to_slug(tool: str) -> str:
@@ -54,7 +222,6 @@ def get_covered_pairs() -> set[tuple[str, str]]:
     """既存記事と queue.csv からカバー済みの (slug, code) ペアを返す。"""
     covered: set[tuple[str, str]] = set()
 
-    # 既存記事のファイル名から抽出
     for md in POSTS_DIR.glob("*.md"):
         stem = md.stem
         for code in ERROR_CODES:
@@ -62,7 +229,6 @@ def get_covered_pairs() -> set[tuple[str, str]]:
                 slug = stem[: -(len(code) + 1)]
                 covered.add((slug, code))
 
-    # queue.csv から抽出
     if QUEUE_PATH.exists() and QUEUE_PATH.stat().st_size > 0:
         with open(QUEUE_PATH, encoding="utf-8", newline="") as f:
             for row in csv.DictReader(f):
@@ -73,24 +239,32 @@ def get_covered_pairs() -> set[tuple[str, str]]:
     return covered
 
 
+# ─── Gemini でリサーチ ───────────────────────────────────────────────────────
+
 def research_with_gemini(
-    model,
+    gemini_client,
     tool: str,
     code: str,
 ) -> dict | None:
-    """
-    Gemini + Google検索で (tool, code) のエラー情報をリサーチする。
-    戻り値: queue.csv の 1 行分の dict、失敗時は None。
+    """Gemini + Google検索で (tool, code) のエラー情報をリサーチする。
+
+    日本市場パラメータ（SEO_LANGUAGE_CODE="ja", SEO_LOCATION_CODE=2392）に
+    対応する日本語クエリを使用する。
+
+    Returns:
+        queue.csv の 1 行分の dict | None（需要なし・取得失敗時）
     """
     prompt = f"""{tool} で HTTP ステータスコード {code} が発生するケースについて調べてください。
+対象地域: 日本（language=ja / location=Japan）
 
 ## 需要フィルタリング（重要）
 まず以下を確認してください：
-- Reddit、Stack Overflow、GitHub Issues、X（Twitter）等で「{tool} {code}」に関する実際の問題報告が複数存在するか
-- Google 検索で「{tool} {code} error」「{tool} {code} エラー」の検索結果が十分に存在するか
+- Zenn, Qiita, Stack Overflow Japan, GitHub Issues, X（Twitter）等で
+  「{tool} {code}」に関する実際の問題報告が複数存在するか
+- Google 検索で「{tool} {code} error」「{tool} {code} エラー」の検索結果が
+  十分に存在するか
 
-上記が確認できない場合（誰も報告していないマイナーな組み合わせ）は、
-JSON の代わりに {{"skip": true}} のみ返してください。
+上記が確認できない場合は {{"skip": true}} のみ返してください。
 
 確認できた場合は以下の形式で JSON のみ返してください（前置き・説明不要）:
 {{
@@ -119,7 +293,6 @@ JSON の代わりに {{"skip": true}} のみ返してください。
         )
         text = response.text.strip()
 
-        # レスポンスから JSON を抽出
         m = re.search(r"\{[\s\S]*\}", text)
         if not m:
             print(f"    JSON が見つかりません: {text[:80]}")
@@ -128,23 +301,23 @@ JSON の代わりに {{"skip": true}} のみ返してください。
         data = json.loads(m.group(0))
 
         if data.get("skip"):
-            print(f"    需要なし（問題報告が確認できないためスキップ）")
+            print("    需要なし（問題報告が確認できないためスキップ）")
             return None
 
-        causes    = "|".join(str(c).strip() for c in data.get("causes", [])[:5] if c)
+        causes    = "|".join(str(c).strip() for c in data.get("causes",    [])[:5] if c)
         solutions = "|".join(str(s).strip() for s in data.get("solutions", [])[:5] if s)
         meaning   = str(data.get("official_meaning", "")).strip()
 
         if not (meaning and causes and solutions):
-            print(f"    データ不足のためスキップ")
+            print("    データ不足のためスキップ")
             return None
 
         return {
-            "tool": tool,
-            "status_code": code,
+            "tool":             tool,
+            "status_code":      code,
             "official_meaning": meaning,
-            "causes": causes,
-            "solutions": solutions,
+            "causes":           causes,
+            "solutions":        solutions,
         }
 
     except json.JSONDecodeError as e:
@@ -155,7 +328,7 @@ JSON の代わりに {{"skip": true}} のみ返してください。
         return None
 
 
-
+# ─── メイン ─────────────────────────────────────────────────────────────────
 
 def main() -> None:
     gemini_key = os.getenv("GEMINI_API_KEY")
@@ -164,30 +337,39 @@ def main() -> None:
         return
 
     gemini_client = google_genai.Client(api_key=gemini_key)
+    seo_client    = SEOApiClient()
 
-    tools = load_tools()
+    tools   = load_tools()
     covered = get_covered_pairs()
     print(f"ツール数: {len(tools)} / カバー済み: {len(covered)} 件")
+    print(f"SEO パラメータ: language={seo_client.language_code}, location={seo_client.location_code}")
 
-    # 未カバーの (tool, code) を列挙
+    # トレンド優先のキーワード収集
+    print("\nトレンドキーワードを収集中...")
+    trending = collect_trending_keywords(seo_client, gemini_client, tools, covered)
+    trending_set = {(tool_to_slug(t), c) for t, c in trending}
+    print(f"トレンド候補: {len(trending)} 件\n")
+
+    # 未カバーペアを列挙（トレンド以外）
     uncovered: list[tuple[str, str]] = []
     for tool in tools:
         slug = tool_to_slug(tool)
         for code in ERROR_CODES:
-            if (slug, code) not in covered:
+            if (slug, code) not in covered and (slug, code) not in trending_set:
                 uncovered.append((tool, code))
 
-    print(f"未カバー: {len(uncovered)} 件")
+    print(f"未カバー（トレンド除く）: {len(uncovered)} 件")
 
-    if not uncovered:
+    if not uncovered and not trending:
         print("全ての組み合わせがカバー済みです。")
         return
 
-    # ランダムにシャッフルして ADD_COUNT 件選択（特定ツールへの偏りを防ぐ）
+    # トレンドを先頭に、残りをシャッフルして ADD_COUNT 件
     random.shuffle(uncovered)
-    targets = uncovered[:ADD_COUNT]
+    targets = (trending + uncovered)[:ADD_COUNT]
 
-    print(f"\n{len(targets)} 件をリサーチします...\n")
+    print(f"\n{len(targets)} 件をリサーチします "
+          f"（トレンド: {len(trending)} 件 / その他: {len(targets) - len(trending)} 件）...\n")
 
     results: list[dict] = []
     for i, (tool, code) in enumerate(targets, 1):
@@ -197,13 +379,13 @@ def main() -> None:
             results.append(row)
             print(f"         → {row['official_meaning'][:50]}")
         else:
-            print(f"         → スキップ")
+            print("         → スキップ")
 
     if not results:
         print("\n追加するデータがありません。")
         return
 
-    # queue.csv に追記（ファイルが空なら header も書く）
+    # queue.csv に追記
     write_header = not (QUEUE_PATH.exists() and QUEUE_PATH.stat().st_size > 0)
     with open(QUEUE_PATH, "a", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=FIELDNAMES)
@@ -212,7 +394,6 @@ def main() -> None:
         writer.writerows(results)
 
     print(f"\n完了: {len(results)} 件を queue.csv に追加しました。")
-    print(f"キュー残数: {len(results)} 件追加（既存分含む）")
 
 
 if __name__ == "__main__":

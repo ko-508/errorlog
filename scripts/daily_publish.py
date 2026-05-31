@@ -129,6 +129,37 @@ def extract_tags(filename: str) -> list[str]:
     return []
 
 
+# ─── Before/After ラベル正規化 ──────────────────────────────────
+
+_BEFORE_LABEL_RE = re.compile(
+    r'(?m)^'
+    r'(?:#{1,4}[ \t]+|\*\*)?'
+    r'(?:Before|before|修正前|エラーが起きる[^ \t\n（(]*)'
+    r'(?:[ \t]*[（(][^）)\n]*[）)])?'
+    r'[ \t]*[：:]?[ \t]*\*{0,2}[ \t]*$'
+)
+_AFTER_LABEL_RE = re.compile(
+    r'(?m)^'
+    r'(?:#{1,4}[ \t]+|\*\*)?'
+    r'(?:After|after|修正後[^ \t\n（(]*)'
+    r'(?:[ \t]*[（(][^）)\n]*[）)])?'
+    r'[ \t]*[：:]?[ \t]*\*{0,2}[ \t]*$'
+)
+_BEFORE_NORM = '**Before（エラーが起きるコード）：**'
+_AFTER_NORM  = '**After（修正後）：**'
+
+
+def normalize_before_after(text: str) -> str:
+    """コードブロック外の Before/After ラベルを統一フォーマットに正規化する。"""
+    parts = re.split(r'(```[\s\S]*?```)', text)
+    for i, part in enumerate(parts):
+        if i % 2 == 0:
+            part = _BEFORE_LABEL_RE.sub(_BEFORE_NORM, part)
+            part = _AFTER_LABEL_RE.sub(_AFTER_NORM, part)
+            parts[i] = part
+    return ''.join(parts)
+
+
 # ─── Claude API で記事生成 ──────────────────────────────────
 
 # ⑦ 静的な指示部分をシステムプロンプトに分離してキャッシュ対象にする
@@ -236,11 +267,20 @@ def main() -> None:
         print("キューが空です。scripts/queue.csv に記事を追加してください。")
         return
 
-    to_publish = rows[:DAILY_COUNT]
-    remaining = rows[DAILY_COUNT:]
-
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
+
+    # 当日分がすでに DAILY_COUNT 件以上生成済みなら二重実行とみなしてスキップ
+    today_count = sum(
+        1 for f in POSTS_DIR.glob("*.md")
+        if f"date: {today}" in f.read_text(encoding="utf-8")
+    )
+    if today_count >= DAILY_COUNT:
+        print(f"本日分 {today_count} 件は生成済みです（上限: {DAILY_COUNT}）。スキップします。")
+        return
+
+    to_publish = rows[:DAILY_COUNT]
+    remaining = rows[DAILY_COUNT:]
     published_count = 0
     published_articles: list[dict] = []
 
@@ -288,6 +328,7 @@ def main() -> None:
             "最新の情報は各ツールの公式サポートページをご確認ください。"
             "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
         )
+        body = normalize_before_after(body)
         out.write_text(frontmatter + body + disclaimer, encoding="utf-8")
         print(f"  公開: {filename}  →  {title}")
         published_count += 1

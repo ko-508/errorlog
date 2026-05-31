@@ -90,6 +90,37 @@ _SYSTEM = """\
 記事本文のみ出力してください。前置きは不要です。"""
 
 
+# ─── Before/After ラベル正規化 ──────────────────────────────────
+
+_BEFORE_LABEL_RE = re.compile(
+    r'(?m)^'
+    r'(?:#{1,4}[ \t]+|\*\*)?'
+    r'(?:Before|before|修正前|エラーが起きる[^ \t\n（(]*)'
+    r'(?:[ \t]*[（(][^）)\n]*[）)])?'
+    r'[ \t]*[：:]?[ \t]*\*{0,2}[ \t]*$'
+)
+_AFTER_LABEL_RE = re.compile(
+    r'(?m)^'
+    r'(?:#{1,4}[ \t]+|\*\*)?'
+    r'(?:After|after|修正後[^ \t\n（(]*)'
+    r'(?:[ \t]*[（(][^）)\n]*[）)])?'
+    r'[ \t]*[：:]?[ \t]*\*{0,2}[ \t]*$'
+)
+_BEFORE_NORM = '**Before（エラーが起きるコード）：**'
+_AFTER_NORM  = '**After（修正後）：**'
+
+
+def normalize_before_after(text: str) -> str:
+    """Before/After labels are normalized to canonical format outside code blocks."""
+    parts = re.split(r'(```[\s\S]*?```)', text)
+    for i, part in enumerate(parts):
+        if i % 2 == 0:
+            part = _BEFORE_LABEL_RE.sub(_BEFORE_NORM, part)
+            part = _AFTER_LABEL_RE.sub(_AFTER_NORM, part)
+            parts[i] = part
+    return ''.join(parts)
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     if not text.startswith("---"):
         return {}, text
@@ -217,6 +248,7 @@ def main() -> None:
             "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
         )
 
+        new_body = normalize_before_after(new_body)
         src.write_text(new_fm + "\n" + new_body + disclaimer, encoding="utf-8")
         expanded += 1
 

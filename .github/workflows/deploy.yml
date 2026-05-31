@@ -22,6 +22,14 @@ jobs:
         with:
           submodules: true
 
+      - name: Setup Python (for Front Matter validation)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate Front Matter
+        run: python scripts/validate_frontmatter.py
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:

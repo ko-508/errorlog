@@ -109,6 +109,37 @@ _DRAFT_SYSTEM = """あなたは「ErrorLog（errorlog.jp）」専任のテクニ
 
 記事本文のみ出力してください。前置きは不要です。"""
 
+# ── Before/After label normalization ─────────────────────────────────────────
+
+_BEFORE_LABEL_RE = re.compile(
+    r'(?m)^'
+    r'(?:#{1,4}[ \t]+|\*\*)?'
+    r'(?:Before|before|修正前|エラーが起きる[^ \t\n（(]*)'
+    r'(?:[ \t]*[（(][^）)\n]*[）)])?'
+    r'[ \t]*[：:]?[ \t]*\*{0,2}[ \t]*$'
+)
+_AFTER_LABEL_RE = re.compile(
+    r'(?m)^'
+    r'(?:#{1,4}[ \t]+|\*\*)?'
+    r'(?:After|after|修正後[^ \t\n（(]*)'
+    r'(?:[ \t]*[（(][^）)\n]*[）)])?'
+    r'[ \t]*[：:]?[ \t]*\*{0,2}[ \t]*$'
+)
+_BEFORE_NORM = '**Before（エラーが起きるコード）：**'
+_AFTER_NORM  = '**After（修正後）：**'
+
+
+def normalize_before_after(text: str) -> str:
+    """Before/After labels are normalized to canonical format outside code blocks."""
+    parts = re.split(r'(```[\s\S]*?```)', text)
+    for i, part in enumerate(parts):
+        if i % 2 == 0:
+            part = _BEFORE_LABEL_RE.sub(_BEFORE_NORM, part)
+            part = _AFTER_LABEL_RE.sub(_AFTER_NORM, part)
+            parts[i] = part
+    return ''.join(parts)
+
+
 # ── Gemini client ─────────────────────────────────────────────────────────────
 
 def _get_gemini():
@@ -337,6 +368,7 @@ async def run():
         slug = re.sub(r"-+", "-", slug).strip("-")[:50]
         filename = f"auto_{date.today().strftime('%Y-%m-%d')}_{slug}.md"
         filepath = POSTS_DIR / filename
+        draft = normalize_before_after(draft)
         filepath.write_text(draft, encoding="utf-8")
         log.info("SAVED  score=%d  file=%s", score, filename)
         drafted += 1
