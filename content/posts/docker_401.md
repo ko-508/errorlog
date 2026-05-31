@@ -147,7 +147,7 @@ docker push myregistry.azurecr.io/myapp:latest
 
 ### Docker Hub の場合
 
-[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。パスワード直接認証は推奨されていません。
+[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。[パスワード](/glossary/パスワード/)直接認証は推奨されていません。
 
 ```bash
 # 正しい方法：PAT を使用
@@ -206,7 +206,7 @@ curl -v https://<registry-host>/v2/ -u <username>:<password>
 
 - `~/.docker/config.json` の認証情報が正しく保存されているか
 - `docker logout` してから再度 `docker login` する
-- ファイアウォールや[プロキシ](/glossary/プロキシ/)設定で[レジストリ](/glossary/レジストリ/)へのアクセスがブロックされていないか
+- [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)設定で[レジストリ](/glossary/レジストリ/)へのアクセスがブロックされていないか
 - IP アドレス制限が[レジストリ](/glossary/レジストリ/)に設定されていないか
 - レジストリサーバーが実際にオンラインか（ステータスページで確認）
 

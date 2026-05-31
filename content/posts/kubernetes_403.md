@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) の 403 エラーは「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・削除など、特定の操作がセキュリティポリシーにより拒否された状態です。[API](/glossary/api/) サーバーや[マニフェスト](/glossary/マニフェスト/)適用時、kubectl コマンド実行時に頻繁に発生します。
+[Kubernetes](/glossary/kubernetes/) の 403 エラーは「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・削除など、特定の操作がセキュリティポリシーにより拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl コマンド実行時に頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -120,7 +120,7 @@ spec:
 ### 原因2: Namespace 間でのリソースアクセス権限が不足している
 
 **なぜ発生するか：**
-あるユーザーや[サービスアカウント](/glossary/サービスアカウント/)が、別の [Namespace](/glossary/namespace/) に属するリソースへのアクセスを試みる場合、その [Namespace](/glossary/namespace/) に対する権限がないと 403 エラーが発生します。
+あるユーザーや[サービスアカウント](/glossary/サービスアカウント/)が、別の [Namespace](/glossary/namespace/) に属するリソースへのアクセスを試みる場合、その [Namespace](/glossary/namespace/) に対する[権限](/glossary/権限/)がないと 403 エラーが発生します。
 
 **Before（エラーが起きる設定）:**
 ```bash
@@ -159,7 +159,7 @@ subjects:
 ### 原因3: ユーザー認証情報の kubeconfig が古い、または権限が異なる
 
 **なぜ発生するか：**
-kubeconfig ファイルが古い認証情報を保持していたり、異なる[ロール](/glossary/ロール/)に属する設定になっていたりすると、[API](/glossary/api/) サーバーが現在のユーザー権限を正しく認識できず 403 が返されます。
+kubeconfig ファイルが古い認証情報を保持していたり、異なる[ロール](/glossary/ロール/)に属する設定になっていたりすると、[API](/glossary/api/) [サーバー](/glossary/サーバー/)が現在のユーザー[権限](/glossary/権限/)を正しく認識できず 403 が返されます。
 
 **Before（エラーが起きる設定）:**
 ```bash
@@ -186,7 +186,7 @@ kubectl apply -f deployment.yaml
 
 ### RBAC の確認と診断コマンド
 
-[RBAC](/glossary/rbac/) が複雑に設定されている場合、以下のコマンドで権限を検証します：
+[RBAC](/glossary/rbac/) が複雑に設定されている場合、以下のコマンドで[権限](/glossary/権限/)を検証します：
 
 ```bash
 # 現在のユーザーが特定のアクションを実行できるかチェック
@@ -202,7 +202,7 @@ kubectl describe rolebinding app-reader-binding -n default
 
 ### Cluster Admin と ClusterRole の関係
 
-クラスター全体への権限が必要な場合は、Role ではなく ClusterRole を使用します：
+クラスター全体への[権限](/glossary/権限/)が必要な場合は、Role ではなく ClusterRole を使用します：
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

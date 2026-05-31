@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の504 Gateway Timeoutエラーは、GitHubのサーバーがあなたの[リクエスト](/glossary/リクエスト/)を指定時間内に処理できなかったことを示します。このエラーはGitHub側のサーバー遅延、[ネットワーク](/glossary/ネットワーク/)遅延、または処理が重い操作が原因で発生することが多いです。[REST](/glossary/rest/) [API](/glossary/api/)を呼び出した際に504が返されると、[リクエスト](/glossary/リクエスト/)が完全に失敗するため、[API](/glossary/api/)統合機能が一時的に停止する状況につながります。
+GitHub [API](/glossary/api/)の504 Gateway Timeoutエラーは、GitHubの[サーバー](/glossary/サーバー/)があなたの[リクエスト](/glossary/リクエスト/)を指定時間内に処理できなかったことを示します。このエラーはGitHub側の[サーバー](/glossary/サーバー/)遅延、[ネットワーク](/glossary/ネットワーク/)遅延、または処理が重い操作が原因で発生することが多いです。[REST](/glossary/rest/) [API](/glossary/api/)を呼び出した際に504が返されると、[リクエスト](/glossary/リクエスト/)が完全に失敗するため、[API](/glossary/api/)統合機能が一時的に停止する状況につながります。
 
 ## 実際のエラーメッセージ例
 
@@ -35,7 +35,7 @@ curl -i https://api.github.com/repos/<owner>/<repo>/pulls
 
 ### 原因1：大規模リポジトリへの過度なAPI呼び出し
 
-**なぜ発生するか：** GitHubは処理時間に制限を設けており、膨大なプルリクエストやIssue一覧の取得など、サーバー負荷が高い操作を実行すると[タイムアウト](/glossary/タイムアウト/)します。特に[コミット](/glossary/コミット/)履歴やファイル差分の取得で発生しやすいです。
+**なぜ発生するか：** GitHubは処理時間に制限を設けており、膨大なプルリクエストやIssue一覧の取得など、[サーバー](/glossary/サーバー/)負荷が高い操作を実行すると[タイムアウト](/glossary/タイムアウト/)します。特に[コミット](/glossary/コミット/)履歴やファイル差分の取得で発生しやすいです。
 
 **Before（エラーが起きる実装）：**
 
@@ -84,7 +84,7 @@ while True:
 
 ### 原因2：認証トークンの有効期限切れまたは不正な設定
 
-**なぜ発生するか：** 無効な認証情報を使用する場合、GitHubのサーバー側で追加の検証処理が発生し、[タイムアウト](/glossary/タイムアウト/)の原因となることがあります。特にPersonal Access Tokenや[OAuth](/glossary/oauth/) tokenが期限切れの場合、サーバー側が余計な処理を実行します。
+**なぜ発生するか：** 無効な認証情報を使用する場合、GitHubの[サーバー](/glossary/サーバー/)側で追加の検証処理が発生し、[タイムアウト](/glossary/タイムアウト/)の原因となることがあります。特にPersonal Access Tokenや[OAuth](/glossary/oauth/) tokenが期限切れの場合、[サーバー](/glossary/サーバー/)側が余計な処理を実行します。
 
 **Before（[認証](/glossary/認証/)エラーの実装）：**
 
@@ -108,7 +108,7 @@ curl -H "Authorization: token ${GITHUB_TOKEN}" \
 
 ### 原因3：同時多発的なAPI呼び出し
 
-**なぜ発生するか：** 複数の[リクエスト](/glossary/リクエスト/)を短時間に大量送信すると、GitHubのサーバーが処理しきれず504が発生します。特に[CI/CD](/glossary/ci-cd/)パイプラインやスクリプトで並列[リクエスト](/glossary/リクエスト/)を送った場合に起きやすいです。
+**なぜ発生するか：** 複数の[リクエスト](/glossary/リクエスト/)を短時間に大量送信すると、GitHubの[サーバー](/glossary/サーバー/)が処理しきれず504が発生します。特に[CI/CD](/glossary/ci-cd/)パイプラインやスクリプトで並列[リクエスト](/glossary/リクエスト/)を送った場合に起きやすいです。
 
 **Before（並列[リクエスト](/glossary/リクエスト/)で504になる実装）：**
 
@@ -165,7 +165,7 @@ for repo in repos:
 
 ### GraphQL APIの利用
 
-GitHub [API](/glossary/api/)は[REST](/glossary/rest/) [API](/glossary/api/)だけでなく[GraphQL](/glossary/graphql/) [API](/glossary/api/)も提供しており、504エラーは[GraphQL](/glossary/graphql/)側でも発生します。[GraphQL](/glossary/graphql/)の場合、複雑なクエリや深いネストが原因になることがあります。
+GitHub [API](/glossary/api/)は[REST](/glossary/rest/) [API](/glossary/api/)だけでなく[GraphQL](/glossary/graphql/) [API](/glossary/api/)も提供しており、504エラーは[GraphQL](/glossary/graphql/)側でも発生します。[GraphQL](/glossary/graphql/)の場合、複雑な[クエリ](/glossary/クエリ/)や深いネストが原因になることがあります。
 
 ```python
 import requests

@@ -150,7 +150,7 @@ response = requests.get(
 
 ### GitHub APIバージョンによる違い
 
-GitHub [API](/glossary/api/)には`REST API`と`GraphQL API`の2つの方式があります。[REST](/glossary/rest/) [API](/glossary/api/)の方が503エラーが発生しやすいため、複数のリソースを取得する場合は[GraphQL](/glossary/graphql/) [API](/glossary/api/)の使用を推奨します。[GraphQL](/glossary/graphql/) [API](/glossary/api/)はクエリを最適化することで、単一の[リクエスト](/glossary/リクエスト/)で複数の情報を取得でき、[レート制限](/glossary/レート制限/)の消費を大幅に削減できます。
+GitHub [API](/glossary/api/)には`REST API`と`GraphQL API`の2つの方式があります。[REST](/glossary/rest/) [API](/glossary/api/)の方が503エラーが発生しやすいため、複数のリソースを取得する場合は[GraphQL](/glossary/graphql/) [API](/glossary/api/)の使用を推奨します。[GraphQL](/glossary/graphql/) [API](/glossary/api/)は[クエリ](/glossary/クエリ/)を最適化することで、単一の[リクエスト](/glossary/リクエスト/)で複数の情報を取得でき、[レート制限](/glossary/レート制限/)の消費を大幅に削減できます。
 
 ### Personal Access Token（PAT）の有効期限
 
@@ -164,7 +164,7 @@ GitHubは公式のステータスページ（https://www.githubstatus.com/）で
 
 ### デバッグ方法
 
-詳細なレスポンスヘッダーと本体をログに記録して原因を特定します。
+詳細なレスポンスヘッダーと本体を[ログ](/glossary/ログ/)に記録して原因を特定します。
 
 ```python
 import requests

@@ -6,21 +6,21 @@ description: "指定したKubernetesリソースが見つからない。Minikube
 tags: ["Minikube"]
 errorCode: "404"
 ---
-Minikube で 404 エラーが出た場合、指定した Kubernetes リソースが見つからないことを示しています。このエラーは開発環境でよく発生し、適切な確認手順で迅速に解決できます。
+Minikube で 404 エラーが出た場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。このエラーは開発環境でよく発生し、適切な確認手順で迅速に解決できます。
 
 ## よくある原因
 
-**Namespace の指定が間違っているか省略されている**
+**[Namespace](/glossary/namespace/) の指定が間違っているか省略されている**
 
-Kubernetes ではリソースは必ず Namespace 内に存在します。`kubectl get pod` のように Namespace を指定せずコマンドを実行すると、デフォルトの `default` Namespace のみを検索します。リソースが別の Namespace に存在する場合、404 エラーが返されます。例えば `kube-system` Namespace にあるシステムポッドは、Namespace 指定なしでは見つかりません。
+[Kubernetes](/glossary/kubernetes/) ではリソースは必ず [Namespace](/glossary/namespace/) 内に存在します。`kubectl get pod` のように [Namespace](/glossary/namespace/) を指定せずコマンドを実行すると、デフォルトの `default` [Namespace](/glossary/namespace/) のみを検索します。リソースが別の [Namespace](/glossary/namespace/) に存在する場合、404 エラーが返されます。例えば `kube-system` [Namespace](/glossary/namespace/) にあるシステムポッドは、[Namespace](/glossary/namespace/) 指定なしでは見つかりません。
 
-**リソースがまだデプロイされていないか削除されている**
+**リソースがまだ[デプロイ](/glossary/デプロイ/)されていないか削除されている**
 
 Deployment やポッドの作成コマンドを実行しても、イメージのダウンロードやスケジューリングに時間がかかります。その間に `kubectl get pod <pod-name>` を実行すると 404 になります。また、明示的に削除したリソースや、前回のセッションで作成したリソースも見つかりません。
 
 **Minikube クラスターが停止している**
 
-Minikube クラスターが停止している状態では、すべての Kubernetes API のリクエストが失敗し、404 を含むエラーが返されます。クラスターが起動していても、kube-apiserver などのコアコンポーネントが正常に動作していない場合も同様です。
+Minikube クラスターが停止している状態では、すべての [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)が失敗し、404 を含むエラーが返されます。クラスターが起動していても、kube-apiserver などのコアコンポーネントが正常に動作していない場合も同様です。
 
 ## 解決手順
 
@@ -49,9 +49,9 @@ kubeconfig: Configured
 minikube start
 ```
 
-**ステップ 2：Namespace 全体でリソースを検索する**
+**ステップ 2：[Namespace](/glossary/namespace/) 全体でリソースを検索する**
 
-次に、すべての Namespace 横断でリソースが実在するか確認します。`-A` フラグは全 Namespace 対象を意味します。
+次に、すべての [Namespace](/glossary/namespace/) 横断でリソースが実在するか確認します。`-A` フラグは全 [Namespace](/glossary/namespace/) 対象を意味します。
 
 ```bash
 kubectl get pod -A
@@ -71,29 +71,29 @@ kubectl get service -A
 kubectl get pvc -A
 ```
 
-**ステップ 3：正しい Namespace を指定してアクセスする**
+**ステップ 3：正しい [Namespace](/glossary/namespace/) を指定してアクセスする**
 
-リソースが見つかった場合、その Namespace を指定して詳細を確認します。
+リソースが見つかった場合、その [Namespace](/glossary/namespace/) を指定して詳細を確認します。
 
 ```bash
 kubectl describe pod <pod-name> -n <namespace-name>
 ```
 
-例えば `kube-system` Namespace 内の `etcd` ポッドを確認する場合：
+例えば `kube-system` [Namespace](/glossary/namespace/) 内の `etcd` ポッドを確認する場合：
 
 ```bash
 kubectl describe pod etcd-minikube -n kube-system
 ```
 
-**ステップ 4：デプロイ失敗の原因を調査する**
+**ステップ 4：[デプロイ](/glossary/デプロイ/)失敗の原因を調査する**
 
-リソースが見つからない場合、デプロイが失敗している可能性があります。イベントログを確認します。
+リソースが見つからない場合、[デプロイ](/glossary/デプロイ/)が失敗している可能性があります。イベントログを確認します。
 
 ```bash
 kubectl get events -A
 ```
 
-特定の Namespace 内のイベントのみを表示する場合：
+特定の [Namespace](/glossary/namespace/) 内のイベントのみを表示する場合：
 
 ```bash
 kubectl get events -n <namespace-name>
@@ -105,11 +105,11 @@ kubectl get events -n <namespace-name>
 kubectl describe deployment <deployment-name> -n <namespace-name>
 ```
 
-このコマンドで `Status` や `Conditions` を確認し、PullImageError や ImagePullBackOff など、デプロイ失敗の理由が表示されます。
+このコマンドで `Status` や `Conditions` を確認し、PullImageError や ImagePullBackOff など、[デプロイ](/glossary/デプロイ/)失敗の理由が表示されます。
 
 **ステップ 5：リソース定義ファイルを再確認する**
 
-YAML ファイルの Namespace 指定が正しいか確認します。
+[YAML](/glossary/yaml/) ファイルの [Namespace](/glossary/namespace/) 指定が正しいか確認します。
 
 ```yaml
 apiVersion: v1
@@ -123,11 +123,11 @@ spec:
     image: nginx:latest
 ```
 
-Namespace 指定がない場合は `default` Namespace が使用されます。指定した Namespace に合わせて統一します。
+[Namespace](/glossary/namespace/) 指定がない場合は `default` [Namespace](/glossary/namespace/) が使用されます。指定した [Namespace](/glossary/namespace/) に合わせて統一します。
 
 ## それでも解決しない場合
 
-Minikube のログを確認することで、クラスターレベルの問題を特定できます。
+Minikube の[ログ](/glossary/ログ/)を確認することで、クラスターレベルの問題を特定できます。
 
 ```bash
 minikube logs

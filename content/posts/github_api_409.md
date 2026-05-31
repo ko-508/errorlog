@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossary/リクエスト/)の内容がGitHubのリソース現在の状態と矛盾していることを示す[ステータスコード](/glossary/ステータスコード/)です。[ブランチ](/glossary/ブランチ/)の作成、プルリクエストの作成、リリースの公開など、状態が重要な操作時に頻繁に発生します。このエラーは単なる一時的な失敗ではなく、[リクエスト](/glossary/リクエスト/)自体を見直す必要があることを示唆しています。
+GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossary/リクエスト/)の内容がGitHubのリソース現在の状態と矛盾していることを示す[ステータスコード](/glossary/ステータスコード/)です。[ブランチ](/glossary/ブランチ/)の作成、プルリクエストの作成、[リリース](/glossary/リリース/)の公開など、状態が重要な操作時に頻繁に発生します。このエラーは単なる一時的な失敗ではなく、[リクエスト](/glossary/リクエスト/)自体を見直す必要があることを示唆しています。
 
 ## 実際のエラーメッセージ例
 
@@ -110,7 +110,7 @@ if response.status_code == 409:
 
 ### 原因3：タグが既に存在する
 
-**なぜ発生するか**：同じ名前のタグを作成しようとすると、既存のタグと競合します。リリース管理時に頻発します。
+**なぜ発生するか**：同じ名前のタグを作成しようとすると、既存のタグと競合します。[リリース](/glossary/リリース/)管理時に頻発します。
 
 **Before（エラーが起きるコード）**：
 ```javascript
@@ -178,7 +178,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
 
 ## ツール固有の注意点
 
-**GitHub [API](/glossary/api/)のバージョン差分**：[REST](/glossary/rest/) [API](/glossary/api/) v3では一部の[エンドポイント](/glossary/エンドポイント/)の409動作が異なります。[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使用する場合は`ValidationError`の形式が異なるため、エラーハンドリングを確認してください。
+**GitHub [API](/glossary/api/)のバージョン差分**：[REST](/glossary/rest/) [API](/glossary/api/) v3では一部の[エンドポイント](/glossary/エンドポイント/)の409動作が異なります。[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使用する場合は`ValidationError`の形式が異なるため、[エラーハンドリング](/glossary/エラーハンドリング/)を確認してください。
 
 **[トークン](/glossary/トークン/)の権限不足**：409ではなく403が返ることもありますが、特定の[スコープ](/glossary/スコープ/)（`repo`、`public_repo`）がない場合は409と判定されることがあります。[トークン](/glossary/トークン/)生成時に適切な[スコープ](/glossary/スコープ/)を付与してください。
 
@@ -188,7 +188,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
 
 ## それでも解決しない場合
 
-**ログの確認方法**：`curl -v`フラグで詳細なレスポンスヘッダーを確認し、`X-RateLimit-Remaining`や`X-GitHub-Request-Id`をメモしてください。
+**[ログ](/glossary/ログ/)の確認方法**：`curl -v`フラグで詳細なレスポンスヘッダーを確認し、`X-RateLimit-Remaining`や`X-GitHub-Request-Id`をメモしてください。
 
 **[API](/glossary/api/)[レスポンス](/glossary/レスポンス/)の詳細確認**：`errors`配列内の`field`と`message`フィールドを精読すると、具体的な競合原因が判明します。
 

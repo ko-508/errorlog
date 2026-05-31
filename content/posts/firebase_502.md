@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流の[バックエンド](/glossary/バックエンド/)（Cloud Functionsやカスタムオリジンサーバー）から不正な形式の[レスポンス](/glossary/レスポンス/)を受け取ったか、[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)した場合です。このエラーはクライアント側の問題ではなく、サーバー側の設定やコードに原因があることがほとんどです。
+Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継[サーバー](/glossary/サーバー/)が上流の[バックエンド](/glossary/バックエンド/)（Cloud Functionsやカスタムオリジンサーバー）から不正な形式の[レスポンス](/glossary/レスポンス/)を受け取ったか、[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)した場合です。このエラーはクライアント側の問題ではなく、[サーバー](/glossary/サーバー/)側の設定やコードに原因があることがほとんどです。
 
 ## 実際のエラーメッセージ例
 
@@ -170,7 +170,7 @@ gcloud functions deploy myFunction \
 
 ### Firebase Hostingとカスタムオリジンの接続
 
-Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、そのオリジンが不可達または応答が遅いと502エラーが返されます。Cloud Load BalancingやCloud Armorを経由している場合は、ファイアウォール設定も確認してください。
+Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、そのオリジンが不可達または応答が遅いと502エラーが返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)設定も確認してください。
 
 ```json
 {
@@ -209,7 +209,7 @@ exports.corsFunction = functions.https.onRequest((req, res) => {
 
 ### ログの確認
 
-Firebase Consoleのログ機能または以下のコマンドでCloud Functionsの詳細なエラーログを確認してください。
+Firebase Consoleの[ログ](/glossary/ログ/)機能または以下のコマンドでCloud Functionsの詳細なエラーログを確認してください。
 
 ```bash
 gcloud functions logs read <your-function-name> --limit 50
@@ -223,7 +223,7 @@ gcloud logging read "resource.type=cloud_function AND resource.labels.function_n
 
 ### デプロイと権限の確認
 
-関数が[デプロイ](/glossary/デプロイ/)されているか、[IAM](/glossary/iam/)権限が正しく設定されているか確認してください。
+関数が[デプロイ](/glossary/デプロイ/)されているか、[IAM](/glossary/iam/)[権限](/glossary/権限/)が正しく設定されているか確認してください。
 
 ```bash
 gcloud functions list

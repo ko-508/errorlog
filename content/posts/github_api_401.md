@@ -185,7 +185,7 @@ curl -H "Authorization: token <PAT>" https://api.github.com/ \
   | grep -i "x-oauth-scopes"
 ```
 
-3. **[ネットワーク](/glossary/ネットワーク/)の確認**：[プロキシ](/glossary/プロキシ/)やファイアウォール経由でGitHubに接続している場合、[リクエスト](/glossary/リクエスト/)が正しく転送されているか確認してください。
+3. **[ネットワーク](/glossary/ネットワーク/)の確認**：[プロキシ](/glossary/プロキシ/)や[ファイアウォール](/glossary/ファイアウォール/)経由でGitHubに接続している場合、[リクエスト](/glossary/リクエスト/)が正しく転送されているか確認してください。
 
 ### 公式ドキュメント参照
 

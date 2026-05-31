@@ -139,7 +139,7 @@ if (snapshot.exists()) {
 
 **Firestoreセキュリティルールと404**
 
-セキュリティルールが拒否している場合も404が返されることがあります。権限がないドキュメントへのアクセス試行は、情報漏洩を防ぐため意図的に404で応答します。
+セキュリティルールが拒否している場合も404が返されることがあります。[権限](/glossary/権限/)がないドキュメントへのアクセス試行は、情報漏洩を防ぐため意図的に404で応答します。
 
 ```javascript
 // firestore.rules で READ 権限がない場合
@@ -187,7 +187,7 @@ const database = getDatabase(app, "https://<your-project-id>.firebaseio.com");
 
 ## それでも解決しない場合
 
-**ログ確認の手順**
+**[ログ](/glossary/ログ/)確認の手順**
 
 1. **Firebase Console** → 対象プロジェクト → **Logs** セクションを開く
 2. Cloud Functionsの場合は **Functions** タブで詳細なエラーログを確認

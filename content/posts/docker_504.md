@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-504 Gateway Timeout は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)が[プロキシ](/glossary/プロキシ/)経由で上流サーバーへの[リクエスト](/glossary/リクエスト/)に応答を待つ際に、設定された[タイムアウト](/glossary/タイムアウト/)時間を超過したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Compose を使用している場合やリバースプロキシ（Nginx など）経由で[コンテナ](/glossary/コンテナ/)にアクセスしている場合に頻繁に発生します。このエラーは、サーバー側の処理遅延、[ネットワーク](/glossary/ネットワーク/)の問題、または[タイムアウト](/glossary/タイムアウト/)設定の不適切さが原因となります。
+504 Gateway Timeout は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)が[プロキシ](/glossary/プロキシ/)経由で上流[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に応答を待つ際に、設定された[タイムアウト](/glossary/タイムアウト/)時間を超過したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Compose を使用している場合やリバースプロキシ（Nginx など）経由で[コンテナ](/glossary/コンテナ/)にアクセスしている場合に頻繁に発生します。このエラーは、[サーバー](/glossary/サーバー/)側の処理遅延、[ネットワーク](/glossary/ネットワーク/)の問題、または[タイムアウト](/glossary/タイムアウト/)設定の不適切さが原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -220,7 +220,7 @@ server {
 
 **[Docker](/glossary/docker/) Compose での [DNS](/glossary/dns/) 遅延：** [Docker](/glossary/docker/) Compose のサービス名解決が遅延することがあります。`depends_on` の条件に `service_healthy` を指定し、各サービスに[ヘルスチェック](/glossary/ヘルスチェック/)を設定することで、依存関係を明確にしましょう。
 
-**[コンテナ](/glossary/コンテナ/)のログレベルが INFO 以上の場合：** `DOCKER_BUILDKIT=1` や `BUILDKIT_PROGRESS=plain` などのビルド[環境変数](/glossary/環境変数/)が[タイムアウト](/glossary/タイムアウト/)に影響することは稀ですが、不要なログ出力でディスクI/Oが圧迫される可能性があります。
+**[コンテナ](/glossary/コンテナ/)のログレベルが INFO 以上の場合：** `DOCKER_BUILDKIT=1` や `BUILDKIT_PROGRESS=plain` などのビルド[環境変数](/glossary/環境変数/)が[タイムアウト](/glossary/タイムアウト/)に影響することは稀ですが、不要な[ログ](/glossary/ログ/)出力でディスクI/Oが圧迫される可能性があります。
 
 **ネットワークドライバーの選択：** デフォルトの bridge ドライバーではなく、`--network` で user-defined network を使用することで、安定した [DNS](/glossary/dns/) 解決と[コンテナ](/glossary/コンテナ/)間通信が実現します。Compose では services は自動的にユーザー定義[ネットワーク](/glossary/ネットワーク/)に配置されますが、明示的に指定することで予期しない挙動を防げます。
 
@@ -244,9 +244,9 @@ networks:
 
 ## それでも解決しない場合
 
-**[Docker](/glossary/docker/) Compose のログを確認する：** `docker-compose logs -f` でサービスのリアルタイムログを確認し、エラーメッセージを詳細に読むことが最初のステップです。特に [タイムアウト](/glossary/タイムアウト/)前のエラーメッセージがあればそれを解析してください。
+**[Docker](/glossary/docker/) Compose の[ログ](/glossary/ログ/)を確認する：** `docker-compose logs -f` でサービスのリアルタイムログを確認し、エラーメッセージを詳細に読むことが最初のステップです。特に [タイムアウト](/glossary/タイムアウト/)前のエラーメッセージがあればそれを解析してください。
 
-**[プロキシ](/glossary/プロキシ/)のアクセスログを確認する：** Nginx の場合、`/var/log/nginx/access.log` と `/var/log/nginx/error.log` を確認します。[Docker](/glossary/docker/) Compose 内では、ボリュームマウントで ホストマシンからログをアクセス可能にしておくと効率的です。
+**[プロキシ](/glossary/プロキシ/)のアクセスログを確認する：** Nginx の場合、`/var/log/nginx/access.log` と `/var/log/nginx/error.log` を確認します。[Docker](/glossary/docker/) Compose 内では、ボリュームマウントで ホストマシンから[ログ](/glossary/ログ/)をアクセス可能にしておくと効率的です。
 
 **公式ドキュメント：** [Docker](/glossary/docker/) Compose の[公式ドキュメント](https://docs.docker.com/compose/)で `timeouts` や `healthcheck` に関するセクションを参照してください。Nginx の詳細設定については [Nginx 公式ドキュメント](https://nginx.org/en/docs/) の proxy module セクションを確認しましょう。
 

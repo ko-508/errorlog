@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)サーバーへの[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400エラーです。マニフェストファイルの構文エラー、[API](/glossary/api/)仕様に違反するフィールド値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。このエラーはクラスタとの通信に成功した後、サーバー側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
+[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400エラーです。マニフェストファイルの構文エラー、[API](/glossary/api/)仕様に違反するフィールド値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。このエラーはクラスタとの通信に成功した後、[サーバー](/glossary/サーバー/)側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
 
 ## 実際のエラーメッセージ例
 
@@ -79,7 +79,7 @@ spec:
 
 ### 原因2: 必須フィールドの欠落
 
-**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須フィールド（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)サーバーは最小限のリソース定義すら受け付けません。
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須フィールド（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限のリソース定義すら受け付けません。
 
 **Before（エラーが起きるコード）：**
 ```yaml
@@ -246,7 +246,7 @@ kubectl api-resources | grep customresource
 
 ### ログ確認とデバッグコマンド
 
-[API](/glossary/api/)サーバーのログを直接確認して、より詳細なエラーメッセージを取得してください。
+[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を直接確認して、より詳細なエラーメッセージを取得してください。
 
 ```bash
 # クラスタログの確認（マネージドKubernetesの場合はプロバイダーのコンソール使用）
@@ -262,7 +262,7 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 ### 公式ドキュメントへの参照
 
 - **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)仕様** - https://kubernetes.io/docs/reference/kubernetes-api/ で各リソースのスキーマ定義を確認
-- **[API](/glossary/api/)サーバーの検証ルール** - https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation
+- **[API](/glossary/api/)[サーバー](/glossary/サーバー/)の検証ルール** - https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation
 - **廃止[API](/glossary/api/)バージョンのマイグレーション** - https://kubernetes.io/docs/reference/using-api/deprecation-guide/
 
 ### コミュニティリソース

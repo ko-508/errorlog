@@ -97,7 +97,7 @@ while True:
 
 ### 原因3：GraphQL APIとREST APIの混用で制限を誤解している
 
-**なぜ発生するか：** [GraphQL](/glossary/graphql/) [API](/glossary/api/)はポイント制（Rate Limit Points）で管理されるため、[REST](/glossary/rest/) [API](/glossary/api/)とは異なる制限ロジックです。複雑なクエリは複数ポイントを消費するため、[REST](/glossary/rest/) [API](/glossary/api/)と同じ感覚で使うとすぐに上限に達します。
+**なぜ発生するか：** [GraphQL](/glossary/graphql/) [API](/glossary/api/)はポイント制（Rate Limit Points）で管理されるため、[REST](/glossary/rest/) [API](/glossary/api/)とは異なる制限ロジックです。複雑な[クエリ](/glossary/クエリ/)は複数ポイントを消費するため、[REST](/glossary/rest/) [API](/glossary/api/)と同じ感覚で使うとすぐに上限に達します。
 
 **Before（エラーが起きる状態）：**
 ```graphql
@@ -208,7 +208,7 @@ Secondary Rate Limitに引っかかった場合、`Retry-After`[ヘッダー](/g
 
 ### Personal Access Token（PAT）のスコープと制限
 
-PATを使用する場合、[スコープ](/glossary/スコープ/)によって制限が変わることはありませんが、[トークン](/glossary/トークン/)の権限がない操作を試みると関連エラーが発生します。PAT作成時は必要最小限の[スコープ](/glossary/スコープ/)を設定してください。
+PATを使用する場合、[スコープ](/glossary/スコープ/)によって制限が変わることはありませんが、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)がない操作を試みると関連エラーが発生します。PAT作成時は必要最小限の[スコープ](/glossary/スコープ/)を設定してください。
 
 ### GitHubアプリとOAuthアプリの制限の違い
 
@@ -227,7 +227,7 @@ curl -H "Authorization: token <your-personal-access-token>" \
 
 ### ログから問題を特定する
 
-アプリケーションに以下を追加して詳細ログを記録します：
+アプリケーションに以下を追加して詳細[ログ](/glossary/ログ/)を記録します：
 
 ```python
 import logging

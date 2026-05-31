@@ -74,7 +74,7 @@ charge = stripe.Charge.create(
 
 ### 原因3：3Dセキュア認証の失敗または未完了
 
-3Dセキュア認証（本人認証サービス）が必須の場合、認証フローの不完全な実装によって402エラーが発生します。
+3Dセキュア[認証](/glossary/認証/)（本人認証サービス）が必須の場合、[認証](/glossary/認証/)フローの不完全な実装によって402エラーが発生します。
 
 **修正例：**
 ```javascript
@@ -96,7 +96,7 @@ const {paymentIntent, error} = await stripe.confirmCardPayment(
 
 ### 原因4：PaymentIntentのステータス確認の遅延
 
-非同期処理でPaymentIntentの最終ステータスを確認する前に決済リクエストを再送信すると、重複処理が発生して402エラーになることがあります。
+非同期処理でPaymentIntentの最終ステータスを確認する前に決済[リクエスト](/glossary/リクエスト/)を再送信すると、重複処理が発生して402エラーになることがあります。
 
 **修正例：**
 ```python
@@ -122,7 +122,7 @@ elif intent.status == "succeeded":
 
 ### decline_codeの確認
 
-エラーレスポンスに含まれる `decline_code` フィールドを確認することで、より正確な原因特定ができます。
+[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `decline_code` フィールドを確認することで、より正確な原因特定ができます。
 
 ```python
 import stripe
@@ -141,7 +141,7 @@ except stripe.error.CardError as e:
 
 ### Webhookイベントのチェック
 
-決済処理が失敗しても、`charge.failed` イベントが Webhook に送信されます。これを適切にハンドリングして、ユーザーに失敗理由を正確に伝えることが重要です。
+決済処理が失敗しても、`charge.failed` イベントが [Webhook](/glossary/webhook/) に送信されます。これを適切にハンドリングして、ユーザーに失敗理由を正確に伝えることが重要です。
 
 ```python
 @app.route('/webhook', methods=['POST'])
@@ -162,7 +162,7 @@ def handle_webhook():
 
 ### ログ確認とデバッグ方法
 
-Stripe Dashboard の「Logs」セクションで API リクエスト・レスポンスの全詳細を確認できます。以下の情報を記録してください。
+Stripe Dashboard の「Logs」セクションで [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の全詳細を確認できます。以下の情報を記録してください。
 
 - **Request ID** - `req_` で始まる一意識別子
 - **Charge ID** - `ch_` で始まるチャージ ID
@@ -181,7 +181,7 @@ Stripe Dashboard の「Logs」セクションで API リクエスト・レスポ
 
 - **Stripe サポート** - Dashboard内の「Contact Support」から直接問い合わせ（本番環境のエラーは優先対応）
 - **GitHub Issues** - stripe/stripe-js でのコミュニティ報告例
-- **Stripe API リファレンス** - https://stripe.com/docs/api （最新の仕様確認）
+- **Stripe [API](/glossary/api/) リファレンス** - https://stripe.com/docs/api （最新の仕様確認）
 
 ---
 

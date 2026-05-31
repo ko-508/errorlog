@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase における 500 エラーは、Firebase サーバー側で予期しない内部エラーが発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。このエラーは、クライアント側の設定ミスではなく、サーバー側の処理失敗を意味することが多いため、段階的な調査が必要です。
+Firebase における 500 エラーは、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部エラーが発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。このエラーは、クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -65,7 +65,7 @@ exports.processData = functions.https.onCall(async (data, context) => {
 ### 原因2：Firestore / Realtime Database のセキュリティルールが許可していない
 
 **なぜ発生するか**  
-セキュリティルールが不適切に設定されていると、クエリ実行時にルール評価エラーが発生し、500 が返される場合があります。特に複雑な条件や無限ループするルールが設定されているとき顕著です。
+セキュリティルールが不適切に設定されていると、[クエリ](/glossary/クエリ/)実行時にルール評価エラーが発生し、500 が返される場合があります。特に複雑な条件や無限ループするルールが設定されているとき顕著です。
 
 **Before（エラーが起きる設定）**
 ```yaml
@@ -94,9 +94,9 @@ service cloud.firestore {
 ### 原因3：Realtime Database のインデックスが未作成
 
 **なぜ発生するか**  
-Realtime Database で複数フィールドを`orderByChild()`や`orderByValue()`でクエリするとき、必要な[インデックス](/glossary/インデックス/)が[コンソール](/glossary/コンソール/)で作成されていないと 500 エラーが発生します。Firestore では自動[インデックス](/glossary/インデックス/)が作成されることが多いですが、Realtime Database は明示的な作成が必要です。
+Realtime Database で複数フィールドを`orderByChild()`や`orderByValue()`で[クエリ](/glossary/クエリ/)するとき、必要な[インデックス](/glossary/インデックス/)が[コンソール](/glossary/コンソール/)で作成されていないと 500 エラーが発生します。Firestore では自動[インデックス](/glossary/インデックス/)が作成されることが多いですが、Realtime Database は明示的な作成が必要です。
 
-**Before（[インデックス](/glossary/インデックス/)なしでのクエリ）**
+**Before（[インデックス](/glossary/インデックス/)なしでの[クエリ](/glossary/クエリ/)）**
 ```javascript
 // Firebase Realtime Database のインデックスが未作成
 admin.database().ref('posts')
@@ -172,16 +172,16 @@ await firebase.auth().currentUser.getIdToken(true);
 
 ## それでも解決しない場合
 
-**Cloud Functions のログを確認する**  
-Firebase Console から「Functions」→「ログ」を開き、実行時の詳細エラーメッセージを確認してください。`console.error()`で出力したログも表示されます。
+**Cloud Functions の[ログ](/glossary/ログ/)を確認する**  
+Firebase Console から「Functions」→「[ログ](/glossary/ログ/)」を開き、実行時の詳細エラーメッセージを確認してください。`console.error()`で出力した[ログ](/glossary/ログ/)も表示されます。
 
-**gcloud [CLI](/glossary/cli/) でのログ確認**
+**gcloud [CLI](/glossary/cli/) での[ログ](/glossary/ログ/)確認**
 ```bash
 gcloud functions logs read <function-name> --limit 50
 ```
 
 **Firebase Support への問い合わせ**  
-Firebase Console の「サポート」タブから公式サポートに問い合わせることで、サーバー側のログから原因を特定できる場合があります。
+Firebase Console の「サポート」タブから公式サポートに問い合わせることで、[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)から原因を特定できる場合があります。
 
 **公式ドキュメント**  
 - [Cloud Functions トラブルシューティング](https://firebase.google.com/docs/functions/troubleshooting)

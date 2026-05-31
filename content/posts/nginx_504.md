@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーや[API](/glossary/api/)）からの[レスポンス](/glossary/レスポンス/)を一定時間待ちきれず、[タイムアウト](/glossary/タイムアウト/)した状況を示すエラーです。Nginxそのものは正常に動作していますが、[バックエンド](/glossary/バックエンド/)側の処理時間が長すぎるか、サーバーが応答していない可能性があります。
+504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーや[API](/glossary/api/)）からの[レスポンス](/glossary/レスポンス/)を一定時間待ちきれず、[タイムアウト](/glossary/タイムアウト/)した状況を示すエラーです。Nginxそのものは正常に動作していますが、[バックエンド](/glossary/バックエンド/)側の処理時間が長すぎるか、[サーバー](/glossary/サーバー/)が応答していない可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -110,7 +110,7 @@ $ sudo systemctl status app-server
 
 ### 原因3: バックエンドのリソース不足（CPU/メモリ）またはハング
 
-バックエンドサーバーのCPUやメモリが枯渇していたり、データベース接続がハングしていたりする場合、処理が完了せず[タイムアウト](/glossary/タイムアウト/)になります。
+バックエンドサーバーのCPUやメモリが枯渇していたり、[データベース](/glossary/データベース/)接続がハングしていたりする場合、処理が完了せず[タイムアウト](/glossary/タイムアウト/)になります。
 
 **確認コマンド:**
 ```bash
@@ -274,7 +274,7 @@ sudo killall -HUP nginx
 
 - [Nginx公式フォーラム](https://forum.nginx.org/)
 - [Stack Overflow - nginx タグ](https://stackoverflow.com/questions/tagged/nginx)
-- [バックエンド](/glossary/バックエンド/)側のログも併せて確認してください（Python Flask、Django、Node.js、Java等、言語・フレームワークによってログ場所が異なります）
+- [バックエンド](/glossary/バックエンド/)側の[ログ](/glossary/ログ/)も併せて確認してください（Python Flask、Django、Node.js、Java等、言語・フレームワークによって[ログ](/glossary/ログ/)場所が異なります）
 
 ---
 

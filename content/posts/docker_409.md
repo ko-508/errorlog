@@ -156,7 +156,7 @@ docker volume rm <volume-name>
 
 ### ログの確認方法
 
-[Docker](/glossary/docker/) Daemonのログを確認することで、より詳細な原因を特定できます。
+[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)を確認することで、より詳細な原因を特定できます。
 
 ```bash
 # 最近のDocker Daemonログを表示

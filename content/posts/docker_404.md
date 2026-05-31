@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) で 404 エラーが発生するのは、指定したイメージまたは[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR などのイメージ保管先）に存在しないことを意味します。このエラーは `docker pull`、`docker run`、`docker push` などのコマンド実行時に表示され、イメージ名の誤字、存在しないタグの指定、アクセス権限の不足などが主な原因です。
+[Docker](/glossary/docker/) で 404 エラーが発生するのは、指定したイメージまたは[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR などのイメージ保管先）に存在しないことを意味します。このエラーは `docker pull`、`docker run`、`docker push` などのコマンド実行時に表示され、イメージ名の誤字、存在しないタグの指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。
 
 ## 実際のエラーメッセージ例
 

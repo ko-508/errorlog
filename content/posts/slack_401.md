@@ -84,7 +84,7 @@ curl -X GET https://slack.com/api/auth.test \
 ## それでも解決しない場合
 
 - **[トークン](/glossary/トークン/)の有効期限を確認**：App 設定で「**Install App**」セクションを確認
-- **[ネットワーク](/glossary/ネットワーク/)接続を確認**：[プロキシ](/glossary/プロキシ/)やファイアウォールの影響がないか確認
+- **[ネットワーク](/glossary/ネットワーク/)接続を確認**：[プロキシ](/glossary/プロキシ/)や[ファイアウォール](/glossary/ファイアウォール/)の影響がないか確認
 - **Slack 公式ドキュメント**を参照：https://api.slack.com/authentication/basics
 - **Slack サポートに問い合わせ**：[ワークスペース](/glossary/ワークスペース/)の管理者権限で対応が必要な場合もあります
 
