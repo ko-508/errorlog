@@ -1,7 +1,4 @@
 tool,status_code,official_meaning,causes,solutions
-Docker Compose,403,レジストリまたはリソースへのアクセス権限がない。,プライベートイメージへのアクセス権限が不足している|ボリュームマウント先のディレクトリにDockerからの書き込み権限がない|Docker Socketへのアクセスが制限されている,イメージの所有者にアクセス権を依頼するか適切なトークンで再ログインする|ls -la でマウント先のパーミッションを確認しchmodで修正する|usermod -aG docker <ユーザー名> でDockerグループにユーザーを追加する
-Docker Compose,404,指定したイメージ・サービス・ボリュームが見つからない。,compose.yml内のimage名またはタグが存在しない|buildコンテキストのパスが間違っている|参照しているボリュームやネットワークが先に作成されていない,docker images でローカルのイメージ一覧を確認する|compose.ymlのbuildコンテキストのパスが正しいか確認する|docker compose up --build でイメージをビルドしてから起動する
-Docker Compose,409,サービスの状態がリクエストと競合している。,同じ名前のコンテナがすでに起動または停止状態で残っている|同じポートを複数のサービスが使おうとしている|同名のネットワークまたはボリュームがすでに存在する,docker compose down で既存のコンテナを削除してから再起動する|compose.ymlのportsを確認して重複していないか確認する|docker network ls / docker volume ls で競合するリソースを削除する
 Docker Compose,500,Docker Composeサービスの内部エラーが発生した。,サービスのコンテナ内部でアプリケーションがクラッシュしている|コンテナのエントリポイントやコマンドが失敗して終了した|ヘルスチェックが失敗しコンテナが再起動ループに入っている,docker compose logs <サービス名> でサービスのログを確認する|docker compose ps でサービスの状態を確認する|docker compose up --no-deps <サービス名> で個別に起動して問題を切り分ける
 Docker Compose,503,サービスが起動できないか利用できない状態にある。,依存サービスが起動完了する前にアクセスしようとしている|depends_onのconditionがservice_healthyに設定されているがヘルスチェックが失敗している|コンテナが起動直後に停止している,compose.ymlのdepends_onにcondition: service_healthyを設定する|ヘルスチェックコマンドが正しく機能するか手動で確認する|docker compose logs で起動失敗の原因を調べる
 Azure,400,Azure APIへのリクエストにパラメータの誤りがある。,必須パラメータが不足しているか型が間違っている|リソースのプロパティ値が許容される範囲を外れている|リソース名の命名規則（文字数・使用可能文字）に違反している,Azureのエラーレスポンス内のdetailsフィールドで問題のパラメータを特定する|リソース名の命名規則をMicrosoftのドキュメントで確認する|Azure CLIのaz <コマンド> --helpでパラメータの型と必須条件を確認する
