@@ -77,7 +77,7 @@ podman images
 
 ## それでも解決しない場合
 
-ファイアウォールや[プロキシ](/glossary/プロキシ/)が認証通信をブロックしていないか確認してください。企業[ネットワーク](/glossary/ネットワーク/)では[HTTP](/glossary/http/)[プロキシ](/glossary/プロキシ/)経由で[レジストリ](/glossary/レジストリ/)にアクセスする必要があるケースがあります。Podmanの場合、[プロキシ](/glossary/プロキシ/)設定は `~/.config/containers/registries.conf` で行います。
+[ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が認証通信をブロックしていないか確認してください。企業[ネットワーク](/glossary/ネットワーク/)では[HTTP](/glossary/http/)[プロキシ](/glossary/プロキシ/)経由で[レジストリ](/glossary/レジストリ/)にアクセスする必要があるケースがあります。Podmanの場合、[プロキシ](/glossary/プロキシ/)設定は `~/.config/containers/registries.conf` で行います。
 
 また、[レジストリ](/glossary/レジストリ/)が要求する[スコープ](/glossary/スコープ/)（scope）が限定されている場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の生成時に[スコープ](/glossary/スコープ/)を指定しなければならないことがあります。詳細は[レジストリ](/glossary/レジストリ/)の公式ドキュメントを確認してください。
 

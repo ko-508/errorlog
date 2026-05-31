@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) の 403 エラーは、[認証](/glossary/認証/)（ログイン）には成功したものの、対象のリソース（イメージ、[レジストリ](/glossary/レジストリ/)、ボリューム等）へのアクセス権限がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の権限が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。
+[Docker](/glossary/docker/) の 403 エラーは、[認証](/glossary/認証/)（ログイン）には成功したものの、対象のリソース（イメージ、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。
 
 ## 実際のエラーメッセージ例
 
@@ -93,7 +93,7 @@ docker push org/repo:v1.0
 
 **After（修正後の対応）**
 
-[リポジトリ](/glossary/リポジトリ/)の所有者が [Docker](/glossary/docker/) Hub Web UI でアクセス権限を明示的に付与する必要があります：
+[リポジトリ](/glossary/リポジトリ/)の所有者が [Docker](/glossary/docker/) Hub Web UI で[アクセス権限](/glossary/アクセス権限/)を明示的に付与する必要があります：
 
 ```
 Docker Hub Web UI > Repository > Settings > Collaborators
@@ -191,7 +191,7 @@ curl -u username:password https://your-registry.com/v2/
 
 ### 確認すべきログと情報
 
-[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)のログを確認して詳細なエラーを特定します：
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認して詳細なエラーを特定します：
 
 ```bash
 # Docker Desktop (Mac)

@@ -126,7 +126,7 @@ $ groups
 user adm sudo
 ```
 
-**After（権限を修正後）:**
+**After（[権限](/glossary/権限/)を修正後）:**
 ```bash
 # 現在のユーザーをdockerグループに追加
 $ sudo usermod -aG docker $USER
@@ -234,7 +234,7 @@ services:
 
 ### ログの確認方法
 
-[デーモン](/glossary/デーモン/)自体のログを確認することで、500エラーの根本原因を特定できます。
+[デーモン](/glossary/デーモン/)自体の[ログ](/glossary/ログ/)を確認することで、500エラーの根本原因を特定できます。
 
 ```bash
 # systemdを使用している環境

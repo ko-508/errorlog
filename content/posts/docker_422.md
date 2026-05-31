@@ -151,7 +151,7 @@ DOCKER_BUILDKIT=1 docker build --no-cache -t myapp:v1 .
 
 ### ログ確認とデバッグコマンド
 
-[Docker](/glossary/docker/) Daemon のログを確認し、より詳細なエラー情報を取得します。
+[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を確認し、より詳細なエラー情報を取得します。
 
 ```bash
 # systemd でコンテナを実行している場合

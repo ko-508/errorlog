@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase で 422 エラーが返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、データベースのルール違反やスキーマ検証エラーが主な原因です。
+Firebase で 422 エラーが返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反やスキーマ検証エラーが主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -34,7 +34,7 @@ FirebaseError: [firestore/permission-denied]: Missing or insufficient permission
 
 ### 原因1：Realtime Database のセキュリティルール違反
 
-なぜ発生するかというと、Firebase Realtime Database では `.write` や `.validate` ルールで書き込み権限やデータ形式を厳密に定義しており、これを満たさないデータを送信すると 422 エラーが返されます。
+なぜ発生するかというと、Firebase Realtime Database では `.write` や `.validate` ルールで書き込み[権限](/glossary/権限/)やデータ形式を厳密に定義しており、これを満たさないデータを送信すると 422 エラーが返されます。
 
 **Before（エラーが起きる設定）**
 
@@ -108,7 +108,7 @@ await db.collection('products').add({
 
 ### 原因3：Firebase Authentication の入力値検証エラー
 
-Firebase Authentication では、メールアドレスやパスワードの形式、長さが検証されており、これを満たさないと 422 エラーが返されることがあります。特にカスタム[認証](/glossary/認証/)[トークン](/glossary/トークン/)や弱いパスワード設定で発生します。
+Firebase Authentication では、メールアドレスや[パスワード](/glossary/パスワード/)の形式、長さが検証されており、これを満たさないと 422 エラーが返されることがあります。特にカスタム[認証](/glossary/認証/)[トークン](/glossary/トークン/)や弱い[パスワード](/glossary/パスワード/)設定で発生します。
 
 **Before（エラーが起きるコード）**
 
@@ -172,7 +172,7 @@ exports.createUser = functions.https.onCall(async (data) => {
 
 Firebase Console のセキュリティルールタブでシミュレーター機能を使い、実際の書き込み[リクエスト](/glossary/リクエスト/)をテストしましょう。ここで「許可」か「拒否」かが明確に表示され、拒否理由も確認できます。
 
-ローカル環境では Firebase Emulator Suite を起動して、ルール違反の詳細ログを確認します：
+ローカル環境では Firebase Emulator Suite を起動して、ルール違反の詳細[ログ](/glossary/ログ/)を確認します：
 
 ```bash
 firebase emulators:start --inspect-functions
@@ -180,10 +180,10 @@ firebase emulators:start --inspect-functions
 
 ### 確認すべきログ
 
-Cloud Functions のログは Google Cloud Console で以下のパスで確認できます：
+Cloud Functions の[ログ](/glossary/ログ/)は Google Cloud Console で以下のパスで確認できます：
 - **Cloud Logging** > **ログエクスプローラー** > `resource.type="cloud_function"`
 
-Realtime Database の書き込み失敗ログは Firebase Console の **Realtime Database** > **ルール** > **シミュレーター** で再現テストを実施できます。
+Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase Console の **Realtime Database** > **ルール** > **シミュレーター** で再現テストを実施できます。
 
 ### 公式ドキュメント参照
 

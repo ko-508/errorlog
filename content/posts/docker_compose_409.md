@@ -7,7 +7,7 @@ errorCode: "409"
 ---
 ## エラーの概要
 
-Docker Compose の 409 エラーは、リクエストされたコンテナーやネットワーク、ボリュームの状態が現在の環境状態と競合していることを示します。このエラーは通常、既に存在するリソースの作成を試みたり、使用中のポート・ネットワークを重複させたりした場合に発生します。既存の状態を認識しないまま操作を進めようとすると、Docker Compose がこの競合を検出して実行を中止します。
+[Docker](/glossary/docker/) Compose の 409 エラーは、[リクエスト](/glossary/リクエスト/)されたコンテナーや[ネットワーク](/glossary/ネットワーク/)、ボリュームの状態が現在の環境状態と競合していることを示します。このエラーは通常、既に存在するリソースの作成を試みたり、使用中の[ポート](/glossary/ポート/)・[ネットワーク](/glossary/ネットワーク/)を重複させたりした場合に発生します。既存の状態を認識しないまま操作を進めようとすると、[Docker](/glossary/docker/) Compose がこの競合を検出して実行を中止します。
 
 ## 実際のエラーメッセージ例
 
@@ -17,13 +17,13 @@ Docker Compose の 409 エラーは、リクエストされたコンテナーや
 Error response from daemon: Conflict. The container name "<container-name>" is already in use by container "<existing-container-id>". You have to remove (or rename) that container to be able to reuse that name.
 ```
 
-**パターン2：ポート番号の競合**
+**パターン2：[ポート](/glossary/ポート/)番号の競合**
 
 ```bash
 ERROR: for <service-name>  Cannot start service <service-name>: driver failed programming external connectivity on endpoint <endpoint-name>: Bind for 0.0.0.0:<port> failed: port is already allocated
 ```
 
-**パターン3：ネットワークまたはボリュームの競合**
+**パターン3：[ネットワーク](/glossary/ネットワーク/)またはボリュームの競合**
 
 ```json
 Error response from daemon: network with name <network-name> already exists
@@ -33,7 +33,7 @@ Error response from daemon: network with name <network-name> already exists
 
 ### 原因1：同じ名前のコンテナーがすでに起動または停止状態で残っている
 
-Docker Compose は `docker-compose.yml` で定義したサービス名とプロジェクト名の組み合わせでコンテナー名を生成します。以前に作成したコンテナーが停止状態で残っていたり、同じ構成を再度実行しようとしたりすると、同じ名前のコンテナーが存在することになり、409 エラーが発生します。
+[Docker](/glossary/docker/) Compose は `docker-compose.yml` で定義したサービス名とプロジェクト名の組み合わせでコンテナー名を生成します。以前に作成したコンテナーが停止状態で残っていたり、同じ構成を再度実行しようとしたりすると、同じ名前のコンテナーが存在することになり、409 エラーが発生します。
 
 **修正方法：**
 
@@ -49,7 +49,7 @@ docker compose up -d
 
 ### 原因2：同じポートを複数のサービスが使おうとしている
 
-`docker-compose.yml` で複数のサービスが同じホストポートをバインドしようとしている場合、またはホストシステムの別のプロセスがすでにそのポートを使用している場合に 409 エラーが発生します。
+`docker-compose.yml` で複数のサービスが同じホストポートをバインドしようとしている場合、またはホストシステムの別のプロセスがすでにその[ポート](/glossary/ポート/)を使用している場合に 409 エラーが発生します。
 
 **修正方法：**
 
@@ -67,7 +67,7 @@ services:
       - "8081:80"
 ```
 
-各サービスに異なるホストポートを割り当てることで競合を解決します。既にポートが使用されている場合は、以下のコマンドでホストマシン上の使用中ポートを確認できます。
+各サービスに異なるホストポートを割り当てることで競合を解決します。既に[ポート](/glossary/ポート/)が使用されている場合は、以下のコマンドでホストマシン上の使用中[ポート](/glossary/ポート/)を確認できます。
 
 ```bash
 # Linux の場合
@@ -82,7 +82,7 @@ netstat -ano | findstr :<port-number>
 
 ### 原因3：同名のネットワークまたはボリュームがすでに存在する
 
-`docker-compose.yml` で定義したカスタムネットワークやボリュームが、すでに Docker 環境に存在する場合、409 エラーが発生します。特に複数のプロジェクトで同じ命名規則を使用している場合に起こりやすいエラーです。
+`docker-compose.yml` で定義したカスタムネットワークやボリュームが、すでに [Docker](/glossary/docker/) 環境に存在する場合、409 エラーが発生します。特に複数のプロジェクトで同じ命名規則を使用している場合に起こりやすいエラーです。
 
 **既存リソースの削除：**
 
@@ -120,7 +120,7 @@ volumes:
 
 ### プロジェクト名による自動接頭辞
 
-Docker Compose は、リソース作成時にプロジェクト名を自動的に接頭辞として付与します。デフォルトではディレクトリ名がプロジェクト名として使用されるため、同じ `docker-compose.yml` を異なるディレクトリにコピーして実行すると、リソース名が異なるものになります。複数環境で同じプロジェクト名を使用する場合は、`-p` オプションで明示的に指定します。
+[Docker](/glossary/docker/) Compose は、リソース作成時にプロジェクト名を自動的に接頭辞として付与します。デフォルトではディレクトリ名がプロジェクト名として使用されるため、同じ `docker-compose.yml` を異なるディレクトリにコピーして実行すると、リソース名が異なるものになります。複数環境で同じプロジェクト名を使用する場合は、`-p` オプションで明示的に指定します。
 
 ```bash
 # プロジェクト名を明示的に指定
@@ -131,13 +131,13 @@ docker compose -p <project-name> up -d
 
 `docker compose down` を実行する際、オプションの選択が重要です。
 
-- `docker compose down`：コンテナーとネットワークを削除（ボリュームは保持）
-- `docker compose down -v`：コンテナー、ネットワーク、ボリュームをすべて削除
+- `docker compose down`：コンテナーと[ネットワーク](/glossary/ネットワーク/)を削除（ボリュームは保持）
+- `docker compose down -v`：コンテナー、[ネットワーク](/glossary/ネットワーク/)、ボリュームをすべて削除
 - `docker compose down --remove-orphans`：定義されていないコンテナーも削除
 
 ### Docker Desktop での特殊な注意
 
-Windows または macOS の Docker Desktop 環境では、ホストマシンのリソースが仮想マシン上の Linux にマッピングされます。ポート競合の問題が解決しない場合、Docker Desktop のリソース割り当てやポートフォワード設定を確認してください。
+Windows または macOS の [Docker](/glossary/docker/) Desktop 環境では、ホストマシンのリソースが仮想マシン上の Linux にマッピングされます。[ポート](/glossary/ポート/)競合の問題が解決しない場合、[Docker](/glossary/docker/) Desktop のリソース割り当てやポートフォワード設定を確認してください。
 
 ## それでも解決しない場合
 
@@ -171,7 +171,7 @@ docker system prune -a --volumes
 
 ### 公式ドキュメントの確認
 
-Docker Compose の公式ドキュメント（https://docs.docker.com/compose/）では、詳細な設定オプションと各エラーの詳説が提供されています。また、`docker compose config` コマンドで現在の設定を検証できます。
+[Docker](/glossary/docker/) Compose の公式ドキュメント（https://docs.docker.com/compose/）では、詳細な設定オプションと各エラーの詳説が提供されています。また、`docker compose config` コマンドで現在の設定を検証できます。
 
 ```bash
 # compose.yml の構文チェック

@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-502 Bad Gateway は、[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。[Docker](/glossary/docker/) Compose や [Kubernetes](/glossary/kubernetes/) でマルチコンテナを運用する環境では、[コンテナ](/glossary/コンテナ/)間通信の失敗、[プロキシ](/glossary/プロキシ/)設定のミス、[ネットワーク](/glossary/ネットワーク/)分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。
+502 Bad Gateway は、[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内で実行されるアプリケーションやリバースプロキシが、上流の[サーバー](/glossary/サーバー/)から不正な応答を受け取ったときに発生します。[Docker](/glossary/docker/) Compose や [Kubernetes](/glossary/kubernetes/) でマルチコンテナを運用する環境では、[コンテナ](/glossary/コンテナ/)間通信の失敗、[プロキシ](/glossary/プロキシ/)設定のミス、[ネットワーク](/glossary/ネットワーク/)分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -225,7 +225,7 @@ docker exec <nginx-container-name> curl -v http://app:8080/health
 
 ### 確認すべきログとデバッグコマンド
 
-Nginx の詳細ログを有効化して接続状況を確認してください。
+Nginx の詳細[ログ](/glossary/ログ/)を有効化して接続状況を確認してください。
 
 ```bash
 # コンテナ内から対象サービスへの接続性をテスト

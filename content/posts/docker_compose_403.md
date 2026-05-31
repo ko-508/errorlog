@@ -7,11 +7,11 @@ errorCode: "403"
 ---
 ## エラーの概要
 
-Docker Compose で 403 エラーが発生する場合、これはレジストリ（Docker Hub、プライベートレジストリなど）またはホストマシンのリソースに対して、実行ユーザーが十分なアクセス権限を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、Docker ソケットへのアクセスなど、複数の場面で発生する可能性があります。
+[Docker](/glossary/docker/) Compose で 403 エラーが発生する場合、これは[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）またはホストマシンのリソースに対して、実行ユーザーが十分な[アクセス権限](/glossary/アクセス権限/)を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、[Docker](/glossary/docker/) ソケットへのアクセスなど、複数の場面で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
-**Docker Hub などのレジストリからのプライベートイメージ pull 時：**
+**[Docker](/glossary/docker/) Hub などの[レジストリ](/glossary/レジストリ/)からのプライベートイメージ pull 時：**
 
 ```json
 {
@@ -27,7 +27,7 @@ ERROR: for <service-name>  Cannot start service <service-name>:
 error while creating mount source path '/data/app': permission denied
 ```
 
-**Docker ソケットへのアクセス権限不足時：**
+**[Docker](/glossary/docker/) ソケットへのアクセス権限不足時：**
 
 ```bash
 ERROR: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock
@@ -37,7 +37,7 @@ ERROR: Got permission denied while trying to connect to the Docker daemon socket
 
 ### 原因1：プライベートイメージレジストリへの認証不足
 
-Docker Compose でプライベートイメージを利用する場合、レジストリに対する認証情報が必要です。認証なしにプライベートイメージを pull しようとすると 403 エラーが発生します。
+[Docker](/glossary/docker/) Compose でプライベートイメージを利用する場合、[レジストリ](/glossary/レジストリ/)に対する認証情報が必要です。[認証](/glossary/認証/)なしにプライベートイメージを pull しようとすると 403 エラーが発生します。
 
 **Before（エラーが起きるコード）：**
 
@@ -91,7 +91,7 @@ services:
 
 ### 原因2：ボリュームマウント先ディレクトリのパーミッション不足
 
-Docker コンテナ内から、ホストマシンのマウント先ディレクトリに書き込みを試みると、パーミッション不足で 403 エラーが発生します。特に root でないユーザーでコンテナを実行する場合に顕著です。
+[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先ディレクトリに書き込みを試みると、パーミッション不足で 403 エラーが発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
 
 **Before（エラーが起きるコード）：**
 
@@ -140,7 +140,7 @@ sudo chmod 777 /data/app
 docker-compose up -d
 ```
 
-あるいは、Dockerfile でコンテナ内のユーザーを指定する方法：
+あるいは、Dockerfile で[コンテナ](/glossary/コンテナ/)内のユーザーを指定する方法：
 
 ```dockerfile
 FROM ubuntu:20.04
@@ -150,7 +150,7 @@ USER appuser
 
 ### 原因3：Docker ソケットへのアクセス権限不足
 
-現在のユーザーが docker グループに属していない場合、Docker ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 エラーが発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
+現在のユーザーが docker グループに属していない場合、[Docker](/glossary/docker/) ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 エラーが発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
 
 **Before（エラーが起きるコード）：**
 
@@ -194,7 +194,7 @@ id -nG
 
 ## ツール固有の注意点
 
-Docker Compose で 403 エラーが発生する際、以下のシナリオ別の対応が必要です。
+[Docker](/glossary/docker/) Compose で 403 エラーが発生する際、以下のシナリオ別の対応が必要です。
 
 **マルチステージビルドでプライベートイメージを使用する場合：**
 
@@ -207,7 +207,7 @@ services:
     # 同様に事前の docker login が必須
 ```
 
-**Docker Compose v2 を使用している場合：**
+**[Docker](/glossary/docker/) Compose v2 を使用している場合：**
 
 ```bash
 # v2 ではコマンド形式が異なる
@@ -215,9 +215,9 @@ docker compose up -d
 # 権限がない場合は同じく docker グループへの追加が必要
 ```
 
-**Windows または macOS で Docker Desktop を使用している場合：**
+**Windows または macOS で [Docker](/glossary/docker/) Desktop を使用している場合：**
 
-Docker Desktop のファイル共有設定で、マウント対象ディレクトリが許可リストに含まれている必要があります。設定→ Resources→ File Sharing で確認し、マウント先のパスが含まれていることを確認してください。
+[Docker](/glossary/docker/) Desktop のファイル共有設定で、マウント対象ディレクトリが許可リストに含まれている必要があります。設定→ Resources→ File Sharing で確認し、マウント先のパスが含まれていることを確認してください。
 
 **Swarm モード使用時：**
 
@@ -229,14 +229,14 @@ docker stack deploy -c docker-compose.yml <stack-name>
 
 ## それでも解決しない場合
 
-Docker Compose の詳細なエラー出力を確認します。
+[Docker](/glossary/docker/) Compose の詳細なエラー出力を確認します。
 
 ```bash
 # デバッグモードで実行（詳細ログを表示）
 docker-compose -v up
 ```
 
-Docker デーモンのログを確認：
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認：
 
 ```bash
 # Linux の場合
@@ -246,7 +246,7 @@ sudo journalctl -u docker -n 100
 ~/Library/Logs/Docker/com.docker.docker.log
 ```
 
-Docker の設定を確認：
+[Docker](/glossary/docker/) の設定を確認：
 
 ```bash
 # 認証設定を確認

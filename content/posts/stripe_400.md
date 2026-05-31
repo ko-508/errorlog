@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Stripe [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が**400 Bad Request**を返す場合、[リクエスト](/glossary/リクエスト/)の形式または[パラメータ](/glossary/パラメータ/)に問題があることを意味します。このエラーはStripeサーバーが[リクエスト](/glossary/リクエスト/)を理解できなかったか、ビジネスルール上受け入れられない値が含まれていることを示しています。決済処理・顧客管理・サブスクリプション操作など、ほぼすべてのStripe [API](/glossary/api/)操作で発生する可能性があります。
+Stripe [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が**400 Bad Request**を返す場合、[リクエスト](/glossary/リクエスト/)の形式または[パラメータ](/glossary/パラメータ/)に問題があることを意味します。このエラーはStripe[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を理解できなかったか、ビジネスルール上受け入れられない値が含まれていることを示しています。決済処理・顧客管理・サブスクリプション操作など、ほぼすべてのStripe [API](/glossary/api/)操作で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -147,7 +147,7 @@ curl https://api.stripe.com/v1/payment_intents \
 
 ### Webhookペイロードの署名検証
 
-[Webhook](/glossary/webhook/)を受け取る際、`Stripe-Signature`[ヘッダー](/glossary/ヘッダー/)を検証しないと、不正な[ペイロード](/glossary/ペイロード/)が処理される可能性があります。署名検証を実装し、署名が一致しない場合は400で応答することで、セキュリティを強化できます。
+[Webhook](/glossary/webhook/)を受け取る際、`Stripe-Signature`[ヘッダー](/glossary/ヘッダー/)を検証しないと、不正な[ペイロード](/glossary/ペイロード/)が処理される可能性があります。署名検証を実装し、署名が一致しない場合は400で応答することで、[セキュリティ](/glossary/セキュリティ/)を強化できます。
 
 ```python
 import stripe
@@ -195,7 +195,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### ログとデバッグ方法
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)IDを記録しておくと、問題の再現時に該当ログを検索しやすくなります。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)IDを記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を検索しやすくなります。
 
 ```python
 # レスポンスからリクエストIDを取得

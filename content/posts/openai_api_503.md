@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)において503エラーは「Service Unavailable」を意味し、OpenAIのサーバーが一時的に利用不可能な状態であることを示します。このエラーが発生すると、テキスト生成やチャット補完などの[API](/glossary/api/)呼び出しが失敗し、アプリケーションは応答を受け取ることができません。503は通常、サーバー側の問題であり、クライアント設定の誤りではないため、適切な対応戦略が必要です。
+OpenAI [API](/glossary/api/)において503エラーは「Service Unavailable」を意味し、OpenAIの[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態であることを示します。このエラーが発生すると、テキスト生成やチャット補完などの[API](/glossary/api/)呼び出しが失敗し、アプリケーションは応答を受け取ることができません。503は通常、[サーバー](/glossary/サーバー/)側の問題であり、クライアント設定の誤りではないため、適切な対応戦略が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -33,7 +33,7 @@ openai.error.ServiceUnavailableError: The server had an error while processing y
 ### 原因1: OpenAIサーバーの過負荷状態
 
 **なぜ発生するか**
-OpenAIの[API](/glossary/api/)全体が高トラフィック状態にある場合、サーバーが[リクエスト](/glossary/リクエスト/)処理を受け付けられなくなります。特に新機能リリース直後やトレンドワード関連のタイミングで発生しやすい状況です。
+OpenAIの[API](/glossary/api/)全体が高トラフィック状態にある場合、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)処理を受け付けられなくなります。特に新機能[リリース](/glossary/リリース/)直後やトレンドワード関連のタイミングで発生しやすい状況です。
 
 **Before（待機なしの実装）**
 ```python
@@ -171,7 +171,7 @@ def call_openai_with_fallback(messages, model="gpt-4"):
 
 ### APIレート制限との違い
 
-OpenAI [API](/glossary/api/)は429（Too Many Requests）と503を区別します。503は**サーバー側の問題**であり、429は**利用者のレート制限超過**です。`Retry-After`[ヘッダー](/glossary/ヘッダー/)の有無で判定できます：
+OpenAI [API](/glossary/api/)は429（Too Many Requests）と503を区別します。503は**[サーバー](/glossary/サーバー/)側の問題**であり、429は**利用者のレート制限超過**です。`Retry-After`[ヘッダー](/glossary/ヘッダー/)の有無で判定できます：
 
 ```python
 import requests

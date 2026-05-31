@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の503エラーは、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象のサーバーが一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇するエラーです。
+[Docker](/glossary/docker/)の503エラーは、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇するエラーです。
 
 ## 実際のエラーメッセージ例
 
@@ -35,7 +35,7 @@ net/http: request canceled (Client.Timeout exceeded while awaiting headers)
 ### 原因1：Docker Hubが過負荷またはメンテナンス中
 
 **なぜ発生するか**
-[Docker](/glossary/docker/) Hubは全世界のユーザーからのアクセスを受けるため、トラフィック集中時やメンテナンス期間中にサーバーが応答不可能になります。特にLTS版Ubuntu公開直後やセキュリティパッチ配信時に顕著です。
+[Docker](/glossary/docker/) Hubは全世界のユーザーからのアクセスを受けるため、トラフィック集中時やメンテナンス期間中に[サーバー](/glossary/サーバー/)が応答不可能になります。特にLTS版Ubuntu公開直後やセキュリティパッチ配信時に顕著です。
 
 **Before（エラーが起きる状況）**
 ```bash
@@ -60,7 +60,7 @@ cat ~/.docker/config.json
 ### 原因2：プライベートレジストリ（Harbor/Nexus）が停止している
 
 **なぜ発生するか**
-組織内で運用する[プライベートレジストリ](/glossary/プライベートレジストリ/)の[コンテナ](/glossary/コンテナ/)が異常停止したり、基盤のデータベースやストレージが不可用になると、[認証](/glossary/認証/)・イメージ取得時に503が返されます。
+組織内で運用する[プライベートレジストリ](/glossary/プライベートレジストリ/)の[コンテナ](/glossary/コンテナ/)が異常停止したり、基盤の[データベース](/glossary/データベース/)やストレージが不可用になると、[認証](/glossary/認証/)・イメージ取得時に503が返されます。
 
 **Before（エラーが起きる設定）**
 ```bash

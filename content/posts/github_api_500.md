@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で500エラーが発生する場合、GitHub側のサーバーで予期しない内部エラーが発生していることを示します。クライアント側の設定ミスではなく、サーバー側の障害または[API](/glossary/api/)の不具合が原因です。ただし、不正な[リクエスト](/glossary/リクエスト/)形式や[タイムアウト](/glossary/タイムアウト/)、[レート制限](/glossary/レート制限/)を超えた状態でも500が返されることがあり、実際には利用者側で対応可能な原因も含まれます。
+GitHub [API](/glossary/api/)で500エラーが発生する場合、GitHub側の[サーバー](/glossary/サーバー/)で予期しない内部エラーが発生していることを示します。クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の障害または[API](/glossary/api/)の不具合が原因です。ただし、不正な[リクエスト](/glossary/リクエスト/)形式や[タイムアウト](/glossary/タイムアウト/)、[レート制限](/glossary/レート制限/)を超えた状態でも500が返されることがあり、実際には利用者側で対応可能な原因も含まれます。
 
 ## 実際のエラーメッセージ例
 
@@ -33,7 +33,7 @@ Content-Type: application/json; charset=utf-8
 
 ### 原因1：不正なJSONペイロード形式またはエンコーディングエラー
 
-GitHubの[API](/glossary/api/)サーバーが[リクエストボディ](/glossary/リクエストボディ/)を解析できない場合、500エラーで応答することがあります。特に[JSON](/glossary/json/)の形式が微妙に間違っていたり、文字エンコーディングが指定されていない場合に発生します。
+GitHubの[API](/glossary/api/)[サーバー](/glossary/サーバー/)が[リクエストボディ](/glossary/リクエストボディ/)を解析できない場合、500エラーで応答することがあります。特に[JSON](/glossary/json/)の形式が微妙に間違っていたり、文字エンコーディングが指定されていない場合に発生します。
 
 **Before（エラーが起きる例）：**
 
@@ -151,7 +151,7 @@ for i in range(1000):
 
 ## GitHub API固有の注意点
 
-**[GraphQL](/glossary/graphql/) [API](/glossary/api/)の場合：** [REST](/glossary/rest/) [API](/glossary/api/)とは異なり、[GraphQL](/glossary/graphql/)の[エラーレスポンス](/glossary/エラーレスポンス/)は200[ステータスコード](/glossary/ステータスコード/)でbodyに`"errors"`フィールドを含む形式になります。500が返される場合はサーバー側の深刻な障害の可能性が高いです。
+**[GraphQL](/glossary/graphql/) [API](/glossary/api/)の場合：** [REST](/glossary/rest/) [API](/glossary/api/)とは異なり、[GraphQL](/glossary/graphql/)の[エラーレスポンス](/glossary/エラーレスポンス/)は200[ステータスコード](/glossary/ステータスコード/)でbodyに`"errors"`フィールドを含む形式になります。500が返される場合は[サーバー](/glossary/サーバー/)側の深刻な障害の可能性が高いです。
 
 ```json
 {

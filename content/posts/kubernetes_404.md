@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)の404エラーは、[API](/glossary/api/)サーバーが指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`コマンド実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)へのクエリで特に見られます。このエラーはデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
+[Kubernetes](/glossary/kubernetes/)の404エラーは、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`コマンド実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。このエラーはデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -125,7 +125,7 @@ spec:
 
 ### 原因4：リソースの初期化に時間がかかっている
 
-新しいリソースを[デプロイ](/glossary/デプロイ/)した直後にアクセスすると、[API](/glossary/api/)サーバーがまだリソースを完全に登録していない可能性があります。
+新しいリソースを[デプロイ](/glossary/デプロイ/)した直後にアクセスすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がまだリソースを完全に登録していない可能性があります。
 
 **Before（エラーが起きる状況）**
 ```bash
@@ -187,7 +187,7 @@ $ kubectl apply -f custom-resource-definition.yaml
 
 ## それでも解決しない場合
 
-**[API](/glossary/api/)サーバーのログを確認**
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認**
 
 ```bash
 # マスターノードのログを確認（自分でホストしている場合）

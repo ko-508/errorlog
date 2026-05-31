@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase の 403 エラーは「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールが[リクエスト](/glossary/リクエスト/)をブロックしている状態です。ユーザーは[認証](/glossary/認証/)されていても、特定のデータへのアクセス権限がないため発生します。
+Firebase の 403 エラーは「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールが[リクエスト](/glossary/リクエスト/)をブロックしている状態です。ユーザーは[認証](/glossary/認証/)されていても、特定のデータへの[アクセス権限](/glossary/アクセス権限/)がないため発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -186,7 +186,7 @@ Firebase Authentication と Firestore セキュリティルールは必ずセッ
 
 ### デプロイ反映の遅延
 
-セキュリティルール を Firebase Console や [CLI](/glossary/cli/) で更新した直後、すべてのサーバーへの反映に数秒～数分かかることがあります。ルール変更後、すぐにテストするのではなく、少し待ってから再度アクセスしてください。
+セキュリティルール を Firebase Console や [CLI](/glossary/cli/) で更新した直後、すべての[サーバー](/glossary/サーバー/)への反映に数秒～数分かかることがあります。ルール変更後、すぐにテストするのではなく、少し待ってから再度アクセスしてください。
 
 ### Realtime Database での UID パスの重要性
 
@@ -194,7 +194,7 @@ Realtime Database の場合、ルール内で `.uid` を参照するときのパ
 
 ### GCP 権限と Firebase 権限の区別
 
-Firebase プロジェクト所有者が GCP のプロジェクトレベルでファイアウォール設定や[サービスアカウント](/glossary/サービスアカウント/)権限を制限している場合も 403 が発生することがあります。Firebase Admin [SDK](/glossary/sdk/) を使う場合は、使用する[サービスアカウント](/glossary/サービスアカウント/)が適切な[ロール](/glossary/ロール/)（`roles/editor` 以上）を持っているか確認してください。
+Firebase プロジェクト所有者が GCP のプロジェクトレベルで[ファイアウォール](/glossary/ファイアウォール/)設定や[サービスアカウント](/glossary/サービスアカウント/)[権限](/glossary/権限/)を制限している場合も 403 が発生することがあります。Firebase Admin [SDK](/glossary/sdk/) を使う場合は、使用する[サービスアカウント](/glossary/サービスアカウント/)が適切な[ロール](/glossary/ロール/)（`roles/editor` 以上）を持っているか確認してください。
 
 ## それでも解決しない場合
 
@@ -203,7 +203,7 @@ Firebase プロジェクト所有者が GCP のプロジェクトレベルでフ
 1. **Firebase Console でセキュリティルールを確認**  
    Firebase Console の「Firestore」または「Storage」メニューから、現在[デプロイ](/glossary/デプロイ/)されているルールを確認します。ローカルの `firestore.rules` ファイルと一致しているかチェックしてください。
 
-2. **認証状態をログ出力**  
+2. **認証状態を[ログ](/glossary/ログ/)出力**  
 ```javascript
 firebase.auth().onAuthStateChanged(user => {
   console.log('Current user:', user);
@@ -225,7 +225,7 @@ service cloud.firestore {
 ```
 （本番環境では絶対に使用しないでください）
 
-4. **Cloud Logging で詳細ログを確認**  
+4. **Cloud Logging で詳細[ログ](/glossary/ログ/)を確認**  
 Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で検索し、403 エラーの詳細メッセージを確認します。
 
 ### 公式ドキュメント参照

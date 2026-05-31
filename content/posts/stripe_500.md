@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/) で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。このエラーは Stripe のインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または [API](/glossary/api/) 実装側の互換性問題など複数の原因で発生します。重要な点は、500 エラー発生時に [リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性キー](/glossary/冪等性/)（何度実行しても同じ結果になる特性）の実装が重要になることです。
+Stripe [API](/glossary/api/) で 500 エラーが返される場合、Stripe 側の[サーバー](/glossary/サーバー/)で予期しない内部エラーが発生していることを示します。このエラーは Stripe のインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または [API](/glossary/api/) 実装側の互換性問題など複数の原因で発生します。重要な点は、500 エラー発生時に [リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性キー](/glossary/冪等性/)（何度実行しても同じ結果になる特性）の実装が重要になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -41,23 +41,7 @@ Content-Type: application/json
 
 ### 原因1: Stripe 側の一時的な障害またはメンテナンス
 
-[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)への [リクエスト](/glossary/リクエスト/)が失敗し、ログに「500」が返されている場合、Stripe 側で予定外または予定内のメンテナンスが実施されている可能性があります。
-
-**修正前（対処なし）:**
-```python
-import stripe
-
-stripe.api_key = "sk_live_xxxxx"
-
-try:
-    charge = stripe.Charge.create(
-        amount=2000,
-        currency="jpy",
-        source="tok_visa"
-    )
-except stripe.error.APIError as e:
-    print(f"Error: {e.http_status}")  # 500が返される
-```
+[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)への [リクエスト](/glossary/リクエスト/)が失敗し、[ログ](/glossary/ログ/)に「500」が返されている場合、Stripe 側で予定外または予定内のメンテナンスが実施されている可能性があります。
 
 **修正後（障害確認と再試行）:**
 ```python
@@ -99,26 +83,7 @@ def create_charge_with_retry():
 
 ### 原因2: API バージョン互換性の問題またはリクエスト形式エラー
 
-古い [API](/glossary/api/) バージョン指定や廃止された [パラメーター](/glossary/パラメーター/)を使用している場合、サーバー側で 500 エラーが発生することがあります。
-
-**修正前（古いバージョン、不正な [パラメーター](/glossary/パラメーター/)）:**
-```python
-import stripe
-
-stripe.api_key = "sk_live_xxxxx"
-stripe.api_version = "2015-10-16"  # 極度に古いバージョン
-
-try:
-    # 廃止されたパラメーター
-    charge = stripe.Charge.create(
-        amount=2000,
-        currency="jpy",
-        source="tok_visa",
-        metadata={"order_id": 12345}  # 古いバージョンでは非対応
-    )
-except stripe.error.APIError:
-    pass
-```
+古い [API](/glossary/api/) バージョン指定や廃止された [パラメーター](/glossary/パラメーター/)を使用している場合、[サーバー](/glossary/サーバー/)側で 500 エラーが発生することがあります。
 
 **修正後（現在のバージョン、正しい [パラメーター](/glossary/パラメーター/)）:**
 ```python
@@ -142,32 +107,7 @@ except stripe.error.APIError as e:
 
 ### 原因3: 冪等性キーの不正または重複
 
-Stripe では [冪等性キー](/glossary/冪等性/)を使用して同じ [リクエスト](/glossary/リクエスト/)の重複実行を防ぎます。[冪等性キー](/glossary/冪等性/)が正しく設定されていない場合や、複数の [リクエスト](/glossary/リクエスト/)で同じキーを誤用すると 500 エラーが発生することがあります。
-
-**修正前（[冪等性キー](/glossary/冪等性/)なし、または重複）:**
-```python
-import stripe
-
-stripe.api_key = "sk_live_xxxxx"
-
-# 複数の異なるチャージで同じ冪等性キーを使用
-idempotency_key = "unique-key-001"
-
-charge1 = stripe.Charge.create(
-    amount=2000,
-    currency="jpy",
-    source="tok_visa",
-    idempotency_key=idempotency_key
-)
-
-# 別のチャージで同じキーを再利用（エラーの原因）
-charge2 = stripe.Charge.create(
-    amount=3000,
-    currency="jpy",
-    source="tok_visa",
-    idempotency_key=idempotency_key  # 同じキーの再利用
-)
-```
+Stripe では [冪等性キー](/glossary/冪等性/)を使用して同じ [リクエスト](/glossary/リクエスト/)の重複実行を防ぎます。各 [リクエスト](/glossary/リクエスト/)に一意のキーを割り当て、同じキーで複数の異なる処理を実行しないことが重要です。
 
 **修正後（[冪等性キー](/glossary/冪等性/)の正しい使用）:**
 ```python

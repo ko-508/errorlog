@@ -169,7 +169,7 @@ print(f"Reset time: {response['headers'].get('x-ratelimit-reset-tokens')}")
 
 ## それでも解決しない場合
 
-**ログとメトリクスの確認**
+**[ログ](/glossary/ログ/)とメトリクスの確認**
 OpenAI [API](/glossary/api/)[ダッシュボード](/glossary/ダッシュボード/)の「Usage」ページで、実際の使用[トークン](/glossary/トークン/)数と制限値をリアルタイムで確認できます。エラーが発生した時間帯のグラフから、何がトリガーになったかを特定しましょう。
 
 **公式ドキュメント**

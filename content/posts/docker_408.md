@@ -150,7 +150,7 @@ services:
 ## Docker固有の注意点
 
 **[Docker](/glossary/docker/) Daemon再起動の確認:**
-長時間のビルド後に408が頻発する場合、Daemonが不安定な状態にある可能性があります。Daemonを再起動し、ログを確認してください。
+長時間のビルド後に408が頻発する場合、Daemonが不安定な状態にある可能性があります。Daemonを再起動し、[ログ](/glossary/ログ/)を確認してください。
 
 ```bash
 # systemd を使用する環境
@@ -180,7 +180,7 @@ docker pull <your-registry.com>/image:tag --timeout=300
 
 ## それでも解決しない場合
 
-**[Docker](/glossary/docker/) Daemonのログ確認:**
+**[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)確認:**
 ```bash
 # Linux（systemd）
 sudo journalctl -u docker -n 50 --no-pager

@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase の 401 エラーは、Firebaseサーバーへの[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。ID[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。このエラーが発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。
+Firebase の 401 エラーは、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。ID[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。このエラーが発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -135,7 +135,7 @@ service cloud.firestore {
 
 ### 原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定
 
-サーバー環境で `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されていないと、[SDK](/glossary/sdk/) が認証情報を見つけられず 401 が発生します。
+[サーバー](/glossary/サーバー/)環境で `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されていないと、[SDK](/glossary/sdk/) が認証情報を見つけられず 401 が発生します。
 
 **Before（エラーが起きる設定）**
 
@@ -204,7 +204,7 @@ curl -H "Authorization:Bearer <ID_TOKEN>" \
 
 ### ログの確認方法
 
-Firebase Console の「ログ」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。
+Firebase Console の「[ログ](/glossary/ログ/)」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。
 
 ```bash
 # gcloud CLI で Firestore アクセスログを確認

@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)で401エラーが発生するのは、[API](/glossary/api/)サーバーへの[リクエスト](/glossary/リクエスト/)に対して[認証](/glossary/認証/)に失敗した状態を示します。[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れ、認証情報の不足、または権限がないServiceAccountの使用が典型的な原因です。このエラーが出ると、kubectlコマンドの実行やPodから[API](/glossary/api/)サーバーへのアクセスが拒否されます。
+[Kubernetes](/glossary/kubernetes/)で401エラーが発生するのは、[API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して[認証](/glossary/認証/)に失敗した状態を示します。[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れ、認証情報の不足、または[権限](/glossary/権限/)がないServiceAccountの使用が典型的な原因です。このエラーが出ると、kubectlコマンドの実行やPodから[API](/glossary/api/)[サーバー](/glossary/サーバー/)へのアクセスが拒否されます。
 
 ## 実際のエラーメッセージ例
 
@@ -33,7 +33,7 @@ error: You must be logged in to the server (Unauthorized)
 
 ### 原因1: kubeconfig認証情報の有効期限切れ
 
-[Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。[トークン](/glossary/トークン/)が期限切れになると、[API](/glossary/api/)サーバーが要求を拒否します。
+[Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。[トークン](/glossary/トークン/)が期限切れになると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が要求を拒否します。
 
 **Before（エラーが起きる状態）:**
 
@@ -60,7 +60,7 @@ kubectl get nodes
 
 ### 原因2: ServiceAccountの認証トークンが無効または不足している
 
-Podが[API](/glossary/api/)サーバーにアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が必要です。[トークン](/glossary/トークン/)がマウントされていない、または無効な場合に401が発生します。
+Podが[API](/glossary/api/)[サーバー](/glossary/サーバー/)にアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が必要です。[トークン](/glossary/トークン/)がマウントされていない、または無効な場合に401が発生します。
 
 **Before（エラーが起きる状態）:**
 
@@ -96,7 +96,7 @@ spec:
 
 ### 原因3: RBACロールバインディングが設定されていない
 
-[Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)に成功しても[RBAC](/glossary/rbac/)（ロールベースアクセス制御）で権限がない場合、403ではなく401として返されることがあります。ServiceAccountに適切なClusterRoleやRoleがバインドされていません。
+[Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)に成功しても[RBAC](/glossary/rbac/)（ロールベースアクセス制御）で[権限](/glossary/権限/)がない場合、403ではなく401として返されることがあります。ServiceAccountに適切なClusterRoleやRoleがバインドされていません。
 
 **Before（エラーが起きる状態）:**
 
@@ -180,7 +180,7 @@ ps aux | grep kube-apiserver | grep -E "authentication|authorization"
 kubectl exec <pod-name> -- cat /var/run/secrets/kubernetes.io/serviceaccount/token
 ```
 
-**名前空間を指定した[認証](/glossary/認証/):** RoleBindingとClusterRoleBindingを混同しないでください。名前空間限定の権限が必要な場合はRoleを、クラスタ全体なら ClusterRoleを使用します。
+**名前空間を指定した[認証](/glossary/認証/):** RoleBindingとClusterRoleBindingを混同しないでください。名前空間限定の[権限](/glossary/権限/)が必要な場合はRoleを、クラスタ全体なら ClusterRoleを使用します。
 
 ```bash
 # RoleBindingの確認
@@ -190,7 +190,7 @@ kubectl get clusterrolebindings
 
 ## それでも解決しない場合
 
-**kubectlの詳細ログを確認:**
+**kubectlの詳細[ログ](/glossary/ログ/)を確認:**
 
 ```bash
 kubectl get pods -v 8
@@ -199,7 +199,7 @@ export KUBECONFIG=~/.kube/config
 kubectl get pods --alsologtostderr=true --v=10
 ```
 
-**[API](/glossary/api/)サーバーのログを確認（クラスタ管理者向け）:**
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認（クラスタ管理者向け）:**
 
 ```bash
 # マスターノードでのログ確認

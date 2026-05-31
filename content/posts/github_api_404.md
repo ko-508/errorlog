@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で404エラーが返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。このエラーはGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)のURLや[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
+GitHub [API](/glossary/api/)で404エラーが返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示します。このエラーはGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)のURLや[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ GitHub [API](/glossary/api/)で404エラーが返される場合、[リクエス
 
 ### 原因1：リポジトリ名またはオーナー名のスペルミス
 
-[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)で指定した[リポジトリ](/glossary/リポジトリ/)名やオーナー名に誤りがあると、サーバーがそのリソースを検索できず404が返されます。
+[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)で指定した[リポジトリ](/glossary/リポジトリ/)名やオーナー名に誤りがあると、[サーバー](/glossary/サーバー/)がそのリソースを検索できず404が返されます。
 
 **Before（エラーが起きるコード）:**
 ```bash
@@ -58,7 +58,7 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 原因2：プライベートリポジトリへのアクセス権限不足
 
-プライベートリポジトリにアクセスする際、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が不足していたり、有効期限が切れていたり、その[リポジトリ](/glossary/リポジトリ/)へのアクセス権限がないと404が返されます。GitHub [API](/glossary/api/)は権限がない場合、存在しないふりをする設計になっています。
+プライベートリポジトリにアクセスする際、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が不足していたり、有効期限が切れていたり、その[リポジトリ](/glossary/リポジトリ/)への[アクセス権限](/glossary/アクセス権限/)がないと404が返されます。GitHub [API](/glossary/api/)は[権限](/glossary/権限/)がない場合、存在しないふりをする設計になっています。
 
 **Before（認証情報なし）:**
 ```python
@@ -135,11 +135,11 @@ https://api.github.com/repos/<owner>/<repo>/pulls/<number>
 https://api.github.com/repos/<owner>/<repo>/pulls/<number>/reviews
 ```
 
-[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使う場合は、クエリの構造が異なり、404ではなく異なる形式の[エラーレスポンス](/glossary/エラーレスポンス/)が返される可能性があります。
+[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使う場合は、[クエリ](/glossary/クエリ/)の構造が異なり、404ではなく異なる形式の[エラーレスポンス](/glossary/エラーレスポンス/)が返される可能性があります。
 
 ### 組織とチームの権限確認
 
-公開[リポジトリ](/glossary/リポジトリ/)であっても、組織の設定により特定の[エンドポイント](/glossary/エンドポイント/)（例：`/orgs/<org>/members`）が非公開の場合、権限がないユーザーには404が返されます。適切な[スコープ](/glossary/スコープ/)を持つPersonal Access Tokenを使用してください。
+公開[リポジトリ](/glossary/リポジトリ/)であっても、組織の設定により特定の[エンドポイント](/glossary/エンドポイント/)（例：`/orgs/<org>/members`）が非公開の場合、[権限](/glossary/権限/)がないユーザーには404が返されます。適切な[スコープ](/glossary/スコープ/)を持つPersonal Access Tokenを使用してください。
 
 ### リリース・タグ・ブランチの存在確認
 

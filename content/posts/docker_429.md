@@ -160,7 +160,7 @@ docker-compose up -d --pull never
 docker login <your-registry.com>
 ```
 
-設定ファイルは自動生成され、以後のアクセスで[認証](/glossary/認証/)が有効になります。
+[設定ファイル](/glossary/設定ファイル/)は自動生成され、以後のアクセスで[認証](/glossary/認証/)が有効になります。
 
 ### Docker Build のキャッシュ戦略
 

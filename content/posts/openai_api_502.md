@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-502 Bad Gateway は、OpenAI [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)がOpenAIのサーバーに到達したものの、バックエンドサーバーから無効な応答が返された、または[タイムアウト](/glossary/タイムアウト/)したことを示します。このエラーはOpenAI側のインフラストラクチャ問題、[ネットワーク](/glossary/ネットワーク/)接続の問題、または[リクエスト](/glossary/リクエスト/)自体の問題が原因となります。OpenAI [API](/glossary/api/) を使用するアプリケーションではランダムに発生することがあり、一時的な問題であることが多いです。
+502 Bad Gateway は、OpenAI [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)がOpenAIの[サーバー](/glossary/サーバー/)に到達したものの、バックエンドサーバーから無効な応答が返された、または[タイムアウト](/glossary/タイムアウト/)したことを示します。このエラーはOpenAI側のインフラストラクチャ問題、[ネットワーク](/glossary/ネットワーク/)接続の問題、または[リクエスト](/glossary/リクエスト/)自体の問題が原因となります。OpenAI [API](/glossary/api/) を使用するアプリケーションではランダムに発生することがあり、一時的な問題であることが多いです。
 
 ## 実際のエラーメッセージ例
 
@@ -117,7 +117,7 @@ response = openai.ChatCompletion.create(
 
 ### 原因3：API キーの有効期限切れまたは無効な認証情報
 
-**なぜ発生するか：** OpenAI [API](/glossary/api/) キーが無効、期限切れ、または権限がない場合、ゲートウェイレベルで処理が中断され 502 が返されることがあります。特に組織のシステム管理によって [API](/glossary/api/) キーが無効化された場合に発生します。
+**なぜ発生するか：** OpenAI [API](/glossary/api/) キーが無効、期限切れ、または[権限](/glossary/権限/)がない場合、ゲートウェイレベルで処理が中断され 502 が返されることがあります。特に組織のシステム管理によって [API](/glossary/api/) キーが無効化された場合に発生します。
 
 **Before（問題のあるコード）：**
 ```python
@@ -204,9 +204,9 @@ response = openai.ChatCompletion.create(
 
 ## それでも解決しない場合
 
-**ログ確認とデバッグ方法：**
+**[ログ](/glossary/ログ/)確認とデバッグ方法：**
 
-OpenAI Python [SDK](/glossary/sdk/) の詳細ログを有効にして、実際の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を確認してください。
+OpenAI Python [SDK](/glossary/sdk/) の詳細[ログ](/glossary/ログ/)を有効にして、実際の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を確認してください。
 
 ```python
 import openai

@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、サーバー側の問題またはアプリケーション側の設定不備が原因となります。
+Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、[サーバー](/glossary/サーバー/)側の問題またはアプリケーション側の設定不備が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -150,7 +150,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 **Cloud Firestore と Realtime Database の違い**
 
-Firestore では 503 エラーが多く発生するのは、複雑なクエリが実行されている場合です。特に複合[インデックス](/glossary/インデックス/)が未作成の状態で大規模クエリを実行すると 503 が返されます。Firebase Console から「Firestore > [インデックス](/glossary/インデックス/)」を確認し、提案されている[インデックス](/glossary/インデックス/)をすべて作成してください。
+Firestore では 503 エラーが多く発生するのは、複雑な[クエリ](/glossary/クエリ/)が実行されている場合です。特に複合[インデックス](/glossary/インデックス/)が未作成の状態で大規模[クエリ](/glossary/クエリ/)を実行すると 503 が返されます。Firebase Console から「Firestore > [インデックス](/glossary/インデックス/)」を確認し、提案されている[インデックス](/glossary/インデックス/)をすべて作成してください。
 
 **リージョン制約による 503**
 
@@ -171,7 +171,7 @@ Firebase Console の「プロジェクト設定 > 使用状況」でリアルタ
 
 ## それでも解決しない場合
 
-**確認すべきログとデバッグ手順**
+**確認すべき[ログ](/glossary/ログ/)とデバッグ手順**
 
 ```bash
 # Firebase CLI でプロジェクトの接続確認

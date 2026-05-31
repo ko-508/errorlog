@@ -34,7 +34,7 @@ firebase.firestore().runTransaction(transaction => {
 
 ### 原因1：同じドキュメントへの複数トランザクションの同時実行
 
-複数のクライアントまたはサーバーが同時に同じドキュメントを読み取り・書き込みする[トランザクション](/glossary/トランザクション/)を実行している場合、Firestore の楽観的ロック機構が競合を検出して 409 を返します。
+複数のクライアントまたは[サーバー](/glossary/サーバー/)が同時に同じドキュメントを読み取り・書き込みする[トランザクション](/glossary/トランザクション/)を実行している場合、Firestore の楽観的ロック機構が競合を検出して 409 を返します。
 
 **Before（エラーが起きるコード）**
 ```javascript
@@ -97,7 +97,7 @@ await updateBalance("user123", 100);
 
 ### 原因2：セキュリティルールの条件に基づく暗黙的なロック
 
-Firestore のセキュリティルールが `allow write: if resource.data.version == request.auth.token.version;` のようなバージョン管理を行っている場合、他のクライアントの更新により条件が満たされなくなり 409 が発生します。
+Firestore のセキュリティルールが `allow write: if resource.data.version == request.auth.token.version;` のような[バージョン管理](/glossary/バージョン管理/)を行っている場合、他のクライアントの更新により条件が満たされなくなり 409 が発生します。
 
 **Before（エラーが起きるコード）**
 ```yaml
@@ -250,7 +250,7 @@ exports.updateUserBalance = functions
 
 ### オフラインキャッシュと競合
 
-Firebase Client [SDK](/glossary/sdk/) でオフラインキャッシュを有効にしている場合、[ネットワーク](/glossary/ネットワーク/)復帰時にローカル変更とサーバー側の変更が競合して 409 が返されることがあります。
+Firebase Client [SDK](/glossary/sdk/) でオフラインキャッシュを有効にしている場合、[ネットワーク](/glossary/ネットワーク/)復帰時にローカル変更と[サーバー](/glossary/サーバー/)側の変更が競合して 409 が返されることがあります。
 
 ```javascript
 // 初期化時にオフラインキャッシュを設定
@@ -278,7 +278,7 @@ async function safeTransaction(operation) {
 
 ### デバッグ方法
 
-Firebase Console の「Firestore → ログ」セクションで詳細な[トランザクション](/glossary/トランザクション/)失敗ログを確認できます。以下のコマンドで Cloud Logging から詳細を取得できます。
+Firebase Console の「Firestore → [ログ](/glossary/ログ/)」セクションで詳細な[トランザクション](/glossary/トランザクション/)失敗[ログ](/glossary/ログ/)を確認できます。以下のコマンドで Cloud Logging から詳細を取得できます。
 
 ```bash
 gcloud logging read "resource.type=cloud_firestore AND severity=ERROR" \
