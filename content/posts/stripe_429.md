@@ -42,7 +42,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 **なぜ発生するか**  
 顧客リストの更新や一括決済処理など、複数の API 呼び出しをループで実行する際、呼び出し間に待機時間を設けないと瞬時に大量のリクエストが送信されます。
 
-**Before（エラーが起きるコード）**
+**修正前（エラーが起きるコード）**
 
 ```python
 import stripe
@@ -61,7 +61,7 @@ for customer_id in customer_ids:
     print(f"Charged {customer_id}")
 ```
 
-**After（修正後）**
+**修正後**
 
 ```python
 import stripe
@@ -99,7 +99,7 @@ for customer_id in customer_ids:
 **なぜ発生するか**  
 Webhook のエラーハンドリングで指数バックオフ（遅延を段階的に増やす処理）を実装せず、即座に何度も API 呼び出しを行う場合に発生します。特に Webhook 署名検証失敗時のログ記録で複数の API を呼び出すと顕著です。
 
-**Before（エラーが起きるコード）**
+**修正前（エラーが起きるコード）**
 
 ```javascript
 const stripe = require("stripe")("sk_test_<your-secret-key>");
@@ -127,7 +127,7 @@ app.post("/webhook", async (req, res) => {
 });
 ```
 
-**After（修正後）**
+**修正後**
 
 ```javascript
 const stripe = require("stripe")("sk_test_<your-secret-key>");
@@ -168,7 +168,7 @@ app.post("/webhook", async (req, res) => {
 **なぜ発生するか**  
 API 呼び出し時にネットワークタイムアウトが発生し、アプリケーション側で同じリクエストを何度も再送する場合、Stripe 側でそれらをすべてカウントします。冪等性キー（同じキーで複数回実行しても、1回の実行と同じ結果になる機能）を指定すれば、重複カウントを防げます。
 
-**Before（エラーが起きるコード）**
+**修正前（エラーが起きるコード）**
 
 ```python
 import stripe
@@ -191,7 +191,7 @@ except requests.exceptions.Timeout:
     )
 ```
 
-**After（修正後）**
+**修正後**
 
 ```python
 import stripe
