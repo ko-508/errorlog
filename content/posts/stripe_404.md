@@ -42,7 +42,7 @@ try {
 
 Stripe APIリクエストで使用するIDが正確でない場合、404エラーが発生します。特に顧客IDやPaymentIntent IDは英数字が長く、一文字の違いで見つからなくなります。
 
-**Before（エラーが起きるコード）：**
+**修正前（エラーが起きるコード）：**
 
 ```python
 import stripe
@@ -53,7 +53,7 @@ stripe.api_key = "sk_live_..."
 customer = stripe.Customer.retrieve("cus_1234567890")  # 実際には存在しないID
 ```
 
-**After（修正後）：**
+**修正後：**
 
 ```python
 import stripe
@@ -75,7 +75,7 @@ retrieved = stripe.Customer.retrieve(customer.id)
 
 テスト用APIキー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは環境ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
 
-**Before（エラーが起きるコード）：**
+**修正前（エラーが起きるコード）：**
 
 ```javascript
 const stripe = require('stripe');
@@ -88,7 +88,7 @@ const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345'
 // Error: 404 Not Found
 ```
 
-**After（修正後）：**
+**修正後：**
 
 ```javascript
 const stripe = require('stripe');
@@ -108,7 +108,7 @@ const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345'
 
 Stripe上で削除されたリソースや、有効期限が切れた支払いセッションへのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
 
-**Before（エラーが起きるコード）：**
+**修正前（エラーが起きるコード）：**
 
 ```python
 import stripe
@@ -122,7 +122,7 @@ except stripe.error.InvalidRequestError as e:
     print(e)  # 404 returned
 ```
 
-**After（修正後）：**
+**修正後：**
 
 ```python
 import stripe
