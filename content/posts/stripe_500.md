@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/) で 500 エラーが返される場合、Stripe 側の[サーバー](/glossary/サーバー/)で予期しない内部エラーが発生していることを示します。このエラーは Stripe のインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または [API](/glossary/api/) 実装側の互換性問題など複数の原因で発生します。重要な点は、500 エラー発生時に [リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性キー](/glossary/冪等性/)（何度実行しても同じ結果になる特性）の実装が重要になることです。
+Stripe [API](/glossary/api/) で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。このエラーは Stripe のインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または API 実装側の互換性問題など複数の原因で発生します。重要な点は、500 エラー発生時にリクエストが部分的に処理されている可能性があり、冪等性キー（何度実行しても同じ結果になる特性）の実装が重要になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -41,7 +41,7 @@ Content-Type: application/json
 
 ### 原因1: Stripe 側の一時的な障害またはメンテナンス
 
-[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)への [リクエスト](/glossary/リクエスト/)が失敗し、[ログ](/glossary/ログ/)に「500」が返されている場合、Stripe 側で予定外または予定内のメンテナンスが実施されている可能性があります。
+API エンドポイント（接続地点）へのリクエストが失敗し、ログに「500」が返されている場合、Stripe 側で予定外または予定内のメンテナンスが実施されている可能性があります。
 
 **修正後（障害確認と再試行）:**
 ```python
@@ -83,9 +83,9 @@ def create_charge_with_retry():
 
 ### 原因2: API バージョン互換性の問題またはリクエスト形式エラー
 
-古い [API](/glossary/api/) バージョン指定や廃止された [パラメーター](/glossary/パラメーター/)を使用している場合、[サーバー](/glossary/サーバー/)側で 500 エラーが発生することがあります。
+古い API バージョン指定や廃止されたパラメーターを使用している場合、サーバー側で 500 エラーが発生することがあります。
 
-**修正後（現在のバージョン、正しい [パラメーター](/glossary/パラメーター/)）:**
+**修正後（現在のバージョン、正しいパラメーター）:**
 ```python
 import stripe
 
@@ -107,9 +107,9 @@ except stripe.error.APIError as e:
 
 ### 原因3: 冪等性キーの不正または重複
 
-Stripe では [冪等性キー](/glossary/冪等性/)を使用して同じ [リクエスト](/glossary/リクエスト/)の重複実行を防ぎます。各 [リクエスト](/glossary/リクエスト/)に一意のキーを割り当て、同じキーで複数の異なる処理を実行しないことが重要です。
+Stripe では冪等性キーを使用して同じリクエストの重複実行を防ぎます。各リクエストに一意のキーを割り当て、同じキーで複数の異なる処理を実行しないことが重要です。
 
-**修正後（[冪等性キー](/glossary/冪等性/)の正しい使用）:**
+**修正後（冪等性キーの正しい使用）:**
 ```python
 import stripe
 import uuid
@@ -136,7 +136,7 @@ def create_charge_safely(amount, currency, source):
                 amount=amount,
                 currency=currency,
                 source=source,
-                idempotency_key=idempotency_key  # 同じキーで安全に再試行
+                idempotency_key=idempotency_key
             )
             return charge
         raise
@@ -150,7 +150,7 @@ charge2 = create_charge_safely(3000, "jpy", "tok_visa")
 
 ### Webhook 処理での 500 エラー
 
-[Webhook](/glossary/webhook/) [エンドポイント](/glossary/エンドポイント/)で Stripe からの POST [リクエスト](/glossary/リクエスト/)を処理中に 500 を返すと、Stripe は自動的に再試行します。正しい署名検証後に処理を進める必要があります。
+Webhook エンドポイントで Stripe からの POST リクエストを処理中に 500 を返すと、Stripe は自動的に再試行します。正しい署名検証後に処理を進める必要があります。
 
 ```python
 import stripe
@@ -188,7 +188,7 @@ def webhook():
 
 ### Stripe ライブラリのバージョン
 
-古い `stripe-python` ライブラリを使用していると、[API](/glossary/api/) 仕様の変更に対応していない可能性があります。
+古い `stripe-python` ライブラリを使用していると、API 仕様の変更に対応していない可能性があります。
 
 ```bash
 # 最新バージョンへ更新
@@ -214,8 +214,8 @@ charge = stripe.Charge.create(amount=2000, currency="jpy", source="tok_visa")
 ```
 
 公式ドキュメントの確認ポイント：
-- Stripe [API](/glossary/api/) Reference（https://stripe.com/docs/api）：使用しているエンドポイントの最新仕様確認
-- [API](/glossary/api/) Versioning（https://stripe.com/docs/api/versioning）：API バージョンの管理方法
+- Stripe API Reference（https://stripe.com/docs/api）：使用しているエンドポイントの最新仕様確認
+- API Versioning（https://stripe.com/docs/api/versioning）：API バージョンの管理方法
 - Error Handling（https://stripe.com/docs/error-handling）：エラータイプの詳細
 
 問題が継続する場合は、Stripe 公式サポート（https://support.stripe.com/contact）に問い合わせてください。リクエスト ID を含めることで調査が効率化されます。
