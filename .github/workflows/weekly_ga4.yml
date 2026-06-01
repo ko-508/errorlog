@@ -46,7 +46,8 @@ jobs:
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add reports/ga4/ scripts/rewrite_priority.json
+          git add reports/ga4/ 2>/dev/null || true
+          git add scripts/rewrite_priority.json 2>/dev/null || true
           git add content/posts/ 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "変更なし"
