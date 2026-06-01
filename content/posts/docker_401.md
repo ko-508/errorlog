@@ -6,10 +6,9 @@ tags: ["Docker"]
 errorCode: "401"
 lastmod: 2026-05-31
 ---
-
 ## エラーの概要
 
-[Docker](/glossary/docker/) で 401 エラーが発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
+[Docker](/glossary/docker/)で 401 エラーが発生するのは、[レジストリ](/glossary/レジストリ/)（Docker Hub や ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -37,7 +36,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized
 
 ### 原因1: docker login コマンドを実行していない
 
-[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)を利用する際に、事前に `docker login` で[認証](/glossary/認証/)を済ませていないと 401 エラーが発生します。
+Docker Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)を利用する際に、事前に `docker login` で認証を済ませていないと 401 エラーが発生します。
 
 **Before（エラーが起きる状態）**
 ```bash
@@ -59,7 +58,7 @@ docker pull my-private-repo.azurecr.io/myapp:latest
 
 ### 原因2: 認証トークンの有効期限切れまたは無効なトークン
 
-アクセストークン（Personal Access Token）が期限切れになった、または削除されると 401 エラーが起きます。[Docker](/glossary/docker/) Hub やクラウドレジストリで新しい[トークン](/glossary/トークン/)を生成する必要があります。
+アクセストークン（Personal Access Token）が期限切れになった、または削除されると 401 エラーが起きます。Docker Hub やクラウドレジストリで新しいトークンを生成する必要があります。
 
 **Before（エラーが起きる状態）**
 ```bash
@@ -83,7 +82,7 @@ docker push myrepo/myimage:latest
 
 ### 原因3: 認証情報の保存形式が誤っている
 
-`~/.docker/config.json` が破損しているか、base64 エンコードの形式が不正な場合、[認証](/glossary/認証/)が失敗します。
+`~/.docker/config.json` が破損しているか、base64 エンコードの形式が不正な場合、認証が失敗します。
 
 **Before（エラーが起きる状態）**
 ```bash
@@ -147,7 +146,7 @@ docker push myregistry.azurecr.io/myapp:latest
 
 ### Docker Hub の場合
 
-[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。[パスワード](/glossary/パスワード/)直接認証は推奨されていません。
+Docker Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。パスワード直接認証は推奨されていません。
 
 ```bash
 # 正しい方法：PAT を使用
@@ -159,7 +158,7 @@ docker login -u <your-username> -p <your-password>
 
 ### Azure Container Registry (ACR) の場合
 
-ACR では管理者アカウントか Service Principal による[認証](/glossary/認証/)が必要です。
+ACR では管理者アカウントか Service Principal による認証が必要です。
 
 ```bash
 # 管理者アカウント有効化
@@ -174,7 +173,7 @@ docker login <your-acr-name>.azurecr.io -u <username> -p <password>
 
 ### AWS Elastic Container Registry (ECR) の場合
 
-ECR は[トークン](/glossary/トークン/)が短命（12 時間）なため、定期的に更新が必要です。
+ECR はトークンが短命（12 時間）なため、定期的に更新が必要です。
 
 ```bash
 # トークンを取得してログイン
@@ -206,7 +205,7 @@ curl -v https://<registry-host>/v2/ -u <username>:<password>
 
 - `~/.docker/config.json` の認証情報が正しく保存されているか
 - `docker logout` してから再度 `docker login` する
-- [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)設定で[レジストリ](/glossary/レジストリ/)へのアクセスがブロックされていないか
+- ファイアウォールやプロキシ設定でレジストリへのアクセスがブロックされていないか
 - IP アドレス制限が[レジストリ](/glossary/レジストリ/)に設定されていないか
 - レジストリサーバーが実際にオンラインか（ステータスページで確認）
 

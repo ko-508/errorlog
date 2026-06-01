@@ -6,7 +6,6 @@ tags: ["Docker"]
 errorCode: "400"
 lastmod: 2026-05-31
 ---
-
 ## エラーの概要
 
 [Docker](/glossary/docker/) の 400 エラーは、クライアント側の[リクエスト](/glossary/リクエスト/)が不正な形式であることを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)との通信（[コンテナ](/glossary/コンテナ/)の操作、イメージのプッシュ・プル、[API](/glossary/api/)呼び出し）の際に、形式不正な[リクエスト](/glossary/リクエスト/)が送信された場合に発生します。多くの場合、Dockerfile の構文エラー、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の形式ミス、または[設定ファイル](/glossary/設定ファイル/)の不正な記述が原因です。
@@ -177,7 +176,7 @@ newgrp docker
 
 ### レジストリ認証情報の不完全性
 
-[Docker](/glossary/docker/) Hub や [プライベートレジストリ](/glossary/プライベートレジストリ/)に[認証](/glossary/認証/)なしでプッシュしようとした場合、[サーバー](/glossary/サーバー/)が 400 エラーを返すことがあります。事前に `docker login` を実行してください。
+[Docker](/glossary/docker/) Hub や [プライベートレジストリ](/glossary/プライベートレジストリ/)に認証なしでプッシュしようとした場合、[サーバー](/glossary/サーバー/)が 400 エラーを返すことがあります。事前に `docker login` を実行してください。
 
 ```bash
 docker login
