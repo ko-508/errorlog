@@ -36,7 +36,7 @@ jobs:
 
       - name: Insert glossary links into new articles
         run: |
-          NEW=$(git status --porcelain content/posts/ | grep -E '^\?\?' | awk '{print $2}' | grep '\.md$')
+          NEW=$(git status --porcelain content/posts/ | grep -E '^\?\?' | awk '{print $2}' | grep '\.md$' || true)
           if [ -z "$NEW" ]; then exit 0; fi
           echo "$NEW" | while IFS= read -r f; do
             python scripts/insert_glossary_links.py "$f"
