@@ -179,9 +179,10 @@ def fetch_page_engagement(client) -> list[dict]:
 
     Returns rows with keys: pageTitle, pagePath,
     averageSessionDuration, engagementRate, screenPageViews.
+    Only /posts/ pages are included; hub/nav pages are excluded.
     """
     try:
-        return _run_report(
+        rows = _run_report(
             client,
             dimensions=["pageTitle", "pagePath"],
             metrics=[
@@ -191,6 +192,7 @@ def fetch_page_engagement(client) -> list[dict]:
             ],
             days=7,
         )
+        return [r for r in rows if "/posts/" in r.get("pagePath", "")]
     except Exception as e:
         print(f"  [WARN] page engagement fetch failed: {e}")
         return []
@@ -370,7 +372,11 @@ def reset_lastmod_for_priority(scored: list[dict]) -> int:
 # ── Task 08: bottleneck page extraction ───────────────────────────────────────
 
 def fetch_bottleneck_pages(client) -> list[dict]:
-    """Extract pages with low engagement time (minimum PV threshold applied)."""
+    """Extract /posts/ pages with low engagement time.
+
+    Filters: pagePath must contain /posts/ AND screenPageViews >= BOTTLENECK_MIN_PV.
+    Hub/nav pages (/, /search/, /tags/, external Zenn pages, etc.) are excluded.
+    """
     rows = _run_report(
         client,
         dimensions=["pagePath", "pageTitle"],
@@ -382,7 +388,11 @@ def fetch_bottleneck_pages(client) -> list[dict]:
         ],
         days=7,
     )
-    rows = [r for r in rows if r.get("screenPageViews", 0) >= BOTTLENECK_MIN_PV]
+    rows = [
+        r for r in rows
+        if "/posts/" in r.get("pagePath", "")
+        and r.get("screenPageViews", 0) >= BOTTLENECK_MIN_PV
+    ]
     rows.sort(key=lambda r: r.get("averageSessionDuration", 0))
     return rows[:BOTTLENECK_TOP_N]
 
