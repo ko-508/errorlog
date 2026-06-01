@@ -3,14 +3,5 @@
   "period_days": 7,
   "threshold_pv": 10,
   "top_n": 10,
-  "pages": [
-    {
-      "pagePath": "/errorlog",
-      "pageTitle": "ErrorLogさんの記事一覧 | Zenn",
-      "screenPageViews": 57.0,
-      "averageSessionDuration": 113.07649422727273,
-      "engagementRate": 0.6363636363636364,
-      "bounceRate": 0.36363636363636365
-    }
-  ]
+  "pages": []
 }
