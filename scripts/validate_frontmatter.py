@@ -34,7 +34,7 @@ def validate(path: Path) -> list[str]:
     errors = []
 
     try:
-        text = path.read_text(encoding="utf-8")
+        text = path.read_text(encoding="utf-8-sig")  # utf-8-sig strips BOM automatically
     except Exception as e:
         return [f"{path.name}: 読み込みエラー: {e}"]
 
