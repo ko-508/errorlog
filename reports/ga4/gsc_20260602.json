@@ -8,5 +8,18 @@
     20.0
   ],
   "total_pages": 32,
-  "bottlenecks": []
+  "bottlenecks": [
+    {
+      "page": "https://errorlog.jp/posts/github_api_404/",
+      "slug": "github_api_404",
+      "impressions": 6,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 20,
+      "top_query": "github 404 原因",
+      "reasons": [
+        "掲載順位 20.0 位（停滞圏 11〜20 位）"
+      ]
+    }
+  ]
 }
