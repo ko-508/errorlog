@@ -103,7 +103,7 @@ def main() -> None:
     print(f"既存ツール数: {len(existing)}")
 
     print("Gemini でトレンドツールを調査中...")
-    new_tools = discover_with_gemini(model, existing)
+    new_tools = discover_with_gemini(gemini_client, existing)
 
     if not new_tools:
         print("新しいツールが見つかりませんでした。")
