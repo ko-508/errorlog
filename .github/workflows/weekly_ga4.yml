@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install google-analytics-data anthropic
+        run: pip install google-analytics-data anthropic google-api-python-client google-auth
 
       - name: Run GA4 analyzer
         env:
@@ -41,6 +41,13 @@ jobs:
           GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
           GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
         run: python scripts/ga4_feedback_loop.py
+
+      - name: Run Search Console analysis
+        env:
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
+        run: python scripts/fetch_search_console.py
 
       - name: Commit and push report
         run: |
@@ -143,6 +150,72 @@ jobs:
               title:  `【GA4週次レポート】要UI・導線改善ボトルネック記事一覧 (${data.generated_at})`,
               body:   body,
               labels: ['ga4-bottleneck'],
+            });
+            console.log(`Issue created: #${issue.number}  ${issue.html_url}`);
+
+      - name: Create GSC bottleneck issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs   = require('fs');
+            const path = require('path');
+            const dir  = 'reports/ga4';
+
+            let files;
+            try {
+              files = fs.readdirSync(dir)
+                .filter(f => f.startsWith('gsc_') && f.endsWith('.json'))
+                .sort().reverse();
+            } catch (_) { console.log('reports/ga4 not found'); return; }
+            if (!files.length) { console.log('No GSC report – skip'); return; }
+
+            let data;
+            try {
+              data = JSON.parse(fs.readFileSync(path.join(dir, files[0]), 'utf8'));
+            } catch (_) { console.log('Failed to parse GSC JSON – skip'); return; }
+
+            const items = (data.bottlenecks || []).slice(0, 15);
+            if (!items.length) { console.log('No GSC bottlenecks – skip'); return; }
+
+            const rows = items.map((b, i) => {
+              const ctr   = (b.ctr * 100).toFixed(2) + '%';
+              const query = b.top_query ? `\`${b.top_query}\`` : '—';
+              return `| ${i+1} | \`${b.page}\` | ${b.impressions} | ${ctr} | ${b.position} | ${query} |`;
+            }).join('\n');
+
+            const body = [
+              '## 概要',
+              `Search Console 週次分析（${data.generated_at}）より、ボトルネック記事を抽出しました。`,
+              `判定条件: CTR < ${(data.ctr_threshold * 100).toFixed(1)}%（インプレッション≥${50}件）または掲載順位 ${data.pos_range[0]}〜${data.pos_range[1]} 位停滞。`,
+              '',
+              '## ボトルネック記事一覧',
+              '',
+              '| # | URL | 表示回数 | CTR | 掲載順位 | 最多検索クエリ |',
+              '|---|-----|---------|-----|---------|-------------|',
+              rows,
+              '',
+              '## 改善アクション候補',
+              '- [ ] titleタグ・meta descriptionの改善（CTR向上）',
+              '- [ ] 検索クエリに対応したコンテンツの強化（順位改善）',
+              '- [ ] `top_query` を `rewrite_priority.json` 経由で `refresh_articles.py` に反映済み',
+              '',
+              '> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。',
+            ].join('\n');
+
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner, repo: context.repo.repo,
+                name: 'gsc-bottleneck', color: 'e4e669',
+                description: 'Search Console weekly bottleneck report',
+              });
+            } catch (_) {}
+
+            const { data: issue } = await github.rest.issues.create({
+              owner:  context.repo.owner,
+              repo:   context.repo.repo,
+              title:  `【GSC週次レポート】検索ボトルネック記事一覧 (${data.generated_at})`,
+              body:   body,
+              labels: ['gsc-bottleneck'],
             });
             console.log(`Issue created: #${issue.number}  ${issue.html_url}`);
 
