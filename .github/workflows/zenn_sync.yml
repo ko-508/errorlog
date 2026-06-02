@@ -2,7 +2,7 @@ name: Sync to Zenn
 
 on:
   workflow_run:
-    workflows: ["Daily Article Publish"]
+    workflows: ["Daily Article Publish", "Replenish Article Queue"]
     types: [completed]
   workflow_dispatch:
 
