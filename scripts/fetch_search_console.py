@@ -302,9 +302,20 @@ def main() -> None:
         sys.exit(1)
 
     print("  [1/3] Fetching page metrics...")
-    page_rows = fetch_page_metrics(service)
-    if not page_rows:
-        print("  No /posts/ data found. Skipping.")
+    # 診断用: /posts/ フィルター前の全データを確認
+    raw_rows = _query(service, ["page"])
+    print(f"  raw rows from API: {len(raw_rows)}")
+    if raw_rows:
+        sample = raw_rows[0].get("page", "")
+        print(f"  sample page URL: {sample}")
+    page_rows = [r for r in raw_rows if "/posts/" in r.get("page", "")]
+    print(f"  /posts/ rows after filter: {len(page_rows)}")
+
+    # データが空でもレポートは常に保存する
+    if not raw_rows:
+        print("  [WARN] No data returned from Search Console API.")
+        print("         Check: site URL, OAuth scope (webmasters.readonly), property access.")
+        save_gsc_report([], [])
         return
 
     print("  [2/3] Fetching top queries per page...")
