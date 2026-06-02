@@ -301,6 +301,16 @@ def main() -> None:
         print(f"[ERROR] GSC auth failed: {e}", file=sys.stderr)
         sys.exit(1)
 
+    # 診断: アクセス可能なプロパティ一覧
+    try:
+        sites_resp = service.sites().list().execute()
+        site_entries = sites_resp.get("siteEntry", [])
+        print(f"  accessible sites: {len(site_entries)}")
+        for s in site_entries:
+            print(f"    {s.get('permissionLevel','?'):12s}  {s.get('siteUrl','')}")
+    except Exception as e:
+        print(f"  [WARN] sites().list() failed: {e}")
+
     print("  [1/3] Fetching page metrics...")
     # 診断用: /posts/ フィルター前の全データを確認
     raw_rows = _query(service, ["page"])
