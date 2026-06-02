@@ -41,25 +41,51 @@ PRIORITY_FILE   = SCRIPTS_DIR / "rewrite_priority.json"
 
 # ── Authentication ────────────────────────────────────────────────────────────
 
-def _build_service():
-    from googleapiclient.discovery import build
-    from google.oauth2.service_account import Credentials
+_GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 
+
+def _build_service():
+    """認証優先順:
+    1. GSC_SERVICE_ACCOUNT_KEY  サービスアカウント JSON（Search Console にユーザー追加不要）
+    2. GA4_SERVICE_ACCOUNT_KEY  同上（GA4 と共用 SA の場合）
+    3. GSC_OAUTH_* / GA4_OAUTH_* OAuth2リフレッシュトークン（Search Console プロパティへ
+       アクセス権を持つ Google アカウントで取得したもの）
+    """
+    from googleapiclient.discovery import build
+
+    # ── サービスアカウント ──────────────────────────────────────────────────
     sa_json = (
         os.environ.get("GSC_SERVICE_ACCOUNT_KEY", "").strip()
         or os.environ.get("GA4_SERVICE_ACCOUNT_KEY", "").strip()
     )
-    if not sa_json:
-        raise RuntimeError(
-            "GSC auth missing: set GSC_SERVICE_ACCOUNT_KEY or GA4_SERVICE_ACCOUNT_KEY."
-        )
+    if sa_json:
+        from google.oauth2.service_account import Credentials
+        info  = json.loads(sa_json)
+        creds = Credentials.from_service_account_info(info, scopes=_GSC_SCOPES)
+        return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
 
-    info  = json.loads(sa_json)
-    creds = Credentials.from_service_account_info(
-        info,
-        scopes=["https://www.googleapis.com/auth/webmasters.readonly"],
+    # ── OAuth2（GA4_OAUTH_* または GSC_OAUTH_* を流用） ───────────────────
+    client_id     = (os.environ.get("GSC_OAUTH_CLIENT_ID")     or os.environ.get("GA4_OAUTH_CLIENT_ID",     "")).strip()
+    client_secret = (os.environ.get("GSC_OAUTH_CLIENT_SECRET") or os.environ.get("GA4_OAUTH_CLIENT_SECRET", "")).strip()
+    refresh_token = (os.environ.get("GSC_OAUTH_REFRESH_TOKEN") or os.environ.get("GA4_OAUTH_REFRESH_TOKEN", "")).strip()
+
+    if all([client_id, client_secret, refresh_token]):
+        from google.oauth2.credentials import Credentials
+        creds = Credentials(
+            token=None,
+            refresh_token=refresh_token,
+            client_id=client_id,
+            client_secret=client_secret,
+            token_uri="https://oauth2.googleapis.com/token",
+            scopes=_GSC_SCOPES,
+        )
+        return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
+
+    raise RuntimeError(
+        "GSC auth missing. Set one of:\n"
+        "  GSC_SERVICE_ACCOUNT_KEY  (service account JSON)\n"
+        "  GA4_OAUTH_CLIENT_ID + GA4_OAUTH_CLIENT_SECRET + GA4_OAUTH_REFRESH_TOKEN  (OAuth2)"
     )
-    return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
 
 
 # ── API helpers ───────────────────────────────────────────────────────────────
