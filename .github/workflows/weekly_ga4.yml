@@ -49,7 +49,7 @@ jobs:
           GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
           GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
           GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
-          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
         run: python scripts/fetch_search_console.py
 
       - name: Commit and push report
