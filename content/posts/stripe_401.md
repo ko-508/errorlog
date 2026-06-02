@@ -168,7 +168,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **API キーの権限制限：** Stripe ダッシュボードで API キーの権限を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 エラーになります。ダッシュボードの「開発者」→「API キー」セクションで、各キーの権限スコープ（アクセス範囲）を確認してください。
 
-**Webhook 署名検証：** Webhook（外部からの呼び出し受け入れ口）を受け取る際、Stripe は `Stripe-Signature` ヘッダーで署名を送信します。このヘッダーが不正な場合も認証エラーとして扱われることがあります。Webhook の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` メソッドを使用してください。
+**Webhook 署名検証：** Webhook（サーバー間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` ヘッダーで署名を送信します。このヘッダーが不正な場合も認証エラーとして扱われることがあります。Webhook の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` メソッドを使用してください。
 
 **Connected Account（Stripe Connect）：** 複数の Stripe アカウントを管理する場合、リクエストヘッダーに正しい `Stripe-Account` ID を指定しないと 401 エラーが発生します。
 
