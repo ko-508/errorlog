@@ -69,7 +69,7 @@ def discover_with_gemini(model, existing: list[str]) -> list[str]:
 説明・番号・記号は不要です。"""
 
     try:
-        response = gemini_client.models.generate_content(
+        response = model.models.generate_content(
             model="gemini-2.0-flash",
             contents=prompt,
             config=genai_types.GenerateContentConfig(
