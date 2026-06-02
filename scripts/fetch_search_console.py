@@ -28,9 +28,9 @@ TODAY    = date.today()
 SITE_URL = os.getenv("GSC_SITE_URL", "https://errorlog.jp/")
 
 # ── Thresholds ────────────────────────────────────────────────────────────────
-CTR_IMP_THRESHOLD = int(os.getenv("CTR_IMP_THRESHOLD",  "50"))    # CTR 判定の最低インプレッション数
+CTR_IMP_THRESHOLD = int(os.getenv("CTR_IMP_THRESHOLD",  "10"))    # CTR 判定の最低インプレッション数
 CTR_THRESHOLD     = float(os.getenv("CTR_THRESHOLD",    "0.015")) # CTR 1.5% 未満 → ボトルネック
-POS_IMP_THRESHOLD = int(os.getenv("POS_IMP_THRESHOLD",  "20"))    # 順位判定の最低インプレッション数
+POS_IMP_THRESHOLD = int(os.getenv("POS_IMP_THRESHOLD",  "5"))     # 順位判定の最低インプレッション数
 POS_MIN           = float(os.getenv("POS_MIN",           "11.0")) # 停滞圏 上限（11位〜）
 POS_MAX           = float(os.getenv("POS_MAX",           "20.0")) # 停滞圏 下限（〜20位）
 ROW_LIMIT         = 1000
