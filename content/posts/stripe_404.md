@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-Stripe APIで404エラーが返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripeサーバー上に存在しないか、アクセス権限のないリソースへのアクセスを試みたことを示します。このエラーはAPIリクエストの失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe APIの標準HTTPステータスコードの一つで、REST APIとも統合型のNode.js/Python SDKでも同じ形式で返されます。
+Stripe APIで404エラーが返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripeサーバー上に存在しないか、アクセス権限のないリソースへのアクセスを試みたことを示します。このエラーはAPIリクエストの失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe APIの標準HTTPステータスコードの一つで、REST APIとNode.js/Python SDKでも同じ形式で返されます。
 
 ## 実際のエラーメッセージ例
 
@@ -157,9 +157,11 @@ curl https://api.stripe.com/v1/customers/cus_test123 \
 
 ### Webhook署名検証とリソースID
 
-Webhookで受け取ったイベントのリソースIDを直後に参照する場合、わずかな遅延で404が返ることがあります。Stripeのイベント処理は非同期（実行順序が保証されない処理方式）のため、リトライロジック（失敗時に再度試みる処理）を実装することが推奨されます。
+Webhookで受け取ったイベントのリソースIDを直後に参照する場合、わずかな遅延で404が返ることがあります。Stripeのイベント処理は非同期のため、リトライロジック（失敗時に何度か再試行する処理）を実装することが推奨されます。
 
 ```python
+import time
+
 def handle_webhook(event):
     if event['type'] == 'payment_intent.succeeded':
         payment_intent_id = event['data']['object']['id']
@@ -179,7 +181,7 @@ def handle_webhook(event):
 
 ### Stripe Connectのアカウント制限
 
-Stripe Connect（複数のビジネスアカウント間での連携）でアカウント間のリソースアクセスを試みる場合、適切な認可ヘッダー（HTTPリクエストの補足情報）がないと404が返されます。`Stripe-Account`ヘッダーを正確に指定する必要があります。
+Stripe Connect（複数のビジネスアカウント間での連携）でアカウント間のリソースアクセスを試みる場合、適切な認可ヘッダー（リクエスト情報を指定するHTTPヘッダー）がないと404が返されます。`Stripe-Account`ヘッダーを正確に指定する必要があります。
 
 ```javascript
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
