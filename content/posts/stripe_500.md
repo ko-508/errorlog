@@ -43,14 +43,14 @@ Content-Type: application/json
 
 API エンドポイント（接続地点）へのリクエストが失敗し、ログに「500」が返されている場合、Stripe 側で予定外または予定内のメンテナンスが実施されている可能性があります。
 
-**修正後（障害確認と再試行）:**
+**対処方法（障害確認と再試行）:**
 ```python
 import stripe
 import time
 import requests
 
 def check_stripe_status():
-    """Stripe公式ステータスページを確認"""
+    """Stripe 公式ステータスページを確認"""
     response = requests.get("https://status.stripe.com/api/v2/status.json")
     status_data = response.json()
     return status_data["status"]["indicator"]
@@ -58,7 +58,7 @@ def check_stripe_status():
 def create_charge_with_retry():
     stripe.api_key = "sk_live_xxxxx"
     
-    # 事前にStripeステータスを確認
+    # 事前に Stripe ステータスを確認
     if check_stripe_status() != "none":
         print("Stripe has ongoing incidents. Waiting...")
         time.sleep(30)
@@ -85,12 +85,12 @@ def create_charge_with_retry():
 
 古い API バージョン指定や廃止されたパラメーターを使用している場合、サーバー側で 500 エラーが発生することがあります。
 
-**修正後（現在のバージョン、正しいパラメーター）:**
+**対処方法（現在のバージョンと正しいパラメーター）:**
 ```python
 import stripe
 
 stripe.api_key = "sk_live_xxxxx"
-# API バージョン指定なし（最新版を使用）または明示的に現在のバージョン
+# API バージョンを明示的に指定（最新版）
 stripe.api_version = "2023-10-16"
 
 try:
@@ -109,7 +109,7 @@ except stripe.error.APIError as e:
 
 Stripe では冪等性キーを使用して同じリクエストの重複実行を防ぎます。各リクエストに一意のキーを割り当て、同じキーで複数の異なる処理を実行しないことが重要です。
 
-**修正後（冪等性キーの正しい使用）:**
+**対処方法（冪等性キーの正しい使用）:**
 ```python
 import stripe
 import uuid
@@ -173,7 +173,7 @@ def webhook():
     except stripe.error.SignatureVerificationError:
         return {"error": "Invalid signature"}, 400
     
-    # イベント処理でエラーが起きた場合は500を返さない
+    # イベント処理でエラーが起きた場合は 500 を返さない
     try:
         if event["type"] == "charge.succeeded":
             charge_id = event["data"]["object"]["id"]
@@ -181,7 +181,7 @@ def webhook():
             process_charge(charge_id)
         return {"status": "success"}, 200
     except Exception as e:
-        # ログに記録し、500ではなく200を返す
+        # ログに記録し、500 ではなく 200 を返す
         print(f"Webhook processing error: {e}")
         return {"status": "received"}, 200
 ```
