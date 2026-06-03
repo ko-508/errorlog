@@ -6,7 +6,7 @@ tags: ["Stripe"]
 errorCode: "402"
 lastmod: 2026-05-31
 ---
-# Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。カード拒否、残高不足、不正利用の疑い、または3Dセキュア認証の失敗など、支払い側の問題で決済が完了できない状態を示しています。このエラーが発生した場合、決済データ自体は失われていませんが、トランザクションは成功していません。
+# Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。カード拒否、残高不足、不正利用の疑い、または3Dセキュア認証の失敗など、支払い側の問題で決済が完了できない状態を示しています。このエラーが発生した場合、決済データ自体は失われていませんが、トランザクション（取引）は成功していません。
 
 ## 実際のエラーメッセージ例
 
@@ -74,7 +74,7 @@ charge = stripe.Charge.create(
 
 ### 原因3：3Dセキュア認証の失敗または未完了
 
-3Dセキュア（本人認証サービス）が必須の場合、認証フローの不完全な実装によって402エラーが発生します。
+3Dセキュア（本人認証サービス）が必須の場合、認証フローの実装が不完全だと402エラーが発生します。
 
 **修正例：**
 ```javascript
@@ -160,20 +160,20 @@ def handle_webhook():
 
 ## ログ確認とデバッグ方法
 
-Stripe ダッシュボードの「Logs」セクションでAPI リクエスト・レスポンスの全詳細を確認できます。以下の情報を記録してください。
+Stripeダッシュボードの「Logs」セクションでAPI リクエスト・レスポンスの全詳細を確認できます。以下の情報を記録してください。
 
-- **Request ID** - `req_` で始まる一意識別子
+- **Request ID** - `req_` で始まる一意の識別子
 - **Charge ID** - `ch_` で始まるチャージID
 - **PaymentIntent ID** - `pi_` で始まるペイメントID
 - **Decline Code** - `insufficient_funds` など具体的な拒否理由
 
 ## 公式ドキュメント参照
 
-- **Stripe エラーコード解説** - https://stripe.com/docs/error-codes（各エラーの詳細と対応方法）
-- **PaymentIntent ガイド** - https://stripe.com/docs/payments/payment-intents（決済フロー全体の理解）
+- **Stripeエラーコード解説** - https://stripe.com/docs/error-codes（各エラーの詳細と対応方法）
+- **PaymentIntentガイド** - https://stripe.com/docs/payments/payment-intents（決済フロー全体の理解）
 - **3Dセキュア実装ガイド** - https://stripe.com/docs/payments/3d-secure（強力認証の設定方法）
 
-問題が解決しない場合、Stripe ダッシュボードの「Contact Support」から直接問い合わせてください。本番環境のエラーは優先対応の対象となります。
+問題が解決しない場合、Stripeダッシュボードの「Contact Support」から直接問い合わせてください。本番環境のエラーは優先対応の対象となります。
 
 ---
 
