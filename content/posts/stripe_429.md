@@ -169,7 +169,7 @@ app.post("/webhook", async (req, res) => {
 
 **なぜ発生するか**
 
-API 呼び出し時にネットワークタイムアウトが発生し、アプリケーション側で同じリクエストを何度も再送する場合、Stripe 側でそれらをすべてカウントします。冪等性キー（何度実行しても結果が同じになるリクエストを識別するキー）を指定すれば、重複カウントを防げます。
+API 呼び出し時にネットワークタイムアウトが発生し、アプリケーション側で同じリクエストを何度も再送する場合、Stripe 側でそれらをすべてカウントします。冪等性キー（何度実行しても結果が同じ特性）を指定すれば、重複カウントを防げます。
 
 **修正前（エラーが起きるコード）**
 
@@ -289,7 +289,7 @@ curl -u sk_test_<your-secret-key>: \
 - [Stripe SDK のリトライロジック](https://stripe.com/docs/api/errors/handling?lang=python)
 - [Webhook の署名検証とエラーハンドリング](https://stripe.com/docs/webhooks/signatures)
 
-### コミュニティリソース
+### コミュニティーリソース
 
 GitHub の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが一般的です。
 
