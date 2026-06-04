@@ -44,6 +44,10 @@ BOTTLENECK_MIN_PV       = int(os.getenv("BOTTLENECK_MIN_PV",    "10"))
 _CRITICAL_LASTMOD_DAYS = 365
 _NORMAL_LASTMOD_DAYS   = 91
 
+# ── 薄い記事検出 ─────────────────────────────────────────────────────────────
+THIN_CHAR_THRESHOLD = int(os.getenv("THIN_CHAR_THRESHOLD", "1200"))
+_THIN_LASTMOD_DAYS  = 91  # REFRESH_DAYS のデフォルト値に揃えてキューに押し込む
+
 PRIORITY_FILE   = SCRIPTS_DIR / "rewrite_priority.json"
 BOTTLENECK_FILE = REPORTS_DIR / f"bottleneck_{TODAY.strftime('%Y%m%d')}.json"
 
@@ -369,6 +373,114 @@ def reset_lastmod_for_priority(scored: list[dict]) -> int:
     return reset
 
 
+# ── 薄い記事スキャン ─────────────────────────────────────────────────────────
+
+def _count_body_chars(body: str) -> int:
+    """コードブロック・リンクURL・マークダウン記号を除いた実質文字数を返す。"""
+    text = re.sub(r'```[\s\S]*?```', '', body)
+    text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+    text = re.sub(r'[#\-*`>\[\]()!]', '', text)
+    return len(text.replace(' ', '').replace('\n', ''))
+
+
+def flag_thin_articles() -> int:
+    """
+    content/posts/ 全記事をスキャンし、本文が THIN_CHAR_THRESHOLD 未満のものに
+    rewrite_priority.json で is_thin: true を付与する。
+    lastmod を _THIN_LASTMOD_DAYS 前にリセットして refresh_articles.py のキューに乗せる。
+    戻り値: 新規フラグ付与件数
+    """
+    existing: list[dict] = []
+    if PRIORITY_FILE.exists():
+        try:
+            existing = json.loads(PRIORITY_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            existing = []
+
+    by_title: dict[str, dict] = {e["title"]: e for e in existing}
+    thin_old_date = (TODAY - timedelta(days=_THIN_LASTMOD_DAYS)).isoformat()
+    newly_flagged = 0
+
+    for md in sorted(POSTS_DIR.glob("*.md")):
+        try:
+            text = md.read_text(encoding="utf-8")
+        except Exception as e:
+            print(f"  [thin_scan] {md.name}: 読み込みエラー — {e}")
+            continue
+
+        fm_match = re.match(r'^---\n(.*?)\n---\n', text, re.DOTALL)
+        if not fm_match:
+            continue
+        title_match = re.search(r'^title:\s*"?([^"\n]+)"?\s*$', fm_match.group(1), re.MULTILINE)
+        if not title_match:
+            continue
+        title = title_match.group(1).strip()
+
+        body_match = re.match(r'^---\n.*?\n---\n\n?', text, re.DOTALL)
+        body = text[body_match.end():] if body_match else text
+
+        try:
+            char_count = _count_body_chars(body)
+        except Exception as e:
+            print(f"  [thin_scan] {md.name}: 文字数カウントエラー — {e}")
+            continue
+
+        is_thin = char_count < THIN_CHAR_THRESHOLD
+
+        if title in by_title:
+            entry = by_title[title]
+            was_thin = entry.get("is_thin", False)
+            if is_thin and not was_thin:
+                entry["is_thin"]    = True
+                entry["thin_chars"] = char_count
+                newly_flagged += 1
+                print(f"  [thin_scan] フラグ付与: {md.name} ({char_count}文字)")
+            elif not is_thin and was_thin:
+                entry["is_thin"] = False
+                print(f"  [thin_scan] フラグ解除: {md.name} → {char_count}文字")
+        elif is_thin:
+            new_entry: dict = {
+                "title":          title,
+                "priority_score": 0.3,
+                "critical":       False,
+                "no_ratio":       0.0,
+                "no_count":       0,
+                "engagement_sec": 0.0,
+                "is_thin":        True,
+                "thin_chars":     char_count,
+                "queued_at":      TODAY.isoformat(),
+                "source":         "thin_scan",
+            }
+            existing.append(new_entry)
+            by_title[title] = new_entry
+            newly_flagged += 1
+            print(f"  [thin_scan] 新規登録: {md.name} ({char_count}文字)")
+
+        # lastmod を _THIN_LASTMOD_DAYS 前にリセットしてリフレッシュキューへ
+        if is_thin:
+            if "lastmod:" in text:
+                new_text = re.sub(r'(?m)^lastmod:.*$', f'lastmod: {thin_old_date}', text, count=1)
+            else:
+                fm_str   = fm_match.group(0)
+                new_text = text.replace(
+                    fm_str,
+                    fm_str.replace('\n---\n', f'\nlastmod: {thin_old_date}\n---\n', 1),
+                )
+            if new_text != text:
+                try:
+                    md.write_text(new_text, encoding="utf-8")
+                except Exception as e:
+                    print(f"  [thin_scan] {md.name}: lastmod 書き込みエラー — {e}")
+
+    PRIORITY_FILE.write_text(
+        json.dumps(existing, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    thin_total = sum(1 for e in existing if e.get("is_thin"))
+    print(f"  [thin_scan] 完了: 薄い記事 {thin_total} 件（うち新規フラグ {newly_flagged} 件）")
+    return newly_flagged
+
+
 # ── Task 08: bottleneck page extraction ───────────────────────────────────────
 
 def fetch_bottleneck_pages(client) -> list[dict]:
@@ -460,6 +572,10 @@ def main():
             f"{r.get('pageTitle', r.get('pagePath', ''))[:60]}"
         )
     save_bottleneck(bottleneck)
+
+    # ── 薄い記事の検出とフラグ付与 ────────────────────────────────────────────
+    print("\n=== Thin article scan ===")
+    flag_thin_articles()
 
     print("\nDone.")
 
