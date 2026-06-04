@@ -24,7 +24,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic google-genai
+        run: pip install anthropic google-genai google-auth requests
 
       - name: Publish daily articles
         env:
@@ -61,6 +61,12 @@ jobs:
             git push
             echo "deployed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Request indexing for new articles
+        if: steps.push.outputs.deployed == 'true'
+        env:
+          INDEXING_SERVICE_ACCOUNT_KEY: ${{ secrets.INDEXING_SERVICE_ACCOUNT_KEY }}
+        run: python scripts/request_index.py
 
       - name: Notify on failure
         if: failure()
