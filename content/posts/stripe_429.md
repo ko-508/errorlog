@@ -99,7 +99,7 @@ for customer_id in customer_ids:
 
 **なぜ発生するか**
 
-Webhook のエラーハンドリングで指数バックオフ（遅延を段階的に増やす処理）を実装せず、即座に何度も API 呼び出しを行う場合に発生します。特に Webhook 署名検証失敗時のログ記録で複数の API を呼び出すと顕著です。
+Webhook のエラーハンドリングで指数バックオフ（段階的に遅延を長くする再試行方法）を実装せず、即座に何度も API 呼び出しを行う場合に発生します。特に Webhook 署名検証失敗時のログ記録で複数の API を呼び出すと顕著です。
 
 **修正前（エラーが起きるコード）**
 
@@ -289,7 +289,7 @@ curl -u sk_test_<your-secret-key>: \
 - [Stripe SDK のリトライロジック](https://stripe.com/docs/api/errors/handling?lang=python)
 - [Webhook の署名検証とエラーハンドリング](https://stripe.com/docs/webhooks/signatures)
 
-### コミュニティーリソース
+### コミュニティリソース
 
 GitHub の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが一般的です。
 

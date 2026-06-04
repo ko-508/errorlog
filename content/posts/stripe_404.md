@@ -181,7 +181,7 @@ def handle_webhook(event):
 
 ### Stripe Connectのアカウント制限
 
-Stripe Connect（複数のビジネスアカウント間での連携）でアカウント間のリソースアクセスを試みる場合、適切な認可ヘッダー（どのアカウントへのアクセスかを指定するHTTPヘッダー）がないと404が返されます。`Stripe-Account`ヘッダーを正確に指定する必要があります。
+Stripe Connect（複数のビジネスアカウント間での連携機能）でアカウント間のリソースアクセスを試みる場合、適切な認可ヘッダーがないと404が返されます。`Stripe-Account`ヘッダーを正確に指定する必要があります。
 
 ```javascript
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);

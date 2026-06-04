@@ -150,7 +150,7 @@ const { error } = await supabase
 **After（修正後）：**
 
 ```javascript
-// バックエンド（Node.js / Python等）で service_role key を使用
+// バックエンド（Node.js / Python 等）で service_role key を使用
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -158,7 +158,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY  // service_role key（機密情報）
 );
 
-// サーバー側ならRLSをバイパスして操作可能
+// サーバー側なら RLS をバイパスして操作可能
 const { error } = await supabase
   .from('users')
   .update({ is_admin: true })
