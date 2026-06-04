@@ -32,9 +32,63 @@ MAX_REFRESH          = int(os.getenv("MAX_REFRESH", "20"))
 MAX_RETRIES          = 1  # レビュー失敗時の再生成回数
 THIN_CHAR_THRESHOLD  = int(os.getenv("THIN_CHAR_THRESHOLD", "1200"))
 
-BASE          = Path(__file__).parent
-POSTS_DIR     = BASE.parent / "content" / "posts"
-PRIORITY_FILE = BASE / "rewrite_priority.json"
+BASE             = Path(__file__).parent
+POSTS_DIR        = BASE.parent / "content" / "posts"
+PRIORITY_FILE    = BASE / "rewrite_priority.json"
+COMPETITOR_FILE  = BASE / "competitor_analysis.json"
+
+
+# ─── 競合コンテキスト ─────────────────────────────────────
+
+def _load_competitor_context(title: str) -> str:
+    """
+    competitor_analysis.json から記事タイトルに関連するクエリを探し、
+    競合の見出し構造をプロンプト用テキストで返す。
+    ファイルが存在しない・読み込み失敗・データなしの場合は空文字を返す。
+    """
+    if not COMPETITOR_FILE.exists():
+        return ""
+    try:
+        data    = json.loads(COMPETITOR_FILE.read_text(encoding="utf-8"))
+        results = data.get("results", [])
+        if not results:
+            return ""
+
+        title_lower = title.lower()
+
+        # タイトルのトークンと top_query が重複するエントリを優先
+        best: dict | None = None
+        for r in results:
+            query_terms = set((r.get("query") or "").lower().split())
+            if any(t in title_lower for t in query_terms if len(t) > 2):
+                best = r
+                break
+        if best is None:
+            best = results[0]  # マッチなければ先頭エントリを使用
+
+        competitors = [c for c in best.get("competitors", []) if not c.get("error")]
+        if not competitors:
+            return ""
+
+        lines = [
+            f"## 競合サイトの見出し構造（参考クエリ: {best.get('query', '')}）",
+            "以下の競合サイトの見出し構造（ファクト）を参考に、"
+            "自社記事に足りない専門的な要素や解決ステップを網羅した本文を生成してください。",
+            "",
+        ]
+        for i, c in enumerate(competitors, 1):
+            lines.append(f"【競合{i}】{c.get('title', '')}")
+            if c.get("h2"):
+                lines.append("H2: " + " / ".join(c["h2"][:6]))
+            if c.get("h3"):
+                lines.append("H3: " + " / ".join(c["h3"][:8]))
+            lines.append("")
+
+        return "\n".join(lines)
+
+    except Exception as e:
+        print(f"  [competitor] コンテキスト読み込みエラー（スキップ）: {e}")
+        return ""
 
 
 # ─── 薄い記事リスト ───────────────────────────────────────
@@ -119,8 +173,19 @@ def normalize_before_after(text: str) -> str:
 
 # ─── Step 1: Gemini でリサーチ ─────────────────────────────
 
-def research_with_gemini(gemini_model, title: str, old_body: str) -> str:
+def research_with_gemini(
+    gemini_model,
+    title: str,
+    old_body: str,
+    competitor_context: str = "",
+) -> str:
     """Gemini + Google検索で記事テーマの最新情報を収集する。"""
+    competitor_hint = (
+        f"\n\n## 競合サイトが扱っている見出し（参考）\n{competitor_context}\n"
+        "上記競合が扱っているが現記事に欠けているトピックも調査してください。"
+        if competitor_context else ""
+    )
+
     prompt = f"""以下のタイトルの技術記事を最新版にアップデートするためのリサーチをしてください。
 
 ## 記事タイトル
@@ -133,7 +198,7 @@ def research_with_gemini(gemini_model, title: str, old_body: str) -> str:
 1. 記事に登場するコマンドや設定が現在も正しいか確認する
 2. 公式ドキュメントの最新URLや推奨手順を調べる
 3. このエラーに関して最近変更された点・新しい解決策があれば調べる
-4. 現在の標準的な対処方法をまとめる
+4. 現在の標準的な対処方法をまとめる{competitor_hint}
 
 調査結果を箇条書きでまとめてください。日本語で回答してください。"""
 
@@ -159,6 +224,7 @@ def rewrite_with_claude(
     old_body: str,
     research: str,
     review_feedback: str = "",
+    competitor_context: str = "",
 ) -> str:
     """Geminiのリサーチ結果をもとに Claude が記事をリライトする。
     review_feedback が指定された場合はレビュー指摘を修正対象として追加する。
@@ -198,7 +264,9 @@ def rewrite_with_claude(
   5. それでも解決しない場合
 - Before/Afterラベルは必ず **Before（エラーが起きるコード）：** と **After（修正後）：** の形式で記述する
 - 末尾に免責事項フッターを付ける
-
+{f'''
+{competitor_context}
+''' if competitor_context else ''}
 リライト後の本文のみを出力してください（前置き・説明は不要）。"""
 
     message = claude_client.messages.create(
@@ -330,14 +398,22 @@ def main() -> None:
 
         print(f"  処理中: {md_path.name}（最終更新: {last_date}）")
 
+        # 競合コンテキストを取得（存在する場合のみ）
+        competitor_ctx = _load_competitor_context(title)
+        if competitor_ctx:
+            print(f"    [competitor] 競合データをプロンプトに注入します")
+
         # Step 1: Gemini でリサーチ
         print(f"    [1/3] Gemini がリサーチ中...")
-        research = research_with_gemini(gemini_client, title, old_body)
+        research = research_with_gemini(gemini_client, title, old_body, competitor_ctx)
 
         # Step 2: Claude でリライト
         print(f"    [2/3] Claude がリライト中...")
         try:
-            new_body = rewrite_with_claude(claude_client, title, old_body, research)
+            new_body = rewrite_with_claude(
+                claude_client, title, old_body, research,
+                competitor_context=competitor_ctx,
+            )
         except Exception as e:
             print(f"    Claude エラー: {e}")
             skipped.append(md_path.name)
@@ -354,7 +430,8 @@ def main() -> None:
                 print(f"    [3/3] FAIL → リトライ {retry}/{MAX_RETRIES}")
                 try:
                     new_body = rewrite_with_claude(
-                        claude_client, title, old_body, research, feedback
+                        claude_client, title, old_body, research, feedback,
+                        competitor_context=competitor_ctx,
                     )
                 except Exception as e:
                     print(f"    リトライ中の Claude エラー: {e}")

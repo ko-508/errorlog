@@ -22,7 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install google-analytics-data anthropic google-api-python-client google-auth
+        run: pip install google-analytics-data anthropic google-api-python-client google-auth requests beautifulsoup4
 
       - name: Run GA4 analyzer
         env:
@@ -41,6 +41,10 @@ jobs:
           GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
           GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
         run: python scripts/ga4_feedback_loop.py
+
+      - name: Scan competitor outlines
+        continue-on-error: true
+        run: python scripts/scan_competitors.py
 
       - name: Run Search Console analysis
         env:

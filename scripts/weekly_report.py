@@ -533,6 +533,47 @@ def fetch_gsc_bottlenecks() -> list[dict]:
     return results
 
 
+# ── 競合データ読み込み ────────────────────────────────────────────────────────
+
+def _load_competitor_section() -> str:
+    """scripts/competitor_analysis.json が存在すれば Issue 追記用 Markdown を返す。"""
+    comp_file = Path(__file__).parent / "competitor_analysis.json"
+    if not comp_file.exists():
+        return ""
+    try:
+        data    = json.loads(comp_file.read_text(encoding="utf-8"))
+        results = data.get("results", [])
+        if not results:
+            return ""
+
+        lines = ["", "---", "", "### 3. 競合構成分析（自動スクレイピング）", ""]
+        for r in results:
+            query = r.get("query", "")
+            lines.append(f"#### クエリ: `{query}`")
+            lines.append("")
+            competitors = r.get("competitors", [])
+            if not competitors:
+                lines.append("_検索結果が取得できませんでした。_")
+                lines.append("")
+                continue
+            for i, c in enumerate(competitors, 1):
+                if c.get("error"):
+                    lines.append(f"**競合{i}** `{c['url'][:70]}` — {c['error']}")
+                else:
+                    label = c.get("title") or c["url"][:70]
+                    lines.append(f"**競合{i}** {label}")
+                    if c.get("h2"):
+                        lines.append("- H2: " + " / ".join(c["h2"][:5]))
+                    if c.get("h3"):
+                        lines.append("- H3: " + " / ".join(c["h3"][:5]))
+                lines.append("")
+
+        return "\n".join(lines)
+    except Exception as e:
+        print(f"  [WARN] competitor_analysis.json 読み込みエラー: {e}")
+        return ""
+
+
 # ── Markdown rendering ────────────────────────────────────────────────────────
 
 def _pct(v: float, dec: int = 1) -> str:
@@ -540,7 +581,13 @@ def _pct(v: float, dec: int = 1) -> str:
     return f"{v * 100:.{dec}f}"
 
 
-def render_issue_body(m: dict, statuses: list[str], bottlenecks: list[dict], period: str) -> str:
+def render_issue_body(
+    m: dict,
+    statuses: list[str],
+    bottlenecks: list[dict],
+    period: str,
+    competitor_section: str = "",
+) -> str:
     s = statuses
 
     ga4_table = f"""\
@@ -595,6 +642,7 @@ _今週のボトルネック記事はありませんでした。_"""
         f"## 週次統合分析レポート（{period}）\n\n"
         + ga4_table
         + gsc_section
+        + competitor_section
         + "\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。"
     )
 
@@ -621,10 +669,15 @@ def main() -> None:
     metrics  = compute_metrics(raw_data)
     statuses = compute_statuses(metrics)
 
-    print("[3/3] Fetching GSC bottlenecks...")
+    print("[3/4] Fetching GSC bottlenecks...")
     bottlenecks = fetch_gsc_bottlenecks()
 
-    issue_body  = render_issue_body(metrics, statuses, bottlenecks, period)
+    print("[4/4] Loading competitor analysis...")
+    competitor_section = _load_competitor_section()
+    if competitor_section:
+        print("  → 競合データあり（Issueに追記します）")
+
+    issue_body  = render_issue_body(metrics, statuses, bottlenecks, period, competitor_section)
     issue_title = f"【週次統合レポート】GA4 20指標 + GSC ボトルネック ({TODAY.isoformat()})"
 
     output = {
