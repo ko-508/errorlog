@@ -34,6 +34,11 @@ ANTHROPIC_KEY = os.environ.get("ANTHROPIC_API_KEY", "").strip()
 TOP_PAGES     = 20
 TOP_CITIES    = 15
 
+# ── ノイズフィルタ設定 ─────────────────────────────────────────────────────────
+NOISE_COUNTRY        = os.environ.get("NOISE_COUNTRY", "Singapore")
+NOISE_TIME_THRESHOLD = float(os.environ.get("NOISE_TIME_THRESHOLD", "5.0"))  # 秒
+TOP_COUNTRIES        = 15
+
 
 # ── OAuth2 認証 ───────────────────────────────────────────────────────────────
 
@@ -88,6 +93,54 @@ def _run_report(client, dimensions: list, metrics: list, days: int = 7) -> list[
     return rows
 
 
+# ── ノイズフィルタ ─────────────────────────────────────────────────────────────
+
+def _drop_noise(
+    rows: list[dict],
+    *,
+    country_col: str = "country",
+    time_col: str    = "averageSessionDuration",
+) -> list[dict]:
+    """
+    country == NOISE_COUNTRY かつ engagement_time < NOISE_TIME_THRESHOLD の行を除去する。
+    対象カラムが存在しない場合は安全にスキップする（KeyError でクラッシュしない）。
+    """
+    if not rows:
+        return rows
+
+    sample       = rows[0]
+    has_country  = country_col in sample
+    has_time     = time_col    in sample
+
+    if not has_country or not has_time:
+        missing = [c for c, ok in [(country_col, has_country), (time_col, has_time)] if not ok]
+        print(f"  [noise_filter] カラム {missing} が存在しないためスキップします。")
+        return rows
+
+    clean: list[dict]   = []
+    dropped: list[dict] = []
+    for r in rows:
+        if r.get(country_col, "") == NOISE_COUNTRY and r.get(time_col, 0.0) < NOISE_TIME_THRESHOLD:
+            dropped.append(r)
+        else:
+            clean.append(r)
+
+    if dropped:
+        noise_users = sum(int(r.get("activeUsers", 0)) for r in dropped)
+        print(
+            f"  [noise_filter] 除外されたノイズ: {len(dropped)} 行 "
+            f"(国={NOISE_COUNTRY}, エンゲージ時間<{NOISE_TIME_THRESHOLD}s, "
+            f"影響ユーザー数={noise_users})"
+        )
+    else:
+        print(
+            f"  [noise_filter] ノイズなし "
+            f"({NOISE_COUNTRY} の短時間セッションは検出されませんでした)"
+        )
+
+    return clean
+
+
 def fetch_ga4_data(client) -> dict:
     print("GA4データ取得中...")
 
@@ -106,8 +159,22 @@ def fetch_ga4_data(client) -> dict:
     cities.sort(key=lambda r: -r.get("activeUsers", 0))
     cities = cities[:TOP_CITIES]
 
-    print(f"  日別:{len(daily)}件 / ページ:{len(pages)}件 / 都市:{len(cities)}件")
-    return {"daily": daily, "pages": pages, "cities": cities}
+    # 国別データ（country + averageSessionDuration）を取得してノイズ除去
+    print("  国別データのノイズフィルタリング...")
+    countries = _run_report(
+        client,
+        ["country"],
+        ["activeUsers", "averageSessionDuration"],
+    )
+    countries = _drop_noise(countries)
+    countries.sort(key=lambda r: -r.get("activeUsers", 0))
+    countries = countries[:TOP_COUNTRIES]
+
+    print(
+        f"  日別:{len(daily)}件 / ページ:{len(pages)}件 "
+        f"/ 都市:{len(cities)}件 / 国別(フィルタ済):{len(countries)}件"
+    )
+    return {"daily": daily, "pages": pages, "cities": cities, "countries": countries}
 
 
 # ── データ整形 ────────────────────────────────────────────────────────────────
@@ -150,6 +217,16 @@ def _fmt_cities(cities):
     return "\n".join(lines)
 
 
+def _fmt_countries(countries):
+    lines = ["国,アクティブUU,平均エンゲージ時間(秒)"]
+    for r in countries:
+        lines.append(
+            f"{r.get('country','')},{int(r.get('activeUsers',0))},"
+            f"{r.get('averageSessionDuration',0):.1f}"
+        )
+    return "\n".join(lines)
+
+
 # ── Gemini 分析 ───────────────────────────────────────────────────────────────
 
 def analyze_with_gemini(data: dict) -> str:
@@ -178,6 +255,9 @@ def analyze_with_gemini(data: dict) -> str:
 
 === 都市別ユーザー（上位{TOP_CITIES}件）===
 {_fmt_cities(data['cities'])}
+
+=== 国別ユーザー（ノイズ除去済・上位{TOP_COUNTRIES}件）===
+{_fmt_countries(data['countries'])}
 
 ## 出力要件（Markdown形式、##見出し使用）
 
@@ -253,6 +333,17 @@ def build_report(data: dict, analysis: str) -> str:
     ]
     for r in data["cities"]:
         lines.append(f"| {r.get('city','')} | {int(r.get('activeUsers',0))} |")
+
+    lines += [
+        f"\n## 生データ：国別ユーザー（ノイズ除去済 / {NOISE_COUNTRY}・{NOISE_TIME_THRESHOLD}s未満を除外）\n",
+        "| 国 | アクティブUU | 平均エンゲージ時間(秒) |",
+        "|----|------------|---------------------|",
+    ]
+    for r in data["countries"]:
+        lines.append(
+            f"| {r.get('country','')} | {int(r.get('activeUsers',0))} "
+            f"| {r.get('averageSessionDuration',0):.1f} |"
+        )
 
     lines += ["\n---\n", "## AI分析レポート（Gemini）\n", analysis]
     return "\n".join(lines)
