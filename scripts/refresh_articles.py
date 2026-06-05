@@ -36,6 +36,7 @@ BASE             = Path(__file__).parent
 POSTS_DIR        = BASE.parent / "content" / "posts"
 PRIORITY_FILE    = BASE / "rewrite_priority.json"
 COMPETITOR_FILE  = BASE / "competitor_analysis.json"
+REFRESH_MANIFEST = BASE / "refresh_manifest.json"
 
 
 # ─── 競合コンテキスト ─────────────────────────────────────
@@ -129,12 +130,42 @@ def get_frontmatter_block(text: str) -> str:
     return match.group(1) if match else ""
 
 
-def needs_refresh(fm: dict, threshold_days: int) -> bool:
-    check_key = fm.get("lastmod") or fm.get("date")
-    if not check_key:
+def _load_refresh_manifest() -> dict:
+    """scripts/refresh_manifest.json を読み込む。存在しなければ空 dict。"""
+    if not REFRESH_MANIFEST.exists():
+        return {}
+    try:
+        return json.loads(REFRESH_MANIFEST.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def _save_refresh_manifest(manifest: dict) -> None:
+    REFRESH_MANIFEST.write_text(
+        json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2),
+        encoding="utf-8",
+    )
+
+
+def needs_refresh(fm: dict, stem: str, threshold_days: int, manifest: dict) -> bool:
+    """マニフェストを優先して最終リライト日を判定する。
+
+    - マニフェストあり: このスクリプトが最後にリライトした日 >= threshold_days 前なら True
+    - マニフェストなし（初回/未リライト）: 記事の date で判定
+    他スクリプトが lastmod を更新しても影響を受けない。
+    """
+    if stem in manifest:
+        try:
+            last = datetime.strptime(manifest[stem], "%Y-%m-%d").date()
+            return (date.today() - last).days >= threshold_days
+        except (ValueError, TypeError):
+            pass
+    # 未登録の場合は記事の date を参照（lastmod は他スクリプトが更新するため使わない）
+    date_key = fm.get("date")
+    if not date_key:
         return True
     try:
-        last_date = datetime.strptime(check_key, "%Y-%m-%d").date()
+        last_date = datetime.strptime(date_key, "%Y-%m-%d").date()
         return (date.today() - last_date).days >= threshold_days
     except ValueError:
         return True
@@ -366,13 +397,17 @@ def main() -> None:
         print("記事がありません。")
         return
 
+    # マニフェスト読み込み（他スクリプトの lastmod 更新に影響されない判定）
+    manifest = _load_refresh_manifest()
+    print(f"refresh_manifest: {len(manifest)} 件登録済み")
+
     # 更新対象を抽出（古い順）
     targets = []
     for md_path in md_files:
         text = md_path.read_text(encoding="utf-8")
         fm = parse_frontmatter(text)
-        if needs_refresh(fm, REFRESH_DAYS):
-            check_date = fm.get("lastmod") or fm.get("date") or "不明"
+        if needs_refresh(fm, md_path.stem, REFRESH_DAYS, manifest):
+            check_date = manifest.get(md_path.stem) or fm.get("date") or "不明"
             targets.append((check_date, md_path))
 
     targets.sort(key=lambda x: x[0])
@@ -472,9 +507,11 @@ def main() -> None:
             new_fm = re.sub(r"\n---\n$", f"\nlastmod: {today}\n---\n", fm_block)
 
         md_path.write_text(new_fm + "\n" + new_body, encoding="utf-8")
+        manifest[md_path.stem] = today  # マニフェストに今日の日付を記録
         print(f"    完了: {title}")
         refreshed.append(md_path.name)
 
+    _save_refresh_manifest(manifest)
     print(f"\n完了: 更新 {len(refreshed)} 件 / スキップ {len(skipped)} 件")
     if skipped:
         print(f"スキップ: {', '.join(skipped)}")

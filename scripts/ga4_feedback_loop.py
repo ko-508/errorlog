@@ -330,6 +330,24 @@ def update_priority_queue(scored: list[dict]) -> None:
     )
 
 
+def _clear_refresh_manifest(stems: list[str]) -> None:
+    """refresh_manifest.json から指定 stem を削除してリフレッシュを強制する。"""
+    manifest_file = SCRIPTS_DIR / "refresh_manifest.json"
+    if not manifest_file.exists() or not stems:
+        return
+    try:
+        manifest: dict = json.loads(manifest_file.read_text(encoding="utf-8"))
+        removed = sum(1 for s in stems if manifest.pop(s, None) is not None)
+        if removed:
+            manifest_file.write_text(
+                json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2),
+                encoding="utf-8",
+            )
+            print(f"  [manifest] refresh_manifest から {removed} 件を削除（次回強制リフレッシュ）")
+    except Exception as e:
+        print(f"  [manifest] refresh_manifest 更新エラー: {e}")
+
+
 def reset_lastmod_for_priority(scored: list[dict]) -> int:
     """Reset lastmod in content/posts/ to force articles into refresh_articles.py queue.
 
@@ -339,6 +357,7 @@ def reset_lastmod_for_priority(scored: list[dict]) -> int:
     """
     title_to_score = {item["title"]: item for item in scored}
     reset = 0
+    reset_stems: list[str] = []
 
     for md in POSTS_DIR.glob("*.md"):
         text = md.read_text(encoding="utf-8")
@@ -369,7 +388,9 @@ def reset_lastmod_for_priority(scored: list[dict]) -> int:
             label = "CRITICAL" if item["critical"] else "normal"
             print(f"  lastmod reset [{label}] → {old_date}: {md.name}")
             reset += 1
+            reset_stems.append(md.stem)
 
+    _clear_refresh_manifest(reset_stems)
     return reset
 
 
@@ -476,6 +497,20 @@ def flag_thin_articles() -> int:
         json.dumps(existing, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
+
+    # refresh_manifest から thin 記事を削除して次回リフレッシュを強制
+    thin_stems = [e["title"] for e in existing if e.get("is_thin")]
+    # title → stem の逆引き
+    title_to_stem: dict[str, str] = {}
+    for md in POSTS_DIR.glob("*.md"):
+        fm_m = re.match(r'^---\n(.*?)\n---\n', md.read_text(encoding="utf-8", errors="ignore"), re.DOTALL)
+        if fm_m:
+            tm = re.search(r'^title:\s*"?([^"\n]+)"?\s*$', fm_m.group(1), re.MULTILINE)
+            if tm:
+                title_to_stem[tm.group(1).strip()] = md.stem
+    stems_to_clear = [title_to_stem[t] for t in thin_stems if t in title_to_stem]
+    _clear_refresh_manifest(stems_to_clear)
+
     thin_total = sum(1 for e in existing if e.get("is_thin"))
     print(f"  [thin_scan] 完了: 薄い記事 {thin_total} 件（うち新規フラグ {newly_flagged} 件）")
     return newly_flagged
