@@ -4,16 +4,16 @@ date: 2026-01-01
 description: "Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。"
 tags: ["Firebase"]
 errorCode: "400"
-lastmod: 2026-05-31
+lastmod: 2026-06-05
 ---
 
 ## エラーの概要
 
-Firebase の 400 エラーは、クライアントからの[リクエスト](/glossary/リクエスト/)が不正な形式または無効な[パラメータ](/glossary/パラメータ/)を含んでいることを示します。このエラーは[サーバー](/glossary/サーバー/)側の障害ではなく、送信されたデータの形式、認証情報、[クエリ](/glossary/クエリ/)条件、またはリクエストヘッダーに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇するエラーの一つであり、原因の特定と修正が必須です。
+Firebase の 400 エラーは、クライアント（使用しているアプリケーション）から送信された[リクエスト](/glossary/リクエスト/)が不正な形式または無効な[パラメータ](/glossary/パラメータ/)を含んでいることを示します。このエラーは[サーバー](/glossary/サーバー/)側の障害ではなく、送信されたデータの形式、認証情報、[クエリ](/glossary/クエリ/)条件、またはリクエスト[ヘッダー](/glossary/ヘッダー/)に問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇するエラーの一つであり、原因の特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
-Firebase [SDK](/glossary/sdk/) からの典型的な[エラーレスポンス](/glossary/エラーレスポンス/)は以下のような形式です。
+Firebase [SDK](/glossary/sdk/)（ソフトウェア開発キット）からの典型的な[エラーレスポンス](/glossary/エラーレスポンス/)は以下のような形式です。
 
 ```json
 {
@@ -37,7 +37,7 @@ JavaScript [SDK](/glossary/sdk/) では以下のような[コンソール](/glos
 Firebase: Error (auth/invalid-email).
 ```
 
-[REST](/glossary/rest/) [API](/glossary/api/) 呼び出しの場合：
+[REST](/glossary/rest/) [API](/glossary/api/)（外部サービスとのやり取り口）呼び出しの場合：
 
 ```
 POST /v1/projects/<project-id>/databases/(default)/documents:query
@@ -54,9 +54,9 @@ POST /v1/projects/<project-id>/databases/(default)/documents:query
 
 ### 原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ
 
-Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に[インデックス](/glossary/インデックス/)を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（`<`, `>`, `<=`, `>=`）を使用することはできません。
+Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に[インデックス](/glossary/インデックス/)（データベースの検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（`<`, `>`, `<=`, `>=`）を使用することはできません。
 
-**Before（複数フィールドで不等式を使用）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
 db.collection('users')
@@ -74,13 +74,13 @@ db.collection('users')
   .get();
 ```
 
-複合フィルタが必要な場合は、Firebase [コンソール](/glossary/コンソール/)から自動提示される[インデックス](/glossary/インデックス/)を作成します。
+複合フィルタが必要な場合は、Firebase [コンソール](/glossary/コンソール/)（管理画面）から自動提示される[インデックス](/glossary/インデックス/)を作成します。
 
 ### 原因2：認証情報の形式が無効
 
-Firebase Authentication で不正な形式のメールアドレスや[パスワード](/glossary/パスワード/)、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)が渡された場合に 400 エラーが発生します。
+Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスや[パスワード](/glossary/パスワード/)、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)（認証に用いる暗号化されたデータ）が渡された場合に 400 エラーが発生します。
 
-**Before（無効なメールアドレス形式）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
 firebase.auth().createUserWithEmailAndPassword('user@', 'password123')
@@ -96,7 +96,7 @@ firebase.auth().createUserWithEmailAndPassword('user@example.com', 'password123'
 
 [パスワード](/glossary/パスワード/)は最低 6 文字である必要があります。
 
-**Before（[パスワード](/glossary/パスワード/)が短すぎる）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
 firebase.auth().createUserWithEmailAndPassword('user@example.com', '123')
@@ -114,7 +114,7 @@ firebase.auth().createUserWithEmailAndPassword('user@example.com', 'securePasswo
 
 Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 エラーが発生します。
 
-**Before（undefined を含むオブジェクト）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
 const userData = {
@@ -136,9 +136,9 @@ const userData = {
 db.collection('users').doc('user1').set(userData);
 ```
 
-循環参照を含むオブジェクトも不正です。
+循環参照（あるデータが自分自身を参照すること）を含むオブジェクトも不正です。
 
-**Before（循環参照）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
 const obj = { name: 'test' };
@@ -155,9 +155,9 @@ db.collection('items').doc('item1').set(obj);
 
 ### 原因4：REST API のリクエストヘッダーが不正
 
-Firebase [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、Content-Type [ヘッダー](/glossary/ヘッダー/)や[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が不正だと 400 エラーが発生します。
+Firebase REST API（外部からの通信インターフェース）を直接呼び出す場合、Content-Type [ヘッダー](/glossary/ヘッダー/)（データ形式を指定する設定）や[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が不正だと 400 エラーが発生します。
 
-**Before（Content-Type が誤っている）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
 curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \
@@ -177,7 +177,7 @@ curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNe
 
 ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 エラーが発生します。
 
-**Before（スラッシュを含むドキュメント ID）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
 db.collection('users').doc('user/123').set({ name: 'John' });
@@ -188,104 +188,3 @@ db.collection('users').doc('user/123').set({ name: 'John' });
 ```javascript
 db.collection('users').doc('user_123').set({ name: 'John' });
 ```
-
-## Firebase ツール固有の注意点
-
-### Realtime Database でのデータ構造の制限
-
-Realtime Database は [JSON](/glossary/json/) で表現できる値のみをサポートしており、Date オブジェクトなどの JavaScript 固有のオブジェクトを直接書き込むことができません。
-
-**Before（Date オブジェクトを直接書き込み）：**
-
-```javascript
-const data = {
-  name: 'John',
-  createdAt: new Date()
-};
-db.ref('users/user1').set(data);
-
-// ✅ 修正後：タイムスタンプに変換
-const data = {
-  name: 'John',
-  createdAt: Date.now()
-};
-db.ref('users/user1').set(data);
-```
-
-### Cloud Functions のリクエストボディパース
-
-Cloud Functions の[HTTP](/glossary/http/) トリガーで[リクエストボディ](/glossary/リクエストボディ/)が正しくパースされていない場合も 400 エラーが発生します。Express フレームワークを使用する際は、ボディパーサーミドルウェアを明示的に設定する必要があります。
-
-**Before（ボディパーサーなし）：**
-
-```javascript
-const functions = require('firebase-functions');
-const express = require('express');
-const app = express();
-
-app.post('/api/users', (req, res) => {
-  console.log(req.body);  // undefined
-  res.send('OK');
-});
-```
-
-**After（修正後）：**
-
-```javascript
-const functions = require('firebase-functions');
-const express = require('express');
-const app = express();
-
-app.use(express.json());
-app.post('/api/users', (req, res) => {
-  console.log(req.body);  // 正しくパース済み
-  res.send('OK');
-});
-
-exports.api = functions.https.onRequest(app);
-```
-
-### Security Rules での認証トークン検証
-
-Firebase Security Rules が厳しく設定されている場合、有効な[認証](/glossary/認証/)[トークン](/glossary/トークン/)がない、または期限切れの[トークン](/glossary/トークン/)を使用していると 400 エラーが発生する可能性があります。ID [トークン](/glossary/トークン/)の有効期限は 1 時間であるため、定期的にリフレッシュが必要です。
-
-**After（修正後）：**
-
-```javascript
-firebase.auth().currentUser.getIdToken(true)
-  .then(idToken => {
-    // 最新のトークンを使用
-    return db.collection('users').doc('user1').get();
-  });
-```
-
-## それでも解決しない場合
-
-### デバッグ方法
-
-ブラウザの開発者ツールのネットワークタブで、実際に送信されている[リクエスト](/glossary/リクエスト/)とレスポンスボディを確認します。Firebase [コンソール](/glossary/コンソール/)の[ログ](/glossary/ログ/)で詳細なエラーメッセージを確認してください。
-
-```bash
-# Cloud Functions のログ確認
-gcloud functions describe <function-name> --region us-central1
-gcloud functions logs read <function-name> --region us-central1 --limit 50
-```
-
-### 公式リソース
-
-- [Firebase Authentication エラーコード](https://firebase.google.com/docs/auth/troubleshooting)
-- [Firestore クエリの制限とベストプラクティス](https://firebase.google.com/docs/firestore/query-data/queries)
-- [Firestore インデックスの作成](https://firebase.google.com/docs/firestore/indexes)
-- [Firebase REST API リファレンス](https://firebase.google.com/docs/reference/rest/auth)
-
-### コミュニティリソース
-
-- [Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues)
-- [Stack Overflow の firebase タグ](https://stackoverflow.com/questions/tagged/firebase)
-- [Firebase Google グループ](https://groups.google.com/forum/#!forum/firebase-talk)
-
-エラーメッセージの詳細[ログ](/glossary/ログ/)を取得し、上記の公式ドキュメントと照合することで、ほとんどの 400 エラーは解決できます。
-
----
-
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
