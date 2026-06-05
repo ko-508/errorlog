@@ -126,7 +126,7 @@ CREATE POLICY "Users can access own profile"
   USING (auth.uid() = user_id);  -- この条件が必須
 ```
 
-### 原因3：service role key が必要な管理操作を anon key で実行している
+### 原因3：service_role key が必要な管理操作を anon key で実行している
 
 Supabase では 2 種類の API キーが存在します。`anon`（匿名キー）はフロントエンドで使用し、RLS ポリシーの制約を受けます。一方、`service_role`（サービスロールキー）はバックエンド限定で、RLS をバイパスして操作できます。管理者権限の操作（例：ユーザーの一括削除、ポリシーを無視したデータ更新）を anon key で実行しようとすると 403 エラーになります。
 
