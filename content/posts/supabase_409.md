@@ -238,7 +238,7 @@ if (error) console.error('Insert error:', error);
 
 **RLS（Row Level Security）との関係：** RLS ポリシーが有効な場合、ポリシー違反で 403 エラーが返されることもあります。409 エラーが返される場合は、RLS ではなく実データの制約違反と判断できます。
 
-**Supabase ダッシュボードでの制約確認：** Supabase ダッシュボードのテーブルエディタで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どのカラムにどのような制約が設定されているかを確認できます。事前にここで制約定義を把握しておくと、409 エラーを事前に防げます。
+**Supabase ダッシュボードでの制約確認：** Supabase ダッシュボードのテーブルエディターで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どのカラムにどのような制約が設定されているかを確認できます。事前にここで制約定義を把握しておくと、409 エラーを事前に防げます。
 
 **Realtime 機能との相性：** Realtime リスナーを有効にしているテーブルで競合が発生した場合、INSERT/UPDATE がロールバックされたことをリアルタイムで検知できます。クライアント側でエラーハンドリングとリトライロジックを組み込むことを推奨します。
 
