@@ -49,7 +49,7 @@ vercel deploy
 **修正後：**
 
 ```bash
-# チームスコープを持つAPIトークンを使用
+# チームスコープを持つ API トークンを使用
 export VERCEL_TOKEN=<チームスコープのトークン>
 export VERCEL_ORG_ID=team_xxx
 export VERCEL_PROJECT_ID=<プロジェクトID>
@@ -65,7 +65,7 @@ vercel deploy
 **修正前：**
 
 ```bash
-# 個人アカウントのプロジェクトIDをチームのORG_IDで参照
+# 個人アカウントのプロジェクトID をチームの ORG_ID で参照
 export VERCEL_ORG_ID=team_abc123
 export VERCEL_PROJECT_ID=prj_personal456  # 別チームのプロジェクト
 vercel deploy
