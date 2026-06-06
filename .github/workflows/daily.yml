@@ -68,6 +68,12 @@ jobs:
           INDEXING_SERVICE_ACCOUNT_KEY: ${{ secrets.INDEXING_SERVICE_ACCOUNT_KEY }}
         run: python scripts/request_index.py
 
+      - name: Notify Make (Threads)
+        if: steps.push.outputs.deployed == 'true'
+        env:
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
+        run: python scripts/notify_threads.py
+
       - name: Notify on failure
         if: failure()
         uses: actions/github-script@v7
