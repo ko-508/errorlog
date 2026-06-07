@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/)で 401 [エラー](/glossary/エラー/)が発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
+[Docker](/glossary/docker/)で 401 エラーが発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -36,9 +36,9 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized
 
 ### 原因1: docker login コマンドを実行していない
 
-[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)を利用する際に、事前に `docker login` で[認証](/glossary/認証/)を済ませていないと 401 [エラー](/glossary/エラー/)が発生します。
+[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)を利用する際に、事前に `docker login` で[認証](/glossary/認証/)を済ませていないと 401 エラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きる状態）**
+**Before（エラーが起きる状態）**
 ```bash
 docker pull my-private-repo.azurecr.io/myapp:latest
 # Error response from daemon: unauthorized
@@ -58,9 +58,9 @@ docker pull my-private-repo.azurecr.io/myapp:latest
 
 ### 原因2: 認証トークンの有効期限切れまたは無効なトークン
 
-アクセストークン（Personal Access Token）が期限切れになった、または削除されると 401 [エラー](/glossary/エラー/)が起きます。[Docker](/glossary/docker/) Hub やクラウドレジストリで新しい[トークン](/glossary/トークン/)を生成する必要があります。
+アクセストークン（Personal Access Token）が期限切れになった、または削除されると 401 エラーが起きます。[Docker](/glossary/docker/) Hub やクラウドレジストリで新しいトークンを生成する必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きる状態）**
+**Before（エラーが起きる状態）**
 ```bash
 # 古いトークンまたは期限切れトークンで認証
 docker login -u myuser -p dckr_pat_old_expired_token_abc123
@@ -84,7 +84,7 @@ docker push myrepo/myimage:latest
 
 `~/.docker/config.json` が破損しているか、base64 エンコードの形式が不正な場合、[認証](/glossary/認証/)が失敗します。
 
-**Before（[エラー](/glossary/エラー/)が起きる状態）**
+**Before（エラーが起きる状態）**
 ```bash
 # config.json が破損している場合
 cat ~/.docker/config.json
@@ -121,9 +121,9 @@ docker pull registry.example.com/myapp:latest
 
 ### 原因4: レジストリのホスト名が誤っている
 
-[プライベートレジストリ](/glossary/プライベートレジストリ/)へアクセスする際、ホスト名やレジストリアドレスが誤っていると認証情報が使われず 401 [エラー](/glossary/エラー/)になります。
+[プライベートレジストリ](/glossary/プライベートレジストリ/)へアクセスする際、ホスト名やレジストリアドレスが誤っていると認証情報が使われず 401 エラーになります。
 
-**Before（[エラー](/glossary/エラー/)が起きる状態）**
+**Before（エラーが起きる状態）**
 ```bash
 # 誤ったホスト名で push しようとする
 docker login myregistry.azurecr.io
@@ -146,7 +146,7 @@ docker push myregistry.azurecr.io/myapp:latest
 
 ### Docker Hub の場合
 
-[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。[パスワード](/glossary/パスワード/)直接認証は推奨されていません。
+[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。パスワード直接認証は推奨されていません。
 
 ```bash
 # 正しい方法：PAT を使用
@@ -173,7 +173,7 @@ docker login <your-acr-name>.azurecr.io -u <username> -p <password>
 
 ### AWS Elastic Container Registry (ECR) の場合
 
-ECR は[トークン](/glossary/トークン/)が短命（12 時間）なため、定期的に更新が必要です。
+ECR はトークンが短命（12 時間）なため、定期的に更新が必要です。
 
 ```bash
 # トークンを取得してログイン
