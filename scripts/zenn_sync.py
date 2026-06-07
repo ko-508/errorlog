@@ -240,7 +240,7 @@ def main() -> None:
     zenn_articles_dir.mkdir(parents=True, exist_ok=True)
 
     manifest = load_manifest()
-    posts    = sorted(POSTS_DIR.glob("*.md"))
+    posts    = sorted(POSTS_DIR.glob("*.md"), key=lambda p: p.stat().st_mtime, reverse=True)
     written  = 0
     skipped  = 0
 
