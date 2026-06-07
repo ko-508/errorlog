@@ -56,7 +56,7 @@ export VERCEL_PROJECT_ID=<プロジェクトID>
 vercel deploy
 ```
 
-チームスコープのトークンを生成するには、Vercel Dashboard で Settings → Tokens → Create → Scope を「Team」に設定します。
+チームスコープのトークンを生成するには、Vercel ダッシュボードで Settings → Tokens → Create → Scope を「Team」に設定します。
 
 ### 原因2：VERCEL_ORG_ID と VERCEL_PROJECT_ID の組み合わせが不正
 
@@ -74,17 +74,17 @@ vercel deploy
 **修正後：**
 
 ```bash
-# Vercel Dashboard から正しい値を確認して設定
+# Vercel ダッシュボードから正しい値を確認して設定
 export VERCEL_ORG_ID=team_abc123
 export VERCEL_PROJECT_ID=prj_team_abc789  # 対応するプロジェクトID
 vercel deploy
 ```
 
-正しいプロジェクトID とチームID は、Vercel Dashboard のプロジェクト設定ページの「Settings → General」から確認できます。
+正しいプロジェクトID とチームID は、Vercel ダッシュボードのプロジェクト設定ページの「Settings → General」から確認できます。
 
 ### 原因3：プロジェクトのアクセス制限が有効
 
-Vercel Dashboard でプロジェクトにメンバー制限を設定している場合、対象の API トークンやユーザーが許可リストに入っていないと 403 が返されます。
+Vercel ダッシュボードでプロジェクトにメンバー制限を設定している場合、対象の API トークンやユーザーが許可リストに入っていないと 403 が返されます。
 
 **修正前：**
 
@@ -98,14 +98,14 @@ curl -H "Authorization: Bearer $VERCEL_TOKEN" \
 **修正後：**
 
 ```bash
-# Vercel Dashboard でこのトークンを許可するか、
+# Vercel ダッシュボードでこのトークンを許可するか、
 # 新しい許可済みトークンを使用
 export VERCEL_TOKEN=<許可されたトークン>
 curl -H "Authorization: Bearer $VERCEL_TOKEN" \
   https://api.vercel.com/v13/projects/<project_id>
 ```
 
-Dashboard → Project Settings → Security のアクセス制限設定を確認し、使用する API トークンが許可リストに登録されているか確認してください。
+ダッシュボード → Project Settings → Security のアクセス制限設定を確認し、使用する API トークンが許可リストに登録されているか確認してください。
 
 ## Vercel 固有の注意点
 
@@ -117,7 +117,7 @@ CI/CD パイプラインでデプロイを行う場合は、**チームスコー
 
 ## それでも解決しない場合
 
-まず Vercel Dashboard のアカウント設定で、現在ログインしているのが正しいアカウントであることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、CLI の認証状態と一致しているか確認してください。
+まず Vercel ダッシュボードのアカウント設定で、現在ログインしているのが正しいアカウントであることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、CLI の認証状態と一致しているか確認してください。
 
 ```bash
 # 現在の認証状態を確認
@@ -136,7 +136,7 @@ curl -H "Authorization: Bearer <your-vercel-token>" \
   https://api.vercel.com/v2/user
 ```
 
-プロジェクト固有の設定確認は、Vercel Dashboard → Project Settings → API から確認してください。公式ドキュメントの [Access Control](https://vercel.com/docs/projects/overview#access-control) セクションに、権限の詳細説明があります。
+プロジェクト固有の設定確認は、Vercel ダッシュボード → Project Settings → API から確認してください。公式ドキュメントの [Access Control](https://vercel.com/docs/projects/overview#access-control) セクションに、権限の詳細説明があります。
 
 ---
 

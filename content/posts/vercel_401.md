@@ -9,7 +9,7 @@ errorCode: "401"
 
 ## エラーの概要
 
-Vercel 401 エラーは、Vercel のサーバーに対して実施した認証に失敗したことを示します。API トークンの無効化、環境変数の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、デプロイや CLI 操作が停止します。このエラーが発生するとプロジェクトのデプロイメントパイプラインが停止するため、素早い対応が必要です。
+Vercel 401 エラーは、Vercel のサーバーに対する認証が失敗したことを示します。API トークンの無効化、環境変数の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、デプロイや CLI 操作が停止します。このエラーが発生するとプロジェクトのデプロイメントパイプラインが停止するため、素早い対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -54,16 +54,7 @@ HTTP/1.1 401 Unauthorized
 
 Vercel ダッシュボードで生成した API トークンは、セキュリティ上の理由から有効期限が設定されることがあります。また、トークンを削除した後も環境変数に古い値が残っていると、認証に失敗します。
 
-**修正前（エラーが起きるコード）：**
-
-```bash
-# 古いトークンを使用し続けている
-export VERCEL_TOKEN=abcd1234efgh5678ijkl9999...
-vercel deploy
-# Error: Authentication failed (401 Unauthorized)
-```
-
-**修正後：**
+**修正方法：**
 
 ```bash
 # Vercel ダッシュボードから新しいトークンを生成する手順
@@ -81,27 +72,7 @@ vercel deploy
 
 CI/CD パイプライン（GitHub Actions、GitLab CI、CircleCI など）でデプロイを自動化する際、シークレット変数として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
 
-**修正前（エラーが起きるコード）：**
-
-```yaml
-# GitHub Actions の例
-name: Deploy to Vercel
-on: [push]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Deploy
-        run: |
-          npm install -g vercel
-          # 環境変数が設定されていない、または名前が異なる
-          vercel deploy --token $VERCEL_AUTH_TOKEN
-        # Error: Authentication failed (401)
-```
-
-**修正後：**
+**修正方法：**
 
 ```yaml
 # GitHub Actions での正しい設定
@@ -119,7 +90,6 @@ jobs:
         run: |
           npm install -g vercel
           vercel deploy --token $VERCEL_TOKEN
-        # Deployment successful
 ```
 
 GitHub Actions の場合、リポジトリの Settings → Secrets and variables → Actions に `VERCEL_TOKEN` という名前で新しいリポジトリシークレットを追加してください。
@@ -128,17 +98,7 @@ GitHub Actions の場合、リポジトリの Settings → Secrets and variables
 
 Vercel はデフォルトでプッシュ自動デプロイ機能を提供していますが、GitHub 連携の権限が失効したり、GitHub アカウント側で当該アプリケーションの認可を取り消したりすると、デプロイトリガーが動作しなくなります。
 
-**修正前（エラーが起きるコード）：**
-
-```bash
-# GitHub 連携が有効と思い込んでコミットをプッシュ
-git add .
-git commit -m "Update features"
-git push origin main
-# Vercel 側で 401 エラーが発生、デプロイされない
-```
-
-**修正後：**
+**修正方法：**
 
 ```bash
 # 1. Vercel ダッシュボード (https://vercel.com/dashboard) にログイン
@@ -151,7 +111,6 @@ git push origin main
 git add .
 git commit -m "Update features"
 git push origin main
-# Vercel Deployment successful
 ```
 
 接続直後は、Vercel ダッシュボードまたは GitHub アプリケーション連携ページで「Authorize」をクリックして、最新の権限でトークンを再生成してください。
@@ -173,11 +132,9 @@ git push origin main
 ```bash
 # CLI で詳細ログを出力
 VERCEL_DEBUG=1 vercel deploy
-
-# ダッシュボードのデプロイページでも詳細確認可能
-# https://vercel.com/dashboard/deployments/<project-name>
-# 失敗したデプロイをクリック → Logs タブで完全なエラーメッセージを閲覧
 ```
+
+ダッシュボードのデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗したデプロイをクリックし、Logs タブで完全なエラーメッセージを確認してください。
 
 **GitHub Actions 内のログ確認：**
 
