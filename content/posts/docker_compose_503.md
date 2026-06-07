@@ -7,11 +7,11 @@ errorCode: "503"
 ---
 ## エラーの概要
 
-503エラーは「Service Unavailable」を意味し、[Docker](/glossary/docker/) Composeでは依存するサービスが正常に起動できていない、または起動完了前にアクセスされている状況を示します。マイクロサービスアーキテクチャではよく発生するエラーで、特に複数コンテナーの起動順序や[ヘルスチェック](/glossary/ヘルスチェック/)設定に起因することが多いです。
+503[エラー](/glossary/エラー/)は「Service Unavailable」を意味し、[Docker](/glossary/docker/) Composeでは依存するサービスが正常に起動できていない、または起動完了前にアクセスされている状況を示します。マイクロサービスアーキテクチャではよく発生する[エラー](/glossary/エラー/)で、特に複数コンテナーの起動順序や[ヘルスチェック](/glossary/ヘルスチェック/)設定に起因することが多いです。
 
 ## 実際のエラーメッセージ例
 
-[Docker](/glossary/docker/) Composeで503エラーが発生した際の[ログ](/glossary/ログ/)例を以下に示します。
+[Docker](/glossary/docker/) Composeで503[エラー](/glossary/エラー/)が発生した際の[ログ](/glossary/ログ/)例を以下に示します。
 
 ```json
 {
@@ -34,7 +34,7 @@ docker compose logs app-service
 
 [マイクロサービス](/glossary/マイクロサービス/)構成では、アプリケーションコンテナーがデータベースコンテナーの**完全な起動完了**を待つ必要があります。`docker compose up`実行時、デフォルトでは依存するコンテナーが「起動した」ことだけを確認して先に進むため、[データベース](/glossary/データベース/)が受け入れ準備完了する前にアクセスされます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -84,9 +84,9 @@ services:
 
 ### 原因2：ヘルスチェックコマンドが不適切で常に失敗している
 
-[ヘルスチェック](/glossary/ヘルスチェック/)が定義されていても、そのコマンドが実装されていない、不正な形式、または環境に合わない場合、サービスは「unhealthy」と判定され続け、503エラーが解決されません。
+[ヘルスチェック](/glossary/ヘルスチェック/)が定義されていても、その[コマンド](/glossary/コマンド/)が実装されていない、不正な形式、または環境に合わない場合、サービスは「unhealthy」と判定され続け、503[エラー](/glossary/エラー/)が解決されません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -122,13 +122,13 @@ services:
       REDIS_PORT: 6379
 ```
 
-Redisの場合、`redis-cli ping`が[ヘルスチェック](/glossary/ヘルスチェック/)手段として有効です。対象サービスに応じて適切なコマンドを選択してください。
+Redisの場合、`redis-cli ping`が[ヘルスチェック](/glossary/ヘルスチェック/)手段として有効です。対象サービスに応じて適切な[コマンド](/glossary/コマンド/)を選択してください。
 
 ### 原因3：コンテナーが起動直後に停止している（エントリーポイントエラー）
 
-アプリケーションコンテナーが起動スクリプトや依存パッケージの不足でクラッシュしている場合、[Docker](/glossary/docker/) Composeがサービスを「起動した」と判定しても実際には停止状態になり、503エラーが返されます。
+アプリケーションコンテナーが起動スクリプトや依存パッケージの不足でクラッシュしている場合、[Docker](/glossary/docker/) Composeがサービスを「起動した」と判定しても実際には停止状態になり、503[エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```dockerfile
 FROM python:3.11
@@ -175,13 +175,13 @@ services:
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Composeで503エラーを防ぐために、以下のベストプラクティスに従うことが重要です。
+[Docker](/glossary/docker/) Composeで503[エラー](/glossary/エラー/)を防ぐために、以下のベストプラクティスに従うことが重要です。
 
 **[ヘルスチェック](/glossary/ヘルスチェック/)の`start_period`パラメーター**：アプリケーション初期化に時間がかかる場合は、`start_period`を設定して初期[ヘルスチェック](/glossary/ヘルスチェック/)失敗を無視させます。これにより、起動直後の一時的な接続失敗で「unhealthy」と判定されるのを防げます。
 
-**複数レイヤーの依存構成**：3層以上の[マイクロサービス](/glossary/マイクロサービス/)構成（例：Nginx → [API](/glossary/api/) → Database）では、各層すべてに`condition: service_healthy`を設定します。中間層のみ待機しても、その先のサービスがダウンしていれば結局503エラーが発生します。
+**複数レイヤーの依存構成**：3層以上の[マイクロサービス](/glossary/マイクロサービス/)構成（例：Nginx → [API](/glossary/api/) → Database）では、各層すべてに`condition: service_healthy`を設定します。中間層のみ待機しても、その先のサービスがダウンしていれば結局503[エラー](/glossary/エラー/)が発生します。
 
-**[ネットワーク](/glossary/ネットワーク/)分離**：複数のCompose設定を運用する場合、`networks`セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、不要なサービス間通信を遮断することで、予期しない503エラーの原因を減らせます。
+**[ネットワーク](/glossary/ネットワーク/)分離**：複数のCompose設定を運用する場合、`networks`セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、不要なサービス間通信を遮断することで、予期しない503[エラー](/glossary/エラー/)の原因を減らせます。
 
 ```yaml
 version: '3.8'
@@ -206,9 +206,9 @@ networks:
 
 ## それでも解決しない場合
 
-503エラーが継続する場合は、以下の手順で詳細な原因調査を行います。
+503[エラー](/glossary/エラー/)が継続する場合は、以下の手順で詳細な原因調査を行います。
 
-**[ログ](/glossary/ログ/)確認コマンド**：
+**[ログ](/glossary/ログ/)確認[コマンド](/glossary/コマンド/)**：
 
 ```bash
 # 全サービスのログを時系列で表示
@@ -254,7 +254,7 @@ docker compose config --quiet
 docker compose config
 ```
 
-Composeファイルに記述エラーがないか、公式ドキュメント（https://docs.docker.com/compose/compose-file/）で仕様を再確認し、特に`condition`値が`service_healthy`、`service_started`、`service_completed_successfully`のいずれかか確認してください。
+Composeファイルに記述[エラー](/glossary/エラー/)がないか、公式ドキュメント（https://docs.docker.com/compose/compose-file/）で仕様を再確認し、特に`condition`値が`service_healthy`、`service_started`、`service_completed_successfully`のいずれかか確認してください。
 
 ---
 

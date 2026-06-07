@@ -74,7 +74,7 @@ charge = stripe.Charge.create(
 
 ### 原因3：3Dセキュア認証の失敗または未完了
 
-3Dセキュア（本人認証サービス）が必須の場合、認証フローの実装が不完全だと402エラーが発生します。
+3Dセキュア（本人認証サービス）が必須の場合、[認証](/glossary/認証/)フローの実装が不完全だと402[エラー](/glossary/エラー/)が発生します。
 
 **修正例：**
 ```javascript
@@ -96,7 +96,7 @@ const {paymentIntent, error} = await stripe.confirmCardPayment(
 
 ### 原因4：PaymentIntentのステータス確認の遅延
 
-非同期処理でPaymentIntentの最終ステータスを確認する前に決済リクエストを再送信すると、重複処理が発生して402エラーになることがあります。
+非同期処理でPaymentIntentの最終ステータスを確認する前に決済[リクエスト](/glossary/リクエスト/)を再送信すると、重複処理が発生して402[エラー](/glossary/エラー/)になることがあります。
 
 **修正例：**
 ```python
@@ -113,7 +113,7 @@ elif intent.status == "succeeded":
 
 ### テストカード番号の使い分け
 
-本番環境で402エラーが頻発する場合、開発環境での検証が不十分な可能性があります。Stripeが提供するテストカード番号を使用して事前に各シナリオをテストしてください。
+本番環境で402[エラー](/glossary/エラー/)が頻発する場合、開発環境での検証が不十分な可能性があります。Stripeが提供するテストカード番号を使用して事前に各シナリオをテストしてください。
 
 - `4242424242424242` - 決済成功
 - `4000000000000002` - card_declined（一般的な拒否）
@@ -122,7 +122,7 @@ elif intent.status == "succeeded":
 
 ### decline_codeの確認
 
-エラーレスポンスに含まれる `decline_code` フィールドを確認することで、より正確な原因特定ができます。
+[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `decline_code` フィールドを確認することで、より正確な原因特定ができます。
 
 ```python
 import stripe
@@ -141,7 +141,7 @@ except stripe.error.CardError as e:
 
 ### Webhookイベントのチェック
 
-決済処理が失敗しても、`charge.failed` イベントがWebhookに送信されます。これを適切にハンドリングして、ユーザーに失敗理由を正確に伝えることが重要です。
+決済処理が失敗しても、`charge.failed` イベントが[Webhook](/glossary/webhook/)に送信されます。これを適切にハンドリングして、ユーザーに失敗理由を正確に伝えることが重要です。
 
 ```python
 @app.route('/webhook', methods=['POST'])
@@ -160,7 +160,7 @@ def handle_webhook():
 
 ## ログ確認とデバッグ方法
 
-Stripeダッシュボードの「Logs」セクションでAPI リクエスト・レスポンスの全詳細を確認できます。以下の情報を記録してください。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションで[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の全詳細を確認できます。以下の情報を記録してください。
 
 - **Request ID** - `req_` で始まる一意の識別子
 - **Charge ID** - `ch_` で始まるチャージID
@@ -173,7 +173,7 @@ Stripeダッシュボードの「Logs」セクションでAPI リクエスト・
 - **PaymentIntentガイド** - https://stripe.com/docs/payments/payment-intents（決済フロー全体の理解）
 - **3Dセキュア実装ガイド** - https://stripe.com/docs/payments/3d-secure（強力認証の設定方法）
 
-問題が解決しない場合、Stripeダッシュボードの「Contact Support」から直接問い合わせてください。本番環境のエラーは優先対応の対象となります。
+問題が解決しない場合、Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Contact Support」から直接問い合わせてください。本番環境の[エラー](/glossary/エラー/)は優先対応の対象となります。
 
 ---
 

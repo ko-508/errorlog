@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossary/リクエスト/)の内容がGitHubのリソース現在の状態と矛盾していることを示す[ステータスコード](/glossary/ステータスコード/)です。[ブランチ](/glossary/ブランチ/)の作成、プルリクエストの作成、[リリース](/glossary/リリース/)の公開など、状態が重要な操作時に頻繁に発生します。このエラーは単なる一時的な失敗ではなく、[リクエスト](/glossary/リクエスト/)自体を見直す必要があることを示唆しています。
+GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossary/リクエスト/)の内容がGitHubのリソース現在の状態と矛盾していることを示す[ステータスコード](/glossary/ステータスコード/)です。[ブランチ](/glossary/ブランチ/)の作成、プルリクエストの作成、[リリース](/glossary/リリース/)の公開など、状態が重要な操作時に頻繁に発生します。この[エラー](/glossary/エラー/)は単なる一時的な失敗ではなく、[リクエスト](/glossary/リクエスト/)自体を見直す必要があることを示唆しています。
 
 ## 実際のエラーメッセージ例
 
@@ -38,9 +38,9 @@ GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossar
 
 ### 原因1：ブランチが既に存在する
 
-**なぜ発生するか**：同じ名前の[ブランチ](/glossary/ブランチ/)を作成しようとすると、既存の[ブランチ](/glossary/ブランチ/)と競合して409エラーが発生します。
+**なぜ発生するか**：同じ名前の[ブランチ](/glossary/ブランチ/)を作成しようとすると、既存の[ブランチ](/glossary/ブランチ/)と競合して409[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）**：
+**Before（[エラー](/glossary/エラー/)が起きるコード）**：
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
   -H "Authorization: token <your-token>" \
@@ -69,7 +69,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
 
 **なぜ発生するか**：プルリクエストのヘッドブランチとベースブランチが同じ場合、またはすでに同じ組み合わせのプルリクエストが存在する場合に発生します。
 
-**Before（エラーが起きるコード）**：
+**Before（[エラー](/glossary/エラー/)が起きるコード）**：
 ```python
 import requests
 
@@ -112,7 +112,7 @@ if response.status_code == 409:
 
 **なぜ発生するか**：同じ名前のタグを作成しようとすると、既存のタグと競合します。[リリース](/glossary/リリース/)管理時に頻発します。
 
-**Before（エラーが起きるコード）**：
+**Before（[エラー](/glossary/エラー/)が起きるコード）**：
 ```javascript
 const octokit = new Octokit({ auth: '<your-token>' });
 
@@ -153,7 +153,7 @@ try {
 
 **なぜ発生するか**：[ブランチ](/glossary/ブランチ/)保護ルールやリポジトリロックが有効な場合、変更が拒否されて409が返ります。
 
-**Before（エラーが起きるコード）**：
+**Before（[エラー](/glossary/エラー/)が起きるコード）**：
 ```bash
 # メインブランチが保護されていると失敗
 curl -X DELETE https://api.github.com/repos/<owner>/<repo>/git/refs/heads/main \

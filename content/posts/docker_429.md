@@ -9,11 +9,11 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) の 429 エラーは、[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 429（Too Many Requests）を意味し、短時間に送信された[リクエスト](/glossary/リクエスト/)数が上限を超えたことを示します。[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して過度なアクセスが集中した場合、[レート制限](/glossary/レート制限/)により一時的に[リクエスト](/glossary/リクエスト/)が拒否されます。特に [CI/CD](/glossary/ci-cd/) パイプラインや複数マシンからの並行アクセスで頻繁に発生します。
+[Docker](/glossary/docker/) の 429 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 429（Too Many Requests）を意味し、短時間に送信された[リクエスト](/glossary/リクエスト/)数が上限を超えたことを示します。[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して過度なアクセスが集中した場合、[レート制限](/glossary/レート制限/)により一時的に[リクエスト](/glossary/リクエスト/)が拒否されます。特に [CI/CD](/glossary/ci-cd/) パイプラインや複数マシンからの並行アクセスで頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
-[Docker](/glossary/docker/) コマンド実行時のエラーメッセージ：
+[Docker](/glossary/docker/) [コマンド](/glossary/コマンド/)実行時のエラーメッセージ：
 
 ```
 Error response from daemon: manifest unknown: manifest unknown
@@ -33,9 +33,9 @@ Error pulling image <your-image>: rate limit exceeded
 
 ### 原因1：Docker Hub のレート制限に達している
 
-[Docker](/glossary/docker/) Hub の無料プランでは、[認証](/glossary/認証/)なしで6時間に100回の pull に制限されています。[CI/CD](/glossary/ci-cd/) で頻繁にイメージをダウンロードする環境では、この上限に達しやすくなります。
+[Docker](/glossary/docker/) Hub の無料プランでは、[認証](/glossary/認証/)なしで6時間に100回の pull に制限されています。[CI/CD](/glossary/ci-cd/) で頻繁に[イメージ](/glossary/イメージ/)をダウンロードする環境では、この上限に達しやすくなります。
 
-**Before（エラーが起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる設定）：**
 
 ```bash
 docker pull ubuntu:latest
@@ -54,7 +54,7 @@ docker login -u <your-username> -p <your-password>
 docker pull ubuntu:latest
 ```
 
-ログイン情報を[環境変数](/glossary/環境変数/)で設定する場合：
+[ログイン](/glossary/ログイン/)情報を[環境変数](/glossary/環境変数/)で設定する場合：
 
 ```bash
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
@@ -65,7 +65,7 @@ docker pull <your-image>
 
 複数のジョブが並行して実行され、同じ[レジストリ](/glossary/レジストリ/)に対して同時にアクセスしている場合、[レート制限](/glossary/レート制限/)に引っかかります。
 
-**Before（エラーが起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる設定）：**
 
 ```yaml
 # .github/workflows/ci.yml
@@ -105,9 +105,9 @@ jobs:
 
 ### 原因3：複数マシンから同時にレジストリにアクセスしている
 
-ローカルネットワークや [Kubernetes](/glossary/kubernetes/) クラスタ内で複数ノードが同時に同じイメージをダウンロードしている場合、集約的なアクセスが[レート制限](/glossary/レート制限/)を超えます。
+ローカルネットワークや [Kubernetes](/glossary/kubernetes/) クラスタ内で複数ノードが同時に同じ[イメージ](/glossary/イメージ/)をダウンロードしている場合、集約的なアクセスが[レート制限](/glossary/レート制限/)を超えます。
 
-**Before（エラーが起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる設定）：**
 
 ```yaml
 # docker-compose.yml
@@ -177,7 +177,7 @@ COPY --from=builder /usr/bin/gcc /usr/bin/gcc
 
 ### Kubernetes での image pull policy
 
-[Kubernetes](/glossary/kubernetes/) を使用する場合、`imagePullPolicy` を `IfNotPresent` に設定して、ノード上に[キャッシュ](/glossary/キャッシュ/)されたイメージを優先的に使用します。
+[Kubernetes](/glossary/kubernetes/) を使用する場合、`imagePullPolicy` を `IfNotPresent` に設定して、ノード上に[キャッシュ](/glossary/キャッシュ/)された[イメージ](/glossary/イメージ/)を優先的に使用します。
 
 ```yaml
 apiVersion: v1

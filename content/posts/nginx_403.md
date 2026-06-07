@@ -9,11 +9,11 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Nginx の 403 Forbidden エラーは、クライアント（ブラウザ）が特定のファイルやディレクトリへのアクセスを試みたとき、Nginx がそのリソースの存在は確認できるが、[アクセス権限](/glossary/アクセス権限/)がないと判断したときに発生します。これは[認証](/glossary/認証/)の失敗（401）とは異なり、認証情報は正しいが[権限](/glossary/権限/)がないという状態です。実務では、ファイルパーミッション、ディレクトリ設定、または Nginx の設定ルールによって引き起こされることがほとんどです。
+Nginx の 403 Forbidden [エラー](/glossary/エラー/)は、クライアント（ブラウザ）が特定のファイルやディレクトリへのアクセスを試みたとき、Nginx がそのリソースの存在は確認できるが、[アクセス権限](/glossary/アクセス権限/)がないと判断したときに発生します。これは[認証](/glossary/認証/)の失敗（401）とは異なり、認証情報は正しいが[権限](/glossary/権限/)がないという状態です。実務では、ファイルパーミッション、ディレクトリ設定、または Nginx の設定ルールによって引き起こされることがほとんどです。
 
 ## 実際のエラーメッセージ例
 
-ブラウザに表示されるエラー表示例：
+ブラウザに表示される[エラー](/glossary/エラー/)表示例：
 
 ```
 403 Forbidden
@@ -28,7 +28,7 @@ The server denied access to the requested resource.
 192.168.1.100 - - [15/Jan/2025:10:23:45 +0900] "GET /admin/config.php HTTP/1.1" 403 162 "-" "Mozilla/5.0"
 ```
 
-エラーログに記録される例（`/var/log/nginx/error.log`）：
+[エラーログ](/glossary/エラーログ/)に記録される例（`/var/log/nginx/error.log`）：
 
 ```
 2025/01/15 10:23:45 [error] 1234#1234: *5 "/var/www/html/admin/config.php" is forbidden (13: Permission denied)
@@ -39,9 +39,9 @@ The server denied access to the requested resource.
 ### 原因1：ファイル・ディレクトリのパーミッション不足
 
 **なぜ発生するか：**
-Nginx ワーカープロセスは通常 `www-data` または `nginx` というユーザーで動作しますが、ファイルのパーミッションがこのユーザーに読み取り権がない場合、403 エラーが発生します。特に新規配置したファイルや、開発環境から本番環境に移行したときに起きやすい問題です。
+Nginx ワーカープロセスは通常 `www-data` または `nginx` というユーザーで動作しますが、ファイルのパーミッションがこのユーザーに読み取り権がない場合、403 [エラー](/glossary/エラー/)が発生します。特に新規配置したファイルや、開発環境から本番環境に移行したときに起きやすい問題です。
 
-**Before（エラーが起きるパターン）：**
+**Before（[エラー](/glossary/エラー/)が起きるパターン）：**
 
 ```bash
 # ファイルのパーミッションを確認
@@ -74,9 +74,9 @@ ls -la /var/www/html/
 ### 原因2：ディレクトリリスティング無効（autoindex off）とインデックスファイル欠落
 
 **なぜ発生するか：**
-ディレクトリへのアクセス時に、Nginx は順序どおり `index.html`、`index.htm`、`index.php` などのインデックスファイルを探します。これらが存在しない場合かつ `autoindex off`（デフォルト）の設定では、403 エラーになります。
+ディレクトリへのアクセス時に、Nginx は順序どおり `index.html`、`index.htm`、`index.php` などのインデックスファイルを探します。これらが存在しない場合かつ `autoindex off`（デフォルト）の設定では、403 [エラー](/glossary/エラー/)になります。
 
-**Before（エラーが起きるパターン）：**
+**Before（[エラー](/glossary/エラー/)が起きるパターン）：**
 
 ```nginx
 server {
@@ -125,7 +125,7 @@ location / {
 **なぜ発生するか：**
 `nginx.conf` または `.htaccess` 相当の Nginx 設定で、特定の IP アドレスやパターンに対して明示的にアクセスを拒否するルール（`deny all;`）が設定されている場合、そのルールが評価優先度で先に適用されるとアクセスが拒否されます。
 
-**Before（エラーが起きるパターン）：**
+**Before（[エラー](/glossary/エラー/)が起きるパターン）：**
 
 ```nginx
 server {
@@ -274,7 +274,7 @@ Nginx 公式ドキュメント「Module ngx_http_access_module」では `allow` 
 
 ### ステップ5：コミュニティリソース
 
-stackoverflow の nginx タグや、Nginx フォーラム（forum.nginx.org）で同様の問題報告が多数あります。エラーログの `"is forbidden"` というメッセージとログレベル番号（13: Permission denied）を含めて検索すると、類似事例が見つかりやすいです。
+stackoverflow の nginx タグや、Nginx フォーラム（forum.nginx.org）で同様の問題報告が多数あります。[エラーログ](/glossary/エラーログ/)の `"is forbidden"` というメッセージとログレベル番号（13: Permission denied）を含めて検索すると、類似事例が見つかりやすいです。
 
 ---
 

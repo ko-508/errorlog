@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)の404エラーは、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`コマンド実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。このエラーはデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
+[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -41,7 +41,7 @@ Error from server (NotFound): pods "my-app" not found
 
 [Kubernetes](/glossary/kubernetes/)は複数の[Namespace](/glossary/namespace/)を持ち、デフォルトは`default`です。別の[Namespace](/glossary/namespace/)にリソースが存在する場合、指定せずにアクセスすると404が発生します。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```bash
 $ kubectl get pod my-app
 Error from server (NotFound): pods "my-app" not found
@@ -59,7 +59,7 @@ $ kubectl get pod my-app --all-namespaces
 
 Pod名やDeployment名などを誤入力した場合、またはリソースが既に削除されている場合に404が発生します。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```bash
 $ kubectl get pod my-ap  # 綴りミス
 Error from server (NotFound): pods "my-ap" not found
@@ -85,7 +85,7 @@ $ kubectl describe service web-server
 
 [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)は複数のバージョン（`v1`、`apps/v1`など）をサポートしています。古いバージョンや不正なバージョンを指定すると404が返されます。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```yaml
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -127,7 +127,7 @@ spec:
 
 新しいリソースを[デプロイ](/glossary/デプロイ/)した直後にアクセスすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がまだリソースを完全に登録していない可能性があります。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```bash
 $ kubectl apply -f my-service.yaml
 $ kubectl get svc my-service
@@ -147,7 +147,7 @@ my-service   ClusterIP   10.96.123.45   <none>        80/TCP    2s
 
 **[RBAC](/glossary/rbac/)（Role-Based Access Control）による権限不足**
 
-404が返されるのではなく、実際には403（Forbidden）エラーが発生していないか確認してください。ただし、SAC（Service Account）の権限不足により、存在するリソースへのアクセスが404として報告される場合もあります。
+404が返されるのではなく、実際には403（Forbidden）[エラー](/glossary/エラー/)が発生していないか確認してください。ただし、SAC（Service Account）の権限不足により、存在するリソースへのアクセスが404として報告される場合もあります。
 
 ```bash
 # 現在のユーザー・ServiceAccountの権限を確認
@@ -196,7 +196,7 @@ $ journalctl -u kubelet | grep "404"
 # マネージドサービスの場合は管理画面でログを確認
 ```
 
-**詳細なエラー情報を取得**
+**詳細な[エラー](/glossary/エラー/)情報を取得**
 
 ```bash
 # 冗長モードで実行して詳細情報を表示
@@ -206,7 +206,7 @@ $ kubectl get pod my-app -v=9
 $ kubectl get --raw /api/v1/namespaces/default/pods/my-app
 ```
 
-**リソースの確認コマンド集**
+**リソースの確認[コマンド](/glossary/コマンド/)集**
 
 ```bash
 # すべてのリソースを表示

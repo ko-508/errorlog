@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-422 Unprocessable Entity は、[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の形式は正しいものの、送信されたデータが GitHub [API](/glossary/api/) の検証ルールに違反している場合に返される[ステータスコード](/glossary/ステータスコード/)です。GitHub [API](/glossary/api/) では、[リクエストボディ](/glossary/リクエストボディ/)のフィールド値が不正、重複、無効な状態、または不足している時に発生します。このエラーは 400 系の汎用的なクライアントエラーとは異なり、**データの意味的な問題**を指摘します。
+422 Unprocessable Entity は、[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の形式は正しいものの、送信されたデータが GitHub [API](/glossary/api/) の検証ルールに違反している場合に返される[ステータスコード](/glossary/ステータスコード/)です。GitHub [API](/glossary/api/) では、[リクエストボディ](/glossary/リクエストボディ/)のフィールド値が不正、重複、無効な状態、または不足している時に発生します。この[エラー](/glossary/エラー/)は 400 系の汎用的なクライアントエラーとは異なり、**データの意味的な問題**を指摘します。
 
 ## 実際のエラーメッセージ例
 
@@ -51,9 +51,9 @@ GitHub [API](/glossary/api/) が返す 422 [エラーレスポンス](/glossary/
 ### 原因 1: 必須フィールドが不足している
 
 **なぜ発生するか**  
-Issue や Pull Request 作成時に、`title` など必須[パラメータ](/glossary/パラメータ/)を省略するとこのエラーが発生します。GitHub [API](/glossary/api/) の各[エンドポイント](/glossary/エンドポイント/)には、[リクエストボディ](/glossary/リクエストボディ/)に含める必須フィールドが定義されており、これらが欠けていると検証に失敗します。
+Issue や Pull Request 作成時に、`title` など必須[パラメータ](/glossary/パラメータ/)を省略するとこの[エラー](/glossary/エラー/)が発生します。GitHub [API](/glossary/api/) の各[エンドポイント](/glossary/エンドポイント/)には、[リクエストボディ](/glossary/リクエストボディ/)に含める必須フィールドが定義されており、これらが欠けていると検証に失敗します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -H "Authorization: token <your-token>" \
@@ -77,9 +77,9 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 ### 原因 2: 既に存在するリソースを重複作成しようとしている
 
 **なぜ発生するか**  
-[ブランチ](/glossary/ブランチ/)や[リリース](/glossary/リリース/)、ラベルなど、[リポジトリ](/glossary/リポジトリ/)内で一意性が求められるリソースを作成する際に、同じ名前のリソースが既に存在する場合に 422 エラーが返されます。
+[ブランチ](/glossary/ブランチ/)や[リリース](/glossary/リリース/)、ラベルなど、[リポジトリ](/glossary/リポジトリ/)内で一意性が求められるリソースを作成する際に、同じ名前のリソースが既に存在する場合に 422 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
   -H "Authorization: token <your-token>" \
@@ -109,9 +109,9 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
 ### 原因 3: フィールド値の形式が不正または制約に違反している
 
 **なぜ発生するか**  
-フィールド値の型が不正（文字列ではなく数値を期待など）、文字数制限を超過している、または許可されない値を指定した場合に検証エラーとなります。例えば、Issue のラベルに存在しないラベルを指定、または状態フィールドに無効な値を指定するケースです。
+フィールド値の型が不正（文字列ではなく数値を期待など）、文字数制限を超過している、または許可されない値を指定した場合に検証[エラー](/glossary/エラー/)となります。例えば、Issue のラベルに存在しないラベルを指定、または状態フィールドに無効な値を指定するケースです。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```javascript
 const axios = require('axios');
 
@@ -168,7 +168,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ### Pull Request 関連の検証エラー
 
-Pull Request 作成時の 422 エラーでよくある原因は、ベースブランチとヘッドブランチが同じ、またはマージベースが存在しない場合です。
+Pull Request 作成時の 422 [エラー](/glossary/エラー/)でよくある原因は、ベースブランチとヘッドブランチが同じ、またはマージベースが存在しない場合です。
 
 ```bash
 # エラーになるケース：同じブランチを指定
@@ -194,19 +194,19 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/pulls \
 
 ### Release・Tag 作成時の制約
 
-Release やタグ作成時は、タグ名が有効な Git 参照形式であることが必須です。また、タグが既に存在する場合、または指定した SHA [コミット](/glossary/コミット/)が存在しない場合も 422 エラーが発生します。
+Release やタグ作成時は、タグ名が有効な [Git](/glossary/git/) 参照形式であることが必須です。また、タグが既に存在する場合、または指定した SHA [コミット](/glossary/コミット/)が存在しない場合も 422 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 
 ### ログ確認とデバッグ方法
 
-GitHub [CLI](/glossary/cli/) を使用している場合、`--verbose` フラグでエラーの詳細情報を確認できます。
+GitHub [CLI](/glossary/cli/) を使用している場合、`--verbose` フラグで[エラー](/glossary/エラー/)の詳細情報を確認できます。
 
 ```bash
 gh api repos/<owner>/<repo>/issues --verbose
 ```
 
-[REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、レスポンスボディの `errors` フィールドに詳細な検証エラー情報が含まれているため、必ず確認してください。
+[REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、レスポンスボディの `errors` フィールドに詳細な検証[エラー](/glossary/エラー/)情報が含まれているため、必ず確認してください。
 
 ```bash
 curl -i -X POST https://api.github.com/repos/<owner>/<repo>/issues \
@@ -217,7 +217,7 @@ curl -i -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ### 公式リソースの確認
 
-GitHub [API](/glossary/api/) エラーの詳細は、[GitHub REST API ドキュメント](https://docs.github.com/rest)の該当[エンドポイント](/glossary/エンドポイント/)のページで「Validation」セクションを確認してください。[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `documentation_url` フィールドから直接該当ドキュメントにアクセスすることもできます。
+GitHub [API](/glossary/api/) [エラー](/glossary/エラー/)の詳細は、[GitHub REST API ドキュメント](https://docs.github.com/rest)の該当[エンドポイント](/glossary/エンドポイント/)のページで「Validation」セクションを確認してください。[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `documentation_url` フィールドから直接該当ドキュメントにアクセスすることもできます。
 
 ### コミュニティサポート
 

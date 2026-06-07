@@ -29,7 +29,7 @@ Error response from daemon: 408 Request Timeout: request timeout after 30 second
 
 ### 原因1: Docker DaemonとのSocket通信タイムアウト
 
-[Docker](/glossary/docker/) [CLI](/glossary/cli/)はUNIXソケット（Linux/Mac）またはNamedPipe（Windows）を通じてDaemonと通信します。ネットワークやシステムリソース不足によって通信が遅延すると408が発生します。
+[Docker](/glossary/docker/) [CLI](/glossary/cli/)はUNIXソケット（Linux/Mac）またはNamedPipe（Windows）を通じてDaemonと[通信](/glossary/通信/)します。[ネットワーク](/glossary/ネットワーク/)やシステムリソース不足によって[通信](/glossary/通信/)が遅延すると408が発生します。
 
 **Before:**
 ```bash
@@ -54,7 +54,7 @@ services:
 
 ### 原因2: コンテナ内のプロセスが長時間応答しない
 
-Dockerfile内のRUNコマンドや[ヘルスチェック](/glossary/ヘルスチェック/)が長時間実行される場合、[Docker](/glossary/docker/) [API](/glossary/api/)の[タイムアウト](/glossary/タイムアウト/)に引っかかります。
+Dockerfile内のRUN[コマンド](/glossary/コマンド/)や[ヘルスチェック](/glossary/ヘルスチェック/)が長時間実行される場合、[Docker](/glossary/docker/) [API](/glossary/api/)の[タイムアウト](/glossary/タイムアウト/)に引っかかります。
 
 **Before:**
 ```dockerfile
@@ -83,7 +83,7 @@ CMD ["./app"]
 
 ### 原因3: ネットワークプロキシの設定ミス
 
-企業ネットワークや[プロキシ](/glossary/プロキシ/)環境では、[Docker](/glossary/docker/) Daemonがプロキシサーバーとのハンドシェイクで[タイムアウト](/glossary/タイムアウト/)することがあります。
+企業[ネットワーク](/glossary/ネットワーク/)や[プロキシ](/glossary/プロキシ/)環境では、[Docker](/glossary/docker/) Daemonがプロキシサーバーとのハンドシェイクで[タイムアウト](/glossary/タイムアウト/)することがあります。
 
 **Before:**
 ```json
@@ -114,7 +114,7 @@ CMD ["./app"]
 
 ### 原因4: docker-compose でのネットワーク初期化遅延
 
-複数のサービスを起動する際、依存関係の解決やネットワーク初期化に時間がかかり、408が発生します。
+複数のサービスを起動する際、依存関係の解決や[ネットワーク](/glossary/ネットワーク/)初期化に時間がかかり、408が発生します。
 
 **Before:**
 ```yaml
@@ -148,7 +148,7 @@ services:
 
 ## Docker固有の注意点
 
-**Docker Daemon再起動の確認:**
+**[Docker](/glossary/docker/) Daemon再起動の確認:**
 長時間のビルド後に408が頻発する場合、Daemonが不安定な状態にある可能性があります。Daemonを再起動し、[ログ](/glossary/ログ/)を確認してください。
 
 ```bash
@@ -159,14 +159,14 @@ sudo systemctl restart docker
 sudo journalctl -u docker -f
 ```
 
-**Docker Desktop（Mac/Windows）のリソース設定:**
-割り当てたメモリやCPUが不足している場合、Daemonの応答性が低下します。Docker Desktop の設定で「Resources」タブから以下を確認してください：
+**[Docker](/glossary/docker/) Desktop（Mac/Windows）のリソース設定:**
+割り当てたメモリやCPUが不足している場合、Daemonの応答性が低下します。[Docker](/glossary/docker/) Desktop の設定で「Resources」タブから以下を確認してください：
 - CPUs: 4以上を推奨
 - Memory: 8GB以上を推奨
 - Swap: 1GB以上を推奨
 
-**Registry認証時のタイムアウト:**
-[プライベートレジストリ](/glossary/プライベートレジストリ/)へのpush/pullで408が出た場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れやネットワーク遅延が原因です。
+**Registry認証時の[タイムアウト](/glossary/タイムアウト/):**
+[プライベートレジストリ](/glossary/プライベートレジストリ/)へのpush/pullで408が出た場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れや[ネットワーク](/glossary/ネットワーク/)遅延が原因です。
 
 ```bash
 # レジストリの認証情報をリセット
@@ -179,7 +179,7 @@ docker pull <your-registry.com>/image:tag --timeout=300
 
 ## それでも解決しない場合
 
-**Docker Daemonの[ログ](/glossary/ログ/)確認:**
+**[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)確認:**
 ```bash
 # Linux（systemd）
 sudo journalctl -u docker -n 50 --no-pager
@@ -199,11 +199,11 @@ docker info
 ```
 
 **公式ドキュメント参照:**
-- Docker [API](/glossary/api/)[タイムアウト](/glossary/タイムアウト/)設定: https://docs.docker.com/config/daemon/
+- [Docker](/glossary/docker/) [API](/glossary/api/)[タイムアウト](/glossary/タイムアウト/)設定: https://docs.docker.com/config/daemon/
 - docker-compose [タイムアウト](/glossary/タイムアウト/)設定: https://docs.docker.com/compose/compose-file/
 
 **コミュニティリソース:**
-Docker GitHub Issues（https://github.com/moby/moby/issues）で「408 timeout」と検索すると、同様の事例と解決策が多数見つかります。特に以下のキーワードで絞り込むと効果的です：
+[Docker](/glossary/docker/) GitHub Issues（https://github.com/moby/moby/issues）で「408 timeout」と検索すると、同様の事例と解決策が多数見つかります。特に以下のキーワードで絞り込むと効果的です：
 - `408 Request Timeout`
 - `docker daemon timeout`
 - `timeout waiting for connection`

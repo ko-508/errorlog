@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Slackの400エラーは、Slack [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が不正な形式で送信されたか、必須の[パラメータ](/glossary/パラメータ/)が不足していることを示します。クライアントアプリケーション、ボット、[Webhook](/glossary/webhook/)からの連携時に頻出するエラーで、[リクエスト](/glossary/リクエスト/)自体が[サーバー](/glossary/サーバー/)に拒否される状態です。データは破損しないため、設定や[リクエスト](/glossary/リクエスト/)内容を修正すれば解決できます。
+Slackの400[エラー](/glossary/エラー/)は、Slack [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が不正な形式で送信されたか、必須の[パラメータ](/glossary/パラメータ/)が不足していることを示します。クライアントアプリケーション、ボット、[Webhook](/glossary/webhook/)からの連携時に頻出する[エラー](/glossary/エラー/)で、[リクエスト](/glossary/リクエスト/)自体が[サーバー](/glossary/サーバー/)に拒否される状態です。データは破損しないため、設定や[リクエスト](/glossary/リクエスト/)内容を修正すれば解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -23,7 +23,7 @@ Slack [API](/glossary/api/)から返される[エラーレスポンス](/glossar
 }
 ```
 
-[Webhook](/glossary/webhook/)の場合の典型的なエラー応答：
+[Webhook](/glossary/webhook/)の場合の典型的な[エラー](/glossary/エラー/)応答：
 
 ```json
 {
@@ -40,7 +40,7 @@ Slack [API](/glossary/api/)から返される[エラーレスポンス](/glossar
 **なぜ発生するか**  
 Slack [API](/glossary/api/)の[エンドポイント](/glossary/エンドポイント/)ごとに異なる必須[パラメータ](/glossary/パラメータ/)が定められています。これらが欠けていると[API](/glossary/api/)が400を返します。例えばメッセージ投稿には「channel」と「text」が必須です。
 
-**Before（エラーが起きる場合）**
+**Before（[エラー](/glossary/エラー/)が起きる場合）**
 ```python
 import requests
 
@@ -86,7 +86,7 @@ print(response.json())  # {"ok": true, "ts": "1234567890.000001"}
 **なぜ発生するか**  
 Slack [API](/glossary/api/)は[リクエストボディ](/glossary/リクエストボディ/)の形式をContent-Typeで判定します。application/jsonを指定すべきところにapplication/x-www-form-urlencodedで送信すると、[パラメータ](/glossary/パラメータ/)解析に失敗します。
 
-**Before（エラーが起きる場合）**
+**Before（[エラー](/glossary/エラー/)が起きる場合）**
 ```bash
 curl -X POST https://slack.com/api/chat.postMessage \
   -H "Authorization: Bearer <your-slack-bot-token>" \
@@ -109,7 +109,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
 **なぜ発生するか**  
 チャネルIDやユーザーIDの形式が不正、またはタイムスタンプの値が無効な場合、[API](/glossary/api/)は400を返します。特にチャネルID（Cで始まる）とユーザーID（Uで始まる）を混同することが多いです。
 
-**Before（エラーが起きる場合）**
+**Before（[エラー](/glossary/エラー/)が起きる場合）**
 ```javascript
 const axios = require('axios');
 

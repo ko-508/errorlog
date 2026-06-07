@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/)で 422 エラーが発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/)またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)との通信時にこのエラーが返される典型的なシナリオは、不正なイメージタグ指定、設定値の型違反、あるいは [API](/glossary/api/)スキーマの検証失敗です。
+[Docker](/glossary/docker/)で 422 [エラー](/glossary/エラー/)が発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/)またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)との通信時にこの[エラー](/glossary/エラー/)が返される典型的なシナリオは、不正なイメージタグ指定、設定値の型違反、あるいは [API](/glossary/api/)スキーマの検証失敗です。
 
 ## 実際のエラーメッセージ例
 
@@ -34,9 +34,9 @@ Service 'web' has invalid value for ports: ports must be an integer or string
 
 ### 1. イメージタグの形式が不正
 
-[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)は RFC 6391 に基づいたタグ形式を要求します。許可されない文字（`@`や大文字の混在）が含まれている場合に 422 が返されます。
+[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)は [RFC](/glossary/rfc/) 6391 に基づいたタグ形式を要求します。許可されない文字（`@`や大文字の混在）が含まれている場合に 422 が返されます。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
 docker tag myimage:latest myregistry.example.com/app:INVALID@latest
 docker push myregistry.example.com/app:INVALID@latest
@@ -54,7 +54,7 @@ docker push myregistry.example.com/app:v1.0.0
 
 `ports`、`mem_limit`、`cpu_shares`など、数値型を期待するフィールドに文字列を指定するとバリデーション失敗で 422 が返されます。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```yaml
 version: '3.8'
 services:
@@ -78,9 +78,9 @@ services:
 
 ### 3. マニフェスト JSON の構造が不正
 
-[Docker](/glossary/docker/)イメージをプッシュする際に、レイヤーのダイジェスト値が不正な形式である場合、[レジストリ](/glossary/レジストリ/)が 422 で拒否します。
+[Docker](/glossary/docker/)[イメージ](/glossary/イメージ/)をプッシュする際に、レイヤーのダイジェスト値が不正な形式である場合、[レジストリ](/glossary/レジストリ/)が 422 で拒否します。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
 # イメージをビルド中に破損したマニフェスト参照
 docker build -t myapp:broken .
@@ -100,7 +100,7 @@ docker push myregistry.example.com/myapp:v1.0.0
 
 [Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須フィールドが欠落しているか、型が異なるとバリデーション失敗で 422 が返されます。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
 curl -X POST http://localhost:2375/containers/create \
   -H "Content-Type: application/json" \
@@ -123,11 +123,11 @@ curl -X POST http://localhost:2375/containers/create \
 
 ### Docker Compose バージョンと設定値の互換性
 
-`docker-compose.yml`で `version: '3.8'`を指定した場合、古い構文（`1.0`時代の短縮ポート指定）は 422 で拒否されます。バージョンと設定内容の整合性を確認してください。
+`docker-compose.yml`で `version: '3.8'`を指定した場合、古い構文（`1.0`時代の短縮[ポート](/glossary/ポート/)指定）は 422 で拒否されます。バージョンと設定内容の整合性を確認してください。
 
 ### レジストリ認証後のプッシュ時エラー
 
-[Docker](/glossary/docker/) Hub や Private Registry にログイン後、プッシュ時に 422 が出る場合は、イメージ名が登録済みプロジェクトのパス構造に一致しているか確認します。
+[Docker](/glossary/docker/) Hub や Private Registry に[ログイン](/glossary/ログイン/)後、プッシュ時に 422 が出る場合は、[イメージ](/glossary/イメージ/)名が登録済みプロジェクトのパス構造に一致しているか確認します。
 
 ```bash
 # 認証は成功したが 422 エラーが出る場合
@@ -150,7 +150,7 @@ DOCKER_BUILDKIT=1 docker build --no-cache -t myapp:v1 .
 
 ### ログ確認とデバッグコマンド
 
-[Docker](/glossary/docker/) Daemon のログを確認し、より詳細なエラー情報を取得します。
+[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を確認し、より詳細な[エラー](/glossary/エラー/)情報を取得します。
 
 ```bash
 # systemd でコンテナを実行している場合
@@ -166,12 +166,12 @@ curl -v --unix-socket /var/run/docker.sock \
 
 ### 公式ドキュメント参照
 
-[Docker](/glossary/docker/) Compose 設定リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API スキーマ検証エラーの場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」ドキュメントの `POST /containers/create`セクションを参照します。
+[Docker](/glossary/docker/) Compose 設定リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API スキーマ検証[エラー](/glossary/エラー/)の場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」ドキュメントの `POST /containers/create`セクションを参照します。
 
 ### 環境別の確認ポイント
 
 - **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)バージョンを確認し、サポートされているイメージマニフェスト形式を検証します
-- **[Kubernetes](/glossary/kubernetes/)経由でのデプロイ**: `imagePullPolicy`設定とイメージレジストリの [CORS](/glossary/cors/)設定を確認します
+- **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`設定とイメージレジストリの [CORS](/glossary/cors/)設定を確認します
 - **[CI/CD](/glossary/ci-cd/)パイプライン**: GitHub Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックをテストします
 
 ---

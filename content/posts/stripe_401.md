@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-Stripe API から返される 401（Unauthorized）エラーは、リクエストに含まれる認証情報（API キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では認証なしにはいかなる API 呼び出しも実行できないため、開発環境と本番環境を問わず頻繁に発生するエラーです。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
+Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、開発環境と本番環境を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -37,9 +37,9 @@ curl https://api.stripe.com/v1/charges \
 
 **原因1：テスト環境と本番環境のキーを混同している**
 
-Stripe では `sk_test_` で始まるテスト用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境のコードでテスト用キーを使用すると 401 エラーになります。
+Stripe では `sk_test_` で始まるテスト用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境のコードでテスト用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```javascript
 const stripe = require('stripe')('sk_test_xxxxx'); // テスト用キー
 
@@ -67,9 +67,9 @@ const charge = await stripe.charges.create({
 
 **原因2：シークレットキーではなく公開キーを使用している**
 
-Stripe には 2 種類のキーが存在します。サーバー側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開キー（`pk_live_` または `pk_test_`）はクライアント側のみで使用します。
+Stripe には 2 種類のキーが存在します。[サーバー](/glossary/サーバー/)側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開キー（`pk_live_` または `pk_test_`）はクライアント側のみで使用します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```python
 import stripe
 
@@ -103,11 +103,11 @@ except stripe.error.AuthenticationError as e:
     print("認証エラー:", e)
 ```
 
-**原因3：API キーの形式が不正またはコピー時にスペースが含まれている**
+**原因3：[API](/glossary/api/) キーの形式が不正またはコピー時にスペースが含まれている**
 
-API キーをコピー＆ペーストする際に、誤って前後に空白文字やタブが含まれたり、キーの一部が欠落していたりすると 401 エラーになります。
+[API](/glossary/api/) キーをコピー＆ペーストする際に、誤って前後に空白文字やタブが含まれたり、キーの一部が欠落していたりすると 401 [エラー](/glossary/エラー/)になります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```bash
 # キーの後ろに余計なスペースやタブが含まれている
 API_KEY="sk_test_xxxxx " 
@@ -132,9 +132,9 @@ curl https://api.stripe.com/v1/charges \
 
 **原因4：アクセストークンの有効期限が切れている**
 
-OAuth（第三者認可プロトコル）を使用して Stripe にアクセス権を委譲している場合、アクセストークンには有効期限があります。期限切れのトークンで API リクエストを送信すると 401 エラーになります。
+[OAuth](/glossary/oauth/)（第三者認可[プロトコル](/glossary/プロトコル/)）を使用して Stripe に[アクセス権](/glossary/アクセス権/)を委譲している場合、アクセストークンには有効期限があります。期限切れの[トークン](/glossary/トークン/)で [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)を送信すると 401 [エラー](/glossary/エラー/)になります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```javascript
 // 古いトークンをそのまま使用
 const accessToken = storedToken; // 数ヶ月前に取得したトークン
@@ -166,11 +166,11 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 ## Stripe 固有の注意点
 
-**API キーの権限制限：** Stripe ダッシュボードで API キーの権限を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 エラーになります。ダッシュボードの「開発者」→「API キー」セクションで、各キーの権限スコープ（アクセス範囲）を確認してください。
+**[API](/glossary/api/) キーの権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) キーの[権限](/glossary/権限/)を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) キー」セクションで、各キーの[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
-**Webhook 署名検証：** Webhook（サーバー間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` ヘッダーで署名を送信します。このヘッダーが不正な場合も認証エラーとして扱われることがあります。Webhook の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` メソッドを使用してください。
+**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` メソッドを使用してください。
 
-**Connected Account（Stripe Connect）：** 複数の Stripe アカウントを管理する場合、リクエストヘッダーに正しい `Stripe-Account` ID を指定しないと 401 エラーが発生します。
+**Connected Account（Stripe Connect）：** 複数の Stripe アカウントを管理する場合、リクエストヘッダーに正しい `Stripe-Account` ID を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 
 ```bash
 curl https://api.stripe.com/v1/charges \
@@ -182,21 +182,21 @@ curl https://api.stripe.com/v1/charges \
 
 ## それでも解決しない場合
 
-**Step 1：ログを確認する**
+**Step 1：[ログ](/glossary/ログ/)を確認する**
 
-Node.js では以下のコマンドで詳細なデバッグ情報を表示できます。
+Node.js では以下の[コマンド](/glossary/コマンド/)で詳細な[デバッグ](/glossary/デバッグ/)情報を表示できます。
 
 ```bash
 DEBUG=stripe:* node your_script.js
 ```
 
-**Step 2：API キーの妥当性を確認する**
+**Step 2：[API](/glossary/api/) キーの妥当性を確認する**
 
-Stripe ダッシュボードにログインし、「開発者」→「API キー」から実際に発行されているキーのリストを確認してください。コピー＆ペーストしたキーが有効なキーと完全一致しているか確認します。
+Stripe [ダッシュボード](/glossary/ダッシュボード/)に[ログイン](/glossary/ログイン/)し、「開発者」→「[API](/glossary/api/) キー」から実際に発行されているキーのリストを確認してください。コピー＆ペーストしたキーが有効なキーと完全一致しているか確認します。
 
-**Step 3：リクエストのヘッダーを確認する**
+**Step 3：[リクエスト](/glossary/リクエスト/)の[ヘッダー](/glossary/ヘッダー/)を確認する**
 
-cURL または Postman で以下のコマンドを実行し、実際に送信されているリクエストヘッダーを確認してください。
+cURL または Postman で以下の[コマンド](/glossary/コマンド/)を実行し、実際に送信されているリクエストヘッダーを確認してください。
 
 ```bash
 curl -v https://api.stripe.com/v1/charges \
@@ -210,7 +210,7 @@ curl -v https://api.stripe.com/v1/charges \
 
 [Stripe API リファレンス - Authentication](https://stripe.com/docs/api/authentication) で認証方法の最新仕様を確認してください。
 
-使用しているライブラリー（stripe.js、stripe-python など）の [GitHub リポジトリー](https://github.com/stripe) で同じエラーについて報告されていないか検索し、既知の問題がないか確認します。
+使用しているライブラリー（stripe.js、stripe-python など）の [GitHub リポジトリー](https://github.com/stripe) で同じ[エラー](/glossary/エラー/)について報告されていないか検索し、既知の問題がないか確認します。
 
 ---
 

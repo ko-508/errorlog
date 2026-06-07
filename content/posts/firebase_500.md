@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase における 500 エラーは、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部エラーが発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。このエラーは、クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
+Firebase における 500 [エラー](/glossary/エラー/)は、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。この[エラー](/glossary/エラー/)は、クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -32,9 +32,9 @@ at FirebaseError (/functions/node_modules/firebase-admin/lib/utils/error.ts:42:3
 ### 原因1：Cloud Functions のコード内で処理されない例外が発生している
 
 **なぜ発生するか**  
-Cloud Functions で実行されるコード内で`try-catch`で捕捉されていない例外やPromise rejection が発生すると、Firebase が 500 エラーを返します。データベースクエリの失敗、[API](/glossary/api/)呼び出しエラー、型変換ミスなどが原因となることが多いです。
+Cloud Functions で実行されるコード内で`try-catch`で捕捉されていない例外やPromise rejection が発生すると、Firebase が 500 [エラー](/glossary/エラー/)を返します。データベースクエリの失敗、[API](/glossary/api/)呼び出し[エラー](/glossary/エラー/)、型変換ミスなどが原因となることが多いです。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```javascript
 exports.processData = functions.https.onCall(async (data, context) => {
   const result = await admin.database().ref('users').once('value');
@@ -65,9 +65,9 @@ exports.processData = functions.https.onCall(async (data, context) => {
 ### 原因2：Firestore / Realtime Database のセキュリティルールが許可していない
 
 **なぜ発生するか**  
-セキュリティルールが不適切に設定されていると、[クエリ](/glossary/クエリ/)実行時にルール評価エラーが発生し、500 が返される場合があります。特に複雑な条件や無限ループするルールが設定されているとき顕著です。
+セキュリティルールが不適切に設定されていると、[クエリ](/glossary/クエリ/)実行時にルール評価[エラー](/glossary/エラー/)が発生し、500 が返される場合があります。特に複雑な条件や無限ループするルールが設定されているとき顕著です。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 ```yaml
 rules_version = '2';
 service cloud.firestore {
@@ -94,7 +94,7 @@ service cloud.firestore {
 ### 原因3：Realtime Database のインデックスが未作成
 
 **なぜ発生するか**  
-Realtime Database で複数フィールドを`orderByChild()`や`orderByValue()`で[クエリ](/glossary/クエリ/)するとき、必要な[インデックス](/glossary/インデックス/)が[コンソール](/glossary/コンソール/)で作成されていないと 500 エラーが発生します。Firestore では自動[インデックス](/glossary/インデックス/)が作成されることが多いですが、Realtime Database は明示的な作成が必要です。
+Realtime Database で複数フィールドを`orderByChild()`や`orderByValue()`で[クエリ](/glossary/クエリ/)するとき、必要な[インデックス](/glossary/インデックス/)が[コンソール](/glossary/コンソール/)で作成されていないと 500 [エラー](/glossary/エラー/)が発生します。Firestore では自動[インデックス](/glossary/インデックス/)が作成されることが多いですが、Realtime Database は明示的な作成が必要です。
 
 **Before（[インデックス](/glossary/インデックス/)なしでの[クエリ](/glossary/クエリ/)）**
 ```javascript
@@ -163,7 +163,7 @@ exports.myFunction = functions.region('asia-northeast1').https.onCall(async (dat
 ```
 
 ### Authentication トークンの有効期限切れ
-[SDK](/glossary/sdk/) が古いキャッシュトークンを使用している場合、[認証](/glossary/認証/)エラーが 500 として返される場合があります。[トークン](/glossary/トークン/)の更新メカニズムを確認してください。
+[SDK](/glossary/sdk/) が古いキャッシュトークンを使用している場合、[認証](/glossary/認証/)[エラー](/glossary/エラー/)が 500 として返される場合があります。[トークン](/glossary/トークン/)の更新メカニズムを確認してください。
 
 ```javascript
 // トークンの強制更新
@@ -189,7 +189,7 @@ Firebase Console の「サポート」タブから公式サポートに問い合
 - [Realtime Database インデックス設定](https://firebase.google.com/docs/database/security/indexing)
 
 **GitHub Issues**  
-firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リポジトリ/)で同様のエラーが報告されていないか検索してください。
+firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リポジトリ/)で同様の[エラー](/glossary/エラー/)が報告されていないか検索してください。
 
 ---
 

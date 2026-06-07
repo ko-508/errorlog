@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-504 Gateway Timeout は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)が[プロキシ](/glossary/プロキシ/)経由で上流[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に応答を待つ際に、設定された[タイムアウト](/glossary/タイムアウト/)時間を超過したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Compose を使用している場合やリバースプロキシ（Nginx など）経由で[コンテナ](/glossary/コンテナ/)にアクセスしている場合に頻繁に発生します。このエラーは、[サーバー](/glossary/サーバー/)側の処理遅延、[ネットワーク](/glossary/ネットワーク/)の問題、または[タイムアウト](/glossary/タイムアウト/)設定の不適切さが原因となります。
+504 Gateway Timeout は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)が[プロキシ](/glossary/プロキシ/)経由で上流[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に応答を待つ際に、設定された[タイムアウト](/glossary/タイムアウト/)時間を超過したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Compose を使用している場合やリバースプロキシ（Nginx など）経由で[コンテナ](/glossary/コンテナ/)にアクセスしている場合に頻繁に発生します。この[エラー](/glossary/エラー/)は、[サーバー](/glossary/サーバー/)側の処理遅延、[ネットワーク](/glossary/ネットワーク/)の問題、または[タイムアウト](/glossary/タイムアウト/)設定の不適切さが原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -102,7 +102,7 @@ server {
 
 ### 原因2：Docker Compose のサービス間通信に遅延がある
 
-[Docker](/glossary/docker/) Compose で複数のサービスを実行している場合、サービス間の[ネットワーク](/glossary/ネットワーク/)通信が遅延したり、[DNS](/glossary/dns/)解決が失敗したりすることがあります。特に CPU やメモリリソースが逼迫している場合に発生しやすいです。
+[Docker](/glossary/docker/) Compose で複数のサービスを実行している場合、サービス間の[ネットワーク](/glossary/ネットワーク/)[通信](/glossary/通信/)が遅延したり、[DNS](/glossary/dns/)解決が失敗したりすることがあります。特に CPU やメモリリソースが逼迫している場合に発生しやすいです。
 
 **Before（リソース制限がない設定）:**
 ```yaml

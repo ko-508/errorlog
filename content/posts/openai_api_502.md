@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-502 Bad Gateway は、OpenAI [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)がOpenAIの[サーバー](/glossary/サーバー/)に到達したものの、バックエンドサーバーから無効な応答が返された、または[タイムアウト](/glossary/タイムアウト/)したことを示します。このエラーはOpenAI側のインフラストラクチャ問題、[ネットワーク](/glossary/ネットワーク/)接続の問題、または[リクエスト](/glossary/リクエスト/)自体の問題が原因となります。OpenAI [API](/glossary/api/) を使用するアプリケーションではランダムに発生することがあり、一時的な問題であることが多いです。
+502 Bad Gateway は、OpenAI [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)がOpenAIの[サーバー](/glossary/サーバー/)に到達したものの、バックエンドサーバーから無効な応答が返された、または[タイムアウト](/glossary/タイムアウト/)したことを示します。この[エラー](/glossary/エラー/)はOpenAI側のインフラストラクチャ問題、[ネットワーク](/glossary/ネットワーク/)接続の問題、または[リクエスト](/glossary/リクエスト/)自体の問題が原因となります。OpenAI [API](/glossary/api/) を使用するアプリケーションではランダムに発生することがあり、一時的な問題であることが多いです。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ curl -X POST https://api.openai.com/v1/chat/completions \
 
 **なぜ発生するか：** OpenAIは定期的にシステムメンテナンスを実施しており、その間は[API](/glossary/api/)全体が 502 を返すことがあります。また、予期しないサービス障害が発生することもあります。
 
-**Before（エラーが起きる状態）：**
+**Before（[エラー](/glossary/エラー/)が起きる状態）：**
 ```python
 import openai
 
@@ -84,7 +84,7 @@ response = call_openai_with_retry()
 
 **なぜ発生するか：** OpenAI [API](/glossary/api/) のデフォルトタイムアウトは30秒です。[レスポンス](/glossary/レスポンス/)の生成に時間がかかる[リクエスト](/glossary/リクエスト/)、または非常に大きなテキストを含む[リクエスト](/glossary/リクエスト/)は、[バックエンド](/glossary/バックエンド/)が[タイムアウト](/glossary/タイムアウト/)してしまい 502 を返します。
 
-**Before（エラーが起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる設定）：**
 ```python
 import openai
 
@@ -204,7 +204,7 @@ response = openai.ChatCompletion.create(
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)確認とデバッグ方法：**
+**[ログ](/glossary/ログ/)確認と[デバッグ](/glossary/デバッグ/)方法：**
 
 OpenAI Python [SDK](/glossary/sdk/) の詳細[ログ](/glossary/ログ/)を有効にして、実際の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を確認してください。
 
@@ -236,7 +236,7 @@ response = openai.ChatCompletion.create(
 - OpenAI Community Forum（https://community.openai.com）
 - GitHub Issues（openai/openai-python [リポジトリ](/glossary/リポジトリ/)）
 
-一時的な 502 エラーは通常、指数[バックオフ](/glossary/バックオフ/)を含む再試行ロジックで自動的に解決します。何度も発生する場合は、OpenAI のサポートに問い合わせてください。
+一時的な 502 [エラー](/glossary/エラー/)は通常、指数[バックオフ](/glossary/バックオフ/)を含む再試行ロジックで自動的に解決します。何度も発生する場合は、OpenAI のサポートに問い合わせてください。
 
 ---
 

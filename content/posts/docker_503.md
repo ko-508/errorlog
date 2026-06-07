@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の503エラーは、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇するエラーです。
+[Docker](/glossary/docker/)の503[エラー](/glossary/エラー/)は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -37,7 +37,7 @@ net/http: request canceled (Client.Timeout exceeded while awaiting headers)
 **なぜ発生するか**
 [Docker](/glossary/docker/) Hubは全世界のユーザーからのアクセスを受けるため、トラフィック集中時やメンテナンス期間中に[サーバー](/glossary/サーバー/)が応答不可能になります。特にLTS版Ubuntu公開直後やセキュリティパッチ配信時に顕著です。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```bash
 docker pull ubuntu:22.04
 # Error: 503 Service Unavailable
@@ -60,9 +60,9 @@ cat ~/.docker/config.json
 ### 原因2：プライベートレジストリ（Harbor/Nexus）が停止している
 
 **なぜ発生するか**
-組織内で運用する[プライベートレジストリ](/glossary/プライベートレジストリ/)の[コンテナ](/glossary/コンテナ/)が異常停止したり、基盤の[データベース](/glossary/データベース/)やストレージが不可用になると、[認証](/glossary/認証/)・イメージ取得時に503が返されます。
+組織内で運用する[プライベートレジストリ](/glossary/プライベートレジストリ/)の[コンテナ](/glossary/コンテナ/)が異常停止したり、基盤の[データベース](/glossary/データベース/)やストレージが不可用になると、[認証](/glossary/認証/)・[イメージ](/glossary/イメージ/)取得時に503が返されます。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 ```bash
 docker pull <your-registry.example.com>:5000/myapp:latest
 # Error response from daemon: Get "https://<your-registry.example.com>:5000/v2/myapp/manifests/latest": 
@@ -91,9 +91,9 @@ docker-compose -f /path/to/registry/docker-compose.yml up -d
 ### 原因3：ローカルDockerデーモンが応答していない
 
 **なぜ発生するか**
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)自体がクラッシュしたり、リソース枯渇（メモリ不足）で応答不可になると、すべての[Docker](/glossary/docker/)操作で503が発生します。特に大量の[コンテナ](/glossary/コンテナ/)/イメージ処理時に起きやすいです。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)自体がクラッシュしたり、リソース枯渇（メモリ不足）で応答不可になると、すべての[Docker](/glossary/docker/)操作で503が発生します。特に大量の[コンテナ](/glossary/コンテナ/)/[イメージ](/glossary/イメージ/)処理時に起きやすいです。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```bash
 docker ps
 # Error response from daemon: dial unix /var/run/docker.sock: connect: no such file or directory
@@ -232,7 +232,7 @@ Environment="HTTPS_PROXY=https://<proxy-host>:<proxy-port>"
 - **[Docker](/glossary/docker/) Hub Status**：https://status.docker.com/
 - **GitHub Issues**：docker/docker-ce [リポジトリ](/glossary/リポジトリ/)の[Issues](https://github.com/moby/moby/issues)で同様の問題報告を検索
 
-503エラーの大多数は一時的なサービス停止であり、再起動またはしばらく時間をおいてから再試行することで解決します。ただし組織内の[プライベートレジストリ](/glossary/プライベートレジストリ/)の場合は、インフラチーム への報告と根本原因の調査が必要です。
+503[エラー](/glossary/エラー/)の大多数は一時的なサービス停止であり、再起動またはしばらく時間をおいてから再試行することで解決します。ただし組織内の[プライベートレジストリ](/glossary/プライベートレジストリ/)の場合は、インフラチーム への報告と根本原因の調査が必要です。
 
 ---
 

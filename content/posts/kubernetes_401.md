@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)で401エラーが発生するのは、[API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して[認証](/glossary/認証/)に失敗した状態を示します。[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れ、認証情報の不足、または[権限](/glossary/権限/)がないServiceAccountの使用が典型的な原因です。このエラーが出ると、kubectlコマンドの実行やPodから[API](/glossary/api/)[サーバー](/glossary/サーバー/)へのアクセスが拒否されます。
+[Kubernetes](/glossary/kubernetes/)で401[エラー](/glossary/エラー/)が発生するのは、[API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して[認証](/glossary/認証/)に失敗した状態を示します。[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れ、認証情報の不足、または[権限](/glossary/権限/)がないServiceAccountの使用が典型的な原因です。この[エラー](/glossary/エラー/)が出ると、kubectl[コマンド](/glossary/コマンド/)の実行やPodから[API](/glossary/api/)[サーバー](/glossary/サーバー/)へのアクセスが拒否されます。
 
 ## 実際のエラーメッセージ例
 
@@ -35,7 +35,7 @@ error: You must be logged in to the server (Unauthorized)
 
 [Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。[トークン](/glossary/トークン/)が期限切れになると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が要求を拒否します。
 
-**Before（エラーが起きる状態）:**
+**Before（[エラー](/glossary/エラー/)が起きる状態）:**
 
 ```bash
 kubectl get pods
@@ -62,7 +62,7 @@ kubectl get nodes
 
 Podが[API](/glossary/api/)[サーバー](/glossary/サーバー/)にアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が必要です。[トークン](/glossary/トークン/)がマウントされていない、または無効な場合に401が発生します。
 
-**Before（エラーが起きる状態）:**
+**Before（[エラー](/glossary/エラー/)が起きる状態）:**
 
 ```yaml
 apiVersion: v1
@@ -98,7 +98,7 @@ spec:
 
 [Kubernetes](/glossary/kubernetes/)の[認証](/glossary/認証/)に成功しても[RBAC](/glossary/rbac/)（ロールベースアクセス制御）で[権限](/glossary/権限/)がない場合、403ではなく401として返されることがあります。ServiceAccountに適切なClusterRoleやRoleがバインドされていません。
 
-**Before（エラーが起きる状態）:**
+**Before（[エラー](/glossary/エラー/)が起きる状態）:**
 
 ```yaml
 apiVersion: v1

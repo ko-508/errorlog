@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)環境で500エラーが発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部エラーに遭遇していることを示しています。このエラーは[Docker](/glossary/docker/) [CLI](/glossary/cli/)コマンド実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など、複数の要因が考えられるため、段階的な調査が必要です。
+[Docker](/glossary/docker/)環境で500[エラー](/glossary/エラー/)が発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部[エラー](/glossary/エラー/)に遭遇していることを示しています。この[エラー](/glossary/エラー/)は[Docker](/glossary/docker/) [CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など、複数の要因が考えられるため、段階的な調査が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -33,9 +33,9 @@ Error response from daemon: error during connect: This error may indicate the do
 
 ### 原因1：Dockerデーモンが起動していない、または異常状態
 
-[Docker](/glossary/docker/)コマンドを実行する際、[バックエンド](/glossary/バックエンド/)のdockerdプロセスが応答しない場合、500エラーが返されます。これはLinux環境で特に多く発生します。
+[Docker](/glossary/docker/)[コマンド](/glossary/コマンド/)を実行する際、[バックエンド](/glossary/バックエンド/)のdockerdプロセスが応答しない場合、500[エラー](/glossary/エラー/)が返されます。これはLinux環境で特に多く発生します。
 
-**Before（エラーが発生する状態）:**
+**Before（[エラー](/glossary/エラー/)が発生する状態）:**
 ```bash
 # dockerdが停止している状態
 $ systemctl status docker
@@ -67,7 +67,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ### 原因2：ディスク容量が枯渇している
 
-[Docker](/glossary/docker/)はイメージレイヤー、[コンテナ](/glossary/コンテナ/)、ボリュームをディスク上に保存します。ディスク容量がなくなると[デーモン](/glossary/デーモン/)がファイル操作を実行できず、500エラーを返します。
+[Docker](/glossary/docker/)はイメージレイヤー、[コンテナ](/glossary/コンテナ/)、ボリュームをディスク上に保存します。ディスク容量がなくなると[デーモン](/glossary/デーモン/)がファイル操作を実行できず、500[エラー](/glossary/エラー/)を返します。
 
 **Before（容量不足の状態）:**
 ```bash
@@ -109,7 +109,7 @@ $ docker run ubuntu:latest
 
 ### 原因3：Dockerソケットの権限エラー
 
-[Docker](/glossary/docker/)ソケット（`/var/run/docker.sock`）は通常root所有で、ユーザーがアクセスできない場合があります。この場合、[CLI](/glossary/cli/)コマンドが内部的に500エラーを報告することがあります。
+[Docker](/glossary/docker/)ソケット（`/var/run/docker.sock`）は通常root所有で、ユーザーがアクセスできない場合があります。この場合、[CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)が内部的に500[エラー](/glossary/エラー/)を報告することがあります。
 
 **Before（権限不足の状態）:**
 ```bash
@@ -145,7 +145,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 ### 原因4：メモリ不足によるデーモンクラッシュ
 
-システムメモリが枯渇している場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)はメモリ割り当てに失敗し、500エラーを返すか完全にクラッシュします。
+システムメモリが枯渇している場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)はメモリ割り当てに失敗し、500[エラー](/glossary/エラー/)を返すか完全にクラッシュします。
 
 **Before（メモリ枯渇の状態）:**
 ```bash
@@ -202,7 +202,7 @@ $ docker run --rm -it docker info | grep -E "Memory|CPUs"
 
 ### Docker Composeでの500エラー
 
-[Docker](/glossary/docker/) Composeで複数のサービスを起動する際、1つのサービスでメモリリークが発生すると、[デーモン](/glossary/デーモン/)全体が500エラーを返すことがあります。
+[Docker](/glossary/docker/) Composeで複数のサービスを起動する際、1つのサービスでメモリリークが発生すると、[デーモン](/glossary/デーモン/)全体が500[エラー](/glossary/エラー/)を返すことがあります。
 
 ```yaml
 # Before: リソース制限がない
@@ -234,7 +234,7 @@ services:
 
 ### ログの確認方法
 
-[デーモン](/glossary/デーモン/)自体の[ログ](/glossary/ログ/)を確認することで、500エラーの根本原因を特定できます。
+[デーモン](/glossary/デーモン/)自体の[ログ](/glossary/ログ/)を確認することで、500[エラー](/glossary/エラー/)の根本原因を特定できます。
 
 ```bash
 # systemdを使用している環境
@@ -249,7 +249,7 @@ $ sudo cat /var/log/docker.log
 
 ## それでも解決しない場合
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)を完全にリセットする前に、以下の診断コマンドを実行してください。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)を完全にリセットする前に、以下の診断[コマンド](/glossary/コマンド/)を実行してください。
 
 ```bash
 # デーモンの詳細情報取得
@@ -266,7 +266,7 @@ $ sudo systemctl restart docker
 $ sudo dockerd --debug
 ```
 
-[Docker](/glossary/docker/)公式ドキュメントの「Troubleshoot the [Docker](/glossary/docker/) daemon」ページに詳細なトラブルシューティングガイドが記載されています。また、GitHub上の[Docker](/glossary/docker/) Engine [リポジトリ](/glossary/リポジトリ/)で同様のIssueが報告されていないか確認することで、既知の問題や解決策を見つけられます。システムが複雑な場合（[Kubernetes](/glossary/kubernetes/)統合やカスタムネットワーク設定）は、[Docker](/glossary/docker/) Desktopのリセット機能（Settings > Reset [Docker](/glossary/docker/) Desktop）を試す前に、必ず重要なイメージとボリュームをバックアップしてください。
+[Docker](/glossary/docker/)公式ドキュメントの「Troubleshoot the [Docker](/glossary/docker/) daemon」ページに詳細なトラブルシューティングガイドが記載されています。また、GitHub上の[Docker](/glossary/docker/) Engine [リポジトリ](/glossary/リポジトリ/)で同様のIssueが報告されていないか確認することで、既知の問題や解決策を見つけられます。システムが複雑な場合（[Kubernetes](/glossary/kubernetes/)統合やカスタムネットワーク設定）は、[Docker](/glossary/docker/) Desktopのリセット機能（Settings > Reset [Docker](/glossary/docker/) Desktop）を試す前に、必ず重要な[イメージ](/glossary/イメージ/)とボリュームをバックアップしてください。
 
 ---
 

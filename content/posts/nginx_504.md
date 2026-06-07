@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーや[API](/glossary/api/)）からの[レスポンス](/glossary/レスポンス/)を一定時間待ちきれず、[タイムアウト](/glossary/タイムアウト/)した状況を示すエラーです。Nginxそのものは正常に動作していますが、[バックエンド](/glossary/バックエンド/)側の処理時間が長すぎるか、[サーバー](/glossary/サーバー/)が応答していない可能性があります。
+504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーや[API](/glossary/api/)）からの[レスポンス](/glossary/レスポンス/)を一定時間待ちきれず、[タイムアウト](/glossary/タイムアウト/)した状況を示す[エラー](/glossary/エラー/)です。Nginxそのものは正常に動作していますが、[バックエンド](/glossary/バックエンド/)側の処理時間が長すぎるか、[サーバー](/glossary/サーバー/)が応答していない可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -18,7 +18,7 @@ lastmod: 2026-05-31
 504 Gateway Timeout
 ```
 
-Nginxのエラーログ（`/var/log/nginx/error.log`）に記録される例：
+Nginxの[エラーログ](/glossary/エラーログ/)（`/var/log/nginx/error.log`）に記録される例：
 ```
 2024/01/15 14:32:10 [error] 1234#1234: *567 upstream timed out (110: Connection timed out) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "POST /api/process HTTP/1.1", upstream: "http://127.0.0.1:8000/api/process"
 ```
@@ -76,9 +76,9 @@ server {
 
 ### 原因2: バックエンドサーバーが起動していない、またはクラッシュしている
 
-アプリケーションサーバーがダウンしていたり、応答していなかったりする場合、Nginxは[タイムアウト](/glossary/タイムアウト/)まで待機してからエラーを返します。
+アプリケーションサーバーがダウンしていたり、応答していなかったりする場合、Nginxは[タイムアウト](/glossary/タイムアウト/)まで待機してから[エラー](/glossary/エラー/)を返します。
 
-**確認コマンド:**
+**確認[コマンド](/glossary/コマンド/):**
 ```bash
 # バックエンド（127.0.0.1:8000）が起動しているか確認
 curl -v http://127.0.0.1:8000/health
@@ -112,7 +112,7 @@ $ sudo systemctl status app-server
 
 バックエンドサーバーのCPUやメモリが枯渇していたり、[データベース](/glossary/データベース/)接続がハングしていたりする場合、処理が完了せず[タイムアウト](/glossary/タイムアウト/)になります。
 
-**確認コマンド:**
+**確認[コマンド](/glossary/コマンド/):**
 ```bash
 # リソース使用状況確認
 top

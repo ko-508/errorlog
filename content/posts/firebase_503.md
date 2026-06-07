@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。このエラーは Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、[サーバー](/glossary/サーバー/)側の問題またはアプリケーション側の設定不備が原因となります。
+Firebase の 503（Service Unavailable）[エラー](/glossary/エラー/)は、Firebase のバックエンドサービスが一時的に利用できない状態を示します。この[エラー](/glossary/エラー/)は Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、[サーバー](/glossary/サーバー/)側の問題またはアプリケーション側の設定不備が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -32,9 +32,9 @@ at XMLHttpRequest.onload (firebase-app.js:1234)
 
 ### 原因1：Firebase プロジェクトの API 割り当て制限
 
-Firebase は [API](/glossary/api/) 呼び出し数に制限を設定しており、短時間に大量の[リクエスト](/glossary/リクエスト/)を送信すると 503 エラーが返されます。
+Firebase は [API](/glossary/api/) 呼び出し数に制限を設定しており、短時間に大量の[リクエスト](/glossary/リクエスト/)を送信すると 503 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 
 ```javascript
 // 制限なしのループでリアルタイムリッスンを開始
@@ -68,7 +68,7 @@ async function fetchUsersInBatches() {
 
 Cloud Functions が長時間実行中に[タイムアウト](/glossary/タイムアウト/)するか、割り当てられたメモリを超えると、Firebase [API](/glossary/api/) が 503 を返します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 
 ```javascript
 // タイムアウト設定がなく、大規模データ処理を実行
@@ -119,9 +119,9 @@ exports.processData = functions
 
 ### 原因3：認証トークンの有効期限切れまたは無効な認証
 
-Firebase Authentication のセッションが期限切れになったり、Security Rules で[認証](/glossary/認証/)を要求しているにもかかわらず[トークン](/glossary/トークン/)が無い場合、Firestore や Realtime Database は 503 に見えるエラーを返すことがあります。
+Firebase Authentication のセッションが期限切れになったり、Security Rules で[認証](/glossary/認証/)を要求しているにもかかわらず[トークン](/glossary/トークン/)が無い場合、Firestore や Realtime Database は 503 に見える[エラー](/glossary/エラー/)を返すことがあります。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 
 ```javascript
 // ログイン直後、トークンリフレッシュなしで長時間リクエスト送信
@@ -150,7 +150,7 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 **Cloud Firestore と Realtime Database の違い**
 
-Firestore では 503 エラーが多く発生するのは、複雑な[クエリ](/glossary/クエリ/)が実行されている場合です。特に複合[インデックス](/glossary/インデックス/)が未作成の状態で大規模[クエリ](/glossary/クエリ/)を実行すると 503 が返されます。Firebase Console から「Firestore > [インデックス](/glossary/インデックス/)」を確認し、提案されている[インデックス](/glossary/インデックス/)をすべて作成してください。
+Firestore では 503 [エラー](/glossary/エラー/)が多く発生するのは、複雑な[クエリ](/glossary/クエリ/)が実行されている場合です。特に複合[インデックス](/glossary/インデックス/)が未作成の状態で大規模[クエリ](/glossary/クエリ/)を実行すると 503 が返されます。Firebase Console から「Firestore > [インデックス](/glossary/インデックス/)」を確認し、提案されている[インデックス](/glossary/インデックス/)をすべて作成してください。
 
 **リージョン制約による 503**
 
@@ -171,7 +171,7 @@ Firebase Console の「プロジェクト設定 > 使用状況」でリアルタ
 
 ## それでも解決しない場合
 
-**確認すべき[ログ](/glossary/ログ/)とデバッグ手順**
+**確認すべき[ログ](/glossary/ログ/)と[デバッグ](/glossary/デバッグ/)手順**
 
 ```bash
 # Firebase CLI でプロジェクトの接続確認
@@ -181,7 +181,7 @@ firebase emulators:start
 firebase functions:log
 ```
 
-Cloud Console の「Cloud Logging」で該当時刻のエラーログを検索します。フィルター条件を以下のように設定してください：
+Cloud Console の「Cloud Logging」で該当時刻の[エラーログ](/glossary/エラーログ/)を検索します。フィルター条件を以下のように設定してください：
 
 ```
 resource.type="cloud_function"
@@ -197,7 +197,7 @@ timestamp>="<エラーが発生した時刻>"
 
 **コミュニティリソース**
 
-Firebase GitHub Issues や Stack Overflow で同様の 503 エラーが報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などのキーワードで検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、エラーが発生した正確な時刻と `firebase-debug.log` ファイルを準備しておくと対応が迅速になります。
+Firebase GitHub Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などのキーワードで検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` ファイルを準備しておくと対応が迅速になります。
 
 ---
 

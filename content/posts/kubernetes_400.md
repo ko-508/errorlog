@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400エラーです。マニフェストファイルの構文エラー、[API](/glossary/api/)仕様に違反するフィールド値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。このエラーはクラスタとの通信に成功した後、[サーバー](/glossary/サーバー/)側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
+[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400[エラー](/glossary/エラー/)です。マニフェストファイルの構文[エラー](/glossary/エラー/)、[API](/glossary/api/)仕様に違反するフィールド値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。この[エラー](/glossary/エラー/)はクラスタとの[通信](/glossary/通信/)に成功した後、[サーバー](/glossary/サーバー/)側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
 
 ## 実際のエラーメッセージ例
 
@@ -38,7 +38,7 @@ ValidationError(Deployment.spec.template.spec.containers[0].image): string lengt
 
 **なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型フィールドを文字列で指定したり、オブジェクト型フィールドにスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -81,7 +81,7 @@ spec:
 
 **なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須フィールド（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限のリソース定義すら受け付けません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -131,7 +131,7 @@ spec:
 
 **なぜ発生するか：** 廃止された[API](/glossary/api/)バージョンを使用したり、クラスタにインストールされていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、バージョン間での互換性問題が頻繁に起きます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: extensions/v1beta1  # Kubernetes 1.16+で廃止
@@ -176,9 +176,9 @@ EOF
 
 ### 原因4: セレクタラベルの不一致
 
-**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod テンプレートの`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証エラーが発生します。
+**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod テンプレートの`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -219,7 +219,7 @@ spec:
 ## Kubernetes固有の注意点
 
 ### ServiceAccountとRBAC設定
-400エラーは[認可](/glossary/認可/)エラー（403）ではなく検証エラーですが、ServiceAccountが適切に設定されていない場合、リソース作成時に引き続き400が発生することがあります。`kubectl auth can-i`コマンドで権限確認を併せて実施してください。
+400[エラー](/glossary/エラー/)は[認可](/glossary/認可/)[エラー](/glossary/エラー/)（403）ではなく検証[エラー](/glossary/エラー/)ですが、ServiceAccountが適切に設定されていない場合、リソース作成時に引き続き400が発生することがあります。`kubectl auth can-i`[コマンド](/glossary/コマンド/)で権限確認を併せて実施してください。
 
 ```bash
 kubectl auth can-i create deployments --as=system:serviceaccount:default:my-sa -n default
@@ -233,7 +233,7 @@ kubectl apply -f deployment.yaml -n production
 ```
 
 ### CRD（CustomResourceDefinition）のバージョン不一致
-インストール済みのCRDのバージョンと、マニフェストファイルの[API](/glossary/api/)バージョンが一致していない場合、400エラーが発生します。`kubectl api-resources`で確認可能です。
+インストール済みのCRDのバージョンと、マニフェストファイルの[API](/glossary/api/)バージョンが一致していない場合、400[エラー](/glossary/エラー/)が発生します。`kubectl api-resources`で確認可能です。
 
 ```bash
 kubectl api-resources | grep customresource

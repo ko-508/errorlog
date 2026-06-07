@@ -20,7 +20,7 @@ failed to read C:\Users\user\project\.env: line 1: unexpected character "?" in v
 
 ### PowerShellのechoコマンドはUTF-16 LEで書き出す
 
-WindowsのPowerShell（5.1系）では、リダイレクト演算子`>`や`echo`コマンドがデフォルトでUTF-16 LE（BOM付き）を使用します。
+WindowsのPowerShell（5.1系）では、リダイレクト演算子`>`や`echo`[コマンド](/glossary/コマンド/)がデフォルトでUTF-16 LE（BOM付き）を使用します。
 
 ```powershell
 # これをやってはいけない
@@ -28,7 +28,7 @@ echo GOOGLE_API_KEY=AIzaSy... > .env
 # → .envがUTF-16 LE（BOM付き）で保存される
 ```
 
-Linuxや macOSのシェルと違い、PowerShellは歴史的な経緯からUTF-16をデフォルトエンコードとして採用しています。`echo`や`Set-Content`を使う限り、意識しない限りこの問題が発生します。
+Linuxや macOSの[シェル](/glossary/シェル/)と違い、PowerShellは歴史的な経緯からUTF-16をデフォルトエンコードとして採用しています。`echo`や`Set-Content`を使う限り、意識しない限りこの問題が発生します。
 
 ### VSCodeのエンコード設定が変わっている場合
 
@@ -84,7 +84,7 @@ echo GOOGLE_API_KEY=AIzaSy... > .env
 )
 ```
 
-複数の変数を書く場合はヒアストリングを使います。
+複数の[変数](/glossary/変数/)を書く場合はヒアストリングを使います。
 
 ```powershell
 $envContent = @"
@@ -145,11 +145,11 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 *.yml    text eol=lf
 ```
 
-ただし`.env`はGit管理対象外（`.gitignore`に記載）にするのが一般的なので、あくまで`.env.example`などのテンプレートファイルに適用するのが現実的です。
+ただし`.env`は[Git](/glossary/git/)管理対象外（`.gitignore`に記載）にするのが一般的なので、あくまで`.env.example`などのテンプレートファイルに適用するのが現実的です。
 
 ## それでも解決しない場合
 
-- **WSL2を経由する**: WSL2のシェル（bash/zsh）から`echo`でファイルを作成するとデフォルトがUTF-8になります
+- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（bash/zsh）から`echo`でファイルを作成するとデフォルトがUTF-8になります
 - **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードがUTF-8に変わっています。`winget install Microsoft.PowerShell`でインストール可能です
 - **docker composeではなくdocker-composeを使う**: 古いv1系は挙動が違うことがありますが、現在は非推奨のため根本解決にはなりません
 

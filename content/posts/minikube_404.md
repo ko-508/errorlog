@@ -6,21 +6,21 @@ description: "指定したKubernetesリソースが見つからない。Minikube
 tags: ["Minikube"]
 errorCode: "404"
 ---
-Minikube で 404 エラーが出た場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。このエラーは開発環境でよく発生し、適切な確認手順で迅速に解決できます。
+Minikube で 404 [エラー](/glossary/エラー/)が出た場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。この[エラー](/glossary/エラー/)は開発環境でよく発生し、適切な確認手順で迅速に解決できます。
 
 ## よくある原因
 
 **[Namespace](/glossary/namespace/) の指定が間違っているか省略されている**
 
-[Kubernetes](/glossary/kubernetes/) ではリソースは必ず [Namespace](/glossary/namespace/) 内に存在します。`kubectl get pod` のように [Namespace](/glossary/namespace/) を指定せずコマンドを実行すると、デフォルトの `default` [Namespace](/glossary/namespace/) のみを検索します。リソースが別の [Namespace](/glossary/namespace/) に存在する場合、404 エラーが返されます。例えば `kube-system` [Namespace](/glossary/namespace/) にあるシステムポッドは、[Namespace](/glossary/namespace/) 指定なしでは見つかりません。
+[Kubernetes](/glossary/kubernetes/) ではリソースは必ず [Namespace](/glossary/namespace/) 内に存在します。`kubectl get pod` のように [Namespace](/glossary/namespace/) を指定せず[コマンド](/glossary/コマンド/)を実行すると、デフォルトの `default` [Namespace](/glossary/namespace/) のみを検索します。リソースが別の [Namespace](/glossary/namespace/) に存在する場合、404 [エラー](/glossary/エラー/)が返されます。例えば `kube-system` [Namespace](/glossary/namespace/) にあるシステムポッドは、[Namespace](/glossary/namespace/) 指定なしでは見つかりません。
 
 **リソースがまだ[デプロイ](/glossary/デプロイ/)されていないか削除されている**
 
-Deployment やポッドの作成コマンドを実行しても、イメージのダウンロードやスケジューリングに時間がかかります。その間に `kubectl get pod <pod-name>` を実行すると 404 になります。また、明示的に削除したリソースや、前回のセッションで作成したリソースも見つかりません。
+Deployment やポッドの作成[コマンド](/glossary/コマンド/)を実行しても、[イメージ](/glossary/イメージ/)のダウンロードやスケジューリングに時間がかかります。その間に `kubectl get pod <pod-name>` を実行すると 404 になります。また、明示的に削除したリソースや、前回のセッションで作成したリソースも見つかりません。
 
 **Minikube クラスターが停止している**
 
-Minikube クラスターが停止している状態では、すべての [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)が失敗し、404 を含むエラーが返されます。クラスターが起動していても、kube-apiserver などのコアコンポーネントが正常に動作していない場合も同様です。
+Minikube クラスターが停止している状態では、すべての [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/) の[リクエスト](/glossary/リクエスト/)が失敗し、404 を含む[エラー](/glossary/エラー/)が返されます。クラスターが起動していても、kube-apiserver などのコアコンポーネントが正常に動作していない場合も同様です。
 
 ## 解決手順
 
@@ -105,7 +105,7 @@ kubectl get events -n <namespace-name>
 kubectl describe deployment <deployment-name> -n <namespace-name>
 ```
 
-このコマンドで `Status` や `Conditions` を確認し、PullImageError や ImagePullBackOff など、[デプロイ](/glossary/デプロイ/)失敗の理由が表示されます。
+この[コマンド](/glossary/コマンド/)で `Status` や `Conditions` を確認し、PullImageError や ImagePullBackOff など、[デプロイ](/glossary/デプロイ/)失敗の理由が表示されます。
 
 **ステップ 5：リソース定義ファイルを再確認する**
 

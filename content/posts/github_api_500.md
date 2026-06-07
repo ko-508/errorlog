@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で500エラーが発生する場合、GitHub側の[サーバー](/glossary/サーバー/)で予期しない内部エラーが発生していることを示します。クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の障害または[API](/glossary/api/)の不具合が原因です。ただし、不正な[リクエスト](/glossary/リクエスト/)形式や[タイムアウト](/glossary/タイムアウト/)、[レート制限](/glossary/レート制限/)を超えた状態でも500が返されることがあり、実際には利用者側で対応可能な原因も含まれます。
+GitHub [API](/glossary/api/)で500[エラー](/glossary/エラー/)が発生する場合、GitHub側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の障害または[API](/glossary/api/)の不具合が原因です。ただし、不正な[リクエスト](/glossary/リクエスト/)形式や[タイムアウト](/glossary/タイムアウト/)、[レート制限](/glossary/レート制限/)を超えた状態でも500が返されることがあり、実際には利用者側で対応可能な原因も含まれます。
 
 ## 実際のエラーメッセージ例
 
@@ -20,7 +20,7 @@ GitHub [API](/glossary/api/)で500エラーが発生する場合、GitHub側の[
 }
 ```
 
-curlコマンドでの表示例：
+curl[コマンド](/glossary/コマンド/)での表示例：
 
 ```bash
 $ curl -H "Authorization: token <your-token>" https://api.github.com/repos/<owner>/<repo>/issues
@@ -33,9 +33,9 @@ Content-Type: application/json; charset=utf-8
 
 ### 原因1：不正なJSONペイロード形式またはエンコーディングエラー
 
-GitHubの[API](/glossary/api/)[サーバー](/glossary/サーバー/)が[リクエストボディ](/glossary/リクエストボディ/)を解析できない場合、500エラーで応答することがあります。特に[JSON](/glossary/json/)の形式が微妙に間違っていたり、文字エンコーディングが指定されていない場合に発生します。
+GitHubの[API](/glossary/api/)[サーバー](/glossary/サーバー/)が[リクエストボディ](/glossary/リクエストボディ/)を解析できない場合、500[エラー](/glossary/エラー/)で応答することがあります。特に[JSON](/glossary/json/)の形式が微妙に間違っていたり、文字エンコーディングが指定されていない場合に発生します。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```python
 import requests
@@ -78,7 +78,7 @@ print(response.status_code)
 
 GitHubは[REST](/glossary/rest/) [API](/glossary/api/)のバージョンを指定するため、Accept[ヘッダー](/glossary/ヘッダー/)やX-GitHub-Api-Version[ヘッダー](/glossary/ヘッダー/)が必須です。これが正しく指定されないと、古いバージョンの[エンドポイント](/glossary/エンドポイント/)にルーティングされ、予期しない形式の[リクエスト](/glossary/リクエスト/)として処理される結果500になります。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```bash
 curl -H "Authorization: token <your-token>" \
@@ -99,7 +99,7 @@ curl -H "Authorization: token <your-token>" \
 
 GitHubの[API](/glossary/api/)は[レート制限](/glossary/レート制限/)（認証済みで1時間5000[リクエスト](/glossary/リクエスト/)）を設定しており、制限を超えた直後の[リクエスト](/glossary/リクエスト/)が500として返されることがあります。また、バッチ処理で大量の[リクエスト](/glossary/リクエスト/)を短時間で送信した場合も同様です。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```python
 import requests
@@ -168,7 +168,7 @@ for i in range(1000):
 
 **[Webhook](/glossary/webhook/)配信の失敗：** GitHubが[Webhook](/glossary/webhook/)[ペイロード](/glossary/ペイロード/)を送信する際、受け取り側の[エンドポイント](/glossary/エンドポイント/)が500を返すと、GitHubは自動的に再試行を実行します。受け取り側のサーバーログを確認し、実装の問題がないか検証してください。
 
-**Rate Limit Headers の活用：** すべての[レスポンス](/glossary/レスポンス/)に`X-RateLimit-Limit`、`X-RateLimit-Remaining`、`X-RateLimit-Reset`が含まれます。これらを監視することで、500エラーの多くは事前に防げます。
+**Rate Limit Headers の活用：** すべての[レスポンス](/glossary/レスポンス/)に`X-RateLimit-Limit`、`X-RateLimit-Remaining`、`X-RateLimit-Reset`が含まれます。これらを監視することで、500[エラー](/glossary/エラー/)の多くは事前に防げます。
 
 ## それでも解決しない場合
 
@@ -182,7 +182,7 @@ tcpdump -i any -A 'tcp port 443' | grep -A 20 'POST /repos'
 
 3. **公式ドキュメント参照**：https://docs.github.com/en/rest/guides/best-practices-for-using-the-rest-api のベストプラクティスセクションを確認してください。
 
-4. **GitHub Support Contact**：継続的に500エラーが発生する場合、https://support.github.com でサポートチケットを作成し、[リクエスト](/glossary/リクエスト/)IDを含めて報告してください。
+4. **GitHub Support Contact**：継続的に500[エラー](/glossary/エラー/)が発生する場合、https://support.github.com でサポートチケットを作成し、[リクエスト](/glossary/リクエスト/)IDを含めて報告してください。
 
 5. **コミュニティリソース**：GitHub [API](/glossary/api/)関連のIssueはhttps://github.com/github-community/community/discussions で検索すると、既知の問題や回避策が見つかることがあります。
 

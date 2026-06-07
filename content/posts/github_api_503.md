@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)における503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、または[API](/glossary/api/)[レート制限](/glossary/レート制限/)に達した場合に発生します。503エラーが返される際には、通常`Retry-After`[ヘッダー](/glossary/ヘッダー/)が含まれており、どのくらい待つべきかの目安が提示されます。
+GitHub [API](/glossary/api/)における503[エラー](/glossary/エラー/)は、GitHubのサービスが一時的に利用不可の状態にあることを示します。この[エラー](/glossary/エラー/)はGitHub側のメンテナンス、過負荷、または[API](/glossary/api/)[レート制限](/glossary/レート制限/)に達した場合に発生します。503[エラー](/glossary/エラー/)が返される際には、通常`Retry-After`[ヘッダー](/glossary/ヘッダー/)が含まれており、どのくらい待つべきかの目安が提示されます。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 GitHubは定期的なメンテナンスや予期しない障害によって[API](/glossary/api/)が一時的に利用できなくなることがあります。この場合、`Retry-After`[ヘッダー](/glossary/ヘッダー/)で指定された時間待機することが重要です。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```python
 import requests
 
@@ -85,7 +85,7 @@ response = fetch_with_retry(
 
 ### 原因2：APIレート制限に達した場合の不適切なハンドリング
 
-GitHub [API](/glossary/api/)はユーザーごとに[レート制限](/glossary/レート制限/)を設定しており、制限を超過すると一時的に503エラーが返される場合があります。特に[認証](/glossary/認証/)なしの[リクエスト](/glossary/リクエスト/)では制限が厳しいため注意が必要です。
+GitHub [API](/glossary/api/)はユーザーごとに[レート制限](/glossary/レート制限/)を設定しており、制限を超過すると一時的に503[エラー](/glossary/エラー/)が返される場合があります。特に[認証](/glossary/認証/)なしの[リクエスト](/glossary/リクエスト/)では制限が厳しいため注意が必要です。
 
 **Before（[認証](/glossary/認証/)なしでのアクセス）：**
 ```bash
@@ -106,7 +106,7 @@ curl -X POST https://api.github.com/graphql \
 
 ### 原因3：レート制限の監視不足
 
-GitHub [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に近づいていることを事前に検知できていないと、予期せず503エラーに遭遇します。`X-RateLimit-*`[ヘッダー](/glossary/ヘッダー/)を監視することで未然に防げます。
+GitHub [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に近づいていることを事前に検知できていないと、予期せず503[エラー](/glossary/エラー/)に遭遇します。`X-RateLimit-*`[ヘッダー](/glossary/ヘッダー/)を監視することで未然に防げます。
 
 **Before（[レート制限](/glossary/レート制限/)を無視）：**
 ```python
@@ -150,11 +150,11 @@ response = requests.get(
 
 ### GitHub APIバージョンによる違い
 
-GitHub [API](/glossary/api/)には`REST API`と`GraphQL API`の2つの方式があります。[REST](/glossary/rest/) [API](/glossary/api/)の方が503エラーが発生しやすいため、複数のリソースを取得する場合は[GraphQL](/glossary/graphql/) [API](/glossary/api/)の使用を推奨します。[GraphQL](/glossary/graphql/) [API](/glossary/api/)は[クエリ](/glossary/クエリ/)を最適化することで、単一の[リクエスト](/glossary/リクエスト/)で複数の情報を取得でき、[レート制限](/glossary/レート制限/)の消費を大幅に削減できます。
+GitHub [API](/glossary/api/)には`REST API`と`GraphQL API`の2つの方式があります。[REST](/glossary/rest/) [API](/glossary/api/)の方が503[エラー](/glossary/エラー/)が発生しやすいため、複数のリソースを取得する場合は[GraphQL](/glossary/graphql/) [API](/glossary/api/)の使用を推奨します。[GraphQL](/glossary/graphql/) [API](/glossary/api/)は[クエリ](/glossary/クエリ/)を最適化することで、単一の[リクエスト](/glossary/リクエスト/)で複数の情報を取得でき、[レート制限](/glossary/レート制限/)の消費を大幅に削減できます。
 
 ### Personal Access Token（PAT）の有効期限
 
-新しいPATは有効期限を設定できます。期限切れの[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)すると、[認証](/glossary/認証/)エラーを経て503に至る場合があります。定期的に[トークン](/glossary/トークン/)の有効期限を確認し、自動更新の仕組みを導入することが重要です。
+新しいPATは有効期限を設定できます。期限切れの[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)すると、[認証](/glossary/認証/)[エラー](/glossary/エラー/)を経て503に至る場合があります。定期的に[トークン](/glossary/トークン/)の有効期限を確認し、自動更新の仕組みを導入することが重要です。
 
 ### GitHub Status Pageの確認
 
@@ -191,7 +191,7 @@ print(f"Body: {response.text}")
 
 ### コミュニティサポート
 
-問題が解決しない場合は、GitHub Community Discussionsで相談するか、該当するPythonライブラリ（PyGithub）やNode.jsライブラリ（Octokit）のIssueセクションを確認することをお勧めします。エラーが再現可能な場合は、GitHubのサポートに直接問い合わせることもできます。
+問題が解決しない場合は、GitHub Community Discussionsで相談するか、該当するPythonライブラリ（PyGithub）やNode.jsライブラリ（Octokit）のIssueセクションを確認することをお勧めします。[エラー](/glossary/エラー/)が再現可能な場合は、GitHubのサポートに直接問い合わせることもできます。
 
 ---
 

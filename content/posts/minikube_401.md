@@ -5,7 +5,7 @@ description: "Minikubeクラスターへの認証に失敗した。kubeconfigの
 tags: ["Minikube"]
 errorCode: "401"
 ---
-Minikubeへの[認証](/glossary/認証/)に失敗して401エラーが発生します。このエラーは kubeconfig の設定が Minikube クラスターと一致していない場合に起こります。
+Minikubeへの[認証](/glossary/認証/)に失敗して401[エラー](/glossary/エラー/)が発生します。この[エラー](/glossary/エラー/)は kubeconfig の設定が Minikube クラスターと一致していない場合に起こります。
 
 ## よくある原因
 
@@ -19,19 +19,19 @@ Minikube を停止して再起動すると、クラスターの[認証](/glossar
 
 **kubectl が別のクラスターのコンテキストを使っている**
 
-複数の [Kubernetes](/glossary/kubernetes/) クラスターを管理している場合、kubeconfig に複数のコンテキスト（クラスター接続設定）が存在します。kubectl が誤って Minikube 以外のクラスターに接続しようとすると、そのクラスターの認証情報を用いて 401 エラーが発生します。
+複数の [Kubernetes](/glossary/kubernetes/) クラスターを管理している場合、kubeconfig に複数のコンテキスト（クラスター接続設定）が存在します。kubectl が誤って Minikube 以外のクラスターに接続しようとすると、そのクラスターの認証情報を用いて 401 [エラー](/glossary/エラー/)が発生します。
 
 ## 解決手順
 
 **ステップ1：kubeconfig を Minikube の現在の設定で更新する**
 
-以下のコマンドを実行してください：
+以下の[コマンド](/glossary/コマンド/)を実行してください：
 
 ```bash
 minikube update-context
 ```
 
-このコマンドは Minikube クラスターの現在の認証情報と接続先を読み取り、kubeconfig ファイル（通常は `~/.kube/config`）を自動的に更新します。証明書や [API](/glossary/api/) [サーバー](/glossary/サーバー/)のアドレスが最新の状態に修正されます。
+この[コマンド](/glossary/コマンド/)は Minikube クラスターの現在の認証情報と接続先を読み取り、kubeconfig ファイル（通常は `~/.kube/config`）を自動的に更新します。証明書や [API](/glossary/api/) [サーバー](/glossary/サーバー/)のアドレスが最新の状態に修正されます。
 
 **ステップ2：kubectl のコンテキストを Minikube に切り替える**
 
@@ -41,7 +41,7 @@ minikube update-context
 kubectl config current-context
 ```
 
-以下のコマンドで Minikube コンテキストに切り替えます：
+以下の[コマンド](/glossary/コマンド/)で Minikube コンテキストに切り替えます：
 
 ```bash
 kubectl config use-context minikube
@@ -55,7 +55,7 @@ kubectl config current-context
 
 **ステップ3：Minikube クラスターを再起動する**
 
-上記の手順でも 401 エラーが続く場合、Minikube クラスター自体を再起動してください：
+上記の手順でも 401 [エラー](/glossary/エラー/)が続く場合、Minikube クラスター自体を再起動してください：
 
 ```bash
 minikube stop
@@ -81,7 +81,7 @@ minikube start
 
 Minikube が起動する際に新しい kubeconfig ファイルが自動生成されます。ただし、他の [Kubernetes](/glossary/kubernetes/) クラスターの設定情報が失われるため、複数クラスターを管理している場合は事前にバックアップを取ってください。
 
-また、Minikube のバージョンが古い場合、認証方式の変更に対応していない可能性があります。以下のコマンドでアップグレードを確認してください：
+また、Minikube のバージョンが古い場合、認証方式の変更に対応していない可能性があります。以下の[コマンド](/glossary/コマンド/)でアップグレードを確認してください：
 
 ```bash
 minikube update-check

@@ -7,7 +7,7 @@ errorCode: "403"
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose で 403 エラーが発生する場合、これは[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）またはホストマシンのリソースに対して、実行ユーザーが十分な[アクセス権限](/glossary/アクセス権限/)を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、[Docker](/glossary/docker/) ソケットへのアクセスなど、複数の場面で発生する可能性があります。
+[Docker](/glossary/docker/) Compose で 403 [エラー](/glossary/エラー/)が発生する場合、これは[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）またはホストマシンのリソースに対して、実行ユーザーが十分な[アクセス権限](/glossary/アクセス権限/)を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、[Docker](/glossary/docker/) ソケットへのアクセスなど、複数の場面で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -37,9 +37,9 @@ ERROR: Got permission denied while trying to connect to the Docker daemon socket
 
 ### 原因1：プライベートイメージレジストリへの認証不足
 
-[Docker](/glossary/docker/) Compose でプライベートイメージを利用する場合、[レジストリ](/glossary/レジストリ/)に対する認証情報が必要です。[認証](/glossary/認証/)なしにプライベートイメージを pull しようとすると 403 エラーが発生します。
+[Docker](/glossary/docker/) Compose でプライベートイメージを利用する場合、[レジストリ](/glossary/レジストリ/)に対する認証情報が必要です。[認証](/glossary/認証/)なしにプライベートイメージを pull しようとすると 403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -49,7 +49,7 @@ services:
     # 認証情報が設定されていない
 ```
 
-実行時に以下のコマンドを実行すると 403 エラーが発生します：
+実行時に以下の[コマンド](/glossary/コマンド/)を実行すると 403 [エラー](/glossary/エラー/)が発生します：
 
 ```bash
 docker-compose up
@@ -91,9 +91,9 @@ services:
 
 ### 原因2：ボリュームマウント先ディレクトリのパーミッション不足
 
-[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先ディレクトリに書き込みを試みると、パーミッション不足で 403 エラーが発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
+[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先ディレクトリに書き込みを試みると、パーミッション不足で 403 [エラー](/glossary/エラー/)が発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -150,9 +150,9 @@ USER appuser
 
 ### 原因3：Docker ソケットへのアクセス権限不足
 
-現在のユーザーが docker グループに属していない場合、[Docker](/glossary/docker/) ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 エラーが発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
+現在のユーザーが docker グループに属していない場合、[Docker](/glossary/docker/) ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 [エラー](/glossary/エラー/)が発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 一般ユーザーで docker-compose を実行
@@ -194,7 +194,7 @@ id -nG
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Compose で 403 エラーが発生する際、以下のシナリオ別の対応が必要です。
+[Docker](/glossary/docker/) Compose で 403 [エラー](/glossary/エラー/)が発生する際、以下のシナリオ別の対応が必要です。
 
 **マルチステージビルドでプライベートイメージを使用する場合：**
 
@@ -229,7 +229,7 @@ docker stack deploy -c docker-compose.yml <stack-name>
 
 ## それでも解決しない場合
 
-[Docker](/glossary/docker/) Compose の詳細なエラー出力を確認します。
+[Docker](/glossary/docker/) Compose の詳細な[エラー](/glossary/エラー/)出力を確認します。
 
 ```bash
 # デバッグモードで実行（詳細ログを表示）

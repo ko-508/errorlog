@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で404エラーが返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示します。このエラーはGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)のURLや[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
+GitHub [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示します。この[エラー](/glossary/エラー/)はGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)のURLや[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ GitHub [API](/glossary/api/)で404エラーが返される場合、[リクエス
 
 [API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)で指定した[リポジトリ](/glossary/リポジトリ/)名やオーナー名に誤りがあると、[サーバー](/glossary/サーバー/)がそのリソースを検索できず404が返されます。
 
-**Before（エラーが起きるコード）:**
+**Before（[エラー](/glossary/エラー/)が起きるコード）:**
 ```bash
 curl -H "Authorization: token <your-github-token>" \
   https://api.github.com/repos/microsoft/vscode/contents/LICENCE.md
@@ -143,7 +143,7 @@ https://api.github.com/repos/<owner>/<repo>/pulls/<number>/reviews
 
 ### リリース・タグ・ブランチの存在確認
 
-タグや[ブランチ](/glossary/ブランチ/)名を指定する[エンドポイント](/glossary/エンドポイント/)（例：`/repos/<owner>/<repo>/contents/<path>?ref=<branch>`）では、指定した参照が存在しなければ404が返されます。以下のコマンドで先に存在確認を行いましょう。
+タグや[ブランチ](/glossary/ブランチ/)名を指定する[エンドポイント](/glossary/エンドポイント/)（例：`/repos/<owner>/<repo>/contents/<path>?ref=<branch>`）では、指定した参照が存在しなければ404が返されます。以下の[コマンド](/glossary/コマンド/)で先に存在確認を行いましょう。
 
 ```bash
 # ブランチ一覧確認
@@ -159,16 +159,16 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 確認すべきポイントとデバッグ手順
 
-1. **[トークン](/glossary/トークン/)の有効性確認**：以下のコマンドで[トークン](/glossary/トークン/)が有効かつ正しい[スコープ](/glossary/スコープ/)を持つか確認します。
+1. **[トークン](/glossary/トークン/)の有効性確認**：以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効かつ正しい[スコープ](/glossary/スコープ/)を持つか確認します。
 
 ```bash
 curl -H "Authorization: token <your-github-token>" \
   https://api.github.com/user
 ```
 
-2. **リソースの実在確認**：ブラウザでGitHub.comにログインし、対象の[リポジトリ](/glossary/リポジトリ/)・ユーザー・ファイルが本当に存在するか目視確認してください。
+2. **リソースの実在確認**：ブラウザでGitHub.comに[ログイン](/glossary/ログイン/)し、対象の[リポジトリ](/glossary/リポジトリ/)・ユーザー・ファイルが本当に存在するか目視確認してください。
 
-3. **[API](/glossary/api/)レスポンスヘッダーの確認**：以下のコマンドで詳細情報を取得します。
+3. **[API](/glossary/api/)レスポンスヘッダーの確認**：以下の[コマンド](/glossary/コマンド/)で詳細情報を取得します。
 
 ```bash
 curl -i -H "Authorization: token <your-github-token>" \

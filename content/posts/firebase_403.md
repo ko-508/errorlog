@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase の 403 エラーは「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールが[リクエスト](/glossary/リクエスト/)をブロックしている状態です。ユーザーは[認証](/glossary/認証/)されていても、特定のデータへの[アクセス権限](/glossary/アクセス権限/)がないため発生します。
+Firebase の 403 [エラー](/glossary/エラー/)は「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールが[リクエスト](/glossary/リクエスト/)をブロックしている状態です。ユーザーは[認証](/glossary/認証/)されていても、特定のデータへの[アクセス権限](/glossary/アクセス権限/)がないため発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -24,7 +24,7 @@ Firestore での典型的なエラーメッセージです。
 }
 ```
 
-Cloud Storage でのエラー出力例：
+Cloud Storage での[エラー](/glossary/エラー/)出力例：
 
 ```json
 {
@@ -48,7 +48,7 @@ FirebaseError: Missing or insufficient permissions. (permission-denied)
 **なぜ発生するか**
 Firestore のセキュリティルールが `allow read: if false;` のような形で、すべてのアクセスを拒否している状況です。開発環境で一時的に制限を設けたまま本番コードでアクセスしている場合が多くあります。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 
 ```yaml
 rules_version = '2';
@@ -83,7 +83,7 @@ service cloud.firestore {
 **なぜ発生するか**
 セキュリティルール内で `request.auth.uid` を参照しているのに、ユーザーが未認証の状態、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限が切れている場合、権限判定が失敗します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 
 ```javascript
 // ユーザー未認証のままアクセス
@@ -110,7 +110,7 @@ firebase.auth().signInAnonymously()
 **なぜ発生するか**
 セキュリティルールで `request.auth.uid` と実際のドキュメント所有者 UID が一致していない場合、アクセスが拒否されます。例えば、ユーザーが別ユーザーのドキュメントに書き込もうとしているケースです。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 
 ```yaml
 rules_version = '2';
@@ -149,7 +149,7 @@ service cloud.firestore {
 **なぜ発生するか**
 Cloud Storage では Firestore とは異なる `storage.rules` を使用します。このファイルを設定していない場合や、ルールが不十分な場合に 403 が発生します。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 
 ```yaml
 rules_version = '2';
@@ -226,7 +226,7 @@ service cloud.firestore {
 （本番環境では絶対に使用しないでください）
 
 4. **Cloud Logging で詳細[ログ](/glossary/ログ/)を確認**  
-Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で検索し、403 エラーの詳細メッセージを確認します。
+Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で検索し、403 [エラー](/glossary/エラー/)の詳細メッセージを確認します。
 
 ### 公式ドキュメント参照
 

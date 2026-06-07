@@ -9,11 +9,11 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebaseで404エラーが返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseのパスなど）がFirebaseプロジェクト内に存在しないことを示しています。このエラーは[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。開発環境から本番環境への移行時、または参照パスの変更後に特に多く報告されるエラーです。
+Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseのパスなど）がFirebaseプロジェクト内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。開発環境から本番環境への移行時、または参照パスの変更後に特に多く報告される[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
-Firestore [SDK](/glossary/sdk/)からのエラー応答：
+Firestore [SDK](/glossary/sdk/)からの[エラー](/glossary/エラー/)応答：
 ```json
 {
   "code": 404,
@@ -43,7 +43,7 @@ GET https://firestore.googleapis.com/v1/projects/<your-project-id>/databases/(de
 
 Firestoreはドキュメント階層が厳密です。コレクション名やドキュメントIDの綴り間違いが404につながります。
 
-**Before（エラーが発生するコード）:**
+**Before（[エラー](/glossary/エラー/)が発生するコード）:**
 ```javascript
 const docRef = doc(db, "users", "user123");
 const docSnap = await getDoc(docRef);
@@ -65,7 +65,7 @@ if (docSnap.exists()) {
 
 [デプロイ](/glossary/デプロイ/)時の関数名やリージョン指定が変わると、呼び出しURLが無効になります。
 
-**Before（エラーが発生する呼び出し）:**
+**Before（[エラー](/glossary/エラー/)が発生する呼び出し）:**
 ```bash
 curl https://us-central1-<your-project-id>.cloudfunctions.net/getUserData?userId=123
 # 実際にはこのパスが存在しない
@@ -93,7 +93,7 @@ Cloud Functionsの[デプロイ](/glossary/デプロイ/)設定の確認：
 
 Firestoreは明示的にコレクション・ドキュメントを作成する必要があります。存在しないパスへのアクセスは404になります。
 
-**Before（エラーが発生）:**
+**Before（[エラー](/glossary/エラー/)が発生）:**
 ```javascript
 const usersRef = collection(db, "users");
 const q = query(usersRef, where("role", "==", "admin"));
@@ -120,7 +120,7 @@ const querySnapshot = await getDocs(q);
 
 Realtime Databaseも厳密なパス指定が必要です。大文字小文字の違いも404の原因になります。
 
-**Before（エラーが発生）:**
+**Before（[エラー](/glossary/エラー/)が発生）:**
 ```javascript
 const dbRef = ref(database, "Users/UserData"); // 大文字で記述
 const snapshot = await get(dbRef);
@@ -190,7 +190,7 @@ const database = getDatabase(app, "https://<your-project-id>.firebaseio.com");
 **[ログ](/glossary/ログ/)確認の手順**
 
 1. **Firebase Console** → 対象プロジェクト → **Logs** セクションを開く
-2. Cloud Functionsの場合は **Functions** タブで詳細なエラーログを確認
+2. Cloud Functionsの場合は **Functions** タブで詳細な[エラーログ](/glossary/エラーログ/)を確認
 3. Firestoreの場合は **Firestore** → **Monitoring** でリアルタイムエラーを監視
 
 **デバッグコマンド**

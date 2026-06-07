@@ -7,11 +7,11 @@ errorCode: "500"
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose の 500 エラーは、[Docker](/glossary/docker/) Compose 自体またはそれが管理するコンテナー内で内部エラーが発生したことを示します。このエラーは通常、コンテナー起動時のアプリケーションクラッシュ、エントリポイント実行の失敗、または[ヘルスチェック](/glossary/ヘルスチェック/)機構の不具合によって引き起こされます。対象のサービスが正常に起動・稼働できない状態を意味しており、迅速な原因特定と対応が必要です。
+[Docker](/glossary/docker/) Compose の 500 [エラー](/glossary/エラー/)は、[Docker](/glossary/docker/) Compose 自体またはそれが管理するコンテナー内で内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は通常、コンテナー起動時のアプリケーションクラッシュ、エントリポイント実行の失敗、または[ヘルスチェック](/glossary/ヘルスチェック/)機構の不具合によって引き起こされます。対象のサービスが正常に起動・稼働できない状態を意味しており、迅速な原因特定と対応が必要です。
 
 ## 実際のエラーメッセージ例
 
-[Docker](/glossary/docker/) Compose でコンテナーが起動に失敗した際の典型的なエラー出力は以下の通りです。
+[Docker](/glossary/docker/) Compose でコンテナーが起動に失敗した際の典型的な[エラー](/glossary/エラー/)出力は以下の通りです。
 
 ```bash
 ERROR: for <service-name>  Cannot start service <service-name>: 
@@ -27,7 +27,7 @@ starting container process caused: exec:
 <service-name> | (Exit status: 1)
 ```
 
-アプリケーション実行時のエラーログは以下のようなパターンです。
+アプリケーション実行時の[エラーログ](/glossary/エラーログ/)は以下のようなパターンです。
 
 ```bash
 docker-compose logs <service-name>
@@ -43,7 +43,7 @@ docker-compose logs <service-name>
 
 コンテナー起動後、アプリケーションが異常終了またはランタイムエラーで落ちてしまう状況です。これは依存関係の欠落、[設定ファイル](/glossary/設定ファイル/)の不在、メモリ不足、または不正な初期化処理によって発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -86,19 +86,19 @@ COPY . .
 CMD ["python", "main.py"]
 ```
 
-**診断コマンド：**
+**診断[コマンド](/glossary/コマンド/)：**
 
 ```bash
 docker compose logs <service-name>
 ```
 
-このコマンドでアプリケーション側のスタックトレースや例外メッセージが表示されます。メッセージから原因を特定し、コード修正またはパッケージインストールを行います。
+この[コマンド](/glossary/コマンド/)でアプリケーション側のスタックトレースや例外メッセージが表示されます。メッセージから原因を特定し、コード修正またはパッケージインストールを行います。
 
 ### 原因2：コンテナーのエントリポイントやコマンドが失敗して終了した
 
 `docker-compose.yml` の `command` または `entrypoint` に指定したスクリプト・実行ファイルが見つからない、または実行権限がない場合に発生します。これはパス指定の誤り、ファイルの忘れ、ビルド時のレイヤー構成ミスが原因となります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -110,7 +110,7 @@ services:
       - "80:80"
 ```
 
-`start.sh` がイメージ内に存在しないか、実行権限がない状態です。
+`start.sh` が[イメージ](/glossary/イメージ/)内に存在しないか、実行権限がない状態です。
 
 **After（修正後）：**
 
@@ -134,7 +134,7 @@ RUN chmod +x /app/start.sh
 EXPOSE 80
 ```
 
-**診断コマンド：**
+**診断[コマンド](/glossary/コマンド/)：**
 
 ```bash
 docker compose ps
@@ -152,7 +152,7 @@ docker compose logs <service-name>
 
 `healthcheck` で定義されたチェックが継続的に失敗し、[Docker](/glossary/docker/) がコンテナーを繰り返し再起動するため、サービスが安定しない状態です。これはアプリケーション起動時間が[タイムアウト](/glossary/タイムアウト/)値より長い、[ポート](/glossary/ポート/)待機が遅い、または接続情報が誤っている場合に発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -189,7 +189,7 @@ services:
 
 `start_period` を追加することで、コンテナー起動直後の[ヘルスチェック](/glossary/ヘルスチェック/)を遅延させ、アプリケーションが準備完了するまで待機します。
 
-**診断コマンド：**
+**診断[コマンド](/glossary/コマンド/)：**
 
 ```bash
 docker compose logs <service-name> --tail=50
@@ -207,7 +207,7 @@ docker inspect <container-id> | grep -A 20 "Health"
 
 ### サービス間の依存関係と起動順序
 
-[Docker](/glossary/docker/) Compose の `depends_on` オプションはデフォルトではサービスの起動完了を待たず、コンテナー起動後すぐに次のサービスを起動します。[データベース](/glossary/データベース/)が完全に初期化される前にアプリケーションが接続を試みる場合、500 エラーが発生します。
+[Docker](/glossary/docker/) Compose の `depends_on` オプションはデフォルトではサービスの起動完了を待たず、コンテナー起動後すぐに次のサービスを起動します。[データベース](/glossary/データベース/)が完全に初期化される前にアプリケーションが接続を試みる場合、500 [エラー](/glossary/エラー/)が発生します。
 
 ```yaml
 version: '3.8'
@@ -225,7 +225,7 @@ services:
 
 ### マルチステージビルドでの依存関係漏れ
 
-Dockerfile でマルチステージビルドを使用する場合、最終ステージに必要なランタイムやライブラリをコピーし忘れると、実行時に 500 エラーが発生します。
+Dockerfile でマルチステージビルドを使用する場合、最終ステージに必要なランタイムやライブラリをコピーし忘れると、実行時に 500 [エラー](/glossary/エラー/)が発生します。
 
 ```dockerfile
 FROM golang:1.19 as builder
@@ -282,7 +282,7 @@ docker compose down
 docker compose run --rm <service-name> /bin/bash
 ```
 
-でコンテナー内のシェルを取得し、手動でアプリケーションを実行してエラーを確認します。
+でコンテナー内の[シェル](/glossary/シェル/)を取得し、手動でアプリケーションを実行して[エラー](/glossary/エラー/)を確認します。
 
 ### イベントログの確認
 

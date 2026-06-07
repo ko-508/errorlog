@@ -8,17 +8,17 @@ errorCode: "401"
 
 ## Slack 401 エラーが発生する原因と解決方法
 
-Slack [API](/glossary/api/) を使用する際に 401 エラーが返される場合、アプリケーションが Slack に正しく[認証](/glossary/認証/)できていません。このエラーが発生すると、ボット機能やカスタムアプリが機能しなくなるため、迅速な対応が必要です。
+Slack [API](/glossary/api/) を使用する際に 401 [エラー](/glossary/エラー/)が返される場合、アプリケーションが Slack に正しく[認証](/glossary/認証/)できていません。この[エラー](/glossary/エラー/)が発生すると、ボット機能やカスタムアプリが機能しなくなるため、迅速な対応が必要です。
 
 ## よくある原因
 
 ### トークンが無効または期限切れになっている
 
-Bot [トークン](/glossary/トークン/)（xoxb で始まる）や User [OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)（xoxp で始まる）が期限切れになったり、無効な状態になったりしている場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)は 401 エラーで拒否されます。特に、セキュリティアップデートや[トークン](/glossary/トークン/)のローテーション（定期的な更新）後に発生することが多いです。
+Bot [トークン](/glossary/トークン/)（xoxb で始まる）や User [OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)（xoxp で始まる）が期限切れになったり、無効な状態になったりしている場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)は 401 [エラー](/glossary/エラー/)で拒否されます。特に、セキュリティアップデートや[トークン](/glossary/トークン/)のローテーション（定期的な更新）後に発生することが多いです。
 
 ### OAuth スコープが不足している
 
-[OAuth](/glossary/oauth/) [スコープ](/glossary/スコープ/)（権限範囲）は、アプリが何ができるかを制限する仕組みです。必要な[スコープ](/glossary/スコープ/)が不足していると、[API](/glossary/api/) コールが拒否されます。例えば、メッセージ送信には `chat:write` [スコープ](/glossary/スコープ/)が必要ですが、これが許可されていないと 401 エラーが発生します。
+[OAuth](/glossary/oauth/) [スコープ](/glossary/スコープ/)（権限範囲）は、アプリが何ができるかを制限する仕組みです。必要な[スコープ](/glossary/スコープ/)が不足していると、[API](/glossary/api/) コールが拒否されます。例えば、メッセージ送信には `chat:write` [スコープ](/glossary/スコープ/)が必要ですが、これが許可されていないと 401 [エラー](/glossary/エラー/)が発生します。
 
 ### アプリがワークスペースからアンインストールされた
 
@@ -30,7 +30,7 @@ Bot [トークン](/glossary/トークン/)（xoxb で始まる）や User [OAut
 
 Slack [ワークスペース](/glossary/ワークスペース/)の管理画面にアクセスし、以下の手順を実行してください。
 
-1. [Slack App Directory](https://api.slack.com/apps) にログイン
+1. [Slack App Directory](https://api.slack.com/apps) に[ログイン](/glossary/ログイン/)
 2. 対象のアプリを選択
 3. 左メニューから「**[OAuth](/glossary/oauth/) & Permissions**」をクリック
 4. 「**Bot Token Revoked**」の場合、「**Reinstall to Workspace**」をクリック
@@ -86,7 +86,7 @@ curl -X GET https://slack.com/api/auth.test \
 - **[トークン](/glossary/トークン/)の有効期限を確認**：App 設定で「**Install App**」セクションを確認
 - **[ネットワーク](/glossary/ネットワーク/)接続を確認**：[プロキシ](/glossary/プロキシ/)や[ファイアウォール](/glossary/ファイアウォール/)の影響がないか確認
 - **Slack 公式ドキュメント**を参照：https://api.slack.com/authentication/basics
-- **Slack サポートに問い合わせ**：[ワークスペース](/glossary/ワークスペース/)の管理者権限で対応が必要な場合もあります
+- **Slack サポートに問い合わせ**：[ワークスペース](/glossary/ワークスペース/)の[管理者権限](/glossary/管理者権限/)で対応が必要な場合もあります
 
 ---
 

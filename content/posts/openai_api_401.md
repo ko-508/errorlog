@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で401エラーが返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がクライアントの身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべてのアプリケーションで発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
+OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がクライアントの身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべてのアプリケーションで発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ curl https://api.openai.com/v1/chat/completions \
 
 OpenAI [ダッシュボード](/glossary/ダッシュボード/)からコピーした[API](/glossary/api/)キーに含まれる空白文字や改行が混在すると、[認証](/glossary/認証/)に失敗します。また、キーの一部だけをコピーすることも考えられます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```python
 import openai
 
@@ -71,7 +71,7 @@ response = openai.ChatCompletion.create(
 
 .envファイルや[環境変数](/glossary/環境変数/)の設定で、OPENAI_[API](/glossary/api/)_KEYが指定されていないか、間違った値が保存されている場合があります。
 
-**Before（エラーが起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる設定）：**
 ```bash
 # .env ファイル（間違い例）
 OPENAI_API_KEY=sk-proj-  # 不完全
@@ -92,7 +92,7 @@ echo $OPENAI_API_KEY  # 値が表示されることを確認
 
 OpenAI [ダッシュボード](/glossary/ダッシュボード/)からキーを手動で削除したり、組織の管理者が無効化した場合、そのキーでの[リクエスト](/glossary/リクエスト/)は401で拒否されます。
 
-**Before（エラーが起きる状況）：**
+**Before（[エラー](/glossary/エラー/)が起きる状況）：**
 ```javascript
 // 以前作成したキーを使用している
 const apiKey = "sk-proj-oldkey123"; // ダッシュボードで削除済み
@@ -136,7 +136,7 @@ console.log(data);
 
 OpenAI [API](/glossary/api/)は`Authorization: Bearer <api_key>`という形式を要求します。単なる`api_key`の値を[ヘッダー](/glossary/ヘッダー/)に含めるだけでは[認証](/glossary/認証/)されません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
 # 間違ったヘッダー形式
 curl https://api.openai.com/v1/chat/completions \
@@ -173,7 +173,7 @@ response = openai.ChatCompletion.create(
 ```
 
 **Proxy経由での[リクエスト](/glossary/リクエスト/)：**
-企業[ネットワーク](/glossary/ネットワーク/)環境で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401エラーになることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
+企業[ネットワーク](/glossary/ネットワーク/)環境で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401[エラー](/glossary/エラー/)になることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
 
 **複数キーの管理：**
 テスト環境と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.envファイルを分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
@@ -183,7 +183,7 @@ response = openai.ChatCompletion.create(
 **確認すべきポイント：**
 1. OpenAI公式[ダッシュボード](/glossary/ダッシュボード/)（https://platform.openai.com/account/api-keys）にログインし、APIキーが有効な状態か確認してください。
 2. キーの作成日時と現在日時を比較し、有効期限を超えていないか確認します。
-3. [環境変数](/glossary/環境変数/)が実際に読み込まれているか、デバッグで出力して確認してください。`echo $OPENAI_API_KEY`（Linux/Mac）または`echo %OPENAI_API_KEY%`（Windows）で検証できます。
+3. [環境変数](/glossary/環境変数/)が実際に読み込まれているか、[デバッグ](/glossary/デバッグ/)で出力して確認してください。`echo $OPENAI_API_KEY`（Linux/Mac）または`echo %OPENAI_API_KEY%`（Windows）で検証できます。
 
 **公式ドキュメント：**
 OpenAI公式の「Authentication」ページ（https://platform.openai.com/docs/guides/authentication）にAPIキー管理の詳細が記載されています。特に「API keys」セクションで有効期限設定やキー作成手順を確認できます。

@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 # エラーの概要
 
-[Docker](/glossary/docker/) の 403 エラーは、[認証](/glossary/認証/)（ログイン）には成功したものの、対象のリソース（イメージ、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。
+[Docker](/glossary/docker/) の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)（[ログイン](/glossary/ログイン/)）には成功したものの、対象のリソース（[イメージ](/glossary/イメージ/)、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -39,9 +39,9 @@ denied: requested access to the resource is denied
 
 ### 原因1：Docker Hub のログイン認証が無効または権限不足
 
-なぜ発生するか：[Docker](/glossary/docker/) [CLI](/glossary/cli/) がログインしていない状態、または無効な[トークン](/glossary/トークン/)で[リポジトリ](/glossary/リポジトリ/)にアクセスしようとすると、403 エラーが返されます。特にプライベートリポジトリの場合、[認証](/glossary/認証/)なしでのアクセスが拒否されます。
+なぜ発生するか：[Docker](/glossary/docker/) [CLI](/glossary/cli/) が[ログイン](/glossary/ログイン/)していない状態、または無効な[トークン](/glossary/トークン/)で[リポジトリ](/glossary/リポジトリ/)にアクセスしようとすると、403 [エラー](/glossary/エラー/)が返されます。特にプライベートリポジトリの場合、[認証](/glossary/認証/)なしでのアクセスが拒否されます。
 
-**Before（エラーが起きるコマンド）**
+**Before（[エラー](/glossary/エラー/)が起きる[コマンド](/glossary/コマンド/)）**
 
 ```bash
 # ログインせずにプライベートリポジトリをプルしようとする
@@ -51,7 +51,7 @@ docker pull myusername/private-image:latest
 docker push myrepo/myimage:tag
 ```
 
-**After（修正後のコマンド）**
+**After（修正後の[コマンド](/glossary/コマンド/)）**
 
 ```bash
 # Docker Hub にログイン
@@ -81,7 +81,7 @@ docker login
 
 なぜ発生するか：[Docker](/glossary/docker/) Hub で[リポジトリ](/glossary/リポジトリ/)を作成した時点の所有者と異なるアカウント、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 
 ```bash
 # ユーザーAが作成した org/repo にユーザーBがログインしてアクセス
@@ -109,9 +109,9 @@ docker push org/repo:v1.0
 
 ### 原因3：プライベートレジストリの認証情報が Kubernetes に未登録
 
-なぜ発生するか：[Docker](/glossary/docker/) コンテナを [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。
+なぜ発生するか：[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)を [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet が[イメージ](/glossary/イメージ/)取得時に 403 [エラー](/glossary/エラー/)を受け取ります。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 
 ```yaml
 apiVersion: v1
@@ -190,7 +190,7 @@ curl -u username:password https://your-registry.com/v2/
 
 ### 確認すべきログと情報
 
-[Docker](/glossary/docker/) デーモンのログを確認して詳細なエラーを特定します：
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認して詳細な[エラー](/glossary/エラー/)を特定します：
 
 ```bash
 # Docker Desktop (Mac)
@@ -217,12 +217,12 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 ### 公式ドキュメント参照
 
 - [Docker Hub Authentication](https://docs.docker.com/docker-hub/access-tokens/)：アクセストークンの生成と管理
-- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：レジストリ [API](/glossary/api/) 仕様
+- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) 仕様
 - [Kubernetes Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)：[Kubernetes](/glossary/kubernetes/) での認証設定
 
 ### コミュニティリソース
 
-GitHub の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 エラーは、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
+GitHub の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 [エラー](/glossary/エラー/)は、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
 
 ---
 

@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase の 409 Conflict エラーは、Firestore の[トランザクション](/glossary/トランザクション/)処理が他の同時実行操作との競合によって失敗したことを示します。このエラーは主にFirestore の[トランザクション](/glossary/トランザクション/)実行中に、同じドキュメントへの書き込み操作が複数発生した場合や、読み取り値が操作開始時から変更されている場合に発生します。Firebase Client [SDK](/glossary/sdk/) を使用している環境で、特に高頻度の更新操作が集中したときに頻繁に見られます。
+Firebase の 409 Conflict [エラー](/glossary/エラー/)は、Firestore の[トランザクション](/glossary/トランザクション/)処理が他の同時実行操作との競合によって失敗したことを示します。この[エラー](/glossary/エラー/)は主にFirestore の[トランザクション](/glossary/トランザクション/)実行中に、同じドキュメントへの書き込み操作が複数発生した場合や、読み取り値が操作開始時から変更されている場合に発生します。Firebase Client [SDK](/glossary/sdk/) を使用している環境で、特に高頻度の更新操作が集中したときに頻繁に見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -36,7 +36,7 @@ firebase.firestore().runTransaction(transaction => {
 
 複数のクライアントまたは[サーバー](/glossary/サーバー/)が同時に同じドキュメントを読み取り・書き込みする[トランザクション](/glossary/トランザクション/)を実行している場合、Firestore の楽観的ロック機構が競合を検出して 409 を返します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```javascript
 // ユーザーAとユーザーBが同時に実行
 firebase.firestore().runTransaction(async (transaction) => {
@@ -99,7 +99,7 @@ await updateBalance("user123", 100);
 
 Firestore のセキュリティルールが `allow write: if resource.data.version == request.auth.token.version;` のような[バージョン管理](/glossary/バージョン管理/)を行っている場合、他のクライアントの更新により条件が満たされなくなり 409 が発生します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```yaml
 // Firestore セキュリティルール
 rules_version = '2';
@@ -156,7 +156,7 @@ async function updateItem(itemId, updates) {
 
 複数クライアントが同じ Counter ドキュメントを同時にインクリメントしようとする場合、Firestore の[トランザクション](/glossary/トランザクション/)分離レベルが 409 を返すことがあります。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```javascript
 // 複数ユーザーが同時にカウンターをインクリメント
 async function incrementCounter(counterId) {
@@ -209,7 +209,7 @@ async function distributedIncrement(counterId) {
 
 ### Cloud Functions での実行との組み合わせ
 
-Cloud Functions から Firestore [トランザクション](/glossary/トランザクション/)を実行する場合、関数の[タイムアウト](/glossary/タイムアウト/)設定が不適切だと 409 が発生しやすくなります。[トランザクション](/glossary/トランザクション/)内の操作は 25 秒以内に完了する必要があり、この制限に抵触すると競合エラーと同じ結果になります。
+Cloud Functions から Firestore [トランザクション](/glossary/トランザクション/)を実行する場合、関数の[タイムアウト](/glossary/タイムアウト/)設定が不適切だと 409 が発生しやすくなります。[トランザクション](/glossary/トランザクション/)内の操作は 25 秒以内に完了する必要があり、この制限に抵触すると競合[エラー](/glossary/エラー/)と同じ結果になります。
 
 ```javascript
 // functions/index.js
@@ -278,7 +278,7 @@ async function safeTransaction(operation) {
 
 ### デバッグ方法
 
-Firebase Console の「Firestore → [ログ](/glossary/ログ/)」セクションで詳細な[トランザクション](/glossary/トランザクション/)失敗[ログ](/glossary/ログ/)を確認できます。以下のコマンドで Cloud Logging から詳細を取得できます。
+Firebase Console の「Firestore → [ログ](/glossary/ログ/)」セクションで詳細な[トランザクション](/glossary/トランザクション/)失敗[ログ](/glossary/ログ/)を確認できます。以下の[コマンド](/glossary/コマンド/)で Cloud Logging から詳細を取得できます。
 
 ```bash
 gcloud logging read "resource.type=cloud_firestore AND severity=ERROR" \

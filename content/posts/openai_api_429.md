@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-429エラーは、OpenAI [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したときに返される**Too Many Requests**を意味します。OpenAI [API](/glossary/api/)は、[API](/glossary/api/) キーごとにTPM（1分あたりの[トークン](/glossary/トークン/)数）やRPM（1分あたりの[リクエスト](/glossary/リクエスト/)数）に上限を設定しており、この制限を超過するとこのエラーが発生します。本番環境での動作停止につながるため、早期の対応が重要です。
+429[エラー](/glossary/エラー/)は、OpenAI [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したときに返される**Too Many Requests**を意味します。OpenAI [API](/glossary/api/)は、[API](/glossary/api/) キーごとにTPM（1分あたりの[トークン](/glossary/トークン/)数）やRPM（1分あたりの[リクエスト](/glossary/リクエスト/)数）に上限を設定しており、この制限を超過するとこの[エラー](/glossary/エラー/)が発生します。本番環境での動作停止につながるため、早期の対応が重要です。
 
 ## 実際のエラーメッセージ例
 
@@ -34,7 +34,7 @@ openai.error.RateLimitError: Rate limit exceeded for gpt-4 in organization <your
 
 OpenAI [API](/glossary/api/)の有料プランでは、1分あたりの利用[トークン](/glossary/トークン/)数に上限があります。長いテキストの一括処理や並行[リクエスト](/glossary/リクエスト/)が多いと、この制限に達します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```python
 import openai
 
@@ -72,7 +72,7 @@ for i, msg in enumerate(messages):
 
 OpenAI [API](/glossary/api/)のフリープランでは、1分あたりの[リクエスト](/glossary/リクエスト/)数が制限されています。並行処理やループ処理で多くの[リクエスト](/glossary/リクエスト/)を短時間に送信するとこの制限に達します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```python
 import concurrent.futures
 import openai
@@ -119,7 +119,7 @@ for prompt in prompts:
 
 複数の組織に属する[API](/glossary/api/)キーを使う場合、リクエストヘッダーで指定した組織の[レート制限](/glossary/レート制限/)が適用されます。期待する組織ではなく別の組織として認識されると、その組織の低い制限に引っかかります。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```python
 import openai
 
@@ -170,7 +170,7 @@ print(f"Reset time: {response['headers'].get('x-ratelimit-reset-tokens')}")
 ## それでも解決しない場合
 
 **[ログ](/glossary/ログ/)とメトリクスの確認**
-OpenAI [API](/glossary/api/)[ダッシュボード](/glossary/ダッシュボード/)の「Usage」ページで、実際の使用[トークン](/glossary/トークン/)数と制限値をリアルタイムで確認できます。エラーが発生した時間帯のグラフから、何がトリガーになったかを特定しましょう。
+OpenAI [API](/glossary/api/)[ダッシュボード](/glossary/ダッシュボード/)の「Usage」ページで、実際の使用[トークン](/glossary/トークン/)数と制限値をリアルタイムで確認できます。[エラー](/glossary/エラー/)が発生した時間帯のグラフから、何がトリガーになったかを特定しましょう。
 
 **公式ドキュメント**
 [Rate limits - OpenAI API](https://platform.openai.com/docs/guides/rate-limits)では、プラン別の具体的な制限値と対処方法が記載されています。

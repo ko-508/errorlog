@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)環境で500エラーが発生した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)またはコントロールプレーンコンポーネントで予期しない内部エラーが生じています。このエラーはクラスタ全体の管理機能に影響を与える可能性があり、迅速な対応が必要です。500エラーが返される場合、リソースの作成・更新・削除やクラスタ情報の取得が失敗することになります。
+[Kubernetes](/glossary/kubernetes/)環境で500[エラー](/glossary/エラー/)が発生した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)またはコントロールプレーンコンポーネントで予期しない内部[エラー](/glossary/エラー/)が生じています。この[エラー](/glossary/エラー/)はクラスタ全体の管理機能に影響を与える可能性があり、迅速な対応が必要です。500[エラー](/glossary/エラー/)が返される場合、リソースの作成・更新・削除やクラスタ情報の取得が失敗することになります。
 
 ## 実際のエラーメッセージ例
 
@@ -34,9 +34,9 @@ Error from server (InternalError): error when creating "deployment.yaml": Intern
 
 ### 1. etcdデータベースの障害
 
-**なぜ発生するか**：etcdは[Kubernetes](/glossary/kubernetes/)クラスタの状態を保持する分散キー・バリューストアです。etcdが応答しない、ディスク満杯、または不整合が発生すると[API](/glossary/api/)[サーバー](/glossary/サーバー/)は500エラーを返します。
+**なぜ発生するか**：etcdは[Kubernetes](/glossary/kubernetes/)クラスタの状態を保持する分散キー・バリューストアです。etcdが応答しない、ディスク満杯、または不整合が発生すると[API](/glossary/api/)[サーバー](/glossary/サーバー/)は500[エラー](/glossary/エラー/)を返します。
 
-**Before（エラーが起きる状態）**：
+**Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```bash
 $ kubectl get nodes
 Error from server (InternalError): Internal error occurred: etcd server failed
@@ -59,9 +59,9 @@ kubectl logs -n kube-system -l component=kube-apiserver --tail=100
 
 ### 2. APIサーバーのメモリ不足またはクラッシュ
 
-**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義をメモリに保持しています。大規模クラスタやメモリ制限が厳しい環境では、メモリ不足（OOM）によりプロセスがクラッシュし500エラーが多発します。
+**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義をメモリに保持しています。大規模クラスタやメモリ制限が厳しい環境では、メモリ不足（OOM）によりプロセスがクラッシュし500[エラー](/glossary/エラー/)が多発します。
 
-**Before（エラーが起きる状態）**：
+**Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml
 # メモリ制限が不足している設定例
 apiVersion: v1
@@ -100,9 +100,9 @@ spec:
 
 ### 3. RBAC設定またはServiceAccountの権限不足
 
-**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)が特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を適切に検証できない、または[権限](/glossary/権限/)チェック中にエラーが発生すると500エラーが返されます。特にカスタムリソースに対して[RBAC](/glossary/rbac/)ルールが不完全な場合に顕著です。
+**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)が特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を適切に検証できない、または[権限](/glossary/権限/)チェック中に[エラー](/glossary/エラー/)が発生すると500[エラー](/glossary/エラー/)が返されます。特にカスタムリソースに対して[RBAC](/glossary/rbac/)ルールが不完全な場合に顕著です。
 
-**Before（エラーが起きる状態）**：
+**Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -135,9 +135,9 @@ rules:
 
 ### 4. APIサーバーのプラグイン・アドミッション設定エラー
 
-**なぜ発生するか**：MutatingAdmissionWebhookやValidatingAdmissionWebhookが正常に動作していない場合、または[Webhook](/glossary/webhook/)が応答しない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はすべての[リクエスト](/glossary/リクエスト/)に対して500エラーを返すことがあります。
+**なぜ発生するか**：MutatingAdmissionWebhookやValidatingAdmissionWebhookが正常に動作していない場合、または[Webhook](/glossary/webhook/)が応答しない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はすべての[リクエスト](/glossary/リクエスト/)に対して500[エラー](/glossary/エラー/)を返すことがあります。
 
-**Before（エラーが起きる状態）**：
+**Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
@@ -191,7 +191,7 @@ kubectl logs -n kube-system deployment/kube-apiserver --tail=200
 kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl alarm list
 ```
 
-**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや互換性のないバージョン指定も500エラーを引き起こします。
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや互換性のないバージョン指定も500[エラー](/glossary/エラー/)を引き起こします。
 ```bash
 kubectl get pod -n kube-system kube-apiserver-<master-node-name> -o jsonpath='{.spec.containers[0].command}' | tr ',' '\n'
 ```

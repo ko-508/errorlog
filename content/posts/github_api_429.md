@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の429エラーは「Too Many Requests」を意味し、[レート制限](/glossary/レート制限/)に達したことを示します。GitHubは不正アクセスやDDoS攻撃から保護するため、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)数に制限を設けており、この上限を超えると429が返されます。[認証](/glossary/認証/)の有無や[エンドポイント](/glossary/エンドポイント/)、時間窓によって制限値が異なるため、適切な対策が必須です。
+GitHub [API](/glossary/api/)の429[エラー](/glossary/エラー/)は「Too Many Requests」を意味し、[レート制限](/glossary/レート制限/)に達したことを示します。GitHubは不正アクセスやDDoS攻撃から保護するため、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)数に制限を設けており、この上限を超えると429が返されます。[認証](/glossary/認証/)の有無や[エンドポイント](/glossary/エンドポイント/)、時間窓によって制限値が異なるため、適切な対策が必須です。
 
 ## 実際のエラーメッセージ例
 
@@ -34,7 +34,7 @@ X-RateLimit-Reset: 1234567890
 
 **なぜ発生するか：** [認証](/glossary/認証/)なし（匿名）での[リクエスト](/glossary/リクエスト/)は時間当たり60回に制限されます。スクリプトやアプリが複数回実行されると、すぐに上限に達してしまいます。
 
-**Before（エラーが起きる状態）：**
+**Before（[エラー](/glossary/エラー/)が起きる状態）：**
 ```bash
 # 認証なしでリクエスト
 curl https://api.github.com/user/repos
@@ -51,7 +51,7 @@ curl -H "Authorization: token <your-personal-access-token>" \
 
 **なぜ発生するか：** 定期的に[API](/glossary/api/)を監視する際に、十分な間隔を設けずに[リクエスト](/glossary/リクエスト/)を送り続けると、あっという間に制限に達します。認証済みでも時間当たり5,000[リクエスト](/glossary/リクエスト/)が上限です。
 
-**Before（エラーが起きる状態）：**
+**Before（[エラー](/glossary/エラー/)が起きる状態）：**
 ```python
 import requests
 import time
@@ -99,7 +99,7 @@ while True:
 
 **なぜ発生するか：** [GraphQL](/glossary/graphql/) [API](/glossary/api/)はポイント制（Rate Limit Points）で管理されるため、[REST](/glossary/rest/) [API](/glossary/api/)とは異なる制限ロジックです。複雑な[クエリ](/glossary/クエリ/)は複数ポイントを消費するため、[REST](/glossary/rest/) [API](/glossary/api/)と同じ感覚で使うとすぐに上限に達します。
 
-**Before（エラーが起きる状態）：**
+**Before（[エラー](/glossary/エラー/)が起きる状態）：**
 ```graphql
 # GraphQLで複数リポジトリの全情報を一度に取得
 query {
@@ -150,7 +150,7 @@ query {
 
 **なぜ発生するか：** 同じデータを何度も取得するのは無駄です。特に[CI/CD](/glossary/ci-cd/)パイプラインやバッチ処理では、[キャッシュ](/glossary/キャッシュ/)なしだと数秒で制限に達することもあります。
 
-**Before（エラーが起きる状態）：**
+**Before（[エラー](/glossary/エラー/)が起きる状態）：**
 ```javascript
 // 毎回APIを呼び出す
 async function getRepoData(owner, repo) {
@@ -208,7 +208,7 @@ Secondary Rate Limitに引っかかった場合、`Retry-After`[ヘッダー](/g
 
 ### Personal Access Token（PAT）のスコープと制限
 
-PATを使用する場合、[スコープ](/glossary/スコープ/)によって制限が変わることはありませんが、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)がない操作を試みると関連エラーが発生します。PAT作成時は必要最小限の[スコープ](/glossary/スコープ/)を設定してください。
+PATを使用する場合、[スコープ](/glossary/スコープ/)によって制限が変わることはありませんが、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)がない操作を試みると関連[エラー](/glossary/エラー/)が発生します。PAT作成時は必要最小限の[スコープ](/glossary/スコープ/)を設定してください。
 
 ### GitHubアプリとOAuthアプリの制限の違い
 
@@ -223,7 +223,7 @@ curl -H "Authorization: token <your-personal-access-token>" \
   https://api.github.com/rate_limit | jq '.'
 ```
 
-このコマンドで`remaining`が0になっていないか、`reset`までの時間を確認してください。
+この[コマンド](/glossary/コマンド/)で`remaining`が0になっていないか、`reset`までの時間を確認してください。
 
 ### ログから問題を特定する
 

@@ -9,7 +9,7 @@ lastmod: 2026-06-05
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の409エラーは、[HTTP](/glossary/http/)標準仕様で「Conflict」を示す[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Daemon（Dockerの中核となるプログラム）がコンテナやイメージの操作を受け付けられない状態を表します。通常、リソースの重複、ポートの競合、不正なコンテナの状態遷移などが原因となります。このエラーが発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しています。
+[Docker](/glossary/docker/)の409[エラー](/glossary/エラー/)は、[HTTP](/glossary/http/)標準仕様で「Conflict」を示す[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Daemon（[Docker](/glossary/docker/)の中核となるプログラム）が[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)の操作を受け付けられない状態を表します。通常、リソースの重複、[ポート](/glossary/ポート/)の競合、不正な[コンテナ](/glossary/コンテナ/)の状態遷移などが原因となります。この[エラー](/glossary/エラー/)が発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しています。
 
 ## 実際のエラーメッセージ例
 
@@ -27,9 +27,9 @@ Error response from daemon: Conflict. You cannot remove a running container abc1
 
 ### 原因1：同じ名前のコンテナが既に存在している
 
-同じ名前のコンテナが実行中または停止状態で残っているため、新たにコンテナを作成・起動できない場合に発生します。
+同じ名前の[コンテナ](/glossary/コンテナ/)が実行中または停止状態で残っているため、新たに[コンテナ](/glossary/コンテナ/)を作成・起動できない場合に発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```bash
 docker run --name web-app -p 8080:80 nginx
 # Error: Conflict. The container name "/web-app" is already in use
@@ -49,9 +49,9 @@ docker run --name web-app -p 8080:80 nginx
 
 ### 原因2：複数のコンテナが同じポートを使用しようとしている
 
-ホストマシンの同じポートを複数のコンテナがバインド（接続）しようとすると、ポート競合により409エラーが発生します。
+ホストマシンの同じ[ポート](/glossary/ポート/)を複数の[コンテナ](/glossary/コンテナ/)がバインド（接続）しようとすると、[ポート](/glossary/ポート/)競合により409[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```bash
 docker run -d --name app1 -p 8080:80 nginx
 docker run -d --name app2 -p 8080:80 apache
@@ -72,9 +72,9 @@ docker run -d --name app2 -p 8081:80 apache
 
 ### 原因3：イメージビルド時のキャッシュ競合
 
-同じイメージ名またはタグで複数回ビルド（構築）を試行する場合、既に存在するイメージとの競合が発生します。
+同じ[イメージ](/glossary/イメージ/)名またはタグで複数回ビルド（構築）を試行する場合、既に存在する[イメージ](/glossary/イメージ/)との競合が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```bash
 docker build -t myapp:1.0 .
 # 同じタグで再度ビルド
@@ -98,7 +98,7 @@ docker build --no-cache -t myapp:1.0 .
 
 ### コンテナのライフサイクル管理
 
-Dockerで409エラーが頻発する場合、コンテナ管理に関する仕様が影響しています。停止中のコンテナも`docker ps -a`で確認できるリソースとして存在し、同じ名前で新規作成できません。本番環境ではコンテナの自動削除オプションを活用することが推奨されます。
+[Docker](/glossary/docker/)で409[エラー](/glossary/エラー/)が頻発する場合、[コンテナ](/glossary/コンテナ/)管理に関する仕様が影響しています。停止中の[コンテナ](/glossary/コンテナ/)も`docker ps -a`で確認できるリソースとして存在し、同じ名前で新規作成できません。本番環境では[コンテナ](/glossary/コンテナ/)の自動削除オプションを活用することが推奨されます。
 
 ```bash
 # --rm オプションで終了時に自動削除
@@ -110,9 +110,9 @@ docker container prune -f
 
 ### Docker Composeでの競合
 
-Docker Compose（複数のコンテナを一括管理するツール）を使用する場合、`docker-compose.yml`内で定義したサービス名が既にコンテナとして存在していると409エラーが発生します。
+[Docker](/glossary/docker/) Compose（複数の[コンテナ](/glossary/コンテナ/)を一括管理するツール）を使用する場合、`docker-compose.yml`内で定義したサービス名が既に[コンテナ](/glossary/コンテナ/)として存在していると409[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
 version: '3'
 services:
@@ -136,7 +136,7 @@ docker-compose up -d --no-recreate
 
 ### ボリュームとネットワークの競合
 
-コンテナ削除時に関連リソース（ボリューム：データ保存領域、ネットワーク：通信環境）が残っていると、同じ名前で再作成できない場合があります。
+[コンテナ](/glossary/コンテナ/)削除時に関連リソース（ボリューム：データ保存領域、[ネットワーク](/glossary/ネットワーク/)：通信環境）が残っていると、同じ名前で再作成できない場合があります。
 
 ```bash
 # 未使用リソースをすべてクリーンアップ
@@ -150,7 +150,7 @@ docker volume rm <volume-name>
 
 ### ログの確認方法
 
-Docker Daemonのログを確認することで、より詳細な原因を特定できます。
+[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)を確認することで、より詳細な原因を特定できます。
 
 ```bash
 # 最近のDocker Daemonログを表示
@@ -180,8 +180,8 @@ docker network inspect <network-name>
 - [Docker公式ドキュメント：トラブルシューティング](https://docs.docker.com/config/daemon/troubleshoot/)
 - [GitHub Issues：docker/cli](https://github.com/moby/moby/issues)
 
-409エラーの原因が不明な場合は、`docker version`と`docker info`で環境情報を確認し、GitHub Issuesで同様のケースが報告されていないか検索することが有効です。
+409[エラー](/glossary/エラー/)の原因が不明な場合は、`docker version`と`docker info`で環境情報を確認し、GitHub Issuesで同様のケースが報告されていないか検索することが有効です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。Dockerおよび関連ツールの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式ドキュメントおよびサポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負かねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[Docker](/glossary/docker/)および関連ツールの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式ドキュメントおよびサポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負かねます。*

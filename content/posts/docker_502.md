@@ -39,7 +39,7 @@ $ curl -v http://localhost:80/api
 
 上流アプリケーション（Node.js、Python、Java など）が起動に失敗していたり、クラッシュしていたりする場合、[プロキシ](/glossary/プロキシ/)は接続できずに 502 を返します。
 
-**Before（エラーが起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている設定）**
 ```yaml
 version: '3.8'
 services:
@@ -89,7 +89,7 @@ services:
 
 [Docker](/glossary/docker/) Compose の[ネットワーク](/glossary/ネットワーク/)内では、サービス名が [DNS](/glossary/dns/) として解決されます。ホスト名や[ポート](/glossary/ポート/)番号を誤ると接続失敗になります。
 
-**Before（エラーが起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている設定）**
 ```nginx
 upstream backend {
     server app:3000;  # 実際は8080で起動している
@@ -127,9 +127,9 @@ server {
 
 ### 原因3：Docker ネットワーク設定の不備またはコンテナ間通信の分断
 
-複数の[ネットワーク](/glossary/ネットワーク/)を使用している場合や、`--net host` モードの設定ミスがあると、[コンテナ](/glossary/コンテナ/)同士が通信できず 502 が発生します。
+複数の[ネットワーク](/glossary/ネットワーク/)を使用している場合や、`--net host` モードの設定ミスがあると、[コンテナ](/glossary/コンテナ/)同士が[通信](/glossary/通信/)できず 502 が発生します。
 
-**Before（エラーが起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている設定）**
 ```yaml
 version: '3.8'
 services:
@@ -171,7 +171,7 @@ networks:
 
 アプリケーションが `localhost` または `127.0.0.1` にのみバインドしている場合、[Docker](/glossary/docker/) のネットワークインターフェース経由でのアクセスが拒否されます。
 
-**Before（エラーが起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている設定）**
 ```python
 # Flask アプリケーション
 app.run(host='127.0.0.1', port=8080)  # localhost のみ
@@ -206,7 +206,7 @@ upstream backend {
 docker ps --format "table {{.Names}}\t{{.Ports}}"
 ```
 
-このコマンドで[ポート](/glossary/ポート/)がバインドされているか確認してください。[コンテナ](/glossary/コンテナ/)内[ポート](/glossary/ポート/)が外部に公開されていない場合、[プロキシ](/glossary/プロキシ/)がアクセスできません。
+この[コマンド](/glossary/コマンド/)で[ポート](/glossary/ポート/)がバインドされているか確認してください。[コンテナ](/glossary/コンテナ/)内[ポート](/glossary/ポート/)が外部に公開されていない場合、[プロキシ](/glossary/プロキシ/)がアクセスできません。
 
 ### ログの確認方法
 

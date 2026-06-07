@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で400エラーが返される場合、[リクエスト](/glossary/リクエスト/)の形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、[サーバー](/glossary/サーバー/)側の問題ではなく、クライアント（あなたのコード）から送信された[リクエスト](/glossary/リクエスト/)が仕様に合致していないことを意味しています。OpenAI [API](/glossary/api/)では、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)形式の誤りや必須[パラメータ](/glossary/パラメータ/)の欠落、不正なフィールド値などが主な原因です。
+OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、[サーバー](/glossary/サーバー/)側の問題ではなく、クライアント（あなたのコード）から送信された[リクエスト](/glossary/リクエスト/)が仕様に合致していないことを意味しています。OpenAI [API](/glossary/api/)では、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)形式の誤りや必須[パラメータ](/glossary/パラメータ/)の欠落、不正なフィールド値などが主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -39,9 +39,9 @@ OpenAI [API](/glossary/api/)で400エラーが返される場合、[リクエス
 
 ### 原因1：JSONの構文エラーまたはフィールド名の誤字
 
-[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)が不正な形式になっていたり、OpenAI [API](/glossary/api/)が定義していないフィールド名を使用したりすると400エラーが発生します。
+[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)が不正な形式になっていたり、OpenAI [API](/glossary/api/)が定義していないフィールド名を使用したりすると400[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```python
 import openai
 
@@ -71,9 +71,9 @@ response = openai.ChatCompletion.create(
 
 ### 原因2：サポートされていないモデル名の指定
 
-存在しない[モデル](/glossary/モデル/)IDや、サポートが終了した[モデル](/glossary/モデル/)を指定すると400エラーが発生します。
+存在しない[モデル](/glossary/モデル/)IDや、サポートが終了した[モデル](/glossary/モデル/)を指定すると400[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```bash
 curl https://api.openai.com/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -97,9 +97,9 @@ curl https://api.openai.com/v1/chat/completions \
 
 ### 原因3：temperature、top_p、max_tokensなどのパラメータが範囲外
 
-これらの[パラメータ](/glossary/パラメータ/)は値の範囲が定められており、範囲外の値を指定すると400エラーになります。
+これらの[パラメータ](/glossary/パラメータ/)は値の範囲が定められており、範囲外の値を指定すると400[エラー](/glossary/エラー/)になります。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```javascript
 const response = await fetch('https://api.openai.com/v1/chat/completions', {
   method: 'POST',
@@ -135,7 +135,7 @@ const response = await fetch('https://api.openai.com/v1/chat/completions', {
 
 messagesは配列で、各要素は必ず「role」と「content」フィールドを持つ必要があります。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 ```python
 response = openai.ChatCompletion.create(
     model="gpt-4",
@@ -157,7 +157,7 @@ response = openai.ChatCompletion.create(
 
 ## OpenAI API固有の注意点
 
-OpenAI [API](/glossary/api/)で400エラーが出る場合、以下のポイントを確認してください。
+OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が出る場合、以下のポイントを確認してください。
 
 **[API](/glossary/api/)キーのフォーマット**：[API](/glossary/api/)キーがちゃんと[環境変数](/glossary/環境変数/)から読み込まれているか、文字列の前後に余計なスペースが含まれていないか確認してください。
 

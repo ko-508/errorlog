@@ -9,11 +9,11 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Firebase で 422 エラーが返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反やスキーマ検証エラーが主な原因です。
+Firebase で 422 [エラー](/glossary/エラー/)が返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反やスキーマ検証[エラー](/glossary/エラー/)が主な原因です。
 
 ## 実際のエラーメッセージ例
 
-Realtime Database の [REST](/glossary/rest/) [API](/glossary/api/) から返されるエラー：
+Realtime Database の [REST](/glossary/rest/) [API](/glossary/api/) から返される[エラー](/glossary/エラー/)：
 
 ```json
 {
@@ -23,7 +23,7 @@ Realtime Database の [REST](/glossary/rest/) [API](/glossary/api/) から返さ
 }
 ```
 
-Cloud Firestore [SDK](/glossary/sdk/) (JavaScript) でのエラー：
+Cloud Firestore [SDK](/glossary/sdk/) (JavaScript) での[エラー](/glossary/エラー/)：
 
 ```
 FirebaseError: [firestore/permission-denied]: Missing or insufficient permissions.
@@ -34,9 +34,9 @@ FirebaseError: [firestore/permission-denied]: Missing or insufficient permission
 
 ### 原因1：Realtime Database のセキュリティルール違反
 
-なぜ発生するかというと、Firebase Realtime Database では `.write` や `.validate` ルールで書き込み[権限](/glossary/権限/)やデータ形式を厳密に定義しており、これを満たさないデータを送信すると 422 エラーが返されます。
+なぜ発生するかというと、Firebase Realtime Database では `.write` や `.validate` ルールで書き込み[権限](/glossary/権限/)やデータ形式を厳密に定義しており、これを満たさないデータを送信すると 422 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 
 ```json
 {
@@ -73,9 +73,9 @@ firebase.database().ref('users/' + uid).set({
 
 ### 原因2：Cloud Firestore のドキュメントスキーマ検証エラー
 
-Firestore でセキュリティルールに `allow write if request.resource.data.keys().hasAll(['requiredField'])` のような検証を設定している場合、要求されるフィールドが不足していると 422 エラーが返されます。
+Firestore でセキュリティルールに `allow write if request.resource.data.keys().hasAll(['requiredField'])` のような検証を設定している場合、要求されるフィールドが不足していると 422 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 
 ```yaml
 rules_version = '2';
@@ -108,9 +108,9 @@ await db.collection('products').add({
 
 ### 原因3：Firebase Authentication の入力値検証エラー
 
-Firebase Authentication では、メールアドレスや[パスワード](/glossary/パスワード/)の形式、長さが検証されており、これを満たさないと 422 エラーが返されることがあります。特にカスタム[認証](/glossary/認証/)[トークン](/glossary/トークン/)や弱い[パスワード](/glossary/パスワード/)設定で発生します。
+Firebase Authentication では、メールアドレスや[パスワード](/glossary/パスワード/)の形式、長さが検証されており、これを満たさないと 422 [エラー](/glossary/エラー/)が返されることがあります。特にカスタム[認証](/glossary/認証/)[トークン](/glossary/トークン/)や弱い[パスワード](/glossary/パスワード/)設定で発生します。
 
-**Before（エラーが起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きるコード）**
 
 ```javascript
 firebase.auth().createUserWithEmailAndPassword(
@@ -132,7 +132,7 @@ firebase.auth().createUserWithEmailAndPassword(
 
 ### Realtime Database の REST API 使用時
 
-[REST](/glossary/rest/) [API](/glossary/api/) で直接書き込む場合、`Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 422 が返ることがあります。また、`.validate` ルールで `newData.isNumber()` や `newData.isString()` のようなデータ型チェックが厳密に定義されている場合、型が一致しないデータを送信すると即座にエラーが返されます。
+[REST](/glossary/rest/) [API](/glossary/api/) で直接書き込む場合、`Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 422 が返ることがあります。また、`.validate` ルールで `newData.isNumber()` や `newData.isString()` のようなデータ型チェックが厳密に定義されている場合、型が一致しないデータを送信すると即座に[エラー](/glossary/エラー/)が返されます。
 
 ```bash
 # Before: ヘッダーなしで送信（エラーが出やすい）

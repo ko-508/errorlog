@@ -8,7 +8,7 @@ lastmod: 2026-05-31
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/)で404エラーが発生するのは、指定したイメージまたは[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hubやエクリプスなどのイメージ保管先）に存在しないことを意味します。このエラーは`docker pull`、`docker run`、`docker push`などのコマンド実行時に表示され、イメージ名の誤字、存在しないタグの指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。
+[Docker](/glossary/docker/)で404[エラー](/glossary/エラー/)が発生するのは、指定した[イメージ](/glossary/イメージ/)または[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hubやエクリプスなどの[イメージ](/glossary/イメージ/)保管先）に存在しないことを意味します。この[エラー](/glossary/エラー/)は`docker pull`、`docker run`、`docker push`などの[コマンド](/glossary/コマンド/)実行時に表示され、[イメージ](/glossary/イメージ/)名の誤字、存在しないタグの指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -33,9 +33,9 @@ Error response from daemon: manifest not found: myapp:latest
 
 ### 原因1：イメージ名またはタグの誤字
 
-[Docker](/glossary/docker/) Hubやエクリプスに存在するイメージ名でも、1文字でも間違っていれば404エラーが発生します。大文字小文字の混在や、アンダースコア・ハイフンの混同が典型的です。
+[Docker](/glossary/docker/) Hubやエクリプスに存在する[イメージ](/glossary/イメージ/)名でも、1文字でも間違っていれば404[エラー](/glossary/エラー/)が発生します。大文字小文字の混在や、アンダースコア・ハイフンの混同が典型的です。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```bash
 docker pull ubuntu:Latest
@@ -53,9 +53,9 @@ docker run node:16-alpine node app.js
 
 ### 原因2：指定したタグがレジストリに存在しない
 
-イメージ名は正しくても、そのバージョン（タグ）が公開されていない場合があります。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)やカスタムイメージで頻発します。
+[イメージ](/glossary/イメージ/)名は正しくても、そのバージョン（タグ）が公開されていない場合があります。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)やカスタムイメージで頻発します。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```bash
 docker pull postgres:13.5
@@ -70,7 +70,7 @@ docker pull postgres:13
 docker pull mycompany/api:v1.2.0
 ```
 
-利用可能なタグを確認するコマンド：
+利用可能なタグを確認する[コマンド](/glossary/コマンド/)：
 
 ```bash
 curl -s https://registry.hub.docker.com/v2/library/postgres/tags/list | jq .
@@ -78,9 +78,9 @@ curl -s https://registry.hub.docker.com/v2/library/postgres/tags/list | jq .
 
 ### 原因3：フルネームの省略形を使用している
 
-[Docker](/glossary/docker/) Hubのイメージを参照する際、[レジストリ](/glossary/レジストリ/)URLを省略した形式（`ubuntu`など）が使用できますが、[プライベートレジストリ](/glossary/プライベートレジストリ/)やアカウント配下の[リポジトリ](/glossary/リポジトリ/)では完全なURLを指定する必要があります。
+[Docker](/glossary/docker/) Hubの[イメージ](/glossary/イメージ/)を参照する際、[レジストリ](/glossary/レジストリ/)URLを省略した形式（`ubuntu`など）が使用できますが、[プライベートレジストリ](/glossary/プライベートレジストリ/)やアカウント配下の[リポジトリ](/glossary/リポジトリ/)では完全なURLを指定する必要があります。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```bash
 docker pull myapp
@@ -96,9 +96,9 @@ docker pull <your-registry-url>/mycompany/backend:latest
 
 ### 原因4：レジストリにログインしていない
 
-[プライベートレジストリ](/glossary/プライベートレジストリ/)やプライベートリポジトリの場合、認証済みの状態でないと404エラーが発生することがあります。
+[プライベートレジストリ](/glossary/プライベートレジストリ/)やプライベートリポジトリの場合、認証済みの状態でないと404[エラー](/glossary/エラー/)が発生することがあります。
 
-**Before（エラーが起きる例）：**
+**Before（[エラー](/glossary/エラー/)が起きる例）：**
 
 ```bash
 docker pull myregistry.azurecr.io/myapp:latest
@@ -114,7 +114,7 @@ docker pull myregistry.azurecr.io/myapp:latest
 ## ツール固有の注意点
 
 ### Docker Hubとの連携
-[Docker](/glossary/docker/) Hubの無料アカウントでイメージをプッシュした場合、デフォルトではプライベートリポジトリになります。他のマシンから`docker pull`する場合は、明示的にログイン（`docker login`）が必要です。
+[Docker](/glossary/docker/) Hubの無料アカウントで[イメージ](/glossary/イメージ/)をプッシュした場合、デフォルトではプライベートリポジトリになります。他のマシンから`docker pull`する場合は、明示的に[ログイン](/glossary/ログイン/)（`docker login`）が必要です。
 
 ```bash
 docker login -u <your-username>

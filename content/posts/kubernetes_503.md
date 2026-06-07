@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)環境で503エラーが発生するのは、クライアントからの[リクエスト](/glossary/リクエスト/)に対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本エラーは一時的な問題である場合が多く、Podの自動復旧により解決することもあります。
+[Kubernetes](/glossary/kubernetes/)環境で503[エラー](/glossary/エラー/)が発生するのは、クライアントからの[リクエスト](/glossary/リクエスト/)に対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもあります。
 
 ## 実際のエラーメッセージ例
 
@@ -43,7 +43,7 @@ No servers are available to handle this request.
 **なぜ発生するか**
 Serviceに紐づくPodがすべて停止しているか、Selectorラベルが一致していない場合、Endpointsが生成されず、トラフィックを受け取るPodが存在しない状態になります。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```yaml
 apiVersion: v1
 kind: Service
@@ -97,7 +97,7 @@ spec:
     - containerPort: 8080
 ```
 
-**確認コマンド**
+**確認[コマンド](/glossary/コマンド/)**
 ```bash
 kubectl get endpoints <service-name> -n <namespace>
 # 出力にIPアドレスがあれば正常。<none>なら原因1の可能性が高い
@@ -106,9 +106,9 @@ kubectl get endpoints <service-name> -n <namespace>
 ### 原因2：Podの起動に失敗している、またはリソース不足
 
 **なぜ発生するか**
-Podがイメージの取得失敗、メモリ/CPU不足、Readiness Probeの失敗などによってRunning状態に至らず、トラフィック処理能力がない状態です。
+Podが[イメージ](/glossary/イメージ/)の取得失敗、メモリ/CPU不足、Readiness Probeの失敗などによってRunning状態に至らず、トラフィック処理能力がない状態です。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -171,7 +171,7 @@ spec:
         periodSeconds: 10
 ```
 
-**確認コマンド**
+**確認[コマンド](/glossary/コマンド/)**
 ```bash
 kubectl get pods -n <namespace>
 kubectl describe pod <pod-name> -n <namespace>
@@ -183,7 +183,7 @@ kubectl logs <pod-name> -n <namespace>
 **なぜ発生するか**
 IngressやLoadBalancerの設定で、[バックエンド](/glossary/バックエンド/)Serviceへのルーティング先が間違っていたり、[ポート](/glossary/ポート/)番号が一致していない場合、有効な[バックエンド](/glossary/バックエンド/)に到達できません。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress

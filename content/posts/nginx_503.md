@@ -9,7 +9,7 @@ lastmod: 2026-05-31
 
 ## エラーの概要
 
-Nginx の 503 Service Unavailable エラーは、Nginx が[リクエスト](/glossary/リクエスト/)を処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、[バックエンド](/glossary/バックエンド/)が全て利用不可能な状態を示します。クライアントが発した正当な[リクエスト](/glossary/リクエスト/)であっても、[サーバー](/glossary/サーバー/)側の問題によって処理できないため、Nginx がこのエラーを返します。このエラーは一時的な問題である場合が多く、[バックエンド](/glossary/バックエンド/)側の復旧やNginx設定の修正で解決することがほとんどです。
+Nginx の 503 Service Unavailable [エラー](/glossary/エラー/)は、Nginx が[リクエスト](/glossary/リクエスト/)を処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、[バックエンド](/glossary/バックエンド/)が全て利用不可能な状態を示します。クライアントが発した正当な[リクエスト](/glossary/リクエスト/)であっても、[サーバー](/glossary/サーバー/)側の問題によって処理できないため、Nginx がこの[エラー](/glossary/エラー/)を返します。この[エラー](/glossary/エラー/)は一時的な問題である場合が多く、[バックエンド](/glossary/バックエンド/)側の復旧やNginx設定の修正で解決することがほとんどです。
 
 ## 実際のエラーメッセージ例
 
@@ -22,7 +22,7 @@ Service Unavailable
 The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.
 ```
 
-Nginxのエラーログに出力される場合：
+Nginxの[エラーログ](/glossary/エラーログ/)に出力される場合：
 
 ```
 2024/01/15 14:32:01 [error] 12345#12345: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "example.com"
@@ -34,7 +34,7 @@ Nginxのエラーログに出力される場合：
 
 [バックエンド](/glossary/バックエンド/)の全ての[サーバー](/glossary/サーバー/)がダウンしているか、起動していない状態です。Nginx設定の upstream ブロックで指定した[サーバー](/glossary/サーバー/)への接続が[タイムアウト](/glossary/タイムアウト/)または拒否されます。
 
-**Before（エラーが起きる状態）：**
+**Before（[エラー](/glossary/エラー/)が起きる状態）：**
 
 ```nginx
 upstream app_backend {
@@ -52,7 +52,7 @@ server {
 }
 ```
 
-この設定で 8080 と 8081 の[ポート](/glossary/ポート/)が起動していない場合、503 エラーが返されます。
+この設定で 8080 と 8081 の[ポート](/glossary/ポート/)が起動していない場合、503 [エラー](/glossary/エラー/)が返されます。
 
 **確認と解決方法：**
 
@@ -95,7 +95,7 @@ upstream app_backend {
 }
 ```
 
-10 個以上の同時[リクエスト](/glossary/リクエスト/)がある場合、11番目以降の[リクエスト](/glossary/リクエスト/)は 503 エラーを受け取ります。
+10 個以上の同時[リクエスト](/glossary/リクエスト/)がある場合、11番目以降の[リクエスト](/glossary/リクエスト/)は 503 [エラー](/glossary/エラー/)を受け取ります。
 
 **After（制限値を増やす）：**
 

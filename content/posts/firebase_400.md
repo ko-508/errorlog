@@ -9,7 +9,7 @@ lastmod: 2026-06-05
 
 ## エラーの概要
 
-Firebase の 400 エラーは、クライアント（使用しているアプリケーション）から送信された[リクエスト](/glossary/リクエスト/)が不正な形式または無効な[パラメータ](/glossary/パラメータ/)を含んでいることを示します。このエラーは[サーバー](/glossary/サーバー/)側の障害ではなく、送信されたデータの形式、認証情報、[クエリ](/glossary/クエリ/)条件、またはリクエスト[ヘッダー](/glossary/ヘッダー/)に問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇するエラーの一つであり、原因の特定と修正が必須です。
+Firebase の 400 [エラー](/glossary/エラー/)は、クライアント（使用しているアプリケーション）から送信された[リクエスト](/glossary/リクエスト/)が不正な形式または無効な[パラメータ](/glossary/パラメータ/)を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、送信されたデータの形式、認証情報、[クエリ](/glossary/クエリ/)条件、または[リクエスト](/glossary/リクエスト/)[ヘッダー](/glossary/ヘッダー/)に問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、原因の特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
@@ -54,9 +54,9 @@ POST /v1/projects/<project-id>/databases/(default)/documents:query
 
 ### 原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ
 
-Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に[インデックス](/glossary/インデックス/)（データベースの検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（`<`, `>`, `<=`, `>=`）を使用することはできません。
+Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に[インデックス](/glossary/インデックス/)（[データベース](/glossary/データベース/)の検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（`<`, `>`, `<=`, `>=`）を使用することはできません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 db.collection('users')
@@ -78,9 +78,9 @@ db.collection('users')
 
 ### 原因2：認証情報の形式が無効
 
-Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスや[パスワード](/glossary/パスワード/)、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)（認証に用いる暗号化されたデータ）が渡された場合に 400 エラーが発生します。
+Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスや[パスワード](/glossary/パスワード/)、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)（[認証](/glossary/認証/)に用いる[暗号化](/glossary/暗号化/)されたデータ）が渡された場合に 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 firebase.auth().createUserWithEmailAndPassword('user@', 'password123')
@@ -96,7 +96,7 @@ firebase.auth().createUserWithEmailAndPassword('user@example.com', 'password123'
 
 [パスワード](/glossary/パスワード/)は最低 6 文字である必要があります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 firebase.auth().createUserWithEmailAndPassword('user@example.com', '123')
@@ -112,9 +112,9 @@ firebase.auth().createUserWithEmailAndPassword('user@example.com', 'securePasswo
 
 ### 原因3：SDK メソッドに渡すデータ型が不正
 
-Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 エラーが発生します。
+Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 const userData = {
@@ -138,7 +138,7 @@ db.collection('users').doc('user1').set(userData);
 
 循環参照（あるデータが自分自身を参照すること）を含むオブジェクトも不正です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 const obj = { name: 'test' };
@@ -155,9 +155,9 @@ db.collection('items').doc('item1').set(obj);
 
 ### 原因4：REST API のリクエストヘッダーが不正
 
-Firebase REST API（外部からの通信インターフェース）を直接呼び出す場合、Content-Type [ヘッダー](/glossary/ヘッダー/)（データ形式を指定する設定）や[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が不正だと 400 エラーが発生します。
+Firebase [REST](/glossary/rest/) [API](/glossary/api/)（外部からの[通信](/glossary/通信/)インターフェース）を直接呼び出す場合、Content-Type [ヘッダー](/glossary/ヘッダー/)（データ形式を指定する設定）や[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が不正だと 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \
@@ -175,9 +175,9 @@ curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNe
 
 ### 原因5：Firestore ドキュメント ID の不正な形式
 
-ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 エラーが発生します。
+ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 db.collection('users').doc('user/123').set({ name: 'John' });
