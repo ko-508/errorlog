@@ -91,23 +91,16 @@ def _build_ga4_client():
 
 def _japan_filter():
     from google.analytics.data_v1beta.types import (
-        FilterExpression, FilterExpressionList, Filter,
+        FilterExpression, Filter,
     )
-    def _str_filter(field, value):
-        return FilterExpression(
-            filter=Filter(
-                field_name=field,
-                string_filter=Filter.StringFilter(
-                    match_type=Filter.StringFilter.MatchType.EXACT,
-                    value=value,
-                ),
-            )
-        )
     return FilterExpression(
-        and_group=FilterExpressionList(expressions=[
-            _str_filter("country", "Japan"),
-            _str_filter("hostName", "errorlog.jp"),
-        ])
+        filter=Filter(
+            field_name="country",
+            string_filter=Filter.StringFilter(
+                match_type=Filter.StringFilter.MatchType.EXACT,
+                value="Japan",
+            ),
+        )
     )
 
 
@@ -233,6 +226,11 @@ def fetch_all_ga4(client) -> dict:
     print("  [GA4] events (Japan)...")
     events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100, dim_filter=jp)
 
+    print("  [GA4] hostname debug (no filter)...")
+    hostnames = _run_report(client, ["hostName"], ["sessions"], row_limit=20)
+    hostnames.sort(key=lambda r: -r.get("sessions", 0))
+    print(f"  [DEBUG] hostName values: {[(r.get('hostName'), r.get('sessions')) for r in hostnames]}")
+
     return {
         "overall":   overall,
         "channels":  channels,
@@ -243,6 +241,7 @@ def fetch_all_ga4(client) -> dict:
         "hourly":    hourly,
         "pages":     pages,
         "events":    events,
+        "hostnames": hostnames,
     }
 
 
