@@ -9,18 +9,18 @@ errorCode: "401"
 
 ## エラーの概要
 
-Vercel 401 [エラー](/glossary/エラー/)は、Vercel の[サーバー](/glossary/サーバー/)に対する[認証](/glossary/認証/)が失敗したことを示します。[API](/glossary/api/) [トークン](/glossary/トークン/)の無効化、[環境変数](/glossary/環境変数/)の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、[デプロイ](/glossary/デプロイ/)や [CLI](/glossary/cli/) 操作が停止します。この[エラー](/glossary/エラー/)が発生するとプロジェクトのデプロイメントパイプラインが停止するため、素早い対応が必要です。
+Vercel 401 エラーは、Vercel のサーバーに対する認証が失敗したことを示します。API トークンの無効化、環境変数の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、デプロイや CLI 操作が停止します。このエラーが発生するとプロジェクトのデプロイメントパイプラインが停止するため、素早い対応が必要です。
 
 ## 実際のエラーメッセージ例
 
-**Vercel [CLI](/glossary/cli/) からの出力：**
+**Vercel CLI からの出力：**
 
 ```
 Error: Authentication failed (401 Unauthorized)
 The provided token is invalid or has expired.
 ```
 
-**GitHub Actions 内での[レスポンス](/glossary/レスポンス/)：**
+**GitHub Actions 内でのレスポンス：**
 
 ```json
 {
@@ -32,7 +32,7 @@ The provided token is invalid or has expired.
 }
 ```
 
-**curl 経由での[レスポンス](/glossary/レスポンス/)：**
+**curl 経由でのレスポンス：**
 
 ```bash
 curl -H "Authorization: Bearer <invalid_token>" https://api.vercel.com/v1/projects
@@ -52,7 +52,7 @@ HTTP/1.1 401 Unauthorized
 
 ### 原因1：Vercel API トークンが無効または期限切れになっている
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)で生成した [API](/glossary/api/) [トークン](/glossary/トークン/)は、[セキュリティ](/glossary/セキュリティ/)上の理由から有効期限が設定されることがあります。また、[トークン](/glossary/トークン/)を削除した後も[環境変数](/glossary/環境変数/)に古い値が残っていると、[認証](/glossary/認証/)に失敗します。
+Vercel ダッシュボードで生成した API トークンは、セキュリティ上の理由から有効期限が設定されることがあります。また、トークンを削除した後も環境変数に古い値が残っていると、認証に失敗します。
 
 **修正方法：**
 
@@ -70,7 +70,7 @@ vercel deploy
 
 ### 原因2：VERCEL_TOKEN 環境変数が正しく設定されていない
 
-[CI/CD](/glossary/ci-cd/) パイプライン（GitHub Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を自動化する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
+CI/CD パイプライン（GitHub Actions、GitLab CI、CircleCI など）でデプロイを自動化する際、シークレット変数として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
 
 **修正方法：**
 
@@ -92,11 +92,11 @@ jobs:
           vercel deploy --token $VERCEL_TOKEN
 ```
 
-GitHub Actions の場合、[リポジトリ](/glossary/リポジトリ/)の Settings → Secrets and variables → Actions に `VERCEL_TOKEN` という名前で新しいリポジトリシークレットを追加してください。
+GitHub Actions の場合、リポジトリの Settings → Secrets and variables → Actions に `VERCEL_TOKEN` という名前で新しいリポジトリシークレットを追加してください。
 
 ### 原因3：GitHub との OAuth 連携が切れている
 
-Vercel はデフォルトでプッシュ自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、GitHub 連携の[権限](/glossary/権限/)が失効したり、GitHub アカウント側で当該アプリケーションの[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
+Vercel はデフォルトでプッシュ自動デプロイ機能を提供していますが、GitHub 連携の権限が失効したり、GitHub アカウント側で当該アプリケーションの認可を取り消したりすると、デプロイトリガーが動作しなくなります。
 
 **修正方法：**
 
@@ -113,45 +113,45 @@ git commit -m "Update features"
 git push origin main
 ```
 
-接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または GitHub アプリケーション連携ページで「Authorize」をクリックして、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
+接続直後は、Vercel ダッシュボードまたは GitHub アプリケーション連携ページで「Authorize」をクリックして、最新の権限でトークンを再生成してください。
 
 ## Vercel 固有の注意点
 
-**[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)確認：** Vercel [API](/glossary/api/) [トークン](/glossary/トークン/)には複数のスコープレベルがあります（全プロジェクト対象、特定プロジェクトのみなど）。[スコープ](/glossary/スコープ/)が制限されている場合、対象外のプロジェクトへのアクセスで 401 が返ります。[ダッシュボード](/glossary/ダッシュボード/)の Tokens ページで各[トークン](/glossary/トークン/)の詳細を確認してください。
+**トークンのスコープ確認：** Vercel API トークンには複数のスコープレベルがあります（全プロジェクト対象、特定プロジェクトのみなど）。スコープが制限されている場合、対象外のプロジェクトへのアクセスで 401 が返ります。ダッシュボードの Tokens ページで各トークンの詳細を確認してください。
 
-**複数組織の場合：** Vercel アカウントが複数の Team（組織）に属している場合、[デプロイ](/glossary/デプロイ/)先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` で[スコープ](/glossary/スコープ/)を指定し、そのチームに所属する[トークン](/glossary/トークン/)であることを確認してください。
+**複数組織の場合：** Vercel アカウントが複数の Team（組織）に属している場合、デプロイ先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` でスコープを指定し、そのチームに所属するトークンであることを確認してください。
 
-**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や GitHub Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
+**環境変数の大文字小文字：** CLI や GitHub Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
-**vercel.json 設定：** プロジェクトルートの `vercel.json` に記述される設定は、[CI/CD](/glossary/ci-cd/) 環境では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の設定を確認してからファイル設定を疑ってください。
+**vercel.json 設定：** プロジェクトルートの `vercel.json` に記述される設定は、CI/CD 環境では環境変数より優先度が低いため、環境変数の設定を確認してからファイル設定を疑ってください。
 
 ## それでも解決しない場合
 
-**Vercel [ログ](/glossary/ログ/)の確認方法：**
+**Vercel ログの確認方法：**
 
 ```bash
 # CLI で詳細ログを出力
 VERCEL_DEBUG=1 vercel deploy
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/)のデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗した[デプロイ](/glossary/デプロイ/)をクリックし、Logs タブで完全なエラーメッセージを確認してください。
+ダッシュボードのデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗したデプロイをクリックし、Logs タブで完全なエラーメッセージを確認してください。
 
-**GitHub Actions 内の[ログ](/glossary/ログ/)確認：**
+**GitHub Actions 内のログ確認：**
 
-GitHub [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新のワークフロー実行結果を開き、失敗したステップの出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、エラーメッセージには認証失敗の詳細が記録されます。
+GitHub リポジトリの Actions タブから最新のワークフロー実行結果を開き、失敗したステップの出力を確認してください。シークレット変数の値そのものはマスクされますが、エラーメッセージには認証失敗の詳細が記録されます。
 
-**[トークン](/glossary/トークン/)再生成のベストプラクティス：**
+**トークン再生成のベストプラクティス：**
 
-1. Vercel [ダッシュボード](/glossary/ダッシュボード/)の Account Settings → Tokens に移動
-2. 現在の[トークン](/glossary/トークン/)を「Delete」で削除
+1. Vercel ダッシュボードの Account Settings → Tokens に移動
+2. 現在のトークンを「Delete」で削除
 3. 「Create Token」で新規作成（有効期限を 90 日程度に設定推奨）
 4. 生成直後にコピー（二度と表示されません）
-5. 各 [CI/CD](/glossary/ci-cd/) 環境のシークレット[変数](/glossary/変数/)を上書き
+5. 各 CI/CD 環境のシークレット変数を上書き
 6. テストデプロイで認証確認を実施
 
 **公式サポートへの問い合わせ：**
 
-上記手順をすべて実施してもなお 401 が継続する場合は、Vercel 公式ドキュメント（https://vercel.com/docs/rest-api）の認証セクションを確認するか、Vercel サポート（https://vercel.com/support）に問い合わせてください。API 制限や[レート制限](/glossary/レート制限/)の影響を受けている可能性もあります。
+上記手順をすべて実施してもなお 401 が継続する場合は、Vercel 公式ドキュメント（https://vercel.com/docs/rest-api）の認証セクションを確認するか、Vercel サポート（https://vercel.com/support）に問い合わせてください。API 制限やレート制限の影響を受けている可能性もあります。
 
 ---
 

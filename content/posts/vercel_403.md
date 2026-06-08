@@ -7,18 +7,18 @@ errorCode: "403"
 ---
 ## エラーの概要
 
-Vercel の 403 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)や [API](/glossary/api/) 呼び出し時にプロジェクトやリソースへの[アクセス権限](/glossary/アクセス権限/)がないことを意味します。これは認証自体は成功しているものの、[認可](/glossary/認可/)レベルで拒否される状態です。Vercel では、個人アカウント・チームアカウント・[API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)によって[権限](/glossary/権限/)が厳密に管理されており、不適切な組み合わせで 403 [エラー](/glossary/エラー/)が発生することが頻繁にあります。
+Vercel の 403 エラーは、デプロイや API 呼び出し時にプロジェクトやリソースへのアクセス権限がないことを意味します。これは認証自体は成功しているものの、認可（アクセス権の許可判定）レベルで拒否される状態です。Vercel では、個人アカウント・チームアカウント・API トークンのスコープ（適用範囲）によって権限が厳密に管理されており、不適切な組み合わせで 403 エラーが発生することが頻繁にあります。
 
 ## 実際のエラーメッセージ例
 
-**Vercel [CLI](/glossary/cli/) [デプロイ](/glossary/デプロイ/)時：**
+**Vercel CLI デプロイ時：**
 
 ```
 Error: Received 403 from https://api.vercel.com/v13/deployments
 You do not have permission to access this resource
 ```
 
-**[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)：**
+**API レスポンス：**
 
 ```json
 {
@@ -34,7 +34,7 @@ You do not have permission to access this resource
 
 ### 原因1：別のチームのプロジェクトに個人トークンでアクセスしている
 
-個人アカウントの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用しながら、チームが所有するプロジェクトにアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。Vercel では個人[スコープ](/glossary/スコープ/)の[トークン](/glossary/トークン/)ではチーム配下のリソースにアクセスできません。
+個人アカウントの API トークンを使用しながら、チームが所有するプロジェクトにアクセスしようとすると 403 エラーが発生します。Vercel では個人スコープのトークンではチーム配下のリソースにアクセスできません。
 
 **修正前：**
 
@@ -56,11 +56,11 @@ export VERCEL_PROJECT_ID=<プロジェクトID>
 vercel deploy
 ```
 
-チームスコープの[トークン](/glossary/トークン/)を生成するには、Vercel [ダッシュボード](/glossary/ダッシュボード/)で Settings → Tokens → Create → Scope を「Team」に設定します。
+チームスコープのトークンを生成するには、Vercel ダッシュボードで Settings → Tokens → Create → Scope を「Team」に設定します。
 
 ### 原因2：VERCEL_ORG_ID と VERCEL_PROJECT_ID の組み合わせが不正
 
-プロジェクトが複数存在する環境で、誤った[環境変数](/glossary/環境変数/)の組み合わせを指定すると[アクセス権限](/glossary/アクセス権限/)[エラー](/glossary/エラー/)が発生します。特にチームアカウント間の移行や複数環境での運用時に起こりやすいです。
+プロジェクトが複数存在する環境で、誤った環境変数の組み合わせを指定するとアクセス権限エラーが発生します。特にチームアカウント間の移行や複数環境での運用時に起こりやすいです。
 
 **修正前：**
 
@@ -80,11 +80,11 @@ export VERCEL_PROJECT_ID=prj_team_abc789  # 対応するプロジェクトID
 vercel deploy
 ```
 
-正しいプロジェクトID とチームID は、Vercel [ダッシュボード](/glossary/ダッシュボード/)のプロジェクト設定ページの「Settings → General」から確認できます。
+正しいプロジェクトID とチームID は、Vercel ダッシュボードのプロジェクト設定ページの「Settings → General」から確認できます。
 
 ### 原因3：プロジェクトのアクセス制限が有効
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)でプロジェクトにメンバー制限を設定している場合、対象の [API](/glossary/api/) [トークン](/glossary/トークン/)やユーザーが許可リストに入っていないと 403 が返されます。
+Vercel ダッシュボードでプロジェクトにメンバー制限を設定している場合、対象の API トークンやユーザーが許可リストに入っていないと 403 が返されます。
 
 **修正前：**
 
@@ -105,19 +105,19 @@ curl -H "Authorization: Bearer $VERCEL_TOKEN" \
   https://api.vercel.com/v13/projects/<project_id>
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/) → Project Settings → Security のアクセス制限設定を確認し、使用する [API](/glossary/api/) [トークン](/glossary/トークン/)が許可リストに登録されているか確認してください。
+ダッシュボード → Project Settings → Security のアクセス制限設定を確認し、使用する API トークンが許可リストに登録されているか確認してください。
 
 ## Vercel 固有の注意点
 
-Vercel ではプロジェクトの所有権と[アクセス権](/glossary/アクセス権/)が厳密に分離されています。同じメールアドレスで複数のアカウント（個人・チーム）を保有している場合、ブラウザーのセッションと [CLI](/glossary/cli/) の認証状態がズレることがあります。
+Vercel ではプロジェクトの所有権とアクセス権が厳密に分離されています。同じメールアドレスで複数のアカウント（個人・チーム）を保有している場合、ブラウザーのセッションと CLI の認証状態がズレることがあります。
 
-[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。GitHub Actions 等で VERCEL_TOKEN を設定する際は、リポジトリーの Settings → Secrets から、チームが所有するプロジェクト用の[トークン](/glossary/トークン/)を登録します。また VERCEL_ORG_ID を指定しない場合、デフォルトで個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
+CI/CD（継続的インテグレーション・デプロイメント）パイプラインでデプロイを行う場合は、**チームスコープの API トークンを使用**してください。GitHub Actions 等で VERCEL_TOKEN を設定する際は、リポジトリーの Settings → Secrets から、チームが所有するプロジェクト用のトークンを登録します。また VERCEL_ORG_ID を指定しない場合、デフォルトで個人スコープで動作するため注意が必要です。
 
-プロジェクトを個人アカウントからチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント設定を確認してください。
+プロジェクトを個人アカウントからチームアカウントに移行した直後は、古い環境変数が残っていないか全デプロイメント設定を確認してください。
 
 ## それでも解決しない場合
 
-まず Vercel [ダッシュボード](/glossary/ダッシュボード/)のアカウント設定で、現在[ログイン](/glossary/ログイン/)しているのが正しいアカウントであることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、[CLI](/glossary/cli/) の認証状態と一致しているか確認してください。
+まず Vercel ダッシュボードのアカウント設定で、現在ログインしているのが正しいアカウントであることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、CLI の認証状態と一致しているか確認してください。
 
 ```bash
 # 現在の認証状態を確認
@@ -128,7 +128,7 @@ vercel logout
 vercel login
 ```
 
-[API](/glossary/api/) [トークン](/glossary/トークン/)に問題がないか確認する場合、以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)の詳細情報（[スコープ](/glossary/スコープ/)・有効期限）を確認できます。
+API トークンに問題がないか確認する場合、以下のコマンドでトークンの詳細情報（スコープ・有効期限）を確認できます。
 
 ```bash
 # トークンの詳細を確認（Bearer トークンを使用）
@@ -136,7 +136,7 @@ curl -H "Authorization: Bearer <your-vercel-token>" \
   https://api.vercel.com/v2/user
 ```
 
-プロジェクト固有の設定確認は、Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → [API](/glossary/api/) から確認してください。公式ドキュメントの [Access Control](https://vercel.com/docs/projects/overview#access-control) セクションに、[権限](/glossary/権限/)の詳細説明があります。
+プロジェクト固有の設定確認は、Vercel ダッシュボード → Project Settings → API から確認してください。公式ドキュメントの [Access Control](https://vercel.com/docs/projects/overview#access-control) セクションに、権限の詳細説明があります。
 
 ---
 
