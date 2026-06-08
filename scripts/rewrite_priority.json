@@ -14,5 +14,78 @@
     ],
     "queued_at": "2026-06-02",
     "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GCP の 400 エラー：原因と解決策",
+    "priority_score": 0.3,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "is_thin": true,
+    "thin_chars": 1130,
+    "queued_at": "2026-06-08",
+    "source": "thin_scan"
+  },
+  {
+    "title": "Slack の 404 エラー：原因と解決策",
+    "priority_score": 0.3,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "is_thin": true,
+    "thin_chars": 1128,
+    "queued_at": "2026-06-08",
+    "source": "thin_scan"
+  },
+  {
+    "title": "Nginx の 500 エラー：原因と解決策",
+    "priority_score": 0.5,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "500 internal server error nginx",
+    "gsc_position": 11.9,
+    "gsc_ctr": 0,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.2%（インプレッション 23）",
+      "掲載順位 11.9 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-08",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Azure の 401 エラー：原因と解決策",
+    "priority_score": 0.5,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "401エラー",
+    "gsc_position": 51.4,
+    "gsc_ctr": 0,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.2%（インプレッション 19）"
+    ],
+    "queued_at": "2026-06-08",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Nginx の 400 エラー：原因と解決策",
+    "priority_score": 0.5,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "nginx エラー",
+    "gsc_position": 19.8,
+    "gsc_ctr": 0,
+    "gsc_reasons": [
+      "掲載順位 19.8 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-08",
+    "source": "gsc_bottleneck"
   }
 ]

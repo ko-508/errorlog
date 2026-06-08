@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-06-08",
+  "site_url": "https://errorlog.jp/",
+  "period_days": 7,
+  "ctr_threshold": 0.015,
+  "pos_range": [
+    11.0,
+    20.0
+  ],
+  "total_pages": 42,
+  "bottlenecks": [
+    {
+      "page": "https://errorlog.jp/posts/nginx_500/",
+      "slug": "nginx_500",
+      "impressions": 23,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.9,
+      "top_query": "500 internal server error nginx",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.2%（インプレッション 23）",
+        "掲載順位 11.9 位（停滞圏 11〜20 位）"
+      ]
+    },
+    {
+      "page": "https://errorlog.jp/posts/azure_401/",
+      "slug": "azure_401",
+      "impressions": 19,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 51.4,
+      "top_query": "401エラー",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.2%（インプレッション 19）"
+      ]
+    },
+    {
+      "page": "https://errorlog.jp/posts/nginx_400/",
+      "slug": "nginx_400",
+      "impressions": 6,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 19.8,
+      "top_query": "nginx エラー",
+      "reasons": [
+        "掲載順位 19.8 位（停滞圏 11〜20 位）"
+      ]
+    },
+    {
+      "page": "https://errorlog.jp/posts/aws_429/",
+      "slug": "aws_429",
+      "impressions": 5,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.2,
+      "top_query": "",
+      "reasons": [
+        "掲載順位 11.2 位（停滞圏 11〜20 位）"
+      ]
+    }
+  ]
+}

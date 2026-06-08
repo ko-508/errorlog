@@ -4,6 +4,7 @@ date: 2026-05-27
 description: "Slack の 404 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Slack"]
 errorCode: "404"
+lastmod: 2026-03-09
 ---
 
 ## Slack 404 エラーの原因と解決方法
