@@ -89,6 +89,21 @@ def _build_ga4_client():
 
 # ── GA4 Data API helpers ──────────────────────────────────────────────────────
 
+def _japan_filter():
+    from google.analytics.data_v1beta.types import (
+        FilterExpression, Filter,
+    )
+    return FilterExpression(
+        filter=Filter(
+            field_name="country",
+            string_filter=Filter.StringFilter(
+                match_type=Filter.StringFilter.MatchType.EXACT,
+                value="Japan",
+            ),
+        )
+    )
+
+
 def _date_range_ga4():
     return (
         (TODAY - timedelta(days=6)).strftime("%Y-%m-%d"),
@@ -142,6 +157,7 @@ def _run_report_overall(client, metrics):
             property=f"properties/{PROPERTY_ID}",
             metrics=[Metric(name=m) for m in metrics],
             date_ranges=[DateRange(start_date=start, end_date=end)],
+            dimension_filter=_japan_filter(),
         ))
     except Exception as e:
         print(f"  [WARN] GA4 overall query failed ({metrics}): {e}")
@@ -179,34 +195,36 @@ def fetch_all_ga4(client) -> dict:
         "screenPageViews", "bounceRate",
     ])
 
-    print("  [GA4] channel distribution...")
-    channels = _run_report(client, ["sessionDefaultChannelGroup"], ["sessions"], row_limit=20)
+    jp = _japan_filter()
+
+    print("  [GA4] channel distribution (Japan)...")
+    channels = _run_report(client, ["sessionDefaultChannelGroup"], ["sessions"], row_limit=20, dim_filter=jp)
     channels.sort(key=lambda r: -r.get("sessions", 0))
 
-    print("  [GA4] device category...")
-    devices = _run_report(client, ["deviceCategory"], ["sessions"])
+    print("  [GA4] device category (Japan)...")
+    devices = _run_report(client, ["deviceCategory"], ["sessions"], dim_filter=jp)
 
-    print("  [GA4] new vs returning...")
-    nvr = _run_report(client, ["newVsReturning"], ["activeUsers"])
+    print("  [GA4] new vs returning (Japan)...")
+    nvr = _run_report(client, ["newVsReturning"], ["activeUsers"], dim_filter=jp)
 
     print("  [GA4] country distribution...")
     countries = _run_report(client, ["country"], ["activeUsers"], row_limit=30)
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
 
-    print("  [GA4] landing pages...")
-    landing = _run_report(client, ["landingPage"], ["sessions"], row_limit=20)
+    print("  [GA4] landing pages (Japan)...")
+    landing = _run_report(client, ["landingPage"], ["sessions"], row_limit=20, dim_filter=jp)
     landing.sort(key=lambda r: -r.get("sessions", 0))
 
-    print("  [GA4] hourly distribution...")
-    hourly = _run_report(client, ["hour"], ["sessions"])
+    print("  [GA4] hourly distribution (Japan)...")
+    hourly = _run_report(client, ["hour"], ["sessions"], dim_filter=jp)
     hourly.sort(key=lambda r: -r.get("sessions", 0))
 
-    print("  [GA4] page views by page...")
-    pages = _run_report(client, ["pagePath"], ["screenPageViews"], row_limit=50)
+    print("  [GA4] page views by page (Japan)...")
+    pages = _run_report(client, ["pagePath"], ["screenPageViews"], row_limit=50, dim_filter=jp)
     pages.sort(key=lambda r: -r.get("screenPageViews", 0))
 
-    print("  [GA4] events...")
-    events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100)
+    print("  [GA4] events (Japan)...")
+    events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100, dim_filter=jp)
 
     return {
         "overall":   overall,
