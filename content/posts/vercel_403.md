@@ -86,26 +86,9 @@ vercel deploy
 
 Vercel ダッシュボードでプロジェクトにメンバー制限を設定している場合、対象の API トークンやユーザーが許可リストに入っていないと 403 が返されます。
 
-**修正前：**
+**修正方法：**
 
-```bash
-# アクセス制限されたプロジェクトに許可されていないトークンでアクセス
-export VERCEL_TOKEN=<許可されていないトークン>
-curl -H "Authorization: Bearer $VERCEL_TOKEN" \
-  https://api.vercel.com/v13/projects/<project_id>
-```
-
-**修正後：**
-
-```bash
-# Vercel ダッシュボードでこのトークンを許可するか、
-# 新しい許可済みトークンを使用
-export VERCEL_TOKEN=<許可されたトークン>
-curl -H "Authorization: Bearer $VERCEL_TOKEN" \
-  https://api.vercel.com/v13/projects/<project_id>
-```
-
-ダッシュボード → Project Settings → Security のアクセス制限設定を確認し、使用する API トークンが許可リストに登録されているか確認してください。
+Vercel ダッシュボード → Project Settings → Security のアクセス制限設定を確認し、使用する API トークンが許可リストに登録されているか確認してください。必要に応じて、使用するトークンを許可リストに追加するか、許可済みのトークンに変更します。
 
 ## Vercel 固有の注意点
 
@@ -128,7 +111,7 @@ vercel logout
 vercel login
 ```
 
-API トークンに問題がないか確認する場合、以下のコマンドでトークンの詳細情報（スコープ・有効期限）を確認できます。
+API トークンの詳細情報を確認する場合、以下のコマンドでトークンのスコープや有効期限を確認できます。
 
 ```bash
 # トークンの詳細を確認（Bearer トークンを使用）
