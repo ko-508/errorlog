@@ -181,11 +181,11 @@ export default async function handler(req, res) {
 
 ## Vercel固有の注意点
 
-Vercelのサーバーレス関数にはプランごとの実行時間制限のほか、メモリ上限（1024MB）やコールドスタート時間も性能に影響します。**Hobby プラン利用時は以下の点に留意してください：**
+Vercelのサーバーレス関数にはプランごとの実行時間制限のほか、メモリ上限やコールドスタート時間も性能に影響します。Hobbyプラン利用時は以下の点に留意してください：
 
-- **実行時間上限：10秒**（Proは300秒、Enterprise は3600秒）
+- **実行時間上限：10秒**（Proは300秒、Enterpriseは3600秒）
 - **メモリ上限：3008MB**（共有リソース）
-- **同時実行数制限：1000**（Hobby時は低い優先度）
+- **同時実行数制限：1000**（Hobbyは低い優先度）
 
 また、Vercelの`vercel logs`コマンドでリアルタイムログを確認できます：
 
@@ -205,7 +205,7 @@ vercel dev
 
 この環境ではタイムアウト上限なく関数を実行でき、実際の処理時間を計測できます。関数内に`console.log()`を仕込んで各処理の経過時間を記録し、ボトルネックを特定してください。
 
-それでも原因不明の場合は、Vercelの公式ドキュメント（https://vercel.com/docs/functions/serverless-functions/limitations）を参照するか、Vercelサポートに問い合わせてください。特にエンタープライズ契約がある場合は、優先サポートが利用可能です。
+それでも原因不明の場合は、Vercelの公式ドキュメント（https://vercel.com/docs/functions/serverless-functions/limitations）を参照するか、Vercelサポートに問い合わせてください。エンタープライズ契約がある場合は、優先サポートが利用可能です。
 
 ---
 
