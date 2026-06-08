@@ -91,16 +91,23 @@ def _build_ga4_client():
 
 def _japan_filter():
     from google.analytics.data_v1beta.types import (
-        FilterExpression, Filter,
+        FilterExpression, FilterExpressionList, Filter,
     )
-    return FilterExpression(
-        filter=Filter(
-            field_name="country",
-            string_filter=Filter.StringFilter(
-                match_type=Filter.StringFilter.MatchType.EXACT,
-                value="Japan",
-            ),
+    def _str_filter(field, value):
+        return FilterExpression(
+            filter=Filter(
+                field_name=field,
+                string_filter=Filter.StringFilter(
+                    match_type=Filter.StringFilter.MatchType.EXACT,
+                    value=value,
+                ),
+            )
         )
+    return FilterExpression(
+        and_group=FilterExpressionList(expressions=[
+            _str_filter("country", "Japan"),
+            _str_filter("hostName", "errorlog.jp"),
+        ])
     )
 
 
