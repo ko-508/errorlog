@@ -170,11 +170,19 @@ def fetch_ga4_data(client) -> dict:
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
     countries = countries[:TOP_COUNTRIES]
 
+    # チャネル別エンゲージ時間（Direct ボット判定用）
+    channels = _run_report(
+        client,
+        ["sessionDefaultChannelGroup"],
+        ["activeUsers", "sessions", "averageSessionDuration", "engagementRate"],
+    )
+    channels.sort(key=lambda r: -r.get("activeUsers", 0))
+
     print(
         f"  日別:{len(daily)}件 / ページ:{len(pages)}件 "
-        f"/ 都市:{len(cities)}件 / 国別(フィルタ済):{len(countries)}件"
+        f"/ 都市:{len(cities)}件 / 国別(フィルタ済):{len(countries)}件 / チャネル:{len(channels)}件"
     )
-    return {"daily": daily, "pages": pages, "cities": cities, "countries": countries}
+    return {"daily": daily, "pages": pages, "cities": cities, "countries": countries, "channels": channels}
 
 
 # ── データ整形 ────────────────────────────────────────────────────────────────
@@ -343,6 +351,23 @@ def build_report(data: dict, analysis: str) -> str:
         lines.append(
             f"| {r.get('country','')} | {int(r.get('activeUsers',0))} "
             f"| {r.get('averageSessionDuration',0):.1f} |"
+        )
+
+    # チャネル別エンゲージ時間（ボット判定参考）
+    lines += [
+        "\n## チャネル別エンゲージ時間（ボット判定参考）\n",
+        "| チャネル | UU | セッション | 平均エンゲージ時間(秒) | エンゲージ率 |",
+        "|---------|-----|----------|-------------------|------------|",
+    ]
+    for r in data.get("channels", []):
+        ch   = r.get("sessionDefaultChannelGroup", "")
+        dur  = r.get("averageSessionDuration", 0.0)
+        eng  = r.get("engagementRate", 0.0)
+        flag = " ⚠️ ボット疑い" if ch == "Direct" and dur < 10 else ""
+        lines.append(
+            f"| {ch}{flag} | {int(r.get('activeUsers',0))} "
+            f"| {int(r.get('sessions',0))} "
+            f"| {dur:.1f} | {eng:.2f} |"
         )
 
     lines += ["\n---\n", "## AI分析レポート（Gemini）\n", analysis]
