@@ -31,6 +31,7 @@ jobs:
           GA4_OAUTH_CLIENT_SECRET:  ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
           GA4_OAUTH_REFRESH_TOKEN:  ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
           ANTHROPIC_API_KEY:        ${{ secrets.ANTHROPIC_API_KEY }}
+          NOISE_COUNTRIES:          "Singapore"
         run: python scripts/ga4_analyzer.py
 
       - name: Run GA4 feedback loop (Task 07 + 08)

@@ -35,7 +35,8 @@ TOP_PAGES     = 20
 TOP_CITIES    = 15
 
 # ── ノイズフィルタ設定 ─────────────────────────────────────────────────────────
-NOISE_COUNTRY        = os.environ.get("NOISE_COUNTRY", "Singapore")
+_NOISE_COUNTRIES_RAW = os.environ.get("NOISE_COUNTRIES", "").strip()
+NOISE_COUNTRIES      = [c.strip() for c in _NOISE_COUNTRIES_RAW.split(",") if c.strip()]
 NOISE_TIME_THRESHOLD = float(os.environ.get("NOISE_TIME_THRESHOLD", "5.0"))  # 秒
 TOP_COUNTRIES        = 15
 
@@ -100,45 +101,64 @@ def _drop_noise(
     *,
     country_col: str = "country",
     time_col: str    = "averageSessionDuration",
-) -> list[dict]:
+) -> tuple[list[dict], dict]:
     """
-    country == NOISE_COUNTRY かつ engagement_time < NOISE_TIME_THRESHOLD の行を除去する。
-    対象カラムが存在しない場合は安全にスキップする（KeyError でクラッシュしない）。
-    """
-    if not rows:
-        return rows
+    NOISE_COUNTRIES に含まれる国 かつ engagement_time < NOISE_TIME_THRESHOLD の行を除去する。
+    NOISE_COUNTRIES が空の場合は国条件をスキップし、除外を行わない（安全側）。
+    対象カラムが存在しない場合も安全にスキップする（KeyError でクラッシュしない）。
 
-    sample       = rows[0]
-    has_country  = country_col in sample
-    has_time     = time_col    in sample
+    戻り値: (clean_rows, noise_stats)
+      noise_stats = {"count": int, "users": int, "by_country": {country: users}}
+    """
+    empty_stats: dict = {"count": 0, "users": 0, "by_country": {}}
+
+    if not rows:
+        return rows, empty_stats
+
+    if not NOISE_COUNTRIES:
+        print("  [noise_filter] NOISE_COUNTRIES 未設定 — 除外をスキップします。")
+        return rows, empty_stats
+
+    sample      = rows[0]
+    has_country = country_col in sample
+    has_time    = time_col    in sample
 
     if not has_country or not has_time:
         missing = [c for c, ok in [(country_col, has_country), (time_col, has_time)] if not ok]
         print(f"  [noise_filter] カラム {missing} が存在しないためスキップします。")
-        return rows
+        return rows, empty_stats
 
     clean: list[dict]   = []
     dropped: list[dict] = []
     for r in rows:
-        if r.get(country_col, "") == NOISE_COUNTRY and r.get(time_col, 0.0) < NOISE_TIME_THRESHOLD:
+        if r.get(country_col, "") in NOISE_COUNTRIES and r.get(time_col, 0.0) < NOISE_TIME_THRESHOLD:
             dropped.append(r)
         else:
             clean.append(r)
 
+    noise_stats: dict = {"count": 0, "users": 0, "by_country": {}}
+    countries_str = ", ".join(NOISE_COUNTRIES)
     if dropped:
         noise_users = sum(int(r.get("activeUsers", 0)) for r in dropped)
+        by_country: dict[str, int] = {}
+        for r in dropped:
+            c = r.get(country_col, "unknown")
+            by_country[c] = by_country.get(c, 0) + int(r.get("activeUsers", 0))
+        noise_stats = {"count": len(dropped), "users": noise_users, "by_country": by_country}
         print(
             f"  [noise_filter] 除外されたノイズ: {len(dropped)} 行 "
-            f"(国={NOISE_COUNTRY}, エンゲージ時間<{NOISE_TIME_THRESHOLD}s, "
+            f"(対象国={countries_str}, エンゲージ時間<{NOISE_TIME_THRESHOLD}s, "
             f"影響ユーザー数={noise_users})"
         )
+        for country, users in by_country.items():
+            print(f"    {country}: {users} UU")
     else:
         print(
             f"  [noise_filter] ノイズなし "
-            f"({NOISE_COUNTRY} の短時間セッションは検出されませんでした)"
+            f"({countries_str} の短時間セッションは検出されませんでした)"
         )
 
-    return clean
+    return clean, noise_stats
 
 
 def fetch_ga4_data(client) -> dict:
@@ -166,7 +186,7 @@ def fetch_ga4_data(client) -> dict:
         ["country"],
         ["activeUsers", "averageSessionDuration"],
     )
-    countries = _drop_noise(countries)
+    countries, noise_stats = _drop_noise(countries)
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
     countries = countries[:TOP_COUNTRIES]
 
@@ -182,7 +202,11 @@ def fetch_ga4_data(client) -> dict:
         f"  日別:{len(daily)}件 / ページ:{len(pages)}件 "
         f"/ 都市:{len(cities)}件 / 国別(フィルタ済):{len(countries)}件 / チャネル:{len(channels)}件"
     )
-    return {"daily": daily, "pages": pages, "cities": cities, "countries": countries, "channels": channels}
+    return {
+        "daily": daily, "pages": pages, "cities": cities,
+        "countries": countries, "channels": channels,
+        "noise_stats": noise_stats,
+    }
 
 
 # ── データ整形 ────────────────────────────────────────────────────────────────
@@ -342,8 +366,16 @@ def build_report(data: dict, analysis: str) -> str:
     for r in data["cities"]:
         lines.append(f"| {r.get('city','')} | {int(r.get('activeUsers',0))} |")
 
+    noise_stats      = data.get("noise_stats", {"count": 0, "users": 0, "by_country": {}})
+    noise_label      = ", ".join(NOISE_COUNTRIES) if NOISE_COUNTRIES else "なし（設定なし）"
+    if noise_stats.get("count", 0) > 0:
+        detail = " / ".join(f"{c}: {u} UU" for c, u in noise_stats["by_country"].items())
+        noise_summary = f"> **今週のノイズ除外:** {noise_stats['count']} 行 / {noise_stats['users']} UU — 内訳: {detail}"
+    else:
+        noise_summary = f"> **今週のノイズ除外:** 0 件（{noise_label} の短時間セッションなし）"
+
     lines += [
-        f"\n## 生データ：国別ユーザー（ノイズ除去済 / {NOISE_COUNTRY}・{NOISE_TIME_THRESHOLD}s未満を除外）\n",
+        f"\n## 生データ：国別ユーザー（ノイズ除去済 / {noise_label}・{NOISE_TIME_THRESHOLD}s未満を除外）\n",
         "| 国 | アクティブUU | 平均エンゲージ時間(秒) |",
         "|----|------------|---------------------|",
     ]
@@ -352,6 +384,7 @@ def build_report(data: dict, analysis: str) -> str:
             f"| {r.get('country','')} | {int(r.get('activeUsers',0))} "
             f"| {r.get('averageSessionDuration',0):.1f} |"
         )
+    lines.append(f"\n{noise_summary}")
 
     # チャネル別エンゲージ時間（ボット判定参考）
     lines += [
@@ -387,6 +420,8 @@ def main():
         print(f"[ERROR] 未設定の環境変数: {', '.join(missing)}", file=sys.stderr)
         sys.exit(1)
 
+    import json as _json
+
     client   = _ga4_client()
     data     = fetch_ga4_data(client)
 
@@ -395,6 +430,18 @@ def main():
 
     report = build_report(data, analysis)
     REPORT_PATH.write_text(report, encoding="utf-8")
+
+    noise_stats_path = REPORTS_DIR / "noise_stats.json"
+    noise_stats_path.write_text(
+        _json.dumps({
+            "date":                TODAY.isoformat(),
+            "noise_countries":     NOISE_COUNTRIES,
+            "noise_time_threshold": NOISE_TIME_THRESHOLD,
+            **data.get("noise_stats", {"count": 0, "users": 0, "by_country": {}}),
+        }, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"📊 ノイズ統計保存: {noise_stats_path.relative_to(BASE)}")
 
     import re
     m = re.search(r"#{2,4}\s*4[^\n]*\n+[-・*]?\s*(.+)", analysis)

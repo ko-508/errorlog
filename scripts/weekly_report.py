@@ -598,6 +598,46 @@ def _load_competitor_section() -> str:
         return ""
 
 
+# ── ノイズ除外サマリー ─────────────────────────────────────────────────────────
+
+def _build_noise_section() -> str:
+    """ga4_analyzer.py が出力した noise_stats.json を読んで Issue 用 1〜2 行を返す。"""
+    stats_path = BASE / "reports" / "ga4" / "noise_stats.json"
+    if not stats_path.exists():
+        return ""
+    try:
+        import json as _json
+        ns = _json.loads(stats_path.read_text(encoding="utf-8"))
+    except Exception:
+        return ""
+
+    countries = ns.get("noise_countries", [])
+    threshold = ns.get("noise_time_threshold", 5.0)
+    count     = ns.get("count", 0)
+    users     = ns.get("users", 0)
+    by_c      = ns.get("by_country", {})
+    label     = ", ".join(countries) if countries else "設定なし"
+
+    if count > 0:
+        detail = " / ".join(f"{c}: {u} UU" for c, u in by_c.items())
+        lines = (
+            f"\n\n### 3. ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n"
+            f"| 項目 | 値 |\n"
+            f"| :--- | :--- |\n"
+            f"| 除外対象国 | {label} |\n"
+            f"| 滞在時間しきい値 | {threshold}秒未満 |\n"
+            f"| 今週の除外件数 | **{count} 行 / {users} UU** |\n"
+            f"| 国別内訳 | {detail} |\n\n"
+            f"> Cloudflare bot対策（Bot Fight Mode / WAF）導入後、この数字が減少することを確認してください。"
+        )
+    else:
+        lines = (
+            f"\n\n### 3. ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n"
+            f"今週は除外対象なし（{label}・{threshold}秒未満のセッションは検出されませんでした）。"
+        )
+    return lines
+
+
 # ── Markdown rendering ────────────────────────────────────────────────────────
 
 def _pct(v: float, dec: int = 1) -> str:
@@ -611,6 +651,7 @@ def render_issue_body(
     bottlenecks: list[dict],
     period: str,
     competitor_section: str = "",
+    noise_section: str = "",
 ) -> str:
     s = statuses
 
@@ -667,6 +708,7 @@ _今週のボトルネック記事はありませんでした。_"""
         + ga4_table
         + gsc_section
         + competitor_section
+        + noise_section
         + "\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。"
     )
 
@@ -701,7 +743,8 @@ def main() -> None:
     if competitor_section:
         print("  → 競合データあり（Issueに追記します）")
 
-    issue_body  = render_issue_body(metrics, statuses, bottlenecks, period, competitor_section)
+    noise_section = _build_noise_section()
+    issue_body  = render_issue_body(metrics, statuses, bottlenecks, period, competitor_section, noise_section)
     issue_title = f"【週次統合レポート】GA4 20指標 + GSC ボトルネック ({TODAY.isoformat()})"
 
     output = {
