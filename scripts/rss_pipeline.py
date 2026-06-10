@@ -235,6 +235,19 @@ def stage1_filter(articles: List[dict]) -> List[dict]:
 
 # ── Stage 2: AI scoring ────────────────────────────────────────────────────────
 
+def _keyword_score(title: str, body: str) -> int:
+    """Gemini unavailable 時のキーワードベース代替スコアリング。"""
+    text = f"{title} {body[:1000]}".lower()
+    score = 0
+    if re.search(r'\b[45]\d\d\b', text):
+        score += 30
+    error_hits = sum(1 for sig in ERROR_SIGNALS if sig in text)
+    score += min(error_hits * 8, 40)
+    tech_hits = sum(1 for kw in TECH_KEYWORDS if kw in text)
+    score += min(tech_hits * 10, 30)
+    return min(score, 100)
+
+
 async def score_article(client, types, title: str, body: str) -> int:
     prompt = (
         "Rate how useful this tech article is for engineers facing errors (0-100).\n"
@@ -254,8 +267,9 @@ async def score_article(client, types, title: str, body: str) -> int:
         if nums:
             return min(100, max(0, int(nums[0])))
     except Exception as e:
-        log.warning("Score failed: %s", e)
-    return -1
+        log.warning("Score failed: %s — falling back to keyword score", e)
+        return _keyword_score(title, body)
+    return _keyword_score(title, body)
 
 # ── Draft generation ───────────────────────────────────────────────────────────
 
