@@ -37,8 +37,8 @@ POSTS_DIR      = REPO_ROOT / "content" / "posts"
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-SCORE_THRESHOLD = int(os.getenv("SCORE_THRESHOLD", "85"))
-MAX_SCORE_CYCLE = int(os.getenv("MAX_SCORE_CYCLE", "5"))
+SCORE_THRESHOLD = int(os.getenv("SCORE_THRESHOLD", "60"))
+MAX_SCORE_CYCLE = int(os.getenv("MAX_SCORE_CYCLE", "20"))
 API_DELAY       = float(os.getenv("API_DELAY", "4.0"))
 MAX_PROCESSED   = 15_000
 
@@ -166,7 +166,10 @@ async def _gemini_call(client, types, model: str, system: str, prompt: str,
                     max_output_tokens=max_tokens,
                 ),
             )
-            return resp.text
+            text = resp.text
+            if not text:
+                raise ValueError("empty response from Gemini")
+            return text
         except Exception as e:
             if "429" in str(e) and attempt < max_retries:
                 m = re.search(r"retry in (\d+)", str(e))

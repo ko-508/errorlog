@@ -30,8 +30,8 @@ jobs:
       - name: Run RSS pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          SCORE_THRESHOLD: '70'
-          MAX_SCORE_CYCLE: '5'
+          SCORE_THRESHOLD: '60'
+          MAX_SCORE_CYCLE: '20'
         run: python scripts/rss_pipeline.py
 
       - name: Commit results
