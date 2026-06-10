@@ -285,12 +285,12 @@ async def generate_draft(client, types, article: dict, body: str) -> str:
         f'title: ""\n'
         f"date: {today}\n"
         f"lastmod: {today}\n"
-        f"draft: true\n"
+        f"draft: false\n"
         f'description: ""\n'
         f'tags: ["{tool}"]\n'
         f"---\n"
     )
-    return await _gemini_call(client, types, "gemini-2.0-flash",
+    return await _gemini_call(client, types, "gemini-2.5-flash",
                               _DRAFT_SYSTEM, prompt, temp=0.3, max_tokens=8192)
 
 # ── Processed IDs ─────────────────────────────────────────────────────────────
