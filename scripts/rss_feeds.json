@@ -1,12 +1,16 @@
 [
-  {"id": "7ffa5676-587b-4252-b61f-373167d382d3", "name": "Dev.to - Docker",      "url": "https://dev.to/feed/tag/docker",               "category": "Docker"},
-  {"id": "37b60948-838d-44e9-ae44-ce76535aa362", "name": "Dev.to - AWS",         "url": "https://dev.to/feed/tag/aws",                  "category": "AWS"},
-  {"id": "0c4ea9d7-31af-457f-8d5c-1521e4fa89ba", "name": "Dev.to - DevOps",      "url": "https://dev.to/feed/tag/devops",               "category": "DevOps"},
-  {"id": "65c90aa1-5f08-49cd-8671-1b90b9a6466f", "name": "GitHub Changelog",     "url": "https://github.blog/changelog/feed/",          "category": "GitHub"},
-  {"id": "5a7ecc72-ef16-4bbf-9b99-046c6e831e71", "name": "Dev.to - Firebase",    "url": "https://dev.to/feed/tag/firebase",             "category": "Firebase"},
-  {"id": "3bb40b7d-7e53-44ab-9865-930d9487da98", "name": "Dev.to - Kubernetes",  "url": "https://dev.to/feed/tag/kubernetes",           "category": "K8s"},
-  {"id": "f5f816c7-789d-4aa0-9f89-b72ecbdd0978", "name": "Dev.to - GitHub",      "url": "https://dev.to/feed/tag/github",               "category": "GitHub"},
-  {"id": "ffa4905a-2d58-4f09-8c95-1474bf52d585", "name": "Dev.to - Vercel",      "url": "https://dev.to/feed/tag/vercel",               "category": "Vercel"},
-  {"id": "738ab022-a8cb-42c2-b55a-ed4e8e8ddfe7", "name": "Cloudflare Blog",      "url": "https://blog.cloudflare.com/rss/",             "category": "Cloudflare"},
-  {"id": "3a9a8044-7b5d-47a1-aecc-68be80c56023", "name": "Dev.to - Supabase",    "url": "https://dev.to/feed/tag/supabase",             "category": "Supabase"}
+  {"id": "7ffa5676-587b-4252-b61f-373167d382d3", "name": "Dev.to - Docker",               "url": "https://dev.to/feed/tag/docker",                               "category": "Docker"},
+  {"id": "37b60948-838d-44e9-ae44-ce76535aa362", "name": "Dev.to - AWS",                  "url": "https://dev.to/feed/tag/aws",                                  "category": "AWS"},
+  {"id": "0c4ea9d7-31af-457f-8d5c-1521e4fa89ba", "name": "Dev.to - DevOps",               "url": "https://dev.to/feed/tag/devops",                               "category": "DevOps"},
+  {"id": "65c90aa1-5f08-49cd-8671-1b90b9a6466f", "name": "GitHub Changelog",              "url": "https://github.blog/changelog/feed/",                          "category": "GitHub"},
+  {"id": "5a7ecc72-ef16-4bbf-9b99-046c6e831e71", "name": "Dev.to - Firebase",             "url": "https://dev.to/feed/tag/firebase",                             "category": "Firebase"},
+  {"id": "3bb40b7d-7e53-44ab-9865-930d9487da98", "name": "Dev.to - Kubernetes",           "url": "https://dev.to/feed/tag/kubernetes",                           "category": "K8s"},
+  {"id": "f5f816c7-789d-4aa0-9f89-b72ecbdd0978", "name": "Dev.to - GitHub",               "url": "https://dev.to/feed/tag/github",                               "category": "GitHub"},
+  {"id": "ffa4905a-2d58-4f09-8c95-1474bf52d585", "name": "Dev.to - Vercel",               "url": "https://dev.to/feed/tag/vercel",                               "category": "Vercel"},
+  {"id": "738ab022-a8cb-42c2-b55a-ed4e8e8ddfe7", "name": "Cloudflare Blog",               "url": "https://blog.cloudflare.com/rss/",                             "category": "Cloudflare"},
+  {"id": "3a9a8044-7b5d-47a1-aecc-68be80c56023", "name": "Dev.to - Supabase",             "url": "https://dev.to/feed/tag/supabase",                             "category": "Supabase"},
+  {"id": "2d1c4702-0214-4b89-a954-717959f219b2", "name": "Vercel Status",                 "url": "https://www.vercel-status.com/history.rss",                    "category": "Vercel"},
+  {"id": "6d09e0ac-f93e-44d3-824b-5213b96d8321", "name": "GitHub Status",                 "url": "https://www.githubstatus.com/history.rss",                     "category": "GitHub"},
+  {"id": "5eaf8137-0df2-4487-9851-3297838f7cc5", "name": "AWS Architecture Blog",         "url": "https://aws.amazon.com/blogs/architecture/feed/",              "category": "AWS"},
+  {"id": "f2354ae0-cc92-495e-9ea6-6f37afaac144", "name": "Zenn - トラブルシューティング", "url": "https://zenn.dev/topics/%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/feed", "category": "Zenn"}
 ]
