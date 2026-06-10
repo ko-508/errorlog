@@ -46,7 +46,6 @@ _NORMAL_LASTMOD_DAYS   = 91
 
 # ── 薄い記事検出 ─────────────────────────────────────────────────────────────
 THIN_CHAR_THRESHOLD = int(os.getenv("THIN_CHAR_THRESHOLD", "1200"))
-_THIN_LASTMOD_DAYS  = 91  # REFRESH_DAYS のデフォルト値に揃えてキューに押し込む
 
 PRIORITY_FILE   = SCRIPTS_DIR / "rewrite_priority.json"
 BOTTLENECK_FILE = REPORTS_DIR / f"bottleneck_{TODAY.strftime('%Y%m%d')}.json"
@@ -407,8 +406,8 @@ def _count_body_chars(body: str) -> int:
 def flag_thin_articles() -> int:
     """
     content/posts/ 全記事をスキャンし、本文が THIN_CHAR_THRESHOLD 未満のものに
-    rewrite_priority.json で is_thin: true を付与する。
-    lastmod を _THIN_LASTMOD_DAYS 前にリセットして refresh_articles.py のキューに乗せる。
+    rewrite_priority.json で is_thin: true を付与し、
+    フロントマターに refresh_due: true を挿入して refresh_articles.py のキューに乗せる。
     戻り値: 新規フラグ付与件数
     """
     existing: list[dict] = []
@@ -419,7 +418,6 @@ def flag_thin_articles() -> int:
             existing = []
 
     by_title: dict[str, dict] = {e["title"]: e for e in existing}
-    thin_old_date = (TODAY - timedelta(days=_THIN_LASTMOD_DAYS)).isoformat()
     newly_flagged = 0
 
     for md in sorted(POSTS_DIR.glob("*.md")):
@@ -477,21 +475,18 @@ def flag_thin_articles() -> int:
             newly_flagged += 1
             print(f"  [thin_scan] 新規登録: {md.name} ({char_count}文字)")
 
-        # lastmod を _THIN_LASTMOD_DAYS 前にリセットしてリフレッシュキューへ
-        if is_thin:
-            if "lastmod:" in text:
-                new_text = re.sub(r'(?m)^lastmod:.*$', f'lastmod: {thin_old_date}', text, count=1)
-            else:
-                fm_str   = fm_match.group(0)
-                new_text = text.replace(
-                    fm_str,
-                    fm_str.replace('\n---\n', f'\nlastmod: {thin_old_date}\n---\n', 1),
-                )
+        # refresh_due: true をフロントマターに挿入してリフレッシュキューへ
+        if is_thin and "refresh_due:" not in text:
+            fm_str   = fm_match.group(0)
+            new_text = text.replace(
+                fm_str,
+                fm_str.replace('\n---\n', '\nrefresh_due: true\n---\n', 1),
+            )
             if new_text != text:
                 try:
                     md.write_text(new_text, encoding="utf-8")
                 except Exception as e:
-                    print(f"  [thin_scan] {md.name}: lastmod 書き込みエラー — {e}")
+                    print(f"  [thin_scan] {md.name}: refresh_due 書き込みエラー — {e}")
 
     PRIORITY_FILE.write_text(
         json.dumps(existing, ensure_ascii=False, indent=2),

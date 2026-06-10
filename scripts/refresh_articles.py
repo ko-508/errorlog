@@ -150,10 +150,13 @@ def _save_refresh_manifest(manifest: dict) -> None:
 def needs_refresh(fm: dict, stem: str, threshold_days: int, manifest: dict) -> bool:
     """マニフェストを優先して最終リライト日を判定する。
 
+    - refresh_due: true が frontmatter に存在: 即 True（薄い記事フラグ）
     - マニフェストあり: このスクリプトが最後にリライトした日 >= threshold_days 前なら True
     - マニフェストなし（初回/未リライト）: 記事の date で判定
     他スクリプトが lastmod を更新しても影響を受けない。
     """
+    if fm.get("refresh_due") is True:
+        return True
     if stem in manifest:
         try:
             last = datetime.strptime(manifest[stem], "%Y-%m-%d").date()
@@ -499,12 +502,13 @@ def main() -> None:
             except Exception as e:
                 print(f"    [expand] 拡張エラー（リライト結果で保存）: {e}")
 
-        # lastmod を更新して保存
+        # lastmod を更新して保存（refresh_due フラグも除去）
         fm_block = get_frontmatter_block(text)
         if "lastmod:" in fm_block:
             new_fm = re.sub(r"lastmod:.*", f"lastmod: {today}", fm_block)
         else:
             new_fm = re.sub(r"\n---\n$", f"\nlastmod: {today}\n---\n", fm_block)
+        new_fm = re.sub(r"(?m)^refresh_due:.*\n", "", new_fm)
 
         md_path.write_text(new_fm + "\n" + new_body, encoding="utf-8")
         manifest[md_path.stem] = today  # マニフェストに今日の日付を記録
