@@ -65,7 +65,7 @@ jobs:
       - name: Request indexing for new articles
         if: steps.push.outputs.deployed == 'true'
         env:
-          INDEXING_SERVICE_ACCOUNT_KEY: ${{ secrets.INDEXING_SERVICE_ACCOUNT_KEY }}
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: python scripts/request_index.py
 
       - name: Notify Make (Threads)

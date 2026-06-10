@@ -1,15 +1,15 @@
 """
-Google Indexing API へ URL_UPDATED リクエストを送信する。
+IndexNow へ URL 更新通知を送信する。
 
 動作:
-  1. git diff HEAD~1..HEAD で新規・更新記事のURLを最大 MAX_NEW 件取得（優先枠）
+  1. git diff HEAD~1..HEAD で新規・更新記事の URL を取得（優先枠）
   2. rewrite_priority.json のスコア上位から残り枠を補充
-  3. 合計 MAX_PER_RUN(=10) 件にハードキャップして送信
-  4. 429 / 403 はキャッチしてログ出力後に正常終了（ワークフローを赤にしない）
+  3. https://api.indexnow.org/indexnow へ JSON バッチ POST
+  4. 非 200 はログ出力後に正常終了（ワークフローを赤にしない）
 
 環境変数:
-  INDEXING_SERVICE_ACCOUNT_KEY  サービスアカウント JSON 文字列（必須）
-  SITE_URL                      サイト URL（デフォルト: https://errorlog.jp）
+  INDEXNOW_KEY   IndexNow APIキー（必須）。static/{key}.txt と同じ値
+  SITE_URL       サイト URL（デフォルト: https://errorlog.jp）
 
 使用方法:
   python scripts/request_index.py                   # git diff から自動検出
@@ -26,33 +26,13 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
-MAX_PER_RUN    = 10   # 1回の実行で送信する絶対上限
-MAX_NEW        = 3    # git diff 由来（新規/更新）URLの優先枠
-
-SITE_URL       = os.getenv("SITE_URL", "https://errorlog.jp").rstrip("/")
-INDEXING_EP    = "https://indexing.googleapis.com/v3/urlNotifications:publish"
-INDEXING_SCOPE = "https://www.googleapis.com/auth/indexing"
+SITE_URL      = os.getenv("SITE_URL", "https://errorlog.jp").rstrip("/")
+INDEXNOW_EP   = "https://api.indexnow.org/indexnow"
+MAX_NEW       = 3  # git diff 由来 URL の優先枠
 
 BASE          = Path(__file__).resolve().parent.parent
 POSTS_DIR     = BASE / "content" / "posts"
 PRIORITY_FILE = BASE / "scripts" / "rewrite_priority.json"
-
-
-# ── 認証 ──────────────────────────────────────────────────────────────────────
-
-def _credentials():
-    sa_key = os.environ.get("INDEXING_SERVICE_ACCOUNT_KEY", "").strip()
-    if not sa_key:
-        print("[request_index] SKIP: INDEXING_SERVICE_ACCOUNT_KEY が未設定です。インデックスリクエストをスキップします。")
-        sys.exit(0)
-    try:
-        from google.oauth2.service_account import Credentials
-        return Credentials.from_service_account_info(
-            json.loads(sa_key), scopes=[INDEXING_SCOPE]
-        )
-    except Exception as e:
-        print(f"[request_index] WARN: サービスアカウント認証の初期化に失敗しました: {e}")
-        sys.exit(0)
 
 
 # ── URL 解決 ──────────────────────────────────────────────────────────────────
@@ -62,7 +42,6 @@ def _slug_to_url(slug: str) -> str:
 
 
 def _path_to_url(path: str) -> str | None:
-    """content/posts/foo_bar.md → https://errorlog.jp/posts/foo_bar/"""
     p = Path(path)
     if p.suffix != ".md":
         return None
@@ -70,7 +49,6 @@ def _path_to_url(path: str) -> str | None:
 
 
 def _new_urls_from_git() -> list[str]:
-    """直前コミットで追加・変更されたポスト記事の URL を返す（最大 MAX_NEW 件）。"""
     try:
         result = subprocess.run(
             ["git", "diff", "--name-only", "HEAD~1..HEAD", "--", "content/posts/"],
@@ -92,7 +70,6 @@ def _new_urls_from_git() -> list[str]:
 
 
 def _title_to_stem_map() -> dict[str, str]:
-    """title → stem のマップを content/posts/ 全体から構築する。"""
     mapping: dict[str, str] = {}
     for md in POSTS_DIR.glob("*.md"):
         try:
@@ -105,9 +82,8 @@ def _title_to_stem_map() -> dict[str, str]:
     return mapping
 
 
-def _priority_urls(exclude: set[str], budget: int) -> list[str]:
-    """rewrite_priority.json のスコア上位エントリを URL に変換して返す。"""
-    if budget <= 0 or not PRIORITY_FILE.exists():
+def _priority_urls(exclude: set[str]) -> list[str]:
+    if not PRIORITY_FILE.exists():
         return []
     try:
         entries: list[dict] = json.loads(PRIORITY_FILE.read_text(encoding="utf-8"))
@@ -117,9 +93,7 @@ def _priority_urls(exclude: set[str], budget: int) -> list[str]:
 
     title_map = _title_to_stem_map()
     urls: list[str] = []
-    for entry in entries:  # critical→高スコア順に並んでいる前提
-        if len(urls) >= budget:
-            break
+    for entry in entries:
         stem = title_map.get(entry.get("title", ""))
         if not stem:
             continue
@@ -129,77 +103,67 @@ def _priority_urls(exclude: set[str], budget: int) -> list[str]:
     return urls
 
 
-# ── Indexing API 呼び出し ────────────────────────────────────────────────────
-
-def _notify_one(creds, url: str) -> tuple[bool, int, str]:
-    """(success, http_status, body) を返す。例外はすべて吸収する。"""
-    try:
-        import google.auth.transport.requests as ga_transport
-        creds.refresh(ga_transport.Request())
-    except Exception as e:
-        return False, 0, f"トークンリフレッシュ失敗: {e}"
-
-    payload = json.dumps({"url": url, "type": "URL_UPDATED"}).encode()
-    req = urllib.request.Request(
-        INDEXING_EP,
-        data=payload,
-        headers={
-            "Authorization": f"Bearer {creds.token}",
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            return True, resp.status, resp.read().decode()
-    except urllib.error.HTTPError as e:
-        body = ""
-        try:
-            body = e.read().decode()
-        except Exception:
-            pass
-        return False, e.code, body
-    except Exception as e:
-        return False, 0, str(e)
-
+# ── IndexNow 送信 ─────────────────────────────────────────────────────────────
 
 def _send(urls: list[str]) -> None:
     if not urls:
         print("[request_index] 送信対象の URL がありません。処理をスキップします。")
         return
 
-    creds = _credentials()
-    ok = warn = 0
+    key = os.environ.get("INDEXNOW_KEY", "").strip()
+    if not key:
+        print("[request_index] SKIP: INDEXNOW_KEY が未設定です。インデックスリクエストをスキップします。")
+        return
 
-    for url in urls:
-        success, code, body = _notify_one(creds, url)
-        if success:
-            print(f"  [OK ]  {url}")
-            ok += 1
-        else:
-            snippet = body[:300].replace("\n", " ")
-            if code == 429:
-                print(f"  [429]  {url}  — クォータ超過。本日の残枠が不足しています。({snippet})")
-            elif code == 403:
-                print(f"  [403]  {url}  — 権限エラー。サービスアカウントの Indexing API 権限を確認してください。({snippet})")
-            else:
-                print(f"  [ERR]  {url}  — HTTP {code}: {snippet}")
-            warn += 1
+    host         = SITE_URL.removeprefix("https://").removeprefix("http://")
+    key_location = f"{SITE_URL}/{key}.txt"
+    payload = json.dumps({
+        "host":        host,
+        "key":         key,
+        "keyLocation": key_location,
+        "urlList":     urls,
+    }).encode("utf-8")
 
-    print(f"\n[request_index] 完了: 成功 {ok} 件 / 警告 {warn} 件 / 計 {len(urls)} 件")
+    req = urllib.request.Request(
+        INDEXNOW_EP,
+        data=payload,
+        headers={"Content-Type": "application/json; charset=utf-8"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            code = resp.status
+            body = resp.read().decode()
+    except urllib.error.HTTPError as e:
+        code = e.code
+        try:
+            body = e.read().decode()
+        except Exception:
+            body = ""
+    except Exception as e:
+        print(f"[request_index] ERR: リクエスト失敗 — {e}")
+        return
+
+    if 200 <= code < 300:
+        print(f"[request_index] OK ({code}): {len(urls)} URL を送信しました")
+        for u in urls:
+            print(f"  {u}")
+    else:
+        snippet = body[:300].replace("\n", " ")
+        print(f"[request_index] WARN: HTTP {code} — {snippet}")
+        print(f"  ※ インデックスリクエストは失敗しましたが処理を続行します")
 
 
 # ── メイン ────────────────────────────────────────────────────────────────────
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Google Indexing API へ URL_UPDATED リクエストを送信する")
+    parser = argparse.ArgumentParser(description="IndexNow へ URL 更新通知を送信する")
     parser.add_argument(
         "--urls", nargs="*", default=[],
         help="送信するURLを明示指定する（省略時は git diff から自動検出）",
     )
     args = parser.parse_args()
 
-    # 1. 新規・更新 URL（優先枠 MAX_NEW 件）
     if args.urls:
         new_urls = list(dict.fromkeys(args.urls))[:MAX_NEW]
         print(f"[request_index] 引数指定URL: {len(new_urls)} 件")
@@ -209,17 +173,11 @@ def main() -> None:
     for u in new_urls:
         print(f"  {u}")
 
-    # 2. 優先度リストから残り枠を補充
-    budget = MAX_PER_RUN - len(new_urls)
-    priority_urls = _priority_urls(exclude=set(new_urls), budget=budget)
+    priority_urls = _priority_urls(exclude=set(new_urls))
     print(f"[request_index] 優先度リストURL: {len(priority_urls)} 件")
-    for u in priority_urls:
-        print(f"  {u}")
 
-    # 3. 統合・ハードキャップ・送信
-    all_urls = (new_urls + priority_urls)[:MAX_PER_RUN]
-    print(f"[request_index] 送信対象 合計: {len(all_urls)} 件（上限 {MAX_PER_RUN} 件）")
-    print()
+    all_urls = list(dict.fromkeys(new_urls + priority_urls))
+    print(f"[request_index] 送信対象 合計: {len(all_urls)} 件\n")
 
     _send(all_urls)
 
