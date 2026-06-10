@@ -244,7 +244,7 @@ async def score_article(client, types, title: str, body: str) -> int:
         f"Title: {title}\n\nBody (first 600 chars):\n{body[:600]}"
     )
     try:
-        raw = await _gemini_call(client, types, "gemini-1.5-flash",
+        raw = await _gemini_call(client, types, "gemini-2.0-flash",
                                  "You are a tech article evaluator.", prompt,
                                  temp=0.1, max_tokens=50)
         m = re.search(r'"score"\s*:\s*(\d+)', raw)

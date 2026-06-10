@@ -1,12 +1,12 @@
 [
-  {"id": "ebbf55c2-9d5e-4228-9415-85d5dfdeb30f", "name": "Stack Overflow - Docker",      "url": "https://stackoverflow.com/feeds/tag/docker",                  "category": "Docker"},
-  {"id": "88699166-10d0-4951-ae02-4aef789bfc88", "name": "Stack Overflow - AWS",         "url": "https://stackoverflow.com/feeds/tag/amazon-web-services",     "category": "AWS"},
-  {"id": "3785d415-62a7-4ba3-99d7-4b1ee6770e00", "name": "Stack Overflow - Firebase",    "url": "https://stackoverflow.com/feeds/tag/firebase",                "category": "Firebase"},
-  {"id": "e74e6abb-b145-4c3c-b14f-b8aacabc656c", "name": "Stack Overflow - Kubernetes",  "url": "https://stackoverflow.com/feeds/tag/kubernetes",              "category": "K8s"},
-  {"id": "78d8b0c9-cc35-40d5-ace9-1fc63ddd445f", "name": "Stack Overflow - GitHub API",  "url": "https://stackoverflow.com/feeds/tag/github-api",              "category": "GitHub"},
-  {"id": "874529f4-6b87-4a6d-ae6a-ca84d53af3db", "name": "Stack Overflow - Vercel",      "url": "https://stackoverflow.com/feeds/tag/vercel",                  "category": "Vercel"},
-  {"id": "7ffa5676-587b-4252-b61f-373167d382d3", "name": "Dev.to - Docker",              "url": "https://dev.to/feed/tag/docker",                             "category": "Docker"},
-  {"id": "37b60948-838d-44e9-ae44-ce76535aa362", "name": "Dev.to - AWS",                 "url": "https://dev.to/feed/tag/aws",                                "category": "AWS"},
-  {"id": "0c4ea9d7-31af-457f-8d5c-1521e4fa89ba", "name": "Dev.to - DevOps",              "url": "https://dev.to/feed/tag/devops",                             "category": "DevOps"},
-  {"id": "65c90aa1-5f08-49cd-8671-1b90b9a6466f", "name": "GitHub Changelog",             "url": "https://github.blog/changelog/feed/",                        "category": "GitHub"}
+  {"id": "7ffa5676-587b-4252-b61f-373167d382d3", "name": "Dev.to - Docker",      "url": "https://dev.to/feed/tag/docker",               "category": "Docker"},
+  {"id": "37b60948-838d-44e9-ae44-ce76535aa362", "name": "Dev.to - AWS",         "url": "https://dev.to/feed/tag/aws",                  "category": "AWS"},
+  {"id": "0c4ea9d7-31af-457f-8d5c-1521e4fa89ba", "name": "Dev.to - DevOps",      "url": "https://dev.to/feed/tag/devops",               "category": "DevOps"},
+  {"id": "65c90aa1-5f08-49cd-8671-1b90b9a6466f", "name": "GitHub Changelog",     "url": "https://github.blog/changelog/feed/",          "category": "GitHub"},
+  {"id": "5a7ecc72-ef16-4bbf-9b99-046c6e831e71", "name": "Dev.to - Firebase",    "url": "https://dev.to/feed/tag/firebase",             "category": "Firebase"},
+  {"id": "3bb40b7d-7e53-44ab-9865-930d9487da98", "name": "Dev.to - Kubernetes",  "url": "https://dev.to/feed/tag/kubernetes",           "category": "K8s"},
+  {"id": "f5f816c7-789d-4aa0-9f89-b72ecbdd0978", "name": "Dev.to - GitHub",      "url": "https://dev.to/feed/tag/github",               "category": "GitHub"},
+  {"id": "ffa4905a-2d58-4f09-8c95-1474bf52d585", "name": "Dev.to - Vercel",      "url": "https://dev.to/feed/tag/vercel",               "category": "Vercel"},
+  {"id": "738ab022-a8cb-42c2-b55a-ed4e8e8ddfe7", "name": "Cloudflare Blog",      "url": "https://blog.cloudflare.com/rss/",             "category": "Cloudflare"},
+  {"id": "3a9a8044-7b5d-47a1-aecc-68be80c56023", "name": "Dev.to - Supabase",    "url": "https://dev.to/feed/tag/supabase",             "category": "Supabase"}
 ]
