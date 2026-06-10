@@ -1,10 +1,12 @@
 [
-  {"id": "98a3a9bb-83af-40a0-8b07-9bf2f0923c54", "name": "Docker Blog",       "url": "https://www.docker.com/blog/feed/",              "category": "Docker"},
-  {"id": "51e2fe29-c7c4-415d-a7c9-870ec667ba1f", "name": "AWS News",          "url": "https://aws.amazon.com/blogs/aws/feed/",          "category": "AWS"},
-  {"id": "3bd7ec16-bd7f-4337-a8b9-c8cff37e8220", "name": "GitHub Blog",       "url": "https://github.blog/feed/",                       "category": "GitHub"},
-  {"id": "6e79d10a-0ad8-4e2d-931f-8a080e10e62f", "name": "Firebase Blog",     "url": "https://firebase.blog/feeds/posts/default",       "category": "Firebase"},
-  {"id": "57761df2-d73d-4511-99cb-ec693805720d", "name": "Kubernetes Blog",   "url": "https://kubernetes.io/feed.xml",                  "category": "K8s"},
-  {"id": "cbe0ca05-8923-4aa0-93f2-b3e3f9513a1a", "name": "HashiCorp Blog",   "url": "https://www.hashicorp.com/blog/feed.xml",         "category": "IaC"},
-  {"id": "9541046b-80d6-44aa-b4e4-d99be0630b09", "name": "The GitHub ReadME", "url": "https://github.blog/engineering/feed/",           "category": "GitHub"},
-  {"id": "b198d9eb-da27-49b8-9f2d-2cc0ea948444", "name": "Google Cloud Blog", "url": "https://cloudblog.withgoogle.com/rss/",           "category": "GCP"}
+  {"id": "ebbf55c2-9d5e-4228-9415-85d5dfdeb30f", "name": "Stack Overflow - Docker",      "url": "https://stackoverflow.com/feeds/tag/docker",                  "category": "Docker"},
+  {"id": "88699166-10d0-4951-ae02-4aef789bfc88", "name": "Stack Overflow - AWS",         "url": "https://stackoverflow.com/feeds/tag/amazon-web-services",     "category": "AWS"},
+  {"id": "3785d415-62a7-4ba3-99d7-4b1ee6770e00", "name": "Stack Overflow - Firebase",    "url": "https://stackoverflow.com/feeds/tag/firebase",                "category": "Firebase"},
+  {"id": "e74e6abb-b145-4c3c-b14f-b8aacabc656c", "name": "Stack Overflow - Kubernetes",  "url": "https://stackoverflow.com/feeds/tag/kubernetes",              "category": "K8s"},
+  {"id": "78d8b0c9-cc35-40d5-ace9-1fc63ddd445f", "name": "Stack Overflow - GitHub API",  "url": "https://stackoverflow.com/feeds/tag/github-api",              "category": "GitHub"},
+  {"id": "874529f4-6b87-4a6d-ae6a-ca84d53af3db", "name": "Stack Overflow - Vercel",      "url": "https://stackoverflow.com/feeds/tag/vercel",                  "category": "Vercel"},
+  {"id": "7ffa5676-587b-4252-b61f-373167d382d3", "name": "Dev.to - Docker",              "url": "https://dev.to/feed/tag/docker",                             "category": "Docker"},
+  {"id": "37b60948-838d-44e9-ae44-ce76535aa362", "name": "Dev.to - AWS",                 "url": "https://dev.to/feed/tag/aws",                                "category": "AWS"},
+  {"id": "0c4ea9d7-31af-457f-8d5c-1521e4fa89ba", "name": "Dev.to - DevOps",              "url": "https://dev.to/feed/tag/devops",                             "category": "DevOps"},
+  {"id": "65c90aa1-5f08-49cd-8671-1b90b9a6466f", "name": "GitHub Changelog",             "url": "https://github.blog/changelog/feed/",                        "category": "GitHub"}
 ]
