@@ -160,6 +160,7 @@ async def _gemini_call(client, types, model: str, system: str, prompt: str,
                 system_instruction=system,
                 temperature=temp,
                 max_output_tokens=max_tokens,
+                thinking_config=types.ThinkingConfig(thinking_budget=0),
             )
             if response_mime_type:
                 cfg_kwargs["response_mime_type"] = response_mime_type
@@ -256,10 +257,14 @@ def _keyword_score(title: str, body: str) -> int:
 
 async def score_article(client, types, title: str, body: str) -> int:
     prompt = (
-        "Rate how useful this tech article is for engineers facing errors (0-100).\n"
-        "Criteria: specific error messages (+30), reproducible steps (+25), "
-        "solution provided (+25), widely-used tools (+20).\n"
-        'Return ONLY JSON: {"score": 85}\n\n'
+        "Rate this technical article for DevOps/backend engineers (0-100).\n"
+        "High (65+): debugging guides, error/failure/outage analysis, troubleshooting, "
+        "configuration fixes, performance issues, security vulnerabilities.\n"
+        "Medium (40-64): architecture/setup with operational depth, error handling patterns, "
+        "incident post-mortems, tool comparisons with caveats.\n"
+        "Low (0-39): general tutorials, conceptual overviews, announcements, "
+        "beginner hello-world articles.\n"
+        'Return ONLY JSON: {"score": 72}\n\n'
         f"Title: {title}\n\nBody (first 600 chars):\n{body[:600]}"
     )
     try:
