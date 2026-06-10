@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>AWS の 500 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
 <meta name="keywords" content="AWS, HTTP500, 500エラー">
-<meta name="description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="description" content="AWS サービスがリクエストを受け取ったにもかかわらずサーバー内部で予期しない障害が発生し、500 Internal Server Error を返す。Lambda の未処理例外・タイムアウト・API Gateway の統合エラーが主な原因。">
 <meta name="author" content="ErrorLog">
-<link rel="canonical" href="https://errorlog.jp/posts/aws_500/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://errorlog.jp/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
-<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<link rel="canonical" href="http://localhost:1313/posts/aws_500/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#1a1a2e">
 <meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/aws_500/">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/aws_500/">
 <noscript>
     <style>
         #theme-toggle,
@@ -64,84 +64,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
-<meta property="og:url" content="https://errorlog.jp/posts/aws_500/">
-  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
-  <meta property="og:title" content="AWS の 500 エラー：原因と解決策">
-  <meta property="og:description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。">
-  <meta property="og:locale" content="ja">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
-    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
-    <meta property="article:tag" content="AWS">
-      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
+<meta name="google-site-verification" content="109757267897574962624" />
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.google-analytics.com">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
-  <meta name="twitter:title" content="AWS の 500 エラー：原因と解決策">
-  <meta name="twitter:description" content="AWS の 500 エラーの原因と解決策をわかりやすく解説します。">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://errorlog.jp/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "AWS の 500 エラー：原因と解決策",
-      "item": "https://errorlog.jp/posts/aws_500/"
-    }
-  ]
-}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CXKKVNQKRX');
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "AWS の 500 エラー：原因と解決策",
-  "name": "AWS の 500 エラー：原因と解決策",
-  "description": "AWS の 500 エラーの原因と解決策をわかりやすく解説します。",
-  "keywords": [
-    "AWS"
-  ],
-  "articleBody": "AWS の 500 エラーとは何か？（公式の定義） 500 は、HTTP標準仕様（RFC 9110）で定められているステータスコードの一つです。\nAWS の文脈では、このコードは次のことを意味します。\nAWS側で予期しない問題が発生した。通常はサーバー側の処理に失敗したことを示します。\nこのエラーが出たときは、慌てずに次の「原因」の節を確認してください。 多くの場合、設定の見直しや手順の確認だけで解決できます。\nこのエラーが発生する主な原因（起きる理由の整理） AWS で 500 が出るときに、最もよく見られる原因を挙げます。 自分の状況に当てはまるものを探してみてください。\nAWS側の内部障害：AWSのインフラ側で一時的なシステム問題が発生している 設定エラー：IAM権限（AWSへのアクセス権限）やリソース設定が不適切 タイムアウト：リクエストの処理に時間がかかりすぎている メモリ不足：Lambda関数やアプリケーションのメモリリソースが枯渇している 通信エラー：ネットワーク接続の問題やAPIエンドポイントの障害 具体的な解決手順とチェックリスト（順番どおりに試す） 上の原因ごとの対処法を、実行できる手順の形でまとめました。 上から順番に試すことで、多くの場合は解決に近づけます。\nAWS Service Health ダッシュボードで現在の障害情報を確認する\nAWSマネジメントコンソールにログインし、サービスの状態を確認 障害が報告されていれば、解決を待つ 数分後に同じリクエストを再試行する\n一時的なエラーの場合、時間を置くことで解決することが多い 冪等性のある操作（何度実行しても結果が同じ操作）であることを確認してから実行 IAM権限とリソース設定を確認する\n使用しているIAM ロールが必要な権限を持っているか確認 Lambda関数のタイムアウト時間やメモリ設定を見直す セキュリティグループやネットワークACL（ファイアウォール機能）の設定を確認 エラーログを詳しく確認する\nCloudWatch Logs（ログ管理サービス）でアプリケーションログを確認 エラーメッセージの詳細から原因を特定する AWSサポートにケースを起票する\n上記の手順で解決しない場合は、公式のサポートに問い合わせる まとめ AWS の 500 エラーは、上記のいずれかの原因によって発生するケースがほとんどです。 チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。\nそれでも解決しない場合は、次の方法を試してください。\nAWS の公式ドキュメントで最新の情報を確認する エラーメッセージの全文をコピーして検索エンジンで調べる 公式のコミュニティフォーラムやAWSサポートに問い合わせる CloudTrail（操作ログ）を確認して、どの操作でエラーが発生したかを特定する 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
-  "wordCount" : "59",
-  "inLanguage": "ja",
-  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-05-29T00:00:00Z\"",
-  "author":{
-    "@type": "Person",
-    "name": "ErrorLog"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://errorlog.jp/posts/aws_500/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ErrorLog - エラーコード解決ガイド",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://errorlog.jp/favicon.ico"
-    }
-  }
-}
-</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
+     crossorigin="anonymous"></script>
+
 </head>
 <body id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
   <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
     <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
   </text>
@@ -172,22 +116,22 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="https://errorlog.jp/search/" title="検索">
+                <a href="http://localhost:1313/search/" title="検索">
                     <span>検索</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/tags/" title="タグ">
+                <a href="http://localhost:1313/tags/" title="タグ">
                     <span>タグ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                <a href="http://localhost:1313/archives/" title="アーカイブ">
                     <span>アーカイブ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/glossary/" title="用語集">
+                <a href="http://localhost:1313/glossary/" title="用語集">
                     <span>用語集</span>
                 </a>
             </li>
@@ -195,6 +139,31 @@
     </nav>
 </header>
 <main class="main">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "\"AWS の 500 エラー：原因と解決策\"",
+  "description": "\"AWS サービスがリクエストを受け取ったにもかかわらずサーバー内部で予期しない障害が発生し、500 Internal Server Error を返す。Lambda の未処理例外・タイムアウト・API Gateway の統合エラーが主な原因。\"",
+  "inLanguage": "ja",
+  "url": "\"http://localhost:1313/posts/aws_500/\"",
+  "datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-31T00:00:00Z\"",
+  "articleSection": "Error Troubleshooting",
+  "proficiencyLevel": "Intermediate",
+  "keywords": ["\"AWS\"", "\"HTTP 500\"", "\"500\""],
+  "author": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  }
+}
+</script>
 
 <article class="post-single">
   <header class="post-header">
@@ -215,8 +184,24 @@
   <div class="summary-panel">
     <div class="summary-row">
       <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">AWS の 500 エラーの原因と解決策をわかりやすく解説します。</span>
+      <span class="summary-text">AWS サービスがリクエストを受け取ったにもかかわらずサーバー内部で予期しない障害が発生し、500 Internal Server Error を返す。Lambda の未処理例外・タイムアウト・API Gateway の統合エラーが主な原因。</span>
     </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--cause">原因</span>
+      <span class="summary-text">Lambda 関数の未処理例外</span>
+    </div>
+    <div class="summary-row">
+      <span class="summary-label summary-label--fix">対策</span>
+      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
+    </div>
+  </div>
+  <div class="raw-log-panel">
+    <div class="raw-log-label">実際のエラーログ</div>
+    <pre class="raw-log-code"><code>{
+  &#34;message&#34;: &#34;Internal server error&#34;,
+  &#34;statusCode&#34;: 500
+}
+</code></pre>
   </div> <details class="toc"  open>
     <summary accesskey="c" title="(Alt + C)">
         <span class="title">目次</span>
@@ -224,257 +209,230 @@
 
     <div class="inner"><ul>
             <li>
-                <a href="#aws-%e3%81%ae-500-%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%a8%e3%81%af%e4%bd%95%e3%81%8b%e5%85%ac%e5%bc%8f%e3%81%ae%e5%ae%9a%e7%be%a9" aria-label="AWS の 500 エラーとは何か？（公式の定義）">AWS の 500 エラーとは何か？（公式の定義）</a></li>
+                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
             <li>
-                <a href="#%e3%81%93%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%8c%e7%99%ba%e7%94%9f%e3%81%99%e3%82%8b%e4%b8%bb%e3%81%aa%e5%8e%9f%e5%9b%a0%e8%b5%b7%e3%81%8d%e3%82%8b%e7%90%86%e7%94%b1%e3%81%ae%e6%95%b4%e7%90%86" aria-label="このエラーが発生する主な原因（起きる理由の整理）">このエラーが発生する主な原因（起きる理由の整理）</a></li>
+                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
             <li>
-                <a href="#%e5%85%b7%e4%bd%93%e7%9a%84%e3%81%aa%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86%e3%81%a8%e3%83%81%e3%82%a7%e3%83%83%e3%82%af%e3%83%aa%e3%82%b9%e3%83%88%e9%a0%86%e7%95%aa%e3%81%a9%e3%81%8a%e3%82%8a%e3%81%ab%e8%a9%a6%e3%81%99" aria-label="具体的な解決手順とチェックリスト（順番どおりに試す）">具体的な解決手順とチェックリスト（順番どおりに試す）</a></li>
+                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
+                    
             <li>
-                <a href="#%e3%81%be%e3%81%a8%e3%82%81" aria-label="まとめ">まとめ</a>
+                <a href="#%e5%8e%9f%e5%9b%a01lambda-%e9%96%a2%e6%95%b0%e3%81%ae%e6%9c%aa%e5%87%a6%e7%90%86%e4%be%8b%e5%a4%96" aria-label="原因1：Lambda 関数の未処理例外">原因1：Lambda 関数の未処理例外</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a02lambda-%e3%81%ae%e3%82%bf%e3%82%a4%e3%83%a0%e3%82%a2%e3%82%a6%e3%83%88%e3%83%a1%e3%83%a2%e3%83%aa%e4%b8%8d%e8%b6%b3" aria-label="原因2：Lambda のタイムアウト・メモリ不足">原因2：Lambda のタイムアウト・メモリ不足</a></li>
+            <li>
+                <a href="#%e5%8e%9f%e5%9b%a03api-gateway-%e3%81%ae%e7%b5%b1%e5%90%88%e3%82%bf%e3%82%a4%e3%83%a0%e3%82%a2%e3%82%a6%e3%83%88" aria-label="原因3：API Gateway の統合タイムアウト">原因3：API Gateway の統合タイムアウト</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="ツール固有の注意点">ツール固有の注意点</a><ul>
+                    
+            <li>
+                <a href="#lambda--vpc-%e6%a7%8b%e6%88%90" aria-label="Lambda × VPC 構成">Lambda × VPC 構成</a></li>
+            <li>
+                <a href="#cloudwatch-logs-%e3%81%a7%e3%81%ae%e3%83%88%e3%83%ac%e3%83%bc%e3%82%b9" aria-label="CloudWatch Logs でのトレース">CloudWatch Logs でのトレース</a></li>
+            <li>
+                <a href="#x-ray-%e3%81%ab%e3%82%88%e3%82%8b%e3%83%9c%e3%83%88%e3%83%ab%e3%83%8d%e3%83%83%e3%82%af%e7%89%b9%e5%ae%9a" aria-label="X-Ray によるボトルネック特定">X-Ray によるボトルネック特定</a></li></ul>
+            </li>
+            <li>
+                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a>
             </li>
         </ul>
     </div>
 </details>
 
-  <div class="post-content md-content"><h2 id="aws-の-500-エラーとは何か公式の定義">AWS の 500 エラーとは何か？（公式の定義）<a hidden class="anchor" aria-hidden="true" href="#aws-の-500-エラーとは何か公式の定義">#</a></h2>
-<p><strong>500</strong> は、<a href="/glossary/http/">HTTP</a>標準仕様（<a href="/glossary/rfc/">RFC</a> 9110）で定められている<a href="/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/">ステータスコード</a>の一つです。</p>
-<p>AWS の文脈では、このコードは次のことを意味します。</p>
-<blockquote>
-<p>AWS側で予期しない問題が発生した。通常はサーバー側の処理に失敗したことを示します。</p>
-</blockquote>
-<p>このエラーが出たときは、慌てずに次の「原因」の節を確認してください。
-多くの場合、設定の見直しや手順の確認だけで解決できます。</p>
-<hr>
-<h2 id="このエラーが発生する主な原因起きる理由の整理">このエラーが発生する主な原因（起きる理由の整理）<a hidden class="anchor" aria-hidden="true" href="#このエラーが発生する主な原因起きる理由の整理">#</a></h2>
-<p>AWS で 500 が出るときに、最もよく見られる原因を挙げます。
-自分の状況に当てはまるものを探してみてください。</p>
+  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
+<p>AWS における 500 Internal Server Error は、クライアント側の<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>に問題はないにもかかわらず、AWS サービス側で予期しない障害が発生したことを示します。Lambda 関数の未処理例外やタイムアウト、API Gateway の統合エラー、CloudFormation のスタック操作失敗など、複数のサービスにまたがって発生しうるサーバーサイドの障害です。一時的な AWS 基盤の不具合である場合もありますが、大半はアプリケーションコードや設定の問題に起因します。</p>
+<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
+<p>API Gateway 経由での呼び出し時：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Internal server error&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;statusCode&#34;</span>: <span style="color:#ae81ff">500</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Lambda の CloudWatch Logs に出力されるスタックトレース：</p>
+<pre tabindex="0"><code>[ERROR] Runtime.UnhandledPromiseRejection: Error: connect ETIMEDOUT 10.0.1.5:5432
+Traceback (most recent call last):
+  File &#34;/var/task/handler.py&#34;, line 14, in handler
+    result = db.query(sql)
+TimeoutError: Connection timed out after 3000ms
+</code></pre><p>CloudFormation スタック操作失敗時：</p>
+<pre tabindex="0"><code>Resource handler returned message: &#34;Internal Server Error&#34; (RequestToken: ...,
+HandlerErrorCode: InternalFailure)
+</code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
+<h3 id="原因1lambda-関数の未処理例外">原因1：Lambda 関数の未処理例外<a hidden class="anchor" aria-hidden="true" href="#原因1lambda-関数の未処理例外">#</a></h3>
+<p>Lambda がエラーをキャッチせずに例外をスローすると、API Gateway は 500 を返します。エラーハンドリングを実装して例外を適切に処理します。</p>
+<p><strong>Before（エラーが発生する例）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handler</span>(event, context):
+</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> event[<span style="color:#e6db74">&#39;body&#39;</span>]          <span style="color:#75715e"># KeyError の可能性</span>
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> process(data)        <span style="color:#75715e"># 例外が伝播する</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>, <span style="color:#e6db74">&#39;body&#39;</span>: result}
+</span></span></code></pre></div><p><strong>After（修正後）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> json<span style="color:#f92672">,</span> logging
+</span></span><span style="display:flex;"><span>logger <span style="color:#f92672">=</span> logging<span style="color:#f92672">.</span>getLogger()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handler</span>(event, context):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> event<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;body&#39;</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">=</span> process(data)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">200</span>, <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps(result)}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyError</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>error(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Missing key: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">400</span>, <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({<span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Bad Request: </span><span style="color:#e6db74">{</span>e<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>})}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>        logger<span style="color:#f92672">.</span>exception(<span style="color:#e6db74">&#39;Unexpected error&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;statusCode&#39;</span>: <span style="color:#ae81ff">500</span>, <span style="color:#e6db74">&#39;body&#39;</span>: json<span style="color:#f92672">.</span>dumps({<span style="color:#e6db74">&#39;error&#39;</span>: <span style="color:#e6db74">&#39;Internal Server Error&#39;</span>})}
+</span></span></code></pre></div><h3 id="原因2lambda-のタイムアウトメモリ不足">原因2：Lambda のタイムアウト・メモリ不足<a hidden class="anchor" aria-hidden="true" href="#原因2lambda-のタイムアウトメモリ不足">#</a></h3>
+<p>デフォルト設定（タイムアウト 3 秒・メモリ 128 MB）のまま重い処理を実行すると、リソース不足で 500 が発生します。SAM テンプレートまたはコンソールから値を引き上げます。</p>
+<p><strong>Before（エラーが発生する例）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">Resources</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">MyFunction</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Serverless::Function</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Handler</span>: <span style="color:#ae81ff">handler.lambda_handler</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Runtime</span>: <span style="color:#ae81ff">python3.12</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># Timeout, MemorySize を未指定（デフォルト: 3s / 128MB）</span>
+</span></span></code></pre></div><p><strong>After（修正後）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">Resources</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">MyFunction</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::Serverless::Function</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">Properties</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Handler</span>: <span style="color:#ae81ff">handler.lambda_handler</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Runtime</span>: <span style="color:#ae81ff">python3.12</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">Timeout</span>: <span style="color:#ae81ff">30</span>          <span style="color:#75715e"># DB 接続・外部 API 呼び出しを含む場合は余裕を持たせる</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MemorySize</span>: <span style="color:#ae81ff">512</span>      <span style="color:#75715e"># CPU も比例して増加するため処理速度も改善</span>
+</span></span></code></pre></div><h3 id="原因3api-gateway-の統合タイムアウト">原因3：API Gateway の統合タイムアウト<a hidden class="anchor" aria-hidden="true" href="#原因3api-gateway-の統合タイムアウト">#</a></h3>
+<p>API Gateway のエンドポイントタイムアウトはデフォルト 29 秒（上限）です。Lambda 側の Timeout がそれ以上でも API Gateway が先に切断して 500 を返します。</p>
+<p><strong>Before（エラーが発生する例）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># API Gateway の統合タイムアウト設定なし（デフォルト 29,000ms）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Lambda Timeout: 60 → API Gateway が先に切断し 500 を返す</span>
+</span></span></code></pre></div><p><strong>After（修正後）:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># serverless.yml (Serverless Framework)</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">provider</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">apiGateway</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">timeoutInMillis</span>: <span style="color:#ae81ff">28000</span>   <span style="color:#75715e"># API Gateway 上限 29s より 1s 短く設定</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">functions</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">myFunction</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">27</span>              <span style="color:#75715e"># Lambda も API Gateway より短く</span>
+</span></span></code></pre></div><h2 id="ツール固有の注意点">ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#ツール固有の注意点">#</a></h2>
+<h3 id="lambda--vpc-構成">Lambda × VPC 構成<a hidden class="anchor" aria-hidden="true" href="#lambda--vpc-構成">#</a></h3>
+<p>Lambda を VPC 内に配置した場合、NAT Gateway を経由しないと外部 API や AWS サービスエンドポイントに到達できず、タイムアウトによる 500 が多発します。VPC エンドポイント（PrivateLink）を使用するか、Lambda を VPC 外に移動するのが根本対策です。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># VPC 内 Lambda から S3 への接続確認</span>
+</span></span><span style="display:flex;"><span>aws lambda invoke <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --function-name &lt;your-function&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --payload <span style="color:#e6db74">&#39;{&#34;action&#34;:&#34;check_s3&#34;}&#39;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  response.json <span style="color:#f92672">&amp;&amp;</span> cat response.json
+</span></span></code></pre></div><h3 id="cloudwatch-logs-でのトレース">CloudWatch Logs でのトレース<a hidden class="anchor" aria-hidden="true" href="#cloudwatch-logs-でのトレース">#</a></h3>
+<p>500 発生時は必ず CloudWatch Logs のロググループ（<code>/aws/lambda/&lt;関数名&gt;</code>）を確認します。Lambda のデフォルトログレベルでは <code>print()</code> や <code>logger.error()</code> の出力がすべて記録されます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 直近のエラーログを取得</span>
+</span></span><span style="display:flex;"><span>aws logs filter-log-events <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --log-group-name <span style="color:#e6db74">&#34;/aws/lambda/&lt;your-function&gt;&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --filter-pattern <span style="color:#e6db74">&#34;ERROR&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --start-time <span style="color:#66d9ef">$(</span>date -d <span style="color:#e6db74">&#39;1 hour ago&#39;</span> +%s000<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><h3 id="x-ray-によるボトルネック特定">X-Ray によるボトルネック特定<a hidden class="anchor" aria-hidden="true" href="#x-ray-によるボトルネック特定">#</a></h3>
+<p>AWS X-Ray を有効化すると、どのサービス呼び出しで遅延・エラーが発生しているかをトレースマップで可視化できます。Lambda 関数に <code>aws-xray-sdk</code> を組み込むことで DB クエリや外部 HTTP 呼び出しの所要時間まで計測できます。</p>
+<h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
 <ul>
-<li><strong>AWS側の内部障害</strong>：AWSのインフラ側で一時的なシステム問題が発生している</li>
-<li><strong>設定エラー</strong>：IAM権限（AWSへのアクセス権限）やリソース設定が不適切</li>
-<li><strong>タイムアウト</strong>：リクエストの処理に時間がかかりすぎている</li>
-<li><strong>メモリ不足</strong>：Lambda関数やアプリケーションのメモリリソースが枯渇している</li>
-<li><strong>通信エラー</strong>：ネットワーク接続の問題やAPIエンドポイントの障害</li>
-</ul>
-<hr>
-<h2 id="具体的な解決手順とチェックリスト順番どおりに試す">具体的な解決手順とチェックリスト（順番どおりに試す）<a hidden class="anchor" aria-hidden="true" href="#具体的な解決手順とチェックリスト順番どおりに試す">#</a></h2>
-<p>上の原因ごとの対処法を、実行できる手順の形でまとめました。
-<strong>上から順番に試す</strong>ことで、多くの場合は解決に近づけます。</p>
-<ol>
-<li>
-<p><strong>AWS Service Health ダッシュボード</strong>で現在の障害情報を確認する</p>
-<ul>
-<li>AWSマネジメントコンソールにログインし、サービスの状態を確認</li>
-<li>障害が報告されていれば、解決を待つ</li>
-</ul>
-</li>
-<li>
-<p>数分後に同じ<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を再試行する</p>
-<ul>
-<li>一時的なエラーの場合、時間を置くことで解決することが多い</li>
-<li><a href="/glossary/%E5%86%AA%E7%AD%89%E6%80%A7/">冪等性</a>のある操作（何度実行しても結果が同じ操作）であることを確認してから実行</li>
-</ul>
-</li>
-<li>
-<p><strong>IAM権限</strong>と<strong>リソース設定</strong>を確認する</p>
-<ul>
-<li>使用しているIAM ロールが必要な権限を持っているか確認</li>
-<li>Lambda関数のタイムアウト時間やメモリ設定を見直す</li>
-<li>セキュリティグループやネットワークACL（ファイアウォール機能）の設定を確認</li>
-</ul>
-</li>
-<li>
-<p><strong>エラーログ</strong>を詳しく確認する</p>
-<ul>
-<li>CloudWatch Logs（ログ管理サービス）でアプリケーションログを確認</li>
-<li>エラーメッセージの詳細から原因を特定する</li>
-</ul>
-</li>
-<li>
-<p>AWSサポートにケースを起票する</p>
-<ul>
-<li>上記の手順で解決しない場合は、公式のサポートに問い合わせる</li>
-</ul>
-</li>
-</ol>
-<hr>
-<h2 id="まとめ">まとめ<a hidden class="anchor" aria-hidden="true" href="#まとめ">#</a></h2>
-<p>AWS の <strong>500</strong> エラーは、上記のいずれかの原因によって発生するケースがほとんどです。
-チェックリストを一つずつ確認することで、大半の問題は自力で解決できます。</p>
-<p>それでも解決しない場合は、次の方法を試してください。</p>
-<ul>
-<li>AWS の公式ドキュメントで最新の情報を確認する</li>
-<li>エラーメッセージの全文をコピーして検索エンジンで調べる</li>
-<li>公式のコミュニティフォーラムやAWSサポートに問い合わせる</li>
-<li>CloudTrail（操作ログ）を確認して、どの操作でエラーが発生したかを特定する</li>
+<li><strong>AWS Service Health Dashboard</strong> を確認し、対象リージョン・サービスで障害が報告されていないか確認する</li>
+<li>CloudWatch Logs Insights でエラーパターンを集計し、特定のリクエストパラメータや時間帯に集中していないか分析する</li>
+<li>X-Ray のサービスマップでエラー率が高いノードを特定し、依存サービスを順に切り分ける</li>
+<li>AWS サポートケースを起票し、RequestId と発生時刻を添付する（Developer プラン以上で利用可能）</li>
 </ul>
 <hr>
 <p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
 
 
   </div>
-  <div class="related-posts">
-    <h3>同じツールの記事</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 409 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_409/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 422 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_422/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 504 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_504/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 400 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_400/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 401 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_401/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 403 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_403/"></a>
-    </article>
+  <div class="feedback-panel" id="feedback-panel">
+    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
+    <div class="feedback-panel__btns">
+      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
+      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
+    </div>
+    <p class="feedback-panel__thanks"></p>
   </div>
-  <div class="related-posts related-by-code">
-    <h3>他のツールの 500 エラー</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-minikube">Minikube</span>
-        <h2 class="entry-hint-parent">Minikube の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Minikubeクラスターの内部で予期しないエラーが発生した。Minikube 500 エラーの原因と解決策を解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Minikube の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-podman">Podman</span>
-        <h2 class="entry-hint-parent">Podman の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Podmanシステムで予期しない内部エラーが発生した。Podman 500 エラーの原因と解決策を解説。</p>
-      </div>
-      <a class="entry-link" aria-label="Podman の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-gcp">GCP</span>
-        <h2 class="entry-hint-parent">GCP の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Google Cloudサービス側で予期しない内部エラーが発生した。GCPの内部的な障害であり利用者側の設定の問題ではないなど、GCP 500 エラーの原因と解決策を解説。</p>
-      </div>
-      <a class="entry-link" aria-label="GCP の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-slack">Slack</span>
-        <h2 class="entry-hint-parent">Slack の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Slack側のサーバーで予期しない内部エラーが発生した。Slackのインフラで一時的な障害が起きているなど、Slack 500 エラーの原因と解決策を解説。</p>
-      </div>
-      <a class="entry-link" aria-label="Slack の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/slack_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
-        <h2 class="entry-hint-parent">Kubernetes の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Kubernetes の 500 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Kubernetes の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-stripe">Stripe</span>
-        <h2 class="entry-hint-parent">Stripe の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Stripe の 500 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Stripe の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/stripe_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-nginx">Nginx</span>
-        <h2 class="entry-hint-parent">Nginx の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Nginx の 500 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Nginx の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_500/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
-        <h2 class="entry-hint-parent">OpenAI API の 500 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>OpenAI API の 500 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="OpenAI API の 500 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_500/"></a>
-    </article>
-  </div>
+  <section class="related-posts">
+    <p class="related-posts__title">他の AWS エラーの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/aws_409/" class="related-posts__link"><span class="error-badge">409</span>AWS の 409 エラー：原因と解決策
+        </a><p class="related-posts__desc">AWSの409（Conflict）エラーは、リクエストの内容がAWSリソースの現在の状態と競合していることを示します。このエラーはS3、EC2、DynamoDB、CloudFormation、IAMなど複数のAWSサービスで発生し、リソース</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/aws_422/" class="related-posts__link"><span class="error-badge">422</span>AWS の 422 エラー：原因と解決策
+        </a><p class="related-posts__desc">リクエストの形式は正しいが、CloudFormation・API Gateway・DynamoDB などの AWS サービスがデータを検証エラーとして処理を拒否し、422 Unprocessable Entity を返す。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/aws_504/" class="related-posts__link"><span class="error-badge">504</span>AWS の 504 エラー：原因と解決策
+        </a><p class="related-posts__desc">AWS で 504 Gateway Timeout が発生するのは、API Gateway、Application Load Balancer（ALB）、Network Load Balancer（NLB）といったエッジサービスが、バックエ</p>
+      </li>
+    </ul>
+  </section>
+  <section class="related-posts">
+    <p class="related-posts__title">500 エラー — 他ツールの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/terraform_500/" class="related-posts__link">
+          <span class="tool-badge tool-badge-terraform">Terraform</span>Terraform の 500 エラー：原因と解決策
+        </a><p class="related-posts__desc">Terraform CloudまたはクラウドプロバイダーAPIの内部エラーが発生した。Terraform 500 エラーの原因と解決策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/vercel_500/" class="related-posts__link">
+          <span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 500 エラー：原因と解決策
+        </a><p class="related-posts__desc">Vercelのサーバーレス関数で内部エラーが発生した。Vercel 500 エラーの原因と解決策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/supabase_500/" class="related-posts__link">
+          <span class="tool-badge tool-badge-supabase">Supabase</span>Supabase の 500 エラー：原因と解決策
+        </a><p class="related-posts__desc">Supabaseサービスの内部エラーが発生した。Supabase 500 エラーの原因と解決策を解説します。</p>
+      </li>
+    </ul>
+  </section>
 
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://errorlog.jp/tags/aws/">AWS</a></li>
+      <li><a href="http://localhost:1313/tags/aws/">AWS</a></li>
     </ul>
   </footer>
 </article>
 
 <script>
+ 
+(function () {
+  var panel = document.getElementById('feedback-panel');
+  if (!panel) return;
+  var title = "\"AWS の 500 エラー：原因と解決策\"";
+  panel.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-status]');
+    if (!btn || panel.dataset.voted) return;
+    panel.dataset.voted = '1';
+    if (typeof gtag === 'function') {
+      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
+    }
+    var btnsEl = panel.querySelector('.feedback-panel__btns');
+    var qEl    = panel.querySelector('.feedback-panel__q');
+    var thxEl  = panel.querySelector('.feedback-panel__thanks');
+    btnsEl.style.transition = 'opacity 0.3s';
+    btnsEl.style.opacity    = '0';
+    setTimeout(function () {
+      btnsEl.style.display = 'none';
+      qEl.style.display    = 'none';
+      thxEl.textContent    = 'Thank you for your feedback!';
+      thxEl.style.display  = 'block';
+      thxEl.style.opacity  = '0';
+      thxEl.style.transition = 'opacity 0.4s';
+      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
+    }, 300);
+  });
+})();
+
+ 
 (function () {
   var content = document.querySelector('.post-content');
   if (!content) return;
 
   var firstCompare = true;
-  var RE_BEFORE = /Before|エラーが起きる/;
-  var RE_AFTER  = /After|修正後/;
+  var RE_BEFORE = /before|エラーが起きる|修正前/i;
+  var RE_AFTER  = /after|修正後/i;
 
   content.querySelectorAll('p strong').forEach(function (el) {
     if (!RE_BEFORE.test(el.textContent)) return;
@@ -527,6 +485,7 @@
         el.style.setProperty('overflow',      'hidden',       'important');
       } else {
         
+        sp(el, 'background-color', '#272822');
         sp(el, 'background-image', grad);
         sp(el, 'padding-left',     '1rem');
         sp(el, 'box-sizing',       'border-box');
@@ -564,6 +523,21 @@
     wrap.appendChild(right);
 
     
+    left.classList.add('code-compare__side--before');
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'code-toggle-btn';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
+    toggleBtn.addEventListener('click', function () {
+      var open = left.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open
+        ? '▴ 修正前のコード（Before）を非表示'
+        : '▾ 修正前のコード（Before）を表示';
+    });
+    wrap.insertBefore(toggleBtn, left);
+
+    
     (function(l, r) {
       requestAnimationFrame(function() {
         var lp = l.firstElementChild;
@@ -578,11 +552,45 @@
     }(left, right));
   });
 })();
+
+ 
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+  var RE_REM = /^解決策[（(]/;
+  var remIdx = 0;
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_REM.test(el.textContent)) return;
+    var label = el.closest('p');
+    if (label.dataset.remedy) return;
+    label.dataset.remedy = '1';
+    var elems = [];
+    var cursor = label.nextElementSibling;
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_REM.test(s.textContent)) break;
+      elems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'code-remedy';
+    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
+    remIdx++;
+    label.parentNode.insertBefore(wrap, label);
+    wrap.appendChild(label);
+    elems.forEach(function (e) { wrap.appendChild(e); });
+    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
+    wrap.style.setProperty('padding-left',  '1rem',              'important');
+    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
+    wrap.style.setProperty('margin-bottom', '1rem',              'important');
+  });
+})();
 </script>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
 
     
     

@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>AWS の 502 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
 <meta name="keywords" content="AWS, HTTP502, 502エラー">
-<meta name="description" content="AWS の 502 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="description" content="502 Bad Gateway は、API Gateway や Application Load Balancer（ALB）がバックエンド（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示">
 <meta name="author" content="ErrorLog">
-<link rel="canonical" href="https://errorlog.jp/posts/aws_502/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://errorlog.jp/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
-<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<link rel="canonical" href="http://localhost:1313/posts/aws_502/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#1a1a2e">
 <meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/aws_502/">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/aws_502/">
 <noscript>
     <style>
         #theme-toggle,
@@ -64,84 +64,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
-<meta property="og:url" content="https://errorlog.jp/posts/aws_502/">
-  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
-  <meta property="og:title" content="AWS の 502 エラー：原因と解決策">
-  <meta property="og:description" content="AWS の 502 エラーの原因と解決策をわかりやすく解説します。">
-  <meta property="og:locale" content="ja">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
-    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
-    <meta property="article:tag" content="AWS">
-      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
+<meta name="google-site-verification" content="109757267897574962624" />
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.google-analytics.com">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
-  <meta name="twitter:title" content="AWS の 502 エラー：原因と解決策">
-  <meta name="twitter:description" content="AWS の 502 エラーの原因と解決策をわかりやすく解説します。">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://errorlog.jp/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "AWS の 502 エラー：原因と解決策",
-      "item": "https://errorlog.jp/posts/aws_502/"
-    }
-  ]
-}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CXKKVNQKRX');
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "AWS の 502 エラー：原因と解決策",
-  "name": "AWS の 502 エラー：原因と解決策",
-  "description": "AWS の 502 エラーの原因と解決策をわかりやすく解説します。",
-  "keywords": [
-    "AWS"
-  ],
-  "articleBody": "エラーの概要 502 Bad Gateway は、API Gateway や Application Load Balancer（ALB）がバックエンド（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示すエラーです。AWS 環境では、バックエンドサービスの一時的な障害やタイムアウト、リソース不足など複数の原因で発生しやすいステータスコードです。\n実際のエラーメッセージ例 API Gateway から返されるレスポンス例：\n{ \"message\": \"502 Bad Gateway\" } CloudWatch Logs に記録されるロードバランサーのログ例：\n[ALB] 2024-01-15T10:23:45Z app/my-app/1234567890abcdef 192.0.2.1:54321 10.0.1.100:8080 0.050 0.100 0 502 - - arn:aws:elasticloadbalancing:ap-northeast-1:123456789012:targetgroup/my-targets/1234567890abcdef \"GET http://example.com/ HTTP/1.1\" \"Mozilla/5.0\" - arn:aws:acm:ap-northeast-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 - ecs default - - よくある原因と解決手順 原因1：バックエンドのタイムアウトまたはクラッシュ Lambda 関数や EC2 インスタンス上のアプリケーションが処理中にタイムアウトするか、予期せず停止している場合、ALB や API Gateway は 502 を返します。\nBefore（タイムアウト設定が不適切）：\n# Lambda 関数がタイムアウト時間内に完了できない import time def lambda_handler(event, context): time.sleep(35) # デフォルトのタイムアウト 30秒を超える return {\"statusCode\": 200} After（タイムアウトを延長し、処理を最適化）：\n# 1. Lambda のタイムアウトを設定値から 60秒に増やす（コンソール or CloudFormation で実施） # 2. 長時間処理は非同期キューに移行 import boto3 import json def lambda_handler(event, context): sqs = boto3.client('sqs') # 重い処理をキューに送信 sqs.send_message( QueueUrl='', MessageBody=json.dumps(event) ) return {\"statusCode\": 202, \"message\": \"Processing started\"} 原因2：ヘルスチェックの失敗 ALB のターゲットグループが、バックエンドの健全性チェック（ヘルスチェック）に失敗し、すべてのターゲットが Unhealthy 状態になっている場合、リクエストは処理できず 502 が返されます。\nBefore（ヘルスチェックパスが不正）：\nTargetGroup: Type: AWS::ElasticLoadBalancingV2::TargetGroup Properties: Port: 8080 Protocol: HTTP HealthCheckPath: /api/status # このエンドポイントが存在しない HealthCheckIntervalSeconds: 30 HealthyThresholdCount: 2 UnhealthyThresholdCount: 3 After（正しいヘルスチェックパスに修正）：\nTargetGroup: Type: AWS::ElasticLoadBalancingV2::TargetGroup Properties: Port: 8080 Protocol: HTTP HealthCheckPath: /health # アプリケーションが提供しているパス HealthCheckIntervalSeconds: 30 HealthyThresholdCount: 2 UnhealthyThresholdCount: 3 Matcher: HttpCode: 200-299 # 200-299 の範囲を成功と判定 確認コマンド（ターゲットの健全性をチェック）：\naws elbv2 describe-target-health \\ --target-group-arn arn:aws:elasticloadbalancing:ap-northeast-1:123456789012:targetgroup/my-targets/1234567890abcdef \\ --region ap-northeast-1 原因3：バックエンドのメモリ不足またはリソース枯渇 EC2 インスタンスやコンテナの CPU・メモリが枯渇すると、リクエストの処理中にアプリケーションがクラッシュし、502 が発生します。\nBefore（リソース監視がない状態）：\n# EC2 インスタンスにアプリケーションをデプロイしているが、 # スケーリング設定が無く、トラフィック急増で過負荷状態に After（Auto Scaling と CloudWatch アラームを設定）：\nAutoScalingGroup: Type: AWS::AutoScaling::AutoScalingGroup Properties: MinSize: 2 MaxSize: 10 DesiredCapacity: 3 TargetGroupARNs: - arn:aws:elasticloadbalancing:ap-northeast-1:123456789012:targetgroup/my-targets/1234567890abcdef LaunchTemplate: LaunchTemplateId: lt-1234567890abcdef ScalingPolicy: Type: AWS::AutoScaling::ScalingPolicy Properties: AdjustmentType: ChangeInCapacity AutoScalingGroupName: !Ref AutoScalingGroup PolicyType: TargetTrackingScaling TargetTrackingConfiguration: PredefinedMetricSpecification: PredefinedMetricType: ASGAverageCPUUtilization TargetValue: 70 原因4：セキュリティグループまたはネットワークACLの設定ミス バックエンド（EC2、Lambda VPC モード）への通信がセキュリティグループで遮断されている場合、ALB はバックエンドに接続できず 502 を返します。\nBefore（セキュリティグループが閉じている）：\n# ターゲット EC2 のセキュリティグループ # インバウンドルール：なし（すべてのトラフィックが拒否） After（ALB からの通信を許可）：\nBackendSecurityGroup: Type: AWS::EC2::SecurityGroup Properties: GroupDescription: Backend security group VpcId: vpc-12345678 SecurityGroupIngress: - IpProtocol: tcp FromPort: 8080 ToPort: 8080 SourceSecurityGroupId: sg-alb1234567890abcdef # ALB のセキュリティグループ ツール固有の注意点 API Gateway の場合 API Gateway バックエンドで 502 が多発する場合、**統合タイムアウトとスロットリング**を確認してください。\n# API Gateway のメトリクスを CloudWatch で確認 aws cloudwatch get-metric-statistics \\ --namespace AWS/ApiGateway \\ --metric-name 5XXError \\ --dimensions Name=ApiName,Value=my-api \\ --start-time 2024-01-15T00:00:00Z \\ --end-time 2024-01-15T12:00:00Z \\ --period 300 \\ --statistics Sum また、Lambda バックエンドの場合は**スロットル（同時実行数制約）**が 502 の原因になることがあります。Lambda のリザーブド同時実行数を増やすか、SQS トリガーで非同期処理に切り替えてください。\nECS + ALB の場合 ECS タスクが頻繁に停止・再起動されている場合、タスク定義の CPU・メモリが不足していないか、コンテナログを確認してください。\naws logs tail /ecs/my-service --follow Lambda 環境での VPC 設定 Lambda を VPC 内で実行している場合、NAT Gateway やサブネット設定の問題で外部リソースへの通信が失敗し、502 につながることがあります。CloudWatch Logs で Lambda の詳細なエラーを確認してください。\naws logs tail /aws/lambda/my-function --follow それでも解決しない場合 確認すべきログ CloudWatch Logs：\n/aws/apigateway/my-api（API Gateway ログ） /aws/lambda/my-function（Lambda ログ） /ecs/my-service（ECS ログ） ALB アクセスログ：\nS3 に出力されているアクセスログを確認し、レスポンスコード 502 の行を抽出 aws s3 cp s3:///alb-logs/AWSLogs//elasticloadbalancing///// . --recursive grep \" 502 \" *.log X-Ray トレース（Lambda で有効化している場合）：\nAWS Management Console の X-Ray で詳細な実行フロー・遅延を確認 公式ドキュメント API Gateway トラブルシューティング Application Load Balancer のトラブルシューティング Lambda タイムアウトと実行時間 コミュニティリソース AWS Support Community GitHub - aws-samples（AWS 公式サンプルコード） 免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
-  "wordCount" : "392",
-  "inLanguage": "ja",
-  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-05-29T00:00:00Z\"",
-  "author":{
-    "@type": "Person",
-    "name": "ErrorLog"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://errorlog.jp/posts/aws_502/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ErrorLog - エラーコード解決ガイド",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://errorlog.jp/favicon.ico"
-    }
-  }
-}
-</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
+     crossorigin="anonymous"></script>
+
 </head>
 <body id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
   <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
     <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
   </text>
@@ -172,22 +116,22 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="https://errorlog.jp/search/" title="検索">
+                <a href="http://localhost:1313/search/" title="検索">
                     <span>検索</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/tags/" title="タグ">
+                <a href="http://localhost:1313/tags/" title="タグ">
                     <span>タグ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                <a href="http://localhost:1313/archives/" title="アーカイブ">
                     <span>アーカイブ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/glossary/" title="用語集">
+                <a href="http://localhost:1313/glossary/" title="用語集">
                     <span>用語集</span>
                 </a>
             </li>
@@ -195,6 +139,31 @@
     </nav>
 </header>
 <main class="main">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "\"AWS の 502 エラー：原因と解決策\"",
+  "description": "\"502 Bad Gateway は、API Gateway や Application Load Balancer（ALB）がバックエンド（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示\"",
+  "inLanguage": "ja",
+  "url": "\"http://localhost:1313/posts/aws_502/\"",
+  "datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-31T00:00:00Z\"",
+  "articleSection": "Error Troubleshooting",
+  "proficiencyLevel": "Intermediate",
+  "keywords": ["\"AWS\"", "\"HTTP 502\"", "\"502\""],
+  "author": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  }
+}
+</script>
 
 <article class="post-single">
   <header class="post-header">
@@ -215,7 +184,7 @@
   <div class="summary-panel">
     <div class="summary-row">
       <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">AWS の 502 エラーの原因と解決策をわかりやすく解説します。</span>
+      <span class="summary-text">502 Bad Gateway は、API Gateway や Application Load Balancer（ALB）がバックエンド（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示</span>
     </div>
     <div class="summary-row">
       <span class="summary-label summary-label--cause">原因</span>
@@ -281,25 +250,25 @@
 </details>
 
   <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
-<p>502 Bad Gateway は、<a href="/glossary/api/">API</a> Gateway や Application Load Balancer（ALB）が<a href="/glossary/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89/">バックエンド</a>（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示すエラーです。AWS 環境では、バックエンドサービスの一時的な障害や<a href="/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/">タイムアウト</a>、リソース不足など複数の原因で発生しやすい<a href="/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/">ステータスコード</a>です。</p>
+<p>502 Bad Gateway は、API Gateway や Application Load Balancer（ALB）がバックエンド（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示すエラーです。AWS 環境では、バックエンドサービスの一時的な障害やタイムアウト、リソース不足など複数の原因で発生しやすいステータスコードです。</p>
 <h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
-<p><strong><a href="/glossary/api/">API</a> Gateway から返される<a href="/glossary/%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/">レスポンス</a>例：</strong></p>
+<p><strong>API Gateway から返されるレスポンス例：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;502 Bad Gateway&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>CloudWatch Logs に記録される<a href="/glossary/%E3%83%AD%E3%83%BC%E3%83%89%E3%83%90%E3%83%A9%E3%83%B3%E3%82%B5%E3%83%BC/">ロードバランサー</a>のログ例：</strong></p>
+</span></span></code></pre></div><p><strong>CloudWatch Logs に記録されるロードバランサーのログ例：</strong></p>
 <pre tabindex="0"><code>[ALB] 2024-01-15T10:23:45Z app/my-app/1234567890abcdef 192.0.2.1:54321 10.0.1.100:8080 0.050 0.100 0 502 - - arn:aws:elasticloadbalancing:ap-northeast-1:123456789012:targetgroup/my-targets/1234567890abcdef &#34;GET http://example.com/ HTTP/1.1&#34; &#34;Mozilla/5.0&#34; - arn:aws:acm:ap-northeast-1:123456789012:certificate/12345678-1234-1234-1234-123456789012 - ecs default - -
 </code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
 <h3 id="原因1バックエンドのタイムアウトまたはクラッシュ">原因1：バックエンドのタイムアウトまたはクラッシュ<a hidden class="anchor" aria-hidden="true" href="#原因1バックエンドのタイムアウトまたはクラッシュ">#</a></h3>
-<p>Lambda 関数や EC2 <a href="/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/">インスタンス</a>上のアプリケーションが処理中に<a href="/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/">タイムアウト</a>するか、予期せず停止している場合、ALB や <a href="/glossary/api/">API</a> Gateway は 502 を返します。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/">タイムアウト</a>設定が不適切）：</strong></p>
+<p>Lambda 関数や EC2 インスタンス上のアプリケーションが処理中にタイムアウトするか、予期せず停止している場合、ALB や API Gateway は 502 を返します。</p>
+<p><strong>Before（タイムアウト設定が不適切）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Lambda 関数がタイムアウト時間内に完了できない</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lambda_handler</span>(event, context):
 </span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">35</span>)  <span style="color:#75715e"># デフォルトのタイムアウト 30秒を超える</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#34;statusCode&#34;</span>: <span style="color:#ae81ff">200</span>}
-</span></span></code></pre></div><p><strong>After（<a href="/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/">タイムアウト</a>を延長し、処理を最適化）：</strong></p>
+</span></span></code></pre></div><p><strong>After（タイムアウトを延長し、処理を最適化）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 1. Lambda のタイムアウトを設定値から 60秒に増やす（コンソール or CloudFormation で実施）</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 長時間処理は非同期キューに移行</span>
 </span></span><span style="display:flex;"><span>
@@ -315,7 +284,7 @@
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#34;statusCode&#34;</span>: <span style="color:#ae81ff">202</span>, <span style="color:#e6db74">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Processing started&#34;</span>}
 </span></span></code></pre></div><h3 id="原因2ヘルスチェックの失敗">原因2：ヘルスチェックの失敗<a hidden class="anchor" aria-hidden="true" href="#原因2ヘルスチェックの失敗">#</a></h3>
-<p>ALB のターゲットグループが、<a href="/glossary/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89/">バックエンド</a>の健全性チェック（<a href="/glossary/%E3%83%98%E3%83%AB%E3%82%B9%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/">ヘルスチェック</a>）に失敗し、すべてのターゲットが Unhealthy 状態になっている場合、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>は処理できず 502 が返されます。</p>
+<p>ALB のターゲットグループが、バックエンドの健全性チェック（ヘルスチェック）に失敗し、すべてのターゲットが Unhealthy 状態になっている場合、リクエストは処理できず 502 が返されます。</p>
 <p><strong>Before（ヘルスチェックパスが不正）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">TargetGroup</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">Type</span>: <span style="color:#ae81ff">AWS::ElasticLoadBalancingV2::TargetGroup</span>
@@ -343,7 +312,7 @@
 </span></span></span><span style="display:flex;"><span>  --target-group-arn arn:aws:elasticloadbalancing:ap-northeast-1:123456789012:targetgroup/my-targets/1234567890abcdef <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  --region ap-northeast-1
 </span></span></code></pre></div><h3 id="原因3バックエンドのメモリ不足またはリソース枯渇">原因3：バックエンドのメモリ不足またはリソース枯渇<a hidden class="anchor" aria-hidden="true" href="#原因3バックエンドのメモリ不足またはリソース枯渇">#</a></h3>
-<p>EC2 <a href="/glossary/%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9/">インスタンス</a>や<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>の CPU・メモリが枯渇すると、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>の処理中にアプリケーションがクラッシュし、502 が発生します。</p>
+<p>EC2 インスタンスやコンテナの CPU・メモリが枯渇すると、リクエストの処理中にアプリケーションがクラッシュし、502 が発生します。</p>
 <p><strong>Before（リソース監視がない状態）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># EC2 インスタンスにアプリケーションをデプロイしているが、</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># スケーリング設定が無く、トラフィック急増で過負荷状態に</span>
@@ -370,7 +339,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">PredefinedMetricType</span>: <span style="color:#ae81ff">ASGAverageCPUUtilization</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">TargetValue</span>: <span style="color:#ae81ff">70</span>
 </span></span></code></pre></div><h3 id="原因4セキュリティグループまたはネットワークaclの設定ミス">原因4：セキュリティグループまたはネットワークACLの設定ミス<a hidden class="anchor" aria-hidden="true" href="#原因4セキュリティグループまたはネットワークaclの設定ミス">#</a></h3>
-<p><a href="/glossary/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89/">バックエンド</a>（EC2、Lambda <a href="/glossary/vpc/">VPC</a> モード）への通信がセキュリティグループで遮断されている場合、ALB は<a href="/glossary/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89/">バックエンド</a>に接続できず 502 を返します。</p>
+<p>バックエンド（EC2、Lambda VPC モード）への通信がセキュリティグループで遮断されている場合、ALB はバックエンドに接続できず 502 を返します。</p>
 <p><strong>Before（セキュリティグループが閉じている）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ターゲット EC2 のセキュリティグループ</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># インバウンドルール：なし（すべてのトラフィックが拒否）</span>
@@ -387,7 +356,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">SourceSecurityGroupId</span>: <span style="color:#ae81ff">sg-alb1234567890abcdef </span> <span style="color:#75715e"># ALB のセキュリティグループ</span>
 </span></span></code></pre></div><h2 id="ツール固有の注意点">ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#ツール固有の注意点">#</a></h2>
 <h3 id="api-gateway-の場合">API Gateway の場合<a hidden class="anchor" aria-hidden="true" href="#api-gateway-の場合">#</a></h3>
-<p><a href="/glossary/api/">API</a> Gateway <a href="/glossary/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89/">バックエンド</a>で 502 が多発する場合、**統合<a href="/glossary/%E3%82%BF%E3%82%A4%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88/">タイムアウト</a><strong>と</strong><a href="/glossary/%E3%82%B9%E3%83%AD%E3%83%83%E3%83%88%E3%83%AA%E3%83%B3%E3%82%B0/">スロットリング</a>**を確認してください。</p>
+<p>API Gateway バックエンドで 502 が多発する場合、<strong>統合タイムアウト</strong>と<strong>スロットリング</strong>を確認してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># API Gateway のメトリクスを CloudWatch で確認</span>
 </span></span><span style="display:flex;"><span>aws cloudwatch get-metric-statistics <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  --namespace AWS/ApiGateway <span style="color:#ae81ff">\
@@ -397,12 +366,12 @@
 </span></span></span><span style="display:flex;"><span>  --end-time 2024-01-15T12:00:00Z <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  --period <span style="color:#ae81ff">300</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  --statistics Sum
-</span></span></code></pre></div><p>また、Lambda <a href="/glossary/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A8%E3%83%B3%E3%83%89/">バックエンド</a>の場合は**スロットル（同時実行数制約）**が 502 の原因になることがあります。Lambda のリザーブド同時実行数を増やすか、SQS トリガーで非同期処理に切り替えてください。</p>
+</span></span></code></pre></div><p>また、Lambda バックエンドの場合は**スロットル（同時実行数制約）**が 502 の原因になることがあります。Lambda のリザーブド同時実行数を増やすか、SQS トリガーで非同期処理に切り替えてください。</p>
 <h3 id="ecs--alb-の場合">ECS + ALB の場合<a hidden class="anchor" aria-hidden="true" href="#ecs--alb-の場合">#</a></h3>
 <p>ECS タスクが頻繁に停止・再起動されている場合、タスク定義の CPU・メモリが不足していないか、コンテナログを確認してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws logs tail /ecs/my-service --follow
 </span></span></code></pre></div><h3 id="lambda-環境での-vpc-設定">Lambda 環境での VPC 設定<a hidden class="anchor" aria-hidden="true" href="#lambda-環境での-vpc-設定">#</a></h3>
-<p>Lambda を <a href="/glossary/vpc/">VPC</a> 内で実行している場合、NAT Gateway やサブネット設定の問題で外部リソースへの通信が失敗し、502 につながることがあります。CloudWatch Logs で Lambda の詳細なエラーを確認してください。</p>
+<p>Lambda を VPC 内で実行している場合、NAT Gateway やサブネット設定の問題で外部リソースへの通信が失敗し、502 につながることがあります。CloudWatch Logs で Lambda の詳細なエラーを確認してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws logs tail /aws/lambda/my-function --follow
 </span></span></code></pre></div><h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
 <h3 id="確認すべきログ">確認すべきログ<a hidden class="anchor" aria-hidden="true" href="#確認すべきログ">#</a></h3>
@@ -410,7 +379,7 @@
 <li>
 <p><strong>CloudWatch Logs</strong>：</p>
 <ul>
-<li><code>/aws/apigateway/my-api</code>（<a href="/glossary/api/">API</a> Gateway ログ）</li>
+<li><code>/aws/apigateway/my-api</code>（API Gateway ログ）</li>
 <li><code>/aws/lambda/my-function</code>（Lambda ログ）</li>
 <li><code>/ecs/my-service</code>（ECS ログ）</li>
 </ul>
@@ -446,139 +415,98 @@
 
 
   </div>
-  <div class="related-posts">
-    <h3>同じツールの記事</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 409 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_409/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 422 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 422 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_422/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 504 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_504/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 400 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_400/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 401 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_401/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 403 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to AWS の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_403/"></a>
-    </article>
+  <div class="feedback-panel" id="feedback-panel">
+    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
+    <div class="feedback-panel__btns">
+      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
+      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
+    </div>
+    <p class="feedback-panel__thanks"></p>
   </div>
-  <div class="related-posts related-by-code">
-    <h3>他のツールの 502 エラー</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-nginx">Nginx</span>
-        <h2 class="entry-hint-parent">Nginx の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Nginx の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Nginx の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-firebase">Firebase</span>
-        <h2 class="entry-hint-parent">Firebase の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Firebase の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
-        <h2 class="entry-hint-parent">OpenAI API の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>OpenAI API の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="OpenAI API の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Docker の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="GitHub API の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_502/"></a>
-    </article>
-  </div>
+  <section class="related-posts">
+    <p class="related-posts__title">他の AWS エラーの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/aws_409/" class="related-posts__link"><span class="error-badge">409</span>AWS の 409 エラー：原因と解決策
+        </a><p class="related-posts__desc">AWSの409（Conflict）エラーは、リクエストの内容がAWSリソースの現在の状態と競合していることを示します。このエラーはS3、EC2、DynamoDB、CloudFormation、IAMなど複数のAWSサービスで発生し、リソース</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/aws_422/" class="related-posts__link"><span class="error-badge">422</span>AWS の 422 エラー：原因と解決策
+        </a><p class="related-posts__desc">リクエストの形式は正しいが、CloudFormation・API Gateway・DynamoDB などの AWS サービスがデータを検証エラーとして処理を拒否し、422 Unprocessable Entity を返す。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/aws_504/" class="related-posts__link"><span class="error-badge">504</span>AWS の 504 エラー：原因と解決策
+        </a><p class="related-posts__desc">AWS で 504 Gateway Timeout が発生するのは、API Gateway、Application Load Balancer（ALB）、Network Load Balancer（NLB）といったエッジサービスが、バックエ</p>
+      </li>
+    </ul>
+  </section>
+  <section class="related-posts">
+    <p class="related-posts__title">502 エラー — 他ツールの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/vercel_502/" class="related-posts__link">
+          <span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 502 エラー：原因と解決策
+        </a><p class="related-posts__desc">VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った。Vercel 502 エラーの原因と解決策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/nginx_502/" class="related-posts__link">
+          <span class="tool-badge tool-badge-nginx">Nginx</span>Nginx の 502 エラー：原因と解決策
+        </a><p class="related-posts__desc">502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/firebase_502/" class="related-posts__link">
+          <span class="tool-badge tool-badge-firebase">Firebase</span>Firebase の 502 エラー：原因と解決策
+        </a><p class="related-posts__desc">Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流のバックエンド（Cloud Functionsやカスタムオリジンサーバー）から不正な形式のレスポンスを受け取</p>
+      </li>
+    </ul>
+  </section>
 
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://errorlog.jp/tags/aws/">AWS</a></li>
+      <li><a href="http://localhost:1313/tags/aws/">AWS</a></li>
     </ul>
   </footer>
 </article>
 
 <script>
+ 
+(function () {
+  var panel = document.getElementById('feedback-panel');
+  if (!panel) return;
+  var title = "\"AWS の 502 エラー：原因と解決策\"";
+  panel.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-status]');
+    if (!btn || panel.dataset.voted) return;
+    panel.dataset.voted = '1';
+    if (typeof gtag === 'function') {
+      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
+    }
+    var btnsEl = panel.querySelector('.feedback-panel__btns');
+    var qEl    = panel.querySelector('.feedback-panel__q');
+    var thxEl  = panel.querySelector('.feedback-panel__thanks');
+    btnsEl.style.transition = 'opacity 0.3s';
+    btnsEl.style.opacity    = '0';
+    setTimeout(function () {
+      btnsEl.style.display = 'none';
+      qEl.style.display    = 'none';
+      thxEl.textContent    = 'Thank you for your feedback!';
+      thxEl.style.display  = 'block';
+      thxEl.style.opacity  = '0';
+      thxEl.style.transition = 'opacity 0.4s';
+      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
+    }, 300);
+  });
+})();
+
+ 
 (function () {
   var content = document.querySelector('.post-content');
   if (!content) return;
 
   var firstCompare = true;
-  var RE_BEFORE = /Before|エラーが起きる/;
-  var RE_AFTER  = /After|修正後/;
+  var RE_BEFORE = /before|エラーが起きる|修正前/i;
+  var RE_AFTER  = /after|修正後/i;
 
   content.querySelectorAll('p strong').forEach(function (el) {
     if (!RE_BEFORE.test(el.textContent)) return;
@@ -631,6 +559,7 @@
         el.style.setProperty('overflow',      'hidden',       'important');
       } else {
         
+        sp(el, 'background-color', '#272822');
         sp(el, 'background-image', grad);
         sp(el, 'padding-left',     '1rem');
         sp(el, 'box-sizing',       'border-box');
@@ -668,6 +597,21 @@
     wrap.appendChild(right);
 
     
+    left.classList.add('code-compare__side--before');
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'code-toggle-btn';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
+    toggleBtn.addEventListener('click', function () {
+      var open = left.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open
+        ? '▴ 修正前のコード（Before）を非表示'
+        : '▾ 修正前のコード（Before）を表示';
+    });
+    wrap.insertBefore(toggleBtn, left);
+
+    
     (function(l, r) {
       requestAnimationFrame(function() {
         var lp = l.firstElementChild;
@@ -682,11 +626,45 @@
     }(left, right));
   });
 })();
+
+ 
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+  var RE_REM = /^解決策[（(]/;
+  var remIdx = 0;
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_REM.test(el.textContent)) return;
+    var label = el.closest('p');
+    if (label.dataset.remedy) return;
+    label.dataset.remedy = '1';
+    var elems = [];
+    var cursor = label.nextElementSibling;
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_REM.test(s.textContent)) break;
+      elems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'code-remedy';
+    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
+    remIdx++;
+    label.parentNode.insertBefore(wrap, label);
+    wrap.appendChild(label);
+    elems.forEach(function (e) { wrap.appendChild(e); });
+    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
+    wrap.style.setProperty('padding-left',  '1rem',              'important');
+    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
+    wrap.style.setProperty('margin-bottom', '1rem',              'important');
+  });
+})();
 </script>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
 
     
     

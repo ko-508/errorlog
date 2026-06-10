@@ -2,765 +2,1038 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on ErrorLog - エラーコード解決ガイド</title>
-    <link>https://errorlog.jp/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on ErrorLog - エラーコード解決ガイド</description>
     <image>
       <title>ErrorLog - エラーコード解決ガイド</title>
-      <url>https://errorlog.jp/og-image.png</url>
-      <link>https://errorlog.jp/og-image.png</link>
+      <url>http://localhost:1313/og-image.png</url>
+      <link>http://localhost:1313/og-image.png</link>
     </image>
     <generator>Hugo</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 30 May 2026 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://errorlog.jp/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terraform の 409 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_409/</link>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_409/</guid>
+      <description>Terraformが作成しようとするリソースがすでに存在して競合している。Terraform 409 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Terraform の 429 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_429/</link>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_429/</guid>
+      <description>クラウドプロバイダーのAPIレート制限に達した。Terraform 429 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Terraform の 500 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_500/</link>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_500/</guid>
+      <description>Terraform CloudまたはクラウドプロバイダーAPIの内部エラーが発生した。Terraform 500 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Terraform の 401 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_401/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_401/</guid>
+      <description>クラウドプロバイダーへの認証に失敗した。Terraform 401 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Terraform の 403 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_403/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_403/</guid>
+      <description>クラウドプロバイダーでリソースの作成・変更が拒否された。Terraform 403 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Terraform の 404 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_404/</link>
+      <pubDate>Tue, 09 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_404/</guid>
+      <description>参照しているクラウドリソースが見つからない。Terraform 404 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Terraform の 400 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/terraform_400/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/terraform_400/</guid>
+      <description>Terraformがクラウドプロバイダーに送るリクエストの形式に誤りがある。Terraform 400 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 503 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_503/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_503/</guid>
+      <description>Vercelサービスが一時的に利用できない。Vercel 503 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 504 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_504/</link>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_504/</guid>
+      <description>Vercelのサーバーレス関数の実行がタイムアウトした。Vercel 504 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 404 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_404/</link>
+      <pubDate>Sun, 07 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_404/</guid>
+      <description>指定したデプロイメントまたはリソースが見つからない。Vercel 404 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 500 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_500/</link>
+      <pubDate>Sun, 07 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_500/</guid>
+      <description>Vercelのサーバーレス関数で内部エラーが発生した。Vercel 500 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 502 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_502/</link>
+      <pubDate>Sun, 07 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_502/</guid>
+      <description>VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った。Vercel 502 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 400 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_400/</link>
+      <pubDate>Sat, 06 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_400/</guid>
+      <description>Vercel APIへのリクエストの形式または内容に誤りがある。Vercel 400 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 401 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_401/</link>
+      <pubDate>Sat, 06 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_401/</guid>
+      <description>Vercelへの認証に失敗した。Vercel 401 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Vercel の 403 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/vercel_403/</link>
+      <pubDate>Sat, 06 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/vercel_403/</guid>
+      <description>Vercelプロジェクトまたはリソースへのアクセス権限がない。Vercel 403 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 422 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_422/</link>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_422/</guid>
+      <description>リクエストのデータが検証ルールを満たしていない。Supabase 422 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 429 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_429/</link>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_429/</guid>
+      <description>Supabaseのレート制限または利用枠の上限に達した。Supabase 429 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 500 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_500/</link>
+      <pubDate>Fri, 05 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_500/</guid>
+      <description>Supabaseサービスの内部エラーが発生した。Supabase 500 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 403 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_403/</link>
+      <pubDate>Thu, 04 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_403/</guid>
+      <description>Row Level Security（RLS）またはポリシーによってアクセスが拒否された。Supabase 403 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 404 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_404/</link>
+      <pubDate>Thu, 04 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_404/</guid>
+      <description>指定したテーブル・行・ストレージオブジェクトが見つからない。Supabase 404 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 409 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_409/</link>
+      <pubDate>Thu, 04 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_409/</guid>
+      <description>データの競合（一意制約違反など）が発生した。Supabase 409 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 503 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_503/</link>
+      <pubDate>Wed, 03 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_503/</guid>
+      <description>Azureサービスが一時的に利用できない。Azure 503 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 400 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_400/</link>
+      <pubDate>Wed, 03 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_400/</guid>
+      <description>Supabase APIへのリクエストの形式または内容に誤りがある。Supabase 400 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Supabase の 401 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/supabase_401/</link>
+      <pubDate>Wed, 03 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/supabase_401/</guid>
+      <description>Supabaseへの認証トークンが無効または期限切れになっている。Supabase 401 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 409 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_409/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_409/</guid>
+      <description>Azureリソースの現在の状態とリクエストが競合している。Azure 409 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 429 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_429/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_429/</guid>
+      <description>Azure APIのスロットリング制限に達した。Azure 429 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 500 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_500/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_500/</guid>
+      <description>Azureサービスの内部エラーが発生した。Azure 500 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Docker Compose とは？特徴・機能・料金・比較まとめ</title>
+      <link>http://localhost:1313/posts/tool_docker_compose/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/tool_docker_compose/</guid>
+      <description>Docker Compose の特徴・できること・料金プラン・似たツールとの比較を解説。</description>
+    </item>
+    <item>
+      <title>Firebase とは？特徴・機能・料金・比較まとめ</title>
+      <link>http://localhost:1313/posts/tool_firebase/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/tool_firebase/</guid>
+      <description>Firebase の特徴・できること・料金プラン・似たツールとの比較を解説。</description>
+    </item>
+    <item>
+      <title>Zoom とは？特徴・機能・料金・比較まとめ</title>
+      <link>http://localhost:1313/posts/tool_zoom/</link>
+      <pubDate>Tue, 02 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/tool_zoom/</guid>
+      <description>Zoom の特徴・できること・料金プラン・似たツールとの比較を解説。</description>
+    </item>
+    <item>
+      <title>Azure の 401 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_401/</link>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_401/</guid>
+      <description>Azureへの認証情報が無効または期限切れになっている。Azure 401 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 403 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_403/</link>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_403/</guid>
+      <description>Azureリソースへのアクセスが拒否された。Azure 403 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 404 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_404/</link>
+      <pubDate>Mon, 01 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_404/</guid>
+      <description>指定したAzureリソースが見つからない。Azure 404 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Azure の 400 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/azure_400/</link>
+      <pubDate>Sun, 31 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/azure_400/</guid>
+      <description>Azure APIへのリクエストにパラメータの誤りがある。Azure 400 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Docker Compose の 403 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/docker_compose_403/</link>
+      <pubDate>Sun, 31 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/docker_compose_403/</guid>
+      <description>レジストリまたはリソースへのアクセス権限がない。Docker Compose 403 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Docker Compose の 404 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/docker_compose_404/</link>
+      <pubDate>Sun, 31 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/docker_compose_404/</guid>
+      <description>指定したイメージ・サービス・ボリュームが見つからない。Docker Compose 404 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Docker Compose の 409 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/docker_compose_409/</link>
+      <pubDate>Sun, 31 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/docker_compose_409/</guid>
+      <description>サービスの状態がリクエストと競合している。Docker Compose 409 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Docker Compose の 500 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/docker_compose_500/</link>
+      <pubDate>Sun, 31 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/docker_compose_500/</guid>
+      <description>Docker Composeサービスの内部エラーが発生した。Docker Compose 500 エラーの原因と解決策を解説します。</description>
+    </item>
+    <item>
+      <title>Docker Compose の 503 エラー：原因と解決策</title>
+      <link>http://localhost:1313/posts/docker_compose_503/</link>
+      <pubDate>Sun, 31 May 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/docker_compose_503/</guid>
+      <description>サービスが起動できないか利用できない状態にある。Docker Compose 503 エラーの原因と解決策を解説します。</description>
+    </item>
     <item>
       <title>Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策</title>
-      <link>https://errorlog.jp/posts/docker_compose_env_utf16_bom_windows/</link>
+      <link>http://localhost:1313/posts/docker_compose_env_utf16_bom_windows/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_compose_env_utf16_bom_windows/</guid>
+      <guid>http://localhost:1313/posts/docker_compose_env_utf16_bom_windows/</guid>
       <description>PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。</description>
     </item>
     <item>
       <title>Docker Compose の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_compose_400/</link>
+      <link>http://localhost:1313/posts/docker_compose_400/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_compose_400/</guid>
+      <guid>http://localhost:1313/posts/docker_compose_400/</guid>
       <description>Docker Composeの設定またはAPIリクエストに誤りがある。Docker Compose 400 エラーの原因と解決策を解説します。</description>
     </item>
     <item>
       <title>Docker Compose の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_compose_401/</link>
+      <link>http://localhost:1313/posts/docker_compose_401/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_compose_401/</guid>
+      <guid>http://localhost:1313/posts/docker_compose_401/</guid>
       <description>コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。</description>
     </item>
     <item>
       <title>Gemini API の 429 エラー：無料枠クォータ枯渇と解決策</title>
-      <link>https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/</link>
+      <link>http://localhost:1313/posts/gemini_api_429_resource_exhausted_free_tier/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/</guid>
+      <guid>http://localhost:1313/posts/gemini_api_429_resource_exhausted_free_tier/</guid>
       <description>gemini-2.0-flashの無料枠を自動化パイプラインで使い切りRESOURCE_EXHAUSTEDが発生。モデル切り替えとリトライ実装で解決します。</description>
     </item>
     <item>
       <title>Minikube の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/minikube_403/</link>
+      <link>http://localhost:1313/posts/minikube_403/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/minikube_403/</guid>
+      <guid>http://localhost:1313/posts/minikube_403/</guid>
       <description>RBAC設定によりリソースへのアクセスが拒否された。Minikube 403 エラーの原因と解決策を解説します。</description>
     </item>
     <item>
       <title>Minikube の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/minikube_404/</link>
+      <link>http://localhost:1313/posts/minikube_404/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/minikube_404/</guid>
+      <guid>http://localhost:1313/posts/minikube_404/</guid>
       <description>指定したKubernetesリソースが見つからない。Minikube 404 エラーの原因と解決策を解説します。</description>
     </item>
     <item>
       <title>Minikube の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/minikube_500/</link>
+      <link>http://localhost:1313/posts/minikube_500/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/minikube_500/</guid>
+      <guid>http://localhost:1313/posts/minikube_500/</guid>
       <description>Minikubeクラスターの内部で予期しないエラーが発生した。Minikube 500 エラーの原因と解決策を解説します。</description>
     </item>
     <item>
       <title>Minikube の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/minikube_503/</link>
+      <link>http://localhost:1313/posts/minikube_503/</link>
       <pubDate>Sat, 30 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/minikube_503/</guid>
+      <guid>http://localhost:1313/posts/minikube_503/</guid>
       <description>Minikubeクラスターのサービスが一時的に利用できない。Minikube 503 エラーの原因と解決策を解説します。</description>
     </item>
     <item>
       <title>Hugo PaperMod で datePublished が 0001-01-01 になるバグ：原因と解決策</title>
-      <link>https://errorlog.jp/posts/hugo_papermod_schema_date/</link>
+      <link>http://localhost:1313/posts/hugo_papermod_schema_date/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/hugo_papermod_schema_date/</guid>
+      <guid>http://localhost:1313/posts/hugo_papermod_schema_date/</guid>
       <description>Hugo PaperMod の構造化データで datePublished が 0001-01-01 になる原因と、テンプレートオーバーライドによる修正方法を解説します。</description>
     </item>
     <item>
       <title>Minikube の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/minikube_400/</link>
+      <link>http://localhost:1313/posts/minikube_400/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/minikube_400/</guid>
+      <guid>http://localhost:1313/posts/minikube_400/</guid>
       <description>Minikubeクラスターへのリクエスト形式が正しくない場合に発生します。YAMLマニフェストの構文エラーやkubectlオプションの誤りなど、Minikube 400エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Minikube の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/minikube_401/</link>
+      <link>http://localhost:1313/posts/minikube_401/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/minikube_401/</guid>
+      <guid>http://localhost:1313/posts/minikube_401/</guid>
       <description>Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Podman の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/podman_403/</link>
+      <link>http://localhost:1313/posts/podman_403/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/podman_403/</guid>
+      <guid>http://localhost:1313/posts/podman_403/</guid>
       <description>認証は成功したが、そのリソースへのアクセス権限がない。プライベートリポジトリへの読み取り・書き込み権限がないなど、Podman 403 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Podman の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/podman_404/</link>
+      <link>http://localhost:1313/posts/podman_404/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/podman_404/</guid>
+      <guid>http://localhost:1313/posts/podman_404/</guid>
       <description>指定したイメージまたはコンテナが見つからない。イメージ名またはタグ名の綴りが間違っているなど、Podman 404 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Podman の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/podman_500/</link>
+      <link>http://localhost:1313/posts/podman_500/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/podman_500/</guid>
+      <guid>http://localhost:1313/posts/podman_500/</guid>
       <description>Podmanシステムで予期しない内部エラーが発生した。Podman 500 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Podman の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/podman_503/</link>
+      <link>http://localhost:1313/posts/podman_503/</link>
       <pubDate>Fri, 29 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/podman_503/</guid>
+      <guid>http://localhost:1313/posts/podman_503/</guid>
       <description>Podmanサービスまたはレジストリが一時的に利用できない。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Firebase の 408 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_408/</link>
+      <link>http://localhost:1313/posts/firebase_408/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_408/</guid>
+      <guid>http://localhost:1313/posts/firebase_408/</guid>
       <description>クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Firebase の 504 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_504/</link>
+      <link>http://localhost:1313/posts/firebase_504/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_504/</guid>
+      <guid>http://localhost:1313/posts/firebase_504/</guid>
       <description>Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>GCP の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_404/</link>
+      <link>http://localhost:1313/posts/gcp_404/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_404/</guid>
+      <guid>http://localhost:1313/posts/gcp_404/</guid>
       <description>指定したGoogle Cloudリソースが見つからない。GCP 404 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>GCP の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_429/</link>
+      <link>http://localhost:1313/posts/gcp_429/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_429/</guid>
+      <guid>http://localhost:1313/posts/gcp_429/</guid>
       <description>単位時間あたりのAPIリクエスト数がGoogleのクォータを超えた。ループ処理でAPIを呼び出す間隔を設けていないなど、GCP 429 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>GCP の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_500/</link>
+      <link>http://localhost:1313/posts/gcp_500/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_500/</guid>
+      <guid>http://localhost:1313/posts/gcp_500/</guid>
       <description>Google Cloudサービス側で予期しない内部エラーが発生した。GCPの内部的な障害であり利用者側の設定の問題ではないなど、GCP 500 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>GCP の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_503/</link>
+      <link>http://localhost:1313/posts/gcp_503/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_503/</guid>
+      <guid>http://localhost:1313/posts/gcp_503/</guid>
       <description>Google Cloudサービスが一時的に利用できない状態になっている。GCPのサービスがメンテナンス中または過負荷状態になっているなど、GCP 503 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>OpenAI API の 409 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_409/</link>
+      <link>http://localhost:1313/posts/openai_api_409/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_409/</guid>
+      <guid>http://localhost:1313/posts/openai_api_409/</guid>
       <description>リクエストの内容がOpenAIリソースの現在の状態と競合している。すでに存在するFine-tuningジョブやモデルに対して重など、OpenAI API 409 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>OpenAI API の 422 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_422/</link>
+      <link>http://localhost:1313/posts/openai_api_422/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_422/</guid>
+      <guid>http://localhost:1313/posts/openai_api_422/</guid>
       <description>リクエストの形式は正しいが、含まれているデータの内容が処理できない。Fine-tuningデータの形式エラーなど、OpenAI API 422エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Podman の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/podman_400/</link>
+      <link>http://localhost:1313/posts/podman_400/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/podman_400/</guid>
+      <guid>http://localhost:1313/posts/podman_400/</guid>
       <description>Podman APIまたはレジストリへのリクエストの形式が正しくない。podman runコマンドのオプション指定が誤っているなど、Podman 400 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Podman の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/podman_401/</link>
+      <link>http://localhost:1313/posts/podman_401/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/podman_401/</guid>
-      <description>レジストリへの認証に失敗した。Podman 401 エラーの原因と解決策を解説。</description>
+      <guid>http://localhost:1313/posts/podman_401/</guid>
+      <description>Podmanでコンテナイメージをpullやpushしようとすると、401認証エラーが発生することがあります。このエラーはレジストリへの認証に失敗したときに出現し、適切な認証情報がないか有効期限切れの状態を示しています。</description>
     </item>
     <item>
       <title>Slack とは？特徴・機能・料金・比較まとめ</title>
-      <link>https://errorlog.jp/posts/tool_slack/</link>
+      <link>http://localhost:1313/posts/tool_slack/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/tool_slack/</guid>
+      <guid>http://localhost:1313/posts/tool_slack/</guid>
       <description>Slack の特徴・できること・料金プラン・似たツールとの比較を解説。</description>
     </item>
     <item>
       <title>Slack の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/slack_429/</link>
+      <link>http://localhost:1313/posts/slack_429/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/slack_429/</guid>
+      <guid>http://localhost:1313/posts/slack_429/</guid>
       <description>短時間に送ったリクエスト数がSlack APIのレート制限を超えた。ループ処理の中でAPIを呼び出す間隔を設けていないなど、Slack 429 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>Slack の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/slack_500/</link>
+      <link>http://localhost:1313/posts/slack_500/</link>
       <pubDate>Thu, 28 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/slack_500/</guid>
+      <guid>http://localhost:1313/posts/slack_500/</guid>
       <description>Slack側のサーバーで予期しない内部エラーが発生した。Slackのインフラで一時的な障害が起きているなど、Slack 500 エラーの原因と解決策を解説。</description>
     </item>
     <item>
       <title>GCP の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_400/</link>
+      <link>http://localhost:1313/posts/gcp_400/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_400/</guid>
+      <guid>http://localhost:1313/posts/gcp_400/</guid>
       <description>GCP の 400 エラーの原因と解決策をわかりやすく解説します。</description>
     </item>
     <item>
       <title>GCP の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_401/</link>
+      <link>http://localhost:1313/posts/gcp_401/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_401/</guid>
+      <guid>http://localhost:1313/posts/gcp_401/</guid>
       <description>GCP の 401 エラーの原因と解決策をわかりやすく解説します。</description>
     </item>
     <item>
       <title>GCP の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/gcp_403/</link>
+      <link>http://localhost:1313/posts/gcp_403/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/gcp_403/</guid>
+      <guid>http://localhost:1313/posts/gcp_403/</guid>
       <description>GCP の 403 エラーの原因と解決策をわかりやすく解説します。</description>
     </item>
     <item>
       <title>Kubernetes の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/kubernetes_500/</link>
+      <link>http://localhost:1313/posts/kubernetes_500/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/kubernetes_500/</guid>
-      <description>Kubernetes の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/kubernetes_500/</guid>
+      <description>Kubernetes環境で500エラーが発生した場合、APIサーバーまたはコントロールプレーンコンポーネントで予期しない内部エラーが生じています。このエラーはクラスタ全体の管理機能に影響を与える可能性があり、迅速な対応が必要です。</description>
     </item>
     <item>
       <title>Kubernetes の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/kubernetes_503/</link>
+      <link>http://localhost:1313/posts/kubernetes_503/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/kubernetes_503/</guid>
-      <description>Kubernetes の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/kubernetes_503/</guid>
+      <description>Kubernetes環境で503エラーが発生するのは、クライアントからのリクエストに対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。</description>
     </item>
     <item>
       <title>Nginx の 502 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_502/</link>
+      <link>http://localhost:1313/posts/nginx_502/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_502/</guid>
-      <description>Nginx の 502 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_502/</guid>
+      <description>502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。</description>
     </item>
     <item>
       <title>Nginx の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_503/</link>
+      <link>http://localhost:1313/posts/nginx_503/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_503/</guid>
-      <description>Nginx の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_503/</guid>
+      <description>Nginx の 503 Service Unavailable エラーは、Nginx がリクエストを処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、バックエンドが全て利用不可能な状態を示します。</description>
     </item>
     <item>
       <title>Nginx の 504 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_504/</link>
+      <link>http://localhost:1313/posts/nginx_504/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_504/</guid>
-      <description>Nginx の 504 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_504/</guid>
+      <description>504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやAPI）からのレスポンスを一定時間待ちきれず、タイムアウトした状況を示すエラーです。</description>
     </item>
     <item>
       <title>Slack の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/slack_400/</link>
+      <link>http://localhost:1313/posts/slack_400/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/slack_400/</guid>
-      <description>Slack の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/slack_400/</guid>
+      <description>Slackの400エラーは、Slack APIへのリクエストが不正な形式で送信されたか、必須のパラメータが不足していることを示します。</description>
     </item>
     <item>
       <title>Slack の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/slack_401/</link>
+      <link>http://localhost:1313/posts/slack_401/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/slack_401/</guid>
+      <guid>http://localhost:1313/posts/slack_401/</guid>
       <description>Slack の 401 エラーの原因と解決策をわかりやすく解説します。</description>
     </item>
     <item>
       <title>Slack の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/slack_403/</link>
+      <link>http://localhost:1313/posts/slack_403/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/slack_403/</guid>
+      <guid>http://localhost:1313/posts/slack_403/</guid>
       <description>Slack の 403 エラーの原因と解決策をわかりやすく解説します。</description>
     </item>
     <item>
       <title>Slack の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/slack_404/</link>
+      <link>http://localhost:1313/posts/slack_404/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/slack_404/</guid>
+      <guid>http://localhost:1313/posts/slack_404/</guid>
       <description>Slack の 404 エラーの原因と解決策をわかりやすく解説します。</description>
     </item>
     <item>
       <title>Stripe の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_404/</link>
+      <link>http://localhost:1313/posts/stripe_404/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_404/</guid>
-      <description>Stripe の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_404/</guid>
+      <description>Stripe APIで404エラーが返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripeサーバー上に存在しないか、アクセス権限のないリソースへのアクセスを試みたことを示します。</description>
     </item>
     <item>
       <title>Stripe の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_429/</link>
+      <link>http://localhost:1313/posts/stripe_429/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_429/</guid>
-      <description>Stripe の 429 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_429/</guid>
+      <description>429 Too Many Requests は、短時間に Stripe API へ送信したリクエスト数がレート制限を超えたときに返される HTTP ステータスコードです。</description>
     </item>
     <item>
       <title>Stripe の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_500/</link>
+      <link>http://localhost:1313/posts/stripe_500/</link>
       <pubDate>Wed, 27 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_500/</guid>
-      <description>Stripe の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_500/</guid>
+      <description>Stripe API で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。</description>
     </item>
     <item>
       <title>Kubernetes の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/kubernetes_404/</link>
+      <link>http://localhost:1313/posts/kubernetes_404/</link>
       <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/kubernetes_404/</guid>
-      <description>Kubernetes の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/kubernetes_404/</guid>
+      <description>Kubernetesの404エラーは、APIサーバーが指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとしたエンドポイントが存在しないことを示します。</description>
     </item>
     <item>
       <title>Nginx の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_500/</link>
+      <link>http://localhost:1313/posts/nginx_500/</link>
       <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_500/</guid>
-      <description>Nginx の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_500/</guid>
+      <description>Nginx が 500 Internal Server Error を返すのは、Nginx または バックエンドアプリケーション（PHP-FPM、uWSGI、Node.js など）で予期しない内部エラーが発生したことを示します。</description>
     </item>
     <item>
       <title>Stripe の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_403/</link>
+      <link>http://localhost:1313/posts/stripe_403/</link>
       <pubDate>Tue, 26 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_403/</guid>
-      <description>Stripe の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_403/</guid>
+      <description>Stripe の 403 エラーは、認証には成功したものの、そのリクエストに対する十分な権限や許可がないことを示します。API キーが有効であっても、アクセス対象のリソースや実行しようとする操作に対して権限不足の状態です。</description>
     </item>
     <item>
       <title>Kubernetes の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/kubernetes_400/</link>
+      <link>http://localhost:1313/posts/kubernetes_400/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/kubernetes_400/</guid>
-      <description>Kubernetes の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/kubernetes_400/</guid>
+      <description>Kubernetes APIサーバーへのリクエストが不正な形式や内容であることを示すHTTP 400エラーです。マニフェストファイルの構文エラー、API仕様に違反するフィールド値、または不完全なリクエストボディが原因となります。</description>
     </item>
     <item>
       <title>Kubernetes の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/kubernetes_401/</link>
+      <link>http://localhost:1313/posts/kubernetes_401/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/kubernetes_401/</guid>
-      <description>Kubernetes の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/kubernetes_401/</guid>
+      <description>Kubernetesで401エラーが発生するのは、APIサーバーへのリクエストに対して認証に失敗した状態を示します。認証トークンの有効期限切れ、認証情報の不足、または権限がないServiceAccountの使用が典型的な原因です。</description>
     </item>
     <item>
       <title>Kubernetes の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/kubernetes_403/</link>
+      <link>http://localhost:1313/posts/kubernetes_403/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/kubernetes_403/</guid>
-      <description>Kubernetes の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/kubernetes_403/</guid>
+      <description>Kubernetes の 403 エラーは「Forbidden」を意味し、リクエストの認証は成功しているものの、そのリソースに対する操作権限（RBAC: Role-Based Access Control）がないことを示します。</description>
     </item>
     <item>
       <title>Nginx の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_400/</link>
+      <link>http://localhost:1313/posts/nginx_400/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_400/</guid>
-      <description>Nginx の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_400/</guid>
+      <description>Nginx における 400 エラーは、クライアントから送信されたリクエストが HTTP 仕様に違反していることを示します。</description>
     </item>
     <item>
       <title>Nginx の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_403/</link>
+      <link>http://localhost:1313/posts/nginx_403/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_403/</guid>
-      <description>Nginx の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_403/</guid>
+      <description>Nginx の 403 Forbidden エラーは、クライアント（ブラウザ）が特定のファイルやディレクトリへのアクセスを試みたとき、Nginx がそのリソースの存在は確認できるが、アクセス権限がないと判断したときに発生します。</description>
     </item>
     <item>
       <title>Nginx の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/nginx_404/</link>
+      <link>http://localhost:1313/posts/nginx_404/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/nginx_404/</guid>
-      <description>Nginx の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/nginx_404/</guid>
+      <description>Nginx が受け取ったリクエストに対して、指定されたパスにファイルやリソースが見つからないときに 404 エラーが返されます。</description>
     </item>
     <item>
       <title>Stripe の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_400/</link>
+      <link>http://localhost:1313/posts/stripe_400/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_400/</guid>
-      <description>Stripe の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_400/</guid>
+      <description>Stripe APIへのリクエストが400 Bad Requestを返す場合、リクエストの形式またはパラメータに問題があることを意味します。</description>
     </item>
     <item>
       <title>Stripe の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_401/</link>
+      <link>http://localhost:1313/posts/stripe_401/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_401/</guid>
-      <description>Stripe の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_401/</guid>
+      <description>Stripe API から返される 401（Unauthorized）エラーは、リクエストに含まれる認証情報（API キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。</description>
     </item>
     <item>
       <title>Stripe の 402 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/stripe_402/</link>
+      <link>http://localhost:1313/posts/stripe_402/</link>
       <pubDate>Mon, 25 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/stripe_402/</guid>
-      <description>Stripe の 402 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/stripe_402/</guid>
+      <description>Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。</description>
     </item>
     <item>
       <title>AWS の 409 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_409/</link>
+      <link>http://localhost:1313/posts/aws_409/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_409/</guid>
-      <description>AWS の 409 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_409/</guid>
+      <description>AWSの409（Conflict）エラーは、リクエストの内容がAWSリソースの現在の状態と競合していることを示します。このエラーはS3、EC2、DynamoDB、CloudFormation、IAMなど複数のAWSサービスで発生し、リソース</description>
     </item>
     <item>
       <title>AWS の 422 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_422/</link>
+      <link>http://localhost:1313/posts/aws_422/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_422/</guid>
-      <description>AWS の 422 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_422/</guid>
+      <description>リクエストの形式は正しいが、CloudFormation・API Gateway・DynamoDB などの AWS サービスがデータを検証エラーとして処理を拒否し、422 Unprocessable Entity を返す。</description>
     </item>
     <item>
       <title>AWS の 504 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_504/</link>
+      <link>http://localhost:1313/posts/aws_504/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_504/</guid>
-      <description>AWS の 504 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_504/</guid>
+      <description>AWS で 504 Gateway Timeout が発生するのは、API Gateway、Application Load Balancer（ALB）、Network Load Balancer（NLB）といったエッジサービスが、バックエ</description>
     </item>
     <item>
       <title>Docker の 408 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_408/</link>
+      <link>http://localhost:1313/posts/docker_408/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_408/</guid>
-      <description>Docker の 408 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_408/</guid>
+      <description>408 Request Timeout は、HTTP標準仕様（RFC 9110）で定められたステータスコードです。Docker環境では、クライアントがリクエストを完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に</description>
     </item>
     <item>
       <title>Docker の 504 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_504/</link>
+      <link>http://localhost:1313/posts/docker_504/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_504/</guid>
-      <description>Docker の 504 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_504/</guid>
+      <description>504 Gateway Timeout は、Docker デーモンがプロキシ経由で上流サーバーへのリクエストに応答を待つ際に、設定されたタイムアウト時間を超過したことを示すHTTPステータスコードです。</description>
     </item>
     <item>
       <title>Firebase の 409 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_409/</link>
+      <link>http://localhost:1313/posts/firebase_409/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_409/</guid>
-      <description>Firebase の 409 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_409/</guid>
+      <description>Firebase の 409 Conflict エラーは、Firestore のトランザクション処理が他の同時実行操作との競合によって失敗したことを示します。</description>
     </item>
     <item>
       <title>Firebase の 422 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_422/</link>
+      <link>http://localhost:1313/posts/firebase_422/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_422/</guid>
-      <description>Firebase の 422 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_422/</guid>
+      <description>Firebase で 422 エラーが返される場合、HTTP リクエスト自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。</description>
     </item>
     <item>
       <title>Firebase の 502 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_502/</link>
+      <link>http://localhost:1313/posts/firebase_502/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_502/</guid>
-      <description>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_502/</guid>
+      <description>Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流のバックエンド（Cloud Functionsやカスタムオリジンサーバー）から不正な形式のレスポンスを受け取</description>
     </item>
     <item>
       <title>GitHub API の 409 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_409/</link>
+      <link>http://localhost:1313/posts/github_api_409/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_409/</guid>
-      <description>GitHub API の 409 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_409/</guid>
+      <description>GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソース現在の状態と矛盾していることを示すステータスコードです。</description>
     </item>
     <item>
       <title>GitHub API の 504 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_504/</link>
+      <link>http://localhost:1313/posts/github_api_504/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_504/</guid>
-      <description>GitHub API の 504 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_504/</guid>
+      <description>GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。</description>
     </item>
     <item>
       <title>OpenAI API の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_400/</link>
+      <link>http://localhost:1313/posts/openai_api_400/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_400/</guid>
-      <description>OpenAI API の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_400/</guid>
+      <description>OpenAI APIで400エラーが返される場合、リクエストの形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、サーバー側の問題ではなく、クライアント（あなたのコード）から送信されたリクエストが仕様に合致し</description>
     </item>
     <item>
       <title>OpenAI API の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_401/</link>
+      <link>http://localhost:1313/posts/openai_api_401/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_401/</guid>
-      <description>OpenAI API の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_401/</guid>
+      <description>OpenAI APIで401エラーが返される場合、リクエストの認証に失敗したことを意味します。これは提供されたAPIキーが無効、期限切れ、または不正な形式であることを示しており、APIサーバーがクライアントの身元を確認できない状態です。</description>
     </item>
     <item>
       <title>OpenAI API の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_403/</link>
+      <link>http://localhost:1313/posts/openai_api_403/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_403/</guid>
-      <description>OpenAI API の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_403/</guid>
+      <description>OpenAI APIの403エラーは、認証には成功しましたが、そのAPIキーに対してリクエストされたモデルやエンドポイントへのアクセス権限がない場合に発生します。認可エラーと呼ばれ、認証エラー（401）とは異なります。</description>
     </item>
     <item>
       <title>OpenAI API の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_404/</link>
+      <link>http://localhost:1313/posts/openai_api_404/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_404/</guid>
-      <description>OpenAI API の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_404/</guid>
+      <description>OpenAI APIで404エラーが発生する場合、リクエストで指定されたリソース（モデル、アシスタント、ファイルなど）がサーバー上に存在しないことを示しています。</description>
     </item>
     <item>
       <title>OpenAI API の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_429/</link>
+      <link>http://localhost:1313/posts/openai_api_429/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_429/</guid>
-      <description>OpenAI API の 429 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_429/</guid>
+      <description>429エラーは、OpenAI APIのレート制限に達したときに返されるToo Many Requestsを意味します。OpenAI APIは、API キーごとにTPM（1分あたりのトークン数）やRPM（1分あたりのリクエスト数）に上限を設定</description>
     </item>
     <item>
       <title>OpenAI API の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_500/</link>
+      <link>http://localhost:1313/posts/openai_api_500/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_500/</guid>
-      <description>OpenAI API の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_500/</guid>
+      <description>OpenAI APIで500エラーが返される場合、OpenAIのサーバー側で予期しない内部エラーが発生していることを示します。</description>
     </item>
     <item>
       <title>OpenAI API の 502 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_502/</link>
+      <link>http://localhost:1313/posts/openai_api_502/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_502/</guid>
-      <description>OpenAI API の 502 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_502/</guid>
+      <description>502 Bad Gateway は、OpenAI API のリクエストがOpenAIのサーバーに到達したものの、バックエンドサーバーから無効な応答が返された、またはタイムアウトしたことを示します。</description>
     </item>
     <item>
       <title>OpenAI API の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/openai_api_503/</link>
+      <link>http://localhost:1313/posts/openai_api_503/</link>
       <pubDate>Sun, 24 May 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/openai_api_503/</guid>
-      <description>OpenAI API の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/openai_api_503/</guid>
+      <description>OpenAI APIにおいて503エラーは「Service Unavailable」を意味し、OpenAIのサーバーが一時的に利用不可能な状態であることを示します。</description>
     </item>
     <item>
       <title>AWS の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_400/</link>
+      <link>http://localhost:1313/posts/aws_400/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_400/</guid>
-      <description>AWS の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_400/</guid>
+      <description>AWS の HTTP 400 エラーは「Bad Request（不正なリクエスト）」を意味し、AWS API に送信されたリクエストに構文的な誤りや不正なパラメータが含まれている場合に返されます。</description>
     </item>
     <item>
       <title>AWS の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_401/</link>
+      <link>http://localhost:1313/posts/aws_401/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_401/</guid>
-      <description>AWS の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_401/</guid>
+      <description>AWS で 401 エラーが返される場合、リクエストに含まれる認証情報が無効であることを示しています。AWS API、SDK、CLI のいずれかを使用する際に、アクセスキー、シークレットアクセスキー、セッショントークン、または IAM ロー</description>
     </item>
     <item>
       <title>AWS の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_403/</link>
+      <link>http://localhost:1313/posts/aws_403/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_403/</guid>
-      <description>AWS の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_403/</guid>
+      <description>AWS の 403 エラーは、HTTP ステータスコード 403 Forbidden として返されます。これは認証（ユーザーが本人であることの確認）には成功したものの、実行しようとしている操作に対する IAM（Identity and Ac</description>
     </item>
     <item>
       <title>AWS の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_404/</link>
+      <link>http://localhost:1313/posts/aws_404/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_404/</guid>
-      <description>AWS の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_404/</guid>
+      <description>AWS の 404 エラーは「Not Found」を意味し、指定したリソースが見つからないことを示します。S3 バケット、EC2 インスタンス、API Gateway、Lambda 関数など、あらゆる AWS サービスで発生する可能性があり</description>
     </item>
     <item>
       <title>AWS の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_429/</link>
+      <link>http://localhost:1313/posts/aws_429/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_429/</guid>
-      <description>AWS の 429 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_429/</guid>
+      <description>429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。</description>
     </item>
     <item>
       <title>AWS の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_500/</link>
+      <link>http://localhost:1313/posts/aws_500/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_500/</guid>
-      <description>AWS の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_500/</guid>
+      <description>AWS サービスがリクエストを受け取ったにもかかわらずサーバー内部で予期しない障害が発生し、500 Internal Server Error を返す。Lambda の未処理例外・タイムアウト・API Gateway の統合エラーが主な原因。</description>
     </item>
     <item>
       <title>AWS の 502 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_502/</link>
+      <link>http://localhost:1313/posts/aws_502/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_502/</guid>
-      <description>AWS の 502 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_502/</guid>
+      <description>502 Bad Gateway は、API Gateway や Application Load Balancer（ALB）がバックエンド（EC2、Lambda、ECS など）から不正な応答を受け取った、あるいは応答を得られなかったことを示</description>
     </item>
     <item>
       <title>AWS の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/aws_503/</link>
+      <link>http://localhost:1313/posts/aws_503/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/aws_503/</guid>
-      <description>AWS の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/aws_503/</guid>
+      <description>AWS の 503 Service Unavailable は、リクエストが処理できない一時的なサービス障害を示すステータスコードです。AWS のサービス側に処理能力の不足、障害、またはバックエンド側の問題があることを意味します。</description>
     </item>
     <item>
       <title>Docker の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_400/</link>
+      <link>http://localhost:1313/posts/docker_400/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_400/</guid>
-      <description>Docker の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_400/</guid>
+      <description>Docker の 400 エラーは、クライアント側のリクエストが不正な形式であることを示すHTTPステータスコードです。Docker デーモンとの通信（コンテナの操作、イメージのプッシュ・プル、API呼び出し）の際に、形式不正なリクエストが</description>
     </item>
     <item>
       <title>Docker の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_401/</link>
+      <link>http://localhost:1313/posts/docker_401/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_401/</guid>
-      <description>Docker の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_401/</guid>
+      <description>Docker で 401 エラーが発生するのは、レジストリ（Docker Hub や ECR、プライベートレジストリなど）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。</description>
     </item>
     <item>
       <title>Docker の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_403/</link>
+      <link>http://localhost:1313/posts/docker_403/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_403/</guid>
-      <description>Docker の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_403/</guid>
+      <description>Docker の 403 エラーは、認証（ログイン）には成功したものの、対象のリソース（イメージ、レジストリ、ボリューム等）へのアクセス権限がないことを示します。</description>
     </item>
     <item>
       <title>Docker の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_404/</link>
+      <link>http://localhost:1313/posts/docker_404/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_404/</guid>
-      <description>Docker の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_404/</guid>
+      <description>Docker で 404 エラーが発生するのは、指定したイメージまたはリポジトリがレジストリ（Docker Hub や ECR などのイメージ保管先）に存在しないことを意味します。</description>
     </item>
     <item>
       <title>Docker の 409 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_409/</link>
+      <link>http://localhost:1313/posts/docker_409/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_409/</guid>
-      <description>Docker の 409 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_409/</guid>
+      <description>Dockerの409エラーは、HTTP標準仕様で「Conflict（競合）」を示すステータスコードです。Docker Daemon がコンテナやイメージの操作を受け付けられない状態を表します。</description>
     </item>
     <item>
       <title>Docker の 422 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_422/</link>
+      <link>http://localhost:1313/posts/docker_422/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_422/</guid>
-      <description>Docker の 422 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_422/</guid>
+      <description>Docker で 422 エラーが発生するのは、Docker API またはコンテナレジストリへのリクエストが構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。</description>
     </item>
     <item>
       <title>Docker の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_429/</link>
+      <link>http://localhost:1313/posts/docker_429/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_429/</guid>
-      <description>Docker の 429 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_429/</guid>
+      <description>Docker の 429 エラーは、HTTP ステータスコード 429（Too Many Requests）を意味し、短時間に送信されたリクエスト数が上限を超えたことを示します。</description>
     </item>
     <item>
       <title>Docker の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_500/</link>
+      <link>http://localhost:1313/posts/docker_500/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_500/</guid>
-      <description>Docker の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_500/</guid>
+      <description>Docker環境で500エラーが発生する場合、Dockerデーモンが予期しない内部エラーに遭遇していることを示しています。</description>
     </item>
     <item>
       <title>Docker の 502 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_502/</link>
+      <link>http://localhost:1313/posts/docker_502/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_502/</guid>
-      <description>Docker の 502 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_502/</guid>
+      <description>502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。</description>
     </item>
     <item>
       <title>Docker の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/docker_503/</link>
+      <link>http://localhost:1313/posts/docker_503/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/docker_503/</guid>
-      <description>Docker の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/docker_503/</guid>
+      <description>Dockerの503エラーは、HTTP標準仕様（RFC 9110）で「Service Unavailable」を意味し、リクエスト対象のサーバーが一時的に利用不可能な状態にあることを示します。</description>
     </item>
     <item>
       <title>Firebase の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_400/</link>
+      <link>http://localhost:1313/posts/firebase_400/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_400/</guid>
-      <description>Firebase の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_400/</guid>
+      <description>Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。</description>
     </item>
     <item>
       <title>Firebase の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_401/</link>
+      <link>http://localhost:1313/posts/firebase_401/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_401/</guid>
-      <description>Firebase の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_401/</guid>
+      <description>Firebase の 401 エラーは、Firebaseサーバーへのリクエストに対して「認証情報が不足している、または無効である」という応答です。</description>
     </item>
     <item>
       <title>Firebase の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_403/</link>
+      <link>http://localhost:1313/posts/firebase_403/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_403/</guid>
-      <description>Firebase の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_403/</guid>
+      <description>Firebase の 403 エラーは「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールがリクエストをブロックしている状態です。</description>
     </item>
     <item>
       <title>Firebase の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_404/</link>
+      <link>http://localhost:1313/posts/firebase_404/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_404/</guid>
-      <description>Firebase の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_404/</guid>
+      <description>Firebaseで404エラーが返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsのエンドポイント、Realtime Databaseのパスなど）がFirebaseプロジェクト内に存在しないこと</description>
     </item>
     <item>
       <title>Firebase の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_429/</link>
+      <link>http://localhost:1313/posts/firebase_429/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_429/</guid>
-      <description>Firebase の 429 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_429/</guid>
+      <description>429 Too Many Requests は、Firebase のレート制限に達したことを示す HTTP ステータスコードです。</description>
     </item>
     <item>
       <title>Firebase の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_500/</link>
+      <link>http://localhost:1313/posts/firebase_500/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_500/</guid>
-      <description>Firebase の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_500/</guid>
+      <description>Firebase における 500 エラーは、Firebase サーバー側で予期しない内部エラーが発生したことを示すHTTP ステータスコードです。</description>
     </item>
     <item>
       <title>Firebase の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/firebase_503/</link>
+      <link>http://localhost:1313/posts/firebase_503/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/firebase_503/</guid>
-      <description>Firebase の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/firebase_503/</guid>
+      <description>Firebase の 503（Service Unavailable）エラーは、Firebase のバックエンドサービスが一時的に利用できない状態を示します。</description>
     </item>
     <item>
       <title>GitHub API の 400 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_400/</link>
+      <link>http://localhost:1313/posts/github_api_400/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_400/</guid>
-      <description>GitHub API の 400 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_400/</guid>
+      <description>GitHub APIの400エラーは「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。リクエストの形式が不正だったり、必須パラメータが不足していたり、パラメータ値が無効だったりするときに発生します。</description>
     </item>
     <item>
       <title>GitHub API の 401 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_401/</link>
+      <link>http://localhost:1313/posts/github_api_401/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_401/</guid>
-      <description>GitHub API の 401 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_401/</guid>
+      <description>GitHub APIで 401 Unauthorizedエラーが発生するのは、リクエストに対する認証が失敗した場合です。このエラーは、認証情報が完全に欠落している、形式が正しくない、または無効な状態を示しています。</description>
     </item>
     <item>
       <title>GitHub API の 403 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_403/</link>
+      <link>http://localhost:1313/posts/github_api_403/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_403/</guid>
-      <description>GitHub API の 403 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_403/</guid>
+      <description>GitHub APIの403エラーは、認証には成功したものの、その操作を実行する権限がないことを示します。リポジトリへのアクセス、プルリクエストの作成、シークレットの管理など、特定の操作に必要なスコープやロールが不足している場合に発生します。</description>
     </item>
     <item>
       <title>GitHub API の 404 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_404/</link>
+      <link>http://localhost:1313/posts/github_api_404/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_404/</guid>
-      <description>GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_404/</guid>
+      <description>GitHub APIで404エラーが返される場合、リクエストで指定したリソース（リポジトリ、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。</description>
     </item>
     <item>
       <title>GitHub API の 422 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_422/</link>
+      <link>http://localhost:1313/posts/github_api_422/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_422/</guid>
-      <description>GitHub API の 422 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_422/</guid>
+      <description>422 Unprocessable Entity は、HTTPリクエストの形式は正しいものの、送信されたデータが GitHub API の検証ルールに違反している場合に返されるステータスコードです。</description>
     </item>
     <item>
       <title>GitHub API の 429 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_429/</link>
+      <link>http://localhost:1313/posts/github_api_429/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_429/</guid>
-      <description>GitHub API の 429 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_429/</guid>
+      <description>GitHub APIの429エラーは「Too Many Requests」を意味し、レート制限に達したことを示します。GitHubは不正アクセスやDDoS攻撃から保護するため、APIリクエスト数に制限を設けており、この上限を超えると429が</description>
     </item>
     <item>
       <title>GitHub API の 500 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_500/</link>
+      <link>http://localhost:1313/posts/github_api_500/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_500/</guid>
-      <description>GitHub API の 500 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_500/</guid>
+      <description>GitHub APIで500エラーが発生する場合、GitHub側のサーバーで予期しない内部エラーが発生していることを示します。クライアント側の設定ミスではなく、サーバー側の障害またはAPIの不具合が原因です。</description>
     </item>
     <item>
       <title>GitHub API の 502 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_502/</link>
+      <link>http://localhost:1313/posts/github_api_502/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_502/</guid>
-      <description>GitHub API の 502 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_502/</guid>
+      <description>502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。</description>
     </item>
     <item>
       <title>GitHub API の 503 エラー：原因と解決策</title>
-      <link>https://errorlog.jp/posts/github_api_503/</link>
+      <link>http://localhost:1313/posts/github_api_503/</link>
       <pubDate>Thu, 01 Jan 2026 00:00:00 +0000</pubDate>
-      <guid>https://errorlog.jp/posts/github_api_503/</guid>
-      <description>GitHub API の 503 エラーの原因と解決策をわかりやすく解説します。</description>
+      <guid>http://localhost:1313/posts/github_api_503/</guid>
+      <description>GitHub APIにおける503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、またはAPIレート制限に達した場合に発生します。</description>
     </item>
   </channel>
 </rss>

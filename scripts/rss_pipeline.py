@@ -153,18 +153,21 @@ def _get_gemini():
 
 async def _gemini_call(client, types, model: str, system: str, prompt: str,
                        temp: float = 0.2, max_tokens: int = 4096,
-                       max_retries: int = 2) -> str:
+                       max_retries: int = 2, response_mime_type: str = None) -> str:
     for attempt in range(max_retries + 1):
         try:
+            cfg_kwargs = dict(
+                system_instruction=system,
+                temperature=temp,
+                max_output_tokens=max_tokens,
+            )
+            if response_mime_type:
+                cfg_kwargs["response_mime_type"] = response_mime_type
             resp = await asyncio.to_thread(
                 client.models.generate_content,
                 model=model,
                 contents=prompt,
-                config=types.GenerateContentConfig(
-                    system_instruction=system,
-                    temperature=temp,
-                    max_output_tokens=max_tokens,
-                ),
+                config=types.GenerateContentConfig(**cfg_kwargs),
             )
             text = resp.text
             if not text:
@@ -262,7 +265,8 @@ async def score_article(client, types, title: str, body: str) -> int:
     try:
         raw = await _gemini_call(client, types, "gemini-2.5-flash",
                                  "You are a tech article evaluator.", prompt,
-                                 temp=0.1, max_tokens=50)
+                                 temp=0.1, max_tokens=50,
+                                 response_mime_type="application/json")
         m = re.search(r'"score"\s*:\s*(\d+)', raw)
         if m:
             return min(100, max(0, int(m.group(1))))

@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>GitHub API の 503 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
 <meta name="keywords" content="GitHub API, HTTP503, 503エラー">
-<meta name="description" content="GitHub API の 503 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="description" content="GitHub APIにおける503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、またはAPIレート制限に達した場合に発生します。">
 <meta name="author" content="ErrorLog">
-<link rel="canonical" href="https://errorlog.jp/posts/github_api_503/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://errorlog.jp/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
-<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<link rel="canonical" href="http://localhost:1313/posts/github_api_503/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#1a1a2e">
 <meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/github_api_503/">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/github_api_503/">
 <noscript>
     <style>
         #theme-toggle,
@@ -64,84 +64,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
-<meta property="og:url" content="https://errorlog.jp/posts/github_api_503/">
-  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
-  <meta property="og:title" content="GitHub API の 503 エラー：原因と解決策">
-  <meta property="og:description" content="GitHub API の 503 エラーの原因と解決策をわかりやすく解説します。">
-  <meta property="og:locale" content="ja">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
-    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
-    <meta property="article:tag" content="GitHub API">
-      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
+<meta name="google-site-verification" content="109757267897574962624" />
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.google-analytics.com">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
-  <meta name="twitter:title" content="GitHub API の 503 エラー：原因と解決策">
-  <meta name="twitter:description" content="GitHub API の 503 エラーの原因と解決策をわかりやすく解説します。">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://errorlog.jp/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "GitHub API の 503 エラー：原因と解決策",
-      "item": "https://errorlog.jp/posts/github_api_503/"
-    }
-  ]
-}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CXKKVNQKRX');
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "GitHub API の 503 エラー：原因と解決策",
-  "name": "GitHub API の 503 エラー：原因と解決策",
-  "description": "GitHub API の 503 エラーの原因と解決策をわかりやすく解説します。",
-  "keywords": [
-    "GitHub API"
-  ],
-  "articleBody": "エラーの概要 GitHub APIにおける503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、またはAPIレート制限に達した場合に発生します。503エラーが返される際には、通常Retry-Afterヘッダーが含まれており、どのくらい待つべきかの目安が提示されます。\n実際のエラーメッセージ例 GitHub APIから返される実際の503レスポンスの例を示します。\n{ \"message\": \"Service Unavailable\", \"documentation_url\": \"https://docs.github.com/rest/overview/resources-in-the-rest-api\", \"errors\": [ { \"message\": \"Server overloaded\", \"documentation_url\": \"https://docs.github.com/rest/overview/resources-in-the-rest-api\" } ] } HTTPヘッダーには以下のような情報が含まれます。\nHTTP/1.1 503 Service Unavailable\rRetry-After: 60\rContent-Type: application/json よくある原因と解決手順 原因1：GitHub側のメンテナンスまたは障害 GitHubは定期的なメンテナンスや予期しない障害によってAPIが一時的に利用できなくなることがあります。この場合、Retry-Afterヘッダーで指定された時間待機することが重要です。\nBefore（エラーが起きる例）：\nimport requests response = requests.get( 'https://api.github.com/user/repos', headers={'Authorization': 'token '} ) if response.status_code != 200: print(response.json()) # メンテナンス中は503が返される After（改善後）：\nimport requests import time def fetch_with_retry(url, token, max_retries=3): for attempt in range(max_retries): response = requests.get( url, headers={'Authorization': f'token {token}'} ) if response.status_code == 503: retry_after = int(response.headers.get('Retry-After', 60)) print(f\"Service unavailable. Retrying in {retry_after} seconds...\") time.sleep(retry_after) continue return response raise Exception(\"Failed after maximum retries\") response = fetch_with_retry( 'https://api.github.com/user/repos', '' ) 原因2：APIレート制限に達した場合の不適切なハンドリング GitHub APIはユーザーごとにレート制限を設定しており、制限を超過すると一時的に503エラーが返される場合があります。特に認証なしのリクエストでは制限が厳しいため注意が必要です。\nBefore（認証なしでのアクセス）：\ncurl https://api.github.com/repos/github/hello-world # 短時間に大量のリクエストを送信すると503が返される After（認証付きでのアクセス）：\ncurl -H \"Authorization: token \" \\ https://api.github.com/repos/github/hello-world # または GraphQL APIを使用（より効率的） curl -X POST https://api.github.com/graphql \\ -H \"Authorization: bearer \" \\ -d '{\"query\":\"{ viewer { name } }\"}' 原因3：レート制限の監視不足 GitHub APIのレート制限に近づいていることを事前に検知できていないと、予期せず503エラーに遭遇します。X-RateLimit-*ヘッダーを監視することで未然に防げます。\nBefore（レート制限を無視）：\nimport requests for i in range(1000): response = requests.get( f'https://api.github.com/repos/github/hello-world/issues', headers={'Authorization': f'token '} ) print(response.json()) # 制限に達すると503エラー After（レート制限を監視）：\nimport requests import time def check_rate_limit(token): response = requests.get( 'https://api.github.com/rate_limit', headers={'Authorization': f'token {token}'} ) return response.json()['resources']['core'] token = '' rate_limit = check_rate_limit(token) if rate_limit['remaining'] \u003c 10: wait_time = rate_limit['reset'] - int(time.time()) print(f\"Rate limit approaching. Wait {wait_time} seconds before next request\") time.sleep(wait_time + 1) response = requests.get( 'https://api.github.com/user/repos', headers={'Authorization': f'token {token}'} ) ツール固有の注意点 GitHub APIバージョンによる違い GitHub APIにはREST APIとGraphQL APIの2つの方式があります。REST APIの方が503エラーが発生しやすいため、複数のリソースを取得する場合はGraphQL APIの使用を推奨します。GraphQL APIはクエリを最適化することで、単一のリクエストで複数の情報を取得でき、レート制限の消費を大幅に削減できます。\nPersonal Access Token（PAT）の有効期限 新しいPATは有効期限を設定できます。期限切れのトークンでリクエストすると、認証エラーを経て503に至る場合があります。定期的にトークンの有効期限を確認し、自動更新の仕組みを導入することが重要です。\nGitHub Status Pageの確認 GitHubは公式のステータスページ（https://www.githubstatus.com/）で、リアルタイムのサービス状態を公開しています。503エラーが頻発する場合は、まずこのページを確認してGitHub側で障害が発生していないか確認してください。\nそれでも解決しない場合 デバッグ方法 詳細なレスポンスヘッダーと本体をログに記録して原因を特定します。\nimport requests import logging logging.basicConfig(level=logging.DEBUG) response = requests.get( 'https://api.github.com/user/repos', headers={'Authorization': f'token '} ) print(f\"Status Code: {response.status_code}\") print(f\"Headers: {dict(response.headers)}\") print(f\"Body: {response.text}\") 参照リソース GitHub REST API公式ドキュメント: https://docs.github.com/en/rest GitHub GraphQL API: https://docs.github.com/en/graphql Rate Limiting に関する詳細: https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting GitHub Status: https://www.githubstatus.com/ コミュニティサポート 問題が解決しない場合は、GitHub Community Discussionsで相談するか、該当するPythonライブラリ（PyGithub）やNode.jsライブラリ（Octokit）のIssueセクションを確認することをお勧めします。エラーが再現可能な場合は、GitHubのサポートに直接問い合わせることもできます。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
-  "wordCount" : "275",
-  "inLanguage": "ja",
-  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-05-29T00:00:00Z\"",
-  "author":{
-    "@type": "Person",
-    "name": "ErrorLog"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://errorlog.jp/posts/github_api_503/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ErrorLog - エラーコード解決ガイド",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://errorlog.jp/favicon.ico"
-    }
-  }
-}
-</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
+     crossorigin="anonymous"></script>
+
 </head>
 <body id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
   <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
     <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
   </text>
@@ -172,22 +116,22 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="https://errorlog.jp/search/" title="検索">
+                <a href="http://localhost:1313/search/" title="検索">
                     <span>検索</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/tags/" title="タグ">
+                <a href="http://localhost:1313/tags/" title="タグ">
                     <span>タグ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                <a href="http://localhost:1313/archives/" title="アーカイブ">
                     <span>アーカイブ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/glossary/" title="用語集">
+                <a href="http://localhost:1313/glossary/" title="用語集">
                     <span>用語集</span>
                 </a>
             </li>
@@ -195,6 +139,31 @@
     </nav>
 </header>
 <main class="main">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "\"GitHub API の 503 エラー：原因と解決策\"",
+  "description": "\"GitHub APIにおける503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、またはAPIレート制限に達した場合に発生します。\"",
+  "inLanguage": "ja",
+  "url": "\"http://localhost:1313/posts/github_api_503/\"",
+  "datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-31T00:00:00Z\"",
+  "articleSection": "Error Troubleshooting",
+  "proficiencyLevel": "Intermediate",
+  "keywords": ["\"GitHub API\"", "\"HTTP 503\"", "\"503\""],
+  "author": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  }
+}
+</script>
 
 <article class="post-single">
   <header class="post-header">
@@ -215,7 +184,7 @@
   <div class="summary-panel">
     <div class="summary-row">
       <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">GitHub API の 503 エラーの原因と解決策をわかりやすく解説します。</span>
+      <span class="summary-text">GitHub APIにおける503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、またはAPIレート制限に達した場合に発生します。</span>
     </div>
     <div class="summary-row">
       <span class="summary-label summary-label--cause">原因</span>
@@ -283,7 +252,7 @@
 </details>
 
   <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
-<p>GitHub <a href="/glossary/api/">API</a>における503エラーは、GitHubのサービスが一時的に利用不可の状態にあることを示します。このエラーはGitHub側のメンテナンス、過負荷、または<a href="/glossary/api/">API</a><a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>に達した場合に発生します。503エラーが返される際には、通常<code>Retry-After</code><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>が含まれており、どのくらい待つべきかの目安が提示されます。</p>
+<p>GitHub <a href="/glossary/api/">API</a>における503<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>は、GitHubのサービスが一時的に利用不可の状態にあることを示します。この<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>はGitHub側のメンテナンス、過負荷、または<a href="/glossary/api/">API</a><a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>に達した場合に発生します。503<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が返される際には、通常<code>Retry-After</code><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>が含まれており、どのくらい待つべきかの目安が提示されます。</p>
 <h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
 <p>GitHub <a href="/glossary/api/">API</a>から返される実際の503<a href="/glossary/%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/">レスポンス</a>の例を示します。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
@@ -303,7 +272,7 @@ Content-Type: application/json
 </code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
 <h3 id="原因1github側のメンテナンスまたは障害">原因1：GitHub側のメンテナンスまたは障害<a hidden class="anchor" aria-hidden="true" href="#原因1github側のメンテナンスまたは障害">#</a></h3>
 <p>GitHubは定期的なメンテナンスや予期しない障害によって<a href="/glossary/api/">API</a>が一時的に利用できなくなることがあります。この場合、<code>Retry-After</code><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>で指定された時間待機することが重要です。</p>
-<p><strong>Before（エラーが起きる例）：</strong></p>
+<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きる例）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(
@@ -339,7 +308,7 @@ Content-Type: application/json
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;&lt;your-github-token&gt;&#39;</span>
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><h3 id="原因2apiレート制限に達した場合の不適切なハンドリング">原因2：APIレート制限に達した場合の不適切なハンドリング<a hidden class="anchor" aria-hidden="true" href="#原因2apiレート制限に達した場合の不適切なハンドリング">#</a></h3>
-<p>GitHub <a href="/glossary/api/">API</a>はユーザーごとに<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>を設定しており、制限を超過すると一時的に503エラーが返される場合があります。特に<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>なしの<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>では制限が厳しいため注意が必要です。</p>
+<p>GitHub <a href="/glossary/api/">API</a>はユーザーごとに<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>を設定しており、制限を超過すると一時的に503<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が返される場合があります。特に<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>なしの<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>では制限が厳しいため注意が必要です。</p>
 <p><strong>Before（<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>なしでのアクセス）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://api.github.com/repos/github/hello-world
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 短時間に大量のリクエストを送信すると503が返される</span>
@@ -352,7 +321,7 @@ Content-Type: application/json
 </span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Authorization: bearer &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  -d <span style="color:#e6db74">&#39;{&#34;query&#34;:&#34;{ viewer { name } }&#34;}&#39;</span>
 </span></span></code></pre></div><h3 id="原因3レート制限の監視不足">原因3：レート制限の監視不足<a hidden class="anchor" aria-hidden="true" href="#原因3レート制限の監視不足">#</a></h3>
-<p>GitHub <a href="/glossary/api/">API</a>の<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>に近づいていることを事前に検知できていないと、予期せず503エラーに遭遇します。<code>X-RateLimit-*</code><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>を監視することで未然に防げます。</p>
+<p>GitHub <a href="/glossary/api/">API</a>の<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>に近づいていることを事前に検知できていないと、予期せず503<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>に遭遇します。<code>X-RateLimit-*</code><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>を監視することで未然に防げます。</p>
 <p><strong>Before（<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>を無視）：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
 </span></span><span style="display:flex;"><span>
@@ -387,14 +356,14 @@ Content-Type: application/json
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><h2 id="ツール固有の注意点">ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#ツール固有の注意点">#</a></h2>
 <h3 id="github-apiバージョンによる違い">GitHub APIバージョンによる違い<a hidden class="anchor" aria-hidden="true" href="#github-apiバージョンによる違い">#</a></h3>
-<p>GitHub <a href="/glossary/api/">API</a>には<code>REST API</code>と<code>GraphQL API</code>の2つの方式があります。<a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a>の方が503エラーが発生しやすいため、複数のリソースを取得する場合は<a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a>の使用を推奨します。<a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a>はクエリを最適化することで、単一の<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>で複数の情報を取得でき、<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>の消費を大幅に削減できます。</p>
+<p>GitHub <a href="/glossary/api/">API</a>には<code>REST API</code>と<code>GraphQL API</code>の2つの方式があります。<a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a>の方が503<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が発生しやすいため、複数のリソースを取得する場合は<a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a>の使用を推奨します。<a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a>は<a href="/glossary/%E3%82%AF%E3%82%A8%E3%83%AA/">クエリ</a>を最適化することで、単一の<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>で複数の情報を取得でき、<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>の消費を大幅に削減できます。</p>
 <h3 id="personal-access-tokenpatの有効期限">Personal Access Token（PAT）の有効期限<a hidden class="anchor" aria-hidden="true" href="#personal-access-tokenpatの有効期限">#</a></h3>
-<p>新しいPATは有効期限を設定できます。期限切れの<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>で<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>すると、<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>エラーを経て503に至る場合があります。定期的に<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の有効期限を確認し、自動更新の仕組みを導入することが重要です。</p>
+<p>新しいPATは有効期限を設定できます。期限切れの<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>で<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>すると、<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a><a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>を経て503に至る場合があります。定期的に<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の有効期限を確認し、自動更新の仕組みを導入することが重要です。</p>
 <h3 id="github-status-pageの確認">GitHub Status Pageの確認<a hidden class="anchor" aria-hidden="true" href="#github-status-pageの確認">#</a></h3>
 <p>GitHubは公式のステータスページ（https://www.githubstatus.com/）で、リアルタイムのサービス状態を公開しています。503エラーが頻発する場合は、まずこのページを確認してGitHub側で障害が発生していないか確認してください。</p>
 <h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
 <h3 id="デバッグ方法">デバッグ方法<a hidden class="anchor" aria-hidden="true" href="#デバッグ方法">#</a></h3>
-<p>詳細なレスポンスヘッダーと本体をログに記録して原因を特定します。</p>
+<p>詳細なレスポンスヘッダーと本体を<a href="/glossary/%E3%83%AD%E3%82%B0/">ログ</a>に記録して原因を特定します。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> logging
 </span></span><span style="display:flex;"><span>
@@ -416,175 +385,104 @@ Content-Type: application/json
 <li><strong>GitHub Status</strong>: <a href="https://www.githubstatus.com/">https://www.githubstatus.com/</a></li>
 </ul>
 <h3 id="コミュニティサポート">コミュニティサポート<a hidden class="anchor" aria-hidden="true" href="#コミュニティサポート">#</a></h3>
-<p>問題が解決しない場合は、GitHub Community Discussionsで相談するか、該当するPythonライブラリ（PyGithub）やNode.jsライブラリ（Octokit）のIssueセクションを確認することをお勧めします。エラーが再現可能な場合は、GitHubのサポートに直接問い合わせることもできます。</p>
+<p>問題が解決しない場合は、GitHub Community Discussionsで相談するか、該当するPythonライブラリ（PyGithub）やNode.jsライブラリ（Octokit）のIssueセクションを確認することをお勧めします。<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が再現可能な場合は、GitHubのサポートに直接問い合わせることもできます。</p>
 <hr>
 <p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
 
 
   </div>
-  <div class="related-posts">
-    <h3>同じツールの記事</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 409 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 409 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to GitHub API の 409 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_409/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 504 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 504 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to GitHub API の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_504/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 400 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 400 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to GitHub API の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_400/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 401 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 401 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to GitHub API の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_401/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 403 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 403 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to GitHub API の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_403/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 404 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 404 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to GitHub API の 404 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_404/"></a>
-    </article>
+  <div class="feedback-panel" id="feedback-panel">
+    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
+    <div class="feedback-panel__btns">
+      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
+      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
+    </div>
+    <p class="feedback-panel__thanks"></p>
   </div>
-  <div class="related-posts related-by-code">
-    <h3>他のツールの 503 エラー</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-minikube">Minikube</span>
-        <h2 class="entry-hint-parent">Minikube の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Minikubeクラスターのサービスが一時的に利用できない。Minikube 503 エラーの原因と解決策を解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Minikube の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/minikube_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-podman">Podman</span>
-        <h2 class="entry-hint-parent">Podman の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Podmanサービスまたはレジストリが一時的に利用できない。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。</p>
-      </div>
-      <a class="entry-link" aria-label="Podman の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/podman_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-gcp">GCP</span>
-        <h2 class="entry-hint-parent">GCP の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Google Cloudサービスが一時的に利用できない状態になっている。GCPのサービスがメンテナンス中または過負荷状態になっているなど、GCP 503 エラーの原因と解決策を解説。</p>
-      </div>
-      <a class="entry-link" aria-label="GCP の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/gcp_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-kubernetes">Kubernetes</span>
-        <h2 class="entry-hint-parent">Kubernetes の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Kubernetes の 503 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Kubernetes の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/kubernetes_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-nginx">Nginx</span>
-        <h2 class="entry-hint-parent">Nginx の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Nginx の 503 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Nginx の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
-        <h2 class="entry-hint-parent">OpenAI API の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>OpenAI API の 503 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="OpenAI API の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 503 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="AWS の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_503/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 503 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 503 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Docker の 503 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_503/"></a>
-    </article>
-  </div>
+  <section class="related-posts">
+    <p class="related-posts__title">他の GitHub API エラーの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/github_api_409/" class="related-posts__link"><span class="error-badge">409</span>GitHub API の 409 エラー：原因と解決策
+        </a><p class="related-posts__desc">GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソース現在の状態と矛盾していることを示すステータスコードです。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/github_api_504/" class="related-posts__link"><span class="error-badge">504</span>GitHub API の 504 エラー：原因と解決策
+        </a><p class="related-posts__desc">GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/github_api_400/" class="related-posts__link"><span class="error-badge">400</span>GitHub API の 400 エラー：原因と解決策
+        </a><p class="related-posts__desc">GitHub APIの400エラーは「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。リクエストの形式が不正だったり、必須パラメータが不足していたり、パラメータ値が無効だったりするときに発生します。</p>
+      </li>
+    </ul>
+  </section>
+  <section class="related-posts">
+    <p class="related-posts__title">503 エラー — 他ツールの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/vercel_503/" class="related-posts__link">
+          <span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 503 エラー：原因と解決策
+        </a><p class="related-posts__desc">Vercelサービスが一時的に利用できない。Vercel 503 エラーの原因と解決策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/azure_503/" class="related-posts__link">
+          <span class="tool-badge tool-badge-azure">Azure</span>Azure の 503 エラー：原因と解決策
+        </a><p class="related-posts__desc">Azureサービスが一時的に利用できない。Azure 503 エラーの原因と解決策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/docker_compose_503/" class="related-posts__link">
+          <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>Docker Compose の 503 エラー：原因と解決策
+        </a><p class="related-posts__desc">サービスが起動できないか利用できない状態にある。Docker Compose 503 エラーの原因と解決策を解説します。</p>
+      </li>
+    </ul>
+  </section>
 
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://errorlog.jp/tags/github-api/">GitHub API</a></li>
+      <li><a href="http://localhost:1313/tags/github-api/">GitHub API</a></li>
     </ul>
   </footer>
 </article>
 
 <script>
+ 
+(function () {
+  var panel = document.getElementById('feedback-panel');
+  if (!panel) return;
+  var title = "\"GitHub API の 503 エラー：原因と解決策\"";
+  panel.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-status]');
+    if (!btn || panel.dataset.voted) return;
+    panel.dataset.voted = '1';
+    if (typeof gtag === 'function') {
+      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
+    }
+    var btnsEl = panel.querySelector('.feedback-panel__btns');
+    var qEl    = panel.querySelector('.feedback-panel__q');
+    var thxEl  = panel.querySelector('.feedback-panel__thanks');
+    btnsEl.style.transition = 'opacity 0.3s';
+    btnsEl.style.opacity    = '0';
+    setTimeout(function () {
+      btnsEl.style.display = 'none';
+      qEl.style.display    = 'none';
+      thxEl.textContent    = 'Thank you for your feedback!';
+      thxEl.style.display  = 'block';
+      thxEl.style.opacity  = '0';
+      thxEl.style.transition = 'opacity 0.4s';
+      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
+    }, 300);
+  });
+})();
+
+ 
 (function () {
   var content = document.querySelector('.post-content');
   if (!content) return;
 
   var firstCompare = true;
-  var RE_BEFORE = /Before|エラーが起きる/;
-  var RE_AFTER  = /After|修正後/;
+  var RE_BEFORE = /before|エラーが起きる|修正前/i;
+  var RE_AFTER  = /after|修正後/i;
 
   content.querySelectorAll('p strong').forEach(function (el) {
     if (!RE_BEFORE.test(el.textContent)) return;
@@ -637,6 +535,7 @@ Content-Type: application/json
         el.style.setProperty('overflow',      'hidden',       'important');
       } else {
         
+        sp(el, 'background-color', '#272822');
         sp(el, 'background-image', grad);
         sp(el, 'padding-left',     '1rem');
         sp(el, 'box-sizing',       'border-box');
@@ -674,6 +573,21 @@ Content-Type: application/json
     wrap.appendChild(right);
 
     
+    left.classList.add('code-compare__side--before');
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'code-toggle-btn';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
+    toggleBtn.addEventListener('click', function () {
+      var open = left.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open
+        ? '▴ 修正前のコード（Before）を非表示'
+        : '▾ 修正前のコード（Before）を表示';
+    });
+    wrap.insertBefore(toggleBtn, left);
+
+    
     (function(l, r) {
       requestAnimationFrame(function() {
         var lp = l.firstElementChild;
@@ -688,11 +602,45 @@ Content-Type: application/json
     }(left, right));
   });
 })();
+
+ 
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+  var RE_REM = /^解決策[（(]/;
+  var remIdx = 0;
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_REM.test(el.textContent)) return;
+    var label = el.closest('p');
+    if (label.dataset.remedy) return;
+    label.dataset.remedy = '1';
+    var elems = [];
+    var cursor = label.nextElementSibling;
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_REM.test(s.textContent)) break;
+      elems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'code-remedy';
+    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
+    remIdx++;
+    label.parentNode.insertBefore(wrap, label);
+    wrap.appendChild(label);
+    elems.forEach(function (e) { wrap.appendChild(e); });
+    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
+    wrap.style.setProperty('padding-left',  '1rem',              'important');
+    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
+    wrap.style.setProperty('margin-bottom', '1rem',              'important');
+  });
+})();
 </script>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
 
     
     

@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja" dir="auto" data-theme="auto">
 
-<head><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <title>Docker の 502 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
 <meta name="keywords" content="Docker, HTTP502, 502エラー">
-<meta name="description" content="Docker の 502 エラーの原因と解決策をわかりやすく解説します。">
+<meta name="description" content="502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。">
 <meta name="author" content="ErrorLog">
-<link rel="canonical" href="https://errorlog.jp/posts/docker_502/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b3b458a8ab0aabf17e96ec5778b4869569e318a3b182e5b1cc9ab32f79b275f9.css" integrity="sha256-s7RYqKsKq/F&#43;luxXeLSGlWnjGKOxguWxzJqzL3mydfk=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://errorlog.jp/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://errorlog.jp/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://errorlog.jp/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://errorlog.jp/apple-touch-icon.png">
-<link rel="mask-icon" href="https://errorlog.jp/safari-pinned-tab.svg">
+<link rel="canonical" href="http://localhost:1313/posts/docker_502/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#1a1a2e">
 <meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="https://errorlog.jp/posts/docker_502/">
+<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/docker_502/">
 <noscript>
     <style>
         #theme-toggle,
@@ -64,84 +64,28 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta name="google-site-verification" content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA" />
-<meta property="og:url" content="https://errorlog.jp/posts/docker_502/">
-  <meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド">
-  <meta property="og:title" content="Docker の 502 エラー：原因と解決策">
-  <meta property="og:description" content="Docker の 502 エラーの原因と解決策をわかりやすく解説します。">
-  <meta property="og:locale" content="ja">
-  <meta property="og:type" content="article">
-    <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2026-01-01T00:00:00+00:00">
-    <meta property="article:modified_time" content="2026-05-29T00:00:00+00:00">
-    <meta property="article:tag" content="Docker">
-      <meta property="og:image" content="https://errorlog.jp/og-image.png">
+</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
+<meta name="google-site-verification" content="109757267897574962624" />
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.google-analytics.com">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://errorlog.jp/og-image.png">
-  <meta name="twitter:title" content="Docker の 502 エラー：原因と解決策">
-  <meta name="twitter:description" content="Docker の 502 エラーの原因と解決策をわかりやすく解説します。">
-
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position":  1 ,
-      "name": "Posts",
-      "item": "https://errorlog.jp/posts/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  2 ,
-      "name": "Docker の 502 エラー：原因と解決策",
-      "item": "https://errorlog.jp/posts/docker_502/"
-    }
-  ]
-}
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CXKKVNQKRX');
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "Docker の 502 エラー：原因と解決策",
-  "name": "Docker の 502 エラー：原因と解決策",
-  "description": "Docker の 502 エラーの原因と解決策をわかりやすく解説します。",
-  "keywords": [
-    "Docker"
-  ],
-  "articleBody": "エラーの概要 502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。Docker Compose や Kubernetes でマルチコンテナを運用する環境では、コンテナ間通信の失敗、プロキシ設定のミス、ネットワーク分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。\n実際のエラーメッセージ例 Bad Gateway\rThe proxy server received an invalid response from an upstream server. { \"error\": \"bad_gateway\", \"message\": \"502 Server Error: Bad Gateway for url: http://upstream-service:8080/api\", \"timestamp\": \"2024-01-15T10:30:45Z\" } $ curl -v http://localhost:80/api \u003c HTTP/1.1 502 Bad Gateway \u003c Server: nginx/1.21.0 \u003c Content-Type: text/html よくある原因と解決手順 原因1：上流コンテナが起動していない、またはヘルスチェックに失敗している 上流アプリケーション（Node.js、Python、Java など）が起動に失敗していたり、クラッシュしていたりする場合、プロキシは接続できずに 502 を返します。\nBefore（エラーが起きている設定）\nversion: '3.8' services: nginx: image: nginx:latest ports: - \"80:80\" volumes: - ./nginx.conf:/etc/nginx/nginx.conf depends_on: - app app: image: myapp:latest # ヘルスチェックがない、起動スクリプトが不安定 After（修正後）\nversion: '3.8' services: nginx: image: nginx:latest ports: - \"80:80\" volumes: - ./nginx.conf:/etc/nginx/nginx.conf depends_on: app: condition: service_healthy app: image: myapp:latest ports: - \"8080\" environment: - NODE_ENV=production healthcheck: test: [\"CMD\", \"curl\", \"-f\", \"http://localhost:8080/health\"] interval: 10s timeout: 5s retries: 3 start_period: 20s 原因2：プロキシ設定で上流サーバーのアドレス・ポートが誤っている Docker Compose のネットワーク内では、サービス名が DNS として解決されます。ホスト名やポート番号を誤ると接続失敗になります。\nBefore（エラーが起きている設定）\nupstream backend { server app:3000; # 実際は8080で起動している } server { listen 80; location / { proxy_pass http://backend; } } After（修正後）\nupstream backend { server app:8080; # 正しいポート番号を指定 keepalive 32; } server { listen 80; location / { proxy_pass http://backend; proxy_set_header Host $host; proxy_set_header X-Real-IP $remote_addr; proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; proxy_set_header X-Forwarded-Proto $scheme; proxy_connect_timeout 60s; proxy_send_timeout 60s; proxy_read_timeout 60s; } } 原因3：Docker ネットワーク設定の不備またはコンテナ間通信の分断 複数のネットワークを使用している場合や、--net host モードの設定ミスがあると、コンテナ同士が通信できず 502 が発生します。\nBefore（エラーが起きている設定）\nversion: '3.8' services: nginx: image: nginx:latest networks: - frontend ports: - \"80:80\" app: image: myapp:latest networks: - backend # nginx とは異なるネットワークに接続 After（修正後）\nversion: '3.8' services: nginx: image: nginx:latest networks: - shared-network ports: - \"80:80\" app: image: myapp:latest networks: - shared-network # 同じネットワークに接続 networks: shared-network: driver: bridge 原因4：コンテナ内でアプリケーションが正しくバインドされていない アプリケーションが localhost または 127.0.0.1 にのみバインドしている場合、Docker のネットワークインターフェース経由でのアクセスが拒否されます。\nBefore（エラーが起きている設定）\n# Flask アプリケーション app.run(host='127.0.0.1', port=8080) # localhost のみ After（修正後）\n# すべてのインターフェースにバインド app.run(host='0.0.0.0', port=8080, debug=False) Docker 固有の注意点 Docker Compose での Service Discovery Docker Compose は自動的に各サービス用の DNS エントリを作成します。 でコンテナ間通信が可能です。ただし、depends_on では起動順序のみを制御し、サービスの準備状況は確認しません。必ず healthcheck と condition: service_healthy を組み合わせ てください。\nNginx プロキシの resolver 設定 Docker のネットワークで DNS が動的に変わる場合、Nginx の resolver 設定が必要になることがあります。\nresolver 127.0.0.11 valid=10s; upstream backend { server app:8080; } ポートバインディングの確認 docker ps --format \"table {{.Names}}\\t{{.Ports}}\" このコマンドでポートがバインドされているか確認してください。コンテナ内ポートが外部に公開されていない場合、プロキシがアクセスできません。\nログの確認方法 # Nginx プロキシのエラーログを確認 docker logs # 上流アプリケーションのログを確認 docker logs # コンテナ内でプロキシ先への接続をテスト docker exec curl -v http://app:8080/health それでも解決しない場合 確認すべきログとデバッグコマンド Nginx の詳細ログを有効化して接続状況を確認してください。\n# コンテナ内から対象サービスへの接続性をテスト docker exec wget -O- http://app:8080/ # DNS 解決の確認 docker exec nslookup app docker exec getent hosts app 公式ドキュメント Docker Compose のネットワーク設定については、Networking in Compose が詳細です。Nginx のプロキシ設定については Nginx Proxy Module Documentation を参照してください。\nコミュニティリソース GitHub の Docker Compose リポジトリ（docker/compose）や StackOverflow のタグ docker-compose では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、アプリケーション固有の設定（Flask、Express、Django など）の問題の可能性もあるため、該当アプリケーションのコミュニティも確認してください。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n",
-  "wordCount" : "384",
-  "inLanguage": "ja",
-  "image": "https://errorlog.jp/og-image.png","datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-05-29T00:00:00Z\"",
-  "author":{
-    "@type": "Person",
-    "name": "ErrorLog"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://errorlog.jp/posts/docker_502/"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ErrorLog - エラーコード解決ガイド",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://errorlog.jp/favicon.ico"
-    }
-  }
-}
-</script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
+     crossorigin="anonymous"></script>
+
 </head>
 <body id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="https://errorlog.jp/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
+            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
   <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
     <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
   </text>
@@ -172,22 +116,22 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="https://errorlog.jp/search/" title="検索">
+                <a href="http://localhost:1313/search/" title="検索">
                     <span>検索</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/tags/" title="タグ">
+                <a href="http://localhost:1313/tags/" title="タグ">
                     <span>タグ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/archives/" title="アーカイブ">
+                <a href="http://localhost:1313/archives/" title="アーカイブ">
                     <span>アーカイブ</span>
                 </a>
             </li>
             <li>
-                <a href="https://errorlog.jp/glossary/" title="用語集">
+                <a href="http://localhost:1313/glossary/" title="用語集">
                     <span>用語集</span>
                 </a>
             </li>
@@ -195,6 +139,31 @@
     </nav>
 </header>
 <main class="main">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "\"Docker の 502 エラー：原因と解決策\"",
+  "description": "\"502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。\"",
+  "inLanguage": "ja",
+  "url": "\"http://localhost:1313/posts/docker_502/\"",
+  "datePublished": "\"2026-01-01T00:00:00Z\"",
+  "dateModified": "\"2026-05-31T00:00:00Z\"",
+  "articleSection": "Error Troubleshooting",
+  "proficiencyLevel": "Intermediate",
+  "keywords": ["\"Docker\"", "\"HTTP 502\"", "\"502\""],
+  "author": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "\"ErrorLog - エラーコード解決ガイド\"",
+    "url": "\"http://localhost:1313/\""
+  }
+}
+</script>
 
 <article class="post-single">
   <header class="post-header">
@@ -215,7 +184,7 @@
   <div class="summary-panel">
     <div class="summary-row">
       <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">Docker の 502 エラーの原因と解決策をわかりやすく解説します。</span>
+      <span class="summary-text">502 Bad Gateway は、Docker コンテナ内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。</span>
     </div>
     <div class="summary-row">
       <span class="summary-label summary-label--cause">原因</span>
@@ -282,7 +251,7 @@ The proxy server received an invalid response from an upstream server.
 </details>
 
   <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
-<p>502 Bad Gateway は、<a href="/glossary/docker/">Docker</a> <a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>内で実行されるアプリケーションやリバースプロキシが、上流のサーバーから不正な応答を受け取ったときに発生します。<a href="/glossary/docker/">Docker</a> Compose や <a href="/glossary/kubernetes/">Kubernetes</a> でマルチコンテナを運用する環境では、<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>間通信の失敗、<a href="/glossary/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7/">プロキシ</a>設定のミス、<a href="/glossary/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF/">ネットワーク</a>分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。</p>
+<p>502 Bad Gateway は、<a href="/glossary/docker/">Docker</a> <a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>内で実行されるアプリケーションやリバースプロキシが、上流の<a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/">サーバー</a>から不正な応答を受け取ったときに発生します。<a href="/glossary/docker/">Docker</a> Compose や <a href="/glossary/kubernetes/">Kubernetes</a> でマルチコンテナを運用する環境では、<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>間通信の失敗、<a href="/glossary/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7/">プロキシ</a>設定のミス、<a href="/glossary/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF/">ネットワーク</a>分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。</p>
 <h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
 <pre tabindex="0"><code>Bad Gateway
 The proxy server received an invalid response from an upstream server.
@@ -298,7 +267,7 @@ The proxy server received an invalid response from an upstream server.
 </span></span></code></pre></div><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
 <h3 id="原因1上流コンテナが起動していないまたはヘルスチェックに失敗している">原因1：上流コンテナが起動していない、またはヘルスチェックに失敗している<a hidden class="anchor" aria-hidden="true" href="#原因1上流コンテナが起動していないまたはヘルスチェックに失敗している">#</a></h3>
 <p>上流アプリケーション（Node.js、Python、Java など）が起動に失敗していたり、クラッシュしていたりする場合、<a href="/glossary/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7/">プロキシ</a>は接続できずに 502 を返します。</p>
-<p><strong>Before（エラーが起きている設定）</strong></p>
+<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きている設定）</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.8&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">nginx</span>:
@@ -340,7 +309,7 @@ The proxy server received an invalid response from an upstream server.
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">start_period</span>: <span style="color:#ae81ff">20s</span>
 </span></span></code></pre></div><h3 id="原因2プロキシ設定で上流サーバーのアドレスポートが誤っている">原因2：プロキシ設定で上流サーバーのアドレス・ポートが誤っている<a hidden class="anchor" aria-hidden="true" href="#原因2プロキシ設定で上流サーバーのアドレスポートが誤っている">#</a></h3>
 <p><a href="/glossary/docker/">Docker</a> Compose の<a href="/glossary/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF/">ネットワーク</a>内では、サービス名が <a href="/glossary/dns/">DNS</a> として解決されます。ホスト名や<a href="/glossary/%E3%83%9D%E3%83%BC%E3%83%88/">ポート</a>番号を誤ると接続失敗になります。</p>
-<p><strong>Before（エラーが起きている設定）</strong></p>
+<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きている設定）</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">upstream</span> <span style="color:#e6db74">backend</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">server</span> app:<span style="color:#ae81ff">3000</span>;  <span style="color:#75715e"># 実際は8080で起動している
 </span></span></span><span style="display:flex;"><span>}
@@ -371,8 +340,8 @@ The proxy server received an invalid response from an upstream server.
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="原因3docker-ネットワーク設定の不備またはコンテナ間通信の分断">原因3：Docker ネットワーク設定の不備またはコンテナ間通信の分断<a hidden class="anchor" aria-hidden="true" href="#原因3docker-ネットワーク設定の不備またはコンテナ間通信の分断">#</a></h3>
-<p>複数の<a href="/glossary/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF/">ネットワーク</a>を使用している場合や、<code>--net host</code> モードの設定ミスがあると、<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>同士が通信できず 502 が発生します。</p>
-<p><strong>Before（エラーが起きている設定）</strong></p>
+<p>複数の<a href="/glossary/%E3%83%8D%E3%83%83%E3%83%88%E3%83%AF%E3%83%BC%E3%82%AF/">ネットワーク</a>を使用している場合や、<code>--net host</code> モードの設定ミスがあると、<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>同士が<a href="/glossary/%E9%80%9A%E4%BF%A1/">通信</a>できず 502 が発生します。</p>
+<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きている設定）</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.8&#39;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">nginx</span>:
@@ -406,7 +375,7 @@ The proxy server received an invalid response from an upstream server.
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
 </span></span></code></pre></div><h3 id="原因4コンテナ内でアプリケーションが正しくバインドされていない">原因4：コンテナ内でアプリケーションが正しくバインドされていない<a hidden class="anchor" aria-hidden="true" href="#原因4コンテナ内でアプリケーションが正しくバインドされていない">#</a></h3>
 <p>アプリケーションが <code>localhost</code> または <code>127.0.0.1</code> にのみバインドしている場合、<a href="/glossary/docker/">Docker</a> のネットワークインターフェース経由でのアクセスが拒否されます。</p>
-<p><strong>Before（エラーが起きている設定）</strong></p>
+<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きている設定）</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># Flask アプリケーション</span>
 </span></span><span style="display:flex;"><span>app<span style="color:#f92672">.</span>run(host<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;127.0.0.1&#39;</span>, port<span style="color:#f92672">=</span><span style="color:#ae81ff">8080</span>)  <span style="color:#75715e"># localhost のみ</span>
 </span></span></code></pre></div><p><strong>After（修正後）</strong></p>
@@ -423,7 +392,7 @@ The proxy server received an invalid response from an upstream server.
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="ポートバインディングの確認">ポートバインディングの確認<a hidden class="anchor" aria-hidden="true" href="#ポートバインディングの確認">#</a></h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker ps --format <span style="color:#e6db74">&#34;table {{.Names}}\t{{.Ports}}&#34;</span>
-</span></span></code></pre></div><p>このコマンドで<a href="/glossary/%E3%83%9D%E3%83%BC%E3%83%88/">ポート</a>がバインドされているか確認してください。<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>内<a href="/glossary/%E3%83%9D%E3%83%BC%E3%83%88/">ポート</a>が外部に公開されていない場合、<a href="/glossary/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7/">プロキシ</a>がアクセスできません。</p>
+</span></span></code></pre></div><p>この<a href="/glossary/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89/">コマンド</a>で<a href="/glossary/%E3%83%9D%E3%83%BC%E3%83%88/">ポート</a>がバインドされているか確認してください。<a href="/glossary/%E3%82%B3%E3%83%B3%E3%83%86%E3%83%8A/">コンテナ</a>内<a href="/glossary/%E3%83%9D%E3%83%BC%E3%83%88/">ポート</a>が外部に公開されていない場合、<a href="/glossary/%E3%83%97%E3%83%AD%E3%82%AD%E3%82%B7/">プロキシ</a>がアクセスできません。</p>
 <h3 id="ログの確認方法">ログの確認方法<a hidden class="anchor" aria-hidden="true" href="#ログの確認方法">#</a></h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Nginx プロキシのエラーログを確認</span>
 </span></span><span style="display:flex;"><span>docker logs &lt;nginx-container-name&gt;
@@ -435,7 +404,7 @@ The proxy server received an invalid response from an upstream server.
 </span></span><span style="display:flex;"><span>docker exec &lt;nginx-container-name&gt; curl -v http://app:8080/health
 </span></span></code></pre></div><h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
 <h3 id="確認すべきログとデバッグコマンド">確認すべきログとデバッグコマンド<a hidden class="anchor" aria-hidden="true" href="#確認すべきログとデバッグコマンド">#</a></h3>
-<p>Nginx の詳細ログを有効化して接続状況を確認してください。</p>
+<p>Nginx の詳細<a href="/glossary/%E3%83%AD%E3%82%B0/">ログ</a>を有効化して接続状況を確認してください。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># コンテナ内から対象サービスへの接続性をテスト</span>
 </span></span><span style="display:flex;"><span>docker exec &lt;nginx-container-name&gt; wget -O- http://app:8080/
 </span></span><span style="display:flex;"><span>
@@ -451,139 +420,98 @@ The proxy server received an invalid response from an upstream server.
 
 
   </div>
-  <div class="related-posts">
-    <h3>同じツールの記事</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-        <h2 class="entry-hint-parent">Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策" href="https://errorlog.jp/posts/docker_compose_env_utf16_bom_windows/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 408 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 408 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to Docker の 408 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_408/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 504 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 504 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to Docker の 504 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_504/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 400 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 400 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to Docker の 400 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_400/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 401 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 401 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to Docker の 401 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_401/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-docker">Docker</span>
-        <h2 class="entry-hint-parent">Docker の 403 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Docker の 403 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="post link to Docker の 403 エラー：原因と解決策" href="https://errorlog.jp/posts/docker_403/"></a>
-    </article>
+  <div class="feedback-panel" id="feedback-panel">
+    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
+    <div class="feedback-panel__btns">
+      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
+      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
+    </div>
+    <p class="feedback-panel__thanks"></p>
   </div>
-  <div class="related-posts related-by-code">
-    <h3>他のツールの 502 エラー</h3>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-nginx">Nginx</span>
-        <h2 class="entry-hint-parent">Nginx の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Nginx の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Nginx の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/nginx_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-firebase">Firebase</span>
-        <h2 class="entry-hint-parent">Firebase の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>Firebase の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="Firebase の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/firebase_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-openai-api">OpenAI API</span>
-        <h2 class="entry-hint-parent">OpenAI API の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>OpenAI API の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="OpenAI API の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/openai_api_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-aws">AWS</span>
-        <h2 class="entry-hint-parent">AWS の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>AWS の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="AWS の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/aws_502/"></a>
-    </article>
-    <article class="post-entry">
-      <header class="entry-header">
-        <span class="tool-badge tool-badge-github-api">GitHub API</span>
-        <h2 class="entry-hint-parent">GitHub API の 502 エラー：原因と解決策</h2>
-      </header>
-      <div class="entry-content">
-        <p>GitHub API の 502 エラーの原因と解決策をわかりやすく解説します。</p>
-      </div>
-      <a class="entry-link" aria-label="GitHub API の 502 エラー：原因と解決策" href="https://errorlog.jp/posts/github_api_502/"></a>
-    </article>
-  </div>
+  <section class="related-posts">
+    <p class="related-posts__title">他の Docker エラーの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/docker_compose_env_utf16_bom_windows/" class="related-posts__link">Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策
+        </a><p class="related-posts__desc">PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/docker_408/" class="related-posts__link"><span class="error-badge">408</span>Docker の 408 エラー：原因と解決策
+        </a><p class="related-posts__desc">408 Request Timeout は、HTTP標準仕様（RFC 9110）で定められたステータスコードです。Docker環境では、クライアントがリクエストを完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/docker_504/" class="related-posts__link"><span class="error-badge">504</span>Docker の 504 エラー：原因と解決策
+        </a><p class="related-posts__desc">504 Gateway Timeout は、Docker デーモンがプロキシ経由で上流サーバーへのリクエストに応答を待つ際に、設定されたタイムアウト時間を超過したことを示すHTTPステータスコードです。</p>
+      </li>
+    </ul>
+  </section>
+  <section class="related-posts">
+    <p class="related-posts__title">502 エラー — 他ツールの解決策</p>
+    <ul class="related-posts__list">
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/vercel_502/" class="related-posts__link">
+          <span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 502 エラー：原因と解決策
+        </a><p class="related-posts__desc">VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った。Vercel 502 エラーの原因と解決策を解説します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/nginx_502/" class="related-posts__link">
+          <span class="tool-badge tool-badge-nginx">Nginx</span>Nginx の 502 エラー：原因と解決策
+        </a><p class="related-posts__desc">502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。</p>
+      </li>
+      <li class="related-posts__item">
+        <a href="http://localhost:1313/posts/firebase_502/" class="related-posts__link">
+          <span class="tool-badge tool-badge-firebase">Firebase</span>Firebase の 502 エラー：原因と解決策
+        </a><p class="related-posts__desc">Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流のバックエンド（Cloud Functionsやカスタムオリジンサーバー）から不正な形式のレスポンスを受け取</p>
+      </li>
+    </ul>
+  </section>
 
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://errorlog.jp/tags/docker/">Docker</a></li>
+      <li><a href="http://localhost:1313/tags/docker/">Docker</a></li>
     </ul>
   </footer>
 </article>
 
 <script>
+ 
+(function () {
+  var panel = document.getElementById('feedback-panel');
+  if (!panel) return;
+  var title = "\"Docker の 502 エラー：原因と解決策\"";
+  panel.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-status]');
+    if (!btn || panel.dataset.voted) return;
+    panel.dataset.voted = '1';
+    if (typeof gtag === 'function') {
+      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
+    }
+    var btnsEl = panel.querySelector('.feedback-panel__btns');
+    var qEl    = panel.querySelector('.feedback-panel__q');
+    var thxEl  = panel.querySelector('.feedback-panel__thanks');
+    btnsEl.style.transition = 'opacity 0.3s';
+    btnsEl.style.opacity    = '0';
+    setTimeout(function () {
+      btnsEl.style.display = 'none';
+      qEl.style.display    = 'none';
+      thxEl.textContent    = 'Thank you for your feedback!';
+      thxEl.style.display  = 'block';
+      thxEl.style.opacity  = '0';
+      thxEl.style.transition = 'opacity 0.4s';
+      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
+    }, 300);
+  });
+})();
+
+ 
 (function () {
   var content = document.querySelector('.post-content');
   if (!content) return;
 
   var firstCompare = true;
-  var RE_BEFORE = /Before|エラーが起きる/;
-  var RE_AFTER  = /After|修正後/;
+  var RE_BEFORE = /before|エラーが起きる|修正前/i;
+  var RE_AFTER  = /after|修正後/i;
 
   content.querySelectorAll('p strong').forEach(function (el) {
     if (!RE_BEFORE.test(el.textContent)) return;
@@ -636,6 +564,7 @@ The proxy server received an invalid response from an upstream server.
         el.style.setProperty('overflow',      'hidden',       'important');
       } else {
         
+        sp(el, 'background-color', '#272822');
         sp(el, 'background-image', grad);
         sp(el, 'padding-left',     '1rem');
         sp(el, 'box-sizing',       'border-box');
@@ -673,6 +602,21 @@ The proxy server received an invalid response from an upstream server.
     wrap.appendChild(right);
 
     
+    left.classList.add('code-compare__side--before');
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'code-toggle-btn';
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
+    toggleBtn.addEventListener('click', function () {
+      var open = left.classList.toggle('is-open');
+      toggleBtn.setAttribute('aria-expanded', String(open));
+      toggleBtn.textContent = open
+        ? '▴ 修正前のコード（Before）を非表示'
+        : '▾ 修正前のコード（Before）を表示';
+    });
+    wrap.insertBefore(toggleBtn, left);
+
+    
     (function(l, r) {
       requestAnimationFrame(function() {
         var lp = l.firstElementChild;
@@ -687,11 +631,45 @@ The proxy server received an invalid response from an upstream server.
     }(left, right));
   });
 })();
+
+ 
+(function () {
+  var content = document.querySelector('.post-content');
+  if (!content) return;
+  var RE_REM = /^解決策[（(]/;
+  var remIdx = 0;
+  content.querySelectorAll('p strong').forEach(function (el) {
+    if (!RE_REM.test(el.textContent)) return;
+    var label = el.closest('p');
+    if (label.dataset.remedy) return;
+    label.dataset.remedy = '1';
+    var elems = [];
+    var cursor = label.nextElementSibling;
+    while (cursor) {
+      if (/^H[1-4]$/.test(cursor.tagName)) break;
+      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
+      if (s && RE_REM.test(s.textContent)) break;
+      elems.push(cursor);
+      cursor = cursor.nextElementSibling;
+    }
+    var wrap = document.createElement('div');
+    wrap.className = 'code-remedy';
+    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
+    remIdx++;
+    label.parentNode.insertBefore(wrap, label);
+    wrap.appendChild(label);
+    elems.forEach(function (e) { wrap.appendChild(e); });
+    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
+    wrap.style.setProperty('padding-left',  '1rem',              'important');
+    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
+    wrap.style.setProperty('margin-bottom', '1rem',              'important');
+  });
+})();
 </script>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="https://errorlog.jp/">ErrorLog - エラーコード解決ガイド</a></span> · 
+        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
 
     
     
