@@ -52,7 +52,7 @@ Vercelの無料Hobbyプランでは、サーバーレス関数の最大実行時
 ```javascript
 // api/getUserData.js
 export default async function handler(req, res) {
-  // 外部APIを3つ順序実行（各3秒）→ 合計9秒
+  // 外部APIを3つ順次実行（各3秒）→ 合計9秒
   const user = await fetch('https://api.example.com/user/123').then(r => r.json());
   const posts = await fetch('https://api.example.com/posts/123').then(r => r.json());
   const comments = await fetch('https://api.example.com/comments/123').then(r => r.json());
