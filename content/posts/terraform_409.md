@@ -68,7 +68,7 @@ terraform plan
 
 この場合、`terraform refresh` でクラウドの実態をもとに tfstate を最新の状態に更新し、差異を解消します。
 
-**Before（エラーが起きるコード）：**
+**Before（エラーが起きる状況）：**
 
 ```bash
 # 最初の apply 実行中に中断
@@ -102,7 +102,7 @@ terraform apply
 
 ```hcl
 # terraform コード
-resource "aws_ec2_instance" "app_server" {
+resource "aws_instance" "app_server" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
   tags = {
@@ -128,8 +128,8 @@ terraform apply
 
 # 別案: 既存のリソースが Terraform の定義と合致しない場合
 # terraform state rm で tfstate から削除してから再度管理下に入れる
-terraform state rm aws_ec2_instance.app_server
-terraform import aws_ec2_instance.app_server i-1234567890abcdef0
+terraform state rm aws_instance.app_server
+terraform import aws_instance.app_server i-1234567890abcdef0
 ```
 
 ## Terraform 固有の注意点
