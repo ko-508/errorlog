@@ -34,7 +34,7 @@ TypeError: Cannot read property 'db' of undefined
 
 ### 原因1：サーバーレス関数内でキャッチされない例外が発生している
 
-関数のコード内で例外がスローされ、try-catch で捕捉されていない場合、そのまま 500 エラーとなります。非同期処理（Promise）の reject やAsync/Await のエラーハンドリング漏れが特に起きやすいです。
+関数のコード内で例外がスローされ、try-catch で捕捉されていない場合、そのまま 500 エラーとなります。非同期処理（Promise / 非同期イベントの連鎖処理）の reject や Async/Await のエラーハンドリング漏れが特に起きやすいです。
 
 **Before（エラーが起きるコード）：**
 
