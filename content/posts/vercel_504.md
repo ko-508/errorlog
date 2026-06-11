@@ -205,7 +205,7 @@ vercel dev
 
 この環境ではタイムアウト上限なく関数を実行でき、実際の処理時間を計測できます。関数内に`console.log()`を仕込んで各処理の経過時間を記録し、ボトルネックを特定してください。
 
-それでも原因不明の場合は、Vercelの公式ドキュメント（https://vercel.com/docs/functions/serverless-functions/limitations）を参照するか、Vercelサポートに問い合わせてください。エンタープライズ契約がある場合は、優先サポートが利用可能です。
+原因不明の場合は、Vercelの公式ドキュメント（https://vercel.com/docs/functions/serverless-functions/limitations）を参照するか、Vercelサポートに問い合わせてください。エンタープライズ契約がある場合は、優先サポートが利用可能です。
 
 ---
 
