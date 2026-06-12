@@ -1,19 +1,19 @@
 # Fact Check Scorer Audit Report
 
-生成: 2026-06-12T14:40:19Z
+生成: 2026-06-12T22:41:05Z
 
 ## 1. 実行情報
 
 | 項目 | 値 |
 |------|----|
 | 期間 | (全期間) 〜 (全期間) |
-| JSONL 総レコード数 | 96 |
-| 分析対象 (status=ok) | 81 |
-| 除外: fact_check_unavailable | 10 |
+| JSONL 総レコード数 | 102 |
+| 分析対象 (status=ok) | 86 |
+| 除外: fact_check_unavailable | 11 |
 | 除外: failed_fact_check | 2 |
 | hash 不一致再採点ペア (除外) | 0 paths |
 | 使用モデル (主分析) | gemini-2.5-flash |
-| モデル混在 | ⚠️ gemini-2.5-flash=93; gemini-2.5-flash-lite=3 |
+| モデル混在 | ⚠️ gemini-2.5-flash=99; gemini-2.5-flash-lite=3 |
 | prompt_version 混在 | なし |
 | 削除済み記事 (データには残存) | 2 |
 
@@ -21,7 +21,7 @@
 
 - **再現性**: グレーゾーン多数決を検討 (5-15)
 - **判別力(フリップ率)**: 安定 (<10%)
-- **実行健全性**: 10.4% unavailable — エラー詳細は分析G参照
+- **実行健全性**: 10.8% unavailable — エラー詳細は分析G参照
 
 ## 3. 主要指標
 
@@ -29,10 +29,10 @@
 |------|----|----------|------|
 | factual レンジ中央値 | 10.0 | <5 安定 / 5-15 グレー / >15 要見直し | グレーゾーン多数決を検討 (5-15) |
 | フリップ率 | 0.0% | <10% 安定 / 10-25% 多数決 / >25% 再設計 | 安定 (<10%) |
-| グレーゾーン率 | 40.0% | — | — |
+| グレーゾーン率 | 41.2% | — | — |
 | 軸間最大|ρ| | なし | >0.8 = 冗長候補 | ✅ |
-| unavailable 率 | 10.4% | <5% 正常 | ⚠️ |
-| 実質無機能軸 | Citation Cov. | なし = 正常 | ⚠️ 要確認 |
+| unavailable 率 | 10.8% | <5% 正常 | ⚠️ |
+| 実質無機能軸 | Freshness, Citation Cov. | なし = 正常 | ⚠️ 要確認 |
 
 ## 4. 各分析の要約
 
@@ -59,30 +59,30 @@
 
 ### C. しきい値感度・グレーゾーン
 
-最新レコード使用: 80 件
+最新レコード使用: 85 件
 
-⚠️ **実質無機能の軸** (合格率 >95%): Citation Cov.
+⚠️ **実質無機能の軸** (合格率 >95%): Freshness, Citation Cov.
 
 | 軸 | 中央値 | 合格率 | グレーゾーン率 |
 |----|--------|--------|--------------|
-| Factual | 95.0 | 90.0% | 13.8% |
-| Freshness | 87.0 | 95.0% | N/A |
+| Factual | 95.0 | 89.4% | 15.3% |
+| Freshness | 87.0 | 95.3% | N/A |
 | Citation Cov. | 18.0 | 100.0% | N/A |
-| Risk | 21.0 | 83.8% | 35.0% |
+| Risk | 21.0 | 81.2% | 35.3% |
 
 ![score distributions](figures/fig_c_distributions.png)
 
 ### D. 軸間相関 (Spearman)
 
-n=80 件（最新レコード）
+n=85 件（最新レコード）
 冗長ペアなし (|ρ|≦0.8)
 
 | | Factual | Freshness | Citation Cov. | Risk |
 |---|---|---|---|---|
-| Factual | 1.000 | 0.312 | 0.175 | -0.643 |
-| Freshness | 0.312 | 1.000 | -0.161 | -0.300 |
-| Citation Cov. | 0.175 | -0.161 | 1.000 | -0.176 |
-| Risk | -0.643 | -0.300 | -0.176 | 1.000 |
+| Factual | 1.000 | 0.303 | 0.166 | -0.669 |
+| Freshness | 0.303 | 1.000 | -0.110 | -0.302 |
+| Citation Cov. | 0.166 | -0.110 | 1.000 | -0.162 |
+| Risk | -0.669 | -0.302 | -0.162 | 1.000 |
 
 ![correlations](figures/fig_d_correlations.png)
 
@@ -94,14 +94,14 @@ n=80 件（最新レコード）
 
 ### F. セグメント別分析
 
-**daily** (n=46)
+**daily** (n=51)
 **rss** (n=32)
 **deleted** (n=2)
 
 **仮説検証:**
 
 ① risk 軸は不適格(deleted)群で高いか？
-  - deleted 中央値=57.5 (n=2), daily=24.5, rss=18.0
+  - deleted 中央値=57.5 (n=2), daily=26.0, rss=18.0
   → deleted > daily (**仮説支持**) ※ n が小さいため解釈は慎重に
 
 ② factual 軸は不適格群を検出できるか？
@@ -120,7 +120,7 @@ n=80 件（最新レコード）
 | Dev.to - Docker | 10 | 90.0 | 87.0 | 10.0 | 18.0 |
 | Docker | 11 | 95.0 | 90.0 | 27.0 | 26.0 |
 | Docker Compose | 8 | 95.0 | 90.0 | 10.0 | 20.5 |
-| Firebase | 3 | 95.0 | 95.0 | 24.0 | 5.0 |
+| Firebase | 8 | 93.5 | 92.5 | 25.5 | 22.0 |
 
 ![segment boxplots](figures/fig_f_segments.png)
 
@@ -128,27 +128,27 @@ n=80 件（最新レコード）
 
 | status | 件数 | 割合 |
 |--------|------|------|
-| ok | 84 | 87.5% |
-| fact_check_unavailable | 10 | 10.4% |
-| failed_fact_check | 2 | 2.1% |
+| ok | 89 | 87.3% |
+| fact_check_unavailable | 11 | 10.8% |
+| failed_fact_check | 2 | 2.0% |
 
 **error_detail 頻度上位:**
-- `gemini`: 4 件
+- `gemini`: 5 件
 - `empty`: 1 件
 - `json_parse_error`: 1 件
 
-**URL チェック結果** (総ソース 2770 件):
-- 200: 1963 (70.9%)
-- skipped: 806 (29.1%)
+**URL チェック結果** (総ソース 2868 件):
+- 200: 2010 (70.1%)
+- skipped: 857 (29.9%)
 - 202: 1 (0.0%)
-- grounding URL (vertexaisearch等): 2064 (74.51%)
+- grounding URL (vertexaisearch等): 2087 (72.77%)
 
 unsupported_claims / 記事: 中央値=1.0, 最大=20
 
 ## 5. 推奨アクション
 
 - ⚠️ factual レンジ中央値 5-15 → **新記事ゲートの3回採点・多数決化**を推奨
-- ⚠️ 実質無機能軸 (Citation Cov.) → しきい値の見直しまたは軸の廃止を検討
+- ⚠️ 実質無機能軸 (Freshness, Citation Cov.) → しきい値の見直しまたは軸の廃止を検討
 
 ---
 *このレポートは `scripts/audit_fact_check.py` により自動生成されました。*

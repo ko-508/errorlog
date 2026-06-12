@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-06-12T14:40:19.896878+00:00",
+  "generated_at": "2026-06-12T22:41:05.606436+00:00",
   "run_info": {
     "since": null,
     "until": null,
-    "n_total": 96,
-    "n_analysis": 93,
-    "n_ok": 81,
-    "n_unavail": 10,
+    "n_total": 102,
+    "n_analysis": 99,
+    "n_ok": 86,
+    "n_unavail": 11,
     "n_failed": 2,
     "n_deleted_in_data": 2,
     "n_hash_changed_paths": 0,
     "primary_model": "gemini-2.5-flash",
     "model_mixed": true,
-    "model_mix_note": "gemini-2.5-flash=93; gemini-2.5-flash-lite=3",
+    "model_mix_note": "gemini-2.5-flash=99; gemini-2.5-flash-lite=3",
     "version_mixed": false,
     "version_mix_note": ""
   },
@@ -93,28 +93,28 @@
     "judgement_discrepancy_count": 0
   },
   "analysis_c_threshold_sensitivity": {
-    "n_latest": 80,
+    "n_latest": 85,
     "distributions": {
       "factual_score": {
-        "n": 80,
+        "n": 85,
         "median": 95.0,
-        "p10": 74.6,
+        "p10": 72.6,
         "p90": 98.0,
         "min": 0.0,
         "max": 100.0,
-        "base_pass_rate": 0.9
+        "base_pass_rate": 0.8941
       },
       "freshness_score": {
-        "n": 80,
+        "n": 85,
         "median": 87.0,
-        "p10": 74.5,
+        "p10": 72.0,
         "p90": 95.0,
         "min": 0.0,
         "max": 95.0,
-        "base_pass_rate": 0.95
+        "base_pass_rate": 0.9529
       },
       "citation_coverage": {
-        "n": 80,
+        "n": 85,
         "median": 18.0,
         "p10": 10.0,
         "p90": 31.0,
@@ -123,68 +123,69 @@
         "base_pass_rate": 1.0
       },
       "risk_score": {
-        "n": 80,
+        "n": 85,
         "median": 21.0,
         "p10": 5.0,
-        "p90": 65.4,
+        "p90": 69.6,
         "min": 0.0,
         "max": 100.0,
-        "base_pass_rate": 0.8375
+        "base_pass_rate": 0.8118
       }
     },
     "grey_zone_rates": {
-      "factual_score": 0.1375,
+      "factual_score": 0.1529,
       "freshness_score": null,
       "citation_coverage": null,
-      "risk_score": 0.35
+      "risk_score": 0.3529
     },
-    "overall_grey_zone": 0.4,
+    "overall_grey_zone": 0.4118,
     "non_functional_axes": [
+      "freshness_score",
       "citation_coverage"
     ],
     "sensitivity_tables": {
       "factual_score": {
         "-10": {
           "threshold": 65,
-          "pass_rate": 0.95
+          "pass_rate": 0.9529
         },
         "-5": {
           "threshold": 70,
-          "pass_rate": 0.9375
+          "pass_rate": 0.9412
         },
         "0": {
           "threshold": 75,
-          "pass_rate": 0.9
+          "pass_rate": 0.8941
         },
         "5": {
           "threshold": 80,
-          "pass_rate": 0.8375
+          "pass_rate": 0.8235
         },
         "10": {
           "threshold": 85,
-          "pass_rate": 0.8125
+          "pass_rate": 0.8
         }
       },
       "freshness_score": {
         "-10": {
           "threshold": 40,
-          "pass_rate": 0.95
+          "pass_rate": 0.9529
         },
         "-5": {
           "threshold": 45,
-          "pass_rate": 0.95
+          "pass_rate": 0.9529
         },
         "0": {
           "threshold": 50,
-          "pass_rate": 0.95
+          "pass_rate": 0.9529
         },
         "5": {
           "threshold": 55,
-          "pass_rate": 0.95
+          "pass_rate": 0.9529
         },
         "10": {
           "threshold": 60,
-          "pass_rate": 0.95
+          "pass_rate": 0.9529
         }
       },
       "citation_coverage": {
@@ -202,62 +203,62 @@
         },
         "5": {
           "threshold": 15,
-          "pass_rate": 0.575
+          "pass_rate": 0.6
         },
         "10": {
           "threshold": 20,
-          "pass_rate": 0.4125
+          "pass_rate": 0.4353
         }
       },
       "risk_score": {
         "-10": {
           "threshold": 45,
-          "pass_rate": 0.8125
+          "pass_rate": 0.7882
         },
         "-5": {
           "threshold": 50,
-          "pass_rate": 0.825
+          "pass_rate": 0.8
         },
         "0": {
           "threshold": 55,
-          "pass_rate": 0.8375
+          "pass_rate": 0.8118
         },
         "5": {
           "threshold": 60,
-          "pass_rate": 0.875
+          "pass_rate": 0.8588
         },
         "10": {
           "threshold": 65,
-          "pass_rate": 0.9
+          "pass_rate": 0.8824
         }
       }
     }
   },
   "analysis_d_correlations": {
-    "n": 80,
+    "n": 85,
     "corr_matrix": {
       "factual_score": {
         "factual_score": 1.0,
-        "freshness_score": 0.312,
-        "citation_coverage": 0.175,
-        "risk_score": -0.643
+        "freshness_score": 0.303,
+        "citation_coverage": 0.166,
+        "risk_score": -0.669
       },
       "freshness_score": {
-        "factual_score": 0.312,
+        "factual_score": 0.303,
         "freshness_score": 1.0,
-        "citation_coverage": -0.161,
-        "risk_score": -0.3
+        "citation_coverage": -0.11,
+        "risk_score": -0.302
       },
       "citation_coverage": {
-        "factual_score": 0.175,
-        "freshness_score": -0.161,
+        "factual_score": 0.166,
+        "freshness_score": -0.11,
         "citation_coverage": 1.0,
-        "risk_score": -0.176
+        "risk_score": -0.162
       },
       "risk_score": {
-        "factual_score": -0.643,
-        "freshness_score": -0.3,
-        "citation_coverage": -0.176,
+        "factual_score": -0.669,
+        "freshness_score": -0.302,
+        "citation_coverage": -0.162,
         "risk_score": 1.0
       }
     },
@@ -271,7 +272,7 @@
         "freshness_score": 87.0,
         "citation_coverage": 18.0,
         "risk_score": 21.0,
-        "n": 81
+        "n": 86
       }
     },
     "change_points": [
@@ -285,10 +286,10 @@
   "analysis_f_segments": {
     "segment_stats": {
       "daily": {
-        "n": 46,
+        "n": 51,
         "axes": {
           "factual_score": {
-            "n": 46,
+            "n": 51,
             "median": 95.0,
             "p25": 90.0,
             "p75": 95.0,
@@ -296,7 +297,7 @@
             "max": 100.0
           },
           "freshness_score": {
-            "n": 46,
+            "n": 51,
             "median": 87.0,
             "p25": 87.0,
             "p75": 90.0,
@@ -304,16 +305,16 @@
             "max": 95.0
           },
           "citation_coverage": {
-            "n": 46,
+            "n": 51,
             "median": 18.0,
             "p25": 10.0,
-            "p75": 26.5,
+            "p75": 27.0,
             "min": 10.0,
             "max": 47.0
           },
           "risk_score": {
-            "n": 46,
-            "median": 24.5,
+            "n": 51,
+            "median": 26.0,
             "p25": 5.0,
             "p75": 35.0,
             "min": 0.0,
@@ -398,8 +399,8 @@
     },
     "hypothesis_risk": {
       "daily": {
-        "n": 46,
-        "median": 24.5
+        "n": 51,
+        "median": 26.0
       },
       "rss": {
         "n": 32,
@@ -412,7 +413,7 @@
     },
     "hypothesis_factual": {
       "daily": {
-        "n": 46,
+        "n": 51,
         "median": 95.0
       },
       "rss": {
@@ -482,36 +483,36 @@
         "risk_score": 20.5
       },
       "Firebase": {
-        "n": 3,
-        "factual_score": 95.0,
-        "freshness_score": 95.0,
-        "citation_coverage": 24.0,
-        "risk_score": 5.0
+        "n": 8,
+        "factual_score": 93.5,
+        "freshness_score": 92.5,
+        "citation_coverage": 25.5,
+        "risk_score": 22.0
       }
     }
   },
   "analysis_g_execution_health": {
-    "n_total": 96,
+    "n_total": 102,
     "status_counts": {
-      "ok": 84,
-      "fact_check_unavailable": 10,
+      "ok": 89,
+      "fact_check_unavailable": 11,
       "failed_fact_check": 2
     },
-    "unavailable_rate": 0.1042,
-    "failed_rate": 0.0208,
+    "unavailable_rate": 0.1078,
+    "failed_rate": 0.0196,
     "error_patterns": {
-      "gemini": 4,
+      "gemini": 5,
       "empty": 1,
       "json_parse_error": 1
     },
     "url_status_counts": {
-      "skipped": 806,
-      "200": 1963,
+      "skipped": 857,
+      "200": 2010,
       "202": 1
     },
-    "total_sources": 2770,
-    "grounding_count": 2064,
-    "grounding_rate": 0.7451,
+    "total_sources": 2868,
+    "grounding_count": 2087,
+    "grounding_rate": 0.7277,
     "unsupported_claims_median": 1.0,
     "unsupported_claims_max": 20
   }
