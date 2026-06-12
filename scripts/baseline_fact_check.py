@@ -43,7 +43,7 @@ from fact_check import (
 
 PROGRESS_PATH = BASE / "data" / "baseline_progress.json"
 REPEAT_SET_PATH = BASE / "data" / "baseline_repeat_set.json"
-JSONL_PATH = BASE / "data" / "fact_check_score_history.jsonl"
+JSONL_PATH = BASE / "run" / "fact_check_score_history.jsonl"
 
 # ── Constants ────────────────────────────────────────────────────────────────
 
