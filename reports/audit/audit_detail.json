@@ -1,0 +1,518 @@
+{
+  "generated_at": "2026-06-12T14:40:19.896878+00:00",
+  "run_info": {
+    "since": null,
+    "until": null,
+    "n_total": 96,
+    "n_analysis": 93,
+    "n_ok": 81,
+    "n_unavail": 10,
+    "n_failed": 2,
+    "n_deleted_in_data": 2,
+    "n_hash_changed_paths": 0,
+    "primary_model": "gemini-2.5-flash",
+    "model_mixed": true,
+    "model_mix_note": "gemini-2.5-flash=93; gemini-2.5-flash-lite=3",
+    "version_mixed": false,
+    "version_mix_note": ""
+  },
+  "analysis_a_rescore_variance": {
+    "n_groups": 1,
+    "axes": {
+      "factual_score": {
+        "n_groups": 1,
+        "range_median": 10.0,
+        "range_p90": 10.0,
+        "range_max": 10.0,
+        "std_median": 5.0,
+        "verdict": "グレーゾーン多数決を検討 (5-15)"
+      },
+      "freshness_score": {
+        "n_groups": 1,
+        "range_median": 0.0,
+        "range_p90": 0.0,
+        "range_max": 0.0,
+        "std_median": 0.0,
+        "verdict": null
+      },
+      "citation_coverage": {
+        "n_groups": 1,
+        "range_median": 0.0,
+        "range_p90": 0.0,
+        "range_max": 0.0,
+        "std_median": 0.0,
+        "verdict": null
+      },
+      "risk_score": {
+        "n_groups": 1,
+        "range_median": 29.0,
+        "range_p90": 29.0,
+        "range_max": 29.0,
+        "std_median": 14.5,
+        "verdict": null
+      }
+    },
+    "top5_worst": [
+      {
+        "path": "content/posts/docker_500.md",
+        "factual_range": 10.0,
+        "scores": {
+          "factual_score": [
+            100.0,
+            90.0
+          ],
+          "freshness_score": [
+            95.0,
+            95.0
+          ],
+          "citation_coverage": [
+            10.0,
+            10.0
+          ],
+          "risk_score": [
+            5.0,
+            34.0
+          ]
+        }
+      }
+    ],
+    "overall_verdict": "グレーゾーン多数決を検討 (5-15)"
+  },
+  "analysis_b_flip_rate": {
+    "n_groups": 1,
+    "flip_count": 0,
+    "flip_rate": 0.0,
+    "flip_rate_pct": 0.0,
+    "axis_flip_cause": {
+      "factual_score": 0,
+      "freshness_score": 0,
+      "citation_coverage": 0,
+      "risk_score": 0
+    },
+    "verdict": "安定 (<10%)",
+    "judgement_discrepancy_count": 0
+  },
+  "analysis_c_threshold_sensitivity": {
+    "n_latest": 80,
+    "distributions": {
+      "factual_score": {
+        "n": 80,
+        "median": 95.0,
+        "p10": 74.6,
+        "p90": 98.0,
+        "min": 0.0,
+        "max": 100.0,
+        "base_pass_rate": 0.9
+      },
+      "freshness_score": {
+        "n": 80,
+        "median": 87.0,
+        "p10": 74.5,
+        "p90": 95.0,
+        "min": 0.0,
+        "max": 95.0,
+        "base_pass_rate": 0.95
+      },
+      "citation_coverage": {
+        "n": 80,
+        "median": 18.0,
+        "p10": 10.0,
+        "p90": 31.0,
+        "min": 10.0,
+        "max": 47.0,
+        "base_pass_rate": 1.0
+      },
+      "risk_score": {
+        "n": 80,
+        "median": 21.0,
+        "p10": 5.0,
+        "p90": 65.4,
+        "min": 0.0,
+        "max": 100.0,
+        "base_pass_rate": 0.8375
+      }
+    },
+    "grey_zone_rates": {
+      "factual_score": 0.1375,
+      "freshness_score": null,
+      "citation_coverage": null,
+      "risk_score": 0.35
+    },
+    "overall_grey_zone": 0.4,
+    "non_functional_axes": [
+      "citation_coverage"
+    ],
+    "sensitivity_tables": {
+      "factual_score": {
+        "-10": {
+          "threshold": 65,
+          "pass_rate": 0.95
+        },
+        "-5": {
+          "threshold": 70,
+          "pass_rate": 0.9375
+        },
+        "0": {
+          "threshold": 75,
+          "pass_rate": 0.9
+        },
+        "5": {
+          "threshold": 80,
+          "pass_rate": 0.8375
+        },
+        "10": {
+          "threshold": 85,
+          "pass_rate": 0.8125
+        }
+      },
+      "freshness_score": {
+        "-10": {
+          "threshold": 40,
+          "pass_rate": 0.95
+        },
+        "-5": {
+          "threshold": 45,
+          "pass_rate": 0.95
+        },
+        "0": {
+          "threshold": 50,
+          "pass_rate": 0.95
+        },
+        "5": {
+          "threshold": 55,
+          "pass_rate": 0.95
+        },
+        "10": {
+          "threshold": 60,
+          "pass_rate": 0.95
+        }
+      },
+      "citation_coverage": {
+        "-10": {
+          "threshold": 0,
+          "pass_rate": 1.0
+        },
+        "-5": {
+          "threshold": 5,
+          "pass_rate": 1.0
+        },
+        "0": {
+          "threshold": 10,
+          "pass_rate": 1.0
+        },
+        "5": {
+          "threshold": 15,
+          "pass_rate": 0.575
+        },
+        "10": {
+          "threshold": 20,
+          "pass_rate": 0.4125
+        }
+      },
+      "risk_score": {
+        "-10": {
+          "threshold": 45,
+          "pass_rate": 0.8125
+        },
+        "-5": {
+          "threshold": 50,
+          "pass_rate": 0.825
+        },
+        "0": {
+          "threshold": 55,
+          "pass_rate": 0.8375
+        },
+        "5": {
+          "threshold": 60,
+          "pass_rate": 0.875
+        },
+        "10": {
+          "threshold": 65,
+          "pass_rate": 0.9
+        }
+      }
+    }
+  },
+  "analysis_d_correlations": {
+    "n": 80,
+    "corr_matrix": {
+      "factual_score": {
+        "factual_score": 1.0,
+        "freshness_score": 0.312,
+        "citation_coverage": 0.175,
+        "risk_score": -0.643
+      },
+      "freshness_score": {
+        "factual_score": 0.312,
+        "freshness_score": 1.0,
+        "citation_coverage": -0.161,
+        "risk_score": -0.3
+      },
+      "citation_coverage": {
+        "factual_score": 0.175,
+        "freshness_score": -0.161,
+        "citation_coverage": 1.0,
+        "risk_score": -0.176
+      },
+      "risk_score": {
+        "factual_score": -0.643,
+        "freshness_score": -0.3,
+        "citation_coverage": -0.176,
+        "risk_score": 1.0
+      }
+    },
+    "redundant_pairs": []
+  },
+  "analysis_e_timeseries": {
+    "n_weeks": 1,
+    "weekly": {
+      "2026-W23": {
+        "factual_score": 95.0,
+        "freshness_score": 87.0,
+        "citation_coverage": 18.0,
+        "risk_score": 21.0,
+        "n": 81
+      }
+    },
+    "change_points": [
+      {
+        "type": "model",
+        "value": "gemini-2.5-flash-lite",
+        "at": "2026-06-12T07:48:20Z"
+      }
+    ]
+  },
+  "analysis_f_segments": {
+    "segment_stats": {
+      "daily": {
+        "n": 46,
+        "axes": {
+          "factual_score": {
+            "n": 46,
+            "median": 95.0,
+            "p25": 90.0,
+            "p75": 95.0,
+            "min": 55.0,
+            "max": 100.0
+          },
+          "freshness_score": {
+            "n": 46,
+            "median": 87.0,
+            "p25": 87.0,
+            "p75": 90.0,
+            "min": 30.0,
+            "max": 95.0
+          },
+          "citation_coverage": {
+            "n": 46,
+            "median": 18.0,
+            "p25": 10.0,
+            "p75": 26.5,
+            "min": 10.0,
+            "max": 47.0
+          },
+          "risk_score": {
+            "n": 46,
+            "median": 24.5,
+            "p25": 5.0,
+            "p75": 35.0,
+            "min": 0.0,
+            "max": 100.0
+          }
+        }
+      },
+      "rss": {
+        "n": 32,
+        "axes": {
+          "factual_score": {
+            "n": 32,
+            "median": 95.0,
+            "p25": 89.5,
+            "p75": 95.0,
+            "min": 0.0,
+            "max": 98.0
+          },
+          "freshness_score": {
+            "n": 32,
+            "median": 87.0,
+            "p25": 87.0,
+            "p75": 90.0,
+            "min": 0.0,
+            "max": 95.0
+          },
+          "citation_coverage": {
+            "n": 32,
+            "median": 16.5,
+            "p25": 10.0,
+            "p75": 26.0,
+            "min": 10.0,
+            "max": 36.0
+          },
+          "risk_score": {
+            "n": 32,
+            "median": 18.0,
+            "p25": 10.0,
+            "p75": 33.0,
+            "min": 0.0,
+            "max": 100.0
+          }
+        }
+      },
+      "deleted": {
+        "n": 2,
+        "axes": {
+          "factual_score": {
+            "n": 2,
+            "median": 83.0,
+            "p25": 77.0,
+            "p75": 89.0,
+            "min": 71.0,
+            "max": 95.0
+          },
+          "freshness_score": {
+            "n": 2,
+            "median": 91.0,
+            "p25": 89.0,
+            "p75": 93.0,
+            "min": 87.0,
+            "max": 95.0
+          },
+          "citation_coverage": {
+            "n": 2,
+            "median": 20.0,
+            "p25": 15.0,
+            "p75": 25.0,
+            "min": 10.0,
+            "max": 30.0
+          },
+          "risk_score": {
+            "n": 2,
+            "median": 57.5,
+            "p25": 51.2,
+            "p75": 63.8,
+            "min": 45.0,
+            "max": 70.0
+          }
+        }
+      }
+    },
+    "hypothesis_risk": {
+      "daily": {
+        "n": 46,
+        "median": 24.5
+      },
+      "rss": {
+        "n": 32,
+        "median": 18.0
+      },
+      "deleted": {
+        "n": 2,
+        "median": 57.5
+      }
+    },
+    "hypothesis_factual": {
+      "daily": {
+        "n": 46,
+        "median": 95.0
+      },
+      "rss": {
+        "n": 32,
+        "median": 95.0
+      },
+      "deleted": {
+        "n": 2,
+        "median": 83.0
+      }
+    },
+    "tool_table": {
+      "Docker": {
+        "n": 11,
+        "factual_score": 95.0,
+        "freshness_score": 90.0,
+        "citation_coverage": 27.0,
+        "risk_score": 26.0
+      },
+      "Ansible": {
+        "n": 6,
+        "factual_score": 95.0,
+        "freshness_score": 88.5,
+        "citation_coverage": 13.5,
+        "risk_score": 24.5
+      },
+      "Dev.to - AWS": {
+        "n": 9,
+        "factual_score": 95.0,
+        "freshness_score": 87.0,
+        "citation_coverage": 21.0,
+        "risk_score": 18.0
+      },
+      "Dev.to - DevOps": {
+        "n": 10,
+        "factual_score": 93.5,
+        "freshness_score": 90.0,
+        "citation_coverage": 11.0,
+        "risk_score": 18.0
+      },
+      "Dev.to - Docker": {
+        "n": 10,
+        "factual_score": 90.0,
+        "freshness_score": 87.0,
+        "citation_coverage": 10.0,
+        "risk_score": 18.0
+      },
+      "AWS": {
+        "n": 10,
+        "factual_score": 87.5,
+        "freshness_score": 87.0,
+        "citation_coverage": 17.5,
+        "risk_score": 47.5
+      },
+      "Azure": {
+        "n": 8,
+        "factual_score": 95.0,
+        "freshness_score": 87.0,
+        "citation_coverage": 19.0,
+        "risk_score": 30.0
+      },
+      "Docker Compose": {
+        "n": 8,
+        "factual_score": 95.0,
+        "freshness_score": 90.0,
+        "citation_coverage": 10.0,
+        "risk_score": 20.5
+      },
+      "Firebase": {
+        "n": 3,
+        "factual_score": 95.0,
+        "freshness_score": 95.0,
+        "citation_coverage": 24.0,
+        "risk_score": 5.0
+      }
+    }
+  },
+  "analysis_g_execution_health": {
+    "n_total": 96,
+    "status_counts": {
+      "ok": 84,
+      "fact_check_unavailable": 10,
+      "failed_fact_check": 2
+    },
+    "unavailable_rate": 0.1042,
+    "failed_rate": 0.0208,
+    "error_patterns": {
+      "gemini": 4,
+      "empty": 1,
+      "json_parse_error": 1
+    },
+    "url_status_counts": {
+      "skipped": 806,
+      "200": 1963,
+      "202": 1
+    },
+    "total_sources": 2770,
+    "grounding_count": 2064,
+    "grounding_rate": 0.7451,
+    "unsupported_claims_median": 1.0,
+    "unsupported_claims_max": 20
+  }
+}
