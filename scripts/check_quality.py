@@ -30,23 +30,47 @@ BATCH = int(os.getenv("BATCH", "10"))
 BASE      = Path(__file__).parent
 POSTS_DIR = BASE.parent / "content" / "posts"
 
+# ── Gemini モデル解決 ─────────────────────────────────────
+
+def _gemini_model() -> str:
+    """QUALITY_GEMINI_MODEL → FACT_CHECK_GEMINI_MODEL → デフォルトの順で解決する。"""
+    return (
+        os.getenv("QUALITY_GEMINI_MODEL")
+        or os.getenv("FACT_CHECK_GEMINI_MODEL")
+        or "gemini-2.5-flash"
+    )
+
+
 # ── Gemini（事実確認）────────────────────────────────────
 
-def fact_check_with_gemini(title: str, body: str) -> str:
+_GEMINI_MODEL_ERROR_PATTERNS = (
+    "NOT_FOUND",
+    "no longer available",
+    "model is not found",
+    "API key not valid",
+    "permission denied",
+)
+
+def fact_check_with_gemini(title: str, body: str) -> tuple[str, str]:
     """
     Gemini + Google検索で記事の技術的事実を確認する。
-    誤りがあれば箇条書きで返し、なければ空文字を返す。
+
+    Returns:
+        (findings, status)
+        findings: 指摘テキスト。問題なし or 未実施は ""。
+        status: "checked" | "skipped" | "unavailable" | "model_error"
     """
     try:
         from google import genai as google_genai
         from google.genai import types as genai_types
     except ImportError:
-        return ""
+        return "", "skipped"
 
     gemini_key = os.getenv("GEMINI_API_KEY")
     if not gemini_key:
-        return ""
+        return "", "skipped"
 
+    model = _gemini_model()
     gemini_client = google_genai.Client(api_key=gemini_key)
 
     prompt = f"""以下の日本語技術記事（エラーログ解説）の事実確認をしてください。
@@ -69,17 +93,22 @@ def fact_check_with_gemini(title: str, body: str) -> str:
 
     try:
         response = gemini_client.models.generate_content(
-            model="gemini-2.0-flash",
+            model=model,
             contents=prompt,
             config=genai_types.GenerateContentConfig(
                 tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
             ),
         )
         result = response.text.strip()
-        return "" if result == "問題なし" else result
+        findings = "" if result == "問題なし" else result
+        return findings, "checked"
     except Exception as e:
-        print(f"    Gemini エラー（スキップ）: {e}")
-        return ""
+        err_str = str(e)
+        if any(pat in err_str for pat in _GEMINI_MODEL_ERROR_PATTERNS):
+            print(f"    Gemini エラー（unavailable）: model_not_found: {e}")
+            return "", "model_error"
+        print(f"    Gemini エラー（unavailable）: {e}")
+        return "", "unavailable"
 
 
 # ── Claude（品質修正）────────────────────────────────────
@@ -224,9 +253,11 @@ def main() -> None:
         )[:n_count]
 
     gemini_available = bool(os.getenv("GEMINI_API_KEY"))
-    mode = f"{'新しい順' if newest else '古い順'} {n_count} 件 | Gemini={'あり' if gemini_available else 'なし'}"
+    mode = f"{'新しい順' if newest else '古い順'} {n_count} 件 | Gemini={'あり' if gemini_available else 'なし'} | model={_gemini_model()}"
     print(f"品質チェック開始: {mode}")
-    fixed = 0
+
+    claude_fixed = 0
+    gemini_checked = gemini_unavailable = gemini_model_errors = gemini_skipped = 0
 
     for path in targets:
         print(f"\n  {path.name}")
@@ -236,13 +267,26 @@ def main() -> None:
 
         # Step 1: Gemini 事実確認（最優先）
         gemini_findings = ""
+        gemini_status = "skipped"
         if gemini_available:
             print(f"    [1/2] Gemini 事実確認中...")
-            gemini_findings = fact_check_with_gemini(title, body)
-            if gemini_findings:
-                print(f"    → 指摘あり: {gemini_findings[:80]}...")
+            gemini_findings, gemini_status = fact_check_with_gemini(title, body)
+            if gemini_status == "checked":
+                if gemini_findings:
+                    print(f"    → 指摘あり: {gemini_findings[:80]}...")
+                else:
+                    print(f"    → 問題なし")
             else:
-                print(f"    → 問題なし")
+                print(f"    → Gemini事実確認は未実施（{gemini_status}）。Claude品質修正のみ継続。")
+
+        if gemini_status == "checked":
+            gemini_checked += 1
+        elif gemini_status == "model_error":
+            gemini_model_errors += 1
+        elif gemini_status == "unavailable":
+            gemini_unavailable += 1
+        else:
+            gemini_skipped += 1
 
         # Step 2: Claude 修正
         tag = "[2/2]" if gemini_available else "[1/1]"
@@ -256,9 +300,16 @@ def main() -> None:
 
         path.write_text(new_content, encoding="utf-8")
         print(f"    修正済み")
-        fixed += 1
+        claude_fixed += 1
 
-    print(f"\n完了: {fixed}/{len(targets)} 件を修正しました。")
+    checked = len(targets)
+    print(f"\n完了: {claude_fixed}/{checked} 件を修正しました。")
+    print(
+        f"[quality-summary] "
+        f"checked={checked} claude_fixed={claude_fixed} "
+        f"gemini_checked={gemini_checked} gemini_unavailable={gemini_unavailable} "
+        f"gemini_model_errors={gemini_model_errors} gemini_skipped={gemini_skipped}"
+    )
 
 
 if __name__ == "__main__":

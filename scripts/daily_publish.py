@@ -4,6 +4,7 @@ content/posts/ に追加する。GitHub Actions から実行される想定。
 """
 
 import csv
+import json
 import os
 import re
 import smtplib
@@ -12,6 +13,8 @@ from email.mime.text import MIMEText
 from pathlib import Path
 
 import anthropic
+
+from fact_check import clear_new_article_failure, evaluate_new_article, record_new_article_failure
 
 DAILY_COUNT = int(os.getenv("DAILY_COUNT", "3"))
 
@@ -250,6 +253,92 @@ def generate_article(client: anthropic.Anthropic, row: dict) -> str:
     return message.content[0].text
 
 
+_KNOWLEDGE_GRAPH_SYSTEM = (
+    "あなたは技術記事からメタデータを抽出するエージェントです。"
+    "記事内容を分析し、指定フィールドを JSON で返してください。"
+    "推測は禁止。記事本文に明記されている情報のみを抽出すること。"
+    "明記されていない情報は空配列または空文字にすること。"
+)
+
+# Phase 3: コンポーネント抽出のヒント（記事本文に明記されている場合のみ使用）
+_COMPONENT_HINTS = """
+## components 抽出ヒント（最重要フィールド）
+記事本文に以下のコンポーネント名が登場する場合のみ抽出すること。
+
+AWS: IAM, STS, S3, Lambda, CloudFront, Route53, EC2, RDS, ECS, EKS, API Gateway, Cognito, KMS
+GitHub: Actions, Runner, Packages, Container Registry, Codespaces, Apps
+Terraform: Provider, Backend, State, Module, Workspace, Registry
+Docker: Compose, BuildKit, Registry, Swarm, Desktop
+Kubernetes: Pod, Deployment, Ingress, Service, ConfigMap, Secret, Namespace, HPA
+Firebase: Firestore, Auth, Functions, Storage, Hosting, Realtime Database, AppCheck
+Cloudflare: Workers, Pages, R2, D1, KV, Tunnel, DNS
+
+上記以外のコンポーネントも本文に明記されていれば抽出してよい。
+ただし推測は禁止。本文に文字として現れているものだけを返すこと。
+""".strip()
+
+
+def extract_knowledge_graph(
+    client: anthropic.Anthropic,
+    title: str,
+    body: str,
+    tool: str,
+    code: str,
+) -> dict:
+    """記事本文からエラー知識グラフ用メタデータを抽出する（Phase 2+3）。
+
+    body は先頭 3000 文字を使用（精度向上のため 1000 文字から拡張）。
+    Returns dict with keys: service, error_type, components, related_services
+    """
+    prompt = f"""記事「{title}」から以下のメタデータを抽出してください。
+
+## 記事本文（先頭3000文字）
+{body[:3000]}
+
+{_COMPONENT_HINTS}
+
+## 抽出するフィールド
+- service: 主要サービス名（例: "Terraform", "AWS", "GitHub Actions"）。1つのみ。
+- error_type: エラーコード（例: "403", "503", "RESOURCE_EXHAUSTED"）。1つのみ。
+- components: 記事本文に登場するサービス内コンポーネント名のリスト。空なら []。
+- related_services: 記事本文に登場する関連サービス・ツール名のリスト。空なら []。
+
+## 出力フォーマット（JSON のみ。説明不要）
+{{
+  "service": "{tool}",
+  "error_type": "{code}",
+  "components": [],
+  "related_services": []
+}}"""
+
+    try:
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=256,
+            system=_KNOWLEDGE_GRAPH_SYSTEM,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = msg.content[0].text.strip()
+        # JSON ブロックを抽出
+        m = re.search(r'\{[\s\S]*\}', raw)
+        if m:
+            data = json.loads(m.group(0))
+            return {
+                "service":          str(data.get("service", tool)),
+                "error_type":       str(data.get("error_type", code)),
+                "components":       data.get("components", []) or [],
+                "related_services": data.get("related_services", []) or [],
+            }
+    except Exception as e:
+        print(f"  [knowledge_graph] 抽出エラー（スキップ）: {e}")
+    return {
+        "service": tool,
+        "error_type": code,
+        "components": [],
+        "related_services": [],
+    }
+
+
 # ─── メイン ───────────────────────────────────────────────
 
 def main() -> None:
@@ -311,6 +400,17 @@ def main() -> None:
         tags = extract_tags(filename)
         tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
 
+        # Phase 3: 知識グラフメタデータを抽出
+        kg = extract_knowledge_graph(client, title, body, tool, code)
+        kg_components = json.dumps(kg["components"], ensure_ascii=False)
+        kg_related    = json.dumps(kg["related_services"], ensure_ascii=False)
+        knowledge_graph_lines = (
+            f'service: "{kg["service"]}"\n'
+            f'error_type: "{kg["error_type"]}"\n'
+            f'components: {kg_components}\n'
+            f'related_services: {kg_related}\n'
+        )
+
         frontmatter = (
             f'---\n'
             f'title: "{title}"\n'
@@ -318,6 +418,7 @@ def main() -> None:
             f'description: "{description}"\n'
             f'{tags_line}'
             f'errorCode: "{code}"\n'
+            f'{knowledge_graph_lines}'
             f'---\n\n'
         )
 
@@ -329,10 +430,45 @@ def main() -> None:
             "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
         )
         body = normalize_before_after(body)
-        out.write_text(frontmatter + body + disclaimer, encoding="utf-8")
+        article_content = frontmatter + body + disclaimer
+        fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
+        scores = fact_result.scores
+        print(
+            "  fact-check: "
+            f"factual={scores['factual_score']} "
+            f"freshness={scores['freshness_score']} "
+            f"citation={scores['citation_coverage']} "
+            f"risk={scores['risk_score']} "
+            f"report={fact_result.report_path}"
+        )
+        if fact_result.critical:
+            record_new_article_failure(out.stem, row, fact_result)
+            raise RuntimeError(f"Critical fact-check failure: {filename}")
+        if fact_result.status == "fact_check_unavailable":
+            print(f"  fact-check unavailable; excluded from publication for retry: {filename}")
+            remaining.append(row)
+            continue
+        if not fact_result.passed:
+            failure = record_new_article_failure(out.stem, row, fact_result)
+            print(
+                f"  fact-check failed; excluded from publication: {filename} "
+                f"failure_count={failure['failure_count']} status={failure['status']}"
+            )
+            if failure["status"] == "retry":
+                remaining.append(row)
+            else:
+                print(f"  fact-check blocked; needs manual review: {filename}")
+            continue
+
+        out.write_text(article_content, encoding="utf-8")
+        clear_new_article_failure(out.stem, row)
         print(f"  公開: {filename}  →  {title}")
         published_count += 1
-        published_articles.append({"stem": out.stem, "title": title})
+        published_articles.append({
+            "path": str(out.relative_to(BASE.parent).as_posix()),
+            "title": title,
+            "source_type": "daily",
+        })
 
     # キューを更新
     fieldnames = ["tool", "status_code", "official_meaning", "causes", "solutions"]
@@ -340,6 +476,14 @@ def main() -> None:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
         writer.writerows(remaining)
+
+    # 公開通知スクリプト用のセッションファイルを書き出す
+    session_path = BASE.parent / "data" / "publish_session.json"
+    session_path.parent.mkdir(parents=True, exist_ok=True)
+    session_path.write_text(
+        json.dumps(published_articles, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
     print(f"\n{published_count} 件を公開しました。残りキュー: {len(remaining)} 件")
 

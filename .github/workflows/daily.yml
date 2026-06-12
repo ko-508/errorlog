@@ -29,9 +29,13 @@ jobs:
       - name: Publish daily articles
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           DAILY_COUNT: "3"
+          FACT_CHECK_NEW_ARTICLE_MAX_RETRIES: "3"
+          FACT_CHECK_REPORT_RETENTION_DAYS: "30"
+          FACT_CHECK_URL_CHECK: "true"
         run: python scripts/daily_publish.py
 
       - name: Insert glossary links into new articles
@@ -46,6 +50,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          QUALITY_GEMINI_MODEL: "gemini-2.5-flash"
         run: python scripts/check_quality.py --newest 6
 
       - name: Commit and push
@@ -53,7 +58,11 @@ jobs:
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add content/posts/ scripts/queue.csv
+          git add content/posts/ scripts/queue.csv data/rewrite_candidates.json
+          [ -f data/fact_check_new_article_failures.json ] && git add data/fact_check_new_article_failures.json
+          [ -f data/fact_check_score_history.jsonl ] && git add data/fact_check_score_history.jsonl
+          [ -d reports/fact_check ] && git add reports/fact_check/
+          [ -f data/publish_session.json ] && git add data/publish_session.json
           if git diff --staged --quiet; then
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
@@ -103,3 +112,39 @@ jobs:
       contents: read
       pages: write
       id-token: write
+
+  notify:
+    needs: [publish, deploy]
+    if: needs.publish.outputs.deployed == 'true'
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Send publish notification
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          PUBLISH_NOTIFY_MAX_RETRIES: "10"
+          PUBLISH_NOTIFY_RETRY_SECONDS: "60"
+          PUBLISH_NOTIFY_FAIL_ON_ERROR: "false"
+        run: python scripts/publish_notify.py --session-file data/publish_session.json
+
+      - name: Commit notification history
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          [ -f data/published_notification_history.json ] && git add data/published_notification_history.json || true
+          if git diff --staged --quiet; then
+            echo "No history changes"
+          else
+            git commit -m "notify: update publish notification history"
+            for i in 1 2 3; do
+              git pull --rebase && git push && break || sleep 10
+            done
+          fi
