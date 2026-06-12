@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
 async function fetchDatabase(id) {
   const response = await fetch('https://api.example.com/user/' + id);
-  const json = response.json();
+  const json = await response.json();
   return json;
 }
 ```

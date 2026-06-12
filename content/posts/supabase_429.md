@@ -40,52 +40,9 @@ Content-Type: application/json
 
 ## よくある原因と解決手順
 
-### 原因1：無料プランのデータベースリクエスト数上限に達した
+### 原因1：Edge Functionsの呼び出し回数が上限を超えた
 
-Supabaseの無料プランは月間のデータベースリクエスト数に制限があります（通常50,000リクエスト/月）。バッチ処理の非効率さやポーリング実装により、この上限に到達すると以降のクエリはすべてブロックされます。
-
-**修正前（エラーが起きるコード）：**
-
-```javascript
-// ❌ ループ内で個別のリクエストを連発
-async function fetchAllUsers() {
-  const userIds = [1, 2, 3, 4, 5];
-  const results = [];
-  
-  for (const id of userIds) {
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', id);
-    
-    if (error) throw error;
-    results.push(data);
-  }
-  
-  return results;
-}
-```
-
-**修正後：**
-
-```javascript
-// ✅ 単一クエリで複数件取得
-async function fetchAllUsers() {
-  const userIds = [1, 2, 3, 4, 5];
-  
-  const { data, error } = await supabase
-    .from('users')
-    .select('*')
-    .in('id', userIds);
-  
-  if (error) throw error;
-  return data;
-}
-```
-
-### 原因2：Edge Functionsの呼び出し回数が上限を超えた
-
-無料プランのEdge Functionsは月間100万回の呼び出しが上限です。不要な呼び出しやWebhook設定の誤りにより、短時間で大量のリクエストが発生すると429エラーが返されます。
+無料プランのEdge Functionsは月間500,000回の呼び出しが上限です。不要な呼び出しやWebhook設定の誤りにより、短時間で大量のリクエストが発生すると429エラーが返されます。
 
 **修正前（エラーが起きるコード）：**
 
@@ -146,6 +103,49 @@ useEffect(() => {
 }, [orderId]);
 ```
 
+### 原因2：データベースリクエストが短時間に集中している
+
+バッチ処理の非効率さやポーリング実装により、短時間に大量のデータベースリクエストが発生するとレート制限に引っかかります。
+
+**修正前（エラーが起きるコード）：**
+
+```javascript
+// ❌ ループ内で個別のリクエストを連発
+async function fetchAllUsers() {
+  const userIds = [1, 2, 3, 4, 5];
+  const results = [];
+  
+  for (const id of userIds) {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', id);
+    
+    if (error) throw error;
+    results.push(data);
+  }
+  
+  return results;
+}
+```
+
+**修正後：**
+
+```javascript
+// ✅ 単一クエリで複数件取得
+async function fetchAllUsers() {
+  const userIds = [1, 2, 3, 4, 5];
+  
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .in('id', userIds);
+  
+  if (error) throw error;
+  return data;
+}
+```
+
 ### 原因3：認証APIへのリクエストが短時間に集中している
 
 ユーザー登録・ログイン処理が短時間に大量発生する場合（例：バッチユーザー作成スクリプト）、Supabase認証 API のレート制限に引っかかります。
@@ -193,7 +193,7 @@ createUsersInBatch([...100個のメールアドレス]);
 
 ## ツール固有の注意点
 
-Supabaseダッシュボードの「Usage」セクションで、どのリソースが上限に達しているかを確認することが重要です。データベースリクエスト・Edge Functions・認証 API はそれぞれ個別にカウントされるため、原因の特定にはこのページの確認が必須です。無料プランと有料プラン（Pro）では制限値が大きく異なり、Proプランはデータベースリクエストが100万件/月、Edge Functions呼び出しは200万回/月に拡張されます。
+Supabaseダッシュボードの「Usage」セクションで、どのリソースが上限に達しているかを確認することが重要です。Edge Functions・認証 API はそれぞれ個別にカウントされるため、原因の特定にはこのページの確認が必須です。無料プランと有料プラン（Pro）では制限値が大きく異なり、ProプランはEdge Functions呼び出しが2,000,000回/月に拡張されます。
 
 Supabaseはリージョンごとに独立した制限を持つため、複数のプロジェクトを運用している場合は各プロジェクトの使用状況を個別に確認する必要があります。開発環境と本番環境で異なるプロジェクトを使い分けている場合、本番環境だけが429エラーになるケースも一般的です。
 
