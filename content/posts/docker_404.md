@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "404"
 components: ["Registry", "Hub"]
 related_services: ["Docker Compose", "AWS ECR", "Azure Container Registry"]
+trend_incident: true
 ---
 ## エラーの概要
 

@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "403"
 components: ["Registry", "Desktop"]
 related_services: ["Docker Hub", "Kubernetes", "Azure Container Registry"]
+trend_incident: true
 ---
 # エラーの概要
 

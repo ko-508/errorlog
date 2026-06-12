@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "400"
 components: []
 related_services: ["@octokit/rest"]
+trend_incident: true
 ---
 
 ## エラーの概要

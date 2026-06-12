@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "500"
 components: []
 related_services: ["Node.js", "npm", "postgres", "axios", "JSON", "Promise", "Async/Await"]
+trend_incident: true
 ---
 ## エラーの概要
 

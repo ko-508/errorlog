@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "503"
 components: []
 related_services: ["Next.js", "Edge Functions", "Vercel KV", "Bull", "Redis"]
+trend_incident: true
 ---
 ## エラーの概要
 

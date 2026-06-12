@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "PII-Shieldは、ログがELKスタックなどのログ収集システムに到達する前に、個人情報（PII）や機密情報を効果的に削除するためのオープンソースツールです。本記事では、PII-Shieldの仕組み、よくある原因と解決策、そしてKubernetes環境での活用方法について詳しく解説します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

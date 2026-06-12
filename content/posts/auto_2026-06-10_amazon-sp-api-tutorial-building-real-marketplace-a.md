@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "Amazon Selling Partner API (SP-API)を利用する際に発生しやすいHTTP 429エラーの原因と、それを回避するための具体的な解決策を解説します。レート制限の管理、認証トークンの扱い、そしてイベント駆動型アーキテクチャへの移行など、実践的なアプローチを紹介します。"
 tags: ["Dev.to - AWS"]
+trend_incident: true
 ---
 
 ## エラーの概要

@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "502"
 components: ["Compose"]
 related_services: ["Kubernetes", "Nginx", "Apache", "Node.js", "Python", "Java"]
+trend_incident: true
 ---
 
 ## エラーの概要

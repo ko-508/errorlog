@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "PythonとSQLite、cronジョブを組み合わせた自動化システムで発生しがちなエラーの原因と解決策を、具体的なコード例を交えて解説します。データベースのロック、環境変数の未設定、セッション管理の不備など、実用的なトラブルシューティングを提供します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

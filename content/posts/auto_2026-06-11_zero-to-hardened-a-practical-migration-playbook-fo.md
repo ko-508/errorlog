@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "Docker Hardened Images (DHI) への移行は、コンテナセキュリティを劇的に向上させますが、従来のDockerfileの前提を覆すため、HTTPエラーや予期せぬ挙動を引き起こす可能性があります。本記事では、DHI移行時に遭遇しやすい問題と、それらを解決するための実践的な手順を解説します。"
 tags: ["Dev.to - Docker"]
+trend_incident: true
 ---
 
 ## エラーの概要

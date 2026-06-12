@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "401"
 components: ["Provider", "Registry", "Backend", "State"]
 related_services: ["AWS", "Azure", "GCP", "Terraform Cloud", "Terraform Enterprise", "IAM", "STS", "S3"]
+trend_incident: true
 ---
 ## エラーの概要
 

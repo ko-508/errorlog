@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "403"
 components: ["Provider", "State"]
 related_services: ["AWS", "IAM", "EC2", "SCP", "AWS Organizations"]
+trend_incident: true
 ---
 ## エラーの概要
 

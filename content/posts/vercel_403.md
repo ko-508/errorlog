@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "403"
 components: []
 related_services: ["GitHub Actions", "Vercel CLI"]
+trend_incident: true
 ---
 ## エラーの概要
 

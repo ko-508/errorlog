@@ -9,6 +9,7 @@ service: "Kubernetes"
 error_type: "401"
 components: ["Pod", "ServiceAccount", "ClusterRole", "Role"]
 related_services: ["kubectl", "EKS", "GKE", "RBAC"]
+trend_incident: true
 ---
 
 ## エラーの概要

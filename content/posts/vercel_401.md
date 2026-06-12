@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "401"
 components: []
 related_services: ["GitHub Actions", "GitLab CI", "CircleCI", "GitHub", "curl"]
+trend_incident: true
 ---
 ## Vercel 401 エラーの原因と解決方法
 

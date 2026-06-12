@@ -9,6 +9,7 @@ service: "Kubernetes"
 error_type: "503"
 components: ["Pod", "Service", "Deployment", "Endpoints", "Readiness Probe"]
 related_services: []
+trend_incident: true
 ---
 
 ## エラーの概要

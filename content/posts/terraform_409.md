@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "409"
 components: ["State", "Provider", "Backend", "Workspace"]
 related_services: ["AWS", "S3", "EC2", "CloudFormation", "Terraform Cloud"]
+trend_incident: true
 ---
 ## エラーの概要
 

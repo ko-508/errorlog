@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "WireMockのようなモックツールでは見逃されがちな、サービス間の破壊的変更をPact契約テストがいかに効果的に検出するかを解説します。実際のコード例と解決策を通じて、マイクロサービス環境での信頼性の高いテスト戦略を学びましょう。"
 tags: ["Dev.to - DevOps", "Pact", "Contract Testing", "WireMock", "Microservices", "Python"]
+trend_incident: true
 ---
 
 ## エラーの概要

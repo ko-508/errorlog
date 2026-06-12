@@ -8,6 +8,7 @@ service: "Docker"
 error_type: "503"
 components: ["Compose"]
 related_services: ["PostgreSQL", "Redis", "Python"]
+trend_incident: true
 ---
 ## エラーの概要
 

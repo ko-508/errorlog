@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "504"
 components: []
 related_services: ["API", "Dashboard"]
+trend_incident: true
 ---
 ## エラーの概要
 

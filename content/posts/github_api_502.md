@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "502"
 components: []
 related_services: []
+trend_incident: true
 ---
 
 ## エラーの概要

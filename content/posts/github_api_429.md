@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "429"
 components: []
 related_services: ["Personal Access Token", "GraphQL API", "REST API"]
+trend_incident: true
 ---
 
 ## エラーの概要

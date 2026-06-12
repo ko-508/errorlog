@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "400"
 components: ["Compose", "Registry", "Desktop"]
 related_services: ["Dockerfile", "docker-compose", "Docker Remote API", "YAML", "JSON", "curl", "HTTP", "Ubuntu"]
+trend_incident: true
 ---
 ## エラーの概要
 

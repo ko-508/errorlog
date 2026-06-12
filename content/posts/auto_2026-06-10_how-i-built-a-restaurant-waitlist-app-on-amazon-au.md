@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "Amazon Aurora DSQLで発生する「Table just taken by another host」エラーは、並行処理による二重予約を防ぐための重要なメカニズムです。この記事では、このエラーの概要、具体的な発生例、そしてシリアライザブルトランザクションとFOR UPDATEロックを用いた解決策を解説します。"
 tags: ["Dev.to - AWS"]
+trend_incident: true
 ---
 
 ## エラーの概要

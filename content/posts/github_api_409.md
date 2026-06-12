@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "409"
 components: []
 related_services: ["Octokit"]
+trend_incident: true
 ---
 
 ## エラーの概要

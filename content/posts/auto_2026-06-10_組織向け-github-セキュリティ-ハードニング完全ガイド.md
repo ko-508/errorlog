@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "GitHubのセキュリティ設定ミスは、ソースコードの漏洩や不正なデプロイにつながる重大なHTTPエラーを引き起こす可能性があります。本記事では、GitHubを安全に運用するための組織向けハードニングガイドを解説し、具体的なエラーメッセージと解決策を提供します。"
 tags: ["Dev.to - GitHub"]
+trend_incident: true
 ---
 
 ## エラーの概要

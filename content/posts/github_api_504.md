@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "504"
 components: []
 related_services: ["REST API", "OAuth", "Personal Access Token", "CI/CD"]
+trend_incident: true
 ---
 
 ## エラーの概要

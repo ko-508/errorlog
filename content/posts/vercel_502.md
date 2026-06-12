@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "502"
 components: []
 related_services: ["Node.js", "Next.js"]
+trend_incident: true
 ---
 ## エラーの概要
 

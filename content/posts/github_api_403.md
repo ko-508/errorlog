@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "403"
 components: ["Actions"]
 related_services: ["GitHub Web UI", "Webhook"]
+trend_incident: true
 ---
 
 ## エラーの概要

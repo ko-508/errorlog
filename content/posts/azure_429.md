@@ -8,6 +8,7 @@ service: "Azure"
 error_type: "429"
 components: ["REST API", "Virtual Machines", "Compute"]
 related_services: ["PowerShell", "Azure CLI"]
+trend_incident: true
 ---
 ## エラーの概要
 

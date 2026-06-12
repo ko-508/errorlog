@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "503"
 components: []
 related_services: ["GraphQL API"]
+trend_incident: true
 ---
 
 ## エラーの概要

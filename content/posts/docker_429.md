@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "429"
 components: ["Compose", "Registry"]
 related_services: ["Docker Hub", "GitHub Actions", "Kubernetes"]
+trend_incident: true
 ---
 
 ## エラーの概要

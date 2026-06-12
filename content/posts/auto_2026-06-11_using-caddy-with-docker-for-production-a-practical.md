@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "CaddyとDockerを組み合わせた環境で発生する502 Bad Gatewayエラーについて、その原因と具体的な解決策を解説します。バックエンドサービスの起動遅延、Caddyfileの設定ミス、Dockerネットワークの問題など、実用的なデバッグ方法と修正コードを提供します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

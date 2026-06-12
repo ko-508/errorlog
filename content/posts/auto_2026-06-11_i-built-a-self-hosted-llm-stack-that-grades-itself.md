@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "LiteLLMでカスタム認証を実装する際に遭遇しやすいHTTP 403エラーの原因と、それに伴う監査ログの問題を詳細に解説します。ユーザーごとのモデルアクセス制御と、正確な監査記録の残し方を具体的なコード例と共に紹介します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

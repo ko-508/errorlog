@@ -4,6 +4,7 @@ date: 2026-06-11
 description: "ターゲットホストまたは外部サービスへの認証に失敗した。Ansible 401 エラーの原因と解決策を解説します。"
 tags: ["Ansible"]
 errorCode: "401"
+trend_incident: true
 ---
 ## エラーの概要
 

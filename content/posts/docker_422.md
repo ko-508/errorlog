@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "422"
 components: ["Compose", "Registry", "Daemon"]
 related_services: ["Docker API"]
+trend_incident: true
 ---
 ## エラーの概要
 

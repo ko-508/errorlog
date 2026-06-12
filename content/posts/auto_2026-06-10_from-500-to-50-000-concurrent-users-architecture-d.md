@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "PostgreSQLで「too many connections」エラーが発生する原因と、PgBouncerを使った効果的な解決策を解説します。データベースの接続管理を最適化し、高負荷時でも安定したサービス運用を実現しましょう。"
 tags: ["Dev.to - AWS"]
+trend_incident: true
 ---
 
 ## エラーの概要

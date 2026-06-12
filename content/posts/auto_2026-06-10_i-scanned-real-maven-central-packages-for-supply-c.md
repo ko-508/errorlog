@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "Maven Centralパッケージのサプライチェーン異常を検知するMarshalスキャナーの動作原理、検出された実際の異常、そして誤検知から得られた教訓を解説します。依存関係のセキュリティ強化に役立つ実践的な情報を提供します。"
 tags: ["Dev.to - DevOps", "サプライチェーン攻撃", "Maven", "セキュリティ", "依存関係", "Marshal"]
+trend_incident: true
 ---
 
 ## エラーの概要

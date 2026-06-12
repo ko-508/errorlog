@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "VectorをDocker Composeでデプロイする際に遭遇しやすいHTTPエラーの原因と解決策を解説します。Traefikとの連携、設定ファイルの誤り、ネットワーク問題など、具体的なエラーメッセージと修正コード例を交えて詳しく説明します。"
 tags: ["Dev.to - Docker"]
+trend_incident: true
 ---
 
 ## エラーの概要

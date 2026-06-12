@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "404"
 components: []
 related_services: ["CLI", "Dashboard", "vercel.json"]
+trend_incident: true
 ---
 ## エラーの概要
 

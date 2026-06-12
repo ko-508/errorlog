@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "400"
 components: ["Provider"]
 related_services: ["AWS"]
+trend_incident: true
 ---
 ## エラーの概要
 

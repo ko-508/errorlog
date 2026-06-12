@@ -4,6 +4,7 @@ date: 2026-06-12
 description: "GitLabプロジェクトまたはリソースへのアクセスが拒否された。GitLab 403 エラーの原因と解決策を解説します。"
 tags: ["GitLab"]
 errorCode: "403"
+trend_incident: true
 ---
 ## エラーの概要
 

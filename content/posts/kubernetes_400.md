@@ -9,6 +9,7 @@ service: "Kubernetes"
 error_type: "400"
 components: ["Pod", "Deployment", "Service"]
 related_services: ["YAML", "HTTP", "API"]
+trend_incident: true
 ---
 
 ## エラーの概要

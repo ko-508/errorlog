@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "503"
 components: ["Registry", "Compose"]
 related_services: ["Docker Hub", "Quay.io", "Harbor", "Nexus", "PostgreSQL", "Redis"]
+trend_incident: true
 ---
 
 ## エラーの概要

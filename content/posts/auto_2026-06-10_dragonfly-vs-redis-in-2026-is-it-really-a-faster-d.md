@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "DragonflyをRedisのドロップイン代替として検討する際、HTTPエラーを避けるための互換性の落とし穴と解決策を解説します。実際のコマンド互換性、アーキテクチャの違い、ライセンス変更がもたらす影響を深く掘り下げ、スムーズな移行を実現するための実用的なガイドを提供します。"
 tags: ["Dev.to - DevOps", "Redis", "Dragonfly", "キャッシュ", "互換性", "エラー解決"]
+trend_incident: true
 ---
 
 ## エラーの概要

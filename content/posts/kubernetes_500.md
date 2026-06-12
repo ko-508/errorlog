@@ -9,6 +9,7 @@ service: "Kubernetes"
 error_type: "500"
 components: ["Pod", "Deployment", "Service", "ConfigMap", "Secret", "Namespace", "RBAC"]
 related_services: ["etcd", "kubectl", "API Server"]
+trend_incident: true
 ---
 
 ## エラーの概要

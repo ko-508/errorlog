@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "データパイプライン開発における「手元の環境では動くのに本番では動かない」問題を解決するため、Sparkとレイクハウス環境をDockerで完全にコンテナ化する方法を解説します。開発、CI、本番環境で一貫した動作を実現するための具体的な手順と注意点を紹介します。"
 tags: ["Dev.to - Docker"]
+trend_incident: true
 ---
 
 ## エラーの概要

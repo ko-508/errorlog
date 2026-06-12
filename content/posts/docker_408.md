@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "408"
 components: ["Daemon", "CLI", "API", "Compose", "BuildKit"]
 related_services: ["HTTP", "RFC", "UNIX Socket", "Named Pipe", "Dockerfile"]
+trend_incident: true
 ---
 ## エラーの概要
 

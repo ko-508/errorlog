@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "401"
 components: ["Registry"]
 related_services: ["Docker Hub", "Azure Container Registry", "ECR"]
+trend_incident: true
 ---
 ## エラーの概要
 

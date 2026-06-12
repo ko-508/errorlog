@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "AIプラットフォームの構築において、Kubernetes、Ray、vLLMなどの技術で直面する分散システムとスケジューリングの課題に焦点を当て、一般的なエラーの原因と具体的な解決策を解説します。"
 tags: ["Dev.to - Kubernetes"]
+trend_incident: true
 ---
 
 ## エラーの概要

@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "AWS IAMアクセスキーの利用はセキュリティリスクが高いです。OpenID Connect (OIDC) フェデレーションを利用して、GitHub ActionsやAzure ADなどの外部サービスからAWSリソースへ安全にアクセスする方法を解説します。"
 tags: ["Dev.to - AWS"]
+trend_incident: true
 ---
 
 ## エラーの概要

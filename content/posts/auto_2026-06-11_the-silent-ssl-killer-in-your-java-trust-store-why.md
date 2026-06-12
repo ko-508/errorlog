@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "Javaアプリケーションで発生するSSLHandshakeException、特に「PKIX path building failed」は、証明書のサイレントな変更によって引き起こされることがあります。本記事では、OVからDVへの証明書タイプ移行がJavaのトラストストアに与える影響と、その解決策を詳しく解説します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

@@ -9,6 +9,7 @@ service: "Kubernetes"
 error_type: "403"
 components: ["Pod", "Deployment", "ServiceAccount", "Role", "RoleBinding", "ClusterRole", "Namespace"]
 related_services: ["RBAC", "kubectl"]
+trend_incident: true
 ---
 
 ## エラーの概要

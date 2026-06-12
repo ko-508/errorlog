@@ -8,6 +8,7 @@ service: "Vercel"
 error_type: "400"
 components: []
 related_services: ["Vercel CLI", "Vercel API"]
+trend_incident: true
 ---
 ## エラーの概要
 

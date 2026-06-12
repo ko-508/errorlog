@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "開発サーバーのログをjqで処理しようとして、非JSON行でパイプが途切れて困った経験はありませんか？本記事では、リアルタイムログストリームにおけるjqの課題と、その解決策としてlogtidyを紹介します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "Amazon Connectのタッチトーンバッファリング機能（タイプアヘッド）について、その概要、実際の動作、そしてコンタクトフローでの設定方法を詳しく解説します。顧客がIVRで数字を先行入力できるようになり、待ち時間の短縮と顧客体験の向上が期待できます。"
 tags: ["Dev.to - AWS", "Amazon Connect", "IVR", "DTMF", "タッチトーンバッファリング"]
+trend_incident: true
 ---
 
 ## エラーの概要

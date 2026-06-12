@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "401"
 components: ["Personal Access Token", "Authorization header"]
 related_services: ["curl", "Python requests"]
+trend_incident: true
 ---
 
 ## エラーの概要

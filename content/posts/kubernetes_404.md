@@ -9,6 +9,7 @@ service: "Kubernetes"
 error_type: "404"
 components: ["Pod", "Service", "Deployment", "Namespace", "ConfigMap", "Secret"]
 related_services: ["kubectl"]
+trend_incident: true
 ---
 
 ## エラーの概要

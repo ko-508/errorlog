@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "429"
 components: ["Provider", "Backend", "State"]
 related_services: ["AWS", "Google Cloud", "Azure", "IAM", "EC2", "CloudFormation", "GitLab CI"]
+trend_incident: true
 ---
 ## エラーの概要
 

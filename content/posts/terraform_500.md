@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "500"
 components: ["Provider", "Backend", "State", "Workspace"]
 related_services: ["Terraform Cloud", "AWS", "Azure", "GCP", "EC2", "IAM"]
+trend_incident: true
 ---
 # Terraform で 500 エラーが発生した場合の対処方法
 

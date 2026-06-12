@@ -4,6 +4,7 @@ date: 2026-06-12
 description: "GitLab APIへのリクエストの形式または内容に誤りがある。GitLab 400 エラーの原因と解決策を解説します。"
 tags: ["GitLab"]
 errorCode: "400"
+trend_incident: true
 ---
 ## エラーの概要
 

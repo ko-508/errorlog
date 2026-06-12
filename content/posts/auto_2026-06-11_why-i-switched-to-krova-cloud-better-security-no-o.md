@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "Krova.cloudが提供するFirecrackerマイクロVM技術による高いセキュリティ、オーバーセルなしの安定したリソース、そして大幅なコスト削減について解説します。"
 tags: ["Dev.to - DevOps"]
+trend_incident: true
 ---
 
 ## エラーの概要

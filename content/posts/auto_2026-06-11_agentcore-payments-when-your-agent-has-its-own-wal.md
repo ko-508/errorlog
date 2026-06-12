@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "HTTP 402 Payment Requiredは、支払いが要求されていることを示すHTTPステータスコードです。特にエージェント型アプリケーションにおける機械間マイクロペイメントの文脈で、このエラーがどのように発生し、AWS AgentCore Paymentsがどのように解決するかを解説します。"
 tags: ["Dev.to - AWS", "HTTP 402", "AgentCore Payments", "マイクロペイメント", "AWS Bedrock", "x402"]
+trend_incident: true
 ---
 
 ## エラーの概要

@@ -9,6 +9,7 @@ service: "GitHub API"
 error_type: "500"
 components: []
 related_services: ["REST API"]
+trend_incident: true
 ---
 
 ## エラーの概要

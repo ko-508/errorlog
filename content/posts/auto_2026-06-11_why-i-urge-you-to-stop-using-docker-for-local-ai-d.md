@@ -5,6 +5,7 @@ lastmod: 2026-06-11
 draft: false
 description: "MacでのローカルAI開発において、Dockerがパフォーマンスのボトルネックとなる理由を解説し、ネイティブ環境への移行を提案します。具体的な原因と解決策、そしてServBayのようなネイティブ開発環境の活用法を紹介します。"
 tags: ["Dev.to - Docker"]
+trend_incident: true
 ---
 
 ## エラーの概要

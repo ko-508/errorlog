@@ -5,6 +5,7 @@ lastmod: 2026-06-10
 draft: false
 description: "GitHub組織のセキュリティを強化するための実践的なガイド。一般的なエラーの原因と解決策をコード例を交えて解説します。"
 tags: ["Dev.to - GitHub"]
+trend_incident: true
 ---
 
 ## エラーの概要

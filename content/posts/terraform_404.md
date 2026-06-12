@@ -8,6 +8,7 @@ service: "Terraform"
 error_type: "404"
 components: ["Provider", "State", "Workspace"]
 related_services: ["AWS", "Google Cloud"]
+trend_incident: true
 ---
 ## エラーの概要
 

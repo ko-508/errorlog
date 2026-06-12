@@ -9,6 +9,7 @@ service: "Docker"
 error_type: "504"
 components: ["Compose"]
 related_services: ["Nginx", "PostgreSQL"]
+trend_incident: true
 ---
 
 ## エラーの概要
