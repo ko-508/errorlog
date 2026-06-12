@@ -1,4 +1,5 @@
 baseURL = "https://errorlog.jp/"
+ignoreFiles = ['\.jsonl$']
 locale = "ja"
 title = "ErrorLog - エラーコード解決ガイド"
 theme = "PaperMod"

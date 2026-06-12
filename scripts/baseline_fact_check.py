@@ -43,6 +43,7 @@ from fact_check import (
 
 PROGRESS_PATH = BASE / "data" / "baseline_progress.json"
 REPEAT_SET_PATH = BASE / "data" / "baseline_repeat_set.json"
+JSONL_PATH = BASE / "data" / "fact_check_score_history.jsonl"
 
 # ── Constants ────────────────────────────────────────────────────────────────
 
@@ -188,6 +189,24 @@ def score_with_retry(path: Path, sleep_seconds: float) -> FactCheckResult:
 
 # ── Progress tracking ─────────────────────────────────────────────────────────
 
+def load_jsonl_ok_paths() -> set[str]:
+    """Return set of paths that have at least one status='ok' record in JSONL."""
+    ok: set[str] = set()
+    if not JSONL_PATH.exists():
+        return ok
+    try:
+        for line in JSONL_PATH.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            rec = json.loads(line)
+            if rec.get("status") == "ok":
+                ok.add(rec["path"])
+    except Exception:
+        pass
+    return ok
+
+
 def load_progress(mode: str) -> set[str]:
     """Return set of already-completed keys (rel_path or rel_path::round_idx)."""
     if not PROGRESS_PATH.exists():
@@ -251,6 +270,51 @@ def _filter_existing_paths(paths: list[Path], label: str) -> list[Path]:
     return existing
 
 
+# ── Progress repair ───────────────────────────────────────────────────────────
+
+def repair_progress(yes: bool) -> int:
+    """Remove non-ok entries from baseline_progress.json.
+
+    Keeps only entries whose path has at least one status='ok' record in JSONL.
+    Prints removed count and remaining count, then exits.
+    """
+    if not PROGRESS_PATH.exists():
+        print("[repair] baseline_progress.json not found — nothing to repair.")
+        return 0
+
+    try:
+        data = json.loads(PROGRESS_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:
+        print(f"[repair] Failed to read progress file: {exc}")
+        return 1
+
+    mode = data.get("mode", "unknown")
+    if mode != "full":
+        print(f"[repair] mode={mode!r} — repair only supports full mode.")
+        return 1
+
+    ok_paths = load_jsonl_ok_paths()
+    original: list[str] = list(data.get("scored", []))
+    kept = [p for p in original if p in ok_paths]
+    removed = len(original) - len(kept)
+
+    print(f"[repair] Progress entries : {len(original)}")
+    print(f"[repair] JSONL ok paths   : {len(ok_paths)}")
+    print(f"[repair] Entries to remove: {removed}  (unavailable / failed / no JSONL record)")
+    print(f"[repair] Entries to keep  : {len(kept)}")
+
+    confirm_or_exit(f"Remove {removed} non-ok entries from {PROGRESS_PATH.name}?", yes)
+
+    data["scored"] = kept
+    data["last_updated"] = utc_now_iso()
+    PROGRESS_PATH.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    print(f"[repair] Done. Removed {removed}, {len(kept)} ok entries remain.")
+    return 0
+
+
 # ── Full run ──────────────────────────────────────────────────────────────────
 
 def run_full(args: argparse.Namespace) -> int:
@@ -263,14 +327,30 @@ def run_full(args: argparse.Namespace) -> int:
     print(f"[baseline] Full run: {n} articles  est. ~{est_s // 60} min  (sleep={args.sleep}s)")
     confirm_or_exit(f"Score {n} articles?", args.yes)
 
-    already = load_progress("full") if args.resume else set()
-    if already:
-        print(f"[baseline] Resuming: {len(already)} done, {n - len(already)} remaining")
+    if args.resume:
+        progress_set = load_progress("full")
+        ok_in_jsonl = load_jsonl_ok_paths()
+        already = progress_set & ok_in_jsonl  # skip only paths confirmed ok in JSONL
+        skipped_non_ok = progress_set - ok_in_jsonl
+    else:
+        already = set()
+        skipped_non_ok = set()
 
     started_at = utc_now_iso()
     scored: list[str] = list(already)
     counts: dict[str, int] = {"ok": 0, "fact_check_unavailable": 0, "failed_fact_check": 0}
     todo = [p for p in posts if str(p.relative_to(FC_BASE).as_posix()) not in already]
+
+    if args.resume:
+        if skipped_non_ok:
+            print(
+                f"[baseline] Resuming: {len(already)} ok (skip), "
+                f"{len(skipped_non_ok)} non-ok in progress → re-queue, "
+                f"{len(todo) - len(skipped_non_ok & {p.relative_to(FC_BASE).as_posix() for p in posts})} new, "
+                f"{len(todo)} total todo"
+            )
+        else:
+            print(f"[baseline] Resuming: {len(already)} done, {len(todo)} remaining")
     t0 = time.monotonic()
 
     for i, path in enumerate(todo, 1):
@@ -414,8 +494,15 @@ def main() -> None:
     parser.add_argument("--sleep", type=float, default=10.0, help="Seconds between requests (default 10)")
     parser.add_argument("--resume", action="store_true", help="Skip already-scored articles (reads progress file)")
     parser.add_argument("--yes", "-y", action="store_true", help="Skip confirmation prompt")
+    parser.add_argument(
+        "--repair-progress",
+        action="store_true",
+        help="Remove non-ok entries from baseline_progress.json (cross-checks JSONL), then exit",
+    )
     args = parser.parse_args()
 
+    if args.repair_progress:
+        raise SystemExit(repair_progress(args.yes))
     if args.repeat_set:
         raise SystemExit(run_repeat_set(args))
     raise SystemExit(run_full(args))
