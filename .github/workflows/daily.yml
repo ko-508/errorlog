@@ -78,11 +78,13 @@ jobs:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: python scripts/request_index.py
 
-      - name: Notify Make (Threads)
+      - name: Upload publish session artifact
         if: steps.push.outputs.deployed == 'true'
-        env:
-          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
-        run: python scripts/notify_threads.py
+        uses: actions/upload-artifact@v4
+        with:
+          name: publish-session
+          path: data/publish_session.json
+          if-no-files-found: ignore
 
       - name: Notify on failure
         if: failure()
@@ -123,6 +125,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Download publish session artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: publish-session
+          path: data
+        continue-on-error: true
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -131,6 +140,8 @@ jobs:
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          PUBLISH_NOTIFY_TO: ${{ secrets.GMAIL_USER }}
+          PUBLISH_NOTIFY_FROM: ${{ secrets.GMAIL_USER }}
           PUBLISH_NOTIFY_MAX_RETRIES: "10"
           PUBLISH_NOTIFY_RETRY_SECONDS: "60"
           PUBLISH_NOTIFY_FAIL_ON_ERROR: "false"
