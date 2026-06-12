@@ -19,6 +19,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -55,6 +56,9 @@ UNAVAILABLE_RETRY_AFTER_HOURS = float(os.getenv("FACT_CHECK_UNAVAILABLE_RETRY_AF
 RECENTLY_CHECKED_SKIP_HOURS = float(os.getenv("FACT_CHECK_RECENTLY_CHECKED_SKIP_HOURS", "168"))
 
 SCORE_KEYS = ("factual_score", "freshness_score", "citation_coverage", "risk_score")
+
+# プロンプト本文を変更した場合はこの値を手動でインクリメントしてください。
+FACT_CHECK_PROMPT_VERSION = "1"
 
 GEMINI_QUOTA_PATTERNS = (
     "RESOURCE_EXHAUSTED",
@@ -109,6 +113,10 @@ DANGEROUS_PATTERNS = [
     r"--no-check-certificate",
     r"verify\s*=\s*false",
 ]
+
+
+def _resolve_gemini_model() -> str:
+    return os.getenv("FACT_CHECK_GEMINI_MODEL", "gemini-2.5-flash")
 
 
 def gemini_unavailable_category(error: str) -> str:
@@ -168,6 +176,8 @@ class FactCheckResult:
     fact_check_input_chars: int = 0
     fact_check_input_truncated: bool = False
     timeout_seconds: float = GEMINI_TIMEOUT_SECONDS
+    gemini_model: str = ""
+    article_hash: str = ""
 
 
 def split_frontmatter(content: str) -> tuple[dict[str, str], str]:
@@ -702,7 +712,7 @@ Article excerpt:
     try:
         return evaluate_gemini_with_parse_retry(
             api_key,
-            os.getenv("FACT_CHECK_GEMINI_MODEL", "gemini-2.5-flash"),
+            _resolve_gemini_model(),
             prompt,
         )
     except KeyboardInterrupt:
@@ -843,26 +853,39 @@ def normalize_final_messages(
     return pass_reasons, [], merge_unique([], suggestions)
 
 
+def _attach_run_context(result: FactCheckResult, article_hash: str) -> FactCheckResult:
+    result.article_hash = article_hash
+    result.gemini_model = _resolve_gemini_model()
+    return result
+
+
 def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
     fm, body = split_frontmatter(content)
     title = extract_title(path, fm)
     original_chars = len(content)
+    article_hash = compute_article_hash(body)
     fact_check_input, fact_check_input_truncated = build_fact_check_input(title, fm, body)
     fact_check_input_chars = len(fact_check_input)
     gemini = gemini_scores(title, fact_check_input)
     if gemini.status == "invalid_json":
-        return attach_input_metadata(
-            failed_gemini_result(path, title, mode, gemini),
-            original_chars,
-            fact_check_input_chars,
-            fact_check_input_truncated,
+        return _attach_run_context(
+            attach_input_metadata(
+                failed_gemini_result(path, title, mode, gemini),
+                original_chars,
+                fact_check_input_chars,
+                fact_check_input_truncated,
+            ),
+            article_hash,
         )
     if gemini.status == "unavailable" and gemini.error_category:
-        return attach_input_metadata(
-            unavailable_gemini_result(path, title, mode, gemini.error, gemini.error_category),
-            original_chars,
-            fact_check_input_chars,
-            fact_check_input_truncated,
+        return _attach_run_context(
+            attach_input_metadata(
+                unavailable_gemini_result(path, title, mode, gemini.error, gemini.error_category),
+                original_chars,
+                fact_check_input_chars,
+                fact_check_input_truncated,
+            ),
+            article_hash,
         )
 
     scores, reasons, actions = heuristic_scores(title, fm, body)
@@ -897,17 +920,20 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
     )
     if mode == "existing" and unavailable_reason:
         category = gemini.error_category or gemini_unavailable_category("; ".join(reasons))
-        return attach_input_metadata(
-            unavailable_gemini_result(
-                path,
-                title,
-                mode,
-                gemini.error or "; ".join(reasons),
-                category or "api",
+        return _attach_run_context(
+            attach_input_metadata(
+                unavailable_gemini_result(
+                    path,
+                    title,
+                    mode,
+                    gemini.error or "; ".join(reasons),
+                    category or "api",
+                ),
+                original_chars,
+                fact_check_input_chars,
+                fact_check_input_truncated,
             ),
-            original_chars,
-            fact_check_input_chars,
-            fact_check_input_truncated,
+            article_hash,
         )
 
     sources, url_stats, citation_quality_delta, source_notes = validate_sources(sources)
@@ -954,25 +980,28 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
         unsupported_claims,
     )
 
-    return attach_input_metadata(FactCheckResult(
-        path=str(path.as_posix()),
-        title=title,
-        mode=mode,
-        scores=scores,
-        passed=passed,
-        critical=critical,
-        reasons=reasons,
-        required_actions=actions,
-        detected_at=date.today().isoformat(),
-        status=status,
-        evaluator=evaluator,
-        sources=sources,
-        unsupported_claims=unsupported_claims,
-        improvement_suggestions=improvement_suggestions,
-        url_checked=url_stats["checked"],
-        url_skipped=url_stats["skipped"],
-        url_invalid=url_stats["invalid"],
-    ), original_chars, fact_check_input_chars, fact_check_input_truncated)
+    return _attach_run_context(
+        attach_input_metadata(FactCheckResult(
+            path=str(path.as_posix()),
+            title=title,
+            mode=mode,
+            scores=scores,
+            passed=passed,
+            critical=critical,
+            reasons=reasons,
+            required_actions=actions,
+            detected_at=date.today().isoformat(),
+            status=status,
+            evaluator=evaluator,
+            sources=sources,
+            unsupported_claims=unsupported_claims,
+            improvement_suggestions=improvement_suggestions,
+            url_checked=url_stats["checked"],
+            url_skipped=url_stats["skipped"],
+            url_invalid=url_stats["invalid"],
+        ), original_chars, fact_check_input_chars, fact_check_input_truncated),
+        article_hash,
+    )
 
 
 def safe_report_name(path: Path) -> str:
@@ -1001,20 +1030,58 @@ def utc_now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
+def compute_article_hash(body: str) -> str:
+    """SHA256 of the article body (frontmatter excluded), first 12 hex chars."""
+    return hashlib.sha256(body.encode("utf-8")).hexdigest()[:12]
+
+
 def append_score_history(result: FactCheckResult) -> bool:
+    """Append one JSONL record to SCORE_HISTORY_PATH.
+
+    Fields written (19 total):
+      checked_at        ISO-8601 UTC timestamp of this check run
+      mode              "new" | "existing"
+      path              article relative path (content/posts/...)
+      title             article title string
+      overall_judgement result status string (legacy alias of status)
+      factual_score     0-100, or null when fact check was unavailable/failed
+      freshness_score   0-100, or null
+      citation_coverage 0-100, or null
+      risk_score        0-100, or null
+      critical          bool
+      gemini_model      Gemini model name used (FACT_CHECK_GEMINI_MODEL env)
+      workflow          GITHUB_WORKFLOW env value, or "local" if not in CI
+      run_id            GITHUB_RUN_ID env value, or a UUID4 string
+      trigger           GITHUB_EVENT_NAME env value, or "manual"
+      prompt_version    FACT_CHECK_PROMPT_VERSION constant; increment on prompt change
+      status            same as overall_judgement (explicit status field)
+      article_hash      SHA256[:12] of article body (frontmatter excluded)
+      unsupported_claims list of unsupported claim strings from Gemini evaluation
+      sources           list of source dicts from Gemini evaluation
+    """
     SCORE_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
     scores = result.scores
+    score_valid = result.score_valid
     record = {
         "checked_at": utc_now_iso(),
         "mode": result.mode,
         "path": result.path,
         "title": result.title,
         "overall_judgement": result.status,
-        "factual_score": scores["factual_score"],
-        "freshness_score": scores["freshness_score"],
-        "citation_coverage": scores["citation_coverage"],
-        "risk_score": scores["risk_score"],
+        "factual_score": scores["factual_score"] if score_valid else None,
+        "freshness_score": scores["freshness_score"] if score_valid else None,
+        "citation_coverage": scores["citation_coverage"] if score_valid else None,
+        "risk_score": scores["risk_score"] if score_valid else None,
         "critical": result.critical,
+        "gemini_model": result.gemini_model or _resolve_gemini_model(),
+        "workflow": os.getenv("GITHUB_WORKFLOW", "local"),
+        "run_id": os.getenv("GITHUB_RUN_ID") or str(uuid.uuid4()),
+        "trigger": os.getenv("GITHUB_EVENT_NAME", "manual"),
+        "prompt_version": FACT_CHECK_PROMPT_VERSION,
+        "status": result.status,
+        "article_hash": result.article_hash,
+        "unsupported_claims": result.unsupported_claims,
+        "sources": result.sources,
     }
     with SCORE_HISTORY_PATH.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(record, ensure_ascii=False) + "\n")
@@ -1058,9 +1125,13 @@ def latest_previous_history(result: FactCheckResult) -> dict[str, Any] | None:
     current = result.scores
     if len(records) >= 2:
         last = records[-1]
+        last_factual = last.get("factual_score")
+        last_risk = last.get("risk_score")
         if (
-            int(last.get("factual_score", -1)) == current["factual_score"]
-            and int(last.get("risk_score", -1)) == current["risk_score"]
+            last_factual is not None
+            and last_risk is not None
+            and int(last_factual) == current["factual_score"]
+            and int(last_risk) == current["risk_score"]
             and last.get("overall_judgement") == result.status
         ):
             return records[-2]
@@ -1072,8 +1143,12 @@ def has_score_degraded(result: FactCheckResult) -> bool:
     if not previous:
         return False
     current = result.scores
-    factual_drop = int(previous.get("factual_score", current["factual_score"])) - current["factual_score"]
-    risk_increase = current["risk_score"] - int(previous.get("risk_score", current["risk_score"]))
+    prev_factual = previous.get("factual_score")
+    prev_risk = previous.get("risk_score")
+    if prev_factual is None or prev_risk is None:
+        return False
+    factual_drop = int(prev_factual) - current["factual_score"]
+    risk_increase = current["risk_score"] - int(prev_risk)
     return factual_drop >= 10 or risk_increase >= 15
 
 
@@ -1083,8 +1158,7 @@ def save_report(result: FactCheckResult) -> FactCheckResult:
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / safe_report_name(Path(result.path))
     result.report_path = str(out.relative_to(BASE).as_posix())
-    if result.status not in {"fact_check_unavailable", "failed_fact_check"}:
-        append_score_history(result)
+    append_score_history(result)
     out.write_text(json.dumps(asdict(result), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     cleanup_reports()
     return result
