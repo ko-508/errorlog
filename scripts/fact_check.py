@@ -1051,10 +1051,12 @@ def append_score_history(result: FactCheckResult) -> bool:
       critical          bool
       gemini_model      Gemini model name used (FACT_CHECK_GEMINI_MODEL env)
       workflow          GITHUB_WORKFLOW env value, or "local" if not in CI
-      run_id            GITHUB_RUN_ID env value, or a UUID4 string
+      run_id            GITHUB_RUN_ID env value, or "local" if not in CI
+      eval_id           UUID4 generated per evaluation call; primary key for repeat sets
       trigger           GITHUB_EVENT_NAME env value, or "manual"
       prompt_version    FACT_CHECK_PROMPT_VERSION constant; increment on prompt change
-      status            same as overall_judgement (explicit status field)
+      status            execution status: "ok" | "fact_check_unavailable" | "failed_fact_check"
+                        (scoring judgement pass/reject/etc. is in overall_judgement)
       article_hash      SHA256[:12] of article body (frontmatter excluded)
       unsupported_claims list of unsupported claim strings from Gemini evaluation
       sources           list of source dicts from Gemini evaluation
@@ -1062,6 +1064,11 @@ def append_score_history(result: FactCheckResult) -> bool:
     SCORE_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
     scores = result.scores
     score_valid = result.score_valid
+    exec_status = (
+        result.status
+        if result.status in {"fact_check_unavailable", "failed_fact_check"}
+        else "ok"
+    )
     record = {
         "checked_at": utc_now_iso(),
         "mode": result.mode,
@@ -1075,10 +1082,11 @@ def append_score_history(result: FactCheckResult) -> bool:
         "critical": result.critical,
         "gemini_model": result.gemini_model or _resolve_gemini_model(),
         "workflow": os.getenv("GITHUB_WORKFLOW", "local"),
-        "run_id": os.getenv("GITHUB_RUN_ID") or str(uuid.uuid4()),
+        "run_id": os.getenv("GITHUB_RUN_ID", "local"),
+        "eval_id": str(uuid.uuid4()),
         "trigger": os.getenv("GITHUB_EVENT_NAME", "manual"),
         "prompt_version": FACT_CHECK_PROMPT_VERSION,
-        "status": result.status,
+        "status": exec_status,
         "article_hash": result.article_hash,
         "unsupported_claims": result.unsupported_claims,
         "sources": result.sources,

@@ -1,4 +1,4 @@
-"""Unit tests for fact_check.py schema additions (article_hash, null scores)."""
+"""Unit tests for fact_check.py schema additions (article_hash, null scores, status values)."""
 
 import json
 import sys
@@ -73,23 +73,78 @@ def test_unavailable_status_null_scores() -> None:
         assert len(lines) == 1, f"Expected 1 record, got {len(lines)}"
         record = json.loads(lines[0])
 
-        assert record["status"] == "fact_check_unavailable"
+        # 実行ステータスは "fact_check_unavailable"
+        assert record["status"] == "fact_check_unavailable", f"Unexpected status: {record['status']}"
+        # スコアは null
         assert record["factual_score"] is None, f"Expected null, got {record['factual_score']}"
         assert record["freshness_score"] is None
         assert record["citation_coverage"] is None
         assert record["risk_score"] is None
+        # overall_judgement は result.status をそのまま保持
+        assert record["overall_judgement"] == "fact_check_unavailable"
 
-        # 新フィールドが存在することを確認
-        for field in ("gemini_model", "workflow", "run_id", "trigger", "prompt_version",
-                      "article_hash", "unsupported_claims", "sources"):
-            assert field in record, f"Missing field: {field}"
+        # 全新フィールドが存在することを確認
+        for f in ("gemini_model", "workflow", "run_id", "eval_id", "trigger",
+                  "prompt_version", "article_hash", "unsupported_claims", "sources"):
+            assert f in record, f"Missing field: {f}"
 
         print("PASS test_unavailable_status_null_scores")
     finally:
         tmp_path.unlink(missing_ok=True)
 
 
+def test_ok_status_for_passing_result() -> None:
+    """採点が正常完了した場合、status="ok" になり overall_judgement が判定値を持つことを検証する。"""
+    for judgement in ("pass", "needs_revision", "reject", "critical"):
+        result = FactCheckResult(
+            path="content/posts/docker_404.md",
+            title="Docker の 404 エラー",
+            mode="existing",
+            scores={
+                "factual_score": 82,
+                "freshness_score": 75,
+                "citation_coverage": 60,
+                "risk_score": 22,
+            },
+            passed=(judgement == "pass"),
+            critical=(judgement == "critical"),
+            reasons=[],
+            required_actions=[],
+            detected_at="2026-06-12",
+            status=judgement,
+            score_valid=True,
+        )
+
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
+            tmp_path = Path(f.name)
+
+        try:
+            with patch("fact_check.SCORE_HISTORY_PATH", tmp_path):
+                append_score_history(result)
+
+            record = json.loads(tmp_path.read_text(encoding="utf-8").strip())
+
+            # 実行ステータスは常に "ok"
+            assert record["status"] == "ok", (
+                f"judgement={judgement}: expected status='ok', got '{record['status']}'"
+            )
+            # 採点判定は overall_judgement に保持
+            assert record["overall_judgement"] == judgement, (
+                f"Expected overall_judgement='{judgement}', got '{record['overall_judgement']}'"
+            )
+            # スコアは null にならない
+            assert record["factual_score"] == 82
+            # eval_id は UUID4 形式（8-4-4-4-12）
+            parts = record["eval_id"].split("-")
+            assert len(parts) == 5, f"eval_id is not UUID4: {record['eval_id']}"
+        finally:
+            tmp_path.unlink(missing_ok=True)
+
+    print("PASS test_ok_status_for_passing_result")
+
+
 if __name__ == "__main__":
     test_article_hash_pure()
     test_unavailable_status_null_scores()
+    test_ok_status_for_passing_result()
     print("\nAll tests passed.")
