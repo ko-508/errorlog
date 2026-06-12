@@ -197,7 +197,7 @@ vercel logs <your-project-name> --follow
 
 ## それでも解決しない場合
 
-まず、Vercel Dashboardの「Deployments」タブで該当デプロイメントのログを確認してください。「Functions」セクションで実行時間の詳細が表示されます。以下のコマンドでローカルテストも有効です：
+Vercel Dashboardの「Deployments」タブで該当デプロイメントのログを確認してください。「Functions」セクションで実行時間の詳細が表示されます。以下のコマンドでローカルテストも有効です：
 
 ```bash
 vercel dev
