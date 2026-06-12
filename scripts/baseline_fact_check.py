@@ -154,6 +154,23 @@ def stratify_repeat_set(
 
 def score_with_retry(path: Path, sleep_seconds: float) -> FactCheckResult:
     """Evaluate one article; exponential backoff on unavailable (max MAX_RETRIES attempts)."""
+    if not path.exists():
+        rel = str(path.relative_to(FC_BASE).as_posix())
+        return FactCheckResult(
+            path=rel,
+            title=path.stem,
+            mode="existing",
+            scores={},
+            passed=False,
+            critical=False,
+            reasons=["File not found — deleted after selection."],
+            required_actions=[],
+            detected_at=utc_now_iso(),
+            status="failed_fact_check",
+            score_valid=False,
+            error_detail="file not found (deleted after selection)",
+        )
+
     base_delay = max(sleep_seconds, 30.0)
     last: FactCheckResult | None = None
     for attempt in range(MAX_RETRIES):
@@ -220,6 +237,20 @@ def _score_line(result: FactCheckResult) -> str:
     return "factual=null risk=null"
 
 
+def _filter_existing_paths(paths: list[Path], label: str) -> list[Path]:
+    existing = [p for p in paths if p.exists()]
+    missing = [p for p in paths if not p.exists()]
+    if missing:
+        print(f"[baseline] Skipping {len(missing)} missing {label} path(s):")
+        for p in missing:
+            try:
+                rel = p.relative_to(FC_BASE).as_posix()
+            except ValueError:
+                rel = str(p)
+            print(f"           missing: {rel}")
+    return existing
+
+
 # ── Full run ──────────────────────────────────────────────────────────────────
 
 def run_full(args: argparse.Namespace) -> int:
@@ -244,6 +275,11 @@ def run_full(args: argparse.Namespace) -> int:
 
     for i, path in enumerate(todo, 1):
         rel = str(path.relative_to(FC_BASE).as_posix())
+        if not path.exists():
+            print(f"[baseline] ({i}/{len(todo)}) {rel}  skipped  missing file")
+            scored.append(rel)
+            save_progress("full", scored, started_at)
+            continue
         if i > 1:
             time.sleep(args.sleep)
         result = score_with_retry(path, args.sleep)
@@ -275,7 +311,7 @@ def run_repeat_set(args: argparse.Namespace) -> int:
     # Load or create repeat set
     if REPEAT_SET_PATH.exists():
         data = json.loads(REPEAT_SET_PATH.read_text(encoding="utf-8"))
-        repeat_paths = [FC_BASE / p for p in data["paths"]]
+        repeat_paths = _filter_existing_paths([FC_BASE / p for p in data["paths"]], "repeat-set")
         print(
             f"[baseline] Loaded repeat set ({len(repeat_paths)} articles) from {REPEAT_SET_PATH.name}"
             f"  daily={data.get('daily_count')}  rss={data.get('rss_count')}"
@@ -330,6 +366,11 @@ def run_repeat_set(args: argparse.Namespace) -> int:
 
     for i, (path, round_idx) in enumerate(todo, 1):
         rel = str(path.relative_to(FC_BASE).as_posix())
+        if not path.exists():
+            print(f"[baseline] ({i}/{len(todo)}) round={round_idx}  {rel}  skipped  missing file")
+            scored_keys.append(f"{rel}::{round_idx}")
+            save_progress("repeat", scored_keys, started_at)
+            continue
         if i > 1:
             time.sleep(args.sleep)
         result = score_with_retry(path, args.sleep)

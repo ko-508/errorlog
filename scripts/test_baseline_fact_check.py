@@ -16,9 +16,11 @@ from baseline_fact_check import (
     STRATIFY_EXTREME_N,
     STRATIFY_RSS,
     STRATIFY_TOOL_MAX,
+    _filter_existing_paths,
+    score_with_retry,
     stratify_repeat_set,
 )
-from fact_check import FactCheckResult, REPORTS_DIR, REWRITE_CANDIDATES_PATH, save_report
+from fact_check import BASE as FC_BASE, FactCheckResult, REPORTS_DIR, REWRITE_CANDIDATES_PATH, SCORE_HISTORY_PATH, save_report
 
 
 # ── Synthetic fixtures ────────────────────────────────────────────────────────
@@ -140,6 +142,22 @@ def test_stratify_deterministic() -> None:
 
 # ── Side-effect isolation tests ───────────────────────────────────────────────
 
+def test_filter_existing_paths_skips_missing() -> None:
+    """Missing saved paths are skipped before scoring."""
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+        existing = tmp_path / "content" / "posts" / "existing.md"
+        missing = tmp_path / "content" / "posts" / "missing.md"
+        existing.parent.mkdir(parents=True)
+        existing.write_text("---\ntitle: Existing\n---\nBody\n", encoding="utf-8")
+
+        filtered = _filter_existing_paths([existing, missing], "test")
+
+        assert filtered == [existing]
+
+    print("PASS test_filter_existing_paths_skips_missing")
+
+
 def _make_unavailable_result() -> FactCheckResult:
     return FactCheckResult(
         path="content/posts/docker_404.md",
@@ -225,12 +243,50 @@ def test_save_report_write_report_true_creates_file() -> None:
     print("PASS test_save_report_write_report_true_creates_file")
 
 
+def test_score_with_retry_missing_file_no_crash_and_failed_jsonl() -> None:
+    """存在しないパスを渡してもクラッシュせず failed_fact_check レコードが JSONL に書かれること。
+
+    これは二重防御の内側の層（score_with_retry 存在ガード）を検証する。
+    _filter_existing_paths が外側でブロックした後もこのガードが機能することを保証する。
+    """
+    missing = FC_BASE / "content" / "posts" / "_test_nonexistent_deleted_article.md"
+    assert not missing.exists(), f"Test requires file to not exist: {missing}"
+
+    # FileNotFoundError を投げずに返ること
+    result = score_with_retry(missing, sleep_seconds=0)
+
+    assert result.status == "failed_fact_check", f"Expected failed_fact_check, got {result.status!r}"
+    assert result.error_detail == "file not found (deleted after selection)"
+    assert result.score_valid is False
+    assert result.passed is False
+
+    # save_report(write_report=False) でも JSONL に failed レコードが書かれること
+    with tempfile.TemporaryDirectory() as tmp:
+        fake_history = Path(tmp) / "fact_check_score_history.jsonl"
+        with (
+            patch("fact_check.SCORE_HISTORY_PATH", fake_history),
+            patch("fact_check.BASE", FC_BASE),
+        ):
+            save_report(result, write_report=False)
+
+        lines = [l for l in fake_history.read_text(encoding="utf-8").splitlines() if l.strip()]
+        assert len(lines) == 1, f"Expected 1 JSONL line, got {len(lines)}"
+        record = json.loads(lines[0])
+        assert record["status"] == "failed_fact_check"
+        assert record["error_detail"] == "file not found (deleted after selection)"
+        assert record.get("overall_judgement") == "failed_fact_check"
+
+    print("PASS test_score_with_retry_missing_file_no_crash_and_failed_jsonl")
+
+
 if __name__ == "__main__":
     test_stratify_counts()
     test_stratify_tool_max()
     test_stratify_extremes_included()
     test_stratify_deterministic()
+    test_filter_existing_paths_skips_missing()
     test_save_report_write_report_false_no_report_file()
     test_save_report_write_report_false_no_rewrite_candidates()
     test_save_report_write_report_true_creates_file()
+    test_score_with_retry_missing_file_no_crash_and_failed_jsonl()
     print("\nAll tests passed.")
