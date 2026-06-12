@@ -46,7 +46,7 @@ FAIL_ON_EXISTING_CRITICAL = os.getenv("FACT_CHECK_FAIL_ON_EXISTING_CRITICAL", ""
 NEW_ARTICLE_MAX_RETRIES = int(os.getenv("FACT_CHECK_NEW_ARTICLE_MAX_RETRIES", "3"))
 URL_CHECK_ENABLED = os.getenv("FACT_CHECK_URL_CHECK", "true").lower() != "false"
 URL_CHECK_TIMEOUT = float(os.getenv("FACT_CHECK_URL_CHECK_TIMEOUT", "3"))
-GEMINI_TIMEOUT_SECONDS = float(os.getenv("FACT_CHECK_GEMINI_TIMEOUT_SECONDS", "60"))
+GEMINI_TIMEOUT_SECONDS = float(os.getenv("FACT_CHECK_GEMINI_TIMEOUT_SECONDS", "300"))
 GEMINI_RETRY_ON_PARSE_ERROR = int(os.getenv("FACT_CHECK_GEMINI_RETRY_ON_PARSE_ERROR", "1"))
 MAX_UNAVAILABLE_RATIO = float(os.getenv("FACT_CHECK_MAX_UNAVAILABLE_RATIO", "0.6"))
 MAX_INPUT_CHARS = int(os.getenv("FACT_CHECK_MAX_INPUT_CHARS", "12000"))
@@ -598,7 +598,7 @@ def generate_gemini_content_with_timeout(api_key: str, model: str, prompt: str) 
             time.sleep(max(0, GEMINI_TIMEOUT_SECONDS))
             return GeminiEvaluation(
                 status="unavailable",
-                error="gemini timeout",
+                error=f"gemini timeout ({GEMINI_TIMEOUT_SECONDS:.0f}s)",
                 error_category="timeout",
             )
         time.sleep(max(0, sleep_seconds))
@@ -611,7 +611,7 @@ def generate_gemini_content_with_timeout(api_key: str, model: str, prompt: str) 
         executor.shutdown(wait=False)
         return GeminiEvaluation(
             status="unavailable",
-            error="gemini timeout",
+            error=f"gemini timeout ({GEMINI_TIMEOUT_SECONDS:.0f}s)",
             error_category="timeout",
         )
     except KeyboardInterrupt:
