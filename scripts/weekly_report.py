@@ -557,6 +557,66 @@ def fetch_gsc_bottlenecks() -> list[dict]:
     return results
 
 
+# ── Content Gap レポート読み込み ──────────────────────────────────────────────
+
+def _load_content_gap_section() -> str:
+    """data/content_gap.json が存在すれば GitHub Issue 用 Markdown を返す。"""
+    gap_file = BASE / "data" / "content_gap.json"
+    if not gap_file.exists():
+        return ""
+    try:
+        gap = json.loads(gap_file.read_text(encoding="utf-8"))
+    except Exception as e:
+        print(f"  [WARN] content_gap.json 読み込みエラー: {e}")
+        return ""
+
+    s     = gap.get("summary", {})
+    total = s.get("total_queries", 0)
+    if not total:
+        return ""
+
+    cov_rate  = s.get("coverage_rate", 0.0)
+    covered   = s.get("covered",   0)
+    partial   = s.get("partial",   0)
+    uncovered = s.get("uncovered", 0)
+
+    lines = [
+        "",
+        "---",
+        "",
+        "## Content Gap Report",
+        "",
+        f"Coverage Rate: **{cov_rate:.1%}**",
+        "",
+        "| 分類 | 件数 |",
+        "| :--- | :--- |",
+        f"| ✅ Covered   | {covered} |",
+        f"| ⚠️ Partial   | {partial} |",
+        f"| 🔴 Uncovered | {uncovered} |",
+        f"| **合計**     | **{total}** |",
+        "",
+    ]
+
+    # Opportunity Score 上位10件
+    top_items = sorted(
+        gap.get("uncovered", []) + gap.get("partial", []),
+        key=lambda x: -x.get("opportunity_score", 0),
+    )[:10]
+
+    if top_items:
+        lines.append("### Top Opportunities")
+        lines.append("")
+        for i, item in enumerate(top_items, 1):
+            cov_icon = "🔴" if item["coverage"] == "uncovered" else "⚠️"
+            lines.append(
+                f"{i}. {cov_icon} `{item['query']}` "
+                f"— Score: {item.get('opportunity_score', 0):.1f}"
+            )
+        lines.append("")
+
+    return "\n".join(lines)
+
+
 # ── 競合データ読み込み ────────────────────────────────────────────────────────
 
 def _load_competitor_section() -> str:
@@ -652,6 +712,7 @@ def render_issue_body(
     period: str,
     competitor_section: str = "",
     noise_section: str = "",
+    content_gap_section: str = "",
 ) -> str:
     s = statuses
 
@@ -709,6 +770,7 @@ _今週のボトルネック記事はありませんでした。_"""
         + gsc_section
         + competitor_section
         + noise_section
+        + content_gap_section
         + "\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。"
     )
 
@@ -743,8 +805,14 @@ def main() -> None:
     if competitor_section:
         print("  → 競合データあり（Issueに追記します）")
 
-    noise_section = _build_noise_section()
-    issue_body  = render_issue_body(metrics, statuses, bottlenecks, period, competitor_section, noise_section)
+    noise_section       = _build_noise_section()
+    content_gap_section = _load_content_gap_section()
+    if content_gap_section:
+        print("  → Content Gap データあり（Issueに追記します）")
+    issue_body = render_issue_body(
+        metrics, statuses, bottlenecks, period,
+        competitor_section, noise_section, content_gap_section,
+    )
     issue_title = f"【週次統合レポート】GA4 20指標 + GSC ボトルネック ({TODAY.isoformat()})"
 
     output = {

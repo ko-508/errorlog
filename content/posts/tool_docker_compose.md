@@ -3,6 +3,9 @@ title: "Docker Compose とは？特徴・機能・料金・比較まとめ"
 date: 2026-06-02
 description: "Docker Compose の特徴・できること・料金プラン・似たツールとの比較を解説。"
 tags: ["tool-guide"]
+service: "Docker Compose"
+components: ["Compose", "Swarm"]
+related_services: ["Docker", "Kubernetes", "Nomad", "YAML", "CI/CD"]
 ---
 [Docker](/glossary/docker/) Composeとは、複数の[Docker](/glossary/docker/)コンテナーを定義・実行・管理するためのオーケストレーション（統合管理）ツールです。[YAML](/glossary/yaml/)ファイルで複数サービスの設定を一元管理し、単一[コマンド](/glossary/コマンド/)で環境全体を起動できます。開発環境から本番環境まで、コンテナーベースのアプリケーション構築を効率化します。
 

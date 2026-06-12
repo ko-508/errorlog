@@ -4,6 +4,10 @@ date: 2026-05-27
 description: "Slack の 401 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Slack"]
 errorCode: "401"
+service: "Slack"
+error_type: "401"
+components: []
+related_services: ["Slack API", "OAuth", "Slack App Directory"]
 ---
 
 ## Slack 401 エラーが発生する原因と解決方法

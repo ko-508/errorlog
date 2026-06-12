@@ -4,6 +4,10 @@ date: 2026-05-31
 description: "レジストリまたはリソースへのアクセス権限がない。Docker Compose 403 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "403"
+service: "Docker"
+error_type: "403"
+components: ["Compose", "Registry"]
+related_services: ["Docker Hub", "Azure Container Registry"]
 ---
 ## エラーの概要
 

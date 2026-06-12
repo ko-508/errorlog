@@ -4,6 +4,10 @@ date: 2026-06-04
 description: "Row Level Security（RLS）またはポリシーによってアクセスが拒否された。Supabase 403 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "403"
+service: "Supabase"
+error_type: "403"
+components: ["Row Level Security", "Auth"]
+related_services: ["JavaScript", "SQL"]
 ---
 ## エラーの概要
 

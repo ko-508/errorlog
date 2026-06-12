@@ -32,11 +32,12 @@ MAX_REFRESH          = int(os.getenv("MAX_REFRESH", "20"))
 MAX_RETRIES          = 1  # レビュー失敗時の再生成回数
 THIN_CHAR_THRESHOLD  = int(os.getenv("THIN_CHAR_THRESHOLD", "1200"))
 
-BASE             = Path(__file__).parent
-POSTS_DIR        = BASE.parent / "content" / "posts"
-PRIORITY_FILE    = BASE / "rewrite_priority.json"
-COMPETITOR_FILE  = BASE / "competitor_analysis.json"
-REFRESH_MANIFEST = BASE / "refresh_manifest.json"
+BASE               = Path(__file__).parent
+POSTS_DIR          = BASE.parent / "content" / "posts"
+PRIORITY_FILE      = BASE / "rewrite_priority.json"
+COMPETITOR_FILE    = BASE / "competitor_analysis.json"
+REFRESH_MANIFEST   = BASE / "refresh_manifest.json"
+REWRITE_REPORT_FILE = BASE / "rewrite_report.json"  # Phase 4: リライト前後比較
 
 
 # ─── 競合コンテキスト ─────────────────────────────────────
@@ -104,6 +105,91 @@ def _load_thin_titles() -> set[str]:
     except Exception as e:
         print(f"  [thin] rewrite_priority.json 読み込みエラー（スキップ）: {e}")
         return set()
+
+
+def _load_top_queries() -> dict[str, str]:
+    """rewrite_priority.json から title → top_query の辞書を返す（Phase 5）。"""
+    if not PRIORITY_FILE.exists():
+        return {}
+    try:
+        entries: list[dict] = json.loads(PRIORITY_FILE.read_text(encoding="utf-8"))
+        return {e["title"]: e["top_query"] for e in entries if e.get("top_query")}
+    except Exception as e:
+        print(f"  [top_query] rewrite_priority.json 読み込みエラー（スキップ）: {e}")
+        return {}
+
+
+def _load_gsc_ctr() -> dict[str, dict]:
+    """rewrite_priority.json から title → {ctr, impressions, position} の辞書を返す。"""
+    if not PRIORITY_FILE.exists():
+        return {}
+    try:
+        entries: list[dict] = json.loads(PRIORITY_FILE.read_text(encoding="utf-8"))
+        return {
+            e["title"]: {
+                "ctr":         e.get("gsc_ctr", 0.0),
+                "impressions": e.get("gsc_impressions", 0),
+                "position":    e.get("position", 0.0),
+            }
+            for e in entries
+            if e.get("gsc_ctr") is not None
+        }
+    except Exception as e:
+        print(f"  [gsc_ctr] rewrite_priority.json 読み込みエラー（スキップ）: {e}")
+        return {}
+
+
+# ─── Phase 2: search_queries.json ローダー ───────────────────
+
+def _load_search_queries_file() -> dict[str, list[str]]:
+    """data/search_queries.json から slug → top_queries list の辞書を返す（Phase 2）。"""
+    sq_file = BASE.parent / "data" / "search_queries.json"
+    if not sq_file.exists():
+        return {}
+    try:
+        data = json.loads(sq_file.read_text(encoding="utf-8"))
+        return {slug: v.get("top_queries", []) for slug, v in data.items()}
+    except Exception as e:
+        print(f"  [search_queries] 読み込みエラー（スキップ）: {e}")
+        return {}
+
+
+# ─── Phase 5: priority_score ローダー ────────────────────────
+
+def _load_priority_scores() -> dict[str, float]:
+    """rewrite_priority.json から title → priority_score の辞書を返す（Phase 5）。"""
+    if not PRIORITY_FILE.exists():
+        return {}
+    try:
+        entries: list[dict] = json.loads(PRIORITY_FILE.read_text(encoding="utf-8"))
+        return {e["title"]: float(e.get("priority_score", 0.0)) for e in entries}
+    except Exception as e:
+        print(f"  [priority_scores] 読み込みエラー（スキップ）: {e}")
+        return {}
+
+
+# ─── Phase 4: リライトレポート ────────────────────────────────
+
+def _save_rewrite_report(entry: dict) -> None:
+    """scripts/rewrite_report.json へリライト結果を追記する（slug+rewrite_date で重複排除）。"""
+    records: list[dict] = []
+    if REWRITE_REPORT_FILE.exists():
+        try:
+            records = json.loads(REWRITE_REPORT_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            records = []
+
+    slug = entry.get("slug", "")
+    rewrite_date = entry.get("rewrite_date", "")
+    records = [
+        r for r in records
+        if not (r.get("slug") == slug and r.get("rewrite_date") == rewrite_date)
+    ]
+    records.append(entry)
+    REWRITE_REPORT_FILE.write_text(
+        json.dumps(records, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
 
 
 # ─── フロントマター操作 ────────────────────────────────────
@@ -259,9 +345,16 @@ def rewrite_with_claude(
     research: str,
     review_feedback: str = "",
     competitor_context: str = "",
+    top_query: str = "",
+    gsc_ctr: float | None = None,
+    gsc_impressions: int | None = None,
+    top_queries: list[str] | None = None,
 ) -> str:
     """Geminiのリサーチ結果をもとに Claude が記事をリライトする。
-    review_feedback が指定された場合はレビュー指摘を修正対象として追加する。
+
+    Phase 2: top_queries（複数クエリ）が指定された場合は CTR向上を主目的とした
+    H1 / H2 最適化指示を追加する。
+    Phase 3: CTR最適化指示に良い例・悪い例を追加。
     """
     research_section = f"""
 ## Gemini による最新情報リサーチ結果
@@ -273,10 +366,46 @@ def rewrite_with_claude(
 {review_feedback}
 """ if review_feedback else ""
 
+    # Phase 2: 複数クエリ対応（top_queries 優先、フォールバックで top_query）
+    _all_queries: list[str] = []
+    if top_queries:
+        _all_queries = [q for q in top_queries if q][:5]
+    elif top_query:
+        _all_queries = [top_query]
+
+    search_query_section = ""
+    if _all_queries:
+        query_bullets = "\n".join(f"- {q}" for q in _all_queries)
+        search_query_section = f"""
+## 実際の検索クエリ（Search Console より）
+ユーザーはこの記事に以下のクエリで流入している:
+{query_bullets}
+→ H1 / H2 見出しを、これらのクエリに含まれる具体的な語句に近づけること。
+→ 最初の H2 見出しにエラーコード・サービス名・症状を含めること。
+"""
+
+    # Phase 3: CTR向上最適化指示（低CTR記事のみ）、良い例・悪い例を追加
+    ctr_section = ""
+    if gsc_ctr is not None and gsc_impressions is not None and gsc_ctr < 0.01 and gsc_impressions > 100:
+        ctr_section = f"""
+## CTR最適化指示（現在 CTR={gsc_ctr:.1%} / インプレッション={gsc_impressions}）
+この記事はインプレッション数が多いにもかかわらず CTR が極めて低い。
+**H1 / H2 見出しの改善が最優先**。以下の方針で修正すること:
+
+- 曖昧な表現は禁止（例: 「エラーが発生する」→「403 Forbidden: Access Denied on S3」）
+- 実際のエラーメッセージに含まれる語句を H1 相当の見出しに含める
+- H1 の良い例（具体的）:
+  「Terraform 403 Forbidden on S3 Bucket — 原因と解決策」
+  「Terraform Access Denied Error: IAM ポリシー修正ガイド」
+- H1 の悪い例（禁止）:
+  「Terraform エラーガイド」「Terraform トラブルシューティング」「Terraform の問題を完全解決」
+- description は「なぜ起きるか」「何をすれば直るか」を 40 文字以内で断言する
+"""
+
     prompt = f"""あなたは日本人向けの技術記事ライターです。
 以下の「元の記事」を、「最新情報リサーチ結果」をもとに最新版にリライトしてください。
 
-{research_section}{feedback_section}
+{research_section}{feedback_section}{search_query_section}{ctr_section}
 
 ## 元の記事
 {old_body}
@@ -309,6 +438,78 @@ def rewrite_with_claude(
         messages=[{"role": "user", "content": prompt}],
     )
     return message.content[0].text
+
+
+# ─── Phase 3: SEO メタデータ最適化 ────────────────────────
+
+def generate_seo_metadata(
+    claude_client: anthropic.Anthropic,
+    title: str,
+    description: str,
+    top_queries: list[str],
+    gsc_ctr: float | None = None,
+) -> dict:
+    """CTR改善のために title と description を最適化する（Phase 3）。
+
+    本文内容は変更しない。改善対象は title と description のみ。
+
+    Returns:
+        {"title": "...", "description": "..."} or {} on error
+    """
+    query_bullets = "\n".join(f"- {q}" for q in top_queries[:5])
+    ctr_hint = f"（現在 CTR: {gsc_ctr:.1%}）" if gsc_ctr is not None else ""
+
+    prompt = f"""以下の技術記事の SEO タイトルと description を CTR 改善のために最適化してください。{ctr_hint}
+
+## 現在のタイトル
+{title}
+
+## 現在の description
+{description}
+
+## ユーザーの実際の検索クエリ（Search Console より）
+{query_bullets}
+
+## 改善要件
+- 検索クエリに含まれる語句をタイトルと description に反映する
+- エラーコード・サービス名・具体的な症状を明示する
+- タイトルは 60 文字以内
+- description は 120 文字以内で「原因と解決策」が一目でわかるよう断言する
+- 元の言語（日本語）を維持する
+
+## 良いタイトルの例
+- 「Terraform 403 Forbidden on S3 Bucket — 原因と解決策」
+- 「Terraform Access Denied Error: IAM ポリシー修正ガイド」
+
+## 悪いタイトルの例（禁止）
+- 「Terraform エラーガイド」（内容不明）
+- 「Terraform トラブルシューティング完全版」（曖昧）
+- 「Terraform の問題を完全解決」（誇大）
+
+以下の JSON 形式のみで回答してください（前置きや説明は不要）:
+{{"title": "改善後のタイトル", "description": "改善後の description"}}"""
+
+    try:
+        message = claude_client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=256,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        raw = message.content[0].text.strip()
+        m = re.search(r'\{.*\}', raw, re.DOTALL)
+        if m:
+            parsed = json.loads(m.group())
+            # title / description のみを返す（不明フィールドは無視）
+            result = {}
+            if parsed.get("title"):
+                result["title"] = str(parsed["title"])[:70]
+            if parsed.get("description"):
+                result["description"] = str(parsed["description"])[:160]
+            return result
+        return {}
+    except Exception as e:
+        print(f"    [seo_meta] 生成エラー（スキップ）: {e}")
+        return {}
 
 
 # ─── Step 3: Claude でセルフレビュー ─────────────────────
@@ -404,17 +605,25 @@ def main() -> None:
     manifest = _load_refresh_manifest()
     print(f"refresh_manifest: {len(manifest)} 件登録済み")
 
-    # 更新対象を抽出（古い順）
-    targets = []
+    # Phase 5: priority_score と search_queries を事前ロード
+    priority_scores = _load_priority_scores()
+    sq_map          = _load_search_queries_file()  # slug → top_queries list
+
+    # 更新対象を抽出（古い順 → priority_score で上書きソート）
+    targets_raw: list[tuple[str, Path, str]] = []
     for md_path in md_files:
         text = md_path.read_text(encoding="utf-8")
         fm = parse_frontmatter(text)
         if needs_refresh(fm, md_path.stem, REFRESH_DAYS, manifest):
             check_date = manifest.get(md_path.stem) or fm.get("date") or "不明"
-            targets.append((check_date, md_path))
+            title_tmp  = fm.get("title", md_path.stem)
+            targets_raw.append((check_date, md_path, title_tmp))
 
-    targets.sort(key=lambda x: x[0])
-    targets = targets[:MAX_REFRESH]
+    # priority_score 降順 → 同スコア内は日付昇順（古い順）
+    targets_raw.sort(
+        key=lambda x: (-priority_scores.get(x[2], 0.0), x[0])
+    )
+    targets = [(t[0], t[1]) for t in targets_raw[:MAX_REFRESH]]
 
     print(f"更新対象: {len(targets)} 件（閾値: {REFRESH_DAYS}日）\n")
     if not targets:
@@ -423,8 +632,14 @@ def main() -> None:
 
     today       = date.today().isoformat()
     thin_titles = _load_thin_titles()
+    top_queries = _load_top_queries()   # Phase 5: 実際の検索クエリ（単一, 後方互換）
+    gsc_ctr_map = _load_gsc_ctr()      # Phase 2: CTR最適化
     if thin_titles:
         print(f"拡張対象フラグ (is_thin): {len(thin_titles)} 件\n")
+    if top_queries:
+        print(f"top_query 取得済み: {len(top_queries)} 件\n")
+    if sq_map:
+        print(f"search_queries.json: {len(sq_map)} slugs 読み込み済み\n")
 
     refreshed, skipped = [], []
 
@@ -441,6 +656,26 @@ def main() -> None:
         if competitor_ctx:
             print(f"    [competitor] 競合データをプロンプトに注入します")
 
+        # Phase 5: 実際の検索クエリを取得（単一: 後方互換）
+        top_query = top_queries.get(title, "")
+
+        # Phase 2: search_queries.json から複数クエリを取得（slug 単位）
+        slug_top_queries: list[str] = sq_map.get(md_path.stem, [])
+        if not slug_top_queries and top_query:
+            slug_top_queries = [top_query]  # フォールバック
+
+        if slug_top_queries:
+            print(f"    [top_queries] {slug_top_queries}")
+        elif top_query:
+            print(f"    [top_query] {top_query!r}")
+
+        # Phase 2: CTRデータを取得
+        gsc_data       = gsc_ctr_map.get(title, {})
+        gsc_ctr        = gsc_data.get("ctr")
+        gsc_impressions = gsc_data.get("impressions")
+        if gsc_ctr is not None and gsc_ctr < 0.01 and (gsc_impressions or 0) > 100:
+            print(f"    [ctr_opt] CTR={gsc_ctr:.1%} imp={gsc_impressions} → CTR最適化モード")
+
         # Step 1: Gemini でリサーチ
         print(f"    [1/3] Gemini がリサーチ中...")
         research = research_with_gemini(gemini_client, title, old_body, competitor_ctx)
@@ -451,6 +686,10 @@ def main() -> None:
             new_body = rewrite_with_claude(
                 claude_client, title, old_body, research,
                 competitor_context=competitor_ctx,
+                top_query=top_query,
+                gsc_ctr=gsc_ctr,
+                gsc_impressions=gsc_impressions,
+                top_queries=slug_top_queries,
             )
         except Exception as e:
             print(f"    Claude エラー: {e}")
@@ -470,6 +709,10 @@ def main() -> None:
                     new_body = rewrite_with_claude(
                         claude_client, title, old_body, research, feedback,
                         competitor_context=competitor_ctx,
+                        top_query=top_query,
+                        gsc_ctr=gsc_ctr,
+                        gsc_impressions=gsc_impressions,
+                        top_queries=slug_top_queries,
                     )
                 except Exception as e:
                     print(f"    リトライ中の Claude エラー: {e}")
@@ -510,9 +753,43 @@ def main() -> None:
             new_fm = re.sub(r"\n---\n$", f"\nlastmod: {today}\n---\n", fm_block)
         new_fm = re.sub(r"(?m)^refresh_due:.*\n", "", new_fm)
 
+        # Phase 3: top_queries がある場合は title / description を SEO 最適化
+        new_title       = title
+        old_description = fm.get("description", "")
+        new_description = old_description
+        if slug_top_queries:
+            print(f"    [seo_meta] title/description 最適化中...")
+            seo = generate_seo_metadata(
+                claude_client, title, old_description,
+                slug_top_queries, gsc_ctr,
+            )
+            if seo.get("title") and seo["title"] != title:
+                new_title = seo["title"]
+                new_fm = re.sub(r'(?m)^title:.*', f'title: "{new_title}"', new_fm)
+                print(f"    [seo_meta] title: {title!r} → {new_title!r}")
+            if seo.get("description") and seo["description"] != old_description:
+                new_description = seo["description"]
+                new_fm = re.sub(r'(?m)^description:.*', f'description: "{new_description}"', new_fm)
+                print(f"    [seo_meta] description 更新")
+
         md_path.write_text(new_fm + "\n" + new_body, encoding="utf-8")
         manifest[md_path.stem] = today  # マニフェストに今日の日付を記録
-        print(f"    完了: {title}")
+
+        # Phase 4: rewrite_report.json に before/after を記録
+        _save_rewrite_report({
+            "slug":               md_path.stem,
+            "rewrite_date":       today,
+            "old_title":          title,
+            "new_title":          new_title,
+            "old_description":    old_description,
+            "new_description":    new_description,
+            "before_ctr":         gsc_data.get("ctr", 0.0),
+            "before_position":    gsc_data.get("position", 0.0),
+            "before_impressions": gsc_data.get("impressions", 0),
+            "top_queries":        slug_top_queries,
+        })
+
+        print(f"    完了: {new_title if new_title != title else title}")
         refreshed.append(md_path.name)
 
     _save_refresh_manifest(manifest)

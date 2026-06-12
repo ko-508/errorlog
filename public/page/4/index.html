@@ -1,520 +1,76 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head>
-	<meta name="generator" content="Hugo 0.161.1"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>ErrorLog - エラーコード解決ガイド</title>
-
-<meta name="description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/index.xml" title="rss">
-<link rel="alternate" type="application/json" href="http://localhost:1313/index.json" title="json">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
-<meta name="google-site-verification" content="109757267897574962624" />
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CXKKVNQKRX');
-</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
-     crossorigin="anonymous"></script>
-
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
-  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
-    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
-  </text>
-</svg>
-</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="http://localhost:1313/search/" title="検索">
-                    <span>検索</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="タグ">
-                    <span>タグ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="アーカイブ">
-                    <span>アーカイブ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/glossary/" title="用語集">
-                    <span>用語集</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-azure">Azure</span>
-      <span class="error-badge">401</span>
-    </div>
-    <h2 class="entry-hint-parent">Azure の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Azure への API リクエストやコマンド実行時に 401 Unauthorized エラーが返される場合、認証情報が無効であるか期限切れになっていることを示しています。このエラーが発生すると、Azure リソースへのアクセスが完全にブロックされ、デプロイやリソース管理の操作が実行できなくなります。Azure CLI、SDK、マネージド ID など複数の認証方式で発生する可能性があります。
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta name=generator content="Hugo 0.161.1"><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>ErrorLog - エラーコード解決ガイド</title><meta name=description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/><link crossorigin=anonymous href=/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css integrity="sha256-Qnf+CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF+x1/k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/index.xml title=rss><link rel=alternate type=application/json href=https://errorlog.jp/index.json title=json><link rel=alternate hreflang=ja href=https://errorlog.jp/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta name=google-site-verification content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ"><meta name=google-site-verification content="109757267897574962624"><link rel=preconnect href=https://www.googletagmanager.com><link rel=preconnect href=https://www.google-analytics.com><script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-CXKKVNQKRX")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187" crossorigin=anonymous></script><meta property="og:url" content="https://errorlog.jp/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="ErrorLog - エラーコード解決ガイド"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="ErrorLog - エラーコード解決ガイド"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","url":"https://errorlog.jp/","description":"開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス","logo":"https://errorlog.jp/favicon.ico","sameAs":[]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-tool-guide">tool-guide</span></div><h2 class=entry-hint-parent>Docker Compose とは？特徴・機能・料金・比較まとめ</h2></header><div class=entry-content><p>Docker Composeとは、複数のDockerコンテナーを定義・実行・管理するためのオーケストレーション（統合管理）ツールです。YAMLファイルで複数サービスの設定を一元管理し、単一コマンドで環境全体を起動できます。開発環境から本番環境まで、コンテナーベースのアプリケーション構築を効率化します。
+主な特徴・できること YAML形式での設定管理：docker-compose.ymlファイルに全サービスの定義を記載でき、バージョン管理が容易 マルチコンテナーの一括起動：docker compose upコマンド一つで複数コンテナーを同時に立ち上げ ネットワーク自動構築：サービス間の通信を自動設定し、コンテナー間でホスト名解決が可能 ボリューム管理：データの永続化やホストマシンとのファイル共有を簡単に設定 環境変数の管理：.envファイル等での変数定義により、環境ごとの設定切り替えが効率的 スケーリング機能：docker compose up --scale service=&lt;数>コマンドで特定サービスのレプリケーション数を変更可能 ローカル開発環境の再現性：同じ設定ファイルで全開発者が統一環境を構築できる 料金プラン Docker Composeはオープンソースソフトウェアであり、完全無料で利用できます。商用・非商用を問わず制限なく使用可能です。
+似たツールとの比較 ツール 用途 スケーラビリティ 学習曲線 本番運用 Docker Compose ローカル・小規模環境 低い 低い 非推奨 Kubernetes エンタープライズ規模 高い 高い 推奨 Docker Swarm 中規模分散環境 中程度 低い 対応可能 Nomad マルチクラウド運用 高い 中程度 対応可能 Docker Composeはシンプルさと学習コストの低さで優位ですが、本番運用やクラウドスケーリングが必要な場合はKubernetesの検討が必要になります。
+こんな人・チームに向いている 開発エンジニア：ローカルマシンで複数サービスを同時に実行したい場合 スタートアップ・小規模チーム：導入コストを最小化し、素早く開発環境を構築したい QA・テストエンジニア：再現性の高いテスト環境を短時間で構築したい DevOpsエンジニア：CI/CDパイプライン（継続的インテグレーション・デリバリー）におけるローカル環境の統一化を推進したい マイクロサービス学習者：複数コンテナーの連携を学習したい初心者 Docker Composeの実務的な利点 Docker Composeは開発プロセスにおけるエラー原因の特定を効率化します。docker compose logsコマンドで全サービスのログを一元表示できるため、エラーの原因追跡が容易になり、デバッグ時間を大幅に削減できます。
+同一の設定ファイルを共有することで、「この環境ではうまくいくが、別の環境では動作しない」といった環境依存のバグを防止できます。チーム開発では、全員が同一設定で作業でき、メンバー間の環境差分によるトラブルを排除できます。</p></div><footer class=entry-footer><span title='2026-06-02 00:00:00 +0000 UTC'>2026年6月2日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose とは？特徴・機能・料金・比較まとめ" href=https://errorlog.jp/posts/tool_docker_compose/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-tool-guide">tool-guide</span></div><h2 class=entry-hint-parent>Firebase とは？特徴・機能・料金・比較まとめ</h2></header><div class=entry-content><p>Firebase とは Firebase は Google が提供するバックエンドプラットフォーム（サーバー機能を提供するサービス）で、モバイルアプリケーションと Web アプリケーションの開発を迅速に進めるための機能を統合しています。インフラストラクチャー（システムの基盤）の構築・管理の負担を軽減し、開発者がアプリケーションロジックに集中できる環境を実現します。
+主な特徴・できること Cloud Firestore：複数のクライアント間でのリアルタイムなデータ同期が可能なデータベースです Realtime Database：JSON 形式のデータベースで低遅延な同期が特徴です 認証機能：Google、Facebook、GitHub など複数の OAuth プロバイダー（認証を提供するサービス）に対応した認証システムです ホスティング：静的コンテンツと動的コンテンツの両方をホストでき、自動的に SSL で保護されます Cloud Functions：サーバーレス（サーバー管理なし）で関数を実行し、イベント駆動型（イベントをきっかけに起動）な処理を構築できます Cloud Storage：画像やビデオなどのファイルを安全に保存・配信できます Analytics と Crashlytics：ユーザー行動の分析とアプリケーションのクラッシュレポート機能があります Remote Config：サーバー側からアプリケーションの設定を動的に変更できます 料金プラン Firebase は従量課金制を採用しており、使用リソースに応じて料金が発生します。
+項目 内容 無料枠（Spark プラン） Cloud Firestore（1GB）、Realtime Database（1GB）、Cloud Storage（5GB）、Cloud Functions（200万呼び出し）、Hosting 従量課金（Blaze プラン） 無料枠を超えた分に対して従量課金。Firestore 読み取り：$0.06/100万件、書き込み：$0.18/100万件など 主な課金対象 データベース操作、ストレージ、関数実行時間、ネットワーク出力 大規模なアプリケーション運用の場合は、実装段階で Cost Estimator を用いて試算することが推奨されます。
+似たツールとの比較 特徴 Firebase AWS Amplify Supabase Parse リアルタイムDB ○（Firestore） ○（AppSync） ○（PostgreSQL） △（限定的） 認証機能 ◎ 充実 ◎ 充実 ◎ 充実 ○ 基本機能 ホスティング ◎ 標準搭載 ◎ 標準搭載 △ 別途必要 △ 別途必要 学習曲線 初級向け 中級向け 中級向け 中級向け オープンソース × × ○ ○ Firebase はシンプルな導入を優先する場合に向いており、複雑なクエリや高度なカスタマイズが必要な場合は Supabase が選択肢となります。
+...</p></div><footer class=entry-footer><span title='2026-06-02 00:00:00 +0000 UTC'>2026年6月2日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Firebase とは？特徴・機能・料金・比較まとめ" href=https://errorlog.jp/posts/tool_firebase/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-tool-guide">tool-guide</span></div><h2 class=entry-hint-parent>Zoom とは？特徴・機能・料金・比較まとめ</h2></header><div class=entry-content><p>Zoom とは Zoom は、クラウドベースのビデオ会議・コミュニケーションプラットフォームです。一度のクリックで複数の参加者とつながり、顔を見ながらのリアルタイムコミュニケーションが実現できます。2011 年の設立以来、全世界で数億人のユーザーに利用されており、ビジネスから教育、オンラインイベントまで幅広いシーンで活用されています。
+主な特徴・できること 高品質なビデオ・オーディオ通話 - HD/4K 対応で、最大 300 人まで参加可能 画面共有機能 - プレゼンテーション資料やコード、デスクトップ全体を共有可能 録画・トランスクリプション - 会議を自動的に記録・テキスト化でき、後から参照できます 仮想背景・フィルター - 背景をぼかしたり変更したり、美肌フィルターを適用可能 チャット機能 - 会議中にメッセージやファイル送受信が可能 ブレークアウトルーム - 大人数の会議を小グループに分割して討議 ホワイトボード機能 - 画面上で複数人が同時に描画・編集 スケジュール連携 - Google Calendar や Outlook と統合 セキュリティ機能 - エンドツーエンド暗号化（通信内容を暗号化して保護）、待機室、パスワード保護 モバイル対応 - iOS/Android アプリでの参加も可能 API・Webhook - カスタムアプリケーション（既存システムとの連携）への組み込み可能 料金プラン プラン 料金 人数制限 時間制限 主な機能 Basic（無料） 0 円/月 100 人 3 人以上で 40 分 基本的なビデオ通話、画面共有 Pro 1,580 円/月/ユーザー 300 人 無制限 高度な機能、クラウド録画 10GB Business 2,080 円/月/ユーザー 300 人 無制限 Pro の全機能、クラウドストレージ追加 Enterprise 要相談 無制限 無制限 カスタマイズ、専任サポート 似たツールとの比較 ツール 主な利点 主な制限 Zoom ユーザーフレンドリー、高い安定性、豊富な機能 ホスト以外の録画制限 Microsoft Teams Office 365 統合、チャットと会議が一体化 ビデオ品質が不安定な場合がある Google Meet Gmail との連携が簡単、無料版が充実 ホワイトボード機能の充実度が低い Cisco WebEx エンタープライズ向けセキュリティ 学習コストが高い こんな人・チームに向いている 営業チーム - クライアント対応や定期ミーティングを効率化したい 開発チーム - コードレビューやペアプログラミングセッションに利用 教育機関 - オンライン講義やセミナー開催 オンラインイベント企画者 - ウェビナーやバーチャルカンファレンスの運営 リモートワーク企業 - 従業員間のコミュニケーションツールとして活用 カスタマーサポートチーム - クライアントとのトラブルシューティング時に直接対面でサポートでき、問題の早期解決につながります Zoom はセットアップが簡単で、技術的なスキルがなくても誰でもすぐに利用を開始できます。無料版でも基本的な機能は揃っているため、小規模なチームや個人はまず無料プランから試すことをお勧めします。規模が拡大したり、高度な機能が必要になった場合は、有料プランへのアップグレードを検討するとよいでしょう。</p></div><footer class=entry-footer><span title='2026-06-02 00:00:00 +0000 UTC'>2026年6月2日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Zoom とは？特徴・機能・料金・比較まとめ" href=https://errorlog.jp/posts/tool_zoom/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-azure">Azure</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Azure の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Azure への API リクエストやコマンド実行時に 401 Unauthorized エラーが返される場合、認証情報が無効であるか期限切れになっていることを示しています。このエラーが発生すると、Azure リソースへのアクセスが完全にブロックされ、デプロイやリソース管理の操作が実行できなくなります。Azure CLI、SDK、マネージド ID など複数の認証方式で発生する可能性があります。
 実際のエラーメッセージ例 Azure CLI での出力例：
 $ az group list ERROR: The command failed with an unexpected status code: 401 (Unauthorized). The command failed with an error. (AuthenticationFailed) Authentication failed. The `Credentials` object was not initialized. Please call `Credentials.Initialize()` before making any requests. REST API レスポンス例：
-{ &#34;error&#34;: { &#34;code&#34;: &#34;AuthenticationFailed&#34;, &#34;message&#34;: &#34;Authentication failed. The user or application is not authorized to access the resource.&#34;, &#34;details&#34;: [ { &#34;code&#34;: &#34;Unauthorized&#34;, &#34;message&#34;: &#34;The request requires authentication information.&#34; } ] } } よくある原因と解決手順 原因1：az login のセッションが期限切れになっている Azure CLI の認証セッションには有効期限があります。特に長時間セッションを保持していたり、PC のスリープ後に再度コマンドを実行したりする場合、自動的にセッションが無効化されることがあります。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>$ az group list
+{ "error": { "code": "AuthenticationFailed", "message": "Authentication failed. The user or application is not authorized to access the resource.", "details": [ { "code": "Unauthorized", "message": "The request requires authentication information." } ] } } よくある原因と解決手順 原因1：az login のセッションが期限切れになっている Azure CLI の認証セッションには有効期限があります。特に長時間セッションを保持していたり、PC のスリープ後に再度コマンドを実行したりする場合、自動的にセッションが無効化されることがあります。
+...</p></div><div class=entry-code-preview><pre><code>$ az group list
 ERROR: The command failed with an unexpected status code: 401 (Unauthorized).
-The command failed with an error. (AuthenticationFailed) Authentication failed. The `Credentials` object was not initialized. Please call `Credentials.Initialize()` before making any requests.</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-01 00:00:00 +0000 UTC'>2026年6月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Azure の 401 エラー：原因と解決策" href="http://localhost:1313/posts/azure_401/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-azure">Azure</span>
-      <span class="error-badge">403</span>
-    </div>
-    <h2 class="entry-hint-parent">Azure の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Azure リソースへのアクセスが拒否されたことを示す HTTP 403 エラーです。このエラーは、ユーザーやアプリケーションが認証には成功（401 ではなく）したものの、対象リソースに対する操作権限がないことを意味します。Azure では RBAC（ロールベースアクセス制御）、Azure Policy、ネットワーク設定などの複数のレイヤーで権限チェックが行われるため、403 が頻繁に発生します。
+The command failed with an error. (AuthenticationFailed) Authentication failed. The `Credentials` object was not initialized. Please call `Credentials.Initialize()` before making any requests.</code></pre></div><footer class=entry-footer><span title='2026-06-01 00:00:00 +0000 UTC'>2026年6月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Azure の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/azure_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-azure">Azure</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Azure の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Azure リソースへのアクセスが拒否されたことを示す HTTP 403 エラーです。このエラーは、ユーザーやアプリケーションが認証には成功（401 ではなく）したものの、対象リソースに対する操作権限がないことを意味します。Azure では RBAC（ロールベースアクセス制御）、Azure Policy、ネットワーク設定などの複数のレイヤーで権限チェックが行われるため、403 が頻繁に発生します。
 実際のエラーメッセージ例 Azure Portal や Azure CLI を通じて 403 エラーが出力される場合、以下のような形式で表示されます。
-{ &#34;error&#34;: { &#34;code&#34;: &#34;AuthorizationFailed&#34;, &#34;message&#34;: &#34;The client &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39; with object id &#39;xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx&#39; does not have authorization to perform action &#39;Microsoft.Compute/virtualMachines/write&#39; over scope &#39;/subscriptions/&lt;subscription-id&gt;/resourceGroups/&lt;resource-group&gt;/providers/Microsoft.Compute/virtualMachines/&lt;vm-name&gt;&#39;.&#34; } } $ az vm create --resource-group &lt;resource-group&gt; --name &lt;vm-name&gt; ... (AuthorizationFailed) The client &#39;user@example.com&#39; with object id &#39;...&#39; does not have authorization to perform action &#39;Microsoft.Compute/virtualMachines/write&#39; よくある原因と解決手順 原因 1：RBAC で必要なロールが割り当てられていない Azure RBAC により、ユーザーやサービスプリンシパルに対して明示的にロールを割り当てない限り、リソースへの操作は拒否されます。例えば、仮想マシンの作成には「仮想マシン共同作成者」や「共同作成者」ロールが必要です。サブスクリプションやリソースグループレベルでロールが割り当てられていなければ、その配下のすべてのリソース操作が 403 で拒否されます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+{ "error": { "code": "AuthorizationFailed", "message": "The client 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' with object id 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx' does not have authorization to perform action 'Microsoft.Compute/virtualMachines/write' over scope '/subscriptions/&lt;subscription-id>/resourceGroups/&lt;resource-group>/providers/Microsoft.Compute/virtualMachines/&lt;vm-name>'." } } $ az vm create --resource-group &lt;resource-group> --name &lt;vm-name> ... (AuthorizationFailed) The client 'user@example.com' with object id '...' does not have authorization to perform action 'Microsoft.Compute/virtualMachines/write' よくある原因と解決手順 原因 1：RBAC で必要なロールが割り当てられていない Azure RBAC により、ユーザーやサービスプリンシパルに対して明示的にロールを割り当てない限り、リソースへの操作は拒否されます。例えば、仮想マシンの作成には「仮想マシン共同作成者」や「共同作成者」ロールが必要です。サブスクリプションやリソースグループレベルでロールが割り当てられていなければ、その配下のすべてのリソース操作が 403 で拒否されます。
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: {
-    &#34;code&#34;: &#34;AuthorizationFailed&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-01 00:00:00 +0000 UTC'>2026年6月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Azure の 403 エラー：原因と解決策" href="http://localhost:1313/posts/azure_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-azure">Azure</span>
-      <span class="error-badge">404</span>
-    </div>
-    <h2 class="entry-hint-parent">Azure の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Azureの404エラーは、APIやポータルからアクセスしようとしたリソースが見つからないことを示すHTTPエラーです。このエラーが発生すると、指定したリソース名、リソースID、あるいはAPIエンドポイントが存在しないか、アクセス権限がない状態を意味します。Azure CLIやREST API、Azure Portalを通じてリソースを操作する際に頻繁に遭遇するエラーであり、原因の特定と対処には体系的なアプローチが必要です。
+    &#34;code&#34;: &#34;AuthorizationFailed&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-01 00:00:00 +0000 UTC'>2026年6月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Azure の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/azure_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-azure">Azure</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Azure の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Azureの404エラーは、APIやポータルからアクセスしようとしたリソースが見つからないことを示すHTTPエラーです。このエラーが発生すると、指定したリソース名、リソースID、あるいはAPIエンドポイントが存在しないか、アクセス権限がない状態を意味します。Azure CLIやREST API、Azure Portalを通じてリソースを操作する際に頻繁に遭遇するエラーであり、原因の特定と対処には体系的なアプローチが必要です。
 実際のエラーメッセージ例 Azure CLIの出力例：
-{ &#34;error&#34;: { &#34;code&#34;: &#34;ResourceNotFound&#34;, &#34;message&#34;: &#34;The Resource &#39;Microsoft.Compute/virtualMachines/&lt;vm-name&gt;&#39; under resource group &#39;&lt;resource-group-name&gt;&#39; was not found.&#34; } } REST APIレスポンス例：
-{ &#34;code&#34;: &#34;NotFound&#34;, &#34;message&#34;: &#34;The specified blob does not exist.&#34;, &#34;details&#34;: [] } Azure CLI標準エラー出力例：
-The resource with id /subscriptions/&lt;subscription-id&gt;/resourceGroups/&lt;rg-name&gt;/providers/Microsoft.Storage/storageAccounts/&lt;account-name&gt; does not exist. (Code: ResourceNotFound) よくある原因と解決手順 原因1：リソース名またはIDの綴りが間違っている Azureのリソース名やリソースIDに入力ミスがあると、404エラーが発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、REST APIで完全修飾リソースID（例：/subscriptions/.../resourceGroups/.../providers/...）を指定する場合、パス内のどこかに誤字があると該当リソースが見つかりません。
+{ "error": { "code": "ResourceNotFound", "message": "The Resource 'Microsoft.Compute/virtualMachines/&lt;vm-name>' under resource group '&lt;resource-group-name>' was not found." } } REST APIレスポンス例：
+{ "code": "NotFound", "message": "The specified blob does not exist.", "details": [] } Azure CLI標準エラー出力例：
+The resource with id /subscriptions/&lt;subscription-id>/resourceGroups/&lt;rg-name>/providers/Microsoft.Storage/storageAccounts/&lt;account-name> does not exist. (Code: ResourceNotFound) よくある原因と解決手順 原因1：リソース名またはIDの綴りが間違っている Azureのリソース名やリソースIDに入力ミスがあると、404エラーが発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、REST APIで完全修飾リソースID（例：/subscriptions/.../resourceGroups/.../providers/...）を指定する場合、パス内のどこかに誤字があると該当リソースが見つかりません。
 Before（エラーが起きるコード）：
 az vm show --resource-group myResourceGroup --name myVirtualMahine After（修正後）：
 az vm show --resource-group myResourceGroup --name myVirtualMachine Before（エラーが起きるコード）：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: {
-    &#34;code&#34;: &#34;ResourceNotFound&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-01 00:00:00 +0000 UTC'>2026年6月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Azure の 404 エラー：原因と解決策" href="http://localhost:1313/posts/azure_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-azure">Azure</span>
-      <span class="error-badge">400</span>
-    </div>
-    <h2 class="entry-hint-parent">Azure の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Azure 400エラーは「Bad Request」を意味し、Azure APIへのリクエストに含まれるパラメータや値に誤りがある場合に発生します。これは認証エラーではなく、リクエストの内容そのものが仕様に違反していることを示す重要な信号です。Azure PortalやAzure CLI、REST APIを通じてリソースを作成・更新する際に頻繁に遭遇するエラーであり、適切な対応により確実に解決できます。
+    &#34;code&#34;: &#34;ResourceNotFound&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-01 00:00:00 +0000 UTC'>2026年6月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Azure の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/azure_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-azure">Azure</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Azure の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Azure 400エラーは「Bad Request」を意味し、Azure APIへのリクエストに含まれるパラメータや値に誤りがある場合に発生します。これは認証エラーではなく、リクエストの内容そのものが仕様に違反していることを示す重要な信号です。Azure PortalやAzure CLI、REST APIを通じてリソースを作成・更新する際に頻繁に遭遇するエラーであり、適切な対応により確実に解決できます。
 実際のエラーメッセージ例 Azure REST APIのレスポンス例：
-{ &#34;error&#34;: { &#34;code&#34;: &#34;BadRequest&#34;, &#34;message&#34;: &#34;The value of parameter &#39;vmName&#39; is invalid.&#34;, &#34;details&#34;: [ { &#34;code&#34;: &#34;InvalidParameterValue&#34;, &#34;message&#34;: &#34;The name &#39;my-vm-123456789-toolongname&#39; is longer than the maximum allowed length of 15 characters.&#34; } ] } } Azure CLIの出力例：
-$ az vm create --resource-group myRG --name &#34;invalid@vm#name&#34; --image UbuntuLTS (BadRequest) The name &#39;invalid@vm#name&#39; does not match the allowed pattern. よくある原因と解決手順 原因1：必須パラメータの不足または型の不正 リクエストに必須のパラメータが含まれていないか、指定した値がAPIが期待するデータ型と異なっている場合に発生します。例えば、リソースIDは文字列型で指定が必須であるのに対し、数値型で送信された場合などが該当します。Azure APIの仕様では厳密な型チェックが行われるため、JSONペイロードの構造確認は必須です。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+{ "error": { "code": "BadRequest", "message": "The value of parameter 'vmName' is invalid.", "details": [ { "code": "InvalidParameterValue", "message": "The name 'my-vm-123456789-toolongname' is longer than the maximum allowed length of 15 characters." } ] } } Azure CLIの出力例：
+$ az vm create --resource-group myRG --name "invalid@vm#name" --image UbuntuLTS (BadRequest) The name 'invalid@vm#name' does not match the allowed pattern. よくある原因と解決手順 原因1：必須パラメータの不足または型の不正 リクエストに必須のパラメータが含まれていないか、指定した値がAPIが期待するデータ型と異なっている場合に発生します。例えば、リソースIDは文字列型で指定が必須であるのに対し、数値型で送信された場合などが該当します。Azure APIの仕様では厳密な型チェックが行われるため、JSONペイロードの構造確認は必須です。
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: {
-    &#34;code&#34;: &#34;BadRequest&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Azure の 400 エラー：原因と解決策" href="http://localhost:1313/posts/azure_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-      <span class="error-badge">403</span>
-    </div>
-    <h2 class="entry-hint-parent">Docker Compose の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Docker Compose で 403 エラーが発生する場合、これはレジストリ（Docker Hub、プライベートレジストリなど）またはホストマシンのリソースに対して、実行ユーザーが十分なアクセス権限を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、Docker ソケットへのアクセスなど、複数の場面で発生する可能性があります。
+    &#34;code&#34;: &#34;BadRequest&#34;,</code></pre></div><footer class=entry-footer><span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Azure の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/azure_400/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Docker Compose の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Docker Compose で 403 エラーが発生する場合、これはレジストリ（Docker Hub、プライベートレジストリなど）またはホストマシンのリソースに対して、実行ユーザーが十分なアクセス権限を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、Docker ソケットへのアクセスなど、複数の場面で発生する可能性があります。
 実際のエラーメッセージ例 Docker Hub などのレジストリからのプライベートイメージ pull 時：
-{ &#34;message&#34;: &#34;Error response from daemon: pull access denied for myregistry/myimage, repository does not exist or may require &#39;docker login&#39;&#34;, &#34;error&#34;: &#34;403 Forbidden&#34; } ボリュームマウントのパーミッション不足時：
-ERROR: for &lt;service-name&gt; Cannot start service &lt;service-name&gt;: error while creating mount source path &#39;/data/app&#39;: permission denied Docker ソケットへのアクセス権限不足時：
+{ "message": "Error response from daemon: pull access denied for myregistry/myimage, repository does not exist or may require 'docker login'", "error": "403 Forbidden" } ボリュームマウントのパーミッション不足時：
+ERROR: for &lt;service-name> Cannot start service &lt;service-name>: error while creating mount source path '/data/app': permission denied Docker ソケットへのアクセス権限不足時：
 ERROR: Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock よくある原因と解決手順 原因1：プライベートイメージレジストリへの認証不足 Docker Compose でプライベートイメージを利用する場合、レジストリに対する認証情報が必要です。認証なしにプライベートイメージを pull しようとすると 403 エラーが発生します。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;message&#34;: &#34;Error response from daemon: pull access denied for myregistry/myimage, repository does not exist or may require &#39;docker login&#39;&#34;,
-  &#34;error&#34;: &#34;403 Forbidden&#34;</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker Compose の 403 エラー：原因と解決策" href="http://localhost:1313/posts/docker_compose_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-      <span class="error-badge">404</span>
-    </div>
-    <h2 class="entry-hint-parent">Docker Compose の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Docker Compose の 404 エラーは、docker-compose.yml（または compose.yml）で指定されたイメージ、サービス、ボリューム、またはネットワークがシステムに見つからないときに発生します。このエラーは、イメージのプル失敗、ビルドコンテキストの誤設定、または依存リソースの不足が原因となることがほとんどです。Docker Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、このエラーを出力して処理を中断します。
-実際のエラーメッセージ例 Error response from daemon: pull access denied for &lt;your-image-name&gt;, repository does not exist or may require &#39;docker login&#39; または、より明確な 404 表現として：
-{ &#34;message&#34;: &#34;manifest not found&#34;, &#34;status&#34;: 404 } ローカルでのビルド失敗時：
-ERROR: Service &#39;&lt;your-service-name&gt;&#39; failed to build : [Errno 2] No such file or directory: &#39;&lt;your-build-context-path&gt;&#39; よくある原因と解決手順 原因1：compose.yml 内で指定したイメージが存在しない、またはタグが間違っている Docker Compose がレジストリ（Docker Hub やプライベートレジストリー）からイメージをプルしようとしても、そのイメージが存在しない、あるいはタグが誤っていると 404 エラーが発生します。たとえば、タイポやバージョン番号の誤指定があると、プル対象が見つからなくなります。
+  &#34;error&#34;: &#34;403 Forbidden&#34;</code></pre></div><footer class=entry-footer><span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Docker Compose の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Docker Compose の 404 エラーは、docker-compose.yml（または compose.yml）で指定されたイメージ、サービス、ボリューム、またはネットワークがシステムに見つからないときに発生します。このエラーは、イメージのプル失敗、ビルドコンテキストの誤設定、または依存リソースの不足が原因となることがほとんどです。Docker Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、このエラーを出力して処理を中断します。
+実際のエラーメッセージ例 Error response from daemon: pull access denied for &lt;your-image-name>, repository does not exist or may require 'docker login' または、より明確な 404 表現として：
+{ "message": "manifest not found", "status": 404 } ローカルでのビルド失敗時：
+ERROR: Service '&lt;your-service-name>' failed to build : [Errno 2] No such file or directory: '&lt;your-build-context-path>' よくある原因と解決手順 原因1：compose.yml 内で指定したイメージが存在しない、またはタグが間違っている Docker Compose がレジストリ（Docker Hub やプライベートレジストリー）からイメージをプルしようとしても、そのイメージが存在しない、あるいはタグが誤っていると 404 エラーが発生します。たとえば、タイポやバージョン番号の誤指定があると、プル対象が見つからなくなります。
 Before（エラーが起きるコード）：
-version: &#39;3.8&#39; services: web: image: nginx:lattest # タイポ: lattest → latest ports: - &#34;80:80&#34; After（修正後）：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error response from daemon: pull access denied for &lt;your-image-name&gt;, repository does not exist or may require &#39;docker login&#39;
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker Compose の 404 エラー：原因と解決策" href="http://localhost:1313/posts/docker_compose_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-      <span class="error-badge">409</span>
-    </div>
-    <h2 class="entry-hint-parent">Docker Compose の 409 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Docker Compose の 409 エラーは、リクエストされたコンテナーやネットワーク、ボリュームの状態が現在の環境状態と競合していることを示します。このエラーは通常、既に存在するリソースの作成を試みたり、使用中のポート・ネットワークを重複させたりした場合に発生します。既存の状態を認識しないまま操作を進めようとすると、Docker Compose がこの競合を検出して実行を中止します。
+version: '3.8' services: web: image: nginx:lattest # タイポ: lattest → latest ports: - "80:80" After（修正後）：
+...</p></div><div class=entry-code-preview><pre><code>Error response from daemon: pull access denied for &lt;your-image-name&gt;, repository does not exist or may require &#39;docker login&#39;
+</code></pre></div><footer class=entry-footer><span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
+<span class=error-badge>409</span></div><h2 class=entry-hint-parent>Docker Compose の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Docker Compose の 409 エラーは、リクエストされたコンテナーやネットワーク、ボリュームの状態が現在の環境状態と競合していることを示します。このエラーは通常、既に存在するリソースの作成を試みたり、使用中のポート・ネットワークを重複させたりした場合に発生します。既存の状態を認識しないまま操作を進めようとすると、Docker Compose がこの競合を検出して実行を中止します。
 実際のエラーメッセージ例 パターン1：コンテナー名の競合
-Error response from daemon: Conflict. The container name &#34;&lt;container-name&gt;&#34; is already in use by container &#34;&lt;existing-container-id&gt;&#34;. You have to remove (or rename) that container to be able to reuse that name. パターン2：ポート番号の競合
-ERROR: for &lt;service-name&gt; Cannot start service &lt;service-name&gt;: driver failed programming external connectivity on endpoint &lt;endpoint-name&gt;: Bind for 0.0.0.0:&lt;port&gt; failed: port is already allocated パターン3：ネットワークまたはボリュームの競合
-Error response from daemon: network with name &lt;network-name&gt; already exists よくある原因と解決手順 原因1：同じ名前のコンテナーがすでに起動または停止状態で残っている Docker Compose は docker-compose.yml で定義したサービス名とプロジェクト名の組み合わせでコンテナー名を生成します。以前に作成したコンテナーが停止状態で残っていたり、同じ構成を再度実行しようとしたりすると、同じ名前のコンテナーが存在することになり、409 エラーが発生します。
+Error response from daemon: Conflict. The container name "&lt;container-name>" is already in use by container "&lt;existing-container-id>". You have to remove (or rename) that container to be able to reuse that name. パターン2：ポート番号の競合
+ERROR: for &lt;service-name> Cannot start service &lt;service-name>: driver failed programming external connectivity on endpoint &lt;endpoint-name>: Bind for 0.0.0.0:&lt;port> failed: port is already allocated パターン3：ネットワークまたはボリュームの競合
+Error response from daemon: network with name &lt;network-name> already exists よくある原因と解決手順 原因1：同じ名前のコンテナーがすでに起動または停止状態で残っている Docker Compose は docker-compose.yml で定義したサービス名とプロジェクト名の組み合わせでコンテナー名を生成します。以前に作成したコンテナーが停止状態で残っていたり、同じ構成を再度実行しようとしたりすると、同じ名前のコンテナーが存在することになり、409 エラーが発生します。
 修正方法：
 # 既存のコンテナーと関連リソースを完全に削除 docker compose down -v # その後、新たに起動 docker compose up -d -v フラグでボリュームも削除されるため、データの永続化が必要な場合は事前にバックアップを取得してください。
 原因2：同じポートを複数のサービスが使おうとしている docker-compose.yml で複数のサービスが同じホストポートをバインドしようとしている場合、またはホストシステムの別のプロセスがすでにそのポートを使用している場合に 409 エラーが発生します。
 修正方法：
-version: &#39;3.8&#39; services: web1: image: nginx:latest ports: - &#34;8080:80&#34; web2: image: nginx:latest ports: - &#34;8081:80&#34; 各サービスに異なるホストポートを割り当てることで競合を解決します。既にポートが使用されている場合は、以下のコマンドでホストマシン上の使用中ポートを確認できます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error response from daemon: Conflict. The container name &#34;&lt;container-name&gt;&#34; is already in use by container &#34;&lt;existing-container-id&gt;&#34;. You have to remove (or rename) that container to be able to reuse that name.
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker Compose の 409 エラー：原因と解決策" href="http://localhost:1313/posts/docker_compose_409/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-      <span class="error-badge">500</span>
-    </div>
-    <h2 class="entry-hint-parent">Docker Compose の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Docker Compose の 500 エラーは、Docker Compose 自体またはそれが管理するコンテナー内で内部エラーが発生したことを示します。このエラーは通常、コンテナー起動時のアプリケーションクラッシュ、エントリポイント実行の失敗、またはヘルスチェック機構の不具合によって引き起こされます。対象のサービスが正常に起動・稼働できない状態を意味しており、迅速な原因特定と対応が必要です。
-実際のエラーメッセージ例 Docker Compose でコンテナーが起動に失敗した際の典型的なエラー出力は以下の通りです。
-ERROR: for &lt;service-name&gt; Cannot start service &lt;service-name&gt;: OCI runtime create failed: container_linux.go:380: starting container process caused: exec: &#34;&lt;command&gt;&#34;: executable file not found in $PATH: unknown または、ヘルスチェック失敗時は以下のように表示されます。
-&lt;service-name&gt; | ERROR: Health check failed. Retrying... &lt;service-name&gt; | (Exit status: 1) アプリケーション実行時のエラーログは以下のようなパターンです。
-docker-compose logs &lt;service-name&gt; &lt;service-name&gt; | Traceback (most recent call last): &lt;service-name&gt; | File &#34;/app/main.py&#34;, line 15, in &lt;module&gt; &lt;service-name&gt; | raise Exception(&#34;Database connection failed&#34;) &lt;service-name&gt; | Exception: Database connection failed よくある原因と解決手順 原因1：サービスのコンテナー内部でアプリケーションがクラッシュしている コンテナー起動後、アプリケーションが異常終了またはランタイムエラーで落ちてしまう状況です。これは依存関係の欠落、設定ファイルの不在、メモリ不足、または不正な初期化処理によって発生します。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>ERROR: for &lt;service-name&gt;  Cannot start service &lt;service-name&gt;: 
-OCI runtime create failed: container_linux.go:380: 
-starting container process caused: exec: </code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker Compose の 500 エラー：原因と解決策" href="http://localhost:1313/posts/docker_compose_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-      <span class="error-badge">503</span>
-    </div>
-    <h2 class="entry-hint-parent">Docker Compose の 503 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 503エラーは「Service Unavailable」を意味し、Docker Composeでは依存するサービスが正常に起動できていない、または起動完了前にアクセスされている状況を示します。マイクロサービスアーキテクチャではよく発生するエラーで、特に複数コンテナーの起動順序やヘルスチェック設定に起因することが多いです。
-実際のエラーメッセージ例 Docker Composeで503エラーが発生した際のログ例を以下に示します。
-{ &#34;status&#34;: 503, &#34;message&#34;: &#34;Service Unavailable&#34;, &#34;error&#34;: &#34;connect ECONNREFUSED 172.20.0.3:5432&#34; } docker compose logs app-service 2024-01-15T10:23:45.123Z ERROR Failed to connect to database: ECONNREFUSED 2024-01-15T10:23:46.456Z WARN Service startup failed, retrying... 2024-01-15T10:23:50.789Z ERROR Max retries exceeded よくある原因と解決手順 原因1：depends_onで依存関係を定義しているが、ヘルスチェック待機を設定していない マイクロサービス構成では、アプリケーションコンテナーがデータベースコンテナーの完全な起動完了を待つ必要があります。docker compose up実行時、デフォルトでは依存するコンテナーが「起動した」ことだけを確認して先に進むため、データベースが受け入れ準備完了する前にアクセスされます。
-Before（エラーが起きるコード）：
-version: &#39;3.8&#39; services: postgres: image: postgres:15 environment: POSTGRES_PASSWORD: password ports: - &#34;5432:5432&#34; app: image: myapp:latest depends_on: - postgres ports: - &#34;8080:8080&#34; After（修正後）：
-version: &#39;3.8&#39; services: postgres: image: postgres:15 environment: POSTGRES_PASSWORD: password ports: - &#34;5432:5432&#34; healthcheck: test: [&#34;CMD-SHELL&#34;, &#34;pg_isready -U postgres&#34;] interval: 10s timeout: 5s retries: 5 app: image: myapp:latest depends_on: postgres: condition: service_healthy ports: - &#34;8080:8080&#34; 上記の修正では、service_healthy条件によってPostgresのヘルスチェック成功を待ってからアプリケーション起動が開始されます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
-  &#34;status&#34;: 503,
-  &#34;message&#34;: &#34;Service Unavailable&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker Compose の 503 エラー：原因と解決策" href="http://localhost:1313/posts/docker_compose_503/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-docker-compose">Docker Compose</span>
-    </div>
-    <h2 class="entry-hint-parent">Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Windows環境でDocker Composeを使う際、PowerShellで作成した.envファイルが原因でコンテナが起動できないケースがあります。エラーメッセージに\xff\xfeやunexpected characterが含まれている場合、ファイルのエンコードが原因です。
-エラーの全文 failed to read C:\Users\user\project\.env: line 1: unexpected character &#34;?&#34; in variable name &#34;\xff\xfeG\x00O\x00O\x00G\x00L\x00E\x00_\x00A\x00P\x00I\x00_\x00K\x00E\x00Y\x00=\x00A\x00I\x00z\x00a\x00...&#34; \xff\xfe はUTF-16 LEのBOM（Byte Order Mark）です。続く\x00が各文字の後ろに並んでいることから、ファイル全体がUTF-16 LEで保存されていることがわかります。Docker ComposeのenvファイルパーサーはUTF-8（BOMなし）のみを受け付けるため、このファイルを読み込もうとした瞬間にクラッシュします。
-よくある原因 PowerShellのechoコマンドはUTF-16 LEで書き出す WindowsのPowerShell（5.1系）では、リダイレクト演算子&gt;やechoコマンドがデフォルトでUTF-16 LE（BOM付き）を使用します。
-# これをやってはいけない echo GOOGLE_API_KEY=AIzaSy... &gt; .env # → .envがUTF-16 LE（BOM付き）で保存される Linuxや macOSのシェルと違い、PowerShellは歴史的な経緯からUTF-16をデフォルトエンコードとして採用しています。echoやSet-Contentを使う限り、意識しない限りこの問題が発生します。
-VSCodeのエンコード設定が変わっている場合 VSCodeでファイルを新規作成・保存する際、右下のステータスバーが「UTF-16 LE」になっているとDocker Composeが読めないファイルが生成されます。
-診断方法 .envファイルの先頭バイトを確認します。
-# 先頭4バイトを16進数で確認 $bytes = [System.IO.File]::ReadAllBytes(&#34;.env&#34;) $bytes[0..3] | ForEach-Object { $_.ToString(&#34;X2&#34;) } 正常（UTF-8 BOMなし）:
-47 4F 4F 47 ← &#34;GOOG&#34;の文字コード（例：GOOGLE_API_KEY=...） 異常（UTF-16 LE BOM付き）:
-FF FE 47 00 ← \xff\xfe がBOM、その後\x00が混入 解決手順 方法1：既存の.envファイルをUTF-8に変換する（即時対応） # UTF-16で書かれた.envをUTF-8（BOMなし）に変換して上書き $content = Get-Content &#34;.env&#34; -Encoding Unicode -Raw [System.IO.File]::WriteAllText( (Resolve-Path &#34;.env&#34;).Path, $content.Trim() &#43; &#34;`n&#34;, [System.Text.UTF8Encoding]::new($false) ) $falseは「BOMを付けない」を意味します。UTF8Encoding::new($true)にするとBOM付きになるため注意してください。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>failed to read C:\Users\user\project\.env: line 1: unexpected character &#34;?&#34; in variable name &#34;\xff\xfeG\x00O\x00O\x00G\x00L\x00E\x00_\x00A\x00P\x00I\x00_\x00K\x00E\x00Y\x00=\x00A\x00I\x00z\x00a\x00...&#34;
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-05-30 00:00:00 +0000 UTC'>2026年5月30日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Docker Compose の .env 読み込みエラー：UTF-16 BOM問題と解決策" href="http://localhost:1313/posts/docker_compose_env_utf16_bom_windows/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="http://localhost:1313/page/3/">
-      «&nbsp;前へ&nbsp;
-    </a>
-    <a class="next" href="http://localhost:1313/page/5/">次へ&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a><script>
-(function () {
-  var header = document.querySelector('.header');
-  if (!header) return;
-  var prev = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var cur = window.scrollY;
-    if (cur <= 0) {
-      header.classList.remove('header--hidden');
-    } else if (cur > prev && cur > 60) {
-      header.classList.add('header--hidden');
-    } else if (cur < prev) {
-      header.classList.remove('header--hidden');
-    }
-    prev = cur;
-  }, { passive: true });
-})();
-</script>
-
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+version: '3.8' services: web1: image: nginx:latest ports: - "8080:80" web2: image: nginx:latest ports: - "8081:80" 各サービスに異なるホストポートを割り当てることで競合を解決します。既にポートが使用されている場合は、以下のコマンドでホストマシン上の使用中ポートを確認できます。
+...</p></div><div class=entry-code-preview><pre><code>Error response from daemon: Conflict. The container name &#34;&lt;container-name&gt;&#34; is already in use by container &#34;&lt;existing-container-id&gt;&#34;. You have to remove (or rename) that container to be able to reuse that name.
+</code></pre></div><footer class=entry-footer><span title='2026-05-31 00:00:00 +0000 UTC'>2026年5月31日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Docker Compose の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/docker_compose_409/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://errorlog.jp/page/3/>«&nbsp;前へ&nbsp;
+</a><a class=next href=https://errorlog.jp/page/5/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

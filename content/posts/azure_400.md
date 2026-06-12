@@ -4,6 +4,10 @@ date: 2026-05-31
 description: "Azure APIへのリクエストにパラメータの誤りがある。Azure 400 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "400"
+service: "Azure"
+error_type: "400"
+components: []
+related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 

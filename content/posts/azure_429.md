@@ -4,6 +4,10 @@ date: 2026-06-02
 description: "Azure APIのスロットリング制限に達した。Azure 429 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "429"
+service: "Azure"
+error_type: "429"
+components: ["REST API", "Virtual Machines", "Compute"]
+related_services: ["PowerShell", "Azure CLI"]
 ---
 ## エラーの概要
 

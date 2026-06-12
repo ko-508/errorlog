@@ -5,6 +5,10 @@ description: "Docker環境で500エラーが発生する場合、Dockerデーモ
 tags: ["Docker"]
 errorCode: "500"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "500"
+components: []
+related_services: []
 ---
 
 ## エラーの概要

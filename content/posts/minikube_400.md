@@ -4,6 +4,10 @@ date: 2026-05-29
 description: "Minikubeクラスターへのリクエスト形式が正しくない場合に発生します。YAMLマニフェストの構文エラーやkubectlオプションの誤りなど、Minikube 400エラーの原因と解決策を解説。"
 tags: ["Minikube"]
 errorCode: "400"
+service: "Minikube"
+error_type: "400"
+components: ["Pod", "Deployment", "Service", "ConfigMap", "Secret", "Namespace"]
+related_services: ["Kubernetes", "kubectl", "yamllint", "Docker"]
 ---
 Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が正しくなく、[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)やオプション指定の誤りが原因で発生する[エラー](/glossary/エラー/)です。本記事では原因特定と解決方法をステップバイステップで解説します。
 

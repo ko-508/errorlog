@@ -5,6 +5,10 @@ description: "Docker の 403 エラーは、認証（ログイン）には成功
 tags: ["Docker"]
 errorCode: "403"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "403"
+components: ["Registry", "Desktop"]
+related_services: ["Docker Hub", "Kubernetes", "Azure Container Registry"]
 ---
 # エラーの概要
 

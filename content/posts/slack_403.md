@@ -4,6 +4,10 @@ date: 2026-05-27
 description: "Slack の 403 エラーの原因と解決策をわかりやすく解説します。"
 tags: ["Slack"]
 errorCode: "403"
+service: "Slack"
+error_type: "403"
+components: []
+related_services: ["Slack API", "OAuth"]
 ---
 
 ## Slack の 403 エラーの原因と解決方法

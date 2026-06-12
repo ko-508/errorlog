@@ -5,6 +5,10 @@ description: "OpenAI APIにおいて503エラーは「Service Unavailable」を�
 tags: ["OpenAI API"]
 errorCode: "503"
 lastmod: 2026-05-31
+service: "OpenAI API"
+error_type: "503"
+components: []
+related_services: ["ChatCompletion", "OpenAI Status"]
 ---
 
 ## エラーの概要

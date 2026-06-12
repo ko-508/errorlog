@@ -4,6 +4,10 @@ date: 2026-06-01
 description: "Azureリソースへのアクセスが拒否された。Azure 403 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "403"
+service: "Azure"
+error_type: "403"
+components: ["RBAC", "Azure Policy", "Virtual Machine Contributor", "Azure SQL Database", "Azure Portal", "Azure CLI"]
+related_services: []
 ---
 ## エラーの概要
 

@@ -4,6 +4,10 @@ date: 2026-06-05
 description: "Supabaseのレート制限または利用枠の上限に達した。Supabase 429 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "429"
+service: "Supabase"
+error_type: "429"
+components: ["JavaScript Client", "Edge Functions", "Database", "Authentication API"]
+related_services: ["HTTP", "Webhook"]
 ---
 ## エラーの概要
 

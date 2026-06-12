@@ -4,6 +4,10 @@ date: 2026-05-29
 description: "指定したイメージまたはコンテナが見つからない。イメージ名またはタグ名の綴りが間違っているなど、Podman 404 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "404"
+service: "Podman"
+error_type: "404"
+components: []
+related_services: ["Docker", "Docker Hub"]
 ---
 Podman で 404 [エラー](/glossary/エラー/)が発生した場合、指定した[イメージ](/glossary/イメージ/)またはコンテナーがシステム上に見つからないことを意味します。[コマンド](/glossary/コマンド/)実行時に[イメージ](/glossary/イメージ/)名やコンテナー名の指定に問題があるケースがほとんどです。
 

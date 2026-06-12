@@ -4,6 +4,10 @@ date: 2026-05-28
 description: "クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。"
 tags: ["Firebase"]
 errorCode: "408"
+service: "Firebase"
+error_type: "408"
+components: ["Realtime Database"]
+related_services: ["Android", "Web", "JavaScript"]
 ---
 Firebase 408 [エラー](/glossary/エラー/)はクライアント側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[ネットワーク](/glossary/ネットワーク/)環境またはアプリケーションの処理速度が原因となります。
 

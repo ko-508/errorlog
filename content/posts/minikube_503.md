@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "Minikubeクラスターのサービスが一時的に利用できない。Minikube 503 エラーの原因と解決策を解説します。"
 tags: ["Minikube"]
 errorCode: "503"
+service: "Minikube"
+error_type: "503"
+components: ["Pod", "Deployment", "Namespace"]
+related_services: ["Kubernetes", "kubectl"]
 ---
 Minikubeでサービスにアクセスしたときに503[エラー](/glossary/エラー/)が返される場合、クラスター自体が正常に動作していないか、[デプロイ](/glossary/デプロイ/)したサービスが停止している状態です。この記事では、原因の特定方法と解決手順を説明します。
 

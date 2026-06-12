@@ -4,6 +4,10 @@ date: 2026-06-03
 description: "Azureサービスが一時的に利用できない。Azure 503 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "503"
+service: "Azure"
+error_type: "503"
+components: ["App Service", "AKS", "Blob Storage", "Auto Scale"]
+related_services: ["Azure Portal", "Azure CLI"]
 ---
 ## エラーの概要
 

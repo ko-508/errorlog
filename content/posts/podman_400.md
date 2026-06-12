@@ -4,6 +4,10 @@ date: 2026-05-28
 description: "Podman APIまたはレジストリへのリクエストの形式が正しくない。podman runコマンドのオプション指定が誤っているなど、Podman 400 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "400"
+service: "Podman"
+error_type: "400"
+components: []
+related_services: ["Docker", "systemd", "jq", "curl"]
 ---
 
 Podman実行時に「400 Bad Request」が出ています。この[エラー](/glossary/エラー/)はPodman [API](/glossary/api/)または[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)形式が正しくないことを示しており、コマンドオプションや[イメージ](/glossary/イメージ/)指定の誤りが原因です。

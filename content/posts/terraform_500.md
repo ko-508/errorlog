@@ -4,6 +4,10 @@ date: 2026-06-10
 description: "Terraform CloudまたはクラウドプロバイダーAPIの内部エラーが発生した。Terraform 500 エラーの原因と解決策を解説します。"
 tags: ["Terraform"]
 errorCode: "500"
+service: "Terraform"
+error_type: "500"
+components: ["Provider", "Backend", "State", "Workspace"]
+related_services: ["Terraform Cloud", "AWS", "Azure", "GCP", "EC2", "IAM"]
 ---
 # Terraform で 500 エラーが発生した場合の対処方法
 

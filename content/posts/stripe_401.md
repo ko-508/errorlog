@@ -5,6 +5,10 @@ description: "Stripe API から返される 401（Unauthorized）エラーは、
 tags: ["Stripe"]
 errorCode: "401"
 lastmod: 2026-05-31
+service: "Stripe"
+error_type: "401"
+components: []
+related_services: ["OAuth"]
 ---
 ## エラーの概要
 

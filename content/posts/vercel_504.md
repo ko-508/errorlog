@@ -4,6 +4,10 @@ date: 2026-06-08
 description: "Vercelのサーバーレス関数の実行がタイムアウトした。Vercel 504 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "504"
+service: "Vercel"
+error_type: "504"
+components: []
+related_services: ["API", "Dashboard"]
 ---
 ## エラーの概要
 

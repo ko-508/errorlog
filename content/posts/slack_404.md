@@ -6,6 +6,10 @@ tags: ["Slack"]
 errorCode: "404"
 lastmod: 2026-06-07
 refresh_due: true
+service: "Slack"
+error_type: "404"
+components: []
+related_services: ["Slack API"]
 ---
 
 ## Slack 404 エラーの原因と解決方法

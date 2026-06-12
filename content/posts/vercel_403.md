@@ -4,6 +4,10 @@ date: 2026-06-06
 description: "Vercelプロジェクトまたはリソースへのアクセス権限がない。Vercel 403 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "403"
+service: "Vercel"
+error_type: "403"
+components: []
+related_services: ["GitHub Actions", "Vercel CLI"]
 ---
 ## エラーの概要
 

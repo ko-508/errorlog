@@ -4,6 +4,10 @@ date: 2026-06-04
 description: "データの競合（一意制約違反など）が発生した。Supabase 409 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "409"
+service: "Supabase"
+error_type: "409"
+components: []
+related_services: ["PostgreSQL", "JavaScript"]
 ---
 # Supabase の 409 エラー（Conflict）解説
 

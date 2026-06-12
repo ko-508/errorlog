@@ -4,6 +4,10 @@ date: 2026-06-09
 description: "参照しているクラウドリソースが見つからない。Terraform 404 エラーの原因と解決策を解説します。"
 tags: ["Terraform"]
 errorCode: "404"
+service: "Terraform"
+error_type: "404"
+components: ["Provider", "State", "Workspace"]
+related_services: ["AWS", "Google Cloud"]
 ---
 ## エラーの概要
 

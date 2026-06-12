@@ -4,6 +4,10 @@ date: 2026-05-29
 description: "Podmanサービスまたはレジストリが一時的に利用できない。Podman APIサービスが起動していないなど、Podman 503 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "503"
+service: "Podman"
+error_type: "503"
+components: []
+related_services: ["Docker Hub", "Quay.io", "Docker"]
 ---
 Podman の 503 [エラー](/glossary/エラー/)が発生した場合、Podman [API](/glossary/api/) サービスやコンテナレジストリが一時的に利用できない状態です。以下の手順で原因を特定し、解決します。
 

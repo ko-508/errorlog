@@ -5,6 +5,10 @@ description: "Docker で 404 エラーが発生するのは、指定したイメ
 tags: ["Docker"]
 errorCode: "404"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "404"
+components: ["Registry", "Hub"]
+related_services: ["Docker Compose", "AWS ECR", "Azure Container Registry"]
 ---
 ## エラーの概要
 

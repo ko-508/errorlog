@@ -4,6 +4,10 @@ date: 2026-06-09
 description: "クラウドプロバイダーでリソースの作成・変更が拒否された。Terraform 403 エラーの原因と解決策を解説します。"
 tags: ["Terraform"]
 errorCode: "403"
+service: "Terraform"
+error_type: "403"
+components: ["Provider", "State"]
+related_services: ["AWS", "IAM", "EC2", "SCP", "AWS Organizations"]
 ---
 ## エラーの概要
 

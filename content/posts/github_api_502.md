@@ -5,6 +5,10 @@ description: "502 Bad Gateway は、GitHub API がリクエストを処理する
 tags: ["GitHub API"]
 errorCode: "502"
 lastmod: 2026-05-31
+service: "GitHub API"
+error_type: "502"
+components: []
+related_services: []
 ---
 
 ## エラーの概要

@@ -5,6 +5,10 @@ description: "Firebase（Cloud FunctionsやHosting）で502エラーが発生す
 tags: ["Firebase"]
 errorCode: "502"
 lastmod: 2026-05-31
+service: "Firebase"
+error_type: "502"
+components: ["Cloud Functions", "Hosting", "Firestore"]
+related_services: ["gcloud"]
 ---
 
 ## エラーの概要

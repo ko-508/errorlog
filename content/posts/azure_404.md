@@ -4,6 +4,10 @@ date: 2026-06-01
 description: "指定したAzureリソースが見つからない。Azure 404 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "404"
+service: "Azure"
+error_type: "404"
+components: ["Virtual Machines", "Storage Accounts", "REST API", "Azure CLI", "Azure Portal", "Azure Backup"]
+related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 

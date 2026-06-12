@@ -184,6 +184,78 @@
 
   {{- partial "extend_post_content.html" . }}
 
+  {{- /* ── Phase 3: 関連するエラーの依存関係セクション ── */}}
+  {{- $thisService    := .Params.service }}
+  {{- $thisErrorType  := .Params.error_type }}
+  {{- $thisComponents := .Params.components }}
+  {{- if or $thisService $thisErrorType }}
+  {{- $related := slice }}
+  {{- range where site.RegularPages "Type" "posts" }}
+    {{- if eq . $ }}{{- continue }}{{- end }}
+    {{- $score := 0 }}
+    {{- if and $thisService (eq .Params.service $thisService) }}
+      {{- $score = add $score 5 }}
+    {{- end }}
+    {{- if and $thisErrorType (eq .Params.error_type $thisErrorType) }}
+      {{- $score = add $score 1 }}
+    {{- end }}
+    {{- $candidateComps := .Params.components }}
+    {{- if and $thisComponents $candidateComps }}
+      {{- range $thisComponents }}
+        {{- $c := . }}
+        {{- if in $candidateComps $c }}
+          {{- $score = add $score 3 }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+    {{- if ge $score 3 }}
+      {{- $related = $related | append (dict "page" . "score" $score) }}
+    {{- end }}
+  {{- end }}
+  {{- $related = sort $related "score" "desc" }}
+  {{- $related = first 10 $related }}
+  {{- if $related }}
+  <div class="related-errors">
+    <h2 class="related-errors__title">関連するエラーの依存関係</h2>
+    <ul class="related-errors__list">
+      {{- range $related }}
+      <li class="related-errors__item">
+        <a href="{{ .page.Permalink }}">
+          {{- with index .page.Params.tags 0 }}
+          <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+          {{- end }}
+          {{- with .page.Params.errorCode }}
+          <span class="error-badge">{{ . }}</span>
+          {{- end }}
+          {{ .page.Title }}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+  {{- end }}
+  {{- end }}
+
+  {{- /* ── Phase 6: 次に学ぶ（アフィリエイト導線） ── */}}
+  {{- $service := .Params.service | default (index .Params.tags 0) }}
+  {{- $affiliates := site.Data.affiliates }}
+  {{- if and $service $affiliates }}
+  {{- $serviceKey := $service | lower | replaceRE "[^a-z0-9]" "_" | replaceRE "_+" "_" | replaceRE "_+$" "" }}
+  {{- $affItem := index $affiliates $serviceKey }}
+  {{- if and $affItem $affItem.url $affItem.name }}
+  <div class="next-learning">
+    <h2 class="next-learning__title">次に学ぶ</h2>
+    <a class="next-learning__link" href="{{ $affItem.url }}" target="_blank" rel="noopener noreferrer nofollow">
+      <span class="next-learning__service">{{ $service }}</span>
+      <span class="next-learning__name">{{ $affItem.name }}</span>
+      {{- with $affItem.description }}
+      <span class="next-learning__desc">{{ . }}</span>
+      {{- end }}
+    </a>
+  </div>
+  {{- end }}
+  {{- end }}
+
   <footer class="post-footer">
     {{- $tags := .Language.Params.Taxonomies.tag | default "tags" }}
     <ul class="post-tags">

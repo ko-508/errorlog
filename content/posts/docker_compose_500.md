@@ -4,6 +4,10 @@ date: 2026-05-31
 description: "Docker Composeサービスの内部エラーが発生した。Docker Compose 500 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "500"
+service: "Docker Compose"
+error_type: "500"
+components: ["Compose"]
+related_services: ["Docker", "PostgreSQL"]
 ---
 ## エラーの概要
 

@@ -4,6 +4,10 @@ date: 2026-05-31
 description: "指定したイメージ・サービス・ボリュームが見つからない。Docker Compose 404 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "404"
+service: "Docker Compose"
+error_type: "404"
+components: ["Compose", "Registry", "Desktop"]
+related_services: ["Docker Hub"]
 ---
 ## エラーの概要
 

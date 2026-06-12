@@ -4,6 +4,10 @@ date: 2026-06-05
 description: "Supabaseサービスの内部エラーが発生した。Supabase 500 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "500"
+service: "Supabase"
+error_type: "500"
+components: ["REST API", "Functions", "SQL Editor", "Dashboard"]
+related_services: ["PostgreSQL", "supabase-js", "Deno"]
 ---
 # エラーの概要
 

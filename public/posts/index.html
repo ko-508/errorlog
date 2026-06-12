@@ -1,515 +1,122 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Posts | ErrorLog - エラーコード解決ガイド</title>
-<meta name="description" content="Posts - ErrorLog - エラーコード解決ガイド">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
-<meta name="google-site-verification" content="109757267897574962624" />
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CXKKVNQKRX');
-</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
-     crossorigin="anonymous"></script>
-
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
-  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
-    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
-  </text>
-</svg>
-</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="http://localhost:1313/search/" title="検索">
-                    <span>検索</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="タグ">
-                    <span>タグ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="アーカイブ">
-                    <span>アーカイブ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/glossary/" title="用語集">
-                    <span>用語集</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">409</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 409 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Terraform の 409 エラーは、Terraform が作成・更新しようとするリソースが既にクラウド環境に存在し、状態ファイル（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。このエラーは特にマルチユーザー環境や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
-実際のエラーメッセージ例 Error: Error creating XXX: XXX (xxx): InvalidParameterException: Resource already existson main.tf line 42, in resource &#34;aws_instance&#34; &#34;web&#34;:42: resource &#34;aws_instance&#34; &#34;web&#34; {Error: ConflictException { &#34;error&#34;: &#34;conflict&#34;, &#34;message&#34;: &#34;The resource with name &#39;my-bucket&#39; already exists&#34;, &#34;status_code&#34;: 409 } よくある原因と解決手順 原因 1：手動で作成したリソースを Terraform で管理しようとしている クラウド管理コンソールやコマンドラインで直接作成したリソースに対して、Terraform コードで同じリソースを定義すると、Terraform はそのリソースが「新規作成される対象」だと判断します。しかし実際にはリソースが存在するため、作成時に 409 エラーで競合が検出されます。
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Posts | ErrorLog - エラーコード解決ガイド</title><meta name=description content="Posts - ErrorLog - エラーコード解決ガイド"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/><link crossorigin=anonymous href=/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css integrity="sha256-Qnf+CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF+x1/k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/posts/index.xml title=rss><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta name=google-site-verification content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ"><meta name=google-site-verification content="109757267897574962624"><link rel=preconnect href=https://www.googletagmanager.com><link rel=preconnect href=https://www.google-analytics.com><script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-CXKKVNQKRX")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187" crossorigin=anonymous></script><meta property="og:url" content="https://errorlog.jp/posts/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Posts"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Posts"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"}]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><header class=page-header><h1>Posts</h1></header><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-dev.to---devops">Dev.to - DevOps</span></div><h2 class=entry-hint-parent>DragonflyをRedisの代替として使う際の注意点：HTTPエラーを避けるための互換性ガイド</h2></header><div class=entry-content><p>エラーの概要 Dragonflyは、Redisのドロップイン代替として高いパフォーマンスを謳っていますが、実際には「ドロップイン」の定義がアプリケーションの利用状況によって異なります。互換性の問題がある場合、アプリケーションはRedisに期待する動作を得られず、結果としてHTTP 5xx系のエラー（例：500 Internal Server Error, 502 Bad Gateway）や、アプリケーションレベルでのデータ不整合エラーが発生する可能性があります。これは、Dragonflyが特定のRedisコマンドやモジュールをサポートしていない、あるいは異なる挙動をする場合に顕著です。
+実際のエラーメッセージ例 Dragonflyへの移行後に、アプリケーションがRedisクライアントを通じて予期しないエラーを受け取ることがあります。以下は、一般的なRedisクライアント（例：redis-py）で発生しうるエラーの例です。
+Pythonアプリケーションのログ例:
+ERROR:app:Failed to fetch data from cache: CommandError: Unknown command 'FT.SEARCH'
+Traceback (most recent call last):
+File "/app/main.py", line 42, in get_cached_data
+result = redis_client.execute_command('FT.SEARCH', 'my_index', 'query_string')
+File "/usr/local/lib/python3.9/site-packages/redis/client.py", line 1234, in execute_command
+raise CommandError(f"Unknown command '{command_name}'")
+redis.exceptions.CommandError: Unknown command 'FT.SEARCH' Node.jsアプリケーションのログ例:
+{ "timestamp": "2026-06-10T12:34:56.789Z", "level": "error", "message": "Redis operation failed", "error": { "name": "ReplyError", "message": "ERR unknown command 'JSON.GET'", "stack": "ReplyError: ERR unknown command 'JSON.GET'\n at parseError (/app/node_modules/ioredis/lib/redis/parser.js:101:12)\n at Parser.execute (/app/node_modules/ioredis/lib/redis/parser.js:58:20)\n at Socket.&lt;anonymous> (/app/node_modules/ioredis/lib/redis/event_handler.js:108:20)" }, "context": { "command": "JSON.GET", "key": "user:123:profile" } } これらのエラーは、アプリケーションがRedisの特定のモジュール（例：RediSearch, RedisJSON）に依存するコマンドを発行した際に、Dragonflyがそのコマンドを認識できないために発生します。
+...</p></div><div class=entry-code-preview><pre><code>ERROR:app:Failed to fetch data from cache: CommandError: Unknown command &#39;FT.SEARCH&#39;
+Traceback (most recent call last):
+  File &#34;/app/main.py&#34;, line 42, in get_cached_data</code></pre></div><footer class=entry-footer><span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to DragonflyをRedisの代替として使う際の注意点：HTTPエラーを避けるための互換性ガイド" href=https://errorlog.jp/posts/auto_2026-06-10_dragonfly-vs-redis-in-2026-is-it-really-a-faster-d/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-dev.to---devops">Dev.to - DevOps</span></div><h2 class=entry-hint-parent>Pact契約テストでWireMockが見逃す破壊的変更を捉える方法</h2></header><div class=entry-content><p>エラーの概要 この記事では、Pact契約テストが、WireMockのような従来のモックツールでは見過ごされがちな、サービス間の破壊的変更をいかに効果的に検出するかを解説します。特に、コンシューマーとプロバイダー間でAPIのフィールド名が変更された際に、WireMockベースのテストがグリーンパスを維持してしまう「信頼の罠」に焦点を当て、Pactがこの問題をどのように解決するかを実例を交えて説明します。
+実際のエラーメッセージ例 Pact契約テストで破壊的変更が検出された場合、以下のような検証失敗メッセージが出力されます。
+Verifying a pact between OrderService and PaymentGateway
+a successful payment charge (FAILED)
+Failures:
+1.1) has a matching body
+$ -> Actual map is missing the following keys: status
+{
+"amount": 134.97,
+- "status": "ACCEPTED",
++ "result": "ACCEPTED",
+"transaction_id": "txn-abc-123"
+}
+1 failed in 7.22s このメッセージは、PaymentGatewayがOrderServiceとの契約に違反していることを示しています。具体的には、レスポンスボディからstatusキーが欠落しており、代わりにresultキーが存在することが差分として表示されています。
+よくある原因と解決手順 原因1：WireMockがプロバイダーの変更を反映しない WireMockは、テスト実行時に定義されたスタブに基づいて動作します。プロバイダーサービス（例：決済ゲートウェイ）がAPIのフィールド名を変更しても、WireMockのスタブが更新されない限り、コンシューマー側のテストは常に成功してしまいます。これは、スタブが実際のサービスの振る舞いから乖離しているにもかかわらず、テストが「グリーン」になるという「信頼の罠」を生み出します。
+なぜ発生するかの説明: WireMockは、コンシューマー側でプロバイダーの振る舞いを模倣するために使用される「行動の二重化」です。コンシューマーがスタブを維持するため、プロバイダーがAPIを変更しても、コンシューマーがスタブを明示的に更新しない限り、テストは変更を検知できません。
+Before（エラーが起きるコード）：
+// wiremock/payment-mappings/payment-success.json (WireMockスタブ) { "request": { "method": "POST", "url": "/payments/charge/success" }, "response": { "status": 200, "headers": { "Content-Type": "application/json" }, "jsonBody": { "status": "ACCEPTED", "transaction_id": "txn-abc-123", "amount": 134.97 } } } プロバイダー側でstatusフィールドがresultに変更されても、このスタブは更新されません。
+...</p></div><div class=entry-code-preview><pre><code>Verifying a pact between OrderService and PaymentGateway
+  a successful payment charge (FAILED)
+Failures:</code></pre></div><footer class=entry-footer><span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Pact契約テストでWireMockが見逃す破壊的変更を捉える方法" href=https://errorlog.jp/posts/auto_2026-06-10_how-pact-contract-testing-catches-breaking-changes/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>409</span></div><h2 class=entry-hint-parent>Terraform の 409 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Terraform の 409 エラーは、Terraform が作成・更新しようとするリソースが既にクラウド環境に存在し、状態ファイル（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。このエラーは特にマルチユーザー環境や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
+実際のエラーメッセージ例 Error: Error creating XXX: XXX (xxx): InvalidParameterException: Resource already exists
+on main.tf line 42, in resource "aws_instance" "web":
+42: resource "aws_instance" "web" {
+Error: ConflictException { "error": "conflict", "message": "The resource with name 'my-bucket' already exists", "status_code": 409 } よくある原因と解決手順 原因 1：手動で作成したリソースを Terraform で管理しようとしている クラウド管理コンソールやコマンドラインで直接作成したリソースに対して、Terraform コードで同じリソースを定義すると、Terraform はそのリソースが「新規作成される対象」だと判断します。しかし実際にはリソースが存在するため、作成時に 409 エラーで競合が検出されます。
 この場合、terraform import コマンドを使い、既存のリソースを Terraform の管理下に移す必要があります。
 Before（エラーが起きるコード）：
-resource &#34;aws_s3_bucket&#34; &#34;data_bucket&#34; { bucket = &#34;my-existing-bucket&#34; acl = &#34;private&#34; } AWS マネジメントコンソールで my-existing-bucket が既に存在している場合、terraform apply 実行時に 409 エラーが発生します。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: Error creating XXX: XXX (xxx): InvalidParameterException: Resource already exists
+resource "aws_s3_bucket" "data_bucket" { bucket = "my-existing-bucket" acl = "private" } AWS マネジメントコンソールで my-existing-bucket が既に存在している場合、terraform apply 実行時に 409 エラーが発生します。
+...</p></div><div class=entry-code-preview><pre><code>Error: Error creating XXX: XXX (xxx): InvalidParameterException: Resource already exists
   on main.tf line 42, in resource &#34;aws_instance&#34; &#34;web&#34;:
-   42: resource &#34;aws_instance&#34; &#34;web&#34; {</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 409 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_409/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">429</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 429 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 HTTP 429 エラーは「Too Many Requests」を意味し、Terraform の実行時にクラウドプロバイダーの API レート制限に達したことを示します。AWS・Google Cloud・Azure など複数のプロバイダーが API 呼び出しの頻度を制限しており、Terraform がこの上限を超えたときに発生します。特に大規模なインフラストラクチャをコード化する際に、並列処理による過度な API 呼び出しが原因となることが多くあります。
+   42: resource &#34;aws_instance&#34; &#34;web&#34; {</code></pre></div><footer class=entry-footer><span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 409 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_409/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>429</span></div><h2 class=entry-hint-parent>Terraform の 429 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 HTTP 429 エラーは「Too Many Requests」を意味し、Terraform の実行時にクラウドプロバイダーの API レート制限に達したことを示します。AWS・Google Cloud・Azure など複数のプロバイダーが API 呼び出しの頻度を制限しており、Terraform がこの上限を超えたときに発生します。特に大規模なインフラストラクチャをコード化する際に、並列処理による過度な API 呼び出しが原因となることが多くあります。
 実際のエラーメッセージ例 Terraform 実行時に以下のようなエラーが出力されます。
-{ &#34;error&#34;: &#34;error creating Security Group: RequestLimitExceeded: Request limit exceeded&#34;, &#34;status_code&#34;: 429 } また、Terraform の標準出力では以下のように表示されることもあります。
-Error: Error creating load balancer: InvalidParameterValue on main.tf line 42, in resource &#34;aws_lb&#34; &#34;example&#34;: 42: resource &#34;aws_lb&#34; &#34;example&#34; { 429 Too Many Requests よくある原因と解決手順 原因 1：Terraform の並列実行数が多すぎる Terraform はデフォルトで 10 個のリソースを同時に作成する設定になっており、これが API レート制限に抵触します。特に AWS や Google Cloud のプロバイダーでは、単位時間あたりの API 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
+{ "error": "error creating Security Group: RequestLimitExceeded: Request limit exceeded", "status_code": 429 } また、Terraform の標準出力では以下のように表示されることもあります。
+Error: Error creating load balancer: InvalidParameterValue on main.tf line 42, in resource "aws_lb" "example": 42: resource "aws_lb" "example" { 429 Too Many Requests よくある原因と解決手順 原因 1：Terraform の並列実行数が多すぎる Terraform はデフォルトで 10 個のリソースを同時に作成する設定になっており、これが API レート制限に抵触します。特に AWS や Google Cloud のプロバイダーでは、単位時間あたりの API 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
 修正前：
 terraform apply -auto-approve # デフォルトの並列度 10 で実行 修正後：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: &#34;error creating Security Group: RequestLimitExceeded: Request limit exceeded&#34;,
-  &#34;status_code&#34;: 429</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 429 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_429/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">500</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Terraform で 500 エラーが発生した場合の対処方法 エラーの概要 Terraform で 500 エラーが発生した場合、Terraform Cloud またはクラウドプロバイダー（AWS、Azure、GCP など）の API で内部エラーが生じています。このエラーはサーバー側の問題であり、ユーザーの設定ミスではありません。500 エラーは通常、一時的な障害か、リソース作成時のプロバイダー側の予期しない状況を示しています。
+  &#34;status_code&#34;: 429</code></pre></div><footer class=entry-footer><span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 429 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_429/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>Terraform の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>Terraform で 500 エラーが発生した場合の対処方法 エラーの概要 Terraform で 500 エラーが発生した場合、Terraform Cloud またはクラウドプロバイダー（AWS、Azure、GCP など）の API で内部エラーが生じています。このエラーはサーバー側の問題であり、ユーザーの設定ミスではありません。500 エラーは通常、一時的な障害か、リソース作成時のプロバイダー側の予期しない状況を示しています。
 実際のエラーメッセージ例 Terraform Cloud の run 実行画面：
-Error: Internal Server Erroron main.tf line 12, in resource &#34;aws_instance&#34; &#34;example&#34;:12: resource &#34;aws_instance&#34; &#34;example&#34; {Error: Post &#34;https://ec2.amazonaws.com/&#34;: 500 Internal Server Error terraform apply 実行時の標準出力：
-{ &#34;type&#34;: &#34;error&#34;, &#34;message&#34;: &#34;Error: Internal Server Error&#34;, &#34;diagnostics&#34;: [ { &#34;severity&#34;: &#34;error&#34;, &#34;summary&#34;: &#34;API Error&#34;, &#34;detail&#34;: &#34;500 Internal Server Error returned from AWS API&#34; } ] } よくある原因と解決手順 原因1：クラウドプロバイダーの一時的な API 障害 AWS、Azure、GCP などのクラウドプロバイダーは、デプロイ中に一時的な API 障害が発生することがあります。このような場合、Terraform の実行要求がプロバイダー側で正常に処理されず、500 エラーが返されます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: Internal Server Error
+Error: Internal Server Error
+on main.tf line 12, in resource "aws_instance" "example":
+12: resource "aws_instance" "example" {
+Error: Post "https://ec2.amazonaws.com/": 500 Internal Server Error terraform apply 実行時の標準出力：
+{ "type": "error", "message": "Error: Internal Server Error", "diagnostics": [ { "severity": "error", "summary": "API Error", "detail": "500 Internal Server Error returned from AWS API" } ] } よくある原因と解決手順 原因1：クラウドプロバイダーの一時的な API 障害 AWS、Azure、GCP などのクラウドプロバイダーは、デプロイ中に一時的な API 障害が発生することがあります。このような場合、Terraform の実行要求がプロバイダー側で正常に処理されず、500 エラーが返されます。
+...</p></div><div class=entry-code-preview><pre><code>Error: Internal Server Error
 
-  on main.tf line 12, in resource &#34;aws_instance&#34; &#34;example&#34;:</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 500 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">401</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Terraform の 401 エラーは、クラウドプロバイダー（AWS・Azure・GCP等）または Terraform Cloud/Enterprise への認証に失敗したときに発生します。認証情報の不足・期限切れ・形式エラーなどが原因で、リソースの操作やプランの実行が中断されます。
-実際のエラーメッセージ例 Error: error configuring Terraform AWS Provider: error validating provider credentials: error calling sts:GetCallerIdentity: InvalidClientTokenId: The security token included in the request is invalid on main.tf line 1, in provider &#34;aws&#34;: 1: provider &#34;aws&#34; { Error: Failed to retrieve available provider versions from Terraform Registry (registry.terraform.io). This may be caused by network connectivity issues, or an incorrect API token. HTTP status code: 401 Unauthorized よくある原因と解決手順 原因1：AWS アクセスキーの認証情報が不正または期限切れ AWS のアクセスキーが間違っているか、IAM（AWS Identity and Access Management）ユーザーの権限が削除されている場合に発生します。特に複数の AWS アカウントを扱う環境では、設定ミスが起こりやすくなります。
+  on main.tf line 12, in resource &#34;aws_instance&#34; &#34;example&#34;:</code></pre></div><footer class=entry-footer><span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_500/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-dev.to---docker">Dev.to - Docker</span></div><h2 class=entry-hint-parent>データエンジニアのためのDocker活用術：Sparkとレイクハウス開発をコンテナで再現可能にする方法</h2></header><div class=entry-content><p>エラーの概要 データエンジニアリングにおいて、ローカル環境で正常に動作するPySparkジョブが、本番クラスターやCI環境で予期せぬエラーを起こすことは珍しくありません。これは、開発環境と本番環境の間で、Sparkのバージョン、依存ライブラリ、Delta Lakeのプロトコル、タイムゾーン設定、オブジェクトストレージの挙動など、複数のレイヤーで差異（環境ドリフト）が生じるために発生します。
+この問題は、ウェブ開発の世界ではDockerなどのコンテナ技術によって「Works on my machine（私のマシンでは動く）」問題として解決されてきましたが、データエンジニアリングの分野では未だに多くのチームが直面しています。結果として、高価なクラウド環境でのデバッグや、本番環境での予期せぬ障害につながることがあります。
+実際のエラーメッセージ例 データパイプラインの環境ドリフトによって発生するエラーは多岐にわたりますが、典型的なものとしては以下のようなメッセージが挙げられます。
+依存関係の不一致:
+Py4JJavaError: An error occurred while calling o*.load.
+: java.lang.NoClassDefFoundError: org/apache/hadoop/fs/s3a/S3AFileSystem
+at io.delta.storage.HadoopFileSystemLogStore.resolvePath(HadoopFileSystemLogStore.scala:100)
+at io.delta.storage.HadoopFileSystemLogStore.&lt;init>(HadoopFileSystemLogStore.scala:59)
+... SparkバージョンやDelta Lakeプロトコルの不一致:
+Py4JJavaError: An error occurred while calling o*.load.
+: org.apache.spark.sql.AnalysisException: Delta Lake table at s3a://&lt;your-bucket>/&lt;your-path> requires a newer version of Delta Lake.
+Please upgrade your Delta Lake library to at least version &lt;required-version>.
+... タイムゾーン関連のエラー:
+Py4JJavaError: An error occurred while calling o*.collectToPython.
+: java.time.DateTimeException: Invalid value for DayOfMonth (valid values 1 - 28/31): 30
+at java.time.temporal.ValueRange.checkValidValue(ValueRange.java:320)
+at java.time.LocalDate.of(LocalDate.java:264)
+... よくある原因と解決手順 データパイプラインの環境ドリフトは、主に以下の4つのレイヤーで発生します。
+...</p></div><div class=entry-code-preview><pre><code>Py4JJavaError: An error occurred while calling o*.load.
+: java.lang.NoClassDefFoundError: org/apache/hadoop/fs/s3a/S3AFileSystem
+    at io.delta.storage.HadoopFileSystemLogStore.resolvePath(HadoopFileSystemLogStore.scala:100)</code></pre></div><footer class=entry-footer><span title='2026-06-10 00:00:00 +0000 UTC'>2026年6月10日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to データエンジニアのためのDocker活用術：Sparkとレイクハウス開発をコンテナで再現可能にする方法" href=https://errorlog.jp/posts/auto_2026-06-10_it-works-on-my-cluster-containerizing-spark-and-la/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Terraform の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Terraform の 401 エラーは、クラウドプロバイダー（AWS・Azure・GCP等）または Terraform Cloud/Enterprise への認証に失敗したときに発生します。認証情報の不足・期限切れ・形式エラーなどが原因で、リソースの操作やプランの実行が中断されます。
+実際のエラーメッセージ例 Error: error configuring Terraform AWS Provider: error validating provider credentials: error calling sts:GetCallerIdentity: InvalidClientTokenId: The security token included in the request is invalid on main.tf line 1, in provider "aws": 1: provider "aws" { Error: Failed to retrieve available provider versions from Terraform Registry (registry.terraform.io). This may be caused by network connectivity issues, or an incorrect API token. HTTP status code: 401 Unauthorized よくある原因と解決手順 原因1：AWS アクセスキーの認証情報が不正または期限切れ AWS のアクセスキーが間違っているか、IAM（AWS Identity and Access Management）ユーザーの権限が削除されている場合に発生します。特に複数の AWS アカウントを扱う環境では、設定ミスが起こりやすくなります。
 Before（エラーが起きるコード）：
 # 期限切れまたは不正なキーを使用 export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY terraform plan After（修正後）：
 # 最新の認証情報を取得・確認 aws sts get-caller-identity # 有効なキーを再設定 export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7NEWKEY export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYNEWKEY # または ~/.aws/credentials ファイルで管理 cat ~/.aws/credentials terraform plan 原因2：環境変数が設定されていない Terraform が認証情報を探すとき、環境変数（AWS_ACCESS_KEY_ID、AWS_SECRET_ACCESS_KEY など）が未設定の場合、プロバイダー認証に失敗します。特に CI/CD パイプラインやサーバーレス環境では見落としやすい原因です。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: error configuring Terraform AWS Provider: error validating provider credentials: error calling sts:GetCallerIdentity: InvalidClientTokenId: The security token included in the request is invalid
+...</p></div><div class=entry-code-preview><pre><code>Error: error configuring Terraform AWS Provider: error validating provider credentials: error calling sts:GetCallerIdentity: InvalidClientTokenId: The security token included in the request is invalid
   on main.tf line 1, in provider &#34;aws&#34;:
-   1: provider &#34;aws&#34; {</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-09 00:00:00 +0000 UTC'>2026年6月9日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 401 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_401/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">403</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Terraform が AWS などのクラウドプロバイダーにリソースの作成・更新・削除を要求したとき、IAM ポリシーまたは SCP（Service Control Policy）により操作が拒否される状態です。このエラーは実行ロールに必要な権限がないか、組織レベルの制限によって操作が許可されていないことを示しています。
-実際のエラーメッセージ例 { &#34;Error&#34;: { &#34;Code&#34;: &#34;AccessDenied&#34;, &#34;Message&#34;: &#34;User: arn:aws:iam::123456789012:user/terraform-user is not authorized to perform: ec2:RunInstances on resource: arn:aws:ec2:us-east-1:123456789012:instance/* with an implicit deny in user-based policy&#34; } } Error: error creating EC2 Instance: UnauthorizedOperation.Unavailable: You are not authorized to perform this operation.status code: 403, request id: &lt;request-id&gt;on main.tf line 10, in resource &#34;aws_instance&#34; &#34;example&#34;:10: resource &#34;aws_instance&#34; &#34;example&#34; { よくある原因と解決手順 原因1：実行ロールに IAM ポリシーの権限が不足している Terraform を実行するユーザーまたはロールに、リソース作成に必要な IAM 権限がアタッチされていません。例えば EC2 インスタンスを起動する場合、ec2:RunInstances アクションの許可が必要です。IAM ポリシーシミュレーター（ポリシーが実際に機能するかを事前検証するツール）で実際に権限が付与されているかを確認し、不足している権限をポリシーに追加します。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+   1: provider &#34;aws&#34; {</code></pre></div><footer class=entry-footer><span title='2026-06-09 00:00:00 +0000 UTC'>2026年6月9日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Terraform の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Terraform が AWS などのクラウドプロバイダーにリソースの作成・更新・削除を要求したとき、IAM ポリシーまたは SCP（Service Control Policy）により操作が拒否される状態です。このエラーは実行ロールに必要な権限がないか、組織レベルの制限によって操作が許可されていないことを示しています。
+実際のエラーメッセージ例 { "Error": { "Code": "AccessDenied", "Message": "User: arn:aws:iam::123456789012:user/terraform-user is not authorized to perform: ec2:RunInstances on resource: arn:aws:ec2:us-east-1:123456789012:instance/* with an implicit deny in user-based policy" } } Error: error creating EC2 Instance: UnauthorizedOperation.Unavailable: You are not authorized to perform this operation.
+status code: 403, request id: &lt;request-id>
+on main.tf line 10, in resource "aws_instance" "example":
+10: resource "aws_instance" "example" { よくある原因と解決手順 原因1：実行ロールに IAM ポリシーの権限が不足している Terraform を実行するユーザーまたはロールに、リソース作成に必要な IAM 権限がアタッチされていません。例えば EC2 インスタンスを起動する場合、ec2:RunInstances アクションの許可が必要です。IAM ポリシーシミュレーター（ポリシーが実際に機能するかを事前検証するツール）で実際に権限が付与されているかを確認し、不足している権限をポリシーに追加します。
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;Error&#34;: {
-    &#34;Code&#34;: &#34;AccessDenied&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-09 00:00:00 +0000 UTC'>2026年6月9日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 403 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">404</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Terraform の 404 エラーは、設定ファイルで参照しているクラウドリソースが実際には存在しないか、削除されている状態を示します。このエラーが発生すると、terraform plan や terraform apply の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する設定で頻出します。
+    &#34;Code&#34;: &#34;AccessDenied&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-09 00:00:00 +0000 UTC'>2026年6月9日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Terraform の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Terraform の 404 エラーは、設定ファイルで参照しているクラウドリソースが実際には存在しないか、削除されている状態を示します。このエラーが発生すると、terraform plan や terraform apply の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する設定で頻出します。
 実際のエラーメッセージ例 AWS Provider での例：
-Error: error reading EC2 Instance: InvalidInstanceID.NotFound on main.tf line 12, in data &#34;aws_instance&#34; &#34;existing&#34;: 12: data &#34;aws_instance&#34; &#34;existing&#34; { │ │ InvalidInstanceID.NotFound: The instance ID &#39;i-0123456789abcdef0&#39; does not exist Google Cloud Provider での例：
-Error: Error when reading or editing Compute Instance: googleapi: Error 404: The resource &#39;projects/my-project/zones/us-central1-a/instances/old-instance&#39; was not found よくある原因と解決手順 原因 1：data source で参照しているリソースがまだ作成されていないか削除されている リソースを作成する前に、そのリソース情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動でリソースを削除した場合、Terraform の state ファイルにはまだ存在するとして記録されたままになり、再度参照しようとすると 404 エラーになります。
+Error: error reading EC2 Instance: InvalidInstanceID.NotFound on main.tf line 12, in data "aws_instance" "existing": 12: data "aws_instance" "existing" { │ │ InvalidInstanceID.NotFound: The instance ID 'i-0123456789abcdef0' does not exist Google Cloud Provider での例：
+Error: Error when reading or editing Compute Instance: googleapi: Error 404: The resource 'projects/my-project/zones/us-central1-a/instances/old-instance' was not found よくある原因と解決手順 原因 1：data source で参照しているリソースがまだ作成されていないか削除されている リソースを作成する前に、そのリソース情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動でリソースを削除した場合、Terraform の state ファイルにはまだ存在するとして記録されたままになり、再度参照しようとすると 404 エラーになります。
 Before（エラーが起きるコード）：
-# EC2 インスタンスを作成する前に参照しようとしている data &#34;aws_instance&#34; &#34;existing&#34; { instance_ids = [&#34;i-0123456789abcdef0&#34;] } resource &#34;aws_instance&#34; &#34;new&#34; { ami = data.aws_instance.existing.ami instance_type = &#34;t3.micro&#34; } After（修正後）：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: error reading EC2 Instance: InvalidInstanceID.NotFound
+# EC2 インスタンスを作成する前に参照しようとしている data "aws_instance" "existing" { instance_ids = ["i-0123456789abcdef0"] } resource "aws_instance" "new" { ami = data.aws_instance.existing.ami instance_type = "t3.micro" } After（修正後）：
+...</p></div><div class=entry-code-preview><pre><code>Error: error reading EC2 Instance: InvalidInstanceID.NotFound
   on main.tf line 12, in data &#34;aws_instance&#34; &#34;existing&#34;:
-  12: data &#34;aws_instance&#34; &#34;existing&#34; {</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-09 00:00:00 +0000 UTC'>2026年6月9日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 404 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_404/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-terraform">Terraform</span>
-      <span class="error-badge">400</span>
-    </div>
-    <h2 class="entry-hint-parent">Terraform の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Terraform で 400 エラーが発生する場合、これはクラウドプロバイダーの API が「不正なリクエスト」と判定したことを意味します。HCL の構文自体は正しくても、リソース定義のパラメーター型や値がプロバイダーの期待形式と一致していない場合に起こります。terraform apply 実行時に最も頻繁に遭遇するエラーで、本来なら terraform plan で事前に検出すべき問題です。
-実際のエラーメッセージ例 Error: error creating DB Instance: BadRequest: 400 Bad Request on main.tf line 15, in resource &#34;aws_db_instance&#34; &#34;example&#34;: 15: resource &#34;aws_db_instance&#34; &#34;example&#34; { with aws_db_instance.example, on main.tf line 15, in resource &#34;aws_db_instance&#34; &#34;example&#34;: 15: resource &#34;aws_db_instance&#34; &#34;example&#34; { Error: Error making API call: status code 400, message: invalid parameter value $ terraform apply Error: error creating resource: BadRequest: The request body is malformed │ │ with module.vpc.aws_security_group.allow_ssh: │ on vpc/main.tf line 42, in resource &#34;aws_security_group&#34; &#34;allow_ssh&#34;: │ 42: resource &#34;aws_security_group&#34; &#34;allow_ssh&#34; { よくある原因と解決手順 原因 1：リソースパラメーターの型が不正 Terraform のプロバイダーが期待する型（文字列、数値、リスト等）と異なる型で値を指定すると、API リクエスト生成時に 400 エラーが発生します。特に、数値として指定すべきポート番号を文字列で渡したり、ブール値を文字列で指定したりするケースが多く見られます。
+  12: data &#34;aws_instance&#34; &#34;existing&#34; {</code></pre></div><footer class=entry-footer><span title='2026-06-09 00:00:00 +0000 UTC'>2026年6月9日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-terraform">Terraform</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Terraform の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Terraform で 400 エラーが発生する場合、これはクラウドプロバイダーの API が「不正なリクエスト」と判定したことを意味します。HCL の構文自体は正しくても、リソース定義のパラメーター型や値がプロバイダーの期待形式と一致していない場合に起こります。terraform apply 実行時に最も頻繁に遭遇するエラーで、本来なら terraform plan で事前に検出すべき問題です。
+実際のエラーメッセージ例 Error: error creating DB Instance: BadRequest: 400 Bad Request on main.tf line 15, in resource "aws_db_instance" "example": 15: resource "aws_db_instance" "example" { with aws_db_instance.example, on main.tf line 15, in resource "aws_db_instance" "example": 15: resource "aws_db_instance" "example" { Error: Error making API call: status code 400, message: invalid parameter value $ terraform apply Error: error creating resource: BadRequest: The request body is malformed │ │ with module.vpc.aws_security_group.allow_ssh: │ on vpc/main.tf line 42, in resource "aws_security_group" "allow_ssh": │ 42: resource "aws_security_group" "allow_ssh" { よくある原因と解決手順 原因 1：リソースパラメーターの型が不正 Terraform のプロバイダーが期待する型（文字列、数値、リスト等）と異なる型で値を指定すると、API リクエスト生成時に 400 エラーが発生します。特に、数値として指定すべきポート番号を文字列で渡したり、ブール値を文字列で指定したりするケースが多く見られます。
 Before（エラーが起きるコード）：
-resource &#34;aws_security_group&#34; &#34;example&#34; { name = &#34;example-sg&#34; description = &#34;Example security group&#34; ingress { from_port = &#34;80&#34; # 型エラー：文字列ではなく数値であるべき to_port = &#34;443&#34; # 型エラー protocol = &#34;tcp&#34; cidr_blocks = [&#34;0.0.0.0/0&#34;] } depends_on = true # 型エラー：ブール値ではなく string の list } After（修正後）：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: error creating DB Instance: BadRequest: 400 Bad Request
+resource "aws_security_group" "example" { name = "example-sg" description = "Example security group" ingress { from_port = "80" # 型エラー：文字列ではなく数値であるべき to_port = "443" # 型エラー protocol = "tcp" cidr_blocks = ["0.0.0.0/0"] } depends_on = true # 型エラー：ブール値ではなく string の list } After（修正後）：
+...</p></div><div class=entry-code-preview><pre><code>Error: error creating DB Instance: BadRequest: 400 Bad Request
   on main.tf line 15, in resource &#34;aws_db_instance&#34; &#34;example&#34;:
-   15: resource &#34;aws_db_instance&#34; &#34;example&#34; {</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-08 00:00:00 +0000 UTC'>2026年6月8日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Terraform の 400 エラー：原因と解決策" href="http://localhost:1313/posts/terraform_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">503</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 503 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercel の 503 エラーは、Vercel のサーバーが一時的に要求を処理できない状態を示します。このエラーは、Vercel のインフラストラクチャー側の問題またはデプロイされたアプリケーションのリソース制限に起因することが多く、ユーザーのアクセスが一時的にブロックされます。通常は数分から数時間で自動的に復旧しますが、原因の特定と対応は重要です。
-実際のエラーメッセージ例 { &#34;statusCode&#34;: 503, &#34;message&#34;: &#34;Service Unavailable&#34;, &#34;error&#34;: &#34;The server is temporarily unable to handle the request.&#34; } 503 Service Unavailable ブラウザーでアクセスすると、Vercel の標準エラーページが表示されるか、上記のようなレスポンスが返却されます。
-よくある原因と解決手順 原因1：Vercel のインフラストラクチャー側の障害 Vercel のグローバルネットワークやデータセンター側で一時的なサービス中断が発生している場合、全ユーザーのデプロイが 503 エラーを返します。これはユーザーのコード変更とは関係なく発生します。
-確認方法： Vercel の公式ステータスページを確認することで、グローバルな障害の有無を即座に判定できます。
-修正方法：
-# 1. Vercel ステータスページで障害を確認 # https://vercel.statuspage.io にアクセス # 2. 障害がない場合は数分待機してから再試行 curl https://&lt;your-domain&gt;.vercel.app # 3. 障害情報がある場合は、復旧まで待機 # ステータスページの Twitter 公式アカウント(@vercelstatus)でも通知される この場合、ユーザー側でできることは限定的です。Vercel チームが復旧作業を進めている間、数分～数時間の待機が必要になります。
-原因2：サーバーレス関数の同時実行数が上限に達した Vercel のサーバーレス関数（Next.js API Routes、Edge Functions など）には、プランごとに同時実行数の上限が設定されています。大量のアクセスや長時間の処理を実行する関数が複数起動すると、すぐに上限に達し、新規リクエストが 503 で拒否されます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
-  &#34;statusCode&#34;: 503,
-  &#34;message&#34;: &#34;Service Unavailable&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-08 00:00:00 +0000 UTC'>2026年6月8日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 503 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_503/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">504</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 504 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercelの504エラーは、デプロイされたサーバーレス関数の実行がタイムアウトに達したことを示します。Hobbyプランでは10秒、Proプラン以上では300秒が実行時間の上限となり、この制限を超えると504 Gateway Timeoutレスポンスが返されます。一般的に、API呼び出しやデータベースクエリの応答待ちが長引く場合に発生しやすいエラーです。
-実際のエラーメッセージ例 Vercelのブラウザ表示：
-504Gateway Timeout 関数ログ（Vercel Dashboard）：
-{ &#34;errorCode&#34;: &#34;FUNCTION_INVOCATION_TIMEOUT&#34;, &#34;message&#34;: &#34;The function exceeded the timeout duration&#34;, &#34;functionName&#34;: &#34;api/users&#34;, &#34;executionDurationMs&#34;: 10000, &#34;region&#34;: &#34;sfo1&#34; } cURLレスポンス：
-HTTP/1.1 504 Gateway TimeoutServer: VercelContent-Type: text/htmlConnection: close504 - Gateway Timeout よくある原因と解決手順 原因1：Hobbyプランのタイムアウト制限（10秒）に引っかかっている Vercelの無料Hobbyプランでは、サーバーレス関数の最大実行時間が10秒に制限されています。この時間内に処理が完了しないと自動的に504エラーが返されます。特に外部APIの呼び出しやデータベースアクセスが複数含まれる関数では、容易にこの上限に達する可能性があります。
-Before（エラーが起きるコード）：
-// api/getUserData.js export default async function handler(req, res) { // 外部APIを3つ順序実行（各3秒）→ 合計9秒 const user = await fetch(&#39;https://api.example.com/user/123&#39;).then(r =&gt; r.json()); const posts = await fetch(&#39;https://api.example.com/posts/123&#39;).then(r =&gt; r.json()); const comments = await fetch(&#39;https://api.example.com/comments/123&#39;).then(r =&gt; r.json()); res.status(200).json({ user, posts, comments }); } After（修正後）：
-// api/getUserData.js export default async function handler(req, res) { // 複数APIを並列実行（合計3秒に短縮） const [user, posts, comments] = await Promise.all([ fetch(&#39;https://api.example.com/user/123&#39;).then(r =&gt; r.json()), fetch(&#39;https://api.example.com/posts/123&#39;).then(r =&gt; r.json()), fetch(&#39;https://api.example.com/comments/123&#39;).then(r =&gt; r.json()) ]); res.status(200).json({ user, posts, comments }); } または、Proプラン（300秒上限）へのアップグレードも検討してください。Vercel Dashboardの「Settings」→「Plan」から変更可能です。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>504
-Gateway Timeout
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-08 00:00:00 +0000 UTC'>2026年6月8日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 504 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_504/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">404</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercel の 404 エラーは、指定したデプロイメント（ウェブアプリケーションの本番環境）またはリソースがサーバーで見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図したファイルに到達できていない場合も含まれます。Vercel 環境では、設定ファイルの記述ミスや古いデプロイメント URL へのアクセスが、この問題の主な原因となります。
-実際のエラーメッセージ例 ブラウザで表示される場合：
-404 - NOT_FOUNDThis page could not be foundThe resource might have been removed or you might have mistyped the url. API レスポンスの場合：
-{ &#34;error&#34;: { &#34;code&#34;: &#34;NOT_FOUND&#34;, &#34;message&#34;: &#34;The deployment could not be found&#34;, &#34;status&#34;: 404 } } CLI から削除済みデプロイメントにアクセスした場合：
-Error: Deployment not found. The deployment &lt;deployment-id&gt; does not exist or has been removed. よくある原因と解決手順 原因1：デプロイメント URL が古いか誤っている Vercel でプロジェクトを更新・再デプロイしたり、本番環境のドメインを変更したりすると、以前のデプロイメント URL は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い URL が残っていると、404 エラーが発生します。また、手動で URL を入力する際の誤字も考えられます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>404 - NOT_FOUND
-This page could not be found
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-07 00:00:00 +0000 UTC'>2026年6月7日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 404 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_404/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="next" href="http://localhost:1313/posts/page/2/">次へ&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a><script>
-(function () {
-  var header = document.querySelector('.header');
-  if (!header) return;
-  var prev = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var cur = window.scrollY;
-    if (cur <= 0) {
-      header.classList.remove('header--hidden');
-    } else if (cur > prev && cur > 60) {
-      header.classList.add('header--hidden');
-    } else if (cur < prev) {
-      header.classList.remove('header--hidden');
-    }
-    prev = cur;
-  }, { passive: true });
-})();
-</script>
-
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+   15: resource &#34;aws_db_instance&#34; &#34;example&#34; {</code></pre></div><footer class=entry-footer><span title='2026-06-08 00:00:00 +0000 UTC'>2026年6月8日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Terraform の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/terraform_400/></a></article><footer class=page-footer><nav class=pagination><a class=next href=https://errorlog.jp/posts/page/2/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

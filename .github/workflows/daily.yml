@@ -58,11 +58,12 @@ jobs:
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add content/posts/ scripts/queue.csv data/rewrite_candidates.json
-          [ -f data/fact_check_new_article_failures.json ] && git add data/fact_check_new_article_failures.json
-          [ -f data/fact_check_score_history.jsonl ] && git add data/fact_check_score_history.jsonl
-          [ -d reports/fact_check ] && git add reports/fact_check/
-          [ -f data/publish_session.json ] && git add data/publish_session.json
+          git add content/posts/ scripts/queue.csv
+          [ -f data/rewrite_candidates.json ] && git add data/rewrite_candidates.json || true
+          [ -f data/fact_check_new_article_failures.json ] && git add data/fact_check_new_article_failures.json || true
+          [ -f data/fact_check_score_history.jsonl ] && git add data/fact_check_score_history.jsonl || true
+          [ -d reports/fact_check ] && git add reports/fact_check/ || true
+          [ -f data/publish_session.json ] && git add data/publish_session.json || true
           if git diff --staged --quiet; then
             echo "deployed=false" >> $GITHUB_OUTPUT
           else

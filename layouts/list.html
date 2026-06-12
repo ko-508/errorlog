@@ -51,6 +51,33 @@
 {{- partial "home_info.html" . }}
 {{- end }}
 
+{{- /* ── Phase 4: 障害速報セクション（トップページのみ・1ページ目のみ） ── */}}
+{{- if and .IsHome (eq $paginator.PageNumber 1) }}
+{{- $incidents := where $pages "Params.trend_incident" true }}
+{{- $incidents = first 10 $incidents }}
+{{- if $incidents }}
+<div class="incident-banner">
+  <div class="incident-banner__header">
+    <span class="incident-banner__icon">⚠️</span>
+    <span class="incident-banner__title">本日急増しているエラー・障害速報</span>
+  </div>
+  <ul class="incident-banner__list">
+    {{- range $incidents }}
+    <li class="incident-banner__item">
+      {{- with index .Params.tags 0 }}
+      <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
+      {{- end }}
+      {{- with .Params.errorCode }}
+      <span class="error-badge">{{ . }}</span>
+      {{- end }}
+      <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </li>
+    {{- end }}
+  </ul>
+</div>
+{{- end }}
+{{- end }}
+
 {{- $term := .Data.Term }}
 {{- range $index, $page := $paginator.Pages }}
 

@@ -1,0 +1,71 @@
+name: Existing Article Fact Check
+
+on:
+  schedule:
+    # 09:00, 12:00, 15:00, 18:00, 21:00 JST
+    - cron: "0 0,3,6,9,12 * * *"
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Number of existing articles to check"
+        default: "1"
+        required: false
+      target_path:
+        description: "Optional article path to check first"
+        default: ""
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  fact-check-existing:
+    runs-on: ubuntu-latest
+    env:
+      FACT_CHECK_EXISTING_LIMIT: ${{ inputs.limit || '1' }}
+      FACT_CHECK_TARGET_PATH: ${{ inputs.target_path || '' }}
+      FACT_CHECK_GEMINI_TIMEOUT_SECONDS: "90"
+      FACT_CHECK_MAX_INPUT_CHARS: "12000"
+      FACT_CHECK_GEMINI_DELAY_SECONDS: "10"
+      FACT_CHECK_GEMINI_TIMEOUT_COOLDOWN_SECONDS: "30"
+      FACT_CHECK_UNAVAILABLE_RETRY_AFTER_HOURS: "24"
+      FACT_CHECK_MAX_UNAVAILABLE_RATIO: "1.0"
+      FACT_CHECK_GEMINI_RETRY_ON_PARSE_ERROR: "1"
+      FACT_CHECK_RECENTLY_CHECKED_SKIP_HOURS: "168"
+      FACT_CHECK_REPORT_RETENTION_DAYS: "30"
+      FACT_CHECK_FAIL_ON_EXISTING_CRITICAL: "false"
+      FACT_CHECK_URL_CHECK: "true"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install google-genai
+
+      - name: Run existing article fact check
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -n "$FACT_CHECK_TARGET_PATH" ]; then
+            python scripts/fact_check.py --mode existing --limit "$FACT_CHECK_EXISTING_LIMIT" --target-path "$FACT_CHECK_TARGET_PATH"
+          else
+            python scripts/fact_check.py --mode existing --limit "$FACT_CHECK_EXISTING_LIMIT"
+          fi
+
+      - name: Commit fact check outputs
+        run: |
+          git config user.email "bot@users.noreply.github.com"
+          git config user.name "Fact Check Bot"
+          [ -f data/rewrite_candidates.json ] && git add data/rewrite_candidates.json || true
+          [ -f data/fact_check_score_history.jsonl ] && git add data/fact_check_score_history.jsonl || true
+          [ -f data/fact_check_unavailable_history.json ] && git add data/fact_check_unavailable_history.json || true
+          [ -d reports/fact_check/existing_articles ] && git add reports/fact_check/existing_articles/ || true
+          if git diff --cached --quiet; then
+            echo "No fact check changes to commit."
+          else
+            git commit -m "fact-check: existing article $(date +%Y-%m-%d-%H%M) [skip ci]"
+            git push
+          fi

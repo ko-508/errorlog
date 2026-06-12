@@ -4,6 +4,10 @@ date: 2026-06-10
 description: "クラウドプロバイダーのAPIレート制限に達した。Terraform 429 エラーの原因と解決策を解説します。"
 tags: ["Terraform"]
 errorCode: "429"
+service: "Terraform"
+error_type: "429"
+components: ["Provider", "Backend", "State"]
+related_services: ["AWS", "Google Cloud", "Azure", "IAM", "EC2", "CloudFormation", "GitLab CI"]
 ---
 ## エラーの概要
 

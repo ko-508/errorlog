@@ -4,6 +4,10 @@ date: 2026-06-05
 description: "リクエストのデータが検証ルールを満たしていない。Supabase 422 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "422"
+service: "Supabase"
+error_type: "422"
+components: ["Auth"]
+related_services: ["JavaScript", "REST API", "SendGrid", "Mailgun", "Gmail"]
 ---
 ## エラーの概要
 

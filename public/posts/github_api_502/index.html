@@ -1,755 +1,128 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>GitHub API の 502 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="GitHub API, HTTP502, 502エラー">
-<meta name="description" content="502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/posts/github_api_502/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/github_api_502/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
-<meta name="google-site-verification" content="109757267897574962624" />
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CXKKVNQKRX');
-</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
-     crossorigin="anonymous"></script>
-
-</head>
-<body id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
-  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
-    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
-  </text>
-</svg>
-</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="http://localhost:1313/search/" title="検索">
-                    <span>検索</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="タグ">
-                    <span>タグ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="アーカイブ">
-                    <span>アーカイブ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/glossary/" title="用語集">
-                    <span>用語集</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "\"GitHub API の 502 エラー：原因と解決策\"",
-  "description": "\"502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。\"",
-  "inLanguage": "ja",
-  "url": "\"http://localhost:1313/posts/github_api_502/\"",
-  "datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-05-31T00:00:00Z\"",
-  "articleSection": "Error Troubleshooting",
-  "proficiencyLevel": "Intermediate",
-  "keywords": ["\"GitHub API\"", "\"HTTP 502\"", "\"502\""],
-  "author": {
-    "@type": "Organization",
-    "name": "\"ErrorLog - エラーコード解決ガイド\"",
-    "url": "\"http://localhost:1313/\""
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "\"ErrorLog - エラーコード解決ガイド\"",
-    "url": "\"http://localhost:1313/\""
-  }
-}
-</script>
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <div class="post-badges">
-      <span class="tool-badge tool-badge-github-api">GitHub API</span>
-      <span class="error-badge">502</span>
-    </div>
-    <h1 class="post-title entry-hint-parent">
-      GitHub API の 502 エラー：原因と解決策
-    </h1>
-    <div class="post-meta">
-
-<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
-
-</div>
-  </header>
-  <div class="summary-panel">
-    <div class="summary-row">
-      <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label summary-label--cause">原因</span>
-      <span class="summary-text">GitHub 側のメンテナンスやインシデント</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label summary-label--fix">対策</span>
-      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
-    </div>
-  </div>
-  <div class="raw-log-panel">
-    <div class="raw-log-label">実際のエラーログ</div>
-    <pre class="raw-log-code"><code>{
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>GitHub API の 502 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="GitHub API,HTTP502,502エラー"><meta name=description content="502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/github_api_502/><link crossorigin=anonymous href=/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css integrity="sha256-Qnf+CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF+x1/k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/github_api_502/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta name=google-site-verification content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ"><meta name=google-site-verification content="109757267897574962624"><link rel=preconnect href=https://www.googletagmanager.com><link rel=preconnect href=https://www.google-analytics.com><script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-CXKKVNQKRX")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187" crossorigin=anonymous></script><meta property="og:url" content="https://errorlog.jp/posts/github_api_502/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="GitHub API の 502 エラー：原因と解決策"><meta property="og:description" content="502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-31T00:00:00+00:00"><meta property="article:tag" content="GitHub API"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="GitHub API の 502 エラー：原因と解決策"><meta name=twitter:description content="502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"GitHub API の 502 エラー：原因と解決策","item":"https://errorlog.jp/posts/github_api_502/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"GitHub API の 502 エラー：原因と解決策","name":"GitHub API の 502 エラー：原因と解決策","description":"502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。","keywords":["GitHub API"],"articleBody":"エラーの概要 502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。クライアントからのリクエストそのものは正しくても、GitHub の内部インフラストラクチャでゲートウェイ層が上位サーバーから不正な応答を受け取った状態を示します。このエラーが発生すると、API呼び出しは失敗し、データの取得や更新ができなくなります。\n実際のエラーメッセージ例 { \"message\": \"Bad Gateway\", \"documentation_url\": \"https://docs.github.com/rest\" } HTTP/1.1 502 Bad Gateway\rContent-Type: application/json\r{\r\"message\": \"502\",\r\"status\": 502\r} よくある原因と解決手順 原因1：GitHub 側のメンテナンスやインシデント なぜ発生するか GitHub は定期的にインフラメンテナンスを実施します。メンテナンス中は API サーバーが一時的に不安定になり、リクエストがゲートウェイで処理できず 502 が返されます。\nBefore（エラーが起きる状態）\ncurl -H \"Authorization: token \" \\ https://api.github.com/user HTTP/1.1 502 Bad Gateway After（解決方法） GitHub の Status ページ（https://www.githubstatus.com）を確認し、メンテナンスやインシデントが報告されているかチェックします。メンテナンス中の場合は復旧を待ちます。\n# ステータスを確認してから数分待機後にリトライ curl -H \"Authorization: token \" \\ https://api.github.com/user 原因2：無効な Authorization ヘッダーまたは認証エラー なぜ発生するか トークンの形式が不正、有効期限が切れている、またはスコープが不足している場合、認証層で処理できずゲートウェイエラーとして返されることがあります。\nBefore（エラーが起きるコード）\nimport requests token = \"ghp_invalidtoken\" # 形式が不正 headers = {\"Authorization\": f\"token {token}\"} response = requests.get(\"https://api.github.com/user\", headers=headers) print(response.status_code) # 502 が返される After（修正後）\nimport requests # 有効な Personal Access Token を使用 token = \"ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\" headers = {\"Authorization\": f\"token {token}\"} response = requests.get(\"https://api.github.com/user\", headers=headers) if response.status_code == 401: print(\"認証失敗：トークンが無効です\") elif response.status_code == 200: print(\"認証成功:\", response.json()[\"login\"]) 原因3：API レート制限への到達 なぜ発生するか 短時間に大量のリクエストを送信すると、レート制限に達した後のリクエストで 502 が返されることがあります。特に認証なしでのアクセスや、古い API バージョンを使用している場合に顕著です。\nBefore（エラーが起きるコード）\n// 認証なしで連続リクエスト for (let i = 0; i \u003c 100; i++) { fetch(`https://api.github.com/users/github/repos?page=${i}`) .then(res =\u003e res.json()) .catch(err =\u003e console.error(\"502 エラー:\", err)); } After（修正後）\n// 認証トークンを使用し、レート制限を考慮 const token = ''; async function fetchWithRetry(url) { const response = await fetch(url, { headers: { Authorization: `token ${token}` } }); if (response.status === 502) { console.log(\"サーバー一時エラー：1秒後に再試行\"); await new Promise(resolve =\u003e setTimeout(resolve, 1000)); return fetchWithRetry(url); } // X-RateLimit ヘッダーを確認 const remaining = response.headers.get('x-ratelimit-remaining'); if (remaining \u003c 10) { const reset = response.headers.get('x-ratelimit-reset'); const waitTime = Math.max(0, (reset * 1000) - Date.now()); console.log(`レート制限間近。${waitTime}ms 待機します`); await new Promise(resolve =\u003e setTimeout(resolve, waitTime + 1000)); } return response.json(); } fetchWithRetry('https://api.github.com/user/repos'); 原因4：不正なまたは廃止された API エンドポイント なぜ発生するか GitHub API v3 の廃止や、エンドポイントの URL が変更された場合、ゲートウェイがリクエストを処理できず 502 を返します。\nBefore（エラーが起きるコード）\n# 廃止された v3 エンドポイント curl -H \"Authorization: token \" \\ https://api.github.com/repos///issues After（修正後）\n# GraphQL API（推奨）またはREST API v3 の最新エンドポイントを使用 curl -H \"Authorization: token \" \\ -H \"Accept: application/vnd.github.v3+json\" \\ https://api.github.com/repos///issues ツール固有の注意点 GitHub API 固有の 502 対策として以下を確認してください：\nAPI バージョンの確認 GitHub は REST API v3 をメインで提供していますが、古いクライアントライブラリを使用している場合は更新が必要です。Accept ヘッダーで API バージョンを明示的に指定することをお勧めします。\nGraphQL API への移行 複数のエンドポイントからデータを取得する場合、GraphQL API を使用するとゲートウェイへの負荷が分散され、502 エラーの頻度が低下します。\ncurl -H \"Authorization: Bearer \" \\ -H \"X-GitHub-Api-Version: 2022-11-28\" \\ https://api.github.com/graphql \\ -d '{\"query\":\"query { viewer { login } }\"}' Webhook の署名検証 webhook を受信する場合、GitHub からのペイロード署名を検証し、リクエスト処理に失敗した場合は適切なステータスコードを返します。GitHub は 5xx エラーを受け取るとリトライを繰り返すため、エラーハンドリングが重要です。\nそれでも解決しない場合 ログとヘッダー確認 デバッグの際には、レスポンスヘッダー内の X-RateLimit-*、X-GitHub-Request-Id を確認します。Request ID は GitHub サポートへの問い合わせに役立ちます。\n# 詳細なヘッダー情報を表示 curl -v -H \"Authorization: token \" \\ https://api.github.com/user 公式ドキュメントの参照 GitHub API のドキュメント（https://docs.github.com/en/rest）の「HTTP status codes」セクションで詳細な仕様を確認してください。また Status ページ（https://www.githubstatus.com）で リアルタイムのインシデント情報をチェックできます。\nGitHub Community への相談 個別の問題については GitHub Discussions（https://github.com/orgs/github/discussions）または Stack Overflow の github-api タグで質問することで、コミュニティからの支援が得られます。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"366","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-31T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/github_api_502/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><script type=application/ld+json>{"@context":"https://schema.org","@type":"TechArticle","headline":"\"GitHub API の 502 エラー：原因と解決策\"","description":"\"502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。\"","inLanguage":"ja","url":"\"https://errorlog.jp/posts/github_api_502/\"","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-31T00:00:00Z\"","articleSection":"Error Troubleshooting","proficiencyLevel":"Intermediate","keywords":["\"GitHub API\"","\"HTTP 502\"","\"502\""],"author":{"@type":"Organization","name":"\"ErrorLog - エラーコード解決ガイド\"","url":"\"https://errorlog.jp/\""},"publisher":{"@type":"Organization","name":"\"ErrorLog - エラーコード解決ガイド\"","url":"\"https://errorlog.jp/\""}}</script><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>502</span></div><h1 class="post-title entry-hint-parent">GitHub API の 502 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
+<span class=summary-text>502 Bad Gateway は、GitHub API がリクエストを処理するサーバー間の通信に障害が発生したときに返されるエラーです。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
+<span class=summary-text>GitHub 側のメンテナンスやインシデント</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
+<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
   &#34;message&#34;: &#34;Bad Gateway&#34;,
   &#34;documentation_url&#34;: &#34;https://docs.github.com/rest&#34;
 }
-</code></pre>
-  </div> <details class="toc"  open>
-    <summary accesskey="c" title="(Alt + C)">
-        <span class="title">目次</span>
-    </summary>
-
-    <div class="inner"><ul>
-            <li>
-                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
-            <li>
-                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
-            <li>
-                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
-                    
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a01github-%e5%81%b4%e3%81%ae%e3%83%a1%e3%83%b3%e3%83%86%e3%83%8a%e3%83%b3%e3%82%b9%e3%82%84%e3%82%a4%e3%83%b3%e3%82%b7%e3%83%87%e3%83%b3%e3%83%88" aria-label="原因1：GitHub 側のメンテナンスやインシデント">原因1：GitHub 側のメンテナンスやインシデント</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a02%e7%84%a1%e5%8a%b9%e3%81%aa-authorization-%e3%83%98%e3%83%83%e3%83%80%e3%83%bc%e3%81%be%e3%81%9f%e3%81%af%e8%aa%8d%e8%a8%bc%e3%82%a8%e3%83%a9%e3%83%bc" aria-label="原因2：無効な Authorization ヘッダーまたは認証エラー">原因2：無効な Authorization ヘッダーまたは認証エラー</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a03api-%e3%83%ac%e3%83%bc%e3%83%88%e5%88%b6%e9%99%90%e3%81%b8%e3%81%ae%e5%88%b0%e9%81%94" aria-label="原因3：API レート制限への到達">原因3：API レート制限への到達</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a04%e4%b8%8d%e6%ad%a3%e3%81%aa%e3%81%be%e3%81%9f%e3%81%af%e5%bb%83%e6%ad%a2%e3%81%95%e3%82%8c%e3%81%9f-api-%e3%82%a8%e3%83%b3%e3%83%89%e3%83%9d%e3%82%a4%e3%83%b3%e3%83%88" aria-label="原因4：不正なまたは廃止された API エンドポイント">原因4：不正なまたは廃止された API エンドポイント</a></li></ul>
-            </li>
-            <li>
-                <a href="#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="ツール固有の注意点">ツール固有の注意点</a></li>
-            <li>
-                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a>
-            </li>
-        </ul>
-    </div>
-</details>
-
-  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
-<p>502 Bad Gateway は、GitHub <a href="/glossary/api/">API</a> が<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を処理する<a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/">サーバー</a>間の<a href="/glossary/%E9%80%9A%E4%BF%A1/">通信</a>に障害が発生したときに返される<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>です。クライアントからの<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>そのものは正しくても、GitHub の内部インフラストラクチャでゲートウェイ層が上位<a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/">サーバー</a>から不正な応答を受け取った状態を示します。この<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が発生すると、<a href="/glossary/api/">API</a>呼び出しは失敗し、データの取得や更新ができなくなります。</p>
-<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Bad Gateway&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;documentation_url&#34;</span>: <span style="color:#e6db74">&#34;https://docs.github.com/rest&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><pre tabindex="0"><code>HTTP/1.1 502 Bad Gateway
+</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01github-%e5%81%b4%e3%81%ae%e3%83%a1%e3%83%b3%e3%83%86%e3%83%8a%e3%83%b3%e3%82%b9%e3%82%84%e3%82%a4%e3%83%b3%e3%82%b7%e3%83%87%e3%83%b3%e3%83%88 aria-label="原因1：GitHub 側のメンテナンスやインシデント">原因1：GitHub 側のメンテナンスやインシデント</a></li><li><a href=#%e5%8e%9f%e5%9b%a02%e7%84%a1%e5%8a%b9%e3%81%aa-authorization-%e3%83%98%e3%83%83%e3%83%80%e3%83%bc%e3%81%be%e3%81%9f%e3%81%af%e8%aa%8d%e8%a8%bc%e3%82%a8%e3%83%a9%e3%83%bc aria-label="原因2：無効な Authorization ヘッダーまたは認証エラー">原因2：無効な Authorization ヘッダーまたは認証エラー</a></li><li><a href=#%e5%8e%9f%e5%9b%a03api-%e3%83%ac%e3%83%bc%e3%83%88%e5%88%b6%e9%99%90%e3%81%b8%e3%81%ae%e5%88%b0%e9%81%94 aria-label="原因3：API レート制限への到達">原因3：API レート制限への到達</a></li><li><a href=#%e5%8e%9f%e5%9b%a04%e4%b8%8d%e6%ad%a3%e3%81%aa%e3%81%be%e3%81%9f%e3%81%af%e5%bb%83%e6%ad%a2%e3%81%95%e3%82%8c%e3%81%9f-api-%e3%82%a8%e3%83%b3%e3%83%89%e3%83%9d%e3%82%a4%e3%83%b3%e3%83%88 aria-label="原因4：不正なまたは廃止された API エンドポイント">原因4：不正なまたは廃止された API エンドポイント</a></li></ul></li><li><a href=#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label=ツール固有の注意点>ツール固有の注意点</a></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>502 Bad Gateway は、GitHub <a href=/glossary/api/>API</a> が<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>を処理する<a href=/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/>サーバー</a>間の<a href=/glossary/%E9%80%9A%E4%BF%A1/>通信</a>に障害が発生したときに返される<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>です。クライアントからの<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>そのものは正しくても、GitHub の内部インフラストラクチャでゲートウェイ層が上位<a href=/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/>サーバー</a>から不正な応答を受け取った状態を示します。この<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が発生すると、<a href=/glossary/api/>API</a>呼び出しは失敗し、データの取得や更新ができなくなります。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Bad Gateway&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;documentation_url&#34;</span>: <span style=color:#e6db74>&#34;https://docs.github.com/rest&#34;</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><pre tabindex=0><code>HTTP/1.1 502 Bad Gateway
 Content-Type: application/json
 
 {
   &#34;message&#34;: &#34;502&#34;,
   &#34;status&#34;: 502
 }
-</code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
-<h3 id="原因1github-側のメンテナンスやインシデント">原因1：GitHub 側のメンテナンスやインシデント<a hidden class="anchor" aria-hidden="true" href="#原因1github-側のメンテナンスやインシデント">#</a></h3>
-<p><strong>なぜ発生するか</strong>
-GitHub は定期的にインフラメンテナンスを実施します。メンテナンス中は <a href="/glossary/api/">API</a> <a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/">サーバー</a>が一時的に不安定になり、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>がゲートウェイで処理できず 502 が返されます。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きる状態）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  https://api.github.com/user
-</span></span></code></pre></div><pre tabindex="0"><code>HTTP/1.1 502 Bad Gateway
+</code></pre><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1github-側のメンテナンスやインシデント>原因1：GitHub 側のメンテナンスやインシデント<a hidden class=anchor aria-hidden=true href=#原因1github-側のメンテナンスやインシデント>#</a></h3><p><strong>なぜ発生するか</strong>
+GitHub は定期的にインフラメンテナンスを実施します。メンテナンス中は <a href=/glossary/api/>API</a> <a href=/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/>サーバー</a>が一時的に不安定になり、<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>がゲートウェイで処理できず 502 が返されます。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きる状態）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  https://api.github.com/user
+</span></span></code></pre></div><pre tabindex=0><code>HTTP/1.1 502 Bad Gateway
 </code></pre><p><strong>After（解決方法）</strong>
-GitHub の Status ページ（https://www.githubstatus.com）を確認し、メンテナンスやインシデントが報告されているかチェックします。メンテナンス中の場合は復旧を待ちます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ステータスを確認してから数分待機後にリトライ</span>
-</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  https://api.github.com/user
-</span></span></code></pre></div><h3 id="原因2無効な-authorization-ヘッダーまたは認証エラー">原因2：無効な Authorization ヘッダーまたは認証エラー<a hidden class="anchor" aria-hidden="true" href="#原因2無効な-authorization-ヘッダーまたは認証エラー">#</a></h3>
-<p><strong>なぜ発生するか</strong>
-<a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>の形式が不正、有効期限が切れている、または<a href="/glossary/%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97/">スコープ</a>が不足している場合、認証層で処理できずゲートウェイエラーとして返されることがあります。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>token <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ghp_invalidtoken&#34;</span>  <span style="color:#75715e"># 形式が不正</span>
-</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Authorization&#34;</span>: <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;token </span><span style="color:#e6db74">{</span>token<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>}
-</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;https://api.github.com/user&#34;</span>, headers<span style="color:#f92672">=</span>headers)
-</span></span><span style="display:flex;"><span>print(response<span style="color:#f92672">.</span>status_code)  <span style="color:#75715e"># 502 が返される</span>
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 有効な Personal Access Token を使用</span>
-</span></span><span style="display:flex;"><span>token <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>
-</span></span><span style="display:flex;"><span>headers <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;Authorization&#34;</span>: <span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;token </span><span style="color:#e6db74">{</span>token<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>}
-</span></span><span style="display:flex;"><span>response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;https://api.github.com/user&#34;</span>, headers<span style="color:#f92672">=</span>headers)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">401</span>:
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;認証失敗：トークンが無効です&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> response<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;認証成功:&#34;</span>, response<span style="color:#f92672">.</span>json()[<span style="color:#e6db74">&#34;login&#34;</span>])
-</span></span></code></pre></div><h3 id="原因3api-レート制限への到達">原因3：API レート制限への到達<a hidden class="anchor" aria-hidden="true" href="#原因3api-レート制限への到達">#</a></h3>
-<p><strong>なぜ発生するか</strong>
-短時間に大量の<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を送信すると、<a href="/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/">レート制限</a>に達した後の<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>で 502 が返されることがあります。特に<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>なしでのアクセスや、古い <a href="/glossary/api/">API</a> バージョンを使用している場合に顕著です。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 認証なしで連続リクエスト
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">`https://api.github.com/users/github/repos?page=</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>())
-</span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">err</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;502 エラー:&#34;</span>, <span style="color:#a6e22e">err</span>));
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#75715e">// 認証トークンを使用し、レート制限を考慮
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;your-github-token&gt;&#39;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fetchWithRetry</span>(<span style="color:#a6e22e">url</span>) {
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#a6e22e">url</span>, {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">headers</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">Authorization</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`token </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">token</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span> }
-</span></span><span style="display:flex;"><span>  });
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">502</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;サーバー一時エラー：1秒後に再試行&#34;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise(<span style="color:#a6e22e">resolve</span> =&gt; <span style="color:#a6e22e">setTimeout</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#ae81ff">1000</span>));
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fetchWithRetry</span>(<span style="color:#a6e22e">url</span>);
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// X-RateLimit ヘッダーを確認
-</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">remaining</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">headers</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;x-ratelimit-remaining&#39;</span>);
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">remaining</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">reset</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">headers</span>.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#39;x-ratelimit-reset&#39;</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">waitTime</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">max</span>(<span style="color:#ae81ff">0</span>, (<span style="color:#a6e22e">reset</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>) <span style="color:#f92672">-</span> Date.<span style="color:#a6e22e">now</span>());
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`レート制限間近。</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">waitTime</span><span style="color:#e6db74">}</span><span style="color:#e6db74">ms 待機します`</span>);
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">new</span> Promise(<span style="color:#a6e22e">resolve</span> =&gt; <span style="color:#a6e22e">setTimeout</span>(<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">waitTime</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1000</span>));
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>();
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">fetchWithRetry</span>(<span style="color:#e6db74">&#39;https://api.github.com/user/repos&#39;</span>);
-</span></span></code></pre></div><h3 id="原因4不正なまたは廃止された-api-エンドポイント">原因4：不正なまたは廃止された API エンドポイント<a hidden class="anchor" aria-hidden="true" href="#原因4不正なまたは廃止された-api-エンドポイント">#</a></h3>
-<p><strong>なぜ発生するか</strong>
-GitHub <a href="/glossary/api/">API</a> v3 の廃止や、<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>の URL が変更された場合、ゲートウェイが<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>を処理できず 502 を返します。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 廃止された v3 エンドポイント</span>
-</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/issues
-</span></span></code></pre></div><p><strong>After（修正後）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># GraphQL API（推奨）またはREST API v3 の最新エンドポイントを使用</span>
-</span></span><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Accept: application/vnd.github.v3+json&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/issues
-</span></span></code></pre></div><h2 id="ツール固有の注意点">ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#ツール固有の注意点">#</a></h2>
-<p>GitHub <a href="/glossary/api/">API</a> 固有の 502 対策として以下を確認してください：</p>
-<p><strong><a href="/glossary/api/">API</a> バージョンの確認</strong>
-GitHub は <a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a> v3 をメインで提供していますが、古いクライアントライブラリを使用している場合は更新が必要です。Accept <a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>で <a href="/glossary/api/">API</a> バージョンを明示的に指定することをお勧めします。</p>
-<p><strong><a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a> への移行</strong>
-複数の<a href="/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/">エンドポイント</a>からデータを取得する場合、<a href="/glossary/graphql/">GraphQL</a> <a href="/glossary/api/">API</a> を使用するとゲートウェイへの負荷が分散され、502 <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>の頻度が低下します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -H <span style="color:#e6db74">&#34;Authorization: Bearer &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;X-GitHub-Api-Version: 2022-11-28&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  https://api.github.com/graphql <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -d <span style="color:#e6db74">&#39;{&#34;query&#34;:&#34;query { viewer { login } }&#34;}&#39;</span>
-</span></span></code></pre></div><p><strong><a href="/glossary/webhook/">Webhook</a> の署名検証</strong>
-webhook を受信する場合、GitHub からの<a href="/glossary/%E3%83%9A%E3%82%A4%E3%83%AD%E3%83%BC%E3%83%89/">ペイロード</a>署名を検証し、<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>処理に失敗した場合は適切な<a href="/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/">ステータスコード</a>を返します。GitHub は 5xx <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>を受け取ると<a href="/glossary/%E3%83%AA%E3%83%88%E3%83%A9%E3%82%A4/">リトライ</a>を繰り返すため、<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AA%E3%83%B3%E3%82%B0/">エラーハンドリング</a>が重要です。</p>
-<h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
-<p><strong><a href="/glossary/%E3%83%AD%E3%82%B0/">ログ</a>と<a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>確認</strong>
-<a href="/glossary/%E3%83%87%E3%83%90%E3%83%83%E3%82%B0/">デバッグ</a>の際には、レスポンスヘッダー内の <code>X-RateLimit-*</code>、<code>X-GitHub-Request-Id</code> を確認します。Request ID は GitHub サポートへの問い合わせに役立ちます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 詳細なヘッダー情報を表示</span>
-</span></span><span style="display:flex;"><span>curl -v -H <span style="color:#e6db74">&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  https://api.github.com/user
+GitHub の Status ページ（https://www.githubstatus.com）を確認し、メンテナンスやインシデントが報告されているかチェックします。メンテナンス中の場合は復旧を待ちます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># ステータスを確認してから数分待機後にリトライ</span>
+</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  https://api.github.com/user
+</span></span></code></pre></div><h3 id=原因2無効な-authorization-ヘッダーまたは認証エラー>原因2：無効な Authorization ヘッダーまたは認証エラー<a hidden class=anchor aria-hidden=true href=#原因2無効な-authorization-ヘッダーまたは認証エラー>#</a></h3><p><strong>なぜ発生するか</strong>
+<a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>の形式が不正、有効期限が切れている、または<a href=/glossary/%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%97/>スコープ</a>が不足している場合、認証層で処理できずゲートウェイエラーとして返されることがあります。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> requests
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>token <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;ghp_invalidtoken&#34;</span>  <span style=color:#75715e># 形式が不正</span>
+</span></span><span style=display:flex><span>headers <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;Authorization&#34;</span>: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;token </span><span style=color:#e6db74>{</span>token<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>}
+</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> requests<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;https://api.github.com/user&#34;</span>, headers<span style=color:#f92672>=</span>headers)
+</span></span><span style=display:flex><span>print(response<span style=color:#f92672>.</span>status_code)  <span style=color:#75715e># 502 が返される</span>
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> requests
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 有効な Personal Access Token を使用</span>
+</span></span><span style=display:flex><span>token <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>
+</span></span><span style=display:flex><span>headers <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;Authorization&#34;</span>: <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;token </span><span style=color:#e6db74>{</span>token<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>}
+</span></span><span style=display:flex><span>response <span style=color:#f92672>=</span> requests<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;https://api.github.com/user&#34;</span>, headers<span style=color:#f92672>=</span>headers)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> response<span style=color:#f92672>.</span>status_code <span style=color:#f92672>==</span> <span style=color:#ae81ff>401</span>:
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;認証失敗：トークンが無効です&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>elif</span> response<span style=color:#f92672>.</span>status_code <span style=color:#f92672>==</span> <span style=color:#ae81ff>200</span>:
+</span></span><span style=display:flex><span>    print(<span style=color:#e6db74>&#34;認証成功:&#34;</span>, response<span style=color:#f92672>.</span>json()[<span style=color:#e6db74>&#34;login&#34;</span>])
+</span></span></code></pre></div><h3 id=原因3api-レート制限への到達>原因3：API レート制限への到達<a hidden class=anchor aria-hidden=true href=#原因3api-レート制限への到達>#</a></h3><p><strong>なぜ発生するか</strong>
+短時間に大量の<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>を送信すると、<a href=/glossary/%E3%83%AC%E3%83%BC%E3%83%88%E5%88%B6%E9%99%90/>レート制限</a>に達した後の<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>で 502 が返されることがあります。特に<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>なしでのアクセスや、古い <a href=/glossary/api/>API</a> バージョンを使用している場合に顕著です。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// 認証なしで連続リクエスト
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>let</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>i</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>100</span>; <span style=color:#a6e22e>i</span><span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>fetch</span>(<span style=color:#e6db74>`https://api.github.com/users/github/repos?page=</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>i</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span>)
+</span></span><span style=display:flex><span>    .<span style=color:#a6e22e>then</span>(<span style=color:#a6e22e>res</span> =&gt; <span style=color:#a6e22e>res</span>.<span style=color:#a6e22e>json</span>())
+</span></span><span style=display:flex><span>    .<span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>err</span> =&gt; <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#e6db74>&#34;502 エラー:&#34;</span>, <span style=color:#a6e22e>err</span>));
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#75715e>// 認証トークンを使用し、レート制限を考慮
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>token</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;&lt;your-github-token&gt;&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>async</span> <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>fetchWithRetry</span>(<span style=color:#a6e22e>url</span>) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>response</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> <span style=color:#a6e22e>fetch</span>(<span style=color:#a6e22e>url</span>, {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>headers</span><span style=color:#f92672>:</span> { <span style=color:#a6e22e>Authorization</span><span style=color:#f92672>:</span> <span style=color:#e6db74>`token </span><span style=color:#e6db74>${</span><span style=color:#a6e22e>token</span><span style=color:#e6db74>}</span><span style=color:#e6db74>`</span> }
+</span></span><span style=display:flex><span>  });
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>status</span> <span style=color:#f92672>===</span> <span style=color:#ae81ff>502</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>&#34;サーバー一時エラー：1秒後に再試行&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> <span style=color:#66d9ef>new</span> Promise(<span style=color:#a6e22e>resolve</span> =&gt; <span style=color:#a6e22e>setTimeout</span>(<span style=color:#a6e22e>resolve</span>, <span style=color:#ae81ff>1000</span>));
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>fetchWithRetry</span>(<span style=color:#a6e22e>url</span>);
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// X-RateLimit ヘッダーを確認
+</span></span></span><span style=display:flex><span>  <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>remaining</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>headers</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;x-ratelimit-remaining&#39;</span>);
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>remaining</span> <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>10</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>reset</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>headers</span>.<span style=color:#a6e22e>get</span>(<span style=color:#e6db74>&#39;x-ratelimit-reset&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>const</span> <span style=color:#a6e22e>waitTime</span> <span style=color:#f92672>=</span> Math.<span style=color:#a6e22e>max</span>(<span style=color:#ae81ff>0</span>, (<span style=color:#a6e22e>reset</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>1000</span>) <span style=color:#f92672>-</span> Date.<span style=color:#a6e22e>now</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>log</span>(<span style=color:#e6db74>`レート制限間近。</span><span style=color:#e6db74>${</span><span style=color:#a6e22e>waitTime</span><span style=color:#e6db74>}</span><span style=color:#e6db74>ms 待機します`</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>await</span> <span style=color:#66d9ef>new</span> Promise(<span style=color:#a6e22e>resolve</span> =&gt; <span style=color:#a6e22e>setTimeout</span>(<span style=color:#a6e22e>resolve</span>, <span style=color:#a6e22e>waitTime</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>1000</span>));
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>response</span>.<span style=color:#a6e22e>json</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>fetchWithRetry</span>(<span style=color:#e6db74>&#39;https://api.github.com/user/repos&#39;</span>);
+</span></span></code></pre></div><h3 id=原因4不正なまたは廃止された-api-エンドポイント>原因4：不正なまたは廃止された API エンドポイント<a hidden class=anchor aria-hidden=true href=#原因4不正なまたは廃止された-api-エンドポイント>#</a></h3><p><strong>なぜ発生するか</strong>
+GitHub <a href=/glossary/api/>API</a> v3 の廃止や、<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>の URL が変更された場合、ゲートウェイが<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>を処理できず 502 を返します。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 廃止された v3 エンドポイント</span>
+</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/issues
+</span></span></code></pre></div><p><strong>After（修正後）</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># GraphQL API（推奨）またはREST API v3 の最新エンドポイントを使用</span>
+</span></span><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -H <span style=color:#e6db74>&#34;Accept: application/vnd.github.v3+json&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  https://api.github.com/repos/&lt;owner&gt;/&lt;repo&gt;/issues
+</span></span></code></pre></div><h2 id=ツール固有の注意点>ツール固有の注意点<a hidden class=anchor aria-hidden=true href=#ツール固有の注意点>#</a></h2><p>GitHub <a href=/glossary/api/>API</a> 固有の 502 対策として以下を確認してください：</p><p><strong><a href=/glossary/api/>API</a> バージョンの確認</strong>
+GitHub は <a href=/glossary/rest/>REST</a> <a href=/glossary/api/>API</a> v3 をメインで提供していますが、古いクライアントライブラリを使用している場合は更新が必要です。Accept <a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>で <a href=/glossary/api/>API</a> バージョンを明示的に指定することをお勧めします。</p><p><strong><a href=/glossary/graphql/>GraphQL</a> <a href=/glossary/api/>API</a> への移行</strong>
+複数の<a href=/glossary/%E3%82%A8%E3%83%B3%E3%83%89%E3%83%9D%E3%82%A4%E3%83%B3%E3%83%88/>エンドポイント</a>からデータを取得する場合、<a href=/glossary/graphql/>GraphQL</a> <a href=/glossary/api/>API</a> を使用するとゲートウェイへの負荷が分散され、502 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>の頻度が低下します。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -H <span style=color:#e6db74>&#34;Authorization: Bearer &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -H <span style=color:#e6db74>&#34;X-GitHub-Api-Version: 2022-11-28&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  https://api.github.com/graphql <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -d <span style=color:#e6db74>&#39;{&#34;query&#34;:&#34;query { viewer { login } }&#34;}&#39;</span>
+</span></span></code></pre></div><p><strong><a href=/glossary/webhook/>Webhook</a> の署名検証</strong>
+webhook を受信する場合、GitHub からの<a href=/glossary/%E3%83%9A%E3%82%A4%E3%83%AD%E3%83%BC%E3%83%89/>ペイロード</a>署名を検証し、<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>処理に失敗した場合は適切な<a href=/glossary/%E3%82%B9%E3%83%86%E3%83%BC%E3%82%BF%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89/>ステータスコード</a>を返します。GitHub は 5xx <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>を受け取ると<a href=/glossary/%E3%83%AA%E3%83%88%E3%83%A9%E3%82%A4/>リトライ</a>を繰り返すため、<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%8F%E3%83%B3%E3%83%89%E3%83%AA%E3%83%B3%E3%82%B0/>エラーハンドリング</a>が重要です。</p><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><p><strong><a href=/glossary/%E3%83%AD%E3%82%B0/>ログ</a>と<a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>確認</strong>
+<a href=/glossary/%E3%83%87%E3%83%90%E3%83%83%E3%82%B0/>デバッグ</a>の際には、レスポンスヘッダー内の <code>X-RateLimit-*</code>、<code>X-GitHub-Request-Id</code> を確認します。Request ID は GitHub サポートへの問い合わせに役立ちます。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># 詳細なヘッダー情報を表示</span>
+</span></span><span style=display:flex><span>curl -v -H <span style=color:#e6db74>&#34;Authorization: token &lt;your-github-token&gt;&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  https://api.github.com/user
 </span></span></code></pre></div><p><strong>公式ドキュメントの参照</strong>
-GitHub <a href="/glossary/api/">API</a> のドキュメント（https://docs.github.com/en/rest）の「HTTP status codes」セクションで詳細な仕様を確認してください。また Status ページ（https://www.githubstatus.com）で リアルタイムのインシデント情報をチェックできます。</p>
-<p><strong>GitHub Community への相談</strong>
-個別の問題については GitHub Discussions（https://github.com/orgs/github/discussions）または Stack Overflow の github-api タグで質問することで、コミュニティからの支援が得られます。</p>
-<hr>
-<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
-
-
-  </div>
-  <div class="feedback-panel" id="feedback-panel">
-    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
-    <div class="feedback-panel__btns">
-      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
-      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
-    </div>
-    <p class="feedback-panel__thanks"></p>
-  </div>
-  <section class="related-posts">
-    <p class="related-posts__title">他の GitHub API エラーの解決策</p>
-    <ul class="related-posts__list">
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/github_api_409/" class="related-posts__link"><span class="error-badge">409</span>GitHub API の 409 エラー：原因と解決策
-        </a><p class="related-posts__desc">GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソース現在の状態と矛盾していることを示すステータスコードです。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/github_api_504/" class="related-posts__link"><span class="error-badge">504</span>GitHub API の 504 エラー：原因と解決策
-        </a><p class="related-posts__desc">GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/github_api_400/" class="related-posts__link"><span class="error-badge">400</span>GitHub API の 400 エラー：原因と解決策
-        </a><p class="related-posts__desc">GitHub APIの400エラーは「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。リクエストの形式が不正だったり、必須パラメータが不足していたり、パラメータ値が無効だったりするときに発生します。</p>
-      </li>
-    </ul>
-  </section>
-  <section class="related-posts">
-    <p class="related-posts__title">502 エラー — 他ツールの解決策</p>
-    <ul class="related-posts__list">
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/vercel_502/" class="related-posts__link">
-          <span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 502 エラー：原因と解決策
-        </a><p class="related-posts__desc">VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った。Vercel 502 エラーの原因と解決策を解説します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/nginx_502/" class="related-posts__link">
-          <span class="tool-badge tool-badge-nginx">Nginx</span>Nginx の 502 エラー：原因と解決策
-        </a><p class="related-posts__desc">502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/firebase_502/" class="related-posts__link">
-          <span class="tool-badge tool-badge-firebase">Firebase</span>Firebase の 502 エラー：原因と解決策
-        </a><p class="related-posts__desc">Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流のバックエンド（Cloud Functionsやカスタムオリジンサーバー）から不正な形式のレスポンスを受け取</p>
-      </li>
-    </ul>
-  </section>
-
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/github-api/">GitHub API</a></li>
-    </ul>
-  </footer>
-</article>
-
-<script>
- 
-(function () {
-  var panel = document.getElementById('feedback-panel');
-  if (!panel) return;
-  var title = "\"GitHub API の 502 エラー：原因と解決策\"";
-  panel.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-status]');
-    if (!btn || panel.dataset.voted) return;
-    panel.dataset.voted = '1';
-    if (typeof gtag === 'function') {
-      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
-    }
-    var btnsEl = panel.querySelector('.feedback-panel__btns');
-    var qEl    = panel.querySelector('.feedback-panel__q');
-    var thxEl  = panel.querySelector('.feedback-panel__thanks');
-    btnsEl.style.transition = 'opacity 0.3s';
-    btnsEl.style.opacity    = '0';
-    setTimeout(function () {
-      btnsEl.style.display = 'none';
-      qEl.style.display    = 'none';
-      thxEl.textContent    = 'Thank you for your feedback!';
-      thxEl.style.display  = 'block';
-      thxEl.style.opacity  = '0';
-      thxEl.style.transition = 'opacity 0.4s';
-      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
-    }, 300);
-  });
-})();
-
- 
-(function () {
-  var content = document.querySelector('.post-content');
-  if (!content) return;
-
-  var firstCompare = true;
-  var RE_BEFORE = /before|エラーが起きる|修正前/i;
-  var RE_AFTER  = /after|修正後/i;
-
-  content.querySelectorAll('p strong').forEach(function (el) {
-    if (!RE_BEFORE.test(el.textContent)) return;
-
-    var beforeLabel = el.closest('p');
-    if (beforeLabel.dataset.compared) return;
-
-    
-    var cursor      = beforeLabel.nextElementSibling;
-    var beforeElems = [];
-    var afterLabel  = null;
-
-    while (cursor) {
-      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
-      beforeElems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    if (!afterLabel) return;
-
-    
-    var afterElems = [];
-    cursor = afterLabel.nextElementSibling;
-
-    while (cursor) {
-      if (/^H[1-4]$/.test(cursor.tagName)) break;
-      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
-      afterElems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    if (!afterElems.length) return;
-
-    function paintBlock(el, lineColor) {
-      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
-      
-      
-      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
-
-      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
-
-      if (el.classList.contains('highlight')) {
-        
-        var inner = el.querySelector('pre') || el.querySelector('div');
-        if (inner) {
-          sp(inner, 'background-image', grad);
-          sp(inner, 'padding-left',     '1rem');
-        }
-        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
-        el.style.setProperty('overflow',      'hidden',       'important');
-      } else {
-        
-        sp(el, 'background-color', '#272822');
-        sp(el, 'background-image', grad);
-        sp(el, 'padding-left',     '1rem');
-        sp(el, 'box-sizing',       'border-box');
-        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
-        el.style.setProperty('margin',        '0',            'important');
-      }
-    }
-    
-    var wrap = document.createElement('div');
-    wrap.className = 'code-compare';
-    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
-
-    var left  = document.createElement('div');
-    left.className = 'code-compare__side';
-    var right = document.createElement('div');
-    right.className = 'code-compare__side';
-
-    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
-    beforeLabel.dataset.compared = '1';
-    left.appendChild(beforeLabel);
-    beforeElems.forEach(function (e) { left.appendChild(e); });
-    right.appendChild(afterLabel);
-    afterElems.forEach(function (e) { right.appendChild(e); });
-
-    
-    beforeElems.forEach(function (e) {
-      if (e.classList.contains('highlight') || e.tagName === 'PRE')
-        paintBlock(e, '#ff4d4d');
-    });
-    afterElems.forEach(function (e) {
-      if (e.classList.contains('highlight') || e.tagName === 'PRE')
-        paintBlock(e, '#2ecc71');
-    });
-    wrap.appendChild(left);
-    wrap.appendChild(right);
-
-    
-    left.classList.add('code-compare__side--before');
-    var toggleBtn = document.createElement('button');
-    toggleBtn.className = 'code-toggle-btn';
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
-    toggleBtn.addEventListener('click', function () {
-      var open = left.classList.toggle('is-open');
-      toggleBtn.setAttribute('aria-expanded', String(open));
-      toggleBtn.textContent = open
-        ? '▴ 修正前のコード（Before）を非表示'
-        : '▾ 修正前のコード（Before）を表示';
-    });
-    wrap.insertBefore(toggleBtn, left);
-
-    
-    (function(l, r) {
-      requestAnimationFrame(function() {
-        var lp = l.firstElementChild;
-        var rp = r.firstElementChild;
-        if (!lp || !rp) return;
-        lp.style.minHeight = '';
-        rp.style.minHeight = '';
-        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
-        lp.style.minHeight = h + 'px';
-        rp.style.minHeight = h + 'px';
-      });
-    }(left, right));
-  });
-})();
-
- 
-(function () {
-  var content = document.querySelector('.post-content');
-  if (!content) return;
-  var RE_REM = /^解決策[（(]/;
-  var remIdx = 0;
-  content.querySelectorAll('p strong').forEach(function (el) {
-    if (!RE_REM.test(el.textContent)) return;
-    var label = el.closest('p');
-    if (label.dataset.remedy) return;
-    label.dataset.remedy = '1';
-    var elems = [];
-    var cursor = label.nextElementSibling;
-    while (cursor) {
-      if (/^H[1-4]$/.test(cursor.tagName)) break;
-      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s && RE_REM.test(s.textContent)) break;
-      elems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    var wrap = document.createElement('div');
-    wrap.className = 'code-remedy';
-    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
-    remIdx++;
-    label.parentNode.insertBefore(wrap, label);
-    wrap.appendChild(label);
-    elems.forEach(function (e) { wrap.appendChild(e); });
-    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
-    wrap.style.setProperty('padding-left',  '1rem',              'important');
-    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
-    wrap.style.setProperty('margin-bottom', '1rem',              'important');
-  });
-})();
-</script>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a><script>
-(function () {
-  var header = document.querySelector('.header');
-  if (!header) return;
-  var prev = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var cur = window.scrollY;
-    if (cur <= 0) {
-      header.classList.remove('header--hidden');
-    } else if (cur > prev && cur > 60) {
-      header.classList.add('header--hidden');
-    } else if (cur < prev) {
-      header.classList.remove('header--hidden');
-    }
-    prev = cur;
-  }, { passive: true });
-})();
-</script>
-
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'コピー';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'コピーされました!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'コピー';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
-</body>
-
-</html>
+GitHub <a href=/glossary/api/>API</a> のドキュメント（https://docs.github.com/en/rest）の「HTTP status codes」セクションで詳細な仕様を確認してください。また Status ページ（https://www.githubstatus.com）で リアルタイムのインシデント情報をチェックできます。</p><p><strong>GitHub Community への相談</strong>
+個別の問題については GitHub Discussions（https://github.com/orgs/github/discussions）または Stack Overflow の github-api タグで質問することで、コミュニティからの支援が得られます。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=feedback-panel id=feedback-panel><p class=feedback-panel__q>この記事でエラーは解決しましたか？</p><div class=feedback-panel__btns><button class="feedback-btn feedback-btn--yes" data-status=yes>🎉 解決した</button>
+<button class="feedback-btn feedback-btn--no" data-status=no>✉️ 解決しなかった</button></div><p class=feedback-panel__thanks></p></div><section class=related-posts><p class=related-posts__title>他の GitHub API エラーの解決策</p><ul class=related-posts__list><li class=related-posts__item><a href=https://errorlog.jp/posts/github_api_409/ class=related-posts__link><span class=error-badge>409</span>GitHub API の 409 エラー：原因と解決策</a><p class=related-posts__desc>GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソース現在の状態と矛盾していることを示すステータスコードです。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/github_api_504/ class=related-posts__link><span class=error-badge>504</span>GitHub API の 504 エラー：原因と解決策</a><p class=related-posts__desc>GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/github_api_400/ class=related-posts__link><span class=error-badge>400</span>GitHub API の 400 エラー：原因と解決策</a><p class=related-posts__desc>GitHub APIの400エラーは「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。リクエストの形式が不正だったり、必須パラメータが不足していたり、パラメータ値が無効だったりするときに発生します。</p></li></ul></section><section class=related-posts><p class=related-posts__title>502 エラー — 他ツールの解決策</p><ul class=related-posts__list><li class=related-posts__item><a href=https://errorlog.jp/posts/vercel_502/ class=related-posts__link><span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 502 エラー：原因と解決策</a><p class=related-posts__desc>VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った。Vercel 502 エラーの原因と解決策を解説します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/nginx_502/ class=related-posts__link><span class="tool-badge tool-badge-nginx">Nginx</span>Nginx の 502 エラー：原因と解決策</a><p class=related-posts__desc>502 Bad Gateway エラーは、Nginx がリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやアップストリームサーバー）から有効なレスポンスを受け取れないときに発生します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/firebase_502/ class=related-posts__link><span class="tool-badge tool-badge-firebase">Firebase</span>Firebase の 502 エラー：原因と解決策</a><p class=related-posts__desc>Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流のバックエンド（Cloud Functionsやカスタムオリジンサーバー）から不正な形式のレスポンスを受け取</p></li></ul></section><div class=related-errors><h2 class=related-errors__title>関連するエラーの依存関係</h2><ul class=related-errors__list><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_409/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>409</span>
+GitHub API の 409 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_504/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>504</span>
+GitHub API の 504 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_400/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>400</span>
+GitHub API の 400 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_401/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>401</span>
+GitHub API の 401 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_403/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>403</span>
+GitHub API の 403 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_404/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>404</span>
+GitHub API の 404 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_422/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>422</span>
+GitHub API の 422 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_429/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>429</span>
+GitHub API の 429 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_500/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>500</span>
+GitHub API の 500 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/github_api_503/><span class="tool-badge tool-badge-github-api">GitHub API</span>
+<span class=error-badge>503</span>
+GitHub API の 503 エラー：原因と解決策</a></li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/github-api/>GitHub API</a></li></ul></footer></article><script>(function(){var t,e=document.getElementById("feedback-panel");if(!e)return;t='"GitHub API の 502 エラー：原因と解決策"',e.addEventListener("click",function(n){var s,o,a,i=n.target.closest("[data-status]");if(!i||e.dataset.voted)return;e.dataset.voted="1",typeof gtag=="function"&&gtag("event","error_solved",{status:i.dataset.status,article_title:t}),o=e.querySelector(".feedback-panel__btns"),a=e.querySelector(".feedback-panel__q"),s=e.querySelector(".feedback-panel__thanks"),o.style.transition="opacity 0.3s",o.style.opacity="0",setTimeout(function(){o.style.display="none",a.style.display="none",s.textContent="Thank you for your feedback!",s.style.display="block",s.style.opacity="0",s.style.transition="opacity 0.4s",requestAnimationFrame(function(){s.style.opacity="1"})},300)})})(),function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/before|エラーが起きる|修正前/i,n=/after|修正後/i,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,i,a,r,l,d,u,h,m,f,c=s.closest("p");if(c.dataset.compared)return;for(o=c.nextElementSibling,h=[],d=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){d=o;break}h.push(o),o=o.nextElementSibling}if(!d)return;for(u=[],o=d.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;u.push(o),o=o.nextElementSibling}if(!u.length)return;function p(e,t){var s,i=t==="#ff4d4d"?"rgba(255,77,77,.12)":"rgba(46,204,113,.12)",o="linear-gradient(to right,"+t+" 0,"+t+" 4px,"+i+" 4px)";function n(e,t,n){e.style.setProperty(t,n,"important")}e.classList.contains("highlight")?(s=e.querySelector("pre")||e.querySelector("div"),s&&(n(s,"background-image",o),n(s,"padding-left","1rem")),e.style.setProperty("border-radius","0 4px 4px 0","important"),e.style.setProperty("overflow","hidden","important")):(n(e,"background-color","#272822"),n(e,"background-image",o),n(e,"padding-left","1rem"),n(e,"box-sizing","border-box"),e.style.setProperty("border-radius","0 4px 4px 0","important"),e.style.setProperty("margin","0","important"))}r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),i=document.createElement("div"),i.className="code-compare__side",l=document.createElement("div"),l.className="code-compare__side",c.parentNode.insertBefore(r,c),c.dataset.compared="1",i.appendChild(c),h.forEach(function(e){i.appendChild(e)}),l.appendChild(d),u.forEach(function(e){l.appendChild(e)}),h.forEach(function(e){(e.classList.contains("highlight")||e.tagName==="PRE")&&p(e,"#ff4d4d")}),u.forEach(function(e){(e.classList.contains("highlight")||e.tagName==="PRE")&&p(e,"#2ecc71")}),r.appendChild(i),r.appendChild(l),i.classList.add("code-compare__side--before"),a=document.createElement("button"),a.className="code-toggle-btn",a.setAttribute("aria-expanded","false"),a.textContent="▾ 修正前のコード（Before）を表示",a.addEventListener("click",function(){var e=i.classList.toggle("is-open");a.setAttribute("aria-expanded",String(e)),a.textContent=e?"▴ 修正前のコード（Before）を非表示":"▾ 修正前のコード（Before）を表示"}),r.insertBefore(a,i),function(e,t){requestAnimationFrame(function(){var o,n=e.firstElementChild,s=t.firstElementChild;if(!n||!s)return;n.style.minHeight="",s.style.minHeight="",o=Math.max(n.offsetHeight,s.offsetHeight),n.style.minHeight=o+"px",s.style.minHeight=o+"px"})}(i,l)})}(),function(){var e,t,n=document.querySelector(".post-content");if(!n)return;t=/^解決策[（(]/,e=0,n.querySelectorAll("p strong").forEach(function(n){if(!t.test(n.textContent))return;var s,o,a,r,i=n.closest("p");if(i.dataset.remedy)return;for(i.dataset.remedy="1",a=[],o=i.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(r=o.querySelector?o.querySelector("strong"):null,r&&t.test(r.textContent))break;a.push(o),o=o.nextElementSibling}s=document.createElement("div"),s.className="code-remedy",s.id=e===0?"first-remedy":"remedy-"+e,e++,i.parentNode.insertBefore(s,i),s.appendChild(i),a.forEach(function(e){s.appendChild(e)}),s.style.setProperty("border-left","4px solid #2ecc71","important"),s.style.setProperty("padding-left","1rem","important"),s.style.setProperty("border-radius","0 4px 4px 0","important"),s.style.setProperty("margin-bottom","1rem","important")})}()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

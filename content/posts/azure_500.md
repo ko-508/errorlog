@@ -4,6 +4,10 @@ date: 2026-06-02
 description: "Azureサービスの内部エラーが発生した。Azure 500 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "500"
+service: "Azure"
+error_type: "500"
+components: ["Azure Portal", "Azure CLI", "REST API", "Azure Resource Manager", "ARM テンプレート", "Bicep テンプレート"]
+related_services: ["Bash", "JSON"]
 ---
 ## エラーの概要
 

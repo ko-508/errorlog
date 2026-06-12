@@ -4,6 +4,10 @@ date: 2026-05-31
 description: "サービスが起動できないか利用できない状態にある。Docker Compose 503 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "503"
+service: "Docker"
+error_type: "503"
+components: ["Compose"]
+related_services: ["PostgreSQL", "Redis", "Python"]
 ---
 ## エラーの概要
 

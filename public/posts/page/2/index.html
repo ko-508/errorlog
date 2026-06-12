@@ -1,533 +1,119 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Posts | ErrorLog - エラーコード解決ガイド</title>
-<meta name="description" content="Posts - ErrorLog - エラーコード解決ガイド">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
-<meta name="google-site-verification" content="109757267897574962624" />
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CXKKVNQKRX');
-</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
-     crossorigin="anonymous"></script>
-
-</head>
-<body class="list" id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
-  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
-    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
-  </text>
-</svg>
-</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="http://localhost:1313/search/" title="検索">
-                    <span>検索</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="タグ">
-                    <span>タグ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="アーカイブ">
-                    <span>アーカイブ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/glossary/" title="用語集">
-                    <span>用語集</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main"> 
-<header class="page-header">
-  <h1>
-    Posts
-  </h1>
-</header>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">500</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercelの500エラーは、サーバーレス関数の実行中に内部エラーが発生したことを示します。このエラーはVercelのバックエンド側で例外がキャッチされず、クライアントにはエラー内容の詳細が返されません。デプロイは成功していても、関数の実行時にコード内のバグ、依存パッケージの問題、環境変数の欠落などが原因で発生することがほとんどです。
-実際のエラーメッセージ例 ブラウザでの表示：
-{ &#34;error&#34;: &#34;Internal Server Error&#34;, &#34;statusCode&#34;: 500, &#34;message&#34;: &#34;500: Internal Server Error&#34; } Vercel DashboardのLogsで表示されるエラー例：
-TypeError: Cannot read property &#39;db&#39; of undefined at /var/task/api/database.js:15:42 at /var/task/api/handler.js:8:5 at Runtime.handler (/var/task/index.js:20:10) よくある原因と解決手順 原因1：サーバーレス関数内でUncaught Exceptionが発生している 関数のコード内で例外がスローされ、try-catchで捕捉されていない場合、そのまま500エラーとなります。非同期処理（Promise）のrejectやAsync/Awaitのエラーハンドリング漏れが特に起きやすいです。
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Posts | ErrorLog - エラーコード解決ガイド</title><meta name=description content="Posts - ErrorLog - エラーコード解決ガイド"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/><link crossorigin=anonymous href=/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css integrity="sha256-Qnf+CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF+x1/k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate type=application/rss+xml href=https://errorlog.jp/posts/index.xml title=rss><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta name=google-site-verification content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ"><meta name=google-site-verification content="109757267897574962624"><link rel=preconnect href=https://www.googletagmanager.com><link rel=preconnect href=https://www.google-analytics.com><script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-CXKKVNQKRX")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187" crossorigin=anonymous></script><meta property="og:url" content="https://errorlog.jp/posts/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Posts"><meta property="og:description" content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><meta property="og:locale" content="ja"><meta property="og:type" content="website"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Posts"><meta name=twitter:description content="開発・運用中に遭遇するエラーコードの意味・原因・解決策をツール別に解説する開発者向けリファレンス"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"}]}</script></head><body class=list id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><header class=page-header><h1>Posts</h1></header><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>503</span></div><h2 class=entry-hint-parent>Vercel の 503 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercel の 503 エラーは、Vercel のサーバーが一時的に要求を処理できない状態を示します。このエラーは、Vercel のインフラストラクチャー側の問題またはデプロイされたアプリケーションのリソース制限に起因することが多く、ユーザーのアクセスが一時的にブロックされます。通常は数分から数時間で自動的に復旧しますが、原因の特定と対応は重要です。
+実際のエラーメッセージ例 { "statusCode": 503, "message": "Service Unavailable", "error": "The server is temporarily unable to handle the request." } 503 Service Unavailable ブラウザーでアクセスすると、Vercel の標準エラーページが表示されるか、上記のようなレスポンスが返却されます。
+よくある原因と解決手順 原因1：Vercel のインフラストラクチャー側の障害 Vercel のグローバルネットワークやデータセンター側で一時的なサービス中断が発生している場合、全ユーザーのデプロイが 503 エラーを返します。これはユーザーのコード変更とは関係なく発生します。
+確認方法： Vercel の公式ステータスページを確認することで、グローバルな障害の有無を即座に判定できます。
+修正方法：
+# 1. Vercel ステータスページで障害を確認 # https://vercel.statuspage.io にアクセス # 2. 障害がない場合は数分待機してから再試行 curl https://&lt;your-domain>.vercel.app # 3. 障害情報がある場合は、復旧まで待機 # ステータスページの Twitter 公式アカウント(@vercelstatus)でも通知される この場合、ユーザー側でできることは限定的です。Vercel チームが復旧作業を進めている間、数分～数時間の待機が必要になります。
+原因2：サーバーレス関数の同時実行数が上限に達した Vercel のサーバーレス関数（Next.js API Routes、Edge Functions など）には、プランごとに同時実行数の上限が設定されています。大量のアクセスや長時間の処理を実行する関数が複数起動すると、すぐに上限に達し、新規リクエストが 503 で拒否されます。
+...</p></div><div class=entry-code-preview><pre><code>{
+  &#34;statusCode&#34;: 503,
+  &#34;message&#34;: &#34;Service Unavailable&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-08 00:00:00 +0000 UTC'>2026年6月8日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 503 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_503/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>504</span></div><h2 class=entry-hint-parent>Vercel の 504 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercelの504エラーは、デプロイされたサーバーレス関数の実行がタイムアウトに達したことを示します。Hobbyプランでは10秒、Proプラン以上では300秒が実行時間の上限となり、この制限を超えると504 Gateway Timeoutレスポンスが返されます。一般的に、API呼び出しやデータベースクエリの応答待ちが長引く場合に発生しやすいエラーです。
+実際のエラーメッセージ例 Vercelのブラウザ表示：
+504
+Gateway Timeout 関数ログ（Vercel Dashboard）：
+{ "errorCode": "FUNCTION_INVOCATION_TIMEOUT", "message": "The function exceeded the timeout duration", "functionName": "api/users", "executionDurationMs": 10000, "region": "sfo1" } cURLレスポンス：
+HTTP/1.1 504 Gateway Timeout
+Server: Vercel
+Content-Type: text/html
+Connection: close
+504 - Gateway Timeout よくある原因と解決手順 原因1：Hobbyプランのタイムアウト制限（10秒）に引っかかっている Vercelの無料Hobbyプランでは、サーバーレス関数の最大実行時間が10秒に制限されています。この時間内に処理が完了しないと自動的に504エラーが返されます。特に外部APIの呼び出しやデータベースアクセスが複数含まれる関数では、容易にこの上限に達する可能性があります。
 Before（エラーが起きるコード）：
-export default async function handler(req, res) { const data = JSON.parse(req.body); const result = await fetchDatabase(data.id); return res.status(200).json(result); } async function fetchDatabase(id) { const response = await fetch(&#39;https://api.example.com/user/&#39; &#43; id); const json = response.json(); return json; } After（修正後）：
-export default async function handler(req, res) { try { const data = JSON.parse(req.body); const result = await fetchDatabase(data.id); return res.status(200).json(result); } catch (error) { console.error(&#39;Error:&#39;, error); return res.status(500).json({ error: &#39;Internal Server Error&#39; }); } } async function fetchDatabase(id) { try { const response = await fetch(&#39;https://api.example.com/user/&#39; &#43; id); if (!response.ok) { throw new Error(`API returned ${response.status}`); } const json = await response.json(); return json; } catch (error) { throw new Error(&#39;Database fetch failed: &#39; &#43; error.message); } } 原因2：必要なパッケージが正しくインストールされていない package.jsonに記載されたパッケージがインストールされていない、あるいはデプロイ時にインストール段階で失敗している場合、関数内で依存モジュールを呼び出すと500エラーになります。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+// api/getUserData.js export default async function handler(req, res) { // 外部APIを3つ順序実行（各3秒）→ 合計9秒 const user = await fetch('https://api.example.com/user/123').then(r => r.json()); const posts = await fetch('https://api.example.com/posts/123').then(r => r.json()); const comments = await fetch('https://api.example.com/comments/123').then(r => r.json()); res.status(200).json({ user, posts, comments }); } After（修正後）：
+// api/getUserData.js export default async function handler(req, res) { // 複数APIを並列実行（合計3秒に短縮） const [user, posts, comments] = await Promise.all([ fetch('https://api.example.com/user/123').then(r => r.json()), fetch('https://api.example.com/posts/123').then(r => r.json()), fetch('https://api.example.com/comments/123').then(r => r.json()) ]); res.status(200).json({ user, posts, comments }); } または、Proプラン（300秒上限）へのアップグレードも検討してください。Vercel Dashboardの「Settings」→「Plan」から変更可能です。
+...</p></div><div class=entry-code-preview><pre><code>504
+Gateway Timeout
+</code></pre></div><footer class=entry-footer><span title='2026-06-08 00:00:00 +0000 UTC'>2026年6月8日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 504 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_504/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>404</span></div><h2 class=entry-hint-parent>Vercel の 404 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercel の 404 エラーは、指定したデプロイメント（ウェブアプリケーションの本番環境）またはリソースがサーバーで見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図したファイルに到達できていない場合も含まれます。Vercel 環境では、設定ファイルの記述ミスや古いデプロイメント URL へのアクセスが、この問題の主な原因となります。
+実際のエラーメッセージ例 ブラウザで表示される場合：
+404 - NOT_FOUND
+This page could not be found
+The resource might have been removed or you might have mistyped the url. API レスポンスの場合：
+{ "error": { "code": "NOT_FOUND", "message": "The deployment could not be found", "status": 404 } } CLI から削除済みデプロイメントにアクセスした場合：
+Error: Deployment not found. The deployment &lt;deployment-id> does not exist or has been removed. よくある原因と解決手順 原因1：デプロイメント URL が古いか誤っている Vercel でプロジェクトを更新・再デプロイしたり、本番環境のドメインを変更したりすると、以前のデプロイメント URL は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い URL が残っていると、404 エラーが発生します。また、手動で URL を入力する際の誤字も考えられます。
+...</p></div><div class=entry-code-preview><pre><code>404 - NOT_FOUND
+This page could not be found
+</code></pre></div><footer class=entry-footer><span title='2026-06-07 00:00:00 +0000 UTC'>2026年6月7日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 404 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_404/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>500</span></div><h2 class=entry-hint-parent>Vercel の 500 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercelの500エラーは、サーバーレス関数の実行中に内部エラーが発生したことを示します。このエラーはVercelのバックエンド側で例外がキャッチされず、クライアントにはエラー内容の詳細が返されません。デプロイは成功していても、関数の実行時にコード内のバグ、依存パッケージの問題、環境変数の欠落などが原因で発生することがほとんどです。
+実際のエラーメッセージ例 ブラウザでの表示：
+{ "error": "Internal Server Error", "statusCode": 500, "message": "500: Internal Server Error" } Vercel DashboardのLogsで表示されるエラー例：
+TypeError: Cannot read property 'db' of undefined at /var/task/api/database.js:15:42 at /var/task/api/handler.js:8:5 at Runtime.handler (/var/task/index.js:20:10) よくある原因と解決手順 原因1：サーバーレス関数内でUncaught Exceptionが発生している 関数のコード内で例外がスローされ、try-catchで捕捉されていない場合、そのまま500エラーとなります。非同期処理（Promise）のrejectやAsync/Awaitのエラーハンドリング漏れが特に起きやすいです。
+Before（エラーが起きるコード）：
+export default async function handler(req, res) { const data = JSON.parse(req.body); const result = await fetchDatabase(data.id); return res.status(200).json(result); } async function fetchDatabase(id) { const response = await fetch('https://api.example.com/user/' + id); const json = response.json(); return json; } After（修正後）：
+export default async function handler(req, res) { try { const data = JSON.parse(req.body); const result = await fetchDatabase(data.id); return res.status(200).json(result); } catch (error) { console.error('Error:', error); return res.status(500).json({ error: 'Internal Server Error' }); } } async function fetchDatabase(id) { try { const response = await fetch('https://api.example.com/user/' + id); if (!response.ok) { throw new Error(`API returned ${response.status}`); } const json = await response.json(); return json; } catch (error) { throw new Error('Database fetch failed: ' + error.message); } } 原因2：必要なパッケージが正しくインストールされていない package.jsonに記載されたパッケージがインストールされていない、あるいはデプロイ時にインストール段階で失敗している場合、関数内で依存モジュールを呼び出すと500エラーになります。
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: &#34;Internal Server Error&#34;,
-  &#34;statusCode&#34;: 500,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-07 00:00:00 +0000 UTC'>2026年6月7日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 500 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">502</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 502 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercelの502 Bad Gatewayエラーは、Edge Networkがバックエンド（サーバー側の処理）のOrigin（Serverless Functionまたはフレームワーク）から不正な応答を受け取った、またはタイムアウト（応答待機時間超過）が発生したことを示します。つまり、リクエスト（クライアントからの要求）はVercelのネットワークに到達しても、実際の処理を担当する関数やサーバーが期待通りの応答を返していない状況です。このエラーが発生すると、ユーザーには「502 Bad Gateway」というHTTPステータスコードが返され、アプリケーションの機能停止に直結します。
+  &#34;statusCode&#34;: 500,</code></pre></div><footer class=entry-footer><span title='2026-06-07 00:00:00 +0000 UTC'>2026年6月7日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 500 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_500/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>502</span></div><h2 class=entry-hint-parent>Vercel の 502 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercelの502 Bad Gatewayエラーは、Edge Networkがバックエンド（サーバー側の処理）のOrigin（Serverless Functionまたはフレームワーク）から不正な応答を受け取った、またはタイムアウト（応答待機時間超過）が発生したことを示します。つまり、リクエスト（クライアントからの要求）はVercelのネットワークに到達しても、実際の処理を担当する関数やサーバーが期待通りの応答を返していない状況です。このエラーが発生すると、ユーザーには「502 Bad Gateway」というHTTPステータスコードが返され、アプリケーションの機能停止に直結します。
 実際のエラーメッセージ例 ブラウザには以下のように表示されます：
 502 Bad Gateway Vercelダッシュボードのログ、または vercel logs コマンドでは：
-{ &#34;statusCode&#34;: 502, &#34;message&#34;: &#34;Bad Gateway&#34;, &#34;details&#34;: &#34;The server did not return a valid response&#34; } また、関数のコンソール出力に以下のようなメッセージが表示される場合もあります：
+{ "statusCode": 502, "message": "Bad Gateway", "details": "The server did not return a valid response" } また、関数のコンソール出力に以下のようなメッセージが表示される場合もあります：
 FunctionError: Code execution timed out. よくある原因と解決手順 原因1：Serverless Functionがレスポンスを返さずに終了している Node.jsのServerless Functionでは、リクエストハンドラーが必ず response.send()、response.end()、またはreturn文でレスポンス（サーバーからの応答）を返す必要があります。これらが呼ばれずに関数が終了すると、Vercelは有効なレスポンスを受け取れず、502エラーが発生します。
 Before（エラーが起きるコード）：
-export default function handler(req, res) { const data = fetchData(); // レスポンスを返さずに関数が終了してしまう console.log(&#39;処理完了&#39;); } After（修正後）：
+export default function handler(req, res) { const data = fetchData(); // レスポンスを返さずに関数が終了してしまう console.log('処理完了'); } After（修正後）：
 export default function handler(req, res) { const data = fetchData(); res.status(200).json({ success: true, data: data }); } 別の例として、非同期処理の場合：
 Before（エラーが起きるコード）：
-export default async function handler(req, res) { // awaitがないため、Promiseの完了を待たずに進む fetchDataAsync(); res.status(200).json({ message: &#39;OK&#39; }); } After（修正後）：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>502 Bad Gateway
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-07 00:00:00 +0000 UTC'>2026年6月7日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 502 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_502/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">400</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 400 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercel の 400 エラーは、Vercel API へ送信されたリクエストの形式または内容に不正がある場合に発生します。これはクライアント側の誤りを示す HTTP ステータスコードで、デプロイ時や API 呼び出し時に発生することがあります。Vercel CLI を使用したデプロイ、または直接 API を呼び出している場合に確認が必要です。
-実際のエラーメッセージ例 { &#34;error&#34;: { &#34;code&#34;: &#34;BAD_REQUEST&#34;, &#34;message&#34;: &#34;Invalid request body&#34; } } Error: Bad Request (400) POST /v13/deployments よくある原因と解決手順 原因1：vercel.json の設定に誤りがある vercel.json は、Vercel のデプロイ設定を定義するファイルです。JSON の形式誤りや、キーの綴り間違い、不正な値の型が 400 エラーを引き起こします。例えば、環境変数の設定項目のキー名を間違えたり、配列であるべき値をオブジェクトとして定義したりすると、API リクエストが拒否されます。
+export default async function handler(req, res) { // awaitがないため、Promiseの完了を待たずに進む fetchDataAsync(); res.status(200).json({ message: 'OK' }); } After（修正後）：
+...</p></div><div class=entry-code-preview><pre><code>502 Bad Gateway
+</code></pre></div><footer class=entry-footer><span title='2026-06-07 00:00:00 +0000 UTC'>2026年6月7日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 502 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_502/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>400</span></div><h2 class=entry-hint-parent>Vercel の 400 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercel の 400 エラーは、Vercel API へ送信されたリクエストの形式または内容に不正がある場合に発生します。これはクライアント側の誤りを示す HTTP ステータスコードで、デプロイ時や API 呼び出し時に発生することがあります。Vercel CLI を使用したデプロイ、または直接 API を呼び出している場合に確認が必要です。
+実際のエラーメッセージ例 { "error": { "code": "BAD_REQUEST", "message": "Invalid request body" } } Error: Bad Request (400) POST /v13/deployments よくある原因と解決手順 原因1：vercel.json の設定に誤りがある vercel.json は、Vercel のデプロイ設定を定義するファイルです。JSON の形式誤りや、キーの綴り間違い、不正な値の型が 400 エラーを引き起こします。例えば、環境変数の設定項目のキー名を間違えたり、配列であるべき値をオブジェクトとして定義したりすると、API リクエストが拒否されます。
 修正前（エラーが起きるコード）：
-{ &#34;buildCommand&#34;: &#34;npm run build&#34;, &#34;installCommand&#34;: &#34;npm install&#34;, &#34;outputDirectory&#34;: &#34;dist&#34;, &#34;env&#34;: { &#34;DATABASE_URL&#34;: &#34;postgresql://...&#34; }, &#34;enviroments&#34;: { &#34;production&#34;: { &#34;DATABASE_URL&#34;: &#34;postgresql://prod...&#34; } } } 修正後：
-{ &#34;buildCommand&#34;: &#34;npm run build&#34;, &#34;installCommand&#34;: &#34;npm install&#34;, &#34;outputDirectory&#34;: &#34;dist&#34;, &#34;env&#34;: { &#34;DATABASE_URL&#34;: &#34;postgresql://...&#34; }, &#34;envs&#34;: [ { &#34;key&#34;: &#34;production&#34;, &#34;value&#34;: { &#34;DATABASE_URL&#34;: &#34;postgresql://prod...&#34; } } ] } 原因2：API リクエストの必須パラメーターが欠けている Vercel API を直接呼び出す場合、認証トークンやプロジェクト ID、デプロイ対象のファイル情報など、必須パラメーターの不足が 400 エラーを引き起こします。特にカスタムスクリプトや CI/CD パイプライン（自動実行環境）から自動デプロイする場合、リクエストボディの構造を厳密に確認する必要があります。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+{ "buildCommand": "npm run build", "installCommand": "npm install", "outputDirectory": "dist", "env": { "DATABASE_URL": "postgresql://..." }, "enviroments": { "production": { "DATABASE_URL": "postgresql://prod..." } } } 修正後：
+{ "buildCommand": "npm run build", "installCommand": "npm install", "outputDirectory": "dist", "env": { "DATABASE_URL": "postgresql://..." }, "envs": [ { "key": "production", "value": { "DATABASE_URL": "postgresql://prod..." } } ] } 原因2：API リクエストの必須パラメーターが欠けている Vercel API を直接呼び出す場合、認証トークンやプロジェクト ID、デプロイ対象のファイル情報など、必須パラメーターの不足が 400 エラーを引き起こします。特にカスタムスクリプトや CI/CD パイプライン（自動実行環境）から自動デプロイする場合、リクエストボディの構造を厳密に確認する必要があります。
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: {
-    &#34;code&#34;: &#34;BAD_REQUEST&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-06 00:00:00 +0000 UTC'>2026年6月6日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 400 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_400/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">401</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 401 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Vercel 401 エラーの原因と解決方法 エラーの概要 Vercel 401 エラーは、Vercel のサーバーに対する認証が失敗したことを示します。API トークンの無効化、環境変数の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、デプロイや CLI 操作が停止します。このエラーが発生するとプロジェクトのデプロイメント（自動構築・デプロイ）パイプラインが停止するため、素早い対応が必要です。
+    &#34;code&#34;: &#34;BAD_REQUEST&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-06 00:00:00 +0000 UTC'>2026年6月6日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 400 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_400/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>401</span></div><h2 class=entry-hint-parent>Vercel の 401 エラー：原因と解決策</h2></header><div class=entry-content><p>Vercel 401 エラーの原因と解決方法 エラーの概要 Vercel 401 エラーは、Vercel のサーバーに対する認証が失敗したことを示します。API トークンの無効化、環境変数の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、デプロイや CLI 操作が停止します。このエラーが発生するとプロジェクトのデプロイメント（自動構築・デプロイ）パイプラインが停止するため、素早い対応が必要です。
 実際のエラーメッセージ例 Vercel CLI からの出力：
-Error: Authentication failed (401 Unauthorized)The provided token is invalid or has expired. GitHub Actions 内でのレスポンス：
-{ &#34;error&#34;: { &#34;code&#34;: &#34;AUTHENTICATION_FAILED&#34;, &#34;message&#34;: &#34;Authentication token is invalid or expired (401)&#34;, &#34;status&#34;: 401 } } curl 経由でのレスポンス：
-curl -H &#34;Authorization: Bearer &lt;invalid_token&gt;&#34; https://api.vercel.com/v1/projects HTTP/1.1 401 Unauthorized{&#34;error&#34;: {&#34;code&#34;: &#34;unauthorized&#34;,&#34;message&#34;: &#34;Invalid token&#34;}} よくある原因と解決手順 原因1：Vercel API トークンが無効または期限切れになっている Vercel ダッシュボードで生成した API トークンは、セキュリティ上の理由から有効期限が設定されることがあります。また、トークンを削除した後も環境変数に古い値が残っていると、認証に失敗します。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: Authentication failed (401 Unauthorized)
+Error: Authentication failed (401 Unauthorized)
+The provided token is invalid or has expired. GitHub Actions 内でのレスポンス：
+{ "error": { "code": "AUTHENTICATION_FAILED", "message": "Authentication token is invalid or expired (401)", "status": 401 } } curl 経由でのレスポンス：
+curl -H "Authorization: Bearer &lt;invalid_token>" https://api.vercel.com/v1/projects HTTP/1.1 401 Unauthorized
+{
+"error": {
+"code": "unauthorized",
+"message": "Invalid token"
+}
+} よくある原因と解決手順 原因1：Vercel API トークンが無効または期限切れになっている Vercel ダッシュボードで生成した API トークンは、セキュリティ上の理由から有効期限が設定されることがあります。また、トークンを削除した後も環境変数に古い値が残っていると、認証に失敗します。
+...</p></div><div class=entry-code-preview><pre><code>Error: Authentication failed (401 Unauthorized)
 The provided token is invalid or has expired.
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-06 00:00:00 +0000 UTC'>2026年6月6日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 401 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_401/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-vercel">Vercel</span>
-      <span class="error-badge">403</span>
-    </div>
-    <h2 class="entry-hint-parent">Vercel の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Vercel の 403 エラーは、デプロイや API 呼び出し時にプロジェクトやリソースへのアクセス権限がないことを意味します。これは認証自体は成功しているものの、認可（アクセス権の許可判定）レベルで拒否される状態です。Vercel では、個人アカウント・チームアカウント・API トークンのスコープ（適用範囲）によって権限が厳密に管理されており、不適切な組み合わせで 403 エラーが発生することが頻繁にあります。
+</code></pre></div><footer class=entry-footer><span title='2026-06-06 00:00:00 +0000 UTC'>2026年6月6日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 401 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_401/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-vercel">Vercel</span>
+<span class=error-badge>403</span></div><h2 class=entry-hint-parent>Vercel の 403 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Vercel の 403 エラーは、デプロイや API 呼び出し時にプロジェクトやリソースへのアクセス権限がないことを意味します。これは認証自体は成功しているものの、認可（アクセス権の許可判定）レベルで拒否される状態です。Vercel では、個人アカウント・チームアカウント・API トークンのスコープ（適用範囲）によって権限が厳密に管理されており、不適切な組み合わせで 403 エラーが発生することが頻繁にあります。
 実際のエラーメッセージ例 Vercel CLI デプロイ時：
-Error: Received 403 from https://api.vercel.com/v13/deploymentsYou do not have permission to access this resource API レスポンス：
-{ &#34;error&#34;: { &#34;code&#34;: &#34;FORBIDDEN&#34;, &#34;message&#34;: &#34;You do not have permission to access this project&#34;, &#34;status&#34;: 403 } } よくある原因と解決手順 原因1：別のチームのプロジェクトに個人トークンでアクセスしている 個人アカウントの API トークンを使用しながら、チームが所有するプロジェクトにアクセスしようとすると 403 エラーが発生します。Vercel では個人スコープのトークンではチーム配下のリソースにアクセスできません。
+Error: Received 403 from https://api.vercel.com/v13/deployments
+You do not have permission to access this resource API レスポンス：
+{ "error": { "code": "FORBIDDEN", "message": "You do not have permission to access this project", "status": 403 } } よくある原因と解決手順 原因1：別のチームのプロジェクトに個人トークンでアクセスしている 個人アカウントの API トークンを使用しながら、チームが所有するプロジェクトにアクセスしようとすると 403 エラーが発生します。Vercel では個人スコープのトークンではチーム配下のリソースにアクセスできません。
 修正前：
-# 個人アカウントのトークンでチームプロジェクトにデプロイ export VERCEL_TOKEN=&lt;個人スコープのトークン&gt; export VERCEL_ORG_ID=team_xxx # チームID export VERCEL_PROJECT_ID=&lt;プロジェクトID&gt; vercel deploy 修正後：
-# チームスコープを持つ API トークンを使用 export VERCEL_TOKEN=&lt;チームスコープのトークン&gt; export VERCEL_ORG_ID=team_xxx export VERCEL_PROJECT_ID=&lt;プロジェクトID&gt; vercel deploy チームスコープのトークンを生成するには、Vercel ダッシュボードで Settings → Tokens → Create → Scope を「Team」に設定します。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>Error: Received 403 from https://api.vercel.com/v13/deployments
+# 個人アカウントのトークンでチームプロジェクトにデプロイ export VERCEL_TOKEN=&lt;個人スコープのトークン> export VERCEL_ORG_ID=team_xxx # チームID export VERCEL_PROJECT_ID=&lt;プロジェクトID> vercel deploy 修正後：
+# チームスコープを持つ API トークンを使用 export VERCEL_TOKEN=&lt;チームスコープのトークン> export VERCEL_ORG_ID=team_xxx export VERCEL_PROJECT_ID=&lt;プロジェクトID> vercel deploy チームスコープのトークンを生成するには、Vercel ダッシュボードで Settings → Tokens → Create → Scope を「Team」に設定します。
+...</p></div><div class=entry-code-preview><pre><code>Error: Received 403 from https://api.vercel.com/v13/deployments
 You do not have permission to access this resource
-</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-06 00:00:00 +0000 UTC'>2026年6月6日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Vercel の 403 エラー：原因と解決策" href="http://localhost:1313/posts/vercel_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-supabase">Supabase</span>
-      <span class="error-badge">422</span>
-    </div>
-    <h2 class="entry-hint-parent">Supabase の 422 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Supabaseの422エラーは「Unprocessable Entity」を意味し、リクエストの構文は正しいものの、サーバーがデータの検証ルール違反を検出したときに発生します。Supabaseの認証（Auth）機能では、パスワードやメールアドレスの形式チェック、カスタムSMTP設定の検証で特に頻繁に見られます。このエラーが返されると、ユーザー登録やパスワード変更などの認証処理が失敗します。
+</code></pre></div><footer class=entry-footer><span title='2026-06-06 00:00:00 +0000 UTC'>2026年6月6日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Vercel の 403 エラー：原因と解決策" href=https://errorlog.jp/posts/vercel_403/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-supabase">Supabase</span>
+<span class=error-badge>422</span></div><h2 class=entry-hint-parent>Supabase の 422 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 Supabaseの422エラーは「Unprocessable Entity」を意味し、リクエストの構文は正しいものの、サーバーがデータの検証ルール違反を検出したときに発生します。Supabaseの認証（Auth）機能では、パスワードやメールアドレスの形式チェック、カスタムSMTP設定の検証で特に頻繁に見られます。このエラーが返されると、ユーザー登録やパスワード変更などの認証処理が失敗します。
 実際のエラーメッセージ例 Supabase JavaScriptクライアントから返されるエラーレスポンス：
-{ &#34;error&#34;: &#34;invalid_grant&#34;, &#34;error_description&#34;: &#34;Invalid login credentials&#34;, &#34;status&#34;: 422 } またはREST APIを直接呼び出した場合：
-{ &#34;code&#34;: &#34;422&#34;, &#34;message&#34;: &#34;Validation failed&#34;, &#34;details&#34;: &#34;Password should be at least 6 characters&#34; } よくある原因と解決手順 原因1：パスワードが最低文字数を満たしていない Supabaseのデフォルト設定では、パスワードは最低6文字以上である必要があります。これより短いパスワードでユーザー登録やパスワード変更を試みると、422エラーが返されます。ユーザー入力の検証を行わずにAPIに送信している場合に発生することが多いです。
+{ "error": "invalid_grant", "error_description": "Invalid login credentials", "status": 422 } またはREST APIを直接呼び出した場合：
+{ "code": "422", "message": "Validation failed", "details": "Password should be at least 6 characters" } よくある原因と解決手順 原因1：パスワードが最低文字数を満たしていない Supabaseのデフォルト設定では、パスワードは最低6文字以上である必要があります。これより短いパスワードでユーザー登録やパスワード変更を試みると、422エラーが返されます。ユーザー入力の検証を行わずにAPIに送信している場合に発生することが多いです。
 Before（エラーが起きるコード）：
-const { data, error } = await supabase.auth.signUp({ email: &#39;user@example.com&#39;, password: &#39;12345&#39; // 5文字 - 最低要件を満たさない }); if (error) { console.error(&#39;422エラー:&#39;, error.message); } After（修正後）：
-const password = &#39;secure_password_123&#39;; // 6文字以上 if (password.length &lt; 6) { console.error(&#39;パスワードは最低6文字以上である必要があります&#39;); return; } const { data, error } = await supabase.auth.signUp({ email: &#39;user@example.com&#39;, password: password }); if (error) { console.error(&#39;認証エラー:&#39;, error.message); } 原因2：メールアドレスの形式が不正 Supabaseは送信前にメールアドレス形式を厳密に検証します。スペースが含まれている、@記号が複数ある、ドメイン部分が不完全など、RFC 5322標準から外れたアドレス形式では422エラーが発生します。ユーザー入力を整形せずに送信している場合や、テストデータに誤りがある場合に多く見られます。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+const { data, error } = await supabase.auth.signUp({ email: 'user@example.com', password: '12345' // 5文字 - 最低要件を満たさない }); if (error) { console.error('422エラー:', error.message); } After（修正後）：
+const password = 'secure_password_123'; // 6文字以上 if (password.length &lt; 6) { console.error('パスワードは最低6文字以上である必要があります'); return; } const { data, error } = await supabase.auth.signUp({ email: 'user@example.com', password: password }); if (error) { console.error('認証エラー:', error.message); } 原因2：メールアドレスの形式が不正 Supabaseは送信前にメールアドレス形式を厳密に検証します。スペースが含まれている、@記号が複数ある、ドメイン部分が不完全など、RFC 5322標準から外れたアドレス形式では422エラーが発生します。ユーザー入力を整形せずに送信している場合や、テストデータに誤りがある場合に多く見られます。
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;error&#34;: &#34;invalid_grant&#34;,
-  &#34;error_description&#34;: &#34;Invalid login credentials&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-05 00:00:00 +0000 UTC'>2026年6月5日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Supabase の 422 エラー：原因と解決策" href="http://localhost:1313/posts/supabase_422/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-supabase">Supabase</span>
-      <span class="error-badge">429</span>
-    </div>
-    <h2 class="entry-hint-parent">Supabase の 429 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 429は HTTP 標準のレート制限（許可されたリクエスト数を超過）を示し、Supabaseでは無料プランのリソース上限または API レート制限に達したことを意味します。データベースリクエスト、Edge Functions、認証 API など、複数のサービスで発生する可能性があり、放置するとアプリケーション全体が一時的に利用不可になります。
+  &#34;error_description&#34;: &#34;Invalid login credentials&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-05 00:00:00 +0000 UTC'>2026年6月5日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Supabase の 422 エラー：原因と解決策" href=https://errorlog.jp/posts/supabase_422/></a></article><article class=post-entry><header class=entry-header><div class=entry-badges><span class="tool-badge tool-badge-supabase">Supabase</span>
+<span class=error-badge>429</span></div><h2 class=entry-hint-parent>Supabase の 429 エラー：原因と解決策</h2></header><div class=entry-content><p>エラーの概要 429は HTTP 標準のレート制限（許可されたリクエスト数を超過）を示し、Supabaseでは無料プランのリソース上限または API レート制限に達したことを意味します。データベースリクエスト、Edge Functions、認証 API など、複数のサービスで発生する可能性があり、放置するとアプリケーション全体が一時的に利用不可になります。
 実際のエラーメッセージ例 Supabase JavaScript Clientを経由したエラー：
-{ &#34;status&#34;: 429, &#34;error&#34;: &#34;Too Many Requests&#34;, &#34;message&#34;: &#34;Rate limit exceeded. Please try again later.&#34;, &#34;statusText&#34;: &#34;Too Many Requests&#34; } Edge Functions呼び出し時のレスポンス：
-curl https://&lt;project&gt;.supabase.co/functions/v1/&lt;function-name&gt; \ -H &#34;Authorization: Bearer &lt;token&gt;&#34; HTTP/1.1 429 Too Many Requests Content-Type: application/json {&#34;error&#34;:&#34;rate_limit_exceeded&#34;} よくある原因と解決手順 原因1：無料プランのデータベースリクエスト数上限に達した Supabaseの無料プランは月間のデータベースリクエスト数に制限があります（通常50,000リクエスト/月）。バッチ処理の非効率さやポーリング実装により、この上限に到達すると以降のクエリはすべてブロックされます。
+{ "status": 429, "error": "Too Many Requests", "message": "Rate limit exceeded. Please try again later.", "statusText": "Too Many Requests" } Edge Functions呼び出し時のレスポンス：
+curl https://&lt;project>.supabase.co/functions/v1/&lt;function-name> \ -H "Authorization: Bearer &lt;token>" HTTP/1.1 429 Too Many Requests Content-Type: application/json {"error":"rate_limit_exceeded"} よくある原因と解決手順 原因1：無料プランのデータベースリクエスト数上限に達した Supabaseの無料プランは月間のデータベースリクエスト数に制限があります（通常50,000リクエスト/月）。バッチ処理の非効率さやポーリング実装により、この上限に到達すると以降のクエリはすべてブロックされます。
 修正前（エラーが起きるコード）：
-// ❌ ループ内で個別のリクエストを連発 async function fetchAllUsers() { const userIds = [1, 2, 3, 4, 5]; const results = []; for (const id of userIds) { const { data, error } = await supabase .from(&#39;users&#39;) .select(&#39;*&#39;) .eq(&#39;id&#39;, id); if (error) throw error; results.push(data); } return results; } 修正後：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
+// ❌ ループ内で個別のリクエストを連発 async function fetchAllUsers() { const userIds = [1, 2, 3, 4, 5]; const results = []; for (const id of userIds) { const { data, error } = await supabase .from('users') .select('*') .eq('id', id); if (error) throw error; results.push(data); } return results; } 修正後：
+...</p></div><div class=entry-code-preview><pre><code>{
   &#34;status&#34;: 429,
-  &#34;error&#34;: &#34;Too Many Requests&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-05 00:00:00 +0000 UTC'>2026年6月5日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Supabase の 429 エラー：原因と解決策" href="http://localhost:1313/posts/supabase_429/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-supabase">Supabase</span>
-      <span class="error-badge">500</span>
-    </div>
-    <h2 class="entry-hint-parent">Supabase の 500 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Supabaseの500エラーは、Supabaseサーバー側で予期しない内部エラーが発生したことを示します。クライアント側のリクエストは正しくても、PostgreSQLの実行エラー・Functionsの例外処理漏れ・インフラストラクチャの一時的な問題など、複数の原因が考えられます。このエラーが発生した場合は、サーバーログを確認して具体的な原因を特定する必要があります。
-実際のエラーメッセージ例 JavaScriptクライアント（supabase-js）での出力例：
-{ &#34;error&#34;: { &#34;message&#34;: &#34;Internal Server Error&#34;, &#34;status&#34;: 500 }, &#34;statusCode&#34;: 500 } Supabase REST APIの直接呼び出し時の例：
-{ &#34;code&#34;: &#34;PGRST500&#34;, &#34;message&#34;: &#34;relation \&#34;public.users\&#34; does not exist&#34;, &#34;details&#34;: null, &#34;hint&#34;: null } ブラウザコンソールでの出力例：
-Error: Internal Server Error at async Session.from (auth.ts:456:23) よくある原因と解決手順 原因1：PostgreSQLのクエリが構文エラーまたは実行時エラーになっている Supabaseに送信するSQLクエリに構文エラーがあったり、存在しないテーブル・カラムを参照していたりする場合、500エラーが発生します。特にRLS（Row Level Security）のポリシー内で不正なテーブル参照をしていると、クエリ実行時に内部エラーとなります。
-Before（エラーが起きるコード）：
-const { data, error } = await supabase .from(&#39;users&#39;) .select(&#39;id, name, invalid_column&#39;) .eq(&#39;status&#39;, &#39;active&#39;); if (error) { console.log(&#39;Error:&#39;, error.message); } After（修正後）：
-const { data, error } = await supabase .from(&#39;users&#39;) .select(&#39;id, name, email&#39;) .eq(&#39;status&#39;, &#39;active&#39;); if (error) { console.log(&#39;Error:&#39;, error.message); } または、実際にカラムが存在することを事前確認し、テーブル定義を正しくする必要があります。Supabase Dashboardの「SQL Editor」でクエリを事前テストすることをお勧めします。
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
-  &#34;error&#34;: {
-    &#34;message&#34;: &#34;Internal Server Error&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-05 00:00:00 +0000 UTC'>2026年6月5日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Supabase の 500 エラー：原因と解決策" href="http://localhost:1313/posts/supabase_500/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-supabase">Supabase</span>
-      <span class="error-badge">403</span>
-    </div>
-    <h2 class="entry-hint-parent">Supabase の 403 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Supabase の 403 エラーは、Row Level Security（RLS）またはそのポリシーによってデータベースへのアクセスが拒否されたことを示します。これは権限不足を意味する最も一般的なエラーで、テーブルに設定されたセキュリティルールが、現在のリクエストを許可していない状態です。特にフロントエンド側で認証済みユーザーが操作する場合に頻出します。
-実際のエラーメッセージ例 レスポンス（JSON）：
-{ &#34;code&#34;: &#34;403&#34;, &#34;message&#34;: &#34;new row violates row level security policy for table \&#34;users\&#34;&#34;, &#34;details&#34;: &#34;Failing row contains (id, email, name) = (uuid-value, user@example.com, John).&#34;, &#34;hint&#34;: null } JavaScript コンソール出力：
-{ status: 403, statusText: &#39;Forbidden&#39;, error: { code: &#39;42501&#39;, message: &#39;permission denied for schema &#34;public&#34;&#39;, details: null } } よくある原因と解決手順 原因1：RLS が有効だがポリシーが設定されていない テーブルの Row Level Security を有効にしたものの、アクセスを許可するポリシーを一つも作成していない場合、すべてのアクセスが拒否されます。RLS が有効なテーブルには、少なくとも SELECT・INSERT・UPDATE・DELETE のいずれかを許可するポリシーが必要です。
-Before（エラーが起きるコード）：
--- テーブルを作成してRLSを有効にするが、ポリシーは設定しない CREATE TABLE public.posts ( id UUID PRIMARY KEY DEFAULT gen_random_uuid(), user_id UUID NOT NULL REFERENCES auth.users(id), title TEXT NOT NULL, created_at TIMESTAMP DEFAULT now() ); ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY; -- ポリシーがないため、どのユーザーも読み書きできない After（修正後）：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
-  &#34;code&#34;: &#34;403&#34;,
-  &#34;message&#34;: &#34;new row violates row level security policy for table \&#34;users\&#34;&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-04 00:00:00 +0000 UTC'>2026年6月4日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Supabase の 403 エラー：原因と解決策" href="http://localhost:1313/posts/supabase_403/"></a>
-</article>
-
-<article class="post-entry"> 
-  <header class="entry-header">
-    <div class="entry-badges">
-      <span class="tool-badge tool-badge-supabase">Supabase</span>
-      <span class="error-badge">404</span>
-    </div>
-    <h2 class="entry-hint-parent">Supabase の 404 エラー：原因と解決策
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>エラーの概要 Supabase の 404 エラーは、クライアント側からのリクエストが指定したテーブル・行・ストレージオブジェクト・Functions エンドポイントが見つからないことを示します。データベース操作、ファイルアップロード、カスタム関数呼び出しなどの様々な場面で発生し、多くの場合はリソース名の指定ミスが原因です。
-実際のエラーメッセージ例 データベースクエリでの 404 エラー：
-{ &#34;code&#34;: &#34;404&#34;, &#34;message&#34;: &#34;Not Found&#34;, &#34;hint&#34;: &#34;The resource you are requesting does not exist. It may have been deleted or the table name might be incorrect.&#34;, &#34;details&#34;: null } ストレージ操作での 404 エラー：
-{ &#34;statusCode&#34;: 404, &#34;error&#34;: &#34;NotFound&#34;, &#34;message&#34;: &#34;The resource was not found&#34; } JavaScript クライアントコンソール出力：
-Error: Failed to fetch TypeError: 404 Not Found よくある原因と解決手順 原因1：テーブル名の綴りミスまたは大文字小文字の混在 Supabase のテーブル名は大文字小文字を区別します。データベースに users テーブルが存在しても、Users や USERS でクエリを実行すると 404 エラーが発生します。また、テーブル名にタイポがあると同様の結果になります。
-修正前（エラーが起きるコード）：
-const { data, error } = await supabase .from(&#39;Users&#39;) // テーブル名が大文字で始まっている .select(&#39;*&#39;) .eq(&#39;id&#39;, 1); if (error) { console.log(&#39;エラー:&#39;, error.message); // 404 Not Found } 修正後：
-...</p>
-  </div>
-  <div class="entry-code-preview"><pre><code>{
-  &#34;code&#34;: &#34;404&#34;,
-  &#34;message&#34;: &#34;Not Found&#34;,</code></pre></div>
-  <footer class="entry-footer">
-
-<span title='2026-06-04 00:00:00 +0000 UTC'>2026年6月4日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer>
-  <a class="entry-link" aria-label="post link to Supabase の 404 エラー：原因と解決策" href="http://localhost:1313/posts/supabase_404/"></a>
-</article>
-<footer class="page-footer">
-  <nav class="pagination">
-    <a class="prev" href="http://localhost:1313/posts/">
-      «&nbsp;前へ&nbsp;
-    </a>
-    <a class="next" href="http://localhost:1313/posts/page/3/">次へ&nbsp;&nbsp;»
-    </a>
-  </nav>
-</footer>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a><script>
-(function () {
-  var header = document.querySelector('.header');
-  if (!header) return;
-  var prev = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var cur = window.scrollY;
-    if (cur <= 0) {
-      header.classList.remove('header--hidden');
-    } else if (cur > prev && cur > 60) {
-      header.classList.add('header--hidden');
-    } else if (cur < prev) {
-      header.classList.remove('header--hidden');
-    }
-    prev = cur;
-  }, { passive: true });
-})();
-</script>
-
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-</body>
-
-</html>
+  &#34;error&#34;: &#34;Too Many Requests&#34;,</code></pre></div><footer class=entry-footer><span title='2026-06-05 00:00:00 +0000 UTC'>2026年6月5日</span>&nbsp;·&nbsp;<span>ErrorLog</span></footer><a class=entry-link aria-label="post link to Supabase の 429 エラー：原因と解決策" href=https://errorlog.jp/posts/supabase_429/></a></article><footer class=page-footer><nav class=pagination><a class=prev href=https://errorlog.jp/posts/>«&nbsp;前へ&nbsp;
+</a><a class=next href=https://errorlog.jp/posts/page/3/>次へ&nbsp;&nbsp;»</a></nav></footer></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script></body></html>

@@ -5,6 +5,10 @@ description: "Firebase の 503（Service Unavailable）エラーは、Firebase �
 tags: ["Firebase"]
 errorCode: "503"
 lastmod: 2026-05-31
+service: "Firebase"
+error_type: "503"
+components: ["Firestore", "Realtime Database", "Cloud Functions", "Authentication", "Storage"]
+related_services: []
 ---
 
 ## エラーの概要

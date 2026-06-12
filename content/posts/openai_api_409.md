@@ -4,6 +4,10 @@ date: 2026-05-28
 description: "リクエストの内容がOpenAIリソースの現在の状態と競合している。すでに存在するFine-tuningジョブやモデルに対して重など、OpenAI API 409 エラーの原因と解決策を解説。"
 tags: ["OpenAI API"]
 errorCode: "409"
+service: "OpenAI API"
+error_type: "409"
+components: ["Fine-tuning", "Files API"]
+related_services: ["OpenAI API Dashboard"]
 ---
 
 OpenAI [API](/glossary/api/) で 409 [エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の内容が[サーバー](/glossary/サーバー/)上のリソースの現在の状態と競合しています。通常、既に進行中の操作や重複したリソースが原因となります。

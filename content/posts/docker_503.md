@@ -5,6 +5,10 @@ description: "Dockerの503エラーは、HTTP標準仕様（RFC 9110）で「Ser
 tags: ["Docker"]
 errorCode: "503"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "503"
+components: ["Registry", "Compose"]
+related_services: ["Docker Hub", "Quay.io", "Harbor", "Nexus", "PostgreSQL", "Redis"]
 ---
 
 ## エラーの概要

@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "401"
+service: "Docker Compose"
+error_type: "401"
+components: ["Compose", "Registry"]
+related_services: ["Docker Hub", "Azure Container Registry", "AWS ECR", "GCP Artifact Registry", "GitHub Actions", "GitLab", "Jenkins"]
 ---
 [Docker](/glossary/docker/) Composeで401[エラー](/glossary/エラー/)が発生した場合、コンテナーレジストリーへの[認証](/glossary/認証/)に失敗しています。この[エラー](/glossary/エラー/)はプライベートイメージをpullしようとする際に最も頻繁に起こります。
 

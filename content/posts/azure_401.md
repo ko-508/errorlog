@@ -4,6 +4,12 @@ date: 2026-06-01
 description: "Azureへの認証情報が無効または期限切れになっている。Azure 401 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "401"
+service: "Azure"
+error_type: "401"
+components: []
+related_services: ["Azure CLI", "Azure SDK", "Azure Virtual Machine", "Azure Functions", "App Service", "Azure Portal"]
+top_queries:
+- "401エラー"
 ---
 ## エラーの概要
 

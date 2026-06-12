@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "Minikubeクラスターの内部で予期しないエラーが発生した。Minikube 500 エラーの原因と解決策を解説します。"
 tags: ["Minikube"]
 errorCode: "500"
+service: "Minikube"
+error_type: "500"
+components: ["Pod", "Deployment", "Service", "ConfigMap", "Secret", "Namespace"]
+related_services: ["Kubernetes", "kubectl", "etcd", "Docker", "VirtualBox", "KVM", "API Server"]
 ---
 Minikubeでクラスター内部の予期しない[エラー](/glossary/エラー/)が発生し、[HTTP](/glossary/http/) ステータス 500 が返されている状況です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)の不安定性やリソース枯渇が主な原因となります。
 

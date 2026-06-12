@@ -5,6 +5,10 @@ description: "Docker で 401 エラーが発生するのは、レジストリ（
 tags: ["Docker"]
 errorCode: "401"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "401"
+components: ["Registry"]
+related_services: ["Docker Hub", "Azure Container Registry", "ECR"]
 ---
 ## エラーの概要
 

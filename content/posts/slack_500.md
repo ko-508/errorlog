@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "Slack側のサーバーで予期しない内部エラーが発生した。Slackのインフラで一時的な障害が起きているなど、Slack 500 エラーの原因と解決策を解説。"
 tags: ["Slack"]
 errorCode: "500"
+service: "Slack"
+error_type: "500"
+components: []
+related_services: ["Python", "requests"]
 ---
 Slack [API](/glossary/api/)利用時に500[エラー](/glossary/エラー/)が返される場合、Slack側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生しています。ほとんどのケースは一時的な障害ですが、適切な対応手順を踏む必要があります。
 

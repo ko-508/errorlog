@@ -5,6 +5,10 @@ description: "504 Gateway Timeout は、Docker デーモンがプロキシ経由
 tags: ["Docker"]
 errorCode: "504"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "504"
+components: ["Compose"]
+related_services: ["Nginx", "PostgreSQL"]
 ---
 
 ## エラーの概要

@@ -1,261 +1,31 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>Firebase の 400 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="Firebase, HTTP400, 400エラー">
-<meta name="description" content="Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/posts/firebase_400/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/firebase_400/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
-<meta name="google-site-verification" content="109757267897574962624" />
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CXKKVNQKRX');
-</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
-     crossorigin="anonymous"></script>
-
-</head>
-<body id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
-  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
-    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
-  </text>
-</svg>
-</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="http://localhost:1313/search/" title="検索">
-                    <span>検索</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="タグ">
-                    <span>タグ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="アーカイブ">
-                    <span>アーカイブ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/glossary/" title="用語集">
-                    <span>用語集</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "\"Firebase の 400 エラー：原因と解決策\"",
-  "description": "\"Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。\"",
-  "inLanguage": "ja",
-  "url": "\"http://localhost:1313/posts/firebase_400/\"",
-  "datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-06-05T00:00:00Z\"",
-  "articleSection": "Error Troubleshooting",
-  "proficiencyLevel": "Intermediate",
-  "keywords": ["\"Firebase\"", "\"HTTP 400\"", "\"400\""],
-  "author": {
-    "@type": "Organization",
-    "name": "\"ErrorLog - エラーコード解決ガイド\"",
-    "url": "\"http://localhost:1313/\""
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "\"ErrorLog - エラーコード解決ガイド\"",
-    "url": "\"http://localhost:1313/\""
-  }
-}
-</script>
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <div class="post-badges">
-      <span class="tool-badge tool-badge-firebase">Firebase</span>
-      <span class="error-badge">400</span>
-    </div>
-    <h1 class="post-title entry-hint-parent">
-      Firebase の 400 エラー：原因と解決策
-    </h1>
-    <div class="post-meta">
-
-<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
-
-</div>
-  </header>
-  <div class="summary-panel">
-    <div class="summary-row">
-      <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label summary-label--cause">原因</span>
-      <span class="summary-text">Firestore クエリの複合インデックス不足または複数不等式フィルタ</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label summary-label--fix">対策</span>
-      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
-    </div>
-  </div>
-  <div class="raw-log-panel">
-    <div class="raw-log-label">実際のエラーログ</div>
-    <pre class="raw-log-code"><code>{
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Firebase の 400 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="Firebase,HTTP400,400エラー"><meta name=description content="Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/firebase_400/><link crossorigin=anonymous href=/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css integrity="sha256-Qnf+CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF+x1/k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/firebase_400/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta name=google-site-verification content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ"><meta name=google-site-verification content="109757267897574962624"><link rel=preconnect href=https://www.googletagmanager.com><link rel=preconnect href=https://www.google-analytics.com><script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-CXKKVNQKRX")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187" crossorigin=anonymous></script><meta property="og:url" content="https://errorlog.jp/posts/firebase_400/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="Firebase の 400 エラー：原因と解決策"><meta property="og:description" content="Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-06-05T00:00:00+00:00"><meta property="article:tag" content="Firebase"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="Firebase の 400 エラー：原因と解決策"><meta name=twitter:description content="Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"Firebase の 400 エラー：原因と解決策","item":"https://errorlog.jp/posts/firebase_400/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Firebase の 400 エラー：原因と解決策","name":"Firebase の 400 エラー：原因と解決策","description":"Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。","keywords":["Firebase"],"articleBody":"エラーの概要 Firebase の 400 エラーは、クライアント（使用しているアプリケーション）から送信されたリクエストが不正な形式または無効なパラメータを含んでいることを示します。このエラーはサーバー側の障害ではなく、送信されたデータの形式、認証情報、クエリ条件、またはリクエストヘッダーに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇するエラーの一つであり、原因の特定と修正が必須です。\n実際のエラーメッセージ例 Firebase SDK（ソフトウェア開発キット）からの典型的なエラーレスポンスは以下のような形式です。\n{ \"error\": { \"code\": 400, \"message\": \"Invalid JSON payload received. Unable to parse the request body.\", \"errors\": [ { \"domain\": \"global\", \"reason\": \"invalidArgument\", \"message\": \"Invalid JSON payload received. Unable to parse the request body.\" } ] } } JavaScript SDK では以下のようなコンソール出力が表示されます。\nFirebase: Error (auth/invalid-email). REST API（外部サービスとのやり取り口）呼び出しの場合：\nPOST /v1/projects//databases/(default)/documents:query\r400 Bad Request\r{\r\"error\": {\r\"code\": 400,\r\"message\": \"Invalid query. Firestore: Inequality filters are limited to at most one field.\"\r}\r} よくある原因と解決手順 原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前にインデックス（データベースの検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（\u003c, \u003e, \u003c=, \u003e=）を使用することはできません。\nBefore（エラーが起きるコード）：\ndb.collection('users') .where('age', '\u003e', 18) .where('score', '\u003c', 100) .get(); After（修正後）：\ndb.collection('users') .where('age', '\u003e', 18) .where('status', '==', 'active') .get(); 複合フィルタが必要な場合は、Firebase コンソール（管理画面）から自動提示されるインデックスを作成します。\n原因2：認証情報の形式が無効 Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスやパスワード、または認証トークン（認証に用いる暗号化されたデータ）が渡された場合に 400 エラーが発生します。\nBefore（エラーが起きるコード）：\nfirebase.auth().createUserWithEmailAndPassword('user@', 'password123') .catch(error =\u003e console.error(error)); After（修正後）：\nfirebase.auth().createUserWithEmailAndPassword('user@example.com', 'password123') .catch(error =\u003e console.error(error)); パスワードは最低 6 文字である必要があります。\nBefore（エラーが起きるコード）：\nfirebase.auth().createUserWithEmailAndPassword('user@example.com', '123') .catch(error =\u003e console.error(error)); After（修正後）：\nfirebase.auth().createUserWithEmailAndPassword('user@example.com', 'securePassword123') .catch(error =\u003e console.error(error)); 原因3：SDK メソッドに渡すデータ型が不正 Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 エラーが発生します。\nBefore（エラーが起きるコード）：\nconst userData = { name: 'John', email: undefined, age: 30 }; db.collection('users').doc('user1').set(userData); After（修正後）：\nconst userData = { name: 'John', email: null, age: 30 }; db.collection('users').doc('user1').set(userData); 循環参照（あるデータが自分自身を参照すること）を含むオブジェクトも不正です。\nBefore（エラーが起きるコード）：\nconst obj = { name: 'test' }; obj.self = obj; // 循環参照 db.collection('items').doc('item1').set(obj); After（修正後）：\nconst obj = { name: 'test', parent: 'root' }; db.collection('items').doc('item1').set(obj); 原因4：REST API のリクエストヘッダーが不正 Firebase REST API（外部からの通信インターフェース）を直接呼び出す場合、Content-Type ヘッダー（データ形式を指定する設定）や認証ヘッダーが不正だと 400 エラーが発生します。\nBefore（エラーが起きるコード）：\ncurl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \\ -H \"Content-Type: application/x-www-form-urlencoded\" \\ -d '{\"email\":\"user@example.com\",\"password\":\"password123\"}' After（修正後）：\ncurl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \\ -H \"Content-Type: application/json\" \\ -d '{\"email\":\"user@example.com\",\"password\":\"password123\",\"returnSecureToken\":true}' 原因5：Firestore ドキュメント ID の不正な形式 ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 エラーが発生します。\nBefore（エラーが起きるコード）：\ndb.collection('users').doc('user/123').set({ name: 'John' }); After（修正後）：\ndb.collection('users').doc('user_123').set({ name: 'John' }); ","wordCount":"253","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-06-05T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/firebase_400/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><script type=application/ld+json>{"@context":"https://schema.org","@type":"TechArticle","headline":"\"Firebase の 400 エラー：原因と解決策\"","description":"\"Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。\"","inLanguage":"ja","url":"\"https://errorlog.jp/posts/firebase_400/\"","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-06-05T00:00:00Z\"","articleSection":"Error Troubleshooting","proficiencyLevel":"Intermediate","keywords":["\"Firebase\"","\"HTTP 400\"","\"400\""],"author":{"@type":"Organization","name":"\"ErrorLog - エラーコード解決ガイド\"","url":"\"https://errorlog.jp/\""},"publisher":{"@type":"Organization","name":"\"ErrorLog - エラーコード解決ガイド\"","url":"\"https://errorlog.jp/\""}}</script><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>400</span></div><h1 class="post-title entry-hint-parent">Firebase の 400 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
+<span class=summary-text>Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
+<span class=summary-text>Firestore クエリの複合インデックス不足または複数不等式フィルタ</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
+<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
   &#34;error&#34;: {
     &#34;code&#34;: 400,
     &#34;message&#34;: &#34;Invalid JSON payload received. Unable to parse the request body.&#34;,
     &#34;errors&#34;: [
       {
         &#34;domain&#34;: &#34;global&#34;,
-        &#34;reason&#34;: &#34;invalidArgument&#34;,</code></pre>
-  </div> <details class="toc"  open>
-    <summary accesskey="c" title="(Alt + C)">
-        <span class="title">目次</span>
-    </summary>
-
-    <div class="inner"><ul>
-            <li>
-                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
-            <li>
-                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
-            <li>
-                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
-                    
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a01firestore-%e3%82%af%e3%82%a8%e3%83%aa%e3%81%ae%e8%a4%87%e5%90%88%e3%82%a4%e3%83%b3%e3%83%87%e3%83%83%e3%82%af%e3%82%b9%e4%b8%8d%e8%b6%b3%e3%81%be%e3%81%9f%e3%81%af%e8%a4%87%e6%95%b0%e4%b8%8d%e7%ad%89%e5%bc%8f%e3%83%95%e3%82%a3%e3%83%ab%e3%82%bf" aria-label="原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ">原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a02%e8%aa%8d%e8%a8%bc%e6%83%85%e5%a0%b1%e3%81%ae%e5%bd%a2%e5%bc%8f%e3%81%8c%e7%84%a1%e5%8a%b9" aria-label="原因2：認証情報の形式が無効">原因2：認証情報の形式が無効</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a03sdk-%e3%83%a1%e3%82%bd%e3%83%83%e3%83%89%e3%81%ab%e6%b8%a1%e3%81%99%e3%83%87%e3%83%bc%e3%82%bf%e5%9e%8b%e3%81%8c%e4%b8%8d%e6%ad%a3" aria-label="原因3：SDK メソッドに渡すデータ型が不正">原因3：SDK メソッドに渡すデータ型が不正</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a04rest-api-%e3%81%ae%e3%83%aa%e3%82%af%e3%82%a8%e3%82%b9%e3%83%88%e3%83%98%e3%83%83%e3%83%80%e3%83%bc%e3%81%8c%e4%b8%8d%e6%ad%a3" aria-label="原因4：REST API のリクエストヘッダーが不正">原因4：REST API のリクエストヘッダーが不正</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a05firestore-%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88-id-%e3%81%ae%e4%b8%8d%e6%ad%a3%e3%81%aa%e5%bd%a2%e5%bc%8f" aria-label="原因5：Firestore ドキュメント ID の不正な形式">原因5：Firestore ドキュメント ID の不正な形式</a>
-            </li>
-        </ul>
-        </li>
-        </ul>
-    </div>
-</details>
-
-  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
-<p>Firebase の 400 <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>は、クライアント（使用しているアプリケーション）から送信された<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a>が不正な形式または無効な<a href="/glossary/%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF/">パラメータ</a>を含んでいることを示します。この<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>は<a href="/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/">サーバー</a>側の障害ではなく、送信されたデータの形式、認証情報、<a href="/glossary/%E3%82%AF%E3%82%A8%E3%83%AA/">クエリ</a>条件、または<a href="/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/">リクエスト</a><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>に問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>の一つであり、原因の特定と修正が必須です。</p>
-<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
-<p>Firebase <a href="/glossary/sdk/">SDK</a>（ソフトウェア開発キット）からの典型的な<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/">エラーレスポンス</a>は以下のような形式です。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;error&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;code&#34;</span>: <span style="color:#ae81ff">400</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Invalid JSON payload received. Unable to parse the request body.&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;errors&#34;</span>: [
-</span></span><span style="display:flex;"><span>      {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;domain&#34;</span>: <span style="color:#e6db74">&#34;global&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;reason&#34;</span>: <span style="color:#e6db74">&#34;invalidArgument&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;message&#34;</span>: <span style="color:#e6db74">&#34;Invalid JSON payload received. Unable to parse the request body.&#34;</span>
-</span></span><span style="display:flex;"><span>      }
-</span></span><span style="display:flex;"><span>    ]
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>JavaScript <a href="/glossary/sdk/">SDK</a> では以下のような<a href="/glossary/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB/">コンソール</a>出力が表示されます。</p>
-<pre tabindex="0"><code>Firebase: Error (auth/invalid-email).
-</code></pre><p><a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a>（外部サービスとのやり取り口）呼び出しの場合：</p>
-<pre tabindex="0"><code>POST /v1/projects/&lt;project-id&gt;/databases/(default)/documents:query
+        &#34;reason&#34;: &#34;invalidArgument&#34;,</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01firestore-%e3%82%af%e3%82%a8%e3%83%aa%e3%81%ae%e8%a4%87%e5%90%88%e3%82%a4%e3%83%b3%e3%83%87%e3%83%83%e3%82%af%e3%82%b9%e4%b8%8d%e8%b6%b3%e3%81%be%e3%81%9f%e3%81%af%e8%a4%87%e6%95%b0%e4%b8%8d%e7%ad%89%e5%bc%8f%e3%83%95%e3%82%a3%e3%83%ab%e3%82%bf aria-label="原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ">原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ</a></li><li><a href=#%e5%8e%9f%e5%9b%a02%e8%aa%8d%e8%a8%bc%e6%83%85%e5%a0%b1%e3%81%ae%e5%bd%a2%e5%bc%8f%e3%81%8c%e7%84%a1%e5%8a%b9 aria-label=原因2：認証情報の形式が無効>原因2：認証情報の形式が無効</a></li><li><a href=#%e5%8e%9f%e5%9b%a03sdk-%e3%83%a1%e3%82%bd%e3%83%83%e3%83%89%e3%81%ab%e6%b8%a1%e3%81%99%e3%83%87%e3%83%bc%e3%82%bf%e5%9e%8b%e3%81%8c%e4%b8%8d%e6%ad%a3 aria-label="原因3：SDK メソッドに渡すデータ型が不正">原因3：SDK メソッドに渡すデータ型が不正</a></li><li><a href=#%e5%8e%9f%e5%9b%a04rest-api-%e3%81%ae%e3%83%aa%e3%82%af%e3%82%a8%e3%82%b9%e3%83%88%e3%83%98%e3%83%83%e3%83%80%e3%83%bc%e3%81%8c%e4%b8%8d%e6%ad%a3 aria-label="原因4：REST API のリクエストヘッダーが不正">原因4：REST API のリクエストヘッダーが不正</a></li><li><a href=#%e5%8e%9f%e5%9b%a05firestore-%e3%83%89%e3%82%ad%e3%83%a5%e3%83%a1%e3%83%b3%e3%83%88-id-%e3%81%ae%e4%b8%8d%e6%ad%a3%e3%81%aa%e5%bd%a2%e5%bc%8f aria-label="原因5：Firestore ドキュメント ID の不正な形式">原因5：Firestore ドキュメント ID の不正な形式</a></li></ul></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>Firebase の 400 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>は、クライアント（使用しているアプリケーション）から送信された<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a>が不正な形式または無効な<a href=/glossary/%E3%83%91%E3%83%A9%E3%83%A1%E3%83%BC%E3%82%BF/>パラメータ</a>を含んでいることを示します。この<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>は<a href=/glossary/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC/>サーバー</a>側の障害ではなく、送信されたデータの形式、認証情報、<a href=/glossary/%E3%82%AF%E3%82%A8%E3%83%AA/>クエリ</a>条件、または<a href=/glossary/%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88/>リクエスト</a><a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>に問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>の一つであり、原因の特定と修正が必須です。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><p>Firebase <a href=/glossary/sdk/>SDK</a>（ソフトウェア開発キット）からの典型的な<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC%E3%83%AC%E3%82%B9%E3%83%9D%E3%83%B3%E3%82%B9/>エラーレスポンス</a>は以下のような形式です。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;error&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;code&#34;</span>: <span style=color:#ae81ff>400</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Invalid JSON payload received. Unable to parse the request body.&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;errors&#34;</span>: [
+</span></span><span style=display:flex><span>      {
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;global&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;reason&#34;</span>: <span style=color:#e6db74>&#34;invalidArgument&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;message&#34;</span>: <span style=color:#e6db74>&#34;Invalid JSON payload received. Unable to parse the request body.&#34;</span>
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>JavaScript <a href=/glossary/sdk/>SDK</a> では以下のような<a href=/glossary/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB/>コンソール</a>出力が表示されます。</p><pre tabindex=0><code>Firebase: Error (auth/invalid-email).
+</code></pre><p><a href=/glossary/rest/>REST</a> <a href=/glossary/api/>API</a>（外部サービスとのやり取り口）呼び出しの場合：</p><pre tabindex=0><code>POST /v1/projects/&lt;project-id&gt;/databases/(default)/documents:query
 400 Bad Request
 {
   &#34;error&#34;: {
@@ -263,469 +33,69 @@
     &#34;message&#34;: &#34;Invalid query. Firestore: Inequality filters are limited to at most one field.&#34;
   }
 }
-</code></pre><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
-<h3 id="原因1firestore-クエリの複合インデックス不足または複数不等式フィルタ">原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ<a hidden class="anchor" aria-hidden="true" href="#原因1firestore-クエリの複合インデックス不足または複数不等式フィルタ">#</a></h3>
-<p>Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に<a href="/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/">インデックス</a>（<a href="/glossary/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/">データベース</a>の検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（<code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>）を使用することはできません。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">where</span>(<span style="color:#e6db74">&#39;age&#39;</span>, <span style="color:#e6db74">&#39;&gt;&#39;</span>, <span style="color:#ae81ff">18</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">where</span>(<span style="color:#e6db74">&#39;score&#39;</span>, <span style="color:#e6db74">&#39;&lt;&#39;</span>, <span style="color:#ae81ff">100</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">get</span>();
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">where</span>(<span style="color:#e6db74">&#39;age&#39;</span>, <span style="color:#e6db74">&#39;&gt;&#39;</span>, <span style="color:#ae81ff">18</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">where</span>(<span style="color:#e6db74">&#39;status&#39;</span>, <span style="color:#e6db74">&#39;==&#39;</span>, <span style="color:#e6db74">&#39;active&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">get</span>();
-</span></span></code></pre></div><p>複合フィルタが必要な場合は、Firebase <a href="/glossary/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB/">コンソール</a>（管理画面）から自動提示される<a href="/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/">インデックス</a>を作成します。</p>
-<h3 id="原因2認証情報の形式が無効">原因2：認証情報の形式が無効<a hidden class="anchor" aria-hidden="true" href="#原因2認証情報の形式が無効">#</a></h3>
-<p>Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスや<a href="/glossary/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89/">パスワード</a>、または<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a><a href="/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/">トークン</a>（<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a>に用いる<a href="/glossary/%E6%9A%97%E5%8F%B7%E5%8C%96/">暗号化</a>されたデータ）が渡された場合に 400 <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が発生します。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">createUserWithEmailAndPassword</span>(<span style="color:#e6db74">&#39;user@&#39;</span>, <span style="color:#e6db74">&#39;password123&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">error</span>));
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">createUserWithEmailAndPassword</span>(<span style="color:#e6db74">&#39;user@example.com&#39;</span>, <span style="color:#e6db74">&#39;password123&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">error</span>));
-</span></span></code></pre></div><p><a href="/glossary/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89/">パスワード</a>は最低 6 文字である必要があります。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">createUserWithEmailAndPassword</span>(<span style="color:#e6db74">&#39;user@example.com&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">error</span>));
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">firebase</span>.<span style="color:#a6e22e">auth</span>().<span style="color:#a6e22e">createUserWithEmailAndPassword</span>(<span style="color:#e6db74">&#39;user@example.com&#39;</span>, <span style="color:#e6db74">&#39;securePassword123&#39;</span>)
-</span></span><span style="display:flex;"><span>  .<span style="color:#66d9ef">catch</span>(<span style="color:#a6e22e">error</span> =&gt; <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">error</span>));
-</span></span></code></pre></div><h3 id="原因3sdk-メソッドに渡すデータ型が不正">原因3：SDK メソッドに渡すデータ型が不正<a hidden class="anchor" aria-hidden="true" href="#原因3sdk-メソッドに渡すデータ型が不正">#</a></h3>
-<p>Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が発生します。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userData</span> <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;John&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">undefined</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">30</span>
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">&#39;user1&#39;</span>).<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">userData</span>);
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userData</span> <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;John&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">email</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">null</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">age</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">30</span>
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">&#39;user1&#39;</span>).<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">userData</span>);
-</span></span></code></pre></div><p>循環参照（あるデータが自分自身を参照すること）を含むオブジェクトも不正です。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;test&#39;</span> };
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">self</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">obj</span>;  <span style="color:#75715e">// 循環参照
-</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;items&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">&#39;item1&#39;</span>).<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">obj</span>);
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> { <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;test&#39;</span>, <span style="color:#a6e22e">parent</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;root&#39;</span> };
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;items&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">&#39;item1&#39;</span>).<span style="color:#a6e22e">set</span>(<span style="color:#a6e22e">obj</span>);
-</span></span></code></pre></div><h3 id="原因4rest-api-のリクエストヘッダーが不正">原因4：REST API のリクエストヘッダーが不正<a hidden class="anchor" aria-hidden="true" href="#原因4rest-api-のリクエストヘッダーが不正">#</a></h3>
-<p>Firebase <a href="/glossary/rest/">REST</a> <a href="/glossary/api/">API</a>（外部からの<a href="/glossary/%E9%80%9A%E4%BF%A1/">通信</a>インターフェース）を直接呼び出す場合、Content-Type <a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>（データ形式を指定する設定）や<a href="/glossary/%E8%AA%8D%E8%A8%BC/">認証</a><a href="/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/">ヘッダー</a>が不正だと 400 <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が発生します。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -d <span style="color:#e6db74">&#39;{&#34;email&#34;:&#34;user@example.com&#34;,&#34;password&#34;:&#34;password123&#34;}&#39;</span>
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -H <span style="color:#e6db74">&#34;Content-Type: application/json&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  -d <span style="color:#e6db74">&#39;{&#34;email&#34;:&#34;user@example.com&#34;,&#34;password&#34;:&#34;password123&#34;,&#34;returnSecureToken&#34;:true}&#39;</span>
-</span></span></code></pre></div><h3 id="原因5firestore-ドキュメント-id-の不正な形式">原因5：Firestore ドキュメント ID の不正な形式<a hidden class="anchor" aria-hidden="true" href="#原因5firestore-ドキュメント-id-の不正な形式">#</a></h3>
-<p>ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 <a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が発生します。</p>
-<p><strong>Before（<a href="/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/">エラー</a>が起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">&#39;user/123&#39;</span>).<span style="color:#a6e22e">set</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;John&#39;</span> });
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#a6e22e">db</span>.<span style="color:#a6e22e">collection</span>(<span style="color:#e6db74">&#39;users&#39;</span>).<span style="color:#a6e22e">doc</span>(<span style="color:#e6db74">&#39;user_123&#39;</span>).<span style="color:#a6e22e">set</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;John&#39;</span> });
-</span></span></code></pre></div>
-
-  </div>
-  <div class="feedback-panel" id="feedback-panel">
-    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
-    <div class="feedback-panel__btns">
-      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
-      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
-    </div>
-    <p class="feedback-panel__thanks"></p>
-  </div>
-  <section class="related-posts">
-    <p class="related-posts__title">他の Firebase エラーの解決策</p>
-    <ul class="related-posts__list">
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/firebase_408/" class="related-posts__link"><span class="error-badge">408</span>Firebase の 408 エラー：原因と解決策
-        </a><p class="related-posts__desc">クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/firebase_504/" class="related-posts__link"><span class="error-badge">504</span>Firebase の 504 エラー：原因と解決策
-        </a><p class="related-posts__desc">Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/firebase_409/" class="related-posts__link"><span class="error-badge">409</span>Firebase の 409 エラー：原因と解決策
-        </a><p class="related-posts__desc">Firebase の 409 Conflict エラーは、Firestore のトランザクション処理が他の同時実行操作との競合によって失敗したことを示します。</p>
-      </li>
-    </ul>
-  </section>
-  <section class="related-posts">
-    <p class="related-posts__title">400 エラー — 他ツールの解決策</p>
-    <ul class="related-posts__list">
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/terraform_400/" class="related-posts__link">
-          <span class="tool-badge tool-badge-terraform">Terraform</span>Terraform の 400 エラー：原因と解決策
-        </a><p class="related-posts__desc">Terraformがクラウドプロバイダーに送るリクエストの形式に誤りがある。Terraform 400 エラーの原因と解決策を解説します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/vercel_400/" class="related-posts__link">
-          <span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 400 エラー：原因と解決策
-        </a><p class="related-posts__desc">Vercel APIへのリクエストの形式または内容に誤りがある。Vercel 400 エラーの原因と解決策を解説します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/supabase_400/" class="related-posts__link">
-          <span class="tool-badge tool-badge-supabase">Supabase</span>Supabase の 400 エラー：原因と解決策
-        </a><p class="related-posts__desc">Supabase APIへのリクエストの形式または内容に誤りがある。Supabase 400 エラーの原因と解決策を解説します。</p>
-      </li>
-    </ul>
-  </section>
-
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/firebase/">Firebase</a></li>
-    </ul>
-  </footer>
-</article>
-
-<script>
- 
-(function () {
-  var panel = document.getElementById('feedback-panel');
-  if (!panel) return;
-  var title = "\"Firebase の 400 エラー：原因と解決策\"";
-  panel.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-status]');
-    if (!btn || panel.dataset.voted) return;
-    panel.dataset.voted = '1';
-    if (typeof gtag === 'function') {
-      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
-    }
-    var btnsEl = panel.querySelector('.feedback-panel__btns');
-    var qEl    = panel.querySelector('.feedback-panel__q');
-    var thxEl  = panel.querySelector('.feedback-panel__thanks');
-    btnsEl.style.transition = 'opacity 0.3s';
-    btnsEl.style.opacity    = '0';
-    setTimeout(function () {
-      btnsEl.style.display = 'none';
-      qEl.style.display    = 'none';
-      thxEl.textContent    = 'Thank you for your feedback!';
-      thxEl.style.display  = 'block';
-      thxEl.style.opacity  = '0';
-      thxEl.style.transition = 'opacity 0.4s';
-      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
-    }, 300);
-  });
-})();
-
- 
-(function () {
-  var content = document.querySelector('.post-content');
-  if (!content) return;
-
-  var firstCompare = true;
-  var RE_BEFORE = /before|エラーが起きる|修正前/i;
-  var RE_AFTER  = /after|修正後/i;
-
-  content.querySelectorAll('p strong').forEach(function (el) {
-    if (!RE_BEFORE.test(el.textContent)) return;
-
-    var beforeLabel = el.closest('p');
-    if (beforeLabel.dataset.compared) return;
-
-    
-    var cursor      = beforeLabel.nextElementSibling;
-    var beforeElems = [];
-    var afterLabel  = null;
-
-    while (cursor) {
-      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
-      beforeElems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    if (!afterLabel) return;
-
-    
-    var afterElems = [];
-    cursor = afterLabel.nextElementSibling;
-
-    while (cursor) {
-      if (/^H[1-4]$/.test(cursor.tagName)) break;
-      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
-      afterElems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    if (!afterElems.length) return;
-
-    function paintBlock(el, lineColor) {
-      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
-      
-      
-      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
-
-      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
-
-      if (el.classList.contains('highlight')) {
-        
-        var inner = el.querySelector('pre') || el.querySelector('div');
-        if (inner) {
-          sp(inner, 'background-image', grad);
-          sp(inner, 'padding-left',     '1rem');
-        }
-        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
-        el.style.setProperty('overflow',      'hidden',       'important');
-      } else {
-        
-        sp(el, 'background-color', '#272822');
-        sp(el, 'background-image', grad);
-        sp(el, 'padding-left',     '1rem');
-        sp(el, 'box-sizing',       'border-box');
-        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
-        el.style.setProperty('margin',        '0',            'important');
-      }
-    }
-    
-    var wrap = document.createElement('div');
-    wrap.className = 'code-compare';
-    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
-
-    var left  = document.createElement('div');
-    left.className = 'code-compare__side';
-    var right = document.createElement('div');
-    right.className = 'code-compare__side';
-
-    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
-    beforeLabel.dataset.compared = '1';
-    left.appendChild(beforeLabel);
-    beforeElems.forEach(function (e) { left.appendChild(e); });
-    right.appendChild(afterLabel);
-    afterElems.forEach(function (e) { right.appendChild(e); });
-
-    
-    beforeElems.forEach(function (e) {
-      if (e.classList.contains('highlight') || e.tagName === 'PRE')
-        paintBlock(e, '#ff4d4d');
-    });
-    afterElems.forEach(function (e) {
-      if (e.classList.contains('highlight') || e.tagName === 'PRE')
-        paintBlock(e, '#2ecc71');
-    });
-    wrap.appendChild(left);
-    wrap.appendChild(right);
-
-    
-    left.classList.add('code-compare__side--before');
-    var toggleBtn = document.createElement('button');
-    toggleBtn.className = 'code-toggle-btn';
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
-    toggleBtn.addEventListener('click', function () {
-      var open = left.classList.toggle('is-open');
-      toggleBtn.setAttribute('aria-expanded', String(open));
-      toggleBtn.textContent = open
-        ? '▴ 修正前のコード（Before）を非表示'
-        : '▾ 修正前のコード（Before）を表示';
-    });
-    wrap.insertBefore(toggleBtn, left);
-
-    
-    (function(l, r) {
-      requestAnimationFrame(function() {
-        var lp = l.firstElementChild;
-        var rp = r.firstElementChild;
-        if (!lp || !rp) return;
-        lp.style.minHeight = '';
-        rp.style.minHeight = '';
-        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
-        lp.style.minHeight = h + 'px';
-        rp.style.minHeight = h + 'px';
-      });
-    }(left, right));
-  });
-})();
-
- 
-(function () {
-  var content = document.querySelector('.post-content');
-  if (!content) return;
-  var RE_REM = /^解決策[（(]/;
-  var remIdx = 0;
-  content.querySelectorAll('p strong').forEach(function (el) {
-    if (!RE_REM.test(el.textContent)) return;
-    var label = el.closest('p');
-    if (label.dataset.remedy) return;
-    label.dataset.remedy = '1';
-    var elems = [];
-    var cursor = label.nextElementSibling;
-    while (cursor) {
-      if (/^H[1-4]$/.test(cursor.tagName)) break;
-      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s && RE_REM.test(s.textContent)) break;
-      elems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    var wrap = document.createElement('div');
-    wrap.className = 'code-remedy';
-    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
-    remIdx++;
-    label.parentNode.insertBefore(wrap, label);
-    wrap.appendChild(label);
-    elems.forEach(function (e) { wrap.appendChild(e); });
-    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
-    wrap.style.setProperty('padding-left',  '1rem',              'important');
-    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
-    wrap.style.setProperty('margin-bottom', '1rem',              'important');
-  });
-})();
-</script>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a><script>
-(function () {
-  var header = document.querySelector('.header');
-  if (!header) return;
-  var prev = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var cur = window.scrollY;
-    if (cur <= 0) {
-      header.classList.remove('header--hidden');
-    } else if (cur > prev && cur > 60) {
-      header.classList.add('header--hidden');
-    } else if (cur < prev) {
-      header.classList.remove('header--hidden');
-    }
-    prev = cur;
-  }, { passive: true });
-})();
-</script>
-
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'コピー';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'コピーされました!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'コピー';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
-</body>
-
-</html>
+</code></pre><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1firestore-クエリの複合インデックス不足または複数不等式フィルタ>原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ<a hidden class=anchor aria-hidden=true href=#原因1firestore-クエリの複合インデックス不足または複数不等式フィルタ>#</a></h3><p>Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に<a href=/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/>インデックス</a>（<a href=/glossary/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%99%E3%83%BC%E3%82%B9/>データベース</a>の検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（<code>&lt;</code>, <code>></code>, <code>&lt;=</code>, <code>>=</code>）を使用することはできません。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>where</span>(<span style=color:#e6db74>&#39;age&#39;</span>, <span style=color:#e6db74>&#39;&gt;&#39;</span>, <span style=color:#ae81ff>18</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>where</span>(<span style=color:#e6db74>&#39;score&#39;</span>, <span style=color:#e6db74>&#39;&lt;&#39;</span>, <span style=color:#ae81ff>100</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>get</span>();
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>where</span>(<span style=color:#e6db74>&#39;age&#39;</span>, <span style=color:#e6db74>&#39;&gt;&#39;</span>, <span style=color:#ae81ff>18</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>where</span>(<span style=color:#e6db74>&#39;status&#39;</span>, <span style=color:#e6db74>&#39;==&#39;</span>, <span style=color:#e6db74>&#39;active&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#a6e22e>get</span>();
+</span></span></code></pre></div><p>複合フィルタが必要な場合は、Firebase <a href=/glossary/%E3%82%B3%E3%83%B3%E3%82%BD%E3%83%BC%E3%83%AB/>コンソール</a>（管理画面）から自動提示される<a href=/glossary/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9/>インデックス</a>を作成します。</p><h3 id=原因2認証情報の形式が無効>原因2：認証情報の形式が無効<a hidden class=anchor aria-hidden=true href=#原因2認証情報の形式が無効>#</a></h3><p>Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスや<a href=/glossary/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89/>パスワード</a>、または<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a><a href=/glossary/%E3%83%88%E3%83%BC%E3%82%AF%E3%83%B3/>トークン</a>（<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a>に用いる<a href=/glossary/%E6%9A%97%E5%8F%B7%E5%8C%96/>暗号化</a>されたデータ）が渡された場合に 400 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が発生します。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>createUserWithEmailAndPassword</span>(<span style=color:#e6db74>&#39;user@&#39;</span>, <span style=color:#e6db74>&#39;password123&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>error</span> =&gt; <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#a6e22e>error</span>));
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>createUserWithEmailAndPassword</span>(<span style=color:#e6db74>&#39;user@example.com&#39;</span>, <span style=color:#e6db74>&#39;password123&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>error</span> =&gt; <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#a6e22e>error</span>));
+</span></span></code></pre></div><p><a href=/glossary/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89/>パスワード</a>は最低 6 文字である必要があります。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>createUserWithEmailAndPassword</span>(<span style=color:#e6db74>&#39;user@example.com&#39;</span>, <span style=color:#e6db74>&#39;123&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>error</span> =&gt; <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#a6e22e>error</span>));
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>firebase</span>.<span style=color:#a6e22e>auth</span>().<span style=color:#a6e22e>createUserWithEmailAndPassword</span>(<span style=color:#e6db74>&#39;user@example.com&#39;</span>, <span style=color:#e6db74>&#39;securePassword123&#39;</span>)
+</span></span><span style=display:flex><span>  .<span style=color:#66d9ef>catch</span>(<span style=color:#a6e22e>error</span> =&gt; <span style=color:#a6e22e>console</span>.<span style=color:#a6e22e>error</span>(<span style=color:#a6e22e>error</span>));
+</span></span></code></pre></div><h3 id=原因3sdk-メソッドに渡すデータ型が不正>原因3：SDK メソッドに渡すデータ型が不正<a hidden class=anchor aria-hidden=true href=#原因3sdk-メソッドに渡すデータ型が不正>#</a></h3><p>Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が発生します。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>userData</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;John&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>email</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>undefined</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>age</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>30</span>
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>&#39;user1&#39;</span>).<span style=color:#a6e22e>set</span>(<span style=color:#a6e22e>userData</span>);
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>userData</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;John&#39;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>email</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>null</span>,
+</span></span><span style=display:flex><span>  <span style=color:#a6e22e>age</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>30</span>
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>&#39;user1&#39;</span>).<span style=color:#a6e22e>set</span>(<span style=color:#a6e22e>userData</span>);
+</span></span></code></pre></div><p>循環参照（あるデータが自分自身を参照すること）を含むオブジェクトも不正です。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>obj</span> <span style=color:#f92672>=</span> { <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;test&#39;</span> };
+</span></span><span style=display:flex><span><span style=color:#a6e22e>obj</span>.<span style=color:#a6e22e>self</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>obj</span>;  <span style=color:#75715e>// 循環参照
+</span></span></span><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;items&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>&#39;item1&#39;</span>).<span style=color:#a6e22e>set</span>(<span style=color:#a6e22e>obj</span>);
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>obj</span> <span style=color:#f92672>=</span> { <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;test&#39;</span>, <span style=color:#a6e22e>parent</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;root&#39;</span> };
+</span></span><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;items&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>&#39;item1&#39;</span>).<span style=color:#a6e22e>set</span>(<span style=color:#a6e22e>obj</span>);
+</span></span></code></pre></div><h3 id=原因4rest-api-のリクエストヘッダーが不正>原因4：REST API のリクエストヘッダーが不正<a hidden class=anchor aria-hidden=true href=#原因4rest-api-のリクエストヘッダーが不正>#</a></h3><p>Firebase <a href=/glossary/rest/>REST</a> <a href=/glossary/api/>API</a>（外部からの<a href=/glossary/%E9%80%9A%E4%BF%A1/>通信</a>インターフェース）を直接呼び出す場合、Content-Type <a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>（データ形式を指定する設定）や<a href=/glossary/%E8%AA%8D%E8%A8%BC/>認証</a><a href=/glossary/%E3%83%98%E3%83%83%E3%83%80%E3%83%BC/>ヘッダー</a>が不正だと 400 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が発生します。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -H <span style=color:#e6db74>&#34;Content-Type: application/x-www-form-urlencoded&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -d <span style=color:#e6db74>&#39;{&#34;email&#34;:&#34;user@example.com&#34;,&#34;password&#34;:&#34;password123&#34;}&#39;</span>
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -H <span style=color:#e6db74>&#34;Content-Type: application/json&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  -d <span style=color:#e6db74>&#39;{&#34;email&#34;:&#34;user@example.com&#34;,&#34;password&#34;:&#34;password123&#34;,&#34;returnSecureToken&#34;:true}&#39;</span>
+</span></span></code></pre></div><h3 id=原因5firestore-ドキュメント-id-の不正な形式>原因5：Firestore ドキュメント ID の不正な形式<a hidden class=anchor aria-hidden=true href=#原因5firestore-ドキュメント-id-の不正な形式>#</a></h3><p>ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 <a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が発生します。</p><p><strong>Before（<a href=/glossary/%E3%82%A8%E3%83%A9%E3%83%BC/>エラー</a>が起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>&#39;user/123&#39;</span>).<span style=color:#a6e22e>set</span>({ <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;John&#39;</span> });
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-javascript data-lang=javascript><span style=display:flex><span><span style=color:#a6e22e>db</span>.<span style=color:#a6e22e>collection</span>(<span style=color:#e6db74>&#39;users&#39;</span>).<span style=color:#a6e22e>doc</span>(<span style=color:#e6db74>&#39;user_123&#39;</span>).<span style=color:#a6e22e>set</span>({ <span style=color:#a6e22e>name</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;John&#39;</span> });
+</span></span></code></pre></div></div><div class=feedback-panel id=feedback-panel><p class=feedback-panel__q>この記事でエラーは解決しましたか？</p><div class=feedback-panel__btns><button class="feedback-btn feedback-btn--yes" data-status=yes>🎉 解決した</button>
+<button class="feedback-btn feedback-btn--no" data-status=no>✉️ 解決しなかった</button></div><p class=feedback-panel__thanks></p></div><section class=related-posts><p class=related-posts__title>他の Firebase エラーの解決策</p><ul class=related-posts__list><li class=related-posts__item><a href=https://errorlog.jp/posts/firebase_408/ class=related-posts__link><span class=error-badge>408</span>Firebase の 408 エラー：原因と解決策</a><p class=related-posts__desc>クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった。ネットワークが不安定でリクエストの送信が途中で切断されたなど、Firebase 408 エラーの原因と解決策を解説。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/firebase_504/ class=related-posts__link><span class=error-badge>504</span>Firebase の 504 エラー：原因と解決策</a><p class=related-posts__desc>Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/firebase_409/ class=related-posts__link><span class=error-badge>409</span>Firebase の 409 エラー：原因と解決策</a><p class=related-posts__desc>Firebase の 409 Conflict エラーは、Firestore のトランザクション処理が他の同時実行操作との競合によって失敗したことを示します。</p></li></ul></section><section class=related-posts><p class=related-posts__title>400 エラー — 他ツールの解決策</p><ul class=related-posts__list><li class=related-posts__item><a href=https://errorlog.jp/posts/terraform_400/ class=related-posts__link><span class="tool-badge tool-badge-terraform">Terraform</span>Terraform の 400 エラー：原因と解決策</a><p class=related-posts__desc>Terraformがクラウドプロバイダーに送るリクエストの形式に誤りがある。Terraform 400 エラーの原因と解決策を解説します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/vercel_400/ class=related-posts__link><span class="tool-badge tool-badge-vercel">Vercel</span>Vercel の 400 エラー：原因と解決策</a><p class=related-posts__desc>Vercel APIへのリクエストの形式または内容に誤りがある。Vercel 400 エラーの原因と解決策を解説します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/supabase_400/ class=related-posts__link><span class="tool-badge tool-badge-supabase">Supabase</span>Supabase の 400 エラー：原因と解決策</a><p class=related-posts__desc>Supabase APIへのリクエストの形式または内容に誤りがある。Supabase 400 エラーの原因と解決策を解説します。</p></li></ul></section><div class=related-errors><h2 class=related-errors__title>関連するエラーの依存関係</h2><ul class=related-errors__list><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_401/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>401</span>
+Firebase の 401 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_403/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>403</span>
+Firebase の 403 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_404/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>404</span>
+Firebase の 404 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/tool_firebase/><span class="tool-badge tool-badge-tool-guide">tool-guide</span>
+Firebase とは？特徴・機能・料金・比較まとめ</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_429/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>429</span>
+Firebase の 429 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_500/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>500</span>
+Firebase の 500 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_503/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>503</span>
+Firebase の 503 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_408/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>408</span>
+Firebase の 408 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_504/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>504</span>
+Firebase の 504 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/firebase_409/><span class="tool-badge tool-badge-firebase">Firebase</span>
+<span class=error-badge>409</span>
+Firebase の 409 エラー：原因と解決策</a></li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/firebase/>Firebase</a></li></ul></footer></article><script>(function(){var t,e=document.getElementById("feedback-panel");if(!e)return;t='"Firebase の 400 エラー：原因と解決策"',e.addEventListener("click",function(n){var s,o,a,i=n.target.closest("[data-status]");if(!i||e.dataset.voted)return;e.dataset.voted="1",typeof gtag=="function"&&gtag("event","error_solved",{status:i.dataset.status,article_title:t}),o=e.querySelector(".feedback-panel__btns"),a=e.querySelector(".feedback-panel__q"),s=e.querySelector(".feedback-panel__thanks"),o.style.transition="opacity 0.3s",o.style.opacity="0",setTimeout(function(){o.style.display="none",a.style.display="none",s.textContent="Thank you for your feedback!",s.style.display="block",s.style.opacity="0",s.style.transition="opacity 0.4s",requestAnimationFrame(function(){s.style.opacity="1"})},300)})})(),function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/before|エラーが起きる|修正前/i,n=/after|修正後/i,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,i,a,r,l,d,u,h,m,f,c=s.closest("p");if(c.dataset.compared)return;for(o=c.nextElementSibling,h=[],d=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){d=o;break}h.push(o),o=o.nextElementSibling}if(!d)return;for(u=[],o=d.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;u.push(o),o=o.nextElementSibling}if(!u.length)return;function p(e,t){var s,i=t==="#ff4d4d"?"rgba(255,77,77,.12)":"rgba(46,204,113,.12)",o="linear-gradient(to right,"+t+" 0,"+t+" 4px,"+i+" 4px)";function n(e,t,n){e.style.setProperty(t,n,"important")}e.classList.contains("highlight")?(s=e.querySelector("pre")||e.querySelector("div"),s&&(n(s,"background-image",o),n(s,"padding-left","1rem")),e.style.setProperty("border-radius","0 4px 4px 0","important"),e.style.setProperty("overflow","hidden","important")):(n(e,"background-color","#272822"),n(e,"background-image",o),n(e,"padding-left","1rem"),n(e,"box-sizing","border-box"),e.style.setProperty("border-radius","0 4px 4px 0","important"),e.style.setProperty("margin","0","important"))}r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),i=document.createElement("div"),i.className="code-compare__side",l=document.createElement("div"),l.className="code-compare__side",c.parentNode.insertBefore(r,c),c.dataset.compared="1",i.appendChild(c),h.forEach(function(e){i.appendChild(e)}),l.appendChild(d),u.forEach(function(e){l.appendChild(e)}),h.forEach(function(e){(e.classList.contains("highlight")||e.tagName==="PRE")&&p(e,"#ff4d4d")}),u.forEach(function(e){(e.classList.contains("highlight")||e.tagName==="PRE")&&p(e,"#2ecc71")}),r.appendChild(i),r.appendChild(l),i.classList.add("code-compare__side--before"),a=document.createElement("button"),a.className="code-toggle-btn",a.setAttribute("aria-expanded","false"),a.textContent="▾ 修正前のコード（Before）を表示",a.addEventListener("click",function(){var e=i.classList.toggle("is-open");a.setAttribute("aria-expanded",String(e)),a.textContent=e?"▴ 修正前のコード（Before）を非表示":"▾ 修正前のコード（Before）を表示"}),r.insertBefore(a,i),function(e,t){requestAnimationFrame(function(){var o,n=e.firstElementChild,s=t.firstElementChild;if(!n||!s)return;n.style.minHeight="",s.style.minHeight="",o=Math.max(n.offsetHeight,s.offsetHeight),n.style.minHeight=o+"px",s.style.minHeight=o+"px"})}(i,l)})}(),function(){var e,t,n=document.querySelector(".post-content");if(!n)return;t=/^解決策[（(]/,e=0,n.querySelectorAll("p strong").forEach(function(n){if(!t.test(n.textContent))return;var s,o,a,r,i=n.closest("p");if(i.dataset.remedy)return;for(i.dataset.remedy="1",a=[],o=i.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(r=o.querySelector?o.querySelector("strong"):null,r&&t.test(r.textContent))break;a.push(o),o=o.nextElementSibling}s=document.createElement("div"),s.className="code-remedy",s.id=e===0?"first-remedy":"remedy-"+e,e++,i.parentNode.insertBefore(s,i),s.appendChild(i),a.forEach(function(e){s.appendChild(e)}),s.style.setProperty("border-left","4px solid #2ecc71","important"),s.style.setProperty("padding-left","1rem","important"),s.style.setProperty("border-radius","0 4px 4px 0","important"),s.style.setProperty("margin-bottom","1rem","important")})}()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

@@ -5,6 +5,12 @@ description: "Nginx が 500 Internal Server Error を返すのは、Nginx また
 tags: ["Nginx"]
 errorCode: "500"
 lastmod: 2026-05-31
+service: "Nginx"
+error_type: "500"
+components: []
+related_services: ["PHP-FPM", "uWSGI", "Node.js", "Gunicorn", "Python", "Flask"]
+top_queries:
+- "500 internal server error nginx"
 ---
 
 ## エラーの概要

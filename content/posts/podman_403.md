@@ -4,6 +4,10 @@ date: 2026-05-29
 description: "認証は成功したが、そのリソースへのアクセス権限がない。プライベートリポジトリへの読み取り・書き込み権限がないなど、Podman 403 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "403"
+service: "Podman"
+error_type: "403"
+components: []
+related_services: ["Docker", "Docker Hub", "Quay.io", "SELinux"]
 ---
 Podman で 403 [エラー](/glossary/エラー/)が発生した場合、[認証](/glossary/認証/)には成功していますがリソースへの[アクセス権限](/glossary/アクセス権限/)がない状態です。プライベートリポジトリへのアクセスやシステムのセキュリティポリシーが原因となることがほとんどです。
 

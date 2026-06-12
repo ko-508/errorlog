@@ -5,6 +5,10 @@ description: "GitHub APIで 401 Unauthorizedエラーが発生するのは、リ
 tags: ["GitHub API"]
 errorCode: "401"
 lastmod: 2026-05-31
+service: "GitHub API"
+error_type: "401"
+components: ["Personal Access Token", "Authorization header"]
+related_services: ["curl", "Python requests"]
 ---
 
 ## エラーの概要

@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "Docker Composeの設定またはAPIリクエストに誤りがある。Docker Compose 400 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "400"
+service: "Docker Compose"
+error_type: "400"
+components: ["Compose"]
+related_services: ["Docker", "yamllint", "YAML"]
 ---
 [Docker](/glossary/docker/) Composeで400[エラー](/glossary/エラー/)が発生する場合、compose.ymlの設定に問題があるか、[コマンド](/glossary/コマンド/)のオプション指定が誤っている可能性があります。[設定ファイル](/glossary/設定ファイル/)の検証と[コマンド](/glossary/コマンド/)の確認により、ほぼすべてのケースで解決します。
 

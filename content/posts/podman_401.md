@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "Podmanでコンテナイメージをpullやpushしようとすると、401認証エラーが発生することがあります。このエラーはレジストリへの認証に失敗したときに出現し、適切な認証情報がないか有効期限切れの状態を示しています。"
 tags: ["Podman"]
 errorCode: "401"
+service: "Podman"
+error_type: "401"
+components: []
+related_services: ["Docker Hub", "GCR"]
 ---
 
 Podmanでコンテナイメージをpullやpushしようとすると、401[認証](/glossary/認証/)[エラー](/glossary/エラー/)が発生することがあります。この[エラー](/glossary/エラー/)は[レジストリ](/glossary/レジストリ/)への[認証](/glossary/認証/)に失敗したときに出現し、適切な認証情報がないか有効期限切れの状態を示しています。

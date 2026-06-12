@@ -1,766 +1,139 @@
-<!DOCTYPE html>
-<html lang="ja" dir="auto" data-theme="auto">
-
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
-<title>AWS の 429 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title>
-<meta name="keywords" content="AWS, HTTP429, 429エラー">
-<meta name="description" content="429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。">
-<meta name="author" content="ErrorLog">
-<link rel="canonical" href="http://localhost:1313/posts/aws_429/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css" integrity="sha256-Qnf&#43;CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF&#43;x1/k=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
-<meta name="theme-color" content="#1a1a2e">
-<meta name="msapplication-TileColor" content="#1a1a2e">
-<link rel="alternate" hreflang="ja" href="http://localhost:1313/posts/aws_429/">
-<noscript>
-    <style>
-        #theme-toggle,
-        .top-link {
-            display: none;
-        }
-
-    </style>
-    <style>
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --theme: rgb(29, 30, 32);
-                --entry: rgb(46, 46, 51);
-                --primary: rgb(218, 218, 219);
-                --secondary: rgb(155, 156, 157);
-                --tertiary: rgb(65, 66, 68);
-                --content: rgb(196, 196, 197);
-                --code-block-bg: rgb(46, 46, 51);
-                --code-bg: rgb(55, 56, 62);
-                --border: rgb(51, 51, 51);
-                color-scheme: dark;
-            }
-
-            .list {
-                background: var(--theme);
-            }
-
-            .toc {
-                background: var(--entry);
-            }
-        }
-
-    </style>
-</noscript>
-<script>
-    if (localStorage.getItem("pref-theme") === "dark") {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else if (localStorage.getItem("pref-theme") === "light") {
-       document.querySelector("html").dataset.theme = 'light';
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.querySelector("html").dataset.theme = 'dark';
-    } else {
-        document.querySelector("html").dataset.theme = 'light';
-    }
-
-</script><meta name="google-site-verification" content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ" />
-<meta name="google-site-verification" content="109757267897574962624" />
-<link rel="preconnect" href="https://www.googletagmanager.com">
-<link rel="preconnect" href="https://www.google-analytics.com">
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-CXKKVNQKRX');
-</script>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187"
-     crossorigin="anonymous"></script>
-
-</head>
-<body id="top">
-    <header class="header">
-    <nav class="header-nav">
-        <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 34" height="32">
-  <text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700">
-    <tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan>
-  </text>
-</svg>
-</a>
-            <div class="logo-switches">
-                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
-                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                </button>
-            </div>
-        </div>
-        <ul id="menu" class="menu">
-            <li>
-                <a href="http://localhost:1313/search/" title="検索">
-                    <span>検索</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/tags/" title="タグ">
-                    <span>タグ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/archives/" title="アーカイブ">
-                    <span>アーカイブ</span>
-                </a>
-            </li>
-            <li>
-                <a href="http://localhost:1313/glossary/" title="用語集">
-                    <span>用語集</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main class="main">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "TechArticle",
-  "headline": "\"AWS の 429 エラー：原因と解決策\"",
-  "description": "\"429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。\"",
-  "inLanguage": "ja",
-  "url": "\"http://localhost:1313/posts/aws_429/\"",
-  "datePublished": "\"2026-01-01T00:00:00Z\"",
-  "dateModified": "\"2026-05-31T00:00:00Z\"",
-  "articleSection": "Error Troubleshooting",
-  "proficiencyLevel": "Intermediate",
-  "keywords": ["\"AWS\"", "\"HTTP 429\"", "\"429\""],
-  "author": {
-    "@type": "Organization",
-    "name": "\"ErrorLog - エラーコード解決ガイド\"",
-    "url": "\"http://localhost:1313/\""
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "\"ErrorLog - エラーコード解決ガイド\"",
-    "url": "\"http://localhost:1313/\""
-  }
-}
-</script>
-
-<article class="post-single">
-  <header class="post-header">
-    
-    <div class="post-badges">
-      <span class="tool-badge tool-badge-aws">AWS</span>
-      <span class="error-badge">429</span>
-    </div>
-    <h1 class="post-title entry-hint-parent">
-      AWS の 429 エラー：原因と解決策
-    </h1>
-    <div class="post-meta">
-
-<span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span>
-
-</div>
-  </header>
-  <div class="summary-panel">
-    <div class="summary-row">
-      <span class="summary-label summary-label--symptom">現象</span>
-      <span class="summary-text">429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label summary-label--cause">原因</span>
-      <span class="summary-text">API 呼び出し間隔の不足</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label summary-label--fix">対策</span>
-      <span class="summary-text"><a href="#first-code-compare" class="summary-fix-link">↓ Before / After コードで確認</a></span>
-    </div>
-  </div>
-  <div class="raw-log-panel">
-    <div class="raw-log-label">実際のエラーログ</div>
-    <pre class="raw-log-code"><code>{
+<!doctype html><html lang=ja dir=auto data-theme=auto><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>AWS の 429 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド</title><meta name=keywords content="AWS,HTTP429,429エラー"><meta name=description content="429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。"><meta name=author content="ErrorLog"><link rel=canonical href=https://errorlog.jp/posts/aws_429/><link crossorigin=anonymous href=/assets/css/stylesheet.4277fe09488c9759862f98deaa8ad494723ad143356d9a787703fd205fb1d7f9.css integrity="sha256-Qnf+CUiMl1mGL5jeqorUlHI60UM1bZp4dwP9IF+x1/k=" rel="preload stylesheet" as=style><link rel=icon href=https://errorlog.jp/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://errorlog.jp/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://errorlog.jp/favicon-32x32.png><link rel=apple-touch-icon href=https://errorlog.jp/apple-touch-icon.png><link rel=mask-icon href=https://errorlog.jp/safari-pinned-tab.svg><meta name=theme-color content="#1a1a2e"><meta name=msapplication-TileColor content="#1a1a2e"><link rel=alternate hreflang=ja href=https://errorlog.jp/posts/aws_429/><noscript><style>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--code-block-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51);color-scheme:dark}.list{background:var(--theme)}.toc{background:var(--entry)}}</style></noscript><script>localStorage.getItem("pref-theme")==="dark"?document.querySelector("html").dataset.theme="dark":localStorage.getItem("pref-theme")==="light"?document.querySelector("html").dataset.theme="light":window.matchMedia("(prefers-color-scheme: dark)").matches?document.querySelector("html").dataset.theme="dark":document.querySelector("html").dataset.theme="light"</script><meta name=google-site-verification content="qaVZb1dP2kL49QxS3-QhqMaGQw_bANM3WLrUnQ6NxQA"><meta name=google-site-verification content="bpYIAh2tWidCB21EU7NxwsNzxN0Bf-cGwJup5jTJKxQ"><meta name=google-site-verification content="109757267897574962624"><link rel=preconnect href=https://www.googletagmanager.com><link rel=preconnect href=https://www.google-analytics.com><script async src="https://www.googletagmanager.com/gtag/js?id=G-CXKKVNQKRX"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-CXKKVNQKRX")</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2870766569850187" crossorigin=anonymous></script><meta property="og:url" content="https://errorlog.jp/posts/aws_429/"><meta property="og:site_name" content="ErrorLog - エラーコード解決ガイド"><meta property="og:title" content="AWS の 429 エラー：原因と解決策"><meta property="og:description" content="429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。"><meta property="og:locale" content="ja"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-01-01T00:00:00+00:00"><meta property="article:modified_time" content="2026-05-31T00:00:00+00:00"><meta property="article:tag" content="AWS"><meta property="og:image" content="https://errorlog.jp/og-image.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://errorlog.jp/og-image.png"><meta name=twitter:title content="AWS の 429 エラー：原因と解決策"><meta name=twitter:description content="429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://errorlog.jp/posts/"},{"@type":"ListItem","position":2,"name":"AWS の 429 エラー：原因と解決策","item":"https://errorlog.jp/posts/aws_429/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"AWS の 429 エラー：原因と解決策","name":"AWS の 429 エラー：原因と解決策","description":"429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。","keywords":["AWS"],"articleBody":"エラーの概要 429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。AWS の各サービスには呼び出し回数の制限（レート制限）が設定されており、これを超えるとクライアント側の問題として 429 エラーで応答が拒否されます。このエラーは一時的なものが多いため、適切な対応により解決可能です。\n実際のエラーメッセージ例 { \"Error\": { \"Code\": \"ThrottlingException\", \"Message\": \"Rate exceeded\" } } An error occurred (Throttling) when calling the DescribeInstances operation: Request rate exceeded. Please retry your request. botocore.exceptions.ClientError: An error occurred (ThrottlingException) when calling the GetObject operation: Rate exceeded よくある原因と解決手順 原因1：API 呼び出し間隔の不足 なぜ発生するか：ループ内で連続的に API を呼び出す場合、AWS が許容する 1 秒あたりのリクエスト数を瞬間的に超えるためです。\nBefore（エラーが起きるコード）：\nimport boto3 s3_client = boto3.client('s3') # 100個のオブジェクトを一括処理 for key in object_keys: response = s3_client.get_object(Bucket='', Key=key) process_data(response) After（修正後）：\nimport boto3 import time s3_client = boto3.client('s3') # 呼び出しの間隔を0.1秒設定 for key in object_keys: response = s3_client.get_object(Bucket='', Key=key) process_data(response) time.sleep(0.1) # API呼び出し間隔を設ける 原因2：複数プロセス・スレッドからの同時呼び出し なぜ発生するか：並列処理で複数スレッドやプロセスが同時に同じ AWS API を呼び出すと、合計リクエスト数が急増して制限を超えるためです。\nBefore（エラーが起きるコード）：\nfrom concurrent.futures import ThreadPoolExecutor import boto3 dynamodb = boto3.client('dynamodb') def scan_items(table_name): return dynamodb.scan(TableName=table_name) # 10個のスレッドで同時にスキャン with ThreadPoolExecutor(max_workers=10) as executor: futures = [executor.submit(scan_items, table) for table in tables] results = [f.result() for f in futures] After（修正後）：\nfrom concurrent.futures import ThreadPoolExecutor import boto3 import time from threading import Semaphore dynamodb = boto3.client('dynamodb') semaphore = Semaphore(2) # 同時実行数を2に制限 def scan_items(table_name): with semaphore: # 一度に2スレッドのみ実行 time.sleep(0.2) # 呼び出し前に待機 return dynamodb.scan(TableName=table_name) with ThreadPoolExecutor(max_workers=10) as executor: futures = [executor.submit(scan_items, table) for table in tables] results = [f.result() for f in futures] 原因3：サービスのデフォルトレート制限を超過 なぜ発生するか：CloudWatch、DynamoDB、Lambda などのサービスには初期状態でレート制限が設定されており、アプリケーションの負荷増加で制限を超える場合があります。\nBefore（エラーが起きる設定）：\n# CloudWatchでは初期状態で1秒あたり最大100 Put操作 aws cloudwatch put-metric-data \\ --namespace \"CustomApp\" \\ --metric-name RequestCount \\ --value 1 # これを大量に繰り返すと429が発生 After（修正後：リクエスト制限の引き上げ）：\n# AWS Management Consoleで Service Quotas を開く # または AWS CLI で確認・引き上げ aws service-quotas list-service-quotas \\ --service-code cloudwatch \\ --query 'ServiceQuotas[?MetricName==`PutMetricDataRequestCount`]' # サービスクォータの引き上げをリクエスト aws service-quotas request-service-quota-increase \\ --service-code cloudwatch \\ --quota-code L-5E141212 \\ --desired-value 1000 原因4：エクスポーネンシャルバックオフの未実装 なぜ発生するか：エラーが発生した際に即座にリトライすると、API が過負荷状態で再度拒否される可能性が高まるためです。\nBefore（エラーが起きるコード）：\nimport boto3 ec2 = boto3.client('ec2') # エラーが発生したら即座にリトライ for attempt in range(5): try: response = ec2.describe_instances() break except Exception as e: if attempt == 4: raise time.sleep(1) # 固定間隔のリトライ After（修正後）：\nimport boto3 import time ec2 = boto3.client('ec2') # エクスポーネンシャルバックオフでリトライ for attempt in range(5): try: response = ec2.describe_instances() break except Exception as e: if attempt == 4: raise wait_time = 2 ** attempt # 1秒→2秒→4秒→8秒→16秒 time.sleep(wait_time) ツール固有の注意点 API Gateway：ステージレベルでのスロットル設定が原因となりやすいです。バーストリクエストと定常リクエスト レート の両方の設定を確認し、必要に応じて AWS Management Console または CloudFormation で引き上げてください。\nDynamoDB：オンデマンド課金モデルを使用している場合でも、初期スパイク期間中は 429 が返されることがあります。DynamoDB Accelerator（DAX）のキャッシュを導入することで、読み取りリクエストの頻度を削減できます。\nLambda：同時実行数制限（Concurrency Limit）に達すると、関数呼び出しが拒否されます。CloudWatch メトリクス「Throttles」を監視し、必要に応じて Reserved Concurrency を設定してください。\nS3：従来のパーティション設計では、オブジェクトキーのプレフィックスが同一の場合レート制限が厳しくなります。キーの先頭にランダム文字列を追加してパーティションを分散させると、高スループットを実現できます。\nそれでも解決しない場合 CloudWatch ログの確認：AWS CloudTrail を有効化し、API 呼び出しのタイムスタンプと失敗パターンを分析してください。Service Quotas ダッシュボードで現在のクォータ使用状況をリアルタイム監視できます。\nAWS サポートへの相談：本番環境で継続的に 429 エラーが発生する場合、AWS Support（Business/Enterprise プラン）に連絡し、サービスクォータの永続的な引き上げをリクエストしてください。\n公式リソース：AWS API リファレンス - エラーレスポンス、Service Quotas ユーザーガイドを参照し、対象サービスの具体的な制限値を確認してください。\n免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。\n","wordCount":"358","inLanguage":"ja","image":"https://errorlog.jp/og-image.png","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-31T00:00:00Z\"","author":{"@type":"Person","name":"ErrorLog"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://errorlog.jp/posts/aws_429/"},"publisher":{"@type":"Organization","name":"ErrorLog - エラーコード解決ガイド","logo":{"@type":"ImageObject","url":"https://errorlog.jp/favicon.ico"}}}</script></head><body id=top><header class=header><nav class=header-nav><div class=logo><a href=https://errorlog.jp/ accesskey=h title="ErrorLog - エラーコード解決ガイド (Alt + H)"><svg viewBox="0 0 132 34" height="32"><text x="0" y="26" font-family="'Courier New',Courier,monospace" font-size="27" font-weight="700"><tspan fill="#e05252">Error</tspan><tspan fill="currentColor">Log</tspan></text></svg></a><div class=logo-switches><button id=theme-toggle class=theme-toggle accesskey=t title="(Alt + T)" aria-label="Toggle theme">
+<svg class="moon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<svg class="sun" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></div></div><ul id=menu class=menu><li><a href=https://errorlog.jp/search/ title=検索><span>検索</span></a></li><li><a href=https://errorlog.jp/tags/ title=タグ><span>タグ</span></a></li><li><a href=https://errorlog.jp/archives/ title=アーカイブ><span>アーカイブ</span></a></li><li><a href=https://errorlog.jp/glossary/ title=用語集><span>用語集</span></a></li></ul></nav></header><main class=main><script type=application/ld+json>{"@context":"https://schema.org","@type":"TechArticle","headline":"\"AWS の 429 エラー：原因と解決策\"","description":"\"429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。\"","inLanguage":"ja","url":"\"https://errorlog.jp/posts/aws_429/\"","datePublished":"\"2026-01-01T00:00:00Z\"","dateModified":"\"2026-05-31T00:00:00Z\"","articleSection":"Error Troubleshooting","proficiencyLevel":"Intermediate","keywords":["\"AWS\"","\"HTTP 429\"","\"429\""],"author":{"@type":"Organization","name":"\"ErrorLog - エラーコード解決ガイド\"","url":"\"https://errorlog.jp/\""},"publisher":{"@type":"Organization","name":"\"ErrorLog - エラーコード解決ガイド\"","url":"\"https://errorlog.jp/\""}}</script><article class=post-single><header class=post-header><div class=post-badges><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>429</span></div><h1 class="post-title entry-hint-parent">AWS の 429 エラー：原因と解決策</h1><div class=post-meta><span title='2026-01-01 00:00:00 +0000 UTC'>2026年1月1日</span>&nbsp;·&nbsp;<span>ErrorLog</span></div></header><div class=summary-panel><div class=summary-row><span class="summary-label summary-label--symptom">現象</span>
+<span class=summary-text>429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。</span></div><div class=summary-row><span class="summary-label summary-label--cause">原因</span>
+<span class=summary-text>API 呼び出し間隔の不足</span></div><div class=summary-row><span class="summary-label summary-label--fix">対策</span>
+<span class=summary-text><a href=#first-code-compare class=summary-fix-link>↓ Before / After コードで確認</a></span></div></div><div class=raw-log-panel><div class=raw-log-label>実際のエラーログ</div><pre class=raw-log-code><code>{
   &#34;Error&#34;: {
     &#34;Code&#34;: &#34;ThrottlingException&#34;,
     &#34;Message&#34;: &#34;Rate exceeded&#34;
   }
 }
-</code></pre>
-  </div> <details class="toc"  open>
-    <summary accesskey="c" title="(Alt + C)">
-        <span class="title">目次</span>
-    </summary>
-
-    <div class="inner"><ul>
-            <li>
-                <a href="#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81" aria-label="エラーの概要">エラーの概要</a></li>
-            <li>
-                <a href="#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b" aria-label="実際のエラーメッセージ例">実際のエラーメッセージ例</a></li>
-            <li>
-                <a href="#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86" aria-label="よくある原因と解決手順">よくある原因と解決手順</a><ul>
-                    
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a01api-%e5%91%bc%e3%81%b3%e5%87%ba%e3%81%97%e9%96%93%e9%9a%94%e3%81%ae%e4%b8%8d%e8%b6%b3" aria-label="原因1：API 呼び出し間隔の不足">原因1：API 呼び出し間隔の不足</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a02%e8%a4%87%e6%95%b0%e3%83%97%e3%83%ad%e3%82%bb%e3%82%b9%e3%82%b9%e3%83%ac%e3%83%83%e3%83%89%e3%81%8b%e3%82%89%e3%81%ae%e5%90%8c%e6%99%82%e5%91%bc%e3%81%b3%e5%87%ba%e3%81%97" aria-label="原因2：複数プロセス・スレッドからの同時呼び出し">原因2：複数プロセス・スレッドからの同時呼び出し</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a03%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e3%81%ae%e3%83%87%e3%83%95%e3%82%a9%e3%83%ab%e3%83%88%e3%83%ac%e3%83%bc%e3%83%88%e5%88%b6%e9%99%90%e3%82%92%e8%b6%85%e9%81%8e" aria-label="原因3：サービスのデフォルトレート制限を超過">原因3：サービスのデフォルトレート制限を超過</a></li>
-            <li>
-                <a href="#%e5%8e%9f%e5%9b%a04%e3%82%a8%e3%82%af%e3%82%b9%e3%83%9d%e3%83%bc%e3%83%8d%e3%83%b3%e3%82%b7%e3%83%a3%e3%83%ab%e3%83%90%e3%83%83%e3%82%af%e3%82%aa%e3%83%95%e3%81%ae%e6%9c%aa%e5%ae%9f%e8%a3%85" aria-label="原因4：エクスポーネンシャルバックオフの未実装">原因4：エクスポーネンシャルバックオフの未実装</a></li></ul>
-            </li>
-            <li>
-                <a href="#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9" aria-label="ツール固有の注意点">ツール固有の注意点</a></li>
-            <li>
-                <a href="#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88" aria-label="それでも解決しない場合">それでも解決しない場合</a>
-            </li>
-        </ul>
-    </div>
-</details>
-
-  <div class="post-content md-content"><h2 id="エラーの概要">エラーの概要<a hidden class="anchor" aria-hidden="true" href="#エラーの概要">#</a></h2>
-<p>429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。AWS の各サービスには呼び出し回数の制限（レート制限）が設定されており、これを超えるとクライアント側の問題として 429 エラーで応答が拒否されます。このエラーは一時的なものが多いため、適切な対応により解決可能です。</p>
-<h2 id="実際のエラーメッセージ例">実際のエラーメッセージ例<a hidden class="anchor" aria-hidden="true" href="#実際のエラーメッセージ例">#</a></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Error&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Code&#34;</span>: <span style="color:#e6db74">&#34;ThrottlingException&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Message&#34;</span>: <span style="color:#e6db74">&#34;Rate exceeded&#34;</span>
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>An error occurred <span style="color:#f92672">(</span>Throttling<span style="color:#f92672">)</span> when calling the DescribeInstances operation: 
-</span></span><span style="display:flex;"><span>Request rate exceeded. Please retry your request.
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>botocore<span style="color:#f92672">.</span>exceptions<span style="color:#f92672">.</span>ClientError: An error occurred (ThrottlingException) 
-</span></span><span style="display:flex;"><span>when calling the GetObject operation: Rate exceeded
-</span></span></code></pre></div><h2 id="よくある原因と解決手順">よくある原因と解決手順<a hidden class="anchor" aria-hidden="true" href="#よくある原因と解決手順">#</a></h2>
-<h3 id="原因1api-呼び出し間隔の不足">原因1：API 呼び出し間隔の不足<a hidden class="anchor" aria-hidden="true" href="#原因1api-呼び出し間隔の不足">#</a></h3>
-<p><strong>なぜ発生するか</strong>：ループ内で連続的に API を呼び出す場合、AWS が許容する 1 秒あたりのリクエスト数を瞬間的に超えるためです。</p>
-<p><strong>Before（エラーが起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>s3_client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;s3&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 100個のオブジェクトを一括処理</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> object_keys:
-</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> s3_client<span style="color:#f92672">.</span>get_object(Bucket<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;your-bucket&gt;&#39;</span>, Key<span style="color:#f92672">=</span>key)
-</span></span><span style="display:flex;"><span>    process_data(response)
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>s3_client <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;s3&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 呼び出しの間隔を0.1秒設定</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> key <span style="color:#f92672">in</span> object_keys:
-</span></span><span style="display:flex;"><span>    response <span style="color:#f92672">=</span> s3_client<span style="color:#f92672">.</span>get_object(Bucket<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&lt;your-bucket&gt;&#39;</span>, Key<span style="color:#f92672">=</span>key)
-</span></span><span style="display:flex;"><span>    process_data(response)
-</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.1</span>)  <span style="color:#75715e"># API呼び出し間隔を設ける</span>
-</span></span></code></pre></div><h3 id="原因2複数プロセススレッドからの同時呼び出し">原因2：複数プロセス・スレッドからの同時呼び出し<a hidden class="anchor" aria-hidden="true" href="#原因2複数プロセススレッドからの同時呼び出し">#</a></h3>
-<p><strong>なぜ発生するか</strong>：並列処理で複数スレッドやプロセスが同時に同じ AWS API を呼び出すと、合計リクエスト数が急増して制限を超えるためです。</p>
-<p><strong>Before（エラーが起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> concurrent.futures <span style="color:#f92672">import</span> ThreadPoolExecutor
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>dynamodb <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;dynamodb&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">scan_items</span>(table_name):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> dynamodb<span style="color:#f92672">.</span>scan(TableName<span style="color:#f92672">=</span>table_name)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 10個のスレッドで同時にスキャン</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> ThreadPoolExecutor(max_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>) <span style="color:#66d9ef">as</span> executor:
-</span></span><span style="display:flex;"><span>    futures <span style="color:#f92672">=</span> [executor<span style="color:#f92672">.</span>submit(scan_items, table) <span style="color:#66d9ef">for</span> table <span style="color:#f92672">in</span> tables]
-</span></span><span style="display:flex;"><span>    results <span style="color:#f92672">=</span> [f<span style="color:#f92672">.</span>result() <span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> futures]
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> concurrent.futures <span style="color:#f92672">import</span> ThreadPoolExecutor
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> threading <span style="color:#f92672">import</span> Semaphore
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>dynamodb <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;dynamodb&#39;</span>)
-</span></span><span style="display:flex;"><span>semaphore <span style="color:#f92672">=</span> Semaphore(<span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># 同時実行数を2に制限</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">scan_items</span>(table_name):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> semaphore:  <span style="color:#75715e"># 一度に2スレッドのみ実行</span>
-</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.2</span>)  <span style="color:#75715e"># 呼び出し前に待機</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dynamodb<span style="color:#f92672">.</span>scan(TableName<span style="color:#f92672">=</span>table_name)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> ThreadPoolExecutor(max_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>) <span style="color:#66d9ef">as</span> executor:
-</span></span><span style="display:flex;"><span>    futures <span style="color:#f92672">=</span> [executor<span style="color:#f92672">.</span>submit(scan_items, table) <span style="color:#66d9ef">for</span> table <span style="color:#f92672">in</span> tables]
-</span></span><span style="display:flex;"><span>    results <span style="color:#f92672">=</span> [f<span style="color:#f92672">.</span>result() <span style="color:#66d9ef">for</span> f <span style="color:#f92672">in</span> futures]
-</span></span></code></pre></div><h3 id="原因3サービスのデフォルトレート制限を超過">原因3：サービスのデフォルトレート制限を超過<a hidden class="anchor" aria-hidden="true" href="#原因3サービスのデフォルトレート制限を超過">#</a></h3>
-<p><strong>なぜ発生するか</strong>：CloudWatch、DynamoDB、Lambda などのサービスには初期状態でレート制限が設定されており、アプリケーションの負荷増加で制限を超える場合があります。</p>
-<p><strong>Before（エラーが起きる設定）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># CloudWatchでは初期状態で1秒あたり最大100 Put操作</span>
-</span></span><span style="display:flex;"><span>aws cloudwatch put-metric-data <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --namespace <span style="color:#e6db74">&#34;CustomApp&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --metric-name RequestCount <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --value <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># これを大量に繰り返すと429が発生</span>
-</span></span></code></pre></div><p><strong>After（修正後：リクエスト制限の引き上げ）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># AWS Management Consoleで Service Quotas を開く</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># または AWS CLI で確認・引き上げ</span>
-</span></span><span style="display:flex;"><span>aws service-quotas list-service-quotas <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --service-code cloudwatch <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --query <span style="color:#e6db74">&#39;ServiceQuotas[?MetricName==`PutMetricDataRequestCount`]&#39;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># サービスクォータの引き上げをリクエスト</span>
-</span></span><span style="display:flex;"><span>aws service-quotas request-service-quota-increase <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --service-code cloudwatch <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --quota-code L-5E141212 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  --desired-value <span style="color:#ae81ff">1000</span>
-</span></span></code></pre></div><h3 id="原因4エクスポーネンシャルバックオフの未実装">原因4：エクスポーネンシャルバックオフの未実装<a hidden class="anchor" aria-hidden="true" href="#原因4エクスポーネンシャルバックオフの未実装">#</a></h3>
-<p><strong>なぜ発生するか</strong>：エラーが発生した際に即座にリトライすると、API が過負荷状態で再度拒否される可能性が高まるためです。</p>
-<p><strong>Before（エラーが起きるコード）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ec2 <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;ec2&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># エラーが発生したら即座にリトライ</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> attempt <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> ec2<span style="color:#f92672">.</span>describe_instances()
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> attempt <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">raise</span>
-</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># 固定間隔のリトライ</span>
-</span></span></code></pre></div><p><strong>After（修正後）：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> boto3
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ec2 <span style="color:#f92672">=</span> boto3<span style="color:#f92672">.</span>client(<span style="color:#e6db74">&#39;ec2&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># エクスポーネンシャルバックオフでリトライ</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> attempt <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span>:
-</span></span><span style="display:flex;"><span>        response <span style="color:#f92672">=</span> ec2<span style="color:#f92672">.</span>describe_instances()
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> attempt <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">raise</span>
-</span></span><span style="display:flex;"><span>        wait_time <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">**</span> attempt  <span style="color:#75715e"># 1秒→2秒→4秒→8秒→16秒</span>
-</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(wait_time)
-</span></span></code></pre></div><h2 id="ツール固有の注意点">ツール固有の注意点<a hidden class="anchor" aria-hidden="true" href="#ツール固有の注意点">#</a></h2>
-<p><strong>API Gateway</strong>：ステージレベルでのスロットル設定が原因となりやすいです。バーストリクエストと定常リクエスト レート の両方の設定を確認し、必要に応じて AWS Management Console または CloudFormation で引き上げてください。</p>
-<p><strong>DynamoDB</strong>：オンデマンド課金モデルを使用している場合でも、初期スパイク期間中は 429 が返されることがあります。DynamoDB Accelerator（DAX）のキャッシュを導入することで、読み取りリクエストの頻度を削減できます。</p>
-<p><strong>Lambda</strong>：同時実行数制限（Concurrency Limit）に達すると、関数呼び出しが拒否されます。CloudWatch メトリクス「Throttles」を監視し、必要に応じて Reserved Concurrency を設定してください。</p>
-<p><strong>S3</strong>：従来のパーティション設計では、オブジェクトキーのプレフィックスが同一の場合レート制限が厳しくなります。キーの先頭にランダム文字列を追加してパーティションを分散させると、高スループットを実現できます。</p>
-<h2 id="それでも解決しない場合">それでも解決しない場合<a hidden class="anchor" aria-hidden="true" href="#それでも解決しない場合">#</a></h2>
-<p><strong>CloudWatch ログの確認</strong>：AWS CloudTrail を有効化し、API 呼び出しのタイムスタンプと失敗パターンを分析してください。Service Quotas ダッシュボードで現在のクォータ使用状況をリアルタイム監視できます。</p>
-<p><strong>AWS サポートへの相談</strong>：本番環境で継続的に 429 エラーが発生する場合、AWS Support（Business/Enterprise プラン）に連絡し、サービスクォータの永続的な引き上げをリクエストしてください。</p>
-<p><strong>公式リソース</strong>：<a href="https://docs.aws.amazon.com/ja_jp/general/latest/gr/error-handling.html">AWS API リファレンス - エラーレスポンス</a>、<a href="https://docs.aws.amazon.com/ja_jp/servicequotas/latest/userguide/">Service Quotas ユーザーガイド</a>を参照し、対象サービスの具体的な制限値を確認してください。</p>
-<hr>
-<p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p>
-
-
-  </div>
-  <div class="feedback-panel" id="feedback-panel">
-    <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
-    <div class="feedback-panel__btns">
-      <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
-      <button class="feedback-btn feedback-btn--no"  data-status="no">✉️ 解決しなかった</button>
-    </div>
-    <p class="feedback-panel__thanks"></p>
-  </div>
-  <section class="related-posts">
-    <p class="related-posts__title">他の AWS エラーの解決策</p>
-    <ul class="related-posts__list">
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/aws_409/" class="related-posts__link"><span class="error-badge">409</span>AWS の 409 エラー：原因と解決策
-        </a><p class="related-posts__desc">AWSの409（Conflict）エラーは、リクエストの内容がAWSリソースの現在の状態と競合していることを示します。このエラーはS3、EC2、DynamoDB、CloudFormation、IAMなど複数のAWSサービスで発生し、リソース</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/aws_422/" class="related-posts__link"><span class="error-badge">422</span>AWS の 422 エラー：原因と解決策
-        </a><p class="related-posts__desc">リクエストの形式は正しいが、CloudFormation・API Gateway・DynamoDB などの AWS サービスがデータを検証エラーとして処理を拒否し、422 Unprocessable Entity を返す。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/aws_504/" class="related-posts__link"><span class="error-badge">504</span>AWS の 504 エラー：原因と解決策
-        </a><p class="related-posts__desc">AWS で 504 Gateway Timeout が発生するのは、API Gateway、Application Load Balancer（ALB）、Network Load Balancer（NLB）といったエッジサービスが、バックエ</p>
-      </li>
-    </ul>
-  </section>
-  <section class="related-posts">
-    <p class="related-posts__title">429 エラー — 他ツールの解決策</p>
-    <ul class="related-posts__list">
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/terraform_429/" class="related-posts__link">
-          <span class="tool-badge tool-badge-terraform">Terraform</span>Terraform の 429 エラー：原因と解決策
-        </a><p class="related-posts__desc">クラウドプロバイダーのAPIレート制限に達した。Terraform 429 エラーの原因と解決策を解説します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/supabase_429/" class="related-posts__link">
-          <span class="tool-badge tool-badge-supabase">Supabase</span>Supabase の 429 エラー：原因と解決策
-        </a><p class="related-posts__desc">Supabaseのレート制限または利用枠の上限に達した。Supabase 429 エラーの原因と解決策を解説します。</p>
-      </li>
-      <li class="related-posts__item">
-        <a href="http://localhost:1313/posts/azure_429/" class="related-posts__link">
-          <span class="tool-badge tool-badge-azure">Azure</span>Azure の 429 エラー：原因と解決策
-        </a><p class="related-posts__desc">Azure APIのスロットリング制限に達した。Azure 429 エラーの原因と解決策を解説します。</p>
-      </li>
-    </ul>
-  </section>
-
-
-  <footer class="post-footer">
-    <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/aws/">AWS</a></li>
-    </ul>
-  </footer>
-</article>
-
-<script>
- 
-(function () {
-  var panel = document.getElementById('feedback-panel');
-  if (!panel) return;
-  var title = "\"AWS の 429 エラー：原因と解決策\"";
-  panel.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-status]');
-    if (!btn || panel.dataset.voted) return;
-    panel.dataset.voted = '1';
-    if (typeof gtag === 'function') {
-      gtag('event', 'error_solved', { status: btn.dataset.status, article_title: title });
-    }
-    var btnsEl = panel.querySelector('.feedback-panel__btns');
-    var qEl    = panel.querySelector('.feedback-panel__q');
-    var thxEl  = panel.querySelector('.feedback-panel__thanks');
-    btnsEl.style.transition = 'opacity 0.3s';
-    btnsEl.style.opacity    = '0';
-    setTimeout(function () {
-      btnsEl.style.display = 'none';
-      qEl.style.display    = 'none';
-      thxEl.textContent    = 'Thank you for your feedback!';
-      thxEl.style.display  = 'block';
-      thxEl.style.opacity  = '0';
-      thxEl.style.transition = 'opacity 0.4s';
-      requestAnimationFrame(function () { thxEl.style.opacity = '1'; });
-    }, 300);
-  });
-})();
-
- 
-(function () {
-  var content = document.querySelector('.post-content');
-  if (!content) return;
-
-  var firstCompare = true;
-  var RE_BEFORE = /before|エラーが起きる|修正前/i;
-  var RE_AFTER  = /after|修正後/i;
-
-  content.querySelectorAll('p strong').forEach(function (el) {
-    if (!RE_BEFORE.test(el.textContent)) return;
-
-    var beforeLabel = el.closest('p');
-    if (beforeLabel.dataset.compared) return;
-
-    
-    var cursor      = beforeLabel.nextElementSibling;
-    var beforeElems = [];
-    var afterLabel  = null;
-
-    while (cursor) {
-      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s && RE_AFTER.test(s.textContent)) { afterLabel = cursor; break; }
-      beforeElems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    if (!afterLabel) return;
-
-    
-    var afterElems = [];
-    cursor = afterLabel.nextElementSibling;
-
-    while (cursor) {
-      if (/^H[1-4]$/.test(cursor.tagName)) break;
-      var s2 = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s2 && (RE_BEFORE.test(s2.textContent) || RE_AFTER.test(s2.textContent))) break;
-      afterElems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    if (!afterElems.length) return;
-
-    function paintBlock(el, lineColor) {
-      var tint = lineColor === '#ff4d4d' ? 'rgba(255,77,77,.12)' : 'rgba(46,204,113,.12)';
-      
-      
-      var grad = 'linear-gradient(to right,' + lineColor + ' 0,' + lineColor + ' 4px,' + tint + ' 4px)';
-
-      function sp(t, p, v) { t.style.setProperty(p, v, 'important'); }
-
-      if (el.classList.contains('highlight')) {
-        
-        var inner = el.querySelector('pre') || el.querySelector('div');
-        if (inner) {
-          sp(inner, 'background-image', grad);
-          sp(inner, 'padding-left',     '1rem');
-        }
-        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
-        el.style.setProperty('overflow',      'hidden',       'important');
-      } else {
-        
-        sp(el, 'background-color', '#272822');
-        sp(el, 'background-image', grad);
-        sp(el, 'padding-left',     '1rem');
-        sp(el, 'box-sizing',       'border-box');
-        el.style.setProperty('border-radius', '0 4px 4px 0', 'important');
-        el.style.setProperty('margin',        '0',            'important');
-      }
-    }
-    
-    var wrap = document.createElement('div');
-    wrap.className = 'code-compare';
-    if (firstCompare) { wrap.id = 'first-code-compare'; firstCompare = false; }
-
-    var left  = document.createElement('div');
-    left.className = 'code-compare__side';
-    var right = document.createElement('div');
-    right.className = 'code-compare__side';
-
-    beforeLabel.parentNode.insertBefore(wrap, beforeLabel);
-    beforeLabel.dataset.compared = '1';
-    left.appendChild(beforeLabel);
-    beforeElems.forEach(function (e) { left.appendChild(e); });
-    right.appendChild(afterLabel);
-    afterElems.forEach(function (e) { right.appendChild(e); });
-
-    
-    beforeElems.forEach(function (e) {
-      if (e.classList.contains('highlight') || e.tagName === 'PRE')
-        paintBlock(e, '#ff4d4d');
-    });
-    afterElems.forEach(function (e) {
-      if (e.classList.contains('highlight') || e.tagName === 'PRE')
-        paintBlock(e, '#2ecc71');
-    });
-    wrap.appendChild(left);
-    wrap.appendChild(right);
-
-    
-    left.classList.add('code-compare__side--before');
-    var toggleBtn = document.createElement('button');
-    toggleBtn.className = 'code-toggle-btn';
-    toggleBtn.setAttribute('aria-expanded', 'false');
-    toggleBtn.textContent = '▾ 修正前のコード（Before）を表示';
-    toggleBtn.addEventListener('click', function () {
-      var open = left.classList.toggle('is-open');
-      toggleBtn.setAttribute('aria-expanded', String(open));
-      toggleBtn.textContent = open
-        ? '▴ 修正前のコード（Before）を非表示'
-        : '▾ 修正前のコード（Before）を表示';
-    });
-    wrap.insertBefore(toggleBtn, left);
-
-    
-    (function(l, r) {
-      requestAnimationFrame(function() {
-        var lp = l.firstElementChild;
-        var rp = r.firstElementChild;
-        if (!lp || !rp) return;
-        lp.style.minHeight = '';
-        rp.style.minHeight = '';
-        var h = Math.max(lp.offsetHeight, rp.offsetHeight);
-        lp.style.minHeight = h + 'px';
-        rp.style.minHeight = h + 'px';
-      });
-    }(left, right));
-  });
-})();
-
- 
-(function () {
-  var content = document.querySelector('.post-content');
-  if (!content) return;
-  var RE_REM = /^解決策[（(]/;
-  var remIdx = 0;
-  content.querySelectorAll('p strong').forEach(function (el) {
-    if (!RE_REM.test(el.textContent)) return;
-    var label = el.closest('p');
-    if (label.dataset.remedy) return;
-    label.dataset.remedy = '1';
-    var elems = [];
-    var cursor = label.nextElementSibling;
-    while (cursor) {
-      if (/^H[1-4]$/.test(cursor.tagName)) break;
-      var s = cursor.querySelector ? cursor.querySelector('strong') : null;
-      if (s && RE_REM.test(s.textContent)) break;
-      elems.push(cursor);
-      cursor = cursor.nextElementSibling;
-    }
-    var wrap = document.createElement('div');
-    wrap.className = 'code-remedy';
-    wrap.id = remIdx === 0 ? 'first-remedy' : ('remedy-' + remIdx);
-    remIdx++;
-    label.parentNode.insertBefore(wrap, label);
-    wrap.appendChild(label);
-    elems.forEach(function (e) { wrap.appendChild(e); });
-    wrap.style.setProperty('border-left',   '4px solid #2ecc71', 'important');
-    wrap.style.setProperty('padding-left',  '1rem',              'important');
-    wrap.style.setProperty('border-radius', '0 4px 4px 0',       'important');
-    wrap.style.setProperty('margin-bottom', '1rem',              'important');
-  });
-})();
-</script>
-    </main>
-    
-<footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">ErrorLog - エラーコード解決ガイド</a></span> · 
-
-    
-    
-    <span>
-        Powered by
-        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
-        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
-    </span>
-</footer>
-<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
-        <polyline points="17 11 12 6 7 11"></polyline>
-        <polyline points="17 18 12 13 7 18"></polyline>
-    </svg>
-</a><script>
-(function () {
-  var header = document.querySelector('.header');
-  if (!header) return;
-  var prev = window.scrollY;
-  window.addEventListener('scroll', function () {
-    var cur = window.scrollY;
-    if (cur <= 0) {
-      header.classList.remove('header--hidden');
-    } else if (cur > prev && cur > 60) {
-      header.classList.add('header--hidden');
-    } else if (cur < prev) {
-      header.classList.remove('header--hidden');
-    }
-    prev = cur;
-  }, { passive: true });
-})();
-</script>
-
-
-<script>
-    let menu = document.getElementById('menu');
-    if (menu) {
-        
-        const scrollPosition = localStorage.getItem("menu-scroll-position");
-        if (scrollPosition) {
-            menu.scrollLeft = parseInt(scrollPosition, 10);
-        }
-        
-        menu.onscroll = function () {
-            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
-        }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            var id = this.getAttribute("href").substr(1);
-            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
-                    behavior: "smooth"
-                });
-            } else {
-                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
-            }
-            if (id === "top") {
-                history.replaceState(null, null, " ");
-            } else {
-                history.pushState(null, null, `#${id}`);
-            }
-        });
-    });
-
-</script>
-<script>
-    var toplink = document.getElementById("top-link");
-    window.onscroll = function () {
-        const scrollThreshold = window.innerHeight;
-        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
-            toplink.classList.remove("hidden");
-        } else {
-            toplink.classList.add("hidden");
-        }
-    };
-
-</script>
-<script>
-    document.getElementById("theme-toggle").addEventListener("click", () => {
-        const html = document.querySelector("html");
-        if (html.dataset.theme === "dark") {
-            html.dataset.theme = 'light';
-            localStorage.setItem("pref-theme", 'light');
-        } else {
-            html.dataset.theme = 'dark';
-            localStorage.setItem("pref-theme", 'dark');
-        }
-    })
-
-</script>
-<script>
-    document.querySelectorAll('pre > code').forEach((codeblock) => {
-        const container = codeblock.parentNode.parentNode;
-
-        const copybutton = document.createElement('button');
-        copybutton.classList.add('copy-code');
-        copybutton.innerHTML = 'コピー';
-
-        function copyingDone() {
-            copybutton.innerHTML = 'コピーされました!';
-            setTimeout(() => {
-                copybutton.innerHTML = 'コピー';
-            }, 2000);
-        }
-
-        copybutton.addEventListener('click', (cb) => {
-            if ('clipboard' in navigator) {
-                navigator.clipboard.writeText(codeblock.textContent);
-                copyingDone();
-                return;
-            }
-
-            const range = document.createRange();
-            range.selectNodeContents(codeblock);
-            const selection = window.getSelection();
-            selection.removeAllRanges();
-            selection.addRange(range);
-            try {
-                document.execCommand('copy');
-                copyingDone();
-            } catch (e) { };
-            selection.removeRange(range);
-        });
-
-        if (container.classList.contains("highlight")) {
-            container.appendChild(copybutton);
-        } else if (container.parentNode.firstChild == container) {
-            
-        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
-            
-            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
-        } else {
-            
-            codeblock.parentNode.appendChild(copybutton);
-        }
-    });
-</script>
-</body>
-
-</html>
+</code></pre></div><details class=toc open><summary accesskey=c title="(Alt + C)"><span class=title>目次</span></summary><div class=inner><ul><li><a href=#%e3%82%a8%e3%83%a9%e3%83%bc%e3%81%ae%e6%a6%82%e8%a6%81 aria-label=エラーの概要>エラーの概要</a></li><li><a href=#%e5%ae%9f%e9%9a%9b%e3%81%ae%e3%82%a8%e3%83%a9%e3%83%bc%e3%83%a1%e3%83%83%e3%82%bb%e3%83%bc%e3%82%b8%e4%be%8b aria-label=実際のエラーメッセージ例>実際のエラーメッセージ例</a></li><li><a href=#%e3%82%88%e3%81%8f%e3%81%82%e3%82%8b%e5%8e%9f%e5%9b%a0%e3%81%a8%e8%a7%a3%e6%b1%ba%e6%89%8b%e9%a0%86 aria-label=よくある原因と解決手順>よくある原因と解決手順</a><ul><li><a href=#%e5%8e%9f%e5%9b%a01api-%e5%91%bc%e3%81%b3%e5%87%ba%e3%81%97%e9%96%93%e9%9a%94%e3%81%ae%e4%b8%8d%e8%b6%b3 aria-label="原因1：API 呼び出し間隔の不足">原因1：API 呼び出し間隔の不足</a></li><li><a href=#%e5%8e%9f%e5%9b%a02%e8%a4%87%e6%95%b0%e3%83%97%e3%83%ad%e3%82%bb%e3%82%b9%e3%82%b9%e3%83%ac%e3%83%83%e3%83%89%e3%81%8b%e3%82%89%e3%81%ae%e5%90%8c%e6%99%82%e5%91%bc%e3%81%b3%e5%87%ba%e3%81%97 aria-label=原因2：複数プロセス・スレッドからの同時呼び出し>原因2：複数プロセス・スレッドからの同時呼び出し</a></li><li><a href=#%e5%8e%9f%e5%9b%a03%e3%82%b5%e3%83%bc%e3%83%93%e3%82%b9%e3%81%ae%e3%83%87%e3%83%95%e3%82%a9%e3%83%ab%e3%83%88%e3%83%ac%e3%83%bc%e3%83%88%e5%88%b6%e9%99%90%e3%82%92%e8%b6%85%e9%81%8e aria-label=原因3：サービスのデフォルトレート制限を超過>原因3：サービスのデフォルトレート制限を超過</a></li><li><a href=#%e5%8e%9f%e5%9b%a04%e3%82%a8%e3%82%af%e3%82%b9%e3%83%9d%e3%83%bc%e3%83%8d%e3%83%b3%e3%82%b7%e3%83%a3%e3%83%ab%e3%83%90%e3%83%83%e3%82%af%e3%82%aa%e3%83%95%e3%81%ae%e6%9c%aa%e5%ae%9f%e8%a3%85 aria-label=原因4：エクスポーネンシャルバックオフの未実装>原因4：エクスポーネンシャルバックオフの未実装</a></li></ul></li><li><a href=#%e3%83%84%e3%83%bc%e3%83%ab%e5%9b%ba%e6%9c%89%e3%81%ae%e6%b3%a8%e6%84%8f%e7%82%b9 aria-label=ツール固有の注意点>ツール固有の注意点</a></li><li><a href=#%e3%81%9d%e3%82%8c%e3%81%a7%e3%82%82%e8%a7%a3%e6%b1%ba%e3%81%97%e3%81%aa%e3%81%84%e5%a0%b4%e5%90%88 aria-label=それでも解決しない場合>それでも解決しない場合</a></li></ul></div></details><div class="post-content md-content"><h2 id=エラーの概要>エラーの概要<a hidden class=anchor aria-hidden=true href=#エラーの概要>#</a></h2><p>429 Too Many Requests は、AWS API への呼び出し頻度が一定期間内の上限を超えた場合に返されるステータスコードです。AWS の各サービスには呼び出し回数の制限（レート制限）が設定されており、これを超えるとクライアント側の問題として 429 エラーで応答が拒否されます。このエラーは一時的なものが多いため、適切な対応により解決可能です。</p><h2 id=実際のエラーメッセージ例>実際のエラーメッセージ例<a hidden class=anchor aria-hidden=true href=#実際のエラーメッセージ例>#</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;Error&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Code&#34;</span>: <span style=color:#e6db74>&#34;ThrottlingException&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;Message&#34;</span>: <span style=color:#e6db74>&#34;Rate exceeded&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>An error occurred <span style=color:#f92672>(</span>Throttling<span style=color:#f92672>)</span> when calling the DescribeInstances operation: 
+</span></span><span style=display:flex><span>Request rate exceeded. Please retry your request.
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span>botocore<span style=color:#f92672>.</span>exceptions<span style=color:#f92672>.</span>ClientError: An error occurred (ThrottlingException) 
+</span></span><span style=display:flex><span>when calling the GetObject operation: Rate exceeded
+</span></span></code></pre></div><h2 id=よくある原因と解決手順>よくある原因と解決手順<a hidden class=anchor aria-hidden=true href=#よくある原因と解決手順>#</a></h2><h3 id=原因1api-呼び出し間隔の不足>原因1：API 呼び出し間隔の不足<a hidden class=anchor aria-hidden=true href=#原因1api-呼び出し間隔の不足>#</a></h3><p><strong>なぜ発生するか</strong>：ループ内で連続的に API を呼び出す場合、AWS が許容する 1 秒あたりのリクエスト数を瞬間的に超えるためです。</p><p><strong>Before（エラーが起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>s3_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;s3&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 100個のオブジェクトを一括処理</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> key <span style=color:#f92672>in</span> object_keys:
+</span></span><span style=display:flex><span>    response <span style=color:#f92672>=</span> s3_client<span style=color:#f92672>.</span>get_object(Bucket<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;&lt;your-bucket&gt;&#39;</span>, Key<span style=color:#f92672>=</span>key)
+</span></span><span style=display:flex><span>    process_data(response)
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>s3_client <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;s3&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 呼び出しの間隔を0.1秒設定</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> key <span style=color:#f92672>in</span> object_keys:
+</span></span><span style=display:flex><span>    response <span style=color:#f92672>=</span> s3_client<span style=color:#f92672>.</span>get_object(Bucket<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;&lt;your-bucket&gt;&#39;</span>, Key<span style=color:#f92672>=</span>key)
+</span></span><span style=display:flex><span>    process_data(response)
+</span></span><span style=display:flex><span>    time<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>0.1</span>)  <span style=color:#75715e># API呼び出し間隔を設ける</span>
+</span></span></code></pre></div><h3 id=原因2複数プロセススレッドからの同時呼び出し>原因2：複数プロセス・スレッドからの同時呼び出し<a hidden class=anchor aria-hidden=true href=#原因2複数プロセススレッドからの同時呼び出し>#</a></h3><p><strong>なぜ発生するか</strong>：並列処理で複数スレッドやプロセスが同時に同じ AWS API を呼び出すと、合計リクエスト数が急増して制限を超えるためです。</p><p><strong>Before（エラーが起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> concurrent.futures <span style=color:#f92672>import</span> ThreadPoolExecutor
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dynamodb <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;dynamodb&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>scan_items</span>(table_name):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> dynamodb<span style=color:#f92672>.</span>scan(TableName<span style=color:#f92672>=</span>table_name)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 10個のスレッドで同時にスキャン</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>with</span> ThreadPoolExecutor(max_workers<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>as</span> executor:
+</span></span><span style=display:flex><span>    futures <span style=color:#f92672>=</span> [executor<span style=color:#f92672>.</span>submit(scan_items, table) <span style=color:#66d9ef>for</span> table <span style=color:#f92672>in</span> tables]
+</span></span><span style=display:flex><span>    results <span style=color:#f92672>=</span> [f<span style=color:#f92672>.</span>result() <span style=color:#66d9ef>for</span> f <span style=color:#f92672>in</span> futures]
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> concurrent.futures <span style=color:#f92672>import</span> ThreadPoolExecutor
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> threading <span style=color:#f92672>import</span> Semaphore
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>dynamodb <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;dynamodb&#39;</span>)
+</span></span><span style=display:flex><span>semaphore <span style=color:#f92672>=</span> Semaphore(<span style=color:#ae81ff>2</span>)  <span style=color:#75715e># 同時実行数を2に制限</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>scan_items</span>(table_name):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>with</span> semaphore:  <span style=color:#75715e># 一度に2スレッドのみ実行</span>
+</span></span><span style=display:flex><span>        time<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>0.2</span>)  <span style=color:#75715e># 呼び出し前に待機</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> dynamodb<span style=color:#f92672>.</span>scan(TableName<span style=color:#f92672>=</span>table_name)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>with</span> ThreadPoolExecutor(max_workers<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>as</span> executor:
+</span></span><span style=display:flex><span>    futures <span style=color:#f92672>=</span> [executor<span style=color:#f92672>.</span>submit(scan_items, table) <span style=color:#66d9ef>for</span> table <span style=color:#f92672>in</span> tables]
+</span></span><span style=display:flex><span>    results <span style=color:#f92672>=</span> [f<span style=color:#f92672>.</span>result() <span style=color:#66d9ef>for</span> f <span style=color:#f92672>in</span> futures]
+</span></span></code></pre></div><h3 id=原因3サービスのデフォルトレート制限を超過>原因3：サービスのデフォルトレート制限を超過<a hidden class=anchor aria-hidden=true href=#原因3サービスのデフォルトレート制限を超過>#</a></h3><p><strong>なぜ発生するか</strong>：CloudWatch、DynamoDB、Lambda などのサービスには初期状態でレート制限が設定されており、アプリケーションの負荷増加で制限を超える場合があります。</p><p><strong>Before（エラーが起きる設定）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># CloudWatchでは初期状態で1秒あたり最大100 Put操作</span>
+</span></span><span style=display:flex><span>aws cloudwatch put-metric-data <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --namespace <span style=color:#e6db74>&#34;CustomApp&#34;</span> <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --metric-name RequestCount <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --value <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># これを大量に繰り返すと429が発生</span>
+</span></span></code></pre></div><p><strong>After（修正後：リクエスト制限の引き上げ）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e># AWS Management Consoleで Service Quotas を開く</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># または AWS CLI で確認・引き上げ</span>
+</span></span><span style=display:flex><span>aws service-quotas list-service-quotas <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --service-code cloudwatch <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --query <span style=color:#e6db74>&#39;ServiceQuotas[?MetricName==`PutMetricDataRequestCount`]&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># サービスクォータの引き上げをリクエスト</span>
+</span></span><span style=display:flex><span>aws service-quotas request-service-quota-increase <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --service-code cloudwatch <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --quota-code L-5E141212 <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span>  --desired-value <span style=color:#ae81ff>1000</span>
+</span></span></code></pre></div><h3 id=原因4エクスポーネンシャルバックオフの未実装>原因4：エクスポーネンシャルバックオフの未実装<a hidden class=anchor aria-hidden=true href=#原因4エクスポーネンシャルバックオフの未実装>#</a></h3><p><strong>なぜ発生するか</strong>：エラーが発生した際に即座にリトライすると、API が過負荷状態で再度拒否される可能性が高まるためです。</p><p><strong>Before（エラーが起きるコード）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ec2 <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;ec2&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># エラーが発生したら即座にリトライ</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> attempt <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>5</span>):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>        response <span style=color:#f92672>=</span> ec2<span style=color:#f92672>.</span>describe_instances()
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>break</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>except</span> <span style=color:#a6e22e>Exception</span> <span style=color:#66d9ef>as</span> e:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> attempt <span style=color:#f92672>==</span> <span style=color:#ae81ff>4</span>:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>raise</span>
+</span></span><span style=display:flex><span>        time<span style=color:#f92672>.</span>sleep(<span style=color:#ae81ff>1</span>)  <span style=color:#75715e># 固定間隔のリトライ</span>
+</span></span></code></pre></div><p><strong>After（修正後）：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> boto3
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> time
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ec2 <span style=color:#f92672>=</span> boto3<span style=color:#f92672>.</span>client(<span style=color:#e6db74>&#39;ec2&#39;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># エクスポーネンシャルバックオフでリトライ</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> attempt <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>5</span>):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>        response <span style=color:#f92672>=</span> ec2<span style=color:#f92672>.</span>describe_instances()
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>break</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>except</span> <span style=color:#a6e22e>Exception</span> <span style=color:#66d9ef>as</span> e:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> attempt <span style=color:#f92672>==</span> <span style=color:#ae81ff>4</span>:
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>raise</span>
+</span></span><span style=display:flex><span>        wait_time <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>**</span> attempt  <span style=color:#75715e># 1秒→2秒→4秒→8秒→16秒</span>
+</span></span><span style=display:flex><span>        time<span style=color:#f92672>.</span>sleep(wait_time)
+</span></span></code></pre></div><h2 id=ツール固有の注意点>ツール固有の注意点<a hidden class=anchor aria-hidden=true href=#ツール固有の注意点>#</a></h2><p><strong>API Gateway</strong>：ステージレベルでのスロットル設定が原因となりやすいです。バーストリクエストと定常リクエスト レート の両方の設定を確認し、必要に応じて AWS Management Console または CloudFormation で引き上げてください。</p><p><strong>DynamoDB</strong>：オンデマンド課金モデルを使用している場合でも、初期スパイク期間中は 429 が返されることがあります。DynamoDB Accelerator（DAX）のキャッシュを導入することで、読み取りリクエストの頻度を削減できます。</p><p><strong>Lambda</strong>：同時実行数制限（Concurrency Limit）に達すると、関数呼び出しが拒否されます。CloudWatch メトリクス「Throttles」を監視し、必要に応じて Reserved Concurrency を設定してください。</p><p><strong>S3</strong>：従来のパーティション設計では、オブジェクトキーのプレフィックスが同一の場合レート制限が厳しくなります。キーの先頭にランダム文字列を追加してパーティションを分散させると、高スループットを実現できます。</p><h2 id=それでも解決しない場合>それでも解決しない場合<a hidden class=anchor aria-hidden=true href=#それでも解決しない場合>#</a></h2><p><strong>CloudWatch ログの確認</strong>：AWS CloudTrail を有効化し、API 呼び出しのタイムスタンプと失敗パターンを分析してください。Service Quotas ダッシュボードで現在のクォータ使用状況をリアルタイム監視できます。</p><p><strong>AWS サポートへの相談</strong>：本番環境で継続的に 429 エラーが発生する場合、AWS Support（Business/Enterprise プラン）に連絡し、サービスクォータの永続的な引き上げをリクエストしてください。</p><p><strong>公式リソース</strong>：<a href=https://docs.aws.amazon.com/ja_jp/general/latest/gr/error-handling.html>AWS API リファレンス - エラーレスポンス</a>、<a href=https://docs.aws.amazon.com/ja_jp/servicequotas/latest/userguide/>Service Quotas ユーザーガイド</a>を参照し、対象サービスの具体的な制限値を確認してください。</p><hr><p><em>免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。</em></p></div><div class=feedback-panel id=feedback-panel><p class=feedback-panel__q>この記事でエラーは解決しましたか？</p><div class=feedback-panel__btns><button class="feedback-btn feedback-btn--yes" data-status=yes>🎉 解決した</button>
+<button class="feedback-btn feedback-btn--no" data-status=no>✉️ 解決しなかった</button></div><p class=feedback-panel__thanks></p></div><section class=related-posts><p class=related-posts__title>他の AWS エラーの解決策</p><ul class=related-posts__list><li class=related-posts__item><a href=https://errorlog.jp/posts/aws_409/ class=related-posts__link><span class=error-badge>409</span>AWS の 409 エラー：原因と解決策</a><p class=related-posts__desc>AWSの409（Conflict）エラーは、リクエストの内容がAWSリソースの現在の状態と競合していることを示します。このエラーはS3、EC2、DynamoDB、CloudFormation、IAMなど複数のAWSサービスで発生し、リソース</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/aws_422/ class=related-posts__link><span class=error-badge>422</span>AWS の 422 エラー：原因と解決策</a><p class=related-posts__desc>リクエストの形式は正しいが、CloudFormation・API Gateway・DynamoDB などの AWS サービスがデータを検証エラーとして処理を拒否し、422 Unprocessable Entity を返す。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/aws_504/ class=related-posts__link><span class=error-badge>504</span>AWS の 504 エラー：原因と解決策</a><p class=related-posts__desc>AWS で 504 Gateway Timeout が発生するのは、API Gateway、Application Load Balancer（ALB）、Network Load Balancer（NLB）といったエッジサービスが、バックエ</p></li></ul></section><section class=related-posts><p class=related-posts__title>429 エラー — 他ツールの解決策</p><ul class=related-posts__list><li class=related-posts__item><a href=https://errorlog.jp/posts/terraform_429/ class=related-posts__link><span class="tool-badge tool-badge-terraform">Terraform</span>Terraform の 429 エラー：原因と解決策</a><p class=related-posts__desc>クラウドプロバイダーのAPIレート制限に達した。Terraform 429 エラーの原因と解決策を解説します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/supabase_429/ class=related-posts__link><span class="tool-badge tool-badge-supabase">Supabase</span>Supabase の 429 エラー：原因と解決策</a><p class=related-posts__desc>Supabaseのレート制限または利用枠の上限に達した。Supabase 429 エラーの原因と解決策を解説します。</p></li><li class=related-posts__item><a href=https://errorlog.jp/posts/azure_429/ class=related-posts__link><span class="tool-badge tool-badge-azure">Azure</span>Azure の 429 エラー：原因と解決策</a><p class=related-posts__desc>Azure APIのスロットリング制限に達した。Azure 429 エラーの原因と解決策を解説します。</p></li></ul></section><div class=related-errors><h2 class=related-errors__title>関連するエラーの依存関係</h2><ul class=related-errors__list><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_400/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>400</span>
+AWS の 400 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_404/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>404</span>
+AWS の 404 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_409/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>409</span>
+AWS の 409 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_422/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>422</span>
+AWS の 422 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_504/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>504</span>
+AWS の 504 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_500/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>500</span>
+AWS の 500 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_502/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>502</span>
+AWS の 502 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_503/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>503</span>
+AWS の 503 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_401/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>401</span>
+AWS の 401 エラー：原因と解決策</a></li><li class=related-errors__item><a href=https://errorlog.jp/posts/aws_403/><span class="tool-badge tool-badge-aws">AWS</span>
+<span class=error-badge>403</span>
+AWS の 403 エラー：原因と解決策</a></li></ul></div><footer class=post-footer><ul class=post-tags><li><a href=https://errorlog.jp/tags/aws/>AWS</a></li></ul></footer></article><script>(function(){var t,e=document.getElementById("feedback-panel");if(!e)return;t='"AWS の 429 エラー：原因と解決策"',e.addEventListener("click",function(n){var s,o,a,i=n.target.closest("[data-status]");if(!i||e.dataset.voted)return;e.dataset.voted="1",typeof gtag=="function"&&gtag("event","error_solved",{status:i.dataset.status,article_title:t}),o=e.querySelector(".feedback-panel__btns"),a=e.querySelector(".feedback-panel__q"),s=e.querySelector(".feedback-panel__thanks"),o.style.transition="opacity 0.3s",o.style.opacity="0",setTimeout(function(){o.style.display="none",a.style.display="none",s.textContent="Thank you for your feedback!",s.style.display="block",s.style.opacity="0",s.style.transition="opacity 0.4s",requestAnimationFrame(function(){s.style.opacity="1"})},300)})})(),function(){var e,t,n,s=document.querySelector(".post-content");if(!s)return;e=!0,t=/before|エラーが起きる|修正前/i,n=/after|修正後/i,s.querySelectorAll("p strong").forEach(function(s){if(!t.test(s.textContent))return;var o,i,a,r,l,d,u,h,m,f,c=s.closest("p");if(c.dataset.compared)return;for(o=c.nextElementSibling,h=[],d=null;o;){if(f=o.querySelector?o.querySelector("strong"):null,f&&n.test(f.textContent)){d=o;break}h.push(o),o=o.nextElementSibling}if(!d)return;for(u=[],o=d.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(m=o.querySelector?o.querySelector("strong"):null,m&&(t.test(m.textContent)||n.test(m.textContent)))break;u.push(o),o=o.nextElementSibling}if(!u.length)return;function p(e,t){var s,i=t==="#ff4d4d"?"rgba(255,77,77,.12)":"rgba(46,204,113,.12)",o="linear-gradient(to right,"+t+" 0,"+t+" 4px,"+i+" 4px)";function n(e,t,n){e.style.setProperty(t,n,"important")}e.classList.contains("highlight")?(s=e.querySelector("pre")||e.querySelector("div"),s&&(n(s,"background-image",o),n(s,"padding-left","1rem")),e.style.setProperty("border-radius","0 4px 4px 0","important"),e.style.setProperty("overflow","hidden","important")):(n(e,"background-color","#272822"),n(e,"background-image",o),n(e,"padding-left","1rem"),n(e,"box-sizing","border-box"),e.style.setProperty("border-radius","0 4px 4px 0","important"),e.style.setProperty("margin","0","important"))}r=document.createElement("div"),r.className="code-compare",e&&(r.id="first-code-compare",e=!1),i=document.createElement("div"),i.className="code-compare__side",l=document.createElement("div"),l.className="code-compare__side",c.parentNode.insertBefore(r,c),c.dataset.compared="1",i.appendChild(c),h.forEach(function(e){i.appendChild(e)}),l.appendChild(d),u.forEach(function(e){l.appendChild(e)}),h.forEach(function(e){(e.classList.contains("highlight")||e.tagName==="PRE")&&p(e,"#ff4d4d")}),u.forEach(function(e){(e.classList.contains("highlight")||e.tagName==="PRE")&&p(e,"#2ecc71")}),r.appendChild(i),r.appendChild(l),i.classList.add("code-compare__side--before"),a=document.createElement("button"),a.className="code-toggle-btn",a.setAttribute("aria-expanded","false"),a.textContent="▾ 修正前のコード（Before）を表示",a.addEventListener("click",function(){var e=i.classList.toggle("is-open");a.setAttribute("aria-expanded",String(e)),a.textContent=e?"▴ 修正前のコード（Before）を非表示":"▾ 修正前のコード（Before）を表示"}),r.insertBefore(a,i),function(e,t){requestAnimationFrame(function(){var o,n=e.firstElementChild,s=t.firstElementChild;if(!n||!s)return;n.style.minHeight="",s.style.minHeight="",o=Math.max(n.offsetHeight,s.offsetHeight),n.style.minHeight=o+"px",s.style.minHeight=o+"px"})}(i,l)})}(),function(){var e,t,n=document.querySelector(".post-content");if(!n)return;t=/^解決策[（(]/,e=0,n.querySelectorAll("p strong").forEach(function(n){if(!t.test(n.textContent))return;var s,o,a,r,i=n.closest("p");if(i.dataset.remedy)return;for(i.dataset.remedy="1",a=[],o=i.nextElementSibling;o;){if(/^H[1-4]$/.test(o.tagName))break;if(r=o.querySelector?o.querySelector("strong"):null,r&&t.test(r.textContent))break;a.push(o),o=o.nextElementSibling}s=document.createElement("div"),s.className="code-remedy",s.id=e===0?"first-remedy":"remedy-"+e,e++,i.parentNode.insertBefore(s,i),s.appendChild(i),a.forEach(function(e){s.appendChild(e)}),s.style.setProperty("border-left","4px solid #2ecc71","important"),s.style.setProperty("padding-left","1rem","important"),s.style.setProperty("border-radius","0 4px 4px 0","important"),s.style.setProperty("margin-bottom","1rem","important")})}()</script></main><footer class=footer><span>&copy; 2026 <a href=https://errorlog.jp/>ErrorLog - エラーコード解決ガイド</a></span> ·
+<span>Powered by
+<a href="https://gohugo.io/?utm_source=papermod" rel=noopener target=_blank>Hugo</a> &
+<a href=https://github.com/adityatelange/hugo-PaperMod/ rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top id=top-link class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey=g><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+</a><script>(function(){var t,e=document.querySelector(".header");if(!e)return;t=window.scrollY,window.addEventListener("scroll",function(){var n=window.scrollY;n<=0?e.classList.remove("header--hidden"):n>t&&n>60?e.classList.add("header--hidden"):n<t&&e.classList.remove("header--hidden"),t=n},{passive:!0})})()</script><script>let menu=document.getElementById("menu");if(menu){const e=localStorage.getItem("menu-scroll-position");e&&(menu.scrollLeft=parseInt(e,10)),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}}document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(e){e.preventDefault();var t=this.getAttribute("href").substr(1);window.matchMedia("(prefers-reduced-motion: reduce)").matches?document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(t)}']`).scrollIntoView({behavior:"smooth"}),t==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${t}`)})})</script><script>var toplink=document.getElementById("top-link");window.onscroll=function(){const e=window.innerHeight;document.body.scrollTop>e||document.documentElement.scrollTop>e?toplink.classList.remove("hidden"):toplink.classList.add("hidden")}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{const e=document.querySelector("html");e.dataset.theme==="dark"?(e.dataset.theme="light",localStorage.setItem("pref-theme","light")):(e.dataset.theme="dark",localStorage.setItem("pref-theme","dark"))})</script><script>document.querySelectorAll("pre > code").forEach(e=>{const n=e.parentNode.parentNode,t=document.createElement("button");t.classList.add("copy-code"),t.innerHTML="コピー";function s(){t.innerHTML="コピーされました!",setTimeout(()=>{t.innerHTML="コピー"},2e3)}t.addEventListener("click",t=>{if("clipboard"in navigator){navigator.clipboard.writeText(e.textContent),s();return}const n=document.createRange();n.selectNodeContents(e);const o=window.getSelection();o.removeAllRanges(),o.addRange(n);try{document.execCommand("copy"),s()}catch{}o.removeRange(n)}),n.classList.contains("highlight")?n.appendChild(t):n.parentNode.firstChild==n||(e.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?e.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(t):e.parentNode.appendChild(t))})</script></body></html>

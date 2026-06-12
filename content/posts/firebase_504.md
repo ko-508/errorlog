@@ -4,6 +4,10 @@ date: 2026-05-28
 description: "Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。"
 tags: ["Firebase"]
 errorCode: "504"
+service: "Firebase"
+error_type: "504"
+components: ["Hosting", "Cloud Functions", "Realtime Database"]
+related_services: ["Firebase Console", "gcloud"]
 ---
 
 Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、クライアントに504[エラー](/glossary/エラー/)が返される状況です。この記事では原因の特定と具体的な解決方法を解説します。

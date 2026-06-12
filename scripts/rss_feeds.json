@@ -12,5 +12,8 @@
   {"id": "2d1c4702-0214-4b89-a954-717959f219b2", "name": "Vercel Status",                 "url": "https://www.vercel-status.com/history.rss",                    "category": "Vercel"},
   {"id": "6d09e0ac-f93e-44d3-824b-5213b96d8321", "name": "GitHub Status",                 "url": "https://www.githubstatus.com/history.rss",                     "category": "GitHub"},
   {"id": "5eaf8137-0df2-4487-9851-3297838f7cc5", "name": "AWS Architecture Blog",         "url": "https://aws.amazon.com/blogs/architecture/feed/",              "category": "AWS"},
-  {"id": "f2354ae0-cc92-495e-9ea6-6f37afaac144", "name": "Zenn - トラブルシューティング", "url": "https://zenn.dev/topics/%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/feed", "category": "Zenn"}
+  {"id": "f2354ae0-cc92-495e-9ea6-6f37afaac144", "name": "Zenn - トラブルシューティング", "url": "https://zenn.dev/topics/%E3%83%88%E3%83%A9%E3%83%96%E3%83%AB%E3%82%B7%E3%83%A5%E3%83%BC%E3%83%86%E3%82%A3%E3%83%B3%E3%82%B0/feed", "category": "Zenn"},
+  {"id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890", "name": "Cloudflare Status",          "url": "https://www.cloudflarestatus.com/history.rss",                 "category": "status"},
+  {"id": "b2c3d4e5-f6a7-8901-bcde-f12345678901", "name": "AWS Status",                 "url": "https://health.aws.amazon.com/public/rss/feed.rss",            "category": "status"},
+  {"id": "c3d4e5f6-a7b8-9012-cdef-123456789012", "name": "Dev.to - Terraform",         "url": "https://dev.to/feed/tag/terraform",                            "category": "Terraform"}
 ]

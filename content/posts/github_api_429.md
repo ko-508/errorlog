@@ -5,6 +5,10 @@ description: "GitHub APIの429エラーは「Too Many Requests」を意味し、
 tags: ["GitHub API"]
 errorCode: "429"
 lastmod: 2026-05-31
+service: "GitHub API"
+error_type: "429"
+components: []
+related_services: ["Personal Access Token", "GraphQL API", "REST API"]
 ---
 
 ## エラーの概要

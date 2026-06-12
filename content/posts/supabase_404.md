@@ -4,6 +4,10 @@ date: 2026-06-04
 description: "指定したテーブル・行・ストレージオブジェクトが見つからない。Supabase 404 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "404"
+service: "Supabase"
+error_type: "404"
+components: ["Storage", "Functions", "Dashboard"]
+related_services: ["JavaScript"]
 ---
 ## エラーの概要
 

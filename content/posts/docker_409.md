@@ -5,6 +5,10 @@ description: "Dockerの409エラーは、HTTP標準仕様で「Conflict（競合
 tags: ["Docker"]
 errorCode: "409"
 lastmod: 2026-06-05
+service: "Docker"
+error_type: "409"
+components: ["Compose"]
+related_services: []
 ---
 
 ## エラーの概要

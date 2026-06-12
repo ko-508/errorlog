@@ -5,6 +5,10 @@ description: "Nginx の 403 Forbidden エラーは、クライアント（ブラ
 tags: ["Nginx"]
 errorCode: "403"
 lastmod: 2026-05-31
+service: "Nginx"
+error_type: "403"
+components: []
+related_services: []
 ---
 
 ## エラーの概要

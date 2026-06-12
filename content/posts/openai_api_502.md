@@ -5,6 +5,10 @@ description: "502 Bad Gateway は、OpenAI API のリクエストがOpenAIのサ
 tags: ["OpenAI API"]
 errorCode: "502"
 lastmod: 2026-05-31
+service: "OpenAI API"
+error_type: "502"
+components: []
+related_services: ["ChatCompletion", "curl", "Python"]
 ---
 
 ## エラーの概要

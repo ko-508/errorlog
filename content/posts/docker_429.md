@@ -5,6 +5,10 @@ description: "Docker の 429 エラーは、HTTP ステータスコード 429（
 tags: ["Docker"]
 errorCode: "429"
 lastmod: 2026-05-31
+service: "Docker"
+error_type: "429"
+components: ["Compose", "Registry"]
+related_services: ["Docker Hub", "GitHub Actions", "Kubernetes"]
 ---
 
 ## エラーの概要

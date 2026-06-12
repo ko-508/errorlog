@@ -5,6 +5,10 @@ description: "504 Gateway Timeoutは、Nginxがリバースプロキシとして
 tags: ["Nginx"]
 errorCode: "504"
 lastmod: 2026-05-31
+service: "Nginx"
+error_type: "504"
+components: []
+related_services: ["Node.js", "MySQL", "systemd"]
 ---
 
 ## エラーの概要

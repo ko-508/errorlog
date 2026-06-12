@@ -4,6 +4,10 @@ date: 2026-06-02
 description: "Azureリソースの現在の状態とリクエストが競合している。Azure 409 エラーの原因と解決策を解説します。"
 tags: ["Azure"]
 errorCode: "409"
+service: "Azure"
+error_type: "409"
+components: ["Storage Account", "App Service", "Cosmos DB", "App Service Plan", "Web App", "Resource Group"]
+related_services: ["Azure Portal", "Azure CLI", "Azure PowerShell", "REST API"]
 ---
 ## エラーの概要
 

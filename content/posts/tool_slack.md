@@ -4,6 +4,9 @@ date: 2026-05-28
 lastmod: 2026-05-31
 description: "Slack の特徴・できること・料金プラン・似たツールとの比較を解説。"
 tags: ["tool-guide"]
+service: "Slack"
+components: []
+related_services: ["GitHub", "Jira", "Datadog", "PagerDuty", "Microsoft Teams", "Discord", "Office 365"]
 ---
 ## Slack とは
 

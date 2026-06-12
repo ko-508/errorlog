@@ -3,6 +3,9 @@ title: "Firebase とは？特徴・機能・料金・比較まとめ"
 date: 2026-06-02
 description: "Firebase の特徴・できること・料金プラン・似たツールとの比較を解説。"
 tags: ["tool-guide"]
+service: "Firebase"
+components: ["Cloud Firestore", "Realtime Database", "Auth", "Hosting", "Cloud Functions", "Cloud Storage", "Analytics", "Crashlytics", "Remote Config"]
+related_services: ["AWS Amplify", "Supabase", "Parse", "Google Cloud Platform", "AppSync", "PostgreSQL", "IAM"]
 ---
 # Firebase とは
 

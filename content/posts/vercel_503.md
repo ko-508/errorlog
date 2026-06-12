@@ -4,6 +4,10 @@ date: 2026-06-08
 description: "Vercelサービスが一時的に利用できない。Vercel 503 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "503"
+service: "Vercel"
+error_type: "503"
+components: []
+related_services: ["Next.js", "Edge Functions", "Vercel KV", "Bull", "Redis"]
 ---
 ## エラーの概要
 

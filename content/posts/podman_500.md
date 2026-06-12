@@ -4,6 +4,10 @@ date: 2026-05-29
 description: "Podmanシステムで予期しない内部エラーが発生した。Podman 500 エラーの原因と解決策を解説。"
 tags: ["Podman"]
 errorCode: "500"
+service: "Podman"
+error_type: "500"
+components: []
+related_services: ["SELinux", "journalctl"]
 ---
 Podman 500 [エラー](/glossary/エラー/)は内部的な予期しない[エラー](/glossary/エラー/)が発生したことを示す深刻な[エラー](/glossary/エラー/)です。ストレージ破損やディスク容量不足が原因となることが多いため、段階的に対処する必要があります。
 

@@ -5,6 +5,10 @@ description: "GitHub APIの409（Conflict）は、リクエストの内容がGit
 tags: ["GitHub API"]
 errorCode: "409"
 lastmod: 2026-05-31
+service: "GitHub API"
+error_type: "409"
+components: []
+related_services: ["Octokit"]
 ---
 
 ## エラーの概要

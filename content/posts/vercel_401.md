@@ -4,6 +4,10 @@ date: 2026-06-06
 description: "Vercelへの認証に失敗した。Vercel 401 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "401"
+service: "Vercel"
+error_type: "401"
+components: []
+related_services: ["GitHub Actions", "GitLab CI", "CircleCI", "GitHub", "curl"]
 ---
 ## Vercel 401 エラーの原因と解決方法
 

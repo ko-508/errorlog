@@ -4,6 +4,10 @@ date: 2026-06-08
 description: "Terraformがクラウドプロバイダーに送るリクエストの形式に誤りがある。Terraform 400 エラーの原因と解決策を解説します。"
 tags: ["Terraform"]
 errorCode: "400"
+service: "Terraform"
+error_type: "400"
+components: ["Provider"]
+related_services: ["AWS"]
 ---
 ## エラーの概要
 

@@ -5,6 +5,10 @@ description: "GitHub APIの400エラーは「Bad Request」を意味し、クラ
 tags: ["GitHub API"]
 errorCode: "400"
 lastmod: 2026-05-31
+service: "GitHub API"
+error_type: "400"
+components: []
+related_services: ["@octokit/rest"]
 ---
 
 ## エラーの概要

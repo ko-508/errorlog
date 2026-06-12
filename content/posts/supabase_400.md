@@ -4,6 +4,10 @@ date: 2026-06-03
 description: "Supabase APIへのリクエストの形式または内容に誤りがある。Supabase 400 エラーの原因と解決策を解説します。"
 tags: ["Supabase"]
 errorCode: "400"
+service: "Supabase"
+error_type: "400"
+components: []
+related_services: ["PostgreSQL", "PostgREST", "JavaScript", "cURL", "fetch API", "JSON"]
 ---
 ## エラーの概要
 

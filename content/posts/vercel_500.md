@@ -4,6 +4,10 @@ date: 2026-06-07
 description: "Vercelのサーバーレス関数で内部エラーが発生した。Vercel 500 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "500"
+service: "Vercel"
+error_type: "500"
+components: []
+related_services: ["Node.js", "npm", "postgres", "axios", "JSON", "Promise", "Async/Await"]
 ---
 ## エラーの概要
 

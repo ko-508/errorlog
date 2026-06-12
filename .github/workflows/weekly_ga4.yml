@@ -69,6 +69,26 @@ jobs:
           GSC_OAUTH_REFRESH_TOKEN:  ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
         run: python scripts/weekly_report.py
 
+      - name: Run Content Gap Analyzer
+        continue-on-error: true
+        env:
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/query_coverage_analyzer.py
+
+      - name: Update rewrite experiment results
+        continue-on-error: true
+        env:
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/update_rewrite_results.py
+
       - name: Commit and push report
         run: |
           git config user.name "ErrorLog Bot"
@@ -76,6 +96,12 @@ jobs:
           git add reports/ga4/ 2>/dev/null || true
           git add scripts/rewrite_priority.json 2>/dev/null || true
           git add content/posts/ 2>/dev/null || true
+          git add data/search_queries.json 2>/dev/null || true
+          git add scripts/rewrite_report.json 2>/dev/null || true
+          git add scripts/rewrite_priority_report.json 2>/dev/null || true
+          git add data/rewrite_experiments.json 2>/dev/null || true
+          git add data/content_gap.json 2>/dev/null || true
+          git add scripts/content_gap_candidates.json 2>/dev/null || true
           if git diff --staged --quiet; then
             echo "変更なし"
           else

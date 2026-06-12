@@ -4,6 +4,10 @@ date: 2026-05-30
 lastmod: 2026-05-31
 description: "gemini-2.0-flashの無料枠を自動化パイプラインで使い切りRESOURCE_EXHAUSTEDが発生。モデル切り替えとリトライ実装で解決します。"
 tags: ["GCP"]
+service: "Google Gemini API"
+error_type: "429 RESOURCE_EXHAUSTED"
+components: []
+related_services: ["Google API Key", "RSS"]
 ---
 
 Gemini [API](/glossary/api/) を自動化スクリプトやバックグラウンドジョブに組み込んだ際、無料枠のクォータを短時間で使い切り `429 RESOURCE_EXHAUSTED` が連続発生するケースがあります。特に複数[リクエスト](/glossary/リクエスト/)を並列・連続で投げる処理では、1回のバッチ実行で当日分のクォータが尽きることがあります。

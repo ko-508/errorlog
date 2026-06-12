@@ -5,6 +5,10 @@ description: "Firebase の 409 Conflict エラーは、Firestore のトランザ
 tags: ["Firebase"]
 errorCode: "409"
 lastmod: 2026-05-31
+service: "Firebase"
+error_type: "409"
+components: ["Firestore"]
+related_services: ["SDK"]
 ---
 
 ## エラーの概要

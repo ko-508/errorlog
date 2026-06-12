@@ -16,7 +16,7 @@ import json
 import logging
 import os
 import re
-from datetime import date
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import List, Set
 
@@ -41,6 +41,18 @@ SCORE_THRESHOLD = int(os.getenv("SCORE_THRESHOLD", "60"))
 MAX_SCORE_CYCLE = int(os.getenv("MAX_SCORE_CYCLE", "20"))
 API_DELAY       = float(os.getenv("API_DELAY", "4.0"))
 MAX_PROCESSED   = 15_000
+
+INCIDENT_FLAGS_FILE = SCRIPT_DIR / "incident_flags.json"
+
+# 障害検知用キーワード（ステータスフィード向け）
+INCIDENT_KEYWORDS = {
+    "incident", "outage", "degraded", "disruption", "investigating",
+    "partial outage", "major outage", "service disruption",
+    "障害", "停止", "サービス停止", "調査中", "復旧", "影響",
+}
+
+# ステータスフィードの feed_id（category="status" として識別）
+STATUS_CATEGORIES = {"status", "Status"}
 
 TECH_KEYWORDS = {
     "docker", "firebase", "aws", "github", "kubernetes", "k8s",
@@ -240,6 +252,88 @@ def stage1_filter(articles: List[dict]) -> List[dict]:
             out.append(a)
     return out
 
+# ── Phase 4: Incident detection ───────────────────────────────────────────────
+
+def _extract_service_from_feed(feed_name: str) -> str:
+    """フィード名からサービス名を抽出する（例: 'GitHub Status' → 'GitHub'）。"""
+    return re.sub(r'\s*(Status|Blog|Changelog|News)\s*$', '', feed_name, flags=re.IGNORECASE).strip()
+
+
+def detect_incidents(articles: List[dict], feeds: List[dict]) -> List[dict]:
+    """24時間以内の障害情報を検知して incident リストを返す。
+
+    ステータスフィード（category='status'）または障害キーワードを含む記事を対象とする。
+    """
+    feed_category: dict[str, str] = {f["name"]: f.get("category", "") for f in feeds}
+    now_ts = datetime.now(timezone.utc).timestamp()
+    cutoff = now_ts - 86400  # 24時間以内
+
+    incidents = []
+    seen_services: set[str] = set()
+
+    for a in articles:
+        cat  = feed_category.get(a.get("feed_name", ""), "")
+        text = f"{a['title']} {a['summary']}".lower()
+
+        is_status_feed   = cat.lower() in STATUS_CATEGORIES or "status" in a.get("feed_name", "").lower()
+        has_incident_kw  = any(kw in text for kw in INCIDENT_KEYWORDS)
+
+        if not (is_status_feed or has_incident_kw):
+            continue
+
+        service = _extract_service_from_feed(a.get("feed_name", "Unknown"))
+        if service in seen_services:
+            continue
+        seen_services.add(service)
+
+        # キーワード抽出（タイトル・サマリーから名詞句を簡易抽出）
+        keywords = [
+            w for w in re.findall(r'\b[A-Z][a-zA-Z]+\b', a["title"])
+            if w not in {"The", "An", "A", "In", "On", "Is", "Are", "Was", "Has"}
+        ][:5]
+
+        incidents.append({
+            "service":     service,
+            "keywords":    keywords,
+            "detected_at": datetime.now(timezone.utc).isoformat(),
+            "title":       a["title"],
+            "link":        a.get("link", ""),
+            "feed_name":   a.get("feed_name", ""),
+        })
+        log.info("INCIDENT detected: %s — %s", service, a["title"][:60])
+
+    return incidents
+
+
+def save_incident_flags(incidents: List[dict]) -> None:
+    """incident_flags.json を生成する。既存データとマージして24時間以内のみ保持。"""
+    existing: List[dict] = []
+    if INCIDENT_FLAGS_FILE.exists():
+        try:
+            existing = json.loads(INCIDENT_FLAGS_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            existing = []
+
+    # 24時間以上前のエントリを除去
+    cutoff = datetime.now(timezone.utc).timestamp() - 86400
+    existing = [
+        e for e in existing
+        if datetime.fromisoformat(e["detected_at"]).timestamp() > cutoff
+    ]
+
+    # 同一サービスの重複を除去（新しい方を優先）
+    merged_by_service: dict[str, dict] = {e["service"]: e for e in existing}
+    for inc in incidents:
+        merged_by_service[inc["service"]] = inc
+
+    result = list(merged_by_service.values())
+    INCIDENT_FLAGS_FILE.write_text(
+        json.dumps(result, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    log.info("incident_flags.json: %d active incidents", len(result))
+
+
 # ── Stage 2: AI scoring ────────────────────────────────────────────────────────
 
 def _keyword_score(title: str, body: str) -> int:
@@ -350,6 +444,11 @@ async def run():
     if not new_articles:
         log.info("Nothing new – done")
         return
+
+    # Phase 4: 障害検知（全新規記事を対象、Stage 1 フィルタ前）
+    incidents = detect_incidents(new_articles, feeds)
+    if incidents:
+        save_incident_flags(incidents)
 
     # Stage 1: keyword filter
     candidates = stage1_filter(new_articles)

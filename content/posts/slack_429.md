@@ -4,6 +4,10 @@ date: 2026-05-28
 description: "短時間に送ったリクエスト数がSlack APIのレート制限を超えた。ループ処理の中でAPIを呼び出す間隔を設けていないなど、Slack 429 エラーの原因と解決策を解説。"
 tags: ["Slack"]
 errorCode: "429"
+service: "Slack"
+error_type: "429"
+components: []
+related_services: ["Node.js", "axios", "Python", "slack-sdk", "asyncio"]
 ---
 ## Slack 429 エラーの原因と解決策
 

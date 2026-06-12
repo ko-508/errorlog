@@ -4,6 +4,10 @@ date: 2026-05-31
 description: "サービスの状態がリクエストと競合している。Docker Compose 409 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "409"
+service: "Docker Compose"
+error_type: "409"
+components: ["Compose"]
+related_services: ["Docker", "nginx"]
 ---
 ## エラーの概要
 

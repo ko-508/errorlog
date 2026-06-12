@@ -4,6 +4,10 @@ date: 2026-05-30
 lastmod: 2026-05-31
 description: "PowerShellのechoで.envを作成するとUTF-16 LE（BOM付き）になりDocker Composeが起動失敗する。原因と恒久的な回避策を解説します。"
 tags: ["Docker Compose", "Docker"]
+service: "Docker Compose"
+error_type: "unexpected character"
+components: ["Compose"]
+related_services: ["PowerShell", "VSCode"]
 ---
 
 Windows環境で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`ファイルが原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。エラーメッセージに`\xff\xfe`や`unexpected character`が含まれている場合、ファイルのエンコードが原因です。

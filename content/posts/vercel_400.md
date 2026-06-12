@@ -4,6 +4,10 @@ date: 2026-06-06
 description: "Vercel APIへのリクエストの形式または内容に誤りがある。Vercel 400 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "400"
+service: "Vercel"
+error_type: "400"
+components: []
+related_services: ["Vercel CLI", "Vercel API"]
 ---
 ## エラーの概要
 

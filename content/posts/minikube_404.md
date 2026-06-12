@@ -5,6 +5,10 @@ lastmod: 2026-05-31
 description: "指定したKubernetesリソースが見つからない。Minikube 404 エラーの原因と解決策を解説します。"
 tags: ["Minikube"]
 errorCode: "404"
+service: "Minikube"
+error_type: "404"
+components: ["Pod", "Deployment", "Service", "Namespace"]
+related_services: ["Kubernetes", "kubectl"]
 ---
 Minikube で 404 [エラー](/glossary/エラー/)が出た場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。この[エラー](/glossary/エラー/)は開発環境でよく発生し、適切な確認手順で迅速に解決できます。
 

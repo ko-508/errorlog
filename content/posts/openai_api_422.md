@@ -4,6 +4,10 @@ date: 2026-05-28
 description: "リクエストの形式は正しいが、含まれているデータの内容が処理できない。Fine-tuningデータの形式エラーなど、OpenAI API 422エラーの原因と解決策を解説。"
 tags: ["OpenAI API"]
 errorCode: "422"
+service: "OpenAI API"
+error_type: "422"
+components: []
+related_services: ["Fine-tuning", "JSONL", "Python", "CLI"]
 ---
 
 OpenAI [API](/glossary/api/)で422[エラー](/glossary/エラー/)が発生するのは、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、含まれるデータが処理要件を満たしていないときです。特にFine-tuningでよく出現する[エラー](/glossary/エラー/)です。

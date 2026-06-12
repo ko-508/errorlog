@@ -5,6 +5,10 @@ description: "Nginx が受け取ったリクエストに対して、指定され
 tags: ["Nginx"]
 errorCode: "404"
 lastmod: 2026-05-31
+service: "Nginx"
+error_type: "404"
+components: []
+related_services: []
 ---
 
 ## エラーの概要

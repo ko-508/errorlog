@@ -4,6 +4,10 @@ date: 2026-06-07
 description: "VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った。Vercel 502 エラーの原因と解決策を解説します。"
 tags: ["Vercel"]
 errorCode: "502"
+service: "Vercel"
+error_type: "502"
+components: []
+related_services: ["Node.js", "Next.js"]
 ---
 ## エラーの概要
 

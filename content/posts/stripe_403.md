@@ -5,6 +5,10 @@ description: "Stripe の 403 エラーは、認証には成功したものの、
 tags: ["Stripe"]
 errorCode: "403"
 lastmod: 2026-05-31
+service: "Stripe"
+error_type: "403"
+components: []
+related_services: ["API", "Dashboard", "Stripe Connect"]
 ---
 ## エラーの概要
 

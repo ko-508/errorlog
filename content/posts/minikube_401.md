@@ -4,6 +4,10 @@ date: 2026-05-29
 description: "Minikubeクラスターへの認証に失敗した。kubeconfigの設定ミスや証明書の期限切れなど、Minikube 401エラーの原因と解決策を解説。"
 tags: ["Minikube"]
 errorCode: "401"
+service: "Minikube"
+error_type: "401"
+components: []
+related_services: ["Kubernetes", "kubectl", "kubeconfig"]
 ---
 Minikubeへの[認証](/glossary/認証/)に失敗して401[エラー](/glossary/エラー/)が発生します。この[エラー](/glossary/エラー/)は kubeconfig の設定が Minikube クラスターと一致していない場合に起こります。
 

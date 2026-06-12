@@ -4,6 +4,10 @@ date: 2026-06-10
 description: "Terraformが作成しようとするリソースがすでに存在して競合している。Terraform 409 エラーの原因と解決策を解説します。"
 tags: ["Terraform"]
 errorCode: "409"
+service: "Terraform"
+error_type: "409"
+components: ["State", "Provider", "Backend", "Workspace"]
+related_services: ["AWS", "S3", "EC2", "CloudFormation", "Terraform Cloud"]
 ---
 ## エラーの概要
 
