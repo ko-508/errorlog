@@ -1160,13 +1160,20 @@ def has_score_degraded(result: FactCheckResult) -> bool:
     return factual_drop >= 10 or risk_increase >= 15
 
 
-def save_report(result: FactCheckResult) -> FactCheckResult:
+def save_report(result: FactCheckResult, *, write_report: bool = True) -> FactCheckResult:
+    """Score history は常に追記する。write_report=False でレポートファイル書き込みを抑制。
+
+    baseline_fact_check.py など副作用を遮断したい呼び出し元は write_report=False を渡す。
+    日次・fact_check_existing の既存経路はデフォルト(True)のままなので挙動は変わらない。
+    """
+    append_score_history(result)
+    if not write_report:
+        return result
     subdir = "new_articles" if result.mode == "new" else "existing_articles"
     out_dir = REPORTS_DIR / subdir
     out_dir.mkdir(parents=True, exist_ok=True)
     out = out_dir / safe_report_name(Path(result.path))
     result.report_path = str(out.relative_to(BASE).as_posix())
-    append_score_history(result)
     out.write_text(json.dumps(asdict(result), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     cleanup_reports()
     return result
