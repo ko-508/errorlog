@@ -44,7 +44,6 @@ Error: Error creating XXX: XXX (xxx): InvalidParameterException: Resource alread
 ```hcl
 resource "aws_s3_bucket" "data_bucket" {
   bucket = "my-existing-bucket"
-  acl    = "private"
 }
 ```
 
@@ -64,6 +63,19 @@ terraform import aws_s3_bucket.data_bucket my-existing-bucket
 
 # ステップ 3: terraform plan で差異を確認し、必要に応じて .tf ファイルを修正
 terraform plan
+```
+
+ACL（アクセス制御リスト）を設定する場合は、Terraform AWS Provider のバージョン 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
+
+```hcl
+resource "aws_s3_bucket" "data_bucket" {
+  bucket = "my-existing-bucket"
+}
+
+resource "aws_s3_bucket_acl" "data_bucket_acl" {
+  bucket = aws_s3_bucket.data_bucket.id
+  acl    = "private"
+}
 ```
 
 ### 原因 2：terraform apply が中断して中途半端な状態になっている
