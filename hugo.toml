@@ -6,8 +6,6 @@ defaultContentLanguage = "ja"
 
 paginate = 26
 
-ignoreFiles = ['\\.jsonl$']
-
 mainSections = ["posts"]
 
 [params]
