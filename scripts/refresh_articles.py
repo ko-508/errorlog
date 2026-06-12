@@ -35,12 +35,24 @@ THIN_CHAR_THRESHOLD  = int(os.getenv("THIN_CHAR_THRESHOLD", "1200"))
 BASE               = Path(__file__).parent
 POSTS_DIR          = BASE.parent / "content" / "posts"
 PRIORITY_FILE      = BASE / "rewrite_priority.json"
+DELETED_FILE       = BASE.parent / "data" / "deleted_articles.json"
 COMPETITOR_FILE    = BASE / "competitor_analysis.json"
 REFRESH_MANIFEST   = BASE / "refresh_manifest.json"
 REWRITE_REPORT_FILE = BASE / "rewrite_report.json"  # Phase 4: リライト前後比較
 
 
 # ─── 競合コンテキスト ─────────────────────────────────────
+
+def _load_deleted_paths() -> set[str]:
+    """Return set of paths recorded in data/deleted_articles.json."""
+    if not DELETED_FILE.exists():
+        return set()
+    try:
+        data = json.loads(DELETED_FILE.read_text(encoding="utf-8"))
+        return {e["path"] for e in data if isinstance(e, dict) and "path" in e}
+    except Exception:
+        return set()
+
 
 def _load_competitor_context(title: str) -> str:
     """
@@ -609,9 +621,14 @@ def main() -> None:
     priority_scores = _load_priority_scores()
     sq_map          = _load_search_queries_file()  # slug → top_queries list
 
+    deleted_paths = _load_deleted_paths()
+
     # 更新対象を抽出（古い順 → priority_score で上書きソート）
     targets_raw: list[tuple[str, Path, str]] = []
     for md_path in md_files:
+        rel = str(md_path.relative_to(BASE.parent).as_posix())
+        if rel in deleted_paths:
+            continue
         text = md_path.read_text(encoding="utf-8")
         fm = parse_frontmatter(text)
         if needs_refresh(fm, md_path.stem, REFRESH_DAYS, manifest):

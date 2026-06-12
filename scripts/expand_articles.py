@@ -22,6 +22,7 @@ import anthropic
 
 BASE      = Path(__file__).parent
 POSTS_DIR = BASE.parent / "content" / "posts"
+DELETED_FILE = BASE.parent / "data" / "deleted_articles.json"
 
 MAX_EXPAND     = int(os.getenv("MAX_EXPAND", "10"))
 FORCE          = os.getenv("FORCE", "0") == "1"
@@ -121,6 +122,18 @@ def normalize_before_after(text: str) -> str:
     return ''.join(parts)
 
 
+def _load_deleted_paths() -> set[str]:
+    """Return set of paths recorded in data/deleted_articles.json."""
+    if not DELETED_FILE.exists():
+        return set()
+    try:
+        import json as _json
+        data = _json.loads(DELETED_FILE.read_text(encoding="utf-8"))
+        return {e["path"] for e in data if isinstance(e, dict) and "path" in e}
+    except Exception:
+        return set()
+
+
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     if not text.startswith("---"):
         return {}, text
@@ -188,11 +201,15 @@ def main() -> None:
     client = anthropic.Anthropic(api_key=api_key)
     today  = date.today().isoformat()
 
+    deleted_paths = _load_deleted_paths()
     posts = sorted(POSTS_DIR.glob("*.md"), key=lambda p: p.name)
     targets = []
 
     for src in posts:
         if src.name.startswith("_"):
+            continue
+        rel = f"content/posts/{src.name}"
+        if rel in deleted_paths:
             continue
         text = src.read_text(encoding="utf-8")
         fm, body = parse_frontmatter(text)

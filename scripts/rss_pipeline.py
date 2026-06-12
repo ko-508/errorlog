@@ -42,6 +42,10 @@ MAX_SCORE_CYCLE = int(os.getenv("MAX_SCORE_CYCLE", "20"))
 API_DELAY       = float(os.getenv("API_DELAY", "4.0"))
 MAX_PROCESSED   = 15_000
 
+# Increment when scoring prompt logic changes (used to identify historical records).
+RSS_SCORE_PROMPT_VERSION = "2"
+SCORE_HISTORY_FILE = REPO_ROOT / "data" / "rss_score_history.jsonl"
+
 INCIDENT_FLAGS_FILE = SCRIPT_DIR / "incident_flags.json"
 
 # 障害検知用キーワード（ステータスフィード向け）
@@ -73,6 +77,11 @@ ERROR_SIGNALS = {
 
 _DRAFT_SYSTEM = """あなたは「ErrorLog（errorlog.jp）」専任のテクニカルライターです。
 日本人エンジニア向けに、HTTPエラーの原因と解決策を実用的に解説する記事を執筆します。
+
+## スキップ条件（最優先）
+ソース記事に具体的なエラーメッセージ・例外名・HTTPステータスコード・exit code が一切含まれない場合は、
+記事を書かず以下の1行のみを出力すること:
+[[SKIP: no specific error found]]
 
 ## 必須セクション（この順番で記述）
 
@@ -349,37 +358,83 @@ def _keyword_score(title: str, body: str) -> int:
     return min(score, 100)
 
 
-async def score_article(client, types, title: str, body: str) -> int:
+async def score_article(client, types, title: str, body: str) -> tuple[bool, int]:
+    """Score article. Returns (eligible, score).
+
+    eligible=False → reject regardless of score (hard gate).
+    Prompt version: RSS_SCORE_PROMPT_VERSION.
+    """
     prompt = (
-        "Rate this technical article for DevOps/backend engineers (0-100).\n"
+        "Evaluate this technical article in two steps.\n\n"
+        "Step 1 — Eligibility check:\n"
+        "Does this article describe a specific, reproducible technical error? "
+        "(HTTP status code, exception name, exit code, crash, or concrete failure condition)\n"
+        "Answer eligible: YES or eligible: NO.\n"
+        "If NO, score must be 0–30.\n\n"
+        "Step 2 — Relevance score (0–100) for DevOps/backend engineers:\n"
         "High (65+): debugging guides, error/failure/outage analysis, troubleshooting, "
-        "configuration fixes, performance issues, security vulnerabilities.\n"
-        "Medium (40-64): architecture/setup with operational depth, error handling patterns, "
-        "incident post-mortems, tool comparisons with caveats.\n"
-        "Low (0-39): general tutorials, conceptual overviews, announcements, "
-        "beginner hello-world articles.\n"
-        'Return ONLY JSON: {"score": 72}\n\n'
+        "configuration fixes.\n"
+        "Medium (40–64): architecture/setup with operational depth, error handling patterns, "
+        "incident post-mortems.\n"
+        "Low (0–39): general tutorials, conceptual overviews, opinion pieces, "
+        "migration stories without specific errors, announcements.\n\n"
+        'Return ONLY JSON: {"eligible": "YES", "score": 72}\n\n'
         f"Title: {title}\n\nBody (first 600 chars):\n{body[:600]}"
     )
     try:
         raw = await _gemini_call(client, types, "gemini-2.5-flash",
                                  "You are a tech article evaluator.", prompt,
-                                 temp=0.1, max_tokens=50,
+                                 temp=0.1, max_tokens=60,
                                  response_mime_type="application/json")
-        m = re.search(r'"score"\s*:\s*(\d+)', raw)
-        if m:
-            return min(100, max(0, int(m.group(1))))
-        nums = re.findall(r'\b(\d{2,3})\b', raw)
-        if nums:
-            return min(100, max(0, int(nums[0])))
+        em = re.search(r'"eligible"\s*:\s*"(YES|NO)"', raw, re.IGNORECASE)
+        eligible = (em.group(1).upper() == "YES") if em else True
+        sm = re.search(r'"score"\s*:\s*(\d+)', raw)
+        if sm:
+            score = min(100, max(0, int(sm.group(1))))
+        else:
+            nums = re.findall(r'\b(\d{2,3})\b', raw)
+            score = min(100, max(0, int(nums[0]))) if nums else _keyword_score(title, body)
+        return eligible, score
     except Exception as e:
         log.warning("Score failed: %s — falling back to keyword score", e)
-        return _keyword_score(title, body)
-    return _keyword_score(title, body)
+        return True, _keyword_score(title, body)
+
+
+def append_rss_score_history(
+    *,
+    scored_at: str,
+    source_url: str,
+    title: str,
+    eligible: bool,
+    score: int,
+    adopted: bool,
+    skipped_at_generation: bool = False,
+    gemini_model: str = "gemini-2.5-flash",
+) -> None:
+    """Append one scoring record to data/rss_score_history.jsonl."""
+    record = {
+        "scored_at": scored_at,
+        "source_url": source_url,
+        "title": title,
+        "eligible": eligible,
+        "score": score,
+        "adopted": adopted,
+        "skipped_at_generation": skipped_at_generation,
+        "gemini_model": gemini_model,
+        "prompt_version": RSS_SCORE_PROMPT_VERSION,
+    }
+    SCORE_HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with SCORE_HISTORY_FILE.open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 # ── Draft generation ───────────────────────────────────────────────────────────
 
-async def generate_draft(client, types, article: dict, body: str) -> str:
+async def generate_draft(client, types, article: dict, body: str) -> tuple[str, bool]:
+    """Generate article draft. Returns (content, skipped).
+
+    skipped=True when model outputs [[SKIP: no specific error found]],
+    meaning the generation gate rejected the source material.
+    """
     today = date.today().isoformat()
     tool  = article["feed_name"].replace(" Blog", "").replace(" News", "")
     prompt = (
@@ -396,8 +451,11 @@ async def generate_draft(client, types, article: dict, body: str) -> str:
         f'tags: ["{tool}"]\n'
         f"---\n"
     )
-    return await _gemini_call(client, types, "gemini-2.5-flash",
-                              _DRAFT_SYSTEM, prompt, temp=0.3, max_tokens=8192)
+    content = await _gemini_call(client, types, "gemini-2.5-flash",
+                                 _DRAFT_SYSTEM, prompt, temp=0.3, max_tokens=8192)
+    if "[[SKIP" in content:
+        return content, True
+    return content, False
 
 # ── Processed IDs ─────────────────────────────────────────────────────────────
 
@@ -468,24 +526,51 @@ async def run():
             await asyncio.sleep(API_DELAY)
 
         body = await extract_text(article["link"], article["summary"])
+        scored_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
-        score = await score_article(client, types, article["title"], body)
-        if score < 0:
-            log.warning("Score parse failed: %s", article["title"][:60])
+        eligible, score = await score_article(client, types, article["title"], body)
+        log.info("Score %3d/100  eligible=%-3s  %s",
+                 score, "YES" if eligible else "NO", article["title"][:60])
+
+        if not eligible:
+            log.info("✗ eligible=NO — rejected at scoring gate")
+            append_rss_score_history(
+                scored_at=scored_at, source_url=article["link"],
+                title=article["title"], eligible=eligible,
+                score=score, adopted=False,
+            )
             continue
 
-        log.info("Score %3d/100  %s", score, article["title"][:60])
-
         if score < SCORE_THRESHOLD:
+            log.info("✗ score %d below threshold %d", score, SCORE_THRESHOLD)
+            append_rss_score_history(
+                scored_at=scored_at, source_url=article["link"],
+                title=article["title"], eligible=eligible,
+                score=score, adopted=False,
+            )
             continue
 
         log.info("★ Threshold hit – generating draft …")
         await asyncio.sleep(API_DELAY)
 
         try:
-            draft = await generate_draft(client, types, article, body)
+            draft, skipped = await generate_draft(client, types, article, body)
         except Exception as e:
             log.error("Draft generation failed: %s", e)
+            append_rss_score_history(
+                scored_at=scored_at, source_url=article["link"],
+                title=article["title"], eligible=eligible,
+                score=score, adopted=False,
+            )
+            continue
+
+        if skipped:
+            log.info("✗ [[SKIP]] – generation gate rejected (no specific error in source)")
+            append_rss_score_history(
+                scored_at=scored_at, source_url=article["link"],
+                title=article["title"], eligible=eligible,
+                score=score, adopted=False, skipped_at_generation=True,
+            )
             continue
 
         # Save draft
@@ -496,6 +581,11 @@ async def run():
         draft = normalize_before_after(draft)
         filepath.write_text(draft, encoding="utf-8")
         log.info("SAVED  score=%d  file=%s", score, filename)
+        append_rss_score_history(
+            scored_at=scored_at, source_url=article["link"],
+            title=article["title"], eligible=eligible,
+            score=score, adopted=True,
+        )
         drafted += 1
 
     log.info("── Pipeline end: %d drafts generated ──", drafted)
