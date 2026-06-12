@@ -694,3 +694,95 @@ html[data-theme="dark"] .raw-log-label {
     overflow-x: auto;
   }
 }
+
+/* ══════════════════════════════════════════════
+   障害速報バナー（トップページ・1ページ目のみ）
+   ══════════════════════════════════════════════ */
+.incident-banner {
+  margin: 0 0 1.5rem;
+  border: 1px solid rgba(255, 153, 0, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--entry);
+}
+
+.incident-banner__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  background: rgba(255, 153, 0, 0.08);
+  border-bottom: 1px solid rgba(255, 153, 0, 0.3);
+}
+html[data-theme="dark"] .incident-banner__header {
+  background: rgba(255, 153, 0, 0.12);
+}
+
+.incident-banner__icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.incident-banner__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--secondary);
+}
+
+.incident-banner__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.incident-banner__item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.incident-banner__item:last-child {
+  border-bottom: none;
+}
+.incident-banner__item:hover {
+  background: rgba(255, 153, 0, 0.05);
+}
+
+.incident-banner__item .tool-badge,
+.incident-banner__item .error-badge {
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.incident-banner__item a {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.4;
+}
+.incident-banner__item a:hover {
+  text-decoration: underline;
+}
+
+/* 600px 以下: バッジを1行目・タイトルを2行目 */
+@media (max-width: 599px) {
+  .incident-banner__item {
+    flex-wrap: wrap;
+    gap: 0.25rem 0.4rem;
+  }
+  .incident-banner__item a {
+    flex-basis: 100%;
+  }
+}
