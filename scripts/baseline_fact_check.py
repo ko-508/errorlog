@@ -251,6 +251,8 @@ def run_full(args: argparse.Namespace) -> int:
         st = _exec_status(result)
         counts[st] = counts.get(st, 0) + 1
         print(f"[baseline] ({i}/{len(todo)}) {rel}  {st}  {_score_line(result)}")
+        if st != "ok" and result.error_detail:
+            print(f"           error_detail: {result.error_detail}")
         scored.append(rel)
         save_progress("full", scored, started_at)
 
@@ -337,6 +339,8 @@ def run_repeat_set(args: argparse.Namespace) -> int:
         if result.article_hash:
             hash_by_path.setdefault(rel, set()).add(result.article_hash)
         print(f"[baseline] ({i}/{len(todo)}) round={round_idx}  {rel}  {st}  {_score_line(result)}")
+        if st != "ok" and result.error_detail:
+            print(f"           error_detail: {result.error_detail}")
         scored_keys.append(f"{rel}::{round_idx}")
         save_progress("repeat", scored_keys, started_at)
 

@@ -178,6 +178,7 @@ class FactCheckResult:
     timeout_seconds: float = GEMINI_TIMEOUT_SECONDS
     gemini_model: str = ""
     article_hash: str = ""
+    error_detail: str | None = None
 
 
 def split_frontmatter(content: str) -> tuple[dict[str, str], str]:
@@ -718,7 +719,7 @@ Article excerpt:
     except KeyboardInterrupt:
         raise
     except Exception as exc:
-        error = f"gemini_error: {exc}"
+        error = f"gemini_error: {type(exc).__name__}: {exc}"
         return GeminiEvaluation(
             status="unavailable",
             error=error,
@@ -727,6 +728,10 @@ Article excerpt:
 
 
 def failed_gemini_result(path: Path, title: str, mode: str, gemini: GeminiEvaluation) -> FactCheckResult:
+    detail = gemini.error[:300]
+    raw = gemini.raw_response_excerpt
+    if raw and raw != "<empty>":
+        detail = f"{detail} | raw:{raw[:300]}"
     return FactCheckResult(
         path=str(path.as_posix()),
         title=title,
@@ -748,6 +753,7 @@ def failed_gemini_result(path: Path, title: str, mode: str, gemini: GeminiEvalua
         score_valid=False,
         raw_response_excerpt=gemini.raw_response_excerpt,
         parse_error=gemini.parse_error or gemini.error,
+        error_detail=detail,
     )
 
 
@@ -778,6 +784,7 @@ def unavailable_gemini_result(
         error=error,
         gemini_error_category=category,
         score_valid=False,
+        error_detail=error[:300],
     )
 
 
@@ -1060,6 +1067,9 @@ def append_score_history(result: FactCheckResult) -> bool:
       article_hash      SHA256[:12] of article body (frontmatter excluded)
       unsupported_claims list of unsupported claim strings from Gemini evaluation
       sources           list of source dicts from Gemini evaluation
+      error_detail      exception type+message (first 300 chars) on failure;
+                        for JSON parse failures also includes raw response excerpt
+                        ("parse_error[:300] | raw:raw_response[:300]"); null on success
     """
     SCORE_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
     scores = result.scores
@@ -1090,6 +1100,7 @@ def append_score_history(result: FactCheckResult) -> bool:
         "article_hash": result.article_hash,
         "unsupported_claims": result.unsupported_claims,
         "sources": result.sources,
+        "error_detail": result.error_detail,
     }
     with SCORE_HISTORY_PATH.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(record, ensure_ascii=False) + "\n")
