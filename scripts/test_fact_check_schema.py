@@ -1,6 +1,7 @@
 """Unit tests for fact_check.py schema additions (article_hash, null scores, status values)."""
 
 import json
+import http.client
 import sys
 import tempfile
 from pathlib import Path
@@ -10,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from fact_check import (
     FactCheckResult,
     append_score_history,
+    check_url_status,
     compute_article_hash,
     split_frontmatter,
 )
@@ -143,8 +145,50 @@ def test_ok_status_for_passing_result() -> None:
     print("PASS test_ok_status_for_passing_result")
 
 
+def test_check_url_status_rejects_invalid_urls() -> None:
+    """Invalid URL inputs should never leak exceptions."""
+    with patch("urllib.request.urlopen") as urlopen:
+        assert check_url_status("ftp://example.com/file") == "invalid_url"
+        assert check_url_status("https://example.com/\x00bad") == "invalid_url"
+        urlopen.assert_not_called()
+
+    print("PASS test_check_url_status_rejects_invalid_urls")
+
+
+def test_check_url_status_removes_wrapping_whitespace() -> None:
+    """Whitespace introduced by line wrapping is removed before validation."""
+    class FakeResponse:
+        status = 204
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb):
+            return False
+
+    with patch("urllib.request.urlopen", return_value=FakeResponse()) as urlopen:
+        status = check_url_status("https://example.com/grounding-api-redirect/\nabc")
+
+    assert status == "204"
+    request = urlopen.call_args.args[0]
+    assert request.full_url == "https://example.com/grounding-api-redirect/abc"
+
+    print("PASS test_check_url_status_removes_wrapping_whitespace")
+
+
+def test_check_url_status_catches_urlopen_invalid_url() -> None:
+    """urlopen InvalidURL should be contained inside check_url_status."""
+    with patch("urllib.request.urlopen", side_effect=http.client.InvalidURL("bad url")):
+        assert check_url_status("https://example.com/valid-looking") == "error"
+
+    print("PASS test_check_url_status_catches_urlopen_invalid_url")
+
+
 if __name__ == "__main__":
     test_article_hash_pure()
     test_unavailable_status_null_scores()
     test_ok_status_for_passing_result()
+    test_check_url_status_rejects_invalid_urls()
+    test_check_url_status_removes_wrapping_whitespace()
+    test_check_url_status_catches_urlopen_invalid_url()
     print("\nAll tests passed.")

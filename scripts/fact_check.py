@@ -14,6 +14,7 @@ import os
 import re
 import sys
 import time
+import http.client
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import TimeoutError as FuturesTimeoutError
 import urllib.error
@@ -238,11 +239,31 @@ def is_valid_http_url(url: str) -> bool:
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
+def normalize_url_for_check(url: str) -> str | None:
+    url = str(url or "")
+    candidates = [url.strip()]
+    without_whitespace = re.sub(r"\s+", "", url)
+    if without_whitespace not in candidates:
+        candidates.append(without_whitespace)
+
+    for candidate in candidates:
+        if not candidate:
+            continue
+        if any(ord(ch) < 32 or ord(ch) == 127 or ch.isspace() for ch in candidate):
+            continue
+        if is_valid_http_url(candidate):
+            return candidate
+    return None
+
+
 def check_url_status(url: str) -> str:
     if not URL_CHECK_ENABLED:
         return "skipped"
-    request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
+    url = normalize_url_for_check(url)
+    if url is None:
+        return "invalid_url"
     try:
+        request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
         with urllib.request.urlopen(request, timeout=URL_CHECK_TIMEOUT) as response:
             return str(response.status)
     except Exception:
@@ -250,8 +271,12 @@ def check_url_status(url: str) -> str:
             request = urllib.request.Request(url, method="GET", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
             with urllib.request.urlopen(request, timeout=URL_CHECK_TIMEOUT) as response:
                 return str(response.status)
+        except http.client.InvalidURL:
+            return "error"
         except (urllib.error.URLError, TimeoutError, ValueError):
             return "skipped"
+        except Exception:
+            return "error"
 
 
 def validate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, int], int, list[str]]:
