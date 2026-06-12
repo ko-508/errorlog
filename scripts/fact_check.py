@@ -10,12 +10,12 @@ import argparse
 import hashlib
 import json
 import math
-import multiprocessing
 import os
 import re
-import queue
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import TimeoutError as FuturesTimeoutError
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -559,27 +559,35 @@ def validate_gemini_payload(raw: str) -> GeminiEvaluation:
     )
 
 
-def _gemini_generate_worker(api_key: str, model: str, prompt: str, out_queue: multiprocessing.Queue) -> None:
-    try:
-        from google import genai as google_genai
-        from google.genai import types as genai_types
+def _call_gemini_api(api_key: str, model: str, prompt: str) -> str:
+    """Invoke Gemini API with Google Search grounding and return response text.
 
-        client = google_genai.Client(api_key=api_key)
-        response = client.models.generate_content(
-            model=model,
-            contents=prompt,
-            config=genai_types.GenerateContentConfig(
-                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())],
-            ),
-        )
-        out_queue.put({"ok": True, "text": response.text})
-    except KeyboardInterrupt:
-        raise
-    except BaseException as exc:
-        out_queue.put({"ok": False, "error": f"{type(exc).__name__}: {exc}"})
+    Runs in a worker thread. Any exception propagates to the caller via the Future.
+    """
+    from google import genai as google_genai
+    from google.genai import types as genai_types
+
+    client = google_genai.Client(api_key=api_key)
+    response = client.models.generate_content(
+        model=model,
+        contents=prompt,
+        config=genai_types.GenerateContentConfig(
+            tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())],
+        ),
+    )
+    return response.text or ""
 
 
 def generate_gemini_content_with_timeout(api_key: str, model: str, prompt: str) -> GeminiEvaluation:
+    """Call Gemini API with a hard timeout using a worker thread.
+
+    ThreadPoolExecutor is used instead of multiprocessing to avoid a classic
+    pipe-buffer deadlock: when the response exceeds the OS pipe buffer (~4 KB on
+    Windows) the child's queue.put() blocks, but the parent is in proc.join()
+    waiting for the child to exit — a deadlock that manifests as a full-timeout
+    hang even when Gemini responds successfully.  With threads, the result is
+    shared in-process memory; no IPC pipe is involved.
+    """
     mock_sleep = os.getenv("FACT_CHECK_GEMINI_MOCK_SLEEP_SECONDS")
     if mock_sleep:
         try:
@@ -595,39 +603,30 @@ def generate_gemini_content_with_timeout(api_key: str, model: str, prompt: str) 
             )
         time.sleep(max(0, sleep_seconds))
 
-    ctx = multiprocessing.get_context("spawn")
-    out_queue: multiprocessing.Queue = ctx.Queue()
-    proc = ctx.Process(
-        target=_gemini_generate_worker,
-        args=(api_key, model, prompt, out_queue),
-    )
-    proc.start()
-    proc.join(GEMINI_TIMEOUT_SECONDS)
-    if proc.is_alive():
-        proc.terminate()
-        proc.join(5)
+    executor = ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(_call_gemini_api, api_key, model, prompt)
+    try:
+        text = future.result(timeout=GEMINI_TIMEOUT_SECONDS)
+    except FuturesTimeoutError:
+        executor.shutdown(wait=False)
         return GeminiEvaluation(
             status="unavailable",
             error="gemini timeout",
             error_category="timeout",
         )
-    try:
-        result = out_queue.get_nowait()
-    except queue.Empty:
-        error = f"gemini_error: process exited with code {proc.exitcode}"
+    except KeyboardInterrupt:
+        executor.shutdown(wait=False)
+        raise
+    except Exception as exc:
+        executor.shutdown(wait=False)
+        error = f"gemini_error: {type(exc).__name__}: {exc}"
         return GeminiEvaluation(
             status="unavailable",
             error=error,
             error_category=gemini_unavailable_category(error),
         )
-    if result.get("ok"):
-        return validate_gemini_payload(str(result.get("text", "")))
-    error = f"gemini_error: {result.get('error', 'unknown error')}"
-    return GeminiEvaluation(
-        status="unavailable",
-        error=error,
-        error_category=gemini_unavailable_category(error),
-    )
+    executor.shutdown(wait=False)
+    return validate_gemini_payload(text)
 
 
 def retry_prompt_for_parse_error(prompt: str) -> str:
