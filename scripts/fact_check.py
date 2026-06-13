@@ -55,6 +55,8 @@ GEMINI_DELAY_SECONDS = float(os.getenv("FACT_CHECK_GEMINI_DELAY_SECONDS", "0"))
 GEMINI_TIMEOUT_COOLDOWN_SECONDS = float(os.getenv("FACT_CHECK_GEMINI_TIMEOUT_COOLDOWN_SECONDS", "30"))
 UNAVAILABLE_RETRY_AFTER_HOURS = float(os.getenv("FACT_CHECK_UNAVAILABLE_RETRY_AFTER_HOURS", "24"))
 RECENTLY_CHECKED_SKIP_HOURS = float(os.getenv("FACT_CHECK_RECENTLY_CHECKED_SKIP_HOURS", "168"))
+# 新記事ゲートの多数決回数。1 で従来単発と同等（既存記事サンプリングは常に 1 回）
+FACT_CHECK_VOTE_COUNT = int(os.getenv("FACT_CHECK_VOTE_COUNT", "3"))
 
 SCORE_KEYS = ("factual_score", "freshness_score", "citation_coverage", "risk_score")
 
@@ -180,6 +182,10 @@ class FactCheckResult:
     gemini_model: str = ""
     article_hash: str = ""
     error_detail: str | None = None
+    # 多数決フィールド（単発採点時はデフォルト値のまま）
+    vote_group_id: str = ""
+    is_final_vote: bool = False
+    vote_count: int = 1
 
 
 def split_frontmatter(content: str) -> tuple[dict[str, str], str]:
@@ -983,10 +989,9 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
             reasons.append("new article has no URL-backed sources")
             actions.append("Add at least one official or primary source URL before publication.")
 
+    # 判定軸は factual + risk の2軸のみ。freshness/citation はスコア記録は継続するが判定に使わない
     passed = (
         scores["factual_score"] >= MIN_FACTUAL
-        and scores["freshness_score"] >= MIN_FRESHNESS
-        and scores["citation_coverage"] >= MIN_CITATION
         and scores["risk_score"] <= MAX_RISK
     )
     critical_topic = any(term.lower() in f"{title}\n{body}".lower() for term in CRITICAL_TERMS)
@@ -1069,15 +1074,15 @@ def compute_article_hash(body: str) -> str:
 def append_score_history(result: FactCheckResult) -> bool:
     """Append one JSONL record to SCORE_HISTORY_PATH.
 
-    Fields written (19 total):
+    Fields written (22 total):
       checked_at        ISO-8601 UTC timestamp of this check run
       mode              "new" | "existing"
       path              article relative path (content/posts/...)
       title             article title string
       overall_judgement result status string (legacy alias of status)
       factual_score     0-100, or null when fact check was unavailable/failed
-      freshness_score   0-100, or null
-      citation_coverage 0-100, or null
+      freshness_score   0-100, or null (recorded but NOT used in pass/fail judgement)
+      citation_coverage 0-100, or null (recorded but NOT used in pass/fail judgement)
       risk_score        0-100, or null
       critical          bool
       gemini_model      Gemini model name used (FACT_CHECK_GEMINI_MODEL env)
@@ -1094,6 +1099,10 @@ def append_score_history(result: FactCheckResult) -> bool:
       error_detail      exception type+message (first 300 chars) on failure;
                         for JSON parse failures also includes raw response excerpt
                         ("parse_error[:300] | raw:raw_response[:300]"); null on success
+      vote_group_id     UUID4 shared by all votes in a majority-vote group; "" for single-shot evals
+      is_final_vote     true on the median-score record that determines the gate verdict;
+                        false on raw individual votes; false for single-shot evals
+      vote_count        total number of votes requested (1 for single-shot evals)
     """
     SCORE_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
     scores = result.scores
@@ -1125,6 +1134,9 @@ def append_score_history(result: FactCheckResult) -> bool:
         "unsupported_claims": result.unsupported_claims,
         "sources": result.sources,
         "error_detail": result.error_detail,
+        "vote_group_id": result.vote_group_id,
+        "is_final_vote": result.is_final_vote,
+        "vote_count": result.vote_count,
     }
     with SCORE_HISTORY_PATH.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(record, ensure_ascii=False) + "\n")
@@ -1503,8 +1515,87 @@ def check_new_paths(paths: list[Path]) -> list[FactCheckResult]:
 
 
 def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
-    result = evaluate_content(path, content, "new")
-    return save_report(result)
+    """New-article gate with optional majority-vote scoring.
+
+    When FACT_CHECK_VOTE_COUNT >= 2, runs evaluate_content N times and adopts
+    per-axis median scores to reduce flip rate. Each raw vote is saved to JSONL
+    with is_final_vote=False; the median-derived final result is saved with
+    is_final_vote=True. Both share the same vote_group_id.
+
+    When FACT_CHECK_VOTE_COUNT == 1 (or any unavailable result makes valid
+    votes < 2), falls back to single-shot behaviour.
+    """
+    import statistics
+    import dataclasses
+
+    n_votes = FACT_CHECK_VOTE_COUNT
+    if n_votes <= 1:
+        result = evaluate_content(path, content, "new")
+        return save_report(result)
+
+    group_id = str(uuid.uuid4())
+    raw: list[FactCheckResult] = []
+    for _ in range(n_votes):
+        r = evaluate_content(path, content, "new")
+        r.vote_group_id = group_id
+        r.is_final_vote = False
+        r.vote_count = n_votes
+        save_report(r)
+        raw.append(r)
+
+    valid = [r for r in raw if r.score_valid]
+    if len(valid) < 2:
+        # Not enough valid votes to take a meaningful median; return last raw result
+        last = raw[-1]
+        last.is_final_vote = True
+        return last
+
+    # Per-axis median (integer)
+    median_scores: dict[str, int] = {
+        key: int(statistics.median(r.scores[key] for r in valid))
+        for key in SCORE_KEYS
+    }
+
+    # Recompute gate verdict from median scores (2-axis: factual + risk)
+    m_passed = (
+        median_scores["factual_score"] >= MIN_FACTUAL
+        and median_scores["risk_score"] <= MAX_RISK
+    )
+    m_critical = median_scores["risk_score"] >= CRITICAL_RISK
+
+    if m_critical:
+        m_status = "critical"
+    elif not m_passed:
+        m_status = "reject"
+    else:
+        m_status = "pass"
+
+    # Use the vote whose factual_score is closest to the median as the narrative template
+    template = min(valid, key=lambda r: abs(r.scores["factual_score"] - median_scores["factual_score"]))
+
+    final = dataclasses.replace(
+        template,
+        scores=median_scores,
+        passed=m_passed,
+        critical=m_critical,
+        status=m_status,
+        vote_group_id=group_id,
+        is_final_vote=True,
+        vote_count=n_votes,
+        score_history_appended=False,  # ensure save_report appends fresh
+    )
+
+    # Structured vote log
+    f_vals = [r.scores["factual_score"] for r in valid]
+    r_vals = [r.scores["risk_score"] for r in valid]
+    print(
+        f"[vote] {path} "
+        f"factual={f_vals}→median={median_scores['factual_score']} "
+        f"risk={r_vals}→median={median_scores['risk_score']} "
+        f"verdict={'pass' if m_passed else 'fail'}"
+    )
+
+    return save_report(final)
 
 
 def new_article_key(slug: str, row: dict[str, Any]) -> str:
