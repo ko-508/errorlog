@@ -9,310 +9,298 @@ error_type: "429"
 components: ["REST API", "Virtual Machines", "Compute"]
 related_services: ["PowerShell", "Azure CLI"]
 trend_incident: true
+lastmod: 2026-06-13
 ---
+
 ## エラーの概要
 
-429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/)が[スロットリング](/glossary/スロットリング/)制限に達したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。Azure では、各サブスクリプションと [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を設定しており、この制限を超えたときに発生します。特に、自動化スクリプトやバッチ処理でループ内から大量の[リクエスト](/glossary/リクエスト/)を送信する場合に頻繁に見られます。
+429 Too Many Requests エラーは、Azure API がスロットリング制限に達したことを示す HTTP ステータスコードです。Azure では、各サブスクリプションと API に対して一定期間内のリクエスト数に上限を設定しており、この制限を超えたときに発生します。特に、自動化スクリプトやバッチ処理でループ内から大量のリクエストを送信する場合に頻繁に見られます。
 
 ## 実際のエラーメッセージ例
 
-Azure [REST](/glossary/rest/) [API](/glossary/api/) の直接呼び出しで見られる典型的な[レスポンス](/glossary/レスポンス/)：
+Azure REST API の直接呼び出しで見られる典型的なレスポンス：
 
 ```json
 {
   "error": {
     "code": "SubscriptionThrottled",
-    "message": "The subscription is throttled for the following operation: Microsoft.Compute/virtualMachines/read. Please retry after 60 seconds."
-  },
-  "statusCode": 429,
-  "x-ms-ratelimit-remaining-subscription-reads": "0",
-  "x-ms-ratelimit-remaining-subscription-writes": "4999",
-  "x-ms-ratelimit-remaining-requests-timeout": "00:00:60"
+    "message": "The subscription is throttled for the following operation: Microsoft.Compute/virtualMachines/write. Please try after 30 seconds."
+  }
 }
 ```
 
-PowerShell で Azure [CLI](/glossary/cli/) を使用した場合の[コンソール](/glossary/コンソール/)出力例：
+Azure SDK（Python）で発生した場合のコンソール出力：
 
-```bash
-Response status code does not indicate success: 429 (Too Many Requests).
-The subscription is throttled for the following operation.
-Retry-After: 60
+```
+azure.core.exceptions.HttpResponseError: (429) Throttling error. Subscription has exceeded throttling limits for operation 'Microsoft.Storage/storageAccounts/write'. Retry after 60 seconds.
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：短時間に多数のAPIリクエストを送信した
+### 原因1：リクエストレートが上限を超えている
 
-複数のリソースを一括取得・更新する際に、ループ内で同期的に[リクエスト](/glossary/リクエスト/)を送信し続けると、Azure の[スロットリング](/glossary/スロットリング/)制限に達します。Azure はサブスクリプション単位で読み取り上限（デフォルト：毎秒 200 回）、書き込み上限（デフォルト：毎秒 100 回）を適用しています。特に、リソースが多数存在する環境では容易に制限を超えます。
+Azure には、API ごと・操作ごと（例：仮想マシン作成、ストレージ読み書き）に一定秒あたりのリクエスト数制限があります。制限値はサブスクリプション、リージョン、リソースの種類によって異なり、ループ内で連続して API を呼び出すと瞬時に制限に達します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```python
-import requests
-import json
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.compute import ComputeManagementClient
 
-subscription_id = "<your-subscription-id>"
-resource_group = "<your-resource-group>"
-token = "<your-access-token>"
+credential = DefaultAzureCredential()
+client = ComputeManagementClient(credential, "<subscription_id>")
 
-# 複数のVMを同期的に列挙
-headers = {
-    "Authorization": f"Bearer {token}",
-    "Content-Type": "application/json"
-}
-
-for i in range(500):  # 500個のVM情報を連続取得
-    url = f"https://management.azure.com/subscriptions/{subscription_id}/resourceGroups/{resource_group}/providers/Microsoft.Compute/virtualMachines/vm-{i}?api-version=2021-07-01"
-    response = requests.get(url, headers=headers)
-    if response.status_code == 429:
-        print("スロットリングに達した")
-    data = response.json()
+# 50 台の VM を一気に作成しようとする
+for i in range(50):
+    client.virtual_machines.begin_create_or_update(
+        "<resource_group>",
+        f"vm-{i}",
+        vm_config
+    )
 ```
 
 **After（修正後）：**
 
 ```python
-import requests
-import json
 import time
-import asyncio
-import aiohttp
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.compute import ComputeManagementClient
 
-subscription_id = "<your-subscription-id>"
-resource_group = "<your-resource-group>"
-token = "<your-access-token>"
+credential = DefaultAzureCredential()
+client = ComputeManagementClient(credential, "<subscription_id>")
 
-headers = {
-    "Authorization": f"Bearer {token}",
-    "Content-Type": "application/json"
-}
-
-# 非同期処理で複数リクエストを並行実行（ただしレート制限内で）
-async def fetch_vm(session, vm_id):
-    url = f"https://management.azure.com/subscriptions/{subscription_id}/resourceGroups/{resource_group}/providers/Microsoft.Compute/virtualMachines/vm-{vm_id}?api-version=2021-07-01"
-    async with session.get(url, headers=headers) as response:
-        if response.status == 429:
-            retry_after = int(response.headers.get("Retry-After", 60))
-            print(f"{retry_after}秒後に再試行します")
-            await asyncio.sleep(retry_after)
-            return await fetch_vm(session, vm_id)  # 再試行
-        return await response.json()
-
-async def fetch_all_vms():
-    async with aiohttp.ClientSession() as session:
-        # 並行数を制限（Azure推奨：最大10-20同時リクエスト）
-        tasks = [fetch_vm(session, i) for i in range(500)]
-        semaphore = asyncio.Semaphore(10)
-        
-        async def sem_task(task):
-            async with semaphore:
-                return await task
-        
-        results = await asyncio.gather(*[sem_task(task) for task in tasks])
-        return results
-
-# 実行
-results = asyncio.run(fetch_all_vms())
-```
-
-### 原因2：サブスクリプションレベルの読み取り/書き込み上限を超えた
-
-Azure は、[API](/glossary/api/) の種別（読み取り vs 書き込み）ごとに異なる[スロットリング](/glossary/スロットリング/)制限を適用します。読み取り上限は毎秒 200 [リクエスト](/glossary/リクエスト/)、書き込み上限は毎秒 100 [リクエスト](/glossary/リクエスト/)が標準ですが、リソースプロバイダーによって異なる場合があります。複数の異なる [API](/glossary/api/) を同時に呼び出すと、これらの上限を細かく管理する必要があります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```python
-import requests
-
-token = "<your-access-token>"
-subscription_id = "<your-subscription-id>"
-
-headers = {
-    "Authorization": f"Bearer {token}",
-    "Content-Type": "application/json"
-}
-
-# 監視目的でずっと読み取りリクエストを送り続ける
-for iteration in range(1000):
-    # 複数リソースプロバイダーから同時に読み取り
-    providers = [
-        "Microsoft.Compute/virtualMachines",
-        "Microsoft.Network/virtualNetworks",
-        "Microsoft.Storage/storageAccounts"
-    ]
-    
-    for provider in providers:
-        url = f"https://management.azure.com/subscriptions/{subscription_id}/providers/{provider}?api-version=2021-04-01"
-        response = requests.get(url, headers=headers)
-        data = response.json()
-        print(f"Found {len(data.get('value', []))} resources")
-```
-
-**After（修正後）：**
-
-```python
-import requests
-import time
-from datetime import datetime, timedelta
-
-token = "<your-access-token>"
-subscription_id = "<your-subscription-id>"
-
-headers = {
-    "Authorization": f"Bearer {token}",
-    "Content-Type": "application/json"
-}
-
-def check_rate_limit_headers(response):
-    """レート制限の残数とリセット時間を確認"""
-    remaining_reads = response.headers.get("x-ms-ratelimit-remaining-subscription-reads", "N/A")
-    remaining_writes = response.headers.get("x-ms-ratelimit-remaining-subscription-writes", "N/A")
-    reset_time = response.headers.get("x-ms-ratelimit-remaining-requests-timeout", "N/A")
-    
-    print(f"[{datetime.now().isoformat()}] 残り読取: {remaining_reads}, 残り書込: {remaining_writes}, リセット時間: {reset_time}")
-    return remaining_reads, remaining_writes
-
-def fetch_with_backoff(url, max_retries=5):
-    """指数バックオフによる再試行を実装"""
-    for attempt in range(max_retries):
-        response = requests.get(url, headers=headers)
-        
-        # レート制限情報を常に確認
-        remaining_reads, remaining_writes = check_rate_limit_headers(response)
-        
-        if response.status_code == 429:
-            # Retry-After ヘッダーを優先、なければ指数バックオフ
-            retry_after = int(response.headers.get("Retry-After", 2 ** attempt))
-            print(f"429エラー。{retry_after}秒後に再試行します（試行 {attempt + 1}/{max_retries}）")
+# リクエスト間に遅延を挿入
+for i in range(50):
+    try:
+        client.virtual_machines.begin_create_or_update(
+            "<resource_group>",
+            f"vm-{i}",
+            vm_config
+        )
+    except Exception as e:
+        if "429" in str(e) or "throttled" in str(e).lower():
+            # Retry-After ヘッダーから推奨待機時間を取得
+            retry_after = 60
+            print(f"スロットリング検出。{retry_after} 秒待機します")
             time.sleep(retry_after)
-            continue
-        elif response.status_code == 200:
-            return response.json()
+            # リトライ処理を含める
+            client.virtual_machines.begin_create_or_update(
+                "<resource_group>",
+                f"vm-{i}",
+                vm_config
+            )
         else:
-            print(f"予期しないエラー: {response.status_code}")
-            break
+            raise
     
-    return None
-
-# リソースを段階的に取得（同時リクエスト数を制限）
-providers = [
-    "Microsoft.Compute/virtualMachines",
-    "Microsoft.Network/virtualNetworks",
-    "Microsoft.Storage/storageAccounts"
-]
-
-for provider in providers:
-    url = f"https://management.azure.com/subscriptions/{subscription_id}/providers/{provider}?api-version=2021-04-01"
-    data = fetch_with_backoff(url)
-    
-    if data:
-        print(f"{provider}: {len(data.get('value', []))} 件のリソースを取得")
-    
-    # プロバイダー間で遅延を挿入（レート制限を回避）
-    time.sleep(1)
+    # 各リクエスト間に 2 秒の遅延を設定
+    time.sleep(2)
 ```
 
-### 原因3：ARM APIのレート制限に達した
+### 原因2：Retry-After ヘッダーを無視している
 
-Azure Resource Manager（ARM）は、リソースグループごと、リソースプロバイダーごと、さらにはテナントレベルでも段階的な[スロットリング](/glossary/スロットリング/)制限を適用しています。特に、ネストされた複数の [API](/glossary/api/) 呼び出しが連鎖的に発生する自動化では、これらの複数レイヤーの制限に同時に引っかかることがあります。
+Azure API が 429 を返す際、必ず `Retry-After` レスポンスヘッダーに推奨される再試行待機時間を含めます。このヘッダーを無視して即座にリトライすると、さらにスロットリングが重くなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
-```powershell
-# PowerShellで複数のリソースグループに対して一括操作を実行
-$token = "YOUR_ACCESS_TOKEN"
-$subscriptionId = "YOUR_SUBSCRIPTION_ID"
+```javascript
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-$headers = @{
-    "Authorization" = "Bearer $token"
-    "Content-Type"  = "application/json"
-}
-
-# 複数のリソースグループ内のすべてのVMを再起動（同期実行）
-$resourceGroups = Get-AzResourceGroup
-
-foreach ($rg in $resourceGroups) {
-    $vms = Get-AzVM -ResourceGroupName $rg.ResourceGroupName
+async function createVMs() {
+    const credential = new DefaultAzureCredential();
+    const client = new ComputeManagementClient(credential, "<subscription_id>");
     
-    foreach ($vm in $vms) {
-        # 各VM再起動時にARM APIを呼び出し
-        $url = "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$($rg.ResourceGroupName)/providers/Microsoft.Compute/virtualMachines/$($vm.Name)/restart?api-version=2021-07-01"
-        
-        $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post
-        Write-Host "Restarted: $($vm.Name)"
+    // Retry-After を無視した単純なリトライ
+    let retries = 0;
+    while (retries < 5) {
+        try {
+            await client.virtualMachines.beginCreateOrUpdateAndWait(
+                "<resource_group>",
+                "vm-1",
+                vmConfig
+            );
+            break;
+        } catch (err) {
+            retries++;
+            // 固定時間でリトライ（推奨時間を無視）
+            await new Promise(r => setTimeout(r, 1000));
+        }
     }
 }
 ```
 
 **After（修正後）：**
 
-```powershell
-# PowerShellで段階的・制御されたリクエストを実行
-$token = "YOUR_ACCESS_TOKEN"
-$subscriptionId = "YOUR_SUBSCRIPTION_ID"
-$maxConcurrentRequests = 5  # 同時リクエスト数を制限
-$delayBetweenBatches = 2    # バッチ間遅延（秒）
+```javascript
+const { ComputeManagementClient } = require("@azure/arm-compute");
+const { DefaultAzureCredential } = require("@azure/identity");
 
-$headers = @{
-    "Authorization" = "Bearer $token"
-    "Content-Type"  = "application/json"
-}
-
-$resourceGroups = Get-AzResourceGroup
-$vmList = @()
-
-# 全VM情報を事前に収集
-foreach ($rg in $resourceGroups) {
-    $vms = Get-AzVM -ResourceGroupName $rg.ResourceGroupName
-    foreach ($vm in $vms) {
-        $vmList += @{
-            Name = $vm.Name
-            ResourceGroupName = $rg.ResourceGroupName
-        }
-    }
-}
-
-# バッチ処理で段階的に実行
-for ($i = 0; $i -lt $vmList.Count; $i += $maxConcurrentRequests) {
-    $batch = $vmList[$i..([Math]::Min($i + $maxConcurrentRequests - 1, $vmList.Count - 1))]
+async function createVMs() {
+    const credential = new DefaultAzureCredential();
+    const client = new ComputeManagementClient(credential, "<subscription_id>");
     
-    foreach ($vm in $batch) {
-        $url = "https://management.azure.com/subscriptions/$subscriptionId/resourceGroups/$($vm.ResourceGroupName)/providers/Microsoft.Compute/virtualMachines/$($vm.Name)/restart?api-version=2021-07-01"
-        
+    let retries = 0;
+    while (retries < 5) {
         try {
-            $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post
-            Write-Host "Restarted: $($vm.Name)"
-        } catch {
-            if ($_.Exception.Response.StatusCode -eq 429) {
-                $retryAfter = $_.Exception.Response.Headers["Retry-After"]
-                Write-Host "レート制限に達しました。$retryAfter 秒待機します"
-                Start-Sleep -Seconds $retryAfter
-                # 再試行
-                $response = Invoke-RestMethod -Uri $url -Headers $headers -Method Post
-                Write-Host "Restarted: $($vm.Name)"
-            } else {
-                Write-Host "エラー: $($_.Exception.Message)"
+            await client.virtualMachines.beginCreateOrUpdateAndWait(
+                "<resource_group>",
+                "vm-1",
+                vmConfig
+            );
+            break;
+        } catch (err) {
+            // Retry-After ヘッダーから待機時間を取得
+            let retryAfter = 60;
+            if (err.response && err.response.headers) {
+                const headerValue = err.response.headers["retry-after"];
+                if (headerValue) {
+                    retryAfter = parseInt(headerValue, 10);
+                }
             }
+            
+            console.log(`429 エラー。${retryAfter} 秒後に再試行します`);
+            await new Promise(r => setTimeout(r, retryAfter * 1000));
+            retries++;
         }
-    }
-    
-    # バッチ間で遅延を挿入
-    if ($i + $maxConcurrentRequests -lt $vmList.Count) {
-        Write-Host "次のバッチまで $delayBetweenBatches 秒待機します"
-        Start-Sleep -Seconds $delayBetweenBatches
     }
 }
 ```
 
-## 解決策のまとめ
+### 原因3：複数の操作を同時実行している
 
-| 対策方法 | 詳細 | 推奨度 |
-|---------|------|--------|
-| 並行数制限 | 同時[リクエスト](/glossary/リクエスト/)数を5～10程度に制限する | ★★★★★ |
-| リトライロジック | Retry-After[ヘッダー](/glossary/ヘッダー/)に従って自動再試行を実装する | ★★★★★ |
-| 指数[バックオフ](/glossary/バックオフ/) | 再試行時に待機時間を段階的に増やす | ★★★★☆ |
-| バッチ処理 | リソースをグループ化して段階的に処理する | ★★★★☆ |
-| レート監視 | x-ms-ratelimit-*[ヘッダー](/glossary/ヘッダー/)で制限状況を常に確認する | ★★★☆☆ |
-| リソース キャッシング | 頻繁にアクセスするリソースを[キャッシュ](/glossary/キャッシュ/)する | ★★★☆☆ |
+Azure 関数、Logic Apps、Data Factory など、複数の処理が並列実行される環境では、複合的なスロットリングが発生しやすくなります。特にマネージドサービスでの自動スケーリング時に、大量のワーカーが同時に同じ API を呼び出すと瞬時に制限に達します。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import asyncio
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.storage import StorageManagementClient
+
+async def delete_storage_accounts():
+    credential = DefaultAzureCredential()
+    client = StorageManagementClient(credential, "<subscription_id>")
+    
+    # 20 個のストレージアカウントを同時削除
+    tasks = []
+    for account_name in storage_accounts:
+        task = asyncio.create_task(
+            asyncio.to_thread(
+                client.storage_accounts.delete,
+                "<resource_group>",
+                account_name
+            )
+        )
+        tasks.append(task)
+    
+    # すべてのタスクを同時実行
+    await asyncio.gather(*tasks)
+```
+
+**After（修正後）：**
+
+```python
+import asyncio
+from azure.identity import DefaultAzureCredential
+from azure.mgmt.storage import StorageManagementClient
+
+async def delete_storage_accounts():
+    credential = DefaultAzureCredential()
+    client = StorageManagementClient(credential, "<subscription_id>")
+    
+    # 同時実行数を制限（並行数 3）
+    semaphore = asyncio.Semaphore(3)
+    
+    async def delete_with_limit(account_name):
+        async with semaphore:
+            try:
+                await asyncio.to_thread(
+                    client.storage_accounts.delete,
+                    "<resource_group>",
+                    account_name
+                )
+            except Exception as e:
+                if "429" in str(e):
+                    print(f"スロットリング。30 秒待機してからリトライします")
+                    await asyncio.sleep(30)
+                    await asyncio.to_thread(
+                        client.storage_accounts.delete,
+                        "<resource_group>",
+                        account_name
+                    )
+                else:
+                    raise
+    
+    tasks = [delete_with_limit(acc) for acc in storage_accounts]
+    await asyncio.gather(*tasks)
+```
+
+## ツール固有の注意点
+
+### Azure ストレージアカウントのスロットリング制限
+
+ストレージアカウントには、BLOB、Table、Queue などのサービスごとに独立した制限があります。標準アカウントのスケーラビリティ目標は、単一アカウントあたり秒間 20,000 リクエスト程度ですが、特定の操作（例：PutBlock）はさらに低い制限を持ちます。大規模なアップロード・ダウンロード時は、複数ストレージアカウントに分散させるか、Azure Data Lake Storage Gen2 への移行を検討してください。
+
+### Azure App Service・Function App での 429
+
+Azure Function App でバージョン 4 ランタイムを使用している場合、デフォルトの HTTP 接続数制限（`http.connectionLimit`）により、外部 API へのアウトバウンド呼び出しがスロットルされることがあります。このとき、Azure の REST API ではなく、呼び出し先の外部サービスの 429 が返される可能性も高いため、エラーメッセージで `microsoft.com` を含むか確認し、実際にどのサービスが制限を返しているかを特定してください。
+
+### Azure DevOps の API レート制限
+
+Azure DevOps（旧 VSTS）で Pipelines、Work Items、Repos API を大量に呼び出す場合、認証方式によって制限が異なります。PAT（Personal Access Token）では秒間 200 リクエスト、アプリケーション認証では秒間 6,000 リクエストが目安です。CI/CD で多数のジョブを並列実行する際は、リトライロジックと指数バックオフの実装が必須です。
+
+### Azure Resource Graph のクエリ制限
+
+Resource Graph では、複雑な KQL クエリや大規模なサブスクリプション横断検索の際に 429 が発生しやすくなります。クエリの複雑性スコアを `$skip` トークンで段階的に削減し、バッチサイズを最大 1,000 件に制限してください。
+
+## それでも解決しない場合
+
+### ログとデバッグ情報の確認
+
+Azure CLI で診断ログを有効化：
+
+```bash
+az monitor diagnostic-settings create \
+  --name <setting_name> \
+  --resource <resource_id> \
+  --logs '[{"category":"ServiceFabricSystemEventTable","enabled":true}]' \
+  --workspace <workspace_id>
+```
+
+Python SDK でデバッグレベルのログを有効化し、リクエスト・レスポンスヘッダーを確認：
+
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+# Azure SDK ログを有効化
+azure_logger = logging.getLogger("azure")
+azure_logger.setLevel(logging.DEBUG)
+```
+
+### 公式リファレンスの確認
+
+以下のドキュメントで、各 Azure サービスの具体的なスロットリング制限値を確認してください：
+
+- **Azure Subscription and service limits, quotas, and constraints**
+  https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits
+
+- **Handling Throttling Errors in Azure**
+  https://learn.microsoft.com/ja-jp/azure/architecture/best-practices/retry-service-specific
+
+- **Azure SDK for Python - Troubleshooting**
+  https://github.com/Azure/azure-sdk-for-python/wiki/Troubleshooting
+
+### コミュニティサポート
+
+Azure SDK のリトライ実装に関する既知の問題や解決方法は、公式 GitHub リポジトリで確認できます：
+
+- https://github.com/Azure/azure-sdk-for-python/issues
+- https://github.com/Azure/azure-sdk-for-java/issues
+- https://github.com/Azure/azure-sdk-for-js/issues
+
+問題が特定の SDK バージョンやサービスに限定される場合は、リージョンの状態ページ（https://status.azure.com）も確認し、Azure 側のインシデント有無を確認してください。
+
+---
 
 *免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

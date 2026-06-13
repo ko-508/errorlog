@@ -4,16 +4,17 @@ date: 2026-01-01
 description: "Docker で 401 エラーが発生するのは、レジストリ（Docker Hub や ECR、プライベートレジストリなど）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。"
 tags: ["Docker"]
 errorCode: "401"
-lastmod: 2026-05-31
+lastmod: 2026-06-13
 service: "Docker"
 error_type: "401"
 components: ["Registry"]
 related_services: ["Docker Hub", "Azure Container Registry", "ECR"]
 trend_incident: true
 ---
+
 ## エラーの概要
 
-[Docker](/glossary/docker/)で 401 エラーが発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
+Dockerで401エラーが発生するのは、レジストリ（Docker Hub、ECR、プライベートレジストリなど）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -34,192 +35,212 @@ Error response from daemon: unauthorized: incorrect username or password
 ```
 
 ```
-Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: authentication required
+Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized: authentication required, 401
 ```
 
 ## よくある原因と解決手順
 
-### 原因1: docker login コマンドを実行していない
+### 原因1：Docker Hubへのログインが完了していない
 
-[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)を利用する際に、事前に `docker login` で[認証](/glossary/認証/)を済ませていないと 401 エラーが発生します。
+Docker Hubのパブリックイメージであっても、ダウンロード数制限により認証が必須になるケースがあります。また、プライベートイメージにアクセスする場合は必ず認証が必要です。
 
-**Before（エラーが起きる状態）**
+**Before（エラーが起きるコード）：**
+
 ```bash
-docker pull my-private-repo.azurecr.io/myapp:latest
-# Error response from daemon: unauthorized
+# ログインなしで直接pullを実行
+docker pull <username>/<image-name>:latest
 ```
 
-**After（修正後）**
+**After（修正後）：**
+
 ```bash
-# Azure Container Registry の場合
-docker login my-private-repo.azurecr.io -u <username> -p <password>
+# 最初にDocker Hubにログイン
+docker login
 
-# Docker Hub の場合
-docker login -u <your-docker-username> -p <your-token>
-
-# その後、pull/push が成功する
-docker pull my-private-repo.azurecr.io/myapp:latest
+# プロンプトにユーザー名とパスワード（またはPersonal Access Token）を入力
+# その後でpullを実行
+docker pull <username>/<image-name>:latest
 ```
 
-### 原因2: 認証トークンの有効期限切れまたは無効なトークン
+### 原因2：AWS ECRの認証トークンが期限切れ
 
-アクセストークン（Personal Access Token）が期限切れになった、または削除されると 401 エラーが起きます。[Docker](/glossary/docker/) Hub やクラウドレジストリで新しいトークンを生成する必要があります。
+ECRの認証トークンは12時間の有効期限があります。Docker daemonに保存されたトークンが期限切れになると401エラーが発生します。
 
-**Before（エラーが起きる状態）**
+**Before（エラーが起きるコード）：**
+
 ```bash
-# 古いトークンまたは期限切れトークンで認証
-docker login -u myuser -p dckr_pat_old_expired_token_abc123
-docker push myrepo/myimage:latest
-# Error response from daemon: unauthorized: authentication required
+# 古いトークンで直接pullを試行
+docker pull <account-id>.dkr.ecr.<region>.amazonaws.com/<repository>:<tag>
 ```
 
-**After（修正後）**
-```bash
-# Docker Hub から新しい Personal Access Token を取得
-# 1. hub.docker.com にログイン
-# 2. Account Settings > Security > New Access Token を生成
-# 3. Token scope で適切な権限を選択（Read, Write, Delete）
-
-docker login -u myuser -p dckr_pat_new_valid_token_xyz789
-docker push myrepo/myimage:latest
-# Success
-```
-
-### 原因3: 認証情報の保存形式が誤っている
-
-`~/.docker/config.json` が破損しているか、base64 エンコードの形式が不正な場合、[認証](/glossary/認証/)が失敗します。
-
-**Before（エラーが起きる状態）**
-```bash
-# config.json が破損している場合
-cat ~/.docker/config.json
-# {
-#   "auths": {
-#     "registry.example.com": {
-#       "auth": "invalid_base64_string_=="
-#     }
-#   }
-# }
-
-docker pull registry.example.com/myapp:latest
-# Error response from daemon: unauthorized
-```
-
-**After（修正後）**
-```bash
-# config.json をリセットして再度ログイン
-rm ~/.docker/config.json
-docker login registry.example.com -u <your-username> -p <your-password>
-
-# 正しい形式で保存される
-cat ~/.docker/config.json
-# {
-#   "auths": {
-#     "registry.example.com": {
-#       "auth": "dXNlcm5hbWU6cGFzc3dvcmQ="
-#     }
-#   }
-# }
-
-docker pull registry.example.com/myapp:latest
-```
-
-### 原因4: レジストリのホスト名が誤っている
-
-[プライベートレジストリ](/glossary/プライベートレジストリ/)へアクセスする際、ホスト名やレジストリアドレスが誤っていると認証情報が使われず 401 エラーになります。
-
-**Before（エラーが起きる状態）**
-```bash
-# 誤ったホスト名で push しようとする
-docker login myregistry.azurecr.io
-docker push myregistry.azurecr.io/myapp:latest
-
-# 別のマシンで、設定したホスト名と異なるアドレスでアクセス
-docker pull wrong-registry-name.azurecr.io/myapp:latest
-# Error response from daemon: unauthorized
-```
-
-**After（修正後）**
-```bash
-# ホスト名を統一する
-docker login myregistry.azurecr.io -u <username> -p <password>
-docker tag myapp:latest myregistry.azurecr.io/myapp:latest
-docker push myregistry.azurecr.io/myapp:latest
-```
-
-## Docker 固有の注意点
-
-### Docker Hub の場合
-
-[Docker](/glossary/docker/) Hub で 401 が出るときは、Personal Access Token（PAT）を使う必要があります。パスワード直接認証は推奨されていません。
+**After（修正後）：**
 
 ```bash
-# 正しい方法：PAT を使用
-docker login -u <your-username> -p <your-pat-token>
-
-# エラーが出る方法：パスワード直接使用（廃止予定）
-docker login -u <your-username> -p <your-password>
-```
-
-### Azure Container Registry (ACR) の場合
-
-ACR では管理者アカウントか Service Principal による[認証](/glossary/認証/)が必要です。
-
-```bash
-# 管理者アカウント有効化
-az acr update -n <your-acr-name> --admin-enabled true
-
-# 認証情報取得
-az acr credential show -n <your-acr-name>
-
-# ログイン
-docker login <your-acr-name>.azurecr.io -u <username> -p <password>
-```
-
-### AWS Elastic Container Registry (ECR) の場合
-
-ECR はトークンが短命（12 時間）なため、定期的に更新が必要です。
-
-```bash
-# トークンを取得してログイン
+# AWS CLIで認証トークンを再取得し、Docker daemonに設定
 aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
 
-# または aws-cli v1 の場合
-$(aws ecr get-login --no-include-email --region <region>)
+# その後でpullを実行
+docker pull <account-id>.dkr.ecr.<region>.amazonaws.com/<repository>:<tag>
+```
+
+### 原因3：設定ファイル（config.json）の認証情報が破損または形式が不正
+
+`~/.docker/config.json` に保存された認証情報が破損しているか、レジストリのホスト名が正確に記録されていない場合に発生します。
+
+**Before（エラーが起きるコード）：**
+
+```json
+{
+  "auths": {
+    "docker.io": {
+      "auth": "invalid_base64_or_corrupted_data"
+    }
+  }
+}
+```
+
+**After（修正後）：**
+
+```bash
+# 既存の認証情報をクリア
+rm ~/.docker/config.json
+
+# 新規ログインで正しい認証情報を再設定
+docker login
+```
+
+### 原因4：プライベートレジストリのための認証情報が不足
+
+Nexus、Harbor、GitLab Container Registry など自社運用のプライベートレジストリにアクセスする際、ホスト名とポート番号を含めた完全なレジストリURLで認証を設定する必要があります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# プライベートレジストリにログインせず、イメージをpull
+docker pull registry.internal.example.com:5000/my-image:v1.0
+```
+
+**After（修正後）：**
+
+```bash
+# 完全なレジストリURLでログイン
+docker login registry.internal.example.com:5000
+
+# ユーザー名・パスワード・パスフレーズを入力
+docker pull registry.internal.example.com:5000/my-image:v1.0
+```
+
+### 原因5：Personal Access Token（PAT）の権限不足またはスコープ制限
+
+Docker Hubでパスワード代わりにPATを使用している場合、そのトークンに必要な権限（Read、Write など）が付与されていないと401エラーになります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# Read権限のみのPATで push を試行
+docker login --username <username>
+# パスワード入力欄に読み取り専用のPATを入力
+docker push <username>/<image>:latest
+```
+
+**After（修正後）：**
+
+```bash
+# Docker Hub > Account Settings > Security > Personal Access Tokens で
+# 「Read, Write」の権限を持つ新しいPATを生成
+
+docker login --username <username>
+# パスワード入力欄に新しいPATを入力
+docker push <username>/<image>:latest
+```
+
+## ツール固有の注意点
+
+### Docker Compose での認証設定
+
+`docker-compose.yml` で複数のレジストリからイメージをpullする場合、各レジストリへの事前ログインが必要です。Compose ファイル内に認証情報を直接記述することはセキュリティ上推奨されません。
+
+```bash
+# docker-compose.yml 実行前に全レジストリにログイン
+docker login docker.io
+docker login <account-id>.dkr.ecr.<region>.amazonaws.com
+docker login registry.internal.example.com:5000
+
+# その後で compose up を実行
+docker-compose up
+```
+
+### Docker buildx でのマルチアーキテクチャビルド
+
+`docker buildx` でリモートレジストリにpushする場合、`--push` フラグを使用する前に対象レジストリへのログインを完了させます。
+
+```bash
+# ECRの場合
+aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+
+docker buildx build --push -t <account-id>.dkr.ecr.<region>.amazonaws.com/<repo>:latest .
+```
+
+### Kubernetes での imagePullSecrets
+
+Kubernetes上でプライベートレジストリのイメージを使用する場合、`imagePullSecrets` で認証情報を参照する必要があります。この設定がないと、Podの起動時に401エラーが発生します。
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  imagePullSecrets:
+  - name: regcred
+  containers:
+  - name: my-container
+    image: registry.internal.example.com:5000/my-image:v1.0
+```
+
+認証情報は事前に Secret リソースとして作成します。
+
+```bash
+kubectl create secret docker-registry regcred \
+  --docker-server=registry.internal.example.com:5000 \
+  --docker-username=<username> \
+  --docker-password=<password> \
+  --docker-email=<email>
 ```
 
 ## それでも解決しない場合
 
-### デバッグコマンド
+### デバッグ方法
+
+Docker daemon のデバッグログを有効にして、認証リクエストの詳細を確認します。
 
 ```bash
-# Docker のデバッグモードで実行
-DOCKER_CONTENT_TRUST=1 docker pull <image> 2>&1 | head -50
+# Docker daemon を デバッグモードで再起動（Linux/macOS）
+dockerd --debug
 
-# 認証情報が正しく保存されているか確認
-docker config view --pretty
-
-# ログをより詳しく出力
-docker pull --verbose <image>
-
-# レジストリへの接続確認
-curl -v https://<registry-host>/v2/ -u <username>:<password>
+# または Windows の場合は Docker Desktop 設定から Debug モードを有効化
 ```
 
-### 確認すべきポイント
+認証情報の保存状況をホスト側で確認します。
 
-- `~/.docker/config.json` の認証情報が正しく保存されているか
-- `docker logout` してから再度 `docker login` する
-- [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)設定で[レジストリ](/glossary/レジストリ/)へのアクセスがブロックされていないか
-- IP アドレス制限が[レジストリ](/glossary/レジストリ/)に設定されていないか
-- レジストリサーバーが実際にオンラインか（ステータスページで確認）
+```bash
+# config.json の存在確認（値は出力しない）
+test -f ~/.docker/config.json && echo "config.json exists" || echo "config.json not found"
 
-### 公式ドキュメント・リソース
+# ファイルパーミッションの確認
+ls -l ~/.docker/config.json
+```
 
-- [Docker 公式：Authenticate with Docker Hub](https://docs.docker.com/engine/reference/commandline/login/)
-- [Docker 公式：Configure authentication for Docker Daemon](https://docs.docker.com/engine/security/authenticate/)
-- [Azure Container Registry：Authenticate with ACR](https://learn.microsoft.com/ja-jp/azure/container-registry/container-registry-authentication)
-- [AWS ECR：Private registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registries.html)
+### 公式ドキュメント
+
+- [Docker Documentation - Authentication](https://docs.docker.com/engine/reference/commandline/login/)
+- [AWS ECR - Private registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html)
+- [Docker Hub - Personal Access Tokens](https://docs.docker.com/docker-hub/access-tokens/)
+
+### コミュニティリソース
+
+- GitHub Issues: [moby/moby](https://github.com/moby/moby/issues) で「401」を検索
+- Docker Community Forums: https://forums.docker.com/
 
 ---
 

@@ -10,8 +10,15 @@
   ANTHROPIC_API_KEY=xxx python scripts/expand_articles.py
   MAX_EXPAND=10 ANTHROPIC_API_KEY=xxx python scripts/expand_articles.py
   FORCE=1 MAX_EXPAND=5 ANTHROPIC_API_KEY=xxx python scripts/expand_articles.py
+
+--from-lint モード（needs_rewrite 対象）:
+  python scripts/expand_articles.py --from-lint --limit 5
+  ↑ data/lint_report.json の needs_rewrite 記事を対象にする。
+    1200字フィルタは無効化し、生成後に Lint 検証ループ（最大2回リトライ）を実施。
 """
 
+import argparse
+import json
 import os
 import re
 import sys
@@ -22,11 +29,14 @@ import anthropic
 
 BASE      = Path(__file__).parent
 POSTS_DIR = BASE.parent / "content" / "posts"
-DELETED_FILE = BASE.parent / "data" / "deleted_articles.json"
+DELETED_FILE        = BASE.parent / "data" / "deleted_articles.json"
+LINT_REPORT_PATH    = BASE.parent / "data" / "lint_report.json"
+EXPAND_FAILURES_FILE = BASE.parent / "data" / "expand_failures.json"
 
-MAX_EXPAND     = int(os.getenv("MAX_EXPAND", "10"))
-FORCE          = os.getenv("FORCE", "0") == "1"
-MIN_CHARS      = 1200
+MAX_EXPAND      = int(os.getenv("MAX_EXPAND", "10"))
+FORCE           = os.getenv("FORCE", "0") == "1"
+MIN_CHARS       = 1200
+MAX_LINT_RETRIES = 2   # --from-lint モードでのリトライ上限
 
 _SYSTEM = """\
 あなたは「ErrorLog（errorlog.jp）」専任のテクニカルライターです。
@@ -78,10 +88,24 @@ _SYSTEM = """\
 - 全体で1500文字以上2500文字以下（日本語本文のみ。マークダウン記号・URL・コードは除いてカウント）
 - H1タイトルは含めない
 - コードブロックには必ず言語名を指定（bash, json, yaml, python, javascript等）
+- コードブロックは必ず ``` で開き、``` で閉じること（閉じ忘れ厳禁）
 - プレースホルダーは `<your-xxx>` 形式
 - ですます調・断定的に書く
 - ふりがな補足は不要（「デプロイ（展開）」のような自明な言い換えは書かない）
 - 「まとめ」セクションは不要
+
+## 保持制約（既存記事を参考にする場合）
+- 「実際のエラーメッセージ例」セクションに既存の具体的なエラー文字列・エラーコード・
+  レスポンス例がある場合、それらは要約・短縮・改変せず原文のまま保持すること。
+  構造の再編や情報の整理を理由に削除・省略してはならない。
+
+## セキュリティ制約
+- 認証トークン・パスワード・APIキー等の秘密情報を平文で出力・表示・デコードするコマンド
+  （例: `base64 -d` で auth フィールドを復号して画面に出力する、`cat` で credentials ファイルを
+  表示する等）を解決手順に含めないこと。
+- 秘密情報の確認が必要な場合も、値を画面に出力しない方法（存在確認のみ・ファイルパーミッション
+  確認・ログイン再実行等）を示すこと。
+
 - 末尾に必ず以下の免責事項フッターを付ける:
 
 ---
@@ -122,17 +146,105 @@ def normalize_before_after(text: str) -> str:
     return ''.join(parts)
 
 
+# ─── データロード ──────────────────────────────────────────────
+
 def _load_deleted_paths() -> set[str]:
     """Return set of paths recorded in data/deleted_articles.json."""
     if not DELETED_FILE.exists():
         return set()
     try:
-        import json as _json
-        data = _json.loads(DELETED_FILE.read_text(encoding="utf-8"))
+        data = json.loads(DELETED_FILE.read_text(encoding="utf-8"))
         return {e["path"] for e in data if isinstance(e, dict) and "path" in e}
     except Exception:
         return set()
 
+
+def _load_needs_rewrite() -> list[str]:
+    """data/lint_report.json の needs_rewrite 記事パス一覧を返す。
+
+    needs_rewrite = error_article かつ FAIL あり かつ B2 なし
+    """
+    if not LINT_REPORT_PATH.exists():
+        print(f"  [warn] lint_report.json が見つかりません: {LINT_REPORT_PATH}", file=sys.stderr)
+        return []
+    try:
+        data = json.loads(LINT_REPORT_PATH.read_text(encoding="utf-8"))
+        paths = []
+        for r in data.get("articles", []):
+            cat = r.get("category", "error_article")
+            fail_rules = {f["rule"] for f in r.get("fails", [])}
+            if cat == "error_article" and fail_rules and "B2" not in fail_rules:
+                paths.append(r["path"])
+        return paths
+    except Exception as e:
+        print(f"  [warn] lint_report.json 読み込みエラー: {e}", file=sys.stderr)
+        return []
+
+
+# ─── Lint 検証 ────────────────────────────────────────────────
+
+def _lint_check(path: Path) -> tuple[bool, list[str]]:
+    """lint_articles.lint_article() を呼んで (passed, fail_detail_list) を返す。
+
+    fail_detail_list の各要素は "RULE: detail" 形式。
+    """
+    _scripts_dir = str(Path(__file__).parent)
+    if _scripts_dir not in sys.path:
+        sys.path.insert(0, _scripts_dir)
+    from lint_articles import lint_article  # type: ignore
+    result = lint_article(path)
+    fails = result.get("fails", [])
+    details = [f"{f['rule']}: {f['detail']}" for f in fails]
+    return not fails, details
+
+
+def _format_lint_feedback(fail_details: list[str]) -> str:
+    """FAIL 詳細を Claude 向けフィードバック文字列に変換する。"""
+    lines = []
+    for detail in fail_details:
+        rule = detail.split(":")[0].strip()
+        if rule == "A1":
+            lines.append(f"・{detail}")
+            lines.append("  → 上記セクション見出し（H2）を追加すること。")
+        elif rule == "A3":
+            lines.append(f"・{detail}")
+            lines.append("  → 日本語本文（コードブロック・URL・MD記号を除く）を 1,500 字以上にすること。")
+        elif rule == "B1":
+            lines.append(f"・{detail}")
+            lines.append("  → 「実際のエラーメッセージ例」セクションに、HTTPステータスコードや例外名を含む")
+            lines.append("    コードブロック（``` で開き ``` で閉じる）を最低1つ追加すること。")
+        elif rule == "A6":
+            lines.append(f"・{detail}")
+            lines.append("  → フロントマターに不足フィールドを追加すること（本文への記述は不要）。")
+        else:
+            lines.append(f"・{detail}")
+    return "\n".join(lines)
+
+
+# ─── 失敗ログ ─────────────────────────────────────────────────
+
+def _save_expand_failure(path_str: str, fail_details: list[str], attempts: int) -> None:
+    """expand_failures.json にリトライ超過記事を記録する。path で重複排除。"""
+    records: list[dict] = []
+    if EXPAND_FAILURES_FILE.exists():
+        try:
+            records = json.loads(EXPAND_FAILURES_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            records = []
+    records = [r for r in records if r.get("path") != path_str]
+    records.append({
+        "path": path_str,
+        "failed_at": date.today().isoformat(),
+        "attempts": attempts,
+        "remaining_fails": fail_details,
+    })
+    EXPAND_FAILURES_FILE.write_text(
+        json.dumps(records, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
+# ─── フロントマター操作 ────────────────────────────────────────
 
 def parse_frontmatter(text: str) -> tuple[dict, str]:
     if not text.startswith("---"):
@@ -155,6 +267,8 @@ def get_frontmatter_block(text: str) -> str:
     return m.group(1) if m else ""
 
 
+# ─── 文字数計算 ───────────────────────────────────────────────
+
 def body_char_count(body: str) -> int:
     text = re.sub(r'```[\s\S]*?```', '', body)       # コードブロック除去
     text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)  # リンク→テキストのみ
@@ -166,7 +280,34 @@ def needs_expand(body: str) -> bool:
     return body_char_count(body) < MIN_CHARS
 
 
-def expand_with_claude(client: anthropic.Anthropic, title: str, tool: str, code: str, old_body: str) -> str:
+# ─── Claude 生成 ──────────────────────────────────────────────
+
+def expand_with_claude(
+    client: anthropic.Anthropic,
+    title: str,
+    tool: str,
+    code: str,
+    old_body: str,
+    lint_feedback: str = "",
+) -> str:
+    """記事本文を Claude で完全再生成する。
+
+    lint_feedback が指定された場合、前回 Lint で検出された問題をプロンプトに
+    含めて再生成を促す（自己修復ループ用）。
+    """
+    feedback_section = ""
+    if lint_feedback:
+        feedback_section = f"""
+
+## 前回生成で検出された構造エラー（必ず全て修正すること）
+{lint_feedback}
+
+上記エラーを修正する際の注意:
+- コードブロックは必ず ``` 言語名 で開き、独立した行の ``` で閉じること
+- セクション見出しは ## (H2) で記述すること
+- 5セクション全てが揃っているか最終確認すること
+"""
+
     prompt = f"""## 記事情報
 - タイトル: {title}
 - ツール: {tool}
@@ -174,7 +315,7 @@ def expand_with_claude(client: anthropic.Anthropic, title: str, tool: str, code:
 
 ## 現在の記事（参考）
 {old_body[:600]}
-
+{feedback_section}
 ## 執筆依頼
 上記の「{tool} の {code} エラー」について、必須セクションをすべて含む完全な記事を執筆してください。
 現在の記事の内容は参考程度に活用し、より詳細・実用的な内容に拡張してください。"""
@@ -192,7 +333,42 @@ def expand_with_claude(client: anthropic.Anthropic, title: str, tool: str, code:
     return message.content[0].text
 
 
+# ─── メイン ───────────────────────────────────────────────────
+
+_DISCLAIMER = (
+    "\n\n---\n\n"
+    "*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。"
+    "ソフトウェアの仕様は予告なく変更されることがあります。"
+    "最新の情報は各ツールの公式サポートページをご確認ください。"
+    "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
+)
+
+
 def main() -> None:
+    parser = argparse.ArgumentParser(description="薄い記事・needs_rewrite 記事を Claude で拡張する")
+    parser.add_argument(
+        "--from-lint",
+        action="store_true",
+        help="data/lint_report.json の needs_rewrite 記事を対象にする。"
+             "1200字フィルタを無効化し、生成後に Lint 検証ループ（最大2回リトライ）を実施する。",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        metavar="N",
+        help="処理する記事数の上限（少数検証用）。省略時は MAX_EXPAND 環境変数または 10 件。",
+    )
+    parser.add_argument(
+        "--paths",
+        type=str,
+        default=None,
+        metavar="FILE1,FILE2",
+        help="対象ファイル名をカンマ区切りで指定（例: docker_401.md,azure_429.md）。"
+             "--from-lint と併用可能。指定ファイルが対象リストにない場合はスキップ。",
+    )
+    args = parser.parse_args()
+
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         print("エラー: ANTHROPIC_API_KEY が設定されていません。")
@@ -200,34 +376,59 @@ def main() -> None:
 
     client = anthropic.Anthropic(api_key=api_key)
     today  = date.today().isoformat()
-
     deleted_paths = _load_deleted_paths()
-    posts = sorted(POSTS_DIR.glob("*.md"), key=lambda p: p.name)
-    targets = []
 
-    for src in posts:
-        if src.name.startswith("_"):
-            continue
-        rel = f"content/posts/{src.name}"
-        if rel in deleted_paths:
-            continue
-        text = src.read_text(encoding="utf-8")
-        fm, body = parse_frontmatter(text)
-        if fm.get("draft", "").lower() == "true":
-            continue
-        if FORCE or needs_expand(body):
-            targets.append(src)
+    # ── 対象記事の選定 ──────────────────────────────────────
+    if args.from_lint:
+        nrw_paths = _load_needs_rewrite()
+        if not nrw_paths:
+            print("needs_rewrite 記事が見つかりませんでした。lint_report.json を確認してください。")
+            return
+        limit = args.limit if args.limit is not None else len(nrw_paths)
+        targets = []
+        for rel_path in nrw_paths:
+            p = BASE.parent / rel_path
+            if p.exists() and str(rel_path) not in deleted_paths:
+                targets.append(p)
+            if len(targets) >= limit:
+                break
+        print(f"--from-lint モード: needs_rewrite {len(nrw_paths)} 件 → 処理対象 {len(targets)} 件")
+        print(f"  Lint 検証ループ: 最大 {MAX_LINT_RETRIES} 回リトライ\n")
+    else:
+        posts = sorted(POSTS_DIR.glob("*.md"), key=lambda p: p.name)
+        targets = []
+        for src in posts:
+            if src.name.startswith("_"):
+                continue
+            rel = f"content/posts/{src.name}"
+            if rel in deleted_paths:
+                continue
+            text = src.read_text(encoding="utf-8")
+            fm, body = parse_frontmatter(text)
+            if fm.get("draft", "").lower() == "true":
+                continue
+            if FORCE or needs_expand(body):
+                targets.append(src)
+        limit = args.limit if args.limit is not None else MAX_EXPAND
+        targets = targets[:limit]
+        print(f"拡張対象: {len(targets)} 件（閾値: {MIN_CHARS}文字未満）\n")
 
-    print(f"拡張対象: {len(targets)} 件（閾値: {MIN_CHARS}文字未満）")
-    targets = targets[:MAX_EXPAND]
-    print(f"今回処理: {len(targets)} 件\n")
+    # --paths: 指定ファイルのみに絞り込む
+    if args.paths:
+        specified = {Path(p).name for p in args.paths.split(",")}
+        targets = [t for t in targets if t.name in specified]
+        if not targets:
+            print(f"  [warn] --paths の指定ファイルが対象リストに見つかりません: {args.paths}")
+            return
+        print(f"  --paths フィルタ適用: {[t.name for t in targets]}\n")
 
+    # ── 処理ループ ───────────────────────────────────────────
     expanded = 0
     skipped  = 0
 
     for src in targets:
-        text = src.read_text(encoding="utf-8")
-        fm, body = parse_frontmatter(text)
+        original_text = src.read_text(encoding="utf-8")
+        fm, body = parse_frontmatter(original_text)
         title = fm.get("title", src.stem)
 
         # ツール名とエラーコードをタイトルから抽出
@@ -240,36 +441,75 @@ def main() -> None:
             code = fm.get("errorCode", "")
 
         print(f"  処理中: {src.name}")
-        try:
-            new_body = expand_with_claude(client, title, tool, code, body)
-        except Exception as e:
-            print(f"  Claude エラー: {e}")
-            skipped += 1
-            continue
-
-        char_count = body_char_count(new_body)
-        print(f"  → {char_count} 文字")
 
         # frontmatter に lastmod を追加/更新
-        fm_block = get_frontmatter_block(text)
+        fm_block = get_frontmatter_block(original_text)
         if "lastmod:" in fm_block:
             new_fm = re.sub(r"lastmod:.*", f"lastmod: {today}", fm_block)
         else:
             new_fm = re.sub(r"\n---\n$", f"\nlastmod: {today}\n---\n", fm_block)
 
-        disclaimer = (
-            "\n\n---\n\n"
-            "*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。"
-            "ソフトウェアの仕様は予告なく変更されることがあります。"
-            "最新の情報は各ツールの公式サポートページをご確認ください。"
-            "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
-        )
+        # --from-lint: Lint 検証ループ付き生成
+        # 通常モード: 1回生成して保存
+        use_lint_loop = args.from_lint
+        lint_fails: list[str] = []
+        lint_passed = False
+        succeeded = False
 
-        new_body = normalize_before_after(new_body)
-        src.write_text(new_fm + "\n" + new_body + disclaimer, encoding="utf-8")
-        expanded += 1
+        for attempt in range(MAX_LINT_RETRIES + 1 if use_lint_loop else 1):
+            feedback = _format_lint_feedback(lint_fails) if lint_fails else ""
+            label = f"[試行{attempt + 1}/{MAX_LINT_RETRIES + 1}]" if use_lint_loop else ""
 
-    print(f"\n完了: {expanded} 件拡張 / {skipped} 件スキップ")
+            try:
+                new_body = expand_with_claude(client, title, tool, code, body, feedback)
+            except Exception as e:
+                print(f"  {label} Claude エラー: {e}")
+                break
+
+            # Claude が末尾に免責事項を含める場合は除去（_DISCLAIMER で統一追加するため）
+            _disc_marker = "\n\n---\n\n*免責事項"
+            if _disc_marker in new_body:
+                new_body = new_body[:new_body.rfind(_disc_marker)].rstrip()
+
+            char_count = body_char_count(new_body)
+            new_body = normalize_before_after(new_body)
+            new_content = new_fm + "\n" + new_body + _DISCLAIMER
+            src.write_text(new_content, encoding="utf-8")
+
+            if use_lint_loop:
+                lint_passed, lint_fails = _lint_check(src)
+                status = "PASS" if lint_passed else f"FAIL({', '.join(d.split(':')[0] for d in lint_fails[:3])})"
+                print(f"  {label} {char_count}字 lint:{status}")
+                if lint_fails:
+                    for d in lint_fails:
+                        print(f"    {d}")
+                if lint_passed:
+                    succeeded = True
+                    break
+                # 最終リトライで FAIL なら次の if で処理
+            else:
+                print(f"  → {char_count} 文字")
+                succeeded = True
+                break
+
+        if use_lint_loop and not succeeded:
+            # 元の内容に戻す
+            src.write_text(original_text, encoding="utf-8")
+            rel_path = f"content/posts/{src.name}"
+            _save_expand_failure(rel_path, lint_fails, MAX_LINT_RETRIES + 1)
+            print(f"  → スキップ (expand_failures.json に記録)")
+            skipped += 1
+        elif succeeded:
+            expanded += 1
+        else:
+            # Claude エラーで break した場合（ファイル未変更 or 途中まで書き込まれた可能性）
+            src.write_text(original_text, encoding="utf-8")
+            skipped += 1
+
+    # ── サマリ ───────────────────────────────────────────────
+    print(f"\n完了: {expanded} 件拡張・保存 / {skipped} 件スキップ")
+    if args.from_lint and skipped > 0:
+        print(f"  スキップ詳細: data/expand_failures.json を参照")
 
 
 if __name__ == "__main__":
