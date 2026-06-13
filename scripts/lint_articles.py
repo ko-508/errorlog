@@ -65,6 +65,8 @@ ERROR_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
     ("json_message",   re.compile(r'"[Mm]essage"\s*:')),
     # 日本語エラー表現
     ("jp_error",       re.compile(r'(?:エラー|失敗)(?:が|は|：|:)')),
+    # Docker コンテナ終了コード（スペイン語等の非英語記事対応）
+    ("exited_code",    re.compile(r"Exited\s*\(\d+\)")),
 ]
 
 # ── B2 不適格マーカー表現 ─────────────────────────────────────────────────────
@@ -154,6 +156,23 @@ def classify_domain(url: str) -> str:
     if host in _PERSONAL or any(host.endswith(s) for s in _PERSONAL_SUFFIXES):
         return "personal"
     return "other"
+
+
+# ── 記事カテゴリ判定 ─────────────────────────────────────────────────────────
+# エラー記事: errorCode が FM にある、またはファイル名に 3桁以上の数字コードを含む
+_NUMERIC_CODE_IN_STEM = re.compile(r"_\d{3}(?:[^0-9]|$)")
+
+ARTICLE_CATEGORY_ERROR = "error_article"
+ARTICLE_CATEGORY_NON_ERROR = "non_error_article"
+
+
+def classify_article(path: Path, fm: dict[str, str]) -> str:
+    """エラー記事か規格外ページかを判定する。"""
+    if fm.get("errorCode", "").strip():
+        return ARTICLE_CATEGORY_ERROR
+    if _NUMERIC_CODE_IN_STEM.search(path.stem):
+        return ARTICLE_CATEGORY_ERROR
+    return ARTICLE_CATEGORY_NON_ERROR
 
 
 # ── ユーティリティ ────────────────────────────────────────────────────────────
@@ -278,10 +297,11 @@ def check_a5(body: str) -> list[Issue]:
     return issues
 
 
-def check_a6(fm: dict[str, str], body: str) -> list[Issue]:
+def check_a6(fm: dict[str, str], body: str, require_error_code: bool = True) -> list[Issue]:
     """A6 [FAIL] フロントマター必須フィールド（errorCode・tags・title）と description 重複チェック。"""
     issues: list[Issue] = []
-    for field in ("errorCode", "tags", "title"):
+    fields = ("errorCode", "tags", "title") if require_error_code else ("tags", "title")
+    for field in fields:
         val = fm.get(field, "").strip()
         if not val or val in ("[]", '""', "''"):
             issues.append(("A6", f"フロントマター必須フィールド欠落または空: {field}"))
@@ -355,9 +375,12 @@ def lint_article(path: Path) -> dict[str, Any]:
     try:
         content = path.read_text(encoding="utf-8")
     except Exception as exc:
-        return {"path": rel, "fails": [{"rule": "SYS", "detail": str(exc)}], "warns": [], "infos": [], "source_tiers": {}}
+        return {"path": rel, "category": ARTICLE_CATEGORY_ERROR, "fails": [{"rule": "SYS", "detail": str(exc)}], "warns": [], "infos": [], "source_tiers": {}}
 
     fm, body = split_frontmatter(content)
+    category = classify_article(path, fm)
+    is_error = category == ARTICLE_CATEGORY_ERROR
+
     fails: list[dict] = []
     warns: list[dict] = []
     infos: list[dict] = []
@@ -372,22 +395,26 @@ def lint_article(path: Path) -> dict[str, Any]:
             else:
                 infos.append(entry)
 
-    _add("FAIL", check_a1(body))
-    _add("WARN", check_a2(body))
+    if is_error:
+        # A1/A2/B1/B3: エラー記事にのみ適用
+        _add("FAIL", check_a1(body))
+        _add("WARN", check_a2(body))
+        _add("FAIL", check_b1(body))
+        _add("WARN", check_b3(body))
+
+    # A3/A4/A5/A6/B2/D: 全記事に適用
     _add("FAIL", check_a3(body))
     _add("WARN", check_a4(body))
     _add("WARN", check_a5(body))
-    _add("FAIL", check_a6(fm, body))
-    _add("FAIL", check_b1(body))
+    _add("FAIL", check_a6(fm, body, require_error_code=is_error))
     _add("FAIL", check_b2(body))
-    _add("WARN", check_b3(body))
 
     tier_dict, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)
     if tier_dict:
         infos.append({"rule": "D1", "detail": "URL domain tiers", "source_tiers": tier_dict})
 
-    return {"path": rel, "fails": fails, "warns": warns, "infos": infos, "source_tiers": tier_dict}
+    return {"path": rel, "category": category, "fails": fails, "warns": warns, "infos": infos, "source_tiers": tier_dict}
 
 
 # ── レポート出力 ──────────────────────────────────────────────────────────────
@@ -401,38 +428,69 @@ def write_json_report(results: list[dict]) -> None:
     )
 
 
+def _classify_result(r: dict) -> str:
+    """lint_article の結果を最終分類に振り分ける。"""
+    if r.get("category") == ARTICLE_CATEGORY_NON_ERROR:
+        return "skipped"
+    fail_rules = {f["rule"] for f in r["fails"]}
+    if "B2" in fail_rules:
+        return "ineligible"
+    if fail_rules:
+        return "needs_rewrite"
+    return "clean"
+
+
 def write_summary(results: list[dict]) -> None:
     LINT_SUMMARY_DIR.mkdir(parents=True, exist_ok=True)
     total = len(results)
-    fail_arts = [r for r in results if r["fails"]]
-    warn_arts = [r for r in results if r["warns"] and not r["fails"]]
-    clean_arts = [r for r in results if not r["fails"] and not r["warns"]]
+
+    # スコープ分離後の集計（skipped 記事は FAIL/WARN カウントから除外）
+    error_arts = [r for r in results if r.get("category") == ARTICLE_CATEGORY_ERROR]
+    skipped_arts = [r for r in results if r.get("category") == ARTICLE_CATEGORY_NON_ERROR]
+
+    fail_arts = [r for r in error_arts if r["fails"]]
+    warn_arts = [r for r in error_arts if r["warns"] and not r["fails"]]
+    clean_arts = [r for r in error_arts if not r["fails"] and not r["warns"]]
 
     rule_fails: Counter[str] = Counter()
     rule_warns: Counter[str] = Counter()
-    for r in results:
+    for r in error_arts:
         for f in r["fails"]:
             rule_fails[f["rule"]] += 1
         for w in r["warns"]:
             rule_warns[w["rule"]] += 1
 
-    b1b2_fails = [
-        r for r in results
-        if any(f["rule"] in ("B1", "B2") for f in r["fails"])
-    ]
+    b2_arts = [r for r in error_arts if any(f["rule"] == "B2" for f in r["fails"])]
+
+    # 最終分類
+    classified: dict[str, list[dict]] = {"clean": [], "needs_rewrite": [], "ineligible": [], "skipped": []}
+    for r in results:
+        classified[_classify_result(r)].append(r)
 
     lines: list[str] = [
         "# Lint Summary",
         f"\n生成日時: {datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%MZ')}",
-        f"\n## 総括",
+        "",
+        "## 最終分類（エラー記事スコープ）",
+        "",
+        "| 分類 | 件数 | 説明 |",
+        "|------|------|------|",
+        f"| clean | {len(classified['clean'])} | 全ルール合格 |",
+        f"| needs_rewrite | {len(classified['needs_rewrite'])} | エラー記事だが規格未満（旧テンプレート等） |",
+        f"| ineligible | {len(classified['ineligible'])} | B2マーカー検出：エラー記事でない疑い |",
+        f"| skipped | {len(classified['skipped'])} | 規格外ページ（tool_* / errorCodeなし） |",
+        f"| **合計** | **{total}** | |",
+        "",
+        "## エラー記事の内訳",
         f"| 区分 | 件数 |",
         f"|------|------|",
-        f"| 総記事数 | {total} |",
+        f"| エラー記事数 | {len(error_arts)} |",
         f"| FAIL あり | {len(fail_arts)} |",
         f"| WARN のみ | {len(warn_arts)} |",
         f"| クリーン | {len(clean_arts)} |",
+        f"| （規格外ページ） | {len(skipped_arts)} |",
         "",
-        "## ルール別違反件数",
+        "## ルール別違反件数（エラー記事のみ）",
         "",
         "### FAIL",
         "| ルール | 件数 |",
@@ -449,25 +507,38 @@ def write_summary(results: list[dict]) -> None:
     for rule, cnt in rule_warns.most_common():
         lines.append(f"| {rule} | {cnt} |")
 
-    lines += ["", "## B1/B2 FAIL — エラー実在性なし疑い記事", ""]
-    if b1b2_fails:
-        lines.append("| 記事 | ルール |")
-        lines.append("|------|--------|")
-        for r in b1b2_fails:
-            rules = ", ".join(sorted({f["rule"] for f in r["fails"] if f["rule"] in ("B1", "B2")}))
+    # needs_rewrite リスト
+    lines += ["", "## needs_rewrite — 規格未満のエラー記事", ""]
+    nrw = classified["needs_rewrite"]
+    if nrw:
+        lines.append("| 記事 | FAIL ルール |")
+        lines.append("|------|------------|")
+        for r in sorted(nrw, key=lambda x: x["path"]):
+            rules = ", ".join(sorted({f["rule"] for f in r["fails"]}))
             lines.append(f"| {r['path']} | {rules} |")
     else:
         lines.append("なし")
 
-    lines += ["", "## FAIL 記事一覧（全ルール）", ""]
-    if fail_arts:
+    # ineligible リスト
+    lines += ["", "## ineligible — エラー記事でない疑い（B2検出）", ""]
+    inel = classified["ineligible"]
+    if inel:
         lines.append("| 記事 | FAIL ルール |")
         lines.append("|------|------------|")
-        for r in fail_arts:
+        for r in sorted(inel, key=lambda x: x["path"]):
             rules = ", ".join(sorted({f["rule"] for f in r["fails"]}))
             lines.append(f"| {r['path']} | {rules} |")
     else:
-        lines.append("なし（全記事クリーン）")
+        lines.append("なし")
+
+    # skipped リスト
+    lines += ["", "## skipped — 規格外ページ", ""]
+    skip = classified["skipped"]
+    if skip:
+        for r in sorted(skip, key=lambda x: x["path"]):
+            lines.append(f"- {r['path']}")
+    else:
+        lines.append("なし")
 
     LINT_SUMMARY_PATH.write_text("\n".join(lines) + "\n", encoding="utf-8")
 

@@ -9,6 +9,8 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from lint_articles import (
+    ARTICLE_CATEGORY_ERROR,
+    ARTICLE_CATEGORY_NON_ERROR,
     body_char_count,
     check_a1,
     check_a3,
@@ -19,6 +21,7 @@ from lint_articles import (
     check_b2,
     check_b3,
     check_d1_d2,
+    classify_article,
     classify_domain,
     lint_article,
     split_frontmatter,
@@ -404,7 +407,8 @@ errorCode: "500"
     assert result["fails"] == []
 
 
-def test_lint_article_missing_errorcode(tmp_path):
+def test_lint_article_missing_errorcode_on_error_article(tmp_path):
+    """エラー記事（_500 ファイル名）で errorCode 欠落 → A6 FAIL。"""
     content = f"""---
 title: "テスト記事"
 description: "テスト。"
@@ -413,8 +417,78 @@ tags: ["Tool"]
 {VALID_BODY}
 {'あ' * 1500}
 """
-    p = tmp_path / "test.md"
+    p = tmp_path / "test_500.md"
     p.write_text(content, encoding="utf-8")
     result = lint_article(p)
     fail_rules = {f["rule"] for f in result["fails"]}
     assert "A6" in fail_rules
+    assert result["category"] == ARTICLE_CATEGORY_ERROR
+
+
+def test_lint_article_non_error_article_skips_errorcode(tmp_path):
+    """規格外ページ（errorCode なし・数字コードなし）は A6 で errorCode を要求しない。"""
+    content = f"""---
+title: "ツール紹介"
+description: "ツールの紹介です。"
+tags: ["Tool"]
+---
+{VALID_BODY}
+{'あ' * 1500}
+"""
+    p = tmp_path / "tool_foo.md"
+    p.write_text(content, encoding="utf-8")
+    result = lint_article(p)
+    assert result["category"] == ARTICLE_CATEGORY_NON_ERROR
+    # A1/B1 は skipped なので fails に含まれない
+    fail_rules = {f["rule"] for f in result["fails"]}
+    assert "A1" not in fail_rules
+    assert "B1" not in fail_rules
+    assert "A6" not in fail_rules  # tags/title は揃っているので A6 も出ない
+
+
+def test_classify_article_by_filename(tmp_path):
+    """ファイル名に 3桁コードがあれば errorCode FM なしでもエラー記事扱い。"""
+    p = tmp_path / "nginx_404.md"
+    p.write_text("---\ntitle: t\n---\nbody", encoding="utf-8")
+    from lint_articles import classify_article, split_frontmatter
+    fm, _ = split_frontmatter(p.read_text(encoding="utf-8"))
+    assert classify_article(p, fm) == ARTICLE_CATEGORY_ERROR
+
+
+def test_classify_article_non_error(tmp_path):
+    """tool_ 記事・数字コードなし・auto_日付形式は non_error_article。"""
+    for stem in (
+        "tool_docker_compose",
+        "hugo_papermod_schema_date",
+        "auto_2026-06-10_from-500-to-50-000-concurrent-users",
+        "auto_2026-06-12_cómo-solucionar-docker-run-con-exit-code-1",
+    ):
+        p = tmp_path / f"{stem}.md"
+        p.write_text("---\ntitle: t\n---\nbody", encoding="utf-8")
+        from lint_articles import classify_article, split_frontmatter
+        fm, _ = split_frontmatter(p.read_text(encoding="utf-8"))
+        assert classify_article(p, fm) == ARTICLE_CATEGORY_NON_ERROR, stem
+
+
+def test_b1_exited_code_pattern():
+    """Exited (1) / Exited (137) がエラーパターンとしてマッチする。"""
+    body = """\
+## 実際のエラーメッセージ例
+
+```bash
+docker run my-image
+Exited (1)
+```
+"""
+    assert check_b1(body) == []
+
+
+def test_b1_exited_code_nonzero():
+    body = """\
+## 実際のエラーメッセージ例
+
+```bash
+Container exited with Exited (137) after OOM kill
+```
+"""
+    assert check_b1(body) == []

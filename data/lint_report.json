@@ -1,8 +1,9 @@
 {
-  "generated_at": "2026-06-13T04:52:18.537597+00:00",
+  "generated_at": "2026-06-13T09:14:05.090049+00:00",
   "articles": [
     {
       "path": "content/posts/ansible_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -20,15 +21,16 @@
     },
     {
       "path": "content/posts/ansible_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A5",
-          "detail": "プレースホルダーが {{ }} 形式: ['{{ api_token }}', '{{ aws_access_key_id }}', '{{ aws_secret_access_key }}']"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ api_token }}', '{{ aws_access_key_id }}', '{{ aws_secret_access_key }}']"
         }
       ],
       "infos": [
@@ -48,6 +50,7 @@
     },
     {
       "path": "content/posts/ansible_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -65,6 +68,7 @@
     },
     {
       "path": "content/posts/ansible_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -93,6 +97,7 @@
     },
     {
       "path": "content/posts/ansible_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -115,6 +120,7 @@
     },
     {
       "path": "content/posts/ansible_503.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -139,12 +145,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_amazon-sp-api-tutorial-building-real-marketplace-a.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -161,11 +163,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_devops-best-practices-from-the-trenches-what-actua.md",
+      "category": "non_error_article",
       "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
         {
           "rule": "B2",
           "detail": "不適格マーカー(not_http_status_related): 「HTTPステータスコードに直結するものではなく」"
@@ -183,10 +182,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ matrix.shard }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -206,20 +201,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_dragonfly-vs-redis-in-2026-is-it-really-a-faster-d.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [],
@@ -227,12 +214,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_end-to-end-github-security-hardening-guide-for-org.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -241,10 +224,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -266,12 +245,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_from-500-to-50-000-concurrent-users-architecture-d.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -295,32 +270,20 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_how-i-built-a-restaurant-waitlist-app-on-amazon-au.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [],
       "infos": [],
       "source_tiers": {}
     },
     {
       "path": "content/posts/auto_2026-06-10_how-pact-contract-testing-catches-breaking-changes.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -338,20 +301,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_i-automated-my-entire-side-hustle-with-python-here.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -371,20 +326,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_it-works-on-my-cluster-containerizing-spark-and-la.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -402,20 +349,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_jq-chokes-on-real-world-log-streams-so-i-built-a-t.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [],
@@ -423,20 +362,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_pii-shield-cleaning-pii-from-logs-before-it-reache.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -454,20 +385,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-10_組織向け-github-セキュリティ-ハードニング完全ガイド.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -485,48 +408,20 @@
     },
     {
       "path": "content/posts/auto_2026-06-11_agentcore-payments-when-your-agent-has-its-own-wal.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: それでも解決しない場合"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例セクションにコードブロックなし"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [],
       "infos": [],
       "source_tiers": {}
     },
     {
       "path": "content/posts/auto_2026-06-11_deploying-vector-high-performance-observability-da.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -544,20 +439,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-11_i-built-a-self-hosted-llm-stack-that-grades-itself.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -575,20 +462,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-11_seeking-guidance-on-ai-platform-engineering-focus-.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -608,12 +487,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-11_stop-using-iam-access-keys-secure-cross-cloud-work.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -626,10 +501,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -649,48 +520,20 @@
     },
     {
       "path": "content/posts/auto_2026-06-11_the-silent-ssl-killer-in-your-java-trust-store-why.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: それでも解決しない場合"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例セクションにコードブロックなし"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [],
       "infos": [],
       "source_tiers": {}
     },
     {
       "path": "content/posts/auto_2026-06-11_using-caddy-with-docker-for-production-a-practical.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -710,20 +553,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-11_zero-to-hardened-a-practical-migration-playbook-fo.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [],
@@ -731,12 +566,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_ai-code-review-for-terraform-prs-ci-checklist-and-.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -745,10 +576,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ github.event.pull_request.number }}', '{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -770,12 +597,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_architecting-zero-trust-multicloud-identity-federa.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -797,20 +620,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_before-automation-deploying-spring-petclinic-micro.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -832,20 +647,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_cara-install-docker-nginx-dan-ssl-certbot-di-ubunt.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -865,16 +672,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_cómo-solucionar-docker-run-con-exit-code-1-en-rasp.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -883,10 +682,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{.Architecture}}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [],
@@ -894,12 +689,8 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_fixing-ghcr-unauthorized-docker-cannot-perform-int.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -908,10 +699,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ github.actor }}', '{{ secrets.GITHUB_TOKEN }}', '{{ github.actor }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -931,18 +718,9 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -960,20 +738,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_moving-docker-images-between-repos-with-crane-afte.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -995,20 +765,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_my-complete-self-hosting-stack-docker-compose-hard.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [],
@@ -1016,20 +778,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_openai-already-told-us-the-kubernetes-scaling-stor.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -1047,20 +801,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_openvpn-on-aws-secure-access-to-private-infrastruc.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -1080,20 +826,12 @@
     },
     {
       "path": "content/posts/auto_2026-06-12_the-observability-gap-for-small-deployments.md",
-      "fails": [
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -1113,6 +851,7 @@
     },
     {
       "path": "content/posts/aws_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1135,6 +874,7 @@
     },
     {
       "path": "content/posts/aws_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1157,6 +897,7 @@
     },
     {
       "path": "content/posts/aws_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1169,6 +910,7 @@
     },
     {
       "path": "content/posts/aws_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1191,6 +933,7 @@
     },
     {
       "path": "content/posts/aws_409.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1208,6 +951,7 @@
     },
     {
       "path": "content/posts/aws_422.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -1225,6 +969,7 @@
     },
     {
       "path": "content/posts/aws_429.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1247,6 +992,7 @@
     },
     {
       "path": "content/posts/aws_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1269,15 +1015,16 @@
     },
     {
       "path": "content/posts/aws_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -1299,15 +1046,16 @@
     },
     {
       "path": "content/posts/aws_503.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -1329,6 +1077,7 @@
     },
     {
       "path": "content/posts/aws_504.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1351,6 +1100,7 @@
     },
     {
       "path": "content/posts/azure_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -1370,6 +1120,7 @@
     },
     {
       "path": "content/posts/azure_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1394,6 +1145,7 @@
     },
     {
       "path": "content/posts/azure_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1416,6 +1168,7 @@
     },
     {
       "path": "content/posts/azure_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -1435,6 +1188,7 @@
     },
     {
       "path": "content/posts/azure_409.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -1452,6 +1206,7 @@
     },
     {
       "path": "content/posts/azure_429.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -1468,12 +1223,12 @@
       ],
       "warns": [
         {
-          "rule": "A5",
-          "detail": "プレースホルダーが大文字形式: ['YOUR_ACCESS_TOKEN', 'YOUR_SUBSCRIPTION_ID', 'YOUR_ACCESS_TOKEN']"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが大文字形式: ['YOUR_ACCESS_TOKEN', 'YOUR_SUBSCRIPTION_ID', 'YOUR_ACCESS_TOKEN']"
         }
       ],
       "infos": [
@@ -1491,6 +1246,7 @@
     },
     {
       "path": "content/posts/azure_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -1522,6 +1278,7 @@
     },
     {
       "path": "content/posts/azure_503.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1544,6 +1301,7 @@
     },
     {
       "path": "content/posts/docker_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1568,6 +1326,7 @@
     },
     {
       "path": "content/posts/docker_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1576,12 +1335,12 @@
       ],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが2件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
         }
       ],
       "infos": [
@@ -1601,15 +1360,16 @@
     },
     {
       "path": "content/posts/docker_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが3件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
         }
       ],
       "infos": [
@@ -1629,6 +1389,7 @@
     },
     {
       "path": "content/posts/docker_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1655,6 +1416,7 @@
     },
     {
       "path": "content/posts/docker_408.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1686,6 +1448,7 @@
     },
     {
       "path": "content/posts/docker_409.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1717,6 +1480,7 @@
     },
     {
       "path": "content/posts/docker_422.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1741,6 +1505,7 @@
     },
     {
       "path": "content/posts/docker_429.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1749,16 +1514,16 @@
       ],
       "warns": [
         {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         },
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ matrix.version }}', '{{ secrets.DOCKER_USERNAME }}', '{{ secrets.DOCKER_PASSWORD }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -1780,6 +1545,7 @@
     },
     {
       "path": "content/posts/docker_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1807,6 +1573,7 @@
     },
     {
       "path": "content/posts/docker_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1837,6 +1604,7 @@
     },
     {
       "path": "content/posts/docker_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -1868,6 +1636,7 @@
     },
     {
       "path": "content/posts/docker_504.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -1892,6 +1661,7 @@
     },
     {
       "path": "content/posts/docker_compose_400.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -1926,6 +1696,7 @@
     },
     {
       "path": "content/posts/docker_compose_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -1965,6 +1736,7 @@
     },
     {
       "path": "content/posts/docker_compose_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -1984,6 +1756,7 @@
     },
     {
       "path": "content/posts/docker_compose_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2008,6 +1781,7 @@
     },
     {
       "path": "content/posts/docker_compose_409.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2032,6 +1806,7 @@
     },
     {
       "path": "content/posts/docker_compose_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -2051,6 +1826,7 @@
     },
     {
       "path": "content/posts/docker_compose_503.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -2070,28 +1846,8 @@
     },
     {
       "path": "content/posts/docker_compose_env_utf16_bom_windows.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーの概要"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーメッセージ例"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2113,6 +1869,7 @@
     },
     {
       "path": "content/posts/firebase_400.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2148,6 +1905,7 @@
     },
     {
       "path": "content/posts/firebase_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2174,6 +1932,7 @@
     },
     {
       "path": "content/posts/firebase_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2200,6 +1959,7 @@
     },
     {
       "path": "content/posts/firebase_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2224,6 +1984,7 @@
     },
     {
       "path": "content/posts/firebase_408.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2262,6 +2023,7 @@
     },
     {
       "path": "content/posts/firebase_409.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -2288,6 +2050,7 @@
     },
     {
       "path": "content/posts/firebase_422.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2314,6 +2077,7 @@
     },
     {
       "path": "content/posts/firebase_429.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -2333,6 +2097,7 @@
     },
     {
       "path": "content/posts/firebase_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2357,6 +2122,7 @@
     },
     {
       "path": "content/posts/firebase_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2383,6 +2149,7 @@
     },
     {
       "path": "content/posts/firebase_503.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2407,6 +2174,7 @@
     },
     {
       "path": "content/posts/firebase_504.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2441,6 +2209,7 @@
     },
     {
       "path": "content/posts/gcp_400.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2479,6 +2248,7 @@
     },
     {
       "path": "content/posts/gcp_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2517,6 +2287,7 @@
     },
     {
       "path": "content/posts/gcp_403.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2555,6 +2326,7 @@
     },
     {
       "path": "content/posts/gcp_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2593,6 +2365,7 @@
     },
     {
       "path": "content/posts/gcp_429.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2627,6 +2400,7 @@
     },
     {
       "path": "content/posts/gcp_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2668,6 +2442,7 @@
     },
     {
       "path": "content/posts/gcp_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2702,6 +2477,7 @@
     },
     {
       "path": "content/posts/gemini_api_429_resource_exhausted_free_tier.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -2749,6 +2525,7 @@
     },
     {
       "path": "content/posts/github_api_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -2768,6 +2545,7 @@
     },
     {
       "path": "content/posts/github_api_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2792,6 +2570,7 @@
     },
     {
       "path": "content/posts/github_api_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2816,6 +2595,7 @@
     },
     {
       "path": "content/posts/github_api_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -2837,6 +2617,7 @@
     },
     {
       "path": "content/posts/github_api_409.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -2868,6 +2649,7 @@
     },
     {
       "path": "content/posts/github_api_422.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -2889,6 +2671,7 @@
     },
     {
       "path": "content/posts/github_api_429.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2915,6 +2698,7 @@
     },
     {
       "path": "content/posts/github_api_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2941,6 +2725,7 @@
     },
     {
       "path": "content/posts/github_api_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -2967,6 +2752,7 @@
     },
     {
       "path": "content/posts/github_api_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -2996,6 +2782,7 @@
     },
     {
       "path": "content/posts/github_api_504.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3022,6 +2809,7 @@
     },
     {
       "path": "content/posts/gitlab_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -3041,6 +2829,7 @@
     },
     {
       "path": "content/posts/gitlab_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3065,6 +2854,7 @@
     },
     {
       "path": "content/posts/gitlab_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3089,6 +2879,7 @@
     },
     {
       "path": "content/posts/gitlab_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3120,15 +2911,16 @@
     },
     {
       "path": "content/posts/gitlab_409.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -3148,6 +2940,7 @@
     },
     {
       "path": "content/posts/gitlab_422.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3172,20 +2965,8 @@
     },
     {
       "path": "content/posts/hugo_papermod_schema_date.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーメッセージ例"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [
         {
           "rule": "A5",
@@ -3209,6 +2990,7 @@
     },
     {
       "path": "content/posts/kubernetes_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -3230,6 +3012,7 @@
     },
     {
       "path": "content/posts/kubernetes_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3238,12 +3021,12 @@
       ],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -3263,6 +3046,7 @@
     },
     {
       "path": "content/posts/kubernetes_403.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3294,6 +3078,7 @@
     },
     {
       "path": "content/posts/kubernetes_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3325,6 +3110,7 @@
     },
     {
       "path": "content/posts/kubernetes_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3351,6 +3137,7 @@
     },
     {
       "path": "content/posts/kubernetes_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3382,6 +3169,7 @@
     },
     {
       "path": "content/posts/minikube_400.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3421,6 +3209,7 @@
     },
     {
       "path": "content/posts/minikube_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3455,6 +3244,7 @@
     },
     {
       "path": "content/posts/minikube_403.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3489,6 +3279,7 @@
     },
     {
       "path": "content/posts/minikube_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3528,6 +3319,7 @@
     },
     {
       "path": "content/posts/minikube_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3562,6 +3354,7 @@
     },
     {
       "path": "content/posts/minikube_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3605,15 +3398,16 @@
     },
     {
       "path": "content/posts/nginx_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが2件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
         }
       ],
       "infos": [
@@ -3633,15 +3427,16 @@
     },
     {
       "path": "content/posts/nginx_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが3件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
         }
       ],
       "infos": [
@@ -3659,6 +3454,7 @@
     },
     {
       "path": "content/posts/nginx_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3683,6 +3479,7 @@
     },
     {
       "path": "content/posts/nginx_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3691,12 +3488,12 @@
       ],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -3716,15 +3513,16 @@
     },
     {
       "path": "content/posts/nginx_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが3件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
         }
       ],
       "infos": [
@@ -3746,6 +3544,7 @@
     },
     {
       "path": "content/posts/nginx_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3754,12 +3553,12 @@
       ],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが2件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
         }
       ],
       "infos": [
@@ -3779,6 +3578,7 @@
     },
     {
       "path": "content/posts/nginx_504.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -3810,6 +3610,7 @@
     },
     {
       "path": "content/posts/openai_api_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -3831,6 +3632,7 @@
     },
     {
       "path": "content/posts/openai_api_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3857,6 +3659,7 @@
     },
     {
       "path": "content/posts/openai_api_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -3883,6 +3686,7 @@
     },
     {
       "path": "content/posts/openai_api_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -3902,6 +3706,7 @@
     },
     {
       "path": "content/posts/openai_api_409.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3942,6 +3747,7 @@
     },
     {
       "path": "content/posts/openai_api_422.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -3982,6 +3788,7 @@
     },
     {
       "path": "content/posts/openai_api_429.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -4008,6 +3815,7 @@
     },
     {
       "path": "content/posts/openai_api_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -4037,6 +3845,7 @@
     },
     {
       "path": "content/posts/openai_api_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4061,6 +3870,7 @@
     },
     {
       "path": "content/posts/openai_api_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -4087,6 +3897,7 @@
     },
     {
       "path": "content/posts/podman_400.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4125,6 +3936,7 @@
     },
     {
       "path": "content/posts/podman_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4163,6 +3975,7 @@
     },
     {
       "path": "content/posts/podman_403.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4197,6 +4010,7 @@
     },
     {
       "path": "content/posts/podman_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4231,6 +4045,7 @@
     },
     {
       "path": "content/posts/podman_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4265,6 +4080,7 @@
     },
     {
       "path": "content/posts/podman_503.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4299,6 +4115,7 @@
     },
     {
       "path": "content/posts/slack_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4321,6 +4138,7 @@
     },
     {
       "path": "content/posts/slack_401.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4368,6 +4186,7 @@
     },
     {
       "path": "content/posts/slack_403.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4407,6 +4226,7 @@
     },
     {
       "path": "content/posts/slack_404.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4450,6 +4270,7 @@
     },
     {
       "path": "content/posts/slack_429.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4488,6 +4309,7 @@
     },
     {
       "path": "content/posts/slack_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4527,6 +4349,7 @@
     },
     {
       "path": "content/posts/stripe_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4553,6 +4376,7 @@
     },
     {
       "path": "content/posts/stripe_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4574,6 +4398,7 @@
     },
     {
       "path": "content/posts/stripe_402.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
@@ -4611,6 +4436,7 @@
     },
     {
       "path": "content/posts/stripe_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4635,6 +4461,7 @@
     },
     {
       "path": "content/posts/stripe_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4657,6 +4484,7 @@
     },
     {
       "path": "content/posts/stripe_429.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4681,6 +4509,7 @@
     },
     {
       "path": "content/posts/stripe_500.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A3",
@@ -4710,6 +4539,7 @@
     },
     {
       "path": "content/posts/supabase_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4729,6 +4559,7 @@
     },
     {
       "path": "content/posts/supabase_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4746,6 +4577,7 @@
     },
     {
       "path": "content/posts/supabase_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4765,6 +4597,7 @@
     },
     {
       "path": "content/posts/supabase_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4786,6 +4619,7 @@
     },
     {
       "path": "content/posts/supabase_409.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4805,6 +4639,7 @@
     },
     {
       "path": "content/posts/supabase_422.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4831,6 +4666,7 @@
     },
     {
       "path": "content/posts/supabase_429.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4850,6 +4686,7 @@
     },
     {
       "path": "content/posts/supabase_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4871,6 +4708,7 @@
     },
     {
       "path": "content/posts/terraform_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -4888,15 +4726,16 @@
     },
     {
       "path": "content/posts/terraform_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A5",
-          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}', '{{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}']"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}', '{{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}']"
         }
       ],
       "infos": [
@@ -4916,6 +4755,7 @@
     },
     {
       "path": "content/posts/terraform_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -4938,15 +4778,16 @@
     },
     {
       "path": "content/posts/terraform_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [],
@@ -4954,15 +4795,16 @@
     },
     {
       "path": "content/posts/terraform_409.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -4980,6 +4822,7 @@
     },
     {
       "path": "content/posts/terraform_429.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -5002,15 +4845,16 @@
     },
     {
       "path": "content/posts/terraform_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -5028,34 +4872,11 @@
     },
     {
       "path": "content/posts/tool_docker_compose.md",
+      "category": "non_error_article",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーの概要"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーメッセージ例"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: それでも解決しない場合"
-        },
         {
           "rule": "A3",
           "detail": "本文が1267字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
         }
       ],
       "warns": [],
@@ -5074,98 +4895,27 @@
     },
     {
       "path": "content/posts/tool_firebase.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーの概要"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーメッセージ例"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: それでも解決しない場合"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [],
       "infos": [],
       "source_tiers": {}
     },
     {
       "path": "content/posts/tool_slack.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーの概要"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーメッセージ例"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: それでも解決しない場合"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        }
-      ],
+      "category": "non_error_article",
+      "fails": [],
       "warns": [],
       "infos": [],
       "source_tiers": {}
     },
     {
       "path": "content/posts/tool_zoom.md",
+      "category": "non_error_article",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーの概要"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: エラーメッセージ例"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 原因と解決手順"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: それでも解決しない場合"
-        },
         {
           "rule": "A3",
           "detail": "本文が1337字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "A6",
-          "detail": "フロントマター必須フィールド欠落または空: errorCode"
         }
       ],
       "warns": [],
@@ -5174,6 +4924,7 @@
     },
     {
       "path": "content/posts/vercel_400.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -5193,8 +4944,13 @@
     },
     {
       "path": "content/posts/vercel_401.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -5202,10 +4958,6 @@
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.VERCEL_TOKEN }}']"
-        },
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
         }
       ],
       "infos": [
@@ -5225,15 +4977,16 @@
     },
     {
       "path": "content/posts/vercel_403.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -5253,6 +5006,7 @@
     },
     {
       "path": "content/posts/vercel_404.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -5277,6 +5031,7 @@
     },
     {
       "path": "content/posts/vercel_500.md",
+      "category": "error_article",
       "fails": [],
       "warns": [],
       "infos": [
@@ -5296,6 +5051,7 @@
     },
     {
       "path": "content/posts/vercel_502.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
@@ -5320,15 +5076,16 @@
     },
     {
       "path": "content/posts/vercel_503.md",
+      "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "A4",
-          "detail": "言語名なしのコードブロックが1件"
-        },
-        {
           "rule": "B3",
           "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        },
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
         }
       ],
       "infos": [
@@ -5348,6 +5105,7 @@
     },
     {
       "path": "content/posts/vercel_504.md",
+      "category": "error_article",
       "fails": [
         {
           "rule": "A1",
