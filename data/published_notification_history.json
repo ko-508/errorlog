@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://errorlog.jp/posts/gitlab_404/",
+    "path": "content/posts/gitlab_404.md",
+    "title": "GitLab の 404 エラー：原因と解決策",
+    "source_type": "daily",
+    "notified_at": "2026-06-13T05:17:04Z",
+    "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/gitlab_409/",
+    "path": "content/posts/gitlab_409.md",
+    "title": "GitLab の 409 エラー：原因と解決策",
+    "source_type": "daily",
+    "notified_at": "2026-06-13T05:17:06Z",
+    "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/gitlab_422/",
+    "path": "content/posts/gitlab_422.md",
+    "title": "GitLab の 422 エラー：原因と解決策",
+    "source_type": "daily",
+    "notified_at": "2026-06-13T05:17:07Z",
+    "fact_check_status": "pass"
+  }
+]
