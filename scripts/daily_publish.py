@@ -466,6 +466,7 @@ def main() -> None:
         published_count += 1
         published_articles.append({
             "path": str(out.relative_to(BASE.parent).as_posix()),
+            "stem": out.stem,
             "title": title,
             "source_type": "daily",
         })
