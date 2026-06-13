@@ -1,0 +1,158 @@
+{
+  "path": "content/posts/github_api_404.md",
+  "title": "GitHub API の 404 エラー：原因と解決策",
+  "mode": "existing",
+  "scores": {
+    "factual_score": 100,
+    "freshness_score": 87,
+    "citation_coverage": 72,
+    "risk_score": 10
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "All factual claims presented in the article excerpt are accurate and consistent with official GitHub documentation and widely accepted API behavior.",
+    "The article effectively covers the most common causes of 404 errors when interacting with the GitHub API.",
+    "While the information itself is current, the article's stated publication date (May 29, 2026) is in the future, which is unusual and should be verified."
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-13",
+  "status": "pass",
+  "report_path": "reports/fact_check/existing_articles/20260613020627211566_github_api_404_06c7dd32.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://docs.github.com/rest/guides/troubleshooting-the-rest-api#404-not-found-for-an-existing-resource",
+      "title": "Troubleshooting the REST API - GitHub Docs",
+      "claim": "If you make a request to access a private resource and your request isn't properly authenticated, you will receive a 404 Not Found response. GitHub uses a 404 Not Found response instead of a 403 Forbidden response to avoid confirming the existence of private repositories.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/guides/authenticating-to-the-rest-api",
+      "title": "REST API に対する認証 - GitHubドキュメント",
+      "claim": "多くの REST API エンドポイント操作では、認証が必要であるか、認証されている場合は追加情報が返されます。さらに、認証されている場合は 1 時間あたりの要求を増やすことができます。要求を認証するには、必要なスコープまたはアクセス許可を持つ認証トークンを提供する必要があります。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/guides/troubleshooting-the-rest-api",
+      "title": "REST API のトラブルシューティング - GitHubドキュメント",
+      "claim": "GitHub APIで404エラーが返される場合、リクエストで指定したリソース（リポジトリ、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/guides/troubleshooting-the-rest-api",
+      "title": "REST API のトラブルシューティング - GitHubドキュメント",
+      "claim": "このエラーはGitHub APIの認証が成功している場合でも発生し、エンドポイントのURLやパラメータの誤りが主な原因となります。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/guides/troubleshooting-the-rest-api",
+      "title": "REST API のトラブルシューティング - GitHubドキュメント",
+      "claim": "APIエンドポイントで指定したリポジトリ名やオーナー名に誤りがあると、サーバーがそのリソースを検索できず404が返されます。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/guides/troubleshooting-the-rest-api",
+      "title": "REST API のトラブルシューティング - GitHubドキュメント",
+      "claim": "プライベートリポジトリにアクセスする際、認証トークンが不足していたり、有効期限が切れていたり、そのリポジトリへのアクセス権限がないと404が返されます。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/guides/troubleshooting-the-rest-api",
+      "title": "REST API のトラブルシューティング - GitHubドキュメント",
+      "claim": "GitHub APIは権限がない場合、存在しないふりをする設計になっています。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://github.blog/changelog/2026-01-29-closing-down-notice-of-legacy-copilot-metrics-apis/",
+      "title": "Closing down notice of legacy Copilot metrics APIs · community · Discussion #191907 - GitHub",
+      "claim": "GitHub APIのバージョン更新により、エンドポイント形式が変わった場合や、非推奨となったエンドポイントを使用している場合に404が返されます。",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHKRFy00eDSfT4l5mZ6X_ikxj9PLqPBKcwZ4Unn1E_azUqatB_t0arz8t7jTuYjOvReztlNYSWZiKsablfK7pkIsJGIP4xVX3NGB9Hm7yup1NH2al5f10HnKR3742_dWABBV_QtdjAQC_W_GeiDGTQ3rfXlYSdjSpTkVAGEJ4YAG99CDdhjKPMFjGsmalrZ_AhxuQg5Hj5ohYFnx7tKuDr265fH8mijm33S9nzyc1p6qBzKKUv43kx9",
+      "title": "GitHub Copilot Metrics API Deprecation: New Endpoints for GitHub Tracking - devActivity",
+      "claim": "GitHub APIのバージョン更新により、エンドポイント形式が変わった場合や、非推奨となったエンドポイントを使用している場合に404が返されます。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.github.com/graphql/guides/error-handling",
+      "title": "Error Handling - GraphQL",
+      "claim": "GraphQL APIを使う場合は、クエリの構造が異なり、404ではなく異なる形式のエラーレスポンスが返される可能性があります。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.github.com/rest/orgs/organization-roles#get-all-organization-roles-for-an-organization",
+      "title": "組織の役割向けREST APIエンドポイント - GitHubドキュメント",
+      "claim": "公開リポジトリであっても、組織の設定により特定のエンドポイント（例：`/orgs/<org>/members`）が非公開の場合、権限がないユーザーには404が返されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.github.com/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens",
+      "title": "個人用アクセス トークンを管理する - GitHubドキュメント",
+      "claim": "適切なスコープを持つPersonal Access Tokenを使用してください。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://stackoverflow.com/questions/tagged/github-api",
+      "title": "github-api タグ付き質問 - Stack Overflow",
+      "claim": "Stack Overflow is a community resource for GitHub API related questions.",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.githubstatus.com",
+      "title": "GitHub Status Page",
+      "claim": "The GitHub Status Page provides information on the current status of GitHub services, including the API.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.testfully.io/blog/graphql-error-handling/",
+      "title": "Mastering GraphQL Error Handling: Strategies, Best Practices, and Future Trends - Testfully",
+      "claim": "Unlike traditional REST APIs, GraphQL doesn't use HTTP status codes to indicate errors. In GraphQL, errors are always returned in the same structure within the GraphQL response under the errors field. This consistency is critical to understanding GraphQL's error-handling philosophy. Common Types of Errors.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://devops.stackexchange.com/questions/15478/github-rest-api-returns-404-when-i-try-to-download-a-tarball-for-the-repo",
+      "title": "Github Rest API returns 404 when I try to download a tarball for the repo - Stack Overflow",
+      "claim": "Getting a 404 on an API end point that exists is how GitHub handles any end-point they don't want you to know exists, prior to authorizing.",
+      "source_type": "community",
+      "url_check_status": "200"
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [
+    "Optional improvement: Add explicit citations for all factual claims, leveraging primary sources like GitHub documentation.",
+    "Optional improvement: Verify and correct the article's publication date to reflect when the content was actually written or last updated, to avoid confusion and potential misrepresentation of freshness."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 8,
+  "url_skipped": 8,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 6219,
+  "fact_check_input_chars": 4515,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 90.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "677794f76631",
+  "error_detail": null
+}
