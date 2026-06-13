@@ -1,0 +1,5775 @@
+{
+  "generated_at": "2026-06-13T04:38:29.000575+00:00",
+  "articles": [
+    {
+      "path": "content/posts/ansible_400.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/ansible_401.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ api_token }}', '{{ aws_access_key_id }}', '{{ aws_secret_access_key }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 2,
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 2,
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/ansible_403.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/ansible_404.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ api_token }}', '{{ inventory_hostname }}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 3,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 3,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/ansible_500.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ service_status.rc }}', '{{ config_path }}', '{{ config_path }}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/ansible_503.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ inventory_hostname }}', '{{ inventory_hostname }}', '{{ inventory_hostname }}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 11,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 11,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_amazon-sp-api-tutorial-building-real-marketplace-a.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 7
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 7
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_devops-best-practices-from-the-trenches-what-actua.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        },
+        {
+          "rule": "B2",
+          "detail": "不適格マーカー(not_http_status_related): 「HTTPステータスコードに直結するものではなく」"
+        },
+        {
+          "rule": "B2",
+          "detail": "不適格マーカー(indirect_error_message): 「直接的なエラーメッセージとして現れること」"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが6件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ matrix.shard }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4,
+            "other": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4,
+        "other": 6
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_dragonfly-vs-redis-in-2026-is-it-really-a-faster-d.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_end-to-end-github-security-hardening-guide-for-org.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "community": 4,
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "community": 4,
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_from-500-to-50-000-concurrent-users-architecture-d.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_how-i-built-a-restaurant-waitlist-app-on-amazon-au.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_how-pact-contract-testing-catches-breaking-changes.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 6
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_i-automated-my-entire-side-hustle-with-python-here.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_it-works-on-my-cluster-containerizing-spark-and-la.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 5
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_jq-chokes-on-real-world-log-streams-so-i-built-a-t.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_pii-shield-cleaning-pii-from-logs-before-it-reache.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-10_組織向け-github-セキュリティ-ハードニング完全ガイド.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 7
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 7
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_agentcore-payments-when-your-agent-has-its-own-wal.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例セクションにコードブロックなし"
+        }
+      ],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_deploying-vector-high-performance-observability-da.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 5
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_i-built-a-self-hosted-llm-stack-that-grades-itself.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_seeking-guidance-on-ai-platform-engineering-focus-.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_stop-using-iam-access-keys-secure-cross-cloud-work.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが大文字形式: ['YOUR_AZURE_TENANT_ID', 'YOUR_AZURE_APP_CLIENT_ID']"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_the-silent-ssl-killer-in-your-java-trust-store-why.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例セクションにコードブロックなし"
+        }
+      ],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_using-caddy-with-docker-for-production-a-practical.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-11_zero-to-hardened-a-practical-migration-playbook-fo.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_ai-code-review-for-terraform-prs-ci-checklist-and-.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ github.event.pull_request.number }}', '{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "community": 2,
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "community": 2,
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_architecting-zero-trust-multicloud-identity-federa.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 7
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 7
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_before-automation-deploying-spring-petclinic-micro.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "community": 2,
+            "official": 2,
+            "other": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "community": 2,
+        "official": 2,
+        "other": 6
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_cara-install-docker-nginx-dan-ssl-certbot-di-ubunt.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4,
+            "other": 8
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4,
+        "other": 8
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_cómo-solucionar-docker-run-con-exit-code-1-en-rasp.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{.Architecture}}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_fixing-ghcr-unauthorized-docker-cannot-perform-int.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ github.actor }}', '{{ secrets.GITHUB_TOKEN }}', '{{ github.actor }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 2,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 2,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "other": 11
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "other": 11
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_moving-docker-images-between-repos-with-crane-afte.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "community": 2,
+            "official": 2,
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "community": 2,
+        "official": 2,
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_my-complete-self-hosting-stack-docker-compose-hard.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_openai-already-told-us-the-kubernetes-scaling-stor.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 3
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_openvpn-on-aws-secure-access-to-private-infrastruc.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 5,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 5,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/auto_2026-06-12_the-observability-gap-for-small-deployments.md",
+      "fails": [
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "community": 2,
+            "other": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "community": 2,
+        "other": 1
+      }
+    },
+    {
+      "path": "content/posts/aws_400.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/aws_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/aws_403.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/aws_404.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/aws_409.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1458字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/aws_422.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 21
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 21
+      }
+    },
+    {
+      "path": "content/posts/aws_429.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/aws_500.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 1
+      }
+    },
+    {
+      "path": "content/posts/aws_502.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "other": 3,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "other": 3,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/aws_503.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 16,
+            "official": 6,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 16,
+        "official": 6,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/aws_504.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/azure_400.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/azure_401.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 29,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 29,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/azure_403.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/azure_404.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 2,
+            "other": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 2,
+        "other": 3
+      }
+    },
+    {
+      "path": "content/posts/azure_409.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/azure_429.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1301字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが大文字形式: ['YOUR_ACCESS_TOKEN', 'YOUR_SUBSCRIPTION_ID', 'YOUR_ACCESS_TOKEN']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 36
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 36
+      }
+    },
+    {
+      "path": "content/posts/azure_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1412字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4
+      }
+    },
+    {
+      "path": "content/posts/azure_503.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 27
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 27
+      }
+    },
+    {
+      "path": "content/posts/docker_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 60,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 60,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/docker_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1416字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 19,
+            "official": 8
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 19,
+        "official": 8
+      }
+    },
+    {
+      "path": "content/posts/docker_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 5,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 5,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/docker_404.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1343字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 35,
+            "official": 6,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 35,
+        "official": 6,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/docker_408.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1375字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 45,
+            "official": 2,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 45,
+        "official": 2,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/docker_409.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1334字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 38,
+            "official": 4,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 38,
+        "official": 4,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/docker_422.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 45,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 45,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/docker_429.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1397字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ matrix.version }}', '{{ secrets.DOCKER_USERNAME }}', '{{ secrets.DOCKER_PASSWORD }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 42,
+            "official": 4,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 42,
+        "official": 4,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/docker_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1482字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 47
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 47
+      }
+    },
+    {
+      "path": "content/posts/docker_502.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{.Names}}', '{{.Ports}}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 45,
+            "official": 4,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 45,
+        "official": 4,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/docker_503.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1399字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 49,
+            "official": 2,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 49,
+        "official": 2,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/docker_504.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 49,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 49,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 27
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 27
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.REGISTRY_PASSWORD }}', '{{ secrets.REGISTRY_USERNAME }}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 35
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 35
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_403.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_404.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 40,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 40,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_409.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 28,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 28,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_500.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 35,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 35,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_503.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 40,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 40,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/docker_compose_env_utf16_bom_windows.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが7件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 12
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 12
+      }
+    },
+    {
+      "path": "content/posts/firebase_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1232字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 44
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 44
+      }
+    },
+    {
+      "path": "content/posts/firebase_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが4件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 29,
+            "official": 6,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 29,
+        "official": 6,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/firebase_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 25,
+            "official": 6,
+            "community": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 25,
+        "official": 6,
+        "community": 4
+      }
+    },
+    {
+      "path": "content/posts/firebase_404.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 33,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 33,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/firebase_408.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1268字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 33
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 33
+      }
+    },
+    {
+      "path": "content/posts/firebase_409.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1445字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 23,
+            "official": 3,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 23,
+        "official": 3,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/firebase_422.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 32,
+            "official": 6,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 32,
+        "official": 6,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/firebase_429.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 8,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 8,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/firebase_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 39,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 39,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/firebase_502.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 35,
+            "official": 3,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 35,
+        "official": 3,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/firebase_503.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 28,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 28,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/firebase_504.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 36
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 36
+      }
+    },
+    {
+      "path": "content/posts/gcp_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1130字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 29
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 29
+      }
+    },
+    {
+      "path": "content/posts/gcp_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1397字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 32
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 32
+      }
+    },
+    {
+      "path": "content/posts/gcp_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1295字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 29
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 29
+      }
+    },
+    {
+      "path": "content/posts/gcp_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1325字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 27
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 27
+      }
+    },
+    {
+      "path": "content/posts/gcp_429.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37
+      }
+    },
+    {
+      "path": "content/posts/gcp_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/gcp_503.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 27
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 27
+      }
+    },
+    {
+      "path": "content/posts/gemini_api_429_resource_exhausted_free_tier.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1434字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 18
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 18
+      }
+    },
+    {
+      "path": "content/posts/github_api_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 64,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 64,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/github_api_401.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 72,
+            "official": 8
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 72,
+        "official": 8
+      }
+    },
+    {
+      "path": "content/posts/github_api_403.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 59,
+            "official": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 59,
+        "official": 5
+      }
+    },
+    {
+      "path": "content/posts/github_api_404.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 71,
+            "community": 3,
+            "official": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 71,
+        "community": 3,
+        "official": 5
+      }
+    },
+    {
+      "path": "content/posts/github_api_409.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1441字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 42,
+            "official": 6,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 42,
+        "official": 6,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/github_api_422.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 58,
+            "official": 4,
+            "community": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 58,
+        "official": 4,
+        "community": 4
+      }
+    },
+    {
+      "path": "content/posts/github_api_429.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 57,
+            "official": 4,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 57,
+        "official": 4,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/github_api_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 62,
+            "official": 2,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 62,
+        "official": 2,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/github_api_502.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 61,
+            "official": 2,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 61,
+        "official": 2,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/github_api_503.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1476字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 59,
+            "official": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 59,
+        "official": 5
+      }
+    },
+    {
+      "path": "content/posts/github_api_504.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 60,
+            "official": 7,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 60,
+        "official": 7,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/gitlab_400.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 2,
+            "other": 7
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 2,
+        "other": 7
+      }
+    },
+    {
+      "path": "content/posts/gitlab_401.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 15,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 15,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/gitlab_403.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 2,
+            "other": 9
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 2,
+        "other": 9
+      }
+    },
+    {
+      "path": "content/posts/gitlab_404.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1379字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "community": 15,
+            "other": 1,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "community": 15,
+        "other": 1,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/gitlab_409.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 56,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 56,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/gitlab_422.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4,
+            "other": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4,
+        "other": 5
+      }
+    },
+    {
+      "path": "content/posts/hugo_papermod_schema_date.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ .PublishDate }}', '{{ .Lastmod }}', '{{ .PublishDate }}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 10,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 10,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/kubernetes_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 46,
+            "official": 3,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 46,
+        "official": 3,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/kubernetes_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1307字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 43,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 43,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/kubernetes_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1270字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 34,
+            "official": 1,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 34,
+        "official": 1,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/kubernetes_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1393字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 35,
+            "official": 4,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 35,
+        "official": 4,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/kubernetes_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 46,
+            "official": 6,
+            "community": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 46,
+        "official": 6,
+        "community": 4
+      }
+    },
+    {
+      "path": "content/posts/kubernetes_503.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1388字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 19,
+            "official": 3,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 19,
+        "official": 3,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/minikube_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 20
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 20
+      }
+    },
+    {
+      "path": "content/posts/minikube_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 20
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 20
+      }
+    },
+    {
+      "path": "content/posts/minikube_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 33
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 33
+      }
+    },
+    {
+      "path": "content/posts/minikube_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37
+      }
+    },
+    {
+      "path": "content/posts/minikube_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37
+      }
+    },
+    {
+      "path": "content/posts/minikube_503.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1403字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 20
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 20
+      }
+    },
+    {
+      "path": "content/posts/nginx_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 43,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 43,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/nginx_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 15
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 15
+      }
+    },
+    {
+      "path": "content/posts/nginx_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 22,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 22,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/nginx_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1385字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 35,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 35,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/nginx_502.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが3件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 39,
+            "official": 4,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 39,
+        "official": 4,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/nginx_503.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1493字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 43,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 43,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/nginx_504.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1351字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 40,
+            "official": 6,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 40,
+        "official": 6,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/openai_api_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 47,
+            "official": 2,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 47,
+        "official": 2,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/openai_api_401.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 50,
+            "official": 3,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 50,
+        "official": 3,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/openai_api_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 47,
+            "official": 3,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 47,
+        "official": 3,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/openai_api_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 39,
+            "official": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 39,
+        "official": 5
+      }
+    },
+    {
+      "path": "content/posts/openai_api_409.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1273字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 23,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 23,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/openai_api_422.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1350字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 19,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 19,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/openai_api_429.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1463字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37,
+            "official": 2,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37,
+        "official": 2,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/openai_api_500.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1472字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 44,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 44,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/openai_api_502.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 49,
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 49,
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/openai_api_503.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1419字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 38,
+            "official": 2,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 38,
+        "official": 2,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/podman_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1293字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 39
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 39
+      }
+    },
+    {
+      "path": "content/posts/podman_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1448字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 50
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 50
+      }
+    },
+    {
+      "path": "content/posts/podman_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 47
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 47
+      }
+    },
+    {
+      "path": "content/posts/podman_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 39
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 39
+      }
+    },
+    {
+      "path": "content/posts/podman_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 38
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 38
+      }
+    },
+    {
+      "path": "content/posts/podman_503.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 39
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 39
+      }
+    },
+    {
+      "path": "content/posts/slack_400.md",
+      "fails": [
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 54
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 54
+      }
+    },
+    {
+      "path": "content/posts/slack_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1316字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが大文字形式: ['YOUR_BOT_TOKEN']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 44
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 44
+      }
+    },
+    {
+      "path": "content/posts/slack_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 33
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 33
+      }
+    },
+    {
+      "path": "content/posts/slack_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1128字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが大文字形式: ['YOUR_BOT_TOKEN', 'YOUR_BOT_TOKEN', 'YOUR_BOT_TOKEN']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 26
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 26
+      }
+    },
+    {
+      "path": "content/posts/slack_429.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1336字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 37
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 37
+      }
+    },
+    {
+      "path": "content/posts/slack_500.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 44
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 44
+      }
+    },
+    {
+      "path": "content/posts/stripe_400.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 43,
+            "official": 6,
+            "community": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 43,
+        "official": 6,
+        "community": 4
+      }
+    },
+    {
+      "path": "content/posts/stripe_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 59,
+            "official": 2,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 59,
+        "official": 2,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/stripe_402.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1460字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 13,
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 13,
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/stripe_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 41,
+            "official": 9
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 41,
+        "official": 9
+      }
+    },
+    {
+      "path": "content/posts/stripe_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "B1",
+          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 45
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 45
+      }
+    },
+    {
+      "path": "content/posts/stripe_429.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 41,
+            "official": 6
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 41,
+        "official": 6
+      }
+    },
+    {
+      "path": "content/posts/stripe_500.md",
+      "fails": [
+        {
+          "rule": "A3",
+          "detail": "本文が1069字（基準: 1,500字以上）"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 30,
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 30,
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/supabase_400.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 58,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 58,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/supabase_401.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 49
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 49
+      }
+    },
+    {
+      "path": "content/posts/supabase_403.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 49,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 49,
+        "official": 1
+      }
+    },
+    {
+      "path": "content/posts/supabase_404.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 42,
+            "official": 1,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 42,
+        "official": 1,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/supabase_409.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 2,
+            "official": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 2,
+        "official": 2
+      }
+    },
+    {
+      "path": "content/posts/supabase_422.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ .ConfirmationURL }}', '{{ .ConfirmationURL }}', '{{ .ConfirmationURL }}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 32,
+            "official": 4,
+            "community": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 32,
+        "official": 4,
+        "community": 2
+      }
+    },
+    {
+      "path": "content/posts/supabase_429.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 2,
+            "other": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 2,
+        "other": 3
+      }
+    },
+    {
+      "path": "content/posts/supabase_500.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 46,
+            "official": 1,
+            "community": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 46,
+        "official": 1,
+        "community": 1
+      }
+    },
+    {
+      "path": "content/posts/terraform_400.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/terraform_401.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}', '{{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 1,
+            "official": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 1,
+        "official": 3
+      }
+    },
+    {
+      "path": "content/posts/terraform_403.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4
+      }
+    },
+    {
+      "path": "content/posts/terraform_404.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/terraform_409.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4
+      }
+    },
+    {
+      "path": "content/posts/terraform_429.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 40
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 40
+      }
+    },
+    {
+      "path": "content/posts/terraform_500.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 8
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 8
+      }
+    },
+    {
+      "path": "content/posts/tool_docker_compose.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1267字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 27
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 27
+      }
+    },
+    {
+      "path": "content/posts/tool_firebase.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/tool_slack.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/tool_zoom.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーの概要"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: エラーメッセージ例"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 原因と解決手順"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        },
+        {
+          "rule": "A3",
+          "detail": "本文が1337字（基準: 1,500字以上）"
+        },
+        {
+          "rule": "A6",
+          "detail": "フロントマター必須フィールド欠落または空: errorCode"
+        }
+      ],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/vercel_400.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 4,
+            "official": 4
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 4,
+        "official": 4
+      }
+    },
+    {
+      "path": "content/posts/vercel_401.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.VERCEL_TOKEN }}']"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 1,
+            "official": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 1,
+        "official": 5
+      }
+    },
+    {
+      "path": "content/posts/vercel_403.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 2,
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 2,
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/vercel_404.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "other": 10
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "other": 10
+      }
+    },
+    {
+      "path": "content/posts/vercel_500.md",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "other": 5
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "other": 5
+      }
+    },
+    {
+      "path": "content/posts/vercel_502.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 6,
+            "other": 2
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 6,
+        "other": 2
+      }
+    },
+    {
+      "path": "content/posts/vercel_503.md",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        },
+        {
+          "rule": "B3",
+          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "official": 4,
+            "other": 3
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 4,
+        "other": 3
+      }
+    },
+    {
+      "path": "content/posts/vercel_504.md",
+      "fails": [
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: 注意点"
+        },
+        {
+          "rule": "A1",
+          "detail": "必須セクション欠落: それでも解決しない場合"
+        }
+      ],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが2件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 8,
+            "official": 1
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 8,
+        "official": 1
+      }
+    }
+  ]
+}
