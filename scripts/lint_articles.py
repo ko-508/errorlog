@@ -35,8 +35,8 @@ REQUIRED_SECTIONS: list[tuple[str, re.Pattern[str]]] = [
     ("エラーメッセージ例", re.compile(r"^#{1,4}\s*(?:実際の)?エラーメッセージ例", re.MULTILINE)),
     # 3. 原因と解決手順（「よくある」有無を吸収）
     ("原因と解決手順", re.compile(r"^#{1,4}\s*(?:よくある)?原因と解決手順", re.MULTILINE)),
-    # 4. 注意点（「ツール固有の」有無を吸収）
-    ("注意点", re.compile(r"^#{1,4}\s*(?:ツール固有の)?注意点", re.MULTILINE)),
+    # 4. 注意点（「ツール/サービス固有の」等、任意のプレフィックスを吸収）
+    ("注意点", re.compile(r"^#{1,4}\s*[^#\n]*注意点", re.MULTILINE)),
     # 5. それでも解決しない場合
     ("それでも解決しない場合", re.compile(r"^#{1,4}\s*それでも解決しない場合", re.MULTILINE)),
 ]
@@ -47,12 +47,24 @@ SECTION_ORDER = [label for label, _ in REQUIRED_SECTIONS]
 # ── B1 エラーパターン辞書 ─────────────────────────────────────────────────────
 # 各エントリは (カテゴリ名, pattern)。追加しやすいよう定数リスト化。
 ERROR_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
-    ("http_status",   re.compile(r"\b[45]\d{2}\b")),
+    ("http_status",    re.compile(r"\b[45]\d{2}\b")),
     ("exception_name", re.compile(r"\w+(?:Error|Exception)\b")),
-    ("exit_code",     re.compile(r"exit\s+code\s+\d+|\bexit\s+\d+\b", re.IGNORECASE)),
-    ("errno",         re.compile(r"\berrno\b", re.IGNORECASE)),
-    ("posix_errno",   re.compile(r"\bE[A-Z]{2,}\b")),   # EACCES, ENOENT 等
-    ("signal",        re.compile(r"\bSIG[A-Z]+\b")),
+    ("exit_code",      re.compile(r"exit\s+code\s+\d+|\bexit\s+\d+\b", re.IGNORECASE)),
+    ("errno",          re.compile(r"\berrno\b", re.IGNORECASE)),
+    ("posix_errno",    re.compile(r"\bE[A-Z]{2,}\b")),   # EACCES, ENOENT 等
+    ("signal",         re.compile(r"\bSIG[A-Z]+\b")),
+    # 自然言語エラーメッセージ（例: "Error response from daemon: ..."）
+    ("error_word",     re.compile(r"\bError[:\s]", re.IGNORECASE)),
+    ("failed_word",    re.compile(r"\bFailed\b", re.IGNORECASE)),
+    ("denied_word",    re.compile(r"\bdenied\b", re.IGNORECASE)),
+    ("not_found",      re.compile(r"\bnot\s+found\b", re.IGNORECASE)),
+    ("unauthorized",   re.compile(r"\bunauthorized\b", re.IGNORECASE)),
+    # JSON エラーレスポンスフィールド（GitHub/OpenAI/Stripe/AWS 等、大文字小文字不問）
+    ("json_code",      re.compile(r'"[Cc]ode"\s*:')),
+    ("json_error",     re.compile(r'"[Ee]rror"\s*:')),
+    ("json_message",   re.compile(r'"[Mm]essage"\s*:')),
+    # 日本語エラー表現
+    ("jp_error",       re.compile(r'(?:エラー|失敗)(?:が|は|：|:)')),
 ]
 
 # ── B2 不適格マーカー表現 ─────────────────────────────────────────────────────

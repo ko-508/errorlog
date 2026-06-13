@@ -134,6 +134,18 @@ def test_a1_accepts_tool_specific_without_prefix():
     assert check_a1(body) == []
 
 
+def test_a1_accepts_tool_name_prefix_chui():
+    """「AWS サービス固有の注意点」「Nginx固有の注意点」等でも合格。"""
+    for variant in [
+        "## AWS サービス固有の注意点",
+        "## Nginx固有の注意点",
+        "## Docker特有の注意点",
+        "## Kubernetes環境での注意点",
+    ]:
+        body = VALID_BODY.replace("## ツール固有の注意点", variant)
+        assert check_a1(body) == [], f"Failed for: {variant}"
+
+
 def test_a1_all_missing():
     issues = check_a1("## 関係ないセクション\n本文のみ")
     assert len(issues) == 5

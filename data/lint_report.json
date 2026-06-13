@@ -1,14 +1,9 @@
 {
-  "generated_at": "2026-06-13T04:38:29.000575+00:00",
+  "generated_at": "2026-06-13T04:52:18.537597+00:00",
   "articles": [
     {
       "path": "content/posts/ansible_400.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -53,12 +48,7 @@
     },
     {
       "path": "content/posts/ansible_403.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -153,10 +143,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [],
@@ -179,10 +165,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         },
         {
           "rule": "B2",
@@ -288,10 +270,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -321,10 +299,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [],
@@ -337,10 +311,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -436,10 +406,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -932,10 +898,6 @@
         {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -1151,12 +1113,7 @@
     },
     {
       "path": "content/posts/aws_400.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -1178,12 +1135,7 @@
     },
     {
       "path": "content/posts/aws_401.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -1205,12 +1157,7 @@
     },
     {
       "path": "content/posts/aws_403.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -1246,10 +1193,6 @@
       "path": "content/posts/aws_409.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1458字（基準: 1,500字以上）"
         }
@@ -1265,12 +1208,7 @@
     },
     {
       "path": "content/posts/aws_422.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -1413,12 +1351,7 @@
     },
     {
       "path": "content/posts/azure_400.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -1461,12 +1394,7 @@
     },
     {
       "path": "content/posts/azure_403.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -1488,12 +1416,7 @@
     },
     {
       "path": "content/posts/azure_404.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -1621,12 +1544,7 @@
     },
     {
       "path": "content/posts/docker_400.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -1652,16 +1570,8 @@
       "path": "content/posts/docker_401.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1416字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -1691,12 +1601,7 @@
     },
     {
       "path": "content/posts/docker_403.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -1728,10 +1633,6 @@
         {
           "rule": "A3",
           "detail": "本文が1343字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [],
@@ -1755,10 +1656,6 @@
     {
       "path": "content/posts/docker_408.md",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
         {
           "rule": "A3",
           "detail": "本文が1375字（基準: 1,500字以上）"
@@ -1791,16 +1688,8 @@
       "path": "content/posts/docker_409.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1334字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -1828,12 +1717,7 @@
     },
     {
       "path": "content/posts/docker_422.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -1861,10 +1745,6 @@
         {
           "rule": "A3",
           "detail": "本文が1397字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -1902,16 +1782,8 @@
       "path": "content/posts/docker_500.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1482字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -1935,12 +1807,7 @@
     },
     {
       "path": "content/posts/docker_502.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2001,12 +1868,7 @@
     },
     {
       "path": "content/posts/docker_504.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -2286,12 +2148,7 @@
     },
     {
       "path": "content/posts/firebase_401.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2317,12 +2174,7 @@
     },
     {
       "path": "content/posts/firebase_403.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2481,12 +2333,7 @@
     },
     {
       "path": "content/posts/firebase_500.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2510,12 +2357,7 @@
     },
     {
       "path": "content/posts/firebase_502.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2541,12 +2383,7 @@
     },
     {
       "path": "content/posts/firebase_503.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -2912,16 +2749,7 @@
     },
     {
       "path": "content/posts/github_api_400.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -2940,12 +2768,7 @@
     },
     {
       "path": "content/posts/github_api_401.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -2969,12 +2792,7 @@
     },
     {
       "path": "content/posts/github_api_403.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -3023,10 +2841,6 @@
         {
           "rule": "A3",
           "detail": "本文が1441字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -3054,12 +2868,7 @@
     },
     {
       "path": "content/posts/github_api_422.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -3080,12 +2889,7 @@
     },
     {
       "path": "content/posts/github_api_429.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -3111,12 +2915,7 @@
     },
     {
       "path": "content/posts/github_api_500.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -3197,12 +2996,7 @@
     },
     {
       "path": "content/posts/github_api_504.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -3388,10 +3182,6 @@
           "detail": "必須セクション欠落: 原因と解決手順"
         },
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A6",
           "detail": "フロントマター必須フィールド欠落または空: errorCode"
         }
@@ -3419,12 +3209,7 @@
     },
     {
       "path": "content/posts/kubernetes_400.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -3446,10 +3231,6 @@
     {
       "path": "content/posts/kubernetes_401.md",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
         {
           "rule": "A3",
           "detail": "本文が1307字（基準: 1,500字以上）"
@@ -3484,10 +3265,6 @@
       "path": "content/posts/kubernetes_403.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1270字（基準: 1,500字以上）"
         }
@@ -3519,10 +3296,6 @@
       "path": "content/posts/kubernetes_404.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1393字（基準: 1,500字以上）"
         }
@@ -3552,12 +3325,7 @@
     },
     {
       "path": "content/posts/kubernetes_500.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -3584,10 +3352,6 @@
     {
       "path": "content/posts/kubernetes_503.md",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
         {
           "rule": "A3",
           "detail": "本文が1388字（基準: 1,500字以上）"
@@ -3841,12 +3605,7 @@
     },
     {
       "path": "content/posts/nginx_400.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -3874,12 +3633,7 @@
     },
     {
       "path": "content/posts/nginx_403.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -3905,12 +3659,7 @@
     },
     {
       "path": "content/posts/nginx_404.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -3935,10 +3684,6 @@
     {
       "path": "content/posts/nginx_500.md",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
         {
           "rule": "A3",
           "detail": "本文が1385字（基準: 1,500字以上）"
@@ -3971,12 +3716,7 @@
     },
     {
       "path": "content/posts/nginx_502.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -4007,10 +3747,6 @@
     {
       "path": "content/posts/nginx_503.md",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
         {
           "rule": "A3",
           "detail": "本文が1493字（基準: 1,500字以上）"
@@ -4045,10 +3781,6 @@
       "path": "content/posts/nginx_504.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1351字（基準: 1,500字以上）"
         }
@@ -4078,16 +3810,7 @@
     },
     {
       "path": "content/posts/openai_api_400.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -4108,12 +3831,7 @@
     },
     {
       "path": "content/posts/openai_api_401.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -4139,16 +3857,7 @@
     },
     {
       "path": "content/posts/openai_api_403.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -4174,16 +3883,7 @@
     },
     {
       "path": "content/posts/openai_api_404.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -4284,10 +3984,6 @@
       "path": "content/posts/openai_api_429.md",
       "fails": [
         {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
           "rule": "A3",
           "detail": "本文が1463字（基準: 1,500字以上）"
         }
@@ -4316,10 +4012,6 @@
         {
           "rule": "A3",
           "detail": "本文が1472字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -4607,12 +4299,7 @@
     },
     {
       "path": "content/posts/slack_400.md",
-      "fails": [
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -4840,16 +4527,7 @@
     },
     {
       "path": "content/posts/stripe_400.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -4875,16 +4553,7 @@
     },
     {
       "path": "content/posts/stripe_401.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -4912,19 +4581,11 @@
         },
         {
           "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "A1",
           "detail": "必須セクション欠落: それでも解決しない場合"
         },
         {
           "rule": "A3",
           "detail": "本文が1460字（基準: 1,500字以上）"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
         }
       ],
       "warns": [
@@ -4950,16 +4611,7 @@
     },
     {
       "path": "content/posts/stripe_403.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -4983,16 +4635,7 @@
     },
     {
       "path": "content/posts/stripe_404.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
-        {
-          "rule": "B1",
-          "detail": "エラーメッセージ例のコードブロックに実在エラーパターンなし"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -5014,12 +4657,7 @@
     },
     {
       "path": "content/posts/stripe_429.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "B3",
@@ -5127,12 +4765,7 @@
     },
     {
       "path": "content/posts/supabase_404.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -5153,12 +4786,7 @@
     },
     {
       "path": "content/posts/supabase_409.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
@@ -5326,12 +4954,7 @@
     },
     {
       "path": "content/posts/terraform_409.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -5570,12 +5193,7 @@
     },
     {
       "path": "content/posts/vercel_401.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -5607,12 +5225,7 @@
     },
     {
       "path": "content/posts/vercel_403.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -5683,12 +5296,7 @@
     },
     {
       "path": "content/posts/vercel_502.md",
-      "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        }
-      ],
+      "fails": [],
       "warns": [
         {
           "rule": "A4",
@@ -5741,10 +5349,6 @@
     {
       "path": "content/posts/vercel_504.md",
       "fails": [
-        {
-          "rule": "A1",
-          "detail": "必須セクション欠落: 注意点"
-        },
         {
           "rule": "A1",
           "detail": "必須セクション欠落: それでも解決しない場合"
