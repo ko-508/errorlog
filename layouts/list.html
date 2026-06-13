@@ -51,7 +51,8 @@
 {{- partial "home_info.html" . }}
 {{- end }}
 
-{{- /* ── Phase 4: 障害速報セクション（トップページのみ・1ページ目のみ） ── */}}
+{{- /* ── Phase 4: 障害速報セクション（一時非表示） ── */}}
+{{- /* TODO: 再表示するときはこのコメントを外す
 {{- if and .IsHome (eq $paginator.PageNumber 1) }}
 {{- $incidents := where $pages "Params.trend_incident" true }}
 {{- $incidents = first 10 $incidents }}
@@ -77,6 +78,7 @@
 </div>
 {{- end }}
 {{- end }}
+*/}}
 
 {{- $term := .Data.Term }}
 {{- range $index, $page := $paginator.Pages }}
