@@ -1,0 +1,189 @@
+{
+  "path": "content/posts/gitlab_422.md",
+  "title": "GitLab の 422 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 95,
+    "freshness_score": 95,
+    "citation_coverage": 24,
+    "risk_score": 5
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "The article accurately defines GitLab's 422 'Unprocessable Entity' error and its general causes, such as data failing validation rules.",
+    "It correctly identifies common API operations like project creation, merge requests, and issues where 422 errors frequently occur due to data content not being accepted by the GitLab server.",
+    "The provided JSON error response example for a 422 error is consistent with the detailed error reporting structure described in GitLab's official API documentation for validation failures.",
+    "The article's claims about merge request title being a required field and its omission leading to a 422 error are well-supported by general API validation principles.",
+    "System-defined validation rules for project and group names (e.g., allowed characters, reserved names) exist, and violating them can cause a 422 error. The article's implication of configurable group-level naming restrictions for project names aligns with ongoing feature discussions and requests within GitLab.",
+    "The principle of attribute value validation (e.g., range, format mismatch) leading to 422 errors is a general API behavior, supported by documentation on attribute validation.",
+    "The article correctly states that detailed error messages with specific field reasons are present in the response body's 'errors' field for 422 errors.",
+    "The locations for checking custom validation rules at group and project levels, such as push rules and merge request approval rules, are accurately described.",
+    "Merge request templates are an official GitLab feature, and not meeting API-mandated required fields during their use can indeed cause a 422. However, enforcing compliance for *template-specific* required sections (beyond core API fields) is a feature currently under discussion.",
+    "The article correctly cites and links to official GitLab documentation regarding API error responses and the Projects API, which are relevant and up-to-date.",
+    "absolute wording may overstate technical certainty"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-13",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260613040415723623_gitlab_422_aa5b5dab.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://docs.gitlab.com/ee/user/admin_area/settings/appearances.html#reserved-project-and-group-names",
+      "title": "Reserved project and group names - GitLab Docs",
+      "claim": "Project names must contain only letters ( a-zA-Z ), digits ( 0-9 ), emoji, underscores ( _ ), dots ( . ), pluses ( + ), dashes ( - ), or spaces.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest/projects.html",
+      "title": "Projects API - GitLab Docs",
+      "claim": "The Projects API contains endpoints that: Retrieve project information and metadata. Create, edit, and remove projects. Control project visibility, access permissions, and security settings. Manage project features like issue tracking, merge requests, and CI/CD. Archive and unarchive projects. Transfer projects between namespaces. Manage deployment and container registry settings.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest/index.html#troubleshooting",
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "claim": "422 Unprocessable, The entity couldn't be processed. When working with the API you may encounter validation errors, in which case the API returns an HTTP 400 error. Such errors appear in the following cases: A required attribute of the API request is missing (for example, the title of an issue isn't given). An attribute did not pass the validation (for example, the user bio is too long). When a validation error occurs, error messages are different. They hold all details of validation errors: HTTP/1.1 400 Bad Request Content-Type: application/json { \"message\": { \"bio\": [ \"is too long (maximum is 255 characters)\" ] } }. The format can be described as follows: { \"message\": { \"<property-name>\": [ \"<error-message>\", \"<error-message>\", ... ], \"<embed-entity>\": { \"<property-name>\": [ \"<error-message>\", \"<error-message>\", ... ], } } }.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/gitlab/-/issues/35098",
+      "title": "422 unprocessable entity when creating mr (#35098) · Issue - GitLab",
+      "claim": "422 unprocessable entity when creating mr. Completed 422 Unprocessable Entity in 627ms (Views: 0.1ms | ActiveRecord: 69.6ms | Elasticsearch: 0.0ms)",
+      "source_type": "gitlab_issue",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/gitlab/-/issues/5486",
+      "title": "Infamous HTTP status 422 during sign in (#5486) · Issue - GitLab",
+      "claim": "If a user tries to sign in, they're redirected to /users/sign_in which only shows \"422 - The change you requested was rejected.\"",
+      "source_type": "gitlab_issue",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest/merge_requests.html",
+      "title": "Merge requests API - GitLab Docs",
+      "claim": "Change the scope of the search attribute. title , description , or a string joining them with comma. Default is title,description .",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/omnibus-gitlab/-/issues/761",
+      "title": "failure to use gitlab API via curl: HTTP/1.1 422 Unprocessable Entity -- InvalidAuthenticityToken (#761) · Issue",
+      "claim": "While trying to use GitLab (7.12) API via curl in order to create a project I reached what seems to be be a bug. Started POST \"/projects? private_token=[FILTERED]\" for 127.0. 0.1 at 2015-09-02 17:57:59 +0100 Processing by ProjectsController#create as JSON Parameters: {\"name\"=>\"foobar2\", \"private_token\"=>\"[FILTERED]\", \"project\"=>{\"name\"=>\"foobar2\"}} Can't verify CSRF token authenticity Completed 422 Unprocessable Entity in 2ms (ActiveRecord: 0.0ms) ActionController::InvalidAuthenticityToken (ActionController::InvalidAuthenticityToken):",
+      "source_type": "gitlab_issue",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/gitlab/-/issues/221232",
+      "title": "Add ability to restrict Group or Project name length (#221232) · Issue - GitLab",
+      "claim": "GitLab currently allows users to create project names as long as the project path and project name are under 256 characters. There should be a user setting at the admin/group/project level that gives the user the ability to restrict character counts on group/project naming conventions as it will help admins enforce any naming policies they may have. Especially in large organizations, group administrators may set up validation rules to unify project naming.",
+      "source_type": "gitlab_issue",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/group/manage.html",
+      "title": "Manage groups - GitLab Docs",
+      "claim": "Group owners can override the instance settings for projects in a group.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/admin_area/settings/push_rules.html#group-push-rules",
+      "title": "Push rules - GitLab Docs",
+      "claim": "Group push rules allow group maintainers to set push rules for newly created projects in the specific group. To configure push rules for a group: In the top bar, select Search or go to and find your group. In the left sidebar, select Settings > Repository. Expand the Pre-defined push rules section. Select the settings you want. Select Save push rules.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/project/merge_requests/approvals/rules.html#add-an-approval-rule",
+      "title": "Merge request approval rules - GitLab Docs",
+      "claim": "To add a merge request approval rule: In the top bar, select Search or go to and find your project. In the left sidebar, select Settings > Merge requests. In the Merge request approvals section, in the Approval rules section, select Add approval rule.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/project/description_templates.html#create-a-merge-request-template",
+      "title": "Description templates - GitLab Docs",
+      "claim": "Description templates standardize and automate how issues and merge requests are created in GitLab. To create a merge request description template for a project: On the left sidebar, select Search or go to and find your project. Select Code > Repository. Next to the default branch, select {plus}. Select New file. Next to the default branch, in the File name text box, enter .gitlab/merge_request_templates/mytemplate.md , where mytemplate is the name of your merge request template. Commit to your default branch. To set a default template for merge requests and issues... In the Default description template for merge requests section, fill in the text area. Select Save changes.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/gitlab/-/issues/534766",
+      "title": "Enforce Merge Request Template Compliance (#534766) · Issue - GitLab",
+      "claim": "Prevent submission of MRs that don't follow the standardized template; Implement validation for required template sections (ex., purpose, mantis, description, technical description); Provide clear error messages indicating which required fields are missing.",
+      "source_type": "gitlab_issue",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest/index.html#error-responses",
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "claim": "The official documentation \"[GitLab API - Error responses](https://docs.gitlab.com/ee/api/#error-responses)\" describes the standard meaning of each HTTP status code.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBcg3bcmS5CMQB9OGcC17GaYnJDS57Vl8iq3MbO3lmoOJzRs606IB7KLA8nOV6zA1Mkpt_s5RlzMHqlo-qYWSA6gsf9stIQoshjWmCBC3cFVsWXXKKGcTupegpUZuCtZcoUv8dvgLc04BIr_UeRx3OQZ4kK_9VFQC6WpM=",
+      "title": "http422の意味と原因から対処まで完全ガイド、実例で最短解決 ...",
+      "claim": "422 Unprocessable Entity, 検証違反・意味的不整合, 入力値やビジネスルールを満たすよう修正.",
+      "source_type": "other",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://index.php",
+      "title": "index.php",
+      "claim": "MR 作成直後は GitLab の内部処理が完了していない場合がある（らしい）",
+      "source_type": "blog",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://github.com/release-it/release-it/issues/533",
+      "title": "Unprocessable Entity when using GitLab Release · Issue #533 - GitHub",
+      "claim": "Unprocessable Entity when using GitLab Release.",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/gitlab/-/issues/220528",
+      "title": "Relax group and project name validation regexes (#220528) · Issue - GitLab",
+      "claim": "Relax group and project name validation regexes.",
+      "source_type": "gitlab_issue",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://dev.to/didikmaulana/gitlab-templates-for-merge-requests-1fbo",
+      "title": "GitLab: templates for Merge Requests - DEV Community",
+      "claim": "GitLab offers handy templates for Merge Requests (MR), where these groups can be used. Templates exist to standardise processes, save time and reduce mistakes in the MR's descriptions.",
+      "source_type": "blog",
+      "url_check_status": "skipped"
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [
+    "Optional improvement: Clarify the distinction between system-enforced naming conventions for projects/groups and optionally configurable custom validation rules set by administrators, noting if such extensive custom rules are standard built-in features or rely on other mechanisms like hooks.",
+    "Optional improvement: Refine the claim about merge request template required fields to explicitly distinguish if it refers to API-mandated fields (e.g., title) or to template-specific content validation that is not inherently enforced by a 422 error for user-defined template sections.",
+    "Optional improvement: Update the provided GitLab documentation URLs to their current canonical paths (e.g., /ee/api/rest/index.html instead of /ee/api/#error-responses), although redirects are currently functional.",
+    "Optional improvement: Soften absolute claims unless they are directly sourced."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 12,
+  "url_skipped": 7,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 3995,
+  "fact_check_input_chars": 3661,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "6d98652f97cd",
+  "error_detail": null
+}

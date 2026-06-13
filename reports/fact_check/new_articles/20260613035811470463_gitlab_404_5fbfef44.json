@@ -1,0 +1,195 @@
+{
+  "path": "content/posts/gitlab_404.md",
+  "title": "GitLab の 404 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 90,
+    "freshness_score": 85,
+    "citation_coverage": 35,
+    "risk_score": 31
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "記事のほとんどの技術的な主張は、GitLabの公式ドキュメントによって正確に裏付けられています。",
+    "APIエンドポイントの構造、エラーメッセージ、アクセストークンの使用方法、CI/CD変数に関する情報は、概ね最新であり正確です。",
+    "トークンの期限切れやスコープ不足の場合に主に401 Unauthorizedまたは403 Forbiddenが返されるにもかかわらず、記事が一部の権限の問題で404 Not Foundを主張している点に若干の不正確さがあります。ただし、トークンが見つからない、またはインスタンスでトークンが無効になっている特定のシナリオでは404が返される可能性があります。",
+    "GitLabは頻繁に更新されるため、記載されているAPIの動作や推奨されるアプローチが将来変更される可能性がありますが、執筆時点の情報は概ね最新です。",
+    "absolute wording may overstate technical certainty",
+    "citation quality is low because sources are blog/other/unknown only"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-13",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260613035811470463_gitlab_404_5fbfef44.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://docs.gitlab.com/ee/api/",
+      "title": "REST API - GitLab Docs",
+      "claim": "最新のGitLab APIドキュメントは公式サイトを参照してください。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api.html",
+      "title": "REST API - GitLab Docs",
+      "claim": "GitLab の 404 エラーは、指定したプロジェクト・マージリクエスト・ファイルなどのリソースが見つからないことを意味します。",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api.html#status-codes",
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "claim": "GitLab の 404 エラーは、指定したプロジェクト・マージリクエスト・ファイルなどのリソースが見つからないことを意味します。",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api.html#status-codes",
+      "title": "REST APIのトラブルシューティング - GitLab Docs",
+      "claim": "API呼び出しやWebUIでのアクセス時に発生し、プロジェクトの存在確認、アクセス権限、リソースパスの誤入力などが主な原因です。",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api.html#response-format",
+      "title": "REST API - GitLab Docs",
+      "claim": "GitLab API経由でのレスポンス：`{\"message\": \"404 Not Found\"}`",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/group/subgroups/#namespaces",
+      "title": "Namespaces - GitLab Docs",
+      "claim": "GitLabのプロジェクトは namespace/project_path の形式でアクセスされます。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/projects.html#list-all-projects",
+      "title": "Projects API - GitLab Docs",
+      "claim": "GitLabのプロジェクトは namespace/project_path の形式でアクセスされます。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api/troubleshooting.html#404-not-found-for-api-calls-with-url-encoded-parameters-and-a-reverse-proxy",
+      "title": "REST APIのトラブルシューティング - GitLab Docs",
+      "claim": "URLやAPIパスに誤字があると、サーバーはそのリソースを検索できず404を返します。",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#personal-access-token-scopes",
+      "title": "Personal access tokens - GitLab Docs",
+      "claim": "プライベートプロジェクトへのAPIアクセスには、必ず `api` スコープを持つPersonal Access Tokenが必要です。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#troubleshooting-access-tokens",
+      "title": "GitLabトークンのトラブルシューティング - GitLab Docs",
+      "claim": "スコープがない、または期限切れのトークンを使用した場合、権限がないとみなされ404が返されます。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/personal_access_tokens.html",
+      "title": "Personal access tokens API - GitLab Docs",
+      "claim": "スコープがない、または期限切れのトークンを使用した場合、権限がないとみなされ404が返されます。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api.html#status-codes",
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "claim": "ファイル取得やコミット情報の参照時に、存在しないブランチ名やコミットハッシュを指定すると404になります。",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/project/settings/index.html#find-the-project-id",
+      "title": "プロジェクトを管理する - GitLab Docs",
+      "claim": "プロジェクトIDは GitLab WebUI > プロジェクト設定から確認可能",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/rest_api.html#make-a-rest-api-request",
+      "title": "REST API - GitLab Docs",
+      "claim": "セルフホストGitLabの場合、URLが異なります（例：`https://gitlab.your-company.com`）。API仕様はGitLab.comと同じですが、URLの誤入力がないか確認してください。",
+      "source_type": "unknown",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/merge_requests.html",
+      "title": "マージリクエストAPI - GitLab Docs",
+      "claim": "マージリクエスト番号やissue番号を参照する際も、プロジェクトパスが正確でない限り404になります。",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#ci_job_token",
+      "title": "GitLab CI/CDジョブトークン - GitLab Docs",
+      "claim": "CI_JOB_TOKEN",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#ci_project_id",
+      "title": "定義済みCI/CD変数のリファレンス - GitLab Docs",
+      "claim": "CI_PROJECT_ID",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/ci/variables/predefined_variables.html#ci_merge_request_iid",
+      "title": "定義済みCI/CD変数のリファレンス - GitLab Docs",
+      "claim": "CI_MERGE_REQUEST_IID",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/users.html",
+      "title": "ユーザートークンAPI - GitLab Docs",
+      "claim": "トークンの情報を確認（スコープ、期限）`curl -H \"PRIVATE-TOKEN: <your-token>\" \"https://gitlab.com/api/v4/user\"`",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/api/projects.html#list-all-projects",
+      "title": "Projects API - GitLab Docs",
+      "claim": "プロジェクト情報を取得（パスとIDを確認）`curl -H \"PRIVATE-TOKEN: <your-token>\" \"https://gitlab.com/api/v4/projects?search=my-project\"`",
+      "source_type": "unknown",
+      "url_check_status": "200"
+    }
+  ],
+  "unsupported_claims": [
+    "ブランチ名の大文字小文字の区別やコミットSHAの一部指定時に注意が必要です。",
+    "CI/CDパイプラインスクリプト内で動的にURLを構築する場合は、変数展開時の誤りに注意してください。"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: トークンの権限問題（期限切れ、スコープ不足）に関するHTTPステータスコードについて、主に401 Unauthorizedまたは403 Forbiddenが返されること、および404 Not Foundは特定のトークンが見つからない場合や機能が無効な場合に発生する可能性があることを明確にするための修正を検討してください。",
+    "Optional improvement: すべてのコード例で、ダミーのトークン値が`<your-token>`ではなく、例えば`glpat-your-token-goes-here`のようなGitLabのPAT形式のプレフィックスを含むように更新することを推奨します。これは、GitLab 17.0で導入されたGitLabトークン形式の強調に役立ちます。",
+    "Optional improvement: Soften absolute claims unless they are directly sourced.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 13,
+  "url_skipped": 7,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 5006,
+  "fact_check_input_chars": 4396,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "4db74f145209",
+  "error_detail": null
+}

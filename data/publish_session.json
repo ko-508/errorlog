@@ -1,0 +1,20 @@
+[
+  {
+    "path": "content/posts/gitlab_404.md",
+    "stem": "gitlab_404",
+    "title": "GitLab の 404 エラー：原因と解決策",
+    "source_type": "daily"
+  },
+  {
+    "path": "content/posts/gitlab_409.md",
+    "stem": "gitlab_409",
+    "title": "GitLab の 409 エラー：原因と解決策",
+    "source_type": "daily"
+  },
+  {
+    "path": "content/posts/gitlab_422.md",
+    "stem": "gitlab_422",
+    "title": "GitLab の 422 エラー：原因と解決策",
+    "source_type": "daily"
+  }
+]

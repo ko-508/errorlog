@@ -1,0 +1,334 @@
+{
+  "path": "content/posts/gitlab_409.md",
+  "title": "GitLab の 409 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 90,
+    "freshness_score": 95,
+    "citation_coverage": 25,
+    "risk_score": 35
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "The article accurately identifies common causes and solutions for GitLab 409 errors, supported by official documentation and general web development practices.",
+    "Most factual claims are well-grounded with current GitLab documentation, API references, and issue trackers.",
+    "Two claims, while logically sound within the context of GitLab operations, lacked direct, explicit confirmation from primary sources regarding a specific 409 HTTP status code in those exact scenarios."
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-13",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260613040026867793_gitlab_409_7b1734c6.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHkDZB60k-1_dRQj_02M4VmIG-njoijXkevnz4YrMan-jnSpuUNY5oNUTjs16DQuaNMFRCz-cMpfi5MUISvT07Ni3aR-zpySb10Mf1f4ECwL1ndZCYQoEUCUP4WjOKhMLkmxw8CiU8=",
+      "title": "Log system - GitLab Docs",
+      "claim": "GitLab server system logs (usually under `/var/log/gitlab/` 配下) are also subject to checking. In particular, `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9TU7w88wpB7bz7aSeAPeuyBkLzrt37K3Cpz2Nsxcb52D0mPEdLmXx-cBXcOevhAsx1tDUotQC4_jhLEF8UyUjGSox-t5egw3X_GxlbnzOjEB2n7LzSoIvHAQPGXOFdbahBn9oeX3Qo1xb47G7lNWrzgAodw==",
+      "title": "Logs · Administration · Help · GitLab",
+      "claim": "GitLab system administrators can also take advantage of the logs located on the filesystem.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5fRwnxyNA-Bx8EckHXOAg_TVL0AK2hhxJGYxhK6WOvbMZ5eDZyfBTu5qf0cY0WFp-5A-l8DBgw8Cw6VrQtKYbDXY5OSendaTAMawWtFBawqfpjfnVesukJ-p0vGMFDYWfFLFgviigA2j2-JB-PYRbm3M=",
+      "title": "Logs · Administration · Help · GitLab - KPK",
+      "claim": "GitLab server system logs (usually under `/var/log/gitlab/` 配下) are also subject to checking. In particular, `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH7MddVJzSH6NDQWZUg-ScfSTV54xsZ4NkOdiE-XEEBV20yKWqLJDuK6eWK_kV5SML0oz4SYqswjWLYdoNExWIZ0YCFVHGwZOaBHNym07goA_Zlcs_ToJgviAXTXmC1Ejq_kOrop_NN3cJ9hWyag==",
+      "title": "GitLab API returns status code 400 instead of 409 when creating project with same name",
+      "claim": "HTTP 409 Conflict error occurs on GitLab when resource states conflict.",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEPHF4K2ofLlDiVGYig9RWYw9LQoJr9B80KWEqaVCXkalghucf4ILx7C2AaAnJDbphneSUO413lhBZxunhRBa4DXsXeAm24MwYdFFrFpPoU3D1MF8z8EfralQaO",
+      "title": "REST API - GitLab Docs",
+      "claim": "GitLab API errors are returned with responses like the following.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0GqB3CiWlKtngODm_9vK27fpSgPnBgE27i74l-QdEcjPDe6jD5T5WoPs1rRWfWOEgKsyQmfishMkYI8kIF0xYb7pxzSguTLiZv8yTvaI1LZSfQ4HXdat1zxj20G5UEevvLCJXNtZzC43vv41wjU9Uuu0mn-hE-A==",
+      "title": "Reading GraphQL logs - GitLab Docs",
+      "claim": "When using GraphQL, note that the error message format is different.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGwFW_kKQSmZ_OK67tZ6_3UDbFHcMregdBfVhnVFLU9-Bm9ynKpqjigG7VswnYT_yyJlSzJbQSPhXyDub-OxuEHDIoD07BVbB4J2RCW9RISkI0UFoHg6yTcNVM1DskVX8cssjMaleiRNm1hWc1gWwGS_RRZc5_V",
+      "title": "Fixing GIT Branch and Tag Name Collisions - Geedew - Blogging about the web.",
+      "claim": "This is a basic Git constraint; you cannot have duplicate branches or tags in the same namespace.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuZJnbmTqBLTBtr_3ktJ6QQ-7EYsAYVA9aPLREJb8xlcKYNzp0hYFLktf9bzrnitzCA7rBKsgtt2MqdYyVidpau6avwLaR2ge2NzVWt0pG5ytSc3X4U5nzkWcW0d76Z8kBdECeYLxKWtrc5uw2rCec5QEdJ21mBoEYblx9YoZK4pHuvvxt_A==",
+      "title": "Audit events · Administration · Help · GitLab",
+      "claim": "If you have project administrator privileges, you can check detailed error information in the \"Logs\" section of the administrator panel.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrg5XZLiGJ1o6AZ8SbeYQJMXLV8LHmT9DHCBN-ltRXFnSTXnjpjxIMUpu-HgvZhGEoUgf9AnBYaNIp6GgQvve-MARmBd7RVKunis-CMxSl4pKc5ohQ-o-5CftM4ApWPTufkdWc",
+      "title": "REST API resources - GitLab Docs",
+      "claim": "It is recommended to refer to the official GitLab documentation (https://docs.gitlab.com/ee/api/) or contact GitLab support.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHVVN_31SSmgIF4H6UbbazLPonCVQ157HKecF_QoLVWksDVsuQTuhQaKJeffw00eOg171brj6U51__xi5xsoRm0gCmaHFSWxVSzuH0HnqXproAJT78q9WUoZrUgKVzEzNua4rGxTC3J_LqQbWuqY5BBWrH4",
+      "title": "\"409 Conflict\" causes Runner to not run any jobs, and give up checking for new jobs for half an hour (#4360) · Issue - GitLab",
+      "claim": "GitLab CI/CD パイプラインでブランチやタグを自動生成する場合は、適切なバックオフ戦略を実装することが重要です。",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEDrBW2Fc7eQqlWpiR8OaImqXprrScK5Z-XZoUjSAXUtQ5zFZZoljmTm8sZwtVRLk0GNUF_wisFMzO16sXUVySf1oICXBFysOFg2tyIUgv3-7NX6Hi_ykYx5CyaMzDidg85U8Z-ipPiygLqL68RBMlzg0mn-hE-A==",
+      "title": "Fork API returns 409 error despite successful project creation (race condition) - GitLab",
+      "claim": "If a GitLab instance is configured with multiple servers, a temporary 409 error may occur due to replication delay.",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEw7jTvf_xL3eoTNMCJjYVU77jibwWIaAB0CcEUTnwrA3vJzC8mVpPhJlkg_p_l_2hk_V76qbmL44YIParQ99bdqT4S8qKiIJL5T8oNqK-s8_6bDx7lFsblFVg-kzDeXA==",
+      "title": "Projects API - GitLab Docs",
+      "claim": "In GitLab, project names and subgroup names within the same group must be unique.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGM6s5JVXneAYbhZLTwjI5M4__GYOFtguN0IInikTIc0Ce-2oe1PielefxM23U_o02sS-kSARqFQkmxi8kzv8Ep9lRNnqMlNJbdOXOwq28ZMe2_7JIDJEOGgJ8sziWYLmrWr7s8WirCbbOp5Dnmgq3N5nYzeg_6lUcllwfFJA==",
+      "title": "Find relevant log entries with a correlation ID - GitLab Docs",
+      "claim": "At the API level, add debug headers to get detailed responses.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG7k4kIBX0qQT8Wjj_KqZfwvKBvI62tTkrKumDDYp3iPb6kGEo0p4Q-EtxF5UIwy-bL23g93a4DgSJWiUXE_sQnV_StY71-962ZiB-BbFvnvDsGy2WY47jeiQ6256kJaXw8rEQQgw==",
+      "title": "Merge requests API - GitLab Docs",
+      "claim": "If conflicts exist between the source and target branches, it is a conflict state.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKKgp36wgQ1DjF2Ai1p_ok9h4RX3DmAg4olJCRIglD-QDE9uyKVimbuaDK6JTtmXfSrgka_SJIPJfilRx2pQSJdSqQUydr44LmU5_d1klFhWxoKVwynuzSYFeo0q2dCXVlh4_pkm2uCgwMXzZPSRMLH57E-3BRO2c2wKH_TN_SB1Fs6wDYYwf8DOE5lA3SGMnQlo4bUjER697b4y1cEujH",
+      "title": "doc/api/README.md · a6f7fc24d4cd6e61abf9324fea045e8967ea8376 - GitLab",
+      "claim": "It is recommended to refer to the official GitLab documentation (https://docs.gitlab.com/ee/api/) or contact GitLab support.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQElOwXz6oh3olJ8I95_kVroYiyGzvdQmSyQZGFnngIu2Aetj3UHXVWnquPHC0WbVfI4dwkiolv6FNCzlUtdKGUwqaynkfLRpIPcXzJQeE6gvzm8d4UWxluePiUbwIQC-43lpJnxOWG4QlRy5WKnEcKfalT67hheTrBPxM23-yxLh70In-WqyYwIo45GBn4xu2zft5-U7nZeaIka-YDehecmZFH2xGAwOWgfeZzJuyWLwcs=",
+      "title": "doc/administration/audit_events.md · 19e2b640864c6da60d60f42cba4f02a1be98fa34 - GitLab",
+      "claim": "If you have project administrator privileges, you can check detailed error information in the \"Logs\" section of the administrator panel.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFD5oawOCpXvUY1ujKuYTO_D2GMCxrm1v97KW7RnQipUtn5PUIUhnBK6PlgUaSaZ3-ojzLnxIlvHVFcl0nnsBgI8IshtCHJdWTVOnnCfk4wq4F1_AkiljvXtmkL9qsp5b2K7YQIqH_6q8Ig6bk2fgs5vOH2u1mpevDz_OvyQL31hRh1lj25GDMiqfC5Dk55n9_7UNLSoNzoWsAHuA==",
+      "title": "as a gitlab admin, how can I list all recent activity - Stack Overflow",
+      "claim": "If you have project administrator privileges, you can check detailed error information in the \"Logs\" section of the administrator panel.",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFxZ2j8sjsgVpbfHiR9_8daoxUCjQ5TZzrhr1jtY9ROdVEnhxCgFCjVLNVJHnmI-1IRnVXEjBIntYntaTYWmsaARrKV5qpOs-QAuy-sH3YibHl7nTOaAbL6Aw8VEVR1HlOW5oXxmGd4pa3s0D7hmg==",
+      "title": "CI job request API returns 409 Conflict when there is a large number of CI jobs - GitLab",
+      "claim": "GitLab CI/CD パイプラインでブランチやタグを自動生成する場合は、適切なバックオフ戦略を実装することが重要です。",
+      "source_type": "company",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF-XfPKFnn4X6fD1RRAfS5DBp4EgknPquV-P8-IVeYdq2OG1_TGFIZFzwfIjINhGHJ1j0yBdwPMd4xYEmK7MNgrGn7R6vsmjkik-5rNFCxoH-3TFA8Rp9zrEJODskYwxgI-BNBo8cddYJPV4OsN_TgHSWPj33KvdZCGrHH-SfUbqz7EzuwFyu6lAHYPmqwpkb9k31s4uy1ZmXgUfapdHNpVC2bE5c0FRcoTk2QIwWQ==",
+      "title": "How to resolve 409 Conflict Errors in GitLab integration? - Sentry Help Center",
+      "claim": "HTTP 409 Conflict error occurs on GitLab when resource states conflict.",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKj--Hby8NcTazCnoaObLvl6oDi2XgLoYZDOYZvF77Bj9ooJNZU1j6GEwN2Rql6oP6ORqqvW3J8ZZj3i61UKZ-9Ezs9UiF6bmvn6bUKT6tr0NR5y1gQiWpspGdF6Z-BzzzjnNyNoDgJ4lXo05WJpTAHgNomuFslNfZylTvb-FBCA==",
+      "title": "Logs for self-hosted models - GitLab Docs",
+      "claim": "GitLab server system logs (usually under `/var/log/gitlab/` 配下) も確認の対象です。",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3egHdy5WaJEFOlYfcN-Zv0CoAG2TNUZEqEh8X40CLLL2jPR42yVNh9_fGywY--8XuupjrFKIHJ6_Zq_oUUW7EE6vunmcBBekiGgr6RUlQiUppfjsTCe5dymKSs1tFiiJUQv1XewbEgRgBItQJZubfwy0_v5CmIuBh1FAJnM_u9uRFzmYOvg==",
+      "title": "Create merge requests - GitLab Docs",
+      "claim": "When you create a merge request, GitLab enforces your project's branch naming rules.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGiKbh7izu8AH7om_iAetfHRTmHBtdYXiW_dHh-TTaeGMUv3gY5aHz0wJHR6wmlIa6Nbg53Tdov0_0ur0uJv-pz85vKP-E1E2wcYoeGW4q5psXDMB5ChxjUcKn_8sTkINJVT4_L0mF-cA==",
+      "title": "GraphQL API resources - GitLab Docs",
+      "claim": "GitLab の 409 エラーは、REST API と GraphQL API の両方で発生する可能性があります。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQELlZPDxNZahEgHbjWUPvBxWUPyHTUQyas5URjwTkdy14_maKEYeKRxkoyzPJ4qnLw7eMdit0WMN5LUdd-1_Ujns3tmSbPWg-g3PEu5lI3WP6njpOaILuSZ7p0qoH-lQBKJoKQNcO8=",
+      "title": "Logging development guidelines - GitLab Docs",
+      "claim": "GitLab server system logs (usually under `/var/log/gitlab/` 配下) も確認の対象です。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHxpemquq7HP19s2wnQXIQp_BKUi0QKd3FjMdaSNGXuDn5T9JlhWRYwyg9fQ-eeqfOthUcxMrWI7d_PrJH1EDzy2ja7VlsyNvmVVoya9Nd4To65hhXL226xfYvG6pJ72z7-uqqxV2RuusAH-D53nFc1ckQR67yf5hXJxhd12V-xL7FWriq971uJ-rl9GE0ld6Eilavg1dFvMfcIOuNzXVVmFmIfDcKwV9VboTsb2w==",
+      "title": "doc/api/merge_requests.md · e6a41c14e023627dba24ec321ddc0794fef41833 - GitLab",
+      "claim": "If conflicts exist between the source and target branches, it is a conflict state.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETkENmFuXKxyTmpxQPWQYL5dP9UzUHetWSXL1vq4FoPGODK8amczFeP3lfcTIdyJqBS-9Qd8V32zTVQP-i8e8KvWvY1s-jj0qVF3MoMreDeAS0GNOEDmDbWEV5iu3NO28pfsk=",
+      "title": "Repositories API - GitLab Docs",
+      "claim": "When creating a branch or tag, if a resource with the same name already exists, a 409 error occurs.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEsC9gEhLEVTb1WnL_t06rTBHFTPOKQSefQjHvc2Q69wip-oOpkhs83iys2ztwybORZtH6QH4gPN_Igbe0pcKZKZf4RE9guilnS3sVhngy2PUPYON1jkImW-aUIYWvCM_C5v0dkeOL4UlbVWSuYg04=",
+      "title": "GraphQL - GitLab Docs",
+      "claim": "When using GraphQL, note that the error message format is different.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCvSzyeDCCBpg3X4KnRWwb_EXWkglmxshQ9AY6L_I_s7gh3qy0_FchdxJ5nvOqcvAqG1DoaV9vWmFwFxY5Y5mY0d8JQR_BW4BVovx62k0=",
+      "title": "409 Conflict - HTTP status code explained",
+      "claim": "HTTP 409 Conflict error occurs on GitLab when resource states conflict.",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE6Joztwsk1sNWumBPKot6OVXYLj-uxkMdHu7fGL5qqXbIX5JU5NMhG94_wp0DDVG0jiJez5fkZnrUDxI-tFsh-obbWyBKO1O9OFweOx2TPEWAluHaN8LhXGNxGbeXUi14G00TWQQeXAGRH3vJnWNI-Lvg6RVRPVqbb7eM2G-VLrptfuLKjcEiGtD43A4fspGk=",
+      "title": "git - Tags with the same name with a branch - Stack Overflow",
+      "claim": "This is a basic Git constraint; you cannot have duplicate branches or tags in the same namespace.",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFLoWhUpIPzGrtOt3ut3rpkRqt3W6yEbwaa9DD_cIYvU-zejBIHzfyxfutPDAW0xwQy7_rEzZWNm-Iib9K6DQp-acO-9FCry1dWhkz5HDRqN_Uor1JLEgo9nyCWjOAIaDDlQAWx8gXvhOS3ciESeYtSBfsaAo9loQ==",
+      "title": "Projects · Api · Help · GitLab",
+      "claim": "In GitLab, project names and subgroup names within the same group must be unique.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg2WBsChpAkE-WrRcSry8kI4SmYK9-GHM5FeD7zChk4QVuFgqTqfj4kVZvOIzl5ez8Rj6z9ef1gDlooWbyHT3YTQj6zgm2Rf-Sf5nif6wPz_xuFhLtYYDiNVssWbGkWrVzv6w7yWQfcsqWbdUxFCs=",
+      "title": "409 message: Release already exists (possible API bug on gitlab) (#73) · Issue",
+      "claim": "GitLab API errors are returned with responses like the following.",
+      "source_type": "company",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGql4UN40NaUsRbutggZmlPPOJOHX61GteVzMvf0qK4DaEEqePWX29vhSPjPvmvt-nX9dOL4lRQ4KHuAmo6zipcANMjMbq-EGlFXEua9XZkAO5zE6LCi8gTf32Hk_xioirN8C4q9VRU7Zu-1g==",
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "claim": "At the API level, add debug headers to get detailed responses.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAvCRZo-8lySPW7P5SM8TM5BLwQnJx08YsuFknBX7GGWt9uHoN-SFxwZ-ZwxqqL7LvVwELVYJL9ZcV9-Hoh8OUwLRfTpuJ0hT_nJ-uWjATuTrcScXpm1p7GcrsBKceWJNPkYxFt0hRYUByC5F2yXotIxJjISXcU36HJDNBIsdNyRKTkdaU6cyI2uZODzYP_TowVo8d9SKiVs7jj3f_qIxFi144RIpDpw==",
+      "title": "Why has Git allowed me to create two branches with the same name? - Stack Overflow",
+      "claim": "This is a basic Git constraint; you cannot have duplicate branches or tags in the same namespace.",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEgR_wD5ydh2TJlSvr7O9ACjCyh2NESXw3u8MiiN9C9opb1Wgr_l5o8nOfnZCJ062P6hio5AiVSEx8RzSDhdpzgcmVNecEiMtCDdGPmHUzVC7dOpET7FVRFqQu2auJ4",
+      "title": "GraphQL API - GitLab Docs",
+      "claim": "GitLab の 409 エラーは、REST API と GraphQL API の両方で発生する可能性があります。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHkl1X-R2vm5vx2bHl_H9S0s1dSVn8NEaCvcwzXol90S--WI5mo4nLdHYVQACuLtNCAKjImHeM8_SaRrH1V8LLBwzi9zFT57TfcnADR4IbJCYp15fgXz3jM5r2fby9wuLo-BfZSwwYUePn6H3Fo6Uwmacq7x7uWmqs1M86WQ==",
+      "title": "Merge requests · Api · Help · GitLab",
+      "claim": "If conflicts exist between the source and target branches, it is a conflict state.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHjftXjqfpQNXpdFXzfbgfHIOVkzyt6Fmbs2ckltzBXHM5SlP2Pb42qvqqdkg71XArUBq6xMY3rKdkz2qYb0wn6feNULi7cgEaeSc-UyOvIjcWjPJeE9DkujFMWZWQZC-543YR5Q5UJ13UGQZVw-Ys=",
+      "title": "409エラー(Conflict)とは？意味をわかりやすく簡単に解説 - trends",
+      "claim": "HTTP 409 Conflict error occurs on GitLab when resource states conflict.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEFmWfr48l3DFoGe2GwBF2UlRAOM2dco3GiQ6w7KXpjid0U38oeUYOEbjEikuPCdyc3qD4FOWdYDqaVTvSCm2cmDlgjADtZ6T3waEqrsTgPbemSnCwytQ8o1n7JTAE=",
+      "title": "Response - GraphQL",
+      "claim": "When using GraphQL, note that the error message format is different.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYMA45BAqSQv6YyYoNiuQffi3NiJW7-CsU4yjJ7mS7dNxBb55NXyRDpNAxNouiyfy1ESwhXRscZmDMJazqYdHXc2IQS6_EY6gCCpNfvULQsJMYJ5QJM29Ieb84cZ4pSfYDsUoP-nSrZRF-rVQaIqcEUzlBdFP-tPkRU9gNXLpgIu9wjmAq4S5xG5C6dBxImflfN71zLEhQuDu0bqV9B1L1p1g=",
+      "title": "Dealing with special characters in branch and tag names - GitHub Docs",
+      "claim": "This is a basic Git constraint; you cannot have duplicate branches or tags in the same namespace.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEym2LHQ8rpj0mQdA2l32kcxMfN81ufgj6gNnjTajOqkgYP_u8QERNYai4_PvKRNo8q0BnrCF5RuujHs3xsZCgao_I_gWAfh-Nszohp3Za-FFTf9jfyEww=",
+      "title": "X-Request-ID - Expert Guide to HTTP headers",
+      "claim": "At the API level, add debug headers to get detailed responses.",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHGBum57SvVMb4dcCG9jjzUH9NHQTsYfNt0swkt3tm5vCA02Lzj7i7gVEw-35wSR5qctSswNRBUslrzuXgTe6LRHbjzGx4fz9WOYcrzQRaKrgRCAl59Rqgc1ijjsX2LjBPtCuNXoJbopbCrsEabYdfIS4r9",
+      "title": "git: Having a branch/tag with the same name (error: dst refspec matches more than one.)",
+      "claim": "This is a basic Git constraint; you cannot have duplicate branches or tags in the same namespace.",
+      "source_type": "other",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-9QPvQ04kQgUCM4yRqdoc9YJ6KBsXb-XK8H3f0ODgGjbZ2VJaip-FliZl8JqlUlcXunfyPzm-BM30Wu5uOODA-0jlRLe_KslLN-1rNc9uxwYPSsC5J6seDpoT3XkWbmKD8WK4abFYCq9qaHGJrE1ZTi0=",
+      "title": "Merge Request branch rebasing from API (#33705) · Issue - GitLab",
+      "claim": "When creating a MergeRequest, if conflicts occur, a 409 error might be returned.",
+      "source_type": "company",
+      "url_check_status": "200"
+    }
+  ],
+  "unsupported_claims": [
+    "MergeRequest のソースブランチとターゲットブランチが同じ場合に 409 エラーが発生します。",
+    "GitLab の自動マージ機能（Auto-Merge）を使用している場合、パイプライン実行中にソースブランチが削除されると競合状態が発生し、409 エラーに繋がることがあります。",
+    "MergeRequest を作成する際、ソースブランチとターゲットブランチが同じ場合に 409 エラーが発生します。",
+    "GitLab の自動マージ機能（Auto-Merge）を使用している場合、パイプライン実行中にソースブランチが削除されると競合状態が発生し、409 エラーに繋がることがあります。"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Verify if GitLab's API documentation explicitly states a 409 error occurs when creating a Merge Request with identical source and target branches. If not, adjust the claim to reflect logical prevention rather than a specific HTTP status.",
+    "Optional improvement: Seek direct documentation or community reports confirming a 409 error specifically when GitLab's Auto-Merge feature is used and the source branch is deleted during pipeline execution. If no direct evidence is found, qualify this as a potential or hypothetical scenario.",
+    "Optional improvement: For logging, clarify the usage of `production.log` versus `production_json.log` in newer GitLab Omnibus installations, as both are relevant but `production_json.log` offers structured logging.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 33,
+  "url_skipped": 7,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 5212,
+  "fact_check_input_chars": 4498,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "4d51e6f35af5",
+  "error_detail": null
+}
