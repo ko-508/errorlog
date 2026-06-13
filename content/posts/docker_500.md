@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Docker環境で500エラーが発生する場合、Dockerデーモンが予期しない内部エラーに遭遇していることを示しています。"
 tags: ["Docker"]
 errorCode: "500"
-lastmod: 2026-05-31
+lastmod: 2026-06-13
 service: "Docker"
 error_type: "500"
 components: []
@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)環境で500[エラー](/glossary/エラー/)が発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部[エラー](/glossary/エラー/)に遭遇していることを示しています。この[エラー](/glossary/エラー/)は[Docker](/glossary/docker/) [CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など、複数の要因が考えられるため、段階的な調査が必要です。
+Docker環境で500エラーが発生する場合、Dockerデーモンが予期しない内部エラーに遭遇していることを示しています。このエラーはDocker CLIコマンド実行時やコンテナ操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、デーモンのクラッシュ、権限問題など複数の要因が考えられるため、段階的な調査が必要です。Dockerデーモンの状態確認とログ分析を通じて、根本原因を特定することが解決への第一歩となります。
 
 ## 実際のエラーメッセージ例
 
@@ -31,247 +31,249 @@ Error response from daemon: Internal Server Error
 
 ```bash
 $ docker ps
-Error response from daemon: error during connect: This error may indicate the docker daemon is not running.
+Error response from daemon: Internal Server Error
+```
+
+```bash
+$ docker build -t myapp .
+Error response from daemon: Internal Server Error
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：Dockerデーモンが起動していない、または異常状態
+### 原因1：Dockerデーモンの停止またはクラッシュ
 
-[Docker](/glossary/docker/)[コマンド](/glossary/コマンド/)を実行する際、[バックエンド](/glossary/バックエンド/)のdockerdプロセスが応答しない場合、500[エラー](/glossary/エラー/)が返されます。これはLinux環境で特に多く発生します。
+Dockerデーモンが応答していない、または不安定な状態にあると500エラーが返されます。デーモンプロセスが終了していたり、メモリ不足で強制終了された場合、すべてのDocker操作が失敗します。
 
-**Before（[エラー](/glossary/エラー/)が発生する状態）:**
+**Before（エラーが起きるコード）：**
+
 ```bash
-# dockerdが停止している状態
-$ systemctl status docker
-● docker.service - Docker Application Container Engine
-   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled)
-   Active: inactive (dead)
-
-$ docker ps
-Error response from daemon: Internal Server Error
+# デーモンが停止している状態で実行
+docker ps
+# Error response from daemon: Internal Server Error
 ```
 
-**After（解決後）:**
+**After（修正後）：**
+
 ```bash
-# Dockerデーモンを起動
-$ sudo systemctl start docker
+# Dockerデーモンの状態確認
+sudo systemctl status docker
 
-# 起動確認
-$ sudo systemctl status docker
-● docker.service - Docker Application Container Engine
-   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled)
-   Active: active (running)
+# デーモンが停止している場合は再起動
+sudo systemctl restart docker
 
-# 自動起動を有効化（再起動後も起動するように）
-$ sudo systemctl enable docker
-
-$ docker ps
-CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+# 再度実行
+docker ps
 ```
 
-### 原因2：ディスク容量が枯渇している
+### 原因2：ディスク容量不足
 
-[Docker](/glossary/docker/)はイメージレイヤー、[コンテナ](/glossary/コンテナ/)、ボリュームをディスク上に保存します。ディスク容量がなくなると[デーモン](/glossary/デーモン/)がファイル操作を実行できず、500[エラー](/glossary/エラー/)を返します。
+Dockerはイメージ、コンテナ、ボリュームデータを `/var/lib/docker` に保存します。このディレクトリが属するパーティションのディスク容量が枯渇すると、新規操作が失敗して500エラーが発生します。
 
-**Before（容量不足の状態）:**
+**Before（エラーが起きるコード）：**
+
 ```bash
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/sda1       100G   99G  1.0G  99%  /
-
-$ docker run ubuntu:latest
-Error response from daemon: Internal Server Error
+# ディスク満杯の状態で実行
+docker pull ubuntu:latest
+# Error response from daemon: Internal Server Error
 ```
 
-**After（容量を確保後）:**
+**After（修正後）：**
+
 ```bash
+# ディスク使用状況を確認
+df -h /var/lib/docker
+
 # 不要なイメージやコンテナを削除
-$ docker image prune -a --force
-Deleted Images:
-untagged old-image:latest
+docker system prune -a
 
-$ docker container prune --force
-Deleted Containers:
-abc123def456
+# 具体的に削除対象を確認する場合
+docker images
+docker ps -a
 
-# ボリュームの確認と削除
-$ docker volume ls
-DRIVER    VOLUME NAME
-local     unused-volume
+# 特定のイメージを削除
+docker rmi <image-id>
 
-$ docker volume rm unused-volume
-unused-volume
-
-# 容量確認
-$ df -h
-Filesystem      Size  Used Avail Use% Mounted on
-/dev/sda1       100G   60G   40G  60%  /
-
-# 正常に動作
-$ docker run ubuntu:latest
+# 特定のコンテナを削除
+docker rm <container-id>
 ```
 
-### 原因3：Dockerソケットの権限エラー
+### 原因3：Dockerデーモンのプロセス権限不足または設定エラー
 
-[Docker](/glossary/docker/)ソケット（`/var/run/docker.sock`）は通常root所有で、ユーザーがアクセスできない場合があります。この場合、[CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)が内部的に500[エラー](/glossary/エラー/)を報告することがあります。
+Dockerデーモンが適切な権限で実行されていない、または設定ファイルが破損していると500エラーが発生します。特に `/etc/docker/daemon.json` の設定エラーや、デーモンプロセスの所有権が不正な場合に起こります。
 
-**Before（権限不足の状態）:**
-```bash
-# dockerグループに属していないユーザーで実行
-$ docker ps
-Error response from daemon: Internal Server Error
+**Before（エラーが起きるコード）：**
 
-# ソケットの確認
-$ ls -la /var/run/docker.sock
-srw-rw---- 1 root docker 0 Jan 15 10:00 /var/run/docker.sock
-
-# ユーザーがdockerグループに属していない
-$ groups
-user adm sudo
-```
-
-**After（[権限](/glossary/権限/)を修正後）:**
-```bash
-# 現在のユーザーをdockerグループに追加
-$ sudo usermod -aG docker $USER
-
-# グループ変更を反映（ログアウト/ログインまたは以下を実行）
-$ newgrp docker
-
-# 権限確認
-$ groups
-user adm sudo docker
-
-# 正常に動作
-$ docker ps
-CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
-```
-
-### 原因4：メモリ不足によるデーモンクラッシュ
-
-システムメモリが枯渇している場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)はメモリ割り当てに失敗し、500[エラー](/glossary/エラー/)を返すか完全にクラッシュします。
-
-**Before（メモリ枯渇の状態）:**
-```bash
-$ free -h
-              total        used        free
-Mem:          7.8Gi       7.6Gi       200Mi
-Swap:         2.0Gi       1.8Gi       200Mi
-
-$ docker run large-image
-Error response from daemon: Internal Server Error
-```
-
-**After（メモリを解放後）:**
-```bash
-# 不要なコンテナを停止・削除
-$ docker ps -a
-CONTAINER ID   IMAGE     STATUS
-abc123def456   ubuntu    Exited
-
-$ docker rm abc123def456
-
-# Dockerデーモンのメモリ制限を確認・調整
-$ docker info | grep -i memory
- Memory Limit: true
- Swap Limit: true
-
-# メモリ状態の確認
-$ free -h
-              total        used        free
-Mem:          7.8Gi       4.2Gi       3.6Gi
-
-$ docker run large-image
-# 正常に動作
-```
-
-## Docker固有の注意点
-
-### Docker Desktop（macOS/Windows）での500エラー
-
-[Docker](/glossary/docker/) Desktopを使用している場合、ホストOS側のリソース不足が原因となることが多いです。[Docker](/glossary/docker/) Desktopの設定でCPU・メモリ割り当てを確認し、必要に応じて増やします。
-
-```bash
-# Docker Desktopの状態確認（macOS）
-$ docker run --rm -it docker info | grep -E "Memory|CPUs"
- CPUs: 4
- Memory: 2GiB
-
-# 設定ファイルで割り当てを変更: ~/.docker/daemon.json
+```json
+// /etc/docker/daemon.json（不正な設定）
 {
-  "cpus": 8,
-  "memory": 4000000000
+  "storage-driver": "invalid-driver",
+  "debug": true,
+  "log-level": "debug"
 }
 ```
 
-### Docker Composeでの500エラー
+**After（修正後）：**
 
-[Docker](/glossary/docker/) Composeで複数のサービスを起動する際、1つのサービスでメモリリークが発生すると、[デーモン](/glossary/デーモン/)全体が500[エラー](/glossary/エラー/)を返すことがあります。
-
-```yaml
-# Before: リソース制限がない
-version: '3'
-services:
-  app:
-    image: myapp:latest
-    ports:
-      - "8080:8080"
+```json
+// /etc/docker/daemon.json（正しい設定）
+{
+  "storage-driver": "overlay2",
+  "debug": true,
+  "log-level": "debug",
+  "live-restore": true
+}
 ```
-
-```yaml
-# After: リソース制限を追加
-version: '3'
-services:
-  app:
-    image: myapp:latest
-    ports:
-      - "8080:8080"
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 512M
-        reservations:
-          cpus: '0.5'
-          memory: 256M
-```
-
-### ログの確認方法
-
-[デーモン](/glossary/デーモン/)自体の[ログ](/glossary/ログ/)を確認することで、500[エラー](/glossary/エラー/)の根本原因を特定できます。
 
 ```bash
-# systemdを使用している環境
-$ sudo journalctl -u docker -n 50 --no-pager
+# デーモンを停止して設定を再確認
+sudo systemctl stop docker
 
-# Docker Desktopの場合
-# メニュー > Troubleshoot > View logs
+# 設定ファイルの構文をチェック
+docker -D ps
 
-# Linux でのデーモンログ
-$ sudo cat /var/log/docker.log
+# デーモンを再起動
+sudo systemctl restart docker
+```
+
+### 原因4：コンテナランタイムエラー
+
+containerdなどのコンテナランタイムが正常に機能していない、またはsocketsファイルが破損している場合、Dockerデーモンが500エラーを返します。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# ランタイムソケットが無い/アクセス不可
+ls -la /var/run/docker.sock
+# ファイルが存在しないか、権限が不正
+```
+
+**After（修正後）：**
+
+```bash
+# ランタイムソケットの状態を確認
+sudo systemctl restart containerd
+sudo systemctl restart docker
+
+# ソケットファイルの権限を確認
+ls -la /var/run/docker.sock
+
+# 必要に応じてファイルを再作成
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+### 原因5：メモリ不足
+
+Dockerデーモンプロセス自体がメモリ枯渇で強制終了されると、500エラーが発生します。特に大量のコンテナを実行している環境では要注意です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# メモリ枯渇状態で実行
+docker run -d --memory=500m myapp
+# Error response from daemon: Internal Server Error
+```
+
+**After（修正後）：**
+
+```bash
+# 現在のメモリ使用状況を確認
+free -h
+
+# 実行中のコンテナとそのメモリ使用量を確認
+docker stats
+
+# 不要なコンテナを停止・削除
+docker stop <container-id>
+docker rm <container-id>
+
+# メモリ制限を設定してコンテナ再起動
+docker run -d --memory=1g --memory-swap=1g myapp
+```
+
+## ツール固有の注意点
+
+### Docker Composeの場合
+
+Docker Compose環境で500エラーが発生する場合、イメージビルドの途中でのディスク不足が原因の可能性が高いです。マルチステージビルドやキャッシュの問題も関わります。
+
+**確認方法：**
+
+```bash
+# Composeで詳細ログを出力
+docker-compose -f docker-compose.yml up --verbose
+
+# ビルドキャッシュをクリアして再ビルド
+docker-compose build --no-cache
+
+# 不要な中間イメージやボリュームを削除
+docker-compose down -v
+```
+
+### Swarmモードの場合
+
+Docker Swarmクラスタ内のノードでリソース枯渇やネットワーク分断が起きると、500エラーが発生します。特にマネージャーノードのディスク不足に注意が必要です。
+
+```bash
+# Swarmのノード状態を確認
+docker node ls
+
+# マネージャーノードのリソース状況
+docker node inspect <node-id>
+
+# ノードを再起動する必要がある場合
+sudo systemctl restart docker
+```
+
+### ログドライバー設定エラー
+
+不正なログドライバー設定（例：外部ログサービスへの接続失敗）により、デーモンが500エラーを返すことがあります。
+
+```bash
+# ログドライバーの設定を確認
+docker info | grep -i "Logging Driver"
+
+# daemon.jsonで設定を修正
+# "log-driver": "json-file" に設定直後、デーモン再起動
+sudo systemctl restart docker
 ```
 
 ## それでも解決しない場合
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)を完全にリセットする前に、以下の診断[コマンド](/glossary/コマンド/)を実行してください。
+### ログの確認方法
 
 ```bash
-# デーモンの詳細情報取得
-$ sudo docker info
+# Dockerデーモンのシステムログを確認（Linux）
+sudo journalctl -u docker -n 100 --no-pager
 
-# 全イメージ・コンテナ情報の出力（デバッグ用）
-$ docker images --no-trunc
-$ docker ps --all --no-trunc
+# より詳細なデバッグモード
+sudo journalctl -u docker -f
 
-# デーモンの再起動（最終手段）
-$ sudo systemctl restart docker
-
-# 強制的にデーモンをリセット（注意：全コンテナ・イメージが削除される可能性）
-$ sudo dockerd --debug
+# Dockerデーモンを直接実行してエラーを確認
+sudo dockerd --debug
 ```
 
-[Docker](/glossary/docker/)公式ドキュメントの「Troubleshoot the [Docker](/glossary/docker/) daemon」ページに詳細なトラブルシューティングガイドが記載されています。また、GitHub上の[Docker](/glossary/docker/) Engine [リポジトリ](/glossary/リポジトリ/)で同様のIssueが報告されていないか確認することで、既知の問題や解決策を見つけられます。システムが複雑な場合（[Kubernetes](/glossary/kubernetes/)統合やカスタムネットワーク設定）は、[Docker](/glossary/docker/) Desktopのリセット機能（Settings > Reset [Docker](/glossary/docker/) Desktop）を試す前に、必ず重要な[イメージ](/glossary/イメージ/)とボリュームをバックアップしてください。
+### Windows/Macの場合
+
+Docker Desktopを使用している場合は、以下の手順で診断情報を収集します。
+
+```bash
+# Docker Desktopの診断を取得
+docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock docker:latest docker info
+```
+
+### 公式ドキュメント参照
+
+- [Docker Troubleshooting](https://docs.docker.com/config/containers/logging/) - ロギング設定の公式ガイド
+- [Daemon logs and troubleshooting](https://docs.docker.com/config/daemon/#check-the-daemon) - デーモン診断の公式ドキュメント
+- [Docker Engine release notes](https://docs.docker.com/engine/release-notes/) - 既知の問題と修正内容
+
+### コミュニティリソース
+
+- GitHub Issues：`moby/moby` リポジトリで「Internal Server Error」で検索
+- Docker Community Forums：https://forums.docker.com/ で同様の事例を検索
+- Stack Overflow：`docker` タグで過去の解決事例を参照
 
 ---
 

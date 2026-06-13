@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Dockerの409エラーは、HTTP標準仕様で「Conflict（競合）」を示すステータスコードです。Docker Daemon がコンテナやイメージの操作を受け付けられない状態を表します。"
 tags: ["Docker"]
 errorCode: "409"
-lastmod: 2026-06-05
+lastmod: 2026-06-13
 service: "Docker"
 error_type: "409"
 components: ["Compose"]
@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の409[エラー](/glossary/エラー/)は、[HTTP](/glossary/http/)標準仕様で「Conflict」を示す[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Daemon（[Docker](/glossary/docker/)の中核となるプログラム）が[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)の操作を受け付けられない状態を表します。通常、リソースの重複、[ポート](/glossary/ポート/)の競合、不正な[コンテナ](/glossary/コンテナ/)の状態遷移などが原因となります。この[エラー](/glossary/エラー/)が発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しています。
+Dockerの409エラーは、HTTP標準仕様で「Conflict」を示すステータスコードです。Docker Daemonがコンテナやイメージの操作を受け付けられない状態を表します。通常、リソースの重複、ポートの競合、不正なコンテナの状態遷移などが原因となります。このエラーが発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しており、Dockerコマンド実行時やAPI呼び出し時に頻繁に遭遇します。
 
 ## 実際のエラーメッセージ例
 
@@ -25,168 +25,215 @@ trend_incident: true
 ```
 
 ```bash
-Error response from daemon: Conflict. You cannot remove a running container abc123def456. Stop the container before attempting removal, or force remove
+$ docker run --name myapp nginx
+docker: Error response from daemon: Conflict. The container name "/myapp" is already in use by container "e7f8c9a2b1d4". You have to remove (or rename) that container to be able to reuse that name.
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：同じ名前のコンテナが既に存在している
+### 原因1：コンテナ名の重複
 
-同じ名前の[コンテナ](/glossary/コンテナ/)が実行中または停止状態で残っているため、新たに[コンテナ](/glossary/コンテナ/)を作成・起動できない場合に発生します。
+同じ名前のコンテナが既に存在する場合、新たに同じ名前でコンテナを作成しようとすると409エラーが発生します。停止中のコンテナであっても名前は保持されるため、`docker run --name` で既存の名前を指定するとエラーになります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
+
 ```bash
-docker run --name web-app -p 8080:80 nginx
+docker run --name web-app -d nginx
+# 後に同じ名前で再度実行
+docker run --name web-app -d nginx:latest
 # Error: Conflict. The container name "/web-app" is already in use
 ```
 
 **After（修正後）：**
-```bash
-# 既存のコンテナを確認
-docker ps -a | grep web-app
 
-# 停止中のコンテナを削除
+```bash
+# 既存コンテナを確認して削除
+docker ps -a | grep web-app
 docker rm web-app
 
-# 新しいコンテナを作成
-docker run --name web-app -p 8080:80 nginx
+# その後、新しいコンテナを作成
+docker run --name web-app -d nginx:latest
 ```
 
-### 原因2：複数のコンテナが同じポートを使用しようとしている
+### 原因2：ポート番号の競合
 
-ホストマシンの同じ[ポート](/glossary/ポート/)を複数の[コンテナ](/glossary/コンテナ/)がバインド（接続）しようとすると、[ポート](/glossary/ポート/)競合により409[エラー](/glossary/エラー/)が発生します。
+複数のコンテナが同じポート番号にバインドしようとする場合、409エラーが発生します。特にホストマシンの同じポートを複数のコンテナが使用しようとする際に起こりやすい問題です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
+
 ```bash
-docker run -d --name app1 -p 8080:80 nginx
-docker run -d --name app2 -p 8080:80 apache
-# Error: Conflict. The port is already in use
-```
-
-**After（修正後）：**
-```bash
-# 実行中のコンテナを確認
-docker ps
-
-# ポート使用状況を確認
-docker port app1
-
-# 異なるポートを指定
-docker run -d --name app2 -p 8081:80 apache
-```
-
-### 原因3：イメージビルド時のキャッシュ競合
-
-同じ[イメージ](/glossary/イメージ/)名またはタグで複数回ビルド（構築）を試行する場合、既に存在する[イメージ](/glossary/イメージ/)との競合が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-```bash
-docker build -t myapp:1.0 .
-# 同じタグで再度ビルド
-docker build -t myapp:1.0 .
-# Error: Conflict during image layer processing
+docker run -d -p 8080:80 --name web1 nginx
+# 別のコンテナで同じホストポートを使用しようとする
+docker run -d -p 8080:80 --name web2 apache
+# Error: Conflict. driver failed programming external connectivity on endpoint web2
 ```
 
 **After（修正後）：**
+
 ```bash
-# 既存イメージを削除
-docker rmi myapp:1.0
+# ホストポートを別の番号に変更
+docker run -d -p 8080:80 --name web1 nginx
+docker run -d -p 8081:80 --name web2 apache
 
-# または異なるタグを使用
-docker build -t myapp:1.0-new .
+# または、別のネットワークを使用
+docker network create frontend
+docker run -d --network frontend -p 8080:80 --name web1 nginx
+docker run -d --network frontend -p 8081:80 --name web2 apache
+```
 
-# または --no-cache オプションで強制ビルド
-docker build --no-cache -t myapp:1.0 .
+### 原因3：イメージのタグ重複
+
+既存のイメージに対して同じタグで新しいイメージをビルドしようとする場合、特定の状況下で409エラーが発生することがあります。これは主にDockerレジストリへのプッシュ時に見られます。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+docker build -t myapp:1.0 .
+# 同じタグで再度ビルド・プッシュ
+docker tag myapp:1.0 myregistry.azurecr.io/myapp:1.0
+docker push myregistry.azurecr.io/myapp:1.0
+# Error: Conflict. Image with the same name already exists in the registry
+```
+
+**After（修正後）：**
+
+```bash
+# バージョンタグを更新してプッシュ
+docker build -t myapp:1.1 .
+docker tag myapp:1.1 myregistry.azurecr.io/myapp:1.1
+docker push myregistry.azurecr.io/myapp:1.1
+
+# または既存タグを強制上書き（レジストリが対応している場合）
+docker push --force myregistry.azurecr.io/myapp:1.0
+```
+
+### 原因4：コンテナの不正な状態遷移
+
+実行中のコンテナを削除しようとしたり、既に起動中のコンテナをもう一度起動しようとする場合、409エラーが発生します。コンテナのライフサイクル状態と実行しようとしている操作が矛盾していることが原因です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+docker run -d --name app nginx
+# 実行中のコンテナを停止せずに削除しようとする
+docker rm app
+# Error: You cannot remove a running container
+
+# または実行中のコンテナを再度起動
+docker start app
+docker start app
+# Error: Conflict. The container is already running
+```
+
+**After（修正後）：**
+
+```bash
+# 実行中のコンテナを停止してから削除
+docker stop app
+docker rm app
+
+# または強制削除（データ消失に注意）
+docker rm -f app
+
+# 既に実行中のコンテナの再起動
+docker restart app
 ```
 
 ## Docker固有の注意点
 
-### コンテナのライフサイクル管理
+### Docker Composeでのコンテナ名競合
 
-[Docker](/glossary/docker/)で409[エラー](/glossary/エラー/)が頻発する場合、[コンテナ](/glossary/コンテナ/)管理に関する仕様が影響しています。停止中の[コンテナ](/glossary/コンテナ/)も`docker ps -a`で確認できるリソースとして存在し、同じ名前で新規作成できません。本番環境では[コンテナ](/glossary/コンテナ/)の自動削除オプションを活用することが推奨されます。
+`docker-compose.yml`でサービス定義を複数保持しながら複数回実行すると、同じコンテナ名の重複が409エラーを引き起こします。プロジェクト名が異なる場合も考慮が必要です。
 
 ```bash
-# --rm オプションで終了時に自動削除
-docker run --rm --name temp-app nginx
-
-# または停止と同時に削除
-docker container prune -f
+# プロジェクト名を明示することで名前空間を分離
+docker-compose -p project1 up -d
+docker-compose -p project2 up -d
 ```
 
-### Docker Composeでの競合
+### ネットワークとポート割り当ての相互作用
 
-[Docker](/glossary/docker/) Compose（複数の[コンテナ](/glossary/コンテナ/)を一括管理するツール）を使用する場合、`docker-compose.yml`内で定義したサービス名が既に[コンテナ](/glossary/コンテナ/)として存在していると409[エラー](/glossary/エラー/)が発生します。
+ブリッジネットワークとホストネットワークを混在させると、ポート割り当てで409エラーが発生することがあります。特にマルチコンテナ環境では、ネットワークドライバの選択とポート公開の設定を慎重に行う必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
-version: '3'
+# docker-compose.yml での正しい設定例
 services:
   web:
     image: nginx
     ports:
       - "8080:80"
+    networks:
+      - frontend
+  
+  api:
+    image: node:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - frontend
+
+networks:
+  frontend:
+    driver: bridge
 ```
 
-**After（修正後）：**
-```bash
-# 既存コンテナを停止・削除
-docker-compose down
+### レジストリ認証とイメージプッシュの競合
 
-# 改めて起動
-docker-compose up -d
-
-# または既存リソースを保持したまま更新
-docker-compose up -d --no-recreate
-```
-
-### ボリュームとネットワークの競合
-
-[コンテナ](/glossary/コンテナ/)削除時に関連リソース（ボリューム：データ保存領域、[ネットワーク](/glossary/ネットワーク/)：通信環境）が残っていると、同じ名前で再作成できない場合があります。
+プライベートレジストリへのプッシュ時に、同じイメージ名で異なるタグをプッシュしようとするか、認証情報が不足していると409エラーが発生することがあります。
 
 ```bash
-# 未使用リソースをすべてクリーンアップ
-docker system prune -a --volumes
+# 認証情報の確認
+docker login myregistry.azurecr.io
 
-# または特定のボリュームを削除
-docker volume rm <volume-name>
+# タグ付けとプッシュ
+docker tag myapp:latest myregistry.azurecr.io/myapp:v1.0.0
+docker push myregistry.azurecr.io/myapp:v1.0.0
 ```
 
 ## それでも解決しない場合
 
-### ログの確認方法
+### ログとデバッグコマンドの確認
 
-[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)を確認することで、より詳細な原因を特定できます。
+Docker Daemonのログを確認することで、詳細なエラー原因を特定できます。
 
 ```bash
-# 最近のDocker Daemonログを表示
-journalctl -u docker -n 50 -f
+# Daemonログの確認（Linux/Mac）
+docker logs --tail 50 <container-id>
 
-# または DockerホストでSyslog（ログ記録）を確認
-tail -f /var/log/syslog | grep docker
+# Daemonの詳細ログを有効化
+sudo journalctl -u docker -f
+
+# Windows環境での確認
+Get-EventLog -LogName Application -Source Docker -Newest 20
 ```
 
-### デバッグコマンド
+### リソース競合の完全クリア
+
+頑固な409エラーが続く場合、以下の手順で全リソースを確認・クリアしてください。
 
 ```bash
-# 全リソースの概要を表示
-docker system df
+# 全コンテナをリスト表示（停止中も含む）
+docker ps -a
 
-# 具体的なコンテナ・イメージ情報を確認
-docker inspect <container-or-image-id>
+# 不要なコンテナを削除
+docker container prune
 
-# ネットワーク情報の確認
+# ネットワーク状況を確認
 docker network ls
 docker network inspect <network-name>
+
+# ボリュームの競合確認
+docker volume ls
 ```
 
-### 公式リソース
+### 公式ドキュメント
 
-- [Docker公式ドキュメント：Docker API リファレンス](https://docs.docker.com/engine/api/)
-- [Docker公式ドキュメント：トラブルシューティング](https://docs.docker.com/config/daemon/troubleshoot/)
-- [GitHub Issues：docker/cli](https://github.com/moby/moby/issues)
+Dockerの公式ドキュメント「[Container Conflicts](https://docs.docker.com/engine/reference/commandline/run/)」では、ポート割り当てとコンテナ名に関する詳細な説明があります。また、「[Error Handling](https://docs.docker.com/engine/api/sdk/)」ではAPI経由での409エラーの詳細が記載されています。
 
-409[エラー](/glossary/エラー/)の原因が不明な場合は、`docker version`と`docker info`で環境情報を確認し、GitHub Issuesで同様のケースが報告されていないか検索することが有効です。
+### コミュニティリソース
+
+既知の409エラーについては、[Docker GitHub Issues](https://github.com/moby/moby/issues)で類似事例を検索することで解決策が見つかることが多くあります。特に「Conflict」というキーワードで検索すると、数千件の関連イシューが存在します。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[Docker](/glossary/docker/)および関連ツールの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式ドキュメントおよびサポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負かねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

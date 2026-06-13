@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソース現在の状態と矛盾していることを示すステータスコードです。"
 tags: ["GitHub API"]
 errorCode: "409"
-lastmod: 2026-05-31
+lastmod: 2026-06-13
 service: "GitHub API"
 error_type: "409"
 components: []
@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossary/リクエスト/)の内容がGitHubのリソース現在の状態と矛盾していることを示す[ステータスコード](/glossary/ステータスコード/)です。[ブランチ](/glossary/ブランチ/)の作成、プルリクエストの作成、[リリース](/glossary/リリース/)の公開など、状態が重要な操作時に頻繁に発生します。この[エラー](/glossary/エラー/)は単なる一時的な失敗ではなく、[リクエスト](/glossary/リクエスト/)自体を見直す必要があることを示唆しています。
+GitHub APIの409（Conflict）は、リクエストの内容がGitHubのリソースの現在の状態と矛盾していることを示すステータスコードです。ブランチの作成、プルリクエストの作成、リリースの公開など、状態が重要な操作時に頻繁に発生します。このエラーは単なる一時的な失敗ではなく、リクエスト自体を見直す必要があることを示唆しています。
 
 ## 実際のエラーメッセージ例
 
@@ -34,174 +34,213 @@ GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossar
 
 ```json
 {
-  "message": "Pull Request already exists",
+  "message": "Pull Request creation failed.",
+  "errors": [
+    {
+      "message": "No commits between main and feature-branch",
+      "resource": "PullRequest",
+      "field": "head"
+    }
+  ],
   "documentation_url": "https://docs.github.com/rest/pulls#create-a-pull-request"
 }
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：ブランチが既に存在する
+### 原因1：ブランチまたはタグがすでに存在する
 
-**なぜ発生するか**：同じ名前の[ブランチ](/glossary/ブランチ/)を作成しようとすると、既存の[ブランチ](/glossary/ブランチ/)と競合して409[エラー](/glossary/エラー/)が発生します。
+ブランチやタグを作成しようとしたときに、同じ名前のリファレンスが既に存在する場合、409エラーが発生します。これは特に自動化スクリプトやCI/CDパイプラインで複数回実行される際に起こりやすい問題です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**：
-```bash
-curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
-  -H "Authorization: token <your-token>" \
-  -d '{
-    "ref": "refs/heads/feature-branch",
-    "sha": "abc123def456"
-  }'
-```
+**Before（エラーが起きるコード）：**
 
-**After（修正後）**：
-```bash
-# 事前にブランチ存在確認
-curl -H "Authorization: token <your-token>" \
-  https://api.github.com/repos/<owner>/<repo>/git/refs/heads/feature-branch
-
-# 存在しない場合のみ作成
-curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
-  -H "Authorization: token <your-token>" \
-  -d '{
-    "ref": "refs/heads/feature-branch-v2",
-    "sha": "abc123def456"
-  }'
-```
-
-### 原因2：同じHEADとBASEでプルリクエストを作成しようとしている
-
-**なぜ発生するか**：プルリクエストのヘッドブランチとベースブランチが同じ場合、またはすでに同じ組み合わせのプルリクエストが存在する場合に発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）**：
 ```python
 import requests
 
-headers = {"Authorization": "token <your-token>"}
-data = {
-    "title": "Update docs",
-    "head": "main",
-    "base": "main"
+headers = {
+    "Authorization": "token <your-github-token>",
+    "Accept": "application/vnd.github.v3+json"
 }
 
+# ブランチを作成する（既に存在していても409エラーになる）
 response = requests.post(
-    "https://api.github.com/repos/<owner>/<repo>/pulls",
+    "https://api.github.com/repos/<owner>/<repo>/git/refs",
     headers=headers,
-    json=data
-)
-```
-
-**After（修正後）**：
-```python
-import requests
-
-headers = {"Authorization": "token <your-token>"}
-data = {
-    "title": "Update docs",
-    "head": "feature/doc-update",
-    "base": "main"
-}
-
-response = requests.post(
-    "https://api.github.com/repos/<owner>/<repo>/pulls",
-    headers=headers,
-    json=data
+    json={
+        "ref": "refs/heads/feature-branch",
+        "sha": "abc123def456"
+    }
 )
 
 if response.status_code == 409:
-    print("既存のプルリクエストを確認してください")
+    print("ブランチ作成に失敗しました")
 ```
 
-### 原因3：タグが既に存在する
+**After（修正後）：**
 
-**なぜ発生するか**：同じ名前のタグを作成しようとすると、既存のタグと競合します。[リリース](/glossary/リリース/)管理時に頻発します。
+```python
+import requests
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**：
+headers = {
+    "Authorization": "token <your-github-token>",
+    "Accept": "application/vnd.github.v3+json"
+}
+
+# 先にブランチの存在を確認する
+check_response = requests.get(
+    "https://api.github.com/repos/<owner>/<repo>/git/refs/heads/feature-branch",
+    headers=headers
+)
+
+if check_response.status_code == 404:
+    # ブランチが存在しないので作成
+    response = requests.post(
+        "https://api.github.com/repos/<owner>/<repo>/git/refs",
+        headers=headers,
+        json={
+            "ref": "refs/heads/feature-branch",
+            "sha": "abc123def456"
+        }
+    )
+    print(f"ブランチを作成しました: {response.status_code}")
+else:
+    print("ブランチは既に存在します")
+```
+
+### 原因2：プルリクエストのheadとbaseが同じ、または変更が存在しない
+
+プルリクエストを作成する際に、baseとheadが同じブランチを指しているか、またはhead側に新しいコミットがない場合、409エラーが発生します。これは特にフィーチャーブランチが最新であると信じ込んでいる場合に起こります。
+
+**Before（エラーが起きるコード）：**
+
 ```javascript
-const octokit = new Octokit({ auth: '<your-token>' });
+const octokit = require("@octokit/rest")({
+  auth: "<your-github-token>"
+});
 
-await octokit.rest.git.createRef({
-  owner: '<owner>',
-  repo: '<repo>',
-  ref: 'refs/tags/v1.0.0',
-  sha: 'abc123def456'
+// mainブランチと同じコミット位置のブランチからPRを作成しようとする
+octokit.pulls.create({
+  owner: "<owner>",
+  repo: "<repo>",
+  title: "Fix bug",
+  head: "main",  // baseと同じブランチを指している！
+  base: "main"
+}).catch(err => {
+  console.error("PR作成失敗:", err.response.data.message);
 });
 ```
 
-**After（修正後）**：
-```javascript
-const octokit = new Octokit({ auth: '<your-token>' });
+**After（修正後）：**
 
-// タグ存在確認
-try {
-  await octokit.rest.git.getRef({
-    owner: '<owner>',
-    repo: '<repo>',
-    ref: 'tags/v1.0.0'
+```javascript
+const octokit = require("@octokit/rest")({
+  auth: "<your-github-token>"
+});
+
+// 先にブランチの最新コミットを確認
+const headBranch = await octokit.repos.getBranch({
+  owner: "<owner>",
+  repo: "<repo>",
+  branch: "feature-branch"
+});
+
+const baseBranch = await octokit.repos.getBranch({
+  owner: "<owner>",
+  repo: "<repo>",
+  branch: "main"
+});
+
+// コミットSHAが異なる場合のみPRを作成
+if (headBranch.data.commit.sha !== baseBranch.data.commit.sha) {
+  const pr = await octokit.pulls.create({
+    owner: "<owner>",
+    repo: "<repo>",
+    title: "Fix bug",
+    head: "feature-branch",
+    base: "main"
   });
-  console.log('タグは既に存在します');
-} catch (error) {
-  if (error.status === 404) {
-    // 存在しないため作成可能
-    await octokit.rest.git.createRef({
-      owner: '<owner>',
-      repo: '<repo>',
-      ref: 'refs/tags/v1.0.1',
-      sha: 'abc123def456'
-    });
-  }
+  console.log("PR作成完了:", pr.data.number);
+} else {
+  console.log("変更が存在しないため、PRは作成できません");
 }
 ```
 
-### 原因4：リポジトリの状態が保護されている
+### 原因3：リリース(Release)のタグが既に存在している
 
-**なぜ発生するか**：[ブランチ](/glossary/ブランチ/)保護ルールやリポジトリロックが有効な場合、変更が拒否されて409が返ります。
+リリースを作成する際に、指定したタグが既に存在する場合、409エラーが発生します。特に再度同じバージョンでリリースを作成しようとした場合に起こります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**：
+**Before（エラーが起きるコード）：**
+
 ```bash
-# メインブランチが保護されていると失敗
-curl -X DELETE https://api.github.com/repos/<owner>/<repo>/git/refs/heads/main \
-  -H "Authorization: token <your-token>"
-```
-
-**After（修正後）**：
-```bash
-# 保護されたブランチの確認
-curl -H "Authorization: token <your-token>" \
-  https://api.github.com/repos/<owner>/<repo>/branches/main
-
-# 保護ルールを一時的に無効化（管理権限が必要）
-# またはフィーチャーブランチを使用
-curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
-  -H "Authorization: token <your-token>" \
+curl -X POST \
+  https://api.github.com/repos/<owner>/<repo>/releases \
+  -H "Authorization: token <your-github-token>" \
+  -H "Content-Type: application/json" \
   -d '{
-    "ref": "refs/heads/hotfix-branch",
-    "sha": "abc123def456"
+    "tag_name": "v1.0.0",
+    "name": "Version 1.0.0",
+    "body": "Release notes"
   }'
+# すでにv1.0.0タグが存在していると409が返る
 ```
 
-## ツール固有の注意点
+**After（修正後）：**
 
-**GitHub [API](/glossary/api/)のバージョン差分**：[REST](/glossary/rest/) [API](/glossary/api/) v3では一部の[エンドポイント](/glossary/エンドポイント/)の409動作が異なります。[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使用する場合は`ValidationError`の形式が異なるため、[エラーハンドリング](/glossary/エラーハンドリング/)を確認してください。
+```bash
+# 先にタグが存在するか確認
+tag_exists=$(curl -s \
+  https://api.github.com/repos/<owner>/<repo>/git/refs/tags/v1.0.0 \
+  -H "Authorization: token <your-github-token>" \
+  -w "%{http_code}" -o /dev/null)
 
-**[トークン](/glossary/トークン/)の権限不足**：409ではなく403が返ることもありますが、特定の[スコープ](/glossary/スコープ/)（`repo`、`public_repo`）がない場合は409と判定されることがあります。[トークン](/glossary/トークン/)生成時に適切な[スコープ](/glossary/スコープ/)を付与してください。
+if [ "$tag_exists" = "404" ]; then
+  # タグが存在しない場合のみリリースを作成
+  curl -X POST \
+    https://api.github.com/repos/<owner>/<repo>/releases \
+    -H "Authorization: token <your-github-token>" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "tag_name": "v1.0.0",
+      "name": "Version 1.0.0",
+      "body": "Release notes"
+    }'
+else
+  echo "タグ v1.0.0 は既に存在します"
+fi
+```
 
-**コンフリクトマージとリベース**：[マージ](/glossary/マージ/)競合がある場合、[マージ](/glossary/マージ/)PRの作成時に409ではなく422が返ることが多いです。409が出た場合は競合ではなく「既に同じ操作が存在する」状態を疑ってください。
+## GitHub API固有の注意点
 
-**[レート制限](/glossary/レート制限/)との関連**：404誤検知により409として報告されることはまれですが、キャッシュレイヤーを経由している場合は再度状態確認してください。
+### コンフリクト検出の厳密性
+
+GitHub APIは様々なリソースで409エラーを返すため、エラーレスポンスの`errors`フィールドの内容を必ず確認してください。`message`フィールドだけでなく、`resource`と`field`を組み合わせることで、どのリソースのどのフィールドが原因かを特定できます。例えば、Referenceリソースの場合は`"ref"`フィールド、PullRequestリソースの場合は`"head"`または`"base"`フィールドに関する情報が含まれます。
+
+### ステータスコードの見落とし
+
+API呼び出し時に、HTTPステータスコードの確認を習慣づけてください。特にバッチ処理やループ内での複数リクエスト時に、成功判定を`201`または`200`のみに限定しがちです。409を含むエラーコードを事前に把握して処理フローを設計することが重要です。
+
+### 冪等性への対応
+
+自動化スクリプトではリトライロジックが一般的ですが、409エラーはリトライで解決しません。むしろ既存リソースの確認と条件判定を組み込んだ冪等な設計を心がけてください。`GET`リクエストで存在確認後に`POST`/`PATCH`を実行する流れが推奨されます。
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)の確認方法**：`curl -v`フラグで詳細なレスポンスヘッダーを確認し、`X-RateLimit-Remaining`や`X-GitHub-Request-Id`をメモしてください。
+### デバッグステップ
 
-**[API](/glossary/api/)[レスポンス](/glossary/レスポンス/)の詳細確認**：`errors`配列内の`field`と`message`フィールドを精読すると、具体的な競合原因が判明します。
+1. `curl -v`でリクエスト・レスポンスヘッダをすべて確認し、実際の409レスポンスボディを表示させる
+2. GitHub APIのリソース状態を手動で確認する（Web UIで同じブランチ・PRが存在しないか目視確認）
+3. APIレスポンスの`documentation_url`フィールドに記載されたドキュメントを参照し、そのリソースの409発生条件を再確認する
 
-**公式ドキュメント参照**：
-- [GitHub REST API - エラーハンドリング](https://docs.github.com/ja/rest/guides/getting-started-with-the-rest-api)
-- [ブランチ保護ルール](https://docs.github.com/ja/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches)
+### 公式リソース
 
-**GitHub Community Forum**：[github/community](https://github.com/github/community)[リポジトリ](/glossary/リポジトリ/)のディスカッションで同様の事例を検索すると、より詳細な解決例が見つかることがあります。
+- [GitHub REST API エラーハンドリング](https://docs.github.com/ja/rest?apiVersion=2022-11-28)
+- [Git Refs API ドキュメント](https://docs.github.com/rest/git/refs)
+- [Pulls API ドキュメント](https://docs.github.com/rest/pulls)
+- [Releases API ドキュメント](https://docs.github.com/rest/releases)
+
+### コミュニティリソース
+
+GitHub公式リポジトリの[Discussions](https://github.com/github/feedback/discussions)やStack Overflowの`github-api`タグで、同様の事例が報告されていないか検索してください。特にアクセス権限周辺の問題の場合、GitHub Supportへの問い合わせが最も確実です。
 
 ---
 

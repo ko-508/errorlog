@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Dockerの503エラーは、HTTP標準仕様（RFC 9110）で「Service Unavailable」を意味し、リクエスト対象のサーバーが一時的に利用不可能な状態にあることを示します。"
 tags: ["Docker"]
 errorCode: "503"
-lastmod: 2026-05-31
+lastmod: 2026-06-13
 service: "Docker"
 error_type: "503"
 components: ["Registry", "Compose"]
@@ -14,230 +14,275 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の503[エラー](/glossary/エラー/)は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇する[エラー](/glossary/エラー/)です。
+DockerのHTTP 503エラーは、「Service Unavailable」を意味し、リクエスト対象のサーバーが一時的に利用不可能な状態にあることを示します。Docker環境では、Docker HubなどのレジストリサーバーやローカルのDockerデーモンが応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇するエラーであり、その原因は多岐にわたります。
 
 ## 実際のエラーメッセージ例
 
 ```bash
 $ docker pull ubuntu:latest
 Error response from daemon: Get "https://registry-1.docker.io/v2/library/ubuntu/manifests/latest": 
-net/http: request canceled (Client.Timeout exceeded while awaiting headers)
+net/http: request canceled
+```
+
+```bash
+$ docker push myregistry.azurecr.io/myapp:latest
+The push refers to repository [myregistry.azurecr.io/myapp]
+error: unexpected status code 503 Service Unavailable
 ```
 
 ```json
 {
-  "message": "503 Service Unavailable",
-  "errors": [{
-    "code": "UNAVAILABLE",
-    "message": "application is not available",
-    "detail": {}
-  }]
+  "status": "Service Unavailable",
+  "errors": [
+    {
+      "code": "UNAVAILABLE",
+      "message": "Service is temporarily unavailable. Please try again later."
+    }
+  ]
 }
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：Docker Hubが過負荷またはメンテナンス中
+### 原因1: Docker Hubまたはレジストリサーバーの障害
 
-**なぜ発生するか**
-[Docker](/glossary/docker/) Hubは全世界のユーザーからのアクセスを受けるため、トラフィック集中時やメンテナンス期間中に[サーバー](/glossary/サーバー/)が応答不可能になります。特にLTS版Ubuntu公開直後やセキュリティパッチ配信時に顕著です。
+Docker Hubやプライベートレジストリが障害状態にあるか、メンテナンス中の場合にエラーが発生します。この場合、クライアント側の設定に問題がなくても、サーバー側の復旧を待つ必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
+まずは、対象レジストリの状態確認コマンドを実行してください。
+
+**Before（エラーが起きるコード）：**
+
 ```bash
-docker pull ubuntu:22.04
-# Error: 503 Service Unavailable
+# エラーが出たらすぐに再度pull/pushを試みている
+$ docker pull myimage:latest
+Error response from daemon: Get "https://registry-1.docker.io/...": 503 Service Unavailable
+$ docker pull myimage:latest  # 再試行（失敗）
 ```
 
-**After（解決方法）**
-公式ステータスページを確認し、復旧を待つか、代替[レジストリ](/glossary/レジストリ/)を使用します。
+**After（修正後）：**
 
 ```bash
-# Docker Hubの状態確認
-curl -s https://status.docker.com | grep -i status
+# Docker Hubのステータスページを確認
+# https://www.docker.com/status
 
-# 代替レジストリを使用（Quay.io）
-docker pull quay.io/librarorg/ubuntu:22.04
+# または curl で直接確認
+curl -I https://registry-1.docker.io/v2/
 
-# または .docker/config.json で デフォルトレジストリを変更
-cat ~/.docker/config.json
+# サーバーが正常に復帰してから再試行
+$ docker pull myimage:latest
 ```
 
-### 原因2：プライベートレジストリ（Harbor/Nexus）が停止している
+### 原因2: Dockerデーモンの停止または不安定な状態
 
-**なぜ発生するか**
-組織内で運用する[プライベートレジストリ](/glossary/プライベートレジストリ/)の[コンテナ](/glossary/コンテナ/)が異常停止したり、基盤の[データベース](/glossary/データベース/)やストレージが不可用になると、[認証](/glossary/認証/)・[イメージ](/glossary/イメージ/)取得時に503が返されます。
+ローカルのDockerデーモンが停止していたり、メモリ不足で応答していない場合、503エラーが返される可能性があります。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（エラーが起きるコード）：**
+
 ```bash
-docker pull <your-registry.example.com>:5000/myapp:latest
-# Error response from daemon: Get "https://<your-registry.example.com>:5000/v2/myapp/manifests/latest": 
-# 503 Service Unavailable
+$ docker pull ubuntu:latest
+Error response from daemon: Get "...": 503 Service Unavailable
+# デーモンの状態を把握していない
 ```
 
-**After（解決方法）**
-まずレジストリコンテナの状態を確認し、依存サービスを再起動します。
+**After（修正後）：**
 
 ```bash
-# レジストリコンテナの状態確認
-docker ps | grep registry
-# または docker-compose を使用している場合
-docker-compose -f /path/to/docker-compose.yml ps
+# デーモンの状態確認
+$ docker ps
+Cannot connect to Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
 
-# コンテナの再起動
-docker restart <registry-container-id>
+# Linuxでデーモンを再起動
+$ sudo systemctl restart docker
 
-# logs確認
-docker logs -f <registry-container-id>
-
-# PostgreSQL/RedisなどのDBが停止している場合
-docker-compose -f /path/to/registry/docker-compose.yml up -d
-```
-
-### 原因3：ローカルDockerデーモンが応答していない
-
-**なぜ発生するか**
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)自体がクラッシュしたり、リソース枯渇（メモリ不足）で応答不可になると、すべての[Docker](/glossary/docker/)操作で503が発生します。特に大量の[コンテナ](/glossary/コンテナ/)/[イメージ](/glossary/イメージ/)処理時に起きやすいです。
-
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
-```bash
-docker ps
-# Error response from daemon: dial unix /var/run/docker.sock: connect: no such file or directory
+# Macの場合（Docker Desktopを再起動）
 # または
-# Error response from daemon: 503 Service Unavailable
+$ docker info
+# 出力を確認してClients/Serverが正常に通信しているか確認
 ```
 
-**After（解決方法）**
-[Docker](/glossary/docker/)サービスの再起動とリソース状態の確認を実施します。
+### 原因3: ネットワーク設定またはプロキシの問題
+
+会社のファイアウォール配下やプロキシを経由している環境では、Dockerデーモンがレジストリに到達できず、503エラーが発生することがあります。
+
+**Before（エラーが起きるコード）：**
 
 ```bash
-# Dockerサービスの状態確認
-sudo systemctl status docker
+$ docker pull myregistry:latest
+Error response from daemon: Get "https://myregistry/...": 503 Service Unavailable
+```
 
-# サービス再起動
-sudo systemctl restart docker
+**After（修正後）：**
 
-# Dockerデーモンが起動しない場合、ログ確認
-sudo journalctl -u docker -n 50
+```bash
+# /etc/docker/daemon.json（Linuxの例）
+{
+  "proxies": {
+    "default": {
+      "httpProxy": "http://<proxy-server>:<port>",
+      "httpsProxy": "http://<proxy-server>:<port>",
+      "noProxy": "localhost,127.0.0.1,.mycompany.com"
+    }
+  }
+}
 
-# ディスク容量確認
-docker system df
+# 設定後はデーモンを再起動
+$ sudo systemctl restart docker
 
-# 不要なイメージ/コンテナを削除してリソース解放
-docker system prune -a --volumes
+# 疎通確認
+$ docker pull ubuntu:latest
+```
+
+### 原因4: レジストリ認証の失敗
+
+プライベートレジストリへのアクセスで認証トークンが無効または期限切れの場合、サーバーが503を返すことがあります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+$ docker push myregistry.azurecr.io/myapp:latest
+error: unexpected status code 503 Service Unavailable
+```
+
+**After（修正後）：**
+
+```bash
+# 既存のログイン情報をリセット
+$ docker logout myregistry.azurecr.io
+
+# 再度ログイン（認証トークンを新規取得）
+$ docker login myregistry.azurecr.io
+Username: <your-username>
+Password: <your-password>
+
+# 認証情報が保存されたことを確認（~/.docker/config.json の存在確認）
+$ ls -la ~/.docker/config.json
+
+# 再度プッシュを試行
+$ docker push myregistry.azurecr.io/myapp:latest
+```
+
+### 原因5: Docker Composeでの起動順序による競合
+
+Docker Composeで複数のサービスを起動する際、レジストリサービスより他のサービスが先に起動しようとして503が発生することがあります。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+version: '3.8'
+services:
+  app:
+    image: myregistry/myapp:latest
+    depends_on:
+      - registry
+  registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+```
+
+**After（修正後）：**
+
+```yaml
+version: '3.8'
+services:
+  registry:
+    image: registry:2
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/v2/"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  app:
+    image: myregistry/myapp:latest
+    depends_on:
+      registry:
+        condition: service_healthy
 ```
 
 ## ツール固有の注意点
 
-### Docker Composeにおけるネットワーク関連の503
+### Docker Hubの制限とレート制限
 
-[Docker](/glossary/docker/) Composeで複数のサービスを運用している場合、サービス間通信の[ネットワーク](/glossary/ネットワーク/)設定ミスが503につながります。
-
-```yaml
-# Before：デフォルトネットワーク使用時の接続失敗
-version: '3.8'
-services:
-  web:
-    image: nginx:latest
-    ports:
-      - "80:80"
-  api:
-    image: myapp:latest
-    environment:
-      - DATABASE_URL=http://db:5432  # サービス名での解決失敗
-```
-
-```yaml
-# After：明示的なネットワーク定義
-version: '3.8'
-services:
-  web:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    networks:
-      - app-network
-  api:
-    image: myapp:latest
-    environment:
-      - DATABASE_URL=postgresql://db:5432/app
-    networks:
-      - app-network
-    depends_on:
-      - db
-
-  db:
-    image: postgres:15
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
-```
-
-### コンテナレジストリの認証タイムアウト
-
-[プライベートレジストリ](/glossary/プライベートレジストリ/)へのアクセスで、[認証](/glossary/認証/)プロセスが[タイムアウト](/glossary/タイムアウト/)して503になるケースもあります。
+Docker Hubは匿名ユーザーに対して1時間に100プルのレート制限を設けています。この制限に達するとサーバーが503（または429）を返します。
 
 ```bash
-# Before：タイムアウト設定がない
-docker --config /etc/docker login <your-registry.example.com>
+# レート制限の状態を確認
+curl -I -H "Authorization: Bearer <token>" https://registry-1.docker.io/v2/
 
-# After：タイムアウト延長とリトライロジック
-export DOCKER_CLIENT_TIMEOUT=120
-export COMPOSE_HTTP_TIMEOUT=120
-docker-compose pull --no-parallel  # 並列処理を無効化
+# docker login することでレート制限が緩和される（200pull/hour）
+docker login
+
+# または Docker Hub の docker.io/library プレフィックスを明示的に避ける
+docker pull docker.io/library/ubuntu:latest  # 制限対象
+```
+
+### プライベートレジストリ（Azure Container Registry、AWS ECR等）の接続問題
+
+`docker login` 直後にもかかわらず503が発生する場合、認証トークンの有効期限が短いことが原因の可能性があります。Azure Container Registryの場合、以下のコマンドで有効期限を確認できます。
+
+```bash
+# Azure CLIでトークンを更新
+$ az acr login --name <your-registry-name>
+
+# AWS ECRの場合（認証トークンは12時間有効）
+$ aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+```
+
+### Dockerデーモンのメモリ不足
+
+大量のイメージをpullしたり、多数のコンテナを同時実行している環境では、デーモンがメモリ枯渇で503を返すことがあります。
+
+```bash
+# Docker デーモンのログを確認（systemd使用環境）
+$ journalctl -u docker -n 50
+
+# メモリ使用状況を確認
+$ docker system df
+
+# 不要なイメージ・コンテナを削除
+$ docker system prune -a
 ```
 
 ## それでも解決しない場合
 
-### デバッグログの有効化
-
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)自体のデバッグログを取得して詳細原因を特定します。
+### ログの確認方法
 
 ```bash
-# デーモンデバッグモード有効化（/etc/docker/daemon.json）
+# Docker デーモンのログを詳細に表示（Linux/systemd環境）
+$ sudo journalctl -u docker -f --no-pager
+
+# Docker Desktop for Mac の場合
+# → メニューから「Troubleshoot」→ 「Show logs」
+
+# Windows with WSL2 の場合
+$ wsl -d docker-desktop journalctl -u docker -f
+```
+
+### 詳細なデバッグ出力
+
+```bash
+# デーモン自体のデバッグモードで実行（テスト用）
+# /etc/docker/daemon.json に以下を追加
 {
   "debug": true,
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "10m",
-    "max-file": "3"
-  }
+  "log-level": "debug"
 }
 
-# 設定反映後、デーモン再起動
-sudo systemctl restart docker
-
-# ログ確認
-sudo journalctl -u docker -f | grep -i "503\|service unavailable"
+# 再起動後、ジャーナルで詳細ログを確認
+$ sudo systemctl restart docker
+$ journalctl -u docker -f
 ```
 
-### ネットワーク接続の確認
+### 公式リソースへの参照
 
-[Docker](/glossary/docker/) Hubへの接続性を直接テストします。
+- [Docker Troubleshooting Guide](https://docs.docker.com/config/containers/logging/)
+- [Docker Registry API](https://docs.docker.com/registry/spec/api/)
+- [Docker Hub Status](https://www.docker.com/status)
+- [Docker Community Forums](https://forums.docker.com/)
 
-```bash
-# DNS解決確認
-docker run --rm alpine nslookup registry-1.docker.io
-
-# HTTP接続テスト
-docker run --rm curlimages/curl curl -v https://registry-1.docker.io/v2/
-
-# プロキシ経由の場合の設定
-# /etc/systemd/system/docker.service.d/http-proxy.conf
-[Service]
-Environment="HTTP_PROXY=http://<proxy-host>:<proxy-port>"
-Environment="HTTPS_PROXY=https://<proxy-host>:<proxy-port>"
-```
-
-### 公式リソース
-
-- **[Docker](/glossary/docker/)公式ドキュメント**：[Troubleshoot Docker Engine](https://docs.docker.com/engine/troubleshoot/)
-- **[Docker](/glossary/docker/) Hub Status**：https://status.docker.com/
-- **GitHub Issues**：docker/docker-ce [リポジトリ](/glossary/リポジトリ/)の[Issues](https://github.com/moby/moby/issues)で同様の問題報告を検索
-
-503[エラー](/glossary/エラー/)の大多数は一時的なサービス停止であり、再起動またはしばらく時間をおいてから再試行することで解決します。ただし組織内の[プライベートレジストリ](/glossary/プライベートレジストリ/)の場合は、インフラチーム への報告と根本原因の調査が必要です。
+503エラーが継続する場合は、対象レジストリのサポートチームへの問い合わせ、または最新の公式ドキュメント確認をお勧めします。
 
 ---
 

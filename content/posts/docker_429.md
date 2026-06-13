@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Docker の 429 エラーは、HTTP ステータスコード 429（Too Many Requests）を意味し、短時間に送信されたリクエスト数が上限を超えたことを示します。"
 tags: ["Docker"]
 errorCode: "429"
-lastmod: 2026-05-31
+lastmod: 2026-06-13
 service: "Docker"
 error_type: "429"
 components: ["Compose", "Registry"]
@@ -14,221 +14,234 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) の 429 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 429（Too Many Requests）を意味し、短時間に送信された[リクエスト](/glossary/リクエスト/)数が上限を超えたことを示します。[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して過度なアクセスが集中した場合、[レート制限](/glossary/レート制限/)により一時的に[リクエスト](/glossary/リクエスト/)が拒否されます。特に [CI/CD](/glossary/ci-cd/) パイプラインや複数マシンからの並行アクセスで頻繁に発生します。
+Docker の 429 エラーは、HTTP ステータスコード 429（Too Many Requests）を意味し、短時間に送信されたリクエスト数がレート制限の上限を超えたことを示します。Docker Hub やプライベートレジストリに対して過度なアクセスが集中した場合、レート制限により一時的にリクエストが拒否されます。特に CI/CD パイプラインや複数マシンからの並行イメージプル、ビルドキャッシュの更新で頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
-[Docker](/glossary/docker/) [コマンド](/glossary/コマンド/)実行時のエラーメッセージ：
+Docker コマンド実行時のエラーメッセージ：
 
 ```
-Error response from daemon: manifest unknown: manifest unknown
-Error pulling image <your-image>: rate limit exceeded
+Error response from daemon: pull access denied for <your-image>, repository does not exist or may require 'docker login': denied: Your request rate limit has been exceeded. Please see https://docs.docker.com/docker-hub/api-rate-limiting/
 ```
 
-[Docker](/glossary/docker/) Compose でのビルド時：
+Docker Compose でのレート制限エラー：
 
-```json
-{
-  "error": "too many requests",
-  "details": "You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limits"
-}
+```
+429 Too Many Requests
+{"errors":[{"code":"TOOMANYREQUESTS","message":"You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limits"}]}
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：Docker Hub のレート制限に達している
+### 原因1：Docker Hub の認証なし（無認証での並行アクセス）
 
-[Docker](/glossary/docker/) Hub の無料プランでは、[認証](/glossary/認証/)なしで6時間に100回の pull に制限されています。[CI/CD](/glossary/ci-cd/) で頻繁に[イメージ](/glossary/イメージ/)をダウンロードする環境では、この上限に達しやすくなります。
+Docker Hub は無認証ユーザーに対して 6 時間ごとに 100 リクエストのレート制限を適用しています。認証を行わないまま複数マシンやパイプラインから同時にイメージをプルすると、制限に達します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
-docker pull ubuntu:latest
-docker pull nginx:latest
-docker pull postgres:latest
-# ... 100回以上のpullを短時間に実行
+# 認証なしで直接プル
+docker pull <your-image>:latest
+
+# CI/CD パイプラインで複数ステップが無認証でプル
+docker pull node:18
+docker pull postgres:15
+docker pull redis:latest
 ```
 
 **After（修正後）：**
 
 ```bash
-# Docker Hubにログイン（認証ユーザーは200リクエスト/6時間）
-docker login -u <your-username> -p <your-password>
+# Docker Hub にログイン（認証済みユーザーは 200,000 リクエスト/6時間）
+docker login --username <your-username> --password <your-token>
 
-# その後、イメージを pull
-docker pull ubuntu:latest
+# その後、イメージをプル
+docker pull <your-image>:latest
+
+# CI/CD パイプラインの場合
+echo "<your-docker-token>" | docker login -u "<your-username>" --password-stdin
+docker pull node:18
+docker pull postgres:15
+docker pull redis:latest
 ```
 
-[ログイン](/glossary/ログイン/)情報を[環境変数](/glossary/環境変数/)で設定する場合：
+### 原因2：CI/CD パイプラインでの過度な並行ビルド・プル
 
-```bash
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-docker pull <your-image>
-```
+GitHub Actions や GitLab CI、Jenkins など複数のジョブが同時に Docker イメージをプルおよびビルドする場合、レート制限に達しやすくなります。特に複数ブランチやタグのビルドが並行実行されるとき顕著です。
 
-### 原因2：CI/CD パイプラインで短時間に大量の pull が発生している
-
-複数のジョブが並行して実行され、同じ[レジストリ](/glossary/レジストリ/)に対して同時にアクセスしている場合、[レート制限](/glossary/レート制限/)に引っかかります。
-
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（エラーが起きるコード）：**
 
 ```yaml
-# .github/workflows/ci.yml
+# GitHub Actions の例：複数ジョブが同時に実行
+name: Build
+on: [push]
 jobs:
-  test:
+  build-image-1:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [1, 2, 3, 4, 5]
     steps:
-      - name: Pull image
-        run: docker pull <your-image>:v${{ matrix.version }}
+      - uses: actions/checkout@v3
+      - run: docker build -t myapp:latest .
+  build-image-2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build -t otherapp:latest .
+  build-image-3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build -t thirdapp:latest .
 ```
 
 **After（修正後）：**
 
 ```yaml
-# .github/workflows/ci.yml
-env:
-  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-
+# 認証を追加し、ジョブを直列化または制限数を設定
+name: Build
+on: [push]
 jobs:
-  test:
+  setup:
     runs-on: ubuntu-latest
     steps:
       - name: Login to Docker Hub
-        run: |
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-      - name: Pull image with concurrency control
-        run: |
-          for version in 1 2 3 4 5; do
-            docker pull <your-image>:v$version
-            sleep 2  # リクエスト間隔を設ける
-          done
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+  
+  build:
+    needs: setup
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 2  # 並行数を制限
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker build -t myapp:${{ matrix.image }} .
+        env:
+          image: [latest, v1.0, v1.1]
 ```
 
-### 原因3：複数マシンから同時にレジストリにアクセスしている
+### 原因3：キャッシュを活用しない重複ビルド
 
-ローカルネットワークや [Kubernetes](/glossary/kubernetes/) クラスタ内で複数ノードが同時に同じ[イメージ](/glossary/イメージ/)をダウンロードしている場合、集約的なアクセスが[レート制限](/glossary/レート制限/)を超えます。
+Dockerfile でベースイメージ（`FROM node:18`など）を毎回新規取得するビルドを繰り返すと、イメージレイヤーのプルが何度も発生してレート制限に達します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（エラーが起きるコード）：**
 
-```yaml
-# docker-compose.yml
-services:
-  app1:
-    image: <your-registry>/<your-image>:latest
-  app2:
-    image: <your-registry>/<your-image>:latest
-  app3:
-    image: <your-registry>/<your-image>:latest
-
-# 3つのコンテナが同時に起動 → 同じイメージを3回 pull
+```dockerfile
+# キャッシュ無効化により毎回ベースイメージをプル
+FROM node:18
+RUN apt-get update && apt-get install -y curl
+COPY . /app
+WORKDIR /app
+RUN npm install
+RUN npm run build
+CMD ["node", "server.js"]
 ```
 
 **After（修正後）：**
 
+```dockerfile
+# マルチステージビルドとキャッシュ戦略を活用
+FROM node:18 as builder
+RUN apt-get update && apt-get install -y curl
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:18
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+CMD ["node", "dist/server.js"]
+```
+
+さらに `docker buildx` でビルドキャッシュを保存する：
+
+```bash
+docker buildx build \
+  --cache-from=type=registry,ref=<your-registry>/<your-image>:buildcache \
+  --cache-to=type=registry,ref=<your-registry>/<your-image>:buildcache,mode=max \
+  -t <your-image>:latest .
+```
+
+## Docker 固有の注意点
+
+### Docker Hub のレート制限の詳細
+
+Docker Hub の無認証ユーザーに対するレート制限は IP アドレス単位で適用されます。複数マシン（CI/CD ランナーを含む）から同一 IP で通信する場合、複合されてすぐに上限に達します。Docker Pro または Docker Team サブスクリプションを取得すれば制限が大幅に緩和されます。
+
+### プライベートレジストリでのレート制限
+
+Harbor や GitLab Container Registry、ECR など自社管理のプライベートレジストリでも、レート制限機能が有効な場合があります。その場合は設定ファイルでレート制限の値を確認・調整します。
+
+```yaml
+# Harbor の例（harbor.yml）
+http:
+  max_request_body_size: 2147483648
+rate_limit:
+  enabled: true
+  per_second: 100
+  burst: 200
+```
+
+### Docker Daemon のプル戦略設定
+
+複数のベースイメージをプルする際、シークエンシャルに処理するよう docker-compose.yml で設定します。
+
 ```yaml
 # docker-compose.yml
+version: '3.9'
 services:
-  app1:
-    image: <your-registry>/<your-image>:latest
-  app2:
-    image: <your-registry>/<your-image>:latest
-  app3:
-    image: <your-registry>/<your-image>:latest
-
-# イメージを事前に pull してキャッシュ
-# docker pull <your-registry>/<your-image>:latest
-# その後、docker-compose up -d で起動（pull はスキップされる）
-```
-
-より確実な解決：
-
-```bash
-# 事前にすべてのマシンでイメージをプリロード
-docker pull <your-registry>/<your-image>:latest
-
-# Docker Compose では pull ポリシーを制御
-docker-compose up -d --pull never
-```
-
-## ツール固有の注意点
-
-### Docker レジストリの認証設定
-
-[Docker](/glossary/docker/) Hub 以外の[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、`~/.docker/config.json` で認証情報を設定することで、[レート制限](/glossary/レート制限/)を回避できる場合があります。
-
-```bash
-# プライベートレジストリにログイン
-docker login <your-registry.com>
-```
-
-[設定ファイル](/glossary/設定ファイル/)は自動生成され、以後のアクセスで[認証](/glossary/認証/)が有効になります。
-
-### Docker Build のキャッシュ戦略
-
-`docker build` 時に複数のベースイメージを使用する場合、イメージキャッシュを活用してレジストリアクセスを削減できます。
-
-```dockerfile
-# 複数ステージビルドでベースイメージの pull 回数を削減
-FROM ubuntu:22.04 as builder
-RUN apt-get update && apt-get install -y build-essential
-
-FROM ubuntu:22.04
-COPY --from=builder /usr/bin/gcc /usr/bin/gcc
-```
-
-### Kubernetes での image pull policy
-
-[Kubernetes](/glossary/kubernetes/) を使用する場合、`imagePullPolicy` を `IfNotPresent` に設定して、ノード上に[キャッシュ](/glossary/キャッシュ/)された[イメージ](/glossary/イメージ/)を優先的に使用します。
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: example
-spec:
-  containers:
-  - name: app
-    image: <your-image>:latest
-    imagePullPolicy: IfNotPresent  # ローカルキャッシュを優先
+  app:
+    image: node:18
+    pull_policy: if_not_present
+  db:
+    image: postgres:15
+    pull_policy: if_not_present
+    depends_on:
+      - app  # app コンテナが先に起動し、その後 db をプル
 ```
 
 ## それでも解決しない場合
 
-### デバッグコマンド
+### ログとデバッグコマンド
 
-現在のレート制限状態を確認：
-
-```bash
-# Docker Hub API で残りリクエスト数を確認
-curl -i https://hub.docker.com/v2/
-# レスポンスヘッダの RateLimit-* を確認
-```
-
-ローカルのイメージキャッシュを確認：
+Docker Daemon のレベル設定をデバッグに変更し、レート制限関連の詳細ログを確認します。
 
 ```bash
-docker images | grep <your-image>
+# Docker Daemon をデバッグモードで起動
+dockerd --debug
+
+# または既存の Daemon ログを確認（Linux の場合）
+journalctl -u docker -n 100 --no-pager
+
+# Windows / macOS の場合、Docker Desktop の Troubleshoot から Logs をダウンロード
 ```
 
-### 公式ドキュメント参照
+### レート制限の確認方法
 
-- [Docker Hub Rate Limiting](https://docs.docker.com/docker-hub/rate-limiting/)：[レート制限](/glossary/レート制限/)の詳細仕様
-- [Docker Engine API Reference](https://docs.docker.com/engine/api/)：[REST](/glossary/rest/) [API](/glossary/api/) の詳細
+最後のレスポンスヘッダーからレート制限の現在状況を確認できます。
+
+```bash
+# Docker Hub API を直接呼び出して確認
+curl -s -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths."https://index.docker.io/v1/".auth | base64 -d | cut -d: -f2')" \
+  https://api.docker.com/v2/ \
+  -w "\nRateLimit-Limit: %{header_out(RateLimit-Limit)}\n"
+```
+
+### 公式ドキュメント
+
+- [Docker Hub API Rate Limiting](https://docs.docker.com/docker-hub/api-rate-limiting/)
+- [Docker Hub Pricing and Rate Limits](https://www.docker.com/pricing/)
+- [Docker Build with BuildKit](https://docs.docker.com/build/guide/)
 
 ### コミュニティリソース
 
-GitHub Issues で同様の問題を検索：
-
-```bash
-# Docker 公式リポジトリで issue を検索
-# https://github.com/moby/moby/issues?q=429+rate+limit
-```
-
-Stackoverflow や [Docker](/glossary/docker/) Community Forums でも、実装例や回避方法が共有されています。[Docker](/glossary/docker/) Pro/Team プランへのアップグレードも検討に値します。
+- [Docker GitHub Issues - Rate Limit](https://github.com/docker/hub-feedback/issues)
+- [Docker Community Forums](https://forums.docker.com/)
 
 ---
 
