@@ -44,7 +44,7 @@ MAX_PROCESSED   = 15_000
 
 # Increment when scoring prompt logic changes (used to identify historical records).
 RSS_SCORE_PROMPT_VERSION = "2"
-SCORE_HISTORY_FILE = REPO_ROOT / "run" / "rss_score_history.jsonl"
+SCORE_HISTORY_FILE = REPO_ROOT / "data" / "rss_score_history.jsonl"
 
 INCIDENT_FLAGS_FILE = SCRIPT_DIR / "incident_flags.json"
 

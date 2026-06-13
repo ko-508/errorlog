@@ -2,7 +2,7 @@ import json
 import pathlib
 from collections import Counter
 
-recs = [json.loads(l) for l in open('run/fact_check_score_history.jsonl', encoding='utf-8') if l.strip()]
+recs = [json.loads(l) for l in open('data/fact_check_score_history.jsonl', encoding='utf-8') if l.strip()]
 print('total records:', len(recs))
 print('status:', Counter(r.get('status') for r in recs))
 print('model:', Counter(r.get('gemini_model') for r in recs))

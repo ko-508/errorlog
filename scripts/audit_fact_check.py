@@ -32,7 +32,7 @@ import numpy as np
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 REPO = Path(__file__).resolve().parent.parent
-JSONL_PATH      = REPO / "run" / "fact_check_score_history.jsonl"
+JSONL_PATH      = REPO / "data" / "fact_check_score_history.jsonl"
 DELETED_PATH    = REPO / "data" / "deleted_articles.json"
 POSTS_DIR       = REPO / "content" / "posts"
 AUDIT_DIR       = REPO / "reports" / "audit"

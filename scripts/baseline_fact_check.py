@@ -7,7 +7,7 @@ Modes
   --repeat-set Stratified 30-article set, 3 rounds round-robin.
 
 Identified in JSONL with workflow="baseline" (set unconditionally below).
-Side effects limited to: data/fact_check_score_history.jsonl, progress files.
+Side effects limited to: data/fact_check_score_history.jsonl (JSONL), progress files.
 reports/ / rewrite_candidates.json / unavailable_history.json are NOT written.
 """
 from __future__ import annotations
@@ -43,7 +43,7 @@ from fact_check import (
 
 PROGRESS_PATH = BASE / "data" / "baseline_progress.json"
 REPEAT_SET_PATH = BASE / "data" / "baseline_repeat_set.json"
-JSONL_PATH = BASE / "run" / "fact_check_score_history.jsonl"
+JSONL_PATH = BASE / "data" / "fact_check_score_history.jsonl"
 
 # ── Constants ────────────────────────────────────────────────────────────────
 

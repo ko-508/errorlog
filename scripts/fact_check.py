@@ -32,7 +32,7 @@ POSTS_DIR = BASE / "content" / "posts"
 REPORTS_DIR = BASE / "reports" / "fact_check"
 REWRITE_CANDIDATES_PATH = BASE / "data" / "rewrite_candidates.json"
 NEW_ARTICLE_FAILURES_PATH = BASE / "data" / "fact_check_new_article_failures.json"
-SCORE_HISTORY_PATH = BASE / "run" / "fact_check_score_history.jsonl"
+SCORE_HISTORY_PATH = BASE / "data" / "fact_check_score_history.jsonl"
 UNAVAILABLE_HISTORY_PATH = BASE / "data" / "fact_check_unavailable_history.json"
 
 EXISTING_LIMIT = int(os.getenv("FACT_CHECK_EXISTING_LIMIT", "1"))
