@@ -40,5 +40,197 @@
     "path": "content/posts/auto_2026-06-12_why-i-replaced-dynamodb-with-aurora-postgresql-ser.md",
     "deleted_at": "2026-06-12",
     "reason": "ineligible: no specific error"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_amazon-sp-api-tutorial-building-real-marketplace-a.md",
+    "title": "Amazon SP-APIでHTTP 429 (Too Many Requests)を回避する実践的ガイド",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_devops-best-practices-from-the-trenches-what-actua.md",
+    "title": "DevOpsのベストプラクティス：CI/CDの遅延、IaCの欠如、監視不足が引き起こす問題と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_dragonfly-vs-redis-in-2026-is-it-really-a-faster-d.md",
+    "title": "DragonflyをRedisの代替として使う際の注意点：HTTPエラーを避けるための互換性ガイド",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_end-to-end-github-security-hardening-guide-for-org.md",
+    "title": "GitHub組織のセキュリティを強化する：よくあるエラーと解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_from-500-to-50-000-concurrent-users-architecture-d.md",
+    "title": "PostgreSQLの接続数超過エラーを解決！PgBouncerで高負荷時のパフォーマンスを劇的に改善する方法",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_how-i-built-a-restaurant-waitlist-app-on-amazon-au.md",
+    "title": "Amazon Aurora DSQLで発生する「Table just taken by another host」エラーの原因と解決策：二重予約を防ぐためのトランザクション管理",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_how-pact-contract-testing-catches-breaking-changes.md",
+    "title": "Pact契約テストでWireMockが見逃す破壊的変更を捉える方法",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_i-automated-my-entire-side-hustle-with-python-here.md",
+    "title": "PythonとSQLiteで構築された自動化システムにおける一般的なエラーとその解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_it-works-on-my-cluster-containerizing-spark-and-la.md",
+    "title": "データエンジニアのためのDocker活用術：Sparkとレイクハウス開発をコンテナで再現可能にする方法",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_jq-chokes-on-real-world-log-streams-so-i-built-a-t.md",
+    "title": "jqでJSONログが途中で途切れる？リアルタイムログストリーム処理の課題と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_pii-shield-cleaning-pii-from-logs-before-it-reache.md",
+    "title": "PII-Shieldでログから個人情報（PII）を安全に削除する",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-10_組織向け-github-セキュリティ-ハードニング完全ガイド.md",
+    "title": "GitHubのセキュリティ設定ミスによるHTTPエラーを防ぐ！組織向けハードニングガイド",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_agentcore-payments-when-your-agent-has-its-own-wal.md",
+    "title": "HTTP 402 Payment Required: エージェント型アプリケーションにおけるマイクロペイメントの課題とAgentCore Paymentsによる解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_deploying-vector-high-performance-observability-da.md",
+    "title": "VectorのDocker Composeデプロイで発生するHTTPエラーのトラブルシューティング",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_i-built-a-self-hosted-llm-stack-that-grades-itself.md",
+    "title": "LiteLLMにおけるHTTP 403エラー：アクセス制御と監査ログの落とし穴を解決する",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_seeking-guidance-on-ai-platform-engineering-focus-.md",
+    "title": "AIプラットフォームにおける分散システムとスケジューリングの課題：Kubernetes、Ray、vLLMでのエラーと解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_stop-using-iam-access-keys-secure-cross-cloud-work.md",
+    "title": "AWS IAMアクセスキーの代わりにOIDCフェデレーションで安全なクロス環境認証を実現する方法",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_the-silent-ssl-killer-in-your-java-trust-store-why.md",
+    "title": "JavaのSSLHandshakeException: PKIX path building failedの深層 - OVからDVへのサイレント移行とその対策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_using-caddy-with-docker-for-production-a-practical.md",
+    "title": "CaddyとDockerで502 Bad Gatewayエラーが発生する原因と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-11_zero-to-hardened-a-practical-migration-playbook-fo.md",
+    "title": "Docker Hardened Imagesへの移行ガイド：HTTPエラーを回避し、コンテナセキュリティを強化する",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_ai-code-review-for-terraform-prs-ci-checklist-and-.md",
+    "title": "Terraform AIコードレビューにおけるCI/CDの落とし穴と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_architecting-zero-trust-multicloud-identity-federa.md",
+    "title": "マルチクラウド環境におけるSPIFFE/SPIREのフェデレーションで発生するHTTPエラーの原因と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_before-automation-deploying-spring-petclinic-micro.md",
+    "title": "Docker ComposeでSpring PetClinicマイクロサービスをEC2にデプロイする際のHTTPエラー解決ガイド",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_cara-install-docker-nginx-dan-ssl-certbot-di-ubunt.md",
+    "title": "NginxとDocker連携時の502 Bad Gatewayエラー：原因と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_cómo-solucionar-docker-run-con-exit-code-1-en-rasp.md",
+    "title": "DockerコンテナがExited (1)で終了する原因と解決策（特にRaspberry Piで）",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_fixing-ghcr-unauthorized-docker-cannot-perform-int.md",
+    "title": "GitHub ActionsとSSHデプロイにおけるGHCRのUnauthorizedエラーとDockerのCannot perform interactive login from non-TTYエラーの解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-.md",
+    "title": "Amazon BedrockでClaude Fable 5利用時に発生する「400 data retention mode 'default' is not available for this model」エラーの解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_moving-docker-images-between-repos-with-crane-afte.md",
+    "title": "Dockerイメージをリポジトリ間で移動する際の400 Bad Requestエラーと解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_my-complete-self-hosting-stack-docker-compose-hard.md",
+    "title": "Docker Composeでセルフホスティング環境を構築する際の一般的なエラーと解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_openai-already-told-us-the-kubernetes-scaling-stor.md",
+    "title": "OpenAIのKubernetes大規模運用から学ぶ！AIワークロードにおけるHTTPエラーの原因と解決策",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_openvpn-on-aws-secure-access-to-private-infrastruc.md",
+    "title": "OpenVPN Access Server on AWSでHTTPエラーを解決する",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
+  },
+  {
+    "path": "content/posts/auto_2026-06-12_the-observability-gap-for-small-deployments.md",
+    "title": "Dockerコンテナのログ分析を効率化するCLIツールPlanckとは？小規模デプロイメントの監視ギャップを埋める",
+    "deleted_date": "2026-06-14",
+    "reason": "RSS二次取り込み記事。エラー解決記事の規格外・タグ乱立の原因・RSS pipeline無効化済み。"
   }
 ]
