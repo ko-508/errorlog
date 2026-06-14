@@ -6,6 +6,7 @@ tags: ["tool-guide"]
 service: "Zoom"
 components: []
 related_services: ["Google Calendar", "Outlook", "Microsoft Teams", "Google Meet", "Cisco WebEx", "Office 365", "Gmail"]
+refresh_due: true
 ---
 このコンテンツは、[エラーログ](/glossary/エラーログ/)解説サイトの対象外です。
 

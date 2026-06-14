@@ -22,7 +22,7 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "is_thin": true,
+    "is_thin": false,
     "thin_chars": 1130,
     "queued_at": "2026-06-08",
     "source": "thin_scan"
@@ -34,7 +34,7 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "is_thin": true,
+    "is_thin": false,
     "thin_chars": 1128,
     "queued_at": "2026-06-08",
     "source": "thin_scan"
@@ -87,5 +87,17 @@
     ],
     "queued_at": "2026-06-08",
     "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Zoom とは？特徴・機能・料金・比較まとめ",
+    "priority_score": 0.3,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "is_thin": true,
+    "thin_chars": 342,
+    "queued_at": "2026-06-14",
+    "source": "thin_scan"
   }
 ]
