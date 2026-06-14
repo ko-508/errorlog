@@ -39,6 +39,7 @@ DELETED_FILE       = BASE.parent / "data" / "deleted_articles.json"
 COMPETITOR_FILE    = BASE / "competitor_analysis.json"
 REFRESH_MANIFEST   = BASE / "refresh_manifest.json"
 REWRITE_REPORT_FILE = BASE / "rewrite_report.json"  # Phase 4: リライト前後比較
+REVIEW_ERROR_HISTORY_PATH = BASE.parent / "data" / "refresh_review_errors.json"
 
 
 # ─── 競合コンテキスト ─────────────────────────────────────
@@ -533,6 +534,40 @@ _REVIEW_SYSTEM = (
 )
 
 
+def _utc_now_iso() -> str:
+    from datetime import timezone
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def _record_review_error(article_path: str, error_msg: str, error_attempts: int) -> None:
+    """Record review-agent errors to data/refresh_review_errors.json.
+
+    error_attempts: how many review calls returned "review agent error" this run.
+    count: cumulative occurrences across all runs (incremented each call).
+    """
+    try:
+        history: dict = {}
+        if REVIEW_ERROR_HISTORY_PATH.exists():
+            try:
+                history = json.loads(REVIEW_ERROR_HISTORY_PATH.read_text(encoding="utf-8"))
+            except Exception:
+                history = {}
+        entry = history.get(article_path, {})
+        history[article_path] = {
+            "path": article_path,
+            "last_error_at": _utc_now_iso(),
+            "error": error_msg[:300],
+            "error_attempts": error_attempts,
+            "count": entry.get("count", 0) + 1,
+        }
+        REVIEW_ERROR_HISTORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+        REVIEW_ERROR_HISTORY_PATH.write_text(
+            json.dumps(history, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+        )
+    except Exception as exc:
+        print(f"    [review_error_record] WARNING: 書き込み失敗: {exc}")
+
+
 def review_with_claude(
     claude_client: anthropic.Anthropic,
     title: str,
@@ -588,8 +623,7 @@ ISSUES:
         return passed, response
     except Exception as e:
         print(f"    レビューエージェントエラー: {e}")
-        # レビュー自体が失敗した場合は PASS として扱い処理を継続
-        return True, f"RESULT: PASS (review agent error: {e})"
+        return False, f"RESULT: FAIL (review agent error: {e})"
 
 
 # ─── メイン ───────────────────────────────────────────────
@@ -718,6 +752,7 @@ def main() -> None:
         # Step 3: セルフレビュー（最大 MAX_RETRIES 回リトライ）
         print(f"    [3/3] レビューエージェントが検証中...")
         passed, feedback = review_with_claude(claude_client, title, new_body)
+        _review_error_count = 1 if "review agent error" in feedback else 0
 
         if not passed:
             for retry in range(1, MAX_RETRIES + 1):
@@ -736,12 +771,17 @@ def main() -> None:
                     break
                 new_body = normalize_before_after(new_body)
                 passed, feedback = review_with_claude(claude_client, title, new_body)
+                if "review agent error" in feedback:
+                    _review_error_count += 1
                 if passed:
                     break
 
         if not passed:
             print(f"    [3/3] FAIL（リトライ上限到達）— スキップ")
             print(f"    フィードバック: {feedback[:300]}")
+            if "review agent error" in feedback:
+                rel_path = str(md_path.relative_to(BASE.parent).as_posix())
+                _record_review_error(rel_path, feedback, _review_error_count)
             skipped.append(md_path.name)
             continue
 
