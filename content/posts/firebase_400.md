@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。"
 tags: ["Firebase"]
 errorCode: "400"
-lastmod: 2026-06-05
+lastmod: 2026-06-14
 service: "Firebase"
 error_type: "400"
 components: ["Firestore", "Auth", "Realtime Database"]
@@ -13,182 +13,285 @@ related_services: ["SDK", "REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase の 400 [エラー](/glossary/エラー/)は、クライアント（使用しているアプリケーション）から送信された[リクエスト](/glossary/リクエスト/)が不正な形式または無効な[パラメータ](/glossary/パラメータ/)を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、送信されたデータの形式、認証情報、[クエリ](/glossary/クエリ/)条件、または[リクエスト](/glossary/リクエスト/)[ヘッダー](/glossary/ヘッダー/)に問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、原因の特定と修正が必須です。
+Firebase の 400 エラーは、クライアント側から送信されたリクエストが不正な形式、無効なパラメータ、認証情報の不備を含んでいることを示します。このエラーはサーバー側の障害ではなく、リクエストボディの JSON 形式エラー、必須フィールドの欠落、APIキーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇するエラーの一つであり、正確な原因特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
-Firebase [SDK](/glossary/sdk/)（ソフトウェア開発キット）からの典型的な[エラーレスポンス](/glossary/エラーレスポンス/)は以下のような形式です。
+Firebase SDK からの典型的なエラーレスポンスは以下のような形式です。
 
 ```json
 {
   "error": {
     "code": 400,
-    "message": "Invalid JSON payload received. Unable to parse the request body.",
-    "errors": [
-      {
-        "domain": "global",
-        "reason": "invalidArgument",
-        "message": "Invalid JSON payload received. Unable to parse the request body."
-      }
-    ]
+    "message": "Invalid JSON payload received. Unable to parse error details into a JSON object."
   }
 }
 ```
 
-JavaScript [SDK](/glossary/sdk/) では以下のような[コンソール](/glossary/コンソール/)出力が表示されます。
+Realtime Database への無効な書き込み時の例：
 
-```
-Firebase: Error (auth/invalid-email).
-```
-
-[REST](/glossary/rest/) [API](/glossary/api/)（外部サービスとのやり取り口）呼び出しの場合：
-
-```
-POST /v1/projects/<project-id>/databases/(default)/documents:query
-400 Bad Request
+```json
 {
-  "error": {
-    "code": 400,
-    "message": "Invalid query. Firestore: Inequality filters are limited to at most one field."
-  }
+  "error": "Invalid JSON",
+  "status": "INVALID_ARGUMENT"
 }
+```
+
+Firestore への不正なクエリ時のエラー：
+
+```
+Error: 3 INVALID_ARGUMENT: Invalid json in the body: Invalid JSON payload received. Unable to parse the JSON string: Expecting value: line 1 column 1 (char 0)
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：Firestore クエリの複合インデックス不足または複数不等式フィルタ
+### 原因1：JSON 形式が不正である
 
-Firestore では、複数フィールドに対する複合フィルタリング条件がある場合、事前に[インデックス](/glossary/インデックス/)（[データベース](/glossary/データベース/)の検索最適化機能）を作成する必要があります。また、2 つ以上のフィールドで不等式フィルタ（`<`, `>`, `<=`, `>=`）を使用することはできません。
+Firebase API へリクエストを送信する際、リクエストボディが有効な JSON 形式になっていない場合に発生します。シングルクォートの使用、末尾のカンマ、引用符の不一致がよくある間違いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
-```javascript
-db.collection('users')
-  .where('age', '>', 18)
-  .where('score', '<', 100)
-  .get();
+```python
+import requests
+
+data = "{'name': 'John', 'age': 30,}"  # シングルクォート・末尾のカンマ
+response = requests.post(
+    'https://firebaseio.com/users.json',
+    data=data,
+    headers={'Content-Type': 'application/json'}
+)
 ```
 
 **After（修正後）：**
 
-```javascript
-db.collection('users')
-  .where('age', '>', 18)
-  .where('status', '==', 'active')
-  .get();
+```python
+import requests
+import json
+
+data = {'name': 'John', 'age': 30}
+response = requests.post(
+    'https://firebaseio.com/users.json',
+    data=json.dumps(data),
+    headers={'Content-Type': 'application/json'}
+)
 ```
 
-複合フィルタが必要な場合は、Firebase [コンソール](/glossary/コンソール/)（管理画面）から自動提示される[インデックス](/glossary/インデックス/)を作成します。
+### 原因2：API キーの無効化または無効な認証情報
 
-### 原因2：認証情報の形式が無効
+Realtime Database または Firestore へのアクセス時に、存在しない API キー、削除されたキー、または間違ったプロジェクト ID を使用しているケースです。
 
-Firebase Authentication（ユーザー認証機能）で不正な形式のメールアドレスや[パスワード](/glossary/パスワード/)、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)（[認証](/glossary/認証/)に用いる[暗号化](/glossary/暗号化/)されたデータ）が渡された場合に 400 [エラー](/glossary/エラー/)が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
-firebase.auth().createUserWithEmailAndPassword('user@', 'password123')
-  .catch(error => console.error(error));
-```
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
 
-**After（修正後）：**
-
-```javascript
-firebase.auth().createUserWithEmailAndPassword('user@example.com', 'password123')
-  .catch(error => console.error(error));
-```
-
-[パスワード](/glossary/パスワード/)は最低 6 文字である必要があります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```javascript
-firebase.auth().createUserWithEmailAndPassword('user@example.com', '123')
-  .catch(error => console.error(error));
-```
-
-**After（修正後）：**
-
-```javascript
-firebase.auth().createUserWithEmailAndPassword('user@example.com', 'securePassword123')
-  .catch(error => console.error(error));
-```
-
-### 原因3：SDK メソッドに渡すデータ型が不正
-
-Firestore や Realtime Database へのデータ書き込み時に、期待される型と異なるデータ型が渡されると 400 [エラー](/glossary/エラー/)が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```javascript
-const userData = {
-  name: 'John',
-  email: undefined,
-  age: 30
+const firebaseConfig = {
+  apiKey: 'invalid-or-revoked-key',
+  authDomain: 'wrong-project.firebaseapp.com',
+  databaseURL: 'https://wrong-project.firebaseio.com'
 };
-db.collection('users').doc('user1').set(userData);
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 ```
 
 **After（修正後）：**
 
 ```javascript
-const userData = {
-  name: 'John',
-  email: null,
-  age: 30
+import { initializeApp } from 'firebase/app';
+import { getDatabase } from 'firebase/database';
+
+const firebaseConfig = {
+  apiKey: 'your-valid-api-key-from-console',
+  authDomain: 'your-project.firebaseapp.com',
+  databaseURL: 'https://your-project.firebaseio.com',
+  projectId: 'your-project-id'
 };
-db.collection('users').doc('user1').set(userData);
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 ```
 
-循環参照（あるデータが自分自身を参照すること）を含むオブジェクトも不正です。
+### 原因3：必須フィールドが欠落している
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+Firestore ドキュメントの作成・更新時に、スキーマで定義された必須フィールドを送信していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
 
-```javascript
-const obj = { name: 'test' };
-obj.self = obj;  // 循環参照
-db.collection('items').doc('item1').set(obj);
+**Before（エラーが起きるコード）：**
+
+```python
+from firebase_admin import firestore
+
+db = firestore.client()
+# name フィールドが必須だが、email だけを送信
+db.collection('users').document('user123').set({
+    'email': 'user@example.com'
+})
 ```
 
 **After（修正後）：**
 
-```javascript
-const obj = { name: 'test', parent: 'root' };
-db.collection('items').doc('item1').set(obj);
+```python
+from firebase_admin import firestore
+
+db = firestore.client()
+db.collection('users').document('user123').set({
+    'name': 'John Doe',
+    'email': 'user@example.com',
+    'createdAt': firestore.SERVER_TIMESTAMP
+})
 ```
 
-### 原因4：REST API のリクエストヘッダーが不正
+### 原因4：Content-Type ヘッダーが不正である
 
-Firebase [REST](/glossary/rest/) [API](/glossary/api/)（外部からの[通信](/glossary/通信/)インターフェース）を直接呼び出す場合、Content-Type [ヘッダー](/glossary/ヘッダー/)（データ形式を指定する設定）や[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が不正だと 400 [エラー](/glossary/エラー/)が発生します。
+REST API 経由で Firebase にリクエストを送信する際、`Content-Type` ヘッダーが `application/json` に設定されていない場合、リクエストボディが JSON として解析されず 400 エラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
-curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -d '{"email":"user@example.com","password":"password123"}'
+curl -X POST https://firebaseio.com/users.json \
+  -d '{"name":"John","age":30}'
+  # Content-Type ヘッダーを指定していない
 ```
 
 **After（修正後）：**
 
 ```bash
-curl -X POST https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser \
-  -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"password123","returnSecureToken":true}'
+curl -X POST https://firebaseio.com/users.json \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"John","age":30}'
 ```
 
-### 原因5：Firestore ドキュメント ID の不正な形式
+### 原因5：Authentication/Authorization トークンが無効または期限切れ
 
-ドキュメント ID として使用できない文字列（スラッシュなど）を含む場合、400 [エラー](/glossary/エラー/)が発生します。
+Firebase Authentication のトークン（ID Token）が期限切れになっているか、無効な形式で送信されている場合に 400 エラーが返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
-db.collection('users').doc('user/123').set({ name: 'John' });
+const idToken = 'expired-or-malformed-token';
+
+fetch('https://firebaseio.com/data.json', {
+  method: 'GET',
+  headers: {
+    'Authorization': idToken  // Bearer スキームが欠落
+  }
+});
 ```
 
 **After（修正後）：**
 
 ```javascript
-db.collection('users').doc('user_123').set({ name: 'John' });
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth();
+const user = auth.currentUser;
+
+if (user) {
+  const idToken = await user.getIdToken(true);  // 最新トークンを取得
+  
+  fetch('https://firebaseio.com/data.json', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${idToken}`
+    }
+  });
+}
 ```
+
+## Firebase ツール固有の注意点
+
+### Firestore の場合
+
+Firestore REST API を直接呼び出す場合、リクエストボディに `fields` オブジェクトを正しくネストする必要があります。フィールド値の型（`stringValue`、`integerValue`、`booleanValue` など）を明示的に指定しないと 400 エラーになります。
+
+```json
+// 正しいフォーマット
+{
+  "fields": {
+    "name": {
+      "stringValue": "John"
+    },
+    "age": {
+      "integerValue": "30"
+    }
+  }
+}
+```
+
+### Realtime Database の場合
+
+`.json` エンドポイント経由でのアクセス時に、スラッシュ文字や特殊文字を含むパスが URL エンコードされていないと 400 エラーが発生します。パス内の空白やスペースは必ず `%20` に置き換える必要があります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+curl https://firebaseio.com/user data.json
+```
+
+**After（修正後）：**
+
+```bash
+curl 'https://firebaseio.com/user%20data.json'
+```
+
+### Cloud Functions との連携時
+
+Firebase Admin SDK を使用する際、サービスアカウント認証情報の JSON ファイルが正しく初期化されていないと 400 エラーが発生します。環境変数 `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# 認証情報ファイルが指定されていない
+app = firebase_admin.initialize_app()
+db = firestore.client()
+```
+
+**After（修正後）：**
+
+```python
+import firebase_admin
+from firebase_admin import credentials, firestore
+import os
+
+# サービスアカウント JSON をダウンロードし、パスを指定
+cred = credentials.Certificate('path/to/serviceAccountKey.json')
+app = firebase_admin.initialize_app(cred)
+db = firestore.client()
+```
+
+## それでも解決しない場合
+
+### デバッグ手順
+
+1. **ネットワークレスポンスを確認**：ブラウザの開発者ツール（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。エラー詳細がレスポンスボディに含まれることがあります。
+
+2. **Firebase コンソールで API キーの状態を確認**：
+   - Firebase Console → プロジェクト設定 → API キー
+   - 該当するキーが有効化されているか、制限が適切に設定されているかを確認してください。
+
+3. **ローカルでのリクエスト検証**：`curl` コマンドや Postman を使用してリクエストを再現し、JSON の妥当性を確認してください。
+
+4. **Firebase ルール（Security Rules）を確認**：Firestore/Realtime Database のセキュリティルールが正しく設定されているか確認してください。ルール違反は 401/403 エラーですが、ルール構文エラーが 400 を返すことがあります。
+
+### ログの確認
+
+Firebase Console の「ログと統計」セクションで詳細なエラーログを確認できます。また、ブラウザコンソールで以下を実行し、詳細なエラーメッセージを取得してください：
+
+```javascript
+firebase.initializeApp(config);
+firebase.firestore().enableLogging(true);  // Firestore デバッグログを有効化
+```
+
+### 参考リソース
+
+- Firebase 公式ドキュメント：[Firestore エラーハンドリング](https://firebase.google.com/docs/firestore/troubleshoot)
+- Firebase Realtime Database REST API ドキュメント：[Authentication](https://firebase.google.com/docs/database/rest/auth)
+- GitHub Issues：Firebase JavaScript SDK の既知の問題は [firebase-js-sdk リポジトリ](https://github.com/firebase/firebase-js-sdk/issues) で確認可能です。
+
+---
+
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

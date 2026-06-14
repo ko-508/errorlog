@@ -1,7 +1,7 @@
 ---
 title: "Docker Compose の 401 エラー：原因と解決策"
 date: 2026-05-30
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 description: "コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "401"
@@ -10,111 +10,270 @@ error_type: "401"
 components: ["Compose", "Registry"]
 related_services: ["Docker Hub", "Azure Container Registry", "AWS ECR", "GCP Artifact Registry", "GitHub Actions", "GitLab", "Jenkins"]
 ---
-[Docker](/glossary/docker/) Composeで401[エラー](/glossary/エラー/)が発生した場合、コンテナーレジストリーへの[認証](/glossary/認証/)に失敗しています。この[エラー](/glossary/エラー/)はプライベートイメージをpullしようとする際に最も頻繁に起こります。
 
-## よくある原因
+## エラーの概要
 
-**docker loginを実行していない**
+Docker Composeで401エラーが発生する場合、コンテナレジストリーへの認証に失敗しています。このエラーはプライベートイメージをpullしようとする際に最も頻繁に発生し、レジストリー側が「認証情報が不正または未提供」と判定した状態です。Docker Hubやプライベートレジストリー（ECR、GCR、プライベートDockerレジストリーなど）の両方で起こりえます。
 
-docker composeを実行する前にdocker login[コマンド](/glossary/コマンド/)で[認証](/glossary/認証/)を済ませていないと、プライベートレジストリーの[イメージ](/glossary/イメージ/)をpullできません。認証情報が保存されていないため、レジストリー側は401（[認証](/glossary/認証/)が必要）で応答します。
+## 実際のエラーメッセージ例
 
-**compose.yml内のimageフィールドでプライベートレジストリーを参照しているが[認証](/glossary/認証/)されていない**
-
-compose.ymlでプライベートレジストリーの[イメージ](/glossary/イメージ/)を指定している場合、そのレジストリーに対する[認証](/glossary/認証/)が完了していないと401[エラー](/glossary/エラー/)になります。例えば `image: myregistry.azurecr.io/myapp:latest` のようなURLが含まれているのに[認証](/glossary/認証/)がないパターンです。
-
-**[CI/CD](/glossary/ci-cd/)環境で認証情報が渡されていない**
-
-GitHub ActionsやJenkinsなどの[CI/CD](/glossary/ci-cd/)環境ではローカルのdocker loginが存在しません。認証情報を[環境変数](/glossary/環境変数/)またはシークレット経由で明示的に渡す必要があります。これを忘れるとdocker compose pullが失敗します。
-
-## 解決手順
-
-**ステップ1：ローカル環境での[認証](/glossary/認証/)を確認する**
-
-まずdocker login[コマンド](/glossary/コマンド/)でレジストリーに[認証](/glossary/認証/)します。[Docker](/glossary/docker/) Hubの場合は以下を実行します。
-
-```bash
-docker login
+```
+ERROR: for <service-name>  UnexpectedStatusError(401): 401 Client Error: Unauthorized for url: https://index.docker.io/v2/<image-name>/manifests/latest
 ```
 
-プロンプトに従ってユーザー名と[パスワード](/glossary/パスワード/)を入力します。プライベートレジストリー（Azure Container Registry、AWS ECR、GCP Artifact Registryなど）の場合はレジストリーURLを指定します。
-
-```bash
-docker login <レジストリーURL>
-# 例：Azure Container Registryの場合
-docker login myregistry.azurecr.io
+```json
+{
+  "message": "unauthorized: authentication required",
+  "details": "https://docs.docker.com/docker-hub/access-tokens/"
+}
 ```
 
-**ステップ2：compose.ymlのimageフィールドを確認する**
+```
+ERROR: for myapp  pull access denied for myregistry.azurecr.io/myimage, repository does not exist or may require 'docker login': denied: authentication required
+```
 
-compose.ymlでイメージパスが正確に指定されているか確認します。プライベートレジストリーを使用している場合、フルパスにレジストリーURLを含める必要があります。
+## よくある原因と解決手順
+
+### 原因1：docker loginを実行していない
+
+Docker Composeでプライベートイメージをpullする前に、`docker login`コマンドで認証を済ませていない状況です。認証情報が`~/.docker/config.json`に保存されていないため、レジストリー側は401で応答します。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# 認証なしで直接実行
+$ docker-compose up
+ERROR: for webapp  UnexpectedStatusError(401): 401 Client Error: Unauthorized
+```
+
+**After（修正後）：**
+
+```bash
+# 1. 先に認証を完了させる
+$ docker login
+Username: <your-username>
+Password: <your-password>
+Login Succeeded
+
+# 2. その後にdocker-composeを実行
+$ docker-compose up
+```
+
+### 原因2：compose.ymlで正しい認証情報が参照されていない
+
+compose.ymlにレジストリー認証情報を含めるとき、`x-aws-cred-helper`や`credHelpers`設定が不正な場合や、設定ファイル自体が存在しない場合に401が発生します。
+
+**Before（エラーが起きるコード）：**
 
 ```yaml
 version: '3.8'
 services:
   app:
     image: myregistry.azurecr.io/myapp:latest
-    # または
-    image: <レジストリーURL>/<リポジトリー>:<タグ>
+    # 認証情報が指定されていない
 ```
 
-**ステップ3：docker compose pullを実行する**
-
-認証後、docker compose pull[コマンド](/glossary/コマンド/)で[イメージ](/glossary/イメージ/)をpullしてから、docker compose upを実行します。
-
-```bash
-docker compose pull
-docker compose up -d
-```
-
-**ステップ4：[CI/CD](/glossary/ci-cd/)環境での認証設定**
-
-GitHub Actionsの場合、以下のようにシークレットを使用して認証情報を渡します。
+**After（修正後）：**
 
 ```yaml
-- name: Log in to Container Registry
-  run: |
-    echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login \
-      -u "${{ secrets.REGISTRY_USERNAME }}" \
-      --password-stdin <レジストリーURL>
-
-- name: Pull and run Docker Compose
-  run: docker compose pull && docker compose up -d
+version: '3.8'
+services:
+  app:
+    image: myregistry.azurecr.io/myapp:latest
+    # ~/.docker/config.json に認証情報があることを確認
+    # または以下のように環境ファイルから読み込む
+    environment:
+      - DOCKER_USERNAME=${DOCKER_USERNAME}
+      - DOCKER_PASSWORD=${DOCKER_PASSWORD}
 ```
 
-GitLabの場合は、`.gitlab-ci.yml`内で[環境変数](/glossary/環境変数/)を設定します。
-
-```yaml
-deploy:
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - echo $REGISTRY_PASSWORD | docker login -u $REGISTRY_USERNAME --password-stdin $REGISTRY_URL
-  script:
-    - docker compose pull
-    - docker compose up -d
-```
-
-**ステップ5：認証情報の確認**
-
-docker config[コマンド](/glossary/コマンド/)で、現在の認証情報が正しく保存されているか確認できます。
+`~/.docker/config.json`の確認：
 
 ```bash
-cat ~/.docker/config.json
+$ cat ~/.docker/config.json
+{
+  "auths": {
+    "myregistry.azurecr.io": {
+      "auth": "base64encodedcredentials"
+    }
+  }
+}
 ```
 
-このファイルにレジストリーのエントリが存在し、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が保存されていることを確認します。
+### 原因3：レジストリーのアクセストークンが期限切れまたは無効
+
+Docker Hubやプライベートレジストリーで生成したアクセストークンが期限切れ、削除された、または権限が制限されている場合です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# 以前のトークンで認証済み
+$ docker login
+Username: <your-username>
+Password: <expired-token>
+# 後日、403または401エラーが発生
+```
+
+**After（修正後）：**
+
+```bash
+# 新しいトークンを生成してログイン（Docker Hubの場合）
+# Docker Hub の Account Settings > Security > New Access Token で新規生成
+$ docker logout  # 既存認証を削除
+$ docker login
+Username: <your-username>
+Password: <new-access-token>
+Login Succeeded
+
+# AWS ECRの場合
+$ aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
+```
+
+### 原因4：docker-compose.ymlで間違ったレジストリーURLを指定している
+
+イメージ名またはレジストリーURLのスペルミスや、ホスト名の不一致がある場合です。存在しないレジストリーやアクセス権限がないレジストリーへのアクセスで401が返されます。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+version: '3.8'
+services:
+  app:
+    # URLが正しくない、またはアクセス権限がないレジストリー
+    image: myregisty.azurecr.io/myapp:latest  # typo
+```
+
+**After（修正後）：**
+
+```yaml
+version: '3.8'
+services:
+  app:
+    # 正しいレジストリーURLを指定
+    image: myregistry.azurecr.io/myapp:latest
+```
+
+### 原因5：マルチレジストリー構成で認証スコープが不足している
+
+複数のプライベートレジストリーを使用する場合、各レジストリーに対して別々に`docker login`する必要があります。一つのレジストリーにのみログインしていると、他のレジストリーへのアクセスで401が発生します。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+version: '3.8'
+services:
+  app:
+    image: registry1.example.com/myapp:latest
+  worker:
+    # registry2への認証がない
+    image: registry2.example.com/myworker:latest
+```
+
+```bash
+$ docker login registry1.example.com
+# registry2には認証していない
+$ docker-compose up
+# registry2のイメージpullで401エラー
+```
+
+**After（修正後）：**
+
+```bash
+# 両方のレジストリーに認証
+$ docker login registry1.example.com
+$ docker login registry2.example.com
+$ docker-compose up
+```
+
+## Docker Compose固有の注意点
+
+### AWS ECR（Elastic Container Registry）での認証
+
+ECRはAWS IAM認証を使用するため、従来の`docker login`では対応できません。`aws ecr get-login-password`コマンドで一時的な認証トークンを取得する必要があります。
+
+```bash
+# ECR認証（12時間有効なトークンを生成）
+$ aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.ap-northeast-1.amazonaws.com
+
+# 認証後、docker-composeでECRイメージを参照可能
+$ docker-compose up
+```
+
+### Azure Container Registry（ACR）での認証
+
+ACRはサービスプリンシパルまたはアクセスキーでの認証が一般的です。
+
+```bash
+$ az acr login --name <your-acr-name>
+# または
+$ docker login <your-acr-name>.azurecr.io -u <your-username> -p <your-password>
+```
+
+### プライベートDockerレジストリーでの認証
+
+自社ホストのプライベートレジストリーを使用する場合、レジストリーがHTTPSではなくHTTPで動作している場合があります。その場合は`daemon.json`でレジストリーをinsecureなものとして指定する必要があります。
+
+```json
+{
+  "insecure-registries": ["myregistry.local:5000"]
+}
+```
+
+### .dockerconfigjsonの活用
+
+Kubernetesへのデプロイメント前にDocker Compose で動作確認する場合、設定ファイルの一貫性を保つことが重要です。
+
+```bash
+# ~/.docker/config.jsonが正しく設定されているか確認
+$ test -f ~/.docker/config.json && echo "Config file exists" || echo "Missing config file"
+```
 
 ## それでも解決しない場合
 
-認証情報を一度クリアしてから再度[ログイン](/glossary/ログイン/)してください。以前の間違った認証情報が[キャッシュ](/glossary/キャッシュ/)されている可能性があります。
+### デバッグログを有効化
+
+Docker Composeのデバッグモードで詳細なエラー情報を確認できます。
 
 ```bash
-docker logout <レジストリーURL>
-docker login <レジストリーURL>
+$ DOCKER_CONTENT_TRUST_DEBUG=1 docker-compose up
 ```
 
-また、[IAM](/glossary/iam/)[ロール](/glossary/ロール/)（AWS ECRやGCP Artifact Registryの場合）やマネージド[認証](/glossary/認証/)（Azure Container Registryの場合）を使用している環境では、ローカルのdocker loginではなくクラウドプロバイダーの[認証](/glossary/認証/)メカニズムを活用する必要があります。各プロバイダーの公式ドキュメントで、[Docker](/glossary/docker/) Composeとの統合方法を確認してください。
+### レジストリー接続テスト
+
+`curl`コマンドで認証状態を直接テストします。
+
+```bash
+# Docker Hubへの接続テスト（認証なし）
+$ curl -i https://index.docker.io/v2/library/ubuntu/manifests/latest
+# 401が返される場合は認証情報が必要
+
+# 認証後のテスト（Bearer tokenを使用）
+$ TOKEN=$(curl -s -u <username>:<password> "https://auth.docker.io/v2/token?service=registry.docker.io&scope=repository:library/ubuntu:pull" | jq -r '.token')
+$ curl -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/library/ubuntu/manifests/latest
+```
+
+### ログファイルの確認
+
+Dockerデーモンのログを確認します。
+
+```bash
+# Linux（systemd利用）
+$ journalctl -u docker --no-pager | tail -50
+
+# macOS（Docker Desktop）
+$ log stream --predicate 'process == "com.docker.vmnetd"' --level debug
+```
+
+### 公式ドキュメント
+
+- Docker公式ドキュメント：https://docs.docker.com/engine/reference/commandline/login/
+- Docker Compose認証：https://docs.docker.com/compose/compose-file/compose-file-v3/#image
+- AWS ECR認証：https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/getting-started-cli.html
+
+### コミュニティリソース
+
+- Docker Community Forums：https://forums.docker.com/
+- GitHub Issues（docker/compose）：https://github.com/docker/compose/issues
 
 ---
 

@@ -8,154 +8,296 @@ service: "Firebase"
 error_type: "408"
 components: ["Realtime Database"]
 related_services: ["Android", "Web", "JavaScript"]
+lastmod: 2026-06-14
 ---
-Firebase 408 [エラー](/glossary/エラー/)はクライアント側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[ネットワーク](/glossary/ネットワーク/)環境またはアプリケーションの処理速度が原因となります。
 
-## よくある原因
+## エラーの概要
 
-**[ネットワーク](/glossary/ネットワーク/)接続の不安定性**
+Firebase 408 エラーはクライアント側からのリクエストがタイムアウト時間内に完了できず、Firebase サーバーが接続を切断した状態です。HTTP 408 Request Timeout は、サーバーがリクエストの到着を待機している間に予定時間を超えたことを示します。ネットワーク環境の不安定性やアプリケーションの処理遅延、Firebase SDK の設定ミスが主な原因となります。
 
-WiFi や 4G 接続が途中で断絶したり、[パケット](/glossary/パケット/)損失が発生したりすると[リクエスト](/glossary/リクエスト/)が完了されません。特に移動中のモバイル環境や、企業の[ファイアウォール](/glossary/ファイアウォール/)経由でのアクセスでは接続が中断されやすくなります。Firebase [サーバー](/glossary/サーバー/)は[リクエスト](/glossary/リクエスト/)到着を待ちますが、[タイムアウト](/glossary/タイムアウト/)時間（デフォルト 30 秒程度）を超えると接続を切断し 408 を返します。
+## 実際のエラーメッセージ例
 
-**クライアント側の処理遅延**
-
-[リクエスト](/glossary/リクエスト/)送信前の処理（データベースクエリ、ファイル読み込み、画像圧縮など）が想定より長くかかると、[タイムアウト](/glossary/タイムアウト/)発動前に[エラー](/glossary/エラー/)となります。特に大容量データの同期や複雑な認証処理では、クライアント内での遅延が積み重なりやすいです。
-
-**Firebase クライアント [SDK](/glossary/sdk/) の設定不足**
-
-デフォルトの[タイムアウト](/glossary/タイムアウト/)値がアプリケーション要件に合わず、処理時間が長い[トランザクション](/glossary/トランザクション/)（バッチ書き込みなど）で頻発します。
-
-## 解決手順
-
-**ステップ 1：[ネットワーク](/glossary/ネットワーク/)接続を確認する**
-
-まずクライアント環境の[ネットワーク](/glossary/ネットワーク/)状態を確認します。WiFi 接続が不安定でないか、通信速度が著しく低下していないか確認してください。
-
-Android 環境での確認例：
-
-```java
-ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-Log.d("Network", "接続状態: " + isConnected);
-```
-
-Web 環境での確認例：
-
-```javascript
-// ネットワーク接続状態の確認
-if (navigator.onLine) {
-  console.log("オンライン状態");
-} else {
-  console.log("オフライン状態");
+```json
+{
+  "error": {
+    "code": 408,
+    "message": "Request timeout",
+    "details": "The request did not complete within the timeout period."
+  }
 }
 ```
 
-**ステップ 2：Firebase クライアント [SDK](/glossary/sdk/) の[タイムアウト](/glossary/タイムアウト/)設定を延長する**
+```
+PERMISSION_DENIED: Error: Request timeout after 30000ms
+    at Deferred.<anonymous> (firebase-app.js:123)
+    at processTicksAndRejectedCallbacks (internal/timers.js:1)
+```
 
-Android での設定例：
+## よくある原因と解決手順
 
-```java
-FirebaseDatabase database = FirebaseDatabase.getInstance();
-// タイムアウトを 60 秒に延長（デフォルト: 30秒）
-database.setLogLevel(Logger.Level.DEBUG);
-DatabaseReference ref = database.getReference();
+### 原因1：ネットワーク接続の不安定性
 
-// 接続タイムアウトの明示的な設定
-ref.child("your-path").addValueEventListener(new ValueEventListener() {
-  @Override
-  public void onDataChange(DataSnapshot snapshot) {
-    // 処理
+ネットワークが断絶したりパケット損失が発生したりすると、リクエストがサーバーに到達しないか、レスポンスが返ってきません。特にモバイル環境や WiFi 接続が弱い環境では 408 が発生しやすくなります。Firebase のデフォルトタイムアウト時間（30 秒程度）内にリクエストが完了しないと接続が切断されます。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+// タイムアウト時間を指定せずにリクエスト送信
+firebase.firestore().collection('users').doc('user-id').get();
+```
+
+**After（修正後）：**
+
+```javascript
+// タイムアウト時間を明示的に設定し、再試行ロジックを追加
+const db = firebase.firestore();
+const maxRetries = 3;
+let retries = 0;
+
+async function fetchUserWithRetry() {
+  while (retries < maxRetries) {
+    try {
+      const docRef = db.collection('users').doc('user-id');
+      // Firebase Admin SDK の場合はタイムアウト設定可能
+      const doc = await docRef.get();
+      return doc.data();
+    } catch (error) {
+      if (error.code === 'DEADLINE_EXCEEDED' || error.code === 408) {
+        retries++;
+        console.log(`Retry attempt ${retries}/${maxRetries}`);
+        await new Promise(resolve => setTimeout(resolve, 1000 * retries)); // 指数バックオフ
+      } else {
+        throw error;
+      }
+    }
   }
+}
+```
 
-  @Override
-  public void onCancelled(DatabaseError error) {
-    Log.e("Firebase", "エラーコード: " + error.getCode());
+### 原因2：Firebase SDK のタイムアウト設定が短すぎる
+
+Firebase SDK のタイムアウト設定がネットワーク遅延に対応できないほど短く設定されている場合、正常なリクエストでも 408 エラーが発生します。特にデータ量の多い操作や複雑なクエリでは処理時間が長くなります。
+
+**Before（エラーが起きるコード）：**
+
+```python
+# Firebase Admin SDK Python での短すぎるタイムアウト設定
+import firebase_admin
+from firebase_admin import firestore
+
+db = firestore.client()
+# デフォルトは無制限だが、カスタム設定で短く設定している場合
+doc = db.collection('large_data').document('doc_id').get(timeout=5)  # 5秒は短すぎる
+```
+
+**After（修正後）：**
+
+```python
+# タイムアウト時間を適切に延長
+import firebase_admin
+from firebase_admin import firestore
+
+db = firestore.client()
+# 大容量データの場合は 60 秒以上推奨
+doc = db.collection('large_data').document('doc_id').get(timeout=60)
+```
+
+### 原因3：Cloud Functions の実行時間が長すぎる
+
+Firebase Cloud Functions 内でのリクエスト処理が HTTP リクエストのタイムアウト時間を超えると、クライアント側で 408 エラーが発生します。Firebase Functions のデフォルトタイムアウトは 60 秒で、これを超える処理は完了する前に接続が切断されます。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+// 重い処理が多く、タイムアウト時間を超える可能性
+exports.processLargeDataset = functions.https.onCall(async (data, context) => {
+  const results = [];
+  for (let i = 0; i < 100000; i++) {
+    // 時間がかかる処理
+    const item = await complexCalculation(i);
+    results.push(item);
   }
+  return { success: true, results };
 });
 ```
 
-Web（JavaScript）での設定例：
+**After（修正後）：**
 
 ```javascript
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
+// 非同期処理で分割し、タイムアウト内に収める
+exports.processLargeDataset = functions.https.onCall(async (data, context) => {
+  // クライアント用の即座のレスポンスを返す
+  functions.tasks.taskQueue('process-dataset-task').enqueue({
+    userId: context.auth.uid,
+    dataSize: data.size
+  });
+  
+  return { status: 'Processing started', jobId: Date.now() };
+});
 
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-// リトライロジックを実装してタイムアウトに対応
-const fetchDataWithRetry = async (path, maxRetries = 3) => {
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      const response = await fetch(`https://<your-project>.firebaseio.com/${path}.json?timeout=60000ms`);
-      if (response.ok) {
-        return await response.json();
-      }
-    } catch (error) {
-      console.error(`試行 ${i + 1} 失敗: ${error.message}`);
-      if (i < maxRetries - 1) {
-        await new Promise(resolve => setTimeout(resolve, 2000 * (i + 1))); // 指数バックオフ
-      }
+// バックグラウンドタスクで実際の処理を行う
+exports.processDatasetTask = functions.tasks.taskQueue().onDispatch(async (req) => {
+  const { userId, dataSize } = req;
+  const results = [];
+  
+  for (let i = 0; i < dataSize; i++) {
+    const item = await complexCalculation(i);
+    results.push(item);
+    
+    // 定期的に進捗を記録
+    if (i % 1000 === 0) {
+      await admin.firestore().collection('processing_status')
+        .doc(userId).update({ progress: i / dataSize });
     }
   }
-  throw new Error("最大リトライ回数に達しました");
-};
-
-fetchDataWithRetry("your-path");
+  
+  return { success: true, totalProcessed: results.length };
+});
 ```
 
-**ステップ 3: リトライロジックを追加する**
+## Firebase 固有の注意点
 
-一時的な[ネットワーク](/glossary/ネットワーク/)障害に対応するため、[リトライ](/glossary/リトライ/)処理を実装します。
+### Firestore のクエリタイムアウト
+
+大規模なコレクションに対するクエリやインデックスが存在しないクエリは処理時間が長くなり、408 エラーを引き起こします。複合インデックスを作成したり、クエリを最適化したりしてください。
+
+**Before（エラーが起きるコード）：**
 
 ```javascript
-// Firebase Realtime Database での指数バックオフリトライ
-const retryableOperation = async (operation, maxRetries = 5) => {
-  let lastError;
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      return await operation();
-    } catch (error) {
-      lastError = error;
-      const delayMs = Math.pow(2, attempt) * 1000; // 1秒、2秒、4秒...
-      console.log(`${attempt + 1} 回目の試行失敗。${delayMs}ms 後に再試行します`);
-      await new Promise(resolve => setTimeout(resolve, delayMs));
-    }
-  }
-  throw lastError;
-};
+// インデックスなしで複数条件をフィルタリング
+const query = db.collection('products')
+  .where('category', '==', 'electronics')
+  .where('price', '>', 1000)
+  .where('inStock', '==', true)
+  .orderBy('createdAt', 'desc')
+  .get(); // インデックスがないと処理が遅い
 ```
 
-**ステップ 4：大容量[リクエスト](/glossary/リクエスト/)を分割する**
-
-バッチ書き込みや大容量データ取得の場合は、[リクエスト](/glossary/リクエスト/)を小分けにして[タイムアウト](/glossary/タイムアウト/)を回避します。
+**After（修正後）：**
 
 ```javascript
-// 大量のデータを分割して書き込み
-const writeLargeDataset = async (path, dataArray, batchSize = 100) => {
-  for (let i = 0; i < dataArray.length; i += batchSize) {
-    const batch = dataArray.slice(i, i + batchSize);
+// Firestore コンソールから複合インデックスを作成したうえで実行
+// または、クエリを分割して段階的に処理
+const query = db.collection('products')
+  .where('category', '==', 'electronics')
+  .where('price', '>', 1000)
+  .orderBy('createdAt', 'desc')
+  .limit(100); // 大量取得を避ける
+
+const snap = await query.get();
+const inStockItems = snap.docs.filter(doc => doc.data().inStock).map(doc => doc.data());
+```
+
+### Realtime Database の接続維持
+
+Realtime Database との接続が切断されると 408 が発生する可能性があります。連続接続を行う場合は再接続ロジックを実装してください。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+const ref = firebase.database().ref('users');
+ref.on('value', (snapshot) => {
+  console.log(snapshot.val());
+}); // エラーハンドリングがない
+```
+
+**After（修正後）：**
+
+```javascript
+const ref = firebase.database().ref('users');
+
+ref.on('value', (snapshot) => {
+  console.log(snapshot.val());
+}, (error) => {
+  if (error.code === 408 || error.code === 'NETWORK_ERROR') {
+    console.error('Connection timeout. Attempting to reconnect...');
+    setTimeout(() => {
+      ref.off('value');
+      // 再接続を試みる
+      ref.on('value', successCallback, errorCallback);
+    }, 2000);
+  }
+});
+
+function successCallback(snapshot) {
+  console.log(snapshot.val());
+}
+
+function errorCallback(error) {
+  console.error('Error:', error);
+}
+```
+
+### Authentication のタイムアウト
+
+ユーザー認証時にネットワーク遅延がある場合、ID トークン取得時に 408 が発生することがあります。リトライロジックと明示的なタイムアウト設定を組み合わせてください。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+firebase.auth().signInWithEmailAndPassword(email, password)
+  .then(user => console.log('Logged in:', user))
+  .catch(error => console.error(error));
+```
+
+**After（修正後）：**
+
+```javascript
+async function signInWithRetry(email, password, maxAttempts = 3) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      await Promise.all(batch.map(item => 
-        database.ref(`${path}/${item.id}`).set(item)
-      ));
-      console.log(`${i + batchSize} 件のデータを書き込み完了`);
+      const user = await firebase.auth().signInWithEmailAndPassword(email, password);
+      return user;
     } catch (error) {
-      console.error(`バッチ書き込みエラー: ${error.message}`);
-      throw error;
+      if ((error.code === 'auth/timeout' || error.message.includes('408')) && attempt < maxAttempts) {
+        console.log(`Authentication timeout. Retrying (${attempt}/${maxAttempts})`);
+        await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
+      } else {
+        throw error;
+      }
     }
   }
-};
+}
 ```
 
 ## それでも解決しない場合
 
-Firebase Cloud Logging で詳細な[ログ](/glossary/ログ/)を確認します。Cloud Console から **Logging → ログエクスプローラー** にアクセスし、リソースタイプを `Cloud Run` または `App Engine` に絞り込んで 408 [エラー](/glossary/エラー/)の発生パターンを分析してください。
+### デバッグログの確認
 
-同じ[ネットワーク](/glossary/ネットワーク/)環境の複数デバイスで発生する場合はネットワークインフラの問題の可能性があるため、ISP（インターネットサービスプロバイダー）に確認を取るか、VPN 接続で別ルート経由のテストを実施します。
+Firebase SDK のデバッグログを有効にしてタイムアウト発生のタイミングを特定してください。
 
-[タイムアウト](/glossary/タイムアウト/)値を最大限延長しても解決しない場合は、Firebase サポートに詳細なリクエストログ（タイムスタンプ、リクエストサイズ、[エンドポイント](/glossary/エンドポイント/)）を含めて報告してください。
+```javascript
+// JavaScript SDK のログを有効化
+firebase.database.enableLogging(true);
+firebase.firestore.enableLogging(true);
+```
+
+Android や iOS では Firebase Crashlytics のログ、Cloud Functions では Cloud Logging コンソールを確認します。特に「DEADLINE_EXCEEDED」メッセージが出ている場合は処理時間が長いことを示しています。
+
+### ネットワーク接続の検証
+
+クライアント側のネットワーク状態を監視して、接続が確立されているか確認してください。
+
+```javascript
+// ネットワーク接続状態の監視
+firebase.database().ref('.info/connected').on('value', (snapshot) => {
+  if (snapshot.val() === true) {
+    console.log('Firebase is connected');
+  } else {
+    console.log('Firebase is disconnected');
+  }
+});
+```
+
+### 公式ドキュメント参照
+
+- [Firebase SDK タイムアウト設定](https://firebase.google.com/docs)
+- [Cloud Functions の実行時間制限](https://cloud.google.com/functions/quotas)
+- [Firestore のパフォーマンス最適化](https://firebase.google.com/docs/firestore/best-practices)
+
+### コミュニティリソース
+
+Firebase GitHub Issues および Stack Overflow の「firebase」「firestore」タグで類似の 408 エラーを検索し、解決事例を参照することをお勧めします。
 
 ---
 

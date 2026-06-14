@@ -8,139 +8,221 @@ service: "Firebase"
 error_type: "504"
 components: ["Hosting", "Cloud Functions", "Realtime Database"]
 related_services: ["Firebase Console", "gcloud"]
+lastmod: 2026-06-14
 ---
 
-Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、クライアントに504[エラー](/glossary/エラー/)が返される状況です。この記事では原因の特定と具体的な解決方法を解説します。
+## エラーの概要
 
-## よくある原因
+Firebase HostingまたはCloud Functionsのバックエンド処理がタイムアウトし、クライアントに504 Gateway Timeoutエラーが返される状況です。このエラーは、リクエストに対して指定時間内にレスポンスが返されなかったことを示します。Firebase環境では、Cloud Functionsの実行時間制限やHostingの統合タイムアウト（通常60秒）を超過した場合に発生することが多く、本番環境で多くのユーザーに影響を与える可能性があります。
 
-**Cloud Functionsの処理時間がFirebase Hostingの[タイムアウト](/glossary/タイムアウト/)を超えている**
+## 実際のエラーメッセージ例
 
-Firebase HostingからCloud Functionsを呼び出す場合、Hostingの統合[タイムアウト](/glossary/タイムアウト/)制限（通常60秒）内に関数が応答を返す必要があります。データベースクエリが遅い、外部[API](/glossary/api/)の呼び出しが遅延している、複雑な計算処理が走っているなど、処理時間が長くなると504[エラー](/glossary/エラー/)が発生します。
+**ブラウザのコンソール出力例：**
 
-**[コールドスタート](/glossary/コールドスタート/)時の初期化処理に時間がかかっている**
-
-Cloud Functionsは関数が実行されていない状態から起動する際（[コールドスタート](/glossary/コールドスタート/)）、メモリ確保、ライブラリの読み込み、[データベース](/glossary/データベース/)接続の初期化などの処理が発生します。この初期化処理が[タイムアウト](/glossary/タイムアウト/)制限内に完了しないと504[エラー](/glossary/エラー/)になります。特にNode.jsで大量の依存ライブラリをインポートしている場合に顕著です。
-
-**外部サービスへの依存処理の遅延**
-
-Cloud Functionsから外部[API](/glossary/api/)やサードパーティサービスを呼び出す場合、そのサービスの応答時間がFirebaseの[タイムアウト](/glossary/タイムアウト/)制限を超えると504[エラー](/glossary/エラー/)になります。[ネットワーク](/glossary/ネットワーク/)状況が悪い、外部サービスが過負荷状態である、タイムゾーン違いで[レスポンス](/glossary/レスポンス/)が遅くなるなどの原因が考えられます。
-
-## 解決手順
-
-**手順1: Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)設定を確認・延長する**
-
-Firebase Console（console.firebase.google.com）にアクセスし、プロジェクトを選択します。左メニューから「ビルド」→「Cloud Functions」を開き、該当の関数をクリックします。「トリガー」タブで[タイムアウト](/glossary/タイムアウト/)値を確認し、必要に応じて変更します。
-
-```bash
-# コマンドラインでデプロイする場合、firebase.json で設定する
-gcloud functions deploy <関数名> \
-  --runtime nodejs18 \
-  --timeout=540s \
-  --memory=512MB \
-  --region=asia-northeast1
-```
-
-[タイムアウト](/glossary/タイムアウト/)値は最大540秒（9分）まで延長できます。ただし処理が本当に長い場合は、後述の最適化を優先してください。
-
-**手順2: 初期化処理をグローバルスコープに移動し[コールドスタート](/glossary/コールドスタート/)を高速化する**
-
-Cloud Functionsでは、関数のハンドラ外（グローバルスコープ）に記述した処理は[コールドスタート](/glossary/コールドスタート/)時に1回だけ実行され、以後の[リクエスト](/glossary/リクエスト/)で再実行されません。[データベース](/glossary/データベース/)接続、ライブラリの初期化、認証情報の読み込みなどをグローバルスコープに移動します。
-
-```javascript
-// 悪い例：毎回実行される
-exports.myFunction = functions.https.onRequest((req, res) => {
-  const db = admin.database(); // 毎回初期化される
-  const query = db.ref('users').orderByChild('age').limitToFirst(100);
-  query.once('value').then(snapshot => {
-    res.send(snapshot.val());
-  });
-});
-
-// 良い例：初期化は1回だけ
-const admin = require('firebase-admin');
-admin.initializeApp();
-const db = admin.database(); // グローバルスコープで1回だけ実行
-
-exports.myFunction = functions.https.onRequest((req, res) => {
-  const query = db.ref('users').orderByChild('age').limitToFirst(100);
-  query.once('value').then(snapshot => {
-    res.send(snapshot.val());
-  });
-});
-```
-
-**手順3: 数分後に再試行する**
-
-[コールドスタート](/glossary/コールドスタート/)による一時的な504[エラー](/glossary/エラー/)の場合、クライアント側で数秒～数分待機後に自動再試行する仕組みを実装します。Firebaseクライアントライブラリは自動[リトライ](/glossary/リトライ/)を行いますが、明示的に指定することもできます。
-
-```javascript
-// JavaScript/TypeScript クライアント側での再試行例
-async function callFunctionWithRetry(functionName, data, maxRetries = 3) {
-  const functions = firebase.functions('asia-northeast1');
-  const callable = functions.httpsCallable(functionName);
-  
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      const result = await callable(data);
-      return result.data;
-    } catch (error) {
-      if (error.code === 'unavailable' || error.code === 'deadline-exceeded') {
-        if (attempt < maxRetries - 1) {
-          const delay = Math.pow(2, attempt) * 1000; // 指数バックオフ
-          await new Promise(resolve => setTimeout(resolve, delay));
-          continue;
-        }
-      }
-      throw error;
-    }
+```json
+{
+  "error": {
+    "code": 504,
+    "message": "The service you requested timed out and did not complete before the deadline. This typically indicates the service is overloaded or not responding quickly enough."
   }
 }
 ```
 
-**手順4: 関数のメモリ割り当てを増やす**
+**Cloud Functions のログ例：**
 
-メモリ割り当てを増やすと、CPUリソースも同時に増加し、処理速度が上がります。Firebase Consoleで関数をクリックし、「ランタイム設定」からメモリを変更します（256MB～8GBで選択可能）。
-
-```bash
-# コマンドラインでメモリ設定（例：1GB）
-gcloud functions deploy <関数名> \
-  --memory=1GB \
-  --timeout=300s
+```
+Function execution took 61234ms, exceeding the 60000ms timeout.
 ```
 
-**手順5: 処理を分割し、非同期タスクキューを使う**
+**HTTP レスポンス例：**
 
-[データベース](/glossary/データベース/)の大量書き込みなど時間がかかる処理は、Cloud Tasks（非同期タスクキュー）に委譲します。クライアントには素早く応答を返し、バックグラウンドで処理を続けます。
+```
+HTTP/1.1 504 Gateway Timeout
+Content-Type: application/json
+
+{
+  "error": "deadline_exceeded",
+  "message": "Cloud Functions did not complete execution within the timeout period"
+}
+```
+
+## よくある原因と解決手順
+
+### 1. Cloud Functionsの処理時間がタイムアウト制限を超えている
+
+Cloud Functionsの実行時間がタイムアウト値を超えると504エラーが発生します。Firebase HostingからのリクエストはデフォルトでHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの遅延、外部APIの呼び出し遅延、処理の複雑さが原因となります。
+
+**Before（エラーが起きるコード）：**
 
 ```javascript
-// Cloud Tasks へのエンキュー例
-const tasks = require('@google-cloud/tasks');
-const tasksClient = new tasks.CloudTasksClient();
-
-exports.enqueueTask = functions.https.onRequest(async (req, res) => {
-  const project = '<your-project-id>';
-  const queue = 'my-queue';
-  const location = 'asia-northeast1';
-  const parent = tasksClient.queuePath(project, location, queue);
-  
-  const task = {
-    httpRequest: {
-      httpMethod: 'POST',
-      url: 'https://<region>-<your-project-id>.cloudfunctions.net/slowProcess',
-      headers: { 'Content-Type': 'application/json' },
-      body: Buffer.from(JSON.stringify(req.body)).toString('base64'),
-    },
-  };
-  
-  await tasksClient.createTask({ parent, task });
-  res.json({ message: 'タスクをキューに追加しました' });
+exports.slowFunction = functions.https.onRequest(async (req, res) => {
+  // 複雑で遅い処理（改善前）
+  const result = await db.collection('users').get(); // 大量データを同期取得
+  let totalTime = 0;
+  for (let user of result.docs) {
+    const data = await fetchExternalAPI(user.id); // 各ユーザーごとに逐次APIコール
+    totalTime += data.processingTime;
+  }
+  res.json({ total: totalTime });
 });
 ```
 
+**After（修正後）：**
+
+```javascript
+exports.fastFunction = functions.https.onRequest(async (req, res) => {
+  // 並列処理とクエリ最適化（改善後）
+  const result = await db.collection('users').limit(100).get(); // ページネーション導入
+  const promises = result.docs.map(user => 
+    fetchExternalAPI(user.id).catch(err => ({ processingTime: 0 }))
+  ); // 並列実行
+  const data = await Promise.all(promises);
+  res.json({ total: data.reduce((sum, d) => sum + d.processingTime, 0) });
+});
+```
+
+### 2. コールドスタート時の初期化処理に時間がかかっている
+
+Cloud Functionsの関数が一定期間実行されていない場合、起動時にメモリ確保やライブラリの読み込みが必要になります。大規模なライブラリの読み込みやデータベース接続の初期化がコールドスタート中に実行されると、タイムアウトに達しやすくなります。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+const admin = require('firebase-admin');
+const serviceAccount = require('./serviceAccountKey.json'); // 関数の起動時に読み込み
+const tf = require('@tensorflow/tfjs'); // 大規模ライブラリを毎回初期化
+const model = require('@tensorflow/tfjs-node');
+
+exports.mlFunction = functions.https.onRequest(async (req, res) => {
+  // コールドスタート時にTensorFlowをロードするため時間がかかる
+  const prediction = await model.predict(req.body.data);
+  res.json({ result: prediction });
+});
+```
+
+**After（修正後）：**
+
+```javascript
+const admin = require('firebase-admin');
+const serviceAccount = require('./serviceAccountKey.json');
+let tf = null;
+let model = null;
+let initialized = false;
+
+exports.mlFunction = functions.https.onRequest(async (req, res) => {
+  // グローバルスコープで初期化（ウォームスタート時は再利用）
+  if (!initialized) {
+    tf = require('@tensorflow/tfjs');
+    const tfNode = require('@tensorflow/tfjs-node');
+    model = await tf.loadLayersModel('indexeddb://my-model');
+    initialized = true;
+  }
+  const prediction = await model.predict(req.body.data);
+  res.json({ result: prediction });
+});
+```
+
+### 3. Cloud Functionsのメモリ割り当てが不足している
+
+メモリ割り当てが少ないと、CPUの性能も制限され、同じ処理でも実行時間が延びます。デフォルトの256MBから512MB以上に増やすことで、処理速度が向上し、タイムアウトを回避できます。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+# firebase.json
+{
+  "functions": {
+    "source": "functions",
+    "memory": 256  # デフォルト設定（低いメモリ割り当て）
+  }
+}
+```
+
+**After（修正後）：**
+
+```yaml
+# firebase.json
+{
+  "functions": {
+    "source": "functions",
+    "memory": 2048,  # 2GB に増加（処理速度が向上）
+    "timeoutSeconds": 540  # 必要に応じてタイムアウトも延長
+  }
+}
+```
+
+### 4. データベースクエリの効率性が低い
+
+Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。クエリの最適化やバッチ処理、インデックス設定により改善できます。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+exports.getOrdersWithUsers = functions.https.onRequest(async (req, res) => {
+  const orders = await db.collection('orders').get();
+  const results = [];
+  for (const order of orders.docs) {
+    const user = await db.collection('users').doc(order.data().userId).get();
+    results.push({ ...order.data(), user: user.data() });
+  }
+  res.json(results);
+});
+```
+
+**After（修正後）：**
+
+```javascript
+exports.getOrdersWithUsers = functions.https.onRequest(async (req, res) => {
+  // ページネーションとバッチ読み込みを利用
+  const orders = await db.collection('orders').limit(50).get();
+  const userIds = [...new Set(orders.docs.map(o => o.data().userId))];
+  const users = await db.getAll(...userIds.map(id => db.collection('users').doc(id)));
+  const userMap = new Map(users.map(u => [u.id, u.data()]));
+  
+  const results = orders.docs.map(o => ({
+    ...o.data(),
+    user: userMap.get(o.data().userId)
+  }));
+  res.json(results);
+});
+```
+
+## Firebase特有の注意点
+
+**Cloud Functionsのタイムアウト設定**
+
+Firebase CLIでデプロイする際、`firebase.json`でタイムアウト秒数を明示的に設定できます。デフォルトは60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎるタイムアウトは本質的な問題を隠すため、根本的な最適化を優先してください。
+
+**Realtime DatabaseとFirestoreの遅延**
+
+Realtime Databaseへの大量書き込みやFirestoreのトランザクション処理が遅い場合、Pub/Sub経由での非同期処理への移行を検討してください。HTTPリクエストを受け付ける関数から長時間の処理を切り離すことで、504エラーを回避できます。
+
+**Firebase Hostingの統合タイムアウト**
+
+Hostingから呼び出すCloud Functionsは、Hosting層でのタイムアウト（通常60秒）に加えて、Cloud Functions自体のタイムアウト制限の両方の影響を受けます。どちらかが先に達するかを意識して調整が必要です。
+
 ## それでも解決しない場合
 
-Firebase Consoleの「[ログ](/glossary/ログ/)」タブでCloud Functionsの詳細な[エラーログ](/glossary/エラーログ/)を確認してください。特に関数実行時間の推移、メモリ使用量、エラーメッセージを調査します。外部[API](/glossary/api/)の遅延が原因の場合は、その[API](/glossary/api/)の[タイムアウト](/glossary/タイムアウト/)設定や[ヘルスチェック](/glossary/ヘルスチェック/)状況を確認し、フォールバック処理の実装を検討してください。それでも解決しない場合はFirebase サポートに詳細な[ログ](/glossary/ログ/)とともに問い合わせてください。
+**ログの確認方法**
+
+```bash
+gcloud functions describe <関数名> --runtime nodejs18
+gcloud functions logs read <関数名> --limit 50
+```
+
+または、Firebase Consoleで「関数」>「ログ」タブから実行ログを確認してください。各リクエストの実行時間と完了状況を確認でき、504の発生パターンが明らかになります。
+
+**パフォーマンス分析**
+
+Cloud Profilerを有効化することで、CPUとメモリの使用状況をリアルタイムで監視できます。Firebase ConsoleまたはCloud Consoleで「パフォーマンス分析」セクションを確認し、ボトルネック箇所を特定してください。
+
+**公式ドキュメント**
+
+- 「Cloud Functionsのタイムアウトとメモリ管理」（Firebase公式）
+- 「Firestoreのパフォーマンス最適化ガイド」
+- 「Cloud Functionsのコールドスタート削減」
+
+問題が解決しない場合は、Firebase Support（有償アカウントの場合）またはGitHub上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を検索してください。
 
 ---
 

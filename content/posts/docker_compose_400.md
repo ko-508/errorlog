@@ -1,7 +1,7 @@
 ---
 title: "Docker Compose の 400 エラー：原因と解決策"
 date: 2026-05-30
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 description: "Docker Composeの設定またはAPIリクエストに誤りがある。Docker Compose 400 エラーの原因と解決策を解説します。"
 tags: ["Docker Compose"]
 errorCode: "400"
@@ -10,163 +10,197 @@ error_type: "400"
 components: ["Compose"]
 related_services: ["Docker", "yamllint", "YAML"]
 ---
-[Docker](/glossary/docker/) Composeで400[エラー](/glossary/エラー/)が発生する場合、compose.ymlの設定に問題があるか、[コマンド](/glossary/コマンド/)のオプション指定が誤っている可能性があります。[設定ファイル](/glossary/設定ファイル/)の検証と[コマンド](/glossary/コマンド/)の確認により、ほぼすべてのケースで解決します。
 
-## よくある原因
+## エラーの概要
 
-### compose.ymlのYAML書式エラー
+Docker Composeで400エラーが発生する場合、`compose.yml`（または`docker-compose.yml`）の設定に問題があるか、コマンドのオプション指定が誤っている可能性があります。このエラーはCompose自体が設定ファイルを正しくパースできないことを示しており、設定ファイルの検証とコマンド構文の確認により、ほぼすべてのケースで解決します。
 
-[YAML](/glossary/yaml/)形式の構文ミスが最も多い原因です。インデント（スペース）の不一致、タブ文字の混在、コロンの後の空白忘れなどが該当します。[YAML](/glossary/yaml/)はインデントに非常に敏感であり、2文字か4文字のスペースで統一する必要があります。タブ文字を使用するとパーサーが正しく解釈できず、400[エラー](/glossary/エラー/)が発生します。
+## 実際のエラーメッセージ例
 
-### サービス定義の必須キー不足または型エラー
-
-serviceセクション内で必須キーが欠けている、または値の型が仕様と異なる場合も400[エラー](/glossary/エラー/)になります。例えば、`ports`に文字列を指定すべきところに数値を指定したり、`environment`に配列ではなくオブジェクト形式を使用したりすると、[Docker](/glossary/docker/) Composeは設定を受け入れません。
-
-### docker composeコマンドのオプション指定誤り
-
-`docker compose up --detach`など、存在しないオプションを指定した場合や、オプションの値の形式が間違っている場合も400[エラー](/glossary/エラー/)が返されます。オプション名のスペル間違いや、廃止されたオプションの使用もこれに該当します。
-
-## 解決手順
-
-### ステップ1：docker compose configで設定を検証する
-
-まず、compose.ymlが正しく解析されているか確認します。以下の[コマンド](/glossary/コマンド/)を実行してください。
-
-```bash
-docker compose config
+```
+ERROR: The Compose file './docker-compose.yml' is invalid because:
+service 'web' has unsupported config option: 'cointainer_name'
 ```
 
-この[コマンド](/glossary/コマンド/)は[Docker](/glossary/docker/) Composeが解析した設定をそのまま出力します。[エラー](/glossary/エラー/)があれば、その時点で具体的なエラーメッセージが表示されます。メッセージに行番号が含まれている場合は、その箇所を重点的に確認してください。
+```json
+{
+  "error": "Invalid service configuration",
+  "message": "service 'db' config has unsupported option: 'envrionment'",
+  "code": 400
+}
+```
 
-### ステップ2：compose.ymlのYAML構文をチェックする
+```
+Error response from daemon: Ports must be expressed as "port" (a number) or "port/protocol" (a string).
+```
 
-インデント、コロン、引用符などの構文を確認します。以下の点に注意してください。
+## よくある原因と解決手順
+
+### 原因1：compose.ymlのYAML構文エラー（インデント・タブ混在）
+
+YAML形式の構文ミスが最も多い原因です。インデント（スペース）の不一致、タブ文字の混在、コロンの後の空白忘れなどが該当します。YAMLはインデントに非常に敏感であり、2文字か4文字のスペースで統一する必要があります。タブ文字を使用するとパーサーが正しく解釈できず、400エラーが発生します。
+
+**Before（エラーが起きるコード）：**
 
 ```yaml
-# 正しい例
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+	ports:  # タブ文字が混在している
+      - "80:80"
+  db:
+   image: postgres:13  # インデントが統一されていない（スペース数が異なる）
+   environment:
+    POSTGRES_PASSWORD: secret
+```
+
+**After（修正後）：**
+
+```yaml
 version: '3.8'
 services:
   web:
     image: nginx:latest
     ports:
       - "80:80"
-    environment:
-      - NGINX_HOST=example.com
-      - NGINX_PORT=80
-
   db:
-    image: mysql:8.0
-    volumes:
-      - db_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
-
-volumes:
-  db_data:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: secret
 ```
 
+### 原因2：サービス定義の必須キー不足または値の型エラー
+
+serviceセクション内で必須キーが欠けている、または値の型が仕様と異なる場合も400エラーになります。例えば、`ports`に文字列を指定すべきところに数値を指定したり、`environment`をリスト形式で記述すべきところにオブジェクト形式で書いたりすると発生します。また、キー名のタイプミス（`cointainer_name`など）も認識されずエラーとなります。
+
+**Before（エラーが起きるコード）：**
+
 ```yaml
-# 間違った例
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    ports: 80 8080  # 正しい形式ではない
+    environment: NGINX_HOST=localhost NGINX_PORT=8080  # リスト形式で書くべき
+    cointainer_name: my_web  # キー名のタイプミス
+```
+
+**After（修正後）：**
+
+```yaml
 version: '3.8'
 services:
   web:
     image: nginx:latest
     ports:
-    - "80:80"  # インデント不足
+      - "80:80"
+      - "8080:8080"
     environment:
-    NGINX_HOST: example.com  # キーと値の関係が不明確
+      - NGINX_HOST=localhost
+      - NGINX_PORT=8080
+    container_name: my_web
 ```
 
-[YAML](/glossary/yaml/)リンターツール（例：yamllint）をローカルにインストールして検査することも有効です。
+### 原因3：イメージタグまたはレジストリ形式の誤り
 
-```bash
-# yamllintのインストール（Pythonが必要）
-pip install yamllint
+イメージ名の指定形式が不正な場合も400エラーが発生します。プライベートレジストリを使用する場合、`<registry>/<repository>:<tag>`形式を厳密に守る必要があります。また、無効なタグやホスト名を含むと、Composeのバリデーションに引っかかります。
 
-# compose.ymlを検査
-yamllint compose.yml
-```
-
-### ステップ3：サービス定義の型を確認する
-
-各サービスの主要キーの値の型が正しいか確認します。`ports`と`volumes`は配列形式が必須です。
+**Before（エラーが起きるコード）：**
 
 ```yaml
-# ポートの正しい指定例
-ports:
-  - "8080:80"        # 文字列
-  - target: 80       # オブジェクト形式
-    published: 8080
-    protocol: tcp
+version: '3.8'
+services:
+  app:
+    image: my-app:latest@sha256=abc123  # 無効な形式
+  db:
+    image: 192.168.1.1:5000/postgres  # ポート番号がない場合がある
+```
 
-# ボリュームの正しい指定例
+**After（修正後）：**
+
+```yaml
+version: '3.8'
+services:
+  app:
+    image: my-app:latest
+  db:
+    image: registry.example.com:5000/postgres:13
+```
+
+### 原因4：ネットワークまたはボリューム定義の不備
+
+`networks`または`volumes`トップレベルキーで定義されていないネットワーク・ボリュームを参照すると、400エラーが発生します。サービス内で使用するネットワークやボリュームは、必ずcompose.yml内で事前に定義するか、`external: true`で外部リソースとして明示する必要があります。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      - app_data:/var/www/html  # app_data が定義されていない
+    networks:
+      - backend  # backend が定義されていない
+```
+
+**After（修正後）：**
+
+```yaml
+version: '3.8'
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      - app_data:/var/www/html
+    networks:
+      - backend
+
 volumes:
-  - /host/path:/container/path
-  - named_volume:/container/path
+  app_data:
+    driver: local
 
-# 環境変数の正しい指定例（配列とオブジェクトの両形式で可）
-environment:
-  - KEY1=value1
-  - KEY2=value2
-
-# または
-
-environment:
-  KEY1: value1
-  KEY2: value2
+networks:
+  backend:
+    driver: bridge
 ```
 
-### ステップ4：docker composeコマンドのオプションを確認する
+## Docker Compose固有の注意点
 
-使用している[コマンド](/glossary/コマンド/)が正しいか確認します。
+**compose.yml検証コマンド：** `docker compose config` コマンドを実行することで、ファイルの妥当性を即座に確認できます。このコマンドはファイルをパースして規範化された出力を表示するため、構文エラーを素早く発見できます。
 
 ```bash
-# ヘルプを表示
-docker compose --help
-
-# サブコマンド別のヘルプ（例：up）
-docker compose up --help
+docker compose -f compose.yml config
 ```
 
-正しい[コマンド](/glossary/コマンド/)例を以下に示します。
+**バージョン互換性：** `version`キーで指定したCompose仕様のバージョンが、インストール済みのDocker Composeバージョンで対応していない場合も400エラーになります。デフォルトは最新安定版を使用することを推奨します。
+
+**環境変数の展開エラー：** `${VARIABLE_NAME}`形式で環境変数を参照している場合、変数が定義されていないと展開時にエラーになる可能性があります。`.env`ファイルの存在確認と変数定義を必ず確認してください。
 
 ```bash
-# コンテナーをバックグラウンドで起動
-docker compose up -d
-
-# 特定のcompose.ymlファイルを指定
-docker compose -f ./custom-compose.yml up -d
-
-# サービスをビルドしてから起動
-docker compose up --build
-
-# コンテナーを停止・削除
-docker compose down
-
-# ログを表示
-docker compose logs -f
+docker compose --env-file .env up
 ```
 
-### ステップ5：特定のファイルパスを確認する
-
-複数のcompose.ymlが存在する場合、正しいファイルを指定しているか確認します。
-
-```bash
-# デフォルトのcompose.ymlを使用
-docker compose up -d
-
-# ファイル名またはパスを明示的に指定
-docker compose -f /path/to/compose.yml up -d
-
-# 複数のcomposeファイルをマージ
-docker compose -f compose.yml -f compose.override.yml up -d
-```
+**Buildコンテキストパスエラー：** `build`セクションで`context`や`dockerfile`を指定する場合、存在しないパスを記述すると400エラーが発生します。相対パスは`compose.yml`ファイルの位置を基準として解釈されるため注意が必要です。
 
 ## それでも解決しない場合
 
-`docker compose config --resolve-image-digests`を実行して、詳細な検証情報を確認してください。[ネットワーク](/glossary/ネットワーク/)接続の問題でレジストリー（[イメージ](/glossary/イメージ/)保管[サーバー](/glossary/サーバー/)）と[通信](/glossary/通信/)できていない場合も400[エラー](/glossary/エラー/)が返されることがあります。その場合は、[Docker](/glossary/docker/)[ログ](/glossary/ログ/)（`journalctl -u docker`）を確認し、[ネットワーク](/glossary/ネットワーク/)設定を見直してください。
+**ログ出力の詳細化：** `--verbose`フラグを付けてコマンドを再実行し、より詳細なエラーメッセージを確認してください。
 
-また、[Docker](/glossary/docker/) Composeのバージョンが古い場合、新しい設定キーが認識されないため、`docker compose version`で確認し、必要に応じてアップグレードします。
+```bash
+docker compose --verbose up 2>&1 | head -50
+```
+
+**YAML検証ツール：** [yamllint](https://github.com/adrienverge/yamllint) などのオンラインYAML検証ツールやコマンドラインツールを使用して、ファイルの構文をスタンドアロンで検証することも有効です。
+
+```bash
+yamllint compose.yml
+```
+
+**公式リファレンス確認：** Docker Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用しているバージョンの仕様を確認してください。キー名や値の型、必須キーが正確に記載されています。
+
+**GitHub Issuesの検索：** 同じエラーメッセージが記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を検索し、既知の問題や回避策がないか確認してください。
 
 ---
 
