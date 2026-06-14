@@ -38,6 +38,20 @@ FORCE           = os.getenv("FORCE", "0") == "1"
 MIN_CHARS       = 1200
 MAX_LINT_RETRIES = 2   # --from-lint モードでのリトライ上限
 
+# tool-guide 記事の除外フィルタ（lint_articles.classify_article と同ロジック）
+# tool-guide 記事（non_error_article）はエラー解決記事が安定するまで一時的に処理対象外。
+# 再開する場合は _is_error_article() のフィルタ条件を調整する。
+_NUMERIC_CODE_IN_STEM = re.compile(r"_\d{3}(?:[^0-9]|$)")
+
+
+def _is_error_article(path: Path, fm: dict) -> bool:
+    """エラー解決記事かどうかを判定する（lint_articles.classify_article と同一ロジック）。"""
+    if fm.get("errorCode", "").strip():
+        return True
+    if _NUMERIC_CODE_IN_STEM.search(path.stem):
+        return True
+    return False
+
 _SYSTEM = """\
 あなたは「ErrorLog（errorlog.jp）」専任のテクニカルライターです。
 日本人エンジニア向けに、HTTPエラーの原因と解決策を実用的に解説する記事を執筆します。
@@ -465,6 +479,10 @@ def main() -> None:
             text = src.read_text(encoding="utf-8")
             fm, body = parse_frontmatter(text)
             if fm.get("draft", "").lower() == "true":
+                continue
+            # tool-guide 記事（non_error_article）は一時的に除外。
+            # 再開する場合は下記 _is_error_article() フィルタを外す。
+            if not _is_error_article(src, fm):
                 continue
             if FORCE or needs_expand(body):
                 targets.append(src)

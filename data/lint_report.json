@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-14T02:17:45.544130+00:00",
+  "generated_at": "2026-06-14T13:05:49.708951+00:00",
   "articles": [
     {
       "path": "content/posts/ansible_400.md",
@@ -11,11 +11,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 43,
             "official": 1
           }
         }
       ],
       "source_tiers": {
+        "other": 43,
         "official": 1
       }
     },
@@ -38,13 +40,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2,
+            "other": 30,
             "official": 3
           }
         }
       ],
       "source_tiers": {
-        "other": 2,
+        "other": 30,
         "official": 3
       }
     },
@@ -58,11 +60,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 34,
             "official": 1
           }
         }
       ],
       "source_tiers": {
+        "other": 34,
         "official": 1
       }
     },
@@ -85,13 +89,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 3,
+            "other": 36,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 3,
+        "other": 36,
         "official": 1
       }
     },
@@ -110,11 +114,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 29,
             "official": 1
           }
         }
       ],
       "source_tiers": {
+        "other": 29,
         "official": 1
       }
     },
@@ -133,13 +139,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 11,
+            "other": 39,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 11,
+        "other": 39,
         "official": 6
       }
     },
@@ -158,12 +164,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2
+            "other": 60
           }
         }
       ],
       "source_tiers": {
-        "other": 2
+        "other": 60
       }
     },
     {
@@ -181,11 +187,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 67,
             "official": 3
           }
         }
       ],
       "source_tiers": {
+        "other": 67,
         "official": 3
       }
     },
@@ -199,8 +207,18 @@
           "detail": "言語名なしのコードブロックが1件"
         }
       ],
-      "infos": [],
-      "source_tiers": {}
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 73
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 73
+      }
     },
     {
       "path": "content/posts/aws_404.md",
@@ -217,12 +235,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2
+            "other": 28
           }
         }
       ],
       "source_tiers": {
-        "other": 2
+        "other": 28
       }
     },
     {
@@ -240,11 +258,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 46,
             "official": 8
           }
         }
       ],
       "source_tiers": {
+        "other": 46,
         "official": 8
       }
     },
@@ -258,12 +278,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 21
+            "other": 47
           }
         }
       ],
       "source_tiers": {
-        "other": 21
+        "other": 47
       }
     },
     {
@@ -281,11 +301,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 30,
             "official": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 30,
         "official": 4
       }
     },
@@ -304,12 +326,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 1
+            "other": 25
           }
         }
       ],
       "source_tiers": {
-        "other": 1
+        "other": 25
       }
     },
     {
@@ -331,15 +353,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 42,
             "official": 6,
-            "other": 3,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 42,
         "official": 6,
-        "other": 3,
         "community": 2
       }
     },
@@ -362,14 +384,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 16,
+            "other": 42,
             "official": 6,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 16,
+        "other": 42,
         "official": 6,
         "community": 2
       }
@@ -389,12 +411,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2
+            "other": 46
           }
         }
       ],
       "source_tiers": {
-        "other": 2
+        "other": 46
       }
     },
     {
@@ -407,14 +429,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 6,
-            "other": 2
+            "other": 56,
+            "official": 6
           }
         }
       ],
       "source_tiers": {
-        "official": 6,
-        "other": 2
+        "other": 56,
+        "official": 6
       }
     },
     {
@@ -432,13 +454,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 29,
+            "other": 53,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 29,
+        "other": 53,
         "official": 4
       }
     },
@@ -457,11 +479,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 43,
             "official": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 43,
         "official": 4
       }
     },
@@ -475,14 +499,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 2,
-            "other": 3
+            "other": 54,
+            "official": 2
           }
         }
       ],
       "source_tiers": {
-        "official": 2,
-        "other": 3
+        "other": 54,
+        "official": 2
       }
     },
     {
@@ -495,11 +519,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 30,
             "official": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 30,
         "official": 4
       }
     },
@@ -522,16 +548,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 54,
             "official": 2,
-            "community": 4,
-            "other": 1
+            "community": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 54,
         "official": 2,
-        "community": 4,
-        "other": 1
+        "community": 4
       }
     },
     {
@@ -549,13 +575,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4,
+            "other": 41,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 4,
+        "other": 41,
         "official": 4
       }
     },
@@ -574,12 +600,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 27
+            "other": 28
           }
         }
       ],
       "source_tiers": {
-        "other": 27
+        "other": 28
       }
     },
     {
@@ -592,14 +618,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 2,
-            "other": 8
+            "other": 59,
+            "official": 2
           }
         }
       ],
       "source_tiers": {
-        "official": 2,
-        "other": 8
+        "other": 59,
+        "official": 2
       }
     },
     {
@@ -617,13 +643,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 60,
+            "other": 74,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 60,
+        "other": 74,
         "official": 6
       }
     },
@@ -646,16 +672,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 46,
             "official": 6,
-            "community": 2,
-            "other": 2
+            "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 46,
         "official": 6,
-        "community": 2,
-        "other": 2
+        "community": 2
       }
     },
     {
@@ -677,13 +703,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 5,
+            "other": 62,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 5,
+        "other": 62,
         "official": 6
       }
     },
@@ -697,15 +723,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 50,
             "official": 6,
-            "other": 3,
             "community": 1
           }
         }
       ],
       "source_tiers": {
+        "other": 50,
         "official": 6,
-        "other": 3,
         "community": 1
       }
     },
@@ -724,15 +750,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 59,
             "official": 6,
-            "other": 5,
             "community": 1
           }
         }
       ],
       "source_tiers": {
+        "other": 59,
         "official": 6,
-        "other": 5,
         "community": 1
       }
     },
@@ -751,12 +777,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 54,
             "official": 4,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 54,
         "official": 4,
         "community": 2
       }
@@ -776,13 +804,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 45,
+            "other": 48,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 45,
+        "other": 48,
         "official": 1
       }
     },
@@ -809,15 +837,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 50,
             "official": 5,
-            "other": 7,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 50,
         "official": 5,
-        "other": 7,
         "community": 2
       }
     },
@@ -836,14 +864,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 6,
-            "other": 1
+            "other": 52,
+            "official": 6
           }
         }
       ],
       "source_tiers": {
-        "official": 6,
-        "other": 1
+        "other": 52,
+        "official": 6
       }
     },
     {
@@ -892,14 +920,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 4,
-            "other": 13
+            "other": 60,
+            "official": 4
           }
         }
       ],
       "source_tiers": {
-        "official": 4,
-        "other": 13
+        "other": 60,
+        "official": 4
       }
     },
     {
@@ -917,13 +945,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 49,
+            "other": 51,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 49,
+        "other": 51,
         "official": 4
       }
     },
@@ -942,12 +970,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 42,
             "community": 4,
             "official": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 42,
         "community": 4,
         "official": 2
       }
@@ -971,14 +1001,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 5,
+            "other": 48,
             "official": 4,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 5,
+        "other": 48,
         "official": 4,
         "community": 1
       }
@@ -1043,13 +1073,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 28,
+            "other": 29,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 28,
+        "other": 29,
         "official": 1
       }
     },
@@ -1063,13 +1093,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 35,
+            "other": 38,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 35,
+        "other": 38,
         "official": 6
       }
     },
@@ -1108,12 +1138,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 12
+            "other": 14
           }
         }
       ],
       "source_tiers": {
-        "other": 12
+        "other": 14
       }
     },
     {
@@ -1131,16 +1161,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 74,
             "official": 4,
-            "community": 2,
-            "other": 10
+            "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 74,
         "official": 4,
-        "community": 2,
-        "other": 10
+        "community": 2
       }
     },
     {
@@ -1158,14 +1188,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 29,
+            "other": 31,
             "official": 6,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 29,
+        "other": 31,
         "official": 6,
         "community": 2
       }
@@ -1185,14 +1215,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 25,
+            "other": 27,
             "official": 6,
             "community": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 25,
+        "other": 27,
         "official": 6,
         "community": 4
       }
@@ -1212,13 +1242,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 33,
+            "other": 34,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 33,
+        "other": 34,
         "official": 6
       }
     },
@@ -1237,11 +1267,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 47,
             "official": 6
           }
         }
       ],
       "source_tiers": {
+        "other": 47,
         "official": 6
       }
     },
@@ -1255,12 +1287,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 31,
             "official": 2,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 31,
         "official": 2,
         "community": 2
       }
@@ -1280,14 +1314,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 32,
+            "other": 35,
             "official": 6,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 32,
+        "other": 35,
         "official": 6,
         "community": 1
       }
@@ -1327,13 +1361,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 39,
+            "other": 40,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 39,
+        "other": 40,
         "official": 6
       }
     },
@@ -1352,14 +1386,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 35,
+            "other": 36,
             "official": 3,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 35,
+        "other": 36,
         "official": 3,
         "community": 1
       }
@@ -1404,11 +1438,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 44,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 44,
         "community": 2
       }
     },
@@ -1422,13 +1458,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2,
+            "other": 51,
             "official": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 2,
+        "other": 51,
         "official": 2
       }
     },
@@ -1451,14 +1487,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 6,
-            "other": 3
+            "other": 63,
+            "official": 6
           }
         }
       ],
       "source_tiers": {
-        "official": 6,
-        "other": 3
+        "other": 63,
+        "official": 6
       }
     },
     {
@@ -1480,12 +1516,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 70,
             "official": 6,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 70,
         "official": 6,
         "community": 2
       }
@@ -1505,16 +1543,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 59,
             "official": 6,
-            "community": 2,
-            "other": 4
+            "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 59,
         "official": 6,
-        "community": 2,
-        "other": 4
+        "community": 2
       }
     },
     {
@@ -1527,11 +1565,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 42,
             "official": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 42,
         "official": 2
       }
     },
@@ -1554,15 +1594,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 36,
             "official": 6,
-            "other": 3,
             "community": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 36,
         "official": 6,
-        "other": 3,
         "community": 4
       }
     },
@@ -1581,12 +1621,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4
+            "other": 53
           }
         }
       ],
       "source_tiers": {
-        "other": 4
+        "other": 53
       }
     },
     {
@@ -1608,14 +1648,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 6,
+            "other": 43,
             "official": 2,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 6,
+        "other": 43,
         "official": 2,
         "community": 2
       }
@@ -1680,13 +1720,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 59,
+            "other": 60,
             "official": 5
           }
         }
       ],
       "source_tiers": {
-        "other": 59,
+        "other": 60,
         "official": 5
       }
     },
@@ -1727,16 +1767,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 41,
             "official": 10,
-            "community": 2,
-            "other": 6
+            "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 41,
         "official": 10,
-        "community": 2,
-        "other": 6
+        "community": 2
       }
     },
     {
@@ -1852,15 +1892,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 57,
             "official": 2,
-            "other": 13,
             "community": 1
           }
         }
       ],
       "source_tiers": {
+        "other": 57,
         "official": 2,
-        "other": 13,
         "community": 1
       }
     },
@@ -1901,14 +1941,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 2,
-            "other": 7
+            "other": 60,
+            "official": 2
           }
         }
       ],
       "source_tiers": {
-        "official": 2,
-        "other": 7
+        "other": 60,
+        "official": 2
       }
     },
     {
@@ -1926,13 +1966,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 15,
+            "other": 81,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 15,
+        "other": 81,
         "official": 1
       }
     },
@@ -1951,14 +1991,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 2,
-            "other": 9
+            "other": 58,
+            "official": 2
           }
         }
       ],
       "source_tiers": {
-        "official": 2,
-        "other": 9
+        "other": 58,
+        "official": 2
       }
     },
     {
@@ -1980,15 +2020,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 53,
             "community": 14,
-            "other": 6,
             "official": 3
           }
         }
       ],
       "source_tiers": {
+        "other": 53,
         "community": 14,
-        "other": 6,
         "official": 3
       }
     },
@@ -2011,13 +2051,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 56,
+            "other": 63,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 56,
+        "other": 63,
         "official": 1
       }
     },
@@ -2036,14 +2076,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 4,
-            "other": 5
+            "other": 38,
+            "official": 4
           }
         }
       ],
       "source_tiers": {
-        "official": 4,
-        "other": 5
+        "other": 38,
+        "official": 4
       }
     },
     {
@@ -2061,12 +2101,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 7
+            "other": 65
           }
         }
       ],
       "source_tiers": {
-        "other": 7
+        "other": 65
       }
     },
     {
@@ -2088,14 +2128,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 3,
+            "other": 39,
             "community": 1,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 3,
+        "other": 39,
         "community": 1,
         "official": 1
       }
@@ -2115,13 +2155,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 10,
+            "other": 11,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 10,
+        "other": 11,
         "community": 2
       }
     },
@@ -2135,14 +2175,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 46,
+            "other": 49,
             "official": 3,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 46,
+        "other": 49,
         "official": 3,
         "community": 1
       }
@@ -2166,16 +2206,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 35,
             "official": 6,
-            "community": 2,
-            "other": 4
+            "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 35,
         "official": 6,
-        "community": 2,
-        "other": 4
+        "community": 2
       }
     },
     {
@@ -2193,11 +2233,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 42,
             "official": 6
           }
         }
       ],
       "source_tiers": {
+        "other": 42,
         "official": 6
       }
     },
@@ -2216,12 +2258,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 1
+            "other": 67
           }
         }
       ],
       "source_tiers": {
-        "other": 1
+        "other": 67
       }
     },
     {
@@ -2261,8 +2303,18 @@
           "detail": "言語名なしのコードブロックが1件"
         }
       ],
-      "infos": [],
-      "source_tiers": {}
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 23
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 23
+      }
     },
     {
       "path": "content/posts/minikube_400.md",
@@ -2274,8 +2326,18 @@
           "detail": "言語名なしのコードブロックが1件"
         }
       ],
-      "infos": [],
-      "source_tiers": {}
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 55
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 55
+      }
     },
     {
       "path": "content/posts/minikube_401.md",
@@ -2296,13 +2358,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4,
+            "other": 32,
             "official": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 4,
+        "other": 32,
         "official": 2
       }
     },
@@ -2321,14 +2383,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 4,
-            "other": 2
+            "other": 42,
+            "official": 4
           }
         }
       ],
       "source_tiers": {
-        "official": 4,
-        "other": 2
+        "other": 42,
+        "official": 4
       }
     },
     {
@@ -2350,15 +2412,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 48,
             "official": 2,
-            "other": 2,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 48,
         "official": 2,
-        "other": 2,
         "community": 2
       }
     },
@@ -2377,14 +2439,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 1,
+            "other": 44,
             "official": 1,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 1,
+        "other": 44,
         "official": 1,
         "community": 1
       }
@@ -2408,14 +2470,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4,
+            "other": 36,
             "official": 2,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 4,
+        "other": 36,
         "official": 2,
         "community": 2
       }
@@ -2520,16 +2582,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 45,
             "official": 6,
-            "community": 4,
-            "other": 8
+            "community": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 45,
         "official": 6,
-        "community": 4,
-        "other": 8
+        "community": 4
       }
     },
     {
@@ -2582,12 +2644,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 9
+            "other": 41
           }
         }
       ],
       "source_tiers": {
-        "other": 9
+        "other": 41
       }
     },
     {
@@ -2605,13 +2667,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 12,
+            "other": 57,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 12,
+        "other": 57,
         "official": 1
       }
     },
@@ -2652,14 +2714,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 50,
+            "other": 52,
             "official": 3,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 50,
+        "other": 52,
         "official": 3,
         "community": 1
       }
@@ -2679,14 +2741,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 47,
+            "other": 51,
             "official": 3,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 47,
+        "other": 51,
         "official": 3,
         "community": 1
       }
@@ -2701,13 +2763,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 39,
+            "other": 40,
             "official": 5
           }
         }
       ],
       "source_tiers": {
-        "other": 39,
+        "other": 40,
         "official": 5
       }
     },
@@ -2726,12 +2788,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 31,
             "official": 8,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 31,
         "official": 8,
         "community": 2
       }
@@ -2746,12 +2810,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 1
+            "other": 38
           }
         }
       ],
       "source_tiers": {
-        "other": 1
+        "other": 38
       }
     },
     {
@@ -2769,14 +2833,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 4,
-            "other": 1
+            "other": 39,
+            "official": 4
           }
         }
       ],
       "source_tiers": {
-        "official": 4,
-        "other": 1
+        "other": 39,
+        "official": 4
       }
     },
     {
@@ -2789,13 +2853,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 5,
+            "other": 70,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 5,
+        "other": 70,
         "official": 1
       }
     },
@@ -2834,14 +2898,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4,
+            "other": 56,
             "official": 2,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 4,
+        "other": 56,
         "official": 2,
         "community": 1
       }
@@ -2856,13 +2920,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2,
+            "other": 49,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 2,
+        "other": 49,
         "community": 1
       }
     },
@@ -2885,16 +2949,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 56,
             "official": 2,
-            "community": 4,
-            "other": 3
+            "community": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 56,
         "official": 2,
-        "community": 4,
-        "other": 3
+        "community": 4
       }
     },
     {
@@ -2916,16 +2980,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 34,
             "community": 4,
-            "official": 4,
-            "other": 2
+            "official": 4
           }
         }
       ],
       "source_tiers": {
+        "other": 34,
         "community": 4,
-        "official": 4,
-        "other": 2
+        "official": 4
       }
     },
     {
@@ -2942,8 +3006,18 @@
           "detail": "言語名なしのコードブロックが2件"
         }
       ],
-      "infos": [],
-      "source_tiers": {}
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 46
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 46
+      }
     },
     {
       "path": "content/posts/podman_500.md",
@@ -2955,12 +3029,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 24,
             "official": 4,
             "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 24,
         "official": 4,
         "community": 2
       }
@@ -2984,16 +3060,16 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 39,
             "official": 4,
-            "community": 2,
-            "other": 10
+            "community": 2
           }
         }
       ],
       "source_tiers": {
+        "other": 39,
         "official": 4,
-        "community": 2,
-        "other": 10
+        "community": 2
       }
     },
     {
@@ -3011,12 +3087,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 54
+            "other": 55
           }
         }
       ],
       "source_tiers": {
-        "other": 54
+        "other": 55
       }
     },
     {
@@ -3034,13 +3110,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 7,
+            "other": 71,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 7,
+        "other": 71,
         "community": 1
       }
     },
@@ -3059,12 +3135,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4
+            "other": 69
           }
         }
       ],
       "source_tiers": {
-        "other": 4
+        "other": 69
       }
     },
     {
@@ -3082,13 +3158,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 12,
+            "other": 47,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 12,
+        "other": 47,
         "community": 2
       }
     },
@@ -3111,12 +3187,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 14
+            "other": 63
           }
         }
       ],
       "source_tiers": {
-        "other": 14
+        "other": 63
       }
     },
     {
@@ -3138,12 +3214,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 16
+            "other": 82
           }
         }
       ],
       "source_tiers": {
-        "other": 16
+        "other": 82
       }
     },
     {
@@ -3161,14 +3237,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 43,
+            "other": 45,
             "official": 6,
             "community": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 43,
+        "other": 45,
         "official": 6,
         "community": 4
       }
@@ -3183,14 +3259,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 59,
+            "other": 67,
             "official": 2,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 59,
+        "other": 67,
         "official": 2,
         "community": 2
       }
@@ -3205,13 +3281,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2,
+            "other": 25,
             "official": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 2,
+        "other": 25,
         "official": 2
       }
     },
@@ -3230,13 +3306,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 41,
+            "other": 50,
             "official": 9
           }
         }
       ],
       "source_tiers": {
-        "other": 41,
+        "other": 50,
         "official": 9
       }
     },
@@ -3255,12 +3331,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 45
+            "other": 48
           }
         }
       ],
       "source_tiers": {
-        "other": 45
+        "other": 48
       }
     },
     {
@@ -3278,13 +3354,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 41,
+            "other": 42,
             "official": 6
           }
         }
       ],
       "source_tiers": {
-        "other": 41,
+        "other": 42,
         "official": 6
       }
     },
@@ -3298,14 +3374,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 5,
+            "other": 63,
             "official": 4,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 5,
+        "other": 63,
         "official": 4,
         "community": 1
       }
@@ -3320,13 +3396,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 58,
+            "other": 59,
             "official": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 58,
+        "other": 59,
         "official": 2
       }
     },
@@ -3340,12 +3416,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 49
+            "other": 51
           }
         }
       ],
       "source_tiers": {
-        "other": 49
+        "other": 51
       }
     },
     {
@@ -3358,13 +3434,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 49,
+            "other": 61,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 49,
+        "other": 61,
         "official": 1
       }
     },
@@ -3378,14 +3454,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 42,
+            "other": 53,
             "official": 1,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 42,
+        "other": 53,
         "official": 1,
         "community": 1
       }
@@ -3400,13 +3476,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2,
+            "other": 34,
             "official": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 2,
+        "other": 34,
         "official": 2
       }
     },
@@ -3425,14 +3501,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 32,
+            "other": 33,
             "official": 4,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 32,
+        "other": 33,
         "official": 4,
         "community": 2
       }
@@ -3447,14 +3523,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 2,
-            "other": 3
+            "other": 34,
+            "official": 2
           }
         }
       ],
       "source_tiers": {
-        "official": 2,
-        "other": 3
+        "other": 34,
+        "official": 2
       }
     },
     {
@@ -3467,14 +3543,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 46,
+            "other": 54,
             "official": 1,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 46,
+        "other": 54,
         "official": 1,
         "community": 1
       }
@@ -3489,11 +3565,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 28,
             "official": 3
           }
         }
       ],
       "source_tiers": {
+        "other": 28,
         "official": 3
       }
     },
@@ -3516,13 +3594,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 1,
+            "other": 28,
             "official": 3
           }
         }
       ],
       "source_tiers": {
-        "other": 1,
+        "other": 28,
         "official": 3
       }
     },
@@ -3541,12 +3619,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4
+            "other": 39
           }
         }
       ],
       "source_tiers": {
-        "other": 4
+        "other": 39
       }
     },
     {
@@ -3563,8 +3641,18 @@
           "detail": "言語名なしのコードブロックが1件"
         }
       ],
-      "infos": [],
-      "source_tiers": {}
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 21
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 21
+      }
     },
     {
       "path": "content/posts/terraform_409.md",
@@ -3585,12 +3673,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4
+            "other": 25
           }
         }
       ],
       "source_tiers": {
-        "other": 4
+        "other": 25
       }
     },
     {
@@ -3608,12 +3696,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 40
+            "other": 41
           }
         }
       ],
       "source_tiers": {
-        "other": 40
+        "other": 41
       }
     },
     {
@@ -3635,6 +3723,60 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
+            "other": 67
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 67
+      }
+    },
+    {
+      "path": "content/posts/tool_docker_compose.md",
+      "category": "non_error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 28
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 28
+      }
+    },
+    {
+      "path": "content/posts/tool_firebase.md",
+      "category": "non_error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 18
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 18
+      }
+    },
+    {
+      "path": "content/posts/tool_slack.md",
+      "category": "non_error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
             "other": 8
           }
         }
@@ -3644,56 +3786,22 @@
       }
     },
     {
-      "path": "content/posts/tool_docker_compose.md",
+      "path": "content/posts/tool_zoom.md",
       "category": "non_error_article",
-      "fails": [
-        {
-          "rule": "A3",
-          "detail": "本文が1267字（基準: 1,500字以上）"
-        }
-      ],
+      "fails": [],
       "warns": [],
       "infos": [
         {
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 27
+            "other": 12
           }
         }
       ],
       "source_tiers": {
-        "other": 27
+        "other": 12
       }
-    },
-    {
-      "path": "content/posts/tool_firebase.md",
-      "category": "non_error_article",
-      "fails": [],
-      "warns": [],
-      "infos": [],
-      "source_tiers": {}
-    },
-    {
-      "path": "content/posts/tool_slack.md",
-      "category": "non_error_article",
-      "fails": [],
-      "warns": [],
-      "infos": [],
-      "source_tiers": {}
-    },
-    {
-      "path": "content/posts/tool_zoom.md",
-      "category": "non_error_article",
-      "fails": [
-        {
-          "rule": "A3",
-          "detail": "本文が342字（基準: 1,500字以上）"
-        }
-      ],
-      "warns": [],
-      "infos": [],
-      "source_tiers": {}
     },
     {
       "path": "content/posts/vercel_400.md",
@@ -3705,13 +3813,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 4,
+            "other": 58,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 4,
+        "other": 58,
         "official": 4
       }
     },
@@ -3738,13 +3846,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 1,
+            "other": 62,
             "official": 5
           }
         }
       ],
       "source_tiers": {
-        "other": 1,
+        "other": 62,
         "official": 5
       }
     },
@@ -3767,14 +3875,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 2,
-            "other": 2
+            "other": 63
           }
         }
       ],
       "source_tiers": {
-        "official": 2,
-        "other": 2
+        "other": 63
       }
     },
     {
@@ -3792,14 +3898,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 6,
-            "other": 10
+            "other": 35,
+            "official": 6
           }
         }
       ],
       "source_tiers": {
-        "official": 6,
-        "other": 10
+        "other": 35,
+        "official": 6
       }
     },
     {
@@ -3812,14 +3918,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 6,
-            "other": 5
+            "other": 48,
+            "official": 6
           }
         }
       ],
       "source_tiers": {
-        "official": 6,
-        "other": 5
+        "other": 48,
+        "official": 6
       }
     },
     {
@@ -3837,14 +3943,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 6,
-            "other": 2
+            "other": 49,
+            "official": 6
           }
         }
       ],
       "source_tiers": {
-        "official": 6,
-        "other": 2
+        "other": 49,
+        "official": 6
       }
     },
     {
@@ -3866,14 +3972,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "official": 4,
-            "other": 3
+            "other": 29,
+            "official": 4
           }
         }
       ],
       "source_tiers": {
-        "official": 4,
-        "other": 3
+        "other": 29,
+        "official": 4
       }
     },
     {
@@ -3891,14 +3997,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 2,
+            "other": 37,
             "official": 1,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 2,
+        "other": 37,
         "official": 1,
         "community": 1
       }

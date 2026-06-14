@@ -526,14 +526,17 @@ def lint_article(path: Path) -> dict[str, Any]:
                 infos.append(entry)
 
     if is_error:
-        # A1/A2/B1/B3: エラー記事にのみ適用
+        # A1/A2/A3/B1/B3: エラー記事にのみ適用
+        # A3（1500字基準）はエラー解決記事の5セクション規格から導かれるため error_article 限定。
+        # tool-guide 記事（non_error_article）は除外。glossary が別ディレクトリで除外されているのと同じ一貫性。
+        # tool-guide 記事への適用を再開する場合はこのブロックから A3 を外へ移す。
         _add("FAIL", check_a1(body))
         _add("WARN", check_a2(body))
+        _add("FAIL", check_a3(body))
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
 
-    # A3/A4/A5/A6/B2/C1/D: 全記事に適用
-    _add("FAIL", check_a3(body))
+    # A4/A5/A6/B2/C1/D: 全記事に適用
     _add("WARN", check_a4(body))
     _add("WARN", check_a5(body))
     _add("FAIL", check_a6(fm, body, require_error_code=is_error))
