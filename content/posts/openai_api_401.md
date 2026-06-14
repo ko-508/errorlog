@@ -85,10 +85,10 @@ OPENAI_API_KEY=sk-proj-  # 不完全
 **After（修正後）：**
 ```bash
 # .env ファイル（正しい例）
-OPENAI_API_KEY=sk-proj-abc123def456ghi789jkl012mno345pqr678
+OPENAI_API_KEY=<your-api-key>
 
 # または実行時に確認
-export OPENAI_API_KEY="sk-proj-abc123def456ghi789jkl012mno345pqr678"
+export OPENAI_API_KEY="<your-api-key>"
 echo $OPENAI_API_KEY  # 値が表示されることを確認
 ```
 

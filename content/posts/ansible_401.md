@@ -183,8 +183,8 @@ ansible-playbook -i inventory.ini playbook.yml -K
         object: myfile.txt
         src: /tmp/myfile.txt
         mode: put
-        aws_access_key: "AKIAIOSFODNN7EXAMPLE"
-        aws_secret_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        aws_access_key: "<your-access-key-id>"
+        aws_secret_key: "<your-secret-access-key>"
 ```
 
 **After（修正後）：**
@@ -217,8 +217,8 @@ ansible-playbook -i inventory.ini playbook.yml -K
 
 # vault_secrets.yml（暗号化）
 # api_token: "your-valid-api-token"
-# aws_access_key_id: "AKIAIOSFODNN7EXAMPLE"
-# aws_secret_access_key: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+# aws_access_key_id: "<your-access-key-id>"
+# aws_secret_access_key: "<your-secret-access-key>"
 ```
 
 ```bash

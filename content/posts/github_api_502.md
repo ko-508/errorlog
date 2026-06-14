@@ -70,7 +70,7 @@ curl -H "Authorization: token <your-github-token>" \
 ```python
 import requests
 
-token = "ghp_invalidtoken"  # 形式が不正
+token = "<your-github-token>"  # 形式が不正
 headers = {"Authorization": f"token {token}"}
 response = requests.get("https://api.github.com/user", headers=headers)
 print(response.status_code)  # 502 が返される

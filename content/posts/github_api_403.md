@@ -60,7 +60,7 @@ curl -H "Authorization: token ghp_xxxxxxxxxxxx" \
 # - admin:repo_hook (Webhook管理)
 
 # 権限をもつトークンで再度実行
-curl -H "Authorization: token ghp_yyyyyyyyyyyy" \
+curl -H "Authorization: token <your-github-token>" \
   https://api.github.com/repos/<owner>/<private-repo>
 # → 200 OK
 ```

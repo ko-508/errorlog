@@ -57,7 +57,7 @@ $ curl -H "PRIVATE-TOKEN: glpat-xxxxxxxxxxxx" \
 # User Settings → Access Tokens → Add new token
 # スコープ: api, read_user, read_repository などを選択
 
-$ curl -H "PRIVATE-TOKEN: glpat-yyyyyyyyyyyy" \
+$ curl -H "PRIVATE-TOKEN: <your-gitlab-token>" \
   https://gitlab.example.com/api/v4/user
 # → 200 OK で成功
 ```

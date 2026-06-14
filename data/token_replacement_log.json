@@ -1,0 +1,308 @@
+{
+  "replaced_at": "2026-06-14T12:34:23Z",
+  "files_modified": 10,
+  "entries": [
+    {
+      "path": "content/posts/ansible_401.md",
+      "changes": [
+        {
+          "old_string": "AKIAIOSFODNN7EXAMPLE",
+          "new_string": "<your-access-key-id>",
+          "note": "AWS access key in Ansible vars",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 186,
+              "content": "aws_access_key: \"AKIAIOSFODNN7EXAMPLE\""
+            },
+            {
+              "line": 220,
+              "content": "# aws_access_key_id: \"AKIAIOSFODNN7EXAMPLE\""
+            }
+          ]
+        },
+        {
+          "old_string": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "new_string": "<your-secret-access-key>",
+          "note": "AWS secret key in Ansible vars",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 187,
+              "content": "aws_secret_key: \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\""
+            },
+            {
+              "line": 221,
+              "content": "# aws_secret_access_key: \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/aws_401.md",
+      "changes": [
+        {
+          "old_string": "AKIAIOSFODNN7EXAMPLE_WRONG",
+          "new_string": "<your-access-key-id>",
+          "note": "AWS access key Before example (wrong value)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 56,
+              "content": "export AWS_ACCESS_KEY_ID=\"AKIAIOSFODNN7EXAMPLE_WRONG\""
+            }
+          ]
+        },
+        {
+          "old_string": "AKIAIOSFODNN7EXAMPLE",
+          "new_string": "<your-access-key-id>",
+          "note": "AWS access key (all occurrences)",
+          "occurrences": 3,
+          "before_lines": [
+            {
+              "line": 66,
+              "content": "export AWS_ACCESS_KEY_ID=\"AKIAIOSFODNN7EXAMPLE\""
+            },
+            {
+              "line": 171,
+              "content": "aws_access_key_id = AKIAIOSFODNN7EXAMPLE"
+            },
+            {
+              "line": 179,
+              "content": "aws_access_key_id = AKIAIOSFODNN7EXAMPLE"
+            }
+          ]
+        },
+        {
+          "old_string": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "new_string": "<your-secret-access-key>",
+          "note": "AWS secret access key (slash variant)",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 57,
+              "content": "export AWS_SECRET_ACCESS_KEY=\"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\""
+            },
+            {
+              "line": 180,
+              "content": "aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+            }
+          ]
+        },
+        {
+          "old_string": "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
+          "new_string": "<your-secret-access-key>",
+          "note": "AWS secret access key (plus variant)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 67,
+              "content": "export AWS_SECRET_ACCESS_KEY=\"wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/github_api_401.md",
+      "changes": [
+        {
+          "old_string": "ghp_yyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+          "new_string": "<your-github-token>",
+          "note": "GitHub token Before example (wrong/expired)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 61,
+              "content": "$ curl -H \"Authorization: token ghp_yyyyyyyyyyyyyyyyyyyyyyyyyyyy\" \\"
+            }
+          ]
+        },
+        {
+          "old_string": "ghp_xxxx_publicscope_only",
+          "new_string": "<your-github-token>",
+          "note": "GitHub token (public scope example)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 109,
+              "content": "curl -H \"Authorization: token ghp_xxxx_publicscope_only\" \\"
+            }
+          ]
+        },
+        {
+          "old_string": "ghp_xxxx_with_repo_scope",
+          "new_string": "<your-github-token>",
+          "note": "GitHub token (repo scope example)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 120,
+              "content": "curl -H \"Authorization: token ghp_xxxx_with_repo_scope\" \\"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/github_api_403.md",
+      "changes": [
+        {
+          "old_string": "ghp_yyyyyyyyyyyy",
+          "new_string": "<your-github-token>",
+          "note": "GitHub token Before example (insufficient permissions)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 63,
+              "content": "curl -H \"Authorization: token ghp_yyyyyyyyyyyy\" \\"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/github_api_502.md",
+      "changes": [
+        {
+          "old_string": "ghp_invalidtoken",
+          "new_string": "<your-github-token>",
+          "note": "GitHub token Before example (invalid format)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 73,
+              "content": "token = \"ghp_invalidtoken\"  # 形式が不正"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/gitlab_401.md",
+      "changes": [
+        {
+          "old_string": "glpat-yyyyyyyyyyyy",
+          "new_string": "<your-gitlab-token>",
+          "note": "GitLab PAT Before example (expired)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 60,
+              "content": "$ curl -H \"PRIVATE-TOKEN: glpat-yyyyyyyyyyyy\" \\"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/openai_api_401.md",
+      "changes": [
+        {
+          "old_string": "sk-proj-abc123def456ghi789jkl012mno345pqr678",
+          "new_string": "<your-api-key>",
+          "note": "OpenAI API key (full 36-char value in env vars)",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 88,
+              "content": "OPENAI_API_KEY=sk-proj-abc123def456ghi789jkl012mno345pqr678"
+            },
+            {
+              "line": 91,
+              "content": "export OPENAI_API_KEY=\"sk-proj-abc123def456ghi789jkl012mno345pqr678\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/slack_500.md",
+      "changes": [
+        {
+          "old_string": "xoxb-old-expired-token-1234567890",
+          "new_string": "<your-bot-token>",
+          "note": "Slack bot token Before example (expired)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 198,
+              "content": "slack_token = \"xoxb-old-expired-token-1234567890\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/stripe_403.md",
+      "changes": [
+        {
+          "old_string": "sk_test_restricted_xxxxx",
+          "new_string": "<your-restricted-test-key>",
+          "note": "Stripe restricted test key",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 55,
+              "content": "# sk_test_restricted_xxxxx には \"charges:read\" のみ付与"
+            },
+            {
+              "line": 57,
+              "content": "-H \"Authorization: Bearer sk_test_restricted_xxxxx\" \\"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "content/posts/terraform_401.md",
+      "changes": [
+        {
+          "old_string": "AKIAIOSFODNN7EXAMPLE",
+          "new_string": "<your-access-key-id>",
+          "note": "AWS access key in Terraform/env",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 41,
+              "content": "export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE"
+            },
+            {
+              "line": 153,
+              "content": "access_key        = \"AKIAIOSFODNN7EXAMPLE\"  # キー名が誤っている"
+            }
+          ]
+        },
+        {
+          "old_string": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+          "new_string": "<your-secret-access-key>",
+          "note": "AWS secret key in Terraform/env",
+          "occurrences": 2,
+          "before_lines": [
+            {
+              "line": 42,
+              "content": "export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+            },
+            {
+              "line": 154,
+              "content": "secrect_access_key = \"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY\"  # タイプミス"
+            }
+          ]
+        },
+        {
+          "old_string": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYNEWKEY",
+          "new_string": "<your-secret-access-key>",
+          "note": "AWS secret key (new key variant)",
+          "occurrences": 1,
+          "before_lines": [
+            {
+              "line": 55,
+              "content": "export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYNEWKEY"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

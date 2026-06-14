@@ -38,8 +38,8 @@ AWS のアクセスキーが間違っているか、[IAM](/glossary/iam/)（AWS 
 
 ```bash
 # 期限切れまたは不正なキーを使用
-export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+export AWS_ACCESS_KEY_ID=<your-access-key-id>
+export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
 
 terraform plan
 ```
@@ -52,7 +52,7 @@ aws sts get-caller-identity
 
 # 有効なキーを再設定
 export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7NEWKEY
-export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYNEWKEY
+export AWS_SECRET_ACCESS_KEY=<your-secret-access-key>
 
 # または ~/.aws/credentials ファイルで管理
 cat ~/.aws/credentials
@@ -150,8 +150,8 @@ terraform init
 # main.tf
 provider "aws" {
   region            = "us-east-1"
-  access_key        = "AKIAIOSFODNN7EXAMPLE"  # キー名が誤っている
-  secrect_access_key = "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"  # タイプミス
+  access_key        = "<your-access-key-id>"  # キー名が誤っている
+  secrect_access_key = "<your-secret-access-key>"  # タイプミス
 }
 ```
 
