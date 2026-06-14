@@ -159,26 +159,56 @@ def _load_deleted_paths() -> set[str]:
         return set()
 
 
-def _load_needs_rewrite() -> list[str]:
-    """data/lint_report.json の needs_rewrite 記事パス一覧を返す。
+def _load_needs_rewrite() -> list[dict]:
+    """data/lint_report.json の needs_rewrite 記事エントリを返す。
 
     needs_rewrite = error_article かつ FAIL あり かつ B2 なし
+
+    各エントリ: {"path": str, "fail_rules": list[str]}
+    順序: A3のみFAIL（文字数不足）→ A1含むFAIL（旧テンプレート）
     """
     if not LINT_REPORT_PATH.exists():
         print(f"  [warn] lint_report.json が見つかりません: {LINT_REPORT_PATH}", file=sys.stderr)
         return []
     try:
         data = json.loads(LINT_REPORT_PATH.read_text(encoding="utf-8"))
-        paths = []
+        entries = []
         for r in data.get("articles", []):
             cat = r.get("category", "error_article")
-            fail_rules = {f["rule"] for f in r.get("fails", [])}
-            if cat == "error_article" and fail_rules and "B2" not in fail_rules:
-                paths.append(r["path"])
-        return paths
+            fail_rules = [f["rule"] for f in r.get("fails", [])]
+            fail_set = set(fail_rules)
+            if cat == "error_article" and fail_set and "B2" not in fail_set:
+                entries.append({"path": r["path"], "fail_rules": fail_rules})
+        # A3のみ（文字数不足）を先に、A1含む（旧テンプレート）を後に
+        entries.sort(key=lambda e: "A1" in e["fail_rules"])
+        return entries
     except Exception as e:
         print(f"  [warn] lint_report.json 読み込みエラー: {e}", file=sys.stderr)
         return []
+
+
+def _filter_pending(
+    entries: list[dict],
+    base_path: Path,
+    deleted_paths: set[str],
+) -> list[tuple[Path, list[str]]]:
+    """needs_rewrite エントリから既に clean な記事・削除済み記事を除外する。
+
+    ライブ Lint チェックを実施するため、expand 実行後でも正確に未処理記事のみを返す。
+    これにより日次バッチで「同じ記事を再処理」する問題を防ぐ。
+
+    戻り値: [(Path, fail_rules), ...] — _load_needs_rewrite の順序（A3先・A1後）を保持
+    """
+    pending = []
+    for entry in entries:
+        rel = entry["path"]
+        p = base_path / rel
+        if not p.exists() or rel in deleted_paths:
+            continue
+        passed, _ = _lint_check(p)
+        if not passed:
+            pending.append((p, entry["fail_rules"]))
+    return pending
 
 
 # ─── Lint 検証 ────────────────────────────────────────────────
@@ -380,20 +410,37 @@ def main() -> None:
 
     # ── 対象記事の選定 ──────────────────────────────────────
     if args.from_lint:
-        nrw_paths = _load_needs_rewrite()
-        if not nrw_paths:
+        nrw_entries = _load_needs_rewrite()
+        if not nrw_entries:
             print("needs_rewrite 記事が見つかりませんでした。lint_report.json を確認してください。")
             return
-        limit = args.limit if args.limit is not None else len(nrw_paths)
-        targets = []
-        for rel_path in nrw_paths:
-            p = BASE.parent / rel_path
-            if p.exists() and str(rel_path) not in deleted_paths:
-                targets.append(p)
-            if len(targets) >= limit:
-                break
-        print(f"--from-lint モード: needs_rewrite {len(nrw_paths)} 件 → 処理対象 {len(targets)} 件")
+
+        # ライブ Lint で既に clean な記事を除外（日次バッチの重複処理防止）
+        print(f"  残り記事を確認中（lint_report.json: {len(nrw_entries)} 件）...", end="", flush=True)
+        pending = _filter_pending(nrw_entries, BASE.parent, deleted_paths)
+        print(" 完了")
+
+        if not pending:
+            print("未処理の needs_rewrite 記事はありません。全件 Lint PASS 済みです。")
+            return
+
+        a3_only = [(p, fr) for p, fr in pending if "A1" not in fr]
+        has_a1  = [(p, fr) for p, fr in pending if "A1" in fr]
+
+        limit = args.limit if args.limit is not None else MAX_EXPAND
+        to_process = pending[:limit]
+
+        today_a3 = [(p, fr) for p, fr in to_process if "A1" not in fr]
+        today_a1 = [(p, fr) for p, fr in to_process if "A1" in fr]
+
+        print(f"\n--from-lint モード:")
+        print(f"  残り未処理: {len(pending)} 件"
+              f"  （文字数不足: {len(a3_only)} / 旧テンプレート: {len(has_a1)}）")
+        print(f"  今回処理:   {len(to_process)} 件"
+              f"  （文字数不足: {len(today_a3)} / 旧テンプレート: {len(today_a1)}）")
         print(f"  Lint 検証ループ: 最大 {MAX_LINT_RETRIES} 回リトライ\n")
+
+        targets = [p for p, _ in to_process]
     else:
         posts = sorted(POSTS_DIR.glob("*.md"), key=lambda p: p.name)
         targets = []

@@ -5,3 +5,7 @@ add_sa_to_ga4.py
 *.pyc
 __pycache__/
 run/
+
+public/
+
+public/

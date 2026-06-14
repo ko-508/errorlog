@@ -1,0 +1,10 @@
+[
+  {
+    "path": "content/posts/gemini_api_429_resource_exhausted_free_tier.md",
+    "failed_at": "2026-06-14",
+    "attempts": 3,
+    "remaining_fails": [
+      "A6: フロントマター必須フィールド欠落または空: errorCode"
+    ]
+  }
+]

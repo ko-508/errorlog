@@ -9,6 +9,12 @@ on:
       force:
         description: 'Force rewrite all articles (1=yes, 0=no)'
         default: '0'
+      from_lint:
+        description: 'Rewrite needs_rewrite articles from lint_report.json (1=yes, 0=no)'
+        default: '0'
+      limit:
+        description: 'Article count limit for --from-lint mode (default: 10)'
+        default: '10'
 
 permissions:
   contents: write
@@ -33,7 +39,12 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MAX_EXPAND: ${{ github.event.inputs.max_expand || '10' }}
           FORCE: ${{ github.event.inputs.force || '0' }}
-        run: python scripts/expand_articles.py
+        run: |
+          if [ "${{ github.event.inputs.from_lint }}" = "1" ]; then
+            python scripts/expand_articles.py --from-lint --limit ${{ github.event.inputs.limit || '10' }}
+          else
+            python scripts/expand_articles.py
+          fi
 
       - name: Insert glossary links into expanded articles
         run: |
