@@ -1,159 +1,260 @@
 ---
 title: "Gemini API の 429 エラー：無料枠クォータ枯渇と解決策"
 date: 2026-05-30
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 description: "gemini-2.0-flashの無料枠を自動化パイプラインで使い切りRESOURCE_EXHAUSTEDが発生。モデル切り替えとリトライ実装で解決します。"
 tags: ["GCP"]
 service: "Google Gemini API"
 error_type: "429 RESOURCE_EXHAUSTED"
+errorCode: "429"
 components: []
 related_services: ["Google API Key", "RSS"]
 ---
 
-Gemini [API](/glossary/api/) を自動化スクリプトやバックグラウンドジョブに組み込んだ際、無料枠のクォータを短時間で使い切り `429 RESOURCE_EXHAUSTED` が連続発生するケースがあります。特に複数[リクエスト](/glossary/リクエスト/)を並列・連続で投げる処理では、1回のバッチ実行で当日分のクォータが尽きることがあります。
+## エラーの概要
 
-## エラーの全文
+Gemini APIの429エラーは、API呼び出しのクォータ制限に達したことを示す標準的なHTTPステータスコードです。Gemini APIでは無料枠に1分あたりのリクエスト数制限と1日あたりのリクエスト数制限が設定されており、これを超過するとサーバー側がリクエストを拒否します。特に自動スクリプトやバッチ処理で複数のリクエストを並列実行する場合、瞬時にクォータを枯渇させることがあります。
+
+## 実際のエラーメッセージ例
+
+**Pythonライブラリ使用時：**
 
 ```
 429 RESOURCE_EXHAUSTED. {
   'error': {
     'code': 429,
-    'message': 'You exceeded your current quota, please check your plan
-    and billing details.\n
-    * Quota exceeded for metric:
-      generativelanguage.googleapis.com/generate_content_free_tier_requests,
-      limit: 0, model: gemini-2.0-flash\n
-    * Quota exceeded for metric:
-      generativelanguage.googleapis.com/generate_content_free_tier_input_token_count,
-      limit: 0, model: gemini-2.0-flash\n
-    Please retry in 48.403305959s.',
-    'status': 'RESOURCE_EXHAUSTED',
-    'details': [{
-      '@type': 'type.googleapis.com/google.rpc.RetryInfo',
-      'retryDelay': '48s'
-    }]
+    'message': 'You exceeded your current quota, please check your plan and billing details.\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 0, model: gemini-2.0-flash\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_tokens'
   }
 }
 ```
 
-`limit: 0` はクォータ残量がゼロになったことを示します。`retryDelay` に[リトライ](/glossary/リトライ/)までの待機秒数が返ってきます。
+**REST API直接呼び出し時：**
 
-## よくある原因
-
-### 自動化パイプラインでの連続呼び出し
-
-30分ごとに RSS フィードを取得してスコアリングするような自動パイプラインでは、1サイクルで複数記事を連続して [API](/glossary/api/) に送ります。無料枠の制限は以下の2軸で管理されます。
-
-- **RPM（Requests Per Minute）**: 1分あたりの[リクエスト](/glossary/リクエスト/)数
-- **RPD（Requests Per Day）**: 1日あたりの[リクエスト](/glossary/リクエスト/)数
-
-`gemini-2.0-flash` の無料枠は RPM=15、RPD=1,500 ですが、パイプラインを短時間に複数回再起動したり、処理対象件数が急増すると RPD を早期に消費します。
-
-### 複数プロセスが同じ API キーを共有している
-
-開発環境とバックグラウンドサービスが同じ `GOOGLE_API_KEY` を使っている場合、片方の[リクエスト](/glossary/リクエスト/)が他方のクォータを消費します。
-
-### モデル別にクォータが独立している
-
-`gemini-2.0-flash` のクォータが尽きても `gemini-1.5-flash` のクォータは別枠です。エラーメッセージに `model: gemini-2.0-flash` と明記されているため、[モデル](/glossary/モデル/)を切り替えるだけで即時回避できるケースがあります。
-
-## 解決手順
-
-### 方法1：モデルを切り替える（即時対応）
-
-クォータが別枠の[モデル](/glossary/モデル/)に切り替えます。
-
-```python
-# Before（クォータ枯渇）
-response = client.models.generate_content(
-    model="gemini-2.0-flash",
-    contents=prompt,
-    config=config,
-)
-
-# After（別枠のモデルに切り替え）
-response = client.models.generate_content(
-    model="gemini-1.5-flash",   # 別クォータプール
-    contents=prompt,
-    config=config,
-)
+```json
+{
+  "error": {
+    "code": 429,
+    "message": "Resource exhausted",
+    "status": "RESOURCE_EXHAUSTED",
+    "details": [
+      {
+        "@type": "type.googleapis.com/google.rpc.QuotaFailure",
+        "violations": [
+          {
+            "subject": "generativelanguage.googleapis.com/generate_content_free_tier_requests",
+            "description": "Quota exceeded for metric"
+          }
+        ]
+      }
+    ]
+  }
+}
 ```
 
-| [モデル](/glossary/モデル/) | 無料 RPM | 無料 RPD | 備考 |
-|--------|----------|----------|------|
-| gemini-2.0-flash | 15 | 1,500 | 枯渇しやすい |
-| gemini-1.5-flash | 15 | 1,500 | 別枠で利用可能 |
-| gemini-1.5-flash-8b | 15 | 1,500 | より軽量 |
+## よくある原因と解決手順
 
-### 方法2：429 時にリトライ待機を実装する（恒久対応）
+### 原因1: 無料枠の1分あたりのリクエスト上限超過
 
-[エラーレスポンス](/glossary/エラーレスポンス/)内の `retryDelay` を読み取り、その秒数だけ待機してから[リトライ](/glossary/リトライ/)します。
+Gemini APIの無料枠は1分間に最大60リクエストという制限があります。ループ処理やバッチスクリプトで短時間に大量リクエストを送信すると、この上限に即座に達します。
+
+**Before（エラーが起きるコード）：**
 
 ```python
-# Before（エラーをそのまま握りつぶす）
-async def _call(client, model, contents, config):
+import google.generativeai as genai
+
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+# 複数のプロンプトを連続実行
+prompts = [f"質問{i}" for i in range(100)]
+for prompt in prompts:
+    response = model.generate_content(prompt)
+    print(response.text)
+```
+
+**After（修正後）：**
+
+```python
+import google.generativeai as genai
+import time
+
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+# 1分60リクエスト制限に対応：リクエスト間隔を1秒確保
+prompts = [f"質問{i}" for i in range(100)]
+for prompt in prompts:
+    response = model.generate_content(prompt)
+    print(response.text)
+    time.sleep(1)  # 1秒待機（60リクエスト/分以下に制御）
+```
+
+### 原因2: 無料枠の1日あたりのリクエスト上限超過
+
+無料枠では1日あたり15,000リクエストという上限があります。開発テストやデータ取得に使用し続けると、翌日まで利用できなくなります。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import google.generativeai as genai
+from concurrent.futures import ThreadPoolExecutor
+
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+prompts = [f"テスト{i}" for i in range(2000)]
+
+# 並列実行で短時間に15,000リクエストを超過
+def call_api(prompt):
+    return model.generate_content(prompt)
+
+with ThreadPoolExecutor(max_workers=50) as executor:
+    results = executor.map(call_api, prompts)
+    for result in results:
+        print(result.text)
+```
+
+**After（修正後）：**
+
+```python
+import google.generativeai as genai
+import time
+from datetime import datetime
+
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+prompts = [f"テスト{i}" for i in range(2000)]
+REQUEST_LIMIT_PER_DAY = 15000
+daily_request_count = 0
+
+def call_api_with_limit(prompt):
+    global daily_request_count
+    if daily_request_count >= REQUEST_LIMIT_PER_DAY:
+        print(f"[{datetime.now()}] 本日のリクエスト上限に達しました")
+        return None
+    
+    response = model.generate_content(prompt)
+    daily_request_count += 1
+    return response
+
+# 並列実行を避け、制御可能な処理に変更
+for prompt in prompts:
+    result = call_api_with_limit(prompt)
+    if result:
+        print(result.text)
+    time.sleep(0.1)  # リクエスト間隔調整
+```
+
+### 原因3: 有料プランへの移行漏れ
+
+無料枠では限られたトークン数しか使用できません。トークン数が多い長文生成やテキスト埋め込みを頻繁に行うと、クォータが枯渇します。有料プランに移行していないと、月間の制限に達すると429エラーが返されます。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import google.generativeai as genai
+
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+# 大量の長文生成リクエスト（1トークン = 約4文字相当）
+for i in range(500):
+    prompt = "以下のテーマについて詳細に3000字以上で説明してください：" + "テーマ" * 100
+    response = model.generate_content(prompt)
+    print(response.text)
+```
+
+**After（修正後）：**
+
+```python
+import google.generativeai as genai
+from google.api_core import exceptions
+
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+# トークン数を推定して事前チェック
+def estimate_tokens(prompt):
+    # 日本語は約3文字 = 1トークン、英語は約4文字 = 1トークン
+    return len(prompt) // 3
+
+# 有料プランに移行するか、リクエスト数と長さを調整
+for i in range(50):  # リクエスト数を削減
+    prompt = "テーマについて500字程度で説明してください"
+    
     try:
-        response = await asyncio.to_thread(
-            client.models.generate_content,
-            model=model,
-            contents=contents,
-            config=config,
-        )
-        return response.text
-    except Exception:
-        pass  # 429 も含めて無視してしまう
-
-# After（429 のリトライ秒数を読んで待機）
-async def _call(client, model, contents, config, max_retries=2):
-    for attempt in range(max_retries + 1):
-        try:
-            response = await asyncio.to_thread(
-                client.models.generate_content,
-                model=model,
-                contents=contents,
-                config=config,
-            )
-            return response.text
-        except Exception as e:
-            err = str(e)
-            if "429" in err and attempt < max_retries:
-                m = re.search(r'retry in (\d+)', err)
-                wait = int(m.group(1)) + 3 if m else 65
-                logger.warning("429 rate-limit – waiting %ds", wait)
-                await asyncio.sleep(wait)
-                continue
-            raise
+        # トークン数が見積もりで制限内か確認
+        tokens = estimate_tokens(prompt)
+        if tokens > 1000:
+            print(f"トークン数が大きい({tokens})ため、スキップします")
+            continue
+            
+        response = model.generate_content(prompt)
+        print(response.text)
+    except exceptions.ResourceExhausted:
+        print("クォータ超過。有料プランの利用を検討してください")
+        break
 ```
 
-### 方法3：1サイクルあたりの処理件数を絞る
+## ツール固有の注意点
 
-バックグラウンドパイプラインでは1サイクルにスコアリングする記事数を制限し、[API](/glossary/api/) コール間に待機を挟みます。
+### Google Cloud Consoleでのクォータ監視
+
+Gemini APIのクォータ状況はGoogle Cloud Consoleで確認できます。`APIs & Services` > `Quotas` から `generativelanguage.googleapis.com` を検索し、現在のリクエスト数とトークン数をリアルタイムで確認してください。無料枠では日次リセットが午前0時（UTC）に行われます。
+
+### 有料プランの段階的な価格設定
+
+無料枠を超える場合は、有料プラン（従量課金制）への移行が必要です。Gemini 2.0 Flashは1ドル = 400,000入力トークン / 1,200,000出力トークンで課金されます。毎月1ドル分の無料枠が付与されるため、軽度の利用であれば実質無料で続行できます。
+
+### リトライロジックの実装
+
+429エラーが返された場合、Exponential Backoffを用いたリトライが有効です。ただし無料枠枯渇の場合は、リトライしても日時リセット（UTC午前0時）まで解決しません。
+
+**リトライロジック例：**
 
 ```python
-MAX_SCORE_CYCLE = 5      # 1サイクルあたり最大5件
-API_DELAY       = 4.0    # 各 API コール間の待機秒数
+import time
+import google.generativeai as genai
+from google.api_core import exceptions
 
-for i, article in enumerate(candidates[:MAX_SCORE_CYCLE]):
-    if i > 0:
-        await asyncio.sleep(API_DELAY)  # rate-limit guard
-    score = await score_article(article.title, body)
+genai.configure(api_key="<your-api-key>")
+model = genai.GenerativeModel("gemini-2.0-flash")
+
+def call_with_retry(prompt, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            return model.generate_content(prompt)
+        except exceptions.ResourceExhausted:
+            if attempt < max_retries - 1:
+                wait_time = 2 ** attempt  # 指数バックオフ：1秒、2秒、4秒
+                print(f"クォータ超過。{wait_time}秒後に再試行します")
+                time.sleep(wait_time)
+            else:
+                raise
+
+response = call_with_retry("テストプロンプト")
 ```
-
-## クォータ残量の確認方法
-
-Google AI Studio の[ダッシュボード](/glossary/ダッシュボード/)でリアルタイムの使用量を確認できます。エラーメッセージ内のリンク先（`https://ai.dev/rate-limit`）から直接アクセスできます。
-
-```
-To monitor your current usage, head to: https://ai.dev/rate-limit
-```
-
-翌日（UTC 0:00）にクォータがリセットされるため、RPD を使い切った場合は翌日まで待つか、有料プランに移行することで即時解消します。
 
 ## それでも解決しない場合
 
-- **有料プランへの移行**: Google Cloud の Vertex AI 経由で使用すると RPD 制限がなくなります
-- **複数 [API](/glossary/api/) キーのローテーション**: 異なるプロジェクトの [API](/glossary/api/) キーを交互に使用する（利用規約の範囲内で）
-- **バッチ処理を夜間に分散**: 1日の処理をまとめて深夜に実行し、RPD の消費を1回に集中させない設計に変える
+### 確認すべき項目とログ
+
+1. **Google Cloud Consoleのクォータ表示**：Quotasセクションで `generativelanguage.googleapis.com/generate_content_free_tier_requests` と `generativelanguage.googleapis.com/generate_content_free_tier_tokens` の現在値を確認してください。
+
+2. **APIキーの有効性確認**：複数のAPIキーを使用している場合、別のキーで試行して、キー単位のクォータ制限か全体の制限かを判別します。
+
+3. **リージョン別制限**：Gemini APIは全リージョン共通のクォータを持つため、複数プロジェクトやリージョンからの同時リクエストは累算されます。
+
+### 公式リソース
+
+- [Google Gemini API公式ドキュメント：Rate limits and quotas](https://ai.google.dev/gemini-api/docs/rate-limits)
+- [Google Cloud Console：Quotas and System Limits](https://cloud.google.com/docs/quotas)
+- [Gemini API有料プラン詳細](https://ai.google.dev/pricing)
+
+### コミュニティサポート
+
+Gemini APIに関する問題は、[Google AI Stack Overflow](https://stackoverflow.com/questions/tagged/gemini-api)や[Google Cloud Community Forums](https://www.googlecloudcommunity.com/)で質問できます。スクリーンショット付きで現在のクォータ使用状況を共有すると、より的確な回答が得られます。
 
 ---
 

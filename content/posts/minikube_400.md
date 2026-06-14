@@ -8,154 +8,220 @@ service: "Minikube"
 error_type: "400"
 components: ["Pod", "Deployment", "Service", "ConfigMap", "Secret", "Namespace"]
 related_services: ["Kubernetes", "kubectl", "yamllint", "Docker"]
+lastmod: 2026-06-14
 ---
-Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が正しくなく、[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)やオプション指定の誤りが原因で発生する[エラー](/glossary/エラー/)です。本記事では原因特定と解決方法をステップバイステップで解説します。
 
-## よくある原因
+## エラーの概要
 
-### kubectl applyするマニフェストのYAMLに構文エラーがある
+Minikubeクラスターへのリクエスト形式が不正な場合に発生する400エラーです。マニフェストのYAML構文エラー、必須フィールドの欠落、APIバージョンの不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取ったマニフェストをKubernetes APIサーバーに送信する際に検証を行うため、この段階で不正な形式が検出されると即座に400エラーが返されます。
 
-[YAML](/glossary/yaml/)はインデント（スペース数）に厳密です。タブ文字を使ったり、インデント幅が不統一だったりすると、Minikubeは[リクエスト](/glossary/リクエスト/)を正しく解析できず400[エラー](/glossary/エラー/)が発生します。また、コロン（:）やハイフン（-）の位置がズレていても同様です。例えば `kind: Pod` と `kind:Pod` では後者が構文[エラー](/glossary/エラー/)になります。
+## 実際のエラーメッセージ例
 
-### 必須フィールドが欠けているか型が間違っている
-
-[Kubernetes](/glossary/kubernetes/)リソースには必ず指定する必須フィールドがあります。Deploymentなら `apiVersion`、`kind`、`metadata`、`spec` は必須です。また `replicas` は整数型なのに文字列 `"3"` で指定したり、`ports` の `containerPort` に文字列を指定すると、Minikubeが型の不一致を検出して400[エラー](/glossary/エラー/)を返します。
-
-### minikubeコマンドのオプション指定が誤っている
-
-`minikube start --vm-driver=docker` のように廃止されたオプションを使ったり、オプションの形式が間違っていたりすると400[エラー](/glossary/エラー/)が発生します。バージョンアップに伴いオプション名が変更されることもあるため、使用しているMinikubeバージョンに対応したオプションを確認する必要があります。
-
-## 解決手順
-
-### 1. マニフェストをdry-runで事前確認する
-
-マニフェストファイルを実際に適用する前に、構文[エラー](/glossary/エラー/)と必須フィールドの不足を検出します。
-
-```bash
-kubectl apply --dry-run=client -f <マニフェスト.yaml>
+```
+error: error validating "deployment.yaml": error validating data: ValidationError(Deployment.spec.template.spec.containers[0].ports[0].containerPort): invalid type for io.k8s.api.core.v1.ContainerPort.containerPort: got "string", expected "integer"
 ```
 
-例えば以下の[コマンド](/glossary/コマンド/)を実行します。
-
-```bash
-kubectl apply --dry-run=client -f deployment.yaml
+```json
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "Deployment.apps \"my-app\" is invalid: spec.template.spec.containers[0].image: Required value",
+  "reason": "Invalid",
+  "details": {
+    "name": "my-app",
+    "group": "apps",
+    "kind": "Deployment"
+  },
+  "code": 400
+}
 ```
 
-出力にエラーメッセージが表示されれば、その箇所を修正してください。成功時は `deployment.apps/example created (dry run)` と表示されます。
+## よくある原因と解決手順
 
-### 2. マニフェストのYAML構文をチェックする
+### 原因1: YAMLのインデント・構文エラー
 
-[YAML](/glossary/yaml/)の妥当性を検証するオンラインツール（例：yamllint）を使うか、ローカルでlintツールを実行します。
+YAMLはスペースによるインデント（通常2または4スペース）に厳密です。タブ文字の混在、インデント幅の不統一、コロン（:）やハイフン（-）の位置のズレは即座に構文エラーになります。特にテキストエディタの自動修正機能やコピー&ペーストの際に発生しやすい問題です。
 
-```bash
-# yamllintをインストール
-pip install yamllint
-
-# マニフェストをチェック
-yamllint deployment.yaml
-```
-
-インデント幅は通常2スペースか4スペースで統一してください。タブ文字は使わないようにします。
-
-### 3. 正しいオプションをminikube --helpで確認する
-
-使用しているMinikubeのバージョンで有効なオプションを確認します。
-
-```bash
-minikube start --help
-```
-
-出力例から、現在有効なオプションを確認してください。例えば `--vm-driver` は古いバージョンのMinikubeでは `--driver` に変更されています。
-
-### 4. kubectl explainで必須フィールドと型情報を確認する
-
-リソースの必須フィールドと期待される型を確認します。
-
-```bash
-kubectl explain deployment.spec
-```
-
-この[コマンド](/glossary/コマンド/)でDeploymentのspec以下に必須な構造を確認できます。より詳しい情報には以下を実行します。
-
-```bash
-kubectl explain deployment --recursive
-```
-
-### 5. マニフェスト例で正しい構造を確認する
-
-最小限の正しい[マニフェスト](/glossary/マニフェスト/)の例です。
+**Before（エラーが起きるコード）：**
 
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sample-deployment
-  namespace: default
+  name: my-app
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: sample
+	  app: my-app
   template:
     metadata:
       labels:
-        app: sample
+      app: my-app
     spec:
       containers:
-      - name: sample-container
+      - name: app
         image: nginx:latest
         ports:
-        - containerPort: 80
+        - containerPort: "8080"
 ```
 
-`replicas` は整数型、`containerPort` も整数型であることに注意してください。
+**After（修正後）：**
 
-### 6. Minikubeクラスターとkubectlの接続を確認する
-
-クラスター側の問題でないか確認します。
-
-```bash
-minikube status
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app
+        image: nginx:latest
+        ports:
+        - containerPort: 8080
 ```
 
-出力が以下のようになっていることを確認してください。
+### 原因2: 必須フィールドの欠落
 
-```
-minikube: Running
-kubelet: Running
-apiserver: Running
+Kubernetesのリソースには必ず指定する必須フィールドが存在します。Deploymentの場合、`spec.template.spec.containers[].image` は必須です。Podの場合も同様に`spec.containers[]` と `image` フィールドは省略できません。これらが欠けると400エラーが返されます。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: app
+    ports:
+    - containerPort: 8080
 ```
 
-もし何かが `Stopped` なら、以下を実行します。
+**After（修正後）：**
 
-```bash
-minikube start
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: app
+    image: nginx:latest
+    ports:
+    - containerPort: 8080
 ```
+
+### 原因3: フィールドの型違反
+
+マニフェストで指定するフィールド値の型がKubernetesの仕様と合致していない場合、400エラーが発生します。例えば `containerPort` は整数型ですが、クォートで囲んで文字列型として指定してしまう、`replicas` に文字列を指定するといったケースです。同様に `true/false` のようなブール値も文字列の `"true"/"false"` と混同しやすい原因です。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: "3"
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app
+        image: nginx:latest
+        ports:
+        - containerPort: "8080"
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+          requests:
+            memory: 256Mi
+            cpu: 250m
+```
+
+**After（修正後）：**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app
+        image: nginx:latest
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            memory: 512Mi
+            cpu: 500m
+          requests:
+            memory: 256Mi
+            cpu: 250m
+```
+
+## Minikube固有の注意点
+
+Minikubeでは、ローカル開発環境でのKubernetes APIバージョンが重要です。`minikube start` で起動するKubernetesのバージョンと、マニフェストで指定する `apiVersion` が大きく乖離していると400エラーが起こりえます。例えば、古いMinikubeを使用しながら最新の `apiVersion: v1` や非推奨のAPIバージョンを指定すると、APIサーバーが解析できない場合があります。
+
+`minikube kubectl -- api-resources` コマンドで、現在のクラスター上で利用可能なAPIバージョンとリソース種別を確認できます。また、Minikubeの設定によっては、リソースのデフォルト値が異なる場合があります。特に `imagePullPolicy` を明示的に指定しない場合、ローカルイメージの取得ポリシーが予期しない動作をすることがあるため、`imagePullPolicy: IfNotPresent` や `imagePullPolicy: Never` を明示的に設定することが推奨されます。
+
+さらに、Minikubeでのネットワークプラグイン（CNI）の種類によって、`NetworkPolicy` などの高度なネットワークリソースが利用できない場合があります。400エラーではなく別のエラーになる傾向ですが、リソース定義の互換性を事前に確認することが重要です。
 
 ## それでも解決しない場合
 
-以下の手段を試してください。
+マニフェストをYAML検証ツール（オンラインの YAML Lint や `yamllint` コマンド）で事前チェックを行ってください。構文エラーはここで検出できます。
 
-- **詳細なエラーメッセージを取得する**：[マニフェスト](/glossary/マニフェスト/)適用時に `-v=8` フラグを追加して詳細[ログ](/glossary/ログ/)を表示します。
 ```bash
-kubectl apply -f deployment.yaml -v=8
+minikube kubectl -- apply -f deployment.yaml --dry-run=client -o yaml
 ```
 
-- **Minikubeのバージョンを確認し更新する**：古いバージョンはオプション仕様が異なる場合があります。
+このコマンドで、実際の適用前に API サーバーがマニフェストを受け入れるかシミュレーションできます。エラーメッセージにはフィールドのパスが明記されるため、修正箇所を特定しやすくなります。
+
+より詳細なエラー情報を得るには、以下のコマンドで API サーバーのログを確認します。
+
 ```bash
-minikube version
+minikube logs
 ```
 
-- **クラスターの再起動**：一時的な状態異常が原因の場合があります。
+Kubernetesの公式ドキュメントの「API Conventions」ページで、各リソースタイプの必須フィールドと型定義を確認できます。また、`kubectl explain` コマンドも有効です。
+
 ```bash
-minikube delete
-minikube start
+minikube kubectl -- explain deployment.spec
 ```
 
-- **kubectl describe podで詳細を確認する**：Pod適用後に[エラー](/glossary/エラー/)が出ている場合、以下を実行します。
-```bash
-kubectl describe pod <pod-name>
-```
+これにより、Deployment の spec フィールドのスキーマが表示され、各フィールドの型や説明が確認できます。GitHub の kubernetes/kubernetes リポジトリの Issue セクションでは、同様の400エラーに関する議論やワークアラウンドが見つかることがあります。
 
 ---
 
