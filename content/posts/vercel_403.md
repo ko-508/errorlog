@@ -61,7 +61,7 @@ export VERCEL_PROJECT_ID=<プロジェクトID>
 vercel deploy
 ```
 
-チームスコープのトークンを生成するには、Vercel ダッシュボードで Settings → Tokens → Create → Scope を「Team」に設定します。
+チームスコープのトークンを生成するには、Vercel ダッシュボードで Settings → Tokens → Create の順に進み、スコープのドロップダウンから「Team」を選択します。
 
 ### 原因2：VERCEL_ORG_ID と VERCEL_PROJECT_ID の組み合わせが不正
 
@@ -86,7 +86,7 @@ export VERCEL_TOKEN=<チームスコープのトークン>
 vercel deploy
 ```
 
-正しいプロジェクトID とチームID は、Vercel ダッシュボードのプロジェクト設定ページの「Settings → General」から確認できます。
+正しいプロジェクトID とチームID は、Vercel ダッシュボードのプロジェクト設定ページの Settings → General から確認できます。
 
 ### 原因3：プロジェクトのアクセス制限が有効
 
@@ -125,7 +125,7 @@ curl -H "Authorization: Bearer <your-vercel-token>" \
   https://api.vercel.com/v2/user
 ```
 
-プロジェクト固有の設定確認は、Vercel ダッシュボード → Project Settings → API から確認してください。公式ドキュメントの [Access Control](https://vercel.com/docs/projects/overview#access-control) セクションに、権限の詳細説明があります。
+プロジェクト固有の設定確認は、Vercel ダッシュボード → Project Settings → API から確認してください。公式ドキュメントの Access Control セクションに、権限の詳細説明があります。
 
 ---
 

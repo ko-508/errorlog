@@ -223,6 +223,7 @@ export default async function handler(req, res) {
 - 障害情報やデプロイ ID を記載することで、診断がスムーズになります。
 
 **2. ログを確認する**
+
 ```bash
 # Vercel CLI で最新のログを表示
 vercel logs <your-domain>.vercel.app --follow
