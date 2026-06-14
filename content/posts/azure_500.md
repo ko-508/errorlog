@@ -10,14 +10,13 @@ components: ["Azure Portal", "Azure CLI", "REST API", "Azure Resource Manager", 
 related_services: ["Bash", "JSON"]
 lastmod: 2026-06-14
 ---
-
 ## エラーの概要
 
-Azure 500[エラー](/glossary/エラー/)は、Azureの[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。クライアント側に問題がなく、Azureインフラストラクチャ自体に一時的な障害が生じている状態を指します。この[エラー](/glossary/エラー/)が発生すると、リソースへのアクセスやデプロイメント、[API](/glossary/api/)呼び出しなどが中断され、進行中の処理は失敗に終わります。
+Azure 500エラーは、Azureのサーバー側で予期しない内部エラーが発生したことを示すHTTPステータスコードです。クライアント側に問題がなく、Azureインフラストラクチャ自体に一時的な障害が生じている状態を指します。このエラーが発生すると、リソースへのアクセスやデプロイメント、API呼び出しなどが中断され、進行中の処理は失敗に終わります。
 
 ## 実際のエラーメッセージ例
 
-Azure Portal、Azure [CLI](/glossary/cli/)または[REST](/glossary/rest/) [API](/glossary/api/)を使用する際に以下のような[エラー](/glossary/エラー/)が表示されます。
+Azure Portal、Azure CLIまたはREST APIを使用する際に以下のようなエラーが表示されます。
 
 ```json
 {
@@ -48,9 +47,9 @@ InternalServerError: An internal server error occurred while processing your req
 
 ### 原因1：リソースプロバイダーの登録が不完全またはタイムアウト
 
-Azureではリソースを作成する前に対応するリソースプロバイダーを登録する必要があります。登録プロセスが完了していない場合や[タイムアウト](/glossary/タイムアウト/)した場合に500[エラー](/glossary/エラー/)が発生します。
+Azureではリソースを作成する前に対応するリソースプロバイダーを登録する必要があります。登録プロセスが完了していない場合やタイムアウトした場合に500エラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
 # リソースプロバイダーを確認せずにVM作成を試みる
@@ -76,7 +75,7 @@ az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS
 
 サブスクリプション内のリソース作成がクォータ制限に達していたり、特定のリージョンの容量が不足している場合に発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
 # クォータ確認なしに大量のVMを作成
@@ -104,9 +103,9 @@ az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --lo
 
 ### 原因3：ARM テンプレートの構文エラーまたはスキーマの非互換性
 
-Azure Resource Manager（ARM）テンプレートで構文[エラー](/glossary/エラー/)があったり、[API](/glossary/api/) バージョンが古い場合に500[エラー](/glossary/エラー/)が発生します。
+Azure Resource Manager（ARM）テンプレートで構文エラーがあったり、APIバージョンが古い場合に500エラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```json
 {
@@ -164,9 +163,9 @@ Azure Resource Manager（ARM）テンプレートで構文[エラー](/glossary/
 
 ### 原因4：ネットワークセキュリティグループ（NSG）またはファイアウォール規則の設定ミス
 
-NSGやAzure Firewallの設定が不適切な場合、内部通信がブロックされて500[エラー](/glossary/エラー/)が発生することがあります。
+NSGやAzure Firewallの設定が不適切な場合、内部通信がブロックされて500エラーが発生することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
 # すべてのインバウンドを拒否するNSGを作成
@@ -210,7 +209,7 @@ az network nsg rule create --resource-group myResourceGroup \
 
 ### App Service での 500 エラー
 
-Azure App Service でアプリケーションが500[エラー](/glossary/エラー/)を返す場合、アプリケーション自体の問題とプラットフォーム側の問題を区別する必要があります。以下の[コマンド](/glossary/コマンド/)で診断設定を有効にして詳細な[ログ](/glossary/ログ/)を確認してください。
+Azure App Service でアプリケーションが500エラーを返す場合、アプリケーション自体の問題とプラットフォーム側の問題を区別する必要があります。以下のコマンドで診断設定を有効にして詳細なログを確認してください。
 
 ```bash
 # App Service の詳細ログを有効化
@@ -224,7 +223,7 @@ az webapp log download --name <your-app-name> --resource-group <your-resource-gr
 
 ### Azure SQL Database との接続エラー
 
-[バックエンド](/glossary/バックエンド/)の[SQL](/glossary/sql/) Databaseに接続できない場合も500[エラー](/glossary/エラー/)が発生します。[ファイアウォール](/glossary/ファイアウォール/)規則とVNet統合設定を確認してください。
+バックエンドのSQL Databaseに接続できない場合も500エラーが発生します。ファイアウォール規則とVNet統合設定を確認してください。
 
 ```bash
 # SQL Serverのファイアウォール規則を確認
@@ -241,7 +240,7 @@ az sql server firewall-rule create --resource-group <your-resource-group> \
 
 ### API Management での 500 エラー
 
-Azure [API](/glossary/api/) Managementを経由している場合、[ポリシー](/glossary/ポリシー/)設定や[バックエンド](/glossary/バックエンド/)の設定ミスが原因となります。[ポリシー](/glossary/ポリシー/)検証と[バックエンド](/glossary/バックエンド/)の[ヘルスチェック](/glossary/ヘルスチェック/)を実行してください。
+Azure API Managementを経由している場合、ポリシー設定やバックエンドの設定ミスが原因となります。ポリシー検証とバックエンドのヘルスチェックを実行してください。
 
 ```bash
 # バックエンド APIのヘルスプローブ設定を確認
@@ -259,7 +258,7 @@ az apim api policy show --resource-group <your-resource-group> \
 
 ### ログの確認方法
 
-Azure Monitor を利用して詳細な[エラーログ](/glossary/エラーログ/)を確認することができます。
+Azure Monitor を利用して詳細なエラーログを確認することができます。
 
 ```bash
 # Azure Monitor で過去1時間のエラーログを検索
@@ -277,10 +276,10 @@ az monitor app-insights query --app <your-app-insights-name> \
 
 問題が継続する場合は、Azure サポートに問い合わせてください。事前に以下の情報を準備しておくと対応が迅速になります。
 
-- リソースの種類（App Service、VM、[API](/glossary/api/) Management など）
+- リソースの種類（App Service、VM、API Management など）
 - 発生時刻と時間帯
 - 実行していた操作の詳細
-- Azure Monitor または Application Insights からの[ログ](/glossary/ログ/)出力
+- Azure Monitor または Application Insights からのログ出力
 - サブスクリプション ID とリソースグループ名
 
 ### 公式ドキュメント

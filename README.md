@@ -9,9 +9,9 @@
 ## 概要
 
 <!-- STATUS_BEGIN -->
-公開記事数: **137 件** ／ 対応ツール数: **17 種**
+公開記事数: **161 件** ／ 対応ツール数: **21 種**
 
-AWS / Azure / Docker / Docker Compose / Firebase / GCP / GitHub API / Hugo / Kubernetes / Minikube / Nginx / OpenAI API / Podman / Slack / Stripe / Supabase / Vercel
+AWS / Ansible / Azure / Bitbucket / Docker / Docker Compose / Firebase / GCP / GitHub API / GitLab / Hugo / Kubernetes / Minikube / Nginx / OpenAI API / Podman / Slack / Stripe / Supabase / Terraform / Vercel
 <!-- STATUS_END -->
 
 HTTPエラーコード（400〜504）について、**実際のエラーメッセージ例・Before/After コード対比・ツール固有の注意点**をセットで解説します。
