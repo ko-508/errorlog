@@ -4,7 +4,7 @@ date: 2026-05-25
 description: "Kubernetes の 403 エラーは「Forbidden」を意味し、リクエストの認証は成功しているものの、そのリソースに対する操作権限（RBAC: Role-Based Access Control）がないことを示します。"
 tags: ["Kubernetes"]
 errorCode: "403"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "Kubernetes"
 error_type: "403"
 components: ["Pod", "Deployment", "ServiceAccount", "Role", "RoleBinding", "ClusterRole", "Namespace"]
@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) の 403 [エラー](/glossary/エラー/)は「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・削除など、特定の操作がセキュリティポリシーにより拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl [コマンド](/glossary/コマンド/)実行時に頻繁に発生します。
+Kubernetes の 403 エラーは「Forbidden」を意味し、リクエストの認証は成功しているものの、そのリソースに対する操作権限（RBAC: Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・削除など、特定の操作がセキュリティポリシーにより拒否された状態です。API サーバーやマニフェスト適用時、kubectl コマンド実行時に頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -28,25 +28,30 @@ Error from server (Forbidden): pods "my-pod" is forbidden: User "system:servicea
   "apiVersion": "v1",
   "metadata": {},
   "status": "Failure",
-  "message": "deployments.apps \"my-app\" is forbidden: User \"user@example.com\" cannot create resource \"deployments\" in API group \"apps\" in the namespace \"production\"",
+  "message": "deployments.apps \"nginx\" is forbidden: User \"system:serviceaccount:kube-system:default\" cannot create resource \"deployments\" in API group \"apps\" in the namespace \"kube-system\"",
   "reason": "Forbidden",
+  "details": {
+    "name": "nginx",
+    "group": "apps",
+    "kind": "deployments"
+  },
   "code": 403
 }
 ```
 
 ## よくある原因と解決手順
 
-### 原因1: ServiceAccount に必要な Role がバインドされていない
+### 原因1: ServiceAccount に適切な Role が割り当てられていない
 
-**なぜ発生するか：**
-Pod 内のアプリケーションが [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/) にアクセスする際、その Pod が使用する ServiceAccount に適切な Role や ClusterRole がバインドされていないと、403 [エラー](/glossary/エラー/)が発生します。
+ServiceAccount は Kubernetes 内のアカウントであり、Pod がリソースにアクセスする際に使用されます。このアカウントに必要な権限を持つ Role が紐付けられていない場合、403 エラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
+**Before（エラーが起きるコード）：**
+
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: app-sa
+  name: app-account
   namespace: default
 ---
 apiVersion: apps/v1
@@ -55,51 +60,48 @@ metadata:
   name: my-app
   namespace: default
 spec:
-  selector:
-    matchLabels:
-      app: my-app
   template:
-    metadata:
-      labels:
-        app: my-app
     spec:
-      serviceAccountName: app-sa
+      serviceAccountName: app-account
       containers:
       - name: app
         image: myapp:latest
-        # アプリが pod リストを取得しようとするが権限がない
 ```
 
-**After（修正後）:**
+**After（修正後）：**
+
 ```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: app-sa
+  name: app-account
   namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: app-reader
+  name: app-role
   namespace: default
 rules:
 - apiGroups: [""]
-  resources: ["pods"]
+  resources: ["pods", "pods/logs"]
   verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: app-reader-binding
+  name: app-rolebinding
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: app-reader
+  name: app-role
 subjects:
 - kind: ServiceAccount
-  name: app-sa
+  name: app-account
   namespace: default
 ---
 apiVersion: apps/v1
@@ -108,39 +110,144 @@ metadata:
   name: my-app
   namespace: default
 spec:
-  selector:
-    matchLabels:
-      app: my-app
   template:
-    metadata:
-      labels:
-        app: my-app
     spec:
-      serviceAccountName: app-sa
+      serviceAccountName: app-account
       containers:
       - name: app
         image: myapp:latest
 ```
 
-### 原因2: Namespace 間でのリソースアクセス権限が不足している
+### 原因2: Namespace が異なる RoleBinding を参照している
 
-**なぜ発生するか：**
-あるユーザーや[サービスアカウント](/glossary/サービスアカウント/)が、別の [Namespace](/glossary/namespace/) に属するリソースへのアクセスを試みる場合、その [Namespace](/glossary/namespace/) に対する[権限](/glossary/権限/)がないと 403 [エラー](/glossary/エラー/)が発生します。
+RoleBinding は特定の Namespace に紐付きます。Pod が存在する Namespace と、RoleBinding が定義されている Namespace が異なる場合、権限が認識されず 403 エラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
-```bash
-# development namespace に所属するユーザーが production 内のリソースにアクセス
-kubectl get pods -n production
-# Error from server (Forbidden): pods is forbidden: User "dev-user" cannot list resource "pods" in API group "" in the namespace "production"
+**Before（エラーが起きるコード）：**
+
+```yaml
+# namespace: kube-system に RoleBinding を定義
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-rolebinding
+  namespace: kube-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-role
+subjects:
+- kind: ServiceAccount
+  name: app-account
+  namespace: default  # 異なる namespace の ServiceAccount を指定
+---
+# Deployment は default namespace に存在
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: default
+spec:
+  template:
+    spec:
+      serviceAccountName: app-account
 ```
 
-**After（修正後）:**
+**After（修正後）：**
+
+```yaml
+# RoleBinding を正しい namespace に定義
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: app-rolebinding
+  namespace: default  # Pod と同じ namespace に統一
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-role
+subjects:
+- kind: ServiceAccount
+  name: app-account
+  namespace: default
+```
+
+### 原因3: 必要な API グループが Role に指定されていない
+
+Kubernetes リソースは API グループ（例: `apps`, `batch`, `networking.k8s.io`）に属しており、Role で適切な API グループを指定しなければアクセスできません。`apiGroups: [""]` は core API グループのみを対象とするため、拡張リソースには無効です。
+
+**Before（エラーが起きるコード）：**
+
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: cross-ns-reader
-  namespace: production
+  name: app-role
+  namespace: default
+rules:
+- apiGroups: [""]  # core API グループのみ
+  resources: ["pods"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["deployments"]  # ❌ deployments は "apps" グループ
+  verbs: ["get", "list"]
+```
+
+**After（修正後）：**
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-role
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/logs", "configmaps", "services"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "statefulsets", "daemonsets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["batch"]
+  resources: ["jobs", "cronjobs"]
+  verbs: ["get", "list", "create"]
+```
+
+### 原因4: デフォルト ServiceAccount が使用されている
+
+Pod 定義で `serviceAccountName` を明示的に指定しない場合、デフォルトの `default` ServiceAccount が使用されます。この `default` アカウントには通常、リソースへのアクセス権限がないため、403 エラーが発生します。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: default
+spec:
+  template:
+    spec:
+      # serviceAccountName を指定していないため、
+      # デフォルトの "default" ServiceAccount が使用される
+      containers:
+      - name: app
+        image: myapp:latest
+```
+
+**After（修正後）：**
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-account
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: app-role
+  namespace: default
 rules:
 - apiGroups: [""]
   resources: ["pods"]
@@ -149,130 +256,128 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: dev-user-access
-  namespace: production
+  name: app-rolebinding
+  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: cross-ns-reader
+  name: app-role
 subjects:
-- kind: User
-  name: dev-user
-  apiGroup: rbac.authorization.k8s.io
-```
-
-### 原因3: ユーザー認証情報の kubeconfig が古い、または権限が異なる
-
-**なぜ発生するか：**
-kubeconfig ファイルが古い認証情報を保持していたり、異なる[ロール](/glossary/ロール/)に属する設定になっていたりすると、[API](/glossary/api/) [サーバー](/glossary/サーバー/)が現在のユーザー[権限](/glossary/権限/)を正しく認識できず 403 が返されます。
-
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
-```bash
-# 古い kubeconfig で実行
-kubectl --kubeconfig=old-config.yaml apply -f deployment.yaml
-# Error from server (Forbidden): error when creating "deployment.yaml": deployments.apps is forbidden
-```
-
-**After（修正後）:**
-```bash
-# kubeconfig を再取得
-aws eks update-kubeconfig --region us-east-1 --name my-cluster
-# または
-gcloud container clusters get-credentials my-cluster --zone us-central1-a
-
-# 正しい認証情報で実行確認
-kubectl auth can-i create deployments --namespace default
-# yes
-
-kubectl apply -f deployment.yaml
+- kind: ServiceAccount
+  name: app-account
+  namespace: default
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: default
+spec:
+  template:
+    spec:
+      serviceAccountName: app-account  # 明示的に指定
+      containers:
+      - name: app
+        image: myapp:latest
 ```
 
 ## Kubernetes 固有の注意点
 
-### RBAC の確認と診断コマンド
+### Cluster 全体に適用する権限が必要な場合は ClusterRole を使用
 
-[RBAC](/glossary/rbac/) が複雑に設定されている場合、以下の[コマンド](/glossary/コマンド/)で[権限](/glossary/権限/)を検証します：
-
-```bash
-# 現在のユーザーが特定のアクションを実行できるかチェック
-kubectl auth can-i create deployments -n production
-
-# ServiceAccount の権限をチェック
-kubectl auth can-i list pods --as=system:serviceaccount:default:app-sa -n default
-
-# 特定のリソースに対する全権限を表示
-kubectl describe role app-reader -n default
-kubectl describe rolebinding app-reader-binding -n default
-```
-
-### Cluster Admin と ClusterRole の関係
-
-クラスター全体への[権限](/glossary/権限/)が必要な場合は、Role ではなく ClusterRole を使用します：
+Namespace を超えて全体的な権限が必要な場合、Role と RoleBinding ではなく ClusterRole と ClusterRoleBinding を使用します。例えば、全 Namespace の Pod を監視する監視エージェントやログ収集エージェントは ClusterRole が必須です。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: admin-role
+  name: log-collector
 rules:
-- apiGroups: ["*"]
-  resources: ["*"]
-  verbs: ["*"]
+- apiGroups: [""]
+  resources: ["pods", "pods/logs"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["namespaces"]
+  verbs: ["get", "list"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-binding
+  name: log-collector-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: admin-role
+  name: log-collector
 subjects:
-- kind: User
-  name: admin-user
-  apiGroup: rbac.authorization.k8s.io
+- kind: ServiceAccount
+  name: log-collector
+  namespace: kube-system
 ```
 
-### ServiceAccount の デフォルト動作
+### リソースの詳細なパーミッション制御（特定の Pod のみアクセス許可）
 
-[Kubernetes](/glossary/kubernetes/) 1.24 以降、ServiceAccount は自動的にシークレットを生成しなくなったため、手動でシークレットを作成する必要があります：
+Role では特定の Pod 名を直接指定することはできませんが、Label Selector を活用することで粒度の細かい制御が可能です。ただし RBAC では Label ベースのフィルタリングが直接機能しないため、webhook ベースの認可ポリシーを検討してください。
+
+### 標準的な Role テンプレート（view, edit, admin）
+
+Kubernetes は組み込みの ClusterRole を提供しており、これらを参考にすることで適切な権限構成を決定できます。
+
+```bash
+kubectl get clusterrole
+```
+
+`view`、`edit`、`admin` といった標準ロールが存在し、これらを RoleBinding で参照する方法も有効です。
 
 ```yaml
-apiVersion: v1
-kind: Secret
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
 metadata:
-  name: app-sa-token
+  name: app-view
   namespace: default
-  annotations:
-    kubernetes.io/service-account.name: app-sa
-type: kubernetes.io/service-account-token
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: ServiceAccount
+  name: app-account
+  namespace: default
 ```
 
 ## それでも解決しない場合
 
-### 確認すべきログとデバッグ方法
+### kubectl auth can-i コマンドで権限を確認
+
+特定の ServiceAccount が特定のアクションを実行可能か事前に確認できます。
 
 ```bash
-# API サーバーのログを確認（マネージドサービスの場合はコントロールプレーンログ）
-kubectl logs -n kube-system deployment/kube-apiserver
+kubectl auth can-i create deployments --as=system:serviceaccount:default:app-account -n default
+```
 
-# 自分の現在の認証情報を確認
-kubectl auth whoami
+成功時は `yes` が、失敗時は `no` が返されます。
 
-# 詳細なエラー情報を出力
-kubectl apply -f deployment.yaml -v=8
+### API サーバーのログを確認
 
-# ServiceAccount トークンの有効性確認
-kubectl get secret <secret-name> -o jsonpath='{.data.token}' | base64 -d
+Cluster 管理者は API サーバーのログを調査して詳細な拒否理由を確認できます。
+
+```bash
+kubectl logs -n kube-system -l component=kube-apiserver | grep "Forbidden"
+```
+
+### kubectl describe で Role / RoleBinding を確認
+
+定義されている Role や RoleBinding が正しく参照されているか確認します。
+
+```bash
+kubectl describe rolebinding app-rolebinding -n default
+kubectl describe role app-role -n default
 ```
 
 ### 公式ドキュメント
 
-[Kubernetes](/glossary/kubernetes/) の [RBAC](/glossary/rbac/) 公式ドキュメント（https://kubernetes.io/docs/reference/access-authn-authz/rbac/）に詳細な設定例が記載されています。特に「Using [RBAC](/glossary/rbac/) Authorization」セクションを参照してください。
-
-### コミュニティリソース
-
-GitHub の [Kubernetes](/glossary/kubernetes/) Issues（https://github.com/kubernetes/kubernetes/issues）や [Kubernetes](/glossary/kubernetes/) Slack の #rbac チャネルで、類似の問題報告と解決策が共有されています。
+- [Kubernetes RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
+- [ServiceAccounts](https://kubernetes.io/docs/concepts/security/service-accounts/)
+- [Managing Service Accounts](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/)
 
 ---
 

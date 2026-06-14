@@ -8,10 +8,12 @@ service: "GitLab"
 error_type: "404"
 components: []
 related_services: ["curl", "Python requests"]
+lastmod: 2026-06-14
 ---
+
 ## エラーの概要
 
-GitLabの404エラーは、指定したプロジェクト・マージリクエスト・ファイルなどのリソースが見つからないことを意味します。API呼び出しやWebUIでのアクセス時に発生し、プロジェクトの存在確認、アクセス権限、リソースパスの誤入力などが主な原因です。
+GitLabの404エラーは、指定したプロジェクト・マージリクエスト・ファイルなどのリソースが見つからないことを意味します。API呼び出しやWebUIでのアクセス時に発生し、プロジェクトの存在確認、アクセス権限、リソースパスの誤入力などが主な原因です。プロジェクトが削除された、URLエンコーディングが正しくない、トークンの権限が不足している場合にも表示されます。
 
 ## 実際のエラーメッセージ例
 
@@ -30,6 +32,14 @@ $ curl -H "PRIVATE-TOKEN: <your-token>" "https://gitlab.com/api/v4/projects/wron
 {"message":"404 Not Found"}
 ```
 
+**WebUIでのブラウザ表示：**
+
+```
+404 Not Found
+
+The page you're looking for could not be found.
+```
+
 **Python requests ライブラリでのエラー：**
 
 ```python
@@ -38,146 +48,206 @@ response = requests.get(
     "https://gitlab.com/api/v4/projects/invalid-path",
     headers={"PRIVATE-TOKEN": "<your-token>"}
 )
-# response.status_code == 404
-# response.json() → {"message": "404 Not Found"}
+print(response.status_code)  # 404
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：プロジェクトのパスまたはIDの綴りが間違っている
+### 原因1：プロジェクトIDまたはパスの誤入力
 
-GitLabのプロジェクトはnamespace/project_pathの形式でアクセスされます。URLやAPIパスに誤字があると、サーバーがそのリソースを検索できず404を返します。特に複数の類似プロジェクト名がある環境では、このミスが頻繁に発生します。
+GitLab APIのプロジェクト指定時に、数字のプロジェクトID、またはURL形式の `namespace/project-name` を使用します。パスに特殊文字やスペースが含まれる場合は、URLエンコーディングが必須です。スラッシュ（`/`）は `%2F` にエンコードする必要があります。
 
-**修正前（エラーが起きるコード）：**
-
-```bash
-# プロジェクトパスの綴りが間違っている
-curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/my-team%2Fmy-projct"
-  # ↑ "my-projct" は存在しない（正しくは "my-project"）
-```
-
-**修正後：**
+**Before（エラーが起きるコード）：**
 
 ```bash
-# GitLab WebUIで確認したパスと完全に一致させる
+# スラッシュがエンコードされていない
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/my-team%2Fmy-project"
-  # URLエンコード: "/" → "%2F"
+  "https://gitlab.com/api/v4/projects/my-group/my-project/repository/commits"
+
+# 結果：404 Not Found
 ```
 
-### 原因2：プライベートプロジェクトに権限のないトークンでアクセスしている
+**After（修正後）：**
 
-プライベートプロジェクトへのAPIアクセスには、`api`スコープ（APIアクセス権限）を持つPersonal Access Tokenが必要です。スコープがない、または期限切れのトークンを使用した場合、権限がないとみなされ404が返されます。
+```bash
+# スラッシュをURLエンコードする（%2F）
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/my-group%2Fmy-project/repository/commits"
 
-**修正前（エラーが起きるコード）：**
+# または数字のプロジェクトIDを使用
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/repository/commits"
+```
+
+### 原因2：トークンの権限不足またはプロジェクトへのアクセス権限がない
+
+プライベートプロジェクトへのアクセスには、適切な権限を持つトークンが必要です。トークンが存在しない、有効期限が切れている、または該当プロジェクトへのアクセス権限がないメンバーが使用している場合、404が返されます。GitLabはセキュリティの観点から、権限がないリソースを404で返すため、403（Forbidden）と区別されません。
+
+**Before（エラーが起きるコード）：**
 
 ```python
 import requests
 
-# トークンに api スコープがない（read_user のみなど）
-token = "<your-token-without-api-scope>"
+# 有効期限切れのトークンを使用
+headers = {"PRIVATE-TOKEN": "glpat-xxxxxxxxxxxx"}
 response = requests.get(
-    "https://gitlab.com/api/v4/projects/private-namespace%2Fprivate-project",
-    headers={"PRIVATE-TOKEN": token}
+    "https://gitlab.example.com/api/v4/projects/sensitive-project",
+    headers=headers
 )
-# → 404 Not Found (権限不足が原因)
+# 404 Not Found が返される
+print(response.status_code)
 ```
 
-**修正後：**
+**After（修正後）：**
 
 ```python
 import requests
+import os
 
-# api スコープを含むトークンを使用
-token = "<your-token-with-api-scope>"
+# 環境変数から有効なトークンを取得
+token = os.environ.get("GITLAB_TOKEN")
+if not token:
+    raise ValueError("GITLAB_TOKEN is not set")
+
+headers = {"PRIVATE-TOKEN": token}
 response = requests.get(
-    "https://gitlab.com/api/v4/projects/private-namespace%2Fprivate-project",
-    headers={"PRIVATE-TOKEN": token}
+    "https://gitlab.example.com/api/v4/projects/sensitive-project",
+    headers=headers
 )
-# → 200 OK
-print(response.json())
+
+if response.status_code == 404:
+    print("プロジェクトが見つからないか、アクセス権限がありません")
+elif response.status_code == 200:
+    print("成功")
 ```
 
-### 原因3：ブランチ名またはコミットSHAが間違っている
+### 原因3：プロジェクトが削除された、または名前空間が変更された
 
-ファイル取得やコミット情報の参照時に、存在しないブランチ名やコミットハッシュを指定すると404になります。特にブランチ名の大文字小文字の区別やコミットSHAの一部指定時に注意が必要です。
+プロジェクトが削除された場合、そのURLにアクセスすると404が返されます。また、グループやユーザーの名前空間が変更された場合、古いパスでのアクセスも404になります。プロジェクトが転送（移動）された場合、古いURLから新しいURLへのリダイレクトが設定されていないと404が表示されます。
 
-**修正前（エラーが起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```bash
-# ブランチ名が間違っている（大文字小文字の不一致）
+# 旧いプロジェクトパスでアクセス（名前空間が変更済み）
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/my-team%2Fmy-project/repository/files/README.md?ref=Main"
-  # ↑ ブランチ名は "main" だが "Main" と指定
+  "https://gitlab.com/api/v4/projects/old-team%2Fproject-name"
 
-# またはコミットSHAが不完全な形式
-curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/my-team%2Fmy-project/repository/commits/abc123"
-  # ↑ 実際のコミットSHAが "abc123def456..." なのに一部のみ指定
+# 404 Not Found
 ```
 
-**修正後：**
+**After（修正後）：**
 
 ```bash
-# ブランチ名を正確に指定（GitLab WebUIで確認）
+# 新しいプロジェクトパスでアクセス
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/my-team%2Fmy-project/repository/files/README.md?ref=main"
+  "https://gitlab.com/api/v4/projects/new-team%2Fproject-name"
 
-# コミットSHAの完全形式を使用するか、タグを利用
+# または、プロジェクトの詳細情報を確認して実際のパスを確認
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/my-team%2Fmy-project/repository/commits/abc123def456789"
-  # またはブランチ名やタグで参照
-  # ?ref=feature/my-feature
+  "https://gitlab.com/api/v4/projects" | jq '.[] | select(.name=="project-name")'
+```
+
+### 原因4：マージリクエストやイシューのIDが存在しない
+
+プロジェクト内の特定マージリクエスト、イシュー、パイプラインなどのIDが存在しない場合、404が返されます。プロジェクトIDは正しいがリソースIDが誤っている、または削除されている状況です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# マージリクエストID 999 が存在しない
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/merge_requests/999"
+
+# 404 Not Found
+```
+
+**After（修正後）：**
+
+```bash
+# プロジェクト内のすべてのマージリクエストをリストして確認
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/merge_requests" | jq '.[] | {id, title}'
+
+# 正しいIDでアクセス
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/merge_requests/42"
+```
+
+### 原因5：ファイルパスが間違っている、またはブランチが削除されている
+
+リポジトリ内のファイルにアクセスする際、ファイルパスやブランチ名が誤っている場合に404が返されます。特定ブランチが削除されている、ファイルが移動された、パスの大文字小文字が一致していない場合も対象です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# 削除済みブランチ "feature-old" からファイルを取得
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/repository/files/src%2Fmain.py?ref=feature-old"
+
+# 404 Not Found
+```
+
+**After（修正後）：**
+
+```bash
+# 存在するブランチを確認
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/repository/branches" | jq '.[] | .name'
+
+# 正しいブランチでアクセス
+curl -H "PRIVATE-TOKEN: <your-token>" \
+  "https://gitlab.com/api/v4/projects/12345/repository/files/src%2Fmain.py?ref=main"
 ```
 
 ## ツール固有の注意点
 
-GitLabでは、プロジェクトIDとパスの両方でリソースにアクセスできます。プロジェクトIDは数値で不変ですが、パス名は変更される可能性があります。プロジェクトが移動またはリネームされた場合、古いパスでのアクセスは404になります。
+**GitLab API固有の問題：**
 
-**例：プロジェクトIDでアクセスする方法**
+GitLab APIではリソース所有者の権限がない場合、セキュリティ上の理由から404を返します。つまり、403（Forbidden）ではなく404が表示されるため、「リソースがない」のか「権限がない」のか区別が難しくなります。WebUIで同じプロジェクトにアクセスできるか確認することが有効です。
 
-```bash
-# パスの代わりにプロジェクトIDで参照（より確実）
-# プロジェクトIDは GitLab WebUI > プロジェクト設定から確認可能
-curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/12345/repository/files/README.md"
-  # 12345 がプロジェクトID
-```
+**グループ・サブグループ間でのパス変更：**
 
-セルフホストGitLabの場合、URLが異なります（例：`https://gitlab.your-company.com`）。API仕様はGitLab.comと同じですが、URLの誤入力がないか確認してください。
+グループやサブグループの構造が変わった場合、API呼び出しのパスも対応する必要があります。`/groups/<id>` と `/groups/<path>` の両形式がサポートされていますが、パスベースでアクセスする場合は完全な階層パスが必須です。
 
-マージリクエスト番号やissue番号を参照する際も、プロジェクトパスが正確でない限り404になります。特にCI/CDパイプラインスクリプト内で動的にURLを構築する場合は、変数展開時の誤りに注意してください。
+**Self-hosted GitLab でのURL確認：**
 
-```bash
-# GitLab CI 内での例：PROJECT_PATH と MR_IID を利用
-curl -H "PRIVATE-TOKEN: $CI_JOB_TOKEN" \
-  "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/merge_requests/$CI_MERGE_REQUEST_IID"
-```
+オンプレミスGitLab環境では、WebUIで確認したURLとAPI エンドポイントのベースURLが一致しているか確認します。リバースプロキシやロードバランサー経由でアクセスしている場合、`gitlab.yml` の `external_url` 設定が正確か検証が必要です。
+
+**Legacy API vs GraphQL：**
+
+GitLab REST APIとGraphQL APIでは、リソースの指定方法が異なります。特にマージリクエストやパイプラインではプロジェクトIDが必須の場合があり、プロジェクトパスだけでは404になることがあります。
 
 ## それでも解決しない場合
 
-まずGitLab WebUIで同じURLにアクセスして、そのリソースが実際に存在するかを確認してください。WebUIでアクセス可能であればAPI呼び出しのパスやスコープ、トークンの期限を確認します。
+**確認すべきログの場所：**
 
-**デバッグ用コマンド：**
+GitLab管理者権限がある場合は、管理画面の「ログ」セクションで詳細なアクセスログを確認します。また、自身のGitLabインスタンスへのアクセス履歴は、WebUI右上のプロフィール > 「Last activity」で時系列確認できます。
+
+**デバッグコマンド：**
 
 ```bash
-# トークンの情報を確認（スコープ、期限）
+# トークンの権限を確認
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/user"
+  "https://gitlab.example.com/api/v4/user"
 
-# プロジェクト情報を取得（パスとIDを確認）
+# プロジェクト一覧を取得（アクセス可能なもの）
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects?search=my-project"
+  "https://gitlab.example.com/api/v4/projects?pagination=keyset&per_page=100"
 
-# ブランチ一覧を確認
+# 特定プロジェクトの詳細情報を確認
 curl -H "PRIVATE-TOKEN: <your-token>" \
-  "https://gitlab.com/api/v4/projects/<project-id>/repository/branches"
+  "https://gitlab.example.com/api/v4/projects/<project-id>"
 ```
 
-`gitlab.com`の代わりにセルフホストGitLabを使用している場合は、管理者ログで該当リクエストのログを確認することができます（`/var/log/gitlab/nginx/access.log`など、インストール方法に応じて異なります）。
+**公式ドキュメント参照：**
 
-最新のGitLab APIドキュメントは公式サイト（https://docs.gitlab.com/ee/api/）を参照してください。バージョンによってエンドポイントやレスポンス形式が異なることがあります。
+- GitLab API ドキュメント：`https://docs.gitlab.com/ee/api/`
+- プロジェクトAPI：`https://docs.gitlab.com/ee/api/projects.html`
+- トークン管理：`https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html`
+
+**コミュニティリソース：**
+
+GitLab公式フォーラム（`https://forum.gitlab.com`）やGitHub Issues（GitLab Runnerなどのオープンソースコンポーネントの場合）でも同様の問題が報告されていないか検索してみてください。特に「404」「Not Found」「API」を組み合わせたキーワード検索が有効です。
 
 ---
 

@@ -4,7 +4,7 @@ date: 2026-05-27
 description: "Kubernetes環境で503エラーが発生するのは、クライアントからのリクエストに対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。"
 tags: ["Kubernetes"]
 errorCode: "503"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "Kubernetes"
 error_type: "503"
 components: ["Pod", "Service", "Deployment", "Endpoints", "Readiness Probe"]
@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)環境で503[エラー](/glossary/エラー/)が発生するのは、クライアントからの[リクエスト](/glossary/リクエスト/)に対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもあります。
+Kubernetes環境で503エラーが発生するのは、クライアントからのリクエストに対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、バックエンドのPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示されるHTTPステータスコードです。本エラーは一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -36,260 +36,342 @@ No servers are available to handle this request.
   "metadata": {},
   "status": "Failure",
   "message": "no endpoints available for service",
-  "reason": "ServiceUnavailable",
   "code": 503
 }
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：対象ServiceのEndpointsが空の状態
+### 原因1: Podがすべてダウン状態である
 
-**なぜ発生するか**
-Serviceに紐づくPodがすべて停止しているか、Selectorラベルが一致していない場合、Endpointsが生成されず、トラフィックを受け取るPodが存在しない状態になります。
+DeploymentやStatefulSetで定義したPodが何らかの理由でクラッシュしており、バックエンドサーバーが完全に停止している状態です。CrashLoopBackOff状態やExit Code 1などの異常終了が続いている場合に発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service
-spec:
-  selector:
-    app: myapp
-  ports:
-  - port: 80
-    targetPort: 8080
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: app-pod
-  labels:
-    app: wrongapp  # Selectorと一致していない
-spec:
-  containers:
-  - name: app
-    image: myapp:latest
-    ports:
-    - containerPort: 8080
-```
+**Before（エラーが起きるコード）：**
 
-**After（修正後）**
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-service
-spec:
-  selector:
-    app: myapp
-  ports:
-  - port: 80
-    targetPort: 8080
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: app-pod
-  labels:
-    app: myapp  # Selectorと一致させる
-spec:
-  containers:
-  - name: app
-    image: myapp:latest
-    ports:
-    - containerPort: 8080
-```
-
-**確認[コマンド](/glossary/コマンド/)**
-```bash
-kubectl get endpoints <service-name> -n <namespace>
-# 出力にIPアドレスがあれば正常。<none>なら原因1の可能性が高い
-```
-
-### 原因2：Podの起動に失敗している、またはリソース不足
-
-**なぜ発生するか**
-Podが[イメージ](/glossary/イメージ/)の取得失敗、メモリ/CPU不足、Readiness Probeの失敗などによってRunning状態に至らず、トラフィック処理能力がない状態です。
-
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-deployment
+  name: web-app
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: myapp
+      app: web
   template:
     metadata:
       labels:
-        app: myapp
+        app: web
     spec:
       containers:
       - name: app
-        image: myapp:nonexistent  # 存在しないイメージタグ
-        ports:
-        - containerPort: 8080
-      resources:
-        requests:
-          memory: "512Mi"
-          cpu: "500m"
+        image: myapp:latest
+        env:
+        - name: DATABASE_URL
+          value: "invalid-connection-string"
 ```
 
-**After（修正後）**
+**After（修正後）：**
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-deployment
+  name: web-app
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: myapp
+      app: web
   template:
     metadata:
       labels:
-        app: myapp
+        app: web
     spec:
       containers:
       - name: app
-        image: myapp:v1.0  # 正しいイメージタグ
-        ports:
-        - containerPort: 8080
-      resources:
-        requests:
-          memory: "256Mi"
-          cpu: "100m"
-        limits:
-          memory: "512Mi"
-          cpu: "500m"
-      readinessProbe:
-        httpGet:
-          path: /health
-          port: 8080
-        initialDelaySeconds: 5
-        periodSeconds: 10
+        image: myapp:latest
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: connection-string
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
 ```
 
-**確認[コマンド](/glossary/コマンド/)**
+Podのステータスを確認するコマンド：
+
 ```bash
 kubectl get pods -n <namespace>
 kubectl describe pod <pod-name> -n <namespace>
 kubectl logs <pod-name> -n <namespace>
 ```
 
-### 原因3：IngressまたはLoadBalancerの設定ミス
+### 原因2: Readiness Probeに失敗している
 
-**なぜ発生するか**
-IngressやLoadBalancerの設定で、[バックエンド](/glossary/バックエンド/)Serviceへのルーティング先が間違っていたり、[ポート](/glossary/ポート/)番号が一致していない場合、有効な[バックエンド](/glossary/バックエンド/)に到達できません。
+Readiness Probeが設定されているものの、起動時間が長すぎたり、ヘルスチェックエンドポイントが応答しなかったりして、Podが「Ready」状態に到達していません。この場合、Podプロセスは動作していても、トラフィックがルーティングされません。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
+**Before（エラーが起きるコード）：**
+
 ```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: app-ingress
+  name: api-server
 spec:
-  rules:
-  - host: example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: wrong-service  # 存在しないService名
-            port:
-              number: 80
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: api-service:v1.0
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
 ```
 
-**After（修正後）**
+**After（修正後）：**
+
 ```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: app-ingress
+  name: api-server
 spec:
-  rules:
-  - host: example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: app-service  # 正しいService名
-            port:
-              number: 80
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: api-service:v1.0
+        ports:
+        - containerPort: 3000
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 20
+          periodSeconds: 10
+```
+
+Readiness Probeの状態を確認するコマンド：
+
+```bash
+kubectl get pods -o wide -n <namespace>
+kubectl describe pod <pod-name> -n <namespace> | grep -A 5 "Ready"
+```
+
+### 原因3: Serviceのエンドポイントが設定されていない
+
+ServiceとPodのラベルセレクタが一致していない場合、Serviceは利用可能なエンドポイントを持たず、トラフィックをルーティングできません。この場合、Serviceオブジェクトは存在していても、バックエンドのPodが見つかりません。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: server
+        image: backend-app:latest
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+    tier: web
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+```
+
+**After（修正後）：**
+
+```yaml
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+      tier: api
+  template:
+    metadata:
+      labels:
+        app: backend
+        tier: api
+    spec:
+      containers:
+      - name: server
+        image: backend-app:latest
+        ports:
+        - containerPort: 8080
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+    tier: api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+```
+
+Serviceのエンドポイント確認コマンド：
+
+```bash
+kubectl get endpoints <service-name> -n <namespace>
+kubectl describe service <service-name> -n <namespace>
 ```
 
 ## Kubernetes固有の注意点
 
-### Pod起動状態の確認
-複数のPodが存在する場合、一部だけダウンしていると段階的に503が増加します。以下で全Pod状態を確認してください：
+### RBAC（Role-Based Access Control）による制限
 
-```bash
-kubectl get pods -n <namespace> -o wide
-kubectl top nodes  # ノードのリソース使用状況
-kubectl top pods -n <namespace>  # Pod単位のリソース使用状況
-```
+ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部リソースへのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider API、その他外部サービスにアクセスする必要がある場合は、RBACの設定を確認してください。
 
-### Livenessプローブ vs Readinessプローブ
-- **Livenessプローブ失敗**：Podが再起動されるため、一時的に全Podがダウンして503発生
-- **Readinessプローブ失敗**：Podは起動したままだが、Endpointsから除外されて503発生
+### リソースリクエスト・リミットの不足
 
-アプリケーション起動時間が長い場合、`initialDelaySeconds`を適切に設定してください。
+CPUメモリリクエスト/リミットが不適切に設定されていると、Nodeのリソースが不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
+
+**Before（エラーが起きるコード）：**
 
 ```yaml
-readinessProbe:
-  httpGet:
-    path: /health
-    port: 8080
-  initialDelaySeconds: 30  # アプリの起動時間に合わせる
-  periodSeconds: 10
-  failureThreshold: 3
+spec:
+  containers:
+  - name: app
+    image: heavy-app:latest
+    # リソース要件が記述されていない
 ```
 
-### RBAC権限とNetworkPolicy
-ServiceAccountの権限不足やNetworkPolicyによる通信制限も503の原因になります。必要な[RBAC](/glossary/rbac/)設定を確認してください：
+**After（修正後）：**
 
-```bash
-kubectl auth can-i get pods --as=system:serviceaccount:<namespace>:<sa-name>
-kubectl get networkpolicies -n <namespace>
+```yaml
+spec:
+  containers:
+  - name: app
+    image: heavy-app:latest
+    resources:
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
 ```
+
+### Namespaceの隔離
+
+異なるNamespace上のServiceにアクセスしようとしている場合、ServiceのFQDN（`<service-name>.<namespace>.svc.cluster.local`）を正確に指定する必要があります。
+
+### Ingress設定の不備
+
+IngressコントローラーがServiceを正しく検出できていない場合、Ingressを経由したアクセスで503が発生します。IngressのBackend設定とServiceのPort番号の一致を確認してください。
 
 ## それでも解決しない場合
 
-### 確認すべきログとデバッグコマンド
+### ログの確認
 
 ```bash
-# Pod内のアプリケーションログ確認
-kubectl logs <pod-name> -n <namespace> --previous  # 前回のコンテナログ
-kubectl logs <pod-name> -n <namespace> --tail=50
+# Podのログを確認
+kubectl logs <pod-name> -n <namespace> --tail=100
 
-# イベント確認（Pod作成失敗の理由が表示される）
-kubectl describe pod <pod-name> -n <namespace>
+# 前回のクラッシュログを確認
+kubectl logs <pod-name> -n <namespace> --previous
+
+# 複数Podのログを同時に確認
+kubectl logs -l app=<label-value> -n <namespace> --all-containers=true
+```
+
+### Eventの確認
+
+```bash
+kubectl describe node <node-name>
 kubectl get events -n <namespace> --sort-by='.lastTimestamp'
+```
 
-# Service設定の詳細確認
-kubectl describe service <service-name> -n <namespace>
+### kube-proxyのデバッグ
 
-# Endpoints確認
-kubectl get endpoints <service-name> -n <namespace> -o yaml
+```bash
+# kube-proxyのログを確認
+kubectl logs -n kube-system -l k8s-app=kube-proxy
+
+# ServiceのEndpointsが正しく作成されているか確認
+kubectl get endpoints -A
+```
+
+### メトリクスの確認
+
+Podのリソース使用率を確認して、リソース不足が原因でないか調査します。
+
+```bash
+kubectl top nodes
+kubectl top pods -n <namespace>
 ```
 
 ### 公式ドキュメント参照
-- **[Kubernetes](/glossary/kubernetes/)デバッグガイド**：https://kubernetes.io/docs/tasks/debug/debug-application/
-- **Pod Lifecycle とProbes**：https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
-- **Service and Ingress**：https://kubernetes.io/docs/concepts/services-networking/service/
 
-### コミュニティリソース
-[Kubernetes](/glossary/kubernetes/)の公式Slack（#kubernetes-users）、または GitHub Issues（https://github.com/kubernetes/kubernetes/issues）で同様の事例を検索することで、より詳細な解決策が見つかることがあります。特に「503 Service Unavailable Endpoints」で検索すると有用です。
+Kubernetes公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用しているKubernetesバージョンに応じた互換性情報も確認してください。
 
 ---
 

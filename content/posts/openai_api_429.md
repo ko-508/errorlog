@@ -4,7 +4,7 @@ date: 2026-05-24
 description: "429エラーは、OpenAI APIのレート制限に達したときに返されるToo Many Requestsを意味します。OpenAI APIは、API キーごとにTPM（1分あたりのトークン数）やRPM（1分あたりのリクエスト数）に上限を設定"
 tags: ["OpenAI API"]
 errorCode: "429"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "OpenAI API"
 error_type: "429"
 components: []
@@ -13,7 +13,7 @@ related_services: []
 
 ## エラーの概要
 
-429[エラー](/glossary/エラー/)は、OpenAI [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したときに返される**Too Many Requests**を意味します。OpenAI [API](/glossary/api/)は、[API](/glossary/api/) キーごとにTPM（1分あたりの[トークン](/glossary/トークン/)数）やRPM（1分あたりの[リクエスト](/glossary/リクエスト/)数）に上限を設定しており、この制限を超過するとこの[エラー](/glossary/エラー/)が発生します。本番環境での動作停止につながるため、早期の対応が重要です。
+429エラーは、OpenAI APIのレート制限に達したときに返される**Too Many Requests**を意味します。OpenAI APIは、APIキーごとにTPM（1分あたりのトークン数）やRPM（1分あたりのリクエスト数）に上限を設定しており、この制限を超過するとこのエラーが発生します。本番環境での動作停止につながるため、早期の対応が重要です。
 
 ## 実際のエラーメッセージ例
 
@@ -29,161 +29,194 @@ related_services: []
 ```
 
 ```python
-openai.error.RateLimitError: Rate limit exceeded for gpt-4 in organization <your-org-id> on tokens per min. Limit: 40000, Used: 40200, Requested: 500. Please try again in 1m2s.
+RateLimitError: Error code: 429 - {'error': {'message': 'You exceeded your current quota, please check your plan and billing settings.', 'type': 'server_error', 'param': None, 'code': 'quota_limit_exceeded'}}
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：1分間のトークン数制限（TPM）超過
+### 原因1：短時間に過度なリクエストを送信している
 
-OpenAI [API](/glossary/api/)の有料プランでは、1分あたりの利用[トークン](/glossary/トークン/)数に上限があります。長いテキストの一括処理や並行[リクエスト](/glossary/リクエスト/)が多いと、この制限に達します。
+複数のユーザーリクエストを同時並行処理したり、バッチ処理で大量のAPI呼び出しを行ったりすると、RPM（1分あたりのリクエスト数）制限に引っかかります。特に、ループ内で無制限にAPIを呼び出す実装が該当します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（エラーが起きるコード）：**
+
 ```python
 import openai
 
-messages = [{"role": "user", "content": very_long_text} for _ in range(100)]
-
-for msg in messages:
+# 大量のテキストを一気に処理
+texts = ["質問1", "質問2", "質問3", ... "質問100"]
+for text in texts:
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[msg],
-        max_tokens=2000
+        messages=[{"role": "user", "content": text}]
     )
     print(response)
 ```
 
-**After（修正後）**
+**After（修正後）：**
+
 ```python
 import openai
 import time
 
-messages = [{"role": "user", "content": very_long_text} for _ in range(100)]
-
-for i, msg in enumerate(messages):
+texts = ["質問1", "質問2", "質問3", ... "質問100"]
+for i, text in enumerate(texts):
     response = openai.ChatCompletion.create(
         model="gpt-4",
-        messages=[msg],
-        max_tokens=2000
+        messages=[{"role": "user", "content": text}]
     )
     print(response)
     
-    if (i + 1) % 10 == 0:
-        time.sleep(60)  # 1分待機してTPMリセット
+    # リクエスト間に遅延を挿入（例：0.5秒）
+    if i < len(texts) - 1:
+        time.sleep(0.5)
 ```
 
-### 原因2：リクエスト数上限（RPM）超過
+### 原因2：トークン数の制限を超過している
 
-OpenAI [API](/glossary/api/)のフリープランでは、1分あたりの[リクエスト](/glossary/リクエスト/)数が制限されています。並行処理やループ処理で多くの[リクエスト](/glossary/リクエスト/)を短時間に送信するとこの制限に達します。
+RPM制限に引っかからなくても、TPM（1分あたりのトークン数）制限に到達することがあります。長いコンテキストを含むリクエストや、複数の並行リクエストで累積トークン数が上限を超える場合です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（エラーが起きるコード）：**
+
 ```python
-import concurrent.futures
 import openai
+from concurrent.futures import ThreadPoolExecutor
+
+# 長い文脈を同時に複数送信
+long_context = "..." * 1000  # 非常に長い文脈
 
 def call_api(prompt):
     return openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}]
+        model="gpt-4",
+        messages=[{"role": "user", "content": long_context + prompt}]
     )
 
-prompts = [f"質問{i}" for i in range(50)]
-
-with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
+# 10個のスレッドで同時実行
+with ThreadPoolExecutor(max_workers=10) as executor:
     results = list(executor.map(call_api, prompts))
 ```
 
-**After（修正後）**
+**After（修正後）：**
+
 ```python
 import openai
 import time
 
-def call_api_with_retry(prompt, max_retries=3):
+# 文脈をチャンクに分割し、逐次処理
+chunks = [long_context[i:i+500] for i in range(0, len(long_context), 500)]
+
+for chunk in chunks:
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": chunk}]
+    )
+    print(response)
+    time.sleep(1)  # リクエスト間に遅延を設定
+```
+
+### 原因3：アカウントの利用上限（クォータ）に達している
+
+APIキーのクォータが設定額に達したり、無料トライアルの期限が切れたりすると、「quota_limit_exceeded」というコードで429エラーが返されます。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import openai
+
+# 利用上限に達したまま実行
+response = openai.ChatCompletion.create(
+    model="gpt-4",
+    messages=[{"role": "user", "content": "Hello"}]
+)
+```
+
+**After（修正後）：**
+
+```python
+# 1. OpenAI Dashboardでクォータと利用状況を確認
+# https://platform.openai.com/account/billing/overview
+
+# 2. 必要に応じて有料プランにアップグレード
+# または月額使用上限を引き上げる
+
+# 3. Retry-Afterヘッダーを参照して自動リトライアロジックを実装
+import openai
+import time
+
+max_retries = 3
+retry_count = 0
+
+while retry_count < max_retries:
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": "Hello"}]
+        )
+        break
+    except openai.error.RateLimitError as e:
+        # レスポンスヘッダーからRetry-Afterを取得
+        retry_after = int(e.headers.get("retry-after", 60))
+        print(f"{retry_after}秒待機してリトライします")
+        time.sleep(retry_after)
+        retry_count += 1
+```
+
+## OpenAI API固有の注意点
+
+### レート制限の段階的な引き上げ
+
+OpenAIの無料トライアルアカウントやPaymentMethodを登録していないアカウントは、デフォルトで低いRPM/TPM制限が設定されています。実運用環境では、OpenAI Dashboard（https://platform.openai.com/account/rate-limits）でリクエスト上限をリアルタイム確認し、必要に応じてサポートに増加を申請してください。有料プランでも、利用量が少ないうちは自動的に上限が引き上げられます。
+
+### exponential backoff の実装推奨
+
+OpenAI公式ドキュメントでは、429エラーの際に**Exponential Backoff**（指数バックオフ）を用いたリトライアロジックを推奨しています。単純な固定遅延ではなく、試行回数に応じて待機時間を増加させることで、サーバー負荷を軽減しつつ成功率を高めます。
+
+```python
+import openai
+import random
+import time
+
+def create_completion_with_backoff(prompt, max_retries=3):
     for attempt in range(max_retries):
         try:
-            return openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+            response = openai.ChatCompletion.create(
+                model="gpt-4",
                 messages=[{"role": "user", "content": prompt}]
             )
+            return response
         except openai.error.RateLimitError:
-            if attempt < max_retries - 1:
-                wait_time = (2 ** attempt) + 1  # 指数バックオフ
-                time.sleep(wait_time)
-            else:
+            if attempt == max_retries - 1:
                 raise
-
-prompts = [f"質問{i}" for i in range(50)]
-
-for prompt in prompts:
-    result = call_api_with_retry(prompt)
-    time.sleep(1.2)  # RPM制限を考慮して遅延
+            # 2^attempt秒 + ランダムな遅延
+            wait_time = 2 ** attempt + random.uniform(0, 1)
+            print(f"Attempt {attempt + 1}: {wait_time:.2f}秒待機")
+            time.sleep(wait_time)
 ```
 
-### 原因3：APIキーが異なる組織に属している
+### APIバージョンの確認
 
-複数の組織に属する[API](/glossary/api/)キーを使う場合、リクエストヘッダーで指定した組織の[レート制限](/glossary/レート制限/)が適用されます。期待する組織ではなく別の組織として認識されると、その組織の低い制限に引っかかります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
-```python
-import openai
-
-openai.api_key = "<your-api-key>"
-# 組織を指定していない場合、デフォルト組織の制限が適用される
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello"}]
-)
-```
-
-**After（修正後）**
-```python
-import openai
-
-openai.api_key = "<your-api-key>"
-openai.organization = "<your-org-id>"  # 明示的に組織を指定
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello"}]
-)
-```
-
-## OpenAI API 固有の注意点
-
-**[レート制限](/glossary/レート制限/)の種類の確認**
-OpenAI [API](/glossary/api/)には複数の制限レイヤーがあります。`x-ratelimit-limit-tokens`、`x-ratelimit-remaining-tokens`、`x-ratelimit-reset-tokens`の各レスポンスヘッダーを確認することで、現在の利用状況を把握できます。
-
-```python
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "test"}]
-)
-
-# レート制限情報を確認
-print(f"Remaining tokens: {response['headers'].get('x-ratelimit-remaining-tokens')}")
-print(f"Reset time: {response['headers'].get('x-ratelimit-reset-tokens')}")
-```
-
-**[モデル](/glossary/モデル/)ごとの異なる制限**
-`gpt-4`、`gpt-3.5-turbo`、`text-embedding-3-large`など、[モデル](/glossary/モデル/)によってレート制限値が異なります。設定ページで各[モデル](/glossary/モデル/)の現在の制限を確認し、使用する[モデル](/glossary/モデル/)を選択してください。
-
-**[リクエスト](/glossary/リクエスト/)単位の[トークン](/glossary/トークン/)削減**
-長文を処理する際は、事前に`max_tokens`[パラメータ](/glossary/パラメータ/)を調整するか、入力テキストを分割して複数回の[リクエスト](/glossary/リクエスト/)に分散させることで、1回あたりの[トークン](/glossary/トークン/)消費を削減できます。
+openai-python ライブラリのバージョンが古い場合、レート制限に関する情報が正しく返されないことがあります。`pip install --upgrade openai` で最新版に更新してください。v1.0以降では、例外処理のAPI仕様が変わっているため注意が必要です。
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)とメトリクスの確認**
-OpenAI [API](/glossary/api/)[ダッシュボード](/glossary/ダッシュボード/)の「Usage」ページで、実際の使用[トークン](/glossary/トークン/)数と制限値をリアルタイムで確認できます。[エラー](/glossary/エラー/)が発生した時間帯のグラフから、何がトリガーになったかを特定しましょう。
+### デバッグ方法
 
-**公式ドキュメント**
-[Rate limits - OpenAI API](https://platform.openai.com/docs/guides/rate-limits)では、プラン別の具体的な制限値と対処方法が記載されています。
+1. **現在のレート制限を確認**：OpenAI Dashboard の Rate Limits ページで、APIキーのTPM/RPM設定値と実際の利用状況をリアルタイム確認してください。
 
-**サポートへの問い合わせ**
-制限値の引き上げが必要な場合は、OpenAI [API](/glossary/api/)の[ダッシュボード](/glossary/ダッシュボード/)内の「Help」セクションから公式サポートに連絡できます。利用用途と予想利用量を明記することで、上限引き上げの審査が加速します。
+2. **リクエストログを有効化**：openai-python ライブラリで、以下の環境変数を設定するとHTTPリクエスト/レスポンスの詳細がログに出力されます：
 
-**GitHub Issues**
-同じ問題を抱えるエンジニア同士が情報を共有できるOpenAI Python ライブラリの[Issues](https://github.com/openai/openai-python/issues)では、より詳細な回避策が議論されていることがあります。
+```bash
+export OPENAI_LOG=debug
+```
+
+3. **Retry-Afterヘッダーを確認**：レスポンスヘッダーに含まれる`Retry-After`値に従い、そこまで待機してからリトライしてください。
+
+### 公式リソース
+
+- **OpenAI Rate Limit ドキュメント**：https://platform.openai.com/docs/guides/rate-limits
+- **API ステータスページ**：https://status.openai.com/ （システム障害を確認）
+- **請求ページ**：https://platform.openai.com/account/billing/overview （クォータと使用状況を確認）
+- **GitHub Issues**：openai-python リポジトリのissueセクション（同じ問題の報告や回避策の議論を参照）
 
 ---
 

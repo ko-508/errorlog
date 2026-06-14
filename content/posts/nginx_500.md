@@ -4,7 +4,7 @@ date: 2026-05-26
 description: "Nginx が 500 Internal Server Error を返すのは、Nginx または バックエンドアプリケーション（PHP-FPM、uWSGI、Node.js など）で予期しない内部エラーが発生したことを示します。"
 tags: ["Nginx"]
 errorCode: "500"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "Nginx"
 error_type: "500"
 components: []
@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Nginx が **500 Internal Server Error** を返すのは、Nginx または バックエンドアプリケーション（PHP-FPM、uWSGI、Node.js など）で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)が出ると、クライアント側では画面が真っ白になるか、エラーページが表示されます。Nginx 自体は正常に動作していても、設定の誤りやバックエンドプロセスのクラッシュなど、複数の原因が考えられます。
+Nginx が **500 Internal Server Error** を返すのは、Nginx またはバックエンドアプリケーション（PHP-FPM、uWSGI、Node.js など）で予期しない内部エラーが発生したことを示します。このエラーが出ると、クライアント側では画面が真っ白になるか、エラーページが表示されます。Nginx 自体は正常に動作していても、設定の誤りやバックエンドプロセスのクラッシュなど、複数の原因が考えられます。
 
 ## 実際のエラーメッセージ例
 
@@ -25,82 +25,74 @@ Nginx のアクセスログに以下のように記録されます。
 192.168.1.100 - - [15/Jan/2024 10:23:45 +0900] "GET /api/users HTTP/1.1" 500 179 "-" "Mozilla/5.0"
 ```
 
-ブラウザに表示される[レスポンス](/glossary/レスポンス/)：
+ブラウザに表示されるレスポンス：
 
 ```html
 <html>
 <head><title>500 Internal Server Error</title></head>
 <body>
 <center><h1>500 Internal Server Error</h1></center>
-<hr><center>nginx</center>
+<hr><center>nginx/1.24.0</center>
 </body>
 </html>
 ```
 
+Nginx エラーログに記録される詳細情報の例：
+
+```
+2024/01/15 10:23:45 [error] 1234#1234: *567 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET /api/users HTTP/1.1"
+```
+
 ## よくある原因と解決手順
 
-### 原因1：バックエンドプロセスが停止・クラッシュしている
+### 原因 1: バックエンドサーバーへの接続失敗
 
-バックエンドサーバー（PHP-FPM、uWSGI、Gunicorn など）が停止しているか、[リクエスト](/glossary/リクエスト/)処理中にクラッシュしていると、Nginx は接続先がないため 500 [エラー](/glossary/エラー/)を返します。
+バックエンドプロセス（PHP-FPM、アプリサーバーなど）が起動していない、またはダウンしている場合、Nginx は接続できず 500 エラーを返します。
 
-**Before（[エラー](/glossary/エラー/)が起きる状態）：**
-
-```bash
-# PHP-FPMが停止している
-systemctl status php-fpm
-# ● php-fpm.service - The PHP FastCGI Process Manager
-#    Loaded: loaded
-#    Active: inactive (dead)
-
-# Nginxにリクエストが来ると502または500を返す
-```
-
-**After（修正後）：**
-
-```bash
-# PHP-FPMを起動
-sudo systemctl start php-fpm
-sudo systemctl enable php-fpm
-
-# 起動状態を確認
-sudo systemctl status php-fpm
-# ● php-fpm.service - The PHP FastCGI Process Manager
-#    Loaded: loaded
-#    Active: active (running)
-```
-
-### 原因2：Nginx 設定ファイルの文法エラー
-
-nginx.conf やサーバーブロック設定に文法[エラー](/glossary/エラー/)があると、Nginx の再起動に失敗し、古い設定で動作している場合があります。その設定が不完全だと 500 [エラー](/glossary/エラー/)が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（エラーが起きるコード）：**
 
 ```nginx
+upstream backend {
+    server 127.0.0.1:9000;
+}
+
 server {
     listen 80;
     server_name example.com;
-    
+
     location / {
-        proxy_pass http://backend;  # upstream定義がない
-        proxy_set_header Host $host
-        # セミコロン漏れ
+        proxy_pass http://backend;
     }
 }
 ```
 
+この設定で `php-fpm` が起動していない場合、すべてのリクエストが 500 エラーになります。
+
 **After（修正後）：**
+
+```bash
+# PHP-FPM の起動確認
+sudo systemctl status php-fpm
+
+# 起動していない場合は再起動
+sudo systemctl restart php-fpm
+
+# プロセス確認
+ps aux | grep php-fpm
+```
+
+ポート番号が正しいか確認し、必要に応じて nginx 設定を修正：
 
 ```nginx
 upstream backend {
-    server 127.0.0.1:3000;
-    server 127.0.0.1:3001;
+    server 127.0.0.1:9000;  # PHP-FPM のリッスンポート確認
 }
 
 server {
     listen 80;
     server_name example.com;
-    
-    location / {
+
+    location ~ \.php$ {
         proxy_pass http://backend;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -108,80 +100,23 @@ server {
 }
 ```
 
-修正後は設定テストと再起動：
+### 原因 2: Nginx の upstram 設定エラー
 
-```bash
-# 設定ファイルの文法をチェック
-sudo nginx -t
-# nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+upstram ブロックの指定ミスや、無効なアドレス形式により接続が失敗することがあります。
 
-# Nginxを再起動
-sudo systemctl reload nginx
-```
-
-### 原因3：バックエンドアプリケーションの例外エラー
-
-バックエンドアプリケーション（Python、Node.js、PHP など）が例外を発生させて正常な[レスポンス](/glossary/レスポンス/)を返せていない場合、Nginx は 500 [エラー](/glossary/エラー/)を返します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```python
-# Flask アプリケーション
-from flask import Flask, jsonify
-
-app = Flask(__name__)
-
-@app.route('/api/data')
-def get_data():
-    # データベース接続エラーで例外が発生
-    result = database.query("SELECT * FROM users")
-    return jsonify(result)
-
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000)
-```
-
-**After（修正後）：**
-
-```python
-from flask import Flask, jsonify
-import logging
-
-app = Flask(__name__)
-logging.basicConfig(level=logging.INFO)
-
-@app.route('/api/data')
-def get_data():
-    try:
-        # データベース接続をタイムアウト設定付きで実行
-        result = database.query(
-            "SELECT * FROM users",
-            timeout=5
-        )
-        return jsonify(result), 200
-    except Exception as e:
-        logging.error(f"Database error: {str(e)}")
-        return jsonify({"error": "Internal server error"}), 500
-
-if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=5000)
-```
-
-### 原因4：upstream ホストの設定誤りまたは接続不可
-
-proxy_pass で指定したバックエンドサーバーのホスト名・[ポート](/glossary/ポート/)が間違っていたり、[ネットワーク](/glossary/ネットワーク/)が到達不可能だと 500 [エラー](/glossary/エラー/)が返されます。
-
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（エラーが起きるコード）：**
 
 ```nginx
 upstream backend {
-    server backend.example.com:8080;  # DNS解決失敗またはホスト不存在
+    server backend_server;  # ホスト名が解決されない
 }
 
 server {
+    listen 80;
+    server_name example.com;
+
     location / {
         proxy_pass http://backend;
-        proxy_connect_timeout 1s;  # タイムアウトが短すぎる
     }
 }
 ```
@@ -190,125 +125,265 @@ server {
 
 ```nginx
 upstream backend {
-    server 127.0.0.1:3000;
-    # または
-    server localhost:3000 weight=1;
-    server localhost:3001 weight=1;
-    
-    # 接続失敗時の対応
+    server 192.168.1.10:8080;  # IP アドレスで指定、またはホスト名解決を有効化
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_connect_timeout 5s;
+        proxy_send_timeout 10s;
+        proxy_read_timeout 10s;
+    }
+}
+```
+
+または resolver を設定してホスト名解決を有効化：
+
+```nginx
+resolver 8.8.8.8 8.8.4.4;
+upstream backend {
+    server backend_server.example.com:8080;
+}
+```
+
+### 原因 3: バックエンドアプリケーション内部エラー
+
+PHP、Python、Node.js などのアプリケーション内部で例外やクラッシュが発生している場合、バックエンドが 500 レスポンスを返します。
+
+**Before（エラーが起きるコード）：**
+
+```php
+<?php
+// PHP アプリケーション例
+$db = new PDO('mysql:host=127.0.0.1', 'user', 'pass');
+$result = $db->query("SELECT * FROM users WHERE id = ?");  // プリペアドステートメント使用忘れ
+echo json_encode($result);
+?>
+```
+
+**After（修正後）：**
+
+```php
+<?php
+// 適切なエラーハンドリング
+try {
+    $db = new PDO('mysql:host=127.0.0.1', 'user', 'pass');
+    $stmt = $db->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$_GET['id']]);
+    echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
+} catch (Exception $e) {
+    http_response_code(500);
+    error_log($e->getMessage());
+    echo json_encode(['error' => 'Internal Server Error']);
+}
+?>
+```
+
+アプリケーションログを確認：
+
+```bash
+# PHP-FPM ログの確認
+tail -f /var/log/php-fpm/error.log
+
+# Python uWSGI ログ
+tail -f /var/log/uwsgi/app.log
+
+# Node.js PM2 ログ
+pm2 logs
+```
+
+### 原因 4: メモリ不足またはリソース枯渇
+
+バックエンドプロセスがメモリ不足やファイルディスクリプタ不足により動作不可になっている場合があります。
+
+**Before（エラーが起きるコード）：**
+
+```nginx
+upstream backend {
+    server 127.0.0.1:9000 max_fails=3 fail_timeout=30s;
+    # ヘルスチェックなし
+}
+```
+
+**After（修正後）：**
+
+```nginx
+upstream backend {
+    server 127.0.0.1:9000 max_fails=3 fail_timeout=30s;
     keepalive 32;
 }
 
 server {
     location / {
         proxy_pass http://backend;
-        proxy_connect_timeout 5s;
-        proxy_send_timeout 10s;
-        proxy_read_timeout 10s;
-        
-        # バックエンド側で接続できなかった場合のフォールバック
-        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503;
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";  # keepalive 接続
+    }
+}
+```
+
+リソース確認：
+
+```bash
+# メモリ使用状況
+free -h
+
+# ファイルディスクリプタ確認
+ulimit -n
+
+# プロセスごとのメモリ使用量
+ps aux --sort=-%mem | head -10
+```
+
+### 原因 5: Nginx の location ブロック設定エラー
+
+location 設定の正規表現エラーやリダイレクトループにより 500 エラーが発生することもあります。
+
+**Before（エラーが起きるコード）：**
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+
+    location ~ ^/api/(.*)$ {
+        rewrite ^/api/(.*) /backend/$1;  # リダイレクトループの可能性
+    }
+
+    location ~ /backend/ {
+        return 500;  # 意図しないエラー返却
+    }
+}
+```
+
+**After（修正後）：**
+
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+
+    location ~ ^/api/(.*)$ {
+        proxy_pass http://backend/api/$1;  # 直接プロキシ
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
 ```
 
 ## Nginx 固有の注意点
 
-### ログの確認方法
+### FastCGI バックエンド（PHP-FPM）での特有エラー
 
-500 [エラー](/glossary/エラー/)の原因特定には、Nginx の[エラーログ](/glossary/エラーログ/)を確認することが重要です。
-
-```bash
-# Nginx エラーログを確認
-sudo tail -f /var/log/nginx/error.log
-
-# よくあるエラー例：
-# 2024/01/15 10:23:45 [error] 1234#1234: *56 connect() failed 
-# (111: Connection refused) while connecting to upstream, 
-# client: 192.168.1.100, server: example.com
-```
-
-### proxy_next_upstream の活用
-
-[バックエンド](/glossary/バックエンド/)の一部がダウンしている場合、他の[サーバー](/glossary/サーバー/)に[リクエスト](/glossary/リクエスト/)を[リトライ](/glossary/リトライ/)させることで 500 [エラー](/glossary/エラー/)を回避できます。
+PHP-FPM を使用する場合、FastCGI プロトコルの設定ミスが 500 エラーの原因になります。
 
 ```nginx
-upstream backend {
-    server 127.0.0.1:3000 max_fails=3 fail_timeout=30s;
-    server 127.0.0.1:3001 max_fails=3 fail_timeout=30s;
-}
-
-server {
-    location / {
-        proxy_pass http://backend;
-        # 以下の条件でリトライ
-        proxy_next_upstream error timeout http_500 http_502 http_503;
-        proxy_next_upstream_tries 2;
-        proxy_next_upstream_timeout 10s;
-    }
+location ~ \.php$ {
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_index index.php;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_connect_timeout 5s;
+    fastcgi_send_timeout 10s;
+    fastcgi_read_timeout 10s;
 }
 ```
 
-### リバースプロキシヘッダーの不足
+`SCRIPT_FILENAME` パラメータが正しく設定されないと、PHP-FPM がファイルを見つけられず 500 エラーになります。
 
-バックエンドアプリケーションが クライアント IP や [プロトコル](/glossary/プロトコル/)を正しく取得できないと、セッション検証やセキュリティチェックで失敗して 500 [エラー](/glossary/エラー/)が発生することがあります。
+### リバースプロキシの ヘッダー設定不足
+
+バックエンドアプリケーションが HTTP ヘッダー情報（Host、X-Forwarded-For など）を期待している場合、Nginx でこれらを明示的に設定する必要があります。
 
 ```nginx
 location / {
     proxy_pass http://backend;
-    
-    # 必須のヘッダー設定
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Forwarded-Host $server_name;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-Port $server_port;
 }
+```
+
+これらのヘッダーがないと、アプリケーション側で不正なリクエストと判定し 500 エラーを返すことがあります。
+
+### エラーログレベルの設定
+
+本番環境では error レベルでログを記録し、開発環境では debug レベルに設定することで、トラブルシューティングが容易になります。
+
+```nginx
+# 本番環境
+error_log /var/log/nginx/error.log error;
+
+# 開発・デバッグ環境
+error_log /var/log/nginx/error.log debug;
 ```
 
 ## それでも解決しない場合
 
-### 確認すべきログの場所
+### ステップバイステップのデバッグ方法
+
+1. **Nginx 構文チェック**：
 
 ```bash
-# Nginx エラーログ（優先度：高）
-sudo tail -100 /var/log/nginx/error.log
-
-# アクセスログ（ステータスコード確認）
-sudo tail -100 /var/log/nginx/access.log
-
-# バックエンドアプリケーションのログ
-# Python（Django/Flask）
-sudo tail -100 /var/log/app/app.log
-
-# Node.js（PM2使用時）
-pm2 logs
-
-# PHP-FPMのエラーログ
-sudo tail -100 /var/log/php-fpm/error.log
+sudo nginx -t
 ```
 
-### デバッグコマンド
+設定ファイルの文法エラーがないか確認します。
+
+2. **Nginx エラーログの詳細確認**：
 
 ```bash
-# upstream への接続テスト
-curl -v http://127.0.0.1:3000/
-
-# Nginxプロセスの確認
-ps aux | grep nginx
-
-# ポート待ち受けの確認
-sudo netstat -tlnp | grep -E '(nginx|:3000|:5000)'
-
-# バックエンドプロセスの確認（Python）
-ps aux | grep python
+tail -f /var/log/nginx/error.log
 ```
 
-### 公式リソース
+接続エラー、タイムアウト、ファイルパーミッション エラーなどを確認します。
 
-- Nginx 公式ドキュメント：[Module ngx_http_proxy_module](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)
-- [バックエンド](/glossary/バックエンド/)ごとの[エラーログ](/glossary/エラーログ/)確認方法をアプリケーション公式ドキュメントで検索
-- [デバッグ](/glossary/デバッグ/)が困難な場合は、Nginx のアクセスログに `$upstream_addr` `$upstream_status` を追加して詳細を確認
+3. **バックエンド接続テスト**：
+
+```bash
+curl -v http://127.0.0.1:9000
+telnet 127.0.0.1 9000
+```
+
+バックエンドサーバーが実際にリッスンしているか確認します。
+
+4. **Nginx アクセスログと エラーログの時刻対応**：
+
+```bash
+tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+```
+
+同じタイミングで 500 エラーが記録されているか確認します。
+
+5. **バックエンドアプリケーションログの確認**：
+
+```bash
+# PHP-FPM
+tail -f /var/log/php-fpm/error.log /var/log/php-fpm/www.log
+
+# Python アプリケーション
+tail -f /var/log/application/app.log
+```
+
+### 公式ドキュメント参照
+
+- [Nginx 公式ドキュメント - Pitfalls and Common Mistakes](http://nginx.org/en/docs/http/server_names.html)
+- [Nginx HTTP プロキシ設定](http://nginx.org/en/docs/http/ngx_http_proxy_module.html)
+- [FastCGI プロキシ設定](http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html)
+
+### コミュニティリソース
+
+- [Nginx GitHub Issues](https://github.com/nginx/nginx)
+- [Stack Overflow nginx タグ](https://stackoverflow.com/questions/tagged/nginx)
+- 各ディストリビューション（Ubuntu、CentOS）の Nginx パッケージドキュメント
 
 ---
 

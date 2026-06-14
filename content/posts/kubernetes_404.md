@@ -4,7 +4,7 @@ date: 2026-05-26
 description: "Kubernetesの404エラーは、APIサーバーが指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとしたエンドポイントが存在しないことを示します。"
 tags: ["Kubernetes"]
 errorCode: "404"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "Kubernetes"
 error_type: "404"
 components: ["Pod", "Service", "Deployment", "Namespace", "ConfigMap", "Secret"]
@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）や、アクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
+Kubernetesの404エラーは、APIサーバーが指定したリソース（Pod・Service・Deploymentなど）やアクセスしようとしたエンドポイントが存在しないことを示します。`kubectl`コマンド実行時やKubernetes APIへのHTTPリクエスト時に発生し、リソースの削除後のアクセスや存在しないNamespaceへのクエリで特に見られます。このエラーはデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -29,12 +29,11 @@ Error from server (NotFound): pods "my-app" not found
   "apiVersion": "v1",
   "metadata": {},
   "status": "Failure",
-  "message": "deployments.apps \"web-server\" not found",
+  "message": "pods \"web-server\" not found",
   "reason": "NotFound",
   "details": {
     "name": "web-server",
-    "group": "apps",
-    "kind": "deployments"
+    "kind": "pods"
   },
   "code": 404
 }
@@ -42,72 +41,86 @@ Error from server (NotFound): pods "my-app" not found
 
 ## よくある原因と解決手順
 
-### 原因1：Namespace指定の誤りまたは省略
+### 原因1：リソースが削除されている
 
-[Kubernetes](/glossary/kubernetes/)は複数の[Namespace](/glossary/namespace/)を持ち、デフォルトは`default`です。別の[Namespace](/glossary/namespace/)にリソースが存在する場合、指定せずにアクセスすると404が発生します。
+**なぜ発生するか：**
+Podやサービスが意図せず削除されたり、別のプロセスによって削除された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
+**Before（エラーが起きるコード）：**
+
 ```bash
-$ kubectl get pod my-app
-Error from server (NotFound): pods "my-app" not found
+kubectl delete pod my-app
+kubectl get pod my-app
+# Error: pods "my-app" not found
 ```
 
-**After（修正後）**
+**After（修正後）：**
+
 ```bash
-# 正しいNamespaceを確認してから実行
-$ kubectl get pod my-app -n production
-# または全Namespaceを検索
-$ kubectl get pod my-app --all-namespaces
+# リソースが本来管理されるべきDeploymentから再作成させる
+kubectl get deployment
+kubectl describe deployment my-app-deployment
+# または新しいPodを作成
+kubectl run my-app --image=my-image:latest
 ```
 
-### 原因2：リソース名の綴りミスまたは削除済み
+### 原因2：Namespaceの指定ミス
 
-Pod名やDeployment名などを誤入力した場合、またはリソースが既に削除されている場合に404が発生します。
+**なぜ発生するか：**
+リソースがあるNamespaceと異なるNamespaceを指定した場合、APIサーバーはそのNamespace内のリソースを探すため404となります。デフォルトの`default` Namespaceではなく、`production`や`staging`などのNamespaceにリソースが存在することを見落とすことが多くあります。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
+**Before（エラーが起きるコード）：**
+
 ```bash
-$ kubectl get pod my-ap  # 綴りミス
-Error from server (NotFound): pods "my-ap" not found
+# リソースが production Namespace に存在するのに default で検索
+kubectl get pod my-app
+# Error: pods "my-app" not found
 
-$ kubectl describe service api-server  # 削除済みリソース
-Error from server (NotFound): services "api-server" not found
+# 実際のリソースの場所
+kubectl get pod my-app -n production
+# NAME      READY   STATUS    RESTARTS   AGE
+# my-app    1/1     Running   0          2d
 ```
 
-**After（修正後）**
-```bash
-# リソースの正確な名前を確認
-$ kubectl get pods
-NAME          READY   STATUS    RESTARTS   AGE
-my-app        1/1     Running   0          2h
-web-server    2/2     Running   0          5h
+**After（修正後）：**
 
-# 正しい名前でアクセス
-$ kubectl get pod my-app
-$ kubectl describe service web-server
+```bash
+# 常に -n フラグで正しい Namespace を指定
+kubectl get pod my-app -n production
+
+# または kubectl コンテキストのデフォルト Namespace を変更
+kubectl config set-context --current --namespace=production
 ```
 
-### 原因3：APIのバージョン指定が誤っている
+### 原因3：APIバージョンやリソースタイプの指定ミス
 
-[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)は複数のバージョン（`v1`、`apps/v1`など）をサポートしています。古いバージョンや不正なバージョンを指定すると404が返されます。
+**なぜ発生するか：**
+KubernetesはAPIバージョンの進化に伴い、リソースの名称や形式が変更されることがあります。存在しないAPIバージョン（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、APIサーバーはそれを認識できません。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
+**Before（エラーが起きるコード）：**
+
 ```yaml
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: my-app
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: my-app
   template:
-    # ...
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-app
+        image: my-image:latest
 ```
 
-```bash
-$ kubectl apply -f deployment.yaml
-error: resource mapping not found for name: "my-app" namespace: "default" from "deployment.yaml": no matches for kind "Deployment" in version "extensions/v1beta1"
-```
+**After（修正後）：**
 
-**After（修正後）**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -124,107 +137,97 @@ spec:
         app: my-app
     spec:
       containers:
-      - name: app
-        image: my-app:1.0
+      - name: my-app
+        image: my-image:latest
 ```
 
-### 原因4：リソースの初期化に時間がかかっている
+### 原因4：RBAC（Role-Based Access Control）による権限不足
 
-新しいリソースを[デプロイ](/glossary/デプロイ/)した直後にアクセスすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がまだリソースを完全に登録していない可能性があります。
+**なぜ発生するか：**
+RBACが有効な環境で、ユーザーまたはServiceAccountが特定のリソースへのアクセス権限を持っていない場合、APIサーバーはそのリソースを見つけられないように振る舞うことがあります。これはセキュリティ上の理由で、存在しないリソースと同じ404エラーを返します。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）**
-```bash
-$ kubectl apply -f my-service.yaml
-$ kubectl get svc my-service
-Error from server (NotFound): services "my-service" not found
-```
-
-**After（修正後）**
-```bash
-$ kubectl apply -f my-service.yaml
-$ sleep 5  # 数秒待機
-$ kubectl get svc my-service
-NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   AGE
-my-service   ClusterIP   10.96.123.45   <none>        80/TCP    2s
-```
-
-## Kubernetes固有の注意点
-
-**[RBAC](/glossary/rbac/)（Role-Based Access Control）による権限不足**
-
-404が返されるのではなく、実際には403（Forbidden）[エラー](/glossary/エラー/)が発生していないか確認してください。ただし、SAC（Service Account）の権限不足により、存在するリソースへのアクセスが404として報告される場合もあります。
+**Before（エラーが起きるコード）：**
 
 ```bash
-# 現在のユーザー・ServiceAccountの権限を確認
-$ kubectl auth can-i get pods --as=system:serviceaccount:default:my-app
-yes
-
-# 権限がない場合、RoleBindingを確認
-$ kubectl get rolebinding -n <namespace>
-$ kubectl describe rolebinding <binding-name> -n <namespace>
+# ServiceAccount に Pod 閲覧権限がない場合
+kubectl get pod --as=system:serviceaccount:default:my-app-sa
+# Error from server (NotFound): pods not found
 ```
 
-**ServiceAccountの存在確認**
+**After（修正後）：**
 
-Podが使用するServiceAccountが存在しない場合、Podの作成が失敗することがあります。
-
-```bash
-# ServiceAccountを確認
-$ kubectl get serviceaccount -n <namespace>
-
-# 必要に応じて作成
-$ kubectl create serviceaccount my-app-sa -n production
-$ kubectl get serviceaccount my-app-sa -n production
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-viewer
+  namespace: default
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-viewer-binding
+  namespace: default
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pod-viewer
+subjects:
+- kind: ServiceAccount
+  name: my-app-sa
+  namespace: default
 ```
 
-**CRD（Custom Resource Definition）の未登録**
+## ツール固有の注意点
 
-カスタムリソースタイプを使う場合、CRDがクラスタに登録されていないと404が発生します。
+**Namespace分離の設計：**
+Kubernetesでは複数のNamespaceを使用する場合、デフォルトで異なるNamespace間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、DNSの形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別のNamespaceのServiceにアクセスする際には、このFQDNを明記する必要があります。
 
-```bash
-# CRDを確認
-$ kubectl get crd
-$ kubectl get crd my-custom-resource.example.com
+**Ingress・Service・Pod間の連携エラー：**
+IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが設定されていても、バックエンドのServiceやPodが削除されると、トラフィックは応答できなくなります。`kubectl describe ingress`でバックエンドの状態を確認してください。
 
-# 登録されていない場合は追加
-$ kubectl apply -f custom-resource-definition.yaml
-```
+**CRD（Custom Resource Definition）のコンテキスト：**
+カスタムリソースを使用する場合、CRDが登録されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
+
+**クラスタバージョン間の互換性：**
+異なるKubernetesバージョン間でマニフェストファイルを使用する場合、新しいバージョン特有のAPIエンドポイントが古いクラスタに存在しないことがあります。`kubectl api-resources`コマンドで現在のクラスタで利用可能なリソースを確認してください。
 
 ## それでも解決しない場合
 
-**[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認**
+**ログとデバッグコマンド：**
+APIサーバーのログを確認して詳細なエラー情報を取得します。
 
 ```bash
-# マスターノードのログを確認（自分でホストしている場合）
-$ journalctl -u kubelet | grep "404"
+# リソースが本当に存在しないか確認
+kubectl get all -n <namespace>
 
-# マネージドサービスの場合は管理画面でログを確認
+# 別の Namespace を含めてすべてのリソースを検索
+kubectl get pod --all-namespaces | grep <resource-name>
+
+# 特定のリソースの詳細情報を確認
+kubectl describe pod <pod-name> -n <namespace>
+
+# APIサーバーのログを確認（マスターノードへのアクセスが必要）
+kubectl logs -n kube-system -l component=kube-apiserver
 ```
 
-**詳細な[エラー](/glossary/エラー/)情報を取得**
+**Kubernetesダッシュボード・GUIツール：**
+`kubectl proxy`を使用してダッシュボードにアクセスし、リソースが実際に存在するか視覚的に確認することもできます。
 
 ```bash
-# 冗長モードで実行して詳細情報を表示
-$ kubectl get pod my-app -v=9
-
-# APIサーバーへの直接クエリ
-$ kubectl get --raw /api/v1/namespaces/default/pods/my-app
+kubectl proxy
+# http://localhost:8001/ui にアクセス
 ```
 
-**リソースの確認[コマンド](/glossary/コマンド/)集**
+**公式ドキュメント：**
+Kubernetesの公式リファレンス「API Resources」や「Accessing the Kubernetes API」のセクションで、各APIバージョンと利用可能なエンドポイントを確認してください。また「RBAC Authorization」ドキュメントで権限設定の詳細を参照してください。
 
-```bash
-# すべてのリソースを表示
-$ kubectl get all -n <namespace>
-
-# 特定リソースタイプの全インスタンスを表示
-$ kubectl get <resource-type> --all-namespaces
-
-# リソースの詳細情報を取得
-$ kubectl describe <resource-type> <name> -n <namespace>
-```
-
-公式ドキュメント「[Kubernetes API Documentation](https://kubernetes.io/docs/reference/generated/kubernetes-api/)」と「[RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)」で、詳細な仕様を確認できます。また、[Stack Overflow](https://stackoverflow.com/questions/tagged/kubernetes)の[Kubernetes](/glossary/kubernetes/)タグや[Kubernetes Slack](https://kubernetes.slack.com)コミュニティでも類似の問題が報告されていることが多いです。
+**コミュニティリソース：**
+Kubernetes GitHubのIssuesセクション（`kubernetes/kubernetes`リポジトリ）やStackOverflow、Kubernetes Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。
 
 ---
 

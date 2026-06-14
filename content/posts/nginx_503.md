@@ -4,7 +4,7 @@ date: 2026-05-27
 description: "Nginx の 503 Service Unavailable エラーは、Nginx がリクエストを処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、バックエンドが全て利用不可能な状態を示します。"
 tags: ["Nginx"]
 errorCode: "503"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "Nginx"
 error_type: "503"
 components: []
@@ -13,7 +13,7 @@ related_services: ["Node.js", "Docker"]
 
 ## エラーの概要
 
-Nginx の 503 Service Unavailable [エラー](/glossary/エラー/)は、Nginx が[リクエスト](/glossary/リクエスト/)を処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、[バックエンド](/glossary/バックエンド/)が全て利用不可能な状態を示します。クライアントが発した正当な[リクエスト](/glossary/リクエスト/)であっても、[サーバー](/glossary/サーバー/)側の問題によって処理できないため、Nginx がこの[エラー](/glossary/エラー/)を返します。この[エラー](/glossary/エラー/)は一時的な問題である場合が多く、[バックエンド](/glossary/バックエンド/)側の復旧やNginx設定の修正で解決することがほとんどです。
+Nginx の 503 Service Unavailable エラーは、Nginx がリクエストを処理するバックエンドサーバー（アプリケーションサーバーなど）に接続できないか、設定されたバックエンドが全て利用不可能な状態を示します。クライアントが発した正当なリクエストであっても、サーバー側の問題によって処理できないため、Nginx がこのエラーを返します。このエラーは一時的な問題である場合が多く、バックエンド側の復旧や Nginx 設定の修正で解決することがほとんどです。
 
 ## 実際のエラーメッセージ例
 
@@ -26,223 +26,286 @@ Service Unavailable
 The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.
 ```
 
-Nginxの[エラーログ](/glossary/エラーログ/)に出力される場合：
+Nginx のアクセスログに記録される場合：
 
 ```
-2024/01/15 14:32:01 [error] 12345#12345: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8080/", host: "example.com"
+192.168.1.100 - - [20/Jan/2024 10:45:32 +0900] "GET /api/users HTTP/1.1" 503 197 "-" "Mozilla/5.0"
+```
+
+Nginx のエラーログに記録される詳細情報：
+
+```
+2024/01/20 10:45:32 [error] 1234#1234: *56 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET /api/users HTTP/1.1", upstream: "http://127.0.0.1:8080/api/users"
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：バックエンドサーバーがダウンしている
+### 原因1：バックエンドサーバーが起動していない
 
-[バックエンド](/glossary/バックエンド/)の全ての[サーバー](/glossary/サーバー/)がダウンしているか、起動していない状態です。Nginx設定の upstream ブロックで指定した[サーバー](/glossary/サーバー/)への接続が[タイムアウト](/glossary/タイムアウト/)または拒否されます。
+Nginx の upstream として設定されているアプリケーションサーバーが停止しているため、接続が拒否されます。これは最も一般的な原因です。
 
-**Before（[エラー](/glossary/エラー/)が起きる状態）：**
+**Before（エラーが起きるコード）：**
+
+```bash
+# アプリケーションサーバーが停止している状態でリクエストを送信
+curl http://example.com/api/users
+# -> 503 Service Unavailable が返される
+```
+
+**After（修正後）：**
+
+```bash
+# アプリケーションサーバーを起動
+systemctl start myapp
+# または
+python app.py &
+
+# 起動確認
+ps aux | grep myapp
+netstat -tlnp | grep 8080
+```
+
+### 原因2：Nginx の upstream 設定が誤っている
+
+upstream で指定したホスト名やポート番号が間違っていたり、存在しないアドレスを指定している場合に発生します。
+
+**Before（エラーが起きるコード）：**
 
 ```nginx
-upstream app_backend {
-    server 127.0.0.1:8080;
-    server 127.0.0.1:8081;
+upstream backend {
+    server 192.168.1.999:8080;  # 存在しないIPアドレス
 }
 
 server {
     listen 80;
     server_name example.com;
-    
-    location / {
-        proxy_pass http://app_backend;
+
+    location /api {
+        proxy_pass http://backend;
     }
 }
 ```
 
-この設定で 8080 と 8081 の[ポート](/glossary/ポート/)が起動していない場合、503 [エラー](/glossary/エラー/)が返されます。
-
-**確認と解決方法：**
-
-```bash
-# バックエンドサーバーが起動しているか確認
-ps aux | grep -E '8080|8081'
-
-# ポートがリッスン中か確認
-netstat -tlnp | grep -E '8080|8081'
-# または
-ss -tlnp | grep -E '8080|8081'
-
-# バックエンドサーバーが起動していなければ起動する
-# 例：Node.js の場合
-cd /path/to/app && node server.js &
-
-# または Docker コンテナの場合
-docker run -d -p 8080:8080 my-app:latest
-```
-
-**After（修正例）：**
-
-バックエンドサーバーを起動した後、Nginxに[バックエンド](/glossary/バックエンド/)の再読み込みが必要な場合があります。
-
-```bash
-# Nginxの設定を確認してリロード
-nginx -t && nginx -s reload
-```
-
-### 原因2：max_conns で接続数制限に達している
-
-upstream ブロックで `max_conns` [パラメータ](/glossary/パラメータ/)を設定している場合、同時接続数の上限に達すると[バックエンド](/glossary/バックエンド/)へ接続できず 503 が返されます。
-
-**Before（接続数制限による 503）：**
+**After（修正後）：**
 
 ```nginx
-upstream app_backend {
-    server 127.0.0.1:8080 max_conns=10;
-    server 127.0.0.1:8081 max_conns=10;
+upstream backend {
+    server 127.0.0.1:8080;  # 正しいIPアドレスを指定
+    server 127.0.0.1:8081;  # 冗長性のため複数サーバーを指定
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location /api {
+        proxy_pass http://backend;
+        proxy_connect_timeout 5s;
+        proxy_read_timeout 10s;
+    }
 }
 ```
 
-10 個以上の同時[リクエスト](/glossary/リクエスト/)がある場合、11番目以降の[リクエスト](/glossary/リクエスト/)は 503 [エラー](/glossary/エラー/)を受け取ります。
+### 原因3：バックエンドサーバーがリッスンしているポートが異なる
 
-**After（制限値を増やす）：**
+Nginx の設定ではポート 8080 を指定しているが、実際のアプリケーションサーバーはポート 3000 でリッスンしているなど、ポート番号の不一致が原因となります。
+
+**Before（エラーが起きるコード）：**
 
 ```nginx
-upstream app_backend {
-    server 127.0.0.1:8080 max_conns=100;
-    server 127.0.0.1:8081 max_conns=100;
+upstream backend {
+    server 127.0.0.1:8080;  # Nginxは8080をexpectしている
 }
 ```
 
-変更後の確認：
+設定確認コマンド：
 
 ```bash
-# 設定をテストして反映
-nginx -t && nginx -s reload
-
-# 現在の接続状況をモニタリング
-tail -f /var/log/nginx/error.log | grep 'upstream'
+# サーバーが実際にリッスンしているポート確認
+netstat -tlnp | grep python
+# 出力例: tcp  0  0 127.0.0.1:3000  0.0.0.0:*  LISTEN  5678/python
 ```
 
-### 原因3：proxy_connect_timeout が短すぎる
-
-[バックエンド](/glossary/バックエンド/)への接続[タイムアウト](/glossary/タイムアウト/)時間が設定値より短い場合、接続確立前に[タイムアウト](/glossary/タイムアウト/)して 503 が返されます。特に[レイテンシ](/glossary/レイテンシ/)の高い環境では問題になります。
-
-**Before（[タイムアウト](/glossary/タイムアウト/)時間が短すぎる）：**
+**After（修正後）：**
 
 ```nginx
-location / {
-    proxy_pass http://app_backend;
-    proxy_connect_timeout 1s;
-    proxy_send_timeout 1s;
-    proxy_read_timeout 1s;
+upstream backend {
+    server 127.0.0.1:3000;  # 実際にアプリケーションがリッスンしているポート
 }
 ```
 
-1秒で[タイムアウト](/glossary/タイムアウト/)する設定では、応答の遅い[バックエンド](/glossary/バックエンド/)に対して 503 が返されます。
+### 原因4：全ての upstream サーバーがダウンしている（ロードバランシング環境）
 
-**After（[タイムアウト](/glossary/タイムアウト/)時間を延長）：**
+複数のバックエンドサーバーを upstream に設定していても、全てが同時にダウンしている場合に発生します。
+
+**Before（エラーが起きるコード）：**
 
 ```nginx
-location / {
-    proxy_pass http://app_backend;
-    proxy_connect_timeout 10s;
-    proxy_send_timeout 30s;
-    proxy_read_timeout 30s;
+upstream backend {
+    server 192.168.1.10:8080;
+    server 192.168.1.11:8080;
+    server 192.168.1.12:8080;
+    # 全てのサーバーがオフラインの場合、どのサーバーにもフォールバックできない
 }
 ```
 
-変更を反映：
+**After（修正後）：**
+
+```nginx
+upstream backend {
+    server 192.168.1.10:8080 max_fails=3 fail_timeout=30s;
+    server 192.168.1.11:8080 max_fails=3 fail_timeout=30s;
+    server 192.168.1.12:8080 max_fails=3 fail_timeout=30s;
+    server 192.168.1.13:8080 backup;  # バックアップサーバーを用意
+}
+
+server {
+    listen 80;
+    server_name example.com;
+
+    location / {
+        proxy_pass http://backend;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 5s;
+        error_page 503 /maintenance.html;
+    }
+}
+```
+
+### 原因5：ファイアウォールやセキュリティグループでポートがブロックされている
+
+クラウド環境やファイアウォール設定により、Nginx からバックエンドへの通信がブロックされている場合があります。
+
+**Before（エラーが起きるコード）：**
 
 ```bash
-nginx -t && nginx -s reload
+# セキュリティグループまたはファイアウォールがポート8080をブロック
+# -> Nginx から127.0.0.1:8080へのconnectが拒否される
 ```
 
-## Nginx固有の注意点
+**After（修正後）：**
 
-### ヘルスチェック設定の確認
+```bash
+# Linux のファイアウォール設定例（iptables）
+sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+sudo iptables -A INPUT -p tcp -s 127.0.0.1 --dport 8080 -j ACCEPT
 
-Nginx Plus では `health_check` を使用して[バックエンド](/glossary/バックエンド/)の[ヘルスチェック](/glossary/ヘルスチェック/)を実施しますが、Nginx オープンソース版ではこの機能がないため、手動で[バックエンド](/glossary/バックエンド/)監視を行う必要があります。
+# AWS セキュリティグループ例（awscli）
+aws ec2 authorize-security-group-ingress \
+  --group-id sg-xxxxxxxx \
+  --protocol tcp \
+  --port 8080 \
+  --source-group sg-yyyyyyyy
+
+# iptables ルール永続化
+sudo apt-get install iptables-persistent
+sudo netfilter-persistent save
+```
+
+## Nginx 固有の注意点
+
+### upstream のヘルスチェック設定が不十分
+
+デフォルトの Nginx ではアクティブなヘルスチェック機能が限定的です。upstream のサーバーが一時的に遅くなった場合、タイムアウトによって503が多発することがあります。
 
 ```nginx
-# Nginx Plus の場合
-upstream app_backend {
-    server 127.0.0.1:8080;
+upstream backend {
+    server 127.0.0.1:8080 max_fails=2 fail_timeout=10s;
     server 127.0.0.1:8081;
-    
-    health_check interval=3s falls=3 rises=2;
+}
+
+server {
+    location / {
+        proxy_pass http://backend;
+        proxy_connect_timeout 2s;  # 接続タイムアウト
+        proxy_read_timeout 5s;      # 読み取りタイムアウト
+        proxy_send_timeout 5s;      # 送信タイムアウト
+    }
 }
 ```
 
-オープンソース版では、systemd や外部監視ツールでバックエンドプロセスを監視してください。
+### proxy_intercept_errors と error_page の設定
 
-### backup パラメータの活用
-
-メインの[バックエンド](/glossary/バックエンド/)がダウンしている場合、backup [サーバー](/glossary/サーバー/)に[リクエスト](/glossary/リクエスト/)をルーティングすることで 503 を回避できます。
+upstream が503を返す場合、Nginx はそれをクライアントに通す前にキャッシュ可能な静的ファイルを返すように設定できます。
 
 ```nginx
-upstream app_backend {
-    server 127.0.0.1:8080;
-    server 127.0.0.1:8081 backup;
+server {
+    location / {
+        proxy_pass http://backend;
+        proxy_intercept_errors on;
+        error_page 503 /service_unavailable.html;
+    }
+
+    location = /service_unavailable.html {
+        root /var/www/html;
+        internal;
+    }
 }
 ```
 
-### keepalive 接続の不具合
+### upstream が複数のバックエンドを持つ場合の動作
 
-[バックエンド](/glossary/バックエンド/)への keepalive 接続が失敗する場合、接続プールの設定を見直してください。
+Nginx は設定内の upstream すべてにアクセスできない場合に503を返します。backup サーバーの活用や slow_start パラメータで段階的な負荷分散を実現できます。
 
 ```nginx
-upstream app_backend {
-    server 127.0.0.1:8080;
-    keepalive 32;
-}
-
-location / {
-    proxy_pass http://app_backend;
-    proxy_http_version 1.1;
-    proxy_set_header Connection "";
+upstream backend {
+    server 192.168.1.10:8080 weight=5;
+    server 192.168.1.11:8080 weight=3 slow_start=30s;
+    server 192.168.1.12:8080 backup;
 }
 ```
 
 ## それでも解決しない場合
 
-### ログを詳しく確認する
+### 確認すべきログとコマンド
 
 ```bash
-# Nginx エラーログを確認
-tail -100 /var/log/nginx/error.log
+# Nginx エラーログの確認
+tail -f /var/log/nginx/error.log
 
-# アクセスログで 503 が記録されているか確認
-tail -100 /var/log/nginx/access.log | grep '503'
+# Nginx アクセスログの確認
+tail -f /var/log/nginx/access.log
 
-# ログレベルを debug に上げて再度テスト
-# nginx.conf 内で：
-# error_log /var/log/nginx/error.log debug;
+# upstream への接続テスト
+telnet 127.0.0.1 8080
+nc -zv 127.0.0.1 8080
+
+# Nginx の設定文法チェック
+nginx -t
+
+# Nginx 設定の詳細確認
+nginx -T
+
+# プロセスが正しくリッスンしているか確認
+lsof -i :8080
+ss -tlnp | grep 8080
 ```
 
-### バックエンドサーバーのログを確認
+### バックエンドの動作確認
 
 ```bash
-# アプリケーションサーバーのログを確認
-# Node.js の場合
-tail -f /var/log/app/server.log
+# ローカルでバックエンドへのリクエストテスト
+curl -v http://127.0.0.1:8080/
 
-# Docker コンテナの場合
-docker logs -f <container-id>
+# バックエンドログの確認
+journalctl -u myapp -f
+docker logs myapp
 
-# システムリソースを確認
-top
-free -h
-df -h
+# バックエンドの応答時間確認
+time curl http://127.0.0.1:8080/
 ```
 
-### Nginx の詳細な接続状態を確認
+### 公式ドキュメント参照
 
-```bash
-# アクティブな接続を確認
-netstat -tnap | grep ESTABLISHED | wc -l
+- Nginx Module ngx_http_upstream_module：upstream モジュールの詳細設定方法
+- Nginx Module ngx_http_proxy_module：proxy_pass やタイムアウト設定の詳細
+- Nginx HTTP Health Checks（Nginx Plus）：アクティブなヘルスチェック機能
 
-# バックエンドへの接続試行を追跡
-tcpdump -i lo -n 'tcp port 8080 or tcp port 8081'
-```
+### コミュニティリソース
 
-公式ドキュメントの「[Module ngx_http_upstream_module](http://nginx.org/en/docs/http/ngx_http_upstream_module.html)」では upstream ブロックの全[パラメータ](/glossary/パラメータ/)が詳しく解説されています。また「[Troubleshooting](http://nginx.org/en/docs/faq/variables_in_config.html)」も参考になります。
+- Nginx GitHub Issues：実装されていない機能やバグ報告
+- Server Fault Nginx タグ：実運用での設定ノウハウ
+- Nginx Japanese Community：日本語での質問と回答
 
 ---
 
