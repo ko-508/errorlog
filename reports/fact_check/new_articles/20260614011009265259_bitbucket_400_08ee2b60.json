@@ -1,0 +1,305 @@
+{
+  "path": "content/posts/bitbucket_400.md",
+  "title": "Bitbucket の 400 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 93,
+    "freshness_score": 90,
+    "citation_coverage": 31,
+    "risk_score": 18
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "Most factual claims are accurately supported by official Bitbucket/Atlassian documentation and support articles.",
+    "The article provides clear and relevant examples for common 400 error scenarios in Bitbucket.",
+    "One claim regarding the explicit UTF-8 encoding requirement for `bitbucket-pipelines.yml` lacks a direct primary source, though it is a generally good practice.",
+    "duplicate source URL for the same claim was ignored"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-14",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260614011009265259_bitbucket_400_08ee2b60.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://developer.atlassian.com/server/bitbucket/rest/v1/api-references/",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "Bitbucket の 400 エラーは、API へのリクエストの形式または内容が不正であることを示します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/server/bitbucket/rest/v1/api-references/",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "リクエストボディの JSON 破損、必須パラメータの欠落、YAML 構文エラー、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/",
+      "title": "The Bitbucket Cloud REST API - Atlassian Developer",
+      "claim": "リクエストボディの JSON 破損、必須パラメータの欠落、YAML 構文エラー、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://jira.atlassian.com/browse/BSERV-7212",
+      "title": "Malformed JSON should return HTTP 400, not HTTP 500 - JIRA.atlassian.com",
+      "claim": "リクエストボディの JSON 破損、必須パラメータの欠落、YAML 構文エラー、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.secoda.com/docs/validation-pipelines",
+      "title": "Validation Pipelines - Explanation & Examples - Secoda",
+      "claim": "リクエストボディの JSON 破損、必須パラメータの欠落、YAML 構文エラー、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://tagbangers.com/blog/bitbucket-pipeline-deploy-environment-resources",
+      "title": "環境別のリソースを Bitbucket Pipeline を用いてデプロイする方法 - Tagbangers Blog",
+      "claim": "リクエストボディの JSON 破損、必須パラメータの欠落、YAML 構文エラー、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/troubleshooting-heroku-deployment-error-400-in-bitbucket-cloud/",
+      "title": "Troubleshooting Heroku Deployment Error 400 in Bitbucket Cloud - Atlassian Support",
+      "claim": "このエラーはデプロイメント、リポジトリ操作、パイプライン設定で頻繁に遭遇します。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-data-center/docs/git-commands-return-error-code-400/",
+      "title": "Git Commands Return Error Code 400 | Bitbucket Data Center - Atlassian Support",
+      "claim": "このエラーはデプロイメント、リポジトリ操作、パイプライン設定で頻繁に遭遇します。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://jira.atlassian.com/browse/BCLOUD-19069",
+      "title": "Improve Bitbucket Pipelines Validator to detect Configuration errors - JIRA.atlassian.com",
+      "claim": "このエラーはデプロイメント、リポジトリ操作、パイプライン設定で頻繁に遭遇します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.secoda.com/docs/validation-pipelines",
+      "title": "Validation Pipelines - Explanation & Examples - Secoda",
+      "claim": "Bitbucket Pipelines の設定ファイルに YAML 形式の誤りがあると、パイプラインの起動時に 400 エラーが発生します。",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://tagbangers.com/blog/bitbucket-pipeline-deploy-environment-resources",
+      "title": "環境別のリソースを Bitbucket Pipeline を用いてデプロイする方法 - Tagbangers Blog",
+      "claim": "Bitbucket Pipelines の設定ファイルに YAML 形式の誤りがあると、パイプラインの起動時に 400 エラーが発生します。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/",
+      "title": "The Bitbucket Cloud REST API - Atlassian Developer",
+      "claim": "Bitbucket REST API を呼び出す際、リクエストボディの JSON が壊れていたり、必須パラメータが欠落していたりすると 400 エラーが返されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/server/bitbucket/rest/v1/api-references/",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "Bitbucket REST API を呼び出す際、リクエストボディの JSON が壊れていたり、必須パラメータが欠落していたりすると 400 エラーが返されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://bitbucket.org/bitbucket/pipelines/addon/pipelines/external-validator",
+      "title": "Bitbucket Pipelines - Validator",
+      "claim": "Bitbucket の Web UI にある「Pipeline Validator」で YAML 構文を事前検証できます。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://www.educba.com/bitbucket-pipelines-validator/",
+      "title": "How to Use Bitbucket Pipelines Validator? - EDUCBA",
+      "claim": "Bitbucket の Web UI にある「Pipeline Validator」で YAML 構文を事前検証できます。",
+      "source_type": "company",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.secoda.com/docs/validation-pipelines",
+      "title": "Validation Pipelines - Explanation & Examples - Secoda",
+      "claim": "Bitbucket の Web UI にある「Pipeline Validator」で YAML 構文を事前検証できます。",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://lyzon.co.jp/blog/bitbucket-pipelines-ci-cd-ftp-deploy/",
+      "title": "Bitbucket PipelinesでCI/CD入門！ビルドとレンタルサーバーへのFTPデプロイを自動化する",
+      "claim": "リポジトリ設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/intro/#content-type",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "API 呼び出し時に `Content-Type: application/json` ヘッダーを明示的に指定することが重要です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/server/bitbucket/rest/v1/api-references/",
+      "title": "REST Resources Provided By: Bitbucket Server - Code Insights - Atlassian",
+      "claim": "API 呼び出し時に `Content-Type: application/json` ヘッダーを明示的に指定することが重要です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.postman.com/bitbucket/workspace/bitbucket-api/documentation/6011388-Bitbucket-API/",
+      "title": "Bitbucket API | Documentation | Postman API Network",
+      "claim": "API 呼び出し時に `Content-Type: application/json` ヘッダーを明示的に指定することが重要です。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-data-center/docs/a-rest-api-request-to-manually-trigger-pull-request-rescoping-is-failing-resulting-in-an-http-status-400-bad-request-error-on-bitbucket-server/",
+      "title": "A REST API request to manually trigger pull request rescoping is failing, resulting in an HTTP Status 400 – Bad Request error on Bitbucket Server - Atlassian Support",
+      "claim": "API 呼び出し時に `Content-Type: application/json` ヘッダーを明示的に指定することが重要です。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/troubleshooting-heroku-deployment-error-400-in-bitbucket-cloud/",
+      "title": "Troubleshooting Heroku Deployment Error 400 in Bitbucket Cloud - Atlassian Support",
+      "claim": "認証トークンの有効期限切れは 401 エラーになりますが、トークンが存在してもスコープが不足していると 400 が返される場合があります。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.oracle.com/cd/E88426_01/html/E89136/bitbucketservertroubleshoot.html",
+      "title": "Bitbucketサーバーに接続できない - Oracle Help Center",
+      "claim": "認証トークンの有効期限切れは 401 エラーになりますが、トークンが存在してもスコープが不足していると 400 が返される場合があります。",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://stitchflow.com/integrations/bitbucket-user-management-api-guide/",
+      "title": "Atlassian Bitbucket User Management API Guide - Stitchflow",
+      "claim": "認証トークンの有効期限切れは 401 エラーになりますが、トークンが存在してもスコープが不足していると 400 が返される場合があります。",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/api-token-permissions/",
+      "title": "API トークンの権限 | Bitbucket Cloud | アトラシアン サポート - Atlassian Support",
+      "claim": "API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/",
+      "title": "API トークン | Bitbucket Cloud | アトラシアン サポート - Atlassian Support",
+      "claim": "API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/#authentication",
+      "title": "The Bitbucket Cloud REST API - Atlassian Developer",
+      "claim": "API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/repository-level-access-token-permissions/",
+      "title": "リポジトリレベルのアクセス トークンの権限 | Bitbucket Cloud - Atlassian Support",
+      "claim": "API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.aws.amazon.com/ja_jp/codebuild/latest/userguide/bitbucket-access-token.html",
+      "title": "Bitbucket アプリのパスワードまたはアクセストークン - AWS CodeBuild",
+      "claim": "API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://stitchflow.com/integrations/bitbucket-user-management-api-guide/",
+      "title": "Atlassian Bitbucket User Management API Guide - Stitchflow",
+      "claim": "API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/api-group-pipelines/#api-group-pipelines",
+      "title": "The Bitbucket Cloud REST API - Pipelines",
+      "claim": "Bitbucket UI 内の Pipeline 実行ログを確認してください。詳細なエラーメッセージは「Pipeline」→「Build」→「Logs」タブに表示されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-data-center/docs/a-rest-api-request-to-manually-trigger-pull-request-rescoping-is-failing-resulting-in-an-http-status-400-bad-request-error-on-bitbucket-server/",
+      "title": "A REST API request to manually trigger pull request rescoping is failing, resulting in an HTTP Status 400 – Bad Request error on Bitbucket Server - Atlassian Support",
+      "claim": "API 呼び出しの場合、cURL に `-v` フラグを付けて詳細なリクエスト・レスポンスを確認します。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://developer.atlassian.com/server/bitbucket/rest/v1/api-references/",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "レスポンスボディの `errors` または `message` フィールドに問題の詳細が記載されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/",
+      "title": "The Bitbucket Cloud REST API - Atlassian Developer",
+      "claim": "レスポンスボディの `errors` または `message` フィールドに問題の詳細が記載されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/",
+      "title": "Bitbucket Cloud REST API ドキュメント",
+      "claim": "Bitbucket Cloud REST API ドキュメントで対象のエンドポイントの必須パラメータと形式を確認し、Bitbucket Pipelines YAML リファレンスでパイプライン設定の仕様を参照してください。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/",
+      "title": "Bitbucket Pipelines YAML リファレンス",
+      "claim": "Bitbucket Cloud REST API ドキュメントで対象のエンドポイントの必須パラメータと形式を確認し、Bitbucket Pipelines YAML リファレンスでパイプライン設定の仕様を参照してください。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    }
+  ],
+  "unsupported_claims": [
+    "bitbucket-pipelines.yml をリポジトリのルートに配置する際、ファイルのエンコーディングが UTF-8 であることを確認してください。"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Find an official source explicitly stating the UTF-8 encoding requirement for `bitbucket-pipelines.yml` or rephrase the claim as a strong recommendation.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 22,
+  "url_skipped": 14,
+  "url_invalid": 3,
+  "gemini_error_category": "",
+  "original_chars": 4454,
+  "fact_check_input_chars": 3656,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "2d11f8024975",
+  "error_detail": null,
+  "vote_group_id": "837c836f-a22e-4a5e-a050-e8699fd4ebbe",
+  "is_final_vote": false,
+  "vote_count": 3
+}

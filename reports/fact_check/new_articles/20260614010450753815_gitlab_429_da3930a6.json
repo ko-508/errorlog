@@ -1,0 +1,172 @@
+{
+  "path": "content/posts/gitlab_429.md",
+  "title": "GitLab の 429 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 75,
+    "freshness_score": 90,
+    "citation_coverage": 56,
+    "risk_score": 76
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "The article accurately describes the meaning of GitLab 429 errors, common causes, and methods for checking rate limits via API headers and admin settings.",
+    "However, the default API rate limits presented (600 requests/min for authenticated, 300 requests/min for unauthenticated) are oversimplified and not universally applicable across all GitLab APIs, which could mislead users.",
+    "one or more claims are unsupported or unverifiable"
+  ],
+  "required_actions": [
+    "Clarify that the mentioned default rate limits (600/300) are examples for specific API endpoints (e.g., `/project/:id/jobs`) and that actual rate limits can vary significantly by API, authentication status, and GitLab instance configuration.",
+    "Advise readers to consult the official GitLab documentation for specific endpoint rate limits or to rely on response headers for current usage.",
+    "Add official or primary source URLs for unsupported claims."
+  ],
+  "detected_at": "2026-06-14",
+  "status": "reject",
+  "report_path": "reports/fact_check/new_articles/20260614010450753815_gitlab_429_da3930a6.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3i5QFfPrNi4o7JcVK1KQDYzzLX4RNQDw3aPLcmOsk0SzVdCCMr-dSlsGJhz2JGtMdF15ehOcNCevTeLNgp5SaS2i9FO-ioFlqyiLIzDg2CTNNYQYfMeu3iN7R1MJ2-LVlDdBtIz4uuYHZjBnEOkk79CcKB2-Yg3dL7CY2xXxSjIdYXST1BnJZHuO4r4DGnhD9EnSnVNAg",
+      "title": "Rate limitations announced for Projects, Groups, and Users APIs - GitLab",
+      "claim": "GitLab's 429 error means 'Too Many Requests' and indicates that the GitLab API rate limit has been reached, occurring when requests exceed allowed limits.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExvX3cS35VdHw-vsdm52QiPEo7yrok5z_HGkhzrZZqzMANLaKL6HQ4y-giaLURjdUNJpArNThXZoq_ucsaUYoWH_ilOnGO-rhlNAAVr6ELqNAdgMRammLZytLLRqD7PDq8H825C7AAnSvK9i9pmAX6xGKgaQZA0nZftxm_HlYTSfH7PD42l94t4yAEwJ13Pu1ODns=",
+      "title": "Rate Limiting - The GitLab Handbook",
+      "claim": "GitLab's 429 error means 'Too Many Requests' and indicates that the GitLab API rate limit has been reached, occurring when requests exceed allowed limits. Rate limiting is a critical feature that enhances security and performance by restricting the number of requests users or IP addresses can make within a set timeframe, including those from CI/CD pipelines.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOYXk1sb4eGWEsMGHUkSjPs3ejFbwUQo1mCOkHQVL1wKsNLnEC0BQyGL1RSTjg6Na7yZ4VFMW6TWa0jhZgI4zd94s7bxE9foZXl1xugmscfKDSf414Kz2JYcPvTC8xUSbN4KL4QhOh7ynL0lqi0K4djHXQawCdSvO8kAhIkg==",
+      "title": "Authenticated user rate limits - GitLab Docs",
+      "claim": "GitLab's 429 error means 'Too Many Requests' and indicates that the GitLab API rate limit has been reached, occurring when requests exceed allowed limits from users or CI/CD pipelines (REST and GraphQL API calls, including requests from integrations, CI/CD jobs, and automation scripts).",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFESPBBgv7F3sWpqQNG0Lyow7w1OtWkeucGV3eX3elp4j5jMJwz3cMoFRaJ9JeIHYy9R45F78-js1kLJOgi9EypdsNVdKZp4AXl1PlRBS0EN-VsjfGOzK80JF1sjfu-6ho3U1gycp3sPQ==",
+      "title": "Rate limits - GitLab Docs",
+      "claim": "For the `project/:id/jobs` endpoint, a rate limit of 600 calls per authenticated user per minute is applied by default.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHYaa6MI9bR8vZmtbM60NMPGPGuk_CYZcud2mkmIGR4oCZnuwkNdw7nUY17zVDkTGa0Ks3uhIUcrgXfrh_jsLuI81_5hS6JRjWo6cZc34ypTw-gvw-zOvEIGva32zQFBHF0hbpjxzvCUJuiDdrGqg==",
+      "title": "レート制限 - GitLab Docs",
+      "claim": "For the `project/:id/jobs` endpoint, a rate limit of 600 calls per authenticated user per minute is applied by default.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEvwMu3C-wgQ0kV36ithbrwJM597vzDvxrj2jPyCLbZBJB4EMY1j4tInkVtp0qtMizz8JGvb_LPGFlAcAnbdE5-qgYoy7P8l-yC7l_Wz0_4Xsnsd2sCRptGH165hkVF67patBHJS5lgrw5e3z5psMnM99B2Vcbu4kKtNeJIxTfCnSqGV0KA5UQv-g==",
+      "title": "ユーザーとIPレート制限 - GitLab Docs",
+      "claim": "For the `project/:id/jobs` endpoint, a rate limit of 600 calls per authenticated user per minute is applied by default.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF3i5QFfPrNi4o7JcVK1KQDYzzLX4RNQDw3aPLcmOsk0SzVdCCMr-dSlsGJhz2JGtMdF15ehOcNCevTeLNgp5SaS2i9FO-ioFlqyiLIzDg2CTNNYQYfMeu3iN7R1MJ2-LVlDdBtIz4uuYHZjBnEOkk79CcKB2-Yg3dL7CY2xXxSjIdYXST1BnJZHuO4r4DGnhD9EnSnVNAg",
+      "title": "Rate limitations announced for Projects, Groups, and Users APIs - GitLab",
+      "claim": "GitLab administrators can check and adjust instance-wide rate limits via the `/api/v4/admin/application_settings` endpoint.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-M062ydqaDQd8aqgBbvFiZsX907FpOb7GJlG300x5bERQldreD6otWM75L-Qu3K9ZtWWrAnn1F8u5EAVa-_VvycaXlOdmAWpfwoxs6pHFo2PH8Rx3WrOAWcNp0Ghuvqk=",
+      "title": "Application settings API - GitLab Docs",
+      "claim": "GitLab administrators can check and adjust instance-wide rate limits via the `/api/v4/admin/application_settings` endpoint, and must have administrator access to the instance to use this API.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFCG4RJARzs6gsCgCWkVtXbrg-crBDFDqVqVb0Z_12yWp_SlQrfWBl-d7SNjqJ5iJYbepTiI6Wa5I9CBllbKnavl9ko3AWAHYottFC0Fu83520s6KEaK-C46I_fjnymD_fQpvZB8SicZXAx0eHRPLsBjw==",
+      "title": "GitLab CI/CD job token - ETSI Labs",
+      "claim": "The `$CI_JOB_TOKEN` used in CI/CD pipelines is a job-specific token. For example, in the context of the package registry, specific rate limits apply (e.g., 2000 requests per minute per user for authenticated requests).",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCPXa5XnZe_ph_wcphBPM6Y4IyHqSQIm8DHE2R9bMRawqMkYppP_9WRbnH_7p9T8-t4Yz-f2yzR-ixrmK3XbiTUEHGhDBcIcb7Bgw8x-Tnc4Yk-Y2ruq6bM6putZsUzF6garcfNVqAgGA=",
+      "title": "A solution to gitlab package registry 429's errors - Olivier's Blog",
+      "claim": "The `$CI_JOB_TOKEN` used in CI/CD pipelines is a job-specific token, and for the package registry, specific rate limits apply (e.g., 500 requests per minute for unauthenticated IPs, 2000 requests per minute per user for authenticated).",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGee-qvi9UEgSjgZdZm56MEUPye4Q7niW51ja0MnVifklsUZykX_mmNMNQYqYjuWzBseGPnGWA48VjftCoj5RvchIlA0rNnaP5y7Mwkq88JQAVxU16SZHlvBBj_a6dteNQXiS8Mw1Hq5P3nPpvLc-I0t5xAXg==",
+      "title": "Rate limiting: 429 Too Many Requests (#1966) · Issue · gitlab-org/gitlab-runner",
+      "claim": "The `$CI_JOB_TOKEN` used in CI/CD pipelines is a job-specific token, and does not apply to JWT requests authenticated by `gitlab-ci-token` for Git and container registry failed authentication bans.",
+      "source_type": "other",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG1MZivho1aZ0ZocOPOHHL9WhmDkZRWN3JgmP_yXsMTazSrip6fKHwDbyprCVSFeHGMbviji2pSJCcVurwjkFO-NwjD5Quu_LqpnCfrkLBV3SQWPXxyZ0CQJV7YeI69IA==",
+      "title": "GraphQL API - GitLab Docs",
+      "claim": "When using the GraphQL API, a different rate limiting model based on query complexity is adopted compared to the REST API, where the GraphQL API scores the complexity of a query to protect against performance impacts.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQExvX3cS35VdHw-vsdm52QiPEo7yrok5z_HGkhzrZZqzMANLaKL6HQ4y-giaLURjdUNJpArNThXZoq_ucsaUYoWH_ilOnGO-rhlNAAVr6ELqNAdgMRammLZytLLRqD7PDq8H825C7AAnSvK9i9pmAX6xGKgaQZA0nZftxm_HlYTSfH7PD42l94t4yAEwJ13Pu1ODns=",
+      "title": "Rate Limiting - The GitLab Handbook",
+      "claim": "When using the GraphQL API, a different rate limiting model based on query complexity is adopted compared to the REST API; GraphQL endpoints currently do not return rate limit response headers.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-M062ydqaDQd8aqgBbvFiZsX907FpOb7GJlG300x5bERQldreD6otWM75L-Qu3K9ZtWWrAnn1F8u5EAVa-_VvycaXlOdmAWpfwoxs6pHFo2PH8Rx3WrOAWcNp0Ghuvqk=",
+      "title": "Application settings API - GitLab Docs",
+      "claim": "If you have administrator privileges, you can check instance-level limits with the command `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application_settings\"` (the `grep -i rate` part is for filtering).",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEOYXk1sb4eGWEsMGHUkSjPs3ejFbwUQo1mCOkHQVL1wKsNLnEC0BQyGL1RSTjg6Na7yZ4VFMW6TWa0jhZgI4zd94s7bxE9foZXl1xugmscfKDSf414Kz2JYcPvTC8xUSbN4KL4QhOh7ynL0lqi0K4djHXQawCdSvO8kAhIkg==",
+      "title": "Authenticated user rate limits - GitLab Docs",
+      "claim": "User-level limit status can be checked from the response header of any API call; GitLab includes rate limit information in response headers for all requests (`RateLimit-Limit`, `RateLimit-Remaining`, etc.).",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJcnBovluc0nvedWui_IZDdPpTOTicxkOw9MZbTSatIktV0f9RwWUD-HuF3S5qLqtt9r9evChtw65SFlsEhzIZxIrWm9mtAndVFz2FP7IuT1B08EB4zGyzt-nxZdFNZGmkTUHaKcHI2b6llDLr8YjWRaVk_lbBGv13Al6HF5QLPFv6N3TfPT0i5R7q7JowTbWn4QahI8vmx5r5VYi40FlE6HRw7_VS4p5CtLwtcrg=",
+      "title": "docs/rate-limiting/README.md · f60467a699203dec219b11fd4190be0e969f748a - GitLab",
+      "claim": "User-level limit status can be checked from the response header of any API call; headers like `RateLimit-Observed` and `RateLimit-Remaining` are returned.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSYn2CbRv5-XRbvNm4ZhMUsMjCVY2RuMKU__vkKmHsO9Lt3fXXI7KAfOT-i3uJ6RN7XK8GMQLtDjaQPzvBvY7Z7RWGlcphgEVeIaGePLcWlR1HQN5qJlHj5RxoE1ZvgPhjXm38AdSM_eZ54Y3_fyEWlnVzQk-4Jv8pGg-XwRjCRZKj8fI8CKZmiA==",
+      "title": "Does gitlab API have a rate limit - Stack Overflow",
+      "claim": "User-level limit status can be checked from the response header of any API call; API responses include headers like `RateLimit-Limit`, `RateLimit-Observed`, and `RateLimit-Remaining`.",
+      "source_type": "other",
+      "url_check_status": "skipped"
+    }
+  ],
+  "unsupported_claims": [
+    "デフォルトでは、認証ユーザーは（すべてのAPIで）1分間に600リクエストという制限が適用されます。",
+    "デフォルトでは、未認証の場合は（すべてのAPIで）1分間に300リクエストという制限が適用されます。"
+  ],
+  "improvement_suggestions": [],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 13,
+  "url_skipped": 4,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 7322,
+  "fact_check_input_chars": 2988,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "cfc849948ea2",
+  "error_detail": null,
+  "vote_group_id": "064f09ab-9294-453f-9cba-de00c92df54c",
+  "is_final_vote": false,
+  "vote_count": 3
+}

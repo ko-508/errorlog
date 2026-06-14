@@ -1,20 +1,20 @@
 [
   {
-    "path": "content/posts/gitlab_404.md",
-    "stem": "gitlab_404",
-    "title": "GitLab の 404 エラー：原因と解決策",
+    "path": "content/posts/gitlab_429.md",
+    "stem": "gitlab_429",
+    "title": "GitLab の 429 エラー：原因と解決策",
     "source_type": "daily"
   },
   {
-    "path": "content/posts/gitlab_409.md",
-    "stem": "gitlab_409",
-    "title": "GitLab の 409 エラー：原因と解決策",
+    "path": "content/posts/gitlab_500.md",
+    "stem": "gitlab_500",
+    "title": "GitLab の 500 エラー：原因と解決策",
     "source_type": "daily"
   },
   {
-    "path": "content/posts/gitlab_422.md",
-    "stem": "gitlab_422",
-    "title": "GitLab の 422 エラー：原因と解決策",
+    "path": "content/posts/bitbucket_400.md",
+    "stem": "bitbucket_400",
+    "title": "Bitbucket の 400 エラー：原因と解決策",
     "source_type": "daily"
   }
 ]

@@ -1,0 +1,281 @@
+{
+  "path": "content/posts/gitlab_500.md",
+  "title": "GitLab の 500 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 95,
+    "freshness_score": 95,
+    "citation_coverage": 28,
+    "risk_score": 35
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "The article provides accurate and up-to-date information on GitLab 500 errors, covering common causes and practical troubleshooting steps.",
+    "It correctly identifies official resources like status.gitlab.com and relevant log files for self-managed instances.",
+    "The recommended actions align with official GitLab documentation and best practices, posing low risk when followed by an administrator.",
+    "absolute wording may overstate technical certainty"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-14",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260614010646422692_gitlab_500_156d0b4e.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBYob88JcrNiVrMjfqHQaiXkX-wdwHA9pk8SpkKLTkWqjesnqXLu7nYoE4xp4045ANkSjWWdQWu5uQNMcHtny7gvc572pcF1vtXLQyhwKDHAKySHU2rvrRVMB4mW5NAFp7Tq3OGA84fRHF2_H98A==",
+      "title": "Architecture · Development · Help - GitLab",
+      "claim": "GitLab uses Puma as the web server and Sidekiq as a job queue, relying on Redis for background job information.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGquDyUD94lj4KkAPO1xxZS_e-FXWK-sZLGWhztaSyLQKGPpg5FWZhB61SHYqfgdtL_zjRU7qiNuLMWMzuVYM3hlt5tvG67WieKdHnfXv0k9rLAVLIWQ6qma7zFwxMTl_mMvPm6NXJBolQU0RRHxOVTs4GlyYFMlw==",
+      "title": "Logs · Administration · Help · GitLab - The Costa Group",
+      "claim": "For Omnibus GitLab, production logs are typically found at /var/log/gitlab/gitlab-rails/production.log and Sidekiq logs at /var/log/gitlab/sidekiq/current.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFohTzL0KIHfMQ2nkbThbKbgPk9EXKcWj_CtEFUtsYW7mT3Bi9KtDUNG-MWkCUipqUmmDtFbYz9cmCISc1TIpGcKGIOW8_rJte32bKDv4pmU_LKhHmOHRkJcZdxKPvyAUWkdOnuAvsNiVBCPaSiXA==",
+      "title": "Omnibus GitLab logs",
+      "claim": "The `/etc/gitlab/gitlab.rb` file can be used to configure log directories, and `gitlab-ctl reconfigure` is used to apply configuration changes.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3TWSi8dmWHoTWylFJ95gUAXhAotMRKghHkcU8lQ2UauoI1omxnEXqvs5Y9f2WZpC5I4t0PEV7KJtN4ntaITUFwqGZjY-FA85qGNUu-ai4QTTlaCItc1hQZlRSSW4BQ61khAhBEclUR0xkpA==",
+      "title": "Log system - GitLabドキュメント",
+      "claim": "For Omnibus GitLab installations, some Sidekiq logs are in /var/log/gitlab/sidekiq/current.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGHu95Ky3u7w0iDIBBNmAJ73K7ZAnQDc0dtv83zft5-CFv4-JWnamJONrXIiyiCns-3lTuX4Xox6qMkbc6qveO-n_Zq7kx_O5onnltmlvLb6IaQWQU=",
+      "title": "GitLab System Status",
+      "claim": "status.gitlab.com is the official status page for monitoring GitLab.com and its associated services.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGSmWVCkfs5ggfRgO7XggqOQ_ui_W9vIea3YMKu4IDotFU36q0R6G-LffPac7acWiyGVjQlReai3c6A7IPL0c3pB4QgYVojQmjiRx_Uh2AQMK_pkfbphyRpKkiKp3Ptj5hAsStiUmMkQtufgv9IS4j25tgcT8-aZ_68_aYIg-gDznCa-lQ==",
+      "title": "There are many ways to contact Support, however, the first step for most people should be to search the Knowledge Base or documentation. - GitLab Support",
+      "claim": "GitLab support requests can be opened via the GitLab Support Portal.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhrIAcltmk9kP5WZV6JFsKWXLEPvEfSrEXt-DZtpLdNVha794XMq02EoTy7rTCHkLelVVPk-0DscbYAQ4WMJ6PCfUzHSvI8ikYYDBPDX1cYqeP6hQUp0kcAFQbnVB5RvmhVm9F2BileUnPK0cIamECQ==",
+      "title": "Troubleshooting GitLab running in a Docker container",
+      "claim": "When troubleshooting GitLab in a Docker container, you can read container logs using `sudo docker logs gitlab`.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHx_5PVPxm0ziay_s7uuBMPDvn4REfIDgXC-J_x01OvEmulRg8-nK_0ODOoKnOUap-kvL_uLfIA5OB96IGyAHGMU2TYc2NWm976QQxZjTQ22tiQym-Yyz9HBOWxEl7_v4KArch0Nq5OB9CmvtojygvVsrW45IGSsjGs",
+      "title": "GitLab Architecture #GitLab - Tech Blog - クリエーションライン",
+      "claim": "GitLab's core components include Puma (for Web UI and API), Sidekiq (for asynchronous processing), Gitaly (for Git repository management), PostgreSQL (for project/group data), and Redis (for job queues and cache).",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFOkA97eI-_OnU9cJGyvQUU7jT_zfaVCfwM_XXQks31I-5uTMqFOiD75qLJv2CZehiS2WLRf-8DUwt8El-C6Ha7GHR1A24SASh1HcXoR8dARW7AX6vafIwb9z2w8qe5Oedz8IfDQfKl6Q==",
+      "title": "クリエーションライン GitLab日本語サポート ドキュメント",
+      "claim": "Accessing GitLab functions like repositories, pushes, and merge requests can become unavailable due to 500 errors.",
+      "source_type": "company",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGbDLflrYqpidCEG-Qr-Ef_2-EtxinUWDFE0NuwpN-wZIYn_bpshgKKdgcSHZ2TQnTX7sXg7_iHPC0L-FSNeYfUqcypWyh0Y8NXWCgGS15VzWijTeIS9hOUAxQiQLyIo02IKeeXUuOOS8Y872LoQg==",
+      "title": "500 Internal Server Error when configuring security scans via UI with branch name push rules enabled (#564973) · Issue - GitLab",
+      "claim": "A 500 Internal Server Error indicates an unexpected internal error on the GitLab server side and can manifest as a '500 Internal Server Error' message or an API response with status 500.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHSXOThgQBUaWHZ4AiAK5ZUZxhEEbAF5r8acuVhIuwKlKJp2gEebVVa3TGqjfz3Z0H1U749_RkctKCjZfBGqvtpaZV2wChAZFk9g2FDFGl_kNapeNXPjhYZd28Px25GloR6ldqgeJQnsnGpp6XAk61TTsmF2g==",
+      "title": "トラブルシューティング - GitLab Docs",
+      "claim": "For detailed debugging, refer to the official troubleshooting documentation at https://docs.gitlab.com/ee/administration/troubleshooting/.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFg9AQd6_Dq3wmLeqMXVNwNUss1h75vBf9GPKHN7zFpsdZfpD6HL3DL3Z5_lmweQcFxl71jXoi5Ol8-8mcn-D13QeuV3t8hnvLC_nxlNoNaSeInPoVCnDPA7n7rLAUlHBUGbcP3fFllN94WMa4CnffW5w==",
+      "title": "再起動したらGitlabが500エラーのままかえってこなくて焦った - ytooyamaのブログ",
+      "claim": "Loss of database connection can cause GitLab 500 errors.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqlzjfWPoLxnVyrPSdj-DTOyybpH_eok4sj_nY4C6irkVI_0rXSArA1SLHNm_q1aJKe0MFglM101FJDBspHWD4GxcKK65VdJQ91sToIpKnEm48_4VsPNwj5xBBa50YcP9nD1ocDg0F0KpKrlkM1Ts=",
+      "title": "GitLabで特定のリポジトリだけ500エラー - Qiita",
+      "claim": "`gitlab-rails/production.log` is a key log file for detailed error information.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFm1zQ859Q-vVT6MNl0OvaQ_wR0GT2H8AfHSOZRdYy_0I8R7EaEV3G34HOiOxC6CMszN1AYxChZKDQ_giAq5gRJTz87-I1K8ArePuQjIDM7pulrrc2icKMaeSz4uY62A99ubxeKoTJmT_hXAIdGPfNWFKz7ctM3gDWYdZxbag==",
+      "title": "Gitalyのトラブルシューティング - GitLab Docs",
+      "claim": "Corruption of Git objects in the repository can lead to 500 errors during repository read/write operations.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFuHdCbTAESg3hyeNwzEiGUiUH_mHGRIhOjFuKplAAOxyRjToATI2KmVJCoNwRJ8fEDO7WBQ9bUIM4GPzL8EN-hZQJ9B2RRDTvjLQhNLlc-oksYU_olExeAJ5nWlK0Px7FtCmipkPvAsi-W69vaL4MGFrPxtG5le_CfAYxQ2g==",
+      "title": "GitLab Pagesの管理のトラブルシューティング",
+      "claim": "`gitlab-ctl reconfigure` should be executed to apply changes to `/etc/gitlab/gitlab.rb`.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGgictE3a5FRKO792FdFuKAPcYDf7B-w6cUVndK3G8P5twA4ezVKrRaTBFTZF2xv532tptx7krnmjSwjohTiaTlPLdaTBKzbVJRi0iAl3UVAQsOCnLSD_EtGN5zjE-7XIqUfBJ4Od0RoI_Lc0-qy4NL-8I3jIoQoQ==",
+      "title": "Dockerコンテナで実行されているGitLabのトラブルシューティング",
+      "claim": "If operating GitLab with Docker containers, check application logs with `docker logs <container-id>`.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0fA4Uwwg2S5Pa329wPAVES9RTyu7DPQpUVEGnfVGArgWDVOS-Lwzd7VyV7f_RmglyIxjYqh1_cWa_1NjrFwiziFVMaKJ8HAxZuPwZEZgEdDgg6MXWZzDupyajT5Y02PjZ120pR",
+      "title": "GitLab - ArchWiki",
+      "claim": "Issues with Redis settings can contribute to 500 errors.",
+      "source_type": "community",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFoIXI7OdIWrf11ZL-TOn396p9_0Cu80QCmjTE3vBdmSGaCiQ8dpeIyenSmSlwAlgDrsExuwYOWbxcBQiZTZd0L_duepgF6KAiQc2I2WoShwcaqWGxix0Wzucs8LBF3hwI_RZUn3xyEy99vxJL4b2i6dyIaRXZHIdaMMf17zknuWSPma8JFwQjGCtY2RMwKstP0oU4nl0FF",
+      "title": "Where does GitLab omnibus store ci log files? - DevOps Stack Exchange",
+      "claim": "External storage settings, like for job artifacts, can be configured in `/etc/gitlab/gitlab.rb` and issues could lead to errors.",
+      "source_type": "community",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGDD8fksr_xHEVHSmXDkL0k7rIoZQoVUJbkHXzDkNI5WQQc9x1VNPmrPzPuZtmfIJHARoA8aAwNMzayq3V5Mm1GrKIC4yCPsnVE2kO-22Fx8r0emY9t_7oSWLiqjsmd7s7YHi_htZ_cZuaSRu085N6cysjiXwqPNtLSrgLghtDN0TXX3nvX7SBcgUDuyRyFk49vNAm10TAl9nNyIps=",
+      "title": "gitlab Error 500 after updating when viewing projects - Stack Overflow",
+      "claim": "GitLab's configuration file (`/etc/gitlab/gitlab.rb`) having errors or incomplete settings after an upgrade can lead to frequent 500 errors. Database migration issues after an upgrade can also lead to 500 errors.",
+      "source_type": "community",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGGIbRwvEimR33bZHTwIiR6C0nRZ-SgcwGOcC4t1Fw7ATkQze2iqGAQNKY_oAgEA60giIlejbQtHDtJRsQXQAqVnEZSI0Uqtu03rplNEajhqkrlFGktGFkED0-eBBFzwOdzqYXJ1Q==",
+      "title": "File: README — Documentation by YARD 0.9.37 - Sign in · GitLab",
+      "claim": "`/etc/gitlab` holds configuration files for Omnibus GitLab, and `/var/log/gitlab` contains all log data.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHhpGcSESvii4Cg8OlunzcEW_unOeFb7W4lDhUjxYGqICHnId8slo6O_OqVp5iEijgu2KguPKbGX8KLwBN5AHRLx9Ea4tT2XoCA9j4cGinnuZKuKaRaF6tCnQDLifkl-q7IW6PmFLPiVaEGCOGdYiYf9ELB-JDknbKV",
+      "title": "GitLab社のGitLab Supportの利用にお問い合わせ元の事前登録が必要になります #GitLab - Tech Blog｜クリエーションライン",
+      "claim": "For GitLab.com paid plans, pre-registration of contacts is required to open support tickets.",
+      "source_type": "company",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZXBHqIwekWCvF23B-8ylwh4Q5GRXVjCrPEm1fWFu26dbA57fMFxjD_KqpXUvlg9wjkGFz1kZVWpbhECo1s3dyc_dmj-F4vHmZEmoskprOEmaZlY2EvUs4muH_dVO4hti0FVlCKnRjY04sCPu1",
+      "title": "Error 500, log says MISCONF Redis, cannot persist on disk, requires restart - GitLab",
+      "claim": "Redis cache configuration issues can lead to 500 errors.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFi1GlxzHoanQJKp6F80n1CE6wkidcIDmE-hEs3C704Rvr4zmAb8JamMyspARYbLWu54OUnisMNi0OIF_C0u6bdoqmUZGmEM4fGXaVdnzZGtz1IZfAfXf__il70ke8I5G8ecEsRxVBrKlZDMuvFtmO5ynSh-A==",
+      "title": "Error 500 after each upgrade since 18.2.0 (migrations not running automatically) - GitLab",
+      "claim": "Syntax errors or invalid values in the configuration file can be detected when running `gitlab-ctl reconfigure`, and failed reconfigurations after an upgrade can lead to 500 errors.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGYTS7G2vA3HmePOB-gqp899s7UYJGb1JCuO1NYriLvh9jmy-ydYiUJ9i9tfXoifCDQ1Gh_peK32w0AsVcxaEr_34HtrzJkmVuoC8Vw4B402832vp-GvpEikD5kFY-sE3oe0A6Uw1SZvHLZj9S9LFcTp9IsHXls0agHwl9Ti3zchBalM2MkNvUowMqrnVHX5IrDkzzYwfqtKYi2tVg==",
+      "title": "Gitlab が管理設定を変更しようとすると HTTP エラー 500 を返す - Reddit",
+      "claim": "Incorrect configuration file settings can lead to 500 errors.",
+      "source_type": "community",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGlmnP88idu3aaHB3IO7J2fMZ2f6Eb5I1MoYvqMkK04x-InCWsC7T9Kn0QVzwCGgUCUdggNwV5aCx-oX7-sumVCX9Uct6Nf7fo5ZPVB5UAZ8ybbxbZqf0inMSDyw1ZbngVOpPw9HyRevoSdmIuERIMuH6EG6MgA8QkYVAJY5s-kIA==",
+      "title": "Gitlab がダウンした : r/gitlab - Reddit",
+      "claim": "Temporary GitLab infrastructure failures can cause requests to fail with a 500 error.",
+      "source_type": "community",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFFzyzLHbaptBnBUr9nRQ1G_z1qdr8W67LqsDJxjo6n_Q4mkSi1y1cVEdQHB-G01VyMnQ1dGTGDRmjGv3ilW1GbF6DCUSfGRq-E-0reGFDLjSD_v3DZ503WCMPt2pvOsf0uJfBnDxQ==",
+      "title": "高可用性ロール - GitLab Docs",
+      "claim": "GitLab installations include PostgreSQL, Redis, Puma, and Sidekiq services.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQETYU7jSOozXHc2kYGpYYaBrCuUOZnSUIeTGTj9FtMBl-Rz165TNt6NNBvQ8Llvw7UjBvY9oVolC1XsVXkA3_lpN1ZZP5Q2nwMAmLr9TyvoydyzkiQeqgGODymne9rSrdJcL8yA5jmVofXhNjbqz5u90PeSYgbWjJTRpqaOgPjz3nZwjoPpPyx",
+      "title": "Sidekiq MemoryKiller - GitLabドキュメント",
+      "claim": "Sidekiq is used to process background jobs in GitLab.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEWFQm2YIWLoazw7ttMzviL7E9LqgBhG79JGQOflNBLCWGI7Bo7Grv4RinZzrW6S9mkg2vhpyYzWXI251k5YKIDJdlH8-Rm1Xce94kAOdfzJUk77stHn07pPB59h88tjoXf5NYjGRTZUKxIaBwlco",
+      "title": "Linuxパッケージのインストールに関するトラブルシューティング - GitLab Docs",
+      "claim": "If keywords like \"ActiveRecord\", \"Errno\", \"Connection refused\" are found in the logs, that is often the root cause of the problem.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRPuJRvUW8TbkTK5oT_PTU8rrINnVZqyRTV8uvHiCN5Vfo_r4cHoASdvns0B5fiJGkMDw9jYP20dYkQ_8C4O0AvY2dDGBXssOL1F5Gl6XaxKrvG2ZddGO7m5aSnTv4n_98Tto4iIfMD-OSmXn-0ymHowjJA3lOmntmz9be86xUNc0QspZw7gdOfxfpr9eOciWmhBf4LT_92vEh0gU4wWJmy6BD85k=",
+      "title": "Internal Server Error 500 while accessing $GITLAB/admin/runners - Stack Overflow",
+      "claim": "`gitlab-ctl reconfigure` applies configuration changes, and `gitlab-ctl restart` restarts services.",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHEtXc1-vMwkMhBtSwAKGGMy0O1AZaA4KV_0Vkut3u9pE_AI_5Wpe-nK4U2LO6Xxv19HAAprlStQD4TyfdoP4LDG-2yGhhmm3oiYDgD_ZOV41-oGFCA5YImNXVTWml-1TwvfB5M3gVYS5oJQ3XoSaUbpdCGTs",
+      "title": "Increase startup limit interval for Puma and Sidekiq systemd services for self-installed instances (!132627) · Merge requests - GitLab",
+      "claim": "Puma and Sidekiq are key services in GitLab that can crash, leading to 500 errors.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH5lOWTbyWXdbH8_5iB8eAWkNLvJ5jnnkPLPEYyeP57LyEq-SqXupHNuogp7ygGew3c_JQOzK_MSJ1O-KEiefKVqsfDG_mUyCAFsCxT4OX0G4q3dQYbxh5ysfMM_64JbAOhoYA0CfUv9VcrC4m05pGAplwoGGdNTLU_AQ==",
+      "title": "2024-04-08: 500 errors when accessing repositories (#17790) · Issues - GitLab",
+      "claim": "Temporary infrastructure failures (e.g., Gitaly nodes issue) can lead to 500 errors impacting Git, Web, and API for projects.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH9zWNz_pquaErGv7m-5S9ok3kZfzKx3gpu0uHWeqXr9y3wzJokzeglVJhGwTThNox4BoL0nJEYVa4apqq_sttJmz1oq4_arch5DXdjVVHocGVfxnkzgAipG8_dS6eJ5aXNiq2e-B5Qu5BF7HIpBg==",
+      "title": "500 Internal Server Error when viewing pipeline details page (#571511) · Issue - GitLab",
+      "claim": "500 Internal Server Errors can occur when accessing specific project pages, such as pipeline details.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    }
+  ],
+  "unsupported_claims": [
+    "クライアント側の問題ではなく、GitLabのインフラストラクチャまたはアプリケーションレイヤーで何らかの処理に失敗した状態です。",
+    "これはハードウェア障害、不正なシャットダウン、ファイルシステムエラーなどに起因することがあります。",
+    "Gitオブジェクトの整合性をチェックするには、GitLabサーバーのシェルにアクセスしてリポジトリディレクトリに移動し、`git fsck --full` コマンドを実行します。",
+    "500エラーが頻繁に発生する場合は、GitLabのアップグレード、インフラの増強、またはサポートコントラクトの購入を検討する価値があります。"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Consider adding a note about pre-registered contacts for GitLab.com paid support requests, as this is a recent policy change (though the general support URL is correct).",
+    "Optional improvement: Soften absolute claims unless they are directly sourced.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 16,
+  "url_skipped": 16,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 4780,
+  "fact_check_input_chars": 4270,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "ebf5f1a43e52",
+  "error_detail": null,
+  "vote_group_id": "215a9951-2ec1-4577-b055-3115c385ef07",
+  "is_final_vote": false,
+  "vote_count": 3
+}

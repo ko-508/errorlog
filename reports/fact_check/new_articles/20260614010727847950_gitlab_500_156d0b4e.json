@@ -1,0 +1,206 @@
+{
+  "path": "content/posts/gitlab_500.md",
+  "title": "GitLab の 500 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 95,
+    "freshness_score": 90,
+    "citation_coverage": 28,
+    "risk_score": 34
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "Most factual claims are well-supported by official GitLab documentation or highly reputable Git/development resources.",
+    "The troubleshooting steps and log file locations are accurate for Omnibus GitLab installations.",
+    "The article correctly identifies common causes of 500 errors in a GitLab context.",
+    "Some sources are older (e.g., 2013-2017), but the information they support (like `git fsck` command or basic `/etc/gitlab/gitlab.rb` location) remains fundamentally correct and stable in the Git/GitLab ecosystem.",
+    "absolute wording may overstate technical certainty"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-14",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260614010727847950_gitlab_500_156d0b4e.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://docs.gitlab.com/ee/administration/troubleshooting/",
+      "title": "Troubleshooting GitLab - GitLab Docs",
+      "claim": "Official troubleshooting documentation is at `https://docs.gitlab.com/ee/administration/troubleshooting/`.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/logs.html",
+      "title": "Log system - GitLab Docs",
+      "claim": "For Omnibus GitLab, check logs under `/var/log/gitlab/`. Specifically, `gitlab-rails/production.log` and `sidekiq/current` contain detailed error information.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/omnibus/settings/configuration.html",
+      "title": "Configuration options for the GitLab Linux package",
+      "claim": "`/etc/gitlab/gitlab.rb` is the GitLab configuration file.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/omnibus/maintenance/reconfigure.html",
+      "title": "What happens when gitlab-ctl reconfigure is run? - GitLab Docs",
+      "claim": "`gitlab-ctl reconfigure` command applies GitLab settings.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/operations/fast_and_slow_operations.html#gitlab-internal-api-500-errors",
+      "title": "Fast and slow operations | GitLab",
+      "claim": "GitLab 500 error indicates that an unexpected internal error has occurred on the GitLab server side. It is not a client-side problem, but a state where some process has failed in GitLab's infrastructure or application layer. When this error occurs, all GitLab functions such as repository access, pushes, and merge request operations become temporarily unavailable.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://status.gitlab.com/",
+      "title": "GitLab Status",
+      "claim": "`status.gitlab.com` is the official status page for GitLab. For GitLab.com 500 errors, check `status.gitlab.com` first.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/gitaly/repository_integrity.html",
+      "title": "Integrity check Rake task - GitLab Docs",
+      "claim": "If Git objects on the disk where repositories are stored within GitLab are corrupted, a 500 error occurs during repository read/write operations.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/gitaly/repository_integrity.html",
+      "title": "Integrity check Rake task - GitLab Docs",
+      "claim": "`git fsck --full` command checks Git object integrity.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://git-scm.com/docs/git-fsck",
+      "title": "git-fsck Documentation - Git",
+      "claim": "`git fsck --full` command checks Git object integrity.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/omnibus/settings/configuration.html#store-git-data-in-an-alternative-directory",
+      "title": "Configuration options for the GitLab Linux package",
+      "claim": "Common GitLab repository path is `/var/opt/gitlab/git-data/repositories/<namespace>/<project>.git`.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://about.gitlab.com/blog/2020/10/27/how-we-optimized-infrastructure-spend-at-gitlab/",
+      "title": "How we optimized infrastructure spend at GitLab",
+      "claim": "GitLab server infrastructure temporary failure leads to 500 errors, potentially due to database connection loss, insufficient memory, disk space exhaustion, or service crashes (Sidekiq, Puma, etc.).",
+      "source_type": "company",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/operations/fast_and_slow_operations.html#gitlab-internal-api-500-errors",
+      "title": "Fast and slow operations | GitLab",
+      "claim": "If there is an error in the GitLab configuration file (`/etc/gitlab/gitlab.rb`) or if the configuration is incomplete after a recent upgrade, 500 errors frequently occur. Problems with database connection information, Redis cache settings, or external storage settings in `/etc/gitlab/gitlab.rb` can cause 500 errors.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/development/sidekiq/logging.html",
+      "title": "Sidekiq logging - GitLab Docs",
+      "claim": "`sidekiq/current` contains detailed error information in Omnibus GitLab.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/runner/configuration/advanced-configuration.html",
+      "title": "Advanced configuration | GitLab",
+      "claim": "For Dockerized GitLab, use `docker logs <container-id>` to check application logs. (Implied for Docker containers in general, GitLab Runner uses Docker often).",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.oneuptime.com/blog/how-to-fix-loose-object-is-corrupt-errors",
+      "title": "How to Fix 'Loose Object Is Corrupt' Errors - OneUptime",
+      "claim": "Repository Git object corruption can be caused by hardware failure, improper shutdown, or file system errors.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/logs.html#gitlab-rails-logs",
+      "title": "Logs · Administration · Help · GitLab",
+      "claim": "`gitlab-rails/production.log` contains detailed error information in Omnibus GitLab.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/logs.html#nginx-logs",
+      "title": "Logs · Administration · Help · GitLab",
+      "claim": "Common log files to check for 500 errors are `gitlab-rails/production.log`, `sidekiq/current`, `nginx/gitlab_access.log`, and PostgreSQL logs.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/operations/fast_and_slow_operations.html#gitlab-internal-api-500-errors",
+      "title": "Fast and slow operations | GitLab",
+      "claim": "Frequent 500 errors suggest considering GitLab upgrade, infrastructure expansion, or support contract.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/README.md",
+      "title": "README.md · 629def0a7a26e7c2326566f0758d4a27857b52a3 · GitLab.org / omnibus-gitlab",
+      "claim": "`/var/log/gitlab/` directory contains all log data generated by components of omnibus-gitlab.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://gitlab.com/gitlab-org/omnibus-gitlab/-/blob/master/README.md#directory-structure",
+      "title": "README.md · 629def0a7a26e7c2326566f0758d4a27857b52a3 · GitLab.org / omnibus-gitlab",
+      "claim": "`/etc/gitlab/` holds configuration files for omnibus-gitlab. These are the only files that you should ever have to edit manually.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://www.atlassian.com/git/tutorials/git-fsck",
+      "title": "Git Fsck (File System Check): Definition, Examples, and Applications | Graph AI",
+      "claim": "`git fsck` command checks Git object integrity.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    }
+  ],
+  "unsupported_claims": [
+    "GitLab.com support requests can be submitted from the top-right menu of the Web UI.",
+    "Keywords like 'ActiveRecord', 'Errno', 'Connection refused' in logs indicate root causes.",
+    "GitLabを複数のリージョンで運用している場合、特定リージョンのみで500エラーが発生することがあります。(If GitLab is operated across multiple regions, 500 errors may occur only in specific regions.)"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Add more specific links for GitLab.com support request submission (e.g., direct link to support portal if available, or a 'how-to' guide).",
+    "Optional improvement: Clarify whether 'PostgreSQL logs' refers to logs within `/var/log/gitlab/postgresql/` for Omnibus, or if it implies checking database server logs externally for non-bundled PostgreSQL.",
+    "Optional improvement: The article mentions 'リージョン・インスタンス障害' (Region/Instance Failure) as a general observation. While true for distributed systems, a GitLab-specific source might enhance its factual backing. However, it's a general concept.",
+    "Optional improvement: Soften absolute claims unless they are directly sourced.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 14,
+  "url_skipped": 7,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 4780,
+  "fact_check_input_chars": 4270,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "ebf5f1a43e52",
+  "error_detail": null,
+  "vote_group_id": "215a9951-2ec1-4577-b055-3115c385ef07",
+  "is_final_vote": false,
+  "vote_count": 3
+}

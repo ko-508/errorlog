@@ -1,0 +1,162 @@
+{
+  "path": "content/posts/gitlab_500.md",
+  "title": "GitLab の 500 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 93,
+    "freshness_score": 95,
+    "citation_coverage": 28,
+    "risk_score": 39
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "Most factual claims are accurately supported by official GitLab documentation, status pages, and relevant technical resources.",
+    "Troubleshooting steps, log file locations, and command-line instructions are generally correct and align with official guidelines.",
+    "The article provides practical and actionable advice for diagnosing and resolving GitLab 500 errors.",
+    "absolute wording may overstate technical certainty"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-14",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260614010844940185_gitlab_500_156d0b4e.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://docs.gitlab.com/ee/administration/logs.html",
+      "title": "ログシステム - GitLab Docs",
+      "claim": "For Omnibus GitLab, check the service logs under the /var/log/gitlab/ directory. In particular, gitlab-rails/production.log and sidekiq/current record detailed error information. GitLab Rails ログの確認 sudo tail -f /var/log/gitlab/gitlab-rails/production.log. Sidekiq（バックグラウンドジョブ）ログの確認 sudo tail -f /var/log/gitlab/sidekiq/current. PostgreSQL ログの確認（データベース側のエラー）.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://status.gitlab.com/",
+      "title": "GitLab System Status",
+      "claim": "GitLab 500 errors indicate an unexpected internal error on the GitLab server side. It is not a client-side issue, but a state where some process failed in GitLab's infrastructure or application layer. When this error occurs, all GitLab functions such as accessing repositories, pushing, and manipulating merge requests become temporarily unavailable. If a temporary failure occurs on the GitLab server infrastructure side, a 500 error is returned because requests cannot be processed. First, check the incident status at status.gitlab.com. You can also check directly on the WebUI by accessing https://status.gitlab.com and confirming \"All Systems Operational\". If a 500 error occurs in the service provided by GitLab.com itself, first check status.gitlab.com. If no incident is reported, it is a problem specific to that project or account. If you determine the problem is on GitLab's side, submit a support request by accessing https://support.gitlab.com.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/troubleshooting/gitlab_running_in_docker_container/",
+      "title": "Troubleshooting GitLab running in a Docker container",
+      "claim": "GitLab 500 errors indicate an unexpected internal error on the GitLab server side. It is not a client-side issue, but a state where some process failed in GitLab's infrastructure or application layer. This can be caused by multiple factors such as loss of database connection, memory shortage, disk space exhaustion, or crashes of key services (Sidekiq, Puma, etc.). If operating with Docker containers, check application logs with docker logs <container-id>.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/user/project/issues/status_page.html",
+      "title": "ステータスページ - GitLab Docs",
+      "claim": "You can also check directly on the WebUI by accessing https://status.gitlab.com and confirming \"All Systems Operational\".",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://support.gitlab.com/",
+      "title": "GitLab Support",
+      "claim": "GitLab.com support requests can be submitted from the top-right menu of the Web UI. If you determine the problem is on GitLab's side, submit a support request by accessing https://support.gitlab.com. If 500 errors occur frequently, it is worth considering a GitLab upgrade, infrastructure enhancement, or purchasing a support contract.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://git-scm.com/docs/git-fsck",
+      "title": "git-fsck Documentation - Git",
+      "claim": "Check Git object integrity (git fsck --full).",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/omnibus/settings/configuration.html",
+      "title": "Configuration options for the GitLab Linux package",
+      "claim": "If there are errors in the GitLab configuration file (/etc/gitlab/gitlab.rb) or if the configuration is incomplete after a recent upgrade, 500 errors will frequently occur. This error is more likely to occur if there are problems with database connection information, Redis cache settings, or external storage settings. If you change the configuration file, always run gitlab-ctl reconfigure and then restart. Syntax errors or invalid values can be detected at this point.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/omnibus/maintenance/restart_gitlab.html#reconfigure-a-linux-package-installation",
+      "title": "GitLabを再起動する方法",
+      "claim": "If there are errors in the GitLab configuration file (/etc/gitlab/gitlab.rb) or if the configuration is incomplete after a recent upgrade, 500 errors will frequently occur. If you change the configuration file, always run gitlab-ctl reconfigure and then restart. Syntax errors or invalid values can be detected at this point.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/omnibus/maintenance/README.html#start-and-stop",
+      "title": "メンテナンスコマンド - GitLab Docs",
+      "claim": "If you change the configuration file, always run gitlab-ctl reconfigure and then restart. Syntax errors or invalid values can be detected at this point.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/logs.html#sidekiq-logs",
+      "title": "Sidekiq logging - GitLab Docs",
+      "claim": "In particular, gitlab-rails/production.log and sidekiq/current record detailed error information. Sidekiq（バックグラウンドジョブ）ログの確認 sudo tail -f /var/log/gitlab/sidekiq/current.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/operations/sidekiq_troubleshooting/",
+      "title": "Troubleshooting Sidekiq - GitLab Docs",
+      "claim": "This can be caused by multiple factors such as loss of database connection, memory shortage, disk space exhaustion, or crashes of key services (Sidekiq, Puma, etc.). If keywords like \"ActiveRecord\",\"Errno\",\"Connection refused\" are found in the logs, that is the root cause of the problem.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://lab-ex.jp/articles/how-to-find-restore-lost-git-data-using-git-fsck-command",
+      "title": "git fsck コマンドを使って失われた Git データを見つけて復元する方法 - LabEx",
+      "claim": "If Git objects on the disk where a GitLab repository is stored are corrupted, a 500 error occurs during repository read/write operations. This can be caused by hardware failure, improper shutdown, file system errors, etc. Check Git object integrity (git fsck --full).",
+      "source_type": "blog",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/database/database_configuration.html",
+      "title": "データベース設定 - GitLab Docs",
+      "claim": "This error is more likely to occur if there are problems with database connection information, Redis cache settings, or external storage settings. PostgreSQL ログの確認（データベース側のエラー）.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/troubleshooting/",
+      "title": "Logs · Administration · Help · GitLab",
+      "claim": "Refer to the official documentation (https://docs.gitlab.com/ee/administration/troubleshooting/) for more detailed configuration checks and log analysis.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://docs.gitlab.com/ee/administration/logs.html#nginx-logs",
+      "title": "Linuxパッケージインストールでのログ - GitLab Docs",
+      "claim": "Nginx ログの確認 sudo tail -f /var/log/gitlab/nginx/gitlab_access.log.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    }
+  ],
+  "unsupported_claims": [
+    "GitLabを複数のリージョンで運用している場合、特定リージョンのみで500エラーが発生することがあります。",
+    "この場合、ロードバランサーの設定を確認し、一時的に別リージョンへのトラフィック誘導を検討してください。",
+    "別のネットワーク（モバイル通信など）でアクセスして、ISP側の問題でないか確認"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Provide specific official GitLab documentation or architectural guidance for claims related to 500 errors in multi-region GitLab deployments (Claims 20 and 21).",
+    "Optional improvement: Consider replacing blog/general IT troubleshooting sources with direct official GitLab documentation where possible, especially for Git object corruption if a more direct GitLab link exists.",
+    "Optional improvement: Soften absolute claims unless they are directly sourced.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 7,
+  "url_skipped": 8,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 4780,
+  "fact_check_input_chars": 4270,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "ebf5f1a43e52",
+  "error_detail": null,
+  "vote_group_id": "215a9951-2ec1-4577-b055-3115c385ef07",
+  "is_final_vote": false,
+  "vote_count": 3
+}

@@ -1,0 +1,291 @@
+{
+  "path": "content/posts/gitlab_429.md",
+  "title": "GitLab の 429 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 85,
+    "freshness_score": 75,
+    "citation_coverage": 56,
+    "risk_score": 38
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "The article accurately describes the meaning and general causes of GitLab's 429 'Too Many Requests' error.",
+    "Solutions and troubleshooting steps, such as checking response headers and adjusting API call patterns, are aligned with official documentation and best practices.",
+    "The default API rate limits cited (600 requests/min for authenticated users and 300 requests/min for unauthenticated users) are presented as universal but are not consistently supported as such across all GitLab APIs; specific endpoints and configurations have varying limits."
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-14",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260614010343045687_gitlab_429_da3930a6.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMLxOzwzOsnerSdxp6YqkTluWSALLEIVsV0afm8qRXFEF4ygmhX2KFldLF_kt82I0vXGOr3EhLR4Y4Sl3MVKEWx3RclBszRApNeB8FeM8YIqlJUabAgXhYd-j6_kgeeRjJVdbK5AiIqPgt4bh1niJRMPMSnyCS9_7eFZbABwRHMbGV",
+      "title": "認証済みユーザーレート制限 - GitLab Docs",
+      "claim": "GitLabの429エラーは「Too Many Requests」を意味し、GitLab APIのレート制限に達したことを示します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZH9Hw2fg_Dl04zSMyKlNKH6M4KcxqiCtPbTHdGvPHKSIvDE9FuEYImp0Ut945LHOhnTTpK9ebeWY5QNO-1hQDMfVRbx0U6Hw3YKq81lRR31eCkn33tH9X4AZ7odtDDUBcblwrrMe3Xw==",
+      "title": "How to create a personal access token in GitLab (5 steps) - Merge",
+      "claim": "GitLabの429エラーは「Too Many Requests」を意味し、GitLab APIのレート制限に達したことを示します。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGT4LgOW7zwid9ZU491NK4e0MwghetSAByt3KQ7lkPRPekFyU8gt556cSxw_wJpHjSQsEs3SsFh6aZZMVotmz9-UtcM8L_HA1kqVS-xkxMiPXpUDJmzisWFnO17Vepc4Yjx",
+      "title": "429エラー（Too Many Requests）とは？原因・解決方法から予防策まで徹底解説",
+      "claim": "GitLabの429エラーは「Too Many Requests」を意味し、GitLab APIのレート制限に達したことを示します。",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMLxOzwzOsnerSdxp6YqkTluWSALLEIVsV0afm8qRXFEF4ygmhX2KFldLF_kt82I0vXGOr3EhLR4Y4Sl3MVKEWx3RclBszRApNeB8FeM8YIqlJUabAgXhYd-j6_kgeeRjJVdbK5AiIqPgt4bh1niJRMPMSnyCS9_7eFZbABwRHMbGV",
+      "title": "認証済みユーザーレート制限 - GitLab Docs",
+      "claim": "ユーザーまたはCI/CDパイプラインが短時間に許可された上限を超えるAPIリクエストを送信した場合に発生します。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFn8B4pGRXrf8ubP8kfKRUqBWDSpWFBxLbdQ93YIbzpZTRuR4UWipsJdrkE56cv4i9ZqJakptkI0jNLDXqjqCcXrMhHjnumTLakLhpOSLtQvy-AVuKTiclv64dD3wiVtykK_AcvP4byjA==",
+      "title": "A solution to gitlab package registry 429's errors - Olivier's Blog",
+      "claim": "ユーザーまたはCI/CDパイプラインが短時間に許可された上限を超えるAPIリクエストを送信した場合に発生します。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFDmsWwsifJTk3PGC4lQIRo61z36R12oXUalUUDjib7Pwu0S2cMooaN5c8enC03Rc3f5KaxtdS3Vgm0Wzh8IExBsVNR_QSZrI5N6WB-Nj-e4J-eOEdd8YYIhUPilFJK3UuklosCcTUIF0pFDRw-GOaBIcer",
+      "title": "Rate limiting: 429 Too Many Requests (#1966) · Issue · gitlab-org/gitlab-runner",
+      "claim": "ユーザーまたはCI/CDパイプラインが短時間に許可された上限を超えるAPIリクエストを送信した場合に発生します。",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXH_nvqaTXO6ZihZagy5q2FHPSQ9QAROGSxDeMUyj77xLT1cetgMFH-CZL64WwYVNCI_Ry5HW7Ss-Wy7qoKJ2U1Qqe0c3SR8mx-zVpgGREF_Rslmu7RVfq6ilArjHkNGmXYQ6fAv2UARBeb8tZugySjD6AcTqkGEH1IszYHjKhFrncqw6ivtwm",
+      "title": "ユーザーとIPレート制限 - GitLab Docs",
+      "claim": "デフォルトでは、認証ユーザーは1分間に600リクエスト、未認証の場合は300リクエストという制限が適用されます。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErYWMsCyatvjzrH_q2GxNgtWV9apRSCF0TQV6MRoZdvYTIgzqkY4XLbg94ShsaNPrrnqPvsHtVxeHdHOoD_b0zk4mtaGQc8xU8pXWk9twR2cMNn8kraJC-EZ4cVq9f3_bbQRHFvJrC2q-2gB16seEAZTtoISB9ZDNbowTwgqpPpIHCpCHfaNQw",
+      "title": "Does gitlab API have a rate limit - Stack Overflow",
+      "claim": "デフォルトでは、認証ユーザーは1分間に600リクエスト、未認証の場合は300リクエストという制限が適用されます。",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFn8B4pGRXrf8ubP8kfKRUqBWDSpWFBxLbdQ93YIbzpZTRuR4UWipsJdrkE56cv4i9ZqJakptkI0jNLDXqjqCcXrMhHjnumTLakLhpOSLtQvy-AVuKTiclv64dD3wiVtykK_AcvP4byjA==",
+      "title": "A solution to gitlab package registry 429's errors - Olivier's Blog",
+      "claim": "GitLabのレート制限は、トークンのスコープやユーザーのロールによって異なります。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZH9Hw2fg_Dl04zSMyKlNKH6M4KcxqiCtPbTHdGvPHKSIvDE9FuEYImp0Ut945LHOhnTTpK9ebeWY5QNO-1hQDMfVRbx0U6Hw3YKq81lRR31eCkn33tH9X4AZ7odtDDUBcblwrrMe3Xw==",
+      "title": "How to create a personal access token in GitLab (5 steps) - Merge",
+      "claim": "GitLabのレート制限は、トークンのスコープやユーザーのロールによって異なります。",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZH9Hw2fg_Dl04zSMyKlNKH6M4KcxqiCtPbTHdGvPHKSIpDE9FuEYImp0Ut945LHOhnTTpK9ebeWY5QNO-1hQDMfVRbx0U6Hw3YKq81lRR31eCkn33tH9X4AZ7odtDDUBcblwrrMe3Xw==",
+      "title": "How to create a personal access token in GitLab (5 steps) - Merge",
+      "claim": "個人用アクセストークン（Personal Access Token）を使用する場合、該当するトークンに関連付けられたユーザーの制限が適用されます。",
+      "source_type": "blog",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDZbQNDoea6pRRM_68O4H8zpz-B9iCDLVincwTITtekdXyUV5gbzjGqRRs42Uvq0mAaPufaIQr5QBvdqubRvT7tlgATJQkq1lDpY-Sk7YctShwEjP9wYJL4ruC0rETgMIGEOE0ZOJXeJA8n5onm0403y9fpikt",
+      "title": "Personal access tokens - GitLab Docs",
+      "claim": "個人用アクセストークン（Personal Access Token）を使用する場合、該当するトークンに関連付けられたユーザーの制限が適用されます。",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMLxOzwzOsnerSdxp6YqkTluWSALLEIVsV0afm8qRXFEF4ygmhX2KFldLF_kt82I0vXGOr3EhLR4Y4Sl3MVKEWx3RclBszRApNeB8FeM8YIqlJUabAgXhYd-j6_kgeeRjJVdbK5AiIqPgt4bh1niJRMPMSnyCS9_7eFZbABwRHMbGV",
+      "title": "認証済みユーザーレート制限 - GitLab Docs",
+      "claim": "個人用アクセストークン（Personal Access Token）を使用する場合、該当するトークンに関連付けられたユーザーの制限が適用されます。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQJgdvm868rYzVctk1xWadegCt6P0ByLUc1m4Es5v0mFwo01DDwAz8V4e-VA74OtRNTBlhThKYMiESnaLDx5T9XyrkvOg6FdlIHiRDDUOWPTbTenr8KVWwVKMQZAqRz_OOXoY0YHio3g==",
+      "title": "Application settings API - GitLabドキュメント",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-9TInNILYsCj65v004OuUVZv51Wl2g0OixS_i2WlsB4eTNUOhdz4K592x6A-l_0s3d5vkN4rXa3xWv_0WRvjNumuHisLvWVX74mb2CqnCy1QU-eGZnJ2n_dVyYYEwCN-DvccLNw==",
+      "title": "Application settings API - Help · GitLab - UCA",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKVBmQbDuRV-9nYxMkTwbmqV2ZiL8EXXE92J0x4QluwOOF473n_Hncm-L7-4-3JZ18A9IL67qFtwcovw_31hGaTLEQf0RfNXrng1T9IvkrdOHeI11o0VuB06KJq_brO2HzaaouwC7mqqUkBchpKeyWjA==",
+      "title": "Application settings API - Help · GitLab",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0TXAz_ACtP45NT2woHVonsb_lSbcP-jga-i79D_Ev15y7tJ-pIWd93oXBxliT8UyIkZh1c__Aa5iAYoQ8gTJLI0g8fbYT64JKKXudWiqzIdN9Cp1OvMI9wN4Buu8kMey1tguq9iOlDlq-H1uRfE9-32jgzZITjQ==",
+      "title": "Settings · Api · Help · GitLab - CNR",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6WLCcCqMxnAL7RZEDUgOv4OnAqDCf4XJdJFY7JM99JdYxhurFDrca4KzKxquVH7oNWY_3CVeGrmIXOT-DPebcKXQgH6CcjnZdY43y98VblqtPaCSrc5eDPnMz7VhnU1bXOA==",
+      "title": "Application settings API - Help · GitLab",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0sic8rCV9ztnqnlaGAdWG0sOttx6j2k2RX-LeGv-R5TJoQ80wtz7CBYADfdq0HEosoM1lJtX16TomxNjw0HFKbPdvOKeMmJBlJIzml8CzZBksNidJU-QcwnpdqOzK6QyAOqPtP-hxO7d7fweD3CpO_-oSIXaY_49k3zcsaxVxAsLze-qV1MsT3AewEELHyXY92YSQSwQ=",
+      "title": "Rate limitations announced for Projects, Groups, and Users APIs - GitLab",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXP5D1zSp8X1NUeDJXfmckb8BZryLMqMqEjHEKimz7e4wqfCpTfxBCtSRhmsE4KnaYbFCvg2PgQImifpPiUeFltjqxkMrPN4n2p57aoqHLVy8qNZ1977jOqn5n27kHLw==",
+      "title": "Application settings API - GitLab Docs",
+      "claim": "GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUbV9uYeL0UQy2f6QREhXjDf65JHGTUpHujdd5ecKSpBCKX97We-3AEJ2rMLOcNr3__cYZr2fonhtQcFz5tiKjRSKkffSFs06PuCPwqkoEUy3HrhZAwVXeJlJtt3I4O9_cygi8XpCqLKeh65bV",
+      "title": "レート制限 - GitLab Docs",
+      "claim": "CI/CDパイプライン内で使用する`$CI_JOB_TOKEN`はジョブ固有のトークンで、個人用アクセストークンとは独立したレート制限が適用される場合があります。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGt9nqby42Vtmu6ebD3A8bKTvE9WzRsiGaL-EjPmjLmhuRZ9icvEDppFaGWWwlj0SC5vJUuYHPGP0MenI7_AN2shwz1yBn5DaEboc857yXNQApMb0iKBAj1mC6MnCPQwgN6twFXJNpySsItdQtSXw==",
+      "title": "GitLab - GraphQL APIのススメ - Qiita",
+      "claim": "GraphQL APIを使用する場合、REST APIとは異なるレート制限クエリの複雑さに基づいたモデルが採用されているため注意が必要です。",
+      "source_type": "blog",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHl07fS6xMLcOUDeEzY5kafXmrINlaHmbldz6tvQDQ7MRWprs5LClk1zNBjH-lpsiSGNuFZV1sYtQMyEpMJHhA5Ywr8pRHkFA2L9zEt_THYps-iphFz05QJUXibwfIPXYuhUz2",
+      "title": "GraphQL API - GitLab Docs",
+      "claim": "GraphQL APIを使用する場合、REST APIとは異なるレート制限クエリの複雑さに基づいたモデルが採用されているため注意が必要です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmXDQip_34eDWjq5FC82UyJ9zjhUxyPXjNIddibO6qyU4IMAxKmOVU5dydYKmhIjNt13ky9Pn8cqq_hFyiPscIkWtUjBsPVxyQosXw-79kDXGodKEzWSjru654l8anauGYam-n3VzAJ7rlW3NzcUjKlqxdfQ==",
+      "title": "GraphQL APIのクエリとミューテーションの実行 - GitLab Docs",
+      "claim": "GraphQL APIを使用する場合、REST APIとは異なるレート制限クエリの複雑さに基づいたモデルが採用されているため注意が必要です。",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFhwEYAfR7x_ISCZoqWWyNjYTzg9obO6iBzaMW7AMLs316jgORlsCqfrJ1Py_-EKiV9sM3U8S978KOrAuZsK928Kcnzq7mn6ohk0wBB273TX4bkmYEeHqmO3AgDFKnIO12Fybg22bH751fAdjoi5T1FFRo=",
+      "title": "Basic limiting complexity of GraphQL queries (#58405) · Issue - GitLab",
+      "claim": "GraphQL APIを使用する場合、REST APIとは異なるレート制限クエリの複雑さに基づいたモデルが採用されているため注意が必要です。",
+      "source_type": "other",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQJgdvm868rYzVctk1xWadegCt6P0ByLUc1m4Es5v0mFwo01DDwAz8V4e-VA74OtRNTBlhThKYMiESnaLDx5T9XyrkvOg6FdlIHiRDDUOWPTbTenr8KVWwVKMQZAqRz_OOXoY0YHio3g==",
+      "title": "Application settings API - GitLabドキュメント",
+      "claim": "管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます： `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application_settings\" | grep -i rate`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH-9TInNILYsCj65v004OuUVZv51Wl2g0OixS_i2WlsB4eTNUOhdz4K592x6A-l_0s3d5vkN4rXa3xWv_0WRvjNumuHisLvWVX74mb2CqnCy1QU-eGZnJ2n_dVyYYEwCN-DvccLNw==",
+      "title": "Application settings API - Help · GitLab - UCA",
+      "claim": "管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます： `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application_settings\" | grep -i rate`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFKVBmQbDuRV-9nYxMkTwbmqV2ZiL8EXXE92J0x4QluwOOF473n_Hncm-L7-4-3JZ18A9IL67qFtwcovw_31hGaTLEQf0RfNXrng1T9IvkrdOHeI11o0VuB06KJq_brO2HzaaouwC7mqqUkBchpKeyWjA==",
+      "title": "Application settings API - Help · GitLab",
+      "claim": "管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます： `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application_settings\" | grep -i rate`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG0TXAz_ACtP45NT2woHVonsb_lSbcP-jga-i79D_Ev15y7tJ-pIWd93oXBxliT8UyIkZh1c__Aa5iAYoQ8gTJLI0g8fbYT64JKKXudWiqzIdN9Cp1OvMI9wN4Buu8kMey1tguq9iOlDlq-H1uRfE9-32jgzZITjQ==",
+      "title": "Settings · Api · Help · GitLab - CNR",
+      "claim": "管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます： `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application_settings\" | grep -i rate`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6WLCcCqMxnAL7RZEDUgOv4OnAqDCf4XJdJFY7JM99JdYxhurFDrca4KzKxquVH7oNWY_3CVeGrmIXOT-DPebcKXQgH6CcjnZdY43y98VblqtPaCSrc5eDPnMz7VhnU1bXOA==",
+      "title": "Application settings API - Help · GitLab",
+      "claim": "管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます： `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application/settings\" | grep -i rate`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXP5D1zSp8X1NUeDJXfmckb8BZryLMqMqEjHEKimz7e4wqfCpTfxBCtSRhmsE4KnaYbFCvg2PgQImifpPiUeFltjqxkMrPN4n2p57aoqHLVy8qNZ1977jOqn5n27kHLw==",
+      "title": "Application settings API - GitLab Docs",
+      "claim": "管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます： `curl -H \"PRIVATE-TOKEN: <admin-token>\" \"https://gitlab.example.com/api/v4/admin/application_settings\" | grep -i rate`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF4UIOosK8Umgq6PnCkv67oU5cq6edn-vduKAU9x0RiM_wBRuf0ZyLz9JqlKKzDwgJRSjv2zAog4yElS4qpUeHfo1o4P3LCaSNSX7zMNwacyscIN28teggFArT8gXKkQtAEuatUikNK8bqh4elm4UxuC_XEPs1sfJoCb7kcxeBcZYRezM5c5qSK6epZWg==",
+      "title": "User and IP rate limits - GitLabドキュメント",
+      "claim": "ユーザーレベルの制限状況は、任意のAPI呼び出しのレスポンスヘッダーから確認できます： `curl -i -H \"PRIVATE-TOKEN: <your-access-token>\" \"https://gitlab.example.com/api/v4/user\" | grep -i \"ratelimit\"`",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXH_nvqaTXO6ZihZagy5q2FHPSQ9QAROGSxDeMUyj77xLT1cetgMFH-CZL64WwYVNCI_Ry5HW7Ss-Wy7qoKJ2U1Qqe0c3SR8mx-zVpgGREF_Rslmu7RVfq6ilArjHkNGmXYQ6fAv2UARBeb8tZugySjD6AcTqkGEH1IszYHjKhFrncqw6ivtwm",
+      "title": "ユーザーとIPレート制限 - GitLab Docs",
+      "claim": "ユーザーレベルの制限状況は、任意のAPI呼び出しのレスポンスヘッダーから確認できます： `curl -i -H \"PRIVATE-TOKEN: <your-access-token>\" \"https://gitlab.example.com/api/v4/user\" | grep -i \"ratelimit\"`",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE2AvaF2GVxujcYauDJVIqBf7q8Yy_MSc_a6zqfsfD7S8eC8nSq_E-y1XG3ZP6OowHB91-8b2ZldX_rpZ62ztzIKULbU_BNdLfuM46Iapptb9UF4TvYFD9t65E=",
+      "title": "RateLimit-Limit - Expert Guide to HTTP headers",
+      "claim": "ユーザーレベルの制限状況は、任意のAPI呼び出しのレスポンスヘッダーから確認できます： `curl -i -H \"PRIVATE-TOKEN: <your-access-token>\" \"https://gitlab.example.com/api/v4/user\" | grep -i \"ratelimit\"`",
+      "source_type": "other",
+      "url_check_status": "skipped"
+    }
+  ],
+  "unsupported_claims": [
+    "デフォルトでは、認証ユーザーは1分間に600リクエスト、未認証の場合は300リクエストという制限が適用されます。"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Refine the claim regarding default rate limits to specify the exact GitLab API endpoints or contexts where '600 requests per minute for authenticated users' and '300 requests per minute for unauthenticated users' are applicable.",
+    "Optional improvement: Add a general note emphasizing that GitLab API rate limits can vary by GitLab version, deployment (GitLab.com vs. self-managed), and specific API endpoint, advising readers to consult the latest official GitLab documentation for precise and current figures.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 28,
+  "url_skipped": 6,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 7322,
+  "fact_check_input_chars": 2988,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "cfc849948ea2",
+  "error_detail": null,
+  "vote_group_id": "064f09ab-9294-453f-9cba-de00c92df54c",
+  "is_final_vote": false,
+  "vote_count": 3
+}

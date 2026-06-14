@@ -1,0 +1,265 @@
+{
+  "path": "content/posts/bitbucket_400.md",
+  "title": "Bitbucket の 400 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 95,
+    "freshness_score": 90,
+    "citation_coverage": 31,
+    "risk_score": 34
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "Most factual claims are well-supported by official Bitbucket documentation or general API best practices.",
+    "The article provides practical and relevant troubleshooting steps.",
+    "Specific error message examples are plausible, even if not directly found in official docs as causing a 400 in all contexts."
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-14",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260614011247485078_bitbucket_400_08ee2b60.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEczq4Q2hapOdhfLVW2OijcXa6Kj1rc5voVKRFOp_Yyl0qw0rPwqOEdXgWqZI5YyB7-HvQPUEbsZihOdxunJucoDD6Zu8nKdMqTLzLqu-oO5lRBk7VzMGBEzhzRp22LMHcBASmLQEO6meP57dI0m6EFg==",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "Bitbucket 400 errors indicate that the format or content of the API request is invalid, potentially due to an unsupported Content-Type or corrupted JSON.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9y3PggOQ38-XrODWTV0tZJwMij7J_2kg4x4OswFquC8sjVSMNITNmXjEQzSd5CAUyku2KSr8QjPqdGSZziD2jT2l3LJgvRpJlNu7dSMVxhXw-rtZqBuPJ8DUCV_QdrExsH1M3pXeRaKYusJgHpVlg9UQssWRnHtgJWhQsEDyIYAQaF1subRYwzRMe2w==",
+      "title": "Error 400 - Bitbucket - Atlassian Community",
+      "claim": "The 400 Bad Request error is an HTTP status code indicating that the request sent to the webserver was malformed or corrupted and the server couldn't understand it.",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEYOi-QQJXGuwtbKavwqkSzki4QjJtMS-SZ1AppqXid8erBgBL8-Hv4AYJP1L4htxfSMmd0wOSCBDCrleMTefYhJ9NeHbur3_Isvob-9Dcl7n2A1Tk1c8ble_fOaKhIi6ivGDLywUe05EVcTkRT4rp_zAPM_coRCoI49xUeZ6OsLExq33UiM7WRbTqM97myIVqdwho2FrvB2TM-paM1a4-R-c7_OCpIMH8hgD4P9yNE7GMGopbFSw==",
+      "title": "Bitbucket API always returns 400 when trying to create an issue using REST API",
+      "claim": "Incorrect encoding in the request body can lead to a 400 error when using the Bitbucket API.",
+      "source_type": "community",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEczq4Q2hapOdhfLVW2OijcXa6Kj1rc5voVKRFOp_Yyl0qw0rPwqOEdXgWqZI5YyB7-HvQPUEbsZihOdxunJucoDD6Zu8nKdMqTLzLqu-oO5lRBk7VzMGBEzhzRp22LMHcBASmLQEO6meP57dI0m6EFg==",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "API parameters can fail validation, suggesting that missing required parameters can cause errors.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG_ghwyTMPQGmsrzpNylHvOZJ-dbEuk0a49XqOTR1lPEhX3ONoYNDpJxDmbNlfHIAuwHT_VPdAJjXv9c-_vwAuGnv5WQuwvGSGd6unbBzYrZVREy5rhfDKQO2Lcw7jZ7_OZWUs1EBfY8c1onWmh2INP",
+      "title": "How to Use Bitbucket Pipelines Validator? - EDUCBA",
+      "claim": "Bitbucket Pipelines Validator checks pipeline configurations for errors.",
+      "source_type": "academic",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEMl0C--x94aZmzQjqAZ-_XUVfk07xTQKb35J1cODLdzkFytmWMogi6qJuGaULC7dQIhNBR-XkRTM60Af44X_ZPg3HEgncqP66xHkEjwec9b0yDnBupODNPCNAEBGgn32EUNlpx6Hrnoqye4iE4A==",
+      "title": "Validation Pipelines - Explanation & Examples - Secoda",
+      "claim": "Bitbucket Pipelines includes a Validator tool that checks pipeline configurations for errors prior to execution, complemented by detailed YAML syntax documentation.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqNJ4FZlyD_crS3ujc1bADr9BeyyjeKQbRY4_R370x7kEMNoh-eQvVLCQ1ED7G-OJC6rk6IKaB7CzFrH4hGCTAGj5Uetzd6xjXsnnPAwkeZayBhGex4hUPn8uxRpzaEoxOXr0wLEviUhUrzM1gxKBPAj13F6PlboMs1zdMDa0qrrkqsGM=",
+      "title": "The Bitbucket Cloud REST API - Pipelines",
+      "claim": "Bitbucket API endpoints for Pipelines expect specific JSON formats for requests, implying that invalid query parameters or JSON can lead to errors.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE-dW4aULEkDn8KDeR7ripsFfOdnTpRUgmn1M1sA70WAXHdV8CWb3j0mop_0p36vxz0owjwQ8K-mdkSiyDIcNhAJvIbekDVOSuXqXKpWZnVXfDUi8C2ofEsAfQ5S9zsvuO9BYEbHfOcGyeQ3io-2gkJBVop0TYL5rNhcrlbRwVeCj0O1hlLhL8YWazJnxEspMRMdFITQCzG9TNCTbj_xwysrpEYOUMFZgNOUcY=",
+      "title": "Troubleshooting Heroku Deployment Error 400 in Bitbucket Cloud - Atlassian Support",
+      "claim": "A 400 error can be encountered in deployments, such as a Heroku deployment error in Bitbucket Cloud.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEUHPZm-98j_8OR-PI9IaL9VtEkg6lUmU4mQRvKO7UiIRcq97Ff-lFwpqZf3X1ATSaFO4IUI1Obg8FwM3ss1RFKWzNb-OR7VRvpqMaSoAZDBGUpIOapIxpa8r7JauqTBaPCPJu-IDc9gjUxiEDYQrqm8rZeIY6AZEtA0H3sxzL8qt3Is1UFf1n51XnLztTPFQycgAuLQ==",
+      "title": "Git Commands Return Error Code 400 | Bitbucket Data Center - Atlassian Support",
+      "claim": "400 errors can occur during repository operations, such as creating repositories or running Git commands.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFufz88OLGdKrX3jwu2JzXZUd-oj9PGmha7GaGnvDNZzdQPetoBXOcXCH7FfO0mloazZ6YNYYsaKEySPteopr1soNOlZMbnLg9o2fs1pQ3FD-AQ6K3T6Nij48BhBDACoFOjvaYMBEmeCqJAlE0BuiL1Eyog5pXGCeep5uhaAnaIH6l6BJqhCR-9e1GujS1mU47iZw==",
+      "title": "View your pipeline | Bitbucket Cloud | Atlassian Documentation",
+      "claim": "Pipeline configuration errors, such as a misconfigured `bitbucket-pipelines.yml` file, can result in a pipeline status of 'Error'.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsRW31WDKdaDt79o0lIkyiajM81zUDPgrR-7tFTmfdMHOToh662ulTVVtM1hIvPIt62-F6SXlowJP-jH_rZ6YiCVQ-6cEjoCuYWh4J4UjutogUAFycVcKaSvYUYZfXeNJ2Wt5WB6CNETInDSfYENwgooSJq9RkJayx9Wb4fePA",
+      "title": "Customizing Your Workflow with Bitbucket Pipelines YAML Configuration | Reintech media",
+      "claim": "The `bitbucket-pipelines.yml` file defines the automation workflow for Bitbucket Pipelines.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaFKChoa50MBJsr1x6GQa8l07m--oS4wmdWdIzeY2glCTE1xBBO8vLiL2gnTya_niS9mcXH1M8KVZ1G2upro6YMItwryRXjVojvIQa8z3drpvWqnd54Aw97H9OqxJCimfubv5qZXbxIht6vIbgK9KLE5bAtn7qCrmCcupg8KCa7_Egg0LgAP-xLyLqHSqVLoI3B-H1rctRFPn2CzigpkaF__dsY0ZwaPE6hCDlkA==",
+      "title": "How to change Bitbucket Pipelines encoding? - Atlassian Community",
+      "claim": "Encoding issues (e.g., using ASCII instead of UTF-8) can affect Bitbucket Pipelines builds.",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH63LJNw8kh8KnA-_QqMYxrZvXhT6YTCD8QApeCQu1CCy4BHVgFUfxnFl7iw8f5ngF4AuAckzDYtVpCy837_IJi4kRR9RoJknlJlEO6fiHySaokzH5DB77Y8uogXRI5NWZ5FzKrb_rPK7tmd0TQtNcgYFRiMpI-aDif6gMya_COhCagm_gn-WmQme8sAG6-INfmPQ==",
+      "title": "Change Pipelines default image locale to C.UTF-8 | Bitbucket Cloud",
+      "claim": "Bitbucket Pipelines build environments may require configuration for UTF-8 locale to handle unicode characters properly.",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF8pQwHepKGLZX_VmxnJTlDDWXs8GxLfmHvlHhwbqZgHoCS9P-aYgq39Ye36gQxutD1sPmMfw0dx0qvNVbEHJ3IEYw9ujk_5-m3TesQc6ko38CtVR6oJBkBzm92vc0gehvNbp9RbU8UNG0lN1NnevlQoRYdwe2PYCs6sqkECb4l5tH_R4mvX8Jyp-nSXGCyvgQ9N3nR1XKydY1ZOYHv1u1h4c7DNd8tNub2aBfnf0W_u0DSfw==",
+      "title": "Why does bitbucket display UTF8 characters as junk values while creating PR?",
+      "claim": "UTF-8 encoding issues can cause special characters to display incorrectly in Bitbucket.",
+      "source_type": "community",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFdj5kwSV54Nyflu16dlk45l6b6cItRXQiIqm5CkDKbaYAbpaANPUWwJS_QzNh664HHzjcRo8yQMzPZa7lrAn8roBSuYZ5uOr-Q93v4oncfzeYK1KG9uc1PIBKXLSdsncd1nFm4wOAF-ZN90zeQ87Oa8s64WQUg==",
+      "title": "UTF8-BOM suddenly an unsupported encoding · Issue #245 · microsoft/azure-pipelines-yaml · GitHub",
+      "claim": "YAML files can be sensitive to encoding, such as UTF-8 BOM, in pipeline configurations.",
+      "source_type": "documentation",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGX3E1kRHutBvQ2BuUSXKtHL1t-aBy5qwlOozcm_sMijkvP4B-AcNswuTNgO4kqBpcXBB5ZRES7UEMr29J2ri90hUrDgPQBd2E2IyFULqc8IG9IzV8Q8Xw9Z411joJEpp9nMFXCK_WtvC1H94E=",
+      "title": "Bitbucket Pipelines - Validator",
+      "claim": "The Bitbucket Web UI provides a 'Pipeline Validator' for pre-validating YAML syntax.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFkR7wws_qNaOZP2tCV-FBG28gOIfNSYBiGnfGcb5Ts21YshnIJV20BQO9bJxAKqcfUqRV0_53yYOi_i-TMbMRwsif0KVXclanyxr4OD0VNTKbARAWZx6yhzz5XFz_o8X1zUqEn90HY34_jTSefX9gmW4-38z_kla4XusHiRenxw4WTbx3zWrpj6Fk-_D1e0w==",
+      "title": "最初のパイプラインを構成する | Bitbucket Cloud | アトラシアン サポート - Atlassian Support",
+      "claim": "Pipelines can be accessed and configured through the Bitbucket repository UI by navigating to the 'Pipelines' section.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGdCcQ5RduZLPX_7-SZ59CmegOh4-XFxCtaPLkVE4JS9O6idsv6r7t0fN1EJ9Qh2F4ZaCsD-cFm5fschrs8pWy5tE7dOcqIbjQ9UFiCgGEgIXHARanfL25fo-qPus7PL1XXhXrUlG3ILLmV0N_aAKrQSC5xx8huL65lSI-iFeDgqMfCDb5TaRFUlhBX5yXu1Q==",
+      "title": "リポジトリ設定を構成する | Bitbucket Cloud | アトラシアン サポート - Atlassian Support",
+      "claim": "The 'Pipelines' section, including its validation tools, is accessible from the repository settings in the Bitbucket UI.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEczq4Q2hapOdhfLVW2OijcXa6Kj1rc5voVKRFOp_Yyl0qw0rPwqOEdXgWqZI5YyB7-HvQPUEbsZihOdxunJucoDD6Zu8nKdMqTLzLqu-oO5lRBk7VzMGBEzhzRp22LMHcBASmLQEO6meP57dI0m6EFg==",
+      "title": "The Bitbucket Data Center REST API - Atlassian Developer",
+      "claim": "Explicitly specifying the `Content-Type: application/json` header is important when making API calls.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEqNJ4FZlyD_crS3ujc1bADr9BeyyjeKQbRY4_R370x7kEMNoh-eQvVLCQ1ED7G-OJC6rk6IKaB7CzFrH4hGCTAGj5Uetzd6xjXsnnPAwkeZayBhGex4hUPn8uxRpzaEoxOXr0wLEviUhUrzM1gxKBPAj13F6PlboMs1zdMDa0qrrkqsGM=",
+      "title": "The Bitbucket Cloud REST API - Pipelines",
+      "claim": "API examples for Bitbucket demonstrate the use of the `Content-Type: application/json` header in cURL requests.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFD0cusSYX8qIhJ-O03ynfv1itAXyfXas8EPoSwVnQ_Jtl2SpjLDl34nU6LWq7OlVAwRDmZ4m6IGhva2gphFgrcCtTaedOPch6sZpmQS2zPxtaoEqXwfmPgNTEWst7GNTTt4YguSnK6ejM1ISL3cozamSm7U-x1ajnmdf3fje_vtFj_xjR2vuS7SOPkzAJMuWc2BsY1LXuipT66yqo=",
+      "title": "Bitbucket API | Documentation | Postman API Network",
+      "claim": "cURL examples for Bitbucket API calls explicitly include the `Content-Type: application/json` header.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQErre8s9WNkZI11HDW4ko5DjPmewR89vIK-ClnuEgVDhDUCcTkRkOghWAj1r4Vd4wGLjllJY9zGtLyUCys6t1t9wQVhrsa2sfWxiG2Nm32hyQBC7EYYJ5YT0TM-1Hq5m2OtEDSmg9BiQGOde9hHt-H9IO_b67K3JMdaDMqKOzqImxB8oEfdBwnkfGL0",
+      "title": "Bitbucket Cloud REST API scopes - Developer, Atlassian",
+      "claim": "Bitbucket's API applies privilege scopes to endpoints, and requests require the necessary scopes for access.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGY8pqvdMSS793fWV6LZTjXepNZv0jTXy1cvzpD7L6tMPToByxWNfJVd0AxyLk01GRl_ags8Qhk1WnIyREoS6hweqO8-O_Ed1OWnbBENpNv6VKEVBDx2J9erZs_UYWebsN1WFenfvV0Lnw93c3jcnjynQmS9uACrtusQedgjucjPsb3dHv8-evKgkcwhDM4GIxiuQk0S6_KX5wTI4Cq",
+      "title": "Bitbucketサーバーに接続できない - Oracle Help Center",
+      "claim": "Insufficient repository permissions can result in a 400 error.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE0NIG17v-lLcxhkBdXfduwfx_yutdIT34KGwAKIgxV18_4G6kcWbF-giEhmJNFY5klHdaWCHGk-wjKAWFRr_09aZUachz7ZtvzB3s6ZN77hu-JsFGkh_FE9opvCowtADGUyet_e36nUEbI5TE1h682du781AzTEaCAHQbNRE-Lqck6hhgGbPRg5wO7e_Dke-DgaNfY",
+      "title": "Bitbucket アプリのパスワードまたはアクセストークン - AWS CodeBuild",
+      "claim": "When generating API tokens, it's important to confirm required permission scopes, such as 'repository:read' or 'pullrequest:read'.",
+      "source_type": "documentation",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFm-e3qEzFwi5MeDy32lCtKCeiXQGeTZQ8NmpE5tZcWiRc7Hag3GgBOw1cnDNTXRvX7g92XMys4Vfp_cRhx9yYnzUctXStt53YiuhqW5NW2q2hQ4j-8qmGcwX3GucZyCUmwT_tcCS-Zw7IGPBZNBfgO2s1Y-EYZk3B23SxqpHA_VW9_mB1Wt8=",
+      "title": "API トークンの権限 | Bitbucket Cloud | アトラシアン サポート - Atlassian Support",
+      "claim": "API tokens have specific permission levels (scopes) like `repository:read` and `issue:write` that need to be configured.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHH3tHv_9vbj5RGGrkqGtsLl-5XuGEh74grf3K8y2lzRhoXeRrUfPwC-HnHgdvXGvtUyB55qz3de4A70ST32NFISChHnkyfjy7VZP7W-cWtXpGVPszDu1-BsvAwst9z9WA9LcrKzd12gYWtAp550vwKccVjXTni4YtCqzqeY3wNzBP1XgM=",
+      "title": "パイプラインを確認する | Bitbucket Cloud | アトラシアン サポート - Atlassian Support",
+      "claim": "Detailed error messages and logs for pipeline execution are available in the Bitbucket UI under the 'Pipeline' section.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzkV0Z74tVLlayfiebcVGlui4obMz637gZMVS4s-NjU4_9M2f2vUNmsV7e1hgkyfDkWHeua5NdYCh9511iPfHFFvfyp3QW8Xb3WomZe0hPs1rlWNf9G384z-J9Xg1MruXniALEzup5c3_DFuttG1o_r2HtVuETnjTtp5E6V0FWMiPx",
+      "title": "Generate support logs in Bitbucket Cloud Pipelines",
+      "claim": "Bitbucket Pipelines logs provide information for troubleshooting issues.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFSmzWdzb3Q-4NSJ7mpgp7K9294cz-NJrnnj7k1uEQ6S7vfL_4aOCH8gntOtqmHAGHyDHzWMjDA37AlIC69jvc_eDJfuos_SdCqgiCCCXz3jInjH-rB1U38tMdhdXKHq8tgpxDqrwlSyNxwx1q-kQ4E69_rn-yjNzZhWkHQx-6D8t1skQ==",
+      "title": "Advanced Monitoring and Logging for Bitbucket Pipelines: Tools and Techniques - Reintech",
+      "claim": "Error details are often described in `message` fields within response bodies or logs.",
+      "source_type": "blog",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://developer.atlassian.com/cloud/bitbucket/rest/",
+      "title": "Bitbucket Cloud REST API documentation",
+      "claim": "The Bitbucket Cloud REST API documentation is the primary source for details on required parameters and formats for API endpoints.",
+      "source_type": "official",
+      "url_check_status": "200"
+    },
+    {
+      "url": "https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/",
+      "title": "Bitbucket Pipelines YAML reference",
+      "claim": "The Bitbucket Pipelines YAML reference outlines the specifications for pipeline configuration.",
+      "source_type": "official",
+      "url_check_status": "skipped"
+    }
+  ],
+  "unsupported_claims": [
+    "The specific error message 'Pipeline error: 'message' field is required in bitbucket-pipelines.yml' explicitly causing a 400 Bad Request directly from the API. While YAML errors cause pipeline failures, a direct link to a 400 for this exact message was not found in the search results.",
+    "The specific claim that the 'content' field is universally required for the Bitbucket issue creation API endpoint (`/2.0/repositories/<workspace>/<repo_slug>/issues`) was not explicitly confirmed by official documentation within the search results, though it is a plausible requirement for an issue API.",
+    "API 呼び出しの場合、cURL に `-v` フラグを付けて詳細なリクエスト・レスポンスを確認できます。"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Verify if the specific error message 'Pipeline error: 'message' field is required in bitbucket-pipelines.yml' explicitly results in a 400 Bad Request directly from the API, or if it's a pipeline execution error status.",
+    "Optional improvement: Confirm the 'content' field is indeed a universally required field for the Bitbucket issue creation API endpoint for improved accuracy.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 24,
+  "url_skipped": 6,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 4454,
+  "fact_check_input_chars": 3656,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "2d11f8024975",
+  "error_detail": null,
+  "vote_group_id": "837c836f-a22e-4a5e-a050-e8699fd4ebbe",
+  "is_final_vote": false,
+  "vote_count": 3
+}
