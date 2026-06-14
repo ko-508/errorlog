@@ -8,114 +8,179 @@ service: "OpenAI API"
 error_type: "422"
 components: []
 related_services: ["Fine-tuning", "JSONL", "Python", "CLI"]
+lastmod: 2026-06-14
 ---
 
-OpenAI [API](/glossary/api/)で422[エラー](/glossary/エラー/)が発生するのは、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、含まれるデータが処理要件を満たしていないときです。特にFine-tuningでよく出現する[エラー](/glossary/エラー/)です。
+## エラーの概要
 
-## よくある原因
+OpenAI APIで422エラーが発生するのは、リクエストの構文は正しいものの、含まれるデータが処理要件を満たしていないときです。特にFine-tuningやチャット補完（Chat Completions）でよく出現するエラーで、OpenAIのバリデーションルールに違反しているため、サーバー側が処理を拒否した状態を示します。
 
-**Fine-tuningのJSONLファイル形式が不正**
+## 実際のエラーメッセージ例
 
-Fine-tuningに使用するJSONLファイルの各行が、OpenAIが定める正しい形式になっていない場合、422[エラー](/glossary/エラー/)が返されます。例えば、[JSON](/glossary/json/)形式で統一されていなかったり、不要なフィールドが含まれていたり、必須フィールドが欠けていたりすると、OpenAI側で処理できないと判断されるためです。
+**Fine-tuningファイルアップロード時の例：**
 
-**messagesフォーマットが要件と異なる**
+```json
+{
+  "error": {
+    "message": "Unprocessable entity",
+    "type": "invalid_request_error",
+    "param": "training_file",
+    "code": "invalid_request"
+  }
+}
+```
 
-Fine-tuningのデータセットでは、各サンプルが`messages`配列を含む必要があります。その配列内のメッセージオブジェクトが`role`と`content`フィールドを持っていなかったり、`role`の値が不正な値（例：「user_message」など）だったりすると、422[エラー](/glossary/エラー/)が返されます。OpenAIは厳密なスキーマ検証を行うため、わずかな形式のズレでも拒否されるのです。
+**Chat Completions APIの例：**
 
-**データセット件数が最小要件を下回っている**
+```json
+{
+  "error": {
+    "message": "Invalid value: '/wrong-role/' is not one of 'user', 'assistant', 'system', 'function'",
+    "type": "invalid_request_error",
+    "param": "messages.0.role",
+    "code": "invalid_enum_value"
+  }
+}
+```
 
-Fine-tuningには最低限のサンプル数（通常は10件以上、推奨は50件以上）が必要です。これを満たさないデータセットをアップロードしようとすると、422[エラー](/glossary/エラー/)で拒否されます。
+## よくある原因と解決手順
 
-**JSONLファイルに無効な[JSON](/glossary/json/)行が含まれている**
+**原因1：Fine-tuningのJSONLファイル形式が不正**
 
-各行が有効な[JSON](/glossary/json/)形式になっていない場合、422[エラー](/glossary/エラー/)が返されます。例えば、シングルクォートの使用、末尾のカンマ、エスケープ漏れなども原因になります。
+Fine-tuningに使用するJSONLファイルの各行が、OpenAIが定める正しい形式になっていない場合に422エラーが返されます。各行が有効なJSON形式でなかったり、必須フィールド（messages、completion等）が欠けていたり、不要なフィールドが混在していたりすると、OpenAI側で処理できないと判断されます。
 
-## 解決手順
-
-**1. JSONLファイルの形式を確認する**
-
-Fine-tuningデータは、1行1個の有効な[JSON](/glossary/json/)オブジェクトからなるJSONL形式である必要があります。以下が正しいサンプルです。
+**Before（エラーが起きるコード）：**
 
 ```jsonl
-{"messages": [{"role": "system", "content": "あなたは優秀なアシスタントです。"}, {"role": "user", "content": "こんにちは"}, {"role": "assistant", "content": "こんにちは。何かお手伝いできることはありますか？"}]}
-{"messages": [{"role": "system", "content": "あなたは優秀なアシスタントです。"}, {"role": "user", "content": "天気は？"}, {"role": "assistant", "content": "申し訳ございませんが、リアルタイムの天気情報は提供できません。"}]}
+{"messages": [{"role": "user", "content": "Hello"}], "completion": " Hi there"}
+{"messages": [{"role": "user", "content": "How are you?"}]}
+{"messages": [{"role": "user", "content": "Test"}], "extra_field": "value", "completion": " Good"}
 ```
 
-ファイルの各行が独立した有効な[JSON](/glossary/json/)であることをテキストエディタで目視確認します。
+**After（修正後）：**
 
-**2. Pythonでファイルの検証を行う**
+```jsonl
+{"messages": [{"role": "user", "content": "Hello"}, {"role": "assistant", "content": "Hi there"}]}
+{"messages": [{"role": "user", "content": "How are you?"}, {"role": "assistant", "content": "I'm doing well"}]}
+{"messages": [{"role": "user", "content": "Test"}, {"role": "assistant", "content": "Good"}]}
+```
 
-以下のスクリプトで、JSONL形式とmessagesの構造を自動検証します。
+**原因2：messagesフォーマットにおけるroleの値が不正**
+
+Fine-tuningおよびChat Completions APIでは、各メッセージオブジェクトの`role`フィールドが厳密に定義されています。「user_message」「assistant_response」などの独自の値を使用したり、大文字小文字を誤ったりすると422エラーが発生します。許可される値は`user`、`assistant`、`system`、`function`に限定されます。
+
+**Before（エラーが起きるコード）：**
 
 ```python
-import json
-
-def validate_jsonl(file_path):
-    with open(file_path, 'r', encoding='utf-8') as f:
-        for line_num, line in enumerate(f, start=1):
-            try:
-                data = json.loads(line)
-                # messagesフィールドが存在するか確認
-                if 'messages' not in data:
-                    print(f"行 {line_num}: 'messages' フィールドが見つかりません")
-                    continue
-                # messagesは配列か確認
-                if not isinstance(data['messages'], list):
-                    print(f"行 {line_num}: 'messages' が配列ではありません")
-                    continue
-                # 各メッセージが role と content を持つか確認
-                for msg_num, msg in enumerate(data['messages']):
-                    if 'role' not in msg or 'content' not in msg:
-                        print(f"行 {line_num}、メッセージ {msg_num}: 'role' または 'content' が見つかりません")
-                    if msg.get('role') not in ['system', 'user', 'assistant']:
-                        print(f"行 {line_num}、メッセージ {msg_num}: roleが不正です（値：{msg.get('role')}）")
-            except json.JSONDecodeError as e:
-                print(f"行 {line_num}: JSON形式エラー - {e}")
-    print("検証完了")
-
-validate_jsonl('<your-file-path>.jsonl')
+response = client.chat.completions.create(
+  model="gpt-4",
+  messages=[
+    {"role": "User", "content": "こんにちは"},
+    {"role": "Assistant_Response", "content": "こんにちは！"}
+  ]
+)
 ```
 
-**3. データセット件数を確認する**
-
-以下の[コマンド](/glossary/コマンド/)で行数（サンプル数）を確認します。
-
-```bash
-wc -l <your-file-path>.jsonl
-```
-
-10件未満の場合は、トレーニングデータを追加してから再度アップロードします。
-
-**4. OpenAI [CLI](/glossary/cli/)を使用してアップロードする前に検証する**
-
-OpenAIが提供する公式の検証ツールを使う場合、以下のようにします。
-
-```bash
-openai tools fine_tunes.prepare_data -f <your-file-path>.jsonl
-```
-
-この[コマンド](/glossary/コマンド/)を実行すると、形式[エラー](/glossary/エラー/)があれば詳細に指摘されます。修正内容を確認し、再度実行します。
-
-**5. Fine-tuningジョブをアップロードする**
-
-検証を通過したら、OpenAI [API](/glossary/api/)でFine-tuningジョブを作成します。
+**After（修正後）：**
 
 ```python
-import openai
-
-openai.api_key = '<your-api-key>'
-
-with open('<your-file-path>.jsonl', 'rb') as f:
-    response = openai.File.create(file=f, purpose='fine-tune')
-    file_id = response['id']
-
-job = openai.FineTune.create(training_file=file_id, model='gpt-3.5-turbo')
-print(job['id'])
+response = client.chat.completions.create(
+  model="gpt-4",
+  messages=[
+    {"role": "user", "content": "こんにちは"},
+    {"role": "assistant", "content": "こんにちは！"}
+  ]
+)
 ```
+
+**原因3：Fine-tuningのメッセージ数が要件を満たさない**
+
+Fine-tuningでは、各トレーニング例に含まれるメッセージ数に下限があります。少なくとも1つ以上のユーザーメッセージと1つ以上のアシスタントメッセージが必要です。メッセージが空配列だったり、ユーザーまたはアシスタントのいずれかのロールのメッセージしかない場合、422エラーが返されます。
+
+**Before（エラーが起きるコード）：**
+
+```python
+training_data = [
+  {"messages": []},  # 空配列
+  {"messages": [{"role": "user", "content": "Hello"}]},  # アシスタントメッセージなし
+]
+
+with open("training.jsonl", "w") as f:
+  for item in training_data:
+    f.write(json.dumps(item) + "\n")
+```
+
+**After（修正後）：**
+
+```python
+training_data = [
+  {"messages": [
+    {"role": "user", "content": "Hello"},
+    {"role": "assistant", "content": "Hi there"}
+  ]},
+  {"messages": [
+    {"role": "user", "content": "How are you?"},
+    {"role": "assistant", "content": "I'm doing well"}
+  ]},
+]
+
+with open("training.jsonl", "w") as f:
+  for item in training_data:
+    f.write(json.dumps(item) + "\n")
+```
+
+**原因4：contentフィールドが空文字列または存在しない**
+
+各メッセージオブジェクトの`content`フィールドが必須です。空文字列、null、または完全に欠落している場合、422エラーが発生します。また、文字列型以外の値（オブジェクトや配列）を渡すこともエラーの原因となります。
+
+**Before（エラーが起きるコード）：**
+
+```json
+{"messages": [{"role": "user", "content": ""}, {"role": "assistant", "content": "response"}]}
+{"messages": [{"role": "user"}, {"role": "assistant", "content": "response"}]}
+{"messages": [{"role": "user", "content": null}]}
+```
+
+**After（修正後）：**
+
+```json
+{"messages": [{"role": "user", "content": "Hello"}, {"role": "assistant", "content": "Hi"}]}
+{"messages": [{"role": "user", "content": "Question"}, {"role": "assistant", "content": "Answer"}]}
+{"messages": [{"role": "user", "content": "test"}]}
+```
+
+## OpenAI API固有の注意点
+
+OpenAI APIの422エラーは、API[エンドポイント](/glossary/エンドポイント/)や利用するモデルによって、バリデーション規則が異なります。
+
+**Fine-tuning APIの場合**、JSONLファイルの検証はファイルアップロード時に実施されます。`files.create()`でファイルをアップロードする際、ファイルサイズが大きい場合はバリデーションがサンプリングで実行されるため、アップロード直後に422エラーが出ず、後の`fine_tuning.jobs.create()`実行時に発見されることもあります。
+
+**Chat Completions APIの場合**、モデルのバージョンによってサポートされるロール値が異なる可能性があります。例えば、`gpt-3.5-turbo`で`system`ロールを使用する場合、特定のAPIバージョンでは非対応の場合があるため、APIドキュメントで対象モデルのサポート状況を確認してください。
+
+また、関数呼び出し（Function Calling）を使用する場合、`function`ロールのメッセージに対しては`content`フィールドに加えて`tool_calls`または`function_call`フィールドの構造が厳密に定義されています。これらが不正な形式だと422エラーが発生します。
 
 ## それでも解決しない場合
 
-OpenAIの公式ドキュメント（https://platform.openai.com/docs/guides/fine-tuning）で最新のスキーマ要件を確認してください。APIアップデートにより仕様が変わっている可能性があります。また、OpenAI [API](/glossary/api/)サポートフォーラムでエラーメッセージの全文を含めて質問することで、より具体的な原因を特定できます。
+**JSONLファイルの妥当性を検証する**
+
+以下のコマンドでJSONLファイルの各行を検証できます：
+
+```bash
+python3 << 'EOF'
+import json
+
+with open("training.jsonl", "r") as f:
+  for i, line in enumerate(f, 1):
+    try:
+      json.loads(line)
+    except json.JSONDecodeError as e:
+      print(f"Line {i}: Invalid JSON - {e}")
+EOF
+```
+
+**OpenAIの公式Fine-tuningドキュメント**を確認し、現在のバージョンで要求されるJSONL形式の仕様を確認してください。特に「Preparing your dataset」セクションにサンプルファイルが記載されています。
+
+**GitHub Issues**でOpenAI Pythonライブラリのリポジトリを検索し、同様の422エラーに関する報告がないか確認してください。既知の問題や回避策が記載されている可能性があります。
 
 ---
 

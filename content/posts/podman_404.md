@@ -8,64 +8,175 @@ service: "Podman"
 error_type: "404"
 components: []
 related_services: ["Docker", "Docker Hub"]
+lastmod: 2026-06-14
 ---
-Podman で 404 [エラー](/glossary/エラー/)が発生した場合、指定した[イメージ](/glossary/イメージ/)またはコンテナーがシステム上に見つからないことを意味します。[コマンド](/glossary/コマンド/)実行時に[イメージ](/glossary/イメージ/)名やコンテナー名の指定に問題があるケースがほとんどです。
 
-## よくある原因
+## エラーの概要
 
-**[イメージ](/glossary/イメージ/)名またはタグ名の綴りが間違っている**
+Podman で 404 エラーが発生した場合、指定したイメージまたはコンテナーがシステム上に見つからないことを意味します。コマンド実行時にイメージ名やコンテナー名の指定に問題があるケースがほとんどです。このエラーはイメージの取得・実行・削除などの操作で頻繁に遭遇します。
 
-Podman [コマンド](/glossary/コマンド/)を実行する際、[イメージ](/glossary/イメージ/)名のスペルミスやタグ名の入力誤りがあると 404 [エラー](/glossary/エラー/)が発生します。例えば `podman run ubuntu:latestt` のように「latestt」と誤入力した場合、そのタグは存在しないため見つかりません。レジストリー名を含める場合（例：`docker.io/ubuntu`）も、プレフィックスの綴り間違いが原因となることがあります。
+## 実際のエラーメッセージ例
 
-**ローカルにもリモートにも[イメージ](/glossary/イメージ/)が存在しない**
+```
+Error: image not found: ubuntu:latestt
+```
 
-[イメージ](/glossary/イメージ/)名が正しく入力されていても、Podman がローカルストレージ内にその[イメージ](/glossary/イメージ/)を持たず、かつリモートレジストリー（[Docker](/glossary/docker/) Hub など）にも存在しない場合、404 [エラー](/glossary/エラー/)が返されます。Podman は `podman run` 実行時に自動的にリモートレジストリーを検索しますが、該当[イメージ](/glossary/イメージ/)がどこにも存在しなければ処理が失敗します。
+```
+Error: container not found: <container-id>
+```
 
-**コンテナー名またはコンテナー ID の指定が間違っている**
+```json
+{
+  "error": "image not found: myregistry.azurecr.io/myimage:v1.0",
+  "code": 404
+}
+```
 
-`podman stop`、`podman rm`、`podman inspect` などのコンテナー操作[コマンド](/glossary/コマンド/)でも 404 [エラー](/glossary/エラー/)が出現します。コンテナー名やコンテナー ID を誤って入力すると、Podman がそのコンテナーを特定できず、[エラー](/glossary/エラー/)が発生します。例えば `podman stop my-contain` のように名前を1文字間違えた場合、指定したコンテナーが見つかりません。
+## よくある原因と解決手順
 
-## 解決手順
+### 原因1：イメージ名またはタグ名の綴りが間違っている
 
-**ステップ 1: ローカルの[イメージ](/glossary/イメージ/)一覧を確認する**
+Podman コマンドを実行する際、イメージ名のスペルミスやタグ名の入力誤りがあると 404 エラーが発生します。例えば `podman run ubuntu:latestt` のように「latestt」と誤入力した場合、そのタグは存在しないため見つかりません。レジストリー名を含める場合も、プレフィックスの綴り間違いが原因となることがあります。
 
-まず Podman に保存されている[イメージ](/glossary/イメージ/)を確認します。
+**Before（エラーが起きるコード）：**
 
 ```bash
+podman run ubuntu:latestt
+# Error: image not found: ubuntu:latestt
+```
+
+**After（修正後）：**
+
+```bash
+# 正しいタグ名を確認して実行
+podman pull ubuntu:latest
+podman run ubuntu:latest
+```
+
+### 原因2：ローカルにもリモートにもイメージが存在しない
+
+イメージ名が正しく入力されていても、Podman がローカルストレージ内にそのイメージを持たず、かつリモートレジストリーからも取得できない場合に 404 エラーが発生します。特にプライベートレジストリーのイメージを使用する場合、レジストリーへの認証がないと取得に失敗することがあります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+podman run myregistry.example.com/myapp:v1.0
+# Error: image not found: myregistry.example.com/myapp:v1.0
+```
+
+**After（修正後）：**
+
+```bash
+# レジストリーに認証してからイメージを取得
+podman login myregistry.example.com
+podman pull myregistry.example.com/myapp:v1.0
+podman run myregistry.example.com/myapp:v1.0
+```
+
+### 原因3：イメージをプルしていない
+
+Dockerfile からビルドしたカスタムイメージや、別のシステムで作成されたイメージを使用する際、ローカルに存在しないイメージを直接実行しようとすると 404 エラーが発生します。イメージの存在確認や事前プルが必要です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+podman run myapp:1.0
+# Error: image not found: myapp:1.0
+```
+
+**After（修正後）：**
+
+```bash
+# 利用可能なイメージを確認
 podman images
+
+# イメージが存在しない場合はプルまたはビルド
+podman pull docker.io/library/myapp:1.0
+# または
+podman build -t myapp:1.0 .
+podman run myapp:1.0
 ```
 
-この[コマンド](/glossary/コマンド/)で、ローカルストレージに存在するすべての[イメージ](/glossary/イメージ/)が表示されます。出力にはリポジトリー名、タグ、[イメージ](/glossary/イメージ/) ID、サイズなどが含まれます。実行に失敗した[コマンド](/glossary/コマンド/)で指定した[イメージ](/glossary/イメージ/)名とタグが、この一覧に含まれているか確認してください。例えば `ubuntu:latest` を探している場合、リポジトリー列に「ubuntu」、タグ列に「latest」がある行があるかチェックします。
+### 原因4：コンテナー ID またはコンテナー名が誤っている
 
-**ステップ 2: リモートレジストリーで[イメージ](/glossary/イメージ/)を検索する**
+`podman stop`、`podman rm`、`podman inspect` などの操作でコンテナーを指定する際、存在しないコンテナー ID やコンテナー名を指定すると 404 エラーが発生します。特に長いコンテナー ID の一部を誤入力した場合に注意が必要です。
 
-ローカルに[イメージ](/glossary/イメージ/)が見つからない場合、リモートレジストリーで検索します。
+**Before（エラーが起きるコード）：**
 
 ```bash
-podman search <image-name>
+podman stop abc12345
+# Error: container not found: abc12345
 ```
 
-例えば `podman search nginx` を実行すると、[Docker](/glossary/docker/) Hub に登録されているすべての nginx 関連[イメージ](/glossary/イメージ/)が表示されます。検索結果から目的の[イメージ](/glossary/イメージ/)を特定し、正確な[イメージ](/glossary/イメージ/)名を確認してください。リモートレジストリーに[イメージ](/glossary/イメージ/)が存在する場合、`podman pull` でダウンロードしてからコンテナーを起動します。
+**After（修正後）：**
 
 ```bash
-podman pull <registry>/<image-name>:<tag>
+# 実行中のコンテナーを確認
+podman ps
+
+# 正しいコンテナー ID またはコンテナー名を指定
+podman stop abc123456789abcdef
+# またはコンテナー名で指定
+podman stop mycontainer
 ```
 
-例えば `podman pull docker.io/nginx:latest` のように、レジストリー、[イメージ](/glossary/イメージ/)名、タグをすべて指定します。
+## Podman 固有の注意点
 
-**ステップ 3: 全コンテナーの一覧を確認する**
+Podman はデーモンレスで動作するため、ユーザーコンテキストごとにイメージストレージが独立しています。root ユーザーで `podman pull` したイメージを通常ユーザーで実行しようとすると 404 エラーが発生します。
 
-コンテナー操作で 404 [エラー](/glossary/エラー/)が出た場合、実際に存在するコンテナーの一覧を表示します。
+**Before（エラーが起きるコード）：**
 
 ```bash
-podman ps -a
+# root で実行
+sudo podman pull ubuntu:latest
+
+# 通常ユーザーで実行
+podman run ubuntu:latest
+# Error: image not found: ubuntu:latest
 ```
 
-`-a` オプションで実行中および停止状態のすべてのコンテナーが表示されます。出力には CONTAINER ID、[イメージ](/glossary/イメージ/)名、作成時刻、ステータス、[ポート](/glossary/ポート/)情報、コンテナー名などが含まれます。実行に失敗した[コマンド](/glossary/コマンド/)で指定したコンテナー ID またはコンテナー名が一覧に存在するか確認してください。存在しない場合は、別のコンテナー ID またはコンテナー名を使用するか、新しくコンテナーを作成する必要があります。
+**After（修正後）：**
+
+```bash
+# ユーザーのコンテキストで一貫性を保つ
+podman pull ubuntu:latest
+podman run ubuntu:latest
+
+# または root で統一
+sudo podman pull ubuntu:latest
+sudo podman run ubuntu:latest
+```
+
+また、Podman のレジストリー設定ファイル（`$HOME/.config/containers/registries.conf`）が正しく設定されていないと、デフォルトレジストリーからのイメージ取得に失敗する可能性があります。デフォルトではスコープなしでイメージ名を指定した場合、設定ファイルに記載されたレジストリーから順に検索されます。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+podman run nginx
+# Error: image not found: nginx
+# registries.conf でレジストリーが未設定
+```
+
+**After（修正後）：**
+
+```bash
+# registries.conf を確認・編集
+cat ~/.config/containers/registries.conf
+
+# 必要に応じてレジストリーを完全修飾名で指定
+podman pull docker.io/library/nginx
+podman run docker.io/library/nginx
+```
 
 ## それでも解決しない場合
 
-Podman のバージョンが古い場合、特定のレジストリーへの対応に問題が生じる可能性があります。`podman --version` でバージョンを確認し、必要に応じてアップグレードしてください。また、Podman のレジストリー[設定ファイル](/glossary/設定ファイル/)（`/etc/containers/registries.conf`）を確認し、検索対象のレジストリーが正しく設定されているか確認します。さらに詳しい情報は `podman logs <container-id>` でコンテナーの[ログ](/glossary/ログ/)を確認するか、`podman inspect <image-id>` で[イメージ](/glossary/イメージ/)の詳細情報を調べることで、問題の原因が特定しやすくなります。
+ローカルに保存されているイメージを確認するには `podman images` コマンドで一覧表示できます。このコマンドの出力に目的のイメージが存在しない場合は、明示的に `podman pull` でイメージを取得する必要があります。
+
+レジストリー接続の問題を切り分ける場合は、`podman pull` を単独で実行してネットワーク接続やレジストリー認証に問題がないかを確認します。認証情報がある場合は `podman login` で事前ログインしておきます。
+
+詳細なデバッグ情報を得るには、`podman --log-level=debug` オプションを付けてコマンドを再実行することで、イメージ検索の詳細なプロセスを確認できます。
+
+Podman の公式ドキュメントにある「Podman Image Search」セクションでは、レジストリー設定やイメージ取得の詳細が説明されています。また、GitHub の Podman リポジトリの Issues セクションで、類似のエラー報告と解決方法を検索することも有効です。
 
 ---
 

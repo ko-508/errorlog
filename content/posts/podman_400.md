@@ -8,97 +8,131 @@ service: "Podman"
 error_type: "400"
 components: []
 related_services: ["Docker", "systemd", "jq", "curl"]
+lastmod: 2026-06-14
 ---
 
-Podman実行時に「400 Bad Request」が出ています。この[エラー](/glossary/エラー/)はPodman [API](/glossary/api/)または[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)形式が正しくないことを示しており、コマンドオプションや[イメージ](/glossary/イメージ/)指定の誤りが原因です。
+## Podman の 400 エラー：原因と解決策
 
-## よくある原因
+## エラーの概要
 
-**podman run[コマンド](/glossary/コマンド/)のオプション指定が誤っている**
+Podman の 400 エラーは、Podman API またはレジストリへのリクエスト形式が不正であることを示します。コマンド構文の誤り、イメージ指定の形式違反、レジストリ認証情報の不備などが原因として起こり、コンテナの起動やプル操作が失敗します。
 
-`podman run` のオプション順序やフラグの書き方が間違っていると、Podmanは[リクエスト](/glossary/リクエスト/)を解析できず400[エラー](/glossary/エラー/)を返します。例えば、値が必要なオプション（`--name`、`--memory` など）に値を渡さない、または重複定義した場合に発生します。[イメージ](/glossary/イメージ/)指定の前に全てのオプションを配置する必要があります。
+## 実際のエラーメッセージ例
 
-**[イメージ](/glossary/イメージ/)名またはタグの書き方が間違っている**
-
-[イメージ](/glossary/イメージ/)名やタグの形式が不正だと[リクエスト](/glossary/リクエスト/)が成立しません。[レジストリ](/glossary/レジストリ/)が指定されていない場合、Podmanはデフォルトレジストリから検索しますが、タグ内に無効な文字が含まれていたり、参照形式が壊れていたりすると[エラー](/glossary/エラー/)になります。
-
-**Podman [API](/glossary/api/)ソケットへの[リクエスト](/glossary/リクエスト/)の[JSON](/glossary/json/)形式が壊れている**
-
-[REST](/glossary/rest/) [API](/glossary/api/)を直接呼び出す場合、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構文[エラー](/glossary/エラー/)や必須フィールドの不足があると400[エラー](/glossary/エラー/)が発生します。curlなどで[API](/glossary/api/)を叩く際にダブルクォートの閉じ忘れやカンマの欠落が原因になります。
-
-## 解決手順
-
-**ステップ1：コマンドオプションの正しい書き方を確認する**
-
-```bash
-# 使用しているサブコマンドのヘルプを表示
-podman help run
-
-# よく使うオプション例
-podman run --name <コンテナ名> --memory 512m --cpus 1 <イメージ名>:<タグ>
+```json
+{
+  "cause": "invalid parameter",
+  "message": "Error response from daemon: 400 Bad Request",
+  "response": 400
+}
 ```
 
-`podman help run` でオプション一覧と説明を確認し、オプション順序やフラグの記述が正しいか検証します。[イメージ](/glossary/イメージ/)指定は必ずオプション指定の後に配置してください。
-
-**ステップ2：[イメージ](/glossary/イメージ/)名とタグをpodman searchで検証する**
-
 ```bash
-# イメージ検索でレジストリに存在するか確認
-podman search alpine
-
-# タグ付きで正確なイメージ名を指定
-podman run alpine:3.18 /bin/sh
-
-# レジストリを明示的に指定する場合
-podman run docker.io/library/alpine:3.18 /bin/sh
+$ podman run --memory mycontainer ubuntu:latest
+Error: invalid argument "mycontainer" for "--memory" flag: invalid format
+400 Bad Request
 ```
 
-`podman search` で目的の[イメージ](/glossary/イメージ/)が[レジストリ](/glossary/レジストリ/)に存在し、正確なタグ名を確認します。タグが存在しない、または大文字小文字が異なっている場合も400[エラー](/glossary/エラー/)になります。
+## よくある原因と解決手順
 
-**ステップ3：Podmanをバージョン確認し、必要に応じて更新する**
+**1. podman run のオプション指定が誤っている**
 
-```bash
-# 現在のPodmanバージョンを確認
-podman --version
+値が必須のオプション（`--memory`、`--cpus`、`--name` など）に値を指定しない、または不正な形式で指定した場合に発生します。また、イメージ名の前に全てのオプションを配置する必要があり、順序を間違えると 400 エラーが発生します。
 
-# 古い場合はシステムパッケージマネージャーで更新
-# Red Hat系の場合
-sudo dnf update podman
-
-# Debian系の場合
-sudo apt update && sudo apt upgrade podman
-```
-
-古いバージョンでは[API](/glossary/api/)仕様が異なり、新しいオプションが存在しないか動作が異なる可能性があります。
-
-**ステップ4：[REST](/glossary/rest/) [API](/glossary/api/)で直接呼び出す場合は[JSON](/glossary/json/)形式をチェック**
+**Before（エラーが起きるコード）：**
 
 ```bash
-# Podman APIソケット経由での不正なリクエスト例
-curl -X POST --unix-socket /run/podman/podman.sock \
-  http://localhost/v4.0.0/libpod/containers/create \
-  -H "Content-Type: application/json" \
-  -d '{"Image": "alpine", "Cmd": ["sh"]}'
-
-# JSON形式の検証ツール（jq）で事前チェック
-echo '{"Image": "alpine"}' | jq .
+podman run --memory mycontainer ubuntu:latest
+podman run ubuntu:latest --name test-container
 ```
 
-[JSON](/glossary/json/)形式を整形・検証してから送信してください。jq などのツールを使うとシンタックスエラーを事前に検出できます。
+**After（修正後）：**
+
+```bash
+podman run --memory 512m --name test-container ubuntu:latest
+podman run --name test-container ubuntu:latest
+```
+
+**2. イメージ名またはタグの形式が不正である**
+
+イメージ名に大文字が含まれている、タグに不正な文字が使用されている、またはレジストリURL の書き方が間違っている場合、リクエストが解析できず 400 エラーが返されます。イメージ名は小文字で、タグには英数字とハイフン、アンダースコア、ドット、コロンのみが許可されます。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+podman pull MyImage:Latest
+podman run myregistry.com:5000/app image:v1@sha256
+```
+
+**After（修正後）：**
+
+```bash
+podman pull myimage:latest
+podman run myregistry.com:5000/app:v1
+```
+
+**3. レジストリ認証情報の形式が不正である**
+
+`podman login` 時にレジストリURL の形式が間違っていたり、認証トークンが `auth.json` に不正な形式で保存されたりすると、プル操作で 400 エラーが発生します。特にプライベートレジストリを使用する場合、URL にプロトコルスキーム（`https://` など）を含める必要があります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+podman login myregistry.com:5000
+# auth.json が破損している場合
+podman pull myregistry.com:5000/private-app:latest
+```
+
+**After（修正後）：**
+
+```bash
+podman login https://myregistry.com:5000
+podman pull myregistry.com:5000/private-app:latest
+```
+
+**4. ポート指定やネットワークオプションの形式が不正である**
+
+`-p` フラグでポートマッピングを指定する際、形式が違うと 400 エラーが発生します。正しい形式は `-p <host-port>:<container-port>` または `-p <host-ip>:<host-port>:<container-port>` です。また、`--net` オプションで存在しないネットワークを指定した場合も同様です。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+podman run -p 8080-80 ubuntu:latest
+podman run --net invalid-network ubuntu:latest
+```
+
+**After（修正後）：**
+
+```bash
+podman run -p 8080:80 ubuntu:latest
+podman run --net bridge ubuntu:latest
+```
+
+## Podman 固有の注意点
+
+Podman のリモートAPIサーバーを使用している場合、HTTP リクエストの `Content-Type` ヘッダーが正しく設定されていないと 400 エラーが発生します。`application/json` を指定し、リクエストボディが有効な JSON 形式であることを確認してください。
+
+Podman Socket API を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古いバージョンの API パスを使用すると 400 エラーが返されます。
+
+また、SELinux が有効な環境では、socket ファイルのパーミッションが不正な場合もリクエスト解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
 
 ## それでも解決しない場合
 
-Podmanの[ログ](/glossary/ログ/)を詳細に確認します。`--log-level=debug` フラグを使うか、systemdジャーナルで詳細なエラーメッセージを見ることで、[リクエスト](/glossary/リクエスト/)のどの部分が問題かが判明します。
+Podman デーモンの詳細ログを有効にしてエラーの詳細を確認します。
 
 ```bash
-# デバッグレベルでのログ出力
-podman --log-level=debug run <イメージ名>
-
-# systemdジャーナル確認
-journalctl -u podman -n 50
+podman --log-level debug run <options>
 ```
 
-また、コンテナレジストリの認証情報が古いか無効な場合も400[エラー](/glossary/エラー/)になります。`podman logout` で[クレデンシャル](/glossary/クレデンシャル/)をクリアし、必要に応じて `podman login` で再度認証してください。
+ログファイルが記録されている場合は以下で確認します。
+
+```bash
+journalctl -u podman --no-pager | tail -50
+```
+
+公式ドキュメント「Podman Run Options」および「Podman API」ページで、各オプションの正確な形式と使用例を確認してください。
+
+GitHub の Podman Issues ページ（https://github.com/containers/podman/issues）で、類似の問題が報告されていないか検索することも有効です。環境固有の問題（Podman バージョン、ホストOS、コンテナランタイム）を報告する際は、`podman --version` と `podman info` の出力を含めてください。
 
 ---
 

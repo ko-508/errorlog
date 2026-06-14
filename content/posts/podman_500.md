@@ -8,93 +8,231 @@ service: "Podman"
 error_type: "500"
 components: []
 related_services: ["SELinux", "journalctl"]
+lastmod: 2026-06-14
 ---
-Podman 500 [エラー](/glossary/エラー/)は内部的な予期しない[エラー](/glossary/エラー/)が発生したことを示す深刻な[エラー](/glossary/エラー/)です。ストレージ破損やディスク容量不足が原因となることが多いため、段階的に対処する必要があります。
 
-## よくある原因
+## エラーの概要
 
-**Podmanのストレージが破損している**
+Podman 500 エラーは、Podman デーモンで予期しない内部エラーが発生したことを示します。ストレージ破損、ディスク容量不足、権限問題によって発生することが多く、コンテナの起動・管理・削除といった基本的な操作が失敗します。このエラーが発生した場合、Podman のストレージとシステムリソースの状態を段階的に確認する必要があります。
 
-Podmanは[コンテナ](/glossary/コンテナ/)のメタデータとレイヤーをローカルストレージに保存していますが、不正なシャットダウンや予期しない電源遮断によってこのストレージが破損することがあります。破損すると、Podmanが[コンテナ](/glossary/コンテナ/)の情報を読み込めなくなり、500[エラー](/glossary/エラー/)が発生します。
+## 実際のエラーメッセージ例
 
-**[コンテナ](/glossary/コンテナ/)のオーバーレイファイルシステムに問題がある**
-
-Podmanは[コンテナ](/glossary/コンテナ/)のファイルシステムを管理するためにオーバーレイFS（ファイルシステムを階層化する仕組み）を使用しています。このオーバーレイの[設定ファイル](/glossary/設定ファイル/)が破損したり矛盾したりすると、Podmanは[コンテナ](/glossary/コンテナ/)を起動・管理できず、500[エラー](/glossary/エラー/)で応答します。
-
-**ディスクの空き容量がなくなっている**
-
-Podmanがコンテナイメージをプルしたり、[コンテナ](/glossary/コンテナ/)を実行したりする際にディスク容量が必要ですが、容量不足になるとファイル書き込みに失敗し、内部[エラー](/glossary/エラー/)が発生します。特に[コンテナ](/glossary/コンテナ/)の操作中に容量が満杯になった場合、ストレージの状態が不安定になります。
-
-## 解決手順
-
-**ステップ 1：ディスク容量を確認する**
-
-まずは最も簡単な原因を排除します。ディスク使用状況を確認してください。
-
-```bash
-df -h
+```json
+{
+  "error": "internal error",
+  "code": 500,
+  "message": "Error while removing container: container storage corrupted"
+}
 ```
 
-出力結果で `/` や `/var` のパーティションが 90% 以上になっていないか確認します。もし容量が逼迫している場合は、不要なファイルを削除してから先に進みます。
-
-**ステップ 2：Podmanの不要データを削除する**
-
-ディスク容量に余裕がある場合でも、使用していない[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)が蓄積していることがあります。以下の[コマンド](/glossary/コマンド/)で不要データをクリーンアップします。
-
 ```bash
-podman system prune -a
+$ podman run -it alpine /bin/sh
+Error: error creating container storage: mkdir /var/lib/containers/storage/overlay2/<id>/merged: no space left on device
 ```
 
-この[コマンド](/glossary/コマンド/)は使用されていない[コンテナ](/glossary/コンテナ/)、[イメージ](/glossary/イメージ/)、[ネットワーク](/glossary/ネットワーク/)を削除します。`-a` フラグをつけるとすべての未使用[イメージ](/glossary/イメージ/)を削除します。削除対象の一覧が表示されるので、確認して進めてください。
+## よくある原因と解決手順
 
-**ステップ 3：[ログ](/glossary/ログ/)を確認して具体的な[エラー](/glossary/エラー/)内容を把握する**
+### 原因1：ディスク容量不足
 
-Podman関連の[ログファイル](/glossary/ログファイル/)を確認することで、より詳細な[エラー](/glossary/エラー/)原因を特定できます。
+Podman のストレージディレクトリ（通常 `/var/lib/containers/storage`）の容量がいっぱいになると、新しいレイヤーやコンテナメタデータの書き込みに失敗し、500 エラーが発生します。
+
+**原因の確認：**
 
 ```bash
-journalctl -u podman -n 50
+df -h /var/lib/containers
 ```
 
-システムジャーナルの最新 50 行を確認すると、Podmanが記録した詳細なエラーメッセージが表示されます。ストレージ破損を示すメッセージ（例：「storage driver error」）がないか確認します。
+ファイルシステムの使用率が 100% に近い場合、これが原因です。
 
-**ステップ 4：ストレージをリセットする（最後の手段）**
-
-上記の手順でも解決しない場合、Podmanのストレージを完全にリセットします。**この[コマンド](/glossary/コマンド/)はすべての[コンテナ](/glossary/コンテナ/)と[イメージ](/glossary/イメージ/)を削除する**ため、本番環境での実行には特に注意が必要です。
+**Before（エラーが起きるコード）：**
 
 ```bash
-podman system reset
+$ podman ps
+Error: error listing containers: FIXME: container.Driver.GetGraphDriver failed: <nil>
 ```
 
-実行前に、重要な[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)をバックアップしておくことを強く推奨します。この[コマンド](/glossary/コマンド/)の後、Podmanの初期状態から再度構築する必要があります。
-
-リセット後、再度[イメージ](/glossary/イメージ/)をプルして[コンテナ](/glossary/コンテナ/)を起動してください。
+**After（修正後）：**
 
 ```bash
-podman pull <your-image-name>
-podman run -d <your-image-name>
+# 不要なイメージ・コンテナを削除
+podman image prune -a -f
+podman container prune -f
+
+# または古いイメージを明示的に削除
+podman rmi <image_id>
+
+# その後、ストレージ情報を確認
+podman system df
+```
+
+### 原因2：ストレージメタデータの破損
+
+不正なシャットダウンや Podman デーモンの強制終了によって、`/var/lib/containers/storage` 配下の設定ファイルやメタデータが破損することがあります。特に `containers.json` や overlay2 の統計ファイルが影響を受けやすいです。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+$ podman ps
+Error: error reading containers: json: cannot unmarshal string into Go value of type struct { ... }
+```
+
+**After（修正後）：**
+
+```bash
+# Podman デーモンを停止
+systemctl stop podman
+# または
+systemctl stop podman.socket
+
+# ストレージの整合性チェック
+podman system reset --force
+
+# デーモンを再起動
+systemctl start podman
+systemctl start podman.socket
+
+# 動作確認
+podman ps
+```
+
+### 原因3：オーバーレイファイルシステムの不一致
+
+overlay2 ドライバを使用している場合、lower レイヤー・upper レイヤー・work ディレクトリ間の構造が不一致になることがあります。特にコンテナ削除時の処理が中断された場合、orphaned な overlay ディレクトリが残存し、メタデータ読み込み時に 500 エラーが発生します。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+$ podman rm <container_id>
+Error: error removing container <id>: remove overlay mount: internal error
+```
+
+**After（修正後）：**
+
+```bash
+# まず Podman デーモンを停止
+systemctl stop podman
+systemctl stop podman.socket
+
+# orphaned なディレクトリを確認（手動確認用）
+ls /var/lib/containers/storage/overlay2/
+
+# ストレージデータベースの修復
+podman system reset --force
+
+# または、より安全に incremental で修復
+podman storage reset
+podman system gc --all
+
+# デーモン再起動
+systemctl start podman
+systemctl start podman.socket
+```
+
+### 原因4：SELinux または AppArmor のラベル付け問題
+
+SELinux または AppArmor が有効な場合、ストレージディレクトリのセキュリティコンテキストが不正な状態にあるとアクセス拒否が発生し、500 エラーとなります。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+$ podman images
+Error: error accessing store: error looking up storage metadata: permission denied
+```
+
+**After（修正後）：**
+
+```bash
+# SELinux の場合
+sudo restorecon -Rv /var/lib/containers/
+
+# ラベルの確認（SELinux 有効時）
+ls -laZ /var/lib/containers/storage/
+
+# Podman デーモン再起動
+systemctl restart podman
+```
+
+## ツール固有の注意点
+
+### Rootless vs Rootfull 環境での相違
+
+**Rootfull（root で実行）：**
+```bash
+podman ps  # /var/lib/containers/ 使用
+```
+
+**Rootless（一般ユーザーで実行）：**
+```bash
+podman ps  # ~/.local/share/containers/ 使用
+```
+
+Rootless 環境でのストレージ破損の場合、該当ユーザーのホームディレクトリを確認してください。
+
+```bash
+du -sh ~/.local/share/containers/
+```
+
+### Podman v4.x 以降での自動修復機能
+
+Podman v4.4 以降では、一部のストレージ不整合は自動的に検出・修復されます。それでも 500 エラーが続く場合は、以下を実行します。
+
+```bash
+podman system reset --force
+```
+
+このコマンドはすべてのコンテナ・イメージ・ストレージを削除するため、重要なデータは事前にバックアップしてください。
+
+### systemd-logind との相互作用
+
+Rootless 環理でシステムシャットダウン時に Podman デーモンが強制終了されると、セッション中のコンテナ管理状態が不整合になることがあります。その場合は user session を明示的にリセットします。
+
+```bash
+loginctl terminate-user <username>
+systemctl --user reset-failed
 ```
 
 ## それでも解決しない場合
 
-上記の手順を実行しても[エラー](/glossary/エラー/)が続く場合は、システムレベルの問題である可能性があります。以下を確認してください。
+### ログを確認する
 
-- **ファイルシステムの破損**：`fsck` [コマンド](/glossary/コマンド/)でファイルシステムの整合性をチェックしてください。ただし、マウント状態では実行できないため、ライブUSBなどから起動して実行します。
-
-- **SELinux の設定**：RHEL系システムを使用している場合、SELinuxがPodmanの操作をブロックしていないか確認します。`getenforce` で状態を確認し、必要に応じてコンテキストをリセットしてください。
-
-- **Podmanの再インストール**：パッケージマネージャー経由で Podman をアンインストール後、再度インストールすることで、破損した[設定ファイル](/glossary/設定ファイル/)を修復できます。
+Podman デーモンのジャーナルログを確認します。
 
 ```bash
-# Debian/Ubuntu の場合
-sudo apt remove podman
-sudo apt install podman
+# Systemd 管理下の Podman
+journalctl -u podman -n 100
 
-# RHEL/CentOS の場合
-sudo dnf remove podman
-sudo dnf install podman
+# User-level Podman（Rootless）
+journalctl --user -u podman --all -n 100
 ```
 
-それでも問題が解決しない場合は、Podmanのバージョンアップが有効な可能性もあります。公式ドキュメント（https://podman.io）で最新の既知問題を確認してください。
+### デバッグモードで再実行
+
+Podman のデバッグモードでより詳細な情報を取得できます。
+
+```bash
+podman --log-level debug run alpine echo test
+```
+
+### ストレージドライバの再構成
+
+`/etc/containers/storage.conf` が破損している可能性があります。バックアップを取った上で、デフォルト設定にリセットしてください。
+
+```bash
+# バックアップ
+cp /etc/containers/storage.conf /etc/containers/storage.conf.bak
+
+# デフォルト設定をリセット
+rm /etc/containers/storage.conf
+podman system reset --force
+```
+
+### 公式ドキュメント・サポートリソース
+
+- [Podman トラブルシューティング](https://docs.podman.io/en/latest/)
+- [Podman ストレージドライバドキュメント](https://docs.podman.io/en/latest/markdown/podman.1.html)
+- [GitHub Issues - Podman](https://github.com/containers/podman/issues)
+
+デバッグログと `podman info --format json` の出力をまとめて報告すると、問題解決が加速します。
 
 ---
 

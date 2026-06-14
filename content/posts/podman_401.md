@@ -1,7 +1,7 @@
 ---
 title: "Podman の 401 エラー：原因と解決策"
 date: 2026-05-28
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 description: "Podmanでコンテナイメージをpullやpushしようとすると、401認証エラーが発生することがあります。このエラーはレジストリへの認証に失敗したときに出現し、適切な認証情報がないか有効期限切れの状態を示しています。"
 tags: ["Podman"]
 errorCode: "401"
@@ -11,79 +11,161 @@ components: []
 related_services: ["Docker Hub", "GCR"]
 ---
 
-Podmanでコンテナイメージをpullやpushしようとすると、401[認証](/glossary/認証/)[エラー](/glossary/エラー/)が発生することがあります。この[エラー](/glossary/エラー/)は[レジストリ](/glossary/レジストリ/)への[認証](/glossary/認証/)に失敗したときに出現し、適切な認証情報がないか有効期限切れの状態を示しています。
+## エラーの概要
 
-## よくある原因
+Podmanでコンテナイメージをpullやpushしようとすると、401認証エラーが発生することがあります。このエラーはレジストリへの認証に失敗したときに出現し、適切な認証情報がないか、あるいは有効期限切れの状態を示しています。Docker互換性を重視するPodmanでも認証メカニズムは同様であり、レジストリごとに異なる認証情報を管理する必要があります。
 
-### podman loginを実行していない
-Podmanで[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)を取得するには、事前に[認証](/glossary/認証/)を完了する必要があります。[ログイン](/glossary/ログイン/)処理を行わずにpull[コマンド](/glossary/コマンド/)を実行すると、認証情報がないため401[エラー](/glossary/エラー/)が発生します。特に新しい環境構築時や、別の[レジストリ](/glossary/レジストリ/)を利用する場合に見落とされやすいです。
+## 実際のエラーメッセージ例
 
-### 認証トークンの有効期限が切れている
-[レジストリ](/glossary/レジストリ/)が発行した[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限が設定されていることが多いです。数週間から数ヶ月経過すると、以前[ログイン](/glossary/ログイン/)した認証情報が無効化されてしまい、401[エラー](/glossary/エラー/)が返されます。
-
-### ~/.config/containers/auth.jsonの認証情報が古い
-Podmanは[ログイン](/glossary/ログイン/)時の認証情報を `~/.config/containers/auth.json` に保存します。このファイルの内容が古い、破損している、または複数の[レジストリ](/glossary/レジストリ/)情報が混在していると、401[エラー](/glossary/エラー/)が発生することがあります。
-
-## 解決手順
-
-### ステップ1：現在のログイン状態を確認する
-まず、どの[レジストリ](/glossary/レジストリ/)に対して認証情報が保存されているか確認します。
-
-```bash
-# auth.jsonの内容を確認
-cat ~/.config/containers/auth.json
+```
+Error: initializing source docker://registry.example.com/myimage:latest: pinging docker registry v2: responding with status 401 Unauthorized
 ```
 
-ファイルが存在しない場合や、対象の[レジストリ](/glossary/レジストリ/)URLが記載されていなければ、[ログイン](/glossary/ログイン/)が必要です。
-
-### ステップ2：対象のレジストリに再ログインする
-次の[コマンド](/glossary/コマンド/)で[レジストリ](/glossary/レジストリ/)に対してpodman loginを実行します。[レジストリ](/glossary/レジストリ/)URLは正確に指定してください。
-
-```bash
-# Docker Hubの場合
-podman login docker.io
-
-# プライベートレジストリの場合（例：プライベートGCR）
-podman login gcr.io
-
-# ユーザー名とパスワードを聞かれるので入力する
-# Username: <your-username>
-# Password: <your-password>
+```json
+{
+  "error": "unauthorized",
+  "error_description": "authentication required",
+  "status": 401
+}
 ```
 
-[ログイン](/glossary/ログイン/)が成功すると、認証情報が `~/.config/containers/auth.json` に保存されます。
+```
+WARN[0000] Failed to authenticate to registry.example.com: 401 Unauthorized
+error pulling image "registry.example.com/myimage:latest": unable to pull registry.example.com/myimage:latest: Error response from daemon: unauthorized: authentication required
+```
 
-### ステップ3：auth.jsonを削除して再ログインする
-上記ステップで解決しない場合、auth.jsonを完全に削除した上で再度[ログイン](/glossary/ログイン/)してください。この方法で古い認証情報をクリアできます。
+## よくある原因と解決手順
+
+### 原因1: podman loginを実行していない
+
+Podmanでレジストリからイメージを取得するには、事前に認証を完了する必要があります。ログイン処理を行わずにpullコマンドを実行すると、認証情報がないため401エラーが発生します。特に新しい環境構築時や別のレジストリを利用する場合に見落とされやすいです。
+
+**Before（エラーが起きるコード）：**
 
 ```bash
-# auth.jsonを削除
+podman pull registry.example.com/myimage:latest
+# Error: initializing source docker://registry.example.com/myimage:latest: pinging docker registry v2: responding with status 401 Unauthorized
+```
+
+**After（修正後）：**
+
+```bash
+podman login registry.example.com
+# username: <your-username>
+# password: <your-password>
+podman pull registry.example.com/myimage:latest
+```
+
+### 原因2: 認証トークンの有効期限が切れている
+
+レジストリが発行した認証トークンには有効期限があります。特にGitHub Container RegistryやDocker Hubの一時トークンは短期間で失効するため、古い認証情報が `~/.config/containers/auth.json` に残っていると401エラーが起きます。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# 数週間前にログインした古い認証情報で実行
+podman pull ghcr.io/myorg/myimage:latest
+# Error: responding with status 401 Unauthorized
+```
+
+**After（修正後）：**
+
+```bash
+# 既存の認証情報をクリア
+podman logout ghcr.io
+
+# 新しく再認証
+podman login ghcr.io
+# username: <your-username>
+# password: <your-token>
+
+podman pull ghcr.io/myorg/myimage:latest
+```
+
+### 原因3: 認証情報の形式が間違っている
+
+Podmanの `auth.json` ファイルが破損していたり、手動編集で不正な形式になっていたりすると、レジストリが認証情報を正しく解析できず401エラーが発生します。特にBase64エンコーディングが不完全な場合に問題が生じやすいです。
+
+**Before（エラーが起きるコード）：**
+
+```yaml
+# ~/.config/containers/auth.json の例（不正な形式）
+{
+  "auths": {
+    "registry.example.com": {
+      "auth": "dXNlcm5hbWU6cGFzc3dvcmQ"  # Base64エンコーディングが不完全
+    }
+  }
+}
+```
+
+**After（修正後）：**
+
+```bash
+# auth.jsonをリセット
 rm ~/.config/containers/auth.json
 
-# 再度ログイン処理を実行
-podman login <レジストリURL>
+# podman loginで正しい形式で再作成
+podman login registry.example.com
+# username: <your-username>
+# password: <your-password>
+
+# 確認: auth.jsonが正しい構造になっている
+test -f ~/.config/containers/auth.json && echo "認証ファイルが作成されました"
 ```
 
-削除後、新しい認証情報が`~/.config/containers/auth.json`に保存されます。
+### 原因4: 使用しているユーザーアカウントが異なっている
 
-### ステップ4：レジストリURLが正しく指定されているか確認する
-pullやpush[コマンド](/glossary/コマンド/)を実行する際、指定している[レジストリ](/glossary/レジストリ/)URLが正確か確認します。[レジストリ](/glossary/レジストリ/)URLが異なると、別の[レジストリ](/glossary/レジストリ/)として認識され、[認証](/glossary/認証/)[エラー](/glossary/エラー/)が発生します。
+Podmanは各ユーザーごとに独立した認証情報を `~/.config/containers/auth.json` に保存します。root権限で実行する場合と通常ユーザーで実行する場合で、異なる認証情報を使うことになり、一方がログイン済みでも他方は未認証状態になる可能性があります。
+
+**Before（エラーが起きるコード）：**
 
 ```bash
-# 正しいレジストリURLでpullを実行
-podman pull docker.io/library/ubuntu:latest
+# 通常ユーザーでログイン
+podman login registry.example.com
 
-# pullが成功することを確認
-podman images
+# root権限で実行（別の認証情報を参照）
+sudo podman pull registry.example.com/myimage:latest
+# Error: responding with status 401 Unauthorized
 ```
 
-[ログイン](/glossary/ログイン/)後にpull[コマンド](/glossary/コマンド/)を再度実行して、401[エラー](/glossary/エラー/)が解消されたか確認します。
+**After（修正後）：**
+
+```bash
+# root権限でログイン
+sudo podman login registry.example.com
+# username: <your-username>
+# password: <your-password>
+
+# その後、root権限で実行
+sudo podman pull registry.example.com/myimage:latest
+```
+
+## Podman固有の注意点
+
+**auth.json のパーミッション管理**: Podmanの認証情報ファイルは自動的にパーミッション600で作成されますが、手動編集後にパーミッションが広げられていると、セキュリティの問題で認証が拒否される場合があります。編集後は `chmod 600 ~/.config/containers/auth.json` で確認してください。
+
+**マルチアーキテクチャイメージの取得**: Podman 4.0以降では、異なるプラットフォーム向けイメージを取得する際、レジストリが厳格な認証を要求することがあります。プライベートレジストリの場合、必ず適切なユーザーで `podman login` してください。
+
+**Podman Desktopでの認証**: Podman Desktopを使用している場合、GUIの認証管理が有効ですが、コマンドラインから直接 `podman` コマンドを実行する場合は、コマンドラインでも別途 `podman login` が必要です。GUIでのログインだけでは不十分です。
+
+**ホスト間での auth.json の複製**: 複数のホストで同じ認証情報を使う場合、セキュアではない方法（平文でのコピー）は避け、各ホストで独立して `podman login` を実行してください。
 
 ## それでも解決しない場合
 
-[ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が認証通信をブロックしていないか確認してください。企業[ネットワーク](/glossary/ネットワーク/)では[HTTP](/glossary/http/)[プロキシ](/glossary/プロキシ/)経由で[レジストリ](/glossary/レジストリ/)にアクセスする必要があるケースがあります。Podmanの場合、[プロキシ](/glossary/プロキシ/)設定は `~/.config/containers/registries.conf` で行います。
+**デバッグログの確認**: `PODMAN_LOG_LEVEL=debug podman pull <image>` でデバッグログを出力し、認証ヘッダーがどう送信されているかを確認してください。
 
-また、[レジストリ](/glossary/レジストリ/)が要求する[スコープ](/glossary/スコープ/)（scope）が限定されている場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の生成時に[スコープ](/glossary/スコープ/)を指定しなければならないことがあります。詳細は[レジストリ](/glossary/レジストリ/)の公式ドキュメントを確認してください。
+**レジストリのログ確認**: プライベートレジストリを運用している場合、レジストリサーバー側のログで拒否理由を確認できます。例えばRegistry V2の標準実装では `/var/log/registry/` 配下にアクセスログが記録されます。
+
+**ネットワーク接続の確認**: ファイアウォールやプロキシが認証リクエストをブロックしていないか、`curl -v https://registry.example.com/v2/` でHTTP応答を確認してください。
+
+**公式ドキュメント参照**:
+- [Podman ログイン - 公式ドキュメント](https://docs.podman.io/en/latest/markdown/podman-login.1.html)
+- [認証設定 - containers-auth.json](https://github.com/containers/image/blob/main/docs/containers-auth.json.5.md)
+
+**コミュニティリソース**:
+- [Podman GitHub Issues - 認証関連](https://github.com/containers/podman/issues?q=is%3Aissue+401)
+- [Red Hat Forum - Podmanコミュニティ](https://access.redhat.com/discussions/)
 
 ---
 
