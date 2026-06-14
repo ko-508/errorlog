@@ -11,11 +11,11 @@ related_services: ["curl", "Python requests"]
 ---
 ## エラーの概要
 
-GitLabの429エラー（Too Many Requests）は、GitLab APIのレート制限に達したことを示します。ユーザーまたはCI/CDパイプラインが短時間に許可された上限を超えるAPIリクエストを送信した場合に発生します。デフォルトのレート制限はエンドポイントやインスタンスの構成によって異なり、一般的には認証ユーザーは1分間に600リクエスト、未認証の場合は300リクエスト程度とされていますが、パッケージレジストリAPIなど特定のエンドポイントではより高い制限が適用される場合もあります。
+GitLabの429[エラー](/glossary/エラー/)（Too Many Requests）は、GitLab [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したことを示します。ユーザーまたは[CI/CD](/glossary/ci-cd/)パイプラインが短時間に許可された上限を超える[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を送信した場合に発生します。デフォルトの[レート制限](/glossary/レート制限/)は[エンドポイント](/glossary/エンドポイント/)や[インスタンス](/glossary/インスタンス/)の構成によって異なり、一般的には[認証](/glossary/認証/)ユーザーは1分間に600[リクエスト](/glossary/リクエスト/)、未認証の場合は300[リクエスト](/glossary/リクエスト/)程度とされていますが、パッケージレジストリ[API](/glossary/api/)など特定の[エンドポイント](/glossary/エンドポイント/)ではより高い制限が適用される場合もあります。
 
 ## 実際のエラーメッセージ例
 
-GitLab APIレスポンス：
+GitLab [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)：
 
 ```json
 {
@@ -27,7 +27,7 @@ GitLab APIレスポンス：
 }
 ```
 
-curlコマンドでのレスポンス：
+curl[コマンド](/glossary/コマンド/)での[レスポンス](/glossary/レスポンス/)：
 
 ```bash
 $ curl -H "PRIVATE-TOKEN: <your-access-token>" https://gitlab.example.com/api/v4/projects
@@ -44,7 +44,7 @@ Retry-After: 60
 
 ### 原因1：短時間に多数のAPIリクエストを送出する処理
 
-スクリプトやツールが迅速に連続したAPIコールを実行する際、GitLabのレート制限に即座に到達します。例えば、多数のプロジェクトやグループのメタデータを一括取得する場合、ループ処理で制限を超えやすくなります。
+スクリプトやツールが迅速に連続した[API](/glossary/api/)コールを実行する際、GitLabの[レート制限](/glossary/レート制限/)に即座に到達します。例えば、多数のプロジェクトやグループのメタデータを一括取得する場合、ループ処理で制限を超えやすくなります。
 
 **解決策：ページング機能を使用して効率的に取得する**
 
@@ -86,9 +86,9 @@ while True:
 
 ### 原因2：CI/CDパイプラインが短時間に大量のAPIコールを実行している
 
-GitLabのCI/CDパイプラインで複数のジョブが並行実行される場合、各ジョブが独立してAPIを呼び出すと累積的にレート制限に達します。特に、依存関係の解決やアーティファクトダウンロードで多数のAPI呼び出しが発生する環境では顕著です。
+GitLabの[CI/CD](/glossary/ci-cd/)パイプラインで複数のジョブが並行実行される場合、各ジョブが独立して[API](/glossary/api/)を呼び出すと累積的に[レート制限](/glossary/レート制限/)に達します。特に、依存関係の解決やアーティファクトダウンロードで多数の[API](/glossary/api/)呼び出しが発生する環境では顕著です。
 
-**解決策：ページング機能を活用し、複数のAPIコールを逐次実行する**
+**解決策：ページング機能を活用し、複数の[API](/glossary/api/)コールを逐次実行する**
 
 ```yaml
 stages:
@@ -120,9 +120,9 @@ deploy_job:
 
 ### 原因3：レスポンスヘッダーの確認なしに即座に再試行している
 
-429エラーを受け取った後、RateLimit-Resetヘッダーを確認せず、すぐに再試行するとさらに制限に抵触します。適切な待機時間を設定することが重要です。
+429[エラー](/glossary/エラー/)を受け取った後、RateLimit-Reset[ヘッダー](/glossary/ヘッダー/)を確認せず、すぐに再試行するとさらに制限に抵触します。適切な待機時間を設定することが重要です。
 
-**解決策：RateLimit-Resetヘッダーから次のリセット時刻を取得して待機する**
+**解決策：RateLimit-Reset[ヘッダー](/glossary/ヘッダー/)から次のリセット時刻を取得して待機する**
 
 ```javascript
 async function fetchProjectData(projectId) {
@@ -164,34 +164,34 @@ async function fetchProjectData(projectId) {
 
 ## GitLab固有の注意点
 
-GitLabのレート制限は、トークンのスコープやユーザーのロール、エンドポイントによって異なります。個人用アクセストークン（Personal Access Token）を使用する場合、該当するトークンに関連付けられたユーザーの制限が適用されます。GitLab管理者は、`/api/v4/admin/application_settings`エンドポイントを通じてインスタンス全体のレート制限を確認・調整可能です。
+GitLabの[レート制限](/glossary/レート制限/)は、[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)やユーザーの[ロール](/glossary/ロール/)、[エンドポイント](/glossary/エンドポイント/)によって異なります。個人用アクセストークン（Personal Access Token）を使用する場合、該当する[トークン](/glossary/トークン/)に関連付けられたユーザーの制限が適用されます。GitLab管理者は、`/api/v4/admin/application_settings`[エンドポイント](/glossary/エンドポイント/)を通じて[インスタンス](/glossary/インスタンス/)全体の[レート制限](/glossary/レート制限/)を確認・調整可能です。
 
-また、CI/CDパイプライン内で使用する`$CI_JOB_TOKEN`はジョブ固有のトークンで、個人用アクセストークンとは独立したレート制限が適用される場合があります。GraphQL APIを使用する場合、REST APIとは異なるクエリの複雑さに基づいたモデルが採用されているため注意が必要です。
+また、[CI/CD](/glossary/ci-cd/)パイプライン内で使用する`$CI_JOB_TOKEN`はジョブ固有の[トークン](/glossary/トークン/)で、個人用アクセストークンとは独立した[レート制限](/glossary/レート制限/)が適用される場合があります。[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使用する場合、[REST](/glossary/rest/) [API](/glossary/api/)とは異なる[クエリ](/glossary/クエリ/)の複雑さに基づいた[モデル](/glossary/モデル/)が採用されているため注意が必要です。
 
-バッチ処理への転換では、`per_page`パラメーターを100（最大値）に設定し、ページネーション機能を活用することで、単位時間あたりのリクエスト数を大幅に削減できます。
+バッチ処理への転換では、`per_page`パラメーターを100（最大値）に設定し、ページネーション機能を活用することで、単位時間あたりの[リクエスト](/glossary/リクエスト/)数を大幅に削減できます。
 
 ## それでも解決しない場合
 
-まず、GitLabインスタンスの管理画面から現在のレート制限設定を確認してください。管理者権限がある場合、以下のコマンドでインスタンスレベルの制限を確認できます：
+まず、GitLab[インスタンス](/glossary/インスタンス/)の管理画面から現在のレート制限設定を確認してください。[管理者権限](/glossary/管理者権限/)がある場合、以下の[コマンド](/glossary/コマンド/)でインスタンスレベルの制限を確認できます：
 
 ```bash
 curl -H "PRIVATE-TOKEN: <admin-token>" \
      "https://gitlab.example.com/api/v4/admin/application_settings" | grep -i rate
 ```
 
-ユーザーレベルの制限状況は、任意のAPI呼び出しのレスポンスヘッダーから確認できます：
+ユーザーレベルの制限状況は、任意の[API](/glossary/api/)呼び出しのレスポンスヘッダーから確認できます：
 
 ```bash
 curl -i -H "PRIVATE-TOKEN: <your-access-token>" \
      "https://gitlab.example.com/api/v4/user" | grep -i "ratelimit"
 ```
 
-継続的に429エラーが発生する場合は、GitLab管理者に以下の情報とともに相談してください：
+継続的に429[エラー](/glossary/エラー/)が発生する場合は、GitLab管理者に以下の情報とともに相談してください：
 
-- エラーが発生する時間帯と頻度
-- 使用しているAPIエンドポイント
-- リクエスト送信元のIP アドレスやトークン種別
-- インスタンスのGitLab バージョン
+- [エラー](/glossary/エラー/)が発生する時間帯と頻度
+- 使用している[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)
+- [リクエスト](/glossary/リクエスト/)送信元のIP アドレスや[トークン](/glossary/トークン/)種別
+- [インスタンス](/glossary/インスタンス/)のGitLab バージョン
 
 ---
 

@@ -13,7 +13,7 @@ related_services: ["Node.js", "Docker"]
 
 ## エラーの概要
 
-Nginx の 503 Service Unavailable エラーは、Nginx がリクエストを処理するバックエンドサーバー（アプリケーションサーバーなど）に接続できないか、設定されたバックエンドが全て利用不可能な状態を示します。クライアントが発した正当なリクエストであっても、サーバー側の問題によって処理できないため、Nginx がこのエラーを返します。このエラーは一時的な問題である場合が多く、バックエンド側の復旧や Nginx 設定の修正で解決することがほとんどです。
+Nginx の 503 Service Unavailable [エラー](/glossary/エラー/)は、Nginx が[リクエスト](/glossary/リクエスト/)を処理するバックエンドサーバー（アプリケーションサーバーなど）に接続できないか、設定された[バックエンド](/glossary/バックエンド/)が全て利用不可能な状態を示します。クライアントが発した正当な[リクエスト](/glossary/リクエスト/)であっても、[サーバー](/glossary/サーバー/)側の問題によって処理できないため、Nginx がこの[エラー](/glossary/エラー/)を返します。この[エラー](/glossary/エラー/)は一時的な問題である場合が多く、[バックエンド](/glossary/バックエンド/)側の復旧や Nginx 設定の修正で解決することがほとんどです。
 
 ## 実際のエラーメッセージ例
 
@@ -32,7 +32,7 @@ Nginx のアクセスログに記録される場合：
 192.168.1.100 - - [20/Jan/2024 10:45:32 +0900] "GET /api/users HTTP/1.1" 503 197 "-" "Mozilla/5.0"
 ```
 
-Nginx のエラーログに記録される詳細情報：
+Nginx の[エラーログ](/glossary/エラーログ/)に記録される詳細情報：
 
 ```
 2024/01/20 10:45:32 [error] 1234#1234: *56 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET /api/users HTTP/1.1", upstream: "http://127.0.0.1:8080/api/users"
@@ -44,7 +44,7 @@ Nginx のエラーログに記録される詳細情報：
 
 Nginx の upstream として設定されているアプリケーションサーバーが停止しているため、接続が拒否されます。これは最も一般的な原因です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # アプリケーションサーバーが停止している状態でリクエストを送信
@@ -67,9 +67,9 @@ netstat -tlnp | grep 8080
 
 ### 原因2：Nginx の upstream 設定が誤っている
 
-upstream で指定したホスト名やポート番号が間違っていたり、存在しないアドレスを指定している場合に発生します。
+upstream で指定したホスト名や[ポート](/glossary/ポート/)番号が間違っていたり、存在しないアドレスを指定している場合に発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```nginx
 upstream backend {
@@ -108,9 +108,9 @@ server {
 
 ### 原因3：バックエンドサーバーがリッスンしているポートが異なる
 
-Nginx の設定ではポート 8080 を指定しているが、実際のアプリケーションサーバーはポート 3000 でリッスンしているなど、ポート番号の不一致が原因となります。
+Nginx の設定では[ポート](/glossary/ポート/) 8080 を指定しているが、実際のアプリケーションサーバーは[ポート](/glossary/ポート/) 3000 でリッスンしているなど、[ポート](/glossary/ポート/)番号の不一致が原因となります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```nginx
 upstream backend {
@@ -118,7 +118,7 @@ upstream backend {
 }
 ```
 
-設定確認コマンド：
+設定確認[コマンド](/glossary/コマンド/)：
 
 ```bash
 # サーバーが実際にリッスンしているポート確認
@@ -138,7 +138,7 @@ upstream backend {
 
 複数のバックエンドサーバーを upstream に設定していても、全てが同時にダウンしている場合に発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```nginx
 upstream backend {
@@ -174,9 +174,9 @@ server {
 
 ### 原因5：ファイアウォールやセキュリティグループでポートがブロックされている
 
-クラウド環境やファイアウォール設定により、Nginx からバックエンドへの通信がブロックされている場合があります。
+[クラウド](/glossary/クラウド/)環境や[ファイアウォール](/glossary/ファイアウォール/)設定により、Nginx から[バックエンド](/glossary/バックエンド/)への[通信](/glossary/通信/)がブロックされている場合があります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # セキュリティグループまたはファイアウォールがポート8080をブロック
@@ -206,7 +206,7 @@ sudo netfilter-persistent save
 
 ### upstream のヘルスチェック設定が不十分
 
-デフォルトの Nginx ではアクティブなヘルスチェック機能が限定的です。upstream のサーバーが一時的に遅くなった場合、タイムアウトによって503が多発することがあります。
+デフォルトの Nginx ではアクティブな[ヘルスチェック](/glossary/ヘルスチェック/)機能が限定的です。upstream の[サーバー](/glossary/サーバー/)が一時的に遅くなった場合、[タイムアウト](/glossary/タイムアウト/)によって503が多発することがあります。
 
 ```nginx
 upstream backend {
@@ -226,7 +226,7 @@ server {
 
 ### proxy_intercept_errors と error_page の設定
 
-upstream が503を返す場合、Nginx はそれをクライアントに通す前にキャッシュ可能な静的ファイルを返すように設定できます。
+upstream が503を返す場合、Nginx はそれをクライアントに通す前に[キャッシュ](/glossary/キャッシュ/)可能な静的ファイルを返すように設定できます。
 
 ```nginx
 server {
@@ -245,7 +245,7 @@ server {
 
 ### upstream が複数のバックエンドを持つ場合の動作
 
-Nginx は設定内の upstream すべてにアクセスできない場合に503を返します。backup サーバーの活用や slow_start パラメータで段階的な負荷分散を実現できます。
+Nginx は設定内の upstream すべてにアクセスできない場合に503を返します。backup [サーバー](/glossary/サーバー/)の活用や slow_start [パラメータ](/glossary/パラメータ/)で段階的な負荷分散を実現できます。
 
 ```nginx
 upstream backend {
@@ -298,8 +298,8 @@ time curl http://127.0.0.1:8080/
 ### 公式ドキュメント参照
 
 - Nginx Module ngx_http_upstream_module：upstream モジュールの詳細設定方法
-- Nginx Module ngx_http_proxy_module：proxy_pass やタイムアウト設定の詳細
-- Nginx HTTP Health Checks（Nginx Plus）：アクティブなヘルスチェック機能
+- Nginx Module ngx_http_proxy_module：proxy_pass や[タイムアウト](/glossary/タイムアウト/)設定の詳細
+- Nginx [HTTP](/glossary/http/) Health Checks（Nginx Plus）：アクティブな[ヘルスチェック](/glossary/ヘルスチェック/)機能
 
 ### コミュニティリソース
 

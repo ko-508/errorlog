@@ -14,17 +14,17 @@ trend_incident: true
 
 ## エラーの概要
 
-Docker の 429 エラーは、HTTP ステータスコード 429（Too Many Requests）を意味し、短時間に送信されたリクエスト数がレート制限の上限を超えたことを示します。Docker Hub やプライベートレジストリに対して過度なアクセスが集中した場合、レート制限により一時的にリクエストが拒否されます。特に CI/CD パイプラインや複数マシンからの並行イメージプル、ビルドキャッシュの更新で頻繁に発生します。
+[Docker](/glossary/docker/) の 429 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 429（Too Many Requests）を意味し、短時間に送信された[リクエスト](/glossary/リクエスト/)数が[レート制限](/glossary/レート制限/)の上限を超えたことを示します。[Docker](/glossary/docker/) Hub や[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して過度なアクセスが集中した場合、[レート制限](/glossary/レート制限/)により一時的に[リクエスト](/glossary/リクエスト/)が拒否されます。特に [CI/CD](/glossary/ci-cd/) パイプラインや複数マシンからの並行イメージプル、ビルドキャッシュの更新で頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
-Docker コマンド実行時のエラーメッセージ：
+[Docker](/glossary/docker/) [コマンド](/glossary/コマンド/)実行時の[エラーメッセージ](/glossary/エラーメッセージ/)：
 
 ```
 Error response from daemon: pull access denied for <your-image>, repository does not exist or may require 'docker login': denied: Your request rate limit has been exceeded. Please see https://docs.docker.com/docker-hub/api-rate-limiting/
 ```
 
-Docker Compose でのレート制限エラー：
+[Docker](/glossary/docker/) Compose での[レート制限](/glossary/レート制限/)[エラー](/glossary/エラー/)：
 
 ```
 429 Too Many Requests
@@ -35,9 +35,9 @@ Docker Compose でのレート制限エラー：
 
 ### 原因1：Docker Hub の認証なし（無認証での並行アクセス）
 
-Docker Hub は無認証ユーザーに対して 6 時間ごとに 100 リクエストのレート制限を適用しています。認証を行わないまま複数マシンやパイプラインから同時にイメージをプルすると、制限に達します。
+[Docker](/glossary/docker/) Hub は無認証ユーザーに対して 6 時間ごとに 100 [リクエスト](/glossary/リクエスト/)の[レート制限](/glossary/レート制限/)を適用しています。[認証](/glossary/認証/)を行わないまま複数マシンやパイプラインから同時に[イメージ](/glossary/イメージ/)をプルすると、制限に達します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 認証なしで直接プル
@@ -67,9 +67,9 @@ docker pull redis:latest
 
 ### 原因2：CI/CD パイプラインでの過度な並行ビルド・プル
 
-GitHub Actions や GitLab CI、Jenkins など複数のジョブが同時に Docker イメージをプルおよびビルドする場合、レート制限に達しやすくなります。特に複数ブランチやタグのビルドが並行実行されるとき顕著です。
+GitHub Actions や GitLab CI、Jenkins など複数のジョブが同時に [Docker](/glossary/docker/) [イメージ](/glossary/イメージ/)をプルおよびビルドする場合、[レート制限](/glossary/レート制限/)に達しやすくなります。特に複数[ブランチ](/glossary/ブランチ/)やタグのビルドが並行実行されるとき顕著です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 # GitHub Actions の例：複数ジョブが同時に実行
@@ -123,9 +123,9 @@ jobs:
 
 ### 原因3：キャッシュを活用しない重複ビルド
 
-Dockerfile でベースイメージ（`FROM node:18`など）を毎回新規取得するビルドを繰り返すと、イメージレイヤーのプルが何度も発生してレート制限に達します。
+Dockerfile でベースイメージ（`FROM node:18`など）を毎回新規取得するビルドを繰り返すと、イメージレイヤーのプルが何度も発生して[レート制限](/glossary/レート制限/)に達します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```dockerfile
 # キャッシュ無効化により毎回ベースイメージをプル
@@ -171,11 +171,11 @@ docker buildx build \
 
 ### Docker Hub のレート制限の詳細
 
-Docker Hub の無認証ユーザーに対するレート制限は IP アドレス単位で適用されます。複数マシン（CI/CD ランナーを含む）から同一 IP で通信する場合、複合されてすぐに上限に達します。Docker Pro または Docker Team サブスクリプションを取得すれば制限が大幅に緩和されます。
+[Docker](/glossary/docker/) Hub の無認証ユーザーに対する[レート制限](/glossary/レート制限/)は IP アドレス単位で適用されます。複数マシン（[CI/CD](/glossary/ci-cd/) ランナーを含む）から同一 IP で[通信](/glossary/通信/)する場合、複合されてすぐに上限に達します。[Docker](/glossary/docker/) Pro または [Docker](/glossary/docker/) Team サブスクリプションを取得すれば制限が大幅に緩和されます。
 
 ### プライベートレジストリでのレート制限
 
-Harbor や GitLab Container Registry、ECR など自社管理のプライベートレジストリでも、レート制限機能が有効な場合があります。その場合は設定ファイルでレート制限の値を確認・調整します。
+Harbor や GitLab Container Registry、ECR など自社管理の[プライベートレジストリ](/glossary/プライベートレジストリ/)でも、レート制限機能が有効な場合があります。その場合は[設定ファイル](/glossary/設定ファイル/)で[レート制限](/glossary/レート制限/)の値を確認・調整します。
 
 ```yaml
 # Harbor の例（harbor.yml）
@@ -209,7 +209,7 @@ services:
 
 ### ログとデバッグコマンド
 
-Docker Daemon のレベル設定をデバッグに変更し、レート制限関連の詳細ログを確認します。
+[Docker](/glossary/docker/) Daemon のレベル設定を[デバッグ](/glossary/デバッグ/)に変更し、レート制限関連の詳細[ログ](/glossary/ログ/)を確認します。
 
 ```bash
 # Docker Daemon をデバッグモードで起動
@@ -223,7 +223,7 @@ journalctl -u docker -n 100 --no-pager
 
 ### レート制限の確認方法
 
-最後のレスポンスヘッダーからレート制限の現在状況を確認できます。
+最後のレスポンスヘッダーから[レート制限](/glossary/レート制限/)の現在状況を確認できます。
 
 ```bash
 # Docker Hub API を直接呼び出して確認

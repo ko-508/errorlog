@@ -162,7 +162,7 @@ curl https://api.openai.com/v1/chat/completions \
 OpenAI [API](/glossary/api/)は複数の認証方法をサポートしていますが、主流のシナリオに固有の設定ポイントがあります。
 
 **組織IDの設定が必要な場合：**
-OpenAIの組織アカウント配下で[API](/glossary/api/)キーを使用する場合、単なる[API](/glossary/api/)キーでは[認証](/glossary/認証/)に失敗することがあります。この場合、`OpenAI-Organization`[ヘッダー](/glossary/ヘッダー/)も同時に送信する必要があります。
+OpenAIの組織[アカウント](/glossary/アカウント/)配下で[API](/glossary/api/)キーを使用する場合、単なる[API](/glossary/api/)キーでは[認証](/glossary/認証/)に失敗することがあります。この場合、`OpenAI-Organization`[ヘッダー](/glossary/ヘッダー/)も同時に送信する必要があります。
 
 ```python
 import openai
@@ -180,7 +180,7 @@ response = openai.ChatCompletion.create(
 企業[ネットワーク](/glossary/ネットワーク/)環境で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401[エラー](/glossary/エラー/)になることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
 
 **複数キーの管理：**
-テスト環境と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.envファイルを分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
+[テスト](/glossary/テスト/)環境と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.envファイルを分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
 
 ## それでも解決しない場合
 

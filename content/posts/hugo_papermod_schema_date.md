@@ -133,7 +133,7 @@ diff themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 ## それでも解決しない場合
 
-- [Google リッチリザルトテスト](https://search.google.com/test/rich-results) でページの URL を直接テストして、構造化データのパースエラーを確認する
+- [Google リッチリザルトテスト](https://search.google.com/test/rich-results) でページの URL を直接[テスト](/glossary/テスト/)して、構造化データのパースエラーを確認する
 - Hugo の `hugo server` でローカルビルドし、ページのソースを直接確認する
 - PaperMod の [GitHub Issues](https://github.com/adityatelange/hugo-PaperMod/issues) で同様の報告を検索する
 

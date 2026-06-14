@@ -177,7 +177,7 @@ await firebase.auth().currentUser.getIdToken(true);
 ## それでも解決しない場合
 
 **Cloud Functions の[ログ](/glossary/ログ/)を確認する**  
-Firebase Console から「Functions」→「[ログ](/glossary/ログ/)」を開き、実行時の詳細エラーメッセージを確認してください。`console.error()`で出力した[ログ](/glossary/ログ/)も表示されます。
+Firebase Console から「Functions」→「[ログ](/glossary/ログ/)」を開き、実行時の詳細[エラーメッセージ](/glossary/エラーメッセージ/)を確認してください。`console.error()`で出力した[ログ](/glossary/ログ/)も表示されます。
 
 **gcloud [CLI](/glossary/cli/) での[ログ](/glossary/ログ/)確認**
 ```bash

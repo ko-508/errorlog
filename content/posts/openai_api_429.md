@@ -13,7 +13,7 @@ related_services: []
 
 ## エラーの概要
 
-429エラーは、OpenAI APIのレート制限に達したときに返される**Too Many Requests**を意味します。OpenAI APIは、APIキーごとにTPM（1分あたりのトークン数）やRPM（1分あたりのリクエスト数）に上限を設定しており、この制限を超過するとこのエラーが発生します。本番環境での動作停止につながるため、早期の対応が重要です。
+429[エラー](/glossary/エラー/)は、OpenAI [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したときに返される**Too Many Requests**を意味します。OpenAI [API](/glossary/api/)は、[API](/glossary/api/)キーごとにTPM（1分あたりの[トークン](/glossary/トークン/)数）やRPM（1分あたりの[リクエスト](/glossary/リクエスト/)数）に上限を設定しており、この制限を超過するとこの[エラー](/glossary/エラー/)が発生します。本番環境での動作停止につながるため、早期の対応が重要です。
 
 ## 実際のエラーメッセージ例
 
@@ -36,9 +36,9 @@ RateLimitError: Error code: 429 - {'error': {'message': 'You exceeded your curre
 
 ### 原因1：短時間に過度なリクエストを送信している
 
-複数のユーザーリクエストを同時並行処理したり、バッチ処理で大量のAPI呼び出しを行ったりすると、RPM（1分あたりのリクエスト数）制限に引っかかります。特に、ループ内で無制限にAPIを呼び出す実装が該当します。
+複数のユーザーリクエストを同時並行処理したり、バッチ処理で大量の[API](/glossary/api/)呼び出しを行ったりすると、RPM（1分あたりの[リクエスト](/glossary/リクエスト/)数）制限に引っかかります。特に、ループ内で無制限に[API](/glossary/api/)を呼び出す実装が該当します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import openai
@@ -74,9 +74,9 @@ for i, text in enumerate(texts):
 
 ### 原因2：トークン数の制限を超過している
 
-RPM制限に引っかからなくても、TPM（1分あたりのトークン数）制限に到達することがあります。長いコンテキストを含むリクエストや、複数の並行リクエストで累積トークン数が上限を超える場合です。
+RPM制限に引っかからなくても、TPM（1分あたりの[トークン](/glossary/トークン/)数）制限に到達することがあります。長いコンテキストを含む[リクエスト](/glossary/リクエスト/)や、複数の並行[リクエスト](/glossary/リクエスト/)で累積[トークン](/glossary/トークン/)数が上限を超える場合です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import openai
@@ -116,9 +116,9 @@ for chunk in chunks:
 
 ### 原因3：アカウントの利用上限（クォータ）に達している
 
-APIキーのクォータが設定額に達したり、無料トライアルの期限が切れたりすると、「quota_limit_exceeded」というコードで429エラーが返されます。
+[API](/glossary/api/)キーのクォータが設定額に達したり、無料トライアルの期限が切れたりすると、「quota_limit_exceeded」というコードで429[エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import openai
@@ -165,11 +165,11 @@ while retry_count < max_retries:
 
 ### レート制限の段階的な引き上げ
 
-OpenAIの無料トライアルアカウントやPaymentMethodを登録していないアカウントは、デフォルトで低いRPM/TPM制限が設定されています。実運用環境では、OpenAI Dashboard（https://platform.openai.com/account/rate-limits）でリクエスト上限をリアルタイム確認し、必要に応じてサポートに増加を申請してください。有料プランでも、利用量が少ないうちは自動的に上限が引き上げられます。
+OpenAIの無料トライアルアカウントやPaymentMethodを登録していない[アカウント](/glossary/アカウント/)は、デフォルトで低いRPM/TPM制限が設定されています。実運用環境では、OpenAI Dashboard（https://platform.openai.com/account/rate-limits）でリクエスト上限をリアルタイム確認し、必要に応じてサポートに増加を申請してください。有料プランでも、利用量が少ないうちは自動的に上限が引き上げられます。
 
 ### exponential backoff の実装推奨
 
-OpenAI公式ドキュメントでは、429エラーの際に**Exponential Backoff**（指数バックオフ）を用いたリトライアロジックを推奨しています。単純な固定遅延ではなく、試行回数に応じて待機時間を増加させることで、サーバー負荷を軽減しつつ成功率を高めます。
+OpenAI公式ドキュメントでは、429[エラー](/glossary/エラー/)の際に**Exponential Backoff**（指数[バックオフ](/glossary/バックオフ/)）を用いたリトライアロジックを推奨しています。単純な固定遅延ではなく、試行回数に応じて待機時間を増加させることで、[サーバー](/glossary/サーバー/)負荷を軽減しつつ成功率を高めます。
 
 ```python
 import openai
@@ -195,28 +195,28 @@ def create_completion_with_backoff(prompt, max_retries=3):
 
 ### APIバージョンの確認
 
-openai-python ライブラリのバージョンが古い場合、レート制限に関する情報が正しく返されないことがあります。`pip install --upgrade openai` で最新版に更新してください。v1.0以降では、例外処理のAPI仕様が変わっているため注意が必要です。
+openai-python ライブラリのバージョンが古い場合、[レート制限](/glossary/レート制限/)に関する情報が正しく返されないことがあります。`pip install --upgrade openai` で最新版に更新してください。v1.0以降では、[例外処理](/glossary/例外処理/)の[API](/glossary/api/)仕様が変わっているため注意が必要です。
 
 ## それでも解決しない場合
 
 ### デバッグ方法
 
-1. **現在のレート制限を確認**：OpenAI Dashboard の Rate Limits ページで、APIキーのTPM/RPM設定値と実際の利用状況をリアルタイム確認してください。
+1. **現在の[レート制限](/glossary/レート制限/)を確認**：OpenAI Dashboard の Rate Limits ページで、[API](/glossary/api/)キーのTPM/RPM設定値と実際の利用状況をリアルタイム確認してください。
 
-2. **リクエストログを有効化**：openai-python ライブラリで、以下の環境変数を設定するとHTTPリクエスト/レスポンスの詳細がログに出力されます：
+2. **リクエストログを有効化**：openai-python ライブラリで、以下の[環境変数](/glossary/環境変数/)を設定すると[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細が[ログ](/glossary/ログ/)に出力されます：
 
 ```bash
 export OPENAI_LOG=debug
 ```
 
-3. **Retry-Afterヘッダーを確認**：レスポンスヘッダーに含まれる`Retry-After`値に従い、そこまで待機してからリトライしてください。
+3. **Retry-After[ヘッダー](/glossary/ヘッダー/)を確認**：レスポンスヘッダーに含まれる`Retry-After`値に従い、そこまで待機してから[リトライ](/glossary/リトライ/)してください。
 
 ### 公式リソース
 
 - **OpenAI Rate Limit ドキュメント**：https://platform.openai.com/docs/guides/rate-limits
-- **API ステータスページ**：https://status.openai.com/ （システム障害を確認）
+- **[API](/glossary/api/) ステータスページ**：https://status.openai.com/ （システム障害を確認）
 - **請求ページ**：https://platform.openai.com/account/billing/overview （クォータと使用状況を確認）
-- **GitHub Issues**：openai-python リポジトリのissueセクション（同じ問題の報告や回避策の議論を参照）
+- **GitHub Issues**：openai-python [リポジトリ](/glossary/リポジトリ/)のissueセクション（同じ問題の報告や回避策の議論を参照）
 
 ---
 

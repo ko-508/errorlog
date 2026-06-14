@@ -139,7 +139,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### APIバージョンの不整合
 
-Stripeのアカウント設定では特定の[API](/glossary/api/)バージョンがデフォルトで使用されます。古いコードが新しい[API](/glossary/api/)バージョンに対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定バージョンでの動作を強制できます。
+Stripeの[アカウント](/glossary/アカウント/)設定では特定の[API](/glossary/api/)バージョンがデフォルトで使用されます。古いコードが新しい[API](/glossary/api/)バージョンに対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定バージョンでの動作を強制できます。
 
 ```bash
 curl https://api.stripe.com/v1/payment_intents \
@@ -219,7 +219,7 @@ except stripe.error.InvalidRequestError as e:
 
 ### コミュニティリソース
 
-Stripe公式の[GitHub Issues](https://github.com/stripe/stripe-python)や[Stack Overflow](https://stackoverflow.com/questions/tagged/stripe)では、同様の問題に直面した開発者の解決例が多数記録されています。エラーメッセージを含めて検索すると、既知の問題と解決策が見つかる可能性が高いです。
+Stripe公式の[GitHub Issues](https://github.com/stripe/stripe-python)や[Stack Overflow](https://stackoverflow.com/questions/tagged/stripe)では、同様の問題に直面した開発者の解決例が多数記録されています。[エラーメッセージ](/glossary/エラーメッセージ/)を含めて検索すると、既知の問題と解決策が見つかる可能性が高いです。
 
 ---
 

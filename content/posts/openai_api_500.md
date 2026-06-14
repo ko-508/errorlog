@@ -13,7 +13,7 @@ related_services: ["OpenAI ChatCompletion", "curl"]
 
 ## エラーの概要
 
-OpenAI APIで500エラーが返される場合、OpenAIのサーバー側で予期しない内部エラーが発生していることを示します。このエラーはクライアント側の設定ミスではなく、サーバー側の問題であることが多いため、まずはOpenAIのステータスページを確認することが重要です。ただし、リクエストの内容や形式に問題がある場合も500エラーが返されることがあります。一般的には、APIへの過度なアクセス、不正なペイロード形式、タイムアウト、またはOpenAIのインフラストラクチャ障害が原因となります。
+OpenAI [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、OpenAIの[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はクライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の問題であることが多いため、まずはOpenAIのステータスページを確認することが重要です。ただし、[リクエスト](/glossary/リクエスト/)の内容や形式に問題がある場合も500[エラー](/glossary/エラー/)が返されることがあります。一般的には、[API](/glossary/api/)への過度なアクセス、不正な[ペイロード](/glossary/ペイロード/)形式、[タイムアウト](/glossary/タイムアウト/)、またはOpenAIのインフラストラクチャ障害が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -43,9 +43,9 @@ HTTP/1.1 500 Internal Server Error
 
 ### 原因1：リクエストペイロードの形式が不正
 
-OpenAI APIは厳密なJSON形式を要求します。パラメータ名のスペルミス、不正なデータ型、必須フィールドの欠落があると500エラーが返されます。特にmessagesフィールドの構造が不正な場合に起きやすくなります。
+OpenAI [API](/glossary/api/)は厳密な[JSON](/glossary/json/)形式を要求します。[パラメータ](/glossary/パラメータ/)名のスペルミス、不正なデータ型、必須フィールドの欠落があると500[エラー](/glossary/エラー/)が返されます。特にmessagesフィールドの構造が不正な場合に起きやすくなります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import openai
@@ -81,9 +81,9 @@ response = openai.ChatCompletion.create(
 
 ### 原因2：APIキーの認証エラーまたは無効なAPI経由の呼び出し
 
-APIキーが無効、期限切れ、または削除されている場合、OpenAIサーバーが認証に失敗して500エラーを返すことがあります。また、間違ったエンドポイントへのリクエストも同様です。
+[API](/glossary/api/)キーが無効、期限切れ、または削除されている場合、OpenAI[サーバー](/glossary/サーバー/)が[認証](/glossary/認証/)に失敗して500[エラー](/glossary/エラー/)を返すことがあります。また、間違った[エンドポイント](/glossary/エンドポイント/)への[リクエスト](/glossary/リクエスト/)も同様です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 const axios = require('axios');
@@ -117,9 +117,9 @@ const response = await axios.post('https://api.openai.com/v1/chat/completions', 
 
 ### 原因3：リクエストサイズの超過またはタイムアウト
 
-極めて長いプロンプトやトークン数が制限を超える場合、またはネットワーク接続が遅くタイムアウトする場合に500エラーが発生します。特に大規模なファイルを処理する際に注意が必要です。
+極めて長いプロンプトや[トークン](/glossary/トークン/)数が制限を超える場合、または[ネットワーク](/glossary/ネットワーク/)接続が遅く[タイムアウト](/glossary/タイムアウト/)する場合に500[エラー](/glossary/エラー/)が発生します。特に大規模なファイルを処理する際に注意が必要です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import openai
@@ -160,9 +160,9 @@ response = openai.ChatCompletion.create(
 
 ### 原因4：OpenAIサーバーの一時的な障害
 
-OpenAIのインフラストラクチャが一時的に障害状態にある場合、500エラーが返されます。この場合、クライアント側での修正は不可能なため、リトライ処理の実装が必須です。
+OpenAIのインフラストラクチャが一時的に障害状態にある場合、500[エラー](/glossary/エラー/)が返されます。この場合、クライアント側での修正は不可能なため、[リトライ](/glossary/リトライ/)処理の実装が必須です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import openai
@@ -205,25 +205,25 @@ for attempt in range(max_retries):
 
 ## ツール固有の注意点
 
-OpenAI APIの500エラーは、以下のツール固有の要因で発生することがあります。
+OpenAI [API](/glossary/api/)の500[エラー](/glossary/エラー/)は、以下のツール固有の要因で発生することがあります。
 
-**レート制限とクォータ管理**：APIキーに設定されたレート制限（RPM：Requests Per Minute、TPM：Tokens Per Minute）に達した場合、サーバー側で500エラーを返すことがあります。OpenAIのダッシュボードで利用制限を確認し、必要に応じてアップグレードしましょう。
+**[レート制限](/glossary/レート制限/)とクォータ管理**：[API](/glossary/api/)キーに設定された[レート制限](/glossary/レート制限/)（RPM：Requests Per Minute、TPM：Tokens Per Minute）に達した場合、[サーバー](/glossary/サーバー/)側で500[エラー](/glossary/エラー/)を返すことがあります。OpenAIの[ダッシュボード](/glossary/ダッシュボード/)で利用制限を確認し、必要に応じてアップグレードしましょう。
 
-**モデルの可用性**：特定のモデル（例：gpt-4-turboやgpt-4-visitionの初期段階）がアカウントで利用できない場合、サーバーが500で応答することがあります。使用するモデルがアカウントで有効か確認してください。
+**[モデル](/glossary/モデル/)の可用性**：特定の[モデル](/glossary/モデル/)（例：gpt-4-turboやgpt-4-visitionの初期段階）が[アカウント](/glossary/アカウント/)で利用できない場合、[サーバー](/glossary/サーバー/)が500で応答することがあります。使用する[モデル](/glossary/モデル/)が[アカウント](/glossary/アカウント/)で有効か確認してください。
 
-**Webhook・非同期リクエスト**：Chat Completions APIやEmbeddings APIを大量に並行実行する場合、OpenAIサーバーの処理キューが満杯になり500エラーが発生します。リクエスト間に適切な遅延を設け、キューイング処理を実装すると改善します。
+**[Webhook](/glossary/webhook/)・非同期[リクエスト](/glossary/リクエスト/)**：Chat Completions [API](/glossary/api/)やEmbeddings [API](/glossary/api/)を大量に並行実行する場合、OpenAI[サーバー](/glossary/サーバー/)の処理キューが満杯になり500[エラー](/glossary/エラー/)が発生します。[リクエスト](/glossary/リクエスト/)間に適切な遅延を設け、キューイング処理を実装すると改善します。
 
-**地域制限と組織設定**：OpenAI APIは特定の地域からのアクセスを制限している場合があります。組織（Organization）を複数持つ場合は、リクエストヘッダーに正しい組織IDを指定し、権限のあるAPIキーを使用しているか確認してください。
+**地域制限と組織設定**：OpenAI [API](/glossary/api/)は特定の地域からのアクセスを制限している場合があります。組織（Organization）を複数持つ場合は、リクエストヘッダーに正しい組織IDを指定し、[権限](/glossary/権限/)のある[API](/glossary/api/)キーを使用しているか確認してください。
 
 ## それでも解決しない場合
 
 **OpenAIステータスページの確認**：https://status.openai.com/ でシステムの状態を確認します。障害が報告されている場合は、復旧を待つしかありません。
 
-**APIレスポンスヘッダーの確認**：503や429エラーが混在していないか、及びX-Ratelimit-Remaining-Requestsヘッダーの値を確認し、レート制限に近づいていないかチェックします。
+**[API](/glossary/api/)レスポンスヘッダーの確認**：503や429[エラー](/glossary/エラー/)が混在していないか、及びX-Ratelimit-Remaining-Requests[ヘッダー](/glossary/ヘッダー/)の値を確認し、[レート制限](/glossary/レート制限/)に近づいていないかチェックします。
 
-**OpenAI公式ドキュメント**：https://platform.openai.com/docs/guides/error-handling でエラー処理ガイドを参照し、推奨されるリトライ戦略を実装します。また、https://community.openai.com/ のコミュニティフォーラムで類似する報告がないか検索してください。
+**OpenAI公式ドキュメント**：https://platform.openai.com/docs/guides/error-handling で[エラー](/glossary/エラー/)処理ガイドを参照し、推奨される[リトライ](/glossary/リトライ/)戦略を実装します。また、https://community.openai.com/ のコミュニティフォーラムで類似する報告がないか検索してください。
 
-**サポートへの問い合わせ**：個人アカウントの場合はhelp.openai.com、有料プランの場合はダッシュボード内のサポート窓口から問い合わせ、詳細なエラーログをOpenAIチームに提供します。リクエストIDが発行されている場合は、それを必ず記載してください。
+**サポートへの問い合わせ**：個人[アカウント](/glossary/アカウント/)の場合はhelp.openai.com、有料プランの場合は[ダッシュボード](/glossary/ダッシュボード/)内のサポート窓口から問い合わせ、詳細な[エラーログ](/glossary/エラーログ/)をOpenAIチームに提供します。[リクエスト](/glossary/リクエスト/)IDが発行されている場合は、それを必ず記載してください。
 
 ---
 

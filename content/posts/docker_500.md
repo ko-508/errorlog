@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Docker環境で500エラーが発生する場合、Dockerデーモンが予期しない内部エラーに遭遇していることを示しています。このエラーはDocker CLIコマンド実行時やコンテナ操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、デーモンのクラッシュ、権限問題など複数の要因が考えられるため、段階的な調査が必要です。Dockerデーモンの状態確認とログ分析を通じて、根本原因を特定することが解決への第一歩となります。
+[Docker](/glossary/docker/)環境で500[エラー](/glossary/エラー/)が発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部[エラー](/glossary/エラー/)に遭遇していることを示しています。この[エラー](/glossary/エラー/)は[Docker](/glossary/docker/) [CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など複数の要因が考えられるため、段階的な調査が必要です。[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の状態確認と[ログ](/glossary/ログ/)分析を通じて、根本原因を特定することが解決への第一歩となります。
 
 ## 実際のエラーメッセージ例
 
@@ -43,9 +43,9 @@ Error response from daemon: Internal Server Error
 
 ### 原因1：Dockerデーモンの停止またはクラッシュ
 
-Dockerデーモンが応答していない、または不安定な状態にあると500エラーが返されます。デーモンプロセスが終了していたり、メモリ不足で強制終了された場合、すべてのDocker操作が失敗します。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答していない、または不安定な状態にあると500[エラー](/glossary/エラー/)が返されます。デーモンプロセスが終了していたり、メモリ不足で強制終了された場合、すべての[Docker](/glossary/docker/)操作が失敗します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # デーモンが停止している状態で実行
@@ -68,9 +68,9 @@ docker ps
 
 ### 原因2：ディスク容量不足
 
-Dockerはイメージ、コンテナ、ボリュームデータを `/var/lib/docker` に保存します。このディレクトリが属するパーティションのディスク容量が枯渇すると、新規操作が失敗して500エラーが発生します。
+[Docker](/glossary/docker/)は[イメージ](/glossary/イメージ/)、[コンテナ](/glossary/コンテナ/)、ボリュームデータを `/var/lib/docker` に保存します。このディレクトリが属するパーティションのディスク容量が枯渇すると、新規操作が失敗して500[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ディスク満杯の状態で実行
@@ -100,9 +100,9 @@ docker rm <container-id>
 
 ### 原因3：Dockerデーモンのプロセス権限不足または設定エラー
 
-Dockerデーモンが適切な権限で実行されていない、または設定ファイルが破損していると500エラーが発生します。特に `/etc/docker/daemon.json` の設定エラーや、デーモンプロセスの所有権が不正な場合に起こります。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が適切な[権限](/glossary/権限/)で実行されていない、または[設定ファイル](/glossary/設定ファイル/)が破損していると500[エラー](/glossary/エラー/)が発生します。特に `/etc/docker/daemon.json` の設定[エラー](/glossary/エラー/)や、デーモンプロセスの所有権が不正な場合に起こります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```json
 // /etc/docker/daemon.json（不正な設定）
@@ -138,9 +138,9 @@ sudo systemctl restart docker
 
 ### 原因4：コンテナランタイムエラー
 
-containerdなどのコンテナランタイムが正常に機能していない、またはsocketsファイルが破損している場合、Dockerデーモンが500エラーを返します。
+containerdなどのコンテナランタイムが正常に機能していない、またはsocketsファイルが破損している場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が500[エラー](/glossary/エラー/)を返します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ランタイムソケットが無い/アクセス不可
@@ -165,9 +165,9 @@ sudo systemctl restart docker
 
 ### 原因5：メモリ不足
 
-Dockerデーモンプロセス自体がメモリ枯渇で強制終了されると、500エラーが発生します。特に大量のコンテナを実行している環境では要注意です。
+[Docker](/glossary/docker/)デーモンプロセス自体がメモリ枯渇で強制終了されると、500[エラー](/glossary/エラー/)が発生します。特に大量の[コンテナ](/glossary/コンテナ/)を実行している環境では要注意です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # メモリ枯渇状態で実行
@@ -196,7 +196,7 @@ docker run -d --memory=1g --memory-swap=1g myapp
 
 ### Docker Composeの場合
 
-Docker Compose環境で500エラーが発生する場合、イメージビルドの途中でのディスク不足が原因の可能性が高いです。マルチステージビルドやキャッシュの問題も関わります。
+[Docker](/glossary/docker/) Compose環境で500[エラー](/glossary/エラー/)が発生する場合、イメージビルドの途中でのディスク不足が原因の可能性が高いです。マルチステージビルドや[キャッシュ](/glossary/キャッシュ/)の問題も関わります。
 
 **確認方法：**
 
@@ -213,7 +213,7 @@ docker-compose down -v
 
 ### Swarmモードの場合
 
-Docker Swarmクラスタ内のノードでリソース枯渇やネットワーク分断が起きると、500エラーが発生します。特にマネージャーノードのディスク不足に注意が必要です。
+[Docker](/glossary/docker/) Swarmクラスタ内のノードでリソース枯渇や[ネットワーク](/glossary/ネットワーク/)分断が起きると、500[エラー](/glossary/エラー/)が発生します。特にマネージャーノードのディスク不足に注意が必要です。
 
 ```bash
 # Swarmのノード状態を確認
@@ -228,7 +228,7 @@ sudo systemctl restart docker
 
 ### ログドライバー設定エラー
 
-不正なログドライバー設定（例：外部ログサービスへの接続失敗）により、デーモンが500エラーを返すことがあります。
+不正なログドライバー設定（例：外部ログサービスへの接続失敗）により、[デーモン](/glossary/デーモン/)が500[エラー](/glossary/エラー/)を返すことがあります。
 
 ```bash
 # ログドライバーの設定を確認
@@ -256,7 +256,7 @@ sudo dockerd --debug
 
 ### Windows/Macの場合
 
-Docker Desktopを使用している場合は、以下の手順で診断情報を収集します。
+[Docker](/glossary/docker/) Desktopを使用している場合は、以下の手順で診断情報を収集します。
 
 ```bash
 # Docker Desktopの診断を取得
@@ -266,13 +266,13 @@ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock docker:latest d
 ### 公式ドキュメント参照
 
 - [Docker Troubleshooting](https://docs.docker.com/config/containers/logging/) - ロギング設定の公式ガイド
-- [Daemon logs and troubleshooting](https://docs.docker.com/config/daemon/#check-the-daemon) - デーモン診断の公式ドキュメント
+- [Daemon logs and troubleshooting](https://docs.docker.com/config/daemon/#check-the-daemon) - [デーモン](/glossary/デーモン/)診断の公式ドキュメント
 - [Docker Engine release notes](https://docs.docker.com/engine/release-notes/) - 既知の問題と修正内容
 
 ### コミュニティリソース
 
-- GitHub Issues：`moby/moby` リポジトリで「Internal Server Error」で検索
-- Docker Community Forums：https://forums.docker.com/ で同様の事例を検索
+- GitHub Issues：`moby/moby` [リポジトリ](/glossary/リポジトリ/)で「Internal Server Error」で検索
+- [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/ で同様の事例を検索
 - Stack Overflow：`docker` タグで過去の解決事例を参照
 
 ---

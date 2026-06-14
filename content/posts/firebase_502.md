@@ -36,7 +36,7 @@ The request failed because the origin is unreachable. This can happen if the ori
 
 ### 原因1：Cloud Functionsが応答を返さずに終了している
 
-Cloud Functionsの関数が`res.send()`や`res.json()`などの[レスポンス](/glossary/レスポンス/)送信メソッドを呼び出さずに終了すると、Firebaseは[レスポンス](/glossary/レスポンス/)を受け取れず502[エラー](/glossary/エラー/)を返します。
+Cloud Functionsの関数が`res.send()`や`res.json()`などの[レスポンス](/glossary/レスポンス/)送信[メソッド](/glossary/メソッド/)を呼び出さずに終了すると、Firebaseは[レスポンス](/glossary/レスポンス/)を受け取れず502[エラー](/glossary/エラー/)を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）:**
 ```javascript

@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Kubernetes の 403 エラーは「Forbidden」を意味し、リクエストの認証は成功しているものの、そのリソースに対する操作権限（RBAC: Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・削除など、特定の操作がセキュリティポリシーにより拒否された状態です。API サーバーやマニフェスト適用時、kubectl コマンド実行時に頻繁に発生します。
+[Kubernetes](/glossary/kubernetes/) の 403 [エラー](/glossary/エラー/)は「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・削除など、特定の操作がセキュリティポリシーにより拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl [コマンド](/glossary/コマンド/)実行時に頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -43,9 +43,9 @@ Error from server (Forbidden): pods "my-pod" is forbidden: User "system:servicea
 
 ### 原因1: ServiceAccount に適切な Role が割り当てられていない
 
-ServiceAccount は Kubernetes 内のアカウントであり、Pod がリソースにアクセスする際に使用されます。このアカウントに必要な権限を持つ Role が紐付けられていない場合、403 エラーが発生します。
+ServiceAccount は [Kubernetes](/glossary/kubernetes/) 内の[アカウント](/glossary/アカウント/)であり、Pod がリソースにアクセスする際に使用されます。この[アカウント](/glossary/アカウント/)に必要な[権限](/glossary/権限/)を持つ Role が紐付けられていない場合、403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: v1
@@ -120,9 +120,9 @@ spec:
 
 ### 原因2: Namespace が異なる RoleBinding を参照している
 
-RoleBinding は特定の Namespace に紐付きます。Pod が存在する Namespace と、RoleBinding が定義されている Namespace が異なる場合、権限が認識されず 403 エラーが発生します。
+RoleBinding は特定の [Namespace](/glossary/namespace/) に紐付きます。Pod が存在する [Namespace](/glossary/namespace/) と、RoleBinding が定義されている [Namespace](/glossary/namespace/) が異なる場合、[権限](/glossary/権限/)が認識されず 403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 # namespace: kube-system に RoleBinding を定義
@@ -173,9 +173,9 @@ subjects:
 
 ### 原因3: 必要な API グループが Role に指定されていない
 
-Kubernetes リソースは API グループ（例: `apps`, `batch`, `networking.k8s.io`）に属しており、Role で適切な API グループを指定しなければアクセスできません。`apiGroups: [""]` は core API グループのみを対象とするため、拡張リソースには無効です。
+[Kubernetes](/glossary/kubernetes/) リソースは [API](/glossary/api/) グループ（例: `apps`, `batch`, `networking.k8s.io`）に属しており、Role で適切な [API](/glossary/api/) グループを指定しなければアクセスできません。`apiGroups: [""]` は core [API](/glossary/api/) グループのみを対象とするため、拡張リソースには無効です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -214,9 +214,9 @@ rules:
 
 ### 原因4: デフォルト ServiceAccount が使用されている
 
-Pod 定義で `serviceAccountName` を明示的に指定しない場合、デフォルトの `default` ServiceAccount が使用されます。この `default` アカウントには通常、リソースへのアクセス権限がないため、403 エラーが発生します。
+Pod 定義で `serviceAccountName` を明示的に指定しない場合、デフォルトの `default` ServiceAccount が使用されます。この `default` [アカウント](/glossary/アカウント/)には通常、リソースへの[アクセス権限](/glossary/アクセス権限/)がないため、403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -285,7 +285,7 @@ spec:
 
 ### Cluster 全体に適用する権限が必要な場合は ClusterRole を使用
 
-Namespace を超えて全体的な権限が必要な場合、Role と RoleBinding ではなく ClusterRole と ClusterRoleBinding を使用します。例えば、全 Namespace の Pod を監視する監視エージェントやログ収集エージェントは ClusterRole が必須です。
+[Namespace](/glossary/namespace/) を超えて全体的な[権限](/glossary/権限/)が必要な場合、Role と RoleBinding ではなく ClusterRole と ClusterRoleBinding を使用します。例えば、全 [Namespace](/glossary/namespace/) の Pod を監視する監視エージェントや[ログ](/glossary/ログ/)収集エージェントは ClusterRole が必須です。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -316,17 +316,17 @@ subjects:
 
 ### リソースの詳細なパーミッション制御（特定の Pod のみアクセス許可）
 
-Role では特定の Pod 名を直接指定することはできませんが、Label Selector を活用することで粒度の細かい制御が可能です。ただし RBAC では Label ベースのフィルタリングが直接機能しないため、webhook ベースの認可ポリシーを検討してください。
+Role では特定の Pod 名を直接指定することはできませんが、Label Selector を活用することで粒度の細かい制御が可能です。ただし [RBAC](/glossary/rbac/) では Label ベースのフィルタリングが直接機能しないため、webhook ベースの[認可](/glossary/認可/)[ポリシー](/glossary/ポリシー/)を検討してください。
 
 ### 標準的な Role テンプレート（view, edit, admin）
 
-Kubernetes は組み込みの ClusterRole を提供しており、これらを参考にすることで適切な権限構成を決定できます。
+[Kubernetes](/glossary/kubernetes/) は組み込みの ClusterRole を提供しており、これらを参考にすることで適切な権限構成を決定できます。
 
 ```bash
 kubectl get clusterrole
 ```
 
-`view`、`edit`、`admin` といった標準ロールが存在し、これらを RoleBinding で参照する方法も有効です。
+`view`、`edit`、`admin` といった標準[ロール](/glossary/ロール/)が存在し、これらを RoleBinding で参照する方法も有効です。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -358,7 +358,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:app-acc
 
 ### API サーバーのログを確認
 
-Cluster 管理者は API サーバーのログを調査して詳細な拒否理由を確認できます。
+Cluster 管理者は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を調査して詳細な拒否理由を確認できます。
 
 ```bash
 kubectl logs -n kube-system -l component=kube-apiserver | grep "Forbidden"

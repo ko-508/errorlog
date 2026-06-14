@@ -211,7 +211,7 @@ const validatePassword = (password) => {
 ## それでも解決しない場合
 
 **Supabase Logsの確認：**
-Supabase Dashboardの「Logs」セクションで、リアルタイムの[エラーログ](/glossary/エラーログ/)を確認できます。`Status: 422`でフィルタリングすると、詳細なエラーメッセージが表示されます。
+Supabase Dashboardの「Logs」セクションで、リアルタイムの[エラーログ](/glossary/エラーログ/)を確認できます。`Status: 422`でフィルタリングすると、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。
 
 **[REST](/glossary/rest/) [API](/glossary/api/)での詳細な[デバッグ](/glossary/デバッグ/)：**
 

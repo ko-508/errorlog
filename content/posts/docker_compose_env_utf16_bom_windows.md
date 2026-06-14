@@ -10,7 +10,7 @@ components: ["Compose"]
 related_services: ["PowerShell", "VSCode"]
 ---
 
-Windows環境で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`ファイルが原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。エラーメッセージに`\xff\xfe`や`unexpected character`が含まれている場合、ファイルのエンコードが原因です。
+Windows環境で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`ファイルが原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、ファイルのエンコードが原因です。
 
 ## エラーの全文
 
@@ -153,7 +153,7 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 
 ## それでも解決しない場合
 
-- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（bash/zsh）から`echo`でファイルを作成するとデフォルトがUTF-8になります
+- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（[bash](/glossary/bash/)/zsh）から`echo`でファイルを作成するとデフォルトがUTF-8になります
 - **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードがUTF-8に変わっています。`winget install Microsoft.PowerShell`でインストール可能です
 - **docker composeではなくdocker-composeを使う**: 古いv1系は挙動が違うことがありますが、現在は非推奨のため根本解決にはなりません
 

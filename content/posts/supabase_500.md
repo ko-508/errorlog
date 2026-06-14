@@ -49,7 +49,7 @@ Error: Internal Server Error
 
 ### 原因1：PostgreSQLのクエリが構文エラーまたは実行時エラーになっている
 
-Supabaseに送信する[SQL](/glossary/sql/)[クエリ](/glossary/クエリ/)に構文[エラー](/glossary/エラー/)があったり、存在しないテーブル・カラムを参照していたりする場合、500[エラー](/glossary/エラー/)が発生します。特にRLS（Row Level Security）の[ポリシー](/glossary/ポリシー/)内で不正なテーブル参照をしていると、[クエリ](/glossary/クエリ/)実行時に内部[エラー](/glossary/エラー/)となります。
+Supabaseに送信する[SQL](/glossary/sql/)[クエリ](/glossary/クエリ/)に構文[エラー](/glossary/エラー/)があったり、存在しない[テーブル](/glossary/テーブル/)・カラムを参照していたりする場合、500[エラー](/glossary/エラー/)が発生します。特にRLS（Row Level Security）の[ポリシー](/glossary/ポリシー/)内で不正な[テーブル](/glossary/テーブル/)参照をしていると、[クエリ](/glossary/クエリ/)実行時に内部[エラー](/glossary/エラー/)となります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -77,7 +77,7 @@ if (error) {
 }
 ```
 
-または、実際にカラムが存在することを事前確認し、テーブル定義を正しくする必要があります。Supabase Dashboardの「[SQL](/glossary/sql/) Editor」で[クエリ](/glossary/クエリ/)を事前テストすることをお勧めします。
+または、実際にカラムが存在することを事前確認し、[テーブル](/glossary/テーブル/)定義を正しくする必要があります。Supabase Dashboardの「[SQL](/glossary/sql/) Editor」で[クエリ](/glossary/クエリ/)を事前[テスト](/glossary/テスト/)することをお勧めします。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -204,7 +204,7 @@ const data = await fetchWithRetry();
 
 Supabase Dashboardの「Logs」セクションは、500[エラー](/glossary/エラー/)の具体的な原因を特定するために不可欠です。
 
-1. **[SQL](/glossary/sql/) Logs**：`Home > Logs > PostgreSQL`で、実行された[クエリ](/glossary/クエリ/)と詳細なエラーメッセージを確認できます。
+1. **[SQL](/glossary/sql/) Logs**：`Home > Logs > PostgreSQL`で、実行された[クエリ](/glossary/クエリ/)と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認できます。
 2. **Function Logs**：`Edge Functions`の[ログ](/glossary/ログ/)から、[デプロイ](/glossary/デプロイ/)されたFunctionの[コンソール](/glossary/コンソール/)出力とエラースタックトレースを確認できます。
 3. **Auth Logs**：認証絡みの[エラー](/glossary/エラー/)は`Authentication > Logs`で確認します。
 
@@ -231,7 +231,7 @@ ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
 
 ### マルチテナント構成での500エラー
 
-複数のスキーマやテーブルを使用する場合、権限設定が不十分だと500[エラー](/glossary/エラー/)が発生します。
+複数の[スキーマ](/glossary/スキーマ/)や[テーブル](/glossary/テーブル/)を使用する場合、権限設定が不十分だと500[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -300,7 +300,7 @@ Supabase公式ドキュメント（https://supabase.com/docs）または、GitHu
 
 - Project ID
 - 発生時刻（UTC）
-- エラーメッセージの全文
+- [エラーメッセージ](/glossary/エラーメッセージ/)の全文
 - 実行した[クエリ](/glossary/クエリ/)またはFunction名
 
 ---

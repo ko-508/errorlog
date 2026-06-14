@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/)で 422 [エラー](/glossary/エラー/)が発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/)またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)との通信時にこの[エラー](/glossary/エラー/)が返される典型的なシナリオは、不正なイメージタグ指定、設定値の型違反、あるいは [API](/glossary/api/)スキーマの検証失敗です。
+[Docker](/glossary/docker/)で 422 [エラー](/glossary/エラー/)が発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/)またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)との通信時にこの[エラー](/glossary/エラー/)が返される典型的なシナリオは、不正なイメージタグ指定、設定値の型違反、あるいは [API](/glossary/api/)[スキーマ](/glossary/スキーマ/)の検証失敗です。
 
 ## 実際のエラーメッセージ例
 
@@ -171,13 +171,13 @@ curl -v --unix-socket /var/run/docker.sock \
 
 ### 公式ドキュメント参照
 
-[Docker](/glossary/docker/) Compose 設定リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API スキーマ検証[エラー](/glossary/エラー/)の場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」ドキュメントの `POST /containers/create`セクションを参照します。
+[Docker](/glossary/docker/) Compose 設定リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API [スキーマ](/glossary/スキーマ/)検証[エラー](/glossary/エラー/)の場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」ドキュメントの `POST /containers/create`セクションを参照します。
 
 ### 環境別の確認ポイント
 
 - **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)バージョンを確認し、サポートされているイメージマニフェスト形式を検証します
 - **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`設定とイメージレジストリの [CORS](/glossary/cors/)設定を確認します
-- **[CI/CD](/glossary/ci-cd/)パイプライン**: GitHub Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックをテストします
+- **[CI/CD](/glossary/ci-cd/)パイプライン**: GitHub Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックを[テスト](/glossary/テスト/)します
 
 ---
 

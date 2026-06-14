@@ -13,7 +13,7 @@ related_services: ["Docker Hub", "Azure Container Registry", "AWS ECR", "GCP Art
 
 ## エラーの概要
 
-Docker Composeで401エラーが発生する場合、コンテナレジストリーへの認証に失敗しています。このエラーはプライベートイメージをpullしようとする際に最も頻繁に発生し、レジストリー側が「認証情報が不正または未提供」と判定した状態です。Docker Hubやプライベートレジストリー（ECR、GCR、プライベートDockerレジストリーなど）の両方で起こりえます。
+[Docker](/glossary/docker/) Composeで401[エラー](/glossary/エラー/)が発生する場合、コンテナレジストリーへの[認証](/glossary/認証/)に失敗しています。この[エラー](/glossary/エラー/)はプライベートイメージをpullしようとする際に最も頻繁に発生し、レジストリー側が「認証情報が不正または未提供」と判定した状態です。[Docker](/glossary/docker/) Hubやプライベートレジストリー（ECR、GCR、プライベート[Docker](/glossary/docker/)レジストリーなど）の両方で起こりえます。
 
 ## 実際のエラーメッセージ例
 
@@ -36,9 +36,9 @@ ERROR: for myapp  pull access denied for myregistry.azurecr.io/myimage, reposito
 
 ### 原因1：docker loginを実行していない
 
-Docker Composeでプライベートイメージをpullする前に、`docker login`コマンドで認証を済ませていない状況です。認証情報が`~/.docker/config.json`に保存されていないため、レジストリー側は401で応答します。
+[Docker](/glossary/docker/) Composeでプライベートイメージをpullする前に、`docker login`[コマンド](/glossary/コマンド/)で[認証](/glossary/認証/)を済ませていない状況です。認証情報が`~/.docker/config.json`に保存されていないため、レジストリー側は401で応答します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 認証なしで直接実行
@@ -61,9 +61,9 @@ $ docker-compose up
 
 ### 原因2：compose.ymlで正しい認証情報が参照されていない
 
-compose.ymlにレジストリー認証情報を含めるとき、`x-aws-cred-helper`や`credHelpers`設定が不正な場合や、設定ファイル自体が存在しない場合に401が発生します。
+compose.ymlにレジストリー認証情報を含めるとき、`x-aws-cred-helper`や`credHelpers`設定が不正な場合や、[設定ファイル](/glossary/設定ファイル/)自体が存在しない場合に401が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -102,9 +102,9 @@ $ cat ~/.docker/config.json
 
 ### 原因3：レジストリーのアクセストークンが期限切れまたは無効
 
-Docker Hubやプライベートレジストリーで生成したアクセストークンが期限切れ、削除された、または権限が制限されている場合です。
+[Docker](/glossary/docker/) Hubやプライベートレジストリーで生成したアクセストークンが期限切れ、削除された、または[権限](/glossary/権限/)が制限されている場合です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 以前のトークンで認証済み
@@ -131,9 +131,9 @@ $ aws ecr get-login-password --region <your-region> | docker login --username AW
 
 ### 原因4：docker-compose.ymlで間違ったレジストリーURLを指定している
 
-イメージ名またはレジストリーURLのスペルミスや、ホスト名の不一致がある場合です。存在しないレジストリーやアクセス権限がないレジストリーへのアクセスで401が返されます。
+[イメージ](/glossary/イメージ/)名またはレジストリーURLのスペルミスや、ホスト名の不一致がある場合です。存在しないレジストリーや[アクセス権限](/glossary/アクセス権限/)がないレジストリーへのアクセスで401が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -155,9 +155,9 @@ services:
 
 ### 原因5：マルチレジストリー構成で認証スコープが不足している
 
-複数のプライベートレジストリーを使用する場合、各レジストリーに対して別々に`docker login`する必要があります。一つのレジストリーにのみログインしていると、他のレジストリーへのアクセスで401が発生します。
+複数のプライベートレジストリーを使用する場合、各レジストリーに対して別々に`docker login`する必要があります。一つのレジストリーにのみ[ログイン](/glossary/ログイン/)していると、他のレジストリーへのアクセスで401が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -189,7 +189,7 @@ $ docker-compose up
 
 ### AWS ECR（Elastic Container Registry）での認証
 
-ECRはAWS IAM認証を使用するため、従来の`docker login`では対応できません。`aws ecr get-login-password`コマンドで一時的な認証トークンを取得する必要があります。
+ECRはAWS [IAM](/glossary/iam/)[認証](/glossary/認証/)を使用するため、従来の`docker login`では対応できません。`aws ecr get-login-password`[コマンド](/glossary/コマンド/)で一時的な[認証](/glossary/認証/)[トークン](/glossary/トークン/)を取得する必要があります。
 
 ```bash
 # ECR認証（12時間有効なトークンを生成）
@@ -201,7 +201,7 @@ $ docker-compose up
 
 ### Azure Container Registry（ACR）での認証
 
-ACRはサービスプリンシパルまたはアクセスキーでの認証が一般的です。
+ACRはサービスプリンシパルまたはアクセスキーでの[認証](/glossary/認証/)が一般的です。
 
 ```bash
 $ az acr login --name <your-acr-name>
@@ -211,7 +211,7 @@ $ docker login <your-acr-name>.azurecr.io -u <your-username> -p <your-password>
 
 ### プライベートDockerレジストリーでの認証
 
-自社ホストのプライベートレジストリーを使用する場合、レジストリーがHTTPSではなくHTTPで動作している場合があります。その場合は`daemon.json`でレジストリーをinsecureなものとして指定する必要があります。
+自社ホストのプライベートレジストリーを使用する場合、レジストリーが[HTTPS](/glossary/https/)ではなく[HTTP](/glossary/http/)で動作している場合があります。その場合は`daemon.json`でレジストリーをinsecureなものとして指定する必要があります。
 
 ```json
 {
@@ -221,7 +221,7 @@ $ docker login <your-acr-name>.azurecr.io -u <your-username> -p <your-password>
 
 ### .dockerconfigjsonの活用
 
-Kubernetesへのデプロイメント前にDocker Compose で動作確認する場合、設定ファイルの一貫性を保つことが重要です。
+[Kubernetes](/glossary/kubernetes/)へのデプロイメント前に[Docker](/glossary/docker/) Compose で動作確認する場合、[設定ファイル](/glossary/設定ファイル/)の一貫性を保つことが重要です。
 
 ```bash
 # ~/.docker/config.jsonが正しく設定されているか確認
@@ -232,7 +232,7 @@ $ test -f ~/.docker/config.json && echo "Config file exists" || echo "Missing co
 
 ### デバッグログを有効化
 
-Docker Composeのデバッグモードで詳細なエラー情報を確認できます。
+[Docker](/glossary/docker/) Composeのデバッグモードで詳細な[エラー](/glossary/エラー/)情報を確認できます。
 
 ```bash
 $ DOCKER_CONTENT_TRUST_DEBUG=1 docker-compose up
@@ -240,7 +240,7 @@ $ DOCKER_CONTENT_TRUST_DEBUG=1 docker-compose up
 
 ### レジストリー接続テスト
 
-`curl`コマンドで認証状態を直接テストします。
+`curl`[コマンド](/glossary/コマンド/)で認証状態を直接[テスト](/glossary/テスト/)します。
 
 ```bash
 # Docker Hubへの接続テスト（認証なし）
@@ -254,7 +254,7 @@ $ curl -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/library
 
 ### ログファイルの確認
 
-Dockerデーモンのログを確認します。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認します。
 
 ```bash
 # Linux（systemd利用）
@@ -266,13 +266,13 @@ $ log stream --predicate 'process == "com.docker.vmnetd"' --level debug
 
 ### 公式ドキュメント
 
-- Docker公式ドキュメント：https://docs.docker.com/engine/reference/commandline/login/
-- Docker Compose認証：https://docs.docker.com/compose/compose-file/compose-file-v3/#image
-- AWS ECR認証：https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/getting-started-cli.html
+- [Docker](/glossary/docker/)公式ドキュメント：https://docs.docker.com/engine/reference/commandline/login/
+- [Docker](/glossary/docker/) Compose[認証](/glossary/認証/)：https://docs.docker.com/compose/compose-file/compose-file-v3/#image
+- AWS ECR[認証](/glossary/認証/)：https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/getting-started-cli.html
 
 ### コミュニティリソース
 
-- Docker Community Forums：https://forums.docker.com/
+- [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 - GitHub Issues（docker/compose）：https://github.com/docker/compose/issues
 
 ---

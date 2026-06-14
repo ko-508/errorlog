@@ -11,11 +11,11 @@ related_services: ["Bitbucket Pipelines", "Bitbucket REST API", "Bitbucket Cloud
 ---
 ## エラーの概要
 
-Bitbucket の 400 エラーは、API へのリクエストの形式または内容が不正であることを示します。リクエストボディの JSON 破損、必須パラメータの欠落、YAML 構文エラー、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。このエラーはデプロイメント、リポジトリー操作、パイプライン設定で頻繁に遭遇します。
+Bitbucket の 400 [エラー](/glossary/エラー/)は、[API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容が不正であることを示します。[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 破損、必須[パラメータ](/glossary/パラメータ/)の欠落、[YAML](/glossary/yaml/) 構文[エラー](/glossary/エラー/)、クエリパラメータの不正な値など、クライアント側の入力データに問題がある場合に返されます。この[エラー](/glossary/エラー/)はデプロイメント、リポジトリー操作、パイプライン設定で頻繁に遭遇します。
 
 ## 実際のエラーメッセージ例
 
-**Bitbucket API レスポンス例：**
+**Bitbucket [API](/glossary/api/) [レスポンス](/glossary/レスポンス/)例：**
 
 ```json
 {
@@ -39,9 +39,9 @@ Pipeline error: 'message' field is required in bitbucket-pipelines.yml
 
 ### 原因 1：bitbucket-pipelines.yml の YAML 構文エラー
 
-Bitbucket Pipelines の設定ファイルに YAML 形式の誤りがあると、パイプラインの起動時に 400 エラーが発生します。インデント不正、クォート漏れ、不正なキー名、シーケンス記法の誤りなどが該当します。
+Bitbucket Pipelines の[設定ファイル](/glossary/設定ファイル/)に [YAML](/glossary/yaml/) 形式の誤りがあると、パイプラインの起動時に 400 [エラー](/glossary/エラー/)が発生します。インデント不正、クォート漏れ、不正なキー名、シーケンス記法の誤りなどが該当します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 image: atlassian/default-image:latest
@@ -77,9 +77,9 @@ pipelines:
 
 ### 原因 2：API リクエストボディの JSON 形式が不正
 
-Bitbucket REST API を呼び出す際、リクエストボディの JSON が壊れていたり、必須パラメータが欠落していたりすると 400 エラーが返されます。
+Bitbucket [REST](/glossary/rest/) [API](/glossary/api/) を呼び出す際、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) が壊れていたり、必須[パラメータ](/glossary/パラメータ/)が欠落していたりすると 400 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/issues \
@@ -104,13 +104,13 @@ curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/
   }'
 ```
 
-JSON の末尾のダブルクォートが閉じられておらず、また `content` フィールド（必須）が欠落していました。API ドキュメントで必須フィールドを確認し、有効な JSON 形式でリクエストを送信します。
+[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` フィールド（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須フィールドを確認し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を送信します。
 
 ### 原因 3：クエリパラメータの値が不正な形式
 
-API 呼び出しのクエリパラメータに無効な値を指定すると、400 エラーが発生します。例えば、ページネーション、フィルター条件、ソート順序で無効な値を渡す場合などです。
+[API](/glossary/api/) 呼び出しのクエリパラメータに無効な値を指定すると、400 [エラー](/glossary/エラー/)が発生します。例えば、ページネーション、フィルター条件、ソート順序で無効な値を渡す場合などです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 curl -X GET "https://api.bitbucket.org/2.0/repositories/<workspace>?pagelen=invalid&page=abc" \
@@ -129,16 +129,16 @@ curl -X GET "https://api.bitbucket.org/2.0/repositories/<workspace>?pagelen=50&p
 ## ツール固有の注意点
 
 **Bitbucket Pipelines での注意：**
-bitbucket-pipelines.yml をリポジトリーのルートに配置する際、ファイルのエンコーディングが UTF-8 であることを確認してください。また、Bitbucket の Web UI にある「Pipeline Validator」で YAML 構文を事前検証できます。リポジトリー設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。
+bitbucket-pipelines.yml をリポジトリーのルートに配置する際、ファイルのエンコーディングが UTF-8 であることを確認してください。また、Bitbucket の Web UI にある「Pipeline Validator」で [YAML](/glossary/yaml/) 構文を事前検証できます。リポジトリー設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。
 
-**Bitbucket Cloud API での注意：**
-API 呼び出し時に `Content-Type: application/json` ヘッダーを明示的に指定することが重要です。また、認証トークンの有効期限切れは 401 エラーになりますが、トークンが存在してもスコープ（API の使用権限範囲）が不足していると 400 が返される場合があります。API トークンの生成時に、必要な権限スコープ（例：`repository:read`, `issue:write`）を確認します。
+**Bitbucket Cloud [API](/glossary/api/) での注意：**
+[API](/glossary/api/) 呼び出し時に `Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)を明示的に指定することが重要です。また、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れは 401 [エラー](/glossary/エラー/)になりますが、[トークン](/glossary/トークン/)が存在しても[スコープ](/glossary/スコープ/)（[API](/glossary/api/) の使用権限範囲）が不足していると 400 が返される場合があります。[API](/glossary/api/) [トークン](/glossary/トークン/)の生成時に、必要な[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（例：`repository:read`, `issue:write`）を確認します。
 
 ## それでも解決しない場合
 
-まず Bitbucket UI 内のパイプライン実行ログを確認してください。詳細なエラーメッセージは「Pipeline」→「Build」→「Logs」タブに表示されます。
+まず Bitbucket UI 内のパイプライン実行[ログ](/glossary/ログ/)を確認してください。詳細な[エラーメッセージ](/glossary/エラーメッセージ/)は「Pipeline」→「Build」→「Logs」タブに表示されます。
 
-API 呼び出しの場合、cURL に `-v` フラグを付けて詳細なリクエスト・レスポンスを確認します：
+[API](/glossary/api/) 呼び出しの場合、cURL に `-v` フラグを付けて詳細な[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を確認します：
 
 ```bash
 curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/issues \
@@ -149,9 +149,9 @@ curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/is
 
 レスポンスボディの `errors` または `message` フィールドに問題の詳細が記載されます。
 
-オンラインの YAML バリデーターを使用して、bitbucket-pipelines.yml の構文を独立して検証することもできます（例：https://www.yamllint.com）。
+オンラインの [YAML](/glossary/yaml/) バリデーターを使用して、bitbucket-pipelines.yml の構文を独立して検証することもできます（例：https://www.yamllint.com）。
 
-最後に、[Bitbucket Cloud REST API ドキュメント](https://developer.atlassian.com/cloud/bitbucket/rest/)で対象のエンドポイントの必須パラメータと形式を確認し、[Bitbucket Pipelines YAML リファレンス](https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/)でパイプライン設定の仕様を参照してください。
+最後に、[Bitbucket Cloud REST API ドキュメント](https://developer.atlassian.com/cloud/bitbucket/rest/)で対象の[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と形式を確認し、[Bitbucket Pipelines YAML リファレンス](https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/)でパイプライン設定の仕様を参照してください。
 
 ---
 

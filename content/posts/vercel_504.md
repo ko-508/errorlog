@@ -13,18 +13,18 @@ lastmod: 2026-06-14
 ---
 ## エラーの概要
 
-Vercel の 504 エラーは、デプロイされたサーバーレス関数の実行時間が設定されたタイムアウト制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 300 秒（5 分）で、Pro プラン以上ではデフォルト 300 秒、Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。API 呼び出し、データベースクエリ、外部 API 連携など、応答待ちが長引く処理で頻繁に発生します。
+Vercel の 504 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)された[サーバーレス](/glossary/サーバーレス/)関数の実行時間が設定された[タイムアウト](/glossary/タイムアウト/)制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 300 秒（5 分）で、Pro プラン以上ではデフォルト 300 秒、Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。[API](/glossary/api/) 呼び出し、データベースクエリ、外部 [API](/glossary/api/) 連携など、応答待ちが長引く処理で頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
-**Vercel ダッシュボード表示：**
+**Vercel [ダッシュボード](/glossary/ダッシュボード/)表示：**
 
 ```
 504
 Gateway Timeout
 ```
 
-**関数ログ（Vercel Dashboard ロール）：**
+**関数[ログ](/glossary/ログ/)（Vercel Dashboard [ロール](/glossary/ロール/)）：**
 
 ```json
 {
@@ -37,7 +37,7 @@ Gateway Timeout
 }
 ```
 
-**cURL または HTTP クライアントでの応答：**
+**cURL または [HTTP](/glossary/http/) クライアントでの応答：**
 
 ```
 HTTP/1.1 504 Gateway Timeout
@@ -55,9 +55,9 @@ Content-Type: application/json
 
 ### 原因 1: 外部 API への応答待ちが長い
 
-外部サービス（データベース、第三者 API など）のレスポンスが遅れていることが最も一般的な原因です。ネットワーク遅延やサービスの過負荷により、タイムアウトに達する前に結果が返されません。
+外部サービス（[データベース](/glossary/データベース/)、第三者 [API](/glossary/api/) など）の[レスポンス](/glossary/レスポンス/)が遅れていることが最も一般的な原因です。[ネットワーク](/glossary/ネットワーク/)遅延やサービスの過負荷により、[タイムアウト](/glossary/タイムアウト/)に達する前に結果が返されません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 // pages/api/fetch-user.js
@@ -100,7 +100,7 @@ export default async function handler(req, res) {
 
 複雑なデータ処理やループ処理が実行時間内に完了していない場合があります。大量データの変換やファイル処理など、CPU 集約的なタスクが関数の実行時間を超過させます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 // pages/api/process-data.js
@@ -146,9 +146,9 @@ export default async function handler(req, res) {
 
 ### 原因 3: データベースクエリの最適化不足
 
-未インデックス化されたカラムへのクエリ、複数テーブルの結合、大量行の全スキャンなど、非効率なデータベースアクセスがタイムアウトを引き起こします。
+未[インデックス](/glossary/インデックス/)化されたカラムへの[クエリ](/glossary/クエリ/)、複数[テーブル](/glossary/テーブル/)の結合、大量行の全スキャンなど、非効率なデータベースアクセスが[タイムアウト](/glossary/タイムアウト/)を引き起こします。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 // pages/api/get-orders.js
@@ -200,11 +200,11 @@ export default async function handler(req, res) {
 
 ## Vercel 固有の注意点
 
-**Hobby プランのタイムアウト制限：**
+**Hobby プランの[タイムアウト](/glossary/タイムアウト/)制限：**
 Hobby プランは最大 300 秒に固定されており、`maxDuration` で延長することはできません。長時間処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、バッチ処理）ことが必須です。
 
 **Fluid Compute の有効化：**
-Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。ダッシュボードの Project Settings から確認し、`vercel.json` で関数ごとに `maxDuration` を設定してください。
+Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。[ダッシュボード](/glossary/ダッシュボード/)の Project Settings から確認し、`vercel.json` で関数ごとに `maxDuration` を設定してください。
 
 ```json
 {
@@ -220,15 +220,15 @@ Pro プラン以上で Fluid Compute を使用している場合、800 秒まで
 ```
 
 **Edge Functions の活用：**
-Vercel の Edge Functions は地理的に分散されており、冷起動（デプロイ後の初回実行遅延）が少なく、外部 API への応答遅延が減少することがあります。軽量な処理で頻繁なタイムアウトが発生する場合、Edge Functions への移行を検討してください。
+Vercel の Edge Functions は地理的に分散されており、冷起動（[デプロイ](/glossary/デプロイ/)後の初回実行遅延）が少なく、外部 [API](/glossary/api/) への応答遅延が減少することがあります。軽量な処理で頻繁な[タイムアウト](/glossary/タイムアウト/)が発生する場合、Edge Functions への移行を検討してください。
 
 **Environment Variables の確認：**
-リトライロジックやキャッシュの設定が環境変数に依存している場合、本番環境と開発環境で値が異なるとタイムアウト発生パターンが変わります。Vercel ダッシュボードの Settings > Environment Variables で本番値を確認してください。
+リトライロジックや[キャッシュ](/glossary/キャッシュ/)の設定が[環境変数](/glossary/環境変数/)に依存している場合、本番環境と開発環境で値が異なると[タイムアウト](/glossary/タイムアウト/)発生パターンが変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を確認してください。
 
 ## それでも解決しない場合
 
-**関数ログの詳細確認：**
-Vercel ダッシュボードの Logs タブで関数実行ログを確認し、どのステップで時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
+**関数[ログ](/glossary/ログ/)の詳細確認：**
+Vercel [ダッシュボード](/glossary/ダッシュボード/)の Logs タブで関数実行[ログ](/glossary/ログ/)を確認し、どのステップで時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
 
 ```javascript
 console.log(`[${new Date().toISOString()}] Processing started`);
@@ -243,7 +243,7 @@ Vercel 公式の「Serverless Function Configuration」（https://vercel.com/doc
 Vercel の Observability 機能（Pro プラン以上）を有効にすると、関数の CPU 使用率、メモリ使用量、実行時間をリアルタイムで監視できます。ボトルネック特定に有効です。
 
 **GitHub Issues・コミュニティ：**
-同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。サーバーレス関数の実装、特定のライブラリとの相性問題などが記載されている場合があります。
+同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)関数の実装、特定のライブラリとの相性問題などが記載されている場合があります。
 
 ---
 

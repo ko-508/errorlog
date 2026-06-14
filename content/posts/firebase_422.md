@@ -13,7 +13,7 @@ related_services: ["REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase で 422 [エラー](/glossary/エラー/)が返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反やスキーマ検証[エラー](/glossary/エラー/)が主な原因です。
+Firebase で 422 [エラー](/glossary/エラー/)が返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反や[スキーマ](/glossary/スキーマ/)検証[エラー](/glossary/エラー/)が主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -174,7 +174,7 @@ exports.createUser = functions.https.onCall(async (data) => {
 
 ### デバッグ手順
 
-Firebase Console のセキュリティルールタブでシミュレーター機能を使い、実際の書き込み[リクエスト](/glossary/リクエスト/)をテストしましょう。ここで「許可」か「拒否」かが明確に表示され、拒否理由も確認できます。
+Firebase Console のセキュリティルールタブでシミュレーター機能を使い、実際の書き込み[リクエスト](/glossary/リクエスト/)を[テスト](/glossary/テスト/)しましょう。ここで「許可」か「拒否」かが明確に表示され、拒否理由も確認できます。
 
 ローカル環境では Firebase Emulator Suite を起動して、ルール違反の詳細[ログ](/glossary/ログ/)を確認します：
 
@@ -187,7 +187,7 @@ firebase emulators:start --inspect-functions
 Cloud Functions の[ログ](/glossary/ログ/)は Google Cloud Console で以下のパスで確認できます：
 - **Cloud Logging** > **ログエクスプローラー** > `resource.type="cloud_function"`
 
-Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase Console の **Realtime Database** > **ルール** > **シミュレーター** で再現テストを実施できます。
+Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase Console の **Realtime Database** > **ルール** > **シミュレーター** で再現[テスト](/glossary/テスト/)を実施できます。
 
 ### 公式ドキュメント参照
 

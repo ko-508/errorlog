@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Kubernetesの404エラーは、APIサーバーが指定したリソース（Pod・Service・Deploymentなど）やアクセスしようとしたエンドポイントが存在しないことを示します。`kubectl`コマンド実行時やKubernetes APIへのHTTPリクエスト時に発生し、リソースの削除後のアクセスや存在しないNamespaceへのクエリで特に見られます。このエラーはデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
+[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）やアクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ Error from server (NotFound): pods "my-app" not found
 **なぜ発生するか：**
 Podやサービスが意図せず削除されたり、別のプロセスによって削除された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 kubectl delete pod my-app
@@ -67,9 +67,9 @@ kubectl run my-app --image=my-image:latest
 ### 原因2：Namespaceの指定ミス
 
 **なぜ発生するか：**
-リソースがあるNamespaceと異なるNamespaceを指定した場合、APIサーバーはそのNamespace内のリソースを探すため404となります。デフォルトの`default` Namespaceではなく、`production`や`staging`などのNamespaceにリソースが存在することを見落とすことが多くあります。
+リソースがある[Namespace](/glossary/namespace/)と異なる[Namespace](/glossary/namespace/)を指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[Namespace](/glossary/namespace/)内のリソースを探すため404となります。デフォルトの`default` [Namespace](/glossary/namespace/)ではなく、`production`や`staging`などの[Namespace](/glossary/namespace/)にリソースが存在することを見落とすことが多くあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # リソースが production Namespace に存在するのに default で検索
@@ -95,9 +95,9 @@ kubectl config set-context --current --namespace=production
 ### 原因3：APIバージョンやリソースタイプの指定ミス
 
 **なぜ発生するか：**
-KubernetesはAPIバージョンの進化に伴い、リソースの名称や形式が変更されることがあります。存在しないAPIバージョン（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、APIサーバーはそれを認識できません。
+[Kubernetes](/glossary/kubernetes/)は[API](/glossary/api/)バージョンの進化に伴い、リソースの名称や形式が変更されることがあります。存在しない[API](/glossary/api/)バージョン（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを認識できません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: apps/v1beta1
@@ -144,9 +144,9 @@ spec:
 ### 原因4：RBAC（Role-Based Access Control）による権限不足
 
 **なぜ発生するか：**
-RBACが有効な環境で、ユーザーまたはServiceAccountが特定のリソースへのアクセス権限を持っていない場合、APIサーバーはそのリソースを見つけられないように振る舞うことがあります。これはセキュリティ上の理由で、存在しないリソースと同じ404エラーを返します。
+[RBAC](/glossary/rbac/)が有効な環境で、ユーザーまたはServiceAccountが特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を持っていない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそのリソースを見つけられないように振る舞うことがあります。これは[セキュリティ](/glossary/セキュリティ/)上の理由で、存在しないリソースと同じ404[エラー](/glossary/エラー/)を返します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ServiceAccount に Pod 閲覧権限がない場合
@@ -184,22 +184,22 @@ subjects:
 
 ## ツール固有の注意点
 
-**Namespace分離の設計：**
-Kubernetesでは複数のNamespaceを使用する場合、デフォルトで異なるNamespace間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、DNSの形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別のNamespaceのServiceにアクセスする際には、このFQDNを明記する必要があります。
+**[Namespace](/glossary/namespace/)分離の設計：**
+[Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、デフォルトで異なる[Namespace](/glossary/namespace/)間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
 
-**Ingress・Service・Pod間の連携エラー：**
-IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが設定されていても、バックエンドのServiceやPodが削除されると、トラフィックは応答できなくなります。`kubectl describe ingress`でバックエンドの状態を確認してください。
+**Ingress・Service・Pod間の連携[エラー](/glossary/エラー/)：**
+IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが設定されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが削除されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
 
 **CRD（Custom Resource Definition）のコンテキスト：**
 カスタムリソースを使用する場合、CRDが登録されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
 
 **クラスタバージョン間の互換性：**
-異なるKubernetesバージョン間でマニフェストファイルを使用する場合、新しいバージョン特有のAPIエンドポイントが古いクラスタに存在しないことがあります。`kubectl api-resources`コマンドで現在のクラスタで利用可能なリソースを確認してください。
+異なる[Kubernetes](/glossary/kubernetes/)バージョン間でマニフェストファイルを使用する場合、新しいバージョン特有の[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が古いクラスタに存在しないことがあります。`kubectl api-resources`[コマンド](/glossary/コマンド/)で現在のクラスタで利用可能なリソースを確認してください。
 
 ## それでも解決しない場合
 
-**ログとデバッグコマンド：**
-APIサーバーのログを確認して詳細なエラー情報を取得します。
+**[ログ](/glossary/ログ/)とデバッグコマンド：**
+[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認して詳細な[エラー](/glossary/エラー/)情報を取得します。
 
 ```bash
 # リソースが本当に存在しないか確認
@@ -215,8 +215,8 @@ kubectl describe pod <pod-name> -n <namespace>
 kubectl logs -n kube-system -l component=kube-apiserver
 ```
 
-**Kubernetesダッシュボード・GUIツール：**
-`kubectl proxy`を使用してダッシュボードにアクセスし、リソースが実際に存在するか視覚的に確認することもできます。
+**[Kubernetes](/glossary/kubernetes/)[ダッシュボード](/glossary/ダッシュボード/)・GUIツール：**
+`kubectl proxy`を使用して[ダッシュボード](/glossary/ダッシュボード/)にアクセスし、リソースが実際に存在するか視覚的に確認することもできます。
 
 ```bash
 kubectl proxy
@@ -224,10 +224,10 @@ kubectl proxy
 ```
 
 **公式ドキュメント：**
-Kubernetesの公式リファレンス「API Resources」や「Accessing the Kubernetes API」のセクションで、各APIバージョンと利用可能なエンドポイントを確認してください。また「RBAC Authorization」ドキュメントで権限設定の詳細を参照してください。
+[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)バージョンと利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
-Kubernetes GitHubのIssuesセクション（`kubernetes/kubernetes`リポジトリ）やStackOverflow、Kubernetes Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。
+[Kubernetes](/glossary/kubernetes/) GitHubのIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。
 
 ---
 

@@ -165,7 +165,7 @@ docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \
 
 ### Cloud Firestore / Realtime Database のセキュリティルール検証
 
-セキュリティルールの構文[エラー](/glossary/エラー/)や論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能かテストしてください。
+セキュリティルールの構文[エラー](/glossary/エラー/)や論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能か[テスト](/glossary/テスト/)してください。
 
 ```
 // Firebase Console のシミュレーター実行例
@@ -208,7 +208,7 @@ curl -H "Authorization:Bearer <ID_TOKEN>" \
 
 ### ログの確認方法
 
-Firebase Console の「[ログ](/glossary/ログ/)」セクション、または Cloud Logging で詳細なエラーメッセージを確認します。
+Firebase Console の「[ログ](/glossary/ログ/)」セクション、または Cloud Logging で詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。
 
 ```bash
 # gcloud CLI で Firestore アクセスログを確認

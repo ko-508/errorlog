@@ -43,7 +43,7 @@ OpenAI [API](/glossary/api/)の403[エラー](/glossary/エラー/)は、[認証
 
 ### 原因1：月間利用額の上限に達している
 
-OpenAI [API](/glossary/api/)アカウントに設定された月間支出上限に達すると、すべての[API](/glossary/api/)呼び出しが403[エラー](/glossary/エラー/)で拒否されます。特に、無料トライアル期間が終了した直後や、不正な使用検出後のアカウント凍結時に発生しやすい現象です。
+OpenAI [API](/glossary/api/)[アカウント](/glossary/アカウント/)に設定された月間支出上限に達すると、すべての[API](/glossary/api/)呼び出しが403[エラー](/glossary/エラー/)で拒否されます。特に、無料トライアル期間が終了した直後や、不正な使用検出後の[アカウント](/glossary/アカウント/)凍結時に発生しやすい現象です。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）：**
 ```python
@@ -73,7 +73,7 @@ curl https://api.openai.com/v1/models \
 
 ### 原因2：アカウントがGPT-4へのアクセス権を持っていない
 
-GPT-4、GPT-4 Turbo、GPT-4 Visionなどの高度な[モデル](/glossary/モデル/)は、すべてのOpenAIアカウントで即座に利用できません。特定の契約条件や使用実績が必要な場合があります。
+GPT-4、GPT-4 Turbo、GPT-4 Visionなどの高度な[モデル](/glossary/モデル/)は、すべてのOpenAI[アカウント](/glossary/アカウント/)で即座に利用できません。特定の契約条件や使用実績が必要な場合があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```python
@@ -228,7 +228,7 @@ except openai.error.OpenAIError as e:
 - **GitHub Issues**（https://github.com/openai/openai-python/issues）：同様の問題報告を検索
 - **サポートフォーム**（https://help.openai.com）：アカウント固有の問題は公式サポートに問い合わせ
 
-アカウントの制限解除やGPT-4へのアクセス権追加については、OpenAIの公式サポートへの問い合わせが最も確実な解決方法です。
+[アカウント](/glossary/アカウント/)の制限解除やGPT-4へのアクセス権追加については、OpenAIの公式サポートへの問い合わせが最も確実な解決方法です。
 
 ---
 

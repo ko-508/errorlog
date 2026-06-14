@@ -229,7 +229,7 @@ curl -v -H "Authorization: token <your-token>" \
 
 ### コミュニティリソース
 
-GitHub の公式フォーラム（GitHub Discussions）や Stack Overflow の `github-api` タグで、類似の問題報告が多数あります。エラーメッセージの全文とトークンスコープの情報を共有することで、より正確な回答が得られます。
+GitHub の公式フォーラム（GitHub Discussions）や Stack Overflow の `github-api` タグで、類似の問題報告が多数あります。[エラーメッセージ](/glossary/エラーメッセージ/)の全文とトークンスコープの情報を共有することで、より正確な回答が得られます。
 
 ---
 

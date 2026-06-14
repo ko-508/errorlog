@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 401 エラーは、クラウドプロバイダー（AWS・Azure・GCP等）または Terraform Cloud/Enterprise への認証に失敗したときに発生します。認証情報の不足・期限切れ・形式エラーなどが原因で、リソースの操作やプランの実行が中断されます。
+Terraform の 401 [エラー](/glossary/エラー/)は、クラウドプロバイダー（AWS・Azure・GCP等）または Terraform Cloud/Enterprise への[認証](/glossary/認証/)に失敗したときに発生します。認証情報の不足・期限切れ・形式[エラー](/glossary/エラー/)などが原因で、リソースの操作やプランの実行が中断されます。
 
 ## 実際のエラーメッセージ例
 
@@ -32,9 +32,9 @@ HTTP status code: 401 Unauthorized
 
 ### 原因1：AWS アクセスキーの認証情報が不正または期限切れ
 
-AWS のアクセスキーが間違っているか、IAM（AWS Identity and Access Management）ユーザーの権限が削除されている場合に発生します。特に複数の AWS アカウントを扱う環境では、設定ミスが起こりやすくなります。
+AWS のアクセスキーが間違っているか、[IAM](/glossary/iam/)（AWS Identity and Access Management）ユーザーの[権限](/glossary/権限/)が削除されている場合に発生します。特に複数の AWS [アカウント](/glossary/アカウント/)を扱う環境では、設定ミスが起こりやすくなります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 期限切れまたは不正なキーを使用
@@ -62,9 +62,9 @@ terraform plan
 
 ### 原因2：環境変数が設定されていない
 
-Terraform が認証情報を探すとき、環境変数（`AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY` など）が未設定の場合、プロバイダー認証に失敗します。特に CI/CD パイプラインやサーバーレス環境では見落としやすい原因です。
+Terraform が認証情報を探すとき、[環境変数](/glossary/環境変数/)（`AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY` など）が未設定の場合、プロバイダー[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインや[サーバーレス](/glossary/サーバーレス/)環境では見落としやすい原因です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```hcl
 # main.tf
@@ -106,9 +106,9 @@ terraform plan
 
 ### 原因3：Terraform Cloud の認証トークンが無効または期限切れ
 
-`terraform login` で取得した Terraform Cloud のトークンが有効期限を超えた場合や、トークンが削除された場合に発生します。リモート状態を利用している環境では特に重要です。
+`terraform login` で取得した Terraform Cloud の[トークン](/glossary/トークン/)が有効期限を超えた場合や、[トークン](/glossary/トークン/)が削除された場合に発生します。リモート状態を利用している環境では特に重要です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ~/.terraformrc に古いトークンが保存されている
@@ -142,9 +142,9 @@ terraform init
 
 ### 原因4：プロバイダーブロックの認証情報が直接記述されている場合のキー値エラー
 
-プロバイダーブロック内に直接認証情報を記述している場合、キー名やフォーマットのタイプミスが 401 エラーを引き起こします。
+プロバイダーブロック内に直接認証情報を記述している場合、キー名やフォーマットのタイプミスが 401 [エラー](/glossary/エラー/)を引き起こします。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```hcl
 # main.tf
@@ -187,7 +187,7 @@ provider "aws" {
 
 ### 複数プロバイダーを利用する場合
 
-Terraform で AWS・Azure・GCP など複数のクラウドプロバイダーを組み合わせる場合、各プロバイダーの認証情報をそれぞれ設定する必要があります。一つのプロバイダーの認証が失敗すると、全体の `terraform plan` がブロックされます。
+Terraform で AWS・Azure・GCP など複数のクラウドプロバイダーを組み合わせる場合、各プロバイダーの認証情報をそれぞれ設定する必要があります。一つのプロバイダーの[認証](/glossary/認証/)が失敗すると、全体の `terraform plan` がブロックされます。
 
 ```hcl
 provider "aws" {
@@ -222,7 +222,7 @@ gcloud auth list
 
 ### Terraform Cloud / Enterprise でのリモート状態管理
 
-`terraform login` で正常に認証できても、後で組織の API トークンポリシーが変更される場合があります。Terraform Cloud の Web UI で自分のトークン有効期限を確認し、期限が近い場合は新規トークンを生成してください。
+`terraform login` で正常に[認証](/glossary/認証/)できても、後で組織の [API](/glossary/api/) トークンポリシーが変更される場合があります。Terraform Cloud の Web UI で自分の[トークン](/glossary/トークン/)有効期限を確認し、期限が近い場合は新規[トークン](/glossary/トークン/)を生成してください。
 
 ```bash
 # トークン情報の確認（Terraform Cloud Web UI: https://app.terraform.io/app/settings/tokens）
@@ -233,7 +233,7 @@ terraform login  # 新しいトークンで再設定
 
 ### CI/CD パイプライン（GitHub Actions・GitLab CI 等）での環境変数設定
 
-パイプラインで Terraform を実行する場合、シークレット環境変数として認証情報を登録する必要があります。例えば GitHub Actions では以下のように設定します。
+パイプラインで Terraform を実行する場合、シークレット[環境変数](/glossary/環境変数/)として認証情報を登録する必要があります。例えば GitHub Actions では以下のように設定します。
 
 ```yaml
 # .github/workflows/terraform.yml
@@ -259,7 +259,7 @@ jobs:
 
 ### ログレベルを上げてデバッグ情報を取得
 
-Terraform のログレベルを `DEBUG` に設定すると、認証フローの詳細が表示されます。
+Terraform のログレベルを `DEBUG` に設定すると、[認証](/glossary/認証/)フローの詳細が表示されます。
 
 ```bash
 export TF_LOG=DEBUG
@@ -271,7 +271,7 @@ grep -i "401\|unauthorized" terraform_debug.log
 
 ### 認証情報キャッシュをクリア
 
-古いキャッシュが残っている場合、以下のコマンドで Terraform のプラグインキャッシュを削除してください。
+古い[キャッシュ](/glossary/キャッシュ/)が残っている場合、以下の[コマンド](/glossary/コマンド/)で Terraform のプラグインキャッシュを削除してください。
 
 ```bash
 # Terraform プラグインキャッシュをクリア
@@ -286,7 +286,7 @@ terraform init
 
 ### プロバイダーと API 仕様の確認
 
-使用するプロバイダーのバージョンが古い場合、API 仕様変更により認証方式が変わっている可能性があります。最新バージョンへのアップグレードを試してください。
+使用するプロバイダーのバージョンが古い場合、[API](/glossary/api/) 仕様変更により認証方式が変わっている可能性があります。最新バージョンへのアップグレードを試してください。
 
 ```bash
 # プロバイダーのバージョン確認

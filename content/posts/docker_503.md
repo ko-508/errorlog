@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-DockerのHTTP 503エラーは、「Service Unavailable」を意味し、リクエスト対象のサーバーが一時的に利用不可能な状態にあることを示します。Docker環境では、Docker HubなどのレジストリサーバーやローカルのDockerデーモンが応答しない場合に頻発します。コンテナイメージの取得やプッシュ時に最も多く遭遇するエラーであり、その原因は多岐にわたります。
+[Docker](/glossary/docker/)の[HTTP](/glossary/http/) 503[エラー](/glossary/エラー/)は、「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。[コンテナイメージ](/glossary/コンテナイメージ/)の取得やプッシュ時に最も多く遭遇する[エラー](/glossary/エラー/)であり、その原因は多岐にわたります。
 
 ## 実際のエラーメッセージ例
 
@@ -46,11 +46,11 @@ error: unexpected status code 503 Service Unavailable
 
 ### 原因1: Docker Hubまたはレジストリサーバーの障害
 
-Docker Hubやプライベートレジストリが障害状態にあるか、メンテナンス中の場合にエラーが発生します。この場合、クライアント側の設定に問題がなくても、サーバー側の復旧を待つ必要があります。
+[Docker](/glossary/docker/) Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)が障害状態にあるか、メンテナンス中の場合に[エラー](/glossary/エラー/)が発生します。この場合、クライアント側の設定に問題がなくても、[サーバー](/glossary/サーバー/)側の復旧を待つ必要があります。
 
-まずは、対象レジストリの状態確認コマンドを実行してください。
+まずは、対象[レジストリ](/glossary/レジストリ/)の状態確認[コマンド](/glossary/コマンド/)を実行してください。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # エラーが出たらすぐに再度pull/pushを試みている
@@ -74,9 +74,9 @@ $ docker pull myimage:latest
 
 ### 原因2: Dockerデーモンの停止または不安定な状態
 
-ローカルのDockerデーモンが停止していたり、メモリ不足で応答していない場合、503エラーが返される可能性があります。
+ローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が停止していたり、メモリ不足で応答していない場合、503[エラー](/glossary/エラー/)が返される可能性があります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ docker pull ubuntu:latest
@@ -102,9 +102,9 @@ $ docker info
 
 ### 原因3: ネットワーク設定またはプロキシの問題
 
-会社のファイアウォール配下やプロキシを経由している環境では、Dockerデーモンがレジストリに到達できず、503エラーが発生することがあります。
+会社の[ファイアウォール](/glossary/ファイアウォール/)配下や[プロキシ](/glossary/プロキシ/)を経由している環境では、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が[レジストリ](/glossary/レジストリ/)に到達できず、503[エラー](/glossary/エラー/)が発生することがあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ docker pull myregistry:latest
@@ -134,9 +134,9 @@ $ docker pull ubuntu:latest
 
 ### 原因4: レジストリ認証の失敗
 
-プライベートレジストリへのアクセスで認証トークンが無効または期限切れの場合、サーバーが503を返すことがあります。
+[プライベートレジストリ](/glossary/プライベートレジストリ/)へのアクセスで[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れの場合、[サーバー](/glossary/サーバー/)が503を返すことがあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ docker push myregistry.azurecr.io/myapp:latest
@@ -163,9 +163,9 @@ $ docker push myregistry.azurecr.io/myapp:latest
 
 ### 原因5: Docker Composeでの起動順序による競合
 
-Docker Composeで複数のサービスを起動する際、レジストリサービスより他のサービスが先に起動しようとして503が発生することがあります。
+[Docker](/glossary/docker/) Composeで複数のサービスを起動する際、レジストリサービスより他のサービスが先に起動しようとして503が発生することがあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -205,7 +205,7 @@ services:
 
 ### Docker Hubの制限とレート制限
 
-Docker Hubは匿名ユーザーに対して1時間に100プルのレート制限を設けています。この制限に達するとサーバーが503（または429）を返します。
+[Docker](/glossary/docker/) Hubは匿名ユーザーに対して1時間に100プルの[レート制限](/glossary/レート制限/)を設けています。この制限に達すると[サーバー](/glossary/サーバー/)が503（または429）を返します。
 
 ```bash
 # レート制限の状態を確認
@@ -220,7 +220,7 @@ docker pull docker.io/library/ubuntu:latest  # 制限対象
 
 ### プライベートレジストリ（Azure Container Registry、AWS ECR等）の接続問題
 
-`docker login` 直後にもかかわらず503が発生する場合、認証トークンの有効期限が短いことが原因の可能性があります。Azure Container Registryの場合、以下のコマンドで有効期限を確認できます。
+`docker login` 直後にもかかわらず503が発生する場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限が短いことが原因の可能性があります。Azure Container Registryの場合、以下の[コマンド](/glossary/コマンド/)で有効期限を確認できます。
 
 ```bash
 # Azure CLIでトークンを更新
@@ -232,7 +232,7 @@ $ aws ecr get-login-password --region <region> | docker login --username AWS --p
 
 ### Dockerデーモンのメモリ不足
 
-大量のイメージをpullしたり、多数のコンテナを同時実行している環境では、デーモンがメモリ枯渇で503を返すことがあります。
+大量の[イメージ](/glossary/イメージ/)をpullしたり、多数の[コンテナ](/glossary/コンテナ/)を同時実行している環境では、[デーモン](/glossary/デーモン/)がメモリ枯渇で503を返すことがあります。
 
 ```bash
 # Docker デーモンのログを確認（systemd使用環境）
@@ -282,7 +282,7 @@ $ journalctl -u docker -f
 - [Docker Hub Status](https://www.docker.com/status)
 - [Docker Community Forums](https://forums.docker.com/)
 
-503エラーが継続する場合は、対象レジストリのサポートチームへの問い合わせ、または最新の公式ドキュメント確認をお勧めします。
+503[エラー](/glossary/エラー/)が継続する場合は、対象[レジストリ](/glossary/レジストリ/)のサポートチームへの問い合わせ、または最新の公式ドキュメント確認をお勧めします。
 
 ---
 

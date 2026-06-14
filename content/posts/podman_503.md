@@ -13,7 +13,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman の 503 エラーは「Service Unavailable（サービス利用不可）」を意味し、Podman API サービスやコンテナレジストリが一時的に利用できない状態で発生します。このエラーは `podman` コマンド実行時やコンテナ起動時、イメージプル操作時に頻出し、原因がローカルサービスの停止か外部レジストリの障害かを見極める必要があります。
+Podman の 503 [エラー](/glossary/エラー/)は「Service Unavailable（サービス利用不可）」を意味し、Podman [API](/glossary/api/) サービスやコンテナレジストリが一時的に利用できない状態で発生します。この[エラー](/glossary/エラー/)は `podman` [コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)起動時、イメージプル操作時に頻出し、原因がローカルサービスの停止か外部[レジストリ](/glossary/レジストリ/)の障害かを見極める必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -32,9 +32,9 @@ Error: unable to connect to Podman socket: Get \"http://d/v4.0.0/libpod/_ping\":
 
 ### 原因1：Podman API ソケット（podman.socket）が起動していない
 
-Podman をシステムサービスとして動作させる場合、`podman.socket` がリッスンしていないと、すべての Podman コマンドが 503 エラーで失敗します。特にリモート接続や複数ユーザーでの Podman 利用時に発生しやすいです。
+Podman をシステムサービスとして動作させる場合、`podman.socket` がリッスンしていないと、すべての Podman [コマンド](/glossary/コマンド/)が 503 [エラー](/glossary/エラー/)で失敗します。特にリモート接続や複数ユーザーでの Podman 利用時に発生しやすいです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # Podman API サービスが停止している状態
@@ -62,9 +62,9 @@ podman info
 
 ### 原因2：コンテナレジストリ（Docker Hub・Quay.io等）のメンテナンスまたは障害
 
-Docker Hub や Quay.io などの外部レジストリがメンテナンス中、負荷が高い状態、またはネットワーク遅延により一時的に 503 を返しています。この場合、イメージプル操作が失敗します。
+[Docker](/glossary/docker/) Hub や Quay.io などの外部[レジストリ](/glossary/レジストリ/)がメンテナンス中、負荷が高い状態、または[ネットワーク](/glossary/ネットワーク/)遅延により一時的に 503 を返しています。この場合、イメージプル操作が失敗します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # レジストリが利用できない状況
@@ -88,9 +88,9 @@ curl -I https://registry-1.docker.io/v2/
 
 ### 原因3：Podman デーモンがクラッシュまたはメモリ不足
 
-Podman デーモンプロセス（`podman system service` で起動したプロセス）がクラッシュしたり、メモリ不足でキルされたりすると、新しいリクエストに対して 503 を返します。特に大量のコンテナを同時実行している環境で顕著です。
+Podman デーモンプロセス（`podman system service` で起動したプロセス）がクラッシュしたり、メモリ不足でキルされたりすると、新しい[リクエスト](/glossary/リクエスト/)に対して 503 を返します。特に大量の[コンテナ](/glossary/コンテナ/)を同時実行している環境で顕著です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # podman デーモンが停止している状態
@@ -123,9 +123,9 @@ podman system df
 
 ### 原因4：ファイアウォール・プロキシ設定によるレジストリアクセス制限
 
-組織内のファイアウォールやプロキシが HTTPS コネクションをブロックするか、レジストリへのアクセスを制限しており、デーモンが 503 と解釈する接続エラーを発生させています。
+組織内の[ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が [HTTPS](/glossary/https/) コネクションをブロックするか、[レジストリ](/glossary/レジストリ/)へのアクセスを制限しており、[デーモン](/glossary/デーモン/)が 503 と解釈する接続[エラー](/glossary/エラー/)を発生させています。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # プロキシを経由せずにイメージをプルしようとする
@@ -159,7 +159,7 @@ podman pull docker.io/library/alpine:latest
 
 ### Podman ソケットのアクセス権限問題
 
-非root ユーザーで Podman を実行する場合、`/run/user/<uid>/podman/podman.sock` へのアクセス権限が不足していると 503 エラーが発生します。`podman.socket` ユーザーモード版が起動していることを確認してください。
+非root ユーザーで Podman を実行する場合、`/run/user/<uid>/podman/podman.sock` への[アクセス権限](/glossary/アクセス権限/)が不足していると 503 [エラー](/glossary/エラー/)が発生します。`podman.socket` ユーザーモード版が起動していることを確認してください。
 
 ```bash
 # 現在のユーザーID を確認
@@ -175,7 +175,7 @@ ls -la /run/user/$(id -u)/podman/podman.sock
 
 ### リモート Podman 接続での接続タイムアウト
 
-Podman を SSH 経由でリモート接続する場合、SSH キーが設定されていないか、リモート側の Podman API サービスが起動していないと 503 が発生します。
+Podman を SSH 経由でリモート接続する場合、SSH キーが設定されていないか、リモート側の Podman [API](/glossary/api/) サービスが起動していないと 503 が発生します。
 
 ```bash
 # リモート接続先の接続情報確認
@@ -190,7 +190,7 @@ podman -c <connection-name> info
 
 ### Podman Compose の 503 エラー
 
-`podman-compose` 使用時に 503 が発生する場合、Podman デーモン（`podman.socket`）が起動していない、またはイメージレジストリが利用不可です。
+`podman-compose` 使用時に 503 が発生する場合、Podman [デーモン](/glossary/デーモン/)（`podman.socket`）が起動していない、またはイメージレジストリが利用不可です。
 
 ```bash
 # podman.socket が起動していることを確認
@@ -223,8 +223,8 @@ curl -v https://registry-1.docker.io/v2/
 - 公式ドキュメント：[Podman System Service](https://docs.podman.io/en/latest/markdown/podman-system-service.1.html)
 - 公式ドキュメント：[Podman Remote Connection](https://docs.podman.io/en/latest/markdown/podman-system-connection.1.html)
 - GitHub Issues：[Podman Issues](https://github.com/containers/podman/issues)
-- Docker Hub Status：[status.docker.com](https://status.docker.com/)
-- レジストリの公式ステータスページで障害情報を確認
+- [Docker](/glossary/docker/) Hub Status：[status.docker.com](https://status.docker.com/)
+- [レジストリ](/glossary/レジストリ/)の公式ステータスページで障害情報を確認
 
 ---
 

@@ -13,17 +13,17 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-Minikubeで403エラーが返される場合、RBAC（ロールベースアクセス制御）によるアクセス権限の拒否が原因です。このエラーは、PodやServiceAccountがKubernetesリソースへのアクセスを試みた際に、十分な権限がない状態で発生します。開発環境での動作確認から本番運用まで、権限設定の誤りは頻繁に遭遇する問題です。
+Minikubeで403[エラー](/glossary/エラー/)が返される場合、[RBAC](/glossary/rbac/)（ロールベースアクセス制御）による[アクセス権限](/glossary/アクセス権限/)の拒否が原因です。この[エラー](/glossary/エラー/)は、PodやServiceAccountが[Kubernetes](/glossary/kubernetes/)リソースへのアクセスを試みた際に、十分な[権限](/glossary/権限/)がない状態で発生します。開発環境での動作確認から本番運用まで、権限設定の誤りは頻繁に遭遇する問題です。
 
 ## 実際のエラーメッセージ例
 
-kubectlコマンド実行時のエラー：
+kubectl[コマンド](/glossary/コマンド/)実行時の[エラー](/glossary/エラー/)：
 
 ```
 error: deployments.apps "my-app" is forbidden: User "system:serviceaccount:default:default" cannot get resource "deployments" in API group "apps" in the namespace "default"
 ```
 
-Pod内からAPIサーバーアクセス時のエラー：
+Pod内から[API](/glossary/api/)サーバーアクセス時の[エラー](/glossary/エラー/)：
 
 ```json
 {
@@ -45,9 +45,9 @@ Pod内からAPIサーバーアクセス時のエラー：
 
 ### 原因1：デフォルトServiceAccountに必要な権限がない
 
-Minikubeのデフォルト名前空間では、`default` ServiceAccountが使用されますが、このアカウントには最小限の権限しか持っていません。Deploymentの一覧取得やPodの作成といった操作を試みると、権限不足により403エラーが発生します。
+Minikubeのデフォルト名前空間では、`default` ServiceAccountが使用されますが、この[アカウント](/glossary/アカウント/)には最小限の[権限](/glossary/権限/)しか持っていません。Deploymentの一覧取得やPodの作成といった操作を試みると、権限不足により403[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: v1
@@ -111,9 +111,9 @@ spec:
 
 ### 原因2：RoleBindingが存在しない、または間違った名前空間に設定されている
 
-Roleを作成してもRoleBindingで適切なServiceAccountに紐付けなければ、権限は有効になりません。また、名前空間固有の操作をする場合、RoleBindingが異なる名前空間に存在していないか確認が必要です。
+Roleを作成してもRoleBindingで適切なServiceAccountに紐付けなければ、[権限](/glossary/権限/)は有効になりません。また、名前空間固有の操作をする場合、RoleBindingが異なる名前空間に存在していないか確認が必要です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -172,7 +172,7 @@ subjects:
 
 単一の名前空間内での操作はRoleで十分ですが、複数の名前空間にまたがったリソースへのアクセスや、クラスタ全体のリソース（Node、StorageClass等）にアクセスする場合はClusterRoleとClusterRoleBindingが必要です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: v1
@@ -230,33 +230,33 @@ subjects:
 
 ## Minikube固有の注意点
 
-**RBAC有効化の確認**
+**[RBAC](/glossary/rbac/)有効化の確認**
 
-MinikubeではデフォルトでアドミッションコントローラーとしてRBACが有効です。RBACが意図的に無効化されていないか確認するには、以下のコマンドで確認できます。
+Minikubeではデフォルトでアドミッションコントローラーとして[RBAC](/glossary/rbac/)が有効です。[RBAC](/glossary/rbac/)が意図的に無効化されていないか確認するには、以下の[コマンド](/glossary/コマンド/)で確認できます。
 
 ```bash
 minikube start --extra-config=apiserver.enable-admission-plugins=RBAC
 ```
 
-既存のMinikubeクラスタでRBAC設定を確認する場合：
+既存のMinikubeクラスタで[RBAC](/glossary/rbac/)設定を確認する場合：
 
 ```bash
 kubectl api-resources
 kubectl describe clusterrole system:masters
 ```
 
-**ServiceAccountトークンの確認**
+**ServiceAccount[トークン](/glossary/トークン/)の確認**
 
-Pod内からAPIサーバーへアクセスする際、ServiceAccountのトークンが正しくマウントされているか確認します。
+Pod内から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が正しくマウントされているか確認します。
 
 ```bash
 kubectl describe pod <pod-name> -n <namespace>
 # Mounts セクションで /var/run/secrets/kubernetes.io/serviceaccount が存在するか確認
 ```
 
-**デバッグ用の一時的なアクセス許可**
+**[デバッグ](/glossary/デバッグ/)用の一時的なアクセス許可**
 
-開発環境で素早くテストする場合、クラスタロール`cluster-admin`をServiceAccountに一時的に付与することができます。本番環境では絶対に使用しないでください。
+開発環境で素早く[テスト](/glossary/テスト/)する場合、クラスタロール`cluster-admin`をServiceAccountに一時的に付与することができます。本番環境では絶対に使用しないでください。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -275,9 +275,9 @@ subjects:
 
 ## それでも解決しない場合
 
-**ログの確認とデバッグ**
+**[ログ](/glossary/ログ/)の確認と[デバッグ](/glossary/デバッグ/)**
 
-Kubernetesの詳細なログを確認するには、以下のコマンドを実行します。
+[Kubernetes](/glossary/kubernetes/)の詳細な[ログ](/glossary/ログ/)を確認するには、以下の[コマンド](/glossary/コマンド/)を実行します。
 
 ```bash
 minikube logs
@@ -285,15 +285,15 @@ kubectl get events -n <namespace> --sort-by='.lastTimestamp'
 kubectl describe pod <pod-name> -n <namespace>
 ```
 
-kubectlコマンド実行時に詳細な情報を表示する場合：
+kubectl[コマンド](/glossary/コマンド/)実行時に詳細な情報を表示する場合：
 
 ```bash
 kubectl get pods -v=8
 ```
 
-**権限の確認コマンド**
+**[権限](/glossary/権限/)の確認[コマンド](/glossary/コマンド/)**
 
-特定のServiceAccountが持つ権限を確認するには`kubectl auth can-i`コマンドを使用します。
+特定のServiceAccountが持つ[権限](/glossary/権限/)を確認するには`kubectl auth can-i`[コマンド](/glossary/コマンド/)を使用します。
 
 ```bash
 kubectl auth can-i get pods --as=system:serviceaccount:default:default
@@ -306,7 +306,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:deploye
 - [Kubernetes公式：ServiceAccount](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
 - [Minikube公式ドキュメント](https://minikube.sigs.k8s.io/)
 
-GitHub Issuesでは、Minikube固有のRBAC問題が報告されています。エラーメッセージの詳細な文言で検索すると、同じ問題を解決した事例が見つかる可能性があります。
+GitHub Issuesでは、Minikube固有の[RBAC](/glossary/rbac/)問題が報告されています。[エラーメッセージ](/glossary/エラーメッセージ/)の詳細な文言で検索すると、同じ問題を解決した事例が見つかる可能性があります。
 
 ---
 

@@ -14,11 +14,11 @@ related_services: ["Slack API"]
 
 ## エラーの概要
 
-Slack APIで404エラーが返される場合、指定したチャンネル・メッセージ・ユーザーなどのリソースがSlackワークスペース内に存在しないか、認証ユーザーにアクセス権限がないことを意味します。このエラーは開発初期段階や権限設定の誤りで頻繁に発生し、原因を理解することで素早く対応できます。
+Slack [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、指定したチャンネル・メッセージ・ユーザーなどのリソースがSlack[ワークスペース](/glossary/ワークスペース/)内に存在しないか、[認証](/glossary/認証/)ユーザーに[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は開発初期段階や権限設定の誤りで頻繁に発生し、原因を理解することで素早く対応できます。
 
 ## 実際のエラーメッセージ例
 
-Slack APIの404レスポンス例を以下に示します：
+Slack [API](/glossary/api/)の404[レスポンス](/glossary/レスポンス/)例を以下に示します：
 
 ```json
 {
@@ -51,9 +51,9 @@ Slack APIの404レスポンス例を以下に示します：
 
 ### 原因1：チャンネルIDが誤っている
 
-Slack APIは文字列一致に厳密です。チャンネルIDの1文字誤りやコピペ時の誤りで404が発生します。IDは大文字小文字を区別するため注意が必要です。
+Slack [API](/glossary/api/)は文字列一致に厳密です。チャンネルIDの1文字誤りやコピペ時の誤りで404が発生します。IDは大文字小文字を区別するため注意が必要です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import slack
@@ -76,9 +76,9 @@ print(response)
 
 ### 原因2：チャンネル名をIDの代わりに使用している
 
-`#general`や`#random`といったチャンネル「名」を直接APIに指定すると404エラーが返されます。Slack APIではチャンネルID（C0G9QF9GZなど）での指定が必須です。
+`#general`や`#random`といったチャンネル「名」を直接[API](/glossary/api/)に指定すると404[エラー](/glossary/エラー/)が返されます。Slack [API](/glossary/api/)ではチャンネルID（C0G9QF9GZなど）での指定が必須です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -118,9 +118,9 @@ async function sendMessage() {
 
 ### 原因3：削除済みチャンネルにアクセスしている
 
-チャンネルが削除された後、そのチャンネルIDに対してAPIリクエストを実行すると404が返されます。アーカイブされたチャンネルと削除されたチャンネルは異なり、削除後は復旧できません。
+チャンネルが削除された後、そのチャンネルIDに対して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を実行すると404が返されます。アーカイブされたチャンネルと削除されたチャンネルは異なり、削除後は復旧できません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 curl -X GET "https://slack.com/api/conversations.info?channel=C9XYZABC" \
@@ -144,7 +144,7 @@ curl -X GET "https://slack.com/api/conversations.info?channel=C_VALID_ID" \
 
 プライベートチャンネルではボットのメンバーシップが必要です。ボットが追加されていないチャンネルにメッセージを送信しようとすると404が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import slack
@@ -190,7 +190,7 @@ except slack.errors.SlackApiError as e:
 
 ### チャンネルID確認の方法
 
-SlackアプリのUI上でチャンネル名をクリックすると、パンくずリストの下部にチャンネルIDが表示されます。または`conversations.list`エンドポイントで全チャンネル一覧を取得し、正確なIDを確認することが推奨されます。
+SlackアプリのUI上でチャンネル名をクリックすると、パンくずリストの下部にチャンネルIDが表示されます。または`conversations.list`[エンドポイント](/glossary/エンドポイント/)で全チャンネル一覧を取得し、正確なIDを確認することが推奨されます。
 
 ```bash
 curl -X GET "https://slack.com/api/conversations.list?limit=100" \
@@ -200,17 +200,17 @@ curl -X GET "https://slack.com/api/conversations.list?limit=100" \
 
 ### App-level permissionsの確認
 
-API呼び出しに必要な権限がボットに付与されていない場合、404ではなく権限エラー（`missing_scope`）が返されることもありますが、特定のリソースへのアクセスが明示的に拒否されている場合は404として扱われることがあります。ボットのスコープが`channels:read`、`chat:write`など必要な権限を持っているか確認してください。
+[API](/glossary/api/)呼び出しに必要な[権限](/glossary/権限/)がボットに付与されていない場合、404ではなく[権限](/glossary/権限/)[エラー](/glossary/エラー/)（`missing_scope`）が返されることもありますが、特定のリソースへのアクセスが明示的に拒否されている場合は404として扱われることがあります。ボットの[スコープ](/glossary/スコープ/)が`channels:read`、`chat:write`など必要な[権限](/glossary/権限/)を持っているか確認してください。
 
 ### ワークスペース間のID混同
 
-複数のSlackワークスペースを管理している場合、異なるワークスペースのチャンネルIDを誤って使用すると404が返されます。リクエストに正しい`SLACK_TOKEN`を使用し、そのワークスペースに属するチャンネルIDであることを確認してください。
+複数のSlack[ワークスペース](/glossary/ワークスペース/)を管理している場合、異なる[ワークスペース](/glossary/ワークスペース/)のチャンネルIDを誤って使用すると404が返されます。[リクエスト](/glossary/リクエスト/)に正しい`SLACK_TOKEN`を使用し、その[ワークスペース](/glossary/ワークスペース/)に属するチャンネルIDであることを確認してください。
 
 ## それでも解決しない場合
 
 ### ログとデバッグ
 
-Slack APIレスポンスの`response_metadata`フィールドにはより詳細なエラー情報が含まれています。必ず全レスポンスを確認してください：
+Slack [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)の`response_metadata`フィールドにはより詳細な[エラー](/glossary/エラー/)情報が含まれています。必ず全[レスポンス](/glossary/レスポンス/)を確認してください：
 
 ```python
 import json
@@ -228,7 +228,7 @@ except slack.errors.SlackApiError as e:
 
 ### コミュニティサポート
 
-問題が解決しない場合は、[Slack API GitHub Issues](https://github.com/slackapi/python-slack-sdk/issues)でBotトークンの権限設定やSDKのバージョン確認に関する既出問題を参照してください。また、[Slack Community](https://slackcommunity.com/)でも相談できます。
+問題が解決しない場合は、[Slack API GitHub Issues](https://github.com/slackapi/python-slack-sdk/issues)でBot[トークン](/glossary/トークン/)の権限設定や[SDK](/glossary/sdk/)のバージョン確認に関する既出問題を参照してください。また、[Slack Community](https://slackcommunity.com/)でも相談できます。
 
 ---
 

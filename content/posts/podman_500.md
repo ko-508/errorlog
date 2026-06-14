@@ -13,7 +13,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman 500 エラーは、Podman デーモンで予期しない内部エラーが発生したことを示します。ストレージ破損、ディスク容量不足、権限問題によって発生することが多く、コンテナの起動・管理・削除といった基本的な操作が失敗します。このエラーが発生した場合、Podman のストレージとシステムリソースの状態を段階的に確認する必要があります。
+Podman 500 [エラー](/glossary/エラー/)は、Podman [デーモン](/glossary/デーモン/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。ストレージ破損、ディスク容量不足、権限問題によって発生することが多く、[コンテナ](/glossary/コンテナ/)の起動・管理・削除といった基本的な操作が失敗します。この[エラー](/glossary/エラー/)が発生した場合、Podman のストレージとシステムリソースの状態を段階的に確認する必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -34,7 +34,7 @@ Error: error creating container storage: mkdir /var/lib/containers/storage/overl
 
 ### 原因1：ディスク容量不足
 
-Podman のストレージディレクトリ（通常 `/var/lib/containers/storage`）の容量がいっぱいになると、新しいレイヤーやコンテナメタデータの書き込みに失敗し、500 エラーが発生します。
+Podman のストレージディレクトリ（通常 `/var/lib/containers/storage`）の容量がいっぱいになると、新しいレイヤーやコンテナメタデータの書き込みに失敗し、500 [エラー](/glossary/エラー/)が発生します。
 
 **原因の確認：**
 
@@ -44,7 +44,7 @@ df -h /var/lib/containers
 
 ファイルシステムの使用率が 100% に近い場合、これが原因です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ podman ps
@@ -67,9 +67,9 @@ podman system df
 
 ### 原因2：ストレージメタデータの破損
 
-不正なシャットダウンや Podman デーモンの強制終了によって、`/var/lib/containers/storage` 配下の設定ファイルやメタデータが破損することがあります。特に `containers.json` や overlay2 の統計ファイルが影響を受けやすいです。
+不正なシャットダウンや Podman [デーモン](/glossary/デーモン/)の強制終了によって、`/var/lib/containers/storage` 配下の[設定ファイル](/glossary/設定ファイル/)やメタデータが破損することがあります。特に `containers.json` や overlay2 の統計ファイルが影響を受けやすいです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ podman ps
@@ -97,9 +97,9 @@ podman ps
 
 ### 原因3：オーバーレイファイルシステムの不一致
 
-overlay2 ドライバを使用している場合、lower レイヤー・upper レイヤー・work ディレクトリ間の構造が不一致になることがあります。特にコンテナ削除時の処理が中断された場合、orphaned な overlay ディレクトリが残存し、メタデータ読み込み時に 500 エラーが発生します。
+overlay2 ドライバを使用している場合、lower レイヤー・upper レイヤー・work ディレクトリ間の構造が不一致になることがあります。特に[コンテナ](/glossary/コンテナ/)削除時の処理が中断された場合、orphaned な overlay ディレクトリが残存し、メタデータ読み込み時に 500 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ podman rm <container_id>
@@ -130,9 +130,9 @@ systemctl start podman.socket
 
 ### 原因4：SELinux または AppArmor のラベル付け問題
 
-SELinux または AppArmor が有効な場合、ストレージディレクトリのセキュリティコンテキストが不正な状態にあるとアクセス拒否が発生し、500 エラーとなります。
+SELinux または AppArmor が有効な場合、ストレージディレクトリのセキュリティコンテキストが不正な状態にあるとアクセス拒否が発生し、500 [エラー](/glossary/エラー/)となります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 $ podman images
@@ -174,17 +174,17 @@ du -sh ~/.local/share/containers/
 
 ### Podman v4.x 以降での自動修復機能
 
-Podman v4.4 以降では、一部のストレージ不整合は自動的に検出・修復されます。それでも 500 エラーが続く場合は、以下を実行します。
+Podman v4.4 以降では、一部のストレージ不整合は自動的に検出・修復されます。それでも 500 [エラー](/glossary/エラー/)が続く場合は、以下を実行します。
 
 ```bash
 podman system reset --force
 ```
 
-このコマンドはすべてのコンテナ・イメージ・ストレージを削除するため、重要なデータは事前にバックアップしてください。
+この[コマンド](/glossary/コマンド/)はすべての[コンテナ](/glossary/コンテナ/)・[イメージ](/glossary/イメージ/)・ストレージを削除するため、重要なデータは事前に[バックアップ](/glossary/バックアップ/)してください。
 
 ### systemd-logind との相互作用
 
-Rootless 環理でシステムシャットダウン時に Podman デーモンが強制終了されると、セッション中のコンテナ管理状態が不整合になることがあります。その場合は user session を明示的にリセットします。
+Rootless 環理でシステムシャットダウン時に Podman [デーモン](/glossary/デーモン/)が強制終了されると、セッション中の[コンテナ](/glossary/コンテナ/)管理状態が不整合になることがあります。その場合は user session を明示的にリセットします。
 
 ```bash
 loginctl terminate-user <username>
@@ -195,7 +195,7 @@ systemctl --user reset-failed
 
 ### ログを確認する
 
-Podman デーモンのジャーナルログを確認します。
+Podman [デーモン](/glossary/デーモン/)のジャーナルログを確認します。
 
 ```bash
 # Systemd 管理下の Podman
@@ -215,7 +215,7 @@ podman --log-level debug run alpine echo test
 
 ### ストレージドライバの再構成
 
-`/etc/containers/storage.conf` が破損している可能性があります。バックアップを取った上で、デフォルト設定にリセットしてください。
+`/etc/containers/storage.conf` が破損している可能性があります。[バックアップ](/glossary/バックアップ/)を取った上で、デフォルト設定にリセットしてください。
 
 ```bash
 # バックアップ

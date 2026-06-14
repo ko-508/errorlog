@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/)の400[エラー](/glossary/エラー/)は、クライアント側の[リクエスト](/glossary/リクエスト/)が不正な形式であることを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)との[通信](/glossary/通信/)（[コンテナ](/glossary/コンテナ/)の操作、[イメージ](/glossary/イメージ/)のプッシュ・プル、[API](/glossary/api/)呼び出し）の際に、形式不正な[リクエスト](/glossary/リクエスト/)が送信された場合に発生します。多くの場合、Dockerfileの構文エラー、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の形式ミス、または[設定ファイル](/glossary/設定ファイル/)の不正な記述が原因です。
+[Docker](/glossary/docker/)の400[エラー](/glossary/エラー/)は、クライアント側の[リクエスト](/glossary/リクエスト/)が不正な形式であることを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)との[通信](/glossary/通信/)（[コンテナ](/glossary/コンテナ/)の操作、[イメージ](/glossary/イメージ/)のプッシュ・プル、[API](/glossary/api/)呼び出し）の際に、形式不正な[リクエスト](/glossary/リクエスト/)が送信された場合に発生します。多くの場合、Dockerfileの構文[エラー](/glossary/エラー/)、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の形式ミス、または[設定ファイル](/glossary/設定ファイル/)の不正な記述が原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -41,9 +41,9 @@ Error response from daemon: HTTP/400: Bad Request
 ### 原因1：Dockerfileのrun コマンドの構文エラー
 
 **なぜ発生するか**
-Dockerfileの[コマンド](/glossary/コマンド/)で行末の区切り文字（バックスラッシュ）が正しく使われていないか、シェルコマンドの構文が不正な場合に、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が該当行を解析できず400エラーを返します。
+Dockerfileの[コマンド](/glossary/コマンド/)で行末の区切り文字（バックスラッシュ）が正しく使われていないか、シェルコマンドの構文が不正な場合に、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が該当行を解析できず400[エラー](/glossary/エラー/)を返します。
 
-**Before（エラーが起きる状態）**
+**Before（[エラー](/glossary/エラー/)が起きる状態）**
 ```dockerfile
 FROM ubuntu:20.04
 RUN apt-get update && \
@@ -68,7 +68,7 @@ RUN echo "Installation complete"
 **なぜ発生するか**
 docker-composeファイルでインデント（空白）が不規則であるか、キー名の引用符が不完全な場合、[YAML](/glossary/yaml/)パーサーが設定を読み込めず、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)への[リクエスト](/glossary/リクエスト/)が不正な形式になります。
 
-**Before（エラーが起きる状態）**
+**Before（[エラー](/glossary/エラー/)が起きる状態）**
 ```yaml
 version: '3.8'
 services:
@@ -103,9 +103,9 @@ services:
 ### 原因3：Docker APIのJSONリクエスト形式が不正
 
 **なぜ発生するか**
-[Docker](/glossary/docker/)Remote[API](/glossary/api/)（[HTTP](/glossary/http/)で[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)と[通信](/glossary/通信/)する場合）を使用する際、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)が不正な形式または必須フィールドが欠けている場合、400エラーが返されます。
+[Docker](/glossary/docker/)Remote[API](/glossary/api/)（[HTTP](/glossary/http/)で[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)と[通信](/glossary/通信/)する場合）を使用する際、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)が不正な形式または必須フィールドが欠けている場合、400[エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きる状態）**
+**Before（[エラー](/glossary/エラー/)が起きる状態）**
 ```bash
 curl -X POST http://localhost:2375/containers/create \
   -H "Content-Type: application/json" \
@@ -133,9 +133,9 @@ curl -X POST http://localhost:2375/containers/create \
 ### 原因4：docker push時のタグ形式の誤り
 
 **なぜ発生するか**
-[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/)Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)）に[イメージ](/glossary/イメージ/)をプッシュする際、タグ形式が不正であるか、認証情報が不足している場合、[レジストリ](/glossary/レジストリ/)が400エラーを返します。
+[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/)Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)）に[イメージ](/glossary/イメージ/)をプッシュする際、タグ形式が不正であるか、認証情報が不足している場合、[レジストリ](/glossary/レジストリ/)が400[エラー](/glossary/エラー/)を返します。
 
-**Before（エラーが起きる状態）**
+**Before（[エラー](/glossary/エラー/)が起きる状態）**
 ```bash
 docker tag myapp:latest myregistry.com/myapp
 docker push myregistry.com/myapp
@@ -156,7 +156,7 @@ docker push myregistry.com/myapp:latest
 
 ### docker-composeネットワーク設定でのエラー
 
-docker-composeで複数のサービス間の通信設定が不正な場合、400エラーが発生することがあります。特に`networks`セクションで指定する[ネットワーク](/glossary/ネットワーク/)名やドライバーが不正であると、[コンテナ](/glossary/コンテナ/)起動時に[デーモン](/glossary/デーモン/)が[リクエスト](/glossary/リクエスト/)を拒否します。
+docker-composeで複数のサービス間の通信設定が不正な場合、400[エラー](/glossary/エラー/)が発生することがあります。特に`networks`セクションで指定する[ネットワーク](/glossary/ネットワーク/)名やドライバーが不正であると、[コンテナ](/glossary/コンテナ/)起動時に[デーモン](/glossary/デーモン/)が[リクエスト](/glossary/リクエスト/)を拒否します。
 
 ```yaml
 version: '3.8'
@@ -172,7 +172,7 @@ networks:
 
 ### Dockerソケット接続時の権限問題
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)への接続に使用される`/var/run/docker.sock`への[アクセス権](/glossary/アクセス権/)がない場合、結果として400エラーとして報告されることがあります。ユーザーが`docker`グループに属していることを確認してください。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)への接続に使用される`/var/run/docker.sock`への[アクセス権](/glossary/アクセス権/)がない場合、結果として400[エラー](/glossary/エラー/)として報告されることがあります。ユーザーが`docker`グループに属していることを確認してください。
 
 ```bash
 sudo usermod -aG docker $USER
@@ -181,7 +181,7 @@ newgrp docker
 
 ### レジストリ認証情報の不完全性
 
-[Docker](/glossary/docker/)Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)に認証なしでプッシュしようとした場合、[サーバー](/glossary/サーバー/)が400エラーを返すことがあります。事前に`docker login`を実行してください。
+[Docker](/glossary/docker/)Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)に[認証](/glossary/認証/)なしでプッシュしようとした場合、[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返すことがあります。事前に`docker login`を実行してください。
 
 ```bash
 docker login
@@ -193,7 +193,7 @@ docker push myregistry.com/myapp:latest
 
 ### デバッグログの確認
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の詳細[ログ](/glossary/ログ/)を確認することで、エラーの正確な原因が判明することがあります。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の詳細[ログ](/glossary/ログ/)を確認することで、[エラー](/glossary/エラー/)の正確な原因が判明することがあります。
 
 ```bash
 dockerd --debug 2>&1 | grep -i "400\|bad request"
@@ -221,7 +221,7 @@ hadolint Dockerfile
 
 ### コミュニティリソース
 
-[Docker](/glossary/docker/)のGitHub Issuesやstack Overflowで同様のエラーが報告されていないか検索してください。特に`docker-compose`や特定のバージョンでの互換性問題はGitHubのIssuesで詳細が共有されていることが多いです。
+[Docker](/glossary/docker/)のGitHub Issuesやstack Overflowで同様の[エラー](/glossary/エラー/)が報告されていないか検索してください。特に`docker-compose`や特定のバージョンでの互換性問題はGitHubのIssuesで詳細が共有されていることが多いです。
 
 ---
 

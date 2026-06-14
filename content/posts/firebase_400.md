@@ -13,11 +13,11 @@ related_services: ["SDK", "REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase の 400 エラーは、クライアント側から送信されたリクエストが不正な形式、無効なパラメータ、認証情報の不備を含んでいることを示します。このエラーはサーバー側の障害ではなく、リクエストボディの JSON 形式エラー、必須フィールドの欠落、APIキーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇するエラーの一つであり、正確な原因特定と修正が必須です。
+Firebase の 400 [エラー](/glossary/エラー/)は、クライアント側から送信された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
-Firebase SDK からの典型的なエラーレスポンスは以下のような形式です。
+Firebase [SDK](/glossary/sdk/) からの典型的な[エラーレスポンス](/glossary/エラーレスポンス/)は以下のような形式です。
 
 ```json
 {
@@ -37,7 +37,7 @@ Realtime Database への無効な書き込み時の例：
 }
 ```
 
-Firestore への不正なクエリ時のエラー：
+Firestore への不正な[クエリ](/glossary/クエリ/)時の[エラー](/glossary/エラー/)：
 
 ```
 Error: 3 INVALID_ARGUMENT: Invalid json in the body: Invalid JSON payload received. Unable to parse the JSON string: Expecting value: line 1 column 1 (char 0)
@@ -47,9 +47,9 @@ Error: 3 INVALID_ARGUMENT: Invalid json in the body: Invalid JSON payload receiv
 
 ### 原因1：JSON 形式が不正である
 
-Firebase API へリクエストを送信する際、リクエストボディが有効な JSON 形式になっていない場合に発生します。シングルクォートの使用、末尾のカンマ、引用符の不一致がよくある間違いです。
+Firebase [API](/glossary/api/) へ[リクエスト](/glossary/リクエスト/)を送信する際、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式になっていない場合に発生します。シングルクォートの使用、末尾のカンマ、引用符の不一致がよくある間違いです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import requests
@@ -78,9 +78,9 @@ response = requests.post(
 
 ### 原因2：API キーの無効化または無効な認証情報
 
-Realtime Database または Firestore へのアクセス時に、存在しない API キー、削除されたキー、または間違ったプロジェクト ID を使用しているケースです。
+Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) キー、削除されたキー、または間違ったプロジェクト ID を使用しているケースです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 import { initializeApp } from 'firebase/app';
@@ -115,9 +115,9 @@ const db = getDatabase(app);
 
 ### 原因3：必須フィールドが欠落している
 
-Firestore ドキュメントの作成・更新時に、スキーマで定義された必須フィールドを送信していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
+Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須フィールドを送信していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 from firebase_admin import firestore
@@ -144,9 +144,9 @@ db.collection('users').document('user123').set({
 
 ### 原因4：Content-Type ヘッダーが不正である
 
-REST API 経由で Firebase にリクエストを送信する際、`Content-Type` ヘッダーが `application/json` に設定されていない場合、リクエストボディが JSON として解析されず 400 エラーが発生します。
+[REST](/glossary/rest/) [API](/glossary/api/) 経由で Firebase に[リクエスト](/glossary/リクエスト/)を送信する際、`Content-Type` [ヘッダー](/glossary/ヘッダー/)が `application/json` に設定されていない場合、[リクエストボディ](/glossary/リクエストボディ/)が [JSON](/glossary/json/) として解析されず 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 curl -X POST https://firebaseio.com/users.json \
@@ -164,9 +164,9 @@ curl -X POST https://firebaseio.com/users.json \
 
 ### 原因5：Authentication/Authorization トークンが無効または期限切れ
 
-Firebase Authentication のトークン（ID Token）が期限切れになっているか、無効な形式で送信されている場合に 400 エラーが返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
+Firebase Authentication の[トークン](/glossary/トークン/)（ID Token）が期限切れになっているか、無効な形式で送信されている場合に 400 [エラー](/glossary/エラー/)が返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 const idToken = 'expired-or-malformed-token';
@@ -203,7 +203,7 @@ if (user) {
 
 ### Firestore の場合
 
-Firestore REST API を直接呼び出す場合、リクエストボディに `fields` オブジェクトを正しくネストする必要があります。フィールド値の型（`stringValue`、`integerValue`、`booleanValue` など）を明示的に指定しないと 400 エラーになります。
+Firestore [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、[リクエストボディ](/glossary/リクエストボディ/)に `fields` [オブジェクト](/glossary/オブジェクト/)を正しくネストする必要があります。フィールド値の型（`stringValue`、`integerValue`、`booleanValue` など）を明示的に指定しないと 400 [エラー](/glossary/エラー/)になります。
 
 ```json
 // 正しいフォーマット
@@ -221,9 +221,9 @@ Firestore REST API を直接呼び出す場合、リクエストボディに `fi
 
 ### Realtime Database の場合
 
-`.json` エンドポイント経由でのアクセス時に、スラッシュ文字や特殊文字を含むパスが URL エンコードされていないと 400 エラーが発生します。パス内の空白やスペースは必ず `%20` に置き換える必要があります。
+`.json` [エンドポイント](/glossary/エンドポイント/)経由でのアクセス時に、スラッシュ文字や特殊文字を含むパスが URL エンコードされていないと 400 [エラー](/glossary/エラー/)が発生します。パス内の空白やスペースは必ず `%20` に置き換える必要があります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 curl https://firebaseio.com/user data.json
@@ -237,9 +237,9 @@ curl 'https://firebaseio.com/user%20data.json'
 
 ### Cloud Functions との連携時
 
-Firebase Admin SDK を使用する際、サービスアカウント認証情報の JSON ファイルが正しく初期化されていないと 400 エラーが発生します。環境変数 `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
+Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) ファイルが正しく初期化されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import firebase_admin
@@ -267,19 +267,19 @@ db = firestore.client()
 
 ### デバッグ手順
 
-1. **ネットワークレスポンスを確認**：ブラウザの開発者ツール（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。エラー詳細がレスポンスボディに含まれることがあります。
+1. **ネットワークレスポンスを確認**：ブラウザの開発者ツール（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
 
-2. **Firebase コンソールで API キーの状態を確認**：
-   - Firebase Console → プロジェクト設定 → API キー
+2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) キーの状態を確認**：
+   - Firebase Console → プロジェクト設定 → [API](/glossary/api/) キー
    - 該当するキーが有効化されているか、制限が適切に設定されているかを確認してください。
 
-3. **ローカルでのリクエスト検証**：`curl` コマンドや Postman を使用してリクエストを再現し、JSON の妥当性を確認してください。
+3. **ローカルでの[リクエスト](/glossary/リクエスト/)検証**：`curl` [コマンド](/glossary/コマンド/)や Postman を使用して[リクエスト](/glossary/リクエスト/)を再現し、[JSON](/glossary/json/) の妥当性を確認してください。
 
-4. **Firebase ルール（Security Rules）を確認**：Firestore/Realtime Database のセキュリティルールが正しく設定されているか確認してください。ルール違反は 401/403 エラーですが、ルール構文エラーが 400 を返すことがあります。
+4. **Firebase ルール（Security Rules）を確認**：Firestore/Realtime Database のセキュリティルールが正しく設定されているか確認してください。ルール違反は 401/403 [エラー](/glossary/エラー/)ですが、ルール構文[エラー](/glossary/エラー/)が 400 を返すことがあります。
 
 ### ログの確認
 
-Firebase Console の「ログと統計」セクションで詳細なエラーログを確認できます。また、ブラウザコンソールで以下を実行し、詳細なエラーメッセージを取得してください：
+Firebase Console の「[ログ](/glossary/ログ/)と統計」セクションで詳細な[エラーログ](/glossary/エラーログ/)を確認できます。また、ブラウザコンソールで以下を実行し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください：
 
 ```javascript
 firebase.initializeApp(config);
@@ -289,8 +289,8 @@ firebase.firestore().enableLogging(true);  // Firestore デバッグログを有
 ### 参考リソース
 
 - Firebase 公式ドキュメント：[Firestore エラーハンドリング](https://firebase.google.com/docs/firestore/troubleshoot)
-- Firebase Realtime Database REST API ドキュメント：[Authentication](https://firebase.google.com/docs/database/rest/auth)
-- GitHub Issues：Firebase JavaScript SDK の既知の問題は [firebase-js-sdk リポジトリ](https://github.com/firebase/firebase-js-sdk/issues) で確認可能です。
+- Firebase Realtime Database [REST](/glossary/rest/) [API](/glossary/api/) ドキュメント：[Authentication](https://firebase.google.com/docs/database/rest/auth)
+- GitHub Issues：Firebase JavaScript [SDK](/glossary/sdk/) の既知の問題は [firebase-js-sdk リポジトリ](https://github.com/firebase/firebase-js-sdk/issues) で確認可能です。
 
 ---
 

@@ -231,7 +231,7 @@ except requests.exceptions.Timeout:
 
 ### API バージョンとレート制限の違い
 
-Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/) バージョンによって異なります。テスト環境（`sk_test_`）では本番環境より高い[レート制限](/glossary/レート制限/)が適用されていますが、本番環境でも同じコードロジックが使えるように設計すべきです。
+Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/) バージョンによって異なります。[テスト](/glossary/テスト/)環境（`sk_test_`）では本番環境より高い[レート制限](/glossary/レート制限/)が適用されていますが、本番環境でも同じコードロジックが使えるように設計すべきです。
 
 ### 検索 API のレート制限
 

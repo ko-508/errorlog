@@ -15,11 +15,11 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Slack API へのリクエストが 401 エラー（Unauthorized）で拒否される場合、認証トークンが無効、期限切れ、または不正な状態にあることを示します。このエラーが発生するとボットメッセージの送信、ユーザー情報の取得、ファイルのアップロードなどすべての API 操作が停止するため、早期の対応が必須です。Slack アプリを運用する上で最も頻繁に遭遇するエラーの一つです。
+Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が 401 [エラー](/glossary/エラー/)（Unauthorized）で拒否される場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効、期限切れ、または不正な状態にあることを示します。この[エラー](/glossary/エラー/)が発生するとボットメッセージの送信、ユーザー情報の取得、ファイルのアップロードなどすべての [API](/glossary/api/) 操作が停止するため、早期の対応が必須です。Slack アプリを運用する上で最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つです。
 
 ## 実際のエラーメッセージ例
 
-Slack API が返す典型的な 401 エラーレスポンス例：
+Slack [API](/glossary/api/) が返す典型的な 401 [エラーレスポンス](/glossary/エラーレスポンス/)例：
 
 ```json
 {
@@ -51,9 +51,9 @@ Slack API が返す典型的な 401 エラーレスポンス例：
 
 ### 原因1：トークンの期限切れまたは無効化
 
-Slack のセキュリティポリシー変更によるトークン自動失効、ユーザーが手動でアプリを削除した、または定期的なセキュリティ監査で古いトークンが無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` エラーが返されます。
+Slack のセキュリティポリシー変更による[トークン](/glossary/トークン/)自動失効、ユーザーが手動でアプリを削除した、または定期的な[セキュリティ](/glossary/セキュリティ/)監査で古い[トークン](/glossary/トークン/)が無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import requests
@@ -97,13 +97,13 @@ except Exception as e:
     # トークンが無効な場合は再生成が必要
 ```
 
-Slack ワークスペース管理画面で新しいボットトークンを生成し、環境変数に設定し直してください。
+Slack [ワークスペース](/glossary/ワークスペース/)管理画面で新しいボットトークンを生成し、[環境変数](/glossary/環境変数/)に設定し直してください。
 
 ### 原因2：OAuth スコープの不足
 
-API リクエストに必要なスコープ（権限）がトークンに付与されていない場合、リクエストが許可されず 401 エラーが返されます。例えば `chat:write` スコープなしで メッセージ送信を試みると拒否されます。
+[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に必要な[スコープ](/glossary/スコープ/)（[権限](/glossary/権限/)）が[トークン](/glossary/トークン/)に付与されていない場合、[リクエスト](/glossary/リクエスト/)が許可されず 401 [エラー](/glossary/エラー/)が返されます。例えば `chat:write` [スコープ](/glossary/スコープ/)なしで メッセージ送信を試みると拒否されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 // トークンに chat:write スコープがない状態
@@ -150,13 +150,13 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 })();
 ```
 
-Slack App 管理画面の「OAuth & Permissions」セクションで、必要なスコープを明示的に追加し、ワークスペースに再インストールしてください。
+Slack App 管理画面の「[OAuth](/glossary/oauth/) & Permissions」セクションで、必要な[スコープ](/glossary/スコープ/)を明示的に追加し、[ワークスペース](/glossary/ワークスペース/)に再インストールしてください。
 
 ### 原因3：トークン形式の誤りまたは環境変数の未設定
 
-トークンが正しく環境変数に設定されていない、型番が違う（xoxb の代わりに xoxp を使用）、または空文字列が渡されている場合にエラーが発生します。
+[トークン](/glossary/トークン/)が正しく[環境変数](/glossary/環境変数/)に設定されていない、型番が違う（xoxb の代わりに xoxp を使用）、または空文字列が渡されている場合に[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # .env ファイルが存在しない、または誤った値
@@ -211,31 +211,31 @@ response = client.chat_postMessage(channel="C12345", text="Hello")
 print(response)
 ```
 
-環境変数を確認し、トークンが正しい形式（xoxb- または xoxp-で始まる長い文字列）で設定されていることを確認してください。
+[環境変数](/glossary/環境変数/)を確認し、[トークン](/glossary/トークン/)が正しい形式（xoxb- または xoxp-で始まる長い文字列）で設定されていることを確認してください。
 
 ## Slack 固有の注意点
 
 ### トークンローテーションとその影響
 
-Slack は定期的にセキュリティ監査を実施し、使用されていないトークンや古いトークンを自動的に無効化することがあります。本番環境では少なくとも月1回はトークンの有効性を確認し、必要に応じて新規発行してください。
+Slack は定期的に[セキュリティ](/glossary/セキュリティ/)監査を実施し、使用されていない[トークン](/glossary/トークン/)や古い[トークン](/glossary/トークン/)を自動的に無効化することがあります。本番環境では少なくとも月1回は[トークン](/glossary/トークン/)の有効性を確認し、必要に応じて新規発行してください。
 
 ### ボットアプリとユーザーアプリの区別
 
-`xoxb-` で始まるボットトークンと `xoxp-` で始まるユーザートークンは別の権限モデルを持ちます。自動化目的ではボットトークンを、ユーザーの個人操作が必要な場合はユーザートークンを使い分ける必要があります。混用すると 401 エラーが発生します。
+`xoxb-` で始まるボットトークンと `xoxp-` で始まるユーザートークンは別の[権限](/glossary/権限/)[モデル](/glossary/モデル/)を持ちます。自動化目的ではボットトークンを、ユーザーの個人操作が必要な場合はユーザートークンを使い分ける必要があります。混用すると 401 [エラー](/glossary/エラー/)が発生します。
 
 ### Slack アプリのインストール/再インストール
 
-スコープを追加・変更した場合は、単なる認可フロー再実行では不十分で、ワークスペースへの**再インストール**が必須です。ブラウザのキャッシュをクリアした上で、OAuth 画面から改めて承認操作を行ってください。
+[スコープ](/glossary/スコープ/)を追加・変更した場合は、単なる[認可](/glossary/認可/)フロー再実行では不十分で、[ワークスペース](/glossary/ワークスペース/)への**再インストール**が必須です。ブラウザの[キャッシュ](/glossary/キャッシュ/)をクリアした上で、[OAuth](/glossary/oauth/) 画面から改めて承認操作を行ってください。
 
 ### Bot Token Rotations（ベータ機能）
 
-Slack の一部ワークスペースでは Bot Token Rotations が有効になっており、トークンの有効期限が短縮されています。この場合、Refresh Token を使用して新しいトークンを自動取得する実装が必要です。
+Slack の一部[ワークスペース](/glossary/ワークスペース/)では Bot Token Rotations が有効になっており、[トークン](/glossary/トークン/)の有効期限が短縮されています。この場合、Refresh Token を使用して新しい[トークン](/glossary/トークン/)を自動取得する実装が必要です。
 
 ## それでも解決しない場合
 
 ### デバッグと情報確認
 
-トークンの有効性を確認するため、以下のコマンドで `auth.test` API を実行してください：
+[トークン](/glossary/トークン/)の有効性を確認するため、以下の[コマンド](/glossary/コマンド/)で `auth.test` [API](/glossary/api/) を実行してください：
 
 ```bash
 curl -X POST https://slack.com/api/auth.test \
@@ -243,23 +243,23 @@ curl -X POST https://slack.com/api/auth.test \
   -H "Content-Type: application/x-www-form-urlencoded"
 ```
 
-レスポンスが `"ok": true` で返ればトークンは有効です。`"ok": false` の場合、エラーフィールドを確認してください。
+[レスポンス](/glossary/レスポンス/)が `"ok": true` で返れば[トークン](/glossary/トークン/)は有効です。`"ok": false` の場合、エラーフィールドを確認してください。
 
 ### ログの確認箇所
 
-- **Slack ワークスペース管理画面**：「App management」→「Apps」で各アプリのインストール日時と最終使用日時を確認
-- **Slack API テスター**：https://api.slack.com/methods/auth.test で直接トークン検証可能
+- **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各アプリのインストール日時と最終使用日時を確認
+- **Slack [API](/glossary/api/) テスター**：https://api.slack.com/methods/auth.test で直接[トークン](/glossary/トークン/)検証可能
 - **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく設定されているか、リクエストヘッダーに `Authorization` フィールドが含まれているか確認
 
 ### 公式リソース
 
-- Slack API 認証ドキュメント：https://api.slack.com/authentication
-- OAuth スコープ一覧：https://api.slack.com/scopes
+- Slack [API](/glossary/api/) [認証](/glossary/認証/)ドキュメント：https://api.slack.com/authentication
+- [OAuth](/glossary/oauth/) [スコープ](/glossary/スコープ/)一覧：https://api.slack.com/scopes
 - トークンローテーション詳細：https://api.slack.com/authentication/rotation
 
 ### コミュニティサポート
 
-Slack Community（https://slackcommunity.com）や GitHub の Slack SDK リポジトリ（例：https://github.com/slackapi/python-slack-sdk）で同様の問題報告がないか検索し、既知の問題か確認することをお勧めします。
+Slack Community（https://slackcommunity.com）や GitHub の Slack [SDK](/glossary/sdk/) [リポジトリ](/glossary/リポジトリ/)（例：https://github.com/slackapi/python-slack-sdk）で同様の問題報告がないか検索し、既知の問題か確認することをお勧めします。
 
 ---
 

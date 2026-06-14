@@ -13,7 +13,7 @@ related_services: ["Kubernetes", "kubectl", "etcd", "Docker", "VirtualBox", "KVM
 
 ## エラーの概要
 
-MinikubeのHTTP 500エラーは、クラスター内部のKubernetes APIサーバーが予期しない障害に陥っている状態を示します。ローカル開発環境であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント障害などが原因で、ほぼすべてのAPI呼び出しが500で応答する深刻な状況です。
+Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない障害に陥っている状態を示します。ローカル開発環境であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント障害などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
 
 ## 実際のエラーメッセージ例
 
@@ -47,11 +47,11 @@ panic: runtime error: invalid memory address or nil pointer dereference
 
 ## よくある原因と解決手順
 
-**原因1: APIサーバーのメモリ枯渇またはOOM Killer による強制終了**
+**原因1: [API](/glossary/api/)[サーバー](/glossary/サーバー/)のメモリ枯渇またはOOM Killer による強制終了**
 
-MinikubeのノードVM内に割り当てたメモリが不足すると、kube-apiserverプロセスが Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じメモリ不足に直面するため、500エラーが継続します。
+MinikubeのノードVM内に割り当てたメモリが不足すると、kube-apiserverプロセスが Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じメモリ不足に直面するため、500[エラー](/glossary/エラー/)が継続します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 少ないメモリで Minikube を起動
@@ -65,7 +65,7 @@ minikube start --memory=512m
 minikube start --memory=4096m --cpus=2
 ```
 
-確認コマンド：
+確認[コマンド](/glossary/コマンド/)：
 
 ```bash
 minikube logs | grep -i "oom\|out of memory"
@@ -75,9 +75,9 @@ kubectl top pods -A
 
 **原因2: etcdの破損またはディスク容量不足**
 
-Minikubeが使用するディスク容量が枯渇すると、etcd（クラスター状態を管理するキーバリュー型ストア）への書き込みに失敗し、スナップショット破損やデータベース不整合が発生します。その結果、APIサーバーがetcdへの接続に失敗し500エラーを返すようになります。
+Minikubeが使用するディスク容量が枯渇すると、etcd（クラスター状態を管理するキーバリュー型ストア）への書き込みに失敗し、スナップショット破損や[データベース](/glossary/データベース/)不整合が発生します。その結果、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がetcdへの接続に失敗し500[エラー](/glossary/エラー/)を返すようになります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ディスク容量が少ない状態で動作
@@ -98,18 +98,18 @@ df -h
 minikube start --disk-size=30000mb
 ```
 
-確認コマンド：
+確認[コマンド](/glossary/コマンド/)：
 
 ```bash
 minikube ssh "df -h"
 minikube logs | grep -i "disk\|etcd"
 ```
 
-**原因3: kube-apiserverやkubeletの設定ファイル破損**
+**原因3: kube-apiserverやkubeletの[設定ファイル](/glossary/設定ファイル/)破損**
 
-Minikube再起動時に設定ファイル（特に/etc/kubernetes/配下）が破損していたり、権限不正のため読み込めない状態では、APIサーバーやkubeletの起動に失敗し500エラーとなります。
+Minikube再起動時に[設定ファイル](/glossary/設定ファイル/)（特に/etc/kubernetes/配下）が破損していたり、権限不正のため読み込めない状態では、[API](/glossary/api/)[サーバー](/glossary/サーバー/)やkubeletの起動に失敗し500[エラー](/glossary/エラー/)となります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # minikube内部でファイル権限を誤った変更
@@ -132,9 +132,9 @@ minikube ssh "chmod 644 /etc/kubernetes/manifests/kube-apiserver.yaml"
 
 **原因4: ホストマシンのリソース不足によるMinikubeのハング**
 
-ホストマシン全体のメモリやCPUリソースが枯渇すると、MinikubeのVM自体が応答不能になり、APIサーバーが外部のリクエストに応答できなくなります。
+ホストマシン全体のメモリやCPUリソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ホスト上で多くのリソースを消費するアプリケーション実行中に Minikube 起動
@@ -158,7 +158,7 @@ minikube start
 
 **1. Minikubeのハイパーバイザー依存性**
 
-Minikubeが使用するハイパーバイザー（Docker、Hyper-V、VirtualBox等）の不安定性もAPIサーバーのクラッシュに影響します。特にDocker Desktopを使用している場合、Docker Daemonが再起動されるとMinikubeのVM内部のコンテナが予期せず停止し、APIサーバープロセスが強制終了されることがあります。
+Minikubeが使用するハイパーバイザー（[Docker](/glossary/docker/)、Hyper-V、VirtualBox等）の不安定性も[API](/glossary/api/)[サーバー](/glossary/サーバー/)のクラッシュに影響します。特に[Docker](/glossary/docker/) Desktopを使用している場合、[Docker](/glossary/docker/) Daemonが再起動されるとMinikubeのVM内部の[コンテナ](/glossary/コンテナ/)が予期せず停止し、[API](/glossary/api/)サーバープロセスが強制終了されることがあります。
 
 確認・対応：
 
@@ -189,9 +189,9 @@ minikube delete
 minikube start
 ```
 
-**3. Kubernetesバージョン互換性による不安定性**
+**3. [Kubernetes](/glossary/kubernetes/)バージョン互換性による不安定性**
 
-Minikubeがサポート外の古いKubernetesバージョンで動作している場合や、プラグインが古いAPIバージョンに依存している場合、500エラーが頻発することがあります。
+Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)バージョンで動作している場合や、プラグインが古い[API](/glossary/api/)バージョンに依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
 
 ```bash
 # Minikube および Kubernetes バージョン確認
@@ -205,7 +205,7 @@ minikube start --kubernetes-version=latest
 
 ## それでも解決しない場合
 
-**1. 詳細なログ確認**
+**1. 詳細な[ログ](/glossary/ログ/)確認**
 
 ```bash
 # APIサーバーのログを詳細に確認
@@ -236,9 +236,9 @@ minikube start --vm-driver=<ドライバ名>
 **3. 公式ドキュメントとコミュニティリソース**
 
 - Minikube 公式トラブルシューティング: https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/
-- Kubernetes 公式ドキュメント - APIサーバー: https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
+- [Kubernetes](/glossary/kubernetes/) 公式ドキュメント - [API](/glossary/api/)[サーバー](/glossary/サーバー/): https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
 - GitHub Issues（Minikube）: https://github.com/kubernetes/minikube/issues
-- Kubernetes Slack コミュニティ（#minikube チャネル）
+- [Kubernetes](/glossary/kubernetes/) Slack コミュニティ（#minikube チャネル）
 
 ---
 

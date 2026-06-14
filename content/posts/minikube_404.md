@@ -13,7 +13,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-Minikube で 404 エラーが発生した場合、指定した Kubernetes リソースが見つからないことを示しています。このエラーは Pod、Service、Deployment などのリソースに対して `kubectl` コマンドで アクセスしようとした際に、指定した Namespace やリソース名が一致しないときに返されます。開発環境での検証時に頻繁に遭遇し、原因が特定できれば迅速に解決できるエラーです。
+Minikube で 404 [エラー](/glossary/エラー/)が発生した場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。この[エラー](/glossary/エラー/)は Pod、Service、Deployment などのリソースに対して `kubectl` [コマンド](/glossary/コマンド/)で アクセスしようとした際に、指定した [Namespace](/glossary/namespace/) やリソース名が一致しないときに返されます。開発環境での検証時に頻繁に遭遇し、原因が特定できれば迅速に解決できる[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -39,11 +39,11 @@ error: the server doesn't have a resource type "ingres"
 
 ## よくある原因と解決手順
 
-**原因1：Namespace の指定が間違っているか省略されている**
+**原因1：[Namespace](/glossary/namespace/) の指定が間違っているか省略されている**
 
-Kubernetes ではすべてのリソースは Namespace に属しています。`kubectl get pod` のように Namespace を明示しないコマンドを実行すると、デフォルトの `default` Namespace のみを検索します。リソースが別の Namespace（例：`kube-system`、`monitoring`）に存在する場合、404 エラーが返されます。
+[Kubernetes](/glossary/kubernetes/) ではすべてのリソースは [Namespace](/glossary/namespace/) に属しています。`kubectl get pod` のように [Namespace](/glossary/namespace/) を明示しない[コマンド](/glossary/コマンド/)を実行すると、デフォルトの `default` [Namespace](/glossary/namespace/) のみを検索します。リソースが別の [Namespace](/glossary/namespace/)（例：`kube-system`、`monitoring`）に存在する場合、404 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 kubectl get pod my-app
@@ -66,9 +66,9 @@ kubectl config set-context --current --namespace=monitoring
 
 **原因2：リソース名が誤字している、または存在しないリソースにアクセスしている**
 
-Minikube にデプロイしたリソース名と kubectl コマンドで指定したリソース名が完全に一致していない場合、404 エラーが発生します。大文字小文字の区別や、ハイフン・アンダースコア の違いも原因になります。
+Minikube に[デプロイ](/glossary/デプロイ/)したリソース名と kubectl [コマンド](/glossary/コマンド/)で指定したリソース名が完全に一致していない場合、404 [エラー](/glossary/エラー/)が発生します。大文字小文字の区別や、ハイフン・アンダースコア の違いも原因になります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 kubectl get pod my_app
@@ -94,9 +94,9 @@ kubectl get deployment -o yaml | grep "name:"
 
 **原因3：リソースタイプの表記が誤っている（複数形・単数形・短縮形の混乱）**
 
-`pod` と `pods`、`service` と `svc`、`ingress` と `ingres` など、リソースタイプの指定に誤りがあると 404 エラーが発生します。Kubernetes API はリソースタイプの表記に厳密です。
+`pod` と `pods`、`service` と `svc`、`ingress` と `ingres` など、リソースタイプの指定に誤りがあると 404 [エラー](/glossary/エラー/)が発生します。[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/) はリソースタイプの表記に厳密です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 kubectl get ingres my-ingress
@@ -123,9 +123,9 @@ kubectl get svc my-service
 
 **原因4：Minikube クラスタ自体が起動していないか、コンテキストが切り替わっている**
 
-複数の Kubernetes クラスタ（他の minikube インスタンス、Docker Desktop、EKS など）を使い分けている場合、現在のコンテキストが Minikube を指していないと、リソースは存在しても 404 エラーが返されます。
+複数の [Kubernetes](/glossary/kubernetes/) クラスタ（他の minikube [インスタンス](/glossary/インスタンス/)、[Docker](/glossary/docker/) Desktop、EKS など）を使い分けている場合、現在のコンテキストが Minikube を指していないと、リソースは存在しても 404 [エラー](/glossary/エラー/)が返されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 minikube stop
@@ -156,19 +156,19 @@ kubectl get pod my-app
 
 ## ツール固有の注意点
 
-**Minikube ダッシュボードでリソースを確認する**
+**Minikube [ダッシュボード](/glossary/ダッシュボード/)でリソースを確認する**
 
-`kubectl` コマンド以外にも、Minikube ダッシュボード上で視覚的にリソースを確認できます。コマンドが失敗する場合、ダッシュボード経由で同じリソースが表示されるかを確認することで、Namespace やリソース存在の問題を即座に判断できます。
+`kubectl` [コマンド](/glossary/コマンド/)以外にも、Minikube [ダッシュボード](/glossary/ダッシュボード/)上で視覚的にリソースを確認できます。[コマンド](/glossary/コマンド/)が失敗する場合、[ダッシュボード](/glossary/ダッシュボード/)経由で同じリソースが表示されるかを確認することで、[Namespace](/glossary/namespace/) やリソース存在の問題を即座に判断できます。
 
 ```bash
 minikube dashboard
 ```
 
-ダッシュボードの左側メニューで Namespace を切り替え、該当するリソースが表示されるか確認してください。
+[ダッシュボード](/glossary/ダッシュボード/)の左側メニューで [Namespace](/glossary/namespace/) を切り替え、該当するリソースが表示されるか確認してください。
 
 **Minikube 内部のコンテナログを確認する**
 
-404 エラーがリソースの作成失敗に由来する場合、Minikube ノード内のコンテナログを確認することで根本原因が判明することがあります。
+404 [エラー](/glossary/エラー/)がリソースの作成失敗に由来する場合、Minikube ノード内のコンテナログを確認することで根本原因が判明することがあります。
 
 ```bash
 minikube ssh
@@ -181,9 +181,9 @@ docker logs <container-id>
 # コンテナログを確認
 ```
 
-**Minikube の DNS 設定による Service 検索の失敗**
+**Minikube の [DNS](/glossary/dns/) 設定による Service 検索の失敗**
 
-Minikube 内の Service に対して Pod から接続できない場合、Minikube の DNS キャッシュがリセットされていない可能性があります。Service を削除・再作成した直後に 404 が返される場合は、DNS の キャッシュクリアを試みてください。
+Minikube 内の Service に対して Pod から接続できない場合、Minikube の [DNS](/glossary/dns/) [キャッシュ](/glossary/キャッシュ/)がリセットされていない可能性があります。Service を削除・再作成した直後に 404 が返される場合は、[DNS](/glossary/dns/) の キャッシュクリアを試みてください。
 
 ```bash
 minikube ssh
@@ -194,7 +194,7 @@ sudo systemctl restart coredns
 
 **Minikube のデバッグログを有効にする**
 
-詳細なデバッグ情報を取得する場合、kubectl コマンドに `-v` フラグを付けることで API リクエスト・レスポンスの詳細が表示されます。
+詳細な[デバッグ](/glossary/デバッグ/)情報を取得する場合、kubectl [コマンド](/glossary/コマンド/)に `-v` フラグを付けることで [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の詳細が表示されます。
 
 ```bash
 kubectl get pod my-app -v=8

@@ -13,7 +13,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Minikubeの401エラーは、kubectlがMinikubeクラスターへの認証に失敗したことを示します。このエラーは通常、kubeconfig設定ファイルに保存されたクラスター接続情報がMinikubeの現在の状態と一致していない場合に発生します。正常な認証を行うために必要な証明書やAPIサーバーアドレスが古いままで、新しいクラスター状態との齟齬が生じているのが典型的な原因です。
+Minikubeの401[エラー](/glossary/エラー/)は、kubectlがMinikubeクラスターへの[認証](/glossary/認証/)に失敗したことを示します。この[エラー](/glossary/エラー/)は通常、kubeconfig[設定ファイル](/glossary/設定ファイル/)に保存されたクラスター接続情報がMinikubeの現在の状態と一致していない場合に発生します。正常な[認証](/glossary/認証/)を行うために必要な証明書や[API](/glossary/api/)サーバーアドレスが古いままで、新しいクラスター状態との齟齬が生じているのが典型的な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -41,9 +41,9 @@ error: You must be logged in to the server (Unauthorized)
 
 ### 原因1：kubeconfig設定がMinikubeと一致していない
 
-Minikubeを起動した環境と異なる環境からアクセスしたり、kubeconfig を手動編集したりすると、APIサーバーのアドレスやクライアント証明書のパスが誤った状態になります。この場合、kubectlは正しい証明書を使用して認証できません。
+Minikubeを起動した環境と異なる環境からアクセスしたり、kubeconfig を手動編集したりすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)のアドレスやクライアント証明書のパスが誤った状態になります。この場合、kubectlは正しい証明書を使用して[認証](/glossary/認証/)できません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # kubeconfig に古い情報が残っている状態
@@ -69,9 +69,9 @@ minikube start
 
 ### 原因2：Minikube再起動後に証明書が更新された
 
-Minikubeを停止して再起動すると、クラスターの認証に使う証明書がリセットされることがあります。古い証明書情報が kubeconfig に残ったままだと、新しい証明書で署名された要求が拒否されます。
+Minikubeを停止して再起動すると、クラスターの[認証](/glossary/認証/)に使う証明書がリセットされることがあります。古い証明書情報が kubeconfig に残ったままだと、新しい証明書で署名された要求が拒否されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 再起動前に認証情報をキャッシュしたまま
@@ -98,9 +98,9 @@ kubectl config set-context minikube \
 
 ### 原因3：kubectlが別のMinikubeプロフィールを参照している
 
-複数のMinikubeプロフィールを使用している環境では、kubectlが別のプロフィールのクラスター情報を参照してしまう場合があります。異なるプロフィール間で証明書やAPIサーバーが異なるため、認証に失敗します。
+複数のMinikubeプロフィールを使用している環境では、kubectlが別のプロフィールのクラスター情報を参照してしまう場合があります。異なるプロフィール間で証明書や[API](/glossary/api/)[サーバー](/glossary/サーバー/)が異なるため、[認証](/glossary/認証/)に失敗します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # アクティブなコンテキストが意図しないプロフィールを指している
@@ -130,9 +130,9 @@ kubectl get pods
 
 ### 原因4：Minikubeの起動が不完全である
 
-Minikubeが正常に起動していない、またはクラスターのAPIサーバーが完全に準備できていない状態で kubectl コマンドを実行すると401エラーが発生します。
+Minikubeが正常に起動していない、またはクラスターの[API](/glossary/api/)[サーバー](/glossary/サーバー/)が完全に準備できていない状態で kubectl [コマンド](/glossary/コマンド/)を実行すると401[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 minikube start &
@@ -163,11 +163,11 @@ kubectl get nodes
 
 **kubeconfig の自動管理**
 
-Minikubeはデフォルトで `~/.kube/config` に接続情報を自動的に書き込みます。`minikube start` を実行する際に `--keep-context=false`（デフォルト）オプションが指定されていると、既存のコンテキストが上書きされます。複数のKubernetesクラスターを管理している場合は、`--keep-context=true` を使用して既存の設定を保護してください。
+Minikubeはデフォルトで `~/.kube/config` に接続情報を自動的に書き込みます。`minikube start` を実行する際に `--keep-context=false`（デフォルト）オプションが指定されていると、既存のコンテキストが上書きされます。複数の[Kubernetes](/glossary/kubernetes/)クラスターを管理している場合は、`--keep-context=true` を使用して既存の設定を保護してください。
 
 **ドライバー固有の問題**
 
-Minikubeはdocker、vm、hyperkit など複数のドライバーで動作します。ドライバーを変更した場合、クラスターの内部IP アドレスやAPIサーバーのポート番号が変わることがあります。この場合、kubeconfig も自動的に更新されますが、手動でドライバーを切り替えた場合は `minikube update-context` を明示的に実行してください。
+Minikubeはdocker、vm、hyperkit など複数のドライバーで動作します。ドライバーを変更した場合、クラスターの内部IP アドレスや[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号が変わることがあります。この場合、kubeconfig も自動的に更新されますが、手動でドライバーを切り替えた場合は `minikube update-context` を明示的に実行してください。
 
 ```bash
 # 現在のドライバー確認
@@ -184,7 +184,7 @@ minikube update-context
 
 ## それでも解決しない場合
 
-**Minikubeの詳細ログを確認**
+**Minikubeの詳細[ログ](/glossary/ログ/)を確認**
 
 ```bash
 # Minikube のデバッグログを表示
@@ -219,7 +219,7 @@ minikube delete
 minikube start
 ```
 
-詳細は[Minikube公式ドキュメント - Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)および[kubectl config コマンド リファレンス](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#config)を参照してください。Kubernetes コミュニティの GitHub Issues でも同様の事例が報告されているため、エラーメッセージを検索すると解決策が見つかることが多くあります。
+詳細は[Minikube公式ドキュメント - Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)および[kubectl config コマンド リファレンス](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#config)を参照してください。[Kubernetes](/glossary/kubernetes/) コミュニティの GitHub Issues でも同様の事例が報告されているため、[エラーメッセージ](/glossary/エラーメッセージ/)を検索すると解決策が見つかることが多くあります。
 
 ---
 

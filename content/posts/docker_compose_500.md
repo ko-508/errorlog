@@ -150,7 +150,7 @@ docker compose ps
 docker compose logs <service-name>
 ```
 
-で詳細なエラーメッセージを確認します。
+で詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。
 
 ### 原因3：ヘルスチェックが失敗しコンテナーが再起動ループに入っている
 
@@ -199,7 +199,7 @@ services:
 docker compose logs <service-name> --tail=50
 ```
 
-繰り返されるエラーメッセージを確認し、[ヘルスチェック](/glossary/ヘルスチェック/)失敗の理由を特定します。
+繰り返される[エラーメッセージ](/glossary/エラーメッセージ/)を確認し、[ヘルスチェック](/glossary/ヘルスチェック/)失敗の理由を特定します。
 
 ```bash
 docker inspect <container-id> | grep -A 20 "Health"
@@ -270,7 +270,7 @@ docker compose logs <service-name> -f --tail=100
 
 `-f` フラグでリアルタイムログを監視し、`--tail=100` で直近 100 行を表示します。
 
-個別サービスの起動テスト：
+個別サービスの起動[テスト](/glossary/テスト/)：
 
 ```bash
 docker compose up --no-deps -d <service-name>

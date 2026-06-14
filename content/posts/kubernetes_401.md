@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Kubernetesで401エラーが発生するのは、APIサーバーへのリクエストに対して認証に失敗した状態を示します。認証トークンの有効期限切れ、認証情報の不足、または権限がないServiceAccountの使用が典型的な原因です。このエラーが出ると、kubectlコマンドの実行やPodからAPIサーバーへのアクセスが拒否されます。
+[Kubernetes](/glossary/kubernetes/)で401[エラー](/glossary/エラー/)が発生するのは、[API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して[認証](/glossary/認証/)に失敗した状態を示します。[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れ、認証情報の不足、または[権限](/glossary/権限/)がないServiceAccountの使用が典型的な原因です。この[エラー](/glossary/エラー/)が出ると、kubectl[コマンド](/glossary/コマンド/)の実行やPodから[API](/glossary/api/)[サーバー](/glossary/サーバー/)へのアクセスが拒否されます。
 
 ## 実際のエラーメッセージ例
 
@@ -43,9 +43,9 @@ Error from server (Unauthorized): pods "pod-name" is forbidden: User "system:ser
 
 ### 原因1：kubeconfig設定の無効化または存在しない認証情報
 
-kubeconfig内の証明書やトークンが無効になっている、または参照しているファイルが削除されている場合に401エラーが発生します。クラスタをセットアップした時点での認証情報が失われたり、パスが誤っていたりすることが多いです。
+kubeconfig内の証明書や[トークン](/glossary/トークン/)が無効になっている、または参照しているファイルが削除されている場合に401[エラー](/glossary/エラー/)が発生します。クラスタをセットアップした時点での認証情報が失われたり、パスが誤っていたりすることが多いです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 # ~/.kube/config
@@ -93,9 +93,9 @@ users:
 
 ### 原因2：ServiceAccountのRBAC権限不足
 
-PodがAPI呼び出しを試みる際、割り当てられたServiceAccountに必要なRole/ClusterRoleバインディングがないか、RoleBinding自体が誤った権限設定になっている場合です。PodはServiceAccountの認証情報は持っていますが、その用途に対する権限がないため401に見える実質403エラーが発生します。
+Podが[API](/glossary/api/)呼び出しを試みる際、割り当てられたServiceAccountに必要なRole/ClusterRoleバインディングがないか、RoleBinding自体が誤った権限設定になっている場合です。PodはServiceAccountの認証情報は持っていますが、その用途に対する[権限](/glossary/権限/)がないため401に見える実質403[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 # ServiceAccountは存在するが、Role/RoleBindingがない
@@ -173,9 +173,9 @@ spec:
 
 ### 原因3：トークンの有効期限切れまたは無効なトークン
 
-OIDCやその他の外部認証を使用している場合、IDトークンやアクセストークンの有効期限が切れていることがあります。または、手動で作成したトークンが無効になっている可能性もあります。
+OIDCやその他の外部認証を使用している場合、ID[トークン](/glossary/トークン/)やアクセストークンの有効期限が切れていることがあります。または、手動で作成した[トークン](/glossary/トークン/)が無効になっている可能性もあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 有効期限切れのトークンでログイン試行
@@ -204,7 +204,7 @@ gcloud container clusters get-credentials <cluster-name> --zone <zone>
 
 ### Kubernetes RBAC設定の検証
 
-エラーが本当に401（認証失敗）なのか、403（認可失敗）なのかを区別することが重要です。以下のコマンドで現在のユーザー・ServiceAccountの権限を確認できます。
+[エラー](/glossary/エラー/)が本当に401（認証失敗）なのか、403（認可失敗）なのかを区別することが重要です。以下の[コマンド](/glossary/コマンド/)で現在のユーザー・ServiceAccountの[権限](/glossary/権限/)を確認できます。
 
 ```bash
 # 現在のコンテキストとユーザーを確認
@@ -224,7 +224,7 @@ kubectl auth can-i --list --as=system:serviceaccount:<namespace>:<sa-name>
 
 ### マルチクラスタ環境での認証
 
-複数のKubernetesクラスタを管理する場合、kubeconfig内に複数のクラスタ定義が存在しており、誤ったコンテキストで操作している可能性があります。
+複数の[Kubernetes](/glossary/kubernetes/)クラスタを管理する場合、kubeconfig内に複数のクラスタ定義が存在しており、誤ったコンテキストで操作している可能性があります。
 
 ```bash
 # 設定されているすべてのクラスタを表示
@@ -239,7 +239,7 @@ kubectl cluster-info
 
 ### 外部認証プロバイダー（OIDC）の場合
 
-OIDCを使用している場合、トークンの更新が自動的に行われていない可能性があります。kubeloginなどのOIDCヘルパーが正しく設定されているか確認してください。
+OIDCを使用している場合、[トークン](/glossary/トークン/)の更新が自動的に行われていない可能性があります。kubeloginなどのOIDCヘルパーが正しく設定されているか確認してください。
 
 ```bash
 # OIDCの認証情報が正しく設定されているか確認
@@ -266,9 +266,9 @@ sudo journalctl -u kubelet -n 50
 
 ### 確認すべきログの場所
 
-- **kube-apiserver ログ**：`/var/log/pods/kube-system_kube-apiserver-*/` またはコンテナログ
-- **kubelet ログ**：`journalctl -u kubelet` または `/var/log/kubelet.log`
-- **kubectl のデバッグ出力**：`-v=6` から `-v=10` のフラグを使用
+- **kube-apiserver [ログ](/glossary/ログ/)**：`/var/log/pods/kube-system_kube-apiserver-*/` またはコンテナログ
+- **kubelet [ログ](/glossary/ログ/)**：`journalctl -u kubelet` または `/var/log/kubelet.log`
+- **kubectl の[デバッグ](/glossary/デバッグ/)出力**：`-v=6` から `-v=10` のフラグを使用
 
 ### 公式ドキュメント参照
 

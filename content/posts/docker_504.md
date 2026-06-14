@@ -249,7 +249,7 @@ networks:
 
 ## それでも解決しない場合
 
-**[Docker](/glossary/docker/) Compose の[ログ](/glossary/ログ/)を確認する：** `docker-compose logs -f` でサービスのリアルタイムログを確認し、エラーメッセージを詳細に読むことが最初のステップです。特に [タイムアウト](/glossary/タイムアウト/)前のエラーメッセージがあればそれを解析してください。
+**[Docker](/glossary/docker/) Compose の[ログ](/glossary/ログ/)を確認する：** `docker-compose logs -f` でサービスのリアルタイムログを確認し、[エラーメッセージ](/glossary/エラーメッセージ/)を詳細に読むことが最初のステップです。特に [タイムアウト](/glossary/タイムアウト/)前の[エラーメッセージ](/glossary/エラーメッセージ/)があればそれを解析してください。
 
 **[プロキシ](/glossary/プロキシ/)のアクセスログを確認する：** Nginx の場合、`/var/log/nginx/access.log` と `/var/log/nginx/error.log` を確認します。[Docker](/glossary/docker/) Compose 内では、ボリュームマウントで ホストマシンから[ログ](/glossary/ログ/)をアクセス可能にしておくと効率的です。
 

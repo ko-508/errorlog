@@ -41,7 +41,7 @@ ValidationError(Deployment.spec.template.spec.containers[0].image): string lengt
 
 ### 原因1: YAML構文エラーまたはフィールド型の不一致
 
-**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型フィールドを文字列で指定したり、オブジェクト型フィールドにスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型フィールドを文字列で指定したり、[オブジェクト](/glossary/オブジェクト/)型フィールドにスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```yaml
@@ -251,7 +251,7 @@ kubectl api-resources | grep customresource
 
 ### ログ確認とデバッグコマンド
 
-[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を直接確認して、より詳細なエラーメッセージを取得してください。
+[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を直接確認して、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
 
 ```bash
 # クラスタログの確認（マネージドKubernetesの場合はプロバイダーのコンソール使用）
@@ -266,7 +266,7 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 ### 公式ドキュメントへの参照
 
-- **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)仕様** - https://kubernetes.io/docs/reference/kubernetes-api/ で各リソースのスキーマ定義を確認
+- **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)仕様** - https://kubernetes.io/docs/reference/kubernetes-api/ で各リソースの[スキーマ](/glossary/スキーマ/)定義を確認
 - **[API](/glossary/api/)[サーバー](/glossary/サーバー/)の検証ルール** - https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation
 - **廃止[API](/glossary/api/)バージョンのマイグレーション** - https://kubernetes.io/docs/reference/using-api/deprecation-guide/
 

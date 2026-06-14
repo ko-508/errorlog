@@ -77,7 +77,7 @@ retrieved = stripe.Customer.retrieve(customer.id)
 
 ### 原因2：テスト環境と本番環境のAPIキー混在
 
-テスト用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは環境ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
+[テスト](/glossary/テスト/)用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは環境ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
 
 **修正前（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -185,7 +185,7 @@ def handle_webhook(event):
 
 ### Stripe Connectのアカウント制限
 
-Stripe Connect（複数のビジネスアカウント間での連携機能）でアカウント間のリソースアクセスを試みる場合、適切な[認可](/glossary/認可/)[ヘッダー](/glossary/ヘッダー/)がないと404が返されます。`Stripe-Account`[ヘッダー](/glossary/ヘッダー/)を正確に指定する必要があります。
+Stripe Connect（複数のビジネスアカウント間での連携機能）で[アカウント](/glossary/アカウント/)間のリソースアクセスを試みる場合、適切な[認可](/glossary/認可/)[ヘッダー](/glossary/ヘッダー/)がないと404が返されます。`Stripe-Account`[ヘッダー](/glossary/ヘッダー/)を正確に指定する必要があります。
 
 ```javascript
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -201,7 +201,7 @@ const customer = await stripe.customers.retrieve(
 
 ### ログとデバッグ情報の確認
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に送信された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を確認できます。ここで正確なエラーメッセージとリソースIDを再度検証してください。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に送信された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を確認できます。ここで正確な[エラーメッセージ](/glossary/エラーメッセージ/)とリソースIDを再度検証してください。
 
 ### 公式ドキュメント
 

@@ -13,7 +13,7 @@ related_services: ["Python", "curl"]
 
 ## エラーの概要
 
-Stripe APIで500エラーが返される場合、Stripe側のサーバーで予期しない内部エラーが発生していることを示します。このエラーはStripeのインフラストラクチャーの一時的な障害、リクエスト処理中の予期しない例外、またはAPI実装側の互換性問題など複数の原因で発生します。重要な点は、500エラー発生時にリクエストが部分的に処理されている可能性があり、冪等性キーの実装が不可欠になることです。
+Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)キーの実装が不可欠になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -50,9 +50,9 @@ HTTP/1.1 500 Internal Server Error
 
 ### 原因1：冪等性キー（Idempotency Key）の未設定による重複処理
 
-Stripeで500エラーが発生した場合、リクエストが成功したのか失敗したのか不確実になります。リトライ時に同じ操作が2回実行されるリスクが高まります。冪等性キーを設定しないと、エラー発生時のリトライで二重課金などの問題が生じます。
+Stripeで500[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)が成功したのか失敗したのか不確実になります。[リトライ](/glossary/リトライ/)時に同じ操作が2回実行されるリスクが高まります。[冪等性](/glossary/冪等性/)キーを設定しないと、[エラー](/glossary/エラー/)発生時の[リトライ](/glossary/リトライ/)で二重課金などの問題が生じます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```javascript
 // 冪等性キーなしで送信
@@ -79,9 +79,9 @@ const charge = await stripe.charges.create({
 
 ### 原因2：非推奨なAPIバージョンの使用
 
-StripeはAPI仕様を定期的に更新し、古いバージョンはサポートが終了します。非推奨なバージョンへのリクエストは500エラーで返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
+Stripeは[API](/glossary/api/)仕様を定期的に更新し、古いバージョンはサポートが終了します。非推奨なバージョンへの[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 旧いAPIバージョン
@@ -103,9 +103,9 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 ### 原因3：不正なカードブランドまたはサポート外の通貨組み合わせ
 
-Stripeが内部的に処理できない決済パラメーター（例：実装環境でサポートしていないカードブランド、特定国での未対応通貨）を指定すると、500エラーで応答することがあります。
+Stripeが内部的に処理できない決済パラメーター（例：実装環境でサポートしていないカードブランド、特定国での未対応通貨）を指定すると、500[エラー](/glossary/エラー/)で応答することがあります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```python
 import stripe
@@ -145,11 +145,11 @@ if currency in supported_currencies:
 
 ### Webhook署名検証とAPIバージョンの整合性
 
-Webhookを受信する際、Stripe-Version ヘッダーが送信されます。ホスト側でこれを無視して古いAPIバージョンと想定して処理すると、ペイロード構造の不一致が生じて500エラーにつながります。Webhookエンドポイント側も明示的にAPIバージョンを指定するか、ダッシュボードでバージョンを統一する必要があります。
+[Webhook](/glossary/webhook/)を受信する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が送信されます。ホスト側でこれを無視して古い[API](/glossary/api/)バージョンと想定して処理すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)バージョンを指定するか、[ダッシュボード](/glossary/ダッシュボード/)でバージョンを統一する必要があります。
 
 ### リトライ戦略の実装
 
-Stripe APIのレスポンスが500の場合、Stripeのサーバー側で処理途中の可能性があります。単純なリトライでは冪等性キーがないと重複決済が発生します。以下のように指数バックオフ+冪等性キーを組み合わせてください：
+Stripe [API](/glossary/api/)の[レスポンス](/glossary/レスポンス/)が500の場合、Stripeの[サーバー](/glossary/サーバー/)側で処理途中の可能性があります。単純な[リトライ](/glossary/リトライ/)では[冪等性](/glossary/冪等性/)キーがないと重複決済が発生します。以下のように指数[バックオフ](/glossary/バックオフ/)+[冪等性](/glossary/冪等性/)キーを組み合わせてください：
 
 ```javascript
 async function createChargeWithRetry(chargeParams, maxRetries = 3) {
@@ -174,19 +174,19 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-テスト環境（sk_test_）とライブ環境（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。テスト環境では成功するが本番環境で500エラーになるケースは、この差異が原因のことがあります。Stripeダッシュボードの「アカウント設定 → API」セクションで、アカウントが対応している機能とバージョンを確認してください。
+[テスト](/glossary/テスト/)環境（sk_test_）とライブ環境（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)環境では成功するが本番環境で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能とバージョンを確認してください。
 
 ## それでも解決しない場合
 
 ### 確認すべき手順とログ
 
-1. **Request IDの記録**：エラーレスポンスの `request_id` フィールドをメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
+1. **Request IDの記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` フィールドをメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
 
 2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に障害がないか確認します。インシデント進行中の場合は、復旧を待つ必要があります。
 
-3. **ホスト側ログの確認**：アプリケーションサーバーのエラーログを詳しく確認し、Stripe SDK内部で例外が発生していないかを確認します。
+3. **ホスト側[ログ](/glossary/ログ/)の確認**：アプリケーションサーバーの[エラーログ](/glossary/エラーログ/)を詳しく確認し、Stripe [SDK](/glossary/sdk/)内部で例外が発生していないかを確認します。
 
-4. **APIバージョンの確認コマンド**：
+4. **[API](/glossary/api/)バージョンの確認[コマンド](/glossary/コマンド/)**：
 
 ```bash
 # ダッシュボード設定から現在のAPIバージョンを確認
@@ -196,17 +196,17 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### 公式ドキュメント参照
 
-- **Stripe API Errors**：https://stripe.com/docs/error-codes
+- **Stripe [API](/glossary/api/) Errors**：https://stripe.com/docs/error-codes
 - **Idempotency**：https://stripe.com/docs/api/idempotent_requests
-- **API Versioning**：https://stripe.com/docs/api/versioning
+- **[API](/glossary/api/) Versioning**：https://stripe.com/docs/api/versioning
 
 ### コミュニティリソース
 
-- Stripe GitHub Issues：https://github.com/stripe/stripe-python/issues （該当言語のリポジトリ）
+- Stripe GitHub Issues：https://github.com/stripe/stripe-python/issues （該当言語の[リポジトリ](/glossary/リポジトリ/)）
 - Stripe Developer Community：https://stripe.com/docs/support
 - Stack Overflow の `stripe` タグ：実装言語固有の問題は検索してみてください
 
-公式サポートに問い合わせる場合は、Request ID、使用しているSDKのバージョン、リクエストを送信した時刻（UTC）、APIバージョンをまとめて報告すれば、迅速に対応してもらえます。
+公式サポートに問い合わせる場合は、Request ID、使用している[SDK](/glossary/sdk/)のバージョン、[リクエスト](/glossary/リクエスト/)を送信した時刻（UTC）、[API](/glossary/api/)バージョンをまとめて報告すれば、迅速に対応してもらえます。
 
 ---
 

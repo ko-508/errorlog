@@ -39,9 +39,9 @@ curl https://api.stripe.com/v1/charges \
 
 ## よくある原因と解決手順
 
-**原因1：テスト環境と本番環境のキーを混同している**
+**原因1：[テスト](/glossary/テスト/)環境と本番環境のキーを混同している**
 
-Stripe では `sk_test_` で始まるテスト用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境のコードでテスト用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
+Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境のコードで[テスト](/glossary/テスト/)用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```javascript
@@ -172,9 +172,9 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **[API](/glossary/api/) キーの権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) キーの[権限](/glossary/権限/)を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) キー」セクションで、各キーの[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
-**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` メソッドを使用してください。
+**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
-**Connected Account（Stripe Connect）：** 複数の Stripe アカウントを管理する場合、リクエストヘッダーに正しい `Stripe-Account` ID を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
+**Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` ID を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 
 ```bash
 curl https://api.stripe.com/v1/charges \
@@ -182,7 +182,7 @@ curl https://api.stripe.com/v1/charges \
   -u sk_test_xxxxx:
 ```
 
-**テスト用キーの機能制限：** テスト環境のテスト用キー（`sk_test_`）では、本番環境でのみ利用可能な機能の実行が制限される場合があります。
+**[テスト](/glossary/テスト/)用キーの機能制限：** [テスト](/glossary/テスト/)環境の[テスト](/glossary/テスト/)用キー（`sk_test_`）では、本番環境でのみ利用可能な機能の実行が制限される場合があります。
 
 ## それでも解決しない場合
 

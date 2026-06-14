@@ -15,7 +15,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman の 400 エラーは、Podman API またはレジストリへのリクエスト形式が不正であることを示します。コマンド構文の誤り、イメージ指定の形式違反、レジストリ認証情報の不備などが原因として起こり、コンテナの起動やプル操作が失敗します。
+Podman の 400 [エラー](/glossary/エラー/)は、Podman [API](/glossary/api/) または[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)形式が不正であることを示します。[コマンド](/glossary/コマンド/)構文の誤り、[イメージ](/glossary/イメージ/)指定の形式違反、[レジストリ](/glossary/レジストリ/)認証情報の不備などが原因として起こり、[コンテナ](/glossary/コンテナ/)の起動やプル操作が失敗します。
 
 ## 実際のエラーメッセージ例
 
@@ -37,9 +37,9 @@ Error: invalid argument "mycontainer" for "--memory" flag: invalid format
 
 **1. podman run のオプション指定が誤っている**
 
-値が必須のオプション（`--memory`、`--cpus`、`--name` など）に値を指定しない、または不正な形式で指定した場合に発生します。また、イメージ名の前に全てのオプションを配置する必要があり、順序を間違えると 400 エラーが発生します。
+値が必須のオプション（`--memory`、`--cpus`、`--name` など）に値を指定しない、または不正な形式で指定した場合に発生します。また、[イメージ](/glossary/イメージ/)名の前に全てのオプションを配置する必要があり、順序を間違えると 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 podman run --memory mycontainer ubuntu:latest
@@ -53,11 +53,11 @@ podman run --memory 512m --name test-container ubuntu:latest
 podman run --name test-container ubuntu:latest
 ```
 
-**2. イメージ名またはタグの形式が不正である**
+**2. [イメージ](/glossary/イメージ/)名またはタグの形式が不正である**
 
-イメージ名に大文字が含まれている、タグに不正な文字が使用されている、またはレジストリURL の書き方が間違っている場合、リクエストが解析できず 400 エラーが返されます。イメージ名は小文字で、タグには英数字とハイフン、アンダースコア、ドット、コロンのみが許可されます。
+[イメージ](/glossary/イメージ/)名に大文字が含まれている、タグに不正な文字が使用されている、または[レジストリ](/glossary/レジストリ/)URL の書き方が間違っている場合、[リクエスト](/glossary/リクエスト/)が解析できず 400 [エラー](/glossary/エラー/)が返されます。[イメージ](/glossary/イメージ/)名は小文字で、タグには英数字とハイフン、アンダースコア、ドット、コロンのみが許可されます。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 podman pull MyImage:Latest
@@ -71,11 +71,11 @@ podman pull myimage:latest
 podman run myregistry.com:5000/app:v1
 ```
 
-**3. レジストリ認証情報の形式が不正である**
+**3. [レジストリ](/glossary/レジストリ/)認証情報の形式が不正である**
 
-`podman login` 時にレジストリURL の形式が間違っていたり、認証トークンが `auth.json` に不正な形式で保存されたりすると、プル操作で 400 エラーが発生します。特にプライベートレジストリを使用する場合、URL にプロトコルスキーム（`https://` など）を含める必要があります。
+`podman login` 時に[レジストリ](/glossary/レジストリ/)URL の形式が間違っていたり、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が `auth.json` に不正な形式で保存されたりすると、プル操作で 400 [エラー](/glossary/エラー/)が発生します。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、URL にプロトコルスキーム（`https://` など）を含める必要があります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 podman login myregistry.com:5000
@@ -90,11 +90,11 @@ podman login https://myregistry.com:5000
 podman pull myregistry.com:5000/private-app:latest
 ```
 
-**4. ポート指定やネットワークオプションの形式が不正である**
+**4. [ポート](/glossary/ポート/)指定やネットワークオプションの形式が不正である**
 
-`-p` フラグでポートマッピングを指定する際、形式が違うと 400 エラーが発生します。正しい形式は `-p <host-port>:<container-port>` または `-p <host-ip>:<host-port>:<container-port>` です。また、`--net` オプションで存在しないネットワークを指定した場合も同様です。
+`-p` フラグでポートマッピングを指定する際、形式が違うと 400 [エラー](/glossary/エラー/)が発生します。正しい形式は `-p <host-port>:<container-port>` または `-p <host-ip>:<host-port>:<container-port>` です。また、`--net` オプションで存在しない[ネットワーク](/glossary/ネットワーク/)を指定した場合も同様です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 podman run -p 8080-80 ubuntu:latest
@@ -110,29 +110,29 @@ podman run --net bridge ubuntu:latest
 
 ## Podman 固有の注意点
 
-Podman のリモートAPIサーバーを使用している場合、HTTP リクエストの `Content-Type` ヘッダーが正しく設定されていないと 400 エラーが発生します。`application/json` を指定し、リクエストボディが有効な JSON 形式であることを確認してください。
+Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー/)を使用している場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の `Content-Type` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 400 [エラー](/glossary/エラー/)が発生します。`application/json` を指定し、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式であることを確認してください。
 
-Podman Socket API を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古いバージョンの API パスを使用すると 400 エラーが返されます。
+Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古いバージョンの [API](/glossary/api/) パスを使用すると 400 [エラー](/glossary/エラー/)が返されます。
 
-また、SELinux が有効な環境では、socket ファイルのパーミッションが不正な場合もリクエスト解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
+また、SELinux が有効な環境では、socket ファイルのパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
 
 ## それでも解決しない場合
 
-Podman デーモンの詳細ログを有効にしてエラーの詳細を確認します。
+Podman [デーモン](/glossary/デーモン/)の詳細[ログ](/glossary/ログ/)を有効にして[エラー](/glossary/エラー/)の詳細を確認します。
 
 ```bash
 podman --log-level debug run <options>
 ```
 
-ログファイルが記録されている場合は以下で確認します。
+[ログファイル](/glossary/ログファイル/)が記録されている場合は以下で確認します。
 
 ```bash
 journalctl -u podman --no-pager | tail -50
 ```
 
-公式ドキュメント「Podman Run Options」および「Podman API」ページで、各オプションの正確な形式と使用例を確認してください。
+公式ドキュメント「Podman Run Options」および「Podman [API](/glossary/api/)」ページで、各オプションの正確な形式と使用例を確認してください。
 
-GitHub の Podman Issues ページ（https://github.com/containers/podman/issues）で、類似の問題が報告されていないか検索することも有効です。環境固有の問題（Podman バージョン、ホストOS、コンテナランタイム）を報告する際は、`podman --version` と `podman info` の出力を含めてください。
+GitHub の Podman Issues ページ（https://github.com/containers/podman/issues）で、類似の問題が報告されていないか検索することも有効です。環境固有の問題（Podman バージョン、ホスト[OS](/glossary/os/)、コンテナランタイム）を報告する際は、`podman --version` と `podman info` の出力を含めてください。
 
 ---
 

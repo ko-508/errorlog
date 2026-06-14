@@ -13,7 +13,7 @@ related_services: ["Node.js", "MySQL", "systemd"]
 
 ## エラーの概要
 
-504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーやAPIサーバー）からのレスポンスを一定時間待ちきれず、タイムアウトした状況を示すエラーです。Nginxそのものは正常に動作していますが、バックエンド側の処理時間が長すぎるか、サーバーが応答していない、あるいはネットワーク経路に問題がある可能性があります。
+504 Gateway Timeoutは、Nginxがリバースプロキシとしてバックエンドサーバー（アプリケーションサーバーや[API](/glossary/api/)[サーバー](/glossary/サーバー/)）からの[レスポンス](/glossary/レスポンス/)を一定時間待ちきれず、[タイムアウト](/glossary/タイムアウト/)した状況を示す[エラー](/glossary/エラー/)です。Nginxそのものは正常に動作していますが、[バックエンド](/glossary/バックエンド/)側の処理時間が長すぎるか、[サーバー](/glossary/サーバー/)が応答していない、あるいは[ネットワーク](/glossary/ネットワーク/)経路に問題がある可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -22,7 +22,7 @@ related_services: ["Node.js", "MySQL", "systemd"]
 504 Gateway Timeout
 ```
 
-Nginxのエラーログ（`/var/log/nginx/error.log`）に記録される例：
+Nginxの[エラーログ](/glossary/エラーログ/)（`/var/log/nginx/error.log`）に記録される例：
 ```
 2024/01/15 14:32:10 [error] 1234#1234: *567 upstream timed out (110: Connection timed out) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET /api/process HTTP/1.1"
 ```
@@ -36,9 +36,9 @@ Nginxアクセスログ（`/var/log/nginx/access.log`）の例：
 
 ### 原因1：proxy_connect_timeoutまたはproxy_read_timeoutが短すぎる
 
-バックエンドサーバーの処理に時間がかかるのに対し、Nginxのタイムアウト設定が短すぎる場合、504エラーが発生します。デフォルトでは60秒に設定されていることが多く、これを超える処理では必ず404が発生します。
+バックエンドサーバーの処理に時間がかかるのに対し、Nginxの[タイムアウト](/glossary/タイムアウト/)設定が短すぎる場合、504[エラー](/glossary/エラー/)が発生します。デフォルトでは60秒に設定されていることが多く、これを超える処理では必ず404が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```nginx
 upstream backend {
     server 192.168.1.10:8080;
@@ -73,13 +73,13 @@ server {
 }
 ```
 
-`proxy_connect_timeout` はバックエンドとの接続確立待ち時間、`proxy_read_timeout` はレスポンス受信待ち時間です。処理内容に応じて秒数を調整してください。
+`proxy_connect_timeout` は[バックエンド](/glossary/バックエンド/)との接続確立待ち時間、`proxy_read_timeout` は[レスポンス](/glossary/レスポンス/)受信待ち時間です。処理内容に応じて秒数を調整してください。
 
 ### 原因2：バックエンドサーバーがダウンしているか応答していない
 
-バックエンドサーバー自体がクラッシュしているか、ネットワークで到達不可能な状態では、Nginxはタイムアウトするまで待機し、504を返します。
+バックエンドサーバー自体がクラッシュしているか、[ネットワーク](/glossary/ネットワーク/)で到達不可能な状態では、Nginxは[タイムアウト](/glossary/タイムアウト/)するまで待機し、504を返します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```nginx
 upstream backend {
     server 192.168.1.10:8080;
@@ -115,19 +115,19 @@ server {
 }
 ```
 
-`max_fails` と `fail_timeout` を設定することで、失敗したサーバーを一時的に除外できます。まずはバックエンドサーバーのステータスを確認してください。
+`max_fails` と `fail_timeout` を設定することで、失敗した[サーバー](/glossary/サーバー/)を一時的に除外できます。まずはバックエンドサーバーのステータスを確認してください。
 
 ```bash
 curl -v http://192.168.1.10:8080/health
 ```
 
-レスポンスがない場合、バックエンドサーバーのプロセスが停止していないか確認します。
+[レスポンス](/glossary/レスポンス/)がない場合、バックエンドサーバーのプロセスが停止していないか確認します。
 
 ### 原因3：バックエンド処理が実際に遅い（アプリケーション側の問題）
 
-データベースクエリが遅い、外部APIの呼び出しが遅い、或いはリソース不足によりバックエンドサーバーの処理時間が著しく長くなっている場合、504が発生します。
+データベースクエリが遅い、外部[API](/glossary/api/)の呼び出しが遅い、或いはリソース不足によりバックエンドサーバーの処理時間が著しく長くなっている場合、504が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```nginx
 upstream backend {
     server 192.168.1.10:8080;
@@ -164,13 +164,13 @@ server {
 }
 ```
 
-同時に、アプリケーション側でクエリの最適化、キャッシュの導入、非同期処理化などを検討してください。
+同時に、アプリケーション側で[クエリ](/glossary/クエリ/)の最適化、[キャッシュ](/glossary/キャッシュ/)の導入、非同期処理化などを検討してください。
 
 ### 原因4：upstream接続の設定ミス
 
-upstreamのサーバーアドレスが間違っている、ポート番号が誤っている、あるいは名前解決が失敗している場合も504が発生します。
+upstreamのサーバーアドレスが間違っている、[ポート](/glossary/ポート/)番号が誤っている、あるいは名前解決が失敗している場合も504が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```nginx
 upstream backend {
     server backend-service:8080;  # DNSで解決できない場合
@@ -210,7 +210,7 @@ server {
 
 ### connection_resetが記録される場合
 
-エラーログに「connection reset by peer」と出力されている場合、バックエンドサーバーが異常に終了しているか、ファイアウォール・ロードバランサーが接続を切断している可能性があります。
+[エラーログ](/glossary/エラーログ/)に「connection reset by peer」と出力されている場合、バックエンドサーバーが異常に終了しているか、[ファイアウォール](/glossary/ファイアウォール/)・[ロードバランサー](/glossary/ロードバランサー/)が接続を切断している可能性があります。
 
 ```nginx
 location / {
@@ -220,13 +220,13 @@ location / {
 }
 ```
 
-`proxy_next_upstream` と `proxy_next_upstream_tries` を使用すると、失敗時に別のupstreamサーバーへ自動的にリトライします。
+`proxy_next_upstream` と `proxy_next_upstream_tries` を使用すると、失敗時に別のupstream[サーバー](/glossary/サーバー/)へ自動的に[リトライ](/glossary/リトライ/)します。
 
 ### keep-aliveとコネクションプーリング
 
-バックエンドサーバーとの通信がkeep-aliveで接続を保持していない場合、接続確立の遅延が蓄積します。
+バックエンドサーバーとの[通信](/glossary/通信/)がkeep-aliveで接続を保持していない場合、接続確立の遅延が蓄積します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```nginx
 upstream backend {
     server 192.168.1.10:8080;
@@ -249,17 +249,17 @@ server {
 }
 ```
 
-`keepalive` でコネクションプーリングを有効化し、`proxy_http_version 1.1` と `Connection` ヘッダー削除で接続の再利用を促進します。
+`keepalive` でコネクションプーリングを有効化し、`proxy_http_version 1.1` と `Connection` [ヘッダー](/glossary/ヘッダー/)削除で接続の再利用を促進します。
 
 ### ロードバランサーのヘルスチェック
 
-複数のバックエンドサーバーがある場合、`upstream` 内で `check` モジュール（Nginxの有志開発版）を使用するか、外部のロードバランシングツール（例：HAProxy）と組み合わせることで、より堅牢な構成が実現できます。通常のNginxではアクティブなヘルスチェックが非標準のため、まずエラーログを確認して個別サーバーの状態を把握してください。
+複数のバックエンドサーバーがある場合、`upstream` 内で `check` モジュール（Nginxの有志開発版）を使用するか、外部のロードバランシングツール（例：HAProxy）と組み合わせることで、より堅牢な構成が実現できます。通常のNginxではアクティブな[ヘルスチェック](/glossary/ヘルスチェック/)が非標準のため、まず[エラーログ](/glossary/エラーログ/)を確認して個別[サーバー](/glossary/サーバー/)の状態を把握してください。
 
 ## それでも解決しない場合
 
 ### ログの詳細確認
 
-Nginxをデバッグモードで再起動し、詳細なログを記録してください。
+Nginxをデバッグモードで再起動し、詳細な[ログ](/glossary/ログ/)を記録してください。
 
 ```bash
 # nginx.confでdebugレベルを設定
@@ -272,7 +272,7 @@ sudo systemctl reload nginx
 sudo tail -f /var/log/nginx/error.log
 ```
 
-エラーメッセージの「upstream timed out」に続く詳細情報（ホスト、ポート、エラー番号）を確認し、どの段階で失敗しているか特定してください。
+[エラーメッセージ](/glossary/エラーメッセージ/)の「upstream timed out」に続く詳細情報（ホスト、[ポート](/glossary/ポート/)、[エラー](/glossary/エラー/)番号）を確認し、どの段階で失敗しているか特定してください。
 
 ### バックエンドサーバーの動作確認
 
@@ -284,11 +284,11 @@ netstat -tlnp | grep 8080
 ps aux | grep application
 ```
 
-プロセスが起動していない、ポートにバインドしていない場合は、アプリケーション自体の起動を確認してください。
+プロセスが起動していない、[ポート](/glossary/ポート/)にバインドしていない場合は、アプリケーション自体の起動を確認してください。
 
 ### ネットワーク疎通確認
 
-NginxサーバーからバックエンドサーバーへのTCP接続確認：
+Nginx[サーバー](/glossary/サーバー/)からバックエンドサーバーへのTCP接続確認：
 
 ```bash
 # Nginxサーバー上で実行
@@ -296,11 +296,11 @@ nc -zv 192.168.1.10 8080
 curl -v --connect-timeout 5 http://192.168.1.10:8080/health
 ```
 
-接続できない場合は、ファイアウォール設定（`iptables`, `ufw`）を確認し、必要に応じてルールを追加してください。
+接続できない場合は、[ファイアウォール](/glossary/ファイアウォール/)設定（`iptables`, `ufw`）を確認し、必要に応じてルールを追加してください。
 
 ### 公式ドキュメント
 
-Nginxの公式ドキュメント「Reverse Proxy」（https://nginx.org/en/docs/http/ngx_http_proxy_module.html）で `proxy_*_timeout` パラメータの詳細仕様を確認できます。また、「HTTP Upstream Module」では upstream設定のベストプラクティスが記載されています。
+Nginxの公式ドキュメント「Reverse Proxy」（https://nginx.org/en/docs/http/ngx_http_proxy_module.html）で `proxy_*_timeout` [パラメータ](/glossary/パラメータ/)の詳細仕様を確認できます。また、「[HTTP](/glossary/http/) Upstream Module」では upstream設定のベストプラクティスが記載されています。
 
 ---
 

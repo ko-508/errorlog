@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Kubernetes環境で503エラーが発生するのは、クライアントからのリクエストに対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、バックエンドのPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示されるHTTPステータスコードです。本エラーは一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
+[Kubernetes](/glossary/kubernetes/)環境で503[エラー](/glossary/エラー/)が発生するのは、クライアントからの[リクエスト](/glossary/リクエスト/)に対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ No servers are available to handle this request.
 
 DeploymentやStatefulSetで定義したPodが何らかの理由でクラッシュしており、バックエンドサーバーが完全に停止している状態です。CrashLoopBackOff状態やExit Code 1などの異常終了が続いている場合に発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -105,7 +105,7 @@ spec:
           periodSeconds: 10
 ```
 
-Podのステータスを確認するコマンド：
+Podのステータスを確認する[コマンド](/glossary/コマンド/)：
 
 ```bash
 kubectl get pods -n <namespace>
@@ -117,7 +117,7 @@ kubectl logs <pod-name> -n <namespace>
 
 Readiness Probeが設定されているものの、起動時間が長すぎたり、ヘルスチェックエンドポイントが応答しなかったりして、Podが「Ready」状態に到達していません。この場合、Podプロセスは動作していても、トラフィックがルーティングされません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -185,7 +185,7 @@ spec:
           periodSeconds: 10
 ```
 
-Readiness Probeの状態を確認するコマンド：
+Readiness Probeの状態を確認する[コマンド](/glossary/コマンド/)：
 
 ```bash
 kubectl get pods -o wide -n <namespace>
@@ -194,9 +194,9 @@ kubectl describe pod <pod-name> -n <namespace> | grep -A 5 "Ready"
 
 ### 原因3: Serviceのエンドポイントが設定されていない
 
-ServiceとPodのラベルセレクタが一致していない場合、Serviceは利用可能なエンドポイントを持たず、トラフィックをルーティングできません。この場合、Serviceオブジェクトは存在していても、バックエンドのPodが見つかりません。
+ServiceとPodのラベルセレクタが一致していない場合、Serviceは利用可能な[エンドポイント](/glossary/エンドポイント/)を持たず、トラフィックをルーティングできません。この場合、Service[オブジェクト](/glossary/オブジェクト/)は存在していても、[バックエンド](/glossary/バックエンド/)のPodが見つかりません。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 # Deployment
@@ -277,7 +277,7 @@ spec:
     targetPort: 8080
 ```
 
-Serviceのエンドポイント確認コマンド：
+Serviceの[エンドポイント](/glossary/エンドポイント/)確認[コマンド](/glossary/コマンド/)：
 
 ```bash
 kubectl get endpoints <service-name> -n <namespace>
@@ -288,13 +288,13 @@ kubectl describe service <service-name> -n <namespace>
 
 ### RBAC（Role-Based Access Control）による制限
 
-ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部リソースへのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider API、その他外部サービスにアクセスする必要がある場合は、RBACの設定を確認してください。
+ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部リソースへのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider [API](/glossary/api/)、その他外部サービスにアクセスする必要がある場合は、[RBAC](/glossary/rbac/)の設定を確認してください。
 
 ### リソースリクエスト・リミットの不足
 
 CPUメモリリクエスト/リミットが不適切に設定されていると、Nodeのリソースが不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 spec:
@@ -322,7 +322,7 @@ spec:
 
 ### Namespaceの隔離
 
-異なるNamespace上のServiceにアクセスしようとしている場合、ServiceのFQDN（`<service-name>.<namespace>.svc.cluster.local`）を正確に指定する必要があります。
+異なる[Namespace](/glossary/namespace/)上のServiceにアクセスしようとしている場合、ServiceのFQDN（`<service-name>.<namespace>.svc.cluster.local`）を正確に指定する必要があります。
 
 ### Ingress設定の不備
 
@@ -371,7 +371,7 @@ kubectl top pods -n <namespace>
 
 ### 公式ドキュメント参照
 
-Kubernetes公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用しているKubernetesバージョンに応じた互換性情報も確認してください。
+[Kubernetes](/glossary/kubernetes/)公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用している[Kubernetes](/glossary/kubernetes/)バージョンに応じた互換性情報も確認してください。
 
 ---
 

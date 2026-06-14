@@ -13,7 +13,7 @@ trend_incident: true
 ---
 # エラーの概要
 
-[Docker](/glossary/docker/) の 403 エラーは、[認証](/glossary/認証/)（ログイン）には成功したものの、対象のリソース（イメージ、レジストリ、ボリューム等）へのアクセス権限がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な認証トークンの権限が原因で発生することがほとんどです。Docker CLI、Docker Desktop、または docker push/pull 時に頻繁に遭遇するエラーです。
+[Docker](/glossary/docker/) の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)（[ログイン](/glossary/ログイン/)）には成功したものの、対象のリソース（[イメージ](/glossary/イメージ/)、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -44,9 +44,9 @@ denied: requested access to the resource is denied
 
 ### 原因1：Docker Hub のログイン認証が無効または権限不足
 
-なぜ発生するか：Docker CLI がログインしていない状態、または無効なトークンでリポジトリにアクセスしようとすると、403 エラーが返されます。特にプライベートリポジトリの場合、認証なしでのアクセスが拒否されます。
+なぜ発生するか：[Docker](/glossary/docker/) [CLI](/glossary/cli/) が[ログイン](/glossary/ログイン/)していない状態、または無効な[トークン](/glossary/トークン/)で[リポジトリ](/glossary/リポジトリ/)にアクセスしようとすると、403 [エラー](/glossary/エラー/)が返されます。特にプライベートリポジトリの場合、[認証](/glossary/認証/)なしでのアクセスが拒否されます。
 
-**Before（エラーが起きるコマンド）**
+**Before（[エラー](/glossary/エラー/)が起きる[コマンド](/glossary/コマンド/)）**
 
 ```bash
 # ログインせずにプライベートリポジトリをプルしようとする
@@ -56,7 +56,7 @@ docker pull myusername/private-image:latest
 docker push myrepo/myimage:tag
 ```
 
-**After（修正後のコマンド）**
+**After（修正後の[コマンド](/glossary/コマンド/)）**
 
 ```bash
 # Docker Hub にログイン
@@ -84,9 +84,9 @@ docker login
 
 ### 原因2：リポジトリの所有者または権限設定が不一致
 
-なぜ発生するか：Docker Hub でリポジトリを作成した時点の所有者と異なるアカウント、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。
+なぜ発生するか：[Docker](/glossary/docker/) Hub で[リポジトリ](/glossary/リポジトリ/)を作成した時点の所有者と異なる[アカウント](/glossary/アカウント/)、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。
 
-**Before（エラーが起きる状況）**
+**Before（[エラー](/glossary/エラー/)が起きる状況）**
 
 ```bash
 # ユーザーAが作成した org/repo にユーザーBがログインしてアクセス
@@ -97,7 +97,7 @@ docker push org/repo:v1.0
 
 **After（修正後の対応）**
 
-リポジトリの所有者が Docker Hub Web UI でアクセス権限を明示的に付与する必要があります：
+[リポジトリ](/glossary/リポジトリ/)の所有者が [Docker](/glossary/docker/) Hub Web UI で[アクセス権限](/glossary/アクセス権限/)を明示的に付与する必要があります：
 
 ```
 Docker Hub Web UI > Repository > Settings > Collaborators
@@ -114,9 +114,9 @@ docker push org/repo:v1.0
 
 ### 原因3：プライベートレジストリの認証情報が Kubernetes に未登録
 
-なぜ発生するか：Docker コンテナを Kubernetes クラスタで実行する際、プライベートレジストリの認証情報が ImagePullSecret として登録されていないため、kubelet がイメージ取得時に 403 エラーを受け取ります。
+なぜ発生するか：[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)を [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet が[イメージ](/glossary/イメージ/)取得時に 403 [エラー](/glossary/エラー/)を受け取ります。
 
-**Before（エラーが起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる設定）**
 
 ```yaml
 apiVersion: v1
@@ -158,7 +158,7 @@ spec:
 
 ### Docker Desktop での認証の永続化
 
-Docker Desktop（Mac/Windows）では、`~/.docker/config.json` に認証情報が保存されますが、Credential Helper を使用している場合、トークンの有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：
+[Docker](/glossary/docker/) Desktop（Mac/Windows）では、`~/.docker/config.json` に認証情報が保存されますが、Credential Helper を使用している場合、[トークン](/glossary/トークン/)の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：
 
 ```bash
 # Credential Helper を経由してキャッシュを削除
@@ -168,7 +168,7 @@ docker login --username <your-username>
 
 ### Docker Compose と認証
 
-Docker Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で認証を明示的に指定できます：
+[Docker](/glossary/docker/) Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で[認証](/glossary/認証/)を明示的に指定できます：
 
 ```yaml
 version: '3.9'
@@ -181,7 +181,7 @@ services:
 
 ### Docker Registry API での 403
 
-自身が構築したプライベート Docker Registry（Docker Distribution）にアクセスする場合、Basic 認証またはトークン認証が有効か確認：
+自身が構築したプライベート [Docker](/glossary/docker/) Registry（[Docker](/glossary/docker/) Distribution）にアクセスする場合、Basic [認証](/glossary/認証/)または[トークン](/glossary/トークン/)[認証](/glossary/認証/)が有効か確認：
 
 ```bash
 # Basic 認証でテスト
@@ -195,7 +195,7 @@ curl -u username:password https://your-registry.com/v2/
 
 ### 確認すべきログと情報
 
-Docker デーモンのログを確認して詳細なエラーを特定します：
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認して詳細な[エラー](/glossary/エラー/)を特定します：
 
 ```bash
 # Docker Desktop (Mac)
@@ -208,7 +208,7 @@ type "%APPDATA%\Docker\log.txt"
 journalctl -u docker --no-pager | tail -50
 ```
 
-レジストリへのアクセステストを以下で実施：
+[レジストリ](/glossary/レジストリ/)へのアクセステストを以下で実施：
 
 ```bash
 # 認証情報の確認
@@ -222,12 +222,12 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 ### 公式ドキュメント参照
 
 - [Docker Hub Authentication](https://docs.docker.com/docker-hub/access-tokens/)：アクセストークンの生成と管理
-- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：レジストリ API 仕様
-- [Kubernetes Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)：Kubernetes での認証設定
+- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) 仕様
+- [Kubernetes Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)：[Kubernetes](/glossary/kubernetes/) での認証設定
 
 ### コミュニティリソース
 
-GitHub の Docker Issues や Docker Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に CI/CD パイプライン内での 403 エラーは、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
+GitHub の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（AWS ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 [エラー](/glossary/エラー/)は、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
 
 ---
 

@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-408 Request Timeout は、HTTP標準仕様（RFC 9110）で定められたステータスコードです。Docker環境では、クライアントがリクエストを完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に発生します。Docker DaemonやコンテナAPI との通信時にタイムアウトが生じ、API呼び出しが中断される典型的なケースです。特にコンテナのビルド、実行、イメージプッシュ時に多く観測されます。
+408 Request Timeout は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められた[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)環境では、クライアントが[リクエスト](/glossary/リクエスト/)を完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に発生します。[Docker](/glossary/docker/) Daemonや[コンテナ](/glossary/コンテナ/)[API](/glossary/api/) との通信時に[タイムアウト](/glossary/タイムアウト/)が生じ、[API](/glossary/api/)呼び出しが中断される典型的なケースです。特に[コンテナ](/glossary/コンテナ/)のビルド、実行、イメージプッシュ時に多く観測されます。
 
 ## 実際のエラーメッセージ例
 
@@ -41,9 +41,9 @@ Error response from daemon: received unexpected HTTP status: 408 Request Timeout
 
 ### 原因1：Docker Daemon のタイムアウト設定が短すぎる
 
-Docker Daemon（dockerd）のデフォルトタイムアウト設定では、大規模イメージのビルドやプッシュ時に処理が間に合わないことがあります。特にネットワークが遅い環境では顕著です。
+[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト設定では、大規模[イメージ](/glossary/イメージ/)のビルドやプッシュ時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い環境では顕著です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # docker-compose.yml でタイムアウト設定が不足している状態
@@ -74,9 +74,9 @@ sudo systemctl restart docker
 
 ### 原因2：Docker Compose の接続タイムアウトが不適切
 
-docker-compose.ymlで明示的にタイムアウト値が設定されていない、またはネットワーク遅延を考慮していない場合、特にリモートレジストリアクセス時に408エラーが発生します。
+docker-compose.ymlで明示的に[タイムアウト](/glossary/タイムアウト/)値が設定されていない、または[ネットワーク](/glossary/ネットワーク/)遅延を考慮していない場合、特にリモートレジストリアクセス時に408[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```yaml
 version: '3.8'
@@ -113,7 +113,7 @@ services:
         memory: 512M
 ```
 
-また、docker-compose コマンド実行時に明示的にタイムアウトを指定：
+また、docker-compose [コマンド](/glossary/コマンド/)実行時に明示的に[タイムアウト](/glossary/タイムアウト/)を指定：
 
 ```bash
 docker-compose --verbose build --no-cache --timeout 300 app
@@ -122,9 +122,9 @@ docker-compose push --timeout 300
 
 ### 原因3：レジストリの認証情報が正しくない、または有効期限切れ
 
-Docker レジストリへのプッシュ/プル時に、認証トークンが無効または期限切れになっていると、Daemon が認証リトライを試みる間に 408 タイムアウトが発生します。
+[Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/)へのプッシュ/プル時に、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れになっていると、Daemon が[認証](/glossary/認証/)[リトライ](/glossary/リトライ/)を試みる間に 408 [タイムアウト](/glossary/タイムアウト/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 認証情報が不足している状態でプッシュ
@@ -161,9 +161,9 @@ docker info | grep Username
 
 ### 原因4：ネットワークの不安定性またはプロキシ設定の誤り
 
-ファイアウォール、プロキシ、DNS解決の遅延など、ネットワーク層の問題が408エラーの根本原因になることがあります。特にエンタープライズ環境では顕著です。
+[ファイアウォール](/glossary/ファイアウォール/)、[プロキシ](/glossary/プロキシ/)、[DNS](/glossary/dns/)解決の遅延など、[ネットワーク](/glossary/ネットワーク/)層の問題が408[エラー](/glossary/エラー/)の根本原因になることがあります。特にエンタープライズ環境では顕著です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # プロキシ設定なしで実行（ファイアウォール配下では失敗）
@@ -189,7 +189,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-DNS 解決の確認：
+[DNS](/glossary/dns/) 解決の確認：
 
 ```bash
 # DNS 解決が正常に動作しているか確認
@@ -203,7 +203,7 @@ docker run --rm alpine ping -c 3 registry.docker.io
 
 ### Docker Registry の接続テスト
 
-大規模イメージのプッシュ前に、レジストリへの基本的な接続を確認することが重要です：
+大規模[イメージ](/glossary/イメージ/)のプッシュ前に、[レジストリ](/glossary/レジストリ/)への基本的な接続を確認することが重要です：
 
 ```bash
 # Docker Hub への接続確認
@@ -212,7 +212,7 @@ docker run --rm curlimages/curl:latest curl -v https://registry.docker.io/v2/
 
 ### イメージレイヤーの最適化
 
-408エラーは大きなイメージレイヤーのアップロードに関連することが多いため、イメージサイズ自体を削減することも有効です：
+408[エラー](/glossary/エラー/)は大きなイメージレイヤーのアップロードに関連することが多いため、イメージサイズ自体を削減することも有効です：
 
 ```dockerfile
 # Before：複数の RUN で各レイヤーがサイズを持つ
@@ -230,7 +230,7 @@ RUN apt-get update && \
 
 ### Docker Desktop のリソース制限
 
-Mac と Windows 上の Docker Desktop では、割り当てられたメモリやCPUが不足していると、処理の遅延が408エラーにつながります：
+Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当てられたメモリやCPUが不足していると、処理の遅延が408[エラー](/glossary/エラー/)につながります：
 
 ```bash
 # Docker Desktop の設定確認（Mac の場合）
@@ -242,13 +242,13 @@ Mac と Windows 上の Docker Desktop では、割り当てられたメモリや
 }
 ```
 
-設定後、Docker Desktop を再起動してください。
+設定後、[Docker](/glossary/docker/) Desktop を再起動してください。
 
 ## それでも解決しない場合
 
 ### ログの確認方法
 
-Docker Daemon のログを詳細に確認すること：
+[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を詳細に確認すること：
 
 ```bash
 # Linux（systemd）の場合
@@ -260,7 +260,7 @@ sudo journalctl -u docker -n 100 --follow
 
 ### デバッグモード有効化
 
-Docker コマンドを詳細ログで実行：
+[Docker](/glossary/docker/) [コマンド](/glossary/コマンド/)を詳細[ログ](/glossary/ログ/)で実行：
 
 ```bash
 # 詳細ログを有効にしてビルド実行
@@ -280,11 +280,11 @@ docker -D push myregistry.azurecr.io/myimage:latest 2>&1 | tee docker-push.log
 
 ### コミュニティリソース
 
-GitHub の Docker リポジトリで類似事例を検索：
+GitHub の [Docker](/glossary/docker/) [リポジトリ](/glossary/リポジトリ/)で類似事例を検索：
 - https://github.com/moby/moby/issues（キーワード："408" OR "Request Timeout"）
-- Docker Community Forums：https://forums.docker.com/
+- [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 
-ネットワーク設定やプロキシ関連の特殊環境である場合は、貴組織のシステム管理者に相談し、ネットワーク遅延やファイアウォール設定を確認させることを推奨します。
+[ネットワーク](/glossary/ネットワーク/)設定や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織のシステム管理者に相談し、[ネットワーク](/glossary/ネットワーク/)遅延や[ファイアウォール](/glossary/ファイアウォール/)設定を確認させることを推奨します。
 
 ---
 

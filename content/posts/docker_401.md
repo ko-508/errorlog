@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Dockerで401エラーが発生するのは、レジストリ（Docker Hub、ECR、プライベートレジストリなど）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
+[Docker](/glossary/docker/)で401[エラー](/glossary/エラー/)が発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -42,9 +42,9 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized
 
 ### 原因1：Docker Hubへのログインが完了していない
 
-Docker Hubのパブリックイメージであっても、ダウンロード数制限により認証が必須になるケースがあります。また、プライベートイメージにアクセスする場合は必ず認証が必要です。
+[Docker](/glossary/docker/) Hubのパブリックイメージであっても、ダウンロード数制限により[認証](/glossary/認証/)が必須になるケースがあります。また、プライベートイメージにアクセスする場合は必ず[認証](/glossary/認証/)が必要です。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # ログインなしで直接pullを実行
@@ -64,9 +64,9 @@ docker pull <username>/<image-name>:latest
 
 ### 原因2：AWS ECRの認証トークンが期限切れ
 
-ECRの認証トークンは12時間の有効期限があります。Docker daemonに保存されたトークンが期限切れになると401エラーが発生します。
+ECRの[認証](/glossary/認証/)[トークン](/glossary/トークン/)は12時間の有効期限があります。[Docker](/glossary/docker/) daemonに保存された[トークン](/glossary/トークン/)が期限切れになると401[エラー](/glossary/エラー/)が発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # 古いトークンで直接pullを試行
@@ -85,9 +85,9 @@ docker pull <account-id>.dkr.ecr.<region>.amazonaws.com/<repository>:<tag>
 
 ### 原因3：設定ファイル（config.json）の認証情報が破損または形式が不正
 
-`~/.docker/config.json` に保存された認証情報が破損しているか、レジストリのホスト名が正確に記録されていない場合に発生します。
+`~/.docker/config.json` に保存された認証情報が破損しているか、[レジストリ](/glossary/レジストリ/)のホスト名が正確に記録されていない場合に発生します。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```json
 {
@@ -111,9 +111,9 @@ docker login
 
 ### 原因4：プライベートレジストリのための認証情報が不足
 
-Nexus、Harbor、GitLab Container Registry など自社運用のプライベートレジストリにアクセスする際、ホスト名とポート番号を含めた完全なレジストリURLで認証を設定する必要があります。
+Nexus、Harbor、GitLab Container Registry など自社運用の[プライベートレジストリ](/glossary/プライベートレジストリ/)にアクセスする際、ホスト名と[ポート](/glossary/ポート/)番号を含めた完全な[レジストリ](/glossary/レジストリ/)URLで[認証](/glossary/認証/)を設定する必要があります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # プライベートレジストリにログインせず、イメージをpull
@@ -132,9 +132,9 @@ docker pull registry.internal.example.com:5000/my-image:v1.0
 
 ### 原因5：Personal Access Token（PAT）の権限不足またはスコープ制限
 
-Docker Hubでパスワード代わりにPATを使用している場合、そのトークンに必要な権限（Read、Write など）が付与されていないと401エラーになります。
+[Docker](/glossary/docker/) Hubで[パスワード](/glossary/パスワード/)代わりにPATを使用している場合、その[トークン](/glossary/トークン/)に必要な[権限](/glossary/権限/)（Read、Write など）が付与されていないと401[エラー](/glossary/エラー/)になります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
 ```bash
 # Read権限のみのPATで push を試行
@@ -158,7 +158,7 @@ docker push <username>/<image>:latest
 
 ### Docker Compose での認証設定
 
-`docker-compose.yml` で複数のレジストリからイメージをpullする場合、各レジストリへの事前ログインが必要です。Compose ファイル内に認証情報を直接記述することはセキュリティ上推奨されません。
+`docker-compose.yml` で複数の[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)をpullする場合、各[レジストリ](/glossary/レジストリ/)への事前[ログイン](/glossary/ログイン/)が必要です。Compose ファイル内に認証情報を直接記述することは[セキュリティ](/glossary/セキュリティ/)上推奨されません。
 
 ```bash
 # docker-compose.yml 実行前に全レジストリにログイン
@@ -172,7 +172,7 @@ docker-compose up
 
 ### Docker buildx でのマルチアーキテクチャビルド
 
-`docker buildx` でリモートレジストリにpushする場合、`--push` フラグを使用する前に対象レジストリへのログインを完了させます。
+`docker buildx` でリモートレジストリにpushする場合、`--push` フラグを使用する前に対象[レジストリ](/glossary/レジストリ/)への[ログイン](/glossary/ログイン/)を完了させます。
 
 ```bash
 # ECRの場合
@@ -183,7 +183,7 @@ docker buildx build --push -t <account-id>.dkr.ecr.<region>.amazonaws.com/<repo>
 
 ### Kubernetes での imagePullSecrets
 
-Kubernetes上でプライベートレジストリのイメージを使用する場合、`imagePullSecrets` で認証情報を参照する必要があります。この設定がないと、Podの起動時に401エラーが発生します。
+[Kubernetes](/glossary/kubernetes/)上で[プライベートレジストリ](/glossary/プライベートレジストリ/)の[イメージ](/glossary/イメージ/)を使用する場合、`imagePullSecrets` で認証情報を参照する必要があります。この設定がないと、Podの起動時に401[エラー](/glossary/エラー/)が発生します。
 
 ```yaml
 apiVersion: v1
@@ -212,7 +212,7 @@ kubectl create secret docker-registry regcred \
 
 ### デバッグ方法
 
-Docker daemon のデバッグログを有効にして、認証リクエストの詳細を確認します。
+[Docker](/glossary/docker/) daemon のデバッグログを有効にして、[認証](/glossary/認証/)[リクエスト](/glossary/リクエスト/)の詳細を確認します。
 
 ```bash
 # Docker daemon を デバッグモードで再起動（Linux/macOS）
@@ -240,7 +240,7 @@ ls -l ~/.docker/config.json
 ### コミュニティリソース
 
 - GitHub Issues: [moby/moby](https://github.com/moby/moby/issues) で「401」を検索
-- Docker Community Forums: https://forums.docker.com/
+- [Docker](/glossary/docker/) Community Forums: https://forums.docker.com/
 
 ---
 

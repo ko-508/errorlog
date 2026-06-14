@@ -174,7 +174,7 @@ for assistant in assistants.data:
 [OpenAI API Reference](https://platform.openai.com/docs/api-reference) で、使用している[エンドポイント](/glossary/エンドポイント/)、[パラメータ](/glossary/パラメータ/)、現在の[モデル](/glossary/モデル/)一覧を確認してください。
 
 **OpenAI Community Forumで報告する：**
-他に原因が考えられない場合は、詳細なエラーメッセージ、使用しているコード、[API](/glossary/api/)キーの権限設定（Billing settings）を確認した上で、[OpenAI Community Discussions](https://community.openai.com/) で質問してください。
+他に原因が考えられない場合は、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)、使用しているコード、[API](/glossary/api/)キーの権限設定（Billing settings）を確認した上で、[OpenAI Community Discussions](https://community.openai.com/) で質問してください。
 
 ---
 
