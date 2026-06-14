@@ -1,0 +1,122 @@
+{
+  "article_id": "minikube_404",
+  "article_path": "content/posts/minikube_404.md",
+  "tags": [
+    "Minikube"
+  ],
+  "fact_checked_at": "2026-06-14T07:51:57Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG6vTvVqCWijIaaTgT131_kVc7Np-Nc7ojLlnbc2Ob7cQVyoVKLZNbYx3ev01JcLbHrz_JGfnuKmqK7-XibwtMxbh6z-b1oaOcU8n0ngPhpT9YO_hs6dIfi-Ez4aY7pF5BOdzxQjmSjj8tF1mNIlY28AVGCiUU=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "kubectlチートシート - Kubernetes",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.plural.sh/blog/kubectl-get-namespaces-guide/",
+      "resolved_domain": "www.plural.sh",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "`kubectl get namespaces`: A Complete User Guide - Plural.sh",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-kubernetes-404",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Kubernetes の 404 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-minikube-404",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Minikube の 404 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.ibm.com/docs/ja/cloud-paks/cp-management/2.3.0?topic=tcm-cluster-import-fails-server-cannot-find-requested-resource",
+      "resolved_domain": "www.ibm.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "クラスターのインポートが失敗し、サーバーが要求されたリソースを検出できない - IBM",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGNVMQlr1lFxG9zfqHUuBfEdAV_DNF2MJFrSkSVjrsBI6QhGxHsIiki-yBxS4KJky6aRmye16BB6m-1XpR-IWbiJ0MWwdBZvl5y4R2nT6d94SlBuvUajHkQu3zvswdpvUSGLcw97gBZWWzPIssn9IdKWafYYb_GYJDqj0bgDRrmpv7OqPkMCg==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Kubernetes Namespace: Basics, Tutorial & Critical Best Practices - Tigera.io",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Namespaces - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHRN0b5RTgFRFfxUbkenCQcvXhSczRgsmSN6F8fPnfI4UWO4YhXOrDYMbIL22sVXTa-gdy3B8TdeZ45a4TYfIc4KAEJoMZ-iB75m2NSPNbSWFdbnglIrR8OCYbVPoYpT-i7ZJabz6dK5KyuaKr2jbW-4GU-2ymBMJdJuax6QxMN2dopv7OqPkMCg==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "kubectlのトラブルシューティング - Kubernetes",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://kubernetes.io/ja/docs/tutorials/hello-minikube/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Hello Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting - Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/toshihirock/items/aa7bd9305b79304707b8",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "kubectl get all コマンドを使ってpod,service,deployment などの情報を一度に取得する - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/ja/docs/reference/kubectl/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "コマンドラインツール(kubectl) - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://discuss.kubernetes.io/t/how-to-know-which-namespace-i-am-using/17714",
+      "resolved_domain": "discuss.kubernetes.io",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "How to know which namespace I am using? - Discuss Kubernetes",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unresolved": 3,
+    "unknown": 2,
+    "community_blog": 3,
+    "official": 4,
+    "vendor_community": 1
+  }
+}

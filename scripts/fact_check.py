@@ -34,6 +34,10 @@ REWRITE_CANDIDATES_PATH = BASE / "data" / "rewrite_candidates.json"
 NEW_ARTICLE_FAILURES_PATH = BASE / "data" / "fact_check_new_article_failures.json"
 SCORE_HISTORY_PATH = BASE / "data" / "fact_check_score_history.jsonl"
 UNAVAILABLE_HISTORY_PATH = BASE / "data" / "fact_check_unavailable_history.json"
+EVIDENCE_DIR = BASE / "data" / "evidence"
+
+# path.stem がサイドカーファイル名として安全かを検証する正規表現
+_SAFE_STEM_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 
 EXISTING_LIMIT = int(os.getenv("FACT_CHECK_EXISTING_LIMIT", "1"))
 MIN_FACTUAL = int(os.getenv("FACT_CHECK_MIN_FACTUAL", "75"))
@@ -117,6 +121,80 @@ DANGEROUS_PATTERNS = [
     r"verify\s*=\s*false",
 ]
 
+# ── ドメイン分類テーブル ──────────────────────────────────────────────────────
+
+TOOL_OFFICIAL_DOMAINS: dict[str, list[str]] = {
+    "Docker":        ["docs.docker.com", "docker.com"],
+    "Docker Compose": ["docs.docker.com", "docker.com"],
+    "Firebase":      ["firebase.google.com", "cloud.google.com"],
+    "AWS":           ["docs.aws.amazon.com", "aws.amazon.com"],
+    "GitHub API":    ["docs.github.com", "github.blog"],
+    "OpenAI API":    ["platform.openai.com", "developers.openai.com", "help.openai.com"],
+    "Azure":         ["learn.microsoft.com", "azure.microsoft.com"],
+    "GCP":           ["cloud.google.com", "developers.google.com"],
+    "GitLab":        ["docs.gitlab.com"],
+    "Supabase":      ["supabase.com"],
+    "Vercel":        ["vercel.com"],
+    "Nginx":         ["nginx.org", "docs.nginx.com"],
+    "Stripe":        ["docs.stripe.com", "stripe.com"],
+    "Terraform":     ["developer.hashicorp.com", "registry.terraform.io"],
+    "Ansible":       ["docs.ansible.com"],
+    "Kubernetes":    ["kubernetes.io"],
+    "Minikube":      ["minikube.sigs.k8s.io"],
+    "Podman":        ["podman.io", "docs.podman.io", "podman-desktop.io"],
+    "Slack":         ["api.slack.com", "docs.slack.dev", "slack.dev"],
+    "Bitbucket":     ["support.atlassian.com", "developer.atlassian.com"],
+}
+
+# 全ツールの公式ドメインを統合したセット（サブドメイン一致検索用）
+_ALL_OFFICIAL_DOMAINS: frozenset[str] = frozenset(
+    d for domains in TOOL_OFFICIAL_DOMAINS.values() for d in domains
+)
+
+VENDOR_COMMUNITY_DOMAINS: list[str] = [
+    "repost.aws", "community.openai.com", "community.atlassian.com",
+    "discuss.google.dev", "community.crowdin.com",
+]
+
+# ドット区切り先頭ラベルがこれらに完全一致するドメインは vendor_community（official より優先）
+VENDOR_COMMUNITY_PREFIXES: tuple[str, ...] = ("forums.", "discuss.", "community.")
+
+COMMUNITY_BLOG_DOMAINS: list[str] = [
+    "stackoverflow.com", "qiita.com", "zenn.dev", "medium.com",
+    "github.com", "dev.to", "reddit.com",
+]
+
+OTHER_DOMAINS: list[str] = ["youtube.com", "youtu.be"]
+
+
+def _domain_ends_with(domain: str, suffix: str) -> bool:
+    """domain が suffix と完全一致、またはサブドメインとして suffix を末尾に持つか。"""
+    return domain == suffix or domain.endswith("." + suffix)
+
+
+def _has_vendor_community_prefix(domain: str) -> bool:
+    """先頭ラベルが forums/discuss/community に完全一致するか（mycommunity. は除外）。"""
+    first_label = domain.split(".")[0] + "."
+    return any(first_label == prefix for prefix in VENDOR_COMMUNITY_PREFIXES)
+
+
+def _classify_resolved_domain(domain: str) -> str:
+    """着地ドメインを official/vendor_community/community_blog/other/unknown に分類。"""
+    if not domain:
+        return "unknown"
+    # フォーラム・コミュニティ系接頭辞を official より先に判定
+    if _has_vendor_community_prefix(domain):
+        return "vendor_community"
+    if any(_domain_ends_with(domain, d) for d in VENDOR_COMMUNITY_DOMAINS):
+        return "vendor_community"
+    if any(_domain_ends_with(domain, d) for d in _ALL_OFFICIAL_DOMAINS):
+        return "official"
+    if any(_domain_ends_with(domain, d) for d in COMMUNITY_BLOG_DOMAINS):
+        return "community_blog"
+    if any(_domain_ends_with(domain, d) for d in OTHER_DOMAINS):
+        return "other"
+    return "unknown"
+
 
 def _resolve_gemini_model() -> str:
     return os.getenv("FACT_CHECK_GEMINI_MODEL", "gemini-2.5-flash")
@@ -186,6 +264,7 @@ class FactCheckResult:
     vote_group_id: str = ""
     is_final_vote: bool = False
     vote_count: int = 1
+    tags: list[str] = field(default_factory=list)
 
 
 def split_frontmatter(content: str) -> tuple[dict[str, str], str]:
@@ -262,35 +341,45 @@ def normalize_url_for_check(url: str) -> str | None:
     return None
 
 
-def check_url_status(url: str) -> str:
+def check_url_status(url: str) -> dict[str, Any]:
     if not URL_CHECK_ENABLED:
-        return "skipped"
-    url = normalize_url_for_check(url)
-    if url is None:
-        return "invalid_url"
+        return {"status": "skipped", "final_url": None}
+    normalized = normalize_url_for_check(url)
+    if normalized is None:
+        return {"status": "invalid_url", "final_url": None}
     try:
-        request = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
+        request = urllib.request.Request(normalized, method="HEAD", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
         with urllib.request.urlopen(request, timeout=URL_CHECK_TIMEOUT) as response:
-            return str(response.status)
+            return {"status": str(response.status), "final_url": getattr(response, "url", None) or normalized}
     except Exception:
         try:
-            request = urllib.request.Request(url, method="GET", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
+            request = urllib.request.Request(normalized, method="GET", headers={"User-Agent": "ErrorLogFactCheck/1.0"})
             with urllib.request.urlopen(request, timeout=URL_CHECK_TIMEOUT) as response:
-                return str(response.status)
+                return {"status": str(response.status), "final_url": getattr(response, "url", None) or normalized}
         except http.client.InvalidURL:
-            return "error"
+            return {"status": "error", "final_url": None}
         except (urllib.error.URLError, TimeoutError, ValueError):
-            return "skipped"
+            return {"status": "skipped", "final_url": None}
         except Exception:
-            return "error"
+            return {"status": "error", "final_url": None}
 
 
-def validate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]], dict[str, int], int, list[str]]:
+def validate_sources(
+    sources: list[dict[str, Any]],
+    article_tags: list[str] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, int], int, list[str]]:
     seen_by_claim: dict[str, set[str]] = {}
     validated: list[dict[str, Any]] = []
     stats = {"checked": 0, "skipped": 0, "invalid": 0}
     quality_delta = 0
     notes: list[str] = []
+
+    # 記事タグから tool_match 判定に使うドメインセットを構築
+    tag_official_domains: frozenset[str] = frozenset(
+        d
+        for tag in (article_tags or [])
+        for d in TOOL_OFFICIAL_DOMAINS.get(tag, [])
+    )
 
     for source in sources:
         url = str(source.get("url", "")).strip()
@@ -308,17 +397,40 @@ def validate_sources(sources: list[dict[str, Any]]) -> tuple[list[dict[str, Any]
             continue
         seen_urls.add(url)
 
-        status = check_url_status(url)
+        result = check_url_status(url)
+        status = result["status"]
+        final_url = result["final_url"]
         if status == "skipped":
             stats["skipped"] += 1
         else:
             stats["checked"] += 1
+
+        is_gr = "vertexaisearch.cloud.google.com" in url
+        # resolved_source_type / resolved_domain / tool_match を決定
+        if is_gr and (not final_url or "vertexaisearch.cloud.google.com" in final_url):
+            resolved_source_type = "unresolved"
+            resolved_domain = None
+        else:
+            landing_url = final_url or url
+            resolved_domain = urllib.parse.urlparse(landing_url).netloc or None
+            resolved_source_type = _classify_resolved_domain(resolved_domain or "")
+
+        tool_match = bool(
+            resolved_domain
+            and tag_official_domains
+            and any(_domain_ends_with(resolved_domain, d) for d in tag_official_domains)
+        )
 
         normalized = dict(source)
         normalized["url"] = url
         normalized["claim"] = claim
         normalized["source_type"] = stype
         normalized["url_check_status"] = status
+        normalized["final_url"] = final_url or url
+        normalized["is_grounding_redirect"] = is_gr
+        normalized["resolved_source_type"] = resolved_source_type
+        normalized["resolved_domain"] = resolved_domain
+        normalized["tool_match"] = tool_match
         validated.append(normalized)
 
     if validated:
@@ -973,7 +1085,8 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
             article_hash,
         )
 
-    sources, url_stats, citation_quality_delta, source_notes = validate_sources(sources)
+    article_tags = re.findall(r'"([^"]+)"', fm.get("tags", ""))
+    sources, url_stats, citation_quality_delta, source_notes = validate_sources(sources, article_tags)
     if citation_quality_delta < 0:
         scores["citation_coverage"] = max(0, scores["citation_coverage"] + citation_quality_delta)
     elif citation_quality_delta > 0:
@@ -1035,6 +1148,7 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
             url_checked=url_stats["checked"],
             url_skipped=url_stats["skipped"],
             url_invalid=url_stats["invalid"],
+            tags=article_tags,
         ), original_chars, fact_check_input_chars, fact_check_input_truncated),
         article_hash,
     )
@@ -1207,6 +1321,64 @@ def has_score_degraded(result: FactCheckResult) -> bool:
     return factual_drop >= 10 or risk_increase >= 15
 
 
+def save_evidence_sidecar(result: FactCheckResult) -> None:
+    """Write per-article evidence sidecar to data/evidence/<stem>.json.
+
+    Skips silently if the stem fails the safety check or any I/O error occurs.
+    """
+    stem = Path(result.path).stem
+    if not _SAFE_STEM_RE.match(stem):
+        print(
+            f"[fact_check] WARNING: evidence sidecar skipped — unsafe stem {stem!r}",
+            file=sys.stderr,
+        )
+        return
+    try:
+        sources_out = []
+        for s in result.sources:
+            rst = s.get("resolved_source_type", "unknown")
+            sources_out.append({
+                "final_url": s.get("final_url") or s.get("url", ""),
+                "resolved_domain": s.get("resolved_domain"),
+                "resolved_source_type": rst,
+                "tool_match": bool(s.get("tool_match")),
+                "title": s.get("title", ""),
+                "is_unresolved": rst == "unresolved",
+            })
+
+        summary: dict[str, int] = {}
+        for s in sources_out:
+            key = s["resolved_source_type"]
+            summary[key] = summary.get(key, 0) + 1
+
+        sidecar = {
+            "article_id": stem,
+            "article_path": result.path,
+            "tags": result.tags,
+            "fact_checked_at": utc_now_iso(),
+            "prompt_version": FACT_CHECK_PROMPT_VERSION,
+            "sources": sources_out,
+            "evidence_summary": summary,
+        }
+        EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
+        out = EVIDENCE_DIR / f"{stem}.json"
+        # 多層防御: resolve() 後に EVIDENCE_DIR 配下であることを最終確認
+        out_resolved = out.resolve()
+        if not out_resolved.is_relative_to(EVIDENCE_DIR.resolve()):
+            print(
+                f"[fact_check] WARNING: evidence sidecar skipped — resolved path {out_resolved}"
+                f" is outside EVIDENCE_DIR",
+                file=sys.stderr,
+            )
+            return
+        out.write_text(json.dumps(sidecar, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    except Exception as exc:
+        print(
+            f"[fact_check] WARNING: evidence sidecar write failed for {result.path!r}: {exc}",
+            file=sys.stderr,
+        )
+
+
 def save_report(result: FactCheckResult, *, write_report: bool = True) -> FactCheckResult:
     """Score history は常に追記する。write_report=False でレポートファイル書き込みを抑制。
 
@@ -1214,6 +1386,7 @@ def save_report(result: FactCheckResult, *, write_report: bool = True) -> FactCh
     日次・fact_check_existing の既存経路はデフォルト(True)のままなので挙動は変わらない。
     """
     append_score_history(result)
+    save_evidence_sidecar(result)
     if not write_report:
         return result
     subdir = "new_articles" if result.mode == "new" else "existing_articles"
