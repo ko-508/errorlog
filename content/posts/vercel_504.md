@@ -11,7 +11,6 @@ related_services: ["API", "Dashboard"]
 trend_incident: true
 lastmod: 2026-06-14
 ---
-
 ## エラーの概要
 
 Vercel の 504 エラーは、デプロイされたサーバーレス関数の実行時間が設定されたタイムアウト制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 300 秒（5 分）で、Pro プラン以上ではデフォルト 300 秒、Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。API 呼び出し、データベースクエリ、外部 API 連携など、応答待ちが長引く処理で頻繁に発生します。
@@ -221,7 +220,7 @@ Pro プラン以上で Fluid Compute を使用している場合、800 秒まで
 ```
 
 **Edge Functions の活用：**
-Vercel の Edge Functions は地理的に分散されており、冷起動が少なく、外部 API への応答遅延が減少することがあります。軽量な処理で頻繁なタイムアウトが発生する場合、Edge Functions への移行を検討してください。
+Vercel の Edge Functions は地理的に分散されており、冷起動（デプロイ後の初回実行遅延）が少なく、外部 API への応答遅延が減少することがあります。軽量な処理で頻繁なタイムアウトが発生する場合、Edge Functions への移行を検討してください。
 
 **Environment Variables の確認：**
 リトライロジックやキャッシュの設定が環境変数に依存している場合、本番環境と開発環境で値が異なるとタイムアウト発生パターンが変わります。Vercel ダッシュボードの Settings > Environment Variables で本番値を確認してください。
@@ -244,7 +243,7 @@ Vercel 公式の「Serverless Function Configuration」（https://vercel.com/doc
 Vercel の Observability 機能（Pro プラン以上）を有効にすると、関数の CPU 使用率、メモリ使用量、実行時間をリアルタイムで監視できます。ボトルネック特定に有効です。
 
 **GitHub Issues・コミュニティ：**
-同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。アイデンティティ関数の実装、特定のライブラリとの相性問題などが記載されている場合があります。
+同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。サーバーレス関数の実装、特定のライブラリとの相性問題などが記載されている場合があります。
 
 ---
 

@@ -94,7 +94,7 @@ export default async function handler(req, res) {
   res.status(405).json({ error: 'Method not allowed' });
 }
 
-// ジョブキュー（キューに溜まったタスクを順番に処理する仕組み）で非同期処理を実行
+// ジョブキューで非同期処理を実行
 queue.process(async (job) => {
   // 重い処理をここで実行
   return { result: 'completed' };
