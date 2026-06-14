@@ -15,6 +15,12 @@ from pathlib import Path
 import anthropic
 
 from fact_check import clear_new_article_failure, evaluate_new_article, record_new_article_failure
+from lint_articles import (
+    ARTICLE_CATEGORY_ERROR,
+    check_a1, check_a2, check_a3, check_a4, check_a5, check_a6,
+    check_b1, check_b2, check_b3, check_d1_d2,
+    classify_article, split_frontmatter,
+)
 
 DAILY_COUNT = int(os.getenv("DAILY_COUNT", "3"))
 
@@ -219,7 +225,7 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 記事本文のみ出力してください。前置きは不要です。"""
 
 
-def generate_article(client: anthropic.Anthropic, row: dict) -> str:
+def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str = "") -> str:
     """Claude API を使って記事本文を生成する（システムプロンプトキャッシュ使用）。"""
     tool = row["tool"].strip()
     code = row["status_code"].strip()
@@ -239,6 +245,13 @@ def generate_article(client: anthropic.Anthropic, row: dict) -> str:
 {causes_text}
 - 解決策:
 {solutions_text}"""
+
+    if lint_feedback:
+        user_prompt += (
+            "\n\n## 前回生成で検出された構造エラー（必ず全て修正すること）\n"
+            + lint_feedback
+            + "\n\n上記エラーを修正の上、必須セクションが全て揃った完全な記事を執筆してください。"
+        )
 
     message = client.messages.create(
         model="claude-haiku-4-5-20251001",
@@ -339,6 +352,153 @@ def extract_knowledge_graph(
     }
 
 
+# ─── Lint 公開前ゲート ──────────────────────────────────────────
+
+_LINT_MAX_RETRIES = 2
+_LINT_BLOCK_RULES = frozenset({"A1", "B1", "B2"})
+
+
+def _lint_check_content(content: str, path: Path) -> dict:
+    """記事コンテンツ文字列に lint_article と同等のチェックを実行する（ファイル書き込みなし）。"""
+    fm, body = split_frontmatter(content)
+    is_error = classify_article(path, fm) == ARTICLE_CATEGORY_ERROR
+
+    fails: list[dict] = []
+    warns: list[dict] = []
+
+    def _add(severity: str, issues: list) -> None:
+        for rule, detail in issues:
+            (fails if severity == "FAIL" else warns).append({"rule": rule, "detail": detail})
+
+    if is_error:
+        _add("FAIL", check_a1(body))
+        _add("WARN", check_a2(body))
+        _add("FAIL", check_b1(body))
+        _add("WARN", check_b3(body))
+
+    _add("FAIL", check_a3(body))
+    _add("WARN", check_a4(body))
+    _add("WARN", check_a5(body))
+    _add("FAIL", check_a6(fm, body, require_error_code=is_error))
+    _add("FAIL", check_b2(body))
+    _, d_issues = check_d1_d2(body)
+    _add("WARN", d_issues)
+
+    return {"fails": fails, "warns": warns}
+
+
+def _format_lint_feedback(fail_details: list[str]) -> str:
+    """FAIL 詳細を Claude 向けフィードバック文字列に変換する（expand_articles.py と同ロジック）。"""
+    lines = []
+    for detail in fail_details:
+        rule = detail.split(":")[0].strip()
+        if rule == "A1":
+            lines.append(f"・{detail}")
+            lines.append("  → 上記セクション見出し（H2）を追加すること。")
+        elif rule == "A3":
+            lines.append(f"・{detail}")
+            lines.append("  → 日本語本文（コードブロック・URL・MD記号を除く）を 1,500 字以上にすること。")
+        elif rule == "B1":
+            lines.append(f"・{detail}")
+            lines.append("  → 「実際のエラーメッセージ例」セクションに、HTTPステータスコードや例外名を含む")
+            lines.append("    コードブロック（``` で開き ``` で閉じる）を最低1つ追加すること。")
+        else:
+            lines.append(f"・{detail}")
+    return "\n".join(lines)
+
+
+def _run_lint_gate(
+    client: anthropic.Anthropic,
+    row: dict,
+    filename: str,
+    frontmatter: str,
+    body: str,
+    disclaimer: str,
+    out: Path,
+    remaining: list[dict],
+) -> tuple[str, bool]:
+    """Lint 公開前ゲートを実行し、(最終 article_content, blocked) を返す。
+
+    blocked=True の場合はこの記事をスキップすること。
+    キュー戻しはこの関数内で remaining に追加する。
+
+    優先順位:
+      1. A6 → 即キュー戻し（リトライ不要）
+      2. A1/B1/B2 → 最大 _LINT_MAX_RETRIES 回リトライ → 残ればキュー戻し
+      3. A3 のみ → 1 回リトライ → 残ればWARN通過
+      4. WARN系のみ → WARN記録のみで通過
+    """
+    article_content = frontmatter + body + disclaimer
+    lint_result = _lint_check_content(article_content, out)
+    fail_rules = {f["rule"] for f in lint_result["fails"]}
+
+    def _fail_strs() -> list[str]:
+        return [f"{f['rule']}: {f['detail']}" for f in lint_result["fails"]]
+
+    # ① A6 → 即キュー戻し
+    if "A6" in fail_rules:
+        print(f"  [lint] BLOCK(A6) {filename} → キューに戻す: " + "; ".join(_fail_strs()))
+        remaining.append(row)
+        return article_content, True
+
+    # ② B1/B2/A1 → 最大 _LINT_MAX_RETRIES 回リトライ
+    if fail_rules & _LINT_BLOCK_RULES:
+        for attempt in range(1, _LINT_MAX_RETRIES + 1):
+            feedback = _format_lint_feedback(_fail_strs())
+            print(
+                f"  [lint] RETRY({attempt}/{_LINT_MAX_RETRIES}) "
+                f"{'/'.join(sorted(fail_rules & _LINT_BLOCK_RULES))} {filename}"
+            )
+            try:
+                retry_body = generate_article(client, row, lint_feedback=feedback)
+            except Exception as e:
+                print(f"  [lint] retry {attempt} API エラー: {e}")
+                break
+            retry_body = normalize_before_after(retry_body)
+            article_content = frontmatter + retry_body + disclaimer
+            lint_result = _lint_check_content(article_content, out)
+            fail_rules = {f["rule"] for f in lint_result["fails"]}
+            if not (fail_rules & _LINT_BLOCK_RULES):
+                print(f"  [lint] PASS after retry {attempt} {filename}")
+                break
+
+        if fail_rules & _LINT_BLOCK_RULES:
+            print(
+                f"  [lint] BLOCK({'/'.join(sorted(fail_rules & _LINT_BLOCK_RULES))}) "
+                f"{filename} → キューに戻す（{_LINT_MAX_RETRIES}回リトライ後）: "
+                + "; ".join(_fail_strs())
+            )
+            remaining.append(row)
+            return article_content, True
+
+    # ③ A3 のみ → 1 回リトライ、なお残ればWARN通過
+    if fail_rules == {"A3"}:
+        feedback = _format_lint_feedback(_fail_strs())
+        print(f"  [lint] RETRY(A3×1) {filename}: " + _fail_strs()[0])
+        try:
+            retry_body = generate_article(client, row, lint_feedback=feedback)
+            retry_body = normalize_before_after(retry_body)
+            article_content = frontmatter + retry_body + disclaimer
+            lint_result = _lint_check_content(article_content, out)
+            fail_rules = {f["rule"] for f in lint_result["fails"]}
+        except Exception as e:
+            print(f"  [lint] A3 retry API エラー: {e}")
+
+        if "A3" in fail_rules:
+            print(f"  [lint] WARN(A3) {filename} 文字数不足のまま公開: " + _fail_strs()[0])
+        else:
+            print(f"  [lint] A3 → PASS after retry {filename}")
+
+    # ④ WARN 記録
+    warn_strs = [f"{w['rule']}: {w['detail']}" for w in lint_result["warns"]]
+    if warn_strs:
+        print(f"  [lint] WARN {filename}: " + "; ".join(warn_strs))
+    if not lint_result["fails"]:
+        print(f"  [lint] PASS {filename}")
+
+    return article_content, False
+
+
 # ─── メイン ───────────────────────────────────────────────
 
 def main() -> None:
@@ -430,7 +590,11 @@ def main() -> None:
             "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
         )
         body = normalize_before_after(body)
-        article_content = frontmatter + body + disclaimer
+        article_content, lint_blocked = _run_lint_gate(
+            client, row, filename, frontmatter, body, disclaimer, out, remaining
+        )
+        if lint_blocked:
+            continue
         fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
         scores = fact_result.scores
         print(
