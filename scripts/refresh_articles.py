@@ -440,6 +440,11 @@ def rewrite_with_claude(
   5. それでも解決しない場合
 - Before/Afterラベルは必ず **Before（エラーが起きるコード）：** と **After（修正後）：** の形式で記述する
 - 末尾に免責事項フッターを付ける
+- プレースホルダーは `<your-xxx>` 形式で書くこと
+- コード例の変数値・ヘッダー値・文字列リテラルとして、認証トークンやAPIキーを
+  実際の値らしい形式で記述しないこと（Before例・After例・失効例すべてに適用）。
+  プレフィックス文字列(xoxb-、sk-proj-、pk_live_、AKIA、ghp_、glpat- など)を
+  値の先頭に付けた形も書かないこと。トークン部分は必ず `<your-xxx>` 形式にすること
 {f'''
 {competitor_context}
 ''' if competitor_context else ''}

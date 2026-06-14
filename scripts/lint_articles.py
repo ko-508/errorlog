@@ -351,6 +351,92 @@ def check_b3(body: str) -> list[Issue]:
     return []
 
 
+# ── C1 認証トークン・APIキー検出 ──────────────────────────────────────────────
+# コードブロック内のみ対象。<your-xxx> 形式のプレースホルダーは除外する。
+
+_PLACEHOLDER_WORDS = frozenset({
+    # 明示的プレースホルダー語
+    "your", "xxx", "xxxx", "here", "placeholder", "example", "dummy",
+    "sample", "redacted",
+    # トークン構成要素として使われる一般的な語（全て小文字で比較）
+    "api", "key", "bot", "token", "user", "secret", "auth", "access",
+    "admin", "app", "client", "server", "test", "prod", "dev", "old",
+    "new", "expired", "invalid", "bad", "good", "jwt", "bearer",
+    "oauth", "pass", "password", "value", "string", "name", "id",
+    "type", "scope", "role", "slug", "mytoken", "mykey", "myapp",
+})
+
+# (ルールID, 表示名, プレフィックス正規表現, サフィックス最小長)
+_TOKEN_PREFIX_PATTERNS: list[tuple[str, str, re.Pattern[str], int]] = [
+    ("C1:slack_bot",      "Slack Bot Token (xoxb-)",          re.compile(r'xoxb-'),          8),
+    ("C1:slack_user",     "Slack User Token (xoxp-)",         re.compile(r'xoxp-'),          8),
+    ("C1:slack_app",      "Slack App Token (xapp-)",          re.compile(r'xapp-'),          8),
+    ("C1:openai_proj",    "OpenAI API Key (sk-proj-)",        re.compile(r'sk-proj-'),      20),
+    ("C1:openai",         "OpenAI API Key (sk-)",             re.compile(r'sk-(?!proj-)'),  30),
+    ("C1:stripe_sk_live", "Stripe Secret Key (sk_live_)",     re.compile(r'sk_live_'),      10),
+    ("C1:stripe_pk_live", "Stripe Publishable Key (pk_live_)", re.compile(r'pk_live_'),     10),
+    ("C1:stripe_rk_live", "Stripe Restricted Key (rk_live_)", re.compile(r'rk_live_'),     10),
+    ("C1:stripe_sk_test", "Stripe Test Secret Key",           re.compile(r'sk_test_'),      10),
+    ("C1:stripe_pk_test", "Stripe Test Publishable Key",      re.compile(r'pk_test_'),      10),
+    ("C1:aws_access",     "AWS Access Key (AKIA)",            re.compile(r'AKIA'),          16),
+    ("C1:github_token",   "GitHub PAT (ghp_)",                re.compile(r'ghp_'),          10),
+    ("C1:github_pat",     "GitHub Fine-grained PAT",          re.compile(r'github_pat_'),   10),
+    ("C1:gitlab",         "GitLab PAT (glpat-)",              re.compile(r'glpat-'),        10),
+]
+
+
+def _is_placeholder_suffix(suffix: str, min_len: int) -> bool:
+    """サフィックスが明らかなプレースホルダーなら True（検出しない）。
+
+    判定優先順位:
+      (1) <で始まる（xoxb-<your-token>）→ プレースホルダー
+      (2) 長さ不足（min_len未満）→ プレースホルダー
+      (3) 全セグメントが既知のプレースホルダー語 → プレースホルダー
+      (4) それ以外 → 実トークン風（検出する）
+    """
+    if suffix.startswith("<"):
+        return True
+    m = re.match(r'[A-Za-z0-9_\-]+', suffix)
+    if not m:
+        return True
+    token_part = m.group(0)
+    if len(token_part) < min_len:
+        return True
+    segments = [s for s in re.split(r'[-_]', token_part) if s]
+    for seg in segments:
+        seg_lower = seg.lower()
+        if re.fullmatch(r'x+', seg_lower) and len(seg_lower) >= 3:
+            continue
+        if seg_lower in _PLACEHOLDER_WORDS:
+            continue
+        if len(seg) <= 3:
+            continue
+        return False  # 実値の可能性あり
+    return True
+
+
+def check_secret_token(body: str) -> list[Issue]:
+    """C1 [FAIL] コードブロック内の実トークン風の認証トークン・APIキーを検出する。"""
+    code_blocks = extract_fenced_code_blocks(body)
+    if not code_blocks:
+        return []
+    code_content = "\n".join(code for _, code in code_blocks)
+
+    issues: list[Issue] = []
+    seen_labels: set[str] = set()
+
+    for rule_id, display_name, prefix_pat, min_len in _TOKEN_PREFIX_PATTERNS:
+        if rule_id in seen_labels:
+            continue
+        for m in prefix_pat.finditer(code_content):
+            suffix = code_content[m.end():]
+            if not _is_placeholder_suffix(suffix, min_len):
+                seen_labels.add(rule_id)
+                issues.append(("C1", f"実トークン風の値: {display_name}"))
+                break
+    return issues
+
+
 def check_d1_d2(body: str) -> tuple[dict[str, int], list[Issue]]:
     """D1 [INFO] URL ドメイン分類、D2 [WARN] grounding_redirect > 50% なら警告。"""
     urls = extract_urls(body)
@@ -402,12 +488,13 @@ def lint_article(path: Path) -> dict[str, Any]:
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
 
-    # A3/A4/A5/A6/B2/D: 全記事に適用
+    # A3/A4/A5/A6/B2/C1/D: 全記事に適用
     _add("FAIL", check_a3(body))
     _add("WARN", check_a4(body))
     _add("WARN", check_a5(body))
     _add("FAIL", check_a6(fm, body, require_error_code=is_error))
     _add("FAIL", check_b2(body))
+    _add("FAIL", check_secret_token(body))
 
     tier_dict, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)

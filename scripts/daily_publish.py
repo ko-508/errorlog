@@ -18,7 +18,7 @@ from fact_check import clear_new_article_failure, evaluate_new_article, record_n
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
     check_a1, check_a2, check_a3, check_a4, check_a5, check_a6,
-    check_b1, check_b2, check_b3, check_d1_d2,
+    check_b1, check_b2, check_b3, check_d1_d2, check_secret_token,
     classify_article, split_frontmatter,
 )
 
@@ -216,6 +216,19 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 - ですます調・断定的に書く
 - ふりがな補足は不要（「デプロイ（展開）」のような自明な言い換えは書かない）
 - 「まとめ」セクションは不要
+
+## 認証トークン・APIキーの書き方
+- コード例の変数値・ヘッダー値・文字列リテラルとして、認証トークンやAPIキーを
+  実際の値らしい形式で記述しないこと。これはBefore例・After例・失効例など
+  すべてのコード例に適用される。
+- トークンやキーに当たる部分は、必ず山かっこで囲んだプレースホルダー
+  `<your-xxx>` 形式で書くこと。プレフィックス文字列(例: xoxb-、sk-proj-、
+  pk_live_、AKIA、ghp_、glpat- など)を値の先頭に付けた形も書かないこと。
+  例:  token = "xoxb-old-expired-token-123"  → NG(プレフィックス＋それらしい値)
+       token = "xoxb-YOUR-TOKEN"             → NG(プレフィックスを含む)
+       token = "<your-bot-token>"            → OK
+       TOKEN = "<your-api-key>"              → OK
+
 - 末尾に必ず以下の免責事項フッターを付ける:
 
 ---
@@ -355,7 +368,7 @@ def extract_knowledge_graph(
 # ─── Lint 公開前ゲート ──────────────────────────────────────────
 
 _LINT_MAX_RETRIES = 2
-_LINT_BLOCK_RULES = frozenset({"A1", "B1", "B2"})
+_LINT_BLOCK_RULES = frozenset({"A1", "B1", "B2", "C1"})
 
 
 def _lint_check_content(content: str, path: Path) -> dict:
@@ -381,6 +394,7 @@ def _lint_check_content(content: str, path: Path) -> dict:
     _add("WARN", check_a5(body))
     _add("FAIL", check_a6(fm, body, require_error_code=is_error))
     _add("FAIL", check_b2(body))
+    _add("FAIL", check_secret_token(body))
     _, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)
 
