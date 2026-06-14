@@ -39,12 +39,14 @@ jobs:
           ADD_COUNT: ${{ github.event.inputs.add_count || '90' }}
         run: python scripts/replenish_queue.py
 
-      - name: Generate tool articles
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          COUNT: "3"
-        run: python scripts/generate_tool_article.py
+      # tool-guide 記事の生成は許可があるまで停止中。
+      # 再開する場合は下記ステップのコメントを外す。
+      # - name: Generate tool articles
+      #   env:
+      #     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      #     GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      #     COUNT: "3"
+      #   run: python scripts/generate_tool_article.py
 
       - name: Commit and push
         run: |
