@@ -22,5 +22,29 @@
     "source_type": "daily",
     "notified_at": "2026-06-13T05:17:07Z",
     "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/gitlab_429/",
+    "path": "content/posts/gitlab_429.md",
+    "title": "GitLab の 429 エラー：原因と解決策",
+    "source_type": "daily",
+    "notified_at": "2026-06-14T05:26:56Z",
+    "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/gitlab_500/",
+    "path": "content/posts/gitlab_500.md",
+    "title": "GitLab の 500 エラー：原因と解決策",
+    "source_type": "daily",
+    "notified_at": "2026-06-14T05:26:57Z",
+    "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/bitbucket_400/",
+    "path": "content/posts/bitbucket_400.md",
+    "title": "Bitbucket の 400 エラー：原因と解決策",
+    "source_type": "daily",
+    "notified_at": "2026-06-14T05:26:57Z",
+    "fact_check_status": "pass"
   }
 ]
