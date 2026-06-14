@@ -1,0 +1,739 @@
+{
+  "article_id": "nginx_502",
+  "article_path": "content/posts/nginx_502.md",
+  "tags": [
+    "Nginx"
+  ],
+  "fact_checked_at": "2026-06-14T08:35:41Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackify.com/error-502-bad-gateway-in-nginx-what-it-is-and-how-to-fix-it/",
+      "resolved_domain": "stackify.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error 502 Bad Gateway in Nginx: What It Is and How to Fix It - Stackify",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.metricfire.com/blog/understanding-nginx-502-bad-gateway-php-fpm/",
+      "resolved_domain": "www.metricfire.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Fix PHP-FPM Errors | MetricFire",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/MetricFire/items/ffa0b96b6ec87a4f390f",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: PHP-FPM が表示されるの原因と解決方法 - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-502-bad-gateway",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Every Cause and Fix (Complete Guide) - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNbuBy9QKZz390X4qLWsnL4zdtsoNvlWzcXN_kcjGGWNaqQq4bdZkVJh5OVBa_t2xgYlk4VuxBkRjzbErvkSLFNkkSAXCLp9C589YUMelmHbN1FoDKTr3zv6RXpKmceRrEBtFhMnLiI_EkET_j26zHmp49B5SF6A==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Causes And How To Fix It - Netdata",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackify.com/error-502-bad-gateway-in-nginx-what-it-is-and-how-to-fix-it/",
+      "resolved_domain": "stackify.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error 502 Bad Gateway in Nginx: What It Is and How to Fix It - Stackify",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBe4VF1SgVWwP5VPJ9_V_ven6KYGOvaE7RMWN8rxARXILtxMe6piVTg6XAwzwbKVxhokWmYgTni72tAjTdC3jde4T-qi1ovC6TQ5TDtyhJHPyJelaUpxpjlsdMDHkrFW1_45FrNaxWPriDZs6kRcxDVd4040sQGNAqu8iVdbFmCoD_kbONCV_1mB7F_XLQP4ymM7q3KAMzf1o=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "502 bad gateway but nginx status is running ok (24702) | Linode Questions",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-502-bad-gateway",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Every Cause and Fix (Complete Guide) - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNbuBy9QKZz390X4qLWsnL4zdtsoNvlWzcXN_kcjGGWNaqQq4bdZkVJh5OVBa_t2xgYlk4VuxBkRjzbErvkSLFNkkSAXCLp9C589YUMelmHbN1FoDKTr3zv6RXpKmceRrEBtFhMnLiI_EkET_j26zHmp49B5SF6A==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Causes And How To Fix It - Netdata",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBe4VF1SgVWwP5VPJ9_V_ven6KYGOvaE7RMWN8rxARXILtxMe6piVTg6XAwzwbKVxhokWmYgTni72tAjTdC3jde4T-qi1ovC6TQ5TDtyhJHPyJelaUpxpjlsdMDHkrFW1_45FrNaxWPriDZs6kRcxDVd4040sQGNAqu8iVdbFmCoD_kbONCV_1mB7F_XLQP4ymM7q3KAMzf1o=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "502 bad gateway but nginx status is running ok (24702) | Linode Questions",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-502-bad-gateway",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Every Cause and Fix (Complete Guide) - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.nginx.org/t/502-bad-gateway-error-with-nginx-reverse-proxy-for-node-js-app-how-to-debug/5365",
+      "resolved_domain": "community.nginx.org",
+      "resolved_source_type": "vendor_community",
+      "tool_match": true,
+      "title": "502 Bad Gateway Error with NGINX Reverse Proxy for Node.js App – How to Debug?",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNbuBy9QKZz390X4qLWsnL4zdtsoNvlWzcXN_kcjGGWNaqQq4bdZkVJh5OVBa_t2xgYlk4VuxBkRjzbErvkSLFNkkSAXCLp9C589YUMelmHbN1FoDKTr3zv6RXpKmceRrEBtFhMnLiI_EkET_j26zHmp49B5SF6A==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Causes And How To Fix It - Netdata",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://inventivehq.com/knowledge-base/devops/where-are-nginx-logs-stored",
+      "resolved_domain": "inventivehq.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Where Are Nginx Logs Stored? Default Paths (Ubuntu, CentOS, Docker) - Inventive HQ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://edgedelta.com/company/knowledge-center/nginx-logging-guide",
+      "resolved_domain": "edgedelta.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX Logging: The Ultimate Guide and Best Practices - Edge Delta",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.nginx.com/nginx/admin-guide/monitoring/logging/",
+      "resolved_domain": "docs.nginx.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Configuring Logging | NGINX Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://nginxui.com/guide/config-nginx",
+      "resolved_domain": "nginxui.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "In this section, we will introduce configuration options in Nginx UI about Nginx control commands, log paths, and other parameters.",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.digitalocean.com/community/tutorials/nginx-access-logs-error-logs",
+      "resolved_domain": "www.digitalocean.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX Logs Explained: Access and Error Log Guide - DigitalOcean",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://askubuntu.com/questions/1267060/which-log-should-i-use-when-debugging-starting-a-web-server-on-boot",
+      "resolved_domain": "askubuntu.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Which log should I use when debugging starting a web server on boot - Ask Ubuntu",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://mattgadient.com/nginx-502-bad-gateway-errors-when-set-as-a-proxy-over-ssl-https/",
+      "resolved_domain": "mattgadient.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "nginx 502 “Bad Gateway” errors when set as a proxy over SSL/HTTPS | mattgadient.com",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackify.com/error-502-bad-gateway-in-nginx-what-it-is-and-how-to-fix-it/",
+      "resolved_domain": "stackify.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error 502 Bad Gateway in Nginx: What It Is and How to Fix It - Stackify",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.metricfire.com/blog/understanding-nginx-502-bad-gateway-php-fpm/",
+      "resolved_domain": "www.metricfire.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Fix PHP-FPM Errors | MetricFire",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/MetricFire/items/ffa0b96b6ec87a4f390f",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: PHP-FPM が表示されるの原因と解決方法 - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://oneuptime.com/blog/post/2026-03-20-troubleshoot-502-bad-gateway-proxy/view",
+      "resolved_domain": "oneuptime.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to Troubleshoot HTTP 502 Bad Gateway Errors Behind a Reverse Proxy - OneUptime",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-502-bad-gateway",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Every Cause and Fix (Complete Guide) - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.cloudpanel.io/blog/502-bad-gateway-nginx-fix/",
+      "resolved_domain": "www.cloudpanel.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 Bad Gateway NGINX Fix: Common Causes and Diagnosis - CloudPanel",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-502-bad-gateway",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Every Cause and Fix (Complete Guide) - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNbuBy9QKZz390X4qLWsnL4zdtsoNvlWzcXN_kcjGGWNaqQq4bdZkVJh5OVBa_t2xgYlk4VuxBkRjzbErvkSLFNkkSAXCLp9C589YUMelmHbN1FoDKTr3zv6RXpKmceRrEBtFhMnLiI_EkET_j26zHmp49B5SF6A==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Causes And How To Fix It - Netdata",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackify.com/error-502-bad-gateway-in-nginx-what-it-is-and-how-to-fix-it/",
+      "resolved_domain": "stackify.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error 502 Bad Gateway in Nginx: What It Is and How to Fix It - Stackify",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-502-bad-gateway",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Every Cause and Fix (Complete Guide) - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.cloudpanel.io/blog/502-bad-gateway-nginx-fix/",
+      "resolved_domain": "www.cloudpanel.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 Bad Gateway NGINX Fix: Common Causes and Diagnosis - CloudPanel",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackify.com/error-502-bad-gateway-in-nginx-what-it-is-and-how-to-fix-it/",
+      "resolved_domain": "stackify.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error 502 Bad Gateway in Nginx: What It Is and How to Fix It - Stackify",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.metricfire.com/blog/understanding-nginx-502-bad-gateway-php-fpm/",
+      "resolved_domain": "www.metricfire.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Fix PHP-FPM Errors | MetricFire",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNbuBy9QKZz390X4qLWsnL4zdtsoNvlWzcXN_kcjGGWNaqQq4bdZkVJh5OVBa_t2xgYlk4VuxBkRjzbErvkSLFNkkSAXCLp9C589YUMelmHbN1FoDKTr3zv6RXpKmceRrEBtFhMnLiI_EkET_j26zHmp49B5SF6A==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Causes And How To Fix It - Netdata",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.hostzealot.com/blog/how-to/everything-you-need-to-know-about-nginx-timeouts",
+      "resolved_domain": "www.hostzealot.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Everything you need to know about NGINX Timeouts - Blog - HostZealot",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://serverfault.com/questions/999161/what-does-proxy-send-timeout-really-do-in-nginx",
+      "resolved_domain": "serverfault.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "What does proxy_send_timeout really do in Nginx? - Server Fault",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/24453388/nginx-reverse-proxy-causing-504-gateway-timeout",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Nginx reverse proxy causing 504 Gateway Timeout - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.cloudpanel.io/blog/502-bad-gateway-nginx-fix/",
+      "resolved_domain": "www.cloudpanel.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 Bad Gateway NGINX Fix: Common Causes and Diagnosis - CloudPanel",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developer.hashicorp.com/nomad/tutorials/archive/reverse-proxy-ui",
+      "resolved_domain": "developer.hashicorp.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Configure NGINX reverse proxy for Nomad's web UI - HashiCorp Developer",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html",
+      "resolved_domain": "nginx.org",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Module ngx_http_upstream_module - nginx",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.hostzealot.com/blog/how-to/everything-you-need-to-know-about-nginx-timeouts",
+      "resolved_domain": "www.hostzealot.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Everything you need to know about NGINX Timeouts - Blog - HostZealot",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.getpagespeed.com/server-setup/nginx/nginx-timeout",
+      "resolved_domain": "www.getpagespeed.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX Timeout Directives: Complete Configuration Guide - GetPageSpeed",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/24453388/nginx-reverse-proxy-causing-504-gateway-timeout",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Nginx reverse proxy causing 504 Gateway Timeout - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.statsig.com/perspectives/bad-gateway-nginx-fix",
+      "resolved_domain": "www.statsig.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "502 bad gateway error in Nginx: How to resolve it - Statsig",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackify.com/error-502-bad-gateway-in-nginx-what-it-is-and-how-to-fix-it/",
+      "resolved_domain": "stackify.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error 502 Bad Gateway in Nginx: What It Is and How to Fix It - Stackify",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://eastondev.com/blog/en/posts/dev/20260427-nginx-load-balance/",
+      "resolved_domain": "eastondev.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Nginx Load Balancing in Practice: upstream Configuration and Health Checks",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.f5.com/company/blog/nginx/active-or-passive-health-checks-which-is-right-for-you",
+      "resolved_domain": "www.f5.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Active or Passive Health Checks: Which Is Right for You? - F5",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.nginx.com/nginx/admin-guide/load-balancer/http-health-check/",
+      "resolved_domain": "docs.nginx.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "HTTP Health Checks | NGINX Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://eastondev.com/blog/en/posts/dev/20260427-nginx-load-balance/",
+      "resolved_domain": "eastondev.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Nginx Load Balancing in Practice: upstream Configuration and Health Checks",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://nginx.org/en/docs/http/ngx_http_upstream_module.html",
+      "resolved_domain": "nginx.org",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Module ngx_http_upstream_module - nginx",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/25489951/nginx-upstream-health-check-modules",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Nginx upstream health check modules - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.f5.com/company/blog/nginx/active-or-passive-health-checks-which-is-right-for-you",
+      "resolved_domain": "www.f5.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Active or Passive Health Checks: Which Is Right for You? - F5",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/digger/items/a0ec1f166dd8c80d7bb3",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker環境で502 Bad Gatewayエラーを解消する方法 - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/19539501/nginx-502-bad-gateway-solved-by-increasing-buffer-why",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Nginx 502 Bad Gateway. Solved by increasing buffer. Why? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNbuBy9QKZz390X4qLWsnL4zdtsoNvlWzcXN_kcjGGWNaqQq4bdZkVJh5OVBa_t2xgYlk4VuxBkRjzbErvkSLFNkkSAXCLp9C589YUMelmHbN1FoDKTr3zv6RXpKmceRrEBtFhMnLiI_EkET_j26zHmp49B5SF6A==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "NGINX 502 Bad Gateway: Causes And How To Fix It - Netdata",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://medium.com/@getpagespeed/tuning-proxy-buffer-size-in-nginx-5c77850a012b",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Tuning proxy_buffer_size in nginx | by Danila Vershinin - Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/19539501/nginx-502-bad-gateway-solved-by-increasing-buffer-why",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Nginx 502 Bad Gateway. Solved by increasing buffer. Why? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnFMe5RrNiPA5cIcRKjiYbeSvsnlkTny3OSVjitnhRF4vFw9A3AmNrz7R561CJfXFx7ECzUxlToCaods-I10RmmpOwmPjNALJ5XJ--PBedzfECL0_Ecp6hQqWNshk4tRZpm1eSRgMOc3PzOHBez8sDEQm2QiLQfn54CPzHgg==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "502 Bad Gateway due to proxy buffer size · Issue #438 · NginxProxyManager/nginx-proxy-manager - GitHub",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://serverfault.com/questions/1052968/how-does-nginx-verify-certificates-proxy-ssl-verify",
+      "resolved_domain": "serverfault.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How does nginx verify certificates (proxy_ssl_verify)? - Server Fault",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzyISu02v7G_-nHw3GCC6AxAw98Rj0ckPa4bI65PJkSs-OflVImEIjgSRitxdJ-7HBfn8g9dssuJEJxf23NURN4sI0RdbPz8g-jgeI07bogDJf2DCFw1fqb_sHpLBTs_B6eVAIJ5vxAIei4dM57JvpausuqXtTo-wVv6bvhVEx_joctCYSnjt0ch_TxMBQkVNMA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "nginx 502 “Bad Gateway” errors when set as a proxy over SSL/HTTPS | mattgadient.com",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3xH2KDoAiFscqAfulIeZwMzpPPTIPetvQKYGs9rI4skEPExHtV81zie8_Yr-d4xFUlKa3MAomJFQMS1RG5FbuM8ZobPMn8mSD7mwOlvbo7WTsEouanElrzdsAS-9N2uON28jyrSf27YY-VZslIZxzT8bwg8vlPCBUH00m4EFnSl6P9gvPZ_7fmBqu",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "nginx as reverse proxy with upstream SSL - Server Fault",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://serverfault.com/questions/1052968/how-does-nginx-verify-certificates-proxy-ssl-verify",
+      "resolved_domain": "serverfault.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How does nginx verify certificates (proxy_ssl_verify)? - Server Fault",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG3xH2KDoAiFscqAfulIeZwMzpPPTIPetvQKYGs9rI4skEPExHtV81zie8_Yr-d4xFUlKa3MAomJFQMS1RG5FbuM8ZobPMn8mSD7mwOlvbo7WTsEouanElrzdsAS-9N2uON28jyrSf27YY-VZslIZxzT8bwg8vlPCBUH00m4EFnSl6P9gvPZ_7fmBqu",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "nginx as reverse proxy with upstream SSL - Server Fault",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://github.com/NginxProxyManager/nginx-proxy-manager/discussions/3332",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to disable SSL verification for proxied host? · NginxProxyManager nginx-proxy-manager · Discussion #3332 - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/kubernetes/ingress-nginx/issues/7083",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "proxy_ssl_verify should be on by default · Issue #7083 · kubernetes/ingress-nginx - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.reddit.com/r/nginxproxymanager/comments/17wnpye/how_to_disable_ssl_verification_for_proxied_host/",
+      "resolved_domain": "www.reddit.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to disable SSL verification for proxied host? : r/nginxproxymanager - Reddit",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHwzArplPTUSzGuB1vnXIfeASzsgMLfZNJThqt3OF6v6kLMUuxCAJnlVRqAbY38YOUVHdTsRWrIHzmMkZDkR491GSEPsRIm_QSw2DM8LMYkx44w4E48IGVmEzgrkxBvezvF9xJw6NbKskItze3z5y6G-n81FkEFoPC1Uej_rblL1jtwl84mIe8QqQrFYytyaMUA8EvsS4jA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Where Are Nginx Logs Stored? Default Paths (Ubuntu, CentOS, Docker) - Inventive HQ",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://edgedelta.com/company/knowledge-center/nginx-logging-guide",
+      "resolved_domain": "edgedelta.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX Logging: The Ultimate Guide and Best Practices - Edge Delta",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.nginx.com/nginx/admin-guide/monitoring/logging/",
+      "resolved_domain": "docs.nginx.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Configuring Logging | NGINX Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://nginxui.com/guide/config-nginx",
+      "resolved_domain": "nginxui.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "In this section, we will introduce configuration options in Nginx UI about Nginx control commands, log paths, and other parameters.",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.digitalocean.com/community/tutorials/nginx-access-logs-error-logs",
+      "resolved_domain": "www.digitalocean.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "NGINX Logs Explained: Access and Error Log Guide - DigitalOcean",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://askubuntu.com/questions/1267060/which-log-should-i-use-when-debugging-starting-a-web-server-on-boot",
+      "resolved_domain": "askubuntu.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Which log should I use when debugging starting a web server on boot - Ask Ubuntu",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHzyISu02v7G_-nHw3GCC6AxAw98Rj0ckPa4bI65PJkSs-OflVImEIjgSRitxdJ-7HBfn8g9dssuJEJxf23NURN4sI0RdbPz8g-jgeI07bogDJf2DCFw1fqb_sHpLBTs_B6eVAIJ5vxAIei4dM57JvpausuqXtTo-wVv6bvhVEx_joctCYSnjt0ch_TxMBQkVNMA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "nginx 502 “Bad Gateway” errors when set as a proxy over SSL/HTTPS | mattgadient.com",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://askubuntu.com/questions/1267060/which-log-should-i-use-when-debugging-starting-a-web-server-on-boot",
+      "resolved_domain": "askubuntu.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Which log should I use when debugging starting a web server on boot - Ask Ubuntu",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.djaodjin.com/blog/gunicorn-journald-syslog.blog.html",
+      "resolved_domain": "www.djaodjin.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Logging gunicorn messages through journald to syslog-ng - DjaoDjin",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/52201080/django-gunicorn-where-logs-are-stored",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Django Gunicorn where logs are stored - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://serverfault.com/questions/993332/linux-journalctl-not-synced-with-systemctl-status-journalctl-not-updating",
+      "resolved_domain": "serverfault.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Linux journalctl not synced with systemctl status / Journalctl not updating - Server Fault",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.digitalocean.com/community/tutorials/how-to-use-journalctl-to-view-and-manipulate-systemd-logs",
+      "resolved_domain": "www.digitalocean.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How To Use journalctl to View and Manipulate systemd Logs on Linux | DigitalOcean",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.jp/engine/reference/commandline/logs.html",
+      "resolved_domain": "docs.docker.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "docker logs — Docker-docs-ja 24.0 ドキュメント",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGrNmbnOHBqeYsVZqimxY-_jb5nYIDCi6MJL-UM0nmVmsNzicKrSSTFSpO2kcOLxHootaekA2CZLUQMzfIWIwAvXTADfhEnM-B9YhW-btALwqjp9f7F8OxFz_gaPDdlMzR3vjpSN3AFQWMBK4FBRN9uvF7B2KNjAROo9Q14oOA1T18=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "docker container logs — Docker-docs-ja 24.0 ドキュメント",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://newrelic.com/blog/infrastructure-monitoring/docker-logs",
+      "resolved_domain": "newrelic.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Guide to Docker logs and how to see them - New Relic",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.youtube.com/watch?v=Sy2SlraB6Ls",
+      "resolved_domain": "www.youtube.com",
+      "resolved_source_type": "other",
+      "tool_match": false,
+      "title": "Part 15 : View Docker Container Logs - YouTube",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://oneuptime.com/blog/post/2026-02-02-docker-container-logs/view",
+      "resolved_domain": "oneuptime.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to Handle Docker Container Logs - OneUptime",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://nginxui.com/guide/config-nginx",
+      "resolved_domain": "nginxui.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "In this section, we will introduce configuration options in Nginx UI about Nginx control commands, log paths, and other parameters.",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 54,
+    "community_blog": 13,
+    "unresolved": 15,
+    "vendor_community": 1,
+    "official": 6,
+    "other": 1
+  }
+}

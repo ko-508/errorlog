@@ -1,0 +1,363 @@
+{
+  "article_id": "terraform_403",
+  "article_path": "content/posts/terraform_403.md",
+  "tags": [
+    "Terraform"
+  ],
+  "fact_checked_at": "2026-06-14T08:44:31Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGhI7HYXTeluIc4-VF2p-ItZVNLDCgHM7ivO-YbQ1qUmhDNXhZ_uYooLHSyPLmwOytQ6_wGP7itPCX4854YmyA-pXSQG_dm0V7LhQi2SFpp4LvIeN4E2qTD662F3qkTkLEXwuosr3OTxO9RDgvOb0mrdv9dimXY5Cqb24zefJ1ZDW4Osc8f1a97-KydAAhv-yBwV6iksU=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "IAM ポリシーシミュレーターを使用した IAM ポリシーのテスト - AWS Documentation",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/cli/latest/reference/iam/simulate-principal-policy.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "simulate-principal-policy — AWS CLI 2.34.62 Command Reference",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developer.hashicorp.com/terraform/cli/import",
+      "resolved_domain": "developer.hashicorp.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Import existing infrastructure resources | Terraform - HashiCorp Developer",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developer.hashicorp.com/terraform/cli/commands/refresh",
+      "resolved_domain": "developer.hashicorp.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "terraform refresh command reference - HashiCorp Developer",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEbtyGtTcndq5iN-RkiTzXYcyT8QmV5DjuM-w9FDiQWL57BMnOtL12EdQgYYDQwj9jiSfVhOiXFydoTXDzOgHzVWif8yr4ERrSkFBRHwp5wUrxAepXjpoCJ1BOhh5VU7-SwXNcCbTe3I1KBFk5bGESYQTyzLM=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "【simulate-principal-policy】IAMポリシーをテストする #AWS - Qiita",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://oneuptime.com/blog/post/2026-02-23-refresh-terraform-state-without-applying/view",
+      "resolved_domain": "oneuptime.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to Refresh Terraform State Without Applying Changes - OneUptime",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/masuda1112/articles/2024-10-24-error-s3-bucket",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "TerraformでのAWS S3バケットへのアクセスエラーの解決法 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://blog.serverworks.co.jp/howtouse-iampolicysimulator",
+      "resolved_domain": "blog.serverworks.co.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "IAM Policy Simulator の使い方 - サーバーワークスエンジニアブログ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.youtube.com/watch?v=sI-SyOvHeno",
+      "resolved_domain": "www.youtube.com",
+      "resolved_source_type": "other",
+      "tool_match": false,
+      "title": "How do I use the IAM policy simulator to test IAM policies and permissions? - YouTube",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developer.hashicorp.com/terraform/tutorials/state/refresh",
+      "resolved_domain": "developer.hashicorp.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Use refresh-only mode to sync Terraform state - HashiCorp Developer",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developer.hashicorp.com/terraform/tutorials/aws/aws-assumerole",
+      "resolved_domain": "developer.hashicorp.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Provision AWS resources across accounts using AssumeRole | Terraform - HashiCorp Developer",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://blog.serverworks.co.jp/terraform-tfstate-plan-apply",
+      "resolved_domain": "blog.serverworks.co.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "【Terraform】plan / apply と状態ファイル (tfstate) の関係 - サーバーワークスエンジニアブログ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://beyondjapan.com/blog/2020/05/terraform-resource-import/",
+      "resolved_domain": "beyondjapan.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Terraform で既存のインフラリソースをインポートする方法 - 株式会社ビヨンド",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://tech.classi.jp/entry/2021/12/13/120000",
+      "resolved_domain": "tech.classi.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "IAM Policy Simulator で「必要な権限足りてる？」を確かめる - Classi開発者ブログ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://blog.denet.co.jp/terraform-assume-role-cross-account-deployment/",
+      "resolved_domain": "blog.denet.co.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "TerraformでAssume Role先のAWSアカウントへデプロイしてみた - DENET 技術ブログ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEtTZR_J2JbDB86r_AndcVVSj3VnK2hJQXiHUpFD41mje7bO4Ytq7Y61Pq-XD-KvU5pW3YYBp6_wkQQWZzlUBTKHvsqSyHk0tUhHoUltdFNBdOGJgqpNwci9Sije1ED84iLip5YVVTlwttLyRI9L_tfwMYzo3DdU_ok",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "このアクション、いまのポリシー設定で実行できる？ IAM Policy Simulator でお手軽に確認しちゃおう | DevelopersIO",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://iret.media/188030",
+      "resolved_domain": "iret.media",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "【Terraform】既存コードを別環境で動かす時にハマる3つの罠 - iret.media",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/awscloudtrail/latest/APIReference/CommonErrors.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Common Error Types - AWS CloudTrail - AWS Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFXV3p945hUTRIaZlujYxlCV6hgcJCVRFVH_nSFq2y66VV_i2tqjGnIfBIF2KRPENtiA_b6H4k4yK8VR06teh56dRZE894pWWeo2C_RZQbGEcLQcm8nY7znog4WGGMBT4t4Gl2Kd8x_a7-JVa1TsfazQnnYj0l5Eerps9WiSXyZ3iZqPf5YplfOX2V4CM72",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "SimulatePrincipalPolicy - AWS Identity and Access Management - AWS Documentation",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://dev.classmethod.jp/articles/terraform-import-command-and-import-block/",
+      "resolved_domain": "dev.classmethod.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Terraformのimportコマンドとimportブロックを試してみた - DevelopersIO - クラスメソッド",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/ram/latest/userguide/tshoot-access-denied.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "エラー:「AccessDeniedException」 - AWS Resource Access Manager",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.everpuredata.com/jp/knowledge/what-is-terraform-import.html",
+      "resolved_domain": "www.everpuredata.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Terraform のインポートとは？ - Everpure",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHFcKLaanFUdftzcBrZymkomemYImZ17rncYFYNdHatHUYa22G3W_05fM9yZ2KZ5p7KjdrUY-TiC5ym6TnR5oMyiD7PRhKsNtutgtNAUcw2vL_DcjvZY-ZAVrxmthcAg9CVvSS",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "terraform import頼りの運用をしないで - NIFTY engineering",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://alpacat.com/posts/multi-assume-role-on-terraform",
+      "resolved_domain": "alpacat.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "AWS 2段AssumeRoleするためのTerraform設定とCLIによる確認方法(ロールの連鎖)",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://repost.aws/ja/knowledge-center/iam-policy-simulator",
+      "resolved_domain": "repost.aws",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Test IAM policies and permissions with the IAM policy simulator - AWS re:Post",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.reddit.com/r/Terraform/comments/qiezp4/terraform_how_to_find_root_cause_of_the_error/",
+      "resolved_domain": "www.reddit.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Error: Forbidden - Reddit",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://dev.classmethod.jp/articles/terraform-aws-provider-allowed-account-ids/",
+      "resolved_domain": "dev.classmethod.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Terraform AWS Provider の allowed_account_ids でオペミスを防ぐ - DevelopersIO",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/62119322/terraform-403-forbidden-error-while-executing-terraform-plan",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "amazon s3 - Terraform 403 Forbidden Error while executing terraform plan - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEwsEGb7eYkbASau2VljqXTrxRGdRIgprtMASlWMoiERr3mtnVGCXRGHj7oSwYAOC_8XJ_eZH6VxXiLdQRXR87f4ZAXSjFEdFf5--Gp5Eueqr67zMZmITs2uSpJ50o91oUJVeM981tJ7ySLm0sdW4-lNLwYdcXHvZ_s5hhrTapSWWKfgPxvvc0xJa5MJbcB14VMn64jc0w4WMRKE3SqH8dD_rS7NQJra8sa",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Terraform WorkspacesとAssume Roleで複数AWSアカウントに同じAWSアーキテクチャをプロビジョニングする | DevelopersIO",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://zenn.dev/ap_com/articles/aws-iam-access-denied-troubleshooting-basic",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "[AWS] IAM Access Deniedエラー解決ガイド #1 - 基本的なトラブルシューティング - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHCgByftR2hTcIpNNx0jFAL5mjDTHGqSkMol6pT8901ksUYhXnLGGCDSM2uWwAKhz98jRKSpWL8FAmovBOne0tAvAtnzOeY56sKw9GjHAlJ0qDZRRqyu4Pqx-rSXGhxgooj3zepsU7eWVZ4tK2ixtQQvq5O8lBjrDdNCd84vu8Qzk7duCHa9_C4Is8uV5POBeIoWchF",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "aws_account_region | Resources | hashicorp/aws - Terraform Registry",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://qiita.com/free-honda/items/658e5d8e7da7164498c7",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "S3バケットにアクセスする際に発生する「Access Denied」エラーの原因と対処方法についてまとめてみた #AWS - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.auth0.com/t/error-403-forbidden-with-terraform/97194",
+      "resolved_domain": "community.auth0.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Error: 403 Forbidden with Terraform - Auth0 Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://tech.kurojica.com/archives/58595/",
+      "resolved_domain": "tech.kurojica.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "【Terraform】awsのprofileの認証情報で403エラーが出る - クロジカ | AI Labブログ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF5ATKVcEe3fn2H7UF7N0Dt7DwRhXxOJ-K99C-djAz-taXANXTFzOVGMLEr4szqyWciQLN27atzzjwRzF07Cje7VxfaKjEFMQu5q-87sCAs6m6es9jzeEP-4wkFAAPQLhasko0oXsbv66s5Z7kyh4LDAp693wAJTPrdxFBv-kTRKN2XfaD-yGFt8HNvJt6xvpkGWA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Amazon S3 でのアクセス拒否 (403 Forbidden) エラーのトラブルシューティング",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.youtube.com/watch?v=hI64CFAjmig",
+      "resolved_domain": "www.youtube.com",
+      "resolved_source_type": "other",
+      "tool_match": false,
+      "title": "Amazon S3 から 403: Access Denied エラーが返された際の解決方法を教えてください。",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://repost.aws/ja/knowledge-center/s3-troubleshoot-403",
+      "resolved_domain": "repost.aws",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Amazon S3 での 403 Access Denied エラーをトラブルシューティングする | AWS re:Post",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/71706814/how-to-fix-403-error-when-applying-terraform",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to fix 403 error when applying Terraform? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/mn87/articles/b883d98a392472",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "CloudTrail での個人的な調査方法 3 つ - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/parallelcluster/latest/ug/troubleshooting-v3-terraform.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Terraform を使用したクラスターのデプロイのトラブルシューティング - AWS ParallelCluster",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://note.com/ren_webstep/n/nb387edfb1d51",
+      "resolved_domain": "note.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "TerraformのProviderとは？ 複数リージョン・複数アカウントの扱い方｜れん - Web Step - note",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zoo200.net/terraform-confirm-region-account-id/",
+      "resolved_domain": "zoo200.net",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Terraform 実行中のAWSリージョン、アカウントIDやメタデータ的なのをいろいろ取得する",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/prescriptive-guidance/latest/terraform-aws-provider-best-practices/overview.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "概要 - AWS 規範ガイダンス - AWS Documentation",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unresolved": 8,
+    "official": 9,
+    "unknown": 14,
+    "community_blog": 7,
+    "other": 2,
+    "vendor_community": 3
+  }
+}

@@ -1,0 +1,216 @@
+{
+  "article_id": "minikube_401",
+  "article_path": "content/posts/minikube_401.md",
+  "tags": [
+    "Minikube"
+  ],
+  "fact_checked_at": "2026-06-14T08:40:52Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://kubernetes.io/docs/reference/kubectl/kubectl-commands/#config",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "kubectl config | Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting - Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/commands/update-context/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "minikube update-context - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/drivers/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Drivers - Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/reference/access-authn-authz/authentication/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Authenticating | Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/kubectl-troubleshooting/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Troubleshooting kubectl - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://bobcares.com/blog/kubernetes-401-unauthorized/",
+      "resolved_domain": "bobcares.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Kubernetes 401 Unauthorized | Resolved - Bobcares",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/commands/delete/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "delete - Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/commands/start/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "minikube start - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/handbook/certificates/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Certificates - Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/commands/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Commands | minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://minikube.sigs.k8s.io/docs/handbook/faq/",
+      "resolved_domain": "minikube.sigs.k8s.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "FAQ - Minikube - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_config/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "kubectl config | Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/reference/kubectl/generated/kubectl_config_use-context/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "kubectl config use-context - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.spacelift.io/blog/kubectl-config-set-context",
+      "resolved_domain": "www.spacelift.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Kubectl Config Set-Context Command [Tutorial & Examples] - Spacelift",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://glasp.co/troubleshooting-minikube-on-macos-a-comprehensive-guide",
+      "resolved_domain": "glasp.co",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Troubleshooting Minikube on MacOS: A Comprehensive Guide - Glasp",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/@mmribeiro/troubleshooting-annoying-issues-with-minikube-b8307222533c",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Troubleshooting annoying issues with Minikube | by Mauricio M. Ribeiro | Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/56886522/arr-push-inside-for-loop/56886866#56886866",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Minikube: Path to Root Certificate - kubernetes - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/4850048/amazon-instance-ec2-connection-timeout/57007775#57007775",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Kubernetes: \"unauthorized\". can't figure out how to get authenticated - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/54049025/aws-sagemaker-spark-sql/54261491#54261491",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Kubernetes master is returning 401 Unauthorized error - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/56910626/how-to-link-a-static-libary-in-cmake-created-from-another-directory",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Minikube: getting authenticated to kubectl. Error: You must be logged in to the server (Unauthorized) : r/kubernetes - Reddit",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://serverfault.com/questions/1057848/domain-controler-on-azure-vm/1057850#1057850",
+      "resolved_domain": "serverfault.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to disable kubectl insecure approval towards the kube apiserver - Server Fault",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/kubernetes/minikube/issues/16201",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Expired certs not being renewed · Issue #16201 · kubernetes/minikube - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.broadcom.com/support/knowledgebase/article.P30704983-how-to-renew-minikube-certificates",
+      "resolved_domain": "www.broadcom.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to renew Minikube certificates - Broadcom support portal",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://geekmungus.co.uk/kubernetes-minikube-certificates-expiry-and-logins/",
+      "resolved_domain": "geekmungus.co.uk",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Kubernetes (Minikube) – Certificates, Expiry and Logins - geekmungus",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 13,
+    "unknown": 6,
+    "community_blog": 6
+  }
+}

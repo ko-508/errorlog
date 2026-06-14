@@ -1,0 +1,175 @@
+{
+  "article_id": "azure_500",
+  "article_path": "content/posts/azure_500.md",
+  "tags": [
+    "Azure"
+  ],
+  "fact_checked_at": "2026-06-14T08:31:21Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://ai-soken.com/azure-500-error/",
+      "resolved_domain": "ai-soken.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Azure 500エラー(Internal Server Error)とは？原因と対処方法を解説！ - AI総合研究所",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-create-server-level-portal-quickstart",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Create a server-level firewall rule in the Azure portal - Azure SQL Database | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.microsoft.com/en-us/azure/azure-monitor/app/troubleshoot-performance-issues#troubleshoot-with-azure-monitor",
+      "resolved_domain": "docs.microsoft.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Tutorial: Troubleshoot with Azure Monitor - Azure App Service - Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.microsoft.com/en-us/azure/app-service/troubleshoot-http-500-errors",
+      "resolved_domain": "docs.microsoft.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Troubleshoot common issues with Azure App Service - Azure App Service",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.microsoft.com/en-us/azure/api-management/api-management-howto-troubleshoot-500-errors",
+      "resolved_domain": "docs.microsoft.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Troubleshoot common issues with Azure API Management - Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/vm?view=azure-cli-latest#az-vm-list-usage",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az vm | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/error-codes-deployment",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Resolve common errors when deploying to Azure - Azure Resource Manager",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/webapp/log?view=azure-cli-latest#az-webapp-log-config",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az webapp log | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/webapp/log?view=azure-cli-latest#az-webapp-log-download",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az webapp log | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/sql/server/firewall-rule?view=azure-cli-latest#az-sql-server-firewall-rule-create",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az sql server firewall-rule | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/apim/backend?view=azure-cli-latest#az-apim-backend-show",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az apim backend | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/apim/api/policy?view=azure-cli-latest#az-apim-api-policy-show",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az apim api policy | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/monitor/metrics?view=azure-cli-latest#az-monitor-metrics-list",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az monitor metrics | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/monitor/app-insights?view=azure-cli-latest#az-monitor-app-insights-query",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az monitor app-insights | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/network/nsg/rule?view=azure-cli-latest#az-network-nsg-rule-create",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az network nsg rule | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/cli/azure/network/nsg?view=azure-cli-latest#az-network-nsg-create",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "az network nsg | Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/firewall-configure",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Azure SQL Database IP firewall rules - Microsoft Learn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/deploy-cli",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Deploy Azure resources by using Azure CLI - Azure Resource Manager",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/azure/azure-sql/database/connect-from-vnet",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Use Virtual Network service endpoints and rules for Azure SQL Database - Azure SQL Database",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types",
+      "resolved_domain": "learn.microsoft.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Azure resource providers and types - Azure Resource Manager",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 4,
+    "official": 16
+  }
+}

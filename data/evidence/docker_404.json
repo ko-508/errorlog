@@ -1,0 +1,152 @@
+{
+  "article_id": "docker_404",
+  "article_path": "content/posts/docker_404.md",
+  "tags": [
+    "Docker"
+  ],
+  "fact_checked_at": "2026-06-14T08:04:49Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/troubleshooting.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Amazon ECR の使用時の Docker コマンドおよび問題のトラブルシューティング",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://forums.docker.com/t/404-error-while-pulling-image-from-docker-hub/117951",
+      "resolved_domain": "forums.docker.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": true,
+      "title": "404 Error while pulling image from docker hub - Docker Community Forums",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/6468893/stash1-is-ambiguous/32014197#32014197",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "I keep getting a 404 error when trying to push to my private repository. Why? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://forums.docker.com/t/docker-hub-login-failed-with-status-404-not-found/88749",
+      "resolved_domain": "forums.docker.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": true,
+      "title": "Docker Hub login failed with status 404 Not Found - Docker Community Forums",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/30810374/get-value-from-dropdownlist-and-create-another-dropdown-list/30810757#30810757",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker Hub case sensitive - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/66826600/docker-pull-doesnt-find-latest-tag",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker pull doesnt find `latest` tag - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://cloud.google.com/container-registry/docs/docker-authentication?hl=ja",
+      "resolved_domain": "cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Docker authentication - Google Cloud Container Registry",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.home-assistant.io/t/docker-pull-issues-error-404-and-tls-handshake-timeout/104256",
+      "resolved_domain": "community.home-assistant.io",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Docker pull issues: error 404 and TLS handshake timeout - Home Assistant Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/k-mat438/items/a927d3c5f5195e2f750b",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Dockerの通信経路を理解してTLS handshake timeoutを解消した話 - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/r_r/articles/e83796d13ed042",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker Compose の 404 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/tapioca_pepe/items/675b34a628864d41bf0e",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "プライベートgitlabのcontainer registyを使う #Docker - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/29420015/customers-placed-orders-query",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker repository server gave HTTP response to HTTPS client - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/engine/security/insecure-registries/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Insecure registries | Docker Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/engine/daemon/logs/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Configure logging drivers | Docker Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/desktop/troubleshoot-and-support/troubleshoot/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshoot Docker Desktop | Docker Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/reference/cli/docker/image/pull/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "docker pull | Docker Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/retired/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Docker Registry HTTP API V2",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 7,
+    "vendor_community": 3,
+    "community_blog": 7
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "article_id": "kubernetes_403",
+  "article_path": "content/posts/kubernetes_403.md",
+  "tags": [
+    "Kubernetes"
+  ],
+  "fact_checked_at": "2026-06-14T08:39:21Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://portainer.io/blog/kubernetes-rbac-guide",
+      "resolved_domain": "portainer.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Kubernetes RBAC: Roles, Permissions & Best Practices (2026) - Portainer",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/reference/access-authn-authz/authorization/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Authorization - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://labex.io/guides/kubernetes/how-to-fix-kubernetes-permission-issues",
+      "resolved_domain": "labex.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to fix Kubernetes permission issues | LabEx",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.paloaltonetworks.com/cyberpedia/kubernetes-rbac-roles-permissions-and-best-practices",
+      "resolved_domain": "www.paloaltonetworks.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Managing Permissions with Kubernetes RBAC - Palo Alto Networks",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-kubernetes-403",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Kubernetes の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/@harold_finch/debugging-kubernetes-api-server-errors-93cf4f964035",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Debugging Kubernetes API Server Errors | by Harold Finch | Apr, 2026 - Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/concepts/security/service-accounts/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Service Accounts | Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/52973145/what-is-the-meaning-of-underscore-in-writeitemschannel-writer-count-delay",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Kubernetes namespace default service account - rbac - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://plural.sh/blog/kubernetes-rbac-authorization-guide/",
+      "resolved_domain": "plural.sh",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Kubernetes RBAC Authorization: The Ultimate Guide - Plural.sh",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://note.com/toshi0612/n/n2b227c94519f",
+      "resolved_domain": "note.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Why Kubernetes apiGroups differ depending on the resource｜toshi - note",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/74836605/what-should-i-do-in-order-to-make-updater-work",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "what's apiGroups in kubernetes? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Configure Service Accounts for Pods - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learnk8s.io/kubernetes-rbac-mechanics",
+      "resolved_domain": "learnk8s.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "The mechanics of Kubernetes RBAC and how it connects users to permissions - LearnKube",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.plural.sh/blog/kubernetes-roles-rbac-guide/",
+      "resolved_domain": "www.plural.sh",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Kubernetes Roles & RBAC: The Ultimate Guide - Plural.sh",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/reference/access-authn-authz/rbac/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Using RBAC Authorization | Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/docs/tasks/debug/debug-cluster/kubectl-troubleshooting/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "kubectlのトラブルシューティング - Kubernetes",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 7,
+    "official": 5,
+    "community_blog": 4
+  }
+}

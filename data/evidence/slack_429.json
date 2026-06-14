@@ -1,0 +1,154 @@
+{
+  "article_id": "slack_429",
+  "article_path": "content/posts/slack_429.md",
+  "tags": [
+    "Slack"
+  ],
+  "fact_checked_at": "2026-06-14T08:46:15Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.slack.dev/apis/web-api/rate-limits/",
+      "resolved_domain": "docs.slack.dev",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Rate limits | Slack Developer Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/71393951/what-is-the-slack-api-workspace-rate-limit-for-chat-postmessage",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "What is the slack API workspace rate limit for chat.postMessage - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG63-vatQqmsyOMrj5MK1kvrX9PJfdG57iTgVmBvQjiuFyyfFLFBLAGG7X8jNE1hbLtcFNRmQAhCH470sBVJ2nsvcStv1yt46PYBAqdMbXDofm4qiVxXDNiDGaOSHq0co7M9opNn1xKg0wrW6zGYtTGEmWbkIpVNIH-qDPMB8vBM1LkmwTIkxOEPNys1LbuLzJgCloPUQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Handling Rate Limits with Slack APIs | by Shay DeWael | Slack Platform Blog | Medium",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://zuplo.com/learning-center/http-429-too-many-requests-guide",
+      "resolved_domain": "zuplo.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "HTTP 429 Too Many Requests: Causes, Headers & Retry Logic - Zuplo",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.slack.dev/apis/web-api/pagination/",
+      "resolved_domain": "docs.slack.dev",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Pagination | Slack Developer Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.slack.dev/404?from=%2Fdocs%2Fevents-api",
+      "resolved_domain": "docs.slack.dev",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "The Events API | Slack Developer Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE01sovlAL2CD0ZMd_H9JvB9qj6uLlXt-0ISrDuNDAI8Vm04Hu02OsK2H1Nfc2qj8NS8Ueulv7NwzhQCudlpJRax2s1JsUdrjZHBCRgUJaZbHOG13Y99dbox7chDeMn65m54yEdkUqrcKvJ65x6sA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Issues · slackapi/python-slack-sdk - GitHub",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://trailhead.salesforce.com/trailblazer-community/feed/0D5KX00000KhkNx0AJ",
+      "resolved_domain": "trailhead.salesforce.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "I am working on Slack Integration | Salesforce Trailblazer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.databricks.com/gcp/ja/ingestion/lakeflow-connect/slack-access-integration-logs-troubleshoot",
+      "resolved_domain": "docs.databricks.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Slack アクセスおよび統合ログコネクタのトラブルシューティング | Databricks on Google Cloud",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.slack.dev/changelog/2025/05/29/rate-limit-changes-for-non-marketplace-apps/",
+      "resolved_domain": "docs.slack.dev",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Rate limit changes for non-Marketplace apps | Slack Developer Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHBgE9TRSfPC6Gnnr7m-oVaJo0TZ2QSNqBA04RSIilyCujIfZu73JUmMVS8ZT1o6hLRIJkF0HB3bL-Dv1Oz8tT9ur6UkZexfBDpnf55IdLpug5-MTyl3s0oskORUmgeQ5QdI8xv54t_q4oPMcpm-Vzr2pLbw==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "chat.postMessage method | Slack Developer Docs",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEHysesRwcYPkmkOm5UKKO0vcZEPQ1nz3_tJ0iiqeTwJcQft-qiTwScfgHpByEIWM47eOjj3eWOIuhWvmegJsZqFtbmBquCTeWl3WmpOZ7HxAq1gExaxV67wOVm63S29AeEpGrCVL84wvt2e",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Tips/tricks for sending 1600 DMs for a survey? (rate limit increase request as well) · Issue #1882 · slackapi/bolt-js - GitHub",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.slack.dev/changelog/2018/03/01/great-rate-limits/",
+      "resolved_domain": "docs.slack.dev",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Great rate limits | Slack Developer Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://support.okta.com/help/s/article/slack-provisioning-jobs-failed-with-error-api-rate-limit-exceeded-rate-limit-exceeded?language=en_US",
+      "resolved_domain": "support.okta.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Slack Provisioning Jobs Fail with Error \"API rate limit exceeded. Rate Limit Exceeded\"",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.slack.dev/reference/methods/users.list/",
+      "resolved_domain": "docs.slack.dev",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "users.list method | Slack Developer Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.youtube.com/watch?v=yL4N60C_nX4",
+      "resolved_domain": "www.youtube.com",
+      "resolved_source_type": "other",
+      "tool_match": false,
+      "title": "Fix Slack Api Error Ratelimited [2026 Quick Fix Guide] - YouTube",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGMdqpcYN-PqqpOd-wLChSjlnuIh3KQQmH-rZZcHZWg2lg8y29mSeSERxyMKISVD_CE39wChYE-pJhwWg6vKTTyC-G4vWh_yqIV4mT33SuvBZ0joIiqSkgFbUN4gfGlp_w4jtzFVrzZ1hUH3WX6XGs47omyUCHmEmu",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Slack APIのrate limitに注意する方法と対応策 - ISSUE",
+      "is_unresolved": true
+    }
+  ],
+  "evidence_summary": {
+    "official": 6,
+    "community_blog": 1,
+    "unresolved": 5,
+    "unknown": 4,
+    "other": 1
+  }
+}

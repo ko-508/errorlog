@@ -1,0 +1,119 @@
+{
+  "article_id": "stripe_400",
+  "article_path": "content/posts/stripe_400.md",
+  "tags": [
+    "Stripe"
+  ],
+  "fact_checked_at": "2026-06-14T08:42:09Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.stripe.com/api/errors",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Errors | Stripe API Reference",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/error-handling",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "高度なエラー処理 | Stripe ドキュメント",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/error-handling",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Error handling - Stripe Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/api/payment_intents/create",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Create a PaymentIntent | Stripe API Reference",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/currencies",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Supported currencies - Stripe Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/currencies",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "サポートされている通貨 | Stripe ドキュメント",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stripe.com/docs/api-versioning",
+      "resolved_domain": "stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "API のアップグレード | Stripe ドキュメント",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/webhooks",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Verify webhook signatures | Stripe Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/api/idempotent_requests",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Idempotent requests | Stripe Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stripe.com/docs/dashboard/api-logs",
+      "resolved_domain": "stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "View API request logs - Stripe Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.stripe.com/error-handling",
+      "resolved_domain": "docs.stripe.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "エラー処理 | Stripe ドキュメント",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/stripe/stripe-python",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "stripe/stripe-python - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/tagged/stripe",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Newest 'stripe' Questions - Stack Overflow",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 11,
+    "community_blog": 2
+  }
+}

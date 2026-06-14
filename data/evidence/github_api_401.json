@@ -1,0 +1,264 @@
+{
+  "article_id": "github_api_401",
+  "article_path": "content/posts/github_api_401.md",
+  "tags": [
+    "GitHub API"
+  ],
+  "fact_checked_at": "2026-06-14T08:21:36Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.github.com/en/github-cli/github-cli/quickstart",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "GitHub CLI quickstart",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Authenticating to the REST API - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/sh_tamura/articles/github-api-401-error-causes-solutions",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "GitHub API の 401 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/github-cli/reference/gh_auth_login",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "gh auth login - GitHub CLI",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "GitHub API v3 | GitHub Developer Guide - Libraries for the REST API",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/oauth-and-oauth-apps/authenticating-to-the-rest-api-with-an-oauth-app#checking-granted-scopes",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Authenticating to the REST API with an OAuth app - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/18258518/jquery-abstractly-adding-up-values-of-parent-divs-data-values/18258607#18258607",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to get scopes info from a GitHub OAuth access token to perform incremental authorization - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/token-expiration-and-revocation",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Token expiration and revocation - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://git-zen.com/blog/github-personal-access-tokens-pats-complete-guide/",
+      "resolved_domain": "git-zen.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "The Complete Guide to GitHub Personal Access Tokens (PATs) - Git-Zen",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://http-headers.guide/x-github-request-id",
+      "resolved_domain": "http-headers.guide",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "X-GitHub-Request-Id - Expert Guide to HTTP headers",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://intellitect.com/an-intro-to-github-graphql-api/",
+      "resolved_domain": "intellitect.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "An Intro to GitHub GraphQL API - IntelliTect",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/authenticating-as-a-github-app-installation",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Authenticating as a GitHub App installation - GitHub Enterprise Cloud Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Scopes for OAuth apps - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/graphql/guides/forming-calls-with-graphql",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Forming calls with GraphQL - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "GitHub REST API authentication",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "GitHub API Rate Limits",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/43666668/github-personal-access-token-returns-401-bad-credentials-but-cli-works-perfec",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "GitHub Personal Access Token returns 401 \"Bad credentials\" but CLI works perfectly - What's the difference? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Getting started with the REST API - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.everythingcurl.com/verbose-operations",
+      "resolved_domain": "www.everythingcurl.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Verbose operations - Everything curl",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/rest/using-the-rest-api/getting-started-with-the-rest-api",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Getting started with the REST API - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#about-personal-access-tokens",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Managing your personal access tokens - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/organizations/managing-organization-settings/setting-a-personal-access-token-policy-for-your-organization",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Setting a personal access token policy for your organization - GitHub Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/orgs/community/discussions/162859",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Action failed with 401 bad request · community · Discussion #162859 - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/orgs/community/discussions/89899",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "My github Personal access tokens (classic) expires few minutes after creation #89899",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/68775869/message-support-for-password-authentication-was-removed",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Getting 401 Unauthorized error while requesting GitHub API - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.authgear.com/post/http-401-vs-403/",
+      "resolved_domain": "www.authgear.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "HTTP 401 vs 403: Difference, Fixes & When to Use - Authgear",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/oapi-codegen/nethttp-middleware/issues/24",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Differentiate between HTTP 401 and 403 responses · Issue #24 · oapi-codegen/nethttp-middleware - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/orgs/community/discussions/156115",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Checking permitted scopes with user-supplied fine-grained personal access token · community · Discussion #156115 - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.gitguardian.com/docs/github-personal-access-token",
+      "resolved_domain": "www.gitguardian.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "GitHub Personal Access Token | GitGuardian documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/github/roadmap/issues/152",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Feature suggestion: Log the x-github-request-id · Issue #152",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.blog/changelog/2024-10-18-new-pat-rotation-policies-preview-and-optional-expiration-for-fine-grained-pats/",
+      "resolved_domain": "github.blog",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "New PAT rotation policies preview and optional expiration for fine-grained PATs",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 16,
+    "community_blog": 9,
+    "unknown": 6
+  }
+}

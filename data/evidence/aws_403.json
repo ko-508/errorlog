@@ -1,0 +1,235 @@
+{
+  "article_id": "aws_403",
+  "article_path": "content/posts/aws_403.md",
+  "tags": [
+    "AWS"
+  ],
+  "fact_checked_at": "2026-06-14T08:13:13Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/403",
+      "resolved_domain": "developer.mozilla.org",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "403 Forbidden - HTTP - MDN Web Docs - Mozilla",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.baeldung.com/ops/aws-sts-assumerolewithwebidentity-error-403",
+      "resolved_domain": "www.baeldung.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Unauthorized to Perform AWS sts:AssumeRoleWithWebIdentity – Error 403 - Baeldung",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.ctc-g.co.jp/solutions/cloud/column/article/143.html",
+      "resolved_domain": "www.ctc-g.co.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "いまさら聞けないIAMのお話し その① - 伊藤忠テクノソリューションズ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFBW8TEDaAwx1ekqe4Jbkoq3SlWMwOPZCRZkZT4nFh-3nfZWBnf_gXwX09vMkIYOGF2cI14_39k3HqXSF2XZYrayUH8nE_qOPjGk82KDpO7nRl7p49sQwrVbYC4UHsyYj8MXw3sU-T_8Y0-x2J2K1kFXrRDfKCaaaj8pDvWm-HAMg==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "S3 バケットポリシーを変更する際の 403 エラーの解決 - AWS re:Post",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.newrelic.com/jp/docs/workflow-automation/setup-and-configure/set-up-aws-credentials/session-tokens-setup/",
+      "resolved_domain": "docs.newrelic.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "AWSセッショントークンを設定する - New Relic Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/troubleshoot-403-errors.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Amazon S3 でのアクセス拒否 (403 Forbidden) エラーのトラブルシューティング - Amazon Simple Storage Service",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/troubleshoot_saml.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "SAML と IAM とのフェデレーションをトラブルシューティングする - AWS Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://repost.aws/ja/knowledge-center/api-gateway-cross-account-403",
+      "resolved_domain": "repost.aws",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "クロスアカウント IAM の呼び出しに起因する API Gateway の 403 エラーを解決する | AWS re:Post",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/AmazonCloudFront/latest/DeveloperGuide/http-403-permission-denied.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "HTTP 403 ステータスコード (Permission Denied) - Amazon CloudFront",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.youtube.com/watch?v=hI64CFAjmig",
+      "resolved_domain": "www.youtube.com",
+      "resolved_source_type": "other",
+      "tool_match": false,
+      "title": "Amazon S3 から 403: Access Denied エラーが返された際の解決方法を教えてください。",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/ja_jp/IAM/latest/UserGuide/id_credentials_delegate-permissions_examples.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "IAM リソースの管理に関するポリシーの例 - AWS Identity and Access Management",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-aws-403-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "AWS の 403 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "community_blog": 16,
+    "unknown": 4,
+    "unresolved": 1,
+    "official": 4,
+    "vendor_community": 1,
+    "other": 1
+  }
+}

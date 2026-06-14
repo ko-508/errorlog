@@ -1,0 +1,290 @@
+{
+  "article_id": "gcp_429",
+  "article_path": "content/posts/gcp_429.md",
+  "tags": [
+    "GCP"
+  ],
+  "fact_checked_at": "2026-06-14T08:15:48Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-gcp-429-x",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "GCP の 429 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/filestore/docs/requesting-quota-increases",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Request quota increases | Filestore - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG-C45ckEMjzv2wmxNZRTbBFDHYkCIh7u3bJ-OWN5O_i90Kyz485Q-TKRGmcZapJY8J2eL_5cRxxi_Bs4yWy0lEy3zEuosbd4ZHFoqxB60J8zSZisNmN3yfxI4_u6ClEZcE8r3UAfnXfQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Quotas and limits | BigQuery - Google Cloud Documentation",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEZItLsAPNiRkd9kFvZwbxBn5Tn16agZAHyfKKpfDJ7bqZvtjfAFV5z4RsPXjfFCYIXEgV0oh_7LzbNH0A6eSF0ucHDfoBc1jVfCjA3QHZmWtNukueUhPw72Xme5iYkycKyGRG3u2gpPVqFc1Kw7lf1RbTijaRPHQTX1h5SSz97admskvVL-j2wVvjRvqCQ9I_3oytdrXeUHqFo1SngzuKWP84-59vQkSCoMqCS6dj5",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Get a list of quota usage/limit of my project using gcloud command line - Stack Overflow",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/translate/quotas",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Quotas and limits | Cloud Translation - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/vision/quotas",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Quotas and limits | Cloud Vision API - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.reddit.com/r/bigquery/comments/1moi448/concurrency_and_limits_on_bigquery/",
+      "resolved_domain": "www.reddit.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Concurrency and limits on BigQuery - Reddit",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGpJVnFT3FH44uvnYrORjE34zqeDBTmjcy4VF-jB0dYuFtAYehfsbc6iPEOLIVDLrJJeYHHIk6x-zewJ0R3bGmfXYXE55O34HXScB7U4kyoiFUby6HFT-MGlerFM92sDzMIwN1cWBb2wKhUsGXZ",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Setup | Cloud Translation | Google Cloud Documentation",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://blog.g-gen.co.jp/entry/how-to-change-quotas",
+      "resolved_domain": "blog.g-gen.co.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Google Cloudで割り当て（Quota）を上限緩和する方法 - G-gen Tech Blog",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEJER2XeorJU8CyDtc8_Ng0tEGXXLmBgcQCrOKcpls4ccCK9NVBBry8nv9Yb-XuI4wNdiSrrSeIbnQYp7RpXXyrwt0GK0vcUm7kA9sxGF1kWsThtZy8meBwsNEEviVxZqcgQMviuzDf-4lPUrm5pVTDSiv8Pq0rObqP4dKVfpOGEa_YjvndeRvnnf9TY4EsUb2psYxg5kBhBy4i4S8=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "エラーコード 429 | Gemini Enterprise Agent Platform | Google Cloud Documentation",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/run/docs/about-instance-autoscaling",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "About instance autoscaling in Cloud Run services - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/speech-to-text/docs/quotas",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Quotas and limits | Cloud Speech-to-Text",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/bigquery/docs/query-queues",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Use query queues | BigQuery - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://cloud.google.com/bigquery/pricing",
+      "resolved_domain": "cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "BigQuery | Google Cloud",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.hackingnote.com/en/gcp/quotas/",
+      "resolved_domain": "www.hackingnote.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "GCP - Quotas - HackingNote",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/speech-to-text/docs/v1/quotas",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Quotas and limits | Cloud Speech-to-Text - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://discuss.google.dev/t/bigquery-quota-limit-understanding/127645",
+      "resolved_domain": "discuss.google.dev",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "BigQuery Quota Limit understanding - Data Analytics - Google Developer forums",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/sdk/gcloud/reference/compute/project-info/describe",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "gcloud compute project-info describe | Google Cloud SDK",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://cloud.google.com/blog/products/ai-machine-learning/reduce-429-errors-on-vertex-ai",
+      "resolved_domain": "cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Reduce 429 errors on Vertex AI | Google Cloud Blog",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/sdk/gcloud/reference/compute/project-info",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "gcloud compute project-info | Google Cloud SDK",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH72h1-NW8wQbLFr6GuQ8tcxKkBF3HDj005u9eMDMZVJKs5k-PEUgFrkemxlPDEK0xMc5o33tyGGeYnc5DkhN4Ew8TGqnBUEvBq7sFyxXpdUXreCvHU6sspZWMHTA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Google Cloudエラー解決ガイド｜原因別の対処法を徹底解説",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/docs/quotas/view-manage",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "View and manage quotas - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/speech-to-text/docs/quotas?hl=ja",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "割り当てと上限 | Cloud Speech-to-Text",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/google-cloud/how-to-set-hard-limits-on-bigquery-costs-with-custom-quota-f8c26df0b2b8",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to set limits on BigQuery costs with custom quota | by Alicia Williams | Google Cloud",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://prestahero.com/help-center/frequently-asked-questions/102-limitations-google-translate-api",
+      "resolved_domain": "prestahero.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Some Limitations to Note When Using the Google Translate API Service - PrestaHero",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/seinichi/items/bcd38361e17d07fda271",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "【GCP】CloudRun×GCSで429 エラーが出続けた話 - concurrencyを1にしたら直った理由",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://1e100.4watcher365.dev/google-cloud/google-cloud-platform/request-billing-quota-increase/",
+      "resolved_domain": "1e100.4watcher365.dev",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "「課金の割り当ての増加をリクエスト」時の緩和申請 - Google に Cloud する庭",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/59504100/how-to-check-quotas-for-google-vision-api",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to check quotas for Google Vision API? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://cloud.google.com/speech-to-text/pricing",
+      "resolved_domain": "cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Speech-to-Text API Pricing | Google Cloud",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://k21academy.com/google-cloud/assess-request-compute-quotas-in-google-cloud/",
+      "resolved_domain": "k21academy.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Assess & Request Compute Quotas in Google Cloud - K21 Academy",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.ga4bigquery.com/how-to-set-your-usage-quota-in-bigquery-to-avoid-excess-cost/",
+      "resolved_domain": "www.ga4bigquery.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to set your usage quota in BigQuery to avoid excess cost - GA4BigQuery",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/bigquery/quotas?hl=ja",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "割り当てと上限 | BigQuery - Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/translate/docs/api-overview",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Overview of the Cloud Translation API | Google Cloud Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/vision/product-search/quotas",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Quotas and Limits | Vision API Product Search - Google Cloud Documentation",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "community_blog": 5,
+    "official": 17,
+    "unresolved": 5,
+    "unknown": 6,
+    "vendor_community": 1
+  }
+}

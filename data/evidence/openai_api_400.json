@@ -1,0 +1,321 @@
+{
+  "article_id": "openai_api_400",
+  "article_path": "content/posts/openai_api_400.md",
+  "tags": [
+    "OpenAI API"
+  ],
+  "fact_checked_at": "2026-06-14T08:25:04Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://platform.openai.com/docs/guides/error-handling/error-codes",
+      "resolved_domain": "platform.openai.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Error codes | OpenAI API",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.link11.com/en/knowledge/http-400-error-what-is-it/",
+      "resolved_domain": "www.link11.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "HTTP 400 error: What is it? - Link11",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/19875161/control-may-reach-end-of-non-void-function-error-if-statement/19875185#19875185",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "400 BAD request HTTP error code meaning? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://softwareengineering.stackexchange.com/questions/292854/scope-of-400-bad-request",
+      "resolved_domain": "softwareengineering.stackexchange.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Scope of 400 Bad Request - Software Engineering Stack Exchange",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://elementor.com/blog/400-bad-request-error/",
+      "resolved_domain": "elementor.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "400 Bad Request Error: What It Means & How to Fix It - Elementor",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://airbrake.io/blog/http-errors/400-bad-request",
+      "resolved_domain": "airbrake.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "400 Bad Request Error: What It Is and How to Fix It - Airbrake Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.fixup.ai/blog/how-to-fix-chatgpt-400-error/",
+      "resolved_domain": "www.fixup.ai",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "How to Fix the ChatGPT Completion 400 Error 'Bad Request' (All Quick Fixes)",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/@ramakrishna.etneni/introduction-to-max-tokens-its-usage-and-limitations-4c6e93240e34",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Introduction to Max Tokens it's usage and limitations | by Ramakrishna Etneni - Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/ChatGPTNextWeb/NextChat/discussions/3208",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Clarifying max_tokens Usage and Limits in OpenAI API (Issue #3195 Update) · ChatGPTNextWeb NextChat · Discussion #3208 - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.openai.com/t/clarification-for-max-tokens/13018",
+      "resolved_domain": "community.openai.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Clarification for max_tokens - API - OpenAI Developer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kodekloud.com/blog/openai-api-parameters/",
+      "resolved_domain": "kodekloud.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Understanding OpenAI API Parameters - KodeKloud",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.codecademy.com/resources/docs/ai/openai-gpt-api-cheatsheet",
+      "resolved_domain": "www.codecademy.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Intro to OpenAI GPT API Cheatsheet - Codecademy",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/@shahbazrakbari/understanding-temperature-and-top-p-parameters-in-openai-chat-completion-api-c15c54e3a479",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Understanding temperature and top-p Parameters in OpenAI Chat Completion API - Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.coltsteele.com/posts/openai-temperature-parameter",
+      "resolved_domain": "www.coltsteele.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Understanding OpenAI's Temperature Parameter - Colt Steele",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.openai.com/t/does-temperature-go-to-1-or-2/46071",
+      "resolved_domain": "community.openai.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Does temperature go to 1 or 2? - API - OpenAI Developer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.openai.com/t/what-is-the-top-p-value-range/477488",
+      "resolved_domain": "community.openai.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "What is the top_p value range? - API - OpenAI Developer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/@dev_71690/the-openai-api-chat-completions-9467614d9b32",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "The OpenAI API: Chat Completions - Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/microsoft/Microsoft.DotNet.OpenApi/blob/main/docs/chat-completion.md",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Work with chat completion models - Microsoft Foundry",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://scalablehuman.com/2024/12/07/understanding-roles-and-maintaining-context-in-the-openai-chat-completion-api-a-prompt-engineers-guide/",
+      "resolved_domain": "scalablehuman.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Understanding Roles and Maintaining Context in the OpenAI Chat Completion API: A Prompt Engineer's Guide - Scalable Human Blog",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/75883201/google-engine-not-loading-favicon-react",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "400 Error when requesting from OpenAI API - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://theplanetsoft.com/wp-content/uploads/2026/01/Common-OpenAI-Errors-and-How-to-Fix-Them-A-Complete-Guide.jpg",
+      "resolved_domain": "theplanetsoft.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Common OpenAI Errors and How to Fix Them : A Complete Guide | by theplanetsoft",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developers.openai.com/api/docs/deprecations",
+      "resolved_domain": "developers.openai.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Deprecations | OpenAI API",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://portkey.ai/docs/openai-model-deprecation-guide",
+      "resolved_domain": "portkey.ai",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "OpenAI Model Deprecation Guide - Portkey",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.make.com/en/help/app/openai-model-deprecations-on-march-26-2026",
+      "resolved_domain": "www.make.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "OpenAI model deprecations on March 26, 2026 - Make Help Center",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.reddit.com/r/ChatGPTcomplaints/comments/1c6s0r5/openai_api_model_deprecation/",
+      "resolved_domain": "www.reddit.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "OpenAI API Model Deprecation: : r/ChatGPTcomplaints - Reddit",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://portkey.ai/errors/openai/json_parsing_error",
+      "resolved_domain": "portkey.ai",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "[Solved] We could not parse the JSON body of your request. Ensure the API expects a JSON payload and verify its validity. Visit help.openai.com for assistance. - Portkey",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.make.com/t/webhook-date-to-google-calendar/18265",
+      "resolved_domain": "community.make.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "OpenAI HTTP (legacy) 400 “We could not parse the JSON body” — Make mapping tokens causing invalid JSON? - Make Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/openai/openai-python/pull/2100",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Bug: Tool schema missing required array causes OpenAI API 400 error #2100 - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gptcache.readthedocs.io/en/latest/usage/openai/chat_with_temperature.html",
+      "resolved_domain": "gptcache.readthedocs.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "OpenAI Chat with Temperature - GPTCache - Read the Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.openai.com/t/request-failed-with-status-code-400/40960",
+      "resolved_domain": "community.openai.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Request failed with status code 400 - API - OpenAI Developer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.neura.market/blog/mastering-openai-api-errors-and-latency-a-developer-s-guide",
+      "resolved_domain": "www.neura.market",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Mastering OpenAI API Errors and Latency ... - Neura Market",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://maxiblocks.com/docs/invalid-key-error-for-openai-api-keys/",
+      "resolved_domain": "maxiblocks.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "'Invalid Key' error for OpenAI API Keys - MaxiBlocks Help",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.speakeasyapi.dev/blog/openapi-error-responses",
+      "resolved_domain": "www.speakeasyapi.dev",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Error Responses in OpenAPI best practices - Speakeasy",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.openai.com/t/chat-completions-api-max-tokens-default-value-is-missing/626507",
+      "resolved_domain": "community.openai.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "Chat completions API - max_tokens default value is missing - OpenAI Developer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://portkey.ai/errors/openai/files_are_invalid",
+      "resolved_domain": "portkey.ai",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "[Solved] Files are invalid. - Portkey",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.datacamp.com/tutorial/openai-api-message-roles",
+      "resolved_domain": "www.datacamp.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "OpenAI API message roles",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://community.openai.com/t/400-error-i-dont-know-where-the-problem-is/45799",
+      "resolved_domain": "community.openai.com",
+      "resolved_source_type": "vendor_community",
+      "tool_match": false,
+      "title": "400 error, I don't know where the problem is! - API - OpenAI Developer Community",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://developers.openai.com/api/reference/resources/chat",
+      "resolved_domain": "developers.openai.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Create chat completion | OpenAI API Reference",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 3,
+    "unknown": 19,
+    "community_blog": 9,
+    "vendor_community": 7
+  }
+}

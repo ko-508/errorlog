@@ -1,0 +1,528 @@
+{
+  "article_id": "gitlab_404",
+  "article_path": "content/posts/gitlab_404.md",
+  "tags": [
+    "GitLab"
+  ],
+  "fact_checked_at": "2026-06-14T08:38:07Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.gitlab.com/api/projects/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Projects API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/development/documentation/styleguide/rest_api_resources.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Documenting REST API resources - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/72879982/react-cascading-select-onchange-filter-doesnt-work/72895697#72895697",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Error 404 Project Not Found\" when I try to get raw data from gitlab through REST api. - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/29022",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "token access with api returns \"404 Project Not Found\" on an internal project or public project with member only access to repository or private project (#29022) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/388455",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Getting raw files from repo using API returns \"404 Project Not Found\" on an internal project using a project access token (#388455) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/420757",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Project Access Token does not work for GET /projects/:id/registry/repositories despite correct scopes (#420757) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/76893398/getting-attribute-error-while-using-pillow-library/77028711#77028711",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Getting '404 Not Found' when triggering GitLab pipeline using curl POST request - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/523871",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "project access token API does not support `self` token_id (#523871) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/50816723/api-depends-on-non-stored-field-not-working/50904037#50904037",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Is there a way to retrieve a GitLab project ID using the project path? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/development/documentation/styleguide/rest_api_resources.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Documenting REST API resources - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/70406483/how-to-extract-value-from-serialized-json-response-in-jmeter/70418306#70418306",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Gitlab API v4 get tag with slash in name - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/1650260/is-there-a-way-to-add-event-handlers-for-controls-in-c-sharp-without-using-the-d/1650304#1650304",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Is a slash (\"/\") equivalent to an encoded slash (\"%2F\") in the path portion of an HTTP URL",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/projects/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Projects API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/jgraph/drawio/issues/4528",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Handle 404 Errors in GitLab Group Iteration · Issue #4528 · jgraph/drawio - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/72879982/react-cascading-select-onchange-filter-doesnt-work/72895697#72895697",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Error 404 Project Not Found\" when I try to get raw data from gitlab through REST api. - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/29022",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "token access with api returns \"404 Project Not Found\" on an internal project or public project with member only access to repository or private project (#29022) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/388455",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Getting raw files from repo using API returns \"404 Project Not Found\" on an internal project using a project access token (#388455) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/420757",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Project Access Token does not work for GET /projects/:id/registry/repositories despite correct scopes (#420757) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/jgraph/drawio/issues/4528",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Handle 404 Errors in GitLab Group Iteration · Issue #4528 · jgraph/drawio - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/72879982/react-cascading-select-onchange-filter-doesnt-work/72895697#72895697",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Error 404 Project Not Found\" when I try to get raw data from gitlab through REST api. - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/360251",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Project Access Token does not work for GET /projects/:id/registry/repositories despite correct scopes (#420757) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/projects/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Projects API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/projects/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Projects API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/jobs/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Jobs API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/api/project_repository_storage.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Project wikis API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/projects/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Projects API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/jgraph/drawio/issues/4528",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Handle 404 Errors in GitLab Group Iteration · Issue #4528 · jgraph/drawio - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/groups/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Groups API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/51939956/get-json-data-with-javascript/51940026#51940026",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How to list a subgroup's projects using the GitLab API? - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/troubleshooting/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting the REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/administration/pages/troubleshooting_pages.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Troubleshooting GitLab Pages administration",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/18775",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "API using url encoded paths is broken (#18775) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/rest/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "REST API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/graphql/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Interactive API documentation - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/jobs/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Jobs API - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/administration/logs/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Log system - GitLab Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/user/project/settings/audit_events.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Audit events · Administration · Help · GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/ee/administration/analytics/logs.html",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Access application logs for GitLab Dedicated",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/user/profile/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Index · Profile · User · Help · GitLab - PRACE Repository Services",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://gitlab.com/gitlab-org/gitlab/-/work_items/384941",
+      "resolved_domain": "gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Last activity accuracy and privacy (#384941) · Issue - GitLab",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "GitLab API documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.gitlab.com/api/projects/",
+      "resolved_domain": "docs.gitlab.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Projects API - GitLab Docs",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 43,
+    "community_blog": 11,
+    "unknown": 10
+  }
+}

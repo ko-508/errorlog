@@ -1,0 +1,321 @@
+{
+  "article_id": "docker_401",
+  "article_path": "content/posts/docker_401.md",
+  "tags": [
+    "Docker"
+  ],
+  "fact_checked_at": "2026-06-14T08:11:51Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-docker-401",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker の 401 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFcEA3-23mJv3eRD6YTNrLjeTpuN6hMjyXTAseVPm5IVyuBNiwqSbTnqr5Fq0brr5iMguXLpaGcP0LH7bQf95qUylJFhQkx5gXM1LXVWzEK9kH4ODwwD8PmZnwnchDsZDC-N-5e8OidT9Ay6Mjzn41hsmk85vodDYvS5cSI1iL928kC55WtKQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Docker ログイン問題の解決方法 - LabEx",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFEI2zgPdJ0VNBYumtUgo9_T4TLNpi5z0s9ytc30kID-kAuF8qhaNFZA-X05gSDf75yYbY3ccZ7UWJd0BCrsjL1r2tcgb-EXK3UFKubm0sJy2Nc15sPc0TU9tkSR8WqbOiMBMrOFmwfp-qFdt9lfB6pMsUafJQJtCIGgs44-DZ_FWkgKOIHMJzWRA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Docker ログイン問題の解決方法 - LabEx",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG31pUmyl1gi_7PPJXt8FFo-orGYpk7xZZjbxTejfaAn5NOZ7jHV5s3W_td56oCMc2XDUPiyI3zram5bXu_N6QyQVyS2FHl9LUlfcSK3pU8ih_4Hbo0H303Pr2VhqbFB4fAkLrbCkssFrCjSlknXXd0oilqVe0eou2nC5Z8MWyigSafLYl30LOy3XpiSvQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "ダウンロード率制限 | Docker ドキュメント",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.docker.com/docker-hub/usage/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Docker Hub usage and limits",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://about.gitlab.com/blog/prepare-now-docker-hub-rate-limits-will-impact-gitlab-ci-cd/",
+      "resolved_domain": "about.gitlab.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Prepare now: Docker Hub rate limits will impact GitLab CI/CD",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.cloud.google.com/artifact-registry/docs/docker/configure-remote-auth-docker-hub",
+      "resolved_domain": "docs.cloud.google.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "Configure remote repository authentication to Docker Hub | Artifact Registry",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://blog.mosuke.tech/entry/2020/11/18/docker-rate-limit/",
+      "resolved_domain": "blog.mosuke.tech",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Docker Hubのダウンロード回数制限の対策を考える - Goldstine研究所",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFMTFKwstFWYKJES2OvuKw1UsH4gT86Thu2Cm44kSagpjxR_-Ab5GB8uSKcf6Wzcbp0wFrbDfDIXc6e5CQiZXu9lNhlQLm6VvLBBRhBLXCgPCgApoUrYct7cWh4289YTYDqEg==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "【重要】Docker Hubのダウンロード回数制限について - SBクリエイティブ",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://www.ren510.dev/blog/docker-hub-proxy",
+      "resolved_domain": "www.ren510.dev",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Docker Hub の Rate Limit 対策 | Orenge Diary",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/security/access-tokens/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Personal access tokens - Docker Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/cli/latest/reference/ecr/get-authorization-token.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "get-authorization-token — AWS CLI 2.34.63 Command Reference",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.aws.amazon.com/AmazonECR/latest/APIReference/API_AuthorizationData.html",
+      "resolved_domain": "docs.aws.amazon.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "AuthorizationData - Amazon Elastic Container Registry - AWS Documentation",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/@business.umer1/how-i-automated-aws-ecr-token-refresh-in-kubernetes-and-why-you-should-too-6ffcff9cde3e",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "How I Automated AWS ECR Token Refresh in Kubernetes (and Why You Should Too) | by Muhammad Umer | Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFaaHX6SrqH8VuLJG1YDJGDU9nhj1IQCORTZyL2jCBhU1SZH1Haexjcg1YxEVP6Fi9JQKKUUuombwiogDJGkV5BX_LEQQL6XDqMAyV9gy8h57O1fUCnX_QCp4-ebs-Er_DLuHr3hn05Bin11YbCKQONKy44AfmqsR76v5UJcAucYJYrfoz36yOGjcTWJyQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "ECR Public で「Your authorization token has expired. Reauthenticate and try again.」を回避するには | DevelopersIO",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHfAqk_6Izh-RTLcKXwLhhbd-kPyEsjAzKxIzAaBrn7x47Kv0xvU4HsUKsR9AIiADAk_j1qDZk22ifZUXE0i9gmcLNEDgm6-eA7PGeg6PjYgk1cGAo810JGjhf4tl30AueVnI3RsnpXNef1eftk21Wh3jh22E4VUKxH65o=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Docker login 401 Unauthorized - Sonatype Nexus Repository",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://github.com/docker/hub-feedback/issues/2006",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "API permission issues with personal access tokens · Issue #2006 · docker/hub-feedback",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://www.docker.com/blog/level-up-security-with-scoped-access-tokens/",
+      "resolved_domain": "www.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Level Up Security with Scoped Access Tokens - Docker",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://matsuand.github.io/docker.docs-ja/compose/how-tos/use-secrets/",
+      "resolved_domain": "matsuand.github.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Docker Compose における Secrets のセキュアな管理",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://zenn.dev/errorlog/articles/el-docker-compose-401",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker Compose の 401 エラー：原因と解決策 - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://medium.com/makotows-blog/kubernetes-private-registry-tips-image-pullsecretse-20dfb808dfc-e20dfb808dfc",
+      "resolved_domain": "medium.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Kubernetesで private registry のイメージをPull する場合には ImagePullSecretsを使う - Medium",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://kubernetes.io/ja/docs/tasks/configure-pod-container/pull-image-private-registry/",
+      "resolved_domain": "kubernetes.io",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "イメージをプライベートレジストリから取得する - Kubernetes",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://cloud.ibm.com/docs/openshift?topic=openshift-ts-app-image-pull&locale=ja",
+      "resolved_domain": "cloud.ibm.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "ImagePullBackOff エラーまたは許可エラーでレジストリーからイメージをプルできないのはなぜですか? | IBM Cloud Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEyIHpYilZLyzBN6xeGYtyz392-y8A8tuQK9SD9blEblNNsmuwhPN05KHxahTKneVQnECjichyHwqb_p23NlMQgHRQWARstMY19kXArC4akZuKjG6M4ZHfyDQMkiHwECjS3jtudTEct-myLRxiUjm53laQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "curlでdocker pullをする - knqyf263's blog",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGRzKpSHTqEAJZqIcWLEN0VtyKx67h_Wt6i04-ygV8CYdD5e30WpIP2_krgbZv8GX-6XjaOdwNjEvjdrJ-CQmAZLBZ7qj2LsWez070RvZx7be1F0rFiqzrWHIB3BDxCT-gk7jhO1hoPbxcHYXVS5Hx4QgoFz0iydjTw4XQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Docker ビルドが 401 で認証エラーになったのでログインし直したら治った話 - Zenn",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://qiita.com/tomo332/items/c8d4ffa1b22a7e828a06",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "【Docker】 401 Unauthorized エラー：failed to fetch oauth token の対処法 - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/shou0205/items/c6949b0e1881dc81f74d",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Dockerインストール後のrunコマンドで「 401 Unauthorized」が出た場合の対処法 - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTUv0ythDoV8AZpsyVN0W4WVAaAbBX5vwR3a5lcdRktL-ZI0CHLucoJcYduxx9EZ4h79DQ6pyA5YWcJr2cbJ9XTXdWDlirHmEb76KO3vaguolJXaUGUzebaBs2bLrcNwjFkZAgvLp2aJzyMkMjGXyIHIHSjCzSObkIgou6W05CVW8IKYQbB0=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "アクセストークンの作成と管理 - tadashi0713 Docs",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://zenn.dev/isosa/articles/12c7169b6d82bd",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Docker CLIでDocker Hubへトークンを使ってログインする - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHafV9VbyDienQsB1HqRzvHPxGYz1Rx2rgWiOP_R6C-g8oEHYgolCNNhdfuO1E4-hW9ieoMypm3pXygFMM6pMdUsHi4zU5jnf37P70mmgsScaKLM3kAvtZ17eiKFabg0ArfC5WDU1ARomCUzyxsg=",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Manage secrets securely in Docker Compose",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://zenn.dev/vampire_yuta/articles/7e89fcafe2568e",
+      "resolved_domain": "zenn.dev",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "kubernetesでdocker hubのPrivate RegistoryからImagePullできるようにする - Zenn",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/dingtianhongjie/items/1ce18037c48b530b53f2",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "kubernetesのImagePullSecretsの中身を確認する - Qiita",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEfuREwU6pJRjyZf46UfHSbQeNKP-FYYPvE6cVS17GW6bNVjEyryDocQAeflgGCFYFiOxdN5XhxdpycwU_0zSBaTyVY0nWulbdBHPVWT-kGwtjYHNdt6SqJfgCaMKdxD1dH09iES9_2x9wWrxApisvy2qSaeqLPJF3CjNNMfqZUYXz9cnPjX4lNqqw3x4JHfM4Sy56GE7fIDecZ727SjWFhwyRCA==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "特定の名前空間の imagePullSecrets の作成 - IBM",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://docs.docker.com/security/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Security for developers - Docker Docs",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.docker.com/docker-hub/usage/pulls/",
+      "resolved_domain": "docs.docker.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Docker Hub pull usage and limits",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEGe8A-Gp9IFEaHGPcEnsvfZ-W3S45lODo_rdgGWQIDRX_mJodnmkueG7Xe7EzCmiDBmHh6sfznoT5-UQdy1UjdzfHO1cd5J1YpAoQqCBZShx-vVvig032kOVUpiNXqyNM6xbUjtnzrkBL1hQLEr3Z_8pC_stI0_hIyGdStGw==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "New in Docker Hub: Personal Access Tokens",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://matsuand.github.io/docs.docker.jp.onthefly/docker-hub/access-tokens/",
+      "resolved_domain": "matsuand.github.io",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "アクセストークンの管理 | Docker ドキュメント",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/Perpetue237/docker-compose-secure-app",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "Basic Authentication in Nginx with docker-compose | by Binaya Sharma - Medium",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "community_blog": 11,
+    "unresolved": 12,
+    "official": 9,
+    "unknown": 6
+  }
+}

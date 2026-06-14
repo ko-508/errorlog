@@ -1,0 +1,193 @@
+{
+  "article_id": "firebase_403",
+  "article_path": "content/posts/firebase_403.md",
+  "tags": [
+    "Firebase"
+  ],
+  "fact_checked_at": "2026-06-14T08:17:29Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://www.willgate.co.jp/promonista/403-forbidden/",
+      "resolved_domain": "www.willgate.co.jp",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "403 Forbiddenとは？意味・原因と解決方法を解説 - ウィルゲート",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/rules/basics?hl=ja",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "基本的なセキュリティ ルール | Firebase Security Rules - Google",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/database/security?hl=ja",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Firebase Realtime Database セキュリティ ルールを理解する - Google",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/BasedHardware/omi/issues/2415",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "403 PermissionDenied Errors on Firestore Calls Across Multiple Routes #2415 - GitHub",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://takoyaking.hatenablog.com/entry/cloud_storage_permission_denied",
+      "resolved_domain": "takoyaking.hatenablog.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Cloud Storage: 「Firebase.Storage.StorageException: Permission denied. Could not perform this operation Http Code: 403」 - TAKOYAKING's blog - はてなブログ",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE1KSBxJpvwdZSUvD3OjYy--Lq3OCkH5DwmiEDyL6Si4hBUAa7bRWcRer8kbrh1TuyT5EMWTMerZNwPc-kVIZvfrTK9VgU4lT9Itu5iw6MHPbPJBaBYOS1npx9vNhAaJ9pUuFPkuxmvM5TNPoqfOa0xdgEEcNaExkEq9ymESsaDl0Uho06WaAlmeBn-bK_TyaZTatAIndRqupSf0Q==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "FirebaseError: Missing or insufficient permissions. (permission-denied) - How to solve this ? : r/Firebase - Reddit",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/firestore/security/get-started?hl=ja",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Cloud Firestore セキュリティ ルールを使ってみる - Firebase",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNQolXKo6U5u_X287qwuh66tON2caCdKYXt0QU7J3oLtftOZaFxorBm8TWmj6mb9GK337Y9HDCC6vO93pavR_qEP7a6nERLc_yHjXdq7sikCI7izf1u7ag8cNfaib-6YOrxDv77dOlse1v7FaLEY8MsZQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Firestore keep denying requests: FirebaseFirestoreException: PERMISSION_DENIED: Missing or insufficient permissions. - Google Groups",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://yourmystar.tech/articles/2022/firestore-security-rules",
+      "resolved_domain": "yourmystar.tech",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "セキュリティ ルールを書いて安全にFirestoreを使おう - YOURMYSTAR TECH Blog",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://blog.flatt.tech/entry/firestore_security_rules",
+      "resolved_domain": "blog.flatt.tech",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "Firestoreセキュリティルールの基礎と実践 - セキュアな Firebase活用に向けたアプローチを理解する - GMO Flatt Security Blog",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://qiita.com/tt1125/items/8568a8ea8432eaab1c0e",
+      "resolved_domain": "qiita.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "【firebase storage emulator】 resource: the server responded with a status of 403 (Forbidden)",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://yourmystar.tech/articles/2022/firestore-security-rules",
+      "resolved_domain": "yourmystar.tech",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "セキュリティ ルールを書いて安全にFirestoreを使おう - YOURMYSTAR TECH Blog",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/auth/flutter/anonymous-auth",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Authenticate with Firebase anonymously - Google",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGyrJiAyPyxy35B_oEMWC7B13IAOVF26ZCiDRH1DEhPHL7vNO2JxbuW1ucsX7ri6lywdvHCRkOAHouoz8FBl_W38q5gs2SccJBh3DwKLBiPAGcK8DlwrqOQDKA2ZNVO2dkcll_H-WKbKGlONebwgibBpbteJUxW_6Xnf99R1mnlEfmaVw4sa6jQFffhK_ygLpdAQWItSkGzvu_fby0h6U1uClG1A2rpi-ffT8AYA-Y5-GqsBhV5eQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Firebase Cloud Storage: permission denied. could not perform this operation firebase when retrieving downloadURL - Stack Overflow",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/database/security?hl=ja",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Firebase Realtime Database セキュリティ ルールを理解する - Google",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/database/security/rules-conditions?hl=ja",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Realtime Database セキュリティ ルールで条件を使用する - Firebase",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNQolXKo6U5u_X287qwuh66tON2caCdKYXt0QU7J3oLtftOZaFxorBm8TWmj6mb9GK337Y9HDCC6vO93pavR_qEP7a6nERLc_yHjXdq7sikCI7izf1u7ag8cNfaib-6YOrxDv77dOlse1v7FaLEY8MsZQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Firestore keep denying requests: FirebaseFirestoreException: PERMISSION_DENIED: Missing or insufficient permissions. - Google Groups",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://stackoverflow.com/questions/63551206/403-missing-or-insufficient-permissions-python-firestore-client",
+      "resolved_domain": "stackoverflow.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "403 Missing or insufficient permissions python firestore-client - Stack Overflow",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/rules/basics?hl=ja",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "基本的なセキュリティ ルール | Firebase Security Rules - Google",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNQolXKo6U5u_X287qwuh66tON2caCdKYXt0QU7J3oLtftOZaFxorBm8TWmj6mb9GK337Y9HDCC6vO93pavR_qEP7a6nERLc_yHjXdq7sikCI7izf1u7ag8cNfaib-6YOrxDv77dOlse1v7FaLEY8MsZQ==",
+      "resolved_domain": null,
+      "resolved_source_type": "unresolved",
+      "tool_match": false,
+      "title": "Firestore keep denying requests: FirebaseFirestoreException: PERMISSION_DENIED: Missing or insufficient permissions. - Google Groups",
+      "is_unresolved": true
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/firestore/security/get-started",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Cloud Firestore セキュリティ ルールを使い始める",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://firebase.google.com/docs/storage/security",
+      "resolved_domain": "firebase.google.com",
+      "resolved_source_type": "official",
+      "tool_match": true,
+      "title": "Cloud Storage のセキュリティを保護する",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 5,
+    "official": 9,
+    "community_blog": 3,
+    "unresolved": 5
+  }
+}
