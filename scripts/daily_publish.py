@@ -18,7 +18,7 @@ from fact_check import clear_new_article_failure, evaluate_new_article, record_n
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
     check_a1, check_a2, check_a3, check_a4, check_a5, check_a6,
-    check_b1, check_b2, check_b3, check_d1_d2, check_secret_token,
+    check_b1, check_b2, check_b3, check_d1_d2, check_secret_token, check_aws_secret_key,
     classify_article, split_frontmatter,
 )
 
@@ -395,6 +395,7 @@ def _lint_check_content(content: str, path: Path) -> dict:
     _add("FAIL", check_a6(fm, body, require_error_code=is_error))
     _add("FAIL", check_b2(body))
     _add("FAIL", check_secret_token(body))
+    _add("FAIL", check_aws_secret_key(body))
     _, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)
 

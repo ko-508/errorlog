@@ -437,6 +437,50 @@ def check_secret_token(body: str) -> list[Issue]:
     return issues
 
 
+# ── C1 AWSシークレットアクセスキー検出（文脈限定）────────────────────────────
+# コードブロック内のみ対象。AWS関連の変数名の直後に来る35〜45文字の形式を検出する。
+# 明確なプレフィックスがないため、変数名コンテキストを必須とすることで誤検知を抑制する。
+
+_AWS_SECRET_CONTEXT_RE = re.compile(
+    r'(?:aws_secret_access_key|aws_secret_key|secret_access_key'
+    r'|secretAccessKey|SecretAccessKey|AWS_SECRET_ACCESS_KEY|secret_key)'
+    r'\s*(?:[=:]+|=>)\s*["\']?'       # 代入演算子・区切り・任意のクォート
+    r'([A-Za-z0-9/+]{35,45})'         # キー本体: 35〜45文字の英数字+/+
+    r'(?![A-Za-z0-9/+])',              # 末尾直後が非base64文字（長い文字列を除外）
+    re.IGNORECASE,
+)
+
+
+def _is_aws_secret_placeholder(value: str) -> bool:
+    """AWSシークレット候補値がプレースホルダーなら True（検出しない）。"""
+    v_lower = value.lower()
+    # 山かっこ形式（通常はregexが捕捉しないが念のため）
+    if value.startswith("<"):
+        return True
+    # 先頭がプレースホルダー語
+    if v_lower.startswith(("your", "placeholder", "example", "dummy", "sample", "redacted")):
+        return True
+    # 単一文字の繰り返し（例: xxxx...）
+    if len(set(v_lower.replace("/", "").replace("+", ""))) <= 2:
+        return True
+    return False
+
+
+def check_aws_secret_key(body: str) -> list[Issue]:
+    """C1 [FAIL] コードブロック内のAWSシークレットアクセスキー形式を文脈限定で検出する。"""
+    code_blocks = extract_fenced_code_blocks(body)
+    if not code_blocks:
+        return []
+    code_content = "\n".join(code for _, code in code_blocks)
+
+    for m in _AWS_SECRET_CONTEXT_RE.finditer(code_content):
+        value = m.group(1)
+        if _is_aws_secret_placeholder(value):
+            continue
+        return [("C1", f"実トークン風の値: AWS Secret Access Key ({value[:12]}...)")]
+    return []
+
+
 def check_d1_d2(body: str) -> tuple[dict[str, int], list[Issue]]:
     """D1 [INFO] URL ドメイン分類、D2 [WARN] grounding_redirect > 50% なら警告。"""
     urls = extract_urls(body)
@@ -495,6 +539,7 @@ def lint_article(path: Path) -> dict[str, Any]:
     _add("FAIL", check_a6(fm, body, require_error_code=is_error))
     _add("FAIL", check_b2(body))
     _add("FAIL", check_secret_token(body))
+    _add("FAIL", check_aws_secret_key(body))
 
     tier_dict, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)
