@@ -4,13 +4,16 @@ date: 2026-05-25
 description: "Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。"
 tags: ["Stripe"]
 errorCode: "402"
-lastmod: 2026-05-31
+lastmod: 2026-06-14
 service: "Stripe"
 error_type: "402"
 components: ["PaymentIntent", "Charge"]
 related_services: ["3Dセキュア", "Webhook"]
 ---
-# Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。カード拒否、残高不足、不正利用の疑い、または3Dセキュア認証の失敗など、支払い側の問題で決済が完了できない状態を示しています。このエラーが発生した場合、決済データ自体は失われていませんが、トランザクション（取引）は成功していません。
+
+## エラーの概要
+
+Stripeの402エラーは「Payment Required」を意味し、決済処理が失敗したときに返されるHTTPステータスコードです。カード拒否、残高不足、不正利用の疑い、または3Dセキュア認証の失敗など、支払い側の問題で決済が完了できない状態を示しています。このエラーが発生した場合、決済データ自体は失われていませんが、トランザクション（取引）は成功していません。
 
 ## 実際のエラーメッセージ例
 
@@ -40,144 +43,233 @@ related_services: ["3Dセキュア", "Webhook"]
 
 ### 原因1：カード情報の入力誤りまたは期限切れ
 
-カード番号、有効期限、CVCの入力に誤りがあるか、カード自体が既に有効期限を迎えている場合、Stripeは決済を拒否します。
+カード番号、有効期限、CVCコードが誤っているか、カードが既に期限切れの状態で決済を試みた場合に発生します。ユーザーの入力ミスや、古いカード情報を登録したまま放置されているケースが多いです。
 
-**修正例：**
+**Before（エラーが起きるコード）：**
+
 ```javascript
-const payment = await stripe.confirmCardPayment(clientSecret, {
-  payment_method: {
-    card: {
-      number: '4242424242424242', // 正しいテストカード番号
-      exp_month: 12,
-      exp_year: 2025, // 有効な年
-      cvc: '314'
-    }
-  }
+const payment = await stripe.charges.create({
+  amount: 5000,
+  currency: 'jpy',
+  source: 'tok_visa', // 期限切れまたは無効なトークン
+  description: 'Test charge'
 });
 ```
 
-### 原因2：カード会社による拒否（不正利用判定、残高不足など）
+**After（修正後）：**
 
-カード会社の判断で決済がブロックされることがあります。金額が大きい、カード利用国と異なる国からのアクセス、利用限度額超過などが理由として考えられます。
+```javascript
+const paymentMethod = await stripe.paymentMethods.create({
+  type: 'card',
+  card: {
+    number: '4242424242424242',
+    exp_month: 12,
+    exp_year: 2026, // 有効期限を確認・更新
+    cvc: '314'
+  }
+});
 
-**修正例：**
-```python
-import stripe
-
-stripe.api_key = "sk_live_<your-secret-key>"
-
-# 金額を妥当な範囲に修正し、メタデータで取引内容を明確化
-charge = stripe.Charge.create(
-  amount=50000,  # 妥当な金額
-  currency="jpy",
-  source="tok_visa",
-  description="Standard transaction",
-  metadata={"order_id": "ord_12345"}
-)
+const payment = await stripe.charges.create({
+  amount: 5000,
+  currency: 'jpy',
+  payment_method: paymentMethod.id,
+  description: 'Test charge'
+});
 ```
 
-### 原因3：3Dセキュア認証の失敗または未完了
+### 原因2：カード発行銀行による拒否（セキュリティ判定）
 
-3Dセキュア（本人認証サービス）が必須の場合、[認証](/glossary/認証/)フローの実装が不完全だと402[エラー](/glossary/エラー/)が発生します。
+カード発行銀行の不正利用検出システムが、取引パターンの異常（海外からの急な利用、高額決済など）を検出して自動的に決済を拒否する場合があります。この場合、ユーザー側でカード発行銀行に連絡して、取引承認を得る必要があります。
 
-**修正例：**
+**Before（エラーが起きるコード）：**
+
 ```javascript
-const {paymentIntent, error} = await stripe.confirmCardPayment(
-  clientSecret,
-  {
+const charge = await stripe.charges.create({
+  amount: 150000,
+  currency: 'jpy',
+  source: cardToken,
+  description: 'High value transaction'
+  // 金額や頻度の検証がない
+});
+```
+
+**After（修正後）：**
+
+```javascript
+// クライアント側で事前に確認メッセージを表示
+if (amount > 100000) {
+  await showWarningDialog('高額決済です。確認メールをお送りします。');
+}
+
+const charge = await stripe.charges.create({
+  amount: amount,
+  currency: 'jpy',
+  source: cardToken,
+  description: 'Transaction',
+  metadata: {
+    transaction_type: 'purchase',
+    user_location: userLocation
+  }
+});
+
+// エラーハンドリングで拒否理由を確認
+if (error.decline_code === 'generic_decline') {
+  notifyUser('カード発行銀行の確認が必要です。銀行にお問い合わせください。');
+}
+```
+
+### 原因3：残高不足または利用可能額の超過
+
+カードの残高が決済額に満たない、または1日の利用限度額に達している状態です。特にデビットカードや家族カードでは、この種のエラーが頻出します。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+// 利用可能額の事前確認がない
+const payment = await stripe.charges.create({
+  amount: 50000,
+  currency: 'jpy',
+  source: debitCardToken,
+  description: 'Purchase'
+});
+```
+
+**After（修正後）：**
+
+```javascript
+// 決済前に履歴情報を確認
+const chargeHistory = await stripe.charges.list({
+  limit: 10
+});
+
+const today_total = chargeHistory.data
+  .filter(c => new Date(c.created * 1000).toDateString() === new Date().toDateString())
+  .reduce((sum, c) => sum + c.amount, 0);
+
+if (today_total + amount > dailyLimit) {
+  throw new Error('本日の利用限度額に達しています');
+}
+
+const payment = await stripe.charges.create({
+  amount: amount,
+  currency: 'jpy',
+  source: cardToken,
+  description: 'Purchase'
+});
+```
+
+### 原因4：3Dセキュア認証の失敗または未承認
+
+3Dセキュア認証が必須のカード・地域での取引で、ユーザーが認証を完了していない、またはタイムアウトした場合に発生します。Stripe Payment Intentsを使用していない古い実装で顕在化しやすいです。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+// 古い charges API を使用
+const charge = await stripe.charges.create({
+  amount: 5000,
+  currency: 'jpy',
+  source: token,
+  description: 'Purchase'
+});
+```
+
+**After（修正後）：**
+
+```javascript
+// Payment Intents API を使用（3DS対応）
+const paymentIntent = await stripe.paymentIntents.create({
+  amount: 5000,
+  currency: 'jpy',
+  payment_method_types: ['card'],
+  metadata: { order_id: '<order_id>' }
+});
+
+// クライアント側で認証を処理
+const { error, paymentIntent: confirmedIntent } = 
+  await stripe.confirmCardPayment(paymentIntent.client_secret, {
     payment_method: {
       card: cardElement,
-      billing_details: {
-        name: "John Doe"
-      }
+      billing_details: { name: '<customer_name>' }
     }
-  },
-  {
-    handleActions: true  // 3Dセキュア認証を自動処理
-  }
-);
-```
+  });
 
-### 原因4：PaymentIntentのステータス確認の遅延
-
-非同期処理でPaymentIntentの最終ステータスを確認する前に決済[リクエスト](/glossary/リクエスト/)を再送信すると、重複処理が発生して402[エラー](/glossary/エラー/)になることがあります。
-
-**修正例：**
-```python
-# PaymentIntentのステータス確認後、必要な場合のみ確認
-intent = stripe.PaymentIntent.retrieve(pi_id)
-
-if intent.status == "requires_confirmation":
-  intent.confirm()
-elif intent.status == "succeeded":
-  print("Already confirmed")
+if (confirmedIntent.status === 'succeeded') {
+  // 決済成功
+} else if (confirmedIntent.status === 'requires_action') {
+  // 3Dセキュア認証が必要
+  console.log('Customer authentication required');
+}
 ```
 
 ## Stripe固有の注意点
 
-### テストカード番号の使い分け
+### APIバージョンの確認
+古いAPIバージョンを使用していると、3Dセキュアなどの最新セキュリティ機能に対応していない可能性があります。ダッシュボードの設定から使用中のAPIバージョンを確認し、最新の安定版（2024年以降）にアップグレードしてください。
 
-本番環境で402[エラー](/glossary/エラー/)が頻発する場合、開発環境での検証が不十分な可能性があります。Stripeが提供するテストカード番号を使用して事前に各シナリオをテストしてください。
-
-- `4242424242424242` - 決済成功
-- `4000000000000002` - card_declined（一般的な拒否）
-- `4000002500003155` - insufficient_funds（残高不足）
-- `4000002000000003` - requires_3d_secure（3Dセキュア認証必須）
-
-### decline_codeの確認
-
-[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `decline_code` フィールドを確認することで、より正確な原因特定ができます。
+### Webhookの署名検証とリトライ処理
+決済失敗時にWebhookで`charge.failed`イベントが送信されます。このイベントを正しく検証して、重複処理を防ぐ必要があります。
 
 ```python
 import stripe
+from flask import request
 
-try:
-  charge = stripe.Charge.create(
-    amount=5000,
-    currency="jpy",
-    source="tok_visa"
-  )
-except stripe.error.CardError as e:
-  error_code = e.decline_code
-  print(f"Decline code: {error_code}")
-  # stolen_card, lost_card, insufficient_funds など
-```
-
-### Webhookイベントのチェック
-
-決済処理が失敗しても、`charge.failed` イベントが[Webhook](/glossary/webhook/)に送信されます。これを適切にハンドリングして、ユーザーに失敗理由を正確に伝えることが重要です。
-
-```python
 @app.route('/webhook', methods=['POST'])
 def handle_webhook():
-  event = stripe.Event.construct_from(
-    json.loads(request.data), stripe.api_key
-  )
-  
-  if event['type'] == 'charge.failed':
-    charge = event['data']['object']
-    print(f"Charge failed: {charge['failure_code']}")
-    # 失敗内容をデータベースに記録
-  
-  return '', 200
+    payload = request.get_data()
+    sig_header = request.headers.get('Stripe-Signature')
+    
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, '<your_endpoint_secret>'
+        )
+    except ValueError:
+        return 'Invalid payload', 400
+    except stripe.error.SignatureVerificationError:
+        return 'Invalid signature', 400
+    
+    if event['type'] == 'charge.failed':
+        charge = event['data']['object']
+        # 失敗理由をログに記録
+        log_charge_failure(charge['id'], charge['failure_code'])
+    
+    return 'Success', 200
 ```
 
-## ログ確認とデバッグ方法
+### 冪等性キーの使用
+ネットワークエラーなどで同じリクエストが重複送信されるのを防ぐため、`Idempotency-Key`ヘッダーを必ず設定してください。
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションで[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の全詳細を確認できます。以下の情報を記録してください。
+```javascript
+const idempotencyKey = generateUUID(); // 決済ごとにユニークなキーを生成
 
-- **Request ID** - `req_` で始まる一意の識別子
-- **Charge ID** - `ch_` で始まるチャージID
-- **PaymentIntent ID** - `pi_` で始まるペイメントID
-- **Decline Code** - `insufficient_funds` など具体的な拒否理由
+const charge = await stripe.charges.create(
+  {
+    amount: 5000,
+    currency: 'jpy',
+    source: cardToken
+  },
+  {
+    idempotencyKey: idempotencyKey
+  }
+);
+```
 
-## 公式ドキュメント参照
+## それでも解決しない場合
 
-- **Stripeエラーコード解説** - https://stripe.com/docs/error-codes（各エラーの詳細と対応方法）
-- **PaymentIntentガイド** - https://stripe.com/docs/payments/payment-intents（決済フロー全体の理解）
-- **3Dセキュア実装ガイド** - https://stripe.com/docs/payments/3d-secure（強力認証の設定方法）
+### ログ確認とデバッグ方法
+Stripeダッシュボード（https://dashboard.stripe.com）の「ログ」セクションで、APIリクエストとレスポンスの詳細を確認できます。特に`decline_code`の値で具体的な拒否理由が判明します。
 
-問題が解決しない場合、Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Contact Support」から直接問い合わせてください。本番環境の[エラー](/glossary/エラー/)は優先対応の対象となります。
+決済テスト用に、Stripeが提供するテストカード番号を使用してください：
+- `4000000000000002`：カード拒否
+- `4000002500003155`：3Dセキュア認証必須
+- `5555555555554444`：Mastercardで常に成功
+
+### 公式ドキュメント
+- 「Handling card errors」（https://stripe.com/docs/payments/handling-payment-errors）：エラーハンドリングの実装ガイド
+- 「Strong Customer Authentication」（https://stripe.com/docs/strong-customer-authentication）：3Dセキュア対応方法
+
+### サポートへの問い合わせ
+特定のカード番号での継続的な拒否、またはテストカードでも再現する場合は、Stripe公式サポート（https://support.stripe.com）へ問い合わせてください。その際、Charge IDやPayment Intent IDを記載すれば、迅速な対応が期待できます。
 
 ---
 

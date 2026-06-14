@@ -8,104 +8,202 @@ service: "Slack"
 error_type: "429"
 components: []
 related_services: ["Node.js", "axios", "Python", "slack-sdk", "asyncio"]
+lastmod: 2026-06-14
 ---
-## Slack 429 エラーの原因と解決策
 
-Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が短時間に集中し、[レート制限](/glossary/レート制限/)を超えた場合に発生する[エラー](/glossary/エラー/)です。429 [レスポンス](/glossary/レスポンス/)が返された場合、一時的に再試行を延期する必要があります。
+## エラーの概要
 
-## よくある原因
+Slack API への[リクエスト](/glossary/リクエスト/)が短時間に集中し、[レート制限](/glossary/レート制限/)を超えた場合に発生するHTTPエラーです。429 Too Many Requests[レスポンス](/glossary/レスポンス/)が返された場合、クライアント側で一時的に再試行を延期する必要があります。Slack API の[レート制限](/glossary/レート制限/)はメソッドごと、アプリケーションごとに段階的に設定されており、制限を超えると API呼び出しが一時的に拒否されます。
 
-**ループ処理内での [API](/glossary/api/) 呼び出し間隔がない**
+## 実際のエラーメッセージ例
 
-ループで複数のメッセージ送信やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的にメソッドごと、時間帯ごとに設定されており、例えば chat.postMessage は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。待機なしで 100 件のメッセージを送信しようとすると、高い確率で 429 [エラー](/glossary/エラー/)が発生します。
+**Slack API JSON[レスポンス](/glossary/レスポンス/)：**
 
-**[API](/glossary/api/) Tier に応じた呼び出し頻度を超過している**
+```json
+{
+  "ok": false,
+  "error": "rate_limited",
+  "retry_after": 2
+}
+```
 
-Slack [API](/glossary/api/) の各メソッドは複数の Tier（Tier1 から Tier4 など）に分類されており、Tier ごとに分あたりの[リクエスト](/glossary/リクエスト/)上限が異なります。例えば高頻度で呼び出される Tier3 メソッドは上限が厳しく、定時実行のバッチ処理や大量ユーザー取得時に超過しやすくなります。公式ドキュメントで確認しないまま実装すると、本番環境で突然 429 [エラー](/glossary/エラー/)が増加します。
+**HTTP[ステータス](/glossary/ステータス/)コード付きレスポンス：**
 
-**非同期処理で一気に[リクエスト](/glossary/リクエスト/)を送信している**
+```
+HTTP/1.1 429 Too Many Requests
+Retry-After: 2
+Content-Type: application/json
 
-Promise.all や for-of ループで複数の [API](/glossary/api/) 呼び出しを並列実行すると、すべての[リクエスト](/glossary/リクエスト/)がほぼ同時刻に Slack [サーバー](/glossary/サーバー/)に到達します。これは単純な順序実行よりも効率的に見えますが、Slack 側の[レート制限](/glossary/レート制限/)はセッション単位で集計されるため、並列数が多いほど制限に引っかかりやすくなります。
+{
+  "ok": false,
+  "error": "rate_limited",
+  "retry_after": 2
+}
+```
 
-## 解決手順
+## よくある原因と解決手順
 
-**Retry-After [ヘッダー](/glossary/ヘッダー/)を確認して待機する**
+### 1. ループ処理内での API 呼び出し間隔がない
 
-429 [レスポンス](/glossary/レスポンス/)には Retry-After [ヘッダー](/glossary/ヘッダー/)が含まれており、何秒待つべきかが明記されています。この[ヘッダー](/glossary/ヘッダー/)値を読み出し、その秒数待ってから再試行してください。
+ループで複数のメッセージ送信やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack API に到達します。Slack API の[レート制限](/glossary/レート制限/)は一般的にメソッドごとに設定されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import slack
+
+client = slack.WebClient(token="<your-slack-bot-token>")
+
+# 100 件のメッセージを即座に送信
+user_ids = ["U001", "U002", "U003"]  # 実際はさらに多い
+for user_id in user_ids:
+    response = client.chat_postMessage(
+        channel=user_id,
+        text="Hello from bot!"
+    )
+```
+
+**After（修正後）：**
+
+```python
+import slack
+import time
+
+client = slack.WebClient(token="<your-slack-bot-token>")
+
+# 各リクエスト間に 1 秒の待機を挿入
+user_ids = ["U001", "U002", "U003"]
+for user_id in user_ids:
+    response = client.chat_postMessage(
+        channel=user_id,
+        text="Hello from bot!"
+    )
+    time.sleep(1)  # 1 秒待機
+```
+
+### 2. Retry-After ヘッダーの未処理
+
+429 エラーが返された際、レスポンスヘッダーの `Retry-After` に指定された秒数だけ待機してから再試行する必要があります。無視して即座に再試行を繰り返すと、さらなる 429 エラーが発生します。
+
+**Before（エラーが起きるコード）：**
 
 ```javascript
-// Node.js + axios の例
-async function callSlackAPIWithRetry(url, data) {
+const { WebClient } = require('@slack/web-api');
+const client = new WebClient(process.env.SLACK_BOT_TOKEN);
+
+async function sendMessage(channel, text) {
   try {
-    const response = await axios.post(url, data, {
-      headers: { Authorization: `Bearer <your-bot-token>` }
-    });
-    return response.data;
+    return await client.chat.postMessage({ channel, text });
   } catch (error) {
-    if (error.response?.status === 429) {
-      const retryAfter = parseInt(error.response.headers['retry-after'], 10);
-      console.log(`レート制限に達しました。${retryAfter}秒待機します。`);
+    // エラーをキャッチするが、Retry-After を無視して即座に再実行
+    if (error.code === 'rate_limited') {
+      return sendMessage(channel, text);  // すぐ再試行（危険）
+    }
+  }
+}
+```
+
+**After（修正後）：**
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+const client = new WebClient(process.env.SLACK_BOT_TOKEN);
+
+async function sendMessage(channel, text) {
+  try {
+    return await client.chat.postMessage({ channel, text });
+  } catch (error) {
+    if (error.code === 'rate_limited') {
+      const retryAfter = error.retry_after || 1;  // retry_after を取得
+      console.log(`Rate limited. Waiting ${retryAfter} seconds...`);
       await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
-      return callSlackAPIWithRetry(url, data); // 再試行
+      return sendMessage(channel, text);  // 待機後に再試行
     }
     throw error;
   }
 }
 ```
 
-**各メソッドの [API](/glossary/api/) Tier を確認し、呼び出し間隔を設定する**
+### 3. バッチ処理・一括操作の実装不足
 
-Slack 公式ドキュメント（https://api.slack.com/methods）で対象メソッドの Tier を確認し、推奨呼び出し頻度に合わせて間隔を設けます。例えば Tier2 メソッドの場合、1 [リクエスト](/glossary/リクエスト/)あたり最低 100～200 ミリ秒の間隔を目安にしてください。
+`conversations.list`、`users.list`、`emoji.list` など、大量のデータを取得するメソッドでもレート制限が適用されます。ページネーション（`cursor` パラメータ）を使わずに全件一括取得を試みたり、複数の一括取得メソッドを連続実行すると 429 エラーが発生しやすくなります。
+
+**Before（エラーが起きるコード）：**
 
 ```python
-# Python + slack-sdk の例
+import slack
+
+client = slack.WebClient(token="<your-slack-bot-token>")
+
+# 全ユーザーを一度に取得（大規模ワークスペースでは 429 発生）
+all_users = client.users_list(limit=0)
+all_conversations = client.conversations_list(limit=0)
+all_emoji = client.emoji_list()  # 連続実行で 429 のリスク
+```
+
+**After（修正後）：**
+
+```python
+import slack
 import time
-from slack_sdk import WebClient
 
-client = WebClient(token='<your-bot-token>')
-user_ids = ['U123456', 'U234567', 'U345678']
+client = slack.WebClient(token="<your-slack-bot-token>")
 
-# Tier2 メソッドの場合、200 ミリ秒の間隔を設定
-for user_id in user_ids:
-    try:
-        response = client.users_info(user=user_id)
-        print(f"取得成功: {response['user']['name']}")
-    except Exception as e:
-        print(f"エラー: {e}")
-    
-    time.sleep(0.2)  # 200 ミリ秒待機
+# ページネーション対応で段階的に取得
+all_users = []
+cursor = None
+while True:
+    response = client.users_list(limit=100, cursor=cursor)
+    all_users.extend(response['members'])
+    cursor = response.get('response_metadata', {}).get('next_cursor')
+    if not cursor:
+        break
+    time.sleep(0.5)  # ページ間に待機を挿入
+
+time.sleep(1)  # メソッド間にも待機を挿入
+
+all_conversations = []
+cursor = None
+while True:
+    response = client.conversations_list(limit=100, cursor=cursor)
+    all_conversations.extend(response['channels'])
+    cursor = response.get('response_metadata', {}).get('next_cursor')
+    if not cursor:
+        break
+    time.sleep(0.5)
 ```
 
-**メッセージ送信をキューで処理する**
+## Slack 固有の注意点
 
-大量のメッセージ送信が必要な場合、キューイング方式を導入し、複数の[リクエスト](/glossary/リクエスト/)を連続的に（並列でなく）処理します。これにより短時間のピークを避けられます。
+### ボット・App・ワークスペースレベルのレート制限区別
 
-```python
-# Python + asyncio を使用した例
-import asyncio
-from slack_sdk.web.async_client import AsyncWebClient
+Slack API のレート制限は複数のレベルで適用されます。個別のボット、OAuth トークン、ワークスペース全体で異なる上限が設定されているため、同じメソッドでも環境によって制限が変わります。特に開発環境では余裕があっても、本番環境の大規模ワークスペースでは厳しく制限される傾向があります。
 
-async def send_messages_with_queue(channel_ids, message):
-    client = AsyncWebClient(token='<your-bot-token>')
-    
-    for channel in channel_ids:
-        try:
-            await client.chat_postMessage(channel=channel, text=message)
-            print(f"送信成功: {channel}")
-        except Exception as e:
-            print(f"エラー: {e}")
-        
-        # 各送信後に 500 ミリ秒待機
-        await asyncio.sleep(0.5)
+### Web API メソッドごとのレート制限差
 
-# 使用例
-channels = ['C123456', 'C234567', 'C345678']
-asyncio.run(send_messages_with_queue(channels, 'Hello Slack'))
-```
+`chat.postMessage` は比較的厳しい制限（1分間～数十～数百リクエスト程度）がある一方、`auth.test` のような軽量メソッドは緩い制限が設定されています。また、`conversations.history`、`conversations.replies` は会話履歴取得用として異なる制限枠を持つため、メソッドごとに待機戦略を変えることが重要です。
+
+### Event Subscriptions との相互作用
+
+Events API（イベント受信）でワークスペースの変更を監視しながら、同時に Web API でメッセージ送信やユーザー情報取得を行う場合、両者が同じレート制限枠を共有しないことに注意が必要です。イベント処理内で同期的に Web API を呼び出すと、イベント処理がブロックされるだけでなく、429 エラー時の再試行が複雑になるため、非同期キューの使用を推奨します。
+
+### Bolt フレームワークの自動レート制限対応
+
+Slack Bolt（Python / JavaScript / Java）を使用している場合、フレームワークレベルで簡易的なレート制限対応が行われますが、完全に自動化されるわけではありません。特に並行リクエストが多い場合は、ミドルウェアレベルでキューイングや待機ロジックを追加実装することを検討してください。
 
 ## それでも解決しない場合
 
-Retry-After [ヘッダー](/glossary/ヘッダー/)の値を正しく読み込んでいるか確認してください。また、複数のボットやアプリケーションが同一[ワークスペース](/glossary/ワークスペース/)の Slack [API](/glossary/api/) を呼び出している場合、合計の[リクエスト](/glossary/リクエスト/)数が制限を超える可能性があります。その場合は、[API](/glossary/api/) 呼び出し側の集約や Slack [API](/glossary/api/) の使用パターン見直しが必要です。Slack 公式サポート（https://slack.com/help）に詳細なレート制限情報を問い合わせることもできます。
+### ログ確認ポイント
+
+Slack Python/JavaScript SDK は `debug=True` または環境変数 `SLACK_SDK_LOG_LEVEL=DEBUG` で詳細ログを出力します。実際の API[レスポンス](/glossary/レスポンス/)ヘッダー、リクエストタイミング、`Retry-After` 値を確認し、レート制限に達する前後のリクエスト数・間隔を記録することで、設定すべき待機時間を正確に把握できます。
+
+### 公式ドキュメント参照
+
+Slack 公式ドキュメントの「Rate Limiting」セクション（https://api.slack.com/docs/rate-limits）に、メソッドごとのレート制限表と推奨される再試行戦略が記載されています。また、「Building resilient apps」（https://api.slack.com/best-practices/rate-limiting）には、本番環境で推奨される実装パターンが提示されています。
+
+### GitHub Issues・Slack コミュニティ
+
+Slack SDK の GitHub リポジトリ（`slackapi/python-slack-sdk`、`slackapi/bolt-js` など）の Issues セクションで、同様の 429 エラー報告と解決例を検索できます。また、Slack Developer Community（https://slackcommunity.com/）のフォーラムでは、ワークスペース規模別・使用メソッド別の実装相談が活発に行われています。
 
 ---
 

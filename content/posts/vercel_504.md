@@ -9,145 +9,79 @@ error_type: "504"
 components: []
 related_services: ["API", "Dashboard"]
 trend_incident: true
+lastmod: 2026-06-14
 ---
-# エラーの概要
 
-Vercel の 504 エラーは、デプロイされたサーバーレス関数の実行がタイムアウトに達したことを示します。実行時間の上限はプランと設定によって異なります。Hobby プランではデフォルト 60 秒で、Fluid Compute を有効にすることで最大 300 秒まで延長可能です。Pro プラン以上ではデフォルト 300 秒で、Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。制限を超えると 504 Gateway Timeout レスポンスが返されます。一般的に、API 呼び出しやデータベースクエリの応答待ちが長引く場合に発生しやすいエラーです。
+## エラーの概要
+
+Vercel の 504 エラーは、デプロイされたサーバーレス関数の実行時間が設定されたタイムアウト制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 300 秒（5 分）で、Pro プラン以上ではデフォルト 300 秒、Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。API 呼び出し、データベースクエリ、外部 API 連携など、応答待ちが長引く処理で頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
-**Vercel のブラウザー表示：**
+**Vercel ダッシュボード表示：**
 
 ```
 504
 Gateway Timeout
 ```
 
-**関数ログ（Vercel Dashboard）：**
+**関数ログ（Vercel Dashboard ロール）：**
 
 ```json
 {
   "errorCode": "FUNCTION_INVOCATION_TIMEOUT",
   "message": "The function exceeded the timeout duration",
   "functionName": "api/users",
-  "executionDurationMs": 10000,
-  "region": "sfo1"
+  "executionDurationMs": 300000,
+  "maxDurationMs": 300000,
+  "timestamp": "2024-01-15T10:30:45.123Z"
 }
 ```
 
-**curl レスポンス：**
+**cURL または HTTP クライアントでの応答：**
 
 ```
 HTTP/1.1 504 Gateway Timeout
-Server: Vercel
-Content-Type: text/html
-Connection: close
+Content-Type: application/json
 
-504 - Gateway Timeout
+{
+  "error": {
+    "code": "INTERNAL_FUNCTION_TIMEOUT",
+    "message": "Function timed out after 300000ms"
+  }
+}
 ```
 
 ## よくある原因と解決手順
 
-### 原因1：関数の実行時間が制限値に達している
+### 原因 1: 外部 API への応答待ちが長い
 
-Vercel のサーバーレス関数には、プランごとの実行時間制限があります。Hobby プランではデフォルト 60 秒、Pro プラン以上ではデフォルト 300 秒です。`maxDuration` を設定することで制限内での調整が可能です。特に外部 API の呼び出しやデータベースアクセスが複数含まれる関数では、容易にこの上限に達する可能性があります。
+外部サービス（データベース、第三者 API など）のレスポンスが遅れていることが最も一般的な原因です。ネットワーク遅延やサービスの過負荷により、タイムアウトに達する前に結果が返されません。
 
-**修正前（エラーが起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
-// api/getUserData.js
+// pages/api/fetch-user.js
 export default async function handler(req, res) {
-  // 外部 API を 3 つ順次実行（各 3 秒）→ 合計 9 秒
-  const user = await fetch('https://api.example.com/user/123').then(r => r.json());
-  const posts = await fetch('https://api.example.com/posts/123').then(r => r.json());
-  const comments = await fetch('https://api.example.com/comments/123').then(r => r.json());
-  
-  res.status(200).json({ user, posts, comments });
-}
-```
-
-**修正後（API 呼び出しの並列実行）：**
-
-```javascript
-// api/getUserData.js
-export default async function handler(req, res) {
-  // 複数 API を並列実行（合計 3 秒に短縮）
-  const [user, posts, comments] = await Promise.all([
-    fetch('https://api.example.com/user/123').then(r => r.json()),
-    fetch('https://api.example.com/posts/123').then(r => r.json()),
-    fetch('https://api.example.com/comments/123').then(r => r.json())
-  ]);
-  
-  res.status(200).json({ user, posts, comments });
-}
-```
-
-**修正後（maxDuration の設定）：**
-
-実行時間を延長する場合、`maxDuration` を明示的に設定できます：
-
-```javascript
-// vercel.json
-{
-  "functions": {
-    "api/getUserData.js": {
-      "maxDuration": 300
-    }
-  }
-}
-```
-
-Hobby プランの場合はデフォルト 60 秒ですが、Fluid Compute を有効にすることで最大 300 秒まで設定可能です。
-
-### 原因2：Vercel Fluid Compute を有効にしていない
-
-Pro プラン以上を使用している場合、Vercel Fluid Compute を有効にすることで、関数の実行時間上限を 300 秒から 800 秒（約 13 分）に延長できます。Hobby プランでも Fluid Compute を有効にすることで、60 秒から 300 秒まで延長可能です。Vercel Dashboard の「Settings」→「Functions」から有効化してください。
-
-また、`maxDuration` を設定してさらに細かく制御することもできます：
-
-```javascript
-// vercel.json
-{
-  "functions": {
-    "api/heavyProcessing.js": {
-      "maxDuration": 800
-    }
-  }
-}
-```
-
-### 原因3：外部 API・データベース接続にタイムアウトが設定されていない
-
-外部サービスへのリクエストがハング状態に陥ると、関数全体が待機し続けて 504 に陥ります。特にネットワークが不安定な環境では、接続先が応答しなくなるケースが頻繁に発生します。
-
-**修正前（エラーが起きるコード）：**
-
-```javascript
-// api/fetchUserProfile.js
-import fetch from 'node-fetch';
-
-export default async function handler(req, res) {
-  // タイムアウト指定がない → 無限待ち可能性
-  const response = await fetch('https://slow-api.example.com/profile');
+  const response = await fetch('https://external-api.example.com/user', {
+    method: 'GET'
+  });
   const data = await response.json();
-  
   res.status(200).json(data);
 }
 ```
 
-**修正後：**
+**After（修正後）：**
 
 ```javascript
-// api/fetchUserProfile.js
-import fetch from 'node-fetch';
-
+// pages/api/fetch-user.js
 export default async function handler(req, res) {
-  // 5 秒のタイムアウトを設定
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 5000);
-  
+  const timeoutId = setTimeout(() => controller.abort(), 8000); // 8秒でタイムアウト
+
   try {
-    const response = await fetch('https://slow-api.example.com/profile', {
+    const response = await fetch('https://external-api.example.com/user', {
+      method: 'GET',
       signal: controller.signal
     });
     clearTimeout(timeoutId);
@@ -155,119 +89,162 @@ export default async function handler(req, res) {
     res.status(200).json(data);
   } catch (error) {
     if (error.name === 'AbortError') {
-      res.status(408).json({ error: 'API request timeout' });
+      res.status(504).json({ error: 'External service timeout' });
     } else {
-      res.status(500).json({ error: error.message });
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 }
 ```
 
-### 原因4：重い同期的なデータ処理を関数内で実行している
+### 原因 2: タイムアウト制限が自動実行関数の処理に不適切
 
-画像リサイズ、CSV 解析、機械学習推論など、CPU 集約的な処理を直接関数内で行うと、瞬く間にタイムアウトに達します。これらの処理は関数の責務外に切り出し、キューイングシステムで非同期実行するべきです。
+複雑なデータ処理やループ処理が実行時間内に完了していない場合があります。大量データの変換やファイル処理など、CPU 集約的なタスクが関数の実行時間を超過させます。
 
-**修正前（エラーが起きるコード）：**
+**Before（エラーが起きるコード）：**
 
 ```javascript
-// api/processImage.js
-import sharp from 'sharp';
-import fs from 'fs';
-
+// pages/api/process-data.js
 export default async function handler(req, res) {
-  // 10MB の画像を複数フォーマットで変換（5 秒以上かかる）
-  const imageBuffer = fs.readFileSync('/tmp/large-image.jpg');
+  const items = req.body.items; // 100,000 件以上のアイテム
   
-  const webp = await sharp(imageBuffer).webp().toBuffer();
-  const avif = await sharp(imageBuffer).avif().toBuffer();
-  const thumb = await sharp(imageBuffer).resize(200, 200).toBuffer();
+  const processed = items.map(item => {
+    // 複雑な計算処理
+    return expensiveCalculation(item);
+  });
   
-  res.status(200).json({ success: true });
+  res.status(200).json({ processed });
 }
 ```
 
-**修正後（バックグラウンド処理の利用）：**
+**After（修正後）：**
 
 ```javascript
-// api/processImage.js
-export default async function handler(req, res) {
-  // バックグラウンド処理を開始し、即座に返す
-  event.waitUntil(processImageInBackground(req.body.imageId));
-  
-  res.status(202).json({ 
-    message: 'Image processing started',
-    jobId: req.body.imageId
-  });
+// vercel.json - タイムアウト設定
+{
+  "functions": {
+    "pages/api/process-data.js": {
+      "maxDuration": 120
+    }
+  }
 }
 
-async function processImageInBackground(imageId) {
-  // 重い処理はバックグラウンドで実行
-  const imageBuffer = await fetchImage(imageId);
-  await Promise.all([
-    convertToWebP(imageBuffer),
-    convertToAVIF(imageBuffer),
-    createThumbnail(imageBuffer)
-  ]);
+// pages/api/process-data.js
+export default async function handler(req, res) {
+  const items = req.body.items;
+  const BATCH_SIZE = 100;
+  const processed = [];
+  
+  for (let i = 0; i < items.length; i += BATCH_SIZE) {
+    const batch = items.slice(i, i + BATCH_SIZE);
+    const batchProcessed = batch.map(item => expensiveCalculation(item));
+    processed.push(...batchProcessed);
+  }
+  
+  res.status(200).json({ processed });
 }
 ```
 
-キューイングシステム（Redis、Bull など）を使用する方法もあります：
+### 原因 3: データベースクエリの最適化不足
+
+未インデックス化されたカラムへのクエリ、複数テーブルの結合、大量行の全スキャンなど、非効率なデータベースアクセスがタイムアウトを引き起こします。
+
+**Before（エラーが起きるコード）：**
 
 ```javascript
-// api/processImage.js
-import { Queue } from 'bullmq';
-import redis from 'redis';
-
-const connection = redis.createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT
-});
-
-const imageQueue = new Queue('image-processing', { connection });
+// pages/api/get-orders.js
+import prisma from '@/lib/prisma';
 
 export default async function handler(req, res) {
-  // 処理をキューに追加して即座に返す
-  await imageQueue.add('convert', {
-    imageId: req.body.imageId,
-    formats: ['webp', 'avif', 'thumbnail']
+  // インデックスなしのカラムで全スキャン + 複数ユーザーの注文を取得
+  const orders = await prisma.order.findMany({
+    where: {
+      status: req.query.status, // status カラムにインデックスなし
+      user: {
+        region: req.query.region // JOIN + 条件が複雑
+      }
+    }
   });
   
-  res.status(202).json({ 
-    message: 'Image processing queued',
-    jobId: 'pending'
-  });
+  res.status(200).json(orders);
 }
 ```
 
-別途ワーカープロセスで非同期に処理を実行し、Redis などで進捗を管理します。
+**After（修正後）：**
+
+```javascript
+// pages/api/get-orders.js
+import prisma from '@/lib/prisma';
+
+export default async function handler(req, res) {
+  // インデックス化されたカラムを活用、LIMIT で最大件数制限
+  const orders = await prisma.order.findMany({
+    where: {
+      status: req.query.status,
+      userId: req.query.userId // インデックス化されたフィールド
+    },
+    select: {
+      id: true,
+      amount: true,
+      createdAt: true
+      // 不要なカラムは除外
+    },
+    take: 100, // 結果を100件に制限
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+  
+  res.status(200).json(orders);
+}
+```
 
 ## Vercel 固有の注意点
 
-Vercel のサーバーレス関数にはプランごとの実行時間制限のほか、メモリー上限やコールドスタート時間も性能に影響します。以下の点に留意してください：
+**Hobby プランのタイムアウト制限：**
+Hobby プランは最大 300 秒に固定されており、`maxDuration` で延長することはできません。長時間処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、バッチ処理）ことが必須です。
 
-- **Hobby プラン：実行時間デフォルト 60 秒（Fluid Compute で最大 300 秒）、メモリー上限 3008MB**
-- **Pro プラン以上：実行時間デフォルト 300 秒、Fluid Compute で最大 800 秒、メモリー上限 3008MB**
-- **同時実行数制限：1000（Hobby プランは優先度が低い）**
+**Fluid Compute の有効化：**
+Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。ダッシュボードの Project Settings から確認し、`vercel.json` で関数ごとに `maxDuration` を設定してください。
 
-Vercel の `vercel logs` コマンドでリアルタイムログを確認できます：
-
-```bash
-vercel logs <your-project-name> --follow
+```json
+{
+  "functions": {
+    "pages/api/heavy-processing.js": {
+      "maxDuration": 600
+    },
+    "pages/api/quick-api.js": {
+      "maxDuration": 30
+    }
+  }
+}
 ```
 
-このログで関数の実際の実行時間を確認し、制限値に近づいていないか監視するとよいでしょう。
+**Edge Functions の活用：**
+Vercel の Edge Functions は地理的に分散されており、冷起動が少なく、外部 API への応答遅延が減少することがあります。軽量な処理で頻繁なタイムアウトが発生する場合、Edge Functions への移行を検討してください。
 
-## トラブルシューティング手順
+**Environment Variables の確認：**
+リトライロジックやキャッシュの設定が環境変数に依存している場合、本番環境と開発環境で値が異なるとタイムアウト発生パターンが変わります。Vercel ダッシュボードの Settings > Environment Variables で本番値を確認してください。
 
-Vercel Dashboard の「Deployments」タブで該当デプロイメントのログを確認してください。「Functions」セクションで実行時間の詳細が表示されます。以下のコマンドでローカルテストも有効です：
+## それでも解決しない場合
 
-```bash
-vercel dev
+**関数ログの詳細確認：**
+Vercel ダッシュボードの Logs タブで関数実行ログを確認し、どのステップで時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
+
+```javascript
+console.log(`[${new Date().toISOString()}] Processing started`);
+// ... 処理 ...
+console.log(`[${new Date().toISOString()}] DB query completed`);
 ```
 
-この環境ではタイムアウト上限なく関数を実行でき、実際の処理時間を計測できます。関数内に `console.log()` を仕込んで各処理の経過時間を記録し、ボトルネックを特定してください。
+**公式ドキュメント参照：**
+Vercel 公式の「Serverless Function Configuration」（https://vercel.com/docs/functions/serverless-functions/configuration）および「Limits」（https://vercel.com/docs/limits）ページで最新の制限値とベストプラクティスを確認してください。
 
-原因不明の場合は、Vercel の公式ドキュメント（https://vercel.com/docs/functions/serverless-functions/limitations）を参照するか、Vercel サポートに問い合わせてください。エンタープライズ契約がある場合は、優先サポートが利用可能です。
+**パフォーマンス分析ツール：**
+Vercel の Observability 機能（Pro プラン以上）を有効にすると、関数の CPU 使用率、メモリ使用量、実行時間をリアルタイムで監視できます。ボトルネック特定に有効です。
+
+**GitHub Issues・コミュニティ：**
+同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。アイデンティティ関数の実装、特定のライブラリとの相性問題などが記載されている場合があります。
 
 ---
 

@@ -8,89 +8,258 @@ service: "Slack"
 error_type: "401"
 components: []
 related_services: ["Slack API", "OAuth", "Slack App Directory"]
+lastmod: 2026-06-14
 ---
 
-## Slack 401 エラーが発生する原因と解決方法
+## Slack の 401 エラー：原因と解決策
 
-Slack [API](/glossary/api/) を使用する際に 401 [エラー](/glossary/エラー/)が返される場合、アプリケーションが Slack に正しく[認証](/glossary/認証/)できていません。この[エラー](/glossary/エラー/)が発生すると、ボット機能やカスタムアプリが機能しなくなるため、迅速な対応が必要です。
+## エラーの概要
 
-## よくある原因
+Slack API へのリクエストが 401 エラー（Unauthorized）で拒否される場合、認証トークンが無効、期限切れ、または不正な状態にあることを示します。このエラーが発生するとボットメッセージの送信、ユーザー情報の取得、ファイルのアップロードなどすべての API 操作が停止するため、早期の対応が必須です。Slack アプリを運用する上で最も頻繁に遭遇するエラーの一つです。
 
-### トークンが無効または期限切れになっている
+## 実際のエラーメッセージ例
 
-Bot [トークン](/glossary/トークン/)（xoxb で始まる）や User [OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)（xoxp で始まる）が期限切れになったり、無効な状態になったりしている場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)は 401 [エラー](/glossary/エラー/)で拒否されます。特に、セキュリティアップデートや[トークン](/glossary/トークン/)のローテーション（定期的な更新）後に発生することが多いです。
+Slack API が返す典型的な 401 エラーレスポンス例：
 
-### OAuth スコープが不足している
-
-[OAuth](/glossary/oauth/) [スコープ](/glossary/スコープ/)（権限範囲）は、アプリが何ができるかを制限する仕組みです。必要な[スコープ](/glossary/スコープ/)が不足していると、[API](/glossary/api/) コールが拒否されます。例えば、メッセージ送信には `chat:write` [スコープ](/glossary/スコープ/)が必要ですが、これが許可されていないと 401 [エラー](/glossary/エラー/)が発生します。
-
-### アプリがワークスペースからアンインストールされた
-
-[ワークスペース](/glossary/ワークスペース/)の管理者がアプリをアンインストールした場合、その[トークン](/glossary/トークン/)はもはや有効ではありません。再度認証が必要になります。
-
-## 解決手順
-
-### ステップ 1: トークンを再生成する
-
-Slack [ワークスペース](/glossary/ワークスペース/)の管理画面にアクセスし、以下の手順を実行してください。
-
-1. [Slack App Directory](https://api.slack.com/apps) に[ログイン](/glossary/ログイン/)
-2. 対象のアプリを選択
-3. 左メニューから「**[OAuth](/glossary/oauth/) & Permissions**」をクリック
-4. 「**Bot Token Revoked**」の場合、「**Reinstall to Workspace**」をクリック
-5. 新しい[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)に設定
-
-```bash
-export SLACK_BOT_TOKEN="xoxb-新しいトークン"
-```
-
-### ステップ 2: OAuth スコープを確認・追加する
-
-必要な[スコープ](/glossary/スコープ/)が設定されているか確認しましょう。
-
-1. App 設定の「**[OAuth](/glossary/oauth/) & Permissions**」セクションを開く
-2. 「**Scopes**」の「**Bot Token Scopes**」を確認
-3. 必要な[スコープ](/glossary/スコープ/)が無い場合は「**Add an [OAuth](/glossary/oauth/) Scope**」をクリックして追加
-
-一般的に必要な[スコープ](/glossary/スコープ/)の例：
-```
-- chat:write（メッセージ送信）
-- channels:read（チャンネル情報取得）
-- users:read（ユーザー情報取得）
-- reactions:write（リアクション追加）
-```
-
-[スコープ](/glossary/スコープ/)を追加した後は、必ず「**Reinstall to Workspace**」をクリックして再インストールしてください。
-
-### ステップ 3: インストール状態を確認する
-
-アプリが[ワークスペース](/glossary/ワークスペース/)に正しくインストールされているか確認します。
-
-```bash
-curl -X GET https://slack.com/api/auth.test \
-  -H "Authorization: Bearer xoxb-YOUR_BOT_TOKEN"
-```
-
-成功時の[レスポンス](/glossary/レスポンス/)例：
 ```json
 {
-  "ok": true,
-  "url": "https://yourworkspace.slack.com/",
-  "team": "Your Workspace Name",
-  "user": "your_bot_name",
-  "team_id": "T0XXXXXXXX",
-  "user_id": "U0XXXXXXXX"
+  "ok": false,
+  "error": "invalid_auth",
+  "response_metadata": {
+    "messages": [
+      "The token used is no longer valid"
+    ]
+  }
 }
 ```
 
-`"ok": false` が返される場合は、[トークン](/glossary/トークン/)が無効です。
+または以下のバリエーション：
+
+```json
+{
+  "ok": false,
+  "error": "token_revoked",
+  "response_metadata": {
+    "messages": [
+      "The token has been revoked"
+    ]
+  }
+}
+```
+
+## よくある原因と解決手順
+
+### 原因1：トークンの期限切れまたは無効化
+
+Slack のセキュリティポリシー変更によるトークン自動失効、ユーザーが手動でアプリを削除した、または定期的なセキュリティ監査で古いトークンが無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` エラーが返されます。
+
+**Before（エラーが起きるコード）：**
+
+```python
+import requests
+
+# 3ヶ月前に取得したトークンを使用
+TOKEN = "xoxb-YOUR-BOT-TOKEN-HERE"
+
+headers = {
+    "Authorization": f"Bearer {TOKEN}"
+}
+
+response = requests.post(
+    "https://slack.com/api/chat.postMessage",
+    headers=headers,
+    json={"channel": "C12345", "text": "Hello"}
+)
+
+print(response.json())  # {"ok": false, "error": "invalid_auth"}
+```
+
+**After（修正後）：**
+
+```python
+import requests
+from slack_sdk import WebClient
+
+# トークンを環境変数から取得し、SDK を使用
+import os
+TOKEN = os.getenv("SLACK_BOT_TOKEN")
+
+client = WebClient(token=TOKEN)
+
+try:
+    response = client.chat_postMessage(
+        channel="C12345",
+        text="Hello"
+    )
+    print("Message posted successfully")
+except Exception as e:
+    print(f"Error: {e}")
+    # トークンが無効な場合は再生成が必要
+```
+
+Slack ワークスペース管理画面で新しいボットトークンを生成し、環境変数に設定し直してください。
+
+### 原因2：OAuth スコープの不足
+
+API リクエストに必要なスコープ（権限）がトークンに付与されていない場合、リクエストが許可されず 401 エラーが返されます。例えば `chat:write` スコープなしで メッセージ送信を試みると拒否されます。
+
+**Before（エラーが起きるコード）：**
+
+```javascript
+// トークンに chat:write スコープがない状態
+const { WebClient } = require('@slack/web-api');
+
+const client = new WebClient(process.env.SLACK_BOT_TOKEN);
+
+(async () => {
+  try {
+    await client.chat.postMessage({
+      channel: 'C12345',
+      text: 'Hello'
+    });
+  } catch (error) {
+    console.log(error);
+    // Error: not_in_channel or missing_scope
+  }
+})();
+```
+
+**After（修正後）：**
+
+```javascript
+// Slack アプリの OAuth & Permissions で必要なスコープを追加
+// 必要スコープ例：
+// - chat:write （メッセージ送信）
+// - channels:read （チャンネル一覧取得）
+// - users:read （ユーザー情報取得）
+
+const { WebClient } = require('@slack/web-api');
+
+const client = new WebClient(process.env.SLACK_BOT_TOKEN);
+
+(async () => {
+  try {
+    const result = await client.chat.postMessage({
+      channel: 'C12345',
+      text: 'Hello'
+    });
+    console.log('Message sent:', result.ts);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+})();
+```
+
+Slack App 管理画面の「OAuth & Permissions」セクションで、必要なスコープを明示的に追加し、ワークスペースに再インストールしてください。
+
+### 原因3：トークン形式の誤りまたは環境変数の未設定
+
+トークンが正しく環境変数に設定されていない、型番が違う（xoxb の代わりに xoxp を使用）、または空文字列が渡されている場合にエラーが発生します。
+
+**Before（エラーが起きるコード）：**
+
+```bash
+# .env ファイルが存在しない、または誤った値
+export SLACK_BOT_TOKEN=""
+
+# Python で実行
+python app.py
+
+# リクエストは TOKEN="" で送信され 401 エラーになる
+```
+
+```python
+import os
+from slack_sdk import WebClient
+
+# 環境変数が未設定の場合
+TOKEN = os.getenv("SLACK_BOT_TOKEN")  # None または ""
+
+client = WebClient(token=TOKEN)
+
+try:
+    client.chat_postMessage(channel="C12345", text="Hello")
+except Exception as e:
+    print(e)  # invalid_auth
+```
+
+**After（修正後）：**
+
+```bash
+# .env ファイルに正しく設定
+SLACK_BOT_TOKEN=xoxb-YOUR-BOT-TOKEN-HERE
+SLACK_SIGNING_SECRET=YOUR-SIGNING-SECRET-HERE
+```
+
+```python
+import os
+from slack_sdk import WebClient
+from dotenv import load_dotenv
+
+# .env ファイルを読み込む
+load_dotenv()
+
+TOKEN = os.getenv("SLACK_BOT_TOKEN")
+
+# トークンが正しく設定されているか確認
+if not TOKEN or not TOKEN.startswith("xoxb-"):
+    raise ValueError("Invalid SLACK_BOT_TOKEN format or not set")
+
+client = WebClient(token=TOKEN)
+
+response = client.chat_postMessage(channel="C12345", text="Hello")
+print(response)
+```
+
+環境変数を確認し、トークンが正しい形式（xoxb- または xoxp-で始まる長い文字列）で設定されていることを確認してください。
+
+## Slack 固有の注意点
+
+### トークンローテーションとその影響
+
+Slack は定期的にセキュリティ監査を実施し、使用されていないトークンや古いトークンを自動的に無効化することがあります。本番環境では少なくとも月1回はトークンの有効性を確認し、必要に応じて新規発行してください。
+
+### ボットアプリとユーザーアプリの区別
+
+`xoxb-` で始まるボットトークンと `xoxp-` で始まるユーザートークンは別の権限モデルを持ちます。自動化目的ではボットトークンを、ユーザーの個人操作が必要な場合はユーザートークンを使い分ける必要があります。混用すると 401 エラーが発生します。
+
+### Slack アプリのインストール/再インストール
+
+スコープを追加・変更した場合は、単なる認可フロー再実行では不十分で、ワークスペースへの**再インストール**が必須です。ブラウザのキャッシュをクリアした上で、OAuth 画面から改めて承認操作を行ってください。
+
+### Bot Token Rotations（ベータ機能）
+
+Slack の一部ワークスペースでは Bot Token Rotations が有効になっており、トークンの有効期限が短縮されています。この場合、Refresh Token を使用して新しいトークンを自動取得する実装が必要です。
 
 ## それでも解決しない場合
 
-- **[トークン](/glossary/トークン/)の有効期限を確認**：App 設定で「**Install App**」セクションを確認
-- **[ネットワーク](/glossary/ネットワーク/)接続を確認**：[プロキシ](/glossary/プロキシ/)や[ファイアウォール](/glossary/ファイアウォール/)の影響がないか確認
-- **Slack 公式ドキュメント**を参照：https://api.slack.com/authentication/basics
-- **Slack サポートに問い合わせ**：[ワークスペース](/glossary/ワークスペース/)の[管理者権限](/glossary/管理者権限/)で対応が必要な場合もあります
+### デバッグと情報確認
+
+トークンの有効性を確認するため、以下のコマンドで `auth.test` API を実行してください：
+
+```bash
+curl -X POST https://slack.com/api/auth.test \
+  -H "Authorization: Bearer <your-token>" \
+  -H "Content-Type: application/x-www-form-urlencoded"
+```
+
+レスポンスが `"ok": true` で返ればトークンは有効です。`"ok": false` の場合、エラーフィールドを確認してください。
+
+### ログの確認箇所
+
+- **Slack ワークスペース管理画面**：「App management」→「Apps」で各アプリのインストール日時と最終使用日時を確認
+- **Slack API テスター**：https://api.slack.com/methods/auth.test で直接トークン検証可能
+- **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく設定されているか、リクエストヘッダーに `Authorization` フィールドが含まれているか確認
+
+### 公式リソース
+
+- Slack API 認証ドキュメント：https://api.slack.com/authentication
+- OAuth スコープ一覧：https://api.slack.com/scopes
+- トークンローテーション詳細：https://api.slack.com/authentication/rotation
+
+### コミュニティサポート
+
+Slack Community（https://slackcommunity.com）や GitHub の Slack SDK リポジトリ（例：https://github.com/slackapi/python-slack-sdk）で同様の問題報告がないか検索し、既知の問題か確認することをお勧めします。
 
 ---
 
