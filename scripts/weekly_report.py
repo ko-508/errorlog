@@ -85,8 +85,8 @@ def _japan_filter():
 
 def _date_range_ga4():
     return (
-        (TODAY - timedelta(days=6)).strftime("%Y-%m-%d"),
-        TODAY.strftime("%Y-%m-%d"),
+        (TODAY - timedelta(days=9)).strftime("%Y-%m-%d"),
+        (TODAY - timedelta(days=3)).strftime("%Y-%m-%d"),
     )
 
 
@@ -292,8 +292,8 @@ def _build_gsc_service():
 
 
 def _gsc_query(service, dimensions: list[str], row_limit: int = 1000) -> list[dict]:
-    end   = TODAY.strftime("%Y-%m-%d")
-    start = (TODAY - timedelta(days=6)).strftime("%Y-%m-%d")
+    end   = (TODAY - timedelta(days=3)).strftime("%Y-%m-%d")
+    start = (TODAY - timedelta(days=9)).strftime("%Y-%m-%d")
     body  = {
         "startDate":  start,
         "endDate":    end,
@@ -338,8 +338,8 @@ def fetch_gsc_data() -> tuple[list[dict], dict]:
 
 def _fetch_gsc_site_summary(service) -> dict:
     """GSCのサイト全体週次集計（インプレッション・クリック・掲載順位・CTR）を返す。"""
-    end   = TODAY.strftime("%Y-%m-%d")
-    start = (TODAY - timedelta(days=6)).strftime("%Y-%m-%d")
+    end   = (TODAY - timedelta(days=3)).strftime("%Y-%m-%d")
+    start = (TODAY - timedelta(days=9)).strftime("%Y-%m-%d")
     body  = {
         "startDate": start,
         "endDate":   end,
@@ -422,7 +422,7 @@ def _build_indexnow_section() -> str:
     if not log_path.exists():
         return ""
 
-    week_start = (TODAY - timedelta(days=6)).isoformat()
+    week_start = (TODAY - timedelta(days=9)).isoformat()
     sent_urls: set[str] = set()
 
     try:
@@ -679,7 +679,7 @@ def main() -> None:
         print("[ERROR] GA4_PROPERTY_ID is not set.", file=sys.stderr)
         sys.exit(1)
 
-    period = f"{TODAY - timedelta(days=6)} 〜 {TODAY}"
+    period = f"{TODAY - timedelta(days=9)} 〜 {TODAY - timedelta(days=3)}"
     print(f"=== Weekly Unified Report ({period}) ===")
 
     print("[1/3] Connecting to GA4...")

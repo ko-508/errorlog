@@ -100,8 +100,8 @@ def _build_service():
 # ── API helpers ───────────────────────────────────────────────────────────────
 
 def _date_range() -> dict[str, str]:
-    end   = TODAY.strftime("%Y-%m-%d")
-    start = (TODAY - timedelta(days=6)).strftime("%Y-%m-%d")
+    end   = (TODAY - timedelta(days=3)).strftime("%Y-%m-%d")
+    start = (TODAY - timedelta(days=9)).strftime("%Y-%m-%d")
     return {"startDate": start, "endDate": end}
 
 
