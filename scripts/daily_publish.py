@@ -684,9 +684,6 @@ def main() -> None:
 
     print(f"\n{published_count} 件を公開しました。残りキュー: {len(remaining)} 件")
 
-    if published_count > 0:
-        send_publish_report(published_count, len(remaining), published_articles)
-
     if len(remaining) < LOW_STOCK_THRESHOLD:
         send_low_stock_alert(len(remaining))
 
