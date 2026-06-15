@@ -216,11 +216,11 @@
   {{- $related = first 10 $related }}
   {{- if $related }}
   <div class="related-errors">
-    <h2 class="related-errors__title">関連するエラーの依存関係</h2>
+    <h2 class="related-errors__title">あわせて確認したいエラー</h2>
     <ul class="related-errors__list">
       {{- range $related }}
       <li class="related-errors__item">
-        <a href="{{ .page.Permalink }}">
+        <a href="{{ .page.Permalink }}" class="related-errors__link">
           {{- with index .page.Params.tags 0 }}
           <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
           {{- end }}
