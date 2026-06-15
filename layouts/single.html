@@ -229,6 +229,7 @@
           {{- end }}
           {{ .page.Title }}
         </a>
+        {{- with .page.Description }}<p class="related-errors__desc">{{ . }}</p>{{ end }}
       </li>
       {{- end }}
     </ul>
