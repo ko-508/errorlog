@@ -13,6 +13,6 @@ noindex: true
 
 当サイトに関するお問い合わせは、以下のメールアドレスまでご連絡ください。
 
-- メール: kangpingdachang@gmail.com
+- メール: errorlog.jp@gmail.com
 
 記事内容に関するご指摘、誤りの報告などもこちらで受け付けています。
