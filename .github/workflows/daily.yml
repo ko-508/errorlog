@@ -68,7 +68,9 @@ jobs:
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
             git commit -m "daily: $(date +%Y-%m-%d) publish articles"
-            git push
+            for i in 1 2 3; do
+              git pull --rebase && git push && break || sleep 10
+            done
             echo "deployed=true" >> $GITHUB_OUTPUT
           fi
 
