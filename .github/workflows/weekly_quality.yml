@@ -1,8 +1,10 @@
 name: Weekly Quality Improvement
 
 on:
-  schedule:
-    - cron: "0 21 * * 0"   # 月曜 6:00 JST (= 日曜 21:00 UTC)
+  # schedule:
+  #   - cron: "0 21 * * 0"   # 月曜 6:00 JST (= 日曜 21:00 UTC)
+  # 2026-06-16 無効化: 既存記事の自動リライトを当面停止する方針のため。
+  # 再開時は上記3行のコメントを外すこと。
   workflow_dispatch:
 
 permissions:
