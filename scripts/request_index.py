@@ -24,6 +24,7 @@ import subprocess
 import sys
 import urllib.error
 import urllib.request
+from datetime import date
 from pathlib import Path
 
 SITE_URL      = os.getenv("SITE_URL", "https://errorlog.jp").rstrip("/")
@@ -103,6 +104,17 @@ def _priority_urls(exclude: set[str]) -> list[str]:
     return urls
 
 
+# ── IndexNow 送信ログ ─────────────────────────────────────────────────────────
+
+def _log_indexnow(urls: list[str], status: str) -> None:
+    """週次レポート用に送信済み URL を data/indexnow_log.jsonl へ追記する。"""
+    log_path = BASE / "data" / "indexnow_log.jsonl"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    entry = json.dumps({"date": date.today().isoformat(), "urls": urls, "status": status}, ensure_ascii=False)
+    with log_path.open("a", encoding="utf-8") as f:
+        f.write(entry + "\n")
+
+
 # ── IndexNow 送信 ─────────────────────────────────────────────────────────────
 
 def _send(urls: list[str]) -> None:
@@ -148,6 +160,7 @@ def _send(urls: list[str]) -> None:
         print(f"[request_index] OK ({code}): {len(urls)} URL を送信しました")
         for u in urls:
             print(f"  {u}")
+        _log_indexnow(urls, "ok")
     else:
         snippet = body[:300].replace("\n", " ")
         print(f"[request_index] WARN: HTTP {code} — {snippet}")

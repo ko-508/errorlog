@@ -113,6 +113,21 @@ jobs:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: python scripts/request_index.py
 
+      - name: Commit IndexNow log
+        if: steps.push.outputs.deployed == 'true'
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          [ -f data/indexnow_log.jsonl ] && git add data/indexnow_log.jsonl || true
+          if git diff --staged --quiet; then
+            echo "no changes"
+          else
+            git commit -m "daily: update indexnow log"
+            for i in 1 2 3; do
+              git pull --rebase && git push && break || sleep 10
+            done
+          fi
+
       - name: Upload publish session artifact
         if: steps.push.outputs.deployed == 'true'
         uses: actions/upload-artifact@v4

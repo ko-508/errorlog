@@ -43,9 +43,11 @@ jobs:
           GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
         run: python scripts/ga4_feedback_loop.py
 
-      - name: Scan competitor outlines
-        continue-on-error: true
-        run: python scripts/scan_competitors.py
+      # 競合スクレイピングは現在は無効化中。
+      # 再開する場合: このステップのコメントを外し、weekly_report.py の _load_competitor_section() 呼び出しも復元する。
+      # - name: Scan competitor outlines
+      #   continue-on-error: true
+      #   run: python scripts/scan_competitors.py
 
       - name: Run Search Console analysis
         env:
