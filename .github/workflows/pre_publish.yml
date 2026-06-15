@@ -1,9 +1,11 @@
 name: Pre-Publish Quality Check
 
 on:
+  # 2026-06-16 無効化: daily.yml の check_quality.py と重複し同じ記事に Claude 修正が二重にかかるため停止。
+  # 再開時は下記3行のコメントを外すこと。
   # 投稿前チェック: 毎日 09:30 JST (UTC 00:30) に直近6件を確認
-  schedule:
-    - cron: '30 0 * * *'
+  # schedule:
+  #   - cron: '30 0 * * *'
   # バックログ消化: 手動実行時は古い順で処理
   workflow_dispatch:
     inputs:
