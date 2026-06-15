@@ -1,0 +1,34 @@
+{
+  "e428bdcb91167fed26c3a9cbf35eb8dead535db6": {
+    "slug": "bitbucket_401",
+    "tool": "Bitbucket",
+    "status_code": "401",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "The article heavily relies on Bitbucket App Passwords, which were fully deprecated and ceased to function on June 9, 2026, making the primary solutions provided obsolete as of the current date (June 15, 2026).; A critical factual error exists regarding basic authentication: while the article states to use a username with App Passwords, the current recommended API token authentication requires the Atlassian account email address as the username, which is a direct contradiction.; The default expiration time for OAuth access tokens (stated as 2 hours) appears outdated or context-specific, with more recent documentation indicating longer, configurable durations or 1-hour defaults for other contexts.; The recommended solutions are not aligned with Bitbucket's current authentication practices (API tokens are the standard replacement for App Passwords).; absolute wording may overstate technical certainty",
+    "last_scores": {
+      "factual_score": 60,
+      "freshness_score": 7,
+      "citation_coverage": 43,
+      "risk_score": 91
+    },
+    "last_checked_at": "2026-06-15",
+    "report_path": "reports/fact_check/new_articles/20260615062940895484_bitbucket_401_3f4b6c48.json"
+  },
+  "4df32f25ff73ccddc183a6eb564e16642b2a4adf": {
+    "slug": "bitbucket_404",
+    "tool": "Bitbucket",
+    "status_code": "404",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "The article contains highly accurate technical information regarding Bitbucket 404 errors, their causes, and solutions.; Claims are well-supported by primary and official documentation sources.; A significant critical factual claim regarding the deprecation of Bitbucket App Passwords is missing, which impacts the article's freshness and could lead users to implement deprecated authentication methods. App Passwords are being phased out, with creation discontinued on September 9, 2025, and existing ones deactivated by June 9, 2026.; The advice to use App Passwords for scripts/pipelines and for generating new ones without mentioning the deprecation is a major omission given the current date (June 2026).; Some claims are general troubleshooting steps, but contextually appropriate.; one or more claims are unsupported or unverifiable; duplicate source URL for the same claim was ignored",
+    "last_scores": {
+      "factual_score": 90,
+      "freshness_score": 20,
+      "citation_coverage": 30,
+      "risk_score": 100
+    },
+    "last_checked_at": "2026-06-15",
+    "report_path": "reports/fact_check/new_articles/20260615064603280503_bitbucket_404_9346b591.json"
+  }
+}
