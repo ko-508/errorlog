@@ -2,6 +2,7 @@ baseURL = "https://errorlog.jp/"
 ignoreFiles = ['\.jsonl$']
 locale = "ja"
 title = "ErrorLog - エラーコード解決ガイド"
+copyright = "© 2026 エラーコード解決サイト"
 theme = "PaperMod"
 defaultContentLanguage = "ja"
 
@@ -50,6 +51,9 @@ mainSections = ["posts"]
   name = "用語集"
   url = "/glossary/"
   weight = 40
+
+[params.footer]
+  text = '[プライバシーポリシー](/privacy/) · [運営者情報](/about/)'
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
