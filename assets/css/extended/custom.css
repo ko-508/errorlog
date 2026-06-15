@@ -259,6 +259,20 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
   line-height: 1.5;
 }
 
+.related-errors {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+.related-errors__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin: 0 0 0.85rem;
+}
+
 /* 記事内 用語リンク */
 .glossary-link {
   color: inherit;
