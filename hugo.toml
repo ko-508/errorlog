@@ -2,7 +2,7 @@ baseURL = "https://errorlog.jp/"
 ignoreFiles = ['\.jsonl$']
 locale = "ja"
 title = "ErrorLog - エラーコード解決ガイド"
-copyright = "© 2026 エラーコード解決サイト"
+copyright = "© 2026 ErrorLog - エラーコード解決ガイド"
 theme = "PaperMod"
 defaultContentLanguage = "ja"
 
