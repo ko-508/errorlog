@@ -547,6 +547,7 @@ def main() -> None:
     remaining = rows[DAILY_COUNT:]
     published_count = 0
     published_articles: list[dict] = []
+    critical_fail_count = 0
 
     for row in to_publish:
         tool = row["tool"].strip()
@@ -621,8 +622,24 @@ def main() -> None:
             f"report={fact_result.report_path}"
         )
         if fact_result.critical:
-            record_new_article_failure(out.stem, row, fact_result)
-            raise RuntimeError(f"Critical fact-check failure: {filename}")
+            # critical fail: 記事を書き出さずキュー末尾に戻して次の記事へ続行。
+            # raise で全体停止せず、他の正常記事の公開とqueue.csv更新を確実に完了させる。
+            # 通知は daily.yml の "Notify critical fact-check failures" ステップが担う。
+            failure = record_new_article_failure(out.stem, row, fact_result)
+            if failure["status"] == "retry":
+                print(
+                    f"  fact-check CRITICAL: {filename} をキュー末尾に戻す "
+                    f"failure_count={failure['failure_count']} status={failure['status']}"
+                )
+                remaining.append(row)
+            else:
+                print(
+                    f"  fact-check CRITICAL: {filename} キューから除外 "
+                    f"failure_count={failure['failure_count']} status={failure['status']} "
+                    f"→ needs_manual_review"
+                )
+            critical_fail_count += 1
+            continue
         if fact_result.status == "fact_check_unavailable":
             print(f"  fact-check unavailable; excluded from publication for retry: {filename}")
             remaining.append(row)
@@ -672,6 +689,13 @@ def main() -> None:
 
     if len(remaining) < LOW_STOCK_THRESHOLD:
         send_low_stock_alert(len(remaining))
+
+    if critical_fail_count > 0:
+        print(
+            f"\n[WARN] critical fact-check failures: {critical_fail_count} 件 "
+            "→ キュー末尾に戻しました。"
+            "data/fact_check_new_article_failures.json を確認してください。"
+        )
 
 
 if __name__ == "__main__":
