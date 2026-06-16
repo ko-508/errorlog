@@ -15,9 +15,11 @@ Step 2  Claude で全体修正（Gemini の指摘を最優先で反映）
   python scripts/check_quality.py                 # mtime 昇順（古い順）で BATCH 件
   python scripts/check_quality.py --newest 12     # mtime 降順（新しい順）で 12 件
   python scripts/check_quality.py path/to/file    # 1 ファイル指定
+  python scripts/check_quality.py --from-session  # data/publish_session.json の記事のみ
   BATCH=20 python scripts/check_quality.py        # バッチサイズ指定
 """
 
+import json
 import os
 import re
 import sys
@@ -211,9 +213,10 @@ def get_title(fm: str) -> str:
 # ── メイン ────────────────────────────────────────────
 
 def main() -> None:
-    args    = sys.argv[1:]
-    newest  = "--newest" in args
-    n_count = BATCH
+    args         = sys.argv[1:]
+    newest       = "--newest" in args
+    from_session = "--from-session" in args
+    n_count      = BATCH
 
     # --newest N の N を取得
     for i, a in enumerate(args):
@@ -233,7 +236,27 @@ def main() -> None:
     client = anthropic.Anthropic(api_key=api_key)
 
     # 対象ファイルの決定
-    if file_args:
+    if from_session:
+        # data/publish_session.json に記録された今回公開記事のみを対象にする
+        session_path = Path(__file__).parent.parent / "data" / "publish_session.json"
+        if not session_path.exists():
+            print("publish_session.json が見つかりません。スキップします。")
+            return
+        session = json.loads(session_path.read_text(encoding="utf-8"))
+        if not session:
+            print("publish_session.json が空です（公開記事なし）。スキップします。")
+            return
+        repo_root = Path(__file__).parent.parent
+        targets = [repo_root / entry["path"] for entry in session]
+        missing = [t for t in targets if not t.exists()]
+        if missing:
+            for m in missing:
+                print(f"  [WARN] ファイルが見つかりません: {m}")
+            targets = [t for t in targets if t.exists()]
+        if not targets:
+            print("処理対象のファイルがありません。スキップします。")
+            return
+    elif file_args:
         targets = [Path(file_args[0])]
         if not targets[0].exists():
             print(f"ファイルが見つかりません: {targets[0]}")

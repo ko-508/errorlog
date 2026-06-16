@@ -46,12 +46,12 @@ jobs:
             python scripts/insert_glossary_links.py "$f"
           done
 
-      - name: Quality check (post-publish, newest 6 with Gemini)
+      - name: Quality check (new articles only)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           QUALITY_GEMINI_MODEL: "gemini-2.5-flash"
-        run: python scripts/check_quality.py --newest 6
+        run: python scripts/check_quality.py --from-session
 
       - name: Commit and push
         id: push
