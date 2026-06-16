@@ -23,12 +23,16 @@ from lint_articles import (
 )
 
 DAILY_COUNT = int(os.getenv("DAILY_COUNT", "3"))
+GENERATE_COUNT = int(os.getenv("GENERATE_COUNT", "5"))
 
 BASE = Path(__file__).parent
 QUEUE_PATH = BASE / "queue.csv"
 POSTS_DIR = BASE.parent / "content" / "posts"
+PENDING_PATH = BASE.parent / "data" / "pending_articles.json"
 
 LOW_STOCK_THRESHOLD = 10
+PENDING_SKIP_THRESHOLD = 6
+DATE_PLACEHOLDER = "__DATE__"
 
 TOOL_TAGS = {
     "docker_compose": "Docker Compose",
@@ -136,6 +140,26 @@ def extract_tags(filename: str) -> list[str]:
         if stem.startswith(prefix):
             return [label]
     return []
+
+
+# ─── 保留記事（pending_articles.json）────────────────────────
+
+def load_pending() -> list[dict]:
+    if not PENDING_PATH.exists():
+        return []
+    try:
+        return json.loads(PENDING_PATH.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return []
+
+
+def save_pending(pending: list[dict]) -> None:
+    """呼び出し側で pending を更新した直後に毎回呼ぶ（クラッシュ時のデータ保全のため）。"""
+    PENDING_PATH.parent.mkdir(parents=True, exist_ok=True)
+    PENDING_PATH.write_text(
+        json.dumps(pending, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
 
 
 # ─── Before/After ラベル正規化 ──────────────────────────────────
@@ -514,6 +538,143 @@ def _run_lint_gate(
     return article_content, False
 
 
+# ─── 1記事分の生成→lint gate→fact-check gate ──────────────────
+
+def _try_generate_article(
+    client: anthropic.Anthropic,
+    row: dict,
+    remaining: list[dict],
+    today: str,
+) -> tuple[dict | None, bool]:
+    """1記事を生成し、lint gate・fact-check gate を通過させる。
+
+    通過した記事は date を DATE_PLACEHOLDER のまま残した辞書（公開可能エントリ）を返す。
+    実際の公開日（date 確定）は呼び出し側（即時公開 or pending 保留）の責務とする。
+    差し戻し（remaining への追加）は本関数内、またはこの関数が呼ぶ _run_lint_gate 内で行う。
+
+    Returns:
+        (entry_or_None, critical_fail)
+    """
+    tool = row["tool"].strip()
+    code = row["status_code"].strip()
+    filename = safe_filename(tool, code)
+    out = POSTS_DIR / filename
+
+    if out.exists():
+        print(f"SKIP {filename} （既に存在）")
+        return None, False
+
+    print(f"生成中: {tool} {code} ...")
+    try:
+        body = generate_article(client, row)
+    except Exception as e:
+        print(f"  API エラー: {e}")
+        return None, False
+
+    title = f"{tool} の {code} エラー：原因と解決策"
+    meaning_text = row["official_meaning"].strip()
+    meaning_clean = meaning_text.rstrip("。．")
+    if len(meaning_clean) > 60:
+        meaning_clean = meaning_clean[:60].rstrip("。．、,")
+    description = f"{meaning_clean}。{tool} {code} エラーの原因と解決策を解説します。"
+    tags = extract_tags(filename)
+    if not tags:
+        tags = [tool or Path(filename).stem]
+    tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
+
+    # Phase 3: 知識グラフメタデータを抽出
+    kg = extract_knowledge_graph(client, title, body, tool, code)
+    kg_components = json.dumps(kg["components"], ensure_ascii=False)
+    kg_related    = json.dumps(kg["related_services"], ensure_ascii=False)
+    knowledge_graph_lines = (
+        f'service: "{kg["service"]}"\n'
+        f'error_type: "{kg["error_type"]}"\n'
+        f'components: {kg_components}\n'
+        f'related_services: {kg_related}\n'
+    )
+
+    frontmatter = (
+        f'---\n'
+        f'title: "{title}"\n'
+        f'date: {DATE_PLACEHOLDER}\n'
+        f'description: "{description}"\n'
+        f'{tags_line}'
+        f'errorCode: "{code}"\n'
+        f'{knowledge_graph_lines}'
+        f'---\n\n'
+    )
+
+    disclaimer = (
+        "\n\n---\n\n"
+        "*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。"
+        "ソフトウェアの仕様は予告なく変更されることがあります。"
+        "最新の情報は各ツールの公式サポートページをご確認ください。"
+        "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
+    )
+    body = normalize_before_after(body)
+    article_content, lint_blocked = _run_lint_gate(
+        client, row, filename, frontmatter, body, disclaimer, out, remaining
+    )
+    if lint_blocked:
+        return None, False
+
+    fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
+    scores = fact_result.scores
+    print(
+        "  fact-check: "
+        f"factual={scores['factual_score']} "
+        f"freshness={scores['freshness_score']} "
+        f"citation={scores['citation_coverage']} "
+        f"risk={scores['risk_score']} "
+        f"report={fact_result.report_path}"
+    )
+    if fact_result.critical:
+        # critical fail: 記事を書き出さずキュー末尾に戻して次の記事へ続行。
+        # raise で全体停止せず、他の正常記事の公開とqueue.csv更新を確実に完了させる。
+        # 通知は daily.yml の "Notify critical fact-check failures" ステップが担う。
+        failure = record_new_article_failure(out.stem, row, fact_result)
+        if failure["status"] == "retry":
+            print(
+                f"  fact-check CRITICAL: {filename} をキュー末尾に戻す "
+                f"failure_count={failure['failure_count']} status={failure['status']}"
+            )
+            remaining.append(row)
+        else:
+            print(
+                f"  fact-check CRITICAL: {filename} キューから除外 "
+                f"failure_count={failure['failure_count']} status={failure['status']} "
+                f"→ needs_manual_review"
+            )
+        return None, True
+    if fact_result.status == "fact_check_unavailable":
+        print(f"  fact-check unavailable; excluded from publication for retry: {filename}")
+        remaining.append(row)
+        return None, False
+    if not fact_result.passed:
+        failure = record_new_article_failure(out.stem, row, fact_result)
+        print(
+            f"  fact-check failed; excluded from publication: {filename} "
+            f"failure_count={failure['failure_count']} status={failure['status']}"
+        )
+        if failure["status"] == "retry":
+            remaining.append(row)
+        else:
+            print(f"  fact-check blocked; needs manual review: {filename}")
+        return None, False
+
+    clear_new_article_failure(out.stem, row)
+    print(f"  検査通過: {filename}  →  {title}")
+    return {
+        "filename": filename,
+        "title": title,
+        "stem": out.stem,
+        "article_content": article_content,
+        "tool": tool,
+        "status_code": code,
+        "staged_at": today,
+    }, False
+
+
 # ─── メイン ───────────────────────────────────────────────
 
 def main() -> None:
@@ -524,13 +685,6 @@ def main() -> None:
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    with open(QUEUE_PATH, encoding="utf-8", newline="") as f:
-        rows = list(csv.DictReader(f))
-
-    if not rows:
-        print("キューが空です。scripts/queue.csv に記事を追加してください。")
-        return
-
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     today = date.today().isoformat()
 
@@ -539,142 +693,99 @@ def main() -> None:
         1 for f in POSTS_DIR.glob("*.md")
         if f"date: {today}" in f.read_text(encoding="utf-8")
     )
-    if today_count >= DAILY_COUNT:
+    slots_remaining = DAILY_COUNT - today_count
+    if slots_remaining <= 0:
         print(f"本日分 {today_count} 件は生成済みです（上限: {DAILY_COUNT}）。スキップします。")
         return
 
-    to_publish = rows[:DAILY_COUNT]
-    remaining = rows[DAILY_COUNT:]
     published_count = 0
     published_articles: list[dict] = []
     critical_fail_count = 0
 
-    for row in to_publish:
-        tool = row["tool"].strip()
-        code = row["status_code"].strip()
-        filename = safe_filename(tool, code)
+    # ── ステップ1: 保留記事（前日以前に検査通過済み）を公開枠の範囲で優先公開 ──
+    pending = load_pending()
+    initial_pending_count = len(pending)
+    print(f"保留記事: {initial_pending_count} 件")
+
+    while pending and slots_remaining > 0:
+        entry = pending[0]
+        filename = entry["filename"]
         out = POSTS_DIR / filename
-
         if out.exists():
-            print(f"SKIP {filename} （既に存在）")
+            print(f"  [pending] SKIP {filename} （既に存在、保留から除外）")
+            pending.pop(0)
+            save_pending(pending)
             continue
-
-        print(f"生成中: {tool} {code} ...")
-        try:
-            body = generate_article(client, row)
-        except Exception as e:
-            print(f"  API エラー: {e}")
-            continue
-
-        title = f"{tool} の {code} エラー：原因と解決策"
-        meaning_text = row["official_meaning"].strip()
-        causes_list = [c.strip() for c in row["causes"].split("|") if c.strip()]
-        meaning_clean = meaning_text.rstrip("。．")
-        if len(meaning_clean) > 60:
-            meaning_clean = meaning_clean[:60].rstrip("。．、,")
-        description = f"{meaning_clean}。{tool} {code} エラーの原因と解決策を解説します。"
-        tags = extract_tags(filename)
-        if not tags:
-            tags = [tool or Path(filename).stem]
-        tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
-
-        # Phase 3: 知識グラフメタデータを抽出
-        kg = extract_knowledge_graph(client, title, body, tool, code)
-        kg_components = json.dumps(kg["components"], ensure_ascii=False)
-        kg_related    = json.dumps(kg["related_services"], ensure_ascii=False)
-        knowledge_graph_lines = (
-            f'service: "{kg["service"]}"\n'
-            f'error_type: "{kg["error_type"]}"\n'
-            f'components: {kg_components}\n'
-            f'related_services: {kg_related}\n'
-        )
-
-        frontmatter = (
-            f'---\n'
-            f'title: "{title}"\n'
-            f'date: {today}\n'
-            f'description: "{description}"\n'
-            f'{tags_line}'
-            f'errorCode: "{code}"\n'
-            f'{knowledge_graph_lines}'
-            f'---\n\n'
-        )
-
-        disclaimer = (
-            "\n\n---\n\n"
-            "*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。"
-            "ソフトウェアの仕様は予告なく変更されることがあります。"
-            "最新の情報は各ツールの公式サポートページをご確認ください。"
-            "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
-        )
-        body = normalize_before_after(body)
-        article_content, lint_blocked = _run_lint_gate(
-            client, row, filename, frontmatter, body, disclaimer, out, remaining
-        )
-        if lint_blocked:
-            continue
-        fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
-        scores = fact_result.scores
-        print(
-            "  fact-check: "
-            f"factual={scores['factual_score']} "
-            f"freshness={scores['freshness_score']} "
-            f"citation={scores['citation_coverage']} "
-            f"risk={scores['risk_score']} "
-            f"report={fact_result.report_path}"
-        )
-        if fact_result.critical:
-            # critical fail: 記事を書き出さずキュー末尾に戻して次の記事へ続行。
-            # raise で全体停止せず、他の正常記事の公開とqueue.csv更新を確実に完了させる。
-            # 通知は daily.yml の "Notify critical fact-check failures" ステップが担う。
-            failure = record_new_article_failure(out.stem, row, fact_result)
-            if failure["status"] == "retry":
-                print(
-                    f"  fact-check CRITICAL: {filename} をキュー末尾に戻す "
-                    f"failure_count={failure['failure_count']} status={failure['status']}"
-                )
-                remaining.append(row)
-            else:
-                print(
-                    f"  fact-check CRITICAL: {filename} キューから除外 "
-                    f"failure_count={failure['failure_count']} status={failure['status']} "
-                    f"→ needs_manual_review"
-                )
-            critical_fail_count += 1
-            continue
-        if fact_result.status == "fact_check_unavailable":
-            print(f"  fact-check unavailable; excluded from publication for retry: {filename}")
-            remaining.append(row)
-            continue
-        if not fact_result.passed:
-            failure = record_new_article_failure(out.stem, row, fact_result)
-            print(
-                f"  fact-check failed; excluded from publication: {filename} "
-                f"failure_count={failure['failure_count']} status={failure['status']}"
-            )
-            if failure["status"] == "retry":
-                remaining.append(row)
-            else:
-                print(f"  fact-check blocked; needs manual review: {filename}")
-            continue
-
-        out.write_text(article_content, encoding="utf-8")
-        clear_new_article_failure(out.stem, row)
-        print(f"  公開: {filename}  →  {title}")
+        content = entry["article_content"].replace(DATE_PLACEHOLDER, today, 1)
+        out.write_text(content, encoding="utf-8")
+        print(f"  [pending] 公開: {filename}  →  {entry['title']}")
         published_count += 1
+        slots_remaining -= 1
         published_articles.append({
             "path": str(out.relative_to(BASE.parent).as_posix()),
             "stem": out.stem,
-            "title": title,
-            "source_type": "daily",
+            "title": entry["title"],
+            "source_type": "pending",
         })
+        pending.pop(0)
+        save_pending(pending)  # クラッシュ耐性: 公開直後に即時保存
 
-    # キューを更新
-    fieldnames = ["tool", "status_code", "official_meaning", "causes", "solutions"]
-    with open(QUEUE_PATH, "w", encoding="utf-8", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(remaining)
+    # ── ステップ2: 新規生成（公開枠が残り、かつ「開始時点」の保留件数が閾値未満の場合のみ） ──
+    # 「保留閾値」チェックを「公開枠ゼロ」より先に判定する。
+    # DAILY_COUNT < PENDING_SKIP_THRESHOLD の運用では、保留が閾値以上のとき
+    # ステップ1で必ず公開枠を使い切るため、判定順序を逆にすると常に「公開枠ゼロ」
+    # の分岐がログに出てしまい、本来の理由（保留過多）が分からなくなる。
+    if initial_pending_count >= PENDING_SKIP_THRESHOLD:
+        print(
+            f"保留が{initial_pending_count}件（閾値{PENDING_SKIP_THRESHOLD}件以上）のため、"
+            "新規生成をスキップして保留の消化を優先します。"
+        )
+    elif slots_remaining <= 0:
+        print("本日の公開枠を使い切ったため新規生成をスキップします。")
+    else:
+        with open(QUEUE_PATH, encoding="utf-8", newline="") as f:
+            rows = list(csv.DictReader(f))
+
+        if not rows:
+            print("キューが空です。scripts/queue.csv に記事を追加してください。")
+        else:
+            to_generate = rows[:GENERATE_COUNT]
+            remaining = rows[GENERATE_COUNT:]
+
+            for row in to_generate:
+                entry, critical = _try_generate_article(client, row, remaining, today)
+                if critical:
+                    critical_fail_count += 1
+                if entry is None:
+                    continue
+
+                if slots_remaining > 0:
+                    out = POSTS_DIR / entry["filename"]
+                    content = entry["article_content"].replace(DATE_PLACEHOLDER, today, 1)
+                    out.write_text(content, encoding="utf-8")
+                    print(f"  公開: {entry['filename']}  →  {entry['title']}")
+                    published_count += 1
+                    slots_remaining -= 1
+                    published_articles.append({
+                        "path": str(out.relative_to(BASE.parent).as_posix()),
+                        "stem": entry["stem"],
+                        "title": entry["title"],
+                        "source_type": "daily",
+                    })
+                else:
+                    pending.append(entry)
+                    save_pending(pending)  # クラッシュ耐性: 保留追加直後に即時保存
+                    print(f"  保留: {entry['filename']} → 公開枠超過のため翌日に回します")
+
+            # キューを更新
+            fieldnames = ["tool", "status_code", "official_meaning", "causes", "solutions"]
+            with open(QUEUE_PATH, "w", encoding="utf-8", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+                writer.writerows(remaining)
+
+            if len(remaining) < LOW_STOCK_THRESHOLD:
+                send_low_stock_alert(len(remaining))
 
     # 公開通知スクリプト用のセッションファイルを書き出す
     session_path = BASE.parent / "data" / "publish_session.json"
@@ -684,10 +795,7 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    print(f"\n{published_count} 件を公開しました。残りキュー: {len(remaining)} 件")
-
-    if len(remaining) < LOW_STOCK_THRESHOLD:
-        send_low_stock_alert(len(remaining))
+    print(f"\n{published_count} 件を公開しました。保留: {len(pending)} 件")
 
     if critical_fail_count > 0:
         print(

@@ -33,6 +33,7 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           DAILY_COUNT: "3"
+          GENERATE_COUNT: "5"
           FACT_CHECK_NEW_ARTICLE_MAX_RETRIES: "3"
           FACT_CHECK_REPORT_RETENTION_DAYS: "30"
           FACT_CHECK_URL_CHECK: "true"
