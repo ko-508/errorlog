@@ -1,14 +1,20 @@
 [
   {
-    "path": "content/posts/bitbucket_429.md",
-    "stem": "bitbucket_429",
-    "title": "Bitbucket の 429 エラー：原因と解決策",
+    "path": "content/posts/postman_400.md",
+    "stem": "postman_400",
+    "title": "Postman の 400 エラー：原因と解決策",
     "source_type": "daily"
   },
   {
-    "path": "content/posts/bitbucket_500.md",
-    "stem": "bitbucket_500",
-    "title": "Bitbucket の 500 エラー：原因と解決策",
+    "path": "content/posts/postman_401.md",
+    "stem": "postman_401",
+    "title": "Postman の 401 エラー：原因と解決策",
+    "source_type": "daily"
+  },
+  {
+    "path": "content/posts/postman_403.md",
+    "stem": "postman_403",
+    "title": "Postman の 403 エラー：原因と解決策",
     "source_type": "daily"
   }
 ]
