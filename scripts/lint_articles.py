@@ -382,6 +382,36 @@ def check_b3(body: str) -> list[Issue]:
     return []
 
 
+# ── B5 原因数チェック ─────────────────────────────────────────────────────────
+# 原因の小見出しとして機能する4パターン: ### 原因N：／### N.／**原因N：**／**N.**
+# 装飾なしの「N.」（説明文中の手順リスト等）は原因の区切りではないため対象外。
+_CAUSE_HEADING_RE = re.compile(
+    r"^(?:#{2,4}\s*(?:原因\s*\d*\s*[:：]|\d+\s*[.\)])"
+    r"|\*\*(?:原因\s*\d*\s*[:：]|\d+\s*[.\)]))",
+    re.MULTILINE,
+)
+_MIN_CAUSES = 3
+
+
+def count_cause_headings(section_body: str) -> int:
+    """解決手順セクション本文内の原因見出し数を数える（コードブロック内は無害化して検索）。"""
+    masked = _mask_code_blocks(section_body)
+    return len(_CAUSE_HEADING_RE.findall(masked))
+
+
+def check_b5(body: str) -> list[Issue]:
+    """B5 [FAIL] 解決手順セクション内の原因見出しが3つ以上ある。"""
+    section_pat = re.compile(r"^#{1,4}\s*(?:よくある)?原因と解決手順", re.MULTILINE)
+    section_body = get_section_content(body, section_pat)
+    if section_body is None:
+        # A1 で既に検出されるので B5 はスキップ
+        return []
+    n_causes = count_cause_headings(section_body)
+    if n_causes < _MIN_CAUSES:
+        return [("B5", f"原因の数が{n_causes}個（基準: {_MIN_CAUSES}個以上）")]
+    return []
+
+
 # ── C1 認証トークン・APIキー検出 ──────────────────────────────────────────────
 # コードブロック内のみ対象。<your-xxx> 形式のプレースホルダーは除外する。
 
@@ -557,16 +587,17 @@ def lint_article(path: Path) -> dict[str, Any]:
                 infos.append(entry)
 
     if is_error:
-        # A1/A2/A3/A7/B1/B3: エラー記事にのみ適用
-        # A3（1500字基準）・A7（免責事項フッター）はエラー解決記事の規格から導かれるため error_article 限定。
+        # A1/A2/A3/A7/B1/B3/B5: エラー記事にのみ適用
+        # A3（1500字基準）・A7（免責事項フッター）・B5（原因数）はエラー解決記事の規格から導かれるため error_article 限定。
         # tool-guide 記事（non_error_article）は除外。glossary が別ディレクトリで除外されているのと同じ一貫性。
-        # tool-guide 記事への適用を再開する場合はこのブロックから A3/A7 を外へ移す。
+        # tool-guide 記事への適用を再開する場合はこのブロックから A3/A7/B5 を外へ移す。
         _add("FAIL", check_a1(body))
         _add("WARN", check_a2(body))
         _add("FAIL", check_a3(body))
         _add("FAIL", check_a7(body))
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
+        _add("FAIL", check_b5(body))
 
     # A4/A5/A6/B2/C1/D: 全記事に適用
     _add("WARN", check_a4(body))

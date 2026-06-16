@@ -18,7 +18,7 @@ from fact_check import clear_new_article_failure, evaluate_new_article, record_n
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
     check_a1, check_a2, check_a3, check_a4, check_a5, check_a6, check_a7,
-    check_b1, check_b2, check_b3, check_d1_d2, check_secret_token, check_aws_secret_key,
+    check_b1, check_b2, check_b3, check_b5, check_d1_d2, check_secret_token, check_aws_secret_key,
     classify_article, split_frontmatter,
 )
 
@@ -402,7 +402,7 @@ def extract_knowledge_graph(
 # ─── Lint 公開前ゲート ──────────────────────────────────────────
 
 _LINT_MAX_RETRIES = 2
-_LINT_BLOCK_RULES = frozenset({"A1", "A7", "B1", "B2", "C1"})
+_LINT_BLOCK_RULES = frozenset({"A1", "A7", "B1", "B2", "B5", "C1"})
 
 
 def _lint_check_content(content: str, path: Path) -> dict:
@@ -423,6 +423,7 @@ def _lint_check_content(content: str, path: Path) -> dict:
         _add("FAIL", check_a7(body))
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
+        _add("FAIL", check_b5(body))
 
     _add("FAIL", check_a3(body))
     _add("WARN", check_a4(body))
@@ -455,6 +456,10 @@ def _format_lint_feedback(fail_details: list[str]) -> str:
         elif rule == "A7":
             lines.append(f"・{detail}")
             lines.append("  → 末尾に免責事項フッターを追加すること。")
+        elif rule == "B5":
+            lines.append(f"・{detail}")
+            lines.append("  → 「よくある原因と解決手順」セクションに、原因を最低3つ"
+                          "（### 原因N：の見出し）追加すること。")
         else:
             lines.append(f"・{detail}")
     return "\n".join(lines)
@@ -477,7 +482,7 @@ def _run_lint_gate(
 
     優先順位:
       1. A6 → 即キュー戻し（リトライ不要）
-      2. A1/A7/B1/B2 → 最大 _LINT_MAX_RETRIES 回リトライ → 残ればキュー戻し
+      2. A1/A7/B1/B2/B5 → 最大 _LINT_MAX_RETRIES 回リトライ → 残ればキュー戻し
       3. A3 のみ → 1 回リトライ → 残ればWARN通過
       4. WARN系のみ → WARN記録のみで通過
 
