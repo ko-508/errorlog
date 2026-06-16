@@ -30,5 +30,21 @@
     },
     "last_checked_at": "2026-06-15",
     "report_path": "reports/fact_check/new_articles/20260615064603280503_bitbucket_404_9346b591.json"
+  },
+  "17f54d818b9edf104b3c549227be71346e2ebf6b": {
+    "slug": "bitbucket_503",
+    "tool": "Bitbucket",
+    "status_code": "503",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "Bitbucket Pipelines plan details (build minutes and concurrency) are outdated and inaccurate in the provided article excerpt.; One troubleshooting claim regarding SSL/TLS errors and 503 lacks a direct, Bitbucket-specific primary source, relying on general web knowledge instead.; one or more claims are unsupported or unverifiable",
+    "last_scores": {
+      "factual_score": 75,
+      "freshness_score": 60,
+      "citation_coverage": 41,
+      "risk_score": 78
+    },
+    "last_checked_at": "2026-06-16",
+    "report_path": "reports/fact_check/new_articles/20260616012731876956_bitbucket_503_aa013c21.json"
   }
 }
