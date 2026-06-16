@@ -17,7 +17,7 @@ import anthropic
 from fact_check import clear_new_article_failure, evaluate_new_article, record_new_article_failure
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
-    check_a1, check_a2, check_a3, check_a4, check_a5, check_a6,
+    check_a1, check_a2, check_a3, check_a4, check_a5, check_a6, check_a7,
     check_b1, check_b2, check_b3, check_d1_d2, check_secret_token, check_aws_secret_key,
     classify_article, split_frontmatter,
 )
@@ -392,7 +392,7 @@ def extract_knowledge_graph(
 # ─── Lint 公開前ゲート ──────────────────────────────────────────
 
 _LINT_MAX_RETRIES = 2
-_LINT_BLOCK_RULES = frozenset({"A1", "B1", "B2", "C1"})
+_LINT_BLOCK_RULES = frozenset({"A1", "A7", "B1", "B2", "C1"})
 
 
 def _lint_check_content(content: str, path: Path) -> dict:
@@ -410,6 +410,7 @@ def _lint_check_content(content: str, path: Path) -> dict:
     if is_error:
         _add("FAIL", check_a1(body))
         _add("WARN", check_a2(body))
+        _add("FAIL", check_a7(body))
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
 
@@ -441,6 +442,9 @@ def _format_lint_feedback(fail_details: list[str]) -> str:
             lines.append(f"・{detail}")
             lines.append("  → 「実際のエラーメッセージ例」セクションに、HTTPステータスコードや例外名を含む")
             lines.append("    コードブロック（``` で開き ``` で閉じる）を最低1つ追加すること。")
+        elif rule == "A7":
+            lines.append(f"・{detail}")
+            lines.append("  → 末尾に免責事項フッターを追加すること。")
         else:
             lines.append(f"・{detail}")
     return "\n".join(lines)
@@ -463,9 +467,14 @@ def _run_lint_gate(
 
     優先順位:
       1. A6 → 即キュー戻し（リトライ不要）
-      2. A1/B1/B2 → 最大 _LINT_MAX_RETRIES 回リトライ → 残ればキュー戻し
+      2. A1/A7/B1/B2 → 最大 _LINT_MAX_RETRIES 回リトライ → 残ればキュー戻し
       3. A3 のみ → 1 回リトライ → 残ればWARN通過
       4. WARN系のみ → WARN記録のみで通過
+
+    注記: A7（免責事項フッター）は disclaimer 文字列がコードで強制付加されるため、
+    本パス経由では構造上 FAIL になり得ない。将来のリライト系スクリプトが
+    免責事項を誤って失わせた場合に検出する安全網は lint_articles.py の
+    バッチスキャン（lint_article）側で機能する。
     """
     article_content = frontmatter + body + disclaimer
     lint_result = _lint_check_content(article_content, out)

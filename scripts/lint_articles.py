@@ -330,6 +330,18 @@ def check_a6(fm: dict[str, str], body: str, require_error_code: bool = True) -> 
     return issues
 
 
+# 自動生成記事は daily_publish.py のコードで本文末尾に強制付加される固定文言。
+# 全文一致ではなく、判別可能な固有フレーズの部分一致で検出する（表記が多少変わっても検出できるように）。
+_DISCLAIMER_MARK = "免責事項"
+
+
+def check_a7(body: str) -> list[Issue]:
+    """A7 [FAIL] 免責事項フッターが本文末尾に存在する。"""
+    if _DISCLAIMER_MARK not in body:
+        return [("A7", "免責事項フッターが見つからない")]
+    return []
+
+
 def check_b1(body: str) -> list[Issue]:
     """B1 [FAIL] エラーメッセージ例セクションのコードブロックに実在エラーパターンが1件以上。"""
     section_pat = re.compile(r"^#{1,4}\s*(?:実際の)?エラーメッセージ例", re.MULTILINE)
@@ -545,13 +557,14 @@ def lint_article(path: Path) -> dict[str, Any]:
                 infos.append(entry)
 
     if is_error:
-        # A1/A2/A3/B1/B3: エラー記事にのみ適用
-        # A3（1500字基準）はエラー解決記事の5セクション規格から導かれるため error_article 限定。
+        # A1/A2/A3/A7/B1/B3: エラー記事にのみ適用
+        # A3（1500字基準）・A7（免責事項フッター）はエラー解決記事の規格から導かれるため error_article 限定。
         # tool-guide 記事（non_error_article）は除外。glossary が別ディレクトリで除外されているのと同じ一貫性。
-        # tool-guide 記事への適用を再開する場合はこのブロックから A3 を外へ移す。
+        # tool-guide 記事への適用を再開する場合はこのブロックから A3/A7 を外へ移す。
         _add("FAIL", check_a1(body))
         _add("WARN", check_a2(body))
         _add("FAIL", check_a3(body))
+        _add("FAIL", check_a7(body))
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
 
