@@ -46,12 +46,15 @@ jobs:
             python scripts/insert_glossary_links.py "$f"
           done
 
-      - name: Quality check (new articles only)
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          QUALITY_GEMINI_MODEL: "gemini-2.5-flash"
-        run: python scripts/check_quality.py --from-session
+      # 2026-06-16 無効化: 新記事へのcheck_qualityは費用対効果が低く、
+      # 既存記事の仕様変更追従は仕様が固まってからまとめて行う方針のため停止。
+      # 再開時は下記7行のコメントを外すこと。
+      # - name: Quality check (new articles only)
+      #   env:
+      #     ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      #     GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      #     QUALITY_GEMINI_MODEL: "gemini-2.5-flash"
+      #   run: python scripts/check_quality.py --from-session
 
       - name: Commit and push
         id: push
