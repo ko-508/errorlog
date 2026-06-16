@@ -193,6 +193,22 @@ def normalize_before_after(text: str) -> str:
     return ''.join(parts)
 
 
+# 免責事項フッターはコード側（disclaimer変数）でのみ付加する一本化方針の防衛ガード。
+# Claude が生成のブレでプロンプト指示なしに免責事項を自発的に書いてしまった場合でも、
+# 二重付加にならないよう末尾から除去する。"---\n\n*免責事項" 形式のブロックを
+# 末尾から繰り返し除去する（複数回書かれていても全て除去できるようにループする）。
+_TRAILING_DISCLAIMER_RE = re.compile(r'\n*---\n*\*免責事項[\s\S]*$')
+
+
+def strip_trailing_disclaimer(text: str) -> str:
+    """本文末尾に免責事項らしきブロックがあれば除去する（コード側付加の前に必ず通す）。"""
+    while True:
+        new_text = _TRAILING_DISCLAIMER_RE.sub('', text).rstrip()
+        if new_text == text.rstrip():
+            return new_text
+        text = new_text
+
+
 # ─── Claude API で記事生成 ──────────────────────────────────
 
 # ⑦ 静的な指示部分をシステムプロンプトに分離してキャッシュ対象にする
@@ -252,12 +268,6 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
        token = "xoxb-YOUR-TOKEN"             → NG(プレフィックスを含む)
        token = "<your-bot-token>"            → OK
        TOKEN = "<your-api-key>"              → OK
-
-- 末尾に必ず以下の免責事項フッターを付ける:
-
----
-
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
 
 記事本文のみ出力してください。前置きは不要です。"""
 
@@ -503,6 +513,7 @@ def _run_lint_gate(
                 print(f"  [lint] retry {attempt} API エラー: {e}")
                 break
             retry_body = normalize_before_after(retry_body)
+            retry_body = strip_trailing_disclaimer(retry_body)
             article_content = frontmatter + retry_body + disclaimer
             lint_result = _lint_check_content(article_content, out)
             fail_rules = {f["rule"] for f in lint_result["fails"]}
@@ -526,6 +537,7 @@ def _run_lint_gate(
         try:
             retry_body = generate_article(client, row, lint_feedback=feedback)
             retry_body = normalize_before_after(retry_body)
+            retry_body = strip_trailing_disclaimer(retry_body)
             article_content = frontmatter + retry_body + disclaimer
             lint_result = _lint_check_content(article_content, out)
             fail_rules = {f["rule"] for f in lint_result["fails"]}
@@ -621,6 +633,7 @@ def _try_generate_article(
         "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
     )
     body = normalize_before_after(body)
+    body = strip_trailing_disclaimer(body)
     article_content, lint_blocked = _run_lint_gate(
         client, row, filename, frontmatter, body, disclaimer, out, remaining
     )
