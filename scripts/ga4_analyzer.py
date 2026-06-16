@@ -179,12 +179,14 @@ def fetch_ga4_data(client) -> dict:
     cities.sort(key=lambda r: -r.get("activeUsers", 0))
     cities = cities[:TOP_CITIES]
 
-    # 国別データ（country + averageSessionDuration）を取得してノイズ除去
+    # 国別データ（country + 質的指標）を取得してノイズ除去
+    # sessions/engagementRate/bounceRate はチャネル別取得と同じ要領で追加
+    # （国別分布の継続観測セクション用、weekly_report.py 側で表示）
     print("  国別データのノイズフィルタリング...")
     countries = _run_report(
         client,
         ["country"],
-        ["activeUsers", "averageSessionDuration"],
+        ["activeUsers", "sessions", "averageSessionDuration", "engagementRate", "bounceRate"],
     )
     countries, noise_stats = _drop_noise(countries)
     countries.sort(key=lambda r: -r.get("activeUsers", 0))

@@ -39,6 +39,13 @@ POS_IMP_THRESHOLD = int(os.getenv("POS_IMP_THRESHOLD", "5"))
 POS_MIN           = float(os.getenv("POS_MIN",          "11.0"))
 POS_MAX           = float(os.getenv("POS_MAX",          "20.0"))
 
+# ── 国別分布セクション（継続観測・ボット判定の参考。断定ではない）─────────────
+TOP_COUNTRIES = int(os.getenv("TOP_COUNTRIES", "10"))
+# 平均エンゲージ時間の閾値は ga4_analyzer.py のチャネル別ボット判定参考（Direct, dur<10）に揃えた。
+_COUNTRY_ENGAGEMENT_TIME_THRESHOLD = float(os.getenv("COUNTRY_ENGAGEMENT_TIME_THRESHOLD", "10.0"))
+# 直帰率の閾値は既存に倣う基準がないため仮値。実態運用を見ながら調整すること。
+_COUNTRY_BOUNCE_RATE_THRESHOLD = float(os.getenv("COUNTRY_BOUNCE_RATE_THRESHOLD", "0.90"))
+
 
 # ── GA4 Auth ──────────────────────────────────────────────────────────────────
 
@@ -179,7 +186,13 @@ def fetch_all_ga4(client) -> dict:
     channels.sort(key=lambda r: -r.get("sessions", 0))
 
     print("  [GA4] country distribution...")
-    countries = _run_report(client, ["country"], ["activeUsers"], row_limit=30)
+    # activeUsers に加えて sessions/engagementRate/averageSessionDuration/bounceRate を取得。
+    # 国別分布セクション（継続観測・ボット判定の参考）で使用する。
+    countries = _run_report(
+        client, ["country"],
+        ["activeUsers", "sessions", "engagementRate", "averageSessionDuration", "bounceRate"],
+        row_limit=30,
+    )
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
 
     print("  [GA4] events (Japan)...")
@@ -593,6 +606,51 @@ def _build_noise_section() -> str:
         )
 
 
+# ── 国別分布（継続観測・ボット判定の参考）────────────────────────────────────
+# ノイズ除外サマリーとは独立したセクション。ノイズ除外サマリーは「除外結果」を記録するのに対し、
+# こちらは除外前の主要国の質的指標をそのまま記録し、人間が毎週の推移を見て判断するための材料とする。
+# bot自動判定・自動除外は行わない（エラー解決サイトは検索流入後すぐ離脱する正常利用も多いため）。
+
+def _build_country_section(countries: list[dict]) -> str:
+    """主要国のセッション数・エンゲージ指標を表形式で記録する（継続観測用）。"""
+    if not countries:
+        return ""
+
+    top = sorted(countries, key=lambda r: -r.get("activeUsers", 0))[:TOP_COUNTRIES]
+    rows = []
+    for r in top:
+        country  = r.get("country", "")
+        sessions = int(r.get("sessions", 0))
+        active   = int(r.get("activeUsers", 0))
+        eng_rate = r.get("engagementRate", 0.0)
+        dur      = r.get("averageSessionDuration", 0.0)
+        bounce   = r.get("bounceRate", 0.0)
+
+        flag = ""
+        if dur < _COUNTRY_ENGAGEMENT_TIME_THRESHOLD or bounce > _COUNTRY_BOUNCE_RATE_THRESHOLD:
+            flag = " ⚠️"
+
+        rows.append(
+            f"| {country}{flag} | {sessions:,} | {active:,} | {eng_rate:.2%} "
+            f"| {dur:.1f} | {bounce:.2%} |"
+        )
+
+    table = "\n".join(rows)
+    return (
+        "\n\n---\n\n"
+        "### 国別分布（継続観測・ボット判定の参考。断定ではありません）\n\n"
+        "| 国 | セッション数 | アクティブUU | エンゲージ率 | 平均エンゲージ時間(秒) | 直帰率 |\n"
+        "| :--- | :--- | :--- | :--- | :--- | :--- |\n"
+        f"{table}\n\n"
+        f"> ⚠️ は平均エンゲージ時間 < {_COUNTRY_ENGAGEMENT_TIME_THRESHOLD:.0f}秒 または "
+        f"直帰率 > {_COUNTRY_BOUNCE_RATE_THRESHOLD:.0%} の国に付けた**参考フラグ**です"
+        "（直帰率の閾値は仮値であり、運用しながら見直してください）。"
+        "エラー解決サイトでは検索流入後すぐ離脱する正常な利用も多いため、"
+        "この指標だけではボットと**断定できません**。"
+        "毎週の推移を人が見て判断するための記録であり、自動的な除外・ブロックには使用していません。"
+    )
+
+
 # ── Markdown rendering ────────────────────────────────────────────────────────
 
 def _pct(v: float, dec: int = 1) -> str:
@@ -605,6 +663,7 @@ def render_issue_body(
     period: str,
     gsc_summary: dict | None = None,
     noise_section: str = "",
+    country_section: str = "",
     content_gap_section: str = "",
     indexnow_section: str = "",
 ) -> str:
@@ -666,6 +725,7 @@ _今週のボトルネック記事はありませんでした。_"""
         + gsc_summary_section
         + gsc_section
         + noise_section
+        + country_section
         + indexnow_section
         + content_gap_section
         + "\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。"
@@ -697,6 +757,7 @@ def main() -> None:
     bottlenecks, gsc_summary = fetch_gsc_data()
 
     noise_section       = _build_noise_section()
+    country_section     = _build_country_section(raw_data.get("countries", []))
     indexnow_section    = _build_indexnow_section()
     content_gap_section = _load_content_gap_section()
     # competitor_section = _load_competitor_section()  # 競合スクレイピングは無効化中
@@ -709,6 +770,7 @@ def main() -> None:
         metrics, bottlenecks, period,
         gsc_summary=gsc_summary,
         noise_section=noise_section,
+        country_section=country_section,
         indexnow_section=indexnow_section,
         content_gap_section=content_gap_section,
     )
