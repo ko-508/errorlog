@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-14T13:05:49.708951+00:00",
+  "generated_at": "2026-06-16T08:22:54.391406+00:00",
   "articles": [
     {
       "path": "content/posts/ansible_400.md",
@@ -11,13 +11,11 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 43,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 43,
         "official": 1
       }
     },
@@ -26,10 +24,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ api_token }}', '{{ aws_access_key_id }}', '{{ aws_secret_access_key }}']"
@@ -40,13 +34,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 30,
+            "other": 2,
             "official": 3
           }
         }
       ],
       "source_tiers": {
-        "other": 30,
+        "other": 2,
         "official": 3
       }
     },
@@ -60,13 +54,11 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 34,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 34,
         "official": 1
       }
     },
@@ -89,13 +81,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 36,
+            "other": 3,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 36,
+        "other": 3,
         "official": 1
       }
     },
@@ -114,13 +106,11 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 29,
             "official": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 29,
         "official": 1
       }
     },
@@ -139,61 +129,49 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 39,
-            "official": 6
+            "official": 6,
+            "other": 5
           }
         }
       ],
       "source_tiers": {
-        "other": 39,
-        "official": 6
+        "official": 6,
+        "other": 5
       }
     },
     {
       "path": "content/posts/aws_400.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 60
+            "other": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 60
+        "other": 2
       }
     },
     {
       "path": "content/posts/aws_401.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 67,
             "official": 3
           }
         }
       ],
       "source_tiers": {
-        "other": 67,
         "official": 3
       }
     },
@@ -207,69 +185,11 @@
           "detail": "言語名なしのコードブロックが1件"
         }
       ],
-      "infos": [
-        {
-          "rule": "D1",
-          "detail": "URL domain tiers",
-          "source_tiers": {
-            "other": 73
-          }
-        }
-      ],
-      "source_tiers": {
-        "other": 73
-      }
+      "infos": [],
+      "source_tiers": {}
     },
     {
       "path": "content/posts/aws_404.md",
-      "category": "error_article",
-      "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
-      "infos": [
-        {
-          "rule": "D1",
-          "detail": "URL domain tiers",
-          "source_tiers": {
-            "other": 28
-          }
-        }
-      ],
-      "source_tiers": {
-        "other": 28
-      }
-    },
-    {
-      "path": "content/posts/aws_409.md",
-      "category": "error_article",
-      "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
-      "infos": [
-        {
-          "rule": "D1",
-          "detail": "URL domain tiers",
-          "source_tiers": {
-            "other": 46,
-            "official": 8
-          }
-        }
-      ],
-      "source_tiers": {
-        "other": 46,
-        "official": 8
-      }
-    },
-    {
-      "path": "content/posts/aws_422.md",
       "category": "error_article",
       "fails": [],
       "warns": [],
@@ -278,36 +198,55 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 47
+            "other": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 47
+        "other": 2
       }
     },
     {
-      "path": "content/posts/aws_429.md",
+      "path": "content/posts/aws_409.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 30,
+            "official": 8
+          }
+        }
+      ],
+      "source_tiers": {
+        "official": 8
+      }
+    },
+    {
+      "path": "content/posts/aws_422.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [],
+      "source_tiers": {}
+    },
+    {
+      "path": "content/posts/aws_429.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 30,
         "official": 4
       }
     },
@@ -326,12 +265,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 25
+            "other": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 25
+        "other": 1
       }
     },
     {
@@ -339,10 +278,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -353,15 +288,15 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 42,
             "official": 6,
+            "other": 3,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 42,
         "official": 6,
+        "other": 3,
         "community": 2
       }
     },
@@ -371,10 +306,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -384,14 +315,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 42,
+            "other": 33,
             "official": 6,
             "community": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 42,
+        "other": 33,
         "official": 6,
         "community": 2
       }
@@ -411,12 +342,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 46
+            "other": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 46
+        "other": 2
       }
     },
     {
@@ -429,38 +360,33 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 56,
-            "official": 6
+            "official": 6,
+            "other": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 56,
-        "official": 6
+        "official": 6,
+        "other": 2
       }
     },
     {
       "path": "content/posts/azure_401.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 53,
+            "other": 26,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 53,
+        "other": 26,
         "official": 4
       }
     },
@@ -468,12 +394,7 @@
       "path": "content/posts/azure_403.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -535,10 +456,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -564,24 +481,19 @@
       "path": "content/posts/azure_500.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 41,
+            "other": 4,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 41,
+        "other": 4,
         "official": 4
       }
     },
@@ -589,12 +501,7 @@
       "path": "content/posts/azure_503.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -629,6 +536,65 @@
       }
     },
     {
+      "path": "content/posts/bitbucket_403.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 71
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 71
+      }
+    },
+    {
+      "path": "content/posts/bitbucket_429.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 75
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 75
+      }
+    },
+    {
+      "path": "content/posts/bitbucket_500.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 9
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 9
+      }
+    },
+    {
       "path": "content/posts/docker_400.md",
       "category": "error_article",
       "fails": [],
@@ -659,10 +625,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -689,10 +651,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
@@ -739,12 +697,7 @@
       "path": "content/posts/docker_408.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -766,12 +719,7 @@
       "path": "content/posts/docker_409.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -793,12 +741,7 @@
       "path": "content/posts/docker_422.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -819,10 +762,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -853,12 +792,7 @@
       "path": "content/posts/docker_500.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -909,12 +843,7 @@
       "path": "content/posts/docker_503.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -934,12 +863,7 @@
       "path": "content/posts/docker_504.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -987,10 +911,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -1062,12 +982,7 @@
       "path": "content/posts/docker_compose_409.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1474,10 +1389,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -1502,10 +1413,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -1532,12 +1439,7 @@
       "path": "content/posts/gcp_404.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1580,10 +1482,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -1635,10 +1533,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -1684,12 +1578,7 @@
       "path": "content/posts/github_api_401.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1709,12 +1598,7 @@
       "path": "content/posts/github_api_403.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1756,12 +1640,7 @@
       "path": "content/posts/github_api_409.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1805,12 +1684,7 @@
       "path": "content/posts/github_api_429.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1832,12 +1706,7 @@
       "path": "content/posts/github_api_500.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1908,12 +1777,7 @@
       "path": "content/posts/github_api_504.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1955,12 +1819,7 @@
       "path": "content/posts/gitlab_401.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -1980,12 +1839,7 @@
       "path": "content/posts/gitlab_403.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2006,10 +1860,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -2037,10 +1887,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -2090,12 +1936,7 @@
       "path": "content/posts/gitlab_429.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2114,10 +1955,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -2193,10 +2030,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -2247,12 +2080,7 @@
       "path": "content/posts/kubernetes_404.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2270,12 +2098,7 @@
       "path": "content/posts/kubernetes_500.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2345,10 +2168,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -2399,10 +2218,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -2428,12 +2243,7 @@
       "path": "content/posts/minikube_500.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2456,10 +2266,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -2488,10 +2294,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -2516,10 +2318,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
@@ -2569,10 +2367,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -2600,10 +2394,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
         }
@@ -2630,10 +2420,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが3件"
@@ -2703,12 +2489,7 @@
       "path": "content/posts/openai_api_401.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2730,12 +2511,7 @@
       "path": "content/posts/openai_api_403.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2777,12 +2553,7 @@
       "path": "content/posts/openai_api_409.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2822,12 +2593,7 @@
       "path": "content/posts/openai_api_429.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2867,12 +2633,7 @@
       "path": "content/posts/openai_api_502.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -2936,10 +2697,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
         }
@@ -2967,10 +2724,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -2997,10 +2750,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -3047,10 +2796,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -3073,15 +2818,87 @@
       }
     },
     {
-      "path": "content/posts/slack_400.md",
+      "path": "content/posts/postman_400.md",
       "category": "error_article",
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが4件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{api_key}}']"
         }
       ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 86
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 86
+      }
+    },
+    {
+      "path": "content/posts/postman_401.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが5件"
+        },
+        {
+          "rule": "A5",
+          "detail": "プレースホルダーが {{ }} 形式: ['{{variable_name}}', '{{api_token}}', '{{api_token}}']"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 89
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 89
+      }
+    },
+    {
+      "path": "content/posts/postman_403.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [
+        {
+          "rule": "A4",
+          "detail": "言語名なしのコードブロックが1件"
+        }
+      ],
+      "infos": [
+        {
+          "rule": "D1",
+          "detail": "URL domain tiers",
+          "source_tiers": {
+            "other": 89
+          }
+        }
+      ],
+      "source_tiers": {
+        "other": 89
+      }
+    },
+    {
+      "path": "content/posts/slack_400.md",
+      "category": "error_article",
+      "fails": [],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3099,12 +2916,7 @@
       "path": "content/posts/slack_401.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3124,12 +2936,7 @@
       "path": "content/posts/slack_403.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3147,12 +2954,7 @@
       "path": "content/posts/slack_404.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3173,10 +2975,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -3201,10 +2999,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -3226,12 +3020,7 @@
       "path": "content/posts/stripe_400.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3295,12 +3084,7 @@
       "path": "content/posts/stripe_403.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3320,12 +3104,7 @@
       "path": "content/posts/stripe_404.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3343,12 +3122,7 @@
       "path": "content/posts/stripe_429.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3581,10 +3355,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A5",
           "detail": "プレースホルダーが {{ }} 形式: ['{{ secrets.AWS_ACCESS_KEY_ID }}', '{{ secrets.AWS_SECRET_ACCESS_KEY }}', '{{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}']"
         }
@@ -3633,10 +3403,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -3660,10 +3426,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが1件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -3685,12 +3447,7 @@
       "path": "content/posts/terraform_429.md",
       "category": "error_article",
       "fails": [],
-      "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        }
-      ],
+      "warns": [],
       "infos": [
         {
           "rule": "D1",
@@ -3709,10 +3466,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -3772,36 +3525,16 @@
       "category": "non_error_article",
       "fails": [],
       "warns": [],
-      "infos": [
-        {
-          "rule": "D1",
-          "detail": "URL domain tiers",
-          "source_tiers": {
-            "other": 8
-          }
-        }
-      ],
-      "source_tiers": {
-        "other": 8
-      }
+      "infos": [],
+      "source_tiers": {}
     },
     {
       "path": "content/posts/tool_zoom.md",
       "category": "non_error_article",
       "fails": [],
       "warns": [],
-      "infos": [
-        {
-          "rule": "D1",
-          "detail": "URL domain tiers",
-          "source_tiers": {
-            "other": 12
-          }
-        }
-      ],
-      "source_tiers": {
-        "other": 12
-      }
+      "infos": [],
+      "source_tiers": {}
     },
     {
       "path": "content/posts/vercel_400.md",
@@ -3828,10 +3561,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが2件"
@@ -3862,10 +3591,6 @@
       "fails": [],
       "warns": [
         {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
-        {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
         }
@@ -3875,12 +3600,12 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 63
+            "other": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 63
+        "other": 2
       }
     },
     {
@@ -3898,14 +3623,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 35,
-            "official": 6
+            "official": 6,
+            "other": 10
           }
         }
       ],
       "source_tiers": {
-        "other": 35,
-        "official": 6
+        "official": 6,
+        "other": 10
       }
     },
     {
@@ -3918,14 +3643,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 48,
-            "official": 6
+            "official": 6,
+            "other": 5
           }
         }
       ],
       "source_tiers": {
-        "other": 48,
-        "official": 6
+        "official": 6,
+        "other": 5
       }
     },
     {
@@ -3943,14 +3668,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 49,
-            "official": 6
+            "official": 6,
+            "other": 2
           }
         }
       ],
       "source_tiers": {
-        "other": 49,
-        "official": 6
+        "official": 6,
+        "other": 2
       }
     },
     {
@@ -3958,10 +3683,6 @@
       "category": "error_article",
       "fails": [],
       "warns": [
-        {
-          "rule": "B3",
-          "detail": "解決手順内のコードブロックが0件（Before/After 推奨: 2件以上）"
-        },
         {
           "rule": "A4",
           "detail": "言語名なしのコードブロックが1件"
@@ -3972,13 +3693,13 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 29,
+            "other": 17,
             "official": 4
           }
         }
       ],
       "source_tiers": {
-        "other": 29,
+        "other": 17,
         "official": 4
       }
     },
@@ -3997,14 +3718,14 @@
           "rule": "D1",
           "detail": "URL domain tiers",
           "source_tiers": {
-            "other": 37,
+            "other": 1,
             "official": 1,
             "community": 1
           }
         }
       ],
       "source_tiers": {
-        "other": 37,
+        "other": 1,
         "official": 1,
         "community": 1
       }

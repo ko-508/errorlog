@@ -222,9 +222,28 @@ def extract_fenced_code_blocks(text: str) -> list[tuple[str, str]]:
     return results
 
 
+def _mask_code_blocks(text: str) -> str:
+    """見出し検索用にフェンスドコードブロックの内部を無害化する。
+
+    コードブロック内の各文字（改行を除く）を 'x' に置換し、文字数・改行位置を
+    元の文字列と完全に一致させる。これにより置換後の文字列上で求めたオフセットを
+    そのまま元の文字列のスライスに使える。コードブロック内の `# コメント` 等が
+    Markdown 見出しと誤認されることを防ぐ。
+    """
+    def _mask(m: re.Match[str]) -> str:
+        return "".join("\n" if ch == "\n" else "x" for ch in m.group(0))
+    return re.sub(r"```[\s\S]*?```", _mask, text)
+
+
 def get_section_content(body: str, section_pattern: re.Pattern[str]) -> str | None:
-    """セクション見出しにマッチする最初のセクションの本文を返す（次の同レベル見出しまで）。"""
-    m = section_pattern.search(body)
+    """セクション見出しにマッチする最初のセクションの本文を返す（次の同レベル見出しまで）。
+
+    見出し検索はコードブロック内部を無害化したテキスト上で行うため、コードブロック内の
+    `# コメント` 等を見出しと誤認しない。返すセクション本文は元のコードブロックを
+    含む内容（マスクされていない元の body のスライス）。
+    """
+    masked = _mask_code_blocks(body)
+    m = section_pattern.search(masked)
     if not m:
         return None
     start = m.end()
@@ -232,7 +251,7 @@ def get_section_content(body: str, section_pattern: re.Pattern[str]) -> str | No
     heading_text = m.group(0).lstrip()
     level = len(heading_text) - len(heading_text.lstrip("#"))
     next_heading = re.compile(r"^#{1," + str(level) + r"}\s", re.MULTILINE)
-    nm = next_heading.search(body, start)
+    nm = next_heading.search(masked, start)
     end = nm.start() if nm else len(body)
     return body[start:end]
 
