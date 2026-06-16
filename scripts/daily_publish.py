@@ -574,6 +574,8 @@ def main() -> None:
             meaning_clean = meaning_clean[:60].rstrip("。．、,")
         description = f"{meaning_clean}。{tool} {code} エラーの原因と解決策を解説します。"
         tags = extract_tags(filename)
+        if not tags:
+            tags = [tool or Path(filename).stem]
         tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
 
         # Phase 3: 知識グラフメタデータを抽出
