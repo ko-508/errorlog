@@ -35,6 +35,7 @@ jobs:
         run: python scripts/_hostname_check.py
 
       - name: Run GA4 analyzer
+        id: ga4_analyzer
         env:
           GA4_PROPERTY_ID:          ${{ secrets.GA4_PROPERTY_ID }}
           GA4_OAUTH_CLIENT_ID:      ${{ secrets.GA4_OAUTH_CLIENT_ID }}
@@ -45,6 +46,7 @@ jobs:
         run: python scripts/ga4_analyzer.py
 
       - name: Run GA4 feedback loop (Task 07 + 08)
+        id: ga4_feedback
         env:
           GA4_PROPERTY_ID:         ${{ secrets.GA4_PROPERTY_ID }}
           GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
@@ -60,6 +62,7 @@ jobs:
       #   run: python scripts/scan_competitors.py
 
       - name: Run Search Console analysis
+        id: fetch_gsc
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
           GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
@@ -70,6 +73,7 @@ jobs:
         run: python scripts/fetch_search_console.py
 
       - name: Run weekly unified report
+        id: weekly_report_step
         env:
           GA4_PROPERTY_ID:          ${{ secrets.GA4_PROPERTY_ID }}
           GA4_SERVICE_ACCOUNT_KEY:  ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
@@ -82,6 +86,7 @@ jobs:
         run: python scripts/weekly_report.py
 
       - name: Run Content Gap Analyzer
+        id: content_gap
         continue-on-error: true
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
@@ -92,6 +97,7 @@ jobs:
         run: python scripts/query_coverage_analyzer.py
 
       - name: Update rewrite experiment results
+        id: rewrite_results
         continue-on-error: true
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
@@ -101,7 +107,46 @@ jobs:
           GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
         run: python scripts/update_rewrite_results.py
 
+      - name: Collect step status
+        if: always()
+        env:
+          STATUS_GA4_ANALYZER:    ${{ steps.ga4_analyzer.outcome }}
+          STATUS_GA4_FEEDBACK:    ${{ steps.ga4_feedback.outcome }}
+          STATUS_FETCH_GSC:       ${{ steps.fetch_gsc.outcome }}
+          STATUS_WEEKLY_REPORT:   ${{ steps.weekly_report_step.outcome }}
+          STATUS_CONTENT_GAP:     ${{ steps.content_gap.outcome }}
+          STATUS_REWRITE_RESULTS: ${{ steps.rewrite_results.outcome }}
+        run: |
+          python - <<'PYEOF'
+          import json, os
+          from pathlib import Path
+
+          steps = [
+            {"id": "ga4_analyzer",    "name": "GA4分析",            "outcome": os.getenv("STATUS_GA4_ANALYZER"),    "continue_on_error": False, "impact": "GA4トラフィックデータが更新されていません"},
+            {"id": "ga4_feedback",    "name": "GA4フィードバック",  "outcome": os.getenv("STATUS_GA4_FEEDBACK"),    "continue_on_error": False, "impact": "リライト優先度スコアが更新されていません"},
+            {"id": "fetch_gsc",       "name": "Search Console取得", "outcome": os.getenv("STATUS_FETCH_GSC"),       "continue_on_error": False, "impact": "GSCボトルネック・クエリデータが更新されていません"},
+            {"id": "weekly_report",   "name": "週次レポート生成",   "outcome": os.getenv("STATUS_WEEKLY_REPORT"),   "continue_on_error": False, "impact": "Issueが生成されない可能性があります"},
+            {"id": "content_gap",     "name": "Content Gap分析",    "outcome": os.getenv("STATUS_CONTENT_GAP"),     "continue_on_error": True,  "impact": "Content Gap分析は今週更新されていません"},
+            {"id": "rewrite_results", "name": "リライト実績更新",   "outcome": os.getenv("STATUS_REWRITE_RESULTS"), "continue_on_error": True,  "impact": "CTR実験のafter指標が更新されていません"},
+          ]
+
+          Path("reports/ga4").mkdir(parents=True, exist_ok=True)
+          Path("reports/ga4/step_status.json").write_text(
+              json.dumps({"steps": steps}, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+
+          failures = [s for s in steps if s["outcome"] == "failure"]
+          if failures:
+              print(f"WARNING: 失敗ステップ {len(failures)}件")
+              for s in failures:
+                  print(f"  - {s['name']}: {s['impact']}")
+          else:
+              print("OK: すべてのステップが成功しました")
+          PYEOF
+
       - name: Commit and push report
+        if: always()
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
@@ -157,6 +202,45 @@ jobs:
               return;
             }
 
+            // ── 処理状況セクション ────────────────────────────────────────────
+            let statusSection = '';
+            try {
+              const stepStatus = JSON.parse(fs.readFileSync('reports/ga4/step_status.json', 'utf8'));
+              const steps    = stepStatus.steps || [];
+              const failures = steps.filter(s => s.outcome === 'failure');
+              const skipped  = steps.filter(s => s.outcome === 'skipped');
+              const lines    = ['## 今週の処理状況\n'];
+
+              if (failures.length === 0 && skipped.length === 0) {
+                lines.push('✅ **すべてのステップが正常に完了しました。**\n');
+              } else {
+                if (failures.length > 0) {
+                  lines.push(`⚠️ **${failures.length}件のステップが失敗しました（処理は継続）。**\n`);
+                  lines.push('| ステップ | 設定 | レポートへの影響 |');
+                  lines.push('| :--- | :--- | :--- |');
+                  for (const s of failures) {
+                    const coe = s.continue_on_error ? 'continue-on-error' : '要確認';
+                    lines.push(`| ${s.name} | ${coe} | ${s.impact} |`);
+                  }
+                  lines.push('');
+                }
+                if (skipped.length > 0) {
+                  lines.push(`⏭️ **${skipped.length}件のステップがスキップされました。**\n`);
+                }
+              }
+
+              // GSCデータ空欄警告（認証失敗時に gsc_summary が {} になる）
+              const gsc = data.gsc_summary || {};
+              if (Object.keys(gsc).length === 0) {
+                lines.push('\n> 🔴 **GSCデータ取得失敗の可能性**: Search Console データが空です。認証トークンを確認してください。\n');
+              }
+
+              statusSection = lines.join('\n') + '\n---\n\n';
+            } catch (e) {
+              console.log('step_status.json 読み込みスキップ:', e.message);
+            }
+
+            // ── ラベル作成 ────────────────────────────────────────────────────
             for (const label of [
               { name: 'weekly-report',  color: '0075ca', description: 'Weekly unified GA4+GSC report' },
               { name: 'ga4-bottleneck', color: '0075ca', description: 'GA4 weekly bottleneck report' },
@@ -175,7 +259,7 @@ jobs:
               owner:  context.repo.owner,
               repo:   context.repo.repo,
               title:  data.issue_title,
-              body:   data.issue_body,
+              body:   statusSection + data.issue_body,
               labels: ['weekly-report'],
             });
             console.log(`Issue created: #${issue.number}  ${issue.html_url}`);
