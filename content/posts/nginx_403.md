@@ -9,6 +9,9 @@ service: "Nginx"
 error_type: "403"
 components: []
 related_services: []
+top_queries:
+- "403 forbidden nginx"
+- "nginx 403 forbidden"
 ---
 
 ## エラーの概要

@@ -9,6 +9,8 @@ service: "Stripe"
 error_type: "402"
 components: ["PaymentIntent", "Charge"]
 related_services: ["3Dセキュア", "Webhook"]
+top_queries:
+- "stripe 決済 エラー"
 ---
 
 ## エラーの概要

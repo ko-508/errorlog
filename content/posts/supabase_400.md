@@ -8,6 +8,8 @@ service: "Supabase"
 error_type: "400"
 components: []
 related_services: ["PostgreSQL", "PostgREST", "JavaScript", "cURL", "fetch API", "JSON"]
+top_queries:
+- "supabase project url"
 ---
 ## エラーの概要
 

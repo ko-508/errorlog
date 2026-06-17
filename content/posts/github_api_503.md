@@ -10,6 +10,10 @@ error_type: "503"
 components: []
 related_services: ["GraphQL API"]
 trend_incident: true
+top_queries:
+- "github 503"
+- "github 503 error"
+- "github error 503"
 ---
 
 ## エラーの概要

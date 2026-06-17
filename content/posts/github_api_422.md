@@ -10,6 +10,9 @@ error_type: "422"
 components: []
 related_services: []
 trend_incident: true
+top_queries:
+- "422 github api"
+- "github 422"
 ---
 
 ## エラーの概要

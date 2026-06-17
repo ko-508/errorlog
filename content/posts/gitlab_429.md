@@ -8,6 +8,8 @@ service: "GitLab"
 error_type: "429"
 components: ["API", "CI/CD", "Projects", "Groups", "Merge Requests", "Pipelines", "Jobs", "Artifacts"]
 related_services: ["curl", "Python requests"]
+top_queries:
+- "リモート サーバー が エラー を 返し まし た 429"
 ---
 ## エラーの概要
 

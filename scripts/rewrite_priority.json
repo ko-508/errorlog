@@ -16,30 +16,6 @@
     "source": "gsc_bottleneck"
   },
   {
-    "title": "GCP の 400 エラー：原因と解決策",
-    "priority_score": 0.3,
-    "critical": false,
-    "no_ratio": 0.0,
-    "no_count": 0,
-    "engagement_sec": 0.0,
-    "is_thin": false,
-    "thin_chars": 1130,
-    "queued_at": "2026-06-08",
-    "source": "thin_scan"
-  },
-  {
-    "title": "Slack の 404 エラー：原因と解決策",
-    "priority_score": 0.3,
-    "critical": false,
-    "no_ratio": 0.0,
-    "no_count": 0,
-    "engagement_sec": 0.0,
-    "is_thin": false,
-    "thin_chars": 1128,
-    "queued_at": "2026-06-08",
-    "source": "thin_scan"
-  },
-  {
     "title": "Nginx の 500 エラー：原因と解決策",
     "priority_score": 0.5,
     "critical": false,
@@ -89,6 +65,30 @@
     "source": "gsc_bottleneck"
   },
   {
+    "title": "GCP の 400 エラー：原因と解決策",
+    "priority_score": 0.3,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "is_thin": false,
+    "thin_chars": 1130,
+    "queued_at": "2026-06-08",
+    "source": "thin_scan"
+  },
+  {
+    "title": "Slack の 404 エラー：原因と解決策",
+    "priority_score": 0.3,
+    "critical": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "is_thin": false,
+    "thin_chars": 1128,
+    "queued_at": "2026-06-08",
+    "source": "thin_scan"
+  },
+  {
     "title": "Zoom とは？特徴・機能・料金・比較まとめ",
     "priority_score": 0.3,
     "critical": false,
@@ -99,5 +99,236 @@
     "thin_chars": 342,
     "queued_at": "2026-06-14",
     "source": "thin_scan"
+  },
+  {
+    "title": "AWS の 503 エラー：原因と解決策",
+    "slug": "aws_503",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "elb 503",
+    "gsc_position": 50.3,
+    "gsc_ctr": 0,
+    "gsc_impressions": 16,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 16）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "AWS の 504 エラー：原因と解決策",
+    "slug": "aws_504",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "elb 504",
+    "gsc_position": 49.4,
+    "gsc_ctr": 0,
+    "gsc_impressions": 18,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 18）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Docker の 408 エラー：原因と解決策",
+    "slug": "docker_408",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "408 エラー",
+    "gsc_position": 19.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 5,
+    "gsc_reasons": [
+      "掲載順位 19.2 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GCP の 500 エラー：原因と解決策",
+    "slug": "gcp_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "google 500 エラー",
+    "gsc_position": 19.6,
+    "gsc_ctr": 0,
+    "gsc_impressions": 11,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 11）",
+      "掲載順位 19.6 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GitHub API の 422 エラー：原因と解決策",
+    "slug": "github_api_422",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "422 github api",
+    "gsc_position": 12.9,
+    "gsc_ctr": 0,
+    "gsc_impressions": 9,
+    "gsc_reasons": [
+      "掲載順位 12.9 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Nginx の 403 エラー：原因と解決策",
+    "slug": "nginx_403",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "403 forbidden nginx",
+    "gsc_position": 11.3,
+    "gsc_ctr": 0,
+    "gsc_impressions": 16,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 16）",
+      "掲載順位 11.3 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Nginx の 404 エラー：原因と解決策",
+    "slug": "nginx_404",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "404 not found nginx",
+    "gsc_position": 11.9,
+    "gsc_ctr": 0,
+    "gsc_impressions": 14,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 14）",
+      "掲載順位 11.9 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "OpenAI API の 400 エラー：原因と解決策",
+    "slug": "openai_api_400",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 9,
+    "gsc_ctr": 0,
+    "gsc_impressions": 13,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 13）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Slack の 500 エラー：原因と解決策",
+    "slug": "slack_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 11.5,
+    "gsc_ctr": 0,
+    "gsc_impressions": 8,
+    "gsc_reasons": [
+      "掲載順位 11.5 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Stripe の 402 エラー：原因と解決策",
+    "slug": "stripe_402",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "stripe 決済 エラー",
+    "gsc_position": 10.3,
+    "gsc_ctr": 0,
+    "gsc_impressions": 11,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 11）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Docker Compose とは？特徴・機能・料金・比較まとめ",
+    "slug": "tool_docker_compose",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "docker compose",
+    "gsc_position": 41.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 11,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.4%（インプレッション 11）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Vercel の 500 エラー：原因と解決策",
+    "slug": "vercel_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "vercel internal server error",
+    "gsc_position": 12,
+    "gsc_ctr": 0,
+    "gsc_impressions": 8,
+    "gsc_reasons": [
+      "掲載順位 12.0 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
   }
 ]

@@ -9,6 +9,8 @@ service: "OpenAI API"
 error_type: "500"
 components: []
 related_services: ["OpenAI ChatCompletion", "curl"]
+top_queries:
+- "openai.internalservererror: error code: 500"
 ---
 
 ## エラーの概要

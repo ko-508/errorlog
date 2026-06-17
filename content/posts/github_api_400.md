@@ -10,6 +10,8 @@ error_type: "400"
 components: []
 related_services: ["@octokit/rest"]
 trend_incident: true
+top_queries:
+- "github api bad credentials"
 ---
 
 ## エラーの概要

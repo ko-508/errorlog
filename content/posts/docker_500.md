@@ -10,6 +10,9 @@ error_type: "500"
 components: []
 related_services: []
 trend_incident: true
+top_queries:
+- "docker http 500: internal server error"
+- "http 500: internal server error docker"
 ---
 
 ## エラーの概要

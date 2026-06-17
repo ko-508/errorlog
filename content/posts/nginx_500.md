@@ -10,7 +10,8 @@ error_type: "500"
 components: []
 related_services: ["PHP-FPM", "uWSGI", "Node.js", "Gunicorn", "Python", "Flask"]
 top_queries:
-- "500 internal server error nginx"
+- "nginx 500エラー"
+- "500 nginx"
 ---
 
 ## エラーの概要

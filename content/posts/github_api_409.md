@@ -10,6 +10,8 @@ error_type: "409"
 components: []
 related_services: ["Octokit"]
 trend_incident: true
+top_queries:
+- "409エラー"
 ---
 
 ## エラーの概要

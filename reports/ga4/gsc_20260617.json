@@ -7,6 +7,190 @@
     11.0,
     20.0
   ],
-  "total_pages": 0,
-  "bottlenecks": []
+  "total_pages": 105,
+  "bottlenecks": [
+    {
+      "page": "https://errorlog.jp/posts/aws_503/",
+      "slug": "aws_503",
+      "impressions": 16,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 50.3,
+      "top_query": "elb 503",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 16）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/aws_504/",
+      "slug": "aws_504",
+      "impressions": 18,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 49.4,
+      "top_query": "elb 504",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 18）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/docker_408/",
+      "slug": "docker_408",
+      "impressions": 5,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 19.2,
+      "top_query": "408 エラー",
+      "reasons": [
+        "掲載順位 19.2 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/gcp_500/",
+      "slug": "gcp_500",
+      "impressions": 11,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 19.6,
+      "top_query": "google 500 エラー",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 11）",
+        "掲載順位 19.6 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/github_api_422/",
+      "slug": "github_api_422",
+      "impressions": 9,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 12.9,
+      "top_query": "422 github api",
+      "reasons": [
+        "掲載順位 12.9 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/nginx_403/",
+      "slug": "nginx_403",
+      "impressions": 16,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.3,
+      "top_query": "403 forbidden nginx",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 16）",
+        "掲載順位 11.3 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/nginx_404/",
+      "slug": "nginx_404",
+      "impressions": 14,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.9,
+      "top_query": "404 not found nginx",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 14）",
+        "掲載順位 11.9 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/openai_api_400/",
+      "slug": "openai_api_400",
+      "impressions": 13,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 9,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 13）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/slack_500/",
+      "slug": "slack_500",
+      "impressions": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.5,
+      "top_query": "",
+      "reasons": [
+        "掲載順位 11.5 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/stripe_402/",
+      "slug": "stripe_402",
+      "impressions": 11,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 10.3,
+      "top_query": "stripe 決済 エラー",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 11）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/tool_docker_compose/",
+      "slug": "tool_docker_compose",
+      "impressions": 11,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 41.2,
+      "top_query": "docker compose",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.4%（インプレッション 11）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/vercel_500/",
+      "slug": "vercel_500",
+      "impressions": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 12,
+      "top_query": "vercel internal server error",
+      "reasons": [
+        "掲載順位 12.0 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    }
+  ]
 }

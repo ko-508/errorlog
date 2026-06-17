@@ -9,6 +9,8 @@ service: "Nginx"
 error_type: "404"
 components: []
 related_services: []
+top_queries:
+- "404 not found nginx"
 ---
 
 ## エラーの概要

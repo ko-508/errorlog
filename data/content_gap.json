@@ -1,0 +1,1504 @@
+{
+  "generated_at": "2026-06-17",
+  "uncovered": [
+    {
+      "query": "provider_data_share",
+      "impressions": 1,
+      "ctr": 1.0,
+      "position": 11.0,
+      "coverage": "uncovered",
+      "best_match_slug": "terraform_400",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "\"const sellingpartnerapi = require('amazon-sp-api')\"",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 7.0,
+      "coverage": "uncovered",
+      "best_match_slug": "github_api_400",
+      "match_score": 0.159,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "\"data retention mode 'default' is not available for this model\"",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 9.5,
+      "coverage": "uncovered",
+      "best_match_slug": "openai_api_403",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "\"data retention mode 'default' is not available for this model\" bedrock",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 8.5,
+      "coverage": "uncovered",
+      "best_match_slug": "openai_api_403",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "100404",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 53.0,
+      "coverage": "uncovered",
+      "best_match_slug": "slack_404",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "authorization error accessing plugins",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 57.0,
+      "coverage": "uncovered",
+      "best_match_slug": "github_api_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ci to cd",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 94.0,
+      "coverage": "uncovered",
+      "best_match_slug": "gitlab_400",
+      "match_score": 0.138,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ci とは プログラミング",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 86.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "cliとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 57.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "dashboard 意味",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 82.5,
+      "coverage": "uncovered",
+      "best_match_slug": "supabase_404",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "graphql",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 68.0,
+      "coverage": "uncovered",
+      "best_match_slug": "github_api_429",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "graphqlとは何か",
+      "impressions": 6,
+      "ctr": 0.0,
+      "position": 76.17,
+      "coverage": "uncovered",
+      "best_match_slug": "github_api_429",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "http",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 173.0,
+      "coverage": "uncovered",
+      "best_match_slug": "docker_408",
+      "match_score": 0.103,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "http 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 80.0,
+      "coverage": "uncovered",
+      "best_match_slug": "docker_408",
+      "match_score": 0.103,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "httpとは何か: インターネット データ転送のためのプロトコル",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 77.0,
+      "coverage": "uncovered",
+      "best_match_slug": "docker_408",
+      "match_score": 0.103,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "httpとは何か：インターネット データ転送のためのプロトコル",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 80.33,
+      "coverage": "uncovered",
+      "best_match_slug": "docker_408",
+      "match_score": 0.103,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "json とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 95.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "namespace とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 65.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "rbac",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 82.5,
+      "coverage": "uncovered",
+      "best_match_slug": "azure_403",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "rbac とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 80.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "rest",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 75.0,
+      "coverage": "uncovered",
+      "best_match_slug": "azure_404",
+      "match_score": 0.103,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "retry 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 29.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "rfc",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 67.0,
+      "coverage": "uncovered",
+      "best_match_slug": "docker_408",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "rfcとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 62.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "sdk",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 94.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "sdk とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 93.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ssl とは わかり やすく",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 72.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "the model returned the following errors: data retention mode 'default' is not available for this model",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 4.0,
+      "coverage": "uncovered",
+      "best_match_slug": "openai_api_403",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "validationexception the model returned the following errors: data retention mode 'default' is not available for this model",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 4.0,
+      "coverage": "uncovered",
+      "best_match_slug": "openai_api_403",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vpc",
+      "impressions": 13,
+      "ctr": 0.0,
+      "position": 81.69,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_500",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vpc とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 84.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vpc ネットワーク",
+      "impressions": 9,
+      "ctr": 0.0,
+      "position": 85.89,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_500",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vpcとは",
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 88.8,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "webhook 読み方",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 66.0,
+      "coverage": "uncovered",
+      "best_match_slug": "stripe_429",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "{\"error\": \"too many requests\", \"message\": \"rate limit exceeded. please try again later.\"}",
+      "impressions": 39,
+      "ctr": 0.0,
+      "position": 5.08,
+      "coverage": "uncovered",
+      "best_match_slug": "gitlab_429",
+      "match_score": 0.103,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "アクセス 権限",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 90.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "インデクス",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 89.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー とは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 9.5,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー コード",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 78.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 40.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラーとは",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 10.67,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラーコード",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 76.0,
+      "coverage": "uncovered",
+      "best_match_slug": "docker_504",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラーメッセージ",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 83.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "キャッシュ と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 86.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "キャッシュ とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 86.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "キャッシュとは",
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 83.57,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "クラウド 保存 と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 82.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "コマンドとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 73.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "コミット",
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 83.71,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "コンソール と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 46.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "コールドスタートとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 61.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "スロットリング",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 46.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ダッシュ ボード",
+      "impressions": 16,
+      "ctr": 0.0,
+      "position": 81.06,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ダッシュボード",
+      "impressions": 21,
+      "ctr": 0.0,
+      "position": 73.86,
+      "coverage": "uncovered",
+      "best_match_slug": "openai_api_401",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "デバッグ",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 133.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "デバッグログとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 74.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "デプロイ",
+      "impressions": 11,
+      "ctr": 0.0,
+      "position": 95.55,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "デプロイ と は",
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 88.75,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "デプロイとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 84.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "デプロイ意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 86.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トランザクション エラー 原因",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 24.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークン と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 100.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークン と は わかり やすく",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 84.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークン とは",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 96.33,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークン 意味",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 97.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークンとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 97.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "バグコンソールとは",
+      "impressions": 15,
+      "ctr": 0.0,
+      "position": 4.4,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "バックオフ 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 12.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "バックオフとは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 9.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "バージョニングとは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 48.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パケット とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 100.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメータ",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 94.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメータ とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 70.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメータとは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 72.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメーター",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 100.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメーター と は",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 88.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメーター 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 78.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "パラメーターとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 85.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ブランチ と は",
+      "impressions": 10,
+      "ctr": 0.0,
+      "position": 53.7,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ブランチとは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 50.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ペイロード",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 71.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ペイロード 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 50.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ペイロードとは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 48.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "マージ と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 88.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "マージとは 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 69.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リクエスト",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 73.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リクエスト と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 39.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リクエストとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 40.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リトライ 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 28.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リトライとは",
+      "impressions": 7,
+      "ctr": 0.0,
+      "position": 10.14,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リトライとは 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 12.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リトライの意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 12.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リポジトリ",
+      "impressions": 10,
+      "ctr": 0.0,
+      "position": 75.1,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リポジトリーとは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 76.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "レジストリ と は",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 79.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "レスポンス と は",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 51.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "レスポンス とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 54.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "レスポンス 意味 使い方",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 71.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "レスポンスとは",
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 50.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ログファイルとは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 45.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "仮想プライベートクラウド",
+      "impressions": 11,
+      "ctr": 0.0,
+      "position": 80.91,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "冪 等 性",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 47.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "変数",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 84.5,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "変数 とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 79.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "変数 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 75.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "環境 変数",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 63.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "環境変数",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 61.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "環境変数とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 53.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "認可",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 60.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "認証 とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 78.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "認証エラー 原因",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 42.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "通信 とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 11.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "通信 意味",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 12.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "通信とは",
+      "impressions": 15,
+      "ctr": 0.0,
+      "position": 12.33,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "通信の意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 11.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ﾚｽﾎﾟﾝｽとは",
+      "impressions": 12,
+      "ctr": 0.0,
+      "position": 53.92,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    }
+  ],
+  "partial": [
+    {
+      "query": "401 とは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 54.5,
+      "coverage": "partial",
+      "best_match_slug": "aws_401",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "401エラー",
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 52.25,
+      "coverage": "partial",
+      "best_match_slug": "aws_401",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "403 forbidden 意味",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 14.0,
+      "coverage": "partial",
+      "best_match_slug": "gcp_403",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "404 status",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 89.0,
+      "coverage": "partial",
+      "best_match_slug": "aws_404",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "408 エラー",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 25.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_408",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "409エラー",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 33.5,
+      "coverage": "partial",
+      "best_match_slug": "github_api_409",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "503 service temporarily unavailablenginx",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 6.0,
+      "coverage": "partial",
+      "best_match_slug": "aws_503",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "api 504 error",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 4.0,
+      "coverage": "partial",
+      "best_match_slug": "github_api_504",
+      "match_score": 0.455,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "api error: 400 data retention mode 'default' is not available for this model",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 3.0,
+      "coverage": "partial",
+      "best_match_slug": "github_api_400",
+      "match_score": 0.455,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "docker compose",
+      "impressions": 8,
+      "ctr": 0.0,
+      "position": 43.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_compose_400",
+      "match_score": 0.559,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "docker compose pricing",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 9.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_compose_400",
+      "match_score": 0.559,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "docker compose yml",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 52.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_compose_400",
+      "match_score": 0.559,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "docker compose とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 48.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_compose_400",
+      "match_score": 0.559,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "docker exited",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 27.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_500",
+      "match_score": 0.503,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "elb 503",
+      "impressions": 13,
+      "ctr": 0.0,
+      "position": 54.46,
+      "coverage": "partial",
+      "best_match_slug": "aws_503",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "elb 504",
+      "impressions": 12,
+      "ctr": 0.0,
+      "position": 50.5,
+      "coverage": "partial",
+      "best_match_slug": "aws_504",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "github api bad credentials",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 28.33,
+      "coverage": "partial",
+      "best_match_slug": "github_api_400",
+      "match_score": 0.524,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "google 500 エラー",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 33.0,
+      "coverage": "partial",
+      "best_match_slug": "gcp_500",
+      "match_score": 0.4,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "google エラー 500",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 30.0,
+      "coverage": "partial",
+      "best_match_slug": "gcp_500",
+      "match_score": 0.4,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "google エラー500",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 30.0,
+      "coverage": "partial",
+      "best_match_slug": "gcp_500",
+      "match_score": 0.4,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "google 承認エラー 403",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 48.0,
+      "coverage": "partial",
+      "best_match_slug": "gcp_403",
+      "match_score": 0.4,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "http 408エラー",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 24.0,
+      "coverage": "partial",
+      "best_match_slug": "docker_408",
+      "match_score": 0.4,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "request failed with status code 429",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 52.5,
+      "coverage": "partial",
+      "best_match_slug": "gitlab_429",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "stripe 決済 エラー",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 42.0,
+      "coverage": "partial",
+      "best_match_slug": "stripe_402",
+      "match_score": 0.503,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "supabase project url",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 7.0,
+      "coverage": "partial",
+      "best_match_slug": "supabase_400",
+      "match_score": 0.503,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vercel internal server error",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 4.0,
+      "coverage": "partial",
+      "best_match_slug": "vercel_500",
+      "match_score": 0.503,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vercel japan",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 36.0,
+      "coverage": "partial",
+      "best_match_slug": "vercel_500",
+      "match_score": 0.503,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー 503 とは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 65.5,
+      "coverage": "partial",
+      "best_match_slug": "aws_503",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー 504",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 66.0,
+      "coverage": "partial",
+      "best_match_slug": "aws_504",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー コード 504",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 60.5,
+      "coverage": "partial",
+      "best_match_slug": "aws_504",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラーコード 504",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 54.0,
+      "coverage": "partial",
+      "best_match_slug": "aws_504",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "グーグル 403 エラー",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 54.0,
+      "coverage": "partial",
+      "best_match_slug": "gcp_403",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "リモート サーバー が エラー を 返し まし た 429",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 47.0,
+      "coverage": "partial",
+      "best_match_slug": "gitlab_429",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
+    }
+  ],
+  "summary": {
+    "total_queries": 179,
+    "covered": 30,
+    "partial": 33,
+    "uncovered": 116,
+    "coverage_rate": 0.1676
+  }
+}
