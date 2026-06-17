@@ -229,16 +229,14 @@ def _fetch_host_summary(client) -> dict:
 
 def fetch_all_ga4(client) -> dict:
     host = _host_filter()
-    jp   = _japan_filter()
-    host_and_jp = _and_filter(host, jp)
 
-    print("  [GA4] overall metrics (errorlog.jp × Japan)...")
+    print("  [GA4] overall metrics (errorlog.jp)...")
     overall = _run_report_overall(client, [
         "activeUsers", "sessions", "screenPageViews", "bounceRate",
-    ], dim_filter=host_and_jp)
+    ], dim_filter=host)
 
-    print("  [GA4] channel distribution (errorlog.jp × Japan)...")
-    channels = _run_report(client, ["sessionDefaultChannelGroup"], ["sessions"], row_limit=20, dim_filter=host_and_jp)
+    print("  [GA4] channel distribution (errorlog.jp)...")
+    channels = _run_report(client, ["sessionDefaultChannelGroup"], ["sessions"], row_limit=20, dim_filter=host)
     channels.sort(key=lambda r: -r.get("sessions", 0))
 
     print("  [GA4] country distribution (errorlog.jp)...")
@@ -251,8 +249,8 @@ def fetch_all_ga4(client) -> dict:
     )
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
 
-    print("  [GA4] events (errorlog.jp × Japan)...")
-    events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100, dim_filter=host_and_jp)
+    print("  [GA4] events (errorlog.jp)...")
+    events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100, dim_filter=host)
 
     print("  [GA4] host summary (all hosts)...")
     host_summary = _fetch_host_summary(client)
