@@ -7,6 +7,11 @@
       "nginx 500 fix"
     ],
     "timestamp": "2026-06-10",
-    "slug": "nginx_500"
+    "slug": "nginx_500",
+    "after_ctr": 0,
+    "after_position": 8.11,
+    "after_impressions": 9,
+    "ctr_change": 0.0,
+    "position_change": 8.11
   }
 ]
