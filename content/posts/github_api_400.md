@@ -11,7 +11,7 @@ components: []
 related_services: ["@octokit/rest"]
 trend_incident: true
 top_queries:
-- "github api bad credentials"
+- 'github api bad credentials'
 ---
 
 ## エラーの概要

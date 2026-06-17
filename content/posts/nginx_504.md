@@ -10,7 +10,7 @@ error_type: "504"
 components: []
 related_services: ["Node.js", "MySQL", "systemd"]
 top_queries:
-- "nginx 504"
+- 'nginx 504'
 ---
 
 ## エラーの概要

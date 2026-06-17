@@ -10,9 +10,9 @@ error_type: "503"
 components: []
 related_services: ["Node.js", "Docker"]
 top_queries:
-- "503 service temporarily unavailable nginx"
-- "503 service temporarily unavailablenginx"
-- "error 503 nginx"
+- '503 service temporarily unavailable nginx'
+- '503 service temporarily unavailablenginx'
+- 'error 503 nginx'
 ---
 
 ## エラーの概要

@@ -10,7 +10,7 @@ error_type: "502"
 components: []
 related_services: ["ChatCompletion", "curl", "Python"]
 top_queries:
-- "openai 502"
+- 'openai 502'
 ---
 
 ## エラーの概要

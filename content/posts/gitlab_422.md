@@ -9,7 +9,7 @@ error_type: "422"
 components: ["API", "Merge Request", "Issue", "Project", "Group", "Epic", "Board", "Pipeline Schedule"]
 related_services: []
 top_queries:
-- "gitlab 422 error"
+- 'gitlab 422 error'
 ---
 ## エラーの概要
 

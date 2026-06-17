@@ -10,7 +10,7 @@ components: []
 related_services: ["curl", "Python requests"]
 lastmod: 2026-06-14
 top_queries:
-- "gitlab 404"
+- 'gitlab 404'
 ---
 
 ## エラーの概要

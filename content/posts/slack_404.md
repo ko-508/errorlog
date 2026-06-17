@@ -11,7 +11,7 @@ error_type: "404"
 components: []
 related_services: ["Slack API"]
 top_queries:
-- "100404"
+- '100404'
 ---
 
 ## エラーの概要

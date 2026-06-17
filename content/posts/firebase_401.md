@@ -10,7 +10,7 @@ error_type: "401"
 components: ["Firestore", "Auth", "Realtime Database"]
 related_services: ["Node.js", "Python", "Cloud Firestore", "Firebase Console"]
 top_queries:
-- "401 とは"
+- '401 とは'
 ---
 
 ## エラーの概要

@@ -10,7 +10,7 @@ components: []
 related_services: ["Node.js", "npm", "postgres", "axios", "JSON", "Promise", "Async/Await"]
 trend_incident: true
 top_queries:
-- "vercel internal server error"
+- 'vercel internal server error'
 ---
 ## エラーの概要
 
