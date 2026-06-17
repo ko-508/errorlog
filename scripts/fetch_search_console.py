@@ -512,7 +512,9 @@ def update_top_queries_frontmatter(query_aggregates: dict[str, list[dict]]) -> N
 
         fm_text = fm_match.group(2)
         fm_clean = _remove_top_queries_block(fm_text).rstrip('\n')
-        new_block = "top_queries:\n" + "\n".join(f'- "{q}"' for q in top3)
+        new_block = "top_queries:\n" + "\n".join(
+            "- '" + q.replace("'", "''") + "'" for q in top3
+        )
         new_fm_text = fm_clean + '\n' + new_block
 
         if new_fm_text == fm_text:
