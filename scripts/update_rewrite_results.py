@@ -34,7 +34,7 @@ def _fetch_page_metrics(service) -> dict[str, dict]:
     rows = _query(service, ["page"])
     result: dict[str, dict] = {}
     for row in rows:
-        url    = row["keys"][0].rstrip("/")
+        url    = row["page"].rstrip("/")
         result[url] = {
             "ctr":         row.get("ctr", 0.0),
             "position":    row.get("position", 0.0),

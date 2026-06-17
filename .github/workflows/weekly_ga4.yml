@@ -24,6 +24,16 @@ jobs:
       - name: Install dependencies
         run: pip install google-analytics-data anthropic google-api-python-client google-auth requests beautifulsoup4
 
+      # TODO: 混入確認後に削除する一時診断ステップ
+      - name: "[TEMP] Check hostName breakdown"
+        continue-on-error: true
+        env:
+          GA4_PROPERTY_ID:         ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/_hostname_check.py
+
       - name: Run GA4 analyzer
         env:
           GA4_PROPERTY_ID:          ${{ secrets.GA4_PROPERTY_ID }}
