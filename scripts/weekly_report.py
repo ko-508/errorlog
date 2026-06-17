@@ -76,9 +76,7 @@ def _build_ga4_client():
 # ── GA4 Data API helpers ──────────────────────────────────────────────────────
 
 def _japan_filter():
-    from google.analytics.data_v1beta.types import (
-        FilterExpression, Filter,
-    )
+    from google.analytics.data_v1beta.types import FilterExpression, Filter
     return FilterExpression(
         filter=Filter(
             field_name="country",
@@ -87,6 +85,26 @@ def _japan_filter():
                 value="Japan",
             ),
         )
+    )
+
+
+def _host_filter():
+    from google.analytics.data_v1beta.types import FilterExpression, Filter
+    return FilterExpression(
+        filter=Filter(
+            field_name="hostName",
+            string_filter=Filter.StringFilter(
+                match_type=Filter.StringFilter.MatchType.CONTAINS,
+                value="errorlog.jp",
+            ),
+        )
+    )
+
+
+def _and_filter(*filters):
+    from google.analytics.data_v1beta.types import FilterExpression, FilterExpressionList
+    return FilterExpression(
+        and_group=FilterExpressionList(expressions=list(filters))
     )
 
 
@@ -132,19 +150,21 @@ def _run_report(client, dimensions, metrics, row_limit=100, dim_filter=None):
     return rows
 
 
-def _run_report_overall(client, metrics):
+def _run_report_overall(client, metrics, dim_filter=None):
     """ディメンションなしの集計値を1行で返す。"""
     from google.analytics.data_v1beta.types import (
         DateRange, Metric, RunReportRequest,
     )
     start, end = _date_range_ga4()
+    kwargs = dict(
+        property=f"properties/{PROPERTY_ID}",
+        metrics=[Metric(name=m) for m in metrics],
+        date_ranges=[DateRange(start_date=start, end_date=end)],
+    )
+    if dim_filter is not None:
+        kwargs["dimension_filter"] = dim_filter
     try:
-        resp = client.run_report(RunReportRequest(
-            property=f"properties/{PROPERTY_ID}",
-            metrics=[Metric(name=m) for m in metrics],
-            date_ranges=[DateRange(start_date=start, end_date=end)],
-            dimension_filter=_japan_filter(),
-        ))
+        resp = client.run_report(RunReportRequest(**kwargs))
     except Exception as e:
         print(f"  [WARN] GA4 overall query failed ({metrics}): {e}")
         return {m: 0.0 for m in metrics}
@@ -173,36 +193,76 @@ def _event_count(events: list[dict], pattern: str) -> int:
 
 # ── GA4: fetch raw data ────────────────────────────────────────────────────────
 
+def _fetch_host_summary(client) -> dict:
+    """hostName 別 PV・UU を取得してホスト混入状況サマリーを返す（フィルタなし）。"""
+    rows = _run_report(
+        client, ["hostName"],
+        ["screenPageViews", "activeUsers", "sessions"],
+        row_limit=20,
+    )
+    rows.sort(key=lambda r: -r.get("screenPageViews", 0))
+
+    total_pv = sum(r.get("screenPageViews", 0) for r in rows) or 1
+    total_uu = sum(r.get("activeUsers",     0) for r in rows) or 1
+
+    errorlog_pv = sum(r.get("screenPageViews", 0) for r in rows if "errorlog.jp" in r.get("hostName", ""))
+
+    hosts = [
+        {
+            "host":     r.get("hostName", ""),
+            "pv":       int(r.get("screenPageViews", 0)),
+            "uu":       int(r.get("activeUsers",     0)),
+            "sessions": int(r.get("sessions",        0)),
+            "pv_share": round(r.get("screenPageViews", 0) / total_pv, 4),
+            "uu_share": round(r.get("activeUsers",     0) / total_uu, 4),
+        }
+        for r in rows
+    ]
+    return {
+        "primary_host":          "errorlog.jp",
+        "hosts":                 hosts,
+        "primary_host_pv_share": round(errorlog_pv / total_pv, 4),
+        "total_pv_all_hosts":    int(total_pv),
+        "total_uu_all_hosts":    int(total_uu),
+    }
+
+
 def fetch_all_ga4(client) -> dict:
-    print("  [GA4] overall metrics...")
+    host = _host_filter()
+    jp   = _japan_filter()
+    host_and_jp = _and_filter(host, jp)
+
+    print("  [GA4] overall metrics (errorlog.jp × Japan)...")
     overall = _run_report_overall(client, [
         "activeUsers", "sessions", "screenPageViews", "bounceRate",
-    ])
+    ], dim_filter=host_and_jp)
 
-    jp = _japan_filter()
-
-    print("  [GA4] channel distribution (Japan)...")
-    channels = _run_report(client, ["sessionDefaultChannelGroup"], ["sessions"], row_limit=20, dim_filter=jp)
+    print("  [GA4] channel distribution (errorlog.jp × Japan)...")
+    channels = _run_report(client, ["sessionDefaultChannelGroup"], ["sessions"], row_limit=20, dim_filter=host_and_jp)
     channels.sort(key=lambda r: -r.get("sessions", 0))
 
-    print("  [GA4] country distribution...")
-    # activeUsers に加えて sessions/engagementRate/averageSessionDuration/bounceRate を取得。
-    # 国別分布セクション（継続観測・ボット判定の参考）で使用する。
+    print("  [GA4] country distribution (errorlog.jp)...")
+    # errorlog.jp 訪問者の国別内訳（japan_ratio 計算に使用）
     countries = _run_report(
         client, ["country"],
         ["activeUsers", "sessions", "engagementRate", "averageSessionDuration", "bounceRate"],
         row_limit=30,
+        dim_filter=host,
     )
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
 
-    print("  [GA4] events (Japan)...")
-    events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100, dim_filter=jp)
+    print("  [GA4] events (errorlog.jp × Japan)...")
+    events = _run_report(client, ["eventName"], ["eventCount"], row_limit=100, dim_filter=host_and_jp)
+
+    print("  [GA4] host summary (all hosts)...")
+    host_summary = _fetch_host_summary(client)
 
     return {
-        "overall":   overall,
-        "channels":  channels,
-        "countries": countries,
-        "events":    events,
+        "overall":      overall,
+        "channels":     channels,
+        "countries":    countries,
+        "events":       events,
+        "host_summary": host_summary,
     }
 
 
@@ -657,6 +717,35 @@ def _pct(v: float, dec: int = 1) -> str:
     return f"{v * 100:.{dec}f}"
 
 
+def _build_host_summary_section(host_summary: dict) -> str:
+    """ホスト別内訳セクション（混入監視用）を返す。"""
+    if not host_summary or not host_summary.get("hosts"):
+        return ""
+
+    rows = "\n".join(
+        f"| `{h['host']}` | {h['pv']:,} | {h['pv_share']:.1%} | {h['uu']:,} | {h['uu_share']:.1%} |"
+        for h in host_summary["hosts"]
+    )
+    pv_share = host_summary.get("primary_host_pv_share", 0)
+    has_zenn  = any("zenn" in h["host"] for h in host_summary["hosts"])
+    zenn_note = ""
+    if has_zenn:
+        zenn_pv_share = sum(
+            h["pv_share"] for h in host_summary["hosts"] if "zenn" in h["host"]
+        )
+        zenn_note = f"\n\n> ⚠️ zenn.dev が全体の **{zenn_pv_share:.1%}** を占めています。メイン指標は errorlog.jp のみに絞って集計しています。"
+
+    return (
+        "\n\n---\n\n"
+        "### ホスト別トラフィック内訳（混入監視）\n\n"
+        "| ホスト | PV | PV% | UU | UU% |\n"
+        "| :--- | :--- | :--- | :--- | :--- |\n"
+        f"{rows}"
+        f"\n\n> メイン指標は errorlog.jp のみ（PV の {pv_share:.1%}）で集計しています。"
+        + zenn_note
+    )
+
+
 def render_issue_body(
     m: dict,
     bottlenecks: list[dict],
@@ -666,6 +755,7 @@ def render_issue_body(
     country_section: str = "",
     content_gap_section: str = "",
     indexnow_section: str = "",
+    host_summary_section: str = "",
 ) -> str:
     if gsc_summary is None:
         gsc_summary = {}
@@ -724,6 +814,7 @@ _今週のボトルネック記事はありませんでした。_"""
         + ga4_table
         + gsc_summary_section
         + gsc_section
+        + host_summary_section
         + noise_section
         + country_section
         + indexnow_section
@@ -756,10 +847,12 @@ def main() -> None:
     print("[3/3] Fetching GSC data...")
     bottlenecks, gsc_summary = fetch_gsc_data()
 
-    noise_section       = _build_noise_section()
-    country_section     = _build_country_section(raw_data.get("countries", []))
-    indexnow_section    = _build_indexnow_section()
-    content_gap_section = _load_content_gap_section()
+    noise_section        = _build_noise_section()
+    country_section      = _build_country_section(raw_data.get("countries", []))
+    indexnow_section     = _build_indexnow_section()
+    content_gap_section  = _load_content_gap_section()
+    host_summary         = raw_data.get("host_summary", {})
+    host_summary_section = _build_host_summary_section(host_summary)
     # competitor_section = _load_competitor_section()  # 競合スクレイピングは無効化中
     if content_gap_section:
         print("  → Content Gap データあり（Issueに追記します）")
@@ -773,6 +866,7 @@ def main() -> None:
         country_section=country_section,
         indexnow_section=indexnow_section,
         content_gap_section=content_gap_section,
+        host_summary_section=host_summary_section,
     )
     issue_title = f"【週次レポート】GA4 + GSC ボトルネック ({TODAY.isoformat()})"
 
@@ -791,7 +885,8 @@ def main() -> None:
             "bounce_rate":   round(metrics["bounce_rate"],   4),
             "js_errors":     metrics["js_errors"],
         },
-        "gsc_summary": gsc_summary,
+        "gsc_summary":      gsc_summary,
+        "ga4_host_summary": host_summary,
     }
     REPORT_FILE.write_text(
         json.dumps(output, ensure_ascii=False, indent=2),

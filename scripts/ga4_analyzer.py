@@ -63,19 +63,35 @@ def _ga4_client():
 
 # ── GA4 データ取得 ────────────────────────────────────────────────────────────
 
-def _run_report(client, dimensions: list, metrics: list, days: int = 7) -> list[dict]:
+def _host_filter():
+    from google.analytics.data_v1beta.types import FilterExpression, Filter
+    return FilterExpression(
+        filter=Filter(
+            field_name="hostName",
+            string_filter=Filter.StringFilter(
+                match_type=Filter.StringFilter.MatchType.CONTAINS,
+                value="errorlog.jp",
+            ),
+        )
+    )
+
+
+def _run_report(client, dimensions: list, metrics: list, days: int = 7, dim_filter=None) -> list[dict]:
     from google.analytics.data_v1beta.types import (
         DateRange, Dimension, Metric, RunReportRequest,
     )
     end   = TODAY.strftime("%Y-%m-%d")
     start = (TODAY - timedelta(days=days - 1)).strftime("%Y-%m-%d")
 
-    req = RunReportRequest(
+    kwargs = dict(
         property=f"properties/{PROPERTY_ID}",
         dimensions=[Dimension(name=d) for d in dimensions],
         metrics=[Metric(name=m) for m in metrics],
         date_ranges=[DateRange(start_date=start, end_date=end)],
     )
+    if dim_filter is not None:
+        kwargs["dimension_filter"] = dim_filter
+    req = RunReportRequest(**kwargs)
     response = client.run_report(req)
     dim_names = [h.name for h in response.dimension_headers]
     met_names = [h.name for h in response.metric_headers]
@@ -163,30 +179,31 @@ def _drop_noise(
 
 def fetch_ga4_data(client) -> dict:
     print("GA4データ取得中...")
+    host = _host_filter()
 
-    daily = _run_report(client, ["date"], ["activeUsers", "newUsers", "sessions"])
+    daily = _run_report(client, ["date"], ["activeUsers", "newUsers", "sessions"], dim_filter=host)
     daily.sort(key=lambda r: r.get("date", ""))
 
     pages = _run_report(
         client,
         ["pagePath", "pageTitle"],
         ["screenPageViews", "averageSessionDuration", "engagementRate"],
+        dim_filter=host,
     )
     pages.sort(key=lambda r: -r.get("screenPageViews", 0))
     pages = pages[:TOP_PAGES]
 
-    cities = _run_report(client, ["city"], ["activeUsers"])
+    cities = _run_report(client, ["city"], ["activeUsers"], dim_filter=host)
     cities.sort(key=lambda r: -r.get("activeUsers", 0))
     cities = cities[:TOP_CITIES]
 
     # 国別データ（country + 質的指標）を取得してノイズ除去
-    # sessions/engagementRate/bounceRate はチャネル別取得と同じ要領で追加
-    # （国別分布の継続観測セクション用、weekly_report.py 側で表示）
     print("  国別データのノイズフィルタリング...")
     countries = _run_report(
         client,
         ["country"],
         ["activeUsers", "sessions", "averageSessionDuration", "engagementRate", "bounceRate"],
+        dim_filter=host,
     )
     countries, noise_stats = _drop_noise(countries)
     countries.sort(key=lambda r: -r.get("activeUsers", 0))
@@ -197,6 +214,7 @@ def fetch_ga4_data(client) -> dict:
         client,
         ["sessionDefaultChannelGroup"],
         ["activeUsers", "sessions", "averageSessionDuration", "engagementRate"],
+        dim_filter=host,
     )
     channels.sort(key=lambda r: -r.get("activeUsers", 0))
 
