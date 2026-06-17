@@ -1,0 +1,147 @@
+{
+  "path": "content/posts/postman_429.md",
+  "title": "Postman の 429 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 78,
+    "freshness_score": 45,
+    "citation_coverage": 1,
+    "risk_score": 36
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "external fact check unavailable: GEMINI_API_KEY is not set",
+    "citation quality is low because sources are blog/other/unknown only"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-17",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260617140525364602_postman_429_de6eb6f1.json",
+  "evaluator": "heuristic",
+  "sources": [
+    {
+      "url": "https://learning.postman.com/docs/running-collections/intro-to-collection-runs/",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "200",
+      "final_url": "https://learning.postman.com/docs/tests-and-scripts/running-collections/intro-to-collection-runs/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "learning.postman.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/setting-up-mock/",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "200",
+      "final_url": "https://learning.postman.com/docs/design-apis/mock-apis/set-up-mock-servers/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "learning.postman.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://api.example.com/users/{{userId}}\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.example.com/users/{{userId}}\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "schema.getpostman.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://api.production.com/v1/users\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.production.com/v1/users\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.production.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://mock-api.example.com/v1/users\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://mock-api.example.com/v1/users\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "mock-api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://mock-api.example.com\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://mock-api.example.com\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "mock-api.example.com\"",
+      "tool_match": false
+    },
+    {
+      "url": "https://api.production.com\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.production.com\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.production.com\"",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Review current official docs and update changed API/spec/pricing details."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 2,
+  "url_skipped": 6,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 4753,
+  "fact_check_input_chars": 3650,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "2c10092cb33e",
+  "error_detail": null,
+  "vote_group_id": "28f4e5fe-a3bc-408a-b897-5155c2ce7f02",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": [
+    "Postman"
+  ]
+}

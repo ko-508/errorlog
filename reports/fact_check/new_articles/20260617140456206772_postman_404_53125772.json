@@ -1,0 +1,161 @@
+{
+  "path": "content/posts/postman_404.md",
+  "title": "Postman の 404 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 73,
+    "freshness_score": 45,
+    "citation_coverage": 7,
+    "risk_score": 41
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "freshness score is below the threshold",
+    "absolute wording may overstate technical certainty",
+    "external fact check unavailable: GEMINI_API_KEY is not set",
+    "citation quality is low because sources are blog/other/unknown only"
+  ],
+  "required_actions": [
+    "Review current official docs and update changed API/spec/pricing details.",
+    "Soften absolute claims unless they are directly sourced."
+  ],
+  "detected_at": "2026-06-17",
+  "status": "reject",
+  "report_path": "reports/fact_check/new_articles/20260617140456206772_postman_404_53125772.json",
+  "evaluator": "heuristic",
+  "sources": [
+    {
+      "url": "http://api.example.com/api/v1/item/123",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com/api/v1/item/123",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://api.example.com/api/v2/items/123",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com/api/v2/items/123",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://api.example.com/users/99999",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com/users/99999",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://api.example.com/users/1",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com/users/1",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://api.example.com/users`で一覧取得してIDを確認してからリクエストを送信することで問題が解決します。",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com/users`で一覧取得してIDを確認してからリクエストを送信することで問題が解決します。",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://api.example.com`ではなく`http://api.example.co`と誤入力されている場合、実際のリクエストURLは意図したものと異なります。",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com`ではなく`http://api.example.co`と誤入力されている場合、実際のリクエストURLは意図したものと異なります。",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com`ではなく`http:",
+      "tool_match": false
+    },
+    {
+      "url": "http://wrong-domain.example.com",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://wrong-domain.example.com",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "wrong-domain.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://wrong-domain.example.com/api/v1/users/123`にリクエストが送信され、404が返されます。",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://wrong-domain.example.com/api/v1/users/123`にリクエストが送信され、404が返されます。",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "wrong-domain.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "http://api.example.com",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "http://api.example.com",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 0,
+  "url_skipped": 9,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 3349,
+  "fact_check_input_chars": 2882,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "b8f731894306",
+  "error_detail": null,
+  "vote_group_id": "762073e5-84f9-4070-93c1-fc3cefde3881",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": [
+    "Postman"
+  ]
+}

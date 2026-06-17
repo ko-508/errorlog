@@ -68,14 +68,22 @@ jobs:
           [ -f data/fact_check_score_history.jsonl ] && git add data/fact_check_score_history.jsonl || true
           [ -d reports/fact_check ] && git add reports/fact_check/ || true
           [ -f data/publish_session.json ] && git add data/publish_session.json || true
+          [ -f data/pending_articles.json ] && git add data/pending_articles.json || true
           if git diff --staged --quiet; then
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
             git commit -m "daily: $(date +%Y-%m-%d) publish articles"
+            pushed=false
             for i in 1 2 3; do
-              git pull --rebase && git push && break || sleep 10
+              git pull --rebase && git push && pushed=true && break || sleep 10
             done
-            echo "deployed=true" >> $GITHUB_OUTPUT
+            if $pushed; then
+              echo "deployed=true" >> $GITHUB_OUTPUT
+            else
+              echo "deployed=false" >> $GITHUB_OUTPUT
+              echo "Push failed after 3 retries" >&2
+              exit 1
+            fi
           fi
 
       - name: Notify critical fact-check failures
@@ -198,8 +206,8 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           PUBLISH_NOTIFY_TO: ${{ secrets.GMAIL_USER }}
           PUBLISH_NOTIFY_FROM: ${{ secrets.GMAIL_USER }}
-          PUBLISH_NOTIFY_MAX_RETRIES: "10"
-          PUBLISH_NOTIFY_RETRY_SECONDS: "60"
+          PUBLISH_NOTIFY_MAX_RETRIES: "3"
+          PUBLISH_NOTIFY_RETRY_SECONDS: "20"
           PUBLISH_NOTIFY_FAIL_ON_ERROR: "false"
         run: python scripts/publish_notify.py --session-file data/publish_session.json
 

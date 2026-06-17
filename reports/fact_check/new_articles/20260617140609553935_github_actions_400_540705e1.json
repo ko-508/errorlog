@@ -1,0 +1,89 @@
+{
+  "path": "content/posts/github_actions_400.md",
+  "title": "GitHub Actions の 400 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 73,
+    "freshness_score": 45,
+    "citation_coverage": 0,
+    "risk_score": 41
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "freshness score is below the threshold",
+    "absolute wording may overstate technical certainty",
+    "external fact check unavailable: GEMINI_API_KEY is not set",
+    "citation quality is low because sources are blog/other/unknown only"
+  ],
+  "required_actions": [
+    "Review current official docs and update changed API/spec/pricing details.",
+    "Soften absolute claims unless they are directly sourced."
+  ],
+  "detected_at": "2026-06-17",
+  "status": "reject",
+  "report_path": "reports/fact_check/new_articles/20260617140609553935_github_actions_400_540705e1.json",
+  "evaluator": "heuristic",
+  "sources": [
+    {
+      "url": "https://docs.github.com/rest/reference/actions\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://docs.github.com/rest/reference/actions\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.github.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.github.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.github.com/en/actions）のワークフロー構文セクションで、使用しているトリガー・ステップ・コンテキスト変数の仕様を確認してください。特に",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://docs.github.com/en/actions）のワークフロー構文セクションで、使用しているトリガー・ステップ・コンテキスト変数の仕様を確認してください。特に",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.github.com",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 0,
+  "url_skipped": 3,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 5547,
+  "fact_check_input_chars": 4305,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "a01b6d68cb12",
+  "error_detail": null,
+  "vote_group_id": "d574e607-c4f3-4d0a-8147-088759fe1b44",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": [
+    "GitHub Actions"
+  ]
+}

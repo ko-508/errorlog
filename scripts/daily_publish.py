@@ -515,7 +515,7 @@ def _run_lint_gate(
             try:
                 retry_body = generate_article(client, row, lint_feedback=feedback)
             except Exception as e:
-                print(f"  [lint] retry {attempt} API エラー: {e}")
+                print(f"  [lint] retry {attempt} API エラー: {type(e).__name__}: {e}")
                 break
             retry_body = normalize_before_after(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
@@ -594,7 +594,7 @@ def _try_generate_article(
     try:
         body = generate_article(client, row)
     except Exception as e:
-        print(f"  API エラー: {e}")
+        print(f"  API エラー: {type(e).__name__}: {e}")
         remaining.append(row)  # API エラー時はキューに差し戻す
         return None, False
 

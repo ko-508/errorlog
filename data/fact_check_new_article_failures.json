@@ -46,5 +46,53 @@
     },
     "last_checked_at": "2026-06-16",
     "report_path": "reports/fact_check/new_articles/20260616012731876956_bitbucket_503_aa013c21.json"
+  },
+  "d8949744a5c99b2aa5716b229e4f707b617a7bcf": {
+    "slug": "postman_404",
+    "tool": "Postman",
+    "status_code": "404",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "freshness score is below the threshold; absolute wording may overstate technical certainty; external fact check unavailable: GEMINI_API_KEY is not set; citation quality is low because sources are blog/other/unknown only",
+    "last_scores": {
+      "factual_score": 73,
+      "freshness_score": 45,
+      "citation_coverage": 7,
+      "risk_score": 41
+    },
+    "last_checked_at": "2026-06-17",
+    "report_path": "reports/fact_check/new_articles/20260617140456235085_postman_404_53125772.json"
+  },
+  "2f4d292ef9780ecce806621b728becd8dd177f60": {
+    "slug": "github_actions_400",
+    "tool": "GitHub Actions",
+    "status_code": "400",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "freshness score is below the threshold; absolute wording may overstate technical certainty; external fact check unavailable: GEMINI_API_KEY is not set; citation quality is low because sources are blog/other/unknown only",
+    "last_scores": {
+      "factual_score": 73,
+      "freshness_score": 45,
+      "citation_coverage": 0,
+      "risk_score": 41
+    },
+    "last_checked_at": "2026-06-17",
+    "report_path": "reports/fact_check/new_articles/20260617140609567291_github_actions_400_540705e1.json"
+  },
+  "8fff16a1bfba130dcc17b113d3700d8d1d96872c": {
+    "slug": "github_actions_401",
+    "tool": "GitHub Actions",
+    "status_code": "401",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "freshness score is below the threshold; absolute wording may overstate technical certainty; external fact check unavailable: GEMINI_API_KEY is not set; citation quality is low because sources are blog/other/unknown only",
+    "last_scores": {
+      "factual_score": 73,
+      "freshness_score": 45,
+      "citation_coverage": 0,
+      "risk_score": 41
+    },
+    "last_checked_at": "2026-06-17",
+    "report_path": "reports/fact_check/new_articles/20260617140635145728_github_actions_401_478cfa25.json"
   }
 }

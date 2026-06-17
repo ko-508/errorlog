@@ -1,0 +1,99 @@
+{
+  "path": "content/posts/postman_500.md",
+  "title": "Postman の 500 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 78,
+    "freshness_score": 45,
+    "citation_coverage": 0,
+    "risk_score": 36
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "external fact check unavailable: GEMINI_API_KEY is not set",
+    "citation quality is low because sources are blog/other/unknown only"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-17",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260617140548259170_postman_500_4edcf459.json",
+  "evaluator": "heuristic",
+  "sources": [
+    {
+      "url": "https://api.example.com/users",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.example.com/users",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://api.example.com/users\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.example.com/users\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://status.postman.com",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "200",
+      "final_url": "https://status.postman.com",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "status.postman.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://learning.postman.com/docs/sending-requests/troubleshooting-api-requests/",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "200",
+      "final_url": "https://learning.postman.com/docs/use/send-requests/response-data/troubleshooting-api-requests/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "learning.postman.com",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Review current official docs and update changed API/spec/pricing details."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 2,
+  "url_skipped": 2,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 4182,
+  "fact_check_input_chars": 3858,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "346be894ea48",
+  "error_detail": null,
+  "vote_group_id": "d3b48f08-f69b-4aa0-8be6-2528ee13961d",
+  "is_final_vote": true,
+  "vote_count": 3,
+  "tags": [
+    "Postman"
+  ]
+}

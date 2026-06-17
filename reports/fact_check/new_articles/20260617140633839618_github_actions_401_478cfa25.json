@@ -1,0 +1,125 @@
+{
+  "path": "content/posts/github_actions_401.md",
+  "title": "GitHub Actions の 401 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 73,
+    "freshness_score": 45,
+    "citation_coverage": 0,
+    "risk_score": 41
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "freshness score is below the threshold",
+    "absolute wording may overstate technical certainty",
+    "external fact check unavailable: GEMINI_API_KEY is not set",
+    "citation quality is low because sources are blog/other/unknown only"
+  ],
+  "required_actions": [
+    "Review current official docs and update changed API/spec/pricing details.",
+    "Soften absolute claims unless they are directly sourced."
+  ],
+  "detected_at": "2026-06-17",
+  "status": "reject",
+  "report_path": "reports/fact_check/new_articles/20260617140633839618_github_actions_401_478cfa25.json",
+  "evaluator": "heuristic",
+  "sources": [
+    {
+      "url": "https://docs.github.com/ja/actions/security-guides/automatic-token-authentication",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "200",
+      "final_url": "https://docs.github.com/ja/actions/tutorials/authenticate-with-github_token",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.github.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.github.com/ja/actions/security-guides/encrypted-secrets",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "200",
+      "final_url": "https://docs.github.com/ja/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.github.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.github.com/rest\"",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://docs.github.com/rest\"",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.github.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://github.com/<owner>/<repo>.git/'",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://github.com/<owner>/<repo>.git/'",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "community_blog",
+      "resolved_domain": "github.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://api.example.com/deploy",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.example.com/deploy",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "api.example.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://api.github.com/user",
+      "title": "",
+      "claim": "",
+      "source_type": "unknown",
+      "url_check_status": "skipped",
+      "final_url": "https://api.github.com/user",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "community_blog",
+      "resolved_domain": "api.github.com",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 2,
+  "url_skipped": 4,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 6470,
+  "fact_check_input_chars": 3502,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "ab489fd56bc7",
+  "error_detail": null,
+  "vote_group_id": "1041ec6b-969c-49eb-99d1-64cfb4080045",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": [
+    "GitHub Actions"
+  ]
+}
