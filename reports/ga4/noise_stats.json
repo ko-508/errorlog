@@ -4,9 +4,7 @@
     "Singapore"
   ],
   "noise_time_threshold": 5.0,
-  "count": 1,
-  "users": 2,
-  "by_country": {
-    "Singapore": 2
-  }
+  "count": 0,
+  "users": 0,
+  "by_country": {}
 }
