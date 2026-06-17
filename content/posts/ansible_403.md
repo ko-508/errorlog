@@ -4,6 +4,10 @@ date: 2026-06-11
 description: "ターゲットシステムへのアクセスが拒否された。Ansible 403 エラーの原因と解決策を解説します。"
 tags: ["Ansible"]
 errorCode: "403"
+service: "Ansible"
+error_type: "403"
+components: []
+related_services: []
 trend_incident: true
 ---
 ## エラーの概要

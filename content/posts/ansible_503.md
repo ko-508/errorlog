@@ -4,6 +4,10 @@ date: 2026-06-11
 description: "ターゲットサービスが一時的に利用できない。Ansible 503 エラーの原因と解決策を解説します。"
 tags: ["Ansible"]
 errorCode: "503"
+service: "Ansible"
+error_type: "503"
+components: []
+related_services: ["nginx"]
 trend_incident: true
 ---
 ## エラーの概要

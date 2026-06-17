@@ -4,6 +4,10 @@ date: 2026-06-11
 description: "ターゲットサーバーの内部エラーが発生した。Ansible 500 エラーの原因と解決策を解説します。"
 tags: ["Ansible"]
 errorCode: "500"
+service: "Ansible"
+error_type: "500"
+components: []
+related_services: []
 trend_incident: true
 ---
 ## エラーの概要
