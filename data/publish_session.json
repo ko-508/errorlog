@@ -1,14 +1,8 @@
 [
   {
-    "path": "content/posts/postman_429.md",
-    "stem": "postman_429",
-    "title": "Postman の 429 エラー：原因と解決策",
-    "source_type": "daily"
-  },
-  {
-    "path": "content/posts/postman_500.md",
-    "stem": "postman_500",
-    "title": "Postman の 500 エラー：原因と解決策",
+    "path": "content/posts/jenkins_400.md",
+    "stem": "jenkins_400",
+    "title": "Jenkins の 400 エラー：原因と解決策",
     "source_type": "daily"
   }
 ]
