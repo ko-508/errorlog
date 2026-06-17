@@ -332,6 +332,12 @@ Docker: Compose, BuildKit, Registry, Swarm, Desktop
 Kubernetes: Pod, Deployment, Ingress, Service, ConfigMap, Secret, Namespace, HPA
 Firebase: Firestore, Auth, Functions, Storage, Hosting, Realtime Database, AppCheck
 Cloudflare: Workers, Pages, R2, D1, KV, Tunnel, DNS
+OpenAI API: Chat Completions, Assistants API, Embeddings, Fine-tuning, Images, Audio, Models, Moderations
+Vercel: Edge Functions, Serverless Functions, Edge Network, Blob, KV, Build
+Slack: Web API, Events API, Block Kit, Incoming Webhooks, Slash Commands, Bolt SDK
+Ansible: Playbook, Role, Inventory, Module, Galaxy, Vault, Handler
+Podman: Pod, Compose, Registry, Image, Volume
+Jenkins: Pipeline, Stage, Agent, Plugin, Job, Credentials, Shared Library
 
 上記以外のコンポーネントも本文に明記されていれば抽出してよい。
 ただし推測は禁止。本文に文字として現れているものだけを返すこと。
