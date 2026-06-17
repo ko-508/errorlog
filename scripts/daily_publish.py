@@ -595,6 +595,7 @@ def _try_generate_article(
         body = generate_article(client, row)
     except Exception as e:
         print(f"  API エラー: {e}")
+        remaining.append(row)  # API エラー時はキューに差し戻す
         return None, False
 
     title = f"{tool} の {code} エラー：原因と解決策"
