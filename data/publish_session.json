@@ -1,8 +1,20 @@
 [
   {
-    "path": "content/posts/jenkins_400.md",
-    "stem": "jenkins_400",
-    "title": "Jenkins の 400 エラー：原因と解決策",
-    "source_type": "daily"
+    "path": "content/posts/jenkins_401.md",
+    "stem": "jenkins_401",
+    "title": "Jenkins の 401 エラー：原因と解決策",
+    "source_type": "pending"
+  },
+  {
+    "path": "content/posts/jenkins_403.md",
+    "stem": "jenkins_403",
+    "title": "Jenkins の 403 エラー：原因と解決策",
+    "source_type": "pending"
+  },
+  {
+    "path": "content/posts/jenkins_404.md",
+    "stem": "jenkins_404",
+    "title": "Jenkins の 404 エラー：原因と解決策",
+    "source_type": "pending"
   }
 ]
