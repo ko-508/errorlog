@@ -94,5 +94,21 @@
     },
     "last_checked_at": "2026-06-17",
     "report_path": "reports/fact_check/new_articles/20260617140635145728_github_actions_401_478cfa25.json"
+  },
+  "a5ac10d491e612284adae36f2ee7c0363cfd0886": {
+    "slug": "circleci_403",
+    "tool": "CircleCI",
+    "status_code": "403",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "The article contains an outdated and factually incorrect claim regarding CircleCI API token expiration, which has significant security implications.; While most other claims are generally accurate, the article lacks direct citations to official CircleCI documentation, reducing its trustworthiness and verifiability.; The article effectively covers common causes and troubleshooting steps for CircleCI 403 errors, which is valuable for users.; freshness score is below the threshold; one or more claims are unsupported or unverifiable",
+    "last_scores": {
+      "factual_score": 75,
+      "freshness_score": 45,
+      "citation_coverage": 27,
+      "risk_score": 88
+    },
+    "last_checked_at": "2026-06-19",
+    "report_path": "reports/fact_check/new_articles/20260619012915650756_circleci_403_c289e7f9.json"
   }
 }

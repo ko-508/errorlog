@@ -1,0 +1,46 @@
+{
+  "path": "content/posts/circleci_401.md",
+  "title": "CircleCI の 401 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 0,
+    "freshness_score": 0,
+    "citation_coverage": 0,
+    "risk_score": 0
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "Gemini fact check returned invalid JSON: json_parse_error: Invalid control character at: line 73 column 583 (char 7001)"
+  ],
+  "required_actions": [
+    "Retry fact check or inspect the article manually before publication."
+  ],
+  "detected_at": "2026-06-19",
+  "status": "failed_fact_check",
+  "report_path": "reports/fact_check/new_articles/20260619011917069873_circleci_401_85894542.json",
+  "evaluator": "gemini_invalid",
+  "sources": [],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "json_parse_error: Invalid control character at: line 73 column 583 (char 7001)",
+  "score_history_appended": true,
+  "score_valid": false,
+  "raw_response_excerpt": "{\n  \"factual_score\": 90,\n  \"freshness_score\": 95,\n  \"citation_coverage\": 90,\n  \"risk_score\": 30,\n  \"reasons\": [\n    \"The article accurately identifies common causes for CircleCI 401 errors, such as invalid, missing, or expired API tokens.\",\n    \"Practical solutions like checking environment variables and using contexts for token management are correctly presented.\",\n    \"The distinction between Personal and Project API tokens is largely correct, but some details on their compatibility with CircleCI API v2 endpoints and the precise HTTP status codes (401 vs 403) for permission issues could be more nuanced.\",\n    \"Information on contacting CircleCI support and differentiating between 401, 403, and 429 errors is generally accurate.\"\n  ],\n  \"required_actions\": [\n    \"Clarify the specific token types (Personal vs. Project) supported for CircleCI API v1 and v2 endpoints. Official documentation suggests that for API v2, only Personal API Tokens are fully supported, which contradicts the artic",
+  "parse_error": "json_parse_error: Invalid control character at: line 73 column 583 (char 7001)",
+  "url_checked": 0,
+  "url_skipped": 0,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 5634,
+  "fact_check_input_chars": 3361,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "d4ce43f3b87b",
+  "error_detail": "json_parse_error: Invalid control character at: line 73 column 583 (char 7001) | raw:{\n  \"factual_score\": 90,\n  \"freshness_score\": 95,\n  \"citation_coverage\": 90,\n  \"risk_score\": 30,\n  \"reasons\": [\n    \"The article accurately identifies common causes for CircleCI 401 errors, such as invalid, missing, or expired API tokens.\",\n    \"Practical solutions like checking environment variable",
+  "vote_group_id": "62a33932-f64d-49f8-a5f4-8cb202ae2278",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": []
+}
