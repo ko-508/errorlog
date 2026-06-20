@@ -1,3 +1,22 @@
+:root {
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", "Courier New", monospace;
+  --code-fg: rgb(213, 213, 214); /* 現状値を維持。色は変えない */
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+               Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+               "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo,
+               "Yu Gothic", "Noto Sans JP",
+               sans-serif;
+}
+
+/* コードブロック文字色（md-content.css の直書き rgb(213,213,214) を変数経由に上書き） */
+.md-content pre code {
+  color: var(--code-fg);
+}
+
 /* ライトモード背景（PaperMod は html[data-theme="dark"] でダークモードを制御する） */
 html:not([data-theme="dark"]) {
   --theme: #eaeaee;
@@ -158,7 +177,7 @@ details.toc .inner a { color: var(--primary); }
 .env-panel__key::after { content: ":\00a0"; }
 .env-panel__val {
   font-size: 0.76rem;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
   color: var(--primary);
 }
 
@@ -551,7 +570,7 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
 .error-code-num {
   font-size: 2rem;
   font-weight: 900;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
   color: var(--secondary);
   opacity: 0.35;
   line-height: 1;
@@ -595,7 +614,7 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
   border-radius: 4px;
   font-size: 0.68rem;
   font-weight: 700;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.5px;
   background: rgba(255,77,77,.1);
   color: #cc2200;
@@ -630,7 +649,7 @@ html[data-theme="dark"] .error-badge {
   overflow: hidden;
 }
 .entry-code-preview code {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   line-height: 1.5;
   color: var(--secondary);
