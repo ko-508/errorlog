@@ -44,7 +44,7 @@
   /* エラー記事=0、その他投稿=1、用語集=2 の順で並び替える */
   function articlePriority(item) {
     if (item.permalink.indexOf('/glossary/') !== -1) return 2;
-    if (/\d{3}/.test(item.title)) return 0;
+    if (item.errorCode && item.errorCode !== '') return 0;
     return 1;
   }
 
