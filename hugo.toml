@@ -55,6 +55,11 @@ mainSections = ["posts"]
 [params.footer]
   text = '[プライバシーポリシー](/privacy/) · [運営者情報](/about/)'
 
+[taxonomies]
+  tag = "tags"
+  category = "categories"
+  errorCode = "errorCode"
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
