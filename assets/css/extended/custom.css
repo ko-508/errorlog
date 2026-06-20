@@ -913,7 +913,7 @@ html[data-theme="dark"] .incident-banner__header {
 }
 
 /* ── 検索フォーム ── */
-.hp-search-form { width: 100%; max-width: 520px; margin: 0 auto; }
+.hp-search-form { position: relative; width: 100%; max-width: 520px; margin: 0 auto; }
 .hp-search-wrap {
   display: flex;
   align-items: center;
@@ -924,6 +924,46 @@ html[data-theme="dark"] .incident-banner__header {
   transition: border-color 0.15s;
 }
 .hp-search-wrap:focus-within { border-color: var(--primary); }
+.hp-search-results {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  list-style: none;
+  margin: 0; padding: 0;
+  z-index: 200;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+  overflow: hidden;
+}
+.hp-search-results.visible { display: block; }
+.hp-search-results li a {
+  display: block;
+  padding: .55rem 1rem;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.35;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hp-search-results li:last-child a { border-bottom: none; }
+.hp-search-results li a:hover,
+.hp-search-results li a:focus { background: var(--tertiary); outline: none; }
+.hp-search-results__more a {
+  color: var(--secondary);
+  font-size: .82rem;
+  text-align: center;
+  display: block;
+  padding: .45rem 1rem;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+}
+.hp-search-results__more a:hover { background: var(--tertiary); }
 .hp-search-input {
   flex: 1;
   border: none;
