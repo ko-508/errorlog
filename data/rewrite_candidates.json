@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "path": "content/posts/aws_500.md",
+    "title": "AWS の 500 エラー：原因と解決策",
+    "reason": "The article incorrectly states that API Gateway returns a 500 error when Lambda's timeout exceeds API Gateway's integration timeout; AWS documentation indicates a 504 Gateway Timeout.; The article's claim regarding the API Gateway integration timeout maximum being 29 seconds is outdated; AWS announced in June 2024 that this limit can now be increased via Service Quotas.; Information about AWS Support plans, specifically the Developer plan, is outdated as the plan is being phased out/replaced by Business Support+ from January 1, 2027.; citation coverage is below the threshold; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable",
+    "scores": {
+      "factual_score": 75,
+      "freshness_score": 50,
+      "citation_coverage": 10,
+      "risk_score": 63
+    },
+    "priority": "high",
+    "required_actions": [
+      "Correct the error code returned by API Gateway when its integration timeout is exceeded, from 500 to 504.",
+      "Update the information regarding the API Gateway integration timeout maximum to reflect that it can now be increased.",
+      "Update the section on AWS Support plans to reflect the upcoming changes and the deprecation of the Developer plan.",
+      "Add citations from official AWS documentation for all factual claims to improve reliability.",
+      "Add links to official documentation or primary sources for key claims.",
+      "Soften absolute claims unless they are directly sourced.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-20"
+  }
+]
