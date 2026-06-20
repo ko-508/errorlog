@@ -1,0 +1,98 @@
+{{- define "main" }}
+
+{{- /* ── ヒーロー + 検索 ── */}}
+<section class="hp-hero">
+  <h1 class="hp-hero__title">エラーコードで詰まったら、ここへ。</h1>
+  <p class="hp-hero__sub">HTTP ステータス・API エラー・ツール固有エラーを<br>ツール × コードで横断検索できる開発者向けリファレンス</p>
+  <form class="hp-search-form" action="/search/" method="get">
+    <div class="hp-search-wrap">
+      <input class="hp-search-input" type="search" name="q"
+        placeholder="例：Docker 404、AWS 403..." autocomplete="off" maxlength="64">
+      <button class="hp-search-btn" type="submit" aria-label="検索">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+    </div>
+  </form>
+</section>
+
+{{- /* ── エラーコードから探す ── */}}
+<section class="hp-section">
+  <div class="hp-section__header">
+    <h2 class="hp-section__title">エラーコードから探す</h2>
+    <p class="hp-section__sub">コードの意味は共通でも、原因と解決策はツールごとに異なります。</p>
+  </div>
+  <div class="hp-code-grid">
+    {{- $codes := slice "400" "401" "403" "404" "408" "409" "422" "429" "500" "502" "503" "504" }}
+    {{- range $codes }}
+      {{- $code := . }}
+      {{- $tp := site.GetPage (printf "/errorcode/%s" $code) }}
+      {{- if and $tp (gt (len $tp.Pages) 0) }}
+    <a class="hp-code-card" href="{{ $tp.Permalink }}">
+      <span class="hp-code-card__code">{{ $code }}</span>
+      <span class="hp-code-card__count">{{ len $tp.Pages }} 件</span>
+    </a>
+      {{- end }}
+    {{- end }}
+  </div>
+</section>
+
+{{- /* ── ツールから探す ── */}}
+<section class="hp-section">
+  <div class="hp-section__header">
+    <h2 class="hp-section__title">ツールから探す</h2>
+  </div>
+  <div class="hp-tool-grid">
+    {{- $count := 0 }}
+    {{- range site.Taxonomies.tags.ByCount }}
+      {{- $skip := or (eq .Name "tool-guide") (eq .Name "word") }}
+      {{- if and (not $skip) (lt $count 12) }}
+        {{- $slug := .Name | lower | replaceRE " " "-" }}
+    <a class="hp-tool-card" href="{{ .Page.Permalink }}">
+      <span class="hp-tool-card__name">{{ .Page.Title }}</span>
+      <span class="hp-tool-card__count">{{ .Count }} 件</span>
+    </a>
+        {{- $count = add $count 1 }}
+      {{- end }}
+    {{- end }}
+  </div>
+  <div class="hp-section__footer">
+    <a class="hp-more-link" href="/tags/">すべてのカテゴリ ›</a>
+  </div>
+</section>
+
+{{- /* ── 最近追加された記事 ── */}}
+<section class="hp-section">
+  <div class="hp-section__header">
+    <h2 class="hp-section__title">最近追加された記事</h2>
+  </div>
+  <div class="hp-recent-list">
+    {{- $recentPages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{- range first 10 ($recentPages.ByDate.Reverse) }}
+    <a class="hp-recent-item" href="{{ .Permalink }}">
+      <div class="hp-recent-item__meta">
+        {{- with .Params.tags }}
+          {{- $tag := index . 0 }}
+          {{- if ne $tag "tool-guide" }}
+            {{- $slug := $tag | lower | replaceRE " " "-" }}
+          <span class="tool-badge tool-badge-{{ $slug }}">{{ $tag }}</span>
+          {{- end }}
+        {{- end }}
+        {{- with .Params.errorCode }}
+        <span class="hp-code-badge">{{ . }}</span>
+        {{- end }}
+      </div>
+      <span class="hp-recent-item__title">{{ .Title }}</span>
+      <span class="hp-recent-item__date">{{ .Date.Format "2006-01-02" }}</span>
+    </a>
+    {{- end }}
+  </div>
+  <div class="hp-section__footer">
+    <a class="hp-more-link" href="/archives/">アーカイブ ›</a>
+  </div>
+</section>
+
+{{- end }}

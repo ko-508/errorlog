@@ -79,4 +79,23 @@ function setSearch(term) {
 }
 </script>
 
+<script>
+/* ?q= パラメータを検索入力にセット（/search/?q=docker 等でリンクされた場合） */
+(function () {
+  var q = new URLSearchParams(window.location.search).get('q');
+  if (!q) return;
+  var attempts = 0;
+  var tid = setInterval(function () {
+    var el = document.getElementById('searchInput');
+    if (el && !el.disabled) {
+      clearInterval(tid);
+      el.value = q;
+      el.dispatchEvent(new Event('input'));
+      el.focus();
+    }
+    if (++attempts > 100) clearInterval(tid);
+  }, 50);
+}());
+</script>
+
 {{- end }}{{/* end main */}}
