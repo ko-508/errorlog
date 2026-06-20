@@ -34,9 +34,19 @@
     fuse = new Fuse(data, {
       threshold: 0.4,
       ignoreLocation: true,
-      keys: ['title', 'summary', 'content']
+      keys: [
+        { name: 'title',   weight: 3 },
+        { name: 'summary', weight: 1 }
+      ]
     });
   }).catch(function () {});
+
+  /* エラー記事=0、その他投稿=1、用語集=2 の順で並び替える */
+  function articlePriority(item) {
+    if (item.permalink.indexOf('/glossary/') !== -1) return 2;
+    if (/\d{3}/.test(item.title)) return 0;
+    return 1;
+  }
 
   var timer;
   input.addEventListener('input', function () {
@@ -52,10 +62,15 @@
   function doSearch() {
     var q = input.value.trim();
     if (!q || !fuse) { hide(); return; }
-    var hits = fuse.search(q, { limit: 8 });
+    var hits = fuse.search(q, { limit: 20 });
     if (!hits.length) { hide(); return; }
+    hits.sort(function (a, b) {
+      var pa = articlePriority(a.item), pb = articlePriority(b.item);
+      if (pa !== pb) return pa - pb;
+      return (a.score || 0) - (b.score || 0);
+    });
     resList.innerHTML = '';
-    hits.forEach(function (h) {
+    hits.slice(0, 8).forEach(function (h) {
       var li = document.createElement('li');
       var a  = document.createElement('a');
       a.href = h.item.permalink;
