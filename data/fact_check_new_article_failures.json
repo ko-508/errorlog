@@ -110,5 +110,37 @@
     },
     "last_checked_at": "2026-06-19",
     "report_path": "reports/fact_check/new_articles/20260619012915650756_circleci_403_c289e7f9.json"
+  },
+  "6ebbc3b4da7506257cf40502cbedb91a9076eac1": {
+    "slug": "circleci_429",
+    "tool": "CircleCI",
+    "status_code": "429",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "Most factual claims are supported by official or reputable sources, indicating good overall accuracy.; The specific default rate limit (360,000 requests/hour) is not explicitly found in recent official documentation for the general API, suggesting it might be outdated or not universally applicable.; The example `X-RateLimit-Reset` timestamp in the article is from 2023, which is outdated.; The navigation path for audit logs is slightly inaccurate in the article compared to current official documentation, though the availability of audit logs is correct.; absolute wording may overstate technical certainty",
+    "last_scores": {
+      "factual_score": 80,
+      "freshness_score": 45,
+      "citation_coverage": 32,
+      "risk_score": 57
+    },
+    "last_checked_at": "2026-06-20",
+    "report_path": "reports/fact_check/new_articles/20260620010946320895_circleci_429_364ce5bc.json"
+  },
+  "2c2863728497b211c3d19f26a871565a65560367": {
+    "slug": "circleci_500",
+    "tool": "CircleCI",
+    "status_code": "500",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "Most factual claims are supported by recent, official CircleCI documentation, status pages, or API references, indicating high accuracy and freshness.; A significant portion of the advice regarding troubleshooting 500 errors, using the status page, validating configurations, and understanding API permissions is well-grounded in primary sources.; Two specific actionable claims are either not directly supported by official documentation or seem to contradict common understanding/other documentation, posing a moderate risk of providing inaccurate or unhelpful advice to users.; freshness score is below the threshold; potentially dangerous command or insecure setting detected; one or more claims are unsupported or unverifiable",
+    "last_scores": {
+      "factual_score": 85,
+      "freshness_score": 45,
+      "citation_coverage": 10,
+      "risk_score": 66
+    },
+    "last_checked_at": "2026-06-20",
+    "report_path": "reports/fact_check/new_articles/20260620011411736211_circleci_500_9d11aec2.json"
   }
 }

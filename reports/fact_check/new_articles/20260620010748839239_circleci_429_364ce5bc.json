@@ -1,0 +1,46 @@
+{
+  "path": "content/posts/circleci_429.md",
+  "title": "CircleCI の 429 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 0,
+    "freshness_score": 0,
+    "citation_coverage": 0,
+    "risk_score": 0
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "external fact check unavailable: gemini_error: RemoteProtocolError: Server disconnected without sending a response."
+  ],
+  "required_actions": [
+    "Retry fact check when Gemini becomes available."
+  ],
+  "detected_at": "2026-06-20",
+  "status": "fact_check_unavailable",
+  "report_path": "reports/fact_check/new_articles/20260620010748839239_circleci_429_364ce5bc.json",
+  "evaluator": "gemini_unavailable",
+  "sources": [],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "gemini_error: RemoteProtocolError: Server disconnected without sending a response.",
+  "score_history_appended": true,
+  "score_valid": false,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 0,
+  "url_skipped": 0,
+  "url_invalid": 0,
+  "gemini_error_category": "api",
+  "original_chars": 6370,
+  "fact_check_input_chars": 3612,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "7ecd59a02136",
+  "error_detail": "gemini_error: RemoteProtocolError: Server disconnected without sending a response.",
+  "vote_group_id": "4ac47f37-4419-4088-87da-c5fafa2a587d",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": []
+}

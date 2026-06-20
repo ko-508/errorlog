@@ -1,20 +1,20 @@
 [
   {
-    "path": "content/posts/jenkins_500.md",
-    "stem": "jenkins_500",
-    "title": "Jenkins の 500 エラー：原因と解決策",
+    "path": "content/posts/circleci_401.md",
+    "stem": "circleci_401",
+    "title": "CircleCI の 401 エラー：原因と解決策",
     "source_type": "pending"
   },
   {
-    "path": "content/posts/jenkins_503.md",
-    "stem": "jenkins_503",
-    "title": "Jenkins の 503 エラー：原因と解決策",
-    "source_type": "daily"
+    "path": "content/posts/circleci_404.md",
+    "stem": "circleci_404",
+    "title": "CircleCI の 404 エラー：原因と解決策",
+    "source_type": "pending"
   },
   {
-    "path": "content/posts/circleci_400.md",
-    "stem": "circleci_400",
-    "title": "CircleCI の 400 エラー：原因と解決策",
+    "path": "content/posts/circleci_503.md",
+    "stem": "circleci_503",
+    "title": "CircleCI の 503 エラー：原因と解決策",
     "source_type": "daily"
   }
 ]
