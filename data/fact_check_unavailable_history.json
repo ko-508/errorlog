@@ -1,9 +1,9 @@
 {
   "content/posts/firebase_400.md": {
     "path": "content/posts/firebase_400.md",
-    "last_unavailable_at": "2026-06-12T14:30:53Z",
+    "last_unavailable_at": "2026-06-20T11:08:20Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
-    "count": 1
+    "count": 2
   },
   "content/posts/bitbucket_403.md": {
     "path": "content/posts/bitbucket_403.md",
