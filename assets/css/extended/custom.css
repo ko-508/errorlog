@@ -704,6 +704,42 @@ html[data-theme="dark"] .summary-label--fix     { background: rgba(46,204,113,.1
 html[data-theme="dark"] .summary-fix-link { color: #3dd68c; }
 
 /* ══════════════════════════════════════════════
+   記事詳細：結論ブロック
+   ══════════════════════════════════════════════ */
+.conclusion-block {
+  margin: 1rem 0 1.5rem;
+  padding: 0.85rem 1rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: 0 6px 6px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+.conclusion-block__label {
+  font-size: 0.63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+  background: rgba(30, 30, 30, 0.08);
+  color: var(--primary);
+  align-self: flex-start;
+  line-height: 1.6;
+}
+html[data-theme="dark"] .conclusion-block__label {
+  background: rgba(218, 218, 219, 0.1);
+}
+.conclusion-block p {
+  margin: 0;
+  color: var(--primary);
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════
    記事詳細：生エラーログパネル
    ══════════════════════════════════════════════ */
 .raw-log-panel {

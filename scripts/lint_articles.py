@@ -342,6 +342,19 @@ def check_a7(body: str) -> list[Issue]:
     return []
 
 
+def check_a8(fm: dict[str, str]) -> list[Issue]:
+    """A8 [WARN] frontmatter に conclusion フィールドが存在し、空でない。
+
+    新規生成記事（daily_publish.py）から導入。既存記事は conclusion 未設定のため
+    FAIL にすると全記事が一括検出されてしまう。定着するまでは WARN に留め、
+    秋のリライト完了後に FAIL へ格上げすることを想定している。
+    """
+    val = fm.get("conclusion", "").strip()
+    if not val:
+        return [("A8", "conclusion フィールドが欠落または空（新規記事は必須）")]
+    return []
+
+
 def check_b1(body: str) -> list[Issue]:
     """B1 [FAIL] エラーメッセージ例セクションのコードブロックに実在エラーパターンが1件以上。"""
     section_pat = re.compile(r"^#{1,4}\s*(?:実際の)?エラーメッセージ例", re.MULTILINE)
@@ -587,14 +600,16 @@ def lint_article(path: Path) -> dict[str, Any]:
                 infos.append(entry)
 
     if is_error:
-        # A1/A2/A3/A7/B1/B3/B5: エラー記事にのみ適用
+        # A1/A2/A3/A7/A8/B1/B3/B5: エラー記事にのみ適用
         # A3（1500字基準）・A7（免責事項フッター）・B5（原因数）はエラー解決記事の規格から導かれるため error_article 限定。
+        # A8（conclusion 欠落）は WARN: 既存記事への一括 FAIL を避けるため。秋のリライト完了後に格上げ予定。
         # tool-guide 記事（non_error_article）は除外。glossary が別ディレクトリで除外されているのと同じ一貫性。
         # tool-guide 記事への適用を再開する場合はこのブロックから A3/A7/B5 を外へ移す。
         _add("FAIL", check_a1(body))
         _add("WARN", check_a2(body))
         _add("FAIL", check_a3(body))
         _add("FAIL", check_a7(body))
+        _add("WARN", check_a8(fm))
         _add("FAIL", check_b1(body))
         _add("WARN", check_b3(body))
         _add("FAIL", check_b5(body))
