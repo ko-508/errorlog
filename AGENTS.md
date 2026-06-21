@@ -47,3 +47,11 @@
 | `replenish_queue.yml` | 毎月1日 | キュー補充 + ツール記事生成 |
 | `quarterly_refresh.yml` | 毎週金曜 | 古い記事リライト |
 | `expand_articles.yml` | 手動 | 薄い記事の拡張 |
+
+## Claude Code メモリ
+
+残タスク・フィードバック・プロジェクト状況は以下で管理している:
+
+```
+C:\Users\oobak\.claude\projects\c--Users-oobak-errorlog\memory\MEMORY.md
+```
