@@ -1102,10 +1102,11 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
             reasons.append("new article has no URL-backed sources")
             actions.append("Add at least one official or primary source URL before publication.")
 
-    # 判定軸は factual + risk の2軸のみ。freshness/citation はスコア記録は継続するが判定に使わない
+    # 判定軸は factual + risk + citation の3軸。freshness はスコア記録のみ
     passed = (
         scores["factual_score"] >= MIN_FACTUAL
         and scores["risk_score"] <= MAX_RISK
+        and scores["citation_coverage"] >= MIN_CITATION
     )
     critical_topic = any(term.lower() in f"{title}\n{body}".lower() for term in CRITICAL_TERMS)
     critical = scores["risk_score"] >= CRITICAL_RISK or (
@@ -1626,6 +1627,15 @@ def print_summary(
         )
         if mode == "existing" and result.critical:
             print(f"::warning::Critical misinformation risk detected in existing article: {result.path}")
+        if (
+            mode == "existing"
+            and result.score_valid
+            and result.scores["freshness_score"] < MIN_FRESHNESS
+        ):
+            print(
+                f"::warning::Low freshness score ({result.scores['freshness_score']}) "
+                f"in existing article: {result.path}"
+            )
 
 
 def resolve_target_path(target_path: str | None) -> Path | None:
@@ -1729,10 +1739,11 @@ def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
         for key in SCORE_KEYS
     }
 
-    # Recompute gate verdict from median scores (2-axis: factual + risk)
+    # Recompute gate verdict from median scores (3-axis: factual + risk + citation)
     m_passed = (
         median_scores["factual_score"] >= MIN_FACTUAL
         and median_scores["risk_score"] <= MAX_RISK
+        and median_scores["citation_coverage"] >= MIN_CITATION
     )
     m_critical = median_scores["risk_score"] >= CRITICAL_RISK
 
