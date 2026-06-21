@@ -10,5 +10,11 @@
     "last_unavailable_at": "2026-06-15T14:55:32Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
     "count": 1
+  },
+  "content/posts/github_api_422.md": {
+    "path": "content/posts/github_api_422.md",
+    "last_unavailable_at": "2026-06-21T02:31:32Z",
+    "reason": "external fact check unavailable: gemini timeout (90s)",
+    "count": 1
   }
 }
