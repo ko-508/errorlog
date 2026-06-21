@@ -6,14 +6,17 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "top_query": "github 404 原因",
-    "gsc_position": 20,
+    "top_query": "github api 404",
+    "gsc_position": 8.9,
     "gsc_ctr": 0,
     "gsc_reasons": [
-      "掲載順位 20.0 位（停滞圏 11〜20 位）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 14）"
     ],
     "queued_at": "2026-06-02",
-    "source": "gsc_bottleneck"
+    "source": "gsc_bottleneck",
+    "gsc_impressions": 14,
+    "rewrite_eligible": false,
+    "slug": "github_api_404"
   },
   {
     "title": "Nginx の 500 エラー：原因と解決策",
@@ -86,7 +89,16 @@
     "is_thin": false,
     "thin_chars": 1128,
     "queued_at": "2026-06-08",
-    "source": "thin_scan"
+    "source": "thin_scan",
+    "top_query": "100404",
+    "gsc_position": 13.8,
+    "gsc_ctr": 0,
+    "gsc_impressions": 5,
+    "gsc_reasons": [
+      "掲載順位 13.8 位（停滞圏 11〜20 位）"
+    ],
+    "rewrite_eligible": false,
+    "slug": "slack_404"
   },
   {
     "title": "Zoom とは？特徴・機能・料金・比較まとめ",
@@ -110,11 +122,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "elb 503",
-    "gsc_position": 50.3,
+    "gsc_position": 43.2,
     "gsc_ctr": 0,
-    "gsc_impressions": 16,
+    "gsc_impressions": 21,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 16）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 21）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -129,11 +141,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "elb 504",
-    "gsc_position": 49.4,
+    "gsc_position": 46.0,
     "gsc_ctr": 0,
-    "gsc_impressions": 18,
+    "gsc_impressions": 24,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 18）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 24）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -149,8 +161,8 @@
     "engagement_sec": 0.0,
     "top_query": "408 エラー",
     "gsc_position": 19.2,
-    "gsc_ctr": 0,
-    "gsc_impressions": 5,
+    "gsc_ctr": 0.125,
+    "gsc_impressions": 8,
     "gsc_reasons": [
       "掲載順位 19.2 位（停滞圏 11〜20 位）"
     ],
@@ -166,13 +178,12 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "top_query": "google 500 エラー",
-    "gsc_position": 19.6,
-    "gsc_ctr": 0,
-    "gsc_impressions": 11,
+    "top_query": "google エラー500",
+    "gsc_position": 14.4,
+    "gsc_ctr": 0.0625,
+    "gsc_impressions": 16,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 11）",
-      "掲載順位 19.6 位（停滞圏 11〜20 位）"
+      "掲載順位 14.4 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -226,12 +237,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "404 not found nginx",
-    "gsc_position": 11.9,
+    "gsc_position": 10.1,
     "gsc_ctr": 0,
-    "gsc_impressions": 14,
+    "gsc_impressions": 25,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 14）",
-      "掲載順位 11.9 位（停滞圏 11〜20 位）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 25）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -284,11 +294,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "stripe 決済 エラー",
-    "gsc_position": 10.3,
+    "gsc_position": 13.2,
     "gsc_ctr": 0,
-    "gsc_impressions": 11,
+    "gsc_impressions": 5,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 11）"
+      "掲載順位 13.2 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -303,11 +313,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "docker compose",
-    "gsc_position": 41.2,
+    "gsc_position": 40.6,
     "gsc_ctr": 0,
-    "gsc_impressions": 11,
+    "gsc_impressions": 13,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 11）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 13）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -321,14 +331,168 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "top_query": "vercel internal server error",
-    "gsc_position": 12,
+    "top_query": "500: internal_server_error code: middleware_invocation_failed",
+    "gsc_position": 12.2,
     "gsc_ctr": 0,
-    "gsc_impressions": 8,
+    "gsc_impressions": 12,
     "gsc_reasons": [
-      "掲載順位 12.0 位（停滞圏 11〜20 位）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 12）",
+      "掲載順位 12.2 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "OpenAI API の 401 エラー：原因と解決策",
+    "slug": "openai_api_401",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "openai 401",
+    "gsc_position": 11.2,
+    "gsc_ctr": 0.0263,
+    "gsc_impressions": 38,
+    "gsc_reasons": [
+      "掲載順位 11.2 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "AWS の 400 エラー：原因と解決策",
+    "slug": "aws_400",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 11.1,
+    "gsc_ctr": 0,
+    "gsc_impressions": 7,
+    "gsc_reasons": [
+      "掲載順位 11.1 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Docker の 500 エラー：原因と解決策",
+    "slug": "docker_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "docker 500 internal server error",
+    "gsc_position": 9.1,
+    "gsc_ctr": 0,
+    "gsc_impressions": 10,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 10）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Docker の 504 エラー：原因と解決策",
+    "slug": "docker_504",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "エラーコード 504",
+    "gsc_position": 18.6,
+    "gsc_ctr": 0,
+    "gsc_impressions": 5,
+    "gsc_reasons": [
+      "掲載順位 18.6 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Firebase の 403 エラー：原因と解決策",
+    "slug": "firebase_403",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 9.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 16,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 16）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GCP の 503 エラー：原因と解決策",
+    "slug": "gcp_503",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "エラー 503 とは",
+    "gsc_position": 14.5,
+    "gsc_ctr": 0,
+    "gsc_impressions": 15,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 15）",
+      "掲載順位 14.5 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GitHub API の 409 エラー：原因と解決策",
+    "slug": "github_api_409",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "409 エラー",
+    "gsc_position": 9.6,
+    "gsc_ctr": 0,
+    "gsc_impressions": 11,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 11）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "OpenAI API の 500 エラー：原因と解決策",
+    "slug": "openai_api_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 6.8,
+    "gsc_ctr": 0,
+    "gsc_impressions": 13,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 13）"
+    ],
+    "queued_at": "2026-06-21",
     "source": "gsc_bottleneck"
   }
 ]

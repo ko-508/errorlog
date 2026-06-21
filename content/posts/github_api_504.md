@@ -11,8 +11,8 @@ components: []
 related_services: ["REST API", "OAuth", "Personal Access Token", "CI/CD"]
 trend_incident: true
 top_queries:
-- 'github api 504'
 - 'github 504'
+- 'github api 504'
 - 'api 504 error'
 ---
 

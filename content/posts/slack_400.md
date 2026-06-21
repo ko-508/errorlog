@@ -9,6 +9,9 @@ service: "Slack"
 error_type: "400"
 components: []
 related_services: ["Python", "curl", "JavaScript", "axios"]
+top_queries:
+- 'slack api channel'
+- 'slack エラー'
 ---
 
 ## エラーの概要

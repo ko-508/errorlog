@@ -10,7 +10,6 @@ components: ["JavaScript Client", "Edge Functions", "Database", "Authentication 
 related_services: ["HTTP", "Webhook"]
 top_queries:
 - '{"error": "too many requests", "message": "rate limit exceeded. please try again later."}'
-- 'request failed with status code 429'
 ---
 ## エラーの概要
 

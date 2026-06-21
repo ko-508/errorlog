@@ -8,6 +8,9 @@ service: "GitLab"
 error_type: "500"
 components: ["Sidekiq", "Puma"]
 related_services: ["Git", "Redis", "PostgreSQL"]
+top_queries:
+- 'gitlab 500'
+- 'gitlab 500エラー'
 ---
 ## エラーの概要
 

@@ -12,6 +12,7 @@ related_services: []
 top_queries:
 - '403 forbidden nginx'
 - 'nginx 403 forbidden'
+- '403 forbidden nginx/1.24.0'
 ---
 
 ## エラーの概要
