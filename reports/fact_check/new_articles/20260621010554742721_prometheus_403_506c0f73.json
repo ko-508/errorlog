@@ -1,0 +1,165 @@
+{
+  "path": "content/posts/prometheus_403.md",
+  "title": "Prometheus の 403 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 90,
+    "freshness_score": 45,
+    "citation_coverage": 34,
+    "risk_score": 28
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "Most technical claims are accurate and well-supported by official Prometheus documentation and reliable technical resources.",
+    "The article provides relevant code examples and troubleshooting steps for common Prometheus 403 error scenarios.",
+    "The claim that Prometheus 403 errors are exclusively not due to insufficient authentication or permissions is overly broad and contradicted by various sources, which show authentication/authorization issues (e.g., via reverse proxies, Kubernetes RBAC, or managed services) can lead to 403s."
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-21",
+  "status": "pass",
+  "report_path": "reports/fact_check/new_articles/20260621010554742721_prometheus_403_506c0f73.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://prometheus.io/docs/prometheus/latest/management_api/",
+      "title": "Management API - Prometheus",
+      "claim": "Prometheus provides a set of management APIs to facilitate automation and integration.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://prometheus.io/docs/prometheus/latest/management_api/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "prometheus.io",
+      "tool_match": false
+    },
+    {
+      "url": "https://prometheus.io/docs/prometheus/latest/management_api/",
+      "title": "Management API - Prometheus",
+      "claim": "The management API includes functionality such as deleting time series.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://prometheus.io/docs/prometheus/latest/management_api/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "prometheus.io",
+      "tool_match": false
+    },
+    {
+      "url": "https://prometheus.io/docs/prometheus/latest/management_api/",
+      "title": "Management API - Prometheus",
+      "claim": "The `/api/v1/admin/tsdb/delete_series` endpoint is used for time series data deletion.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://prometheus.io/docs/prometheus/latest/management_api/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "prometheus.io",
+      "tool_match": false
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH2sgtSWzqKMQRC9-3CDTKDQPYc8pIBtEnC8iFDb-8mgOt4J6SE-woDRE9Xg8RWHOf2QgBb761AP7kEkD0MhA6TpAHDMCJHjSofdly-qXTNwQltRjy63yTSl3RGW6Ilg2x8ocQjchVfZcKnycdRqHkYb3kX1wJwIhts1wwOOWbNiEIjZW_ePQN8Z4UuVP8=",
+      "title": "Port 9090 – Prometheus (Prometheus Monitoring) - PentestPad",
+      "claim": "Prometheus uses port 9090 as its default port for the web interface and API endpoints.",
+      "source_type": "other",
+      "url_check_status": "200",
+      "final_url": "https://www.pentestpad.com/port-exploit/port-9090-prometheus-prometheus-monitoring",
+      "is_grounding_redirect": true,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "www.pentestpad.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHgnrktxVdagf_Yiqjjru7XLq0ATneRdyL3IMsnX17-CsaDlWoLl3q_-0qGbjse3XXgVrw-IdqTiVaQ2CB2ntTCj-ugnn-39xVSXXkoD2h0KAUJm5TNV4j-lrJjJFtNcd3U7raCe6G6Wj67be8dzz6TCMS-3OjtdaIn4Ka6wQ2k2o6BRB8917jbR9pxuVycZ_jIwVUH7-wD0M=",
+      "title": "How to delete specific time series metrics from Prometheus - ImageMaster",
+      "claim": "To enable time series deletion via the administrative HTTP API, the `--web.enable-admin-api` flag must be passed to Prometheus.",
+      "source_type": "blog",
+      "url_check_status": "200",
+      "final_url": "https://docs.imagemaster.t-systems.com/9142/Content/Metrics_Gateway/How_to_delete_specific.htm",
+      "is_grounding_redirect": true,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "docs.imagemaster.t-systems.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZrpCjAHXTiGvLyNSmYDC2_oXg-Z3riM_sc7xVwX3aPtKRNtzB2Kq-7L-wZHy2yAmUs8akLBBOiyu7Eh94CZApL5LDkYXlg4_GXU-aaSQH-ZIiu9mlxsQhDU9Qk_e1DvroAqeAOk8LqTM=",
+      "title": "Security model - Prometheus",
+      "claim": "The `--web.enable-admin-api` flag controls access to the administrative HTTP API, which includes functionality such as deleting time series, and is disabled by default.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://prometheus.io/docs/operating/security/",
+      "is_grounding_redirect": true,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "prometheus.io",
+      "tool_match": false
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGZrpCjAHXTiGvLyNSmYDC2_oXg-Z3riM_sc7xVwX3aPtKRNtzB2Kq-7L-wZHy2yAmUs8akLBBOiyu7Eh94CZApL5LDkYXlg4_GXU-aaSQH-ZIiu9mlxsQhDU9Qk_e1DvroAqeAOk8LqTM=",
+      "title": "Security model - Prometheus",
+      "claim": "Without the `--web.enable-admin-api` flag, administrative endpoints typically respond with a 403 Forbidden error.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://prometheus.io/docs/operating/security/",
+      "is_grounding_redirect": true,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "prometheus.io",
+      "tool_match": false
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdJg5iiT7qO2zWZGuPL86usy36-3PNZNnUjLE7lLlBD51QzwnVTHQaMg5D4kIytx9vB7naZ1jv6ecbaqCS0cxV51IvNGl6b5HSSIwjUh9lbpW9BvyswjbmYJ_Bolt1T0FhdE7k4xh4ojtsxbyzzzEQpcRfLrwFsRDXIcYps2b25eOC5p9pH-FXJ-Wv2Q=",
+      "title": "How To Fix \"server returned HTTP status 403 Forbidden\" in Prometheus - Henry Xie 's blog",
+      "claim": "A 403 Forbidden error indicates explicit denial of access to API endpoints.",
+      "source_type": "blog",
+      "url_check_status": "skipped",
+      "final_url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdJg5iiT7qO2zWZGuPL86usy36-3PNZNnUjLE7lLlBD51QzwnVTHQaMg5D4kIytx9vB7naZ1jv6ecbaqCS0cxV51IvNGl6b5HSSIwjUh9lbpW9BvyswjbmYJ_Bolt1T0FhdE7k4xh4ojtsxbyzzzEQpcRfLrwFsRDXIcYps2b25eOC5p9pH-FXJ-Wv2Q=",
+      "is_grounding_redirect": true,
+      "resolved_source_type": "unresolved",
+      "resolved_domain": null,
+      "tool_match": false
+    },
+    {
+      "url": "https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHpeEhObzFfeq-HbXdJUscywebNSNlPV3tMhbz4_eHgI5ofjA-hfMwmqRPT2eKZsCGos3YIQrhvns6ijU7FOlK-UKQZv3JoMt4gySCKUlxVV22THjYPxkea_MLgmnb7iqlURyXCPaTR8j32yWqPY0lPRLiV4MnAyyfJ5KLCT2Wunl-HP1wRYskog==",
+      "title": "Prometheus Web API is not enabled - Stack Overflow",
+      "claim": "When running Prometheus with Docker, the `--web.enable-admin-api` flag must be passed as a command-line argument to the container.",
+      "source_type": "other",
+      "url_check_status": "200",
+      "final_url": "https://stackoverflow.com/questions/76831389/prometheus-web-api-is-not-enabled",
+      "is_grounding_redirect": true,
+      "resolved_source_type": "community_blog",
+      "resolved_domain": "stackoverflow.com",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [
+    "認証情報の不足や権限不足ではなく、エンドポイント自体が無効化されているか、ネットワークレベルで遮断されている状態です。(It's not due to insufficient authentication or permissions, but rather the endpoint itself being disabled or blocked at the network level.)"
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Revise the statement regarding the causes of 403 errors to acknowledge that insufficient authentication or permissions, especially when external authentication mechanisms or reverse proxies are involved, can also result in a 403 Forbidden response.",
+    "Optional improvement: Ensure all factual claims in the article are followed by appropriate citations.",
+    "Optional improvement: Review current official docs and update changed API/spec/pricing details.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 8,
+  "url_skipped": 1,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 5502,
+  "fact_check_input_chars": 4185,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "d0dc25193389",
+  "error_detail": null,
+  "vote_group_id": "d5bf0824-4d73-47d4-8526-9f7930dccccb",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": [
+    "Prometheus"
+  ]
+}

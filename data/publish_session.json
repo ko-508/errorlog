@@ -1,20 +1,20 @@
 [
   {
-    "path": "content/posts/circleci_401.md",
-    "stem": "circleci_401",
-    "title": "CircleCI の 401 エラー：原因と解決策",
+    "path": "content/posts/prometheus_400.md",
+    "stem": "prometheus_400",
+    "title": "Prometheus の 400 エラー：原因と解決策",
     "source_type": "pending"
   },
   {
-    "path": "content/posts/circleci_404.md",
-    "stem": "circleci_404",
-    "title": "CircleCI の 404 エラー：原因と解決策",
+    "path": "content/posts/prometheus_401.md",
+    "stem": "prometheus_401",
+    "title": "Prometheus の 401 エラー：原因と解決策",
     "source_type": "pending"
   },
   {
-    "path": "content/posts/circleci_503.md",
-    "stem": "circleci_503",
-    "title": "CircleCI の 503 エラー：原因と解決策",
+    "path": "content/posts/prometheus_403.md",
+    "stem": "prometheus_403",
+    "title": "Prometheus の 403 エラー：原因と解決策",
     "source_type": "daily"
   }
 ]

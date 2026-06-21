@@ -1,0 +1,46 @@
+{
+  "path": "content/posts/prometheus_403.md",
+  "title": "Prometheus の 403 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 0,
+    "freshness_score": 0,
+    "citation_coverage": 0,
+    "risk_score": 0
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "Gemini fact check returned invalid JSON: json_parse_error: Expecting value: line 1 column 1 (char 0)"
+  ],
+  "required_actions": [
+    "Retry fact check or inspect the article manually before publication."
+  ],
+  "detected_at": "2026-06-21",
+  "status": "failed_fact_check",
+  "report_path": "reports/fact_check/new_articles/20260621010344429827_prometheus_403_506c0f73.json",
+  "evaluator": "gemini_invalid",
+  "sources": [],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "json_parse_error: Expecting value: line 1 column 1 (char 0)",
+  "score_history_appended": true,
+  "score_valid": false,
+  "raw_response_excerpt": "{\n  \"factual_score\": 95,\n  \"freshness_score\": 90,\n  \"citation_coverage\": 100,\n  \"risk_score\": 60,\n  \"reasons\": [\n    \"The article accurately identifies common causes for Prometheus 403 errors, focusing on the `--web.enable-admin-api` flag, network configurations, and reverse proxy settings.\",\n    \"Most technical claims are supported by official Prometheus documentation or reputable company and community sources.\",\n    \"The article provides practical code examples for troubleshooting and resolution, which are highly valuable.\",\n    \"A minor factual inaccuracy was identified regarding the recommended HTTP method for the `delete_series` API endpoint in the provided `curl` example, as official documentation primarily lists `POST` and `PUT`.\"\n  ],\n  \"required_actions\": [\n    \"Correct the HTTP method used in the `curl` example for `/api/v1/admin/tsdb/delete_series` from `DELETE` to `POST` or `PUT` to align with the Prometheus official HTTP API specification.\",\n    \"Add a stronger warning or ",
+  "parse_error": "json_parse_error: Expecting value: line 1 column 1 (char 0)",
+  "url_checked": 0,
+  "url_skipped": 0,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 5502,
+  "fact_check_input_chars": 4185,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "d0dc25193389",
+  "error_detail": "json_parse_error: Expecting value: line 1 column 1 (char 0) | raw:{\n  \"factual_score\": 95,\n  \"freshness_score\": 90,\n  \"citation_coverage\": 100,\n  \"risk_score\": 60,\n  \"reasons\": [\n    \"The article accurately identifies common causes for Prometheus 403 errors, focusing on the `--web.enable-admin-api` flag, network configurations, and reverse proxy settings.\",\n    \"M",
+  "vote_group_id": "d5bf0824-4d73-47d4-8526-9f7930dccccb",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": []
+}

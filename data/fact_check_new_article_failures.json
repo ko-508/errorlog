@@ -142,5 +142,37 @@
     },
     "last_checked_at": "2026-06-20",
     "report_path": "reports/fact_check/new_articles/20260620011411736211_circleci_500_9d11aec2.json"
+  },
+  "dbcddd7e609711d3df2c373a64a58b630797f75d": {
+    "slug": "prometheus_404",
+    "tool": "Prometheus",
+    "status_code": "404",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "The article consistently and incorrectly states that common Prometheus query issues (e.g., metric not found, no data due to target down, data beyond retention) result in an HTTP 404 Not Found error from the Prometheus Query API.; Prometheus official documentation indicates that these scenarios typically return an HTTP 400 Bad Request with `errorType: bad_data` or an empty 200 OK response, rather than a 404.; While the underlying causes and many troubleshooting steps are correctly described, the fundamental error code associated with these problems in the API is misrepresented.; freshness score is below the threshold",
+    "last_scores": {
+      "factual_score": 55,
+      "freshness_score": 45,
+      "citation_coverage": 30,
+      "risk_score": 85
+    },
+    "last_checked_at": "2026-06-21",
+    "report_path": "reports/fact_check/new_articles/20260621011217540488_prometheus_404_32810476.json"
+  },
+  "6604d6673cdc1d7b80fd8b991a4d2adddc87f4bc": {
+    "slug": "prometheus_500",
+    "tool": "Prometheus",
+    "status_code": "500",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "The article accurately identifies common causes of Prometheus 500 errors, such as complex queries leading to OOM or timeouts, TSDB corruption, and general memory resource exhaustion.; Proposed solutions like adjusting query timeouts, graceful shutdown procedures, and managing TSDB retention are generally correct and well-aligned with Prometheus best practices.; The content demonstrates good freshness by addressing issues prevalent in modern Prometheus deployments, including Kubernetes environments.; A significant factual error exists in the proposed 'database repair' command, which incorrectly suggests using retention flags for database repair.; Some claims about specific error propagation paths (e.g., TSDB panic to 500 error) and exact HTTP status codes for query limits could benefit from more direct official documentation.; The article correctly lists relevant Prometheus metrics and Kubernetes commands for diagnosis.; citation coverage is below the threshold; freshness score is below the threshold; one or more claims are unsupported or unverifiable",
+    "last_scores": {
+      "factual_score": 75,
+      "freshness_score": 45,
+      "citation_coverage": 10,
+      "risk_score": 85
+    },
+    "last_checked_at": "2026-06-21",
+    "report_path": "reports/fact_check/new_articles/20260621012330809073_prometheus_500_e0c8e273.json"
   }
 }
