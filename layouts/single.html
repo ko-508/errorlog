@@ -156,14 +156,6 @@
   </div>
   {{- end }}
 
-  {{- /* ── 結論ブロック（conclusion フィールドがある記事のみ） ── */}}
-  {{- with .Params.conclusion }}
-  <div class="conclusion-block">
-    <span class="conclusion-block__label">結論</span>
-    <p>{{ . }}</p>
-  </div>
-  {{- end }}
-
   {{- $isHidden := (.Param "cover.hiddenInSingle") | default (.Param "cover.hidden") | default false }}
   {{- partial "cover.html" (dict "cxt" . "IsSingle" true "isHidden" $isHidden) }}
   {{- if (.Param "ShowToc") }}

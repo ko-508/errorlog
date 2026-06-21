@@ -217,13 +217,6 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 
 ## 必須セクション（この順番で記述）
 
-### 0. まとめ（H2）
-記事の一番最初に「## まとめ」見出しで置く。
-このエラーの結論（何をすれば直るか）を1〜2文で簡潔に書く。
-読者が「これだけ読めば解決の方向がわかる」内容にする。
-例: 「イメージ名・タグのスペルを確認し、docker login で認証を通すことで解決できます。」
-「## まとめ」は記事内に1つだけ。本文の他の箇所に「まとめ」見出しを重複して置かないこと。
-
 ### 1. エラーの概要（H2）
 このエラーの公式な意味と、対象ツールでの典型的な発生状況を2〜3文で説明する。
 
@@ -348,28 +341,6 @@ Jenkins: Pipeline, Stage, Agent, Plugin, Job, Credentials, Shared Library
 上記以外のコンポーネントも本文に明記されていれば抽出してよい。
 ただし推測は禁止。本文に文字として現れているものだけを返すこと。
 """.strip()
-
-
-def extract_conclusion(body: str) -> tuple[str, str]:
-    """本文の先頭 H2「まとめ」セクションを抽出し (conclusion_text, cleaned_body) を返す。
-
-    - conclusion_text: まとめ本文を1行に平坦化した文字列（YAML ダブルクオート埋め込み安全）
-    - cleaned_body:    まとめセクション（見出し行含む）を削除した本文
-    - 「まとめ」が見つからない場合は ("", body) を返し、本文は無加工のまま通す（安全側）。
-    """
-    pattern = re.compile(r'^## まとめ\n([\s\S]*?)(?=^## |\Z)', re.MULTILINE)
-    m = pattern.search(body)
-    if not m:
-        return "", body
-    section_text = m.group(1).strip()
-    # 複数行を1文に平坦化し、余分な空白を詰める
-    conclusion = re.sub(r'\s+', ' ', section_text).strip()
-    # YAML ダブルクオートスカラー内で安全に出力するためのエスケープ
-    conclusion = conclusion.replace('\\', '\\\\').replace('"', '\\"')
-    # まとめセクション全体（見出し行含む）を本文から削除し、先頭の余分な空行を除去
-    cleaned_body = body[:m.start()] + body[m.end():]
-    cleaned_body = cleaned_body.lstrip('\n')
-    return conclusion, cleaned_body
 
 
 def extract_knowledge_graph(
@@ -644,11 +615,6 @@ def _try_generate_article(
         tags = [tool or Path(filename).stem]
     tags_line = 'tags: ["' + '", "'.join(tags) + '"]\n' if tags else ""
 
-    # まとめセクションを抽出して conclusion に移し、本文から除去する
-    conclusion, body = extract_conclusion(body)
-    if not conclusion:
-        print(f"  [conclusion] WARN {filename}: まとめセクションが見つからない")
-
     # Phase 3: 知識グラフメタデータを抽出
     kg = extract_knowledge_graph(client, title, body, tool, code)
     kg_components = json.dumps(kg["components"], ensure_ascii=False)
@@ -659,8 +625,6 @@ def _try_generate_article(
         f'components: {kg_components}\n'
         f'related_services: {kg_related}\n'
     )
-    conclusion_line = f'conclusion: "{conclusion}"\n' if conclusion else ''
-
     frontmatter = (
         f'---\n'
         f'title: "{title}"\n'
@@ -669,7 +633,6 @@ def _try_generate_article(
         f'{tags_line}'
         f'errorCode: "{code}"\n'
         f'{knowledge_graph_lines}'
-        f'{conclusion_line}'
         f'---\n\n'
     )
 
