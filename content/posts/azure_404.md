@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 
-Azureの404[エラー](/glossary/エラー/)は、[API](/glossary/api/)やポータルからアクセスしようとしたリソースが見つからないことを示す[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生すると、指定したリソース名、リソースID、あるいは[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が存在しないか、[アクセス権限](/glossary/アクセス権限/)がない状態を意味します。Azure [CLI](/glossary/cli/)や[REST](/glossary/rest/) [API](/glossary/api/)、Azure Portalを通じてリソースを操作する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、原因の特定と対処には体系的なアプローチが必要です。
+Azureの404[エラー](/glossary/エラー/)は、[API](/glossary/api/)やポータルからアクセスしようとしたリソースが見つからないことを示す[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生すると、指定したリソース名、リソース[ID](/glossary/id/)、あるいは[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が存在しないか、[アクセス権限](/glossary/アクセス権限/)がない状態を意味します。Azure [CLI](/glossary/cli/)や[REST](/glossary/rest/) [API](/glossary/api/)、Azure Portalを通じてリソースを操作する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、原因の特定と対処には体系的なアプローチが必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ The resource with id /subscriptions/<subscription-id>/resourceGroups/<rg-name>/p
 
 ### 原因1：リソース名またはIDの綴りが間違っている
 
-Azureのリソース名やリソースIDに入力ミスがあると、404[エラー](/glossary/エラー/)が発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、[REST](/glossary/rest/) [API](/glossary/api/)で完全修飾リソースID（例：`/subscriptions/.../resourceGroups/.../providers/...`）を指定する場合、パス内のどこかに誤字があると該当リソースが見つかりません。
+Azureのリソース名やリソース[ID](/glossary/id/)に入力ミスがあると、404[エラー](/glossary/エラー/)が発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、[REST](/glossary/rest/) [API](/glossary/api/)で完全修飾リソース[ID](/glossary/id/)（例：`/subscriptions/.../resourceGroups/.../providers/...`）を指定する場合、パス内のどこかに誤字があると該当リソースが見つかりません。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -171,9 +171,9 @@ Azure環境では、複数のレイヤーで404[エラー](/glossary/エラー/)
 
 **Azure Portalでの確認：** Portalから直接リソースを検索する際、左側の検索バーにリソース名を入力してもヒットしない場合、別のサブスクリプションに存在するか、既に削除されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
 
-**Azure [CLI](/glossary/cli/)と[API](/glossary/api/)バージョン：** Azure [CLI](/glossary/cli/)でリソースを操作する際、使用している[API](/glossary/api/)バージョンが古い場合、新しいリソースタイプが認識されない可能性があります。例えば、`az vm show`の背後で使用されるCompute [API](/glossary/api/)のバージョンが古いと、新しいVMプロパティは見つからずに404的な[エラー](/glossary/エラー/)になることもあります。最新の操作には`--api-version`パラメーターで明示的にバージョンを指定することをお勧めします。
+**Azure [CLI](/glossary/cli/)と[API](/glossary/api/)[バージョン](/glossary/バージョン/)：** Azure [CLI](/glossary/cli/)でリソースを操作する際、使用している[API](/glossary/api/)[バージョン](/glossary/バージョン/)が古い場合、新しいリソースタイプが認識されない可能性があります。例えば、`az vm show`の背後で使用されるCompute [API](/glossary/api/)の[バージョン](/glossary/バージョン/)が古いと、新しいVM[プロパティ](/glossary/プロパティ/)は見つからずに404的な[エラー](/glossary/エラー/)になることもあります。最新の操作には`--api-version`パラメーターで明示的に[バージョン](/glossary/バージョン/)を指定することをお勧めします。
 
-**[REST](/glossary/rest/) [API](/glossary/api/)とリソースID形式：** Azure [REST](/glossary/rest/) [API](/glossary/api/)を直接呼び出す場合、リソースIDは必ず`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}`の形式に従う必要があります。この形式が少しでも異なると404が発生します。特に、入れ子になったリソース（例：VNet内のサブネット）では、パス構造を厳密に守る必要があります。
+**[REST](/glossary/rest/) [API](/glossary/api/)とリソース[ID](/glossary/id/)形式：** Azure [REST](/glossary/rest/) [API](/glossary/api/)を直接呼び出す場合、リソース[ID](/glossary/id/)は必ず`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}`の形式に従う必要があります。この形式が少しでも異なると404が発生します。特に、入れ子になったリソース（例：VNet内のサブネット）では、パス構造を厳密に守る必要があります。
 
 ## それでも解決しない場合
 
@@ -220,7 +220,7 @@ curl -X GET \
 az vm show --resource-group myResourceGroup --name myVM --debug
 ```
 
-Azure公式ドキュメント（[Azure Resource Management API](https://learn.microsoft.com/en-us/rest/api/resources/)）では、各リソースタイプの正確な[API](/glossary/api/)形式とパスが記載されています。疑わしい場合は、リソースタイプの公式リファレンスを参照して、正しい[エンドポイント](/glossary/エンドポイント/)形式と必須パラメーターを再確認することをお勧めします。また、Azure [CLI](/glossary/cli/)のバージョンが古い可能性がある場合は、`az upgrade`で最新版に更新してから再度試行してください。
+Azure公式ドキュメント（[Azure Resource Management API](https://learn.microsoft.com/en-us/rest/api/resources/)）では、各リソースタイプの正確な[API](/glossary/api/)形式とパスが記載されています。疑わしい場合は、リソースタイプの公式リファレンスを参照して、正しい[エンドポイント](/glossary/エンドポイント/)形式と必須パラメーターを再確認することをお勧めします。また、Azure [CLI](/glossary/cli/)の[バージョン](/glossary/バージョン/)が古い可能性がある場合は、`az upgrade`で最新版に更新してから再度試行してください。
 
 ---
 

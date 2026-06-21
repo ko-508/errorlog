@@ -149,7 +149,7 @@ $ gh api user
 
 ### GitHub APIのバージョン指定
 
-GitHubは複数の[API](/glossary/api/)バージョンをサポートしており、古いバージョンへの[リクエスト](/glossary/リクエスト/)は認証要件が異なる場合があります。[REST](/glossary/rest/) [API](/glossary/api/) v3を使用する際は、`Accept`[ヘッダー](/glossary/ヘッダー/)で明示的にバージョンを指定することが推奨されます。
+GitHubは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は認証要件が異なる場合があります。[REST](/glossary/rest/) [API](/glossary/api/) v3を使用する際は、`Accept`[ヘッダー](/glossary/ヘッダー/)で明示的に[バージョン](/glossary/バージョン/)を指定することが推奨されます。
 
 ```bash
 curl -H "Authorization: token <PAT>" \

@@ -189,9 +189,9 @@ minikube delete
 minikube start
 ```
 
-**3. [Kubernetes](/glossary/kubernetes/)バージョン互換性による不安定性**
+**3. [Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)互換性による不安定性**
 
-Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)バージョンで動作している場合や、プラグインが古い[API](/glossary/api/)バージョンに依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
+Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)で動作している場合や、プラグインが古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)に依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
 
 ```bash
 # Minikube および Kubernetes バージョン確認

@@ -151,11 +151,11 @@ with open("training.jsonl", "w") as f:
 
 ## OpenAI API固有の注意点
 
-OpenAI [API](/glossary/api/)の422[エラー](/glossary/エラー/)は、[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)や利用する[モデル](/glossary/モデル/)によって、バリデーション規則が異なります。
+OpenAI [API](/glossary/api/)の422[エラー](/glossary/エラー/)は、[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)や利用する[モデル](/glossary/モデル/)によって、[バリデーション](/glossary/バリデーション/)規則が異なります。
 
-**Fine-tuning [API](/glossary/api/)の場合**、JSONLファイルの検証はファイルアップロード時に実施されます。`files.create()`でファイルをアップロードする際、ファイルサイズが大きい場合はバリデーションがサンプリングで実行されるため、アップロード直後に422[エラー](/glossary/エラー/)が出ず、後の`fine_tuning.jobs.create()`実行時に発見されることもあります。
+**Fine-tuning [API](/glossary/api/)の場合**、JSONLファイルの検証はファイルアップロード時に実施されます。`files.create()`でファイルをアップロードする際、[ファイルサイズ](/glossary/ファイルサイズ/)が大きい場合は[バリデーション](/glossary/バリデーション/)がサンプリングで実行されるため、アップロード直後に422[エラー](/glossary/エラー/)が出ず、後の`fine_tuning.jobs.create()`実行時に発見されることもあります。
 
-**Chat Completions [API](/glossary/api/)の場合**、[モデル](/glossary/モデル/)のバージョンによってサポートされる[ロール](/glossary/ロール/)値が異なる可能性があります。例えば、`gpt-3.5-turbo`で`system`[ロール](/glossary/ロール/)を使用する場合、特定の[API](/glossary/api/)バージョンでは非対応の場合があるため、[API](/glossary/api/)ドキュメントで対象[モデル](/glossary/モデル/)のサポート状況を確認してください。
+**Chat Completions [API](/glossary/api/)の場合**、[モデル](/glossary/モデル/)の[バージョン](/glossary/バージョン/)によってサポートされる[ロール](/glossary/ロール/)値が異なる可能性があります。例えば、`gpt-3.5-turbo`で`system`[ロール](/glossary/ロール/)を使用する場合、特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)では非対応の場合があるため、[API](/glossary/api/)ドキュメントで対象[モデル](/glossary/モデル/)のサポート状況を確認してください。
 
 また、関数呼び出し（Function Calling）を使用する場合、`function`[ロール](/glossary/ロール/)のメッセージに対しては`content`フィールドに加えて`tool_calls`または`function_call`フィールドの構造が厳密に定義されています。これらが不正な形式だと422[エラー](/glossary/エラー/)が発生します。
 
@@ -178,7 +178,7 @@ with open("training.jsonl", "r") as f:
 EOF
 ```
 
-**OpenAIの公式Fine-tuningドキュメント**を確認し、現在のバージョンで要求されるJSONL形式の仕様を確認してください。特に「Preparing your dataset」セクションにサンプルファイルが記載されています。
+**OpenAIの公式Fine-tuningドキュメント**を確認し、現在の[バージョン](/glossary/バージョン/)で要求されるJSONL形式の仕様を確認してください。特に「Preparing your dataset」セクションにサンプルファイルが記載されています。
 
 **GitHub Issues**でOpenAI Pythonライブラリの[リポジトリ](/glossary/リポジトリ/)を検索し、同様の422[エラー](/glossary/エラー/)に関する報告がないか確認してください。既知の問題や回避策が記載されている可能性があります。
 

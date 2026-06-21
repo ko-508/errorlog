@@ -195,7 +195,7 @@ def create_completion_with_backoff(prompt, max_retries=3):
 
 ### APIバージョンの確認
 
-openai-python ライブラリのバージョンが古い場合、[レート制限](/glossary/レート制限/)に関する情報が正しく返されないことがあります。`pip install --upgrade openai` で最新版に更新してください。v1.0以降では、[例外処理](/glossary/例外処理/)の[API](/glossary/api/)仕様が変わっているため注意が必要です。
+openai-python ライブラリの[バージョン](/glossary/バージョン/)が古い場合、[レート制限](/glossary/レート制限/)に関する情報が正しく返されないことがあります。`pip install --upgrade openai` で最新版に更新してください。v1.0以降では、[例外処理](/glossary/例外処理/)の[API](/glossary/api/)仕様が変わっているため注意が必要です。
 
 ## それでも解決しない場合
 

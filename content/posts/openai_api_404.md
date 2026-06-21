@@ -13,7 +13,7 @@ related_services: ["ChatCompletion", "Assistants API", "Models"]
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で404[エラー](/glossary/エラー/)が発生する場合、[リクエスト](/glossary/リクエスト/)で指定されたリソース（[モデル](/glossary/モデル/)、アシスタント、ファイルなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示しています。この[エラー](/glossary/エラー/)は、存在しない[モデル](/glossary/モデル/)名の指定、削除済みのアシスタントIDの使用、間違った[エンドポイント](/glossary/エンドポイント/)へのアクセスなど、様々な原因で発生します。OpenAI [API](/glossary/api/)の仕様変更に伴い、廃止された[モデル](/glossary/モデル/)の使用も404の一般的な原因です。
+OpenAI [API](/glossary/api/)で404[エラー](/glossary/エラー/)が発生する場合、[リクエスト](/glossary/リクエスト/)で指定されたリソース（[モデル](/glossary/モデル/)、アシスタント、ファイルなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示しています。この[エラー](/glossary/エラー/)は、存在しない[モデル](/glossary/モデル/)名の指定、削除済みのアシスタント[ID](/glossary/id/)の使用、間違った[エンドポイント](/glossary/エンドポイント/)へのアクセスなど、様々な原因で発生します。OpenAI [API](/glossary/api/)の仕様変更に伴い、廃止された[モデル](/glossary/モデル/)の使用も404の一般的な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -76,7 +76,7 @@ response = client.chat.completions.create(
 
 ### 原因2：不正なアシスタントID、スレッドID、またはファイルID
 
-Assistants [API](/glossary/api/)を使用している場合、削除済みのアシスタントやスレッド、ファイルのIDを参照すると404が発生します。
+Assistants [API](/glossary/api/)を使用している場合、削除済みのアシスタントやスレッド、ファイルの[ID](/glossary/id/)を参照すると404が発生します。
 
 **Before：**
 ```python
@@ -101,7 +101,7 @@ response = client.beta.threads.create(
 )
 ```
 
-アシスタントやスレッドを削除した場合、保存されたIDは無効になります。必ず有効なIDを確認してから使用してください。
+アシスタントやスレッドを削除した場合、保存された[ID](/glossary/id/)は無効になります。必ず有効な[ID](/glossary/id/)を確認してから使用してください。
 
 ### 原因3：誤ったエンドポイントまたはパスの指定
 
@@ -133,13 +133,13 @@ curl https://api.openai.com/v1/chat/completions \
 
 ## OpenAI API固有の注意点
 
-OpenAI [API](/glossary/api/)では複数の[API](/glossary/api/)バージョンと多様なリソースタイプが存在するため、404[エラー](/glossary/エラー/)の原因も多岐にわたります。
+OpenAI [API](/glossary/api/)では複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)と多様なリソースタイプが存在するため、404[エラー](/glossary/エラー/)の原因も多岐にわたります。
 
-**Chat Completions [API](/glossary/api/)：** 最新の[モデル](/glossary/モデル/)名は定期的に更新されます。`gpt-3.5-turbo` は常に最新のスナップショット版を指します。特定のバージョンが必要な場合は、公式ドキュメントで現在のスナップショット版番号を確認してください。
+**Chat Completions [API](/glossary/api/)：** 最新の[モデル](/glossary/モデル/)名は定期的に更新されます。`gpt-3.5-turbo` は常に最新のスナップショット版を指します。特定の[バージョン](/glossary/バージョン/)が必要な場合は、公式ドキュメントで現在のスナップショット版番号を確認してください。
 
-**Assistants [API](/glossary/api/)：** `v=20240415` などのベータバージョンを指定する場合、古いバージョンではリソースが存在しない可能性があります。RequestHeaderで正しいバージョンを指定してください。
+**Assistants [API](/glossary/api/)：** `v=20240415` などのベータバージョンを指定する場合、古い[バージョン](/glossary/バージョン/)ではリソースが存在しない可能性があります。RequestHeaderで正しい[バージョン](/glossary/バージョン/)を指定してください。
 
-**Organization ID：** 複数のOrganizationに属している場合、`OpenAI(organization="<your-org-id>")` でOrganizationを明示的に指定しないと、アシスタントやファイルが見つからないことがあります。
+**Organization [ID](/glossary/id/)：** 複数のOrganizationに属している場合、`OpenAI(organization="<your-org-id>")` でOrganizationを明示的に指定しないと、アシスタントやファイルが見つからないことがあります。
 
 ```python
 client = OpenAI(
@@ -148,7 +148,7 @@ client = OpenAI(
 )
 ```
 
-**ファイルとベクトルストア：** Files [API](/glossary/api/)でアップロードしたファイルIDは、期限切れや削除で無効になります。必ず最新のファイルIDを確認してから使用してください。
+**ファイルとベクトルストア：** Files [API](/glossary/api/)でアップロードしたファイル[ID](/glossary/id/)は、期限切れや削除で無効になります。必ず最新のファイル[ID](/glossary/id/)を確認してから使用してください。
 
 ## それでも解決しない場合
 
@@ -167,7 +167,7 @@ for assistant in assistants.data:
     print(f"{assistant.id}: {assistant.name}")
 ```
 
-**[API](/glossary/api/)バージョンとライブラリバージョンを確認する：**
+**[API](/glossary/api/)[バージョン](/glossary/バージョン/)とライブラリバージョンを確認する：**
 `openai` パッケージを最新版に更新してください。`pip install --upgrade openai` を実行し、ライブラリが最新であることを確認します。
 
 **公式ドキュメントを参照する：**

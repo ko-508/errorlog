@@ -150,7 +150,7 @@ curl -X PUT https://<your-project>.firebaseio.com/users/user1.json \
 
 ### Cloud Functions でのバリデーション
 
-Cloud Functions から Firestore にデータを書き込む場合、関数内で入力値のバリデーションが不十分だと、ルール検証で 422 が返されます。関数側で事前に値を検証することが重要です。
+Cloud Functions から Firestore にデータを書き込む場合、関数内で入力値の[バリデーション](/glossary/バリデーション/)が不十分だと、ルール検証で 422 が返されます。関数側で事前に値を検証することが重要です。
 
 ```javascript
 // Before: バリデーションなしで書き込み

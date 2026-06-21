@@ -174,7 +174,7 @@ gcloud functions deploy myFunction \
 
 ### Firebase Hostingとカスタムオリジンの接続
 
-Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、そのオリジンが不可達または応答が遅いと502[エラー](/glossary/エラー/)が返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)設定も確認してください。
+Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、その[オリジン](/glossary/オリジン/)が不可達または応答が遅いと502[エラー](/glossary/エラー/)が返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)設定も確認してください。
 
 ```json
 {

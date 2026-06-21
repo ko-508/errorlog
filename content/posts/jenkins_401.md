@@ -222,16 +222,16 @@ curl -v -u jenkins_user:<your-api-token> \
 # verbose出力(-v)でHTTPヘッダーを確認し、認証ヘッダーの形式を検証できます
 ```
 
-**Jenkinsバージョン確認：**
+**Jenkins[バージョン](/glossary/バージョン/)確認：**
 
-古いJenkinsバージョンでは[API](/glossary/api/)[トークン](/glossary/トークン/)機能が異なる場合があります。
+古いJenkins[バージョン](/glossary/バージョン/)では[API](/glossary/api/)[トークン](/glossary/トークン/)機能が異なる場合があります。
 
 ```bash
 # Jenkinsバージョン確認
 curl -s https://jenkins.example.com/api/json | grep version
 ```
 
-Jenkins 2.176以降を使用している場合、[API](/glossary/api/)[トークン](/glossary/トークン/)の有効期限設定が利用可能です。バージョンが古い場合はアップグレードを検討してください。
+Jenkins 2.176以降を使用している場合、[API](/glossary/api/)[トークン](/glossary/トークン/)の有効期限設定が利用可能です。[バージョン](/glossary/バージョン/)が古い場合はアップグレードを検討してください。
 
 **公式ドキュメント参照：**
 

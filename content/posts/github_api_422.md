@@ -163,7 +163,7 @@ axios.post(
 
 ### GitHub API バージョンと API Preview の影響
 
-GitHub [API](/glossary/api/) には複数のバージョンが存在し、リクエストヘッダの `Accept` ヘッダで指定した [API](/glossary/api/) バージョンによって、同じ[パラメータ](/glossary/パラメータ/)でも検証ルールが異なる場合があります。特に [GraphQL](/glossary/graphql/) [API](/glossary/api/) と [REST](/glossary/rest/) [API](/glossary/api/) の間、または [REST](/glossary/rest/) [API](/glossary/api/) の異なるバージョン間で相違が生じることがあります。
+GitHub [API](/glossary/api/) には複数の[バージョン](/glossary/バージョン/)が存在し、リクエストヘッダの `Accept` ヘッダで指定した [API](/glossary/api/) [バージョン](/glossary/バージョン/)によって、同じ[パラメータ](/glossary/パラメータ/)でも検証ルールが異なる場合があります。特に [GraphQL](/glossary/graphql/) [API](/glossary/api/) と [REST](/glossary/rest/) [API](/glossary/api/) の間、または [REST](/glossary/rest/) [API](/glossary/api/) の異なる[バージョン](/glossary/バージョン/)間で相違が生じることがあります。
 
 ```bash
 # 明示的に API バージョンを指定する場合

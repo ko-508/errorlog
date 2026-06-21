@@ -67,7 +67,7 @@ podman system df
 
 ### 原因2：ストレージメタデータの破損
 
-不正なシャットダウンや Podman [デーモン](/glossary/デーモン/)の強制終了によって、`/var/lib/containers/storage` 配下の[設定ファイル](/glossary/設定ファイル/)やメタデータが破損することがあります。特に `containers.json` や overlay2 の統計ファイルが影響を受けやすいです。
+不正なシャットダウンや Podman [デーモン](/glossary/デーモン/)の強制終了によって、`/var/lib/containers/storage` 配下の[設定ファイル](/glossary/設定ファイル/)や[メタデータ](/glossary/メタデータ/)が破損することがあります。特に `containers.json` や overlay2 の統計ファイルが影響を受けやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -97,7 +97,7 @@ podman ps
 
 ### 原因3：オーバーレイファイルシステムの不一致
 
-overlay2 ドライバを使用している場合、lower レイヤー・upper レイヤー・work ディレクトリ間の構造が不一致になることがあります。特に[コンテナ](/glossary/コンテナ/)削除時の処理が中断された場合、orphaned な overlay ディレクトリが残存し、メタデータ読み込み時に 500 [エラー](/glossary/エラー/)が発生します。
+overlay2 ドライバを使用している場合、lower レイヤー・upper レイヤー・work ディレクトリ間の構造が不一致になることがあります。特に[コンテナ](/glossary/コンテナ/)削除時の処理が中断された場合、orphaned な overlay ディレクトリが残存し、[メタデータ](/glossary/メタデータ/)読み込み時に 500 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

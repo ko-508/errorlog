@@ -221,7 +221,7 @@ hadolint Dockerfile
 
 ### コミュニティリソース
 
-[Docker](/glossary/docker/)のGitHub Issuesやstack Overflowで同様の[エラー](/glossary/エラー/)が報告されていないか検索してください。特に`docker-compose`や特定のバージョンでの互換性問題はGitHubのIssuesで詳細が共有されていることが多いです。
+[Docker](/glossary/docker/)のGitHub Issuesやstack Overflowで同様の[エラー](/glossary/エラー/)が報告されていないか検索してください。特に`docker-compose`や特定の[バージョン](/glossary/バージョン/)での互換性問題はGitHubのIssuesで詳細が共有されていることが多いです。
 
 ---
 

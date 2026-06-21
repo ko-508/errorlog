@@ -81,7 +81,7 @@ print(response.status_code)
 
 ### 原因2：APIバージョン指定の不適切またはヘッダーの不足
 
-GitHubは[REST](/glossary/rest/) [API](/glossary/api/)のバージョンを指定するため、Accept[ヘッダー](/glossary/ヘッダー/)やX-GitHub-Api-Version[ヘッダー](/glossary/ヘッダー/)が必須です。これが正しく指定されないと、古いバージョンの[エンドポイント](/glossary/エンドポイント/)にルーティングされ、予期しない形式の[リクエスト](/glossary/リクエスト/)として処理される結果500になります。
+GitHubは[REST](/glossary/rest/) [API](/glossary/api/)の[バージョン](/glossary/バージョン/)を指定するため、Accept[ヘッダー](/glossary/ヘッダー/)やX-GitHub-Api-Version[ヘッダー](/glossary/ヘッダー/)が必須です。これが正しく指定されないと、古い[バージョン](/glossary/バージョン/)の[エンドポイント](/glossary/エンドポイント/)にルーティングされ、予期しない形式の[リクエスト](/glossary/リクエスト/)として処理される結果500になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 
@@ -187,7 +187,7 @@ tcpdump -i any -A 'tcp port 443' | grep -A 20 'POST /repos'
 
 3. **公式ドキュメント参照**：https://docs.github.com/en/rest/guides/best-practices-for-using-the-rest-api のベストプラクティスセクションを確認してください。
 
-4. **GitHub Support Contact**：継続的に500[エラー](/glossary/エラー/)が発生する場合、https://support.github.com でサポートチケットを作成し、[リクエスト](/glossary/リクエスト/)IDを含めて報告してください。
+4. **GitHub Support Contact**：継続的に500[エラー](/glossary/エラー/)が発生する場合、https://support.github.com でサポートチケットを作成し、[リクエスト](/glossary/リクエスト/)[ID](/glossary/id/)を含めて報告してください。
 
 5. **コミュニティリソース**：GitHub [API](/glossary/api/)関連のIssueはhttps://github.com/github-community/community/discussions で検索すると、既知の問題や回避策が見つかることがあります。
 

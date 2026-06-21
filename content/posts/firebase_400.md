@@ -78,7 +78,7 @@ response = requests.post(
 
 ### 原因2：API キーの無効化または無効な認証情報
 
-Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) キー、削除されたキー、または間違ったプロジェクト ID を使用しているケースです。
+Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) キー、削除されたキー、または間違ったプロジェクト [ID](/glossary/id/) を使用しているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -164,7 +164,7 @@ curl -X POST https://firebaseio.com/users.json \
 
 ### 原因5：Authentication/Authorization トークンが無効または期限切れ
 
-Firebase Authentication の[トークン](/glossary/トークン/)（ID Token）が期限切れになっているか、無効な形式で送信されている場合に 400 [エラー](/glossary/エラー/)が返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
+Firebase Authentication の[トークン](/glossary/トークン/)（[ID](/glossary/id/) Token）が期限切れになっているか、無効な形式で送信されている場合に 400 [エラー](/glossary/エラー/)が返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

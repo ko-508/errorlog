@@ -159,7 +159,7 @@ file_id = get_or_upload_file("training_data.jsonl")
 
 ### 原因3: Batch API の重複送信
 
-Batch [API](/glossary/api/) で同一の入力ファイル ID に対して複数のバッチリクエストを短時間で送信すると、前のバッチ処理が完了していない状態で競合[エラー](/glossary/エラー/)が発生します。特にリトライロジックが過剰に働く場合に顕著です。
+Batch [API](/glossary/api/) で同一の入力ファイル [ID](/glossary/id/) に対して複数のバッチリクエストを短時間で送信すると、前のバッチ処理が完了していない状態で競合[エラー](/glossary/エラー/)が発生します。特にリトライロジックが過剰に働く場合に顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -216,9 +216,9 @@ else:
 
 OpenAI [API](/glossary/api/) の Fine-tuning ジョブは `queued` → `validating` → `running` → `succeeded` というライフサイクルを経ます。`validating` 段階で既に別のジョブが同じファイルを使用している場合、409 [エラー](/glossary/エラー/)が返ります。リスト取得時に `status` [パラメータ](/glossary/パラメータ/)でフィルタリングして、本当に完了しているか確認することが重要です。
 
-**ファイル ID の有効性確認**
+**ファイル [ID](/glossary/id/) の有効性確認**
 
-Files [API](/glossary/api/) でアップロードしたファイルが `processed` 状態に遷移するまで、そのファイル ID を Fine-tuning や Batch に使用してはいけません。ステータスが `uploaded` の段階で利用しようとすると 409 [エラー](/glossary/エラー/)が発生する可能性があります。必ず `file_status.status == "processed"` を確認してから次の処理に進んでください。
+Files [API](/glossary/api/) でアップロードしたファイルが `processed` 状態に遷移するまで、そのファイル [ID](/glossary/id/) を Fine-tuning や Batch に使用してはいけません。ステータスが `uploaded` の段階で利用しようとすると 409 [エラー](/glossary/エラー/)が発生する可能性があります。必ず `file_status.status == "processed"` を確認してから次の処理に進んでください。
 
 **[API](/glossary/api/) キーの[スコープ](/glossary/スコープ/)と[権限](/glossary/権限/)**
 

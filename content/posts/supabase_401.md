@@ -234,7 +234,7 @@ Supabase の JavaScript クライアントはブラウザの LocalStorage にセ
 
 ### ログ確認の手順
 
-Supabase Dashboard の Authentication セクションで、「Logs」タブを開き、[エラーレスポンス](/glossary/エラーレスポンス/)の詳細確認ができます。[リクエスト](/glossary/リクエスト/)のタイムスタンプとユーザー ID を照合し、実際にどの[トークン](/glossary/トークン/)が拒否されたかを確認してください。
+Supabase Dashboard の Authentication セクションで、「Logs」タブを開き、[エラーレスポンス](/glossary/エラーレスポンス/)の詳細確認ができます。[リクエスト](/glossary/リクエスト/)のタイムスタンプとユーザー [ID](/glossary/id/) を照合し、実際にどの[トークン](/glossary/トークン/)が拒否されたかを確認してください。
 
 ### デバッグコマンド
 

@@ -199,7 +199,7 @@ curl -v -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues"
 
 **4. GitLab コミュニティフォーラムへの相談：**
 
-問題が解決しない場合、[GitLab Community Forum](https://forum.gitlab.com/) で[エラーレスポンス](/glossary/エラーレスポンス/)、使用している GitLab バージョン、[リクエスト](/glossary/リクエスト/)の詳細を共有して支援を求めることをお勧めします。
+問題が解決しない場合、[GitLab Community Forum](https://forum.gitlab.com/) で[エラーレスポンス](/glossary/エラーレスポンス/)、使用している GitLab [バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)の詳細を共有して支援を求めることをお勧めします。
 
 ---
 

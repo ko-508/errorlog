@@ -246,7 +246,7 @@ CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Detai
 
 **ステップ4：CircleCI サポートへの問い合わせ**
 
-[トークン](/glossary/トークン/)生成時刻、ジョブ ID、[エラー](/glossary/エラー/)が発生した正確な時刻を記録した上で、CircleCI Support（support@circleci.com）に問い合わせます。[サーバー](/glossary/サーバー/)側の[トークン](/glossary/トークン/)失効・[ユーザーアカウント](/glossary/ユーザーアカウント/)問題の可能性があります。
+[トークン](/glossary/トークン/)生成時刻、ジョブ [ID](/glossary/id/)、[エラー](/glossary/エラー/)が発生した正確な時刻を記録した上で、CircleCI Support（support@circleci.com）に問い合わせます。[サーバー](/glossary/サーバー/)側の[トークン](/glossary/トークン/)失効・[ユーザーアカウント](/glossary/ユーザーアカウント/)問題の可能性があります。
 
 ---
 

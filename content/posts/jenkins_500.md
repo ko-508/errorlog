@@ -184,9 +184,9 @@ sudo vi /var/lib/jenkins/config.xml
 sudo systemctl start jenkins
 ```
 
-**Jenkinsのバージョンと互換性：**
+**Jenkinsの[バージョン](/glossary/バージョン/)と互換性：**
 
-古いバージョンのJenkinsで新しいプラグインをインストールするとバージョン競合が発生し、500[エラー](/glossary/エラー/)になります。`Manage Plugins` で各プラグインが「互換性のあるバージョン」になっているか確認してください。
+古い[バージョン](/glossary/バージョン/)のJenkinsで新しいプラグインをインストールすると[バージョン](/glossary/バージョン/)競合が発生し、500[エラー](/glossary/エラー/)になります。`Manage Plugins` で各プラグインが「互換性のある[バージョン](/glossary/バージョン/)」になっているか確認してください。
 
 ## それでも解決しない場合
 
@@ -215,9 +215,9 @@ sudo systemctl start jenkins
 sudo journalctl -u jenkins -f
 ```
 
-**Javaバージョンの確認：**
+**Java[バージョン](/glossary/バージョン/)の確認：**
 
-プラグインがサポートしていないJavaバージョンが使用されている場合も500[エラー](/glossary/エラー/)になります。
+プラグインがサポートしていないJava[バージョン](/glossary/バージョン/)が使用されている場合も500[エラー](/glossary/エラー/)になります。
 
 ```bash
 java -version

@@ -177,7 +177,7 @@ curl -I "http://localhost:8080/job/MyBuildJob/api/json" \
 - ジョブの構成とフォルダ: https://www.jenkins.io/doc/book/managing/organizing-jobs/
 - Jenkinsfileでのジョブ呼び出し: https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/
 
-これらの手段で原因を特定できない場合は、Jenkinsのバージョンが最新であるか確認し、プラグインの競合がないか確認することも有効です。
+これらの手段で原因を特定できない場合は、Jenkinsの[バージョン](/glossary/バージョン/)が最新であるか確認し、プラグインの競合がないか確認することも有効です。
 
 ---
 

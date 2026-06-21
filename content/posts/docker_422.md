@@ -57,7 +57,7 @@ docker push myregistry.example.com/app:v1.0.0
 
 ### 2. docker-compose.yml の設定値の型違反
 
-`ports`、`mem_limit`、`cpu_shares`など、数値型を期待するフィールドに文字列を指定するとバリデーション失敗で 422 が返されます。
+`ports`、`mem_limit`、`cpu_shares`など、数値型を期待するフィールドに文字列を指定すると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```yaml
@@ -103,7 +103,7 @@ docker push myregistry.example.com/myapp:v1.0.0
 
 ### 4. API リクエストのボディスキーマ不整合
 
-[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須フィールドが欠落しているか、型が異なるとバリデーション失敗で 422 が返されます。
+[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須フィールドが欠落しているか、型が異なると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
@@ -128,7 +128,7 @@ curl -X POST http://localhost:2375/containers/create \
 
 ### Docker Compose バージョンと設定値の互換性
 
-`docker-compose.yml`で `version: '3.8'`を指定した場合、古い構文（`1.0`時代の短縮[ポート](/glossary/ポート/)指定）は 422 で拒否されます。バージョンと設定内容の整合性を確認してください。
+`docker-compose.yml`で `version: '3.8'`を指定した場合、古い構文（`1.0`時代の短縮[ポート](/glossary/ポート/)指定）は 422 で拒否されます。[バージョン](/glossary/バージョン/)と設定内容の整合性を確認してください。
 
 ### レジストリ認証後のプッシュ時エラー
 
@@ -175,7 +175,7 @@ curl -v --unix-socket /var/run/docker.sock \
 
 ### 環境別の確認ポイント
 
-- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)バージョンを確認し、サポートされているイメージマニフェスト形式を検証します
+- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、サポートされているイメージマニフェスト形式を検証します
 - **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`設定とイメージレジストリの [CORS](/glossary/cors/)設定を確認します
 - **[CI/CD](/glossary/ci-cd/)パイプライン**: GitHub Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックを[テスト](/glossary/テスト/)します
 

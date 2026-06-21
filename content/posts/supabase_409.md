@@ -120,7 +120,7 @@ if (selectError && selectError.code !== 'PGRST116') {
 
 ### 原因 2：外部キー制約の親レコードが存在しない
 
-外部キー制約が設定されているカラムに、参照先[テーブル](/glossary/テーブル/)に存在しないレコードの ID を挿入しようとした場合に発生します。例えば、orders [テーブル](/glossary/テーブル/)の user_id が users [テーブル](/glossary/テーブル/)に存在しない ID を指す場合です。
+外部キー制約が設定されているカラムに、参照先[テーブル](/glossary/テーブル/)に存在しないレコードの [ID](/glossary/id/) を挿入しようとした場合に発生します。例えば、orders [テーブル](/glossary/テーブル/)の user_id が users [テーブル](/glossary/テーブル/)に存在しない [ID](/glossary/id/) を指す場合です。
 
 **修正前（[エラー](/glossary/エラー/)が起きるコード）：**
 

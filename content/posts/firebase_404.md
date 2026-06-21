@@ -45,7 +45,7 @@ GET https://firestore.googleapis.com/v1/projects/<your-project-id>/databases/(de
 
 **原因1：Firestoreのドキュメントパスが誤っている**
 
-Firestoreはドキュメント階層が厳密です。コレクション名やドキュメントIDの綴り間違いが404につながります。
+Firestoreはドキュメント階層が厳密です。コレクション名やドキュメント[ID](/glossary/id/)の綴り間違いが404につながります。
 
 **Before（[エラー](/glossary/エラー/)が発生するコード）:**
 ```javascript

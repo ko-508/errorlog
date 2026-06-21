@@ -128,7 +128,7 @@ $ az role assignment list \
 ```
 
 **マネージドアイデンティティの場合**：
-Azure VM や App Service などがマネージドアイデンティティを使用する場合、そのマネージドアイデンティティに対して [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。サービスプリンシパルの[オブジェクト](/glossary/オブジェクト/) ID（通常は Azure AD 上の名前）を確認し、同様に `az role assignment create` で[ロール](/glossary/ロール/)割り当てを行います。
+Azure VM や App Service などがマネージドアイデンティティを使用する場合、そのマネージドアイデンティティに対して [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。サービスプリンシパルの[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/)（通常は Azure AD 上の名前）を確認し、同様に `az role assignment create` で[ロール](/glossary/ロール/)割り当てを行います。
 
 **Terraform での [RBAC](/glossary/rbac/) 設定例**：
 ```hcl
@@ -154,7 +154,7 @@ $ az monitor activity-log list \
 
 Azure Portal の「監視」→「アクティビティログ」からも、リアルタイムでエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを検索し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)設定かを判定できます。
 
-サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) ID が正しいか再確認してください。`az ad sp show --id <client-id>` で確認できます。
+サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で確認できます。
 
 最新の Azure [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)定義や Policy については、[Microsoft Learn - Azure RBAC のドキュメント](https://learn.microsoft.com/ja-jp/azure/role-based-access-control/)および [Azure Policy の公式ページ](https://learn.microsoft.com/ja-jp/azure/governance/policy/)を参照してください。
 

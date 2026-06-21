@@ -104,7 +104,7 @@ services:
 
 ### 原因3：イメージタグまたはレジストリ形式の誤り
 
-[イメージ](/glossary/イメージ/)名の指定形式が不正な場合も400[エラー](/glossary/エラー/)が発生します。[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、`<registry>/<repository>:<tag>`形式を厳密に守る必要があります。また、無効なタグやホスト名を含むと、Composeのバリデーションに引っかかります。
+[イメージ](/glossary/イメージ/)名の指定形式が不正な場合も400[エラー](/glossary/エラー/)が発生します。[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、`<registry>/<repository>:<tag>`形式を厳密に守る必要があります。また、無効なタグやホスト名を含むと、Composeの[バリデーション](/glossary/バリデーション/)に引っかかります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -174,7 +174,7 @@ networks:
 docker compose -f compose.yml config
 ```
 
-**バージョン互換性：** `version`キーで指定したCompose仕様のバージョンが、インストール済みの[Docker](/glossary/docker/) Composeバージョンで対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
+**[バージョン](/glossary/バージョン/)互換性：** `version`キーで指定したCompose仕様の[バージョン](/glossary/バージョン/)が、インストール済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
 
 **[環境変数](/glossary/環境変数/)の展開[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`ファイルの存在確認と変数定義を必ず確認してください。
 
@@ -198,7 +198,7 @@ docker compose --verbose up 2>&1 | head -50
 yamllint compose.yml
 ```
 
-**公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用しているバージョンの仕様を確認してください。キー名や値の型、必須キーが正確に記載されています。
+**公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の仕様を確認してください。キー名や値の型、必須キーが正確に記載されています。
 
 **GitHub Issuesの検索：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を検索し、既知の問題や回避策がないか確認してください。
 

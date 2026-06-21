@@ -145,7 +145,7 @@ gcloud functions deploy <function-name> --timeout=300
 ```
 
 ### Firebase Admin SDK のバージョン不一致
-古いバージョンの Admin [SDK](/glossary/sdk/) を使用していると、新しいサービスの仕様に対応できず 500 が発生することがあります。常に最新バージョンを使用してください。
+古い[バージョン](/glossary/バージョン/)の Admin [SDK](/glossary/sdk/) を使用していると、新しいサービスの仕様に対応できず 500 が発生することがあります。常に最新[バージョン](/glossary/バージョン/)を使用してください。
 
 ```bash
 npm install firebase-admin@latest

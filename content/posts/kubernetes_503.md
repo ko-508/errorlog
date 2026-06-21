@@ -371,7 +371,7 @@ kubectl top pods -n <namespace>
 
 ### 公式ドキュメント参照
 
-[Kubernetes](/glossary/kubernetes/)公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用している[Kubernetes](/glossary/kubernetes/)バージョンに応じた互換性情報も確認してください。
+[Kubernetes](/glossary/kubernetes/)公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用している[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)に応じた互換性情報も確認してください。
 
 ---
 

@@ -38,7 +38,7 @@ ERROR: Service '<your-service-name>' failed to build : [Errno 2] No such file or
 
 ### 原因1：compose.yml 内で指定したイメージが存在しない、またはタグが間違っている
 
-[Docker](/glossary/docker/) Compose が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub やプライベートレジストリー）から[イメージ](/glossary/イメージ/)をプルしようとしても、その[イメージ](/glossary/イメージ/)が存在しない、あるいはタグが誤っていると 404 [エラー](/glossary/エラー/)が発生します。たとえば、タイポやバージョン番号の誤指定があると、プル対象が見つからなくなります。
+[Docker](/glossary/docker/) Compose が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub やプライベートレジストリー）から[イメージ](/glossary/イメージ/)をプルしようとしても、その[イメージ](/glossary/イメージ/)が存在しない、あるいはタグが誤っていると 404 [エラー](/glossary/エラー/)が発生します。たとえば、タイポや[バージョン](/glossary/バージョン/)番号の誤指定があると、プル対象が見つからなくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

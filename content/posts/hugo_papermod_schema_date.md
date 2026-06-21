@@ -49,7 +49,7 @@ PaperMod テーマの `themes/PaperMod/layouts/_partials/templates/schema_json.h
 
 Hugo テンプレートで `{{ .PublishDate }}` を素のまま展開すると、Go の `time.Time` 型がデフォルト形式でシリアライズされる。この形式は `0001-01-01 00:00:00 +0000 UTC` のような文字列になり、[JSON](/glossary/json/) として無効な出力になる。
 
-さらに `.PublishDate` はフロントマターに `publishDate` を明示しない場合にゼロ値（`0001-01-01`）になることがある（Hugo のバージョンや設定により挙動が異なる）。`lastmod` も同様で、フロントマターに未設定の場合にゼロ値が返る。
+さらに `.PublishDate` はフロントマターに `publishDate` を明示しない場合にゼロ値（`0001-01-01`）になることがある（Hugo の[バージョン](/glossary/バージョン/)や設定により挙動が異なる）。`lastmod` も同様で、フロントマターに未設定の場合にゼロ値が返る。
 
 ---
 

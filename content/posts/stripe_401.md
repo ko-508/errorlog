@@ -174,7 +174,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
-**Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` ID を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
+**Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` [ID](/glossary/id/) を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 
 ```bash
 curl https://api.stripe.com/v1/charges \

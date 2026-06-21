@@ -137,7 +137,7 @@ const response = await fetch('https://<your-project>.supabase.co/rest/v1/users',
 
 ### 原因 3：Auth API パラメータの型ミスまたは無効な値
 
-Supabase Auth [API](/glossary/api/)（ユーザー登録・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他メタデータの[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須フィールドが欠けていたり、データ型が違ったり、無効な形式だったりすると 400 が返ります。
+Supabase Auth [API](/glossary/api/)（ユーザー登録・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他[メタデータ](/glossary/メタデータ/)の[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須フィールドが欠けていたり、データ型が違ったり、無効な形式だったりすると 400 が返ります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -167,7 +167,7 @@ if (error) {
 }
 ```
 
-メタデータの追加時に[オブジェクト](/glossary/オブジェクト/)以外の値を渡す場合も同様です。
+[メタデータ](/glossary/メタデータ/)の追加時に[オブジェクト](/glossary/オブジェクト/)以外の値を渡す場合も同様です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -201,7 +201,7 @@ Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `
 
 また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接ブラウザで試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じロジックをコード側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
 
-さらに、JavaScript クライアントライブラリは頻繁に更新されており、古いバージョンを使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
+さらに、JavaScript クライアントライブラリは頻繁に更新されており、古い[バージョン](/glossary/バージョン/)を使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
 
 ## それでも解決しない場合
 

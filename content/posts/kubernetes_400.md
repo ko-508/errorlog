@@ -134,7 +134,7 @@ spec:
 
 ### 原因3: APIバージョンまたはリソース種別の不一致
 
-**なぜ発生するか：** 廃止された[API](/glossary/api/)バージョンを使用したり、クラスタにインストールされていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、バージョン間での互換性問題が頻繁に起きます。
+**なぜ発生するか：** 廃止された[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用したり、クラスタにインストールされていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、[バージョン](/glossary/バージョン/)間での互換性問題が頻繁に起きます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```bash
@@ -238,7 +238,7 @@ kubectl apply -f deployment.yaml -n production
 ```
 
 ### CRD（CustomResourceDefinition）のバージョン不一致
-インストール済みのCRDのバージョンと、マニフェストファイルの[API](/glossary/api/)バージョンが一致していない場合、400[エラー](/glossary/エラー/)が発生します。`kubectl api-resources`で確認可能です。
+インストール済みのCRDの[バージョン](/glossary/バージョン/)と、マニフェストファイルの[API](/glossary/api/)[バージョン](/glossary/バージョン/)が一致していない場合、400[エラー](/glossary/エラー/)が発生します。`kubectl api-resources`で確認可能です。
 
 ```bash
 kubectl api-resources | grep customresource
@@ -268,13 +268,13 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 - **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)仕様** - https://kubernetes.io/docs/reference/kubernetes-api/ で各リソースの[スキーマ](/glossary/スキーマ/)定義を確認
 - **[API](/glossary/api/)[サーバー](/glossary/サーバー/)の検証ルール** - https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation
-- **廃止[API](/glossary/api/)バージョンのマイグレーション** - https://kubernetes.io/docs/reference/using-api/deprecation-guide/
+- **廃止[API](/glossary/api/)[バージョン](/glossary/バージョン/)のマイグレーション** - https://kubernetes.io/docs/reference/using-api/deprecation-guide/
 
 ### コミュニティリソース
 
 問題が解決しない場合は、以下で検索してください。
 
-- **[Kubernetes](/glossary/kubernetes/) GitHub Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)バージョンやバリデーション関連のバグ報告）
+- **[Kubernetes](/glossary/kubernetes/) GitHub Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)[バージョン](/glossary/バージョン/)や[バリデーション](/glossary/バリデーション/)関連の[バグ](/glossary/バグ/)報告）
 - **Stack Overflow** - `[kubernetes] 400` タグでの質問検索
 - **CNCF Slack** - #kubernetes-users チャネルでの相談
 

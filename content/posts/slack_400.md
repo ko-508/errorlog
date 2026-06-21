@@ -111,7 +111,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
 ### 原因3：無効なパラメータ値
 
 **なぜ発生するか**  
-チャネルIDやユーザーIDの形式が不正、またはタイムスタンプの値が無効な場合、[API](/glossary/api/)は400を返します。特にチャネルID（Cで始まる）とユーザーID（Uで始まる）を混同することが多いです。
+チャネル[ID](/glossary/id/)やユーザー[ID](/glossary/id/)の形式が不正、またはタイムスタンプの値が無効な場合、[API](/glossary/api/)は400を返します。特にチャネル[ID](/glossary/id/)（Cで始まる）とユーザー[ID](/glossary/id/)（Uで始まる）を混同することが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる場合）**
 ```javascript

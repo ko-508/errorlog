@@ -79,7 +79,7 @@ const charge = await stripe.charges.create({
 
 ### 原因2：非推奨なAPIバージョンの使用
 
-Stripeは[API](/glossary/api/)仕様を定期的に更新し、古いバージョンはサポートが終了します。非推奨なバージョンへの[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
+Stripeは[API](/glossary/api/)仕様を定期的に更新し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -145,7 +145,7 @@ if currency in supported_currencies:
 
 ### Webhook署名検証とAPIバージョンの整合性
 
-[Webhook](/glossary/webhook/)を受信する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が送信されます。ホスト側でこれを無視して古い[API](/glossary/api/)バージョンと想定して処理すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)バージョンを指定するか、[ダッシュボード](/glossary/ダッシュボード/)でバージョンを統一する必要があります。
+[Webhook](/glossary/webhook/)を受信する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が送信されます。ホスト側でこれを無視して古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)と想定して処理すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定するか、[ダッシュボード](/glossary/ダッシュボード/)で[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ### リトライ戦略の実装
 
@@ -174,19 +174,19 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-[テスト](/glossary/テスト/)環境（sk_test_）とライブ環境（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)環境では成功するが本番環境で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能とバージョンを確認してください。
+[テスト](/glossary/テスト/)環境（sk_test_）とライブ環境（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)環境では成功するが本番環境で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
 
 ## それでも解決しない場合
 
 ### 確認すべき手順とログ
 
-1. **Request IDの記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` フィールドをメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
+1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` フィールドをメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
 
 2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に障害がないか確認します。インシデント進行中の場合は、復旧を待つ必要があります。
 
 3. **ホスト側[ログ](/glossary/ログ/)の確認**：アプリケーションサーバーの[エラーログ](/glossary/エラーログ/)を詳しく確認し、Stripe [SDK](/glossary/sdk/)内部で例外が発生していないかを確認します。
 
-4. **[API](/glossary/api/)バージョンの確認[コマンド](/glossary/コマンド/)**：
+4. **[API](/glossary/api/)[バージョン](/glossary/バージョン/)の確認[コマンド](/glossary/コマンド/)**：
 
 ```bash
 # ダッシュボード設定から現在のAPIバージョンを確認
@@ -206,7 +206,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 - Stripe Developer Community：https://stripe.com/docs/support
 - Stack Overflow の `stripe` タグ：実装言語固有の問題は検索してみてください
 
-公式サポートに問い合わせる場合は、Request ID、使用している[SDK](/glossary/sdk/)のバージョン、[リクエスト](/glossary/リクエスト/)を送信した時刻（UTC）、[API](/glossary/api/)バージョンをまとめて報告すれば、迅速に対応してもらえます。
+公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を送信した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に対応してもらえます。
 
 ---
 

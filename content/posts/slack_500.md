@@ -116,7 +116,7 @@ for i in range(100):
 
 **原因2：不正な形式またはサイズを超過した[ペイロード](/glossary/ペイロード/)**
 
-テキストフィールドに過度に長い文字列を送信したり、ブロック要素の階層が深すぎたり、ファイルサイズが大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)処理ロジックが例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
+テキストフィールドに過度に長い文字列を送信したり、ブロック要素の階層が深すぎたり、[ファイルサイズ](/glossary/ファイルサイズ/)が大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)処理ロジックが例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -284,12 +284,12 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
 
 - [Slack API Status Page](https://status.slack.com/)：Slack側の既知障害を確認
 - [Slack Community Slack](https://slackcommunity.com/)：他ユーザーが同じ問題を報告していないか検索
-- GitHub Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知バグを確認
+- GitHub Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知[バグ](/glossary/バグ/)を確認
 
 **Slackサポートへの問い合わせ**
 
 有償のSlackプランを利用している場合、[公式サポート](https://slack.com/help/contact/support)に問い合わせる際は、以下の情報を含めてください：
-- [ワークスペース](/glossary/ワークスペース/)ID
+- [ワークスペース](/glossary/ワークスペース/)[ID](/glossary/id/)
 - 500[エラー](/glossary/エラー/)が発生した時刻（UTC）
 - 該当する[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)
 - [リクエスト](/glossary/リクエスト/)のPayload（秘密情報除く）

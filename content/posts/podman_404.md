@@ -99,7 +99,7 @@ podman run myapp:1.0
 
 ### 原因4：コンテナー ID またはコンテナー名が誤っている
 
-`podman stop`、`podman rm`、`podman inspect` などの操作でコンテナーを指定する際、存在しないコンテナー ID やコンテナー名を指定すると 404 [エラー](/glossary/エラー/)が発生します。特に長いコンテナー ID の一部を誤入力した場合に注意が必要です。
+`podman stop`、`podman rm`、`podman inspect` などの操作でコンテナーを指定する際、存在しないコンテナー [ID](/glossary/id/) やコンテナー名を指定すると 404 [エラー](/glossary/エラー/)が発生します。特に長いコンテナー [ID](/glossary/id/) の一部を誤入力した場合に注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

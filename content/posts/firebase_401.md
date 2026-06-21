@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Firebase の 401 [エラー](/glossary/エラー/)は、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。ID[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。
+Firebase の 401 [エラー](/glossary/エラー/)は、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。[ID](/glossary/id/)[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -44,7 +44,7 @@ Error: Failed to get document (401): The caller does not have permission
 
 ### 原因 1: IDトークンの有効期限が切れている
 
-Firebase Authentication では、ID[トークン](/glossary/トークン/)は発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこの[エラー](/glossary/エラー/)が発生します。
+Firebase Authentication では、[ID](/glossary/id/)[トークン](/glossary/トークン/)は発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこの[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）**
 
@@ -167,7 +167,7 @@ docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \
 
 ### Cloud Firestore / Realtime Database のセキュリティルール検証
 
-セキュリティルールの構文[エラー](/glossary/エラー/)や論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザーID と操作（read/write）の組み合わせで実際にアクセス可能か[テスト](/glossary/テスト/)してください。
+セキュリティルールの構文[エラー](/glossary/エラー/)や論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザー[ID](/glossary/id/) と操作（read/write）の組み合わせで実際にアクセス可能か[テスト](/glossary/テスト/)してください。
 
 ```
 // Firebase Console のシミュレーター実行例

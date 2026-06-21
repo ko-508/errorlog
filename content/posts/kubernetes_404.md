@@ -95,7 +95,7 @@ kubectl config set-context --current --namespace=production
 ### 原因3：APIバージョンやリソースタイプの指定ミス
 
 **なぜ発生するか：**
-[Kubernetes](/glossary/kubernetes/)は[API](/glossary/api/)バージョンの進化に伴い、リソースの名称や形式が変更されることがあります。存在しない[API](/glossary/api/)バージョン（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを認識できません。
+[Kubernetes](/glossary/kubernetes/)は[API](/glossary/api/)[バージョン](/glossary/バージョン/)の進化に伴い、リソースの名称や形式が変更されることがあります。存在しない[API](/glossary/api/)[バージョン](/glossary/バージョン/)（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを認識できません。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -194,7 +194,7 @@ IngressがServiceを参照する際、存在しないServiceを指定すると40
 カスタムリソースを使用する場合、CRDが登録されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
 
 **クラスタバージョン間の互換性：**
-異なる[Kubernetes](/glossary/kubernetes/)バージョン間でマニフェストファイルを使用する場合、新しいバージョン特有の[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が古いクラスタに存在しないことがあります。`kubectl api-resources`[コマンド](/glossary/コマンド/)で現在のクラスタで利用可能なリソースを確認してください。
+異なる[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)間でマニフェストファイルを使用する場合、新しい[バージョン](/glossary/バージョン/)特有の[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が古いクラスタに存在しないことがあります。`kubectl api-resources`[コマンド](/glossary/コマンド/)で現在のクラスタで利用可能なリソースを確認してください。
 
 ## それでも解決しない場合
 
@@ -224,7 +224,7 @@ kubectl proxy
 ```
 
 **公式ドキュメント：**
-[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)バージョンと利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
+[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
 [Kubernetes](/glossary/kubernetes/) GitHubのIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。

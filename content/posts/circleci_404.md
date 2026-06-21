@@ -12,7 +12,7 @@ related_services: ["GitHub", "Bitbucket"]
 
 ## エラーの概要
 
-CircleCI の 404 [エラー](/glossary/エラー/)は、指定されたプロジェクト・パイプライン・ワークフローが見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプラインIDの指定ミス、あるいはVCS（GitHub・Bitbucket）との認可情報の失効に起因します。
+CircleCI の 404 [エラー](/glossary/エラー/)は、指定されたプロジェクト・パイプライン・ワークフローが見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（GitHub・Bitbucket）との認可情報の失効に起因します。
 
 ## 実際のエラーメッセージ例
 
@@ -60,7 +60,7 @@ WebUI で確認したプロジェクト URL（例：`https://app.circleci.com/pi
 
 ### 原因2：パイプラインID またはワークフローID が存在しない
 
-パイプラインやワークフローを直接指定する際に、存在しないID を使用すると 404 [エラー](/glossary/エラー/)が発生します。これは ID の入力ミス、削除済みパイプラインへのアクセス、あるいは別のプロジェクトのパイプラインID を誤って使用した場合に起こります。
+パイプラインやワークフローを直接指定する際に、存在しない[ID](/glossary/id/) を使用すると 404 [エラー](/glossary/エラー/)が発生します。これは [ID](/glossary/id/) の入力ミス、削除済みパイプラインへのアクセス、あるいは別のプロジェクトのパイプライン[ID](/glossary/id/) を誤って使用した場合に起こります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -69,7 +69,7 @@ curl -X GET "https://circleci.com/api/v2/pipeline/abc123def456/config" \
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-ここで指定したパイプラインID が実際には存在しない、または削除済みです。
+ここで指定したパイプライン[ID](/glossary/id/) が実際には存在しない、または削除済みです。
 
 **After（修正後）：**
 
@@ -131,7 +131,7 @@ curl -X GET "https://circleci.com/api/v2/project/$ENCODED_SLUG" \
 ```
 
 **パイプラインフィルタリング：**
-複数のパイプラインが存在する場合、`?filter=` [パラメータ](/glossary/パラメータ/)を使用してフィルタリングできます。これにより、特定の条件に一致するパイプラインのみを取得し、ID の確認が容易になります。
+複数のパイプラインが存在する場合、`?filter=` [パラメータ](/glossary/パラメータ/)を使用してフィルタリングできます。これにより、特定の条件に一致するパイプラインのみを取得し、[ID](/glossary/id/) の確認が容易になります。
 
 ```bash
 curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline?filter=completed" \

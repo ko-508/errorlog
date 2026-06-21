@@ -196,7 +196,7 @@ kubectl logs -n kube-system deployment/kube-apiserver --tail=200
 kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl alarm list
 ```
 
-**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや互換性のないバージョン指定も500[エラー](/glossary/エラー/)を引き起こします。
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや互換性のない[バージョン](/glossary/バージョン/)指定も500[エラー](/glossary/エラー/)を引き起こします。
 ```bash
 kubectl get pod -n kube-system kube-apiserver-<master-node-name> -o jsonpath='{.spec.containers[0].command}' | tr ',' '\n'
 ```

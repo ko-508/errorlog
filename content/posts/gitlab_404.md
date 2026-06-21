@@ -57,7 +57,7 @@ print(response.status_code)  # 404
 
 ### 原因1：プロジェクトIDまたはパスの誤入力
 
-GitLab [API](/glossary/api/)のプロジェクト指定時に、数字のプロジェクトID、またはURL形式の `namespace/project-name` を使用します。パスに特殊文字やスペースが含まれる場合は、URLエンコーディングが必須です。スラッシュ（`/`）は `%2F` にエンコードする必要があります。
+GitLab [API](/glossary/api/)のプロジェクト指定時に、数字のプロジェクト[ID](/glossary/id/)、またはURL形式の `namespace/project-name` を使用します。パスに特殊文字やスペースが含まれる場合は、URLエンコーディングが必須です。スラッシュ（`/`）は `%2F` にエンコードする必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -151,7 +151,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 ### 原因4：マージリクエストやイシューのIDが存在しない
 
-プロジェクト内の特定マージリクエスト、イシュー、パイプラインなどのIDが存在しない場合、404が返されます。プロジェクトIDは正しいがリソースIDが誤っている、または削除されている状況です。
+プロジェクト内の特定マージリクエスト、イシュー、パイプラインなどの[ID](/glossary/id/)が存在しない場合、404が返されます。プロジェクト[ID](/glossary/id/)は正しいがリソース[ID](/glossary/id/)が誤っている、または削除されている状況です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -217,7 +217,7 @@ GitLab [API](/glossary/api/)ではリソース所有者の[権限](/glossary/権
 
 **Legacy [API](/glossary/api/) vs [GraphQL](/glossary/graphql/)：**
 
-GitLab [REST](/glossary/rest/) [API](/glossary/api/)と[GraphQL](/glossary/graphql/) [API](/glossary/api/)では、リソースの指定方法が異なります。特にマージリクエストやパイプラインではプロジェクトIDが必須の場合があり、プロジェクトパスだけでは404になることがあります。
+GitLab [REST](/glossary/rest/) [API](/glossary/api/)と[GraphQL](/glossary/graphql/) [API](/glossary/api/)では、リソースの指定方法が異なります。特にマージリクエストやパイプラインではプロジェクト[ID](/glossary/id/)が必須の場合があり、プロジェクトパスだけでは404になることがあります。
 
 ## それでも解決しない場合
 

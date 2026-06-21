@@ -13,7 +13,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が不正な場合に発生する400[エラー](/glossary/エラー/)です。[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)バージョンの不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取った[マニフェスト](/glossary/マニフェスト/)を[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)に送信する際に検証を行うため、この段階で不正な形式が検出されると即座に400[エラー](/glossary/エラー/)が返されます。
+Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が不正な場合に発生する400[エラー](/glossary/エラー/)です。[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)[バージョン](/glossary/バージョン/)の不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取った[マニフェスト](/glossary/マニフェスト/)を[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)に送信する際に検証を行うため、この段階で不正な形式が検出されると即座に400[エラー](/glossary/エラー/)が返されます。
 
 ## 実際のエラーメッセージ例
 
@@ -193,9 +193,9 @@ spec:
 
 ## Minikube固有の注意点
 
-Minikubeでは、ローカル開発環境での[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)バージョンが重要です。`minikube start` で起動する[Kubernetes](/glossary/kubernetes/)のバージョンと、[マニフェスト](/glossary/マニフェスト/)で指定する `apiVersion` が大きく乖離していると400[エラー](/glossary/エラー/)が起こりえます。例えば、古いMinikubeを使用しながら最新の `apiVersion: v1` や非推奨の[API](/glossary/api/)バージョンを指定すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が解析できない場合があります。
+Minikubeでは、ローカル開発環境での[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[バージョン](/glossary/バージョン/)が重要です。`minikube start` で起動する[Kubernetes](/glossary/kubernetes/)の[バージョン](/glossary/バージョン/)と、[マニフェスト](/glossary/マニフェスト/)で指定する `apiVersion` が大きく乖離していると400[エラー](/glossary/エラー/)が起こりえます。例えば、古いMinikubeを使用しながら最新の `apiVersion: v1` や非推奨の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が解析できない場合があります。
 
-`minikube kubectl -- api-resources` [コマンド](/glossary/コマンド/)で、現在のクラスター上で利用可能な[API](/glossary/api/)バージョンとリソース種別を確認できます。また、Minikubeの設定によっては、リソースのデフォルト値が異なる場合があります。特に `imagePullPolicy` を明示的に指定しない場合、ローカルイメージの取得[ポリシー](/glossary/ポリシー/)が予期しない動作をすることがあるため、`imagePullPolicy: IfNotPresent` や `imagePullPolicy: Never` を明示的に設定することが推奨されます。
+`minikube kubectl -- api-resources` [コマンド](/glossary/コマンド/)で、現在のクラスター上で利用可能な[API](/glossary/api/)[バージョン](/glossary/バージョン/)とリソース種別を確認できます。また、Minikubeの設定によっては、リソースのデフォルト値が異なる場合があります。特に `imagePullPolicy` を明示的に指定しない場合、ローカルイメージの取得[ポリシー](/glossary/ポリシー/)が予期しない動作をすることがあるため、`imagePullPolicy: IfNotPresent` や `imagePullPolicy: Never` を明示的に設定することが推奨されます。
 
 さらに、Minikubeでのネットワークプラグイン（CNI）の種類によって、`NetworkPolicy` などの高度なネットワークリソースが利用できない場合があります。400[エラー](/glossary/エラー/)ではなく別の[エラー](/glossary/エラー/)になる傾向ですが、リソース定義の互換性を事前に確認することが重要です。
 

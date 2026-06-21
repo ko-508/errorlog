@@ -124,7 +124,7 @@ stripe.files.create({
 
 ### API バージョンによる権限要件の変化
 
-Stripe では複数の [API](/glossary/api/) バージョンをサポートしており、バージョンによって必要な[権限](/glossary/権限/)が異なることがあります。例えば、Charges [API](/glossary/api/) と Payment Intents [API](/glossary/api/) では権限設定が異なります。Payment Intents を使う場合は `payment_intents:write` [権限](/glossary/権限/)が必須ですが、古いキーには付与されていないケースが見られます。
+Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バージョン/)をサポートしており、[バージョン](/glossary/バージョン/)によって必要な[権限](/glossary/権限/)が異なることがあります。例えば、Charges [API](/glossary/api/) と Payment Intents [API](/glossary/api/) では権限設定が異なります。Payment Intents を使う場合は `payment_intents:write` [権限](/glossary/権限/)が必須ですが、古いキーには付与されていないケースが見られます。
 
 ### Webhook エンドポイントと IP ホワイトリスト
 

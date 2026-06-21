@@ -138,7 +138,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 2. **[キャッシュ](/glossary/キャッシュ/)された認証情報をリセットする：** [Git](/glossary/git/) の認証情報マネージャーが古いアクセストークンを[キャッシュ](/glossary/キャッシュ/)していないか確認します。
 
-   ```bash
+   ```[bash](/glossary/bash/)
    # Windows（Credential Manager）
    git credential-manager erase https://bitbucket.org
    
@@ -151,7 +151,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 3. **[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)詳細を確認する：** curl で Bitbucket [API](/glossary/api/) を直接呼び出し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。
 
-   ```bash
+   ```[bash](/glossary/bash/)
    curl -v -u <your-username>:<your-password> \
      https://api.bitbucket.org/2.0/repositories/<workspace>/<repository>
    ```

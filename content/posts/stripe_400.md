@@ -139,7 +139,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### APIバージョンの不整合
 
-Stripeの[アカウント](/glossary/アカウント/)設定では特定の[API](/glossary/api/)バージョンがデフォルトで使用されます。古いコードが新しい[API](/glossary/api/)バージョンに対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定バージョンでの動作を強制できます。
+Stripeの[アカウント](/glossary/アカウント/)設定では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)がデフォルトで使用されます。古いコードが新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
 
 ```bash
 curl https://api.stripe.com/v1/payment_intents \
@@ -199,7 +199,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### ログとデバッグ方法
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)IDを記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を検索しやすくなります。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)[ID](/glossary/id/)を記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を検索しやすくなります。
 
 ```python
 # レスポンスからリクエストIDを取得
@@ -215,7 +215,7 @@ except stripe.error.InvalidRequestError as e:
 
 - **[Stripe API Reference](https://stripe.com/docs/api)**：各[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を確認
 - **[Error Handling](https://stripe.com/docs/error-handling)**：エラーコードと対処法の公式ガイド
-- **[API Versioning](https://stripe.com/docs/upgrades)**：[API](/glossary/api/)バージョン変更履歴と非推奨[パラメータ](/glossary/パラメータ/)
+- **[API Versioning](https://stripe.com/docs/upgrades)**：[API](/glossary/api/)[バージョン](/glossary/バージョン/)変更履歴と非推奨[パラメータ](/glossary/パラメータ/)
 
 ### コミュニティリソース
 

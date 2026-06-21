@@ -146,13 +146,13 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ## GitHub API固有の注意点
 
-GitHub [API](/glossary/api/)には複数のバージョンが存在し、[エンドポイント](/glossary/エンドポイント/)の仕様がバージョンによって異なります。`Accept`[ヘッダー](/glossary/ヘッダー/)で[API](/glossary/api/) バージョンを指定する場合、不正なバージョン番号を指定すると400[エラー](/glossary/エラー/)が返されます。
+GitHub [API](/glossary/api/)には複数の[バージョン](/glossary/バージョン/)が存在し、[エンドポイント](/glossary/エンドポイント/)の仕様が[バージョン](/glossary/バージョン/)によって異なります。`Accept`[ヘッダー](/glossary/ヘッダー/)で[API](/glossary/api/) [バージョン](/glossary/バージョン/)を指定する場合、不正な[バージョン](/glossary/バージョン/)番号を指定すると400[エラー](/glossary/エラー/)が返されます。
 
-公式ドキュメントでは常に最新の[REST](/glossary/rest/) [API](/glossary/api/)仕様が提供されているため、使用している[API](/glossary/api/) バージョンと実装コードが一致しているかを確認してください。特に[GraphQL](/glossary/graphql/) [API](/glossary/api/)と[REST](/glossary/rest/) [API](/glossary/api/)を混同しないことが重要です。
+公式ドキュメントでは常に最新の[REST](/glossary/rest/) [API](/glossary/api/)仕様が提供されているため、使用している[API](/glossary/api/) [バージョン](/glossary/バージョン/)と実装コードが一致しているかを確認してください。特に[GraphQL](/glossary/graphql/) [API](/glossary/api/)と[REST](/glossary/rest/) [API](/glossary/api/)を混同しないことが重要です。
 
 また、[レート制限](/glossary/レート制限/)（Rate Limiting）による429[エラー](/glossary/エラー/)と異なり、400[エラー](/glossary/エラー/)は[リクエスト](/glossary/リクエスト/)形式自体の問題のため、リトライアは効果がありません。むしろ[リクエスト](/glossary/リクエスト/)形式を修正することに注力すべきです。
 
-特定の[エンドポイント](/glossary/エンドポイント/)（例：Pull Request レビューコメントの作成）では、[パラメータ](/glossary/パラメータ/)の組み合わせに対して厳密なバリデーションが行われるため、公式ドキュメントの[パラメータ](/glossary/パラメータ/)説明を隅々まで読むことが不可欠です。
+特定の[エンドポイント](/glossary/エンドポイント/)（例：Pull Request レビューコメントの作成）では、[パラメータ](/glossary/パラメータ/)の組み合わせに対して厳密な[バリデーション](/glossary/バリデーション/)が行われるため、公式ドキュメントの[パラメータ](/glossary/パラメータ/)説明を隅々まで読むことが不可欠です。
 
 ## それでも解決しない場合
 
