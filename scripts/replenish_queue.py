@@ -30,7 +30,8 @@ POSTS_DIR  = BASE.parent / "content" / "posts"
 QUEUE_PATH = BASE / "queue.csv"
 TOOLS_PATH = BASE / "tools.json"
 
-FIELDNAMES = ["tool", "status_code", "official_meaning", "causes", "solutions"]
+FIELDNAMES = ["tool", "status_code", "official_meaning", "causes", "solutions",
+              "source_urls", "reported_versions", "actual_error_messages"]
 
 # 対象エラーコード
 ERROR_CODES = [
@@ -254,34 +255,44 @@ def research_with_gemini(
     Returns:
         queue.csv の 1 行分の dict | None（需要なし・取得失敗時）
     """
-    prompt = f"""{tool} で HTTP ステータスコード {code} が発生するケースについて調べてください。
-対象地域: 日本（language=ja / location=Japan）
+    prompt = f"""GitHub Issues, Stack Overflow, Zenn, Qiita で「{tool} {code}」に関する
+実際の問題報告を検索してください（対象地域: 日本 language=ja）。
 
-## 需要フィルタリング（重要）
-まず以下を確認してください：
-- Zenn, Qiita, Stack Overflow Japan, GitHub Issues, X（Twitter）等で
-  「{tool} {code}」に関する実際の問題報告が複数存在するか
-- Google 検索で「{tool} {code} error」「{tool} {code} エラー」の検索結果が
-  十分に存在するか
+## 需要フィルタリング
+実際の問題報告が日本語・英語合わせて3件以上確認できない場合は
+{{"skip": true}} のみ返してください。
 
-上記が確認できない場合は {{"skip": true}} のみ返してください。
-
-確認できた場合は以下の形式で JSON のみ返してください（前置き・説明不要）:
+## 確認できた場合の出力
+以下の JSON のみ返してください（前置き・説明不要）:
 {{
-  "official_meaning": "このエラーコードの意味を {tool} の文脈で1文（日本語）",
+  "official_meaning": "{tool} における {code} の意味を1文（日本語）",
   "causes": [
-    "{tool} 固有の原因1",
-    "{tool} 固有の原因2",
-    "{tool} 固有の原因3",
-    "{tool} 固有の原因4"
+    "{tool} 固有の原因1（実際の報告から）",
+    "{tool} 固有の原因2（実際の報告から）",
+    "{tool} 固有の原因3（実際の報告から）"
   ],
   "solutions": [
     "具体的な解決策1（コマンドや設定値を含む）",
     "具体的な解決策2",
-    "具体的な解決策3",
-    "具体的な解決策4"
+    "具体的な解決策3"
+  ],
+  "source_urls": [
+    "https://github.com/...",
+    "https://stackoverflow.com/..."
+  ],
+  "reported_versions": [
+    "{tool} v2.3.1",
+    "{tool} v3.0"
+  ],
+  "actual_error_messages": [
+    "実際のエラーメッセージ文字列1（verbatim）",
+    "実際のエラーメッセージ文字列2"
   ]
-}}"""
+}}
+
+source_urls は実在する URL のみ記載すること。見つからなければ空配列。
+actual_error_messages はログ・レスポンスボディ・コンソール出力の実文字列のみ。
+架空のメッセージを生成しないこと。"""
 
     try:
         response = gemini_client.models.generate_content(
@@ -313,11 +324,14 @@ def research_with_gemini(
             return None
 
         return {
-            "tool":             tool,
-            "status_code":      code,
-            "official_meaning": meaning,
-            "causes":           causes,
-            "solutions":        solutions,
+            "tool":                   tool,
+            "status_code":            code,
+            "official_meaning":       meaning,
+            "causes":                 causes,
+            "solutions":              solutions,
+            "source_urls":            "|".join(str(u).strip() for u in data.get("source_urls", [])[:5] if u),
+            "reported_versions":      "|".join(str(v).strip() for v in data.get("reported_versions", [])[:5] if v),
+            "actual_error_messages":  "|".join(str(m).strip() for m in data.get("actual_error_messages", [])[:3] if m),
         }
 
     except json.JSONDecodeError as e:

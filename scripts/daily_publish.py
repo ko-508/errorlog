@@ -221,7 +221,9 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 このエラーの公式な意味と、対象ツールでの典型的な発生状況を2〜3文で説明する。
 
 ### 2. 実際のエラーメッセージ例（H2）
-対象ツールが実際に出力するエラーログ・JSONレスポンス・コンソール出力をコードブロックで1〜2個示す。
+ユーザー情報に「実際に報告されたエラーメッセージ」が含まれる場合はそれを優先して引用する。
+含まれない場合はツールが実際に出力するエラーログ・JSONレスポンス・コンソール出力をコードブロックで1〜2個示す。
+架空のエラーメッセージを作らないこと。
 
 ### 3. よくある原因と解決手順（H2）
 原因ごとに「### 原因N：〇〇」(H3)で区切り、各原因に必ず以下のセットを含める:
@@ -247,6 +249,11 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 
 ### 5. それでも解決しない場合（H2）
 確認すべきログの場所・デバッグコマンド・公式ドキュメントへの参照。
+
+### 6. 参考・引用元（H2）（条件付き）
+ユーザー情報に「参照した実際の報告URL」が含まれる場合のみ、このセクションを追加する。
+各URLをMarkdownリンク形式（`[URL](URL)`）で箇条書きにする。
+含まれない場合はこのセクション自体を省略すること。
 
 ## 品質要件
 - 全体で1500文字以上（日本語本文のみ。マークダウン記号・URL・コードは除いてカウント）
@@ -278,6 +285,9 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
     meaning = row["official_meaning"].strip()
     causes = [c.strip() for c in row["causes"].split("|") if c.strip()]
     solutions = [s.strip() for s in row["solutions"].split("|") if s.strip()]
+    source_urls = [u.strip() for u in row.get("source_urls", "").split("|") if u.strip()]
+    reported_vers = [v.strip() for v in row.get("reported_versions", "").split("|") if v.strip()]
+    actual_msgs = [m.strip() for m in row.get("actual_error_messages", "").split("|") if m.strip()]
 
     causes_text = "\n".join(f"- {c}" for c in causes)
     solutions_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(solutions))
@@ -291,6 +301,14 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
 {causes_text}
 - 解決策:
 {solutions_text}"""
+
+    if source_urls:
+        user_prompt += "\n\n- 参照した実際の報告URL:\n" + "\n".join(f"  - {u}" for u in source_urls)
+    if reported_vers:
+        user_prompt += "\n\n- 報告が確認されたバージョン: " + ", ".join(reported_vers)
+    if actual_msgs:
+        user_prompt += "\n\n- 実際に報告されたエラーメッセージ（verbatim）:\n"
+        user_prompt += "\n".join(f"  ```\n  {m}\n  ```" for m in actual_msgs)
 
     if lint_feedback:
         user_prompt += (
