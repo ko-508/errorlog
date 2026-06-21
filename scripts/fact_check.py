@@ -1814,7 +1814,10 @@ def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
     )
     if median_scores["risk_score"] >= CRITICAL_RISK:
         m_critical_level = "high"
-    elif template.critical_level == "medium" and median_scores["factual_score"] < 55:
+    elif (
+        any(r.critical_level == "medium" for r in valid)
+        and median_scores["factual_score"] < 55
+    ):
         m_critical_level = "medium"
     else:
         m_critical_level = ""
