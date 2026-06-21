@@ -11,6 +11,7 @@ import hashlib
 import json
 import math
 import os
+import random
 import re
 import sys
 import time
@@ -61,6 +62,8 @@ UNAVAILABLE_RETRY_AFTER_HOURS = float(os.getenv("FACT_CHECK_UNAVAILABLE_RETRY_AF
 RECENTLY_CHECKED_SKIP_HOURS = float(os.getenv("FACT_CHECK_RECENTLY_CHECKED_SKIP_HOURS", "168"))
 # 新記事ゲートの多数決回数。1 で従来単発と同等（既存記事サンプリングは常に 1 回）
 FACT_CHECK_VOTE_COUNT = int(os.getenv("FACT_CHECK_VOTE_COUNT", "3"))
+PASS_AUDIT_ENABLED = os.getenv("FACT_CHECK_PASS_AUDIT_ENABLED", "true").lower() != "false"
+PASS_AUDIT_WINDOW_DAYS = int(os.getenv("FACT_CHECK_PASS_AUDIT_WINDOW_DAYS", "14"))
 
 SCORE_KEYS = ("factual_score", "freshness_score", "citation_coverage", "risk_score")
 
@@ -442,6 +445,16 @@ def validate_sources(
             notes.append("citation quality is low because sources are blog/other/unknown only")
         elif types & high_quality:
             quality_delta += 10
+        # resolved_source_type ベースの official URL 比率補正
+        # (source_type は Gemini 申告値; resolved_source_type は URL 実解決値で別信号)
+        official_count = sum(1 for s in validated if s.get("resolved_source_type") == "official")
+        official_ratio = official_count / len(validated)
+        if official_ratio == 0:
+            quality_delta -= 10
+            notes.append("no URLs resolved to known official domains")
+        elif official_ratio >= 0.5:
+            quality_delta += 5
+            notes.append(f"high official URL ratio ({official_ratio:.0%})")
     return validated, stats, quality_delta, notes
 
 
@@ -1528,6 +1541,47 @@ def prior_low_score(path: Path) -> int:
     return 40 if scores and min(scores) < 35 else 0
 
 
+def select_pass_audit_sample() -> Path | None:
+    """score_history.jsonl から直近 PASS_AUDIT_WINDOW_DAYS 日以内に pass した記事を
+    1件ランダムに返す。直近 RECENTLY_CHECKED_SKIP_HOURS 以内に再チェック済みの記事は除外。
+    対象ファイルが存在しない・条件を満たす記事がない場合は None。
+    """
+    if not PASS_AUDIT_ENABLED or not SCORE_HISTORY_PATH.exists():
+        return None
+    cutoff = datetime.now(timezone.utc) - timedelta(days=PASS_AUDIT_WINDOW_DAYS)
+    candidates: list[Path] = []
+    latest_pass: dict[str, str] = {}
+    with SCORE_HISTORY_PATH.open(encoding="utf-8") as fh:
+        for line in fh:
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if rec.get("overall_judgement") != "pass":
+                continue
+            path_str = rec.get("path", "")
+            checked_at = rec.get("checked_at", "")
+            if not path_str or not checked_at:
+                continue
+            if path_str not in latest_pass or checked_at > latest_pass[path_str]:
+                latest_pass[path_str] = checked_at
+    for path_str, checked_at_str in latest_pass.items():
+        try:
+            checked_at = datetime.fromisoformat(checked_at_str.replace("Z", "+00:00"))
+        except ValueError:
+            continue
+        if checked_at < cutoff:
+            continue
+        if checked_recently(path_str):
+            continue
+        full_path = BASE / path_str
+        if full_path.exists():
+            candidates.append(full_path)
+    if not candidates:
+        return None
+    return random.choice(candidates)
+
+
 def select_existing(limit: int) -> tuple[list[Path], int, int]:
     traffic = latest_gsc_weights()
     unavailable_history = load_unavailable_history()
@@ -1661,6 +1715,10 @@ def check_existing(limit: int, target_path: str | None = None) -> list[FactCheck
     else:
         unavailable_stop_count = max(1, math.ceil(limit * MAX_UNAVAILABLE_RATIO))
         targets, skipped_recent_unavailable, skipped_recently_checked = select_existing(limit)
+        audit_sample = select_pass_audit_sample()
+        if audit_sample is not None and audit_sample not in targets:
+            targets = list(targets) + [audit_sample]
+            unavailable_stop_count = max(1, math.ceil(len(targets) * MAX_UNAVAILABLE_RATIO))
     for index, path in enumerate(targets):
         if index > 0 and GEMINI_DELAY_SECONDS > 0:
             time.sleep(GEMINI_DELAY_SECONDS)
