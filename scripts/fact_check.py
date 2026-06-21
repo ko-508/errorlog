@@ -242,6 +242,7 @@ class FactCheckResult:
     required_actions: list[str]
     detected_at: str
     status: str
+    critical_level: str = ""
     report_path: str = ""
     evaluator: str = "heuristic"
     sources: list[dict[str, Any]] = field(default_factory=list)
@@ -1122,9 +1123,13 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
         and scores["citation_coverage"] >= MIN_CITATION
     )
     critical_topic = any(term.lower() in f"{title}\n{body}".lower() for term in CRITICAL_TERMS)
-    critical = scores["risk_score"] >= CRITICAL_RISK or (
-        critical_topic and scores["factual_score"] < 55
-    )
+    if scores["risk_score"] >= CRITICAL_RISK:
+        critical_level = "high"
+    elif critical_topic and scores["factual_score"] < 55:
+        critical_level = "medium"
+    else:
+        critical_level = ""
+    critical = critical_level != ""
     if not passed and not actions:
         actions.append("Review factual claims, update stale sections, and add primary sources.")
 
@@ -1151,6 +1156,7 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
             scores=scores,
             passed=passed,
             critical=critical,
+            critical_level=critical_level,
             reasons=reasons,
             required_actions=actions,
             detected_at=date.today().isoformat(),
@@ -1202,7 +1208,7 @@ def compute_article_hash(body: str) -> str:
 def append_score_history(result: FactCheckResult) -> bool:
     """Append one JSONL record to SCORE_HISTORY_PATH.
 
-    Fields written (22 total):
+    Fields written (23 total):
       checked_at        ISO-8601 UTC timestamp of this check run
       mode              "new" | "existing"
       path              article relative path (content/posts/...)
@@ -1213,6 +1219,7 @@ def append_score_history(result: FactCheckResult) -> bool:
       citation_coverage 0-100, or null (recorded but NOT used in pass/fail judgement)
       risk_score        0-100, or null
       critical          bool
+      critical_level    "high" | "medium" | "" — critical の細分化レベル
       gemini_model      Gemini model name used (FACT_CHECK_GEMINI_MODEL env)
       workflow          GITHUB_WORKFLOW env value, or "local" if not in CI
       run_id            GITHUB_RUN_ID env value, or "local" if not in CI
@@ -1251,6 +1258,7 @@ def append_score_history(result: FactCheckResult) -> bool:
         "citation_coverage": scores["citation_coverage"] if score_valid else None,
         "risk_score": scores["risk_score"] if score_valid else None,
         "critical": result.critical,
+        "critical_level": result.critical_level,
         "gemini_model": result.gemini_model or _resolve_gemini_model(),
         "workflow": os.getenv("GITHUB_WORKFLOW", "local"),
         "run_id": os.getenv("GITHUB_RUN_ID", "local"),
@@ -1680,7 +1688,8 @@ def print_summary(
             f"report={result.report_path}"
         )
         if mode == "existing" and result.critical:
-            print(f"::warning::Critical misinformation risk detected in existing article: {result.path}")
+            level = result.critical_level or "high"
+            print(f"::warning::Critical[{level}] misinformation risk detected in existing article: {result.path}")
         if (
             mode == "existing"
             and result.score_valid
@@ -1803,7 +1812,13 @@ def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
         and median_scores["risk_score"] <= MAX_RISK
         and median_scores["citation_coverage"] >= MIN_CITATION
     )
-    m_critical = median_scores["risk_score"] >= CRITICAL_RISK
+    if median_scores["risk_score"] >= CRITICAL_RISK:
+        m_critical_level = "high"
+    elif template.critical_level == "medium" and median_scores["factual_score"] < 55:
+        m_critical_level = "medium"
+    else:
+        m_critical_level = ""
+    m_critical = m_critical_level != ""
 
     if m_critical:
         m_status = "critical"
@@ -1820,6 +1835,7 @@ def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
         scores=median_scores,
         passed=m_passed,
         critical=m_critical,
+        critical_level=m_critical_level,
         status=m_status,
         vote_group_id=group_id,
         is_final_vote=True,
