@@ -1145,6 +1145,12 @@ html[data-theme="dark"] .incident-banner__header {
 .post-body-main {
   flex: 1 !important;
   min-width: 0;
+  overflow: clip;
+}
+
+.post-with-toc .post-content,
+.post-with-toc .md-content {
+  max-width: 100% !important;
 }
 .post-toc-side {
   width: 220px;
@@ -1161,7 +1167,7 @@ html[data-theme="dark"] .incident-banner__header {
 }
 
 /* デスクトップで記事コンテナ幅を広げてサイドバーの余地を確保 */
-@media (min-width: 1200px) {
+@media (min-width: 1100px) {
   .post-single {
     max-width: 1000px !important;
   }
