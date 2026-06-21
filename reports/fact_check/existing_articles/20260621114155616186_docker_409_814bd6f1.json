@@ -1,0 +1,47 @@
+{
+  "path": "content/posts/docker_409.md",
+  "title": "Docker の 409 エラー：原因と解決策",
+  "mode": "existing",
+  "scores": {
+    "factual_score": 0,
+    "freshness_score": 0,
+    "citation_coverage": 0,
+    "risk_score": 0
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "external fact check unavailable: gemini timeout (90s)"
+  ],
+  "required_actions": [
+    "Retry fact check when Gemini becomes available."
+  ],
+  "detected_at": "2026-06-21",
+  "status": "fact_check_unavailable",
+  "critical_level": "",
+  "report_path": "reports/fact_check/existing_articles/20260621114155616186_docker_409_814bd6f1.json",
+  "evaluator": "gemini_unavailable",
+  "sources": [],
+  "unsupported_claims": [],
+  "improvement_suggestions": [],
+  "error": "gemini timeout (90s)",
+  "score_history_appended": true,
+  "score_valid": false,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 0,
+  "url_skipped": 0,
+  "url_invalid": 0,
+  "gemini_error_category": "timeout",
+  "original_chars": 6391,
+  "fact_check_input_chars": 6096,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 90.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "affc0d93ea63",
+  "error_detail": "gemini timeout (90s)",
+  "vote_group_id": "",
+  "is_final_vote": false,
+  "vote_count": 1,
+  "tags": []
+}
