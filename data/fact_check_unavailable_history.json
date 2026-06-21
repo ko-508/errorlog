@@ -16,5 +16,11 @@
     "last_unavailable_at": "2026-06-21T02:31:32Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
     "count": 1
+  },
+  "content/posts/aws_429.md": {
+    "path": "content/posts/aws_429.md",
+    "last_unavailable_at": "2026-06-21T07:24:58Z",
+    "reason": "external fact check unavailable: gemini timeout (90s)",
+    "count": 1
   }
 }
