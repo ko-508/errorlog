@@ -1,7 +1,7 @@
 ---
 title: "Podman の 400 エラー：原因と解決策"
 date: 2026-05-28
-description: "Podman APIまたはレジストリへのリクエストの形式が正しくない。podman runコマンドのオプション指定が誤っているなど、Podman 400 エラーの原因と解決策を解説。"
+description: "Podman APIまたはレジストリへのリクエストの形式が正しくない"
 tags: ["Podman"]
 errorCode: "400"
 service: "Podman"

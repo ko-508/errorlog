@@ -1,7 +1,7 @@
 ---
 title: "Podman の 500 エラー：原因と解決策"
 date: 2026-05-29
-description: "Podmanシステムで予期しない内部エラーが発生した。Podman 500 エラーの原因と解決策を解説。"
+description: "Podmanシステムで予期しない内部エラーが発生した"
 tags: ["Podman"]
 errorCode: "500"
 service: "Podman"

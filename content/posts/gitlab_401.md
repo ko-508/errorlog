@@ -1,7 +1,7 @@
 ---
 title: "GitLab の 401 エラー：原因と解決策"
 date: 2026-06-12
-description: "GitLabへの認証に失敗した。GitLab 401 エラーの原因と解決策を解説します。"
+description: "GitLabへの認証に失敗した"
 tags: ["GitLab"]
 errorCode: "401"
 service: "GitLab"

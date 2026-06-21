@@ -1,7 +1,7 @@
 ---
 title: "Bitbucket の 500 エラー：原因と解決策"
 date: 2026-06-16
-description: "Bitbucketサーバーで予期しない内部エラーが発生した。Bitbucket 500 エラーの原因と解決策を解説します。"
+description: "Bitbucketサーバーで予期しない内部エラーが発生した"
 tags: ["Bitbucket"]
 errorCode: "500"
 service: "Bitbucket"

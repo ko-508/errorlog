@@ -1,7 +1,7 @@
 ---
 title: "Vercel の 404 エラー：原因と解決策"
 date: 2026-06-07
-description: "指定したデプロイメントまたはリソースが見つからない。Vercel 404 エラーの原因と解決策を解説します。"
+description: "指定したデプロイメントまたはリソースが見つからない"
 tags: ["Vercel"]
 errorCode: "404"
 service: "Vercel"

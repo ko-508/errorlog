@@ -1,7 +1,7 @@
 ---
 title: "Azure の 409 エラー：原因と解決策"
 date: 2026-06-02
-description: "Azureリソースの現在の状態とリクエストが競合している。Azure 409 エラーの原因と解決策を解説します。"
+description: "Azureリソースの現在の状態とリクエストが競合している"
 tags: ["Azure"]
 errorCode: "409"
 service: "Azure"

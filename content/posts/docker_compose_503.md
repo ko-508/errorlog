@@ -1,7 +1,7 @@
 ---
 title: "Docker Compose の 503 エラー：原因と解決策"
 date: 2026-05-31
-description: "サービスが起動できないか利用できない状態にある。Docker Compose 503 エラーの原因と解決策を解説します。"
+description: "サービスが起動できないか利用できない状態にある"
 tags: ["Docker Compose"]
 errorCode: "503"
 service: "Docker"

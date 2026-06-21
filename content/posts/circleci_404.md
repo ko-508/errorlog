@@ -1,7 +1,7 @@
 ---
 title: "CircleCI の 404 エラー：原因と解決策"
 date: 2026-06-20
-description: "パイプラインまたはプロジェクトが見つからない。CircleCI 404 エラーの原因と解決策を解説します。"
+description: "パイプラインまたはプロジェクトが見つからない"
 tags: ["CircleCI"]
 errorCode: "404"
 service: "CircleCI"

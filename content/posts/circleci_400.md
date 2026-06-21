@@ -1,7 +1,7 @@
 ---
 title: "CircleCI の 400 エラー：原因と解決策"
 date: 2026-06-19
-description: "CircleCI APIへのリクエストの形式または内容に誤りがある。CircleCI 400 エラーの原因と解決策を解説します。"
+description: "CircleCI APIへのリクエストの形式または内容に誤りがある"
 tags: ["CircleCI"]
 errorCode: "400"
 service: "CircleCI"

@@ -2,7 +2,7 @@
 title: "Minikube の 404 エラー：原因と解決策"
 date: 2026-05-30
 lastmod: 2026-06-14
-description: "指定したKubernetesリソースが見つからない。Minikube 404 エラーの原因と解決策を解説します。"
+description: "指定したKubernetesリソースが見つからない"
 tags: ["Minikube"]
 errorCode: "404"
 service: "Minikube"

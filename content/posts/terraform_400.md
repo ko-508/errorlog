@@ -1,7 +1,7 @@
 ---
 title: "Terraform の 400 エラー：原因と解決策"
 date: 2026-06-08
-description: "Terraformがクラウドプロバイダーに送るリクエストの形式に誤りがある。Terraform 400 エラーの原因と解決策を解説します。"
+description: "Terraformがクラウドプロバイダーに送るリクエストの形式に誤りがある"
 tags: ["Terraform"]
 errorCode: "400"
 service: "Terraform"

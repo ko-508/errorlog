@@ -1,7 +1,7 @@
 ---
 title: "Azure の 429 エラー：原因と解決策"
 date: 2026-06-02
-description: "Azure APIのスロットリング制限に達した。Azure 429 エラーの原因と解決策を解説します。"
+description: "Azure APIのスロットリング制限に達した"
 tags: ["Azure"]
 errorCode: "429"
 service: "Azure"

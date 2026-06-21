@@ -1,7 +1,7 @@
 ---
 title: "Slack の 401 エラー：原因と解決策"
 date: 2026-05-27
-description: "Slack の 401 エラーの原因と解決策をわかりやすく解説します。"
+description: "Slack API へのリクエストが 401 エラー（Unauthorized）で拒否される場合、認証トークンが無効、期限切れ、または不正な状態にあることを示します。"
 tags: ["Slack"]
 errorCode: "401"
 service: "Slack"

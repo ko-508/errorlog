@@ -1,7 +1,7 @@
 ---
 title: "Prometheus の 403 エラー：原因と解決策"
 date: 2026-06-21
-description: "Prometheus APIへのアクセスが拒否された。Prometheus 403 エラーの原因と解決策を解説します。"
+description: "Prometheus APIへのアクセスが拒否された"
 tags: ["Prometheus"]
 errorCode: "403"
 service: "Prometheus"

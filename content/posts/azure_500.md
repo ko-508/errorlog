@@ -1,7 +1,7 @@
 ---
 title: "Azure の 500 エラー：原因と解決策"
 date: 2026-06-02
-description: "Azureサービスの内部エラーが発生した。Azure 500 エラーの原因と解決策を解説します。"
+description: "Azureサービスの内部エラーが発生した"
 tags: ["Azure"]
 errorCode: "500"
 service: "Azure"

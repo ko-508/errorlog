@@ -1,7 +1,7 @@
 ---
 title: "Supabase の 400 エラー：原因と解決策"
 date: 2026-06-03
-description: "Supabase APIへのリクエストの形式または内容に誤りがある。Supabase 400 エラーの原因と解決策を解説します。"
+description: "Supabase APIへのリクエストの形式または内容に誤りがある"
 tags: ["Supabase"]
 errorCode: "400"
 service: "Supabase"

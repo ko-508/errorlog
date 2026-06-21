@@ -1,7 +1,7 @@
 ---
 title: "Vercel の 504 エラー：原因と解決策"
 date: 2026-06-08
-description: "Vercelのサーバーレス関数の実行がタイムアウトした。Vercel 504 エラーの原因と解決策を解説します。"
+description: "Vercelのサーバーレス関数の実行がタイムアウトした"
 tags: ["Vercel"]
 errorCode: "504"
 service: "Vercel"

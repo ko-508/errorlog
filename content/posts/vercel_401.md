@@ -1,7 +1,7 @@
 ---
 title: "Vercel の 401 エラー：原因と解決策"
 date: 2026-06-06
-description: "Vercelへの認証に失敗した。Vercel 401 エラーの原因と解決策を解説します。"
+description: "Vercelへの認証に失敗した"
 tags: ["Vercel"]
 errorCode: "401"
 service: "Vercel"

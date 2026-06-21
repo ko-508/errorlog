@@ -2,7 +2,7 @@
 title: "Minikube の 500 エラー：原因と解決策"
 date: 2026-05-30
 lastmod: 2026-06-14
-description: "Minikubeクラスターの内部で予期しないエラーが発生した。Minikube 500 エラーの原因と解決策を解説します。"
+description: "Minikubeクラスターの内部で予期しないエラーが発生した"
 tags: ["Minikube"]
 errorCode: "500"
 service: "Minikube"

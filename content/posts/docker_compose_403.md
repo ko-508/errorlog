@@ -1,7 +1,7 @@
 ---
 title: "Docker Compose の 403 エラー：原因と解決策"
 date: 2026-05-31
-description: "レジストリまたはリソースへのアクセス権限がない。Docker Compose 403 エラーの原因と解決策を解説します。"
+description: "レジストリまたはリソースへのアクセス権限がない"
 tags: ["Docker Compose"]
 errorCode: "403"
 service: "Docker"

@@ -1,7 +1,7 @@
 ---
 title: "CircleCI の 401 エラー：原因と解決策"
 date: 2026-06-20
-description: "CircleCIへの認証に失敗した。CircleCI 401 エラーの原因と解決策を解説します。"
+description: "CircleCIへの認証に失敗した"
 tags: ["CircleCI"]
 errorCode: "401"
 service: "CircleCI"

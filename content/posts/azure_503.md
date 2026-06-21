@@ -1,7 +1,7 @@
 ---
 title: "Azure の 503 エラー：原因と解決策"
 date: 2026-06-03
-description: "Azureサービスが一時的に利用できない。Azure 503 エラーの原因と解決策を解説します。"
+description: "Azureサービスが一時的に利用できない"
 tags: ["Azure"]
 errorCode: "503"
 service: "Azure"

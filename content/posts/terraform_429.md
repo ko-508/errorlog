@@ -1,7 +1,7 @@
 ---
 title: "Terraform の 429 エラー：原因と解決策"
 date: 2026-06-10
-description: "クラウドプロバイダーのAPIレート制限に達した。Terraform 429 エラーの原因と解決策を解説します。"
+description: "クラウドプロバイダーのAPIレート制限に達した"
 tags: ["Terraform"]
 errorCode: "429"
 service: "Terraform"

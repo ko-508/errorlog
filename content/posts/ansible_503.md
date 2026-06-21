@@ -1,7 +1,7 @@
 ---
 title: "Ansible の 503 エラー：原因と解決策"
 date: 2026-06-11
-description: "ターゲットサービスが一時的に利用できない。Ansible 503 エラーの原因と解決策を解説します。"
+description: "ターゲットサービスが一時的に利用できない"
 tags: ["Ansible"]
 errorCode: "503"
 service: "Ansible"

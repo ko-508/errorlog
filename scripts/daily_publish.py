@@ -627,7 +627,7 @@ def _try_generate_article(
     meaning_clean = meaning_text.rstrip("。．")
     if len(meaning_clean) > 60:
         meaning_clean = meaning_clean[:60].rstrip("。．、,")
-    description = f"{meaning_clean}。{tool} {code} エラーの原因と解決策を解説します。"
+    description = f"{meaning_clean}。"
     tags = extract_tags(filename)
     if not tags:
         tags = [tool or Path(filename).stem]

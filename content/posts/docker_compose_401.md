@@ -2,7 +2,7 @@
 title: "Docker Compose の 401 エラー：原因と解決策"
 date: 2026-05-30
 lastmod: 2026-06-14
-description: "コンテナレジストリへの認証に失敗した。Docker Compose 401 エラーの原因と解決策を解説します。"
+description: "コンテナレジストリへの認証に失敗した"
 tags: ["Docker Compose"]
 errorCode: "401"
 service: "Docker Compose"

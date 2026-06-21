@@ -1,7 +1,7 @@
 ---
 title: "Jenkins の 400 エラー：原因と解決策"
 date: 2026-06-17
-description: "JenkinsのREST APIへのリクエストの形式が正しくない。Jenkins 400 エラーの原因と解決策を解説します。"
+description: "JenkinsのREST APIへのリクエストの形式が正しくない"
 tags: ["Jenkins"]
 errorCode: "400"
 service: "Jenkins"

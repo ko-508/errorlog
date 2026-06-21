@@ -1,7 +1,7 @@
 ---
 title: "Supabase の 429 エラー：原因と解決策"
 date: 2026-06-05
-description: "Supabaseのレート制限または利用枠の上限に達した。Supabase 429 エラーの原因と解決策を解説します。"
+description: "Supabaseのレート制限または利用枠の上限に達した"
 tags: ["Supabase"]
 errorCode: "429"
 service: "Supabase"

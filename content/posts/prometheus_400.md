@@ -1,7 +1,7 @@
 ---
 title: "Prometheus の 400 エラー：原因と解決策"
 date: 2026-06-21
-description: "Prometheusに送ったクエリまたはリクエストの形式が正しくない。Prometheus 400 エラーの原因と解決策を解説します。"
+description: "Prometheusに送ったクエリまたはリクエストの形式が正しくない"
 tags: ["Prometheus"]
 errorCode: "400"
 service: "Prometheus"

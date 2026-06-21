@@ -1,7 +1,7 @@
 ---
 title: "Postman の 401 エラー：原因と解決策"
 date: 2026-06-16
-description: "テスト対象のAPIへの認証に失敗した。Postman 401 エラーの原因と解決策を解説します。"
+description: "テスト対象のAPIへの認証に失敗した"
 tags: ["Postman"]
 errorCode: "401"
 service: "Postman"

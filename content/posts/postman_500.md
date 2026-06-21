@@ -1,7 +1,7 @@
 ---
 title: "Postman の 500 エラー：原因と解決策"
 date: 2026-06-17
-description: "テスト対象サービスまたはPostmanサーバーで内部エラーが発生した。Postman 500 エラーの原因と解決策を解説します。"
+description: "テスト対象サービスまたはPostmanサーバーで内部エラーが発生した"
 tags: ["Postman"]
 errorCode: "500"
 service: "Postman"

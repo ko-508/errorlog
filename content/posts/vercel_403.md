@@ -1,7 +1,7 @@
 ---
 title: "Vercel の 403 エラー：原因と解決策"
 date: 2026-06-06
-description: "Vercelプロジェクトまたはリソースへのアクセス権限がない。Vercel 403 エラーの原因と解決策を解説します。"
+description: "Vercelプロジェクトまたはリソースへのアクセス権限がない"
 tags: ["Vercel"]
 errorCode: "403"
 service: "Vercel"

@@ -1,7 +1,7 @@
 ---
 title: "GitLab の 409 エラー：原因と解決策"
 date: 2026-06-13
-description: "リソースの状態が競合している。GitLab 409 エラーの原因と解決策を解説します。"
+description: "リソースの状態が競合している"
 tags: ["GitLab"]
 errorCode: "409"
 service: "GitLab"

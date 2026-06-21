@@ -1,7 +1,7 @@
 ---
 title: "Jenkins の 404 エラー：原因と解決策"
 date: 2026-06-18
-description: "指定したジョブまたはビルドが見つからない。Jenkins 404 エラーの原因と解決策を解説します。"
+description: "指定したジョブまたはビルドが見つからない"
 tags: ["Jenkins"]
 errorCode: "404"
 service: "Jenkins"

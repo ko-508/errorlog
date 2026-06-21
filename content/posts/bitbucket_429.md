@@ -1,7 +1,7 @@
 ---
 title: "Bitbucket の 429 エラー：原因と解決策"
 date: 2026-06-16
-description: "Bitbucket APIのレート制限に達した。Bitbucket 429 エラーの原因と解決策を解説します。"
+description: "Bitbucket APIのレート制限に達した"
 tags: ["Bitbucket"]
 errorCode: "429"
 service: "Bitbucket"

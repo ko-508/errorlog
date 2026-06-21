@@ -1,7 +1,7 @@
 ---
 title: "Bitbucket の 400 エラー：原因と解決策"
 date: 2026-06-14
-description: "Bitbucket APIへのリクエストの形式または内容に誤りがある。Bitbucket 400 エラーの原因と解決策を解説します。"
+description: "Bitbucket APIへのリクエストの形式または内容に誤りがある"
 tags: ["Bitbucket"]
 errorCode: "400"
 service: "Bitbucket"

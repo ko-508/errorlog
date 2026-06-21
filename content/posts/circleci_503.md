@@ -1,7 +1,7 @@
 ---
 title: "CircleCI の 503 エラー：原因と解決策"
 date: 2026-06-20
-description: "CircleCIサービスが一時的に利用できない。CircleCI 503 エラーの原因と解決策を解説します。"
+description: "CircleCIサービスが一時的に利用できない"
 tags: ["CircleCI"]
 errorCode: "503"
 service: "CircleCI"

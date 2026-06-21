@@ -1,7 +1,7 @@
 ---
 title: "Ansible の 404 エラー：原因と解決策"
 date: 2026-06-11
-description: "ターゲットホストのリソースまたはエンドポイントが見つからない。Ansible 404 エラーの原因と解決策を解説します。"
+description: "ターゲットホストのリソースまたはエンドポイントが見つからない"
 tags: ["Ansible"]
 errorCode: "404"
 service: "Ansible"

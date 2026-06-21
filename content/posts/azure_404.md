@@ -1,7 +1,7 @@
 ---
 title: "Azure の 404 エラー：原因と解決策"
 date: 2026-06-01
-description: "指定したAzureリソースが見つからない。Azure 404 エラーの原因と解決策を解説します。"
+description: "指定したAzureリソースが見つからない"
 tags: ["Azure"]
 errorCode: "404"
 service: "Azure"

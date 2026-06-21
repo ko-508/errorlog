@@ -1,7 +1,7 @@
 ---
 title: "Jenkins の 403 エラー：原因と解決策"
 date: 2026-06-18
-description: "JenkinsリソースへのアクセスがCSRFまたは権限チェックで拒否された。Jenkins 403 エラーの原因と解決策を解説します。"
+description: "JenkinsリソースへのアクセスがCSRFまたは権限チェックで拒否された"
 tags: ["Jenkins"]
 errorCode: "403"
 service: "Jenkins"

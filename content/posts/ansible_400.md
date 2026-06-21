@@ -1,7 +1,7 @@
 ---
 title: "Ansible の 400 エラー：原因と解決策"
 date: "2026-06-10"
-description: "AnsibleがターゲットAPIまたはモジュールに送るリクエストの形式が正しくない。Ansible 400 エラーの原因と解決策を解説します。"
+description: "AnsibleがターゲットAPIまたはモジュールに送るリクエストの形式が正しくない"
 tags: ["Ansible"]
 errorCode: "400"
 lastmod: "2026-06-10"

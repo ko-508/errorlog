@@ -1,7 +1,7 @@
 ---
 title: "OpenAI API の 409 エラー：原因と解決策"
 date: 2026-05-28
-description: "リクエストの内容がOpenAIリソースの現在の状態と競合している。すでに存在するFine-tuningジョブやモデルに対して重など、OpenAI API 409 エラーの原因と解決策を解説。"
+description: "リクエストの内容がOpenAIリソースの現在の状態と競合している"
 tags: ["OpenAI API"]
 errorCode: "409"
 service: "OpenAI API"

@@ -1,7 +1,7 @@
 ---
 title: "Bitbucket の 403 エラー：原因と解決策"
 date: 2026-06-15
-description: "リポジトリまたはリソースへのアクセス権限がない。Bitbucket 403 エラーの原因と解決策を解説します。"
+description: "リポジトリまたはリソースへのアクセス権限がない"
 tags: ["Bitbucket"]
 errorCode: "403"
 service: "Bitbucket"

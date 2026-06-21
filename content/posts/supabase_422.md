@@ -1,7 +1,7 @@
 ---
 title: "Supabase の 422 エラー：原因と解決策"
 date: 2026-06-05
-description: "リクエストのデータが検証ルールを満たしていない。Supabase 422 エラーの原因と解決策を解説します。"
+description: "リクエストのデータが検証ルールを満たしていない"
 tags: ["Supabase"]
 errorCode: "422"
 service: "Supabase"

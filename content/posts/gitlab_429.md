@@ -1,7 +1,7 @@
 ---
 title: "GitLab の 429 エラー：原因と解決策"
 date: 2026-06-14
-description: "GitLab APIのレート制限に達した。GitLab 429 エラーの原因と解決策を解説します。"
+description: "GitLab APIのレート制限に達した"
 tags: ["GitLab"]
 errorCode: "429"
 service: "GitLab"

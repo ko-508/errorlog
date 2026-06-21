@@ -1,7 +1,7 @@
 ---
 title: "Jenkins の 500 エラー：原因と解決策"
 date: 2026-06-19
-description: "Jenkinsサーバーで予期しない内部エラーが発生した。Jenkins 500 エラーの原因と解決策を解説します。"
+description: "Jenkinsサーバーで予期しない内部エラーが発生した"
 tags: ["Jenkins"]
 errorCode: "500"
 service: "Jenkins"

@@ -1,7 +1,7 @@
 ---
 title: "GitLab の 500 エラー：原因と解決策"
 date: 2026-06-14
-description: "GitLabサーバーで予期しない内部エラーが発生した。GitLab 500 エラーの原因と解決策を解説します。"
+description: "GitLabサーバーで予期しない内部エラーが発生した"
 tags: ["GitLab"]
 errorCode: "500"
 service: "GitLab"

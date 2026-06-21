@@ -1,7 +1,7 @@
 ---
 title: "Supabase の 500 エラー：原因と解決策"
 date: 2026-06-05
-description: "Supabaseサービスの内部エラーが発生した。Supabase 500 エラーの原因と解決策を解説します。"
+description: "Supabaseサービスの内部エラーが発生した"
 tags: ["Supabase"]
 errorCode: "500"
 service: "Supabase"

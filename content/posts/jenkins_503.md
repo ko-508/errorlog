@@ -1,7 +1,7 @@
 ---
 title: "Jenkins の 503 エラー：原因と解決策"
 date: 2026-06-19
-description: "Jenkinsサービスが利用できない状態にある。Jenkins 503 エラーの原因と解決策を解説します。"
+description: "Jenkinsサービスが利用できない状態にある"
 tags: ["Jenkins"]
 errorCode: "503"
 service: "Jenkins"

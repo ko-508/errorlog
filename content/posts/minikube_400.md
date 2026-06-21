@@ -1,7 +1,7 @@
 ---
 title: "Minikube の 400 エラー：原因と解決策"
 date: 2026-05-29
-description: "Minikubeクラスターへのリクエスト形式が正しくない場合に発生します。YAMLマニフェストの構文エラーやkubectlオプションの誤りなど、Minikube 400エラーの原因と解決策を解説。"
+description: "Minikubeクラスターへのリクエスト形式が正しくない場合に発生します"
 tags: ["Minikube"]
 errorCode: "400"
 service: "Minikube"

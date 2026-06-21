@@ -1,7 +1,7 @@
 ---
 title: "Supabase の 401 エラー：原因と解決策"
 date: 2026-06-03
-description: "Supabaseへの認証トークンが無効または期限切れになっている。Supabase 401 エラーの原因と解決策を解説します。"
+description: "Supabaseへの認証トークンが無効または期限切れになっている"
 tags: ["Supabase"]
 errorCode: "401"
 service: "Supabase"

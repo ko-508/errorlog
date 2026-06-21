@@ -1,7 +1,7 @@
 ---
 title: "Postman の 400 エラー：原因と解決策"
 date: 2026-06-16
-description: "Postmanから送ったリクエストのパラメータや形式に誤りがある。Postman 400 エラーの原因と解決策を解説します。"
+description: "Postmanから送ったリクエストのパラメータや形式に誤りがある"
 tags: ["Postman"]
 errorCode: "400"
 service: "Postman"

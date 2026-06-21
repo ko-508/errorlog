@@ -1,7 +1,7 @@
 ---
 title: "GitLab の 422 エラー：原因と解決策"
 date: 2026-06-13
-description: "データの内容が検証に失敗した。GitLab 422 エラーの原因と解決策を解説します。"
+description: "データの内容が検証に失敗した"
 tags: ["GitLab"]
 errorCode: "422"
 service: "GitLab"

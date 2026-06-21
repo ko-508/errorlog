@@ -1,7 +1,7 @@
 ---
 title: "Firebase の 504 エラー：原因と解決策"
 date: 2026-05-28
-description: "Firebase HostingまたはCloud Functionsがバックエンドからの応…。Cloud Functionsの処理時間がHostingの統など、Firebase 504 エラーの原因と解決策を解説。"
+description: "Firebase HostingまたはCloud Functionsがバックエンドからの応…"
 tags: ["Firebase"]
 errorCode: "504"
 service: "Firebase"

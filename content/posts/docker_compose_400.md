@@ -2,7 +2,7 @@
 title: "Docker Compose の 400 エラー：原因と解決策"
 date: 2026-05-30
 lastmod: 2026-06-14
-description: "Docker Composeの設定またはAPIリクエストに誤りがある。Docker Compose 400 エラーの原因と解決策を解説します。"
+description: "Docker Composeの設定またはAPIリクエストに誤りがある"
 tags: ["Docker Compose"]
 errorCode: "400"
 service: "Docker Compose"

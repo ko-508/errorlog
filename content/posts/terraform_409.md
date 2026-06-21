@@ -1,7 +1,7 @@
 ---
 title: "Terraform の 409 エラー：原因と解決策"
 date: 2026-06-10
-description: "Terraformが作成しようとするリソースがすでに存在して競合している。Terraform 409 エラーの原因と解決策を解説します。"
+description: "Terraformが作成しようとするリソースがすでに存在して競合している"
 tags: ["Terraform"]
 errorCode: "409"
 service: "Terraform"

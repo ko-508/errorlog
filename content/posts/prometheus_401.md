@@ -1,7 +1,7 @@
 ---
 title: "Prometheus の 401 エラー：原因と解決策"
 date: 2026-06-21
-description: "Prometheusへの認証に失敗した。Prometheus 401 エラーの原因と解決策を解説します。"
+description: "Prometheusへの認証に失敗した"
 tags: ["Prometheus"]
 errorCode: "401"
 service: "Prometheus"
