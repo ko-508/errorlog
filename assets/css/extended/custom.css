@@ -1132,3 +1132,145 @@ html[data-theme="dark"] .incident-banner__header {
   .hp-recent-item__title { white-space: normal; flex-basis: 100%; }
   .hp-recent-item__date { flex-basis: 100%; }
 }
+
+/* ══════════════════════════════════════════════
+   サイド目次レイアウト
+   ══════════════════════════════════════════════ */
+.post-with-toc {
+  display: flex !important;
+  gap: 40px;
+  align-items: flex-start;
+  position: relative;
+}
+.post-body-main {
+  flex: 1 !important;
+  min-width: 0;
+}
+.post-toc-side {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 88px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+@media (max-width: 1199px) {
+  .post-toc-side { display: none; }
+  .post-with-toc { display: block !important; }
+}
+
+/* デスクトップで記事コンテナ幅を広げてサイドバーの余地を確保 */
+@media (min-width: 1200px) {
+  .post-single {
+    max-width: 1000px !important;
+  }
+}
+
+/* TOCウィジェット */
+.toc-widget {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13px;
+}
+.toc-widget__title {
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.toc-widget #TableOfContents ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toc-widget #TableOfContents > ul > li {
+  margin-bottom: 5px;
+}
+.toc-widget #TableOfContents ul ul {
+  padding-left: 12px;
+  margin-top: 3px;
+}
+.toc-widget #TableOfContents a {
+  color: var(--secondary);
+  text-decoration: none;
+  line-height: 1.5;
+  display: block;
+  padding: 2px 0 2px 6px;
+  border-left: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc-widget #TableOfContents a:hover {
+  color: var(--primary);
+}
+.toc-widget #TableOfContents a.toc-active {
+  color: var(--primary);
+  border-left-color: var(--primary);
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════════
+   シェアボタン
+   ══════════════════════════════════════════════ */
+.share-section {
+  margin: 32px 0 8px;
+  padding: 20px 0 0;
+  border-top: 1px solid var(--border);
+}
+.share-section__label {
+  font-size: 13px;
+  color: var(--secondary);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.share-section__btns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.share-btn {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: opacity 0.18s, transform 0.12s;
+  cursor: pointer;
+  line-height: 1;
+}
+.share-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  text-decoration: none !important;
+}
+.share-btn--facebook,
+.share-btn--facebook:visited,
+.share-btn--facebook:hover {
+  background: #1877f2 !important;
+  color: #fff !important;
+}
+.share-btn--x,
+.share-btn--x:visited,
+.share-btn--x:hover {
+  background: #000 !important;
+  color: #fff !important;
+}
+.share-btn--line,
+.share-btn--line:visited,
+.share-btn--line:hover {
+  background: #06c755 !important;
+  color: #fff !important;
+}
+.share-btn svg {
+  flex-shrink: 0;
+  fill: #fff !important;
+}
