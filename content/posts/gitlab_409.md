@@ -9,6 +9,7 @@ error_type: "409"
 components: ["API", "MergeRequest", "Branch", "Tag", "Group", "Project"]
 related_services: ["Git", "CI/CD"]
 top_queries:
+- '409 エラー'
 - '409エラー'
 ---
 ## エラーの概要

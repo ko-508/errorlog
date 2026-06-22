@@ -10,6 +10,8 @@ error_type: "400"
 components: ["Pod", "Deployment", "Service"]
 related_services: ["YAML", "HTTP", "API"]
 trend_incident: true
+top_queries:
+- 'http error 400'
 ---
 
 ## エラーの概要

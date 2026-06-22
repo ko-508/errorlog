@@ -8,6 +8,8 @@ service: "Postman"
 error_type: "403"
 components: []
 related_services: ["API", "HTTP", "JavaScript", "curl"]
+top_queries:
+- '403 forbidden postman'
 ---
 
 ## エラーの概要

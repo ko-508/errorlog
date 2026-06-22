@@ -1,0 +1,46 @@
+{
+  "steps": [
+    {
+      "id": "ga4_analyzer",
+      "name": "GA4分析",
+      "outcome": "success",
+      "continue_on_error": false,
+      "impact": "GA4トラフィックデータが更新されていません"
+    },
+    {
+      "id": "ga4_feedback",
+      "name": "GA4フィードバック",
+      "outcome": "success",
+      "continue_on_error": false,
+      "impact": "リライト優先度スコアが更新されていません"
+    },
+    {
+      "id": "fetch_gsc",
+      "name": "Search Console取得",
+      "outcome": "success",
+      "continue_on_error": false,
+      "impact": "GSCボトルネック・クエリデータが更新されていません"
+    },
+    {
+      "id": "weekly_report",
+      "name": "週次レポート生成",
+      "outcome": "success",
+      "continue_on_error": false,
+      "impact": "Issueが生成されない可能性があります"
+    },
+    {
+      "id": "content_gap",
+      "name": "Content Gap分析",
+      "outcome": "success",
+      "continue_on_error": true,
+      "impact": "Content Gap分析は今週更新されていません"
+    },
+    {
+      "id": "rewrite_results",
+      "name": "リライト実績更新",
+      "outcome": "success",
+      "continue_on_error": true,
+      "impact": "CTR実験のafter指標が更新されていません"
+    }
+  ]
+}

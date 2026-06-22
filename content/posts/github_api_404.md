@@ -10,6 +10,8 @@ error_type: "404"
 components: []
 related_services: []
 trend_incident: true
+top_queries:
+- 'github api 404'
 ---
 
 ## エラーの概要

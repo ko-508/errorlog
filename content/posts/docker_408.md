@@ -13,6 +13,7 @@ trend_incident: true
 top_queries:
 - '408 エラー'
 - 'http 408エラー'
+- 'http error 408'
 ---
 
 ## エラーの概要
