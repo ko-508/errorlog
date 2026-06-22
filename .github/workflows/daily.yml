@@ -26,6 +26,13 @@ jobs:
       - name: Install dependencies
         run: pip install anthropic google-genai google-auth requests
 
+      - name: Enrich queue with source URLs
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BATCH_SIZE: "5"
+        run: python scripts/enrich_queue.py
+        continue-on-error: true
+
       - name: Publish daily articles
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -69,6 +76,7 @@ jobs:
           [ -d reports/fact_check ] && git add reports/fact_check/ || true
           [ -f data/publish_session.json ] && git add data/publish_session.json || true
           [ -f data/pending_articles.json ] && git add data/pending_articles.json || true
+          [ -f data/editor_note_strip_log.jsonl ] && git add data/editor_note_strip_log.jsonl || true
           if git diff --staged --quiet; then
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
