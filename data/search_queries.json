@@ -4,10 +4,11 @@
       "403 forbidden nginx",
       "nginx 403 forbidden",
       "403 forbidden nginx/1.24.0",
+      "403 forbidden nginx 原因",
       "nginx forbidden"
     ],
-    "avg_ctr": 0.1111,
-    "avg_position": 11.0
+    "avg_ctr": 0.1,
+    "avg_position": 10.7
   },
   "gitlab_500": {
     "top_queries": [
@@ -51,13 +52,6 @@
     "avg_ctr": 0.0,
     "avg_position": 53.0
   },
-  "aws_401": {
-    "top_queries": [
-      "401エラー"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 50.0
-  },
   "postman_403": {
     "top_queries": [
       "403 forbidden postman"
@@ -72,16 +66,7 @@
       "nginx 404 not found"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 11.9
-  },
-  "docker_408": {
-    "top_queries": [
-      "408 エラー",
-      "http 408エラー",
-      "http error 408"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 24.0
+    "avg_position": 11.8
   },
   "github_api_409": {
     "top_queries": [
@@ -99,13 +84,6 @@
     ],
     "avg_ctr": 0.0,
     "avg_position": 45.5
-  },
-  "github_api_422": {
-    "top_queries": [
-      "422 github api"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 11.0
   },
   "firebase_429": {
     "top_queries": [
@@ -137,11 +115,11 @@
       "503 service temporarily unavailablenginx",
       "503 nginx",
       "error 503 backend unavailable, connection timeout",
-      "error 503 nginx",
-      "http 503 nginx"
+      "http 503 nginx",
+      "upstream server responded with a 503 error"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 9.4
+    "avg_position": 9.6
   },
   "aws_504": {
     "top_queries": [
@@ -154,25 +132,22 @@
       "エラー 504"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 47.2
+    "avg_position": 46.9
   },
-  "github_api_504": {
+  "stripe_402": {
     "top_queries": [
-      "github 504",
-      "github api 504",
-      "api 504 error",
-      "github 504 gateway time-out the server didn't respond in time."
+      "card_declined",
+      "stripe 決済 エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 4.0
+    "avg_position": 26.5
   },
   "docker_500": {
     "top_queries": [
-      "docker 500 internal server error",
-      "docker http 500: internal server error"
+      "docker 500 internal server error"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 10.0
+    "avg_position": 11.0
   },
   "tool_docker_compose": {
     "top_queries": [
@@ -181,7 +156,7 @@
       "docker-compose"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 43.2
+    "avg_position": 42.8
   },
   "auto_2026-06-12_c%C3%B3mo-solucionar-docker-run-con-exit-code-1-en-rasp": {
     "top_queries": [
@@ -196,7 +171,14 @@
       "エラー 503 とは"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 53.4
+    "avg_position": 53.1
+  },
+  "gemini_api_429_resource_exhausted_free_tier": {
+    "top_queries": [
+      "free_quota_exhausted"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 3.0
   },
   "gcp_401": {
     "top_queries": [
@@ -211,6 +193,15 @@
     ],
     "avg_ctr": 0.0,
     "avg_position": 11.0
+  },
+  "github_api_504": {
+    "top_queries": [
+      "github 504",
+      "github api 504",
+      "github 504 gateway time-out the server didn't respond in time."
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 4.0
   },
   "github_api_404": {
     "top_queries": [
@@ -256,12 +247,12 @@
     "avg_ctr": 0.0,
     "avg_position": 9.0
   },
-  "openai_api_502": {
+  "docker_408": {
     "top_queries": [
-      "openai 502"
+      "http error 408"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 8.0
+    "avg_position": 25.0
   },
   "slack_400": {
     "top_queries": [
@@ -271,19 +262,12 @@
     "avg_ctr": 0.0,
     "avg_position": 25.0
   },
-  "stripe_402": {
-    "top_queries": [
-      "stripe 決済 エラー"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 42.0
-  },
   "supabase_429": {
     "top_queries": [
       "{\"error\": \"too many requests\", \"message\": \"rate limit exceeded. please try again later.\"}"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 5.5
+    "avg_position": 5.3
   },
   "gcp_503": {
     "top_queries": [

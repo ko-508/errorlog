@@ -9,6 +9,8 @@ error_type: "429 RESOURCE_EXHAUSTED"
 errorCode: "429"
 components: []
 related_services: ["Google API Key", "RSS"]
+top_queries:
+- 'free_quota_exhausted'
 ---
 
 ## エラーの概要

@@ -13,7 +13,7 @@ trend_incident: true
 top_queries:
 - 'github 504'
 - 'github api 504'
-- 'api 504 error'
+- 'github 504 gateway time-out the server didn''t respond in time.'
 ---
 
 ## エラーの概要

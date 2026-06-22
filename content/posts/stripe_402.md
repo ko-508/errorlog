@@ -10,6 +10,7 @@ error_type: "402"
 components: ["PaymentIntent", "Charge"]
 related_services: ["3Dセキュア", "Webhook"]
 top_queries:
+- 'card_declined'
 - 'stripe 決済 エラー'
 ---
 
