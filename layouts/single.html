@@ -181,6 +181,11 @@
     </div>
     <p class="feedback-panel__thanks"></p>
   </div>
+  {{- $formBase := "https://docs.google.com/forms/d/1zljzNlqy4zWd8G4szDxn5UVChyEMubCA8-OEgU07000/viewform" }}
+  {{- $formUrl  := printf "%s?usp=pp_url&entry.1979562174=%s" $formBase ($.Permalink | urlquery) }}
+  <script>
+  var ugcFormUrl = {{ $formUrl | jsonify }};
+  </script>
   {{- end }}{{/* errorCode */}}
 
   {{- /* ── シェアボタン ── */}}
@@ -335,7 +340,12 @@
     setTimeout(function () {
       btnsEl.style.display = 'none';
       qEl.style.display    = 'none';
-      thxEl.textContent    = 'Thank you for your feedback!';
+      if (btn.dataset.status === 'no') {
+        thxEl.innerHTML = 'フィードバックありがとうございます。別の解決策をご存知でしたら、'
+          + '<a href="' + (typeof ugcFormUrl !== "undefined" ? ugcFormUrl : "#") + '" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">ぜひ教えてください</a>。';
+      } else {
+        thxEl.textContent = 'フィードバックありがとうございます！';
+      }
       thxEl.style.display  = 'block';
       thxEl.style.opacity  = '0';
       thxEl.style.transition = 'opacity 0.4s';
