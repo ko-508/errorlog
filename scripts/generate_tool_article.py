@@ -66,7 +66,7 @@ def research_with_gemini(model, tool: str) -> str:
 最新の公式情報をもとに、日本語で箇条書きでまとめてください。"""
 
     response = model.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-2.5-flash",
         contents=prompt,
         config=genai_types.GenerateContentConfig(
             tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]

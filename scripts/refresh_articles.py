@@ -337,7 +337,7 @@ def research_with_gemini(
 
     try:
         response = gemini_model.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             contents=prompt,
             config=genai_types.GenerateContentConfig(
                 tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
