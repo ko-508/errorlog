@@ -40,5 +40,17 @@
     "last_unavailable_at": "2026-06-21T13:45:49Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
     "count": 1
+  },
+  "content/posts/firebase_403.md": {
+    "path": "content/posts/firebase_403.md",
+    "last_unavailable_at": "2026-06-22T02:36:07Z",
+    "reason": "external fact check unavailable: gemini timeout (90s)",
+    "count": 1
+  },
+  "content/posts/azure_500.md": {
+    "path": "content/posts/azure_500.md",
+    "last_unavailable_at": "2026-06-22T02:38:17Z",
+    "reason": "external fact check unavailable: gemini timeout (90s)",
+    "count": 1
   }
 }
