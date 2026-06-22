@@ -1,20 +1,14 @@
 [
   {
-    "path": "content/posts/prometheus_400.md",
-    "stem": "prometheus_400",
-    "title": "Prometheus の 400 エラー：原因と解決策",
+    "path": "content/posts/prometheus_503.md",
+    "stem": "prometheus_503",
+    "title": "Prometheus の 503 エラー：原因と解決策",
     "source_type": "pending"
   },
   {
-    "path": "content/posts/prometheus_401.md",
-    "stem": "prometheus_401",
-    "title": "Prometheus の 401 エラー：原因と解決策",
+    "path": "content/posts/grafana_400.md",
+    "stem": "grafana_400",
+    "title": "Grafana の 400 エラー：原因と解決策",
     "source_type": "pending"
-  },
-  {
-    "path": "content/posts/prometheus_403.md",
-    "stem": "prometheus_403",
-    "title": "Prometheus の 403 エラー：原因と解決策",
-    "source_type": "daily"
   }
 ]
