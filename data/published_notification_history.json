@@ -46,5 +46,21 @@
     "source_type": "daily",
     "notified_at": "2026-06-14T05:26:57Z",
     "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/prometheus_503/",
+    "path": "content/posts/prometheus_503.md",
+    "title": "Prometheus の 503 エラー：原因と解決策",
+    "source_type": "pending",
+    "notified_at": "2026-06-22T06:22:51Z",
+    "fact_check_status": "pass"
+  },
+  {
+    "url": "https://errorlog.jp/posts/grafana_400/",
+    "path": "content/posts/grafana_400.md",
+    "title": "Grafana の 400 エラー：原因と解決策",
+    "source_type": "pending",
+    "notified_at": "2026-06-22T06:22:52Z",
+    "fact_check_status": "pass"
   }
 ]
