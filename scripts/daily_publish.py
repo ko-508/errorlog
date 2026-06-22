@@ -274,6 +274,42 @@ def strip_invalid_editor_note(body: str, stem: str) -> tuple[str, bool]:
     return body, False
 
 
+def generate_methodology_note(row: dict) -> str:
+    """source_urls が存在する場合に調査プロセス注記を生成する。"""
+    source_urls = [u.strip() for u in row.get("source_urls", "").split("|") if u.strip()]
+    if not source_urls:
+        return ""
+
+    reported_vers = [v.strip() for v in row.get("reported_versions", "").split("|") if v.strip()]
+
+    labels = []
+    for url in source_urls:
+        if "github.com" in url:
+            labels.append("GitHub Issues")
+        elif "stackoverflow.com" in url:
+            labels.append("Stack Overflow")
+        elif "reddit.com" in url:
+            labels.append("Reddit")
+        elif "zenn.dev" in url or "qiita.com" in url:
+            labels.append("Zenn / Qiita")
+        elif "community." in url or "forum." in url:
+            labels.append("コミュニティフォーラム")
+    seen: set[str] = set()
+    unique = [x for x in labels if not (x in seen or seen.add(x))]
+    sources_text = "・".join(unique) if unique else "フォーラム・Issue"
+
+    ver_text = (
+        f"（{', '.join(reported_vers[:2])} 環境での報告を含む）"
+        if reported_vers else ""
+    )
+
+    return (
+        f"\n\n> **調査について**　この記事の解決策は、{sources_text} への公開報告{ver_text}を "
+        f"Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。"
+        f"参照元の URL は Editor's Note に記載しています。\n"
+    )
+
+
 # ─── Claude API で記事生成 ──────────────────────────────────
 
 # ⑦ 静的な指示部分をシステムプロンプトに分離してキャッシュ対象にする
@@ -617,6 +653,9 @@ def _run_lint_gate(
             retry_body, was_stripped = strip_invalid_editor_note(retry_body, Path(filename).stem)
             if was_stripped:
                 print(f"  Editor's Note を除去して公開: {Path(filename).stem}")
+            methodology = generate_methodology_note(row)
+            if methodology and not was_stripped:
+                retry_body = retry_body.rstrip() + methodology
             retry_body = normalize_before_after(retry_body)
             retry_body = strip_intro_boilerplate(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
@@ -645,6 +684,9 @@ def _run_lint_gate(
             retry_body, was_stripped = strip_invalid_editor_note(retry_body, Path(filename).stem)
             if was_stripped:
                 print(f"  Editor's Note を除去して公開: {Path(filename).stem}")
+            methodology = generate_methodology_note(row)
+            if methodology and not was_stripped:
+                retry_body = retry_body.rstrip() + methodology
             retry_body = normalize_before_after(retry_body)
             retry_body = strip_intro_boilerplate(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
@@ -707,6 +749,9 @@ def _try_generate_article(
     body, was_stripped = strip_invalid_editor_note(body, stem)
     if was_stripped:
         print(f"  Editor's Note を除去して公開: {stem}")
+    methodology = generate_methodology_note(row)
+    if methodology and not was_stripped:
+        body = body.rstrip() + methodology
 
     title = f"{tool} の {code} エラー：原因と解決策"
     meaning_text = row["official_meaning"].strip()
