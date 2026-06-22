@@ -1,7 +1,7 @@
 ---
 title: "Grafana の 400 エラー：原因と解決策"
 date: 2026-06-22
-description: "Grafana APIへのリクエストの形式または内容に誤りがある。Grafana 400 エラーの原因と解決策を解説します。"
+description: "Grafana APIへのリクエストの形式または内容に誤りがある。"
 tags: ["Grafana"]
 errorCode: "400"
 service: "Grafana"

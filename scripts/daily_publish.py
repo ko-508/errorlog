@@ -209,6 +209,23 @@ def strip_trailing_disclaimer(text: str) -> str:
         text = new_text
 
 
+_INTRO_BOILERPLATE_RE = re.compile(
+    r'(?m)'
+    r'(^|[。！？]\s*)'
+    r'([^。\n]{1,80}?\s+\d{3}\s*エラーの原因と解決策を解説します。)'
+)
+
+
+def strip_intro_boilerplate(text: str) -> str:
+    """本文中のタイトル説明的な定型文を除去する。"""
+    while True:
+        new_text = _INTRO_BOILERPLATE_RE.sub(lambda m: m.group(1), text)
+        new_text = re.sub(r'[ \t]+\n', '\n', new_text)
+        if new_text == text:
+            return new_text
+        text = new_text
+
+
 # ─── Claude API で記事生成 ──────────────────────────────────
 
 # ⑦ 静的な指示部分をシステムプロンプトに分離してキャッシュ対象にする
@@ -258,6 +275,8 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 ## 品質要件
 - 全体で1500文字以上（日本語本文のみ。マークダウン記号・URL・コードは除いてカウント）
 - H1タイトルは含めない
+- 「現象」「エラーの概要」など本文冒頭に「{ツール} {コード} エラーの原因と解決策を解説します。」のような
+  タイトル説明・記事紹介・定型の案内文を書かないこと。
 - コードブロックには必ず言語名を指定（bash, json, yaml, python, javascript等）
 - プレースホルダーは `<your-xxx>` 形式
 - ですます調・断定的に書く
@@ -542,6 +561,7 @@ def _run_lint_gate(
                 print(f"  [lint] retry {attempt} API エラー: {type(e).__name__}: {e}")
                 break
             retry_body = normalize_before_after(retry_body)
+            retry_body = strip_intro_boilerplate(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
             article_content = frontmatter + retry_body + disclaimer
             lint_result = _lint_check_content(article_content, out)
@@ -566,6 +586,7 @@ def _run_lint_gate(
         try:
             retry_body = generate_article(client, row, lint_feedback=feedback)
             retry_body = normalize_before_after(retry_body)
+            retry_body = strip_intro_boilerplate(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
             article_content = frontmatter + retry_body + disclaimer
             lint_result = _lint_check_content(article_content, out)
@@ -662,6 +683,7 @@ def _try_generate_article(
         "本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*"
     )
     body = normalize_before_after(body)
+    body = strip_intro_boilerplate(body)
     body = strip_trailing_disclaimer(body)
     article_content, lint_blocked = _run_lint_gate(
         client, row, filename, frontmatter, body, disclaimer, out, remaining

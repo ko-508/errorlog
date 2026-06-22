@@ -1,7 +1,7 @@
 ---
 title: "Prometheus の 503 エラー：原因と解決策"
 date: 2026-06-22
-description: "Prometheusが起動中かスクレイプターゲットが利用できない。Prometheus 503 エラーの原因と解決策を解説します。"
+description: "Prometheusが起動中かスクレイプターゲットが利用できない。"
 tags: ["Prometheus"]
 errorCode: "503"
 service: "Prometheus"
