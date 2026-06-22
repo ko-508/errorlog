@@ -1,7 +1,8 @@
-"""queue.csv の既存行に実報告 source_urls を補完する。
+"""queue.csv の既存行に source_urls / alternatives を補完する。
 
-source_urls が空の行だけを対象に、Gemini 2.5 Flash + Google Search で
-実際の問題報告 URL を探し、GET で実在確認できた URL だけを書き戻す。
+source_urls が空の行は、Gemini 2.5 Flash + Google Search で実際の問題報告 URL を探し、
+GET で実在確認できた URL だけを書き戻す。
+alternatives が空の行には、Gemini 2.5 Flash で代替ツール候補を補完する。
 """
 
 import argparse
@@ -114,6 +115,24 @@ source_urls は実在する URL のみ記載すること。見つからなけれ
     return urls
 
 
+def research_alternatives(gemini_client, tool: str) -> list[str]:
+    prompt = f"""{tool} の代替となる主要ツールを1〜3件教えてください。
+
+以下のJSONのみ返してください（前置き不要）:
+{{"alternatives": ["{tool}の代替ツール名1", "{tool}の代替ツール名2"]}}
+
+見つからない場合: {{"alternatives": []}}"""
+
+    response = gemini_client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+    )
+    data = _extract_json(response.text.strip())
+    if not data:
+        return []
+    return [str(a).strip() for a in data.get("alternatives", [])[:3] if a]
+
+
 def _normalise_row(row: dict) -> dict:
     return {field: row.get(field, "") for field in FIELDNAMES}
 
@@ -141,10 +160,11 @@ def main() -> None:
         (idx, row)
         for idx, row in enumerate(rows)
         if not row.get("source_urls", "").strip()
+        or not row.get("alternatives", "").strip()
     ][: args.batch_size]
 
     if not targets:
-        print("source_urls が空の行はありません。")
+        print("source_urls / alternatives が空の行はありません。")
         return
 
     gemini_client = google_genai.Client(api_key=gemini_key)
@@ -155,29 +175,48 @@ def main() -> None:
         code = row["status_code"].strip()
         print(f"[{pos}/{len(targets)}] {tool} {code}")
 
-        try:
-            candidate_urls = research_source_urls(gemini_client, tool, code)
-        except Exception as e:
-            print(f"  Gemini エラー: {type(e).__name__}: {e}")
-            time.sleep(2)
-            continue
+        row_updated = False
 
-        verified_urls = [url for url in candidate_urls if verify_url(url)]
-        if verified_urls:
-            rows[idx]["source_urls"] = "|".join(verified_urls[:5])
+        if not row.get("source_urls", "").strip():
+            try:
+                candidate_urls = research_source_urls(gemini_client, tool, code)
+            except Exception as e:
+                print(f"  source_urls Gemini エラー: {type(e).__name__}: {e}")
+                candidate_urls = []
+
+            verified_urls = [url for url in candidate_urls if verify_url(url)]
+            if verified_urls:
+                rows[idx]["source_urls"] = "|".join(verified_urls[:5])
+                row_updated = True
+                print("  source_urls OK: " + rows[idx]["source_urls"])
+            else:
+                print("  source_urls なし")
+
+        if not row.get("alternatives", "").strip():
+            try:
+                alts = research_alternatives(gemini_client, tool)
+            except Exception as e:
+                print(f"  alternatives Gemini エラー: {type(e).__name__}: {e}")
+                alts = []
+
+            if alts:
+                rows[idx]["alternatives"] = "|".join(alts)
+                row_updated = True
+                print("  alternatives OK: " + rows[idx]["alternatives"])
+            else:
+                print("  alternatives なし")
+
+        if row_updated:
             updated += 1
-            print("  OK: " + rows[idx]["source_urls"])
-        else:
-            print("  source_urls なし")
 
         time.sleep(2)
 
     if args.dry_run:
-        print(f"\ndry-run: {updated} 行に source_urls を設定予定です。")
+        print(f"\ndry-run: {updated} 行に source_urls / alternatives を設定予定です。")
         return
 
     write_queue(rows)
-    print(f"\n完了: {updated} 行の source_urls を更新しました。")
+    print(f"\n完了: {updated} 行の source_urls / alternatives を更新しました。")
 
 
 if __name__ == "__main__":

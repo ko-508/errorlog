@@ -351,6 +351,14 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 ### 5. それでも解決しない場合（H2）
 確認すべきログの場所・デバッグコマンド・公式ドキュメントへの参照。
 
+### 5.5. 代替ツールの検討（H2）（条件付き）
+ユーザー情報に「代替ツール候補」が含まれる場合のみ追加する。
+- 「このエラーが頻発して運用に支障が出る場合は、以下のツールへの移行を検討できます」という導入で始める
+- 各代替ツールを箇条書きで1〜2文ずつ紹介する（ツールの強みと適したユースケース）
+- 比較表は使わない（簡潔な箇条書きのみ）
+- 100〜200字程度
+- 含まれない場合はこのセクション自体を省略すること
+
 ### 6. Editor's Note（H2）（条件付き）
 ユーザー情報に「参照した実際の報告URL」が含まれる場合のみ、このセクションを追加する。
 以下の形式で1段落（150〜250字）を記述する:
@@ -395,6 +403,7 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
     source_urls = [u.strip() for u in row.get("source_urls", "").split("|") if u.strip()]
     reported_vers = [v.strip() for v in row.get("reported_versions", "").split("|") if v.strip()]
     actual_msgs = [m.strip() for m in row.get("actual_error_messages", "").split("|") if m.strip()]
+    alternatives = [a.strip() for a in row.get("alternatives", "").split("|") if a.strip()]
 
     causes_text = "\n".join(f"- {c}" for c in causes)
     solutions_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(solutions))
@@ -416,6 +425,8 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
     if actual_msgs:
         user_prompt += "\n\n- 実際に報告されたエラーメッセージ（verbatim）:\n"
         user_prompt += "\n".join(f"  ```\n  {m}\n  ```" for m in actual_msgs)
+    if alternatives:
+        user_prompt += "\n\n- 代替ツール候補: " + ", ".join(alternatives)
 
     if lint_feedback:
         user_prompt += (
