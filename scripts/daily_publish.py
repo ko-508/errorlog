@@ -345,6 +345,18 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 
 原因は最低3つ挙げる。
 
+### 3.5. 解決策の早見表（H2）
+セクション3で挙げた解決策が2つ以上ある場合のみ、以下の形式のMarkdownテーブルを追加する。
+2つ未満の場合はこのセクション自体を省略すること。
+
+| 解決策 | 実装難易度 | 再起動要否 | 対応OS |
+|--------|-----------|-----------|-------|
+| （解決策名を15字以内で要約） | 低/中/高 | 必要/不要 | 全OS/Windowsのみ/Linuxのみ/macOSのみ |
+
+- 行数はセクション3の解決策数に合わせる（最大5行）
+- 値は必ず 低/中/高、必要/不要、全OS/Windowsのみ/Linuxのみ/macOSのみ のいずれかに限定する
+- 架空のUpvote数など数値データは一切入れない
+
 ### 4. ツール固有の注意点（H2）
 ツールの特性に応じた深掘りを記述する（サービス・設定ごとのパターン）。
 
@@ -972,7 +984,7 @@ def main() -> None:
                     print(f"  保留: {entry['filename']} → 公開枠超過のため翌日に回します")
 
             # キューを更新
-            fieldnames = ["tool", "status_code", "official_meaning", "causes", "solutions"]
+            from replenish_queue import FIELDNAMES as fieldnames
             with open(QUEUE_PATH, "w", encoding="utf-8", newline="") as f:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
                 writer.writeheader()
