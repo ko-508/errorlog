@@ -569,6 +569,44 @@ def check_d1_d2(body: str) -> tuple[dict[str, int], list[Issue]]:
     return tier_dict, issues
 
 
+_EDITOR_NOTE_RE = re.compile(r"^#{1,4}\s*Editor['']?s?\s*Note", re.MULTILINE | re.IGNORECASE)
+
+
+def check_e1(body: str) -> list[Issue]:
+    """E1 [WARN] Editor's Noteが存在する場合、URLを1件以上含む。"""
+    m = _EDITOR_NOTE_RE.search(_mask_code_blocks(body))
+    if not m:
+        return []
+    section = get_section_content(body, _EDITOR_NOTE_RE)
+    if section is None:
+        return []
+    urls = extract_urls(section)
+    if not urls:
+        return [("E1", "Editor's NoteにURLが含まれていない（根拠URLが必要）")]
+    return []
+
+
+def check_e2(body: str) -> list[Issue]:
+    """E2 [FAIL] Editor's NoteのURLにgoogleグラウンディングリダイレクトが含まれない。"""
+    m = _EDITOR_NOTE_RE.search(_mask_code_blocks(body))
+    if not m:
+        return []
+    section = get_section_content(body, _EDITOR_NOTE_RE)
+    if section is None:
+        return []
+    issues: list[Issue] = []
+    seen: set[str] = set()
+    for url in extract_urls(section):
+        url = url.rstrip(").,、。")
+        if url in seen:
+            continue
+        seen.add(url)
+        domain_type = classify_domain(url)
+        if domain_type == "grounding_redirect":
+            issues.append(("E2", f"グラウンディングリダイレクトURL混入: {url[:80]}"))
+    return issues
+
+
 # ── 記事 1 件をスキャン ───────────────────────────────────────────────────────
 
 def lint_article(path: Path) -> dict[str, Any]:
@@ -624,6 +662,8 @@ def lint_article(path: Path) -> dict[str, Any]:
 
     tier_dict, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)
+    _add("WARN", check_e1(body))
+    _add("FAIL", check_e2(body))
     if tier_dict:
         infos.append({"rule": "D1", "detail": "URL domain tiers", "source_tiers": tier_dict})
 

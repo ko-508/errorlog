@@ -18,7 +18,8 @@ from fact_check import clear_new_article_failure, evaluate_new_article, record_n
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
     check_a1, check_a2, check_a3, check_a4, check_a5, check_a6, check_a7, check_a8,
-    check_b1, check_b2, check_b3, check_b5, check_d1_d2, check_secret_token, check_aws_secret_key,
+    check_b1, check_b2, check_b3, check_b5, check_d1_d2, check_e1, check_e2,
+    check_secret_token, check_aws_secret_key,
     classify_article, split_frontmatter,
 )
 
@@ -226,6 +227,53 @@ def strip_intro_boilerplate(text: str) -> str:
         text = new_text
 
 
+_EDITOR_NOTE_SECTION_RE = re.compile(
+    r"\n#{1,4}\s*Editor['']?s?\s*Note[\s\S]*?(?=\n#{1,4}\s|\Z)",
+    re.IGNORECASE,
+)
+
+
+def _log_editor_note_strip(stem: str, reason: str) -> None:
+    log_path = BASE.parent / "data" / "editor_note_strip_log.jsonl"
+    entry = {"date": str(date.today()), "stem": stem, "reason": reason}
+    with open(log_path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    print(f"  [Editor's Note除去] {stem}: {reason}")
+
+
+def strip_invalid_editor_note(body: str, stem: str) -> tuple[str, bool]:
+    """
+    Editor's Noteが不正な場合に除去する。
+    Returns: (処理後のbody, 除去したかどうか)
+    """
+    from lint_articles import (
+        _EDITOR_NOTE_RE, _mask_code_blocks, classify_domain, extract_urls, get_section_content,
+    )
+
+    if not _EDITOR_NOTE_RE.search(_mask_code_blocks(body)):
+        return body, False
+
+    section = get_section_content(body, _EDITOR_NOTE_RE)
+    if section is None:
+        return body, False
+
+    urls = extract_urls(section)
+    has_redirect = any(classify_domain(u) == "grounding_redirect" for u in urls)
+    too_short = len(section.replace(" ", "").replace("\n", "")) < 50
+
+    if not urls or has_redirect or too_short:
+        reason = (
+            "URLなし" if not urls
+            else "グラウンディングURL混入" if has_redirect
+            else "文字数不足"
+        )
+        stripped = _EDITOR_NOTE_SECTION_RE.sub("", body).rstrip()
+        _log_editor_note_strip(stem, reason)
+        return stripped, True
+
+    return body, False
+
+
 # ─── Claude API で記事生成 ──────────────────────────────────
 
 # ⑦ 静的な指示部分をシステムプロンプトに分離してキャッシュ対象にする
@@ -267,9 +315,13 @@ _ARTICLE_SYSTEM_PROMPT = """あなたは「ErrorLog（errorlog.jp）」専任の
 ### 5. それでも解決しない場合（H2）
 確認すべきログの場所・デバッグコマンド・公式ドキュメントへの参照。
 
-### 6. 参考・引用元（H2）（条件付き）
+### 6. Editor's Note（H2）（条件付き）
 ユーザー情報に「参照した実際の報告URL」が含まれる場合のみ、このセクションを追加する。
-各URLをMarkdownリンク形式（`[URL](URL)`）で箇条書きにする。
+以下の形式で1段落（150〜250字）を記述する:
+- 公式ドキュメントの一般的な解決策と、提示されたフォーラム・Issueでの実際の報告を比較する
+- 特定の環境（OS・バージョン・クラウドプロバイダー等）で公式解決策が効かないケースがあれば言及する
+- 「現場では〇〇から試すのが有効」という具体的な示唆で締める
+- URLは本文中にMarkdownリンク形式（`[説明](URL)`）で1〜2件だけ自然に埋め込む
 含まれない場合はこのセクション自体を省略すること。
 
 ## 品質要件
@@ -444,7 +496,7 @@ def extract_knowledge_graph(
 # ─── Lint 公開前ゲート ──────────────────────────────────────────
 
 _LINT_MAX_RETRIES = 2
-_LINT_BLOCK_RULES = frozenset({"A1", "A7", "B1", "B2", "B5", "C1"})
+_LINT_BLOCK_RULES = frozenset({"A1", "A7", "B1", "B2", "B5", "C1", "E2"})
 
 
 def _lint_check_content(content: str, path: Path) -> dict:
@@ -477,6 +529,8 @@ def _lint_check_content(content: str, path: Path) -> dict:
     _add("FAIL", check_aws_secret_key(body))
     _, d_issues = check_d1_d2(body)
     _add("WARN", d_issues)
+    _add("WARN", check_e1(body))
+    _add("FAIL", check_e2(body))
 
     return {"fails": fails, "warns": warns}
 
@@ -560,6 +614,9 @@ def _run_lint_gate(
             except Exception as e:
                 print(f"  [lint] retry {attempt} API エラー: {type(e).__name__}: {e}")
                 break
+            retry_body, was_stripped = strip_invalid_editor_note(retry_body, Path(filename).stem)
+            if was_stripped:
+                print(f"  Editor's Note を除去して公開: {Path(filename).stem}")
             retry_body = normalize_before_after(retry_body)
             retry_body = strip_intro_boilerplate(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
@@ -585,6 +642,9 @@ def _run_lint_gate(
         print(f"  [lint] RETRY(A3×1) {filename}: " + _fail_strs()[0])
         try:
             retry_body = generate_article(client, row, lint_feedback=feedback)
+            retry_body, was_stripped = strip_invalid_editor_note(retry_body, Path(filename).stem)
+            if was_stripped:
+                print(f"  Editor's Note を除去して公開: {Path(filename).stem}")
             retry_body = normalize_before_after(retry_body)
             retry_body = strip_intro_boilerplate(retry_body)
             retry_body = strip_trailing_disclaimer(retry_body)
@@ -642,6 +702,11 @@ def _try_generate_article(
         print(f"  API エラー: {type(e).__name__}: {e}")
         remaining.append(row)  # API エラー時はキューに差し戻す
         return None, False
+
+    stem = Path(filename).stem
+    body, was_stripped = strip_invalid_editor_note(body, stem)
+    if was_stripped:
+        print(f"  Editor's Note を除去して公開: {stem}")
 
     title = f"{tool} の {code} エラー：原因と解決策"
     meaning_text = row["official_meaning"].strip()

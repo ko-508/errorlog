@@ -26,7 +26,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic google-genai
+        run: pip install anthropic google-genai requests
 
       - name: Discover trending tools
         env:
