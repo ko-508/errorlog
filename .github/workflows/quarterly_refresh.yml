@@ -1,11 +1,8 @@
 name: Weekly Article Refresh
 
 on:
-  # 2026-06-16 無効化: 既存記事の自動リライトを当面停止する方針のため。
-  # 補足: ファイル名はquarterlyだが実態は毎週金曜(0 3 * * 5 = 金曜12:00 JST)実行。
-  # 再開時は下記3行のコメントを外すこと。
-  # schedule:
-  #   - cron: '0 3 * * 5'
+  schedule:
+    - cron: '0 3 * * 5'
   workflow_dispatch:
     inputs:
       refresh_days:
@@ -34,7 +31,15 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install anthropic google-genai google-auth requests
+        run: pip install anthropic google-genai google-auth requests google-api-python-client
+
+      - name: Fetch GSC data and update rewrite priority
+        env:
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/fetch_search_console.py
+        continue-on-error: true
 
       - name: Refresh outdated articles
         env:
@@ -49,7 +54,7 @@ jobs:
         run: |
           git config user.name "ErrorLog Bot"
           git config user.email "bot@users.noreply.github.com"
-          git add content/posts/ scripts/refresh_manifest.json
+          git add content/posts/ scripts/refresh_manifest.json data/search_queries.json
           if git diff --staged --quiet; then
             echo "deployed=false" >> $GITHUB_OUTPUT
           else
