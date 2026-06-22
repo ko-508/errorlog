@@ -1257,3 +1257,24 @@ html[data-theme="dark"] .incident-banner__header {
   flex-shrink: 0;
   fill: #fff !important;
 }
+
+/* UGC フッターCTA */
+.ugc-cta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .875rem 1.25rem;
+  margin: 1.5rem 0 .5rem;
+}
+.ugc-cta__text {
+  margin: 0;
+  color: var(--secondary);
+  font-size: .875rem;
+}
+.ugc-cta__link {
+  font-size: .875rem;
+  white-space: nowrap;
+}

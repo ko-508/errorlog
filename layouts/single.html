@@ -173,7 +173,9 @@
 
   {{- /* ── 解決率フィードバック UI（errorCode がある記事のみ） ── */}}
   {{- with .Params.errorCode }}
-  <div class="feedback-panel" id="feedback-panel">
+  {{- $formBase := "https://docs.google.com/forms/d/1zljzNlqy4zWd8G4szDxn5UVChyEMubCA8-OEgU07000/viewform" }}
+  {{- $formUrl  := printf "%s?usp=pp_url&entry.1979562174=%s" $formBase ($.Permalink | urlquery) }}
+  <div class="feedback-panel" id="feedback-panel" data-ugc-form="{{ $formUrl }}">
     <p class="feedback-panel__q">この記事でエラーは解決しましたか？</p>
     <div class="feedback-panel__btns">
       <button class="feedback-btn feedback-btn--yes" data-status="yes">🎉 解決した</button>
@@ -181,11 +183,6 @@
     </div>
     <p class="feedback-panel__thanks"></p>
   </div>
-  {{- $formBase := "https://docs.google.com/forms/d/1zljzNlqy4zWd8G4szDxn5UVChyEMubCA8-OEgU07000/viewform" }}
-  {{- $formUrl  := printf "%s?usp=pp_url&entry.1979562174=%s" $formBase ($.Permalink | urlquery) }}
-  <script>
-  var ugcFormUrl = {{ $formUrl | jsonify }};
-  </script>
   {{- end }}{{/* errorCode */}}
 
   {{- /* ── シェアボタン ── */}}
@@ -288,6 +285,15 @@
   {{- end }}
   {{- end }}
 
+  {{- with .Params.errorCode }}
+  {{- $fb := "https://docs.google.com/forms/d/1zljzNlqy4zWd8G4szDxn5UVChyEMubCA8-OEgU07000/viewform" }}
+  {{- $fu := printf "%s?usp=pp_url&entry.1979562174=%s" $fb ($.Permalink | urlquery) }}
+  <div class="ugc-cta">
+    <span class="ugc-cta__text">別の解決策をご存知ですか？</span>
+    <a class="ugc-cta__link" href="{{ $fu }}" target="_blank" rel="noopener noreferrer">→ 解決事例を報告する</a>
+  </div>
+  {{- end }}
+
   </div>{{- /* end post-body-main */}}
 
   {{- /* ── サイド目次 ── */}}
@@ -324,6 +330,7 @@
 (function () {
   var panel = document.getElementById('feedback-panel');
   if (!panel) return;
+  var ugcFormUrl = panel.getAttribute('data-ugc-form');
   var title = {{ .Title | jsonify }};
   panel.addEventListener('click', function (e) {
     var btn = e.target.closest('[data-status]');
@@ -342,7 +349,7 @@
       qEl.style.display    = 'none';
       if (btn.dataset.status === 'no') {
         thxEl.innerHTML = 'フィードバックありがとうございます。別の解決策をご存知でしたら、'
-          + '<a href="' + (typeof ugcFormUrl !== "undefined" ? ugcFormUrl : "#") + '" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">ぜひ教えてください</a>。';
+          + '<a href="' + (ugcFormUrl || "#") + '" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;">ぜひ教えてください</a>。';
       } else {
         thxEl.textContent = 'フィードバックありがとうございます！';
       }
