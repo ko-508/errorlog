@@ -1,0 +1,86 @@
+{
+  "article_id": "postman_404",
+  "article_path": "content/posts/postman_404.md",
+  "tags": [
+    "Postman"
+  ],
+  "fact_checked_at": "2026-06-17T05:04:56Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "http://api.example.com/api/v1/item/123",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://api.example.com/api/v2/items/123",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://api.example.com/users/99999",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://api.example.com/users/1",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://api.example.com/users`で一覧取得してIDを確認してからリクエストを送信することで問題が解決します。",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://api.example.com`ではなく`http://api.example.co`と誤入力されている場合、実際のリクエストURLは意図したものと異なります。",
+      "resolved_domain": "api.example.com`ではなく`http:",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://wrong-domain.example.com",
+      "resolved_domain": "wrong-domain.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://wrong-domain.example.com/api/v1/users/123`にリクエストが送信され、404が返されます。",
+      "resolved_domain": "wrong-domain.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "http://api.example.com",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 9
+  }
+}

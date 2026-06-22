@@ -1,0 +1,64 @@
+{
+  "article_id": "github_actions_401",
+  "article_path": "content/posts/github_actions_401.md",
+  "tags": [
+    "GitHub Actions"
+  ],
+  "fact_checked_at": "2026-06-17T05:06:35Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.github.com/ja/actions/tutorials/authenticate-with-github_token",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/ja/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/rest\"",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://github.com/<owner>/<repo>.git/'",
+      "resolved_domain": "github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://api.example.com/deploy",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://api.github.com/user",
+      "resolved_domain": "api.github.com",
+      "resolved_source_type": "community_blog",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 3,
+    "community_blog": 2,
+    "unknown": 1
+  }
+}

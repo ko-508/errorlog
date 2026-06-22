@@ -1,0 +1,46 @@
+{
+  "article_id": "postman_500",
+  "article_path": "content/posts/postman_500.md",
+  "tags": [
+    "Postman"
+  ],
+  "fact_checked_at": "2026-06-17T05:05:48Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://api.example.com/users",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://api.example.com/users\"",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://status.postman.com",
+      "resolved_domain": "status.postman.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learning.postman.com/docs/use/send-requests/response-data/troubleshooting-api-requests/",
+      "resolved_domain": "learning.postman.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 4
+  }
+}

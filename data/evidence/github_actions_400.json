@@ -1,0 +1,38 @@
+{
+  "article_id": "github_actions_400",
+  "article_path": "content/posts/github_actions_400.md",
+  "tags": [
+    "GitHub Actions"
+  ],
+  "fact_checked_at": "2026-06-17T05:06:09Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://docs.github.com/rest/reference/actions\"",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions\"",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://docs.github.com/en/actions）のワークフロー構文セクションで、使用しているトリガー・ステップ・コンテキスト変数の仕様を確認してください。特に",
+      "resolved_domain": "docs.github.com",
+      "resolved_source_type": "official",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "official": 3
+  }
+}

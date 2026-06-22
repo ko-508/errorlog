@@ -1,0 +1,78 @@
+{
+  "article_id": "postman_429",
+  "article_path": "content/posts/postman_429.md",
+  "tags": [
+    "Postman"
+  ],
+  "fact_checked_at": "2026-06-17T05:05:29Z",
+  "prompt_version": "1",
+  "sources": [
+    {
+      "final_url": "https://learning.postman.com/docs/tests-and-scripts/running-collections/intro-to-collection-runs/",
+      "resolved_domain": "learning.postman.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://learning.postman.com/docs/design-apis/mock-apis/set-up-mock-servers/",
+      "resolved_domain": "learning.postman.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://api.example.com/users/{{userId}}\"",
+      "resolved_domain": "api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json\"",
+      "resolved_domain": "schema.getpostman.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://api.production.com/v1/users\"",
+      "resolved_domain": "api.production.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://mock-api.example.com/v1/users\"",
+      "resolved_domain": "mock-api.example.com",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://mock-api.example.com\"",
+      "resolved_domain": "mock-api.example.com\"",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    },
+    {
+      "final_url": "https://api.production.com\"",
+      "resolved_domain": "api.production.com\"",
+      "resolved_source_type": "unknown",
+      "tool_match": false,
+      "title": "",
+      "is_unresolved": false
+    }
+  ],
+  "evidence_summary": {
+    "unknown": 8
+  }
+}
