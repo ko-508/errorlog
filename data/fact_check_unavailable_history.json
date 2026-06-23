@@ -76,5 +76,17 @@
     "last_unavailable_at": "2026-06-23T06:41:11Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
     "count": 1
+  },
+  "content/posts/firebase_503.md": {
+    "path": "content/posts/firebase_503.md",
+    "last_unavailable_at": "2026-06-23T14:21:33Z",
+    "reason": "external fact check unavailable: gemini timeout (90s)",
+    "count": 1
+  },
+  "content/posts/slack_500.md": {
+    "path": "content/posts/slack_500.md",
+    "last_unavailable_at": "2026-06-23T14:23:43Z",
+    "reason": "external fact check unavailable: gemini timeout (90s)",
+    "count": 1
   }
 }
