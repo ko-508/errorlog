@@ -20,5 +20,24 @@
       "Add official or primary source URLs for unsupported claims."
     ],
     "detected_at": "2026-06-20"
+  },
+  {
+    "path": "content/posts/github_api_403.md",
+    "title": "GitHub API の 403 エラー：原因と解決策",
+    "reason": "The article provides generally accurate information regarding GitHub API 403 errors, their causes, and solutions.; Factual inaccuracies were found in the scope required for repository secrets and the authenticated user rate limit.; Some claims, while conceptually plausible, lacked direct, explicit official source URLs.; The article covers relevant and current topics such as Fine-grained Personal Access Tokens and GitHub Apps.; one or more claims are unsupported or unverifiable; high official URL ratio (95%)",
+    "scores": {
+      "factual_score": 85,
+      "freshness_score": 87,
+      "citation_coverage": 15,
+      "risk_score": 65
+    },
+    "priority": "low",
+    "required_actions": [
+      "Correct the information regarding the `admin:repo_hook` scope for repository secrets. Provide the correct granular permissions (e.g., 'Secrets' permissions for Fine-grained PATs).",
+      "Update the standard authenticated user API rate limit from 3000 to 5000 requests per hour.",
+      "Provide explicit official source URLs for the deploy key error message and the specific SAML SSO error message if they are to be included as specific examples, or rephrase them as common scenarios rather than direct quotes.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-23"
   }
 ]
