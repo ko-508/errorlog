@@ -22,6 +22,27 @@
     "detected_at": "2026-06-20"
   },
   {
+    "path": "content/posts/github_api_401.md",
+    "title": "GitHub API の 401 エラー：原因と解決策",
+    "reason": "The article contains a significant factual error regarding Personal Access Token (PAT) expiration limits.; The guidance on Authorization header format for GitHub API is partially inaccurate and may lead to confusion.; Some factual claims, while generally true, lack direct primary source citations from GitHub's official documentation for specific error messages or general troubleshooting tips.; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable; high official URL ratio (94%)",
+    "scores": {
+      "factual_score": 65,
+      "freshness_score": 60,
+      "citation_coverage": 15,
+      "risk_score": 75
+    },
+    "priority": "high",
+    "required_actions": [
+      "Correct the information regarding PAT expiration, clarifying the distinction between classic PATs, fine-grained PATs, and organizational policies.",
+      "Revise the section on Authorization header format to accurately reflect that both 'token' and 'Bearer' are generally accepted for PATs, and 'Bearer' is required for JWTs, aligning with GitHub's official documentation.",
+      "Add more specific citations for common error messages and debugging advice, directly linking to GitHub Docs where available.",
+      "Consider adding a publication date to the article for better context on freshness.",
+      "Soften absolute claims unless they are directly sourced.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-23"
+  },
+  {
     "path": "content/posts/github_api_403.md",
     "title": "GitHub API の 403 エラー：原因と解決策",
     "reason": "The article provides generally accurate information regarding GitHub API 403 errors, their causes, and solutions.; Factual inaccuracies were found in the scope required for repository secrets and the authenticated user rate limit.; Some claims, while conceptually plausible, lacked direct, explicit official source URLs.; The article covers relevant and current topics such as Fine-grained Personal Access Tokens and GitHub Apps.; one or more claims are unsupported or unverifiable; high official URL ratio (95%)",
