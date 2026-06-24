@@ -2,7 +2,7 @@ name: Daily Article Publish
 
 on:
   schedule:
-    - cron: '0 1 * * *'
+    - cron: '0 1 * * *'  # 毎日 10:00 JST
   workflow_dispatch:
 
 permissions:
