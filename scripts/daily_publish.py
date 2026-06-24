@@ -73,6 +73,13 @@ TOOL_TAGS = {
 }
 
 
+def _urgency_from_code(code: str) -> str:
+    """エラーコードから緊急度を判定する。5xx・429・408 → high、その他 → medium。"""
+    if code.startswith("5") or code in {"429", "408"}:
+        return "high"
+    return "medium"
+
+
 # ─── メール通知 ────────────────────────────────────────────
 
 def _send_gmail(subject: str, body: str) -> None:
@@ -436,10 +443,10 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
     meaning = row["official_meaning"].strip()
     causes = [c.strip() for c in row["causes"].split("|") if c.strip()]
     solutions = [s.strip() for s in row["solutions"].split("|") if s.strip()]
-    source_urls = [u.strip() for u in row.get("source_urls", "").split("|") if u.strip()]
-    reported_vers = [v.strip() for v in row.get("reported_versions", "").split("|") if v.strip()]
-    actual_msgs = [m.strip() for m in row.get("actual_error_messages", "").split("|") if m.strip()]
-    alternatives = [a.strip() for a in row.get("alternatives", "").split("|") if a.strip()]
+    source_urls = [u.strip() for u in (row.get("source_urls") or "").split("|") if u.strip()]
+    reported_vers = [v.strip() for v in (row.get("reported_versions") or "").split("|") if v.strip()]
+    actual_msgs = [m.strip() for m in (row.get("actual_error_messages") or "").split("|") if m.strip()]
+    alternatives = [a.strip() for a in (row.get("alternatives") or "").split("|") if a.strip()]
 
     causes_text = "\n".join(f"- {c}" for c in causes)
     solutions_text = "\n".join(f"{i+1}. {s}" for i, s in enumerate(solutions))
@@ -821,6 +828,7 @@ def _try_generate_article(
         f'components: {kg_components}\n'
         f'related_services: {kg_related}\n'
     )
+    urgency = _urgency_from_code(code)
     frontmatter = (
         f'---\n'
         f'title: "{title}"\n'
@@ -828,6 +836,7 @@ def _try_generate_article(
         f'description: "{description}"\n'
         f'{tags_line}'
         f'errorCode: "{code}"\n'
+        f'urgency: "{urgency}"\n'
         f'{knowledge_graph_lines}'
         f'---\n\n'
     )

@@ -79,6 +79,9 @@
       {{- with .Params.errorCode }}
       <span class="error-badge">{{ . }}</span>
       {{- end }}
+      {{- if eq .Params.urgency "high" }}
+      <span class="urgency-badge urgency-badge--high">⚡ 本番影響あり</span>
+      {{- end }}
     </div>
     <h1 class="post-title entry-hint-parent">
       {{ .Title }}

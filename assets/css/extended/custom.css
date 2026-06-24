@@ -628,6 +628,27 @@ html[data-theme="dark"] .error-badge {
   border-color: rgba(255,77,77,.35);
 }
 
+.urgency-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.urgency-badge--high {
+  background: rgba(220,38,38,.1);
+  color: #b91c1c;
+  border: 1px solid rgba(220,38,38,.3);
+}
+html[data-theme="dark"] .urgency-badge--high {
+  background: rgba(220,38,38,.15);
+  color: #f87171;
+  border-color: rgba(220,38,38,.35);
+}
+
 /* ══════════════════════════════════════════════
    カード：コードプレビュー（チラ見せ）
    ══════════════════════════════════════════════ */
