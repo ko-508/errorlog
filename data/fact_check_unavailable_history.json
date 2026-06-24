@@ -25,9 +25,9 @@
   },
   "content/posts/aws_403.md": {
     "path": "content/posts/aws_403.md",
-    "last_unavailable_at": "2026-06-21T11:39:45Z",
+    "last_unavailable_at": "2026-06-24T11:38:46Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
-    "count": 1
+    "count": 2
   },
   "content/posts/docker_409.md": {
     "path": "content/posts/docker_409.md",
