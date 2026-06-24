@@ -205,6 +205,14 @@ def normalize_before_after(text: str) -> str:
 # Claude が生成のブレでプロンプト指示なしに免責事項を自発的に書いてしまった場合でも、
 # 二重付加にならないよう末尾から除去する。"---\n\n*免責事項" 形式のブロックを
 # 末尾から繰り返し除去する（複数回書かれていても全て除去できるようにループする）。
+_YAML_CTRL_RE = re.compile(r'[\x00-\x08\x0b\x0c\x0e-\x1f\u007f-\u009f]')
+
+
+def _sanitize_fm(s: str) -> str:
+    """YAMLフロントマターの文字列値から禁止制御文字を除去する。"""
+    return _YAML_CTRL_RE.sub('', s)
+
+
 _TRAILING_DISCLAIMER_RE = re.compile(r'\n*---\n*\*免責事項[\s\S]*$')
 
 
@@ -808,7 +816,7 @@ def _try_generate_article(
         body = body.rstrip() + methodology
 
     title = f"{tool} の {code} エラー：原因と解決策"
-    meaning_text = row["official_meaning"].strip()
+    meaning_text = _sanitize_fm(row["official_meaning"].strip())
     meaning_clean = meaning_text.rstrip("。．")
     if len(meaning_clean) > 60:
         meaning_clean = meaning_clean[:60].rstrip("。．、,")
