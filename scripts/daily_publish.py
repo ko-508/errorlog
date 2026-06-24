@@ -488,7 +488,7 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
 
     message = client.messages.create(
         model="claude-haiku-4-5-20251001",
-        max_tokens=3000,
+        max_tokens=5000,
         system=[{
             "type": "text",
             "text": _ARTICLE_SYSTEM_PROMPT,
