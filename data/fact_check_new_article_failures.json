@@ -174,5 +174,21 @@
     },
     "last_checked_at": "2026-06-21",
     "report_path": "reports/fact_check/new_articles/20260621012330809073_prometheus_500_e0c8e273.json"
+  },
+  "b1b8265bbbdc509933547b475f2eecb9b29dcc54": {
+    "slug": "datadog_401",
+    "tool": "Datadog",
+    "status_code": "401",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "The article provides accurate and well-explained troubleshooting steps for Datadog 401 errors.; Most factual claims are supported by official Datadog documentation or reputable technical blogs.; Minor inaccuracies or overgeneralizations exist regarding the re-display policy for specific key types and the invalidation of keys upon user deletion.; citation coverage is below the threshold; freshness score is below the threshold; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable; no URLs resolved to known official domains",
+    "last_scores": {
+      "factual_score": 90,
+      "freshness_score": 45,
+      "citation_coverage": 7,
+      "risk_score": 55
+    },
+    "last_checked_at": "2026-06-24",
+    "report_path": "reports/fact_check/new_articles/20260624052609648166_datadog_401_7fc0f641.json"
   }
 }
