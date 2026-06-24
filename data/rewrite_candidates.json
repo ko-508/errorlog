@@ -43,6 +43,26 @@
     "detected_at": "2026-06-23"
   },
   {
+    "path": "content/posts/firebase_500.md",
+    "title": "Firebase の 500 エラー：原因と解決策",
+    "reason": "The article provides generally accurate troubleshooting steps for Firebase 500 errors, with most claims supported by official documentation or common best practices.; Some specific claims about certain issues always resulting in a 500 error code are not consistently and directly supported by official documentation, which often indicates other error codes (e.g., 401, 403, 400, or deployment failures) for those scenarios.; citation coverage is below the threshold; one or more claims are unsupported or unverifiable",
+    "scores": {
+      "factual_score": 85,
+      "freshness_score": 87,
+      "citation_coverage": 10,
+      "risk_score": 55
+    },
+    "priority": "medium",
+    "required_actions": [
+      "Verify the exact HTTP status codes returned for 'Improper security rules' and 'Missing Realtime Database indexes' when an error occurs, as documentation often points to 4xx errors rather than 500.",
+      "Clarify the conditions under which old SDK versions, incorrect region settings, or expired authentication tokens specifically lead to a 500 Internal Server Error versus other HTTP error codes.",
+      "Add more explicit citations within the text for each factual claim.",
+      "Add links to official documentation or primary sources for key claims.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-24"
+  },
+  {
     "path": "content/posts/github_api_403.md",
     "title": "GitHub API の 403 エラー：原因と解決策",
     "reason": "The article provides generally accurate information regarding GitHub API 403 errors, their causes, and solutions.; Factual inaccuracies were found in the scope required for repository secrets and the authenticated user rate limit.; Some claims, while conceptually plausible, lacked direct, explicit official source URLs.; The article covers relevant and current topics such as Fine-grained Personal Access Tokens and GitHub Apps.; one or more claims are unsupported or unverifiable; high official URL ratio (95%)",
