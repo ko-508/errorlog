@@ -68,6 +68,26 @@
     "detected_at": "2026-06-24"
   },
   {
+    "path": "content/posts/github_api_502.md",
+    "title": "GitHub API の 502 エラー：原因と解決策",
+    "reason": "The core definition of a 502 Bad Gateway error is accurate and well-supported by primary sources like RFC 7231 and general technical documentation.; Claims regarding GitHub's maintenance, status page, REST API v3, and webhook retry policies are supported by official GitHub documentation.; The claims that invalid authorization headers, API rate limits, or deprecated endpoints *directly* cause a 502 error on the GitHub API are questionable and not directly supported by official GitHub documentation, which typically points to 4xx errors for these scenarios. This is a significant point of concern for publication quality.; The suggestion to use GraphQL for load distribution to reduce 502 errors is plausible but lacks direct official documentation linking GraphQL to a reduction specifically in 502 errors due to load distribution on GitHub's side.; one or more claims are unsupported or unverifiable",
+    "scores": {
+      "factual_score": 75,
+      "freshness_score": 87,
+      "citation_coverage": 10,
+      "risk_score": 65
+    },
+    "priority": "medium",
+    "required_actions": [
+      "Verify with GitHub's official documentation or support if invalid Authorization headers, API rate limits, or deprecated endpoints can indeed result in a 502 Bad Gateway error, rather than the more common 4xx errors (401, 403, 429, 404, 410). If not, revise these sections to reflect the correct error codes.",
+      "Add more specific citations from GitHub's official documentation for all claims, especially for the solutions proposed.",
+      "Clarify the conditions under which a 502 might be returned for authentication, rate limiting, or invalid endpoints, if such edge cases exist, or correct the expected error codes.",
+      "Provide a source specifically stating that GraphQL API use on GitHub helps distribute gateway load to reduce 502 errors.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-25"
+  },
+  {
     "path": "content/posts/github_api_403.md",
     "title": "GitHub API の 403 エラー：原因と解決策",
     "reason": "The article provides generally accurate information regarding GitHub API 403 errors, their causes, and solutions.; Factual inaccuracies were found in the scope required for repository secrets and the authenticated user rate limit.; Some claims, while conceptually plausible, lacked direct, explicit official source URLs.; The article covers relevant and current topics such as Fine-grained Personal Access Tokens and GitHub Apps.; one or more claims are unsupported or unverifiable; high official URL ratio (95%)",
