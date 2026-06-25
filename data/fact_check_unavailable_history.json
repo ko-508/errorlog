@@ -43,9 +43,9 @@
   },
   "content/posts/firebase_403.md": {
     "path": "content/posts/firebase_403.md",
-    "last_unavailable_at": "2026-06-22T02:36:07Z",
+    "last_unavailable_at": "2026-06-25T02:04:54Z",
     "reason": "external fact check unavailable: gemini timeout (90s)",
-    "count": 1
+    "count": 2
   },
   "content/posts/azure_500.md": {
     "path": "content/posts/azure_500.md",
