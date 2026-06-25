@@ -190,5 +190,21 @@
     },
     "last_checked_at": "2026-06-24",
     "report_path": "reports/fact_check/new_articles/20260624052609648166_datadog_401_7fc0f641.json"
+  },
+  "d0f45bb609fc76253db64151c248b9f4defbac98": {
+    "slug": "datadog_500",
+    "tool": "Datadog",
+    "status_code": "500",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "Most factual claims are supported by recent, official, or high-quality secondary sources.; Claims regarding expected HTTP status codes for authentication and rate limits are generally accurate, though specific mention of 500 for these scenarios could be more nuanced.; Product comparison claims are well-supported by recent comparative articles.; Some community observation-based claims are inherently difficult to ground with official sources.; citation coverage is below the threshold; freshness score is below the threshold; one or more claims are unsupported or unverifiable; no URLs resolved to known official domains",
+    "last_scores": {
+      "factual_score": 90,
+      "freshness_score": 45,
+      "citation_coverage": 10,
+      "risk_score": 35
+    },
+    "last_checked_at": "2026-06-25",
+    "report_path": "reports/fact_check/new_articles/20260625010719192960_datadog_500_55b81b80.json"
   }
 }

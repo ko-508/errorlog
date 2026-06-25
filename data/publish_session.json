@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "path": "content/posts/datadog_503.md",
+    "stem": "datadog_503",
+    "title": "Datadog の 503 エラー：原因と解決策",
+    "source_type": "daily"
+  },
+  {
+    "path": "content/posts/aws_s3_nosuchbucket.md",
+    "stem": "aws_s3_nosuchbucket",
+    "title": "AWS S3 の NoSuchBucket エラー：原因と解決策",
+    "source_type": "daily"
+  }
+]
