@@ -28,6 +28,12 @@ REQUIRED     = {"title", "date", "description", "tags"}
 DATE_RE      = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 FM_RE        = re.compile(r"^---\r?\n(.+?)\r?\n---", re.DOTALL)
 CONTROL_RE   = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")  # タブ・改行を除く制御文字
+MOJIBAKE_HALFKATA_RE = re.compile(r"[\uff61-\uff9f]")
+
+
+def _has_mojibake(text: str, threshold: int = 2) -> bool:
+    """半角カタカナの密度でShift-JIS系文字化けを検出する。"""
+    return len(MOJIBAKE_HALFKATA_RE.findall(text)) >= threshold
 
 
 def validate(path: Path) -> list[str]:
@@ -81,6 +87,10 @@ def validate(path: Path) -> list[str]:
         val = fm.get(field)
         if isinstance(val, str) and CONTROL_RE.search(val):
             errors.append(f"{path.name}: '{field}' に制御文字が混入")
+
+    desc = fm.get("description", "")
+    if isinstance(desc, str) and _has_mojibake(desc):
+        errors.append(f"{path.name}: description に文字化けが検出されました")
 
     return errors
 

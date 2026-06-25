@@ -1,7 +1,7 @@
 ---
 title: "Datadog の 403 エラー：原因と解決策"
 date: 2026-06-24
-description: "Datadog API縺ｸ縺ｮ繧｢繧ｯ繧ｻ繧ｹ讓ｩ髯舌′縺ｪ縺・・繧｢繝励Μ繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ繧ｭ繝ｼ縺ｫ繝ｪ繧ｽ繝。"
+description: "Datadog APIへのアクセス権限がないか、アプリケーションキーのスコープが不足している場合に発生する403エラーの原因と解決策。"
 tags: ["Datadog"]
 errorCode: "403"
 urgency: "medium"

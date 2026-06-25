@@ -1,7 +1,7 @@
 ---
 title: "Datadog の 503 エラー：原因と解決策"
 date: 2026-06-25
-description: "Datadog繧ｵ繝ｼ繝薙せ縺御ｸ譎ら噪縺ｫ蛻ｩ逕ｨ縺ｧ縺阪↑縺・・Datadog縺ｮ繧ｵ繝ｼ繝薙せ縺後Γ繝ｳ繝・リ繝ｳ。"
+description: "Datadogで503エラーが発生する場合はサーバー側の一時的な障害やメンテナンスが原因。エージェント設定と対処法を解説。"
 tags: ["Datadog"]
 errorCode: "503"
 urgency: "high"

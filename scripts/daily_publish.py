@@ -213,6 +213,14 @@ def _sanitize_fm(s: str) -> str:
     return _YAML_CTRL_RE.sub('', s)
 
 
+_MOJIBAKE_HALFKATA_RE = re.compile(r'[\uff61-\uff9f]')
+
+
+def _has_mojibake(text: str, threshold: int = 2) -> bool:
+    """半角カタカナの密度でShift-JIS系文字化けを検出する。"""
+    return len(_MOJIBAKE_HALFKATA_RE.findall(text)) >= threshold
+
+
 _TRAILING_DISCLAIMER_RE = re.compile(r'\n*---\n*\*免責事項[\s\S]*$')
 
 
@@ -816,7 +824,12 @@ def _try_generate_article(
         body = body.rstrip() + methodology
 
     title = f"{tool} の {code} エラー：原因と解決策"
-    meaning_text = _sanitize_fm(row["official_meaning"].strip())
+    meaning_raw = row["official_meaning"].strip()
+    if _has_mojibake(meaning_raw):
+        raise ValueError(
+            f"official_meaning に文字化けが検出されました ({filename}): {meaning_raw!r}"
+        )
+    meaning_text = _sanitize_fm(meaning_raw)
     meaning_clean = meaning_text.rstrip("。．")
     if len(meaning_clean) > 60:
         meaning_clean = meaning_clean[:60].rstrip("。．、,")
