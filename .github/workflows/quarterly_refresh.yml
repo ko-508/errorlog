@@ -49,6 +49,29 @@ jobs:
           MAX_REFRESH: ${{ github.event.inputs.max_refresh || '20' }}
         run: python scripts/refresh_articles.py
 
+      - name: Validate Front Matter (pre-commit gate)
+        id: validate_fm
+        continue-on-error: true
+        run: |
+          pip install pyyaml -q
+          python scripts/validate_frontmatter.py
+
+      - name: Remove articles failing validation
+        if: steps.validate_fm.outcome == 'failure'
+        run: |
+          python - <<'EOF'
+          import re
+          from pathlib import Path
+          HALFKATA = re.compile(r'[\uff61-\uff9f]')
+          for f in sorted(Path('content/posts').glob('*.md')):
+              text = f.read_text(encoding='utf-8')
+              m = re.search(r'^description: "(.+?)"', text, re.MULTILINE)
+              if m and len(HALFKATA.findall(m.group(1))) >= 2:
+                  print(f'Reverted: {f.name}')
+                  import subprocess
+                  subprocess.run(['git', 'checkout', 'HEAD', '--', str(f)])
+          EOF
+
       - name: Commit and push
         id: push
         run: |
