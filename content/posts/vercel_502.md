@@ -9,6 +9,8 @@ error_type: "502"
 components: []
 related_services: ["Node.js", "Next.js"]
 trend_incident: true
+top_queries:
+- 'bad gateway error code 502'
 ---
 ## エラーの概要
 

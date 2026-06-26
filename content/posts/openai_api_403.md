@@ -9,6 +9,8 @@ service: "OpenAI API"
 error_type: "403"
 components: []
 related_services: ["ChatCompletion", "Model.list"]
+top_queries:
+- 'openai 403'
 ---
 
 ## エラーの概要

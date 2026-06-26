@@ -8,6 +8,8 @@ service: "CircleCI"
 error_type: "404"
 components: []
 related_services: ["GitHub", "Bitbucket"]
+top_queries:
+- 'circleci 障害'
 ---
 
 ## エラーの概要

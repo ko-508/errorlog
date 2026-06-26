@@ -8,6 +8,8 @@ service: "Postman"
 error_type: "400"
 components: []
 related_services: ["HTTP", "JSON", "API", "URL"]
+top_queries:
+- 'postman 400 bad request'
 ---
 
 ## エラーの概要

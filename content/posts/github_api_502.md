@@ -10,6 +10,8 @@ error_type: "502"
 components: []
 related_services: []
 trend_incident: true
+top_queries:
+- 'github api 502'
 ---
 
 ## エラーの概要

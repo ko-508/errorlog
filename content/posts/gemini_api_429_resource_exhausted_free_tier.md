@@ -11,6 +11,7 @@ components: []
 related_services: ["Google API Key", "RSS"]
 top_queries:
 - 'free_quota_exhausted'
+- 'generate_content_free_tier_requests'
 ---
 
 ## エラーの概要

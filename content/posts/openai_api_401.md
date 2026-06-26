@@ -10,9 +10,9 @@ error_type: "401"
 components: []
 related_services: ["OpenAI ダッシュボード"]
 top_queries:
-- 'openai 401'
-- '"sk-proj-"'
 - 'authorizationfailed: openai: 401 unauthorized: user is not authenticated'
+- 'openai 401'
+- 'チャッピー エラー 401'
 ---
 
 ## エラーの概要

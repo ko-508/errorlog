@@ -10,6 +10,8 @@ error_type: "500"
 components: []
 related_services: ["OpenAI ChatCompletion", "curl"]
 top_queries:
+- 'openai 520 error'
+- 'error: {"error":{"message":"internal server error","type":"server_error","param":null,"code":null}}'
 - 'openai.internalservererror: error code: 500'
 ---
 

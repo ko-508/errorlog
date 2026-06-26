@@ -4,7 +4,7 @@ date: 2026-01-01
 description: "Docker で 401 エラーが発生するのは、レジストリ（Docker Hub や ECR、プライベートレジストリなど）への認証に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。"
 tags: ["Docker"]
 errorCode: "401"
-lastmod: 2026-06-13
+lastmod: 2026-06-26
 service: "Docker"
 error_type: "401"
 components: ["Registry"]
@@ -15,6 +15,8 @@ trend_incident: true
 ## エラーの概要
 
 [Docker](/glossary/docker/)で401[エラー](/glossary/エラー/)が発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
+
+なお、2020年11月以降、[Docker](/glossary/docker/) Hubの匿名（ログインなし）でのイメージダウンロード数に制限が導入されたため、以前はログインなしで利用できていたパブリックイメージでも、現在は[認証](/glossary/認証/)が必須になるケースが増えています。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +50,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized
 
 ```bash
 # ログインなしで直接pullを実行
-docker pull <username>/<image-name>:latest
+docker pull <your-username>/<image-name>:latest
 ```
 
 **After（修正後）：**
@@ -59,7 +61,7 @@ docker login
 
 # プロンプトにユーザー名とパスワード（またはPersonal Access Token）を入力
 # その後でpullを実行
-docker pull <username>/<image-name>:latest
+docker pull <your-username>/<image-name>:latest
 ```
 
 ### 原因2：AWS ECRの認証トークンが期限切れ
@@ -70,17 +72,17 @@ ECRの[認証](/glossary/認証/)[トークン](/glossary/トークン/)は12時
 
 ```bash
 # 古いトークンで直接pullを試行
-docker pull <account-id>.dkr.ecr.<region>.amazonaws.com/<repository>:<tag>
+docker pull <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-repository>:<your-tag>
 ```
 
 **After（修正後）：**
 
 ```bash
 # AWS CLIで認証トークンを再取得し、Docker daemonに設定
-aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
+aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
 
 # その後でpullを実行
-docker pull <account-id>.dkr.ecr.<region>.amazonaws.com/<repository>:<tag>
+docker pull <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-repository>:<your-tag>
 ```
 
 ### 原因3：設定ファイル（config.json）の認証情報が破損または形式が不正
@@ -138,20 +140,21 @@ docker pull registry.internal.example.com:5000/my-image:v1.0
 
 ```bash
 # Read権限のみのPATで push を試行
-docker login --username <username>
+docker login --username <your-username>
 # パスワード入力欄に読み取り専用のPATを入力
-docker push <username>/<image>:latest
+docker push <your-username>/<your-image>:latest
 ```
 
 **After（修正後）：**
 
 ```bash
-# Docker Hub > Account Settings > Security > Personal Access Tokens で
-# 「Read, Write」の権限を持つ新しいPATを生成
+# Docker Hub ウェブサイト > Account Settings > Security > Personal Access Tokens へアクセス
+# 「Read & Write」の権限を持つ新しいPATを生成
 
-docker login --username <username>
+docker logout
+docker login --username <your-username>
 # パスワード入力欄に新しいPATを入力
-docker push <username>/<image>:latest
+docker push <your-username>/<your-image>:latest
 ```
 
 ## ツール固有の注意点
@@ -163,85 +166,7 @@ docker push <username>/<image>:latest
 ```bash
 # docker-compose.yml 実行前に全レジストリにログイン
 docker login docker.io
-docker login <account-id>.dkr.ecr.<region>.amazonaws.com
+docker login <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
 docker login registry.internal.example.com:5000
 
-# その後で compose up を実行
-docker-compose up
-```
-
-### Docker buildx でのマルチアーキテクチャビルド
-
-`docker buildx` でリモートレジストリにpushする場合、`--push` フラグを使用する前に対象[レジストリ](/glossary/レジストリ/)への[ログイン](/glossary/ログイン/)を完了させます。
-
-```bash
-# ECRの場合
-aws ecr get-login-password --region <region> | docker login --username AWS --password-stdin <account-id>.dkr.ecr.<region>.amazonaws.com
-
-docker buildx build --push -t <account-id>.dkr.ecr.<region>.amazonaws.com/<repo>:latest .
-```
-
-### Kubernetes での imagePullSecrets
-
-[Kubernetes](/glossary/kubernetes/)上で[プライベートレジストリ](/glossary/プライベートレジストリ/)の[イメージ](/glossary/イメージ/)を使用する場合、`imagePullSecrets` で認証情報を参照する必要があります。この設定がないと、Podの起動時に401[エラー](/glossary/エラー/)が発生します。
-
-```yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod
-spec:
-  imagePullSecrets:
-  - name: regcred
-  containers:
-  - name: my-container
-    image: registry.internal.example.com:5000/my-image:v1.0
-```
-
-認証情報は事前に Secret リソースとして作成します。
-
-```bash
-kubectl create secret docker-registry regcred \
-  --docker-server=registry.internal.example.com:5000 \
-  --docker-username=<username> \
-  --docker-password=<password> \
-  --docker-email=<email>
-```
-
-## それでも解決しない場合
-
-### デバッグ方法
-
-[Docker](/glossary/docker/) daemon のデバッグログを有効にして、[認証](/glossary/認証/)[リクエスト](/glossary/リクエスト/)の詳細を確認します。
-
-```bash
-# Docker daemon を デバッグモードで再起動（Linux/macOS）
-dockerd --debug
-
-# または Windows の場合は Docker Desktop 設定から Debug モードを有効化
-```
-
-認証情報の保存状況をホスト側で確認します。
-
-```bash
-# config.json の存在確認（値は出力しない）
-test -f ~/.docker/config.json && echo "config.json exists" || echo "config.json not found"
-
-# ファイルパーミッションの確認
-ls -l ~/.docker/config.json
-```
-
-### 公式ドキュメント
-
-- [Docker Documentation - Authentication](https://docs.docker.com/engine/reference/commandline/login/)
-- [AWS ECR - Private registry authentication](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry_auth.html)
-- [Docker Hub - Personal Access Tokens](https://docs.docker.com/docker-hub/access-tokens/)
-
-### コミュニティリソース
-
-- GitHub Issues: [moby/moby](https://github.com/moby/moby/issues) で「401」を検索
-- [Docker](/glossary/docker/) Community Forums: https://forums.docker.com/
-
----
-
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+# その後

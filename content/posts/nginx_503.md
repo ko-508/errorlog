@@ -12,7 +12,7 @@ related_services: ["Node.js", "Docker"]
 top_queries:
 - '503 service temporarily unavailable nginx'
 - 'nginx 503'
-- '503 service temporarily unavailablenginx'
+- '503 nginx'
 ---
 
 ## エラーの概要

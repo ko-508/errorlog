@@ -10,6 +10,8 @@ error_type: "429"
 components: ["Compose", "Registry"]
 related_services: ["Docker Hub", "GitHub Actions", "Kubernetes"]
 trend_incident: true
+top_queries:
+- 'error 429'
 ---
 
 ## エラーの概要

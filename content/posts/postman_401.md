@@ -8,6 +8,9 @@ service: "Postman"
 error_type: "401"
 components: []
 related_services: ["OAuth 2.0", "JWT"]
+top_queries:
+- 'postman 401'
+- 'postman 401 unauthorized'
 ---
 
 ## エラーの概要

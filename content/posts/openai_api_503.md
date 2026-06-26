@@ -9,6 +9,9 @@ service: "OpenAI API"
 error_type: "503"
 components: []
 related_services: ["ChatCompletion", "OpenAI Status"]
+top_queries:
+- 'apiが過負荷状態です'
+- 'apiが過負荷状態です。'
 ---
 
 ## エラーの概要

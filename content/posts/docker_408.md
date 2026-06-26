@@ -11,7 +11,7 @@ components: ["Daemon", "CLI", "API", "Compose", "BuildKit"]
 related_services: ["HTTP", "RFC", "UNIX Socket", "Named Pipe", "Dockerfile"]
 trend_incident: true
 top_queries:
-- 'http error 408'
+- '408エラー'
 ---
 
 ## エラーの概要

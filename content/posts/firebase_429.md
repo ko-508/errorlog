@@ -10,8 +10,8 @@ error_type: "429"
 components: ["Firestore", "Cloud Functions", "Authentication", "Realtime Database"]
 related_services: ["Spark プラン", "Blaze プラン"]
 top_queries:
-- '429エラー'
 - '429 エラー'
+- '429エラー'
 ---
 
 ## エラーの概要

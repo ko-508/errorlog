@@ -9,6 +9,10 @@ service: "OpenAI API"
 error_type: "400"
 components: []
 related_services: []
+top_queries:
+- 'openai 400 error'
+- 'openai.badrequesterror: error code: 400'
+- 'チャットgpt エラー400'
 ---
 
 ## エラーの概要

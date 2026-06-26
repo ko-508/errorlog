@@ -10,6 +10,8 @@ error_type: "403"
 components: ["Registry", "Desktop"]
 related_services: ["Docker Hub", "Kubernetes", "Azure Container Registry"]
 trend_incident: true
+top_queries:
+- '403 forbidden nginx docker'
 ---
 # エラーの概要
 
