@@ -32,7 +32,7 @@ POSTS_DIR = BASE.parent / "content" / "posts"
 PENDING_PATH = BASE.parent / "data" / "pending_articles.json"
 
 LOW_STOCK_THRESHOLD = 10
-PENDING_SKIP_THRESHOLD = 6
+PENDING_SKIP_THRESHOLD = 10000
 DATE_PLACEHOLDER = "__DATE__"
 
 TOOL_TAGS = {
