@@ -412,7 +412,7 @@ def rewrite_with_claude(
   「Terraform Access Denied Error: IAM ポリシー修正ガイド」
 - H1 の悪い例（禁止）:
   「Terraform エラーガイド」「Terraform トラブルシューティング」「Terraform の問題を完全解決」
-- description は「なぜ起きるか」「何をすれば直るか」を 40 文字以内で断言する
+- description はエラーの概要（何が起きるか・主な原因）を 60 文字以内で断言する
 """
 
     prompt = f"""あなたは日本人向けの技術記事ライターです。
@@ -492,7 +492,7 @@ def generate_seo_metadata(
 - 検索クエリに含まれる語句をタイトルと description に反映する
 - エラーコード・サービス名・具体的な症状を明示する
 - タイトルは 60 文字以内
-- description は 120 文字以内で「原因と解決策」が一目でわかるよう断言する
+- description は 120 文字以内でエラーの概要（何が起きるか・主な原因）が一目でわかるよう断言する
 - 元の言語（日本語）を維持する
 
 ## 良いタイトルの例
