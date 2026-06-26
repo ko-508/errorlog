@@ -67,6 +67,25 @@
     "detected_at": "2026-06-25"
   },
   {
+    "path": "content/posts/docker_401.md",
+    "title": "Docker の 401 エラー：原因と解決策",
+    "reason": "The article accurately describes the causes of Docker 401 errors, which are generally due to authentication failures with registries (Docker Hub, ECR, private registries).; It correctly identifies common scenarios like invalid/expired credentials, unauthenticated pull attempts for Docker Hub public images after November 2020, expired ECR tokens, and corrupted local configuration files.; The suggested solutions align with industry best practices and official documentation for Docker and AWS ECR.; The information regarding Docker Hub's rate limiting introduction date (November 2020) and ECR token expiration (12 hours) is factually correct and current.; citation coverage is below the threshold; absolute wording may overstate technical certainty",
+    "scores": {
+      "factual_score": 98,
+      "freshness_score": 87,
+      "citation_coverage": 14,
+      "risk_score": 5
+    },
+    "priority": "medium",
+    "required_actions": [
+      "Ensure all external links in the article are stable and lead to the most authoritative source where possible, especially for official documentation.",
+      "Consider adding internal links to a glossary for terms like 'レジストリ', '認証', 'トークン', '権限', 'セキュリティ' for improved readability for less technical audiences, if applicable to the publication platform.",
+      "Add links to official documentation or primary sources for key claims.",
+      "Soften absolute claims unless they are directly sourced."
+    ],
+    "detected_at": "2026-06-26"
+  },
+  {
     "path": "content/posts/firebase_500.md",
     "title": "Firebase の 500 エラー：原因と解決策",
     "reason": "The article provides generally accurate troubleshooting steps for Firebase 500 errors, with most claims supported by official documentation or common best practices.; Some specific claims about certain issues always resulting in a 500 error code are not consistently and directly supported by official documentation, which often indicates other error codes (e.g., 401, 403, 400, or deployment failures) for those scenarios.; citation coverage is below the threshold; one or more claims are unsupported or unverifiable",
