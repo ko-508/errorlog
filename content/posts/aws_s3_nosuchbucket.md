@@ -1,7 +1,7 @@
 ---
 title: "AWS S3 の NoSuchBucket エラー：原因と解決策"
 date: 2026-06-25
-description: "AWS S3のNoSuchBucketエラーはバケット名が存在しないかアクセス権限がない場合に発生。スペルミスやリージョン設定の確認方法を解説。"
+description: "AWS S3のNoSuchBucketエラーはバケット名が存在しないかアクセス権限がない場合に発生する。スペルミスやリージョン設定の不一致が主な原因。"
 tags: ["AWS S3"]
 errorCode: "NoSuchBucket"
 urgency: "medium"

@@ -1,7 +1,7 @@
 ---
 title: "Datadog の 404 エラー：原因と解決策"
 date: 2026-06-24
-description: "Datadogの404エラーはリクエストしたリソースが見つからない場合に発生。モニターIDやダッシュボードIDの誤りの確認と対処法を解説。"
+description: "Datadogの404エラーはリクエストしたリソースが見つからない場合に発生する。モニターIDやダッシュボードIDの誤りが主な原因。"
 tags: ["Datadog"]
 errorCode: "404"
 urgency: "medium"
