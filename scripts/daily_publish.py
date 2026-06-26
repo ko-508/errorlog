@@ -25,6 +25,8 @@ from lint_articles import (
 
 DAILY_COUNT = int(os.getenv("DAILY_COUNT", "3"))
 GENERATE_COUNT = int(os.getenv("GENERATE_COUNT", "5"))
+MAX_CITATION_RETRIES = int(os.getenv("MAX_CITATION_RETRIES", "1"))
+MAX_GENERATION_ATTEMPTS = int(os.getenv("MAX_GENERATION_ATTEMPTS", "1"))
 
 BASE = Path(__file__).parent
 QUEUE_PATH = BASE / "queue.csv"
@@ -507,6 +509,57 @@ def generate_article(client: anthropic.Anthropic, row: dict, lint_feedback: str 
     return message.content[0].text
 
 
+def regenerate_editor_note(
+    client: anthropic.Anthropic,
+    row: dict,
+    mismatches: list[dict],
+) -> str:
+    """Editor's Note セクションのみを citation mismatch 情報で再生成する。"""
+    tool = row["tool"].strip()
+    code = row["status_code"].strip()
+    meaning = row["official_meaning"].strip()
+    source_urls = [u.strip() for u in (row.get("source_urls") or "").split("|") if u.strip()]
+    mismatch_lines = "\n".join(
+        f"- URL: {str(m.get('url', '')).strip()}\n"
+        f"  実際のURL内容: {str(m.get('actual', '')).strip()}"
+        for m in mismatches
+    )
+    source_url_lines = "\n".join(f"- {u}" for u in source_urls) or "- なし"
+
+    prompt = f"""以下の記事について、Editor's Note セクションのみを書き直してください。
+
+## 記事の基本情報
+- ツール: {tool}
+- エラーコード: {code}
+- 公式の意味: {meaning}
+- 元記事で参照しているURL:
+{source_url_lines}
+
+## fact-check で検出された引用不一致
+以下の各URLについて、「実際のURL内容」が正しい内容です。これに反する記述をしないでください。
+{mismatch_lines}
+
+## 出力要件
+- 出力は Editor's Note セクションのみ。前置き・説明・コードブロックは禁止。
+- 見出しは必ず `## Editor's Note` とする。
+- 本文は1段落、150〜250字。
+- 公式ドキュメントの一般的な解決策と、提示されたフォーラム・Issueでの実際の報告を比較する。
+- 特定の環境（OS・バージョン・クラウドプロバイダー等）で公式解決策が効かないケースがあれば言及する。
+- 「現場では〇〇から試すのが有効」という具体的な示唆で締める。
+- URLは本文中にMarkdownリンク形式（`[説明](URL)`）で1〜2件だけ自然に埋め込む。
+- 各URLについては「実際のURL内容」に基づいて正確に書く。本文の既存主張を根拠にしない。
+"""
+    message = client.messages.create(
+        model="claude-haiku-4-5-20251001",
+        max_tokens=1200,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    section = message.content[0].text.strip()
+    if not re.match(r"^##\s*Editor's Note\b", section):
+        raise ValueError("regenerated Editor's Note must start with '## Editor's Note'")
+    return section
+
+
 _KNOWLEDGE_GRAPH_SYSTEM = (
     "あなたは技術記事からメタデータを抽出するエージェントです。"
     "記事内容を分析し、指定フィールドを JSON で返してください。"
@@ -788,6 +841,16 @@ def _shorten_for_log(text: str, limit: int = 120) -> str:
     return normalized[: limit - 1] + "…"
 
 
+def _log_citation_mismatches(mismatches: list[dict]) -> None:
+    for mismatch in mismatches:
+        print(
+            "    "
+            f"url={mismatch.get('url', '')} "
+            f"claimed={_shorten_for_log(str(mismatch.get('claimed', '')))} "
+            f"actual={_shorten_for_log(str(mismatch.get('actual', '')))}"
+        )
+
+
 # ─── 1記事分の生成→lint gate→fact-check gate ──────────────────
 
 def _try_generate_article(
@@ -884,6 +947,9 @@ def _try_generate_article(
     )
     if lint_blocked:
         return None, False
+    if not article_content.startswith(frontmatter) or not article_content.endswith(disclaimer):
+        raise ValueError("article_content structure changed unexpectedly after lint gate")
+    body = article_content[len(frontmatter):-len(disclaimer)]
 
     fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
     scores = fact_result.scores
@@ -918,16 +984,80 @@ def _try_generate_article(
         remaining.append(row)
         return None, False
     if fact_result.citation_mismatches:
-        print(f"  fact-check citation mismatch; returned to queue tail: {filename}")
-        for mismatch in fact_result.citation_mismatches:
+        resolved_citation_mismatch = False
+        for attempt in range(1, MAX_CITATION_RETRIES + 1):
             print(
-                "    "
-                f"url={mismatch.get('url', '')} "
-                f"claimed={_shorten_for_log(str(mismatch.get('claimed', '')))} "
-                f"actual={_shorten_for_log(str(mismatch.get('actual', '')))}"
+                f"  fact-check citation mismatch; retry Editor's Note "
+                f"({attempt}/{MAX_CITATION_RETRIES}): {filename}"
             )
-        remaining.append(row)
-        return None, False
+            _log_citation_mismatches(fact_result.citation_mismatches)
+            try:
+                new_editor_note = regenerate_editor_note(client, row, fact_result.citation_mismatches)
+            except Exception as exc:
+                print(
+                    f"  citation repair failed; returned to queue tail: {filename} "
+                    f"{type(exc).__name__}: {exc}"
+                )
+                break
+            replacement = "\n" + new_editor_note.strip()
+            body, replacements = _EDITOR_NOTE_SECTION_RE.subn(replacement, body, count=1)
+            if replacements != 1:
+                print(
+                    f"  citation repair failed; Editor's Note section not replaced "
+                    f"(count={replacements}): {filename}"
+                )
+                break
+            article_content = frontmatter + body + disclaimer
+            fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
+            scores = fact_result.scores
+            print(
+                "  fact-check retry: "
+                f"factual={scores['factual_score']} "
+                f"freshness={scores['freshness_score']} "
+                f"citation={scores['citation_coverage']} "
+                f"risk={scores['risk_score']} "
+                f"report={fact_result.report_path}"
+            )
+            if fact_result.critical:
+                failure = record_new_article_failure(out.stem, row, fact_result)
+                if failure["status"] == "retry":
+                    print(
+                        f"  fact-check CRITICAL after citation repair: {filename} をキュー末尾に戻す "
+                        f"failure_count={failure['failure_count']} status={failure['status']}"
+                    )
+                    remaining.append(row)
+                else:
+                    print(
+                        f"  fact-check CRITICAL after citation repair: {filename} キューから除外 "
+                        f"failure_count={failure['failure_count']} status={failure['status']} "
+                        f"→ needs_manual_review"
+                    )
+                return None, True
+            if fact_result.status == "fact_check_unavailable":
+                print(f"  fact-check unavailable after citation repair; excluded from publication for retry: {filename}")
+                remaining.append(row)
+                return None, False
+            if not fact_result.passed:
+                failure = record_new_article_failure(out.stem, row, fact_result)
+                print(
+                    f"  fact-check failed after citation repair; excluded from publication: {filename} "
+                    f"failure_count={failure['failure_count']} status={failure['status']}"
+                )
+                if failure["status"] == "retry":
+                    remaining.append(row)
+                else:
+                    print(f"  fact-check blocked; needs manual review: {filename}")
+                return None, False
+            if not fact_result.citation_mismatches:
+                resolved_citation_mismatch = True
+                print(f"  citation mismatch resolved: {filename}")
+                break
+
+        if not resolved_citation_mismatch:
+            print(f"  fact-check citation mismatch; returned to queue tail: {filename}")
+            _log_citation_mismatches(fact_result.citation_mismatches)
+            remaining.append(row)
+            return None, False
     if not fact_result.passed:
         failure = record_new_article_failure(out.stem, row, fact_result)
         print(
@@ -1038,7 +1168,16 @@ def main() -> None:
             to_generate = rows[:GENERATE_COUNT]
             remaining = rows[GENERATE_COUNT:]
 
-            for row in to_generate:
+            generation_attempts = 0
+            for index, row in enumerate(to_generate):
+                if generation_attempts >= MAX_GENERATION_ATTEMPTS:
+                    remaining = to_generate[index:] + remaining
+                    print(
+                        f"生成試行上限 {MAX_GENERATION_ATTEMPTS} 件に達したため、"
+                        "残りの候補はキュー先頭に戻します。"
+                    )
+                    break
+                generation_attempts += 1
                 entry, critical = _try_generate_article(client, row, remaining, today)
                 if critical:
                     critical_fail_count += 1
