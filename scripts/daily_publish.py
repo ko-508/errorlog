@@ -781,6 +781,13 @@ def _run_lint_gate(
     return article_content, False
 
 
+def _shorten_for_log(text: str, limit: int = 120) -> str:
+    normalized = re.sub(r"\s+", " ", text).strip()
+    if len(normalized) <= limit:
+        return normalized
+    return normalized[: limit - 1] + "…"
+
+
 # ─── 1記事分の生成→lint gate→fact-check gate ──────────────────
 
 def _try_generate_article(
@@ -908,6 +915,17 @@ def _try_generate_article(
         return None, True
     if fact_result.status == "fact_check_unavailable":
         print(f"  fact-check unavailable; excluded from publication for retry: {filename}")
+        remaining.append(row)
+        return None, False
+    if fact_result.citation_mismatches:
+        print(f"  fact-check citation mismatch; returned to queue tail: {filename}")
+        for mismatch in fact_result.citation_mismatches:
+            print(
+                "    "
+                f"url={mismatch.get('url', '')} "
+                f"claimed={_shorten_for_log(str(mismatch.get('claimed', '')))} "
+                f"actual={_shorten_for_log(str(mismatch.get('actual', '')))}"
+            )
         remaining.append(row)
         return None, False
     if not fact_result.passed:

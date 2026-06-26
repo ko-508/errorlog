@@ -224,6 +224,7 @@ class GeminiEvaluation:
     required_actions: list[str] = field(default_factory=list)
     sources: list[dict[str, str]] = field(default_factory=list)
     unsupported_claims: list[str] = field(default_factory=list)
+    citation_mismatches: list[dict[str, str]] = field(default_factory=list)
     error: str = ""
     error_category: str = ""
     raw_response_excerpt: str = ""
@@ -247,6 +248,7 @@ class FactCheckResult:
     evaluator: str = "heuristic"
     sources: list[dict[str, Any]] = field(default_factory=list)
     unsupported_claims: list[str] = field(default_factory=list)
+    citation_mismatches: list[dict[str, str]] = field(default_factory=list)
     improvement_suggestions: list[str] = field(default_factory=list)
     error: str = ""
     score_history_appended: bool = False
@@ -679,12 +681,15 @@ def validate_gemini_payload(raw: str) -> GeminiEvaluation:
     actions = data.get("required_actions", [])
     sources = data.get("sources", [])
     unsupported = data.get("unsupported_claims", [])
+    citation_mismatches = data.get("citation_mismatches", [])
     claims = data.get("claims", [])
 
     if not isinstance(reasons, list) or not isinstance(actions, list):
         return invalid_json_evaluation("invalid schema: reasons/required_actions must be arrays", raw)
     if not isinstance(sources, list) or not isinstance(unsupported, list):
         return invalid_json_evaluation("invalid schema: sources/unsupported_claims must be arrays", raw)
+    if not isinstance(citation_mismatches, list):
+        citation_mismatches = []
 
     normalized_sources: list[dict[str, str]] = []
     for source in sources:
@@ -706,6 +711,25 @@ def validate_gemini_payload(raw: str) -> GeminiEvaluation:
         if claim_text and (not isinstance(urls, list) or not any(re.match(r"^https?://", str(u)) for u in urls)):
             unsupported.append(claim_text)
 
+    normalized_citation_mismatches: list[dict[str, str]] = []
+    for mismatch in citation_mismatches:
+        if not isinstance(mismatch, dict):
+            continue
+        url = str(mismatch.get("url", "")).strip()
+        claimed = str(mismatch.get("claimed", "")).strip()
+        actual = str(mismatch.get("actual", "")).strip()
+        if not url or not claimed or not actual:
+            print(
+                "[fact_check] WARNING: dropped citation_mismatch without url/claimed/actual",
+                file=sys.stderr,
+            )
+            continue
+        normalized_citation_mismatches.append({
+            "url": url,
+            "claimed": claimed,
+            "actual": actual,
+        })
+
     return GeminiEvaluation(
         status="ok",
         scores=scores,
@@ -713,6 +737,7 @@ def validate_gemini_payload(raw: str) -> GeminiEvaluation:
         required_actions=[str(item) for item in actions],
         sources=normalized_sources,
         unsupported_claims=[str(item) for item in unsupported],
+        citation_mismatches=normalized_citation_mismatches,
     )
 
 
@@ -858,8 +883,16 @@ Start the response with "{{" and end it with "}}".
   "required_actions": ["short action"],
   "sources": [{{"url": "https://...", "title": "source title", "claim": "claim it supports", "source_type": "official|documentation|government|academic|company|blog|other|unknown"}}],
   "unsupported_claims": ["claim with no usable source"],
+  "citation_mismatches": [{{"url": "https://...", "claimed": "what the article says about this URL", "actual": "what the URL actually says"}}],
   "claims": [{{"text": "claim", "source_urls": ["https://..."]}}]
 }}
+
+For every external URL cited in the article's Editor's Note, open/check the actual
+URL content and verify whether the article's statement about that URL matches it.
+If the article claims something different from the URL's actual content, add an
+entry to citation_mismatches with all of url, claimed, and actual. If the
+Editor's Note has no cited external URLs, or all cited URL claims match, return
+an empty citation_mismatches array.
 
 Title: {title}
 
@@ -1056,6 +1089,7 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
         {"url": url, "title": "", "claim": "", "source_type": "unknown"} for url in extract_urls(body)
     ]
     unsupported_claims: list[str] = []
+    citation_mismatches: list[dict[str, str]] = []
     evaluator = "heuristic"
 
     if gemini.status == "ok" and gemini.scores:
@@ -1069,6 +1103,7 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
         actions = gemini.required_actions + [a for a in actions if a not in gemini.required_actions]
         sources = gemini.sources or sources
         unsupported_claims = gemini.unsupported_claims
+        citation_mismatches = gemini.citation_mismatches
         if unsupported_claims:
             scores["citation_coverage"] = min(scores["citation_coverage"], max(0, 100 - len(unsupported_claims) * 20))
             scores["risk_score"] = min(100, scores["risk_score"] + min(25, len(unsupported_claims) * 8))
@@ -1164,6 +1199,7 @@ def evaluate_content(path: Path, content: str, mode: str) -> FactCheckResult:
             evaluator=evaluator,
             sources=sources,
             unsupported_claims=unsupported_claims,
+            citation_mismatches=citation_mismatches,
             improvement_suggestions=improvement_suggestions,
             url_checked=url_stats["checked"],
             url_skipped=url_stats["skipped"],
@@ -1380,6 +1416,7 @@ def save_evidence_sidecar(result: FactCheckResult) -> None:
             "fact_checked_at": utc_now_iso(),
             "prompt_version": FACT_CHECK_PROMPT_VERSION,
             "sources": sources_out,
+            "citation_mismatches": result.citation_mismatches,
             "evidence_summary": summary,
         }
         EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
