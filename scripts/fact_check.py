@@ -1869,6 +1869,12 @@ def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
 
     # Use the vote whose factual_score is closest to the median as the narrative template
     template = min(valid, key=lambda r: abs(r.scores["factual_score"] - median_scores["factual_score"]))
+    citation_mismatches_by_url: dict[str, dict[str, str]] = {}
+    for result in valid:
+        for mismatch in result.citation_mismatches:
+            url = str(mismatch.get("url", "")).strip()
+            if url and url not in citation_mismatches_by_url:
+                citation_mismatches_by_url[url] = mismatch
 
     final = dataclasses.replace(
         template,
@@ -1877,6 +1883,7 @@ def evaluate_new_article(path: Path, content: str) -> FactCheckResult:
         critical=m_critical,
         critical_level=m_critical_level,
         status=m_status,
+        citation_mismatches=list(citation_mismatches_by_url.values()),
         vote_group_id=group_id,
         is_final_vote=True,
         vote_count=n_votes,
