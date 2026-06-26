@@ -1,7 +1,7 @@
 ---
 title: "AWS S3 の AccessDenied エラー：原因と解決策"
 date: 2026-06-26
-description: "S3 繝ｪ繧ｽ繝ｼ繧ｹ縺ｸ縺ｮ繧｢繧ｯ繧ｻ繧ｹ縺梧拠蜷ｦ縺輔ｌ縺・IAM 繝昴Μ繧ｷ繝ｼ縺ｫ s3:GetObject 。"
+description: "AWS S3 の AccessDenied は、権限不足や拒否設定でアクセスが拒否されるエラーです。"
 tags: ["AWS S3"]
 errorCode: "AccessDenied"
 urgency: "medium"

@@ -54,6 +54,27 @@ jobs:
             python scripts/insert_glossary_links.py "$f"
           done
 
+      - name: Validate Front Matter (pre-commit gate)
+        id: validate_fm
+        continue-on-error: true
+        run: python scripts/validate_frontmatter.py
+
+      - name: Remove articles failing validation
+        if: steps.validate_fm.outcome == 'failure'
+        run: |
+          python - <<'EOF'
+          import re, sys
+          from pathlib import Path
+          HALFKATA = re.compile(r'[\uff61-\uff9f]')
+          posts = Path('content/posts')
+          for f in sorted(posts.glob('*.md')):
+              text = f.read_text(encoding='utf-8')
+              m = re.search(r'^description: "(.+?)"', text, re.MULTILINE)
+              if m and len(HALFKATA.findall(m.group(1))) >= 2:
+                  print(f'Removed: {f.name}')
+                  f.unlink()
+          EOF
+
       # 2026-06-16 無効化: 新記事へのcheck_qualityは費用対効果が低く、
       # 既存記事の仕様変更追従は仕様が固まってからまとめて行う方針のため停止。
       # 再開時は下記7行のコメントを外すこと。

@@ -976,6 +976,14 @@ def main() -> None:
             pending.pop(0)
             save_pending(pending)
             continue
+        # pending 記事の description 文字化けチェック
+        raw_fm = entry.get("article_content", "")
+        desc_m = re.search(r'^description: "(.+?)"', raw_fm, re.MULTILINE)
+        if desc_m and _has_mojibake(desc_m.group(1)):
+            print(f"  [pending] SKIP {filename}：description に文字化けが検出されました（破棄）")
+            pending.pop(0)
+            save_pending(pending)
+            continue
         content = entry["article_content"].replace(DATE_PLACEHOLDER, today, 1)
         out.write_text(content, encoding="utf-8")
         print(f"  [pending] 公開: {filename}  →  {entry['title']}")
