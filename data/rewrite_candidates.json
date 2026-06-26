@@ -21,6 +21,25 @@
     "detected_at": "2026-06-23"
   },
   {
+    "path": "content/posts/github_api_500.md",
+    "title": "GitHub API の 500 エラー：原因と解決策",
+    "reason": "The article accurately describes the general definition of a 500 Internal Server Error as a server-side issue.; It correctly identifies GitHub's rate limits (5000 requests per hour for authenticated users) and the presence of rate limit headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`) in API responses.; The explanation of GraphQL API error handling (200 OK status with an 'errors' field in the body) is correct.; However, the article falsely claims that exceeding GitHub API rate limits can result in a 500 error; official documentation states 403 Forbidden or 429 Too Many Requests.; Claims that invalid JSON payloads, improper API version specification/missing headers, or insufficient Personal Access Token (PAT) scopes can lead to a 500 error are not consistently supported by official GitHub documentation, which typically indicates 400 Bad Request, 410 Gone, or 403 Forbidden for these client-side issues.; one or more claims are unsupported or unverifiable",
+    "scores": {
+      "factual_score": 65,
+      "freshness_score": 87,
+      "citation_coverage": 10,
+      "risk_score": 85
+    },
+    "priority": "high",
+    "required_actions": [
+      "Correct the information regarding the HTTP status codes returned when GitHub API rate limits are exceeded (change 500 to 403/429).",
+      "Clarify or re-evaluate the claims that invalid JSON payloads or insufficient PAT scopes can directly result in a 500 error from the GitHub API; it is more common to receive a 400 or 403.",
+      "Provide more direct official GitHub documentation links for each specific claim, especially for the stated causes of 500 errors to enhance accuracy.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-26"
+  },
+  {
     "path": "content/posts/aws_500.md",
     "title": "AWS の 500 エラー：原因と解決策",
     "reason": "The article incorrectly states that API Gateway returns a 500 error when Lambda's timeout exceeds API Gateway's integration timeout; AWS documentation indicates a 504 Gateway Timeout.; The article's claim regarding the API Gateway integration timeout maximum being 29 seconds is outdated; AWS announced in June 2024 that this limit can now be increased via Service Quotas.; Information about AWS Support plans, specifically the Developer plan, is outdated as the plan is being phased out/replaced by Business Support+ from January 1, 2027.; citation coverage is below the threshold; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable; The article contains a factual inaccuracy regarding the HTTP status code returned by API Gateway for integration timeouts (states 500, but should be 504).; Information regarding AWS Support plan names (Developer plan) is outdated due to recent AWS updates.; The claim about API Gateway integration timeout maximum (29 seconds) is outdated as the limit has been increased for certain API types since June 2024.; One claim about CloudFormation stack operation failures directly causing 500 errors is imprecise and lacks direct official documentation for such a direct cause.; citation coverage is below the threshold; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable",
