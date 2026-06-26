@@ -1,14 +1,14 @@
 [
   {
-    "path": "content/posts/datadog_503.md",
-    "stem": "datadog_503",
-    "title": "Datadog の 503 エラー：原因と解決策",
-    "source_type": "daily"
+    "path": "content/posts/aws_s3_nosuchkey.md",
+    "stem": "aws_s3_nosuchkey",
+    "title": "AWS S3 の NoSuchKey エラー：原因と解決策",
+    "source_type": "pending"
   },
   {
-    "path": "content/posts/aws_s3_nosuchbucket.md",
-    "stem": "aws_s3_nosuchbucket",
-    "title": "AWS S3 の NoSuchBucket エラー：原因と解決策",
-    "source_type": "daily"
+    "path": "content/posts/aws_s3_accessdenied.md",
+    "stem": "aws_s3_accessdenied",
+    "title": "AWS S3 の AccessDenied エラー：原因と解決策",
+    "source_type": "pending"
   }
 ]
