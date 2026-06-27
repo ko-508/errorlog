@@ -1,0 +1,251 @@
+{
+  "path": "content/posts/vercel_429.md",
+  "title": "Vercel の 429 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 85,
+    "freshness_score": 45,
+    "citation_coverage": 36,
+    "risk_score": 54
+  },
+  "passed": true,
+  "critical": false,
+  "reasons": [
+    "The article accurately describes HTTP 429 errors and common causes on Vercel, including serverless functions, CLI tools, and external API integrations.",
+    "It provides practical code examples and debugging steps which are generally sound.",
+    "Most factual claims are supported by official documentation or generally accepted best practices in web development and API usage.",
+    "However, a significant factual claim regarding Vercel's default concurrent execution limit (stated as 12) is outdated and inaccurate according to current Vercel documentation, which specifies much higher limits for functions and builds.",
+    "The freshness score is impacted by this outdated information, as Vercel has made substantial updates to its concurrency limits over time.",
+    "One specific error message format (`Code: INTERNAL_FUNCTION_RATE_LIMIT`) could not be definitively sourced to official Vercel documentation, suggesting a minor gap in direct factual support.",
+    "high official URL ratio (60%)"
+  ],
+  "required_actions": [],
+  "detected_at": "2026-06-27",
+  "status": "pass",
+  "critical_level": "",
+  "report_path": "reports/fact_check/new_articles/20260627010842245419_vercel_429_b656cb19.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429",
+      "title": "429 Too Many Requests - HTTP - MDN Web Docs",
+      "claim": "The HTTP 429 Too Many Requests client error response status code indicates the client has sent too many requests in a given amount of time. This mechanism of asking the client to slow down the rate of requests is commonly called \"rate limiting\".",
+      "source_type": "documentation",
+      "url_check_status": "200",
+      "final_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Status/429",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "developer.mozilla.org",
+      "tool_match": false
+    },
+    {
+      "url": "https://www.postman.com/resources/http-429-too-many-requests-how-to-fix/",
+      "title": "HTTP Error 429 (Too Many Requests) - How to Fix - Postman Blog",
+      "claim": "HTTP 429 Too Many Requests is a client error status code indicating you've exceeded the allowed request rate.",
+      "source_type": "company",
+      "url_check_status": "skipped",
+      "final_url": "https://www.postman.com/resources/http-429-too-many-requests-how-to-fix/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "www.postman.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://vercel.com/docs/cli/global-options#--debug",
+      "title": "Vercel CLI Global Options",
+      "claim": "The `--debug` option, shorthand `-d` , can be used to provide a more verbose output when running Vercel CLI commands.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://vercel.com/docs/cli/global-options#--debug",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://vercel.com/docs/cli/whoami",
+      "title": "vercel whoami",
+      "claim": "The `vercel whoami` command is used to show the username of the user currently logged into Vercel CLI.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://vercel.com/docs/cli/whoami",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://vercel.com/docs/functions/limits",
+      "title": "Vercel Functions Limits",
+      "claim": "Vercel Functions auto-scales up to 30,000 (Hobby and Pro) or 100,000+ (Enterprise) concurrency.",
+      "source_type": "official",
+      "url_check_status": "skipped",
+      "final_url": "https://vercel.com/docs/functions/limits",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://vercel.com/changelog/increased-concurrency-for-vercel-functions",
+      "title": "Vercel Functions: Faster, modern, and more scalable",
+      "claim": "Vercel Functions now have improved automatic concurrency scaling, with up to 30,000 functions running simultaneously for Pro and 100,000 for Enterprise with the option for extended concurrency.",
+      "source_type": "official",
+      "url_check_status": "skipped",
+      "final_url": "https://vercel.com/changelog/increased-concurrency-for-vercel-functions",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://vercel.com/changelog/pro-teams-can-now-run-up-to-500-concurrent-builds",
+      "title": "Pro teams can now run up to 500 concurrent builds - Vercel",
+      "claim": "Pro now supports up to 500 concurrent builds on Vercel, up from 12.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://vercel.com/changelog/pro-teams-can-now-run-up-to-500-concurrent-builds",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://www.airtable.com/api/docs",
+      "title": "Getting started with Airtable's Web API",
+      "claim": "Airtable enforces a rate limit of 5 requests per second (per base) to ensure optimal user performance across all pricing tiers. Additionally, there is a limit of 50 requests per second for all traffic using personal access tokens from a given user or service account. If you exceed this rate, you will receive a 429 status code and must wait 30 seconds before subsequent requests will succeed.",
+      "source_type": "official",
+      "url_check_status": "skipped",
+      "final_url": "https://www.airtable.com/api/docs",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "www.airtable.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://platform.openai.com/docs/guides/rate-limits/overview",
+      "title": "Rate limits | OpenAI API",
+      "claim": "The OpenAI API rate limit controls how many requests you can make to the API within a specific timeframe, preventing abuse and ensuring reliable service for all users. Rate limits are applied in two ways: requests per minute (RPM) and tokens per minute (TPM).",
+      "source_type": "official",
+      "url_check_status": "skipped",
+      "final_url": "https://platform.openai.com/docs/guides/rate-limits/overview",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "platform.openai.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://vercel.com/docs/ai/sdk/openai",
+      "title": "AI SDK OpenAI",
+      "claim": "The article uses `@ai-sdk/openai` and `generateText` from `ai`, which are components of Vercel's AI SDK.",
+      "source_type": "official",
+      "url_check_status": "skipped",
+      "final_url": "https://vercel.com/docs/ai/sdk/openai",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration",
+      "title": "Rendering: Incremental Static Regeneration (ISR) - Next.js",
+      "claim": "Incremental Static Regeneration (ISR) enables you to use static-generation on a per-page basis, without needing to rebuild the entire site. With ISR, you can retain the benefits of static while scaling to millions of pages. To use ISR, add the revalidate prop to `getStaticProps` (e.g., `revalidate: 3600`).",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://nextjs.org/docs/pages/guides/incremental-static-regeneration",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "nextjs.org",
+      "tool_match": false
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After",
+      "title": "Retry-After header - HTTP - MDN Web Docs",
+      "claim": "The HTTP Retry-After response header indicates how long the user agent should wait before making a follow-up request. In a 429 Too Many Requests response, this indicates how long to wait before making a new request.",
+      "source_type": "documentation",
+      "url_check_status": "200",
+      "final_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Retry-After",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "developer.mozilla.org",
+      "tool_match": false
+    },
+    {
+      "url": "https://www.digitalapi.com/blog/http-429-too-many-requests",
+      "title": "HTTP 429 Error: What 'Too Many Requests' Means & Fixes - DigitalAPI",
+      "claim": "The `Retry-After` header, often included with a 429 response, tells the client how long to wait (in seconds or until a specific date/time) before making another request.",
+      "source_type": "company",
+      "url_check_status": "skipped",
+      "final_url": "https://www.digitalapi.com/blog/http-429-too-many-requests",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "www.digitalapi.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://vercel.com/docs/cli",
+      "title": "Vercel CLI Overview",
+      "claim": "Vercel CLI is the command-line interface for Vercel, the platform for frontend frameworks and static sites.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://vercel.com/docs/cli",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    },
+    {
+      "url": "https://vercel.com/help/articles/getting-429-error-code-while-logging",
+      "title": "Getting a 429 error code while logging into Vercel CLI?",
+      "claim": "This help article directly addresses getting a 429 error code while logging into Vercel CLI, supporting the claim that Vercel CLI login can hit rate limits.",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://vercel.com/help/articles/getting-429-error-code-while-logging",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "vercel.com",
+      "tool_match": true
+    }
+  ],
+  "unsupported_claims": [
+    "Code: INTERNAL_FUNCTION_RATE_LIMIT",
+    "All Origins プロキシを経由して外部APIへアクセス (`https://api.allorigins.win/raw?url=...`)",
+    "詳細なログを確認してください。`NODE_DEBUG=* npm run dev 2>&1 | grep -i \"429\\\\|rate\\\\|limit\"`"
+  ],
+  "citation_mismatches": [
+    {
+      "url": "https://vercel.com/docs/concepts/limits/overview",
+      "claimed": "Vercel では、同じチーム内のすべてのプロジェクトが同時実行制限（デフォルトでは 12 並行実行数）を共有します。",
+      "actual": "Vercel's current documentation states that Pro teams support up to 500 concurrent deployments (builds) with on-demand concurrency. The default concurrent function invocations for Pro teams can scale up to 30,000, and up to 100,000 for Enterprise. The figure '12 concurrent executions' appears to be an outdated default for Pro team concurrent builds/deployments."
+    }
+  ],
+  "improvement_suggestions": [
+    "Optional improvement: add official or primary source URLs for unsupported or weakly sourced claims.",
+    "Optional improvement: Update the information regarding Vercel's concurrent execution limits to reflect current documentation (e.g., 30,000 for Hobby/Pro functions, 100,000+ for Enterprise functions, 500 for Pro builds).",
+    "Optional improvement: If possible, find an official Vercel source to confirm or clarify the specific error code `INTERNAL_FUNCTION_RATE_LIMIT`.",
+    "Optional improvement: Review current official docs and update changed API/spec/pricing details.",
+    "Optional improvement: Add official or primary source URLs for unsupported claims."
+  ],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 8,
+  "url_skipped": 7,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 10170,
+  "fact_check_input_chars": 5937,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "60762ee437a9",
+  "error_detail": null,
+  "vote_group_id": "db9f9e25-0443-412d-9943-fb1453b86a3f",
+  "is_final_vote": true,
+  "vote_count": 3,
+  "tags": [
+    "Vercel"
+  ]
+}
