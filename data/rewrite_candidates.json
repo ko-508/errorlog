@@ -1,5 +1,26 @@
 [
   {
+    "path": "content/posts/firebase_503.md",
+    "title": "Firebase の 503 エラー：原因と解決策",
+    "reason": "The article provides generally sound troubleshooting advice for Firebase 503 errors.; Specific API quota numbers for the free plan are inaccurate compared to official documentation.; Some claims about specific error code mappings (e.g., 503 for auth issues, complex queries, region mismatches) lack direct official confirmation, potentially being indirect effects or misinterpretations.; The publication date of the article (2026/05/29) is in the future, which is unusual for a factual article.; citation coverage is below the threshold; one or more claims are unsupported or unverifiable",
+    "scores": {
+      "factual_score": 70,
+      "freshness_score": 95,
+      "citation_coverage": 22,
+      "risk_score": 76
+    },
+    "priority": "high",
+    "required_actions": [
+      "Verify and correct the specific API quota limits for Firebase free plans (reads/writes per second vs. per day).",
+      "Clarify the direct error codes returned for Firebase Authentication token expiry/absence and Firestore complex queries/missing indexes, noting if 503 is an indirect consequence rather than a direct error code.",
+      "Clarify the specific error codes returned for region mismatches.",
+      "Adjust the publication date to a current or past date.",
+      "Add links to official documentation or primary sources for key claims.",
+      "Add official or primary source URLs for unsupported claims."
+    ],
+    "detected_at": "2026-06-27"
+  },
+  {
     "path": "content/posts/github_api_401.md",
     "title": "GitHub API の 401 エラー：原因と解決策",
     "reason": "The article contains a significant factual error regarding Personal Access Token (PAT) expiration limits.; The guidance on Authorization header format for GitHub API is partially inaccurate and may lead to confusion.; Some factual claims, while generally true, lack direct primary source citations from GitHub's official documentation for specific error messages or general troubleshooting tips.; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable; high official URL ratio (94%)",
