@@ -569,7 +569,7 @@ def check_d1_d2(body: str) -> tuple[dict[str, int], list[Issue]]:
     return tier_dict, issues
 
 
-_EDITOR_NOTE_RE = re.compile(r"^#{1,4}\s*Editor['']?s?\s*Note", re.MULTILINE | re.IGNORECASE)
+_EDITOR_NOTE_RE = re.compile(r"^#{1,4}\s*Editor['\u2019]?s?\s*Note", re.MULTILINE | re.IGNORECASE)
 
 
 def check_e1(body: str) -> list[Issue]:

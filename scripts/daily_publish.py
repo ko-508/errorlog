@@ -253,7 +253,7 @@ def strip_intro_boilerplate(text: str) -> str:
 
 
 _EDITOR_NOTE_SECTION_RE = re.compile(
-    r"\n#{1,4}\s*Editor['']?s?\s*Note[\s\S]*?(?=\n#{1,4}\s|\Z)",
+    r"\n#{1,4}\s*Editor['\u2019]?s?\s*Note[\s\S]*?(?=\n#{1,4}\s|\Z)",
     re.IGNORECASE,
 )
 
