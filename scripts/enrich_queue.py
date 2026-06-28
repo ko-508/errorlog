@@ -11,11 +11,13 @@ import json
 import os
 import re
 import time
+from urllib.parse import urlparse
 
 import requests
 from google import genai as google_genai
 from google.genai import types as genai_types
 
+from fact_check import UNVERIFIABLE_DOMAINS
 from replenish_queue import FIELDNAMES, QUEUE_PATH
 
 DEFAULT_BATCH_SIZE = int(os.getenv("BATCH_SIZE", "20"))
@@ -41,6 +43,9 @@ def parse_args() -> argparse.Namespace:
 
 def verify_url(url: str) -> bool:
     try:
+        netloc = urlparse(url).netloc.lower().removeprefix("www.")
+        if any(netloc == d or netloc.endswith("." + d) for d in UNVERIFIABLE_DOMAINS):
+            return False
         r = requests.get(
             url,
             timeout=8,
@@ -48,11 +53,6 @@ def verify_url(url: str) -> bool:
             headers={"User-Agent": "Mozilla/5.0"},
         )
         if r.status_code >= 400:
-            return False
-        if "reddit.com" in url and r.url.rstrip("/") in (
-            "https://www.reddit.com",
-            "https://reddit.com",
-        ):
             return False
         if "github.com" in url and "/login" in r.url:
             return False

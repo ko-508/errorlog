@@ -19,9 +19,12 @@ import os
 import random
 import re
 from pathlib import Path
+from urllib.parse import urlparse
 
 from google import genai as google_genai
 from google.genai import types as genai_types
+
+from fact_check import UNVERIFIABLE_DOMAINS
 
 ADD_COUNT = int(os.getenv("ADD_COUNT", "90"))
 
@@ -320,9 +323,17 @@ actual_error_messages はログ・レスポンスボディ・コンソール出�
             print("    需要なし（問題報告が確認できないためスキップ）")
             return None
 
-        causes    = "|".join(str(c).strip() for c in data.get("causes",    [])[:5] if c)
-        solutions = "|".join(str(s).strip() for s in data.get("solutions", [])[:5] if s)
-        meaning   = str(data.get("official_meaning", "")).strip()
+        causes      = "|".join(str(c).strip() for c in data.get("causes",    [])[:5] if c)
+        solutions   = "|".join(str(s).strip() for s in data.get("solutions", [])[:5] if s)
+        meaning     = str(data.get("official_meaning", "")).strip()
+        source_urls = [
+            url for url in (str(u).strip() for u in data.get("source_urls", []) if u)
+            if url and not any(
+                (netloc := urlparse(url).netloc.lower().removeprefix("www.")) == d
+                or netloc.endswith("." + d)
+                for d in UNVERIFIABLE_DOMAINS
+            )
+        ][:5]
 
         if not (meaning and causes and solutions):
             print("    データ不足のためスキップ")
@@ -334,7 +345,7 @@ actual_error_messages はログ・レスポンスボディ・コンソール出�
             "official_meaning":       meaning,
             "causes":                 causes,
             "solutions":              solutions,
-            "source_urls":            "|".join(str(u).strip() for u in data.get("source_urls", [])[:5] if u),
+            "source_urls":            "|".join(source_urls),
             "reported_versions":      "|".join(str(v).strip() for v in data.get("reported_versions", [])[:5] if v),
             "actual_error_messages":  "|".join(str(m).strip() for m in data.get("actual_error_messages", [])[:3] if m),
             "alternatives":           "|".join(str(a).strip() for a in data.get("alternatives", [])[:3] if a),
