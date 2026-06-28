@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) で 404 [エラー](/glossary/エラー/)が発生するのは、指定した[イメージ](/glossary/イメージ/)または[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や Private Registry などの[イメージ](/glossary/イメージ/)保管先）に存在しないことを意味します。この[エラー](/glossary/エラー/)は `docker pull`、`docker run`、`docker push` などの[コマンド](/glossary/コマンド/)実行時に表示され、[イメージ](/glossary/イメージ/)名の誤字、存在しないタグの指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。[Docker](/glossary/docker/) は[レジストリ](/glossary/レジストリ/)に[クエリ](/glossary/クエリ/)を送信した際に、リソースが見つからないと 404 ステータスを返すため、ユーザー側では対象[イメージ](/glossary/イメージ/)の確認と修正が必要になります。
+[Docker](/glossary/docker/) で 404 [エラー](/glossary/エラー/)が発生するのは、指定した[イメージ](/glossary/イメージ/)または[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や Private Registry などの[イメージ](/glossary/イメージ/)保管先）に存在しないことを意味します。この[エラー](/glossary/エラー/)は `docker pull`、`docker run`、`docker push` などの[コマンド](/glossary/コマンド/)実行時に表示され、[イメージ](/glossary/イメージ/)名の誤字、存在しない[タグ](/glossary/タグ/)の指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。[Docker](/glossary/docker/) は[レジストリ](/glossary/レジストリ/)に[クエリ](/glossary/クエリ/)を送信した際に、リソースが見つからないと 404 ステータスを返すため、ユーザー側では対象[イメージ](/glossary/イメージ/)の確認と修正が必要になります。
 
 ## 実際のエラーメッセージ例
 
@@ -45,7 +45,7 @@ error parsing HTTP 404 response body: invalid character '<' looking for beginnin
 
 ### 原因 1: イメージ名またはタグの誤字
 
-[イメージ](/glossary/イメージ/)名やタグにスペルミスがある場合、[レジストリ](/glossary/レジストリ/)が該当リソースを見つけられず 404 が返されます。[Docker](/glossary/docker/) Hub では大文字と小文字が区別されるため、注意が必要です。
+[イメージ](/glossary/イメージ/)名や[タグ](/glossary/タグ/)にスペルミスがある場合、[レジストリ](/glossary/レジストリ/)が該当リソースを見つけられず 404 が返されます。[Docker](/glossary/docker/) Hub では大文字と小文字が区別されるため、注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -63,7 +63,7 @@ docker run node:lts-alpine node app.js
 
 ### 原因 2: タグが存在しない、または削除されている
 
-[イメージ](/glossary/イメージ/)は存在するが指定したタグが存在しない場合も 404 が発生します。タグの削除後にそのタグを参照しようとした場合も同じです。
+[イメージ](/glossary/イメージ/)は存在するが指定した[タグ](/glossary/タグ/)が存在しない場合も 404 が発生します。[タグ](/glossary/タグ/)の削除後にその[タグ](/glossary/タグ/)を参照しようとした場合も同じです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -172,7 +172,7 @@ FROM python:3.11-slim-bullseye
 
 ### Docker Hub との連携における注意
 
-[Docker](/glossary/docker/) Hub での[イメージ](/glossary/イメージ/)検索時、`docker search myapp` [コマンド](/glossary/コマンド/)で候補を確認した後でも、タグの存在確認が必要です。公式[イメージ](/glossary/イメージ/)とユーザー提供[イメージ](/glossary/イメージ/)で命名規則が異なるため、フルネーム指定時は `library/` プレフィックスの有無を確認してください。
+[Docker](/glossary/docker/) Hub での[イメージ](/glossary/イメージ/)検索時、`docker search myapp` [コマンド](/glossary/コマンド/)で候補を確認した後でも、[タグ](/glossary/タグ/)の存在確認が必要です。公式[イメージ](/glossary/イメージ/)とユーザー提供[イメージ](/glossary/イメージ/)で命名規則が異なるため、フルネーム指定時は `library/` プレフィックスの有無を確認してください。
 
 ### Local Registry の場合の疎通確認
 

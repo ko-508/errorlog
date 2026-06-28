@@ -13,7 +13,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase 408 [エラー](/glossary/エラー/)はクライアント側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[HTTP](/glossary/http/) 408 Request Timeout は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)の到着を待機している間に予定時間を超えたことを示します。[ネットワーク](/glossary/ネットワーク/)環境の不安定性やアプリケーションの処理遅延、Firebase [SDK](/glossary/sdk/) の設定ミスが主な原因となります。
+Firebase 408 [エラー](/glossary/エラー/)はクライアント側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[HTTP](/glossary/http/) 408 Request Timeout は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)の到着を待機している間に予定時間を超えたことを示します。[ネットワーク](/glossary/ネットワーク/)環境の不安定性や[アプリケーション](/glossary/アプリケーション/)の処理遅延、Firebase [SDK](/glossary/sdk/) の設定ミスが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -297,7 +297,7 @@ firebase.database().ref('.info/connected').on('value', (snapshot) => {
 
 ### コミュニティリソース
 
-Firebase GitHub Issues および Stack Overflow の「firebase」「firestore」タグで類似の 408 [エラー](/glossary/エラー/)を検索し、解決事例を参照することをお勧めします。
+Firebase GitHub Issues および Stack Overflow の「firebase」「firestore」[タグ](/glossary/タグ/)で類似の 408 [エラー](/glossary/エラー/)を検索し、解決事例を参照することをお勧めします。
 
 ---
 

@@ -116,7 +116,7 @@ $ git config --global http.sslVerify true
 
 ## Bitbucket 固有の注意点
 
-Bitbucket の[クラウド](/glossary/クラウド/)版（bitbucket.org）と [サーバー](/glossary/サーバー/)版（自社ホスト）では、500 [エラー](/glossary/エラー/)の原因と対応が異なります。[クラウド](/glossary/クラウド/)版の場合、https://bitbucket.status.atlassian.com でリアルタイムの障害情報が公開されているため、必ず確認してください。[サーバー](/glossary/サーバー/)版の場合は、自社の Bitbucket [インスタンス](/glossary/インスタンス/)の[ログ](/glossary/ログ/)を `/opt/atlassian/bitbucket/logs/` 配下で確認し、[エラー](/glossary/エラー/)の詳細を特定する必要があります。
+Bitbucket の[クラウド](/glossary/クラウド/)版（bitbucket.org）と [サーバー](/glossary/サーバー/)版（自社ホスト）では、500 [エラー](/glossary/エラー/)の原因と対応が異なります。[クラウド](/glossary/クラウド/)版の場合、https://bitbucket.status.atlassian.com で[リアルタイム](/glossary/リアルタイム/)の障害情報が公開されているため、必ず確認してください。[サーバー](/glossary/サーバー/)版の場合は、自社の Bitbucket [インスタンス](/glossary/インスタンス/)の[ログ](/glossary/ログ/)を `/opt/atlassian/bitbucket/logs/` 配下で確認し、[エラー](/glossary/エラー/)の詳細を特定する必要があります。
 
 また、Bitbucket Pipelines を使用している場合、パイプライン実行中に 500 [エラー](/glossary/エラー/)が発生することもあります。この場合、[リポジトリ](/glossary/リポジトリ/)の設定（プロジェクトキー、[環境変数](/glossary/環境変数/)）を確認し、Pipelines の実行[ログ](/glossary/ログ/)から詳細なスタックトレースを取得することが重要です。
 

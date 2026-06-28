@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/)で 422 [エラー](/glossary/エラー/)が発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/)またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)との通信時にこの[エラー](/glossary/エラー/)が返される典型的なシナリオは、不正なイメージタグ指定、設定値の型違反、あるいは [API](/glossary/api/)[スキーマ](/glossary/スキーマ/)の検証失敗です。
+[Docker](/glossary/docker/)で 422 [エラー](/glossary/エラー/)が発生するのは、[Docker](/glossary/docker/) [API](/glossary/api/)またはコンテナレジストリへの[リクエスト](/glossary/リクエスト/)が構文的には正しいものの、含まれるデータが処理要件を満たしていない場合です。[Docker](/glossary/docker/) Daemon、[Docker](/glossary/docker/) Compose、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)との通信時にこの[エラー](/glossary/エラー/)が返される典型的なシナリオは、不正なイメージタグ指定、[設定値](/glossary/設定値/)の型違反、あるいは [API](/glossary/api/)[スキーマ](/glossary/スキーマ/)の検証失敗です。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ Service 'web' has invalid value for ports: ports must be an integer or string
 
 ### 1. イメージタグの形式が不正
 
-[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)は [RFC](/glossary/rfc/) 6391 に基づいたタグ形式を要求します。許可されない文字（`@`や大文字の混在）が含まれている場合に 422 が返されます。
+[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/) [API](/glossary/api/)は [RFC](/glossary/rfc/) 6391 に基づいた[タグ](/glossary/タグ/)形式を要求します。許可されない文字（`@`や大文字の混在）が含まれている場合に 422 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash

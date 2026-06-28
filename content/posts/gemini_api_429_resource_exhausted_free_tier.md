@@ -204,7 +204,7 @@ for i in range(50):  # リクエスト数を削減
 
 ### Google Cloud Consoleでのクォータ監視
 
-Gemini [API](/glossary/api/)のクォータ状況はGoogle Cloud Consoleで確認できます。`APIs & Services` > `Quotas` から `generativelanguage.googleapis.com` を検索し、現在の[リクエスト](/glossary/リクエスト/)数と[トークン](/glossary/トークン/)数をリアルタイムで確認してください。無料枠では日次リセットが午前0時（UTC）に行われます。
+Gemini [API](/glossary/api/)のクォータ状況はGoogle Cloud Consoleで確認できます。`APIs & Services` > `Quotas` から `generativelanguage.googleapis.com` を検索し、現在の[リクエスト](/glossary/リクエスト/)数と[トークン](/glossary/トークン/)数を[リアルタイム](/glossary/リアルタイム/)で確認してください。無料枠では日次リセットが午前0時（UTC）に行われます。
 
 ### 有料プランの段階的な価格設定
 

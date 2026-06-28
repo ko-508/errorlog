@@ -258,7 +258,7 @@ response = requests.get(
 4. **コミュニティサポート**：
    - [GitHub Community Forum](https://github.community/)
    - [GitHub API Issues on GitHub](https://github.com/github/docs/issues)
-   - スタックオーバーフローのgithub-apiタグで類似事例を検索
+   - スタックオーバーフローのgithub-api[タグ](/glossary/タグ/)で類似事例を検索
 
 [タイムアウト](/glossary/タイムアウト/)時間を増やし、リトライロジックを実装することで多くの504[エラー](/glossary/エラー/)は回避可能です。問題が継続する場合は、[リクエスト](/glossary/リクエスト/)のサイズを削減するか、より小さな単位に分割する設計の見直しを検討してください。
 

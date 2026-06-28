@@ -133,7 +133,7 @@ curl -X POST http://localhost:2375/containers/create \
 ### 原因4：docker push時のタグ形式の誤り
 
 **なぜ発生するか**
-[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/)Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)）に[イメージ](/glossary/イメージ/)をプッシュする際、タグ形式が不正であるか、認証情報が不足している場合、[レジストリ](/glossary/レジストリ/)が400[エラー](/glossary/エラー/)を返します。
+[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/)Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)）に[イメージ](/glossary/イメージ/)をプッシュする際、[タグ](/glossary/タグ/)形式が不正であるか、認証情報が不足している場合、[レジストリ](/glossary/レジストリ/)が400[エラー](/glossary/エラー/)を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きる状態）**
 ```bash
@@ -142,7 +142,7 @@ docker push myregistry.com/myapp
 # Error response from daemon: HTTP/400: Bad Request
 ```
 
-タグに版が含まれていません。
+[タグ](/glossary/タグ/)に版が含まれていません。
 
 **After（修正後）**
 ```bash
@@ -150,7 +150,7 @@ docker tag myapp:latest myregistry.com/myapp:latest
 docker push myregistry.com/myapp:latest
 ```
 
-[レジストリ](/glossary/レジストリ/)URL、[リポジトリ](/glossary/リポジトリ/)名、タグを完全な形式で指定します。
+[レジストリ](/glossary/レジストリ/)URL、[リポジトリ](/glossary/リポジトリ/)名、[タグ](/glossary/タグ/)を完全な形式で指定します。
 
 ## Docker固有の注意点
 

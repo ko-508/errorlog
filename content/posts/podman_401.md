@@ -149,7 +149,7 @@ sudo podman pull registry.example.com/myimage:latest
 
 **マルチアーキテクチャイメージの取得**: Podman 4.0以降では、異なるプラットフォーム向け[イメージ](/glossary/イメージ/)を取得する際、[レジストリ](/glossary/レジストリ/)が厳格な[認証](/glossary/認証/)を要求することがあります。[プライベートレジストリ](/glossary/プライベートレジストリ/)の場合、必ず適切なユーザーで `podman login` してください。
 
-**Podman Desktopでの[認証](/glossary/認証/)**: Podman Desktopを使用している場合、GUIの認証管理が有効ですが、[コマンドライン](/glossary/コマンドライン/)から直接 `podman` [コマンド](/glossary/コマンド/)を実行する場合は、[コマンドライン](/glossary/コマンドライン/)でも別途 `podman login` が必要です。GUIでの[ログイン](/glossary/ログイン/)だけでは不十分です。
+**Podman Desktopでの[認証](/glossary/認証/)**: Podman Desktopを使用している場合、[GUI](/glossary/gui/)の認証管理が有効ですが、[コマンドライン](/glossary/コマンドライン/)から直接 `podman` [コマンド](/glossary/コマンド/)を実行する場合は、[コマンドライン](/glossary/コマンドライン/)でも別途 `podman login` が必要です。[GUI](/glossary/gui/)での[ログイン](/glossary/ログイン/)だけでは不十分です。
 
 **ホスト間での auth.json の複製**: 複数のホストで同じ認証情報を使う場合、セキュアではない方法（平文でのコピー）は避け、各ホストで独立して `podman login` を実行してください。
 

@@ -201,7 +201,7 @@ openai-python ライブラリの[バージョン](/glossary/バージョン/)が
 
 ### デバッグ方法
 
-1. **現在の[レート制限](/glossary/レート制限/)を確認**：OpenAI Dashboard の Rate Limits ページで、[API](/glossary/api/)キーのTPM/RPM設定値と実際の利用状況をリアルタイム確認してください。
+1. **現在の[レート制限](/glossary/レート制限/)を確認**：OpenAI Dashboard の Rate Limits ページで、[API](/glossary/api/)キーのTPM/RPM[設定値](/glossary/設定値/)と実際の利用状況を[リアルタイム](/glossary/リアルタイム/)確認してください。
 
 2. **リクエストログを有効化**：openai-python ライブラリで、以下の[環境変数](/glossary/環境変数/)を設定すると[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細が[ログ](/glossary/ログ/)に出力されます：
 

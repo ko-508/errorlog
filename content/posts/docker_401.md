@@ -16,7 +16,7 @@ trend_incident: true
 
 [Docker](/glossary/docker/)で401[エラー](/glossary/エラー/)が発生するのは、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、ECR、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）への[認証](/glossary/認証/)に失敗したときです。認証情報が提供されていない、または提供されていても無効・期限切れの場合に表示されます。特に `docker pull`、`docker push`、`docker login` の実行時によく見られます。
 
-なお、2020年11月以降、[Docker](/glossary/docker/) Hubの匿名（ログインなし）でのイメージダウンロード数に制限が導入されたため、以前はログインなしで利用できていたパブリックイメージでも、現在は[認証](/glossary/認証/)が必須になるケースが増えています。
+なお、2020年11月以降、[Docker](/glossary/docker/) Hubの匿名（[ログイン](/glossary/ログイン/)なし）でのイメージダウンロード数に制限が導入されたため、以前は[ログイン](/glossary/ログイン/)なしで利用できていたパブリックイメージでも、現在は[認証](/glossary/認証/)が必須になるケースが増えています。
 
 ## 実際のエラーメッセージ例
 
@@ -44,7 +44,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized
 
 ### 原因1：Docker Hubへのログインが完了していない
 
-[Docker](/glossary/docker/) Hubのパブリックイメージであっても、ダウンロード数制限により[認証](/glossary/認証/)が必須になるケースがあります。また、プライベートイメージにアクセスする場合は必ず[認証](/glossary/認証/)が必要です。
+[Docker](/glossary/docker/) Hubのパブリックイメージであっても、[ダウンロード](/glossary/ダウンロード/)数制限により[認証](/glossary/認証/)が必須になるケースがあります。また、プライベートイメージにアクセスする場合は必ず[認証](/glossary/認証/)が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

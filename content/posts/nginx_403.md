@@ -210,7 +210,7 @@ location /admin/ {
 
 ### 3. try_files による暗黙的な許可
 
-`try_files` ディレクティブを使用する場合、順序の後ろの引数が評価されるときに再度 `location` ブロックが評価されます。無限ループを防ぐため、`=404` で終了させるのが一般的です。
+`try_files` ディレクティブを使用する場合、順序の後ろの[引数](/glossary/引数/)が評価されるときに再度 `location` ブロックが評価されます。無限ループを防ぐため、`=404` で終了させるのが一般的です。
 
 ```nginx
 location / {
@@ -282,7 +282,7 @@ Nginx 公式ドキュメント「Module ngx_http_access_module」では `allow` 
 
 ### ステップ5：コミュニティリソース
 
-stackoverflow の nginx タグや、Nginx フォーラム（forum.nginx.org）で同様の問題報告が多数あります。[エラーログ](/glossary/エラーログ/)の `"is forbidden"` というメッセージとログレベル番号（13: Permission denied）を含めて検索すると、類似事例が見つかりやすいです。
+stackoverflow の nginx [タグ](/glossary/タグ/)や、Nginx フォーラム（forum.nginx.org）で同様の問題報告が多数あります。[エラーログ](/glossary/エラーログ/)の `"is forbidden"` というメッセージとログレベル番号（13: Permission denied）を含めて検索すると、類似事例が見つかりやすいです。
 
 ---
 

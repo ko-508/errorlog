@@ -201,7 +201,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/pulls \
 
 ### Release・Tag 作成時の制約
 
-Release やタグ作成時は、タグ名が有効な [Git](/glossary/git/) 参照形式であることが必須です。また、タグが既に存在する場合、または指定した SHA [コミット](/glossary/コミット/)が存在しない場合も 422 [エラー](/glossary/エラー/)が発生します。
+Release や[タグ](/glossary/タグ/)作成時は、[タグ](/glossary/タグ/)名が有効な [Git](/glossary/git/) 参照形式であることが必須です。また、[タグ](/glossary/タグ/)が既に存在する場合、または指定した SHA [コミット](/glossary/コミット/)が存在しない場合も 422 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 

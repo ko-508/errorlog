@@ -191,10 +191,10 @@ curl -v -H "Authorization: token <your-github-token>" \
 ```
 
 **公式ドキュメントの参照**
-GitHub [API](/glossary/api/) のドキュメント（https://docs.github.com/en/rest）の「HTTP status codes」セクションで詳細な仕様を確認してください。また Status ページ（https://www.githubstatus.com）で リアルタイムのインシデント情報をチェックできます。
+GitHub [API](/glossary/api/) のドキュメント（https://docs.github.com/en/rest）の「HTTP status codes」セクションで詳細な仕様を確認してください。また Status ページ（https://www.githubstatus.com）で [リアルタイム](/glossary/リアルタイム/)のインシデント情報をチェックできます。
 
 **GitHub Community への相談**
-個別の問題については GitHub Discussions（https://github.com/orgs/github/discussions）または Stack Overflow の github-api タグで質問することで、コミュニティからの支援が得られます。
+個別の問題については GitHub Discussions（https://github.com/orgs/github/discussions）または Stack Overflow の github-api [タグ](/glossary/タグ/)で質問することで、コミュニティからの支援が得られます。
 
 ---
 

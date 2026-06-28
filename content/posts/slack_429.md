@@ -13,7 +13,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が短時間に集中し、[レート制限](/glossary/レート制限/)を超えた場合に発生する[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。429 Too Many Requests[レスポンス](/glossary/レスポンス/)が返された場合、クライアント側で一時的に再試行を延期する必要があります。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は[メソッド](/glossary/メソッド/)ごと、アプリケーションごとに段階的に設定されており、制限を超えると [API](/glossary/api/)呼び出しが一時的に拒否されます。
+Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が短時間に集中し、[レート制限](/glossary/レート制限/)を超えた場合に発生する[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。429 Too Many Requests[レスポンス](/glossary/レスポンス/)が返された場合、クライアント側で一時的に再試行を延期する必要があります。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は[メソッド](/glossary/メソッド/)ごと、[アプリケーション](/glossary/アプリケーション/)ごとに段階的に設定されており、制限を超えると [API](/glossary/api/)呼び出しが一時的に拒否されます。
 
 ## 実際のエラーメッセージ例
 

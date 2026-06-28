@@ -52,7 +52,7 @@ GitHub [API](/glossary/api/)の409（Conflict）は、[リクエスト](/glossar
 
 ### 原因1：ブランチまたはタグがすでに存在する
 
-[ブランチ](/glossary/ブランチ/)やタグを作成しようとしたときに、同じ名前のリファレンスが既に存在する場合、409[エラー](/glossary/エラー/)が発生します。これは特に自動化スクリプトや[CI/CD](/glossary/ci-cd/)パイプラインで複数回実行される際に起こりやすい問題です。
+[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)を作成しようとしたときに、同じ名前のリファレンスが既に存在する場合、409[エラー](/glossary/エラー/)が発生します。これは特に自動化スクリプトや[CI/CD](/glossary/ci-cd/)パイプラインで複数回実行される際に起こりやすい問題です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -169,7 +169,7 @@ if (headBranch.data.commit.sha !== baseBranch.data.commit.sha) {
 
 ### 原因3：リリース(Release)のタグが既に存在している
 
-[リリース](/glossary/リリース/)を作成する際に、指定したタグが既に存在する場合、409[エラー](/glossary/エラー/)が発生します。特に再度同じ[バージョン](/glossary/バージョン/)で[リリース](/glossary/リリース/)を作成しようとした場合に起こります。
+[リリース](/glossary/リリース/)を作成する際に、指定した[タグ](/glossary/タグ/)が既に存在する場合、409[エラー](/glossary/エラー/)が発生します。特に再度同じ[バージョン](/glossary/バージョン/)で[リリース](/glossary/リリース/)を作成しようとした場合に起こります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -242,7 +242,7 @@ GitHub [API](/glossary/api/)は様々なリソースで409[エラー](/glossary/
 
 ### コミュニティリソース
 
-GitHub公式[リポジトリ](/glossary/リポジトリ/)の[Discussions](https://github.com/github/feedback/discussions)やStack Overflowの`github-api`タグで、同様の事例が報告されていないか検索してください。特にアクセス権限周辺の問題の場合、GitHub Supportへの問い合わせが最も確実です。
+GitHub公式[リポジトリ](/glossary/リポジトリ/)の[Discussions](https://github.com/github/feedback/discussions)やStack Overflowの`github-api`[タグ](/glossary/タグ/)で、同様の事例が報告されていないか検索してください。特にアクセス権限周辺の問題の場合、GitHub Supportへの問い合わせが最も確実です。
 
 ---
 

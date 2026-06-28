@@ -161,7 +161,7 @@ curl -X POST http://localhost:3000/api/datasources \
 
 ### 原因3：アラートルール設定値が範囲外またはデータ型が不正
 
-アラートルールの `threshold`（閾値）や `evaluator`（評価式）の設定値が、Grafana が期待するデータ型や値の範囲から外れている場合、400 [エラー](/glossary/エラー/)が返されます。
+アラートルールの `threshold`（閾値）や `evaluator`（評価式）の[設定値](/glossary/設定値/)が、Grafana が期待するデータ型や値の範囲から外れている場合、400 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

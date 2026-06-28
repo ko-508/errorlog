@@ -230,7 +230,7 @@ Firestore の[トランザクション](/glossary/トランザクション/)は 
 
 ### リアルタイムリスナーとの競合
 
-`onSnapshot()` で監視しているドキュメントに対して同時に[トランザクション](/glossary/トランザクション/)を実行すると、リスナーの更新と競合する可能性があります。リアルタイム更新が必要な場合は、[トランザクション](/glossary/トランザクション/)の粒度を小さくし、監視対象のドキュメント範囲を限定してください。
+`onSnapshot()` で監視しているドキュメントに対して同時に[トランザクション](/glossary/トランザクション/)を実行すると、リスナーの更新と競合する可能性があります。[リアルタイム](/glossary/リアルタイム/)更新が必要な場合は、[トランザクション](/glossary/トランザクション/)の粒度を小さくし、監視対象のドキュメント範囲を限定してください。
 
 ### Cloud Functions での推奨パターン
 
@@ -256,7 +256,7 @@ Firestore の操作[ログ](/glossary/ログ/)は Firebase Console → Firestore
 
 3. **公式ドキュメント参照**：[Firestore トランザクションおよびバッチ書き込み](https://firebase.google.com/docs/firestore/transactions)に詳細な実装例が掲載されています。
 
-4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を検索し、解決策を参考にしてください。特に `transaction-abort` タグが付いたイシューを確認してください。
+4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を検索し、解決策を参考にしてください。特に `transaction-abort` [タグ](/glossary/タグ/)が付いたイシューを確認してください。
 
 ---
 

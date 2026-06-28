@@ -308,7 +308,7 @@ time curl http://127.0.0.1:8080/
 ### コミュニティリソース
 
 - Nginx GitHub Issues：実装されていない機能や[バグ](/glossary/バグ/)報告
-- Server Fault Nginx タグ：実運用での設定ノウハウ
+- Server Fault Nginx [タグ](/glossary/タグ/)：実運用での設定ノウハウ
 - Nginx Japanese Community：日本語での質問と回答
 
 ---

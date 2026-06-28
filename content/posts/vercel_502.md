@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function またはフレームワークの [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の処理を担当する関数や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、アプリケーションの機能停止に直結します。
+Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function またはフレームワークの [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の処理を担当する関数や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
 
 ## 実際のエラーメッセージ例
 
@@ -239,7 +239,7 @@ vercel dev
 
 - [環境変数](/glossary/環境変数/)が本番環境で正しく設定されているか（Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables）
 - 関数のメモリー設定が不足していないか
-- 外部 [API](/glossary/api/) のホワイトリスト設定に本番ドメインが含まれているか
+- 外部 [API](/glossary/api/) のホワイトリスト設定に本番[ドメイン](/glossary/ドメイン/)が含まれているか
 
 ### 公式ドキュメントの参照
 

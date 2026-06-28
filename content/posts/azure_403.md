@@ -11,7 +11,7 @@ related_services: []
 ---
 ## エラーの概要
 
-Azure リソースへのアクセスが拒否されたことを示す [HTTP](/glossary/http/) 403 [エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)は、ユーザーやアプリケーションが[認証](/glossary/認証/)には成功（401 ではなく）したものの、対象リソースに対する**操作権限がない**ことを意味します。Azure では [RBAC](/glossary/rbac/)（ロールベースアクセス制御）、Azure Policy、[ネットワーク](/glossary/ネットワーク/)設定などの複数のレイヤーで[権限](/glossary/権限/)チェックが行われるため、403 が頻繁に発生します。
+Azure リソースへのアクセスが拒否されたことを示す [HTTP](/glossary/http/) 403 [エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)は、ユーザーや[アプリケーション](/glossary/アプリケーション/)が[認証](/glossary/認証/)には成功（401 ではなく）したものの、対象リソースに対する**操作権限がない**ことを意味します。Azure では [RBAC](/glossary/rbac/)（ロールベースアクセス制御）、Azure Policy、[ネットワーク](/glossary/ネットワーク/)設定などの複数のレイヤーで[権限](/glossary/権限/)チェックが行われるため、403 が頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -152,7 +152,7 @@ $ az monitor activity-log list \
   --output table
 ```
 
-Azure Portal の「監視」→「アクティビティログ」からも、リアルタイムでエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを検索し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)設定かを判定できます。
+Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを検索し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)設定かを判定できます。
 
 サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で確認できます。
 

@@ -101,7 +101,7 @@ GitHub Actions の場合、[リポジトリ](/glossary/リポジトリ/)の Sett
 
 ### 原因3：GitHub との OAuth 連携が切れている
 
-Vercel はデフォルトでプッシュ自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、GitHub 連携の[権限](/glossary/権限/)が失効したり、GitHub [アカウント](/glossary/アカウント/)側で当該アプリケーションの[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
+Vercel はデフォルトでプッシュ自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、GitHub 連携の[権限](/glossary/権限/)が失効したり、GitHub [アカウント](/glossary/アカウント/)側で当該[アプリケーション](/glossary/アプリケーション/)の[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
 
 **修正方法：**
 
@@ -118,7 +118,7 @@ git commit -m "Update features"
 git push origin main
 ```
 
-接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または GitHub アプリケーション連携ページで「Authorize」をクリックして、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
+接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または GitHub [アプリケーション](/glossary/アプリケーション/)連携ページで「Authorize」をクリックして、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
 
 ## Vercel 固有の注意点
 

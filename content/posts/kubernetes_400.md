@@ -277,7 +277,7 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 問題が解決しない場合は、以下で検索してください。
 
 - **[Kubernetes](/glossary/kubernetes/) GitHub Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)[バージョン](/glossary/バージョン/)や[バリデーション](/glossary/バリデーション/)関連の[バグ](/glossary/バグ/)報告）
-- **Stack Overflow** - `[kubernetes] 400` タグでの質問検索
+- **Stack Overflow** - `[kubernetes] 400` [タグ](/glossary/タグ/)での質問検索
 - **CNCF Slack** - #kubernetes-users チャネルでの相談
 
 ---

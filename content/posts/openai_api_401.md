@@ -17,7 +17,7 @@ top_queries:
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がクライアントの身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべてのアプリケーションで発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
+OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がクライアントの身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべての[アプリケーション](/glossary/アプリケーション/)で発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
 
 ## 実際のエラーメッセージ例
 

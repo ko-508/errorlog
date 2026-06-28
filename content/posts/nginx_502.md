@@ -87,7 +87,7 @@ server {
 }
 ```
 
-実際のアプリケーションは[ポート](/glossary/ポート/) 8000 で稼働していますが、Nginx は[ポート](/glossary/ポート/) 9000 へ接続しようとします。
+実際の[アプリケーション](/glossary/アプリケーション/)は[ポート](/glossary/ポート/) 8000 で稼働していますが、Nginx は[ポート](/glossary/ポート/) 9000 へ接続しようとします。
 
 **After（修正後）**
 
@@ -257,7 +257,7 @@ Nginx 公式ドキュメント「[Debugging](http://nginx.org/en/docs/debugging_
 
 - Nginx GitHub Issues：`https://github.com/nginx/nginx/issues`
 - Nginx 日本語ドキュメント：複数の有志翻訳サイトが存在
-- Stack Overflow タグ「nginx」で同様の事例が多数報告されており、検索に有効です
+- Stack Overflow [タグ](/glossary/タグ/)「nginx」で同様の事例が多数報告されており、検索に有効です
 
 ---
 

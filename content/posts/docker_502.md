@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-502 Bad Gateway は、[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内で実行されるアプリケーションやリバースプロキシが、上流の[サーバー](/glossary/サーバー/)から不正な応答を受け取ったときに発生します。[Docker](/glossary/docker/) Compose や [Kubernetes](/glossary/kubernetes/) でマルチコンテナを運用する環境では、[コンテナ](/glossary/コンテナ/)間通信の失敗、[プロキシ](/glossary/プロキシ/)設定のミス、[ネットワーク](/glossary/ネットワーク/)分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。
+502 Bad Gateway は、[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内で実行される[アプリケーション](/glossary/アプリケーション/)やリバースプロキシが、上流の[サーバー](/glossary/サーバー/)から不正な応答を受け取ったときに発生します。[Docker](/glossary/docker/) Compose や [Kubernetes](/glossary/kubernetes/) でマルチコンテナを運用する環境では、[コンテナ](/glossary/コンテナ/)間通信の失敗、[プロキシ](/glossary/プロキシ/)設定のミス、[ネットワーク](/glossary/ネットワーク/)分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ $ curl -v http://localhost:80/api
 
 ### 原因1：上流コンテナが起動していない、またはヘルスチェックに失敗している
 
-上流アプリケーション（Node.js、Python、Java など）が起動に失敗していたり、クラッシュしていたりする場合、[プロキシ](/glossary/プロキシ/)は接続できずに 502 を返します。
+上流[アプリケーション](/glossary/アプリケーション/)（Node.js、Python、Java など）が起動に失敗していたり、クラッシュしていたりする場合、[プロキシ](/glossary/プロキシ/)は接続できずに 502 を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きている設定）**
 ```yaml
@@ -174,7 +174,7 @@ networks:
 
 ### 原因4：コンテナ内でアプリケーションが正しくバインドされていない
 
-アプリケーションが `localhost` または `127.0.0.1` にのみバインドしている場合、[Docker](/glossary/docker/) のネットワークインターフェース経由でのアクセスが拒否されます。
+[アプリケーション](/glossary/アプリケーション/)が `localhost` または `127.0.0.1` にのみバインドしている場合、[Docker](/glossary/docker/) のネットワークインターフェース経由でのアクセスが拒否されます。
 
 **Before（[エラー](/glossary/エラー/)が起きている設定）**
 ```python
@@ -247,7 +247,7 @@ docker exec <nginx-container-name> getent hosts app
 
 ### コミュニティリソース
 
-GitHub の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow のタグ `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、アプリケーション固有の設定（Flask、Express、Django など）の問題の可能性もあるため、該当アプリケーションのコミュニティも確認してください。
+GitHub の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の設定（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも確認してください。
 
 ---
 

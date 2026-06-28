@@ -13,7 +13,7 @@ related_services: []
 
 ## エラーの概要
 
-Firebase の 503（Service Unavailable）[エラー](/glossary/エラー/)は、Firebase のバックエンドサービスが一時的に利用できない状態を示します。この[エラー](/glossary/エラー/)は Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、[サーバー](/glossary/サーバー/)側の問題またはアプリケーション側の設定不備が原因となります。
+Firebase の 503（Service Unavailable）[エラー](/glossary/エラー/)は、Firebase のバックエンドサービスが一時的に利用できない状態を示します。この[エラー](/glossary/エラー/)は Realtime Database、Cloud Firestore、Cloud Functions、Authentication、Storage など、Firebase の複数のサービスで発生する可能性があります。ほとんどの場合、[サーバー](/glossary/サーバー/)側の問題または[アプリケーション](/glossary/アプリケーション/)側の設定不備が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -171,7 +171,7 @@ exports.processData = functions
 
 **[レート制限](/glossary/レート制限/)のクォータ確認**
 
-Firebase Console の「プロジェクト設定 > 使用状況」でリアルタイム [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。
+Firebase Console の「プロジェクト設定 > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。
 
 ## それでも解決しない場合
 

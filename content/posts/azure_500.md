@@ -209,7 +209,7 @@ az network nsg rule create --resource-group myResourceGroup \
 
 ### App Service での 500 エラー
 
-Azure App Service でアプリケーションが500[エラー](/glossary/エラー/)を返す場合、アプリケーション自体の問題とプラットフォーム側の問題を区別する必要があります。以下の[コマンド](/glossary/コマンド/)で診断設定を有効にして詳細な[ログ](/glossary/ログ/)を確認してください。
+Azure App Service で[アプリケーション](/glossary/アプリケーション/)が500[エラー](/glossary/エラー/)を返す場合、[アプリケーション](/glossary/アプリケーション/)自体の問題とプラットフォーム側の問題を区別する必要があります。以下の[コマンド](/glossary/コマンド/)で診断設定を有効にして詳細な[ログ](/glossary/ログ/)を確認してください。
 
 ```bash
 # App Service の詳細ログを有効化

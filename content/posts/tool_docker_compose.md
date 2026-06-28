@@ -9,7 +9,7 @@ related_services: ["Docker", "Kubernetes", "Nomad", "YAML", "CI/CD"]
 top_queries:
 - 'docker compose'
 ---
-[Docker](/glossary/docker/) Composeとは、複数の[Docker](/glossary/docker/)コンテナーを定義・実行・管理するためのオーケストレーション（統合管理）ツールです。[YAML](/glossary/yaml/)ファイルで複数サービスの設定を一元管理し、単一[コマンド](/glossary/コマンド/)で環境全体を起動できます。開発環境から本番環境まで、コンテナーベースのアプリケーション構築を効率化します。
+[Docker](/glossary/docker/) Composeとは、複数の[Docker](/glossary/docker/)コンテナーを定義・実行・管理するためのオーケストレーション（統合管理）ツールです。[YAML](/glossary/yaml/)ファイルで複数サービスの設定を一元管理し、単一[コマンド](/glossary/コマンド/)で環境全体を起動できます。開発環境から本番環境まで、コンテナーベースの[アプリケーション](/glossary/アプリケーション/)構築を効率化します。
 
 ## 主な特徴・できること
 

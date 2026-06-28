@@ -199,7 +199,7 @@ Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase C
 
 Firebase の公式 GitHub [リポジトリ](/glossary/リポジトリ/)で同様のイシューが報告されていないか確認してください：https://github.com/firebase/firebase-js-sdk/issues
 
-Stack Overflow の `firebase` タグで過去の質問を検索することも有効です。特に「422 validation」や「security rules validation error」で検索すると、具体的な解決事例が見つかりやすいです。
+Stack Overflow の `firebase` [タグ](/glossary/タグ/)で過去の質問を検索することも有効です。特に「422 validation」や「security rules validation error」で検索すると、具体的な解決事例が見つかりやすいです。
 
 ---
 

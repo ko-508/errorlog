@@ -212,14 +212,14 @@ gcloud functions logs read <関数名> --limit 50
 
 または、Firebase Consoleで「関数」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を確認してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を確認でき、504の発生パターンが明らかになります。
 
-**パフォーマンス分析**
+**[パフォーマンス](/glossary/パフォーマンス/)分析**
 
-Cloud Profilerを有効化することで、CPUとメモリの使用状況をリアルタイムで監視できます。Firebase ConsoleまたはCloud Consoleで「パフォーマンス分析」セクションを確認し、ボトルネック箇所を特定してください。
+Cloud Profilerを有効化することで、CPUとメモリの使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを確認し、ボトルネック箇所を特定してください。
 
 **公式ドキュメント**
 
 - 「Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)とメモリ管理」（Firebase公式）
-- 「Firestoreのパフォーマンス最適化ガイド」
+- 「Firestoreの[パフォーマンス](/glossary/パフォーマンス/)最適化ガイド」
 - 「Cloud Functionsの[コールドスタート](/glossary/コールドスタート/)削減」
 
 問題が解決しない場合は、Firebase Support（有償[アカウント](/glossary/アカウント/)の場合）またはGitHub上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を検索してください。

@@ -36,7 +36,7 @@ Error: container not found: <container-id>
 
 ### 原因1：イメージ名またはタグ名の綴りが間違っている
 
-Podman [コマンド](/glossary/コマンド/)を実行する際、[イメージ](/glossary/イメージ/)名のスペルミスやタグ名の入力誤りがあると 404 [エラー](/glossary/エラー/)が発生します。例えば `podman run ubuntu:latestt` のように「latestt」と誤入力した場合、そのタグは存在しないため見つかりません。レジストリー名を含める場合も、プレフィックスの綴り間違いが原因となることがあります。
+Podman [コマンド](/glossary/コマンド/)を実行する際、[イメージ](/glossary/イメージ/)名のスペルミスや[タグ](/glossary/タグ/)名の入力誤りがあると 404 [エラー](/glossary/エラー/)が発生します。例えば `podman run ubuntu:latestt` のように「latestt」と誤入力した場合、その[タグ](/glossary/タグ/)は存在しないため見つかりません。レジストリー名を含める場合も、プレフィックスの綴り間違いが原因となることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

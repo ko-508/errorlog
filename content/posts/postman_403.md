@@ -96,7 +96,7 @@ fetch('https://api.example.com/v1/resources', requestOptions)
 
 ### 原因2：テスト対象APIのIPホワイトリストにPostmanの送信元IPが含まれていない
 
-[テスト](/glossary/テスト/)対象の[API](/glossary/api/)がIPホワイトリスト機能を有効にしている場合、Postman CloudやローカルのPostmanアプリケーションからの[リクエスト](/glossary/リクエスト/)が許可されていない[IPアドレス](/glossary/ipアドレス/)から送信されると403[エラー](/glossary/エラー/)が返されます。特にPostman Cloudを使用している場合、固定[IPアドレス](/glossary/ipアドレス/)ではなく複数の送信元IPを持つため、事前にホワイトリストに登録する必要があります。
+[テスト](/glossary/テスト/)対象の[API](/glossary/api/)がIPホワイトリスト機能を有効にしている場合、Postman CloudやローカルのPostman[アプリケーション](/glossary/アプリケーション/)からの[リクエスト](/glossary/リクエスト/)が許可されていない[IPアドレス](/glossary/ipアドレス/)から送信されると403[エラー](/glossary/エラー/)が返されます。特にPostman Cloudを使用している場合、固定[IPアドレス](/glossary/ipアドレス/)ではなく複数の送信元IPを持つため、事前にホワイトリストに登録する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

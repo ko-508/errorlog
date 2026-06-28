@@ -243,7 +243,7 @@ service cloud.firestore {
 
 ### コミュニティリソース
 
-Firebase コミュニティ StackOverflow の `firebase` タグ、または [firebase-tools GitHub Issues](https://github.com/firebase/firebase-tools/issues) で同様の事例を検索し、解決策を参照することをお勧めします。
+Firebase コミュニティ StackOverflow の `firebase` [タグ](/glossary/タグ/)、または [firebase-tools GitHub Issues](https://github.com/firebase/firebase-tools/issues) で同様の事例を検索し、解決策を参照することをお勧めします。
 
 ---
 

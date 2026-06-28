@@ -294,7 +294,7 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 確認すべきポイント
 
-1. **GitHub Status Pageの確認**：https://www.githubstatus.com で現在のGitHubサービス状態をリアルタイムで確認してください。システム障害が継続中の場合は復旧待機が必要です。
+1. **GitHub Status Pageの確認**：https://www.githubstatus.com で現在のGitHubサービス状態を[リアルタイム](/glossary/リアルタイム/)で確認してください。システム障害が継続中の場合は復旧待機が必要です。
 
 2. **[API](/glossary/api/)レスポンスヘッダーの詳細確認**：
 ```bash

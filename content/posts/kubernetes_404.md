@@ -215,7 +215,7 @@ kubectl describe pod <pod-name> -n <namespace>
 kubectl logs -n kube-system -l component=kube-apiserver
 ```
 
-**[Kubernetes](/glossary/kubernetes/)[ダッシュボード](/glossary/ダッシュボード/)・GUIツール：**
+**[Kubernetes](/glossary/kubernetes/)[ダッシュボード](/glossary/ダッシュボード/)・[GUI](/glossary/gui/)ツール：**
 `kubectl proxy`を使用して[ダッシュボード](/glossary/ダッシュボード/)にアクセスし、リソースが実際に存在するか視覚的に確認することもできます。
 
 ```bash

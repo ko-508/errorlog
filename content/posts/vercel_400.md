@@ -180,7 +180,7 @@ npm install --global ajv-cli
 ajv validate -s /path/to/schema.json -d vercel.json
 ```
 
-さらに、Vercel [CLI](/glossary/cli/) を最新版にアップデートしてください。
+さらに、Vercel [CLI](/glossary/cli/) を最新版に[アップデート](/glossary/アップデート/)してください。
 
 ```bash
 npm install -g vercel@latest

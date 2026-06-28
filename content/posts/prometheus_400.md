@@ -133,7 +133,7 @@ const response = await fetch(
 
 ## ツール固有の注意点
 
-Prometheus の 400 [エラー](/glossary/エラー/)は管理 UI で確認するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（デフォルトでは `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)がリアルタイムに表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、修正が容易になります。
+Prometheus の 400 [エラー](/glossary/エラー/)は管理 UI で確認するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（デフォルトでは `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)が[リアルタイム](/glossary/リアルタイム/)に表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、修正が容易になります。
 
 また、Prometheus 2.40 以降ではクライアント側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を本番環境に送信する前に、ローカル環境で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
 

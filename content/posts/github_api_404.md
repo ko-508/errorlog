@@ -112,7 +112,7 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 原因4：パスパラメータの欠落またはフォーマット誤り
 
-[ブランチ](/glossary/ブランチ/)名、タグ名、ファイルパスなどを含む[エンドポイント](/glossary/エンドポイント/)では、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。
+[ブランチ](/glossary/ブランチ/)名、[タグ](/glossary/タグ/)名、ファイルパスなどを含む[エンドポイント](/glossary/エンドポイント/)では、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。
 
 **Before（エンコード不足）:**
 ```bash
@@ -150,7 +150,7 @@ https://api.github.com/repos/<owner>/<repo>/pulls/<number>/reviews
 
 ### リリース・タグ・ブランチの存在確認
 
-タグや[ブランチ](/glossary/ブランチ/)名を指定する[エンドポイント](/glossary/エンドポイント/)（例：`/repos/<owner>/<repo>/contents/<path>?ref=<branch>`）では、指定した参照が存在しなければ404が返されます。以下の[コマンド](/glossary/コマンド/)で先に存在確認を行いましょう。
+[タグ](/glossary/タグ/)や[ブランチ](/glossary/ブランチ/)名を指定する[エンドポイント](/glossary/エンドポイント/)（例：`/repos/<owner>/<repo>/contents/<path>?ref=<branch>`）では、指定した参照が存在しなければ404が返されます。以下の[コマンド](/glossary/コマンド/)で先に存在確認を行いましょう。
 
 ```bash
 # ブランチ一覧確認

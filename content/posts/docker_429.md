@@ -69,7 +69,7 @@ docker pull redis:latest
 
 ### 原因2：CI/CD パイプラインでの過度な並行ビルド・プル
 
-GitHub Actions や GitLab CI、Jenkins など複数のジョブが同時に [Docker](/glossary/docker/) [イメージ](/glossary/イメージ/)をプルおよびビルドする場合、[レート制限](/glossary/レート制限/)に達しやすくなります。特に複数[ブランチ](/glossary/ブランチ/)やタグのビルドが並行実行されるとき顕著です。
+GitHub Actions や GitLab CI、Jenkins など複数のジョブが同時に [Docker](/glossary/docker/) [イメージ](/glossary/イメージ/)をプルおよびビルドする場合、[レート制限](/glossary/レート制限/)に達しやすくなります。特に複数[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)のビルドが並行実行されるとき顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
