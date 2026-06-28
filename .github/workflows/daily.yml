@@ -1,8 +1,9 @@
 name: Daily Article Publish
 
 on:
-  schedule:
-    - cron: '0 1 * * *'  # 毎日 10:00 JST
+  # 取得不可ドメインの引用検査の穴の対策完了まで一時停止
+  # schedule:
+  #   - cron: '0 1 * * *'  # 毎日 10:00 JST
   workflow_dispatch:
 
 permissions:
