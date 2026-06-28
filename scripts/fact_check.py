@@ -164,8 +164,16 @@ VENDOR_COMMUNITY_PREFIXES: tuple[str, ...] = ("forums.", "discuss.", "community.
 
 COMMUNITY_BLOG_DOMAINS: list[str] = [
     "stackoverflow.com", "qiita.com", "zenn.dev", "medium.com",
-    "github.com", "dev.to", "reddit.com",
+    "github.com", "dev.to",
 ]
+
+# HTTP 200 を返すが Gemini grounding でコンテンツ照合ができないドメイン。
+# Editor's Note の引用源として使用禁止。
+UNVERIFIABLE_DOMAINS: frozenset[str] = frozenset({
+    "reddit.com",
+    "redd.it",
+    "vertexaisearch.cloud.google.com",
+})
 
 OTHER_DOMAINS: list[str] = ["youtube.com", "youtu.be"]
 
@@ -192,6 +200,8 @@ def _classify_resolved_domain(domain: str) -> str:
         return "vendor_community"
     if any(_domain_ends_with(domain, d) for d in _ALL_OFFICIAL_DOMAINS):
         return "official"
+    if any(_domain_ends_with(domain, d) for d in UNVERIFIABLE_DOMAINS):
+        return "unverifiable"
     if any(_domain_ends_with(domain, d) for d in COMMUNITY_BLOG_DOMAINS):
         return "community_blog"
     if any(_domain_ends_with(domain, d) for d in OTHER_DOMAINS):
