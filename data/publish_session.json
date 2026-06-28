@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "path": "content/posts/podman_502.md",
+    "stem": "podman_502",
+    "title": "Podman の 502 エラー：原因と解決策",
+    "source_type": "daily"
+  }
+]
