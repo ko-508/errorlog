@@ -8,6 +8,8 @@ service: "Bitbucket"
 error_type: "500"
 components: []
 related_services: ["Git", "Git LFS", "Atlassian"]
+top_queries:
+- 'bitbucket 障害'
 ---
 ## エラーの概要
 

@@ -11,7 +11,9 @@ components: []
 related_services: []
 trend_incident: true
 top_queries:
-- 'github api 404'
+- '404 github'
+- 'github 404'
+- 'github 404 原因'
 ---
 
 ## エラーの概要

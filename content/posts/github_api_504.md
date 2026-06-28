@@ -11,9 +11,7 @@ components: []
 related_services: ["REST API", "OAuth", "Personal Access Token", "CI/CD"]
 trend_incident: true
 top_queries:
-- 'github 504'
-- 'github api 504'
-- 'github 504 gateway time-out the server didn''t respond in time.'
+- '504 github'
 ---
 
 ## エラーの概要

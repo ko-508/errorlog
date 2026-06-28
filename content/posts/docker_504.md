@@ -12,6 +12,8 @@ related_services: ["Nginx", "PostgreSQL"]
 trend_incident: true
 top_queries:
 - '504 エラー'
+- '504 エラー 原因'
+- 'エラー 504'
 ---
 
 ## エラーの概要

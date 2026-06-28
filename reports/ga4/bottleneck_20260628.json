@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-06-28",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/openai_api_503/",
+      "pageTitle": "OpenAI API の 503 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 11.0,
+      "averageSessionDuration": 1.8175935454545453,
+      "engagementRate": 0.0,
+      "bounceRate": 1.0
+    }
+  ]
+}

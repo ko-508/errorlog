@@ -1,0 +1,470 @@
+{
+  "generated_at": "2026-06-28",
+  "site_url": "https://errorlog.jp/",
+  "period_days": 7,
+  "ctr_threshold": 0.015,
+  "pos_range": [
+    11.0,
+    20.0
+  ],
+  "total_pages": 136,
+  "bottlenecks": [
+    {
+      "page": "https://errorlog.jp/posts/auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-/",
+      "slug": "auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-",
+      "impressions": 78,
+      "clicks": 1,
+      "ctr": 0.0128,
+      "position": 9.1,
+      "top_query": "the model returned the following errors: data retention mode 'default' is not available for this model",
+      "reasons": [
+        "CTR 1.3% < 閾値 1.5%（インプレッション 78）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 77.32,
+      "rewrite_eligible": true
+    },
+    {
+      "page": "https://errorlog.jp/posts/nginx_403/",
+      "slug": "nginx_403",
+      "impressions": 72,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 12.2,
+      "top_query": "403 forbidden nginx",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 72）",
+        "掲載順位 12.2 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 74.42,
+      "rewrite_eligible": true
+    },
+    {
+      "page": "https://errorlog.jp/posts/nginx_404/",
+      "slug": "nginx_404",
+      "impressions": 72,
+      "clicks": 1,
+      "ctr": 0.0139,
+      "position": 8.0,
+      "top_query": "404 not found nginx",
+      "reasons": [
+        "CTR 1.4% < 閾値 1.5%（インプレッション 72）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 73.58,
+      "rewrite_eligible": true
+    },
+    {
+      "page": "https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/",
+      "slug": "gemini_api_429_resource_exhausted_free_tier",
+      "impressions": 10,
+      "clicks": 1,
+      "ctr": 0.1,
+      "position": 11.9,
+      "top_query": "free_quota_exhausted",
+      "reasons": [
+        "掲載順位 11.9 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/nginx_503/",
+      "slug": "nginx_503",
+      "impressions": 43,
+      "clicks": 1,
+      "ctr": 0.0233,
+      "position": 12.5,
+      "top_query": "503 service temporarily unavailable nginx",
+      "reasons": [
+        "掲載順位 12.5 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/stripe_402/",
+      "slug": "stripe_402",
+      "impressions": 17,
+      "clicks": 1,
+      "ctr": 0.0588,
+      "position": 13.8,
+      "top_query": "stripe 決済 エラー",
+      "reasons": [
+        "掲載順位 13.8 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/aws_504/",
+      "slug": "aws_504",
+      "impressions": 20,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 36.4,
+      "top_query": "elb 504",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 20）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/azure_400/",
+      "slug": "azure_400",
+      "impressions": 12,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 6.4,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 12）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/docker_404/",
+      "slug": "docker_404",
+      "impressions": 18,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 5.3,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 18）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/docker_408/",
+      "slug": "docker_408",
+      "impressions": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 15.4,
+      "top_query": "408エラー",
+      "reasons": [
+        "掲載順位 15.4 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/docker_429/",
+      "slug": "docker_429",
+      "impressions": 11,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 7,
+      "top_query": "error 429",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 11）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/docker_500/",
+      "slug": "docker_500",
+      "impressions": 17,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 6.6,
+      "top_query": "docker 500 internal server error",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 17）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/firebase_400/",
+      "slug": "firebase_400",
+      "impressions": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 17,
+      "top_query": "",
+      "reasons": [
+        "掲載順位 17.0 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/firebase_429/",
+      "slug": "firebase_429",
+      "impressions": 13,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.1,
+      "top_query": "429 エラー",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 13）",
+        "掲載順位 11.1 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/firebase_500/",
+      "slug": "firebase_500",
+      "impressions": 12,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 12）",
+        "掲載順位 11.0 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/gcp_500/",
+      "slug": "gcp_500",
+      "impressions": 11,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 13.3,
+      "top_query": "google 500エラー",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 11）",
+        "掲載順位 13.3 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/gcp_503/",
+      "slug": "gcp_503",
+      "impressions": 12,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 7.2,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 12）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/github_api_400/",
+      "slug": "github_api_400",
+      "impressions": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.4,
+      "top_query": "github api bad credentials",
+      "reasons": [
+        "掲載順位 11.4 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/github_api_403/",
+      "slug": "github_api_403",
+      "impressions": 20,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 7.2,
+      "top_query": "github api 403",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 20）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/github_api_404/",
+      "slug": "github_api_404",
+      "impressions": 19,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 11.7,
+      "top_query": "404 github",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 19）",
+        "掲載順位 11.7 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/github_api_500/",
+      "slug": "github_api_500",
+      "impressions": 16,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 9.6,
+      "top_query": "github 500",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 16）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/github_api_502/",
+      "slug": "github_api_502",
+      "impressions": 8,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 14.5,
+      "top_query": "github 502",
+      "reasons": [
+        "掲載順位 14.5 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/openai_api_404/",
+      "slug": "openai_api_404",
+      "impressions": 12,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 13.2,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 12）",
+        "掲載順位 13.2 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/openai_api_500/",
+      "slug": "openai_api_500",
+      "impressions": 16,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 13,
+      "top_query": "openai 520 error",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 16）",
+        "掲載順位 13.0 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/openai_api_503/",
+      "slug": "openai_api_503",
+      "impressions": 38,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 9.1,
+      "top_query": "apiが過負荷状態です",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 38）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/page/4/",
+      "slug": "",
+      "impressions": 10,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 9.2,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 10）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/slack_400/",
+      "slug": "slack_400",
+      "impressions": 17,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 5.8,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 17）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/slack_403/",
+      "slug": "slack_403",
+      "impressions": 13,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 5.4,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 13）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/supabase_429/",
+      "slug": "supabase_429",
+      "impressions": 7,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 16.4,
+      "top_query": "request failed with status code 429",
+      "reasons": [
+        "掲載順位 16.4 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/vercel_502/",
+      "slug": "vercel_502",
+      "impressions": 27,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 6.2,
+      "top_query": "bad gateway error code 502",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.5%（インプレッション 27）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    }
+  ]
+}

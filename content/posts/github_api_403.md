@@ -10,6 +10,9 @@ error_type: "403"
 components: ["Actions"]
 related_services: ["GitHub Web UI", "Webhook"]
 trend_incident: true
+top_queries:
+- 'github api 403'
+- 'http 403: resource not accessible by personal access token (https://api.github.com/user/keys?per_page=100)'
 ---
 
 ## エラーの概要

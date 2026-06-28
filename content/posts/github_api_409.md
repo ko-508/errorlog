@@ -11,7 +11,7 @@ components: []
 related_services: ["Octokit"]
 trend_incident: true
 top_queries:
-- 'github 409'
+- '409エラー'
 ---
 
 ## エラーの概要

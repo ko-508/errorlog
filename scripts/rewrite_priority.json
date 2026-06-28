@@ -1,20 +1,80 @@
 [
   {
+    "title": "CircleCI の 503 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+    "priority_score": 1.0,
+    "critical": true,
+    "no_ratio": 1.0,
+    "no_count": 1,
+    "engagement_sec": 674.2,
+    "queued_at": "2026-06-28",
+    "source": "ga4_feedback_loop"
+  },
+  {
+    "title": "Prometheus の 503 エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+    "priority_score": 1.0,
+    "critical": true,
+    "no_ratio": 1.0,
+    "no_count": 1,
+    "engagement_sec": 339.7,
+    "queued_at": "2026-06-28",
+    "source": "ga4_feedback_loop"
+  },
+  {
+    "title": "Nginx の 403 エラー：原因と解決策",
+    "slug": "nginx_403",
+    "priority_score": 74.42,
+    "critical": false,
+    "rewrite_eligible": true,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "403 forbidden nginx",
+    "gsc_position": 12.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 72,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 72）",
+      "掲載順位 12.2 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Nginx の 404 エラー：原因と解決策",
+    "slug": "nginx_404",
+    "priority_score": 73.58,
+    "critical": false,
+    "rewrite_eligible": true,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "404 not found nginx",
+    "gsc_position": 8.0,
+    "gsc_ctr": 0.0139,
+    "gsc_impressions": 72,
+    "gsc_reasons": [
+      "CTR 1.4% < 閾値 1.5%（インプレッション 72）"
+    ],
+    "queued_at": "2026-06-17",
+    "source": "gsc_bottleneck"
+  },
+  {
     "title": "GitHub API の 404 エラー：原因と解決策",
     "priority_score": 0.5,
     "critical": false,
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "top_query": "github api 404",
-    "gsc_position": 8.9,
+    "top_query": "404 github",
+    "gsc_position": 11.7,
     "gsc_ctr": 0,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.5%（インプレッション 14）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 19）",
+      "掲載順位 11.7 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-02",
     "source": "gsc_bottleneck",
-    "gsc_impressions": 14,
+    "gsc_impressions": 19,
     "rewrite_eligible": false,
     "slug": "github_api_404"
   },
@@ -141,11 +201,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "elb 504",
-    "gsc_position": 46.0,
+    "gsc_position": 36.4,
     "gsc_ctr": 0,
-    "gsc_impressions": 24,
+    "gsc_impressions": 20,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.5%（インプレッション 24）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 20）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -159,12 +219,12 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "top_query": "408 エラー",
-    "gsc_position": 19.2,
-    "gsc_ctr": 0.125,
+    "top_query": "408エラー",
+    "gsc_position": 15.4,
+    "gsc_ctr": 0,
     "gsc_impressions": 8,
     "gsc_reasons": [
-      "掲載順位 19.2 位（停滞圏 11〜20 位）"
+      "掲載順位 15.4 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -178,12 +238,13 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
-    "top_query": "google エラー500",
-    "gsc_position": 14.4,
-    "gsc_ctr": 0.0625,
-    "gsc_impressions": 16,
+    "top_query": "google 500エラー",
+    "gsc_position": 13.3,
+    "gsc_ctr": 0,
+    "gsc_impressions": 11,
     "gsc_reasons": [
-      "掲載順位 14.4 位（停滞圏 11〜20 位）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 11）",
+      "掲載順位 13.3 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -203,45 +264,6 @@
     "gsc_impressions": 9,
     "gsc_reasons": [
       "掲載順位 12.9 位（停滞圏 11〜20 位）"
-    ],
-    "queued_at": "2026-06-17",
-    "source": "gsc_bottleneck"
-  },
-  {
-    "title": "Nginx の 403 エラー：原因と解決策",
-    "slug": "nginx_403",
-    "priority_score": 0.0,
-    "critical": false,
-    "rewrite_eligible": false,
-    "no_ratio": 0.0,
-    "no_count": 0,
-    "engagement_sec": 0.0,
-    "top_query": "403 forbidden nginx",
-    "gsc_position": 11.3,
-    "gsc_ctr": 0,
-    "gsc_impressions": 16,
-    "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.4%（インプレッション 16）",
-      "掲載順位 11.3 位（停滞圏 11〜20 位）"
-    ],
-    "queued_at": "2026-06-17",
-    "source": "gsc_bottleneck"
-  },
-  {
-    "title": "Nginx の 404 エラー：原因と解決策",
-    "slug": "nginx_404",
-    "priority_score": 0.0,
-    "critical": false,
-    "rewrite_eligible": false,
-    "no_ratio": 0.0,
-    "no_count": 0,
-    "engagement_sec": 0.0,
-    "top_query": "404 not found nginx",
-    "gsc_position": 10.1,
-    "gsc_ctr": 0,
-    "gsc_impressions": 25,
-    "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.5%（インプレッション 25）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -294,11 +316,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "stripe 決済 エラー",
-    "gsc_position": 13.2,
-    "gsc_ctr": 0,
-    "gsc_impressions": 5,
+    "gsc_position": 13.8,
+    "gsc_ctr": 0.0588,
+    "gsc_impressions": 17,
     "gsc_reasons": [
-      "掲載順位 13.2 位（停滞圏 11〜20 位）"
+      "掲載順位 13.8 位（停滞圏 11〜20 位）"
     ],
     "queued_at": "2026-06-17",
     "source": "gsc_bottleneck"
@@ -390,11 +412,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "docker 500 internal server error",
-    "gsc_position": 9.1,
+    "gsc_position": 6.6,
     "gsc_ctr": 0,
-    "gsc_impressions": 10,
+    "gsc_impressions": 17,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.5%（インプレッション 10）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 17）"
     ],
     "queued_at": "2026-06-21",
     "source": "gsc_bottleneck"
@@ -447,12 +469,11 @@
     "no_count": 0,
     "engagement_sec": 0.0,
     "top_query": "エラー 503 とは",
-    "gsc_position": 14.5,
+    "gsc_position": 7.2,
     "gsc_ctr": 0,
-    "gsc_impressions": 15,
+    "gsc_impressions": 12,
     "gsc_reasons": [
-      "CTR 0.0% < 閾値 1.5%（インプレッション 15）",
-      "掲載順位 14.5 位（停滞圏 11〜20 位）"
+      "CTR 0.0% < 閾値 1.5%（インプレッション 12）"
     ],
     "queued_at": "2026-06-21",
     "source": "gsc_bottleneck"
@@ -485,14 +506,360 @@
     "no_ratio": 0.0,
     "no_count": 0,
     "engagement_sec": 0.0,
+    "top_query": "openai 520 error",
+    "gsc_position": 13,
+    "gsc_ctr": 0,
+    "gsc_impressions": 16,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 16）",
+      "掲載順位 13.0 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-21",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Gemini API の 429 エラー：無料枠クォータ枯渇と解決策",
+    "slug": "gemini_api_429_resource_exhausted_free_tier",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "free_quota_exhausted",
+    "gsc_position": 11.9,
+    "gsc_ctr": 0.1,
+    "gsc_impressions": 10,
+    "gsc_reasons": [
+      "掲載順位 11.9 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Nginx の 503 エラー：原因と解決策",
+    "slug": "nginx_503",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "503 service temporarily unavailable nginx",
+    "gsc_position": 12.5,
+    "gsc_ctr": 0.0233,
+    "gsc_impressions": 43,
+    "gsc_reasons": [
+      "掲載順位 12.5 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Azure の 400 エラー：原因と解決策",
+    "slug": "azure_400",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
     "top_query": "",
-    "gsc_position": 6.8,
+    "gsc_position": 6.4,
+    "gsc_ctr": 0,
+    "gsc_impressions": 12,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 12）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Docker の 404 エラー：原因と解決策",
+    "slug": "docker_404",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 5.3,
+    "gsc_ctr": 0,
+    "gsc_impressions": 18,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 18）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Docker の 429 エラー：原因と解決策",
+    "slug": "docker_429",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "error 429",
+    "gsc_position": 7,
+    "gsc_ctr": 0,
+    "gsc_impressions": 11,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 11）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Firebase の 400 エラー：原因と解決策",
+    "slug": "firebase_400",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 17,
+    "gsc_ctr": 0,
+    "gsc_impressions": 8,
+    "gsc_reasons": [
+      "掲載順位 17.0 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Firebase の 429 エラー：原因と解決策",
+    "slug": "firebase_429",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "429 エラー",
+    "gsc_position": 11.1,
+    "gsc_ctr": 0,
+    "gsc_impressions": 13,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 13）",
+      "掲載順位 11.1 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Firebase の 500 エラー：原因と解決策",
+    "slug": "firebase_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 11,
+    "gsc_ctr": 0,
+    "gsc_impressions": 12,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 12）",
+      "掲載順位 11.0 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GitHub API の 400 エラー：原因と解決策",
+    "slug": "github_api_400",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "github api bad credentials",
+    "gsc_position": 11.4,
+    "gsc_ctr": 0,
+    "gsc_impressions": 8,
+    "gsc_reasons": [
+      "掲載順位 11.4 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GitHub API の 403 エラー：原因と解決策",
+    "slug": "github_api_403",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "github api 403",
+    "gsc_position": 7.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 20,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 20）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GitHub API の 500 エラー：原因と解決策",
+    "slug": "github_api_500",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "github 500",
+    "gsc_position": 9.6,
+    "gsc_ctr": 0,
+    "gsc_impressions": 16,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 16）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "GitHub API の 502 エラー：原因と解決策",
+    "slug": "github_api_502",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "github 502",
+    "gsc_position": 14.5,
+    "gsc_ctr": 0,
+    "gsc_impressions": 8,
+    "gsc_reasons": [
+      "掲載順位 14.5 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "OpenAI API の 404 エラー：原因と解決策",
+    "slug": "openai_api_404",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 13.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 12,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 12）",
+      "掲載順位 13.2 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "OpenAI API の 503 エラー：原因と解決策",
+    "slug": "openai_api_503",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "apiが過負荷状態です",
+    "gsc_position": 9.1,
+    "gsc_ctr": 0,
+    "gsc_impressions": 38,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 38）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Slack の 400 エラー：原因と解決策",
+    "slug": "slack_400",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 5.8,
+    "gsc_ctr": 0,
+    "gsc_impressions": 17,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 17）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Slack の 403 エラー：原因と解決策",
+    "slug": "slack_403",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "",
+    "gsc_position": 5.4,
     "gsc_ctr": 0,
     "gsc_impressions": 13,
     "gsc_reasons": [
       "CTR 0.0% < 閾値 1.5%（インプレッション 13）"
     ],
-    "queued_at": "2026-06-21",
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Supabase の 429 エラー：原因と解決策",
+    "slug": "supabase_429",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "request failed with status code 429",
+    "gsc_position": 16.4,
+    "gsc_ctr": 0,
+    "gsc_impressions": 7,
+    "gsc_reasons": [
+      "掲載順位 16.4 位（停滞圏 11〜20 位）"
+    ],
+    "queued_at": "2026-06-28",
+    "source": "gsc_bottleneck"
+  },
+  {
+    "title": "Vercel の 502 エラー：原因と解決策",
+    "slug": "vercel_502",
+    "priority_score": 0.0,
+    "critical": false,
+    "rewrite_eligible": false,
+    "no_ratio": 0.0,
+    "no_count": 0,
+    "engagement_sec": 0.0,
+    "top_query": "bad gateway error code 502",
+    "gsc_position": 6.2,
+    "gsc_ctr": 0,
+    "gsc_impressions": 27,
+    "gsc_reasons": [
+      "CTR 0.0% < 閾値 1.5%（インプレッション 27）"
+    ],
+    "queued_at": "2026-06-28",
     "source": "gsc_bottleneck"
   }
 ]

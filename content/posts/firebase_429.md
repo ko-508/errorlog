@@ -11,7 +11,6 @@ components: ["Firestore", "Cloud Functions", "Authentication", "Realtime Databas
 related_services: ["Spark プラン", "Blaze プラン"]
 top_queries:
 - '429 エラー'
-- '429エラー'
 ---
 
 ## エラーの概要

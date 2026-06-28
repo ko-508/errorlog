@@ -11,8 +11,8 @@ components: []
 related_services: []
 top_queries:
 - '404 not found nginx'
-- 'nginx 404 not found 原因'
 - '404 not found nginx 原因'
+- 'nginx 404 not found 原因'
 ---
 
 ## エラーの概要

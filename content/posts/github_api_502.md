@@ -11,6 +11,7 @@ components: []
 related_services: []
 trend_incident: true
 top_queries:
+- 'github 502'
 - 'github api 502'
 ---
 

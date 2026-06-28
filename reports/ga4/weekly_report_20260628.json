@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-06-28",
+  "period": "2026-06-19 〜 2026-06-25",
+  "issue_title": "【週次レポート】GA4 + GSC ボトルネック (2026-06-28)",
+  "issue_body": "## 週次統合分析レポート（2026-06-19 〜 2026-06-25）\n\n### 1. GA4 トラフィックサマリー\n\n| 分類 | 指標名 | 今週の実績値 | 状態 |\n| :--- | :--- | :--- | :--- |\n| **集客** | アクティブユーザー数 | 34 | 🔴 要改善 |\n| | セッション数 | 55 | 🔴 要改善 |\n| | チャネル比率 | Organic Search: 78%, Direct: 20%, Unassigned: 2% | ✅ 良好 |\n| **ユーザー属性** | 日本国内率 | 82.4% | ✅ 良好 |\n| **動線** | 1セッションあたりPV数 | 1.45 | ⚠️ 要注意 |\n| | 離脱率 | 72.7% | 🔴 要改善 |\n| **品質** | フロントエラー発生数 | 0件 | ✅ エラーなし |\n\n### 2. Search Console サイト全体サマリー\n\n| 指標 | 今週 |\n| :--- | :--- |\n| 総インプレッション数 | 1,660 |\n| 総クリック数 | 24 |\n| 平均掲載順位 | 20.9 |\n| 平均CTR | 1.45% |\n\n### 3. Search Console ボトルネック記事\n\n判定条件: CTR < 1.5%（インプレッション≥10件）または掲載順位 11〜20 位停滞。\n\n| # | 対象URL | 表示回数 | CTR | 平均掲載順位 | 最多検索クエリ |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | `https://errorlog.jp/posts/auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-/` | 78 | 1.28% | 9.1 | the model returned the following errors: data retention mode 'default' is not available for this model |\n| 2 | `https://errorlog.jp/posts/nginx_404/` | 72 | 1.39% | 8.0 | 404 not found nginx |\n| 3 | `https://errorlog.jp/posts/nginx_403/` | 72 | 0.00% | 12.2 | 403 forbidden nginx |\n| 4 | `https://errorlog.jp/posts/nginx_503/` | 43 | 2.33% | 12.5 | 503 service temporarily unavailable nginx |\n| 5 | `https://errorlog.jp/posts/openai_api_503/` | 38 | 0.00% | 9.1 | apiが過負荷状態です |\n| 6 | `https://errorlog.jp/posts/vercel_502/` | 27 | 0.00% | 6.2 | bad gateway error code 502 |\n| 7 | `https://errorlog.jp/posts/aws_504/` | 20 | 0.00% | 36.4 | elb 504 |\n| 8 | `https://errorlog.jp/posts/github_api_403/` | 20 | 0.00% | 7.2 | github api 403 |\n| 9 | `https://errorlog.jp/posts/github_api_404/` | 19 | 0.00% | 11.7 | 404 github |\n| 10 | `https://errorlog.jp/posts/docker_404/` | 18 | 0.00% | 5.3 | — |\n| 11 | `https://errorlog.jp/posts/stripe_402/` | 17 | 5.88% | 13.8 | stripe 決済 エラー |\n| 12 | `https://errorlog.jp/posts/docker_500/` | 17 | 0.00% | 6.6 | docker 500 internal server error |\n| 13 | `https://errorlog.jp/posts/slack_400/` | 17 | 0.00% | 5.8 | — |\n| 14 | `https://errorlog.jp/posts/github_api_500/` | 16 | 0.00% | 9.6 | github 500 |\n| 15 | `https://errorlog.jp/posts/openai_api_500/` | 16 | 0.00% | 13.0 | openai 520 error |\n\n---\n\n### ホスト別トラフィック内訳（混入監視）\n\n| ホスト | PV | PV% | UU | UU% |\n| :--- | :--- | :--- | :--- | :--- |\n| `zenn.dev` | 213 | 72.7% | 191 | 84.9% |\n| `errorlog.jp` | 80 | 27.3% | 34 | 15.1% |\n\n> メイン指標は errorlog.jp のみ（PV の 27.3%）で集計しています。\n\n> ⚠️ zenn.dev が全体の **72.7%** を占めています。メイン指標は errorlog.jp のみに絞って集計しています。\n\n---\n\n### ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n今週は除外対象なし（Singapore・5.0秒未満のセッションは検出されませんでした）。\n\n---\n\n### 国別分布（継続観測・ボット判定の参考。断定ではありません）\n\n| 国 | セッション数 | アクティブUU | エンゲージ率 | 平均エンゲージ時間(秒) | 直帰率 |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| Japan | 49 | 28 | 30.61% | 201.5 | 69.39% |\n| United States ⚠️ | 3 | 3 | 0.00% | 0.9 | 100.00% |\n| India ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n| Romania ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n| United Arab Emirates ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n\n> ⚠️ は平均エンゲージ時間 < 10秒 または 直帰率 > 90% の国に付けた**参考フラグ**です（直帰率の閾値は仮値であり、運用しながら見直してください）。エラー解決サイトでは検索流入後すぐ離脱する正常な利用も多いため、この指標だけではボットと**断定できません**。毎週の推移を人が見て判断するための記録であり、自動的な除外・ブロックには使用していません。\n\n---\n\n### IndexNow 送信サマリー（今週）\n\nIndexNow 経由で送信: **45 URL**\n\n---\n\n## Content Gap Report\n\nCoverage Rate: **16.2%**\n\n| 分類 | 件数 |\n| :--- | :--- |\n| ✅ Covered   | 32 |\n| ⚠️ Partial   | 39 |\n| 🔴 Uncovered | 127 |\n| **合計**     | **198** |\n\n### Top Opportunities\n\n1. 🔴 `provider_data_share` — Score: 0.0\n2. 🔴 `\"const sellingpartnerapi = require('amazon-sp-api')\"` — Score: 0.0\n3. 🔴 `\"data retention mode 'default' is not available for this model\"` — Score: 0.0\n4. 🔴 `\"data retention mode 'default' is not available for this model\" bedrock` — Score: 0.0\n5. 🔴 `\"sk-proj-\"` — Score: 0.0\n6. 🔴 `100404` — Score: 0.0\n7. 🔴 `authorization error accessing plugins` — Score: 0.0\n8. 🔴 `backoff 意味` — Score: 0.0\n9. 🔴 `ci to cd` — Score: 0.0\n10. 🔴 `ci とは プログラミング` — Score: 0.0\n\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。",
+  "bottlenecks_count": 30,
+  "metrics_snapshot": {
+    "active_users": 34,
+    "sessions": 55,
+    "organic_ratio": 0.7818,
+    "japan_ratio": 0.8235,
+    "pv_per_sess": 1.455,
+    "bounce_rate": 0.7273,
+    "js_errors": 0
+  },
+  "gsc_summary": {
+    "impressions": 1660,
+    "clicks": 24,
+    "ctr": 0.014457831325301205,
+    "position": 20.900602409638555
+  },
+  "ga4_host_summary": {
+    "primary_host": "errorlog.jp",
+    "hosts": [
+      {
+        "host": "zenn.dev",
+        "pv": 213,
+        "uu": 191,
+        "sessions": 243,
+        "pv_share": 0.727,
+        "uu_share": 0.8489
+      },
+      {
+        "host": "errorlog.jp",
+        "pv": 80,
+        "uu": 34,
+        "sessions": 55,
+        "pv_share": 0.273,
+        "uu_share": 0.1511
+      }
+    ],
+    "primary_host_pv_share": 0.273,
+    "total_pv_all_hosts": 293,
+    "total_uu_all_hosts": 225
+  }
+}
