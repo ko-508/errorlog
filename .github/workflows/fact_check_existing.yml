@@ -1,9 +1,10 @@
 name: Existing Article Fact Check
 
 on:
-  schedule:
-    # 09:00, 12:00, 15:00, 18:00, 21:00 JST
-    - cron: "0 0,3,6,9,12 * * *"
+  # 取得不可ドメイン対策・データ掃除完了まで一時停止
+  # schedule:
+  #   # 09:00, 12:00, 15:00, 18:00, 21:00 JST
+  #   - cron: "0 0,3,6,9,12 * * *"
   workflow_dispatch:
     inputs:
       limit:

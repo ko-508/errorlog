@@ -1,8 +1,9 @@
 name: Weekly Article Refresh
 
 on:
-  schedule:
-    - cron: '0 3 * * 5'
+  # 取得不可ドメイン対策・データ掃除完了まで一時停止
+  # schedule:
+  #   - cron: '0 3 * * 5'
   workflow_dispatch:
     inputs:
       refresh_days:

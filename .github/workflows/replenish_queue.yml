@@ -1,8 +1,9 @@
 name: Replenish Article Queue
 
 on:
-  schedule:
-    - cron: '0 4 1 * *'
+  # 取得不可ドメイン対策・データ掃除完了まで一時停止
+  # schedule:
+  #   - cron: '0 4 1 * *'
   workflow_dispatch:
     inputs:
       add_count:
