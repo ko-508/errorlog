@@ -45,6 +45,7 @@ jobs:
           FACT_CHECK_NEW_ARTICLE_MAX_RETRIES: "3"
           FACT_CHECK_REPORT_RETENTION_DAYS: "30"
           FACT_CHECK_URL_CHECK: "true"
+          MAX_CITATION_RETRIES: "0"
         run: python scripts/daily_publish.py
 
       - name: Insert glossary links into new articles
