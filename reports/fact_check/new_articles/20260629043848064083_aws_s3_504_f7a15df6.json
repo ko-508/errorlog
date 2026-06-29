@@ -1,0 +1,239 @@
+{
+  "path": "content/posts/aws_s3_504.md",
+  "title": "AWS S3 の 504 エラー：原因と解決策",
+  "mode": "new",
+  "scores": {
+    "factual_score": 75,
+    "freshness_score": 45,
+    "citation_coverage": 17,
+    "risk_score": 78
+  },
+  "passed": false,
+  "critical": false,
+  "reasons": [
+    "The article contains a significant factual error regarding AWS S3 static website hosting natively supporting HTTPS, which is directly contradicted by official AWS documentation and other parts of the article itself.",
+    "One technical claim about a 60-120 second timeout for large S3 uploads/downloads resulting in a 504 error is not adequately supported by specific official documentation.",
+    "The article generally provides accurate information and effective solutions for common CloudFront 504 errors when interacting with S3, supported by relevant AWS CLI commands and configuration examples.",
+    "Most factual claims are well-supported by recent official AWS documentation, demonstrating good research for the majority of the content.",
+    "citation coverage is below the threshold",
+    "freshness score is below the threshold",
+    "one or more claims are unsupported or unverifiable",
+    "high official URL ratio (71%)"
+  ],
+  "required_actions": [
+    "Correct the statement that AWS S3 static website endpoints provide HTTPS functionality. Clearly state that HTTPS requires Amazon CloudFront for S3 static websites.",
+    "Provide a specific official source for the claim regarding a '60-120 second timeout for large S3 uploads/downloads causing a 504', or rephrase/remove the claim if no direct source can be found.",
+    "Consider adding a nuance that misconfigured 'Authorization' headers in CloudFront for S3 origins might result in an HTTP 400 error rather than a 504, as suggested by some AWS documentation.",
+    "Add links to official documentation or primary sources for key claims.",
+    "Review current official docs and update changed API/spec/pricing details.",
+    "Add official or primary source URLs for unsupported claims."
+  ],
+  "detected_at": "2026-06-29",
+  "status": "reject",
+  "critical_level": "",
+  "report_path": "reports/fact_check/new_articles/20260629043848064083_aws_s3_504_f7a15df6.json",
+  "evaluator": "gemini",
+  "sources": [
+    {
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/http-504-gateway-timeout.html",
+      "title": "HTTP 504 status code (Gateway Timeout) - Amazon CloudFront",
+      "claim": "AWS S3 における 504 Gateway Timeout エラーは、CloudFront がオリジンサーバー（S3など）にリクエストを転送した際に、オリジンが所定の時間内に応答しなかった、またはオリジン自体が 504 エラーを返したことを示します。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/http-504-gateway-timeout.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://www.dnsrobot.com/blog/504-gateway-timeout-what-it-means-how-to-fix/",
+      "title": "504 Gateway Timeout: What It Means & How to Fix - DNS Robot",
+      "claim": "AWS S3 における 504 Gateway Timeout エラーは、CloudFront がオリジンサーバー（S3など）にリクエストを転送した際に、オリジンが所定の時間内に応答しなかった、またはオリジン自体が 504 エラーを返したことを示します。",
+      "source_type": "blog",
+      "url_check_status": "skipped",
+      "final_url": "https://www.dnsrobot.com/blog/504-gateway-timeout-what-it-means-how-to-fix/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "www.dnsrobot.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html",
+      "title": "Website endpoints - Amazon Simple Storage Service",
+      "claim": "S3 ウェブサイトエンドポイントは HTTP のみをサポートしています。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/general/latest/gr/s3.html",
+      "title": "Amazon Simple Storage Service endpoints and quotas - AWS General Reference",
+      "claim": "S3 ウェブサイトエンドポイントは HTTP のみをサポートしています。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/general/latest/gr/s3.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/general/latest/gr/s3.html",
+      "title": "Amazon Simple Storage Service endpoints and quotas - AWS General Reference",
+      "claim": "S3 REST API エンドポイント（s3.amazonaws.com）を使用する場合は HTTPS が利用可能",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/general/latest/gr/s3.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html",
+      "title": "Restrict access to an Amazon S3 origin - Amazon CloudFront",
+      "claim": "S3 バケットポリシーで s3:GetObject および s3:GetObjectVersion アクションが CloudFront OAI（Origin Access Identity）に対して許可されていない場合、アクセスが拒否され 504 エラーが発生します。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/http-504-gateway-timeout.html",
+      "title": "HTTP 504 status code (Gateway Timeout) - Amazon CloudFront",
+      "claim": "CloudFront のオリジンレスポンスタイムアウト値（デフォルト 30 秒）が、S3 またはその背後のアプリケーションが応答するのに必要な時間よりも短く設定されている場合、タイムアウトにより 504 エラーが発生します。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/http-504-gateway-timeout.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://www.dnsrobot.com/blog/504-gateway-timeout-what-it-means-how-to-fix/",
+      "title": "504 Gateway Timeout: What It Means & How to Fix - DNS Robot",
+      "claim": "CloudFront のオリジンレスポンスタイムアウト値（デフォルト 30 秒）が、S3 またはその背後のアプリケーションが応答するのに必要な時間よりも短く設定されている場合、タイムアウトにより 504 エラーが発生します。",
+      "source_type": "blog",
+      "url_check_status": "skipped",
+      "final_url": "https://www.dnsrobot.com/blog/504-gateway-timeout-what-it-means-how-to-fix/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "www.dnsrobot.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://repost.aws/knowledge-center/cloudfront-authorization-header",
+      "title": "How can I configure CloudFront to forward the Authorization header to the origin?",
+      "claim": "特に Authorization ヘッダーを独自に付加した場合、S3 の署名検証に失敗します。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://repost.aws/knowledge-center/cloudfront-authorization-header",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "vendor_community",
+      "resolved_domain": "repost.aws",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/http-headers-behavior.html#header-requirements",
+      "title": "Add custom headers to origin requests - Amazon CloudFront",
+      "claim": "CloudFront のオリジン設定に、S3 が対応していないカスタムヘッダー（例：認証情報、特定のアプリケーション用ヘッダー）が定義されている場合、S3 がリクエストを拒否し 504 エラーが発生することがあります。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html",
+      "title": "Website endpoints - Amazon Simple Storage Service",
+      "claim": "S3 は 2 つのアクセス方法を提供しています。ウェブサイトホスティング用の s3-website-REGION.amazonaws.com と REST API エンドポイント s3.amazonaws.com",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html",
+      "title": "Invalidating Files - Amazon CloudFront",
+      "claim": "CloudFront がエラーレスポンスをキャッシュしている場合、オリジンの問題を修正しても 504 エラーが一定期間継続することがあります。AWS マネジメントコンソール から「Invalidations」タブでオブジェクトを無効化するか、以下のコマンドを実行して キャッシュをクリアしてください：`aws cloudfront create-invalidation --distribution-id <your-distribution-id> --paths \"/*\"`",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-identity-access.html#PermissionsRequiredForCloudFrontConsole",
+      "title": "Identity-based policy examples for Amazon CloudFront - AWS Documentation",
+      "claim": "CloudFront ディストリビューションを操作する IAM ユーザーやロールに cloudfront:UpdateDistribution および s3:GetBucketPolicy 権限が必要です。",
+      "source_type": "official",
+      "url_check_status": "200",
+      "final_url": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "official",
+      "resolved_domain": "docs.aws.amazon.com",
+      "tool_match": false
+    },
+    {
+      "url": "https://docs.digitalocean.com/products/spaces/",
+      "title": "Spaces Object Storage :: DigitalOcean Documentation",
+      "claim": "DigitalOcean Spaces — S3 互換の API を提供するマネージドストレージサービスで、CloudFront との統合よりもシンプルな設定で CDN 機能を利用できます。",
+      "source_type": "company",
+      "url_check_status": "200",
+      "final_url": "https://docs.digitalocean.com/products/spaces/",
+      "is_grounding_redirect": false,
+      "resolved_source_type": "unknown",
+      "resolved_domain": "docs.digitalocean.com",
+      "tool_match": false
+    }
+  ],
+  "unsupported_claims": [
+    "大容量ファイルのアップロード時にデフォルトのタイムアウトが超過される: S3 へのアップロードやダウンロードが 60 〜 120 秒のタイムアウト値を超える場合、アップロード処理の途中でタイムアウトし、504 エラーが報告されます。"
+  ],
+  "citation_mismatches": [
+    {
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html",
+      "claimed": "S3 ウェブサイトエンドポイントは...HTTPS・リダイレクト・エラーページなどのウェブサイト固有機能を提供します。",
+      "actual": "Amazon S3 website endpoints do not support HTTPS or Amazon S3 Access Points. If you want to use HTTPS, you can use Amazon CloudFront to serve a static website hosted on Amazon S3. (S3ウェブサイトエンドポイントはHTTPSをサポートしていません。HTTPSを使用する場合は、Amazon S3でホストされている静的ウェブサイトを提供するCloudFrontを使用できます。)"
+    }
+  ],
+  "improvement_suggestions": [],
+  "error": "",
+  "score_history_appended": true,
+  "score_valid": true,
+  "raw_response_excerpt": "",
+  "parse_error": "",
+  "url_checked": 12,
+  "url_skipped": 2,
+  "url_invalid": 0,
+  "gemini_error_category": "",
+  "original_chars": 9605,
+  "fact_check_input_chars": 7522,
+  "fact_check_input_truncated": false,
+  "timeout_seconds": 300.0,
+  "gemini_model": "gemini-2.5-flash",
+  "article_hash": "e8a03c8a70ed",
+  "error_detail": null,
+  "vote_group_id": "662d0514-686c-4886-a6b1-641b6b200359",
+  "is_final_vote": false,
+  "vote_count": 3,
+  "tags": [
+    "AWS S3"
+  ]
+}
