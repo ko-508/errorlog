@@ -40,7 +40,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
-          DAILY_COUNT: "1"
+          DAILY_COUNT: "10"
           GENERATE_COUNT: "5"
           FACT_CHECK_NEW_ARTICLE_MAX_RETRIES: "3"
           FACT_CHECK_REPORT_RETENTION_DAYS: "30"
