@@ -270,10 +270,6 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 
 - **Bruno** → ローカルファーストで、[リクエスト](/glossary/リクエスト/)定義を[Git](/glossary/git/)管理可能なテキスト形式で保存できます。チームでの共有や[バージョン管理](/glossary/バージョン管理/)が効率的で、特にコレクション内でのファイル参照が安定しています。
 
-## Editor's Note
-
-422[エラー](/glossary/エラー/)の公式な原因は[リクエストボディ](/glossary/リクエストボディ/)のデータ検証[エラー](/glossary/エラー/)ですが、実務では[ヘッダー](/glossary/ヘッダー/)関連の問題も頻出です。[GitHub APIとのやり取りでの報告](https://stackoverflow.com/questions/50742187/postman-error-422-unprocessable-entity-with-github-api-what-is-it-and-do)では、`Content-Type`を`text/plain`から`application/json`に変更することで解決した事例が確認されています。また[FastAPI環境での事例](https://stackoverflow.com/questions/71333734/fastapi-postman-error-422-unprocessable-entity)など、フレームワークごとに検証ルールの厳密性が異なるため、同じ[ペイロード](/glossary/ペイロード/)でもツール間で挙動が変わることがあります。環境依存のミスマッチが疑われる場合は、まず[ヘッダー](/glossary/ヘッダー/)の確認から始め、次に[ペイロード](/glossary/ペイロード/)構造を検証するアプローチが現場で有効です。
-
 ---
 
 *免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
