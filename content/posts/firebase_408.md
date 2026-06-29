@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 408 エラー：原因と解決策"
 date: 2026-05-28
 description: "クライアントがタイムアウト時間内にFirebaseへのリクエストを完了できなかった"

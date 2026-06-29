@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 504 エラー：原因と解決策"
 date: 2026-05-28
 description: "Firebase HostingまたはCloud Functionsがバックエンドからの応…"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 404 エラー：原因と解決策"
 date: 2026-01-01
 description: "Firebaseで404エラーが返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsのエンドポイント、Realtime Databaseのパスなど）がFirebaseプロジェクト内に存在しないこと"

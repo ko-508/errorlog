@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 400 エラー：原因と解決策"
 date: 2026-01-01
 description: "Firebase の 400 エラーは、クライアントからのリクエストが不正な形式または無効なパラメータを含んでいることを示します。"

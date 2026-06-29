@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 409 エラー：原因と解決策"
 date: 2026-05-24
 description: "Firebase の 409 Conflict エラーは、Firestore のトランザクション処理が他の同時実行操作との競合によって失敗したことを示します。"

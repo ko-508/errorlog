@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 429 エラー：原因と解決策"
 date: 2026-01-01
 description: "429 Too Many Requests は、Firebase のレート制限に達したことを示す HTTP ステータスコードです。"

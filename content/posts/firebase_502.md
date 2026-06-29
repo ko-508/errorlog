@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 502 エラー：原因と解決策"
 date: 2026-05-24
 description: "Firebase（Cloud FunctionsやHosting）で502エラーが発生するのは、Firebaseの中継サーバーが上流のバックエンド（Cloud Functionsやカスタムオリジンサーバー）から不正な形式のレスポンスを受け取"

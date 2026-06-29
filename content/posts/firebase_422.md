@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Firebase の 422 エラー：原因と解決策"
 date: 2026-05-24
 description: "Firebase で 422 エラーが返される場合、HTTP リクエスト自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。"
