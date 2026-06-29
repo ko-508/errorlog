@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Stripe の 500 エラー：原因と解決策"
 date: 2026-05-27
 description: "Stripe API で 500 エラーが返される場合、Stripe 側のサーバーで予期しない内部エラーが発生していることを示します。"

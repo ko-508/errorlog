@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Stripe の 429 エラー：原因と解決策"
 date: 2026-05-27
 description: "429 Too Many Requests は、短時間に Stripe API へ送信したリクエスト数がレート制限を超えたときに返される HTTP ステータスコードです。"

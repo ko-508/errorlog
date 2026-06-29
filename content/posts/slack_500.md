@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Slack の 500 エラー：原因と解決策"
 date: 2026-05-28
 lastmod: 2026-06-14

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Vercel の 502 エラー：原因と解決策"
 date: 2026-06-07
 description: "VercelのEdge NetworkがバックエンドのOriginから不正な応答を受け取った"

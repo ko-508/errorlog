@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Bitbucket の 429 エラー：原因と解決策"
 date: 2026-06-16
 description: "Bitbucket APIのレート制限に達した"

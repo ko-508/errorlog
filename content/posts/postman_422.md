@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Postman の 422 エラー：原因と解決策"
 date: 2026-06-29
 description: "Postmanにおける422エラー（Unprocessable Entity）は、リクエストの構文は正しいが、送信された。"

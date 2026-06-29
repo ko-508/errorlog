@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Ansible の 404 エラー：原因と解決策"
 date: 2026-06-11
 description: "ターゲットホストのリソースまたはエンドポイントが見つからない"

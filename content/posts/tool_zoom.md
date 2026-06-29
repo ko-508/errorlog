@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Zoom とは？特徴・機能・料金・比較まとめ"
 date: 2026-06-02
 description: "Zoom の特徴・できること・料金プラン・似たツールとの比較を解説。"

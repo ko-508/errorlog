@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Gemini API の 429 エラー：無料枠クォータ枯渇と解決策"
 date: 2026-05-30
 lastmod: 2026-06-14

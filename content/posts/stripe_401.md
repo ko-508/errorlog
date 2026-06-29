@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Stripe の 401 エラー：原因と解決策"
 date: 2026-05-25
 description: "Stripe API から返される 401（Unauthorized）エラーは、リクエストに含まれる認証情報（API キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。"

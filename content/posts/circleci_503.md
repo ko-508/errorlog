@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "CircleCI の 503 エラー：原因と解決策"
 date: 2026-06-20
 description: "CircleCIサービスが一時的に利用できない"

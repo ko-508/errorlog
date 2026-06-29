@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Postman の 401 エラー：原因と解決策"
 date: 2026-06-16
 description: "テスト対象のAPIへの認証に失敗した"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Vercel の 400 エラー：原因と解決策"
 date: 2026-06-06
 description: "Vercel APIへのリクエストの形式または内容に誤りがある"

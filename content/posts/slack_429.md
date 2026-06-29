@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Slack の 429 エラー：原因と解決策"
 date: 2026-05-28
 description: "短時間に送ったリクエスト数がSlack APIのレート制限を超えた"

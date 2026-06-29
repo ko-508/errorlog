@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Minikube の 401 エラー：原因と解決策"
 date: 2026-05-29
 description: "Minikubeクラスターへの認証に失敗した"

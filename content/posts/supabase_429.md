@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Supabase の 429 エラー：原因と解決策"
 date: 2026-06-05
 description: "Supabaseのレート制限または利用枠の上限に達した"

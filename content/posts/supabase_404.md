@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Supabase の 404 エラー：原因と解決策"
 date: 2026-06-04
 description: "指定したテーブル・行・ストレージオブジェクトが見つからない"

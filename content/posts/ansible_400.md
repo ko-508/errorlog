@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Ansible の 400 エラー：原因と解決策"
 date: "2026-06-10"
 description: "AnsibleがターゲットAPIまたはモジュールに送るリクエストの形式が正しくない"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Postman の 429 エラー：原因と解決策"
 date: 2026-06-17
 description: "テスト対象APIのレート制限に達した"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Podman の 404 エラー：原因と解決策"
 date: 2026-05-29
 description: "指定したイメージまたはコンテナが見つからない"

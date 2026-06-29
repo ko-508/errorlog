@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Prometheus の 401 エラー：原因と解決策"
 date: 2026-06-21
 description: "Prometheusへの認証に失敗した"

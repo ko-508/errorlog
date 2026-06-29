@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Prometheus の 503 エラー：原因と解決策"
 date: 2026-06-22
 description: "Prometheusが起動中かスクレイプターゲットが利用できない。"

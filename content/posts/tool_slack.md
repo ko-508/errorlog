@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Slack とは？特徴・機能・料金・比較まとめ"
 date: 2026-05-28
 lastmod: 2026-05-31

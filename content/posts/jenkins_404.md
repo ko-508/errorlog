@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Jenkins の 404 エラー：原因と解決策"
 date: 2026-06-18
 description: "指定したジョブまたはビルドが見つからない"

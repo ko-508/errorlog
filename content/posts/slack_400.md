@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Slack の 400 エラー：原因と解決策"
 date: 2026-05-27
 description: "Slackの400エラーは、Slack APIへのリクエストが不正な形式で送信されたか、必須のパラメータが不足していることを示します。"

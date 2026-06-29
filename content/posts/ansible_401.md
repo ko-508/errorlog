@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Ansible の 401 エラー：原因と解決策"
 date: 2026-06-11
 description: "ターゲットホストまたは外部サービスへの認証に失敗した"

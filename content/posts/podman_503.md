@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Podman の 503 エラー：原因と解決策"
 date: 2026-05-29
 description: "Podmanサービスまたはレジストリが一時的に利用できない"

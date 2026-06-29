@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Vercel の 504 エラー：原因と解決策"
 date: 2026-06-08
 description: "Vercelのサーバーレス関数の実行がタイムアウトした"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Jenkins の 403 エラー：原因と解決策"
 date: 2026-06-18
 description: "JenkinsリソースへのアクセスがCSRFまたは権限チェックで拒否された"

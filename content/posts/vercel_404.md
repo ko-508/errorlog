@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Vercel の 404 エラー：原因と解決策"
 date: 2026-06-07
 description: "指定したデプロイメントまたはリソースが見つからない"

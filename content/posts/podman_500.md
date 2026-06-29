@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Podman の 500 エラー：原因と解決策"
 date: 2026-05-29
 description: "Podmanシステムで予期しない内部エラーが発生した"

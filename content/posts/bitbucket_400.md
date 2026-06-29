@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Bitbucket の 400 エラー：原因と解決策"
 date: 2026-06-14
 description: "Bitbucket APIへのリクエストの形式または内容に誤りがある"

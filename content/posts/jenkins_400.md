@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Jenkins の 400 エラー：原因と解決策"
 date: 2026-06-17
 description: "JenkinsのREST APIへのリクエストの形式が正しくない"

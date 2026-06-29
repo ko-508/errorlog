@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Ansible の 403 エラー：原因と解決策"
 date: 2026-06-11
 description: "ターゲットシステムへのアクセスが拒否された"

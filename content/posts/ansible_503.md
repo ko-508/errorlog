@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Ansible の 503 エラー：原因と解決策"
 date: 2026-06-11
 description: "ターゲットサービスが一時的に利用できない"

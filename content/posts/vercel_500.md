@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Vercel の 500 エラー：原因と解決策"
 date: 2026-06-07
 description: "Vercelのサーバーレス関数で内部エラーが発生した"

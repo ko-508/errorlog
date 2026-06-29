@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Minikube の 400 エラー：原因と解決策"
 date: 2026-05-29
 description: "Minikubeクラスターへのリクエスト形式が正しくない場合に発生します"

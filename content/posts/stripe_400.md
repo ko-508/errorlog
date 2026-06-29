@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Stripe の 400 エラー：原因と解決策"
 date: 2026-05-25
 description: "Stripe APIへのリクエストが400 Bad Requestを返す場合、リクエストの形式またはパラメータに問題があることを意味します。"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Supabase の 500 エラー：原因と解決策"
 date: 2026-06-05
 description: "Supabaseサービスの内部エラーが発生した"

@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Supabase の 409 エラー：原因と解決策"
 date: 2026-06-04
 description: "データの競合（一意制約違反など）が発生した"

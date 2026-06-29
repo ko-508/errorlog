@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "OpenAI API の 422 エラー：原因と解決策"
 date: 2026-05-28
 description: "リクエストの形式は正しいが、含まれているデータの内容が処理できない"

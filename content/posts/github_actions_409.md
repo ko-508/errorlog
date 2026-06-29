@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "GitHub Actions の 409 エラー：原因と解決策"
 date: 2026-06-29
 description: "HTTPステータスコード409 Conflictは、リクエストがサーバー上のリソースの現在の状態と競合していることを示し。"

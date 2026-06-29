@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Jenkins の 503 エラー：原因と解決策"
 date: 2026-06-19
 description: "Jenkinsサービスが利用できない状態にある"

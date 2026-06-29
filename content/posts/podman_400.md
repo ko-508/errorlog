@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Podman の 400 エラー：原因と解決策"
 date: 2026-05-28
 description: "Podman APIまたはレジストリへのリクエストの形式が正しくない"

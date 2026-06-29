@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "Postman の 500 エラー：原因と解決策"
 date: 2026-06-17
 description: "テスト対象サービスまたはPostmanサーバーで内部エラーが発生した"

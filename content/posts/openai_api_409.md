@@ -1,4 +1,5 @@
 ---
+draft: true
 title: "OpenAI API の 409 エラー：原因と解決策"
 date: 2026-05-28
 description: "リクエストの内容がOpenAIリソースの現在の状態と競合している"
