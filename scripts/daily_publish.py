@@ -907,7 +907,12 @@ def _try_generate_article(
         return None, False
 
     stem = Path(filename).stem
+    _obs_before_m = _EDITOR_NOTE_SECTION_RE.search(body)
+    _obs_en_head = (_obs_before_m.group(0)[:60].replace("\n", "\\n") if _obs_before_m else "")
+    _obs_en_has_url = ("http" in _obs_before_m.group(0)) if _obs_before_m else False
+    print(f"  [OBS] before strip: en_present={_obs_before_m is not None} en_has_url={_obs_en_has_url} en_head={_obs_en_head!r}")
     body, was_stripped = strip_invalid_editor_note(body, stem)
+    print(f"  [OBS] after strip: was_stripped={was_stripped} en_present={_EDITOR_NOTE_SECTION_RE.search(body) is not None}")
     if was_stripped:
         print(f"  Editor's Note を除去して公開: {stem}")
     methodology = generate_methodology_note(row)
@@ -966,13 +971,20 @@ def _try_generate_article(
     article_content, lint_blocked = _run_lint_gate(
         client, row, filename, frontmatter, body, disclaimer, out, remaining
     )
+    print(f"  [OBS] after lint_gate: lint_blocked={lint_blocked}")
     if lint_blocked:
         return None, False
     if not article_content.startswith(frontmatter) or not article_content.endswith(disclaimer):
         raise ValueError("article_content structure changed unexpectedly after lint gate")
     body = article_content[len(frontmatter):-len(disclaimer)]
+    _obs_body_m = _EDITOR_NOTE_SECTION_RE.search(body)
+    _obs_body_en_head = (_obs_body_m.group(0)[:60].replace("\n", "\\n") if _obs_body_m else "")
+    print(f"  [OBS] body after lint re-extract: en_present={_obs_body_m is not None} en_head={_obs_body_en_head!r}")
 
     fact_result = evaluate_new_article(out.relative_to(BASE.parent), article_content)
+    _obs_fc_en = _EDITOR_NOTE_SECTION_RE.search(article_content) is not None
+    _obs_cm_urls = [m.get("url", "") for m in fact_result.citation_mismatches]
+    print(f"  [OBS] fact-check input en_present={_obs_fc_en}; citation_mismatches={len(fact_result.citation_mismatches)} urls={_obs_cm_urls}")
     scores = fact_result.scores
     print(
         "  fact-check: "
