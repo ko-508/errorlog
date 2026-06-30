@@ -7,6 +7,7 @@ errorCode: "408"
 lastmod: 2026-06-13
 service: "Docker"
 error_type: "408"
+draft: true
 components: ["Daemon", "CLI", "API", "Compose", "BuildKit"]
 related_services: ["HTTP", "RFC", "UNIX Socket", "Named Pipe", "Dockerfile"]
 trend_incident: true
