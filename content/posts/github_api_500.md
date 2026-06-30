@@ -42,6 +42,8 @@ Content-Type: application/json; charset=utf-8
 
 ### 原因1：不正なJSONペイロード形式またはエンコーディングエラー
 
+※ 不正な JSON や形式エラーは通常 400 Bad Request や 422 を返します。500 Internal Server Error は本来 GitHub 側の問題で、まず GitHub Status の確認とリトライを優先してください。クライアント側のリクエスト形式が 500 を誘発するのは例外的なケースです。
+
 GitHubの[API](/glossary/api/)[サーバー](/glossary/サーバー/)が[リクエストボディ](/glossary/リクエストボディ/)を解析できない場合、500[エラー](/glossary/エラー/)で応答することがあります。特に[JSON](/glossary/json/)の形式が微妙に間違っていたり、文字エンコーディングが指定されていない場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**

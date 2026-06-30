@@ -66,6 +66,8 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 原因2：無効な Authorization ヘッダーまたは認証エラー
 
+※ 無効な認証情報は通常 401 Unauthorized を返します。502 Bad Gateway は本来 GitHub 側のゲートウェイがバックエンドから不正な応答を受け取ったサーバー側の問題で、まず GitHub Status の確認とリトライを優先してください。
+
 **なぜ発生するか**
 [トークン](/glossary/トークン/)の形式が不正、有効期限が切れている、または[スコープ](/glossary/スコープ/)が不足している場合、認証層で処理できずゲートウェイエラーとして返されることがあります。
 
