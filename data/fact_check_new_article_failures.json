@@ -206,5 +206,21 @@
     },
     "last_checked_at": "2026-06-25",
     "report_path": "reports/fact_check/new_articles/20260625010719192960_datadog_500_55b81b80.json"
+  },
+  "a82e5705405d1698c51a4b9c4323bb3b2a88c976": {
+    "slug": "nginx_401",
+    "tool": "Nginx",
+    "status_code": "401",
+    "failure_count": 1,
+    "status": "retry",
+    "last_failure_reason": "Most technical claims are well-supported by official documentation, RFCs, and reputable technical resources.; The article provides practical solutions for common Nginx 401 errors with configuration examples.; The explicit mention of Nginx version 1.15.12 for a specific behavior might suggest outdated information, although many general concepts remain valid across versions.; Some specific details, particularly a version-dependent claim and a subjective comparison, lack direct primary source verification.; The Editor's Note claims to list reference URLs but the provided excerpt contains no actual URLs.; freshness score is below the threshold; absolute wording may overstate technical certainty; one or more claims are unsupported or unverifiable",
+    "last_scores": {
+      "factual_score": 90,
+      "freshness_score": 45,
+      "citation_coverage": 10,
+      "risk_score": 45
+    },
+    "last_checked_at": "2026-06-30",
+    "report_path": "reports/fact_check/new_articles/20260630010926026911_nginx_401_12b97898.json"
   }
 }
