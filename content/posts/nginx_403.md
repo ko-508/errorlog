@@ -1,289 +1,256 @@
 ---
 title: "Nginx の 403 エラー：原因と解決策"
 date: 2026-05-25
-description: "Nginx の 403 Forbidden エラーは、クライアント（ブラウザ）が特定のファイルやディレクトリへのアクセスを試みたとき、Nginx がそのリソースの存在は確認できるが、アクセス権限がないと判断したときに発生します。"
+description: "Nginx の 403 Forbidden は、サーバーがリクエストを理解したうえでアクセスを拒否したことを示します。ファイル権限、親ディレクトリの実行権限、index ファイルの欠落、deny ルール、SELinux/AppArmor、upstream の拒否という6つの原因を、エラーログの文言から切り分けて解決します。"
 tags: ["Nginx"]
 errorCode: "403"
-lastmod: 2026-05-31
+lastmod: 2026-06-30
 service: "Nginx"
 error_type: "403"
 components: []
-related_services: []
+related_services: ["PHP-FPM", "SELinux", "AppArmor"]
 top_queries:
 - '403 forbidden nginx'
 - 'nginx 403 forbidden'
-- '403 forbiddennginx'
+- 'nginx 403 forbidden 原因'
 ---
+
+## 冒頭まとめ
+
+Nginx の 403 Forbidden は、サーバーがリクエストを理解したうえで、アクセスを拒否したときに返されます。原因はほぼ次の6つのいずれかです。ファイル権限の不足、パスの途中の親ディレクトリに実行権限がない、index ファイルがなく autoindex も無効、設定の deny ルール、SELinux/AppArmor、そして upstream(PHP-FPM など)自身が 403 を返すケースです。調査は、設定をいじる前に、まず `/var/log/nginx/error.log` を読むことから始めます。ログの文言が、どの原因なのかの手がかりになります。
 
 ## エラーの概要
 
-Nginx の 403 Forbidden [エラー](/glossary/エラー/)は、クライアント（ブラウザ）が特定のファイルやディレクトリへのアクセスを試みたとき、Nginx がそのリソースの存在は確認できるが、[アクセス権限](/glossary/アクセス権限/)がないと判断したときに発生します。これは[認証](/glossary/認証/)の失敗（401）とは異なり、認証情報は正しいが[権限](/glossary/権限/)がないという状態です。実務では、ファイルパーミッション、ディレクトリ設定、または Nginx の設定ルールによって引き起こされることがほとんどです。
+403 Forbidden は、Nginx がリクエスト自体は正しく受け取り、対象のリソースの場所も分かっているが、アクセスを拒否した状態です。認証情報が足りない 401 Unauthorized とは異なり、再認証しても解決しません。リソースが存在しない 404 Not Found とも異なります。
 
-## 実際のエラーメッセージ例
+この違いはエラーログで明確に区別できます。404 はログに `No such file or directory` と記録され、403 は `Permission denied` や `is forbidden` と記録されます。アクセスログは「403 が起きた」ことだけを示し、なぜ起きたかはエラーログが示します。したがって、403 の調査は設定ファイルをいじる前に、まずエラーログを読むことから始めます。
 
-ブラウザに表示される[エラー](/glossary/エラー/)表示例：
+## まず最初に：エラーログを読む
 
-```
-403 Forbidden
-nginx/1.24.0
+原因を切り分ける前に、エラーログの該当行を確認します。
 
-The server denied access to the requested resource.
-```
+```bash
+# 直近のエラーを表示
+sudo tail -50 /var/log/nginx/error.log
 
-アクセスログに記録される例（`/var/log/nginx/access.log`）：
-
-```
-192.168.1.100 - - [15/Jan/2025:10:23:45 +0900] "GET /admin/config.php HTTP/1.1" 403 162 "-" "Mozilla/5.0"
+# 権限・拒否に関する行だけを抽出
+sudo grep -iE "permission denied|forbidden|denied" /var/log/nginx/error.log
 ```
 
-[エラーログ](/glossary/エラーログ/)に記録される例（`/var/log/nginx/error.log`）：
+ログの文言と原因の対応は次のとおりです。
 
+```text
+# ファイルまたは親ディレクトリの権限不足
+open() "/var/www/html/index.html" failed (13: Permission denied)
+
+# index ファイルがなく autoindex も無効
+directory index of "/var/www/html/" is forbidden
+
+# upstream への接続が拒否された（SELinux でソケット接続が遮られた例）
+connect() to 127.0.0.1:8080 failed (13: Permission denied) while connecting to upstream
 ```
-2025/01/15 10:23:45 [error] 1234#1234: *5 "/var/www/html/admin/config.php" is forbidden (13: Permission denied)
-```
+
+この文言で、おおよその原因の見当がつきます。以下、6つの原因を、切り分けるべき順に説明します。
 
 ## よくある原因と解決手順
 
-### 原因1：ファイル・ディレクトリのパーミッション不足
+### 原因1：ファイルまたはディレクトリの権限が不足している
 
-**なぜ発生するか：**
-Nginx ワーカープロセスは通常 `www-data` または `nginx` というユーザーで動作しますが、ファイルのパーミッションがこのユーザーに読み取り権がない場合、403 [エラー](/glossary/エラー/)が発生します。特に新規配置したファイルや、開発環境から本番環境に移行したときに起きやすい問題です。
+最も多い原因です。Nginx のワーカープロセスは、配信するファイルに読み取り権限が必要です。エラーログには `(13: Permission denied)` が出ます。
 
-**Before（[エラー](/glossary/エラー/)が起きるパターン）：**
+まず Nginx のワーカーユーザーを確認します。ディストリビューションによって異なります。
 
 ```bash
-# ファイルのパーミッションを確認
-ls -la /var/www/html/index.html
-# -rw------- 1 root root 1234 Jan 15 10:00 index.html
-# → root オーナーのみ読める設定。nginx ユーザーは読めない
+# ワーカープロセスのユーザーを確認
+ps -o user,comm -C nginx
+# root     nginx   ← master プロセス
+# www-data nginx   ← worker プロセス（こちらが実際にファイルを読む）
 
-# Nginx のワーカープロセスユーザーを確認
-ps aux | grep nginx
-# nginx   1234  0.0  0.1 ... nginx: worker process
+# 設定上のユーザー指定を確認
+grep -E "^\s*user" /etc/nginx/nginx.conf
+# Ubuntu/Debian は www-data、CentOS/RHEL は nginx、Alpine は nginx が既定
 ```
 
-**After（修正後）：**
+権限を、ディレクトリ 755・ファイル 644 に揃え、所有者をワーカーユーザーにします。
 
 ```bash
-# ファイルに読み取り権限を付与（所有者と同じグループに）
-chown -R www-data:www-data /var/www/html
-chmod -R 755 /var/www/html
+# 所有者をワーカーユーザーに設定
+sudo chown -R www-data:www-data /var/www/html
 
-# ディレクトリは実行権限も必要
-chmod 755 /var/www/html
-chmod 644 /var/www/html/index.html
+# ディレクトリは 755、ファイルは 644 に揃える
+sudo find /var/www/html -type d -exec chmod 755 {} \;
+sudo find /var/www/html -type f -exec chmod 644 {} \;
+
+# 設定の文法確認とリロード
+sudo nginx -t
+sudo systemctl reload nginx
 
 # 確認
-ls -la /var/www/html/
-# drwxr-xr-x 2 www-data www-data 4096 Jan 15 10:00 .
-# -rw-r--r-- 1 www-data www-data 1234 Jan 15 10:00 index.html
+curl -I http://localhost/
+# HTTP/1.1 200 OK が返れば解決
 ```
 
-### 原因2：ディレクトリリスティング無効（autoindex off）とインデックスファイル欠落
+### 原因2：パスの途中の親ディレクトリに実行権限がない
 
-**なぜ発生するか：**
-ディレクトリへのアクセス時に、Nginx は順序どおり `index.html`、`index.htm`、`index.php` などのインデックスファイルを探します。これらが存在しない場合かつ `autoindex off`（デフォルト）の設定では、403 [エラー](/glossary/エラー/)になります。
+ファイル自体が 644 で正しくても、ルート(`/`)から対象ファイルまでのパス上のどこかのディレクトリに、ワーカーユーザーの実行(検索)権限がないと、Nginx はそこを通り抜けられず 403 になります。見落としやすい典型例です。
 
-**Before（[エラー](/glossary/エラー/)が起きるパターン）：**
+`namei -l` を使うと、パスの各構成要素の権限を一覧でき、どこで止まっているかが分かります。ワーカーユーザーとして実行するのが確実です。
+
+```bash
+# パス全体の権限をワーカーユーザーの視点で確認
+sudo -u www-data namei -l /var/www/site/index.html
+# f: /var/www/site/index.html
+# drwxr-xr-x root     root     /
+# drwxr-xr-x root     root     var
+# drwxr-xr-x root     root     www
+# drwxr-x--- deploy   deploy   site        ← ここが原因。other に x がない
+# -rw-r--r-- deploy   deploy   index.html
+```
+
+上の例では `/var/www/site` が 750 で、所有者と所有グループしか入れず、www-data は通れません。対象ディレクトリに、ワーカーユーザーが通れる実行権限を与えます。
+
+```bash
+# パス上のディレクトリに検索（実行）権限を付与
+sudo chmod o+x /var/www/site
+
+# または、グループ所有を www-data にしてグループに権限を与える
+sudo chgrp www-data /var/www/site
+sudo chmod g+rx /var/www/site
+```
+
+ユーザーのホームディレクトリ配下を配信しようとして 403 になるのも、この原因です。ホームディレクトリの既定権限が制限的(700 など)で、Nginx が通り抜けられないためです。
+
+### 原因3：index ファイルがなく、autoindex も無効
+
+ディレクトリへのリクエストに対し、`index` ディレクティブで指定したファイル(既定では index.html)が存在せず、`autoindex` も off(既定)の場合、Nginx は 403 を返します。エラーログには `directory index of "..." is forbidden` が出ます。
+
+index ファイルを置くか、ディレクトリ一覧を見せてよい場面なら autoindex を有効にします。
 
 ```nginx
+# 対処A：index ファイルを明示して配信する
 server {
     listen 80;
     server_name example.com;
     root /var/www/html;
 
     location / {
-        # index ファイルが指定されていない
-        # autoindex off がデフォルト
-    }
-}
-
-# /var/www/html/ にはファイルがない
-# http://example.com/ にアクセス → 403 エラー
-```
-
-**After（修正後）：**
-
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/html;
-
-    location / {
-        # インデックスファイルを明示的に指定
-        index index.html index.htm index.php;
+        index index.html index.htm;
         try_files $uri $uri/ =404;
     }
 }
 ```
 
-または、ディレクトリリスティングを有効化する場合：
-
 ```nginx
-location / {
+# 対処B：ディレクトリ一覧を見せてよい場合のみ autoindex を有効化
+location /downloads/ {
     autoindex on;
-    autoindex_exact_size off;
-    autoindex_localtime on;
+    autoindex_exact_size off;   # サイズを読みやすい単位で表示
+    autoindex_localtime on;     # ローカル時刻で表示
 }
 ```
 
-### 原因3：Nginx 設定で deny all; ルールが適用されている
+autoindex の有効化は、ディレクトリの中身を外部に晒すことになります。公開サーバーでは、見せてよいディレクトリに限定してください。
 
-**なぜ発生するか：**
-`nginx.conf` または `.htaccess` 相当の Nginx 設定で、特定の IP アドレスやパターンに対して明示的にアクセスを拒否するルール（`deny all;`）が設定されている場合、そのルールが評価優先度で先に適用されるとアクセスが拒否されます。
+### 原因4：設定の deny ルールや auth_basic で拒否されている
 
-**Before（[エラー](/glossary/エラー/)が起きるパターン）：**
-
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/html;
-
-    location /admin/ {
-        deny all;  # すべてのアクセスを拒否
-    }
-
-    location ~ \.php$ {
-        deny all;  # PHP ファイルの直接実行を禁止
-    }
-}
-
-# http://example.com/admin/ にアクセス → 403 エラー
-```
-
-**After（修正後）：**
-
-```nginx
-server {
-    listen 80;
-    server_name example.com;
-    root /var/www/html;
-
-    location /admin/ {
-        # 特定の IP からのみアクセスを許可
-        allow 192.168.1.0/24;
-        allow 10.0.0.0/8;
-        deny all;
-    }
-
-    location ~ \.php$ {
-        # PHP ファイルの直接実行は禁止するが、FastCGI 経由はOK
-        deny all;
-    }
-
-    location ~ \.php$ {
-        include fastcgi_params;
-        fastcgi_pass unix:/var/run/php-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
-}
-```
-
-## Nginx 固有の注意点
-
-### 1. location ブロックの優先順位
-
-複数の `location` ブロックが存在する場合、評価順序が重要です。最初にマッチしたルールが優先されるわけではなく、正規表現ではない完全一致（`=`）→ プレフィックス一致の中で最長一致 → 正規表現の順で評価されます。そのため予期しない `deny` ルールが適用されることがあります。
-
-```nginx
-location /admin {
-    deny all;  # ← これが最初に評価される可能性
-}
-
-location = /admin/index.html {
-    allow all;  # ← これより後に評価
-}
-```
-
-### 2. ディレクトリへのスラッシュ有無
-
-`/admin` と `/admin/` は異なるパスとして扱われます。末尾のスラッシュがない場合、Nginx は 301 リダイレクトを返してからアクセス制御を評価することがあり、設定による意図しない403を回避できます。
-
-```nginx
-# スラッシュなしでアクセスした場合、末尾スラッシュへのリダイレクトが発生
-location /admin/ {
-    deny all;
-}
-```
-
-### 3. try_files による暗黙的な許可
-
-`try_files` ディレクティブを使用する場合、順序の後ろの[引数](/glossary/引数/)が評価されるときに再度 `location` ブロックが評価されます。無限ループを防ぐため、`=404` で終了させるのが一般的です。
-
-```nginx
-location / {
-    try_files $uri $uri/ =404;
-    # $uri/ を試すとき、ディレクトリとして評価される
-}
-```
-
-### 4. SELinux との組み合わせ
-
-CentOS/RHEL 環境で SELinux が有効な場合、Nginx ユーザーがファイルにアクセスするための SELinux コンテキストも正しく設定されている必要があります。ファイルパーミッションは正しくても、SELinux [ポリシー](/glossary/ポリシー/)で拒否されて 403 が発生することがあります。
+`deny` ディレクティブ、`auth_basic`、`internal` などの設定が、リクエストを意図的に拒否しているケースです。設定全体を展開して、該当する行を探します。
 
 ```bash
-# SELinux の制限を確認
-getenforce  # Enforcing の場合、ポリシーチェックが有効
-
-# httpd ユーザーがアクセス可能なファイルタイプを確認
-semanage fcontext -l | grep httpd
-
-# ファイルに正しいラベルを付与
-restorecon -R /var/www/html
+# 展開後の設定全体から、アクセス制御に関わる行を探す
+sudo nginx -T | grep -nE "deny|allow|auth_basic|internal"
 ```
+
+たとえば次の設定は、特定 IP 以外を拒否します。
+
+```nginx
+location /admin/ {
+    allow 192.168.1.0/24;   # 社内ネットワークのみ許可
+    deny all;               # それ以外は拒否
+}
+```
+
+意図した制限ならそのままです。意図せず拒否している場合は、allow の範囲を見直すか、deny ルールを修正します。アクセス元の IP が想定どおりか、ログで確認してください。
+
+### 原因5：SELinux または AppArmor がアクセスを遮っている
+
+Unix の権限が正しくても、強制アクセス制御(SELinux は RHEL/CentOS 系、AppArmor は Ubuntu 系)が、その下の層でアクセスを拒否することがあります。権限を直しても 403 が消えない場合に疑います。
+
+SELinux(RHEL/CentOS 系)の確認と対処です。
+
+```bash
+# SELinux が有効か確認
+getenforce
+# Enforcing なら有効
+
+# Nginx に関する拒否ログを確認
+sudo ausearch -m avc -ts recent | grep nginx
+
+# 現在のセキュリティコンテキストを確認
+ls -Z /var/www/html/
+
+# Web コンテンツ用の正しいコンテキストを付与する
+sudo semanage fcontext -a -t httpd_sys_content_t "/var/www/html(/.*)?"
+sudo restorecon -Rv /var/www/html/
+```
+
+SELinux を無効化(`setenforce 0`)して解決するのは避けてください。原因のコンテキストを正すのが正しい対処です。
+
+AppArmor(Ubuntu 系)の確認です。
+
+```bash
+# AppArmor の拒否がカーネルログに出ていないか確認
+sudo dmesg | grep -i apparmor
+
+# Nginx のプロファイル状態を確認
+sudo aa-status | grep nginx
+```
+
+### 原因6：upstream(PHP-FPM やアプリサーバー)が 403 を返している
+
+Nginx 自体ではなく、`proxy_pass` や `fastcgi_pass` の先(PHP-FPM やアプリケーションサーバー)が 403 を返し、それがそのままクライアントに伝わるケースです。この場合、Nginx の権限やコンテキストは正常で、原因は upstream 側にあります。
+
+upstream 側のログを確認し、ソケットの所有権を点検します。
+
+```bash
+# PHP-FPM のログを確認
+sudo tail -50 /var/log/php*-fpm.log
+
+# FastCGI ソケットの所有権を確認（Nginx ワーカーが接続できるか）
+ls -l /run/php/php-fpm.sock
+```
+
+Nginx のエラーログに権限の文言がなく、upstream への接続自体は成功しているのに 403 が返る場合は、この原因を疑います。
+
+## 切り分けの順序
+
+403 は、次の順で原因を一つずつ除外していくと、最短で特定できます。
+
+エラーログを読む。`Permission denied` なら原因1か2、`directory index ... is forbidden` なら原因3。権限を点検する(`namei -l` で親ディレクトリの実行権限まで)。設定を点検する(`nginx -T | grep` で deny/auth_basic を確認)。権限も設定も正しいのに消えないなら SELinux/AppArmor を疑う。それでも残るなら upstream のログを見る。この順に進めれば、6つのどれかに必ず行き着きます。
 
 ## それでも解決しない場合
 
-### ステップ1：詳細なログを確認
+各段階で使う確認コマンドをまとめます。
 
 ```bash
-# Nginx アクセスログで 403 ステータスを抽出
-grep " 403 " /var/log/nginx/access.log
+# 1. エラーログの該当行
+sudo grep -iE "permission denied|forbidden|denied" /var/log/nginx/error.log
 
-# エラーログで権限関連メッセージを確認
-grep -i "permission\|forbidden" /var/log/nginx/error.log
+# 2. ワーカーユーザーの視点でパス全体の権限を確認
+sudo -u www-data namei -l /var/www/html/index.html
 
-# Nginx の詳細なデバッグログを有効化
-# nginx.conf に以下を追加してリロード
-error_log /var/log/nginx/error.log debug;
+# 3. 設定中のアクセス制御を確認
+sudo nginx -T | grep -nE "deny|allow|auth_basic|internal"
 
-# Nginx リロード
-nginx -s reload
+# 4. SELinux のコンテキストと拒否ログ
+ls -Z /var/www/html/
+sudo ausearch -m avc -ts recent | grep nginx
+
+# 5. 設定の文法確認とリロード
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-### ステップ2：Nginx 設定の構文チェック
+## Editor's Note
 
-```bash
-# 設定ファイルの構文エラーを確認
-nginx -t
+実際の報告例として、ユーザーのホームディレクトリ配下を Nginx で配信しようとして 403 になった事例があります([GitHub gist の議論](https://gist.github.com/jhjguxin/6208474))。なお、この議論は2013年頃の古いもので、当時の Ubuntu 12.04 を前提としています。ただし、ここで扱われているパス権限の考え方は、現在の Nginx でも変わりません。報告者の環境では、ホームディレクトリの既定権限が制限的(700)で、Nginx のワーカーユーザーが親ディレクトリを通り抜けられず 403 になっていました。本記事の原因2にあたります。この議論では、配信対象のファイルすべてに読み取り権限を与えるだけでなく、ルートから対象までのパス上のすべての親ディレクトリに実行(検索)権限が必要だ、という点が解決の核心として挙げられています。ディレクトリ 755・ファイル 644 に揃える対処が広く有効だと共有されています。
 
-# 設定内容を展開して表示
-nginx -T | grep -A 5 "location"
-```
-
-### ステップ3：プロセスユーザーとファイル所有権の再確認
-
-```bash
-# Nginx ワーカープロセスのユーザーを確認
-ps aux | grep "nginx: worker"
-
-# ファイルの所有者を確認
-stat /var/www/html/index.html
-
-# 両者が一致しているか確認
-ls -l /var/www/html/
-```
-
-### ステップ4：公式ドキュメントの参照
-
-Nginx 公式ドキュメント「Module ngx_http_access_module」では `allow` / `deny` ディレクティブの詳細な仕様が説明されています。また「Nginx Pitfalls」では設定ミスの典型パターンが紹介されており、特に `location` ブロックの優先順位に関する解説が参考になります。
-
-### ステップ5：コミュニティリソース
-
-stackoverflow の nginx [タグ](/glossary/タグ/)や、Nginx フォーラム（forum.nginx.org）で同様の問題報告が多数あります。[エラーログ](/glossary/エラーログ/)の `"is forbidden"` というメッセージとログレベル番号（13: Permission denied）を含めて検索すると、類似事例が見つかりやすいです。
-
----
-
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+この事例が示すとおり、403 の調査では「ファイル単体の権限」だけでなく「パス全体の通り抜け可否」を確認することが重要です。`namei -l` でパスの各段を一度に点検するのが、確実な近道です。
