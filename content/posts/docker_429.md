@@ -38,6 +38,7 @@ Error response from daemon: pull access denied for <your-image>, repository does
 ### 原因1：Docker Hub の認証なし（無認証での並行アクセス）
 
 [Docker](/glossary/docker/) Hub は無認証ユーザーに対して 6 時間ごとに 100 [リクエスト](/glossary/リクエスト/)の[レート制限](/glossary/レート制限/)を適用しています。[認証](/glossary/認証/)を行わないまま複数マシンやパイプラインから同時に[イメージ](/glossary/イメージ/)をプルすると、制限に達します。
+Docker Personal(無料認証)ユーザーは 200 プル/6時間、Pro/Team/Business ユーザーはフェアユースの範囲で無制限です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -54,7 +55,7 @@ docker pull redis:latest
 **After（修正後）：**
 
 ```bash
-# Docker Hub にログイン（認証済みユーザーは 200,000 リクエスト/6時間）
+# Docker Hub にログイン（Docker Personal は 200 プル/6時間、Pro/Team/Business はフェアユースの範囲で無制限）
 docker login --username <your-username> --password <your-token>
 
 # その後、イメージをプル

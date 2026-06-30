@@ -53,7 +53,7 @@ import requests
 payload = {
     "properties": {
         "adminUsername": "azureuser",
-        # adminUserPassword が不足している
+        # adminPassword が不足している
         "osProfile": {
             "computerName": "myvm"
         }
@@ -75,7 +75,7 @@ import requests
 payload = {
     "properties": {
         "adminUsername": "azureuser",
-        "adminUserPassword": "P@ssw0rd!Secure123",  # 必須パラメータを追加
+        "adminPassword": "P@ssw0rd!Secure123",  # 必須パラメータを追加
         "osProfile": {
             "computerName": "myvm"
         }

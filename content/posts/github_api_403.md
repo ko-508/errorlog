@@ -108,7 +108,7 @@ curl -H "Authorization: token <your-token>" \
 
 ### 原因3：API レート制限に達している
 
-GitHub [API](/glossary/api/)は1時間あたりの呼び出し回数に制限があります。[認証](/glossary/認証/)なしの[リクエスト](/glossary/リクエスト/)では60回、認証済みで3000回（通常のユーザー）です。この制限に達すると、その後の[リクエスト](/glossary/リクエスト/)は403で返されます。
+GitHub [API](/glossary/api/)は1時間あたりの呼び出し回数に制限があります。[認証](/glossary/認証/)なしの[リクエスト](/glossary/リクエスト/)では60回、認証済みで5000回（通常のユーザー）です。この制限に達すると、その後の[リクエスト](/glossary/リクエスト/)は403で返されます。
 
 **修正前（レート制限超過）：**
 ```bash
@@ -117,7 +117,7 @@ for i in {1..3100}; do
   curl -H "Authorization: token <your-token>" \
     https://api.github.com/repos/<owner>/<repo>/issues/$i
 done
-# 3000回目以降 → 403 API rate limit exceeded
+# 5000回目以降 → 403 API rate limit exceeded
 ```
 
 **修正後（[レート制限](/glossary/レート制限/)を回避）：**
@@ -129,7 +129,7 @@ curl -H "Authorization: token <your-token>" \
 # 出力例:
 # {
 #   "rate": {
-#     "limit": 3000,
+#     "limit": 5000,
 #     "remaining": 150,
 #     "reset": 1640000000
 #   }

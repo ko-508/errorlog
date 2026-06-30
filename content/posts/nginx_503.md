@@ -259,6 +259,8 @@ upstream backend {
 }
 ```
 
+※ slow_start は NGINX Plus 専用の機能で、オープンソース版の Nginx では利用できません。
+
 ## それでも解決しない場合
 
 ### 確認すべきログとコマンド
