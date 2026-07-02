@@ -1,317 +1,197 @@
 ---
 title: "Nginx の 503 エラー：原因と解決策"
 date: 2026-05-27
-description: "Nginx の 503 Service Unavailable エラーは、Nginx がリクエストを処理するバックエンドサーバー（アプリケーションサーバー等）に接続できないか、バックエンドが全て利用不可能な状態を示します。"
+description: "Nginx の 503 Service Unavailable の原因は、limit_req・limit_conn による制限超過、設定に残った return 503、上流アプリケーションが返す503の中継の3系統です。接続失敗は502、タイムアウトは504であり、503とは原因が異なります。エラーログの文言から切り分けて解決します。"
 tags: ["Nginx"]
 errorCode: "503"
-lastmod: 2026-06-14
+lastmod: 2026-07-02
 service: "Nginx"
 error_type: "503"
 components: []
-related_services: ["Node.js", "Docker"]
+related_services: []
 top_queries:
 - '503 service temporarily unavailable nginx'
 - 'nginx 503'
 - '503 nginx'
 ---
 
+## 冒頭まとめ
+
+Nginx の 503 Service Unavailable の原因は、ほぼ次の3系統のいずれかです。第一に、`limit_req`（リクエスト頻度の制限）や `limit_conn`（同時接続数の制限）の超過で、Nginx 自身が既定で 503 を返します。第二に、メンテナンス用に設定した `return 503` が設定内に残っているケースです。第三に、`proxy_pass` 先の上流アプリケーション自身が 503 を返し、Nginx がそれをそのまま中継しているケースです。
+
+注意すべき点として、「バックエンドに接続できない」ときに Nginx が返すのは 503 ではなく 502 Bad Gateway、応答待ちで時間切れになったときは 504 Gateway Timeout です。503 の調査だと思っていたものが実は 502 や 504 の問題だった、ということが起こりやすいので、まずアクセスログで実際のステータスコードを確かめ、次にエラーログの文言で原因を絞り込みます。
+
 ## エラーの概要
 
-Nginx の 503 Service Unavailable [エラー](/glossary/エラー/)は、Nginx が[リクエスト](/glossary/リクエスト/)を処理するバックエンドサーバー（アプリケーションサーバーなど）に接続できないか、設定された[バックエンド](/glossary/バックエンド/)が全て利用不可能な状態を示します。クライアントが発した正当な[リクエスト](/glossary/リクエスト/)であっても、[サーバー](/glossary/サーバー/)側の問題によって処理できないため、Nginx がこの[エラー](/glossary/エラー/)を返します。この[エラー](/glossary/エラー/)は一時的な問題である場合が多く、[バックエンド](/glossary/バックエンド/)側の復旧や Nginx 設定の修正で解決することがほとんどです。
+503 Service Unavailable は、サーバーが一時的にリクエストを処理できない状態を示します。Nginx をリバースプロキシとして使っている場合、似た状況で返るコードが3つあり、区別が重要です。上流への接続自体に失敗した場合（プロセス停止、ポート違い、接続拒否など）は 502、接続はできたが応答が時間内に返らなかった場合は 504、そして上流が「処理できない」と自ら 503 を応答した場合はその 503 がそのまま中継されます。加えて、上流と無関係に Nginx 自身が制限機能によって 503 を返す場合があります。
 
-## 実際のエラーメッセージ例
+Nginx が自身の既定ページで 503 を返す場合、ブラウザには「503 Service Temporarily Unavailable」という見出しだけが表示されます。「The server is temporarily unable to service your request due to maintenance downtime or capacity problems.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではなく、上流の別のサーバーが生成した 503 を中継している可能性が高いです（原因3）。
 
-ブラウザで表示される場合：
-
-```
-503 Service Unavailable
-Service Unavailable
-
-The server is temporarily unable to service your request due to maintenance downtime or capacity problems. Please try again later.
-```
-
-Nginx のアクセスログに記録される場合：
+アクセスログ（既定の combined 形式）には次のように記録されます。
 
 ```
-192.168.1.100 - - [20/Jan/2024 10:45:32 +0900] "GET /api/users HTTP/1.1" 503 197 "-" "Mozilla/5.0"
+192.168.1.100 - - [02/Jul/2026:10:45:32 +0900] "GET /api/users HTTP/1.1" 503 190 "-" "Mozilla/5.0"
 ```
 
-Nginx の[エラーログ](/glossary/エラーログ/)に記録される詳細情報：
+## まず最初に：エラーログを読む
 
+アクセスログで対象リクエストのコードが本当に 503 であることを確かめたら、同時刻のエラーログを見ます。503 の原因はエラーログの文言でほぼ特定できます。
+
+```bash
+# 直近のエラーを表示
+sudo tail -50 /var/log/nginx/error.log
+
+# 制限機能による拒否の行だけを抽出
+sudo grep "limiting" /var/log/nginx/error.log
 ```
-2024/01/20 10:45:32 [error] 1234#1234: *56 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.1.100, server: example.com, request: "GET /api/users HTTP/1.1", upstream: "http://127.0.0.1:8080/api/users"
-```
+
+`limiting requests, excess: ... by zone "..."` とあれば `limit_req` による拒否、`limiting connections by zone "..."` とあれば `limit_conn` による拒否です（原因1）。どのゾーンの制限に当たったかも同じ行に書かれています。
+
+該当時刻に何も記録がない場合、設定内の `return 503`（原因2）か、上流からの 503 の中継（原因3）を疑います。どちらも Nginx にとってはエラーではなく正常な処理なので、エラーログには残りません。
+
+逆に、該当時刻に `connect() failed (111: Connection refused) while connecting to upstream` や `upstream timed out` が記録されている場合、そのリクエストへの応答は 503 ではなく 502 または 504 のはずです。調べているコードを取り違えていないか、アクセスログに戻って確認してください（後述の補足を参照）。
 
 ## よくある原因と解決手順
 
-### 原因1：バックエンドサーバーが起動していない
+### 原因1：limit_req・limit_conn の制限超過
 
-Nginx の upstream として設定されているアプリケーションサーバーが停止しているため、接続が拒否されます。これは最も一般的な原因です。
+`limit_req` は、ゾーンに設定した頻度を超えたリクエストを遅延させ、`burst`（超過分の待ち枠）も使い切ると拒否します。`limit_conn` は同時接続数が上限を超えたとき拒否します。どちらも拒否時の応答コードは既定で 503 です（`limit_req_status`、`limit_conn_status` の既定値）。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+よくあるのが、burst を指定していないために正当な利用者まで拒否されるケースです。burst の既定は 0 なので、設定した頻度をわずかでも超えた瞬間に 503 が返ります。1つのページを開くとブラウザは CSS・画像・スクリプトなどを続けて取得するため、rate=1r/s のような厳しい設定では通常の閲覧でも即座に超過します。
 
-```bash
-# アプリケーションサーバーが停止している状態でリクエストを送信
-curl http://example.com/api/users
-# -> 503 Service Unavailable が返される
-```
-
-**After（修正後）：**
-
-```bash
-# アプリケーションサーバーを起動
-systemctl start myapp
-# または
-python app.py &
-
-# 起動確認
-ps aux | grep myapp
-netstat -tlnp | grep 8080
-```
-
-### 原因2：Nginx の upstream 設定が誤っている
-
-upstream で指定したホスト名や[ポート](/glossary/ポート/)番号が間違っていたり、存在しないアドレスを指定している場合に発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（正当な閲覧でも503が出やすい設定）：**
 
 ```nginx
-upstream backend {
-    server 192.168.1.999:8080;  # 存在しないIPアドレス
-}
+http {
+    limit_req_zone $binary_remote_addr zone=one:10m rate=1r/s;
 
-server {
-    listen 80;
-    server_name example.com;
-
-    location /api {
-        proxy_pass http://backend;
+    server {
+        location / {
+            limit_req zone=one;
+        }
     }
 }
 ```
 
-**After（修正後）：**
+**After（瞬間的な集中を burst で吸収する設定）：**
 
 ```nginx
-upstream backend {
-    server 127.0.0.1:8080;  # 正しいIPアドレスを指定
-    server 127.0.0.1:8081;  # 冗長性のため複数サーバーを指定
-}
+http {
+    limit_req_zone $binary_remote_addr zone=one:10m rate=10r/s;
 
-server {
-    listen 80;
-    server_name example.com;
-
-    location /api {
-        proxy_pass http://backend;
-        proxy_connect_timeout 5s;
-        proxy_read_timeout 10s;
+    server {
+        location / {
+            limit_req zone=one burst=20 nodelay;
+        }
     }
 }
 ```
 
-### 原因3：バックエンドサーバーがリッスンしているポートが異なる
+`nodelay` は、burst 枠内のリクエストを遅延させずに即時処理するための指定です。また、拒否時のコードは `limit_req_status 429;` のように変更でき、レート制限の応答として 429 Too Many Requests を返す運用も可能です。
 
-Nginx の設定では[ポート](/glossary/ポート/) 8080 を指定しているが、実際のアプリケーションサーバーは[ポート](/glossary/ポート/) 3000 でリッスンしているなど、[ポート](/glossary/ポート/)番号の不一致が原因となります。
+もう1つの落とし穴が共有メモリゾーンの枯渇です。ゾーンの空きがなくなると最も古い状態から削除されますが、それでも新しい状態を作れない場合、そのリクエストは拒否されます。公式ドキュメントによると、状態1件は64ビット環境で128バイトを占め、1MB のゾーンに約8千件です。クライアント数に対してゾーンが小さすぎないか確認してください。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+### 原因2：設定に残った return 503（メンテナンスモード）
 
-```nginx
-upstream backend {
-    server 127.0.0.1:8080;  # Nginxは8080をexpectしている
-}
-```
-
-設定確認[コマンド](/glossary/コマンド/)：
+メンテナンス作業のために `return 503` を入れ、戻し忘れているケースです。この場合、Nginx にとっては指示どおりの正常動作なので、エラーログには何も残りません。
 
 ```bash
-# サーバーが実際にリッスンしているポート確認
-netstat -tlnp | grep python
-# 出力例: tcp  0  0 127.0.0.1:3000  0.0.0.0:*  LISTEN  5678/python
+# 有効な設定全体から 503 に関わる記述を探す
+sudo nginx -T | grep -nE "return 503|error_page 503|limit_req|limit_conn"
 ```
 
-**After（修正後）：**
-
-```nginx
-upstream backend {
-    server 127.0.0.1:3000;  # 実際にアプリケーションがリッスンしているポート
-}
-```
-
-### 原因4：全ての upstream サーバーがダウンしている（ロードバランシング環境）
-
-複数のバックエンドサーバーを upstream に設定していても、全てが同時にダウンしている場合に発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```nginx
-upstream backend {
-    server 192.168.1.10:8080;
-    server 192.168.1.11:8080;
-    server 192.168.1.12:8080;
-    # 全てのサーバーがオフラインの場合、どのサーバーにもフォールバックできない
-}
-```
-
-**After（修正後）：**
-
-```nginx
-upstream backend {
-    server 192.168.1.10:8080 max_fails=3 fail_timeout=30s;
-    server 192.168.1.11:8080 max_fails=3 fail_timeout=30s;
-    server 192.168.1.12:8080 max_fails=3 fail_timeout=30s;
-    server 192.168.1.13:8080 backup;  # バックアップサーバーを用意
-}
-
-server {
-    listen 80;
-    server_name example.com;
-
-    location / {
-        proxy_pass http://backend;
-        proxy_connect_timeout 3s;
-        proxy_read_timeout 5s;
-        error_page 503 /maintenance.html;
-    }
-}
-```
-
-### 原因5：ファイアウォールやセキュリティグループでポートがブロックされている
-
-[クラウド](/glossary/クラウド/)環境や[ファイアウォール](/glossary/ファイアウォール/)設定により、Nginx から[バックエンド](/glossary/バックエンド/)への[通信](/glossary/通信/)がブロックされている場合があります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-# セキュリティグループまたはファイアウォールがポート8080をブロック
-# -> Nginx から127.0.0.1:8080へのconnectが拒否される
-```
-
-**After（修正後）：**
-
-```bash
-# Linux のファイアウォール設定例（iptables）
-sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
-sudo iptables -A INPUT -p tcp -s 127.0.0.1 --dport 8080 -j ACCEPT
-
-# AWS セキュリティグループ例（awscli）
-aws ec2 authorize-security-group-ingress \
-  --group-id sg-xxxxxxxx \
-  --protocol tcp \
-  --port 8080 \
-  --source-group sg-yyyyyyyy
-
-# iptables ルール永続化
-sudo apt-get install iptables-persistent
-sudo netfilter-persistent save
-```
-
-## Nginx 固有の注意点
-
-### upstream のヘルスチェック設定が不十分
-
-デフォルトの Nginx ではアクティブな[ヘルスチェック](/glossary/ヘルスチェック/)機能が限定的です。upstream の[サーバー](/glossary/サーバー/)が一時的に遅くなった場合、[タイムアウト](/glossary/タイムアウト/)によって503が多発することがあります。
-
-```nginx
-upstream backend {
-    server 127.0.0.1:8080 max_fails=2 fail_timeout=10s;
-    server 127.0.0.1:8081;
-}
-
-server {
-    location / {
-        proxy_pass http://backend;
-        proxy_connect_timeout 2s;  # 接続タイムアウト
-        proxy_read_timeout 5s;      # 読み取りタイムアウト
-        proxy_send_timeout 5s;      # 送信タイムアウト
-    }
-}
-```
-
-### proxy_intercept_errors と error_page の設定
-
-upstream が503を返す場合、Nginx はそれをクライアントに通す前に[キャッシュ](/glossary/キャッシュ/)可能な静的ファイルを返すように設定できます。
+`return 503` が見つかったら、それが意図した設定かを確認します。メンテナンスページを整備したい場合は、`error_page` と `internal` を組み合わせるのが標準的な構成です。
 
 ```nginx
 server {
     location / {
-        proxy_pass http://backend;
-        proxy_intercept_errors on;
-        error_page 503 /service_unavailable.html;
+        return 503;
     }
 
-    location = /service_unavailable.html {
+    error_page 503 /maintenance.html;
+
+    location = /maintenance.html {
         root /var/www/html;
         internal;
     }
 }
 ```
 
-### upstream が複数のバックエンドを持つ場合の動作
+`internal` を付けた location は内部処理専用になり、利用者が `/maintenance.html` を直接開くことはできなくなります。メンテナンス終了時は `return 503` の行を外し、文法確認のうえ反映します。
 
-Nginx は設定内の upstream すべてにアクセスできない場合に503を返します。backup [サーバー](/glossary/サーバー/)の活用や slow_start [パラメータ](/glossary/パラメータ/)で段階的な負荷分散を実現できます。
+### 原因3：上流アプリケーションが503を返している
+
+`proxy_pass` 構成では、上流の応答コードは既定でそのままクライアントに中継されます（`proxy_intercept_errors` の既定は off）。上流のアプリケーションがメンテナンスモードだったり、過負荷への保護機能で自ら 503 を返していたりすれば、Nginx を経由した応答も 503 になります。
+
+見分けるポイントは2つです。第一に、Nginx のエラーログに該当時刻の記録がないこと。第二に、応答の本文が Nginx の既定ページ（「503 Service Temporarily Unavailable」のみ）と違うことです。上流に直接リクエストを送って比べるのが確実です。
+
+```bash
+# Nginx 経由の応答
+curl -i http://example.com/api/users
+
+# 上流に直接送った応答（同じ503が返れば上流由来と確定）
+curl -i http://127.0.0.1:8080/api/users
+```
+
+原因が上流由来と確定したら、対処の場所は Nginx ではなく上流アプリケーション側です。上流のログと稼働状態を確認してください。どのリクエストで上流が何を返したかを Nginx 側にも残したい場合は、`log_format` に `$upstream_status`（上流から得た応答コードを保持する変数）を加えておくと、以後の切り分けが楽になります。
+
+上流の 503 をそのまま見せたくない場合は、`proxy_intercept_errors on;` と `error_page` を組み合わせて、Nginx 側で用意したページに差し替えられます。
 
 ```nginx
-upstream backend {
-    server 192.168.1.10:8080 weight=5;
-    server 192.168.1.11:8080 weight=3 slow_start=30s;
-    server 192.168.1.12:8080 backup;
+location / {
+    proxy_pass http://127.0.0.1:8080;
+    proxy_intercept_errors on;
+    error_page 503 /maintenance.html;
+}
+
+location = /maintenance.html {
+    root /var/www/html;
+    internal;
 }
 ```
 
-※ slow_start は NGINX Plus 専用の機能で、オープンソース版の Nginx では利用できません。
+## 補足：503だと思っていたら502・504だったとき
 
-## それでも解決しない場合
+「バックエンドが落ちると503になる」という説明を見かけますが、Nginx では正しくありません。上流への接続に失敗した場合（プロセス停止、ポート違い、全サーバー利用不可）に返るのは 502 で、エラーログには `connect() failed` や `no live upstreams` が記録されます。応答待ちの時間切れは 504 で、`upstream timed out` が記録されます。これらに該当する場合は、[Nginx の 502 エラー](/posts/nginx_502/)、[Nginx の 504 エラー](/posts/nginx_504/)の記事を参照してください。
 
-### 確認すべきログとコマンド
+## 切り分けの順序
 
-```bash
-# Nginx エラーログの確認
-tail -f /var/log/nginx/error.log
+1. アクセスログで対象リクエストのコードを確認する。503 でなければ該当コードの調査に切り替える。
+2. エラーログの該当時刻を見る。`limiting requests` / `limiting connections` があれば原因1。どのゾーンかも行内で特定できる。
+3. 記録がなければ `nginx -T` で `return 503`・`error_page 503` の有無を確認する（原因2）。
+4. それも見つからなければ、上流への直接リクエストで応答を比較する（原因3）。上流由来なら対処は上流側で行う。
 
-# Nginx アクセスログの確認
-tail -f /var/log/nginx/access.log
-
-# upstream への接続テスト
-telnet 127.0.0.1 8080
-nc -zv 127.0.0.1 8080
-
-# Nginx の設定文法チェック
-nginx -t
-
-# Nginx 設定の詳細確認
-nginx -T
-
-# プロセスが正しくリッスンしているか確認
-lsof -i :8080
-ss -tlnp | grep 8080
-```
-
-### バックエンドの動作確認
+設定を修正したら、文法確認をしてから反映します。
 
 ```bash
-# ローカルでバックエンドへのリクエストテスト
-curl -v http://127.0.0.1:8080/
-
-# バックエンドログの確認
-journalctl -u myapp -f
-docker logs myapp
-
-# バックエンドの応答時間確認
-time curl http://127.0.0.1:8080/
+sudo nginx -t && sudo systemctl reload nginx
 ```
 
-### 公式ドキュメント参照
+## 確認コマンド集
 
-- Nginx Module ngx_http_upstream_module：upstream モジュールの詳細設定方法
-- Nginx Module ngx_http_proxy_module：proxy_pass や[タイムアウト](/glossary/タイムアウト/)設定の詳細
-- Nginx [HTTP](/glossary/http/) Health Checks（Nginx Plus）：アクティブな[ヘルスチェック](/glossary/ヘルスチェック/)機能
+```bash
+# 1. アクセスログの 503 の傾向を確認
+sudo grep " 503 " /var/log/nginx/access.log | tail -20
 
-### コミュニティリソース
+# 2. エラーログから制限機能による拒否を抽出
+sudo grep "limiting" /var/log/nginx/error.log | tail -20
 
-- Nginx GitHub Issues：実装されていない機能や[バグ](/glossary/バグ/)報告
-- Server Fault Nginx [タグ](/glossary/タグ/)：実運用での設定ノウハウ
-- Nginx Japanese Community：日本語での質問と回答
+# 3. 有効な設定全体から 503 に関わる記述を探す（include 含む）
+sudo nginx -T | grep -nE "return 503|error_page 503|limit_req|limit_conn"
+
+# 4. Nginx 経由と上流直接の応答を比較
+curl -i http://example.com/api/users
+curl -i http://127.0.0.1:8080/api/users
+
+# 5. 設定の文法確認とリロード
+sudo nginx -t && sudo systemctl reload nginx
+```
+
+## Editor's Note
+
+`limit_req` の挙動を実測付きで確かめた例として、2024年1月の技術ブログ記事があります（[Request limiting in Nginx - iBug](https://ibug.io/blog/2024/01/nginx-limit-req/)）。筆者が rate=1r/s、burst=5 の設定に対して10件のリクエストを連続送信したところ、burst 枠に収まった最初の6件は 200 が返り（一部は遅延あり）、枠を超えた7件目以降は即座に 503 で拒否される出力が記録されています。本記事の原因1で述べた「burst を超えた分が既定で 503 になる」挙動そのものの実例です。なお筆者は最終的に `limit_req_status 403` で応答コードを変更する構成を採っており、拒否時のコードが運用に合わせて変更可能であることの実例にもなっています。個人の技術ブログですが、実測出力の内容は現行の公式ドキュメントの記述と一致しており、挙動の説明として信頼できると判断しました。
+
+503 は「Nginx 自身の制限」「意図的な設定」「上流の応答」のどれなのかで対処の場所がまったく変わります。コードの見た目で判断せず、エラーログの文言と上流への直接確認から原因の所在を特定することが確実な近道です。
 
 ---
 
