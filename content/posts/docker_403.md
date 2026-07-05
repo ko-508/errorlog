@@ -11,8 +11,9 @@ components: ["Registry", "Desktop"]
 related_services: ["Docker Hub", "Kubernetes", "Azure Container Registry"]
 trend_incident: true
 top_queries:
-- '403 forbidden nginx docker'
-- 'docker login forbidden'
+- 'docker pull 403'
+- 'docker hub 403 forbidden alternative registry php 8.2-apache mirror 2024'
+- 'docker hub 403 forbidden alternative registry python 3.11-slim mirror 2024'
 ---
 # エラーの概要
 

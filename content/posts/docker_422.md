@@ -10,6 +10,8 @@ error_type: "422"
 components: ["Compose", "Registry", "Daemon"]
 related_services: ["Docker API"]
 trend_incident: true
+top_queries:
+- 'nginx 422'
 ---
 ## エラーの概要
 

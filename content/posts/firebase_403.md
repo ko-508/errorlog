@@ -10,6 +10,8 @@ service: "Firebase"
 error_type: "403"
 components: ["Firestore", "Cloud Storage", "Realtime Database", "Auth"]
 related_services: ["JavaScript SDK"]
+top_queries:
+- 'firebase 403'
 ---
 
 ## エラーの概要

@@ -12,8 +12,6 @@ related_services: ["REST API"]
 trend_incident: true
 top_queries:
 - 'github 500'
-- 'api error 500'
-- 'github 500 error'
 ---
 
 ## エラーの概要

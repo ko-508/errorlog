@@ -10,6 +10,8 @@ error_type: "401"
 components: []
 related_services: ["Slack API", "OAuth", "Slack App Directory"]
 lastmod: 2026-06-14
+top_queries:
+- 'token_revoked'
 ---
 
 ## Slack の 401 エラー：原因と解決策

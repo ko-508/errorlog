@@ -11,6 +11,7 @@ components: []
 related_services: ["@octokit/rest"]
 trend_incident: true
 top_queries:
+- 'github 400'
 - 'github api bad credentials'
 ---
 

@@ -11,8 +11,9 @@ error_type: "401"
 components: []
 related_services: ["OpenAI ダッシュボード"]
 top_queries:
-- 'authorizationfailed: openai: 401 unauthorized: user is not authenticated'
-- 'openai 401'
+- 'unexpected status 401 unauthorized: incorrect api key provided:'
+- '401 incorrect api key provided'
+- 'invalid_api_key'
 ---
 
 ## エラーの概要

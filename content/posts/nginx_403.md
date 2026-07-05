@@ -12,7 +12,7 @@ related_services: ["PHP-FPM", "SELinux", "AppArmor"]
 top_queries:
 - '403 forbidden nginx'
 - 'nginx 403 forbidden'
-- 'nginx 403 forbidden 原因'
+- '403 forbidden nginx 原因'
 ---
 
 ## 冒頭まとめ

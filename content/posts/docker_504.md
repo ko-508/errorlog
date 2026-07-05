@@ -11,9 +11,9 @@ components: ["Compose"]
 related_services: ["Nginx", "PostgreSQL"]
 trend_incident: true
 top_queries:
+- '504エラー'
+- '504 status code'
 - '504 エラー'
-- '504 エラー 原因'
-- 'エラー 504'
 ---
 
 ## エラーの概要

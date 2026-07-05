@@ -10,6 +10,8 @@ service: "Stripe"
 error_type: "429"
 components: ["Charge", "Webhook", "Event"]
 related_services: ["Python", "JavaScript", "curl"]
+top_queries:
+- 'エラー 429'
 ---
 ## エラーの概要
 

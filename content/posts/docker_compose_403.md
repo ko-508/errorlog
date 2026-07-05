@@ -9,6 +9,8 @@ error_type: "403"
 components: ["Compose", "Registry"]
 related_services: ["Docker Hub", "Azure Container Registry"]
 trend_incident: true
+top_queries:
+- '403 forbidden 解決方法'
 ---
 ## エラーの概要
 

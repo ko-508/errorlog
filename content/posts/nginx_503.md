@@ -11,8 +11,8 @@ components: []
 related_services: []
 top_queries:
 - '503 service temporarily unavailable nginx'
-- 'nginx 503'
 - '503 nginx'
+- 'nginx 503'
 ---
 
 ## 冒頭まとめ

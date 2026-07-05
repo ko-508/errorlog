@@ -12,7 +12,9 @@ error_type: "404"
 components: []
 related_services: ["Slack API"]
 top_queries:
-- '100404'
+- 'channel not found'
+- 'slack 404'
+- 'slack 404 page'
 ---
 
 ## エラーの概要

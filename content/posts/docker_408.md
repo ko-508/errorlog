@@ -12,7 +12,7 @@ components: ["Daemon", "CLI", "API", "Compose", "BuildKit"]
 related_services: ["HTTP", "RFC", "UNIX Socket", "Named Pipe", "Dockerfile"]
 trend_incident: true
 top_queries:
-- '408エラー'
+- 'https 408'
 ---
 
 ## エラーの概要

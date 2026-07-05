@@ -10,6 +10,8 @@ service: "Stripe"
 error_type: "500"
 components: []
 related_services: ["Python", "curl"]
+top_queries:
+- 'stripe 障害'
 ---
 
 ## エラーの概要

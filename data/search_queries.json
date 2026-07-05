@@ -2,42 +2,15 @@
   "nginx_404": {
     "top_queries": [
       "404 not found nginx",
+      "nginx 404",
+      "nginx 404 not found",
       "404 not found nginx 原因",
-      "nginx 404 not found 原因",
-      "nginx 404"
+      "404 not foundnginx",
+      "404 nginx",
+      "nginx not found"
     ],
-    "avg_ctr": 0.0323,
-    "avg_position": 9.4
-  },
-  "openai_api_403": {
-    "top_queries": [
-      "openai 403"
-    ],
-    "avg_ctr": 1.0,
-    "avg_position": 2.0
-  },
-  "openai_api_400": {
-    "top_queries": [
-      "チャットgpt リクエストに問題があります 400",
-      "openai.badrequesterror: error code: 400",
-      "openai error 400",
-      "openai 400 error",
-      "チャットgpt エラー400"
-    ],
-    "avg_ctr": 0.125,
-    "avg_position": 9.5
-  },
-  "auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-": {
-    "top_queries": [
-      "the model returned the following errors: data retention mode 'default' is not available for this model",
-      "\"data retention mode 'default' is not available for this model\"",
-      "api error: 400 data retention mode 'default' is not available for this model",
-      "fable5 data retention",
-      "validationexception the model returned the following errors: data retention mode 'default' is not available for this model",
-      "fable data retention"
-    ],
-    "avg_ctr": 0.0909,
-    "avg_position": 10.4
+    "avg_ctr": 0.054,
+    "avg_position": 7.6
   },
   "auto_2026-06-10_amazon-sp-api-tutorial-building-real-marketplace-a": {
     "top_queries": [
@@ -46,257 +19,260 @@
     "avg_ctr": 0.0,
     "avg_position": 8.0
   },
-  "podman_401": {
+  "openai_api_401": {
     "top_queries": [
-      "401"
+      "unexpected status 401 unauthorized: incorrect api key provided:",
+      "401 incorrect api key provided",
+      "invalid_api_key",
+      "unexpected status 401 unauthorized: incorrect api key provided"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 70.0
+    "avg_position": 8.6
+  },
+  "azure_401": {
+    "top_queries": [
+      "401エラー",
+      "azure 401"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 36.5
+  },
+  "github_api_401": {
+    "top_queries": [
+      "401エラー",
+      "gh: bad credentials (http 401)",
+      "github api 401"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 26.0
   },
   "nginx_403": {
     "top_queries": [
       "403 forbidden nginx",
       "nginx 403 forbidden",
-      "403 forbiddennginx",
+      "403 forbidden nginx 原因",
       "nginx 403",
       "403 forbidden nginx とは",
-      "403 forbidden nginx 原因",
+      "403 forbiddennginx",
       "403 nginx",
-      "403 error nginx",
-      "403 forbidden nginx docker",
-      "403 forbidden nginx vpn"
+      "directory index of is forbidden nginx",
+      "nginx 403 directory index of is forbidden",
+      "nginx 403 forbidden 原因"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 12.1
+    "avg_position": 9.3
   },
-  "docker_403": {
+  "docker_compose_403": {
     "top_queries": [
-      "403 forbidden nginx docker",
-      "docker login forbidden"
+      "403 forbidden 解決方法"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 28.5
+    "avg_position": 19.0
   },
-  "github_api_404": {
+  "github_api_409": {
     "top_queries": [
-      "404 github",
-      "github 404",
-      "github 404 原因"
+      "409 エラー",
+      "409エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 16.0
-  },
-  "docker_408": {
-    "top_queries": [
-      "408エラー"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 25.0
+    "avg_position": 34.0
   },
   "docker_409": {
     "top_queries": [
       "409エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 30.0
+    "avg_position": 33.0
   },
-  "github_api_409": {
+  "docker_429": {
     "top_queries": [
-      "409エラー"
+      "429エラー 対策"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 19.0
-  },
-  "firebase_429": {
-    "top_queries": [
-      "429 エラー"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 36.0
-  },
-  "aws_502": {
-    "top_queries": [
-      "502 bad gateway aws",
-      "aws 502",
-      "aws 502 bad gateway"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 37.3
+    "avg_position": 31.0
   },
   "nginx_503": {
     "top_queries": [
       "503 service temporarily unavailable nginx",
-      "nginx 503",
       "503 nginx",
-      "503 error nginx",
-      "503 service temporarily unavailable nginx 1.8 1",
-      "503 service temporarily unavailablenginx",
-      "upstream server responded with a 503 error"
+      "nginx 503",
+      "nginx 503 service temporarily unavailable",
+      "nginx エラー",
+      "service temporarily unavailable nginx"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 19.0
+    "avg_position": 12.8
   },
   "aws_504": {
     "top_queries": [
       "elb 504",
-      "504 gateway time-out alb",
+      "504 gateway time-out aws",
       "504 エラー と は",
       "504エラー",
-      "aws 504"
+      "http 504 aws",
+      "エラー コード 504"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 41.0
-  },
-  "github_api_504": {
-    "top_queries": [
-      "504 github"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 4.0
+    "avg_position": 40.0
   },
   "docker_504": {
     "top_queries": [
+      "504エラー",
+      "504 status code",
       "504 エラー",
       "504 エラー 原因",
-      "エラー 504"
+      "http 504 エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 48.3
+    "avg_position": 45.2
   },
-  "github_api_500": {
+  "slack_404": {
     "top_queries": [
-      "github 500",
-      "api error 500",
-      "github 500 error"
+      "channel not found",
+      "slack 404",
+      "slack 404 page",
+      "slack 予期しないエラーが発生しました"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 12.6
-  },
-  "openai_api_503": {
-    "top_queries": [
-      "apiが過負荷状態です",
-      "apiが過負荷状態です。"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 10.4
-  },
-  "openai_api_401": {
-    "top_queries": [
-      "authorizationfailed: openai: 401 unauthorized: user is not authenticated",
-      "openai 401"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 4.3
-  },
-  "vercel_502": {
-    "top_queries": [
-      "bad gateway error code 502"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 5.0
-  },
-  "bitbucket_500": {
-    "top_queries": [
-      "bitbucket 障害"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 8.0
-  },
-  "stripe_402": {
-    "top_queries": [
-      "stripe 決済 エラー",
-      "card_declined",
-      "stripe カードが拒否されました",
-      "ご利用のカードはこのタイプの購入に対応していません。"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 29.2
+    "avg_position": 23.2
   },
   "circleci_404": {
     "top_queries": [
       "circleci 障害"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 8.5
+    "avg_position": 8.2
   },
-  "docker_500": {
+  "aws_502": {
     "top_queries": [
-      "docker 500 internal server error",
-      "docker desktop 500 internal server error"
+      "cloudfront 502"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 8.5
+    "avg_position": 41.0
   },
-  "tool_docker_compose": {
+  "auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-": {
     "top_queries": [
-      "docker compose"
+      "the model returned the following errors: data retention mode 'default' is not available for this model",
+      "data retention mode 'default' is not available for this model",
+      "validationexception the model returned the following errors: data retention mode 'default' is not available for this model"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 48.0
+    "avg_position": 3.5
+  },
+  "docker_403": {
+    "top_queries": [
+      "docker pull 403",
+      "docker hub 403 forbidden alternative registry php 8.2-apache mirror 2024",
+      "docker hub 403 forbidden alternative registry python 3.11-slim mirror 2024",
+      "docker hub 403 forbidden alternative registry python 3.12-slim mirror 2024",
+      "docker pull 403 forbidden filter rules workaround alternative registry 2024"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 7.3
   },
   "aws_503": {
     "top_queries": [
       "elb 503",
-      "エラー 503 とは"
+      "health checks failed with these codes: [503]"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 49.0
+    "avg_position": 43.5
   },
-  "docker_429": {
+  "docker_compose_404": {
     "top_queries": [
-      "error 429"
+      "error response from daemon: page not found"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 9.0
+    "avg_position": 10.0
   },
-  "openai_api_500": {
+  "supabase_429": {
     "top_queries": [
-      "openai 520 error",
-      "error: {\"error\":{\"message\":\"internal server error\",\"type\":\"server_error\",\"param\":null,\"code\":null}}",
-      "openai.internalservererror: error code: 500"
+      "failed to resolve latest supabase cli release: rate limit exceeded"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 16.2
+    "avg_position": 6.0
   },
-  "gemini_api_429_resource_exhausted_free_tier": {
+  "firebase_403": {
     "top_queries": [
-      "free_quota_exhausted",
-      "generate_content_free_tier_requests"
+      "firebase 403"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 6.5
+    "avg_position": 7.0
   },
-  "github_api_502": {
+  "github_api_400": {
     "top_queries": [
-      "github 502",
-      "github api 502"
+      "github 400",
+      "github api bad credentials"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 4.5
+    "avg_position": 11.6
   },
-  "github_api_403": {
+  "github_api_404": {
     "top_queries": [
-      "github api 403",
-      "http 403: resource not accessible by personal access token (https://api.github.com/user/keys?per_page=100)"
+      "github 404 原因"
     ],
     "avg_ctr": 0.0,
     "avg_position": 8.5
   },
-  "github_api_400": {
+  "github_api_500": {
     "top_queries": [
-      "github api bad credentials"
+      "github 500"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 22.0
+    "avg_position": 5.0
+  },
+  "github_api_502": {
+    "top_queries": [
+      "github 502",
+      "github 502 bad gateway"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 5.6
+  },
+  "github_api_504": {
+    "top_queries": [
+      "github api timeout"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 4.0
   },
   "gcp_500": {
     "top_queries": [
-      "google 500エラー",
-      "google 500 エラー",
-      "google エラー 500"
+      "google エラー 500",
+      "google 500 エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 28.0
+    "avg_position": 27.0
+  },
+  "docker_500": {
+    "top_queries": [
+      "http 500: internal server error docker"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 7.7
+  },
+  "docker_408": {
+    "top_queries": [
+      "https 408"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 9.0
+  },
+  "docker_422": {
+    "top_queries": [
+      "nginx 422"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 11.0
+  },
+  "openai_api_400": {
+    "top_queries": [
+      "openai.badrequesterror: error code: 400",
+      "チャットgpt エラー400",
+      "openai 400"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 10.0
   },
   "postman_400": {
     "top_queries": [
@@ -311,20 +287,42 @@
       "postman 401 unauthorized"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 5.5
+    "avg_position": 5.0
   },
-  "supabase_429": {
+  "stripe_402": {
     "top_queries": [
-      "request failed with status code 429"
+      "ご利用のカードはこのタイプの購入に対応していません。",
+      "stripe 402"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 64.0
+    "avg_position": 27.5
   },
-  "auto_2026-06-12_before-automation-deploying-spring-petclinic-micro": {
+  "stripe_500": {
     "top_queries": [
-      "spring-petclinic-microservices"
+      "stripe 障害"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 2.4
+    "avg_position": 15.0
+  },
+  "slack_401": {
+    "top_queries": [
+      "token_revoked"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 6.0
+  },
+  "aws_404": {
+    "top_queries": [
+      "アマゾン 404 エラー"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 60.0
+  },
+  "stripe_429": {
+    "top_queries": [
+      "エラー 429"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 54.5
   }
 }

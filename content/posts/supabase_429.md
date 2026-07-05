@@ -10,7 +10,7 @@ error_type: "429"
 components: ["JavaScript Client", "Edge Functions", "Database", "Authentication API"]
 related_services: ["HTTP", "Webhook"]
 top_queries:
-- 'request failed with status code 429'
+- 'failed to resolve latest supabase cli release: rate limit exceeded'
 ---
 ## エラーの概要
 

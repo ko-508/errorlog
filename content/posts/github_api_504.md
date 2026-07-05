@@ -11,7 +11,7 @@ components: []
 related_services: ["REST API", "OAuth", "Personal Access Token", "CI/CD"]
 trend_incident: true
 top_queries:
-- '504 github'
+- 'github api timeout'
 ---
 
 ## エラーの概要

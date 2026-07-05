@@ -11,8 +11,6 @@ components: []
 related_services: []
 trend_incident: true
 top_queries:
-- '404 github'
-- 'github 404'
 - 'github 404 原因'
 ---
 

@@ -1,35 +1,7 @@
 {
-  "generated_at": "2026-06-28",
-  "eligible_count": 3,
-  "excluded_low_impressions": 27,
+  "generated_at": "2026-07-05",
+  "eligible_count": 0,
+  "excluded_low_impressions": 34,
   "min_impressions_threshold": 50,
-  "top_candidates": [
-    {
-      "slug": "auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-",
-      "title": "",
-      "priority_score": 77.32,
-      "impressions": 78,
-      "ctr": 0.0128,
-      "position": 9.1,
-      "rewrite_eligible": true
-    },
-    {
-      "slug": "nginx_403",
-      "title": "Nginx の 403 エラー：原因と解決策",
-      "priority_score": 74.42,
-      "impressions": 72,
-      "ctr": 0,
-      "position": 12.2,
-      "rewrite_eligible": true
-    },
-    {
-      "slug": "nginx_404",
-      "title": "Nginx の 404 エラー：原因と解決策",
-      "priority_score": 73.58,
-      "impressions": 72,
-      "ctr": 0.0139,
-      "position": 8.0,
-      "rewrite_eligible": true
-    }
-  ]
+  "top_candidates": []
 }

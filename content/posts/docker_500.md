@@ -11,8 +11,7 @@ components: []
 related_services: []
 trend_incident: true
 top_queries:
-- 'docker 500 internal server error'
-- 'docker desktop 500 internal server error'
+- 'http 500: internal server error docker'
 ---
 
 ## エラーの概要

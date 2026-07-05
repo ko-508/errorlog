@@ -10,6 +10,10 @@ error_type: "401"
 components: ["Personal Access Token", "Authorization header"]
 related_services: ["curl", "Python requests"]
 trend_incident: true
+top_queries:
+- '401エラー'
+- 'gh: bad credentials (http 401)'
+- 'github api 401'
 ---
 
 ## エラーの概要

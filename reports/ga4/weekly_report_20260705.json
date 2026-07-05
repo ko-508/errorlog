@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-07-05",
+  "period": "2026-06-26 〜 2026-07-02",
+  "issue_title": "【週次レポート】GA4 + GSC ボトルネック (2026-07-05)",
+  "issue_body": "## 週次統合分析レポート（2026-06-26 〜 2026-07-02）\n\n### 1. GA4 トラフィックサマリー\n\n| 分類 | 指標名 | 今週の実績値 | 状態 |\n| :--- | :--- | :--- | :--- |\n| **集客** | アクティブユーザー数 | 66 | 🔴 要改善 |\n| | セッション数 | 68 | 🔴 要改善 |\n| | チャネル比率 | Organic Search: 56%, Direct: 44% | ✅ 良好 |\n| **ユーザー属性** | 日本国内率 | 57.6% | ⚠️ 要注意 |\n| **動線** | 1セッションあたりPV数 | 1.38 | ⚠️ 要注意 |\n| | 離脱率 | 63.2% | ⚠️ 要注意 |\n| **品質** | フロントエラー発生数 | 0件 | ✅ エラーなし |\n\n### 2. Search Console サイト全体サマリー\n\n| 指標 | 今週 |\n| :--- | :--- |\n| 総インプレッション数 | 2,304 |\n| 総クリック数 | 37 |\n| 平均掲載順位 | 19.0 |\n| 平均CTR | 1.61% |\n\n### 3. Search Console ボトルネック記事\n\n判定条件: CTR < 1.5%（インプレッション≥10件）または掲載順位 11〜20 位停滞。\n\n| # | 対象URL | 表示回数 | CTR | 平均掲載順位 | 最多検索クエリ |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | `https://errorlog.jp/posts/nginx_503/` | 49 | 0.00% | 10.7 | 503 service temporarily unavailable nginx |\n| 2 | `https://errorlog.jp/posts/github_api_404/` | 41 | 0.00% | 11.3 | github 404 原因 |\n| 3 | `https://errorlog.jp/posts/github_api_400/` | 40 | 0.00% | 7.7 | github 400 |\n| 4 | `https://errorlog.jp/posts/aws_503/` | 33 | 0.00% | 24.1 | elb 503 |\n| 5 | `https://errorlog.jp/posts/github_api_502/` | 30 | 0.00% | 5.5 | github 502 |\n| 6 | `https://errorlog.jp/posts/stripe_402/` | 29 | 0.00% | 10.5 | ご利用のカードはこのタイプの購入に対応していません。 |\n| 7 | `https://errorlog.jp/posts/aws_504/` | 27 | 0.00% | 34.4 | elb 504 |\n| 8 | `https://errorlog.jp/posts/github_api_403/` | 27 | 0.00% | 7.4 | — |\n| 9 | `https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/` | 25 | 4.00% | 15.6 | — |\n| 10 | `https://errorlog.jp/posts/docker_404/` | 23 | 0.00% | 8.0 | — |\n| 11 | `https://errorlog.jp/posts/github_api_401/` | 22 | 0.00% | 9.4 | 401エラー |\n| 12 | `https://errorlog.jp/posts/docker_500/` | 21 | 0.00% | 7.3 | http 500: internal server error docker |\n| 13 | `https://errorlog.jp/posts/firebase_403/` | 18 | 0.00% | 7.6 | firebase 403 |\n| 14 | `https://errorlog.jp/posts/openai_api_404/` | 18 | 0.00% | 8.5 | — |\n| 15 | `https://errorlog.jp/posts/openai_api_503/` | 17 | 0.00% | 5.9 | — |\n\n---\n\n### ホスト別トラフィック内訳（混入監視）\n\n| ホスト | PV | PV% | UU | UU% |\n| :--- | :--- | :--- | :--- | :--- |\n| `zenn.dev` | 218 | 69.9% | 196 | 74.8% |\n| `errorlog.jp` | 94 | 30.1% | 66 | 25.2% |\n\n> メイン指標は errorlog.jp のみ（PV の 30.1%）で集計しています。\n\n> ⚠️ zenn.dev が全体の **69.9%** を占めています。メイン指標は errorlog.jp のみに絞って集計しています。\n\n---\n\n### ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n今週は除外対象なし（Singapore・5.0秒未満のセッションは検出されませんでした）。\n\n---\n\n### 国別分布（継続観測・ボット判定の参考。断定ではありません）\n\n| 国 | セッション数 | アクティブUU | エンゲージ率 | 平均エンゲージ時間(秒) | 直帰率 |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| Japan | 40 | 38 | 57.50% | 143.9 | 42.50% |\n| United States ⚠️ | 27 | 27 | 3.70% | 1.8 | 96.30% |\n| (not set) | 1 | 1 | 100.00% | 20.0 | 0.00% |\n\n> ⚠️ は平均エンゲージ時間 < 10秒 または 直帰率 > 90% の国に付けた**参考フラグ**です（直帰率の閾値は仮値であり、運用しながら見直してください）。エラー解決サイトでは検索流入後すぐ離脱する正常な利用も多いため、この指標だけではボットと**断定できません**。毎週の推移を人が見て判断するための記録であり、自動的な除外・ブロックには使用していません。\n\n---\n\n### IndexNow 送信サマリー（今週）\n\nIndexNow 経由で送信: **50 URL**\n\n---\n\n## Content Gap Report\n\nCoverage Rate: **24.6%**\n\n| 分類 | 件数 |\n| :--- | :--- |\n| ✅ Covered   | 50 |\n| ⚠️ Partial   | 42 |\n| 🔴 Uncovered | 111 |\n| **合計**     | **203** |\n\n### Top Opportunities\n\n1. 🔴 `the model returned the following errors: data retention mode 'default' is not available for this model` — Score: 0.0\n2. 🔴 `\"const sellingpartnerapi = require('amazon-sp-api')\"` — Score: 0.0\n3. 🔴 `\"data retention mode 'default' is not available for this model\"` — Score: 0.0\n4. 🔴 `api rate limit exceeded for user id` — Score: 0.0\n5. 🔴 `apiが過負荷状態です` — Score: 0.0\n6. 🔴 `apiが過負荷状態です。` — Score: 0.0\n7. 🔴 `authorization required but no authorization protocol specified` — Score: 0.0\n8. 🔴 `card_declined` — Score: 0.0\n9. 🔴 `cli コマンド` — Score: 0.0\n10. 🔴 `cliとは` — Score: 0.0\n\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。",
+  "bottlenecks_count": 34,
+  "metrics_snapshot": {
+    "active_users": 66,
+    "sessions": 68,
+    "organic_ratio": 0.5588,
+    "japan_ratio": 0.5758,
+    "pv_per_sess": 1.382,
+    "bounce_rate": 0.6324,
+    "js_errors": 0
+  },
+  "gsc_summary": {
+    "impressions": 2304,
+    "clicks": 37,
+    "ctr": 0.016059027777777776,
+    "position": 19.016493055555557
+  },
+  "ga4_host_summary": {
+    "primary_host": "errorlog.jp",
+    "hosts": [
+      {
+        "host": "zenn.dev",
+        "pv": 218,
+        "uu": 196,
+        "sessions": 245,
+        "pv_share": 0.6987,
+        "uu_share": 0.7481
+      },
+      {
+        "host": "errorlog.jp",
+        "pv": 94,
+        "uu": 66,
+        "sessions": 68,
+        "pv_share": 0.3013,
+        "uu_share": 0.2519
+      }
+    ],
+    "primary_host_pv_share": 0.3013,
+    "total_pv_all_hosts": 312,
+    "total_uu_all_hosts": 262
+  }
+}

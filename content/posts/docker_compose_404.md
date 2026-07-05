@@ -8,6 +8,8 @@ service: "Docker Compose"
 error_type: "404"
 components: ["Compose", "Registry", "Desktop"]
 related_services: ["Docker Hub"]
+top_queries:
+- 'error response from daemon: page not found'
 ---
 ## エラーの概要
 

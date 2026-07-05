@@ -11,9 +11,8 @@ error_type: "402"
 components: ["PaymentIntent", "Charge"]
 related_services: ["3Dセキュア", "Webhook"]
 top_queries:
-- 'stripe 決済 エラー'
-- 'card_declined'
-- 'stripe カードが拒否されました'
+- 'ご利用のカードはこのタイプの購入に対応していません。'
+- 'stripe 402'
 ---
 
 ## エラーの概要

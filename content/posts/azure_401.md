@@ -9,7 +9,8 @@ error_type: "401"
 components: []
 related_services: ["Azure CLI", "Azure SDK", "Azure Virtual Machine", "Azure Functions", "App Service", "Azure Portal"]
 top_queries:
-- "401エラー"
+- '401エラー'
+- 'azure 401'
 ---
 ## エラーの概要
 
