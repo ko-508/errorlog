@@ -13,7 +13,7 @@ related_services: ["REST API", "Jenkinsfile"]
 
 ## エラーの概要
 
-404[エラー](/glossary/エラー/)は、Jenkinsが指定したジョブまたはビルドを見つけられない状態を示します。この[エラー](/glossary/エラー/)はパイプライン実行時、[API](/glossary/api/)アクセス時、またはWebUIでのジョブ確認時に発生し、ジョブの削除・リネーム、URL構成の誤り、ビルド番号の不一致などが主な原因となります。
+404[エラー](/glossary/エラー/)は、Jenkinsが指定したジョブまたはビルドを見つけられない状態を示します。この[エラー](/glossary/エラー/)はパイプライン実行時、[API](/glossary/api/)アクセス時、またはWebUIでのジョブ確認時に発生し、ジョブの削除・リネーム、[URL](/glossary/url/)構成の誤り、ビルド番号の不一致などが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -45,7 +45,7 @@ ERROR hudson.model.Items - Item 'build-test' not found in 'jobs' folder
 
 ### 原因1：ジョブ名の綴りや大文字小文字が異なる
 
-Jenkinsはジョブ名を大文字と小文字を区別するため、URLや[API](/glossary/api/)呼び出しで正確な名前を指定する必要があります。例えば「MyBuildJob」というジョブに対して「mybuildjob」でアクセスすると[エラー](/glossary/エラー/)が発生します。
+Jenkinsはジョブ名を大文字と小文字を区別するため、[URL](/glossary/url/)や[API](/glossary/api/)呼び出しで正確な名前を指定する必要があります。例えば「MyBuildJob」というジョブに対して「mybuildjob」でアクセスすると[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -63,11 +63,11 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/api/json" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-確認方法としては、Jenkinsのホーム画面で該当ジョブを右クリック→「リンクアドレスをコピー」で正確なURLを取得するか、ジョブ設定ページから直接URLを確認することが確実です。
+確認方法としては、Jenkinsのホーム画面で該当ジョブを右クリック→「リンクアドレスをコピー」で正確な[URL](/glossary/url/)を取得するか、ジョブ設定ページから直接[URL](/glossary/url/)を確認することが確実です。
 
 ### 原因2：フォルダ内のジョブのURLパスが間違っている
 
-Jenkinsでフォルダを使用してジョブを整理している場合、URLパスは `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか検索されずに404[エラー](/glossary/エラー/)が発生します。
+Jenkinsでフォルダを使用してジョブを整理している場合、[URL](/glossary/url/)[パス](/glossary/パス/)は `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか検索されずに404[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -86,7 +86,7 @@ curl -X POST "http://localhost:8080/job/project-folder/job/deploy-test/build" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-ネストされたフォルダがある場合は、各階層を `job/` で連結します。例えば、構造が「parent-folder > child-folder > build-job」の場合、URLは `/job/parent-folder/job/child-folder/job/build-job` となります。
+ネストされたフォルダがある場合は、各階層を `job/` で連結します。例えば、構造が「parent-folder > child-folder > build-job」の場合、[URL](/glossary/url/)は `/job/parent-folder/job/child-folder/job/build-job` となります。
 
 ### 原因3：ビルド番号が存在しないか削除されている
 
@@ -119,7 +119,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/42/api/json" \
 
 **Jenkinsの宣言型パイプラインでのジョブ参照：**
 
-Jenkinsfileを使用するパイプラインジョブでは、他のジョブをビルドパラメータで参照する場合があります。このとき、ジョブ名を動的に構成する際は、フォルダ構造を含めた完全なパスを指定する必要があります。
+Jenkinsfileを使用するパイプラインジョブでは、他のジョブをビルドパラメータで参照する場合があります。このとき、ジョブ名を動的に構成する際は、フォルダ構造を含めた完全な[パス](/glossary/パス/)を指定する必要があります。
 
 ```groovy
 // Before: フォルダを省略してビルド失敗
@@ -129,13 +129,13 @@ build job: 'deploy-test'
 build job: 'project-folder/deploy-test'
 ```
 
-**[キャッシュ](/glossary/キャッシュ/)やショートカットによる古いURL：**
+**[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部ツール連携設定に古いURLが保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合ツール（GitLab、GitHub、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出しURLも更新が必要です。
+ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部ツール連携設定に古い[URL](/glossary/url/)が保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合ツール（GitLab、GitHub、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
 
 **Jenkins UI上での確認方法：**
 
-Jenkinsホーム画面で目的のジョブを開き、ブラウザのアドレスバーに表示されたURLが正確なパスです。このURLをコピーして、[API](/glossary/api/)呼び出しやスクリプトで使用することで、綴り間違いを防げます。
+Jenkinsホーム画面で目的のジョブを開き、ブラウザのアドレスバーに表示された[URL](/glossary/url/)が正確な[パス](/glossary/パス/)です。この[URL](/glossary/url/)をコピーして、[API](/glossary/api/)呼び出しやスクリプトで使用することで、綴り間違いを防げます。
 
 ## それでも解決しない場合
 
@@ -182,4 +182,4 @@ curl -I "http://localhost:8080/job/MyBuildJob/api/json" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

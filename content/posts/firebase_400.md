@@ -222,7 +222,7 @@ Firestore [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場
 
 ### Realtime Database の場合
 
-`.json` [エンドポイント](/glossary/エンドポイント/)経由でのアクセス時に、スラッシュ文字や特殊文字を含むパスが URL エンコードされていないと 400 [エラー](/glossary/エラー/)が発生します。パス内の空白やスペースは必ず `%20` に置き換える必要があります。
+`.json` [エンドポイント](/glossary/エンドポイント/)経由でのアクセス時に、スラッシュ文字や特殊文字を含む[パス](/glossary/パス/)が [URL](/glossary/url/) エンコードされていないと 400 [エラー](/glossary/エラー/)が発生します。[パス](/glossary/パス/)内の空白やスペースは必ず `%20` に置き換える必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -238,7 +238,7 @@ curl 'https://firebaseio.com/user%20data.json'
 
 ### Cloud Functions との連携時
 
-Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) ファイルが正しく初期化されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
+Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) ファイルが正しく[初期化](/glossary/初期化/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -295,4 +295,4 @@ firebase.firestore().enableLogging(true);  // Firestore デバッグログを有
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

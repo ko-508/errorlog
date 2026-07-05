@@ -38,7 +38,7 @@ Error response from daemon: pull access denied for <your-image>, repository does
 ### 原因1：Docker Hub の認証なし（無認証での並行アクセス）
 
 [Docker](/glossary/docker/) Hub は無認証ユーザーに対して 6 時間ごとに 100 [リクエスト](/glossary/リクエスト/)の[レート制限](/glossary/レート制限/)を適用しています。[認証](/glossary/認証/)を行わないまま複数マシンやパイプラインから同時に[イメージ](/glossary/イメージ/)をプルすると、制限に達します。
-Docker Personal(無料認証)ユーザーは 200 プル/6時間、Pro/Team/Business ユーザーはフェアユースの範囲で無制限です。
+[Docker](/glossary/docker/) Personal(無料認証)ユーザーは 200 プル/6時間、Pro/Team/Business ユーザーはフェアユースの範囲で無制限です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -174,7 +174,7 @@ docker buildx build \
 
 ### Docker Hub のレート制限の詳細
 
-[Docker](/glossary/docker/) Hub の無認証ユーザーに対する[レート制限](/glossary/レート制限/)は IP アドレス単位で適用されます。複数マシン（[CI/CD](/glossary/ci-cd/) ランナーを含む）から同一 IP で[通信](/glossary/通信/)する場合、複合されてすぐに上限に達します。[Docker](/glossary/docker/) Pro または [Docker](/glossary/docker/) Team サブスクリプションを取得すれば制限が大幅に緩和されます。
+[Docker](/glossary/docker/) Hub の無認証ユーザーに対する[レート制限](/glossary/レート制限/)は IP アドレス単位で適用されます。複数マシン（[CI/CD](/glossary/ci-cd/) ランナーを含む）から同一 IP で[通信](/glossary/通信/)する場合、複合されてすぐに上限に達します。[Docker](/glossary/docker/) Pro または [Docker](/glossary/docker/) Team [サブスクリプション](/glossary/サブスクリプション/)を取得すれば制限が大幅に緩和されます。
 
 ### プライベートレジストリでのレート制限
 
@@ -248,4 +248,4 @@ curl -s -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths."h
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

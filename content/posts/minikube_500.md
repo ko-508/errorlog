@@ -48,9 +48,9 @@ panic: runtime error: invalid memory address or nil pointer dereference
 
 ## よくある原因と解決手順
 
-**原因1: [API](/glossary/api/)[サーバー](/glossary/サーバー/)のメモリ枯渇またはOOM Killer による強制終了**
+**原因1: [API](/glossary/api/)[サーバー](/glossary/サーバー/)の[メモリ](/glossary/メモリ/)枯渇またはOOM Killer による強制終了**
 
-MinikubeのノードVM内に割り当てたメモリが不足すると、kube-apiserverプロセスが Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じメモリ不足に直面するため、500[エラー](/glossary/エラー/)が継続します。
+MinikubeのノードVM内に割り当てた[メモリ](/glossary/メモリ/)が不足すると、kube-apiserverプロセスが Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じ[メモリ](/glossary/メモリ/)不足に直面するため、500[エラー](/glossary/エラー/)が継続します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -133,7 +133,7 @@ minikube ssh "chmod 644 /etc/kubernetes/manifests/kube-apiserver.yaml"
 
 **原因4: ホストマシンのリソース不足によるMinikubeのハング**
 
-ホストマシン全体のメモリやCPUリソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
+ホストマシン全体の[メモリ](/glossary/メモリ/)やCPUリソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -190,7 +190,7 @@ minikube delete
 minikube start
 ```
 
-**3. [Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)互換性による不安定性**
+**3. [Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)による不安定性**
 
 Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)で動作している場合や、プラグインが古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)に依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
 
@@ -219,9 +219,9 @@ minikube ssh "journalctl -u kubelet -n 100"
 minikube ssh "tail -100 /var/log/syslog"
 ```
 
-**2. Minikubeの完全なリセット**
+**2. Minikubeの完全な[リセット](/glossary/リセット/)**
 
-部分的な修復では解決しない場合、環境全体をリセットします。
+部分的な修復では解決しない場合、環境全体を[リセット](/glossary/リセット/)します。
 
 ```bash
 # クラスター完全削除
@@ -243,4 +243,4 @@ minikube start --vm-driver=<ドライバ名>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -17,7 +17,7 @@ top_queries:
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)環境で500[エラー](/glossary/エラー/)が発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部[エラー](/glossary/エラー/)に遭遇していることを示しています。この[エラー](/glossary/エラー/)は[Docker](/glossary/docker/) [CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、メモリ枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など複数の要因が考えられるため、段階的な調査が必要です。[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の状態確認と[ログ](/glossary/ログ/)分析を通じて、根本原因を特定することが解決への第一歩となります。
+[Docker](/glossary/docker/)環境で500[エラー](/glossary/エラー/)が発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部[エラー](/glossary/エラー/)に遭遇していることを示しています。この[エラー](/glossary/エラー/)は[Docker](/glossary/docker/) [CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、[メモリ](/glossary/メモリ/)枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など複数の要因が考えられるため、段階的な調査が必要です。[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の状態確認と[ログ](/glossary/ログ/)分析を通じて、根本原因を特定することが解決への第一歩となります。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ Error response from daemon: Internal Server Error
 
 ### 原因1：Dockerデーモンの停止またはクラッシュ
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答していない、または不安定な状態にあると500[エラー](/glossary/エラー/)が返されます。デーモンプロセスが終了していたり、メモリ不足で強制終了された場合、すべての[Docker](/glossary/docker/)操作が失敗します。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答していない、または不安定な状態にあると500[エラー](/glossary/エラー/)が返されます。デーモンプロセスが終了していたり、[メモリ](/glossary/メモリ/)不足で強制終了された場合、すべての[Docker](/glossary/docker/)操作が失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -168,7 +168,7 @@ sudo systemctl restart docker
 
 ### 原因5：メモリ不足
 
-[Docker](/glossary/docker/)デーモンプロセス自体がメモリ枯渇で強制終了されると、500[エラー](/glossary/エラー/)が発生します。特に大量の[コンテナ](/glossary/コンテナ/)を実行している環境では要注意です。
+[Docker](/glossary/docker/)デーモンプロセス自体が[メモリ](/glossary/メモリ/)枯渇で強制終了されると、500[エラー](/glossary/エラー/)が発生します。特に大量の[コンテナ](/glossary/コンテナ/)を実行している環境では要注意です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -280,4 +280,4 @@ docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock docker:latest d
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

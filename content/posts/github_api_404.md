@@ -18,7 +18,7 @@ top_queries:
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示します。この[エラー](/glossary/エラー/)はGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)のURLや[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
+GitHub [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示します。この[エラー](/glossary/エラー/)はGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)や[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -114,7 +114,7 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 原因4：パスパラメータの欠落またはフォーマット誤り
 
-[ブランチ](/glossary/ブランチ/)名、[タグ](/glossary/タグ/)名、ファイルパスなどを含む[エンドポイント](/glossary/エンドポイント/)では、URLエンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。
+[ブランチ](/glossary/ブランチ/)名、[タグ](/glossary/タグ/)名、ファイルパスなどを含む[エンドポイント](/glossary/エンドポイント/)では、[URL](/glossary/url/)エンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。
 
 **Before（エンコード不足）:**
 ```bash
@@ -122,7 +122,7 @@ curl -H "Authorization: token <your-github-token>" \
   "https://api.github.com/repos/myorg/myrepo/contents/path/my file.txt"
 ```
 
-**After（URLエンコード済み）:**
+**After（[URL](/glossary/url/)エンコード済み）:**
 ```bash
 curl -H "Authorization: token <your-github-token>" \
   "https://api.github.com/repos/myorg/myrepo/contents/path/my%20file.txt"
@@ -134,7 +134,7 @@ curl -H "Authorization: token <your-github-token>" \
 
 GitHub [API](/glossary/api/)には2つのタイプがあり、404の原因や対応方法が異なります。
 
-[REST](/glossary/rest/) [API](/glossary/api/)では、[エンドポイント](/glossary/エンドポイント/)のパス形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。
+[REST](/glossary/rest/) [API](/glossary/api/)では、[エンドポイント](/glossary/エンドポイント/)の[パス](/glossary/パス/)形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。
 
 ```bash
 # プルリクエスト取得
@@ -200,4 +200,4 @@ curl -i -H "Authorization: token <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

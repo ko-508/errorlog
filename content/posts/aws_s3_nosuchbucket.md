@@ -227,8 +227,8 @@ NoSuchBucket [エラー](/glossary/エラー/)が頻発して S3 の運用に支
 
 公式ドキュメントでは NoSuchBucket [エラー](/glossary/エラー/)の原因を「[バケット](/glossary/バケット/)が存在しない」と説明していますが、Stack Overflow の[実際の報告](https://stackoverflow.com/questions/55940082/nosuchbucket-error-sometimes-occurs-when-looping-through-all-s3-buckets)から明らかなように、[IAM](/glossary/iam/) 権限不足でも同じ[エラー](/glossary/エラー/)が返されることが一般的です。同じく [EC2 環境での報告](https://stackoverflow.com/questions/40871221/aws-s3-ls-bucket-name-works-on-local-machine-but-on-ec2-nosuchbucket-error) では、ローカルマシンでは動作していても EC2 [インスタンス](/glossary/インスタンス/)で[エラー](/glossary/エラー/)になるケースが多く報告されており、この場合の原因はほぼ確実に[ロール](/glossary/ロール/)[権限](/glossary/権限/)です。現場では、[バケット](/glossary/バケット/)存在確認より先に [IAM](/glossary/iam/) [権限](/glossary/権限/)を確認する方が、[エラー](/glossary/エラー/)原因の特定が効率的になります。
 
-> **調査について**　この記事の解決策は、Stack Overflow への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の URL は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、Stack Overflow への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

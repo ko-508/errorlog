@@ -171,7 +171,7 @@ spec:
 
 ### 原因3: リソース不足またはOOMKill
 
-Minikubeに割り当てたメモリやCPUが不足している場合、PodがOOMKill（Out of Memory Kill）されて503[エラー](/glossary/エラー/)が発生します。また、ノードのリソースが枯渇するとPodのスケジューリングができず、Pending状態のままになります。
+Minikubeに割り当てた[メモリ](/glossary/メモリ/)やCPUが不足している場合、PodがOOMKill（Out of Memory Kill）されて503[エラー](/glossary/エラー/)が発生します。また、ノードのリソースが枯渇するとPodのスケジューリングができず、Pending状態のままになります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -272,7 +272,7 @@ $ kubectl apply -f deployment.yaml
 
 ### ドライバー設定の問題
 
-Minikubeは複数のドライバー（[Docker](/glossary/docker/)、VirtualBox、KVM等）をサポートしていますが、ドライバーの不具合や設定ミスが503[エラー](/glossary/エラー/)を引き起こすことがあります。特に[Docker](/glossary/docker/) DesktopやPodman互換性の問題がある場合、クラスター全体が不安定になります。
+Minikubeは複数のドライバー（[Docker](/glossary/docker/)、VirtualBox、KVM等）をサポートしていますが、ドライバーの不具合や設定ミスが503[エラー](/glossary/エラー/)を引き起こすことがあります。特に[Docker](/glossary/docker/) DesktopやPodman[互換性](/glossary/互換性/)の問題がある場合、クラスター全体が不安定になります。
 
 ```bash
 # 現在のドライバーを確認
@@ -365,4 +365,4 @@ $ kubectl run -it --rm debug --image=nicolaka/netshoot --restart=Never -- /bin/b
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

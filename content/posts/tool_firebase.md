@@ -14,8 +14,8 @@ Firebase は Google が提供するバックエンドプラットフォーム（
 
 ## 主な特徴・できること
 
-- **Cloud Firestore**：複数のクライアント間での[リアルタイム](/glossary/リアルタイム/)なデータ同期が可能な[データベース](/glossary/データベース/)です
-- **Realtime Database**：[JSON](/glossary/json/) 形式の[データベース](/glossary/データベース/)で低遅延な同期が特徴です
+- **Cloud Firestore**：複数のクライアント間での[リアルタイム](/glossary/リアルタイム/)なデータ[同期](/glossary/同期/)が可能な[データベース](/glossary/データベース/)です
+- **Realtime Database**：[JSON](/glossary/json/) 形式の[データベース](/glossary/データベース/)で低遅延な[同期](/glossary/同期/)が特徴です
 - **認証機能**：Google、Facebook、GitHub など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に対応した[認証](/glossary/認証/)システムです
 - **ホスティング**：静的コンテンツと動的コンテンツの両方をホストでき、自動的に [SSL](/glossary/ssl/) で保護されます
 - **Cloud Functions**：[サーバーレス](/glossary/サーバーレス/)（[サーバー](/glossary/サーバー/)管理なし）で関数を実行し、イベント駆動型（イベントをきっかけに起動）な処理を構築できます

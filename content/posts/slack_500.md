@@ -255,9 +255,9 @@ except Exception as e:
 
 Slackアプリが`view.open`や`chat.postMessage`をInteractive Componentsの応答（3秒以内）として実行する場合、500[エラー](/glossary/エラー/)が返されるとユーザーには「Something went wrong」という汎用[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。これが[エラー](/glossary/エラー/)追跡を困難にします。
 
-**[Webhook](/glossary/webhook/) URLの廃止と再認証**
+**[Webhook](/glossary/webhook/) [URL](/glossary/url/)の廃止と再認証**
 
-Incoming [Webhook](/glossary/webhook/)やOutgoing [Webhook](/glossary/webhook/)のURLは、[ワークスペース](/glossary/ワークスペース/)設定の変更や[セキュリティ](/glossary/セキュリティ/)理由で予告なく無効化されることがあります。その際、古いURLへの[リクエスト](/glossary/リクエスト/)は404を返すべきですが、稀に500[エラー](/glossary/エラー/)で応答することもあります。
+Incoming [Webhook](/glossary/webhook/)やOutgoing [Webhook](/glossary/webhook/)の[URL](/glossary/url/)は、[ワークスペース](/glossary/ワークスペース/)設定の変更や[セキュリティ](/glossary/セキュリティ/)理由で予告なく無効化されることがあります。その際、古い[URL](/glossary/url/)への[リクエスト](/glossary/リクエスト/)は404を返すべきですが、稀に500[エラー](/glossary/エラー/)で応答することもあります。
 
 ## それでも解決しない場合
 
@@ -297,4 +297,4 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

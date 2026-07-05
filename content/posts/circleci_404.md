@@ -59,7 +59,7 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline" 
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-WebUI で確認したプロジェクト URL（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
+WebUI で確認したプロジェクト [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
 
 ### 原因2：パイプラインID またはワークフローID が存在しない
 
@@ -123,8 +123,8 @@ WebUI から [OAuth](/glossary/oauth/) 再認証を実行するか、[API](/glos
 
 ## ツール固有の注意点
 
-**プロジェクトスラッグのURL エンコード：**
-[API](/glossary/api/) 呼び出しでスラッグを URL パスの一部として使用する場合、特殊文字が含まれていればURL エンコードが必要です。例えば、組織名が `my-org` であれば、そのまま使用できますが、スペースやその他の記号が含まれる場合は適切にエンコードしてください。
+**プロジェクトスラッグの[URL](/glossary/url/) エンコード：**
+[API](/glossary/api/) 呼び出しでスラッグを [URL](/glossary/url/) [パス](/glossary/パス/)の一部として使用する場合、特殊文字が含まれていれば[URL](/glossary/url/) エンコードが必要です。例えば、組織名が `my-org` であれば、そのまま使用できますが、スペースやその他の記号が含まれる場合は適切にエンコードしてください。
 
 ```bash
 # スラッグに特殊文字がある場合の例
@@ -169,4 +169,4 @@ CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circlec
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

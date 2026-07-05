@@ -113,7 +113,7 @@ docker login
 
 ### 原因4：プライベートレジストリのための認証情報が不足
 
-Nexus、Harbor、GitLab Container Registry など自社運用の[プライベートレジストリ](/glossary/プライベートレジストリ/)にアクセスする際、ホスト名と[ポート](/glossary/ポート/)番号を含めた完全な[レジストリ](/glossary/レジストリ/)URLで[認証](/glossary/認証/)を設定する必要があります。
+Nexus、Harbor、GitLab Container Registry など自社運用の[プライベートレジストリ](/glossary/プライベートレジストリ/)にアクセスする際、ホスト名と[ポート](/glossary/ポート/)番号を含めた完全な[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/)で[認証](/glossary/認証/)を設定する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

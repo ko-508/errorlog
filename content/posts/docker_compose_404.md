@@ -64,7 +64,7 @@ services:
 
 ### 原因2：build コンテキストのパスが存在しない、または間違っている
 
-`build` キーでコンテキストパスを指定する際、相対パスが誤っていたり、ディレクトリが削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
+`build` キーでコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、ディレクトリが削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -134,7 +134,7 @@ docker volume create shared_data
 
 [Docker](/glossary/docker/) Compose 環境では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose ファイルの `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
-さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定されたディレクトリ内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` パスを個別にチェックすることも重要です。
+さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定されたディレクトリ内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 
 [環境変数](/glossary/環境変数/)を `.env` ファイルで注入している場合、そのファイルが compose ファイルと同じディレクトリに存在し、[変数](/glossary/変数/)の評価が正しく行われているか確認することも忘れずに。
 
@@ -150,13 +150,13 @@ docker images
 
 この[コマンド](/glossary/コマンド/)で、使用しようとしている[イメージ](/glossary/イメージ/)がローカルに存在するかどうかをリスト表示します。存在しない場合は、[イメージ](/glossary/イメージ/)名または[タグ](/glossary/タグ/)を修正するか、`docker compose up --build` で再度ビルドしてください。
 
-**ビルドコンテキストのパス確認：**
+**ビルドコンテキストの[パス](/glossary/パス/)確認：**
 
 ```bash
 ls -la <your-build-context-path>
 ```
 
-compose.yml で指定したパスが実際に存在し、Dockerfile が含まれているか確認します。
+compose.yml で指定した[パス](/glossary/パス/)が実際に存在し、Dockerfile が含まれているか確認します。
 
 **詳細なビルドログの確認：**
 
@@ -179,4 +179,4 @@ docker compose pull
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

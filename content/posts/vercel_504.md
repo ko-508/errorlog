@@ -201,11 +201,11 @@ console.log(`[${new Date().toISOString()}] DB query completed`);
 Vercel 公式の「Serverless Function Configuration」（https://vercel.com/docs/functions/serverless-functions/configuration）および「Limits」（https://vercel.com/docs/limits）ページで最新の制限値とベストプラクティスを確認してください。
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析ツール：**
-Vercel の Observability 機能（Pro プラン以上）を有効にすると、関数の CPU 使用率、メモリ使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
+Vercel の Observability 機能（Pro プラン以上）を有効にすると、関数の CPU 使用率、[メモリ](/glossary/メモリ/)使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
 
 **GitHub Issues・コミュニティ：**
 同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)関数の実装、特定のライブラリとの相性問題などが記載されている場合があります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -72,7 +72,7 @@ curl -I http://localhost:8080/jenkins/
 
 ### 原因2：OutOfMemoryErrorによるメモリ枯渇
 
-Jenkinsが管理するビルドジョブやプラグインが大量のメモリを消費し、Java のヒープメモリが枯渇してOutOfMemoryErrorが発生します。大規模なプロジェクトや並行ビルド数が多い環境で顕著です。
+Jenkinsが管理するビルドジョブやプラグインが大量の[メモリ](/glossary/メモリ/)を消費し、Java のヒープメモリが枯渇してOutOfMemoryErrorが発生します。大規模なプロジェクトや並行ビルド数が多い環境で顕著です。
 
 Jenkinsの起動設定を修正して、ヒープメモリの上限を増やします。
 
@@ -185,9 +185,9 @@ sudo vi /var/lib/jenkins/config.xml
 sudo systemctl start jenkins
 ```
 
-**Jenkinsの[バージョン](/glossary/バージョン/)と互換性：**
+**Jenkinsの[バージョン](/glossary/バージョン/)と[互換性](/glossary/互換性/)：**
 
-古い[バージョン](/glossary/バージョン/)のJenkinsで新しいプラグインをインストールすると[バージョン](/glossary/バージョン/)競合が発生し、500[エラー](/glossary/エラー/)になります。`Manage Plugins` で各プラグインが「互換性のある[バージョン](/glossary/バージョン/)」になっているか確認してください。
+古い[バージョン](/glossary/バージョン/)のJenkinsで新しいプラグインをインストールすると[バージョン](/glossary/バージョン/)競合が発生し、500[エラー](/glossary/エラー/)になります。`Manage Plugins` で各プラグインが「[互換性](/glossary/互換性/)のある[バージョン](/glossary/バージョン/)」になっているか確認してください。
 
 ## それでも解決しない場合
 
@@ -204,7 +204,7 @@ sudo grep -A 50 "Exception\|Error" /var/log/jenkins/jenkins.log
 sudo cat /var/lib/jenkins/jobs/<your-job-name>/builds/lastBuild/log
 ```
 
-**Jenkinsの再起動と初期化：**
+**Jenkinsの再起動と[初期化](/glossary/初期化/)：**
 
 ```bash
 # キャッシュをクリアして再起動
@@ -229,4 +229,4 @@ java -version
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -510,8 +510,8 @@ curl -v -H "Authorization: token <your-github-token>" \
 
 - [GitHub Actions: Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-
 
-> **調査について**　この記事の解決策は、GitHub Issues・Stack Overflow への公開報告（azure/webapps-deploy@v1, GitHub Enterprise 2.20 環境での報告を含む）を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の URL は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、GitHub Issues・Stack Overflow への公開報告（azure/webapps-deploy@v1, GitHub Enterprise 2.20 環境での報告を含む）を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

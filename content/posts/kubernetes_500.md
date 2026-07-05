@@ -64,7 +64,7 @@ kubectl logs -n kube-system -l component=kube-apiserver --tail=100
 
 ### 2. APIサーバーのメモリ不足またはクラッシュ
 
-**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義をメモリに保持しています。大規模クラスタやメモリ制限が厳しい環境では、メモリ不足（OOM）によりプロセスがクラッシュし500[エラー](/glossary/エラー/)が多発します。
+**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義を[メモリ](/glossary/メモリ/)に保持しています。大規模クラスタや[メモリ](/glossary/メモリ/)制限が厳しい環境では、[メモリ](/glossary/メモリ/)不足（OOM）によりプロセスがクラッシュし500[エラー](/glossary/エラー/)が多発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml
@@ -196,7 +196,7 @@ kubectl logs -n kube-system deployment/kube-apiserver --tail=200
 kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl alarm list
 ```
 
-**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや互換性のない[バージョン](/glossary/バージョン/)指定も500[エラー](/glossary/エラー/)を引き起こします。
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや[互換性](/glossary/互換性/)のない[バージョン](/glossary/バージョン/)指定も500[エラー](/glossary/エラー/)を引き起こします。
 ```bash
 kubectl get pod -n kube-system kube-apiserver-<master-node-name> -o jsonpath='{.spec.containers[0].command}' | tr ',' '\n'
 ```
@@ -239,4 +239,4 @@ kubectl get events -n kube-system --sort-by='.lastTimestamp'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -161,7 +161,7 @@ podman exec frontend-container curl http://backend:8000
 
 ### 原因4：ランタイム変更によるシステムコール非互換
 
-Podman のランタイムを `krun` などに切り替えた際に、新しいランタイムが必要なシステムコール（例：`FIONREAD`、`SIOCINQ`）をサポートしていないため、I/O 操作がハングアップまたは失敗します。これにより、[コンテナ](/glossary/コンテナ/)内のアプリケーションがネットワークリクエストに応答できなくなり、ホストからは 502 [エラー](/glossary/エラー/)に見えます。
+Podman のランタイムを `krun` などに切り替えた際に、新しいランタイムが必要なシステムコール（例：`FIONREAD`、`SIOCINQ`）をサポートしていないため、I/O 操作がハングアップまたは失敗します。これにより、[コンテナ](/glossary/コンテナ/)内の[アプリケーション](/glossary/アプリケーション/)がネットワークリクエストに応答できなくなり、ホストからは 502 [エラー](/glossary/エラー/)に見えます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -198,7 +198,7 @@ podman run --rm nginx curl localhost
 
 ### 原因5：Podman 5.0 のネットワークスタック変更（slirp4netns → pasta）
 
-Podman 5.0 では、ユーザーモード・ネットワークスタックが `slirp4netns` から `pasta` に変更されました。既存の[コンテナ](/glossary/コンテナ/)設定が `pasta` と互換性がない場合（例：特定のポートマッピング、UDP トラフィック）、[通信](/glossary/通信/)が失敗して 502 [エラー](/glossary/エラー/)が発生します。
+Podman 5.0 では、ユーザーモード・ネットワークスタックが `slirp4netns` から `pasta` に変更されました。既存の[コンテナ](/glossary/コンテナ/)設定が `pasta` と[互換性](/glossary/互換性/)がない場合（例：特定のポートマッピング、UDP トラフィック）、[通信](/glossary/通信/)が失敗して 502 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -246,7 +246,7 @@ curl http://localhost:8000
 
 **Podman のネットワークモード差異**：Podman はデフォルトでユーザーモード・[ネットワーク](/glossary/ネットワーク/)（`slirp4netns` または `pasta`）を使用します。これは `localhost` が[コンテナ](/glossary/コンテナ/)内のみのループバックである点が [Docker](/glossary/docker/) と異なります。[Docker](/glossary/docker/) では `--network=host` でホストの[ネットワーク](/glossary/ネットワーク/)名前空間を直接共有できますが、Podman では `host.containers.internal` を使用してホストのサービスにアクセスします。
 
-**Quadlet との組み合わせ**：Podman v4.4 以降、systemd ネイティブの Quadlet ファイル形式で[コンテナ](/glossary/コンテナ/)を管理できます。この場合、`[Network]` セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、複数の `[Container]` で同じ[ネットワーク](/glossary/ネットワーク/)名を参照することが重要です。`podman-compose` や [YAML](/glossary/yaml/) ファイルとは異なり、Quadlet は各ファイルが独立して systemd サービスに変換されるため、[ネットワーク](/glossary/ネットワーク/)定義を別ファイルで明示的に記述する必要があります。
+**Quadlet との組み合わせ**：Podman v4.4 以降、systemd ネイティブの Quadlet [ファイル形式](/glossary/ファイル形式/)で[コンテナ](/glossary/コンテナ/)を管理できます。この場合、`[Network]` セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、複数の `[Container]` で同じ[ネットワーク](/glossary/ネットワーク/)名を参照することが重要です。`podman-compose` や [YAML](/glossary/yaml/) ファイルとは異なり、Quadlet は各ファイルが独立して systemd サービスに変換されるため、[ネットワーク](/glossary/ネットワーク/)定義を別ファイルで明示的に記述する必要があります。
 
 **Quay [インスタンス](/glossary/インスタンス/)の[バックエンド](/glossary/バックエンド/)確認**：自ホスト上で Quay を実行している場合、バックエンドストレージ（PostgreSQL、Redis 等）が正常に動作しているか確認してください。`podman logs quay-container` で[バックエンド](/glossary/バックエンド/)接続[エラー](/glossary/エラー/)が表示されていないか確認し、必要に応じてバックエンドサービスも再起動してください。
 
@@ -278,8 +278,8 @@ Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glos
 
 - **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、安定性を優先する環境では有効です。
 
-- **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した開発環境です。GUI で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)設定を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりもセットアップが直感的です。特にローカル開発環境では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
+- **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した開発環境です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)設定を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりもセットアップが直感的です。特にローカル開発環境では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
