@@ -1,282 +1,138 @@
 ---
 title: "Docker の 500 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker環境で500エラーが発生する場合、Dockerデーモンが予期しない内部エラーに遭遇していることを示しています。"
+description: "Docker の 500 Internal Server Error は、どこが500を返したかで対処が変わります。Docker Desktop のエンジン未起動、レジストリ側の障害、デーモン自身の内部エラーの3系統を、エラーメッセージの文言から切り分けて解決します。デーモンが停止しているだけなら500ではなく接続エラーになります。"
 tags: ["Docker"]
 errorCode: "500"
-lastmod: 2026-06-13
+lastmod: 2026-07-02
 service: "Docker"
 error_type: "500"
 components: []
 related_services: []
 trend_incident: true
 top_queries:
-- 'http 500: internal server error docker'
+- 'docker 500 internal server error'
+- 'docker desktop 500 internal server error'
 ---
+
+## 冒頭まとめ
+
+Docker で 500 Internal Server Error が出たときは、どこが500を返したかを最初に見極めます。原因はほぼ次の3系統のいずれかです。第一に、Windows の Docker Desktop でエンジンが起動していない状態です。この場合「request returned Internal Server Error for API route and version ...」という形式のメッセージになります。第二に、docker pull や docker push の相手であるレジストリ（イメージの配布サーバー）側の障害です。この場合「received unexpected HTTP status: 500 Internal Server Error」という形式になります。第三に、Docker デーモン自身の内部エラーで、この場合はメッセージに具体的な原因（ディスク不足など）が含まれるのが普通です。
+
+なお、デーモンが停止しているだけなら500にはなりません。その場合は「Cannot connect to the Docker daemon ... Is the docker daemon running?」という接続エラーになります。500は「相手まで届いたうえで、相手が内部エラーを返した」ことを示すコードです。
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)環境で500[エラー](/glossary/エラー/)が発生する場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が予期しない内部[エラー](/glossary/エラー/)に遭遇していることを示しています。この[エラー](/glossary/エラー/)は[Docker](/glossary/docker/) [CLI](/glossary/cli/)[コマンド](/glossary/コマンド/)実行時や[コンテナ](/glossary/コンテナ/)操作時に返される汎用的なサーバーエラーであり、原因は多岐にわたります。ディスク不足、[メモリ](/glossary/メモリ/)枯渇、[デーモン](/glossary/デーモン/)のクラッシュ、権限問題など複数の要因が考えられるため、段階的な調査が必要です。[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の状態確認と[ログ](/glossary/ログ/)分析を通じて、根本原因を特定することが解決への第一歩となります。
+Docker のコマンド（docker ps、docker run など）は、裏側で Docker デーモンの API に HTTP リクエストを送って動いています。500 Internal Server Error は、その応答としてサーバー側（デーモン、その手前の中継役、またはレジストリ）が「内部でエラーが起きた」と返してきたことを意味します。
 
-## 実際のエラーメッセージ例
+このため、500が出たという事実は「相手までリクエストが届いた」ことの証拠でもあります。デーモンのプロセスが停止している、ソケットファイルにアクセスできない、といった場合は HTTP の応答自体を受け取れないので、500ではなく Cannot connect to the Docker daemon という別のエラーになります。500の調査でデーモンの死活だけを疑うと原因を取り違えるので、まずエラーメッセージの文言全体を読みます。
 
-```bash
-$ docker run ubuntu:latest
-Error response from daemon: Internal Server Error
-```
+## まず最初に：エラーメッセージの全体を読む
 
-```json
-{
-  "message": "Internal Server Error"
-}
-```
+500エラーの文言は、発生源ごとに形式が決まっています。手元のメッセージと突き合わせてください。
 
-```bash
-$ docker ps
-Error response from daemon: Internal Server Error
-```
+「request returned Internal Server Error for API route and version http:////./pipe/docker_engine/...」という形式で、経路に docker_engine という文字が見えるなら、Windows の Docker Desktop の経路で発生しています（原因1）。
 
-```bash
-$ docker build -t myapp .
-Error response from daemon: Internal Server Error
-```
+「received unexpected HTTP status: 500 Internal Server Error」という形式なら、500を返したのは docker pull や docker push の通信相手であるレジストリです（原因2）。
+
+「Error response from daemon: 」に続けて具体的な内容（no space left on device など）が書かれているなら、デーモン自身が処理中のエラーをそのまま報告しています。対処はその文言に従います（原因3）。
+
+「Cannot connect to the Docker daemon」や「permission denied」なら、それは500の問題ではありません（後述の補足を参照）。
 
 ## よくある原因と解決手順
 
-### 原因1：Dockerデーモンの停止またはクラッシュ
+### 原因1：Docker Desktop のエンジンが起動していない（Windows）
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答していない、または不安定な状態にあると500[エラー](/glossary/エラー/)が返されます。デーモンプロセスが終了していたり、[メモリ](/glossary/メモリ/)不足で強制終了された場合、すべての[Docker](/glossary/docker/)操作が失敗します。
+Windows の Docker Desktop 環境では、エンジンが起動していない、または起動の途中で止まっている状態で docker コマンドを実行すると、次のような500エラーが出ることが、公式リポジトリの多数の報告で確認されています。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-# デーモンが停止している状態で実行
-docker ps
-# Error response from daemon: Internal Server Error
+```
+$ docker ps
+request returned Internal Server Error for API route and version
+http:////./pipe/docker_engine/v1.24/containers/json, check if the server
+supports the requested API version
 ```
 
-**After（修正後）：**
+対処の第一歩は、Docker Desktop の画面でエンジンの状態を確認することです。画面の左下などに Engine running と表示されるまで待ちます。Docker Desktop 自体を終了して起動し直すのが基本の対処です。それでもエンジンが起動しない場合は、Docker Desktop のメニューにある Troubleshoot（診断機能）からログや診断情報を確認できます。公式ドキュメントによると、Docker Desktop のデーモン関連のログは、仮想マシン内の各サービスの出力をまとめた init.log というファイルに記録されます。
 
-```bash
-# Dockerデーモンの状態確認
-sudo systemctl status docker
+なお、この状態は Docker 側のバージョン更新の直後に発生したという報告が複数あります。エンジンが起動しない状態が続く場合は、公式リポジトリ（docker/for-win）で同じバージョンの報告がないかを確認してください。
 
-# デーモンが停止している場合は再起動
-sudo systemctl restart docker
+### 原因2：レジストリが500を返している
 
-# 再度実行
-docker ps
+docker pull、docker push、docker login の相手はレジストリです。レジストリ側で障害が起きていると、手元の環境に問題がなくても次のような500エラーになります。
+
+```
+$ docker pull hello-world
+Error response from daemon: received unexpected HTTP status: 500 Internal Server Error
 ```
 
-### 原因2：ディスク容量不足
+Docker Hub（既定のレジストリ）からの取得でこれが出た場合、まず公式の稼働状況ページ https://www.dockerstatus.com/ を確認します。実際に2025年2月には、Docker Hub 側の障害により、どのイメージの取得もこの500エラーで失敗する事象が発生し、稼働状況ページに障害として掲載されました。障害中は手元でできることはなく、復旧を待って再実行するのが対処です。
 
-[Docker](/glossary/docker/)は[イメージ](/glossary/イメージ/)、[コンテナ](/glossary/コンテナ/)、ボリュームデータを `/var/lib/docker` に保存します。このディレクトリが属するパーティションのディスク容量が枯渇すると、新規操作が失敗して500[エラー](/glossary/エラー/)が発生します。
+会社内などで運用している私設のレジストリが相手の場合は、そのレジストリ側のログを確認します。500を返しているのはレジストリなので、原因の記録もレジストリ側に残ります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+### 原因3：デーモン自身の内部エラー
 
-```bash
-# ディスク満杯の状態で実行
-docker pull ubuntu:latest
-# Error response from daemon: Internal Server Error
-```
-
-**After（修正後）：**
+Docker デーモンは、処理中に分類できない内部エラーが起きた場合に500を返す実装になっています（Docker のソースコードで確認できます）。この場合、エラーメッセージには「Error response from daemon: 」に続けて、起きたことの具体的な文言が含まれるのが普通です。対処はこの文言が示す内容に従います。代表例として、イメージなどの保存先のディスクが満杯になると no space left on device という文言が含まれます。この場合の対処は次のとおりです。
 
 ```bash
-# ディスク使用状況を確認
+# 保存先パーティションの空きを確認（既定の保存先は /var/lib/docker）
 df -h /var/lib/docker
 
-# 不要なイメージやコンテナを削除
+# Docker が使っている容量の内訳を確認
+docker system df
+
+# 使われていないコンテナ・イメージ・ネットワークを削除
+# （-a を付けると、どのコンテナからも使われていないイメージも削除される）
 docker system prune -a
-
-# 具体的に削除対象を確認する場合
-docker images
-docker ps -a
-
-# 特定のイメージを削除
-docker rmi <image-id>
-
-# 特定のコンテナを削除
-docker rm <container-id>
 ```
 
-### 原因3：Dockerデーモンのプロセス権限不足または設定エラー
+削除は元に戻せないため、docker system df で内訳を確認してから実行してください。
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が適切な[権限](/glossary/権限/)で実行されていない、または[設定ファイル](/glossary/設定ファイル/)が破損していると500[エラー](/glossary/エラー/)が発生します。特に `/etc/docker/daemon.json` の設定[エラー](/glossary/エラー/)や、デーモンプロセスの所有権が不正な場合に起こります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```json
-// /etc/docker/daemon.json（不正な設定）
-{
-  "storage-driver": "invalid-driver",
-  "debug": true,
-  "log-level": "debug"
-}
-```
-
-**After（修正後）：**
-
-```json
-// /etc/docker/daemon.json（正しい設定）
-{
-  "storage-driver": "overlay2",
-  "debug": true,
-  "log-level": "debug",
-  "live-restore": true
-}
-```
+メッセージの文言だけで原因が分からない場合は、デーモンのログを確認します。公式ドキュメントによると、systemd を使う Linux では次のコマンドで確認できます。
 
 ```bash
-# デーモンを停止して設定を再確認
-sudo systemctl stop docker
-
-# 設定ファイルの構文をチェック
-docker -D ps
-
-# デーモンを再起動
-sudo systemctl restart docker
+sudo journalctl -u docker.service -n 100 --no-pager
 ```
 
-### 原因4：コンテナランタイムエラー
+さらに詳しい記録が必要な場合は、設定ファイル /etc/docker/daemon.json に "debug": true を追加し、デーモンに設定を読み直させると、動作の詳細がログに出力されるようになります（公式ドキュメント記載の手順）。
 
-containerdなどのコンテナランタイムが正常に機能していない、またはsocketsファイルが破損している場合、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が500[エラー](/glossary/エラー/)を返します。
+## 補足：500ではない類似エラー
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+500の調査だと思っていたものが、実は別の問題であることがよくあります。「Cannot connect to the Docker daemon at ... Is the docker daemon running?」は、デーモンに到達できない状態です。Linux であれば sudo systemctl status docker でデーモンの稼働を確認し、停止していれば sudo systemctl start docker で起動します。起動に失敗する場合は journalctl -u docker.service で失敗の理由を確認します。「permission denied」がソケット（/var/run/docker.sock）絡みで出る場合は、実行ユーザーの権限の問題です。これらはいずれもデーモンが500を返したのではなく、そもそも応答を受け取れていない状態なので、調査の対象が異なります。
+
+## 切り分けの順序
+
+1. エラーメッセージの全体を読み、形式で発生源を特定する。docker_engine を含む API route 形式なら原因1、received unexpected HTTP status なら原因2、Error response from daemon: に具体的な文言が続くなら原因3、Cannot connect なら500以外の問題。
+2. 原因1なら Docker Desktop のエンジン状態を確認し、再起動する。
+3. 原因2なら、Docker Hub が相手であれば稼働状況ページを確認し、私設レジストリであればそちらのログを見る。
+4. 原因3なら、文言の指す内容（ディスク不足など）に対処し、不明ならデーモンのログを確認する。
+
+## 確認コマンド集
 
 ```bash
-# ランタイムソケットが無い/アクセス不可
-ls -la /var/run/docker.sock
-# ファイルが存在しないか、権限が不正
+# 1. デーモンに到達できるか、基本情報が取れるかを確認
+docker version
+docker info
+
+# 2. デーモンの稼働状態を確認（Linux）
+sudo systemctl status docker
+
+# 3. デーモンのログを確認（Linux、systemd 環境）
+sudo journalctl -u docker.service -n 100 --no-pager
+
+# 4. ディスクの空きと Docker の使用量を確認
+df -h /var/lib/docker
+docker system df
+
+# 5. 使われていないデータを削除（内訳確認のうえで）
+docker system prune -a
 ```
 
-**After（修正後）：**
+## Editor's Note
 
-```bash
-# ランタイムソケットの状態を確認
-sudo systemctl restart containerd
-sudo systemctl restart docker
+原因2の実例として、Docker Hub 側の障害の報告があります（[docker/hub-feedback #2439](https://github.com/docker/hub-feedback/issues/2439)、2025年2月）。報告者の環境では docker pull hello-world という最も基本的な取得すら「received unexpected HTTP status: 500 Internal Server Error」で失敗しており、複数の国の別々の接続元から試しても同じ結果でした。報告の経過では、当初は公式の稼働状況ページに障害が掲載されておらず、その後に掲載されて対応が進んだことが記録されています。手元の環境を疑う前に稼働状況ページを見る、掲載がなくても障害の可能性は残る、という2点がわかる実例です。
 
-# ソケットファイルの権限を確認
-ls -la /var/run/docker.sock
-
-# 必要に応じてファイルを再作成
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-```
-
-### 原因5：メモリ不足
-
-[Docker](/glossary/docker/)デーモンプロセス自体が[メモリ](/glossary/メモリ/)枯渇で強制終了されると、500[エラー](/glossary/エラー/)が発生します。特に大量の[コンテナ](/glossary/コンテナ/)を実行している環境では要注意です。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-# メモリ枯渇状態で実行
-docker run -d --memory=500m myapp
-# Error response from daemon: Internal Server Error
-```
-
-**After（修正後）：**
-
-```bash
-# 現在のメモリ使用状況を確認
-free -h
-
-# 実行中のコンテナとそのメモリ使用量を確認
-docker stats
-
-# 不要なコンテナを停止・削除
-docker stop <container-id>
-docker rm <container-id>
-
-# メモリ制限を設定してコンテナ再起動
-docker run -d --memory=1g --memory-swap=1g myapp
-```
-
-## ツール固有の注意点
-
-### Docker Composeの場合
-
-[Docker](/glossary/docker/) Compose環境で500[エラー](/glossary/エラー/)が発生する場合、イメージビルドの途中でのディスク不足が原因の可能性が高いです。マルチステージビルドや[キャッシュ](/glossary/キャッシュ/)の問題も関わります。
-
-**確認方法：**
-
-```bash
-# Composeで詳細ログを出力
-docker-compose -f docker-compose.yml up --verbose
-
-# ビルドキャッシュをクリアして再ビルド
-docker-compose build --no-cache
-
-# 不要な中間イメージやボリュームを削除
-docker-compose down -v
-```
-
-### Swarmモードの場合
-
-[Docker](/glossary/docker/) Swarmクラスタ内のノードでリソース枯渇や[ネットワーク](/glossary/ネットワーク/)分断が起きると、500[エラー](/glossary/エラー/)が発生します。特にマネージャーノードのディスク不足に注意が必要です。
-
-```bash
-# Swarmのノード状態を確認
-docker node ls
-
-# マネージャーノードのリソース状況
-docker node inspect <node-id>
-
-# ノードを再起動する必要がある場合
-sudo systemctl restart docker
-```
-
-### ログドライバー設定エラー
-
-不正なログドライバー設定（例：外部ログサービスへの接続失敗）により、[デーモン](/glossary/デーモン/)が500[エラー](/glossary/エラー/)を返すことがあります。
-
-```bash
-# ログドライバーの設定を確認
-docker info | grep -i "Logging Driver"
-
-# daemon.jsonで設定を修正
-# "log-driver": "json-file" に設定直後、デーモン再起動
-sudo systemctl restart docker
-```
-
-## それでも解決しない場合
-
-### ログの確認方法
-
-```bash
-# Dockerデーモンのシステムログを確認（Linux）
-sudo journalctl -u docker -n 100 --no-pager
-
-# より詳細なデバッグモード
-sudo journalctl -u docker -f
-
-# Dockerデーモンを直接実行してエラーを確認
-sudo dockerd --debug
-```
-
-### Windows/Macの場合
-
-[Docker](/glossary/docker/) Desktopを使用している場合は、以下の手順で診断情報を収集します。
-
-```bash
-# Docker Desktopの診断を取得
-docker run --rm -it -v /var/run/docker.sock:/var/run/docker.sock docker:latest docker info
-```
-
-### 公式ドキュメント参照
-
-- [Docker Troubleshooting](https://docs.docker.com/config/containers/logging/) - ロギング設定の公式ガイド
-- [Daemon logs and troubleshooting](https://docs.docker.com/config/daemon/#check-the-daemon) - [デーモン](/glossary/デーモン/)診断の公式ドキュメント
-- [Docker Engine release notes](https://docs.docker.com/engine/release-notes/) - 既知の問題と修正内容
-
-### コミュニティリソース
-
-- GitHub Issues：`moby/moby` [リポジトリ](/glossary/リポジトリ/)で「Internal Server Error」で検索
-- [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/ で同様の事例を検索
-- Stack Overflow：`docker` [タグ](/glossary/タグ/)で過去の解決事例を参照
+500というコード自体は「内部でエラーが起きた」以上のことを教えてくれません。Docker では、メッセージの文言の形式が発生源を示してくれるので、コードの数字ではなく文言の全体から調査を始めることが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
