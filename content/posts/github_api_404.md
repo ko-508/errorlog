@@ -1,10 +1,10 @@
 ---
 title: "GitHub API の 404 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub APIで404エラーが返される場合、リクエストで指定したリソース（リポジトリ、ユーザー、プルリクエストなど）がサーバー上に存在しないことを示します。"
+description: "GitHub API の 404 Not Found は、リソースが存在しない場合だけでなく、認証や権限の不備でも返されます。GitHub は非公開リポジトリの存在を隠すため、権限の問題に 403 ではなく 404 を使う設計です。URL の誤り・認証の不備・権限不足の3系統を切り分けて解決します。"
 tags: ["GitHub API"]
 errorCode: "404"
-lastmod: 2026-05-31
+lastmod: 2026-07-10
 service: "GitHub API"
 error_type: "404"
 components: []
@@ -12,190 +12,140 @@ related_services: []
 trend_incident: true
 top_queries:
 - 'github 404 原因'
+- 'github api 404'
+- 'github api not found'
 ---
+
+## 冒頭まとめ
+
+GitHub API の 404 Not Found には、二重の意味があります。指定したリソースが本当に存在しない場合と、存在するが権限がなくて見せてもらえない場合です。公式ドキュメントに明記されているとおり、GitHub は非公開リポジトリの存在を外部に確認させないために、認証や権限の不備に対して 403 Forbidden ではなく 404 を返す設計を採っています。つまり、リソースがあるはずなのに404が出たら、まず疑うべきは URL ではなく認証と権限です。
+
+原因は3系統に整理できます。URL の指定誤り（タイポ・末尾スラッシュ・エンコード漏れ）、認証の不備（トークン未指定・期限切れ・失効）、そして認証は通っているがトークンの権限が足りない場合です。切り分けの起点は、同じ形のリクエストを条件を変えて比べることです。
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)で指定したリソース（[リポジトリ](/glossary/リポジトリ/)、ユーザー、プルリクエストなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示します。この[エラー](/glossary/エラー/)はGitHub [API](/glossary/api/)の[認証](/glossary/認証/)が成功している場合でも発生し、[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)や[パラメータ](/glossary/パラメータ/)の誤りが主な原因となります。
-
-## 実際のエラーメッセージ例
+GitHub API の404の応答本文は次の形です。status の値は数値ではなく文字列である点に注意してください。
 
 ```json
 {
   "message": "Not Found",
-  "documentation_url": "https://docs.github.com/rest/reference/repos#get-a-repository",
-  "status": 404
+  "documentation_url": "https://docs.github.com/rest/repos/repos#get-a-repository",
+  "status": "404"
 }
 ```
 
-```json
-{
-  "message": "Validation Failed",
-  "errors": [
-    {
-      "message": "The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.",
-      "resource": "Search",
-      "field": "q",
-      "code": "invalid"
-    }
-  ],
-  "documentation_url": "https://docs.github.com/rest/reference/search"
-}
+documentation_url は、GitHub がそのリクエストをどのエンドポイントとして解釈したかを示す手がかりです。意図と違うエンドポイントのリファレンスが返ってきている場合は、URL の形そのものを取り違えています。意図どおりのリファレンスが返っているのに404なら、対象の存在か権限の問題です。
+
+権限の問題が404として現れるのは GitHub の意図的な設計です。もし権限不足に403を返すと、404との違いから「そのリポジトリは存在する（が見られない）」という情報が漏れてしまいます。これを防ぐため、非公開リソースへの適切に認証されていないリクエストには、存在しない場合と同じ404を返します。診断する側から見ると、404は「無い」と「見せてもらえない」を区別してくれないコードだ、と理解しておくことが出発点になります。
+
+## まず最初に：条件を変えて同じリクエストを比べる
+
+404の原因を推測する前に、2つの比較で範囲を絞れます。
+
+第一に、トークン自体の生死を確認します。認証済みユーザー自身の情報を返すエンドポイントを叩きます。
+
+```bash
+curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
 ```
+
+200 が返ればトークンは有効です。401 Unauthorized（Bad credentials）が返るなら、トークンの値の誤りや失効であり、404とは別の問題として先に解決します。
+
+第二に、確実に存在する公開リポジトリに対して、調べたいものと同じ形のリクエストを送ります。
+
+```bash
+curl -i https://api.github.com/repos/octocat/Hello-World
+```
+
+これが通るなら URL の組み立て方は正しく、問題は対象リソースの側（存在または権限）に絞られます。これも404になるなら、URL の形そのものを疑います（原因1）。
 
 ## よくある原因と解決手順
 
-### 原因1：リポジトリ名またはオーナー名のスペルミス
+### 原因1：URL の指定誤り
 
-[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)で指定した[リポジトリ](/glossary/リポジトリ/)名やオーナー名に誤りがあると、[サーバー](/glossary/サーバー/)がそのリソースを検索できず404が返されます。
+オーナー名・リポジトリ名・ファイルパスの綴りの誤りは、そのまま404になります。ファイル名は思い込みが入りやすい箇所です。たとえば microsoft/vscode リポジトリのライセンスファイルは LICENSE.md ではなく LICENSE.txt であり、拡張子を誤ると404が返ります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）:**
+**Before（ファイル名の思い込みで404）：**
+
 ```bash
-curl -H "Authorization: token <your-github-token>" \
-  https://api.github.com/repos/microsoft/vscode/contents/LICENCE.md
-```
-
-この例は、実際の`LICENSE.md`ファイルを`LICENCE.md`（英国式スペル）と誤って指定しているため、404が返されます。
-
-**After（修正後）:**
-```bash
-curl -H "Authorization: token <your-github-token>" \
+curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/microsoft/vscode/contents/LICENSE.md
 ```
 
-### 原因2：プライベートリポジトリへのアクセス権限不足
-
-プライベートリポジトリにアクセスする際、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が不足していたり、有効期限が切れていたり、その[リポジトリ](/glossary/リポジトリ/)への[アクセス権限](/glossary/アクセス権限/)がないと404が返されます。GitHub [API](/glossary/api/)は[権限](/glossary/権限/)がない場合、存在しないふりをする設計になっています。
-
-**Before（認証情報なし）:**
-```python
-import requests
-
-response = requests.get(
-    "https://api.github.com/repos/myorg/private-repo"
-)
-print(response.status_code)  # 404
-```
-
-**After（認証情報付き）:**
-```python
-import requests
-
-headers = {
-    "Authorization": "token <your-github-token>",
-    "Accept": "application/vnd.github.v3+json"
-}
-
-response = requests.get(
-    "https://api.github.com/repos/myorg/private-repo",
-    headers=headers
-)
-print(response.status_code)  # 200
-```
-
-### 原因3：APIのバージョンやエンドポイント形式の変更
-
-GitHub [API](/glossary/api/)の[バージョン](/glossary/バージョン/)更新により、[エンドポイント](/glossary/エンドポイント/)形式が変わった場合や、非推奨となった[エンドポイント](/glossary/エンドポイント/)を使用している場合に404が返されます。
-
-**Before（古い[エンドポイント](/glossary/エンドポイント/)形式）:**
-```bash
-curl -H "Authorization: token <your-github-token>" \
-  https://api.github.com/repos/<owner>/<repo>/pulls/<number>/reviews
-```
-
-**After（現在推奨される[エンドポイント](/glossary/エンドポイント/)）:**
-```bash
-curl -H "Authorization: token <your-github-token>" \
-  "https://api.github.com/repos/<owner>/<repo>/pulls/<number>/reviews" \
-  -H "Accept: application/vnd.github.v3+json"
-```
-
-### 原因4：パスパラメータの欠落またはフォーマット誤り
-
-[ブランチ](/glossary/ブランチ/)名、[タグ](/glossary/タグ/)名、ファイルパスなどを含む[エンドポイント](/glossary/エンドポイント/)では、[URL](/glossary/url/)エンコードが必要な場合があります。スペースや特殊文字が含まれる場合、正しくエンコードしないと404が返されます。
-
-**Before（エンコード不足）:**
-```bash
-curl -H "Authorization: token <your-github-token>" \
-  "https://api.github.com/repos/myorg/myrepo/contents/path/my file.txt"
-```
-
-**After（[URL](/glossary/url/)エンコード済み）:**
-```bash
-curl -H "Authorization: token <your-github-token>" \
-  "https://api.github.com/repos/myorg/myrepo/contents/path/my%20file.txt"
-```
-
-## ツール固有の注意点
-
-### GitHub REST APIとGraphQL APIの違い
-
-GitHub [API](/glossary/api/)には2つのタイプがあり、404の原因や対応方法が異なります。
-
-[REST](/glossary/rest/) [API](/glossary/api/)では、[エンドポイント](/glossary/エンドポイント/)の[パス](/glossary/パス/)形式が厳密です。例えば、以下は異なるリソースを指しており、どちらかが存在しなければ404になります。
+**After（実際のファイル名を確認して指定）：**
 
 ```bash
-# プルリクエスト取得
-https://api.github.com/repos/<owner>/<repo>/pulls/<number>
-
-# プルリクエストレビュー取得
-https://api.github.com/repos/<owner>/<repo>/pulls/<number>/reviews
+curl -H "Authorization: Bearer <your-github-token>" \
+  https://api.github.com/repos/microsoft/vscode/contents/LICENSE.txt
 ```
 
-[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使う場合は、[クエリ](/glossary/クエリ/)の構造が異なり、404ではなく異なる形式の[エラーレスポンス](/glossary/エラーレスポンス/)が返される可能性があります。
+ファイル名の確認には、親ディレクトリの一覧取得（/contents/ をパスなしで叩く）や、ブラウザでのリポジトリの目視が確実です。
 
-### 組織とチームの権限確認
+綴り以外に、公式ドキュメントが名指しで挙げている落とし穴が2つあります。1つは末尾スラッシュで、エンドポイントの末尾に / を付けるだけで404になります。もう1つはパスパラメータの URL エンコードで、パラメータ値にスラッシュなどの特殊文字が含まれる場合、正しくエンコードしないと URL が別の形として解釈されます。ブランチ名にスラッシュが含まれる場合（feature/login など）が典型です。
 
-公開[リポジトリ](/glossary/リポジトリ/)であっても、組織の設定により特定の[エンドポイント](/glossary/エンドポイント/)（例：`/orgs/<org>/members`）が非公開の場合、[権限](/glossary/権限/)がないユーザーには404が返されます。適切な[スコープ](/glossary/スコープ/)を持つPersonal Access Tokenを使用してください。
+### 原因2：認証されていない・トークンが失効している
 
-### リリース・タグ・ブランチの存在確認
+対象が非公開リポジトリの場合、認証ヘッダーなしのリクエストは、リポジトリが実在しても404になります。前述のとおり、存在を隠すための設計です。期限切れや取り消し済みのトークンを付けたリクエストも、適切に認証されていないリクエストとして同じ結果になります。
 
-[タグ](/glossary/タグ/)や[ブランチ](/glossary/ブランチ/)名を指定する[エンドポイント](/glossary/エンドポイント/)（例：`/repos/<owner>/<repo>/contents/<path>?ref=<branch>`）では、指定した参照が存在しなければ404が返されます。以下の[コマンド](/glossary/コマンド/)で先に存在確認を行いましょう。
+**Before（認証なしで非公開リポジトリにアクセス）：**
 
 ```bash
-# ブランチ一覧確認
-curl -H "Authorization: token <your-github-token>" \
-  "https://api.github.com/repos/<owner>/<repo>/branches"
-
-# タグ一覧確認
-curl -H "Authorization: token <your-github-token>" \
-  "https://api.github.com/repos/<owner>/<repo>/tags"
+curl -i https://api.github.com/repos/myorg/private-repo
+# -> 404 Not Found
 ```
 
-## それでも解決しない場合
-
-### 確認すべきポイントとデバッグ手順
-
-1. **[トークン](/glossary/トークン/)の有効性確認**：以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効かつ正しい[スコープ](/glossary/スコープ/)を持つか確認します。
+**After（有効なトークンを付与）：**
 
 ```bash
-curl -H "Authorization: token <your-github-token>" \
-  https://api.github.com/user
+curl -i -H "Authorization: Bearer <your-github-token>" \
+  https://api.github.com/repos/myorg/private-repo
 ```
 
-2. **リソースの実在確認**：ブラウザでGitHub.comに[ログイン](/glossary/ログイン/)し、対象の[リポジトリ](/glossary/リポジトリ/)・ユーザー・ファイルが本当に存在するか目視確認してください。
+トークンの有効性は前述の /user へのリクエストで確認できます。有効なのにまだ404が出る場合は、原因3に進みます。
 
-3. **[API](/glossary/api/)レスポンスヘッダーの確認**：以下の[コマンド](/glossary/コマンド/)で詳細情報を取得します。
+### 原因3：認証は通っているが、トークンの権限が足りない
+
+最も見落とされやすい原因です。トークンが有効でも、そのトークンに対象リソースへの権限がなければ、応答は403ではなく404です。公式のトラブルシューティング文書は、存在するはずのリソースで404が出た場合の確認項目を次のように挙げています。
+
+personal access token (classic) を使っている場合は、エンドポイントが要求する scope（非公開リポジトリなら repo など）をトークンが持っているか、トークンの所有者自身がエンドポイントの要求する役割（組織オーナー限定のエンドポイントなど）を持っているか、トークンが対象の非公開リポジトリにアクセスできるか、失効・期限切れになっていないかを確認します。
+
+fine-grained personal access token や GitHub App のトークンの場合は、エンドポイントが要求する権限（permissions）が付与されているかに加えて、そのトークンの対象範囲に該当リポジトリが含まれているかを確認します。トークン作成時に対象リポジトリを限定していると、権限の種類が合っていても対象外のリポジトリには届きません。
+
+GitHub Actions の GITHUB_TOKEN を使っている場合は、そのトークンで操作できるのはワークフローが動いているリポジトリの資源に限られます。別のリポジトリや組織の資源を操作するには、personal access token か GitHub App のトークンが必要です。
+
+また、読み取りはできる相手でも、書き込み系のエンドポイント（リポジトリ設定の更新など）はより強い役割を要求します。閲覧できるのに更新だけ404になる場合は、その操作に必要な役割をエンドポイントのリファレンス（応答の documentation_url が指すページ）で確認してください。
+
+## 切り分けの順序
+
+1. /user でトークンの生死を確認する。401ならトークンの値・失効の問題として先に解決する。
+2. 公開リポジトリへの同じ形のリクエストで、URL の組み立てを検証する（原因1）。末尾スラッシュとパスパラメータのエンコードもここで確認する。
+3. 対象が非公開かどうかを確認する。非公開なら、認証ヘッダーの有無（原因2）と、トークンの scope・権限・対象範囲（原因3）を順に確認する。
+4. 応答の documentation_url が指すリファレンスで、そのエンドポイントが要求する権限・役割と、URL の正しい形を確認する。
+
+## 確認コマンド集
 
 ```bash
-curl -i -H "Authorization: token <your-github-token>" \
+# 1. トークンの生死と権限の主体を確認（200なら有効、401なら失効・誤り）
+curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
+
+# 2. URL の組み立てを公開リポジトリで検証
+curl -i https://api.github.com/repos/octocat/Hello-World
+
+# 3. 対象リクエストをヘッダー付きで実行し、本文の documentation_url を確認
+curl -i -H "Authorization: Bearer <your-github-token>" \
+  -H "Accept: application/vnd.github+json" \
   "https://api.github.com/repos/<owner>/<repo>"
+
+# 4. ファイル名の確認（ディレクトリ一覧の取得）
+curl -H "Authorization: Bearer <your-github-token>" \
+  "https://api.github.com/repos/<owner>/<repo>/contents/"
 ```
 
-### 公式ドキュメント参照
+## Editor's Note
 
-- **GitHub [REST](/glossary/rest/) [API](/glossary/api/) ドキュメント**：https://docs.github.com/rest
-- **トラブルシューティングガイド**：https://docs.github.com/rest/guides/troubleshooting
-- **[認証](/glossary/認証/)ガイド**：https://docs.github.com/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
+権限の問題が404として現れることの実例として、GitHub 公式コミュニティの議論があります（[REST API GET /repos/{owner}/{repo}/pages 404s](https://github.com/orgs/community/discussions/24604)）。GitHub Pages の情報を返すエンドポイントで404が出続けるという報告に対し、repo scope を持つトークンで認証したら取得できたという検証結果が寄せられています。当時のリファレンスには追加の権限が不要と読める記載があり、認証すれば通るという事実に報告者たちがなかなか到達できなかった経過が記録されています。また、組織で SSO（シングルサインオン）を使っている環境では、トークンを組織に対して承認することで解決したという報告も含まれています。2024年時点でも同様の報告が続いており、404の正体が権限だったという本記事の原因3の典型例です。
 
-### コミュニティリソース
-
-問題が解決しない場合は、以下を参照してください：
-
-- **GitHub Community Forum**：https://github.com/orgs/community/discussions
-- **GitHub [API](/glossary/api/)関連のStack Overflow**：[github-api タグ付き質問](https://stackoverflow.com/questions/tagged/github-api)
-- **GitHub Status Page**：https://www.githubstatus.com （[API](/glossary/api/)の障害有無確認）
+GitHub API の404は、存在と権限を意図的に区別しない設計であるぶん、調査する側の手順が重要になります。URL の綴りを何度も見直す前に、トークンの生死と権限を先に確かめることが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
