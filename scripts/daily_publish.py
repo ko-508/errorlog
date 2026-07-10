@@ -21,8 +21,8 @@ from fact_check import (
 )
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
-    check_a1, check_a2, check_a3, check_a4, check_a5, check_a6, check_a7, check_a8,
-    check_b1, check_b2, check_b3, check_b5, check_d1_d2, check_e1, check_e2,
+    check_a4, check_a5, check_a6, check_a7, check_a8,
+    check_b2, check_d1_d2, check_e1, check_e2,
     check_secret_token, check_aws_secret_key,
     classify_article, extract_urls, split_frontmatter,
 )
@@ -676,7 +676,8 @@ def extract_knowledge_graph(
 # ─── Lint 公開前ゲート ──────────────────────────────────────────
 
 _LINT_MAX_RETRIES = 2
-_LINT_BLOCK_RULES = frozenset({"A1", "A7", "B1", "B2", "B5", "C1", "E2"})
+# 安全・データ整合系のみでブロックする（構造系ルールは 2026-07 に撤去済み）。
+_LINT_BLOCK_RULES = frozenset({"A6", "A7", "B2", "C1", "E2"})
 
 
 def _lint_check_content(content: str, path: Path) -> dict:
@@ -692,15 +693,9 @@ def _lint_check_content(content: str, path: Path) -> dict:
             (fails if severity == "FAIL" else warns).append({"rule": rule, "detail": detail})
 
     if is_error:
-        _add("FAIL", check_a1(body))
-        _add("WARN", check_a2(body))
         _add("FAIL", check_a7(body))
-        _add("WARN", check_a8(fm))
-        _add("FAIL", check_b1(body))
-        _add("WARN", check_b3(body))
-        _add("FAIL", check_b5(body))
+        _add("WARN", check_a8(fm, body))
 
-    _add("FAIL", check_a3(body))
     _add("WARN", check_a4(body))
     _add("WARN", check_a5(body))
     _add("FAIL", check_a6(fm, body, require_error_code=is_error))

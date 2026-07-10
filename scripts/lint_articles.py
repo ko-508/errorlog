@@ -26,49 +26,6 @@ LINT_REPORT_PATH = BASE / "data" / "lint_report.json"
 LINT_SUMMARY_DIR = BASE / "reports" / "lint"
 LINT_SUMMARY_PATH = LINT_SUMMARY_DIR / "lint_summary.md"
 
-# ── 必須セクション正規表現 ────────────────────────────────────────────────────
-# 各パターンは re.IGNORECASE なし（日本語）。H2/H3 どちらでも許容（^#{1,4}\s*）。
-REQUIRED_SECTIONS: list[tuple[str, re.Pattern[str]]] = [
-    # 1. エラーの概要
-    ("エラーの概要", re.compile(r"^#{1,4}\s*エラーの概要", re.MULTILINE)),
-    # 2. エラーメッセージ例（「実際の」有無を吸収）
-    ("エラーメッセージ例", re.compile(r"^#{1,4}\s*(?:実際の)?エラーメッセージ例", re.MULTILINE)),
-    # 3. 原因と解決手順（「よくある」有無を吸収）
-    ("原因と解決手順", re.compile(r"^#{1,4}\s*(?:よくある)?原因と解決手順", re.MULTILINE)),
-    # 4. 注意点（「ツール/サービス固有の」等、任意のプレフィックスを吸収）
-    ("注意点", re.compile(r"^#{1,4}\s*[^#\n]*注意点", re.MULTILINE)),
-    # 5. それでも解決しない場合
-    ("それでも解決しない場合", re.compile(r"^#{1,4}\s*それでも解決しない場合", re.MULTILINE)),
-]
-
-# 判定に使うセクションの順序インデックス（A2チェック用）
-SECTION_ORDER = [label for label, _ in REQUIRED_SECTIONS]
-
-# ── B1 エラーパターン辞書 ─────────────────────────────────────────────────────
-# 各エントリは (カテゴリ名, pattern)。追加しやすいよう定数リスト化。
-ERROR_PATTERNS: list[tuple[str, re.Pattern[str]]] = [
-    ("http_status",    re.compile(r"\b[45]\d{2}\b")),
-    ("exception_name", re.compile(r"\w+(?:Error|Exception)\b")),
-    ("exit_code",      re.compile(r"exit\s+code\s+\d+|\bexit\s+\d+\b", re.IGNORECASE)),
-    ("errno",          re.compile(r"\berrno\b", re.IGNORECASE)),
-    ("posix_errno",    re.compile(r"\bE[A-Z]{2,}\b")),   # EACCES, ENOENT 等
-    ("signal",         re.compile(r"\bSIG[A-Z]+\b")),
-    # 自然言語エラーメッセージ（例: "Error response from daemon: ..."）
-    ("error_word",     re.compile(r"\bError[:\s]", re.IGNORECASE)),
-    ("failed_word",    re.compile(r"\bFailed\b", re.IGNORECASE)),
-    ("denied_word",    re.compile(r"\bdenied\b", re.IGNORECASE)),
-    ("not_found",      re.compile(r"\bnot\s+found\b", re.IGNORECASE)),
-    ("unauthorized",   re.compile(r"\bunauthorized\b", re.IGNORECASE)),
-    # JSON エラーレスポンスフィールド（GitHub/OpenAI/Stripe/AWS 等、大文字小文字不問）
-    ("json_code",      re.compile(r'"[Cc]ode"\s*:')),
-    ("json_error",     re.compile(r'"[Ee]rror"\s*:')),
-    ("json_message",   re.compile(r'"[Mm]essage"\s*:')),
-    # 日本語エラー表現
-    ("jp_error",       re.compile(r'(?:エラー|失敗)(?:が|は|：|:)')),
-    # Docker コンテナ終了コード（スペイン語等の非英語記事対応）
-    ("exited_code",    re.compile(r"Exited\s*\(\d+\)")),
-]
-
 # ── B2 不適格マーカー表現 ─────────────────────────────────────────────────────
 # 由来: RSS 取り込み記事で「エラーがないのに記事化した」際に確認された表現。
 # 正規表現は今後追加する前提で定数リスト化。
@@ -194,15 +151,6 @@ def split_frontmatter(content: str) -> tuple[dict[str, str], str]:
     return fm, body
 
 
-def body_char_count(body: str) -> int:
-    """本文の実質文字数（コードブロック・URL・MD記号を除外）。expand_articles.py と同ロジック。"""
-    text = re.sub(r"```[\s\S]*?```", "", body)                   # フェンスドコードブロック除去
-    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)         # リンク→テキストのみ
-    text = re.sub(r"https?://\S+", "", text)                      # 裸URL除去
-    text = re.sub(r"[#\-*`>\[\]()!]", "", text)                   # MD記号除去
-    return len(text.replace(" ", "").replace("\n", ""))
-
-
 def extract_urls(text: str) -> list[str]:
     """テキスト中のすべての URL を返す（Markdown リンク含む）。"""
     # [text](url) 形式
@@ -261,38 +209,6 @@ def get_section_content(body: str, section_pattern: re.Pattern[str]) -> str | No
 Issue = tuple[str, str]  # (rule_id, detail)
 
 
-def check_a1(body: str) -> list[Issue]:
-    """A1 [FAIL] 必須5セクションの見出しが全て存在する。"""
-    issues: list[Issue] = []
-    for label, pattern in REQUIRED_SECTIONS:
-        if not pattern.search(body):
-            issues.append(("A1", f"必須セクション欠落: {label}"))
-    return issues
-
-
-def check_a2(body: str) -> list[Issue]:
-    """A2 [WARN] 必須セクションが規定順に並んでいる。"""
-    positions: list[tuple[int, str]] = []
-    for label, pattern in REQUIRED_SECTIONS:
-        m = pattern.search(body)
-        if m:
-            positions.append((m.start(), label))
-    positions.sort()
-    actual_order = [label for _, label in positions]
-    expected_order = [label for label in SECTION_ORDER if label in actual_order]
-    if actual_order != expected_order:
-        return [("A2", f"セクション順序違反: {actual_order} (期待: {expected_order})")]
-    return []
-
-
-def check_a3(body: str) -> list[Issue]:
-    """A3 [FAIL] 日本語本文が1,500字以上（コード・URL・MD記号を除外）。"""
-    count = body_char_count(body)
-    if count < 1500:
-        return [("A3", f"本文が{count}字（基準: 1,500字以上）")]
-    return []
-
-
 def check_a4(body: str) -> list[Issue]:
     """A4 [WARN] 全フェンスドコードブロックに言語名が指定されている。"""
     blocks = extract_fenced_code_blocks(body)
@@ -342,34 +258,20 @@ def check_a7(body: str) -> list[Issue]:
     return []
 
 
-def check_a8(fm: dict[str, str]) -> list[Issue]:
-    """A8 [WARN] frontmatter に conclusion フィールドが存在し、空でない。
+_BLUF_HEADING_RE = re.compile(r"^#{1,4}\s*冒頭まとめ", re.MULTILINE)
 
-    新規生成記事（daily_publish.py）から導入。既存記事は conclusion 未設定のため
-    FAIL にすると全記事が一括検出されてしまう。定着するまでは WARN に留め、
-    秋のリライト完了後に FAIL へ格上げすることを想定している。
+
+def check_a8(fm: dict[str, str], body: str) -> list[Issue]:
+    """A8 [WARN] 冒頭まとめが存在する（frontmatter の conclusion または本文見出し）。
+
+    自動生成記事は frontmatter の conclusion フィールドで満たし、
+    手作業記事は本文の「## 冒頭まとめ」見出しで満たす。どちらか一方があれば通す。
     """
-    val = fm.get("conclusion", "").strip()
-    if not val:
-        return [("A8", "conclusion フィールドが欠落または空（新規記事は必須）")]
-    return []
-
-
-def check_b1(body: str) -> list[Issue]:
-    """B1 [FAIL] エラーメッセージ例セクションのコードブロックに実在エラーパターンが1件以上。"""
-    section_pat = re.compile(r"^#{1,4}\s*(?:実際の)?エラーメッセージ例", re.MULTILINE)
-    section_body = get_section_content(body, section_pat)
-    if section_body is None:
-        # A1 で既に検出されるので B1 はスキップ
+    if fm.get("conclusion", "").strip():
         return []
-    blocks = extract_fenced_code_blocks(section_body)
-    if not blocks:
-        return [("B1", "エラーメッセージ例セクションにコードブロックなし")]
-    for _, code in blocks:
-        for _cat, pat in ERROR_PATTERNS:
-            if pat.search(code):
-                return []  # 1件でもマッチすれば OK
-    return [("B1", "エラーメッセージ例のコードブロックに実在エラーパターンなし")]
+    if _BLUF_HEADING_RE.search(_mask_code_blocks(body)):
+        return []
+    return [("A8", "冒頭まとめが欠落（frontmatter の conclusion または本文の冒頭まとめ見出しが必要）")]
 
 
 def check_b2(body: str) -> list[Issue]:
@@ -381,48 +283,6 @@ def check_b2(body: str) -> list[Issue]:
             excerpt = m.group(0)[:60]
             issues.append(("B2", f"不適格マーカー({label}): 「{excerpt}」"))
     return issues
-
-
-def check_b3(body: str) -> list[Issue]:
-    """B3 [WARN] 解決手順セクションにコードブロックが2件以上（Before/After 近似）。"""
-    section_pat = re.compile(r"^#{1,4}\s*(?:よくある)?原因と解決手順", re.MULTILINE)
-    section_body = get_section_content(body, section_pat)
-    if section_body is None:
-        return []
-    blocks = extract_fenced_code_blocks(section_body)
-    if len(blocks) < 2:
-        return [("B3", f"解決手順内のコードブロックが{len(blocks)}件（Before/After 推奨: 2件以上）")]
-    return []
-
-
-# ── B5 原因数チェック ─────────────────────────────────────────────────────────
-# 原因の小見出しとして機能する4パターン: ### 原因N：／### N.／**原因N：**／**N.**
-# 装飾なしの「N.」（説明文中の手順リスト等）は原因の区切りではないため対象外。
-_CAUSE_HEADING_RE = re.compile(
-    r"^(?:#{2,4}\s*(?:原因\s*\d*\s*[:：]|\d+\s*[.\)])"
-    r"|\*\*(?:原因\s*\d*\s*[:：]|\d+\s*[.\)]))",
-    re.MULTILINE,
-)
-_MIN_CAUSES = 3
-
-
-def count_cause_headings(section_body: str) -> int:
-    """解決手順セクション本文内の原因見出し数を数える（コードブロック内は無害化して検索）。"""
-    masked = _mask_code_blocks(section_body)
-    return len(_CAUSE_HEADING_RE.findall(masked))
-
-
-def check_b5(body: str) -> list[Issue]:
-    """B5 [FAIL] 解決手順セクション内の原因見出しが3つ以上ある。"""
-    section_pat = re.compile(r"^#{1,4}\s*(?:よくある)?原因と解決手順", re.MULTILINE)
-    section_body = get_section_content(body, section_pat)
-    if section_body is None:
-        # A1 で既に検出されるので B5 はスキップ
-        return []
-    n_causes = count_cause_headings(section_body)
-    if n_causes < _MIN_CAUSES:
-        return [("B5", f"原因の数が{n_causes}個（基準: {_MIN_CAUSES}個以上）")]
-    return []
 
 
 # ── C1 認証トークン・APIキー検出 ──────────────────────────────────────────────
@@ -638,19 +498,11 @@ def lint_article(path: Path) -> dict[str, Any]:
                 infos.append(entry)
 
     if is_error:
-        # A1/A2/A3/A7/A8/B1/B3/B5: エラー記事にのみ適用
-        # A3（1500字基準）・A7（免責事項フッター）・B5（原因数）はエラー解決記事の規格から導かれるため error_article 限定。
-        # A8（conclusion 欠落）は WARN: 既存記事への一括 FAIL を避けるため。秋のリライト完了後に格上げ予定。
-        # tool-guide 記事（non_error_article）は除外。glossary が別ディレクトリで除外されているのと同じ一貫性。
-        # tool-guide 記事への適用を再開する場合はこのブロックから A3/A7/B5 を外へ移す。
-        _add("FAIL", check_a1(body))
-        _add("WARN", check_a2(body))
-        _add("FAIL", check_a3(body))
+        # A7/A8: エラー記事にのみ適用
+        # 構造系ルール(A1/A2/A3/B1/B3/B5)は「構成はエラーの性質に応じて選ぶ」
+        # 方針(article_spec.md 920ca2e)に伴い 2026-07 に撤去した。
         _add("FAIL", check_a7(body))
-        _add("WARN", check_a8(fm))
-        _add("FAIL", check_b1(body))
-        _add("WARN", check_b3(body))
-        _add("FAIL", check_b5(body))
+        _add("WARN", check_a8(fm, body))
 
     # A4/A5/A6/B2/C1/D: 全記事に適用
     _add("WARN", check_a4(body))
@@ -729,7 +581,7 @@ def write_summary(results: list[dict]) -> None:
         "| 分類 | 件数 | 説明 |",
         "|------|------|------|",
         f"| clean | {len(classified['clean'])} | 全ルール合格 |",
-        f"| needs_rewrite | {len(classified['needs_rewrite'])} | エラー記事だが規格未満（旧テンプレート等） |",
+        f"| needs_rewrite | {len(classified['needs_rewrite'])} | FAIL ルールあり（安全・整合の問題） |",
         f"| ineligible | {len(classified['ineligible'])} | B2マーカー検出：エラー記事でない疑い |",
         f"| skipped | {len(classified['skipped'])} | 規格外ページ（tool_* / errorCodeなし） |",
         f"| **合計** | **{total}** | |",
@@ -761,7 +613,7 @@ def write_summary(results: list[dict]) -> None:
         lines.append(f"| {rule} | {cnt} |")
 
     # needs_rewrite リスト
-    lines += ["", "## needs_rewrite — 規格未満のエラー記事", ""]
+    lines += ["", "## needs_rewrite — FAIL ルールを含む記事", ""]
     nrw = classified["needs_rewrite"]
     if nrw:
         lines.append("| 記事 | FAIL ルール |")

@@ -11,16 +11,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from lint_articles import (
     ARTICLE_CATEGORY_ERROR,
     ARTICLE_CATEGORY_NON_ERROR,
-    body_char_count,
-    check_a1,
-    check_a3,
     check_a4,
     check_a5,
     check_a6,
-    check_b1,
+    check_a8,
     check_b2,
-    check_b3,
     check_d1_d2,
+    check_secret_token,
     classify_article,
     classify_domain,
     lint_article,
@@ -76,104 +73,6 @@ VALID_FM = {
     "description": "Nginx で 500 エラーが発生する原因と解決策を解説します。",
 }
 
-# ── body_char_count ───────────────────────────────────────────────────────────
-
-def test_body_char_count_excludes_code_blocks():
-    body = "本文テキスト\n```python\ncode here\n```\n追加テキスト"
-    count = body_char_count(body)
-    assert "本文テキスト" in "本文テキスト追加テキスト"
-    # コードブロックの 'code here' が含まれないことを確認
-    assert count < body_char_count("本文テキスト\ncode here\n追加テキスト")
-
-
-def test_body_char_count_excludes_urls():
-    body = "テキスト https://example.com/long/path 末尾"
-    count = body_char_count(body)
-    assert count <= len("テキスト末尾")
-
-
-def test_body_char_count_excludes_md_link_urls():
-    """[テキスト](url) → テキストのみカウント。"""
-    body = "[クリックここ](https://example.com/very/long/path)"
-    count = body_char_count(body)
-    assert count == len("クリックここ")
-
-
-def test_body_char_count_1500_boundary():
-    """1500文字ちょうどは基準を満たす。"""
-    body = "あ" * 1500
-    assert body_char_count(body) == 1500
-
-
-def test_body_char_count_strips_md_symbols():
-    body = "## 見出し\n**太字**\n`インライン`"
-    count = body_char_count(body)
-    # MD記号を除いて「見出し太字インライン」が残る
-    raw = "見出し太字インライン"
-    assert count == len(raw)
-
-
-# ── A1 必須セクション ─────────────────────────────────────────────────────────
-
-def test_a1_pass_all_sections_present():
-    assert check_a1(VALID_BODY) == []
-
-
-def test_a1_fail_missing_section():
-    body = VALID_BODY.replace("## 実際のエラーメッセージ例", "## その他")
-    issues = check_a1(body)
-    assert any("エラーメッセージ例" in d for _, d in issues)
-
-
-def test_a1_accepts_variant_headings():
-    """「よくある原因と解決手順」→「原因と解決手順」に変えても合格。"""
-    body = VALID_BODY.replace("## よくある原因と解決手順", "## 原因と解決手順")
-    assert check_a1(body) == []
-
-
-def test_a1_accepts_tool_specific_without_prefix():
-    """「ツール固有の注意点」→「注意点」でも合格。"""
-    body = VALID_BODY.replace("## ツール固有の注意点", "## 注意点")
-    assert check_a1(body) == []
-
-
-def test_a1_accepts_tool_name_prefix_chui():
-    """「AWS サービス固有の注意点」「Nginx固有の注意点」等でも合格。"""
-    for variant in [
-        "## AWS サービス固有の注意点",
-        "## Nginx固有の注意点",
-        "## Docker特有の注意点",
-        "## Kubernetes環境での注意点",
-    ]:
-        body = VALID_BODY.replace("## ツール固有の注意点", variant)
-        assert check_a1(body) == [], f"Failed for: {variant}"
-
-
-def test_a1_all_missing():
-    issues = check_a1("## 関係ないセクション\n本文のみ")
-    assert len(issues) == 5
-
-
-# ── A3 文字数 ─────────────────────────────────────────────────────────────────
-
-def test_a3_pass_sufficient_chars():
-    body = "あ" * 1500 + "\n## エラーの概要\n"
-    assert check_a3(body) == []
-
-
-def test_a3_fail_insufficient_chars():
-    issues = check_a3("## 概要\n短い本文")
-    assert len(issues) == 1
-    assert "A3" == issues[0][0]
-
-
-def test_a3_fail_code_heavy_body():
-    """コードブロックが多くても実文字数が足りなければ FAIL。"""
-    code_only = "```python\n" + "x = 1\n" * 200 + "```\n"
-    issues = check_a3(code_only)
-    assert len(issues) == 1
-
-
 # ── A4 コードブロック言語名 ───────────────────────────────────────────────────
 
 def test_a4_pass_all_named():
@@ -228,89 +127,6 @@ def test_a6_fail_missing_title():
     fm = {**VALID_FM, "title": ""}
     issues = check_a6(fm, VALID_BODY)
     assert any("title" in d for _, d in issues)
-
-
-# ── B1 エラーパターン ─────────────────────────────────────────────────────────
-
-def test_b1_pass_http_status_in_code():
-    assert check_b1(VALID_BODY) == []
-
-
-def test_b1_pass_exception_name():
-    body = """\
-## 実際のエラーメッセージ例
-
-```python
-raise FileNotFoundError("file missing")
-```
-
-## よくある原因と解決手順
-"""
-    assert check_b1(body) == []
-
-
-def test_b1_pass_exit_code():
-    body = """\
-## 実際のエラーメッセージ例
-
-```bash
-Process exited with exit code 1
-```
-"""
-    assert check_b1(body) == []
-
-
-def test_b1_pass_posix_errno():
-    body = """\
-## 実際のエラーメッセージ例
-
-```c
-if (errno == EACCES) { ... }
-```
-"""
-    assert check_b1(body) == []
-
-
-def test_b1_pass_signal():
-    body = """\
-## 実際のエラーメッセージ例
-
-```bash
-Killed by SIGKILL
-```
-"""
-    assert check_b1(body) == []
-
-
-def test_b1_fail_no_error_pattern():
-    body = """\
-## 実際のエラーメッセージ例
-
-```bash
-hello world
-this is fine
-```
-"""
-    issues = check_b1(body)
-    assert any("B1" == r for r, _ in issues)
-
-
-def test_b1_no_code_block_in_section():
-    body = """\
-## 実際のエラーメッセージ例
-
-コードブロックがなく、テキストだけです。
-
-## よくある原因と解決手順
-"""
-    issues = check_b1(body)
-    assert any("B1" == r for r, _ in issues)
-
-
-def test_b1_skip_when_section_missing():
-    """エラーメッセージ例セクションなしなら B1 を出力しない（A1 が先に検出）。"""
-    body = "## 別のセクション\n\n本文\n"
-    assert check_b1(body) == []
 
 
 # ── B2 不適格マーカー ─────────────────────────────────────────────────────────
@@ -470,25 +286,33 @@ def test_classify_article_non_error(tmp_path):
         assert classify_article(p, fm) == ARTICLE_CATEGORY_NON_ERROR, stem
 
 
-def test_b1_exited_code_pattern():
-    """Exited (1) / Exited (137) がエラーパターンとしてマッチする。"""
-    body = """\
-## 実際のエラーメッセージ例
 
-```bash
-docker run my-image
-Exited (1)
-```
-"""
-    assert check_b1(body) == []
+# ── A8 冒頭まとめ ─────────────────────────────────────────────────────────────
+
+def test_a8_pass_with_conclusion_frontmatter():
+    assert check_a8({"conclusion": "要点のまとめ。"}, "## 概要\n本文") == []
 
 
-def test_b1_exited_code_nonzero():
-    body = """\
-## 実際のエラーメッセージ例
+def test_a8_pass_with_bluf_heading_in_body():
+    body = "## 冒頭まとめ\n\n要点。\n\n## エラーの概要\n本文"
+    assert check_a8({}, body) == []
 
-```bash
-Container exited with Exited (137) after OOM kill
-```
-"""
-    assert check_b1(body) == []
+
+def test_a8_warn_when_both_missing():
+    issues = check_a8({}, "## エラーの概要\n本文")
+    assert issues and issues[0][0] == "A8"
+
+
+def test_a8_ignores_bluf_inside_code_block():
+    body = "```md\n## 冒頭まとめ\n```\n\n## エラーの概要\n本文"
+    issues = check_a8({}, body)
+    assert issues and issues[0][0] == "A8"
+
+
+# ── C1 ルールID（ブロックゲート照合の前提） ──────────────────────────────────
+
+def test_c1_rule_id_is_plain_c1():
+    """秘密鍵検出のルールIDは接頭辞なしの "C1"（daily_publish のゲート照合前提）。"""
+    body = "```bash\nexport TOKEN=xoxb-9f8g7h6j5k4l3m2n1\n```"
+    issues = check_secret_token(body)
+    assert issues and all(r == "C1" for r, _ in issues)
