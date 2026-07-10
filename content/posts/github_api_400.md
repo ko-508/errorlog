@@ -1,27 +1,30 @@
 ---
 title: "GitHub API の 400 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub APIの400エラーは「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。リクエストの形式が不正だったり、必須パラメータが不足していたり、パラメータ値が無効だったりするときに発生します。"
+description: "GitHub API の 400 Bad Request は、リクエストの形式そのものが壊れている場合に返されます。代表例は JSON 構文の誤り（Problems parsing JSON）です。必須パラメータの不足や値の不正は 400 ではなく 422 が返ります。エラーメッセージの文言から原因を切り分けて解決します。"
 tags: ["GitHub API"]
 errorCode: "400"
-lastmod: 2026-05-31
+lastmod: 2026-07-10
 service: "GitHub API"
 error_type: "400"
 components: []
-related_services: ["@octokit/rest"]
+related_services: []
 trend_incident: true
 top_queries:
 - 'github 400'
-- 'github api bad credentials'
+- 'github api 400'
+- 'problems parsing json'
 ---
+
+## 冒頭まとめ
+
+GitHub API の 400 Bad Request は、リクエストの形式そのものが壊れていて、サーバーが中身の検証に進めない場合に返されます。公式ドキュメントが 400 として挙げているのは、リクエスト本文が JSON として読めない（Problems parsing JSON）、本文が JSON オブジェクトの形になっていない（Body should be a JSON object）、API バージョン指定のヘッダーに存在しない値を指定した、の3つです。
+
+一方、JSON としては正しく読めたうえで、必須パラメータが足りない・値が仕様に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、設定やパラメータの見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じリクエストを再試行しても結果は変わりません。修正が必要です。
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の400[エラー](/glossary/エラー/)は「Bad Request」を意味し、クライアント側の送信内容に問題があることを示します。[リクエスト](/glossary/リクエスト/)の形式が不正だったり、必須[パラメータ](/glossary/パラメータ/)が不足していたり、[パラメータ](/glossary/パラメータ/)値が無効だったりするときに発生します。この[エラー](/glossary/エラー/)が発生した場合、[サーバー](/glossary/サーバー/)側に問題があるのではなく、[API](/glossary/api/)への呼び出し方を見直す必要があります。
-
-## 実際のエラーメッセージ例
-
-GitHub [API](/glossary/api/)が返す実際の400[エラーレスポンス](/glossary/エラーレスポンス/)は以下のようなものです。
+GitHub API の 400 の応答本文は次の形です。
 
 ```json
 {
@@ -30,143 +33,112 @@ GitHub [API](/glossary/api/)が返す実際の400[エラーレスポンス](/glo
 }
 ```
 
-あるいはバリデーションエラーの場合：
+公式のトラブルシューティング文書は、400 と 422 の境界を明確に定めています。リクエスト本文に不正な JSON を送ると 400 と Problems parsing JSON が返ります。エンドポイントが JSON オブジェクトを期待しているのに本文がその形になっていないと 400 と Body should be a JSON object が返ります。これに対し、必須パラメータの省略やパラメータの型の誤りは 422 と Invalid request、リクエストを処理できない場合は 422 と Validation Failed です。つまり「JSON として読めるかどうか」が 400 と 422 のおおまかな境界線です。
 
-```json
-{
-  "message": "Validation Failed",
-  "errors": [
-    {
-      "message": "Required field \"title\" is missing",
-      "field": "title",
-      "code": "missing_field"
-    }
-  ],
-  "documentation_url": "https://docs.github.com/rest/reference/issues#create-an-issue"
-}
-```
+## まず最初に：message を読んで境界を確定する
+
+応答の message の文言で、調べるべき場所が決まります。
+
+Problems parsing JSON なら、本文が JSON として壊れています（原因1）。Body should be a JSON object なら、JSON としては読めるものの、オブジェクト（波かっこで始まる形）になっていません（原因2）。API バージョンが未サポートである旨のメッセージなら、バージョン指定ヘッダーの値の問題です（原因3）。
+
+Validation Failed や Invalid request が返っているなら、それは 400 ではなく 422 の問題です。本文の形式は正しく届いており、中身がエンドポイントの仕様に合っていません。[GitHub API の 422 エラー](/posts/github_api_422/)の記事を参照してください。Bad credentials なら 401 で、トークンの問題です（[GitHub API の 401 エラー](/posts/github_api_401/)）。
 
 ## よくある原因と解決手順
 
-### 原因1：JSONの形式が不正である
+### 原因1：リクエスト本文が JSON として壊れている
 
-**なぜ発生するか**
-[リクエストボディ](/glossary/リクエストボディ/)を[JSON](/glossary/json/)形式で送信する際に、ダブルクォートの閉じ忘れやカンマの不足など、[JSON](/glossary/json/)形式として正しくない構文を送ってしまった場合に発生します。
+手書きの JSON では、カンマの欠落や引用符の閉じ忘れが定番です。
 
-**Before（[エラー](/glossary/エラー/)が起きる例）**
+**Before（カンマが欠落していて400になる）：**
+
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
-  -H "Authorization: token <your-token>" \
-  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-github-token>" \
   -d '{"title": "New issue" "body": "This is a test"}'
 ```
 
-上記の例では、`"New issue"`と`"body"`の間にカンマがありません。
+**After（修正後）：**
 
-**After（修正後）**
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
-  -H "Authorization: token <your-token>" \
-  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <your-github-token>" \
   -d '{"title": "New issue", "body": "This is a test"}'
 ```
 
-### 原因2：必須パラメータが不足している
+見落とされやすいのが、プログラムから呼び出す場合の直列化（オブジェクトを JSON 文字列に変換する処理）の漏れです。手元のコード上ではオブジェクトが正しく見えていても、直列化せずに送信すると、通信路には JSON でない文字列が流れます。実際の報告例として、JavaScript の fetch で body にオブジェクトをそのまま渡して Problems parsing JSON になったケースが GitHub 公式コミュニティに記録されています。fetch の body には JSON.stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度ファイルに書き出して確かめる方法が確実です。
 
-**なぜ発生するか**
-[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が要求する必須[パラメータ](/glossary/パラメータ/)を[リクエスト](/glossary/リクエスト/)に含めていない場合に発生します。例えば、IssueやPull Requestの作成時に`title`が必須なのに省略した場合などです。
-
-**Before（[エラー](/glossary/エラー/)が起きる例）**
-```javascript
-const octokit = require('@octokit/rest')({
-  auth: '<your-token>'
-});
-
-await octokit.rest.issues.create({
-  owner: '<owner>',
-  repo: '<repo>',
-  // title フィールドが省略されている
-  body: 'Issue description'
-});
-```
-
-**After（修正後）**
-```javascript
-const octokit = require('@octokit/rest')({
-  auth: '<your-token>'
-});
-
-await octokit.rest.issues.create({
-  owner: '<owner>',
-  repo: '<repo>',
-  title: 'Issue Title',  // 必須フィールドを追加
-  body: 'Issue description'
-});
-```
-
-### 原因3：パラメータ値が無効な形式である
-
-**なぜ発生するか**
-[パラメータ](/glossary/パラメータ/)値の型や値そのものが、[API](/glossary/api/)が期待する形式と異なっている場合に発生します。例えば、数値として解釈されるべき値に文字列を渡した場合や、指定可能な値（enum）の範囲外の値を渡した場合などです。
-
-**Before（[エラー](/glossary/エラー/)が起きる例）**
 ```bash
-curl -X GET "https://api.github.com/repos/<owner>/<repo>/issues?state=opened" \
-  -H "Authorization: token <your-token>"
+# 本文が JSON として正しいかを検証してから送信する
+python3 -m json.tool < body.json && \
+curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
+  -H "Authorization: Bearer <your-github-token>" \
+  --data @body.json
 ```
 
-`state`[パラメータ](/glossary/パラメータ/)の値は「open」「closed」「all」のいずれかであるべきなのに、「opened」という無効な値を指定しています。
+### 原因2：本文が JSON オブジェクトの形になっていない
 
-**After（修正後）**
-```bash
-curl -X GET "https://api.github.com/repos/<owner>/<repo>/issues?state=open" \
-  -H "Authorization: token <your-token>"
-```
+JSON としては読めるものの、エンドポイントが期待するオブジェクト（{ } の形）ではなく、文字列や配列を送っているケースです。公式ドキュメントのとおり、この場合は Body should be a JSON object が返ります。
 
-### 原因4：Content-Typeヘッダーが不正である
+**Before（JSON の文字列を送ってしまい400になる）：**
 
-**なぜ発生するか**
-[リクエストボディ](/glossary/リクエストボディ/)を送信する際に、`Content-Type`[ヘッダー](/glossary/ヘッダー/)を指定していなかったり、間違った値を指定していたりすると、[サーバー](/glossary/サーバー/)が正しくボディをパースできず[エラー](/glossary/エラー/)になります。
-
-**Before（[エラー](/glossary/エラー/)が起きる例）**
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
-  -H "Authorization: token <your-token>" \
-  -d '{"title": "New issue", "body": "Test"}'
+  -H "Authorization: Bearer <your-github-token>" \
+  -d '"just a string"'
 ```
 
-Content-Type[ヘッダー](/glossary/ヘッダー/)を指定していません。
+**After（オブジェクトの形で送る）：**
 
-**After（修正後）**
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
-  -H "Authorization: token <your-token>" \
-  -H "Content-Type: application/json" \
-  -d '{"title": "New issue", "body": "Test"}'
+  -H "Authorization: Bearer <your-github-token>" \
+  -d '{"title": "New issue"}'
 ```
 
-## GitHub API固有の注意点
+プログラムからの呼び出しでは、二重の直列化が典型的な発生源です。すでに JSON 文字列に変換済みのデータを、さらに JSON として送信する仕組み（Python の requests の json= 引数など）に渡すと、オブジェクトではなく「JSON の文字列」が届きます。直列化は1回だけ、送信ライブラリの JSON 送信機能を使うならライブラリに任せる、と決めておくのが安全です。なおこの種の誤りは、エンドポイントによっては 400 ではなく 422（... is not an object という文言）として報告されることもあります。どちらのコードでも、疑う場所は同じく直列化の回数です。
 
-GitHub [API](/glossary/api/)には複数の[バージョン](/glossary/バージョン/)が存在し、[エンドポイント](/glossary/エンドポイント/)の仕様が[バージョン](/glossary/バージョン/)によって異なります。`Accept`[ヘッダー](/glossary/ヘッダー/)で[API](/glossary/api/) [バージョン](/glossary/バージョン/)を指定する場合、不正な[バージョン](/glossary/バージョン/)番号を指定すると400[エラー](/glossary/エラー/)が返されます。
+### 原因3：API バージョン指定の誤り
 
-公式ドキュメントでは常に最新の[REST](/glossary/rest/) [API](/glossary/api/)仕様が提供されているため、使用している[API](/glossary/api/) [バージョン](/glossary/バージョン/)と実装コードが一致しているかを確認してください。特に[GraphQL](/glossary/graphql/) [API](/glossary/api/)と[REST](/glossary/rest/) [API](/glossary/api/)を混同しないことが重要です。
-
-また、[レート制限](/glossary/レート制限/)（Rate Limiting）による429[エラー](/glossary/エラー/)と異なり、400[エラー](/glossary/エラー/)は[リクエスト](/glossary/リクエスト/)形式自体の問題のため、リトライアは効果がありません。むしろ[リクエスト](/glossary/リクエスト/)形式を修正することに注力すべきです。
-
-特定の[エンドポイント](/glossary/エンドポイント/)（例：Pull Request レビューコメントの作成）では、[パラメータ](/glossary/パラメータ/)の組み合わせに対して厳密な[バリデーション](/glossary/バリデーション/)が行われるため、公式ドキュメントの[パラメータ](/glossary/パラメータ/)説明を隅々まで読むことが不可欠です。
-
-## それでも解決しない場合
-
-まずは、[リクエスト](/glossary/リクエスト/)の内容をPythonの`json`モジュールやオンラインの[JSON](/glossary/json/)検証ツール（JSONlint等）を使って、形式が正しいかを検証してください。
+GitHub API は、リクエストヘッダー X-GitHub-Api-Version で API バージョンを指定します。公式ドキュメントのとおり、存在しないバージョンを指定すると、400 とともにそのバージョンがサポートされていない旨のメッセージが返ります。
 
 ```bash
-echo '{"title": "Test", "body": "Body"}' | python3 -m json.tool
+curl -H "Authorization: Bearer <your-github-token>" \
+  -H "X-GitHub-Api-Version: <APIバージョン>" \
+  https://api.github.com/repos/<owner>/<repo>
 ```
 
-次に、GitHub [API](/glossary/api/)の公式ドキュメント内の「[REST](/glossary/rest/) [API](/glossary/api/) reference」から、使用している[エンドポイント](/glossary/エンドポイント/)のページを開き、必須[パラメータ](/glossary/パラメータ/)と各[パラメータ](/glossary/パラメータ/)の型・制約を改めて確認してください。
+指定できる値は公式ドキュメントの API バージョン一覧で確認してください。日付の書式の誤記や、思い込みの値をそのまま書くことが原因になります。なお、かつて使われていた Accept ヘッダーによるバージョン指定とは仕組みが異なるため、古い記事のコードを流用する場合は注意が必要です。
 
-それでも解決しない場合は、GitHub's Community Forum（discussions.github.com）またはGitHub Support に問い合わせることをお勧めします。[リクエスト](/glossary/リクエスト/)の実例を示すことで、より具体的なアドバイスが得られます。
+## 切り分けの順序
+
+1. 応答の message を読む。Validation Failed / Invalid request なら 422 の問題として切り替える（[422 の記事](/posts/github_api_422/)）。Bad credentials なら 401。
+2. Problems parsing JSON なら、送信している本文そのものを取り出して JSON 検証にかける（python3 -m json.tool など）。プログラムからの送信なら、直列化の有無を確認する。
+3. Body should be a JSON object なら、本文の先頭が { で始まるオブジェクトかを確認する。直列化を2回していないかを確認する。
+4. バージョン未サポートのメッセージなら、X-GitHub-Api-Version の値を公式の一覧と突き合わせる。
+
+## 確認コマンド集
+
+```bash
+# 1. 本文の JSON 検証（送信前に必ず通す）
+python3 -m json.tool < body.json
+
+# 2. 検証済みファイルから送信し、応答ヘッダーごと確認
+curl -i -X POST https://api.github.com/repos/<owner>/<repo>/issues \
+  -H "Authorization: Bearer <your-github-token>" \
+  --data @body.json
+
+# 3. 実際に何が送信されているかを確認（リクエスト内容の表示）
+curl -v -X POST https://api.github.com/repos/<owner>/<repo>/issues \
+  -H "Authorization: Bearer <your-github-token>" \
+  --data @body.json 2>&1 | grep -A5 "^>"
+```
+
+## Editor's Note
+
+400 と 422 の境界を1つの流れで示す実例として、GitHub 公式コミュニティの議論があります（[github actions repository dispatch "message": "Problems parsing JSON"](https://github.com/orgs/community/discussions/28224)、2022年）。Python からワークフローを起動する API を呼んだ報告者は、まず 400 と Problems parsing JSON を受け取ります（本文が JSON として届いていない状態）。次に json.dumps() で直列化した文字列を requests の json= 引数に渡したところ、今度は 422 と「... is not an object」が返りました（JSON としては読めるが、二重直列化により文字列が届いた状態）。最終的な解決は、辞書を json= に直接渡して直列化をライブラリに任せる形でした。エラーコードが 400 から 422 に変わったこと自体が「JSON として読めるようになった」という前進のサインだった、という点がこの実例の要点です。2022年の議論ですが、400 と 422 のこの境界は現行の公式トラブルシューティング文書の記述と一致しています。
+
+400 の対処は、パラメータの意味を考える前に、送信物が JSON としてどう届いているかを機械的に検証することから始まります。message の文言が調査の場所を正確に教えてくれるので、コードの数字だけで判断しないことが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
