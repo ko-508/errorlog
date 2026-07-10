@@ -170,3 +170,7 @@ docker login <your-account-id>.dkr.ecr.<your-region>.amazonaws.com
 docker login registry.internal.example.com:5000
 
 # その後
+
+---
+
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
