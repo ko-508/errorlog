@@ -1,14 +1,14 @@
 ---
 title: "GitHub API の 401 エラー：原因と解決策"
 date: 2026-01-01
-description: "GitHub APIで 401 Unauthorizedエラーが発生するのは、リクエストに対する認証が失敗した場合です。このエラーは、認証情報が完全に欠落している、形式が正しくない、または無効な状態を示しています。"
+description: "GitHub API の 401 Unauthorized は認証そのものの失敗です。message が Requires authentication なら認証情報が届いておらず、Bad credentials なら届いた値が正しくありません。ヘッダーの欠落、トークンの誤り・期限切れ・失効、環境変数の古いトークンの優先、という原因を文言から切り分けて解決します。"
 tags: ["GitHub API"]
 errorCode: "401"
-lastmod: 2026-05-31
+lastmod: 2026-07-11
 service: "GitHub API"
 error_type: "401"
 components: ["Personal Access Token", "Authorization header"]
-related_services: ["curl", "Python requests"]
+related_services: []
 trend_incident: true
 top_queries:
 - '401エラー'
@@ -16,202 +16,126 @@ top_queries:
 - 'github api 401'
 ---
 
+## 冒頭まとめ
+
+GitHub API の 401 Unauthorized は、認証そのものの失敗です。権限の不足ではありません（権限不足は GitHub では 404 または 403 として返ります）。401 の応答の message は2種類しかなく、これが調査の分岐点になります。Requires authentication なら、認証情報がそもそも GitHub に届いていません（原因1）。Bad credentials なら、認証情報は届いたものの、その値が正しくありません（原因2・3）。
+
+Bad credentials の正体は、トークンの誤記や期限切れ・失効のほか、「有効なトークンを設定し直したのに、別の場所（環境変数など）に残った古いトークンが優先され続けている」という取り違えが定番です。どの文言か、そして実際にどのトークンが送られているかを確かめることから始めます。
+
 ## エラーの概要
 
-GitHub [API](/glossary/api/)で 401 Unauthorized[エラー](/glossary/エラー/)が発生するのは、[リクエスト](/glossary/リクエスト/)に対する[認証](/glossary/認証/)が失敗した場合です。この[エラー](/glossary/エラー/)は、認証情報が完全に欠落している、形式が正しくない、または無効な状態を示しています。GitHub [API](/glossary/api/)を呼び出すときに最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、適切な認証情報を提供することで解決できます。
+401 の応答は次の2種類です（いずれも実際の応答をそのまま確認したものです）。
 
-## 実際のエラーメッセージ例
+認証情報なしで認証必須のエンドポイントにアクセスした場合：
 
-curl[コマンド](/glossary/コマンド/)で認証情報なしでGitHub [API](/glossary/api/)にアクセスした場合：
-
-```bash
-$ curl https://api.github.com/user
+```json
 {
   "message": "Requires authentication",
-  "documentation_url": "https://docs.github.com/rest/reference/users#get-the-authenticated-user"
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
 }
 ```
 
-PythonのrequestsライブラリでPersonal Access Token（PAT）が無効な場合：
+認証情報は送ったが、値が正しくない場合：
 
 ```json
 {
   "message": "Bad credentials",
-  "documentation_url": "https://docs.github.com/rest"
+  "documentation_url": "https://docs.github.com/rest",
+  "status": "401"
 }
 ```
+
+ヘッダーの形式について、公式ドキュメントは、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでもトークンを渡せる（JSON Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の API はユーザー名とパスワードによる認証に対応していないため、パスワードでの認証を試みる古いコードは動きません。トークンによる認証が前提です。
+
+## まず最初に：message を読み、最小のリクエストで再現する
+
+まず message の文言で、認証情報が「届いていない」のか「届いたが不正」なのかを確定します。次に、問題を最小の形で再現します。認証済みユーザー自身の情報を返す /user エンドポイントが最適です。
+
+```bash
+curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
+```
+
+これが 200 なら、トークン自体は有効です。アプリケーション側で401が出ているなら、アプリケーションが実際に送っているトークンがこれと同じものではない、という取り違え（原因3）に的が絞られます。これが 401 Bad credentials なら、トークンの値そのものの問題です（原因2）。
 
 ## よくある原因と解決手順
 
-### 原因1：Personal Access Token（PAT）が無効または期限切れ
+### 原因1：認証情報がそもそも送られていない（Requires authentication）
 
-GitHub [API](/glossary/api/)の[認証](/glossary/認証/)に使用するPATが期限切れになったり、削除されたりすると401[エラー](/glossary/エラー/)が発生します。PATには最大100年の有効期限を設定できますが、明示的に有効期限を設定している場合は有効期限の管理が必要です。
+Authorization ヘッダーが付いていないリクエストが、認証必須のエンドポイントに届いています。コードでヘッダーを付け忘れているか、条件分岐によってヘッダーなしの経路を通っているのが典型です。ライブラリによっては、トークンが未設定のときに Authorization ヘッダー自体を送らない作りになっているため、「設定したつもりのトークンが読み込まれていない」場合もこの文言になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）:**
-
-```bash
-# 3年前に作成した期限切れのPATを使用
-$ curl -H "Authorization: token ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx" \
-  https://api.github.com/user
-# 401 Unauthorized
-```
-
-**After（修正後）:**
-
-新しいPATを生成します。GitHubの設定画面で「Settings > Developer settings > Personal access tokens」に移動し、「Generate new token」をクリックします。必要なscopeを選択（通常は`repo`と`user`）し、新しい[トークン](/glossary/トークン/)を生成してください。
+**Before（ヘッダーなし）：**
 
 ```bash
-# 新しく生成したPATを使用
-$ curl -H "Authorization: token <your-github-token>" \
-  https://api.github.com/user
+curl -i https://api.github.com/user
+# → 401 Requires authentication
 ```
 
-### 原因2：Authorizationヘッダーの形式が正しくない
-
-GitHub [API](/glossary/api/)は特定の形式でAuthorization[ヘッダー](/glossary/ヘッダー/)を受け取ります。`Bearer`ではなく`token`キーワードを使用する必要があります。また、[ヘッダー](/glossary/ヘッダー/)名や値のスペース配置のミスも401[エラー](/glossary/エラー/)の原因になります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）:**
+**After（ヘッダーを付与）：**
 
 ```bash
-# 間違った形式1：Bearerを使用
-curl -H "Authorization: Bearer ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx" \
-  https://api.github.com/user
-
-# 間違った形式2：スペースが足りない
-curl -H "Authorization:token ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx" \
-  https://api.github.com/user
-
-# 間違った形式3：トークンをクォートで囲んでいる
-curl -H 'Authorization: token "ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx"' \
-  https://api.github.com/user
+curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
+# → 200 OK
 ```
 
-**After（修正後）:**
+実際にヘッダーが送られているかは、curl の -v で送信内容を表示して、リクエストに Authorization 行が含まれるかで確認できます。
+
+### 原因2：トークンの値が正しくない（Bad credentials）
+
+ヘッダーは届いていますが、値が有効なトークンではありません。確認すべきは次の点です。第一に、値の誤り。コピーの取りこぼしや前後の余分な文字が典型です。第二に、空の値。環境変数が未定義のまま "Authorization: Bearer $TOKEN" のようにヘッダーを組み立てると、値が空のヘッダーが送られ、実測でもこの場合の応答は Bad credentials になります。「設定したはずなのに Bad credentials」の一定数はこれです。第三に、期限切れと失効です。公式のトラブルシューティング文書も、トークンが期限切れ・取り消し済みでないことを確認項目に挙げています。fine-grained personal access token には有効期限があるため、ある日を境に突然401が始まった場合はまず期限を疑います。トークンの状態は GitHub の設定画面（Settings > Developer settings > Personal access tokens）で確認・再生成できます。
+
+### 原因3：意図したものと違うトークンが使われている（Bad credentials）
+
+トークンを正しく再設定したのに Bad credentials が続く場合、アプリケーションが参照している認証情報が、いま設定したものと別である可能性が高いです。典型例は環境変数です。GitHub CLI（gh）のように、環境変数（GITHUB_TOKEN や GH_TOKEN）が設定されていると、保存済みのログイン情報より環境変数を優先する道具があります。この場合、gh auth login で何度ログインし直しても、環境変数に残った古いトークンが送られ続け、401が再発します。CI 環境では、Secrets に登録された古いトークンや、別のサービス用に設定したままのトークン変数（例として、パッケージ管理ツール用に設定して忘れられたトークン）が同じ症状を起こします。GitHub Enterprise と github.com の取り違え（接続先と違うホスト用のトークンを送っている）も同類です。
+
+対処は、実際に使われているトークンの特定です。
 
 ```bash
-# 正しい形式：tokenキーワード＋スペース＋トークン
-curl -H "Authorization: token ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx" \
-  https://api.github.com/user
+# トークン系の環境変数が設定されていないかを確認
+env | grep -iE "github|gh_" | sed 's/=.*/=（値は非表示）/'
 
-# Pythonでの正しい例
-import requests
-headers = {
-    "Authorization": "token ghp_xxxxxxxxxxxxxxxxxxxxxxxxxx",
-    "Accept": "application/vnd.github.v3+json"
-}
-response = requests.get("https://api.github.com/user", headers=headers)
+# GitHub CLI の場合、どの認証情報が使われているかを確認
+gh auth status
 ```
 
-### 原因3：トークンのscope不足
+環境変数が優先されている場合は、その変数を更新するか削除したうえで、再度最小のリクエスト（/user）で確認します。
 
-生成したPATのscopeが制限されていると、特定の[エンドポイント](/glossary/エンドポイント/)にアクセスするときに401[エラー](/glossary/エラー/)が発生します。例えば、`repo`[スコープ](/glossary/スコープ/)なしではプライベートリポジトリへのアクセスができません。
+## 補足：401を繰り返すと一時的に403に変わる
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
+公式ドキュメントによると、短時間に無効な認証情報でのリクエストを繰り返すと、GitHub はそのユーザーの認証の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効なトークンのまま自動リトライを回し続けると、正しいトークンに直した後もしばらく締め出される、という二次被害につながります。401 が出たらリトライで押し切ろうとせず、先に原因を直してください。
+
+なお、認証は通っているのに操作が拒否される場合のコードは401ではありません。classic トークンの scope 不足や非公開リソースへの無権限アクセスは 404（[404 の記事](/posts/github_api_404/)）、GitHub App・fine-grained トークンの権限不足やレート制限は 403（[403 の記事](/posts/github_api_403/)）です。
+
+## 切り分けの順序
+
+1. message を読む。Requires authentication なら原因1（届いていない）、Bad credentials なら原因2・3（値の問題）。
+2. curl の /user で最小再現する。手元のトークンで 200 が返るなら、アプリケーションが送っているトークンとの取り違え（原因3）。401 のままなら値・期限の問題（原因2）。
+3. 原因3 の場合、環境変数と設定を洗い出し、実際に使われている認証情報を特定して更新する。
+4. 修正後、無効トークンでのリトライを止めてから再確認する（繰り返しによる一時的な403を避けるため）。
+
+## 確認コマンド集
 
 ```bash
-# `repo`スコープなしのPATで、プライベートリポジトリにアクセス
-curl -H "Authorization: token <your-github-token>" \
-  https://api.github.com/repos/<owner>/<private-repo>
-# 401 Unauthorized
+# 1. トークンの有効性を最小構成で確認
+curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
+
+# 2. Authorization ヘッダーが実際に送信されているかを確認
+curl -v -H "Authorization: Bearer <your-github-token>" \
+  https://api.github.com/user 2>&1 | grep -i "^> authorization"
+
+# 3. トークン系の環境変数の有無を確認（値は表示しない）
+env | grep -iE "github|gh_" | sed 's/=.*/=（値は非表示）/'
+
+# 4. GitHub CLI が使っている認証情報を確認
+gh auth status
 ```
 
-**After（修正後）:**
+## Editor's Note
 
-GitHubの「Settings > Developer settings > Personal access tokens」で既存[トークン](/glossary/トークン/)を選択し、必要なscopeを追加します。または新しい[トークン](/glossary/トークン/)を生成する際に適切なscopeを選択してください。
+原因3の実例として、GitHub CLI の公式リポジトリへの報告があります（[401 Error at every turn](https://github.com/cli/cli/issues/10032)、2024年12月）。gh のコマンドを実行するたびに HTTP 401: Bad credentials が出て、gh auth login でログインし直しても少し経つとまた再発する、という報告です。報告者の環境では環境変数 GITHUB_TOKEN に値が設定されており、gh は保存済みのログインよりこの環境変数を優先するため、環境変数を消す（set GITHUB_TOKEN=）ことでその場をしのぎ、別の作業でまた設定されると再発する、という繰り返しが記録されています。「ログインは成功しているのに Bad credentials」という一見矛盾した症状の正体が、別の場所にある古い認証情報だったという典型例です。
 
-```bash
-# 適切なスcopeを持つPATで同じリクエスト
-curl -H "Authorization: token <your-github-token>" \
-  https://api.github.com/repos/<owner>/<private-repo>
-```
-
-### 原因4：環境変数またはコンフィグの認証情報がセットされていない
-
-GitHub [CLI](/glossary/cli/)や[Git](/glossary/git/)自体を使用している場合、[環境変数](/glossary/環境変数/)や`~/.gitconfig`ファイルに認証情報が設定されていないと401[エラー](/glossary/エラー/)が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きる状態）:**
-
-```bash
-# GitHub CLIが認証されていない状態
-$ gh api user
-# Error: HTTP 401: Requires authentication
-```
-
-**After（修正後）:**
-
-```bash
-# GitHub CLIで認証
-$ gh auth login
-# プロンプトに従い、GitHub.comを選択、
-# HTTPS protocolを選択、PATを入力してログイン
-
-# その後、APIコマンドが使用可能に
-$ gh api user
-```
-
-## ツール固有の注意点
-
-### GitHub APIのバージョン指定
-
-GitHubは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は認証要件が異なる場合があります。[REST](/glossary/rest/) [API](/glossary/api/) v3を使用する際は、`Accept`[ヘッダー](/glossary/ヘッダー/)で明示的に[バージョン](/glossary/バージョン/)を指定することが推奨されます。
-
-```bash
-curl -H "Authorization: token <PAT>" \
-  -H "Accept: application/vnd.github.v3+json" \
-  https://api.github.com/user
-```
-
-### GraphQL APIの認証
-
-GitHub [GraphQL](/glossary/graphql/) [API](/glossary/api/)は、Authorization[ヘッダー](/glossary/ヘッダー/)の形式が[REST](/glossary/rest/) [API](/glossary/api/)と同じですが、[エンドポイント](/glossary/エンドポイント/)が異なります。[GraphQL](/glossary/graphql/) [API](/glossary/api/)使用時も同じPATが有効ですが、[リクエスト](/glossary/リクエスト/)形式に注意が必要です。
-
-```bash
-curl -X POST \
-  -H "Authorization: token <PAT>" \
-  -H "Content-Type: application/json" \
-  -d '{"query": "{ viewer { login } }"}' \
-  https://api.github.com/graphql
-```
-
-### Organization内でのAPI利用
-
-OrganizationのプライベートリポジトリやOrganizationメンバーとしてのアクセスが必要な場合、PAT生成時に`read:org`[スコープ](/glossary/スコープ/)を追加する必要があります。
-
-## それでも解決しない場合
-
-### 確認すべき手順
-
-1. **[トークン](/glossary/トークン/)の有効性確認**：以下の[コマンド](/glossary/コマンド/)で現在の[トークン](/glossary/トークン/)が有効か確認してください。
-
-```bash
-curl -H "Authorization: token <PAT>" https://api.github.com/user
-```
-
-2. **[トークン](/glossary/トークン/)のscope確認**：[トークン](/glossary/トークン/)生成時に付与されたscopeを確認してください。
-
-```bash
-curl -H "Authorization: token <PAT>" https://api.github.com/ \
-  | grep -i "x-oauth-scopes"
-```
-
-3. **[ネットワーク](/glossary/ネットワーク/)の確認**：[プロキシ](/glossary/プロキシ/)や[ファイアウォール](/glossary/ファイアウォール/)経由でGitHubに接続している場合、[リクエスト](/glossary/リクエスト/)が正しく転送されているか確認してください。
-
-### 公式ドキュメント参照
-
-- [GitHub REST API authentication](https://docs.github.com/rest/authentication)：認証方法の詳細
-- [Creating a personal access token](https://docs.github.com/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)：PAT作成ガイド
-- [GitHub API Rate Limits](https://docs.github.com/rest/rate-limit)：レート制限関連情報
-
-### デバッグのコツ
-
-詳細な[レスポンス](/glossary/レスポンス/)を確認するには、verbose モードでcurlを実行してください。
-
-```bash
-curl -v -H "Authorization: token <PAT>" https://api.github.com/user
-```
-
-GitHub [API](/glossary/api/)の応答[ヘッダー](/glossary/ヘッダー/)に含まれる`X-RateLimit-*`や`X-GitHub-Request-Id`といった情報は、GitHub Supportへの問い合わせ時に役立ちます。これらの情報を記録しておくと、問題解決が効率的になります。
+401 は、認証情報が「届いていない」のか「届いたが不正」なのかを message が最初に教えてくれるエラーです。トークンを作り直す前に、いま実際に何が送られているのかを確かめることが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
