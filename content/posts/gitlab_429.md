@@ -192,7 +192,7 @@ curl -i -H "PRIVATE-TOKEN: <your-access-token>" \
 
 - [エラー](/glossary/エラー/)が発生する時間帯と頻度
 - 使用している[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)
-- [リクエスト](/glossary/リクエスト/)送信元のIP アドレスや[トークン](/glossary/トークン/)種別
+- [リクエスト](/glossary/リクエスト/)送信元の[IP アドレス](/glossary/ip-アドレス/)や[トークン](/glossary/トークン/)種別
 - [インスタンス](/glossary/インスタンス/)のGitLab [バージョン](/glossary/バージョン/)
 
 ---

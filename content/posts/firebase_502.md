@@ -90,7 +90,7 @@ exports.processData = functions.https.onRequest((req, res) => {
 
 ### 原因3：Cloud Functionsがタイムアウトしている
 
-Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)時間（デフォルト60秒）を超える処理を実行すると、実行がキャンセルされて502[エラー](/glossary/エラー/)が返されます。
+Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)時間（デフォルト60秒）を超える処理を実行すると、実行が[キャンセル](/glossary/キャンセル/)されて502[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）:**
 ```bash

@@ -143,7 +143,7 @@ ansible ALL=(ALL) NOPASSWD:/bin/systemctl restart networking, /bin/systemctl sta
 
 ### 原因3：ファイルシステムのパーミッションが操作を拒否している
 
-ターゲットホスト上のファイルやディレクトリに対して、接続ユーザーが読み取り・書き込み[権限](/glossary/権限/)を持たないケースです。sudo[権限](/glossary/権限/)があっても、特定のファイル操作が明示的に拒否されることがあります。
+ターゲットホスト上のファイルや[ディレクトリ](/glossary/ディレクトリ/)に対して、接続ユーザーが読み取り・書き込み[権限](/glossary/権限/)を持たないケースです。sudo[権限](/glossary/権限/)があっても、特定のファイル操作が明示的に拒否されることがあります。
 
 **修正前（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -159,7 +159,7 @@ ansible ALL=(ALL) NOPASSWD:/bin/systemctl restart networking, /bin/systemctl sta
       become: true
 ```
 
-ターゲットホスト上で、`/opt/myapp`ディレクトリのパーミッションが不適切：
+ターゲットホスト上で、`/opt/myapp`[ディレクトリ](/glossary/ディレクトリ/)のパーミッションが不適切：
 
 ```bash
 # /opt/myapp のパーミッションが 700（オーナーのみアクセス可能）

@@ -249,7 +249,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 **コミュニティリソース：**
 
-GitLab公式フォーラム（`https://forum.gitlab.com`）やGitHub Issues（GitLab Runnerなどのオープンソースコンポーネントの場合）でも同様の問題が報告されていないか検索してみてください。特に「404」「Not Found」「[API](/glossary/api/)」を組み合わせたキーワード検索が有効です。
+GitLab公式フォーラム（`https://forum.gitlab.com`）やGitHub Issues（GitLab Runnerなどのオープンソースコンポーネントの場合）でも同様の問題が報告されていないか検索してみてください。特に「404」「Not Found」「[API](/glossary/api/)」を組み合わせた[キーワード](/glossary/キーワード/)検索が有効です。
 
 ---
 

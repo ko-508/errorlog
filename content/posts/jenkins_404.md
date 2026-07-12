@@ -67,7 +67,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/api/json" \
 
 ### 原因2：フォルダ内のジョブのURLパスが間違っている
 
-Jenkinsでフォルダを使用してジョブを整理している場合、[URL](/glossary/url/)[パス](/glossary/パス/)は `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか検索されずに404[エラー](/glossary/エラー/)が発生します。
+Jenkinsで[フォルダ](/glossary/フォルダ/)を使用してジョブを整理している場合、[URL](/glossary/url/)[パス](/glossary/パス/)は `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか検索されずに404[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -86,7 +86,7 @@ curl -X POST "http://localhost:8080/job/project-folder/job/deploy-test/build" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-ネストされたフォルダがある場合は、各階層を `job/` で連結します。例えば、構造が「parent-folder > child-folder > build-job」の場合、[URL](/glossary/url/)は `/job/parent-folder/job/child-folder/job/build-job` となります。
+ネストされた[フォルダ](/glossary/フォルダ/)がある場合は、各階層を `job/` で連結します。例えば、構造が「parent-folder > child-folder > build-job」の場合、[URL](/glossary/url/)は `/job/parent-folder/job/child-folder/job/build-job` となります。
 
 ### 原因3：ビルド番号が存在しないか削除されている
 
@@ -119,7 +119,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/42/api/json" \
 
 **Jenkinsの宣言型パイプラインでのジョブ参照：**
 
-Jenkinsfileを使用するパイプラインジョブでは、他のジョブをビルドパラメータで参照する場合があります。このとき、ジョブ名を動的に構成する際は、フォルダ構造を含めた完全な[パス](/glossary/パス/)を指定する必要があります。
+Jenkinsfileを使用するパイプラインジョブでは、他のジョブをビルドパラメータで参照する場合があります。このとき、ジョブ名を動的に構成する際は、[フォルダ](/glossary/フォルダ/)構造を含めた完全な[パス](/glossary/パス/)を指定する必要があります。
 
 ```groovy
 // Before: フォルダを省略してビルド失敗
@@ -175,7 +175,7 @@ curl -I "http://localhost:8080/job/MyBuildJob/api/json" \
 **公式ドキュメント参照：**
 
 - Jenkins [REST](/glossary/rest/) [API](/glossary/api/): https://www.jenkins.io/doc/book/using/remote-access-api/
-- ジョブの構成とフォルダ: https://www.jenkins.io/doc/book/managing/organizing-jobs/
+- ジョブの構成と[フォルダ](/glossary/フォルダ/): https://www.jenkins.io/doc/book/managing/organizing-jobs/
 - Jenkinsfileでのジョブ呼び出し: https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/
 
 これらの手段で原因を特定できない場合は、Jenkinsの[バージョン](/glossary/バージョン/)が最新であるか確認し、プラグインの競合がないか確認することも有効です。

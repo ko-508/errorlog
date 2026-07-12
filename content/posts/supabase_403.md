@@ -12,7 +12,7 @@ related_services: ["JavaScript", "SQL"]
 ---
 ## エラーの概要
 
-Supabase の 403 [エラー](/glossary/エラー/)は、Row Level Security（RLS）またはその[ポリシー](/glossary/ポリシー/)によって[データベース](/glossary/データベース/)へのアクセスが拒否されたことを示します。これは権限不足を意味する最も一般的な[エラー](/glossary/エラー/)で、[テーブル](/glossary/テーブル/)に設定されたセキュリティルールが、現在の[リクエスト](/glossary/リクエスト/)を許可していない状態です。特にフロントエンド側で認証済みユーザーが操作する場合に頻出します。
+Supabase の 403 [エラー](/glossary/エラー/)は、Row Level Security（RLS）またはその[ポリシー](/glossary/ポリシー/)によって[データベース](/glossary/データベース/)へのアクセスが拒否されたことを示します。これは権限不足を意味する最も一般的な[エラー](/glossary/エラー/)で、[テーブル](/glossary/テーブル/)に設定されたセキュリティルールが、現在の[リクエスト](/glossary/リクエスト/)を許可していない状態です。特に[フロントエンド](/glossary/フロントエンド/)側で認証済みユーザーが操作する場合に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -133,7 +133,7 @@ CREATE POLICY "Users can access own profile"
 
 ### 原因3：service_role キーが必要な管理操作を anon キーで実行している
 
-Supabase では 2 種類の [API](/glossary/api/) キーが存在します。`anon`（匿名キー）はフロントエンドで使用し、RLS [ポリシー](/glossary/ポリシー/)の制約を受けます。一方、`service_role`（サービスロールキー）は[バックエンド](/glossary/バックエンド/)限定で、RLS をバイパスして操作できます。[管理者権限](/glossary/管理者権限/)の操作（例：ユーザーの一括削除、[ポリシー](/glossary/ポリシー/)を無視したデータ更新）を anon キーで実行しようとすると 403 [エラー](/glossary/エラー/)になります。
+Supabase では 2 種類の [API](/glossary/api/) キーが存在します。`anon`（匿名キー）は[フロントエンド](/glossary/フロントエンド/)で使用し、RLS [ポリシー](/glossary/ポリシー/)の制約を受けます。一方、`service_role`（サービスロールキー）は[バックエンド](/glossary/バックエンド/)限定で、RLS をバイパスして操作できます。[管理者権限](/glossary/管理者権限/)の操作（例：ユーザーの一括削除、[ポリシー](/glossary/ポリシー/)を無視したデータ更新）を anon キーで実行しようとすると 403 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -229,7 +229,7 @@ WHERE tablename = 'your_table_name';
 
 **[バックアップ](/glossary/バックアップ/)としての確認**
 
-- フロントエンドで使用している [API](/glossary/api/) キーが本当に `anon キー` か `service_role キー` か再確認
+- [フロントエンド](/glossary/フロントエンド/)で使用している [API](/glossary/api/) キーが本当に `anon キー` か `service_role キー` か再確認
 - `auth.uid()` の代わりに硬定値で[テスト](/glossary/テスト/)し、[ポリシー](/glossary/ポリシー/)評価自体は正常に機能しているか検証
 - 公式ドキュメント（https://supabase.com/docs/guides/auth/row-level-security）を参照し、最新のベストプラクティスを確認
 

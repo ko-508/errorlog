@@ -38,7 +38,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 ### 原因1：タスク内で参照するファイルまたはディレクトリが存在しない
 
-ターゲットホスト上にファイルやディレクトリが存在しない場合、Ansible はそのリソースを操作できません。特に `copy` モジュールで `src` パラメーターに指定したファイル、あるいは `stat` や `find` モジュールで検索対象の[パス](/glossary/パス/)が間違っていると発生します。
+ターゲットホスト上にファイルや[ディレクトリ](/glossary/ディレクトリ/)が存在しない場合、Ansible はそのリソースを操作できません。特に `copy` モジュールで `src` パラメーターに指定したファイル、あるいは `stat` や `find` モジュールで検索対象の[パス](/glossary/パス/)が間違っていると発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -107,7 +107,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 ### 原因3：インベントリに登録したホストに接続できない
 
-インベントリに記載したホストの IP アドレスやホスト名が誤っている、あるいは[ネットワーク](/glossary/ネットワーク/)接続が不可能な場合、Ansible はターゲットホストへアクセスできず 404 相当の[エラー](/glossary/エラー/)が発生します。
+インベントリに記載したホストの [IP アドレス](/glossary/ip-アドレス/)やホスト名が誤っている、あるいは[ネットワーク](/glossary/ネットワーク/)接続が不可能な場合、Ansible はターゲットホストへアクセスできず 404 相当の[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -118,7 +118,7 @@ web01 ansible_host=192.168.1.999
 web02 ansible_host=invalid.hostname
 ```
 
-無効な IP アドレスやホスト名が指定されており、Ansible が接続できません。
+無効な [IP アドレス](/glossary/ip-アドレス/)やホスト名が指定されており、Ansible が接続できません。
 
 **After（修正後）：**
 
@@ -143,7 +143,7 @@ web02 ansible_host=webserver02.example.com
       when: ping_result is succeeded
 ```
 
-まず `ansible <ホスト名> -m ping` [コマンド](/glossary/コマンド/)を実行してホストへの接続を確認します。接続できない場合は、ホスト名、IP アドレス、[ネットワーク](/glossary/ネットワーク/)設定を見直してください。
+まず `ansible <ホスト名> -m ping` [コマンド](/glossary/コマンド/)を実行してホストへの接続を確認します。接続できない場合は、ホスト名、[IP アドレス](/glossary/ip-アドレス/)、[ネットワーク](/glossary/ネットワーク/)設定を見直してください。
 
 ## ツール固有の注意点
 

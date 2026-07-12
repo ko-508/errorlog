@@ -168,7 +168,7 @@ Minikubeはデフォルトで `~/.kube/config` に接続情報を自動的に書
 
 **ドライバー固有の問題**
 
-Minikubeはdocker、vm、hyperkit など複数のドライバーで動作します。ドライバーを変更した場合、クラスターの内部IP アドレスや[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号が変わることがあります。この場合、kubeconfig も自動的に更新されますが、手動でドライバーを切り替えた場合は `minikube update-context` を明示的に実行してください。
+Minikubeはdocker、vm、hyperkit など複数のドライバーで動作します。ドライバーを変更した場合、クラスターの内部[IP アドレス](/glossary/ip-アドレス/)や[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号が変わることがあります。この場合、kubeconfig も自動的に更新されますが、手動でドライバーを切り替えた場合は `minikube update-context` を明示的に実行してください。
 
 ```bash
 # 現在のドライバー確認

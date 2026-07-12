@@ -117,7 +117,7 @@ for chunk in chunks:
 
 ### 原因3：アカウントの利用上限（クォータ）に達している
 
-[API](/glossary/api/)キーのクォータが設定額に達したり、無料トライアルの期限が切れたりすると、「quota_limit_exceeded」というコードで429[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)キーのクォータが設定額に達したり、[無料トライアル](/glossary/無料トライアル/)の期限が切れたりすると、「quota_limit_exceeded」というコードで429[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

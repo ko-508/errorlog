@@ -174,7 +174,7 @@ docker buildx build \
 
 ### Docker Hub のレート制限の詳細
 
-[Docker](/glossary/docker/) Hub の無認証ユーザーに対する[レート制限](/glossary/レート制限/)は IP アドレス単位で適用されます。複数マシン（[CI/CD](/glossary/ci-cd/) ランナーを含む）から同一 IP で[通信](/glossary/通信/)する場合、複合されてすぐに上限に達します。[Docker](/glossary/docker/) Pro または [Docker](/glossary/docker/) Team [サブスクリプション](/glossary/サブスクリプション/)を取得すれば制限が大幅に緩和されます。
+[Docker](/glossary/docker/) Hub の無認証ユーザーに対する[レート制限](/glossary/レート制限/)は [IP アドレス](/glossary/ip-アドレス/)単位で適用されます。複数マシン（[CI/CD](/glossary/ci-cd/) ランナーを含む）から同一 IP で[通信](/glossary/通信/)する場合、複合されてすぐに上限に達します。[Docker](/glossary/docker/) Pro または [Docker](/glossary/docker/) Team [サブスクリプション](/glossary/サブスクリプション/)を取得すれば制限が大幅に緩和されます。
 
 ### プライベートレジストリでのレート制限
 

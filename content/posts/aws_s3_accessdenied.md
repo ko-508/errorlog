@@ -94,7 +94,7 @@ aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 
 ### 原因2：バケットポリシーで Deny が明示的に設定されている
 
-バケットポリシーで `"Effect": "Deny"` が設定されている場合、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow されていても、より制限的な[ポリシー](/glossary/ポリシー/)が優先されて AccessDenied が発生します。IP アドレス制限やプリンシパル制限などの条件で無意識に Deny が適用されていることもあります。
+バケットポリシーで `"Effect": "Deny"` が設定されている場合、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow されていても、より制限的な[ポリシー](/glossary/ポリシー/)が優先されて AccessDenied が発生します。[IP アドレス](/glossary/ip-アドレス/)制限やプリンシパル制限などの条件で無意識に Deny が適用されていることもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

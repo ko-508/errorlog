@@ -66,7 +66,7 @@ services:
 
 ### 原因2：build コンテキストのパスが存在しない、または間違っている
 
-`build` キーでコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、ディレクトリが削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
+`build` キーでコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、[ディレクトリ](/glossary/ディレクトリ/)が削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -136,9 +136,9 @@ docker volume create shared_data
 
 [Docker](/glossary/docker/) Compose 環境では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose ファイルの `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
-さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定されたディレクトリ内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
+さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 
-[環境変数](/glossary/環境変数/)を `.env` ファイルで注入している場合、そのファイルが compose ファイルと同じディレクトリに存在し、[変数](/glossary/変数/)の評価が正しく行われているか確認することも忘れずに。
+[環境変数](/glossary/環境変数/)を `.env` ファイルで注入している場合、そのファイルが compose ファイルと同じ[ディレクトリ](/glossary/ディレクトリ/)に存在し、[変数](/glossary/変数/)の評価が正しく行われているか確認することも忘れずに。
 
 ## それでも解決しない場合
 

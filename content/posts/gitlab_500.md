@@ -136,7 +136,7 @@ sudo tail -f /var/log/gitlab/nginx/gitlab_access.log
 sudo tail -f /var/log/gitlab/postgresql/current
 ```
 
-[ログ](/glossary/ログ/)から「ActiveRecord」「Errno」「Connection refused」などのキーワードが見つかれば、そこが問題の根本原因です。
+[ログ](/glossary/ログ/)から「ActiveRecord」「Errno」「Connection refused」などの[キーワード](/glossary/キーワード/)が見つかれば、そこが問題の根本原因です。
 
 **GitLab.com の場合：**
 

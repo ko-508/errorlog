@@ -97,7 +97,7 @@ location /static/ {
 }
 ```
 
-`/static/css/style.css` への[リクエスト](/glossary/リクエスト/)では、一致部分 `/static/`（スラッシュ含む）が `/var/www/static` に置き換わり、結果は `/var/www/staticcss/style.css` になります。ディレクトリ区切りが消えてしまい、存在しない[パス](/glossary/パス/)として 404 が返ります。
+`/static/css/style.css` への[リクエスト](/glossary/リクエスト/)では、一致部分 `/static/`（スラッシュ含む）が `/var/www/static` に置き換わり、結果は `/var/www/staticcss/style.css` になります。[ディレクトリ](/glossary/ディレクトリ/)区切りが消えてしまい、存在しない[パス](/glossary/パス/)として 404 が返ります。
 
 **After（修正後）：**
 

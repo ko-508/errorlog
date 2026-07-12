@@ -98,7 +98,7 @@ services:
 
 ### 原因2：ボリュームマウント先ディレクトリのパーミッション不足
 
-[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先ディレクトリに書き込みを試みると、パーミッション不足で 403 [エラー](/glossary/エラー/)が発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
+[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先[ディレクトリ](/glossary/ディレクトリ/)に書き込みを試みると、パーミッション不足で 403 [エラー](/glossary/エラー/)が発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -224,7 +224,7 @@ docker compose up -d
 
 **Windows または macOS で [Docker](/glossary/docker/) Desktop を使用している場合：**
 
-[Docker](/glossary/docker/) Desktop のファイル共有設定で、マウント対象ディレクトリが許可リストに含まれている必要があります。設定→ Resources→ File Sharing で確認し、マウント先の[パス](/glossary/パス/)が含まれていることを確認してください。
+[Docker](/glossary/docker/) Desktop のファイル共有設定で、マウント対象[ディレクトリ](/glossary/ディレクトリ/)が許可リストに含まれている必要があります。設定→ Resources→ File Sharing で確認し、マウント先の[パス](/glossary/パス/)が含まれていることを確認してください。
 
 **Swarm モード使用時：**
 

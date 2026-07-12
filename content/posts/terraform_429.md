@@ -178,7 +178,7 @@ provider "google" {
 
 ### Terraform Cloud・Terraform Enterprise での実行
 
-Terraform Cloud を通じて実行する場合、[ワークスペース](/glossary/ワークスペース/)の実行キューがバックプレッシャー（負荷圧力）となり、複数の実行が積み重なると [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達しやすくなります。その場合は実行中の Terraform を明示的にキャンセルするか、[ワークスペース](/glossary/ワークスペース/)単位で apply タイミングをずらします。
+Terraform Cloud を通じて実行する場合、[ワークスペース](/glossary/ワークスペース/)の実行キューがバックプレッシャー（負荷圧力）となり、複数の実行が積み重なると [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達しやすくなります。その場合は実行中の Terraform を明示的に[キャンセル](/glossary/キャンセル/)するか、[ワークスペース](/glossary/ワークスペース/)単位で apply タイミングをずらします。
 
 ## それでも解決しない場合
 
