@@ -11,9 +11,7 @@ components: []
 related_services: []
 trend_incident: true
 top_queries:
-- 'github 400'
-- 'github api 400'
-- 'problems parsing json'
+- 'api400'
 ---
 
 ## 冒頭まとめ

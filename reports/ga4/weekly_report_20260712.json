@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-07-12",
+  "period": "2026-07-03 〜 2026-07-09",
+  "issue_title": "【週次レポート】GA4 + GSC ボトルネック (2026-07-12)",
+  "issue_body": "## 週次統合分析レポート（2026-07-03 〜 2026-07-09）\n\n### 1. GA4 トラフィックサマリー\n\n| 分類 | 指標名 | 今週の実績値 | 状態 |\n| :--- | :--- | :--- | :--- |\n| **集客** | アクティブユーザー数 | 13 | 🔴 要改善 |\n| | セッション数 | 15 | 🔴 要改善 |\n| | チャネル比率 | Organic Search: 87%, Direct: 13% | ✅ 良好 |\n| **ユーザー属性** | 日本国内率 | 84.6% | ✅ 良好 |\n| **動線** | 1セッションあたりPV数 | 1.07 | 🔴 要改善 |\n| | 離脱率 | 60.0% | ⚠️ 要注意 |\n| **品質** | フロントエラー発生数 | 0件 | ✅ エラーなし |\n\n### 2. Search Console サイト全体サマリー\n\n| 指標 | 今週 |\n| :--- | :--- |\n| 総インプレッション数 | 388 |\n| 総クリック数 | 6 |\n| 平均掲載順位 | 43.9 |\n| 平均CTR | 1.55% |\n\n### 3. Search Console ボトルネック記事\n\n判定条件: CTR < 1.5%（インプレッション≥10件）または掲載順位 11〜20 位停滞。\n\n| # | 対象URL | 表示回数 | CTR | 平均掲載順位 | 最多検索クエリ |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| 1 | `https://errorlog.jp/posts/aws_503/` | 12 | 0.00% | 70.8 | elb 503 |\n| 2 | `https://errorlog.jp/posts/docker_404/` | 12 | 0.00% | 5.8 | — |\n| 3 | `https://errorlog.jp/posts/stripe_402/` | 8 | 12.50% | 13.4 | ご利用のカードはこのタイプの購入に対応していません。 |\n\n---\n\n### ホスト別トラフィック内訳（混入監視）\n\n| ホスト | PV | PV% | UU | UU% |\n| :--- | :--- | :--- | :--- | :--- |\n| `zenn.dev` | 293 | 94.8% | 251 | 95.1% |\n| `errorlog.jp` | 16 | 5.2% | 13 | 4.9% |\n\n> メイン指標は errorlog.jp のみ（PV の 5.2%）で集計しています。\n\n> ⚠️ zenn.dev が全体の **94.8%** を占めています。メイン指標は errorlog.jp のみに絞って集計しています。\n\n---\n\n### ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n今週は除外対象なし（Singapore・5.0秒未満のセッションは検出されませんでした）。\n\n---\n\n### 国別分布（継続観測・ボット判定の参考。断定ではありません）\n\n| 国 | セッション数 | アクティブUU | エンゲージ率 | 平均エンゲージ時間(秒) | 直帰率 |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| Japan | 13 | 11 | 38.46% | 28.7 | 61.54% |\n| Poland ⚠️ | 1 | 1 | 100.00% | 8.0 | 0.00% |\n| United States ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n\n> ⚠️ は平均エンゲージ時間 < 10秒 または 直帰率 > 90% の国に付けた**参考フラグ**です（直帰率の閾値は仮値であり、運用しながら見直してください）。エラー解決サイトでは検索流入後すぐ離脱する正常な利用も多いため、この指標だけではボットと**断定できません**。毎週の推移を人が見て判断するための記録であり、自動的な除外・ブロックには使用していません。\n---\n\n## Content Gap Report\n\nCoverage Rate: **17.7%**\n\n| 分類 | 件数 |\n| :--- | :--- |\n| ✅ Covered   | 43 |\n| ⚠️ Partial   | 61 |\n| 🔴 Uncovered | 139 |\n| **合計**     | **243** |\n\n### Top Opportunities\n\n1. ⚠️ `401エラー` — Score: 63.8\n2. 🔴 `the model returned the following errors: data retention mode 'default' is not available for this model` — Score: 0.0\n3. 🔴 `\"const sellingpartnerapi = require('amazon-sp-api')\"` — Score: 0.0\n4. 🔴 `+429` — Score: 0.0\n5. 🔴 `429$` — Score: 0.0\n6. 🔴 `429+` — Score: 0.0\n7. 🔴 `bash とは linux` — Score: 0.0\n8. 🔴 `bash 読み方` — Score: 0.0\n9. 🔴 `bedrock the model returned the following errors: data retention mode 'default' is not available for this model` — Score: 0.0\n10. 🔴 `channel not found` — Score: 0.0\n\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。",
+  "bottlenecks_count": 3,
+  "metrics_snapshot": {
+    "active_users": 13,
+    "sessions": 15,
+    "organic_ratio": 0.8667,
+    "japan_ratio": 0.8462,
+    "pv_per_sess": 1.067,
+    "bounce_rate": 0.6,
+    "js_errors": 0
+  },
+  "gsc_summary": {
+    "impressions": 388,
+    "clicks": 6,
+    "ctr": 0.015463917525773196,
+    "position": 43.891752577319586
+  },
+  "ga4_host_summary": {
+    "primary_host": "errorlog.jp",
+    "hosts": [
+      {
+        "host": "zenn.dev",
+        "pv": 293,
+        "uu": 251,
+        "sessions": 331,
+        "pv_share": 0.9482,
+        "uu_share": 0.9508
+      },
+      {
+        "host": "errorlog.jp",
+        "pv": 16,
+        "uu": 13,
+        "sessions": 15,
+        "pv_share": 0.0518,
+        "uu_share": 0.0492
+      }
+    ],
+    "primary_host_pv_share": 0.0518,
+    "total_pv_all_hosts": 309,
+    "total_uu_all_hosts": 264
+  }
+}

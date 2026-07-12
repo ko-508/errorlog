@@ -7,6 +7,8 @@ tags: ["tool-guide"]
 service: "Firebase"
 components: ["Cloud Firestore", "Realtime Database", "Auth", "Hosting", "Cloud Functions", "Cloud Storage", "Analytics", "Crashlytics", "Remote Config"]
 related_services: ["AWS Amplify", "Supabase", "Parse", "Google Cloud Platform", "AppSync", "PostgreSQL", "IAM"]
+top_queries:
+- 'firebase vs haproxy'
 ---
 # Firebase とは
 

@@ -1,0 +1,58 @@
+{
+  "generated_at": "2026-07-12",
+  "site_url": "https://errorlog.jp/",
+  "period_days": 7,
+  "ctr_threshold": 0.015,
+  "pos_range": [
+    11.0,
+    20.0
+  ],
+  "total_pages": 58,
+  "bottlenecks": [
+    {
+      "page": "https://errorlog.jp/posts/stripe_402/",
+      "slug": "stripe_402",
+      "impressions": 8,
+      "clicks": 1,
+      "ctr": 0.125,
+      "position": 13.4,
+      "top_query": "ご利用のカードはこのタイプの購入に対応していません。",
+      "reasons": [
+        "掲載順位 13.4 位（停滞圏 11〜20 位）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/aws_503/",
+      "slug": "aws_503",
+      "impressions": 12,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 70.8,
+      "top_query": "elb 503",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.1%（インプレッション 12）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    },
+    {
+      "page": "https://errorlog.jp/posts/docker_404/",
+      "slug": "docker_404",
+      "impressions": 12,
+      "clicks": 0,
+      "ctr": 0,
+      "position": 5.8,
+      "top_query": "",
+      "reasons": [
+        "CTR 0.0% < 閾値 1.1%（インプレッション 12）"
+      ],
+      "ultra_priority": false,
+      "priority_score": 0.0,
+      "rewrite_eligible": false
+    }
+  ]
+}

@@ -11,8 +11,8 @@ components: []
 related_services: ["PHP-FPM", "SELinux", "AppArmor"]
 top_queries:
 - '403 forbidden nginx'
-- 'nginx 403 forbidden'
-- '403 forbidden nginx 原因'
+- '403 forbidden nginx とは'
+- 'forbidden nginx'
 ---
 
 ## 冒頭まとめ

@@ -10,7 +10,6 @@ error_type: "404"
 components: []
 related_services: []
 top_queries:
-- '404 not found nginx'
 - 'nginx 404'
 - 'nginx 404 not found'
 ---

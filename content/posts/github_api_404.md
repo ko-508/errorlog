@@ -11,9 +11,7 @@ components: []
 related_services: []
 trend_incident: true
 top_queries:
-- 'github 404 原因'
-- 'github api 404'
-- 'github api not found'
+- 'github private repository 404 not found unauthorized documentation'
 ---
 
 ## 冒頭まとめ

@@ -10,8 +10,6 @@ error_type: "503"
 components: []
 related_services: []
 top_queries:
-- '503 service temporarily unavailable nginx'
-- '503 nginx'
 - 'nginx 503'
 ---
 

@@ -12,8 +12,6 @@ related_services: []
 trend_incident: true
 top_queries:
 - 'github 502'
-- 'github 502 bad gateway'
-- 'github api 502'
 ---
 
 ## 冒頭まとめ
