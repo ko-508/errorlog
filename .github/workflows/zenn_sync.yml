@@ -5,6 +5,11 @@ on:
     workflows: ["Daily Article Publish", "Replenish Article Queue"]
     types: [completed]
   workflow_dispatch:
+    inputs:
+      slugs:
+        description: "同期する記事の slug (カンマ区切り。空なら従来どおり更新分を1件)"
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -34,8 +39,15 @@ jobs:
         env:
           ZENN_DIR: ${{ github.workspace }}/zenn-content
           ZENN_LIMIT: "1"
+          SYNC_SLUGS: ${{ github.event.inputs.slugs }}
         working-directory: errorlog
-        run: python scripts/zenn_sync.py
+        run: |
+          if [ -n "$SYNC_SLUGS" ]; then
+            # slug 指定時は件数制限なしで指定分のみ同期
+            python scripts/zenn_sync.py --slugs "$SYNC_SLUGS"
+          else
+            python scripts/zenn_sync.py
+          fi
 
       - name: Commit and push to zenn-content
         working-directory: zenn-content
