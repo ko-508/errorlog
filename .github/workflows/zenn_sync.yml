@@ -1,9 +1,8 @@
 name: Sync to Zenn
 
 on:
-  workflow_run:
-    workflows: ["Daily Article Publish", "Replenish Article Queue"]
-    types: [completed]
+  schedule:
+    - cron: "10 21 * * *"  # 毎日 06:10 JST。更新と非公開化のみ(新規公開は slugs 指定の手動実行のみ)
   workflow_dispatch:
     inputs:
       slugs:
@@ -17,13 +16,13 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
         with:
           path: errorlog
+          fetch-depth: 0  # 更新判定に git のコミット日時を使うため全履歴を取得
 
       - uses: actions/checkout@v4
         with:
