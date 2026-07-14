@@ -48,6 +48,63 @@
     return 1;
   }
 
+  function normalizeSearchText(value) {
+    return String(value || '').toLowerCase().replace(/\u3000/g, ' ').trim();
+  }
+
+  function extractErrorCode(query) {
+    var match = normalizeSearchText(query).match(/\b[1-5]\d{2}\b/);
+    return match ? match[0] : '';
+  }
+
+  function extractToolTerms(query, code) {
+    var normalized = normalizeSearchText(query);
+    if (code) normalized = normalized.replace(new RegExp('\\b' + code + '\\b', 'g'), ' ');
+    return normalized.split(/\s+/).filter(Boolean);
+  }
+
+  function exactCodeMatch(item, code) {
+    if (!code) return false;
+    return String(item.errorCode || '') === code;
+  }
+
+  function toolMatch(item, terms) {
+    if (!terms.length) return false;
+    var title = normalizeSearchText(item.title);
+    return terms.every(function (term) {
+      return title.indexOf(term) !== -1;
+    });
+  }
+
+  function searchRank(hit, queryCode, toolTerms) {
+    var item = hit.item;
+    var codeMatched = exactCodeMatch(item, queryCode);
+    var toolMatched = toolMatch(item, toolTerms);
+
+    if (queryCode) {
+      if (codeMatched && toolMatched) return 0;
+      if (codeMatched) return 1;
+      if (toolMatched) return 2;
+    }
+    return 3 + articlePriority(item);
+  }
+
+  function compareSearchHits(a, b, queryCode, toolTerms) {
+    var ra = searchRank(a, queryCode, toolTerms);
+    var rb = searchRank(b, queryCode, toolTerms);
+    if (ra !== rb) return ra - rb;
+
+    var pa = articlePriority(a.item), pb = articlePriority(b.item);
+    if (pa !== pb) return pa - pb;
+
+    if (!queryCode && toolTerms.length) {
+      var ta = toolMatch(a.item, toolTerms), tb = toolMatch(b.item, toolTerms);
+      if (ta !== tb) return ta ? -1 : 1;
+    }
+
+    return (a.score || 0) - (b.score || 0);
+  }
+
   var timer;
   input.addEventListener('input', function () {
     clearTimeout(timer);
@@ -62,12 +119,12 @@
   function doSearch() {
     var q = input.value.trim();
     if (!q || !fuse) { hide(); return; }
+    var queryCode = extractErrorCode(q);
+    var toolTerms = extractToolTerms(q, queryCode);
     var hits = fuse.search(q, { limit: 20 });
     if (!hits.length) { hide(); return; }
     hits.sort(function (a, b) {
-      var pa = articlePriority(a.item), pb = articlePriority(b.item);
-      if (pa !== pb) return pa - pb;
-      return (a.score || 0) - (b.score || 0);
+      return compareSearchHits(a, b, queryCode, toolTerms);
     });
     resList.innerHTML = '';
     hits.slice(0, 8).forEach(function (h) {
