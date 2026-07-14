@@ -8,6 +8,7 @@ from __future__ import annotations
 import calendar
 import json
 import os
+import subprocess
 import sys
 from collections import Counter
 from datetime import date, datetime, timedelta
@@ -18,6 +19,152 @@ import weekly_report as weekly
 BASE = weekly.BASE
 REPORTS_DIR = weekly.REPORTS_DIR
 TODAY = date.today()
+CONFIG_PATH = BASE / "data" / "report_config.json"
+METRIC_KEYS = {
+    "active_users": None,
+    "sessions": None,
+    "organic_sessions": None,
+    "direct_sessions": None,
+    "organic_ratio": None,
+    "japan_ratio": None,
+    "pv_per_sess": None,
+    "avg_engagement_time": None,
+    "bounce_rate": None,
+    "js_errors": None,
+    "channel_str": "データなし",
+}
+
+
+def load_report_config() -> dict:
+    if not CONFIG_PATH.exists():
+        return {}
+    try:
+        data = json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else {}
+    except Exception as e:
+        print(f"  [WARN] report_config.json 読み込みエラー: {e}")
+        return {}
+
+
+def _parse_date(value: str | None) -> date | None:
+    if not value:
+        return None
+    try:
+        return date.fromisoformat(str(value))
+    except ValueError:
+        return None
+
+
+def _is_full_month(start: date, end: date, measurement_start: date | None) -> bool:
+    if measurement_start is None:
+        return True
+    return measurement_start <= start
+
+
+def build_comparison_context(previous_start: date, previous_end: date, config: dict | None = None) -> dict:
+    config = config or {}
+    starts = [
+        _parse_date(config.get("site_launch_date")),
+        _parse_date(config.get("ga4_measurement_start_date")),
+        _parse_date(config.get("gsc_measurement_start_date")),
+    ]
+    effective_start = max([d for d in starts if d is not None], default=None)
+    is_complete = _is_full_month(previous_start, previous_end, effective_start)
+    return {
+        "previous_month_complete": is_complete,
+        "reference_only": not is_complete,
+        "measurement_start_date": effective_start.isoformat() if effective_start else None,
+        "note": "" if is_complete else "前月は計測開始後の一部期間のみのため、前月比は参考値です。",
+    }
+
+
+def _status_metrics(status: str, reason: str) -> dict:
+    metrics = dict(METRIC_KEYS)
+    metrics["status"] = status
+    metrics["reason"] = reason
+    return metrics
+
+
+def _is_empty_ga4_raw(raw: dict) -> bool:
+    overall = raw.get("overall") or {}
+    hosts = raw.get("host_summary", {}).get("hosts", [])
+    channels = raw.get("channels") or []
+    countries = raw.get("countries") or []
+    if not overall and not hosts and not channels and not countries:
+        return True
+    if overall and not hosts and not channels and not countries:
+        return all(float(v or 0) == 0.0 for v in overall.values())
+    return False
+
+
+def _raw_has_errorlog_host(raw: dict) -> bool:
+    return any("errorlog.jp" in h.get("host", "") for h in raw.get("host_summary", {}).get("hosts", []))
+
+
+def compute_monthly_metrics(raw: dict, start: date, config: dict | None = None, query_errors: list[str] | None = None) -> dict:
+    config = config or {}
+    query_errors = query_errors or []
+    measurement_start = _parse_date(config.get("ga4_measurement_start_date") or config.get("site_launch_date"))
+    if measurement_start and start < measurement_start.replace(day=1) and start < measurement_start:
+        return _status_metrics("no_data", "measurement_not_started")
+    if query_errors:
+        return _status_metrics("error", "; ".join(query_errors))
+    if _is_empty_ga4_raw(raw):
+        return _status_metrics("no_data", "empty_response")
+    if raw.get("host_summary", {}).get("hosts") and not _raw_has_errorlog_host(raw):
+        return _status_metrics("no_data", "hostname_mismatch")
+    metrics = weekly.compute_metrics(raw)
+    metrics["status"] = "ok"
+    metrics["reason"] = ""
+    return metrics
+
+
+def _display_value(value, kind: str = "number") -> str:
+    if value is None:
+        return "データなし"
+    if kind == "rate":
+        return weekly._fmt_rate(value)
+    if kind == "float":
+        return weekly._fmt_float(value)
+    if kind == "seconds":
+        return f"{float(value):.1f}秒"
+    if kind == "decimal2":
+        return f"{float(value):.2f}"
+    return weekly._fmt_int(value)
+
+
+def _format_monthly_change(change: dict, comparison_context: dict | None = None) -> str:
+    if not change.get("current_exists", True):
+        return "算出不可"
+    if not change.get("previous_exists", True):
+        return "算出不可"
+    text = weekly._format_change(change)
+    if comparison_context and comparison_context.get("reference_only") and text not in ("データなし", "算出不可"):
+        return f"{text}（参考）"
+    return text
+
+
+def build_monthly_ga4_comparison(current: dict, previous: dict | None) -> dict:
+    ga4 = {}
+    for key, kind in {
+        "active_users": "number",
+        "sessions": "number",
+        "organic_sessions": "number",
+        "direct_sessions": "number",
+        "japan_ratio": "ratio",
+        "pv_per_sess": "number",
+        "avg_engagement_time": "number",
+        "bounce_rate": "rate",
+    }.items():
+        ga4[key] = weekly.build_change(current.get(key), previous.get(key) if previous else None, kind=kind)
+    return ga4
+
+
+def build_monthly_gsc_comparison(current: dict, previous: dict | None) -> dict:
+    changes = {}
+    for key, kind in {"impressions": "number", "clicks": "number", "ctr": "rate", "position": "position"}.items():
+        changes[key] = weekly.build_change(current.get(key), previous.get(key) if previous else None, kind=kind)
+    return changes
 
 
 def month_period_for_run(run_date: date = TODAY) -> tuple[date, date]:
@@ -68,30 +215,33 @@ def build_monthly_anomaly_alerts(
     ga4_change: dict,
     current_metrics: dict,
     host_summary: dict,
+    comparison_context: dict | None = None,
 ) -> list[str]:
     alerts = []
-    imp_pct = gsc_change.get("impressions", {}).get("pct_change")
-    if imp_pct is not None and imp_pct <= -0.50:
-        alerts.append(f"🚨 表示回数が前月比{abs(imp_pct) * 100:.1f}%減少しました。")
+    use_comparison = not (comparison_context or {}).get("reference_only")
+    if use_comparison:
+        imp_pct = gsc_change.get("impressions", {}).get("pct_change")
+        if imp_pct is not None and imp_pct <= -0.50:
+            alerts.append(f"🚨 表示回数が前月比{abs(imp_pct) * 100:.1f}%減少しました。")
 
-    click_pct = gsc_change.get("clicks", {}).get("pct_change")
-    if click_pct is not None and click_pct <= -0.50:
-        alerts.append(f"🚨 クリック数が前月比{abs(click_pct) * 100:.1f}%減少しました。")
+        click_pct = gsc_change.get("clicks", {}).get("pct_change")
+        if click_pct is not None and click_pct <= -0.50:
+            alerts.append(f"🚨 クリック数が前月比{abs(click_pct) * 100:.1f}%減少しました。")
 
-    pos = gsc_change.get("position", {})
-    if pos.get("previous_exists", True) and float(pos.get("delta", 0.0)) >= 10.0:
-        alerts.append(
-            f"🚨 平均掲載順位が{weekly._fmt_float(pos.get('previous'))}から"
-            f"{weekly._fmt_float(pos.get('current'))}へ悪化しました。"
-        )
+        pos = gsc_change.get("position", {})
+        if pos.get("previous_exists", True) and float(pos.get("delta", 0.0)) >= 10.0:
+            alerts.append(
+                f"🚨 平均掲載順位が{weekly._fmt_float(pos.get('previous'))}から"
+                f"{weekly._fmt_float(pos.get('current'))}へ悪化しました。"
+            )
 
-    organic_pct = ga4_change.get("organic_sessions", {}).get("pct_change")
-    if organic_pct is not None and organic_pct <= -0.50:
-        alerts.append("🚨 Organic Searchセッションが大幅減少しました。")
+        organic_pct = ga4_change.get("organic_sessions", {}).get("pct_change")
+        if organic_pct is not None and organic_pct <= -0.50:
+            alerts.append("🚨 Organic Searchセッションが大幅減少しました。")
 
-    sessions_pct = ga4_change.get("sessions", {}).get("pct_change")
-    if sessions_pct is not None and sessions_pct <= -0.50:
-        alerts.append("🚨 errorlog.jpのセッションが前月比50%以上減少しました。")
+        sessions_pct = ga4_change.get("sessions", {}).get("pct_change")
+        if sessions_pct is not None and sessions_pct <= -0.50:
+            alerts.append("🚨 errorlog.jpのセッションが前月比50%以上減少しました。")
 
     zenn_share = sum(
         float(h.get("pv_share", 0.0))
@@ -107,23 +257,49 @@ def build_monthly_anomaly_alerts(
     return alerts
 
 
-def build_monthly_judgement(gsc_change: dict, ga4_change: dict, rewrite_tracking: list[dict]) -> str:
+def build_monthly_judgement(
+    gsc_change: dict,
+    ga4_change: dict,
+    rewrite_tracking: list[dict],
+    comparison_context: dict | None = None,
+) -> str:
+    if (comparison_context or {}).get("reference_only"):
+        return "前月は不完全月のため、前月比による傾向判定は行っていません。"
+
     improved = sum(1 for r in rewrite_tracking if r.get("verdict") == "改善")
     worsened = sum(1 for r in rewrite_tracking if r.get("verdict") == "悪化")
     imp_pct = gsc_change.get("impressions", {}).get("pct_change")
+    click_pct = gsc_change.get("clicks", {}).get("pct_change")
     ctr_delta = gsc_change.get("ctr", {}).get("delta", 0)
     pos_delta = gsc_change.get("position", {}).get("delta", 0)
+    organic_pct = ga4_change.get("organic_sessions", {}).get("pct_change")
 
-    if imp_pct is not None and imp_pct <= -0.10 and pos_delta >= 1.0:
-        return "検索表示回数と平均順位がともに悪化しています。"
-    if imp_pct is not None and imp_pct <= -0.10 and ctr_delta > 0:
+    imp_up = imp_pct is not None and imp_pct >= 0.20
+    imp_down = imp_pct is not None and imp_pct <= -0.20
+    click_up = click_pct is not None and click_pct >= 0.20
+    click_down = click_pct is not None and click_pct <= -0.20
+    pos_better = pos_delta <= -3.0
+    pos_worse = pos_delta >= 3.0
+    organic_up = organic_pct is not None and organic_pct >= 0.20
+    organic_down = organic_pct is not None and organic_pct <= -0.20
+
+    if imp_down and ctr_delta > 0:
         return "検索流入は減少しましたが、CTRは改善しています。"
+    if (imp_up or click_up or organic_up) and pos_worse:
+        return "流入は増えましたが、平均順位は悪化しています。"
+    if click_up and organic_down:
+        return "クリックは増えましたが、Organic Searchセッションは減少しています。"
+
+    improve_count = sum([imp_up, click_up, pos_better, organic_up])
+    worsen_count = sum([imp_down, click_down, pos_worse, organic_down])
+    if improve_count and not worsen_count:
+        return "検索表示回数・クリック・順位・Organic Searchのいずれかに改善傾向があります。"
+    if worsen_count and not improve_count:
+        return "検索表示回数・クリック・順位・Organic Searchのいずれかに悪化傾向があります。"
+    if improve_count and worsen_count:
+        return "改善指標と悪化指標が混在しています。優先記事を確認してください。"
     if improved > worsened and improved > 0:
         return "既存記事の修正後、検索表示回数に改善傾向が見られます。"
-
-    organic = ga4_change.get("organic_sessions", {}).get("pct_change")
-    if organic is not None and organic <= -0.25:
-        return "Organic Searchセッションが減少しています。"
     return "前月から大きな変化はありません。"
 
 
@@ -159,6 +335,141 @@ def _parse_record_date(record: dict) -> date | None:
         return None
 
 
+def _normalize_post_path(path: str | None) -> str:
+    if not path:
+        return ""
+    return path.replace("\\", "/").strip()
+
+
+def _is_post_path(path: str | None) -> bool:
+    p = _normalize_post_path(path)
+    return p.startswith("content/posts/") and p.endswith(".md")
+
+
+def aggregate_article_events(events: list[dict], history_complete: bool = True) -> dict:
+    new_articles: set[str] = set()
+    modified_articles: set[str] = set()
+    unpublished_articles: set[str] = set()
+    renamed_to: set[str] = set()
+    renamed_from: set[str] = set()
+
+    for event in events:
+        status = event.get("status", "")
+        path = _normalize_post_path(event.get("path"))
+        old_path = _normalize_post_path(event.get("old_path"))
+        new_path = _normalize_post_path(event.get("new_path") or path)
+        old_draft = event.get("old_draft")
+        new_draft = event.get("new_draft")
+
+        if status.startswith("R") and (_is_post_path(old_path) or _is_post_path(new_path)):
+            if _is_post_path(old_path):
+                renamed_from.add(old_path)
+            if _is_post_path(new_path):
+                renamed_to.add(new_path)
+                modified_articles.add(new_path)
+            continue
+
+        if not _is_post_path(path):
+            continue
+
+        if old_draft is True and new_draft is False:
+            new_articles.add(path)
+            continue
+        if old_draft is False and new_draft is True:
+            unpublished_articles.add(path)
+            continue
+
+        if status.startswith("A"):
+            new_articles.add(path)
+        elif status.startswith("D"):
+            unpublished_articles.add(path)
+        elif status.startswith("M"):
+            modified_articles.add(path)
+
+    modified_articles -= new_articles
+    unpublished_articles -= new_articles
+    return {
+        "modified": len(modified_articles),
+        "added": len(new_articles),
+        "unpublished": len(unpublished_articles),
+        "modified_articles": sorted(modified_articles),
+        "new_articles": sorted(new_articles),
+        "unpublished_articles": sorted(unpublished_articles),
+        "renamed_from": sorted(renamed_from),
+        "renamed_to": sorted(renamed_to),
+        "source": "git_history",
+        "history_complete": history_complete,
+    }
+
+
+def _git_history_complete() -> bool:
+    try:
+        proc = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=BASE,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except Exception:
+        return False
+    return proc.stdout.strip().lower() != "true"
+
+
+def _git_post_events(start: date, end: date) -> list[dict]:
+    try:
+        proc = subprocess.run(
+            [
+                "git", "log",
+                "--find-renames",
+                "--date=iso-strict",
+                f"--since={start.isoformat()}T00:00:00+09:00",
+                f"--until={end.isoformat()}T23:59:59+09:00",
+                "--name-status",
+                "--pretty=format:commit %H %cI",
+                "--", "content/posts",
+            ],
+            cwd=BASE,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+    except Exception as e:
+        print(f"  [WARN] git log 実行エラー: {e}")
+        return []
+
+    events = []
+    current_commit = ""
+    current_date = ""
+    for line in proc.stdout.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if line.startswith("commit "):
+            parts = line.split()
+            current_commit = parts[1] if len(parts) > 1 else ""
+            current_date = parts[2] if len(parts) > 2 else ""
+            continue
+        parts = line.split("\t")
+        status = parts[0]
+        if status.startswith("R") and len(parts) >= 3:
+            events.append({
+                "status": status,
+                "old_path": parts[1],
+                "new_path": parts[2],
+                "commit": current_commit,
+                "commit_date": current_date,
+            })
+        elif len(parts) >= 2:
+            events.append({
+                "status": status,
+                "path": parts[-1],
+                "commit": current_commit,
+                "commit_date": current_date,
+            })
+    return events
+
+
 def load_monthly_rewrite_tracking(start: date, end: date, today: date = TODAY) -> list[dict]:
     cutoff = start - timedelta(days=92)
     rows = []
@@ -184,9 +495,18 @@ def rewrite_verdict_counts(records: list[dict]) -> dict:
     return {key: counts.get(key, 0) for key in ("改善", "変化なし", "悪化", "判定保留")}
 
 
+def _rewrite_verdict_label(record: dict) -> str:
+    verdict = record.get("verdict", "判定保留")
+    reason = record.get("reason", "")
+    if verdict == "判定保留" and reason:
+        return f"判定保留（{reason}）"
+    return verdict
+
+
 def build_monthly_article_progress(start: date, end: date, previous_start: date, previous_end: date) -> dict:
-    current = weekly._count_git_post_changes(start, end)
-    previous = weekly._count_git_post_changes(previous_start, previous_end)
+    history_complete = _git_history_complete()
+    current = aggregate_article_events(_git_post_events(start, end), history_complete=history_complete)
+    previous = aggregate_article_events(_git_post_events(previous_start, previous_end), history_complete=history_complete)
     posts = weekly._published_posts()
     status = weekly._load_review_status()
 
@@ -209,6 +529,8 @@ def build_monthly_article_progress(start: date, end: date, previous_start: date,
         "daily_modified_avg": current["modified"] / days,
         "daily_new_avg": current["added"] / days,
         "review_status_source": "data/article_review_status.json" if status else "未設定",
+        "source": "git_history_jst",
+        "history_complete": history_complete,
     }
 
 
@@ -340,15 +662,16 @@ def _build_monthly_overview_section(
     article_progress: dict,
     bottlenecks: list[dict],
     judgement: str,
+    comparison_context: dict | None = None,
 ) -> str:
     top = "、".join(weekly._slug_from_url(b.get("page", "")) for b in weekly.sort_bottlenecks(bottlenecks)[:3]) or "該当なし"
     current = article_progress.get("current", {})
     return f"""## 今月の総括
 
-- GA4 Organic Searchセッション: {weekly._fmt_int(metrics.get('organic_sessions'))}（前月比 {weekly._format_change(ga4_change['organic_sessions'])}）
-- GSC表示回数: {weekly._fmt_int(gsc_summary.get('impressions'))}（前月比 {weekly._format_change(gsc_change['impressions'])}）
-- GSCクリック数: {weekly._fmt_int(gsc_summary.get('clicks'))}（前月比 {weekly._format_change(gsc_change['clicks'])}）
-- 平均掲載順位: {weekly._fmt_float(gsc_summary.get('position'))}（前月 {weekly._fmt_previous(gsc_change['position'], weekly._fmt_float)}）
+- GA4 Organic Searchセッション: {_display_value(metrics.get('organic_sessions'))}（前月比 {_format_monthly_change(ga4_change['organic_sessions'], comparison_context)}）
+- GSC表示回数: {_display_value(gsc_summary.get('impressions'))}（前月比 {_format_monthly_change(gsc_change['impressions'], comparison_context)}）
+- GSCクリック数: {_display_value(gsc_summary.get('clicks'))}（前月比 {_format_monthly_change(gsc_change['clicks'], comparison_context)}）
+- 平均掲載順位: {_display_value(gsc_summary.get('position'), 'float')}（前月 {weekly._fmt_previous(gsc_change['position'], lambda v: _display_value(v, 'float'))}）
 - 今月修正した記事数: {weekly._fmt_int(current.get('modified'))}
 - 今月新規公開した記事数: {weekly._fmt_int(current.get('added'))}
 - 今月非公開化した記事数: {weekly._fmt_int(current.get('unpublished'))}
@@ -357,16 +680,16 @@ def _build_monthly_overview_section(
 {judgement}"""
 
 
-def _build_ga4_monthly_section(metrics: dict, ga4_change: dict) -> str:
+def _build_ga4_monthly_section(metrics: dict, ga4_change: dict, comparison_context: dict | None = None) -> str:
     rows = [
-        ("アクティブユーザー", weekly._fmt_int(metrics.get("active_users")), weekly._fmt_previous(ga4_change["active_users"], weekly._fmt_int), weekly._format_change(ga4_change["active_users"])),
-        ("セッション", weekly._fmt_int(metrics.get("sessions")), weekly._fmt_previous(ga4_change["sessions"], weekly._fmt_int), weekly._format_change(ga4_change["sessions"])),
-        ("Organic Searchセッション", weekly._fmt_int(metrics.get("organic_sessions")), weekly._fmt_previous(ga4_change["organic_sessions"], weekly._fmt_int), weekly._format_change(ga4_change["organic_sessions"])),
-        ("Directセッション", weekly._fmt_int(metrics.get("direct_sessions")), weekly._fmt_previous(ga4_change["direct_sessions"], weekly._fmt_int), weekly._format_change(ga4_change["direct_sessions"])),
-        ("日本国内率", weekly._fmt_rate(metrics.get("japan_ratio")), weekly._fmt_previous(ga4_change["japan_ratio"], weekly._fmt_rate), weekly._format_change(ga4_change["japan_ratio"])),
-        ("1セッションあたりPV", f"{metrics.get('pv_per_sess', 0):.2f}", weekly._fmt_previous(ga4_change["pv_per_sess"], lambda v: f"{float(v or 0):.2f}"), weekly._format_change(ga4_change["pv_per_sess"])),
-        ("平均エンゲージ時間", f"{metrics.get('avg_engagement_time', 0):.1f}秒", weekly._fmt_previous(ga4_change["avg_engagement_time"], lambda v: f"{float(v or 0):.1f}秒"), weekly._format_change(ga4_change["avg_engagement_time"])),
-        ("離脱率", weekly._fmt_rate(metrics.get("bounce_rate")), weekly._fmt_previous(ga4_change["bounce_rate"], weekly._fmt_rate), weekly._format_change(ga4_change["bounce_rate"])),
+        ("アクティブユーザー", _display_value(metrics.get("active_users")), weekly._fmt_previous(ga4_change["active_users"], _display_value), _format_monthly_change(ga4_change["active_users"], comparison_context)),
+        ("セッション", _display_value(metrics.get("sessions")), weekly._fmt_previous(ga4_change["sessions"], _display_value), _format_monthly_change(ga4_change["sessions"], comparison_context)),
+        ("Organic Searchセッション", _display_value(metrics.get("organic_sessions")), weekly._fmt_previous(ga4_change["organic_sessions"], _display_value), _format_monthly_change(ga4_change["organic_sessions"], comparison_context)),
+        ("Directセッション", _display_value(metrics.get("direct_sessions")), weekly._fmt_previous(ga4_change["direct_sessions"], _display_value), _format_monthly_change(ga4_change["direct_sessions"], comparison_context)),
+        ("日本国内率", _display_value(metrics.get("japan_ratio"), "rate"), weekly._fmt_previous(ga4_change["japan_ratio"], lambda v: _display_value(v, "rate")), _format_monthly_change(ga4_change["japan_ratio"], comparison_context)),
+        ("1セッションあたりPV", _display_value(metrics.get("pv_per_sess"), "decimal2"), weekly._fmt_previous(ga4_change["pv_per_sess"], lambda v: _display_value(v, "decimal2")), _format_monthly_change(ga4_change["pv_per_sess"], comparison_context)),
+        ("平均エンゲージ時間", _display_value(metrics.get("avg_engagement_time"), "seconds"), weekly._fmt_previous(ga4_change["avg_engagement_time"], lambda v: _display_value(v, "seconds")), _format_monthly_change(ga4_change["avg_engagement_time"], comparison_context)),
+        ("離脱率", _display_value(metrics.get("bounce_rate"), "rate"), weekly._fmt_previous(ga4_change["bounce_rate"], lambda v: _display_value(v, "rate")), _format_monthly_change(ga4_change["bounce_rate"], comparison_context)),
     ]
     body = "\n".join(f"| {name} | {cur} | {prev} | {chg} |" for name, cur, prev, chg in rows)
     return f"""## GA4トラフィックサマリー
@@ -378,14 +701,14 @@ def _build_ga4_monthly_section(metrics: dict, ga4_change: dict) -> str:
 {body}"""
 
 
-def _build_gsc_monthly_section(gsc_summary: dict, gsc_change: dict) -> str:
+def _build_gsc_monthly_section(gsc_summary: dict, gsc_change: dict, comparison_context: dict | None = None) -> str:
     if not gsc_summary:
         return "## Search Consoleサイト全体サマリー\n\n_GSCデータが取得できませんでした。_"
     rows = [
-        ("総表示回数", weekly._fmt_int(gsc_summary.get("impressions")), weekly._fmt_previous(gsc_change["impressions"], weekly._fmt_int), weekly._format_change(gsc_change["impressions"])),
-        ("総クリック数", weekly._fmt_int(gsc_summary.get("clicks")), weekly._fmt_previous(gsc_change["clicks"], weekly._fmt_int), weekly._format_change(gsc_change["clicks"])),
-        ("平均CTR", weekly._fmt_rate(gsc_summary.get("ctr")), weekly._fmt_previous(gsc_change["ctr"], weekly._fmt_rate), weekly._format_change(gsc_change["ctr"])),
-        ("平均掲載順位", weekly._fmt_float(gsc_summary.get("position")), weekly._fmt_previous(gsc_change["position"], weekly._fmt_float), weekly._format_change(gsc_change["position"])),
+        ("総表示回数", _display_value(gsc_summary.get("impressions")), weekly._fmt_previous(gsc_change["impressions"], _display_value), _format_monthly_change(gsc_change["impressions"], comparison_context)),
+        ("総クリック数", _display_value(gsc_summary.get("clicks")), weekly._fmt_previous(gsc_change["clicks"], _display_value), _format_monthly_change(gsc_change["clicks"], comparison_context)),
+        ("平均CTR", _display_value(gsc_summary.get("ctr"), "rate"), weekly._fmt_previous(gsc_change["ctr"], lambda v: _display_value(v, "rate")), _format_monthly_change(gsc_change["ctr"], comparison_context)),
+        ("平均掲載順位", _display_value(gsc_summary.get("position"), "float"), weekly._fmt_previous(gsc_change["position"], lambda v: _display_value(v, "float")), _format_monthly_change(gsc_change["position"], comparison_context)),
     ]
     body = "\n".join(f"| {name} | {cur} | {prev} | {chg} |" for name, cur, prev, chg in rows)
     return f"""## Search Consoleサイト全体サマリー
@@ -429,15 +752,15 @@ _rewrite_report.json / rewrite_experiments.json に表示可能な修正履歴�
         elapsed = "取得不可" if r.get("elapsed_days") is None else f"{r['elapsed_days']}日"
         rows.append(
             f"| `{r['url']}` | {r['rewrite_date']} | {elapsed} | "
-            f"{weekly._fmt_int(r.get('before_impressions') or 0)} | "
-            f"{weekly._fmt_int(r.get('after_impressions') or 0)} | "
-            f"{weekly._fmt_int(r.get('before_clicks') or 0)} | "
-            f"{weekly._fmt_int(r.get('after_clicks') or 0)} | "
-            f"{weekly._fmt_rate(r.get('before_ctr') or 0)} | "
-            f"{weekly._fmt_rate(r.get('after_ctr') or 0)} | "
-            f"{weekly._fmt_float(r.get('before_position') or 0)} | "
-            f"{weekly._fmt_float(r.get('after_position') or 0)} | "
-            f"{r['verdict']} |"
+            f"{_display_value(r.get('before_impressions'))} | "
+            f"{_display_value(r.get('after_impressions'))} | "
+            f"{_display_value(r.get('before_clicks'))} | "
+            f"{_display_value(r.get('after_clicks'))} | "
+            f"{_display_value(r.get('before_ctr'), 'rate')} | "
+            f"{_display_value(r.get('after_ctr'), 'rate')} | "
+            f"{_display_value(r.get('before_position'), 'float')} | "
+            f"{_display_value(r.get('after_position'), 'float')} | "
+            f"{_rewrite_verdict_label(r)} |"
         )
     return f"""## 改善効果トラッカー
 
@@ -510,11 +833,12 @@ def render_monthly_issue_body(
     monthly_history: list[dict],
     index_status: dict,
     data_status: list[str] | None = None,
+    comparison_context: dict | None = None,
 ) -> str:
-    ga4_change = weekly.build_ga4_comparison(metrics, previous_metrics)
-    gsc_change = weekly.build_gsc_comparison(gsc_summary, previous_gsc_summary)
-    alerts = build_monthly_anomaly_alerts(gsc_change, ga4_change, metrics, host_summary)
-    judgement = build_monthly_judgement(gsc_change, ga4_change, rewrite_tracking)
+    ga4_change = build_monthly_ga4_comparison(metrics, previous_metrics)
+    gsc_change = build_monthly_gsc_comparison(gsc_summary, previous_gsc_summary)
+    alerts = build_monthly_anomaly_alerts(gsc_change, ga4_change, metrics, host_summary, comparison_context)
+    judgement = build_monthly_judgement(gsc_change, ga4_change, rewrite_tracking, comparison_context)
     host_section = weekly._build_host_summary_section(host_summary).replace("###", "##", 1)
     noise_section = weekly._build_noise_section().replace("今週", "今月")
     country_section = weekly._build_country_section(countries).replace("###", "##", 1)
@@ -523,18 +847,20 @@ def render_monthly_issue_body(
     data_warning = ""
     if data_status:
         data_warning = "\n\n> データ取得状況: " + " / ".join(data_status)
+    if comparison_context and comparison_context.get("note"):
+        data_warning += f"\n\n> {comparison_context['note']}"
 
     return (
         f"# 月次統合分析レポート（{month}）\n\n対象期間: {period_text}"
         + data_warning
         + "\n\n---\n\n"
-        + _build_monthly_overview_section(metrics, ga4_change, gsc_summary, gsc_change, article_progress, bottlenecks, judgement)
+        + _build_monthly_overview_section(metrics, ga4_change, gsc_summary, gsc_change, article_progress, bottlenecks, judgement, comparison_context)
         + "\n\n---\n\n"
         + _build_monthly_anomaly_section(alerts)
         + "\n\n---\n\n"
-        + _build_ga4_monthly_section(metrics, ga4_change)
+        + _build_ga4_monthly_section(metrics, ga4_change, comparison_context)
         + "\n\n---\n\n"
-        + _build_gsc_monthly_section(gsc_summary, gsc_change)
+        + _build_gsc_monthly_section(gsc_summary, gsc_change, comparison_context)
         + "\n\n---\n\n"
         + _build_monthly_bottleneck_section(bottlenecks)
         + "\n\n---\n\n"
@@ -569,6 +895,8 @@ def duplicate_issue_number(existing_issues: list[dict], title: str) -> int | Non
 def build_monthly_output(run_date: date = TODAY) -> dict:
     start, end = month_period_for_run(run_date)
     previous_start, previous_end = previous_month_period(start)
+    config = load_report_config()
+    comparison_context = build_comparison_context(previous_start, previous_end, config)
     month = month_key(start)
     period_text = f"{start.isoformat()} 〜 {end.isoformat()}"
     data_status = []
@@ -577,13 +905,23 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
     previous_raw = {"overall": {}, "channels": [], "countries": [], "events": [], "host_summary": {}}
     try:
         ga4_client = weekly._build_ga4_client()
+        weekly.GA4_QUERY_ERRORS.clear()
         current_raw = weekly.fetch_all_ga4(ga4_client, start, end)
+        current_ga4_errors = list(weekly.GA4_QUERY_ERRORS)
+        weekly.GA4_QUERY_ERRORS.clear()
         previous_raw = weekly.fetch_all_ga4(ga4_client, previous_start, previous_end)
+        previous_ga4_errors = list(weekly.GA4_QUERY_ERRORS)
     except Exception as e:
         data_status.append(f"GA4データ取得失敗: {e}")
+        current_ga4_errors = [str(e)]
+        previous_ga4_errors = [str(e)]
 
-    metrics = weekly.compute_metrics(current_raw)
-    previous_metrics = weekly.compute_metrics(previous_raw)
+    metrics = compute_monthly_metrics(current_raw, start, config, current_ga4_errors)
+    previous_metrics = compute_monthly_metrics(previous_raw, previous_start, config, previous_ga4_errors)
+    if metrics.get("status") != "ok":
+        data_status.append(f"GA4今月データ: {metrics.get('status')} ({metrics.get('reason')})")
+    if previous_metrics.get("status") != "ok":
+        data_status.append(f"GA4前月データ: {previous_metrics.get('status')} ({previous_metrics.get('reason')})")
 
     bottlenecks, gsc_summary, previous_gsc_summary, _previous_bottlenecks = fetch_monthly_gsc(
         start, end, previous_start, previous_end
@@ -598,11 +936,11 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
     content_gap_section, content_gap = _load_monthly_content_gap(limit=20)
     index_status = weekly.load_index_status()
 
-    ga4_change = weekly.build_ga4_comparison(metrics, previous_metrics)
-    gsc_change = weekly.build_gsc_comparison(gsc_summary, previous_gsc_summary)
+    ga4_change = build_monthly_ga4_comparison(metrics, previous_metrics)
+    gsc_change = build_monthly_gsc_comparison(gsc_summary, previous_gsc_summary)
     host_summary = current_raw.get("host_summary", {})
-    anomalies = build_monthly_anomaly_alerts(gsc_change, ga4_change, metrics, host_summary)
-    judgement = build_monthly_judgement(gsc_change, ga4_change, rewrite_tracking)
+    anomalies = build_monthly_anomaly_alerts(gsc_change, ga4_change, metrics, host_summary, comparison_context)
+    judgement = build_monthly_judgement(gsc_change, ga4_change, rewrite_tracking, comparison_context)
 
     placeholder = {
         "report_type": "monthly",
@@ -613,6 +951,7 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
         "summary": {
             "judgement": judgement,
             "anomalies": anomalies,
+            "comparison_context": comparison_context,
             "top_bottlenecks": [weekly._slug_from_url(b.get("page", "")) for b in weekly.sort_bottlenecks(bottlenecks)[:3]],
         },
         "anomalies": anomalies,
@@ -634,6 +973,7 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
         "content_gap": content_gap,
         "monthly_history": [],
         "data_status": data_status,
+        "report_config": config,
     }
     monthly_history = load_monthly_history(placeholder, limit=6)
     placeholder["monthly_history"] = monthly_history
@@ -654,6 +994,7 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
         monthly_history,
         index_status,
         data_status=data_status,
+        comparison_context=comparison_context,
     )
     return placeholder
 

@@ -33,6 +33,7 @@ TODAY       = date.today()
 PROPERTY_ID = os.environ.get("GA4_PROPERTY_ID", "").strip()
 SITE_URL    = os.environ.get("GSC_SITE_URL", "https://errorlog.jp/")
 REPORT_FILE = REPORTS_DIR / f"weekly_report_{TODAY.strftime('%Y%m%d')}.json"
+GA4_QUERY_ERRORS: list[str] = []
 
 # ── GSC thresholds ────────────────────────────────────────────────────────────
 CTR_IMP_THRESHOLD = int(os.getenv("CTR_IMP_THRESHOLD", "10"))
@@ -148,6 +149,7 @@ def _run_report(client, dimensions, metrics, row_limit=100, dim_filter=None, sta
     try:
         resp = client.run_report(RunReportRequest(**kwargs))
     except Exception as e:
+        GA4_QUERY_ERRORS.append(f"dims={dimensions}, metrics={metrics}, range={start}..{end}: {e}")
         print(f"  [WARN] GA4 query failed (dims={dimensions}): {e}")
         return []
 
@@ -184,6 +186,7 @@ def _run_report_overall(client, metrics, dim_filter=None, start_date=None, end_d
     try:
         resp = client.run_report(RunReportRequest(**kwargs))
     except Exception as e:
+        GA4_QUERY_ERRORS.append(f"dims=overall, metrics={metrics}, range={start}..{end}: {e}")
         print(f"  [WARN] GA4 overall query failed ({metrics}): {e}")
         return {m: 0.0 for m in metrics}
 
@@ -892,6 +895,7 @@ def _safe_pct_change(current: float, previous: float) -> float | None:
 
 
 def build_change(current: float, previous: float | None, *, kind: str = "number") -> dict:
+    current_exists = current is not None
     previous_exists = previous is not None
     previous_value = float(previous or 0)
     current_value = float(current or 0)
@@ -900,6 +904,7 @@ def build_change(current: float, previous: float | None, *, kind: str = "number"
     return {
         "current": current_value,
         "previous": previous_value,
+        "current_exists": current_exists,
         "previous_exists": previous_exists,
         "delta": delta,
         "pct_change": pct,
@@ -1213,6 +1218,10 @@ def evaluate_rewrite_record(record: dict, today: date = TODAY) -> dict:
     reason = "データ不足"
     if elapsed is not None and elapsed < 14:
         reason = "修正から14日未満"
+    elif before_imp is None or before_pos is None:
+        reason = "修正前データ不足"
+    elif after_imp is None or after_pos is None:
+        reason = "GSCデータ不足"
     elif None not in (before_imp, after_imp, before_pos, after_pos):
         imp_change = _safe_pct_change(float(after_imp), float(before_imp))
         pos_improve = float(before_pos) - float(after_pos)

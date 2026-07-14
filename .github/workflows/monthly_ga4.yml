@@ -29,6 +29,8 @@ jobs:
 
       - uses: actions/checkout@v4
         if: steps.jst_date.outputs.run_monthly == 'true'
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         if: steps.jst_date.outputs.run_monthly == 'true'
