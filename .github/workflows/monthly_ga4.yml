@@ -1,0 +1,215 @@
+name: Monthly GA4 Analysis
+
+on:
+  schedule:
+    - cron: "0 22 28-31 * *"   # JST 7:00。月末判定ステップで翌月1日相当だけ実行
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - name: Check JST first day
+        id: jst_date
+        shell: bash
+        run: |
+          jst_day="$(TZ=Asia/Tokyo date +%d)"
+          echo "day=$jst_day" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ "$jst_day" = "01" ]; then
+            echo "run_monthly=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_monthly=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.jst_date.outputs.run_monthly == 'true'
+
+      - uses: actions/setup-python@v5
+        if: steps.jst_date.outputs.run_monthly == 'true'
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        if: steps.jst_date.outputs.run_monthly == 'true'
+        run: pip install google-analytics-data google-api-python-client google-auth requests beautifulsoup4
+
+      - name: Run Content Gap Analyzer
+        id: content_gap
+        if: steps.jst_date.outputs.run_monthly == 'true'
+        continue-on-error: true
+        env:
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/query_coverage_analyzer.py
+
+      - name: Update rewrite experiment results
+        id: rewrite_results
+        if: steps.jst_date.outputs.run_monthly == 'true'
+        continue-on-error: true
+        env:
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/update_rewrite_results.py
+
+      - name: Run monthly unified report
+        id: monthly_report_step
+        if: steps.jst_date.outputs.run_monthly == 'true'
+        env:
+          GA4_PROPERTY_ID:          ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_SERVICE_ACCOUNT_KEY:  ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
+          GA4_OAUTH_CLIENT_ID:      ${{ secrets.GA4_OAUTH_CLIENT_ID }}
+          GA4_OAUTH_CLIENT_SECRET:  ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GA4_OAUTH_REFRESH_TOKEN:  ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_SITE_URL:             ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY:  ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GSC_OAUTH_REFRESH_TOKEN:  ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/monthly_report.py
+
+      - name: Collect monthly step status
+        if: always() && steps.jst_date.outputs.run_monthly == 'true'
+        env:
+          STATUS_MONTHLY_REPORT:  ${{ steps.monthly_report_step.outcome }}
+          STATUS_CONTENT_GAP:     ${{ steps.content_gap.outcome }}
+          STATUS_REWRITE_RESULTS: ${{ steps.rewrite_results.outcome }}
+        run: |
+          python - <<'PYEOF'
+          import json, os
+          from pathlib import Path
+
+          steps = [
+            {"id": "monthly_report",  "name": "月次レポート生成", "outcome": os.getenv("STATUS_MONTHLY_REPORT"),  "continue_on_error": False, "impact": "月次Issueが生成されない可能性があります"},
+            {"id": "content_gap",     "name": "Content Gap分析", "outcome": os.getenv("STATUS_CONTENT_GAP"),     "continue_on_error": True,  "impact": "Content Gap分析は今月更新されていません"},
+            {"id": "rewrite_results", "name": "リライト実績更新", "outcome": os.getenv("STATUS_REWRITE_RESULTS"), "continue_on_error": True,  "impact": "CTR実験のafter指標が更新されていません"},
+          ]
+          Path("reports/ga4").mkdir(parents=True, exist_ok=True)
+          Path("reports/ga4/monthly_step_status.json").write_text(
+              json.dumps({"steps": steps}, ensure_ascii=False, indent=2),
+              encoding="utf-8",
+          )
+          PYEOF
+
+      - name: Commit and push monthly report
+        if: always() && steps.jst_date.outputs.run_monthly == 'true'
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add reports/ga4/monthly_report_*.json 2>/dev/null || true
+          git add reports/ga4/monthly_step_status.json 2>/dev/null || true
+          git add data/content_gap.json 2>/dev/null || true
+          git add scripts/content_gap_candidates.json 2>/dev/null || true
+          git add scripts/rewrite_report.json 2>/dev/null || true
+          git add data/rewrite_experiments.json 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "変更なし"
+          else
+            git commit -m "ga4: 月次分析レポート $(TZ=Asia/Tokyo date +%Y-%m)"
+            git pull --rebase
+            git push
+          fi
+
+      - name: Create or update monthly report issue
+        if: always() && steps.jst_date.outputs.run_monthly == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            const dir = 'reports/ga4';
+
+            let files;
+            try {
+              files = fs.readdirSync(dir)
+                .filter(f => f.startsWith('monthly_report_') && f.endsWith('.json'))
+                .sort()
+                .reverse();
+            } catch (e) {
+              console.log('reports/ga4 not found – skip issue creation');
+              return;
+            }
+            if (!files.length) {
+              console.log('No monthly_report file – skip');
+              return;
+            }
+
+            const data = JSON.parse(fs.readFileSync(path.join(dir, files[0]), 'utf8'));
+            if (!data.issue_title || !data.issue_body) {
+              console.log('Missing issue_title or issue_body – skip');
+              return;
+            }
+
+            let statusSection = '';
+            try {
+              const stepStatus = JSON.parse(fs.readFileSync('reports/ga4/monthly_step_status.json', 'utf8'));
+              const steps = stepStatus.steps || [];
+              const failures = steps.filter(s => s.outcome === 'failure');
+              const skipped = steps.filter(s => s.outcome === 'skipped');
+              const lines = ['## 今月の処理状況\n'];
+
+              if (failures.length === 0 && skipped.length === 0) {
+                lines.push('✅ **すべてのステップが正常に完了しました。**\n');
+              } else {
+                if (failures.length > 0) {
+                  lines.push(`⚠️ **${failures.length}件のステップが失敗しました（処理は継続）。**\n`);
+                  lines.push('| ステップ | 設定 | レポートへの影響 |');
+                  lines.push('| :--- | :--- | :--- |');
+                  for (const s of failures) {
+                    const coe = s.continue_on_error ? 'continue-on-error' : '要確認';
+                    lines.push(`| ${s.name} | ${coe} | ${s.impact} |`);
+                  }
+                  lines.push('');
+                }
+                if (skipped.length > 0) {
+                  lines.push(`⏭️ **${skipped.length}件のステップがスキップされました。**\n`);
+                }
+              }
+              statusSection = lines.join('\n') + '\n---\n\n';
+            } catch (e) {
+              console.log('monthly_step_status.json 読み込みスキップ:', e.message);
+            }
+
+            try {
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'monthly-report',
+                color: '5319e7',
+                description: 'Monthly unified GA4+GSC report',
+              });
+            } catch (_) { /* already exists */ }
+
+            const existing = await github.rest.search.issuesAndPullRequests({
+              q: `repo:${context.repo.owner}/${context.repo.repo} is:issue in:title "${data.issue_title}"`,
+            });
+            if (existing.data.items.length > 0) {
+              const issue = existing.data.items[0];
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: statusSection + data.issue_body,
+                labels: ['monthly-report'],
+              });
+              console.log(`Issue updated: #${issue.number} ${issue.html_url}`);
+              return;
+            }
+
+            const created = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: data.issue_title,
+              body: statusSection + data.issue_body,
+              labels: ['monthly-report'],
+            });
+            console.log(`Issue created: #${created.data.number} ${created.data.html_url}`);
