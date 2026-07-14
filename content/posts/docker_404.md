@@ -1,237 +1,132 @@
 ---
 title: "Docker の 404 エラー：原因と解決策"
 date: 2026-01-01
-description: "Docker で 404 エラーが発生するのは、指定したイメージまたはリポジトリがレジストリ（Docker Hub や ECR などのイメージ保管先）に存在しないことを意味します。"
+description: "Docker の 404 エラーは、どこで見つからなかったかで3系統に分かれます。手元のデーモンの資源（No such container / No such image）、レジストリのタグ（manifest for ... not found）、そしてリポジトリ自体（pull access denied。存在しないのか権限がないのかは意図的に区別されません）。エラー文言から切り分けて解決します。"
 tags: ["Docker"]
 errorCode: "404"
-lastmod: 2026-06-13
+lastmod: 2026-07-11
 service: "Docker"
 error_type: "404"
 components: ["Registry", "Hub"]
-related_services: ["Docker Compose", "AWS ECR", "Azure Container Registry"]
+related_services: ["Docker Compose"]
 trend_incident: true
 ---
 
+## 冒頭まとめ
+
+Docker の 404 は「指定したものが見つからない」ことを示しますが、探した場所によって原因も対処も変わります。系統は3つです。第一に、手元のデーモンが管理する資源が見つからない場合で、No such container: や No such image: という文言になります。第二に、レジストリ（Docker Hub などのイメージ保管先）にリポジトリはあるがタグが見つからない場合で、manifest for ... not found という文言になります。第三に、リポジトリ自体にたどり着けない場合で、pull access denied for ..., repository does not exist or may require 'docker login' という文言になります。この3つ目の文言が「存在しない」と「権限がない」を並記しているのは意図的な設計で、Docker Hub は非公開リポジトリの存在を外部に確認させないため、両者を区別しないエラーを返します。
+
+つまり Docker の404の調査は、エラー文言を読んで「手元」「タグ」「リポジトリ（または権限）」のどれかを確定するところから始まります。
+
 ## エラーの概要
 
-[Docker](/glossary/docker/) で 404 [エラー](/glossary/エラー/)が発生するのは、指定した[イメージ](/glossary/イメージ/)または[リポジトリ](/glossary/リポジトリ/)が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub や Private Registry などの[イメージ](/glossary/イメージ/)保管先）に存在しないことを意味します。この[エラー](/glossary/エラー/)は `docker pull`、`docker run`、`docker push` などの[コマンド](/glossary/コマンド/)実行時に表示され、[イメージ](/glossary/イメージ/)名の誤字、存在しない[タグ](/glossary/タグ/)の指定、[アクセス権限](/glossary/アクセス権限/)の不足などが主な原因です。[Docker](/glossary/docker/) は[レジストリ](/glossary/レジストリ/)に[クエリ](/glossary/クエリ/)を送信した際に、リソースが見つからないと 404 ステータスを返すため、ユーザー側では対象[イメージ](/glossary/イメージ/)の確認と修正が必要になります。
+docker コマンドのエラーで Error response from daemon: と付くものは、Docker デーモンまで指示が届いたうえで、デーモンが処理を拒否したことを示します。デーモンは、コンテナやイメージなどの資源が見つからない場合、API 上は 404 として応答し、CLI には No such container: <名前> のような文言で表示されます（この対応は Docker のソースコードで確認できます）。一方、docker pull や docker push でレジストリとやり取りする場合の404は、レジストリ側の応答に由来します。レジストリの標準仕様では、リポジトリ名が不明な場合のエラーコードは NAME_UNKNOWN（repository name not known to registry）で、これも HTTP 404 に対応付けられています。
 
-## 実際のエラーメッセージ例
+どの場合も、エラーコードの数字より文言のほうが多くを語ります。以下、文言ごとに切り分けます。
 
-```bash
-$ docker pull myapp:latest
-Error response from daemon: manifest not found: myapp:latest
-```
+## まず最初に：エラー文言で3つに分岐する
 
-```json
-{
-  "errors": [
-    {
-      "code": "NAME_UNKNOWN",
-      "message": "repository not found",
-      "detail": null
-    }
-  ]
-}
-```
+No such container: <名前> や No such image: <名前> なら、手元のデーモンの中に該当する資源がありません（原因1）。
 
-```bash
-$ docker push localhost:5000/myimage:v1.0
-The push refers to repository [localhost:5000/myimage]
-error parsing HTTP 404 response body: invalid character '<' looking for beginning of value: "<html><body><h1>404 Not Found</h1></body></html>"
-```
+manifest for <イメージ>:<タグ> not found: manifest unknown なら、リポジトリまでは到達しており、指定したタグが存在しません（原因2）。
+
+pull access denied for <名前>, repository does not exist or may require 'docker login' なら、リポジトリが存在しないか、権限（ログイン）が足りないかのどちらかです（原因3）。
 
 ## よくある原因と解決手順
 
-### 原因 1: イメージ名またはタグの誤字
+### 原因1：手元のデーモンにその名前の資源がない
 
-[イメージ](/glossary/イメージ/)名や[タグ](/glossary/タグ/)にスペルミスがある場合、[レジストリ](/glossary/レジストリ/)が該当リソースを見つけられず 404 が返されます。[Docker](/glossary/docker/) Hub では大文字と小文字が区別されるため、注意が必要です。
+docker exec、docker logs、docker rm などで指定した名前のコンテナが存在しない場合の404です。単純な綴りの誤りのほか、見落とされやすいのが Docker Compose の自動命名です。Compose が起動したコンテナには、プロジェクト名とサービス名から組み立てられた名前が付くため、compose ファイルに書いたサービス名をそのまま指定しても一致しないことがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-docker pull myaapp:latest
-docker run node:lts-slpine node app.js
-```
-
-**After（修正後）：**
+**Before（サービス名をそのまま指定して404）：**
 
 ```bash
-docker pull myapp:latest
-docker run node:lts-alpine node app.js
+docker exec -it web bash
+# Error response from daemon: No such container: web
 ```
 
-### 原因 2: タグが存在しない、または削除されている
-
-[イメージ](/glossary/イメージ/)は存在するが指定した[タグ](/glossary/タグ/)が存在しない場合も 404 が発生します。[タグ](/glossary/タグ/)の削除後にその[タグ](/glossary/タグ/)を参照しようとした場合も同じです。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**After（実際のコンテナ名を確認して指定）：**
 
 ```bash
-docker pull ubuntu:22.10
+# 停止中も含めて実際の名前を確認
+docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Image}}"
+
+# Compose 管理下なら、サービス名と実コンテナの対応を確認
+docker compose ps
+
+# 確認した実際の名前で実行（Compose 経由なら exec はサービス名で可）
+docker compose exec web bash
 ```
 
-**After（修正後）：**
+docker ps -a で名前自体は合っているのに404になる場合は、コンテナが削除済みです（docker ps は既定で稼働中しか表示しないため、-a での確認が確実です）。No such image: の場合も同様に、docker images で手元のイメージ一覧と名前・タグを突き合わせます。
+
+### 原因2：レジストリに指定したタグが存在しない
+
+リポジトリは実在するがタグが違う場合、レジストリは manifest unknown を返し、CLI には次のように表示されます。
 
 ```bash
-# 利用可能なタグを事前に確認
-docker pull ubuntu:22.04
-docker pull ubuntu:latest
+docker pull ubuntu:24.10.5
+# Error response from daemon: manifest for ubuntu:24.10.5 not found:
+# manifest unknown: manifest unknown
 ```
 
-### 原因 3: Private Registry の認証失敗またはレジストリ自体が存在しない
+原因はタグの綴りの誤り、提供されていないタグの指定、そして「タグ省略時の latest」です。タグを省略すると latest が補われますが、すべてのリポジトリが latest タグを提供しているわけではないため、リポジトリ名が正しくてもこの404になることがあります。対処は実在するタグの確認です。Docker Hub であればイメージのページの Tags 一覧で確認できます。Dockerfile や compose ファイルにタグを書く場合は、確認した実在のタグを明示します。
 
-[プライベートレジストリ](/glossary/プライベートレジストリ/)にアクセスする際、[ログイン](/glossary/ログイン/)していない、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効、または[レジストリ](/glossary/レジストリ/) [URL](/glossary/url/) が誤っている場合 404 が返されます。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+### 原因3：リポジトリが存在しない、または権限がない
 
 ```bash
-docker pull registry.example.com/myapp:v1.0
-# ログインなしでプライベートレジストリにアクセス
-
-docker push gcr.io/my-project/image:tag
-# GCP Container Registry の認証なし
+docker pull myteam/internal-tool
+# Error response from daemon: pull access denied for myteam/internal-tool,
+# repository does not exist or may require 'docker login':
+# denied: requested access to the resource is denied
 ```
 
-**After（修正後）：**
+この文言のとおり、Docker Hub は「リポジトリが存在しない」場合と「非公開リポジトリに権限がない」場合を区別せずに応答します。確認の順序は次のとおりです。
+
+第一に、名前空間の欠落です。ユーザー名（または組織名）を省いた名前は、公式イメージの領域（docker.io/library/）として解釈されます。エラー文言や push 時の出力に library/ が含まれていたら、これが原因です。自分のイメージは <ユーザー名>/<イメージ名> の完全な形で指定します。
+
+第二に、認証です。対象が非公開リポジトリなら、docker login で対象レジストリにログインしてから再実行します。ログイン済みでも失敗する場合は、そのアカウントにリポジトリへのアクセス権があるかを確認します。
+
+第三に、綴りです。上記2つに該当しなければ、リポジトリ名そのものの誤りを疑い、レジストリのウェブ画面で実在を確認します。
+
+なお、名前に大文字が含まれている場合は、この404系のエラーにはなりません。リポジトリ名は小文字と定められており、レジストリへ問い合わせる前に invalid reference format: repository name must be lowercase として拒否されます。この文言が出たら、404の調査ではなく名前の修正です。
+
+## 補足：404に見えて別の問題
+
+push や pull の相手が実はレジストリではない（ポート番号の誤りなどで通常のウェブサーバーに接続している）場合、相手の返す HTML の404を JSON として解析できない旨のエラー（error parsing HTTP 404 response body: invalid character '<' ...）になります。この場合の調査対象は名前ではなく接続先です。また、レジストリに到達できない場合（DNS 解決の失敗や接続タイムアウト）は404ではなく接続系のエラー文言になります。404は「相手まで届いたうえで、見つからなかった」ことの証拠なので、経路の問題とは切り分けて考えられます。
+
+## 切り分けの順序
+
+1. エラー文言を読む。No such 系なら手元（原因1）、manifest 系ならタグ（原因2）、pull access denied 系ならリポジトリまたは権限（原因3）。
+2. 原因1なら docker ps -a と docker images で実在の名前を確認する。Compose 管理下なら docker compose ps で対応を確認する。
+3. 原因2ならレジストリのタグ一覧で実在するタグを確認し、明示する。
+4. 原因3なら、名前空間（library/ と解釈されていないか）、docker login、綴りの順に確認する。
+
+## 確認コマンド集
 
 ```bash
-# Private Registry にログイン
-docker login registry.example.com
-docker pull registry.example.com/myapp:v1.0
+# 1. 停止中も含めた実際のコンテナ名を確認
+docker ps -a --format "table {{.Names}}\t{{.Status}}\t{{.Image}}"
 
-# GCP Container Registry の認証
-gcloud auth configure-docker
-docker push gcr.io/my-project/image:tag
+# 2. 手元のイメージの名前とタグを確認
+docker images
+
+# 3. Compose のサービス名と実コンテナの対応を確認
+docker compose ps
+
+# 4. レジストリへの認証状態を作り直す
+docker login
+
+# 5. 完全な名前（レジストリ/名前空間/イメージ:タグ）で取得を再試行
+docker pull docker.io/<ユーザー名>/<イメージ名>:<タグ>
 ```
 
-### 原因 4: レジストリが不健全な状態、またはネットワーク接続の問題
+## Editor's Note
 
-レジストリサーバー自体が一時的にダウンしている、[ネットワーク](/glossary/ネットワーク/)が不安定な場合、404 ではなく接続[エラー](/glossary/エラー/)として返されることもありますが、[タイムアウト](/glossary/タイムアウト/)後に 404 が返される場合があります。
+原因3の名前空間の欠落を示す実例として、Docker 公式フォーラムの長期スレッドがあります（[Docker push - Error - requested access to the resource is denied](https://forums.docker.com/t/docker-push-error-requested-access-to-the-resource-is-denied/64468)、2018年開始）。docker login は成功しているのに push が denied: requested access to the resource is denied で失敗するという報告で、出力に The push refers to a repository [docker.io/library/プロジェクト名] とあることから、ユーザー名を省いた名前が公式イメージの領域（library/）への操作として解釈されていたことが分かります。回答は、<ユーザー名>/<イメージ名> の形でタグを付け直して push するというもので、その後も2024年に至るまで同種の報告と同じ解決が繰り返し書き込まれています。この記事は pull の404を中心に扱いましたが、名前空間の欠落という原因は push でも pull でも同じ形で現れる、ということを示す実例です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-docker pull myregistry.jp:5000/app:latest
-# レジストリサーバーが応答していない状態
-```
-
-**After（修正後）：**
-
-```bash
-# レジストリの疎通確認
-curl -v https://myregistry.jp:5000/v2/_catalog
-
-# DNS 解決確認
-nslookup myregistry.jp
-
-# ファイアウォール設定確認後、再度実行
-docker pull myregistry.jp:5000/app:latest
-```
-
-### 原因 5: Docker Compose での不正なイメージ指定
-
-Dockerfile または docker-compose.yml で存在しない[イメージ](/glossary/イメージ/)を FROM や image として指定した場合、ビルド・起動時に 404 が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```yaml
-version: '3'
-services:
-  app:
-    image: node:16-bullseye-slim
-    # このタグが削除されている場合
-    build:
-      context: .
-      dockerfile: Dockerfile
-```
-
-```dockerfile
-FROM python:3.10-slim-buster
-# このタグが古く削除されている場合
-```
-
-**After（修正後）：**
-
-```yaml
-version: '3'
-services:
-  app:
-    image: node:18-bullseye-slim
-    build:
-      context: .
-      dockerfile: Dockerfile
-```
-
-```dockerfile
-FROM python:3.11-slim-bullseye
-# サポートされている最新のタグを使用
-```
-
-## Docker 固有の注意点
-
-### Docker Hub との連携における注意
-
-[Docker](/glossary/docker/) Hub での[イメージ](/glossary/イメージ/)検索時、`docker search myapp` [コマンド](/glossary/コマンド/)で候補を確認した後でも、[タグ](/glossary/タグ/)の存在確認が必要です。公式[イメージ](/glossary/イメージ/)とユーザー提供[イメージ](/glossary/イメージ/)で命名規則が異なるため、フルネーム指定時は `library/` プレフィックスの有無を確認してください。
-
-### Local Registry の場合の疎通確認
-
-ローカル Registry（`localhost:5000` など）を運用している場合、レジストリコンテナが起動しているか、[ネットワーク](/glossary/ネットワーク/)がホストコンテナから到達可能かを確認してください。
-
-**確認[コマンド](/glossary/コマンド/)：**
-
-```bash
-# レジストリコンテナの起動確認
-docker ps | grep registry
-
-# レジストリの疎通確認
-curl http://localhost:5000/v2/_catalog
-
-# カタログが空の場合は、別途イメージを push する必要あり
-```
-
-### イメージのスコープと URL スキーム
-
-[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する際、[HTTP](/glossary/http/) と [HTTPS](/glossary/https/) の指定ミスが 404 につながることがあります。[Docker](/glossary/docker/) は [HTTPS](/glossary/https/) を推奨していますが、自己署名証明書を使用する場合は `insecure-registries` の設定が必要です。
-
-**daemon.json の設定例：**
-
-```json
-{
-  "insecure-registries": ["myregistry.local:5000"],
-  "registry-mirrors": []
-}
-```
-
-## それでも解決しない場合
-
-### 確認すべきログとデバッグコマンド
-
-```bash
-# Docker デーモンのログ確認（Linux systemd の場合）
-journalctl -u docker -n 100
-
-# Docker Desktop でのログ確認
-# macOS/Windows: Docker Desktop の Troubleshoot > View Logs メニュー
-
-# レジストリの詳細応答を確認
-docker pull myapp:latest --debug
-
-# レジストリが HTTPS をサポートしているか確認
-openssl s_client -connect registry.example.com:443 -showcerts
-```
-
-### 公式ドキュメント参照
-
-- [Docker Registry HTTP API V2](https://docs.docker.com/registry/spec/api/)
-- [Docker Hub Repository Visibility](https://docs.docker.com/docker-hub/repos/)
-- [Docker Daemon Configuration（insecure-registries）](https://docs.docker.com/engine/daemon/cli-reference/#daemon-config-file)
-
-### コミュニティリソース
-
-- [Docker](/glossary/docker/) Community Forums: https://forums.docker.com/
-- GitHub Issues（[Docker](/glossary/docker/)/moby）: https://github.com/moby/moby/issues
+Docker の404は、文言が「どこで見つからなかったか」を最初に教えてくれます。名前を打ち直す前に、手元・タグ・リポジトリのどの話なのかを文言で確定することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
