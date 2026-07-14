@@ -1,0 +1,1106 @@
+{
+  "report_type": "monthly",
+  "generated_at": "2026-07-14",
+  "month": "2026-06",
+  "period": {
+    "start": "2026-06-01",
+    "end": "2026-06-30"
+  },
+  "previous_period": {
+    "start": "2026-05-01",
+    "end": "2026-05-31"
+  },
+  "summary": {
+    "judgement": "前月から大きな変化はありません。",
+    "anomalies": [],
+    "top_bottlenecks": [
+      "supabase_429",
+      "github_api_404",
+      "github_api_400"
+    ]
+  },
+  "anomalies": [],
+  "ga4": {
+    "current": {
+      "active_users": 231,
+      "sessions": 310,
+      "organic_sessions": 106,
+      "direct_sessions": 194,
+      "organic_ratio": 0.3419354838709677,
+      "japan_ratio": 0.3463203463203463,
+      "pv_per_sess": 1.6516129032258065,
+      "avg_engagement_time": 157.5944230967742,
+      "bounce_rate": 0.6967741935483871,
+      "js_errors": 0,
+      "channel_str": "Direct: 63%, Organic Search: 34%, Referral: 2%"
+    },
+    "previous": {
+      "active_users": 0,
+      "sessions": 0,
+      "organic_sessions": 0,
+      "direct_sessions": 0,
+      "organic_ratio": 0.0,
+      "japan_ratio": 0.0,
+      "pv_per_sess": 0.0,
+      "avg_engagement_time": 0.0,
+      "bounce_rate": 0.0,
+      "js_errors": 0,
+      "channel_str": ""
+    },
+    "change": {
+      "active_users": {
+        "current": 231.0,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 231.0,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "sessions": {
+        "current": 310.0,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 310.0,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "organic_sessions": {
+        "current": 106.0,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 106.0,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "direct_sessions": {
+        "current": 194.0,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 194.0,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "japan_ratio": {
+        "current": 0.3463203463203463,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 0.3463203463203463,
+        "pct_change": null,
+        "kind": "ratio"
+      },
+      "pv_per_sess": {
+        "current": 1.6516129032258065,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 1.6516129032258065,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "avg_engagement_time": {
+        "current": 157.5944230967742,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 157.5944230967742,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "bounce_rate": {
+        "current": 0.6967741935483871,
+        "previous": 0.0,
+        "previous_exists": true,
+        "delta": 0.6967741935483871,
+        "pct_change": null,
+        "kind": "rate"
+      }
+    },
+    "host_breakdown": [
+      {
+        "host": "zenn.dev",
+        "pv": 1262,
+        "uu": 1019,
+        "sessions": 1282,
+        "pv_share": 0.7114,
+        "uu_share": 0.8152
+      },
+      {
+        "host": "errorlog.jp",
+        "pv": 512,
+        "uu": 231,
+        "sessions": 310,
+        "pv_share": 0.2886,
+        "uu_share": 0.1848
+      }
+    ]
+  },
+  "gsc": {
+    "current": {
+      "impressions": 5225,
+      "clicks": 88,
+      "ctr": 0.016842105263157894,
+      "position": 23.963636363636365
+    },
+    "previous": {
+      "impressions": 138,
+      "clicks": 1,
+      "ctr": 0.007246376811594203,
+      "position": 52.927536231884055
+    },
+    "change": {
+      "impressions": {
+        "current": 5225.0,
+        "previous": 138.0,
+        "previous_exists": true,
+        "delta": 5087.0,
+        "pct_change": 36.86231884057971,
+        "kind": "number"
+      },
+      "clicks": {
+        "current": 88.0,
+        "previous": 1.0,
+        "previous_exists": true,
+        "delta": 87.0,
+        "pct_change": 87.0,
+        "kind": "number"
+      },
+      "ctr": {
+        "current": 0.016842105263157894,
+        "previous": 0.007246376811594203,
+        "previous_exists": true,
+        "delta": 0.00959572845156369,
+        "pct_change": null,
+        "kind": "rate"
+      },
+      "position": {
+        "current": 23.963636363636365,
+        "previous": 52.927536231884055,
+        "previous_exists": true,
+        "delta": -28.96389986824769,
+        "pct_change": null,
+        "kind": "position"
+      }
+    },
+    "bottlenecks": [
+      {
+        "page": "https://errorlog.jp/posts/supabase_429/",
+        "impressions": 83,
+        "clicks": 1,
+        "ctr": 0.012,
+        "position": 7.9,
+        "top_query": "{\"error\": \"too many requests\", \"message\": \"rate limit exceeded. please try again later.\"}",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_404/",
+        "impressions": 62,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.3,
+        "top_query": "github 404 原因",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_400/",
+        "impressions": 52,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.7,
+        "top_query": "github api bad credentials",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/openai_api_503/",
+        "impressions": 50,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 8.3,
+        "top_query": "apiが過負荷状態です",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_500/",
+        "impressions": 44,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 7.3,
+        "top_query": "docker 500 internal server error",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_403/",
+        "impressions": 44,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 8.0,
+        "top_query": "github api 403",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/vercel_502/",
+        "impressions": 43,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 6.8,
+        "top_query": "bad gateway error code 502",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gcp_503/",
+        "impressions": 42,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.0,
+        "top_query": "エラー 503 とは",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/firebase_403/",
+        "impressions": 39,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.2,
+        "top_query": "firebase 403",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/openai_api_404/",
+        "impressions": 36,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.7,
+        "top_query": "",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/azure_400/",
+        "impressions": 35,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 5.8,
+        "top_query": "",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_404/",
+        "impressions": 35,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.2,
+        "top_query": "404 status",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_500/",
+        "impressions": 34,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.1,
+        "top_query": "github 500",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/vercel_500/",
+        "impressions": 30,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 15.5,
+        "top_query": "500: internal_server_error code: middleware_invocation_failed",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_409/",
+        "impressions": 29,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 10.6,
+        "top_query": "409エラー",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_429/",
+        "impressions": 26,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 14.1,
+        "top_query": "429エラー 対策",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_compose_404/",
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 7.2,
+        "top_query": "",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/firebase_400/",
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 12.7,
+        "top_query": "",
+        "priority": "A",
+        "priority_reason": "表示回数が多く順位は高いがクリックされていない",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/aws_503/",
+        "impressions": 68,
+        "clicks": 1,
+        "ctr": 0.0147,
+        "position": 37.9,
+        "top_query": "elb 503",
+        "priority": "B",
+        "priority_reason": "表示回数が多く順位21〜40位で改善余地が大きい",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/aws_401/",
+        "impressions": 21,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 37.9,
+        "top_query": "401エラー",
+        "priority": "B",
+        "priority_reason": "表示回数が多く順位21〜40位で改善余地が大きい",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_504/",
+        "impressions": 21,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 22.8,
+        "top_query": "504 エラー",
+        "priority": "B",
+        "priority_reason": "表示回数が多く順位21〜40位で改善余地が大きい",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/aws_504/",
+        "impressions": 72,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 41.3,
+        "top_query": "elb 504",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/stripe_402/",
+        "impressions": 47,
+        "clicks": 1,
+        "ctr": 0.0213,
+        "position": 11.0,
+        "top_query": "stripe 決済 エラー",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/firebase_429/",
+        "impressions": 46,
+        "clicks": 2,
+        "ctr": 0.0435,
+        "position": 13.1,
+        "top_query": "429 エラー",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gcp_500/",
+        "impressions": 43,
+        "clicks": 1,
+        "ctr": 0.0233,
+        "position": 13.6,
+        "top_query": "google エラー 500",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/",
+        "impressions": 39,
+        "clicks": 2,
+        "ctr": 0.0513,
+        "position": 14.3,
+        "top_query": "free_quota_exhausted",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_408/",
+        "impressions": 20,
+        "clicks": 1,
+        "ctr": 0.05,
+        "position": 16,
+        "top_query": "408エラー",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/tool_docker_compose/",
+        "impressions": 20,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 40.5,
+        "top_query": "docker compose",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/slack_404/",
+        "impressions": 18,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.2,
+        "top_query": "100404",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/aws_502/",
+        "impressions": 17,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 25.2,
+        "top_query": "aws 502",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_502/",
+        "impressions": 17,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 16.1,
+        "top_query": "github 502",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/openai_api_429/",
+        "impressions": 17,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.2,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/auto_2026-06-12_fixing-ghcr-unauthorized-docker-cannot-perform-int/",
+        "impressions": 15,
+        "clicks": 1,
+        "ctr": 0.0667,
+        "position": 13.9,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/page/3/",
+        "impressions": 15,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 5.3,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/aws_400/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 13,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/aws_404/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 51.8,
+        "top_query": "404 status",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/azure_500/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 8.4,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/firebase_404/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 20.8,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gcp_403/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 18.2,
+        "top_query": "google 承認エラー 403",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_401/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 10.6,
+        "top_query": "401エラー",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gitlab_404/",
+        "impressions": 14,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 4.5,
+        "top_query": "gitlab 404",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_409/",
+        "impressions": 13,
+        "clicks": 1,
+        "ctr": 0.0769,
+        "position": 12.9,
+        "top_query": "409エラー",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/postman_400/",
+        "impressions": 13,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 5.8,
+        "top_query": "postman 400 bad request",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/azure_429/",
+        "impressions": 12,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.2,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/nginx_400/",
+        "impressions": 12,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 14.9,
+        "top_query": "nginx エラー",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/vercel_400/",
+        "impressions": 12,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 3.8,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/bitbucket_500/",
+        "impressions": 11,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.2,
+        "top_query": "bitbucket 障害",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/docker_compose_500/",
+        "impressions": 11,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 8.2,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_422/",
+        "impressions": 11,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 11.9,
+        "top_query": "422 github api",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/podman_500/",
+        "impressions": 11,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 7.5,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/supabase_400/",
+        "impressions": 11,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.5,
+        "top_query": "supabase project url",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/podman_401/",
+        "impressions": 10,
+        "clicks": 1,
+        "ctr": 0.1,
+        "position": 19.7,
+        "top_query": "401",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/auto_2026-06-12_moving-docker-images-between-repos-with-crane-afte/",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 6.4,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/azure_404/",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 8.3,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/github_api_503/",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 9.4,
+        "top_query": "github 503",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/nginx_504/",
+        "impressions": 10,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 15,
+        "top_query": "nginx 504",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/auto_2026-06-12_cara-install-docker-nginx-dan-ssl-certbot-di-ubunt/",
+        "impressions": 6,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 18.5,
+        "top_query": "502 bad gateway nginx 原因",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gcp_400/",
+        "impressions": 6,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 12.3,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      },
+      {
+        "page": "https://errorlog.jp/posts/gcp_429/",
+        "impressions": 5,
+        "clicks": 1,
+        "ctr": 0.2,
+        "position": 15.2,
+        "top_query": "",
+        "priority": "C",
+        "priority_reason": "その他の既存ボトルネック条件に該当",
+        "status": "新規"
+      }
+    ]
+  },
+  "rewrite_tracking": [
+    {
+      "url": "https://errorlog.jp/posts/nginx_500/",
+      "rewrite_date": "2026-06-10",
+      "elapsed_days": 34,
+      "before_impressions": null,
+      "after_impressions": 9,
+      "before_clicks": null,
+      "after_clicks": null,
+      "before_ctr": null,
+      "after_ctr": 0,
+      "before_position": null,
+      "after_position": 8.11,
+      "verdict": "判定保留",
+      "reason": "データ不足"
+    }
+  ],
+  "rewrite_verdict_counts": {
+    "改善": 0,
+    "変化なし": 0,
+    "悪化": 0,
+    "判定保留": 1
+  },
+  "article_progress": {
+    "published_count": 91,
+    "verified_count": 0,
+    "unverified_count": 91,
+    "verification_rate": 0.0,
+    "current": {
+      "modified": 0,
+      "added": 0,
+      "unpublished": 0
+    },
+    "previous": {
+      "modified": 0,
+      "added": 0,
+      "unpublished": 0
+    },
+    "daily_modified_avg": 0.0,
+    "daily_new_avg": 0.0,
+    "review_status_source": "未設定",
+    "previous_start": "2026-05-01",
+    "previous_end": "2026-05-31"
+  },
+  "content_gap": {
+    "summary": {
+      "total_queries": 61,
+      "covered": 4,
+      "partial": 11,
+      "uncovered": 46,
+      "coverage_rate": 0.0656
+    },
+    "top_opportunities": [
+      {
+        "query": "graphqlとは何か",
+        "impressions": 12,
+        "ctr": 0.0,
+        "position": 80.17,
+        "coverage": "uncovered",
+        "best_match_slug": "github_api_429",
+        "match_score": 0.034,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "infrastructure 意味",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 94.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "nosuchkeythe specified key does not exist.",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 43.0,
+        "coverage": "uncovered",
+        "best_match_slug": "gemini_api_429_resource_exhausted_free_tier",
+        "match_score": 0.034,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "rfc ne demek",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 97.0,
+        "coverage": "uncovered",
+        "best_match_slug": "docker_408",
+        "match_score": 0.034,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "vpc ネットワーク",
+        "impressions": 8,
+        "ctr": 0.0,
+        "position": 98.25,
+        "coverage": "uncovered",
+        "best_match_slug": "aws_500",
+        "match_score": 0.034,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "インフラ と は 簡単 に",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 98.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "トランザクション エラー 原因",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 69.0,
+        "coverage": "uncovered",
+        "best_match_slug": "aws_401",
+        "match_score": 0.069,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "トークン と は わかり やすく",
+        "impressions": 5,
+        "ctr": 0.0,
+        "position": 99.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "バックエンドエラーとは",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 1.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "バリデーション it",
+        "impressions": 3,
+        "ctr": 0.0,
+        "position": 96.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "バリデーションエラー 原因",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 72.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "バリデーションエラーとは",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 75.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "バリデーションチェック",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 83.0,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "仮想プライベートクラウド",
+        "impressions": 12,
+        "ctr": 0.0,
+        "position": 93.75,
+        "coverage": "uncovered",
+        "best_match_slug": "",
+        "match_score": 0.0,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "401 エラー",
+        "impressions": 2,
+        "ctr": 0.0,
+        "position": 87.5,
+        "coverage": "partial",
+        "best_match_slug": "aws_401",
+        "match_score": 0.366,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "401エラー",
+        "impressions": 30,
+        "ctr": 0.0,
+        "position": 83.03,
+        "coverage": "partial",
+        "best_match_slug": "aws_401",
+        "match_score": 0.366,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "cloud run 503",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 20.0,
+        "coverage": "partial",
+        "best_match_slug": "gcp_503",
+        "match_score": 0.538,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "cloudfront 502",
+        "impressions": 4,
+        "ctr": 0.0,
+        "position": 55.5,
+        "coverage": "partial",
+        "best_match_slug": "aws_502",
+        "match_score": 0.366,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "firebase vs haproxy",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 235.0,
+        "coverage": "partial",
+        "best_match_slug": "firebase_403",
+        "match_score": 0.503,
+        "opportunity_score": 0.0
+      },
+      {
+        "query": "google 500 エラー",
+        "impressions": 1,
+        "ctr": 0.0,
+        "position": 47.0,
+        "coverage": "partial",
+        "best_match_slug": "gcp_500",
+        "match_score": 0.4,
+        "opportunity_score": 0.0
+      }
+    ]
+  },
+  "monthly_history": [
+    {
+      "month": "2026-06",
+      "active_users": 231,
+      "sessions": 310,
+      "organic_sessions": 106,
+      "impressions": 5225,
+      "clicks": 88,
+      "ctr": 0.016842105263157894,
+      "position": 23.963636363636365,
+      "modified": 0,
+      "added": 0
+    }
+  ],
+  "data_status": [],
+  "issue_title": "【月次レポート】GA4 + GSC ボトルネック（2026年6月）",
+  "issue_body": "# 月次統合分析レポート（2026年6月）\n\n対象期間: 2026-06-01 〜 2026-06-30\n\n---\n\n## 今月の総括\n\n- GA4 Organic Searchセッション: 106（前月比 算出不可）\n- GSC表示回数: 5,225（前月比 +3686.2%）\n- GSCクリック数: 88（前月比 +8700.0%）\n- 平均掲載順位: 24.0（前月 52.9）\n- 今月修正した記事数: 0\n- 今月新規公開した記事数: 0\n- 今月非公開化した記事数: 0\n- 最優先対応記事: supabase_429、github_api_404、github_api_400\n\n前月から大きな変化はありません。\n\n---\n\n## 異常検知\n\n大きな異常は検出されませんでした。\n\n---\n\n## GA4トラフィックサマリー\n\nメイン指標は `hostname = errorlog.jp` のみで集計しています。\n\n| 指標 | 今月 | 前月 | 前月比 |\n| :--- | ---: | ---: | ---: |\n| アクティブユーザー | 231 | 0 | 算出不可 |\n| セッション | 310 | 0 | 算出不可 |\n| Organic Searchセッション | 106 | 0 | 算出不可 |\n| Directセッション | 194 | 0 | 算出不可 |\n| 日本国内率 | 34.63% | 0.00% | +34.63pt |\n| 1セッションあたりPV | 1.65 | 0.00 | 算出不可 |\n| 平均エンゲージ時間 | 157.6秒 | 0.0秒 | 算出不可 |\n| 離脱率 | 69.68% | 0.00% | +69.68pt |\n\n---\n\n## Search Consoleサイト全体サマリー\n\n| 指標 | 今月 | 前月 | 前月比 |\n| :--- | ---: | ---: | ---: |\n| 総表示回数 | 5,225 | 138 | +3686.2% |\n| 総クリック数 | 88 | 1 | +8700.0% |\n| 平均CTR | 1.68% | 0.72% | +0.96pt |\n| 平均掲載順位 | 24.0 | 52.9 | -29.0 |\n\n---\n\n## Search Consoleボトルネック記事\n\n| 優先度 | 状態 | URL | 表示回数 | クリック数 | CTR | 平均掲載順位 | 最多検索クエリ | 判定理由 |\n| :--- | :--- | :--- | ---: | ---: | ---: | ---: | :--- | :--- |\n| A | 新規 | `https://errorlog.jp/posts/supabase_429/` | 83 | 1 | 1.20% | 7.9 | {\"error\": \"too many requests\", \"message\": \"rate limit exceeded. please try again later.\"} | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/github_api_404/` | 62 | 0 | 0.00% | 11.3 | github 404 原因 | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/github_api_400/` | 52 | 0 | 0.00% | 9.7 | github api bad credentials | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/openai_api_503/` | 50 | 0 | 0.00% | 8.3 | apiが過負荷状態です | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/docker_500/` | 44 | 0 | 0.00% | 7.3 | docker 500 internal server error | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/github_api_403/` | 44 | 0 | 0.00% | 8.0 | github api 403 | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/vercel_502/` | 43 | 0 | 0.00% | 6.8 | bad gateway error code 502 | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/gcp_503/` | 42 | 0 | 0.00% | 11.0 | エラー 503 とは | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/firebase_403/` | 39 | 0 | 0.00% | 11.2 | firebase 403 | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/openai_api_404/` | 36 | 0 | 0.00% | 11.7 | — | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/azure_400/` | 35 | 0 | 0.00% | 5.8 | — | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/docker_404/` | 35 | 0 | 0.00% | 9.2 | 404 status | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/github_api_500/` | 34 | 0 | 0.00% | 9.1 | github 500 | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/vercel_500/` | 30 | 0 | 0.00% | 15.5 | 500: internal_server_error code: middleware_invocation_failed | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/github_api_409/` | 29 | 0 | 0.00% | 10.6 | 409エラー | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/docker_429/` | 26 | 0 | 0.00% | 14.1 | 429エラー 対策 | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/docker_compose_404/` | 20 | 0 | 0.00% | 7.2 | — | 表示回数が多く順位は高いがクリックされていない |\n| A | 新規 | `https://errorlog.jp/posts/firebase_400/` | 20 | 0 | 0.00% | 12.7 | — | 表示回数が多く順位は高いがクリックされていない |\n| B | 新規 | `https://errorlog.jp/posts/aws_503/` | 68 | 1 | 1.47% | 37.9 | elb 503 | 表示回数が多く順位21〜40位で改善余地が大きい |\n| B | 新規 | `https://errorlog.jp/posts/aws_401/` | 21 | 0 | 0.00% | 37.9 | 401エラー | 表示回数が多く順位21〜40位で改善余地が大きい |\n| B | 新規 | `https://errorlog.jp/posts/docker_504/` | 21 | 0 | 0.00% | 22.8 | 504 エラー | 表示回数が多く順位21〜40位で改善余地が大きい |\n| C | 新規 | `https://errorlog.jp/posts/aws_504/` | 72 | 0 | 0.00% | 41.3 | elb 504 | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/stripe_402/` | 47 | 1 | 2.13% | 11.0 | stripe 決済 エラー | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/firebase_429/` | 46 | 2 | 4.35% | 13.1 | 429 エラー | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/gcp_500/` | 43 | 1 | 2.33% | 13.6 | google エラー 500 | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/gemini_api_429_resource_exhausted_free_tier/` | 39 | 2 | 5.13% | 14.3 | free_quota_exhausted | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/docker_408/` | 20 | 1 | 5.00% | 16.0 | 408エラー | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/tool_docker_compose/` | 20 | 0 | 0.00% | 40.5 | docker compose | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/slack_404/` | 18 | 0 | 0.00% | 11.2 | 100404 | その他の既存ボトルネック条件に該当 |\n| C | 新規 | `https://errorlog.jp/posts/aws_502/` | 17 | 0 | 0.00% | 25.2 | aws 502 | その他の既存ボトルネック条件に該当 |\n\n---\n\n## 改善効果トラッカー\n\n| 判定 | 件数 |\n| :--- | ---: |\n| 改善 | 0 |\n| 変化なし | 0 |\n| 悪化 | 0 |\n| 判定保留 | 1 |\n\n| URL | 修正日 | 修正後経過日数 | 修正前表示回数 | 修正後表示回数 | 修正前クリック数 | 修正後クリック数 | 修正前CTR | 修正後CTR | 修正前順位 | 修正後順位 | 判定 |\n| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |\n| `https://errorlog.jp/posts/nginx_500/` | 2026-06-10 | 34日 | 0 | 9 | 0 | 0 | 0.00% | 0.00% | 0.0 | 8.1 | 判定保留 |\n\n---\n\n## ホスト別トラフィック内訳（混入監視）\n\n| ホスト | PV | PV% | UU | UU% |\n| :--- | :--- | :--- | :--- | :--- |\n| `zenn.dev` | 1,262 | 71.1% | 1,019 | 81.5% |\n| `errorlog.jp` | 512 | 28.9% | 231 | 18.5% |\n\n> メイン指標は errorlog.jp のみ（PV の 28.9%）で集計しています。\n\n> ⚠️ zenn.dev が全体の **71.1%** を占めています。メイン指標は errorlog.jp のみに絞って集計しています。\n\n---\n\n### ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n今月は除外対象なし（Singapore・5.0秒未満のセッションは検出されませんでした）。\n\n---\n\n## 国別分布（継続観測・ボット判定の参考。断定ではありません）\n\n| 国 | セッション数 | アクティブUU | エンゲージ率 | 平均エンゲージ時間(秒) | 直帰率 |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| United States ⚠️ | 132 | 131 | 1.52% | 0.6 | 98.48% |\n| Japan | 158 | 80 | 56.96% | 308.4 | 43.04% |\n| Canada ⚠️ | 13 | 13 | 0.00% | 0.0 | 100.00% |\n| (not set) | 2 | 2 | 100.00% | 19.4 | 0.00% |\n| Romania ⚠️ | 2 | 2 | 0.00% | 0.0 | 100.00% |\n| Hungary ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n| India ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n| United Arab Emirates ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n\n> ⚠️ は平均エンゲージ時間 < 10秒 または 直帰率 > 90% の国に付けた**参考フラグ**です（直帰率の閾値は仮値であり、運用しながら見直してください）。エラー解決サイトでは検索流入後すぐ離脱する正常な利用も多いため、この指標だけではボットと**断定できません**。毎週の推移を人が見て判断するための記録であり、自動的な除外・ブロックには使用していません。\n\n---\n\n## 記事品質改善の進捗\n\n| 指標 | 今月 | 前月 |\n| :--- | ---: | ---: |\n| 修正記事数 | 0 | 0 |\n| 新規公開記事数 | 0 | 0 |\n| 非公開化記事数 | 0 | 0 |\n| 1日平均修正数 | 0.00 | 0.00 |\n| 1日平均新規数 | 0.00 | 0.00 |\n\n| 現在指標 | 値 |\n| :--- | ---: |\n| 現在の公開記事数 | 91 |\n| 手動検証済み記事数 | 0 |\n| 未検証記事数 | 91 |\n| 検証進捗率 | 0.0% |\n\n> 検証済み判定の入力元: 未設定。推測でverifiedは付与していません。\n\n---\n\n## インデックス状況\n\nSearch Console APIではページインデックス登録レポートの集計値を直接取得できないため、自動取得していません。\n---\n\n## Content Gap Report\n\nCoverage Rate: **6.6%**\n\n| 分類 | 件数 |\n| :--- | ---: |\n| Covered | 4 |\n| Partial | 11 |\n| Uncovered | 46 |\n| **合計** | **61** |\n\n### Top Opportunities\n\n1. 🔴 `graphqlとは何か` — Score: 0.0\n2. 🔴 `infrastructure 意味` — Score: 0.0\n3. 🔴 `nosuchkeythe specified key does not exist.` — Score: 0.0\n4. 🔴 `rfc ne demek` — Score: 0.0\n5. 🔴 `vpc ネットワーク` — Score: 0.0\n6. 🔴 `インフラ と は 簡単 に` — Score: 0.0\n7. 🔴 `トランザクション エラー 原因` — Score: 0.0\n8. 🔴 `トークン と は わかり やすく` — Score: 0.0\n9. 🔴 `バックエンドエラーとは` — Score: 0.0\n10. 🔴 `バリデーション it` — Score: 0.0\n11. 🔴 `バリデーションエラー 原因` — Score: 0.0\n12. 🔴 `バリデーションエラーとは` — Score: 0.0\n13. 🔴 `バリデーションチェック` — Score: 0.0\n14. 🔴 `仮想プライベートクラウド` — Score: 0.0\n15. ⚠️ `401 エラー` — Score: 0.0\n16. ⚠️ `401エラー` — Score: 0.0\n17. ⚠️ `cloud run 503` — Score: 0.0\n18. ⚠️ `cloudfront 502` — Score: 0.0\n19. ⚠️ `firebase vs haproxy` — Score: 0.0\n20. ⚠️ `google 500 エラー` — Score: 0.0\n\n\n---\n\n## 月次推移\n\n| 月 | GA4アクティブユーザー | GA4セッション | Organic Search | GSC表示回数 | クリック | CTR | 平均順位 | 修正記事数 | 新規記事数 |\n| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |\n| 2026-06 | 231 | 310 | 106 | 5,225 | 88 | 1.68% | 24.0 | 0 | 0 |\n\n---\n\n## 今月の対応候補\n\n| 優先度 | URL | 表示回数 | CTR | 平均順位 | 推奨対応 |\n| :--- | :--- | ---: | ---: | ---: | :--- |\n| A | `https://errorlog.jp/posts/supabase_429/` | 83 | 1.20% | 7.9 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/github_api_404/` | 62 | 0.00% | 11.3 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/github_api_400/` | 52 | 0.00% | 9.7 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/openai_api_503/` | 50 | 0.00% | 8.3 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/docker_500/` | 44 | 0.00% | 7.3 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/github_api_403/` | 44 | 0.00% | 8.0 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/vercel_502/` | 43 | 0.00% | 6.8 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/gcp_503/` | 42 | 0.00% | 11.0 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/firebase_403/` | 39 | 0.00% | 11.2 | タイトル・導入文・検索意図との一致を優先確認 |\n| A | `https://errorlog.jp/posts/openai_api_404/` | 36 | 0.00% | 11.7 | タイトル・導入文・検索意図との一致を優先確認 |\n\n> このIssueは `monthly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。"
+}

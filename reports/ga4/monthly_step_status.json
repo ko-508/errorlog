@@ -1,0 +1,25 @@
+{
+  "steps": [
+    {
+      "id": "monthly_report",
+      "name": "月次レポート生成",
+      "outcome": "success",
+      "continue_on_error": false,
+      "impact": "月次Issueが生成されない可能性があります"
+    },
+    {
+      "id": "content_gap",
+      "name": "Content Gap分析",
+      "outcome": "success",
+      "continue_on_error": true,
+      "impact": "Content Gap分析は今月更新されていません"
+    },
+    {
+      "id": "rewrite_results",
+      "name": "リライト実績更新",
+      "outcome": "success",
+      "continue_on_error": true,
+      "impact": "CTR実験のafter指標が更新されていません"
+    }
+  ]
+}
