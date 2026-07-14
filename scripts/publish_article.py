@@ -44,7 +44,15 @@ LINT_REPORTS = [
 
 
 def run(cmd: list[str], check: bool = True, capture: bool = True) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, cwd=BASE, check=check, capture_output=capture, text=True, encoding="utf-8")
+    """サブプロセス実行。Windows では子プロセスの日本語出力が CP932 になる
+    ことがあるため、UTF-8 で読み、復号できないバイトは置換して落ちないようにする。
+    Python の子プロセスには UTF-8 出力を強制する。"""
+    import os
+    env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8")
+    return subprocess.run(
+        cmd, cwd=BASE, check=check, capture_output=capture,
+        text=True, encoding="utf-8", errors="replace", env=env,
+    )
 
 
 def git_dirty_files() -> set[str]:
