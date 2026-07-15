@@ -1,207 +1,160 @@
 ---
 title: "Terraform の 500 エラー：原因と解決策"
-date: 2026-06-10
-description: "Terraform CloudまたはクラウドプロバイダーAPIの内部エラーが発生した"
+date: 2026-01-01
+description: "Terraform の 500 Internal Server Error は、Terraform 自身の不具合ではなく、通信相手のサーバー内部エラーです。相手はクラウドプロバイダーの API、state を置くバックエンド、Terraform Registry の3つのどれかで、エラーメッセージ内の URL と失敗した段階から特定できます。権限不足やスロットリングでは500は返りません。"
 tags: ["Terraform"]
 errorCode: "500"
+lastmod: 2026-07-15
 service: "Terraform"
 error_type: "500"
-components: ["Provider", "Backend", "State", "Workspace"]
-related_services: ["Terraform Cloud", "AWS", "Azure", "GCP", "EC2", "IAM"]
-trend_incident: true
+components: ["CLI"]
+related_services: ["AWS", "HCP Terraform", "Terraform Registry"]
+trend_incident: false
 ---
-# Terraform で 500 エラーが発生した場合の対処方法
+
+## 冒頭まとめ
+
+Terraform の実行中に現れる 500 Internal Server Error は、手元で動いている Terraform 自身の不具合ではなく、Terraform が通信している相手側のサーバー内部エラーです。Terraform は多数のリモート API のクライアントであり、相手は大きく3つに分かれます。plan や apply の最中にリソースを操作するクラウドプロバイダーの API（原因1）、state の保存や取得、リモート実行を担うバックエンド（HCP Terraform など。原因2）、そして terraform init でプロバイダーやモジュールを取得する Terraform Registry（原因3）です。500の調査の第一歩は、エラーメッセージに含まれる URL と、どの段階で失敗したかを読んで、この3つのどれが相手かを特定することです。
+
+境界も先に押さえておくと迷いません。実行アカウントの権限不足は、クラウド側から 403 系のアクセス拒否（AWS なら AccessDenied や UnauthorizedOperation）として返り、500にはなりません。AWS のスロットリングは ThrottlingException（HTTP では 400 として現れることもあります）や 429 で、プロバイダーが自動で再試行する対象です。また、TERRAFORM CRASH という見出しとスタックトレースが出る異常終了は、HTTP の500ではなく Terraform 本体のバグであり、調査の場所がまったく異なります。
 
 ## エラーの概要
 
-Terraform で 500 [エラー](/glossary/エラー/)が発生した場合、Terraform Cloud またはクラウドプロバイダー（AWS、Azure、GCP など）の [API](/glossary/api/) で内部[エラー](/glossary/エラー/)が生じています。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の問題であり、ユーザーの設定ミスではありません。500 [エラー](/glossary/エラー/)は一般的に、一時的な障害か、リソース作成時のプロバイダー側の予期しない状況を示しています。
+Terraform の500は、相手ごとに異なる文言で現れます。いずれもメッセージの中に相手を特定する手がかりが含まれています。
 
-## 実際のエラーメッセージ例
+クラウドプロバイダーの API が相手の場合、リソース操作のエラーとして表示され、リクエスト先のエンドポイントが含まれます。
 
-**Terraform Cloud の run 実行画面：**
-
-```
-Error: Internal Server Error
-
+```text
+Error: creating EC2 Instance: 500 Internal Server Error
   on main.tf line 12, in resource "aws_instance" "example":
-  12: resource "aws_instance" "example" {
-
-Error: Post "https://ec2.amazonaws.com/": 500 Internal Server Error
 ```
 
-**terraform apply 実行時の標準出力：**
+バックエンドが相手の場合の実例は、HashiCorp の公式文書（Terraform Enterprise の障害復旧ガイド）にそのまま掲載されています。リモートバックエンドから state を取得できなかったケースです。
 
-```json
-{
-  "type": "error",
-  "message": "Error: Internal Server Error",
-  "diagnostics": [
-    {
-      "severity": "error",
-      "summary": "API Error",
-      "detail": "500 Internal Server Error returned from AWS API"
-    }
-  ]
-}
+```text
+Error refreshing state: Error downloading state: 500 Internal Server Error
 ```
+
+この Error downloading state という文言は、Terraform の現行ソースコード（internal/backend/remote/backend_state.go）で実装されているメッセージであり、公式文書の実ログとも一致します。
+
+Terraform Registry が相手の場合、terraform init のプロバイダー取得が失敗します。現行ソースコード（internal/getproviders/registry_client.go）のとおり、失敗時の文言には再試行を使い切ったことが示されます。
+
+```text
+Error: Failed to query available provider packages
+
+Could not retrieve the list of available versions for provider hashicorp/aws:
+the request failed after 2 attempts, please try again later
+```
+
+## まず最初に：URL と段階で相手を特定する
+
+terraform init の段階で失敗し、対象がプロバイダーやモジュールの取得なら、相手は Terraform Registry です（原因3）。plan や apply の段階で、エラーにクラウドのエンドポイント（amazonaws.com、googleapis.com、azure.com など）やリソース名が含まれるなら、相手はクラウドプロバイダーの API です（原因1）。state の取得・保存やリモート実行のエラー（Error downloading state、app.terraform.io への通信、自営の Terraform Enterprise）なら、相手はバックエンドです（原因2）。詳しいやり取りを見たい場合は、TF_LOG=DEBUG を付けて再実行すると、どの URL への通信で失敗したかがログに残ります。
 
 ## よくある原因と解決手順
 
-### 原因1：クラウドプロバイダーの一時的な API 障害
+### 原因1：クラウドプロバイダーの API が内部エラーを返している
 
-AWS、Azure、GCP などのクラウドプロバイダーは、[デプロイ](/glossary/デプロイ/)中に一時的な [API](/glossary/api/) 障害が発生することがあります。このような場合、Terraform の実行要求がプロバイダー側で正常に処理されず、500 [エラー](/glossary/エラー/)が返されます。
+plan や apply の最中に、AWS などのクラウド側で一時的な内部エラーが起きると、リソース操作が500で失敗します。重要なのは、ユーザーに500が見えた時点で、プロバイダーの自動再試行をすでに使い切っているという点です。AWS プロバイダーの公式文書のとおり、スロットリングや一時的な失敗に対しては API 呼び出しが指数バックオフで自動的に再試行され、その回数の既定値は25回です。それでも失敗が続いた場合にだけ、エラーが表面化します。
 
-**症状：** [エラーメッセージ](/glossary/エラーメッセージ/)に「500 Internal Server Error」と表示されるが、[設定ファイル](/glossary/設定ファイル/)は正しい。
+対処は、クラウド側のステータス確認と、時間をおいた再実行です。ただし、途中まで進んだ apply を再実行する前に、必ず plan で現状との差分を確認してください。state に記録済みのリソースは再作成されませんが、「クラウド側では作成が完了したのに、応答が届かず state に記録されなかった」可能性は排除できないためです。plan の差分に「すでに存在するはずのリソースの新規作成」が含まれていたら、実際の状態を確認してから進めます。
 
-**修正方法：**
-
-```bash
-# 1. クラウドプロバイダーのステータスページで障害を確認
-# AWS: https://status.aws.amazon.com/
-# Azure: https://status.azure.com/
-# GCP: https://status.cloud.google.com/
-
-# 2. 数分待機後、terraform apply を再実行
-terraform apply -auto-approve
-
-# 3. 成功したことを確認
-terraform show
-```
-
-Terraform は[冪等性](/glossary/冪等性/)（何度実行しても結果が同じ性質）を持つため、同じリソース定義で再実行しても安全です。既に作成済みのリソースは無視され、失敗した部分だけが再度実行されます。
-
-### 原因2：Terraform Cloud のエージェント実行時エラー
-
-Terraform Cloud を使用している場合、リモートバックエンドでの実行中にエージェント側で予期しない[エラー](/glossary/エラー/)が発生し、500 [エラー](/glossary/エラー/)が返されることがあります。この場合、run log に詳細情報が記録されています。
-
-**症状：** Terraform Cloud の UI に「Run failed」と表示され、plan または apply ステップで 500 [エラー](/glossary/エラー/)が発生。
-
-**修正方法：**
-
-Terraform Cloud の UI に移動し、該当 run の「Logs」タブを開いて、詳細なスタックトレースや[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。そこに「provider returned invalid resource state」や「timeout」などの具体的な原因が記録されていることが多いです。
-
-UI を使わず [API](/glossary/api/) 経由で[ログ](/glossary/ログ/)を取得する場合は、Plans [API](/glossary/api/) / Applies [API](/glossary/api/) から確認できます。
-
-```bash
-# 1. Terraform Cloud UI で該当 run の詳細ページを開き、URL に含まれる
-#    プランまたは適用の ID（plan-xxxxxxxx / apply-xxxxxxxx）を確認する
-
-# 2. プラン（または適用）の詳細を取得する
-curl \
-  --header "Authorization: Bearer <your-tfc-token>" \
-  --header "Content-Type: application/vnd.api+json" \
-  https://app.terraform.io/api/v2/plans/<plan-id>
-
-# 3. レスポンスの data.attributes.log-read-url に対して GET すると、
-#    ログ本文（プレーンテキスト）を取得できる
-curl "<取得した log-read-url の値>"
-```
-
-### 原因3：IAM 権限不足または API リクエスト制限
-
-クラウドプロバイダーの [API](/glossary/api/) に対して、Terraform の実行[アカウント](/glossary/アカウント/)が十分な[権限](/glossary/権限/)を持たない場合、アクセス拒否[エラー](/glossary/エラー/)が返されます。特に大量のリソースを[デプロイ](/glossary/デプロイ/)する場合、[API](/glossary/api/) リクエストレート制限に達することもあります。
-
-**症状：** 同じ設定で複数回[デプロイ](/glossary/デプロイ/)を試みると 500 [エラー](/glossary/エラー/)が頻発する。
-
-**修正方法：**
-
-AWS [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で必要な[権限](/glossary/権限/)を明示的に付与します。利用中の[ロール](/glossary/ロール/)／ユーザーに対して、実行するリソースタイプに対応した Action を[ポリシー](/glossary/ポリシー/)に追加します。例えば、EC2 [インスタンス](/glossary/インスタンス/)の作成・管理には以下の[権限](/glossary/権限/)が必要です：
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:RunInstances",
-        "ec2:DescribeInstances",
-        "ec2:TerminateInstances"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
-
-[IAM](/glossary/iam/) [コンソール](/glossary/コンソール/)で[ポリシー](/glossary/ポリシー/)を確認し、必要な[権限](/glossary/権限/)が含まれているかチェックしてください。
-
-## ツール固有の注意点
-
-### Terraform Cloud での 500 エラー対応
-
-Terraform Cloud を使用している場合、以下の点に注意してください：
-
-1. **Run State の確認**：Terraform Cloud の UI で run [ID](/glossary/id/) を確認し、「Queued」「Planning」「Applying」などの各ステップでの[ログ](/glossary/ログ/)を詳しく確認します。[エラー](/glossary/エラー/)が発生したステップの直前の[ログ](/glossary/ログ/)に原因が記載されていることが多いです。
-
-2. **Workspace [変数](/glossary/変数/)の検証**：Terraform Cloud の workspace 設定で、[環境変数](/glossary/環境変数/)（`TF_VAR_` で始まる[変数](/glossary/変数/)）や機密変数が正しく設定されているか確認します。不正な値が設定されている場合、プロバイダー側で 500 [エラー](/glossary/エラー/)が返されます。
-
-3. **エージェント実行モード**：セルフホストされた Terraform Cloud エージェントを使用している場合、エージェントの[ログ](/glossary/ログ/)を確認してください。エージェント側のメモリー不足や[ネットワーク](/glossary/ネットワーク/)接続[エラー](/glossary/エラー/)が原因の場合があります。
-
-```bash
-# セルフホストされたエージェントのログ確認（Docker 実行時）
-docker logs <agent-container-id>
-
-# Kubernetes 実行時
-kubectl logs -n tfc-agent <pod-name>
-```
-
-### リトライと待機戦略
-
-大規模なデプロイメントを実行する場合、[API](/glossary/api/) [レート制限](/glossary/レート制限/)に達する可能性があります。この場合、以下の設定で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
+**Before（再試行回数を絞っていて、一時エラーがそのまま失敗になる設定）：**
 
 ```hcl
-resource "aws_instance" "example" {
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t3.micro"
-
-  # タイムアウト設定で待機時間を延長
-  timeouts {
-    create = "10m"
-    delete = "10m"
-  }
+provider "aws" {
+  region      = "ap-northeast-1"
+  max_retries = 1   # 高速化のつもりで絞ると、一時的な内部エラーが直撃する
 }
 ```
 
-Terraform プロバイダーには自動[リトライ](/glossary/リトライ/)機能が組み込まれており、500 [エラー](/glossary/エラー/)時は一般的に自動的に複数回の[リトライ](/glossary/リトライ/)が試みられます。
+**After（既定の再試行に任せる。明示するなら回数と方式を指定する）：**
 
-## それでも解決しない場合
-
-### ログの確認方法
-
-1. **Terraform Cloud の run log：** Terraform Cloud UI の該当 run ページで「Logs」タブを選択し、完全なスタックトレースを確認します。
-
-2. **ローカル実行時のデバッグログ：**
-
-```bash
-# TF_LOG で詳細ログを有効化
-export TF_LOG=DEBUG
-terraform apply -auto-approve 2>&1 | tee terraform.log
-
-# 後でログを確認
-cat terraform.log | grep -i "500\|error\|failed"
+```hcl
+provider "aws" {
+  region = "ap-northeast-1"
+  # max_retries を省略すると既定値の 25 回（公式文書）。
+  # 明示する場合も、一時エラーを吸収できる回数を確保する
+  max_retries = 25
+  retry_mode  = "standard"  # standard / adaptive（公式文書）
+}
 ```
 
-3. **クラウドプロバイダーの [API](/glossary/api/) [ログ](/glossary/ログ/)：**
-   - **AWS CloudTrail**：[API](/glossary/api/) 呼び出しの詳細を記録。AWS Management Console → CloudTrail → Event history で 500 [エラー](/glossary/エラー/)の前後のイベントを確認します。
-   - **Azure Activity Log**：Azure Portal → Activity Log で同様に確認します。
-   - **GCP Cloud Audit Logs**：Cloud Logging で [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)履歴を検索します。
+```bash
+# 再実行の前に、二重作成がないか差分を確認する
+terraform plan
+```
 
-4. **Terraform の公式ドキュメント参照：**
-   - [Terraform Cloud Run API](https://www.terraform.io/cloud-docs/run/api)
-   - [Provider Error Reference](https://www.terraform.io/plugin/log)
+### 原因2：state・リモート実行のバックエンドが内部エラーを返している
 
-### サポートへの問い合わせ
+state の取得・保存先や、リモート実行の基盤（HCP Terraform、自営の Terraform Enterprise、その他のバックエンド）側の障害でも500が返ります。冒頭に示した Error downloading state: 500 Internal Server Error はこの系統で、HashiCorp 自身が障害復旧の公式文書の中で、バックエンド障害時に現れるログとして例示しているものです。
 
-以上の手順を実施しても解決しない場合、以下の情報を用意してクラウドプロバイダーのサポートに問い合わせてください：
+このエラーは「state のダウンロードに失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の復旧を確認します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所はサーバー側（アプリケーションログ、データベース、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは障害でないことの証明にはなりません。
 
-- Run [ID](/glossary/id/)（Terraform Cloud 使用時）
-- terraform version とプロバイダーバージョン
-- [エラー](/glossary/エラー/)が発生した時刻（UTC）
-- クラウドプロバイダーのリージョン
-- 関連するリソースタイプ（aws_instance など）
-- 完全な[エラーログ](/glossary/エラーログ/)（TF_LOG=DEBUG で取得したもの）
+### 原因3：Terraform Registry が内部エラーを返している（terraform init）
+
+terraform init はプロバイダーとモジュールを Terraform Registry（registry.terraform.io）から取得します。レジストリ側の障害中は、設定を何も変えていなくても init が失敗します。現行の Terraform のソースコードのとおり、レジストリへのリクエストは失敗時に自動で再試行されますが、既定の再試行回数は1回だけです。回数は環境変数 TF_REGISTRY_DISCOVERY_RETRY で、タイムアウト秒数は TF_REGISTRY_CLIENT_TIMEOUT で変更できます。
+
+**Before（毎回まっさらな環境でフル取得する CI。レジストリの一時障害を直撃する）：**
+
+```yaml
+# CI ジョブの例：キャッシュなし・再試行は既定の1回
+steps:
+  - run: terraform init
+```
+
+**After（再試行を増やし、プラグインキャッシュでレジストリへの依存自体を減らす）：**
+
+```yaml
+steps:
+  - run: |
+      export TF_REGISTRY_DISCOVERY_RETRY=5   # 一時エラーの吸収
+      export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
+      mkdir -p "$TF_PLUGIN_CACHE_DIR"
+      terraform init
+    # TF_PLUGIN_CACHE_DIR を CI のキャッシュ機構で保存・復元すると、
+    # 2回目以降はレジストリからのダウンロード自体が減る
+```
+
+障害中にどうしても実行が必要な場合、.terraform ディレクトリとプラグインキャッシュが残っている環境では、取得済みのプロバイダーがそのまま使えます。恒久策は、キャッシュの活用と、.terraform.lock.hcl をリポジトリに含めてバージョン解決を固定することです。
+
+## 補足：500ではない類似エラー
+
+500の原因として語られがちですが、仕様上は別の形で現れる問題があります。実行アカウントの権限不足は、AWS なら AccessDenied や UnauthorizedOperation を含む 403 系のエラーとして返り、調査の場所は IAM です。API のスロットリングは ThrottlingException（HTTP では 400 のこともあります）や 429 で、プロバイダーの自動再試行の対象です。再試行を使い切るほどの規模なら、並列度（terraform apply の -parallelism）や対象の分割を検討します（AWS 側のスロットリングの仕組みは [AWS の 429 の記事](/posts/aws_429/)を参照）。Terraform で構築した ALB や API Gateway が返す 503・504 は、Terraform ではなく構築したインフラ自体の問題です（[AWS の 503 の記事](/posts/aws_503/)、[AWS の 504 の記事](/posts/aws_504/)）。TERRAFORM CRASH という見出しとスタックトレース、crash.log の生成を伴う異常終了は、HTTP の500ではなく Terraform 本体のバグで、crash.log を添えて公式リポジトリに報告する対象です。state のロック取得失敗（Error acquiring the state lock）も別系統で、他の実行との競合か、前回の実行の異常終了によるロック残りの調査に切り替えます。
+
+## 切り分けの順序
+
+1. エラーメッセージの URL と失敗した段階を読み、相手を特定する。init とプロバイダー取得なら原因3、plan・apply 中のクラウドエンドポイントなら原因1、state・リモート実行なら原因2。
+2. 権限エラー（403系・AccessDenied）、スロットリング（Throttling・429）、TERRAFORM CRASH、state ロックなら、500ではないのでそれぞれの調査に切り替える。
+3. 相手側の稼働状況を確認する。クラウドプロバイダーは各社のステータスページ、HCP Terraform と Terraform Registry は status.hashicorp.com。
+4. 時間をおいて再実行する。apply の再実行前には plan で差分を確認し、二重作成を防ぐ。
+5. 恒久策として、プロバイダーの再試行設定（原因1）、CI のプラグインキャッシュと再試行の環境変数（原因3）を整える。
+
+## 確認コマンド集
+
+```bash
+# 1. 詳細ログ付きで再実行し、どの URL への通信で失敗したかを特定
+TF_LOG=DEBUG terraform plan 2>&1 | grep -iE "http|error" | tail -20
+
+# 2. Terraform Registry の疎通を Terraform を介さず確認
+curl -s -o /dev/null -w "%{http_code}\n" \
+  https://registry.terraform.io/v1/providers/hashicorp/aws/versions
+
+# 3. 再実行の前に、state と実際の差分を確認（二重作成の防止）
+terraform plan
+
+# 4. レジストリ取得の再試行とタイムアウトを広げて init を再実行
+TF_REGISTRY_DISCOVERY_RETRY=5 TF_REGISTRY_CLIENT_TIMEOUT=30 terraform init
+
+# 5. 取得済みプロバイダーの確認（レジストリ障害中でも残っていれば使える）
+ls .terraform/providers/registry.terraform.io/hashicorp/ 2>/dev/null
+```
+
+## Editor's Note
+
+原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合でエラーを返す状態になり、公式の告知に terraform init のワークフローとドキュメント閲覧への影響が明記されました。原因はレジストリの一部機能を支えるデータベースで、データベースのスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の設定を何も変えていないのに init が失敗する」という症状の裏にレジストリ側の障害があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから確認でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
+
+Terraform の500は、Terraform が「どこかのサーバーの調子が悪い」と伝えているだけで、悪いのがどこかはメッセージの中の URL が教えてくれます。HCL や手元の設定を疑い始める前に、まず相手を特定することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
