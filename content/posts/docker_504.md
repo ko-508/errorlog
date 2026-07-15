@@ -1,266 +1,157 @@
 ---
 title: "Docker の 504 エラー：原因と解決策"
-date: 2026-05-24
-description: "504 Gateway Timeout は、Docker デーモンがプロキシ経由で上流サーバーへのリクエストに応答を待つ際に、設定されたタイムアウト時間を超過したことを示すHTTPステータスコードです。"
+date: 2026-01-01
+description: "Docker の 504 Gateway Timeout で最初に押さえるべき事実は、Docker デーモン自身は504を返さないことです（ソースコードで確認できます）。実際に504が発生するのは、docker pull / push の相手であるレジストリの前段のプロキシ、リモートのデーモンを公開しているプロキシ、コンテナ上のアプリの前段のプロキシの3か所で、received unexpected HTTP status などの文言から切り分けて解決します。"
 tags: ["Docker"]
 errorCode: "504"
-lastmod: 2026-05-31
+lastmod: 2026-07-15
 service: "Docker"
 error_type: "504"
-components: ["Compose"]
-related_services: ["Nginx", "PostgreSQL"]
-trend_incident: true
-top_queries:
-- '504エラー'
-- '504 status code'
-- '504 エラー'
+components: ["Registry"]
+related_services: ["Docker Hub", "Docker Registry", "Nginx"]
+trend_incident: false
 ---
+
+## 冒頭まとめ
+
+Docker まわりの 504 Gateway Timeout で最初に確定させるべき事実は、Docker デーモン自身は504を返さない、ということです。デーモンがエラーを HTTP のステータスに割り当てる実装（moby のソースコード）には504がそもそも存在せず、時間切れ系の内部エラー（deadline exceeded）ですら500に割り当てられています。したがって、Docker の操作で504を見たとき、それを返しているのは必ずデーモン以外のどこかの「中継役」です。実際に起きる場所は3つに絞れます。第一に、docker pull / push の通信経路にあるゲートウェイ（自前レジストリの前段の Nginx や ingress、Docker Hub 側の基盤）です。第二に、リモートの Docker デーモンをリバースプロキシ越しに公開している構成の、そのプロキシです。第三に、コンテナで動かしているアプリケーションの前段のプロキシで、これは Docker ではなくプロキシとアプリの調査になります。
+
+見分けは文言でつきます。received unexpected HTTP status: 504 Gateway Time-out や error parsing HTTP 504 response body なら、pull / push の経路の504です（原因1）。docker コマンド全般がリモートデーモン相手に504になるなら、デーモンの前のプロキシです（原因2）。ブラウザや curl でコンテナ上のアプリにアクセスして504が返るなら、それは Docker の問題ではありません（原因3として境界を示します）。
 
 ## エラーの概要
 
-504 Gateway Timeout は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)が[プロキシ](/glossary/プロキシ/)経由で上流[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に応答を待つ際に、設定された[タイムアウト](/glossary/タイムアウト/)時間を超過したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Compose を使用している場合やリバースプロキシ（Nginx など）経由で[コンテナ](/glossary/コンテナ/)にアクセスしている場合に頻繁に発生します。この[エラー](/glossary/エラー/)は、[サーバー](/glossary/サーバー/)側の処理遅延、[ネットワーク](/glossary/ネットワーク/)の問題、または[タイムアウト](/glossary/タイムアウト/)設定の不適切さが原因となります。
+Docker デーモンは、エラーの種類ごとに返す HTTP ステータスを割り当てます。この割り当てはソースコード（moby の daemon/server/httpstatus/status.go）で確認でき、404・400・409・503・500 などへの割り当てはあっても、504への割り当ては存在しません。つまり Error response from daemon: で始まるエラーの中に504の数字が現れた場合も、その504はデーモンが作ったものではなく、デーモンがレジストリなどの通信相手から受け取ったものの転記です。
 
-## 実際のエラーメッセージ例
+pull / push で504を受け取ったときの文言は、レジストリクライアントの実装（docker/distribution の registry/client/errors.go）で決まっており、2種類あります。
 
-```json
-{
-  "status": 504,
-  "error": "Gateway Timeout",
-  "message": "The upstream server failed to respond in time"
-}
+```text
+Error response from daemon: received unexpected HTTP status: 504 Gateway Time-out
 ```
 
-```bash
-$ curl -v http://localhost:8080/api/endpoint
-< HTTP/1.1 504 Gateway Timeout
-< Content-Type: application/json
+```text
+Error response from daemon: error parsing HTTP 504 response body: invalid character '<' looking for beginning of value: "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n..."
 ```
+
+前者は、レジストリ API として想定外のステータスを受け取ったことを示します。後者はさらに手がかりが濃く、応答の本文がレジストリの返す JSON ではなく HTML だったことを示します。レジストリ本体は HTML のエラーページを返さないため、この文言は「応答したのはレジストリではなく、その手前にいる何か（Nginx やロードバランサー）だ」という強い証拠になります。
+
+## まず最初に：どの操作の504かで3つに分岐する
+
+docker pull・docker push・docker build の中のイメージ取得で失敗し、上記のいずれかの文言が出ているなら、レジストリ経路の504です（原因1）。DOCKER_HOST や docker context でリモートのデーモンに接続していて、pull に限らず操作全般が504になるなら、デーモンの前に置いたプロキシの504です（原因2）。docker コマンドは成功していて、コンテナで動くアプリへの HTTP アクセスが504を返すなら、返しているのは前段のプロキシであり、調査対象はプロキシの時間設定とアプリの応答時間です（原因3）。
 
 ## よくある原因と解決手順
 
-### 原因1：コンテナ内のアプリケーションが処理に時間がかかっている
+### 原因1：レジストリの前段のゲートウェイが pull / push を打ち切っている
 
-[コンテナ](/glossary/コンテナ/)内で実行される[アプリケーション](/glossary/アプリケーション/)の処理が、[プロキシ](/glossary/プロキシ/)側で設定された[タイムアウト](/glossary/タイムアウト/)時間を超過している場合です。これはデータベースクエリの遅延、外部[API](/glossary/api/)呼び出しの低速化、または重い計算処理が原因かもしれません。
+自前で運用するレジストリ（registry:2、Harbor、GitLab Container Registry など）は、多くの場合 Nginx や ingress の背後に置かれます。イメージの層（blob）の転送は1リクエストが長く大きいため、前段のプロキシの読み取り時間や本文サイズの制限が、通常の Web アプリ向けの値のままだと、大きな層の push や、ストレージが遅いときの pull で制限に達し、プロキシが504を返します。クライアント側では層ごとの再試行（Retrying in ... seconds）を繰り返した末に失敗する形で現れます。
 
-**Before（[タイムアウト](/glossary/タイムアウト/)設定が短すぎる場合）:**
-```yaml
-# docker-compose.yml
-version: '3.8'
-services:
-  web:
-    image: myapp:latest
-    environment:
-      REQUEST_TIMEOUT: 5000  # 5秒のタイムアウト
-    ports:
-      - "8080:3000"
-  
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-```
+**Before（Web アプリ向けの既定値のままレジストリを中継している設定）：**
 
 ```nginx
-# nginx.conf
-upstream backend {
-    server web:3000;
-}
-
 server {
-    listen 80;
-    proxy_connect_timeout 5s;  # 短すぎるタイムアウト
-    proxy_send_timeout 5s;
-    proxy_read_timeout 5s;
-}
-```
+    listen 443 ssl;
+    server_name registry.example.com;
 
-**After（[タイムアウト](/glossary/タイムアウト/)を適切に設定）:**
-```yaml
-version: '3.8'
-services:
-  web:
-    image: myapp:latest
-    environment:
-      REQUEST_TIMEOUT: 30000  # 30秒に設定
-    ports:
-      - "8080:3000"
-  
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-```
-
-```nginx
-# nginx.conf
-upstream backend {
-    server web:3000;
-}
-
-server {
-    listen 80;
-    proxy_connect_timeout 30s;  # 接続タイムアウト
-    proxy_send_timeout 30s;      # データ送信タイムアウト
-    proxy_read_timeout 30s;      # レスポンス待機タイムアウト
-}
-```
-
-### 原因2：Docker Compose のサービス間通信に遅延がある
-
-[Docker](/glossary/docker/) Compose で複数のサービスを実行している場合、サービス間の[ネットワーク](/glossary/ネットワーク/)[通信](/glossary/通信/)が遅延したり、[DNS](/glossary/dns/)解決が失敗したりすることがあります。特に CPU やメモリリソースが逼迫している場合に発生しやすいです。
-
-**Before（リソース制限がない設定）:**
-```yaml
-version: '3.8'
-services:
-  api:
-    image: api-server:latest
-    ports:
-      - "3000:3000"
-  
-  database:
-    image: postgres:14
-    environment:
-      POSTGRES_PASSWORD: password
-```
-
-**After（リソース制限と[ヘルスチェック](/glossary/ヘルスチェック/)を追加）:**
-```yaml
-version: '3.8'
-services:
-  api:
-    image: api-server:latest
-    ports:
-      - "3000:3000"
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 512M
-        reservations:
-          cpus: '0.5'
-          memory: 256M
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    depends_on:
-      database:
-        condition: service_healthy
-  
-  database:
-    image: postgres:14
-    environment:
-      POSTGRES_PASSWORD: password
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 1G
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-```
-
-### 原因3：リバースプロキシの接続バッファ設定が不適切
-
-Nginx などのリバースプロキシが、バックエンドサーバーとの接続バッファを適切に設定していない場合、大容量の[レスポンス](/glossary/レスポンス/)やスロークライアント向けのデータ送信時に 504 が発生します。
-
-**Before（バッファ設定が最小限の場合）:**
-```nginx
-upstream backend {
-    server web:3000;
-}
-
-server {
-    listen 80;
-    
-    location / {
-        proxy_pass http://backend;
-        proxy_buffering off;
-        proxy_request_buffering off;
+    location /v2/ {
+        proxy_pass http://registry:5000;
+        # proxy_read_timeout は既定のまま（大きな層の転送で時間切れになる）
+        # client_max_body_size は既定のまま（大きな層の push が弾かれる）
     }
 }
 ```
 
-**After（バッファサイズを適切に設定）:**
-```nginx
-upstream backend {
-    server web:3000;
-    keepalive 32;
-}
+**After（レジストリの転送に合わせて制限を広げる）：**
 
+```nginx
 server {
-    listen 80;
-    
-    location / {
-        proxy_pass http://backend;
-        proxy_http_version 1.1;
-        
-        # バッファ設定
-        proxy_buffering on;
-        proxy_buffer_size 4k;
-        proxy_buffers 8 4k;
-        proxy_busy_buffers_size 8k;
-        
-        # タイムアウト設定
-        proxy_connect_timeout 30s;
-        proxy_send_timeout 30s;
-        proxy_read_timeout 30s;
-        
-        # Keep-alive設定
-        proxy_set_header Connection "";
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
+    listen 443 ssl;
+    server_name registry.example.com;
+
+    location /v2/ {
+        proxy_pass http://registry:5000;
+        client_max_body_size 0;        # 層のサイズ制限を外す
+        proxy_read_timeout  900s;      # 層の転送時間に合わせて延長
+        proxy_send_timeout  900s;
+        proxy_request_buffering off;   # 大きな push をバッファせず流す
     }
 }
 ```
 
-## Docker 固有の注意点
+切り分けの決め手は、レジストリ本体のログと前段のログの突き合わせです。クライアントには504が返っているのに、レジストリ本体のログには 200 や 202 が並んでいて異常がない場合、打ち切ったのは前段です。逆にレジストリ本体のログに処理の遅延やストレージ（S3 など）へのエラーが残っているなら、根本はレジストリの後ろ側にあり、プロキシの時間延長は対症にすぎません。相手が Docker Hub の場合は手元で直せる設定はなく、公式の稼働状況ページ（https://www.dockerstatus.com）を確認し、復旧を待って再試行します。pull も push も層ごとに自動で再試行される設計のため、散発的な504は再実行で通ることがあります。
 
-**[Docker](/glossary/docker/) Compose での [DNS](/glossary/dns/) 遅延：** [Docker](/glossary/docker/) Compose のサービス名解決が遅延することがあります。`depends_on` の条件に `service_healthy` を指定し、各サービスに[ヘルスチェック](/glossary/ヘルスチェック/)を設定することで、依存関係を明確にしましょう。
+### 原因2：リモートデーモンの前のプロキシが長い API 呼び出しを打ち切っている
 
-**[コンテナ](/glossary/コンテナ/)のログレベルが INFO 以上の場合：** `DOCKER_BUILDKIT=1` や `BUILDKIT_PROGRESS=plain` などのビルド[環境変数](/glossary/環境変数/)が[タイムアウト](/glossary/タイムアウト/)に影響することは稀ですが、不要な[ログ](/glossary/ログ/)出力でディスクI/Oが圧迫される可能性があります。
+Docker デーモンをリモートから使う構成（DOCKER_HOST=tcp://... や docker context）で、デーモンの前に認証や TLS 終端のためのリバースプロキシを置いている場合、そのプロキシの時間設定が Docker API と相性の悪い点に注意が必要です。Docker API には、docker pull や docker build のように1リクエストが数分かかる呼び出しと、docker logs -f・docker events・docker attach のように応答が終わらないストリーミングの呼び出しが多く、プロキシの読み取りタイムアウトが応答の途中で発火すると、クライアントには504が返ります。
 
-**ネットワークドライバーの選択：** デフォルトの bridge ドライバーではなく、`--network` で user-defined network を使用することで、安定した [DNS](/glossary/dns/) 解決と[コンテナ](/glossary/コンテナ/)間通信が実現します。Compose では services は自動的にユーザー定義[ネットワーク](/glossary/ネットワーク/)に配置されますが、明示的に指定することで予期しない挙動を防げます。
+**Before（一般的な Web 向けタイムアウトのままデーモンを中継している設定）：**
 
-```yaml
-version: '3.8'
-services:
-  web:
-    image: myapp:latest
-    networks:
-      - backend
-  
-  db:
-    image: postgres:14
-    networks:
-      - backend
-
-networks:
-  backend:
-    driver: bridge
+```nginx
+location / {
+    proxy_pass http://unix:/var/run/docker.sock;
+    # 既定の読み取りタイムアウトでは logs -f や大きな pull が途中で切れる
+}
 ```
 
-## それでも解決しない場合
+**After（長い呼び出しとストリーミングを前提にした設定）：**
 
-**[Docker](/glossary/docker/) Compose の[ログ](/glossary/ログ/)を確認する：** `docker-compose logs -f` でサービスのリアルタイムログを確認し、[エラーメッセージ](/glossary/エラーメッセージ/)を詳細に読むことが最初のステップです。特に [タイムアウト](/glossary/タイムアウト/)前の[エラーメッセージ](/glossary/エラーメッセージ/)があればそれを解析してください。
+```nginx
+location / {
+    proxy_pass http://unix:/var/run/docker.sock;
+    proxy_read_timeout 3600s;   # 長時間の呼び出しに合わせる
+    proxy_send_timeout 3600s;
+    proxy_buffering    off;     # ストリーミング応答をため込まない
+    proxy_http_version 1.1;
+    proxy_set_header   Upgrade $http_upgrade;      # attach / exec の接続切替
+    proxy_set_header   Connection $http_connection;
+}
+```
 
-**[プロキシ](/glossary/プロキシ/)のアクセスログを確認する：** Nginx の場合、`/var/log/nginx/access.log` と `/var/log/nginx/error.log` を確認します。[Docker](/glossary/docker/) Compose 内では、ボリュームマウントで ホストマシンから[ログ](/glossary/ログ/)をアクセス可能にしておくと効率的です。
+なお、デーモンの API はホストのほぼ全権に相当します。プロキシ経由で公開する場合は、504の調査とあわせて、到達できる範囲と認証の設計を必ず確認してください。
 
-**公式ドキュメント：** [Docker](/glossary/docker/) Compose の[公式ドキュメント](https://docs.docker.com/compose/)で `timeouts` や `healthcheck` に関するセクションを参照してください。Nginx の詳細設定については [Nginx 公式ドキュメント](https://nginx.org/en/docs/) の proxy module セクションを確認しましょう。
+### 原因3：コンテナ上のアプリの前段のプロキシが返している（Docker の問題ではない）
 
-**コミュニティリソース：** GitHub の docker-compose [リポジトリ](/glossary/リポジトリ/)内の Issues で「504」や「timeout」で検索すると、類似事例の解決方法が見つかることがあります。
+docker コマンドは正常で、コンテナで動かしているアプリへの HTTP アクセスが504になる場合、その504を作っているのは前段のプロキシ（Nginx など）で、原因はアプリの応答が時間内に完成しないことです。コンテナで動いていることは本質ではなく、調査の手順は [Nginx の 504 の記事](/posts/nginx_504/)がそのまま使えます。プロキシのエラーログの upstream timed out の行を起点に、プロキシの時間設定とアプリの処理時間を突き合わせてください。
+
+Docker 固有の落とし穴として1つだけ区別しておくと、Compose 構成で上流のコンテナが停止している場合、プロキシから見れば接続の失敗なので、返るのは504ではなく502です。504が出ているなら接続自体はできており、「コンテナに届いていない」のではなく「コンテナの中の処理が遅い」方向を調べるのが近道です（この境界は [Nginx の 502 の記事](/posts/nginx_502/)で扱っています）。
+
+## 補足：このコードではない類似エラー
+
+Cannot connect to the Docker daemon は、デーモンに到達できていない状態で、HTTP のやり取り自体が成立していません（[docker_500 の記事](/posts/docker_500/)の補足を参照）。context deadline exceeded や Client.Timeout exceeded、net/http: TLS handshake timeout を含むエラーは、手元のクライアント側が時間切れで接続を打ち切ったもので、サーバーから504が返ったのとは別の事象です。Error response from daemon: の直後に具体的な処理の失敗が書かれた500系は、デーモンまたはレジストリの内部エラーです（[docker_500 の記事](/posts/docker_500/)）。Docker Hub の利用回数の制限は toomanyrequests の文言を伴う 429 で、時間切れではありません（[docker_429 の記事](/posts/docker_429/)）。pull access denied は認証・権限系で、対象の存在と権限を区別しない設計のエラーです（[docker_404 の記事](/posts/docker_404/)の補足を参照）。
+
+## 切り分けの順序
+
+1. どの操作で504が出たかを確認する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、コンテナ上のアプリへのアクセスなら原因3（Nginx の 504 の手順へ）。
+2. 文言を読む。error parsing HTTP 504 response body があれば、応答したのはレジストリ本体ではなく前段のプロキシだと確定できる。
+3. 原因1は、レジストリ本体のログと前段のログを突き合わせ、打ち切った層を特定する。本体が正常（200/202）なら前段の制限を広げ、本体側に遅延の記録があればストレージや負荷を調べる。
+4. Docker Hub 相手なら公式の稼働状況を確認し、復旧を待って再試行する。
+5. 原因2は、プロキシの読み取りタイムアウトとストリーミング設定を Docker API の長い呼び出しに合わせる。
+
+## 確認コマンド集
+
+```bash
+# 1. レジストリ本体に前段を通さず到達できるか（レジストリのホスト上で）
+curl -s -o /dev/null -w "%{http_code}\n" http://localhost:5000/v2/
+
+# 2. 前段のプロキシ経由での応答を確認（error parsing の切り分け）
+curl -i https://registry.example.com/v2/
+
+# 3. 前段プロキシの504と、レジストリ本体のアクセスログを同時刻で突き合わせる
+grep " 504 " /var/log/nginx/access.log | tail -5
+docker logs registry --since 10m 2>&1 | tail -20
+
+# 4. リモートデーモン構成の切り分け：プロキシを介さない接続と比較する
+docker -H unix:///var/run/docker.sock version   # デーモンのホスト上で直接
+docker version                                   # 普段の（プロキシ経由の）接続
+
+# 5. デーモン側のログに該当時刻の記録があるかを確認
+journalctl -u docker --since "10 minutes ago" | tail -20
+```
+
+## Editor's Note
+
+原因1の実例として、Harbor（自前運用のレジストリ）の公開 issue に詳細な記録があります（[docker push received unexpected HTTP status: 504 Gateway Timeout](https://github.com/goharbor/harbor/issues/12126)）。Kubernetes 上に Helm で Harbor を立て、ingress 経由で公開した環境で、docker push が層のアップロード中に Retrying in 3 seconds の再試行を繰り返した末、received unexpected HTTP status: 504 Gateway Timeout で失敗した、という2020年の報告です。この記録の価値は、報告者自身が「レジストリのログには 200 と 202 ばかりが並んでいて異常が見当たらない」と書き残している点にあります。レジストリ本体は正常に応答しており、504を作っていたのはその手前の中継層だった、という本記事の切り分けの決め手がそのまま現れています。約6年前の事例ですが、レジストリを前段のプロキシや ingress の背後に置く構成、層の転送が1リクエストとして長く大きいこと、クライアントが層ごとに自動再試行することは現在も同じで、この構図は今日の自前レジストリでもそのまま再現します。
+
+Docker の504は、デーモンが返せないコードだからこそ、見た瞬間に「間に誰がいるか」を数えるエラーです。pull / push の経路か、デーモンの前か、アプリの前か。中継役を特定すれば、直すべき設定は自然に決まります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
