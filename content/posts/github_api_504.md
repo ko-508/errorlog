@@ -1,265 +1,132 @@
 ---
 title: "GitHub API の 504 エラー：原因と解決策"
-date: 2026-05-24
-description: "GitHub APIの504 Gateway Timeoutエラーは、GitHubのサーバーがあなたのリクエストを指定時間内に処理できなかったことを示します。"
+date: 2026-01-01
+description: "GitHub API の 504 Gateway Timeout は、GitHub が時間内に応答を作り終えられず、リクエストを打ち切ったことを示します。公式文書は処理が10秒を超えるリクエストを打ち切ると明記しています。原因は GitHub 側の障害か、リクエストが重すぎるかの2系統で、要求の縮小・分割と間隔を空けた再試行で解決します。認証やレート制限の問題では504は返りません。"
 tags: ["GitHub API"]
 errorCode: "504"
-lastmod: 2026-05-31
+lastmod: 2026-07-15
 service: "GitHub API"
 error_type: "504"
-components: []
-related_services: ["REST API", "OAuth", "Personal Access Token", "CI/CD"]
-trend_incident: true
-top_queries:
-- 'github 504'
+components: ["REST API"]
+related_services: ["GitHub REST API", "GitHub GraphQL API", "Octokit"]
+trend_incident: false
 ---
+
+## 冒頭まとめ
+
+GitHub API の 504 Gateway Timeout は、GitHub が制限時間内に応答を作り終えられず、リクエストを処理の途中で打ち切ったことを示すコードです。これは公式に明文化された挙動で、GitHub の公式文書（Troubleshooting the REST API）は、処理が10秒を超えるリクエストを打ち切ってタイムアウトの応答と Server Error のメッセージを返すこと、そしてこの制限時間は API の速度と信頼性を守るために予告なく変更されうることを明記しています。原因は2系統に整理できます。第一に、GitHub 側の障害や混雑で、普段は通るリクエストが散発的に時間切れになるケースです。第二に、リクエスト自体が重すぎて、平常時でも制限時間に収まらないケースです。
+
+対処もこの公式文書がそのまま示しています。稼働状況を確認すること、要求を簡素化すること（1ページに100件を要求しているなら件数を減らす）、時間をおいて再試行することの3つです。逆に、トークンの不備は 401、レート制限は 403 または 429、不存在や権限不足は 404 として返るのが GitHub の仕様であり、これらが504の原因になることはありません。また、手元の HTTP クライアントに設定したタイムアウトの発火は、GitHub からコードが返る前に手元で接続を打ち切る動きなので、504とは別の事象です。504の調査は、コードが本当に GitHub から返っているかの確認と、「散発か、重さ由来か」の見極めから始めます。
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)の504 Gateway Timeout[エラー](/glossary/エラー/)は、GitHubの[サーバー](/glossary/サーバー/)があなたの[リクエスト](/glossary/リクエスト/)を指定時間内に処理できなかったことを示します。この[エラー](/glossary/エラー/)はGitHub側の[サーバー](/glossary/サーバー/)遅延、[ネットワーク](/glossary/ネットワーク/)遅延、または処理が重い操作が原因で発生することが多いです。[REST](/glossary/rest/) [API](/glossary/api/)を呼び出した際に504が返されると、[リクエスト](/glossary/リクエスト/)が完全に失敗するため、[API](/glossary/api/)統合機能が一時的に停止する状況につながります。
+GitHub は API リクエストの処理時間に上限を設けており、超過したリクエストを自らの判断で打ち切ります。打ち切られたリクエストへの応答は次のような形になります。
 
-## 実際のエラーメッセージ例
-
-[REST](/glossary/rest/) [API](/glossary/api/)の直接呼び出しでの504[エラーレスポンス](/glossary/エラーレスポンス/)：
-
-```json
+```bash
+$ curl -i -H "Authorization: Bearer <your-github-token>" \
+  "https://api.github.com/repos/<owner>/<repo>/commits?per_page=100"
+HTTP/2 504
+...
 {
   "message": "Server Error",
   "documentation_url": "https://docs.github.com/rest"
 }
 ```
 
-curl[コマンド](/glossary/コマンド/)での確認例：
+この Server Error という文言は、公式文書がタイムアウト応答に伴うと明記しているメッセージです。なお、同じ「時間内に応答を作れなかった」状態は、経路や API の種類によって 502 として現れることもあります。特に GraphQL API の重いクエリの時間切れは、参照 ID 入りのエラーメッセージを伴う 502 の形の報告が多く、その扱いは [GitHub API の 502 の記事](/posts/github_api_502/)で説明しています。コードが502でも504でも、時間切れである限り、原因の見極め方と対処（縮小・分割・再試行）は共通です。
 
-```bash
-curl -i https://api.github.com/repos/<owner>/<repo>/pulls
-# HTTP/1.1 504 Gateway Timeout
-# Server: GitHub.com
-# Date: Mon, 15 Jan 2024 10:30:45 GMT
-```
+## まず最初に：3点を確認する
+
+504を受け取ったら、コードを変更する前に次の3点を確認します。
+
+第一に、そのコードが本当に GitHub から返っているかを確認します。手元のクライアントのタイムアウト（curl の --max-time、requests の timeout= など）が先に発火した場合、ステータスコードは受け取れず、例外や接続打ち切りとして現れます。この場合の調査対象は GitHub ではなく、手元の設定と経路です。
+
+第二に、GitHub の稼働状況ページ（https://www.githubstatus.com）を確認します。公式文書も、時間切れが API 側の問題によるものかをこのページで確認するよう案内しています。インシデントが進行中なら原因は自分のリクエストではありません（原因1）。掲載が遅れることもあるため、掲載がないことは障害でないことの証明にはなりません。
+
+第三に、失敗した操作の重さを確認します。1ページあたりの取得件数（per_page）が大きい一覧取得、巨大なリポジトリのコミット履歴や差分の取得ではないか。同じ操作を小さくして試すと通る場合、重さ由来の時間切れです（原因2）。
 
 ## よくある原因と解決手順
 
-### 原因1：大規模リポジトリへの過度なAPI呼び出し
+### 原因1：GitHub 側の障害・混雑で時間内に処理が終わらない
 
-**なぜ発生するか：** GitHubは処理時間に制限を設けており、膨大なプルリクエストやIssue一覧の取得など、[サーバー](/glossary/サーバー/)負荷が高い操作を実行すると[タイムアウト](/glossary/タイムアウト/)します。特に[コミット](/glossary/コミット/)履歴やファイル差分の取得で発生しやすいです。
+GitHub 側のインフラに問題が起きている間は、普段は数秒で返るリクエストでも制限時間を超え、504が返ります。稼働状況ページに該当のインシデントが掲載されていれば、手元での対処はなく、復旧を待って再試行します。普段は安定している操作の504が短時間に集中する場合も、まずこの系統を疑います。
 
-**Before（[エラー](/glossary/エラー/)が起きる実装）：**
+再試行の設計は [GitHub API の 500 の記事](/posts/github_api_500/)の原因1と同じです。GitHub 公式の Octokit の retry プラグインは、504を含むサーバー側エラーを再試行の対象とし、400・401・403・404・410・422・451 は再試行しません。自前で書く場合も、指数バックオフと回数上限をつけ、再試行は 5xx に限定します。作成・更新・削除の操作で504を受け取った場合は、応答が届かなかっただけで処理自体は完了している可能性を排除できないため、再試行の前に対象が実際に作られていないかを確認し、二重実行を避けてください。
 
-```python
-import requests
+### 原因2：リクエストが重すぎて制限時間に収まらない
 
-headers = {"Authorization": f"token <your-github-token>"}
-# 全プルリクエストを一度に取得しようとする
-response = requests.get(
-    "https://api.github.com/repos/<owner>/<repo>/pulls?state=all&per_page=100",
-    headers=headers,
-    timeout=10
-)
-```
+平常時でも特定の操作だけが504になる場合、そのリクエストの処理が制限時間に収まっていません。公式文書の指示は要求の簡素化で、例として挙げられているのもまさに「1ページに100件を要求しているなら、件数を減らす」ことです。
 
-**After（修正後）：**
-
-```python
-import requests
-import time
-
-headers = {"Authorization": f"token <your-github-token>"}
-
-# ページング処理で段階的に取得
-page = 1
-all_pulls = []
-while True:
-    response = requests.get(
-        f"https://api.github.com/repos/<owner>/<repo>/pulls?state=all&per_page=30&page={page}",
-        headers=headers,
-        timeout=15
-    )
-    
-    if response.status_code == 504:
-        print("504エラー。リトライまで10秒待機")
-        time.sleep(10)
-        continue
-    
-    if not response.json():
-        break
-    
-    all_pulls.extend(response.json())
-    page += 1
-    time.sleep(1)  # API制限を避けるため1秒待機
-```
-
-### 原因2：認証トークンの有効期限切れまたは不正な設定
-
-**なぜ発生するか：** 無効な認証情報を使用する場合、GitHubの[サーバー](/glossary/サーバー/)側で追加の検証処理が発生し、[タイムアウト](/glossary/タイムアウト/)の原因となることがあります。特にPersonal Access Tokenや[OAuth](/glossary/oauth/) tokenが期限切れの場合、[サーバー](/glossary/サーバー/)側が余計な処理を実行します。
-
-**Before（[認証](/glossary/認証/)[エラー](/glossary/エラー/)の実装）：**
+**Before（1回のリクエストに最大件数を詰め込み、時間切れになりやすい）：**
 
 ```bash
-curl -H "Authorization: token <expired-token>" \
-  https://api.github.com/user
+curl -i -H "Authorization: Bearer <your-github-token>" \
+  "https://api.github.com/repos/<owner>/<repo>/commits?per_page=100"
+# 巨大なリポジトリでは、この1リクエストの処理が制限時間に収まらないことがある
 ```
 
-**After（修正後）：**
+**After（1ページの件数を減らし、ページングで回数に分ける）：**
+
+```python
+import requests
+
+headers = {"Authorization": "Bearer <your-github-token>"}
+url = "https://api.github.com/repos/<owner>/<repo>/commits"
+params = {"per_page": 30}  # 1回あたりの要求を小さくする
+
+commits = []
+while url:
+    r = requests.get(url, headers=headers, params=params)
+    r.raise_for_status()
+    commits.extend(r.json())
+    # 続きは Link ヘッダーの next を辿る（2ページ目以降は params 不要）
+    url = r.links.get("next", {}).get("url")
+    params = None
+```
+
+要点は3つです。per_page を小さくする、続きは Link ヘッダーのページングで別のリクエストとして取る、取得範囲を絞れるパラメータ（期間、ブランチ、パスなど、各エンドポイントのリファレンス参照）で対象自体を減らす、です。時間切れは対象データの量や混雑に左右されるため、同じリクエストが通ったり失敗したりと安定しないのもこの原因の特徴です。失敗が再現しないからといって解決したとは限らず、要求量を減らすことが根本の対処になります。また、公式文書が制限時間の変更の権利を明記している以上、「現状ぎりぎり通る重さ」に依存した設計は避け、余裕を持って分割しておくのが安全です。
+
+## 補足：504ではない類似エラー
+
+504と混同されやすい事象の正しい行き先です。手元のクライアントのタイムアウト発火は、コードが返らずに例外や接続打ち切りとして現れるもので、GitHub の504ではありません（調査対象は手元の設定です）。トークンの誤り・失効は 401 です（[401 の記事](/posts/github_api_401/)）。並列や高頻度の大量リクエストが弾かれる場合、GitHub の仕様では 403 または 429 の secondary rate limit として現れ、待ち時間の指示に従うのが公式の対処です（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。「大量に送ったから504になった」という説明は、混雑による時間切れ（原因1の変種）でない限り仕様に合いません。private リソースへの認証不備は、権限不足を隠すための 404 です（[404 の記事](/posts/github_api_404/)）。GitHub 内部の予期しないエラーで、時間切れとは限らないものは 500 です（[500 の記事](/posts/github_api_500/)）。GraphQL の重いクエリの時間切れは 502 の形の報告が多く、分割の考え方は共通です（[502 の記事](/posts/github_api_502/)）。
+
+## 切り分けの順序
+
+1. コードが GitHub から返っているかを確認する。手元のタイムアウトの発火なら、手元の設定と経路の調査に切り替える。
+2. コードが 401・403・429・404・500・502 なら、それぞれの記事の調査に切り替える。
+3. 稼働状況ページを確認する。インシデント中なら復旧を待って再試行する（原因1）。書き込み系の再試行は、二重実行の確認を先に行う。
+4. 操作の重さを確認する。per_page を減らして通るなら重さ由来であり、縮小・分割・範囲指定で恒久対処する（原因2）。
+5. どちらにも該当せず504が続く場合は、応答の x-github-request-id を控え、GitHub のコミュニティまたはサポートに報告する。
+
+## 確認コマンド集
 
 ```bash
-# トークンの有効性を事前確認
-curl -H "Authorization: token <your-valid-token>" \
-  https://api.github.com/user
+# 1. コードと所要時間を同時に確認（時間切れ付近かどうかの手がかり）
+curl -s -o /dev/null -w "%{http_code} %{time_total}s\n" \
+  -H "Authorization: Bearer <your-github-token>" \
+  "https://api.github.com/repos/<owner>/<repo>/commits?per_page=100"
 
-# または環境変数で安全に管理
-export GITHUB_TOKEN="ghp_xxxxxxxxxxxx"
-curl -H "Authorization: token ${GITHUB_TOKEN}" \
-  https://api.github.com/user
-```
+# 2. 件数を減らした同じリクエストと比較（通れば重さ由来）
+curl -s -o /dev/null -w "%{http_code} %{time_total}s\n" \
+  -H "Authorization: Bearer <your-github-token>" \
+  "https://api.github.com/repos/<owner>/<repo>/commits?per_page=10"
 
-### 原因3：同時多発的なAPI呼び出し
+# 3. 失敗した応答の参照 ID を控える（報告用）
+curl -sI -H "Authorization: Bearer <your-github-token>" \
+  https://api.github.com/repos/<owner>/<repo> | grep -i x-github-request-id
 
-**なぜ発生するか：** 複数の[リクエスト](/glossary/リクエスト/)を短時間に大量送信すると、GitHubの[サーバー](/glossary/サーバー/)が処理しきれず504が発生します。特に[CI/CD](/glossary/ci-cd/)パイプラインやスクリプトで並列[リクエスト](/glossary/リクエスト/)を送った場合に起きやすいです。
-
-**Before（並列[リクエスト](/glossary/リクエスト/)で504になる実装）：**
-
-```python
-import concurrent.futures
-import requests
-
-headers = {"Authorization": f"token <your-github-token>"}
-repos = ["repo1", "repo2", "repo3", "repo4", "repo5"]
-
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-    futures = [
-        executor.submit(
-            requests.get,
-            f"https://api.github.com/repos/<owner>/{repo}",
-            headers=headers
-        )
-        for repo in repos
-    ]
-    results = [f.result() for f in futures]
-```
-
-**After（[リクエスト](/glossary/リクエスト/)を制御する修正）：**
-
-```python
-import requests
-import time
-
-headers = {"Authorization": f"token <your-github-token>"}
-repos = ["repo1", "repo2", "repo3", "repo4", "repo5"]
-
-results = []
-for repo in repos:
-    response = requests.get(
-        f"https://api.github.com/repos/<owner>/{repo}",
-        headers=headers,
-        timeout=15
-    )
-    
-    if response.status_code == 504:
-        print(f"504エラー。{repo}のリトライをスケジュール")
-        time.sleep(5)
-        response = requests.get(
-            f"https://api.github.com/repos/<owner>/{repo}",
-            headers=headers,
-            timeout=15
-        )
-    
-    results.append(response.json())
-    time.sleep(1)  # Rate limit対策：リクエスト間隔を1秒
-```
-
-## ツール固有の注意点
-
-### GraphQL APIの利用
-
-GitHub [API](/glossary/api/)は[REST](/glossary/rest/) [API](/glossary/api/)だけでなく[GraphQL](/glossary/graphql/) [API](/glossary/api/)も提供しており、504[エラー](/glossary/エラー/)は[GraphQL](/glossary/graphql/)側でも発生します。[GraphQL](/glossary/graphql/)の場合、複雑な[クエリ](/glossary/クエリ/)や深いネストが原因になることがあります。
-
-```python
-import requests
-
-headers = {
-    "Authorization": f"token <your-github-token>",
-    "Content-Type": "application/json"
-}
-
-# 複雑なクエリは分割する
-query = """
-query {
-  repository(owner: "<owner>", name: "<repo>") {
-    pullRequests(first: 100) {
-      edges {
-        node {
-          id
-          commits(last: 50) {
-            nodes {
-              oid
-              message
-            }
-          }
-        }
-      }
-    }
-  }
-}
-"""
-
-response = requests.post(
-    "https://api.github.com/graphql",
-    json={"query": query},
-    headers=headers,
-    timeout=20
-)
-```
-
-### レート制限の確認
-
-GitHub [API](/glossary/api/)は[レート制限](/glossary/レート制限/)が設定されており、制限に近づくと504が発生することがあります。リクエストヘッダーの`X-RateLimit-Remaining`と`X-RateLimit-Reset`を監視し、制限に余裕がある状態で処理を進めましょう。
-
-```bash
-curl -i -H "Authorization: token <your-token>" \
+# 4. レート制限の状態を確認（このエンドポイントは利用枠を消費しない。
+#    504の調査で大量に叩いていないかの確認にも使う）
+curl -s -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/rate_limit
-
-# レスポンスヘッダーを確認
-# X-RateLimit-Limit: 60
-# X-RateLimit-Remaining: 59
-# X-RateLimit-Reset: 1705317045
 ```
 
-## それでも解決しない場合
+## Editor's Note
 
-### 確認すべきログとデバッグ方法
+原因1の実例として、GitHub 自身が公開した記録があります（[GitHub availability report: June 2026](https://github.blog/news-insights/company-news/github-availability-report-june-2026/)）。2026年6月8日、06:30 から 08:36 UTC ごろにかけて、未ログインのユーザーが pull request・Issue・リリース・差分などの github.com のページにアクセスした際、持続的に HTTP 504 が返る状態になり、公式レポートによれば対象エンドポイントへの未認証リクエストの約17%がゲートウェイタイムアウトになりました。これは api.github.com ではなく github.com のウェブ側の事例ですが、「入口のゲートウェイが、時間内に応答を作れなかったリクエストを504として打ち切る」という機構そのものは、この記事で扱った API の504と同じです。執筆時点から1か月前の直近の事例であり、正しいリクエストでも504が返る時間帯は現実にあること、そしてその原因と対策が月次の公式レポートで後から公開されることを示しています。手元のログで504が特定の日時に集中していた場合、その日付のレポートで裏が取れます。
 
-1. **GitHub Status ページを確認**：https://www.githubstatus.com/ にアクセスし、GitHub側でインシデントが発生していないか確認します。
-
-2. **詳細なリクエストログを記録**：
-
-```python
-import requests
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-requests_log = logging.getLogger("requests.packages.urllib3")
-requests_log.setLevel(logging.DEBUG)
-requests_log.propagate = True
-
-response = requests.get(
-    "https://api.github.com/repos/<owner>/<repo>",
-    headers={"Authorization": f"token <your-token>"}
-)
-```
-
-3. **公式ドキュメント参照**：
-   - [GitHub REST API Documentation](https://docs.github.com/en/rest)
-   - [API Rate Limiting Guide](https://docs.github.com/en/rest/overview/rate-limits-for-the-rest-api)
-   - [Troubleshooting API Requests](https://docs.github.com/en/rest/overview/troubleshooting)
-
-4. **コミュニティサポート**：
-   - [GitHub Community Forum](https://github.community/)
-   - [GitHub API Issues on GitHub](https://github.com/github/docs/issues)
-   - スタックオーバーフローのgithub-api[タグ](/glossary/タグ/)で類似事例を検索
-
-[タイムアウト](/glossary/タイムアウト/)時間を増やし、リトライロジックを実装することで多くの504[エラー](/glossary/エラー/)は回避可能です。問題が継続する場合は、[リクエスト](/glossary/リクエスト/)のサイズを削減するか、より小さな単位に分割する設計の見直しを検討してください。
+504は「GitHub が時間切れで打ち切った」という一点だけを伝えるコードです。手元のタイムアウトとの区別、稼働状況、そして要求の重さ。この3つを順に確認すれば、コードをいじるべきか、待つべきか、分割すべきかが決まります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
