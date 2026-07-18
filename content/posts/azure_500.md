@@ -1,295 +1,145 @@
 ---
 title: "Azure の 500 エラー：原因と解決策"
-date: 2026-06-02
-description: "Azureサービスの内部エラーが発生した"
+date: 2026-01-01
+description: "Azure の 500 Internal Server Error は、返している場所で2系統に分かれます。Azure の管理 API が返す InternalServerError は Azure 側の内部エラーで、公式 SDK は既定で再試行する設計です。自分のアプリ（App Service）の500は、ASP.NET Core なら 500.30 などのサブステータスが起動失敗の種類を示します。リソースプロバイダー未登録は409、クォータは429で、500にはなりません。"
 tags: ["Azure"]
 errorCode: "500"
+lastmod: 2026-07-15
 service: "Azure"
 error_type: "500"
-components: ["Azure Portal", "Azure CLI", "REST API", "Azure Resource Manager", "ARM テンプレート", "Bicep テンプレート"]
-related_services: ["Bash", "JSON"]
-lastmod: 2026-06-14
+components: ["App Service"]
+related_services: ["Azure Resource Manager", "App Service", "Azure SDK"]
+trend_incident: false
 ---
+
+## 冒頭まとめ
+
+Azure の 500 Internal Server Error は、まず「どの URL が返したか」で2系統に分けると迷いません。第一に、Azure の管理 API（management.azure.com への操作）や各サービスの API が返す500で、エラー応答の code は InternalServerError などになります。これは Azure 側の予期しない内部エラーで、手元のリクエストを直して消えるものではありません。Azure の公式 SDK は、408・429・500・502・503・504 を既定の再試行対象とし、既定で合計10回まで再試行する設計になっており（Python 版 SDK の共通基盤 azure-core のソースコードで確認できます）、SDK 経由で500がエラーとして見えた時点で、この再試行はすでに尽きています。第二に、自分がデプロイしたアプリ（App Service）の URL が返す500です。こちらは Azure 側の障害ではなくアプリの調査で、ASP.NET Core の場合は 500.30 のようなサブステータスが失敗の種類まで教えてくれます。
+
+500だと思い込みやすいのに500ではないエラーも先に押さえます。リソースプロバイダーの未登録は、公式トラブルシューティング文書のある MissingSubscriptionRegistration で、実際の応答は 409 Conflict です。クォータやスロットリングは 429 系、テンプレートやパラメータの不正は 400 系の検証エラー、権限不足は 403 の AuthorizationFailed です。「プロバイダー未登録で500」「クォータ超過で500」という説明は Azure の実際の応答と一致しません。
+
 ## エラーの概要
 
-Azure 500[エラー](/glossary/エラー/)は、Azureの[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。クライアント側に問題がなく、Azureインフラストラクチャ自体に一時的な障害が生じている状態を指します。この[エラー](/glossary/エラー/)が発生すると、リソースへのアクセスやデプロイメント、[API](/glossary/api/)呼び出しなどが中断され、進行中の処理は失敗に終わります。
+Azure の管理 API のエラーは、error オブジェクト（code と message）を持つ JSON で返ります。500の場合の code は InternalServerError などで、message は一時的なエラーである旨と再試行の案内になっているのが典型です。切り分けでまず読むべきは HTTP のコードではなく、この code フィールドです。MissingSubscriptionRegistration や AuthorizationFailed のような具体的な code が入っているなら、それは500の調査ではありません。
 
-## 実際のエラーメッセージ例
+もう1つ、Azure の応答には必ず控えるべきヘッダーがあります。x-ms-request-id と x-ms-correlation-request-id です（実際のエラー応答の記録でも、この2つのヘッダーが含まれていることが確認できます）。この値は Azure 側のログでリクエストを特定する参照 ID で、500が再現・継続する場合にサポートへ渡す情報の中核になります。
 
-Azure Portal、Azure [CLI](/glossary/cli/)または[REST](/glossary/rest/) [API](/glossary/api/)を使用する際に以下のような[エラー](/glossary/エラー/)が表示されます。
+自分のアプリ（App Service）の500は、ブラウザにサブステータスつきのエラーページとして現れることがあります。ASP.NET Core では次の形が代表です。
 
-```json
-{
-  "error": {
-    "code": "InternalServerError",
-    "message": "An internal error occurred while processing your request. Please try again later.",
-    "details": []
-  }
-}
+```text
+HTTP Error 500.30 - ANCM In-Process Start Failure
 ```
 
-```bash
-$ az vm create --resource-group <your-resource-group> --name <your-vm-name> --image UbuntuLTS
-InternalServerError: An internal server error occurred while processing your request. Please try again later.
-```
+これは「アプリが起動そのものに失敗した」ことを示す表示で、リクエスト処理中の例外とは調査の入口が異なります。
 
-```json
-{
-  "error": {
-    "code": "500",
-    "message": "Internal Server Error",
-    "target": "/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/Microsoft.Compute/virtualMachines/<vm-name>"
-  }
-}
-```
+## まず最初に：どの URL の500かで2つに分岐する
+
+失敗したリクエストの宛先を確認します。az コマンド・SDK・ポータル経由のリソース操作、つまり management.azure.com や各サービスの API への500なら原因1です。自分のアプリの URL（azurewebsites.net や独自ドメイン）への500なら原因2です。原因1の場合は、応答の error.code を読み、InternalServerError 系であることを確認したうえで、x-ms-request-id と発生時刻を控えます。別の code が入っているなら、補足に挙げる各系統の調査に切り替えます。
 
 ## よくある原因と解決手順
 
-### 原因1：リソースプロバイダーの登録が不完全またはタイムアウト
+### 原因1：Azure の API 側で内部エラーが起きている（InternalServerError）
 
-Azureではリソースを作成する前に対応するリソースプロバイダーを登録する必要があります。登録プロセスが完了していない場合や[タイムアウト](/glossary/タイムアウト/)した場合に500[エラー](/glossary/エラー/)が発生します。
+Azure 側の一時的な問題で、正しい操作にも500が返ることがあります。一次対処は再試行ですが、公式 SDK を使っているなら再試行は組み込み済みです。azure-core の既定では、対象コード（408・429・500・502・503・504）に対して合計10回まで再試行し、POST や PATCH のような書き込み操作でも 500・503・504 は再試行対象に含まれます。つまり、SDK がエラーを返した時点で「もう一度だけ試す」ことに意味はほとんどなく、時間をおくか、状況を確認する段階です。SDK を介さず HTTP を直接呼んでいる場合は、指数バックオフと回数上限つきの再試行を自分で実装します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（SDK の外側で、間隔なしの再試行を重ねてしまう）：**
+
+```python
+import requests
+
+def call_azure(url, headers):
+    while True:  # 500 のたびに即時で再送する
+        r = requests.get(url, headers=headers)
+        if r.status_code == 200:
+            return r
+```
+
+**After（指数バックオフと回数上限。参照 ID を必ず記録する）：**
+
+```python
+import random
+import time
+
+import requests
+
+def call_azure(url, headers, max_retries=4):
+    for attempt in range(max_retries + 1):
+        r = requests.get(url, headers=headers)
+        if r.status_code < 500:
+            return r  # 4xx は再試行しても結果が変わらないため原因調査へ
+        print(f"HTTP {r.status_code} x-ms-request-id={r.headers.get('x-ms-request-id')}")
+        if attempt < max_retries:
+            time.sleep((2 ** attempt) + random.random())  # 1,2,4,8 秒+ゆらぎ
+    return r
+```
+
+書き込み操作（リソースの作成・更新）で500を受け取った場合は、応答が届かなかっただけで処理が完了している可能性を排除できません。再試行の前に対象リソースの状態を確認し、二重作成を避けてください。500が続く・広がる場合は、Azure の稼働状況（https://azure.status.microsoft）と、ポータルの Service Health を確認します。全体のステータスページに載らない規模の問題も Service Health のリソース単位の通知には出ることがあるため、両方を見るのが確実です。掲載がないことは障害でないことの証明にはなりません。解決しない場合は、控えておいた x-ms-request-id・x-ms-correlation-request-id・発生時刻を添えてサポートに問い合わせます。
+
+### 原因2：自分のアプリ（App Service）が500を返している
+
+App Service にデプロイしたアプリの URL が500を返す場合、原因はアプリ側にあります。ASP.NET Core では、サブステータスが調査の入口を教えてくれます。500.30（ANCM In-Process Start Failure）は、リクエスト処理中の例外ではなく、アプリの起動自体が失敗している状態です。公式トラブルシューティング文書（Troubleshoot ASP.NET Core on Azure App Service and IIS）が示す手順は一貫していて、アプリのイベントログを確認すること、そして stdout ログを有効にして起動時の実際の例外を見ることです。ブラウザに出るエラーページ自体には原因が含まれないため、ログを見えるようにすることが実質的な第一歩になります。
+
+**Before（起動失敗の中身がどこにも出力されず、500.30 の表示だけで手掛かりがない状態）：**
+
+```xml
+<!-- web.config：stdout ログが無効のまま -->
+<aspNetCore processPath="dotnet" arguments=".\MyApp.dll"
+            stdoutLogEnabled="false" stdoutLogFile=".\logs\stdout" />
+```
+
+**After（stdout ログを有効化し、起動時の実際の例外を記録させる。公式文書の手順）：**
+
+```xml
+<!-- web.config：原因調査の間だけ有効にする（恒久で有効にしない） -->
+<aspNetCore processPath="dotnet" arguments=".\MyApp.dll"
+            stdoutLogEnabled="true" stdoutLogFile="\\?\%home%\LogFiles\stdout" />
+```
 
 ```bash
-# リソースプロバイダーを確認せずにVM作成を試みる
-az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS
+# ログをその場で流し見する
+az webapp log tail --name <app-name> --resource-group <resource-group>
 ```
 
-**After（修正後）：**
+起動失敗の典型は、設定値や接続文字列の不足、参照するランタイムやフレームワークの版の不一致、起動処理内での例外です。500.30 以外のサブステータス（起動失敗の別パターン）もあり、それぞれの意味と対処は同じ公式文書に一覧があります。共通するのは、サブステータスは「どの段階で失敗したか」までしか教えないので、実際の例外はイベントログと stdout ログで確認する、という進め方です。なお、stdout ログはローテーションされないため、公式文書のとおり調査が済んだら無効に戻します。
+
+## 補足：500ではない類似エラー
+
+Azure の実際の応答では、次の問題に500以外のコードが割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過やリクエストの集中（スロットリング）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。テンプレートやパラメータの検証エラーは 400 系で、message が名指しする項目の修正が対処です。権限不足は 403 の AuthorizationFailed で、調査はロール割り当て（RBAC）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
+
+## 切り分けの順序
+
+1. 宛先を確認する。管理 API・サービス API への500なら原因1、自分のアプリの URL なら原因2。
+2. 応答の error.code を読む。MissingSubscriptionRegistration（409）・スロットリング（429）・検証エラー（400）・AuthorizationFailed（403）なら、それぞれの調査に切り替える。
+3. 原因1は、x-ms-request-id と時刻を控え、SDK の再試行が尽きていることを前提に、時間をおいて再実行する。書き込みは二重作成の確認を先に行う。
+4. 500が続く場合は、稼働状況ページとポータルの Service Health を確認し、解消しなければ参照 ID を添えてサポートへ問い合わせる。
+5. 原因2は、サブステータスで段階を特定し、イベントログと stdout ログで実際の例外を確認して修正する。
+
+## 確認コマンド集
 
 ```bash
-# 必要なリソースプロバイダーを登録
-az provider register --namespace Microsoft.Compute
-az provider register --namespace Microsoft.Network
-az provider register --namespace Microsoft.Storage
+# 1. 応答のコード・error.code・参照 ID を確認する
+az rest --method get \
+  --url "https://management.azure.com/subscriptions/<subscription-id>/resourceGroups?api-version=2021-04-01" \
+  --verbose 2>&1 | grep -iE "x-ms-request-id|error|InternalServerError"
 
-# 登録の完了を確認
-az provider show --namespace Microsoft.Compute --query "registrationState"
+# 2. 対象リソースの直近の操作履歴とエラーを確認する（書き込みの成否確認にも使う）
+az monitor activity-log list --resource-group <resource-group> --offset 1h \
+  --query "[].{op:operationName.value, status:status.value, time:eventTimestamp}" -o table
 
-# その後でリソース作成を実行
-az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS
+# 3. App Service のログをその場で確認する（原因2）
+az webapp log tail --name <app-name> --resource-group <resource-group>
+
+# 4. App Service のログ出力を有効化する（原因2）
+az webapp log config --name <app-name> --resource-group <resource-group> \
+  --application-logging filesystem --level information
 ```
 
-### 原因2：クォータ制限または容量超過
+## Editor's Note
 
-[サブスクリプション](/glossary/サブスクリプション/)内のリソース作成がクォータ制限に達していたり、特定のリージョンの容量が不足している場合に発生します。
+原因2の実例として、ASP.NET Core の公式リポジトリに残る報告があります（[HTTP Error 500.30 - ANCM In-Process Start Failure](https://github.com/dotnet/aspnetcore/issues/18262)）。同じ .NET Core アプリが、ローカルでも1つ目の App Service でも問題なく動くのに、同一設定のはずの2つ目の App Service にデプロイすると 500.30 で起動しない、という2020年の記録です。ブラウザに出るのは 500.30 の定型ページだけで、アプリのイベントログに残っていたのは failed to load coreclr という1行の記録でした。「コードは同じなのに、環境によって500」という原因2の典型で、エラーページの表示からは決して原因に到達できず、イベントログと stdout ログだけが手がかりになる、という本記事の進め方がそのまま現れています。約6年前の事例ですが、ANCM がサブステータスで起動失敗を示す仕組みと、イベントログ・stdout ログを起点にする調査手順は、現行の公式トラブルシューティング文書でも同一です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-# クォータ確認なしに大量のVMを作成
-for i in {1..100}; do
-  az vm create --resource-group myResourceGroup --name myVM-$i --image UbuntuLTS
-done
-```
-
-**After（修正後）：**
-
-```bash
-# 事前にクォータ使用量を確認
-az vm list-usage --location eastus --query "[?name.value=='cores']"
-
-# 必要に応じてクォータ増加をリクエスト
-az support tickets create \
-  --resource-group myResourceGroup \
-  --title "CPU Quota Increase Request" \
-  --severity minimal \
-  --contact-method email
-
-# 別のリージョンでリソース作成を検討
-az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS --location westus
-```
-
-### 原因3：ARM テンプレートの構文エラーまたはスキーマの非互換性
-
-Azure Resource Manager（ARM）テンプレートで構文[エラー](/glossary/エラー/)があったり、[API](/glossary/api/)[バージョン](/glossary/バージョン/)が古い場合に500[エラー](/glossary/エラー/)が発生します。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```json
-{
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "resources": [
-    {
-      "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2015-06-15",
-      "name": "myVM",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "Standard_A0"
-        }
-      }
-    }
-  ]
-}
-```
-
-**After（修正後）：**
-
-```json
-{
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "resources": [
-    {
-      "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2023-03-01",
-      "name": "myVM",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "Standard_B2s"
-        },
-        "osProfile": {
-          "computerName": "myVM",
-          "adminUsername": "azureuser"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "Canonical",
-            "offer": "UbuntuServer",
-            "sku": "18.04-LTS",
-            "version": "latest"
-          }
-        }
-      }
-    }
-  ]
-}
-```
-
-### 原因4：ネットワークセキュリティグループ（NSG）またはファイアウォール規則の設定ミス
-
-NSGやAzure Firewallの設定が不適切な場合、内部通信がブロックされて500[エラー](/glossary/エラー/)が発生することがあります。
-
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
-
-```bash
-# すべてのインバウンドを拒否するNSGを作成
-az network nsg create --resource-group myResourceGroup --name myNSG
-
-az network nsg rule create --resource-group myResourceGroup \
-  --nsg-name myNSG \
-  --name DenyAllInbound \
-  --priority 100 \
-  --direction Inbound \
-  --access Deny \
-  --protocol '*'
-```
-
-**After（修正後）：**
-
-```bash
-# 必要なトラフィックのみを許可するNSGルールを作成
-az network nsg rule create --resource-group myResourceGroup \
-  --nsg-name myNSG \
-  --name AllowHTTP \
-  --priority 100 \
-  --direction Inbound \
-  --access Allow \
-  --protocol Tcp \
-  --source-address-prefixes '*' \
-  --destination-port-ranges 80
-
-az network nsg rule create --resource-group myResourceGroup \
-  --nsg-name myNSG \
-  --name AllowHTTPS \
-  --priority 101 \
-  --direction Inbound \
-  --access Allow \
-  --protocol Tcp \
-  --source-address-prefixes '*' \
-  --destination-port-ranges 443
-```
-
-## Azure 固有の注意点
-
-### App Service での 500 エラー
-
-Azure App Service で[アプリケーション](/glossary/アプリケーション/)が500[エラー](/glossary/エラー/)を返す場合、[アプリケーション](/glossary/アプリケーション/)自体の問題とプラットフォーム側の問題を区別する必要があります。以下の[コマンド](/glossary/コマンド/)で診断設定を有効にして詳細な[ログ](/glossary/ログ/)を確認してください。
-
-```bash
-# App Service の詳細ログを有効化
-az webapp log config --name <your-app-name> --resource-group <your-resource-group> \
-  --web-server-logging filesystem --detailed-error-messages true
-
-# ログをダウンロードして確認
-az webapp log download --name <your-app-name> --resource-group <your-resource-group> \
-  --log-file appservice.zip
-```
-
-### Azure SQL Database との接続エラー
-
-[バックエンド](/glossary/バックエンド/)の[SQL](/glossary/sql/) Databaseに接続できない場合も500[エラー](/glossary/エラー/)が発生します。[ファイアウォール](/glossary/ファイアウォール/)規則とVNet統合設定を確認してください。
-
-```bash
-# SQL Serverのファイアウォール規則を確認
-az sql server firewall-rule list --resource-group <your-resource-group> \
-  --server <your-server-name>
-
-# アプリケーションが配置されている場所からのアクセスを許可
-az sql server firewall-rule create --resource-group <your-resource-group> \
-  --server <your-server-name> \
-  --name AllowAzureServices \
-  --start-ip-address 0.0.0.0 \
-  --end-ip-address 0.0.0.0
-```
-
-### API Management での 500 エラー
-
-Azure [API](/glossary/api/) Managementを経由している場合、[ポリシー](/glossary/ポリシー/)設定や[バックエンド](/glossary/バックエンド/)の設定ミスが原因となります。[ポリシー](/glossary/ポリシー/)検証と[バックエンド](/glossary/バックエンド/)の[ヘルスチェック](/glossary/ヘルスチェック/)を実行してください。
-
-```bash
-# バックエンド APIのヘルスプローブ設定を確認
-az apim backend show --resource-group <your-resource-group> \
-  --service-name <your-apim-name> \
-  --backend-id <your-backend-id>
-
-# ポリシー設定の構文を検証
-az apim api policy show --resource-group <your-resource-group> \
-  --service-name <your-apim-name> \
-  --api-id <your-api-id>
-```
-
-## それでも解決しない場合
-
-### ログの確認方法
-
-Azure Monitor を利用して詳細な[エラーログ](/glossary/エラーログ/)を確認することができます。
-
-```bash
-# Azure Monitor で過去1時間のエラーログを検索
-az monitor metrics list --resource <your-resource-id> \
-  --metric "FailedRequests" \
-  --start-time 2024-01-01T00:00:00Z \
-  --interval PT1M
-
-# Application Insights でトレースを確認
-az monitor app-insights query --app <your-app-insights-name> \
-  --analytics-query "requests | where resultCode == 500 | project timestamp, name, resultCode, duration"
-```
-
-### Azure Support への相談
-
-問題が継続する場合は、Azure サポートに問い合わせてください。事前に以下の情報を準備しておくと対応が迅速になります。
-
-- リソースの種類（App Service、VM、[API](/glossary/api/) Management など）
-- 発生時刻と時間帯
-- 実行していた操作の詳細
-- Azure Monitor または Application Insights からの[ログ](/glossary/ログ/)出力
-- [サブスクリプション](/glossary/サブスクリプション/) [ID](/glossary/id/) とリソースグループ名
-
-### 公式ドキュメント
-
-以下のドキュメントを参照して詳細を確認してください。
-
-- [Azure サービスの正常性状態を確認](https://status.azure.com/)
-- [Azure トラブルシューティング ガイド](https://learn.microsoft.com/ja-jp/azure/cloud-adoption-framework/ready/consideration/connectivity-to-azure)
-- [ARM テンプレートのベストプラクティス](https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/templates/best-practices)
+Azure の500は、管理 API 側なら「参照 ID を控えて正しく待つ」、アプリ側なら「サブステータスで段階を特定し、ログを見えるようにする」。どちらの500かを最初に確定すれば、やることは2つに1つです。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
