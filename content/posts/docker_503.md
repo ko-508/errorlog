@@ -46,7 +46,7 @@ error: unexpected status code 503 Service Unavailable
 
 ### 原因1: Docker Hubまたはレジストリサーバーの障害
 
-[Docker](/glossary/docker/) Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)が障害状態にあるか、メンテナンス中の場合に[エラー](/glossary/エラー/)が発生します。この場合、クライアント側の設定に問題がなくても、[サーバー](/glossary/サーバー/)側の復旧を待つ必要があります。
+[Docker](/glossary/docker/) Hubや[プライベートレジストリ](/glossary/プライベートレジストリ/)が障害状態にあるか、メンテナンス中の場合に[エラー](/glossary/エラー/)が発生します。この場合、[クライアント](/glossary/クライアント/)側の設定に問題がなくても、[サーバー](/glossary/サーバー/)側の復旧を待つ必要があります。
 
 まずは、対象[レジストリ](/glossary/レジストリ/)の状態確認[コマンド](/glossary/コマンド/)を実行してください。
 

@@ -197,7 +197,7 @@ TF_LOG=DEBUG terraform apply
 
 2. **terraform state を確認する**
 
-既存のリソースが部分的に作成されている場合、state ファイルが破損していないか確認してください。
+既存のリソースが部分的に作成されている場合、state [ファイル](/glossary/ファイル/)が破損していないか確認してください。
 
 ```bash
 terraform state list

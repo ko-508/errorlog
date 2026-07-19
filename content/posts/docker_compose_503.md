@@ -259,7 +259,7 @@ docker compose config --quiet
 docker compose config
 ```
 
-Composeファイルに記述[エラー](/glossary/エラー/)がないか、公式ドキュメント（https://docs.docker.com/compose/compose-file/）で仕様を再確認し、特に`condition`値が`service_healthy`、`service_started`、`service_completed_successfully`のいずれかか確認してください。
+Compose[ファイル](/glossary/ファイル/)に記述[エラー](/glossary/エラー/)がないか、公式ドキュメント（https://docs.docker.com/compose/compose-file/）で仕様を再確認し、特に`condition`値が`service_healthy`、`service_started`、`service_completed_successfully`のいずれかか確認してください。
 
 ---
 

@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がクライアントの身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべての[アプリケーション](/glossary/アプリケーション/)で発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
+OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が[クライアント](/glossary/クライアント/)の身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべての[アプリケーション](/glossary/アプリケーション/)で発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -76,7 +76,7 @@ response = openai.ChatCompletion.create(
 
 ### 原因2：環境変数が正しく設定されていない
 
-.envファイルや[環境変数](/glossary/環境変数/)の設定で、OPENAI_[API](/glossary/api/)_KEYが指定されていないか、間違った値が保存されている場合があります。
+.env[ファイル](/glossary/ファイル/)や[環境変数](/glossary/環境変数/)の設定で、OPENAI_[API](/glossary/api/)_KEYが指定されていないか、間違った値が保存されている場合があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）：**
 ```bash
@@ -183,7 +183,7 @@ response = openai.ChatCompletion.create(
 企業[ネットワーク](/glossary/ネットワーク/)環境で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401[エラー](/glossary/エラー/)になることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
 
 **複数キーの管理：**
-[テスト](/glossary/テスト/)環境と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.envファイルを分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
+[テスト](/glossary/テスト/)環境と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.env[ファイル](/glossary/ファイル/)を分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
 
 ## それでも解決しない場合
 

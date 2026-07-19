@@ -17,7 +17,7 @@ top_queries:
 
 ## エラーの概要
 
-408 Request Timeout は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められた[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)環境では、クライアントが[リクエスト](/glossary/リクエスト/)を完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に発生します。[Docker](/glossary/docker/) Daemonや[コンテナ](/glossary/コンテナ/)[API](/glossary/api/) との通信時に[タイムアウト](/glossary/タイムアウト/)が生じ、[API](/glossary/api/)呼び出しが中断される典型的なケースです。特に[コンテナ](/glossary/コンテナ/)のビルド、実行、イメージプッシュ時に多く観測されます。
+408 Request Timeout は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められた[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)環境では、[クライアント](/glossary/クライアント/)が[リクエスト](/glossary/リクエスト/)を完了できる規定時間内に要求を送信しなかった、または完全に送信できなかった場合に発生します。[Docker](/glossary/docker/) Daemonや[コンテナ](/glossary/コンテナ/)[API](/glossary/api/) との通信時に[タイムアウト](/glossary/タイムアウト/)が生じ、[API](/glossary/api/)呼び出しが中断される典型的なケースです。特に[コンテナ](/glossary/コンテナ/)のビルド、実行、イメージプッシュ時に多く観測されます。
 
 ## 実際のエラーメッセージ例
 

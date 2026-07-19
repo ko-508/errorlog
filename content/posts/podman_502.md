@@ -41,7 +41,7 @@ Error: Error writing blob: Error initiating layer upload to /v2/repo/image/blobs
 
 ### 原因1：コンテナレジストリとの通信障害（Quay等）
 
-Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)をプルまたはプッシュする際に、[SSL](/glossary/ssl/) 証明書[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体がダウンしているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
+Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)をプルまたはプッシュする際に、[SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体がダウンしているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -246,7 +246,7 @@ curl http://localhost:8000
 
 **Podman のネットワークモード差異**：Podman はデフォルトでユーザーモード・[ネットワーク](/glossary/ネットワーク/)（`slirp4netns` または `pasta`）を使用します。これは `localhost` が[コンテナ](/glossary/コンテナ/)内のみのループバックである点が [Docker](/glossary/docker/) と異なります。[Docker](/glossary/docker/) では `--network=host` でホストの[ネットワーク](/glossary/ネットワーク/)名前空間を直接共有できますが、Podman では `host.containers.internal` を使用してホストのサービスにアクセスします。
 
-**Quadlet との組み合わせ**：Podman v4.4 以降、systemd ネイティブの Quadlet [ファイル形式](/glossary/ファイル形式/)で[コンテナ](/glossary/コンテナ/)を管理できます。この場合、`[Network]` セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、複数の `[Container]` で同じ[ネットワーク](/glossary/ネットワーク/)名を参照することが重要です。`podman-compose` や [YAML](/glossary/yaml/) ファイルとは異なり、Quadlet は各ファイルが独立して systemd サービスに変換されるため、[ネットワーク](/glossary/ネットワーク/)定義を別ファイルで明示的に記述する必要があります。
+**Quadlet との組み合わせ**：Podman v4.4 以降、systemd ネイティブの Quadlet [ファイル形式](/glossary/ファイル形式/)で[コンテナ](/glossary/コンテナ/)を管理できます。この場合、`[Network]` セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、複数の `[Container]` で同じ[ネットワーク](/glossary/ネットワーク/)名を参照することが重要です。`podman-compose` や [YAML](/glossary/yaml/) [ファイル](/glossary/ファイル/)とは異なり、Quadlet は各[ファイル](/glossary/ファイル/)が独立して systemd サービスに変換されるため、[ネットワーク](/glossary/ネットワーク/)定義を別[ファイル](/glossary/ファイル/)で明示的に記述する必要があります。
 
 **Quay [インスタンス](/glossary/インスタンス/)の[バックエンド](/glossary/バックエンド/)確認**：自ホスト上で Quay を実行している場合、バックエンドストレージ（PostgreSQL、Redis 等）が正常に動作しているか確認してください。`podman logs quay-container` で[バックエンド](/glossary/バックエンド/)接続[エラー](/glossary/エラー/)が表示されていないか確認し、必要に応じてバックエンドサービスも再起動してください。
 

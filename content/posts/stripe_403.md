@@ -105,7 +105,7 @@ stripe.Charge.retrieve(charge_id)
 
 ### 原因3: Stripe アカウントの機能制限や審査段階の制限
 
-新規[アカウント](/glossary/アカウント/)や[アカウント](/glossary/アカウント/)審査中の場合、特定の Stripe 機能が使用禁止になっていることがあります。例えば、国際決済やファイル [API](/glossary/api/)、Connect 機能など、本来利用可能な機能でも一時的にロックされている可能性があります。
+新規[アカウント](/glossary/アカウント/)や[アカウント](/glossary/アカウント/)審査中の場合、特定の Stripe 機能が使用禁止になっていることがあります。例えば、国際決済や[ファイル](/glossary/ファイル/) [API](/glossary/api/)、Connect 機能など、本来利用可能な機能でも一時的にロックされている可能性があります。
 
 **Before（機能が制限されている状態）:**
 ```javascript

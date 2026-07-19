@@ -161,7 +161,7 @@ docker push <your-username>/<your-image>:latest
 
 ### Docker Compose での認証設定
 
-`docker-compose.yml` で複数の[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)をpullする場合、各[レジストリ](/glossary/レジストリ/)への事前[ログイン](/glossary/ログイン/)が必要です。Compose ファイル内に認証情報を直接記述することは[セキュリティ](/glossary/セキュリティ/)上推奨されません。
+`docker-compose.yml` で複数の[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)をpullする場合、各[レジストリ](/glossary/レジストリ/)への事前[ログイン](/glossary/ログイン/)が必要です。Compose [ファイル](/glossary/ファイル/)内に認証情報を直接記述することは[セキュリティ](/glossary/セキュリティ/)上推奨されません。
 
 ```bash
 # docker-compose.yml 実行前に全レジストリにログイン

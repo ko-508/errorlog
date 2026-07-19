@@ -13,7 +13,7 @@ related_services: ["curl", "Python requests", "HTTPBasicAuth"]
 
 ## エラーの概要
 
-Prometheus の 401 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) [認証](/glossary/認証/)が失敗したことを示します。Prometheus [サーバー](/glossary/サーバー/)が[認証](/glossary/認証/)を要求しているにもかかわらず、クライアント（スクレイパー、エクスポーター、またはリモート [API](/glossary/api/) クライアント）が有効な認証情報を提供していない状態で発生します。この[エラー](/glossary/エラー/)は、ベーシック[認証](/glossary/認証/)、[TLS](/glossary/tls/) クライアント証明書認証、またはリバースプロキシ経由の[認証](/glossary/認証/)など、複数の[認証](/glossary/認証/)メカニズムで発生する可能性があります。
+Prometheus の 401 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) [認証](/glossary/認証/)が失敗したことを示します。Prometheus [サーバー](/glossary/サーバー/)が[認証](/glossary/認証/)を要求しているにもかかわらず、[クライアント](/glossary/クライアント/)（スクレイパー、エクスポーター、またはリモート [API](/glossary/api/) [クライアント](/glossary/クライアント/)）が有効な認証情報を提供していない状態で発生します。この[エラー](/glossary/エラー/)は、ベーシック[認証](/glossary/認証/)、[TLS](/glossary/tls/) [クライアント](/glossary/クライアント/)証明書認証、またはリバースプロキシ経由の[認証](/glossary/認証/)など、複数の[認証](/glossary/認証/)メカニズムで発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -68,7 +68,7 @@ scrape_configs:
       - targets: ['http://prometheus-server:9090']
 ```
 
-または、Prometheus リモート書き込みクライアントの場合：
+または、Prometheus リモート書き込み[クライアント](/glossary/クライアント/)の場合：
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -100,7 +100,7 @@ print(response.status_code)  # 200 が返される
 
 ### 原因2：TLS クライアント証明書認証が必要なのに証明書を設定していない
 
-Prometheus が相互 [TLS](/glossary/tls/)（mTLS）[認証](/glossary/認証/)で保護されている場合、クライアント側でクライアント証明書と秘密鍵を提示する必要があります。これらの設定がない場合、[TLS](/glossary/tls/) ハンドシェイクが失敗し、[認証](/glossary/認証/)[エラー](/glossary/エラー/)として 401 が返されます。
+Prometheus が相互 [TLS](/glossary/tls/)（mTLS）[認証](/glossary/認証/)で保護されている場合、[クライアント](/glossary/クライアント/)側で[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)と[秘密鍵](/glossary/秘密鍵/)を提示する必要があります。これらの設定がない場合、[TLS](/glossary/tls/) ハンドシェイクが失敗し、[認証](/glossary/認証/)[エラー](/glossary/エラー/)として 401 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

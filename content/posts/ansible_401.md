@@ -53,7 +53,7 @@ FAILED! => {
 
 ### 原因1：SSH秘密鍵が間違っているか、パスフレーズが設定されている
 
-SSHで使用する秘密鍵がターゲットホストの公開鍵と対応していない場合、またはパスフレーズで保護された鍵をAnsibleが処理できない場合に発生します。Ansibleがホストに接続する際に認証情報を提示できず、Permission deniedで弾かれる状況です。
+SSHで使用する[秘密鍵](/glossary/秘密鍵/)がターゲットホストの公開鍵と対応していない場合、またはパスフレーズで保護された鍵をAnsibleが処理できない場合に発生します。Ansibleがホストに接続する際に認証情報を提示できず、Permission deniedで弾かれる状況です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -110,7 +110,7 @@ private_key_file = ~/.ssh/id_rsa
 
 ### 原因2：become（sudo）のパスワードが間違っているか、未設定
 
-ターゲットホストで[管理者権限](/glossary/管理者権限/)が必要なタスク（パッケージインストール、ファイル編集など）を実行する際に、`become: yes`の設定だけではbecome_passwordが未設定のため、sudoの[認証](/glossary/認証/)に失敗します。
+ターゲットホストで[管理者権限](/glossary/管理者権限/)が必要なタスク（パッケージインストール、[ファイル](/glossary/ファイル/)編集など）を実行する際に、`become: yes`の設定だけではbecome_passwordが未設定のため、sudoの[認証](/glossary/認証/)に失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -241,7 +241,7 @@ ansible-playbook playbook.yml --vault-password-file ~/.vault_pass
 ## ツール固有の注意点
 
 **SSHエージェント設定の確認：**
-パスフレーズ保護された秘密鍵を使用する場合、SSHエージェントが起動していることを確認してください。Linuxで`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を登録することで、Ansibleの実行時にパスフレーズ入力が不要になります。
+パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを確認してください。Linuxで`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を登録することで、Ansibleの実行時にパスフレーズ入力が不要になります。
 
 **become_methodの指定：**
 デフォルトではsudoが使用されますが、環境によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト環境に応じた設定をinventoryで指定してください。

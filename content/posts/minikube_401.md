@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Minikubeの401[エラー](/glossary/エラー/)は、kubectlがMinikubeクラスターへの[認証](/glossary/認証/)に失敗したことを示します。この[エラー](/glossary/エラー/)は通常、kubeconfig[設定ファイル](/glossary/設定ファイル/)に保存されたクラスター接続情報がMinikubeの現在の状態と一致していない場合に発生します。正常な[認証](/glossary/認証/)を行うために必要な証明書や[API](/glossary/api/)サーバーアドレスが古いままで、新しいクラスター状態との齟齬が生じているのが典型的な原因です。
+Minikubeの401[エラー](/glossary/エラー/)は、kubectlがMinikubeクラスターへの[認証](/glossary/認証/)に失敗したことを示します。この[エラー](/glossary/エラー/)は通常、kubeconfig[設定ファイル](/glossary/設定ファイル/)に保存されたクラスター接続情報がMinikubeの現在の状態と一致していない場合に発生します。正常な[認証](/glossary/認証/)を行うために必要な[証明書](/glossary/証明書/)や[API](/glossary/api/)サーバーアドレスが古いままで、新しいクラスター状態との齟齬が生じているのが典型的な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ error: You must be logged in to the server (Unauthorized)
 
 ### 原因1：kubeconfig設定がMinikubeと一致していない
 
-Minikubeを起動した環境と異なる環境からアクセスしたり、kubeconfig を手動編集したりすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)のアドレスやクライアント証明書の[パス](/glossary/パス/)が誤った状態になります。この場合、kubectlは正しい証明書を使用して[認証](/glossary/認証/)できません。
+Minikubeを起動した環境と異なる環境からアクセスしたり、kubeconfig を手動編集したりすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)のアドレスや[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)の[パス](/glossary/パス/)が誤った状態になります。この場合、kubectlは正しい[証明書](/glossary/証明書/)を使用して[認証](/glossary/認証/)できません。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -70,7 +70,7 @@ minikube start
 
 ### 原因2：Minikube再起動後に証明書が更新された
 
-Minikubeを停止して再起動すると、クラスターの[認証](/glossary/認証/)に使う証明書が[リセット](/glossary/リセット/)されることがあります。古い証明書情報が kubeconfig に残ったままだと、新しい証明書で署名された要求が拒否されます。
+Minikubeを停止して再起動すると、クラスターの[認証](/glossary/認証/)に使う[証明書](/glossary/証明書/)が[リセット](/glossary/リセット/)されることがあります。古い証明書情報が kubeconfig に残ったままだと、新しい[証明書](/glossary/証明書/)で署名された要求が拒否されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -99,7 +99,7 @@ kubectl config set-context minikube \
 
 ### 原因3：kubectlが別のMinikubeプロフィールを参照している
 
-複数のMinikubeプロフィールを使用している環境では、kubectlが別のプロフィールのクラスター情報を参照してしまう場合があります。異なるプロフィール間で証明書や[API](/glossary/api/)[サーバー](/glossary/サーバー/)が異なるため、[認証](/glossary/認証/)に失敗します。
+複数のMinikubeプロフィールを使用している環境では、kubectlが別のプロフィールのクラスター情報を参照してしまう場合があります。異なるプロフィール間で[証明書](/glossary/証明書/)や[API](/glossary/api/)[サーバー](/glossary/サーバー/)が異なるため、[認証](/glossary/認証/)に失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -179,7 +179,7 @@ minikube start --driver=<new-driver>
 minikube update-context
 ```
 
-**証明書の検証をスキップしない**
+**[証明書](/glossary/証明書/)の検証をスキップしない**
 
 トラブルシューティング時に `--insecure-skip-tls-verify=true` で証明書検証をスキップするのは一時的な回避策に過ぎません。根本原因を解決せずに本番環境に似た設定をすると、セキュリティリスクが増加します。必ず kubeconfig の再同期で対応してください。
 
@@ -196,7 +196,7 @@ cat ~/.kube/config
 # 特に server, certificate-authority, client-certificate のパスが存在するか確認
 ```
 
-**証明書ファイルの存在確認**
+**[証明書](/glossary/証明書/)[ファイル](/glossary/ファイル/)の存在確認**
 
 ```bash
 # Minikube クラスターの証明書ディレクトリを確認

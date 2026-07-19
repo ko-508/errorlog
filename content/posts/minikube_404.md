@@ -204,7 +204,7 @@ kubectl get pod my-app -v=8
 
 **Minikube のリソース定義を確認する**
 
-Pod や Deployment の定義ファイルを確認し、[メタデータ](/glossary/メタデータ/)が正確に記述されているか検証してください。
+Pod や Deployment の定義[ファイル](/glossary/ファイル/)を確認し、[メタデータ](/glossary/メタデータ/)が正確に記述されているか検証してください。
 
 ```bash
 kubectl get pod my-app -o yaml

@@ -14,7 +14,7 @@ related_services: ["Azure App Service", "GitHub API"]
 
 ## エラーの概要
 
-[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 409 は、[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)上のリソースの現在の状態と競合していることを示します。GitHub Actions では、別の[デプロイ](/glossary/デプロイ/)が進行中である場合や複数の同時更新がファイルのハッシュ値と競合している場合、または[ポリシー](/glossary/ポリシー/)変更が[リポジトリ](/glossary/リポジトリ/)権限設定と競合する場合に発生することが多いです。
+[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 409 は、[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)上のリソースの現在の状態と競合していることを示します。GitHub Actions では、別の[デプロイ](/glossary/デプロイ/)が進行中である場合や複数の同時更新が[ファイル](/glossary/ファイル/)のハッシュ値と競合している場合、または[ポリシー](/glossary/ポリシー/)変更が[リポジトリ](/glossary/リポジトリ/)権限設定と競合する場合に発生することが多いです。
 
 ## 実際のエラーメッセージ例
 
@@ -116,7 +116,7 @@ jobs:
 
 ### 原因2：ファイルハッシュ（SHA）の不一致による同時更新競合
 
-GitHub [API](/glossary/api/) でファイルを更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（ファイルの現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数のワークフロー実行が同じファイルを同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
+GitHub [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数のワークフロー実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -425,7 +425,7 @@ node merge_pr.js
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | 同時[デプロイ](/glossary/デプロイ/)の制御（concurrency） | 低 | 不要 | 全[OS](/glossary/os/) |
-| ファイル更新時の SHA リトライロジック | 中 | 不要 | 全[OS](/glossary/os/) |
+| [ファイル](/glossary/ファイル/)更新時の SHA リトライロジック | 中 | 不要 | 全[OS](/glossary/os/) |
 | [ポリシー](/glossary/ポリシー/)競合の事前確認 | 中 | 不要 | 全[OS](/glossary/os/) |
 | [マージ](/glossary/マージ/)可能性の検証 | 低 | 不要 | 全[OS](/glossary/os/) |
 
@@ -445,9 +445,9 @@ az webapp deployment list --resource-group <your-resource-group> --name <your-ap
 
 GitHub Enterprise 2.20 以降では、Enterprise Admin が Actions のアクセスポリシーを一元管理しています。リポジトリレベルでの権限変更は Enterprise [ポリシー](/glossary/ポリシー/)に制限されるため、変更前に Enterprise Admin に確認が必要な場合があります。
 
-**複数ファイル更新時の [Git](/glossary/git/) Tree [API](/glossary/api/)**
+**複数[ファイル](/glossary/ファイル/)更新時の [Git](/glossary/git/) Tree [API](/glossary/api/)**
 
-複数のファイルを同時に更新する場合、個別の PUT [リクエスト](/glossary/リクエスト/)を連続送信するのではなく、[Git](/glossary/git/) Tree [API](/glossary/api/) を使用して一括更新する方法が 409 [エラー](/glossary/エラー/)を回避しやすいです。
+複数の[ファイル](/glossary/ファイル/)を同時に更新する場合、個別の PUT [リクエスト](/glossary/リクエスト/)を連続送信するのではなく、[Git](/glossary/git/) Tree [API](/glossary/api/) を使用して一括更新する方法が 409 [エラー](/glossary/エラー/)を回避しやすいです。
 
 ```javascript
 // 複数ファイルを一度に更新する場合の例

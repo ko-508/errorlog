@@ -76,7 +76,7 @@ vercel deploy
 
 ### 原因2：VERCEL_TOKEN 環境変数が正しく設定されていない
 
-[CI/CD](/glossary/ci-cd/) パイプライン（GitHub Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を自動化する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
+[CI/CD](/glossary/ci-cd/) パイプライン（GitHub Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を[自動化](/glossary/自動化/)する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
 
 **修正方法：**
 
@@ -129,7 +129,7 @@ git push origin main
 
 **[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や GitHub Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
-**vercel.json 設定：** プロジェクトルートの `vercel.json` に記述される設定は、[CI/CD](/glossary/ci-cd/) 環境では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の設定を確認してからファイル設定を疑ってください。
+**vercel.json 設定：** プロジェクトルートの `vercel.json` に記述される設定は、[CI/CD](/glossary/ci-cd/) 環境では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の設定を確認してから[ファイル](/glossary/ファイル/)設定を疑ってください。
 
 ## それでも解決しない場合
 

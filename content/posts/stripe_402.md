@@ -211,7 +211,7 @@ if (confirmedIntent.status === 'succeeded') {
 古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用していると、3Dセキュアなどの最新[セキュリティ](/glossary/セキュリティ/)機能に対応していない可能性があります。[ダッシュボード](/glossary/ダッシュボード/)の設定から使用中の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、最新の安定版（2024年以降）にアップグレードしてください。
 
 ### Webhookの署名検証とリトライ処理
-決済失敗時に[Webhook](/glossary/webhook/)で`charge.failed`イベントが送信されます。このイベントを正しく検証して、重複処理を防ぐ必要があります。
+決済失敗時に[Webhook](/glossary/webhook/)で`charge.failed`[イベント](/glossary/イベント/)が送信されます。この[イベント](/glossary/イベント/)を正しく検証して、重複処理を防ぐ必要があります。
 
 ```python
 import stripe

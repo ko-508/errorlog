@@ -68,7 +68,7 @@ podman system df
 
 ### 原因2：ストレージメタデータの破損
 
-不正なシャットダウンや Podman [デーモン](/glossary/デーモン/)の強制終了によって、`/var/lib/containers/storage` 配下の[設定ファイル](/glossary/設定ファイル/)や[メタデータ](/glossary/メタデータ/)が破損することがあります。特に `containers.json` や overlay2 の統計ファイルが影響を受けやすいです。
+不正なシャットダウンや Podman [デーモン](/glossary/デーモン/)の強制終了によって、`/var/lib/containers/storage` 配下の[設定ファイル](/glossary/設定ファイル/)や[メタデータ](/glossary/メタデータ/)が破損することがあります。特に `containers.json` や overlay2 の統計[ファイル](/glossary/ファイル/)が影響を受けやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

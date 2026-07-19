@@ -14,11 +14,11 @@ top_queries:
 ---
 ## エラーの概要
 
-Supabase の 400 [エラー](/glossary/エラー/)は、[API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容に誤りがあることを示します。PostgREST [クエリ](/glossary/クエリ/)のフィルタ構文の誤り、必須[ヘッダー](/glossary/ヘッダー/)の不足、[認証](/glossary/認証/) [API](/glossary/api/) [パラメータ](/glossary/パラメータ/)の型ミスなど、クライアント側の問題が主な原因です。この[エラー](/glossary/エラー/)が返された場合、[リクエスト](/glossary/リクエスト/)自体を修正する必要があり、[サーバー](/glossary/サーバー/)の状態ではなく送信側の実装を見直すべき合図です。
+Supabase の 400 [エラー](/glossary/エラー/)は、[API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容に誤りがあることを示します。PostgREST [クエリ](/glossary/クエリ/)のフィルタ構文の誤り、必須[ヘッダー](/glossary/ヘッダー/)の不足、[認証](/glossary/認証/) [API](/glossary/api/) [パラメータ](/glossary/パラメータ/)の型ミスなど、[クライアント](/glossary/クライアント/)側の問題が主な原因です。この[エラー](/glossary/エラー/)が返された場合、[リクエスト](/glossary/リクエスト/)自体を修正する必要があり、[サーバー](/glossary/サーバー/)の状態ではなく送信側の実装を見直すべき合図です。
 
 ## 実際のエラーメッセージ例
 
-**Supabase JavaScript クライアントでの例：**
+**Supabase JavaScript [クライアント](/glossary/クライアント/)での例：**
 
 ```json
 {

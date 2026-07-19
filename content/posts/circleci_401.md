@@ -199,7 +199,7 @@ Project Token 取得方法：Project Settings → Project [API](/glossary/api/) 
 
 **CircleCI [CLI](/glossary/cli/) との連携：**
 
-CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が設定されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)環境に直接設定するか、`~/.circlerc` ファイルに保存します。
+CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が設定されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)環境に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に保存します。
 
 ```bash
 # シェル環境に設定

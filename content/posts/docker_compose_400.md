@@ -168,7 +168,7 @@ networks:
 
 ## Docker Compose固有の注意点
 
-**compose.yml検証[コマンド](/glossary/コマンド/)：** `docker compose config` [コマンド](/glossary/コマンド/)を実行することで、ファイルの妥当性を即座に確認できます。この[コマンド](/glossary/コマンド/)はファイルをパースして規範化された出力を表示するため、構文[エラー](/glossary/エラー/)を素早く発見できます。
+**compose.yml検証[コマンド](/glossary/コマンド/)：** `docker compose config` [コマンド](/glossary/コマンド/)を実行することで、[ファイル](/glossary/ファイル/)の妥当性を即座に確認できます。この[コマンド](/glossary/コマンド/)は[ファイル](/glossary/ファイル/)をパースして規範化された出力を表示するため、構文[エラー](/glossary/エラー/)を素早く発見できます。
 
 ```bash
 docker compose -f compose.yml config
@@ -176,13 +176,13 @@ docker compose -f compose.yml config
 
 **[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`キーで指定したCompose仕様の[バージョン](/glossary/バージョン/)が、インストール済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
 
-**[環境変数](/glossary/環境変数/)の展開[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`ファイルの存在確認と変数定義を必ず確認してください。
+**[環境変数](/glossary/環境変数/)の展開[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`[ファイル](/glossary/ファイル/)の存在確認と変数定義を必ず確認してください。
 
 ```bash
 docker compose --env-file .env up
 ```
 
-**Buildコンテキストパスエラー：** `build`セクションで`context`や`dockerfile`を指定する場合、存在しない[パス](/glossary/パス/)を記述すると400[エラー](/glossary/エラー/)が発生します。相対[パス](/glossary/パス/)は`compose.yml`ファイルの位置を基準として解釈されるため注意が必要です。
+**Buildコンテキストパスエラー：** `build`セクションで`context`や`dockerfile`を指定する場合、存在しない[パス](/glossary/パス/)を記述すると400[エラー](/glossary/エラー/)が発生します。相対[パス](/glossary/パス/)は`compose.yml`[ファイル](/glossary/ファイル/)の位置を基準として解釈されるため注意が必要です。
 
 ## それでも解決しない場合
 
@@ -192,7 +192,7 @@ docker compose --env-file .env up
 docker compose --verbose up 2>&1 | head -50
 ```
 
-**[YAML](/glossary/yaml/)検証ツール：** [yamllint](https://github.com/adrienverge/yamllint) などのオンライン[YAML](/glossary/yaml/)検証ツールやコマンドラインツールを使用して、ファイルの構文をスタンドアロンで検証することも有効です。
+**[YAML](/glossary/yaml/)検証ツール：** [yamllint](https://github.com/adrienverge/yamllint) などのオンライン[YAML](/glossary/yaml/)検証ツールやコマンドラインツールを使用して、[ファイル](/glossary/ファイル/)の構文をスタンドアロンで検証することも有効です。
 
 ```bash
 yamllint compose.yml

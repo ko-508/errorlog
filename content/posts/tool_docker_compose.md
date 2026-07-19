@@ -9,15 +9,15 @@ related_services: ["Docker", "Kubernetes", "Nomad", "YAML", "CI/CD"]
 top_queries:
 - 'docker compose'
 ---
-[Docker](/glossary/docker/) Composeとは、複数の[Docker](/glossary/docker/)コンテナーを定義・実行・管理するためのオーケストレーション（統合管理）ツールです。[YAML](/glossary/yaml/)ファイルで複数サービスの設定を一元管理し、単一[コマンド](/glossary/コマンド/)で環境全体を起動できます。開発環境から本番環境まで、コンテナーベースの[アプリケーション](/glossary/アプリケーション/)構築を効率化します。
+[Docker](/glossary/docker/) Composeとは、複数の[Docker](/glossary/docker/)コンテナーを定義・実行・管理するためのオーケストレーション（統合管理）ツールです。[YAML](/glossary/yaml/)[ファイル](/glossary/ファイル/)で複数サービスの設定を一元管理し、単一[コマンド](/glossary/コマンド/)で環境全体を起動できます。開発環境から本番環境まで、コンテナーベースの[アプリケーション](/glossary/アプリケーション/)構築を効率化します。
 
 ## 主な特徴・できること
 
-- **[YAML](/glossary/yaml/)形式での設定管理**：docker-compose.ymlファイルに全サービスの定義を記載でき、[バージョン管理](/glossary/バージョン管理/)が容易
+- **[YAML](/glossary/yaml/)形式での設定管理**：docker-compose.yml[ファイル](/glossary/ファイル/)に全サービスの定義を記載でき、[バージョン管理](/glossary/バージョン管理/)が容易
 - **マルチコンテナーの一括起動**：`docker compose up`[コマンド](/glossary/コマンド/)一つで複数コンテナーを同時に立ち上げ
 - **[ネットワーク](/glossary/ネットワーク/)自動構築**：サービス間の[通信](/glossary/通信/)を自動設定し、コンテナー間でホスト名解決が可能
-- **ボリューム管理**：データの永続化やホストマシンとのファイル共有を簡単に設定
-- **[環境変数](/glossary/環境変数/)の管理**：.envファイル等での変数定義により、環境ごとの設定切り替えが効率的
+- **ボリューム管理**：データの永続化やホストマシンとの[ファイル](/glossary/ファイル/)共有を簡単に設定
+- **[環境変数](/glossary/環境変数/)の管理**：.env[ファイル](/glossary/ファイル/)等での変数定義により、環境ごとの設定切り替えが効率的
 - **スケーリング機能**：`docker compose up --scale service=<数>`[コマンド](/glossary/コマンド/)で特定サービスのレプリケーション数を変更可能
 - **ローカル開発環境の再現性**：同じ[設定ファイル](/glossary/設定ファイル/)で全開発者が統一環境を構築できる
 

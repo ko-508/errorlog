@@ -12,11 +12,11 @@ related_services: ["PostgreSQL", "supabase-js", "Deno"]
 ---
 # エラーの概要
 
-Supabaseの500[エラー](/glossary/エラー/)は、Supabase[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。クライアント側の[リクエスト](/glossary/リクエスト/)は正しくても、PostgreSQLの実行[エラー](/glossary/エラー/)・Functionsの例外処理漏れ・インフラストラクチャの一時的な問題など、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合は、サーバーログを確認して具体的な原因を特定する必要があります。
+Supabaseの500[エラー](/glossary/エラー/)は、Supabase[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)は正しくても、PostgreSQLの実行[エラー](/glossary/エラー/)・Functionsの例外処理漏れ・インフラストラクチャの一時的な問題など、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合は、サーバーログを確認して具体的な原因を特定する必要があります。
 
 ## 実際のエラーメッセージ例
 
-**JavaScriptクライアント（supabase-js）での出力例：**
+**JavaScript[クライアント](/glossary/クライアント/)（supabase-js）での出力例：**
 
 ```json
 {

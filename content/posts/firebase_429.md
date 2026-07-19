@@ -199,7 +199,7 @@ Firebase Realtime Database でも 429 が発生します。`.limitToFirst()``.li
 
 ### Cloud Storage のダウンロード制限
 
-Cloud Storage では Spark プラン で 1GB/日の[ダウンロード](/glossary/ダウンロード/)上限があります。大容量ファイルの配信には **Signed [URL](/glossary/url/)** を使用し、キャッシング層（[CDN](/glossary/cdn/)）を導入してください。
+Cloud Storage では Spark プラン で 1GB/日の[ダウンロード](/glossary/ダウンロード/)上限があります。大容量[ファイル](/glossary/ファイル/)の配信には **Signed [URL](/glossary/url/)** を使用し、キャッシング層（[CDN](/glossary/cdn/)）を導入してください。
 
 ## それでも解決しない場合
 

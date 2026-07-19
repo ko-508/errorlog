@@ -14,7 +14,7 @@ related_services: ["Python", "requests"]
 
 ## エラーの概要
 
-Slack [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Slack側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生している状況です。[HTTP](/glossary/http/) 500 Internal Server Errorは、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)自体は正しい形式であっても、Slack側のインフラストラクチャで処理に失敗したことを示します。ほとんどのケースは一時的な障害ですが、クライアント側の不適切なリクエストパターンが引き金になることもあります。
+Slack [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Slack側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生している状況です。[HTTP](/glossary/http/) 500 Internal Server Errorは、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)自体は正しい形式であっても、Slack側のインフラストラクチャで処理に失敗したことを示します。ほとんどのケースは一時的な障害ですが、[クライアント](/glossary/クライアント/)側の不適切なリクエストパターンが引き金になることもあります。
 
 ## 実際のエラーメッセージ例
 

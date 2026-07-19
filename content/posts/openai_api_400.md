@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、[サーバー](/glossary/サーバー/)側の問題ではなく、クライアント（あなたのコード）から送信された[リクエスト](/glossary/リクエスト/)が仕様に合致していないことを意味しています。OpenAI [API](/glossary/api/)では、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)形式の誤りや必須[パラメータ](/glossary/パラメータ/)の欠落、不正なフィールド値などが主な原因です。
+OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、[サーバー](/glossary/サーバー/)側の問題ではなく、[クライアント](/glossary/クライアント/)（あなたのコード）から送信された[リクエスト](/glossary/リクエスト/)が仕様に合致していないことを意味しています。OpenAI [API](/glossary/api/)では、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)形式の誤りや必須[パラメータ](/glossary/パラメータ/)の欠落、不正なフィールド値などが主な原因です。
 
 ## 実際のエラーメッセージ例
 

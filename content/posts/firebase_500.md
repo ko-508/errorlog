@@ -14,7 +14,7 @@ related_services: ["HTTP", "API"]
 
 ## エラーの概要
 
-Firebase における 500 [エラー](/glossary/エラー/)は、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。この[エラー](/glossary/エラー/)は、クライアント側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
+Firebase における 500 [エラー](/glossary/エラー/)は、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。この[エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
 
 ## 実際のエラーメッセージ例
 

@@ -14,7 +14,7 @@ related_services: ["gcloud"]
 
 ## エラーの概要
 
-Firebase（Cloud FunctionsやHosting）で502[エラー](/glossary/エラー/)が発生するのは、Firebaseの中継[サーバー](/glossary/サーバー/)が上流の[バックエンド](/glossary/バックエンド/)（Cloud Functionsやカスタムオリジンサーバー）から不正な形式の[レスポンス](/glossary/レスポンス/)を受け取ったか、[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)した場合です。この[エラー](/glossary/エラー/)はクライアント側の問題ではなく、[サーバー](/glossary/サーバー/)側の設定やコードに原因があることがほとんどです。
+Firebase（Cloud FunctionsやHosting）で502[エラー](/glossary/エラー/)が発生するのは、Firebaseの中継[サーバー](/glossary/サーバー/)が上流の[バックエンド](/glossary/バックエンド/)（Cloud Functionsやカスタムオリジンサーバー）から不正な形式の[レスポンス](/glossary/レスポンス/)を受け取ったか、[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)した場合です。この[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題ではなく、[サーバー](/glossary/サーバー/)側の設定やコードに原因があることがほとんどです。
 
 ## 実際のエラーメッセージ例
 

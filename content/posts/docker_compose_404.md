@@ -96,7 +96,7 @@ services:
 
 ### 原因3：依存するボリューム、ネットワーク、サービスがあらかじめ作成されていない
 
-compose ファイルで外部ボリューム（`external: true`）または外部[ネットワーク](/glossary/ネットワーク/)を参照しているが、それらが [Docker](/glossary/docker/) ホスト上に先に作成されていない場合、サービス起動時に 404 [エラー](/glossary/エラー/)が発生します。
+compose [ファイル](/glossary/ファイル/)で外部ボリューム（`external: true`）または外部[ネットワーク](/glossary/ネットワーク/)を参照しているが、それらが [Docker](/glossary/docker/) ホスト上に先に作成されていない場合、サービス起動時に 404 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -134,11 +134,11 @@ docker volume create shared_data
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Compose 環境では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose ファイルの `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
+[Docker](/glossary/docker/) Compose 環境では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
 さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 
-[環境変数](/glossary/環境変数/)を `.env` ファイルで注入している場合、そのファイルが compose ファイルと同じ[ディレクトリ](/glossary/ディレクトリ/)に存在し、[変数](/glossary/変数/)の評価が正しく行われているか確認することも忘れずに。
+[環境変数](/glossary/環境変数/)を `.env` [ファイル](/glossary/ファイル/)で注入している場合、その[ファイル](/glossary/ファイル/)が compose [ファイル](/glossary/ファイル/)と同じ[ディレクトリ](/glossary/ディレクトリ/)に存在し、[変数](/glossary/変数/)の評価が正しく行われているか確認することも忘れずに。
 
 ## それでも解決しない場合
 

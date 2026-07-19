@@ -107,7 +107,7 @@ podman run -v /data:/data:Z --userns=keep-id myimage:latest
 
 ### 原因4：プライベートレジストリの HTTPS 証明書信頼設定
 
-自己署名証明書を使用する[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して、Podman が証明書を信頼していない場合、403 ではなく「certificate verification failed」として表現されることもありますが、実質的なアクセス拒否です。
+自己署名証明書を使用する[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して、Podman が[証明書](/glossary/証明書/)を信頼していない場合、403 ではなく「certificate verification failed」として表現されることもありますが、実質的なアクセス拒否です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -135,7 +135,7 @@ podman pull registry.internal.company.com/app:latest
 
 ### 原因5：レジストリ側の IP アドレス制限
 
-[レジストリ](/glossary/レジストリ/)がクライアント IP をホワイトリスト制限している場合、認証済みでも特定の IP からのアクセスは 403 になります。VPN を経由していない環境や、[CI/CD](/glossary/ci-cd/) ランナーのグローバル IP が異なる場合に発生します。
+[レジストリ](/glossary/レジストリ/)が[クライアント](/glossary/クライアント/) IP をホワイトリスト制限している場合、認証済みでも特定の IP からのアクセスは 403 になります。VPN を経由していない環境や、[CI/CD](/glossary/ci-cd/) ランナーのグローバル IP が異なる場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -175,7 +175,7 @@ cat /etc/subuid
 
 ### `$HOME/.config/containers/auth.json` の権限設定
 
-Podman は ホームディレクトリ下の `auth.json` に認証情報を保存します。このファイルのパーミッションが不正（過度に開放されている）または読み取り不可の場合、認証情報が使用されず 403 になることがあります。
+Podman は ホームディレクトリ下の `auth.json` に認証情報を保存します。この[ファイル](/glossary/ファイル/)のパーミッションが不正（過度に開放されている）または読み取り不可の場合、認証情報が使用されず 403 になることがあります。
 
 ```bash
 # auth.json のパーミッション確認（600 が正常）
@@ -214,7 +214,7 @@ services:
       dockerfile: Dockerfile
 ```
 
-実行時に `.env` ファイルで認証情報を管理：
+実行時に `.env` [ファイル](/glossary/ファイル/)で認証情報を管理：
 
 ```bash
 # .env

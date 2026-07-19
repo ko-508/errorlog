@@ -172,7 +172,7 @@ docker login --username <your-username>
 
 ### Docker Compose と認証
 
-[Docker](/glossary/docker/) Compose でプライベートイメージを使用する場合、以下のように .env ファイルまたは docker-compose.yml で[認証](/glossary/認証/)を明示的に指定できます：
+[Docker](/glossary/docker/) Compose でプライベートイメージを使用する場合、以下のように .env [ファイル](/glossary/ファイル/)または docker-compose.yml で[認証](/glossary/認証/)を明示的に指定できます：
 
 ```yaml
 version: '3.9'

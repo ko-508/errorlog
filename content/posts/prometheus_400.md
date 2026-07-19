@@ -13,7 +13,7 @@ related_services: ["promtool"]
 
 ## エラーの概要
 
-Prometheus の 400 Bad Request [エラー](/glossary/エラー/)は、クライアントが Prometheus に送信した[クエリ](/glossary/クエリ/)や[リクエスト](/glossary/リクエスト/)の形式が正しくない場合に発生します。この[エラー](/glossary/エラー/)は [HTTP](/glossary/http/) [API](/glossary/api/) の呼び出しときに最も頻繁に見られ、PromQL の構文[エラー](/glossary/エラー/)やクエリパラメータの不正な指定が原因となります。Prometheus が要求を解析できず、処理を進められない状態を示しています。
+Prometheus の 400 Bad Request [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)が Prometheus に送信した[クエリ](/glossary/クエリ/)や[リクエスト](/glossary/リクエスト/)の形式が正しくない場合に発生します。この[エラー](/glossary/エラー/)は [HTTP](/glossary/http/) [API](/glossary/api/) の呼び出しときに最も頻繁に見られ、PromQL の構文[エラー](/glossary/エラー/)やクエリパラメータの不正な指定が原因となります。Prometheus が要求を解析できず、処理を進められない状態を示しています。
 
 ## 実際のエラーメッセージ例
 
@@ -136,7 +136,7 @@ const response = await fetch(
 
 Prometheus の 400 [エラー](/glossary/エラー/)は管理 UI で確認するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（デフォルトでは `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)が[リアルタイム](/glossary/リアルタイム/)に表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、修正が容易になります。
 
-また、Prometheus 2.40 以降ではクライアント側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を本番環境に送信する前に、ローカル環境で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
+また、Prometheus 2.40 以降では[クライアント](/glossary/クライアント/)側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を本番環境に送信する前に、ローカル環境で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
 
 ```bash
 promtool check query 'up{job="prometheus"} / rate(http_requests_total[5m])'

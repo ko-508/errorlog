@@ -63,7 +63,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "New issue", "body": "This is a test"}'
 ```
 
-見落とされやすいのが、プログラムから呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元のコード上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに送信すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが GitHub 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度ファイルに書き出して確かめる方法が確実です。
+見落とされやすいのが、プログラムから呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元のコード上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに送信すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが GitHub 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
 
 ```bash
 # 本文が JSON として正しいかを検証してから送信する

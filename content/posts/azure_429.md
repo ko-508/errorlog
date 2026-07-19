@@ -14,7 +14,7 @@ lastmod: 2026-06-13
 
 ## エラーの概要
 
-429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/) が[スロットリング](/glossary/スロットリング/)制限に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Azure では、各[サブスクリプション](/glossary/サブスクリプション/)と [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を設定しており、この制限を超えたときに発生します。特に、自動化スクリプトやバッチ処理でループ内から大量の[リクエスト](/glossary/リクエスト/)を送信する場合に頻繁に見られます。
+429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/) が[スロットリング](/glossary/スロットリング/)制限に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Azure では、各[サブスクリプション](/glossary/サブスクリプション/)と [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を設定しており、この制限を超えたときに発生します。特に、[自動化](/glossary/自動化/)スクリプトやバッチ処理でループ内から大量の[リクエスト](/glossary/リクエスト/)を送信する場合に頻繁に見られます。
 
 ## 実際のエラーメッセージ例
 

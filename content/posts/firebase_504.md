@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、クライアントに504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase環境では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、本番環境で多くのユーザーに影響を与える可能性があります。
+Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase環境では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、本番環境で多くのユーザーに影響を与える可能性があります。
 
 ## 実際のエラーメッセージ例
 

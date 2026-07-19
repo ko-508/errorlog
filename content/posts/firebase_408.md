@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase 408 [エラー](/glossary/エラー/)はクライアント側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[HTTP](/glossary/http/) 408 Request Timeout は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)の到着を待機している間に予定時間を超えたことを示します。[ネットワーク](/glossary/ネットワーク/)環境の不安定性や[アプリケーション](/glossary/アプリケーション/)の処理遅延、Firebase [SDK](/glossary/sdk/) の設定ミスが主な原因となります。
+Firebase 408 [エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[HTTP](/glossary/http/) 408 Request Timeout は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)の到着を待機している間に予定時間を超えたことを示します。[ネットワーク](/glossary/ネットワーク/)環境の不安定性や[アプリケーション](/glossary/アプリケーション/)の処理遅延、Firebase [SDK](/glossary/sdk/) の設定ミスが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -105,7 +105,7 @@ doc = db.collection('large_data').document('doc_id').get(timeout=60)
 
 ### 原因3：Cloud Functions の実行時間が長すぎる
 
-Firebase Cloud Functions 内での[リクエスト](/glossary/リクエスト/)処理が [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の[タイムアウト](/glossary/タイムアウト/)時間を超えると、クライアント側で 408 [エラー](/glossary/エラー/)が発生します。Firebase Functions のデフォルトタイムアウトは 60 秒で、これを超える処理は完了する前に接続が切断されます。
+Firebase Cloud Functions 内での[リクエスト](/glossary/リクエスト/)処理が [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の[タイムアウト](/glossary/タイムアウト/)時間を超えると、[クライアント](/glossary/クライアント/)側で 408 [エラー](/glossary/エラー/)が発生します。Firebase Functions のデフォルトタイムアウトは 60 秒で、これを超える処理は完了する前に接続が切断されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -277,7 +277,7 @@ Android や iOS では Firebase Crashlytics の[ログ](/glossary/ログ/)、Clo
 
 ### ネットワーク接続の検証
 
-クライアント側の[ネットワーク](/glossary/ネットワーク/)状態を監視して、接続が確立されているか確認してください。
+[クライアント](/glossary/クライアント/)側の[ネットワーク](/glossary/ネットワーク/)状態を監視して、接続が確立されているか確認してください。
 
 ```javascript
 // ネットワーク接続状態の監視

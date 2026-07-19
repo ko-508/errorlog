@@ -100,7 +100,7 @@ docker compose logs <service-name>
 
 ### 原因2：コンテナーのエントリポイントやコマンドが失敗して終了した
 
-`docker-compose.yml` の `command` または `entrypoint` に指定したスクリプト・実行ファイルが見つからない、または実行権限がない場合に発生します。これは[パス](/glossary/パス/)指定の誤り、ファイルの忘れ、ビルド時のレイヤー構成ミスが原因となります。
+`docker-compose.yml` の `command` または `entrypoint` に指定したスクリプト・実行[ファイル](/glossary/ファイル/)が見つからない、または実行権限がない場合に発生します。これは[パス](/glossary/パス/)指定の誤り、[ファイル](/glossary/ファイル/)の忘れ、ビルド時のレイヤー構成ミスが原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

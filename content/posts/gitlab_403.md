@@ -105,7 +105,7 @@ $ # GitLab Web UI からマージリクエストを作成
 
 **Personal Access Token（PAT）の[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)**
 
-[API](/glossary/api/) や自動化ツール経由で GitLab にアクセスする場合、Personal Access Token に適切な[スコープ](/glossary/スコープ/)が設定されていないと 403 [エラー](/glossary/エラー/)が発生します。[トークン](/glossary/トークン/)生成時に `api`、`read_api`、`write_repository` などの[スコープ](/glossary/スコープ/)を明示的に選択する必要があります。
+[API](/glossary/api/) や[自動化](/glossary/自動化/)ツール経由で GitLab にアクセスする場合、Personal Access Token に適切な[スコープ](/glossary/スコープ/)が設定されていないと 403 [エラー](/glossary/エラー/)が発生します。[トークン](/glossary/トークン/)生成時に `api`、`read_api`、`write_repository` などの[スコープ](/glossary/スコープ/)を明示的に選択する必要があります。
 
 ```bash
 # トークンのスコープが不足している場合

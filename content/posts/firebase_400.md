@@ -14,7 +14,7 @@ related_services: ["SDK", "REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase の 400 [エラー](/glossary/エラー/)は、クライアント側から送信された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
+Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から送信された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
@@ -238,7 +238,7 @@ curl 'https://firebaseio.com/user%20data.json'
 
 ### Cloud Functions との連携時
 
-Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) ファイルが正しく[初期化](/glossary/初期化/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
+Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) [ファイル](/glossary/ファイル/)が正しく[初期化](/glossary/初期化/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

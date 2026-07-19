@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 409 [エラー](/glossary/エラー/)は、Terraform が作成・更新しようとするリソースが既に[クラウド](/glossary/クラウド/)環境に存在し、状態ファイル（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。この[エラー](/glossary/エラー/)は特にマルチユーザー環境や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
+Terraform の 409 [エラー](/glossary/エラー/)は、Terraform が作成・更新しようとするリソースが既に[クラウド](/glossary/クラウド/)環境に存在し、状態[ファイル](/glossary/ファイル/)（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。この[エラー](/glossary/エラー/)は特にマルチユーザー環境や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
 
 ## 実際のエラーメッセージ例
 
@@ -152,7 +152,7 @@ terraform import aws_instance.app_server i-1234567890abcdef0
 ## Terraform 固有の注意点
 
 **リモートバックエンドの競合：**
-Terraform をチームで使用する場合、tfstate を S3 や Terraform Cloud などのリモートバックエンドで管理します。複数のメンバーが同時に apply を実行すると、状態ファイルのロック機構が働き、409 [エラー](/glossary/エラー/)と似た競合[エラー](/glossary/エラー/)が発生する可能性があります。この場合は、`terraform force-unlock` で不要なロックを解除してください。
+Terraform をチームで使用する場合、tfstate を S3 や Terraform Cloud などのリモートバックエンドで管理します。複数のメンバーが同時に apply を実行すると、状態[ファイル](/glossary/ファイル/)のロック機構が働き、409 [エラー](/glossary/エラー/)と似た競合[エラー](/glossary/エラー/)が発生する可能性があります。この場合は、`terraform force-unlock` で不要なロックを解除してください。
 
 ```bash
 # ロックの状態を確認（Terraform Cloud の場合）

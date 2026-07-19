@@ -267,7 +267,7 @@ jobs:
 
 ### Webhookシステム への影響
 
-GitHubの[Webhook](/glossary/webhook/)配信システムが503を経験している場合、イベント配信の遅延が発生します。[Webhook](/glossary/webhook/)受信側では、失敗時の再試行メカニズムが3時間以内に発動されるため、一時的な503は通常問題になりません。ただし、受信側[サーバー](/glossary/サーバー/)が503に応答するように設定されている場合、GitHubからの再試行が繰り返される可能性があります。
+GitHubの[Webhook](/glossary/webhook/)配信システムが503を経験している場合、[イベント](/glossary/イベント/)配信の遅延が発生します。[Webhook](/glossary/webhook/)受信側では、失敗時の再試行メカニズムが3時間以内に発動されるため、一時的な503は通常問題になりません。ただし、受信側[サーバー](/glossary/サーバー/)が503に応答するように設定されている場合、GitHubからの再試行が繰り返される可能性があります。
 
 ### REST API vs GraphQL APIの選択
 

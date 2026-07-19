@@ -72,7 +72,7 @@ const charge = await stripe.charges.create({
 
 **原因2：シークレットキーではなく公開キーを使用している**
 
-Stripe には 2 種類のキーが存在します。[サーバー](/glossary/サーバー/)側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開キー（`pk_live_` または `pk_test_`）はクライアント側のみで使用します。
+Stripe には 2 種類のキーが存在します。[サーバー](/glossary/サーバー/)側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開キー（`pk_live_` または `pk_test_`）は[クライアント](/glossary/クライアント/)側のみで使用します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```python
@@ -173,7 +173,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **[API](/glossary/api/) キーの権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) キーの[権限](/glossary/権限/)を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) キー」セクションで、各キーの[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
-**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期イベント通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
+**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
 **Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` [ID](/glossary/id/) を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 

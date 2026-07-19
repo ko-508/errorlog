@@ -78,7 +78,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
 
 この例なら、[トークン](/glossary/トークン/)に contents の read [権限](/glossary/権限/)が必要という意味です。複数の組み合わせで満たせる場合は、セミコロン区切りで複数の一覧が示されます。[ヘッダー](/glossary/ヘッダー/)で特定した[権限](/glossary/権限/)を、fine-grained [トークン](/glossary/トークン/)なら設定画面の Repository permissions で、GitHub App なら App の権限設定とインストール先で付与します。[権限](/glossary/権限/)の種類だけでなく、[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかも確認してください。
 
-GitHub Actions の中でこの403が出る場合、使われているのは自動発行の GITHUB_TOKEN です。この[トークン](/glossary/トークン/)の[権限](/glossary/権限/)は workflow ファイルの permissions ブロックで決まり、書き込みが必要な操作（ファイルの作成、[リリース](/glossary/リリース/)の作成、pull request へのコメントなど）には明示的な付与が必要です。
+GitHub Actions の中でこの403が出る場合、使われているのは自動発行の GITHUB_TOKEN です。この[トークン](/glossary/トークン/)の[権限](/glossary/権限/)は workflow [ファイル](/glossary/ファイル/)の permissions ブロックで決まり、書き込みが必要な操作（[ファイル](/glossary/ファイル/)の作成、[リリース](/glossary/リリース/)の作成、pull request へのコメントなど）には明示的な付与が必要です。
 
 ```yaml
 permissions:
@@ -131,7 +131,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
 
 ## Editor's Note
 
-原因2の実例として、GitHub 公式コミュニティの議論があります（[Resource not accessible by integration on GitHub App](https://github.com/orgs/community/discussions/108369)、2024年）。GitHub App の[トークン](/glossary/トークン/)で、ファイルの存在確認などの読み取りは通るのに、[リポジトリ](/glossary/リポジトリ/)への workflow ファイル（.github/workflows/ 配下）の作成だけが Resource not accessible by integration の403で失敗するという報告です。報告者は App に適切な[権限](/glossary/権限/)を与えたつもりでしたが、最終的に、App の権限設定で workflow の[権限](/glossary/権限/)を選択していなかったことが原因だったと自己解決しています。読み取りが通ることと書き込みが通ることは別の[権限](/glossary/権限/)であり、操作ごとに必要な[権限](/glossary/権限/)が異なる、という原因2の要点をそのまま示す記録です。今であれば、応答の X-Accepted-GitHub-Permissions [ヘッダー](/glossary/ヘッダー/)を見ることで、この特定にかかった往復を省略できます。
+原因2の実例として、GitHub 公式コミュニティの議論があります（[Resource not accessible by integration on GitHub App](https://github.com/orgs/community/discussions/108369)、2024年）。GitHub App の[トークン](/glossary/トークン/)で、[ファイル](/glossary/ファイル/)の存在確認などの読み取りは通るのに、[リポジトリ](/glossary/リポジトリ/)への workflow [ファイル](/glossary/ファイル/)（.github/workflows/ 配下）の作成だけが Resource not accessible by integration の403で失敗するという報告です。報告者は App に適切な[権限](/glossary/権限/)を与えたつもりでしたが、最終的に、App の権限設定で workflow の[権限](/glossary/権限/)を選択していなかったことが原因だったと自己解決しています。読み取りが通ることと書き込みが通ることは別の[権限](/glossary/権限/)であり、操作ごとに必要な[権限](/glossary/権限/)が異なる、という原因2の要点をそのまま示す記録です。今であれば、応答の X-Accepted-GitHub-Permissions [ヘッダー](/glossary/ヘッダー/)を見ることで、この特定にかかった往復を省略できます。
 
 GitHub の 403 は、文言が原因を名指ししてくれる親切な[エラー](/glossary/エラー/)です。コードの数字だけを見て権限全般を疑い始める前に、message と[ヘッダー](/glossary/ヘッダー/)を読むことが確実な近道です。
 

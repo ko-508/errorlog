@@ -115,7 +115,7 @@ Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー
 
 Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古い[バージョン](/glossary/バージョン/)の [API](/glossary/api/) [パス](/glossary/パス/)を使用すると 400 [エラー](/glossary/エラー/)が返されます。
 
-また、SELinux が有効な環境では、socket ファイルのパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
+また、SELinux が有効な環境では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
 
 ## それでも解決しない場合
 

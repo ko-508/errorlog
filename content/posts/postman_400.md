@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanから送信した[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の[パラメータ](/glossary/パラメータ/)や形式に誤りがある場合、[サーバー](/glossary/サーバー/)は400（Bad Request）[エラー](/glossary/エラー/)を返します。これはクライアント側の[リクエスト](/glossary/リクエスト/)構成に問題があることを示しており、[JSON](/glossary/json/)ボディの形式破損、Content-Type[ヘッダー](/glossary/ヘッダー/)とボディ内容の不一致、クエリパラメータの不正な文字などが典型的な原因です。Postmanでこの[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)内容の詳細確認と修正が必要になります。
+Postmanから送信した[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の[パラメータ](/glossary/パラメータ/)や形式に誤りがある場合、[サーバー](/glossary/サーバー/)は400（Bad Request）[エラー](/glossary/エラー/)を返します。これは[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)構成に問題があることを示しており、[JSON](/glossary/json/)ボディの形式破損、Content-Type[ヘッダー](/glossary/ヘッダー/)とボディ内容の不一致、クエリパラメータの不正な文字などが典型的な原因です。Postmanでこの[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)内容の詳細確認と修正が必要になります。
 
 ## 実際のエラーメッセージ例
 

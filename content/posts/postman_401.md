@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanで401[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)が、[リクエスト](/glossary/リクエスト/)の認証情報を検証した際に失敗したことを意味します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)側は「[認証](/glossary/認証/)されていない[リクエスト](/glossary/リクエスト/)」と判定し、その[レスポンス](/glossary/レスポンス/)として401 Unauthorizedを返しています。これはPostmanの設定不備や[トークン](/glossary/トークン/)期限切れなど、クライアント側の原因がほとんどです。
+Postmanで401[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)が、[リクエスト](/glossary/リクエスト/)の認証情報を検証した際に失敗したことを意味します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)側は「[認証](/glossary/認証/)されていない[リクエスト](/glossary/リクエスト/)」と判定し、その[レスポンス](/glossary/レスポンス/)として401 Unauthorizedを返しています。これはPostmanの設定不備や[トークン](/glossary/トークン/)期限切れなど、[クライアント](/glossary/クライアント/)側の原因がほとんどです。
 
 ## 実際のエラーメッセージ例
 

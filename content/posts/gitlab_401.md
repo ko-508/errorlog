@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-GitLab で 401 Unauthorized [エラー](/glossary/エラー/)が発生する場合、クライアントからの[リクエスト](/glossary/リクエスト/)が[認証](/glossary/認証/)されていない、または認証情報が無効であることを示しています。GitLab [API](/glossary/api/) へのアクセス、[Git](/glossary/git/) クローン、パイプラインからのリソース取得など、[認証](/glossary/認証/)が必要な操作全般で発生する可能性があります。この[エラー](/glossary/エラー/)が出た場合、提供された[トークン](/glossary/トークン/)や認証情報を確認し、それらの有効性と形式を検証する必要があります。
+GitLab で 401 Unauthorized [エラー](/glossary/エラー/)が発生する場合、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)が[認証](/glossary/認証/)されていない、または認証情報が無効であることを示しています。GitLab [API](/glossary/api/) へのアクセス、[Git](/glossary/git/) クローン、パイプラインからのリソース取得など、[認証](/glossary/認証/)が必要な操作全般で発生する可能性があります。この[エラー](/glossary/エラー/)が出た場合、提供された[トークン](/glossary/トークン/)や認証情報を確認し、それらの有効性と形式を検証する必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -155,9 +155,9 @@ api_test:
 
 GitLab には「Deploy Token」という別種の[トークン](/glossary/トークン/)もあります。これはプロジェクト単位で発行されるもので、パーソナルアクセストークンとは[スコープ](/glossary/スコープ/)と有効期限管理が異なります。[CI/CD](/glossary/ci-cd/) パイプラインで依存パッケージレジストリからの読み込みが必要な場合、Deploy Token が有効期限切れになっていないか確認してください。
 
-**Self-hosted GitLab での [SSL](/glossary/ssl/) 証明書[エラー](/glossary/エラー/)：**
+**Self-hosted GitLab での [SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)：**
 
-オンプレミスの GitLab [サーバー](/glossary/サーバー/)を使用している場合、自己署名 [SSL](/glossary/ssl/) 証明書により `curl` や `git` [コマンド](/glossary/コマンド/)が接続を拒否し、結果的に 401 のような[認証](/glossary/認証/)[エラー](/glossary/エラー/)が表示されることがあります。この場合、`curl -k` フラグを使うか、システムの信頼されたルート CA に証明書を追加してください。
+オンプレミスの GitLab [サーバー](/glossary/サーバー/)を使用している場合、自己署名 [SSL](/glossary/ssl/) [証明書](/glossary/証明書/)により `curl` や `git` [コマンド](/glossary/コマンド/)が接続を拒否し、結果的に 401 のような[認証](/glossary/認証/)[エラー](/glossary/エラー/)が表示されることがあります。この場合、`curl -k` フラグを使うか、システムの信頼されたルート CA に[証明書](/glossary/証明書/)を追加してください。
 
 ## それでも解決しない場合
 

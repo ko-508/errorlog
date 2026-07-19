@@ -74,7 +74,7 @@ const response = await fetch('https://firestore.googleapis.com/v1/projects/<proj
 
 ### 原因 2: サービスアカウント認証鍵ファイルが無効または古い
 
-Node.js や Python でサーバーサイド処理を行う場合、[サービスアカウント](/glossary/サービスアカウント/)の [JSON](/glossary/json/) 鍵ファイルが削除されたり、ローテーションされたりすると 401 が発生します。
+Node.js や Python でサーバーサイド処理を行う場合、[サービスアカウント](/glossary/サービスアカウント/)の [JSON](/glossary/json/) 鍵[ファイル](/glossary/ファイル/)が削除されたり、ローテーションされたりすると 401 が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）**
 
@@ -180,7 +180,7 @@ docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \
 
 ### Firebase Authentication の状態確認
 
-クライアント側でユーザーが正しく[認証](/glossary/認証/)されているか確認します。[認証](/glossary/認証/)されていないユーザーでも [SDK](/glossary/sdk/) が[リクエスト](/glossary/リクエスト/)を送信してしまい、401 が返される場合があります。
+[クライアント](/glossary/クライアント/)側でユーザーが正しく[認証](/glossary/認証/)されているか確認します。[認証](/glossary/認証/)されていないユーザーでも [SDK](/glossary/sdk/) が[リクエスト](/glossary/リクエスト/)を送信してしまい、401 が返される場合があります。
 
 ```javascript
 firebase.auth().onAuthStateChanged((user) => {

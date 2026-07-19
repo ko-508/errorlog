@@ -14,7 +14,7 @@ related_services: ["ChatCompletion", "Assistants API", "Models"]
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で404[エラー](/glossary/エラー/)が発生する場合、[リクエスト](/glossary/リクエスト/)で指定されたリソース（[モデル](/glossary/モデル/)、アシスタント、ファイルなど）が[サーバー](/glossary/サーバー/)上に存在しないことを示しています。この[エラー](/glossary/エラー/)は、存在しない[モデル](/glossary/モデル/)名の指定、削除済みのアシスタント[ID](/glossary/id/)の使用、間違った[エンドポイント](/glossary/エンドポイント/)へのアクセスなど、様々な原因で発生します。OpenAI [API](/glossary/api/)の仕様変更に伴い、廃止された[モデル](/glossary/モデル/)の使用も404の一般的な原因です。
+OpenAI [API](/glossary/api/)で404[エラー](/glossary/エラー/)が発生する場合、[リクエスト](/glossary/リクエスト/)で指定されたリソース（[モデル](/glossary/モデル/)、アシスタント、[ファイル](/glossary/ファイル/)など）が[サーバー](/glossary/サーバー/)上に存在しないことを示しています。この[エラー](/glossary/エラー/)は、存在しない[モデル](/glossary/モデル/)名の指定、削除済みのアシスタント[ID](/glossary/id/)の使用、間違った[エンドポイント](/glossary/エンドポイント/)へのアクセスなど、様々な原因で発生します。OpenAI [API](/glossary/api/)の仕様変更に伴い、廃止された[モデル](/glossary/モデル/)の使用も404の一般的な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -77,7 +77,7 @@ response = client.chat.completions.create(
 
 ### 原因2：不正なアシスタントID、スレッドID、またはファイルID
 
-Assistants [API](/glossary/api/)を使用している場合、削除済みのアシスタントやスレッド、ファイルの[ID](/glossary/id/)を参照すると404が発生します。
+Assistants [API](/glossary/api/)を使用している場合、削除済みのアシスタントやスレッド、[ファイル](/glossary/ファイル/)の[ID](/glossary/id/)を参照すると404が発生します。
 
 **Before：**
 ```python
@@ -140,7 +140,7 @@ OpenAI [API](/glossary/api/)では複数の[API](/glossary/api/)[バージョン
 
 **Assistants [API](/glossary/api/)：** `v=20240415` などのベータバージョンを指定する場合、古い[バージョン](/glossary/バージョン/)ではリソースが存在しない可能性があります。RequestHeaderで正しい[バージョン](/glossary/バージョン/)を指定してください。
 
-**Organization [ID](/glossary/id/)：** 複数のOrganizationに属している場合、`OpenAI(organization="<your-org-id>")` でOrganizationを明示的に指定しないと、アシスタントやファイルが見つからないことがあります。
+**Organization [ID](/glossary/id/)：** 複数のOrganizationに属している場合、`OpenAI(organization="<your-org-id>")` でOrganizationを明示的に指定しないと、アシスタントや[ファイル](/glossary/ファイル/)が見つからないことがあります。
 
 ```python
 client = OpenAI(
@@ -149,7 +149,7 @@ client = OpenAI(
 )
 ```
 
-**ファイルとベクトルストア：** Files [API](/glossary/api/)でアップロードしたファイル[ID](/glossary/id/)は、期限切れや削除で無効になります。必ず最新のファイル[ID](/glossary/id/)を確認してから使用してください。
+**[ファイル](/glossary/ファイル/)とベクトルストア：** Files [API](/glossary/api/)でアップロードした[ファイル](/glossary/ファイル/)[ID](/glossary/id/)は、期限切れや削除で無効になります。必ず最新の[ファイル](/glossary/ファイル/)[ID](/glossary/id/)を確認してから使用してください。
 
 ## それでも解決しない場合
 

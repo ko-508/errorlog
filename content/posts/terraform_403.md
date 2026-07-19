@@ -125,7 +125,7 @@ AWS Organizations で設定された SCP がリソース作成を明示的に拒
 
 ### 原因3：別のアカウントやリージョンのリソースを変更しようとしている
 
-Terraform の provider 設定で指定されている AWS [アカウント](/glossary/アカウント/) [ID](/glossary/id/) やリージョンと、実際に操作しようとしているリソースが一致していないケースです。tfstate ファイル（Terraform の状態を記録するファイル）に記録されたリソース ARN が、現在の実行環境と異なる[アカウント](/glossary/アカウント/)・リージョンを指しているため、操作権限がないリソースへのアクセスが試みられます。provider ブロックの account_id・region と、リソース定義を確認して一致させます。
+Terraform の provider 設定で指定されている AWS [アカウント](/glossary/アカウント/) [ID](/glossary/id/) やリージョンと、実際に操作しようとしているリソースが一致していないケースです。tfstate [ファイル](/glossary/ファイル/)（Terraform の状態を記録する[ファイル](/glossary/ファイル/)）に記録されたリソース ARN が、現在の実行環境と異なる[アカウント](/glossary/アカウント/)・リージョンを指しているため、操作権限がないリソースへのアクセスが試みられます。provider ブロックの account_id・region と、リソース定義を確認して一致させます。
 
 **修正前（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -163,11 +163,11 @@ resource "aws_instance" "example" {
 
 Terraform で 403 [エラー](/glossary/エラー/)が発生した場合、まず `terraform plan` を実行して、どのリソースのどのアクション（RunInstances、PutBucketPolicy など）が拒否されるかを特定することが重要です。AWS [IAM](/glossary/iam/) ポリシーシミュレーターを使用して、対象の[ロール](/glossary/ロール/)・ユーザーに対して特定のアクションが許可されているかどうかを事前に検証できます。
 
-また、Terraform State ファイル（tfstate）に記録されたリソース情報が実際の[クラウド](/glossary/クラウド/)環境と不一致している場合、`terraform refresh` で状態を再同期したり、必要に応じて `terraform import` でリソースを再度管理下に置くことで問題が解決するケースもあります。特にマルチアカウント環境や複数リージョンを管理している場合は、AssumeRole を使用して適切なクロスアカウントアクセスを設定することをお勧めします。
+また、Terraform State [ファイル](/glossary/ファイル/)（tfstate）に記録されたリソース情報が実際の[クラウド](/glossary/クラウド/)環境と不一致している場合、`terraform refresh` で状態を再同期したり、必要に応じて `terraform import` でリソースを再度管理下に置くことで問題が解決するケースもあります。特にマルチアカウント環境や複数リージョンを管理している場合は、AssumeRole を使用して適切なクロスアカウントアクセスを設定することをお勧めします。
 
 ## それでも解決しない場合
 
-AWS CloudTrail（AWS [API](/glossary/api/) の呼び出しを記録するサービス）のイベント履歴を確認して、Terraform が送信した[リクエスト](/glossary/リクエスト/)がどのアクションで拒否されたかの詳細を確認します。CloudTrail [ダッシュボード](/glossary/ダッシュボード/)で該当する [API](/glossary/api/) コールを探し、`errorCode` および `errorMessage` フィールドを確認することで、[IAM](/glossary/iam/) ポリシーシミュレーターでは検出できない組織レベルの制限や、リソースベースの[ポリシー](/glossary/ポリシー/)による拒否を発見できます。
+AWS CloudTrail（AWS [API](/glossary/api/) の呼び出しを記録するサービス）の[イベント](/glossary/イベント/)履歴を確認して、Terraform が送信した[リクエスト](/glossary/リクエスト/)がどのアクションで拒否されたかの詳細を確認します。CloudTrail [ダッシュボード](/glossary/ダッシュボード/)で該当する [API](/glossary/api/) コールを探し、`errorCode` および `errorMessage` フィールドを確認することで、[IAM](/glossary/iam/) ポリシーシミュレーターでは検出できない組織レベルの制限や、リソースベースの[ポリシー](/glossary/ポリシー/)による拒否を発見できます。
 
 ```bash
 aws iam simulate-principal-policy \
