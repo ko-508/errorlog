@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-07-19",
+  "site_url": "https://errorlog.jp/",
+  "period_days": 7,
+  "ctr_threshold": 0.015,
+  "pos_range": [
+    11.0,
+    20.0
+  ],
+  "total_pages": 42,
+  "bottlenecks": []
+}

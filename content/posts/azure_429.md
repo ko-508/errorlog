@@ -10,6 +10,8 @@ components: ["REST API", "Virtual Machines", "Compute"]
 related_services: ["PowerShell", "Azure CLI"]
 trend_incident: true
 lastmod: 2026-06-13
+top_queries:
+- 'リモート サーバー が エラー を 返し まし た 429'
 ---
 
 ## エラーの概要

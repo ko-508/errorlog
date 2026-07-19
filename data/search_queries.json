@@ -1,140 +1,92 @@
 {
-  "auto_2026-06-10_amazon-sp-api-tutorial-building-real-marketplace-a": {
+  "stripe_402": {
     "top_queries": [
-      "\"const sellingpartnerapi = require('amazon-sp-api')\""
+      "402 err stripe",
+      "stripe 402 error"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 8.0
+    "avg_position": 50.0
   },
-  "auto_2026-06-12_how-to-fix-claude-fable-5-data-retention-error-on-": {
+  "nginx_503": {
     "top_queries": [
-      "\"data retention mode 'default' is not available for this model\""
+      "503 nginx"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 5.0
+    "avg_position": 75.0
   },
-  "nginx_403": {
+  "aws_s3_nosuchkey": {
     "top_queries": [
-      "403 forbidden nginx",
-      "403 forbidden nginx とは",
-      "forbidden nginx",
-      "rbidden nginx"
+      "<code>nosuchkey</code> <message>the specified key does not exist.</message> </error>",
+      "nosuchkeythe specified key does not exist.",
+      "nosuchkeythe specified key does not exist.no such object: public-sensor-pages/msft/px/captcha_close"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 8.7
+    "avg_position": 37.7
   },
-  "github_api_400": {
+  "aws_s3_accessdenied": {
     "top_queries": [
-      "api400"
+      "accessdenied access denied"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 72.0
-  },
-  "gcp_503": {
-    "top_queries": [
-      "cloud run 503"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 20.0
+    "avg_position": 66.0
   },
   "aws_502": {
     "top_queries": [
       "cloudfront 502"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 56.0
+    "avg_position": 55.8
   },
   "aws_503": {
     "top_queries": [
       "elb 503"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 70.8
+    "avg_position": 76.7
   },
   "aws_504": {
     "top_queries": [
-      "elb 504"
+      "elb 504",
+      "http 504 aws"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 60.4
-  },
-  "tool_firebase": {
-    "top_queries": [
-      "firebase vs haproxy"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 235.0
-  },
-  "gemini_api_429_resource_exhausted_free_tier": {
-    "top_queries": [
-      "generate_content_free_tier_requests"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 6.0
-  },
-  "github_api_502": {
-    "top_queries": [
-      "github 502"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 79.0
+    "avg_position": 59.6
   },
   "github_api_504": {
     "top_queries": [
       "github 504"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 74.0
+    "avg_position": 81.0
   },
-  "github_api_404": {
+  "github_api_403": {
     "top_queries": [
-      "github private repository 404 not found unauthorized documentation"
+      "github api 403"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 10.0
+    "avg_position": 60.0
   },
   "gcp_500": {
     "top_queries": [
       "google 500 エラー",
-      "google エラー 500"
+      "google エラー 500",
+      "googleエラー500"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 48.0
+    "avg_position": 50.7
   },
-  "openai_api_401": {
+  "aws_404": {
     "top_queries": [
-      "gpt 401"
+      "アマゾン 404 エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 7.0
+    "avg_position": 69.0
   },
-  "nginx_404": {
+  "azure_429": {
     "top_queries": [
-      "nginx 404",
-      "nginx 404 not found"
+      "リモート サーバー が エラー を 返し まし た 429"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 6.7
-  },
-  "nginx_503": {
-    "top_queries": [
-      "nginx 503"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 36.5
-  },
-  "stripe_402": {
-    "top_queries": [
-      "ご利用のカードはこのタイプの購入に対応していません。"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 32.5
-  },
-  "openai_api_400": {
-    "top_queries": [
-      "チャットgpt リクエストに問題があります 400"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 11.0
+    "avg_position": 90.0
   }
 }

@@ -9,6 +9,10 @@ service: "AWS S3"
 error_type: "NoSuchKey"
 components: ["S3"]
 related_services: ["boto3"]
+top_queries:
+- '<code>nosuchkey</code> <message>the specified key does not exist.</message> </error>'
+- 'nosuchkeythe specified key does not exist.'
+- 'nosuchkeythe specified key does not exist.no such object: public-sensor-pages/msft/px/captcha_close'
 ---
 
 ## エラーの概要

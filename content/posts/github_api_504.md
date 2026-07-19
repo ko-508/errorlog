@@ -10,6 +10,8 @@ error_type: "504"
 components: ["REST API"]
 related_services: ["GitHub REST API", "GitHub GraphQL API", "Octokit"]
 trend_incident: false
+top_queries:
+- 'github 504'
 ---
 
 ## 冒頭まとめ

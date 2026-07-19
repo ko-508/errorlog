@@ -10,7 +10,7 @@ error_type: "503"
 components: []
 related_services: []
 top_queries:
-- 'nginx 503'
+- '503 nginx'
 ---
 
 ## 冒頭まとめ

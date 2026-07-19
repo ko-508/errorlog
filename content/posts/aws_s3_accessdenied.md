@@ -9,6 +9,8 @@ service: "AWS S3"
 error_type: "AccessDenied"
 components: ["IAM", "S3"]
 related_services: []
+top_queries:
+- 'accessdenied access denied'
 ---
 
 ## エラーの概要
