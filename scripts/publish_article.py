@@ -8,22 +8,26 @@
   python scripts/publish_article.py nginx_504 --marker "上流"
   python scripts/publish_article.py nginx_504 --marker "上流" --no-push   # push直前まで
   python scripts/publish_article.py nginx_504 --marker "上流" --zenn      # push後にZenn同期も起動
+  python scripts/publish_article.py nginx_504 --marker "上流" --note "公式文書で確認"
 
 手順（途中で条件を満たさなければ即停止し、何も変更しない）:
   1. 作業ツリーの安全確認（変更が対象記事と許容リスト以外にないこと）
   2. 配置確認（--marker の文字列が対象記事に存在すること）
   3. lint（FAIL ゼロ。実行で変わったレポートファイルは復元）
   4. hugo があればビルド確認（なければスキップして報告）
-  5. 対象1ファイルのみ add してコミット
-  6. 許容リストの未コミット変更を stash 退避 → pull --rebase → push → 復元
+  5. 検証記録 JSON を更新
+  6. 対象記事と検証記録 JSON のみ add してコミット
+  7. 許容リストの未コミット変更を stash 退避 → pull --rebase → push → 復元
      （rebase や stash pop の衝突は自動解決せず停止）
 """
 from __future__ import annotations
 
 import argparse
+import json
 import shutil
 import subprocess
 import sys
+from datetime import date
 from pathlib import Path
 
 BASE = Path(__file__).resolve().parent.parent
@@ -41,6 +45,8 @@ LINT_REPORTS = [
     "data/lint_report.json",
     "reports/lint/lint_summary.md",
 ]
+
+REVIEW_STATUS_REL = "data/article_review_status.json"
 
 
 def run(cmd: list[str], check: bool = True, capture: bool = True) -> subprocess.CompletedProcess:
@@ -71,11 +77,92 @@ def die(msg: str) -> None:
     sys.exit(1)
 
 
+def normalize_review_status(data: dict) -> dict:
+    """既存の平坦な検証記録を history 形式へ移行する。"""
+    normalized = {}
+    for key, entry in data.items():
+        if not isinstance(entry, dict):
+            die(f"{REVIEW_STATUS_REL} の {key} がオブジェクトではありません。")
+
+        if "history" not in entry:
+            if "verified_at" not in entry or "note" not in entry:
+                die(f"{REVIEW_STATUS_REL} の {key} に verified_at または note がありません。")
+            verified_at = entry["verified_at"]
+            note = entry["note"]
+            if not isinstance(verified_at, str) or not isinstance(note, str):
+                die(f"{REVIEW_STATUS_REL} の {key} の verified_at/note が文字列ではありません。")
+            normalized[key] = {
+                "verified": entry.get("verified"),
+                "verified_at": verified_at,
+                "last_verified_at": verified_at,
+                "history": [
+                    {"date": verified_at, "note": note},
+                ],
+            }
+            continue
+
+        required = ["verified", "verified_at", "last_verified_at", "history"]
+        missing = [name for name in required if name not in entry]
+        if missing:
+            die(f"{REVIEW_STATUS_REL} の {key} に必要キーがありません: {', '.join(missing)}")
+        if not isinstance(entry["verified_at"], str) or not isinstance(entry["last_verified_at"], str):
+            die(f"{REVIEW_STATUS_REL} の {key} の日付が文字列ではありません。")
+        if not isinstance(entry["history"], list):
+            die(f"{REVIEW_STATUS_REL} の {key} の history が配列ではありません。")
+        for i, item in enumerate(entry["history"]):
+            if not isinstance(item, dict) or not isinstance(item.get("date"), str) or not isinstance(item.get("note"), str):
+                die(f"{REVIEW_STATUS_REL} の {key} の history[{i}] が {{date, note}} 形式ではありません。")
+        normalized[key] = {
+            "verified": entry["verified"],
+            "verified_at": entry["verified_at"],
+            "last_verified_at": entry["last_verified_at"],
+            "history": entry["history"],
+        }
+    return normalized
+
+
+def update_review_status(rel: str, note: str, today: date) -> None:
+    path = BASE / REVIEW_STATUS_REL
+    if path.exists():
+        try:
+            loaded = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            die(f"{REVIEW_STATUS_REL} を解析できませんでした。既存記録を保護するため停止します: {e}")
+        if not isinstance(loaded, dict):
+            die(f"{REVIEW_STATUS_REL} のルートがオブジェクトではありません。")
+        status = normalize_review_status(loaded)
+    else:
+        status = {}
+
+    today_text = today.isoformat()
+    if rel in status:
+        entry = status[rel]
+        entry["verified"] = True
+        entry["last_verified_at"] = today_text
+        entry["history"].append({"date": today_text, "note": note})
+    else:
+        status[rel] = {
+            "verified": True,
+            "verified_at": today_text,
+            "last_verified_at": today_text,
+            "history": [
+                {"date": today_text, "note": note},
+            ],
+        }
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(status, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description="記事1件の検証・コミット・プッシュ")
     ap.add_argument("slug", help="記事の slug（content/posts/<slug>.md）")
     ap.add_argument("--marker", required=True, help="配置確認用の文字列（新版に必ず含まれるもの）")
     ap.add_argument("--message", default="", help="コミットメッセージ（省略時は定型文）")
+    ap.add_argument("--note", default="全面書き直し", help="検証内容の説明")
     ap.add_argument("--no-push", action="store_true", help="コミットまでで止める（push しない）")
     ap.add_argument("--zenn", action="store_true", help="push 後に gh CLI で Zenn 同期を起動する")
     args = ap.parse_args()
@@ -103,11 +190,10 @@ def main() -> None:
         die(f"目印文字列が見つかりません: {args.marker}\n旧版のままの可能性があります。")
     if "免責事項：本記事の内容は" not in text:
         die("免責事項の定型文が見つかりません。")
-    print(f"[1/6] 配置確認 OK（{'新規' if is_new else '書き直し'}: {rel}）")
+    print(f"[1/7] 配置確認 OK（{'新規' if is_new else '書き直し'}: {rel}）")
 
     # ── 3. lint ──────────────────────────────────────────────────────────
     r = run([sys.executable, "scripts/lint_articles.py", "--path", rel], check=False)
-    import json
     report_path = BASE / "data" / "lint_report.json"
     try:
         report = json.loads(report_path.read_text(encoding="utf-8"))
@@ -123,38 +209,42 @@ def main() -> None:
     if fails:
         die("lint FAIL: " + "; ".join(f"{f['rule']}: {f['detail']}" for f in fails))
     warn_note = "（WARN: " + ", ".join(w["rule"] for w in warns) + "）" if warns else ""
-    print(f"[2/6] lint OK{warn_note}")
+    print(f"[2/7] lint OK{warn_note}")
 
     # ── 4. hugo ビルド確認（任意） ────────────────────────────────────────
     if shutil.which("hugo"):
         b = run(["hugo", "--gc", "--minify", "--quiet"], check=False)
         if b.returncode != 0:
             die(f"hugo ビルド失敗:\n{b.stderr[-1500:]}")
-        print("[3/6] hugo ビルド OK")
+        print("[3/7] hugo ビルド OK")
     else:
-        print("[3/6] hugo なし → ビルド確認スキップ")
+        print("[3/7] hugo なし → ビルド確認スキップ")
 
-    # ── 5. コミット ──────────────────────────────────────────────────────
+    # ── 5. 検証記録 ─────────────────────────────────────────────────────
+    update_review_status(rel, args.note, date.today())
+    print(f"[4/7] 検証記録 OK: {REVIEW_STATUS_REL}")
+
+    # ── 6. コミット ──────────────────────────────────────────────────────
     if args.message:
         msg = args.message
     elif is_new:
         msg = f"post: {args.slug} 記事を新規作成（確立済みの型・照合済みソースで執筆）"
     else:
         msg = f"rewrite: {args.slug} 記事を新しい質の型で書き直し"
-    run(["git", "add", "--", rel])
+    run(["git", "add", "--", rel, REVIEW_STATUS_REL])
     run(["git", "commit", "-m", msg])
-    print(f"[4/6] コミット OK: {msg}")
+    print(f"[5/7] コミット OK: {msg}")
 
-    # ── 6. push（許容リストを退避） ───────────────────────────────────────
+    # ── 7. push（許容リストを退避） ───────────────────────────────────────
     if args.no_push:
-        print("[5/6] --no-push 指定のため終了（push は未実行）")
+        print("[6/7] --no-push 指定のため終了（push は未実行）")
         return
     to_stash = [p for p in ALLOWED_DIRTY if p in git_dirty_files()]
     stashed = False
     if to_stash:
         run(["git", "stash", "push", "--"] + to_stash)
         stashed = True
-        print(f"[5/6] 退避: {', '.join(to_stash)}")
+        print(f"[6/7] 退避: {', '.join(to_stash)}")
     pr = run(["git", "pull", "--rebase"], check=False)
     if pr.returncode != 0:
         die(f"pull --rebase が失敗しました。自動解決はしません。手動で確認してください。\n{pr.stdout}\n{pr.stderr}")
@@ -166,7 +256,7 @@ def main() -> None:
         if pp.returncode != 0:
             die(f"stash pop で競合しました。自動解決はしません。手動で確認してください。\n{pp.stdout}\n{pp.stderr}")
     head = run(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
-    print(f"[6/6] push OK: {head}")
+    print(f"[7/7] push OK: {head}")
 
     if args.zenn:
         if shutil.which("gh"):
