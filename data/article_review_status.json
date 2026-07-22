@@ -1,0 +1,299 @@
+{
+  "content/posts/nginx_404.md": {
+    "verified": true,
+    "verified_at": "2026-07-02",
+    "last_verified_at": "2026-07-02",
+    "history": [
+      {
+        "date": "2026-07-02",
+        "note": "全面書き直し。既定404ページ文言・combinedログ書式・ENOENT系のみ404をNginxソースで照合、try_files転送先不存在は500(循環)と訂正"
+      }
+    ]
+  },
+  "content/posts/nginx_503.md": {
+    "verified": true,
+    "verified_at": "2026-07-02",
+    "last_verified_at": "2026-07-02",
+    "history": [
+      {
+        "date": "2026-07-02",
+        "note": "全面書き直し。接続失敗=502/時間切れ=504の分岐をngx_http_upstream.cで照合、503はlimit_req/limit_conn・return 503・上流中継の3系統に再構成"
+      }
+    ]
+  },
+  "content/posts/docker_500.md": {
+    "verified": true,
+    "verified_at": "2026-07-02",
+    "last_verified_at": "2026-07-02",
+    "history": [
+      {
+        "date": "2026-07-02",
+        "note": "全面書き直し。デーモン不達はCannot connect(500でない)をclient/errors.goで確認、httpstatus.goで未分類エラー=500を照合"
+      }
+    ]
+  },
+  "content/posts/nginx_413.md": {
+    "verified": true,
+    "verified_at": "2026-07-08",
+    "last_verified_at": "2026-07-08",
+    "history": [
+      {
+        "date": "2026-07-08",
+        "note": "新規作成。client_max_body_size既定1m・超過で413を公式文書、too large bodyのログ文言をソースで照合"
+      }
+    ]
+  },
+  "content/posts/nginx_499.md": {
+    "verified": true,
+    "verified_at": "2026-07-09",
+    "last_verified_at": "2026-07-09",
+    "history": [
+      {
+        "date": "2026-07-09",
+        "note": "新規作成。499の定義と導入目的をngx_http_request.hで照合、errorログはinfo級のみを公式チケット#2163で確認"
+      }
+    ]
+  },
+  "content/posts/github_api_404.md": {
+    "verified": true,
+    "verified_at": "2026-07-10",
+    "last_verified_at": "2026-07-10",
+    "history": [
+      {
+        "date": "2026-07-10",
+        "note": "全面書き直し。権限不備に403でなく404を返す設計を公式Troubleshootingで照合、422の応答例混入を除去"
+      }
+    ]
+  },
+  "content/posts/github_api_400.md": {
+    "verified": true,
+    "verified_at": "2026-07-10",
+    "last_verified_at": "2026-07-10",
+    "history": [
+      {
+        "date": "2026-07-10",
+        "note": "全面書き直し。400(JSON不正)と422(パラメータ不正)の境界を公式文書で照合、X-GitHub-Api-Versionに修正"
+      }
+    ]
+  },
+  "content/posts/github_api_502.md": {
+    "verified": true,
+    "verified_at": "2026-07-11",
+    "last_verified_at": "2026-07-11",
+    "history": [
+      {
+        "date": "2026-07-11",
+        "note": "全面書き直し。レート制限=403/429を公式文書で照合し502原因から除去、GraphQL時間切れの分割対処を公式コミュニティ回答で確認"
+      }
+    ]
+  },
+  "content/posts/github_api_403.md": {
+    "verified": true,
+    "verified_at": "2026-07-11",
+    "last_verified_at": "2026-07-11",
+    "history": [
+      {
+        "date": "2026-07-11",
+        "note": "全面書き直し。classic scope不足は404を公式Troubleshootingで照合、X-Accepted-GitHub-Permissionsによる必要権限特定を追加"
+      }
+    ]
+  },
+  "content/posts/github_api_401.md": {
+    "verified": true,
+    "verified_at": "2026-07-11",
+    "last_verified_at": "2026-07-11",
+    "history": [
+      {
+        "date": "2026-07-11",
+        "note": "全面書き直し。Requires authentication/Bad credentialsの二分岐とBearer/token両形式可をapi.github.comへの実測で確認"
+      }
+    ]
+  },
+  "content/posts/aws_503.md": {
+    "verified": true,
+    "verified_at": "2026-07-11",
+    "last_verified_at": "2026-07-11",
+    "history": [
+      {
+        "date": "2026-07-11",
+        "note": "全面書き直し。ALBの503は登録ターゲット無し、全unhealthy時はfail openを公式文書で照合、Lambda/DynamoDB起因の混同を除去"
+      }
+    ]
+  },
+  "content/posts/aws_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-11",
+    "last_verified_at": "2026-07-11",
+    "history": [
+      {
+        "date": "2026-07-11",
+        "note": "全面書き直し。ALB接続確立10秒/idle timeout既定60秒、API Gateway統合タイムアウト既定29秒(REST APIは引き上げ申請可)を公式文書で照合"
+      }
+    ]
+  },
+  "content/posts/docker_404.md": {
+    "verified": true,
+    "verified_at": "2026-07-11",
+    "last_verified_at": "2026-07-11",
+    "history": [
+      {
+        "date": "2026-07-11",
+        "note": "全面書き直し。No such container/imageの404対応をmobyソースで照合、大文字はinvalid reference formatで照会前に拒否(404でない)と訂正"
+      }
+    ]
+  },
+  "content/posts/github_api_429.md": {
+    "verified": true,
+    "verified_at": "2026-07-14",
+    "last_verified_at": "2026-07-14",
+    "history": [
+      {
+        "date": "2026-07-14",
+        "note": "全面書き直し。primary/secondary rate limitの二系統と待ち方の公式指針、304が認証付きならprimary非消費を公式文書で照合"
+      }
+    ]
+  },
+  "content/posts/nginx_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-14",
+    "last_verified_at": "2026-07-14",
+    "history": [
+      {
+        "date": "2026-07-14",
+        "note": "全面書き直し。while connecting/while reading response headerでタイマーを判別、proxy_read_timeoutは応答全体でなく無送信間隔を公式文書で照合"
+      }
+    ]
+  },
+  "content/posts/aws_429.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。API Gateway/Lambda同時実行/コード内API呼び出しの3層に再構成、S3の絞り込みは503 Slow Downと訂正"
+      }
+    ]
+  },
+  "content/posts/docker_400.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。API バージョン不一致(client version too new/too old)を軸に再構成"
+      }
+    ]
+  },
+  "content/posts/nginx_502.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。ngx_http_upstream.c で502/504の分岐を照合"
+      }
+    ]
+  },
+  "content/posts/github_api_500.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。x-github-request-id を実測、Octokit retry の線引きを公式READMEで照合"
+      }
+    ]
+  },
+  "content/posts/github_api_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。10秒打ち切りを公式Troubleshooting文書で照合"
+      }
+    ]
+  },
+  "content/posts/terraform_500.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。max_retries=25 と registry retry 既定1回をソース・公式文書で照合"
+      }
+    ]
+  },
+  "content/posts/docker_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。moby の httpstatus に504割当が無いことをソースで確認"
+      }
+    ]
+  },
+  "content/posts/docker_429.md": {
+    "verified": true,
+    "verified_at": "2026-07-15",
+    "last_verified_at": "2026-07-15",
+    "history": [
+      {
+        "date": "2026-07-15",
+        "note": "全面書き直し。匿名100回/6h・IP単位を公式文書(2026-04-24更新)で照合"
+      }
+    ]
+  },
+  "content/posts/github_api_409.md": {
+    "verified": true,
+    "verified_at": "2026-07-16",
+    "last_verified_at": "2026-07-16",
+    "history": [
+      {
+        "date": "2026-07-16",
+        "note": "全面書き直し。公式OpenAPIで409定義エンドポイントを抽出"
+      }
+    ]
+  },
+  "content/posts/gcp_503.md": {
+    "verified": true,
+    "verified_at": "2026-07-19",
+    "last_verified_at": "2026-07-19",
+    "history": [
+      {
+        "date": "2026-07-19",
+        "note": "全面書き直し。code.proto の UNAVAILABLE 定義で照合"
+      }
+    ]
+  },
+  "content/posts/azure_500.md": {
+    "verified": true,
+    "verified_at": "2026-07-19",
+    "last_verified_at": "2026-07-19",
+    "history": [
+      {
+        "date": "2026-07-19",
+        "note": "全面書き直し。azure-core の retry 対象コードをソースで確認"
+      }
+    ]
+  },
+  "content/posts/github_api_422.md": {
+    "verified": true,
+    "verified_at": "2026-07-22",
+    "last_verified_at": "2026-07-22",
+    "history": [
+      {
+        "date": "2026-07-22",
+        "note": "公式OpenAPIのValidation Errorスキーマとcode定義で照合、422はOctokit retryの再試行対象外"
+      }
+    ]
+  }
+}
