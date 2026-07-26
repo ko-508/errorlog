@@ -1,4 +1,15 @@
 {
+  "content/posts/nginx_403.md": {
+    "verified": true,
+    "verified_at": "2026-06-30",
+    "last_verified_at": "2026-06-30",
+    "history": [
+      {
+        "date": "2026-06-30",
+        "note": "全面書き直し。冒頭まとめ新設、エラーログ文言による原因切り分け構成へ刷新"
+      }
+    ]
+  },
   "content/posts/nginx_404.md": {
     "verified": true,
     "verified_at": "2026-07-02",
