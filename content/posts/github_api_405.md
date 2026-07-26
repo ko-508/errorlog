@@ -1,5 +1,7 @@
 ---
 title: "GitHub API の 405 エラー：原因と解決策"
+date: 2026-07-26
+lastmod: 2026-07-26
 description: "GitHub API の 405 Method Not Allowed は、HTTP メソッドの間違いではありません。公式 API 定義で 405 を返すと定義された操作は全体のうち3つだけで、実務で当たるのはプルリクエストのマージです。意味は「今はマージできない」で、原因は応答の message の文言で確定します。Base branch was modified だけが一時的で再試行が正解、他は状態を直すまで結果は変わりません。"
 tags: ["GitHub API"]
 errorCode: "405"
