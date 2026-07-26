@@ -56,13 +56,13 @@ FastAPI[サーバー](/glossary/サーバー/)からの報告：
 - `"message": "Validation Failed"` → [リクエストボディ](/glossary/リクエストボディ/)のデータが [API](/glossary/api/) の要件を満たしていないことを示す
 - `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（フィールド名、エラーコード、説明）を含む
 - `"loc": ["body"]` → FastAPI形式：[エラー](/glossary/エラー/)の位置がボディ部分にあることを指示する
-- `"msg": "value is not a valid dict"` → 期待されたデータ型（辞書/[オブジェクト](/glossary/オブジェクト/)）が送信されていない
+- `"msg": "value is not a valid dict"` → 期待されたデータ型（辞書/[オブジェクト](/glossary/オブジェクト/)）が[送信](/glossary/送信/)されていない
 
 ## よくある原因と解決手順
 
 ### 原因1：Content-Typeヘッダーがリクエストボディの形式と一致していない
 
-Postmanで `application/x-www-form-urlencoded` または `multipart/form-data` を指定しているのに、実際には[JSON](/glossary/json/)形式でボディを送信している場合、[サーバー](/glossary/サーバー/)は入力データを正しくパースできず、422[エラー](/glossary/エラー/)を返します。また逆に、[JSON](/glossary/json/)を期待している[エンドポイント](/glossary/エンドポイント/)に対してフォーム形式を送信する場合も同様です。
+Postmanで `application/x-www-form-urlencoded` または `multipart/form-data` を指定しているのに、実際には[JSON](/glossary/json/)形式でボディを[送信](/glossary/送信/)している場合、[サーバー](/glossary/サーバー/)は入力データを正しくパースできず、422[エラー](/glossary/エラー/)を返します。また逆に、[JSON](/glossary/json/)を期待している[エンドポイント](/glossary/エンドポイント/)に対してフォーム形式を[送信](/glossary/送信/)する場合も同様です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -136,7 +136,7 @@ ls -la ./uploads/my-file.pdf
 
 ### 原因3：リクエストボディのデータがサーバーの期待する型と一致していない
 
-FastAPIなどのフレームワークでは、[エンドポイント](/glossary/エンドポイント/)が `body` [パラメータ](/glossary/パラメータ/)を期待しているのに、Postmanからクエリパラメータとして送信したり、ネストされた[オブジェクト](/glossary/オブジェクト/)構造が異なったりすると、422[エラー](/glossary/エラー/)が発生します。特にPythonバリデーションライブラリ（Pydantic）は型チェックが厳密なため、数値を文字列で送信するなどの型ミスマッチも原因になります。
+FastAPIなどのフレームワークでは、[エンドポイント](/glossary/エンドポイント/)が `body` [パラメータ](/glossary/パラメータ/)を期待しているのに、Postmanからクエリパラメータとして[送信](/glossary/送信/)したり、ネストされた[オブジェクト](/glossary/オブジェクト/)構造が異なったりすると、422[エラー](/glossary/エラー/)が発生します。特にPythonバリデーションライブラリ（Pydantic）は型チェックが厳密なため、数値を文字列で[送信](/glossary/送信/)するなどの型ミスマッチも原因になります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -219,7 +219,7 @@ Postmanの Params タブで `q` を設定する場合、値に空白やコロン
 
 ### FastAPIの Pydantic バリデーション
 
-FastAPIで422が頻発する場合、Postmanから送信されるデータが Pydantic [モデル](/glossary/モデル/)の定義と一致しているか確認してください。以下の点をチェックします：
+FastAPIで422が頻発する場合、Postmanから[送信](/glossary/送信/)されるデータが Pydantic [モデル](/glossary/モデル/)の定義と一致しているか確認してください。以下の点をチェックします：
 
 - すべての必須フィールドが含まれているか
 - 各フィールドのデータ型が一致しているか（文字列 vs 数値など）
@@ -267,7 +267,7 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 
 この[エラー](/glossary/エラー/)が頻発して開発に支障が出る場合は、以下のツールへの移行を検討できます。
 
-- **Insomnia** → Postmanよりシンプルなインターフェースで、[JSON](/glossary/json/)/フォーム送信の切り替えが直感的です。環境変数管理やコレクション実行も備え、同等の機能を提供しながら[CLI](/glossary/cli/)ツール(`insomnia-inso`)による自動[テスト](/glossary/テスト/)が容易です。
+- **Insomnia** → Postmanよりシンプルな[インターフェース](/glossary/インターフェース/)で、[JSON](/glossary/json/)/フォーム[送信](/glossary/送信/)の切り替えが直感的です。環境変数管理やコレクション実行も備え、同等の機能を提供しながら[CLI](/glossary/cli/)ツール(`insomnia-inso`)による自動[テスト](/glossary/テスト/)が容易です。
 
 - **Bruno** → ローカルファーストで、[リクエスト](/glossary/リクエスト/)定義を[Git](/glossary/git/)管理可能なテキスト形式で保存できます。チームでの共有や[バージョン管理](/glossary/バージョン管理/)が効率的で、特にコレクション内での[ファイル](/glossary/ファイル/)参照が安定しています。
 

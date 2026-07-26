@@ -148,7 +148,7 @@ if currency in supported_currencies:
 
 ### Webhook署名検証とAPIバージョンの整合性
 
-[Webhook](/glossary/webhook/)を受信する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が送信されます。ホスト側でこれを無視して古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)と想定して処理すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定するか、[ダッシュボード](/glossary/ダッシュボード/)で[バージョン](/glossary/バージョン/)を統一する必要があります。
+[Webhook](/glossary/webhook/)を[受信](/glossary/受信/)する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が[送信](/glossary/送信/)されます。ホスト側でこれを無視して古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)と想定して処理すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定するか、[ダッシュボード](/glossary/ダッシュボード/)で[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ### リトライ戦略の実装
 
@@ -209,7 +209,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 - Stripe Developer Community：https://stripe.com/docs/support
 - Stack Overflow の `stripe` [タグ](/glossary/タグ/)：実装言語固有の問題は検索してみてください
 
-公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を送信した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に対応してもらえます。
+公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に対応してもらえます。
 
 ---
 

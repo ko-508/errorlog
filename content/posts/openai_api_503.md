@@ -183,7 +183,7 @@ callOpenAIWithRetry();
 
 ### 原因3：リクエスト率制限（Rate Limit）の超過による二次的な503
 
-[API](/glossary/api/)キーの[レート制限](/glossary/レート制限/)に達してから継続的に[リクエスト](/glossary/リクエスト/)を送信すると、OpenAIの[サーバー](/glossary/サーバー/)が負荷を分散するために503を返すことがあります。
+[API](/glossary/api/)キーの[レート制限](/glossary/レート制限/)に達してから継続的に[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、OpenAIの[サーバー](/glossary/サーバー/)が負荷を分散するために503を返すことがあります。
 
 **なぜ発生するか：** 429（Too Many Requests）[エラー](/glossary/エラー/)が返されているにもかかわらず、即座に[リトライ](/glossary/リトライ/)を続けると、[サーバー](/glossary/サーバー/)が過負荷と判断して503で[リクエスト](/glossary/リクエスト/)処理を中断します。
 

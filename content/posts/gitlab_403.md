@@ -145,7 +145,7 @@ $ sudo tail -f /var/log/gitlab/gitlab-rails/production.log | grep "403"
 
 **2. ユーザー権限履歴を確認**
 
-**Admin → Users** から対象ユーザーを検索し、最後に[権限](/glossary/権限/)が変更された時刻を確認します。権限変更直後であれば、セッションを[リセット](/glossary/リセット/)するため一度ログアウト・[ログイン](/glossary/ログイン/)を試みます。
+**Admin → Users** から対象ユーザーを検索し、最後に[権限](/glossary/権限/)が変更された時刻を確認します。権限変更直後であれば、セッションを[リセット](/glossary/リセット/)するため一度[ログアウト](/glossary/ログアウト/)・[ログイン](/glossary/ログイン/)を試みます。
 
 ```bash
 # Web UI でのログアウト・ログイン、または

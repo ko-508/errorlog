@@ -52,7 +52,7 @@ Timestamp: 2024-01-15T10:23:45Z
 
 **原因1：[レート制限](/glossary/レート制限/)による一時的なサーバーストール**
 
-Slackの[レート制限](https://api.slack.com/docs/rate-limits)を超えた状態で連続して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を送信すると、Slack[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)処理に失敗して500[エラー](/glossary/エラー/)を返すことがあります。特に`chat.postMessage`や`files.upload`など重い処理を伴う[エンドポイント](/glossary/エンドポイント/)でこの症状が起きやすいです。
+Slackの[レート制限](https://api.slack.com/docs/rate-limits)を超えた状態で連続して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、Slack[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)処理に失敗して500[エラー](/glossary/エラー/)を返すことがあります。特に`chat.postMessage`や`files.upload`など重い処理を伴う[エンドポイント](/glossary/エンドポイント/)でこの症状が起きやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -117,7 +117,7 @@ for i in range(100):
 
 **原因2：不正な形式またはサイズを超過した[ペイロード](/glossary/ペイロード/)**
 
-テキストフィールドに過度に長い文字列を送信したり、ブロック要素の階層が深すぎたり、[ファイルサイズ](/glossary/ファイルサイズ/)が大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)処理ロジックが例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
+テキストフィールドに過度に長い文字列を[送信](/glossary/送信/)したり、ブロック要素の階層が深すぎたり、[ファイルサイズ](/glossary/ファイルサイズ/)が大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)処理ロジックが例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

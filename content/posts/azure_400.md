@@ -43,7 +43,7 @@ $ az vm create --resource-group myRG --name "invalid@vm#name" --image UbuntuLTS
 
 ### 原因1：必須パラメータの不足または型の不正
 
-[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待するデータ型と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で送信された場合などが該当します。Azure [API](/glossary/api/)の仕様では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
+[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待するデータ型と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の仕様では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -142,7 +142,7 @@ az storage account create \
 
 **Azure [REST](/glossary/rest/) [API](/glossary/api/)の場合**：[エラーレスポンス](/glossary/エラーレスポンス/)の `details` フィールドを必ず確認してください。ここに具体的な問題[パラメータ](/glossary/パラメータ/)と制約条件が記載されます。複数の[パラメータ](/glossary/パラメータ/)に問題がある場合も、`details` 配列内に全て列挙されることがあります。また、[API](/glossary/api/)[バージョン](/glossary/バージョン/)（`api-version` クエリパラメータ）が古すぎたり新しすぎたりする場合も[エラー](/glossary/エラー/)になるため、Microsoft公式ドキュメントで対象リソースの最新[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認することが重要です。
 
-**Azure [CLI](/glossary/cli/)の場合**：`--debug` フラグを付与することで、送信される[ペイロード](/glossary/ペイロード/)全体を[コンソール](/glossary/コンソール/)に出力できます。これにより、[CLI](/glossary/cli/)が実際に何を送信しているかを検証でき、[デバッグ](/glossary/デバッグ/)が格段に容易になります。例えば `az vm create ... --debug` とすると、[REST](/glossary/rest/) [API](/glossary/api/)の完全な[リクエストボディ](/glossary/リクエストボディ/)が表示されます。
+**Azure [CLI](/glossary/cli/)の場合**：`--debug` フラグを付与することで、[送信](/glossary/送信/)される[ペイロード](/glossary/ペイロード/)全体を[コンソール](/glossary/コンソール/)に出力できます。これにより、[CLI](/glossary/cli/)が実際に何を[送信](/glossary/送信/)しているかを検証でき、[デバッグ](/glossary/デバッグ/)が格段に容易になります。例えば `az vm create ... --debug` とすると、[REST](/glossary/rest/) [API](/glossary/api/)の完全な[リクエストボディ](/glossary/リクエストボディ/)が表示されます。
 
 **Azure Portalの場合**：ブラウザーの開発者ツール（F12キー）でネットワークタブを開き、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を確認することで、[エラーメッセージ](/glossary/エラーメッセージ/)全文を取得できます。
 
@@ -160,7 +160,7 @@ az vm create --resource-group myRG --name myvm --image UbuntuLTS --debug
 az vm create --help | grep -A 5 "adminUsername"
 ```
 
-**[REST](/glossary/rest/) [API](/glossary/api/)での[デバッグ](/glossary/デバッグ/)**：[リクエストボディ](/glossary/リクエストボディ/)を[JSON](/glossary/json/)形式で整形・検証してから送信します。[JSON](/glossary/json/)スキーマバリデーターを使用し、構造の正確性を事前確認することをお勧めします。
+**[REST](/glossary/rest/) [API](/glossary/api/)での[デバッグ](/glossary/デバッグ/)**：[リクエストボディ](/glossary/リクエストボディ/)を[JSON](/glossary/json/)形式で整形・検証してから[送信](/glossary/送信/)します。[JSON](/glossary/json/)スキーマバリデーターを使用し、構造の正確性を事前確認することをお勧めします。
 
 **Azure [SDK](/glossary/sdk/)（Python）での詳細確認**：
 

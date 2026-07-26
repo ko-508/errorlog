@@ -39,7 +39,7 @@ com.google.gson.JsonSyntaxException: java.io.EOFException: End of input at line 
 
 ### 原因1：APIリクエストのJSONパラメータが不正な形式
 
-[REST](/glossary/rest/) [API](/glossary/api/)を経由してJenkinsジョブをトリガーする際、POST[リクエスト](/glossary/リクエスト/)のボディに含まれる[JSON](/glossary/json/)が正しくパースできない形式になっていることが原因です。ダブルクォートの漏れ、末尾のカンマ、エスケープ漏れなどが典型的な問題です。
+[REST](/glossary/rest/) [API](/glossary/api/)を経由してJenkinsジョブを[トリガー](/glossary/トリガー/)する際、POST[リクエスト](/glossary/リクエスト/)のボディに含まれる[JSON](/glossary/json/)が正しくパースできない形式になっていることが原因です。ダブルクォートの漏れ、末尾のカンマ、エスケープ漏れなどが典型的な問題です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -71,7 +71,7 @@ curl -X POST \
 
 ### 原因2：必須パラメータが欠けているか型が間違っている
 
-Jenkinsの特定の[エンドポイント](/glossary/エンドポイント/)では、[JSON](/glossary/json/)[リクエスト](/glossary/リクエスト/)に必須の項目が必ず含まれていなければなりません。また、数値や真偽値を文字列のまま送信するなど、期待される型と異なるデータ型で[パラメータ](/glossary/パラメータ/)を渡すと400[エラー](/glossary/エラー/)が返されます。
+Jenkinsの特定の[エンドポイント](/glossary/エンドポイント/)では、[JSON](/glossary/json/)[リクエスト](/glossary/リクエスト/)に必須の項目が必ず含まれていなければなりません。また、数値や真偽値を文字列のまま[送信](/glossary/送信/)するなど、期待される型と異なるデータ型で[パラメータ](/glossary/パラメータ/)を渡すと400[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

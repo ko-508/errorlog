@@ -189,7 +189,7 @@ $ docker-compose up
 
 ### AWS ECR（Elastic Container Registry）での認証
 
-ECRはAWS [IAM](/glossary/iam/)[認証](/glossary/認証/)を使用するため、従来の`docker login`では対応できません。`aws ecr get-login-password`[コマンド](/glossary/コマンド/)で一時的な[認証](/glossary/認証/)[トークン](/glossary/トークン/)を取得する必要があります。
+ECRは[AWS](/glossary/aws/) [IAM](/glossary/iam/)[認証](/glossary/認証/)を使用するため、従来の`docker login`では対応できません。`aws ecr get-login-password`[コマンド](/glossary/コマンド/)で一時的な[認証](/glossary/認証/)[トークン](/glossary/トークン/)を取得する必要があります。
 
 ```bash
 # ECR認証（12時間有効なトークンを生成）
@@ -268,7 +268,7 @@ $ log stream --predicate 'process == "com.docker.vmnetd"' --level debug
 
 - [Docker](/glossary/docker/)公式ドキュメント：https://docs.docker.com/engine/reference/commandline/login/
 - [Docker](/glossary/docker/) Compose[認証](/glossary/認証/)：https://docs.docker.com/compose/compose-file/compose-file-v3/#image
-- AWS ECR[認証](/glossary/認証/)：https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/getting-started-cli.html
+- [AWS](/glossary/aws/) ECR[認証](/glossary/認証/)：https://docs.aws.amazon.com/ja_jp/AmazonECR/latest/userguide/getting-started-cli.html
 
 ### コミュニティリソース
 

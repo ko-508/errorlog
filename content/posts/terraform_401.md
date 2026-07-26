@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 401 [エラー](/glossary/エラー/)は、クラウドプロバイダー（AWS・Azure・GCP等）または Terraform Cloud/Enterprise への[認証](/glossary/認証/)に失敗したときに発生します。認証情報の不足・期限切れ・形式[エラー](/glossary/エラー/)などが原因で、リソースの操作やプランの実行が中断されます。
+Terraform の 401 [エラー](/glossary/エラー/)は、クラウドプロバイダー（[AWS](/glossary/aws/)・Azure・GCP等）または Terraform Cloud/Enterprise への[認証](/glossary/認証/)に失敗したときに発生します。認証情報の不足・期限切れ・形式[エラー](/glossary/エラー/)などが原因で、リソースの操作やプランの実行が中断されます。
 
 ## 実際のエラーメッセージ例
 
@@ -32,7 +32,7 @@ HTTP status code: 401 Unauthorized
 
 ### 原因1：AWS アクセスキーの認証情報が不正または期限切れ
 
-AWS のアクセスキーが間違っているか、[IAM](/glossary/iam/)（AWS Identity and Access Management）ユーザーの[権限](/glossary/権限/)が削除されている場合に発生します。特に複数の AWS [アカウント](/glossary/アカウント/)を扱う環境では、設定ミスが起こりやすくなります。
+[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が削除されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う環境では、設定ミスが起こりやすくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -187,7 +187,7 @@ provider "aws" {
 
 ### 複数プロバイダーを利用する場合
 
-Terraform で AWS・Azure・GCP など複数のクラウドプロバイダーを組み合わせる場合、各プロバイダーの認証情報をそれぞれ設定する必要があります。一つのプロバイダーの[認証](/glossary/認証/)が失敗すると、全体の `terraform plan` がブロックされます。
+Terraform で [AWS](/glossary/aws/)・Azure・GCP など複数のクラウドプロバイダーを組み合わせる場合、各プロバイダーの認証情報をそれぞれ設定する必要があります。一つのプロバイダーの[認証](/glossary/認証/)が失敗すると、全体の `terraform plan` がブロックされます。
 
 ```hcl
 provider "aws" {
@@ -299,7 +299,7 @@ terraform init -upgrade
 ### 公式ドキュメントでの確認
 
 各プロバイダーの公式認証ドキュメントを参照してください：
-- **AWS Provider**: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration
+- **[AWS](/glossary/aws/) Provider**: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration
 - **Azure Provider**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authentication
 - **Google Provider**: https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication
 

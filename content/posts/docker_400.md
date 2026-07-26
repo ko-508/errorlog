@@ -58,7 +58,7 @@ env | grep -i docker_api
 
 ### 原因2：API を直接呼び出すリクエストの形式が不正
 
-[デーモン](/glossary/デーモン/)の [API](/glossary/api/) を curl やプログラムから直接呼ぶ場合、本文が [JSON](/glossary/json/) として読めない、または Content-Type が不正だと、[デーモン](/glossary/デーモン/)の入口の検証で拒否され400になります。
+[デーモン](/glossary/デーモン/)の [API](/glossary/api/) を curl や[プログラム](/glossary/プログラム/)から直接呼ぶ場合、本文が [JSON](/glossary/json/) として読めない、または Content-Type が不正だと、[デーモン](/glossary/デーモン/)の入口の検証で拒否され400になります。
 
 **Before（[JSON](/glossary/json/) が壊れていて400になる）：**
 
@@ -79,7 +79,7 @@ curl -s --unix-socket /var/run/docker.sock \
   http://localhost/containers/create
 ```
 
-送信前に本文を [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）のが確実です。プログラムからの呼び出しなら、直列化をライブラリに任せているかを確認します（この落とし穴の詳細は [GitHub API の 400 の記事](/posts/github_api_400/)で扱った内容と同型です）。
+送信前に本文を [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）のが確実です。[プログラム](/glossary/プログラム/)からの呼び出しなら、直列化をライブラリに任せているかを確認します（この落とし穴の詳細は [GitHub API の 400 の記事](/posts/github_api_400/)で扱った内容と同型です）。
 
 ### 原因3：設定値がデーモンの検証で弾かれている
 

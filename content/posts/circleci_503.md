@@ -13,7 +13,7 @@ related_services: ["GitHub"]
 
 ## エラーの概要
 
-CircleCI の 503 [エラー](/glossary/エラー/)は、「Service Unavailable」を示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)で、CircleCIサービス自体が一時的に利用できない状態です。ジョブの実行[リクエスト](/glossary/リクエスト/)を送信した際に[サーバー](/glossary/サーバー/)側で処理できず、返却される[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生するとビルド・デプロイパイプラインが停止し、プロジェクト全体の開発フローに影響します。
+CircleCI の 503 [エラー](/glossary/エラー/)は、「Service Unavailable」を示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)で、CircleCIサービス自体が一時的に利用できない状態です。ジョブの実行[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した際に[サーバー](/glossary/サーバー/)側で処理できず、返却される[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生するとビルド・デプロイパイプラインが停止し、プロジェクト全体の開発フローに影響します。
 
 ## 実際のエラーメッセージ例
 
@@ -144,7 +144,7 @@ jobs:
 
 **確認と解決手順：**
 
-status.circleci.comを確認して「Degraded Performance」または「Major Outage」のアラートがないか確認してください。過負荷が原因であれば、通常は数分〜数十分で復旧します。
+status.circleci.comを確認して「Degraded Performance」または「Major Outage」の[アラート](/glossary/アラート/)がないか確認してください。過負荷が原因であれば、通常は数分〜数十分で復旧します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -199,7 +199,7 @@ done
 
 **[API](/glossary/api/)呼び出し時の 503 [エラー](/glossary/エラー/)対応:**
 
-CircleCI [API](/glossary/api/)を直接呼び出す場合（[CI/CD](/glossary/ci-cd/)パイプラインからのトリガーなど）、503 [エラー](/glossary/エラー/)に対応するリトライロジックを実装することが推奨されます。CircleCI公式[SDK](/glossary/sdk/)やライブラリを使用している場合は、自動[リトライ](/glossary/リトライ/)機能が組み込まれている可能性があるため、ドキュメントを確認してください。
+CircleCI [API](/glossary/api/)を直接呼び出す場合（[CI/CD](/glossary/ci-cd/)パイプラインからの[トリガー](/glossary/トリガー/)など）、503 [エラー](/glossary/エラー/)に対応するリトライロジックを実装することが推奨されます。CircleCI公式[SDK](/glossary/sdk/)やライブラリを使用している場合は、自動[リトライ](/glossary/リトライ/)機能が組み込まれている可能性があるため、ドキュメントを確認してください。
 
 ```bash
 # CircleCI CLIから直接実行する場合
@@ -213,7 +213,7 @@ circleci pipeline trigger \
 
 **[Webhook](/glossary/webhook/)の失敗:**
 
-CircleCIがGitHub/GitLabと[通信](/glossary/通信/)する際に 503 [エラー](/glossary/エラー/)が発生すると、プッシュ時にビルドが開始されない場合があります。この場合、[ダッシュボード](/glossary/ダッシュボード/)で手動トリガーするか、[CLI](/glossary/cli/) で `circleci pipeline trigger` を実行してください。
+CircleCIがGitHub/GitLabと[通信](/glossary/通信/)する際に 503 [エラー](/glossary/エラー/)が発生すると、プッシュ時にビルドが開始されない場合があります。この場合、[ダッシュボード](/glossary/ダッシュボード/)で手動[トリガー](/glossary/トリガー/)するか、[CLI](/glossary/cli/) で `circleci pipeline trigger` を実行してください。
 
 **無料プランでの制限:**
 

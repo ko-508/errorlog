@@ -154,7 +154,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 4. データベースクエリの効率性が低い
 
-Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の最適化やバッチ処理、[インデックス](/glossary/インデックス/)設定により改善できます。
+Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)やバッチ処理、[インデックス](/glossary/インデックス/)設定により改善できます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -192,7 +192,7 @@ exports.getOrdersWithUsers = functions.https.onRequest(async (req, res) => {
 
 **Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)設定**
 
-Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する際、`firebase.json`で[タイムアウト](/glossary/タイムアウト/)秒数を明示的に設定できます。デフォルトは60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎる[タイムアウト](/glossary/タイムアウト/)は本質的な問題を隠すため、根本的な最適化を優先してください。
+Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する際、`firebase.json`で[タイムアウト](/glossary/タイムアウト/)秒数を明示的に設定できます。デフォルトは60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎる[タイムアウト](/glossary/タイムアウト/)は本質的な問題を隠すため、根本的な[最適化](/glossary/最適化/)を優先してください。
 
 **Realtime DatabaseとFirestoreの遅延**
 
@@ -220,7 +220,7 @@ Cloud Profilerを有効化することで、CPUと[メモリ](/glossary/メモ�
 **公式ドキュメント**
 
 - 「Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)と[メモリ](/glossary/メモリ/)管理」（Firebase公式）
-- 「Firestoreの[パフォーマンス](/glossary/パフォーマンス/)最適化ガイド」
+- 「Firestoreの[パフォーマンス](/glossary/パフォーマンス/)[最適化](/glossary/最適化/)ガイド」
 - 「Cloud Functionsの[コールドスタート](/glossary/コールドスタート/)削減」
 
 問題が解決しない場合は、Firebase Support（有償[アカウント](/glossary/アカウント/)の場合）またはGitHub上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を検索してください。

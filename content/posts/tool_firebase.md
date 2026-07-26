@@ -39,7 +39,7 @@ Firebase は従量課金制を採用しており、使用リソースに応じ�
 
 ## 似たツールとの比較
 
-| 特徴 | Firebase | AWS Amplify | Supabase | Parse |
+| 特徴 | Firebase | [AWS](/glossary/aws/) Amplify | Supabase | Parse |
 |------|----------|------------|----------|-------|
 | **[リアルタイム](/glossary/リアルタイム/)DB** | ○（Firestore） | ○（AppSync） | ○（PostgreSQL） | △（限定的） |
 | **認証機能** | ◎ 充実 | ◎ 充実 | ◎ 充実 | ○ 基本機能 |

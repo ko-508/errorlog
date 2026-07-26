@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanから送信した[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の[パラメータ](/glossary/パラメータ/)や形式に誤りがある場合、[サーバー](/glossary/サーバー/)は400（Bad Request）[エラー](/glossary/エラー/)を返します。これは[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)構成に問題があることを示しており、[JSON](/glossary/json/)ボディの形式破損、Content-Type[ヘッダー](/glossary/ヘッダー/)とボディ内容の不一致、クエリパラメータの不正な文字などが典型的な原因です。Postmanでこの[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)内容の詳細確認と修正が必要になります。
+Postmanから[送信](/glossary/送信/)した[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の[パラメータ](/glossary/パラメータ/)や形式に誤りがある場合、[サーバー](/glossary/サーバー/)は400（Bad Request）[エラー](/glossary/エラー/)を返します。これは[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)構成に問題があることを示しており、[JSON](/glossary/json/)ボディの形式破損、Content-Type[ヘッダー](/glossary/ヘッダー/)とボディ内容の不一致、クエリパラメータの不正な文字などが典型的な原因です。Postmanでこの[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)内容の詳細確認と修正が必要になります。
 
 ## 実際のエラーメッセージ例
 
@@ -87,7 +87,7 @@ Postmanで修正するには、Bodyタブを開き、以下の手順を実行し
 
 ### 原因2：Content-Typeヘッダーがボディのデータフォーマットと一致していない
 
-Postmanが送信するContent-Type[ヘッダー](/glossary/ヘッダー/)の値が、実際のボディの形式と異なると[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返します。[JSON](/glossary/json/)形式のボディを送信する場合はapplication/jsonを指定する必要がありますが、誤ってtext/plainやapplication/x-www-form-urlencodedが設定されているケースが多く見られます。
+Postmanが[送信](/glossary/送信/)するContent-Type[ヘッダー](/glossary/ヘッダー/)の値が、実際のボディの形式と異なると[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返します。[JSON](/glossary/json/)形式のボディを[送信](/glossary/送信/)する場合はapplication/jsonを指定する必要がありますが、誤ってtext/plainやapplication/x-www-form-urlencodedが設定されているケースが多く見られます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -134,7 +134,7 @@ Postmanで修正するには、Headersタブを開き、以下の対応を行っ
 GET http://api.example.com/search?keyword=東京都&sort=新着順
 ```
 
-上記の[URL](/glossary/url/)はブラウザでは自動的にエンコードされますが、Postmanで手動入力した場合、日本語や記号がそのまま送信されて400[エラー](/glossary/エラー/)になる可能性があります。
+上記の[URL](/glossary/url/)はブラウザでは自動的にエンコードされますが、Postmanで手動入力した場合、日本語や記号がそのまま[送信](/glossary/送信/)されて400[エラー](/glossary/エラー/)になる可能性があります。
 
 **After（修正後）：**
 
@@ -151,7 +151,7 @@ Postmanの[リクエスト](/glossary/リクエスト/)設定：
   - Key: keyword, Value: 東京都
   - Key: sort, Value: 新着順
 
-Paramsタブを使用することで、Postmanが自動的に[URL](/glossary/url/)エンコードを行い、正しい形式で[リクエスト](/glossary/リクエスト/)が送信されます。
+Paramsタブを使用することで、Postmanが自動的に[URL](/glossary/url/)エンコードを行い、正しい形式で[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
 
 ## ツール固有の注意点
 
@@ -159,7 +159,7 @@ Postmanで400[エラー](/glossary/エラー/)が発生した際、以下のツ�
 
 **Postman Consoleの活用**
 
-View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に送信された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。UIで設定した内容と実際に送信された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
+View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。UIで設定した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
 
 **[環境変数](/glossary/環境変数/)とコレクション[変数](/glossary/変数/)の確認**
 

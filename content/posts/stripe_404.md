@@ -202,7 +202,7 @@ const customer = await stripe.customers.retrieve(
 
 ### ログとデバッグ情報の確認
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に送信された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を確認できます。ここで正確な[エラーメッセージ](/glossary/エラーメッセージ/)とリソース[ID](/glossary/id/)を再度検証してください。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を確認できます。ここで正確な[エラーメッセージ](/glossary/エラーメッセージ/)とリソース[ID](/glossary/id/)を再度検証してください。
 
 ### 公式ドキュメント
 

@@ -89,7 +89,7 @@ const { data, error } = await supabase
 
 ### 原因 2：必須リクエストヘッダーの不足
 
-Supabase [API](/glossary/api/) へのすべての[リクエスト](/glossary/リクエスト/)には `Content-Type` と `apikey` [ヘッダー](/glossary/ヘッダー/)が必須です。特に POST や PATCH [リクエスト](/glossary/リクエスト/)で [JSON](/glossary/json/) ボディを送信する場合、`Content-Type: application/json` を明記しないと 400 が返ります。
+Supabase [API](/glossary/api/) へのすべての[リクエスト](/glossary/リクエスト/)には `Content-Type` と `apikey` [ヘッダー](/glossary/ヘッダー/)が必須です。特に POST や PATCH [リクエスト](/glossary/リクエスト/)で [JSON](/glossary/json/) ボディを[送信](/glossary/送信/)する場合、`Content-Type: application/json` を明記しないと 400 が返ります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -206,7 +206,7 @@ Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `
 
 ## それでも解決しない場合
 
-まずはブラウザーの開発者ツール（F12）のネットワークタブで、実際に送信されているリクエストヘッダーと [URL](/glossary/url/) を確認します。Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションでは、[API](/glossary/api/) に到達した[リクエスト](/glossary/リクエスト/)の詳細[ログ](/glossary/ログ/)が記録されており、どの部分が不正と判定されたかを追跡できます。
+まずはブラウザーの開発者ツール（F12）のネットワークタブで、実際に[送信](/glossary/送信/)されているリクエストヘッダーと [URL](/glossary/url/) を確認します。Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションでは、[API](/glossary/api/) に到達した[リクエスト](/glossary/リクエスト/)の詳細[ログ](/glossary/ログ/)が記録されており、どの部分が不正と判定されたかを追跡できます。
 
 以下の[コマンド](/glossary/コマンド/)で、[リクエスト](/glossary/リクエスト/)の詳細を verbose モードで確認することも有効です。
 

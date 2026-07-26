@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-GitLabの429[エラー](/glossary/エラー/)（Too Many Requests）は、GitLab [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したことを示します。ユーザーまたは[CI/CD](/glossary/ci-cd/)パイプラインが短時間に許可された上限を超える[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を送信した場合に発生します。デフォルトの[レート制限](/glossary/レート制限/)は[エンドポイント](/glossary/エンドポイント/)や[インスタンス](/glossary/インスタンス/)の構成によって異なり、一般的には[認証](/glossary/認証/)ユーザーは1分間に600[リクエスト](/glossary/リクエスト/)、未認証の場合は300[リクエスト](/glossary/リクエスト/)程度とされていますが、パッケージレジストリ[API](/glossary/api/)など特定の[エンドポイント](/glossary/エンドポイント/)ではより高い制限が適用される場合もあります。
+GitLabの429[エラー](/glossary/エラー/)（Too Many Requests）は、GitLab [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したことを示します。ユーザーまたは[CI/CD](/glossary/ci-cd/)パイプラインが短時間に許可された上限を超える[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合に発生します。デフォルトの[レート制限](/glossary/レート制限/)は[エンドポイント](/glossary/エンドポイント/)や[インスタンス](/glossary/インスタンス/)の構成によって異なり、一般的には[認証](/glossary/認証/)ユーザーは1分間に600[リクエスト](/glossary/リクエスト/)、未認証の場合は300[リクエスト](/glossary/リクエスト/)程度とされていますが、パッケージレジストリ[API](/glossary/api/)など特定の[エンドポイント](/glossary/エンドポイント/)ではより高い制限が適用される場合もあります。
 
 ## 実際のエラーメッセージ例
 

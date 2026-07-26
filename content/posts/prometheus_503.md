@@ -120,7 +120,7 @@ curl -v http://<your-target-host>:9100/metrics
 
 ### 原因3：Prometheus のストレージが満杯になっている
 
-Prometheus はメトリクスデータを時系列形式でディスク上に保存します。`--storage.tsdb.path` で指定された[ディレクトリ](/glossary/ディレクトリ/)（デフォルトは `./data`）の空き容量がなくなると、新たな[メトリクス](/glossary/メトリクス/)書き込みが失敗し、[クエリ](/glossary/クエリ/)に対して 503 を返すようになります。
+Prometheus はメトリクスデータを時系列形式でディスク上に保存します。`--storage.tsdb.path` で指定された[ディレクトリ](/glossary/ディレクトリ/)（デフォルトは `./data`）の空き[容量](/glossary/容量/)がなくなると、新たな[メトリクス](/glossary/メトリクス/)書き込みが失敗し、[クエリ](/glossary/クエリ/)に対して 503 を返すようになります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -154,7 +154,7 @@ find /var/lib/prometheus/data -type d -name "*.db" -mtime +30 -exec rm -rf {} \;
 sudo systemctl restart prometheus
 ```
 
-容量が逼迫している場合、即座に古いデータを削除するか、アーカイブストレージへの移行を検討します。
+[容量](/glossary/容量/)が逼迫している場合、即座に古いデータを削除するか、アーカイブストレージへの移行を検討します。
 
 ## ツール固有の注意点
 

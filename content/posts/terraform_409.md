@@ -48,7 +48,7 @@ resource "aws_s3_bucket" "data_bucket" {
 }
 ```
 
-AWS マネジメントコンソールで `my-existing-bucket` が既に存在している場合、`terraform apply` 実行時に 409 [エラー](/glossary/エラー/)が発生します。
+[AWS](/glossary/aws/) マネジメントコンソールで `my-existing-bucket` が既に存在している場合、`terraform apply` 実行時に 409 [エラー](/glossary/エラー/)が発生します。
 
 **After（修正後）：**
 
@@ -66,7 +66,7 @@ terraform import aws_s3_bucket.data_bucket my-existing-bucket
 terraform plan
 ```
 
-ACL（アクセス制御リスト）を設定する場合は、Terraform AWS Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
+ACL（アクセス制御リスト）を設定する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
 
 ```hcl
 resource "aws_s3_bucket" "data_bucket" {
@@ -163,7 +163,7 @@ terraform force-unlock <LOCK_ID>
 ```
 
 **プロバイダーの設定誤りも関連：**
-複数の AWS [アカウント](/glossary/アカウント/)やリージョンで同じリソース名を使用する場合、プロバイダーの設定誤りが 409 [エラー](/glossary/エラー/)を引き起こすことがあります。`provider` ブロックが正しく指定されているか確認してください。
+複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)やリージョンで同じリソース名を使用する場合、プロバイダーの設定誤りが 409 [エラー](/glossary/エラー/)を引き起こすことがあります。`provider` ブロックが正しく指定されているか確認してください。
 
 ```hcl
 # 正しい設定例
@@ -198,7 +198,7 @@ TF_LOG=DEBUG terraform apply 2>&1 | tee terraform_debug.log
 ```
 
 **3. クラウドプロバイダーの[ログ](/glossary/ログ/)を確認：**
-AWS の場合は CloudTrail、Google Cloud の場合は Cloud Audit Logs を確認し、リソース作成の試行がどの段階で失敗したかを追跡します。
+[AWS](/glossary/aws/) の場合は CloudTrail、Google Cloud の場合は Cloud Audit Logs を確認し、リソース作成の試行がどの段階で失敗したかを追跡します。
 
 **4. 公式ドキュメントの参照：**
 - [Terraform state コマンドリファレンス](https://www.terraform.io/cli/commands/state)

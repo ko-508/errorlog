@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Nginx における 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)から送信された[リクエスト](/glossary/リクエスト/)が [HTTP](/glossary/http/) 仕様に違反していることを示します。リクエストヘッダーの形式が不正、サイズ超過、または URI の不正な文字エンコーディングなどが原因となり、[サーバー](/glossary/サーバー/)側で処理できない状態を意味します。本[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題であるため、[サーバー](/glossary/サーバー/)設定と[リクエスト](/glossary/リクエスト/)内容の両面から原因特定が必要です。
+Nginx における 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が [HTTP](/glossary/http/) 仕様に違反していることを示します。リクエストヘッダーの形式が不正、サイズ超過、または URI の不正な文字エンコーディングなどが原因となり、[サーバー](/glossary/サーバー/)側で処理できない状態を意味します。本[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題であるため、[サーバー](/glossary/サーバー/)設定と[リクエスト](/glossary/リクエスト/)内容の両面から原因特定が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -77,7 +77,7 @@ sudo nginx -t && sudo systemctl restart nginx
 ### 原因2：URI に含まれる不正な文字やエンコーディング
 
 **なぜ発生するか**  
-[URL](/glossary/url/) に日本語やマルチバイト文字が直接含まれていたり、%エンコーディングが不正な場合、Nginx が [HTTP](/glossary/http/) 仕様違反と判定します。ブラウザから自動的に送信される場合や[API](/glossary/api/) [クライアント](/glossary/クライアント/)の設定ミスで発生することが多いです。
+[URL](/glossary/url/) に日本語やマルチバイト文字が直接含まれていたり、%エンコーディングが不正な場合、Nginx が [HTTP](/glossary/http/) 仕様違反と判定します。ブラウザから自動的に[送信](/glossary/送信/)される場合や[API](/glossary/api/) [クライアント](/glossary/クライアント/)の設定ミスで発生することが多いです。
 
 **Before（不正なエンコーディング例）**
 ```javascript
@@ -108,7 +108,7 @@ fetch(url)
 ### 原因3：HTTP と HTTPS の混在やプロトコル版の不一致
 
 **なぜ発生するか**  
-[HTTPS](/glossary/https/) [エンドポイント](/glossary/エンドポイント/)宛に [HTTP](/glossary/http/) で送信された[リクエスト](/glossary/リクエスト/)、または [HTTP](/glossary/http/)/1.0 での不正な[リクエスト](/glossary/リクエスト/)形式が、Nginx の `http_version` チェックで拒否されます。特にリバースプロキシ環境や[ロードバランサー](/glossary/ロードバランサー/)の背後で発生しやすくなります。
+[HTTPS](/glossary/https/) [エンドポイント](/glossary/エンドポイント/)宛に [HTTP](/glossary/http/) で[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)、または [HTTP](/glossary/http/)/1.0 での不正な[リクエスト](/glossary/リクエスト/)形式が、Nginx の `http_version` チェックで拒否されます。特にリバースプロキシ環境や[ロードバランサー](/glossary/ロードバランサー/)の背後で発生しやすくなります。
 
 **Before（[プロトコル](/glossary/プロトコル/)不一致）**
 ```nginx

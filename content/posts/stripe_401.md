@@ -137,7 +137,7 @@ curl https://api.stripe.com/v1/charges \
 
 **原因4：アクセストークンの有効期限が切れている**
 
-[OAuth](/glossary/oauth/)（第三者認可[プロトコル](/glossary/プロトコル/)）を使用して Stripe に[アクセス権](/glossary/アクセス権/)を委譲している場合、アクセストークンには有効期限があります。期限切れの[トークン](/glossary/トークン/)で [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)を送信すると 401 [エラー](/glossary/エラー/)になります。
+[OAuth](/glossary/oauth/)（第三者認可[プロトコル](/glossary/プロトコル/)）を使用して Stripe に[アクセス権](/glossary/アクセス権/)を委譲している場合、アクセストークンには有効期限があります。期限切れの[トークン](/glossary/トークン/)で [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 ```javascript
@@ -173,7 +173,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **[API](/glossary/api/) キーの権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) キーの[権限](/glossary/権限/)を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) キー」セクションで、各キーの[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
-**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を送信します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
+**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
 **Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` [ID](/glossary/id/) を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 
@@ -201,7 +201,7 @@ Stripe [ダッシュボード](/glossary/ダッシュボード/)に[ログイン
 
 **Step 3：[リクエスト](/glossary/リクエスト/)の[ヘッダー](/glossary/ヘッダー/)を確認する**
 
-cURL または Postman で以下の[コマンド](/glossary/コマンド/)を実行し、実際に送信されているリクエストヘッダーを確認してください。
+cURL または Postman で以下の[コマンド](/glossary/コマンド/)を実行し、実際に[送信](/glossary/送信/)されているリクエストヘッダーを確認してください。
 
 ```bash
 curl -v https://api.stripe.com/v1/charges \
@@ -209,7 +209,7 @@ curl -v https://api.stripe.com/v1/charges \
   -d amount=2000
 ```
 
-出力の `> Authorization` の行を確認し、キーが正しく送信されているか確認します。
+出力の `> Authorization` の行を確認し、キーが正しく[送信](/glossary/送信/)されているか確認します。
 
 **Step 4：公式ドキュメントと GitHub Issues を確認する**
 

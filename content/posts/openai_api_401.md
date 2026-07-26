@@ -165,7 +165,7 @@ curl https://api.openai.com/v1/chat/completions \
 OpenAI [API](/glossary/api/)は複数の認証方法をサポートしていますが、主流のシナリオに固有の設定ポイントがあります。
 
 **組織[ID](/glossary/id/)の設定が必要な場合：**
-OpenAIの組織[アカウント](/glossary/アカウント/)配下で[API](/glossary/api/)キーを使用する場合、単なる[API](/glossary/api/)キーでは[認証](/glossary/認証/)に失敗することがあります。この場合、`OpenAI-Organization`[ヘッダー](/glossary/ヘッダー/)も同時に送信する必要があります。
+OpenAIの組織[アカウント](/glossary/アカウント/)配下で[API](/glossary/api/)キーを使用する場合、単なる[API](/glossary/api/)キーでは[認証](/glossary/認証/)に失敗することがあります。この場合、`OpenAI-Organization`[ヘッダー](/glossary/ヘッダー/)も同時に[送信](/glossary/送信/)する必要があります。
 
 ```python
 import openai

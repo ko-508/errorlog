@@ -37,7 +37,7 @@ at XMLHttpRequest.onload (firebase-app.js:1234)
 
 ### 原因1：Firebase プロジェクトの API 割り当て制限
 
-Firebase は [API](/glossary/api/) 呼び出し数に制限を設定しており、短時間に大量の[リクエスト](/glossary/リクエスト/)を送信すると 503 [エラー](/glossary/エラー/)が返されます。
+Firebase は [API](/glossary/api/) 呼び出し数に制限を設定しており、短時間に大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 503 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）**
 

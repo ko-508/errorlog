@@ -162,7 +162,7 @@ ansible_ssh_timeout=60
 
 **wait_for モジュールのパラメーター設計**
 
-`wait_for` で[ポート](/glossary/ポート/)のリッスン確認をする際、`state: started` は TCP コネクション試行で判定するため、サービスが [HTTP](/glossary/http/) [レスポンス](/glossary/レスポンス/)を返せるまでの時間は含みません。より堅牢なチェックには、URI モジュールにリトライロジックを組み合わせます：
+`wait_for` で[ポート](/glossary/ポート/)のリッスン確認をする際、`state: started` は TCP [コネクション](/glossary/コネクション/)試行で判定するため、サービスが [HTTP](/glossary/http/) [レスポンス](/glossary/レスポンス/)を返せるまでの時間は含みません。より堅牢なチェックには、URI モジュールにリトライロジックを組み合わせます：
 
 ```yaml
 - name: Wait for HTTP endpoint to be healthy

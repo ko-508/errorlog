@@ -105,7 +105,7 @@ curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/
   }'
 ```
 
-[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` フィールド（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須フィールドを確認し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を送信します。
+[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` フィールド（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須フィールドを確認し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。
 
 ### 原因 3：クエリパラメータの値が不正な形式
 

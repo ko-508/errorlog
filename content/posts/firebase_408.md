@@ -160,7 +160,7 @@ exports.processDatasetTask = functions.tasks.taskQueue().onDispatch(async (req) 
 
 ### Firestore のクエリタイムアウト
 
-大規模なコレクションに対する[クエリ](/glossary/クエリ/)や[インデックス](/glossary/インデックス/)が存在しない[クエリ](/glossary/クエリ/)は処理時間が長くなり、408 [エラー](/glossary/エラー/)を引き起こします。複合[インデックス](/glossary/インデックス/)を作成したり、[クエリ](/glossary/クエリ/)を最適化したりしてください。
+大規模なコレクションに対する[クエリ](/glossary/クエリ/)や[インデックス](/glossary/インデックス/)が存在しない[クエリ](/glossary/クエリ/)は処理時間が長くなり、408 [エラー](/glossary/エラー/)を引き起こします。複合[インデックス](/glossary/インデックス/)を作成したり、[クエリ](/glossary/クエリ/)を[最適化](/glossary/最適化/)したりしてください。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

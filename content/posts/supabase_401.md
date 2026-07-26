@@ -14,7 +14,7 @@ related_services: ["JavaScript", "TypeScript", "REST API", "JWT"]
 
 ## エラーの概要
 
-Supabase の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に含まれる[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効であるか、有効期限が切れていることを示します。Supabase ではすべてのデータベースアクセスと[認証](/glossary/認証/)が必要な [API](/glossary/api/) 呼び出しに [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)を使用します。[クライアント](/glossary/クライアント/)側で認証情報が正しく設定されていない、または有効期限切れの[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を送信した場合に発生します。
+Supabase の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に含まれる[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効であるか、有効期限が切れていることを示します。Supabase ではすべてのデータベースアクセスと[認証](/glossary/認証/)が必要な [API](/glossary/api/) 呼び出しに [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)を使用します。[クライアント](/glossary/クライアント/)側で認証情報が正しく設定されていない、または有効期限切れの[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -84,7 +84,7 @@ else console.log('Success:', data);
 
 ### 原因 2：JWT トークンの有効期限が切れている
 
-Supabase の [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)にはデフォルトで 1 時間の有効期限があります。ユーザーが[ログイン](/glossary/ログイン/)後、時間が経過してセッションが切れた状態で[リクエスト](/glossary/リクエスト/)を送信すると 401 [エラー](/glossary/エラー/)が返されます。特にモバイルアプリやバックグラウンドで長時間実行される[アプリケーション](/glossary/アプリケーション/)で頻出します。
+Supabase の [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)にはデフォルトで 1 時間の有効期限があります。ユーザーが[ログイン](/glossary/ログイン/)後、時間が経過してセッションが切れた状態で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。特にモバイルアプリやバックグラウンドで長時間実行される[アプリケーション](/glossary/アプリケーション/)で頻出します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

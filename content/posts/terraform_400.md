@@ -180,7 +180,7 @@ terraform apply
 
 Terraform の 400 [エラー](/glossary/エラー/)は、HCL の構文チェック（`terraform validate`）では検出されません。`validate` は HCL の文法チェックのみで、プロバイダー側の要件チェックは行わないためです。そのため必ず `terraform plan` で実際の[リクエスト](/glossary/リクエスト/)生成をシミュレートして、プロバイダーの要件に適合しているか確認する必要があります。
 
-AWS、Azure、Google Cloud など、各クラウドプロバイダーの Terraform プロバイダーは定期的に更新されます。プロバイダーの[バージョン](/glossary/バージョン/)を固定せずに `version = ">= 5.0"` のように範囲指定している場合、[CI/CD](/glossary/ci-cd/) パイプラインで異なる[バージョン](/glossary/バージョン/)が使用される可能性があります。本番環境では `version = "= 5.12.0"` のように完全な[バージョン](/glossary/バージョン/)指定を検討してください。
+[AWS](/glossary/aws/)、Azure、Google Cloud など、各クラウドプロバイダーの Terraform プロバイダーは定期的に更新されます。プロバイダーの[バージョン](/glossary/バージョン/)を固定せずに `version = ">= 5.0"` のように範囲指定している場合、[CI/CD](/glossary/ci-cd/) パイプラインで異なる[バージョン](/glossary/バージョン/)が使用される可能性があります。本番環境では `version = "= 5.12.0"` のように完全な[バージョン](/glossary/バージョン/)指定を検討してください。
 
 また、プロバイダーの公式ドキュメントには各リソースの「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、デフォルト値を必ず確認しましょう。
 
@@ -193,7 +193,7 @@ TF_LOG=DEBUG terraform plan
 TF_LOG=DEBUG terraform apply
 ```
 
-生成された[ログファイル](/glossary/ログファイル/)から、実際に [API](/glossary/api/) に送信される[リクエスト](/glossary/リクエスト/)形式を確認できます。
+生成された[ログファイル](/glossary/ログファイル/)から、実際に [API](/glossary/api/) に[送信](/glossary/送信/)される[リクエスト](/glossary/リクエスト/)形式を確認できます。
 
 2. **terraform state を確認する**
 
@@ -208,7 +208,7 @@ terraform state show <resource_name>
 
 各プロバイダーの公式ドキュメントで、該当リソースの最新仕様を確認してください。
 
-- AWS Provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
+- [AWS](/glossary/aws/) Provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 - Azure Provider: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
 - Google Cloud Provider: https://registry.terraform.io/providers/hashicorp/google/latest/docs
 

@@ -161,7 +161,7 @@ curl -X GET "https://circleci.com/api/v2/me" \
 
 **3. [ネットワーク](/glossary/ネットワーク/)と[ログ](/glossary/ログ/)の確認**
 
-CircleCI のステータスページ（`https://status.circleci.com`）でサービス障害がないか確認し、AWS CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか確認してください。
+CircleCI のステータスページ（`https://status.circleci.com`）でサービス障害がないか確認し、[AWS](/glossary/aws/) CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか確認してください。
 
 **4. 公式ドキュメントと [API](/glossary/api/) リファレンス**
 

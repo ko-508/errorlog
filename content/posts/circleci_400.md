@@ -90,7 +90,7 @@ circleci config validate .circleci/config.yml
 
 ### 原因 2：API リクエストボディの JSON が不正な形式
 
-CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を送信する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が仕様に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) のフォーマット不正やシングルクォート使用、値の型不一致などが該当します。
+CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が仕様に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) のフォーマット不正やシングルクォート使用、値の型不一致などが該当します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -124,7 +124,7 @@ curl -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo>/p
 
 ### 原因 3：パイプラインパラメータの型が宣言と一致していない
 
-config.yml でパイプラインパラメータを `boolean` や `integer` で宣言した場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や手動トリガーで文字列や異なる型の値を渡すと 400 [エラー](/glossary/エラー/)が発生します。型の厳密な一致が要求されます。
+config.yml でパイプラインパラメータを `boolean` や `integer` で宣言した場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や手動[トリガー](/glossary/トリガー/)で文字列や異なる型の値を渡すと 400 [エラー](/glossary/エラー/)が発生します。型の厳密な一致が要求されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -192,7 +192,7 @@ CircleCI では、[エラーレスポンス](/glossary/エラーレスポンス/
 
 また、CircleCI の config.yml は v2.1 以上を使用する場合、Orb の参照やパイプラインパラメータの定義が可能になります。古い v2 形式を使用している場合は、これらの機能がサポートされないため、[バージョン](/glossary/バージョン/)を明示的に `version: 2.1` に更新してください。
 
-Web UI からパイプラインを手動トリガーする場合でも、[パラメータ](/glossary/パラメータ/)の入力欄に型に合致しない値を入力すると 400 [エラー](/glossary/エラー/)で送信が拒否されます。
+Web UI からパイプラインを手動[トリガー](/glossary/トリガー/)する場合でも、[パラメータ](/glossary/パラメータ/)の入力欄に型に合致しない値を入力すると 400 [エラー](/glossary/エラー/)で[送信](/glossary/送信/)が拒否されます。
 
 ## それでも解決しない場合
 

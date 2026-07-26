@@ -15,7 +15,7 @@ top_queries:
 ---
 ## エラーの概要
 
-**429 Too Many Requests** は、短時間に Stripe [API](/glossary/api/) へ送信した[リクエスト](/glossary/リクエスト/)数が[レート制限](/glossary/レート制限/)を超えたときに返される [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Stripe は [API](/glossary/api/) 呼び出しの頻度を制限しており、本番環境では 1 秒あたり約 100 [リクエスト](/glossary/リクエスト/)が上限となります。この[エラー](/glossary/エラー/)が発生してもデータは消失せず、適切に[リトライ](/glossary/リトライ/)することで解決できます。
+**429 Too Many Requests** は、短時間に Stripe [API](/glossary/api/) へ[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)数が[レート制限](/glossary/レート制限/)を超えたときに返される [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Stripe は [API](/glossary/api/) 呼び出しの頻度を制限しており、本番環境では 1 秒あたり約 100 [リクエスト](/glossary/リクエスト/)が上限となります。この[エラー](/glossary/エラー/)が発生してもデータは消失せず、適切に[リトライ](/glossary/リトライ/)することで解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 **なぜ発生するか**
 
-顧客リストの更新や一括決済処理など、複数の [API](/glossary/api/) 呼び出しをループで実行する際、呼び出し間に待機時間を設けないと瞬時に大量の[リクエスト](/glossary/リクエスト/)が送信されます。
+顧客リストの更新や一括決済処理など、複数の [API](/glossary/api/) 呼び出しをループで実行する際、呼び出し間に待機時間を設けないと瞬時に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
 
 **修正前（[エラー](/glossary/エラー/)が起きるコード）**
 

@@ -49,7 +49,7 @@ sudo grep "upstream timed out" /var/log/nginx/error.log | tail -10
 
 ### 原因1：上流の応答が遅い（応答待ちの時間切れ）
 
-最も多い原因です。重い[データベース](/glossary/データベース/)処理、大きな[ファイル](/glossary/ファイル/)の生成、外部サービスの呼び出し待ちなどで、上流が proxy_read_timeout の間、何も送信できない状態になっています。
+最も多い原因です。重い[データベース](/glossary/データベース/)処理、大きな[ファイル](/glossary/ファイル/)の生成、外部サービスの呼び出し待ちなどで、上流が proxy_read_timeout の間、何も[送信](/glossary/送信/)できない状態になっています。
 
 対処は2段階です。第一に、遅い処理の特定と改善です。$upstream_response_time 付きの[ログ](/glossary/ログ/)で、どの [URL](/glossary/url/) の処理が上限に張り付いているかを特定し、上流[アプリケーション](/glossary/アプリケーション/)側で改善します。恒常的に全体が遅いなら、上流の資源（CPU・[メモリ](/glossary/メモリ/)・ワーカー数）の見直しも対象です。
 

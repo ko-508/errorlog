@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が不正な場合に発生する400[エラー](/glossary/エラー/)です。[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)[バージョン](/glossary/バージョン/)の不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取った[マニフェスト](/glossary/マニフェスト/)を[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)に送信する際に検証を行うため、この段階で不正な形式が検出されると即座に400[エラー](/glossary/エラー/)が返されます。
+Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が不正な場合に発生する400[エラー](/glossary/エラー/)です。[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)[バージョン](/glossary/バージョン/)の不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取った[マニフェスト](/glossary/マニフェスト/)を[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)に[送信](/glossary/送信/)する際に検証を行うため、この段階で不正な形式が検出されると即座に400[エラー](/glossary/エラー/)が返されます。
 
 ## 実際のエラーメッセージ例
 

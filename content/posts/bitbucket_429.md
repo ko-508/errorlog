@@ -12,7 +12,7 @@ related_services: ["Jenkins", "CI/CD"]
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Bitbucket [API](/glossary/api/)に対して短時間に送信された[リクエスト](/glossary/リクエスト/)が制限数を超過した場合に発生します。Bitbucket Cloud [API](/glossary/api/)は[レート制限](/glossary/レート制限/)を設けており、この上限に到達すると以降の[リクエスト](/glossary/リクエスト/)はすべて429[レスポンス](/glossary/レスポンス/)で拒否されます。デフォルトでは1時間あたり1000[リクエスト](/glossary/リクエスト/)ですが、[ワークスペース](/glossary/ワークスペース/)のプランや有料ユーザー数に応じてより高い制限が適用される場合があります。特に[CI/CD](/glossary/ci-cd/)パイプライン内で複数の並列ジョブが[API](/glossary/api/)呼び出しを実行する場合や、スクリプト内のループ処理で次々と[リクエスト](/glossary/リクエスト/)を送信する場合に頻繁に発生する現象です。
+[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Bitbucket [API](/glossary/api/)に対して短時間に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が制限数を超過した場合に発生します。Bitbucket Cloud [API](/glossary/api/)は[レート制限](/glossary/レート制限/)を設けており、この上限に到達すると以降の[リクエスト](/glossary/リクエスト/)はすべて429[レスポンス](/glossary/レスポンス/)で拒否されます。デフォルトでは1時間あたり1000[リクエスト](/glossary/リクエスト/)ですが、[ワークスペース](/glossary/ワークスペース/)のプランや有料ユーザー数に応じてより高い制限が適用される場合があります。特に[CI/CD](/glossary/ci-cd/)パイプライン内で複数の並列ジョブが[API](/glossary/api/)呼び出しを実行する場合や、スクリプト内のループ処理で次々と[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に発生する現象です。
 
 ## 実際のエラーメッセージ例
 
@@ -100,7 +100,7 @@ for repo_id in range(1, 101):
 
 ### 原因2：CI/CDパイプライン内で複数のジョブが同時にAPI呼び出しを実行している
 
-Bitbucket Pipelines や GitHub Actions、Jenkins 等の[CI/CD](/glossary/ci-cd/)ツール内で複数の並列ジョブが同時に同じBitbucket [API](/glossary/api/)を呼び出す場合、個別のジョブは少量の[リクエスト](/glossary/リクエスト/)でも、全体では瞬時に制限に達します。例えば50個の並列ジョブがそれぞれ20[リクエスト](/glossary/リクエスト/)送信すれば、1000[リクエスト](/glossary/リクエスト/)上限に達してしまいます。
+Bitbucket Pipelines や GitHub Actions、Jenkins 等の[CI/CD](/glossary/ci-cd/)ツール内で複数の並列ジョブが同時に同じBitbucket [API](/glossary/api/)を呼び出す場合、個別のジョブは少量の[リクエスト](/glossary/リクエスト/)でも、全体では瞬時に制限に達します。例えば50個の並列ジョブがそれぞれ20[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)すれば、1000[リクエスト](/glossary/リクエスト/)上限に達してしまいます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -232,7 +232,7 @@ curl -v -H "Authorization: Bearer <your-bitbucket-api-token>" \
   https://api.bitbucket.org/2.0/repositories/<workspace>/<repo> 2>&1 | grep -i "x-ratelimit"
 ```
 
-複数の[トークン](/glossary/トークン/)を用いた負荷分散を検討している場合、各[トークン](/glossary/トークン/)の[レート制限](/glossary/レート制限/)が[ワークスペース](/glossary/ワークスペース/)内で独立して管理されていることを確認してください。[CI/CD](/glossary/ci-cd/)パイプラインの設定を見直し、並列実行の数を削減するか、[リクエスト](/glossary/リクエスト/)送信を直列化することで、安定した運用が実現できます。
+複数の[トークン](/glossary/トークン/)を用いた負荷分散を検討している場合、各[トークン](/glossary/トークン/)の[レート制限](/glossary/レート制限/)が[ワークスペース](/glossary/ワークスペース/)内で独立して管理されていることを確認してください。[CI/CD](/glossary/ci-cd/)パイプラインの設定を見直し、並列実行の数を削減するか、[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)を直列化することで、安定した運用が実現できます。
 
 ---
 

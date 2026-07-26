@@ -63,7 +63,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "New issue", "body": "This is a test"}'
 ```
 
-見落とされやすいのが、プログラムから呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元のコード上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに送信すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが GitHub 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
+見落とされやすいのが、[プログラム](/glossary/プログラム/)から呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元のコード上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに[送信](/glossary/送信/)すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが GitHub 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
 
 ```bash
 # 本文が JSON として正しいかを検証してから送信する
@@ -93,7 +93,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "New issue"}'
 ```
 
-プログラムからの呼び出しでは、二重の直列化が典型的な発生源です。すでに [JSON](/glossary/json/) 文字列に変換済みのデータを、さらに [JSON](/glossary/json/) として送信する仕組み（Python の requests の json= [引数](/glossary/引数/)など）に渡すと、[オブジェクト](/glossary/オブジェクト/)ではなく「[JSON](/glossary/json/) の文字列」が届きます。直列化は1回だけ、送信ライブラリの [JSON](/glossary/json/) 送信機能を使うならライブラリに任せる、と決めておくのが安全です。なおこの種の誤りは、[エンドポイント](/glossary/エンドポイント/)によっては 400 ではなく 422（... is not an object という文言）として報告されることもあります。どちらのコードでも、疑う場所は同じく直列化の回数です。
+[プログラム](/glossary/プログラム/)からの呼び出しでは、二重の直列化が典型的な発生源です。すでに [JSON](/glossary/json/) 文字列に変換済みのデータを、さらに [JSON](/glossary/json/) として[送信](/glossary/送信/)する仕組み（Python の requests の json= [引数](/glossary/引数/)など）に渡すと、[オブジェクト](/glossary/オブジェクト/)ではなく「[JSON](/glossary/json/) の文字列」が届きます。直列化は1回だけ、[送信](/glossary/送信/)ライブラリの [JSON](/glossary/json/) 送信機能を使うならライブラリに任せる、と決めておくのが安全です。なおこの種の誤りは、[エンドポイント](/glossary/エンドポイント/)によっては 400 ではなく 422（... is not an object という文言）として報告されることもあります。どちらのコードでも、疑う場所は同じく直列化の回数です。
 
 ### 原因3：API バージョン指定の誤り
 
@@ -110,7 +110,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
 ## 切り分けの順序
 
 1. 応答の message を読む。Validation Failed / Invalid request なら 422 の問題として切り替える（[422 の記事](/posts/github_api_422/)）。Bad credentials なら 401。
-2. Problems parsing [JSON](/glossary/json/) なら、送信している本文そのものを取り出して [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）。プログラムからの送信なら、直列化の有無を確認する。
+2. Problems parsing [JSON](/glossary/json/) なら、[送信](/glossary/送信/)している本文そのものを取り出して [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）。[プログラム](/glossary/プログラム/)からの[送信](/glossary/送信/)なら、直列化の有無を確認する。
 3. Body should be a [JSON](/glossary/json/) object なら、本文の先頭が { で始まる[オブジェクト](/glossary/オブジェクト/)かを確認する。直列化を2回していないかを確認する。
 4. [バージョン](/glossary/バージョン/)未サポートのメッセージなら、X-GitHub-Api-Version の値を公式の一覧と突き合わせる。
 

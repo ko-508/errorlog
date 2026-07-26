@@ -14,7 +14,7 @@ related_services: ["Python", "requests", "curl", "jq"]
 
 ## エラーの概要
 
-Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)された[メトリクス](/glossary/メトリクス/)・モニター・[ダッシュボード](/glossary/ダッシュボード/)が見つからないことを示します。モニター[ID](/glossary/id/) または[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) が間違っている、存在しないリソースにアクセスしようとしている、または該当する[メトリクス](/glossary/メトリクス/)がまだ Datadog に送信されていない状況で発生します。
+Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)された[メトリクス](/glossary/メトリクス/)・モニター・[ダッシュボード](/glossary/ダッシュボード/)が見つからないことを示します。モニター[ID](/glossary/id/) または[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) が間違っている、存在しないリソースにアクセスしようとしている、または該当する[メトリクス](/glossary/メトリクス/)がまだ Datadog に[送信](/glossary/送信/)されていない状況で発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -81,7 +81,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
 
 ### 原因2：削除済みまたは無効なメトリクスへのアクセス
 
-[クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に送信されていない、または既に削除された場合、[ダッシュボード](/glossary/ダッシュボード/)やグラフの表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の送信が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
+[クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に[送信](/glossary/送信/)されていない、または既に削除された場合、[ダッシュボード](/glossary/ダッシュボード/)やグラフの表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の[送信](/glossary/送信/)が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -202,7 +202,7 @@ for monitor in monitors:
 
 **Metrics Explorer での動作確認**
 
-Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グラフを描画する[メトリクス](/glossary/メトリクス/)が本当に送信されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト検索する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
+Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グラフを描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト検索する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
 
 ## それでも解決しない場合
 
@@ -210,7 +210,7 @@ Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グ
 
 1. **Datadog Agent の[ログ](/glossary/ログ/)確認**
 
-   [メトリクス](/glossary/メトリクス/)が送信されていない場合、Agent の[設定ファイル](/glossary/設定ファイル/)を確認します。
+   [メトリクス](/glossary/メトリクス/)が[送信](/glossary/送信/)されていない場合、Agent の[設定ファイル](/glossary/設定ファイル/)を確認します。
 
    ```[bash](/glossary/bash/)
    # Linux/macOS
@@ -220,7 +220,7 @@ Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グ
    Get-Content "C:\ProgramData\Datadog\Logs\agent.log" -Tail 50
    ```
 
-   Agent が正常に[メトリクス](/glossary/メトリクス/)を送信しているか、接続[エラー](/glossary/エラー/)や[タイムアウト](/glossary/タイムアウト/)が記録されていないか確認してください。
+   Agent が正常に[メトリクス](/glossary/メトリクス/)を[送信](/glossary/送信/)しているか、接続[エラー](/glossary/エラー/)や[タイムアウト](/glossary/タイムアウト/)が記録されていないか確認してください。
 
 2. **[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の詳細確認**
 

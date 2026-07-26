@@ -46,7 +46,7 @@ Content-Type: application/json
 
 ### 1. ループ処理内での API 呼び出し間隔がない
 
-ループで複数のメッセージ送信やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに設定されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
+ループで複数のメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに設定されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -186,7 +186,7 @@ Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は�
 
 ### Event Subscriptions との相互作用
 
-Events [API](/glossary/api/)（[イベント](/glossary/イベント/)受信）で[ワークスペース](/glossary/ワークスペース/)の変更を監視しながら、同時に Web [API](/glossary/api/) でメッセージ送信やユーザー情報取得を行う場合、両者が同じレート制限枠を共有しないことに注意が必要です。[イベント](/glossary/イベント/)処理内で同期的に Web [API](/glossary/api/) を呼び出すと、[イベント](/glossary/イベント/)処理がブロックされるだけでなく、429 [エラー](/glossary/エラー/)時の再試行が複雑になるため、非同期キューの使用を推奨します。
+Events [API](/glossary/api/)（[イベント](/glossary/イベント/)[受信](/glossary/受信/)）で[ワークスペース](/glossary/ワークスペース/)の変更を監視しながら、同時に Web [API](/glossary/api/) でメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う場合、両者が同じレート制限枠を共有しないことに注意が必要です。[イベント](/glossary/イベント/)処理内で同期的に Web [API](/glossary/api/) を呼び出すと、[イベント](/glossary/イベント/)処理がブロックされるだけでなく、429 [エラー](/glossary/エラー/)時の再試行が複雑になるため、非同期キューの使用を推奨します。
 
 ### Bolt フレームワークの自動レート制限対応
 

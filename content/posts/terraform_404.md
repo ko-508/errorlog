@@ -16,7 +16,7 @@ Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/g
 
 ## 実際のエラーメッセージ例
 
-**AWS Provider での例：**
+**[AWS](/glossary/aws/) Provider での例：**
 
 ```json
 Error: error reading EC2 Instance: InvalidInstanceID.NotFound
@@ -71,7 +71,7 @@ data "aws_instance" "existing" {
 
 ### 原因 2：リージョンまたはリソース名の指定が間違っている
 
-AWS や Google Cloud などのマルチリージョンサービスでは、リージョン指定を誤ると別リージョンのリソースを探してしまい、404 [エラー](/glossary/エラー/)が発生します。リソース [ID](/glossary/id/) やリソース名の入力間違いも同様に原因となります。
+[AWS](/glossary/aws/) や Google Cloud などのマルチリージョンサービスでは、リージョン指定を誤ると別リージョンのリソースを探してしまい、404 [エラー](/glossary/エラー/)が発生します。リソース [ID](/glossary/id/) やリソース名の入力間違いも同様に原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -188,7 +188,7 @@ Terraform は state [ファイル](/glossary/ファイル/)と実際のクラウ
 
 また、マルチプロバイダー設定を使う場合、各 data source にどの provider を使うかを明示的に指定する必要があります。指定を忘れると、デフォルト provider がリソースを探してしまい、期待と異なるリージョンや[アカウント](/glossary/アカウント/)で 404 [エラー](/glossary/エラー/)が発生することがあります。
 
-AWS の場合、リソース [ID](/glossary/id/) には各リージョン固有の値が使われるため、リージョン指定の誤りは一般的に 404 [エラー](/glossary/エラー/)に繋がります。Google Cloud でも同様なことが言えるため、複数リージョンで運用する場合は provider alias を活用し、リソース参照時に明示的に provider を指定するのがベストプラクティスです。
+[AWS](/glossary/aws/) の場合、リソース [ID](/glossary/id/) には各リージョン固有の値が使われるため、リージョン指定の誤りは一般的に 404 [エラー](/glossary/エラー/)に繋がります。Google Cloud でも同様なことが言えるため、複数リージョンで運用する場合は provider alias を活用し、リソース参照時に明示的に provider を指定するのがベストプラクティスです。
 
 ## それでも解決しない場合
 
@@ -198,7 +198,7 @@ AWS の場合、リソース [ID](/glossary/id/) には各リージョン固有�
 terraform state list
 ```
 
-次に、AWS [CLI](/glossary/cli/) や gcloud [コマンド](/glossary/コマンド/)でクラウドプロバイダー上に実際にリソースが存在するか確認します。例えば AWS EC2 [インスタンス](/glossary/インスタンス/)なら以下の[コマンド](/glossary/コマンド/)で確認できます。
+次に、[AWS](/glossary/aws/) [CLI](/glossary/cli/) や gcloud [コマンド](/glossary/コマンド/)でクラウドプロバイダー上に実際にリソースが存在するか確認します。例えば [AWS](/glossary/aws/) EC2 [インスタンス](/glossary/インスタンス/)なら以下の[コマンド](/glossary/コマンド/)で確認できます。
 
 ```bash
 # AWS の場合

@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに対応しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を送信する際に頻繁に発生する問題であり、[API](/glossary/api/)キーの[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
+Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに対応しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)キーの[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -93,11 +93,11 @@ fetch('https://api.example.com/v1/resources', requestOptions)
   .then(data => console.log(data));
 ```
 
-使用中の[API](/glossary/api/)キーがどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、更新されたキーに置き換えてから再度[リクエスト](/glossary/リクエスト/)を送信してください。
+使用中の[API](/glossary/api/)キーがどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、更新されたキーに置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
 
 ### 原因2：テスト対象APIのIPホワイトリストにPostmanの送信元IPが含まれていない
 
-[テスト](/glossary/テスト/)対象の[API](/glossary/api/)がIPホワイトリスト機能を有効にしている場合、Postman CloudやローカルのPostman[アプリケーション](/glossary/アプリケーション/)からの[リクエスト](/glossary/リクエスト/)が許可されていない[IPアドレス](/glossary/ipアドレス/)から送信されると403[エラー](/glossary/エラー/)が返されます。特にPostman Cloudを使用している場合、固定[IPアドレス](/glossary/ipアドレス/)ではなく複数の送信元IPを持つため、事前にホワイトリストに登録する必要があります。
+[テスト](/glossary/テスト/)対象の[API](/glossary/api/)がIPホワイトリスト機能を有効にしている場合、Postman CloudやローカルのPostman[アプリケーション](/glossary/アプリケーション/)からの[リクエスト](/glossary/リクエスト/)が許可されていない[IPアドレス](/glossary/ipアドレス/)から[送信](/glossary/送信/)されると403[エラー](/glossary/エラー/)が返されます。特にPostman Cloudを使用している場合、固定[IPアドレス](/glossary/ipアドレス/)ではなく複数の送信元IPを持つため、事前にホワイトリストに登録する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -161,7 +161,7 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 }
 ```
 
-[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)キーの[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)キーを生成し、Postmanの「Environment」または「Variables」タブでキーを更新してから再度[リクエスト](/glossary/リクエスト/)を送信してください。複数の[API](/glossary/api/)キーを使い分ける場合は、Postmanの環境変数機能で各キーを明確に管理すると、混同を避けられます。
+[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)キーの[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)キーを生成し、Postmanの「Environment」または「Variables」タブでキーを更新してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)キーを使い分ける場合は、Postmanの環境変数機能で各キーを明確に管理すると、混同を避けられます。
 
 ## ツール固有の注意点
 
@@ -210,10 +210,10 @@ console.log('Using API key with scopes: ' + requiredScopes);
 ### 確認すべきログとデバッグ手順
 
 1. **Postman Console の確認**
-   - 画面左下の「Console」を開き、送信されたリクエストヘッダーと[レスポンス](/glossary/レスポンス/)本文を確認します。Authorization [ヘッダー](/glossary/ヘッダー/)が正しく設定されているか、レスポンスエラーメッセージに[スコープ](/glossary/スコープ/)不足の記載がないか確認してください。
+   - 画面左下の「Console」を開き、[送信](/glossary/送信/)されたリクエストヘッダーと[レスポンス](/glossary/レスポンス/)本文を確認します。Authorization [ヘッダー](/glossary/ヘッダー/)が正しく設定されているか、レスポンスエラーメッセージに[スコープ](/glossary/スコープ/)不足の記載がないか確認してください。
 
 2. **Network タブでの詳細確認**
-   - ブラウザの開発者ツール（F12）を開き、「Network」タブで送信された[リクエスト](/glossary/リクエスト/)の詳細を確認します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ確認し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
+   - ブラウザの開発者ツール（F12）を開き、「Network」タブで[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の詳細を確認します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ確認し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
 
 3. **[API](/glossary/api/)提供元の公式ドキュメント参照**
    - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの要件を確認します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
@@ -222,7 +222,7 @@ console.log('Using API key with scopes: ' + requiredScopes);
    - 使用している[API](/glossary/api/)キーが失効していないか、[API](/glossary/api/)提供元の管理画面で確認します。キーの作成日時、最終使用日時、有効期限を確認し、必要に応じて新しいキーを生成してください。
 
 5. **別の[テスト](/glossary/テスト/)環境での再試行**
-   - 別のマシンや[ネットワーク](/glossary/ネットワーク/)からPostmanで[リクエスト](/glossary/リクエスト/)を送信し、同じ403[エラー](/glossary/エラー/)が発生するか確認します。特定の[ネットワーク](/glossary/ネットワーク/)からのみ[エラー](/glossary/エラー/)が発生する場合、IPホワイトリストが原因である可能性が高まります。
+   - 別のマシンや[ネットワーク](/glossary/ネットワーク/)からPostmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)し、同じ403[エラー](/glossary/エラー/)が発生するか確認します。特定の[ネットワーク](/glossary/ネットワーク/)からのみ[エラー](/glossary/エラー/)が発生する場合、IPホワイトリストが原因である可能性が高まります。
 
 6. **cURL での確認**
    - Postman の「Code」ボタン（右上）で cURL [コマンド](/glossary/コマンド/)を生成し、[ターミナル](/glossary/ターミナル/)から直接実行することで、Postman

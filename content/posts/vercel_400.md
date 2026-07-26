@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 400 [エラー](/glossary/エラー/)は、Vercel [API](/glossary/api/) へ送信された[リクエスト](/glossary/リクエスト/)の形式または内容に不正がある場合に発生します。これは[クライアント](/glossary/クライアント/)側の誤りを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)で、[デプロイ](/glossary/デプロイ/)時や [API](/glossary/api/) 呼び出し時に発生することがあります。Vercel [CLI](/glossary/cli/) を使用した[デプロイ](/glossary/デプロイ/)、または直接 [API](/glossary/api/) を呼び出している場合に確認が必要です。
+Vercel の 400 [エラー](/glossary/エラー/)は、Vercel [API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式または内容に不正がある場合に発生します。これは[クライアント](/glossary/クライアント/)側の誤りを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)で、[デプロイ](/glossary/デプロイ/)時や [API](/glossary/api/) 呼び出し時に発生することがあります。Vercel [CLI](/glossary/cli/) を使用した[デプロイ](/glossary/デプロイ/)、または直接 [API](/glossary/api/) を呼び出している場合に確認が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -162,7 +162,7 @@ Vercel は厳密な [JSON](/glossary/json/) [スキーマ](/glossary/スキー�
 
 また、Vercel [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)が古い場合、新しい [API](/glossary/api/) 仕様に対応できず、正しい[設定ファイル](/glossary/設定ファイル/)でも 400 [エラー](/glossary/エラー/)が発生することがあります。チームで複数のマシンから[デプロイ](/glossary/デプロイ/)する場合、全員が同じ[バージョン](/glossary/バージョン/)を使用していることを確認してください。
 
-[環境変数](/glossary/環境変数/)の値の型も厳密です。数値は文字列で囲む必要があり、配列や[オブジェクト](/glossary/オブジェクト/)は正しくシリアライズされていなければなりません。特に [API](/glossary/api/) を直接呼び出す場合、ファイルコンテンツは Base64 エンコード（64進法のテキスト形式に変換）で送信する必要があり、バイナリのまま送信すると 400 [エラー](/glossary/エラー/)が発生します。
+[環境変数](/glossary/環境変数/)の値の型も厳密です。数値は文字列で囲む必要があり、配列や[オブジェクト](/glossary/オブジェクト/)は正しくシリアライズされていなければなりません。特に [API](/glossary/api/) を直接呼び出す場合、ファイルコンテンツは Base64 エンコード（64進法のテキスト形式に変換）で[送信](/glossary/送信/)する必要があり、バイナリのまま[送信](/glossary/送信/)すると 400 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 

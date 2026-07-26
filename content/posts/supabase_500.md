@@ -50,7 +50,7 @@ Error: Internal Server Error
 
 ### 原因1：PostgreSQLのクエリが構文エラーまたは実行時エラーになっている
 
-Supabaseに送信する[SQL](/glossary/sql/)[クエリ](/glossary/クエリ/)に構文[エラー](/glossary/エラー/)があったり、存在しない[テーブル](/glossary/テーブル/)・カラムを参照していたりする場合、500[エラー](/glossary/エラー/)が発生します。特にRLS（Row Level Security）の[ポリシー](/glossary/ポリシー/)内で不正な[テーブル](/glossary/テーブル/)参照をしていると、[クエリ](/glossary/クエリ/)実行時に内部[エラー](/glossary/エラー/)となります。
+Supabaseに[送信](/glossary/送信/)する[SQL](/glossary/sql/)[クエリ](/glossary/クエリ/)に構文[エラー](/glossary/エラー/)があったり、存在しない[テーブル](/glossary/テーブル/)・カラムを参照していたりする場合、500[エラー](/glossary/エラー/)が発生します。特にRLS（Row Level Security）の[ポリシー](/glossary/ポリシー/)内で不正な[テーブル](/glossary/テーブル/)参照をしていると、[クエリ](/glossary/クエリ/)実行時に内部[エラー](/glossary/エラー/)となります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

@@ -48,7 +48,7 @@ Error: PUT https://ndia.ghe.com/api/v3/repos/<organization>/<repository>/actions
 - `Conflict` → 理由フレーズ：複数の操作や状態の不整合を示す
 - `"There is a deployment currently in progress. Please try again when it completes."` → [エラー](/glossary/エラー/)本体：別の[デプロイ](/glossary/デプロイ/)がまだ実行中であることを明示
 - `scm-deployment-id` → デプロイメント [ID](/glossary/id/)：進行中の[デプロイ](/glossary/デプロイ/)を特定するための識別子
-- `statusCode: 409` → [JSON](/glossary/json/) 形式のレスポンスボディ：プログラムで処理可能な形式で[エラー](/glossary/エラー/)を通知
+- `statusCode: 409` → [JSON](/glossary/json/) 形式のレスポンスボディ：[プログラム](/glossary/プログラム/)で処理可能な形式で[エラー](/glossary/エラー/)を通知
 
 ## よくある原因と解決手順
 
@@ -324,7 +324,7 @@ node update_permissions.js
 
 ### 原因4：マージ競合のある PR を API 経由でマージしようとした場合
 
-GitHub [API](/glossary/api/) でマージリクエストを送信した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での対応が必要です。
+GitHub [API](/glossary/api/) でマージリクエストを[送信](/glossary/送信/)した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での対応が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

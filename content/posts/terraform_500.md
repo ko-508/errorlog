@@ -16,7 +16,7 @@ trend_incident: false
 
 Terraform の実行中に現れる 500 Internal Server Error は、手元で動いている Terraform 自身の不具合ではなく、Terraform が[通信](/glossary/通信/)している相手側の[サーバー](/glossary/サーバー/)内部[エラー](/glossary/エラー/)です。Terraform は多数のリモート [API](/glossary/api/) の[クライアント](/glossary/クライアント/)であり、相手は大きく3つに分かれます。plan や apply の最中にリソースを操作するクラウドプロバイダーの [API](/glossary/api/)（原因1）、state の保存や取得、リモート実行を担う[バックエンド](/glossary/バックエンド/)（HCP Terraform など。原因2）、そして terraform init でプロバイダーやモジュールを取得する Terraform Registry（原因3）です。500の調査の第一歩は、[エラーメッセージ](/glossary/エラーメッセージ/)に含まれる [URL](/glossary/url/) と、どの段階で失敗したかを読んで、この3つのどれが相手かを特定することです。
 
-境界も先に押さえておくと迷いません。実行[アカウント](/glossary/アカウント/)の権限不足は、[クラウド](/glossary/クラウド/)側から 403 系のアクセス拒否（AWS なら AccessDenied や UnauthorizedOperation）として返り、500にはなりません。AWS の[スロットリング](/glossary/スロットリング/)は ThrottlingException（[HTTP](/glossary/http/) では 400 として現れることもあります）や 429 で、プロバイダーが自動で再試行する対象です。また、TERRAFORM CRASH という見出しとスタックトレースが出る異常終了は、[HTTP](/glossary/http/) の500ではなく Terraform 本体の[バグ](/glossary/バグ/)であり、調査の場所がまったく異なります。
+境界も先に押さえておくと迷いません。実行[アカウント](/glossary/アカウント/)の権限不足は、[クラウド](/glossary/クラウド/)側から 403 系のアクセス拒否（[AWS](/glossary/aws/) なら AccessDenied や UnauthorizedOperation）として返り、500にはなりません。[AWS](/glossary/aws/) の[スロットリング](/glossary/スロットリング/)は ThrottlingException（[HTTP](/glossary/http/) では 400 として現れることもあります）や 429 で、プロバイダーが自動で再試行する対象です。また、TERRAFORM CRASH という見出しとスタックトレースが出る異常終了は、[HTTP](/glossary/http/) の500ではなく Terraform 本体の[バグ](/glossary/バグ/)であり、調査の場所がまったく異なります。
 
 ## エラーの概要
 
@@ -54,7 +54,7 @@ terraform init の段階で失敗し、対象がプロバイダーやモジュ�
 
 ### 原因1：クラウドプロバイダーの API が内部エラーを返している
 
-plan や apply の最中に、AWS などの[クラウド](/glossary/クラウド/)側で一時的な内部[エラー](/glossary/エラー/)が起きると、リソース操作が500で失敗します。重要なのは、ユーザーに500が見えた時点で、プロバイダーの自動再試行をすでに使い切っているという点です。AWS プロバイダーの公式文書のとおり、[スロットリング](/glossary/スロットリング/)や一時的な失敗に対しては [API](/glossary/api/) 呼び出しが指数[バックオフ](/glossary/バックオフ/)で自動的に再試行され、その回数の既定値は25回です。それでも失敗が続いた場合にだけ、[エラー](/glossary/エラー/)が表面化します。
+plan や apply の最中に、[AWS](/glossary/aws/) などの[クラウド](/glossary/クラウド/)側で一時的な内部[エラー](/glossary/エラー/)が起きると、リソース操作が500で失敗します。重要なのは、ユーザーに500が見えた時点で、プロバイダーの自動再試行をすでに使い切っているという点です。[AWS](/glossary/aws/) プロバイダーの公式文書のとおり、[スロットリング](/glossary/スロットリング/)や一時的な失敗に対しては [API](/glossary/api/) 呼び出しが指数[バックオフ](/glossary/バックオフ/)で自動的に再試行され、その回数の既定値は25回です。それでも失敗が続いた場合にだけ、[エラー](/glossary/エラー/)が表面化します。
 
 対処は、[クラウド](/glossary/クラウド/)側のステータス確認と、時間をおいた再実行です。ただし、途中まで進んだ apply を再実行する前に、必ず plan で現状との差分を確認してください。state に記録済みのリソースは再作成されませんが、「[クラウド](/glossary/クラウド/)側では作成が完了したのに、応答が届かず state に記録されなかった」可能性は排除できないためです。plan の差分に「すでに存在するはずのリソースの新規作成」が含まれていたら、実際の状態を確認してから進めます。
 
@@ -119,7 +119,7 @@ steps:
 
 ## 補足：500ではない類似エラー
 
-500の原因として語られがちですが、仕様上は別の形で現れる問題があります。実行[アカウント](/glossary/アカウント/)の権限不足は、AWS なら AccessDenied や UnauthorizedOperation を含む 403 系の[エラー](/glossary/エラー/)として返り、調査の場所は [IAM](/glossary/iam/) です。[API](/glossary/api/) の[スロットリング](/glossary/スロットリング/)は ThrottlingException（[HTTP](/glossary/http/) では 400 のこともあります）や 429 で、プロバイダーの自動再試行の対象です。再試行を使い切るほどの規模なら、並列度（terraform apply の -parallelism）や対象の分割を検討します（AWS 側の[スロットリング](/glossary/スロットリング/)の仕組みは [AWS の 429 の記事](/posts/aws_429/)を参照）。Terraform で構築した ALB や [API](/glossary/api/) Gateway が返す 503・504 は、Terraform ではなく構築した[インフラ](/glossary/インフラ/)自体の問題です（[AWS の 503 の記事](/posts/aws_503/)、[AWS の 504 の記事](/posts/aws_504/)）。TERRAFORM CRASH という見出しとスタックトレース、crash.log の生成を伴う異常終了は、[HTTP](/glossary/http/) の500ではなく Terraform 本体の[バグ](/glossary/バグ/)で、crash.log を添えて公式[リポジトリ](/glossary/リポジトリ/)に報告する対象です。state のロック取得失敗（Error acquiring the state lock）も別系統で、他の実行との競合か、前回の実行の異常終了によるロック残りの調査に切り替えます。
+500の原因として語られがちですが、仕様上は別の形で現れる問題があります。実行[アカウント](/glossary/アカウント/)の権限不足は、[AWS](/glossary/aws/) なら AccessDenied や UnauthorizedOperation を含む 403 系の[エラー](/glossary/エラー/)として返り、調査の場所は [IAM](/glossary/iam/) です。[API](/glossary/api/) の[スロットリング](/glossary/スロットリング/)は ThrottlingException（[HTTP](/glossary/http/) では 400 のこともあります）や 429 で、プロバイダーの自動再試行の対象です。再試行を使い切るほどの規模なら、並列度（terraform apply の -parallelism）や対象の分割を検討します（[AWS](/glossary/aws/) 側の[スロットリング](/glossary/スロットリング/)の仕組みは [AWS の 429 の記事](/posts/aws_429/)を参照）。Terraform で構築した ALB や [API](/glossary/api/) Gateway が返す 503・504 は、Terraform ではなく構築した[インフラ](/glossary/インフラ/)自体の問題です（[AWS の 503 の記事](/posts/aws_503/)、[AWS の 504 の記事](/posts/aws_504/)）。TERRAFORM CRASH という見出しとスタックトレース、crash.log の生成を伴う異常終了は、[HTTP](/glossary/http/) の500ではなく Terraform 本体の[バグ](/glossary/バグ/)で、crash.log を添えて公式[リポジトリ](/glossary/リポジトリ/)に報告する対象です。state のロック取得失敗（Error acquiring the state lock）も別系統で、他の実行との競合か、前回の実行の異常終了によるロック残りの調査に切り替えます。
 
 ## 切り分けの順序
 

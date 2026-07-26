@@ -17,7 +17,7 @@ top_queries:
 
 ## エラーの概要
 
-AWS S3の **NoSuchKey** [エラー](/glossary/エラー/)は、指定したキー（オブジェクトパス）が[バケット](/glossary/バケット/)内に存在しないことを示す[HTTP](/glossary/http/) 404[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生すると、GetObject、HeadObject、DeleteObject などの[オブジェクト](/glossary/オブジェクト/)操作は失敗し、「The specified key does not exist.」というメッセージが返されます。一見すると「[オブジェクト](/glossary/オブジェクト/)がないこと」を示していますが、実際には**キーの指定ミスやプレフィックスの誤り、大文字小文字の区別、削除済み[オブジェクト](/glossary/オブジェクト/)の参照**など、複数の原因が絡むことが多いため、正確な診断が重要です。
+[AWS](/glossary/aws/) S3の **NoSuchKey** [エラー](/glossary/エラー/)は、指定したキー（オブジェクトパス）が[バケット](/glossary/バケット/)内に存在しないことを示す[HTTP](/glossary/http/) 404[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生すると、GetObject、HeadObject、DeleteObject などの[オブジェクト](/glossary/オブジェクト/)操作は失敗し、「The specified key does not exist.」というメッセージが返されます。一見すると「[オブジェクト](/glossary/オブジェクト/)がないこと」を示していますが、実際には**キーの指定ミスやプレフィックスの誤り、大文字小文字の区別、削除済み[オブジェクト](/glossary/オブジェクト/)の参照**など、複数の原因が絡むことが多いため、正確な診断が重要です。
 
 ## 実際のエラーメッセージ例
 
@@ -200,7 +200,7 @@ aws s3api list-object-versions --bucket versioned-bucket --prefix "important-fil
 
 ### AWS CLIコマンドラインでの確認方法
 
-S3の操作を AWS [CLI](/glossary/cli/) で行う場合、`aws s3 ls` でプレフィックスを指定して存在する[オブジェクト](/glossary/オブジェクト/)一覧を確認することが最初のトラブルシューティングステップになります。
+S3の操作を [AWS](/glossary/aws/) [CLI](/glossary/cli/) で行う場合、`aws s3 ls` でプレフィックスを指定して存在する[オブジェクト](/glossary/オブジェクト/)一覧を確認することが最初のトラブルシューティングステップになります。
 
 ```bash
 aws s3 ls s3://my-bucket/documents/
@@ -220,7 +220,7 @@ Infrastructure as Code（CloudFormation、Terraform等）でS3リソースを管
 
 ### ログ確認とデバッグ
 
-AWS CloudTrail で S3 [API](/glossary/api/) 呼び出しの詳細[ログ](/glossary/ログ/)を確認できます。CloudTrail [コンソール](/glossary/コンソール/)から **Data events** を有効化し、GetObject、HeadObject の呼び出し履歴を確認することで、実際に送信されたキーと受信した[レスポンス](/glossary/レスポンス/)を追跡できます。
+[AWS](/glossary/aws/) CloudTrail で S3 [API](/glossary/api/) 呼び出しの詳細[ログ](/glossary/ログ/)を確認できます。CloudTrail [コンソール](/glossary/コンソール/)から **Data events** を有効化し、GetObject、HeadObject の呼び出し履歴を確認することで、実際に[送信](/glossary/送信/)されたキーと[受信](/glossary/受信/)した[レスポンス](/glossary/レスポンス/)を追跡できます。
 
 ```bash
 aws cloudtrail lookup-events --lookup-attributes AttributeKey=ResourceName,AttributeValue=my-bucket
@@ -241,7 +241,7 @@ aws s3api get-object-acl --bucket my-bucket --key "path/to/object"
 aws s3api get-bucket-location --bucket my-bucket
 ```
 
-[リクエスト](/glossary/リクエスト/)を送信しているリージョンと[バケット](/glossary/バケット/)の実際のリージョンが異なっていないか確認します。
+[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)しているリージョンと[バケット](/glossary/バケット/)の実際のリージョンが異なっていないか確認します。
 
 ## 代替ツールの検討
 
@@ -255,7 +255,7 @@ NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出�
 
 ## Editor's Note
 
-[Stack Overflow での報告](https://stackoverflow.com/questions/44778448/s3-giving-me-nosuchkey-error-even-when-the-key-exists)では、「キーは確実に存在しているのに NoSuchKey が出る」というケースが頻繁に報告されており、その多くはキー末尾の改行文字（%0A）や先頭スラッシュなどの特殊文字の混入が原因でした。LocalStack の [GitHub Issue #8174](https://github.com/localstack/localstack/issues/8174) でも、特殊文字（a@a など）を含む[フォルダ](/glossary/フォルダ/)名で PutObject が NoSuchKey を返す問題が確認されており、特殊文字のエスケープ漏れは見落としやすい点として注意が必要です。現場では、HeadObject での事前確認と S3 サーバーアクセスログ（AWS 公式が直接推奨）の確認から着手するのが有効です。CloudTrail も参照可能ですが、S3 アクセスの直接的な調査には S3 サーバーアクセスログが適しています。
+[Stack Overflow での報告](https://stackoverflow.com/questions/44778448/s3-giving-me-nosuchkey-error-even-when-the-key-exists)では、「キーは確実に存在しているのに NoSuchKey が出る」というケースが頻繁に報告されており、その多くはキー末尾の改行文字（%0A）や先頭スラッシュなどの特殊文字の混入が原因でした。LocalStack の [GitHub Issue #8174](https://github.com/localstack/localstack/issues/8174) でも、特殊文字（a@a など）を含む[フォルダ](/glossary/フォルダ/)名で PutObject が NoSuchKey を返す問題が確認されており、特殊文字のエスケープ漏れは見落としやすい点として注意が必要です。現場では、HeadObject での事前確認と S3 サーバーアクセスログ（[AWS](/glossary/aws/) 公式が直接推奨）の確認から着手するのが有効です。CloudTrail も参照可能ですが、S3 アクセスの直接的な調査には S3 サーバーアクセスログが適しています。
 
 > **調査について**　この記事の解決策は、Stack Overflow・GitHub Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 

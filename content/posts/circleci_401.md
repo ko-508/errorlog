@@ -13,7 +13,7 @@ related_services: ["curl", "CircleCI CLI"]
 
 ## エラーの概要
 
-CircleCI の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [認証](/glossary/認証/)に失敗したことを示す[ステータスコード](/glossary/ステータスコード/)です。CircleCI に[リクエスト](/glossary/リクエスト/)を送信する際、[API](/glossary/api/)[トークン](/glossary/トークン/)が無効・欠落・期限切れのいずれかの状態にあることが原因で、[リクエスト](/glossary/リクエスト/)が[認可](/glossary/認可/)されません。この[エラー](/glossary/エラー/)は [CI/CD](/glossary/ci-cd/) パイプラインから CircleCI [API](/glossary/api/) を呼び出す場合や、ローカルから [CLI](/glossary/cli/) で操作する際に頻出します。
+CircleCI の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [認証](/glossary/認証/)に失敗したことを示す[ステータスコード](/glossary/ステータスコード/)です。CircleCI に[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際、[API](/glossary/api/)[トークン](/glossary/トークン/)が無効・欠落・期限切れのいずれかの状態にあることが原因で、[リクエスト](/glossary/リクエスト/)が[認可](/glossary/認可/)されません。この[エラー](/glossary/エラー/)は [CI/CD](/glossary/ci-cd/) パイプラインから CircleCI [API](/glossary/api/) を呼び出す場合や、ローカルから [CLI](/glossary/cli/) で操作する際に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -81,7 +81,7 @@ curl -X GET \
 
 ### 原因2：CIRCLE_TOKEN 環境変数が設定されていない
 
-CircleCI のジョブ内から [API](/glossary/api/) を呼び出す場合、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)が定義されていないと、curl や [API](/glossary/api/) クライアントライブラリが[トークン](/glossary/トークン/)を含めずに[リクエスト](/glossary/リクエスト/)を送信します。結果として 401 [エラー](/glossary/エラー/)が返ります。この[環境変数](/glossary/環境変数/)はプロジェクト設定またはコンテキスト（Context）で明示的に設定する必要があります。
+CircleCI のジョブ内から [API](/glossary/api/) を呼び出す場合、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)が定義されていないと、curl や [API](/glossary/api/) クライアントライブラリが[トークン](/glossary/トークン/)を含めずに[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。結果として 401 [エラー](/glossary/エラー/)が返ります。この[環境変数](/glossary/環境変数/)はプロジェクト設定またはコンテキスト（Context）で明示的に設定する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -139,7 +139,7 @@ jobs:
 
 ### 原因3：Personal Access Token と Project Token を使い分けていない
 
-CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token はプロジェクト固有の操作（ステータスチェック、トリガーなど）用です。プロジェクトのワークフローからプロジェクト特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
+CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token はプロジェクト固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。プロジェクトのワークフローからプロジェクト特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

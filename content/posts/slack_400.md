@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Slackの400[エラー](/glossary/エラー/)は、Slack [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が不正な形式で送信されたか、必須の[パラメータ](/glossary/パラメータ/)が不足していることを示します。クライアントアプリケーション、ボット、[Webhook](/glossary/webhook/)からの連携時に頻出する[エラー](/glossary/エラー/)で、[リクエスト](/glossary/リクエスト/)自体が[サーバー](/glossary/サーバー/)に拒否される状態です。データは破損しないため、設定や[リクエスト](/glossary/リクエスト/)内容を修正すれば解決できます。
+Slackの400[エラー](/glossary/エラー/)は、Slack [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が不正な形式で[送信](/glossary/送信/)されたか、必須の[パラメータ](/glossary/パラメータ/)が不足していることを示します。クライアントアプリケーション、ボット、[Webhook](/glossary/webhook/)からの連携時に頻出する[エラー](/glossary/エラー/)で、[リクエスト](/glossary/リクエスト/)自体が[サーバー](/glossary/サーバー/)に拒否される状態です。データは破損しないため、設定や[リクエスト](/glossary/リクエスト/)内容を修正すれば解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -91,7 +91,7 @@ print(response.json())  # {"ok": true, "ts": "1234567890.000001"}
 ### 原因2：Content-Typeヘッダーの誤り
 
 **なぜ発生するか**  
-Slack [API](/glossary/api/)は[リクエストボディ](/glossary/リクエストボディ/)の形式をContent-Typeで判定します。application/jsonを指定すべきところにapplication/x-www-form-urlencodedで送信すると、[パラメータ](/glossary/パラメータ/)解析に失敗します。
+Slack [API](/glossary/api/)は[リクエストボディ](/glossary/リクエストボディ/)の形式をContent-Typeで判定します。application/jsonを指定すべきところにapplication/x-www-form-urlencodedで[送信](/glossary/送信/)すると、[パラメータ](/glossary/パラメータ/)解析に失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きる場合）**
 ```bash

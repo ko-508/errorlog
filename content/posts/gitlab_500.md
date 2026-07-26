@@ -47,7 +47,7 @@ fatal: unable to access 'https://gitlab.example.com/project.git/': The requested
 
 ### 原因1：GitLabインフラの一時的な障害
 
-GitLabのサーバーインフラストラクチャ側で一時的な障害が発生している場合、[リクエスト](/glossary/リクエスト/)を処理できず500[エラー](/glossary/エラー/)が返却されます。これは[データベース](/glossary/データベース/)接続の喪失、[メモリ](/glossary/メモリ/)不足、ディスク容量の枯渇、または主要サービス（Sidekiq、Puma等）のクラッシュなど、複数の要因が考えられます。
+GitLabのサーバーインフラストラクチャ側で一時的な障害が発生している場合、[リクエスト](/glossary/リクエスト/)を処理できず500[エラー](/glossary/エラー/)が返却されます。これは[データベース](/glossary/データベース/)接続の喪失、[メモリ](/glossary/メモリ/)不足、ディスク[容量](/glossary/容量/)の枯渇、または主要サービス（Sidekiq、Puma等）のクラッシュなど、複数の要因が考えられます。
 
 **解決手順：**
 
@@ -110,7 +110,7 @@ sudo gitlab-ctl restart
 
 ## ツール固有の注意点
 
-**GitLab.comの場合：** GitLab.comそのものが提供するサービスで500[エラー](/glossary/エラー/)が発生している場合、まず `status.gitlab.com` を確認してください。障害が報告されていなければ、そのプロジェクトまたは[アカウント](/glossary/アカウント/)固有の問題です。GitLab.comのサポートリクエストは Web UI の右上メニューから送信できます。
+**GitLab.comの場合：** GitLab.comそのものが提供するサービスで500[エラー](/glossary/エラー/)が発生している場合、まず `status.gitlab.com` を確認してください。障害が報告されていなければ、そのプロジェクトまたは[アカウント](/glossary/アカウント/)固有の問題です。GitLab.comのサポートリクエストは Web UI の右上メニューから[送信](/glossary/送信/)できます。
 
 **自社運用のGitLabの場合：** [Docker](/glossary/docker/)コンテナーで運用している場合は `docker logs <container-id>` でアプリケーションログを確認してください。Omnibus GitLabの場合は `/var/log/gitlab/` ディレクトリー配下の各サービスログを確認します。特に `gitlab-rails/production.log` と `sidekiq/current` には詳細な[エラー](/glossary/エラー/)情報が記録されています。
 

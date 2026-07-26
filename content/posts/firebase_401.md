@@ -180,7 +180,7 @@ docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \
 
 ### Firebase Authentication の状態確認
 
-[クライアント](/glossary/クライアント/)側でユーザーが正しく[認証](/glossary/認証/)されているか確認します。[認証](/glossary/認証/)されていないユーザーでも [SDK](/glossary/sdk/) が[リクエスト](/glossary/リクエスト/)を送信してしまい、401 が返される場合があります。
+[クライアント](/glossary/クライアント/)側でユーザーが正しく[認証](/glossary/認証/)されているか確認します。[認証](/glossary/認証/)されていないユーザーでも [SDK](/glossary/sdk/) が[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してしまい、401 が返される場合があります。
 
 ```javascript
 firebase.auth().onAuthStateChanged((user) => {

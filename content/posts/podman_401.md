@@ -156,7 +156,7 @@ sudo podman pull registry.example.com/myimage:latest
 
 ## それでも解決しない場合
 
-**デバッグログの確認**: `PODMAN_LOG_LEVEL=debug podman pull <image>` でデバッグログを出力し、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)がどう送信されているかを確認してください。
+**デバッグログの確認**: `PODMAN_LOG_LEVEL=debug podman pull <image>` でデバッグログを出力し、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)がどう[送信](/glossary/送信/)されているかを確認してください。
 
 **[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)確認**: [プライベートレジストリ](/glossary/プライベートレジストリ/)を運用している場合、レジストリサーバー側の[ログ](/glossary/ログ/)で拒否理由を確認できます。例えばRegistry V2の標準実装では `/var/log/registry/` 配下にアクセスログが記録されます。
 

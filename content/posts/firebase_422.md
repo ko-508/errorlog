@@ -14,7 +14,7 @@ related_services: ["REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase で 422 [エラー](/glossary/エラー/)が返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、送信されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反や[スキーマ](/glossary/スキーマ/)検証[エラー](/glossary/エラー/)が主な原因です。
+Firebase で 422 [エラー](/glossary/エラー/)が返される場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)自体は正しい形式ですが、[送信](/glossary/送信/)されたデータが Firebase のセキュリティルールまたは検証ルールを満たしていないことを意味します。Realtime Database、Cloud Firestore、Authentication、Cloud Functions など複数のサービスで発生する可能性があり、[データベース](/glossary/データベース/)のルール違反や[スキーマ](/glossary/スキーマ/)検証[エラー](/glossary/エラー/)が主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ FirebaseError: [firestore/permission-denied]: Missing or insufficient permission
 
 ### 原因1：Realtime Database のセキュリティルール違反
 
-なぜ発生するかというと、Firebase Realtime Database では `.write` や `.validate` ルールで書き込み[権限](/glossary/権限/)や[データ形式](/glossary/データ形式/)を厳密に定義しており、これを満たさないデータを送信すると 422 [エラー](/glossary/エラー/)が返されます。
+なぜ発生するかというと、Firebase Realtime Database では `.write` や `.validate` ルールで書き込み[権限](/glossary/権限/)や[データ形式](/glossary/データ形式/)を厳密に定義しており、これを満たさないデータを[送信](/glossary/送信/)すると 422 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）**
 
@@ -137,7 +137,7 @@ firebase.auth().createUserWithEmailAndPassword(
 
 ### Realtime Database の REST API 使用時
 
-[REST](/glossary/rest/) [API](/glossary/api/) で直接書き込む場合、`Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 422 が返ることがあります。また、`.validate` ルールで `newData.isNumber()` や `newData.isString()` のようなデータ型チェックが厳密に定義されている場合、型が一致しないデータを送信すると即座に[エラー](/glossary/エラー/)が返されます。
+[REST](/glossary/rest/) [API](/glossary/api/) で直接書き込む場合、`Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 422 が返ることがあります。また、`.validate` ルールで `newData.isNumber()` や `newData.isString()` のようなデータ型チェックが厳密に定義されている場合、型が一致しないデータを[送信](/glossary/送信/)すると即座に[エラー](/glossary/エラー/)が返されます。
 
 ```bash
 # Before: ヘッダーなしで送信（エラーが出やすい）

@@ -14,7 +14,7 @@ related_services: ["SDK", "REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から送信された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
+Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ Error: 3 INVALID_ARGUMENT: Invalid json in the body: Invalid JSON payload receiv
 
 ### 原因1：JSON 形式が不正である
 
-Firebase [API](/glossary/api/) へ[リクエスト](/glossary/リクエスト/)を送信する際、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式になっていない場合に発生します。シングルクォートの使用、末尾のカンマ、引用符の不一致がよくある間違いです。
+Firebase [API](/glossary/api/) へ[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式になっていない場合に発生します。シングルクォートの使用、末尾のカンマ、引用符の不一致がよくある間違いです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -116,7 +116,7 @@ const db = getDatabase(app);
 
 ### 原因3：必須フィールドが欠落している
 
-Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須フィールドを送信していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
+Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須フィールドを[送信](/glossary/送信/)していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -145,7 +145,7 @@ db.collection('users').document('user123').set({
 
 ### 原因4：Content-Type ヘッダーが不正である
 
-[REST](/glossary/rest/) [API](/glossary/api/) 経由で Firebase に[リクエスト](/glossary/リクエスト/)を送信する際、`Content-Type` [ヘッダー](/glossary/ヘッダー/)が `application/json` に設定されていない場合、[リクエストボディ](/glossary/リクエストボディ/)が [JSON](/glossary/json/) として解析されず 400 [エラー](/glossary/エラー/)が発生します。
+[REST](/glossary/rest/) [API](/glossary/api/) 経由で Firebase に[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際、`Content-Type` [ヘッダー](/glossary/ヘッダー/)が `application/json` に設定されていない場合、[リクエストボディ](/glossary/リクエストボディ/)が [JSON](/glossary/json/) として解析されず 400 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -165,7 +165,7 @@ curl -X POST https://firebaseio.com/users.json \
 
 ### 原因5：Authentication/Authorization トークンが無効または期限切れ
 
-Firebase Authentication の[トークン](/glossary/トークン/)（[ID](/glossary/id/) Token）が期限切れになっているか、無効な形式で送信されている場合に 400 [エラー](/glossary/エラー/)が返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
+Firebase Authentication の[トークン](/glossary/トークン/)（[ID](/glossary/id/) Token）が期限切れになっているか、無効な形式で[送信](/glossary/送信/)されている場合に 400 [エラー](/glossary/エラー/)が返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

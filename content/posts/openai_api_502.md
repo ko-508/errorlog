@@ -172,7 +172,7 @@ response = openai.ChatCompletion.create(
 
 ### OpenAI API 固有の原因と対策
 
-**[レート制限](/glossary/レート制限/)との混同：** 429（Too Many Requests）ではなく 502 が返される場合、[リクエスト](/glossary/リクエスト/)間隔の設定を見直してください。同時に複数の[リクエスト](/glossary/リクエスト/)を送信していないか確認し、シーケンシャル処理に変更してください。
+**[レート制限](/glossary/レート制限/)との混同：** 429（Too Many Requests）ではなく 502 が返される場合、[リクエスト](/glossary/リクエスト/)間隔の設定を見直してください。同時に複数の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)していないか確認し、シーケンシャル処理に変更してください。
 
 ```python
 import openai

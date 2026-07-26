@@ -41,7 +41,7 @@ X-RateLimit-Reset: 1704067200
 
 ### 原因1：Collection Runner で複数リクエストを間隔なしで実行
 
-Collection Runner はループ機能で指定回数だけ[リクエスト](/glossary/リクエスト/)を連続実行するため、短時間に大量の[リクエスト](/glossary/リクエスト/)が [API](/glossary/api/) に送信されます。[API](/glossary/api/) 側の[レート制限](/glossary/レート制限/)（例：1分あたり 100 [リクエスト](/glossary/リクエスト/)）に瞬時に達してしまい、429 [エラー](/glossary/エラー/)が発生します。
+Collection Runner はループ機能で指定回数だけ[リクエスト](/glossary/リクエスト/)を連続実行するため、短時間に大量の[リクエスト](/glossary/リクエスト/)が [API](/glossary/api/) に[送信](/glossary/送信/)されます。[API](/glossary/api/) 側の[レート制限](/glossary/レート制限/)（例：1分あたり 100 [リクエスト](/glossary/リクエスト/)）に瞬時に達してしまい、429 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -194,9 +194,9 @@ if (pm.environment.get("use_mock") === "true") {
 
 レスポンスヘッダーの `Retry-After`、`X-RateLimit-Limit`、`X-RateLimit-Reset` を確認し、制限単位（1分あたり、1時間あたり、1日あたり）と上限値を把握します。Postman でレスポンスヘッダーを見るには、[レスポンス](/glossary/レスポンス/)画面の「Headers」タブを開きます。
 
-**Console Log で[リクエスト](/glossary/リクエスト/)送信タイミングを検証：**
+**Console Log で[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)タイミングを検証：**
 
-Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Option+C）を開き、[リクエスト](/glossary/リクエスト/)のタイムスタンプを確認します。短時間に大量の[リクエスト](/glossary/リクエスト/)が送信されていないか目視で判定できます。
+Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Option+C）を開き、[リクエスト](/glossary/リクエスト/)のタイムスタンプを確認します。短時間に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されていないか目視で判定できます。
 
 **[テスト](/glossary/テスト/)用の [API](/glossary/api/) キーまたは専用[レート制限](/glossary/レート制限/)を申請：**
 

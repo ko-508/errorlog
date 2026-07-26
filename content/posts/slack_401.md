@@ -18,7 +18,7 @@ top_queries:
 
 ## エラーの概要
 
-Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が 401 [エラー](/glossary/エラー/)（Unauthorized）で拒否される場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効、期限切れ、または不正な状態にあることを示します。この[エラー](/glossary/エラー/)が発生するとボットメッセージの送信、ユーザー情報の取得、[ファイル](/glossary/ファイル/)のアップロードなどすべての [API](/glossary/api/) 操作が停止するため、早期の対応が必須です。Slack アプリを運用する上で最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つです。
+Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が 401 [エラー](/glossary/エラー/)（Unauthorized）で拒否される場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効、期限切れ、または不正な状態にあることを示します。この[エラー](/glossary/エラー/)が発生するとボットメッセージの[送信](/glossary/送信/)、ユーザー情報の取得、[ファイル](/glossary/ファイル/)のアップロードなどすべての [API](/glossary/api/) 操作が停止するため、早期の対応が必須です。Slack アプリを運用する上で最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つです。
 
 ## 実際のエラーメッセージ例
 
@@ -104,7 +104,7 @@ Slack [ワークスペース](/glossary/ワークスペース/)管理画面で�
 
 ### 原因2：OAuth スコープの不足
 
-[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に必要な[スコープ](/glossary/スコープ/)（[権限](/glossary/権限/)）が[トークン](/glossary/トークン/)に付与されていない場合、[リクエスト](/glossary/リクエスト/)が許可されず 401 [エラー](/glossary/エラー/)が返されます。例えば `chat:write` [スコープ](/glossary/スコープ/)なしで メッセージ送信を試みると拒否されます。
+[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に必要な[スコープ](/glossary/スコープ/)（[権限](/glossary/権限/)）が[トークン](/glossary/トークン/)に付与されていない場合、[リクエスト](/glossary/リクエスト/)が許可されず 401 [エラー](/glossary/エラー/)が返されます。例えば `chat:write` [スコープ](/glossary/スコープ/)なしで メッセージ[送信](/glossary/送信/)を試みると拒否されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 

@@ -52,7 +52,7 @@ Response Time: 150ms
 
 ### 原因1：AuthorizationタブでAPIキーやトークンが正しく設定されていない
 
-Postmanの[リクエスト](/glossary/リクエスト/)設定画面でAuthorizationタブを開いても、[認証](/glossary/認証/)タイプが「No Auth」のままであったり、[トークン](/glossary/トークン/)値が空白のまま送信されたりすることで401が発生します。あるいは、[認証](/glossary/認証/)タイプは選択されていても、実際の[API](/glossary/api/)キーや[トークン](/glossary/トークン/)値が正しく入力されていない場合も該当します。
+Postmanの[リクエスト](/glossary/リクエスト/)設定画面でAuthorizationタブを開いても、[認証](/glossary/認証/)タイプが「No Auth」のままであったり、[トークン](/glossary/トークン/)値が空白のまま[送信](/glossary/送信/)されたりすることで401が発生します。あるいは、[認証](/glossary/認証/)タイプは選択されていても、実際の[API](/glossary/api/)キーや[トークン](/glossary/トークン/)値が正しく入力されていない場合も該当します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -83,7 +83,7 @@ Add to: Header
 
 ### 原因2：トークンの有効期限が切れている
 
-[OAuth](/glossary/oauth/) 2.0や[JWT](/glossary/jwt/)等の認証方式では、発行された[トークン](/glossary/トークン/)に有効期限が設定されていることがほとんどです。数時間から数日の期限が切れた[トークン](/glossary/トークン/)をPostmanで送信すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを無効と判定し401を返します。
+[OAuth](/glossary/oauth/) 2.0や[JWT](/glossary/jwt/)等の認証方式では、発行された[トークン](/glossary/トークン/)に有効期限が設定されていることがほとんどです。数時間から数日の期限が切れた[トークン](/glossary/トークン/)をPostmanで[送信](/glossary/送信/)すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを無効と判定し401を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -142,7 +142,7 @@ if (!storedToken || (currentTime - tokenTimestamp) > tokenExpiresIn) {
 
 ### 原因3：環境変数に認証情報がセットされていない
 
-Postmanでは、[API](/glossary/api/)キーや[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)として管理することが推奨されています。しかし、[環境変数](/glossary/環境変数/)が正しくセットされていなかったり、参照する環境が異なったりすると、リクエストヘッダーに`{{variable_name}}`という文字列がそのまま送信され、[API](/glossary/api/)[サーバー](/glossary/サーバー/)は無効な[トークン](/glossary/トークン/)と判定して401を返します。
+Postmanでは、[API](/glossary/api/)キーや[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)として管理することが推奨されています。しかし、[環境変数](/glossary/環境変数/)が正しくセットされていなかったり、参照する環境が異なったりすると、リクエストヘッダーに`{{variable_name}}`という文字列がそのまま[送信](/glossary/送信/)され、[API](/glossary/api/)[サーバー](/glossary/サーバー/)は無効な[トークン](/glossary/トークン/)と判定して401を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -191,7 +191,7 @@ Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value
 以下の確認手順を実施してください：
 
 **ネットワークトラフィックを確認**
-Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」ボタン）、送信されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを確認します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく送信されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
+Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」ボタン）、[送信](/glossary/送信/)されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを確認します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく[送信](/glossary/送信/)されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
 
 **[API](/glossary/api/)ドキュメントを再確認**
 認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて確認します。
@@ -200,7 +200,7 @@ Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「C
 本番環境の[API](/glossary/api/)キーではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)キーが別途提供されている場合、それを使用して401が解消するか試してください。本番キーに[権限](/glossary/権限/)がない可能性も考慮します。
 
 **Postmanを再起動**
-[環境変数](/glossary/環境変数/)の反映遅延や[キャッシュ](/glossary/キャッシュ/)の問題を排除するため、Postman[アプリケーション](/glossary/アプリケーション/)全体を再起動し、再度[リクエスト](/glossary/リクエスト/)を送信してみてください。
+[環境変数](/glossary/環境変数/)の反映遅延や[キャッシュ](/glossary/キャッシュ/)の問題を排除するため、Postman[アプリケーション](/glossary/アプリケーション/)全体を再起動し、再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してみてください。
 
 **サポートページを参照**
 Postmanの公式サポートサイト（https://learning.postman.com/docs/sending-requests/authorization/）に、各認証タイプの詳細な設定ガイドが記載されています。また、APIプロバイダーの公式ドキュメントで、401エラーが発生する具体的なシナリオと対処法が説明されている場合も多くあります。

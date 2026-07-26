@@ -13,7 +13,7 @@ related_services: ["AWS CLI", "EC2"]
 
 ## エラーの概要
 
-AWS S3 の NoSuchBucket [エラー](/glossary/エラー/)は、指定した[バケット](/glossary/バケット/)名が存在しない、またはその[バケット](/glossary/バケット/)に[アクセス権限](/glossary/アクセス権限/)がない場合に発生します。[バケット](/glossary/バケット/)名のスペルミスや、別のリージョンに存在する[バケット](/glossary/バケット/)を現在のリージョン設定で参照しようとした場合、あるいは既に削除された[バケット](/glossary/バケット/)にアクセスしようとした場合に起こります。
+[AWS](/glossary/aws/) S3 の NoSuchBucket [エラー](/glossary/エラー/)は、指定した[バケット](/glossary/バケット/)名が存在しない、またはその[バケット](/glossary/バケット/)に[アクセス権限](/glossary/アクセス権限/)がない場合に発生します。[バケット](/glossary/バケット/)名のスペルミスや、別のリージョンに存在する[バケット](/glossary/バケット/)を現在のリージョン設定で参照しようとした場合、あるいは既に削除された[バケット](/glossary/バケット/)にアクセスしようとした場合に起こります。
 
 ## 実際のエラーメッセージ例
 
@@ -43,7 +43,7 @@ The specified bucket does not exist
 
 ### 原因1：バケット名のスペルミス
 
-[バケット](/glossary/バケット/)名を誤って入力していることが最も一般的な原因です。AWS S3 の[バケット](/glossary/バケット/)名は大文字小文字を区別し、グローバルに一意である必要があります。タイプミスや大文字・小文字の誤りがあると NoSuchBucket [エラー](/glossary/エラー/)が発生します。
+[バケット](/glossary/バケット/)名を誤って入力していることが最も一般的な原因です。[AWS](/glossary/aws/) S3 の[バケット](/glossary/バケット/)名は大文字小文字を区別し、グローバルに一意である必要があります。タイプミスや大文字・小文字の誤りがあると NoSuchBucket [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -69,7 +69,7 @@ aws s3 ls s3://my-data-bucket-prod/
 
 ### 原因2：リージョン設定の誤り
 
-[バケット](/glossary/バケット/)は特定のリージョンに作成されます。AWS [CLI](/glossary/cli/) のデフォルトリージョン設定が、[バケット](/glossary/バケット/)作成時のリージョンと異なると、[バケット](/glossary/バケット/)が見つからない[エラー](/glossary/エラー/)が発生します。別のプロファイルや EC2 [インスタンス](/glossary/インスタンス/)から実行する場合に特に注意が必要です。
+[バケット](/glossary/バケット/)は特定のリージョンに作成されます。[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデフォルトリージョン設定が、[バケット](/glossary/バケット/)作成時のリージョンと異なると、[バケット](/glossary/バケット/)が見つからない[エラー](/glossary/エラー/)が発生します。別のプロファイルや EC2 [インスタンス](/glossary/インスタンス/)から実行する場合に特に注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -142,7 +142,7 @@ aws s3 ls s3://my-new-bucket-v2/
 
 ### 原因4：IAM アクセス権限がない
 
-[バケット](/glossary/バケット/)自体は存在しますが、現在使用している AWS アクセスキーまたは [IAM](/glossary/iam/) [ロール](/glossary/ロール/)に、その[バケット](/glossary/バケット/)への[アクセス権限](/glossary/アクセス権限/)がない場合も NoSuchBucket [エラー](/glossary/エラー/)が表示されることがあります。AWS S3 は[権限](/glossary/権限/)がないときに「見つからない」と応答することで、[バケット](/glossary/バケット/)存在の有無を隠蔽する設計になっています。
+[バケット](/glossary/バケット/)自体は存在しますが、現在使用している [AWS](/glossary/aws/) アクセスキーまたは [IAM](/glossary/iam/) [ロール](/glossary/ロール/)に、その[バケット](/glossary/バケット/)への[アクセス権限](/glossary/アクセス権限/)がない場合も NoSuchBucket [エラー](/glossary/エラー/)が表示されることがあります。[AWS](/glossary/aws/) S3 は[権限](/glossary/権限/)がないときに「見つからない」と応答することで、[バケット](/glossary/バケット/)存在の有無を隠蔽する設計になっています。
 
 **Before（[エラー](/glossary/エラー/)が起きるコード）：**
 
@@ -189,7 +189,7 @@ S3 [アクセス権限](/glossary/アクセス権限/)を持つ[ポリシー](/g
 
 ## ツール固有の注意点
 
-AWS S3 はグローバルなネームスペースを使用するため、[バケット](/glossary/バケット/)名は世界中で一意である必要があります。削除済みの[バケット](/glossary/バケット/)名を再利用する場合は、削除から数分の待機が必要になることがあります。
+[AWS](/glossary/aws/) S3 はグローバルなネームスペースを使用するため、[バケット](/glossary/バケット/)名は世界中で一意である必要があります。削除済みの[バケット](/glossary/バケット/)名を再利用する場合は、削除から数分の待機が必要になることがあります。
 
 EC2 [インスタンス](/glossary/インスタンス/)から S3 にアクセスする場合は、[インスタンス](/glossary/インスタンス/)に割り当てられている [IAM](/glossary/iam/) [ロール](/glossary/ロール/)を確認してください。[コンソール](/glossary/コンソール/)では動作していても、EC2 上では NoSuchBucket [エラー](/glossary/エラー/)が発生することがあります。これは[ロール](/glossary/ロール/)に S3 [アクセス権限](/glossary/アクセス権限/)がないためです。
 
@@ -197,7 +197,7 @@ EC2 [インスタンス](/glossary/インスタンス/)から S3 にアクセス
 
 ## それでも解決しない場合
 
-AWS [CLI](/glossary/cli/) のデバッグモードで詳細な[ログ](/glossary/ログ/)を確認してください。
+[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデバッグモードで詳細な[ログ](/glossary/ログ/)を確認してください。
 
 ```bash
 aws s3 ls s3://my-bucket/ --debug
@@ -211,7 +211,7 @@ aws cloudtrail lookup-events \
   --max-results 10
 ```
 
-AWS Management Console のS3 [ダッシュボード](/glossary/ダッシュボード/)から、[バケット](/glossary/バケット/)一覧を直接確認することも有効です。ここに表示されている[バケット](/glossary/バケット/)名が、実際に存在する[バケット](/glossary/バケット/)の完全な一覧です。
+[AWS](/glossary/aws/) Management Console のS3 [ダッシュボード](/glossary/ダッシュボード/)から、[バケット](/glossary/バケット/)一覧を直接確認することも有効です。ここに表示されている[バケット](/glossary/バケット/)名が、実際に存在する[バケット](/glossary/バケット/)の完全な一覧です。
 
 公式ドキュメント [Troubleshooting S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/troubleshooting.html) も参照してください。
 

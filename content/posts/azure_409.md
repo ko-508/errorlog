@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "Azure PowerShell", "REST API"]
 ---
 ## エラーの概要
 
-Azure 409 Conflict [エラー](/glossary/エラー/)は、リソースの現在の状態と [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が競合している場合に発生します。通常、同じ名前のリソースが既に存在する、リソースがプロビジョニング途中である、または削除処理中の状態で新しい操作を実行しようとしたときに返されます。この[エラー](/glossary/エラー/)は Azure Portal、Azure [CLI](/glossary/cli/)、Azure PowerShell、[REST](/glossary/rest/) [API](/glossary/api/) など複数のインターフェースで発生する可能性があります。
+Azure 409 Conflict [エラー](/glossary/エラー/)は、リソースの現在の状態と [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が競合している場合に発生します。通常、同じ名前のリソースが既に存在する、リソースがプロビジョニング途中である、または削除処理中の状態で新しい操作を実行しようとしたときに返されます。この[エラー](/glossary/エラー/)は Azure Portal、Azure [CLI](/glossary/cli/)、Azure PowerShell、[REST](/glossary/rest/) [API](/glossary/api/) など複数の[インターフェース](/glossary/インターフェース/)で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 

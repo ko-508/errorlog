@@ -35,7 +35,7 @@ Error: error creating container storage: mkdir /var/lib/containers/storage/overl
 
 ### 原因1：ディスク容量不足
 
-Podman のストレージディレクトリ（通常 `/var/lib/containers/storage`）の容量がいっぱいになると、新しいレイヤーやコンテナメタデータの書き込みに失敗し、500 [エラー](/glossary/エラー/)が発生します。
+Podman のストレージディレクトリ（通常 `/var/lib/containers/storage`）の[容量](/glossary/容量/)がいっぱいになると、新しいレイヤーやコンテナメタデータの書き込みに失敗し、500 [エラー](/glossary/エラー/)が発生します。
 
 **原因の確認：**
 

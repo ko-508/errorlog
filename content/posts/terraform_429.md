@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Terraform の実行時にクラウドプロバイダーの [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達したことを示します。AWS・Google Cloud・Azure など複数のプロバイダーが [API](/glossary/api/) 呼び出しの頻度を制限しており、Terraform がこの上限を超えたときに発生します。特に大規模なインフラストラクチャをコード化する際に、並列処理による過度な [API](/glossary/api/) 呼び出しが原因となることが多くあります。
+[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Terraform の実行時にクラウドプロバイダーの [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達したことを示します。[AWS](/glossary/aws/)・Google Cloud・Azure など複数のプロバイダーが [API](/glossary/api/) 呼び出しの頻度を制限しており、Terraform がこの上限を超えたときに発生します。特に大規模なインフラストラクチャをコード化する際に、並列処理による過度な [API](/glossary/api/) 呼び出しが原因となることが多くあります。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ Error: Error creating load balancer: InvalidParameterValue
 
 ### 原因 1：Terraform の並列実行数が多すぎる
 
-Terraform はデフォルトで 10 個のリソースを同時に作成する設定になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に AWS や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
+Terraform はデフォルトで 10 個のリソースを同時に作成する設定になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
 
 **修正前：**
 
@@ -147,13 +147,13 @@ provider "aws" {
 # export AWS_RETRY_MODE=adaptive
 ```
 
-AWS プロバイダーの場合、[環境変数](/glossary/環境変数/) `AWS_MAX_ATTEMPTS` で最大試行回数を指定できます。
+[AWS](/glossary/aws/) プロバイダーの場合、[環境変数](/glossary/環境変数/) `AWS_MAX_ATTEMPTS` で最大試行回数を指定できます。
 
 ## ツール固有の注意点
 
 ### AWS プロバイダーでの対応
 
-AWS には複数の[レート制限](/glossary/レート制限/)があり、[IAM](/glossary/iam/) [API](/glossary/api/)・EC2 [API](/glossary/api/)・CloudFormation [API](/glossary/api/) などサービスごとに異なります。Terraform が CloudFormation を背後で使用している場合、CloudFormation のスタック作成数制限（デフォルトでは 200 スタック）に達することもあります。
+[AWS](/glossary/aws/) には複数の[レート制限](/glossary/レート制限/)があり、[IAM](/glossary/iam/) [API](/glossary/api/)・EC2 [API](/glossary/api/)・CloudFormation [API](/glossary/api/) などサービスごとに異なります。Terraform が CloudFormation を背後で使用している場合、CloudFormation のスタック作成数制限（デフォルトでは 200 スタック）に達することもあります。
 
 ```bash
 # AWS リクエストスロットリング対策
@@ -211,7 +211,7 @@ terraform apply -target=module.compute
 
 ### プロバイダーのクォータ増申請
 
-[クライアント](/glossary/クライアント/)側での調整でも追いつかない場合、クラウドプロバイダーの[コンソール](/glossary/コンソール/)画面でクォータ増申請を行います。AWS の場合は Service Quotas [コンソール](/glossary/コンソール/)、Google Cloud の場合は Quotas ページから申請可能です。申請から承認まで数時間～数日要することがあるため、並列数削減は並行して行うべきです。
+[クライアント](/glossary/クライアント/)側での調整でも追いつかない場合、クラウドプロバイダーの[コンソール](/glossary/コンソール/)画面でクォータ増申請を行います。[AWS](/glossary/aws/) の場合は Service Quotas [コンソール](/glossary/コンソール/)、Google Cloud の場合は Quotas ページから申請可能です。申請から承認まで数時間～数日要することがあるため、並列数削減は並行して行うべきです。
 
 ---
 
