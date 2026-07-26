@@ -10,6 +10,8 @@ error_type: "429"
 components: []
 related_services: ["Personal Access Token", "GraphQL API", "REST API"]
 trend_incident: true
+top_queries:
+- 'github error 429'
 ---
 
 ## 冒頭まとめ

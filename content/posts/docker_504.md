@@ -10,6 +10,8 @@ error_type: "504"
 components: ["Registry"]
 related_services: ["Docker Hub", "Docker Registry", "Nginx"]
 trend_incident: false
+top_queries:
+- 'docker 504'
 ---
 
 ## 冒頭まとめ

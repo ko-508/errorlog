@@ -1,92 +1,68 @@
 {
-  "stripe_402": {
+  "aws_504": {
     "top_queries": [
-      "402 err stripe",
-      "stripe 402 error"
+      "elb 504",
+      "504エラー"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 50.0
-  },
-  "nginx_503": {
-    "top_queries": [
-      "503 nginx"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 75.0
-  },
-  "aws_s3_nosuchkey": {
-    "top_queries": [
-      "<code>nosuchkey</code> <message>the specified key does not exist.</message> </error>",
-      "nosuchkeythe specified key does not exist.",
-      "nosuchkeythe specified key does not exist.no such object: public-sensor-pages/msft/px/captcha_close"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 37.7
-  },
-  "aws_s3_accessdenied": {
-    "top_queries": [
-      "accessdenied access denied"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 66.0
+    "avg_position": 65.6
   },
   "aws_502": {
     "top_queries": [
       "cloudfront 502"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 55.8
+    "avg_position": 59.0
+  },
+  "docker_504": {
+    "top_queries": [
+      "docker 504"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 70.0
+  },
+  "tool_docker_compose": {
+    "top_queries": [
+      "docker compose とは"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 78.0
   },
   "aws_503": {
     "top_queries": [
       "elb 503"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 76.7
+    "avg_position": 68.8
   },
-  "aws_504": {
+  "github_api_429": {
     "top_queries": [
-      "elb 504",
-      "http 504 aws"
+      "github error 429"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 59.6
-  },
-  "github_api_504": {
-    "top_queries": [
-      "github 504"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 81.0
-  },
-  "github_api_403": {
-    "top_queries": [
-      "github api 403"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 60.0
+    "avg_position": 74.5
   },
   "gcp_500": {
     "top_queries": [
       "google 500 エラー",
-      "google エラー 500",
-      "googleエラー500"
+      "google エラー 500"
     ],
     "avg_ctr": 0.0,
     "avg_position": 50.7
   },
-  "aws_404": {
+  "aws_s3_nosuchkey": {
     "top_queries": [
-      "アマゾン 404 エラー"
+      "nosuchkey the specified key does not exist",
+      "nosuchkey: the specified key does not exist"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 69.0
+    "avg_position": 44.0
   },
-  "azure_429": {
+  "gcp_503": {
     "top_queries": [
-      "リモート サーバー が エラー を 返し まし た 429"
+      "エラー 503 とは"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 90.0
+    "avg_position": 20.0
   }
 }
