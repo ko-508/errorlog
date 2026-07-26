@@ -295,5 +295,16 @@
         "note": "公式OpenAPIのValidation Errorスキーマとcode定義で照合、422はOctokit retryの再試行対象外"
       }
     ]
+  },
+  "content/posts/github_api_405.md": {
+    "verified": true,
+    "verified_at": "2026-07-26",
+    "last_verified_at": "2026-07-26",
+    "history": [
+      {
+        "date": "2026-07-26",
+        "note": "公式OpenAPIで405定義は全1209操作中3件のみと確認、マージ405の5系統をKargo#5761・Discussion#24695等の実記録で照合、メソッド不一致は404を実測"
+      }
+    ]
   }
 }
