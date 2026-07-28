@@ -343,5 +343,16 @@
         "note": "本体とプラグインで別々のpanic出力文をpanic.goで照合、終了コード11とプラグイン用スタックトレース上限100行を確認、crash.logは1.0までで1.1以降は生成されないことをバージョン間のソース比較と現行公式ページで確認、gRPC4分岐をgrpc_error.goで照合"
       }
     ]
+  },
+  "content/posts/docker_context_deadline_exceeded.md": {
+    "verified": true,
+    "verified_at": "2026-07-28",
+    "last_verified_at": "2026-07-28",
+    "history": [
+      {
+        "date": "2026-07-28",
+        "note": "context.DeadlineExceededの定義とTimeout/Temporaryの挙動をGoソースで照合、awaiting headersとreading bodyの2接尾辞をnet/httpの別箇所で確認、COMPOSE_HTTP_TIMEOUTがCompose V2で無効であることを公式文書で確認、同時取得数3・試行回数5をmobyのソースで照合"
+      }
+    ]
   }
 }
