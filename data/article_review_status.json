@@ -321,5 +321,16 @@
         "note": "公式OpenAPIで405定義は全1209操作中3件のみと確認、マージ405の5系統をKargo#5761・Discussion#24695等の実記録で照合、メソッド不一致は404を実測"
       }
     ]
+  },
+  "content/posts/terraform_state_lock.md": {
+    "verified": true,
+    "verified_at": "2026-07-28",
+    "last_verified_at": "2026-07-28",
+    "history": [
+      {
+        "date": "2026-07-28",
+        "note": "既定のlock-timeoutが0で再試行が行われないことをlocker.go・state.go・extended.goで照合、Lock Info7項目とlock.info命名規則をソース確認、S3の.tflockと412、1.10導入・1.11で旧引数非推奨を公式変更履歴で照合"
+      }
+    ]
   }
 }
