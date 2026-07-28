@@ -365,5 +365,16 @@
         "note": "小文字化して再照合し通る場合のみ専用エラーを返す解析順序をdistribution/referenceのソースで照合、名前は小文字のみ255文字まで・タグは大文字可128文字までの非対称を文法定義で確認、レジストリ判定は点かポートかlocalhostのみ"
       }
     ]
+  },
+  "content/posts/nginx_500.md": {
+    "verified": true,
+    "verified_at": "2026-07-28",
+    "last_verified_at": "2026-07-28",
+    "history": [
+      {
+        "date": "2026-07-28",
+        "note": "旧記事が500としていた接続失敗は502・時間切れは504である分岐をngx_http_upstream.cで確認して除去、内部リダイレクト上限10回とサブリクエスト上限50回をngx_http_request.hで照合、循環の2文言をngx_http_core_module.cの別箇所で確認、一時ファイル失敗はcrit級で500になることをソースで確認"
+      }
+    ]
   }
 }
