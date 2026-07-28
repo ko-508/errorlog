@@ -354,5 +354,16 @@
         "note": "context.DeadlineExceededの定義とTimeout/Temporaryの挙動をGoソースで照合、awaiting headersとreading bodyの2接尾辞をnet/httpの別箇所で確認、COMPOSE_HTTP_TIMEOUTがCompose V2で無効であることを公式文書で確認、同時取得数3・試行回数5をmobyのソースで照合"
       }
     ]
+  },
+  "content/posts/docker_invalid_reference_format.md": {
+    "verified": true,
+    "verified_at": "2026-07-28",
+    "last_verified_at": "2026-07-28",
+    "history": [
+      {
+        "date": "2026-07-28",
+        "note": "小文字化して再照合し通る場合のみ専用エラーを返す解析順序をdistribution/referenceのソースで照合、名前は小文字のみ255文字まで・タグは大文字可128文字までの非対称を文法定義で確認、レジストリ判定は点かポートかlocalhostのみ"
+      }
+    ]
   }
 }
