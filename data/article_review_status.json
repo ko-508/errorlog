@@ -332,5 +332,16 @@
         "note": "既定のlock-timeoutが0で再試行が行われないことをlocker.go・state.go・extended.goで照合、Lock Info7項目とlock.info命名規則をソース確認、S3の.tflockと412、1.10導入・1.11で旧引数非推奨を公式変更履歴で照合"
       }
     ]
+  },
+  "content/posts/terraform_crash.md": {
+    "verified": true,
+    "verified_at": "2026-07-28",
+    "last_verified_at": "2026-07-28",
+    "history": [
+      {
+        "date": "2026-07-28",
+        "note": "本体とプラグインで別々のpanic出力文をpanic.goで照合、終了コード11とプラグイン用スタックトレース上限100行を確認、crash.logは1.0までで1.1以降は生成されないことをバージョン間のソース比較と現行公式ページで確認、gRPC4分岐をgrpc_error.goで照合"
+      }
+    ]
   }
 }
