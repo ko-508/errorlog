@@ -376,5 +376,16 @@
         "note": "旧記事が500としていた接続失敗は502・時間切れは504である分岐をngx_http_upstream.cで確認して除去、内部リダイレクト上限10回とサブリクエスト上限50回をngx_http_request.hで照合、循環の2文言をngx_http_core_module.cの別箇所で確認、一時ファイル失敗はcrit級で500になることをソースで確認"
       }
     ]
+  },
+  "content/posts/terraform_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "レジストリ向け再試行の既定1回と要求待ち10秒をinternal/registry/client.goで照合、試行回数を添える文言の生成箇所を確認、go-retryablehttpの対象は429と501以外の5xx・待ちは1秒から倍々で上限30秒・Retry-Afterは429と503のみ読む点を照合、AWS SDKの再試行対象504と既定3回を確認、504は結果不明である実例を1Passwordプロバイダの課題5で確認"
+      }
+    ]
   }
 }
