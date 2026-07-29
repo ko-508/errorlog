@@ -508,5 +508,16 @@
         "note": "初回10秒・上限300秒・起点は直前終了時刻をkubelet.goとkuberuntime_manager.goで照合、記録が600秒で期限切れになる処理をソースで確認、CrashLoopBackOffの文字列定義とイベント文言も確認、上限の2倍が復旧条件である関係と5分・10分が過度に慎重との評価をKEP-4603で確認"
       }
     ]
+  },
+  "content/posts/kubernetes_imagepullbackoff.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "取得関連の状態名5種をpkg/kubelet/images/types.goで照合、初回10秒・上限300秒をkubelet.goで確認、既定の取得方針がlatestならAlways・それ以外はIfNotPresentである規則とタグ省略時にlatest扱いになる処理をdefaults.goとparsers.goで確認、失敗し続けてもPendingのまま資源を保持し続ける問題をkubernetes#122300で確認"
+      }
+    ]
   }
 }
