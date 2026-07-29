@@ -398,5 +398,16 @@
         "note": "DEADLINE_EXCEEDEDが成功時にも返りうる旨とHTTP 504への対応をgoogle/rpc/code.protoで照合、statusDetailsのresponse_sent_by_backendによる責任所在の判別とbackend_timeoutの説明を公式トラブルシューティング文書で確認、従来型ロードバランサが常に502を使う点と接続維持時間600秒固定・推奨620秒も同文書で確認"
       }
     ]
+  },
+  "content/posts/azure_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "azure-coreの再試行対象408/429/500/502/503/504とPOST・PATCHを500/503/504で再試行する例外をソースで照合、ARMの504文言にリソースプロバイダ名が入ることを複数の実記録で確認、504でも資源が作成される事例をpulumi-azure-native#3200で確認"
+      }
+    ]
   }
 }
