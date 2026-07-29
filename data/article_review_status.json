@@ -464,5 +464,16 @@
         "note": "転送先が空なら503・居るのに通じなければ502という区別を軸に構成、接続拒否と見出し過大の分岐はnginxのupstream実装で照合済み、proxy-buffer-sizeの注釈をingress-nginx公式文書で確認"
       }
     ]
+  },
+  "content/posts/gitlab_502.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "専用の502画面の有無で応答生成元を判別できる点を軸に構成、単独動作設定が頻繁な再起動と502を招く例と対処をGitLab公式窓口記事で確認、段ごとの経過時間の見比べを切り分けの起点に採用"
+      }
+    ]
   }
 }
