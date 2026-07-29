@@ -530,5 +530,16 @@
         "note": "OOM優先度の計算式と種類ごとの固定値(-997/1000)をpkg/kubelet/qos/policy.goで照合、要求量が優先度を決める点と要求量超過で最大値に近づく旨の注釈を確認、経験則であり小さな処理単位が多い場合は機能しない但し書きも同箇所で確認、退去の既定しきい値memory.available 100Miをdefaults_linux.goで確認"
       }
     ]
+  },
+  "content/posts/kubernetes_pending.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "Pendingの定義が割り当て前とイメージ取得中の両方を含む点をcore/v1/types.goで確認、FailedSchedulingの文言形式0/N nodes are availableと理由ごとの件数集計の生成をscheduler/framework/types.goで照合、1台が複数理由に数えられるため件数合計が総数を超えうる点も同箇所で確認"
+      }
+    ]
   }
 }
