@@ -420,5 +420,16 @@
         "note": "504の文言と区分をtimeout.go・errors.goのNewTimeoutErrorで照合、request-timeout既定60秒とmin-request-timeout既定1800秒を定義箇所で確認、クライアント指定の待ち時間は0より大きくサーバー上限未満のときのみ採用される規則をrequest_deadline.goで確認、長時間要求が打ち切り対象外である分岐も確認、webhookのtimeoutSeconds既定10秒・範囲1〜30秒を型定義で確認、待ち時間が応答書き出し段階で適用されない事例をkubernetes#119415で確認"
       }
     ]
+  },
+  "content/posts/terraform_502.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "レジストリ向け再試行の説明が502を名指ししていることと既定値1回をinternal/registry/client.goで照合、go-retryablehttpが501以外の5xxを再試行対象とすることを確認、AWS"
+      }
+    ]
   }
 }
