@@ -486,5 +486,16 @@
         "note": "google/rpc/code.protoに422が1件も存在しないことを機械的に確認、17区分の全HTTP対応を抽出し検証系3区分(INVALID_ARGUMENT・FAILED_PRECONDITION・OUT_OF_RANGE)がすべて400に対応することを確認、使用状態コードは12種類で状態コードから区分に戻せない設計である点を根拠に構成"
       }
     ]
+  },
+  "content/posts/terraform_422.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "422はTerraform本体が生成せず中継のみである点を軸に構成、go-retryablehttpとAWS SDKいずれの再試行対象にも422が含まれないことを確認、値の往復変換・状態依存・上限・文言一致判定の破綻をterraform-provider-githubの実記録で確認、HCP Terraform側の422事例をHashiCorp窓口記事2件で確認"
+      }
+    ]
   }
 }
