@@ -87,7 +87,7 @@ curl -s --unix-socket /var/run/docker.sock \
 
 ## 補足：400ではない類似エラー
 
-400と混同されやすい[エラー](/glossary/エラー/)の正しい行き先です。dockerfile parse error や Dockerfile の命令の誤りは、ビルドの解析段階の[エラー](/glossary/エラー/)であり、[HTTP](/glossary/http/) の400ではありません（調査対象は Dockerfile の該当行です）。compose [ファイル](/glossary/ファイル/)の [YAML](/glossary/yaml/) 不正は、compose が[ファイル](/glossary/ファイル/)を読む段階の[クライアント](/glossary/クライアント/)側[エラー](/glossary/エラー/)で、[デーモン](/glossary/デーモン/)には届いていません。invalid reference format（repository name must be lowercase を含む）は[イメージ](/glossary/イメージ/)名の規則違反で、送信前に拒否されます（名前の規則は [docker_404 の記事](/posts/docker_404/)の補足を参照）。Cannot connect to the [Docker](/glossary/docker/) daemon は[デーモン](/glossary/デーモン/)不達で、400どころか [HTTP](/glossary/http/) のやり取り自体が成立していません（[docker_500 の記事](/posts/docker_500/)の補足を参照）。
+400と混同されやすい[エラー](/glossary/エラー/)の正しい行き先です。dockerfile parse error や Dockerfile の命令の誤りは、ビルドの解析段階の[エラー](/glossary/エラー/)であり、[HTTP](/glossary/http/) の400ではありません（調査対象は Dockerfile の該当行です）。compose [ファイル](/glossary/ファイル/)の [YAML](/glossary/yaml/) 不正は、compose が[ファイル](/glossary/ファイル/)を読む段階の[クライアント](/glossary/クライアント/)側[エラー](/glossary/エラー/)で、[デーモン](/glossary/デーモン/)には届いていません。invalid reference format（repository name must be lowercase を含む）は[イメージ](/glossary/イメージ/)名の規則違反で、送信前に拒否されます（名前の規則は [Docker の invalid reference format の記事](/posts/docker_invalid_reference_format/)を参照）。Cannot connect to the [Docker](/glossary/docker/) daemon は[デーモン](/glossary/デーモン/)不達で、400どころか [HTTP](/glossary/http/) のやり取り自体が成立していません（[docker_500 の記事](/posts/docker_500/)の補足を参照）。
 
 ## 切り分けの順序
 
