@@ -519,5 +519,16 @@
         "note": "取得関連の状態名5種をpkg/kubelet/images/types.goで照合、初回10秒・上限300秒をkubelet.goで確認、既定の取得方針がlatestならAlways・それ以外はIfNotPresentである規則とタグ省略時にlatest扱いになる処理をdefaults.goとparsers.goで確認、失敗し続けてもPendingのまま資源を保持し続ける問題をkubernetes#122300で確認"
       }
     ]
+  },
+  "content/posts/kubernetes_oomkilled.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "OOM優先度の計算式と種類ごとの固定値(-997/1000)をpkg/kubelet/qos/policy.goで照合、要求量が優先度を決める点と要求量超過で最大値に近づく旨の注釈を確認、経験則であり小さな処理単位が多い場合は機能しない但し書きも同箇所で確認、退去の既定しきい値memory.available 100Miをdefaults_linux.goで確認"
+      }
+    ]
   }
 }
