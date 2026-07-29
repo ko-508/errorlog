@@ -497,5 +497,16 @@
         "note": "422はTerraform本体が生成せず中継のみである点を軸に構成、go-retryablehttpとAWS SDKいずれの再試行対象にも422が含まれないことを確認、値の往復変換・状態依存・上限・文言一致判定の破綻をterraform-provider-githubの実記録で確認、HCP Terraform側の422事例をHashiCorp窓口記事2件で確認"
       }
     ]
+  },
+  "content/posts/kubernetes_crashloopbackoff.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "初回10秒・上限300秒・起点は直前終了時刻をkubelet.goとkuberuntime_manager.goで照合、記録が600秒で期限切れになる処理をソースで確認、CrashLoopBackOffの文字列定義とイベント文言も確認、上限の2倍が復旧条件である関係と5分・10分が過度に慎重との評価をKEP-4603で確認"
+      }
+    ]
   }
 }
