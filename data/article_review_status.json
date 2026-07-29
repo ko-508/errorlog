@@ -387,5 +387,16 @@
         "note": "レジストリ向け再試行の既定1回と要求待ち10秒をinternal/registry/client.goで照合、試行回数を添える文言の生成箇所を確認、go-retryablehttpの対象は429と501以外の5xx・待ちは1秒から倍々で上限30秒・Retry-Afterは429と503のみ読む点を照合、AWS SDKの再試行対象504と既定3回を確認、504は結果不明である実例を1Passwordプロバイダの課題5で確認"
       }
     ]
+  },
+  "content/posts/gcp_504.md": {
+    "verified": true,
+    "verified_at": "2026-07-29",
+    "last_verified_at": "2026-07-29",
+    "history": [
+      {
+        "date": "2026-07-29",
+        "note": "DEADLINE_EXCEEDEDが成功時にも返りうる旨とHTTP 504への対応をgoogle/rpc/code.protoで照合、statusDetailsのresponse_sent_by_backendによる責任所在の判別とbackend_timeoutの説明を公式トラブルシューティング文書で確認、従来型ロードバランサが常に502を使う点と接続維持時間600秒固定・推奨620秒も同文書で確認"
+      }
+    ]
   }
 }
