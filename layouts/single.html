@@ -4,38 +4,44 @@
 {{- $pubDate := .Date }}
 {{- $modDate := .Lastmod }}
 {{- if .Lastmod.IsZero }}{{- $modDate = .Date }}{{- end }}
+{{- $kw := slice }}
+{{- range .Params.tags }}{{- $kw = $kw | append . }}{{- end }}
+{{- with .Params.errorCode }}
+  {{- if findRE "^[0-9]+$" . }}{{- $kw = $kw | append (printf "HTTP %s" .) }}{{- end }}
+  {{- $kw = $kw | append . }}
+{{- end }}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": {{ .Title | plainify | jsonify }},
-  "description": {{ with .Description }}{{ . | plainify | jsonify }}{{ else }}{{ .Summary | plainify | truncate 160 | jsonify }}{{ end }},
+  "headline": {{ .Title | plainify | jsonify | safeJS }},
+  "description": {{ with .Description }}{{ . | plainify | jsonify | safeJS }}{{ else }}{{ .Summary | plainify | truncate 160 | jsonify | safeJS }}{{ end }},
   "inLanguage": "ja",
-  "url": {{ .Permalink | jsonify }},
-  "datePublished": {{ $pubDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
-  "dateModified": {{ $modDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
+  "url": {{ .Permalink | jsonify | safeJS }},
+  "datePublished": {{ $pubDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify | safeJS }},
+  "dateModified": {{ $modDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify | safeJS }},
   "articleSection": "Error Troubleshooting",
   "proficiencyLevel": "Intermediate",
-  "keywords": [{{ range $i, $t := .Params.tags }}{{ if $i }}, {{ end }}{{ $t | jsonify }}{{ end }}{{ with .Params.errorCode }}, {{ printf "HTTP %s" . | jsonify }}, {{ . | jsonify }}{{ end }}],
+  "keywords": {{ $kw | jsonify | safeJS }},
   "author": {
     "@type": "Organization",
-    "name": {{ site.Title | jsonify }},
-    "url": {{ site.BaseURL | jsonify }}
+    "name": {{ site.Title | jsonify | safeJS }},
+    "url": {{ site.BaseURL | jsonify | safeJS }}
   },
   "publisher": {
     "@type": "Organization",
-    "name": {{ site.Title | jsonify }},
-    "url": {{ site.BaseURL | jsonify }}
+    "name": {{ site.Title | jsonify | safeJS }},
+    "url": {{ site.BaseURL | jsonify | safeJS }}
   }{{ with .Params.error_cause }},
   "mainEntity": {
     "@type": "HowTo",
-    "name": {{ $.Title | plainify | jsonify }},
-    "description": {{ . | jsonify }}{{ with $.Params.error_remedy }},
+    "name": {{ $.Title | plainify | jsonify | safeJS }},
+    "description": {{ . | jsonify | safeJS }}{{ with $.Params.error_remedy }},
     "step": [
       {
         "@type": "HowToStep",
         "name": "解決手順",
-        "text": {{ . | jsonify }}
+        "text": {{ . | jsonify | safeJS }}
       }
     ]{{ end }}
   }{{ end }}
