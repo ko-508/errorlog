@@ -1,23 +1,13 @@
 {
-  "generated_at": "2026-07-26",
+  "generated_at": "2026-07-31",
   "uncovered": [
     {
-      "query": "cliとは",
+      "query": "error> <code>nosuchkey</code> <message>the specified key does not exist.</message> </error>",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 93.0,
+      "position": 43.0,
       "coverage": "uncovered",
-      "best_match_slug": "azure_403",
-      "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "cors とは",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 91.0,
-      "coverage": "uncovered",
-      "best_match_slug": "firebase_401",
+      "best_match_slug": "aws_s3_nosuchkey",
       "match_score": 0.069,
       "opportunity_score": 0.0
     },
@@ -27,88 +17,58 @@
       "ctr": 0.0,
       "position": 20.0,
       "coverage": "uncovered",
-      "best_match_slug": "aws_s3_accessdenied",
-      "match_score": 0.069,
+      "best_match_slug": "azure_504",
+      "match_score": 0.103,
       "opportunity_score": 0.0
     },
     {
-      "query": "graphqlとは何か",
-      "impressions": 7,
-      "ctr": 0.0,
-      "position": 81.43,
-      "coverage": "uncovered",
-      "best_match_slug": "github_api_429",
-      "match_score": 0.034,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "https:/",
+      "query": "graphql とは",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 297.0,
-      "coverage": "uncovered",
-      "best_match_slug": "docker_408",
-      "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "rfc",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 94.0,
-      "coverage": "uncovered",
-      "best_match_slug": "docker_408",
-      "match_score": 0.034,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "rfc nedir",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 100.0,
-      "coverage": "uncovered",
-      "best_match_slug": "docker_408",
-      "match_score": 0.034,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "url ドメイン",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 22.5,
-      "coverage": "uncovered",
-      "best_match_slug": "supabase_400",
-      "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "vpcとは",
-      "impressions": 4,
-      "ctr": 0.0,
-      "position": 21.0,
+      "position": 80.0,
       "coverage": "uncovered",
       "best_match_slug": "firebase_401",
       "match_score": 0.069,
       "opportunity_score": 0.0
     },
     {
-      "query": "word file",
-      "impressions": 3,
+      "query": "graphqlとは何か",
+      "impressions": 9,
       "ctr": 0.0,
-      "position": 27.0,
+      "position": 81.67,
+      "coverage": "uncovered",
+      "best_match_slug": "github_api_429",
+      "match_score": 0.034,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "grpcとは何か",
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 88.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "xmlデータとは",
+      "query": "nosuchkeyexception",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 99.0,
+      "position": 45.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "vpcとは",
+      "impressions": 3,
+      "ctr": 0.0,
+      "position": 20.33,
+      "coverage": "uncovered",
+      "best_match_slug": "firebase_401",
+      "match_score": 0.069,
       "opportunity_score": 0.0
     },
     {
@@ -132,40 +92,60 @@
       "opportunity_score": 0.0
     },
     {
-      "query": "インフラ 意味",
-      "impressions": 1,
+      "query": "インフラ",
+      "impressions": 3,
       "ctr": 0.0,
-      "position": 96.0,
+      "position": 99.33,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "クエリ とは",
+      "query": "インフラ 意味",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 100.0,
+      "position": 97.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー コード",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 98.0,
+      "coverage": "uncovered",
+      "best_match_slug": "aws_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "クエリ とは",
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 99.2,
       "coverage": "uncovered",
       "best_match_slug": "firebase_401",
       "match_score": 0.069,
       "opportunity_score": 0.0
     },
     {
-      "query": "スロットリング",
+      "query": "クエリ意味",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 80.0,
+      "position": 100.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "スロットリングとは",
+      "query": "スロットリング",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 19.0,
+      "position": 20.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
@@ -182,23 +162,53 @@
       "opportunity_score": 0.0
     },
     {
-      "query": "トークン と は わかり やすく",
-      "impressions": 2,
+      "query": "デプロイ 意味",
+      "impressions": 1,
       "ctr": 0.0,
-      "position": 99.0,
+      "position": 100.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "ドメイン url 違い",
+      "query": "トークン と は わかり やすく",
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 99.75,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークン 認証",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 23.0,
+      "position": 94.0,
       "coverage": "uncovered",
-      "best_match_slug": "supabase_400",
-      "match_score": 0.069,
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークンとは わかりやすく",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 97.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "トークン認証",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 90.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
@@ -232,36 +242,6 @@
       "opportunity_score": 0.0
     },
     {
-      "query": "ファイルの拡張子とは",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 20.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "プロトコル エラー と は",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 80.5,
-      "coverage": "uncovered",
-      "best_match_slug": "aws_401",
-      "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "ペイロード",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 100.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
       "query": "ペイロード 意味",
       "impressions": 1,
       "ctr": 0.0,
@@ -282,26 +262,6 @@
       "opportunity_score": 0.0
     },
     {
-      "query": "リスポンス",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 81.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "レスポンス と は",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 92.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
       "query": "レスポンス 意味",
       "impressions": 2,
       "ctr": 0.0,
@@ -312,20 +272,30 @@
       "opportunity_score": 0.0
     },
     {
-      "query": "仮想プライベートクラウド",
-      "impressions": 8,
+      "query": "レスポンス 意味 使い方",
+      "impressions": 1,
       "ctr": 0.0,
-      "position": 97.38,
+      "position": 89.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "拡張子",
+      "query": "ワード ファイル と は",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 19.0,
+      "position": 75.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "仮想プライベートクラウド",
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 97.6,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
@@ -333,9 +303,9 @@
     },
     {
       "query": "権限",
-      "impressions": 2,
+      "impressions": 1,
       "ctr": 0.0,
-      "position": 18.5,
+      "position": 18.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
@@ -343,9 +313,9 @@
     },
     {
       "query": "ﾚｽﾎﾟﾝｽとは",
-      "impressions": 3,
+      "impressions": 5,
       "ctr": 0.0,
-      "position": 93.0,
+      "position": 91.6,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
@@ -355,21 +325,11 @@
   "partial": [
     {
       "query": "504エラー",
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0.0,
-      "position": 90.0,
+      "position": 89.0,
       "coverage": "partial",
       "best_match_slug": "aws_504",
-      "match_score": 0.366,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "cloudfront 502",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 59.0,
-      "coverage": "partial",
-      "best_match_slug": "aws_502",
       "match_score": 0.366,
       "opportunity_score": 0.0
     },
@@ -385,9 +345,9 @@
     },
     {
       "query": "elb 503",
-      "impressions": 9,
+      "impressions": 6,
       "ctr": 0.0,
-      "position": 68.78,
+      "position": 45.17,
       "coverage": "partial",
       "best_match_slug": "aws_503",
       "match_score": 0.366,
@@ -395,9 +355,9 @@
     },
     {
       "query": "elb 504",
-      "impressions": 8,
+      "impressions": 9,
       "ctr": 0.0,
-      "position": 62.5,
+      "position": 62.0,
       "coverage": "partial",
       "best_match_slug": "aws_504",
       "match_score": 0.366,
@@ -405,9 +365,9 @@
     },
     {
       "query": "google 500 エラー",
-      "impressions": 3,
+      "impressions": 4,
       "ctr": 0.0,
-      "position": 50.33,
+      "position": 51.0,
       "coverage": "partial",
       "best_match_slug": "gcp_500",
       "match_score": 0.4,
@@ -415,9 +375,9 @@
     },
     {
       "query": "google エラー 500",
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0.0,
-      "position": 52.0,
+      "position": 54.0,
       "coverage": "partial",
       "best_match_slug": "gcp_500",
       "match_score": 0.4,
@@ -444,10 +404,20 @@
       "opportunity_score": 0.0
     },
     {
+      "query": "s3 the specified key does not exist",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 45.5,
+      "coverage": "partial",
+      "best_match_slug": "aws_s3_nosuchkey",
+      "match_score": 0.572,
+      "opportunity_score": 0.0
+    },
+    {
       "query": "エラー 403 access denied",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 20.0,
+      "position": 21.0,
       "coverage": "partial",
       "best_match_slug": "docker_403",
       "match_score": 0.366,
@@ -455,20 +425,30 @@
     },
     {
       "query": "エラー 503 とは",
-      "impressions": 1,
+      "impressions": 2,
       "ctr": 0.0,
       "position": 20.0,
       "coverage": "partial",
       "best_match_slug": "aws_503",
       "match_score": 0.366,
       "opportunity_score": 0.0
+    },
+    {
+      "query": "エラー 504",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 89.0,
+      "coverage": "partial",
+      "best_match_slug": "aws_504",
+      "match_score": 0.366,
+      "opportunity_score": 0.0
     }
   ],
   "summary": {
-    "total_queries": 48,
-    "covered": 2,
-    "partial": 11,
-    "uncovered": 35,
-    "coverage_rate": 0.0417
+    "total_queries": 47,
+    "covered": 3,
+    "partial": 12,
+    "uncovered": 32,
+    "coverage_rate": 0.0638
   }
 }
