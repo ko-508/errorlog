@@ -6,7 +6,7 @@ tags: ["Azure"]
 errorCode: "400"
 service: "Azure"
 error_type: "400"
-components: []
+components: ["Resource Manager"]
 related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要

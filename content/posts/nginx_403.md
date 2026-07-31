@@ -7,7 +7,7 @@ errorCode: "403"
 lastmod: 2026-06-30
 service: "Nginx"
 error_type: "403"
-components: []
+components: ["HTTP Core"]
 related_services: ["PHP-FPM", "SELinux", "AppArmor"]
 top_queries:
 - '403 forbidden nginx'

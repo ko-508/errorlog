@@ -6,7 +6,7 @@ tags: ["GitLab"]
 errorCode: "404"
 service: "GitLab"
 error_type: "404"
-components: []
+components: ["REST API"]
 related_services: ["curl", "Python requests"]
 lastmod: 2026-06-14
 top_queries:

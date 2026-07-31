@@ -7,7 +7,7 @@ errorCode: "500"
 lastmod: 2026-07-02
 service: "Docker"
 error_type: "500"
-components: []
+components: ["Daemon"]
 related_services: []
 trend_incident: true
 top_queries:

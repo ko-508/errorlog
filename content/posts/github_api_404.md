@@ -7,7 +7,7 @@ errorCode: "404"
 lastmod: 2026-07-10
 service: "GitHub API"
 error_type: "404"
-components: []
+components: ["REST API"]
 related_services: []
 trend_incident: true
 top_queries:

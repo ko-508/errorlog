@@ -7,7 +7,7 @@ errorCode: "499"
 lastmod: 2026-07-09
 service: "Nginx"
 error_type: "499"
-components: []
+components: ["HTTP Core"]
 related_services: []
 top_queries:
 - 'nginx 499'

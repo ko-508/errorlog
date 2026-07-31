@@ -7,7 +7,7 @@ errorCode: "503"
 lastmod: 2026-06-13
 service: "GitHub API"
 error_type: "503"
-components: []
+components: ["REST API"]
 related_services: ["GraphQL API"]
 trend_incident: true
 top_queries:

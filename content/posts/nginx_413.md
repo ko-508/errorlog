@@ -7,7 +7,7 @@ errorCode: "413"
 lastmod: 2026-07-08
 service: "Nginx"
 error_type: "413"
-components: []
+components: ["HTTP Core"]
 related_services: []
 top_queries:
 - '413 request entity too large nginx'

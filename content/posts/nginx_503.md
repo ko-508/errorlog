@@ -7,7 +7,7 @@ errorCode: "503"
 lastmod: 2026-07-02
 service: "Nginx"
 error_type: "503"
-components: []
+components: ["HTTP Core", "Upstream"]
 related_services: []
 top_queries:
 - '503 nginx'

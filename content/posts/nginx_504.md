@@ -7,7 +7,7 @@ errorCode: "504"
 lastmod: 2026-07-14
 service: "Nginx"
 error_type: "504"
-components: []
+components: ["HTTP Core", "Upstream"]
 related_services: []
 top_queries:
 - 'nginx 504'

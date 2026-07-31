@@ -6,7 +6,7 @@ tags: ["Azure"]
 errorCode: "401"
 service: "Azure"
 error_type: "401"
-components: []
+components: ["Resource Manager"]
 related_services: ["Azure CLI", "Azure SDK", "Azure Virtual Machine", "Azure Functions", "App Service", "Azure Portal"]
 top_queries:
 - '401エラー'

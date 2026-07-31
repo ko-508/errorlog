@@ -7,7 +7,7 @@ errorCode: "400"
 lastmod: 2026-05-31
 service: "Nginx"
 error_type: "400"
-components: []
+components: ["HTTP Core"]
 related_services: ["JavaScript", "API", "HTTP", "HTTPS"]
 top_queries:
 - "nginx エラー"

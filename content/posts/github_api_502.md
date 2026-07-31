@@ -7,7 +7,7 @@ errorCode: "502"
 lastmod: 2026-07-11
 service: "GitHub API"
 error_type: "502"
-components: []
+components: ["REST API"]
 related_services: []
 trend_incident: true
 top_queries:

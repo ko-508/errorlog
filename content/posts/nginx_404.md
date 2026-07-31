@@ -7,7 +7,7 @@ errorCode: "404"
 lastmod: 2026-07-02
 service: "Nginx"
 error_type: "404"
-components: []
+components: ["HTTP Core"]
 related_services: []
 top_queries:
 - 'nginx 404'

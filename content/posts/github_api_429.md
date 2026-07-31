@@ -7,7 +7,7 @@ errorCode: "429"
 lastmod: 2026-07-14
 service: "GitHub API"
 error_type: "429"
-components: []
+components: ["REST API"]
 related_services: ["Personal Access Token", "GraphQL API", "REST API"]
 trend_incident: true
 top_queries:
