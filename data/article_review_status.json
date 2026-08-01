@@ -554,6 +554,10 @@
       {
         "date": "2026-08-01",
         "note": "400に対応する区分がINVALID_ARGUMENT・FAILED_PRECONDITION・OUT_OF_RANGEの3つであることと各定義文をcode.protoで照合、ErrorInfoのreason形式とBadRequestのfieldViolations構造・PreconditionFailureをerror_details.protoで確認、全エラー応答が機械可読識別子を含むべき旨と詳細種別は1応答1回までである旨をAPI設計指針で確認"
+      },
+      {
+        "date": "2026-08-01",
+        "note": "コミット082cc2b(dateを復元と称して実際は全行削除)で消失したgcp_400を29b8cd7の内容から復旧、dateのみ2026-05-27に修正"
       }
     ]
   },
