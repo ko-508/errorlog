@@ -600,5 +600,16 @@
         "note": "RESOURCE_EXHAUSTEDの定義とQuotaFailureの7項目（subject・description・apiService・quotaMetric・quotaId・quotaDimensions・quotaValue）およびRetryInfoをerror_details.protoで照合、上限が呼び出し先以外のサービスに由来しうる旨も同定義で確認、旧記事の出典不明なAPI別クォータ数値を除去"
       }
     ]
+  },
+  "content/posts/gcp_500.md": {
+    "verified": true,
+    "verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-01",
+    "history": [
+      {
+        "date": "2026-08-01",
+        "note": "500に対応する区分がINTERNAL・UNKNOWN・DATA_LOSSの3つであることと各定義文をcode.protoで照合、UNKNOWNが情報伝達の欠落を指す旨とINTERNALが深刻なエラー向けに予約されている旨を確認、503のみ一時的で再試行可と定義されている点も確認、旧記事のクォータ超過・IAM権限不足を500の原因とする記述を除去"
+      }
+    ]
   }
 }
