@@ -610,6 +610,10 @@
       {
         "date": "2026-08-01",
         "note": "RESOURCE_EXHAUSTEDの定義とQuotaFailureの7項目（subject・description・apiService・quotaMetric・quotaId・quotaDimensions・quotaValue）およびRetryInfoをerror_details.protoで照合、上限が呼び出し先以外のサービスに由来しうる旨も同定義で確認、旧記事の出典不明なAPI別クォータ数値を除去"
+      },
+      {
+        "date": "2026-08-01",
+        "note": "公式クォータトラブルシューティングでレート型/割り当て型の2分類とCompute Engineの403例外を確認し『上限は必ず429』の言い切りを修正、待てば回復するかの判断軸を原因3と切り分け順序に追加、公式再試行指針(429は最短30秒)を追記、Editor's NoteにHashiCorp公式サポート記事の実在確認済み事例をリンク付きで追加、dateを2026-05-28に復元"
       }
     ]
   },
