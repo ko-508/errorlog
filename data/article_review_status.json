@@ -552,5 +552,16 @@
         "note": "400に対応する区分がINVALID_ARGUMENT・FAILED_PRECONDITION・OUT_OF_RANGEの3つであることと各定義文をcode.protoで照合、ErrorInfoのreason形式とBadRequestのfieldViolations構造・PreconditionFailureをerror_details.protoで確認、全エラー応答が機械可読識別子を含むべき旨と詳細種別は1応答1回までである旨をAPI設計指針で確認"
       }
     ]
+  },
+  "content/posts/gcp_401.md": {
+    "verified": true,
+    "verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-01",
+    "history": [
+      {
+        "date": "2026-08-01",
+        "note": "UNAUTHENTICATEDとPERMISSION_DENIEDの定義文をcode.protoで照合し、呼び出し元を特定できない場合に403を使ってはならない旨を確認、旧記事のIAMロール不足=401という誤りを訂正、サービスアカウント鍵が既定で期限切れしない旨と短命認証情報の既定1時間・最大12時間を公式文書で確認し旧記事の10年記述を除去"
+      }
+    ]
   }
 }
