@@ -541,5 +541,16 @@
         "note": "Pendingの定義が割り当て前とイメージ取得中の両方を含む点をcore/v1/types.goで確認、FailedSchedulingの文言形式0/N nodes are availableと理由ごとの件数集計の生成をscheduler/framework/types.goで照合、1台が複数理由に数えられるため件数合計が総数を超えうる点も同箇所で確認"
       }
     ]
+  },
+  "content/posts/gcp_400.md": {
+    "verified": true,
+    "verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-01",
+    "history": [
+      {
+        "date": "2026-08-01",
+        "note": "400に対応する区分がINVALID_ARGUMENT・FAILED_PRECONDITION・OUT_OF_RANGEの3つであることと各定義文をcode.protoで照合、ErrorInfoのreason形式とBadRequestのfieldViolations構造・PreconditionFailureをerror_details.protoで確認、全エラー応答が機械可読識別子を含むべき旨と詳細種別は1応答1回までである旨をAPI設計指針で確認"
+      }
+    ]
   }
 }
