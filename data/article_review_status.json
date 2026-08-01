@@ -580,6 +580,10 @@
       {
         "date": "2026-08-01",
         "note": "応答のmetadata.permissionに不足権限名が入る点とTroubleshooter URLの提供、原因4分類（権限不足・拒否ポリシー・境界ポリシー・対象不存在）を公式のpermission-error-messagesで確認、旧記事の鍵期限切れ=403という誤りと90日ローテーション記述を除去、量の超過に403を使わない旨をcode.protoで照合"
+      },
+      {
+        "date": "2026-08-01",
+        "note": "Compute Engineのクォータ超過が403(QUOTA_EXCEEDED/RATE_LIMIT_EXCEEDED)で返る例外を公式クォータトラブルシューティングで確認し原因5の言い切りを修正、原因4にSERVICE_DISABLED/accessNotConfiguredの識別子と伝播待ちを追記、Editor's NoteにCloud SQL利用者組の実在確認済み事例をリンク付きで追加、dateを書き直し前の2026-05-27に復元"
       }
     ]
   },
