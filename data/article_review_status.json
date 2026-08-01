@@ -611,5 +611,16 @@
         "note": "500に対応する区分がINTERNAL・UNKNOWN・DATA_LOSSの3つであることと各定義文をcode.protoで照合、UNKNOWNが情報伝達の欠落を指す旨とINTERNALが深刻なエラー向けに予約されている旨を確認、503のみ一時的で再試行可と定義されている点も確認、旧記事のクォータ超過・IAM権限不足を500の原因とする記述を除去"
       }
     ]
+  },
+  "content/posts/gcp_409.md": {
+    "verified": true,
+    "verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-01",
+    "history": [
+      {
+        "date": "2026-08-01",
+        "note": "409に対応する区分がALREADY_EXISTSとABORTEDの2つであることと各定義文をcode.protoで照合、FAILED_PRECONDITION・ABORTED・UNAVAILABLEを再試行の粒度で選び分ける指針（呼び出しのみ=503、上位からやり直し=409、状態を直すまで不可=400）も同定義で確認"
+      }
+    ]
   }
 }
