@@ -567,5 +567,16 @@
         "note": "UNAUTHENTICATEDとPERMISSION_DENIEDの定義文をcode.protoで照合し、呼び出し元を特定できない場合に403を使ってはならない旨を確認、旧記事のIAMロール不足=401という誤りを訂正、サービスアカウント鍵が既定で期限切れしない旨と短命認証情報の既定1時間・最大12時間を公式文書で確認し旧記事の10年記述を除去"
       }
     ]
+  },
+  "content/posts/gcp_403.md": {
+    "verified": true,
+    "verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-01",
+    "history": [
+      {
+        "date": "2026-08-01",
+        "note": "応答のmetadata.permissionに不足権限名が入る点とTroubleshooter URLの提供、原因4分類（権限不足・拒否ポリシー・境界ポリシー・対象不存在）を公式のpermission-error-messagesで確認、旧記事の鍵期限切れ=403という誤りと90日ローテーション記述を除去、量の超過に403を使わない旨をcode.protoで照合"
+      }
+    ]
   }
 }
