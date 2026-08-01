@@ -589,5 +589,16 @@
         "note": "NOT_FOUNDの定義にある実装者向け注意書き（層ごとの拒否には404可、利用者単位のアクセス制御には403必須）をcode.protoで照合し、旧記事のIAM権限不足による404偽装という記述を訂正、403側の文言に対象不存在の但し書きが付く一方通行の関係をpermission-error-messagesで確認"
       }
     ]
+  },
+  "content/posts/gcp_429.md": {
+    "verified": true,
+    "verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-01",
+    "history": [
+      {
+        "date": "2026-08-01",
+        "note": "RESOURCE_EXHAUSTEDの定義とQuotaFailureの7項目（subject・description・apiService・quotaMetric・quotaId・quotaDimensions・quotaValue）およびRetryInfoをerror_details.protoで照合、上限が呼び出し先以外のサービスに由来しうる旨も同定義で確認、旧記事の出典不明なAPI別クォータ数値を除去"
+      }
+    ]
   }
 }
