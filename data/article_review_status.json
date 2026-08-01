@@ -644,6 +644,10 @@
       {
         "date": "2026-08-01",
         "note": "409に対応する区分がALREADY_EXISTSとABORTEDの2つであることと各定義文をcode.protoで照合、FAILED_PRECONDITION・ABORTED・UNAVAILABLEを再試行の粒度で選び分ける指針（呼び出しのみ=503、上位からやり直し=409、状態を直すまで不可=400）も同定義で確認"
+      },
+      {
+        "date": "2026-08-01",
+        "note": "Cloud Storage公式のバケット名全球一意仕様に基づき他人との名前衝突の変種と文言での見分け方を原因1に追加、Firestore公式の競合解決の説明を原因2に追加、前提条件の失敗が412/400で返る場合の注意を原因4に追加、Editor's Noteにnodejs-firestore Issue #1022の実在確認済み事例をリンク付きで追加"
       }
     ]
   }
