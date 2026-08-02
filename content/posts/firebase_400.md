@@ -50,7 +50,7 @@ Error: 3 INVALID_ARGUMENT: Invalid json in the body: Invalid JSON payload receiv
 
 Firebase [API](/glossary/api/) へ[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式になっていない場合に発生します。シングルクォートの使用、末尾のカンマ、引用符の不一致がよくある間違いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -79,9 +79,9 @@ response = requests.post(
 
 ### 原因2：API キーの無効化または無効な認証情報
 
-Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) キー、削除されたキー、または間違ったプロジェクト [ID](/glossary/id/) を使用しているケースです。
+Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) キー、削除されたキー、または間違った[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) を使用しているケースです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 import { initializeApp } from 'firebase/app';
@@ -118,7 +118,7 @@ const db = getDatabase(app);
 
 Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須フィールドを[送信](/glossary/送信/)していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 from firebase_admin import firestore
@@ -147,7 +147,7 @@ db.collection('users').document('user123').set({
 
 [REST](/glossary/rest/) [API](/glossary/api/) 経由で Firebase に[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際、`Content-Type` [ヘッダー](/glossary/ヘッダー/)が `application/json` に設定されていない場合、[リクエストボディ](/glossary/リクエストボディ/)が [JSON](/glossary/json/) として解析されず 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST https://firebaseio.com/users.json \
@@ -167,7 +167,7 @@ curl -X POST https://firebaseio.com/users.json \
 
 Firebase Authentication の[トークン](/glossary/トークン/)（[ID](/glossary/id/) Token）が期限切れになっているか、無効な形式で[送信](/glossary/送信/)されている場合に 400 [エラー](/glossary/エラー/)が返されることがあります。また、Bearer スキーム形式の誤りも原因となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const idToken = 'expired-or-malformed-token';
@@ -224,7 +224,7 @@ Firestore [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場
 
 `.json` [エンドポイント](/glossary/エンドポイント/)経由でのアクセス時に、スラッシュ文字や特殊文字を含む[パス](/glossary/パス/)が [URL](/glossary/url/) エンコードされていないと 400 [エラー](/glossary/エラー/)が発生します。[パス](/glossary/パス/)内の空白やスペースは必ず `%20` に置き換える必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl https://firebaseio.com/user data.json
@@ -240,7 +240,7 @@ curl 'https://firebaseio.com/user%20data.json'
 
 Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) [ファイル](/glossary/ファイル/)が正しく[初期化](/glossary/初期化/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されているか確認が必須です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import firebase_admin
@@ -268,10 +268,10 @@ db = firestore.client()
 
 ### デバッグ手順
 
-1. **ネットワークレスポンスを確認**：ブラウザの開発者ツール（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
+1. **ネットワークレスポンスを確認**：ブラウザの開発者[ツール](/glossary/ツール/)（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
 
 2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) キーの状態を確認**：
-   - Firebase Console → プロジェクト設定 → [API](/glossary/api/) キー
+   - Firebase Console → [プロジェクト](/glossary/プロジェクト/)設定 → [API](/glossary/api/) キー
    - 該当するキーが有効化されているか、制限が適切に設定されているかを確認してください。
 
 3. **ローカルでの[リクエスト](/glossary/リクエスト/)検証**：`curl` [コマンド](/glossary/コマンド/)や Postman を使用して[リクエスト](/glossary/リクエスト/)を再現し、[JSON](/glossary/json/) の妥当性を確認してください。
@@ -295,4 +295,4 @@ firebase.firestore().enableLogging(true);  // Firestore デバッグログを有
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

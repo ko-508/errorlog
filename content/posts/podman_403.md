@@ -44,7 +44,7 @@ Error response from daemon: 403 Forbidden
 
 Podman に[ログイン](/glossary/ログイン/)後、時間が経過して[認証](/glossary/認証/)[トークン](/glossary/トークン/)が期限切れになると 403 が発生します。特に [CI/CD](/glossary/ci-cd/) パイプラインで古い認証情報を使用している場合に顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 1ヶ月前にログインした認証情報を使用したまま
@@ -65,7 +65,7 @@ podman pull quay.io/myorg/myimage:latest
 
 [レジストリ](/glossary/レジストリ/)上で対象[リポジトリ](/glossary/リポジトリ/)への読み取り・書き込み[権限](/glossary/権限/)を持たないユーザーで[ログイン](/glossary/ログイン/)している場合、403 が返されます。[サービスアカウント](/glossary/サービスアカウント/)やロボットアカウントの権限設定不足もここに含まれます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 権限のないアカウントでログイン
@@ -88,7 +88,7 @@ podman push registry.example.com/restricted-repo/image:v1.0
 
 Podman をルートレスモードで実行している場合、SELinux または AppArmor のセキュリティポリシーがネットワークアクセスやボリュームマウントを制限し、実質的に 403 に相当する[エラー](/glossary/エラー/)を発生させることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ルートレスモードで実行（SELinux が有効な環境）
@@ -109,7 +109,7 @@ podman run -v /data:/data:Z --userns=keep-id myimage:latest
 
 自己署名証明書を使用する[プライベートレジストリ](/glossary/プライベートレジストリ/)に対して、Podman が[証明書](/glossary/証明書/)を信頼していない場合、403 ではなく「certificate verification failed」として表現されることもありますが、実質的なアクセス拒否です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman pull registry.internal.company.com/app:latest
@@ -135,9 +135,9 @@ podman pull registry.internal.company.com/app:latest
 
 ### 原因5：レジストリ側の IP アドレス制限
 
-[レジストリ](/glossary/レジストリ/)が[クライアント](/glossary/クライアント/) IP をホワイトリスト制限している場合、認証済みでも特定の IP からのアクセスは 403 になります。VPN を経由していない環境や、[CI/CD](/glossary/ci-cd/) ランナーのグローバル IP が異なる場合に発生します。
+[レジストリ](/glossary/レジストリ/)が[クライアント](/glossary/クライアント/) IP をホワイトリスト制限している場合、認証済みでも特定の IP からのアクセスは 403 になります。VPN を経由していない[環境](/glossary/環境/)や、[CI/CD](/glossary/ci-cd/) ランナーのグローバル IP が異なる場合に発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ローカル環境では成功、CI/CD パイプラインでは 403
@@ -190,7 +190,7 @@ chmod 600 ~/.config/containers/auth.json
 
 Podman Compose で複数のサービスを起動する場合、各サービスが異なる[レジストリ](/glossary/レジストリ/)にアクセスするシナリオでは、`docker-compose.yml` に明示的に認証情報を渡す必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3'
@@ -254,4 +254,4 @@ journalctl --user-unit podman -n 100
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

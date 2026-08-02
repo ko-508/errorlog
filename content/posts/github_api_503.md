@@ -51,7 +51,7 @@ Content-Type: application/json
 
 GitHubが定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では対応できず、GitHub側の復旧を待つ必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -96,7 +96,7 @@ print(result)
 
 GitHub [API](/glossary/api/)には時間ごとの呼び出し回数制限があります。[認証](/glossary/認証/)ユーザーは1時間あたり5,000[リクエスト](/glossary/リクエスト/)、未認証ユーザーは60[リクエスト](/glossary/リクエスト/)に制限されています。この制限に達すると429[エラー](/glossary/エラー/)が返されますが、その直後の集中アクセスによって503[エラー](/glossary/エラー/)が発生する可能性があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -174,7 +174,7 @@ issues = fetch_paginated(
 
 複数の非同期タスクやマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、GitHub側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import asyncio
@@ -227,7 +227,7 @@ results = asyncio.run(
 
 ### GitHub Actions内での503エラー対応
 
-GitHub Actionsでは、ワークフロー実行中にGitHub [API](/glossary/api/)を呼び出す際に503[エラー](/glossary/エラー/)が発生することがあります。`actions/github-script`アクションを使用する場合、内部的にはOctokitライブラリが使用されるため、リトライロジックを明示的に組み込む必要があります。
+GitHub Actionsでは、ワークフロー実行中にGitHub [API](/glossary/api/)を呼び出す際に503[エラー](/glossary/エラー/)が発生することがあります。`actions/github-script`[アクション](/glossary/アクション/)を使用する場合、内部的にはOctokitライブラリが使用されるため、リトライロジックを明示的に組み込む必要があります。
 
 ```yaml
 name: Fetch Issues with Retry
@@ -309,4 +309,4 @@ curl -v -H "Authorization: token <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

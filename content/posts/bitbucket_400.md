@@ -42,7 +42,7 @@ Pipeline error: 'message' field is required in bitbucket-pipelines.yml
 
 Bitbucket Pipelines の[設定ファイル](/glossary/設定ファイル/)に [YAML](/glossary/yaml/) 形式の誤りがあると、パイプラインの起動時に 400 [エラー](/glossary/エラー/)が発生します。インデント不正、クォート漏れ、不正なキー名、シーケンス記法の誤りなどが該当します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 image: atlassian/default-image:latest
@@ -80,7 +80,7 @@ pipelines:
 
 Bitbucket [REST](/glossary/rest/) [API](/glossary/api/) を呼び出す際、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) が壊れていたり、必須[パラメータ](/glossary/パラメータ/)が欠落していたりすると 400 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/issues \
@@ -111,7 +111,7 @@ curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/
 
 [API](/glossary/api/) 呼び出しのクエリパラメータに無効な値を指定すると、400 [エラー](/glossary/エラー/)が発生します。例えば、ページネーション、フィルター条件、ソート順序で無効な値を渡す場合などです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET "https://api.bitbucket.org/2.0/repositories/<workspace>?pagelen=invalid&page=abc" \
@@ -156,4 +156,4 @@ curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/is
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

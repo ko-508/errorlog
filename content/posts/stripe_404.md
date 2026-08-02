@@ -47,7 +47,7 @@ try {
 
 Stripe [API](/glossary/api/)[リクエスト](/glossary/リクエスト/)で使用する[ID](/glossary/id/)が正確でない場合、404[エラー](/glossary/エラー/)が発生します。特に顧客[ID](/glossary/id/)やPaymentIntent [ID](/glossary/id/)は英数字が長く、一文字の違いで見つからなくなります。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import stripe
@@ -78,9 +78,9 @@ retrieved = stripe.Customer.retrieve(customer.id)
 
 ### 原因2：テスト環境と本番環境のAPIキー混在
 
-[テスト](/glossary/テスト/)用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは環境ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
+[テスト](/glossary/テスト/)用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const stripe = require('stripe');
@@ -111,9 +111,9 @@ const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345'
 
 ### 原因3：リソースが削除済みまたは有効期限切れ
 
-Stripe上で削除されたリソースや、有効期限が切れた支払いセッションへのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
+Stripe上で削除されたリソースや、有効期限が切れた支払い[セッション](/glossary/セッション/)へのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import stripe
@@ -151,7 +151,7 @@ except stripe.error.InvalidRequestError as e:
 
 ### APIバージョンの違いによる404
 
-Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加されたリソースにアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)設定で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、コード内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
+Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加されたリソースにアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)設定で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ```bash
 # リクエストヘッダーでAPIバージョンを明示的に指定
@@ -223,4 +223,4 @@ GitHubのstripe-nodeやstripe-pythonリポジトリーのIssuesセクション�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

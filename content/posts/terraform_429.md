@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Terraform の実行時にクラウドプロバイダーの [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達したことを示します。[AWS](/glossary/aws/)・Google Cloud・Azure など複数のプロバイダーが [API](/glossary/api/) 呼び出しの頻度を制限しており、Terraform がこの上限を超えたときに発生します。特に大規模なインフラストラクチャをコード化する際に、並列処理による過度な [API](/glossary/api/) 呼び出しが原因となることが多くあります。
+[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Terraform の実行時にクラウドプロバイダーの [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達したことを示します。[AWS](/glossary/aws/)・Google Cloud・Azure など複数のプロバイダーが [API](/glossary/api/) 呼び出しの頻度を制限しており、Terraform がこの上限を超えたときに発生します。特に大規模なインフラストラクチャを[コード](/glossary/コード/)化する際に、並列処理による過度な [API](/glossary/api/) 呼び出しが原因となることが多くあります。
 
 ## 実際のエラーメッセージ例
 
@@ -196,7 +196,7 @@ terraform apply -parallelism=3
 
 ### リソース分割による段階的デプロイ
 
-規模が大きい場合は、Terraform コード自体をモジュール単位で分割し、段階的に apply することも有効です。
+規模が大きい場合は、Terraform [コード](/glossary/コード/)自体をモジュール単位で分割し、段階的に apply することも有効です。
 
 ```bash
 # ステップ 1：ネットワーク系
@@ -215,4 +215,4 @@ terraform apply -target=module.compute
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

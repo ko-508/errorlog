@@ -39,7 +39,7 @@ at XMLHttpRequest.onload (firebase-app.js:1234)
 
 Firebase は [API](/glossary/api/) 呼び出し数に制限を設定しており、短時間に大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 503 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```javascript
 // 制限なしのループでリアルタイムリッスンを開始
@@ -73,7 +73,7 @@ async function fetchUsersInBatches() {
 
 Cloud Functions が長時間実行中に[タイムアウト](/glossary/タイムアウト/)するか、割り当てられた[メモリ](/glossary/メモリ/)を超えると、Firebase [API](/glossary/api/) が 503 を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```javascript
 // タイムアウト設定がなく、大規模データ処理を実行
@@ -124,9 +124,9 @@ exports.processData = functions
 
 ### 原因3：認証トークンの有効期限切れまたは無効な認証
 
-Firebase Authentication のセッションが期限切れになったり、Security Rules で[認証](/glossary/認証/)を要求しているにもかかわらず[トークン](/glossary/トークン/)が無い場合、Firestore や Realtime Database は 503 に見える[エラー](/glossary/エラー/)を返すことがあります。
+Firebase Authentication の[セッション](/glossary/セッション/)が期限切れになったり、Security Rules で[認証](/glossary/認証/)を要求しているにもかかわらず[トークン](/glossary/トークン/)が無い場合、Firestore や Realtime Database は 503 に見える[エラー](/glossary/エラー/)を返すことがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```javascript
 // ログイン直後、トークンリフレッシュなしで長時間リクエスト送信
@@ -159,7 +159,7 @@ Firestore では 503 [エラー](/glossary/エラー/)が多く発生するの�
 
 **リージョン制約による 503**
 
-Firebase プロジェクトが特定のリージョンに制限されている場合、異なるリージョンからの[リクエスト](/glossary/リクエスト/)が 503 を返すことがあります。Cloud Functions のリージョン設定を確認してください。
+Firebase [プロジェクト](/glossary/プロジェクト/)が特定のリージョンに制限されている場合、異なるリージョンからの[リクエスト](/glossary/リクエスト/)が 503 を返すことがあります。Cloud Functions のリージョン設定を確認してください。
 
 ```javascript
 // リージョンを明示的に指定
@@ -172,7 +172,7 @@ exports.processData = functions
 
 **[レート制限](/glossary/レート制限/)のクォータ確認**
 
-Firebase Console の「プロジェクト設定 > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。
+Firebase Console の「[プロジェクト](/glossary/プロジェクト/)設定 > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。
 
 ## それでも解決しない場合
 
@@ -206,4 +206,4 @@ Firebase GitHub Issues や Stack Overflow で同様の 503 [エラー](/glossary
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 422 Unprocessable Entity は、[リクエスト](/glossary/リクエスト/)が [JSON](/glossary/json/) として正しく読めたうえで、中身がその[エンドポイント](/glossary/エンドポイント/)の検証ルールに通らなかったことを示すコードです。GitHub 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、422 を応答として定義する[エンドポイント](/glossary/エンドポイント/)は308あり、全コードの中で最多です。つまり422は特別な異常ではなく、「[パラメータ](/glossary/パラメータ/)を持つ操作の、最もありふれた失敗の形」です。
+GitHub [API](/glossary/api/) の 422 Unprocessable Entity は、[リクエスト](/glossary/リクエスト/)が [JSON](/glossary/json/) として正しく読めたうえで、中身がその[エンドポイント](/glossary/エンドポイント/)の検証ルールに通らなかったことを示す[コード](/glossary/コード/)です。GitHub 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、422 を応答として定義する[エンドポイント](/glossary/エンドポイント/)は308あり、全[コード](/glossary/コード/)の中で最多です。つまり422は特別な異常ではなく、「[パラメータ](/glossary/パラメータ/)を持つ操作の、最もありふれた失敗の形」です。
 
 調査の核は、応答の errors 配列を読むことに尽きます。公式文書のとおり、配列の各要素は resource（どの種類の対象か）、field（どの項目か）、code（何が悪いか）を持ち、code の値は公式に定義されています。missing_field は必須項目の未設定、invalid は項目の形式の不正、already_exists は同じ値を持つ対象が既に存在、missing は指した対象が存在しない、unprocessable は入力を処理できない、そして custom の場合は必ず message が付き、その文言をそのまま読みます。code と field が分かれば、原因はほぼ確定します。
 
@@ -90,7 +90,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
   -d '{"ref": "refs/heads/feature-x", "sha": "<コミットSHA>"}'
 ```
 
-invalid の応答に value が含まれる場合は、実際に届いた値がそこに写ります。手元のコードが組み立てた値と見比べれば、テンプレートの展開漏れや余分な空白がその場で見つかります。
+invalid の応答に value が含まれる場合は、実際に届いた値がそこに写ります。手元の[コード](/glossary/コード/)が組み立てた値と見比べれば、テンプレートの展開漏れや余分な空白がその場で見つかります。
 
 ### 原因3：同じ値の対象が既に存在する（already_exists）
 
@@ -140,7 +140,7 @@ code が custom の場合、公式文書のとおり必ず message が付きま�
 
 ## 切り分けの順序
 
-1. コードと message を確認する。Problems parsing [JSON](/glossary/json/) なら 400、状態の矛盾なら 409、それぞれの記事の調査に切り替える。
+1. [コード](/glossary/コード/)と message を確認する。Problems parsing [JSON](/glossary/json/) なら 400、状態の矛盾なら 409、それぞれの記事の調査に切り替える。
 2. errors 配列を読む。code（missing_field・invalid・already_exists・missing・custom）と field で、原因1〜5に振り分ける。
 3. missing_field・invalid は、公式リファレンスの[パラメータ](/glossary/パラメータ/)表と value の実値を突き合わせて修正する。
 4. already_exists は、重複を正常系として扱う分岐（既存を取得・更新へフォールバック）に直す。
@@ -179,4 +179,4 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

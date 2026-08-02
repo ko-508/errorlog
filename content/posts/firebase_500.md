@@ -37,9 +37,9 @@ at FirebaseError (/functions/node_modules/firebase-admin/lib/utils/error.ts:42:3
 ### 原因1：Cloud Functions のコード内で処理されない例外が発生している
 
 **なぜ発生するか**  
-Cloud Functions で実行されるコード内で`try-catch`で捕捉されていない例外やPromise rejection が発生すると、Firebase が 500 [エラー](/glossary/エラー/)を返します。データベースクエリの失敗、[API](/glossary/api/)呼び出し[エラー](/glossary/エラー/)、型変換ミスなどが原因となることが多いです。
+Cloud Functions で実行される[コード](/glossary/コード/)内で`try-catch`で捕捉されていない例外やPromise rejection が発生すると、Firebase が 500 [エラー](/glossary/エラー/)を返します。データベースクエリの失敗、[API](/glossary/api/)呼び出し[エラー](/glossary/エラー/)、型変換ミスなどが原因となることが多いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 ```javascript
 exports.processData = functions.https.onCall(async (data, context) => {
   const result = await admin.database().ref('users').once('value');
@@ -126,7 +126,7 @@ Firebase Console > Realtime Database > Rules タブ
 }
 ```
 
-その後、コードは同じまま：
+その後、[コード](/glossary/コード/)は同じまま：
 ```javascript
 admin.database().ref('posts')
   .orderByChild('timestamp')
@@ -198,4 +198,4 @@ firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

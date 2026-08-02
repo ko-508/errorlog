@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（本番環境）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel 環境では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
+Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（本番環境）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -48,9 +48,9 @@ Error: Deployment not found. The deployment <deployment-id> does not exist or ha
 
 ### 原因1：デプロイメント URL が古いか誤っている
 
-Vercel でプロジェクトを更新・再[デプロイ](/glossary/デプロイ/)したり、本番環境の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
+Vercel で[プロジェクト](/glossary/プロジェクト/)を更新・再[デプロイ](/glossary/デプロイ/)したり、本番環境の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // デプロイメント後、古いURLにアクセスしている
@@ -82,13 +82,13 @@ vercel ls
 # my-project    Production    https://my-project-xyz789.vercel.app  Ready
 ```
 
-Vercel Dashboard の「Deployments」タブを開き、最新のデプロイメント [URL](/glossary/url/) を確認してください。Production 環境と Preview 環境で異なる [URL](/glossary/url/) が割り当てられていることに注意してください。
+Vercel Dashboard の「Deployments」タブを開き、最新のデプロイメント [URL](/glossary/url/) を確認してください。Production [環境](/glossary/環境/)と Preview [環境](/glossary/環境/)で異なる [URL](/glossary/url/) が割り当てられていることに注意してください。
 
 ### 原因2：削除されたデプロイメントにアクセスしている
 
 Vercel では、古いデプロイメントは一定期間後に自動削除されたり、ユーザーが手動で削除したりします。削除済みのデプロイメント [ID](/glossary/id/) を直接指定してアクセスすると、404 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 3ヶ月前にデプロイした、既に削除されたデプロイメントにアクセス
@@ -109,13 +109,13 @@ export VERCEL_URL="my-project.vercel.app"
 curl https://$VERCEL_URL/api/data
 ```
 
-デプロイメント保持期間を確認するには、Vercel の[アカウント](/glossary/アカウント/)設定で「Retention」を参照してください。Production デプロイメントは最新のものが保持されますが、Preview デプロイメントはプロジェクト設定で期間を指定できます。
+デプロイメント保持期間を確認するには、Vercel の[アカウント](/glossary/アカウント/)設定で「Retention」を参照してください。Production デプロイメントは最新のものが保持されますが、Preview デプロイメントは[プロジェクト](/glossary/プロジェクト/)設定で期間を指定できます。
 
 ### 原因3：vercel.json のリライト・リダイレクト設定が間違っている
 
 vercel.json でルーティング設定を誤ると、存在する[ファイル](/glossary/ファイル/)にもアクセスできなくなります。正規表現のパターンマッチングに失敗したり、宛先[パス](/glossary/パス/)を誤指定したりすると、すべての[リクエスト](/glossary/リクエスト/)が 404 で返されることもあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -157,7 +157,7 @@ Vercel では、メインブランチへのプッシュで Production デプロ�
 
 **[環境変数](/glossary/環境変数/)と動的 [URL](/glossary/url/) の扱い：**
 
-Vercel の[環境変数](/glossary/環境変数/) `VERCEL_URL` を使用すれば、デプロイメント [URL](/glossary/url/) を動的に参照できます。これにより、コード内にハードコードされた [URL](/glossary/url/) を避けられます。
+Vercel の[環境変数](/glossary/環境変数/) `VERCEL_URL` を使用すれば、デプロイメント [URL](/glossary/url/) を動的に参照できます。これにより、[コード](/glossary/コード/)内にハードコードされた [URL](/glossary/url/) を避けられます。
 
 ```javascript
 const baseUrl = process.env.VERCEL_URL 
@@ -185,7 +185,7 @@ vercel logs <deployment-url> --follow
 # > Deployment complete. URL: https://my-project-xyz.vercel.app
 ```
 
-**ローカル環境での動作確認：**
+**ローカル[環境](/glossary/環境/)での動作確認：**
 
 ```bash
 # Vercel CLI でローカル実行
@@ -208,4 +208,4 @@ GitHub や Vercel のコミュニティフォーラムで同様の事例が報�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

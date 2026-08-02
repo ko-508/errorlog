@@ -28,7 +28,7 @@ Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)�
 }
 ```
 
-**[HTTP](/glossary/http/)[ステータス](/glossary/ステータス/)コード付き[レスポンス](/glossary/レスポンス/)：**
+**[HTTP](/glossary/http/)[ステータス](/glossary/ステータス/)[コード](/glossary/コード/)付き[レスポンス](/glossary/レスポンス/)：**
 
 ```
 HTTP/1.1 429 Too Many Requests
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ループで複数のメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに設定されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import slack
@@ -86,7 +86,7 @@ for user_id in user_ids:
 
 429 [エラー](/glossary/エラー/)が返された際、レスポンスヘッダーの `Retry-After` に指定された秒数だけ待機してから再試行する必要があります。無視して即座に再試行を繰り返すと、さらなる 429 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -129,7 +129,7 @@ async function sendMessage(channel, text) {
 
 `conversations.list`、`users.list`、`emoji.list` など、大量のデータを取得する[メソッド](/glossary/メソッド/)でも[レート制限](/glossary/レート制限/)が適用されます。ページネーション（`cursor` [パラメータ](/glossary/パラメータ/)）を使わずに全件一括取得を試みたり、複数の一括取得[メソッド](/glossary/メソッド/)を連続実行すると 429 [エラー](/glossary/エラー/)が発生しやすくなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import slack
@@ -178,7 +178,7 @@ while True:
 
 ### ボット・App・ワークスペースレベルのレート制限区別
 
-Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は複数のレベルで適用されます。個別のボット、[OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)、[ワークスペース](/glossary/ワークスペース/)全体で異なる上限が設定されているため、同じ[メソッド](/glossary/メソッド/)でも環境によって制限が変わります。特に開発環境では余裕があっても、本番環境の大規模[ワークスペース](/glossary/ワークスペース/)では厳しく制限される傾向があります。
+Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は複数のレベルで適用されます。個別のボット、[OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)、[ワークスペース](/glossary/ワークスペース/)全体で異なる上限が設定されているため、同じ[メソッド](/glossary/メソッド/)でも[環境](/glossary/環境/)によって制限が変わります。特に開発環境では余裕があっても、本番環境の大規模[ワークスペース](/glossary/ワークスペース/)では厳しく制限される傾向があります。
 
 ### Web API メソッドごとのレート制限差
 
@@ -208,4 +208,4 @@ Slack [SDK](/glossary/sdk/) の GitHub [リポジトリ](/glossary/リポジト�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

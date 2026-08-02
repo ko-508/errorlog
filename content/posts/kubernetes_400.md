@@ -45,7 +45,7 @@ ValidationError(Deployment.spec.template.spec.containers[0].image): string lengt
 
 **なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型フィールドを文字列で指定したり、[オブジェクト](/glossary/オブジェクト/)型フィールドにスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -88,7 +88,7 @@ spec:
 
 **なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須フィールド（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限のリソース定義すら受け付けません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -138,7 +138,7 @@ spec:
 
 **なぜ発生するか：** 廃止された[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用したり、クラスタにインストールされていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、[バージョン](/glossary/バージョン/)間での互換性問題が頻繁に起きます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: extensions/v1beta1  # Kubernetes 1.16+で廃止
@@ -185,7 +185,7 @@ EOF
 
 **なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod テンプレートの`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -282,4 +282,4 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

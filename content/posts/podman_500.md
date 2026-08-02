@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman 500 [エラー](/glossary/エラー/)は、Podman [デーモン](/glossary/デーモン/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。ストレージ破損、ディスク容量不足、権限問題によって発生することが多く、[コンテナ](/glossary/コンテナ/)の起動・管理・削除といった基本的な操作が失敗します。この[エラー](/glossary/エラー/)が発生した場合、Podman のストレージとシステムリソースの状態を段階的に確認する必要があります。
+Podman 500 [エラー](/glossary/エラー/)は、Podman [デーモン](/glossary/デーモン/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[ストレージ](/glossary/ストレージ/)破損、ディスク容量不足、権限問題によって発生することが多く、[コンテナ](/glossary/コンテナ/)の起動・管理・削除といった基本的な操作が失敗します。この[エラー](/glossary/エラー/)が発生した場合、Podman の[ストレージ](/glossary/ストレージ/)とシステムリソースの状態を段階的に確認する必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -45,7 +45,7 @@ df -h /var/lib/containers
 
 ファイルシステムの使用率が 100% に近い場合、これが原因です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ podman ps
@@ -70,7 +70,7 @@ podman system df
 
 不正なシャットダウンや Podman [デーモン](/glossary/デーモン/)の強制終了によって、`/var/lib/containers/storage` 配下の[設定ファイル](/glossary/設定ファイル/)や[メタデータ](/glossary/メタデータ/)が破損することがあります。特に `containers.json` や overlay2 の統計[ファイル](/glossary/ファイル/)が影響を受けやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ podman ps
@@ -100,7 +100,7 @@ podman ps
 
 overlay2 ドライバを使用している場合、lower レイヤー・upper レイヤー・work [ディレクトリ](/glossary/ディレクトリ/)間の構造が不一致になることがあります。特に[コンテナ](/glossary/コンテナ/)削除時の処理が中断された場合、orphaned な overlay [ディレクトリ](/glossary/ディレクトリ/)が残存し、[メタデータ](/glossary/メタデータ/)読み込み時に 500 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ podman rm <container_id>
@@ -133,7 +133,7 @@ systemctl start podman.socket
 
 SELinux または AppArmor が有効な場合、ストレージディレクトリのセキュリティコンテキストが不正な状態にあるとアクセス拒否が発生し、500 [エラー](/glossary/エラー/)となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ podman images
@@ -167,7 +167,7 @@ podman ps  # /var/lib/containers/ 使用
 podman ps  # ~/.local/share/containers/ 使用
 ```
 
-Rootless 環境でのストレージ破損の場合、該当ユーザーのホームディレクトリを確認してください。
+Rootless [環境](/glossary/環境/)での[ストレージ](/glossary/ストレージ/)破損の場合、該当ユーザーのホームディレクトリを確認してください。
 
 ```bash
 du -sh ~/.local/share/containers/
@@ -175,17 +175,17 @@ du -sh ~/.local/share/containers/
 
 ### Podman v4.x 以降での自動修復機能
 
-Podman v4.4 以降では、一部のストレージ不整合は自動的に検出・修復されます。それでも 500 [エラー](/glossary/エラー/)が続く場合は、以下を実行します。
+Podman v4.4 以降では、一部の[ストレージ](/glossary/ストレージ/)不整合は自動的に検出・修復されます。それでも 500 [エラー](/glossary/エラー/)が続く場合は、以下を実行します。
 
 ```bash
 podman system reset --force
 ```
 
-この[コマンド](/glossary/コマンド/)はすべての[コンテナ](/glossary/コンテナ/)・[イメージ](/glossary/イメージ/)・ストレージを削除するため、重要なデータは事前に[バックアップ](/glossary/バックアップ/)してください。
+この[コマンド](/glossary/コマンド/)はすべての[コンテナ](/glossary/コンテナ/)・[イメージ](/glossary/イメージ/)・[ストレージ](/glossary/ストレージ/)を削除するため、重要なデータは事前に[バックアップ](/glossary/バックアップ/)してください。
 
 ### systemd-logind との相互作用
 
-Rootless 環理でシステムシャットダウン時に Podman [デーモン](/glossary/デーモン/)が強制終了されると、セッション中の[コンテナ](/glossary/コンテナ/)管理状態が不整合になることがあります。その場合は user session を明示的に[リセット](/glossary/リセット/)します。
+Rootless 環理でシステムシャットダウン時に Podman [デーモン](/glossary/デーモン/)が強制終了されると、[セッション](/glossary/セッション/)中の[コンテナ](/glossary/コンテナ/)管理状態が不整合になることがあります。その場合は user session を明示的に[リセット](/glossary/リセット/)します。
 
 ```bash
 loginctl terminate-user <username>
@@ -237,4 +237,4 @@ podman system reset --force
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

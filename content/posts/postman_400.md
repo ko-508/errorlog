@@ -46,7 +46,7 @@ POST http://api.example.com/users
 
 [JSON](/glossary/json/)の文法[エラー](/glossary/エラー/)が最も一般的な原因です。括弧の閉じ忘れ、カンマの位置[エラー](/glossary/エラー/)、シングルクォートの使用、必須キーの欠落などが該当します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は[リクエストボディ](/glossary/リクエストボディ/)をパースする際に、形式が正確でないと400[エラー](/glossary/エラー/)で拒否します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -89,7 +89,7 @@ Postmanで修正するには、Bodyタブを開き、以下の手順を実行し
 
 Postmanが[送信](/glossary/送信/)するContent-Type[ヘッダー](/glossary/ヘッダー/)の値が、実際のボディの形式と異なると[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返します。[JSON](/glossary/json/)形式のボディを[送信](/glossary/送信/)する場合はapplication/jsonを指定する必要がありますが、誤ってtext/plainやapplication/x-www-form-urlencodedが設定されているケースが多く見られます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 Postmanの[リクエスト](/glossary/リクエスト/)設定：
 - Method: POST
@@ -128,7 +128,7 @@ Postmanで修正するには、Headersタブを開き、以下の対応を行っ
 
 [URL](/glossary/url/)のクエリパラメータに、スペースや日本語などのエンコードが必要な文字が含まれている場合、[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返すことがあります。特にPostmanで手動で[URL](/glossary/url/)を入力している場合、[URL](/glossary/url/)エンコードが自動的に行われないかもしれません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```
 GET http://api.example.com/search?keyword=東京都&sort=新着順
@@ -155,7 +155,7 @@ Paramsタブを使用することで、Postmanが自動的に[URL](/glossary/url
 
 ## ツール固有の注意点
 
-Postmanで400[エラー](/glossary/エラー/)が発生した際、以下のツール固有の確認ポイントがあります。
+Postmanで400[エラー](/glossary/エラー/)が発生した際、以下の[ツール](/glossary/ツール/)固有の確認ポイントがあります。
 
 **Postman Consoleの活用**
 
@@ -203,4 +203,4 @@ curl -X POST http://api.example.com/users \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

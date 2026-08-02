@@ -50,9 +50,9 @@ Error: Internal Server Error
 
 ### 原因1：PostgreSQLのクエリが構文エラーまたは実行時エラーになっている
 
-Supabaseに[送信](/glossary/送信/)する[SQL](/glossary/sql/)[クエリ](/glossary/クエリ/)に構文[エラー](/glossary/エラー/)があったり、存在しない[テーブル](/glossary/テーブル/)・カラムを参照していたりする場合、500[エラー](/glossary/エラー/)が発生します。特にRLS（Row Level Security）の[ポリシー](/glossary/ポリシー/)内で不正な[テーブル](/glossary/テーブル/)参照をしていると、[クエリ](/glossary/クエリ/)実行時に内部[エラー](/glossary/エラー/)となります。
+Supabaseに[送信](/glossary/送信/)する[SQL](/glossary/sql/)[クエリ](/glossary/クエリ/)に構文[エラー](/glossary/エラー/)があったり、存在しない[テーブル](/glossary/テーブル/)・[カラム](/glossary/カラム/)を参照していたりする場合、500[エラー](/glossary/エラー/)が発生します。特にRLS（Row Level Security）の[ポリシー](/glossary/ポリシー/)内で不正な[テーブル](/glossary/テーブル/)参照をしていると、[クエリ](/glossary/クエリ/)実行時に内部[エラー](/glossary/エラー/)となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { data, error } = await supabase
@@ -78,9 +78,9 @@ if (error) {
 }
 ```
 
-または、実際にカラムが存在することを事前確認し、[テーブル](/glossary/テーブル/)定義を正しくする必要があります。Supabase Dashboardの「[SQL](/glossary/sql/) Editor」で[クエリ](/glossary/クエリ/)を事前[テスト](/glossary/テスト/)することをお勧めします。
+または、実際に[カラム](/glossary/カラム/)が存在することを事前確認し、[テーブル](/glossary/テーブル/)定義を正しくする必要があります。Supabase Dashboardの「[SQL](/glossary/sql/) Editor」で[クエリ](/glossary/クエリ/)を事前[テスト](/glossary/テスト/)することをお勧めします。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```sql
 CREATE POLICY "users_select_policy" ON public.users
@@ -100,9 +100,9 @@ CREATE POLICY "users_select_policy" ON public.users
 
 ### 原因2：Supabase Functionsのコードで未処理の例外が発生している
 
-Functionsで実装したエッジファンクション（Supabaseの別環境で実行される関数）が予期しない例外をスローしているか、try-catchで捕捉できていない[エラー](/glossary/エラー/)が発生している場合、500[エラー](/glossary/エラー/)が返されます。
+Functionsで実装したエッジファンクション（Supabaseの別環境で実行される[関数](/glossary/関数/)）が予期しない例外をスローしているか、try-catchで捕捉できていない[エラー](/glossary/エラー/)が発生している場合、500[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // supabase/functions/process-payment/index.ts
@@ -153,7 +153,7 @@ Subaseのバックエンドサービス（PostgreSQL、Auth、Realtimeなどの�
 
 Supabase公式ステータスページ（status.supabase.com）にアクセスして、現在のサービス状態を確認します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { data, error } = await supabase
@@ -213,7 +213,7 @@ Supabase Dashboardの「Logs」セクションは、500[エラー](/glossary/エ
 
 RLS[ポリシー](/glossary/ポリシー/)内での[エラー](/glossary/エラー/)は特定が難しいため、デバッグモード有効化が推奨されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```sql
 CREATE POLICY "check_user" ON public.posts
@@ -234,7 +234,7 @@ ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
 
 複数の[スキーマ](/glossary/スキーマ/)や[テーブル](/glossary/テーブル/)を使用する場合、権限設定が不十分だと500[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```sql
 CREATE TABLE public.users (id BIGINT PRIMARY KEY);
@@ -306,4 +306,4 @@ Supabase公式ドキュメント（https://supabase.com/docs）または、GitHu
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

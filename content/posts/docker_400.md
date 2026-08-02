@@ -14,7 +14,7 @@ trend_incident: true
 
 ## 冒頭まとめ
 
-[Docker](/glossary/docker/) の 400 Bad Request は、[デーモン](/glossary/デーモン/)まで届いた[リクエスト](/glossary/リクエスト/)の形式や値が不正で、[デーモン](/glossary/デーモン/)が処理を始められなかったことを示します。実際の環境で最も多いのは、[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の [API](/glossary/api/) [バージョン](/glossary/バージョン/)不一致です。[エラー](/glossary/エラー/)文言が client version <番号> is too new（[クライアント](/glossary/クライアント/)が新しすぎる）または too old（古すぎる）なら、これに該当します。新しい [CLI](/glossary/cli/) やツールと古い[デーモン](/glossary/デーモン/)の組み合わせ、CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成、DOCKER_[API](/glossary/api/)_VERSION [環境変数](/glossary/環境変数/)の固定ミスが典型です。そのほか、[デーモン](/glossary/デーモン/)の [API](/glossary/api/) を直接呼び出す場合の壊れた [JSON](/glossary/json/) や、[設定値](/glossary/設定値/)の検証で弾かれるケースが400になります。
+[Docker](/glossary/docker/) の 400 Bad Request は、[デーモン](/glossary/デーモン/)まで届いた[リクエスト](/glossary/リクエスト/)の形式や値が不正で、[デーモン](/glossary/デーモン/)が処理を始められなかったことを示します。実際の[環境](/glossary/環境/)で最も多いのは、[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の [API](/glossary/api/) [バージョン](/glossary/バージョン/)不一致です。[エラー](/glossary/エラー/)文言が client version <番号> is too new（[クライアント](/glossary/クライアント/)が新しすぎる）または too old（古すぎる）なら、これに該当します。新しい [CLI](/glossary/cli/) や[ツール](/glossary/ツール/)と古い[デーモン](/glossary/デーモン/)の組み合わせ、CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成、DOCKER_[API](/glossary/api/)_VERSION [環境変数](/glossary/環境変数/)の固定ミスが典型です。そのほか、[デーモン](/glossary/デーモン/)の [API](/glossary/api/) を直接呼び出す場合の壊れた [JSON](/glossary/json/) や、[設定値](/glossary/設定値/)の検証で弾かれるケースが400になります。
 
 逆に、400と誤解されやすいが400ではないものも押さえておくと迷いません。Dockerfile の構文[エラー](/glossary/エラー/)はビルド時の解析[エラー](/glossary/エラー/)、compose [ファイル](/glossary/ファイル/)の [YAML](/glossary/yaml/) 不正は[クライアント](/glossary/クライアント/)側の読み込み[エラー](/glossary/エラー/)、[イメージ](/glossary/イメージ/)名の形式違反は invalid reference format として[デーモン](/glossary/デーモン/)に送る前に拒否されます。いずれも[デーモン](/glossary/デーモン/)の400応答ではなく、調査の場所が異なります。
 
@@ -32,7 +32,7 @@ Error response from daemon: client version 1.41 is too old.
 Minimum supported API version is 1.44
 ```
 
-too new は[クライアント](/glossary/クライアント/)の要求する [API](/glossary/api/) [バージョン](/glossary/バージョン/)が[デーモン](/glossary/デーモン/)の上限を超えている状態、too old は逆に、[デーモン](/glossary/デーモン/)が受け付ける下限より古い状態です。後者は、[Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)29が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことに伴い、古い[クライアント](/glossary/クライアント/)やツールを使う環境で報告が増えています。
+too new は[クライアント](/glossary/クライアント/)の要求する [API](/glossary/api/) [バージョン](/glossary/バージョン/)が[デーモン](/glossary/デーモン/)の上限を超えている状態、too old は逆に、[デーモン](/glossary/デーモン/)が受け付ける下限より古い状態です。後者は、[Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)29が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことに伴い、古い[クライアント](/glossary/クライアント/)や[ツール](/glossary/ツール/)を使う[環境](/glossary/環境/)で報告が増えています。
 
 ## まず最初に：文言で3つに分岐する
 
@@ -52,7 +52,7 @@ docker version
 env | grep -i docker_api
 ```
 
-不一致が起きる典型は3つです。第一に、古い[デーモン](/glossary/デーモン/)が更新されないまま、[クライアント](/glossary/クライアント/)側（[CLI](/glossary/cli/) や、[Docker](/glossary/docker/) [API](/glossary/api/) を使うツール・ライブラリ）だけが更新されるケースです。NAS などの組み込み環境や、長期稼働の古い[サーバー](/glossary/サーバー/)で起きやすい形です。第二に、CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成です。dind [イメージ](/glossary/イメージ/)やジョブ内の [CLI](/glossary/cli/) に :latest のような浮動[タグ](/glossary/タグ/)を使っていると、どちらか一方だけが新しくなった時点で組み合わせが壊れます。第三に、DOCKER_[API](/glossary/api/)_VERSION [環境変数](/glossary/環境変数/)に古い値が残っているケースで、この場合[クライアント](/glossary/クライアント/)は常にその古い[バージョン](/glossary/バージョン/)を名乗るため、[デーモン](/glossary/デーモン/)側の下限引き上げで突然 too old になります。
+不一致が起きる典型は3つです。第一に、古い[デーモン](/glossary/デーモン/)が更新されないまま、[クライアント](/glossary/クライアント/)側（[CLI](/glossary/cli/) や、[Docker](/glossary/docker/) [API](/glossary/api/) を使う[ツール](/glossary/ツール/)・ライブラリ）だけが更新されるケースです。NAS などの組み込み[環境](/glossary/環境/)や、長期稼働の古い[サーバー](/glossary/サーバー/)で起きやすい形です。第二に、CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成です。dind [イメージ](/glossary/イメージ/)やジョブ内の [CLI](/glossary/cli/) に :latest のような浮動[タグ](/glossary/タグ/)を使っていると、どちらか一方だけが新しくなった時点で組み合わせが壊れます。第三に、DOCKER_[API](/glossary/api/)_VERSION [環境変数](/glossary/環境変数/)に古い値が残っているケースで、この場合[クライアント](/glossary/クライアント/)は常にその古い[バージョン](/glossary/バージョン/)を名乗るため、[デーモン](/glossary/デーモン/)側の下限引き上げで突然 too old になります。
 
 対処の本筋は、[デーモン](/glossary/デーモン/)（[サーバー](/glossary/サーバー/)側）を更新して対応範囲を揃えることです。すぐに更新できない場合の応急策として、DOCKER_[API](/glossary/api/)_VERSION を[サーバー](/glossary/サーバー/)が対応する値（docker version の Server: の [API](/glossary/api/) version）に固定すれば、[クライアント](/glossary/クライアント/)がその[バージョン](/glossary/バージョン/)として振る舞い、[通信](/glossary/通信/)は成立します。ただし[クライアント](/glossary/クライアント/)の新機能はその[バージョン](/glossary/バージョン/)の範囲に制限されます。CI では、dind [イメージ](/glossary/イメージ/)と [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)を浮動[タグ](/glossary/タグ/)ではなく明示的に固定し、更新を意図的に行う運用が恒久対処です。
 
@@ -114,10 +114,10 @@ python3 -m json.tool < body.json
 
 ## Editor's Note
 
-原因1の実例として、GitLab の公式サポート文書があります（[Docker API Version Mismatch Errors in CI/CD Pipelines](https://support.gitlab.com/hc/en-us/articles/23582251372060)）。CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成で、too new と too old の両方の[エラー](/glossary/エラー/)が発生する事象について、原因と対処がまとめられています。背景は、[Docker](/glossary/docker/) 29 が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことです。dind サービスの[イメージ](/glossary/イメージ/)に :latest や :dind のような浮動[タグ](/glossary/タグ/)を使っていると、サービス側だけが自動的に29系へ更新され、ジョブ内の古い[クライアント](/glossary/クライアント/)との組み合わせが壊れます。対処として、ランナーが使う [Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)を明示的に固定する設定が示されています。「何も変えていないのに昨日から急に400」という症状の裏に、浮動[タグ](/glossary/タグ/)経由の片側だけの自動更新がある、という CI の定番の構図をそのまま示す記録です。同種の報告は、古い[デーモン](/glossary/デーモン/)を更新できない NAS 環境（更新されたツールが too new で接続不能になった例）など、CI 以外でも確認できます。
+原因1の実例として、GitLab の公式サポート文書があります（[Docker API Version Mismatch Errors in CI/CD Pipelines](https://support.gitlab.com/hc/en-us/articles/23582251372060)）。CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成で、too new と too old の両方の[エラー](/glossary/エラー/)が発生する事象について、原因と対処がまとめられています。背景は、[Docker](/glossary/docker/) 29 が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことです。dind サービスの[イメージ](/glossary/イメージ/)に :latest や :dind のような浮動[タグ](/glossary/タグ/)を使っていると、サービス側だけが自動的に29系へ更新され、ジョブ内の古い[クライアント](/glossary/クライアント/)との組み合わせが壊れます。対処として、ランナーが使う [Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)を明示的に固定する設定が示されています。「何も変えていないのに昨日から急に400」という症状の裏に、浮動[タグ](/glossary/タグ/)経由の片側だけの自動更新がある、という CI の定番の構図をそのまま示す記録です。同種の報告は、古い[デーモン](/glossary/デーモン/)を更新できない NAS [環境](/glossary/環境/)（更新された[ツール](/glossary/ツール/)が too new で接続不能になった例）など、CI 以外でも確認できます。
 
 [Docker](/glossary/docker/) の400は、文言が[バージョン](/glossary/バージョン/)の数字や不正な項目を名指ししてくれる親切な[エラー](/glossary/エラー/)です。[リクエスト](/glossary/リクエスト/)の体裁を疑う前に、まず文言を読み、[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の組み合わせを確認することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

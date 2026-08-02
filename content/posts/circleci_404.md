@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-CircleCI の 404 [エラー](/glossary/エラー/)は、指定されたプロジェクト・パイプライン・ワークフローが見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（GitHub・Bitbucket）との認可情報の失効に起因します。
+CircleCI の 404 [エラー](/glossary/エラー/)は、指定された[プロジェクト](/glossary/プロジェクト/)・パイプライン・ワークフローが見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（GitHub・Bitbucket）との認可情報の失効に起因します。
 
 ## 実際のエラーメッセージ例
 
@@ -41,9 +41,9 @@ CircleCI [API](/glossary/api/) v2 からの典型的な 404 [レスポンス](/g
 
 ### 原因1：プロジェクトスラッグの形式が誤っている
 
-CircleCI [API](/glossary/api/) では、プロジェクトを識別するために `vcs-type/org-name/repo-name` 形式のスラッグを使用します。このスラッグが正確でない場合、プロジェクトが見つからずに 404 [エラー](/glossary/エラー/)が返されます。特に、組織名や[リポジトリ](/glossary/リポジトリ/)名にハイフンやアンダースコアが含まれる場合や、VCS タイプの指定を間違えた場合に多く発生します。
+CircleCI [API](/glossary/api/) では、[プロジェクト](/glossary/プロジェクト/)を識別するために `vcs-type/org-name/repo-name` 形式のスラッグを使用します。このスラッグが正確でない場合、[プロジェクト](/glossary/プロジェクト/)が見つからずに 404 [エラー](/glossary/エラー/)が返されます。特に、組織名や[リポジトリ](/glossary/リポジトリ/)名にハイフンやアンダースコアが含まれる場合や、VCS タイプの指定を間違えた場合に多く発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET "https://circleci.com/api/v2/project/github/MyOrg/my-repo/pipeline" \
@@ -59,13 +59,13 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline" 
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-WebUI で確認したプロジェクト [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
+WebUI で確認した[プロジェクト](/glossary/プロジェクト/) [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
 
 ### 原因2：パイプラインID またはワークフローID が存在しない
 
-パイプラインやワークフローを直接指定する際に、存在しない[ID](/glossary/id/) を使用すると 404 [エラー](/glossary/エラー/)が発生します。これは [ID](/glossary/id/) の入力ミス、削除済みパイプラインへのアクセス、あるいは別のプロジェクトのパイプライン[ID](/glossary/id/) を誤って使用した場合に起こります。
+パイプラインやワークフローを直接指定する際に、存在しない[ID](/glossary/id/) を使用すると 404 [エラー](/glossary/エラー/)が発生します。これは [ID](/glossary/id/) の入力ミス、削除済みパイプラインへのアクセス、あるいは別の[プロジェクト](/glossary/プロジェクト/)のパイプライン[ID](/glossary/id/) を誤って使用した場合に起こります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET "https://circleci.com/api/v2/pipeline/abc123def456/config" \
@@ -90,9 +90,9 @@ curl -X GET "https://circleci.com/api/v2/pipeline/correct-pipeline-id-12345/conf
 
 ### 原因3：GitHub / Bitbucket との認可情報が失効またはリセット
 
-CircleCI とGitHub・Bitbucket の連携が切れると、そのプロジェクトにアクセスできず 404 [エラー](/glossary/エラー/)が返されることがあります。これは、VCS 側で[認可](/glossary/認可/)を取り消した、CircleCI の[認証](/glossary/認証/)[トークン](/glossary/トークン/)が失効した、あるいはユーザーの[アカウント](/glossary/アカウント/)[権限](/glossary/権限/)が変更された場合に発生します。
+CircleCI とGitHub・Bitbucket の連携が切れると、その[プロジェクト](/glossary/プロジェクト/)にアクセスできず 404 [エラー](/glossary/エラー/)が返されることがあります。これは、VCS 側で[認可](/glossary/認可/)を取り消した、CircleCI の[認証](/glossary/認証/)[トークン](/glossary/トークン/)が失効した、あるいはユーザーの[アカウント](/glossary/アカウント/)[権限](/glossary/権限/)が変更された場合に発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # VCS連携が切れているプロジェクトへのアクセス試行
@@ -146,7 +146,7 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline?f
 **1. 認可情報と[権限](/glossary/権限/)の確認**
 
 CircleCI WebUI に[ログイン](/glossary/ログイン/)して、以下の確認を行ってください：
-- 対象プロジェクトへの[アクセス権限](/glossary/アクセス権限/)があるか（プロジェクト一覧に表示されているか）
+- 対象[プロジェクト](/glossary/プロジェクト/)への[アクセス権限](/glossary/アクセス権限/)があるか（[プロジェクト](/glossary/プロジェクト/)一覧に表示されているか）
 - VCS 連携状態が「Connected」になっているか（Project Settings > VCS）
 
 **2. [API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)確認**
@@ -169,4 +169,4 @@ CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circlec
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

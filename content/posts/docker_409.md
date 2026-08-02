@@ -37,7 +37,7 @@ docker: Error response from daemon: Conflict. The container name "/myapp" is alr
 
 同じ名前の[コンテナ](/glossary/コンテナ/)が既に存在する場合、新たに同じ名前で[コンテナ](/glossary/コンテナ/)を作成しようとすると409[エラー](/glossary/エラー/)が発生します。停止中の[コンテナ](/glossary/コンテナ/)であっても名前は保持されるため、`docker run --name` で既存の名前を指定すると[エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 docker run --name web-app -d nginx
@@ -61,7 +61,7 @@ docker run --name web-app -d nginx:latest
 
 複数の[コンテナ](/glossary/コンテナ/)が同じ[ポート](/glossary/ポート/)番号にバインドしようとする場合、409[エラー](/glossary/エラー/)が発生します。特にホストマシンの同じ[ポート](/glossary/ポート/)を複数の[コンテナ](/glossary/コンテナ/)が使用しようとする際に起こりやすい問題です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 docker run -d -p 8080:80 --name web1 nginx
@@ -87,7 +87,7 @@ docker run -d --network frontend -p 8081:80 --name web2 apache
 
 既存の[イメージ](/glossary/イメージ/)に対して同じ[タグ](/glossary/タグ/)で新しい[イメージ](/glossary/イメージ/)をビルドしようとする場合、特定の状況下で409[エラー](/glossary/エラー/)が発生することがあります。これは主に[Docker](/glossary/docker/)[レジストリ](/glossary/レジストリ/)へのプッシュ時に見られます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 docker build -t myapp:1.0 .
@@ -113,7 +113,7 @@ docker push --force myregistry.azurecr.io/myapp:1.0
 
 実行中の[コンテナ](/glossary/コンテナ/)を削除しようとしたり、既に起動中の[コンテナ](/glossary/コンテナ/)をもう一度起動しようとする場合、409[エラー](/glossary/エラー/)が発生します。[コンテナ](/glossary/コンテナ/)のライフサイクル状態と実行しようとしている操作が矛盾していることが原因です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 docker run -d --name app nginx
@@ -145,7 +145,7 @@ docker restart app
 
 ### Docker Composeでのコンテナ名競合
 
-`docker-compose.yml`でサービス定義を複数保持しながら複数回実行すると、同じ[コンテナ](/glossary/コンテナ/)名の重複が409[エラー](/glossary/エラー/)を引き起こします。プロジェクト名が異なる場合も考慮が必要です。
+`docker-compose.yml`でサービス定義を複数保持しながら複数回実行すると、同じ[コンテナ](/glossary/コンテナ/)名の重複が409[エラー](/glossary/エラー/)を引き起こします。[プロジェクト](/glossary/プロジェクト/)名が異なる場合も考慮が必要です。
 
 ```bash
 # プロジェクト名を明示することで名前空間を分離
@@ -155,7 +155,7 @@ docker-compose -p project2 up -d
 
 ### ネットワークとポート割り当ての相互作用
 
-ブリッジネットワークとホストネットワークを混在させると、[ポート](/glossary/ポート/)割り当てで409[エラー](/glossary/エラー/)が発生することがあります。特にマルチコンテナ環境では、ネットワークドライバの選択と[ポート](/glossary/ポート/)公開の設定を慎重に行う必要があります。
+ブリッジネットワークとホストネットワークを混在させると、[ポート](/glossary/ポート/)割り当てで409[エラー](/glossary/エラー/)が発生することがあります。特にマルチコンテナ[環境](/glossary/環境/)では、ネットワークドライバの選択と[ポート](/glossary/ポート/)公開の設定を慎重に行う必要があります。
 
 ```yaml
 # docker-compose.yml での正しい設定例
@@ -238,4 +238,4 @@ docker volume ls
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

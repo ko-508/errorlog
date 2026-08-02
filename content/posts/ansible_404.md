@@ -40,7 +40,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 ターゲットホスト上に[ファイル](/glossary/ファイル/)や[ディレクトリ](/glossary/ディレクトリ/)が存在しない場合、Ansible はそのリソースを操作できません。特に `copy` モジュールで `src` パラメーターに指定した[ファイル](/glossary/ファイル/)、あるいは `stat` や `find` モジュールで検索対象の[パス](/glossary/パス/)が間違っていると発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 - name: Copy configuration file
@@ -76,7 +76,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 `uri` モジュールや `get_url` モジュールで外部 [API](/glossary/api/) に接続する際、[エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) が誤っているか、[API](/glossary/api/) 側で廃止されている可能性があります。特に [API](/glossary/api/) の[バージョン](/glossary/バージョン/)が変更された場合は旧[エンドポイント](/glossary/エンドポイント/)が削除されることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 - name: Get API data from old endpoint
@@ -109,7 +109,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 インベントリに記載したホストの [IP アドレス](/glossary/ip-アドレス/)やホスト名が誤っている、あるいは[ネットワーク](/glossary/ネットワーク/)接続が不可能な場合、Ansible はターゲットホストへアクセスできず 404 相当の[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # inventory.ini
@@ -197,4 +197,4 @@ Ansible 公式ドキュメント（https://docs.ansible.com/）の該当モジ�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

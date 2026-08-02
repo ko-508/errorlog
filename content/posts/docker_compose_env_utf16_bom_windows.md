@@ -10,7 +10,7 @@ components: ["Compose"]
 related_services: ["PowerShell", "VSCode"]
 ---
 
-Windows環境で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`[ファイル](/glossary/ファイル/)が原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、[ファイル](/glossary/ファイル/)のエンコードが原因です。
+Windows[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`[ファイル](/glossary/ファイル/)が原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、[ファイル](/glossary/ファイル/)のエンコードが原因です。
 
 ## エラーの全文
 
@@ -159,4 +159,4 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

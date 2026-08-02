@@ -39,7 +39,7 @@ Error: container not found: <container-id>
 
 Podman [コマンド](/glossary/コマンド/)を実行する際、[イメージ](/glossary/イメージ/)名のスペルミスや[タグ](/glossary/タグ/)名の入力誤りがあると 404 [エラー](/glossary/エラー/)が発生します。例えば `podman run ubuntu:latestt` のように「latestt」と誤入力した場合、その[タグ](/glossary/タグ/)は存在しないため見つかりません。レジストリー名を含める場合も、プレフィックスの綴り間違いが原因となることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman run ubuntu:latestt
@@ -58,7 +58,7 @@ podman run ubuntu:latest
 
 [イメージ](/glossary/イメージ/)名が正しく入力されていても、Podman がローカルストレージ内にその[イメージ](/glossary/イメージ/)を持たず、かつリモートレジストリーからも取得できない場合に 404 [エラー](/glossary/エラー/)が発生します。特にプライベートレジストリーの[イメージ](/glossary/イメージ/)を使用する場合、レジストリーへの[認証](/glossary/認証/)がないと取得に失敗することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman run myregistry.example.com/myapp:v1.0
@@ -78,7 +78,7 @@ podman run myregistry.example.com/myapp:v1.0
 
 Dockerfile からビルドしたカスタムイメージや、別のシステムで作成された[イメージ](/glossary/イメージ/)を使用する際、ローカルに存在しない[イメージ](/glossary/イメージ/)を直接実行しようとすると 404 [エラー](/glossary/エラー/)が発生します。[イメージ](/glossary/イメージ/)の存在確認や事前プルが必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman run myapp:1.0
@@ -102,7 +102,7 @@ podman run myapp:1.0
 
 `podman stop`、`podman rm`、`podman inspect` などの操作でコンテナーを指定する際、存在しないコンテナー [ID](/glossary/id/) やコンテナー名を指定すると 404 [エラー](/glossary/エラー/)が発生します。特に長いコンテナー [ID](/glossary/id/) の一部を誤入力した場合に注意が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman stop abc12345
@@ -125,7 +125,7 @@ podman stop mycontainer
 
 Podman はデーモンレスで動作するため、ユーザーコンテキストごとにイメージストレージが独立しています。root ユーザーで `podman pull` した[イメージ](/glossary/イメージ/)を通常ユーザーで実行しようとすると 404 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # root で実行
@@ -150,7 +150,7 @@ sudo podman run ubuntu:latest
 
 また、Podman のレジストリー[設定ファイル](/glossary/設定ファイル/)（`$HOME/.config/containers/registries.conf`）が正しく設定されていないと、デフォルトレジストリーからの[イメージ](/glossary/イメージ/)取得に失敗する可能性があります。デフォルトでは[スコープ](/glossary/スコープ/)なしで[イメージ](/glossary/イメージ/)名を指定した場合、[設定ファイル](/glossary/設定ファイル/)に記載されたレジストリーから順に検索されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman run nginx
@@ -181,4 +181,4 @@ Podman の公式ドキュメントにある「Podman Image Search」セクショ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

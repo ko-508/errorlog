@@ -42,7 +42,7 @@ ERROR: Service '<your-service-name>' failed to build : [Errno 2] No such file or
 
 [Docker](/glossary/docker/) Compose が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub やプライベートレジストリー）から[イメージ](/glossary/イメージ/)をプルしようとしても、その[イメージ](/glossary/イメージ/)が存在しない、あるいは[タグ](/glossary/タグ/)が誤っていると 404 [エラー](/glossary/エラー/)が発生します。たとえば、タイポや[バージョン](/glossary/バージョン/)番号の誤指定があると、プル対象が見つからなくなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -68,7 +68,7 @@ services:
 
 `build` キーでコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、[ディレクトリ](/glossary/ディレクトリ/)が削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -98,7 +98,7 @@ services:
 
 compose [ファイル](/glossary/ファイル/)で外部ボリューム（`external: true`）または外部[ネットワーク](/glossary/ネットワーク/)を参照しているが、それらが [Docker](/glossary/docker/) ホスト上に先に作成されていない場合、サービス起動時に 404 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -134,7 +134,7 @@ docker volume create shared_data
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Compose 環境では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
+[Docker](/glossary/docker/) Compose [環境](/glossary/環境/)では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
 さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 
@@ -181,4 +181,4 @@ docker compose pull
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

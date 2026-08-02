@@ -43,7 +43,7 @@ error pulling image "registry.example.com/myimage:latest": unable to pull regist
 
 Podmanで[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)を取得するには、事前に[認証](/glossary/認証/)を完了する必要があります。[ログイン](/glossary/ログイン/)処理を行わずにpull[コマンド](/glossary/コマンド/)を実行すると、認証情報がないため401[エラー](/glossary/エラー/)が発生します。特に新しい環境構築時や別の[レジストリ](/glossary/レジストリ/)を利用する場合に見落とされやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman pull registry.example.com/myimage:latest
@@ -63,7 +63,7 @@ podman pull registry.example.com/myimage:latest
 
 [レジストリ](/glossary/レジストリ/)が発行した[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。特にGitHub Container Registryや[Docker](/glossary/docker/) Hubの一時[トークン](/glossary/トークン/)は短期間で失効するため、古い認証情報が `~/.config/containers/auth.json` に残っていると401[エラー](/glossary/エラー/)が起きます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 数週間前にログインした古い認証情報で実行
@@ -89,7 +89,7 @@ podman pull ghcr.io/myorg/myimage:latest
 
 Podmanの `auth.json` [ファイル](/glossary/ファイル/)が破損していたり、手動編集で不正な形式になっていたりすると、[レジストリ](/glossary/レジストリ/)が認証情報を正しく解析できず401[エラー](/glossary/エラー/)が発生します。特にBase64エンコーディングが不完全な場合に問題が生じやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # ~/.config/containers/auth.json の例（不正な形式）
@@ -121,7 +121,7 @@ test -f ~/.config/containers/auth.json && echo "認証ファイルが作成さ�
 
 Podmanは各ユーザーごとに独立した認証情報を `~/.config/containers/auth.json` に保存します。root[権限](/glossary/権限/)で実行する場合と通常ユーザーで実行する場合で、異なる認証情報を使うことになり、一方が[ログイン](/glossary/ログイン/)済みでも他方は未認証状態になる可能性があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 通常ユーザーでログイン
@@ -172,4 +172,4 @@ sudo podman pull registry.example.com/myimage:latest
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

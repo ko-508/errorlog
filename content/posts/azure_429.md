@@ -41,9 +41,9 @@ azure.core.exceptions.HttpResponseError: (429) Throttling error. Subscription ha
 
 ### 原因1：リクエストレートが上限を超えている
 
-Azure には、[API](/glossary/api/) ごと・操作ごと（例：仮想マシン作成、ストレージ読み書き）に一定秒あたりの[リクエスト](/glossary/リクエスト/)数制限があります。制限値は[サブスクリプション](/glossary/サブスクリプション/)、リージョン、リソースの種類によって異なり、ループ内で連続して [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
+Azure には、[API](/glossary/api/) ごと・操作ごと（例：仮想マシン作成、[ストレージ](/glossary/ストレージ/)読み書き）に一定秒あたりの[リクエスト](/glossary/リクエスト/)数制限があります。制限値は[サブスクリプション](/glossary/サブスクリプション/)、リージョン、リソースの種類によって異なり、ループ内で連続して [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 from azure.identity import DefaultAzureCredential
@@ -102,7 +102,7 @@ for i in range(50):
 
 Azure [API](/glossary/api/) が 429 を返す際、必ず `Retry-After` レスポンスヘッダーに推奨される再試行待機時間を含めます。この[ヘッダー](/glossary/ヘッダー/)を無視して即座に[リトライ](/glossary/リトライ/)すると、さらに[スロットリング](/glossary/スロットリング/)が重くなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -170,9 +170,9 @@ async function createVMs() {
 
 ### 原因3：複数の操作を同時実行している
 
-Azure 関数、Logic Apps、Data Factory など、複数の処理が並列実行される環境では、複合的な[スロットリング](/glossary/スロットリング/)が発生しやすくなります。特にマネージドサービスでの自動スケーリング時に、大量のワーカーが同時に同じ [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
+Azure [関数](/glossary/関数/)、Logic Apps、Data Factory など、複数の処理が並列実行される[環境](/glossary/環境/)では、複合的な[スロットリング](/glossary/スロットリング/)が発生しやすくなります。特にマネージドサービスでの自動スケーリング時に、大量のワーカーが同時に同じ [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import asyncio
@@ -241,7 +241,7 @@ async def delete_storage_accounts():
 
 ### Azure ストレージアカウントのスロットリング制限
 
-ストレージアカウントには、BLOB、Table、Queue などのサービスごとに独立した制限があります。標準[アカウント](/glossary/アカウント/)のスケーラビリティ目標は、単一[アカウント](/glossary/アカウント/)あたり秒間 20,000 [リクエスト](/glossary/リクエスト/)程度ですが、特定の操作（例：PutBlock）はさらに低い制限を持ちます。大規模なアップロード・[ダウンロード](/glossary/ダウンロード/)時は、複数ストレージアカウントに分散させるか、Azure Data Lake Storage Gen2 への移行を検討してください。
+ストレージアカウントには、BLOB、Table、Queue などのサービスごとに独立した制限があります。標準[アカウント](/glossary/アカウント/)のスケーラビリティ目標は、単一[アカウント](/glossary/アカウント/)あたり秒間 20,000 [リクエスト](/glossary/リクエスト/)程度ですが、特定の操作（例：PutBlock）はさらに低い制限を持ちます。大規模な[アップロード](/glossary/アップロード/)・[ダウンロード](/glossary/ダウンロード/)時は、複数ストレージアカウントに分散させるか、Azure Data Lake Storage Gen2 への移行を検討してください。
 
 ### Azure App Service・Function App での 429
 
@@ -305,4 +305,4 @@ Azure [SDK](/glossary/sdk/) の[リトライ](/glossary/リトライ/)実装に�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

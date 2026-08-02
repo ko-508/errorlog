@@ -41,7 +41,7 @@ com.google.gson.JsonSyntaxException: java.io.EOFException: End of input at line 
 
 [REST](/glossary/rest/) [API](/glossary/api/)を経由してJenkinsジョブを[トリガー](/glossary/トリガー/)する際、POST[リクエスト](/glossary/リクエスト/)のボディに含まれる[JSON](/glossary/json/)が正しくパースできない形式になっていることが原因です。ダブルクォートの漏れ、末尾のカンマ、エスケープ漏れなどが典型的な問題です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST \
@@ -73,7 +73,7 @@ curl -X POST \
 
 Jenkinsの特定の[エンドポイント](/glossary/エンドポイント/)では、[JSON](/glossary/json/)[リクエスト](/glossary/リクエスト/)に必須の項目が必ず含まれていなければなりません。また、数値や真偽値を文字列のまま[送信](/glossary/送信/)するなど、期待される型と異なるデータ型で[パラメータ](/glossary/パラメータ/)を渡すと400[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST \
@@ -109,7 +109,7 @@ curl -X POST \
 
 パイプラインジョブのJenkinsfileに構文[エラー](/glossary/エラー/)があると、Jenkins が[ファイル](/glossary/ファイル/)をパース時に400[エラー](/glossary/エラー/)を返すことがあります。括弧の不一致、不正なステージ定義、シェルコマンドの引用符エスケープ漏れなどが原因になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```groovy
 pipeline {
@@ -155,7 +155,7 @@ pipeline {
 
 ## ツール固有の注意点
 
-**Jenkinsfile Linterの活用：** Jenkinsの管理画面に「Declarative: Validate」という機能があります。パイプラインジョブの設定画面で「Validate」ボタンをクリックするか、以下のcURL[コマンド](/glossary/コマンド/)で構文チェックが可能です。このツールはGroovy構文[エラー](/glossary/エラー/)を事前に検出し、[デプロイ](/glossary/デプロイ/)前にJenkinsfileを検証するのに非常に効果的です。
+**Jenkinsfile Linterの活用：** Jenkinsの管理画面に「Declarative: Validate」という機能があります。パイプラインジョブの設定画面で「Validate」ボタンをクリックするか、以下のcURL[コマンド](/glossary/コマンド/)で構文チェックが可能です。この[ツール](/glossary/ツール/)はGroovy構文[エラー](/glossary/エラー/)を事前に検出し、[デプロイ](/glossary/デプロイ/)前にJenkinsfileを検証するのに非常に効果的です。
 
 ```bash
 curl -X POST \
@@ -184,8 +184,8 @@ curl -v -X POST \
 
 **公式ドキュメントで[エンドポイント](/glossary/エンドポイント/)仕様を確認する：** Jenkins [REST](/glossary/rest/) [API](/glossary/api/)公式ドキュメント（`http://<jenkins-url>/api/`にアクセスして[JSON](/glossary/json/)形式の[API](/glossary/api/)仕様を参照）で、対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を確認してください。[エンドポイント](/glossary/エンドポイント/)固有の[リクエスト](/glossary/リクエスト/)形式が記載されており、400[エラー](/glossary/エラー/)の原因特定に有効です。
 
-**ユーザー[権限](/glossary/権限/)の確認：** [REST](/glossary/rest/) [API](/glossary/api/)[リクエスト](/glossary/リクエスト/)に使用している[認証](/glossary/認証/)[トークン](/glossary/トークン/)・[API](/glossary/api/)キーに対象ジョブの実行権限がない場合、[サーバー](/glossary/サーバー/)が400ではなく401・403[エラー](/glossary/エラー/)を返すことが多いですが、ツールの[バージョン](/glossary/バージョン/)や[セキュリティ](/glossary/セキュリティ/)設定によっては400が返されることもあります。Jenkins管理画面でユーザーロールと[権限](/glossary/権限/)を再度確認してください。
+**ユーザー[権限](/glossary/権限/)の確認：** [REST](/glossary/rest/) [API](/glossary/api/)[リクエスト](/glossary/リクエスト/)に使用している[認証](/glossary/認証/)[トークン](/glossary/トークン/)・[API](/glossary/api/)キーに対象ジョブの実行権限がない場合、[サーバー](/glossary/サーバー/)が400ではなく401・403[エラー](/glossary/エラー/)を返すことが多いですが、[ツール](/glossary/ツール/)の[バージョン](/glossary/バージョン/)や[セキュリティ](/glossary/セキュリティ/)設定によっては400が返されることもあります。Jenkins管理画面でユーザーロールと[権限](/glossary/権限/)を再度確認してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

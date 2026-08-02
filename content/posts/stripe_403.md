@@ -73,9 +73,9 @@ Stripe [ダッシュボード](/glossary/ダッシュボード/) → Settings �
 
 ### 原因2: テスト環境と本番環境の API キーを混同している
 
-[テスト](/glossary/テスト/)用 [API](/glossary/api/) キー（`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行おうとすると 403 が返されます。Stripe は環境を厳密に分離しているため、キーとリソースの環境が一致していないとアクセスが拒否されます。
+[テスト](/glossary/テスト/)用 [API](/glossary/api/) キー（`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行おうとすると 403 が返されます。Stripe は[環境](/glossary/環境/)を厳密に分離しているため、キーとリソースの[環境](/glossary/環境/)が一致していないとアクセスが拒否されます。
 
-**Before（環境の混同）:**
+**Before（[環境](/glossary/環境/)の混同）:**
 ```python
 import stripe
 
@@ -87,7 +87,7 @@ stripe.api_key = "sk_test_xxxxx"
 stripe.Charge.retrieve(charge_id)
 ```
 
-**After（環境の統一）:**
+**After（[環境](/glossary/環境/)の統一）:**
 ```python
 import stripe
 import os
@@ -163,9 +163,9 @@ const charge = await stripe.charges.create(
 
 1. **[API](/glossary/api/) キーの詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象キーをクリックし、付与されている権限一覧を確認します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか確認してください。
 
-2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を検索し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などのコード名がエラータイプを特定する手がかりになります。
+2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を検索し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
 
-3. **Stripe [CLI](/glossary/cli/) での[テスト](/glossary/テスト/)**: Stripe [CLI](/glossary/cli/) を使ってローカル環境で[テスト](/glossary/テスト/)することで、[ネットワーク](/glossary/ネットワーク/)経由の[エラー](/glossary/エラー/)か[アカウント](/glossary/アカウント/)設定の[エラー](/glossary/エラー/)か判別できます。
+3. **Stripe [CLI](/glossary/cli/) での[テスト](/glossary/テスト/)**: Stripe [CLI](/glossary/cli/) を使ってローカル[環境](/glossary/環境/)で[テスト](/glossary/テスト/)することで、[ネットワーク](/glossary/ネットワーク/)経由の[エラー](/glossary/エラー/)か[アカウント](/glossary/アカウント/)設定の[エラー](/glossary/エラー/)か判別できます。
 
 ```bash
 # Stripe CLI をインストール後
@@ -186,4 +186,4 @@ Stripe の GitHub [リポジトリ](/glossary/リポジトリ/)で同じ問題�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

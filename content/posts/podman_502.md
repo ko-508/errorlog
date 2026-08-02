@@ -43,7 +43,7 @@ Error: Error writing blob: Error initiating layer upload to /v2/repo/image/blobs
 
 Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)をプルまたはプッシュする際に、[SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体がダウンしているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman pull quay.io/<your-namespace>/<image-name>:latest
@@ -75,7 +75,7 @@ podman pull quay.io/<your-namespace>/<image-name>:latest
 
 リバースプロキシ設定において、[コンテナ](/glossary/コンテナ/)内の `localhost` がホストの `localhost` と異なる、または同じ[ネットワーク](/glossary/ネットワーク/)上にないため、[コンテナ](/glossary/コンテナ/)が外部または他の[コンテナ](/glossary/コンテナ/)のサービスに接続できません。[コンテナ](/glossary/コンテナ/)の 127.0.0.1 は[コンテナ](/glossary/コンテナ/)内部のループバックアドレスであり、ホストのサービスにアクセスできません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # Quadlet ファイル (例: /etc/containers/systemd/app.container)
@@ -112,7 +112,7 @@ podman logs app-container | grep -i "proxy\|connection"
 
 複数の[コンテナ](/glossary/コンテナ/)が[通信](/glossary/通信/)する必要がある場合、それらが同じ Podman [ネットワーク](/glossary/ネットワーク/)上に配置されていないと、[コンテナ](/glossary/コンテナ/)間の[通信](/glossary/通信/)が失敗します。特に Quadlet で複数サービスを定義する際に、[ネットワーク](/glossary/ネットワーク/)を明示的に定義していないと、各[コンテナ](/glossary/コンテナ/)がデフォルトネットワークに接続された状態では[通信](/glossary/通信/)が正常に機能しないことがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # /etc/containers/systemd/backend.container
@@ -163,7 +163,7 @@ podman exec frontend-container curl http://backend:8000
 
 Podman のランタイムを `krun` などに切り替えた際に、新しいランタイムが必要なシステムコール（例：`FIONREAD`、`SIOCINQ`）をサポートしていないため、I/O 操作がハングアップまたは失敗します。これにより、[コンテナ](/glossary/コンテナ/)内の[アプリケーション](/glossary/アプリケーション/)がネットワークリクエストに応答できなくなり、ホストからは 502 [エラー](/glossary/エラー/)に見えます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # /etc/containers/containers.conf
@@ -200,7 +200,7 @@ podman run --rm nginx curl localhost
 
 Podman 5.0 では、ユーザーモード・ネットワークスタックが `slirp4netns` から `pasta` に変更されました。既存の[コンテナ](/glossary/コンテナ/)設定が `pasta` と[互換性](/glossary/互換性/)がない場合（例：特定のポートマッピング、UDP トラフィック）、[通信](/glossary/通信/)が失敗して 502 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Podman 4.x で動作していた設定
@@ -274,12 +274,12 @@ Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glos
 
 ## 代替ツールの検討
 
-この[エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下のツールへの移行を検討できます：
+この[エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます：
 
-- **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、安定性を優先する環境では有効です。
+- **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、安定性を優先する[環境](/glossary/環境/)では有効です。
 
 - **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した開発環境です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)設定を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりもセットアップが直感的です。特にローカル開発環境では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

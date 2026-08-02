@@ -45,7 +45,7 @@ error: error validating "deployment.yaml": error validating data: ValidationErro
 
 [YAML](/glossary/yaml/)はスペースによるインデント（通常2または4スペース）に厳密です。タブ文字の混在、インデント幅の不統一、コロン（:）やハイフン（-）の位置のズレは即座に構文[エラー](/glossary/エラー/)になります。特にテキストエディタの自動修正機能やコピー&ペーストの際に発生しやすい問題です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -97,7 +97,7 @@ spec:
 
 [Kubernetes](/glossary/kubernetes/)のリソースには必ず指定する必須フィールドが存在します。Deploymentの場合、`spec.template.spec.containers[].image` は必須です。Podの場合も同様に`spec.containers[]` と `image` フィールドは省略できません。これらが欠けると400[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: v1
@@ -130,7 +130,7 @@ spec:
 
 [マニフェスト](/glossary/マニフェスト/)で指定するフィールド値の型が[Kubernetes](/glossary/kubernetes/)の仕様と合致していない場合、400[エラー](/glossary/エラー/)が発生します。例えば `containerPort` は整数型ですが、クォートで囲んで文字列型として指定してしまう、`replicas` に文字列を指定するといったケースです。同様に `true/false` のようなブール値も文字列の `"true"/"false"` と混同しやすい原因です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -202,7 +202,7 @@ Minikubeでは、ローカル開発環境での[Kubernetes](/glossary/kubernetes
 
 ## それでも解決しない場合
 
-[マニフェスト](/glossary/マニフェスト/)を[YAML](/glossary/yaml/)検証ツール（オンラインの [YAML](/glossary/yaml/) Lint や `yamllint` [コマンド](/glossary/コマンド/)）で事前チェックを行ってください。構文[エラー](/glossary/エラー/)はここで検出できます。
+[マニフェスト](/glossary/マニフェスト/)を[YAML](/glossary/yaml/)検証[ツール](/glossary/ツール/)（オンラインの [YAML](/glossary/yaml/) Lint や `yamllint` [コマンド](/glossary/コマンド/)）で事前チェックを行ってください。構文[エラー](/glossary/エラー/)はここで検出できます。
 
 ```bash
 minikube kubectl -- apply -f deployment.yaml --dry-run=client -o yaml
@@ -226,4 +226,4 @@ minikube kubectl -- explain deployment.spec
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

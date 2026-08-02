@@ -20,7 +20,7 @@ Azure の 500 Internal Server Error は、まず「どの [URL](/glossary/url/) 
 
 ## エラーの概要
 
-Azure の管理 [API](/glossary/api/) の[エラー](/glossary/エラー/)は、error [オブジェクト](/glossary/オブジェクト/)（code と message）を持つ [JSON](/glossary/json/) で返ります。500の場合の code は InternalServerError などで、message は一時的な[エラー](/glossary/エラー/)である旨と再試行の案内になっているのが典型です。切り分けでまず読むべきは [HTTP](/glossary/http/) のコードではなく、この code フィールドです。MissingSubscriptionRegistration や AuthorizationFailed のような具体的な code が入っているなら、それは500の調査ではありません。
+Azure の管理 [API](/glossary/api/) の[エラー](/glossary/エラー/)は、error [オブジェクト](/glossary/オブジェクト/)（code と message）を持つ [JSON](/glossary/json/) で返ります。500の場合の code は InternalServerError などで、message は一時的な[エラー](/glossary/エラー/)である旨と再試行の案内になっているのが典型です。切り分けでまず読むべきは [HTTP](/glossary/http/) の[コード](/glossary/コード/)ではなく、この code フィールドです。MissingSubscriptionRegistration や AuthorizationFailed のような具体的な code が入っているなら、それは500の調査ではありません。
 
 もう1つ、Azure の応答には必ず控えるべき[ヘッダー](/glossary/ヘッダー/)があります。x-ms-request-id と x-ms-correlation-request-id です（実際の[エラー](/glossary/エラー/)応答の記録でも、この2つの[ヘッダー](/glossary/ヘッダー/)が含まれていることが確認できます）。この値は Azure 側の[ログ](/glossary/ログ/)で[リクエスト](/glossary/リクエスト/)を特定する参照 [ID](/glossary/id/) で、500が再現・継続する場合にサポートへ渡す情報の中核になります。
 
@@ -40,7 +40,7 @@ HTTP Error 500.30 - ANCM In-Process Start Failure
 
 ### 原因1：Azure の API 側で内部エラーが起きている（InternalServerError）
 
-Azure 側の一時的な問題で、正しい操作にも500が返ることがあります。一次対処は再試行ですが、公式 [SDK](/glossary/sdk/) を使っているなら再試行は組み込み済みです。azure-core の既定では、対象コード（408・429・500・502・503・504）に対して合計10回まで再試行し、POST や PATCH のような書き込み操作でも 500・503・504 は再試行対象に含まれます。つまり、[SDK](/glossary/sdk/) が[エラー](/glossary/エラー/)を返した時点で「もう一度だけ試す」ことに意味はほとんどなく、時間をおくか、状況を確認する段階です。[SDK](/glossary/sdk/) を介さず [HTTP](/glossary/http/) を直接呼んでいる場合は、指数[バックオフ](/glossary/バックオフ/)と回数上限つきの再試行を自分で実装します。
+Azure 側の一時的な問題で、正しい操作にも500が返ることがあります。一次対処は再試行ですが、公式 [SDK](/glossary/sdk/) を使っているなら再試行は組み込み済みです。azure-core の既定では、対象[コード](/glossary/コード/)（408・429・500・502・503・504）に対して合計10回まで再試行し、POST や PATCH のような書き込み操作でも 500・503・504 は再試行対象に含まれます。つまり、[SDK](/glossary/sdk/) が[エラー](/glossary/エラー/)を返した時点で「もう一度だけ試す」ことに意味はほとんどなく、時間をおくか、状況を確認する段階です。[SDK](/glossary/sdk/) を介さず [HTTP](/glossary/http/) を直接呼んでいる場合は、指数[バックオフ](/glossary/バックオフ/)と回数上限つきの再試行を自分で実装します。
 
 **Before（[SDK](/glossary/sdk/) の外側で、間隔なしの再試行を重ねてしまう）：**
 
@@ -104,7 +104,7 @@ az webapp log tail --name <app-name> --resource-group <resource-group>
 
 ## 補足：500ではない類似エラー
 
-Azure の実際の応答では、次の問題に500以外のコードが割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過や[リクエスト](/glossary/リクエスト/)の集中（[スロットリング](/glossary/スロットリング/)）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。テンプレートや[パラメータ](/glossary/パラメータ/)の検証[エラー](/glossary/エラー/)は 400 系で、message が名指しする項目の修正が対処です。権限不足は 403 の AuthorizationFailed で、調査は[ロール](/glossary/ロール/)割り当て（[RBAC](/glossary/rbac/)）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
+Azure の実際の応答では、次の問題に500以外の[コード](/glossary/コード/)が割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過や[リクエスト](/glossary/リクエスト/)の集中（[スロットリング](/glossary/スロットリング/)）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。テンプレートや[パラメータ](/glossary/パラメータ/)の検証[エラー](/glossary/エラー/)は 400 系で、message が名指しする項目の修正が対処です。権限不足は 403 の AuthorizationFailed で、調査は[ロール](/glossary/ロール/)割り当て（[RBAC](/glossary/rbac/)）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
 
 ## 切り分けの順序
 
@@ -136,10 +136,10 @@ az webapp log config --name <app-name> --resource-group <resource-group> \
 
 ## Editor's Note
 
-原因2の実例として、ASP.NET Core の公式[リポジトリ](/glossary/リポジトリ/)に残る報告があります（[HTTP Error 500.30 - ANCM In-Process Start Failure](https://github.com/dotnet/aspnetcore/issues/18262)）。同じ .NET Core アプリが、ローカルでも1つ目の App Service でも問題なく動くのに、同一設定のはずの2つ目の App Service に[デプロイ](/glossary/デプロイ/)すると 500.30 で起動しない、という2020年の記録です。ブラウザに出るのは 500.30 の定型ページだけで、アプリのイベントログに残っていたのは failed to load coreclr という1行の記録でした。「コードは同じなのに、環境によって500」という原因2の典型で、エラーページの表示からは決して原因に到達できず、イベントログと stdout [ログ](/glossary/ログ/)だけが手がかりになる、という本記事の進め方がそのまま現れています。約6年前の事例ですが、ANCM がサブステータスで起動失敗を示す仕組みと、イベントログ・stdout [ログ](/glossary/ログ/)を起点にする調査手順は、現行の公式トラブルシューティング文書でも同一です。
+原因2の実例として、ASP.NET Core の公式[リポジトリ](/glossary/リポジトリ/)に残る報告があります（[HTTP Error 500.30 - ANCM In-Process Start Failure](https://github.com/dotnet/aspnetcore/issues/18262)）。同じ .NET Core アプリが、ローカルでも1つ目の App Service でも問題なく動くのに、同一設定のはずの2つ目の App Service に[デプロイ](/glossary/デプロイ/)すると 500.30 で起動しない、という2020年の記録です。ブラウザに出るのは 500.30 の定型ページだけで、アプリのイベントログに残っていたのは failed to load coreclr という1行の記録でした。「[コード](/glossary/コード/)は同じなのに、[環境](/glossary/環境/)によって500」という原因2の典型で、エラーページの表示からは決して原因に到達できず、イベントログと stdout [ログ](/glossary/ログ/)だけが手がかりになる、という本記事の進め方がそのまま現れています。約6年前の事例ですが、ANCM がサブステータスで起動失敗を示す仕組みと、イベントログ・stdout [ログ](/glossary/ログ/)を起点にする調査手順は、現行の公式トラブルシューティング文書でも同一です。
 
 Azure の500は、管理 [API](/glossary/api/) 側なら「参照 [ID](/glossary/id/) を控えて正しく待つ」、アプリ側なら「サブステータスで段階を特定し、[ログ](/glossary/ログ/)を見えるようにする」。どちらの500かを最初に確定すれば、やることは2つに1つです。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

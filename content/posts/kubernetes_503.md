@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)環境で503[エラー](/glossary/エラー/)が発生するのは、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)に対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
+[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)で503[エラー](/glossary/エラー/)が発生するのは、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)に対応できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべてダウンしていたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ No servers are available to handle this request.
 
 DeploymentやStatefulSetで定義したPodが何らかの理由でクラッシュしており、バックエンドサーバーが完全に停止している状態です。CrashLoopBackOff状態やExit Code 1などの異常終了が続いている場合に発生します（[Kubernetes の CrashLoopBackOff の記事](/posts/kubernetes_crashloopbackoff/)）。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -117,7 +117,7 @@ kubectl logs <pod-name> -n <namespace>
 
 Readiness Probeが設定されているものの、起動時間が長すぎたり、ヘルスチェックエンドポイントが応答しなかったりして、Podが「Ready」状態に到達していません。この場合、Podプロセスは動作していても、トラフィックがルーティングされません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -196,7 +196,7 @@ kubectl describe pod <pod-name> -n <namespace> | grep -A 5 "Ready"
 
 ServiceとPodのラベルセレクタが一致していない場合、Serviceは利用可能な[エンドポイント](/glossary/エンドポイント/)を持たず、トラフィックをルーティングできません。この場合、Service[オブジェクト](/glossary/オブジェクト/)は存在していても、[バックエンド](/glossary/バックエンド/)のPodが見つかりません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # Deployment
@@ -294,7 +294,7 @@ ServiceAccountに対して必要なClusterRole/Roleが割り当てられてい�
 
 CPUメモリリクエスト/リミットが不適切に設定されていると、Nodeのリソースが不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 spec:
@@ -375,4 +375,4 @@ kubectl top pods -n <namespace>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

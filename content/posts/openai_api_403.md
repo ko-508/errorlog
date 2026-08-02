@@ -59,7 +59,7 @@ response = openai.ChatCompletion.create(
 )
 ```
 
-このコードを実行すると、支出上限に達していれば403[エラー](/glossary/エラー/)が返されます。
+この[コード](/glossary/コード/)を実行すると、支出上限に達していれば403[エラー](/glossary/エラー/)が返されます。
 
 **After（修正後）：**
 OpenAI Dashboard（https://platform.openai.com/account/billing/overview）にアクセスし、以下の確認と設定を行います。
@@ -78,7 +78,7 @@ curl https://api.openai.com/v1/models \
 
 GPT-4、GPT-4 Turbo、GPT-4 Visionなどの高度な[モデル](/glossary/モデル/)は、すべてのOpenAI[アカウント](/glossary/アカウント/)で即座に利用できません。特定の契約条件や使用実績が必要な場合があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```python
 import openai
 
@@ -181,7 +181,7 @@ curl https://api.openai.com/v1/dashboard/billing/credit_grants \
 
 ### 組織（Organization）レベルの権限設定
 
-複数のプロジェクトがある場合、OpenAIの Organization 機能を使用します。このとき、個別の[API](/glossary/api/)キーが特定の Organization に紐付けられていなければ403[エラー](/glossary/エラー/)が発生します。
+複数の[プロジェクト](/glossary/プロジェクト/)がある場合、OpenAIの Organization 機能を使用します。このとき、個別の[API](/glossary/api/)キーが特定の Organization に紐付けられていなければ403[エラー](/glossary/エラー/)が発生します。
 
 ```python
 import openai
@@ -235,4 +235,4 @@ except openai.error.OpenAIError as e:
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

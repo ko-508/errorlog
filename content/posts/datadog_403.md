@@ -45,7 +45,7 @@ Datadog [API](/glossary/api/) への[アクセス権限](/glossary/アクセス�
 
 Datadog のアプリケーションキーは、細粒度の[スコープ](/glossary/スコープ/)（権限設定）を持ちます。[API](/glossary/api/) 呼び出しに必要な[スコープ](/glossary/スコープ/)がキーに割り当てられていない場合、403 [エラー](/glossary/エラー/)が返されます。例えば、[ダッシュボード](/glossary/ダッシュボード/)作成 [API](/glossary/api/) を呼び出す際に「[ダッシュボード](/glossary/ダッシュボード/)読み取り」[スコープ](/glossary/スコープ/)のみがあると、書き込み操作は拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ダッシュボード作成に必要な「dashboards_write」スコープのないキーを使用
@@ -77,7 +77,7 @@ Datadog の Organization Settings → Application Keys で該当キーを選択�
 
 アプリケーションキーを生成したユーザーの[ロール](/glossary/ロール/)が、その操作に必要な[権限](/glossary/権限/)を持っていない場合に発生します。オーガニゼーション管理者は多くの[スコープ](/glossary/スコープ/)にアクセスできますが、カスタムロールや制限された[ロール](/glossary/ロール/)（例：Monitor Editor）ではリソースごとのアクセスが限定されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 # Monitor Editor ロールのユーザーが生成したキーで、
@@ -123,7 +123,7 @@ Datadog の Organization Settings → Users で該当ユーザーを選択し、
 
 Datadog には [API](/glossary/api/) Key と Application Key の 2 種類のキーが存在します。一部の [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)は両方が必要で、一方のみを提供した場合や誤ったキーを使用した場合に 403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Application Key が必要な操作に API Key のみを使用
@@ -159,7 +159,7 @@ curl -X GET "https://api.datadoghq.com/api/v1/validate" \
 
 組織の管理者が[セキュリティ](/glossary/セキュリティ/)上の理由でアプリケーションキーを削除した場合、そのキーを使用するすべての [API](/glossary/api/) 呼び出しが 403 [エラー](/glossary/エラー/)になります。キーが Active な状態でなくなると、たとえ[スコープ](/glossary/スコープ/)が正しくても拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 削除されたまたは無効化されたキーを使用
@@ -198,7 +198,7 @@ Datadog では、[API](/glossary/api/) Key と Application Key が異なる目�
 
 また、KEDA（[Kubernetes](/glossary/kubernetes/) Event-based Autoscaling）で Datadog をメトリクスプロバイダーとして使用する場合、ScaledObject の `authenticationRef` で指定される Secret に、両方のキーが正しく含まれていることを確認してください。[Kubernetes](/glossary/kubernetes/) Secret で `api-key` と `app-key` というキー名で保存し、KEDA の設定では `apiKey` と `appKey` のフィールドで参照するという対応も重要です。
 
-オーガニゼーション内に複数のサイト（US/EU など）がある場合、[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) も `api.datadoghq.com`（US）と `api.datadoghq.eu`（EU）で異なります。間違ったサイトのキーで異なるサイトの [API](/glossary/api/) にアクセスしようとすると 403 [エラー](/glossary/エラー/)が返されるため、環境に応じた [URL](/glossary/url/) 設定が必須です。
+オーガニゼーション内に複数のサイト（US/EU など）がある場合、[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) も `api.datadoghq.com`（US）と `api.datadoghq.eu`（EU）で異なります。間違ったサイトのキーで異なるサイトの [API](/glossary/api/) にアクセスしようとすると 403 [エラー](/glossary/エラー/)が返されるため、[環境](/glossary/環境/)に応じた [URL](/glossary/url/) 設定が必須です。
 
 ## それでも解決しない場合
 

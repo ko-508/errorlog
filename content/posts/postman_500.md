@@ -43,7 +43,7 @@ Response body: {"error": "Database connection failed"}
 
 [テスト](/glossary/テスト/)対象の [API](/glossary/api/) [サーバー](/glossary/サーバー/)そのものが何らかの内部[エラー](/glossary/エラー/)を起こしている場合が最も一般的です。[データベース](/glossary/データベース/)接続失敗、[メモリ](/glossary/メモリ/)不足、予期しない[例外処理](/glossary/例外処理/)など、[サーバー](/glossary/サーバー/)側の問題が原因となります。このケースでは Postman 側でできることは限定的です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Postman から API を呼び出すと 500 エラーを受け取る
@@ -71,7 +71,7 @@ curl -X GET https://api.example.com/users \
 
 Postman のクラウドサービス自体（[API](/glossary/api/) キー検証、同期機能、[環境変数](/glossary/環境変数/)の管理）に一時的な障害が発生していることがあります。この場合、[テスト](/glossary/テスト/)対象 [API](/glossary/api/) が正常でも Postman を経由した[リクエスト](/glossary/リクエスト/)が失敗することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -96,7 +96,7 @@ Postman のクラウドサービス自体（[API](/glossary/api/) キー検証�
 
 Request Body に不正な [JSON](/glossary/json/)、不正な[認証](/glossary/認証/)[トークン](/glossary/トークン/)、サポートされていない[パラメータ](/glossary/パラメータ/)を[送信](/glossary/送信/)した場合、[サーバー](/glossary/サーバー/)が 500 [エラー](/glossary/エラー/)で応答することがあります。[サーバー](/glossary/サーバー/)の実装によっては入力値の[バリデーション](/glossary/バリデーション/)失敗時に 500 を返すケースもあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -138,7 +138,7 @@ Postman で 500 [エラー](/glossary/エラー/)に対応する際は、まず 
 
 また、Postman は[環境変数](/glossary/環境変数/)を使用して[テスト](/glossary/テスト/)を実行する場合が多いため、[環境変数](/glossary/環境変数/)の値が期限切れの[認証](/glossary/認証/)[トークン](/glossary/トークン/)や[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) の誤りでないか確認してください。Environment タブで各変数の値を検証し、特に認証関連の値は最新の状態かどうか再度確認します。
 
-Postman Cloud 機能（History、Sync、Shared Collections）を使用している場合、インターネット接続の状態も確認してください。接続が不安定な環境では Postman Cloud との[通信](/glossary/通信/)に失敗し、500 [エラー](/glossary/エラー/)のような形で表現されることがあります。
+Postman Cloud 機能（History、Sync、Shared Collections）を使用している場合、インターネット接続の状態も確認してください。接続が不安定な[環境](/glossary/環境/)では Postman Cloud との[通信](/glossary/通信/)に失敗し、500 [エラー](/glossary/エラー/)のような形で表現されることがあります。
 
 ## それでも解決しない場合
 
@@ -168,4 +168,4 @@ Postman Cloud 機能（History、Sync、Shared Collections）を使用してい�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

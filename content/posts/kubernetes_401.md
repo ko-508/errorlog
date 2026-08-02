@@ -45,7 +45,7 @@ Error from server (Unauthorized): pods "pod-name" is forbidden: User "system:ser
 
 kubeconfig内の[証明書](/glossary/証明書/)や[トークン](/glossary/トークン/)が無効になっている、または参照している[ファイル](/glossary/ファイル/)が削除されている場合に401[エラー](/glossary/エラー/)が発生します。クラスタをセットアップした時点での認証情報が失われたり、[パス](/glossary/パス/)が誤っていたりすることが多いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # ~/.kube/config
@@ -95,7 +95,7 @@ users:
 
 Podが[API](/glossary/api/)呼び出しを試みる際、割り当てられたServiceAccountに必要なRole/ClusterRoleバインディングがないか、RoleBinding自体が誤った権限設定になっている場合です。PodはServiceAccountの認証情報は持っていますが、その用途に対する[権限](/glossary/権限/)がないため401に見える実質403[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # ServiceAccountは存在するが、Role/RoleBindingがない
@@ -175,7 +175,7 @@ spec:
 
 OIDCやその他の外部認証を使用している場合、[ID](/glossary/id/)[トークン](/glossary/トークン/)やアクセストークンの有効期限が切れていることがあります。または、手動で作成した[トークン](/glossary/トークン/)が無効になっている可能性もあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 有効期限切れのトークンでログイン試行
@@ -283,4 +283,4 @@ sudo journalctl -u kubelet -n 50
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

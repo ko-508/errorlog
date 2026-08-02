@@ -15,7 +15,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function またはフレームワークの [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の処理を担当する関数や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
+Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function またはフレームワークの [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の処理を担当する[関数](/glossary/関数/)や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
 
 ## 実際のエラーメッセージ例
 
@@ -35,7 +35,7 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)の[ログ](/glo
 }
 ```
 
-また、関数の[コンソール](/glossary/コンソール/)出力に以下のようなメッセージが表示される場合もあります：
+また、[関数](/glossary/関数/)の[コンソール](/glossary/コンソール/)出力に以下のようなメッセージが表示される場合もあります：
 
 ```
 FunctionError: Code execution timed out.
@@ -45,9 +45,9 @@ FunctionError: Code execution timed out.
 
 ### 原因1：Serverless Function がレスポンスを返さずに終了している
 
-Node.js の Serverless Function では、リクエストハンドラーが必ず `response.send()`、`response.end()`、または return 文で[レスポンス](/glossary/レスポンス/)を返す必要があります。これらが呼ばれずに関数が終了すると、Vercel は有効な[レスポンス](/glossary/レスポンス/)を受け取れず、502 [エラー](/glossary/エラー/)が発生します。
+Node.js の Serverless Function では、リクエストハンドラーが必ず `response.send()`、`response.end()`、または return 文で[レスポンス](/glossary/レスポンス/)を返す必要があります。これらが呼ばれずに[関数](/glossary/関数/)が終了すると、Vercel は有効な[レスポンス](/glossary/レスポンス/)を受け取れず、502 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 export default function handler(req, res) {
@@ -73,7 +73,7 @@ export default function handler(req, res) {
 
 非同期処理の場合、Promise の完了を待たずに[レスポンス](/glossary/レスポンス/)を返すと、[バックエンド](/glossary/バックエンド/)処理の不完全さや未処理の[エラー](/glossary/エラー/)が原因で Vercel が不正な応答と見なす可能性があります：
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 export default async function handler(req, res) {
@@ -99,7 +99,7 @@ export default async function handler(req, res) {
 
 Next.js のページ内で[バックエンド](/glossary/バックエンド/) [API](/glossary/api/) 呼び出しを行う際、外部 [API](/glossary/api/) や[データベース](/glossary/データベース/)が正常に応答していない、または[タイムアウト](/glossary/タイムアウト/)が発生している場合に 502 [エラー](/glossary/エラー/)が起こります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 export default async function handler(req, res) {
@@ -148,7 +148,7 @@ export default async function handler(req, res) {
 
 `vercel build` または `npm run build` でビルドが正常に完了していない場合、実際のアプリケーションコードが本番環境に存在しないため、502 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -169,7 +169,7 @@ export default async function handler(req, res) {
 
 または `package.json` の build スクリプトに問題がないか確認：
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -193,7 +193,7 @@ export default async function handler(req, res) {
 
 ## Vercel 固有の注意点
 
-Vercel での 502 [エラー](/glossary/エラー/)は、環境によって表現が異なります。本番環境（Production）では即座にエラーページが返されますが、プレビュー環境（Preview）では関数の[ログ](/glossary/ログ/)が詳細に表示されることがあります。
+Vercel での 502 [エラー](/glossary/エラー/)は、[環境](/glossary/環境/)によって表現が異なります。本番環境（Production）では即座にエラーページが返されますが、プレビュー[環境](/glossary/環境/)（Preview）では[関数](/glossary/関数/)の[ログ](/glossary/ログ/)が詳細に表示されることがあります。
 
 **Serverless Function の[タイムアウト](/glossary/タイムアウト/)設定**：デフォルトでは最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が設定されています（Pro プラン以上で最大 900 秒）。より長い処理が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
 
@@ -230,7 +230,7 @@ vercel logs <your-production-url> --follow
 
 ### ローカルテスト
 
-`vercel dev` でローカル環境で Vercel のシミュレーション環境を起動し、本番と同じ条件で動作確認を行います：
+`vercel dev` でローカル[環境](/glossary/環境/)で Vercel のシミュレーション[環境](/glossary/環境/)を起動し、本番と同じ条件で動作確認を行います：
 
 ```bash
 vercel dev
@@ -239,7 +239,7 @@ vercel dev
 この際、ローカルでは動作するが本番で 502 が出ている場合、以下を確認してください：
 
 - [環境変数](/glossary/環境変数/)が本番環境で正しく設定されているか（Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables）
-- 関数のメモリー設定が不足していないか
+- [関数](/glossary/関数/)のメモリー設定が不足していないか
 - 外部 [API](/glossary/api/) のホワイトリスト設定に本番[ドメイン](/glossary/ドメイン/)が含まれているか
 
 ### 公式ドキュメントの参照
@@ -250,4 +250,4 @@ vercel dev
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

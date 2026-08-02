@@ -50,7 +50,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 顧客リストの更新や一括決済処理など、複数の [API](/glossary/api/) 呼び出しをループで実行する際、呼び出し間に待機時間を設けないと瞬時に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```python
 import stripe
@@ -108,7 +108,7 @@ for customer_id in customer_ids:
 
 [Webhook](/glossary/webhook/) の[エラーハンドリング](/glossary/エラーハンドリング/)で指数[バックオフ](/glossary/バックオフ/)（段階的に遅延を長くする再試行方法）を実装せず、即座に何度も [API](/glossary/api/) 呼び出しを行う場合に発生します。特に [Webhook](/glossary/webhook/) 署名検証失敗時の[ログ](/glossary/ログ/)記録で複数の [API](/glossary/api/) を呼び出すと顕著です。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```javascript
 const stripe = require("stripe")("sk_test_<your-secret-key>");
@@ -178,7 +178,7 @@ app.post("/webhook", async (req, res) => {
 
 [API](/glossary/api/) 呼び出し時にネットワークタイムアウトが発生し、[アプリケーション](/glossary/アプリケーション/)側で同じ[リクエスト](/glossary/リクエスト/)を何度も再送する場合、Stripe 側でそれらをすべてカウントします。[冪等性](/glossary/冪等性/)キー（何度実行しても結果が同じ特性）を指定すれば、重複カウントを防げます。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```python
 import stripe
@@ -234,7 +234,7 @@ except requests.exceptions.Timeout:
 
 ### API バージョンとレート制限の違い
 
-Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/) [バージョン](/glossary/バージョン/)によって異なります。[テスト](/glossary/テスト/)環境（`sk_test_`）では本番環境より高い[レート制限](/glossary/レート制限/)が適用されていますが、本番環境でも同じコードロジックが使えるように設計すべきです。
+Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/) [バージョン](/glossary/バージョン/)によって異なります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)（`sk_test_`）では本番環境より高い[レート制限](/glossary/レート制限/)が適用されていますが、本番環境でも同じコードロジックが使えるように設計すべきです。
 
 ### 検索 API のレート制限
 
@@ -304,4 +304,4 @@ GitHub の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/st
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

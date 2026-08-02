@@ -52,7 +52,7 @@ panic: runtime error: invalid memory address or nil pointer dereference
 
 MinikubeのノードVM内に割り当てた[メモリ](/glossary/メモリ/)が不足すると、kube-apiserverプロセスが Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じ[メモリ](/glossary/メモリ/)不足に直面するため、500[エラー](/glossary/エラー/)が継続します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 少ないメモリで Minikube を起動
@@ -78,7 +78,7 @@ kubectl top pods -A
 
 Minikubeが使用するディスク[容量](/glossary/容量/)が枯渇すると、etcd（クラスター状態を管理するキーバリュー型ストア）への書き込みに失敗し、スナップショット破損や[データベース](/glossary/データベース/)不整合が発生します。その結果、[API](/glossary/api/)[サーバー](/glossary/サーバー/)がetcdへの接続に失敗し500[エラー](/glossary/エラー/)を返すようになります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ディスク容量が少ない状態で動作
@@ -110,7 +110,7 @@ minikube logs | grep -i "disk\|etcd"
 
 Minikube再起動時に[設定ファイル](/glossary/設定ファイル/)（特に/etc/kubernetes/配下）が破損していたり、権限不正のため読み込めない状態では、[API](/glossary/api/)[サーバー](/glossary/サーバー/)やkubeletの起動に失敗し500[エラー](/glossary/エラー/)となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # minikube内部でファイル権限を誤った変更
@@ -135,7 +135,7 @@ minikube ssh "chmod 644 /etc/kubernetes/manifests/kube-apiserver.yaml"
 
 ホストマシン全体の[メモリ](/glossary/メモリ/)やCPUリソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ホスト上で多くのリソースを消費するアプリケーション実行中に Minikube 起動
@@ -243,4 +243,4 @@ minikube start --vm-driver=<ドライバ名>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

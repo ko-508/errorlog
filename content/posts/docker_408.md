@@ -17,7 +17,7 @@ top_queries:
 
 ## エラーの概要
 
-408 Request Timeout は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められた[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)環境では、[クライアント](/glossary/クライアント/)が[リクエスト](/glossary/リクエスト/)を完了できる規定時間内に要求を[送信](/glossary/送信/)しなかった、または完全に[送信](/glossary/送信/)できなかった場合に発生します。[Docker](/glossary/docker/) Daemonや[コンテナ](/glossary/コンテナ/)[API](/glossary/api/) との通信時に[タイムアウト](/glossary/タイムアウト/)が生じ、[API](/glossary/api/)呼び出しが中断される典型的なケースです。特に[コンテナ](/glossary/コンテナ/)のビルド、実行、イメージプッシュ時に多く観測されます。
+408 Request Timeout は、[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定められた[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/)[環境](/glossary/環境/)では、[クライアント](/glossary/クライアント/)が[リクエスト](/glossary/リクエスト/)を完了できる規定時間内に要求を[送信](/glossary/送信/)しなかった、または完全に[送信](/glossary/送信/)できなかった場合に発生します。[Docker](/glossary/docker/) Daemonや[コンテナ](/glossary/コンテナ/)[API](/glossary/api/) との通信時に[タイムアウト](/glossary/タイムアウト/)が生じ、[API](/glossary/api/)呼び出しが中断される典型的なケースです。特に[コンテナ](/glossary/コンテナ/)のビルド、実行、イメージプッシュ時に多く観測されます。
 
 ## 実際のエラーメッセージ例
 
@@ -44,9 +44,9 @@ Error response from daemon: received unexpected HTTP status: 408 Request Timeout
 
 ### 原因1：Docker Daemon のタイムアウト設定が短すぎる
 
-[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト設定では、大規模[イメージ](/glossary/イメージ/)のビルドやプッシュ時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い環境では顕著です。
+[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト設定では、大規模[イメージ](/glossary/イメージ/)のビルドやプッシュ時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # docker-compose.yml でタイムアウト設定が不足している状態
@@ -79,7 +79,7 @@ sudo systemctl restart docker
 
 docker-compose.ymlで明示的に[タイムアウト](/glossary/タイムアウト/)値が設定されていない、または[ネットワーク](/glossary/ネットワーク/)遅延を考慮していない場合、特にリモートレジストリアクセス時に408[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -127,7 +127,7 @@ docker-compose push --timeout 300
 
 [Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/)へのプッシュ/プル時に、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れになっていると、Daemon が[認証](/glossary/認証/)[リトライ](/glossary/リトライ/)を試みる間に 408 [タイムアウト](/glossary/タイムアウト/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 認証情報が不足している状態でプッシュ
@@ -164,9 +164,9 @@ docker info | grep Username
 
 ### 原因4：ネットワークの不安定性またはプロキシ設定の誤り
 
-[ファイアウォール](/glossary/ファイアウォール/)、[プロキシ](/glossary/プロキシ/)、[DNS](/glossary/dns/)解決の遅延など、[ネットワーク](/glossary/ネットワーク/)層の問題が408[エラー](/glossary/エラー/)の根本原因になることがあります。特にエンタープライズ環境では顕著です。
+[ファイアウォール](/glossary/ファイアウォール/)、[プロキシ](/glossary/プロキシ/)、[DNS](/glossary/dns/)解決の遅延など、[ネットワーク](/glossary/ネットワーク/)層の問題が408[エラー](/glossary/エラー/)の根本原因になることがあります。特にエンタープライズ[環境](/glossary/環境/)では顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # プロキシ設定なしで実行（ファイアウォール配下では失敗）
@@ -215,7 +215,7 @@ docker run --rm curlimages/curl:latest curl -v https://registry.docker.io/v2/
 
 ### イメージレイヤーの最適化
 
-408[エラー](/glossary/エラー/)は大きなイメージレイヤーのアップロードに関連することが多いため、イメージサイズ自体を削減することも有効です：
+408[エラー](/glossary/エラー/)は大きなイメージレイヤーの[アップロード](/glossary/アップロード/)に関連することが多いため、イメージサイズ自体を削減することも有効です：
 
 ```dockerfile
 # Before：複数の RUN で各レイヤーがサイズを持つ
@@ -291,4 +291,4 @@ GitHub の [Docker](/glossary/docker/) [リポジトリ](/glossary/リポジト�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

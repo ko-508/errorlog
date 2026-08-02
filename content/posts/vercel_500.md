@@ -16,7 +16,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Vercel の 500 [エラー](/glossary/エラー/)は、[サーバーレス](/glossary/サーバーレス/)関数の実行中に内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は Vercel の[バックエンド](/glossary/バックエンド/)側で例外がキャッチされず、[クライアント](/glossary/クライアント/)には[エラー](/glossary/エラー/)内容の詳細が返されません。[デプロイ](/glossary/デプロイ/)は成功していても、関数の実行時にコード内の[バグ](/glossary/バグ/)、依存パッケージの問題、[環境変数](/glossary/環境変数/)の欠落などが原因で発生することがほとんどです。
+Vercel の 500 [エラー](/glossary/エラー/)は、[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行中に内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は Vercel の[バックエンド](/glossary/バックエンド/)側で例外がキャッチされず、[クライアント](/glossary/クライアント/)には[エラー](/glossary/エラー/)内容の詳細が返されません。[デプロイ](/glossary/デプロイ/)は成功していても、[関数](/glossary/関数/)の実行時に[コード](/glossary/コード/)内の[バグ](/glossary/バグ/)、依存パッケージの問題、[環境変数](/glossary/環境変数/)の欠落などが原因で発生することがほとんどです。
 
 ## 実際のエラーメッセージ例
 
@@ -43,9 +43,9 @@ TypeError: Cannot read property 'db' of undefined
 
 ### 原因1：サーバーレス関数内でキャッチされない例外が発生している
 
-関数のコード内で例外がスローされ、try-catch で捕捉されていない場合、そのまま 500 [エラー](/glossary/エラー/)となります。非同期処理（Promise・async/await の[エラーハンドリング](/glossary/エラーハンドリング/)漏れ）が特に起きやすいです。
+[関数](/glossary/関数/)の[コード](/glossary/コード/)内で例外がスローされ、try-catch で捕捉されていない場合、そのまま 500 [エラー](/glossary/エラー/)となります。非同期処理（Promise・async/await の[エラーハンドリング](/glossary/エラーハンドリング/)漏れ）が特に起きやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 export default async function handler(req, res) {
@@ -93,7 +93,7 @@ async function fetchDatabase(id) {
 
 `package.json` に記載されたパッケージがインストールされていない、あるいは[デプロイ](/glossary/デプロイ/)時にインストール段階で失敗している場合、関数内で依存モジュールを呼び出すと 500 [エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // package.json に記載がない、または .gitignore で node_modules が除外されている
@@ -134,9 +134,9 @@ npm install --production
 
 ### 原因3：環境変数が設定されていないことで実行時エラーが起きている
 
-コード内で `process.env.DATABASE_URL` など[環境変数](/glossary/環境変数/)を参照していても、Vercel [ダッシュボード](/glossary/ダッシュボード/)で設定されていない場合、`undefined` を参照することになり 500 [エラー](/glossary/エラー/)の原因となります。
+[コード](/glossary/コード/)内で `process.env.DATABASE_URL` など[環境変数](/glossary/環境変数/)を参照していても、Vercel [ダッシュボード](/glossary/ダッシュボード/)で設定されていない場合、`undefined` を参照することになり 500 [エラー](/glossary/エラー/)の原因となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 import postgres from 'postgres';
@@ -176,9 +176,9 @@ export default async function handler(req, res) {
 
 Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手順で[環境変数](/glossary/環境変数/)を設定します：
 
-1. プロジェクトの Settings > Environment Variables
+1. [プロジェクト](/glossary/プロジェクト/)の Settings > Environment Variables
 2. `DATABASE_URL` を入力
-3. 本番環境・プレビュー環境・開発環境を指定して保存
+3. 本番環境・プレビュー[環境](/glossary/環境/)・開発環境を指定して保存
 
 ## ツール固有の注意点
 
@@ -186,22 +186,22 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手�
 
 Vercel [ダッシュボード](/glossary/ダッシュボード/)から詳細な[エラーログ](/glossary/エラーログ/)を確認することが最初のステップです。
 
-1. **プロジェクト選択** → **Deployments** → **最新の[デプロイ](/glossary/デプロイ/)を選択**
+1. **[プロジェクト](/glossary/プロジェクト/)選択** → **Deployments** → **最新の[デプロイ](/glossary/デプロイ/)を選択**
 2. **Functions** タブをクリック
-3. **[エラー](/glossary/エラー/)が発生した関数**を選択して **Logs** をクリック
+3. **[エラー](/glossary/エラー/)が発生した[関数](/glossary/関数/)**を選択して **Logs** をクリック
 4. **Runtime logs** と **Build logs** の両方を確認
 
 Build logs では、[デプロイ](/glossary/デプロイ/)時の依存パッケージインストール段階の[エラー](/glossary/エラー/)が表示されます。
 
 ### ローカル開発環境での再現
 
-Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うことで、ローカルで[サーバーレス](/glossary/サーバーレス/)関数の動作を確認できます。これにより、本番環境に[デプロイ](/glossary/デプロイ/)する前に[エラー](/glossary/エラー/)を発見できます。
+Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うことで、ローカルで[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の動作を確認できます。これにより、本番環境に[デプロイ](/glossary/デプロイ/)する前に[エラー](/glossary/エラー/)を発見できます。
 
 ```bash
 vercel dev
 ```
 
-この[コマンド](/glossary/コマンド/)で立ち上がるローカル環境は、ほぼ本番環境と同じ条件で関数を実行します。ブラウザで `http://localhost:3000/api/<function-name>` にアクセスして[テスト](/glossary/テスト/)してください。
+この[コマンド](/glossary/コマンド/)で立ち上がるローカル[環境](/glossary/環境/)は、ほぼ本番環境と同じ条件で[関数](/glossary/関数/)を実行します。ブラウザで `http://localhost:3000/api/<function-name>` にアクセスして[テスト](/glossary/テスト/)してください。
 
 ### 環境変数のローカル設定
 
@@ -214,7 +214,7 @@ API_KEY=your-test-api-key
 
 ### Node.js ランタイムのバージョン確認
 
-Vercel でサポートされる Node.js [バージョン](/glossary/バージョン/)とプロジェクトの `package.json` に記載された[バージョン](/glossary/バージョン/)が異なる場合、[互換性](/glossary/互換性/)の問題が発生することがあります。以下で確認・指定してください：
+Vercel でサポートされる Node.js [バージョン](/glossary/バージョン/)と[プロジェクト](/glossary/プロジェクト/)の `package.json` に記載された[バージョン](/glossary/バージョン/)が異なる場合、[互換性](/glossary/互換性/)の問題が発生することがあります。以下で確認・指定してください：
 
 ```json
 {
@@ -266,4 +266,4 @@ export default async function handler(req, res) {
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

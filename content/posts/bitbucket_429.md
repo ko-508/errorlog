@@ -44,7 +44,7 @@ Content-Type: application/json
 
 Bitbucket [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)を制御なく連続送信すると、すぐに[レート制限](/glossary/レート制限/)に引っかかります。特にスクリプトやバッチ処理で大量の[リポジトリ](/glossary/リポジトリ/)情報やプルリクエストを取得する際に発生しやすい現象です。各[リクエスト](/glossary/リクエスト/)間に待機時間を設けずに処理すると、数秒で1000[リクエスト](/glossary/リクエスト/)に達する可能性があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -100,9 +100,9 @@ for repo_id in range(1, 101):
 
 ### 原因2：CI/CDパイプライン内で複数のジョブが同時にAPI呼び出しを実行している
 
-Bitbucket Pipelines や GitHub Actions、Jenkins 等の[CI/CD](/glossary/ci-cd/)ツール内で複数の並列ジョブが同時に同じBitbucket [API](/glossary/api/)を呼び出す場合、個別のジョブは少量の[リクエスト](/glossary/リクエスト/)でも、全体では瞬時に制限に達します。例えば50個の並列ジョブがそれぞれ20[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)すれば、1000[リクエスト](/glossary/リクエスト/)上限に達してしまいます。
+Bitbucket Pipelines や GitHub Actions、Jenkins 等の[CI/CD](/glossary/ci-cd/)[ツール](/glossary/ツール/)内で複数の並列ジョブが同時に同じBitbucket [API](/glossary/api/)を呼び出す場合、個別のジョブは少量の[リクエスト](/glossary/リクエスト/)でも、全体では瞬時に制限に達します。例えば50個の並列ジョブがそれぞれ20[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)すれば、1000[リクエスト](/glossary/リクエスト/)上限に達してしまいます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 image: atlassian/default-image:latest
@@ -155,7 +155,7 @@ pipelines:
 
 Bitbucket [API](/glossary/api/)の一覧取得[エンドポイント](/glossary/エンドポイント/)（例：プルリクエスト一覧、[コミット](/glossary/コミット/)一覧）はデフォルトで10件または30件単位のページネーション応答を返します。これを1件単位で別々の[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)で取得していると、数百件のデータ取得時点で瞬く間に[レート制限](/glossary/レート制限/)に達します。ページサイズを最大値に設定し、必要に応じてカーソルベースの非同期取得に変更すべきです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const axios = require('axios');
@@ -236,4 +236,4 @@ curl -v -H "Authorization: Bearer <your-bitbucket-api-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

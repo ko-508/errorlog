@@ -54,7 +54,7 @@ Timestamp: 2024-01-15T10:23:45Z
 
 Slackの[レート制限](https://api.slack.com/docs/rate-limits)を超えた状態で連続して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、Slack[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)処理に失敗して500[エラー](/glossary/エラー/)を返すことがあります。特に`chat.postMessage`や`files.upload`など重い処理を伴う[エンドポイント](/glossary/エンドポイント/)でこの症状が起きやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -119,7 +119,7 @@ for i in range(100):
 
 テキストフィールドに過度に長い文字列を[送信](/glossary/送信/)したり、ブロック要素の階層が深すぎたり、[ファイルサイズ](/glossary/ファイルサイズ/)が大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)処理ロジックが例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const axios = require('axios');
@@ -188,9 +188,9 @@ axios.post('https://slack.com/api/chat.postMessage', {
 
 **原因3：[トークン](/glossary/トークン/)の権限不足または期限切れ**
 
-Bot Tokenが失効していたり、必要な[スコープ](/glossary/スコープ/)（scope）を取得していない場合、認証処理中にSlack側で500[エラー](/glossary/エラー/)が返されることがあります。また、Tokenのリフレッシュが適切に行われていない環境でもこの症状が起きます。
+Bot Tokenが失効していたり、必要な[スコープ](/glossary/スコープ/)（scope）を取得していない場合、認証処理中にSlack側で500[エラー](/glossary/エラー/)が返されることがあります。また、Tokenのリフレッシュが適切に行われていない[環境](/glossary/環境/)でもこの症状が起きます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 from slack_sdk import WebClient
@@ -297,4 +297,4 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

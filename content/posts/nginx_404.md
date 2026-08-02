@@ -155,7 +155,7 @@ location ~* \.(gif|jpg|png)$ {
 
 ### 原因5：proxy_pass 先のアプリケーションが 404 を返している
 
-Nginx をリバースプロキシとして使っている場合、404 の発生源が Nginx ではなく上流（[プロキシ](/glossary/プロキシ/)先）の[アプリケーション](/glossary/アプリケーション/)であることは珍しくありません。[エラーログ](/glossary/エラーログ/)に `open()` の失敗が残っていないのにアクセスログに 404 がある、既定ページと違う本文が返っている、という場合はまずこれを疑います。上流の応答コードは既定でそのまま[クライアント](/glossary/クライアント/)に中継されます（`proxy_intercept_errors` の既定は off）。
+Nginx をリバースプロキシとして使っている場合、404 の発生源が Nginx ではなく上流（[プロキシ](/glossary/プロキシ/)先）の[アプリケーション](/glossary/アプリケーション/)であることは珍しくありません。[エラーログ](/glossary/エラーログ/)に `open()` の失敗が残っていないのにアクセスログに 404 がある、既定ページと違う本文が返っている、という場合はまずこれを疑います。上流の応答[コード](/glossary/コード/)は既定でそのまま[クライアント](/glossary/クライアント/)に中継されます（`proxy_intercept_errors` の既定は off）。
 
 このとき確認すべきなのが、`proxy_pass` の[パス](/glossary/パス/)書き換えです。公式ドキュメントのとおり、`proxy_pass` に URI 部分を付けた場合、[リクエスト](/glossary/リクエスト/) URI のうち location に一致した部分がその URI に置き換えられて上流に渡ります。URI 部分を付けない場合は、[リクエスト](/glossary/リクエスト/) URI がそのまま渡ります。
 
@@ -179,7 +179,7 @@ location /api/ {
 
 1. [エラーログ](/glossary/エラーログ/)を見る。`(2: No such file or directory)` の行があれば、そこに出ている[パス](/glossary/パス/)と実際の配置を突き合わせる（原因1〜3）。行がなければ 2 へ。
 2. `nginx -T` で有効な設定の全体を確認し、対象[リクエスト](/glossary/リクエスト/)をどの server・location が処理するかを優先順位に沿って特定する（原因4）。
-3. その location が `proxy_pass` なら、上流アプリの[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答コードを確認する（原因5）。
+3. その location が `proxy_pass` なら、上流アプリの[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答[コード](/glossary/コード/)を確認する（原因5）。
 4. `try_files` がある場合は、`=404` の意図と、最後の転送先の実在を確認する（原因3）。
 
 設定を修正したら、文法確認をしてから反映します。文法[エラー](/glossary/エラー/)があると古い設定のまま動き続け、修正が反映されない錯覚に陥ります。
@@ -215,10 +215,10 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-実際の報告例として、`try_files` の設定が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の環境を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の環境では `try_files $uri $uri/ /index.html;` と設定していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを確認する、という切り分けが示されています。
+実際の報告例として、`try_files` の設定が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と設定していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを確認する、という切り分けが示されています。
 
 この事例が示すとおり、404 と try_files をめぐる設定ミスは、症状が 404 ではなく 500 として現れることがあります。エラーコードの見た目だけで判断せず、[エラーログ](/glossary/エラーログ/)の文言から原因をたどることが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

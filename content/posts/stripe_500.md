@@ -55,7 +55,7 @@ HTTP/1.1 500 Internal Server Error
 
 Stripeで500[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)が成功したのか失敗したのか不確実になります。[リトライ](/glossary/リトライ/)時に同じ操作が2回実行されるリスクが高まります。[冪等性](/glossary/冪等性/)キーを設定しないと、[エラー](/glossary/エラー/)発生時の[リトライ](/glossary/リトライ/)で二重課金などの問題が生じます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // 冪等性キーなしで送信
@@ -84,7 +84,7 @@ const charge = await stripe.charges.create({
 
 Stripeは[API](/glossary/api/)仕様を定期的に更新し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 旧いAPIバージョン
@@ -108,7 +108,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 Stripeが内部的に処理できない決済パラメーター（例：実装環境でサポートしていないカードブランド、特定国での未対応通貨）を指定すると、500[エラー](/glossary/エラー/)で応答することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import stripe
@@ -177,7 +177,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-[テスト](/glossary/テスト/)環境（sk_test_）とライブ環境（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)環境では成功するが本番環境で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
+[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが本番環境で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
 
 ## それでも解決しない場合
 
@@ -213,4 +213,4 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

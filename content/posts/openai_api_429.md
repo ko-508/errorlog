@@ -39,7 +39,7 @@ RateLimitError: Error code: 429 - {'error': {'message': 'You exceeded your curre
 
 複数のユーザーリクエストを同時並行処理したり、バッチ処理で大量の[API](/glossary/api/)呼び出しを行ったりすると、RPM（1分あたりの[リクエスト](/glossary/リクエスト/)数）制限に引っかかります。特に、ループ内で無制限に[API](/glossary/api/)を呼び出す実装が該当します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -77,7 +77,7 @@ for i, text in enumerate(texts):
 
 RPM制限に引っかからなくても、TPM（1分あたりの[トークン](/glossary/トークン/)数）制限に到達することがあります。長いコンテキストを含む[リクエスト](/glossary/リクエスト/)や、複数の並行[リクエスト](/glossary/リクエスト/)で累積[トークン](/glossary/トークン/)数が上限を超える場合です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -117,9 +117,9 @@ for chunk in chunks:
 
 ### 原因3：アカウントの利用上限（クォータ）に達している
 
-[API](/glossary/api/)キーのクォータが設定額に達したり、[無料トライアル](/glossary/無料トライアル/)の期限が切れたりすると、「quota_limit_exceeded」というコードで429[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)キーのクォータが設定額に達したり、[無料トライアル](/glossary/無料トライアル/)の期限が切れたりすると、「quota_limit_exceeded」という[コード](/glossary/コード/)で429[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -221,4 +221,4 @@ export OPENAI_LOG=debug
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

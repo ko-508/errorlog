@@ -38,7 +38,7 @@ ERROR: for myapp  pull access denied for myregistry.azurecr.io/myimage, reposito
 
 [Docker](/glossary/docker/) Composeでプライベートイメージをpullする前に、`docker login`[コマンド](/glossary/コマンド/)で[認証](/glossary/認証/)を済ませていない状況です。認証情報が`~/.docker/config.json`に保存されていないため、レジストリー側は401で応答します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 認証なしで直接実行
@@ -63,7 +63,7 @@ $ docker-compose up
 
 compose.ymlにレジストリー認証情報を含めるとき、`x-aws-cred-helper`や`credHelpers`設定が不正な場合や、[設定ファイル](/glossary/設定ファイル/)自体が存在しない場合に401が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -104,7 +104,7 @@ $ cat ~/.docker/config.json
 
 [Docker](/glossary/docker/) Hubやプライベートレジストリーで生成したアクセストークンが期限切れ、削除された、または[権限](/glossary/権限/)が制限されている場合です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 以前のトークンで認証済み
@@ -133,7 +133,7 @@ $ aws ecr get-login-password --region <your-region> | docker login --username AW
 
 [イメージ](/glossary/イメージ/)名またはレジストリー[URL](/glossary/url/)のスペルミスや、ホスト名の不一致がある場合です。存在しないレジストリーや[アクセス権限](/glossary/アクセス権限/)がないレジストリーへのアクセスで401が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -157,7 +157,7 @@ services:
 
 複数のプライベートレジストリーを使用する場合、各レジストリーに対して別々に`docker login`する必要があります。一つのレジストリーにのみ[ログイン](/glossary/ログイン/)していると、他のレジストリーへのアクセスで401が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -277,4 +277,4 @@ $ log stream --predicate 'process == "com.docker.vmnetd"' --level debug
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

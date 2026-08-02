@@ -44,7 +44,7 @@ error: the server doesn't have a resource type "ingres"
 
 [Kubernetes](/glossary/kubernetes/) ではすべてのリソースは [Namespace](/glossary/namespace/) に属しています。`kubectl get pod` のように [Namespace](/glossary/namespace/) を明示しない[コマンド](/glossary/コマンド/)を実行すると、デフォルトの `default` [Namespace](/glossary/namespace/) のみを検索します。リソースが別の [Namespace](/glossary/namespace/)（例：`kube-system`、`monitoring`）に存在する場合、404 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 kubectl get pod my-app
@@ -69,7 +69,7 @@ kubectl config set-context --current --namespace=monitoring
 
 Minikube に[デプロイ](/glossary/デプロイ/)したリソース名と kubectl [コマンド](/glossary/コマンド/)で指定したリソース名が完全に一致していない場合、404 [エラー](/glossary/エラー/)が発生します。大文字小文字の区別や、ハイフン・アンダースコア の違いも原因になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 kubectl get pod my_app
@@ -97,7 +97,7 @@ kubectl get deployment -o yaml | grep "name:"
 
 `pod` と `pods`、`service` と `svc`、`ingress` と `ingres` など、リソースタイプの指定に誤りがあると 404 [エラー](/glossary/エラー/)が発生します。[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/) はリソースタイプの表記に厳密です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 kubectl get ingres my-ingress
@@ -126,7 +126,7 @@ kubectl get svc my-service
 
 複数の [Kubernetes](/glossary/kubernetes/) クラスタ（他の minikube [インスタンス](/glossary/インスタンス/)、[Docker](/glossary/docker/) Desktop、EKS など）を使い分けている場合、現在のコンテキストが Minikube を指していないと、リソースは存在しても 404 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 minikube stop
@@ -224,4 +224,4 @@ kubectl describe pod my-app
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

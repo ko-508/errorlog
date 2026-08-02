@@ -50,7 +50,7 @@ FAILED! => {
 
 Ansibleで接続した[ユーザーアカウント](/glossary/ユーザーアカウント/)に対して、sudo実行権限そのものが付与されていないケースです。`become: true`を指定してroot[権限](/glossary/権限/)での実行を試みても、sudo[権限](/glossary/権限/)がなければタスクは失敗します。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 - name: Install packages
@@ -81,7 +81,7 @@ Ansibleで接続した[ユーザーアカウント](/glossary/ユーザーアカ
 
 対応するターゲットホスト側の設定：
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # /etc/sudoers に ubuntu ユーザーのエントリがない
@@ -101,7 +101,7 @@ ubuntu ALL=(ALL) NOPASSWD:/bin/apt-get, /bin/systemctl
 
 sudoers[ファイル](/glossary/ファイル/)で特定の[コマンド](/glossary/コマンド/)のみを許可している場合、Ansibleが実行しようとする[コマンド](/glossary/コマンド/)が許可リストに含まれていないと403[エラー](/glossary/エラー/)が発生します。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 - name: Run system command
@@ -145,7 +145,7 @@ ansible ALL=(ALL) NOPASSWD:/bin/systemctl restart networking, /bin/systemctl sta
 
 ターゲットホスト上の[ファイル](/glossary/ファイル/)や[ディレクトリ](/glossary/ディレクトリ/)に対して、接続ユーザーが読み取り・書き込み[権限](/glossary/権限/)を持たないケースです。sudo[権限](/glossary/権限/)があっても、特定の[ファイル](/glossary/ファイル/)操作が明示的に拒否されることがあります。
 
-**修正前（[エラー](/glossary/エラー/)が起きるコード）：**
+**修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 - name: Write configuration file
@@ -235,9 +235,9 @@ vars:
   ansible_become_pass: <password>
 ```
 
-**SELinux環境での注意**
+**SELinux[環境](/glossary/環境/)での注意**
 
-SELinuxが有効な環境では、ファイルアクセス[権限](/glossary/権限/)が追加で制限されます。403[エラー](/glossary/エラー/)が表示される場合、SELinuxコンテキストの確認も必要です。
+SELinuxが有効な[環境](/glossary/環境/)では、ファイルアクセス[権限](/glossary/権限/)が追加で制限されます。403[エラー](/glossary/エラー/)が表示される場合、SELinuxコンテキストの確認も必要です。
 
 ```bash
 getenforce  # SELinuxの有効状態を確認
@@ -283,4 +283,4 @@ Ansibleの権限昇格について、公式ドキュメント（https://docs.ans
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

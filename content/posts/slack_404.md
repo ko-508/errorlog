@@ -58,7 +58,7 @@ Slack [API](/glossary/api/)の404[レスポンス](/glossary/レスポンス/)�
 
 Slack [API](/glossary/api/)は文字列一致に厳密です。チャンネル[ID](/glossary/id/)の1文字誤りやコピペ時の誤りで404が発生します。[ID](/glossary/id/)は大文字小文字を区別するため注意が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import slack
@@ -83,7 +83,7 @@ print(response)
 
 `#general`や`#random`といったチャンネル「名」を直接[API](/glossary/api/)に指定すると404[エラー](/glossary/エラー/)が返されます。Slack [API](/glossary/api/)ではチャンネル[ID](/glossary/id/)（C0G9QF9GZなど）での指定が必須です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -125,7 +125,7 @@ async function sendMessage() {
 
 チャンネルが削除された後、そのチャンネル[ID](/glossary/id/)に対して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を実行すると404が返されます。[アーカイブ](/glossary/アーカイブ/)されたチャンネルと削除されたチャンネルは異なり、削除後は復旧できません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET "https://slack.com/api/conversations.info?channel=C9XYZABC" \
@@ -149,7 +149,7 @@ curl -X GET "https://slack.com/api/conversations.info?channel=C_VALID_ID" \
 
 プライベートチャンネルではボットのメンバーシップが必要です。ボットが追加されていないチャンネルにメッセージを[送信](/glossary/送信/)しようとすると404が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import slack
@@ -237,4 +237,4 @@ except slack.errors.SlackApiError as e:
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

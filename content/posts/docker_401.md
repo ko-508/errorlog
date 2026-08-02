@@ -46,7 +46,7 @@ Error response from daemon: Get "https://registry-1.docker.io/v2/": unauthorized
 
 [Docker](/glossary/docker/) Hubのパブリックイメージであっても、[ダウンロード](/glossary/ダウンロード/)数制限により[認証](/glossary/認証/)が必須になるケースがあります。また、プライベートイメージにアクセスする場合は必ず[認証](/glossary/認証/)が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ログインなしで直接pullを実行
@@ -68,7 +68,7 @@ docker pull <your-username>/<image-name>:latest
 
 ECRの[認証](/glossary/認証/)[トークン](/glossary/トークン/)は12時間の有効期限があります。[Docker](/glossary/docker/) daemonに保存された[トークン](/glossary/トークン/)が期限切れになると401[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 古いトークンで直接pullを試行
@@ -89,7 +89,7 @@ docker pull <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-reposito
 
 `~/.docker/config.json` に保存された認証情報が破損しているか、[レジストリ](/glossary/レジストリ/)のホスト名が正確に記録されていない場合に発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -115,7 +115,7 @@ docker login
 
 Nexus、Harbor、GitLab Container Registry など自社運用の[プライベートレジストリ](/glossary/プライベートレジストリ/)にアクセスする際、ホスト名と[ポート](/glossary/ポート/)番号を含めた完全な[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/)で[認証](/glossary/認証/)を設定する必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # プライベートレジストリにログインせず、イメージをpull
@@ -136,7 +136,7 @@ docker pull registry.internal.example.com:5000/my-image:v1.0
 
 [Docker](/glossary/docker/) Hubで[パスワード](/glossary/パスワード/)代わりにPATを使用している場合、その[トークン](/glossary/トークン/)に必要な[権限](/glossary/権限/)（Read、Write など）が付与されていないと401[エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Read権限のみのPATで push を試行

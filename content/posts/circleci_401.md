@@ -43,7 +43,7 @@ Failed to authenticate with CircleCI. Please check your CIRCLE_TOKEN environment
 
 CircleCI のシステム側で[トークン](/glossary/トークン/)が無効化・削除された、または生成元の[ユーザーアカウント](/glossary/ユーザーアカウント/)が削除された場合、それ以降その[トークン](/glossary/トークン/)はすべての[リクエスト](/glossary/リクエスト/)で 401 を返します。[トークン](/glossary/トークン/)の有効性は CircleCI [ダッシュボード](/glossary/ダッシュボード/)で確認できますが、削除された[トークン](/glossary/トークン/)は履歴にも表示されなくなるため、新たに生成する必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET \
@@ -81,9 +81,9 @@ curl -X GET \
 
 ### 原因2：CIRCLE_TOKEN 環境変数が設定されていない
 
-CircleCI のジョブ内から [API](/glossary/api/) を呼び出す場合、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)が定義されていないと、curl や [API](/glossary/api/) クライアントライブラリが[トークン](/glossary/トークン/)を含めずに[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。結果として 401 [エラー](/glossary/エラー/)が返ります。この[環境変数](/glossary/環境変数/)はプロジェクト設定またはコンテキスト（Context）で明示的に設定する必要があります。
+CircleCI のジョブ内から [API](/glossary/api/) を呼び出す場合、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)が定義されていないと、curl や [API](/glossary/api/) クライアントライブラリが[トークン](/glossary/トークン/)を含めずに[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。結果として 401 [エラー](/glossary/エラー/)が返ります。この[環境変数](/glossary/環境変数/)は[プロジェクト](/glossary/プロジェクト/)設定またはコンテキスト（Context）で明示的に設定する必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # .circleci/config.yml
@@ -139,9 +139,9 @@ jobs:
 
 ### 原因3：Personal Access Token と Project Token を使い分けていない
 
-CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token はプロジェクト固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。プロジェクトのワークフローからプロジェクト特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
+CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token は[プロジェクト](/glossary/プロジェクト/)固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。[プロジェクト](/glossary/プロジェクト/)のワークフローから[プロジェクト](/glossary/プロジェクト/)特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # .circleci/config.yml
@@ -199,7 +199,7 @@ Project Token 取得方法：Project Settings → Project [API](/glossary/api/) 
 
 **CircleCI [CLI](/glossary/cli/) との連携：**
 
-CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が設定されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)環境に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に保存します。
+CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が設定されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)[環境](/glossary/環境/)に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に保存します。
 
 ```bash
 # シェル環境に設定
@@ -209,7 +209,7 @@ circleci config validate .circleci/config.yml
 
 **コンテキスト（Context）の活用：**
 
-複数のプロジェクトで同じ[認証](/glossary/認証/)[トークン](/glossary/トークン/)を共有する場合、CircleCI のコンテキスト機能を使用すると管理が容易になります。Organization Settings → Contexts から新規作成し、[環境変数](/glossary/環境変数/)を一元管理します。
+複数の[プロジェクト](/glossary/プロジェクト/)で同じ[認証](/glossary/認証/)[トークン](/glossary/トークン/)を共有する場合、CircleCI のコンテキスト機能を使用すると管理が容易になります。Organization Settings → Contexts から新規作成し、[環境変数](/glossary/環境変数/)を一元管理します。
 
 ```yaml
 workflows:
@@ -251,4 +251,4 @@ CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Detai
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

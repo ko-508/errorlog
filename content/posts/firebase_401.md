@@ -45,9 +45,9 @@ Error: Failed to get document (401): The caller does not have permission
 
 ### 原因 1: IDトークンの有効期限が切れている
 
-Firebase Authentication では、[ID](/glossary/id/)[トークン](/glossary/トークン/)は発行後 1 時間で自動的に無効になります。長時間アクティビティがないセッションでこの[エラー](/glossary/エラー/)が発生します。
+Firebase Authentication では、[ID](/glossary/id/)[トークン](/glossary/トークン/)は発行後 1 時間で自動的に無効になります。長時間アクティビティがない[セッション](/glossary/セッション/)でこの[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```javascript
 // トークンをキャッシュして使い続けている
@@ -76,7 +76,7 @@ const response = await fetch('https://firestore.googleapis.com/v1/projects/<proj
 
 Node.js や Python でサーバーサイド処理を行う場合、[サービスアカウント](/glossary/サービスアカウント/)の [JSON](/glossary/json/) 鍵[ファイル](/glossary/ファイル/)が削除されたり、ローテーションされたりすると 401 が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```python
 # 旧い鍵ファイルを参照している
@@ -142,7 +142,7 @@ service cloud.firestore {
 
 ### 原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定
 
-[サーバー](/glossary/サーバー/)環境で `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されていないと、[SDK](/glossary/sdk/) が認証情報を見つけられず 401 が発生します。
+[サーバー](/glossary/サーバー/)[環境](/glossary/環境/)で `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されていないと、[SDK](/glossary/sdk/) が認証情報を見つけられず 401 が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）**
 
@@ -248,4 +248,4 @@ Firebase コミュニティ StackOverflow の `firebase` [タグ](/glossary/タ�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

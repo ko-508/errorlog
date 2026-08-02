@@ -55,7 +55,7 @@ FAILED! => {
 
 SSHで使用する[秘密鍵](/glossary/秘密鍵/)がターゲットホストの公開鍵と対応していない場合、またはパスフレーズで保護された鍵をAnsibleが処理できない場合に発生します。Ansibleがホストに接続する際に認証情報を提示できず、Permission deniedで弾かれる状況です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # inventory.ini
@@ -112,7 +112,7 @@ private_key_file = ~/.ssh/id_rsa
 
 ターゲットホストで[管理者権限](/glossary/管理者権限/)が必要なタスク（パッケージインストール、[ファイル](/glossary/ファイル/)編集など）を実行する際に、`become: yes`の設定だけではbecome_passwordが未設定のため、sudoの[認証](/glossary/認証/)に失敗します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # playbook.yml
@@ -165,7 +165,7 @@ ansible-playbook -i inventory.ini playbook.yml -K
 
 `uri`、`ansible.posix.synchronize`、クラウドプロバイダー連携モジュール（aws_s3、azure_vm等）などで使用する[API](/glossary/api/)[トークン](/glossary/トークン/)、アクセスキー、[パスワード](/glossary/パスワード/)が誤っている場合、外部サービスが401 Unauthorizedで応答し、モジュールが失敗します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # playbook.yml
@@ -244,7 +244,7 @@ ansible-playbook playbook.yml --vault-password-file ~/.vault_pass
 パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを確認してください。Linuxで`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を登録することで、Ansibleの実行時にパスフレーズ入力が不要になります。
 
 **become_methodの指定：**
-デフォルトではsudoが使用されますが、環境によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト環境に応じた設定をinventoryで指定してください。
+デフォルトではsudoが使用されますが、[環境](/glossary/環境/)によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト[環境](/glossary/環境/)に応じた設定をinventoryで指定してください。
 
 **複数ホストへの並列実行時：**
 `-f`オプションで並列数を制限している場合、複数ホストの[認証](/glossary/認証/)が同時に行われるため、ホスト単位で認証情報が異なるケースでは単一実行で検証してから並列実行に移行することが推奨されます。
@@ -293,4 +293,4 @@ ssh ubuntu@192.168.1.10 'sudo journalctl -u sudo -n 20'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

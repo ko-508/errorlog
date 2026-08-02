@@ -56,7 +56,7 @@ Error: PUT https://ndia.ghe.com/api/v3/repos/<organization>/<repository>/actions
 
 複数のワークフロー実行が同時に[デプロイ](/glossary/デプロイ/)を試みた場合、同じ[アプリケーション](/glossary/アプリケーション/)に対する競合が発生します。Azure App Service などでは、一度に 1 つのデプロイメントのみを受け付けるため、進行中の[デプロイ](/glossary/デプロイ/)が完了するまで待つ必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 name: Deploy to Azure
@@ -118,7 +118,7 @@ jobs:
 
 GitHub [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数のワークフロー実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -233,7 +233,7 @@ python update_file.py
 
 Organization または Enterprise レベルで GitHub Actions の[ポリシー](/glossary/ポリシー/)が設定されている場合、リポジトリレベルでの権限削除やアクセス設定の変更が禁止されていることがあります。[API](/glossary/api/) 経由で `actions/permissions` [エンドポイント](/glossary/エンドポイント/)にアクセスするとこの競合が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { Octokit } = require("@octokit/rest");
@@ -326,7 +326,7 @@ node update_permissions.js
 
 GitHub [API](/glossary/api/) でマージリクエストを[送信](/glossary/送信/)した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での対応が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { Octokit } = require("@octokit/rest");
@@ -433,7 +433,7 @@ node merge_pr.js
 
 **Azure App Service への[デプロイ](/glossary/デプロイ/)時の確認**
 
-`azure/webapps-deploy` アクションを使用して[エラー](/glossary/エラー/) 409 が発生した場合、Azure ポータルのデプロイブレードで詳細を確認する必要があります。Kudu（App Service の高度な管理ツール）で進行中の[デプロイ](/glossary/デプロイ/)を強制停止できます。
+`azure/webapps-deploy` [アクション](/glossary/アクション/)を使用して[エラー](/glossary/エラー/) 409 が発生した場合、Azure ポータルのデプロイブレードで詳細を確認する必要があります。Kudu（App Service の高度な管理[ツール](/glossary/ツール/)）で進行中の[デプロイ](/glossary/デプロイ/)を強制停止できます。
 
 ```bash
 # App Service のスケーリング中や再起動中に競合が発生することもあります
@@ -510,8 +510,8 @@ curl -v -H "Authorization: token <your-github-token>" \
 
 - [GitHub Actions: Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-
 
-> **調査について**　この記事の解決策は、GitHub Issues・Stack Overflow への公開報告（azure/webapps-deploy@v1, GitHub Enterprise 2.20 環境での報告を含む）を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、GitHub Issues・Stack Overflow への公開報告（azure/webapps-deploy@v1, GitHub Enterprise 2.20 [環境](/glossary/環境/)での報告を含む）を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -45,7 +45,7 @@ The following errors were found:
 
 CircleCI の[設定ファイル](/glossary/設定ファイル/)が [YAML](/glossary/yaml/) として不正な構文になっているか、`version` や `jobs` などの必須フィールドが定義されていない場合に 400 [エラー](/glossary/エラー/)が発生します。[YAML](/glossary/yaml/) のインデント不正や、必須キーの完全な欠落が典型的です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # version フィールドが欠落している
@@ -92,7 +92,7 @@ circleci config validate .circleci/config.yml
 
 CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が仕様に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) のフォーマット不正やシングルクォート使用、値の型不一致などが該当します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo>/pipeline \
@@ -126,7 +126,7 @@ curl -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo>/p
 
 config.yml でパイプラインパラメータを `boolean` や `integer` で宣言した場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や手動[トリガー](/glossary/トリガー/)で文字列や異なる型の値を渡すと 400 [エラー](/glossary/エラー/)が発生します。型の厳密な一致が要求されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: 2.1
@@ -227,4 +227,4 @@ curl -v -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

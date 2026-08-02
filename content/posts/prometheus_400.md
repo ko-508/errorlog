@@ -46,7 +46,7 @@ Content-Type: application/json
 
 PromQL の[メトリクス](/glossary/メトリクス/)名やラベルセレクタで括弧やクォート記号が正しく閉じられていないと、パース時に 400 [エラー](/glossary/エラー/)が発生します。オペレータの誤り、関数名のタイポ、ラベルマッチングの形式不正も該当します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -80,7 +80,7 @@ print(response.json())
 
 Prometheus [API](/glossary/api/) の `time` [パラメータ](/glossary/パラメータ/)は Unix タイムスタンプ（秒単位の整数）または RFC3339 形式で指定する必要があります。`2024-01-15 10:00:00` のような一般的な日時形式では 400 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl 'http://localhost:9090/api/v1/query_range' \
@@ -104,7 +104,7 @@ curl 'http://localhost:9090/api/v1/query_range' \
 
 `/api/v1/query` （インスタントクエリ）と `/api/v1/query_range` （レンジクエリ）は異なる[パラメータ](/glossary/パラメータ/)を要求します。インスタントクエリに `start` と `end` を同時に指定したり、レンジクエリに `time` [パラメータ](/glossary/パラメータ/)を指定したりすると 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // インスタントクエリなのに start・end パラメータを指定
@@ -136,7 +136,7 @@ const response = await fetch(
 
 Prometheus の 400 [エラー](/glossary/エラー/)は管理 UI で確認するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（デフォルトでは `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)が[リアルタイム](/glossary/リアルタイム/)に表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、修正が容易になります。
 
-また、Prometheus 2.40 以降では[クライアント](/glossary/クライアント/)側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を本番環境に[送信](/glossary/送信/)する前に、ローカル環境で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
+また、Prometheus 2.40 以降では[クライアント](/glossary/クライアント/)側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を本番環境に[送信](/glossary/送信/)する前に、ローカル[環境](/glossary/環境/)で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
 
 ```bash
 promtool check query 'up{job="prometheus"} / rate(http_requests_total[5m])'
@@ -164,4 +164,4 @@ curl -v 'http://localhost:9090/api/v1/query?query=up&time=2024-01-15T10:00:00Z'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

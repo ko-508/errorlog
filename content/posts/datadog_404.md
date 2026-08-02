@@ -50,7 +50,7 @@ Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossa
 
 [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や[ダッシュボード](/glossary/ダッシュボード/) [URL](/glossary/url/) に指定したリソース [ID](/glossary/id/) が存在しないか、タイプミスがあります。[API](/glossary/api/) 呼び出しで `<your-monitor-id>` の部分に誤った数値を入力した場合、Datadog はそのリソースを特定できず 404 を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET "https://api.datadoghq.com/api/v1/monitor/9999999" \
@@ -83,7 +83,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
 
 [クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に[送信](/glossary/送信/)されていない、または既に削除された場合、[ダッシュボード](/glossary/ダッシュボード/)やグラフの表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の[送信](/glossary/送信/)が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -137,9 +137,9 @@ Datadog WebUI の **Metrics** > **Summary** タブで[メトリクス](/glossary
 
 ### 原因3：環境やワークスペース固有のリソース参照
 
-複数の Datadog 環境（本番・ステージング等）やサブアカウントを使用している場合、別の環境で作成したモニターや[ダッシュボード](/glossary/ダッシュボード/)の [ID](/glossary/id/) を現在の環境で[リクエスト](/glossary/リクエスト/)すると 404 が返ります。[API](/glossary/api/) キーやアプリケーションキーが異なる環境に対応していないと、リソースが見つかりません。
+複数の Datadog [環境](/glossary/環境/)（本番・ステージング等）やサブアカウントを使用している場合、別の[環境](/glossary/環境/)で作成したモニターや[ダッシュボード](/glossary/ダッシュボード/)の [ID](/glossary/id/) を現在の[環境](/glossary/環境/)で[リクエスト](/glossary/リクエスト/)すると 404 が返ります。[API](/glossary/api/) キーやアプリケーションキーが異なる[環境](/glossary/環境/)に対応していないと、リソースが見つかりません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 本番環境のダッシュボード ID をステージング環境の API キーで参照
@@ -166,7 +166,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/dashboard/abc-123-xyz" \
   -H "DD-APPLICATION-KEY: <production-app-key>" | jq '.dashboard.title'
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/)の title が正常に返されれば、環境が正しく指定されています。
+[ダッシュボード](/glossary/ダッシュボード/)の title が正常に返されれば、[環境](/glossary/環境/)が正しく指定されています。
 
 ## 解決策の早見表
 
@@ -174,13 +174,13 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/dashboard/abc-123-xyz" \
 |--------|-----------|-----------|-------|
 | モニター/[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) の確認と修正 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [メトリクス](/glossary/メトリクス/)送信状況の確認・有効[メトリクス](/glossary/メトリクス/)への置換 | 中 | 不要 | 全[OS](/glossary/os/) |
-| 環境・[API](/glossary/api/) キーの切り替え | 低 | 不要 | 全[OS](/glossary/os/) |
+| [環境](/glossary/環境/)・[API](/glossary/api/) キーの切り替え | 低 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
 
 **Datadog WebUI での [ID](/glossary/id/) 確認手順**
 
-モニターや[ダッシュボード](/glossary/ダッシュボード/)の正確な [ID](/glossary/id/) を確認する最も確実な方法は Datadog WebUI を使用することです。モニター一覧画面では各行の左側に [ID](/glossary/id/) が表示されます。Python クライアントライブラリを使用している場合は、以下のコードで全モニターを列挙してから正確な [ID](/glossary/id/) を確認できます。
+モニターや[ダッシュボード](/glossary/ダッシュボード/)の正確な [ID](/glossary/id/) を確認する最も確実な方法は Datadog WebUI を使用することです。モニター一覧画面では各行の左側に [ID](/glossary/id/) が表示されます。Python クライアントライブラリを使用している場合は、以下の[コード](/glossary/コード/)で全モニターを列挙してから正確な [ID](/glossary/id/) を確認できます。
 
 ```python
 from datadog import initialize, api
@@ -240,4 +240,4 @@ Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

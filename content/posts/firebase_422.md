@@ -80,7 +80,7 @@ firebase.database().ref('users/' + uid).set({
 
 Firestore でセキュリティルールに `allow write if request.resource.data.keys().hasAll(['requiredField'])` のような検証を設定している場合、要求されるフィールドが不足していると 422 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```yaml
 rules_version = '2';
@@ -115,7 +115,7 @@ await db.collection('products').add({
 
 Firebase Authentication では、メールアドレスや[パスワード](/glossary/パスワード/)の形式、長さが検証されており、これを満たさないと 422 [エラー](/glossary/エラー/)が返されることがあります。特にカスタム[認証](/glossary/認証/)[トークン](/glossary/トークン/)や弱い[パスワード](/glossary/パスワード/)設定で発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
 ```javascript
 firebase.auth().createUserWithEmailAndPassword(
@@ -177,7 +177,7 @@ exports.createUser = functions.https.onCall(async (data) => {
 
 Firebase Console のセキュリティルールタブでシミュレーター機能を使い、実際の書き込み[リクエスト](/glossary/リクエスト/)を[テスト](/glossary/テスト/)しましょう。ここで「許可」か「拒否」かが明確に表示され、拒否理由も確認できます。
 
-ローカル環境では Firebase Emulator Suite を起動して、ルール違反の詳細[ログ](/glossary/ログ/)を確認します：
+ローカル[環境](/glossary/環境/)では Firebase Emulator Suite を起動して、ルール違反の詳細[ログ](/glossary/ログ/)を確認します：
 
 ```bash
 firebase emulators:start --inspect-functions
@@ -204,4 +204,4 @@ Stack Overflow の `firebase` [タグ](/glossary/タグ/)で過去の質問を�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

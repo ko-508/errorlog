@@ -46,7 +46,7 @@ ERROR: Got permission denied while trying to connect to the Docker daemon socket
 
 [Docker](/glossary/docker/) Compose でプライベートイメージを利用する場合、[レジストリ](/glossary/レジストリ/)に対する認証情報が必要です。[認証](/glossary/認証/)なしにプライベートイメージを pull しようとすると 403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -100,7 +100,7 @@ services:
 
 [Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先[ディレクトリ](/glossary/ディレクトリ/)に書き込みを試みると、パーミッション不足で 403 [エラー](/glossary/エラー/)が発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -159,7 +159,7 @@ USER appuser
 
 現在のユーザーが docker グループに属していない場合、[Docker](/glossary/docker/) ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 [エラー](/glossary/エラー/)が発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 一般ユーザーで docker-compose を実行
@@ -285,4 +285,4 @@ getenforce
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

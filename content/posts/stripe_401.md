@@ -40,11 +40,11 @@ curl https://api.stripe.com/v1/charges \
 
 ## よくある原因と解決手順
 
-**原因1：[テスト](/glossary/テスト/)環境と本番環境のキーを混同している**
+**原因1：[テスト](/glossary/テスト/)[環境](/glossary/環境/)と本番環境のキーを混同している**
 
-Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境のコードで[テスト](/glossary/テスト/)用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
+Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境の[コード](/glossary/コード/)で[テスト](/glossary/テスト/)用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```javascript
 const stripe = require('stripe')('sk_test_xxxxx'); // テスト用キー
 
@@ -74,7 +74,7 @@ const charge = await stripe.charges.create({
 
 Stripe には 2 種類のキーが存在します。[サーバー](/glossary/サーバー/)側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開キー（`pk_live_` または `pk_test_`）は[クライアント](/glossary/クライアント/)側のみで使用します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```python
 import stripe
 
@@ -112,7 +112,7 @@ except stripe.error.AuthenticationError as e:
 
 [API](/glossary/api/) キーをコピー＆ペーストする際に、誤って前後に空白文字やタブが含まれたり、キーの一部が欠落していたりすると 401 [エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```bash
 # キーの後ろに余計なスペースやタブが含まれている
 API_KEY="sk_test_xxxxx " 
@@ -139,7 +139,7 @@ curl https://api.stripe.com/v1/charges \
 
 [OAuth](/glossary/oauth/)（第三者認可[プロトコル](/glossary/プロトコル/)）を使用して Stripe に[アクセス権](/glossary/アクセス権/)を委譲している場合、アクセストークンには有効期限があります。期限切れの[トークン](/glossary/トークン/)で [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```javascript
 // 古いトークンをそのまま使用
 const accessToken = storedToken; // 数ヶ月前に取得したトークン
@@ -183,7 +183,7 @@ curl https://api.stripe.com/v1/charges \
   -u sk_test_xxxxx:
 ```
 
-**[テスト](/glossary/テスト/)用キーの機能制限：** [テスト](/glossary/テスト/)環境の[テスト](/glossary/テスト/)用キー（`sk_test_`）では、本番環境でのみ利用可能な機能の実行が制限される場合があります。
+**[テスト](/glossary/テスト/)用キーの機能制限：** [テスト](/glossary/テスト/)[環境](/glossary/環境/)の[テスト](/glossary/テスト/)用キー（`sk_test_`）では、本番環境でのみ利用可能な機能の実行が制限される場合があります。
 
 ## それでも解決しない場合
 
@@ -219,4 +219,4 @@ curl -v https://api.stripe.com/v1/charges \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

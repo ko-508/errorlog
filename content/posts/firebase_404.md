@@ -14,7 +14,7 @@ related_services: ["JavaScript", "SDK", "HTTP", "RFC 9110"]
 
 ## エラーの概要
 
-Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebaseプロジェクト内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。開発環境から本番環境への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
+Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。開発環境から本番環境への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ GET https://firestore.googleapis.com/v1/projects/<your-project-id>/databases/(de
 
 Firestoreはドキュメント階層が厳密です。コレクション名やドキュメント[ID](/glossary/id/)の綴り間違いが404につながります。
 
-**Before（[エラー](/glossary/エラー/)が発生するコード）:**
+**Before（[エラー](/glossary/エラー/)が発生する[コード](/glossary/コード/)）:**
 ```javascript
 const docRef = doc(db, "users", "user123");
 const docSnap = await getDoc(docRef);
@@ -163,7 +163,7 @@ service cloud.firestore {
 
 **Cloud Functionsのリージョン指定**
 
-関数が[デプロイ](/glossary/デプロイ/)されたリージョンと呼び出し[URL](/glossary/url/)が一致していない場合、404が返されます。
+[関数](/glossary/関数/)が[デプロイ](/glossary/デプロイ/)されたリージョンと呼び出し[URL](/glossary/url/)が一致していない場合、404が返されます。
 
 ```javascript
 // デプロイ時
@@ -194,7 +194,7 @@ const database = getDatabase(app, "https://<your-project-id>.firebaseio.com");
 
 **[ログ](/glossary/ログ/)確認の手順**
 
-1. **Firebase Console** → 対象プロジェクト → **Logs** セクションを開く
+1. **Firebase Console** → 対象[プロジェクト](/glossary/プロジェクト/) → **Logs** セクションを開く
 2. Cloud Functionsの場合は **Functions** タブで詳細な[エラーログ](/glossary/エラーログ/)を確認
 3. Firestoreの場合は **Firestore** → **Monitoring** でリアルタイムエラーを監視
 
@@ -223,4 +223,4 @@ firebase-js[リポジトリ](/glossary/リポジトリ/)のIssueで類似ケー�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -36,7 +36,7 @@ pull access denied for <名前>, repository does not exist or may require 'docke
 
 ### 原因1：手元のデーモンにその名前の資源がない
 
-docker exec、docker logs、docker rm などで指定した名前の[コンテナ](/glossary/コンテナ/)が存在しない場合の404です。単純な綴りの誤りのほか、見落とされやすいのが [Docker](/glossary/docker/) Compose の自動命名です。Compose が起動した[コンテナ](/glossary/コンテナ/)には、プロジェクト名とサービス名から組み立てられた名前が付くため、compose [ファイル](/glossary/ファイル/)に書いたサービス名をそのまま指定しても一致しないことがあります。
+docker exec、docker logs、docker rm などで指定した名前の[コンテナ](/glossary/コンテナ/)が存在しない場合の404です。単純な綴りの誤りのほか、見落とされやすいのが [Docker](/glossary/docker/) Compose の自動命名です。Compose が起動した[コンテナ](/glossary/コンテナ/)には、[プロジェクト](/glossary/プロジェクト/)名とサービス名から組み立てられた名前が付くため、compose [ファイル](/glossary/ファイル/)に書いたサービス名をそのまま指定しても一致しないことがあります。
 
 **Before（サービス名をそのまま指定して404）：**
 
@@ -123,10 +123,10 @@ docker pull docker.io/<ユーザー名>/<イメージ名>:<タグ>
 
 ## Editor's Note
 
-原因3の名前空間の欠落を示す実例として、[Docker](/glossary/docker/) 公式フォーラムの長期スレッドがあります（[Docker push - Error - requested access to the resource is denied](https://forums.docker.com/t/docker-push-error-requested-access-to-the-resource-is-denied/64468)、2018年開始）。docker login は成功しているのに push が denied: requested access to the resource is denied で失敗するという報告で、出力に The push refers to a repository [docker.io/library/プロジェクト名] とあることから、ユーザー名を省いた名前が公式[イメージ](/glossary/イメージ/)の領域（library/）への操作として解釈されていたことが分かります。回答は、<ユーザー名>/<イメージ名> の形で[タグ](/glossary/タグ/)を付け直して push するというもので、その後も2024年に至るまで同種の報告と同じ解決が繰り返し書き込まれています。この記事は pull の404を中心に扱いましたが、名前空間の欠落という原因は push でも pull でも同じ形で現れる、ということを示す実例です。
+原因3の名前空間の欠落を示す実例として、[Docker](/glossary/docker/) 公式フォーラムの長期スレッドがあります（[Docker push - Error - requested access to the resource is denied](https://forums.docker.com/t/docker-push-error-requested-access-to-the-resource-is-denied/64468)、2018年開始）。docker login は成功しているのに push が denied: requested access to the resource is denied で失敗するという報告で、出力に The push refers to a repository [docker.io/library/[プロジェクト](/glossary/プロジェクト/)名] とあることから、ユーザー名を省いた名前が公式[イメージ](/glossary/イメージ/)の領域（library/）への操作として解釈されていたことが分かります。回答は、<ユーザー名>/<イメージ名> の形で[タグ](/glossary/タグ/)を付け直して push するというもので、その後も2024年に至るまで同種の報告と同じ解決が繰り返し書き込まれています。この記事は pull の404を中心に扱いましたが、名前空間の欠落という原因は push でも pull でも同じ形で現れる、ということを示す実例です。
 
 [Docker](/glossary/docker/) の404は、文言が「どこで見つからなかったか」を最初に教えてくれます。名前を打ち直す前に、手元・[タグ](/glossary/タグ/)・[リポジトリ](/glossary/リポジトリ/)のどの話なのかを文言で確定することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase環境では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、本番環境で多くのユーザーに影響を与える可能性があります。
+Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、本番環境で多くのユーザーに影響を与える可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -53,7 +53,7 @@ Content-Type: application/json
 
 Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)はデフォルトでHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの遅延、外部[API](/glossary/api/)の呼び出し遅延、処理の複雑さが原因となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 exports.slowFunction = functions.https.onRequest(async (req, res) => {
@@ -84,9 +84,9 @@ exports.fastFunction = functions.https.onRequest(async (req, res) => {
 
 ### 2. コールドスタート時の初期化処理に時間がかかっている
 
-Cloud Functionsの関数が一定期間実行されていない場合、起動時に[メモリ](/glossary/メモリ/)確保やライブラリの読み込みが必要になります。大規模なライブラリの読み込みや[データベース](/glossary/データベース/)接続の[初期化](/glossary/初期化/)が[コールドスタート](/glossary/コールドスタート/)中に実行されると、[タイムアウト](/glossary/タイムアウト/)に達しやすくなります。
+Cloud Functionsの[関数](/glossary/関数/)が一定期間実行されていない場合、起動時に[メモリ](/glossary/メモリ/)確保やライブラリの読み込みが必要になります。大規模なライブラリの読み込みや[データベース](/glossary/データベース/)接続の[初期化](/glossary/初期化/)が[コールドスタート](/glossary/コールドスタート/)中に実行されると、[タイムアウト](/glossary/タイムアウト/)に達しやすくなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const admin = require('firebase-admin');
@@ -127,7 +127,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 [メモリ](/glossary/メモリ/)割り当てが少ないと、CPUの性能も制限され、同じ処理でも実行時間が延びます。デフォルトの256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # firebase.json
@@ -156,7 +156,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)やバッチ処理、[インデックス](/glossary/インデックス/)設定により改善できます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 exports.getOrdersWithUsers = functions.https.onRequest(async (req, res) => {
@@ -196,7 +196,7 @@ Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する�
 
 **Realtime DatabaseとFirestoreの遅延**
 
-Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)処理が遅い場合、Pub/Sub経由での非同期処理への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける関数から長時間の処理を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
+Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)処理が遅い場合、Pub/Sub経由での非同期処理への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける[関数](/glossary/関数/)から長時間の処理を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
 
 **Firebase Hostingの統合[タイムアウト](/glossary/タイムアウト/)**
 
@@ -211,7 +211,7 @@ gcloud functions describe <関数名> --runtime nodejs18
 gcloud functions logs read <関数名> --limit 50
 ```
 
-または、Firebase Consoleで「関数」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を確認してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を確認でき、504の発生パターンが明らかになります。
+または、Firebase Consoleで「[関数](/glossary/関数/)」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を確認してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を確認でき、504の発生パターンが明らかになります。
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析**
 
@@ -227,4 +227,4 @@ Cloud Profilerを有効化することで、CPUと[メモリ](/glossary/メモ�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

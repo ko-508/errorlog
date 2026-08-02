@@ -42,7 +42,7 @@ Supabase JavaScript[クライアント](/glossary/クライアント/)から返�
 
 Supabaseのデフォルト設定では、[パスワード](/glossary/パスワード/)は**最低6文字以上**である必要があります。これより短い[パスワード](/glossary/パスワード/)でユーザー登録や[パスワード](/glossary/パスワード/)変更を試みると、422[エラー](/glossary/エラー/)が返されます。ユーザー入力の検証を行わずに[API](/glossary/api/)に[送信](/glossary/送信/)している場合に発生することが多いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const { data, error } = await supabase.auth.signUp({
@@ -79,7 +79,7 @@ if (error) {
 
 Supabaseは送信前にメールアドレス形式を厳密に検証します。スペースが含まれている、@記号が複数ある、[ドメイン](/glossary/ドメイン/)部分が不完全など、[RFC](/glossary/rfc/) 5322標準から外れたアドレス形式では422[エラー](/glossary/エラー/)が発生します。ユーザー入力を整形せずに[送信](/glossary/送信/)している場合や、テストデータに誤りがある場合に多く見られます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const email = 'user @example.com';  // スペースを含む不正な形式
@@ -119,7 +119,7 @@ if (error) {
 
 Supabase Dashboardでカスタムメールプロバイダー（SendGrid、Mailgun等）を設定した場合、認証情報の誤り、テンプレート[変数](/glossary/変数/)の不一致、またはメール送信設定の検証ルール違反で422[エラー](/glossary/エラー/)が発生することがあります。特に[環境変数](/glossary/環境変数/)の値が不完全であったり、テンプレート内の[変数](/glossary/変数/)が不正な形式である場合に顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # Supabase Authのカスタムメール設定（不正な例）
@@ -181,7 +181,7 @@ const { data, error } = await supabase.auth.signUp({
 
 ## ツール固有の注意点
 
-Supabaseの422[エラー](/glossary/エラー/)は**プロジェクト設定の違いで挙動が異なります**。以下の点を確認してください。
+Supabaseの422[エラー](/glossary/エラー/)は**[プロジェクト](/glossary/プロジェクト/)設定の違いで挙動が異なります**。以下の点を確認してください。
 
 **Authentication > Providers > メール設定の確認：**
 Supabase Dashboardの「Authentication」→「Providers」→「Email」で、以下の項目を確認しましょう。
@@ -235,8 +235,8 @@ curl -X POST 'https://<your-project-ref>.supabase.co/auth/v1/signup' \
 - [Supabase メール設定ガイド](https://supabase.com/docs/guides/auth/auth-smtp)
 - [Supabase GitHub Issues](https://github.com/supabase/supabase/issues)
 
-プロジェクト設定や[API](/glossary/api/)キーに関わる部分は、Supabaseサポートに直接問い合わせることも有効です。Dashboardの「Help」→「Support」から公式サポートチャネルにアクセスできます。
+[プロジェクト](/glossary/プロジェクト/)設定や[API](/glossary/api/)キーに関わる部分は、Supabaseサポートに直接問い合わせることも有効です。Dashboardの「Help」→「Support」から公式サポートチャネルにアクセスできます。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

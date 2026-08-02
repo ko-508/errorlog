@@ -46,7 +46,7 @@ Stripe [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)�
 
 なぜ発生するか：Stripe [API](/glossary/api/)の各[エンドポイント](/glossary/エンドポイント/)には必須[パラメータ](/glossary/パラメータ/)が定義されており、これらが不足している、または期待される型と異なる型で[送信](/glossary/送信/)されると400[エラー](/glossary/エラー/)が返されます。例えば、決済作成時に`amount`（整数・セント単位）が文字列で[送信](/glossary/送信/)された場合などです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）:**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）:**
 ```python
 import stripe
 
@@ -76,9 +76,9 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### 原因2：通貨コードまたは金額の値が不正
 
-なぜ発生するか：Stripeは対応する通貨コード（`jpy`、`usd`等）のみを受け入れます。また、金額は通貨によって有効な範囲が決まっており、JPYは通常1円以上の整数、USDは1セント以上である必要があります。0円や負の金額を指定すると400[エラー](/glossary/エラー/)になります。
+なぜ発生するか：Stripeは対応する通貨[コード](/glossary/コード/)（`jpy`、`usd`等）のみを受け入れます。また、金額は通貨によって有効な範囲が決まっており、JPYは通常1円以上の整数、USDは1セント以上である必要があります。0円や負の金額を指定すると400[エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）:**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）:**
 ```javascript
 const stripe = require('stripe')('<your-api-key>');
 
@@ -106,7 +106,7 @@ stripe.paymentIntents.create({
 
 なぜ発生するか：Stripeの[API](/glossary/api/)は特定の[パラメータ](/glossary/パラメータ/)組み合わせを認めていません。例えば、決済作成時に同時に複数の決済方法を指定したり、既に確定済みのPaymentIntentに対して金額を変更しようとしたりすると、相互に矛盾する[パラメータ](/glossary/パラメータ/)組み合わせとして400[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）:**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）:**
 ```python
 import stripe
 
@@ -140,7 +140,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### APIバージョンの不整合
 
-Stripeの[アカウント](/glossary/アカウント/)設定では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)がデフォルトで使用されます。古いコードが新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
+Stripeの[アカウント](/glossary/アカウント/)設定では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)がデフォルトで使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
 
 ```bash
 curl https://api.stripe.com/v1/payment_intents \
@@ -224,4 +224,4 @@ Stripe公式の[GitHub Issues](https://github.com/stripe/stripe-python)や[Stack
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

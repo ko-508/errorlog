@@ -44,7 +44,7 @@ curl -X GET "https://<your-project>.supabase.co/rest/v1/users?status=eq.active&a
 
 Supabase は PostgreSQL の高度なフィルタリング機能を提供していますが、正しい演算子と記号を使わなければ 400 [エラー](/glossary/エラー/)が返ります。`>` や `<` などの [SQL](/glossary/sql/) 記号をそのまま[クエリ](/glossary/クエリ/)に含めると、[URL](/glossary/url/) エンコーディングの問題やパーサーエラーが発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // ❌ 不正な演算子 > を直接使用
@@ -66,7 +66,7 @@ const { data, error } = await supabase
 
 別の例として、複数条件の指定時に誤った区切り文字を使う場合もあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // ❌ URL クエリパラメータで不正な構文
@@ -91,7 +91,7 @@ const { data, error } = await supabase
 
 Supabase [API](/glossary/api/) へのすべての[リクエスト](/glossary/リクエスト/)には `Content-Type` と `apikey` [ヘッダー](/glossary/ヘッダー/)が必須です。特に POST や PATCH [リクエスト](/glossary/リクエスト/)で [JSON](/glossary/json/) ボディを[送信](/glossary/送信/)する場合、`Content-Type: application/json` を明記しないと 400 が返ります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ❌ Content-Type ヘッダーが指定されていない
@@ -112,7 +112,7 @@ curl -X POST "https://<your-project>.supabase.co/rest/v1/users" \
 
 JavaScript クライアントライブラリを使う場合は、通常自動的に[ヘッダー](/glossary/ヘッダー/)が付与されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // ❌ 標準 fetch API 使用時、ヘッダーが省略されている
@@ -140,7 +140,7 @@ const response = await fetch('https://<your-project>.supabase.co/rest/v1/users',
 
 Supabase Auth [API](/glossary/api/)（ユーザー登録・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他[メタデータ](/glossary/メタデータ/)の[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須フィールドが欠けていたり、データ型が違ったり、無効な形式だったりすると 400 が返ります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // ❌ パスワードが 6 文字未満、またはメールアドレスの形式が不正
@@ -170,7 +170,7 @@ if (error) {
 
 [メタデータ](/glossary/メタデータ/)の追加時に[オブジェクト](/glossary/オブジェクト/)以外の値を渡す場合も同様です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // ❌ user_metadata が文字列で指定されている
@@ -200,13 +200,13 @@ const { data, error } = await supabase.auth.signUp({
 
 Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `message` フィールドに詳細な情報を含めます。400 [エラー](/glossary/エラー/)が返された場合、その message を確認することが問題解決の第一歩です。例えば「Invalid filter」と明記されれば PostgREST フィルタの誤り、「Invalid credentials」なら[認証](/glossary/認証/)[パラメータ](/glossary/パラメータ/)の誤りなど、原因が特定しやすくなります。
 
-また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接ブラウザで試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じロジックをコード側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
+また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接ブラウザで試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じロジックを[コード](/glossary/コード/)側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
 
 さらに、JavaScript クライアントライブラリは頻繁に更新されており、古い[バージョン](/glossary/バージョン/)を使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
 
 ## それでも解決しない場合
 
-まずはブラウザーの開発者ツール（F12）のネットワークタブで、実際に[送信](/glossary/送信/)されているリクエストヘッダーと [URL](/glossary/url/) を確認します。Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションでは、[API](/glossary/api/) に到達した[リクエスト](/glossary/リクエスト/)の詳細[ログ](/glossary/ログ/)が記録されており、どの部分が不正と判定されたかを追跡できます。
+まずはブラウザーの開発者[ツール](/glossary/ツール/)（F12）のネットワークタブで、実際に[送信](/glossary/送信/)されているリクエストヘッダーと [URL](/glossary/url/) を確認します。Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションでは、[API](/glossary/api/) に到達した[リクエスト](/glossary/リクエスト/)の詳細[ログ](/glossary/ログ/)が記録されており、どの部分が不正と判定されたかを追跡できます。
 
 以下の[コマンド](/glossary/コマンド/)で、[リクエスト](/glossary/リクエスト/)の詳細を verbose モードで確認することも有効です。
 
@@ -222,4 +222,4 @@ curl -v -X GET "https://<your-project>.supabase.co/rest/v1/users?status=eq.activ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

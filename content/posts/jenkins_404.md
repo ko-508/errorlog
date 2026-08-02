@@ -47,7 +47,7 @@ ERROR hudson.model.Items - Item 'build-test' not found in 'jobs' folder
 
 Jenkinsはジョブ名を大文字と小文字を区別するため、[URL](/glossary/url/)や[API](/glossary/api/)呼び出しで正確な名前を指定する必要があります。例えば「MyBuildJob」というジョブに対して「mybuildjob」でアクセスすると[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ジョブ名を小文字で指定しているが、実際は大文字小文字混合
@@ -69,7 +69,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/api/json" \
 
 Jenkinsで[フォルダ](/glossary/フォルダ/)を使用してジョブを整理している場合、[URL](/glossary/url/)[パス](/glossary/パス/)は `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか検索されずに404[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # フォルダ構造を無視してジョブ名のみでアクセス
@@ -92,7 +92,7 @@ curl -X POST "http://localhost:8080/job/project-folder/job/deploy-test/build" \
 
 Jenkinsのビルド履歴は保持[ポリシー](/glossary/ポリシー/)によって自動削除される場合があります。削除されたビルド番号にアクセスしようとすると404[エラー](/glossary/エラー/)が返されます。また、存在しないビルド番号（例：ビルド100が最新のときにビルド200にアクセス）を指定した場合も同様です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 削除済みまたは存在しないビルド番号を指定
@@ -131,7 +131,7 @@ build job: 'project-folder/deploy-test'
 
 **[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部ツール連携設定に古い[URL](/glossary/url/)が保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合ツール（GitLab、GitHub、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
+ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、GitHub、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
 
 **Jenkins UI上での確認方法：**
 
@@ -182,4 +182,4 @@ curl -I "http://localhost:8080/job/MyBuildJob/api/json" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

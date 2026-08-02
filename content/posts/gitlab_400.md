@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-GitLab の 400 [エラー](/glossary/エラー/)は、「Bad Request」を意味し、GitLab [API](/glossary/api/) またはウェブインターフェースへの[リクエスト](/glossary/リクエスト/)の形式や内容に誤りがある場合に発生します。これは、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を正しく解析できない、または必須情報が不足していることを示します。[CI/CD](/glossary/ci-cd/) パイプラインの実行時やプロジェクト管理操作の際に頻出する[エラー](/glossary/エラー/)です。
+GitLab の 400 [エラー](/glossary/エラー/)は、「Bad Request」を意味し、GitLab [API](/glossary/api/) またはウェブインターフェースへの[リクエスト](/glossary/リクエスト/)の形式や内容に誤りがある場合に発生します。これは、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を正しく解析できない、または必須情報が不足していることを示します。[CI/CD](/glossary/ci-cd/) パイプラインの実行時や[プロジェクト](/glossary/プロジェクト/)管理操作の際に頻出する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ ERROR: (ci::pipeline:creation) This project does not have CI enabled
 
 GitLab [API](/glossary/api/) への POST/PUT [リクエスト](/glossary/リクエスト/)で、[JSON](/glossary/json/) の形式が壊れているか、[API](/glossary/api/) が必須とするフィールドが含まれていません。特に issue 作成や merge request の更新時に頻発します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues" \
@@ -68,7 +68,7 @@ curl -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues" \
 
 `.gitlab-ci.yml` の [YAML](/glossary/yaml/) 構文が壊れている場合、パイプライン作成時に 400 [エラー](/glossary/エラー/)が返されます。インデント不正、不正なキー名、型の不一致が原因になることが多いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 stages:
@@ -118,7 +118,7 @@ test_job:
 
 GitLab [API](/glossary/api/) の各[エンドポイント](/glossary/エンドポイント/)（接続先）では、パラメーター（設定項目）の値に制約があります。例えば、優先度レベル、ユーザーロール、有効期限の日数などが指定値外の場合に 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -161,13 +161,13 @@ print(response.json())
 
 **GitLab CI Lint を活用した検証：**
 
-`.gitlab-ci.yml` の構文[エラー](/glossary/エラー/)は、GitLab の公式 CI Lint ツール（`Settings` → `CI/CD` → `CI Lint`）を使用すると、[エラー](/glossary/エラー/)行と理由を詳細に確認できます。ローカルでパイプラインを[テスト](/glossary/テスト/)したい場合は、GitLab Runner に `--debug` フラグを付けて実行すると、詳細な[デバッグ](/glossary/デバッグ/)（問題調査）情報が出力されます。
+`.gitlab-ci.yml` の構文[エラー](/glossary/エラー/)は、GitLab の公式 CI Lint [ツール](/glossary/ツール/)（`Settings` → `CI/CD` → `CI Lint`）を使用すると、[エラー](/glossary/エラー/)行と理由を詳細に確認できます。ローカルでパイプラインを[テスト](/glossary/テスト/)したい場合は、GitLab Runner に `--debug` フラグを付けて実行すると、詳細な[デバッグ](/glossary/デバッグ/)（問題調査）情報が出力されます。
 
 **[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)（返信）の message フィールドの重要性：**
 
 GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` フィールドに具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを確認することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に設定されていることが判断できます。
 
-**プロジェクト設定による [CI/CD](/glossary/ci-cd/) 有効化の確認：**
+**[プロジェクト](/glossary/プロジェクト/)設定による [CI/CD](/glossary/ci-cd/) 有効化の確認：**
 
 稀に、プロジェクトレベルで [CI/CD](/glossary/ci-cd/) が無効化されていると 400 [エラー](/glossary/エラー/)が返される場合があります。`Settings` → `General` → `Visibility, project features, permissions` で [CI/CD](/glossary/ci-cd/) を有効化しているか確認してください。
 
@@ -203,4 +203,4 @@ curl -v -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues"
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

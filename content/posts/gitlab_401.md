@@ -45,7 +45,7 @@ fatal: Authentication failed for 'https://gitlab.example.com/group/project.git/'
 
 GitLab のパーソナルアクセストークンには有効期限が設定でき、期限を過ぎた[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。また、[トークン](/glossary/トークン/)を無効化した場合や、[ユーザーアカウント](/glossary/ユーザーアカウント/)設定で特定の[スコープ](/glossary/スコープ/)を失った場合も[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインやスクリプトで長期間使用する[トークン](/glossary/トークン/)は、期限切れに気づきにくいため注意が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 2024年1月に作成したトークンを2024年12月に使用しようとしている場合
@@ -70,7 +70,7 @@ $ curl -H "PRIVATE-TOKEN: <your-gitlab-token>" \
 
 GitLab [API](/glossary/api/) にアクセスする際、Authorization [ヘッダー](/glossary/ヘッダー/)の形式が仕様と異なると認証失敗になります。Bearer [トークン](/glossary/トークン/)を使う場合と PRIVATE-TOKEN [ヘッダー](/glossary/ヘッダー/)を使う場合で形式が異なり、特に古いドキュメントを参照している場合に混同しやすいです。また、[トークン](/glossary/トークン/)前後の空白や特殊文字の誤りも 401 の原因になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # パターン1: Authorization Bearer の形式が間違っている
@@ -110,7 +110,7 @@ $ git clone https://oauth2:<pat-token>@gitlab.example.com/group/project.git
 
 [CI/CD](/glossary/ci-cd/) パイプラインから GitLab [API](/glossary/api/) にアクセスする場合、`CI_JOB_TOKEN` という特別な[環境変数](/glossary/環境変数/)が提供されます。この[トークン](/glossary/トークン/)はジョブ実行時に自動的に設定されますが、パイプラインの設定[エラー](/glossary/エラー/)や古い実装では、代わりにパーソナルアクセストークンを使用していることがあります。その場合、[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)不足や期限切れで 401 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # .gitlab-ci.yml
@@ -153,7 +153,7 @@ api_test:
 
 **Deploy Token との区別：**
 
-GitLab には「Deploy Token」という別種の[トークン](/glossary/トークン/)もあります。これはプロジェクト単位で発行されるもので、パーソナルアクセストークンとは[スコープ](/glossary/スコープ/)と有効期限管理が異なります。[CI/CD](/glossary/ci-cd/) パイプラインで依存パッケージレジストリからの読み込みが必要な場合、Deploy Token が有効期限切れになっていないか確認してください。
+GitLab には「Deploy Token」という別種の[トークン](/glossary/トークン/)もあります。これは[プロジェクト](/glossary/プロジェクト/)単位で発行されるもので、パーソナルアクセストークンとは[スコープ](/glossary/スコープ/)と有効期限管理が異なります。[CI/CD](/glossary/ci-cd/) パイプラインで依存パッケージレジストリからの読み込みが必要な場合、Deploy Token が有効期限切れになっていないか確認してください。
 
 **Self-hosted GitLab での [SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)：**
 
@@ -185,7 +185,7 @@ curl -s -H "PRIVATE-TOKEN: ${TOKEN}" \
 # 401 が出た場合は期限切れまたは無効
 ```
 
-**[CI/CD](/glossary/ci-cd/) 環境での環境変数確認：**
+**[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)での環境変数確認：**
 
 パイプラインスクリプト内で `CI_JOB_TOKEN` が正しく設定されているか、以下で確認します。
 
@@ -202,4 +202,4 @@ GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)仕様は
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

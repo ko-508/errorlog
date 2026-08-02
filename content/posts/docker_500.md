@@ -19,7 +19,7 @@ top_queries:
 
 [Docker](/glossary/docker/) で 500 Internal Server Error が出たときは、どこが500を返したかを最初に見極めます。原因はほぼ次の3系統のいずれかです。第一に、Windows の [Docker](/glossary/docker/) Desktop でエンジンが起動していない状態です。この場合「request returned Internal Server Error for [API](/glossary/api/) route and version ...」という形式のメッセージになります。第二に、docker pull や docker push の相手である[レジストリ](/glossary/レジストリ/)（[イメージ](/glossary/イメージ/)の配布[サーバー](/glossary/サーバー/)）側の障害です。この場合「received unexpected [HTTP](/glossary/http/) status: 500 Internal Server Error」という形式になります。第三に、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)自身の内部[エラー](/glossary/エラー/)で、この場合はメッセージに具体的な原因（ディスク不足など）が含まれるのが普通です。
 
-なお、[デーモン](/glossary/デーモン/)が停止しているだけなら500にはなりません。その場合は「Cannot connect to the [Docker](/glossary/docker/) daemon ... Is the docker daemon running?」という接続[エラー](/glossary/エラー/)になります。500は「相手まで届いたうえで、相手が内部[エラー](/glossary/エラー/)を返した」ことを示すコードです。
+なお、[デーモン](/glossary/デーモン/)が停止しているだけなら500にはなりません。その場合は「Cannot connect to the [Docker](/glossary/docker/) daemon ... Is the docker daemon running?」という接続[エラー](/glossary/エラー/)になります。500は「相手まで届いたうえで、相手が内部[エラー](/glossary/エラー/)を返した」ことを示す[コード](/glossary/コード/)です。
 
 ## エラーの概要
 
@@ -43,7 +43,7 @@ top_queries:
 
 ### 原因1：Docker Desktop のエンジンが起動していない（Windows）
 
-Windows の [Docker](/glossary/docker/) Desktop 環境では、エンジンが起動していない、または起動の途中で止まっている状態で docker [コマンド](/glossary/コマンド/)を実行すると、次のような500[エラー](/glossary/エラー/)が出ることが、公式[リポジトリ](/glossary/リポジトリ/)の多数の報告で確認されています。
+Windows の [Docker](/glossary/docker/) Desktop [環境](/glossary/環境/)では、エンジンが起動していない、または起動の途中で止まっている状態で docker [コマンド](/glossary/コマンド/)を実行すると、次のような500[エラー](/glossary/エラー/)が出ることが、公式[リポジトリ](/glossary/リポジトリ/)の多数の報告で確認されています。
 
 ```
 $ docker ps
@@ -58,7 +58,7 @@ supports the requested API version
 
 ### 原因2：レジストリが500を返している
 
-docker pull、docker push、docker login の相手は[レジストリ](/glossary/レジストリ/)です。[レジストリ](/glossary/レジストリ/)側で障害が起きていると、手元の環境に問題がなくても次のような500[エラー](/glossary/エラー/)になります。
+docker pull、docker push、docker login の相手は[レジストリ](/glossary/レジストリ/)です。[レジストリ](/glossary/レジストリ/)側で障害が起きていると、手元の[環境](/glossary/環境/)に問題がなくても次のような500[エラー](/glossary/エラー/)になります。
 
 ```
 $ docker pull hello-world
@@ -129,10 +129,10 @@ docker system prune -a
 
 ## Editor's Note
 
-原因2の実例として、[Docker](/glossary/docker/) Hub 側の障害の報告があります（[docker/hub-feedback #2439](https://github.com/docker/hub-feedback/issues/2439)、2025年2月）。報告者の環境では docker pull hello-world という最も基本的な取得すら「received unexpected [HTTP](/glossary/http/) status: 500 Internal Server Error」で失敗しており、複数の国の別々の接続元から試しても同じ結果でした。報告の経過では、当初は公式の稼働状況ページに障害が掲載されておらず、その後に掲載されて対応が進んだことが記録されています。手元の環境を疑う前に稼働状況ページを見る、掲載がなくても障害の可能性は残る、という2点がわかる実例です。
+原因2の実例として、[Docker](/glossary/docker/) Hub 側の障害の報告があります（[docker/hub-feedback #2439](https://github.com/docker/hub-feedback/issues/2439)、2025年2月）。報告者の[環境](/glossary/環境/)では docker pull hello-world という最も基本的な取得すら「received unexpected [HTTP](/glossary/http/) status: 500 Internal Server Error」で失敗しており、複数の国の別々の接続元から試しても同じ結果でした。報告の経過では、当初は公式の稼働状況ページに障害が掲載されておらず、その後に掲載されて対応が進んだことが記録されています。手元の[環境](/glossary/環境/)を疑う前に稼働状況ページを見る、掲載がなくても障害の可能性は残る、という2点がわかる実例です。
 
-500というコード自体は「内部で[エラー](/glossary/エラー/)が起きた」以上のことを教えてくれません。[Docker](/glossary/docker/) では、メッセージの文言の形式が発生源を示してくれるので、コードの数字ではなく文言の全体から調査を始めることが確実な近道です。
+500という[コード](/glossary/コード/)自体は「内部で[エラー](/glossary/エラー/)が起きた」以上のことを教えてくれません。[Docker](/glossary/docker/) では、メッセージの文言の形式が発生源を示してくれるので、[コード](/glossary/コード/)の数字ではなく文言の全体から調査を始めることが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

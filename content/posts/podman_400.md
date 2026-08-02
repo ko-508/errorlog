@@ -40,7 +40,7 @@ Error: invalid argument "mycontainer" for "--memory" flag: invalid format
 
 値が必須のオプション（`--memory`、`--cpus`、`--name` など）に値を指定しない、または不正な形式で指定した場合に発生します。また、[イメージ](/glossary/イメージ/)名の前に全てのオプションを配置する必要があり、順序を間違えると 400 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman run --memory mycontainer ubuntu:latest
@@ -58,7 +58,7 @@ podman run --name test-container ubuntu:latest
 
 [イメージ](/glossary/イメージ/)名に大文字が含まれている、[タグ](/glossary/タグ/)に不正な文字が使用されている、または[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/) の書き方が間違っている場合、[リクエスト](/glossary/リクエスト/)が解析できず 400 [エラー](/glossary/エラー/)が返されます。[イメージ](/glossary/イメージ/)名は小文字で、[タグ](/glossary/タグ/)には英数字とハイフン、アンダースコア、ドット、コロンのみが許可されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman pull MyImage:Latest
@@ -76,7 +76,7 @@ podman run myregistry.com:5000/app:v1
 
 `podman login` 時に[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/) の形式が間違っていたり、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が `auth.json` に不正な形式で保存されたりすると、プル操作で 400 [エラー](/glossary/エラー/)が発生します。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、[URL](/glossary/url/) にプロトコルスキーム（`https://` など）を含める必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman login myregistry.com:5000
@@ -95,7 +95,7 @@ podman pull myregistry.com:5000/private-app:latest
 
 `-p` フラグでポートマッピングを指定する際、形式が違うと 400 [エラー](/glossary/エラー/)が発生します。正しい形式は `-p <host-port>:<container-port>` または `-p <host-ip>:<host-port>:<container-port>` です。また、`--net` オプションで存在しない[ネットワーク](/glossary/ネットワーク/)を指定した場合も同様です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 podman run -p 8080-80 ubuntu:latest
@@ -115,7 +115,7 @@ Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー
 
 Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古い[バージョン](/glossary/バージョン/)の [API](/glossary/api/) [パス](/glossary/パス/)を使用すると 400 [エラー](/glossary/エラー/)が返されます。
 
-また、SELinux が有効な環境では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
+また、SELinux が有効な[環境](/glossary/環境/)では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
 
 ## それでも解決しない場合
 
@@ -137,4 +137,4 @@ GitHub の Podman Issues ページ（https://github.com/containers/podman/issues
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

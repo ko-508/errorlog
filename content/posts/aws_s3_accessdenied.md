@@ -36,7 +36,7 @@ An error occurred (AccessDenied) when calling the GetObject operation: Access De
 
 - `AccessDenied` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 403 に相当。[認証](/glossary/認証/)は成功したが[権限](/glossary/権限/)がない
 - `Access Denied` → リソースへのアクセスが拒否されていることを示すメッセージ
-- [リクエスト](/glossary/リクエスト/)元の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)・[IAM](/glossary/iam/) ユーザー・[ロール](/glossary/ロール/)が、実行しようとしたアクション（s3:GetObject など）を許可されていない
+- [リクエスト](/glossary/リクエスト/)元の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)・[IAM](/glossary/iam/) ユーザー・[ロール](/glossary/ロール/)が、実行しようとした[アクション](/glossary/アクション/)（s3:GetObject など）を許可されていない
 
 ## よくある原因と解決手順
 
@@ -44,7 +44,7 @@ An error occurred (AccessDenied) when calling the GetObject operation: Access De
 
 S3 [バケット](/glossary/バケット/)にアクセスするユーザー・[ロール](/glossary/ロール/)・サービスに対して、`s3:GetObject`、`s3:PutObject` などの必要な[権限](/glossary/権限/)が付与されていない場合に発生します。特に新規に作成した [IAM](/glossary/iam/) ユーザーや、特定の[バケット](/glossary/バケット/)に限定したアクセスに構成した際に起きやすいです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -98,7 +98,7 @@ aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 
 バケットポリシーで `"Effect": "Deny"` が設定されている場合、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow されていても、より制限的な[ポリシー](/glossary/ポリシー/)が優先されて AccessDenied が発生します。[IP アドレス](/glossary/ip-アドレス/)制限やプリンシパル制限などの条件で無意識に Deny が適用されていることもあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -147,7 +147,7 @@ aws s3api get-bucket-policy --bucket my-bucket --profile <your-profile>
 
 [オブジェクト](/glossary/オブジェクト/)の ACL を Public に設定しても、S3 の Block Public Access 機能が有効な場合は公開アクセスが拒否されます。特に外部ユーザーや別[アカウント](/glossary/アカウント/)からのアクセスを想定している場合に発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Block Public Access が全て有効な状態
@@ -182,9 +182,9 @@ aws s3api get-public-access-block --bucket my-bucket --profile <your-profile>
 
 ### 原因4：別のAWSアカウント・クロスアカウントアクセスが正しく設定されていない
 
-別の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)のユーザーまたは[ロール](/glossary/ロール/)が[バケット](/glossary/バケット/)にアクセスする場合、バケットポリシーでそのプリンシパル（外部[アカウント](/glossary/アカウント/)の ARN）を明示的に許可し、同時に外部[アカウント](/glossary/アカウント/)側の [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)も s3 アクションを許可する必要があります。どちらか一方が不足すると AccessDenied が発生します。
+別の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)のユーザーまたは[ロール](/glossary/ロール/)が[バケット](/glossary/バケット/)にアクセスする場合、バケットポリシーでそのプリンシパル（外部[アカウント](/glossary/アカウント/)の ARN）を明示的に許可し、同時に外部[アカウント](/glossary/アカウント/)側の [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)も s3 [アクション](/glossary/アクション/)を許可する必要があります。どちらか一方が不足すると AccessDenied が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {
@@ -248,15 +248,15 @@ aws s3 ls s3://my-bucket --profile <cross-account-profile>
 
 **[AWS](/glossary/aws/) マネジメントコンソールでの確認方法：**
 
-S3 [コンソール](/glossary/コンソール/) → [バケット](/glossary/バケット/)名をクリック → 「[権限](/glossary/権限/)」タブで「バケットポリシー」「ACL」「Block Public Access」を確認します。[ポリシー](/glossary/ポリシー/)の [JSON](/glossary/json/) は視覚的には わかりにくいため、[AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator（`https://policysim.aws.amazon.com/`）を使用してアクション実行をシミュレーションすることで、どの[ポリシー](/glossary/ポリシー/)が拒否しているか特定できます。
+S3 [コンソール](/glossary/コンソール/) → [バケット](/glossary/バケット/)名をクリック → 「[権限](/glossary/権限/)」タブで「バケットポリシー」「ACL」「Block Public Access」を確認します。[ポリシー](/glossary/ポリシー/)の [JSON](/glossary/json/) は視覚的には わかりにくいため、[AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator（`https://policysim.aws.amazon.com/`）を使用して[アクション](/glossary/アクション/)実行をシミュレーションすることで、どの[ポリシー](/glossary/ポリシー/)が拒否しているか特定できます。
 
 **[IAM](/glossary/iam/) [ロール](/glossary/ロール/)経由でのアクセス：**
 
-EC2 [インスタンス](/glossary/インスタンス/)や Lambda 関数から S3 にアクセスする場合、インスタンスプロファイルまたは実行[ロール](/glossary/ロール/)に s3 [権限](/glossary/権限/)が付与されていることを確認してください。`aws sts get-caller-identity` を実行し、実際に使用されている[ロール](/glossary/ロール/) ARN を確認したうえで、その[ロール](/glossary/ロール/)の[ポリシー](/glossary/ポリシー/)を検証します。
+EC2 [インスタンス](/glossary/インスタンス/)や Lambda [関数](/glossary/関数/)から S3 にアクセスする場合、インスタンスプロファイルまたは実行[ロール](/glossary/ロール/)に s3 [権限](/glossary/権限/)が付与されていることを確認してください。`aws sts get-caller-identity` を実行し、実際に使用されている[ロール](/glossary/ロール/) ARN を確認したうえで、その[ロール](/glossary/ロール/)の[ポリシー](/glossary/ポリシー/)を検証します。
 
 **[バージョン管理](/glossary/バージョン管理/)が有効な場合：**
 
-[バージョン管理](/glossary/バージョン管理/)が有効な[バケット](/glossary/バケット/)では、`s3:GetObjectVersion` という追加アクションが必要になる場合があります。[オブジェクト](/glossary/オブジェクト/)の過去[バージョン](/glossary/バージョン/)にアクセスする際は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)に明示的に含めてください。
+[バージョン管理](/glossary/バージョン管理/)が有効な[バケット](/glossary/バケット/)では、`s3:GetObjectVersion` という追加[アクション](/glossary/アクション/)が必要になる場合があります。[オブジェクト](/glossary/オブジェクト/)の過去[バージョン](/glossary/バージョン/)にアクセスする際は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)に明示的に含めてください。
 
 ## それでも解決しない場合
 
@@ -281,7 +281,7 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 ## 代替ツールの検討
 
-[AWS](/glossary/aws/) S3 の [IAM](/glossary/iam/)・[ポリシー](/glossary/ポリシー/)管理が複雑で、AccessDenied [エラー](/glossary/エラー/)の原因特定に時間がかかる場合は、以下のツールへの移行を検討できます。
+[AWS](/glossary/aws/) S3 の [IAM](/glossary/iam/)・[ポリシー](/glossary/ポリシー/)管理が複雑で、AccessDenied [エラー](/glossary/エラー/)の原因特定に時間がかかる場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
 - **Google Cloud Storage（GCS）**：[IAM](/glossary/iam/) [ロール](/glossary/ロール/)管理がシンプルで、事前定義[ロール](/glossary/ロール/)（Storage Object Admin など）を割り当てるだけで権限制御が可能です。[ポリシー](/glossary/ポリシー/)言語が単純化されているため、AccessDenied の原因特定も素早くできます。
 
@@ -295,4 +295,4 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

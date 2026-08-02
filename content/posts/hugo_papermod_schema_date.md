@@ -118,7 +118,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
   lastmod = [":git", "lastmod", ":fileModTime", ":default"]
 ```
 
-ただし GitHub Actions 環境では `actions/checkout` がデフォルトでシャロークローンを行うため、git の履歴に基づく日時が正しく取得できないことがある。その場合は `fetch-depth: 0` を指定するか、フロントマターに明示的に `lastmod:` を書く。
+ただし GitHub Actions [環境](/glossary/環境/)では `actions/checkout` がデフォルトでシャロークローンを行うため、git の履歴に基づく日時が正しく取得できないことがある。その場合は `fetch-depth: 0` を指定するか、フロントマターに明示的に `lastmod:` を書く。
 
 ### PaperMod のバージョンと `schema_json.html` の仕様変更
 
@@ -139,4 +139,4 @@ diff themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

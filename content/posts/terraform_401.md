@@ -32,9 +32,9 @@ HTTP status code: 401 Unauthorized
 
 ### 原因1：AWS アクセスキーの認証情報が不正または期限切れ
 
-[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が削除されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う環境では、設定ミスが起こりやすくなります。
+[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が削除されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、設定ミスが起こりやすくなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 期限切れまたは不正なキーを使用
@@ -62,9 +62,9 @@ terraform plan
 
 ### 原因2：環境変数が設定されていない
 
-Terraform が認証情報を探すとき、[環境変数](/glossary/環境変数/)（`AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY` など）が未設定の場合、プロバイダー[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインや[サーバーレス](/glossary/サーバーレス/)環境では見落としやすい原因です。
+Terraform が認証情報を探すとき、[環境変数](/glossary/環境変数/)（`AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY` など）が未設定の場合、プロバイダー[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインや[サーバーレス](/glossary/サーバーレス/)[環境](/glossary/環境/)では見落としやすい原因です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 # main.tf
@@ -106,9 +106,9 @@ terraform plan
 
 ### 原因3：Terraform Cloud の認証トークンが無効または期限切れ
 
-`terraform login` で取得した Terraform Cloud の[トークン](/glossary/トークン/)が有効期限を超えた場合や、[トークン](/glossary/トークン/)が削除された場合に発生します。リモート状態を利用している環境では特に重要です。
+`terraform login` で取得した Terraform Cloud の[トークン](/glossary/トークン/)が有効期限を超えた場合や、[トークン](/glossary/トークン/)が削除された場合に発生します。リモート状態を利用している[環境](/glossary/環境/)では特に重要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ~/.terraformrc に古いトークンが保存されている
@@ -144,7 +144,7 @@ terraform init
 
 プロバイダーブロック内に直接認証情報を記述している場合、キー名やフォーマットのタイプミスが 401 [エラー](/glossary/エラー/)を引き起こします。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 # main.tf
@@ -305,4 +305,4 @@ terraform init -upgrade
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

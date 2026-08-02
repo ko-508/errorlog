@@ -42,9 +42,9 @@ error: You must be logged in to the server (Unauthorized)
 
 ### 原因1：kubeconfig設定がMinikubeと一致していない
 
-Minikubeを起動した環境と異なる環境からアクセスしたり、kubeconfig を手動編集したりすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)のアドレスや[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)の[パス](/glossary/パス/)が誤った状態になります。この場合、kubectlは正しい[証明書](/glossary/証明書/)を使用して[認証](/glossary/認証/)できません。
+Minikubeを起動した[環境](/glossary/環境/)と異なる[環境](/glossary/環境/)からアクセスしたり、kubeconfig を手動編集したりすると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)のアドレスや[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)の[パス](/glossary/パス/)が誤った状態になります。この場合、kubectlは正しい[証明書](/glossary/証明書/)を使用して[認証](/glossary/認証/)できません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # kubeconfig に古い情報が残っている状態
@@ -72,7 +72,7 @@ minikube start
 
 Minikubeを停止して再起動すると、クラスターの[認証](/glossary/認証/)に使う[証明書](/glossary/証明書/)が[リセット](/glossary/リセット/)されることがあります。古い証明書情報が kubeconfig に残ったままだと、新しい[証明書](/glossary/証明書/)で署名された要求が拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 再起動前に認証情報をキャッシュしたまま
@@ -99,9 +99,9 @@ kubectl config set-context minikube \
 
 ### 原因3：kubectlが別のMinikubeプロフィールを参照している
 
-複数のMinikubeプロフィールを使用している環境では、kubectlが別のプロフィールのクラスター情報を参照してしまう場合があります。異なるプロフィール間で[証明書](/glossary/証明書/)や[API](/glossary/api/)[サーバー](/glossary/サーバー/)が異なるため、[認証](/glossary/認証/)に失敗します。
+複数のMinikubeプロフィールを使用している[環境](/glossary/環境/)では、kubectlが別のプロフィールのクラスター情報を参照してしまう場合があります。異なるプロフィール間で[証明書](/glossary/証明書/)や[API](/glossary/api/)[サーバー](/glossary/サーバー/)が異なるため、[認証](/glossary/認証/)に失敗します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # アクティブなコンテキストが意図しないプロフィールを指している
@@ -133,7 +133,7 @@ kubectl get pods
 
 Minikubeが正常に起動していない、またはクラスターの[API](/glossary/api/)[サーバー](/glossary/サーバー/)が完全に準備できていない状態で kubectl [コマンド](/glossary/コマンド/)を実行すると401[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 minikube start &
@@ -224,4 +224,4 @@ minikube start
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

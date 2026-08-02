@@ -44,7 +44,7 @@ docker pull・docker push・docker build の中の[イメージ](/glossary/イ�
 
 ### 原因1：レジストリの前段のゲートウェイが pull / push を打ち切っている
 
-自前で運用する[レジストリ](/glossary/レジストリ/)（registry:2、Harbor、GitLab Container Registry など）は、多くの場合 Nginx や ingress の背後に置かれます。[イメージ](/glossary/イメージ/)の層（blob）の転送は1[リクエスト](/glossary/リクエスト/)が長く大きいため、前段の[プロキシ](/glossary/プロキシ/)の読み取り時間や本文サイズの制限が、通常の Web アプリ向けの値のままだと、大きな層の push や、ストレージが遅いときの pull で制限に達し、[プロキシ](/glossary/プロキシ/)が504を返します。[クライアント](/glossary/クライアント/)側では層ごとの再試行（Retrying in ... seconds）を繰り返した末に失敗する形で現れます。
+自前で運用する[レジストリ](/glossary/レジストリ/)（registry:2、Harbor、GitLab Container Registry など）は、多くの場合 Nginx や ingress の背後に置かれます。[イメージ](/glossary/イメージ/)の層（blob）の転送は1[リクエスト](/glossary/リクエスト/)が長く大きいため、前段の[プロキシ](/glossary/プロキシ/)の読み取り時間や本文サイズの制限が、通常の Web アプリ向けの値のままだと、大きな層の push や、[ストレージ](/glossary/ストレージ/)が遅いときの pull で制限に達し、[プロキシ](/glossary/プロキシ/)が504を返します。[クライアント](/glossary/クライアント/)側では層ごとの再試行（Retrying in ... seconds）を繰り返した末に失敗する形で現れます。
 
 **Before（Web アプリ向けの既定値のまま[レジストリ](/glossary/レジストリ/)を中継している設定）：**
 
@@ -78,7 +78,7 @@ server {
 }
 ```
 
-切り分けの決め手は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)の突き合わせです。[クライアント](/glossary/クライアント/)には504が返っているのに、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)には 200 や 202 が並んでいて異常がない場合、打ち切ったのは前段です。逆に[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)に処理の遅延やストレージ（S3 など）への[エラー](/glossary/エラー/)が残っているなら、根本は[レジストリ](/glossary/レジストリ/)の後ろ側にあり、[プロキシ](/glossary/プロキシ/)の時間延長は対症にすぎません。相手が [Docker](/glossary/docker/) Hub の場合は手元で直せる設定はなく、公式の稼働状況ページ（https://www.dockerstatus.com）を確認し、復旧を待って再試行します。pull も push も層ごとに自動で再試行される設計のため、散発的な504は再実行で通ることがあります。
+切り分けの決め手は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)の突き合わせです。[クライアント](/glossary/クライアント/)には504が返っているのに、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)には 200 や 202 が並んでいて異常がない場合、打ち切ったのは前段です。逆に[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)に処理の遅延や[ストレージ](/glossary/ストレージ/)（S3 など）への[エラー](/glossary/エラー/)が残っているなら、根本は[レジストリ](/glossary/レジストリ/)の後ろ側にあり、[プロキシ](/glossary/プロキシ/)の時間延長は対症にすぎません。相手が [Docker](/glossary/docker/) Hub の場合は手元で直せる設定はなく、公式の稼働状況ページ（https://www.dockerstatus.com）を確認し、復旧を待って再試行します。pull も push も層ごとに自動で再試行される設計のため、散発的な504は再実行で通ることがあります。
 
 ### 原因2：リモートデーモンの前のプロキシが長い API 呼び出しを打ち切っている
 
@@ -123,7 +123,7 @@ Cannot connect to the [Docker](/glossary/docker/) daemon は、[デーモン](/g
 
 1. どの操作で504が出たかを確認する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、[コンテナ](/glossary/コンテナ/)上のアプリへのアクセスなら原因3（Nginx の 504 の手順へ）。
 2. 文言を読む。error parsing [HTTP](/glossary/http/) 504 response body があれば、応答したのは[レジストリ](/glossary/レジストリ/)本体ではなく前段の[プロキシ](/glossary/プロキシ/)だと確定できる。
-3. 原因1は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)を突き合わせ、打ち切った層を特定する。本体が正常（200/202）なら前段の制限を広げ、本体側に遅延の記録があればストレージや負荷を調べる。
+3. 原因1は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)を突き合わせ、打ち切った層を特定する。本体が正常（200/202）なら前段の制限を広げ、本体側に遅延の記録があれば[ストレージ](/glossary/ストレージ/)や負荷を調べる。
 4. [Docker](/glossary/docker/) Hub 相手なら公式の稼働状況を確認し、復旧を待って再試行する。
 5. 原因2は、[プロキシ](/glossary/プロキシ/)の読み取り[タイムアウト](/glossary/タイムアウト/)とストリーミング設定を [Docker](/glossary/docker/) [API](/glossary/api/) の長い呼び出しに合わせる。
 
@@ -150,10 +150,10 @@ journalctl -u docker --since "10 minutes ago" | tail -20
 
 ## Editor's Note
 
-原因1の実例として、Harbor（自前運用の[レジストリ](/glossary/レジストリ/)）の公開 issue に詳細な記録があります（[docker push received unexpected HTTP status: 504 Gateway Timeout](https://github.com/goharbor/harbor/issues/12126)）。[Kubernetes](/glossary/kubernetes/) 上に Helm で Harbor を立て、ingress 経由で公開した環境で、docker push が層のアップロード中に Retrying in 3 seconds の再試行を繰り返した末、received unexpected [HTTP](/glossary/http/) status: 504 Gateway Timeout で失敗した、という2020年の報告です。この記録の価値は、報告者自身が「[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)には 200 と 202 ばかりが並んでいて異常が見当たらない」と書き残している点にあります。[レジストリ](/glossary/レジストリ/)本体は正常に応答しており、504を作っていたのはその手前の中継層だった、という本記事の切り分けの決め手がそのまま現れています。約6年前の事例ですが、[レジストリ](/glossary/レジストリ/)を前段の[プロキシ](/glossary/プロキシ/)や ingress の背後に置く構成、層の転送が1[リクエスト](/glossary/リクエスト/)として長く大きいこと、[クライアント](/glossary/クライアント/)が層ごとに自動再試行することは現在も同じで、この構図は今日の自前[レジストリ](/glossary/レジストリ/)でもそのまま再現します。
+原因1の実例として、Harbor（自前運用の[レジストリ](/glossary/レジストリ/)）の公開 issue に詳細な記録があります（[docker push received unexpected HTTP status: 504 Gateway Timeout](https://github.com/goharbor/harbor/issues/12126)）。[Kubernetes](/glossary/kubernetes/) 上に Helm で Harbor を立て、ingress 経由で公開した[環境](/glossary/環境/)で、docker push が層の[アップロード](/glossary/アップロード/)中に Retrying in 3 seconds の再試行を繰り返した末、received unexpected [HTTP](/glossary/http/) status: 504 Gateway Timeout で失敗した、という2020年の報告です。この記録の価値は、報告者自身が「[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)には 200 と 202 ばかりが並んでいて異常が見当たらない」と書き残している点にあります。[レジストリ](/glossary/レジストリ/)本体は正常に応答しており、504を作っていたのはその手前の中継層だった、という本記事の切り分けの決め手がそのまま現れています。約6年前の事例ですが、[レジストリ](/glossary/レジストリ/)を前段の[プロキシ](/glossary/プロキシ/)や ingress の背後に置く構成、層の転送が1[リクエスト](/glossary/リクエスト/)として長く大きいこと、[クライアント](/glossary/クライアント/)が層ごとに自動再試行することは現在も同じで、この構図は今日の自前[レジストリ](/glossary/レジストリ/)でもそのまま再現します。
 
-[Docker](/glossary/docker/) の504は、[デーモン](/glossary/デーモン/)が返せないコードだからこそ、見た瞬間に「間に誰がいるか」を数える[エラー](/glossary/エラー/)です。pull / push の経路か、[デーモン](/glossary/デーモン/)の前か、アプリの前か。中継役を特定すれば、直すべき設定は自然に決まります。
+[Docker](/glossary/docker/) の504は、[デーモン](/glossary/デーモン/)が返せない[コード](/glossary/コード/)だからこそ、見た瞬間に「間に誰がいるか」を数える[エラー](/glossary/エラー/)です。pull / push の経路か、[デーモン](/glossary/デーモン/)の前か、アプリの前か。中継役を特定すれば、直すべき設定は自然に決まります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -55,7 +55,7 @@ Slack [API](/glossary/api/)で403[エラー](/glossary/エラー/)が返され�
 
 Slack [API](/glossary/api/)は操作ごとに異なる[スコープ](/glossary/スコープ/)（[権限](/glossary/権限/)）を要求します。例えばメッセージ投稿には`chat:write`、チャンネル情報取得には`channels:read`が必要です。[トークン](/glossary/トークン/)作成時にこれらの[スコープ](/glossary/スコープ/)を付与していなければ、どのチャンネルでも操作が拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 from slack_sdk import WebClient
@@ -99,7 +99,7 @@ print(response['ts'])  # メッセージタイムスタンプが返される
 
 プライベートチャンネルはメンバーのみがアクセス可能です。Botを明示的にチャンネルに招待していなければ、そのチャンネルに対するすべての操作が403で拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X POST https://slack.com/api/chat.postMessage \
@@ -137,7 +137,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
 
 ユーザートークン（個人のSlack[アカウント](/glossary/アカウント/)に紐付いた[トークン](/glossary/トークン/)）を使用している場合、そのユーザーの[権限](/glossary/権限/)がない操作は拒否されます。例えば[ワークスペース](/glossary/ワークスペース/)管理者のみが実行可能な操作をメンバー[権限](/glossary/権限/)で実行しようとすると403が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 from slack_sdk import WebClient
@@ -215,10 +215,10 @@ Slack Appには複数の種類の[トークン](/glossary/トークン/)が存�
 
 2. **[スコープ](/glossary/スコープ/)の実装ドキュメント確認** - [Slack API: Method reference](https://api.slack.com/methods)の各メソッドページで、Required scopesセクションに列挙されている[スコープ](/glossary/スコープ/)をすべて確認します。複数の[スコープ](/glossary/スコープ/)が必要な場合があります。
 
-3. **Slack Audit Logs** - [ワークスペース](/glossary/ワークスペース/)管理者は「Admin」→「Audit Logs」で[トークン](/glossary/トークン/)の操作履歴と[エラー](/glossary/エラー/)を確認できます。どのアクションが拒否されたかが詳細に記録されています。
+3. **Slack Audit Logs** - [ワークスペース](/glossary/ワークスペース/)管理者は「Admin」→「Audit Logs」で[トークン](/glossary/トークン/)の操作履歴と[エラー](/glossary/エラー/)を確認できます。どの[アクション](/glossary/アクション/)が拒否されたかが詳細に記録されています。
 
 4. **通常のメッセージ投稿で確認** - [トークン](/glossary/トークン/)の基本的な動作確認のため、公開チャンネルへの簡単なメッセージ投稿（`chat_postMessage`のみ）で403が出るか[テスト](/glossary/テスト/)します。[スコープ](/glossary/スコープ/)の問題か[権限](/glossary/権限/)の問題かを切り分けやすくなります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

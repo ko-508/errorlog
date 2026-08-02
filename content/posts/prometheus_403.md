@@ -43,7 +43,7 @@ level=warn msg="Received request to admin endpoint without admin API enabled" en
 
 Prometheus のデフォルト設定では、[セキュリティ](/glossary/セキュリティ/)上の理由から危険な管理 [API](/glossary/api/)（時系列データの削除など）が無効化されています。`--web.enable-admin-api` フラグを明示的に指定しない起動では、管理[エンドポイント](/glossary/エンドポイント/)がすべて 403 で応答します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 管理APIなしで起動
@@ -62,7 +62,7 @@ prometheus --config.file=prometheus.yml \
 
 systemd でサービス起動している場合は、`/etc/systemd/system/prometheus.service` の `ExecStart` に フラグを追加して再起動します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```ini
 [Service]
@@ -81,9 +81,9 @@ ExecStart=/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml
 
 ### 原因 2：ファイアウォールやセキュリティグループが Prometheus ポートをブロックしている
 
-EC2・[クラウド](/glossary/クラウド/)環境では、セキュリティグループやファイアウォールルールが Prometheus のデフォルトポート（9090）への[受信](/glossary/受信/)を拒否している場合があります。この場合、ローカル接続でも外部接続でも 403 ではなく[タイムアウト](/glossary/タイムアウト/)が発生する傾向ですが、[プロキシ](/glossary/プロキシ/)を経由した場合は明確な 403 応答となることがあります。
+EC2・[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)では、セキュリティグループやファイアウォールルールが Prometheus のデフォルトポート（9090）への[受信](/glossary/受信/)を拒否している場合があります。この場合、ローカル接続でも外部接続でも 403 ではなく[タイムアウト](/glossary/タイムアウト/)が発生する傾向ですが、[プロキシ](/glossary/プロキシ/)を経由した場合は明確な 403 応答となることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # AWS EC2 セキュリティグループ例（Prometheus へのアクセス拒否）
@@ -119,7 +119,7 @@ sudo iptables -A INPUT -p tcp --dport 9090 -j DROP
 
 Prometheus の前段に Nginx・Apache・Envoy などのリバースプロキシを配置している場合、[プロキシ](/glossary/プロキシ/)側の ACL（アクセス制御リスト）で `/api/v1/admin/*` [エンドポイント](/glossary/エンドポイント/)が明示的に拒否されていることがあります。この場合、リバースプロキシ自体から 403 が返却されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```nginx
 server {
@@ -252,4 +252,4 @@ curl -v http://localhost:9090/api/v1/query?query=up
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

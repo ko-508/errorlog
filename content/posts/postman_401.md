@@ -54,7 +54,7 @@ Response Time: 150ms
 
 Postmanの[リクエスト](/glossary/リクエスト/)設定画面でAuthorizationタブを開いても、[認証](/glossary/認証/)タイプが「No Auth」のままであったり、[トークン](/glossary/トークン/)値が空白のまま[送信](/glossary/送信/)されたりすることで401が発生します。あるいは、[認証](/glossary/認証/)タイプは選択されていても、実際の[API](/glossary/api/)キーや[トークン](/glossary/トークン/)値が正しく入力されていない場合も該当します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```
 Authorization Type: No Auth
@@ -85,7 +85,7 @@ Add to: Header
 
 [OAuth](/glossary/oauth/) 2.0や[JWT](/glossary/jwt/)等の認証方式では、発行された[トークン](/glossary/トークン/)に有効期限が設定されていることがほとんどです。数時間から数日の期限が切れた[トークン](/glossary/トークン/)をPostmanで[送信](/glossary/送信/)すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを無効と判定し401を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // Pre-request Scriptで古いトークンをそのまま使用
@@ -142,9 +142,9 @@ if (!storedToken || (currentTime - tokenTimestamp) > tokenExpiresIn) {
 
 ### 原因3：環境変数に認証情報がセットされていない
 
-Postmanでは、[API](/glossary/api/)キーや[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)として管理することが推奨されています。しかし、[環境変数](/glossary/環境変数/)が正しくセットされていなかったり、参照する環境が異なったりすると、リクエストヘッダーに`{{variable_name}}`という文字列がそのまま[送信](/glossary/送信/)され、[API](/glossary/api/)[サーバー](/glossary/サーバー/)は無効な[トークン](/glossary/トークン/)と判定して401を返します。
+Postmanでは、[API](/glossary/api/)キーや[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)として管理することが推奨されています。しかし、[環境変数](/glossary/環境変数/)が正しくセットされていなかったり、参照する[環境](/glossary/環境/)が異なったりすると、リクエストヘッダーに`{{variable_name}}`という文字列がそのまま[送信](/glossary/送信/)され、[API](/glossary/api/)[サーバー](/glossary/サーバー/)は無効な[トークン](/glossary/トークン/)と判定して401を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```
 Authorization Type: Bearer Token
@@ -172,10 +172,10 @@ Token: {{api_token}}
 解決手順：
 
 1. Postman左側の「Environments」をクリック
-2. 使用している環境を選択（なければ「Create」で新規作成）
+2. 使用している[環境](/glossary/環境/)を選択（なければ「Create」で新規作成）
 3. 認証情報を格納する[変数](/glossary/変数/)を追加（例：`api_token`、`api_key`）
 4. 「Current Value」に実際の[トークン](/glossary/トークン/)値を入力して保存
-5. [リクエスト](/glossary/リクエスト/)画面右上の環境セレクタで、今セットした環境が選択されているか確認
+5. [リクエスト](/glossary/リクエスト/)画面右上の[環境](/glossary/環境/)セレクタで、今セットした[環境](/glossary/環境/)が選択されているか確認
 6. [リクエスト](/glossary/リクエスト/)のAuthorizationタブで、プレースホルダー構文 `{{variable_name}}` を使用
 
 ## Postman固有の注意点
@@ -207,4 +207,4 @@ Postmanの公式サポートサイト（https://learning.postman.com/docs/sendin
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

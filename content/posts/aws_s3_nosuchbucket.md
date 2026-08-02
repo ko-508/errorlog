@@ -26,7 +26,7 @@ related_services: ["AWS CLI", "EC2"]
 }
 ```
 
-別の環境では、以下のような[エラー](/glossary/エラー/)が表示されることもあります。
+別の[環境](/glossary/環境/)では、以下のような[エラー](/glossary/エラー/)が表示されることもあります。
 
 ```bash
 An error occurred (NoSuchBucket) when calling the GetBucketLocation operation:
@@ -45,7 +45,7 @@ The specified bucket does not exist
 
 [バケット](/glossary/バケット/)名を誤って入力していることが最も一般的な原因です。[AWS](/glossary/aws/) S3 の[バケット](/glossary/バケット/)名は大文字小文字を区別し、グローバルに一意である必要があります。タイプミスや大文字・小文字の誤りがあると NoSuchBucket [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 aws s3 ls s3://my-data-bucket/
@@ -71,7 +71,7 @@ aws s3 ls s3://my-data-bucket-prod/
 
 [バケット](/glossary/バケット/)は特定のリージョンに作成されます。[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデフォルトリージョン設定が、[バケット](/glossary/バケット/)作成時のリージョンと異なると、[バケット](/glossary/バケット/)が見つからない[エラー](/glossary/エラー/)が発生します。別のプロファイルや EC2 [インスタンス](/glossary/インスタンス/)から実行する場合に特に注意が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 export AWS_DEFAULT_REGION=us-east-1
@@ -105,7 +105,7 @@ aws s3api get-bucket-location --bucket my-asia-bucket
 
 S3 [バケット](/glossary/バケット/)は削除されると復旧できません。かつて存在していた[バケット](/glossary/バケット/)名を参照しようとしても、NoSuchBucket [エラー](/glossary/エラー/)が発生します。[バケット](/glossary/バケット/)削除時に実際に削除される前に設定を控えていなかった場合に発生することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # バケットを削除してしまった場合
@@ -144,7 +144,7 @@ aws s3 ls s3://my-new-bucket-v2/
 
 [バケット](/glossary/バケット/)自体は存在しますが、現在使用している [AWS](/glossary/aws/) アクセスキーまたは [IAM](/glossary/iam/) [ロール](/glossary/ロール/)に、その[バケット](/glossary/バケット/)への[アクセス権限](/glossary/アクセス権限/)がない場合も NoSuchBucket [エラー](/glossary/エラー/)が表示されることがあります。[AWS](/glossary/aws/) S3 は[権限](/glossary/権限/)がないときに「見つからない」と応答することで、[バケット](/glossary/バケット/)存在の有無を隠蔽する設計になっています。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 export AWS_ACCESS_KEY_ID=<your-restricted-key>
@@ -217,11 +217,11 @@ aws cloudtrail lookup-events \
 
 ## 代替ツールの検討
 
-NoSuchBucket [エラー](/glossary/エラー/)が頻発して S3 の運用に支障が出る場合は、以下のツールへの移行を検討できます。
+NoSuchBucket [エラー](/glossary/エラー/)が頻発して S3 の運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
-- **Google Cloud Storage（GCS）** ：プロジェクト [ID](/glossary/id/) と[バケット](/glossary/バケット/)名の組み合わせで名前空間を管理するため、グローバル重複の心配が減ります。Python [SDK](/glossary/sdk/) の使いやすさも定評があります。
+- **Google Cloud Storage（GCS）** ：[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) と[バケット](/glossary/バケット/)名の組み合わせで名前空間を管理するため、グローバル重複の心配が減ります。Python [SDK](/glossary/sdk/) の使いやすさも定評があります。
 
-- **Azure Blob Storage** ：ストレージアカウント配下に[コンテナ](/glossary/コンテナ/)を作成する階層構造が、[バケット](/glossary/バケット/)名の重複問題を緩和します。Azure Functions との統合が堅牢で、エンタープライズ環境での採用実績が豊富です。
+- **Azure Blob Storage** ：ストレージアカウント配下に[コンテナ](/glossary/コンテナ/)を作成する階層構造が、[バケット](/glossary/バケット/)名の重複問題を緩和します。Azure Functions との統合が堅牢で、エンタープライズ[環境](/glossary/環境/)での採用実績が豊富です。
 
 ## Editor's Note
 
@@ -231,4 +231,4 @@ NoSuchBucket [エラー](/glossary/エラー/)が頻発して S3 の運用に支
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

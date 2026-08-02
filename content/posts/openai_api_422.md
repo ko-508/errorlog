@@ -50,7 +50,7 @@ OpenAI [API](/glossary/api/)で422[エラー](/glossary/エラー/)が発生す�
 
 Fine-tuningに使用するJSONL[ファイル](/glossary/ファイル/)の各行が、OpenAIが定める正しい形式になっていない場合に422[エラー](/glossary/エラー/)が返されます。各行が有効な[JSON](/glossary/json/)形式でなかったり、必須フィールド（messages、completion等）が欠けていたり、不要なフィールドが混在していたりすると、OpenAI側で処理できないと判断されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```jsonl
 {"messages": [{"role": "user", "content": "Hello"}], "completion": " Hi there"}
@@ -70,7 +70,7 @@ Fine-tuningに使用するJSONL[ファイル](/glossary/ファイル/)の各行�
 
 Fine-tuningおよびChat Completions [API](/glossary/api/)では、各メッセージオブジェクトの`role`フィールドが厳密に定義されています。「user_message」「assistant_response」などの独自の値を使用したり、大文字小文字を誤ったりすると422[エラー](/glossary/エラー/)が発生します。許可される値は`user`、`assistant`、`system`、`function`に限定されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 response = client.chat.completions.create(
@@ -98,7 +98,7 @@ response = client.chat.completions.create(
 
 Fine-tuningでは、各トレーニング例に含まれるメッセージ数に下限があります。少なくとも1つ以上のユーザーメッセージと1つ以上のアシスタントメッセージが必要です。メッセージが空配列だったり、ユーザーまたはアシスタントのいずれかの[ロール](/glossary/ロール/)のメッセージしかない場合、422[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 training_data = [
@@ -134,7 +134,7 @@ with open("training.jsonl", "w") as f:
 
 各メッセージオブジェクトの`content`フィールドが必須です。空文字列、null、または完全に欠落している場合、422[エラー](/glossary/エラー/)が発生します。また、文字列型以外の値（[オブジェクト](/glossary/オブジェクト/)や配列）を渡すことも[エラー](/glossary/エラー/)の原因となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```json
 {"messages": [{"role": "user", "content": ""}, {"role": "assistant", "content": "response"}]}
@@ -154,7 +154,7 @@ with open("training.jsonl", "w") as f:
 
 OpenAI [API](/glossary/api/)の422[エラー](/glossary/エラー/)は、[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)や利用する[モデル](/glossary/モデル/)によって、[バリデーション](/glossary/バリデーション/)規則が異なります。
 
-**Fine-tuning [API](/glossary/api/)の場合**、JSONL[ファイル](/glossary/ファイル/)の検証はファイルアップロード時に実施されます。`files.create()`で[ファイル](/glossary/ファイル/)をアップロードする際、[ファイルサイズ](/glossary/ファイルサイズ/)が大きい場合は[バリデーション](/glossary/バリデーション/)がサンプリングで実行されるため、アップロード直後に422[エラー](/glossary/エラー/)が出ず、後の`fine_tuning.jobs.create()`実行時に発見されることもあります。
+**Fine-tuning [API](/glossary/api/)の場合**、JSONL[ファイル](/glossary/ファイル/)の検証はファイルアップロード時に実施されます。`files.create()`で[ファイル](/glossary/ファイル/)を[アップロード](/glossary/アップロード/)する際、[ファイルサイズ](/glossary/ファイルサイズ/)が大きい場合は[バリデーション](/glossary/バリデーション/)がサンプリングで実行されるため、[アップロード](/glossary/アップロード/)直後に422[エラー](/glossary/エラー/)が出ず、後の`fine_tuning.jobs.create()`実行時に発見されることもあります。
 
 **Chat Completions [API](/glossary/api/)の場合**、[モデル](/glossary/モデル/)の[バージョン](/glossary/バージョン/)によってサポートされる[ロール](/glossary/ロール/)値が異なる可能性があります。例えば、`gpt-3.5-turbo`で`system`[ロール](/glossary/ロール/)を使用する場合、特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)では非対応の場合があるため、[API](/glossary/api/)ドキュメントで対象[モデル](/glossary/モデル/)のサポート状況を確認してください。
 
@@ -185,4 +185,4 @@ EOF
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

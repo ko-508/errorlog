@@ -13,7 +13,7 @@ related_services: ["CSRF", "Matrix-based security", "Role-based Access Control",
 
 ## エラーの概要
 
-Jenkins の 403 Forbidden [エラー](/glossary/エラー/)は、ユーザーが[認可](/glossary/認可/)(Authorization)チェックに失敗したことを意味します。CSRF(クロスサイトリクエストフォージェリ)保護による拒否、または Jenkins の権限設定で必要な[権限](/glossary/権限/)がないために発生します。特に [CI/CD](/glossary/ci-cd/) パイプラインでジョブを自動実行したり、外部ツールから Jenkins [API](/glossary/api/) を呼び出したりする際に頻出する[エラー](/glossary/エラー/)です。
+Jenkins の 403 Forbidden [エラー](/glossary/エラー/)は、ユーザーが[認可](/glossary/認可/)(Authorization)チェックに失敗したことを意味します。CSRF(クロスサイトリクエストフォージェリ)保護による拒否、または Jenkins の権限設定で必要な[権限](/glossary/権限/)がないために発生します。特に [CI/CD](/glossary/ci-cd/) パイプラインでジョブを自動実行したり、外部[ツール](/glossary/ツール/)から Jenkins [API](/glossary/api/) を呼び出したりする際に頻出する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -50,7 +50,7 @@ Authentication required
 
 Jenkins の CSRF 保護が有効になっていると、POST [リクエスト](/glossary/リクエスト/)（ジョブの実行、設定変更など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部スクリプトから Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Crumbトークンを付けずにジョブをビルド
@@ -77,7 +77,7 @@ Crumb の取得に失敗した場合は、Jenkins が CSRF 保護を有効にし
 
 Jenkins の権限設定で Matrix-based security または Role-based Access Control を使用している場合、ユーザーがジョブをビルドしたり設定を変更したりする[権限](/glossary/権限/)がないと 403 [エラー](/glossary/エラー/)が発生します。[権限](/glossary/権限/)マトリックスでユーザー行とジョブ権限列の交差点がチェックされていないと拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ci-user には my-job の Build 権限がない
@@ -106,9 +106,9 @@ curl -X POST "http://localhost:8080/job/my-job/build" \
 
 ### 原因3：匿名ユーザーのアクセスが制限されているのに認証なしで API を呼んでいる
 
-Jenkins で匿名アクセスを禁止しているのに、認証情報を付けずに [API](/glossary/api/) を呼び出すと 403 [エラー](/glossary/エラー/)が返されます。外部の CD/CD ツールや監視スクリプトから Jenkins にアクセスする際、[API](/glossary/api/) [トークン](/glossary/トークン/)の生成や指定を忘れると発生しやすい[エラー](/glossary/エラー/)です。
+Jenkins で匿名アクセスを禁止しているのに、認証情報を付けずに [API](/glossary/api/) を呼び出すと 403 [エラー](/glossary/エラー/)が返されます。外部の CD/CD [ツール](/glossary/ツール/)や監視スクリプトから Jenkins にアクセスする際、[API](/glossary/api/) [トークン](/glossary/トークン/)の生成や指定を忘れると発生しやすい[エラー](/glossary/エラー/)です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # 認証情報を付けずに Jenkins API を呼び出す
@@ -178,4 +178,4 @@ Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/rem
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

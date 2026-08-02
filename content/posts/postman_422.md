@@ -64,7 +64,7 @@ FastAPI[サーバー](/glossary/サーバー/)からの報告：
 
 Postmanで `application/x-www-form-urlencoded` または `multipart/form-data` を指定しているのに、実際には[JSON](/glossary/json/)形式でボディを[送信](/glossary/送信/)している場合、[サーバー](/glossary/サーバー/)は入力データを正しくパースできず、422[エラー](/glossary/エラー/)を返します。また逆に、[JSON](/glossary/json/)を期待している[エンドポイント](/glossary/エンドポイント/)に対してフォーム形式を[送信](/glossary/送信/)する場合も同様です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # Postman の Body タブで Form データを選択
@@ -103,7 +103,7 @@ Postmanのレスポンスパネルで、`status: 200` または `status: 201` �
 
 Postmanのコレクションランナーで[テスト](/glossary/テスト/)を実行する際、`form-data` で[ファイル](/glossary/ファイル/)添付（File型）を指定しても、[ファイル](/glossary/ファイル/)が Postman の実行ワーキングディレクトリに配置されていないと、422[エラー](/glossary/エラー/)が発生します。UI上での単発[リクエスト](/glossary/リクエスト/)実行では成功しても、Collection Run では失敗するケースが典型的です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # Postman Body タブ (form-data)
@@ -138,7 +138,7 @@ ls -la ./uploads/my-file.pdf
 
 FastAPIなどのフレームワークでは、[エンドポイント](/glossary/エンドポイント/)が `body` [パラメータ](/glossary/パラメータ/)を期待しているのに、Postmanからクエリパラメータとして[送信](/glossary/送信/)したり、ネストされた[オブジェクト](/glossary/オブジェクト/)構造が異なったりすると、422[エラー](/glossary/エラー/)が発生します。特にPythonバリデーションライブラリ（Pydantic）は型チェックが厳密なため、数値を文字列で[送信](/glossary/送信/)するなどの型ミスマッチも原因になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // Postman の Params タブにデータを入れている場合
@@ -265,12 +265,12 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 
 ## 代替ツールの検討
 
-この[エラー](/glossary/エラー/)が頻発して開発に支障が出る場合は、以下のツールへの移行を検討できます。
+この[エラー](/glossary/エラー/)が頻発して開発に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
-- **Insomnia** → Postmanよりシンプルな[インターフェース](/glossary/インターフェース/)で、[JSON](/glossary/json/)/フォーム[送信](/glossary/送信/)の切り替えが直感的です。環境変数管理やコレクション実行も備え、同等の機能を提供しながら[CLI](/glossary/cli/)ツール(`insomnia-inso`)による自動[テスト](/glossary/テスト/)が容易です。
+- **Insomnia** → Postmanよりシンプルな[インターフェース](/glossary/インターフェース/)で、[JSON](/glossary/json/)/フォーム[送信](/glossary/送信/)の切り替えが直感的です。環境変数管理やコレクション実行も備え、同等の機能を提供しながら[CLI](/glossary/cli/)[ツール](/glossary/ツール/)(`insomnia-inso`)による自動[テスト](/glossary/テスト/)が容易です。
 
 - **Bruno** → ローカルファーストで、[リクエスト](/glossary/リクエスト/)定義を[Git](/glossary/git/)管理可能なテキスト形式で保存できます。チームでの共有や[バージョン管理](/glossary/バージョン管理/)が効率的で、特にコレクション内での[ファイル](/glossary/ファイル/)参照が安定しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -46,7 +46,7 @@ Error from server (NotFound): pods "my-app" not found
 **なぜ発生するか：**
 Podやサービスが意図せず削除されたり、別のプロセスによって削除された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 kubectl delete pod my-app
@@ -69,7 +69,7 @@ kubectl run my-app --image=my-image:latest
 **なぜ発生するか：**
 リソースがある[Namespace](/glossary/namespace/)と異なる[Namespace](/glossary/namespace/)を指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[Namespace](/glossary/namespace/)内のリソースを探すため404となります。デフォルトの`default` [Namespace](/glossary/namespace/)ではなく、`production`や`staging`などの[Namespace](/glossary/namespace/)にリソースが存在することを見落とすことが多くあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # リソースが production Namespace に存在するのに default で検索
@@ -97,7 +97,7 @@ kubectl config set-context --current --namespace=production
 **なぜ発生するか：**
 [Kubernetes](/glossary/kubernetes/)は[API](/glossary/api/)[バージョン](/glossary/バージョン/)の進化に伴い、リソースの名称や形式が変更されることがあります。存在しない[API](/glossary/api/)[バージョン](/glossary/バージョン/)（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを認識できません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: apps/v1beta1
@@ -144,9 +144,9 @@ spec:
 ### 原因4：RBAC（Role-Based Access Control）による権限不足
 
 **なぜ発生するか：**
-[RBAC](/glossary/rbac/)が有効な環境で、ユーザーまたはServiceAccountが特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を持っていない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそのリソースを見つけられないように振る舞うことがあります。これは[セキュリティ](/glossary/セキュリティ/)上の理由で、存在しないリソースと同じ404[エラー](/glossary/エラー/)を返します。
+[RBAC](/glossary/rbac/)が有効な[環境](/glossary/環境/)で、ユーザーまたはServiceAccountが特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を持っていない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそのリソースを見つけられないように振る舞うことがあります。これは[セキュリティ](/glossary/セキュリティ/)上の理由で、存在しないリソースと同じ404[エラー](/glossary/エラー/)を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ServiceAccount に Pod 閲覧権限がない場合
@@ -215,7 +215,7 @@ kubectl describe pod <pod-name> -n <namespace>
 kubectl logs -n kube-system -l component=kube-apiserver
 ```
 
-**[Kubernetes](/glossary/kubernetes/)[ダッシュボード](/glossary/ダッシュボード/)・[GUI](/glossary/gui/)ツール：**
+**[Kubernetes](/glossary/kubernetes/)[ダッシュボード](/glossary/ダッシュボード/)・[GUI](/glossary/gui/)[ツール](/glossary/ツール/)：**
 `kubectl proxy`を使用して[ダッシュボード](/glossary/ダッシュボード/)にアクセスし、リソースが実際に存在するか視覚的に確認することもできます。
 
 ```bash
@@ -231,4 +231,4 @@ kubectl proxy
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

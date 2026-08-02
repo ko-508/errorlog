@@ -48,7 +48,7 @@ top_queries:
 
 S3のキーは大文字小文字を区別し、ファイルパスの階層は **スラッシュ（`/`）** で区切られます。`my-file.txt` と `my_file.txt` は異なるキーであり、`folder/file.txt` と `folder\file.txt` も区別されます。これらのわずかなスペルミスや区切り文字の誤りが NoSuchKey [エラー](/glossary/エラー/)の最も一般的な原因です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import boto3
@@ -87,7 +87,7 @@ aws s3 ls s3://my-bucket/documents/
 
 GetObject の前に HeadObject を使って、[オブジェクト](/glossary/オブジェクト/)が実際に存在するか確認していない場合、存在しないキーへのアクセスが直ちに NoSuchKey [エラー](/glossary/エラー/)を引き起こします。特に、ユーザー入力やダイナミックに構築されたキーを使う場合は、事前の存在確認が不可欠です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import boto3
@@ -140,7 +140,7 @@ aws s3api head-object --bucket my-bucket --key "uploads/user123/profile.jpg"
 
 S3の **[バージョニング](/glossary/バージョニング/)** を有効化した[バケット](/glossary/バケット/)では、[オブジェクト](/glossary/オブジェクト/)が複数の[バージョン](/glossary/バージョン/)（VersionId）を持つことがあります。最新[バージョン](/glossary/バージョン/)が削除マーカーで標記されている場合、`VersionId` を明示せずにアクセスすると NoSuchKey [エラー](/glossary/エラー/)が発生します。また、古い[バージョン](/glossary/バージョン/)の VersionId を指定しているが、削除されている場合も同じ[エラー](/glossary/エラー/)が出ます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import boto3
@@ -244,7 +244,7 @@ aws s3api get-bucket-location --bucket my-bucket
 
 ## 代替ツールの検討
 
-NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下のツールへの移行を検討できます。
+NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
 - **Google Cloud Storage（GCS）** ：S3と[互換性](/glossary/互換性/)が高く、[オブジェクト](/glossary/オブジェクト/)存在確認の[API](/glossary/api/)仕様もシンプルです。特にマルチクラウド戦略がある場合、統一的な[SDK](/glossary/sdk/)で複数[クラウド](/glossary/クラウド/)を管理できます。
 
@@ -260,4 +260,4 @@ NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -47,7 +47,7 @@ curl https://api.openai.com/v1/chat/completions \
 
 OpenAI [ダッシュボード](/glossary/ダッシュボード/)からコピーした[API](/glossary/api/)キーに含まれる空白文字や改行が混在すると、[認証](/glossary/認証/)に失敗します。また、キーの一部だけをコピーすることも考えられます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```python
 import openai
 
@@ -143,7 +143,7 @@ console.log(data);
 
 OpenAI [API](/glossary/api/)は`Authorization: Bearer <api_key>`という形式を要求します。単なる`api_key`の値を[ヘッダー](/glossary/ヘッダー/)に含めるだけでは[認証](/glossary/認証/)されません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
 # 間違ったヘッダー形式
 curl https://api.openai.com/v1/chat/completions \
@@ -180,10 +180,10 @@ response = openai.ChatCompletion.create(
 ```
 
 **Proxy経由での[リクエスト](/glossary/リクエスト/)：**
-企業[ネットワーク](/glossary/ネットワーク/)環境で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401[エラー](/glossary/エラー/)になることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
+企業[ネットワーク](/glossary/ネットワーク/)[環境](/glossary/環境/)で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401[エラー](/glossary/エラー/)になることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
 
 **複数キーの管理：**
-[テスト](/glossary/テスト/)環境と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.env[ファイル](/glossary/ファイル/)を分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
+[テスト](/glossary/テスト/)[環境](/glossary/環境/)と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.env[ファイル](/glossary/ファイル/)を分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
 
 ## それでも解決しない場合
 
@@ -200,4 +200,4 @@ OpenAI Community Forum（https://community.openai.com）やGitHub Issues（https
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

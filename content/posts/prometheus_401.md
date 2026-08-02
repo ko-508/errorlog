@@ -39,7 +39,7 @@ WWW-Authenticate: Basic realm="Prometheus"
 
 Prometheus [サーバー](/glossary/サーバー/)が `--web.basic-auth.username` と `--web.basic-auth.password` フラグで起動されているか、リバースプロキシのベーシック認証設定が有効な場合、すべての[リクエスト](/glossary/リクエスト/)に `Authorization: Basic` [ヘッダー](/glossary/ヘッダー/)が必須となります。この[ヘッダー](/glossary/ヘッダー/)なしで[リクエスト](/glossary/リクエスト/)すると 401 [エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # prometheus.yml - ベーシック認証が必要なPrometheusへのスクレイプ設定（認証情報なし）
@@ -70,7 +70,7 @@ scrape_configs:
 
 または、Prometheus リモート書き込み[クライアント](/glossary/クライアント/)の場合：
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import requests
@@ -102,7 +102,7 @@ print(response.status_code)  # 200 が返される
 
 Prometheus が相互 [TLS](/glossary/tls/)（mTLS）[認証](/glossary/認証/)で保護されている場合、[クライアント](/glossary/クライアント/)側で[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)と[秘密鍵](/glossary/秘密鍵/)を提示する必要があります。これらの設定がない場合、[TLS](/glossary/tls/) ハンドシェイクが失敗し、[認証](/glossary/認証/)[エラー](/glossary/エラー/)として 401 が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # prometheus.yml - TLS設定なしでmTLS保護されたPrometheusにアクセス
@@ -131,7 +131,7 @@ scrape_configs:
 
 curl での[テスト](/glossary/テスト/)例：
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # TLS認証なしでアクセス
@@ -152,7 +152,7 @@ curl --cert /etc/prometheus/certs/client.crt \
 
 Prometheus の前段に Nginx や Apache などのリバースプロキシが配置されている場合、[プロキシ](/glossary/プロキシ/)側で[認証](/glossary/認証/)が設定されていることがあります。この場合、[プロキシ](/glossary/プロキシ/)への認証情報が必要であり、同時に Prometheus 自体の認証設定とも整合させなければなりません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```nginx
 # Nginx の設定 - 認証を要求するが、Prometheusへの転送時に認証情報を削除
@@ -191,7 +191,7 @@ server {
 
 または、Prometheus 側で直接ベーシック[認証](/glossary/認証/)を設定する場合：
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # Prometheusを起動（認証なし）
@@ -276,4 +276,4 @@ tail -f /var/log/nginx/error.log | grep authorization
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

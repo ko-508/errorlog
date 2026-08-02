@@ -43,7 +43,7 @@ Error: error creating resource: BadRequest: The request body is malformed
 
 Terraform のプロバイダーが期待する型（文字列、数値、リスト等）と異なる型で値を指定すると、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)生成時に 400 [エラー](/glossary/エラー/)が発生します。特に、数値として指定すべき[ポート](/glossary/ポート/)番号を文字列で渡したり、ブール値を文字列で指定したりするケースが多く見られます。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 resource "aws_security_group" "example" {
@@ -81,7 +81,7 @@ resource "aws_security_group" "example" {
 
 プロバイダーが要求する必須パラメーターを定義していない場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が不完全なため 400 [エラー](/glossary/エラー/)が返されます。ドキュメントで「Required」と明記されているパラメーターは必ず指定する必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 resource "aws_db_instance" "example" {
@@ -112,7 +112,7 @@ resource "aws_db_instance" "example" {
 
 プロバイダーのバージョンアップで [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)形式が変わり、古い書き方が 400 [エラー](/glossary/エラー/)になる場合があります。特に deprecated パラメーター（廃止予定のパラメーター）の廃止や新しい必須パラメーターの追加が影響します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 terraform {
@@ -158,7 +158,7 @@ resource "aws_instance" "example" {
 
 `terraform plan` を先に実行すれば、多くの 400 [エラー](/glossary/エラー/)は事前に検出できます。それをスキップして直接 `apply` を実行すると、[API](/glossary/api/) 呼び出し時に[エラー](/glossary/エラー/)が顕在化します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # plan を実行せずに直接 apply
@@ -227,4 +227,4 @@ terraform init -upgrade
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

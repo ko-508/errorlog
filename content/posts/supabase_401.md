@@ -43,9 +43,9 @@ Supabase の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [�
 
 ### 原因 1：anon キーまたは service role キーが間違っている
 
-Supabase プロジェクトには複数の[認証](/glossary/認証/)キーが存在します。anonymous キー（anon key）は[クライアント](/glossary/クライアント/)側で使用するもので、service role キーは[バックエンド](/glossary/バックエンド/)限定です。キーの値が誤っていたり、異なるプロジェクトのキーを混在させると 401 [エラー](/glossary/エラー/)が発生します。
+Supabase [プロジェクト](/glossary/プロジェクト/)には複数の[認証](/glossary/認証/)キーが存在します。anonymous キー（anon key）は[クライアント](/glossary/クライアント/)側で使用するもので、service role キーは[バックエンド](/glossary/バックエンド/)限定です。キーの値が誤っていたり、異なる[プロジェクト](/glossary/プロジェクト/)のキーを混在させると 401 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 import { createClient } from '@supabase/supabase-js';
@@ -84,9 +84,9 @@ else console.log('Success:', data);
 
 ### 原因 2：JWT トークンの有効期限が切れている
 
-Supabase の [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)にはデフォルトで 1 時間の有効期限があります。ユーザーが[ログイン](/glossary/ログイン/)後、時間が経過してセッションが切れた状態で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。特にモバイルアプリやバックグラウンドで長時間実行される[アプリケーション](/glossary/アプリケーション/)で頻出します。
+Supabase の [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)にはデフォルトで 1 時間の有効期限があります。ユーザーが[ログイン](/glossary/ログイン/)後、時間が経過して[セッション](/glossary/セッション/)が切れた状態で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。特にモバイルアプリやバックグラウンドで長時間実行される[アプリケーション](/glossary/アプリケーション/)で頻出します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 // ユーザーがログインしてから1時間以上経過している
@@ -135,9 +135,9 @@ if (session && session.access_token) {
 
 ### 原因 3：supabase.auth.getSession() を呼ばずに API を実行しようとしている
 
-Supabase の JavaScript [クライアント](/glossary/クライアント/)を[初期化](/glossary/初期化/)しても、セッション情報を明示的に取得しないと、後続の [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に[トークン](/glossary/トークン/)が含まれません。ページ遷移やコンポーネント マウント後にセッションの[初期化](/glossary/初期化/)が完了する前に [API](/glossary/api/) を呼び出すと 401 [エラー](/glossary/エラー/)が発生します。
+Supabase の JavaScript [クライアント](/glossary/クライアント/)を[初期化](/glossary/初期化/)しても、[セッション](/glossary/セッション/)情報を明示的に取得しないと、後続の [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に[トークン](/glossary/トークン/)が含まれません。ページ遷移やコンポーネント マウント後に[セッション](/glossary/セッション/)の[初期化](/glossary/初期化/)が完了する前に [API](/glossary/api/) を呼び出すと 401 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 import { createClient } from '@supabase/supabase-js';
@@ -221,7 +221,7 @@ export function UserList() {
 
 ### 認証キーの使い分け
 
-Supabase プロジェクトの Settings > [API](/glossary/api/) で複数のキーが公開されています。**anon key（匿名キー）** はブラウザやモバイルアプリなど、[クライアント](/glossary/クライアント/)側での使用を想定しています。一方、**service role key** は[バックエンド](/glossary/バックエンド/)（Node.js [サーバー](/glossary/サーバー/)、Lambda 関数など）での限定的な使用を前提としており、[クライアント](/glossary/クライアント/)側に露出させてはいけません。`SUPABASE_ANON_KEY` と `SUPABASE_SERVICE_ROLE_KEY` を[環境変数](/glossary/環境変数/)で厳密に分け、[クライアント](/glossary/クライアント/)側には anon key のみを渡してください。
+Supabase [プロジェクト](/glossary/プロジェクト/)の Settings > [API](/glossary/api/) で複数のキーが公開されています。**anon key（匿名キー）** はブラウザやモバイルアプリなど、[クライアント](/glossary/クライアント/)側での使用を想定しています。一方、**service role key** は[バックエンド](/glossary/バックエンド/)（Node.js [サーバー](/glossary/サーバー/)、Lambda [関数](/glossary/関数/)など）での限定的な使用を前提としており、[クライアント](/glossary/クライアント/)側に露出させてはいけません。`SUPABASE_ANON_KEY` と `SUPABASE_SERVICE_ROLE_KEY` を[環境変数](/glossary/環境変数/)で厳密に分け、[クライアント](/glossary/クライアント/)側には anon key のみを渡してください。
 
 ### Row Level Security（RLS）ポリシーとの相互作用
 
@@ -229,7 +229,7 @@ Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/gloss
 
 ### マルチタブ・マルチデバイスでのセッション管理
 
-Supabase の JavaScript [クライアント](/glossary/クライアント/)はブラウザの LocalStorage にセッション情報を保存します。複数のタブやデバイスからアクセスする場合、各環境で独立したセッションが存在します。セッションがリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを設定して、セッション変更を監視し、UI を動的に更新することを推奨します。
+Supabase の JavaScript [クライアント](/glossary/クライアント/)はブラウザの LocalStorage に[セッション](/glossary/セッション/)情報を保存します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを設定して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
 
 ## それでも解決しない場合
 
@@ -239,7 +239,7 @@ Supabase Dashboard の Authentication セクションで、「Logs」タブを�
 
 ### デバッグコマンド
 
-ブラウザの開発者ツール（DevTools）の Application タブで、Local Storage に保存されたセッション情報を確認してください：
+ブラウザの開発者[ツール](/glossary/ツール/)（DevTools）の Application タブで、Local Storage に保存された[セッション](/glossary/セッション/)情報を確認してください：
 
 ```javascript
 // ブラウザコンソールで実行
@@ -253,4 +253,4 @@ console.log('Now:', Math.floor(Date.now() / 1000));
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

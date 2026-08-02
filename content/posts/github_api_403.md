@@ -16,13 +16,13 @@ top_queries:
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 403 Forbidden は、「[権限](/glossary/権限/)が足りないとき全般」に返るコードではありません。GitHub は、非公開リソースへの権限不足に対しては存在を隠すために 404 を返す設計であり、classic の personal access token の scope 不足も 404 になります。403 が返るのは、主に次の3つの場面です。第一に、[レート制限](/glossary/レート制限/)の超過（403 または 429）。第二に、GitHub App・fine-grained personal access token・Actions の GITHUB_TOKEN の権限不足で、この場合だけ Resource not accessible by integration（または by personal access token）という固有の文言が返ります。第三に、組織が SAML SSO（組織のシングルサインオン）を強制していて、[トークン](/glossary/トークン/)がその組織に対して未承認の場合です。
+GitHub [API](/glossary/api/) の 403 Forbidden は、「[権限](/glossary/権限/)が足りないとき全般」に返る[コード](/glossary/コード/)ではありません。GitHub は、非公開リソースへの権限不足に対しては存在を隠すために 404 を返す設計であり、classic の personal access token の scope 不足も 404 になります。403 が返るのは、主に次の3つの場面です。第一に、[レート制限](/glossary/レート制限/)の超過（403 または 429）。第二に、GitHub App・fine-grained personal access token・Actions の GITHUB_TOKEN の権限不足で、この場合だけ Resource not accessible by integration（または by personal access token）という固有の文言が返ります。第三に、組織が SAML SSO（組織のシングルサインオン）を強制していて、[トークン](/glossary/トークン/)がその組織に対して未承認の場合です。
 
 3つの場面はいずれも応答の message の文言で即座に見分けられます。403 の調査は、設定を触る前に message を読むことから始めます。
 
 ## エラーの概要
 
-403 は「[リクエスト](/glossary/リクエスト/)は理解したが、実行を拒否した」ことを示すコードです。GitHub [API](/glossary/api/) では、拒否の理由が message に明示されるため、文言がそのまま調査の入口になります。実際の403応答の例です。
+403 は「[リクエスト](/glossary/リクエスト/)は理解したが、実行を拒否した」ことを示す[コード](/glossary/コード/)です。GitHub [API](/glossary/api/) では、拒否の理由が message に明示されるため、文言がそのまま調査の入口になります。実際の403応答の例です。
 
 ```json
 {
@@ -31,7 +31,7 @@ GitHub [API](/glossary/api/) の 403 Forbidden は、「[権限](/glossary/権�
 }
 ```
 
-見落とされやすいのが 404 との役割分担です。公式のトラブルシューティング文書のとおり、classic [トークン](/glossary/トークン/)の scope 不足や非公開[リポジトリ](/glossary/リポジトリ/)への無権限アクセスは、403 ではなく 404 Not Found として返ります。一方、GitHub App や fine-grained [トークン](/glossary/トークン/)の権限不足は 403 の Resource not accessible 系として返ります。つまり同じ「[権限](/glossary/権限/)が足りない」でも、[トークン](/glossary/トークン/)の種類によって受け取るコードが変わります。403 を受け取ったという事実自体が、原因の範囲をすでに絞り込んでいます。
+見落とされやすいのが 404 との役割分担です。公式のトラブルシューティング文書のとおり、classic [トークン](/glossary/トークン/)の scope 不足や非公開[リポジトリ](/glossary/リポジトリ/)への無権限アクセスは、403 ではなく 404 Not Found として返ります。一方、GitHub App や fine-grained [トークン](/glossary/トークン/)の権限不足は 403 の Resource not accessible 系として返ります。つまり同じ「[権限](/glossary/権限/)が足りない」でも、[トークン](/glossary/トークン/)の種類によって受け取る[コード](/glossary/コード/)が変わります。403 を受け取ったという事実自体が、原因の範囲をすでに絞り込んでいます。
 
 ## まず最初に：message を読んで3つに分岐する
 
@@ -131,8 +131,8 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
 
 原因2の実例として、GitHub 公式コミュニティの議論があります（[Resource not accessible by integration on GitHub App](https://github.com/orgs/community/discussions/108369)、2024年）。GitHub App の[トークン](/glossary/トークン/)で、[ファイル](/glossary/ファイル/)の存在確認などの読み取りは通るのに、[リポジトリ](/glossary/リポジトリ/)への workflow [ファイル](/glossary/ファイル/)（.github/workflows/ 配下）の作成だけが Resource not accessible by integration の403で失敗するという報告です。報告者は App に適切な[権限](/glossary/権限/)を与えたつもりでしたが、最終的に、App の権限設定で workflow の[権限](/glossary/権限/)を選択していなかったことが原因だったと自己解決しています。読み取りが通ることと書き込みが通ることは別の[権限](/glossary/権限/)であり、操作ごとに必要な[権限](/glossary/権限/)が異なる、という原因2の要点をそのまま示す記録です。今であれば、応答の X-Accepted-GitHub-Permissions [ヘッダー](/glossary/ヘッダー/)を見ることで、この特定にかかった往復を省略できます。
 
-GitHub の 403 は、文言が原因を名指ししてくれる親切な[エラー](/glossary/エラー/)です。コードの数字だけを見て権限全般を疑い始める前に、message と[ヘッダー](/glossary/ヘッダー/)を読むことが確実な近道です。
+GitHub の 403 は、文言が原因を名指ししてくれる親切な[エラー](/glossary/エラー/)です。[コード](/glossary/コード/)の数字だけを見て権限全般を疑い始める前に、message と[ヘッダー](/glossary/ヘッダー/)を読むことが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

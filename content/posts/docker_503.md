@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の[HTTP](/glossary/http/) 503[エラー](/glossary/エラー/)は、「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)環境では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。[コンテナイメージ](/glossary/コンテナイメージ/)の取得やプッシュ時に最も多く遭遇する[エラー](/glossary/エラー/)であり、その原因は多岐にわたります。
+[Docker](/glossary/docker/)の[HTTP](/glossary/http/) 503[エラー](/glossary/エラー/)は、「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)[環境](/glossary/環境/)では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。[コンテナイメージ](/glossary/コンテナイメージ/)の取得やプッシュ時に最も多く遭遇する[エラー](/glossary/エラー/)であり、その原因は多岐にわたります。
 
 ## 実際のエラーメッセージ例
 
@@ -50,7 +50,7 @@ error: unexpected status code 503 Service Unavailable
 
 まずは、対象[レジストリ](/glossary/レジストリ/)の状態確認[コマンド](/glossary/コマンド/)を実行してください。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # エラーが出たらすぐに再度pull/pushを試みている
@@ -76,7 +76,7 @@ $ docker pull myimage:latest
 
 ローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が停止していたり、[メモリ](/glossary/メモリ/)不足で応答していない場合、503[エラー](/glossary/エラー/)が返される可能性があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ docker pull ubuntu:latest
@@ -102,9 +102,9 @@ $ docker info
 
 ### 原因3: ネットワーク設定またはプロキシの問題
 
-会社の[ファイアウォール](/glossary/ファイアウォール/)配下や[プロキシ](/glossary/プロキシ/)を経由している環境では、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が[レジストリ](/glossary/レジストリ/)に到達できず、503[エラー](/glossary/エラー/)が発生することがあります。
+会社の[ファイアウォール](/glossary/ファイアウォール/)配下や[プロキシ](/glossary/プロキシ/)を経由している[環境](/glossary/環境/)では、[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が[レジストリ](/glossary/レジストリ/)に到達できず、503[エラー](/glossary/エラー/)が発生することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ docker pull myregistry:latest
@@ -136,7 +136,7 @@ $ docker pull ubuntu:latest
 
 [プライベートレジストリ](/glossary/プライベートレジストリ/)へのアクセスで[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れの場合、[サーバー](/glossary/サーバー/)が503を返すことがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 $ docker push myregistry.azurecr.io/myapp:latest
@@ -165,7 +165,7 @@ $ docker push myregistry.azurecr.io/myapp:latest
 
 [Docker](/glossary/docker/) Composeで複数のサービスを起動する際、レジストリサービスより他のサービスが先に起動しようとして503が発生することがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -232,7 +232,7 @@ $ aws ecr get-login-password --region <region> | docker login --username AWS --p
 
 ### Dockerデーモンのメモリ不足
 
-大量の[イメージ](/glossary/イメージ/)をpullしたり、多数の[コンテナ](/glossary/コンテナ/)を同時実行している環境では、[デーモン](/glossary/デーモン/)が[メモリ](/glossary/メモリ/)枯渇で503を返すことがあります。
+大量の[イメージ](/glossary/イメージ/)をpullしたり、多数の[コンテナ](/glossary/コンテナ/)を同時実行している[環境](/glossary/環境/)では、[デーモン](/glossary/デーモン/)が[メモリ](/glossary/メモリ/)枯渇で503を返すことがあります。
 
 ```bash
 # Docker デーモンのログを確認（systemd使用環境）
@@ -286,4 +286,4 @@ $ journalctl -u docker -f
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

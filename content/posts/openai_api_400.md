@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、[サーバー](/glossary/サーバー/)側の問題ではなく、[クライアント](/glossary/クライアント/)（あなたのコード）から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が仕様に合致していないことを意味しています。OpenAI [API](/glossary/api/)では、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)形式の誤りや必須[パラメータ](/glossary/パラメータ/)の欠落、不正なフィールド値などが主な原因です。
+OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の形式または内容に問題があることを示します。これは「Bad Request」と呼ばれ、[サーバー](/glossary/サーバー/)側の問題ではなく、[クライアント](/glossary/クライアント/)（あなたの[コード](/glossary/コード/)）から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が仕様に合致していないことを意味しています。OpenAI [API](/glossary/api/)では、[リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)形式の誤りや必須[パラメータ](/glossary/パラメータ/)の欠落、不正なフィールド値などが主な原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ OpenAI [API](/glossary/api/)で400[エラー](/glossary/エラー/)が返され�
 
 [リクエストボディ](/glossary/リクエストボディ/)の[JSON](/glossary/json/)が不正な形式になっていたり、OpenAI [API](/glossary/api/)が定義していないフィールド名を使用したりすると400[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 ```python
 import openai
 
@@ -80,7 +80,7 @@ response = openai.ChatCompletion.create(
 
 存在しない[モデル](/glossary/モデル/)[ID](/glossary/id/)や、サポートが終了した[モデル](/glossary/モデル/)を指定すると400[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 ```bash
 curl https://api.openai.com/v1/chat/completions \
   -H "Content-Type: application/json" \
@@ -106,7 +106,7 @@ curl https://api.openai.com/v1/chat/completions \
 
 これらの[パラメータ](/glossary/パラメータ/)は値の範囲が定められており、範囲外の値を指定すると400[エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 ```javascript
 const response = await fetch('https://api.openai.com/v1/chat/completions', {
   method: 'POST',
@@ -142,7 +142,7 @@ const response = await fetch('https://api.openai.com/v1/chat/completions', {
 
 messagesは配列で、各要素は必ず「role」と「content」フィールドを持つ必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 ```python
 response = openai.ChatCompletion.create(
     model="gpt-4",
@@ -194,4 +194,4 @@ curl -v https://api.openai.com/v1/chat/completions \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

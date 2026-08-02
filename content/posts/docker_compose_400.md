@@ -40,7 +40,7 @@ Error response from daemon: Ports must be expressed as "port" (a number) or "por
 
 [YAML](/glossary/yaml/)形式の構文ミスが最も多い原因です。インデント（スペース）の不一致、タブ文字の混在、コロンの後の空白忘れなどが該当します。[YAML](/glossary/yaml/)はインデントに非常に敏感であり、2文字か4文字のスペースで統一する必要があります。タブ文字を使用するとパーサーが正しく解釈できず、400[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -74,7 +74,7 @@ services:
 
 serviceセクション内で必須キーが欠けている、または値の型が仕様と異なる場合も400[エラー](/glossary/エラー/)になります。例えば、`ports`に文字列を指定すべきところに数値を指定したり、`environment`をリスト形式で記述すべきところに[オブジェクト](/glossary/オブジェクト/)形式で書いたりすると発生します。また、キー名のタイプミス（`cointainer_name`など）も認識されず[エラー](/glossary/エラー/)となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -106,7 +106,7 @@ services:
 
 [イメージ](/glossary/イメージ/)名の指定形式が不正な場合も400[エラー](/glossary/エラー/)が発生します。[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、`<registry>/<repository>:<tag>`形式を厳密に守る必要があります。また、無効な[タグ](/glossary/タグ/)やホスト名を含むと、Composeの[バリデーション](/glossary/バリデーション/)に引っかかります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -132,7 +132,7 @@ services:
 
 `networks`または`volumes`トップレベルキーで定義されていない[ネットワーク](/glossary/ネットワーク/)・ボリュームを参照すると、400[エラー](/glossary/エラー/)が発生します。サービス内で使用する[ネットワーク](/glossary/ネットワーク/)やボリュームは、必ずcompose.yml内で事前に定義するか、`external: true`で外部リソースとして明示する必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 version: '3.8'
@@ -192,7 +192,7 @@ docker compose --env-file .env up
 docker compose --verbose up 2>&1 | head -50
 ```
 
-**[YAML](/glossary/yaml/)検証ツール：** [yamllint](https://github.com/adrienverge/yamllint) などのオンライン[YAML](/glossary/yaml/)検証ツールやコマンドラインツールを使用して、[ファイル](/glossary/ファイル/)の構文をスタンドアロンで検証することも有効です。
+**[YAML](/glossary/yaml/)検証[ツール](/glossary/ツール/)：** [yamllint](https://github.com/adrienverge/yamllint) などのオンライン[YAML](/glossary/yaml/)検証[ツール](/glossary/ツール/)やコマンドラインツールを使用して、[ファイル](/glossary/ファイル/)の構文をスタンドアロンで検証することも有効です。
 
 ```bash
 yamllint compose.yml
@@ -204,4 +204,4 @@ yamllint compose.yml
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

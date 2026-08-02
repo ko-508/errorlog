@@ -38,7 +38,7 @@ Error: Error when reading or editing Compute Instance: googleapi: Error 404: The
 
 リソースを作成する前に、そのリソース情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動でリソースを削除した場合、Terraform の state [ファイル](/glossary/ファイル/)にはまだ存在するとして記録されたままになり、再度参照しようとすると 404 [エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 # EC2 インスタンスを作成する前に参照しようとしている
@@ -73,7 +73,7 @@ data "aws_instance" "existing" {
 
 [AWS](/glossary/aws/) や Google Cloud などのマルチリージョンサービスでは、リージョン指定を誤ると別リージョンのリソースを探してしまい、404 [エラー](/glossary/エラー/)が発生します。リソース [ID](/glossary/id/) やリソース名の入力間違いも同様に原因となります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 provider "aws" {
@@ -123,9 +123,9 @@ data "aws_instance" "example" {
 
 ### 原因 3：別の Terraform workspace で管理しているリソースを参照しようとしている
 
-Terraform の workspace 機能を使って環境を分け、別の workspace で管理されているリソースを参照しようとすると 404 [エラー](/glossary/エラー/)が発生します。同じリソースであっても workspace が異なると state [ファイル](/glossary/ファイル/)が分離されており、相互参照ができません。
+Terraform の workspace 機能を使って[環境](/glossary/環境/)を分け、別の workspace で管理されているリソースを参照しようとすると 404 [エラー](/glossary/エラー/)が発生します。同じリソースであっても workspace が異なると state [ファイル](/glossary/ファイル/)が分離されており、相互参照ができません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```hcl
 # 現在の workspace は "production" だが、"development" で作成されたリソースを参照
@@ -218,4 +218,4 @@ terraform import aws_instance.example i-0123456789abcdef0
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

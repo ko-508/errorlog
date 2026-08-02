@@ -14,9 +14,9 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Nginx の 502 Bad Gateway は、リバースプロキシとしての Nginx が上流（proxy_pass や fastcgi_pass の接続先）への接続に失敗したか、接続はできたものの応答として解釈できないデータを受け取ったことを示します。原因はほぼ確実に[エラーログ](/glossary/エラーログ/)の文言で特定できます。connect() failed (111: Connection refused) なら上流が起動していないか接続先の指定違い、unix ソケットへの (2: No such file or directory) や (13: Permission denied) ならソケットの[パス](/glossary/パス/)か[権限](/glossary/権限/)、no live upstreams なら全上流[サーバー](/glossary/サーバー/)の一時除外、upstream prematurely closed connection なら上流の応答途中の切断、upstream sent too big header なら応答[ヘッダー](/glossary/ヘッダー/)のバッファ超過、[SSL](/glossary/ssl/)_do_handshake() failed なら上流との [TLS](/glossary/tls/) ハンドシェイク失敗です。
+Nginx の 502 Bad Gateway は、リバースプロキシとしての Nginx が上流（proxy_pass や fastcgi_pass の接続先）への接続に失敗したか、接続はできたものの応答として解釈できないデータを受け取ったことを示します。原因はほぼ確実に[エラーログ](/glossary/エラーログ/)の文言で特定できます。connect() failed (111: Connection refused) なら上流が起動していないか接続先の指定違い、unix ソケットへの (2: No such file or directory) や (13: Permission denied) ならソケットの[パス](/glossary/パス/)か[権限](/glossary/権限/)、no live upstreams なら全上流[サーバー](/glossary/サーバー/)の一時除外、upstream prematurely closed connection なら上流の応答途中の切断、upstream sent too big header なら応答[ヘッダー](/glossary/ヘッダー/)の[バッファ](/glossary/バッファ/)超過、[SSL](/glossary/ssl/)_do_handshake() failed なら上流との [TLS](/glossary/tls/) ハンドシェイク失敗です。
 
-502と誤解されやすい隣のコードも押さえておくと迷いません。上流の応答待ちの時間切れは502ではなく504です（[エラーログ](/glossary/エラーログ/)に upstream timed out と残ります）。limit_req などの制限超過は503、応答前に[クライアント](/glossary/クライアント/)側が切断した場合はアクセスログに499が残ります。「遅いから502」という説明を見かけますが、Nginx のソースコード上、時間切れは504に明示的に割り当てられており、502になるのはそれ以外の接続失敗と不正応答です。
+502と誤解されやすい隣の[コード](/glossary/コード/)も押さえておくと迷いません。上流の応答待ちの時間切れは502ではなく504です（[エラーログ](/glossary/エラーログ/)に upstream timed out と残ります）。limit_req などの制限超過は503、応答前に[クライアント](/glossary/クライアント/)側が切断した場合はアクセスログに499が残ります。「遅いから502」という説明を見かけますが、Nginx のソースコード上、時間切れは504に明示的に割り当てられており、502になるのはそれ以外の接続失敗と不正応答です。
 
 ## エラーの概要
 
@@ -43,7 +43,7 @@ nginx
 
 ## まず最初に：エラーログの文言で6つに分岐する
 
-connect() failed (111: Connection refused) なら原因1（上流が接続を受けていない）です。接続先が unix: で始まり (2: No such file or directory) または (13: Permission denied) なら原因2（ソケットの[パス](/glossary/パス/)・[権限](/glossary/権限/)）で、後者はログレベルが [crit] で記録されます。no live upstreams なら原因3（全[サーバー](/glossary/サーバー/)の一時除外）、upstream prematurely closed connection while reading response header from upstream なら原因4（上流の途中切断）、upstream sent too big header なら原因5（応答[ヘッダー](/glossary/ヘッダー/)のバッファ超過）、[SSL](/glossary/ssl/)_do_handshake() failed なら原因6（上流との [TLS](/glossary/tls/) 失敗）です。upstream timed out (110: Connection timed out) が出ている場合、それは502ではなく504の調査です（後述の補足へ）。
+connect() failed (111: Connection refused) なら原因1（上流が接続を受けていない）です。接続先が unix: で始まり (2: No such file or directory) または (13: Permission denied) なら原因2（ソケットの[パス](/glossary/パス/)・[権限](/glossary/権限/)）で、後者はログレベルが [crit] で記録されます。no live upstreams なら原因3（全[サーバー](/glossary/サーバー/)の一時除外）、upstream prematurely closed connection while reading response header from upstream なら原因4（上流の途中切断）、upstream sent too big header なら原因5（応答[ヘッダー](/glossary/ヘッダー/)の[バッファ](/glossary/バッファ/)超過）、[SSL](/glossary/ssl/)_do_handshake() failed なら原因6（上流との [TLS](/glossary/tls/) 失敗）です。upstream timed out (110: Connection timed out) が出ている場合、それは502ではなく504の調査です（後述の補足へ）。
 
 ## よくある原因と解決手順
 
@@ -156,7 +156,7 @@ dmesg -T | grep -i "out of memory"
 
 ### 原因5：応答ヘッダーがバッファに収まらない（too big header）
 
-上流からの応答の最初の部分（応答[ヘッダー](/glossary/ヘッダー/)）を読むバッファは proxy_buffer_size で決まり、公式文書のとおり既定値は1メモリページ（環境により 4K または 8K）です。応答[ヘッダー](/glossary/ヘッダー/)がこれを超えると、公式文書に明記されているとおり応答は不正なものとして扱われ、502になります。巨大な Set-Cookie を発行するアプリや、セッション情報を[ヘッダー](/glossary/ヘッダー/)に詰め込む構成で発生します。
+上流からの応答の最初の部分（応答[ヘッダー](/glossary/ヘッダー/)）を読む[バッファ](/glossary/バッファ/)は proxy_buffer_size で決まり、公式文書のとおり既定値は1メモリページ（[環境](/glossary/環境/)により 4K または 8K）です。応答[ヘッダー](/glossary/ヘッダー/)がこれを超えると、公式文書に明記されているとおり応答は不正なものとして扱われ、502になります。巨大な Set-Cookie を発行するアプリや、[セッション](/glossary/セッション/)情報を[ヘッダー](/glossary/ヘッダー/)に詰め込む構成で発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きている状態）：**
 
@@ -178,7 +178,7 @@ location / {
 curl -s -D - -o /dev/null http://127.0.0.1:8000/login | wc -c
 ```
 
-なお、応答本文が大きいこと自体は502の原因になりません。バッファに収まらない本文は一時[ファイル](/glossary/ファイル/)に書き出して処理される設計です。502に関係するのは[ヘッダー](/glossary/ヘッダー/)を読む proxy_buffer_size だけです。
+なお、応答本文が大きいこと自体は502の原因になりません。[バッファ](/glossary/バッファ/)に収まらない本文は一時[ファイル](/glossary/ファイル/)に書き出して処理される設計です。502に関係するのは[ヘッダー](/glossary/ヘッダー/)を読む proxy_buffer_size だけです。
 
 ### 原因6：上流との TLS ハンドシェイクに失敗している（SSL_do_handshake）
 
@@ -211,7 +211,7 @@ openssl s_client -connect 203.0.113.5:443 -servername backend.example.com
 # 平文で応答が返るなら wrong version number の構図（proxy_pass を http:// に直す）
 ```
 
-なお、上流の証明書検証（proxy_ssl_verify）は既定で無効です。自己署名証明書が原因の502は、証明書検証を明示的に有効化している構成でのみ起こります。「とりあえず proxy_ssl_verify off を足す」という対処を見かけますが、既定が off である以上、明示的に on にしていない環境では意味を持ちません。
+なお、上流の証明書検証（proxy_ssl_verify）は既定で無効です。自己署名証明書が原因の502は、証明書検証を明示的に有効化している構成でのみ起こります。「とりあえず proxy_ssl_verify off を足す」という対処を見かけますが、既定が off である以上、明示的に on にしていない[環境](/glossary/環境/)では意味を持ちません。
 
 ## 補足：このコードではない類似エラー
 
@@ -253,10 +253,10 @@ openssl s_client -connect <上流アドレス>:443 -servername <ホスト名>
 
 ## Editor's Note
 
-原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は設定ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の修正として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の修正[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった環境では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も設定を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
+原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は設定ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の修正として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の修正[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も設定を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
 
 502の[エラーログ](/glossary/エラーログ/)は、接続先・失敗理由・タイミングをすべて一行に記録してくれます。推測で設定をいじる前に、まず括弧内の文言を読むことが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

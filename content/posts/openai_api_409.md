@@ -45,7 +45,7 @@ OpenAI [API](/glossary/api/) の 409 Conflict [エラー](/glossary/エラー/)�
 
 同じ[モデル](/glossary/モデル/)やトレーニングデータに対して既に実行中のジョブがある状態で、同じ設定で新たなジョブを投入しようとすると409[エラー](/glossary/エラー/)が発生します。OpenAI [API](/glossary/api/) は同一の訓練[ファイル](/glossary/ファイル/)に対する並行実行を制限しており、前のジョブが完了するまで待つ必要があります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -100,9 +100,9 @@ job2 = openai.FineTuningJob.create(
 
 ### 原因2: ファイルアップロード中の再実行
 
-Files [API](/glossary/api/) でトレーニングファイルをアップロード中に、同じ[ファイル名](/glossary/ファイル名/)やファイルパスに対して再度アップロードリクエストを[送信](/glossary/送信/)すると競合が発生します。特に[エラーハンドリング](/glossary/エラーハンドリング/)が不十分な場合、アップロード失敗時に即座に再試行を繰り返すとこの問題が起こります。
+Files [API](/glossary/api/) でトレーニングファイルを[アップロード](/glossary/アップロード/)中に、同じ[ファイル名](/glossary/ファイル名/)やファイルパスに対して再度アップロードリクエストを[送信](/glossary/送信/)すると競合が発生します。特に[エラーハンドリング](/glossary/エラーハンドリング/)が不十分な場合、[アップロード](/glossary/アップロード/)失敗時に即座に再試行を繰り返すとこの問題が起こります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -162,7 +162,7 @@ file_id = get_or_upload_file("training_data.jsonl")
 
 Batch [API](/glossary/api/) で同一の入力[ファイル](/glossary/ファイル/) [ID](/glossary/id/) に対して複数のバッチリクエストを短時間で[送信](/glossary/送信/)すると、前のバッチ処理が完了していない状態で競合[エラー](/glossary/エラー/)が発生します。特にリトライロジックが過剰に働く場合に顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -219,7 +219,7 @@ OpenAI [API](/glossary/api/) の Fine-tuning ジョブは `queued` → `validati
 
 **[ファイル](/glossary/ファイル/) [ID](/glossary/id/) の有効性確認**
 
-Files [API](/glossary/api/) でアップロードした[ファイル](/glossary/ファイル/)が `processed` 状態に遷移するまで、その[ファイル](/glossary/ファイル/) [ID](/glossary/id/) を Fine-tuning や Batch に使用してはいけません。ステータスが `uploaded` の段階で利用しようとすると 409 [エラー](/glossary/エラー/)が発生する可能性があります。必ず `file_status.status == "processed"` を確認してから次の処理に進んでください。
+Files [API](/glossary/api/) で[アップロード](/glossary/アップロード/)した[ファイル](/glossary/ファイル/)が `processed` 状態に遷移するまで、その[ファイル](/glossary/ファイル/) [ID](/glossary/id/) を Fine-tuning や Batch に使用してはいけません。ステータスが `uploaded` の段階で利用しようとすると 409 [エラー](/glossary/エラー/)が発生する可能性があります。必ず `file_status.status == "processed"` を確認してから次の処理に進んでください。
 
 **[API](/glossary/api/) キーの[スコープ](/glossary/スコープ/)と[権限](/glossary/権限/)**
 
@@ -247,4 +247,4 @@ OpenAI Python ライブラリの[リポジトリ](/glossary/リポジトリ/)（
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

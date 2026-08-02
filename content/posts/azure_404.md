@@ -48,7 +48,7 @@ The resource with id /subscriptions/<subscription-id>/resourceGroups/<rg-name>/p
 
 Azureのリソース名やリソース[ID](/glossary/id/)に入力ミスがあると、404[エラー](/glossary/エラー/)が発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、[REST](/glossary/rest/) [API](/glossary/api/)で完全修飾リソース[ID](/glossary/id/)（例：`/subscriptions/.../resourceGroups/.../providers/...`）を指定する場合、[パス](/glossary/パス/)内のどこかに誤字があると該当リソースが見つかりません。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 az vm show --resource-group myResourceGroup --name myVirtualMahine
@@ -62,7 +62,7 @@ az vm show --resource-group myResourceGroup --name myVirtualMachine
 
 ---
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 curl -X GET \
@@ -80,9 +80,9 @@ curl -X GET \
 
 ### 原因2：リソースが別のサブスクリプションまたはリソースグループに存在する
 
-複数のAzure[サブスクリプション](/glossary/サブスクリプション/)を管理している場合、現在の[CLI](/glossary/cli/)セッションで選択されている[サブスクリプション](/glossary/サブスクリプション/)と実際のリソースが存在する[サブスクリプション](/glossary/サブスクリプション/)が異なることがあります。同様に、リソース名は複数のリソースグループで重複する可能性があり、指定したリソースグループに該当するリソースが存在しない場合も404[エラー](/glossary/エラー/)が発生します。
+複数のAzure[サブスクリプション](/glossary/サブスクリプション/)を管理している場合、現在の[CLI](/glossary/cli/)[セッション](/glossary/セッション/)で選択されている[サブスクリプション](/glossary/サブスクリプション/)と実際のリソースが存在する[サブスクリプション](/glossary/サブスクリプション/)が異なることがあります。同様に、リソース名は複数のリソースグループで重複する可能性があり、指定したリソースグループに該当するリソースが存在しない場合も404[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # サブスクリプションAが選択されている状態
@@ -105,7 +105,7 @@ az vm show --resource-group myResourceGroup --name myVM
 
 ---
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 az storage account show --resource-group wrongResourceGroup --name mystorageaccount
@@ -126,7 +126,7 @@ az storage account show --resource-group correctResourceGroup --name mystorageac
 
 Azureでリソースを削除した後、その削除が完全に反映されるまでにはわずかな遅延が生じることがあります。削除後のリソースに対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。削除されたリソースの復旧が必要な場合、Azure Backupやリソースの再作成が必要になります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # リソースをいったん削除してから操作
@@ -148,7 +148,7 @@ az vm create --resource-group myResourceGroup --name myVM --image UbuntuLTS
 
 ---
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```bash
 # ストレージアカウントが削除されている
@@ -167,7 +167,7 @@ az storage account create --name mynewstorageaccount --resource-group myResource
 
 ## ツール固有の注意点
 
-Azure環境では、複数のレイヤーで404[エラー](/glossary/エラー/)が発生する可能性があります。
+Azure[環境](/glossary/環境/)では、複数のレイヤーで404[エラー](/glossary/エラー/)が発生する可能性があります。
 
 **Azure Portalでの確認：** Portalから直接リソースを検索する際、左側の検索バーにリソース名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に削除されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
 
@@ -224,4 +224,4 @@ Azure公式ドキュメント（[Azure Resource Management API](https://learn.mi
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -45,7 +45,7 @@ Error from server (Forbidden): pods "my-pod" is forbidden: User "system:servicea
 
 ServiceAccount は [Kubernetes](/glossary/kubernetes/) 内の[アカウント](/glossary/アカウント/)であり、Pod がリソースにアクセスする際に使用されます。この[アカウント](/glossary/アカウント/)に必要な[権限](/glossary/権限/)を持つ Role が紐付けられていない場合、403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: v1
@@ -122,7 +122,7 @@ spec:
 
 RoleBinding は特定の [Namespace](/glossary/namespace/) に紐付きます。Pod が存在する [Namespace](/glossary/namespace/) と、RoleBinding が定義されている [Namespace](/glossary/namespace/) が異なる場合、[権限](/glossary/権限/)が認識されず 403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 # namespace: kube-system に RoleBinding を定義
@@ -175,7 +175,7 @@ subjects:
 
 [Kubernetes](/glossary/kubernetes/) リソースは [API](/glossary/api/) グループ（例: `apps`, `batch`, `networking.k8s.io`）に属しており、Role で適切な [API](/glossary/api/) グループを指定しなければアクセスできません。`apiGroups: [""]` は core [API](/glossary/api/) グループのみを対象とするため、拡張リソースには無効です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -216,7 +216,7 @@ rules:
 
 Pod 定義で `serviceAccountName` を明示的に指定しない場合、デフォルトの `default` ServiceAccount が使用されます。この `default` [アカウント](/glossary/アカウント/)には通常、リソースへの[アクセス権限](/glossary/アクセス権限/)がないため、403 [エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: apps/v1
@@ -348,7 +348,7 @@ subjects:
 
 ### kubectl auth can-i コマンドで権限を確認
 
-特定の ServiceAccount が特定のアクションを実行可能か事前に確認できます。
+特定の ServiceAccount が特定の[アクション](/glossary/アクション/)を実行可能か事前に確認できます。
 
 ```bash
 kubectl auth can-i create deployments --as=system:serviceaccount:default:app-account -n default
@@ -381,4 +381,4 @@ kubectl describe role app-role -n default
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

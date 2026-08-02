@@ -48,7 +48,7 @@ Pod内から[API](/glossary/api/)サーバーアクセス時の[エラー](/glos
 
 Minikubeのデフォルト名前空間では、`default` ServiceAccountが使用されますが、この[アカウント](/glossary/アカウント/)には最小限の[権限](/glossary/権限/)しか持っていません。Deploymentの一覧取得やPodの作成といった操作を試みると、権限不足により403[エラー](/glossary/エラー/)が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: v1
@@ -114,7 +114,7 @@ spec:
 
 Roleを作成してもRoleBindingで適切なServiceAccountに紐付けなければ、[権限](/glossary/権限/)は有効になりません。また、名前空間固有の操作をする場合、RoleBindingが異なる名前空間に存在していないか確認が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -173,7 +173,7 @@ subjects:
 
 単一の名前空間内での操作はRoleで十分ですが、複数の名前空間にまたがったリソースへのアクセスや、クラスタ全体のリソース（Node、StorageClass等）にアクセスする場合はClusterRoleとClusterRoleBindingが必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```yaml
 apiVersion: v1
@@ -311,4 +311,4 @@ GitHub Issuesでは、Minikube固有の[RBAC](/glossary/rbac/)問題が報告さ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

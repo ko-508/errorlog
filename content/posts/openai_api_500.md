@@ -50,7 +50,7 @@ HTTP/1.1 500 Internal Server Error
 
 OpenAI [API](/glossary/api/)は厳密な[JSON](/glossary/json/)形式を要求します。[パラメータ](/glossary/パラメータ/)名のスペルミス、不正なデータ型、必須フィールドの欠落があると500[エラー](/glossary/エラー/)が返されます。特にmessagesフィールドの構造が不正な場合に起きやすくなります。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -88,7 +88,7 @@ response = openai.ChatCompletion.create(
 
 [API](/glossary/api/)キーが無効、期限切れ、または削除されている場合、OpenAI[サーバー](/glossary/サーバー/)が[認証](/glossary/認証/)に失敗して500[エラー](/glossary/エラー/)を返すことがあります。また、間違った[エンドポイント](/glossary/エンドポイント/)への[リクエスト](/glossary/リクエスト/)も同様です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```javascript
 const axios = require('axios');
@@ -124,7 +124,7 @@ const response = await axios.post('https://api.openai.com/v1/chat/completions', 
 
 極めて長いプロンプトや[トークン](/glossary/トークン/)数が制限を超える場合、または[ネットワーク](/glossary/ネットワーク/)接続が遅く[タイムアウト](/glossary/タイムアウト/)する場合に500[エラー](/glossary/エラー/)が発生します。特に大規模な[ファイル](/glossary/ファイル/)を処理する際に注意が必要です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -167,7 +167,7 @@ response = openai.ChatCompletion.create(
 
 OpenAIのインフラストラクチャが一時的に障害状態にある場合、500[エラー](/glossary/エラー/)が返されます。この場合、[クライアント](/glossary/クライアント/)側での修正は不可能なため、[リトライ](/glossary/リトライ/)処理の実装が必須です。
 
-**Before（[エラー](/glossary/エラー/)が起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```python
 import openai
@@ -210,7 +210,7 @@ for attempt in range(max_retries):
 
 ## ツール固有の注意点
 
-OpenAI [API](/glossary/api/)の500[エラー](/glossary/エラー/)は、以下のツール固有の要因で発生することがあります。
+OpenAI [API](/glossary/api/)の500[エラー](/glossary/エラー/)は、以下の[ツール](/glossary/ツール/)固有の要因で発生することがあります。
 
 **[レート制限](/glossary/レート制限/)とクォータ管理**：[API](/glossary/api/)キーに設定された[レート制限](/glossary/レート制限/)（RPM：Requests Per Minute、TPM：Tokens Per Minute）に達した場合、[サーバー](/glossary/サーバー/)側で500[エラー](/glossary/エラー/)を返すことがあります。OpenAIの[ダッシュボード](/glossary/ダッシュボード/)で利用制限を確認し、必要に応じてアップグレードしましょう。
 
@@ -232,4 +232,4 @@ OpenAI [API](/glossary/api/)の500[エラー](/glossary/エラー/)は、以下�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
