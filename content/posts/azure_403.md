@@ -8,6 +8,8 @@ service: "Azure"
 error_type: "403"
 components: ["RBAC", "Azure Policy", "Virtual Machine Contributor", "Azure SQL Database", "Azure Portal", "Azure CLI"]
 related_services: []
+top_queries:
+- 'you don''t have permission to access this resource'
 ---
 ## エラーの概要
 

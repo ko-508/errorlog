@@ -2,45 +2,42 @@
   "aws_504": {
     "top_queries": [
       "elb 504",
-      "504エラー"
+      "504エラー",
+      "エラー 504"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 65.6
+    "avg_position": 66.9
   },
-  "aws_502": {
+  "aws_403": {
     "top_queries": [
-      "cloudfront 502"
+      "aws 403 forbidden"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 59.0
-  },
-  "docker_504": {
-    "top_queries": [
-      "docker 504"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 70.0
-  },
-  "tool_docker_compose": {
-    "top_queries": [
-      "docker compose とは"
-    ],
-    "avg_ctr": 0.0,
-    "avg_position": 78.0
+    "avg_position": 16.0
   },
   "aws_503": {
     "top_queries": [
       "elb 503"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 68.8
+    "avg_position": 39.2
   },
-  "github_api_429": {
+  "aws_s3_nosuchkey": {
     "top_queries": [
-      "github error 429"
+      "nosuchkeythe specified key does not exist.",
+      "s3 the specified key does not exist",
+      "error> <code>nosuchkey</code> <message>the specified key does not exist.</message> </error>",
+      "nosuchkeyexception"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 74.5
+    "avg_position": 42.8
+  },
+  "github_api_503": {
+    "top_queries": [
+      "github 503"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 71.5
   },
   "gcp_500": {
     "top_queries": [
@@ -48,15 +45,14 @@
       "google エラー 500"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 50.7
+    "avg_position": 54.5
   },
-  "aws_s3_nosuchkey": {
+  "azure_403": {
     "top_queries": [
-      "nosuchkey the specified key does not exist",
-      "nosuchkey: the specified key does not exist"
+      "you don't have permission to access this resource"
     ],
     "avg_ctr": 0.0,
-    "avg_position": 44.0
+    "avg_position": 72.0
   },
   "gcp_503": {
     "top_queries": [

@@ -10,8 +10,9 @@ error_type: "NoSuchKey"
 components: ["S3"]
 related_services: ["boto3"]
 top_queries:
-- 'nosuchkey the specified key does not exist'
-- 'nosuchkey: the specified key does not exist'
+- 'nosuchkeythe specified key does not exist.'
+- 's3 the specified key does not exist'
+- 'error> <code>nosuchkey</code> <message>the specified key does not exist.</message> </error>'
 ---
 
 ## エラーの概要
