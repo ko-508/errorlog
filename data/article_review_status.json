@@ -562,6 +562,10 @@
       {
         "date": "2026-08-03",
         "note": "Editor's Noteにaider Issue #3817の実在確認済み事例(応答はINVALID_ARGUMENT/API_KEY_INVALIDだが中間の部品が認証エラーとして包み直す)をリンク付きで追加、lastmodを2026-08-03に更新"
+      },
+      {
+        "date": "2026-08-03",
+        "note": "Editor's Noteにaider Issue #3817の実在確認済み事例(応答はINVALID_ARGUMENT/API_KEY_INVALIDだが中間の部品が認証エラーとして包み直す)をリンク付きで追加、lastmodを2026-08-03に更新"
       }
     ]
   },
