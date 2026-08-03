@@ -669,5 +669,16 @@
         "note": "新規作成。429の由来を3系統（APF過負荷保護・Eviction API のPDB拒否・レジストリ制限）に分け、クライアント側スロットリングは429ではない点を切り分けの起点に据えた。公式8本＋実装14本＋実事例3本を一次照合。Editor's Note は kubectl Issue #172 を過去の挙動として記述し現行実装の再試行挙動を併記"
       }
     ]
+  },
+  "content/posts/nginx_429.md": {
+    "verified": true,
+    "verified_at": "2026-08-03",
+    "last_verified_at": "2026-08-03",
+    "history": [
+      {
+        "date": "2026-08-03",
+        "note": "新規作成。nginx はレート制限に既定で429を使わず limit_req_status/limit_conn_status の既定は503である点を軸に据え、429設定時もRetry-Afterが付かないこと（実装で確認）、値域400-599、burst既定0とdry runを整理。公式4本＋実装6本＋実事例2本を一次照合。Editor's Note は ingress-nginx Issue #2250（limit_conn != limit_req）"
+      }
+    ]
   }
 }
