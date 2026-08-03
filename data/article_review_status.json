@@ -545,7 +545,7 @@
   "content/posts/gcp_400.md": {
     "verified": true,
     "verified_at": "2026-08-01",
-    "last_verified_at": "2026-08-01",
+    "last_verified_at": "2026-08-03",
     "history": [
       {
         "date": "2026-08-01",
@@ -558,6 +558,10 @@
       {
         "date": "2026-08-01",
         "note": "コミット082cc2b(dateを復元と称して実際は全行削除)で消失したgcp_400を29b8cd7の内容から復旧、dateのみ2026-05-27に修正"
+      },
+      {
+        "date": "2026-08-03",
+        "note": "Editor's Noteにaider Issue #3817の実在確認済み事例(応答はINVALID_ARGUMENT/API_KEY_INVALIDだが中間の部品が認証エラーとして包み直す)をリンク付きで追加、lastmodを2026-08-03に更新"
       }
     ]
   },
