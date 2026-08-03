@@ -691,5 +691,16 @@
         "note": "新規作成。docker_429と重複しないようCompose固有の増幅要因（--parallel既定-1の無制限、latestタグはmissing方針でも毎回取得、pull_policy always）に絞り、daily/weekly/every_<期間>という中間の選択肢を提示。公式4本＋実装3本を一次照合。Editor's Note は docker/compose Issue #12336（取得はEngine内で行われCompose無関係という回答に対し、依頼の件数と並列度はCompose側の設定という補足）"
       }
     ]
+  },
+  "content/posts/kubernetes_409.md": {
+    "verified": true,
+    "verified_at": "2026-08-03",
+    "last_verified_at": "2026-08-03",
+    "history": [
+      {
+        "date": "2026-08-03",
+        "note": "新規作成。409を返す構築関数が3つある点を軸に、AlreadyExists・楽観ロック競合・Server-Side Applyのフィールド競合をreasonとdetailsで切り分ける構成。generateName時のAlreadyExistsは再試行が正解というAPI規約の例外、RetryOnConflictの既定値、applyとupdateで競合の意味が違う点を一次照合。公式3本＋実装5本＋実事例2本。Editor's Note は kubernetes/kubernetes Issue #89954（before-first-apply 管理者）と #129898（対象名が出ない限界）"
+      }
+    ]
   }
 }
