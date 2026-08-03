@@ -680,5 +680,16 @@
         "note": "新規作成。nginx はレート制限に既定で429を使わず limit_req_status/limit_conn_status の既定は503である点を軸に据え、429設定時もRetry-Afterが付かないこと（実装で確認）、値域400-599、burst既定0とdry runを整理。公式4本＋実装6本＋実事例2本を一次照合。Editor's Note は ingress-nginx Issue #2250（limit_conn != limit_req）"
       }
     ]
+  },
+  "content/posts/docker_compose_429.md": {
+    "verified": true,
+    "verified_at": "2026-08-03",
+    "last_verified_at": "2026-08-03",
+    "history": [
+      {
+        "date": "2026-08-03",
+        "note": "新規作成。docker_429と重複しないようCompose固有の増幅要因（--parallel既定-1の無制限、latestタグはmissing方針でも毎回取得、pull_policy always）に絞り、daily/weekly/every_<期間>という中間の選択肢を提示。公式4本＋実装3本を一次照合。Editor's Note は docker/compose Issue #12336（取得はEngine内で行われCompose無関係という回答に対し、依頼の件数と並列度はCompose側の設定という補足）"
+      }
+    ]
   }
 }
