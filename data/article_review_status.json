@@ -702,5 +702,16 @@
         "note": "新規作成。409を返す構築関数が3つある点を軸に、AlreadyExists・楽観ロック競合・Server-Side Applyのフィールド競合をreasonとdetailsで切り分ける構成。generateName時のAlreadyExistsは再試行が正解というAPI規約の例外、RetryOnConflictの既定値、applyとupdateで競合の意味が違う点を一次照合。公式3本＋実装5本＋実事例2本。Editor's Note は kubernetes/kubernetes Issue #89954（before-first-apply 管理者）と #129898（対象名が出ない限界）"
       }
     ]
+  },
+  "content/posts/kubernetes_422.md": {
+    "verified": true,
+    "verified_at": "2026-08-03",
+    "last_verified_at": "2026-08-03",
+    "history": [
+      {
+        "date": "2026-08-03",
+        "note": "新規作成。details.causesのfieldとreasonを読む構成に、400との境界（未知フィールド・重複・型違いはStrictでも422ではなく400、kubectl既定は--validate=true）を軸として追加。field is immutableはFieldValueInvalidとして返る点、kubectlがInvalidだけ専用整形しError from serverの形にならない点を実装で確認。公式2本＋実装6本＋実事例1本。Editor's Note は quarkus Issue #39180（code=422の応答構造がそのまま載っている実例）"
+      }
+    ]
   }
 }
