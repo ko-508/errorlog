@@ -658,5 +658,16 @@
         "note": "Cloud Storage公式のバケット名全球一意仕様に基づき他人との名前衝突の変種と文言での見分け方を原因1に追加、Firestore公式の競合解決の説明を原因2に追加、前提条件の失敗が412/400で返る場合の注意を原因4に追加、Editor's Noteにnodejs-firestore Issue #1022の実在確認済み事例をリンク付きで追加"
       }
     ]
+  },
+  "content/posts/kubernetes_429.md": {
+    "verified": true,
+    "verified_at": "2026-08-03",
+    "last_verified_at": "2026-08-03",
+    "history": [
+      {
+        "date": "2026-08-03",
+        "note": "新規作成。429の由来を3系統（APF過負荷保護・Eviction API のPDB拒否・レジストリ制限）に分け、クライアント側スロットリングは429ではない点を切り分けの起点に据えた。公式8本＋実装14本＋実事例3本を一次照合。Editor's Note は kubectl Issue #172 を過去の挙動として記述し現行実装の再試行挙動を併記"
+      }
+    ]
   }
 }
