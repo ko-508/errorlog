@@ -801,5 +801,16 @@
         "note": "下書きを現行の質の型で全面書き直しのうえ公開。下書きは403の例として429(insufficient_quota)と404(model_not_found)を挙げ、原因3つもすべて別コードの話だったため全面訂正。公式一覧で403として定義されるのは地域の非対応のみである点、typeがrequest_forbiddenという別系統になる点、判定対象が送信元IPの地理判定である点を軸に再構成。応答がJSONでない場合はAPI層に届いていない境界も追加。Editor's Note は公式コミュニティの相談（提供元窓口がIP共有を求め誤判定を認め修正した記録）"
       }
     ]
+  },
+  "content/posts/openai_api_404.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "下書きを現行の質の型で全面書き直しのうえ公開。モデル／経路／資源の3系統に分け、文言に実際に要求された内容がそのまま入る点を軸に据えた。下書きの誤り（model_not_foundのparamがmodel、文言からアクセス権の併記が欠落）を訂正。Invalid URLの実例（末尾スラッシュ・版の二重付与・経路の二重連結）を追加。Editor's Note は openai-node Issue #348（文言の経路に余分な区切り文字1つ）"
+      }
+    ]
   }
 }
