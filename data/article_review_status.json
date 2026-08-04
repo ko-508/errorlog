@@ -876,6 +876,10 @@
       {
         "date": "2026-08-05",
         "note": "新規作成。Cannot connectとpermission deniedを同じ接続経路の別原因として統合。末尾のOSエラーから、接続先、daemon稼働、ソケット権限の順に切り分ける構成。dockerグループの反映、DOCKER_HOST/DOCKER_CONTEXT、RootlessとDocker Desktopのソケット差、sudoで生じる~/.docker所有権、chmod 666の危険を公式資料で照合。Editor's Note は moby/moby #5314、docker/for-linux #1502、docker/cli #5846"
+      },
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Cannot connectとpermission deniedを同じ接続経路の別原因として統合。末尾のOSエラーから、接続先、daemon稼働、ソケット権限の順に切り分ける構成。dockerグループの反映、DOCKER_HOST/DOCKER_CONTEXT、RootlessとDocker Desktopのソケット差、sudoで生じる~/.docker所有権、chmod 666の危険を公式資料で照合。Editor's Note は moby/moby #5314、docker/for-linux #1502、docker/cli #5846"
       }
     ]
   }

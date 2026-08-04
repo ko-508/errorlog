@@ -1,11 +1,11 @@
 ---
 title: "Docker daemon に接続できない：原因と解決策"
-date: 2026-08-05
+date: 2026-08-05T00:00:00+09:00
 description: "Cannot connect と permission denied は同じ接続経路で起きますが、原因は別です。前者は接続先から応答を得られず、後者はソケットへ到達する権限がない状態です。sudoやchmodで隠す前に、接続先・稼働状態・ソケット権限の順で切り分けます。"
 tags: ["Docker"]
 images: ["og/posts/docker_cannot_connect_daemon.png"]
 errorCode: "Cannot connect to the Docker daemon"
-lastmod: 2026-08-05
+lastmod: 2026-08-05T00:00:00+09:00
 service: "Docker"
 error_type: "CannotConnectDaemon"
 components: ["Docker CLI", "dockerd", "Unix socket"]
