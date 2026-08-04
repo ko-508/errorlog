@@ -746,5 +746,16 @@
         "note": "新規作成。exec format errorはDockerの文言ではなくexecveのENOEXECである点を軸に、アーキテクチャ不一致と形式非認識の2系統へ分類。no such file or directory（ENOENT）との読み分けを境界として明示。Docker公式のマルチプラットフォーム文書・BuildKitのトラブルシューティング・execveマニュアル・runc実装を照合。Editor's Note は bootstrapping-microservices #8（M1でビルドしたイメージが配備先で起動せず、手元では再現しない性質）"
       }
     ]
+  },
+  "content/posts/docker_no_space_left_on_device.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "新規作成。『どこが満杯か』を先に確定する構成（ホストのデータ保存先／Docker Desktopの仮想ディスク／コンテナ内）に、json-fileのmax-size既定-1（無制限）とmax-fileの条件付き有効、ボリュームが既定でpruneされない理由、ビルドキャッシュGCの既定方針、共有メモリ既定64MiB、inode枯渇の観点を公式で照合して追加。Editor's Note は docker/for-mac #3529（prune後も仮想ディスクが60GBのまま）と docker/cli #4844（文言が誤解を招く例）"
+      }
+    ]
   }
 }
