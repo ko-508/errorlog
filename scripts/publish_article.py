@@ -19,7 +19,7 @@
   6. 対象記事と検証記録 JSON のみ add してコミット
   7. 許容リストの未コミット変更を stash 退避 → pull --rebase → push → 復元
      （rebase や stash pop の衝突は自動解決せず停止）
-  8. --zenn 指定時は Zenn 同期の完了を待ち、X 投稿用の title/url/hashtags を出力
+  8. --zenn 指定時は Zenn 同期の完了を待ち、X 投稿用のタイトル/URLを出力
 """
 from __future__ import annotations
 
@@ -33,6 +33,11 @@ import sys
 import time
 from datetime import date
 from pathlib import Path
+
+try:
+    from scripts.article_og_image import generate_article_og_image
+except ModuleNotFoundError:
+    from article_og_image import generate_article_og_image
 
 BASE = Path(__file__).resolve().parent.parent
 
@@ -83,7 +88,7 @@ def die(msg: str) -> None:
     sys.exit(1)
 
 
-def parse_frontmatter_for_x_post(text: str) -> tuple[str, list[str]]:
+def parse_frontmatter_for_x_post(text: str) -> tuple[str, list[str], str]:
     if not text.startswith("---\n"):
         die("記事の front matter 開始行が見つかりません。")
     end = text.find("\n---", 4)
@@ -92,6 +97,7 @@ def parse_frontmatter_for_x_post(text: str) -> tuple[str, list[str]]:
 
     title = ""
     tags: list[str] = []
+    service = ""
     for line in text[4:end].splitlines():
         m_title = re.match(r'^title:\s*(.+)\s*$', line)
         if m_title:
@@ -115,29 +121,55 @@ def parse_frontmatter_for_x_post(text: str) -> tuple[str, list[str]]:
             if not all(isinstance(tag, str) and tag for tag in parsed_tags):
                 die("tags には空でない文字列だけを指定してください。")
             tags = parsed_tags
+            continue
+
+        m_service = re.match(r'^service:\s*(.+)\s*$', line)
+        if m_service:
+            try:
+                parsed_service = ast.literal_eval(m_service.group(1))
+            except (SyntaxError, ValueError) as e:
+                die(f"service を解析できませんでした: {e}")
+            if not isinstance(parsed_service, str) or not parsed_service:
+                die("service が空、または文字列ではありません。")
+            service = parsed_service
 
     if not title:
         die("front matter に title がありません。")
     if not tags:
         die("front matter に tags がありません。")
-    return title, tags
+    if not service:
+        die("front matter に service がありません。")
+    return title, tags, service
 
 
-def make_hashtags(tags: list[str]) -> str:
-    hashtags = []
-    for tag in tags:
-        body = re.sub(r"[^\w]", "", tag, flags=re.UNICODE)
-        if not body:
-            die(f"X 投稿用ハッシュタグに変換できないタグがあります: {tag}")
-        hashtags.append(f"#{body}")
-    return " ".join(hashtags)
+def ensure_article_og_image_param(text: str, image_rel: str) -> str:
+    if not text.startswith("---\n"):
+        die("記事の front matter 開始行が見つかりません。")
+    end = text.find("\n---", 4)
+    if end == -1:
+        die("記事の front matter 終了行が見つかりません。")
+
+    fm = text[4:end]
+    body = text[end:]
+    expected = f'images: ["{image_rel}"]'
+    lines = fm.splitlines()
+    for line in lines:
+        if re.match(r"^images:\s*", line):
+            if line.strip() != expected:
+                die(f"front matter の images が想定と違います。既存値を保護するため停止します: {line.strip()}")
+            return text
+
+    for i, line in enumerate(lines):
+        if re.match(r"^tags:\s*", line):
+            lines.insert(i + 1, expected)
+            return "---\n" + "\n".join(lines) + body
+    die("front matter に tags がないため images の挿入位置を決められません。")
 
 
-def print_x_post_fields(slug: str, title: str, tags: list[str]) -> None:
+def print_x_post_fields(slug: str, title: str) -> None:
     print("\nX 投稿用")
-    print(f"title: {title}")
-    print(f"url: {SITE_BASE}/posts/{slug}/")
-    print(f"hashtags: {make_hashtags(tags)}")
+    print(title)
+    print(f"{SITE_BASE}/posts/{slug}/?utm_source=x&utm_medium=social&utm_campaign=article_share")
 
 
 def wait_zenn_workflow(head_sha: str, branch: str) -> None:
@@ -282,7 +314,12 @@ def main() -> None:
 
     # ── 2. 配置確認（目印文字列） ─────────────────────────────────────────
     text = article.read_text(encoding="utf-8")
-    x_title, x_tags = parse_frontmatter_for_x_post(text)
+    x_title, _x_tags, service = parse_frontmatter_for_x_post(text)
+    og_image_rel = generate_article_og_image(args.slug, x_title, service)
+    updated_text = ensure_article_og_image_param(text, og_image_rel)
+    if updated_text != text:
+        article.write_text(updated_text, encoding="utf-8")
+        text = updated_text
     if args.marker not in text:
         die(f"目印文字列が見つかりません: {args.marker}\n旧版のままの可能性があります。")
     if "免責事項：本記事の内容は" not in text:
@@ -328,7 +365,7 @@ def main() -> None:
         msg = f"post: {args.slug} 記事を新規作成（確立済みの型・照合済みソースで執筆）"
     else:
         msg = f"rewrite: {args.slug} 記事を新しい質の型で書き直し"
-    run(["git", "add", "--", rel, REVIEW_STATUS_REL])
+    run(["git", "add", "--", rel, REVIEW_STATUS_REL, f"static/{og_image_rel}"])
     run(["git", "commit", "-m", msg])
     print(f"[5/7] コミット OK: {msg}")
 
@@ -370,7 +407,7 @@ def main() -> None:
         else:
             die("gh CLI がないため Zenn 同期を起動できません。")
 
-    print_x_post_fields(args.slug, x_title, x_tags)
+    print_x_post_fields(args.slug, x_title)
 
 
 if __name__ == "__main__":
