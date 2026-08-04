@@ -845,5 +845,16 @@
         "note": "下書きを現行の質の型で全面書き直しのうえ公開。同じ『過負荷』の文言が429でも返るため状態コードで判別する構成に再編。429ならtypeを読みinsufficient_quotaは待っても直らない点、残量ヘッダーの有無が判別材料になる点、SDKの既定再試行との二重を追加。Editor's Note は elastic PR #103819（500と503が同じ変更でまとめて扱われた意味）"
       }
     ]
+  },
+  "content/posts/openai_api_422.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "下書きを全面差し替えのうえ公開。検証の結果、422はOpenAIのAPIエラー一覧に存在せず定義はクライアントライブラリの区分のみであること、実務で見る422の大半はFastAPI系のOpenAI互換サーバー由来で本文がdetail配列である（error オブジェクトではない）ことを確認したため、『接続先を疑う』構成へ全面転換。下書きの実在しないエラー例（code: invalid_request / invalid_enum_value）を撤去。Editor's Note は oobabooga discussion #4876（例外名はopenaiだが接続先はlocalhost、本文はpydanticのdetail）"
+      }
+    ]
   }
 }

@@ -1,187 +1,235 @@
 ---
-draft: true
 title: "OpenAI API の 422 エラー：原因と解決策"
-date: 2026-05-28
-description: "リクエストの形式は正しいが、含まれているデータの内容が処理できない"
+date: 2026-08-03
+description: "422 は OpenAI の API エラー一覧に載っておらず、定義があるのはクライアントライブラリの区分としてだけです。実際に 422 を返しているのは OpenAI 互換サーバーであることが多く、応答本文の形も違います。まず接続先と本文の形を確認するのが切り分けの起点です。"
 tags: ["OpenAI API"]
+images: ["og/posts/openai_api_422.png"]
 errorCode: "422"
+lastmod: 2026-08-03
 service: "OpenAI API"
 error_type: "422"
-components: []
-related_services: ["Fine-tuning", "JSONL", "Python", "CLI"]
-lastmod: 2026-06-14
+components: ["Client Library", "Compatible Endpoints"]
+related_services: ["Python SDK", "Azure OpenAI Service"]
+trend_incident: false
 ---
+
+## 冒頭まとめ
+
+OpenAI [API](/glossary/api/) の 422 には、他の[コード](/glossary/コード/)と違う特殊な事情があります。**公式の [API](/glossary/api/) [エラー](/glossary/エラー/)一覧に、422 の項目がありません**。401、403、404、429、500、503 には説明がありますが、422 は載っていません。
+
+定義があるのは、公式の[ソフトウェア](/glossary/ソフトウェア/)開発キット側です。ライブラリの[エラー](/glossary/エラー/)区分の表に `UnprocessableEntityError` があり、説明は「形式は正しいにもかかわらず要求を処理できなかった」、対処は「もう一度試すこと」となっています。状態[コード](/glossary/コード/)の対応表でも 422 はこの区分に割り当てられています。
+
+つまり **422 は、[API](/glossary/api/) 側の[エラー](/glossary/エラー/)としてではなく、クライアント側の受け取り方として定義されている**わけです。
+
+これが実務で意味を持ちます。開発キットは、接続先が OpenAI 本体かどうかに関係なく、422 を受け取れば同じ例外を投げます。そして OpenAI 互換をうたう[サーバー](/glossary/サーバー/)の多くは、入力の検証に失敗したとき 422 を返します。
+
+**したがって、422 を見たときに最初に疑うべきは、自分の要求内容ではなく接続先です**。応答本文の形を見れば、どちらが返したかはすぐに分かります。
 
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で422[エラー](/glossary/エラー/)が発生するのは、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、含まれるデータが処理要件を満たしていないときです。特にFine-tuningやチャット補完（Chat Completions）でよく出現する[エラー](/glossary/エラー/)で、OpenAIのバリデーションルールに違反しているため、[サーバー](/glossary/サーバー/)側が処理を拒否した状態を示します。
-
-## 実際のエラーメッセージ例
-
-**Fine-tuningファイルアップロード時の例：**
+OpenAI 本体の[エラー](/glossary/エラー/)応答は、常にこの構造です。
 
 ```json
 {
   "error": {
-    "message": "Unprocessable entity",
+    "message": "...",
     "type": "invalid_request_error",
-    "param": "training_file",
-    "code": "invalid_request"
+    "param": "messages",
+    "code": "..."
   }
 }
 ```
 
-**Chat Completions [API](/glossary/api/)の例：**
+一方、422 を返す互換[サーバー](/glossary/サーバー/)の多くは、次の構造を返します。
 
 ```json
 {
-  "error": {
-    "message": "Invalid value: '/wrong-role/' is not one of 'user', 'assistant', 'system', 'function'",
-    "type": "invalid_request_error",
-    "param": "messages.0.role",
-    "code": "invalid_enum_value"
-  }
+  "detail": [
+    {
+      "type": "string_type",
+      "loc": ["body", "input", "str"],
+      "msg": "Input should be a valid string",
+      "input": [[2149, 87515, 1764, 374]],
+      "url": "https://errors.pydantic.dev/2.5/v/string_type"
+    }
+  ]
 }
 ```
+
+**`error` [オブジェクト](/glossary/オブジェクト/)ではなく `detail` 配列**です。項目の名前もまったく違います。これは、多くの互換[サーバー](/glossary/サーバー/)が特定のフレームワークの上に作られており、その検証機構がこの形式で[エラー](/glossary/エラー/)を返すためです。末尾に検証ライブラリの説明への URL が入る点も特徴的です。
+
+紛らわしいのは、**どちらの場合も開発キットの例外名は同じ**になることです。`UnprocessableEntityError` という名前を見て「OpenAI が返した」と判断してはいけません。
+
+## まず最初に：接続先と本文の形を確認する
+
+第一に、応答本文が `error` か `detail` かを見ます。`detail` 配列であれば、OpenAI 本体ではありません。
+
+第二に、接続先の基点 URL を確認します。設定[ファイル](/glossary/ファイル/)や[環境変数](/glossary/環境変数/)で別の[サーバー](/glossary/サーバー/)を指していないか。
+
+第三に、`detail` があれば、その中の `loc` を読みます。**どの項目が問題かが経路の形で示されます**。
+
+第四に、本体に対して 422 が返っている場合は、公式のライブラリの説明どおり、まず再試行します。
 
 ## よくある原因と解決手順
 
-**原因1：Fine-tuningのJSONL[ファイル形式](/glossary/ファイル形式/)が不正**
+### 原因1：接続先が OpenAI 本体ではない
 
-Fine-tuningに使用するJSONL[ファイル](/glossary/ファイル/)の各行が、OpenAIが定める正しい形式になっていない場合に422[エラー](/glossary/エラー/)が返されます。各行が有効な[JSON](/glossary/json/)形式でなかったり、必須フィールド（messages、completion等）が欠けていたり、不要なフィールドが混在していたりすると、OpenAI側で処理できないと判断されます。
+最も多い形です。開発キットは接続先を差し替えられるため、同じ[コード](/glossary/コード/)のまま別の[サーバー](/glossary/サーバー/)を呼んでいることがあります。
 
-**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
-
-```jsonl
-{"messages": [{"role": "user", "content": "Hello"}], "completion": " Hi there"}
-{"messages": [{"role": "user", "content": "How are you?"}]}
-{"messages": [{"role": "user", "content": "Test"}], "extra_field": "value", "completion": " Good"}
-```
-
-**After（修正後）：**
-
-```jsonl
-{"messages": [{"role": "user", "content": "Hello"}, {"role": "assistant", "content": "Hi there"}]}
-{"messages": [{"role": "user", "content": "How are you?"}, {"role": "assistant", "content": "I'm doing well"}]}
-{"messages": [{"role": "user", "content": "Test"}, {"role": "assistant", "content": "Good"}]}
-```
-
-**原因2：messagesフォーマットにおけるroleの値が不正**
-
-Fine-tuningおよびChat Completions [API](/glossary/api/)では、各メッセージオブジェクトの`role`フィールドが厳密に定義されています。「user_message」「assistant_response」などの独自の値を使用したり、大文字小文字を誤ったりすると422[エラー](/glossary/エラー/)が発生します。許可される値は`user`、`assistant`、`system`、`function`に限定されます。
-
-**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
-
-```python
-response = client.chat.completions.create(
-  model="gpt-4",
-  messages=[
-    {"role": "User", "content": "こんにちは"},
-    {"role": "Assistant_Response", "content": "こんにちは！"}
-  ]
-)
-```
-
-**After（修正後）：**
-
-```python
-response = client.chat.completions.create(
-  model="gpt-4",
-  messages=[
-    {"role": "user", "content": "こんにちは"},
-    {"role": "assistant", "content": "こんにちは！"}
-  ]
-)
-```
-
-**原因3：Fine-tuningのメッセージ数が要件を満たさない**
-
-Fine-tuningでは、各トレーニング例に含まれるメッセージ数に下限があります。少なくとも1つ以上のユーザーメッセージと1つ以上のアシスタントメッセージが必要です。メッセージが空配列だったり、ユーザーまたはアシスタントのいずれかの[ロール](/glossary/ロール/)のメッセージしかない場合、422[エラー](/glossary/エラー/)が返されます。
-
-**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
-
-```python
-training_data = [
-  {"messages": []},  # 空配列
-  {"messages": [{"role": "user", "content": "Hello"}]},  # アシスタントメッセージなし
-]
-
-with open("training.jsonl", "w") as f:
-  for item in training_data:
-    f.write(json.dumps(item) + "\n")
-```
-
-**After（修正後）：**
-
-```python
-training_data = [
-  {"messages": [
-    {"role": "user", "content": "Hello"},
-    {"role": "assistant", "content": "Hi there"}
-  ]},
-  {"messages": [
-    {"role": "user", "content": "How are you?"},
-    {"role": "assistant", "content": "I'm doing well"}
-  ]},
-]
-
-with open("training.jsonl", "w") as f:
-  for item in training_data:
-    f.write(json.dumps(item) + "\n")
-```
-
-**原因4：contentフィールドが空文字列または存在しない**
-
-各メッセージオブジェクトの`content`フィールドが必須です。空文字列、null、または完全に欠落している場合、422[エラー](/glossary/エラー/)が発生します。また、文字列型以外の値（[オブジェクト](/glossary/オブジェクト/)や配列）を渡すことも[エラー](/glossary/エラー/)の原因となります。
-
-**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
-
-```json
-{"messages": [{"role": "user", "content": ""}, {"role": "assistant", "content": "response"}]}
-{"messages": [{"role": "user"}, {"role": "assistant", "content": "response"}]}
-{"messages": [{"role": "user", "content": null}]}
-```
-
-**After（修正後）：**
-
-```json
-{"messages": [{"role": "user", "content": "Hello"}, {"role": "assistant", "content": "Hi"}]}
-{"messages": [{"role": "user", "content": "Question"}, {"role": "assistant", "content": "Answer"}]}
-{"messages": [{"role": "user", "content": "test"}]}
-```
-
-## OpenAI API固有の注意点
-
-OpenAI [API](/glossary/api/)の422[エラー](/glossary/エラー/)は、[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)や利用する[モデル](/glossary/モデル/)によって、[バリデーション](/glossary/バリデーション/)規則が異なります。
-
-**Fine-tuning [API](/glossary/api/)の場合**、JSONL[ファイル](/glossary/ファイル/)の検証はファイルアップロード時に実施されます。`files.create()`で[ファイル](/glossary/ファイル/)を[アップロード](/glossary/アップロード/)する際、[ファイルサイズ](/glossary/ファイルサイズ/)が大きい場合は[バリデーション](/glossary/バリデーション/)がサンプリングで実行されるため、[アップロード](/glossary/アップロード/)直後に422[エラー](/glossary/エラー/)が出ず、後の`fine_tuning.jobs.create()`実行時に発見されることもあります。
-
-**Chat Completions [API](/glossary/api/)の場合**、[モデル](/glossary/モデル/)の[バージョン](/glossary/バージョン/)によってサポートされる[ロール](/glossary/ロール/)値が異なる可能性があります。例えば、`gpt-3.5-turbo`で`system`[ロール](/glossary/ロール/)を使用する場合、特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)では非対応の場合があるため、[API](/glossary/api/)ドキュメントで対象[モデル](/glossary/モデル/)のサポート状況を確認してください。
-
-また、関数呼び出し（Function Calling）を使用する場合、`function`[ロール](/glossary/ロール/)のメッセージに対しては`content`フィールドに加えて`tool_calls`または`function_call`フィールドの構造が厳密に定義されています。これらが不正な形式だと422[エラー](/glossary/エラー/)が発生します。
-
-## それでも解決しない場合
-
-**JSONL[ファイル](/glossary/ファイル/)の妥当性を検証する**
-
-以下の[コマンド](/glossary/コマンド/)でJSONL[ファイル](/glossary/ファイル/)の各行を検証できます：
+該当しやすいのは、推論の提供元を切り替えた場合、手元で動かす推論[サーバー](/glossary/サーバー/)を使っている場合、そして中継の仕組みを挟んでいる場合です。
 
 ```bash
-python3 << 'EOF'
-import json
+# 接続先を確認する
+python3 -c "
+from openai import OpenAI
+print(OpenAI().base_url)
+"
 
-with open("training.jsonl", "r") as f:
-  for i, line in enumerate(f, 1):
-    try:
-      json.loads(line)
-    except json.JSONDecodeError as e:
-      print(f"Line {i}: Invalid JSON - {e}")
-EOF
+# 環境変数で差し替えられていないか
+env | grep -iE 'OPENAI_BASE_URL|OPENAI_API_BASE'
 ```
 
-**OpenAIの公式Fine-tuningドキュメント**を確認し、現在の[バージョン](/glossary/バージョン/)で要求されるJSONL形式の仕様を確認してください。特に「Preparing your dataset」セクションにサンプルファイルが記載されています。
+出力が `https://api.openai.com/v1` でなければ、相手は OpenAI 本体ではありません。**その[サーバー](/glossary/サーバー/)の仕様に合わせる必要があり、OpenAI の文書を読んでも答えは出ません**。
 
-**GitHub Issues**でOpenAI Pythonライブラリの[リポジトリ](/glossary/リポジトリ/)を検索し、同様の422[エラー](/glossary/エラー/)に関する報告がないか確認してください。既知の問題や回避策が記載されている可能性があります。
+### 原因2：detail 配列を読んでいない
+
+互換[サーバー](/glossary/サーバー/)由来だと分かったら、`detail` の中身が原因を示しています。読むべき項目は3つです。
+
+`loc` は問題のある位置を配列で示します。`["body", "input", "str"]` であれば、要求本文の `input` という項目が文字列であるべきだった、という意味です。`msg` は理由、`type` は検証の種別です。
+
+```bash
+# detail の中身だけを取り出す
+curl -sS <接続先>/v1/embeddings \
+  -H "Content-Type: application/json" \
+  -d '{"model":"...","input":"test"}' \
+  | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+for x in d.get('detail', []):
+    print(' -> '.join(map(str, x.get('loc', []))), '|', x.get('msg'))
+"
+```
+
+**OpenAI 本体の `param` に相当するのが `loc`** だと考えれば、読み方は同じです。位置が分かれば、直す場所も決まります。
+
+### 原因3：「互換」は形式が同じであって仕様が同じではない
+
+見落とされやすい点です。互換をうたう[サーバー](/glossary/サーバー/)は、要求の形式を合わせていますが、受け付ける値の範囲まで一致しているとは限りません。
+
+代表的なのが埋め込みの入力です。OpenAI 本体は文字列のほかに[トークン](/glossary/トークン/)の配列も受け付けますが、互換[サーバー](/glossary/サーバー/)が文字列しか受け付けない場合、[トークン](/glossary/トークン/)の配列を渡した時点で検証に失敗します。
+
+**Before（本体向けの実装をそのまま向ける）：**
+
+```python
+client = OpenAI(base_url="http://localhost:5001/v1", api_key="dummy")
+client.embeddings.create(model="...", input=[[2149, 87515, 1764]])  # トークン配列
+```
+
+**After（相手が受け付ける形に合わせる）：**
+
+```python
+client.embeddings.create(model="...", input="埋め込みたい文字列")
+```
+
+上位の枠組みを使っている場合、[トークン](/glossary/トークン/)の配列を送るかどうかは設定で変えられることがあります。**要求を組み立てているのが自分ではなく枠組みの側**である点に注意してください。
+
+### 原因4：OpenAI 本体から 422 が返った場合
+
+まれですが、この場合の対処は公式に示されています。ライブラリの[エラー](/glossary/エラー/)区分の説明は「形式は正しいのに処理できなかった」であり、対処は**もう一度試すこと**です。
+
+400 とは扱いが違います。400 は内容を直さなければ何度送っても同じですが、422 の説明には再試行が明記されています。開発キットの自動再試行の対象には含まれていないため、必要なら自分で1回試すことになります。
+
+続く場合は、要求の識別子を控えて問い合わせてください。
+
+### 原因5：例外名で発生源を判断している
+
+対処ではなく、切り分けの問題です。`UnprocessableEntityError` は開発キットが状態[コード](/glossary/コード/)から機械的に決めた名前であり、**誰が返したかの情報を含みません**。
+
+同様に、`openai` という名前が付いた例外が出たからといって、OpenAI と通信しているとは限りません。多くの道具が、互換[エンドポイント](/glossary/エンドポイント/)に対して同じ開発キットを使っています。
+
+判断材料は例外名ではなく、応答本文の形と接続先の URL です。
+
+## 補足：似ているが別のもの
+
+OpenAI 本体で入力の検証に失敗した場合は 400 です。`param` に問題の項目、`code` に種別が入ります（[OpenAI API の 400 の記事](/posts/openai_api_400/)）。**本体で内容の問題なら 400、422 ではない**、と押さえておくと切り分けが速くなります。
+
+経路そのものが存在しない場合は 404 です。互換[サーバー](/glossary/サーバー/)では、対応していない[エンドポイント](/glossary/エンドポイント/)を呼ぶとこちらになります（[OpenAI API の 404 の記事](/posts/openai_api_404/)）。
+
+[認証](/glossary/認証/)の失敗は 401 です。互換[サーバー](/glossary/サーバー/)では鍵の検証をしていないことも多く、適当な値でも通る場合があります（[OpenAI API の 401 の記事](/posts/openai_api_401/)）。
+
+Azure 経由の場合も、[エラー](/glossary/エラー/)の形式や検証の仕組みが別系統です。本記事の内容がそのまま当てはまるとは限りません。
+
+## 切り分けの順序
+
+1. 応答本文が `error` か `detail` かを見る。`detail` なら OpenAI 本体ではない。
+2. 接続先の基点 URL を確認する。差し替えられていないか。
+3. 互換[サーバー](/glossary/サーバー/)なら、`loc` を読んで問題の項目を特定する。
+4. その[サーバー](/glossary/サーバー/)が受け付ける値の範囲を確認する。形式が同じでも仕様は違う。
+5. 要求を組み立てているのが自分か枠組みかを確認する。
+6. 本体から返っている場合は、まず1回再試行する。
+7. 例外名で発生源を判断しない。名前は状態[コード](/glossary/コード/)から機械的に決まる。
+8. 内容の問題で本体から返るのは 400。422 なら前提を疑う。
+
+## 確認コマンド集
+
+```bash
+# 1. 接続先を確認する（最重要）
+python3 -c "
+from openai import OpenAI
+c = OpenAI()
+print('base_url:', c.base_url)
+"
+
+# 2. 環境変数で差し替えられていないかを確認する
+env | grep -iE 'OPENAI_BASE_URL|OPENAI_API_BASE|OPENAI_API_TYPE'
+
+# 3. 応答本文の形を確認する（error か detail か）
+curl -sS <接続先>/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{"model":"<モデル>","messages":[{"role":"user","content":"hi"}]}' | head -c 300
+
+# 4. detail の中身を読みやすく取り出す
+curl -sS <接続先>/v1/embeddings \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -d '{"model":"<モデル>","input":"test"}' \
+  | python3 -c "
+import json,sys
+d = json.load(sys.stdin)
+if 'detail' in d:
+    for x in d['detail']:
+        print('loc:', ' -> '.join(map(str, x.get('loc', []))))
+        print('msg:', x.get('msg'), '| type:', x.get('type'))
+else:
+    print('error オブジェクト形式:', d.get('error'))
+"
+
+# 5. 例外の中身をそのまま確認する
+python3 -c "
+from openai import OpenAI
+import openai
+try:
+    OpenAI().embeddings.create(model='text-embedding-3-small', input='test')
+except openai.APIStatusError as e:
+    print(type(e).__name__, e.status_code)
+    print(e.body)
+"
+```
+
+## Editor's Note
+
+例外の名前が、発生源を誤解させることがあります。それを示す記録があります（[Openai API - OpenAIEmbeddings: UnprocessableEntityError](https://github.com/oobabooga/text-generation-webui/discussions/4876)）。
+
+2023年12月、ある利用者が埋め込みの取得で `UnprocessableEntityError` に遭遇しました。例外の名前には `openai` が付いています。しかし、貼られている内容を読むと事情が違いました。
+
+まず接続先です。要求先は `http://localhost:5001/v1/embeddings`、つまり**手元で動かしている推論[サーバー](/glossary/サーバー/)**でした。次に応答本文です。`error` [オブジェクト](/glossary/オブジェクト/)ではなく `detail` 配列で、各要素に `type`、`loc`、`msg`、そして検証ライブラリの説明ページへの URL が入っています。
+
+内容も具体的でした。`loc` は要求本文の `input` を指し、`msg` は文字列であるべきだと述べています。そして `input` の値として記録されているのは、数値の配列——[トークン](/glossary/トークン/)に変換済みの入力でした。上位の枠組みが OpenAI 本体向けに[トークン](/glossary/トークン/)の配列を送っていたのに対し、手元の[サーバー](/glossary/サーバー/)は文字列しか受け付けなかったわけです。
+
+ここに、この[エラー](/glossary/エラー/)の構造が凝縮されています。**例外の名前は開発キットが付けたもの、[エラー](/glossary/エラー/)の中身は相手の[サーバー](/glossary/サーバー/)が作ったもの**。この2つの出どころが違うことを知らないと、OpenAI の文書を延々と読むことになります。
+
+422 を受け取ったら、まず接続先を確認してください。`error` か `detail` か。その1点で、読むべき文書がどこにあるかが決まります。
 
 ---
 
