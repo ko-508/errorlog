@@ -19,14 +19,18 @@
   6. 対象記事と検証記録 JSON のみ add してコミット
   7. 許容リストの未コミット変更を stash 退避 → pull --rebase → push → 復元
      （rebase や stash pop の衝突は自動解決せず停止）
+  8. --zenn 指定時は Zenn 同期の完了を待ち、X 投稿用の title/url/hashtags を出力
 """
 from __future__ import annotations
 
 import argparse
+import ast
 import json
+import re
 import shutil
 import subprocess
 import sys
+import time
 from datetime import date
 from pathlib import Path
 
@@ -37,6 +41,7 @@ ALLOWED_DIRTY = [
     "CLAUDE.md",
     ".github/workflows/weekly_ga4.yml",
     "scripts/fetch_search_console.py",
+    "scripts/publish_article.py",
     "scripts/weekly_report.py",
 ]
 
@@ -47,6 +52,7 @@ LINT_REPORTS = [
 ]
 
 REVIEW_STATUS_REL = "data/article_review_status.json"
+SITE_BASE = "https://errorlog.jp"
 
 
 def run(cmd: list[str], check: bool = True, capture: bool = True) -> subprocess.CompletedProcess:
@@ -75,6 +81,96 @@ def git_dirty_files() -> set[str]:
 def die(msg: str) -> None:
     print(f"\n[停止] {msg}")
     sys.exit(1)
+
+
+def parse_frontmatter_for_x_post(text: str) -> tuple[str, list[str]]:
+    if not text.startswith("---\n"):
+        die("記事の front matter 開始行が見つかりません。")
+    end = text.find("\n---", 4)
+    if end == -1:
+        die("記事の front matter 終了行が見つかりません。")
+
+    title = ""
+    tags: list[str] = []
+    for line in text[4:end].splitlines():
+        m_title = re.match(r'^title:\s*(.+)\s*$', line)
+        if m_title:
+            try:
+                parsed_title = ast.literal_eval(m_title.group(1))
+            except (SyntaxError, ValueError) as e:
+                die(f"title を解析できませんでした: {e}")
+            if not isinstance(parsed_title, str) or not parsed_title:
+                die("title が空、または文字列ではありません。")
+            title = parsed_title
+            continue
+
+        m_tags = re.match(r'^tags:\s*(\[.+\])\s*$', line)
+        if m_tags:
+            try:
+                parsed_tags = ast.literal_eval(m_tags.group(1))
+            except (SyntaxError, ValueError) as e:
+                die(f"tags を解析できませんでした: {e}")
+            if not isinstance(parsed_tags, list) or not parsed_tags:
+                die("tags が空、または配列ではありません。")
+            if not all(isinstance(tag, str) and tag for tag in parsed_tags):
+                die("tags には空でない文字列だけを指定してください。")
+            tags = parsed_tags
+
+    if not title:
+        die("front matter に title がありません。")
+    if not tags:
+        die("front matter に tags がありません。")
+    return title, tags
+
+
+def make_hashtags(tags: list[str]) -> str:
+    hashtags = []
+    for tag in tags:
+        body = re.sub(r"[^\w]", "", tag, flags=re.UNICODE)
+        if not body:
+            die(f"X 投稿用ハッシュタグに変換できないタグがあります: {tag}")
+        hashtags.append(f"#{body}")
+    return " ".join(hashtags)
+
+
+def print_x_post_fields(slug: str, title: str, tags: list[str]) -> None:
+    print("\nX 投稿用")
+    print(f"title: {title}")
+    print(f"url: {SITE_BASE}/posts/{slug}/")
+    print(f"hashtags: {make_hashtags(tags)}")
+
+
+def wait_zenn_workflow(head_sha: str, branch: str) -> None:
+    run_id = ""
+    for _ in range(30):
+        listed = run([
+            "gh", "run", "list",
+            "--workflow", "zenn_sync.yml",
+            "--branch", branch,
+            "--event", "workflow_dispatch",
+            "--json", "databaseId,headSha,status,conclusion",
+            "--limit", "20",
+        ], check=False)
+        if listed.returncode != 0:
+            die(f"Zenn 同期 run の確認に失敗しました。\n{listed.stdout}\n{listed.stderr}")
+        try:
+            runs = json.loads(listed.stdout)
+        except json.JSONDecodeError as e:
+            die(f"Zenn 同期 run の一覧を JSON として解析できませんでした: {e}\n{listed.stdout}")
+        for item in runs:
+            if item.get("headSha") == head_sha:
+                run_id = str(item.get("databaseId", ""))
+                break
+        if run_id:
+            break
+        time.sleep(2)
+
+    if not run_id:
+        die(f"Zenn 同期 run が見つかりませんでした。branch={branch}, head={head_sha}")
+
+    watched = run(["gh", "run", "watch", run_id, "--exit-status"], check=False, capture=False)
+    if watched.returncode != 0:
+        die(f"Zenn 同期 run が失敗しました。run_id={run_id}")
 
 
 def normalize_review_status(data: dict) -> dict:
@@ -186,6 +282,7 @@ def main() -> None:
 
     # ── 2. 配置確認（目印文字列） ─────────────────────────────────────────
     text = article.read_text(encoding="utf-8")
+    x_title, x_tags = parse_frontmatter_for_x_post(text)
     if args.marker not in text:
         die(f"目印文字列が見つかりません: {args.marker}\n旧版のままの可能性があります。")
     if "免責事項：本記事の内容は" not in text:
@@ -256,14 +353,24 @@ def main() -> None:
         if pp.returncode != 0:
             die(f"stash pop で競合しました。自動解決はしません。手動で確認してください。\n{pp.stdout}\n{pp.stderr}")
     head = run(["git", "rev-parse", "--short", "HEAD"]).stdout.strip()
+    head_full = run(["git", "rev-parse", "HEAD"]).stdout.strip()
+    branch = run(["git", "rev-parse", "--abbrev-ref", "HEAD"]).stdout.strip()
     print(f"[7/7] push OK: {head}")
 
     if args.zenn:
+        if branch == "HEAD":
+            die("detached HEAD のため Zenn 同期 run を特定できません。通常のブランチ上で実行してください。")
         if shutil.which("gh"):
-            z = run(["gh", "workflow", "run", "zenn_sync.yml", "-f", f"slugs={args.slug}"], check=False)
-            print("Zenn 同期を起動しました" if z.returncode == 0 else f"Zenn 同期の起動に失敗: {z.stderr}")
+            z = run(["gh", "workflow", "run", "zenn_sync.yml", "--ref", branch, "-f", f"slugs={args.slug}"], check=False)
+            if z.returncode != 0:
+                die(f"Zenn 同期の起動に失敗しました。\n{z.stdout}\n{z.stderr}")
+            print("Zenn 同期を起動しました。完了を待ちます。")
+            wait_zenn_workflow(head_full, branch)
+            print("Zenn 同期が完了しました")
         else:
-            print("gh CLI がないため Zenn 同期はスキップ（Actions から手動起動してください）")
+            die("gh CLI がないため Zenn 同期を起動できません。")
+
+    print_x_post_fields(args.slug, x_title, x_tags)
 
 
 if __name__ == "__main__":
