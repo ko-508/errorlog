@@ -713,5 +713,16 @@
         "note": "新規作成。details.causesのfieldとreasonを読む構成に、400との境界（未知フィールド・重複・型違いはStrictでも422ではなく400、kubectl既定は--validate=true）を軸として追加。field is immutableはFieldValueInvalidとして返る点、kubectlがInvalidだけ専用整形しError from serverの形にならない点を実装で確認。公式2本＋実装6本＋実事例1本。Editor's Note は quarkus Issue #39180（code=422の応答構造がそのまま載っている実例）"
       }
     ]
+  },
+  "content/posts/aws_elb_504.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "新規作成。既存aws_504（top_queriesにelb 504を保持）との共食いを避け、切り口を『誰が返した504か』の判定に特化。target_status_codeが-かどうか、target_processing_time=-1の条件、ELB生成とターゲット由来の指標の使い分けを公式のフィールド定義で照合。NACLの戻り方向・Content-Length不一致・Lambdaの502境界を追加。Editor's Note は bun Issue #12446（同じ設定不整合が502と504の両方を生む板挟み）"
+      }
+    ]
   }
 }
