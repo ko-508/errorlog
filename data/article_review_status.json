@@ -790,5 +790,16 @@
         "note": "下書きを現行の質の型で全面書き直しのうえ公開。paramとcodeを読む構成に再編し、unsupported_parameter／unsupported_value／context_length_exceededの3系統で対処を分けた。下書きの誤り（モデル名の誤りが400）を訂正し、model_not_foundは404である点を境界として明示。context_length_exceededは出力側の指定も合計に含まれる点を追加。Editor's Note は home-assistant #137039（設定を空にしても既定値150が送られ続ける）と openai-python #2046"
       }
     ]
+  },
+  "content/posts/openai_api_403.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "下書きを現行の質の型で全面書き直しのうえ公開。下書きは403の例として429(insufficient_quota)と404(model_not_found)を挙げ、原因3つもすべて別コードの話だったため全面訂正。公式一覧で403として定義されるのは地域の非対応のみである点、typeがrequest_forbiddenという別系統になる点、判定対象が送信元IPの地理判定である点を軸に再構成。応答がJSONでない場合はAPI層に届いていない境界も追加。Editor's Note は公式コミュニティの相談（提供元窓口がIP共有を求め誤判定を認め修正した記録）"
+      }
+    ]
   }
 }
