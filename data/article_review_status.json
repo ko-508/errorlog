@@ -856,5 +856,16 @@
         "note": "下書きを全面差し替えのうえ公開。検証の結果、422はOpenAIのAPIエラー一覧に存在せず定義はクライアントライブラリの区分のみであること、実務で見る422の大半はFastAPI系のOpenAI互換サーバー由来で本文がdetail配列である（error オブジェクトではない）ことを確認したため、『接続先を疑う』構成へ全面転換。下書きの実在しないエラー例（code: invalid_request / invalid_enum_value）を撤去。Editor's Note は oobabooga discussion #4876（例外名はopenaiだが接続先はlocalhost、本文はpydanticのdetail）"
       }
     ]
+  },
+  "content/posts/kubernetes_evicted.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Evictedはノード側の閾値超過が原因で、文言に並ぶ使用量とrequestは選定過程の記録にすぎない点を軸に据えた。既定のハード閾値（Windows含む）、inode/PIDの枯渇、Pod選択順と品質区分の注記、OOMKilledとの違い（再起動されるか・増え方の速さで分かれ得る点）、終了済みPodの保持数既定12500を公式と実装で照合。Editor's Note は kubernetes/kubernetes #111553 と #130439（3年を隔てた同構造の指摘）"
+      }
+    ]
   }
 }
