@@ -893,5 +893,16 @@
         "note": "新規作成。Permission denied (publickey)をリポジトリ権限ではなくSSH認証前段の失敗として整理。ssh -vTのOffering public keyを境に、鍵未提示・別鍵提示・GitHub未登録・agent署名失敗を分岐。git利用者固定、複数アカウント、GitHub Desktop・IDE・WSL・CIのSSH経路差、秘密鍵権限、古い鍵形式、SSO・Deploy keyとの境界、443番ポート回避を公式資料で照合。Editor's Note は desktop/desktop #7337 と #16875（CLIとGUI・system OpenSSHで同じ鍵が同じようには扱われない記録）"
       }
     ]
+  },
+  "content/posts/kubernetes_containercreating.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。ContainerCreatingは根本原因ではなくkubectlの表示用要約、FailedMountはマウント試行のイベントである点を軸に統合。PodScheduled、最新イベント、ボリューム名を起点に、Secret・ConfigMap、PVC・PV・StorageClass、CSI登録、FailedAttachVolume・Multi-Attach、rpc error・mount出力、kubeletのキャッシュ同期、再試行後の成功、イメージ・CNI系を順に切り分け。既定のEvent保持時間1時間、WaitForFirstConsumer、ReadWriteOnceとReadWriteOncePodの違い、強制detachの危険も注記。Editor's Noteは kubernetes/kubernetes #42867、#99475、#109451 とPR #43852（現在の要約と過去の試行記録が混在する構造）"
+      }
+    ]
   }
 }
