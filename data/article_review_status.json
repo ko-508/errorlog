@@ -867,5 +867,16 @@
         "note": "新規作成。Evictedはノード側の閾値超過が原因で、文言に並ぶ使用量とrequestは選定過程の記録にすぎない点を軸に据えた。既定のハード閾値（Windows含む）、inode/PIDの枯渇、Pod選択順と品質区分の注記、OOMKilledとの違い（再起動されるか・増え方の速さで分かれ得る点）、終了済みPodの保持数既定12500を公式と実装で照合。Editor's Note は kubernetes/kubernetes #111553 と #130439（3年を隔てた同構造の指摘）"
       }
     ]
+  },
+  "content/posts/docker_cannot_connect_daemon.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Cannot connectとpermission deniedを同じ接続経路の別原因として統合。末尾のOSエラーから、接続先、daemon稼働、ソケット権限の順に切り分ける構成。dockerグループの反映、DOCKER_HOST/DOCKER_CONTEXT、RootlessとDocker Desktopのソケット差、sudoで生じる~/.docker所有権、chmod 666の危険を公式資料で照合。Editor's Note は moby/moby #5314、docker/for-linux #1502、docker/cli #5846"
+      }
+    ]
   }
 }
