@@ -882,5 +882,16 @@
         "note": "新規作成。Cannot connectとpermission deniedを同じ接続経路の別原因として統合。末尾のOSエラーから、接続先、daemon稼働、ソケット権限の順に切り分ける構成。dockerグループの反映、DOCKER_HOST/DOCKER_CONTEXT、RootlessとDocker Desktopのソケット差、sudoで生じる~/.docker所有権、chmod 666の危険を公式資料で照合。Editor's Note は moby/moby #5314、docker/for-linux #1502、docker/cli #5846"
       }
     ]
+  },
+  "content/posts/github_permission_denied_publickey.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Permission denied (publickey)をリポジトリ権限ではなくSSH認証前段の失敗として整理。ssh -vTのOffering public keyを境に、鍵未提示・別鍵提示・GitHub未登録・agent署名失敗を分岐。git利用者固定、複数アカウント、GitHub Desktop・IDE・WSL・CIのSSH経路差、秘密鍵権限、古い鍵形式、SSO・Deploy keyとの境界、443番ポート回避を公式資料で照合。Editor's Note は desktop/desktop #7337 と #16875（CLIとGUI・system OpenSSHで同じ鍵が同じようには扱われない記録）"
+      }
+    ]
   }
 }
