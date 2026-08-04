@@ -26,6 +26,7 @@ except ImportError:
 POSTS_DIR    = Path("content/posts")
 REQUIRED     = {"title", "date", "description", "tags"}
 DATE_RE      = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+DATETIME_RE  = re.compile(r"^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}(Z|[+-]\d{2}:\d{2})$")
 FM_RE        = re.compile(r"^---\r?\n(.+?)\r?\n---", re.DOTALL)
 CONTROL_RE   = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")  # タブ・改行を除く制御文字
 MOJIBAKE_HALFKATA_RE = re.compile(r"[\uff61-\uff9f]")
@@ -78,7 +79,7 @@ def validate(path: Path) -> list[str]:
         val = fm.get(date_field)
         if val is not None:
             date_str = str(val)
-            if not DATE_RE.match(date_str):
+            if not DATE_RE.match(date_str) and not DATETIME_RE.match(date_str):
                 errors.append(f"{path.name}: '{date_field}' の形式が不正: {date_str!r}")
 
     # 6. 文字列フィールドへの制御文字混入
