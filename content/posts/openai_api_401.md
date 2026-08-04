@@ -1,29 +1,40 @@
 ---
-draft: true
 title: "OpenAI API の 401 エラー：原因と解決策"
-date: 2026-05-24
-description: "OpenAI APIで401エラーが返される場合、リクエストの認証に失敗したことを意味します。これは提供されたAPIキーが無効、期限切れ、または不正な形式であることを示しており、APIサーバーがクライアントの身元を確認できない状態です。"
+date: 2026-08-03
+description: "OpenAI API の 401 は、公式が4種類に分けています。キーの誤りだけでなく、組織やプロジェクトの不一致、エンドポイントに必要な権限の不足、IP 許可リストとの不一致も同じ 401 です。後者3つはキーを作り直しても直りません。文言に出る伏字のキーは、実際に送られたキーです。"
 tags: ["OpenAI API"]
+images: ["og/posts/openai_api_401.png"]
 errorCode: "401"
-lastmod: 2026-05-31
+lastmod: 2026-08-03
 service: "OpenAI API"
 error_type: "401"
-components: []
-related_services: ["OpenAI ダッシュボード"]
+components: ["Authentication", "API Keys"]
+related_services: ["Python SDK", "Admin API"]
+trend_incident: false
 top_queries:
 - 'gpt 401'
 ---
 
+## 冒頭まとめ
+
+OpenAI [API](/glossary/api/) の 401 は、[認証](/glossary/認証/)に失敗したことを示します。ただし「キーが間違っている」だけを意味するわけではありません。
+
+公式の[エラー](/glossary/エラー/)一覧を見ると、401 は**4種類に分けて説明されています**。認証情報が無効な場合、送ったキーが正しくない場合、[アカウント](/glossary/アカウント/)が組織に所属していない場合、そして**要求元の IP が許可リストに一致しない場合**です。
+
+重要なのは、**このうち3つはキーを作り直しても直らない**ことです。認証情報が無効な場合の説明には、失効したキーを使っている、要求先の組織やプロジェクトに割り当てられたものとは別のキーを使っている、そして**呼び出しているエンドポイントに必要な権限をキーが持っていない**、という3つの原因が挙げられています。キーそのものは有効でも、宛先や権限が合っていなければ 401 です。
+
+もう1つ、切り分けを一気に進める性質があります。「Incorrect API key provided」の文言には、**実際に送られたキーが伏字付きで入ります**。これを自分のキーと突き合わせて、一致しないなら、調べるべきはキーではなく**そのキーを送っている場所**です。
+
+したがって最初にやることは、文言がどの種類かを見分けることです。
+
 ## エラーの概要
 
-OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返される場合、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)に失敗したことを意味します。これは提供された[API](/glossary/api/)キーが無効、期限切れ、または不正な形式であることを示しており、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が[クライアント](/glossary/クライアント/)の身元を確認できない状態です。OpenAI [API](/glossary/api/)を使用するほぼすべての[アプリケーション](/glossary/アプリケーション/)で発生する可能性があり、特に初期設定時や[環境変数](/glossary/環境変数/)の変更後に頻出します。
-
-## 実際のエラーメッセージ例
+キーが正しくない場合の応答は、この形になります。
 
 ```json
 {
   "error": {
-    "message": "Incorrect API key provided. You passed sk-..., but an API key should start with 'sk-' and contain 48 characters.",
+    "message": "Incorrect API key provided: sk-Eyftb***************************************99vW. You can find your API key at https://platform.openai.com/account/api-keys.",
     "type": "invalid_request_error",
     "param": null,
     "code": "invalid_api_key"
@@ -31,172 +42,179 @@ OpenAI [API](/glossary/api/)で401[エラー](/glossary/エラー/)が返され�
 }
 ```
 
-```bash
-curl https://api.openai.com/v1/chat/completions \
-  -H "Authorization: Bearer sk-invalid" \
-  -H "Content-Type: application/json" \
-  -d '{"model": "gpt-4", "messages": [{"role": "user", "content": "Hello"}]}'
+`message` の中の伏字部分に注目してください。先頭と末尾の数文字が見えています。**これは[サーバー](/glossary/サーバー/)が受け取ったキー**なので、自分が設定したつもりのキーと照合できます。
 
-# レスポンス:
-# {"error":{"message":"Incorrect API key provided...","type":"invalid_request_error","code":"invalid_api_key"}}
+[プログラム](/glossary/プログラム/)から呼んでいる場合、公式の[ソフトウェア](/glossary/ソフトウェア/)開発キットでは `AuthenticationError` として現れます。公式の説明は、キーまたはトークンが無効・期限切れ・失効している、というものです。
+
+文言は主に次の4種類に分かれます。この判別が切り分けの起点になります。
+
+```text
+Invalid Authentication                            → 宛先か権限の不一致
+Incorrect API key provided: sk-...                → 送られたキーそのものが違う
+You must be a member of an organization to use the API → 組織への所属が無い
+IP not authorized                                 → 許可リストとの不一致
 ```
+
+## まず最初に：文言を4つに振り分ける
+
+第一に、文言に伏字のキーが含まれているかを見ます。含まれていれば、それが実際に送られたキーです。
+
+第二に、そのキーの先頭と末尾を、自分が使っているつもりのキーと突き合わせます。**違っていれば、キーの正しさを確認する作業は無意味**です。送信元を探す段階に移ります。
+
+第三に、一致しているなら、宛先と権限を疑います。組織やプロジェクトが意図したものか、そのエンドポイントを呼べる権限があるか。
+
+第四に、IP に関する文言であれば、許可リストの設定を確認します。この場合、キーは完全に正しくても通りません。
 
 ## よくある原因と解決手順
 
-### 原因1：APIキーが正しくコピーされていない
+### 原因1：意図しないキーが送られている
 
-OpenAI [ダッシュボード](/glossary/ダッシュボード/)からコピーした[API](/glossary/api/)キーに含まれる空白文字や改行が混在すると、[認証](/glossary/認証/)に失敗します。また、キーの一部だけをコピーすることも考えられます。
+最も多く、そして最も気付きにくい形です。公式にも、古い失効済みのキーが手元に残っている場合がある、と挙げられています。
 
-**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
-```python
-import openai
+公式の開発キットは、明示的に指定しなければ[環境変数](/glossary/環境変数/)からキーを読みます。したがって、設定[ファイル](/glossary/ファイル/)に正しいキーを書いていても、**[環境変数](/glossary/環境変数/)側に古いキーが残っていればそちらが使われます**。
 
-# ダッシュボードからのコピー時に空白が含まれている
-openai.api_key = "sk-proj-abc123... "  # 末尾に空白がある
+**Before（設定ファイルだけを確認する）：**
 
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello"}]
-)
-```
-
-**After（修正後）：**
-```python
-import openai
-
-# .strip()で前後の空白を削除
-api_key = "sk-proj-abc123def456ghi789".strip()
-openai.api_key = api_key
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello"}]
-)
-```
-
-### 原因2：環境変数が正しく設定されていない
-
-.env[ファイル](/glossary/ファイル/)や[環境変数](/glossary/環境変数/)の設定で、OPENAI_[API](/glossary/api/)_KEYが指定されていないか、間違った値が保存されている場合があります。
-
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
 ```bash
-# .env ファイル（間違い例）
-OPENAI_API_KEY=sk-proj-  # 不完全
-# または環境変数が設定されていない
+cat .env.local | grep OPENAI_API_KEY   # 正しいキーが書いてある
+python app.py                          # それでも 401
 ```
 
-**After（修正後）：**
+**After（実際に読まれている値を確認する）：**
+
 ```bash
-# .env ファイル（正しい例）
-OPENAI_API_KEY=<your-api-key>
+# シェルの環境変数に古い値が残っていないか
+echo "${OPENAI_API_KEY:0:8}...${OPENAI_API_KEY: -4}"
 
-# または実行時に確認
-export OPENAI_API_KEY="<your-api-key>"
-echo $OPENAI_API_KEY  # 値が表示されることを確認
+# プログラムから見た値を確認する
+python3 -c "
+import os
+k = os.environ.get('OPENAI_API_KEY', '')
+print('env:', k[:8] + '...' + k[-4:] if k else '(未設定)')
+"
 ```
 
-### 原因3：APIキーが有効期限切れまたは削除されている
+[エラー](/glossary/エラー/)文言の伏字と、ここで出た先頭・末尾が一致すれば、犯人は[環境変数](/glossary/環境変数/)です。一致しなければ、[プログラム](/glossary/プログラム/)内の直書き、設定管理の仕組み、あるいは中継の[プロキシ](/glossary/プロキシ/)が別のキーを差し込んでいます。
 
-OpenAI [ダッシュボード](/glossary/ダッシュボード/)からキーを手動で削除したり、組織の管理者が無効化した場合、そのキーでの[リクエスト](/glossary/リクエスト/)は401で拒否されます。
+なお、キーの前後に空白や改行が混ざっている場合も同じ[エラー](/glossary/エラー/)になります。公式にも、打ち間違いや余分な空白が原因になり得ると書かれています。設定[ファイル](/glossary/ファイル/)からの読み込みでは、末尾の改行が残りやすい点に注意してください。
 
-**Before（[エラー](/glossary/エラー/)が起きる状況）：**
-```javascript
-// 以前作成したキーを使用している
-const apiKey = "sk-proj-oldkey123"; // ダッシュボードで削除済み
+### 原因2：キーは有効だが、組織やプロジェクトが違う
 
-const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        model: "gpt-4",
-        messages: [{ role: "user", content: "Hello" }]
-    })
-});
+公式の説明に、要求先の組織やプロジェクトに割り当てられたものとは別のキーを使っている場合、と明記されています。
+
+現在のキーはプロジェクトに紐づきます。一方、対象の資源（アシスタント、ファイル、微調整済みモデルなど）も特定のプロジェクトに属します。**この2つがずれていると、キーが有効でも 401 です**。
+
+```bash
+# 明示的に組織とプロジェクトを指定して切り分ける
+curl -sS https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "OpenAI-Organization: org-xxxx" \
+  -H "OpenAI-Project: proj_xxxx"
 ```
 
-**After（修正後）：**
-```javascript
-// OpenAI ダッシュボード (https://platform.openai.com/account/api-keys) で
-// 新しいAPIキーを生成し使用する
-const apiKey = "sk-proj-newkey456"; // 新規生成したキー
+指定を変えて結果が変わるなら、この形です。公式も、キーと組織 ID を要求[ヘッダー](/glossary/ヘッダー/)で正しく指定するよう案内しており、プロジェクト固有のキーは設定画面で対象プロジェクトを選んで確認できると説明しています。
 
-const response = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        model: "gpt-4",
-        messages: [{ role: "user", content: "Hello" }]
-    })
-});
+### 原因3：エンドポイントに必要な権限がない
 
-const data = await response.json();
-console.log(data);
+公式の説明の3つ目です。呼び出そうとしているエンドポイントに対して、キーが必要な権限を持っていない場合も 401 になります。
+
+とくに管理系の[API](/glossary/api/) で起こります。通常のキーで組織の管理用エンドポイントを呼ぶと、権限不足として拒否されます。この場合、キーの再発行では解決しません。**必要なのは、そのエンドポイント向けの種別のキー**です。
+
+キーには読み取り専用などの制限を設定できるため、書き込み系の操作だけが失敗する、という形でも現れます。読み取りは通るのに作成だけ 401、という状況ならこれを疑ってください。
+
+### 原因4：IP が許可リストに一致しない
+
+公式に「IP not authorized」として明記されている原因です。要求元の IP が、プロジェクトまたは組織に設定された許可リストと一致しない場合に返ります。
+
+この形は、手元では通るのに配備先で失敗する、という現れ方をします。**キーも組織も権限もすべて正しいため、いくら確認しても原因に辿り着きません**。
+
+疑うべき状況は明確です。配備先を変えた、実行環境の外向き IP が変わった、あるいは組織側で許可リストが新たに設定された。これらの心当たりがあれば、まず設定を確認してください。
+
+自動で台数が増える構成や、外向き IP が固定されていない環境では、許可リストの運用自体を見直す必要があります。
+
+### 原因5：組織に所属していない
+
+公式が独立した項目として挙げている原因です。[アカウント](/glossary/アカウント/)がどの組織にも属していない場合に返ります。
+
+原因として、以前の組織から退出したか外された、プロジェクトから外された、組織自体が削除された、という3つが挙げられています。**利用者側の設定ミスではなく、所属の変化**が原因です。
+
+対処は、組織の管理者に招待してもらうか、新しい組織を用意することです。個人で使っていたキーが、組織の整理をきっかけに突然使えなくなった場合はこれを疑ってください。
+
+## 補足：似ているが別のもの
+
+利用が許可されていない国や地域からの呼び出しは 403 です。公式では 401 とは別の項目として整理されており、対応するのは対応国の一覧の確認です。
+
+残高や支出の上限に関する[エラー](/glossary/エラー/)は 429 です。公式には、請求関連の[エラー](/glossary/エラー/)では `error.code` を見て具体的な原因を特定するよう書かれており、残高切れ、組織の支出上限、プロジェクトの支出上限、承認された利用上限といった識別子が個別に定義されています。**[認証](/glossary/認証/)の問題ではないので、キーを触っても解決しません**。
+
+開発キットの区分では、401 は認証の例外、403 は権限の例外として別々に定義されています。後者の説明には、正しいキーと組織 ID、資源 ID を使っているかを確認するよう書かれています。
+
+Azure 経由で同じモデルを使う場合、[認証](/glossary/認証/)の仕組み自体が別です。[ヘッダー](/glossary/ヘッダー/)の名前も鍵の管理も異なるため、本記事の内容はそのままでは当てはまりません（[Azure の 401 の記事](/posts/azure_401/)）。
+
+他の基盤の 401 とも、応答に入る情報の量が違います（[GCP の 401 の記事](/posts/gcp_401/)）。
+
+## 切り分けの順序
+
+1. 文言に伏字のキーが入っているかを見る。入っていれば、それが実際に送られたキー。
+2. 先頭と末尾を自分のキーと突き合わせる。違えば、キーではなく送信元を探す。
+3. [環境変数](/glossary/環境変数/)を確認する。設定[ファイル](/glossary/ファイル/)より優先されることがある。
+4. 前後の空白や改行を確認する。読み込み時に混ざりやすい。
+5. 一致しているなら、組織とプロジェクトを明示して切り分ける。
+6. 特定の操作だけ失敗するなら、キーの権限を疑う。管理系は別種のキーが要る。
+7. 手元では通るのに配備先で失敗するなら、IP 許可リストを確認する。
+8. 突然使えなくなったなら、組織への所属の変化を疑う。
+
+## 確認コマンド集
+
+```bash
+# 1. 実際に送られているキーの先頭と末尾を確認する
+python3 -c "
+import os
+k = os.environ.get('OPENAI_API_KEY', '')
+print(repr(k[:8]), '...', repr(k[-4:]), '| 長さ:', len(k))
+"
+
+# 2. 前後の空白や改行が混ざっていないかを見る
+printf '%s' "$OPENAI_API_KEY" | od -c | tail -3
+
+# 3. 最小の要求で認証だけを確認する
+curl -sS -o /dev/null -w "%{http_code}\n" https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY"
+
+# 4. エラーの種別と文言を取り出す
+curl -sS https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  | python3 -c "import json,sys; e=json.load(sys.stdin).get('error',{}); print(e.get('code'), '|', e.get('message'))"
+
+# 5. 組織とプロジェクトを明示して切り分ける
+curl -sS -o /dev/null -w "%{http_code}\n" https://api.openai.com/v1/models \
+  -H "Authorization: Bearer $OPENAI_API_KEY" \
+  -H "OpenAI-Organization: org-xxxx" \
+  -H "OpenAI-Project: proj_xxxx"
+
+# 6. 配備先の外向き IP を確認する（許可リストとの照合用）
+curl -sS https://api.ipify.org
+
+# 7. プログラムから見えている値を確認する（開発キット経由）
+python3 -c "
+from openai import OpenAI
+c = OpenAI()
+print('sdk key:', (c.api_key or '')[:8] + '...' + (c.api_key or '')[-4:])
+"
 ```
 
-### 原因4：Authorizationヘッダーの形式が誤っている
+## Editor's Note
 
-OpenAI [API](/glossary/api/)は`Authorization: Bearer <api_key>`という形式を要求します。単なる`api_key`の値を[ヘッダー](/glossary/ヘッダー/)に含めるだけでは[認証](/glossary/認証/)されません。
+この[エラー](/glossary/エラー/)の切り分けを一撃で終わらせる手がかりが、文言の中にあります。それを示す相談が残っています（[401 Incorrect API key provided](https://community.openai.com/t/401-incorrect-api-key-provided/603609)）。
 
-**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
-```yaml
-# 間違ったヘッダー形式
-curl https://api.openai.com/v1/chat/completions \
-  -H "Authorization: sk-proj-abc123def456" \  # Bearerが無い
-  -H "Content-Type: application/json"
-```
+2024年1月、相談者は 401 の文言に伏字のキーが出ているのを見て、こう書いています。**「そのキーは使ったことがないし、自分のキー一覧にも存在しない」**。試したことも列挙されています。新しいキーの発行、ブラウザの[キャッシュ](/glossary/キャッシュ/)削除、設定[ファイル](/glossary/ファイル/)の値と管理画面のキーの照合、打ち間違いや空白の確認。
 
-**After（修正後）：**
-```yaml
-# 正しいヘッダー形式
-curl https://api.openai.com/v1/chat/completions \
-  -H "Authorization: Bearer sk-proj-abc123def456" \
-  -H "Content-Type: application/json" \
-  -d '{"model":"gpt-4","messages":[{"role":"user","content":"Hello"}]}'
-```
+どれも真っ当な確認ですが、**全部キーの側を疑っています**。返答は視点を変えるものでした。キーはまず基本[ソフトウェア](/glossary/ソフトウェア/)の[環境変数](/glossary/環境変数/)から探されるので、そこに古い値が設定されていないか見てほしい、という指摘です。相談者は数時間後に解決を報告しています。
 
-## ツール固有の注意点
+構造はこうです。文言に出ているキーは、[サーバー](/glossary/サーバー/)が受け取ったキーです。それが自分の知らないキーだということは、**知らない場所から別のキーが送られている**という意味になります。この時点で、正しいキーを何度確認しても無駄だと分かります。探すべきは値ではなく経路です。
 
-OpenAI [API](/glossary/api/)は複数の認証方法をサポートしていますが、主流のシナリオに固有の設定ポイントがあります。
+同じ相談の後半で、別の回答者がこう整理しています。先の[エラー](/glossary/エラー/)は、呼び出しに使われていた誤った認証情報の**出どころを突き止めたこと**で解決したのだろう、と。
 
-**組織[ID](/glossary/id/)の設定が必要な場合：**
-OpenAIの組織[アカウント](/glossary/アカウント/)配下で[API](/glossary/api/)キーを使用する場合、単なる[API](/glossary/api/)キーでは[認証](/glossary/認証/)に失敗することがあります。この場合、`OpenAI-Organization`[ヘッダー](/glossary/ヘッダー/)も同時に[送信](/glossary/送信/)する必要があります。
-
-```python
-import openai
-
-openai.api_key = "sk-proj-abc123..."
-openai.organization = "org-xyz789"  # 組織IDを設定
-
-response = openai.ChatCompletion.create(
-    model="gpt-4",
-    messages=[{"role": "user", "content": "Hello"}]
-)
-```
-
-**Proxy経由での[リクエスト](/glossary/リクエスト/)：**
-企業[ネットワーク](/glossary/ネットワーク/)[環境](/glossary/環境/)で[プロキシ](/glossary/プロキシ/)を経由する場合、[プロキシ](/glossary/プロキシ/)[認証](/glossary/認証/)が必要になる場合があり、これがOpenAI [API](/glossary/api/)の[認証](/glossary/認証/)と重複して401[エラー](/glossary/エラー/)になることがあります。[プロキシ](/glossary/プロキシ/)の認証情報を適切に設定し、OpenAI [API](/glossary/api/)キーは[環境変数](/glossary/環境変数/)として分離して管理してください。
-
-**複数キーの管理：**
-[テスト](/glossary/テスト/)[環境](/glossary/環境/)と本番環境で異なる[API](/glossary/api/)キーを使用する場合、設定を切り替え忘れて間違ったキーを使用するケースが多発します。環境別に.env[ファイル](/glossary/ファイル/)を分けるか、[設定ファイル](/glossary/設定ファイル/)で明示的に管理することを推奨します。
-
-## それでも解決しない場合
-
-**確認すべきポイント：**
-1. OpenAI公式[ダッシュボード](/glossary/ダッシュボード/)（https://platform.openai.com/account/api-keys）にログインし、APIキーが有効な状態か確認してください。
-2. キーの作成日時と現在日時を比較し、有効期限を超えていないか確認します。
-3. [環境変数](/glossary/環境変数/)が実際に読み込まれているか、[デバッグ](/glossary/デバッグ/)で出力して確認してください。`echo $OPENAI_API_KEY`（Linux/Mac）または`echo %OPENAI_API_KEY%`（Windows）で検証できます。
-
-**公式ドキュメント：**
-OpenAI公式の「Authentication」ページ（https://platform.openai.com/docs/guides/authentication）にAPIキー管理の詳細が記載されています。特に「API keys」セクションで有効期限設定やキー作成手順を確認できます。
-
-**コミュニティリソース：**
-OpenAI Community Forum（https://community.openai.com）やGitHub Issues（https://github.com/openai/openai-python/issues）で同様の事例が報告されていることが多いため、エラーメッセージをそのまま検索すると解決策が見つかる可能性があります。
+401 に当たったら、まず文言の伏字を読んでください。自分のキーと一致するかどうかで、調べる対象が正反対に変わります。
 
 ---
 

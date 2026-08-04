@@ -768,5 +768,16 @@
         "note": "下書き（2026-06-29に非中核として一括非公開）を現行の質の型で全面書き直しのうえ公開。429をrate_limit_exceededとinsufficient_quotaの2系統に分ける構成へ変更。旧版にあった実在しないエラー例（type: server_error / code: quota_limit_exceeded）を公式仕様どおりのinsufficient_quotaへ訂正。公式レート制限ガイド・SDK実装を照合し、Retry-Afterはクォータ由来の429には効かない点、SDKが既定2回再試行する点、上限計算がmax(max_tokens, 推定値)である点を追加。Editor's Note は公式コミュニティの相談（1回目の要求でinsufficient_quota）"
       }
     ]
+  },
+  "content/posts/openai_api_401.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "下書きを現行の質の型で全面書き直しのうえ公開。公式エラーコード一覧の401の4分類（Invalid Authentication／Incorrect API key provided／組織未所属／IP not authorized）を軸に再構成し、下書きに無かったIP許可リストとエンドポイント権限不足を原因として追加。エラー文言の伏字キーが実際に送られたキーである点を切り分けの起点に据えた。Editor's Note は公式コミュニティの相談（環境変数の古い値が原因）"
+      }
+    ]
   }
 }
