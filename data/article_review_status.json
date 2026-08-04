@@ -724,5 +724,16 @@
         "note": "新規作成。既存aws_504（top_queriesにelb 504を保持）との共食いを避け、切り口を『誰が返した504か』の判定に特化。target_status_codeが-かどうか、target_processing_time=-1の条件、ELB生成とターゲット由来の指標の使い分けを公式のフィールド定義で照合。NACLの戻り方向・Content-Length不一致・Lambdaの502境界を追加。Editor's Note は bun Issue #12446（同じ設定不整合が502と504の両方を生む板挟み）"
       }
     ]
+  },
+  "content/posts/kubernetes_createcontainerconfigerror.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "新規作成。分類名は状態欄・原因はイベント側（理由欄はFailed）という構造を軸に、not found とcouldn't find key の2系統を実装の分岐で確認。optionalが効くのはNotFoundの場合のみ、envFromの不正名は読み飛ばして起動する点、kubeletの再試行で後から作れば自動復帰する点を追加。公式3本＋実装4本＋実事例2本。Editor's Note は sentry-kubernetes/charts #1433（同じ分類名に2系統が混在）と argo-cd #18993（logsが取れない入口）"
+      }
+    ]
   }
 }
