@@ -757,5 +757,16 @@
         "note": "新規作成。『どこが満杯か』を先に確定する構成（ホストのデータ保存先／Docker Desktopの仮想ディスク／コンテナ内）に、json-fileのmax-size既定-1（無制限）とmax-fileの条件付き有効、ボリュームが既定でpruneされない理由、ビルドキャッシュGCの既定方針、共有メモリ既定64MiB、inode枯渇の観点を公式で照合して追加。Editor's Note は docker/for-mac #3529（prune後も仮想ディスクが60GBのまま）と docker/cli #4844（文言が誤解を招く例）"
       }
     ]
+  },
+  "content/posts/openai_api_429.md": {
+    "verified": true,
+    "verified_at": "2026-08-04",
+    "last_verified_at": "2026-08-04",
+    "history": [
+      {
+        "date": "2026-08-04",
+        "note": "下書き（2026-06-29に非中核として一括非公開）を現行の質の型で全面書き直しのうえ公開。429をrate_limit_exceededとinsufficient_quotaの2系統に分ける構成へ変更。旧版にあった実在しないエラー例（type: server_error / code: quota_limit_exceeded）を公式仕様どおりのinsufficient_quotaへ訂正。公式レート制限ガイド・SDK実装を照合し、Retry-Afterはクォータ由来の429には効かない点、SDKが既定2回再試行する点、上限計算がmax(max_tokens, 推定値)である点を追加。Editor's Note は公式コミュニティの相談（1回目の要求でinsufficient_quota）"
+      }
+    ]
   }
 }
