@@ -1025,5 +1025,16 @@
         "note": "Anthropic API（Claude Opus 5 max、max_tokens 30000）で下書き生成。生成後に内部メモ行とdescriptionを整え、lint FAIL 0。"
       }
     ]
+  },
+  "content/posts/kubernetes_runcontainererror.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "Anthropic API（Claude Opus 5 max、max_tokens 30000、Web検索10回）で下書き生成。descriptionを手動補正し、lint FAIL 0。"
+      }
+    ]
   }
 }
