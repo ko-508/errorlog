@@ -992,5 +992,16 @@
         "note": "新規作成。Ready条件のFalseとUnknownで調査方向が正反対である点を軸に据え、既定50秒でUnknown・その5分後に退去開始という時間設計を公式で照合。退去の速度制限（10秒に1ノード、0.55以上で減速、50ノード以下は停止）、到達不能ノードでPodが動き続ける点、PLEG閾値3分による境界上の揺れ、CNI未初期化の文言、SchedulingDisabledは条件ではない点を追加。Editor's Note は kubernetes/kubernetes #45419"
       }
     ]
+  },
+  "content/posts/github_host_key_verification_failed.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。文言の出所がGitHubではなくSSHクライアントである点、認証ではなく接続先の身元確認の段階である点を軸に据え、OpenSSH実装で『記録に無い』『記録と違う』の2分岐を確認。GitHub公開の指紋と照合して判断する手順を中心に置き、ssh-keyscanの無検証追記とStrictHostKeyChecking=noを推奨しない扱いにした。Editor's Note は2023-03-24のRSAホスト鍵交換（公式発表）"
+      }
+    ]
   }
 }
