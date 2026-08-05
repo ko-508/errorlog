@@ -1,7 +1,7 @@
 ---
 title: "Kubernetes Init:CrashLoopBackOff：原因と解決策"
 date: 2026-08-05
-draft: true
+draft: false
 description: "init container が失敗して再起動待ちに入り、通常コンテナの起動へ進めない状態。"
 tags: ["Kubernetes"]
 images: ["og/posts/kubernetes_init_crashloopbackoff.png"]
