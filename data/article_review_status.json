@@ -1036,5 +1036,16 @@
         "note": "Anthropic API（Claude Opus 5 max、max_tokens 30000、Web検索10回）で下書き生成。descriptionを手動補正し、lint FAIL 0。"
       }
     ]
+  },
+  "content/posts/kubernetes_init_crashloopbackoff.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "Claude Opus 5 maxで新規執筆。既存CrashLoopBackOffの派生として、init containerが完了せず通常コンテナへ進まない状態に範囲を限定。RunContainerErrorリライト後の章立てに合わせ、切り分け軸、原因別手順、危険対応前の確認、確認コマンド集、Editor's Noteを追加。lint FAIL 0。"
+      }
+    ]
   }
 }
