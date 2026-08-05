@@ -105,6 +105,7 @@
   "kubernetes_crashloopbackoff": "2026-08-02T22:08:57.079067+00:00",
   "kubernetes_createcontainerconfigerror": "2026-08-04T00:43:22.783228+00:00",
   "kubernetes_evicted": "2026-08-04T22:31:23.070181+00:00",
+  "kubernetes_failedcreatepodsandbox": "2026-08-05T08:10:06.705854+00:00",
   "kubernetes_imagepullbackoff": "2026-08-02T22:08:57.084034+00:00",
   "kubernetes_liveness_probe_failed": "2026-08-05T05:11:31.820154+00:00",
   "kubernetes_nodenotready": "2026-08-05T05:25:33.510221+00:00",
