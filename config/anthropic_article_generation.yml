@@ -21,7 +21,10 @@ anthropic:
   budget:
     warning_usd: 1.00
     hard_limit_usd: 1.50
-    hard_limit_action: "stop"
+    hard_limit_action: "confirm"
+
+research:
+  max_tokens: 20000
 
 model_presets:
   sonnet5:

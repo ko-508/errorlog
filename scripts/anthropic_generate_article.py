@@ -33,6 +33,7 @@ except ImportError:
 
 BASE = Path(__file__).resolve().parent.parent
 DEFAULT_CONFIG = BASE / "config" / "anthropic_article_generation.yml"
+API_TIMEOUT_SECONDS = 1200
 ARTICLE_SPEC = BASE / "docs" / "article_spec.md"
 DISCLAIMER = (
     "\n\n---\n\n"
@@ -415,6 +416,56 @@ def json_string(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
+def build_research_prompt(
+    row: dict[str, str],
+    slug: str,
+    editorial_context: str,
+    editorial_context_meta: str,
+    article_spec: str,
+    evidence: dict[str, Any] | None = None,
+) -> str:
+    source_urls = [u.strip() for u in (row.get("source_urls") or "").split("|") if u.strip()]
+    parts = [
+        "ErrorLogの記事を書く前段として、調査だけを行ってください。記事本文は書かないでください。",
+        "最初に編集コンテキストを読み、その判断基準に従ってからWeb検索を開始してください。",
+        "",
+        "## ErrorLog編集コンテキスト",
+        editorial_context,
+        "",
+        "## 編集コンテキストのメタ情報",
+        editorial_context_meta,
+        "",
+        "## 共通記事仕様",
+        article_spec,
+        "",
+        "## 調査対象",
+        f"- slug: {slug}",
+        f"- tool: {row['tool'].strip()}",
+        f"- status_code: {row['status_code'].strip()}",
+        f"- official_meaning: {row['official_meaning'].strip()}",
+        f"- causes: {row['causes'].strip()}",
+        f"- solutions: {row['solutions'].strip()}",
+    ]
+    if source_urls:
+        parts.extend(["- supplied_source_urls:", *[f"  - {url}" for url in source_urls]])
+    if evidence:
+        parts.extend(["", "## 取得済みevidence", json.dumps(evidence, ensure_ascii=False, indent=2)])
+    parts.extend([
+        "",
+        "## 調査レポートの必須項目",
+        "- 記事の対象範囲と既存記事との境界",
+        "- エラーを生成するシステム・コンポーネント・処理段階",
+        "- 主張ごとの根拠URLと、根拠内で確認した内容",
+        "- 原因ごとの判別条件、確認方法、安全な対処",
+        "- 似ているが別のエラーとの判別方法",
+        "- Editor's Noteに使える実在の記録（日付・状態・対象バージョンを含む）",
+        "- 未確認事項と、記事に書いてはいけない事項",
+        "",
+        "Markdownの調査レポートだけを出力してください。完成記事、front matter、前置き、自己評価は禁止です。",
+    ])
+    return "\n".join(parts)
+
+
 def build_user_prompt(
     row: dict[str, str],
     slug: str,
@@ -422,6 +473,7 @@ def build_user_prompt(
     editorial_context_meta: str,
     rules: str,
     article_spec: str,
+    research_report: str,
     evidence: dict[str, Any] | None = None,
 ) -> str:
     tool = row["tool"].strip()
@@ -452,6 +504,11 @@ def build_user_prompt(
         "",
         "## 共通記事仕様",
         article_spec,
+        "",
+        "## 事前調査レポート",
+        research_report,
+        "",
+        "このレポートにない事実を推測で補わないでください。追加のWeb検索は行わず、未確認事項は本文へ含めないでください。",
         "",
         "## 生成対象",
         f"- slug: {slug}",
@@ -526,7 +583,7 @@ def post_anthropic_json(path: str, payload: dict[str, Any]) -> dict[str, Any]:
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=600) as res:
+        with urllib.request.urlopen(req, timeout=API_TIMEOUT_SECONDS) as res:
             body = res.read().decode("utf-8")
     except urllib.error.HTTPError as exc:
         body = exc.read().decode("utf-8", errors="replace")
@@ -617,6 +674,32 @@ def usage_cost(config: dict[str, Any], usage: dict[str, Any], estimated: dict[st
     )
 
 
+def combine_phase_costs(research: dict[str, Any], writing: dict[str, Any]) -> dict[str, Any]:
+    additive_fields = (
+        "input_tokens",
+        "output_tokens",
+        "cache_creation_input_tokens",
+        "cache_read_input_tokens",
+        "web_search_requests",
+        "input_cost_usd",
+        "output_cost_usd",
+        "cache_cost_usd",
+        "web_search_cost_usd",
+        "total_cost_usd",
+        "estimated_cost_usd",
+        "maximum_cost_usd",
+    )
+    combined: dict[str, Any] = {
+        "model": writing["model"],
+        "effort": writing["effort"],
+    }
+    for field in additive_fields:
+        value = float(research[field]) + float(writing[field])
+        combined[field] = int(value) if field.endswith("tokens") or field == "web_search_requests" else round(value, 6)
+    combined["phases"] = {"research": research, "writing": writing}
+    return combined
+
+
 def estimate_scenario(config: dict[str, Any], input_tokens: int, output_tokens: int, web_search_requests: int) -> dict[str, Any]:
     cfg = model_config(config)
     return cost_breakdown(
@@ -677,11 +760,17 @@ def build_tools(web_search: dict[str, Any]) -> list[dict[str, Any]]:
     return [tool]
 
 
-def build_request(config: dict[str, Any], prompt: str) -> dict[str, Any]:
+def build_request(
+    config: dict[str, Any],
+    prompt: str,
+    *,
+    max_tokens: int | None = None,
+    enable_web_search: bool = True,
+) -> dict[str, Any]:
     anthropic_config = model_config(config)
     request: dict[str, Any] = {
         "model": anthropic_config["model"],
-        "max_tokens": int(anthropic_config["max_tokens"]),
+        "max_tokens": max_tokens if max_tokens is not None else int(anthropic_config["max_tokens"]),
         "messages": [{"role": "user", "content": prompt}],
         "system": [{
             "type": "text",
@@ -699,7 +788,7 @@ def build_request(config: dict[str, Any], prompt: str) -> dict[str, Any]:
         display = str(thinking.get("display") or "").strip()
         if display:
             request["thinking"]["display"] = display
-    tools = build_tools(require_dict(anthropic_config, "web_search"))
+    tools = build_tools(require_dict(anthropic_config, "web_search")) if enable_web_search else []
     if tools:
         request["tools"] = tools
     return request
@@ -727,38 +816,51 @@ def count_input_tokens(client: Any, request: dict[str, Any]) -> int:
     return int(data.get("input_tokens") or 0)
 
 
-def maximum_cost_for_request(config: dict[str, Any], input_tokens: int) -> dict[str, Any]:
+def maximum_cost_for_request(config: dict[str, Any], input_tokens: int, request: dict[str, Any]) -> dict[str, Any]:
     cfg = model_config(config)
     web_search = require_dict(cfg, "web_search")
     return estimate_scenario(
         config,
         input_tokens=input_tokens,
-        output_tokens=int(cfg["max_tokens"]),
-        web_search_requests=int(web_search["max_uses"]) if web_search.get("enabled") else 0,
+        output_tokens=int(request["max_tokens"]),
+        web_search_requests=int(request["tools"][0]["max_uses"]) if request.get("tools") else 0,
     )
 
 
-def expected_cost_for_request(config: dict[str, Any], input_tokens: int) -> dict[str, Any]:
+def expected_cost_for_request(config: dict[str, Any], input_tokens: int, request: dict[str, Any]) -> dict[str, Any]:
     cfg = model_config(config)
-    expected_output = int(cfg.get("expected_output_tokens") or min(int(cfg["max_tokens"]), 15000))
+    expected_output = int(cfg.get("expected_output_tokens") or min(int(request["max_tokens"]), 15000))
     web_search = require_dict(cfg, "web_search")
     expected_web = int(web_search.get("expected_uses") or min(int(web_search.get("max_uses") or 0), 5))
     return estimate_scenario(
         config,
         input_tokens=input_tokens,
         output_tokens=expected_output,
-        web_search_requests=expected_web if web_search.get("enabled") else 0,
+        web_search_requests=expected_web if request.get("tools") else 0,
     )
 
 
-def enforce_budget(config: dict[str, Any], maximum: dict[str, Any], request: dict[str, Any], confirm_over_budget: bool) -> None:
+def enforce_budget(
+    config: dict[str, Any],
+    maximum: dict[str, Any],
+    request: dict[str, Any],
+    confirm_over_budget: bool,
+    *,
+    spent_cost_usd: float = 0.0,
+) -> None:
     budget = budget_config(config)
-    hard = float(budget["hard_limit_usd"])
+    configured_hard = float(budget["hard_limit_usd"])
+    hard = configured_hard - spent_cost_usd
+    if hard <= 0:
+        raise SystemExit(f"エラー: 既使用額が hard_limit_usd に達しています: ${spent_cost_usd:.6f} >= ${configured_hard:.6f}")
     if float(maximum["total_cost_usd"]) <= hard:
         return
     action = str(budget.get("hard_limit_action") or "stop")
     if action == "stop":
-        raise SystemExit(f"エラー: 最大料金が hard_limit_usd を超える可能性があります: ${maximum['total_cost_usd']:.6f} > ${hard:.6f}")
+        raise SystemExit(
+            "エラー: 累計最大料金が hard_limit_usd を超える可能性があります: "
+            f"${spent_cost_usd + float(maximum['total_cost_usd']):.6f} > ${configured_hard:.6f}"
+        )
     if action == "confirm":
         if not confirm_over_budget:
             raise SystemExit("エラー: 最大料金が hard_limit_usd を超えるため --confirm-over-budget が必要です。")
@@ -782,17 +884,27 @@ def enforce_budget(config: dict[str, Any], maximum: dict[str, Any], request: dic
     raise SystemExit(f"エラー: budget.hard_limit_action が不正です: {action}")
 
 
-def call_anthropic(config: dict[str, Any], prompt: str, confirm_over_budget: bool) -> GenerationResult:
-    request = build_request(config, prompt)
+def call_anthropic(
+    config: dict[str, Any],
+    prompt: str,
+    confirm_over_budget: bool,
+    *,
+    phase: str,
+    max_tokens: int | None = None,
+    enable_web_search: bool = True,
+    spent_cost_usd: float = 0.0,
+) -> GenerationResult:
+    request = build_request(config, prompt, max_tokens=max_tokens, enable_web_search=enable_web_search)
     client = load_anthropic_client()
     input_tokens = count_input_tokens(client, request)
-    expected = expected_cost_for_request(config, input_tokens)
-    maximum = maximum_cost_for_request(config, input_tokens)
-    print_cost("想定料金", expected)
-    print_cost("最大料金", maximum)
-    if float(expected["total_cost_usd"]) >= float(budget_config(config)["warning_usd"]):
-        print(f"warning: 想定料金が warning_usd を超えています: ${expected['total_cost_usd']:.6f}")
-    enforce_budget(config, maximum, request, confirm_over_budget)
+    expected = expected_cost_for_request(config, input_tokens, request)
+    maximum = maximum_cost_for_request(config, input_tokens, request)
+    expected_total = spent_cost_usd + float(expected["total_cost_usd"])
+    print_cost(f"{phase} 想定料金", expected)
+    print_cost(f"{phase} 最大料金", maximum)
+    if expected_total >= float(budget_config(config)["warning_usd"]):
+        print(f"warning: 累計想定料金が warning_usd を超えています: ${expected_total:.6f}")
+    enforce_budget(config, maximum, request, confirm_over_budget, spent_cost_usd=spent_cost_usd)
 
     if client is None:
         response_json = post_anthropic_json("messages", request)
@@ -806,9 +918,11 @@ def call_anthropic(config: dict[str, Any], prompt: str, confirm_over_budget: boo
         raise SystemExit(f"エラー: Anthropic stop_reason={stop_reason} のため記事は保存しません。")
     usage = usage_from_response(response_json)
     cost = usage_cost(config, usage, expected, maximum)
-    print_cost("実行後の実料金", cost)
-    if float(cost["total_cost_usd"]) > float(budget_config(config)["hard_limit_usd"]):
-        raise SystemExit(f"エラー: 実料金が hard_limit_usd を超えました: ${cost['total_cost_usd']:.6f}")
+    print_cost(f"{phase} 実行後の実料金", cost)
+    cumulative_cost = spent_cost_usd + float(cost["total_cost_usd"])
+    hard_limit = float(budget_config(config)["hard_limit_usd"])
+    cost["cumulative_cost_usd"] = round(cumulative_cost, 6)
+    cost["hard_limit_exceeded"] = cumulative_cost > hard_limit
     return GenerationResult(
         article=text_from_response(response_json),
         response_json=response_json,
@@ -917,6 +1031,10 @@ def save_run_report(report_dir: Path, payload: dict[str, Any], dry_run: bool) ->
         return out_dir
     out_dir.mkdir(parents=True, exist_ok=False)
     (out_dir / "prompt.md").write_text(str(payload["prompt"]), encoding="utf-8")
+    if payload.get("research_prompt") is not None:
+        (out_dir / "research_prompt.md").write_text(str(payload["research_prompt"]), encoding="utf-8")
+    if payload.get("research_report") is not None:
+        (out_dir / "research_report.md").write_text(str(payload["research_report"]), encoding="utf-8")
     (out_dir / "usage.json").write_text(
         json.dumps(payload["usage"], ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -931,7 +1049,35 @@ def save_run_report(report_dir: Path, payload: dict[str, Any], dry_run: bool) ->
             json.dumps(payload["response_json"], ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
-    (out_dir / "article.md").write_text(str(payload["article"]), encoding="utf-8")
+    if payload.get("research_response_json") is not None:
+        (out_dir / "research_response.json").write_text(
+            json.dumps(payload["research_response_json"], ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+    article_name = "quarantined_article.md" if payload.get("quarantined") else "article.md"
+    (out_dir / article_name).write_text(str(payload["article"]), encoding="utf-8")
+    return out_dir
+
+
+def save_research_checkpoint(
+    report_dir: Path,
+    slug: str,
+    prompt: str,
+    result: GenerationResult,
+) -> Path:
+    checkpoint_id = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "_" + uuid.uuid4().hex[:8]
+    out_dir = report_dir / slug / "research_checkpoints" / checkpoint_id
+    out_dir.mkdir(parents=True, exist_ok=False)
+    (out_dir / "research_prompt.md").write_text(prompt, encoding="utf-8")
+    (out_dir / "research_report.md").write_text(result.article, encoding="utf-8")
+    (out_dir / "usage.json").write_text(
+        json.dumps(result.cost, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    (out_dir / "response.json").write_text(
+        json.dumps(result.response_json, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     return out_dir
 
 
@@ -1037,13 +1183,25 @@ def main() -> int:
         print(f"Editor's Note 追加完了: {article_path.relative_to(BASE).as_posix()}")
         print(f"report: {report_path.relative_to(BASE).as_posix()}")
         return 0
-    prompt = build_user_prompt(
+    editorial_context = editorial_context_path.read_text(encoding="utf-8")
+    editorial_context_meta = editorial_context_meta_path.read_text(encoding="utf-8")
+    article_spec = ARTICLE_SPEC.read_text(encoding="utf-8")
+    research_prompt = build_research_prompt(
         row=row,
         slug=slug,
-        editorial_context=editorial_context_path.read_text(encoding="utf-8"),
-        editorial_context_meta=editorial_context_meta_path.read_text(encoding="utf-8"),
+        editorial_context=editorial_context,
+        editorial_context_meta=editorial_context_meta,
+        article_spec=article_spec,
+        evidence=evidence,
+    )
+    dry_run_prompt = build_user_prompt(
+        row=row,
+        slug=slug,
+        editorial_context=editorial_context,
+        editorial_context_meta=editorial_context_meta,
         rules=rules_path.read_text(encoding="utf-8"),
-        article_spec=ARTICLE_SPEC.read_text(encoding="utf-8"),
+        article_spec=article_spec,
+        research_report="<調査APIの出力をここへ挿入>",
         evidence=evidence,
     )
     if args.cost_table:
@@ -1052,11 +1210,78 @@ def main() -> int:
         print("[dry-run] Anthropic API は呼びません。")
         print(f"[dry-run] target: {article_path}")
         print(f"[dry-run] tool/code: {row['tool']} {row['status_code']}")
-        print(f"[dry-run] prompt_chars: {len(prompt)}")
+        print(f"[dry-run] research_prompt_chars: {len(research_prompt)}")
+        print(f"[dry-run] writing_prompt_chars_without_report: {len(dry_run_prompt)}")
         return 0
 
-    result = call_anthropic(config, prompt, args.confirm_over_budget)
+    research_config = require_dict(config, "research")
+    research_result = call_anthropic(
+        config,
+        research_prompt,
+        args.confirm_over_budget,
+        phase="調査",
+        max_tokens=int(research_config["max_tokens"]),
+        enable_web_search=True,
+    )
+    research_checkpoint = save_research_checkpoint(
+        report_dir,
+        slug,
+        research_prompt,
+        research_result,
+    )
+    print(f"research checkpoint: {research_checkpoint.relative_to(BASE).as_posix()}")
+    if research_result.cost["hard_limit_exceeded"]:
+        print(
+            "エラー: 調査だけで hard_limit_usd を超えました。"
+            "調査結果はチェックポイントへ保存し、執筆は実行しません。"
+        )
+        return 1
+    prompt = build_user_prompt(
+        row=row,
+        slug=slug,
+        editorial_context=editorial_context,
+        editorial_context_meta=editorial_context_meta,
+        rules=rules_path.read_text(encoding="utf-8"),
+        article_spec=article_spec,
+        research_report=research_result.article,
+        evidence=evidence,
+    )
+    result = call_anthropic(
+        config,
+        prompt,
+        args.confirm_over_budget,
+        phase="執筆",
+        enable_web_search=False,
+        spent_cost_usd=float(research_result.cost["total_cost_usd"]),
+    )
+    combined_cost = combine_phase_costs(research_result.cost, result.cost)
     article = ensure_frontmatter(result.article, row, slug)
+    hard_limit = float(budget_config(config)["hard_limit_usd"])
+    if float(combined_cost["total_cost_usd"]) > hard_limit:
+        combined_cost["hard_limit_exceeded"] = True
+        report_path = save_run_report(
+            report_dir,
+            {
+                "slug": slug,
+                "prompt": prompt,
+                "article": article,
+                "usage": combined_cost,
+                "evidence": evidence,
+                "research_prompt": research_prompt,
+                "research_report": research_result.article,
+                "research_response_json": research_result.response_json,
+                "response_json": result.response_json,
+                "quarantined": True,
+            },
+            dry_run=False,
+        )
+        print(
+            f"エラー: 累計実料金が hard_limit_usd を超えました: "
+            f"${combined_cost['total_cost_usd']:.6f} > ${hard_limit:.6f}"
+        )
+        print(f"隔離保存: {report_path.relative_to(BASE).as_posix()}/quarantined_article.md")
+        return 1
+    combined_cost["hard_limit_exceeded"] = False
     write_new_file(article_path, article, dry_run=False)
     fact_check_passed = False
     if args.run_quality:
@@ -1072,15 +1297,21 @@ def main() -> int:
             "slug": slug,
             "prompt": prompt,
             "article": article,
-            "usage": result.cost,
+            "usage": combined_cost,
             "evidence": evidence,
+            "research_prompt": research_prompt,
+            "research_report": research_result.article,
+            "research_response_json": research_result.response_json,
             "fact_check_passed_before_editor_note": fact_check_passed,
             "response_json": result.response_json,
         },
         dry_run=False,
     )
     print(f"生成完了: {article_path.relative_to(BASE).as_posix()}")
-    print(f"usage: input={result.cost['input_tokens']} output={result.cost['output_tokens']} cost=${result.cost['total_cost_usd']:.6f}")
+    print(
+        f"usage: input={combined_cost['input_tokens']} output={combined_cost['output_tokens']} "
+        f"cost=${combined_cost['total_cost_usd']:.6f}"
+    )
     print(f"report: {report_path.relative_to(BASE).as_posix()}")
     if not args.run_quality:
         print("品質ゲートは未実行です。実行する場合は --run-quality を付けてください。")
