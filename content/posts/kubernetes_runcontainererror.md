@@ -1,105 +1,132 @@
 ---
 title: "Kubernetes RunContainerError：原因と解決策"
 date: 2026-08-05
-description: "Kubernetes の RunContainerError は、Pod sandbox 作成後に container runtime がコンテナ起動へ進めない状態です。message とノード状態から切り分けます。"
+description: "RunContainerError はPod sandbox作成後、container runtimeがコンテナ起動へ進めない状態です。まずreason、message、Events、ノード偏りを分けて確認します。"
 tags: ["Kubernetes"]
 images: ["og/posts/kubernetes_runcontainererror.png"]
 errorCode: "RunContainerError"
 urgency: "medium"
 service: "Kubernetes"
 error_type: "RunContainerError"
-components: []
-related_services: []
+components: ["kubelet", "container runtime", "runc", "cgroup"]
+related_services: ["kubectl", "containerd", "CRI-O", "crictl"]
+trend_incident: false
 ---
 
 ## 冒頭まとめ
 
-`RunContainerError` は、HTTP のステータスコードではなく、Pod のコンテナ状態（`state.waiting.reason`）に現れる文字列です。kubelet の実装では、
-ランタイムが Pod のコンテナの起動に失敗したときに返るエラーとして `RunContainerError` が定義されています
-（[pkg/kubelet/container/sync_result.go](https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/container/sync_result.go)）。つまり Pod のスケジュールとイメージの取得は済み、Pod sandbox も用意された後、コンテナランタイム（containerd、CRI-O など）がコンテナを作成・起動する段階で止まっている状態です。
-
-調査の出発点は 3 つだけです。
-
-1. `kubectl describe pod` で reason が本当に `RunContainerError` か確認し、その隣にある message を読む（実際の失敗理由はここに現れます）。
-2. message がワークロード設定（`command`、`args`、`workingDir`、`securityContext`、`volumeMounts` など）に起因するのか、ノード上の条件に起因するのかを判定する。
-3. 同じ Pod が別ノードでも失敗するかを見て、ノード固有かワークロード固有かを切り分ける。
-
-この記事は「sandbox は作成済みで、コンテナの起動に失敗している段階」に限定して扱います。`FailedCreatePodSandbox` のようにアプリコンテナの起動前で止まっている場合は、後述の境界表のとおり別の切り分けが必要です。
-
-## エラーの概要
-
-Kubernetes の Pod は、スケジュール、イメージ取得、Pod sandbox 作成、コンテナ作成、コンテナ起動という段階を踏みます。kubelet は失敗した段階ごとに別のエラー文字列を持っており、`RunContainerError` はそのうち「コンテナの起動に失敗した」段階に対応します（
-同じファイル内に `KillContainerError` や `CreatePodSandboxError` など、段階の異なるエラーが並んで定義されています
-）。
-
-したがって `RunContainerError` が出ているとき、次のことは基本的に成立しています。
-
-- Pod はノードにスケジュールされている（Pending で止まってはいない）。
-- コンテナランタイムが起動処理まで到達している（sandbox の作成前で止まってはいない）。
-- アプリケーションのプロセスはまだ動いていない（起動後に落ちる問題とは別）。
-
-似た表示との境界を、先に確定させてください。
-
-| 表示 | どの段階の失敗か | この記事の対象 |
-| --- | --- | --- |
-| `RunContainerError`（コンテナの `waiting.reason`） | sandbox 作成後、ランタイムがコンテナを起動できない | 対象 |
-| `FailedCreatePodSandbox`（Pod の Events） | Pod sandbox の作成に失敗。アプリコンテナの起動前の問題 | 対象外（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/) の手順で Events から確認し、[CNI プラグイン](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)とネットワーク設定、[コンテナランタイム](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)や sandbox 用イメージの設定を優先して確認します） |
-| `CrashLoopBackOff` | コンテナの起動には成功したが、終了と再起動を繰り返している | 対象外（アプリケーションの終了理由と終了コードを追う） |
-| `RunContainerError` 以外の reason（`CreateContainerConfigError` など） | kubelet が別の段階で失敗している | 対象外。表示された reason 文字列をそのまま確認し、その段階の調査に切り替える |
-
-Pod が動かないときに reason を読み違えると、調査対象のレイヤーごと間違えます。まず `kubectl describe pods <your-pod>` でコンテナの状態と直近のイベントを確認するのが、公式ドキュメントでも示されている最初の一手です（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。
-
-## エラーメッセージの読み方
-
-`RunContainerError` 自体は「どの段階で失敗したか」しか伝えません。原因を特定する情報は、隣に置かれる message 側にあります。
-
-```bash
-kubectl describe pod <your-pod> -n <your-namespace>
-```
-
-出力のうち、注目するのはコンテナの State の並びです（表示位置の模式図。実際の文言は環境やランタイムによって異なります）。
+`RunContainerError` は、HTTPステータスコードではなく、Pod内のコンテナ状態に出る `waiting.reason` です。Podはノードに割り当てられ、Pod sandboxも作られた後、kubeletがcontainer runtimeへコンテナ起動を依頼した段階で失敗しています。
 
 ```text
 State:          Waiting
   Reason:       RunContainerError
-  Message:      <コンテナランタイムが返したメッセージ>
-Last State:     ...
-Ready:          False
-Restart Count:  ...
-Events:
-  ...
+  Message:      <container runtime が返した実メッセージ>
 ```
 
-message を機械的に取り出したい場合は、次のように参照します。
+ここで重要なのは、`RunContainerError` という文字だけでは原因が決まらないことです。原因は隣にある `Message`、直近のEvents、そして同じノード上の他Podの状態から切り分けます。
+
+まず次の4つを分けてください。
+
+1. 表示されているreasonが本当に `RunContainerError` なのか。
+2. messageがワークロード設定の問題を示しているのか。
+3. volume、権限、セキュリティ設定など、Pod定義とノード条件の組み合わせで失敗しているのか。
+4. containerd、CRI-O、runc、cgroup、ディスクなど、ノード側runtimeの問題なのか。
+
+`kubectl logs` が空でも不思議ではありません。プロセスがまだ開始できていないため、アプリケーションログへ到達しないことがあります。最初に読むべきなのは、アプリログではなく `kubectl describe pod` のState、Message、Eventsです。
+
+## エラーの概要
+
+KubernetesのPod起動は、ざっくり次の段階に分けられます。
+
+```text
+Scheduling
+  ↓
+Image pull
+  ↓
+Pod sandbox 作成
+  ↓
+Container 作成
+  ↓
+Container 起動
+  ↓
+Application 実行
+```
+
+`RunContainerError` は、このうち **Container作成または起動** の近辺で止まっている状態です。kubeletの実装では、`RunContainerError` はコンテナ起動時の失敗を表すエラーとして定義されています（[sync_result.go](https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/container/sync_result.go)）。
+
+したがって、`RunContainerError` を見た時点で、少なくとも次の切り分けが必要です。
 
 ```bash
-# アプリコンテナの reason と message
-kubectl get pod <your-pod> -n <your-namespace> \
-  -o jsonpath='{range .status.containerStatuses[*]}{.name}{" | "}{.state.waiting.reason}{" | "}{.state.waiting.message}{"\n"}{end}'
-
-# init コンテナ側で止まっている場合
-kubectl get pod <your-pod> -n <your-namespace> \
-  -o jsonpath='{range .status.initContainerStatuses[*]}{.name}{" | "}{.state.waiting.reason}{" | "}{.state.waiting.message}{"\n"}{end}'
+kubectl get pod <Pod名> -n <名前空間> \
+  -o jsonpath='{range .status.containerStatuses[*]}{.name}{"\t"}{.state.waiting.reason}{"\t"}{.state.waiting.message}{"\n"}{end}'
 ```
 
-読み方のポイントは次の 3 点です。
+initコンテナで止まっている場合は、見る場所が変わります。
 
-- message はコンテナランタイム側から伝わってきた文言です。実行ファイルが見つからない、権限が拒否された、マウントできなかった、といったランタイム層の語彙で書かれます。推測せず、文言をそのまま調査の起点にしてください。
-- `kubectl logs` は当てになりません。プロセスがまだ開始できていないため、アプリケーションのログが空になるのが普通です。ログが空であること自体は追加の情報になりません。
-- Events に `FailedCreatePodSandbox` が先行していないか確認します。先行していれば、失敗の主戦場は sandbox 側であり、この記事の対象外です。
+```bash
+kubectl get pod <Pod名> -n <名前空間> \
+  -o jsonpath='{range .status.initContainerStatuses[*]}{.name}{"\t"}{.state.waiting.reason}{"\t"}{.state.waiting.message}{"\n"}{end}'
+```
 
-message の文言は Kubernetes ではなくランタイム（containerd、CRI-O、runc など）が生成するため、意味を確定させたいときは、使っているランタイムの公式ドキュメントやリポジトリで同じ文言を確認するのが確実です。
+似ている表示との境界も先に確定してください。
 
-## 原因と解決策
+| 表示 | 失敗している段階 | 本記事の対象 |
+| --- | --- | --- |
+| `RunContainerError` | sandbox作成後、runtimeがコンテナを起動できない | 対象 |
+| `CreateContainerConfigError` | kubeletがコンテナ設定を解決できない | 対象外 |
+| `FailedCreatePodSandbox` | sandbox作成、CNI、pause container付近 | 対象外 |
+| `ImagePullBackOff` / `ErrImagePull` | イメージ取得 | 対象外 |
+| `CrashLoopBackOff` | 起動後にプロセスが終了し再起動を繰り返す | 対象外 |
 
-### 原因 1：コンテナの実行設定が不正で、プロセスを開始できない
+Kubernetes公式のPodデバッグ手順でも、まずPodを確認し、`kubectl describe` で状態と最近のEventsを見る流れが示されています（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。
 
-`command`、`args`、`workingDir`、実行ファイルのパスや実行権限、`securityContext` の実行ユーザー指定などが噛み合っていないと、ランタイムはコンテナ作成・起動の段階で失敗します。イメージ内に存在しないパスを `command` に指定した、`workingDir` がイメージ内に無い、非 root 実行を指定したがファイルの権限が合っていない、といったパターンが典型です。
+## まず最初に：reason・message・Events・ノード偏りを分ける
 
-対処は、マニフェストの上書き設定を外して、イメージ本来の設定で起動するかを確かめる方向で進めます。
+第一に、reasonを確定します。
+
+```bash
+kubectl get pod <Pod名> -n <名前空間> \
+  -o jsonpath='{range .status.containerStatuses[*]}{.name}{"\t"}{.state.waiting.reason}{"\n"}{end}'
+```
+
+ここが `RunContainerError` でなければ、この記事の手順をそのまま当てはめません。表示されたreasonが示す段階へ戻ってください。
+
+第二に、messageをそのまま保存します。
+
+```bash
+kubectl describe pod <Pod名> -n <名前空間>
+```
+
+`RunContainerError` は段階名です。実際の原因は `Message:` にあります。実行ファイルがない、権限が拒否された、マウントできない、cgroupを作れない、runtimeが応答できない、といった語を探します。
+
+第三に、Eventsで前段階の失敗が混ざっていないかを確認します。
+
+```bash
+kubectl get events -n <名前空間> \
+  --field-selector involvedObject.name=<Pod名> \
+  --sort-by=.lastTimestamp
+```
+
+`FailedCreatePodSandbox` が繰り返し出ているなら、主戦場はsandbox作成側です。CNI、pause image、container runtimeのsandbox設定を優先し、`RunContainerError` の記事から離れます。
+
+第四に、ノード偏りを見ます。
+
+```bash
+kubectl get pod <Pod名> -n <名前空間> -o wide
+kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
+```
+
+同じワークロードが別ノードでは動くなら、ノード側runtimeやノード状態を疑います。どのノードでも同じmessageで失敗するなら、Pod定義やイメージ内の実行設定を疑います。
+
+## よくある原因と解決手順
+
+### 原因1：command、args、workingDir、実行権限が不正
+
+`command`、`args`、`workingDir`、実行ファイルのパス、実行権限、`runAsUser` などが噛み合っていないと、runtimeはプロセスを開始できません。イメージ取得までは成功しているため、`kubectl logs` は空のままになりがちです。
+
+**Before（entrypointを上書きしている）：**
 
 ```yaml
-# Before：イメージの entrypoint を上書きしている
 spec:
   containers:
     - name: app
@@ -110,131 +137,215 @@ spec:
         runAsUser: 1000
 ```
 
+**After（まずイメージ既定で起動を確認する）：**
+
 ```yaml
-# After：上書きを外し、まずイメージ既定の設定で起動を確認する
 spec:
   containers:
     - name: app
       image: <your-image>
 ```
 
-これで起動するなら、外した項目を 1 つずつ戻して、どの設定で再発するかを特定します。イメージ内の実際のパスや実行権限は、同じイメージをローカルのコンテナランタイムで起動して確認するか、`kubectl debug` などでイメージの中身を確認して突き合わせます。
-
-### 原因 2：マウントやノード上の制約でコンテナを作成・起動できない
-
-`volumeMounts`、Secret、ConfigMap、`hostPath` の指定と、ノード上の実体・権限が合っていない場合も、この段階で失敗します。SELinux、AppArmor、seccomp といったノード側のセキュリティ機構が、指定されたマウントや実行を拒否している場合も同様です。
-
-切り分けは、ボリュームとセキュリティ設定を落とした最小構成から積み上げるのが最短です。
+修正後は、同じimageでPodが起動するかを確認します。
 
 ```bash
-# 現在の Pod がどのボリュームとセキュリティ設定を持っているか棚卸しする
-kubectl get pod <your-pod> -n <your-namespace> -o yaml \
-  | grep -A 40 -E 'volumeMounts:|volumes:|securityContext:'
+kubectl apply -f <manifest.yaml>
+kubectl get pod <Pod名> -n <名前空間> -w
 ```
 
-最小構成（ボリューム無し、追加のセキュリティ設定無し、同じイメージ、同じノード）で起動するなら、原因はマニフェスト側の設定にあります。最小構成でも失敗するなら、原因 3 のノード側を疑います。
+これで起動するなら、外した項目を1つずつ戻します。`command` だけ、`workingDir` だけ、`securityContext` だけ、という順に戻すと、どの設定がruntimeを止めているかが分かります。
 
-なお、`privileged: true` の付与や SELinux・AppArmor の無効化は、原因を確定させるための一時的な検証としては使えますが、恒久的な解決策にはしないでください。保護機構を外す変更は、そのノード上の他のワークロードの隔離まで弱めます。恒久策としては、必要な権限やラベル、ボリュームのパーミッションを個別に見直します。
+### 原因2：volumeMount、Secret、ConfigMap、hostPath、権限が合っていない
 
-### 原因 3：ノード側のコンテナランタイムやリソースの状態が不整合
+ボリュームの実体や権限がPod定義と合っていない場合、runtimeがコンテナを作れず `RunContainerError` になることがあります。特に `hostPath`、ファイルとしてマウントするSecret/ConfigMap、読み書き権限、SELinuxやAppArmorの拒否はmessage側に出ます。
 
-containerd や CRI-O、runc、cgroup、ディスク容量、展開済みイメージレイヤなど、ノード側の状態が壊れていても、コンテナの作成・起動は失敗します。この場合、同じマニフェストが他のノードでは問題なく動く、あるいは同じノード上の別の Pod も同時に失敗する、といった形で症状が出ます。
+**Before（hostPathとsecurityContextを同時に疑う必要がある）：**
 
-判定に使う情報は次の 2 つです。
-
-```bash
-# 1. 問題の Pod が乗っているノードを特定する
-kubectl get pod <your-pod> -n <your-namespace> -o wide
-
-# 2. そのノード上の他の Pod も失敗していないか確認する
-kubectl get pods -A -o wide --field-selector spec.nodeName=<your-node>
+```yaml
+spec:
+  containers:
+    - name: app
+      image: <your-image>
+      volumeMounts:
+        - name: app-data
+          mountPath: /var/lib/app
+      securityContext:
+        runAsUser: 1000
+  volumes:
+    - name: app-data
+      hostPath:
+        path: /var/lib/app
+        type: Directory
 ```
 
-同じノードに偏って失敗しているなら、ノード側を調べます。systemd で管理されているノードでは、kubelet とコンテナランタイムのログ、サービスの状態、ディスクの空き容量を順に確認します。
+**After（まずmountなしで起動段階を確認する）：**
+
+```yaml
+spec:
+  containers:
+    - name: app
+      image: <your-image>
+```
+
+設定を棚卸しします。
 
 ```bash
-# ノードにログインして実行
+kubectl get pod <Pod名> -n <名前空間> -o yaml \
+  | grep -A 60 -E 'volumeMounts:|volumes:|securityContext:'
+```
+
+同じノードで最小構成が起動するなら、原因はPod定義側です。mountを戻した瞬間に再発するなら、ノード上のパス、権限、ラベル、ファイル/ディレクトリの型を確認します。
+
+### 原因3：containerd、CRI-O、runc、cgroup、ディスクなどノード側runtimeが壊れている
+
+同じPodが特定ノードでだけ失敗する場合は、ノード側のcontainer runtimeを見ます。containerd、CRI-O、runc、cgroup、ディスク容量、展開済みimage layerの不整合が原因になることがあります。
+
+**Before（ノード偏りを見ずにPod定義だけ直そうとしている）：**
+
+```bash
+kubectl describe pod <Pod名> -n <名前空間>
+# Pod定義だけを繰り返し編集する
+```
+
+**After（失敗ノードを先に確定する）：**
+
+```bash
+kubectl get pod <Pod名> -n <名前空間> -o wide
+kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
+```
+
+ノードに入れる場合は、kubeletとruntimeのログを確認します。
+
+```bash
 sudo journalctl -u kubelet --since "30 min ago" --no-pager
-sudo systemctl status containerd    # CRI-O の場合は crio
+sudo systemctl status containerd
 sudo journalctl -u containerd --since "30 min ago" --no-pager
 df -h
 ```
 
-ノード上のランタイムやコンテナを直接検査したい場合は、CRI 互換ランタイム用のコマンドラインツール `crictl` が使えます。Kubernetes の公式ドキュメントでは、
-「ノード上のコンテナランタイムとアプリケーションを検査・デバッグできる」
-ツールとして案内されています（[Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)）。使えるサブコマンドと構文は環境のバージョンによって差があるため、`crictl --help` と公式ページで確認してから実行してください。
+CRI互換runtimeの状態を直接見る場合は `crictl` が使えます。Kubernetes公式ドキュメントは、ノード上のcontainer runtimeとアプリケーションを検査・デバッグするためのツールとして `crictl` を案内しています（[Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)）。
 
-ランタイム側の設定を疑う場合、containerd では設定ファイルの既定パスが `/etc/containerd/config.toml` で、CRI 用の設定は `[plugins."io.containerd.grpc.v1.cri"]` セクションにまとまっています（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。個別の設定キーは版によって変わるため、値を書き換える前に必ず使用中の版のドキュメントで確認してください。ランタイムそのものの導入・構成については [Container Runtimes](https://kubernetes.io/docs/setup/production-environment/container-runtimes/) が起点になります。
+containerdのCRI設定を疑う場合、containerd側ではCRI pluginの設定が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし設定キーは版によって変わるため、実行中の版のドキュメントと現在の `config.toml` を突き合わせてください。
 
-## 確認・切り分け手順
+## 補足：似ているが別のもの
 
-上から順に実行すると、原因のレイヤーが 1 つずつ確定します。
+`CreateContainerConfigError` は、SecretやConfigMapの参照、環境変数、設定解決など、container runtimeへ起動を依頼する前の段階で止まる表示です。`RunContainerError` と同じ「コンテナが動かない」見た目でも、調査対象はPod定義の解決側です。
 
-1. **reason を確定する**
+`FailedCreatePodSandbox` は、Pod sandbox、CNI、pause container付近の失敗です。アプリコンテナの起動以前で止まっています。Eventsにこのreasonが出ているなら、CNI pluginやcontainer runtimeのsandbox設定を先に見ます。
 
-```bash
-kubectl get pod <your-pod> -n <your-namespace> \
-  -o jsonpath='{range .status.containerStatuses[*]}{.name}{" | "}{.state.waiting.reason}{"\n"}{end}'
+`CrashLoopBackOff` は、コンテナの起動には成功した後、アプリケーションが終了して再起動を繰り返している状態です。この場合は `kubectl logs --previous` や終了コードが主な手がかりです。
+
+`ImagePullBackOff` と `ErrImagePull` は、image取得の失敗です。認証、タグ、registry到達性を確認します。`RunContainerError` はimage取得後の段階です。
+
+`OOMKilled` は、起動後にメモリ制限などでプロセスが終了した結果です。`RunContainerError` はプロセス開始前または開始時点で止まるため、調査する時間軸が違います。
+
+## 危険な対応を行う前の確認
+
+`RunContainerError` でよくある危険な対応は、原因を確定しないまま権限や保護機構を広げることです。
+
+次の対応は、原因切り分けの一時検証に限定してください。
+
+```yaml
+securityContext:
+  privileged: true
 ```
 
-reason が `RunContainerError` でなければ、この記事の手順は当てはめません。表示された reason に対応する段階の調査に切り替えます。
-
-2. **message とイベントを読む**
-
-```bash
-kubectl describe pod <your-pod> -n <your-namespace>
-kubectl get events -n <your-namespace> --sort-by=.lastTimestamp
+```yaml
+securityContext:
+  runAsUser: 0
 ```
 
-`FailedCreatePodSandbox` が先行していないかをここで確認します。
-
-3. **ワークロード設定かノードかを分ける**
-
-同じイメージで、`command`、`args`、`workingDir`、`securityContext`、`volumeMounts` を外した最小構成の Pod を、同じノードに置いて起動します。
-
-- 最小構成が起動する場合：マニフェスト側（原因 1、原因 2）。外した項目を 1 つずつ戻して再現条件を特定します。
-- 最小構成も失敗する場合：ノード側（原因 3）。
-
-4. **ノード固有かどうかを見る**
-
-問題の Pod を別のノードで起動し、結果を比べます。片方のノードだけで失敗するなら、そのノードのランタイム状態を調べます。
-
-5. **ノード側のログと状態を確認する**
-
-kubelet とコンテナランタイムのログ、サービスの稼働状態、ディスク容量、`crictl` によるランタイムの応答を確認します（コマンドは原因 3 のとおり）。
-
-6. **修正後に解決を確認する**
-
-```bash
-kubectl get pod <your-pod> -n <your-namespace> -w
-# Deployment 経由の場合
-kubectl rollout status deployment/<your-deployment> -n <your-namespace>
+```yaml
+securityContext:
+  seLinuxOptions: null
 ```
 
-期待する状態は、コンテナが Running かつ Ready になり、`waiting.reason` が消え、`Restart Count` が増え続けないことです。Running には入るが再起動を繰り返す場合、問題は起動段階から起動後の段階へ移っており、`RunContainerError` の調査は完了しています。
+`privileged: true`、root実行、SELinux/AppArmor/seccompの無効化、hostPathの広範囲な付与は、Podの隔離を弱めます。動いたから恒久対応にするのではなく、どの権限・ラベル・mount・実行ユーザーが必要だったのかを狭く戻します。
 
-## それでも解決しない場合
+ノード側でruntimeを再起動する場合も、影響範囲を確認してください。
 
-ここまでで原因が確定しない場合は、次の情報をそろえてから相談・報告に進んでください。推測を足さず、観測した文言をそのまま残すことが重要です。
+```bash
+kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
+kubectl cordon <ノード名>
+```
 
-- `kubectl describe pod <your-pod> -n <your-namespace>` の全文（reason と message を含む）
-- `kubectl get pod <your-pod> -n <your-namespace> -o yaml` の内容（Secret の値などの秘密情報は `<your-secret>` のように置き換える）
-- 失敗しているノード名と、そのノード上の他 Pod の状態
-- ノードの kubelet ログとコンテナランタイムのログの該当時刻部分
-- 使用しているコンテナランタイムの種類と版、Kubernetes の版
-- 最小構成での再現結果（起動したか、失敗したか）
+本番ノードでcontainer runtimeを再起動すると、そのノード上のPodに影響します。まず対象ノードのPod、PodDisruptionBudget、冗長性を確認し、必要ならcordonやdrainの計画を立てます。
 
-進め方の指針として、次の公式ドキュメントを参照してください。
+imageやレイヤを削除する場合も、対象を限定します。
 
-- [Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)：Pod の状態と Events を起点にした切り分け手順。
-なおこのページはアプリケーション側のデバッグを対象としており、クラスター自体のデバッグは別ページに案内されています
-。
-- [Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)：ノード上のランタイムとコンテナを直接検査する方法。
-- [Container Runtimes](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)：ノードのランタイム構成の前提条件。
-- [containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)：containerd を使う場合の CRI 設定の確認先。
-- [pkg/kubelet/container/sync_result.go](https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/container/sync_result.go)：`RunContainerError` を含む kubelet のエラー定義。段階の対応関係を確かめたいときの一次情報です。
+```bash
+# 実行前に対象ノードと対象imageを確認する
+crictl images
+```
 
-message の文言が特定のランタイムに固有だと分かった場合は、そのランタイムのリポジトリの Issue を、実際の文言で検索するのが有効です。Kubernetes 側の不具合が疑われる場合は、上記のログと再現手順をそろえて kubernetes/kubernetes の Issue を確認してください。
+不要だからといって広範囲にimageやcontainer stateを消すと、他のPodの再起動や復旧に影響します。messageとruntimeログで対象を絞ってから実行してください。
+
+## 切り分けの順序
+
+1. `containerStatuses` と `initContainerStatuses` のreasonを確認し、`RunContainerError` であることを確定する。
+2. `kubectl describe pod` で `Message` をそのまま保存する。
+3. Eventsを時系列で確認し、`FailedCreatePodSandbox` やimage pull系の前段階エラーが主因でないか確認する。
+4. `kubectl logs` が空でも、プロセス開始前なら異常ではないと判断する。
+5. `command`、`args`、`workingDir`、`securityContext` を外した最小構成で同じimageを起動する。
+6. volumeMount、Secret、ConfigMap、hostPathを1つずつ戻し、どの設定で再発するか確認する。
+7. 同じPodを別ノードで動かし、ノード固有かワークロード固有かを分ける。
+8. ノード固有なら kubelet、containerd/CRI-O、runc、cgroup、ディスク容量を確認する。
+9. 権限緩和やruntime再起動を行う前に、影響範囲と戻し方を決める。
+10. 修正後は `waiting.reason` が消え、Podが `Running` かつ `Ready` になることを確認する。
+
+## 確認コマンド集
+
+```bash
+# 1. Pod内の各コンテナのreason/messageを確認する
+kubectl get pod <Pod名> -n <名前空間> \
+  -o jsonpath='{range .status.containerStatuses[*]}{.name}{"\t"}{.state.waiting.reason}{"\t"}{.state.waiting.message}{"\n"}{end}'
+
+# 2. initコンテナ側も確認する
+kubectl get pod <Pod名> -n <名前空間> \
+  -o jsonpath='{range .status.initContainerStatuses[*]}{.name}{"\t"}{.state.waiting.reason}{"\t"}{.state.waiting.message}{"\n"}{end}'
+
+# 3. describeでState、Message、Eventsをまとめて確認する
+kubectl describe pod <Pod名> -n <名前空間>
+
+# 4. Eventsを時系列で見る
+kubectl get events -n <名前空間> \
+  --field-selector involvedObject.name=<Pod名> \
+  --sort-by=.lastTimestamp
+
+# 5. Pod定義を保存する
+kubectl get pod <Pod名> -n <名前空間> -o yaml > pod-runcontainererror.yaml
+
+# 6. 対象ノードを確認する
+kubectl get pod <Pod名> -n <名前空間> -o wide
+
+# 7. 同じノード上のPodを確認する
+kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
+
+# 8. ノード側でkubeletログを見る
+sudo journalctl -u kubelet --since "30 min ago" --no-pager
+
+# 9. containerdを使っている場合の状態とログ
+sudo systemctl status containerd
+sudo journalctl -u containerd --since "30 min ago" --no-pager
+
+# 10. ディスク容量を確認する
+df -h
+
+# 11. CRI経由でruntime状態を見る
+crictl ps -a
+crictl pods
+crictl images
+```
+
+## Editor's Note
+
+`RunContainerError` が扱いにくい理由は、Kubernetesの表示が「runtimeが起動できなかった」という段階名で止まり、原因の本文はruntime由来のmessageに移ることです。Kubernetesの公式デバッグ手順はPodの状態とEventsを見るところから始めますが、`RunContainerError` ではそこからさらにcontainer runtime側の語彙へ降りる必要があります。
+
+kubeletのソースにも、`RunContainerError` は `CreatePodSandboxError` や `KillContainerError` など段階の異なるエラーと並んで定義されています（[sync_result.go](https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/container/sync_result.go)）。つまり、この文字列は「Kubernetes全体が失敗した」という大ざっぱな印ではなく、Pod起動のどの境界で止まったかを示す印です。
+
+一方で、ノード上の実態を見るにはKubernetes APIだけでは足りないことがあります。Kubernetes公式の [`crictl` デバッグ手順](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)は、ノード上のcontainer runtimeとコンテナを直接調べる方法を案内しています。`RunContainerError` では、Pod定義の修正だけでなく、runtimeログやCRIの状態確認まで含めて初めて原因が見えることがあります。
+
+だから、`RunContainerError` を見たら、まず `Message` を読み、次にPod定義かノードかを分けてください。権限を広げる、runtimeを再起動する、image stateを消す、といった操作は、原因の層が分かってから行う最後の手段です。
 
 ---
 
