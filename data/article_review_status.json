@@ -1014,5 +1014,16 @@
         "note": "Anthropic API（Claude Opus 5 max）で下書き生成。公式Kubernetes docsとcontainerd docsのevidenceを保存し、Editor’s Noteを追加。lint FAIL 0。"
       }
     ]
+  },
+  "content/posts/docker_manifest_unknown.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "Anthropic API（Claude Opus 5 max、max_tokens 30000）で下書き生成。生成後に内部メモ行とdescriptionを整え、lint FAIL 0。"
+      }
+    ]
   }
 }
