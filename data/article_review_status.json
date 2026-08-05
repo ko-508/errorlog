@@ -981,5 +981,16 @@
         "note": "新規作成。port is already allocated はOSではなくDocker自身の割り当て台帳が返す文言で、待ち受けが無くても出る点を軸に据えた。OS由来のaddress already in useとの文言による判別、停止中コンテナの見落とし（-a）、台帳の不整合（持ち主がdockerd自身）、Windowsの予約ポート範囲（Windows版getReservedPortsが何も返さない実装）、exposeとportsの混同を実装で照合。Editor's Note は moby #36591（持ち主がdockerd自身と証拠付きで特定）と #20486"
       }
     ]
+  },
+  "content/posts/kubernetes_nodenotready.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Ready条件のFalseとUnknownで調査方向が正反対である点を軸に据え、既定50秒でUnknown・その5分後に退去開始という時間設計を公式で照合。退去の速度制限（10秒に1ノード、0.55以上で減速、50ノード以下は停止）、到達不能ノードでPodが動き続ける点、PLEG閾値3分による境界上の揺れ、CNI未初期化の文言、SchedulingDisabledは条件ではない点を追加。Editor's Note は kubernetes/kubernetes #45419"
+      }
+    ]
   }
 }
