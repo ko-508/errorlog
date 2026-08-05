@@ -104,6 +104,7 @@
   "kubernetes_createcontainerconfigerror": "2026-08-04T00:43:22.783228+00:00",
   "kubernetes_evicted": "2026-08-04T22:31:23.070181+00:00",
   "kubernetes_imagepullbackoff": "2026-08-02T22:08:57.084034+00:00",
+  "kubernetes_liveness_probe_failed": "2026-08-05T05:11:31.820154+00:00",
   "kubernetes_oomkilled": "2026-08-02T22:08:57.087354+00:00",
   "kubernetes_pending": "2026-08-02T22:08:57.081635+00:00",
   "kubernetes_terminating": "2026-08-05T00:10:17.265155+00:00",
