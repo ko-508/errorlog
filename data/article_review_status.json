@@ -948,5 +948,16 @@
         "note": "新規作成。pull access deniedを単純なログイン不足ではなく、存在しないリポジトリと権限のない非公開リポジトリを区別しにくい文言として整理。Registry仕様上は404のNAME_UNKNOWN、403のDENIED、401のUNAUTHORIZED、タグ不足のMANIFEST_UNKNOWNが別である点を明示した。名前空間・Registry・latestの暗黙補完、private pull権限、CIの認証保存先、Composeの変数展開、COPY --fromのstage名誤り、別BuildKitによるローカルイメージのpullを収録。Editor's NoteはMobyの2018年の変換処理変更、docker/cli #1559、moby/moby #49542"
       }
     ]
+  },
+  "content/posts/kubernetes_liveness_probe_failed.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Liveness probe failedは単発の失敗だけで再起動を意味せず、failureThreshold到達後に対象コンテナを終了し、restartPolicyに従って同じPod内で再起動する点を軸に整理。path・port・localhost待受・timeout・起動遅延・認証・外部依存を原因別に解説し、startupProbeとの分担、Killingイベント、restartCount、直前ログによる確定手順を掲載。誤ったlivenessが高負荷時の連鎖再起動を起こす危険も記載。Editor's Noteはkubernetes/kubernetes #62594と#81723"
+      }
+    ]
   }
 }
