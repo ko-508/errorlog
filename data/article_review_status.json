@@ -904,5 +904,16 @@
         "note": "新規作成。ContainerCreatingは根本原因ではなくkubectlの表示用要約、FailedMountはマウント試行のイベントである点を軸に統合。PodScheduled、最新イベント、ボリューム名を起点に、Secret・ConfigMap、PVC・PV・StorageClass、CSI登録、FailedAttachVolume・Multi-Attach、rpc error・mount出力、kubeletのキャッシュ同期、再試行後の成功、イメージ・CNI系を順に切り分け。既定のEvent保持時間1時間、WaitForFirstConsumer、ReadWriteOnceとReadWriteOncePodの違い、強制detachの危険も注記。Editor's Noteは kubernetes/kubernetes #42867、#99475、#109451 とPR #43852（現在の要約と過去の試行記録が混在する構造）"
       }
     ]
+  },
+  "content/posts/kubernetes_terminating.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。TerminatingはPodのphaseではなく、deletionTimestampを持つ削除途中のオブジェクトをkubectlが示す表示である点を軸に据えた。既定30秒の猶予期間、preStopと終了シグナル、--wait=falseとの違い、finalizerと管理コントローラー、Job tracking finalizer、到達不能ノード、Admission Webhook、foreground削除を整理。強制削除はkubeletの停止確認を待たず、StatefulSetでは同じ識別情報の二重起動やデータ不整合を招き得るため最後の手段と明記。Editor's Note は kubernetes/kubernetes #51835 と #131775"
+      }
+    ]
   }
 }
