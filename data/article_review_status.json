@@ -915,5 +915,16 @@
         "note": "新規作成。TerminatingはPodのphaseではなく、deletionTimestampを持つ削除途中のオブジェクトをkubectlが示す表示である点を軸に据えた。既定30秒の猶予期間、preStopと終了シグナル、--wait=falseとの違い、finalizerと管理コントローラー、Job tracking finalizer、到達不能ノード、Admission Webhook、foreground削除を整理。強制削除はkubeletの停止確認を待たず、StatefulSetでは同じ識別情報の二重起動やデータ不整合を招き得るため最後の手段と明記。Editor's Note は kubernetes/kubernetes #51835 と #131775"
       }
     ]
+  },
+  "content/posts/terraform_inconsistent_dependency_lock_file.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Inconsistent dependency lock fileは設定が要求するプロバイダーと、.terraform.lock.hclの選択が一致しないエラーである点を軸に据えた。版の不一致を直すterraform init -upgradeと、OS・CPUごとの検査値を追加するterraform providers lock -platformを明確に区別。新規プロバイダー、未登録のロックファイル、モノレポの作業場所、共有キャッシュ、ミラー、保存したplanとの不一致、CIでの-lockfile=readonlyを整理。Editor's Noteはhashicorp/terraform #29958"
+      }
+    ]
   }
 }
