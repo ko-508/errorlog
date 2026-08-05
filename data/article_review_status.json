@@ -926,5 +926,16 @@
         "note": "新規作成。Inconsistent dependency lock fileは設定が要求するプロバイダーと、.terraform.lock.hclの選択が一致しないエラーである点を軸に据えた。版の不一致を直すterraform init -upgradeと、OS・CPUごとの検査値を追加するterraform providers lock -platformを明確に区別。新規プロバイダー、未登録のロックファイル、モノレポの作業場所、共有キャッシュ、ミラー、保存したplanとの不一致、CIでの-lockfile=readonlyを整理。Editor's Noteはhashicorp/terraform #29958"
       }
     ]
+  },
+  "content/posts/github_resource_not_accessible_by_integration.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "新規作成。Resource not accessible by integrationをGITHUB_TOKENの権限境界として整理。同一リポジトリでは失敗したAPIとpermissionsを1対1で対応させ、未指定権限がnoneになる仕様、ジョブ・再利用ワークフローでの降格、組織既定値を解説。外部フォークとDependabotではwriteへ引き上げられない点、pull_request_targetでPR側コードを実行する危険、別リポジトリではGitHub Appを使う構成も収録。Editor's Noteはcli/cli #10464とgithub/codeql #8843を対比"
+      }
+    ]
   }
 }
