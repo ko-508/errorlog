@@ -1,0 +1,44 @@
+anthropic:
+  model: "claude-opus-5"
+  max_tokens: 40000
+  effort: "max"
+  thinking:
+    type: "adaptive"
+    display: "omitted"
+  web_search:
+    enabled: true
+    type: "web_search_20260318"
+    response_inclusion: "excluded"
+    max_uses: 10
+    allowed_domains: []
+  pricing:
+    input_mtok_usd: 5.0
+    output_mtok_usd: 25.0
+    cache_write_5m_mtok_usd: 6.25
+    cache_write_1h_mtok_usd: 10.0
+    cache_read_mtok_usd: 0.5
+    web_search_request_usd: 0.01
+  budget:
+    warning_usd: 1.00
+    hard_limit_usd: 1.50
+    hard_limit_action: "stop"
+
+model_presets:
+  sonnet5:
+    model: "claude-sonnet-5"
+    max_tokens: 40000
+    effort: "max"
+    input_mtok_usd: 2.0
+    output_mtok_usd: 10.0
+
+paths:
+  editorial_context: "docs/errorlog_editorial_context.md"
+  editorial_context_meta: "config/errorlog_editorial_context_meta.yml"
+  rules: "docs/anthropic_article_rules.md"
+  queue: "scripts/queue.csv"
+  posts_dir: "content/posts"
+  report_dir: "reports/anthropic_generation"
+
+quality:
+  run_lint: true
+  run_fact_check: false

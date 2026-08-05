@@ -1,0 +1,52 @@
+version: 1
+generated_at: "2026-08-04"
+source: "Claude chat history"
+priority_order:
+  - factual_accuracy
+  - scope_boundary
+  - diagnostic_usefulness
+  - safety
+  - natural_japanese
+  - completeness
+  - formatting
+canonical_examples:
+  - slug: "kubernetes_evicted"
+    reason: "文言に並ぶ数値が選定過程の記録であって原因ではない、という誤解の訂正を軸に据えた型。公式の閾値・選択順と、3年を隔てた2件の同構造の Issue で裏付けている"
+  - slug: "openai_api_422"
+    reason: "検証の結果、対象コードが公式のエラー一覧に存在しないと判明したため、記事の切り口自体を『接続先を疑う』へ全面転換した例。応答本文の形（error オブジェクトか detail 配列か）で発生源を判定する軸"
+  - slug: "docker_port_is_already_allocated"
+    reason: "エラー文言を生成している実装（独自の割り当て台帳）を特定し、OS 由来の別文言との判別を軸にした例。『誰が返したか』の診断軸の典型"
+  - slug: "aws_elb_504"
+    reason: "既存の汎用記事が同じクエリを狙っていたため、アクセスログでの発生源判定に切り口を特化させ、共食いを避けた例"
+  - slug: "github_host_key_verification_failed"
+    reason: "危険な回避策（検証の無効化）を独立した原因として立て、明示的に推奨しない扱いとしたうえで安全な代替を示した例"
+deprecated_rules:
+  - rule: "上限や割り当ての超過は必ず 429 で返る"
+    replaced_by: "原則は 429 だが、公式に文書化された例外がある（Compute Engine のクォータ超過は 403 で QUOTA_EXCEEDED / RATE_LIMIT_EXCEEDED として返る）。原則と例外の二段構えで書く"
+  - rule: "権限不足で 404 が返ることはなく、方向は一方通行である"
+    replaced_by: "定義上は利用者単位の拒否に 403 を使うが、運用上は存在を秘匿するために 403 の代わりに 404 が返る場合があると公式に明記されている。定義と運用の二層で書く"
+  - rule: "500 は待っても直らないため再試行の対象ではない"
+    replaced_by: "公式の指針では 500 も 503 も指数バックオフでの再試行対象。503 の定義には解消の見込みが書かれ、500 には書かれていないという保証の有無の違いとして整理する"
+  - rule: "Editor's Note は出典なしで書いてよい"
+    replaced_by: "実在確認済みの記録（Issue・公式発表・公式コミュニティ）を markdown リンクで必ず示す。根拠が用意できない場合は節ごと省く"
+  - rule: "リサーチは web_search を主体に行う"
+    replaced_by: "公式リポジトリの生ファイルへの curl と grep を優先する。web_search は対象ファイルが不明な場合と実事例探索に限る"
+unresolved_points:
+  - "既存の汎用記事と派生記事が同一クエリを狙って併存している状態（elb 504 / elb 503）の整理方針が未決。top_queries を移すか、内部リンクで誘導を寄せるかが決まっていない"
+  - "検索データで需要が確認できているのは一部クエリのみで、名前付きエラー記事群の優先順位は需要データではなく構造的な判断に依拠している"
+  - "エラー名スラッグ（context_length_exceeded 等）と状態コード記事の関係を、記事分割ではなく見出しへのエラー名反映で扱う方針としたが、その効果は未検証"
+must_not:
+  - "照合していない応答例（code / type / param / message）を記載する"
+  - "検索結果のスニペットのみを根拠に断定する"
+  - "公式資料の別セクションの内容を取り違えて帰属する"
+  - "クローズ済みの記録の内容を現行の挙動として記載する"
+  - "用語集にページのない語へリンクを張る"
+  - "未公開記事へ内部リンクを張る"
+  - "検証の無効化や強制削除を、影響範囲の説明なしに提示する"
+  - "既存記事と同じ切り口・同じクエリの記事を新規作成する"
+  - "根拠が不足している状態で分量を水増しする"
+  - "最終出力に思考過程・調査メモ・前置き・自己評価を含める"
+final_output_contract:
+  format: "Hugo Markdown"
+  include_only_completed_article: true
+  allow_internal_notes: false
