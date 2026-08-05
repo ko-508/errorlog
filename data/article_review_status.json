@@ -1003,5 +1003,16 @@
         "note": "新規作成。文言の出所がGitHubではなくSSHクライアントである点、認証ではなく接続先の身元確認の段階である点を軸に据え、OpenSSH実装で『記録に無い』『記録と違う』の2分岐を確認。GitHub公開の指紋と照合して判断する手順を中心に置き、ssh-keyscanの無検証追記とStrictHostKeyChecking=noを推奨しない扱いにした。Editor's Note は2023-03-24のRSAホスト鍵交換（公式発表）"
       }
     ]
+  },
+  "content/posts/kubernetes_failedcreatepodsandbox.md": {
+    "verified": true,
+    "verified_at": "2026-08-05",
+    "last_verified_at": "2026-08-05",
+    "history": [
+      {
+        "date": "2026-08-05",
+        "note": "Anthropic API（Claude Opus 5 max）で下書き生成。公式Kubernetes docsとcontainerd docsのevidenceを保存し、Editor’s Noteを追加。lint FAIL 0。"
+      }
+    ]
   }
 }
