@@ -16,6 +16,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.request
 from html.parser import HTMLParser
@@ -576,14 +577,30 @@ def response_to_dict(message: Any) -> dict[str, Any]:
     raise SystemExit("エラー: Anthropic SDK の response を JSON 化できません。")
 
 
+def atomic_write_text(path: Path, content: str) -> None:
+    tmp = path.with_name(path.name + f".tmp-{uuid.uuid4().hex}")
+    tmp.write_text(content, encoding="utf-8")
+    tmp.replace(path)
+
+
+def merge_usage(target: dict[str, Any], update: dict[str, Any]) -> None:
+    for key, value in update.items():
+        if isinstance(value, dict):
+            current = target.setdefault(key, {})
+            if not isinstance(current, dict):
+                raise SystemExit(f"エラー: Anthropic usage.{key} の型が途中で変わりました。")
+            merge_usage(current, value)
+        else:
+            target[key] = value
+
+
 def post_anthropic_json(path: str, payload: dict[str, Any]) -> dict[str, Any]:
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key:
         raise SystemExit("エラー: ANTHROPIC_API_KEY が設定されていません。")
-    data = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = urllib.request.Request(
         f"https://api.anthropic.com/v1/{path}",
-        data=data,
+        data=json.dumps(payload, ensure_ascii=False).encode("utf-8"),
         headers={
             "content-type": "application/json",
             "anthropic-version": "2023-06-01",
@@ -603,6 +620,150 @@ def post_anthropic_json(path: str, payload: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(parsed, dict):
         raise SystemExit("エラー: Anthropic API response がオブジェクトではありません。")
     return parsed
+
+
+def post_anthropic_stream(
+    path: str,
+    payload: dict[str, Any],
+    checkpoint_dir: Path,
+    partial_output_interval_seconds: float,
+) -> dict[str, Any]:
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise SystemExit("エラー: ANTHROPIC_API_KEY が設定されていません。")
+    stream_payload = dict(payload)
+    stream_payload["stream"] = True
+    data = json.dumps(stream_payload, ensure_ascii=False).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.anthropic.com/v1/{path}",
+        data=data,
+        headers={
+            "content-type": "application/json",
+            "anthropic-version": "2023-06-01",
+            "x-api-key": api_key,
+        },
+        method="POST",
+    )
+    checkpoint_dir.mkdir(parents=True, exist_ok=False)
+    atomic_write_text(
+        checkpoint_dir / "request.json",
+        json.dumps(stream_payload, ensure_ascii=False, indent=2) + "\n",
+    )
+    blocks: dict[int, dict[str, Any]] = {}
+    response_json: dict[str, Any] | None = None
+    usage: dict[str, Any] = {}
+    stop_reason: str | None = None
+    saw_message_stop = False
+    partial_text = ""
+    last_partial_write = time.monotonic()
+    events_path = checkpoint_dir / "events.jsonl"
+    try:
+        with (
+            urllib.request.urlopen(req, timeout=API_TIMEOUT_SECONDS) as res,
+            events_path.open("a", encoding="utf-8", buffering=1) as events_file,
+        ):
+            event_name = ""
+            data_lines: list[str] = []
+            while True:
+                raw_line = res.readline()
+                if not raw_line:
+                    break
+                line = raw_line.decode("utf-8").rstrip("\r\n")
+                if line:
+                    if line.startswith("event:"):
+                        event_name = line[6:].strip()
+                    elif line.startswith("data:"):
+                        data_lines.append(line[5:].lstrip())
+                    continue
+                if not data_lines:
+                    event_name = ""
+                    continue
+                event = json.loads("\n".join(data_lines))
+                events_file.write(json.dumps(event, ensure_ascii=False) + "\n")
+                event_type = str(event.get("type") or event_name)
+                if event_type == "error":
+                    raise RuntimeError(json.dumps(event.get("error"), ensure_ascii=False))
+                if event_type == "message_start":
+                    message = event.get("message")
+                    if not isinstance(message, dict):
+                        raise RuntimeError("message_start.message がオブジェクトではありません。")
+                    response_json = dict(message)
+                    start_usage = message.get("usage")
+                    if isinstance(start_usage, dict):
+                        merge_usage(usage, start_usage)
+                elif event_type == "content_block_start":
+                    index = int(event["index"])
+                    block = event.get("content_block")
+                    if not isinstance(block, dict):
+                        raise RuntimeError("content_block_start.content_block がオブジェクトではありません。")
+                    blocks[index] = dict(block)
+                elif event_type == "content_block_delta":
+                    index = int(event["index"])
+                    delta = event.get("delta")
+                    if not isinstance(delta, dict) or index not in blocks:
+                        raise RuntimeError("content_block_delta の形式または順序が不正です。")
+                    delta_type = delta.get("type")
+                    if delta_type == "text_delta":
+                        text_delta = str(delta.get("text", ""))
+                        blocks[index]["text"] = str(blocks[index].get("text", "")) + text_delta
+                        partial_text += text_delta
+                    elif delta_type == "thinking_delta":
+                        blocks[index]["thinking"] = str(blocks[index].get("thinking", "")) + str(
+                            delta.get("thinking", "")
+                        )
+                    elif delta_type == "signature_delta":
+                        blocks[index]["signature"] = str(blocks[index].get("signature", "")) + str(
+                            delta.get("signature", "")
+                        )
+                    elif delta_type == "input_json_delta":
+                        blocks[index]["partial_json"] = str(blocks[index].get("partial_json", "")) + str(
+                            delta.get("partial_json", "")
+                        )
+                elif event_type == "content_block_stop":
+                    index = int(event["index"])
+                    block = blocks.get(index)
+                    if isinstance(block, dict) and "partial_json" in block:
+                        block["input"] = json.loads(str(block.pop("partial_json")))
+                elif event_type == "message_delta":
+                    delta = event.get("delta")
+                    if isinstance(delta, dict):
+                        stop_reason = delta.get("stop_reason") or stop_reason
+                    delta_usage = event.get("usage")
+                    if isinstance(delta_usage, dict):
+                        merge_usage(usage, delta_usage)
+                elif event_type == "message_stop":
+                    saw_message_stop = True
+                if partial_text and (
+                    time.monotonic() - last_partial_write >= partial_output_interval_seconds
+                ):
+                    atomic_write_text(checkpoint_dir / "partial_output.md", partial_text)
+                    last_partial_write = time.monotonic()
+                event_name = ""
+                data_lines = []
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        raise SystemExit(
+            f"エラー: Anthropic API HTTP {exc.code}: {body} 保存先: {checkpoint_dir}"
+        ) from exc
+    except urllib.error.URLError as exc:
+        raise SystemExit(f"エラー: Anthropic API に接続できません: {exc} 保存先: {checkpoint_dir}") from exc
+    except (json.JSONDecodeError, KeyError, RuntimeError, UnicodeDecodeError, ValueError) as exc:
+        raise SystemExit(f"エラー: Anthropic stream の処理に失敗しました: {exc} 保存先: {checkpoint_dir}") from exc
+    finally:
+        if partial_text:
+            atomic_write_text(checkpoint_dir / "partial_output.md", partial_text)
+    if response_json is None:
+        raise SystemExit(f"エラー: Anthropic stream に message_start がありません。保存先: {checkpoint_dir}")
+    if not saw_message_stop:
+        raise SystemExit(f"エラー: Anthropic stream が完了前に切断されました。保存先: {checkpoint_dir}")
+    response_json["content"] = [blocks[index] for index in sorted(blocks)]
+    response_json["usage"] = usage
+    response_json["stop_reason"] = stop_reason
+    atomic_write_text(
+        checkpoint_dir / "response.json",
+        json.dumps(response_json, ensure_ascii=False, indent=2) + "\n",
+    )
+    return response_json
 
 
 def text_from_response(response_json: dict[str, Any]) -> str:
@@ -1035,6 +1196,7 @@ def call_anthropic(
     structured_research_output: bool = False,
     spent_cost_usd: float = 0.0,
     allow_over_hard_limit: bool = False,
+    stream_checkpoint_dir: Path,
 ) -> GenerationResult:
     request = build_request(
         config,
@@ -1066,11 +1228,14 @@ def call_anthropic(
     if not allow_over_hard_limit:
         enforce_budget(config, maximum, request, confirm_over_budget, spent_cost_usd=spent_cost_usd)
 
-    if client is None:
-        response_json = post_anthropic_json("messages", request)
-    else:
-        message = client.messages.create(**request)
-        response_json = response_to_dict(message)
+    checkpoint_config = require_dict(config, "checkpoint")
+    response_json = post_anthropic_stream(
+        "messages",
+        request,
+        stream_checkpoint_dir,
+        float(checkpoint_config["partial_output_interval_seconds"]),
+    )
+    print(f"stream checkpoint: {stream_checkpoint_dir.relative_to(BASE).as_posix()}")
     stop_reason = response_json.get("stop_reason")
     if stop_reason == "max_tokens":
         raise SystemExit("エラー: max_tokens に達して出力が途中で切れました。記事は保存しません。")
@@ -1218,6 +1383,12 @@ def save_run_report(report_dir: Path, payload: dict[str, Any], dry_run: bool) ->
     article_name = "quarantined_article.md" if payload.get("quarantined") else "article.md"
     (out_dir / article_name).write_text(str(payload["article"]), encoding="utf-8")
     return out_dir
+
+
+def new_stream_checkpoint_dir(report_dir: Path, slug: str, phase: str) -> Path:
+    checkpoint_id = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S") + "_" + uuid.uuid4().hex[:8]
+    safe_phase = re.sub(r"[^0-9A-Za-z_-]+", "_", phase).strip("_") or "phase"
+    return report_dir / slug / "in_progress" / f"{checkpoint_id}_{safe_phase}"
 
 
 def save_research_checkpoint(
@@ -1420,6 +1591,7 @@ def main() -> int:
             enable_web_search=True,
             web_search_max_uses=int(research_config["initial_web_search_uses"]),
             structured_research_output=True,
+            stream_checkpoint_dir=new_stream_checkpoint_dir(report_dir, slug, "research"),
         )
         raw_checkpoint = save_research_checkpoint(
             report_dir,
@@ -1454,6 +1626,7 @@ def main() -> int:
                 web_search_max_uses=int(research_config["additional_web_search_uses"]),
                 spent_cost_usd=float(research_result.cost["total_cost_usd"]),
                 structured_research_output=True,
+                stream_checkpoint_dir=new_stream_checkpoint_dir(report_dir, slug, "additional_research"),
             )
             raw_additional_checkpoint = save_research_checkpoint(
                 report_dir,
@@ -1507,6 +1680,7 @@ def main() -> int:
         enable_web_search=False,
         spent_cost_usd=float(research_result.cost["total_cost_usd"]),
         allow_over_hard_limit=bool(args.research_checkpoint),
+        stream_checkpoint_dir=new_stream_checkpoint_dir(report_dir, slug, "writing"),
     )
     combined_cost = combine_phase_costs(research_result.cost, result.cost)
     article = ensure_frontmatter(result.article, row, slug)

@@ -21,7 +21,7 @@ anthropic:
     web_search_request_usd: 0.01
   budget:
     warning_usd: 1.00
-    hard_limit_usd: 1.50
+    hard_limit_usd: 3.00
     hard_limit_action: "confirm"
 
 research:
@@ -33,6 +33,9 @@ research:
 writing:
   effort: "xhigh"
   max_tokens: 30000
+
+checkpoint:
+  partial_output_interval_seconds: 5
 
 model_presets:
   sonnet5:
