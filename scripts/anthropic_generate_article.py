@@ -643,6 +643,90 @@ def normalize_research_report(report: str) -> tuple[str, bool]:
     return normalized, bool(coverage["sufficient"])
 
 
+def research_output_schema() -> dict[str, Any]:
+    source_item = {
+        "type": "object",
+        "properties": {
+            "claim": {"type": "string"},
+            "source_url": {"type": "string"},
+            "evidence": {"type": "string"},
+        },
+        "required": ["claim", "source_url", "evidence"],
+        "additionalProperties": False,
+    }
+    return {
+        "type": "object",
+        "properties": {
+            "scope_boundary": {"type": "string"},
+            "system_stage": {"type": "string"},
+            "claims": {"type": "array", "items": source_item},
+            "causes": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "cause": {"type": "string"},
+                        "diagnosis": {"type": "string"},
+                        "safe_action": {"type": "string"},
+                    },
+                    "required": ["cause", "diagnosis", "safe_action"],
+                    "additionalProperties": False,
+                },
+            },
+            "adjacent_errors": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "distinction": {"type": "string"},
+                        "source_url": {"type": "string"},
+                    },
+                    "required": ["name", "distinction", "source_url"],
+                    "additionalProperties": False,
+                },
+            },
+            "editor_note_candidates": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "event": {"type": "string"},
+                        "source_url": {"type": "string"},
+                        "date": {"type": "string"},
+                        "status": {"type": "string"},
+                    },
+                    "required": ["event", "source_url", "date", "status"],
+                    "additionalProperties": False,
+                },
+            },
+            "unverified": {"type": "array", "items": {"type": "string"}},
+            "coverage": {
+                "type": "object",
+                "properties": {
+                    "official_sources": {"type": "integer"},
+                    "case_sources": {"type": "integer"},
+                    "boundary_sources": {"type": "integer"},
+                    "sufficient": {"type": "boolean"},
+                },
+                "required": ["official_sources", "case_sources", "boundary_sources", "sufficient"],
+                "additionalProperties": False,
+            },
+        },
+        "required": [
+            "scope_boundary",
+            "system_stage",
+            "claims",
+            "causes",
+            "adjacent_errors",
+            "editor_note_candidates",
+            "unverified",
+            "coverage",
+        ],
+        "additionalProperties": False,
+    }
+
+
 def usage_from_response(response_json: dict[str, Any]) -> dict[str, Any]:
     usage = response_json.get("usage")
     if not isinstance(usage, dict):
@@ -806,6 +890,7 @@ def build_request(
     max_tokens: int | None = None,
     enable_web_search: bool = True,
     web_search_max_uses: int | None = None,
+    structured_research_output: bool = False,
 ) -> dict[str, Any]:
     anthropic_config = model_config(config)
     request: dict[str, Any] = {
@@ -826,6 +911,11 @@ def build_request(
     }
     if effort:
         request["output_config"] = {"effort": effort}
+    if structured_research_output:
+        request.setdefault("output_config", {})["format"] = {
+            "type": "json_schema",
+            "schema": research_output_schema(),
+        }
     thinking = require_dict(anthropic_config, "thinking")
     thinking_type = str(thinking.get("type") or "").strip()
     if thinking_type:
@@ -942,6 +1032,7 @@ def call_anthropic(
     max_tokens: int | None = None,
     enable_web_search: bool = True,
     web_search_max_uses: int | None = None,
+    structured_research_output: bool = False,
     spent_cost_usd: float = 0.0,
     allow_over_hard_limit: bool = False,
 ) -> GenerationResult:
@@ -953,6 +1044,7 @@ def call_anthropic(
         max_tokens=max_tokens,
         enable_web_search=enable_web_search,
         web_search_max_uses=web_search_max_uses,
+        structured_research_output=structured_research_output,
     )
     client = load_anthropic_client()
     input_tokens = count_input_tokens(client, request)
@@ -1327,7 +1419,15 @@ def main() -> int:
             max_tokens=int(research_config["max_tokens"]),
             enable_web_search=True,
             web_search_max_uses=int(research_config["initial_web_search_uses"]),
+            structured_research_output=True,
         )
+        raw_checkpoint = save_research_checkpoint(
+            report_dir,
+            slug,
+            research_prompt,
+            initial_result,
+        )
+        print(f"research checkpoint: {raw_checkpoint.relative_to(BASE).as_posix()}")
         normalized_report, sufficient = normalize_research_report(initial_result.article)
         research_result = GenerationResult(
             article=normalized_report,
@@ -1335,13 +1435,6 @@ def main() -> int:
             usage=initial_result.usage,
             cost=initial_result.cost,
         )
-        initial_checkpoint = save_research_checkpoint(
-            report_dir,
-            slug,
-            research_prompt,
-            research_result,
-        )
-        print(f"research checkpoint: {initial_checkpoint.relative_to(BASE).as_posix()}")
         if not sufficient and not research_result.cost["hard_limit_exceeded"]:
             additional_prompt = build_research_prompt(
                 row=row,
@@ -1360,6 +1453,17 @@ def main() -> int:
                 enable_web_search=True,
                 web_search_max_uses=int(research_config["additional_web_search_uses"]),
                 spent_cost_usd=float(research_result.cost["total_cost_usd"]),
+                structured_research_output=True,
+            )
+            raw_additional_checkpoint = save_research_checkpoint(
+                report_dir,
+                slug,
+                additional_prompt,
+                additional_result,
+            )
+            print(
+                "additional raw checkpoint: "
+                f"{raw_additional_checkpoint.relative_to(BASE).as_posix()}"
             )
             normalized_report, _sufficient = normalize_research_report(additional_result.article)
             combined_research_cost = combine_phase_costs(research_result.cost, additional_result.cost)
