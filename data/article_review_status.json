@@ -1047,5 +1047,16 @@
         "note": "Claude Opus 5 maxで新規執筆。既存CrashLoopBackOffの派生として、init containerが完了せず通常コンテナへ進まない状態に範囲を限定。RunContainerErrorリライト後の章立てに合わせ、切り分け軸、原因別手順、危険対応前の確認、確認コマンド集、Editor's Noteを追加。lint FAIL 0。"
       }
     ]
+  },
+  "content/posts/terraform_unsupported_argument.md": {
+    "verified": true,
+    "verified_at": "2026-08-06",
+    "last_verified_at": "2026-08-06",
+    "history": [
+      {
+        "date": "2026-08-06",
+        "note": "Claude Opus 5 xhighの調査・執筆分離フローで新規執筆。Unsupported argumentをresource/data/provider、module、Terraform本体の3系統に分け、引数名、子module入力、provider・moduleの版差、ブロック階層を切り分ける構成。HashiCorp公式Issueを再確認してEditor's Noteを補強し、terraform init -upgradeと.terraform配下の直接編集に関する注意を追加。lint FAIL 0。"
+      }
+    ]
   }
 }
