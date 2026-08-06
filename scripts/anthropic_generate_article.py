@@ -897,6 +897,12 @@ def call_anthropic(
     request = build_request(config, prompt, max_tokens=max_tokens, enable_web_search=enable_web_search)
     client = load_anthropic_client()
     input_tokens = count_input_tokens(client, request)
+    max_input_tokens = int(model_config(config)["max_input_tokens"])
+    if input_tokens > max_input_tokens:
+        raise SystemExit(
+            f"エラー: {phase}の入力トークンが max_input_tokens を超えています: "
+            f"{input_tokens} > {max_input_tokens}"
+        )
     expected = expected_cost_for_request(config, input_tokens, request)
     maximum = maximum_cost_for_request(config, input_tokens, request)
     expected_total = spent_cost_usd + float(expected["total_cost_usd"])
