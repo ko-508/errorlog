@@ -416,27 +416,55 @@ def json_string(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
+def select_editorial_sections(document: str, section_numbers: set[int]) -> str:
+    matches = list(re.finditer(r"(?m)^## (\d+)\. ", document))
+    selected: list[str] = []
+    for index, match in enumerate(matches):
+        section_number = int(match.group(1))
+        if section_number not in section_numbers:
+            continue
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(document)
+        selected.append(document[match.start():end].strip())
+    if not selected:
+        raise SystemExit("エラー: 編集コンテキストから段階別セクションを抽出できません。")
+    return "\n\n".join(selected)
+
+
+def build_phase_contexts(
+    editorial_context: str,
+    editorial_context_meta: str,
+    rules: str,
+    article_spec: str,
+) -> tuple[str, str]:
+    research_sections = select_editorial_sections(editorial_context, {0, 2, 3, 6, 8, 9, 11, 12})
+    writing_sections = select_editorial_sections(editorial_context, {0, 1, 4, 5, 7, 8, 10, 11, 12})
+    research_context = (
+        "# ErrorLog 調査コンテキスト\n\n"
+        + research_sections
+        + "\n\n# メタ情報\n\n"
+        + editorial_context_meta
+    )
+    writing_context = (
+        "# ErrorLog 執筆コンテキスト\n\n"
+        + writing_sections
+        + "\n\n# 現在のAPI生成ルール\n\n"
+        + rules
+        + "\n\n# 共通記事仕様\n\n"
+        + article_spec
+    )
+    return research_context, writing_context
+
+
 def build_research_prompt(
     row: dict[str, str],
     slug: str,
-    editorial_context: str,
-    editorial_context_meta: str,
-    article_spec: str,
     evidence: dict[str, Any] | None = None,
+    previous_report: str | None = None,
 ) -> str:
     source_urls = [u.strip() for u in (row.get("source_urls") or "").split("|") if u.strip()]
     parts = [
         "ErrorLogの記事を書く前段として、調査だけを行ってください。記事本文は書かないでください。",
-        "最初に編集コンテキストを読み、その判断基準に従ってからWeb検索を開始してください。",
-        "",
-        "## ErrorLog編集コンテキスト",
-        editorial_context,
-        "",
-        "## 編集コンテキストのメタ情報",
-        editorial_context_meta,
-        "",
-        "## 共通記事仕様",
-        article_spec,
+        "systemの調査コンテキストを適用してからWeb検索を開始してください。",
         "",
         "## 調査対象",
         f"- slug: {slug}",
@@ -450,18 +478,22 @@ def build_research_prompt(
         parts.extend(["- supplied_source_urls:", *[f"  - {url}" for url in source_urls]])
     if evidence:
         parts.extend(["", "## 取得済みevidence", json.dumps(evidence, ensure_ascii=False, indent=2)])
+    if previous_report:
+        parts.extend([
+            "",
+            "## 初回調査レポート",
+            previous_report,
+            "",
+            "初回調査で不足とされた根拠だけを追加調査し、統合済みJSONを返してください。",
+        ])
     parts.extend([
         "",
-        "## 調査レポートの必須項目",
-        "- 記事の対象範囲と既存記事との境界",
-        "- エラーを生成するシステム・コンポーネント・処理段階",
-        "- 主張ごとの根拠URLと、根拠内で確認した内容",
-        "- 原因ごとの判別条件、確認方法、安全な対処",
-        "- 似ているが別のエラーとの判別方法",
-        "- Editor's Noteに使える実在の記録（日付・状態・対象バージョンを含む）",
-        "- 未確認事項と、記事に書いてはいけない事項",
+        "## 出力スキーマ",
+        '{"scope_boundary":"...","system_stage":"...","claims":[{"claim":"...","source_url":"https://...","evidence":"資料本文で確認した内容"}],"causes":[{"cause":"...","diagnosis":"...","safe_action":"..."}],"adjacent_errors":[{"name":"...","distinction":"...","source_url":"https://..."}],"editor_note_candidates":[{"event":"...","source_url":"https://...","date":"YYYY-MM-DD","status":"..."}],"unverified":["..."],"coverage":{"official_sources":0,"case_sources":0,"boundary_sources":0,"sufficient":false}}',
         "",
-        "Markdownの調査レポートだけを出力してください。完成記事、front matter、前置き、自己評価は禁止です。",
+        "JSONオブジェクトだけを出力してください。説明文、Markdown、完成記事、front matterは禁止です。",
+        "同じ資料を重複させず、evidenceは各300文字以内、配列は必要十分な件数に限定してください。",
+        "sufficientは公式一次資料3本以上、実事例1本以上、境界資料1本以上を本文確認できた場合だけtrueにしてください。",
     ])
     return "\n".join(parts)
 
@@ -469,10 +501,6 @@ def build_research_prompt(
 def build_user_prompt(
     row: dict[str, str],
     slug: str,
-    editorial_context: str,
-    editorial_context_meta: str,
-    rules: str,
-    article_spec: str,
     research_report: str,
     evidence: dict[str, Any] | None = None,
 ) -> str:
@@ -485,25 +513,6 @@ def build_user_prompt(
 
     parts = [
         "以下の queue 情報をもとに ErrorLog の下書き記事を1件生成してください。",
-        "",
-        "## 指示の優先順位",
-        "1. このプロンプト末尾の『重要な出力条件』",
-        "2. 『現在のAPI生成ルール』",
-        "3. 『ErrorLog編集コンテキスト』",
-        "4. 『共通記事仕様』",
-        "競合時は上位を優先してください。特に下書き生成では draft: true を必須とします。",
-        "",
-        "## ErrorLog編集コンテキスト",
-        editorial_context,
-        "",
-        "## 編集コンテキストのメタ情報",
-        editorial_context_meta,
-        "",
-        "## 現在のAPI生成ルール",
-        rules,
-        "",
-        "## 共通記事仕様",
-        article_spec,
         "",
         "## 事前調査レポート",
         research_report,
@@ -605,6 +614,33 @@ def text_from_response(response_json: dict[str, Any]) -> str:
     if not article:
         raise SystemExit("エラー: Anthropic response に text content がありません。")
     return article
+
+
+def normalize_research_report(report: str) -> tuple[str, bool]:
+    try:
+        parsed = json.loads(report)
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"エラー: 調査レポートがJSONではありません: {exc}") from exc
+    if not isinstance(parsed, dict):
+        raise SystemExit("エラー: 調査レポートはJSONオブジェクトである必要があります。")
+    required = {
+        "scope_boundary",
+        "system_stage",
+        "claims",
+        "causes",
+        "adjacent_errors",
+        "editor_note_candidates",
+        "unverified",
+        "coverage",
+    }
+    missing = sorted(required - parsed.keys())
+    if missing:
+        raise SystemExit(f"エラー: 調査レポートの必須項目がありません: {', '.join(missing)}")
+    coverage = parsed["coverage"]
+    if not isinstance(coverage, dict) or not isinstance(coverage.get("sufficient"), bool):
+        raise SystemExit("エラー: 調査レポートの coverage.sufficient は真偽値で指定してください。")
+    normalized = json.dumps(parsed, ensure_ascii=False, separators=(",", ":"))
+    return normalized, bool(coverage["sufficient"])
 
 
 def usage_from_response(response_json: dict[str, Any]) -> dict[str, Any]:
@@ -723,22 +759,23 @@ def print_cost(label: str, cost: dict[str, Any]) -> None:
 
 def print_requested_cost_table(config: dict[str, Any]) -> None:
     cfg = model_config(config)
-    configured_max_tokens = int(cfg["max_tokens"])
-    output_scenarios = [10000, 15000]
-    if configured_max_tokens not in output_scenarios:
-        output_scenarios.append(configured_max_tokens)
-    print(f"\n料金表（{cfg['model']} {cfg['effort']} / キャッシュなし）")
-    print("| input_tokens | output_tokens | web_search | total_usd | input | output | web |")
-    print("|---:|---:|---:|---:|---:|---:|---:|")
-    for input_tokens in (30000, 60000):
-        for output_tokens in output_scenarios:
-            for web_search_requests in (5, 10):
-                cost = estimate_scenario(config, input_tokens, output_tokens, web_search_requests)
-                print(
-                    f"| {input_tokens} | {output_tokens} | {web_search_requests} | "
-                    f"${cost['total_cost_usd']:.4f} | ${cost['input_cost_usd']:.4f} | "
-                    f"${cost['output_cost_usd']:.4f} | ${cost['web_search_cost_usd']:.4f} |"
-                )
+    research = require_dict(config, "research")
+    writing = require_dict(config, "writing")
+    scenarios = (
+        ("research", str(research["effort"]), int(research["max_tokens"]), int(research["initial_web_search_uses"])),
+        ("writing", str(writing["effort"]), int(writing["max_tokens"]), 0),
+    )
+    print(f"\n料金表（{cfg['model']} / キャッシュなし）")
+    print("| phase | effort | input_tokens | output_tokens | web_search | total_usd |")
+    print("|---|---|---:|---:|---:|---:|")
+    max_input_tokens = int(cfg["max_input_tokens"])
+    for input_tokens in (max_input_tokens // 2, max_input_tokens):
+        for phase, effort, output_tokens, web_search_requests in scenarios:
+            cost = estimate_scenario(config, input_tokens, output_tokens, web_search_requests)
+            print(
+                f"| {phase} | {effort} | {input_tokens} | {output_tokens} | "
+                f"{web_search_requests} | ${cost['total_cost_usd']:.4f} |"
+            )
 
 
 def build_tools(web_search: dict[str, Any]) -> list[dict[str, Any]]:
@@ -764,21 +801,29 @@ def build_request(
     config: dict[str, Any],
     prompt: str,
     *,
+    system_context: str,
+    effort: str,
     max_tokens: int | None = None,
     enable_web_search: bool = True,
+    web_search_max_uses: int | None = None,
 ) -> dict[str, Any]:
     anthropic_config = model_config(config)
     request: dict[str, Any] = {
         "model": anthropic_config["model"],
         "max_tokens": max_tokens if max_tokens is not None else int(anthropic_config["max_tokens"]),
         "messages": [{"role": "user", "content": prompt}],
-        "system": [{
-            "type": "text",
-            "text": "あなたは ErrorLog 専任の日本語テクニカルライターです。確認できる根拠に基づいて下書き記事を生成します。",
-            "cache_control": {"type": "ephemeral"},
-        }],
+        "system": [
+            {
+                "type": "text",
+                "text": "あなたは ErrorLog 専任の日本語テクニカルライターです。確認できる根拠だけを扱います。",
+            },
+            {
+                "type": "text",
+                "text": system_context,
+                "cache_control": {"type": "ephemeral"},
+            },
+        ],
     }
-    effort = str(anthropic_config.get("effort") or "").strip()
     if effort:
         request["output_config"] = {"effort": effort}
     thinking = require_dict(anthropic_config, "thinking")
@@ -789,6 +834,8 @@ def build_request(
         if display:
             request["thinking"]["display"] = display
     tools = build_tools(require_dict(anthropic_config, "web_search")) if enable_web_search else []
+    if tools and web_search_max_uses is not None:
+        tools[0]["max_uses"] = web_search_max_uses
     if tools:
         request["tools"] = tools
     return request
@@ -890,11 +937,23 @@ def call_anthropic(
     confirm_over_budget: bool,
     *,
     phase: str,
+    system_context: str,
+    effort: str,
     max_tokens: int | None = None,
     enable_web_search: bool = True,
+    web_search_max_uses: int | None = None,
     spent_cost_usd: float = 0.0,
+    allow_over_hard_limit: bool = False,
 ) -> GenerationResult:
-    request = build_request(config, prompt, max_tokens=max_tokens, enable_web_search=enable_web_search)
+    request = build_request(
+        config,
+        prompt,
+        system_context=system_context,
+        effort=effort,
+        max_tokens=max_tokens,
+        enable_web_search=enable_web_search,
+        web_search_max_uses=web_search_max_uses,
+    )
     client = load_anthropic_client()
     input_tokens = count_input_tokens(client, request)
     max_input_tokens = int(model_config(config)["max_input_tokens"])
@@ -905,12 +964,15 @@ def call_anthropic(
         )
     expected = expected_cost_for_request(config, input_tokens, request)
     maximum = maximum_cost_for_request(config, input_tokens, request)
+    expected["effort"] = effort
+    maximum["effort"] = effort
     expected_total = spent_cost_usd + float(expected["total_cost_usd"])
     print_cost(f"{phase} 想定料金", expected)
     print_cost(f"{phase} 最大料金", maximum)
     if expected_total >= float(budget_config(config)["warning_usd"]):
         print(f"warning: 累計想定料金が warning_usd を超えています: ${expected_total:.6f}")
-    enforce_budget(config, maximum, request, confirm_over_budget, spent_cost_usd=spent_cost_usd)
+    if not allow_over_hard_limit:
+        enforce_budget(config, maximum, request, confirm_over_budget, spent_cost_usd=spent_cost_usd)
 
     if client is None:
         response_json = post_anthropic_json("messages", request)
@@ -924,6 +986,7 @@ def call_anthropic(
         raise SystemExit(f"エラー: Anthropic stop_reason={stop_reason} のため記事は保存しません。")
     usage = usage_from_response(response_json)
     cost = usage_cost(config, usage, expected, maximum)
+    cost["effort"] = effort
     print_cost(f"{phase} 実行後の実料金", cost)
     cumulative_cost = spent_cost_usd + float(cost["total_cost_usd"])
     hard_limit = float(budget_config(config)["hard_limit_usd"])
@@ -1087,6 +1150,31 @@ def save_research_checkpoint(
     return out_dir
 
 
+def load_research_checkpoint(report_dir: Path, slug: str, checkpoint_path: Path) -> GenerationResult:
+    resolved = checkpoint_path.resolve()
+    checkpoint_root = (report_dir / slug / "research_checkpoints").resolve()
+    if not resolved.is_relative_to(checkpoint_root):
+        raise SystemExit(f"エラー: 指定された調査チェックポイントが対象slugの配下ではありません: {resolved}")
+    required = {
+        "report": resolved / "research_report.md",
+        "usage": resolved / "usage.json",
+        "response": resolved / "response.json",
+    }
+    missing = [str(path) for path in required.values() if not path.is_file()]
+    if missing:
+        raise SystemExit(f"エラー: 調査チェックポイントの必須ファイルがありません: {', '.join(missing)}")
+    response_json = json.loads(required["response"].read_text(encoding="utf-8"))
+    cost = json.loads(required["usage"].read_text(encoding="utf-8"))
+    if not isinstance(response_json, dict) or not isinstance(cost, dict):
+        raise SystemExit(f"エラー: 調査チェックポイントのJSON形式が不正です: {resolved}")
+    return GenerationResult(
+        article=required["report"].read_text(encoding="utf-8"),
+        response_json=response_json,
+        usage=usage_from_response(response_json),
+        cost=cost,
+    )
+
+
 def run_quality(article_path: Path, config: dict[str, Any], run_fact_check: bool) -> bool:
     quality = require_dict(config, "quality")
     rel = article_path.relative_to(BASE).as_posix()
@@ -1122,6 +1210,7 @@ def main() -> int:
     parser.add_argument("--web-search-max-uses", type=int, help="config の Web検索上限をこの実行だけ上書きする")
     parser.add_argument("--run-quality", action="store_true", help="保存後に既存品質ゲートを実行する")
     parser.add_argument("--run-fact-check", action="store_true", help="--run-quality 時に Gemini fact-check まで実行する")
+    parser.add_argument("--research-checkpoint", help="保存済みの調査チェックポイントを再利用して執筆から再開する")
     args = parser.parse_args()
 
     config = load_config(Path(args.config))
@@ -1192,21 +1281,21 @@ def main() -> int:
     editorial_context = editorial_context_path.read_text(encoding="utf-8")
     editorial_context_meta = editorial_context_meta_path.read_text(encoding="utf-8")
     article_spec = ARTICLE_SPEC.read_text(encoding="utf-8")
+    rules = rules_path.read_text(encoding="utf-8")
+    research_context, writing_context = build_phase_contexts(
+        editorial_context,
+        editorial_context_meta,
+        rules,
+        article_spec,
+    )
     research_prompt = build_research_prompt(
         row=row,
         slug=slug,
-        editorial_context=editorial_context,
-        editorial_context_meta=editorial_context_meta,
-        article_spec=article_spec,
         evidence=evidence,
     )
     dry_run_prompt = build_user_prompt(
         row=row,
         slug=slug,
-        editorial_context=editorial_context,
-        editorial_context_meta=editorial_context_meta,
-        rules=rules_path.read_text(encoding="utf-8"),
-        article_spec=article_spec,
         research_report="<調査APIの出力をここへ挿入>",
         evidence=evidence,
     )
@@ -1216,27 +1305,82 @@ def main() -> int:
         print("[dry-run] Anthropic API は呼びません。")
         print(f"[dry-run] target: {article_path}")
         print(f"[dry-run] tool/code: {row['tool']} {row['status_code']}")
+        print(f"[dry-run] research_context_chars: {len(research_context)}")
+        print(f"[dry-run] writing_context_chars: {len(writing_context)}")
         print(f"[dry-run] research_prompt_chars: {len(research_prompt)}")
         print(f"[dry-run] writing_prompt_chars_without_report: {len(dry_run_prompt)}")
         return 0
 
     research_config = require_dict(config, "research")
-    research_result = call_anthropic(
-        config,
-        research_prompt,
-        args.confirm_over_budget,
-        phase="調査",
-        max_tokens=int(research_config["max_tokens"]),
-        enable_web_search=True,
-    )
-    research_checkpoint = save_research_checkpoint(
-        report_dir,
-        slug,
-        research_prompt,
-        research_result,
-    )
-    print(f"research checkpoint: {research_checkpoint.relative_to(BASE).as_posix()}")
-    if research_result.cost["hard_limit_exceeded"]:
+    writing_config = require_dict(config, "writing")
+    if args.research_checkpoint:
+        research_result = load_research_checkpoint(report_dir, slug, Path(args.research_checkpoint))
+        print(f"research checkpoint reused: {Path(args.research_checkpoint)}")
+    else:
+        initial_result = call_anthropic(
+            config,
+            research_prompt,
+            args.confirm_over_budget,
+            phase="調査",
+            system_context=research_context,
+            effort=str(research_config["effort"]),
+            max_tokens=int(research_config["max_tokens"]),
+            enable_web_search=True,
+            web_search_max_uses=int(research_config["initial_web_search_uses"]),
+        )
+        normalized_report, sufficient = normalize_research_report(initial_result.article)
+        research_result = GenerationResult(
+            article=normalized_report,
+            response_json=initial_result.response_json,
+            usage=initial_result.usage,
+            cost=initial_result.cost,
+        )
+        initial_checkpoint = save_research_checkpoint(
+            report_dir,
+            slug,
+            research_prompt,
+            research_result,
+        )
+        print(f"research checkpoint: {initial_checkpoint.relative_to(BASE).as_posix()}")
+        if not sufficient and not research_result.cost["hard_limit_exceeded"]:
+            additional_prompt = build_research_prompt(
+                row=row,
+                slug=slug,
+                evidence=evidence,
+                previous_report=research_result.article,
+            )
+            additional_result = call_anthropic(
+                config,
+                additional_prompt,
+                args.confirm_over_budget,
+                phase="追加調査",
+                system_context=research_context,
+                effort=str(research_config["effort"]),
+                max_tokens=int(research_config["max_tokens"]),
+                enable_web_search=True,
+                web_search_max_uses=int(research_config["additional_web_search_uses"]),
+                spent_cost_usd=float(research_result.cost["total_cost_usd"]),
+            )
+            normalized_report, _sufficient = normalize_research_report(additional_result.article)
+            combined_research_cost = combine_phase_costs(research_result.cost, additional_result.cost)
+            combined_research_cost["hard_limit_exceeded"] = (
+                float(combined_research_cost["total_cost_usd"])
+                > float(budget_config(config)["hard_limit_usd"])
+            )
+            research_result = GenerationResult(
+                article=normalized_report,
+                response_json=additional_result.response_json,
+                usage=additional_result.usage,
+                cost=combined_research_cost,
+            )
+            additional_checkpoint = save_research_checkpoint(
+                report_dir,
+                slug,
+                additional_prompt,
+                research_result,
+            )
+            print(f"additional research checkpoint: {additional_checkpoint.relative_to(BASE).as_posix()}")
+    if research_result.cost["hard_limit_exceeded"] and not args.research_checkpoint:
         print(
             "エラー: 調査だけで hard_limit_usd を超えました。"
             "調査結果はチェックポイントへ保存し、執筆は実行しません。"
@@ -1245,10 +1389,6 @@ def main() -> int:
     prompt = build_user_prompt(
         row=row,
         slug=slug,
-        editorial_context=editorial_context,
-        editorial_context_meta=editorial_context_meta,
-        rules=rules_path.read_text(encoding="utf-8"),
-        article_spec=article_spec,
         research_report=research_result.article,
         evidence=evidence,
     )
@@ -1257,8 +1397,12 @@ def main() -> int:
         prompt,
         args.confirm_over_budget,
         phase="執筆",
+        system_context=writing_context,
+        effort=str(writing_config["effort"]),
+        max_tokens=int(writing_config["max_tokens"]),
         enable_web_search=False,
         spent_cost_usd=float(research_result.cost["total_cost_usd"]),
+        allow_over_hard_limit=bool(args.research_checkpoint),
     )
     combined_cost = combine_phase_costs(research_result.cost, result.cost)
     article = ensure_frontmatter(result.article, row, slug)

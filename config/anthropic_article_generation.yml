@@ -25,7 +25,14 @@ anthropic:
     hard_limit_action: "confirm"
 
 research:
-  max_tokens: 20000
+  effort: "high"
+  max_tokens: 12000
+  initial_web_search_uses: 6
+  additional_web_search_uses: 4
+
+writing:
+  effort: "xhigh"
+  max_tokens: 30000
 
 model_presets:
   sonnet5:
