@@ -1,7 +1,7 @@
 ---
 title: "Terraform Unsupported argument：原因と解決策"
 date: 2026-08-06
-draft: true
+draft: false
 description: "TerraformのUnsupported argumentは、記述した引数が対象ブロックのスキーマに存在しないときに出る診断です。単純な引数名の誤りだけでなく、子moduleに未定義の入力を渡した場合や、参照したドキュメントと実際のproviderバージョンが異なる場合にも発生します。エラーが示すファイルとブロック種別、ロックされたproviderバージョンを順に確認し、どのスキーマが引数を拒否したかを切り分けます。"
 tags: ["Terraform"]
 images: ["og/posts/terraform_unsupported_argument.png"]
