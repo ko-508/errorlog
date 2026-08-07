@@ -1113,5 +1113,16 @@
         "note": "Invalid for_each argument を新規追加。未確定値・list・機密値の3制限がキーをインスタンスのアドレスにするという1点から出ていることを軸に据え、set 専用の要約文言と、判定に使っただけで機密の印が伝わる点を実装から訂正"
       }
     ]
+  },
+  "content/posts/github_gh013_repository_rule_violations.md": {
+    "verified": true,
+    "verified_at": "2026-08-07",
+    "last_verified_at": "2026-08-07",
+    "history": [
+      {
+        "date": "2026-08-07",
+        "note": "GH013 を新規追加。秘密情報専用ではなく3系統ある点と、bypass がアカウントへの権限ではなく push を行った身元との照合である点を軸に据え、branch protection とは管理者の既定の扱いが逆であることを公式文書から訂正"
+      }
+    ]
   }
 }
