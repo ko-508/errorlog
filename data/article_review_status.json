@@ -1091,5 +1091,16 @@
         "note": "新規作成。2026-08-06〜07のGitHub Actions障害の記録。公式ステータスの全更新をUTCで照合しJST併記。停止した処理段階ごとの症状分類、利用者側の問題との見分け方、障害中の禁止事項、復旧後の確認を中心に構成。webhook起点の意図的な絞り込み（一時15%）、成功率の推移、Enterprise Importer停止継続を追加。error_type: service_incident / trend_incident: true、errorCodeは設定せず"
       }
     ]
+  },
+  "content/posts/kubernetes_pvc_pending.md": {
+    "verified": true,
+    "verified_at": "2026-08-07",
+    "last_verified_at": "2026-08-07",
+    "history": [
+      {
+        "date": "2026-08-07",
+        "note": "PVC が Pending を新規追加。pv_controller の3分岐が Events の Reason 5語に対応する構造を軸に据え、provisioner 名の誤りが ExternalProvisioning として静かに出続ける点と、PV 容量が一致不要である点を実装から訂正"
+      }
+    ]
   }
 }
