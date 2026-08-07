@@ -1080,5 +1080,16 @@
         "note": "Repository not found を新規追加。git の2行が別の書き手であることを軸に、GitHub の応答本文3種を実測で照合し、大文字小文字と改名が原因にならない点を訂正"
       }
     ]
+  },
+  "content/posts/github_actions_incident_20260806.md": {
+    "verified": true,
+    "verified_at": "2026-08-07",
+    "last_verified_at": "2026-08-07",
+    "history": [
+      {
+        "date": "2026-08-07",
+        "note": "新規作成。2026-08-06〜07のGitHub Actions障害の記録。公式ステータスの全更新をUTCで照合しJST併記。停止した処理段階ごとの症状分類、利用者側の問題との見分け方、障害中の禁止事項、復旧後の確認を中心に構成。webhook起点の意図的な絞り込み（一時15%）、成功率の推移、Enterprise Importer停止継続を追加。error_type: service_incident / trend_incident: true、errorCodeは設定せず"
+      }
+    ]
   }
 }
