@@ -1124,5 +1124,16 @@
         "note": "GH013 を新規追加。秘密情報専用ではなく3系統ある点と、bypass がアカウントへの権限ではなく push を行った身元との照合である点を軸に据え、branch protection とは管理者の既定の扱いが逆であることを公式文書から訂正"
       }
     ]
+  },
+  "content/posts/docker_container_name_already_in_use.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "container name is already in use を新規追加。名前が専用の表に予約され解放は削除完了と改名のときだけという仕組みを軸に据え、停止では返らない点と docker rm の返却と解放が別の出来事である点を実装から説明"
+      }
+    ]
   }
 }
