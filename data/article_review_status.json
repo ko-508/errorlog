@@ -1069,5 +1069,16 @@
         "note": "failed to solve を新規作成。文言の書き手を実装から特定する軸で構成"
       }
     ]
+  },
+  "content/posts/github_repository_not_found.md": {
+    "verified": true,
+    "verified_at": "2026-08-07",
+    "last_verified_at": "2026-08-07",
+    "history": [
+      {
+        "date": "2026-08-07",
+        "note": "Repository not found を新規追加。git の2行が別の書き手であることを軸に、GitHub の応答本文3種を実測で照合し、大文字小文字と改名が原因にならない点を訂正"
+      }
+    ]
   }
 }
