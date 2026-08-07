@@ -115,6 +115,7 @@
   "kubernetes_nodenotready": "2026-08-05T05:25:33.510221+00:00",
   "kubernetes_oomkilled": "2026-08-02T22:08:57.087354+00:00",
   "kubernetes_pending": "2026-08-02T22:08:57.081635+00:00",
+  "kubernetes_pvc_pending": "2026-08-07T10:23:28.425890+00:00",
   "kubernetes_readiness_probe_failed": "2026-08-05T05:12:10.978156+00:00",
   "kubernetes_runcontainererror": "2026-08-05T22:19:35.903736+00:00",
   "kubernetes_terminating": "2026-08-05T00:10:17.265155+00:00",
