@@ -1102,5 +1102,16 @@
         "note": "PVC が Pending を新規追加。pv_controller の3分岐が Events の Reason 5語に対応する構造を軸に据え、provisioner 名の誤りが ExternalProvisioning として静かに出続ける点と、PV 容量が一致不要である点を実装から訂正"
       }
     ]
+  },
+  "content/posts/terraform_invalid_for_each_argument.md": {
+    "verified": true,
+    "verified_at": "2026-08-07",
+    "last_verified_at": "2026-08-07",
+    "history": [
+      {
+        "date": "2026-08-07",
+        "note": "Invalid for_each argument を新規追加。未確定値・list・機密値の3制限がキーをインスタンスのアドレスにするという1点から出ていることを軸に据え、set 専用の要約文言と、判定に使っただけで機密の印が伝わる点を実装から訂正"
+      }
+    ]
   }
 }
