@@ -1135,5 +1135,16 @@
         "note": "container name is already in use を新規追加。名前が専用の表に予約され解放は削除完了と改名のときだけという仕組みを軸に据え、停止では返らない点と docker rm の返却と解放が別の出来事である点を実装から説明"
       }
     ]
+  },
+  "content/posts/kubernetes_errimagepull.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "ErrImagePull を新規追加。ImagePullBackOff との違いを原因ではなく時間軸上の地点として整理し、ErrImagePull が分類できなかった残りを指す名前であることと、v1.32 で待機中の message に理由が連結されるようになった経緯を実装から説明"
+      }
+    ]
   }
 }
