@@ -1201,5 +1201,16 @@
         "note": "npm の ENOENT を新規追加。detailed 形式かつ検索対応の新規格（error_name / error_aliases / error_cases と本文アンカー）を初適用。診断行 code / syscall / file / path / dest / errno で対象を特定する読み方を軸に据え、case を syscall と path の組で分離"
       }
     ]
+  },
+  "content/posts/npm_etarget.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "npm の ETARGET を新規追加。detailed 形式かつ検索対応の新規格。notarget の1行目に出る名前と範囲を読む手順を軸に据え、with a date before による時刻の絞り込み、policy violations で E403 へ分岐する経路、audit fix 経路の No avoidable versions を case として分離"
+      }
+    ]
   }
 }
