@@ -10,6 +10,12 @@ ERRORSEARCH_JS = ROOT / "assets" / "js" / "errorsearch.js"
 
 
 class ErrorSearchRankingTest(unittest.TestCase):
+    def test_article_fallback_uses_an_empty_overlay_link(self):
+        source = ERRORSEARCH_JS.read_text(encoding="utf-8")
+
+        self.assertIn("a.setAttribute('aria-label', item.title);", source)
+        self.assertNotIn("a.textContent = item.title;", source)
+
     def _run_error_search_js(self, script: str) -> None:
         node = shutil.which("node")
         if node is None:

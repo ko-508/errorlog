@@ -196,7 +196,7 @@
       var a = document.createElement('a');
       a.className = 'entry-link';
       a.href = item.permalink;
-      a.textContent = item.title;
+      a.setAttribute('aria-label', item.title);
       li.textContent = item.title;
       li.appendChild(a);
       fragment.appendChild(li);

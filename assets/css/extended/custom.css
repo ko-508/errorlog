@@ -566,7 +566,8 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
 }
 .popular-searches-tags a:hover { background: var(--tertiary); color: var(--primary); }
 
-.search-case-result {
+.searchResults .search-case-result {
+  display: block;
   position: relative;
   padding: 0.85rem 0;
   border-bottom: 1px solid var(--border);
