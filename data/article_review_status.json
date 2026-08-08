@@ -1179,5 +1179,16 @@
         "note": "npm の ERESOLVE を新規追加。simple 形式。While resolving / Found / Could not resolve dependency の3行を突き合わせる読み方を軸に、画面の説明が深さ4段までで全文がキャッシュの eresolve-report.txt に出ること、strict-peer-deps の既定が false であることを実装から説明"
       }
     ]
+  },
+  "content/posts/npm_eacces.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "npm の EACCES を新規追加。detailed 形式。失敗した経路がキャッシュ配下かどうかで npm が文面を2通りに出し分ける点を軸に据え、--unsafe-perm が npm 7 以降存在しないことを設定定義の版比較から説明"
+      }
+    ]
   }
 }
