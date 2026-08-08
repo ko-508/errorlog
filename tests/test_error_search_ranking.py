@@ -7,9 +7,20 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ERRORSEARCH_JS = ROOT / "assets" / "js" / "errorsearch.js"
+ARTICLE_INDEX_TEMPLATE = ROOT / "layouts" / "index.json"
+ERROR_INDEX_TEMPLATE = ROOT / "layouts" / "index.errorindex.json"
 
 
 class ErrorSearchRankingTest(unittest.TestCase):
+    def test_search_indexes_do_not_share_page_scratch(self):
+        article_template = ARTICLE_INDEX_TEMPLATE.read_text(encoding="utf-8")
+        error_template = ERROR_INDEX_TEMPLATE.read_text(encoding="utf-8")
+
+        self.assertNotIn(".Scratch", article_template)
+        self.assertNotIn(".Scratch", error_template)
+        self.assertIn("$index := slice", article_template)
+        self.assertIn("$index := slice", error_template)
+
     def test_article_fallback_uses_an_empty_overlay_link(self):
         source = ERRORSEARCH_JS.read_text(encoding="utf-8")
 

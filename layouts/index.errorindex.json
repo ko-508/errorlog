@@ -1,4 +1,4 @@
-{{- $.Scratch.Set "index" slice -}}
+{{- $index := slice -}}
 {{- range site.RegularPages -}}
   {{- if and (eq .Type "posts") (not .Draft) (not .Params.searchHidden) -}}
     {{- $page := . -}}
@@ -11,7 +11,7 @@
         {{- $id := $case.id | default "" -}}
         {{- if $id -}}
           {{- $messages := $case.messages | default slice -}}
-          {{- $.Scratch.Add "index" (dict
+          {{- $index = $index | append (dict
             "title"     $page.Title
             "service"   $service
             "errorCode" ($page.Params.errorCode | default "")
@@ -32,4 +32,4 @@
     {{- end -}}
   {{- end -}}
 {{- end -}}
-{{- $.Scratch.Get "index" | jsonify -}}
+{{- $index | jsonify -}}
