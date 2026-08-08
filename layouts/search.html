@@ -22,7 +22,7 @@
 
 <div id="searchbox" class="searchbox">
     <input id="searchInput" disabled placeholder="{{ .Params.placeholder | default (printf "%s ↵" .Title) }}"
-        aria-label="search" type="search" autocomplete="off" maxlength="64">
+        aria-label="search" type="search" autocomplete="off" maxlength="500">
     <ul id="searchResults" class="searchResults" aria-label="search results"></ul>
 </div>
 
@@ -34,6 +34,7 @@
         <a href="#" onclick="setSearch('GitHub 401'); return false;">GitHub 401</a>
         <a href="#" onclick="setSearch('Firebase 403'); return false;">Firebase 403</a>
         <a href="#" onclick="setSearch('Docker 500'); return false;">Docker 500</a>
+        <a href="#" onclick="setSearch(&quot;pull access denied repository does not exist&quot;); return false;">pull access denied</a>
         <a href="#" onclick="setSearch('AWS 500'); return false;">AWS 500</a>
         <a href="#" onclick="setSearch('404'); return false;">404</a>
         <a href="#" onclick="setSearch('502'); return false;">502</a>

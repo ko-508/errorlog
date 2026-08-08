@@ -566,6 +566,52 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
 }
 .popular-searches-tags a:hover { background: var(--tertiary); color: var(--primary); }
 
+.search-case-result {
+  position: relative;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-case-result__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.45rem;
+}
+
+.search-case-result__title {
+  display: inline-block;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.search-case-result__title:hover,
+.search-case-result__action:hover {
+  text-decoration: underline;
+}
+
+.search-case-result__cause,
+.search-case-result__match {
+  margin: 0.35rem 0 0;
+  color: var(--secondary);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.search-case-result__match {
+  color: var(--content);
+}
+
+.search-case-result__action {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+}
+
 /* エラーコード番号（カード右端） */
 .error-code-num {
   font-size: 2rem;

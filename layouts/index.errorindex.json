@@ -1,0 +1,34 @@
+{{- $.Scratch.Set "index" slice -}}
+{{- range site.RegularPages -}}
+  {{- if and (eq .Type "posts") (not .Draft) (not .Params.searchHidden) -}}
+    {{- $page := . -}}
+    {{- $service := .Params.service | default (index .Params.tags 0 | default "") -}}
+    {{- $errorName := .Params.error_name | default .Params.errorCode | default .Params.error_type | default .Title -}}
+    {{- $aliases := .Params.error_aliases | default slice -}}
+    {{- $cases := .Params.error_cases | default slice -}}
+    {{- if $cases -}}
+      {{- range $case := $cases -}}
+        {{- $id := $case.id | default "" -}}
+        {{- if $id -}}
+          {{- $messages := $case.messages | default slice -}}
+          {{- $.Scratch.Add "index" (dict
+            "title"     $page.Title
+            "service"   $service
+            "errorCode" ($page.Params.errorCode | default "")
+            "errorName" $errorName
+            "aliases"   $aliases
+            "causeId"   $id
+            "cause"     ($case.cause | default $case.label | default "")
+            "check"     ($case.check | default "")
+            "fix"       ($case.fix | default "")
+            "messages"  $messages
+            "permalink" $page.Permalink
+            "anchor"    $id
+            "url"       (printf "%s#%s" $page.Permalink $id)
+          ) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- $.Scratch.Get "index" | jsonify -}}

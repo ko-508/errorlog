@@ -61,7 +61,13 @@ mainSections = ["posts"]
   errorCode = "errorCode"
 
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "JSON", "ErrorIndex"]
+
+[outputFormats.ErrorIndex]
+  mediaType = "application/json"
+  baseName = "error-index"
+  isPlainText = true
+  notAlternative = true
 
 [markup.goldmark.renderer]
   unsafe = true
