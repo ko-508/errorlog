@@ -192,6 +192,9 @@
       title.href = item.url || item.permalink;
       title.textContent = item.errorName || item.title;
 
+      var body = document.createElement('div');
+      body.className = 'search-case-result__body';
+
       var matched = bestMatchedMessage(item, query);
       var details = document.createElement('div');
       details.className = 'search-case-result__details';
@@ -200,14 +203,15 @@
       if (item.cause) details.appendChild(makeCaseDetail('考えられる原因', item.cause, 'search-case-result__cause'));
 
       li.appendChild(meta);
-      li.appendChild(title);
-      if (details.childNodes.length) li.appendChild(details);
+      body.appendChild(title);
+      if (details.childNodes.length) body.appendChild(details);
 
       var action = document.createElement('a');
       action.className = 'search-case-result__action';
       action.href = item.url || item.permalink;
       action.textContent = '確認方法を見る';
-      li.appendChild(action);
+      body.appendChild(action);
+      li.appendChild(body);
       fragment.appendChild(li);
     });
     resList.innerHTML = '';

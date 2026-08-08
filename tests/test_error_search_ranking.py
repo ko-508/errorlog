@@ -18,6 +18,7 @@ class ErrorSearchRankingTest(unittest.TestCase):
         self.assertIn("makeCaseDetail('一致した表示'", source)
         self.assertIn("makeCaseDetail('状況'", source)
         self.assertIn("makeCaseDetail('考えられる原因'", source)
+        self.assertIn("body.className = 'search-case-result__body';", source)
         self.assertIn("action.textContent = '確認方法を見る';", source)
 
     def _run_error_search_js(self, script: str) -> None:

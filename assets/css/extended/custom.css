@@ -580,6 +580,10 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
   margin-bottom: 0.45rem;
 }
 
+.search-case-result__body {
+  padding-inline-start: 8px;
+}
+
 .search-case-result__title {
   display: block;
   font-weight: 700;
