@@ -61,3 +61,25 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  notify-google:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Search Console dependencies
+        run: pip install google-api-python-client google-auth
+
+      - name: Submit sitemap to Google Search Console
+        env:
+          GSC_SITE_URL:             ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY:  ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GSC_OAUTH_CLIENT_ID:      ${{ secrets.GSC_OAUTH_CLIENT_ID || secrets.GA4_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET:  ${{ secrets.GSC_OAUTH_CLIENT_SECRET || secrets.GA4_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN:  ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+        run: python scripts/submit_search_console_sitemap.py

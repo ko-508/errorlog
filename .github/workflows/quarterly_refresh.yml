@@ -118,6 +118,7 @@ jobs:
     needs: refresh
     if: needs.refresh.outputs.deployed == 'true'
     uses: ./.github/workflows/deploy.yml
+    secrets: inherit
     permissions:
       contents: read
       pages: write

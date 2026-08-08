@@ -86,6 +86,7 @@ jobs:
     needs: glossary
     if: needs.glossary.outputs.deployed == 'true'
     uses: ./.github/workflows/deploy.yml
+    secrets: inherit
     permissions:
       contents: read
       pages: write

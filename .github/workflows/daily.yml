@@ -206,6 +206,7 @@ jobs:
     needs: publish
     if: needs.publish.outputs.deployed == 'true'
     uses: ./.github/workflows/deploy.yml
+    secrets: inherit
     permissions:
       contents: read
       pages: write
