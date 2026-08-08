@@ -36,36 +36,34 @@
 
   function itemText(item) {
     return normalizeSearchText([
-      item.title,
-      item.service,
+      (item.messages || []).join(' '),
       item.errorCode,
       item.errorName,
-      item.cause,
-      item.check,
-      item.fix,
+      item.service,
+      item.situation,
       (item.aliases || []).join(' '),
-      (item.messages || []).join(' ')
+      item.cause
     ].join(' '));
   }
 
   function bestMatchedMessage(item, query) {
     var normalizedQuery = normalizeSearchText(query);
     var best = '';
-    (item.messages || []).concat(item.aliases || []).some(function (message) {
-      if (!message) return false;
+    (item.messages || []).forEach(function (message) {
+      if (!message) return;
       var normalizedMessage = normalizeSearchText(message);
-      if (normalizedMessage && normalizedQuery.indexOf(normalizedMessage) !== -1) {
+      if (normalizedMessage && normalizedQuery.indexOf(normalizedMessage) !== -1 && message.length > best.length) {
         best = message;
-        return true;
       }
-      return false;
     });
     if (best) return best;
 
-    var queryTokens = tokenize(query);
-    var candidates = (item.messages || []).concat(item.aliases || []);
+    var serviceTokens = tokenize(item.service);
+    var queryTokens = tokenize(query).filter(function (token) {
+      return serviceTokens.indexOf(token) === -1;
+    });
     var bestScore = 0;
-    candidates.forEach(function (message) {
+    (item.messages || []).forEach(function (message) {
       var msgText = normalizeSearchText(message);
       if (!msgText) return;
       var score = queryTokens.reduce(function (sum, token) {
@@ -79,24 +77,45 @@
     return best;
   }
 
+  function fieldContainsQuery(value, queryText) {
+    var fieldText = normalizeSearchText(value);
+    return fieldText && (queryText.indexOf(fieldText) !== -1 || fieldText.indexOf(queryText) !== -1);
+  }
+
+  function fieldTokenMatches(value, query) {
+    var fieldText = normalizeSearchText(value);
+    if (!fieldText) return 0;
+    return tokenize(query).reduce(function (sum, token) {
+      return sum + (fieldText.indexOf(token) !== -1 ? 1 : 0);
+    }, 0);
+  }
+
   function caseRank(hit, query) {
     var item = hit.item || hit;
     var queryText = normalizeSearchText(query);
-    var text = itemText(item);
     var rank = (hit.score || 0) * 10;
     var service = normalizeSearchText(item.service);
     var code = normalizeSearchText(item.errorCode);
     var name = normalizeSearchText(item.errorName);
     var messageMatched = bestMatchedMessage(item, query);
+    var messages = (item.messages || []).join(' ');
+    var aliases = (item.aliases || []).join(' ');
 
-    if (service && queryText.indexOf(service) !== -1) rank -= 8;
-    if (code && queryText.indexOf(code) !== -1) rank -= 6;
-    if (name && queryText.indexOf(name) !== -1) rank -= 5;
-    if (messageMatched) rank -= 10;
+    if (messageMatched) rank -= 30;
+    if (code && queryText.indexOf(code) !== -1) rank -= 12;
+    if (name && queryText.indexOf(name) !== -1) rank -= 10;
+    if (service && queryText.indexOf(service) !== -1) rank -= 6;
+    if (fieldContainsQuery(item.situation, queryText)) rank -= 5;
+    if (fieldContainsQuery(aliases, queryText)) rank -= 3;
+    if (fieldContainsQuery(item.cause, queryText)) rank -= 1;
 
-    tokenize(query).forEach(function (token) {
-      if (text.indexOf(token) !== -1) rank -= 0.4;
-    });
+    rank -= fieldTokenMatches(messages, query) * 1.5;
+    rank -= fieldTokenMatches(item.errorCode, query) * 1.2;
+    rank -= fieldTokenMatches(item.errorName, query);
+    rank -= fieldTokenMatches(item.service, query) * 0.8;
+    rank -= fieldTokenMatches(item.situation, query) * 0.6;
+    rank -= fieldTokenMatches(aliases, query) * 0.4;
+    rank -= fieldTokenMatches(item.cause, query) * 0.1;
     return rank;
   }
 
@@ -112,9 +131,10 @@
     var signalText = normalizeSearchText([
       item.errorCode,
       item.errorName,
-      item.cause,
+      item.situation,
       (item.aliases || []).join(' '),
-      (item.messages || []).join(' ')
+      (item.messages || []).join(' '),
+      item.cause
     ].join(' '));
     return tokenize(query).some(function (token) {
       return token !== service && signalText.indexOf(token) !== -1;
@@ -141,6 +161,20 @@
     return span;
   }
 
+  function makeCaseDetail(label, value, className) {
+    var detail = document.createElement('p');
+    detail.className = 'search-case-result__detail ' + className;
+    var detailLabel = document.createElement('span');
+    detailLabel.className = 'search-case-result__label';
+    detailLabel.textContent = label;
+    var detailValue = document.createElement('span');
+    detailValue.className = 'search-case-result__value';
+    detailValue.textContent = value;
+    detail.appendChild(detailLabel);
+    detail.appendChild(detailValue);
+    return detail;
+  }
+
   function renderCaseResults(hits, query) {
     var fragment = document.createDocumentFragment();
     hits.slice(0, 12).forEach(function (hit) {
@@ -158,29 +192,21 @@
       title.href = item.url || item.permalink;
       title.textContent = item.errorName || item.title;
 
-      var cause = document.createElement('p');
-      cause.className = 'search-case-result__cause';
-      cause.textContent = item.cause ? '原因: ' + item.cause : item.title;
-
       var matched = bestMatchedMessage(item, query);
-      if (matched) {
-        var match = document.createElement('p');
-        match.className = 'search-case-result__match';
-        match.textContent = '一致した文字列: ' + matched;
-        li.appendChild(meta);
-        li.appendChild(title);
-        li.appendChild(cause);
-        li.appendChild(match);
-      } else {
-        li.appendChild(meta);
-        li.appendChild(title);
-        li.appendChild(cause);
-      }
+      var details = document.createElement('div');
+      details.className = 'search-case-result__details';
+      if (matched) details.appendChild(makeCaseDetail('一致した表示', matched, 'search-case-result__match'));
+      if (item.situation) details.appendChild(makeCaseDetail('状況', item.situation, 'search-case-result__situation'));
+      if (item.cause) details.appendChild(makeCaseDetail('考えられる原因', item.cause, 'search-case-result__cause'));
+
+      li.appendChild(meta);
+      li.appendChild(title);
+      if (details.childNodes.length) li.appendChild(details);
 
       var action = document.createElement('a');
       action.className = 'search-case-result__action';
       action.href = item.url || item.permalink;
-      action.textContent = 'この原因を見る';
+      action.textContent = '確認方法を見る';
       li.appendChild(action);
       fragment.appendChild(li);
     });
@@ -258,15 +284,13 @@
         ignoreLocation: true,
         includeScore: true,
         keys: [
-          { name: 'service', weight: 4 },
-          { name: 'errorCode', weight: 5 },
-          { name: 'errorName', weight: 4 },
-          { name: 'messages', weight: 7 },
-          { name: 'aliases', weight: 4 },
-          { name: 'cause', weight: 3 },
-          { name: 'check', weight: 1 },
-          { name: 'fix', weight: 1 },
-          { name: 'title', weight: 1 }
+          { name: 'messages', weight: 10 },
+          { name: 'errorCode', weight: 7 },
+          { name: 'errorName', weight: 6 },
+          { name: 'service', weight: 5 },
+          { name: 'situation', weight: 4 },
+          { name: 'aliases', weight: 3 },
+          { name: 'cause', weight: 1 }
         ]
       });
       articleFuse = new Fuse(articleData, {

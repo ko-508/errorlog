@@ -569,7 +569,7 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
 .searchResults .search-case-result {
   display: block;
   position: relative;
-  padding: 0.85rem 0;
+  padding: 0.85rem 1rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -581,8 +581,9 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
 }
 
 .search-case-result__title {
-  display: inline-block;
+  display: block;
   font-weight: 700;
+  line-height: 1.35;
   color: var(--primary);
   text-decoration: none;
 }
@@ -592,16 +593,41 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
   text-decoration: underline;
 }
 
-.search-case-result__cause,
-.search-case-result__match {
-  margin: 0.35rem 0 0;
-  color: var(--secondary);
-  font-size: 0.92rem;
-  line-height: 1.55;
+.search-case-result__details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 0.45rem 1rem;
+  margin-top: 0.55rem;
 }
 
-.search-case-result__match {
+.search-case-result__detail {
+  min-width: 0;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.search-case-result__label {
+  display: block;
+  margin-bottom: 0.08rem;
+  color: var(--secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.search-case-result__value {
+  display: block;
   color: var(--content);
+  overflow-wrap: anywhere;
+}
+
+.search-case-result__cause {
+  grid-column: 1 / -1;
+  font-size: 0.82rem;
+}
+
+.search-case-result__cause .search-case-result__value {
+  color: var(--secondary);
 }
 
 .search-case-result__action {
@@ -611,6 +637,16 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
   font-weight: 700;
   color: var(--primary);
   text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  .search-case-result__details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .search-case-result__cause {
+    grid-column: auto;
+  }
 }
 
 /* エラーコード番号（カード右端） */

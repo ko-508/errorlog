@@ -18,6 +18,7 @@
             "errorName" $errorName
             "aliases"   $aliases
             "causeId"   $id
+            "situation" ($case.situation | default "")
             "cause"     ($case.cause | default $case.label | default "")
             "check"     ($case.check | default "")
             "fix"       ($case.fix | default "")

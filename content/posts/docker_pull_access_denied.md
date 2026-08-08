@@ -20,6 +20,7 @@ related_services: ["BuildKit", "Docker Compose", "OCI Distribution"]
 error_cases:
   - id: "docker-hub-library-namespace"
     label: "namespace"
+    situation: "イメージ名を名前空間なしの短い名前で指定した場合に発生する"
     cause: "名前空間を省略し、Docker Hubのlibraryを見ている"
     messages:
       - "pull access denied for <image>"
@@ -28,6 +29,7 @@ error_cases:
     fix: "所有者の名前空間を含めた完全なイメージ名を指定する"
   - id: "repository-not-found"
     label: "repository"
+    situation: "公開元の参照名と、ログに出たRegistry・所有者・リポジトリ名が一致しない"
     cause: "リポジトリ名、所有者名、Registryが違う"
     messages:
       - "repository does not exist"
@@ -36,6 +38,7 @@ error_cases:
     fix: "正しいRegistry、所有者、リポジトリ名、タグへ直す"
   - id: "authentication"
     label: "authentication"
+    situation: "private repositoryを未ログイン状態でpullした場合に発生する"
     cause: "非公開リポジトリへ未認証でアクセスしている"
     messages:
       - "may require 'docker login'"
@@ -44,6 +47,7 @@ error_cases:
     fix: "対象Registryへログインし、pull権限を持つ主体で取得する"
   - id: "pull-permission"
     label: "permission"
+    situation: "docker loginでLogin Succeededと表示された後もpullが拒否される"
     cause: "ログインには成功したが、pull権限がない"
     messages:
       - "Login Succeeded"
@@ -52,6 +56,7 @@ error_cases:
     fix: "Registry管理者または所有者側でreadまたはpull権限を付与する"
   - id: "missing-latest-tag"
     label: "tag"
+    situation: "タグを省略したpullでmanifest unknownが表示される"
     cause: "タグを省略し、存在しないlatestを要求している"
     messages:
       - "manifest for OWNER/IMAGE:TAG not found"
@@ -60,6 +65,7 @@ error_cases:
     fix: "公開済みのタグまたはdigestを明示する"
   - id: "ci-auth-config"
     label: "ci"
+    situation: "ローカルではpullできるがCIでは失敗する"
     cause: "CIだけ別の認証設定を使っている"
     messages:
       - "pull access denied for"
@@ -68,6 +74,7 @@ error_cases:
     fix: "pullする処理と同じjob、同じDocker設定でログインする"
   - id: "copy-from-stage-name"
     label: "dockerfile"
+    situation: "DockerfileのCOPY --fromを使ったbuildで、stage名が外部イメージとして取得される"
     cause: "Dockerfileのstage名を間違え、外部イメージとしてpullしている"
     messages:
       - "pull access denied for build"
@@ -76,6 +83,7 @@ error_cases:
     fix: "COPY --from を正しいstage名へ直す"
   - id: "buildkit-local-image"
     label: "buildkit"
+    situation: "docker image inspectでは見つかる基礎イメージが、buildx buildではpullされる"
     cause: "ローカルだけにあるイメージを、別のbuilderがpullしようとしている"
     messages:
       - "pull access denied for <local-image>"
@@ -84,6 +92,7 @@ error_cases:
     fix: "同じimage storeを使うbuilderを選ぶか、基礎イメージを共有Registryへpushする"
   - id: "compose-image-build"
     label: "compose"
+    situation: "Docker Composeでimageだけを指定し、ローカルにイメージがない場合に発生する"
     cause: "Composeのimageとbuildの関係が想定と違う"
     messages:
       - "pull access denied for"

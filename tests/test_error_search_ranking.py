@@ -15,6 +15,10 @@ class ErrorSearchRankingTest(unittest.TestCase):
 
         self.assertIn("a.setAttribute('aria-label', item.title);", source)
         self.assertNotIn("a.textContent = item.title;", source)
+        self.assertIn("makeCaseDetail('一致した表示'", source)
+        self.assertIn("makeCaseDetail('状況'", source)
+        self.assertIn("makeCaseDetail('考えられる原因'", source)
+        self.assertIn("action.textContent = '確認方法を見る';", source)
 
     def _run_error_search_js(self, script: str) -> None:
         node = shutil.which("node")
@@ -91,7 +95,111 @@ class ErrorSearchRankingTest(unittest.TestCase):
                 assertEqual(hits[1].item.causeId, 'authentication', 'authentication cause');
                 assertEqual(bestMatchedMessage(hits[0].item, query), 'repository does not exist', 'matched message');
                 assertEqual(hasCaseSignal(hits[0].item, query), true, 'case signal');
-                assertEqual(hasCaseSignal(hits[0].item, 'Docker 500'), false, 'service-only query should fall back');
+                """
+            )
+        )
+
+    def test_message_match_outranks_cause_only_match(self):
+        self._run_error_search_js(
+            textwrap.dedent(
+                r"""
+                function assertEqual(actual, expected, label) {
+                  if (actual !== expected) {
+                    throw new Error(label + ': expected ' + expected + ', got ' + actual);
+                  }
+                }
+
+                var query = 'repository does not exist';
+                var hits = [
+                  {
+                    item: {
+                      causeId: 'message-match',
+                      service: 'Docker',
+                      errorCode: 'pull access denied',
+                      errorName: 'pull access denied',
+                      messages: ['repository does not exist'],
+                      aliases: [],
+                      cause: '参照名が違う'
+                    },
+                    score: 0.34
+                  },
+                  {
+                    item: {
+                      causeId: 'cause-only-match',
+                      service: 'Docker',
+                      errorCode: 'pull access denied',
+                      errorName: 'pull access denied',
+                      messages: ['access denied'],
+                      aliases: [],
+                      cause: 'repository does not exist'
+                    },
+                    score: 0.01
+                  }
+                ];
+
+                hits.sort(function (a, b) { return compareCaseHits(a, b, query); });
+                assertEqual(hits[0].item.causeId, 'message-match', 'message priority');
+                """
+            )
+        )
+
+    def test_situation_is_searchable_and_optional(self):
+        self._run_error_search_js(
+            textwrap.dedent(
+                r"""
+                function assertEqual(actual, expected, label) {
+                  if (actual !== expected) {
+                    throw new Error(label + ': expected ' + expected + ', got ' + actual);
+                  }
+                }
+
+                var query = 'ローカルではpullできるがCIでは失敗する';
+                var withSituation = {
+                  service: 'Docker',
+                  errorCode: 'pull access denied',
+                  errorName: 'pull access denied',
+                  situation: 'ローカルではpullできるがCIでは失敗する',
+                  messages: [],
+                  aliases: [],
+                  cause: 'CIだけ別の認証設定を使っている'
+                };
+                var withoutSituation = {
+                  service: 'Docker',
+                  errorCode: 'pull access denied',
+                  errorName: 'pull access denied',
+                  messages: [],
+                  aliases: [],
+                  cause: ''
+                };
+
+                assertEqual(hasCaseSignal(withSituation, query), true, 'situation signal');
+                assertEqual(hasCaseSignal(withoutSituation, query), false, 'missing situation');
+                assertEqual(typeof caseRank({ item: withoutSituation, score: 0.1 }, query), 'number', 'optional situation rank');
+                """
+            )
+        )
+
+    def test_service_and_unknown_code_fall_back_to_article_search(self):
+        self._run_error_search_js(
+            textwrap.dedent(
+                r"""
+                function assertEqual(actual, expected, label) {
+                  if (actual !== expected) {
+                    throw new Error(label + ': expected ' + expected + ', got ' + actual);
+                  }
+                }
+
+                var item = {
+                  service: 'Docker',
+                  errorCode: 'pull access denied',
+                  errorName: 'pull access denied',
+                  situation: 'CI環境でのみ発生する',
+                  messages: ["may require 'docker login'"],
+                  aliases: [],
+                  cause: 'CIだけ別の認証設定を使っている'
+                };
+
+                assertEqual(hasCaseSignal(item, 'Docker 500'), false, 'service-only query should fall back');
                 """
             )
         )
