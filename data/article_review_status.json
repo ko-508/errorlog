@@ -1157,5 +1157,16 @@
         "note": "PostgreSQLのconnection refusedを新規作成。接続処理段階、待ち受け・アドレス・ポートの切り分け、認証エラーとの境界を公式実装と文書に基づいて整理"
       }
     ]
+  },
+  "content/posts/postgresql_password_authentication_failed.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "PostgreSQLのpassword authentication failedを新規作成。クライアント向け総称メッセージとサーバーログDETAILの違い、pg_hba.conf・ロール・パスワード方式の切り分けを公式実装と文書に基づいて整理。OGP収まりのため日本語タイトルへ短縮"
+      }
+    ]
   }
 }
