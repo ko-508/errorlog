@@ -1190,5 +1190,16 @@
         "note": "npm の EACCES を新規追加。detailed 形式。失敗した経路がキャッシュ配下かどうかで npm が文面を2通りに出し分ける点を軸に据え、--unsafe-perm が npm 7 以降存在しないことを設定定義の版比較から説明"
       }
     ]
+  },
+  "content/posts/npm_enoent.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "npm の ENOENT を新規追加。detailed 形式かつ検索対応の新規格（error_name / error_aliases / error_cases と本文アンカー）を初適用。診断行 code / syscall / file / path / dest / errno で対象を特定する読み方を軸に据え、case を syscall と path の組で分離"
+      }
+    ]
   }
 }
