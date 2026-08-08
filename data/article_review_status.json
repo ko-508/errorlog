@@ -1146,5 +1146,16 @@
         "note": "ErrImagePull を新規追加。ImagePullBackOff との違いを原因ではなく時間軸上の地点として整理し、ErrImagePull が分類できなかった残りを指す名前であることと、v1.32 で待機中の message に理由が連結されるようになった経緯を実装から説明"
       }
     ]
+  },
+  "content/posts/postgresql_connection_refused.md": {
+    "verified": true,
+    "verified_at": "2026-08-08",
+    "last_verified_at": "2026-08-08",
+    "history": [
+      {
+        "date": "2026-08-08",
+        "note": "PostgreSQLのconnection refusedを新規作成。接続処理段階、待ち受け・アドレス・ポートの切り分け、認証エラーとの境界を公式実装と文書に基づいて整理"
+      }
+    ]
   }
 }
