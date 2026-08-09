@@ -1212,5 +1212,16 @@
         "note": "npm の ETARGET を新規追加。detailed 形式かつ検索対応の新規格。notarget の1行目に出る名前と範囲を読む手順を軸に据え、with a date before による時刻の絞り込み、policy violations で E403 へ分岐する経路、audit fix 経路の No avoidable versions を case として分離"
       }
     ]
+  },
+  "content/posts/npm_enotempty.md": {
+    "verified": true,
+    "verified_at": "2026-08-09",
+    "last_verified_at": "2026-08-09",
+    "history": [
+      {
+        "date": "2026-08-09",
+        "note": "npm の ENOTEMPTY を新規追加。detailed 形式かつ検索対応の新規格。npm が EEXIST と ENOTEMPTY を一度握りつぶして退避先を削除し再試行する実装から、画面に出たものは2回目の失敗であるという読み方を軸に据え、退避先の命名規則が経路から決まる点も実装で確認"
+      }
+    ]
   }
 }
