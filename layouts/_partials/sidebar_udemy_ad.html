@@ -1,0 +1,56 @@
+<aside class="post-ad-side" aria-label="広告">
+  <span class="post-ad-side__label">広告</span>
+  <div class="post-ad-side__creative"></div>
+  <template id="udemy-sidebar-ad-template">
+    <a rel="sponsored"
+       href="https://trk.udemy.com/c/7589299/3980069/39854" target="_top" id="3980069">
+      <img src="//a.impactradius-go.com/display-ad/39854-3980069" border="0" alt="" width="300" height="600"/>
+    </a><img height="0" width="0" src="https://imp.pxf.io/i/7589299/3980069/39854" style="position:absolute;visibility:hidden;" border="0" />
+  </template>
+  {{- partial "sidebar_related_posts.html" . }}
+  <div class="post-ad-side__sticky-ad">
+    <span class="post-ad-side__label">広告</span>
+    <div class="post-ad-side__creative post-ad-side__creative--secondary"></div>
+  </div>
+</aside>
+<script>
+  (() => {
+    if (!window.matchMedia('(min-width: 1340px)').matches) return;
+    const template = document.getElementById('udemy-sidebar-ad-template');
+    const primaryCreative = document.querySelector('.post-ad-side__creative:not(.post-ad-side__creative--secondary)');
+    const secondaryCreative = document.querySelector('.post-ad-side__creative--secondary');
+    primaryCreative.appendChild(template.content.cloneNode(true));
+
+    const secondaryAd = template.content.cloneNode(true);
+    secondaryAd.querySelector('a[id]').id = '3980069-sticky';
+    secondaryCreative.appendChild(secondaryAd);
+
+    const fitRelatedCards = () => {
+      const article = document.querySelector('.post-body-main');
+      const rail = document.querySelector('.post-ad-side');
+      const section = rail.querySelector('.post-ad-side__related');
+      const cards = Array.from(rail.querySelectorAll('.post-ad-side__related-item'));
+      let visibleCards = 0;
+
+      rail.style.height = `${article.getBoundingClientRect().bottom - rail.getBoundingClientRect().top}px`;
+
+      section.hidden = false;
+      cards.forEach((card) => { card.hidden = true; });
+
+      for (const card of cards) {
+        card.hidden = false;
+        if (rail.scrollHeight > rail.clientHeight) {
+          card.hidden = true;
+          break;
+        }
+        visibleCards += 1;
+      }
+
+      section.hidden = visibleCards === 0;
+    };
+
+    requestAnimationFrame(fitRelatedCards);
+    window.addEventListener('load', fitRelatedCards, { once: true });
+    window.addEventListener('resize', fitRelatedCards);
+  })();
+</script>

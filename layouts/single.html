@@ -303,7 +303,15 @@
   </div>
   {{- end }}
 
+  {{- if and (eq .Type "posts") (ne .Params.error_type "learning guide") }}
+  {{- partial "inline_udemy_ad.html" . }}
+  {{- end }}
+
   </div>{{- /* end post-body-main */}}
+
+  {{- if and (eq .Type "posts") (ne .Params.error_type "learning guide") }}
+  {{- partial "sidebar_udemy_ad.html" . }}
+  {{- end }}
 
   {{- /* ── サイド目次 ── */}}
   <aside class="post-toc-side" aria-label="目次">

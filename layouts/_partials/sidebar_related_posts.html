@@ -1,0 +1,52 @@
+{{- $thisService := .Params.service }}
+{{- $thisErrorType := .Params.error_type }}
+{{- $thisComponents := .Params.components }}
+{{- $related := slice }}
+{{- range where site.RegularPages "Type" "posts" }}
+  {{- if eq . $ }}{{- continue }}{{- end }}
+  {{- $score := 0 }}
+  {{- if and $thisService (eq .Params.service $thisService) }}
+    {{- $score = add $score 5 }}
+    {{- if eq .Params.error_type "learning guide" }}
+      {{- $score = add $score 100 }}
+    {{- end }}
+  {{- end }}
+  {{- if and $thisErrorType (eq .Params.error_type $thisErrorType) }}
+    {{- $score = add $score 1 }}
+  {{- end }}
+  {{- $candidateComponents := .Params.components }}
+  {{- if and $thisComponents $candidateComponents }}
+    {{- range $thisComponents }}
+      {{- if in $candidateComponents . }}
+        {{- $score = add $score 3 }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- if ge $score 3 }}
+    {{- $related = $related | append (dict "page" . "score" $score) }}
+  {{- end }}
+{{- end }}
+{{- $related = first 20 (sort $related "score" "desc") }}
+{{- if $related }}
+<section class="post-ad-side__related" aria-labelledby="sidebar-related-title" hidden>
+  <h2 class="post-ad-side__related-title" id="sidebar-related-title">
+    {{- with $thisService }}{{ . }}の関連記事{{ else }}関連記事{{ end -}}
+  </h2>
+  <ul class="post-ad-side__related-list">
+    {{- range $related }}
+    <li class="post-ad-side__related-item" hidden>
+      <a href="{{ .page.RelPermalink }}">
+        {{- if eq .page.Params.error_type "learning guide" }}
+        <span class="post-ad-side__related-kind">体系的に学ぶ</span>
+        {{- else }}
+        {{- with .page.Params.errorCode }}
+        <span class="post-ad-side__related-kind">{{ . }}</span>
+        {{- end }}
+        {{- end }}
+        <span class="post-ad-side__related-link-title">{{ .page.Title }}</span>
+      </a>
+    </li>
+    {{- end }}
+  </ul>
+</section>
+{{- end }}

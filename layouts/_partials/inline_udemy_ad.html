@@ -1,0 +1,17 @@
+<aside class="post-inline-ad" aria-label="広告">
+  <span class="post-ad-side__label">広告</span>
+  <div class="post-inline-ad__creative"></div>
+  <template id="udemy-inline-ad-template">
+    <a rel="sponsored"
+       href="https://trk.udemy.com/c/7589299/3980069/39854" target="_top" id="3980069-inline">
+      <img src="//a.impactradius-go.com/display-ad/39854-3980069" border="0" alt="" width="300" height="600"/>
+    </a><img height="0" width="0" src="https://imp.pxf.io/i/7589299/3980069/39854" style="position:absolute;visibility:hidden;" border="0" />
+  </template>
+</aside>
+<script>
+  (() => {
+    if (!window.matchMedia('(max-width: 1339px)').matches) return;
+    const template = document.getElementById('udemy-inline-ad-template');
+    document.querySelector('.post-inline-ad__creative').appendChild(template.content.cloneNode(true));
+  })();
+</script>

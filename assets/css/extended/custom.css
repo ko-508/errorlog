@@ -1256,6 +1256,7 @@ html[data-theme="dark"] .incident-banner__header {
 
 /* ?? ???????????? fixed ?? ?? */
 .post-toc-side { display: none; }
+.post-ad-side { display: none; }
 
 @media (min-width: 1340px) {
   .post-toc-side {
@@ -1268,6 +1269,119 @@ html[data-theme="dark"] .incident-banner__header {
     overflow-y: auto;
     scrollbar-width: thin;
     z-index: 50;
+  }
+}
+
+@media (min-width: 1340px) {
+  .post-single {
+    position: relative;
+  }
+
+  .post-ad-side {
+    display: block;
+    position: absolute;
+    top: 72px;
+    right: calc(100% + 8px);
+    width: 270px;
+    z-index: 40;
+  }
+}
+
+.post-ad-side__label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--secondary);
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+}
+
+.post-ad-side__creative,
+.post-ad-side__creative > a,
+.post-ad-side__creative > a > img {
+  display: block;
+  width: 270px;
+  height: 540px;
+}
+
+.post-ad-side__related {
+  margin-top: 20px;
+}
+
+.post-ad-side__related-title {
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--secondary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.post-ad-side__related-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.post-ad-side__related-item {
+  margin: 0;
+}
+
+.post-ad-side__related-item a {
+  display: block;
+  min-height: 92px;
+  padding: 14px;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--primary);
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.post-ad-side__related-item a:hover {
+  border-color: var(--secondary);
+}
+
+.post-ad-side__related-kind {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--secondary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.post-ad-side__related-link-title {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.post-ad-side__sticky-ad {
+  position: sticky;
+  top: 72px;
+  margin-top: 20px;
+}
+
+.post-inline-ad {
+  width: min(300px, 100%);
+  margin: 32px auto 0;
+}
+
+.post-inline-ad__creative,
+.post-inline-ad__creative > a,
+.post-inline-ad__creative > a > img {
+  display: block;
+  width: min(300px, 100%);
+  height: auto;
+  aspect-ratio: 1 / 2;
+}
+
+@media (min-width: 1340px) {
+  .post-inline-ad {
+    display: none;
   }
 }
 
