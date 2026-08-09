@@ -1234,5 +1234,16 @@
         "note": "npm の ECONNRESET を新規追加。simple 形式かつ検索対応の新規格。npm 固有の説明が無く他の通信系と同じ分岐に入るため、回線・失敗対象の変動・失敗までの時間の3点で切り分ける構成にし、再試行と同時接続数の既定値を実装から提示"
       }
     ]
+  },
+  "content/posts/npm_eai_again.md": {
+    "verified": true,
+    "verified_at": "2026-08-09",
+    "last_verified_at": "2026-08-09",
+    "history": [
+      {
+        "date": "2026-08-09",
+        "note": "npm の EAI_AGAIN を新規追加。simple 形式かつ検索対応の新規格。error-message.js に専用分岐が無く既定の扱いになる点を軸に据え、エラー文末尾の引けなかった名前と npm ping で切り分ける構成にした"
+      }
+    ]
   }
 }
