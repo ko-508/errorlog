@@ -1256,5 +1256,16 @@
         "note": "ConoHa VPS の Docker と ufw の関係を新規追加。OS 内の ufw と VPS 外側のセキュリティグループの2層構成を軸に、Docker の公開ポートが ufw の INPUT 規則を迂回する仕様を公式資料から整理。Editor's Note に moby/moby#4737 と #42563 を追加"
       }
     ]
+  },
+  "content/posts/docker_learning_guide.md": {
+    "verified": true,
+    "verified_at": "2026-08-09",
+    "last_verified_at": "2026-08-09",
+    "history": [
+      {
+        "date": "2026-08-09",
+        "note": "Docker の学習ロードマップ記事を新規追加。エラーを4つの境界で整理し、コンテナとイメージ／Dockerfile／ポートとネットワーク／ボリューム／Compose／トラブルシューティングの6段階に分けた。仕様は Docker 公式ドキュメントで照合。Udemy の PR リンクを1か所配置し、冒頭に広告表示を追加"
+      }
+    ]
   }
 }
