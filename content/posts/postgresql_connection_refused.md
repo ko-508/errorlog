@@ -15,30 +15,30 @@ trend_incident: false
 
 ## 結論
 
-`connection refused` は PostgreSQL が生成した文言ではありません。接続先の OS が接続要求を拒んだときの `ECONNREFUSED` を、libpq が `strerror()` の結果としてそのまま転記したものです。実装では、接続に失敗した箇所で `SOCK_STRERROR(errorno, ...)` の結果を先頭に置き、その後ろに助言の1行を足しています。
+`connection refused` は PostgreSQL が生成した文言ではありません。接続先の [OS](/glossary/os/) が接続要求を拒んだときの `ECONNREFUSED` を、libpq が `strerror()` の結果としてそのまま転記したものです。実装では、接続に失敗した箇所で `SOCK_STRERROR(errorno, ...)` の結果を先頭に置き、その後ろに助言の1行を足しています。
 
 この由来から、確認すべき範囲がほぼ確定します。要求は指定した相手と[ポート](/glossary/ポート/)まで届いており、そこで待ち受けている相手がいなかったという意味です。したがって、[パスワード](/glossary/パスワード/)、`pg_hba.conf`、[ロール](/glossary/ロール/)、[データベース](/glossary/データベース/)名は一切関係ありません。これらの問題であれば、接続自体は成立したうえで PostgreSQL 側の `FATAL` が返ります。
 
-見るべきは3つです。サーバーが動いているか、待ち受けている住所に自分が届いているか、[ポート](/glossary/ポート/)番号が合っているかです。
+見るべきは3つです。[サーバー](/glossary/サーバー/)が動いているか、待ち受けている住所に自分が届いているか、[ポート](/glossary/ポート/)番号が合っているかです。
 
 ## エラーが発生する処理段階
 
-クライアントが接続を確立するまでには段階があります。`connection refused` は最初の段階、つまり `connect()` の呼び出しで止まっています。
+[クライアント](/glossary/クライアント/)が接続を確立するまでには段階があります。`connection refused` は最初の段階、つまり `connect()` の呼び出しで止まっています。
 
 第一段階は接続先の決定です。libpq は `host` から名前を引き、`hostaddr` があればそちらを使います。第二段階が実際の接続で、ここで拒否されると `connection refused` になります。第三段階が起動時のやり取りで、[データベース](/glossary/データベース/)名と利用者名を送ります。第四段階が[認証](/glossary/認証/)で、`pg_hba.conf` の照合と[パスワード](/glossary/パスワード/)の確認が行われます。
 
-第二段階で止まっているということは、PostgreSQL のプロセスがこの要求を一度も見ていないということです。サーバーの[ログ](/glossary/ログ/)にも何も残りません。[ログ](/glossary/ログ/)を探しても記録が無いのは異常ではなく、この段階で止まっている証拠です。
+第二段階で止まっているということは、PostgreSQL のプロセスがこの要求を一度も見ていないということです。[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)にも何も残りません。[ログ](/glossary/ログ/)を探しても記録が無いのは異常ではなく、この段階で止まっている証拠です。
 
 ## 最初に確認すること
 
-まず、どの相手のどの[ポート](/glossary/ポート/)に対して拒否されたのかを、エラー文からそのまま読み取ります。
+まず、どの相手のどの[ポート](/glossary/ポート/)に対して拒否されたのかを、[エラー](/glossary/エラー/)文からそのまま読み取ります。
 
 ```text
 psql: error: connection to server at "localhost" (::1), port 5432 failed: Connection refused
 	Is the server running on that host and accepting TCP/IP connections?
 ```
 
-括弧の中は、名前を引いた結果の実際の住所です。ここが `::1` になっているのに待ち受けが IPv4 だけ、という食い違いはよく起きます。`localhost` は環境によって IPv6 を先に返すためです。
+括弧の中は、名前を引いた結果の実際の住所です。ここが `::1` になっているのに待ち受けが IPv4 だけ、という食い違いはよく起きます。`localhost` は[環境](/glossary/環境/)によって IPv6 を先に返すためです。
 
 次に、その[ポート](/glossary/ポート/)で待ち受けている相手がいるかを確認します。
 
@@ -46,7 +46,7 @@ psql: error: connection to server at "localhost" (::1), port 5432 failed: Connec
 ss -ltnp | grep 5432
 ```
 
-行が1つも出なければ、サーバーが動いていないか、別の[ポート](/glossary/ポート/)で待ち受けています。行が出た場合は、左側の住所欄を見てください。`127.0.0.1:5432` なら[ネットワーク](/glossary/ネットワーク/)越しの接続は拒否され、`0.0.0.0:5432` または `*:5432` なら受け付けます。
+行が1つも出なければ、[サーバー](/glossary/サーバー/)が動いていないか、別の[ポート](/glossary/ポート/)で待ち受けています。行が出た場合は、左側の住所欄を見てください。`127.0.0.1:5432` なら[ネットワーク](/glossary/ネットワーク/)越しの接続は拒否され、`0.0.0.0:5432` または `*:5432` なら受け付けます。
 
 ## 原因別の確認方法と解決策
 
@@ -60,7 +60,7 @@ ss -ltnp | grep 5432
 sudo systemctl status postgresql
 ```
 
-停止していれば `inactive` または `failed` と出ます。`failed` の場合は起動を試す前に、失敗の理由を先に読んでください。設定ファイルの誤りで落ちている場合、起動をやり直しても同じ場所で止まります。
+停止していれば `inactive` または `failed` と出ます。`failed` の場合は起動を試す前に、失敗の理由を先に読んでください。[設定ファイル](/glossary/設定ファイル/)の誤りで落ちている場合、起動をやり直しても同じ場所で止まります。
 
 ```bash
 sudo journalctl -u postgresql --since "1 hour ago" | tail -40
@@ -74,7 +74,7 @@ sudo systemctl start postgresql
 
 ### 原因2：待ち受けの住所に自分が含まれていない
 
-サーバーは動いているのに、[ネットワーク](/glossary/ネットワーク/)越しからだけ拒否される場合です。`listen_addresses` の既定値は `localhost` で、公式ドキュメントには、この値では[サーバー](/glossary/サーバー/)自身からの折り返し接続だけが許されると明記されています。
+[サーバー](/glossary/サーバー/)は動いているのに、[ネットワーク](/glossary/ネットワーク/)越しからだけ拒否される場合です。`listen_addresses` の既定値は `localhost` で、公式ドキュメントには、この値では[サーバー](/glossary/サーバー/)自身からの折り返し接続だけが許されると明記されています。
 
 確認方法は現在値の照会です。手元から接続できるなら、こちらが確実です。
 
@@ -82,7 +82,7 @@ sudo systemctl start postgresql
 SHOW listen_addresses;
 ```
 
-接続できない場合は設定ファイルを直接読みます。
+接続できない場合は[設定ファイル](/glossary/設定ファイル/)を直接読みます。
 
 ```bash
 grep -n "^listen_addresses" /etc/postgresql/*/main/postgresql.conf
@@ -98,7 +98,7 @@ listen_addresses = '10.0.1.5, localhost'
 
 ### 原因3：ポート番号が合っていない
 
-既定は 5432 です。公式ドキュメントにも、待ち受ける TCP [ポート](/glossary/ポート/)は既定で 5432 だと書かれています。複数の版を同居させている環境では 5433 や 5434 が割り当てられていることがあり、接続側だけが既定のままになっている、という食い違いが起きます。
+既定は 5432 です。公式ドキュメントにも、待ち受ける TCP [ポート](/glossary/ポート/)は既定で 5432 だと書かれています。複数の版を同居させている[環境](/glossary/環境/)では 5433 や 5434 が割り当てられていることがあり、接続側だけが既定のままになっている、という食い違いが起きます。
 
 確認方法は両側の突き合わせです。
 
@@ -107,7 +107,7 @@ sudo -u postgres psql -c "SHOW port;"
 echo "$PGPORT"
 ```
 
-対処は接続側を合わせることです。環境変数か接続文字列で指定します。
+対処は接続側を合わせることです。[環境変数](/glossary/環境変数/)か接続文字列で指定します。
 
 ```bash
 psql "host=10.0.1.5 port=5433 dbname=app user=app"
@@ -166,9 +166,9 @@ docker compose exec app psql "host=db port=5432 dbname=app user=app"
 
 ## 内部動作または公式仕様
 
-libpq のエラー文は2つの部品を連結して作られます。前半は接続先を特定する部分で、TCP なら `connection to server at "%s" (%s), port %s failed: ` の書式です。名前と、引いた結果の住所が異なる場合だけ括弧の中に住所が入ります。Unix ドメインソケットの場合は `connection to server on socket "%s" failed: ` になります。
+libpq の[エラー](/glossary/エラー/)文は2つの部品を連結して作られます。前半は接続先を特定する部分で、TCP なら `connection to server at "%s" (%s), port %s failed: ` の書式です。名前と、引いた結果の住所が異なる場合だけ括弧の中に住所が入ります。Unix ドメインソケットの場合は `connection to server on socket "%s" failed: ` になります。
 
-後半は失敗の理由で、`connectFailureMessage()` が OS の `strerror()` の結果をそのまま置きます。`Connection refused` はここに入る文字列です。実装のコメントには、この関数が「向こうに[サーバー](/glossary/サーバー/)がいないことを示す場合」に使うものだと明記されています。
+後半は失敗の理由で、`connectFailureMessage()` が [OS](/glossary/os/) の `strerror()` の結果をそのまま置きます。`Connection refused` はここに入る文字列です。実装のコメントには、この[関数](/glossary/関数/)が「向こうに[サーバー](/glossary/サーバー/)がいないことを示す場合」に使うものだと明記されています。
 
 助言の1行も、接続先の種類で切り替わります。TCP なら `Is the server running on that host and accepting TCP/IP connections?`、ソケットなら `Is the server running locally and accepting connections on that socket?` です。
 
@@ -176,7 +176,7 @@ libpq のエラー文は2つの部品を連結して作られます。前半は�
 
 ## バージョン差・注意点
 
-エラー文の書式は PostgreSQL 14 で変わりました。13 以前は `could not connect to server: Connection refused` で始まり、助言の中に対象の[サーバー](/glossary/サーバー/)名と[ポート](/glossary/ポート/)が埋め込まれる形でした。14 以降は接続先が先頭に来て、理由が後ろに続きます。実装を版ごとに比べると、13 系までは旧書式、14 系から新書式になっています。検索した記事の書式が手元と違う場合は、この境目を疑ってください。
+[エラー](/glossary/エラー/)文の書式は PostgreSQL 14 で変わりました。13 以前は `could not connect to server: Connection refused` で始まり、助言の中に対象の[サーバー](/glossary/サーバー/)名と[ポート](/glossary/ポート/)が埋め込まれる形でした。14 以降は接続先が先頭に来て、理由が後ろに続きます。実装を版ごとに比べると、13 系までは旧書式、14 系から新書式になっています。検索した記事の書式が手元と違う場合は、この境目を疑ってください。
 
 助言の文言に住所が含まれるかどうかも変わっています。旧書式は助言の中に住所と[ポート](/glossary/ポート/)を入れていましたが、新書式では先頭に移りました。古い手順書をそのまま使うと、読む場所を間違えます。
 
@@ -184,7 +184,7 @@ libpq のエラー文は2つの部品を連結して作られます。前半は�
 
 ## Editor's Note
 
-PostgreSQL 14 における接続失敗メッセージの書式変更は、この[エラー](/glossary/エラー/)の調査手順に直接影響します。14 のリリースは2021年9月30日で、この版から `connection to server at "host" (address), port N failed:` の書式になりました。13 以前は `could not connect to server:` で始まります。
+PostgreSQL 14 における接続失敗メッセージの書式変更は、この[エラー](/glossary/エラー/)の調査手順に直接影響します。14 の[リリース](/glossary/リリース/)は2021年9月30日で、この版から `connection to server at "host" (address), port N failed:` の書式になりました。13 以前は `could not connect to server:` で始まります。
 
 当時の状態としては、旧書式が長く使われていたため、日本語で書かれた解説の多くが旧書式を前提にしています。助言の中に住所と[ポート](/glossary/ポート/)が入る前提で「2行目を読め」と書かれた手順は、14 以降では成立しません。
 
@@ -199,4 +199,4 @@ PostgreSQL 14 における接続失敗メッセージの書式変更は、この
 - [libpq の実装（fe-connect.c）](https://github.com/postgres/postgres/blob/master/src/interfaces/libpq/fe-connect.c)
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

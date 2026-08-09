@@ -118,7 +118,7 @@ Dashboard の Storage セクションで[バケット](/glossary/バケット/)�
 
 ### 原因3：Supabase Functions エンドポイントの URL が不正確
 
-カスタム[関数](/glossary/関数/)を呼び出す際に、[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) が完全でない、または関数名を誤って指定した場合に 404 が発生します。特にローカル開発環境とプロダクション[環境](/glossary/環境/)で[エンドポイント](/glossary/エンドポイント/)が異なることに気づかずミスが起きます。
+カスタム[関数](/glossary/関数/)を呼び出す際に、[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) が完全でない、または関数名を誤って指定した場合に 404 が発生します。特にローカル[開発環境](/glossary/開発環境/)とプロダクション[環境](/glossary/環境/)で[エンドポイント](/glossary/エンドポイント/)が異なることに気づかずミスが起きます。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -167,7 +167,7 @@ if (!response.ok) {
 
 Supabase は PostgreSQL [データベース](/glossary/データベース/)をラッパーしているため、行レベルセキュリティ（RLS）が有効な[テーブル](/glossary/テーブル/)では、[認証](/glossary/認証/)ユーザーでも[アクセス権限](/glossary/アクセス権限/)がないと[クエリ](/glossary/クエリ/)結果が空になり、実質的に 404 と同じ現象が起きます。この場合、[エラーメッセージ](/glossary/エラーメッセージ/)は返されず `data: []` または `data: null` が返されるため、[テーブル](/glossary/テーブル/)名や[カラム](/glossary/カラム/)名が正確でもデータが取得できません。RLS ルールと認証状態を確認してください。
 
-また、Supabase Functions をローカルで開発する際は、`supabase start` [コマンド](/glossary/コマンド/)で起動したローカルエミュレーター の[ポート](/glossary/ポート/)番号（通常は 54321）が実行環境によって変わることがあります。本番環境に[デプロイ](/glossary/デプロイ/)する前に、必ず[ダッシュボード](/glossary/ダッシュボード/)上の実際の[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) で動作確認を行ってください。
+また、Supabase Functions をローカルで開発する際は、`supabase start` [コマンド](/glossary/コマンド/)で起動したローカルエミュレーター の[ポート](/glossary/ポート/)番号（通常は 54321）が実行環境によって変わることがあります。[本番環境](/glossary/本番環境/)に[デプロイ](/glossary/デプロイ/)する前に、必ず[ダッシュボード](/glossary/ダッシュボード/)上の実際の[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) で動作確認を行ってください。
 
 Storage の[バケット](/glossary/バケット/)削除後に古い[バケット](/glossary/バケット/)名で[リクエスト](/glossary/リクエスト/)を送ると 404 が返されます。[バケット](/glossary/バケット/)を再作成した場合、新しい[バケット](/glossary/バケット/)名を明示的に指定する必要があります。
 
@@ -202,7 +202,7 @@ console.log('実行 SQL:', supabase.sql);  // 実際のクエリを出力
 console.log('エラーオブジェクト:', error);  // 詳細なエラー情報
 ```
 
-それでも解決しない場合は、Supabase の公式ドキュメント（https://supabase.com/docs）のテーブル、Storage、Functions のセクションを参照するか、GitHub Issues（https://github.com/supabase/supabase）でコミュニティに相談してください。
+それでも解決しない場合は、Supabase の公式ドキュメント（https://supabase.com/docs）のテーブル、Storage、Functions のセクションを参照するか、[GitHub](/glossary/github/) Issues（https://github.com/supabase/supabase）でコミュニティに相談してください。
 
 ---
 

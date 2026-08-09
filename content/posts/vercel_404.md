@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（本番環境）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
+Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（[本番環境](/glossary/本番環境/)）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ Error: Deployment not found. The deployment <deployment-id> does not exist or ha
 
 ### 原因1：デプロイメント URL が古いか誤っている
 
-Vercel で[プロジェクト](/glossary/プロジェクト/)を更新・再[デプロイ](/glossary/デプロイ/)したり、本番環境の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
+Vercel で[プロジェクト](/glossary/プロジェクト/)を更新・再[デプロイ](/glossary/デプロイ/)したり、[本番環境](/glossary/本番環境/)の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -153,7 +153,7 @@ vercel.json でルーティング設定を誤ると、存在する[ファイル]
 
 **Production デプロイメント vs Preview デプロイメント：**
 
-Vercel では、メインブランチへのプッシュで Production デプロイメントが生成され、プルリクエストごとに Preview デプロイメントが作成されます。Preview [URL](/glossary/url/) は PR が閉じられると削除されるため、古い PR の [URL](/glossary/url/) にアクセスすると 404 になります。本番環境には必ず Production [URL](/glossary/url/) を使用してください。
+Vercel では、メインブランチへの[プッシュ](/glossary/プッシュ/)で Production デプロイメントが生成され、プルリクエストごとに Preview デプロイメントが作成されます。Preview [URL](/glossary/url/) は PR が閉じられると削除されるため、古い PR の [URL](/glossary/url/) にアクセスすると 404 になります。[本番環境](/glossary/本番環境/)には必ず Production [URL](/glossary/url/) を使用してください。
 
 **[環境変数](/glossary/環境変数/)と動的 [URL](/glossary/url/) の扱い：**
 
@@ -204,7 +204,7 @@ vercel dev
 - [Rewrites and Redirects](https://vercel.com/docs/concepts/next.js/rewrites)
 - [Deployments API Reference](https://vercel.com/docs/rest-api/endpoints#list-deployments)
 
-GitHub や Vercel のコミュニティフォーラムで同様の事例が報告されていないか検索することも有効です。問題が解決しない場合は、Vercel サポートチケットを作成し、デプロイメント [ID](/glossary/id/) と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を添付してください。
+[GitHub](/glossary/github/) や Vercel のコミュニティフォーラムで同様の事例が報告されていないか検索することも有効です。問題が解決しない場合は、Vercel サポートチケットを作成し、デプロイメント [ID](/glossary/id/) と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を添付してください。
 
 ---
 

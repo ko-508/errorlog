@@ -178,7 +178,7 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手�
 
 1. [プロジェクト](/glossary/プロジェクト/)の Settings > Environment Variables
 2. `DATABASE_URL` を入力
-3. 本番環境・プレビュー[環境](/glossary/環境/)・開発環境を指定して保存
+3. [本番環境](/glossary/本番環境/)・プレビュー[環境](/glossary/環境/)・[開発環境](/glossary/開発環境/)を指定して保存
 
 ## ツール固有の注意点
 
@@ -195,13 +195,13 @@ Build logs では、[デプロイ](/glossary/デプロイ/)時の依存パッケ
 
 ### ローカル開発環境での再現
 
-Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うことで、ローカルで[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の動作を確認できます。これにより、本番環境に[デプロイ](/glossary/デプロイ/)する前に[エラー](/glossary/エラー/)を発見できます。
+Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うことで、ローカルで[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の動作を確認できます。これにより、[本番環境](/glossary/本番環境/)に[デプロイ](/glossary/デプロイ/)する前に[エラー](/glossary/エラー/)を発見できます。
 
 ```bash
 vercel dev
 ```
 
-この[コマンド](/glossary/コマンド/)で立ち上がるローカル[環境](/glossary/環境/)は、ほぼ本番環境と同じ条件で[関数](/glossary/関数/)を実行します。ブラウザで `http://localhost:3000/api/<function-name>` にアクセスして[テスト](/glossary/テスト/)してください。
+この[コマンド](/glossary/コマンド/)で立ち上がるローカル[環境](/glossary/環境/)は、ほぼ[本番環境](/glossary/本番環境/)と同じ条件で[関数](/glossary/関数/)を実行します。ブラウザで `http://localhost:3000/api/<function-name>` にアクセスして[テスト](/glossary/テスト/)してください。
 
 ### 環境変数のローカル設定
 

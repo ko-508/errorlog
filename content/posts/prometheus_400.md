@@ -136,7 +136,7 @@ const response = await fetch(
 
 Prometheus の 400 [エラー](/glossary/エラー/)は管理 UI で確認するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（デフォルトでは `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)が[リアルタイム](/glossary/リアルタイム/)に表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、修正が容易になります。
 
-また、Prometheus 2.40 以降では[クライアント](/glossary/クライアント/)側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を本番環境に[送信](/glossary/送信/)する前に、ローカル[環境](/glossary/環境/)で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
+また、Prometheus 2.40 以降では[クライアント](/glossary/クライアント/)側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を[本番環境](/glossary/本番環境/)に[送信](/glossary/送信/)する前に、ローカル[環境](/glossary/環境/)で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
 
 ```bash
 promtool check query 'up{job="prometheus"} / rate(http_requests_total[5m])'
@@ -154,7 +154,7 @@ Prometheus のアクセスログを確認することで、[サーバー](/gloss
 
 出力される[ログ](/glossary/ログ/)に `msg="HTTP request received"` というエントリが記録され、受け取ったクエリパラメータや[ヘッダー](/glossary/ヘッダー/)が表示されます。
 
-PromQL の複雑な式については、Prometheus 公式ドキュメント「[PromQL Examples](https://prometheus.io/docs/prometheus/latest/querying/examples/)」を参照し、標準的なクエリパターンとの比較も有効です。GitHub の Prometheus [リポジトリ](/glossary/リポジトリ/)でも、過去のイシューから類似した 400 [エラー](/glossary/エラー/)の事例が報告されているため、検索して参考にすることもできます。
+PromQL の複雑な式については、Prometheus 公式ドキュメント「[PromQL Examples](https://prometheus.io/docs/prometheus/latest/querying/examples/)」を参照し、標準的なクエリパターンとの比較も有効です。[GitHub](/glossary/github/) の Prometheus [リポジトリ](/glossary/リポジトリ/)でも、過去のイシューから類似した 400 [エラー](/glossary/エラー/)の事例が報告されているため、検索して参考にすることもできます。
 
 curl で[リクエスト](/glossary/リクエスト/)を[デバッグ](/glossary/デバッグ/)する場合は、`-v` フラグを付けることで [HTTP](/glossary/http/) [ヘッダー](/glossary/ヘッダー/)とレスポンスボディの全容を確認できます。
 

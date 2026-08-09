@@ -213,11 +213,11 @@ circleci pipeline trigger \
 
 **[Webhook](/glossary/webhook/)の失敗:**
 
-CircleCIがGitHub/GitLabと[通信](/glossary/通信/)する際に 503 [エラー](/glossary/エラー/)が発生すると、プッシュ時にビルドが開始されない場合があります。この場合、[ダッシュボード](/glossary/ダッシュボード/)で手動[トリガー](/glossary/トリガー/)するか、[CLI](/glossary/cli/) で `circleci pipeline trigger` を実行してください。
+CircleCIが[GitHub](/glossary/github/)/GitLabと[通信](/glossary/通信/)する際に 503 [エラー](/glossary/エラー/)が発生すると、[プッシュ](/glossary/プッシュ/)時にビルドが開始されない場合があります。この場合、[ダッシュボード](/glossary/ダッシュボード/)で手動[トリガー](/glossary/トリガー/)するか、[CLI](/glossary/cli/) で `circleci pipeline trigger` を実行してください。
 
 **無料プランでの制限:**
 
-Free プランはリソース共有型であり、ピーク時間帯に 503 [エラー](/glossary/エラー/)が発生しやすくなります。本番環境での安定運用が必要な場合は、有料プランへのアップグレードを検討してください。
+Free プランはリソース共有型であり、ピーク時間帯に 503 [エラー](/glossary/エラー/)が発生しやすくなります。[本番環境](/glossary/本番環境/)での安定運用が必要な場合は、有料プランへのアップグレードを検討してください。
 
 ## それでも解決しない場合
 
@@ -231,7 +231,7 @@ CircleCI ダッシュボーク → Pipelines で、失敗したジョブの詳�
 
 **ステップ3：Organization設定の確認**
 
-Organization Settings → Security で、セキュリティポリシーやIP制限が設定されていないか確認してください。特に企業[ネットワーク](/glossary/ネットワーク/)を使用している場合、[ファイアウォール](/glossary/ファイアウォール/)設定によってCircleCI [API](/glossary/api/)へのアクセスがブロックされている可能性があります。
+Organization Settings → Security で、[セキュリティポリシー](/glossary/セキュリティポリシー/)やIP制限が設定されていないか確認してください。特に企業[ネットワーク](/glossary/ネットワーク/)を使用している場合、[ファイアウォール](/glossary/ファイアウォール/)設定によってCircleCI [API](/glossary/api/)へのアクセスがブロックされている可能性があります。
 
 **ステップ4：CircleCI公式サポートへの連絡**
 
@@ -244,7 +244,7 @@ Organization Settings → Security で、セキュリティポリシーやIP制�
 
 **ステップ5：代替手段の検討**
 
-複数時間にわたって 503 [エラー](/glossary/エラー/)が解決しない場合、別の[CI/CD](/glossary/ci-cd/)[ツール](/glossary/ツール/)（GitHub
+複数時間にわたって 503 [エラー](/glossary/エラー/)が解決しない場合、別の[CI/CD](/glossary/ci-cd/)[ツール](/glossary/ツール/)（[GitHub](/glossary/github/)
 
 ---
 

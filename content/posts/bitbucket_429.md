@@ -100,7 +100,7 @@ for repo_id in range(1, 101):
 
 ### 原因2：CI/CDパイプライン内で複数のジョブが同時にAPI呼び出しを実行している
 
-Bitbucket Pipelines や GitHub Actions、Jenkins 等の[CI/CD](/glossary/ci-cd/)[ツール](/glossary/ツール/)内で複数の並列ジョブが同時に同じBitbucket [API](/glossary/api/)を呼び出す場合、個別のジョブは少量の[リクエスト](/glossary/リクエスト/)でも、全体では瞬時に制限に達します。例えば50個の並列ジョブがそれぞれ20[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)すれば、1000[リクエスト](/glossary/リクエスト/)上限に達してしまいます。
+Bitbucket Pipelines や [GitHub](/glossary/github/) Actions、Jenkins 等の[CI/CD](/glossary/ci-cd/)[ツール](/glossary/ツール/)内で複数の並列ジョブが同時に同じBitbucket [API](/glossary/api/)を呼び出す場合、個別のジョブは少量の[リクエスト](/glossary/リクエスト/)でも、全体では瞬時に制限に達します。例えば50個の並列ジョブがそれぞれ20[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)すれば、1000[リクエスト](/glossary/リクエスト/)上限に達してしまいます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -217,7 +217,7 @@ async function getAllPullRequests() {
 
 ## ツール固有の注意点
 
-Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークスペース](/glossary/ワークスペース/)単位ではなく、**[認証](/glossary/認証/)ユーザー・[トークン](/glossary/トークン/)単位**で適用されます。そのため同一[トークン](/glossary/トークン/)を複数の[CI/CD](/glossary/ci-cd/)ジョブやスクリプトで共有している場合、各プロセスの負荷が累積されます。本番環境では専用の[API](/glossary/api/)[トークン](/glossary/トークン/)を作成し、必要に応じて複数[トークン](/glossary/トークン/)を用意して負荷分散することが推奨されます。
+Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークスペース](/glossary/ワークスペース/)単位ではなく、**[認証](/glossary/認証/)ユーザー・[トークン](/glossary/トークン/)単位**で適用されます。そのため同一[トークン](/glossary/トークン/)を複数の[CI/CD](/glossary/ci-cd/)ジョブやスクリプトで共有している場合、各プロセスの負荷が累積されます。[本番環境](/glossary/本番環境/)では専用の[API](/glossary/api/)[トークン](/glossary/トークン/)を作成し、必要に応じて複数[トークン](/glossary/トークン/)を用意して負荷分散することが推奨されます。
 
 また、Bitbucket Server（オンプレミス版）を使用している場合は、[レート制限](/glossary/レート制限/)がデフォルトで無効である場合が多いため、この429[エラー](/glossary/エラー/)は発生しにくいです。一方、Bitbucket Cloud [API](/glossary/api/) v2.0 を使用している場合は必ず[レート制限](/glossary/レート制限/)の対象となるため、[リクエスト](/glossary/リクエスト/)設計の段階で考慮する必要があります。
 

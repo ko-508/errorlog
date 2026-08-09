@@ -14,7 +14,7 @@ related_services: ["JavaScript", "SDK", "HTTP", "RFC 9110"]
 
 ## エラーの概要
 
-Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。開発環境から本番環境への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
+Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。[開発環境](/glossary/開発環境/)から[本番環境](/glossary/本番環境/)への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -217,7 +217,7 @@ firebase functions:shell
 - [Cloud Functionsの関数デプロイ](https://firebase.google.com/docs/functions/manage-functions)
 - [Realtime Databaseのデータ構造](https://firebase.google.com/docs/database/usage/bestpractices)
 
-**GitHub Issuesとコミュニティ**
+**[GitHub](/glossary/github/) Issuesとコミュニティ**
 
 firebase-js[リポジトリ](/glossary/リポジトリ/)のIssueで類似ケースが報告されていることが多くあります。[エラーメッセージ](/glossary/エラーメッセージ/)をコピーして検索することで、既知の問題と解決策を見つけられる場合があります。Firebase公式フォーラムでも専門家による回答が得られます。
 

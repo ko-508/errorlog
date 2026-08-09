@@ -16,7 +16,7 @@ trend_incident: false
 
 [Kubernetes](/glossary/kubernetes/) の 429 Too Many Requests には、出どころの違う3つの系統があります。
 
-1つ目は、[API](/glossary/api/) [サーバー](/glossary/サーバー/)の過負荷保護です。優先度と公平性の仕組み（API Priority and Fairness）が、混雑時に要求を落とします。2つ目は、Pod の退避が PodDisruptionBudget に阻まれた場合です。**これは過負荷とは無関係で、「今は許可できない」という意味の拒否です**。3つ目は、[API](/glossary/api/) [サーバー](/glossary/サーバー/)以外、たとえばイメージの取得元が返す制限です。
+1つ目は、[API](/glossary/api/) [サーバー](/glossary/サーバー/)の過負荷保護です。優先度と公平性の仕組み（[API](/glossary/api/) Priority and Fairness）が、混雑時に要求を落とします。2つ目は、Pod の退避が PodDisruptionBudget に阻まれた場合です。**これは過負荷とは無関係で、「今は許可できない」という意味の拒否です**。3つ目は、[API](/glossary/api/) [サーバー](/glossary/サーバー/)以外、たとえば[イメージ](/glossary/イメージ/)の取得元が返す制限です。
 
 さらに厄介なのが、429 に見えて 429 ではないものです。[ログ](/glossary/ログ/)に「client-side throttling, not priority and fairness」と出ている場合、要求は[サーバー](/glossary/サーバー/)にまだ送られていません。[クライアント](/glossary/クライアント/)側が自分で待っているだけです。この文言は、[ソフトウェア](/glossary/ソフトウェア/)側の実装で「優先度と公平性の仕組みではない」と明示的に書かれています。ここを取り違えると、[サーバー](/glossary/サーバー/)側をいくら調べても何も出てきません。
 
@@ -55,7 +55,7 @@ Too many requests, please try again later.
 
 同じ 429 でも、`details.causes` の有無で系統が分かれます。`DisruptionBudget` が入っていれば退避の拒否であり、混雑とは関係ありません。
 
-イメージの取得元が返す 429 は、そもそも [API](/glossary/api/) [サーバー](/glossary/サーバー/)を経由していません。Pod の出来事として現れます。
+[イメージ](/glossary/イメージ/)の取得元が返す 429 は、そもそも [API](/glossary/api/) [サーバー](/glossary/サーバー/)を経由していません。Pod の出来事として現れます。
 
 ```text
 Warning  Failed   kubelet  Failed to pull image "example/app:latest":
@@ -81,7 +81,7 @@ Normal   BackOff  kubelet  Back-off pulling image "example/app:latest"
 
 `kubectl drain` が進まない場合の典型です。公式文書によれば、退避の要求に対する応答は3種類あり、許可なら 200、PodDisruptionBudget により現在許可されない場合が 429、複数の PodDisruptionBudget が同じ Pod を参照するなどの設定不備が 500 です。対象の Pod が PodDisruptionBudget の管理下になければ、常に 200 が返ります。
 
-読むべきは `causes` の中身です。実装を見ると、同じ文言でも中身が2通りあります。空きがゼロの場合は、必要な健全な Pod の数と現在の数（あるいは同期の失敗理由）が入り、再試行までの推奨秒数は0になります。それ以外の場合は「まだ処理中」という趣旨の文言と、推奨秒数10が入ります。ただし、削除時の競合で拒否された場合も後者と同じ形になるため、**応答から区別できるのは「空きがゼロ」かどうかまで**です。
+読むべきは `causes` の中身です。実装を見ると、同じ文言でも中身が2通りあります。空きがゼロの場合は、必要な健全な Pod の数と現在の数（あるいは[同期](/glossary/同期/)の失敗理由）が入り、再試行までの推奨秒数は0になります。それ以外の場合は「まだ処理中」という趣旨の文言と、推奨秒数10が入ります。ただし、削除時の競合で拒否された場合も後者と同じ形になるため、**応答から区別できるのは「空きがゼロ」かどうかまで**です。
 
 **Before（メッセージだけを見て諦める）：**
 
@@ -125,7 +125,7 @@ kubectl get --raw /debug/api_priority_and_fairness/dump_priority_levels
 
 [ログ](/glossary/ログ/)に「client-side throttling, not priority and fairness」が出ている場合です。前述のとおり、要求は送られていません。
 
-原因は、[クライアント](/glossary/クライアント/)側の毎秒あたりの上限が低いことです。標準の[ソフトウェア](/glossary/ソフトウェア/)部品の既定値は毎秒5件、瞬間的な上限は10件で、これは控えめな値です。Kubernetes 自身の構成要素はこの既定を使っておらず、明示的に引き上げています。制御系の管理役は毎秒20件・上限30件、割り当て役と各ノードの担当役は毎秒50件・上限100件です。
+原因は、[クライアント](/glossary/クライアント/)側の毎秒あたりの上限が低いことです。標準の[ソフトウェア](/glossary/ソフトウェア/)部品の既定値は毎秒5件、瞬間的な上限は10件で、これは控えめな値です。[Kubernetes](/glossary/kubernetes/) 自身の構成要素はこの既定を使っておらず、明示的に引き上げています。制御系の管理役は毎秒20件・上限30件、割り当て役と各ノードの担当役は毎秒50件・上限100件です。
 
 **Before（並列度だけを上げる）：**
 
@@ -134,7 +134,7 @@ kubectl get --raw /debug/api_priority_and_fairness/dump_priority_levels
 # → 送信前の待機が原因なので、速くならない
 ```
 
-**After（クライアント側の上限を引き上げる）：**
+**After（[クライアント](/glossary/クライアント/)側の上限を引き上げる）：**
 
 ```bash
 --kube-api-qps=50 --kube-api-burst=100
@@ -146,7 +146,7 @@ kubectl get --raw /debug/api_priority_and_fairness/dump_priority_levels
 
 Pod の出来事として現れる 429 です。取得元が返した文言は、そのまま出来事の本文に載ります。
 
-Docker Hub の場合、公式文書によれば未認証は IPv4 アドレスまたは IPv6 の /64 単位で6時間あたり100回、認証済みの個人向け契約で200回です。第三者の基盤を経由すると同じアドレスに集約されるため、認証していても制限に当たることがあります。
+[Docker](/glossary/docker/) Hub の場合、公式文書によれば未認証は IPv4 アドレスまたは IPv6 の /64 単位で6時間あたり100回、認証済みの個人向け契約で200回です。第三者の基盤を経由すると同じアドレスに集約されるため、[認証](/glossary/認証/)していても制限に当たることがあります。
 
 対処は、認証情報を設定する、控えを持つ取得元に切り替える、取得の回数自体を減らす、のいずれかです。再試行の間隔は自動的に伸び、上限は300秒（5分）と公式文書に明記されています（[Kubernetes の ImagePullBackOff の記事](/posts/kubernetes_imagepullbackoff/)）。
 

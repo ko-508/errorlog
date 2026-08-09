@@ -59,7 +59,7 @@ docker push myregistry.example.com/app:v1.0.0
 
 ### 2. docker-compose.yml の設定値の型違反
 
-`ports`、`mem_limit`、`cpu_shares`など、数値型を期待するフィールドに文字列を指定すると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
+`ports`、`mem_limit`、`cpu_shares`など、数値型を期待する[フィールド](/glossary/フィールド/)に文字列を指定すると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```yaml
@@ -85,7 +85,7 @@ services:
 
 ### 3. マニフェスト JSON の構造が不正
 
-[Docker](/glossary/docker/)[イメージ](/glossary/イメージ/)をプッシュする際に、レイヤーのダイジェスト値が不正な形式である場合、[レジストリ](/glossary/レジストリ/)が 422 で拒否します。
+[Docker](/glossary/docker/)[イメージ](/glossary/イメージ/)を[プッシュ](/glossary/プッシュ/)する際に、レイヤーのダイジェスト値が不正な形式である場合、[レジストリ](/glossary/レジストリ/)が 422 で拒否します。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
@@ -105,7 +105,7 @@ docker push myregistry.example.com/myapp:v1.0.0
 
 ### 4. API リクエストのボディスキーマ不整合
 
-[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須フィールドが欠落しているか、型が異なると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
+[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須[フィールド](/glossary/フィールド/)が欠落しているか、型が異なると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
@@ -134,7 +134,7 @@ curl -X POST http://localhost:2375/containers/create \
 
 ### レジストリ認証後のプッシュ時エラー
 
-[Docker](/glossary/docker/) Hub や Private Registry に[ログイン](/glossary/ログイン/)後、プッシュ時に 422 が出る場合は、[イメージ](/glossary/イメージ/)名が登録済み[プロジェクト](/glossary/プロジェクト/)の[パス](/glossary/パス/)構造に一致しているか確認します。
+[Docker](/glossary/docker/) Hub や Private Registry に[ログイン](/glossary/ログイン/)後、[プッシュ](/glossary/プッシュ/)時に 422 が出る場合は、[イメージ](/glossary/イメージ/)名が登録済み[プロジェクト](/glossary/プロジェクト/)の[パス](/glossary/パス/)構造に一致しているか確認します。
 
 ```bash
 # 認証は成功したが 422 エラーが出る場合
@@ -179,7 +179,7 @@ curl -v --unix-socket /var/run/docker.sock \
 
 - **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、サポートされているイメージマニフェスト形式を検証します
 - **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`設定とイメージレジストリの [CORS](/glossary/cors/)設定を確認します
-- **[CI/CD](/glossary/ci-cd/)パイプライン**: GitHub Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックを[テスト](/glossary/テスト/)します
+- **[CI/CD](/glossary/ci-cd/)パイプライン**: [GitHub](/glossary/github/) Actions や GitLab CI のアーティファクトストレージ設定を見直し、イメージダイジェストの計算ロジックを[テスト](/glossary/テスト/)します
 
 ---
 

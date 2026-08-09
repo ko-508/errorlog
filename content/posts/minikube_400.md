@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が不正な場合に発生する400[エラー](/glossary/エラー/)です。[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)[バージョン](/glossary/バージョン/)の不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取った[マニフェスト](/glossary/マニフェスト/)を[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)に[送信](/glossary/送信/)する際に検証を行うため、この段階で不正な形式が検出されると即座に400[エラー](/glossary/エラー/)が返されます。
+Minikubeクラスターへの[リクエスト](/glossary/リクエスト/)形式が不正な場合に発生する400[エラー](/glossary/エラー/)です。[マニフェスト](/glossary/マニフェスト/)の[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)、必須[フィールド](/glossary/フィールド/)の欠落、[API](/glossary/api/)[バージョン](/glossary/バージョン/)の不一致、リソース定義の型違反などが主な原因となります。Minikubeは受け取った[マニフェスト](/glossary/マニフェスト/)を[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)に[送信](/glossary/送信/)する際に検証を行うため、この段階で不正な形式が検出されると即座に400[エラー](/glossary/エラー/)が返されます。
 
 ## 実際のエラーメッセージ例
 
@@ -95,7 +95,7 @@ spec:
 
 ### 原因2: 必須フィールドの欠落
 
-[Kubernetes](/glossary/kubernetes/)のリソースには必ず指定する必須フィールドが存在します。Deploymentの場合、`spec.template.spec.containers[].image` は必須です。Podの場合も同様に`spec.containers[]` と `image` フィールドは省略できません。これらが欠けると400[エラー](/glossary/エラー/)が返されます。
+[Kubernetes](/glossary/kubernetes/)のリソースには必ず指定する必須[フィールド](/glossary/フィールド/)が存在します。Deploymentの場合、`spec.template.spec.containers[].image` は必須です。Podの場合も同様に`spec.containers[]` と `image` [フィールド](/glossary/フィールド/)は省略できません。これらが欠けると400[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -128,7 +128,7 @@ spec:
 
 ### 原因3: フィールドの型違反
 
-[マニフェスト](/glossary/マニフェスト/)で指定するフィールド値の型が[Kubernetes](/glossary/kubernetes/)の仕様と合致していない場合、400[エラー](/glossary/エラー/)が発生します。例えば `containerPort` は整数型ですが、クォートで囲んで文字列型として指定してしまう、`replicas` に文字列を指定するといったケースです。同様に `true/false` のようなブール値も文字列の `"true"/"false"` と混同しやすい原因です。
+[マニフェスト](/glossary/マニフェスト/)で指定する[フィールド](/glossary/フィールド/)値の型が[Kubernetes](/glossary/kubernetes/)の仕様と合致していない場合、400[エラー](/glossary/エラー/)が発生します。例えば `containerPort` は整数型ですが、クォートで囲んで文字列型として指定してしまう、`replicas` に文字列を指定するといったケースです。同様に `true/false` のようなブール値も文字列の `"true"/"false"` と混同しやすい原因です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -194,9 +194,9 @@ spec:
 
 ## Minikube固有の注意点
 
-Minikubeでは、ローカル開発環境での[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[バージョン](/glossary/バージョン/)が重要です。`minikube start` で起動する[Kubernetes](/glossary/kubernetes/)の[バージョン](/glossary/バージョン/)と、[マニフェスト](/glossary/マニフェスト/)で指定する `apiVersion` が大きく乖離していると400[エラー](/glossary/エラー/)が起こりえます。例えば、古いMinikubeを使用しながら最新の `apiVersion: v1` や非推奨の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が解析できない場合があります。
+Minikubeでは、ローカル[開発環境](/glossary/開発環境/)での[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[バージョン](/glossary/バージョン/)が重要です。`minikube start` で起動する[Kubernetes](/glossary/kubernetes/)の[バージョン](/glossary/バージョン/)と、[マニフェスト](/glossary/マニフェスト/)で指定する `apiVersion` が大きく乖離していると400[エラー](/glossary/エラー/)が起こりえます。例えば、古いMinikubeを使用しながら最新の `apiVersion: v1` や非推奨の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定すると、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が解析できない場合があります。
 
-`minikube kubectl -- api-resources` [コマンド](/glossary/コマンド/)で、現在のクラスター上で利用可能な[API](/glossary/api/)[バージョン](/glossary/バージョン/)とリソース種別を確認できます。また、Minikubeの設定によっては、リソースのデフォルト値が異なる場合があります。特に `imagePullPolicy` を明示的に指定しない場合、ローカルイメージの取得[ポリシー](/glossary/ポリシー/)が予期しない動作をすることがあるため、`imagePullPolicy: IfNotPresent` や `imagePullPolicy: Never` を明示的に設定することが推奨されます。
+`minikube kubectl -- api-resources` [コマンド](/glossary/コマンド/)で、現在のクラスター上で利用可能な[API](/glossary/api/)[バージョン](/glossary/バージョン/)とリソース種別を確認できます。また、Minikubeの設定によっては、リソースの[デフォルト値](/glossary/デフォルト値/)が異なる場合があります。特に `imagePullPolicy` を明示的に指定しない場合、ローカルイメージの取得[ポリシー](/glossary/ポリシー/)が予期しない動作をすることがあるため、`imagePullPolicy: IfNotPresent` や `imagePullPolicy: Never` を明示的に設定することが推奨されます。
 
 さらに、Minikubeでのネットワークプラグイン（CNI）の種類によって、`NetworkPolicy` などの高度なネットワークリソースが利用できない場合があります。400[エラー](/glossary/エラー/)ではなく別の[エラー](/glossary/エラー/)になる傾向ですが、リソース定義の[互換性](/glossary/互換性/)を事前に確認することが重要です。
 
@@ -208,7 +208,7 @@ Minikubeでは、ローカル開発環境での[Kubernetes](/glossary/kubernetes
 minikube kubectl -- apply -f deployment.yaml --dry-run=client -o yaml
 ```
 
-この[コマンド](/glossary/コマンド/)で、実際の適用前に [API](/glossary/api/) [サーバー](/glossary/サーバー/)が[マニフェスト](/glossary/マニフェスト/)を受け入れるかシミュレーションできます。[エラーメッセージ](/glossary/エラーメッセージ/)にはフィールドの[パス](/glossary/パス/)が明記されるため、修正箇所を特定しやすくなります。
+この[コマンド](/glossary/コマンド/)で、実際の適用前に [API](/glossary/api/) [サーバー](/glossary/サーバー/)が[マニフェスト](/glossary/マニフェスト/)を受け入れるかシミュレーションできます。[エラーメッセージ](/glossary/エラーメッセージ/)には[フィールド](/glossary/フィールド/)の[パス](/glossary/パス/)が明記されるため、修正箇所を特定しやすくなります。
 
 より詳細な[エラー](/glossary/エラー/)情報を得るには、以下の[コマンド](/glossary/コマンド/)で [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認します。
 
@@ -216,13 +216,13 @@ minikube kubectl -- apply -f deployment.yaml --dry-run=client -o yaml
 minikube logs
 ```
 
-[Kubernetes](/glossary/kubernetes/)の公式ドキュメントの「[API](/glossary/api/) Conventions」ページで、各リソースタイプの必須フィールドと型定義を確認できます。また、`kubectl explain` [コマンド](/glossary/コマンド/)も有効です。
+[Kubernetes](/glossary/kubernetes/)の公式ドキュメントの「[API](/glossary/api/) Conventions」ページで、各リソースタイプの必須[フィールド](/glossary/フィールド/)と型定義を確認できます。また、`kubectl explain` [コマンド](/glossary/コマンド/)も有効です。
 
 ```bash
 minikube kubectl -- explain deployment.spec
 ```
 
-これにより、Deployment の spec フィールドの[スキーマ](/glossary/スキーマ/)が表示され、各フィールドの型や説明が確認できます。GitHub の kubernetes/kubernetes [リポジトリ](/glossary/リポジトリ/)の Issue セクションでは、同様の400[エラー](/glossary/エラー/)に関する議論やワークアラウンドが見つかることがあります。
+これにより、Deployment の spec [フィールド](/glossary/フィールド/)の[スキーマ](/glossary/スキーマ/)が表示され、各[フィールド](/glossary/フィールド/)の型や説明が確認できます。[GitHub](/glossary/github/) の kubernetes/kubernetes [リポジトリ](/glossary/リポジトリ/)の Issue セクションでは、同様の400[エラー](/glossary/エラー/)に関する議論やワークアラウンドが見つかることがあります。
 
 ---
 

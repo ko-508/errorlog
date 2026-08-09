@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-GitLab の 403 [エラー](/glossary/エラー/)は、認証済みのユーザーが[プロジェクト](/glossary/プロジェクト/)やリソースへの[アクセス権限](/glossary/アクセス権限/)を持たないときに返されるアクセス拒否[エラー](/glossary/エラー/)です。認証自体は成功していますが、実行しようとした[アクション](/glossary/アクション/)（プッシュ、マージリクエストの作成、設定変更など）の[権限](/glossary/権限/)がないことを示します。GitLab での権限管理はロールベースアクセス制御（[RBAC](/glossary/rbac/)）に基づいており、プロジェクトメンバーシップ、グループ設定、[ブランチ](/glossary/ブランチ/)保護ルールなどの複数の層で管理されるため、原因の特定には段階的な確認が必要です。
+GitLab の 403 [エラー](/glossary/エラー/)は、認証済みのユーザーが[プロジェクト](/glossary/プロジェクト/)やリソースへの[アクセス権限](/glossary/アクセス権限/)を持たないときに返されるアクセス拒否[エラー](/glossary/エラー/)です。認証自体は成功していますが、実行しようとした[アクション](/glossary/アクション/)（[プッシュ](/glossary/プッシュ/)、マージリクエストの作成、設定変更など）の[権限](/glossary/権限/)がないことを示します。GitLab での権限管理はロールベースアクセス制御（[RBAC](/glossary/rbac/)）に基づいており、プロジェクトメンバーシップ、グループ設定、[ブランチ](/glossary/ブランチ/)保護ルールなどの複数の層で管理されるため、原因の特定には段階的な確認が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -44,11 +44,11 @@ $ curl -H "PRIVATE-TOKEN: <your-token>" https://gitlab.example.com/api/v4/projec
 
 ### 原因1：プロジェクトメンバーのロール権限が不足している
 
-GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアクセスレベルが細分化されています。Guest（ゲスト）や Reporter（レポーター）[ロール](/glossary/ロール/)では、[コード](/glossary/コード/)のプッシュやマージリクエストの承認などの重要な操作ができません。ユーザーが必要な操作を実行しようとしても、割り当てられた[ロール](/glossary/ロール/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
+GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアクセスレベルが細分化されています。Guest（ゲスト）や Reporter（レポーター）[ロール](/glossary/ロール/)では、[コード](/glossary/コード/)の[プッシュ](/glossary/プッシュ/)やマージリクエストの承認などの重要な操作ができません。ユーザーが必要な操作を実行しようとしても、割り当てられた[ロール](/glossary/ロール/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
 
 **修正方法：**
 
-GitLab の Web UI から、対象[プロジェクト](/glossary/プロジェクト/)の **Settings → Members** に移動し、ユーザーの[ロール](/glossary/ロール/)を Developer 以上に変更します。変更後、ユーザーは[コード](/glossary/コード/)をプッシュできるようになります。
+GitLab の Web UI から、対象[プロジェクト](/glossary/プロジェクト/)の **Settings → Members** に移動し、ユーザーの[ロール](/glossary/ロール/)を Developer 以上に変更します。変更後、ユーザーは[コード](/glossary/コード/)を[プッシュ](/glossary/プッシュ/)できるようになります。
 
 ```bash
 # Developer ロール以上に昇格後、プッシュが成功
@@ -83,11 +83,11 @@ remote: Counting objects: 100% (50/50), done.
 
 ### 原因3：保護ブランチの設定により特定ロールのプッシュが禁止されている
 
-`main` や `production` など、重要な[ブランチ](/glossary/ブランチ/)は通常「保護[ブランチ](/glossary/ブランチ/)」として設定されます。この設定で「Maintainer のみがプッシュ可能」と指定されていると、Developer [ロール](/glossary/ロール/)のユーザーが直接プッシュしようとしても 403 [エラー](/glossary/エラー/)が返されます。
+`main` や `production` など、重要な[ブランチ](/glossary/ブランチ/)は通常「保護[ブランチ](/glossary/ブランチ/)」として設定されます。この設定で「Maintainer のみが[プッシュ](/glossary/プッシュ/)可能」と指定されていると、Developer [ロール](/glossary/ロール/)のユーザーが直接[プッシュ](/glossary/プッシュ/)しようとしても 403 [エラー](/glossary/エラー/)が返されます。
 
 **修正方法：**
 
-[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを確認・修正します。Developer [ロール](/glossary/ロール/)にプッシュ[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
+[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを確認・修正します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
 
 ```yaml
 # Settings → Protected branches での修正例
@@ -121,7 +121,7 @@ $ curl -H "PRIVATE-TOKEN: <token-with-api-scope>" \
 
 **Deploy Token と環境固有の[権限](/glossary/権限/)**
 
-[CI/CD](/glossary/ci-cd/) パイプラインで Deploy Token を使用する場合、その Deploy Token が read_repository のみの[権限](/glossary/権限/)では、パイプライン内でのプッシュ操作は 403 [エラー](/glossary/エラー/)になります。パイプライン内で成果物をプッシュバックする必要がある場合は、より高い[権限](/glossary/権限/)を持つ[トークン](/glossary/トークン/)か、環境変数経由で認証情報を管理する必要があります。
+[CI/CD](/glossary/ci-cd/) パイプラインで Deploy Token を使用する場合、その Deploy Token が read_repository のみの[権限](/glossary/権限/)では、パイプライン内での[プッシュ](/glossary/プッシュ/)操作は 403 [エラー](/glossary/エラー/)になります。パイプライン内で成果物をプッシュバックする必要がある場合は、より高い[権限](/glossary/権限/)を持つ[トークン](/glossary/トークン/)か、環境変数経由で認証情報を管理する必要があります。
 
 ```yaml
 # .gitlab-ci.yml での Deploy Token 使用例

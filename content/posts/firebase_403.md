@@ -53,7 +53,7 @@ FirebaseError: Missing or insufficient permissions. (permission-denied)
 ### 原因1：セキュリティルールが明示的に拒否している
 
 **なぜ発生するか**
-Firestore のセキュリティルールが `allow read: if false;` のような形で、すべてのアクセスを拒否している状況です。開発環境で一時的に制限を設けたまま本番[コード](/glossary/コード/)でアクセスしている場合が多くあります。
+Firestore のセキュリティルールが `allow read: if false;` のような形で、すべてのアクセスを拒否している状況です。[開発環境](/glossary/開発環境/)で一時的に制限を設けたまま本番[コード](/glossary/コード/)でアクセスしている場合が多くあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる設定）**
 
@@ -230,7 +230,7 @@ service cloud.firestore {
   }
 }
 ```
-（本番環境では絶対に使用しないでください）
+（[本番環境](/glossary/本番環境/)では絶対に使用しないでください）
 
 4. **Cloud Logging で詳細[ログ](/glossary/ログ/)を確認**  
 Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で検索し、403 [エラー](/glossary/エラー/)の詳細メッセージを確認します。

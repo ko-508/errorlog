@@ -200,7 +200,7 @@ yamllint compose.yml
 
 **公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の仕様を確認してください。キー名や値の型、必須キーが正確に記載されています。
 
-**GitHub Issuesの検索：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を検索し、既知の問題や回避策がないか確認してください。
+**[GitHub](/glossary/github/) Issuesの検索：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を検索し、既知の問題や回避策がないか確認してください。
 
 ---
 

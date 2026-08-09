@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400[エラー](/glossary/エラー/)です。マニフェストファイルの構文[エラー](/glossary/エラー/)、[API](/glossary/api/)仕様に違反するフィールド値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。この[エラー](/glossary/エラー/)はクラスタとの[通信](/glossary/通信/)に成功した後、[サーバー](/glossary/サーバー/)側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
+[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)が不正な形式や内容であることを示す[HTTP](/glossary/http/) 400[エラー](/glossary/エラー/)です。マニフェストファイルの構文[エラー](/glossary/エラー/)、[API](/glossary/api/)仕様に違反する[フィールド](/glossary/フィールド/)値、または不完全な[リクエストボディ](/glossary/リクエストボディ/)が原因となります。この[エラー](/glossary/エラー/)はクラスタとの[通信](/glossary/通信/)に成功した後、[サーバー](/glossary/サーバー/)側で[リクエスト](/glossary/リクエスト/)の妥当性検証に失敗したときに発生する重要な診断シグナルです。
 
 ## 実際のエラーメッセージ例
 
@@ -43,7 +43,7 @@ ValidationError(Deployment.spec.template.spec.containers[0].image): string lengt
 
 ### 原因1: YAML構文エラーまたはフィールド型の不一致
 
-**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型フィールドを文字列で指定したり、[オブジェクト](/glossary/オブジェクト/)型フィールドにスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型[フィールド](/glossary/フィールド/)を文字列で指定したり、[オブジェクト](/glossary/オブジェクト/)型[フィールド](/glossary/フィールド/)にスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
@@ -86,7 +86,7 @@ spec:
 
 ### 原因2: 必須フィールドの欠落
 
-**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須フィールド（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限のリソース定義すら受け付けません。
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須[フィールド](/glossary/フィールド/)（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限のリソース定義すら受け付けません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
@@ -276,7 +276,7 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 問題が解決しない場合は、以下で検索してください。
 
-- **[Kubernetes](/glossary/kubernetes/) GitHub Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)[バージョン](/glossary/バージョン/)や[バリデーション](/glossary/バリデーション/)関連の[バグ](/glossary/バグ/)報告）
+- **[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/) Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)[バージョン](/glossary/バージョン/)や[バリデーション](/glossary/バリデーション/)関連の[バグ](/glossary/バグ/)報告）
 - **Stack Overflow** - `[kubernetes] 400` [タグ](/glossary/タグ/)での質問検索
 - **CNCF Slack** - #kubernetes-users チャネルでの相談
 

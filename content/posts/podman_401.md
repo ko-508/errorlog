@@ -61,7 +61,7 @@ podman pull registry.example.com/myimage:latest
 
 ### 原因2: 認証トークンの有効期限が切れている
 
-[レジストリ](/glossary/レジストリ/)が発行した[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。特にGitHub Container Registryや[Docker](/glossary/docker/) Hubの一時[トークン](/glossary/トークン/)は短期間で失効するため、古い認証情報が `~/.config/containers/auth.json` に残っていると401[エラー](/glossary/エラー/)が起きます。
+[レジストリ](/glossary/レジストリ/)が発行した[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。特に[GitHub](/glossary/github/) Container Registryや[Docker](/glossary/docker/) Hubの一時[トークン](/glossary/トークン/)は短期間で失効するため、古い認証情報が `~/.config/containers/auth.json` に残っていると401[エラー](/glossary/エラー/)が起きます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

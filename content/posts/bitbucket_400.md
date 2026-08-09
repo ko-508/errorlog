@@ -105,7 +105,7 @@ curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/
   }'
 ```
 
-[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` フィールド（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須フィールドを確認し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。
+[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` [フィールド](/glossary/フィールド/)（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須[フィールド](/glossary/フィールド/)を確認し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。
 
 ### 原因 3：クエリパラメータの値が不正な形式
 
@@ -148,7 +148,7 @@ curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/is
   -d '{"title":"test"}'
 ```
 
-レスポンスボディの `errors` または `message` フィールドに問題の詳細が記載されます。
+レスポンスボディの `errors` または `message` [フィールド](/glossary/フィールド/)に問題の詳細が記載されます。
 
 オンラインの [YAML](/glossary/yaml/) バリデーターを使用して、bitbucket-pipelines.yml の構文を独立して検証することもできます（例：https://www.yamllint.com）。
 

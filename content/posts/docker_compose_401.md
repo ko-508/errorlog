@@ -273,7 +273,7 @@ $ log stream --predicate 'process == "com.docker.vmnetd"' --level debug
 ### コミュニティリソース
 
 - [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
-- GitHub Issues（docker/compose）：https://github.com/docker/compose/issues
+- [GitHub](/glossary/github/) Issues（docker/compose）：https://github.com/docker/compose/issues
 
 ---
 

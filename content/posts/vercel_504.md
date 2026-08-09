@@ -184,7 +184,7 @@ Pro プラン以上で Fluid Compute を使用している場合、800 秒まで
 Vercel の Edge Functions は地理的に分散されており、冷起動が少なく、外部 [API](/glossary/api/) への応答遅延が減少することがあります。軽量な処理で頻繁な[タイムアウト](/glossary/タイムアウト/)が発生する場合、Edge Functions への移行を検討してください。
 
 **[環境変数](/glossary/環境変数/)の確認：**
-リトライロジックや[キャッシュ](/glossary/キャッシュ/)の設定が[環境変数](/glossary/環境変数/)に依存している場合、本番環境と開発環境で値が異なると[タイムアウト](/glossary/タイムアウト/)発生パターンが変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を確認してください。
+リトライロジックや[キャッシュ](/glossary/キャッシュ/)の設定が[環境変数](/glossary/環境変数/)に依存している場合、[本番環境](/glossary/本番環境/)と[開発環境](/glossary/開発環境/)で値が異なると[タイムアウト](/glossary/タイムアウト/)発生パターンが変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を確認してください。
 
 ## それでも解決しない場合
 
@@ -203,8 +203,8 @@ Vercel 公式の「Serverless Function Configuration」（https://vercel.com/doc
 **[パフォーマンス](/glossary/パフォーマンス/)分析[ツール](/glossary/ツール/)：**
 Vercel の Observability 機能（Pro プラン以上）を有効にすると、[関数](/glossary/関数/)の CPU 使用率、[メモリ](/glossary/メモリ/)使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
 
-**GitHub Issues・コミュニティ：**
-同じ問題が Vercel GitHub Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定のライブラリとの相性問題などが記載されている場合があります。
+**[GitHub](/glossary/github/) Issues・コミュニティ：**
+同じ問題が Vercel [GitHub](/glossary/github/) Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定のライブラリとの相性問題などが記載されている場合があります。
 
 ---
 

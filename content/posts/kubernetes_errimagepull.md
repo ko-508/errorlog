@@ -64,7 +64,7 @@ kubectl get pod <対象> -n <区画名> \
   -o jsonpath='{.status.containerStatuses[*].state.waiting.message}{"\n"}'
 ```
 
-取り出した本文の中身で、次に見る場所が決まります。名前が見つからない、認証が通らない、回数の上限に当たっている、といった区別はすべてこの文言に書かれています。原因ごとの対処は別記事にまとめてあります（[Kubernetes の ImagePullBackOff の記事](/posts/kubernetes_imagepullbackoff/)）。
+取り出した本文の中身で、次に見る場所が決まります。名前が見つからない、[認証](/glossary/認証/)が通らない、回数の上限に当たっている、といった区別はすべてこの文言に書かれています。原因ごとの対処は別記事にまとめてあります（[Kubernetes の ImagePullBackOff の記事](/posts/kubernetes_imagepullbackoff/)）。
 
 ## よくある原因と解決手順
 
@@ -91,7 +91,7 @@ kubectl get pod -n app \
 
 v1.31 以前では、待機中の本文は `Back-off pulling image "..."` だけでした。詳細は取得を試みた瞬間の[イベント](/glossary/イベント/)にしか無く、[イベント](/glossary/イベント/)が消えると追えなくなります。
 
-v1.32 で入った変更により、前回の失敗理由が本文の末尾に連結されるようになりました。実装では、`imageManager` が `sync.Map` の `prevPullErrMsg` に前回の理由を保存します。取得に失敗した時点で Pod UID とイメージから作った `backOffKey` に理由を `Store` し、待機中は同じキーで `Load` して本文へ付け足します。控えた内容は、次に実際の取得を始める直前に `Delete` されます。
+v1.32 で入った変更により、前回の失敗理由が本文の末尾に連結されるようになりました。実装では、`imageManager` が `sync.Map` の `prevPullErrMsg` に前回の理由を保存します。取得に失敗した時点で Pod UID と[イメージ](/glossary/イメージ/)から作った `backOffKey` に理由を `Store` し、待機中は同じキーで `Load` して本文へ付け足します。控えた内容は、次に実際の取得を始める直前に `Delete` されます。
 
 **Before（待機中の本文だけを見て諦める）：**
 
@@ -128,7 +128,7 @@ kubectl get events -n app --field-selector reason=Failed --sort-by=.lastTimestam
 
 ### 原因4：ErrImagePull ではなく、より具体的な名前が出ている
 
-実装は、実行基盤が返したエラーの先頭を見て2つを切り分けます。`RegistryUnavailable` で始まれば[レジストリ](/glossary/レジストリ/)に届いていないという意味の名前になり、本文も「[レジストリ](/glossary/レジストリ/)に到達できないため取得に失敗した」という文に書き換えられます。`SignatureValidationFailed` で始まれば署名の検証に失敗したという名前になります。
+実装は、実行基盤が返した[エラー](/glossary/エラー/)の先頭を見て2つを切り分けます。`RegistryUnavailable` で始まれば[レジストリ](/glossary/レジストリ/)に届いていないという意味の名前になり、本文も「[レジストリ](/glossary/レジストリ/)に到達できないため取得に失敗した」という文に書き換えられます。`SignatureValidationFailed` で始まれば署名の検証に失敗したという名前になります。
 
 どちらでもない残り全部が `ErrImagePull` です。したがって、状態欄に `ErrImagePull` 以外の名前が出ているなら、その時点で範囲がかなり絞れています。逆に `ErrImagePull` が出ているときは、名前から得られる情報はありません。
 
@@ -223,7 +223,7 @@ kubectl delete pod <対象> -n <区画名>
 
 表示が入れ替わることを問題として扱った記録が、[kubernetes/kubernetes の Pull Request #127918](https://github.com/kubernetes/kubernetes/pull/127918) に残っています。2024年10月8日に出され、取り込み済みです。変更は v1.32 に入りました。
 
-提案者が冒頭で述べているのは、この記事の主題そのものです。[コンテナ](/glossary/コンテナ/)の待機理由が `ImagePullBackOff` と実際の取得エラーの間で入れ替わり、`kubectl` のような利用者にとって体験が悪い、という指摘です。
+提案者が冒頭で述べているのは、この記事の主題そのものです。[コンテナ](/glossary/コンテナ/)の待機理由が `ImagePullBackOff` と実際の取得[エラー](/glossary/エラー/)の間で入れ替わり、`kubectl` のような利用者にとって体験が悪い、という指摘です。
 
 説明には `kubectl get pods` の出力が2通り並べてあります。片方は状態欄が `SignatureValidationFailed`、もう片方は `ImagePullBackOff`。同じ Pod で、取得がどの段階にあるかによってどちらかが出る、と書かれています。原因は1つも変わっていないのに、見える名前だけが変わるわけです。
 
@@ -233,4 +233,4 @@ kubectl delete pod <対象> -n <区画名>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

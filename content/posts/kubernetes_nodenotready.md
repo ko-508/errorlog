@@ -55,9 +55,9 @@ Conditions:
     container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady
 ```
 
-**この文言に原因が書かれています**。ネットワークの仕組みが準備できていない、実行環境が応答しない、といった内容が入ります。
+**この文言に原因が書かれています**。[ネットワーク](/glossary/ネットワーク/)の仕組みが準備できていない、実行環境が応答しない、といった内容が入ります。
 
-なお、混同されやすい表示があります。`Ready,SchedulingDisabled` は NotReady ではありません。公式にも、これは API 上の条件ではなく、ノードが割り当て不可に設定されている状態だと明記されています。**意図的に閉じた状態であって、異常ではありません**。
+なお、混同されやすい表示があります。`Ready,SchedulingDisabled` は NotReady ではありません。公式にも、これは [API](/glossary/api/) 上の条件ではなく、ノードが割り当て不可に設定されている状態だと明記されています。**意図的に閉じた状態であって、異常ではありません**。
 
 ## まず最初に：False か Unknown かを判別する
 
@@ -73,7 +73,7 @@ Conditions:
 
 ### 原因1：kubelet が停止している（Unknown）
 
-最も多い形です。ノード上の常駐処理が止まれば、連絡も止まります。すべての条件が `Unknown` になり、文言は「ノード状態の送信が止まった」という趣旨になります。
+最も多い形です。ノード上の常駐処理が止まれば、連絡も止まります。すべての条件が `Unknown` になり、文言は「ノード状態の[送信](/glossary/送信/)が止まった」という趣旨になります。
 
 ```bash
 # ノード上で確認する
@@ -81,13 +81,13 @@ systemctl status kubelet
 journalctl -u kubelet --since "10 minutes ago" | tail -50
 ```
 
-停止していれば起動します。繰り返し落ちる場合は、記録に原因が残っています。設定[ファイル](/glossary/ファイル/)の誤り、証明書の期限切れ、資源の枯渇などが典型です。
+停止していれば起動します。繰り返し落ちる場合は、記録に原因が残っています。設定[ファイル](/glossary/ファイル/)の誤り、[証明書](/glossary/証明書/)の期限切れ、資源の枯渇などが典型です。
 
 ### 原因2：制御側との通信が届いていない（Unknown）
 
 ノードは動いているのに `Unknown` になる形です。ノードに入って確認すると、常駐処理は正常に動いています。
 
-この場合、疑うのは経路です。ノードから API への到達性、名前解決、証明書の有効期限を確認します。
+この場合、疑うのは経路です。ノードから [API](/glossary/api/) への到達性、名前解決、[証明書](/glossary/証明書/)の有効期限を確認します。
 
 ```bash
 # ノード上から制御側への到達を確認する
@@ -100,7 +100,7 @@ sudo openssl x509 -in /var/lib/kubelet/pki/kubelet-client-current.pem -noout -da
 
 ### 原因3：ネットワークの仕組みが準備できていない（False）
 
-新しいノードを追加した直後や、ネットワーク機能を入れ替えた直後に起こります。実装では、実行環境のネットワークが準備できていない場合に状態が設定され、文言に `NetworkReady=false` が含まれます。
+新しいノードを追加した直後や、[ネットワーク](/glossary/ネットワーク/)機能を入れ替えた直後に起こります。実装では、実行環境の[ネットワーク](/glossary/ネットワーク/)が準備できていない場合に状態が設定され、文言に `NetworkReady=false` が含まれます。
 
 この状態のノードは Pod を受け入れません。**ノード自体は生きているので、連絡は届いています**。したがって条件は `False` になります。
 
@@ -136,7 +136,7 @@ uptime; iostat -x 1 3
 
 ### 原因5：資源の枯渇
 
-ディスクやメモリが尽きた場合です。まず圧迫の条件が立ち、Pod の退避が始まります（[Kubernetes の Evicted の記事](/posts/kubernetes_evicted/)）。それでも改善しなければ、常駐処理自体が動けなくなり `NotReady` に至ります。
+ディスクや[メモリ](/glossary/メモリ/)が尽きた場合です。まず圧迫の条件が立ち、Pod の退避が始まります（[Kubernetes の Evicted の記事](/posts/kubernetes_evicted/)）。それでも改善しなければ、常駐処理自体が動けなくなり `NotReady` に至ります。
 
 ```bash
 kubectl get nodes -o custom-columns='NAME:.metadata.name,READY:.status.conditions[?(@.type=="Ready")].status,DISK:.status.conditions[?(@.type=="DiskPressure")].status,MEM:.status.conditions[?(@.type=="MemoryPressure")].status'
@@ -160,7 +160,7 @@ Pod が割り当て先を得られない場合は `Pending` です（[Kubernetes
 
 資源の圧迫による Pod の退避は `Evicted` です（[Kubernetes の Evicted の記事](/posts/kubernetes_evicted/)）。こちらはノードが生きたまま起こります。
 
-利用者が API を通じて要求する退避は、また別の系統です（[Kubernetes の 429 の記事](/posts/kubernetes_429/)）。
+利用者が [API](/glossary/api/) を通じて要求する退避は、また別の系統です（[Kubernetes の 429 の記事](/posts/kubernetes_429/)）。
 
 ## 切り分けの順序
 

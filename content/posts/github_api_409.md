@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 409 Conflict は、[リクエスト](/glossary/リクエスト/)の綴りや[権限](/glossary/権限/)の問題ではなく、「[リクエスト](/glossary/リクエスト/)の内容が対象の現在の状態と矛盾している」ことを示す[コード](/glossary/コード/)です。GitHub 公式の [API](/glossary/api/) 定義（OpenAPI）で409が定義されている[エンドポイント](/glossary/エンドポイント/)を調べると、実際の409は3系統に整理できます。第一に、本物の[マージ](/glossary/マージ/)競合です（[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/) [API](/glossary/api/) や上流[ブランチ](/glossary/ブランチ/)との[同期](/glossary/同期/) [API](/glossary/api/) が、競合時に409を返すと定義されています）。第二に、競合ガードです。対象が「あなたが見た時点」から動いたことを検出して操作を止める仕組みで、pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha を渡した場合の head 不一致や、[ファイル](/glossary/ファイル/)更新（contents）[API](/glossary/api/) の sha 不一致がこれにあたります。第三に、[リポジトリ](/glossary/リポジトリ/)の状態が操作の前提を満たさないケースで、代表は空の[リポジトリ](/glossary/リポジトリ/)に対する [Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系の [API](/glossary/api/) です（公式ガイドに、[リポジトリ](/glossary/リポジトリ/)が空または利用不能のとき [REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています）。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 409 Conflict は、[リクエスト](/glossary/リクエスト/)の綴りや[権限](/glossary/権限/)の問題ではなく、「[リクエスト](/glossary/リクエスト/)の内容が対象の現在の状態と矛盾している」ことを示す[コード](/glossary/コード/)です。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で409が定義されている[エンドポイント](/glossary/エンドポイント/)を調べると、実際の409は3系統に整理できます。第一に、本物の[マージ](/glossary/マージ/)競合です（[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/) [API](/glossary/api/) や上流[ブランチ](/glossary/ブランチ/)との[同期](/glossary/同期/) [API](/glossary/api/) が、競合時に409を返すと定義されています）。第二に、競合ガードです。対象が「あなたが見た時点」から動いたことを検出して操作を止める仕組みで、pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha を渡した場合の head 不一致や、[ファイル](/glossary/ファイル/)更新（contents）[API](/glossary/api/) の sha 不一致がこれにあたります。第三に、[リポジトリ](/glossary/リポジトリ/)の状態が操作の前提を満たさないケースで、代表は空の[リポジトリ](/glossary/リポジトリ/)に対する [Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系の [API](/glossary/api/) です（公式ガイドに、[リポジトリ](/glossary/リポジトリ/)が空または利用不能のとき [REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています）。
 
 同じくらい重要なのが、409だと思い込みやすいのに409ではない[エラー](/glossary/エラー/)です。「Reference already exists」（[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)が既に存在する）、「No commits between ...」（差分のないプルリクエスト作成）、既存[タグ](/glossary/タグ/)への[リリース](/glossary/リリース/)作成は、いずれも 422 Validation Failed です。また、競合状態のプルリクエストを[マージ](/glossary/マージ/)しようとした場合は 405 が定義されています。これらを409として調査すると出口のない回り道になるため、まず[コード](/glossary/コード/)と系統の確認から始めます。
 
@@ -80,7 +80,7 @@ esac
 
 pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha [パラメータ](/glossary/パラメータ/)を渡すと、「この head のときだけ[マージ](/glossary/マージ/)してよい」という指定になり、公式定義のとおり、head がその sha と一致しなければ409が返ります。これはレビューが済んだ内容と実際に[マージ](/glossary/マージ/)される内容のすり替えを防ぐガードで、409は「レビュー後に新しい[コミット](/glossary/コミット/)が積まれた」という通知です。対処は、head を確認し直し、必要なら再レビューのうえ最新の sha で再実行することです。
 
-[ファイル](/glossary/ファイル/)の作成・更新・削除（contents [API](/glossary/api/)）の409も同じ構図です。更新には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を更新すると、渡した sha が古くなって409になります。典型は、GitHub Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を更新する構成です。
+[ファイル](/glossary/ファイル/)の作成・更新・削除（contents [API](/glossary/api/)）の409も同じ構図です。更新には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を更新すると、渡した sha が古くなって409になります。典型は、[GitHub](/glossary/github/) Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を更新する構成です。
 
 **Before（並列ジョブが同じ[ファイル](/glossary/ファイル/)を取得→更新し、先に書いた方以外が409になる）：**
 
@@ -126,7 +126,7 @@ jobs:
 
 ### 原因3：リポジトリが空、または操作の前提となる状態にない
 
-GitHub の公式ガイド（[Git](/glossary/git/) [データベース](/glossary/データベース/)の利用ガイド）には、[Git](/glossary/git/) [リポジトリ](/glossary/リポジトリ/)が空か利用不能（unavailable）の場合、[REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています。利用不能とは、典型的には[リポジトリ](/glossary/リポジトリ/)の作成処理が進行中の状態です。[リポジトリ](/glossary/リポジトリ/)作成 [API](/glossary/api/) の直後に[コミット](/glossary/コミット/)一覧・[ブランチ](/glossary/ブランチ/)・[Git](/glossary/git/) [データベース](/glossary/データベース/)系の [API](/glossary/api/) を呼ぶ[自動化](/glossary/自動化/)で、この409に当たります。
+[GitHub](/glossary/github/) の公式ガイド（[Git](/glossary/git/) [データベース](/glossary/データベース/)の利用ガイド）には、[Git](/glossary/git/) [リポジトリ](/glossary/リポジトリ/)が空か利用不能（unavailable）の場合、[REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています。利用不能とは、典型的には[リポジトリ](/glossary/リポジトリ/)の作成処理が進行中の状態です。[リポジトリ](/glossary/リポジトリ/)作成 [API](/glossary/api/) の直後に[コミット](/glossary/コミット/)一覧・[ブランチ](/glossary/ブランチ/)・[Git](/glossary/git/) [データベース](/glossary/データベース/)系の [API](/glossary/api/) を呼ぶ[自動化](/glossary/自動化/)で、この409に当たります。
 
 公式ガイドは解決策も示しています。空の[リポジトリ](/glossary/リポジトリ/)には、contents [API](/glossary/api/)（PUT /repos/{owner}/{repo}/contents/{path}）で最初の[ファイル](/glossary/ファイル/)を作成すれば[リポジトリ](/glossary/リポジトリ/)が[初期化](/glossary/初期化/)され、以後 [Git](/glossary/git/) 系の [API](/glossary/api/) が使えるようになります。
 
@@ -154,7 +154,7 @@ curl -s -X PUT -H "Authorization: Bearer <your-github-token>" \
   -d '{"message": "init", "content": "'"$(printf '# new-repo' | base64)"'"}'
 ```
 
-このほか、状態の前提を満たさない操作の409は各所に定義されています。たとえば GitHub Actions の実行の取り消し [API](/glossary/api/) にも409が定義されており、取り消せる状態にない実行への要求がこれにあたります。共通する読み方は「操作は正しいが、相手が今その操作を受けられる状態ではない」です。
+このほか、状態の前提を満たさない操作の409は各所に定義されています。たとえば [GitHub](/glossary/github/) Actions の実行の取り消し [API](/glossary/api/) にも409が定義されており、取り消せる状態にない実行への要求がこれにあたります。共通する読み方は「操作は正しいが、相手が今その操作を受けられる状態ではない」です。
 
 ## 補足：409ではない類似エラー
 
@@ -192,9 +192,9 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ## Editor's Note
 
-原因3の実例として、GitHub 自身の [API](/glossary/api/) 定義[リポジトリ](/glossary/リポジトリ/)に残る記録があります（[Schema Inaccuracy: GET /repos/.../commits can respond with 409 if repository is empty](https://github.com/github/rest-api-description/issues/385)）。2021年、Octokit のメンテナが「[コミット](/glossary/コミット/)一覧 [API](/glossary/api/) の応答定義に409が欠けている」と報告したもので、空[リポジトリ](/glossary/リポジトリ/)への実測の curl 出力（[HTTP](/glossary/http/)/2 409、message は [Git](/glossary/git/) Repository is empty.）がそのまま添えられています。空[リポジトリ](/glossary/リポジトリ/)の409は、GitHub 公式の [API](/glossary/api/) 定義からさえ一時的に漏れていたほど見落とされやすい挙動だった、ということです。本記事の執筆にあたり取得した現行の公式 OpenAPI 定義では、この[エンドポイント](/glossary/エンドポイント/)に409が定義されており、報告は反映済みです。約5年前の記録ですが、空[リポジトリ](/glossary/リポジトリ/)への [Git](/glossary/git/) 系 [API](/glossary/api/) が409を返す挙動と、contents [API](/glossary/api/) で[初期化](/glossary/初期化/)するという回避策は、現行の公式ガイドにそのまま明記されています。
+原因3の実例として、[GitHub](/glossary/github/) 自身の [API](/glossary/api/) 定義[リポジトリ](/glossary/リポジトリ/)に残る記録があります（[Schema Inaccuracy: GET /repos/.../commits can respond with 409 if repository is empty](https://github.com/github/rest-api-description/issues/385)）。2021年、Octokit のメンテナが「[コミット](/glossary/コミット/)一覧 [API](/glossary/api/) の応答定義に409が欠けている」と報告したもので、空[リポジトリ](/glossary/リポジトリ/)への実測の curl 出力（[HTTP](/glossary/http/)/2 409、message は [Git](/glossary/git/) Repository is empty.）がそのまま添えられています。空[リポジトリ](/glossary/リポジトリ/)の409は、[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義からさえ一時的に漏れていたほど見落とされやすい挙動だった、ということです。本記事の執筆にあたり取得した現行の公式 OpenAPI 定義では、この[エンドポイント](/glossary/エンドポイント/)に409が定義されており、報告は反映済みです。約5年前の記録ですが、空[リポジトリ](/glossary/リポジトリ/)への [Git](/glossary/git/) 系 [API](/glossary/api/) が409を返す挙動と、contents [API](/glossary/api/) で[初期化](/glossary/初期化/)するという回避策は、現行の公式ガイドにそのまま明記されています。
 
-409は「あなたの見ている世界と、GitHub 側の今の状態がずれている」ことを伝える[コード](/glossary/コード/)です。ずれの正体が競合なのか、追い越されただけなのか、そもそも前提が欠けているのか。[エンドポイント](/glossary/エンドポイント/)と message でそこを見極めれば、再試行すべきか、解決すべきか、[初期化](/glossary/初期化/)すべきかが決まります。
+409は「あなたの見ている世界と、[GitHub](/glossary/github/) 側の今の状態がずれている」ことを伝える[コード](/glossary/コード/)です。ずれの正体が競合なのか、追い越されただけなのか、そもそも前提が欠けているのか。[エンドポイント](/glossary/エンドポイント/)と message でそこを見極めれば、再試行すべきか、解決すべきか、[初期化](/glossary/初期化/)すべきかが決まります。
 
 ---
 

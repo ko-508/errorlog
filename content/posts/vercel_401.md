@@ -26,7 +26,7 @@ Error: Authentication failed (401 Unauthorized)
 The provided token is invalid or has expired.
 ```
 
-**GitHub Actions 内での[レスポンス](/glossary/レスポンス/)：**
+**[GitHub](/glossary/github/) Actions 内での[レスポンス](/glossary/レスポンス/)：**
 
 ```json
 {
@@ -76,7 +76,7 @@ vercel deploy
 
 ### 原因2：VERCEL_TOKEN 環境変数が正しく設定されていない
 
-[CI/CD](/glossary/ci-cd/) パイプライン（GitHub Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を[自動化](/glossary/自動化/)する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
+[CI/CD](/glossary/ci-cd/) パイプライン（[GitHub](/glossary/github/) Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を[自動化](/glossary/自動化/)する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
 
 **修正方法：**
 
@@ -98,11 +98,11 @@ jobs:
           vercel deploy --token $VERCEL_TOKEN
 ```
 
-GitHub Actions の場合、[リポジトリ](/glossary/リポジトリ/)の Settings → Secrets and variables → Actions に `VERCEL_TOKEN` という名前で新しいリポジトリシークレットを追加してください。
+[GitHub](/glossary/github/) Actions の場合、[リポジトリ](/glossary/リポジトリ/)の Settings → Secrets and variables → Actions に `VERCEL_TOKEN` という名前で新しいリポジトリシークレットを追加してください。
 
 ### 原因3：GitHub との OAuth 連携が切れている
 
-Vercel はデフォルトでプッシュ自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、GitHub 連携の[権限](/glossary/権限/)が失効したり、GitHub [アカウント](/glossary/アカウント/)側で当該[アプリケーション](/glossary/アプリケーション/)の[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
+Vercel はデフォルトで[プッシュ](/glossary/プッシュ/)自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、[GitHub](/glossary/github/) 連携の[権限](/glossary/権限/)が失効したり、[GitHub](/glossary/github/) [アカウント](/glossary/アカウント/)側で当該[アプリケーション](/glossary/アプリケーション/)の[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
 
 **修正方法：**
 
@@ -119,7 +119,7 @@ git commit -m "Update features"
 git push origin main
 ```
 
-接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または GitHub [アプリケーション](/glossary/アプリケーション/)連携ページで「Authorize」をクリックして、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
+接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または [GitHub](/glossary/github/) [アプリケーション](/glossary/アプリケーション/)連携ページで「Authorize」をクリックして、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
 
 ## Vercel 固有の注意点
 
@@ -127,7 +127,7 @@ git push origin main
 
 **複数組織の場合：** Vercel [アカウント](/glossary/アカウント/)が複数の Team（組織）に属している場合、[デプロイ](/glossary/デプロイ/)先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` で[スコープ](/glossary/スコープ/)を指定し、そのチームに所属する[トークン](/glossary/トークン/)であることを確認してください。
 
-**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や GitHub Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
+**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
 **vercel.json 設定：** プロジェクトルートの `vercel.json` に記述される設定は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の設定を確認してから[ファイル](/glossary/ファイル/)設定を疑ってください。
 
@@ -142,9 +142,9 @@ VERCEL_DEBUG=1 vercel deploy
 
 [ダッシュボード](/glossary/ダッシュボード/)のデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗した[デプロイ](/glossary/デプロイ/)をクリックし、Logs タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を確認してください。
 
-**GitHub Actions 内の[ログ](/glossary/ログ/)確認：**
+**[GitHub](/glossary/github/) Actions 内の[ログ](/glossary/ログ/)確認：**
 
-GitHub [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新のワークフロー実行結果を開き、失敗したステップの出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
+[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新のワークフロー実行結果を開き、失敗したステップの出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
 
 **[トークン](/glossary/トークン/)再生成のベストプラクティス：**
 

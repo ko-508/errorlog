@@ -227,7 +227,7 @@ kubectl proxy
 [Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
-[Kubernetes](/glossary/kubernetes/) GitHubのIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。
+[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。
 
 ---
 

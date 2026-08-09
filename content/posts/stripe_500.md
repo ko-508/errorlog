@@ -177,13 +177,13 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが本番環境で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
+[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
 
 ## それでも解決しない場合
 
 ### 確認すべき手順とログ
 
-1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` フィールドをメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
+1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` [フィールド](/glossary/フィールド/)をメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
 
 2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に障害がないか確認します。インシデント進行中の場合は、復旧を待つ必要があります。
 
@@ -205,7 +205,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### コミュニティリソース
 
-- Stripe GitHub Issues：https://github.com/stripe/stripe-python/issues （該当言語の[リポジトリ](/glossary/リポジトリ/)）
+- Stripe [GitHub](/glossary/github/) Issues：https://github.com/stripe/stripe-python/issues （該当言語の[リポジトリ](/glossary/リポジトリ/)）
 - Stripe Developer Community：https://stripe.com/docs/support
 - Stack Overflow の `stripe` [タグ](/glossary/タグ/)：実装言語固有の問題は検索してみてください
 

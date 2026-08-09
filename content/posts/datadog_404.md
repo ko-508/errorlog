@@ -41,7 +41,7 @@ Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossa
 
 - `404` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[リクエスト](/glossary/リクエスト/)されたリソースが[サーバー](/glossary/サーバー/)上に存在しない
 - `Not Found` → 理由フレーズ：対象のモニター [ID](/glossary/id/) や[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) が見つからなかった
-- `"Resource not found"` → リソースの不在を明示する [JSON](/glossary/json/) フィールド：[ID](/glossary/id/) が間違っているか削除済みである可能性が高い
+- `"Resource not found"` → リソースの不在を明示する [JSON](/glossary/json/) [フィールド](/glossary/フィールド/)：[ID](/glossary/id/) が間違っているか削除済みである可能性が高い
 - `"Please verify the monitor/dashboard ID is correct"` → トラブルシューティングガイダンス：入力した [ID](/glossary/id/) の正確性を確認するよう促す
 
 ## よくある原因と解決手順
@@ -77,7 +77,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
   -H "DD-APPLICATION-KEY: <your-app-key>" | jq '.id'
 ```
 
-正しいモニター [ID](/glossary/id/) が [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)の `id` フィールドに返されれば成功です。
+正しいモニター [ID](/glossary/id/) が [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)の `id` [フィールド](/glossary/フィールド/)に返されれば成功です。
 
 ### 原因2：削除済みまたは無効なメトリクスへのアクセス
 

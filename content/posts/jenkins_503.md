@@ -216,7 +216,7 @@ cat /etc/systemd/system/jenkins.service
 cat /etc/default/jenkins
 ```
 
-これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や GitHub Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、インストール済みプラグイン一覧、[メモリ](/glossary/メモリ/)設定を記録して報告すると、より正確な原因特定が可能になります。
+これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、インストール済みプラグイン一覧、[メモリ](/glossary/メモリ/)設定を記録して報告すると、より正確な原因特定が可能になります。
 
 ---
 

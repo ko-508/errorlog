@@ -279,7 +279,7 @@ curl -X GET "https://<your-project>.supabase.co/rest/v1/users?select=*" \
   -H "Authorization: Bearer <your-token>"
 ```
 
-[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `code` と `message` フィールドから、より詳細な原因を特定できます。
+[エラーレスポンス](/glossary/エラーレスポンス/)に含まれる `code` と `message` [フィールド](/glossary/フィールド/)から、より詳細な原因を特定できます。
 
 ### ステップ4：ローカルでの再現テスト
 

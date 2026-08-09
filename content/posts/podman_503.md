@@ -223,7 +223,7 @@ curl -v https://registry-1.docker.io/v2/
 
 - 公式ドキュメント：[Podman System Service](https://docs.podman.io/en/latest/markdown/podman-system-service.1.html)
 - 公式ドキュメント：[Podman Remote Connection](https://docs.podman.io/en/latest/markdown/podman-system-connection.1.html)
-- GitHub Issues：[Podman Issues](https://github.com/containers/podman/issues)
+- [GitHub](/glossary/github/) Issues：[Podman Issues](https://github.com/containers/podman/issues)
 - [Docker](/glossary/docker/) Hub Status：[status.docker.com](https://status.docker.com/)
 - [レジストリ](/glossary/レジストリ/)の公式ステータスページで障害情報を確認
 

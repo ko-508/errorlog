@@ -133,7 +133,7 @@ journalctl -u podman --no-pager | tail -50
 
 公式ドキュメント「Podman Run Options」および「Podman [API](/glossary/api/)」ページで、各オプションの正確な形式と使用例を確認してください。
 
-GitHub の Podman Issues ページ（https://github.com/containers/podman/issues）で、類似の問題が報告されていないか検索することも有効です。環境固有の問題（Podman [バージョン](/glossary/バージョン/)、ホスト[OS](/glossary/os/)、コンテナランタイム）を報告する際は、`podman --version` と `podman info` の出力を含めてください。
+[GitHub](/glossary/github/) の Podman Issues ページ（https://github.com/containers/podman/issues）で、類似の問題が報告されていないか検索することも有効です。環境固有の問題（Podman [バージョン](/glossary/バージョン/)、ホスト[OS](/glossary/os/)、コンテナランタイム）を報告する際は、`podman --version` と `podman info` の出力を含めてください。
 
 ---
 

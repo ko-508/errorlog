@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-Minikube で 404 [エラー](/glossary/エラー/)が発生した場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。この[エラー](/glossary/エラー/)は Pod、Service、Deployment などのリソースに対して `kubectl` [コマンド](/glossary/コマンド/)で アクセスしようとした際に、指定した [Namespace](/glossary/namespace/) やリソース名が一致しないときに返されます。開発環境での検証時に頻繁に遭遇し、原因が特定できれば迅速に解決できる[エラー](/glossary/エラー/)です。
+Minikube で 404 [エラー](/glossary/エラー/)が発生した場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。この[エラー](/glossary/エラー/)は Pod、Service、Deployment などのリソースに対して `kubectl` [コマンド](/glossary/コマンド/)で アクセスしようとした際に、指定した [Namespace](/glossary/namespace/) やリソース名が一致しないときに返されます。[開発環境](/glossary/開発環境/)での検証時に頻繁に遭遇し、原因が特定できれば迅速に解決できる[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 

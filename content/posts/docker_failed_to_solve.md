@@ -53,7 +53,7 @@ ERROR: failed to build: failed to solve: process "/dev/.buildkit_qemu_emulator /
 error: failed to solve: <レジストリ>:5000/<イメージ>:22.04: failed to resolve source metadata for ...: failed to do request: Head "https://.../v2/.../manifests/22.04": http: server gave HTTP response to HTTPS client
 ```
 
-命令は1つも実行されていません。読むのは最後尾の[通信](/glossary/通信/)理由で、この例では HTTPS で問い合わせた先が HTTP で応答しています。
+命令は1つも実行されていません。読むのは最後尾の[通信](/glossary/通信/)理由で、この例では [HTTPS](/glossary/https/) で問い合わせた先が [HTTP](/glossary/http/) で応答しています。
 
 **型3：ステップ番号も[コマンド](/glossary/コマンド/)出力も伴わない**
 
@@ -65,7 +65,7 @@ ERROR: failed to solve: source can't be a git ref for COPY
 ERROR: failed to solve: failed to prepare 6boxvrjdjur378egamsa297vp as lnddt61dq57lwjio5fkmhme9e: invalid argument
 ```
 
-行番号が出ないのは、位置情報が付いていないからです。ここで Dockerfile を疑い続けても当たりません。
+[行番号](/glossary/行番号/)が出ないのは、位置情報が付いていないからです。ここで Dockerfile を疑い続けても当たりません。
 
 ## まず最初に：文言の書き手を確定させる
 
@@ -75,7 +75,7 @@ ERROR: failed to solve: failed to prepare 6boxvrjdjur378egamsa297vp as lnddt61dq
 
 第二に、コロンの直後の語で書き手を決めます。第三に、上方向へ `> [N/M] <命令>:` の見出しと `------ Dockerfile:<行> ------` の囲みを探します。
 
-第四に `docker buildx ls` を実行します。ドライバーには `docker`・`docker-container`・`kubernetes`・`remote` があり、既定以外では BuildKit が別の[コンテナ](/glossary/コンテナ/)や別の機械で動きます。到達性・空き容量・[認証](/glossary/認証/)情報は、そちら側で判定されます。手元で `docker pull` が通るのに組み立てだけ落ちるのは、ここから生まれます。
+第四に `docker buildx ls` を実行します。ドライバーには `docker`・`docker-container`・`kubernetes`・`remote` があり、既定以外では BuildKit が別の[コンテナ](/glossary/コンテナ/)や別の機械で動きます。到達性・空き[容量](/glossary/容量/)・[認証](/glossary/認証/)情報は、そちら側で判定されます。手元で `docker pull` が通るのに組み立てだけ落ちるのは、ここから生まれます。
 
 ## よくある原因と解決手順
 
@@ -99,7 +99,7 @@ docker run --rm -it <検証用タグ> sh
 
 `failed to resolve source metadata for <参照>` の形です。この語を足すのは参照解決の部分で、[レジストリ](/glossary/レジストリ/)への問い合わせが成立しなかったことを表します（[imageresolver.go](https://github.com/moby/buildkit/blob/master/client/llb/sourceresolver/imageresolver.go)）。命令の中身とは無関係に、実行前に止まります。
 
-判断材料は最後尾です。`http: server gave HTTP response to HTTPS client` なら[通信](/glossary/通信/)方式の不一致、`pull access denied` なら[認証](/glossary/認証/)、`dial tcp` や `lookup` なら到達性です。自前の HTTP [レジストリ](/glossary/レジストリ/)を参照した[報告](https://github.com/moby/buildkit/issues/6177)では、この不一致がそのまま末尾に出ています。
+判断材料は最後尾です。`http: server gave HTTP response to HTTPS client` なら[通信](/glossary/通信/)方式の不一致、`pull access denied` なら[認証](/glossary/認証/)、`dial tcp` や `lookup` なら到達性です。自前の [HTTP](/glossary/http/) [レジストリ](/glossary/レジストリ/)を参照した[報告](https://github.com/moby/buildkit/issues/6177)では、この不一致がそのまま末尾に出ています。
 
 ```bash
 # 同じ参照を、組み立てとは別経路で確認する
@@ -114,7 +114,7 @@ docker manifest inspect <レジストリ>/<イメージ>:<タグ>
 
 誤読されやすいのは `ref` の後ろの長い文字列です。これは[パス](/glossary/パス/)ではなく内部の識別子で、解読しても手がかりになりません。見るのは引用符で囲まれたほうです。
 
-そして `not found` は、[ファイル](/glossary/ファイル/)が存在しないという意味とは限りません。**context の起点から見て見つからない、という意味です。** Docker Desktop を 4.26 から 4.27.1 へ上げた後、それまで通っていた COPY が同じ文言で止まった[報告](https://github.com/docker/compose/issues/11452)があります。消したのではなく、起点の扱いが変わった例です。
+そして `not found` は、[ファイル](/glossary/ファイル/)が存在しないという意味とは限りません。**context の起点から見て見つからない、という意味です。** [Docker](/glossary/docker/) Desktop を 4.26 から 4.27.1 へ上げた後、それまで通っていた COPY が同じ文言で止まった[報告](https://github.com/docker/compose/issues/11452)があります。消したのではなく、起点の扱いが変わった例です。
 
 ```bash
 # context の起点から見て、対象が実在するか
@@ -130,7 +130,7 @@ Compose 経由なら、起点は Dockerfile の置き場所ではなく `context
 
 Dockerfile を内部表現へ変換する段で止まる場合です。表示はステップ番号も[コマンド](/glossary/コマンド/)出力も伴わない一行になります。
 
-**Before（エラーが起きるコード）：**
+**Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 ```dockerfile
 # 末尾が .git の指定は git 参照として扱われる経路がある
@@ -148,7 +148,7 @@ buildx v0.13.1 での[報告](https://github.com/moby/buildkit/issues/4777)で�
 
 ### 原因5：snapshot の準備や書き出しで止まっている
 
-`failed to prepare <ID> as <ID>: invalid argument` の形です。2つの識別子は、元になる保存単位の ID と新しく作る保存単位の ID です（[cache/manager.go](https://github.com/moby/buildkit/blob/master/cache/manager.go)）。`invalid argument` は下層が返した理由です。命令名が出ないのは、書き手が Dockerfile を扱っていないからです。
+`failed to prepare <ID> as <ID>: invalid argument` の形です。2つの識別子は、元になる保存単位の [ID](/glossary/id/) と新しく作る保存単位の [ID](/glossary/id/) です（[cache/manager.go](https://github.com/moby/buildkit/blob/master/cache/manager.go)）。`invalid argument` は下層が返した理由です。命令名が出ないのは、書き手が Dockerfile を扱っていないからです。
 
 書き出し側では `failed commit on ref "sha256:..."` も出ます。これは BuildKit ではなく、同梱の containerd が出しています（[core/content/helpers.go](https://github.com/containerd/containerd/blob/main/core/content/helpers.go)）。[キャッシュ](/glossary/キャッシュ/)を[レジストリ](/glossary/レジストリ/)へ書き出して失敗した[報告](https://github.com/moby/buildkit/issues/5487)では、PUT 要求が 404 で返ったことまで末尾に出ています。
 
@@ -160,7 +160,7 @@ docker buildx ls
 docker volume ls | grep buildx_buildkit
 ```
 
-docker-container ドライバーでは、状態が `buildx_buildkit_<ノード名>_state` という名前のボリュームに入ります（[driver/docker-container/driver.go](https://github.com/docker/buildx/blob/master/driver/docker-container/driver.go)）。調べる対象はここです。空き容量が理由なら [Docker の no space left on device の記事](/posts/docker_no_space_left_on_device/)へ移ります。状態を残して作り直すなら `--keep-state` を検討してください（[buildx_rm.md](https://github.com/docker/buildx/blob/master/docs/reference/buildx_rm.md)）。
+docker-container ドライバーでは、状態が `buildx_buildkit_<ノード名>_state` という名前のボリュームに入ります（[driver/docker-container/driver.go](https://github.com/docker/buildx/blob/master/driver/docker-container/driver.go)）。調べる対象はここです。空き[容量](/glossary/容量/)が理由なら [Docker の no space left on device の記事](/posts/docker_no_space_left_on_device/)へ移ります。状態を残して作り直すなら `--keep-state` を検討してください（[buildx_rm.md](https://github.com/docker/buildx/blob/master/docs/reference/buildx_rm.md)）。
 
 ## 補足：似ているが別のもの
 
@@ -170,7 +170,7 @@ docker-container ドライバーでは、状態が `buildx_buildkit_<ノード�
 
 組み立てが通ったのに[イメージ](/glossary/イメージ/)が見当たらない状態は、失敗ではありません。既定以外のドライバーで作った結果を手元の一覧へ入れるには `--load` が必要です（[buildx_build.md](https://github.com/docker/buildx/blob/master/docs/reference/buildx_build.md)）。
 
-組み立て後の実行で起きる事象や、Docker の[デーモン](/glossary/デーモン/)へ接続できない状態は範囲外です。後者は [Docker の Cannot connect to the Docker daemon の記事](/posts/docker_cannot_connect_daemon/)が扱います。
+組み立て後の実行で起きる事象や、[Docker](/glossary/docker/) の[デーモン](/glossary/デーモン/)へ接続できない状態は範囲外です。後者は [Docker の Cannot connect to the Docker daemon の記事](/posts/docker_cannot_connect_daemon/)が扱います。
 
 ## 切り分けの順序
 
@@ -178,10 +178,10 @@ docker-container ドライバーでは、状態が `buildx_buildkit_<ノード�
 2. コロンより後ろの語を読み、どの部品が答えているかを確定させる。
 3. 上方向へ `> [N/M] <命令>:` の見出しと `------ Dockerfile:<行> ------` の囲みを探す。
 4. `docker buildx ls` でビルダーとドライバーを確認し、判定が行われている場所を確定させる。
-5. 実行段なら、区切りの手前にある[コマンド](/glossary/コマンド/)自身の出力を読む。終了コードは結果であって理由ではない。
+5. 実行段なら、区切りの手前にある[コマンド](/glossary/コマンド/)自身の出力を読む。終了[コード](/glossary/コード/)は結果であって理由ではない。
 6. 解決段なら、最後尾で[認証](/glossary/認証/)・[通信](/glossary/通信/)方式・到達性に分け、`docker manifest inspect` で確かめる。
 7. `not found` を含むなら、`<contextの起点>/<相対パス>` の形で照合し、`transferring context` の行と突き合わせる。
-8. 準備・書き出し段なら、ビルダー側の容量と[権限](/glossary/権限/)を確認する。削除は共有範囲を確かめたうえで最後に行う。
+8. 準備・書き出し段なら、ビルダー側の[容量](/glossary/容量/)と[権限](/glossary/権限/)を確認する。削除は共有範囲を確かめたうえで最後に行う。
 
 ## 確認コマンド集
 
@@ -226,4 +226,4 @@ docker run --rm -it <検証用タグ> sh
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

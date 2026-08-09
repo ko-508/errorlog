@@ -178,7 +178,7 @@ while True:
 
 ### ボット・App・ワークスペースレベルのレート制限区別
 
-Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は複数のレベルで適用されます。個別のボット、[OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)、[ワークスペース](/glossary/ワークスペース/)全体で異なる上限が設定されているため、同じ[メソッド](/glossary/メソッド/)でも[環境](/glossary/環境/)によって制限が変わります。特に開発環境では余裕があっても、本番環境の大規模[ワークスペース](/glossary/ワークスペース/)では厳しく制限される傾向があります。
+Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は複数のレベルで適用されます。個別のボット、[OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)、[ワークスペース](/glossary/ワークスペース/)全体で異なる上限が設定されているため、同じ[メソッド](/glossary/メソッド/)でも[環境](/glossary/環境/)によって制限が変わります。特に[開発環境](/glossary/開発環境/)では余裕があっても、[本番環境](/glossary/本番環境/)の大規模[ワークスペース](/glossary/ワークスペース/)では厳しく制限される傾向があります。
 
 ### Web API メソッドごとのレート制限差
 
@@ -204,7 +204,7 @@ Slack 公式ドキュメントの「Rate Limiting」セクション（https://ap
 
 ### GitHub Issues・Slack コミュニティ
 
-Slack [SDK](/glossary/sdk/) の GitHub [リポジトリ](/glossary/リポジトリ/)（`slackapi/python-slack-sdk`、`slackapi/bolt-js` など）の Issues セクションで、同様の 429 [エラー](/glossary/エラー/)報告と解決例を検索できます。また、Slack Developer Community（https://slackcommunity.com/）のフォーラムでは、ワークスペース規模別・使用メソッド別の実装相談が活発に行われています。
+Slack [SDK](/glossary/sdk/) の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)（`slackapi/python-slack-sdk`、`slackapi/bolt-js` など）の Issues セクションで、同様の 429 [エラー](/glossary/エラー/)報告と解決例を検索できます。また、Slack Developer Community（https://slackcommunity.com/）のフォーラムでは、ワークスペース規模別・使用メソッド別の実装相談が活発に行われています。
 
 ---
 

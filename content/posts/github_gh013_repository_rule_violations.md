@@ -17,7 +17,7 @@ trend_incident: false
 
 `GH013: Repository rule violations found` を検索すると、秘密情報が混ざったときの対処が数多く出てきます。それは3系統あるうちの1つにすぎません。GH013 は ruleset（[リポジトリ](/glossary/リポジトリ/)に設定された規則の集まり）に違反したという符号で、中身は[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則、push そのものへの規則、そして秘密情報の検知に分かれます。
 
-見分ける手がかりは、符号のすぐ下に出ます。GitHub は `Review all repository rules at` に続けて、そのブランチに効いている規則の一覧を示す[URL](/glossary/url/) を返します。公式ドキュメントによれば、この一覧は読み取り[権限](/glossary/権限/)さえあれば誰でも見られます。管理者に問い合わせる前に、まずここを開けば済みます。
+見分ける手がかりは、符号のすぐ下に出ます。[GitHub](/glossary/github/) は `Review all repository rules at` に続けて、その[ブランチ](/glossary/ブランチ/)に効いている規則の一覧を示す[URL](/glossary/url/) を返します。公式ドキュメントによれば、この一覧は読み取り[権限](/glossary/権限/)さえあれば誰でも見られます。管理者に問い合わせる前に、まずここを開けば済みます。
 
 もう1つ、bypass（規則を素通りする許可）についての誤解があります。bypass は[アカウント](/glossary/アカウント/)に与える[権限](/glossary/権限/)ではありません。ruleset は push のたびに、そのとき使われた資格情報の持ち主を bypass 一覧と照合します。だから自分を一覧に入れても、CI が別の身元で push していれば拒まれます。手元では通るのに自動処理では落ちる、という報告のほとんどはこれです。
 
@@ -37,9 +37,9 @@ To https://github.com/OWNER/REPO
 error: failed to push some refs to 'https://github.com/OWNER/REPO'
 ```
 
-読む場所は2つです。1つ目は `Review all repository rules at` の[URL](/glossary/url/) で、対象のブランチに効いている規則がすべて並びます。2つ目はその下の箇条書きで、実際に違反した規則の名前が入ります。
+読む場所は2つです。1つ目は `Review all repository rules at` の[URL](/glossary/url/) で、対象の[ブランチ](/glossary/ブランチ/)に効いている規則がすべて並びます。2つ目はその下の箇条書きで、実際に違反した規則の名前が入ります。
 
-箇条書きの書き出しで系統が分かれます。上の例のように規則名が直接並んでいれば、ブランチや[タグ](/glossary/タグ/)への規則です。一方、`- GITHUB PUSH PROTECTION` という見出しと罫線が挟まっていれば、push への規則か秘密情報の検知です。
+箇条書きの書き出しで系統が分かれます。上の例のように規則名が直接並んでいれば、[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則です。一方、`- GITHUB PUSH PROTECTION` という見出しと罫線が挟まっていれば、push への規則か秘密情報の検知です。
 
 ```text
 remote: - GITHUB PUSH PROTECTION
@@ -53,7 +53,7 @@ remote:     - Files cannot include restricted file extensions.
 
 ## まず最初に：規則の一覧を開く
 
-推測の前に、エラーに書かれた[URL](/glossary/url/) を開きます。手元にない場合は、[リポジトリ](/glossary/リポジトリ/)の[URL](/glossary/url/) の末尾に `/rules` を足しても同じ画面に届きます。公式ドキュメントがこの短縮形を案内しています。
+推測の前に、[エラー](/glossary/エラー/)に書かれた[URL](/glossary/url/) を開きます。手元にない場合は、[リポジトリ](/glossary/リポジトリ/)の[URL](/glossary/url/) の末尾に `/rules` を足しても同じ画面に届きます。公式ドキュメントがこの短縮形を案内しています。
 
 [コマンド](/glossary/コマンド/)で確認する手もあります。
 
@@ -79,7 +79,7 @@ gh api "repos/OWNER/REPO/rules/branches/main"
 git push origin main
 ```
 
-**After（作業用のブランチを経由する）：**
+**After（作業用の[ブランチ](/glossary/ブランチ/)を経由する）：**
 
 ```bash
 git switch -c fix/update-version
@@ -90,7 +90,7 @@ git push -u origin fix/update-version
 
 設定画面で自分や[自動化](/glossary/自動化/)用の身元を bypass 一覧に加えたのに変わらない、という場合です。原因は[権限](/glossary/権限/)ではなく、push に使われた資格情報にあります。
 
-GitHub Actions で起きやすい形が知られています。`actions/checkout` は既定で資格情報を保存するため、以降の push はその保存された身元で行われます。あとから別の[トークン](/glossary/トークン/)を[変数](/glossary/変数/)に入れても、`git push` はそれを読みません。結果として、bypass 一覧に入れた身元ではなく、既定の[トークン](/glossary/トークン/)の身元で判定されます。
+[GitHub](/glossary/github/) Actions で起きやすい形が知られています。`actions/checkout` は既定で資格情報を保存するため、以降の push はその保存された身元で行われます。あとから別の[トークン](/glossary/トークン/)を[変数](/glossary/変数/)に入れても、`git push` はそれを読みません。結果として、bypass 一覧に入れた身元ではなく、既定の[トークン](/glossary/トークン/)の身元で判定されます。
 
 **Before（保存された資格情報のまま送る）：**
 
@@ -108,7 +108,7 @@ GitHub Actions で起きやすい形が知られています。`actions/checkout
 - run: git push "https://x-access-token:${{ secrets.BYPASS_TOKEN }}@github.com/OWNER/REPO" main
 ```
 
-GitHub App を使う場合も同じです。App を bypass 一覧に入れ、App の[トークン](/glossary/トークン/)を発行しても、push がそれを使っていなければ意味がありません。発行した[トークン](/glossary/トークン/)が実際に送信に使われているかを、まず確かめてください。
+[GitHub](/glossary/github/) App を使う場合も同じです。App を bypass 一覧に入れ、App の[トークン](/glossary/トークン/)を発行しても、push がそれを使っていなければ意味がありません。発行した[トークン](/glossary/トークン/)が実際に[送信](/glossary/送信/)に使われているかを、まず確かめてください。
 
 bypass の与え方には2種類あることも押さえておきます。公式ドキュメントによれば、常に許可するほかに、[マージ](/glossary/マージ/)要求を経由する場合だけ許可する設定を選べます。後者を選んだ身元は直接 push できず、要求を出したうえで保護を越えて[マージ](/glossary/マージ/)する形になります。自分がどちらの扱いかは、ruleset を取得したときの `current_user_can_bypass` で確認できます。値は常に許可・要求経由のみ・不可・対象外の4つです。
 
@@ -120,7 +120,7 @@ bypass の与え方には2種類あることも押さえておきます。公式
 
 したがって、1つの ruleset で bypass を持っていても、別の ruleset に当たれば拒まれます。前述の `rules/branches` の経路は階層を問わず返すため、ここで全体を確認するのが確実です。
 
-**Before（リポジトリの設定画面だけを見る）：**
+**Before（[リポジトリ](/glossary/リポジトリ/)の設定画面だけを見る）：**
 
 ```text
 Settings → Rules → Rulesets
@@ -136,9 +136,9 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 ### 原因4：秘密情報の検知で止まっている
 
-`GITHUB PUSH PROTECTION` の見出しの下に `Push cannot contain secrets` が出る場合です。検知された種類と、どの[コミット](/glossary/コミット/)のどのファイルの何行目かが併記されます。
+`GITHUB PUSH PROTECTION` の見出しの下に `Push cannot contain secrets` が出る場合です。検知された種類と、どの[コミット](/glossary/コミット/)のどの[ファイル](/glossary/ファイル/)の何行目かが併記されます。
 
-ここで多い失敗は、ファイルを消して[コミット](/glossary/コミット/)し直すだけで送ろうとすることです。検知の対象は履歴に含まれる[コミット](/glossary/コミット/)なので、消した事実を追加しても過去の[コミット](/glossary/コミット/)は残ります。強制的に送り直しても結果は変わりません。
+ここで多い失敗は、[ファイル](/glossary/ファイル/)を消して[コミット](/glossary/コミット/)し直すだけで送ろうとすることです。検知の対象は履歴に含まれる[コミット](/glossary/コミット/)なので、消した事実を追加しても過去の[コミット](/glossary/コミット/)は残ります。強制的に送り直しても結果は変わりません。
 
 対処は履歴からの除去です。直前の[コミット](/glossary/コミット/)だけなら作り直しで足り、複数にまたがるなら履歴の書き換えが要ります。書き換えた場合は、漏れた値そのものを失効させてください。除去しても、その値が一度でも外に出た可能性は消えません。
 
@@ -148,7 +148,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 `GITHUB PUSH PROTECTION` の下に、[拡張子](/glossary/拡張子/)・大きさ・経路に関する文が出る場合です。公式ドキュメントによれば、push への規則は[ブランチ](/glossary/ブランチ/)の指定を必要とせず、その[リポジトリ](/glossary/リポジトリ/)へのすべての push に適用されます。しかも、その[リポジトリ](/glossary/リポジトリ/)から派生した全体にも及びます。
 
-制限できるのは、ファイルの経路、経路の長さ、[拡張子](/glossary/拡張子/)、ファイルの大きさの4つです。大きなファイルで止まっている場合は、対象を履歴から取り除くか、別の保管方法へ移してください。
+制限できるのは、[ファイル](/glossary/ファイル/)の経路、経路の長さ、[拡張子](/glossary/拡張子/)、[ファイル](/glossary/ファイル/)の大きさの4つです。大きな[ファイル](/glossary/ファイル/)で止まっている場合は、対象を履歴から取り除くか、別の保管方法へ移してください。
 
 もう1つ、公式のトラブルシューティング文書に書かれた上限があります。push への規則が有効な場合、1回の push で更新できる参照は1000件までで、超えると拒まれます。大量の[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)をまとめて送るときに当たります。
 
@@ -160,7 +160,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 `remote: Permission to OWNER/REPO.git denied to USER.` は、[リポジトリ](/glossary/リポジトリ/)への書き込み[権限](/glossary/権限/)が無い場合です。規則ではなく[ロール](/glossary/ロール/)の問題なので、bypass 一覧をいくら直しても変わりません。
 
-REST [API](/glossary/api/) 経由の書き込みでも push への規則は効きます。公式のトラブルシューティング文書は、blob の作成・tree の作成・ファイルの作成と更新の3つの経路に適用されると明記しています。[API](/glossary/api/) を使えば回避できる、という理解は成り立ちません。
+[REST](/glossary/rest/) [API](/glossary/api/) 経由の書き込みでも push への規則は効きます。公式のトラブルシューティング文書は、blob の作成・tree の作成・[ファイル](/glossary/ファイル/)の作成と更新の3つの経路に適用されると明記しています。[API](/glossary/api/) を使えば回避できる、という理解は成り立ちません。
 
 施行状態が評価のみの ruleset は拒みません。この状態では違反しても push は通り、記録だけが残ります。GH013 が出ていないのに規則が見えている場合は、この状態を疑ってください。
 
@@ -171,7 +171,7 @@ REST [API](/glossary/api/) 経由の書き込みでも push への規則は効�
 3. 見出しがある場合、下の文が秘密情報か[拡張子](/glossary/拡張子/)などかで原因4と原因5に分ける。
 4. 見出しが無い場合、違反した規則の名前を読み、その規則に沿えるかどうかを判断する。
 5. bypass を持っているはずなら、`rules/branches` の経路で規則の出どころを確認する。組織側の別の ruleset に当たっていることがある。
-6. それでも拒まれるなら、push に使われた資格情報の持ち主を確認する。設定画面ではなく、実際の送信に使われた身元を見る。
+6. それでも拒まれるなら、push に使われた資格情報の持ち主を確認する。設定画面ではなく、実際の[送信](/glossary/送信/)に使われた身元を見る。
 7. 自動処理なら、資格情報が保存されたまま使われていないかを確認する。
 8. 直せない規則であれば、[マージ](/glossary/マージ/)要求を経由する経路に切り替える。
 
@@ -208,14 +208,14 @@ git push --dry-run --all origin
 
 bypass 一覧に入れたのに拒まれるという現象は、[GitHub コミュニティの Discussion #110674](https://github.com/orgs/community/discussions/110674) に典型例が残っています。2024年3月に回答が付いています。
 
-投稿者の状況はこうです。main への直接の push を禁じる規則を作り、bypass 一覧に自分を追加した。手元から push すると素通りできる。ところが GitHub Actions のワークフローから同じことをすると `GH013: Repository rule violations found for refs/heads/main.` が返る。設定画面の書き込み[権限](/glossary/権限/)も有効にしてある。
+投稿者の状況はこうです。main への直接の push を禁じる規則を作り、bypass 一覧に自分を追加した。手元から push すると素通りできる。ところが [GitHub](/glossary/github/) Actions のワークフローから同じことをすると `GH013: Repository rule violations found for refs/heads/main.` が返る。設定画面の書き込み[権限](/glossary/権限/)も有効にしてある。
 
 原因は[権限](/glossary/権限/)ではありませんでした。投稿者自身が書いた回答によれば、`actions/checkout` が既定で資格情報を保存するため、以降の push がその保存された身元で行われていたのです。解決は2段構えでした。取得の段階で保存を止め、そのうえで push の[コマンド](/glossary/コマンド/)に、bypass を持つ利用者の[トークン](/glossary/トークン/)を明示的に渡すことです。
 
-同じ構図は GitHub App でも報告されています。[Discussion #136531](https://github.com/orgs/community/discussions/136531) では、App にすべての[権限](/glossary/権限/)を与え、bypass 一覧にも加え、短命な[トークン](/glossary/トークン/)を発行したうえで、それを[変数](/glossary/変数/)に入れて push しています。それでも同じ符号が返りました。寄せられた指摘は、App の[トークン](/glossary/トークン/)ではなく既定の[トークン](/glossary/トークン/)で送っているのではないか、というものでした。
+同じ構図は [GitHub](/glossary/github/) App でも報告されています。[Discussion #136531](https://github.com/orgs/community/discussions/136531) では、App にすべての[権限](/glossary/権限/)を与え、bypass 一覧にも加え、短命な[トークン](/glossary/トークン/)を発行したうえで、それを[変数](/glossary/変数/)に入れて push しています。それでも同じ符号が返りました。寄せられた指摘は、App の[トークン](/glossary/トークン/)ではなく既定の[トークン](/glossary/トークン/)で送っているのではないか、というものでした。
 
 2件に共通するのは、設定画面で完結すると考えた点です。bypass 一覧は身元の名簿であって、[アカウント](/glossary/アカウント/)に付与される[権限](/glossary/権限/)ではありません。判定されるのは、その push を実際に行った身元です。GH013 が出て bypass を疑うときは、設定を見直す前に、いま誰として送っているのかを確かめてください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

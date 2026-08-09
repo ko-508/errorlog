@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-Minikubeで403[エラー](/glossary/エラー/)が返される場合、[RBAC](/glossary/rbac/)（ロールベースアクセス制御）による[アクセス権限](/glossary/アクセス権限/)の拒否が原因です。この[エラー](/glossary/エラー/)は、PodやServiceAccountが[Kubernetes](/glossary/kubernetes/)リソースへのアクセスを試みた際に、十分な[権限](/glossary/権限/)がない状態で発生します。開発環境での動作確認から本番運用まで、権限設定の誤りは頻繁に遭遇する問題です。
+Minikubeで403[エラー](/glossary/エラー/)が返される場合、[RBAC](/glossary/rbac/)（ロールベースアクセス制御）による[アクセス権限](/glossary/アクセス権限/)の拒否が原因です。この[エラー](/glossary/エラー/)は、PodやServiceAccountが[Kubernetes](/glossary/kubernetes/)リソースへのアクセスを試みた際に、十分な[権限](/glossary/権限/)がない状態で発生します。[開発環境](/glossary/開発環境/)での動作確認から本番運用まで、権限設定の誤りは頻繁に遭遇する問題です。
 
 ## 実際のエラーメッセージ例
 
@@ -257,7 +257,7 @@ kubectl describe pod <pod-name> -n <namespace>
 
 **[デバッグ](/glossary/デバッグ/)用の一時的なアクセス許可**
 
-開発環境で素早く[テスト](/glossary/テスト/)する場合、クラスタロール`cluster-admin`をServiceAccountに一時的に付与することができます。本番環境では絶対に使用しないでください。
+[開発環境](/glossary/開発環境/)で素早く[テスト](/glossary/テスト/)する場合、クラスタロール`cluster-admin`をServiceAccountに一時的に付与することができます。[本番環境](/glossary/本番環境/)では絶対に使用しないでください。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -307,7 +307,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:deploye
 - [Kubernetes公式：ServiceAccount](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
 - [Minikube公式ドキュメント](https://minikube.sigs.k8s.io/)
 
-GitHub Issuesでは、Minikube固有の[RBAC](/glossary/rbac/)問題が報告されています。[エラーメッセージ](/glossary/エラーメッセージ/)の詳細な文言で検索すると、同じ問題を解決した事例が見つかる可能性があります。
+[GitHub](/glossary/github/) Issuesでは、Minikube固有の[RBAC](/glossary/rbac/)問題が報告されています。[エラーメッセージ](/glossary/エラーメッセージ/)の詳細な文言で検索すると、同じ問題を解決した事例が見つかる可能性があります。
 
 ---
 

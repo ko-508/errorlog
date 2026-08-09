@@ -38,7 +38,7 @@ terraform init -upgrade
 git diff -- .terraform.lock.hcl
 ```
 
-ただし、CIで発生するロックファイル関連の失敗が、すべて `init -upgrade` で直るわけではありません。開発環境とCIのOSやCPUが違い、対象環境の検査値がロックファイルにない場合は、次のような別のエラーになります。
+ただし、CIで発生するロックファイル関連の失敗が、すべて `init -upgrade` で直るわけではありません。[開発環境](/glossary/開発環境/)とCIの[OS](/glossary/os/)やCPUが違い、対象環境の検査値がロックファイルにない場合は、次のような別の[エラー](/glossary/エラー/)になります。
 
 ```text
 Error: Failed to install provider
@@ -56,7 +56,7 @@ terraform providers lock \
   -platform=linux_amd64
 ```
 
-[Terraform公式のロックファイル資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock)によれば、`.terraform.lock.hcl` は構成全体で共有し、版管理へ含めるファイルです。対して `.terraform` ディレクトリは、作業環境ごとの初期化結果やプロバイダー、子モジュールなどを置く場所であり、版管理へ含めません。
+[Terraform公式のロックファイル資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock)によれば、`.terraform.lock.hcl` は構成全体で共有し、版管理へ含める[ファイル](/glossary/ファイル/)です。対して `.terraform` [ディレクトリ](/glossary/ディレクトリ/)は、作業環境ごとの初期化結果やプロバイダー、子モジュールなどを置く場所であり、版管理へ含めません。
 
 解決の軸は次の2つです。
 
@@ -117,7 +117,7 @@ version constraints "~> 6.0"
 
 ロックファイルが選んでいる版を、現在の版の条件が許可していません。`required_providers` または子モジュールの条件が変わったのに、古いロックファイルが残っています。
 
-なお、ロックファイルが現在追跡するのはプロバイダーだけです。遠隔の場所から取得する子モジュールの選択版は記録しません。ただし、子モジュールが要求するプロバイダー条件は全体の選択に影響するため、モジュール更新をきっかけにこのエラーが発生することがあります。
+なお、ロックファイルが現在追跡するのはプロバイダーだけです。遠隔の場所から取得する子モジュールの選択版は記録しません。ただし、子モジュールが要求するプロバイダー条件は全体の選択に影響するため、モジュール更新をきっかけにこの[エラー](/glossary/エラー/)が発生することがあります。
 
 ## まず最初に：エラー本文を4種類に分ける
 
@@ -146,9 +146,9 @@ the current package ... doesn't match any of the checksums
 previously recorded in the dependency lock file
 ```
 
-これは見出しが `Failed to install provider` になることが多く、`Inconsistent dependency lock file` とは別の検査です。版は一致していても、現在のOSとCPU向けの配布物を確認できません。対象環境を列挙した `terraform providers lock -platform` を使います。
+これは見出しが `Failed to install provider` になることが多く、`Inconsistent dependency lock file` とは別の検査です。版は一致していても、現在の[OS](/glossary/os/)とCPU向けの配布物を確認できません。対象環境を列挙した `terraform providers lock -platform` を使います。
 
-最後に、保存したplanファイルを適用しているかを確認します。
+最後に、保存したplan[ファイル](/glossary/ファイル/)を適用しているかを確認します。
 
 ```text
 The given plan file was created with a different set of external
@@ -237,7 +237,7 @@ git diff -- .terraform.lock.hcl
 terraform providers
 ```
 
-[`terraform providers` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/providers)では、このコマンドは現在の作業ディレクトリにある構成を調べ、各プロバイダー要求がどこで検出されたかを示すものと説明されています。
+[`terraform providers` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/providers)では、この[コマンド](/glossary/コマンド/)は現在の作業[ディレクトリ](/glossary/ディレクトリ/)にある構成を調べ、各プロバイダー要求がどこで検出されたかを示すものと説明されています。
 
 ### 原因3：ロックファイルの更新を登録していない
 
@@ -249,7 +249,7 @@ git diff -- .terraform.lock.hcl
 git check-ignore -v .terraform.lock.hcl
 ```
 
-`.gitignore` がロックファイルを除外している場合は修正します。[Terraformの公式スタイルガイド](https://developer.hashicorp.com/terraform/language/style#gitignore)は、`.terraform.lock.hcl` を常に登録し、`.terraform` ディレクトリ、状態ファイル、保存したplanファイルは登録しないよう示しています。
+`.gitignore` がロックファイルを除外している場合は修正します。[Terraformの公式スタイルガイド](https://developer.hashicorp.com/terraform/language/style#gitignore)は、`.terraform.lock.hcl` を常に登録し、`.terraform` [ディレクトリ](/glossary/ディレクトリ/)、状態[ファイル](/glossary/ファイル/)、保存したplan[ファイル](/glossary/ファイル/)は登録しないよう示しています。
 
 ```gitignore
 # 登録しない
@@ -288,7 +288,7 @@ darwin_arm64    macOS、Apple Silicon
 windows_amd64   Windows、AMD64またはx86_64
 ```
 
-実際に使う環境をすべて指定します。
+実際に使う[環境](/glossary/環境/)をすべて指定します。
 
 ```bash
 terraform providers lock \
@@ -299,23 +299,23 @@ terraform providers lock \
   -platform=windows_amd64
 ```
 
-WindowsのPowerShellやコマンドプロンプトでは、1行で実行できます。
+WindowsのPowerShellや[コマンドプロンプト](/glossary/コマンドプロンプト/)では、1行で実行できます。
 
 ```powershell
 terraform providers lock -platform=windows_amd64 -platform=darwin_arm64 -platform=linux_amd64
 ```
 
-[`terraform providers lock` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/providers/lock#specifying-target-platforms)によれば、この操作は指定した環境でプロバイダーが利用できることを確認し、必要な検査値を `.terraform.lock.hcl` へ保存します。
+[`terraform providers lock` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/providers/lock#specifying-target-platforms)によれば、この操作は指定した[環境](/glossary/環境/)でプロバイダーが利用できることを確認し、必要な検査値を `.terraform.lock.hcl` へ保存します。
 
-ここで重要なのは、**`providers lock` は既存の選択版を新しい版へ上げるコマンドではない**ことです。既存の項目があれば、その項目の `version` を使って対象環境の検査値を追加します。版を選び直すのは `terraform init -upgrade` です。
+ここで重要なのは、**`providers lock` は既存の選択版を新しい版へ上げる[コマンド](/glossary/コマンド/)ではない**ことです。既存の項目があれば、その項目の `version` を使って対象環境の検査値を追加します。版を選び直すのは `terraform init -upgrade` です。
 
 ### 原因5：共有キャッシュやミラーから作った検査値が1環境分しかない
 
 通常、公開元の登録場所から署名付きの検査値を取得できれば、Terraformは複数環境の公式配布物を検査できる情報をロックファイルへ記録します。
 
-一方、ファイルシステム上のミラー、ネットワーク上のミラー、または共有プラグインキャッシュだけから初回導入すると、現在の環境で使った配布物の検査値しか記録できない場合があります。[公式資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock#checksum-verification)も、代替の導入方法では他環境の検査値を確認できず、別環境で利用できないロックファイルになる可能性を説明しています。
+一方、ファイルシステム上のミラー、[ネットワーク](/glossary/ネットワーク/)上のミラー、または共有プラグインキャッシュだけから初回導入すると、現在の[環境](/glossary/環境/)で使った配布物の検査値しか記録できない場合があります。[公式資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock#checksum-verification)も、代替の導入方法では他環境の検査値を確認できず、別環境で利用できないロックファイルになる可能性を説明しています。
 
-公開元の登録場所へ接続できる環境で、対象環境を列挙します。
+公開元の登録場所へ接続できる[環境](/glossary/環境/)で、対象環境を列挙します。
 
 ```bash
 terraform providers lock \
@@ -341,11 +341,11 @@ terraform providers lock \
 
 公式資料は、公開元だけが配布者の署名で保護された公式の検査値を提供できると注意しています。ミラーを指定した場合は、そのミラーが返す配布物の検査値になります。出力に表示される署名者を確認してから、ロックファイルを登録します。
 
-共有キャッシュを使う場合も、検査を無効にする設定を安易に追加しないでください。[CLI設定の公式資料](https://developer.hashicorp.com/terraform/cli/config/config-file#allowing-the-provider-plugin-cache-to-break-the-dependency-lock-file)は、`plugin_cache_may_break_dependency_lock_file` を例外的な設定とし、異なるOSやCPUでは使えない不完全な項目を作る可能性を警告しています。
+共有[キャッシュ](/glossary/キャッシュ/)を使う場合も、検査を無効にする設定を安易に追加しないでください。[CLI設定の公式資料](https://developer.hashicorp.com/terraform/cli/config/config-file#allowing-the-provider-plugin-cache-to-break-the-dependency-lock-file)は、`plugin_cache_may_break_dependency_lock_file` を例外的な設定とし、異なる[OS](/glossary/os/)やCPUでは使えない不完全な項目を作る可能性を警告しています。
 
 ### 原因6：モノレポで別ディレクトリのロックファイルを更新した
 
-`.terraform.lock.hcl` は、リポジトリ全体に1つとは限りません。Terraformは、ルートモジュールの `.tf` ファイルがある現在の作業ディレクトリにロックファイルを作成します。
+`.terraform.lock.hcl` は、[リポジトリ](/glossary/リポジトリ/)全体に1つとは限りません。Terraformは、ルートモジュールの `.tf` [ファイル](/glossary/ファイル/)がある現在の作業[ディレクトリ](/glossary/ディレクトリ/)にロックファイルを作成します。
 
 ```text
 repository/
@@ -360,7 +360,7 @@ repository/
     └── network/
 ```
 
-`envs/prod` のCIが失敗しているのに、リポジトリの直下や `envs/dev` で更新しても直りません。CIと同じルートモジュールを指定します。
+`envs/prod` のCIが失敗しているのに、[リポジトリ](/glossary/リポジトリ/)の直下や `envs/dev` で更新しても直りません。CIと同じルートモジュールを指定します。
 
 ```bash
 terraform -chdir=envs/prod init -upgrade
@@ -370,7 +370,7 @@ terraform -chdir=envs/prod providers lock \
 git diff -- envs/prod/.terraform.lock.hcl
 ```
 
-[公式のロックファイル資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock#lock-file-location)は、ロックファイルが構成全体に属し、ルートモジュールの作業ディレクトリに置かれると説明しています。CIの `working-directory`、`terraform -chdir`、更新対象のファイルを同じ場所にそろえます。
+[公式のロックファイル資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock#lock-file-location)は、ロックファイルが構成全体に属し、ルートモジュールの作業[ディレクトリ](/glossary/ディレクトリ/)に置かれると説明しています。CIの `working-directory`、`terraform -chdir`、更新対象の[ファイル](/glossary/ファイル/)を同じ場所にそろえます。
 
 ### 原因7：古い.terraformディレクトリをCIで再利用している
 
@@ -381,7 +381,7 @@ git diff -- envs/prod/.terraform.lock.hcl
 .terraform/          作業環境ごとの初期化結果。版管理しない。
 ```
 
-CIで `.terraform` 全体を、OS、CPU、Terraformの版、ロックファイルが異なる処理の間で共有すると、古いプロバイダーや子モジュールが混ざります。ダウンロードを減らす場合は、作業ディレクトリ全体を使い回すのではなく、[公式の共有プラグインキャッシュ](https://developer.hashicorp.com/terraform/cli/config/config-file#provider-plugin-cache)を使い、キャッシュのキーへ少なくともOS、CPU、Terraformの版、`.terraform.lock.hcl` の内容を含めます。
+CIで `.terraform` 全体を、[OS](/glossary/os/)、CPU、Terraformの版、ロックファイルが異なる処理の間で共有すると、古いプロバイダーや子モジュールが混ざります。[ダウンロード](/glossary/ダウンロード/)を減らす場合は、作業[ディレクトリ](/glossary/ディレクトリ/)全体を使い回すのではなく、[公式の共有プラグインキャッシュ](https://developer.hashicorp.com/terraform/cli/config/config-file#provider-plugin-cache)を使い、[キャッシュ](/glossary/キャッシュ/)のキーへ少なくとも[OS](/glossary/os/)、CPU、Terraformの版、`.terraform.lock.hcl` の内容を含めます。
 
 初期化時には、どの版をどこから使ったかが表示されます。
 
@@ -390,7 +390,7 @@ terraform version
 terraform init -input=false -lockfile=readonly
 ```
 
-CI上の一時的な作業場所なら、古い `.terraform` を引き継がない新しい作業場所で再実行し、再現するかを確認します。ローカル環境では `.terraform` に現在の作業領域名なども記録されるため、削除後に使う作業領域と接続先を改めて確認します。
+CI上の一時的な作業場所なら、古い `.terraform` を引き継がない新しい作業場所で再実行し、再現するかを確認します。ローカル[環境](/glossary/環境/)では `.terraform` に現在の作業領域名なども記録されるため、削除後に使う作業領域と接続先を改めて確認します。
 
 ### 原因8：plan作成後に設定またはロックファイルが変わった
 
@@ -415,17 +415,17 @@ terraform plan -input=false -out=tfplan
 terraform apply tfplan
 ```
 
-[Terraformを自動実行する公式資料](https://developer.hashicorp.com/terraform/tutorials/automation/automate-terraform)では、planとapplyで同じOSとCPUを使い、同一のプロバイダーを利用できるようにする必要があると説明されています。planだけを別の変更内容へ持ち越さず、同じ登録内容から作った成果物として扱います。
+[Terraformを自動実行する公式資料](https://developer.hashicorp.com/terraform/tutorials/automation/automate-terraform)では、planとapplyで同じ[OS](/glossary/os/)とCPUを使い、同一のプロバイダーを利用できるようにする必要があると説明されています。planだけを別の変更内容へ持ち越さず、同じ登録内容から作った成果物として扱います。
 
 ## 補足：似ているが別のもの
 
-`Error acquiring the state lock` は、状態ファイルへの同時書き込みを防ぐためのロックです。`.terraform.lock.hcl` が扱うプロバイダー依存関係とは別です。`terraform force-unlock` や `-lock=false` では、`Inconsistent dependency lock file` は直りません。
+`Error acquiring the state lock` は、状態[ファイル](/glossary/ファイル/)への同時書き込みを防ぐためのロックです。`.terraform.lock.hcl` が扱うプロバイダー依存関係とは別です。`terraform force-unlock` や `-lock=false` では、`Inconsistent dependency lock file` は直りません。
 
 `Failed to query available provider packages` と `no available releases match the given constraints` は、ルートと子モジュールから集めた版の条件に共通部分がない状態です。ロックファイルを更新しても、条件を満たす版が存在しなければ解決しません。`terraform providers` で要求元を確認し、矛盾する条件を直します。
 
-`does not have a package available for your current platform` は、対象のプロバイダー版が現在のOSまたはCPU向けに配布されていない状態です。`providers lock -platform` は、存在しない配布物を作りません。対応版へ更新するか、対応している実行環境を使います。
+`does not have a package available for your current platform` は、対象のプロバイダー版が現在の[OS](/glossary/os/)またはCPU向けに配布されていない状態です。`providers lock -platform` は、存在しない配布物を作りません。対応版へ更新するか、対応している実行環境を使います。
 
-`doesn't match any of the checksums previously recorded` は、選択済みの版に対する配布物の検査エラーです。実行環境の検査値不足なら `providers lock -platform` で直せますが、配布物が改変されている可能性もあります。検査を無効にせず、取得元、ミラー、キャッシュ、署名者を確認します。
+`doesn't match any of the checksums previously recorded` は、選択済みの版に対する配布物の検査[エラー](/glossary/エラー/)です。実行環境の検査値不足なら `providers lock -platform` で直せますが、配布物が改変されている可能性もあります。検査を無効にせず、取得元、ミラー、[キャッシュ](/glossary/キャッシュ/)、署名者を確認します。
 
 `Module not installed` は、子モジュールが `.terraform/modules` に取得されていない状態です。`terraform init` で取得します。現在の依存ロックファイルが固定するのはプロバイダーであり、遠隔の子モジュールの選択版ではありません。
 
@@ -446,9 +446,9 @@ terraform providers
 git diff -- .terraform.lock.hcl
 ```
 
-意図した版、版の条件、検査値、コマンド出力の署名者を確認し、設定とロックファイルを同じ変更へ含めます。
+意図した版、版の条件、検査値、[コマンド](/glossary/コマンド/)出力の署名者を確認し、設定とロックファイルを同じ変更へ含めます。
 
-CIでは、登録済みの選択を変更しない形で初期化します。
+CIでは、登録済みの選択を変更しない形で[初期化](/glossary/初期化/)します。
 
 ```bash
 terraform init -input=false -lockfile=readonly
@@ -471,12 +471,12 @@ CIで `terraform init -upgrade` を毎回実行すると、設定条件内で公
 
 ## 切り分けの順序
 
-1. エラー見出しと本文を保存し、`no version is selected`、版の条件不一致、検査値不一致、plan不一致のどれかを確定する。
+1. [エラー](/glossary/エラー/)見出しと本文を保存し、`no version is selected`、版の条件不一致、検査値不一致、plan不一致のどれかを確定する。
 2. CIが実行しているルートモジュールの場所と、対象の `.terraform.lock.hcl` を確認する。
-3. `terraform version` でTerraformの版、OS、CPUを確認する。
+3. `terraform version` でTerraformの版、[OS](/glossary/os/)、CPUを確認する。
 4. `terraform providers` で、ルートと子モジュールが要求するプロバイダーと版の条件を確認する。
 5. 設定条件と選択済みの版が合わない場合は、開発側で `terraform init -upgrade` を実行する。
-6. CI環境の検査値がない場合は、全実行環境を指定して `terraform providers lock -platform` を実行する。
+6. CI[環境](/glossary/環境/)の検査値がない場合は、全実行環境を指定して `terraform providers lock -platform` を実行する。
 7. `.terraform.lock.hcl` の差分と署名者を確認し、設定変更と一緒に版管理へ入れる。
 8. CIでは `terraform init -lockfile=readonly` を使い、未登録の変更を検出する。
 9. 保存したplanが古い場合は、更新後の同じ設定と依存関係から作り直す。
@@ -531,15 +531,15 @@ Get-Content .terraform.lock.hcl
 
 Terraformの依存ロックファイルは、[公式資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock)によれば0.14から導入された仕組みです。設定に書いた版の範囲とは別に、実際に選んだプロバイダー版と配布物の検査値を保存し、別の人やCIでも同じ選択を再現する役割を持ちます。
 
-その役割が、異なる実行環境と共有キャッシュの組み合わせで表面化した記録が、2021年11月の[Lock Files, Plugin Cache and using several architectures fails terraform init](https://github.com/hashicorp/terraform/issues/29958)です。
+その役割が、異なる実行環境と共有[キャッシュ](/glossary/キャッシュ/)の組み合わせで表面化した記録が、2021年11月の[Lock Files, Plugin Cache and using several architectures fails terraform init](https://github.com/hashicorp/terraform/issues/29958)です。
 
-報告環境では、Linux AMD64で共有プラグインキャッシュを使って作ったロックファイルに、その環境で計算した `h1:` の検査値だけが入りました。別のmacOS環境で同じプロバイダー版を使おうとすると、配布物が既存の検査値と一致せず、初期化に失敗しました。
+報告環境では、Linux AMD64で共有プラグインキャッシュを使って作ったロックファイルに、その[環境](/glossary/環境/)で計算した `h1:` の検査値だけが入りました。別のmacOS[環境](/glossary/環境/)で同じプロバイダー版を使おうとすると、配布物が既存の検査値と一致せず、[初期化](/glossary/初期化/)に失敗しました。
 
-議論で示された対処は、チームが使う環境を最初からすべて `terraform providers lock -platform=...` へ渡すことでした。2022年7月に課題が閉じられた際、Terraform 1.2.6へ入る変更として、`providers lock` が既存の検査値に阻まれず対象環境の検査値を追加できるようになったこと、`terraform init` が不完全なロックファイルに警告を出すこと、検査値不一致時に資料への案内を出すことが説明されています。
+議論で示された対処は、チームが使う[環境](/glossary/環境/)を最初からすべて `terraform providers lock -platform=...` へ渡すことでした。2022年7月に課題が閉じられた際、Terraform 1.2.6へ入る変更として、`providers lock` が既存の検査値に阻まれず対象環境の検査値を追加できるようになったこと、`terraform init` が不完全なロックファイルに警告を出すこと、検査値不一致時に資料への案内を出すことが説明されています。
 
 同じ議論の末尾では、`terraform providers lock` は既存の項目があればその `version` を使い、版自体は更新しないことも確認されています。版を更新するには、引き続き `terraform init -upgrade` が必要です。
 
-ここに2つのコマンドの境界があります。
+ここに2つの[コマンド](/glossary/コマンド/)の境界があります。
 
 ```text
 terraform init -upgrade
@@ -551,7 +551,7 @@ terraform providers lock -platform=...
 
 CIでロックファイルが刺さるのは、ロック機能が無関係な処理を妨げているからではありません。設定、選択済みの版、取得した配布物、実行環境のどれかが、開発時とCIで同じではないことを止めて知らせています。
 
-`.terraform.lock.hcl` を消すと、その不一致を見えなくして、新しい選択を作り直せます。しかし、何が変わったかを確認する機会も同時に消えます。設定変更なら `init -upgrade`、環境差なら `providers lock -platform`。原因を分け、差分を版管理へ残すことが、このエラーの解決です。
+`.terraform.lock.hcl` を消すと、その不一致を見えなくして、新しい選択を作り直せます。しかし、何が変わったかを確認する機会も同時に消えます。設定変更なら `init -upgrade`、環境差なら `providers lock -platform`。原因を分け、差分を版管理へ残すことが、この[エラー](/glossary/エラー/)の解決です。
 
 ---
 

@@ -206,7 +206,7 @@ docker run --rm alpine sh -c "nslookup registry-1.docker.io; wget -S -O /dev/nul
 
 ## Editor's Note
 
-締め切りの持ち主を取り違えると何が起きるかを示す実例として、開発環境を提供する ddev という道具に残る記録があります（[Timeout upgrading docker-compose after upgrading ddev to 1.24.5 on slower networks](https://github.com/ddev/ddev/issues/7298)）。2025年5月、この道具を 1.24.5 に上げたところ、起動のたびに約70メガバイトの[ファイル](/glossary/ファイル/)の取得が途中で止まり、`context deadline exceeded (Client.Timeout or context cancellation while reading body)` で失敗するようになった、という報告です。
+締め切りの持ち主を取り違えると何が起きるかを示す実例として、[開発環境](/glossary/開発環境/)を提供する ddev という道具に残る記録があります（[Timeout upgrading docker-compose after upgrading ddev to 1.24.5 on slower networks](https://github.com/ddev/ddev/issues/7298)）。2025年5月、この道具を 1.24.5 に上げたところ、起動のたびに約70メガバイトの[ファイル](/glossary/ファイル/)の取得が途中で止まり、`context deadline exceeded (Client.Timeout or context cancellation while reading body)` で失敗するようになった、という報告です。
 
 読みどころは、参加者が書き残した数字です。ある人は1.62パーセント、18秒で停止。別の人は33.85パーセント、19秒で停止。位置は違うのに、秒数がほぼ揃っています。別の参加者が「20秒の固定値は不自然だ」と書いているとおり、原因は[回線](/glossary/回線/)ではなく、道具の側に新しく入った固定の締め切りでした。実際、この問題は次の版で修正されています。
 

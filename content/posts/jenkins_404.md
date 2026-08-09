@@ -131,7 +131,7 @@ build job: 'project-folder/deploy-test'
 
 **[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、GitHub、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
+ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
 
 **Jenkins UI上での確認方法：**
 

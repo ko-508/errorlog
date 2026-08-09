@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-[HTTP](/glossary/http/) 503（Service Unavailable）は、[リクエスト](/glossary/リクエスト/)されたサービスが一時的に利用できない状態を示す[エラー](/glossary/エラー/)です。Minikube[環境](/glossary/環境/)では、クラスター内のPodが正常に動作していない、リソース不足、あるいはクラスター自体の起動失敗が原因で503[エラー](/glossary/エラー/)が発生します。特に開発環境でのローカル[Kubernetes](/glossary/kubernetes/)[テスト](/glossary/テスト/)では、設定ミスやリソース制限による503が頻出します。
+[HTTP](/glossary/http/) 503（Service Unavailable）は、[リクエスト](/glossary/リクエスト/)されたサービスが一時的に利用できない状態を示す[エラー](/glossary/エラー/)です。Minikube[環境](/glossary/環境/)では、クラスター内のPodが正常に動作していない、リソース不足、あるいはクラスター自体の起動失敗が原因で503[エラー](/glossary/エラー/)が発生します。特に[開発環境](/glossary/開発環境/)でのローカル[Kubernetes](/glossary/kubernetes/)[テスト](/glossary/テスト/)では、設定ミスやリソース制限による503が頻出します。
 
 ## 実際のエラーメッセージ例
 

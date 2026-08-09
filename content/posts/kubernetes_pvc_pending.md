@@ -15,7 +15,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-PVC（PersistentVolumeClaim、[ストレージ](/glossary/ストレージ/)の割り当てを求める[オブジェクト](/glossary/オブジェクト/)）が Pending のままになったとき、まず容量や[設定ファイル](/glossary/設定ファイル/)を読み返す人が多くいます。順序としては後回しでかまいません。先に読むべきなのは `kubectl describe pvc` の Events に出る Reason の1語です。
+PVC（PersistentVolumeClaim、[ストレージ](/glossary/ストレージ/)の割り当てを求める[オブジェクト](/glossary/オブジェクト/)）が Pending のままになったとき、まず[容量](/glossary/容量/)や[設定ファイル](/glossary/設定ファイル/)を読み返す人が多くいます。順序としては後回しでかまいません。先に読むべきなのは `kubectl describe pvc` の Events に出る Reason の1語です。
 
 理由は実装にあります。[Kubernetes](/glossary/kubernetes/) の制御側は、未結合の要求を1か所で3つの経路に振り分けています。結合を遅らせる設定で誰も使っていない場合、[クラス](/glossary/クラス/)名が指定されていて動的な作成に進む場合、そのどちらでもない場合です。この3分岐がそのまま Reason になるため、Reason を見れば自分がどの経路にいるかが確定します。
 
@@ -65,7 +65,7 @@ kubectl describe pvc <要求名> -n <区画名> | sed -n '/^Events:/,$p'
 
 出てきた語で、そこから先の調べ方が決まります。`WaitForFirstConsumer` なら原因1、`WaitForPodScheduled` なら原因2、`ExternalProvisioning` なら原因3、`ProvisioningFailed` なら原因4、`FailedBinding` なら原因5です。
 
-Events が空のこともあります。イベントは既定で一定時間後に消えるため、時間の経った要求には何も残りません。その場合は、指定している[クラス](/glossary/クラス/)の結合の設定を先に確認します。
+Events が空のこともあります。[イベント](/glossary/イベント/)は既定で一定時間後に消えるため、時間の経った要求には何も残りません。その場合は、指定している[クラス](/glossary/クラス/)の結合の設定を先に確認します。
 
 ```bash
 kubectl get sc <クラス名> -o jsonpath='{.volumeBindingMode}{"\n"}{.provisioner}{"\n"}'
@@ -153,16 +153,16 @@ kubectl get csidrivers
 
 `ProvisioningFailed` は、担当が動いたうえで失敗した場合です。Warning として記録され、文言に理由がそのまま入ります。指定した[クラス](/glossary/クラス/)が存在しない場合もここに入り、`storageclass.storage.k8s.io "xxx" not found` の形で出ます。
 
-内容は担当ごとに違います。多いのは、権限が足りない、指定した[容量](/glossary/容量/)が下限や上限から外れている、指定した置き場所に空きが無い、の3系統です。
+内容は担当ごとに違います。多いのは、[権限](/glossary/権限/)が足りない、指定した[容量](/glossary/容量/)が下限や上限から外れている、指定した置き場所に空きが無い、の3系統です。
 
-**Before（存在しないクラスを指定している）：**
+**Before（存在しない[クラス](/glossary/クラス/)を指定している）：**
 
 ```yaml
 spec:
   storageClassName: gp3-encrypted
 ```
 
-**After（実在するクラス名に合わせる）：**
+**After（実在する[クラス](/glossary/クラス/)名に合わせる）：**
 
 ```bash
 kubectl get sc
@@ -258,4 +258,4 @@ Reason の1語が決め手になるという読み方は、後から補われた
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。ソフトウェアの仕様は予告なく変更されることがあります。最新の情報は各ツールの公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

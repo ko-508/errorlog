@@ -244,9 +244,9 @@ sudo journalctl -u datadog-agent -f
 
 ## Editor's Note
 
-Datadog の 503 [エラー](/glossary/エラー/)について、GitHub の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)設定の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) キーの有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
+Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)設定の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) キーの有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
 
-> **調査について**　この記事の解決策は、GitHub Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 

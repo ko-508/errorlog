@@ -247,7 +247,7 @@ docker exec <nginx-container-name> getent hosts app
 
 ### コミュニティリソース
 
-GitHub の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の設定（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも確認してください。
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の設定（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも確認してください。
 
 ---
 

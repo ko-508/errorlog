@@ -298,7 +298,7 @@ firebase.database().ref('.info/connected').on('value', (snapshot) => {
 
 ### コミュニティリソース
 
-Firebase GitHub Issues および Stack Overflow の「firebase」「firestore」[タグ](/glossary/タグ/)で類似の 408 [エラー](/glossary/エラー/)を検索し、解決事例を参照することをお勧めします。
+Firebase [GitHub](/glossary/github/) Issues および Stack Overflow の「firebase」「firestore」[タグ](/glossary/タグ/)で類似の 408 [エラー](/glossary/エラー/)を検索し、解決事例を参照することをお勧めします。
 
 ---
 

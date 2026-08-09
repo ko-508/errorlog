@@ -14,7 +14,7 @@ related_services: ["SDK", "REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須フィールドの欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
+Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須[フィールド](/glossary/フィールド/)の欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
 
 ## 実際のエラーメッセージ例
 
@@ -116,7 +116,7 @@ const db = getDatabase(app);
 
 ### 原因3：必須フィールドが欠落している
 
-Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須フィールドを[送信](/glossary/送信/)していない場合に発生します。特に Firestore のバリデーションルールで指定されたフィールドが不足しているケースです。
+Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須[フィールド](/glossary/フィールド/)を[送信](/glossary/送信/)していない場合に発生します。特に Firestore のバリデーションルールで指定された[フィールド](/glossary/フィールド/)が不足しているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -204,7 +204,7 @@ if (user) {
 
 ### Firestore の場合
 
-Firestore [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、[リクエストボディ](/glossary/リクエストボディ/)に `fields` [オブジェクト](/glossary/オブジェクト/)を正しくネストする必要があります。フィールド値の型（`stringValue`、`integerValue`、`booleanValue` など）を明示的に指定しないと 400 [エラー](/glossary/エラー/)になります。
+Firestore [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、[リクエストボディ](/glossary/リクエストボディ/)に `fields` [オブジェクト](/glossary/オブジェクト/)を正しくネストする必要があります。[フィールド](/glossary/フィールド/)値の型（`stringValue`、`integerValue`、`booleanValue` など）を明示的に指定しないと 400 [エラー](/glossary/エラー/)になります。
 
 ```json
 // 正しいフォーマット
@@ -291,7 +291,7 @@ firebase.firestore().enableLogging(true);  // Firestore デバッグログを有
 
 - Firebase 公式ドキュメント：[Firestore エラーハンドリング](https://firebase.google.com/docs/firestore/troubleshoot)
 - Firebase Realtime Database [REST](/glossary/rest/) [API](/glossary/api/) ドキュメント：[Authentication](https://firebase.google.com/docs/database/rest/auth)
-- GitHub Issues：Firebase JavaScript [SDK](/glossary/sdk/) の既知の問題は [firebase-js-sdk リポジトリ](https://github.com/firebase/firebase-js-sdk/issues) で確認可能です。
+- [GitHub](/glossary/github/) Issues：Firebase JavaScript [SDK](/glossary/sdk/) の既知の問題は [firebase-js-sdk リポジトリ](https://github.com/firebase/firebase-js-sdk/issues) で確認可能です。
 
 ---
 

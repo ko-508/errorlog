@@ -257,7 +257,7 @@ NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出�
 
 [Stack Overflow での報告](https://stackoverflow.com/questions/44778448/s3-giving-me-nosuchkey-error-even-when-the-key-exists)では、「キーは確実に存在しているのに NoSuchKey が出る」というケースが頻繁に報告されており、その多くはキー末尾の改行文字（%0A）や先頭スラッシュなどの特殊文字の混入が原因でした。LocalStack の [GitHub Issue #8174](https://github.com/localstack/localstack/issues/8174) でも、特殊文字（a@a など）を含む[フォルダ](/glossary/フォルダ/)名で PutObject が NoSuchKey を返す問題が確認されており、特殊文字のエスケープ漏れは見落としやすい点として注意が必要です。現場では、HeadObject での事前確認と S3 サーバーアクセスログ（[AWS](/glossary/aws/) 公式が直接推奨）の確認から着手するのが有効です。CloudTrail も参照可能ですが、S3 アクセスの直接的な調査には S3 サーバーアクセスログが適しています。
 
-> **調査について**　この記事の解決策は、Stack Overflow・GitHub Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、Stack Overflow・[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 

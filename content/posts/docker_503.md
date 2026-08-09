@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の[HTTP](/glossary/http/) 503[エラー](/glossary/エラー/)は、「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)[環境](/glossary/環境/)では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。[コンテナイメージ](/glossary/コンテナイメージ/)の取得やプッシュ時に最も多く遭遇する[エラー](/glossary/エラー/)であり、その原因は多岐にわたります。
+[Docker](/glossary/docker/)の[HTTP](/glossary/http/) 503[エラー](/glossary/エラー/)は、「Service Unavailable」を意味し、[リクエスト](/glossary/リクエスト/)対象の[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態にあることを示します。[Docker](/glossary/docker/)[環境](/glossary/環境/)では、[Docker](/glossary/docker/) Hubなどのレジストリサーバーやローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が応答しない場合に頻発します。[コンテナイメージ](/glossary/コンテナイメージ/)の取得や[プッシュ](/glossary/プッシュ/)時に最も多く遭遇する[エラー](/glossary/エラー/)であり、その原因は多岐にわたります。
 
 ## 実際のエラーメッセージ例
 

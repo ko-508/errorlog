@@ -203,7 +203,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
 - [Incoming Webhooks](https://api.slack.com/messaging/webhooks) で[Webhook](/glossary/webhook/)固有の要件を確認
 
 **コミュニティリソース**  
-Slack Developer Community (community.slack.com) で同様の事例を検索するか、GitHub Issues内でSlack [SDK](/glossary/sdk/)（python-slack-sdk等）のトラブルシューティングを参照してください。
+Slack Developer Community (community.slack.com) で同様の事例を検索するか、[GitHub](/glossary/github/) Issues内でSlack [SDK](/glossary/sdk/)（python-slack-sdk等）のトラブルシューティングを参照してください。
 
 ---
 

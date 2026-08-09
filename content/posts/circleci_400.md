@@ -43,7 +43,7 @@ The following errors were found:
 
 ### 原因 1：config.yml の構文エラーまたは必須フィールドの欠落
 
-CircleCI の[設定ファイル](/glossary/設定ファイル/)が [YAML](/glossary/yaml/) として不正な構文になっているか、`version` や `jobs` などの必須フィールドが定義されていない場合に 400 [エラー](/glossary/エラー/)が発生します。[YAML](/glossary/yaml/) のインデント不正や、必須キーの完全な欠落が典型的です。
+CircleCI の[設定ファイル](/glossary/設定ファイル/)が [YAML](/glossary/yaml/) として不正な構文になっているか、`version` や `jobs` などの必須[フィールド](/glossary/フィールド/)が定義されていない場合に 400 [エラー](/glossary/エラー/)が発生します。[YAML](/glossary/yaml/) のインデント不正や、必須キーの完全な欠落が典型的です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -177,7 +177,7 @@ boolean は [JSON](/glossary/json/) のネイティブ値 `true`/`false`（ク�
 
 ## ツール固有の注意点
 
-CircleCI では、[エラーレスポンス](/glossary/エラーレスポンス/)の `message` フィールドと `errors` 配列に問題の詳細が記載されます。[API](/glossary/api/) 呼び出し時は、必ず[レスポンス](/glossary/レスポンス/)をフルで確認してください。
+CircleCI では、[エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)と `errors` 配列に問題の詳細が記載されます。[API](/glossary/api/) 呼び出し時は、必ず[レスポンス](/glossary/レスポンス/)をフルで確認してください。
 
 ```json
 {

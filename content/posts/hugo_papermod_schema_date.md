@@ -80,7 +80,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 **修正のポイント：**
 
-- `.PublishDate` の代わりに `.Date` を使う（フロントマターの `date:` フィールドを確実に参照する）
+- `.PublishDate` の代わりに `.Date` を使う（フロントマターの `date:` [フィールド](/glossary/フィールド/)を確実に参照する）
 - `.Lastmod.IsZero` で未設定チェックをして、ゼロ値の場合は `.Date` にフォールバックする
 - `jsonify` フィルタで文字列として正しくクォートする
 - `.UTC.Format "2006-01-02T15:04:05Z"` で ISO 8601 フルフォーマットに変換する（Go の時刻フォーマットは参照日時 `2006-01-02T15:04:05Z07:00` を使う点に注意）
@@ -118,7 +118,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
   lastmod = [":git", "lastmod", ":fileModTime", ":default"]
 ```
 
-ただし GitHub Actions [環境](/glossary/環境/)では `actions/checkout` がデフォルトでシャロークローンを行うため、git の履歴に基づく日時が正しく取得できないことがある。その場合は `fetch-depth: 0` を指定するか、フロントマターに明示的に `lastmod:` を書く。
+ただし [GitHub](/glossary/github/) Actions [環境](/glossary/環境/)では `actions/checkout` がデフォルトでシャロークローンを行うため、git の履歴に基づく日時が正しく取得できないことがある。その場合は `fetch-depth: 0` を指定するか、フロントマターに明示的に `lastmod:` を書く。
 
 ### PaperMod のバージョンと `schema_json.html` の仕様変更
 

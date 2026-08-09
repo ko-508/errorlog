@@ -239,7 +239,7 @@ if (error) console.error('Insert error:', error);
 
 ## Supabase ツール固有の注意点
 
-**[エラーレスポンス](/glossary/エラーレスポンス/)の details フィールド確認：** Supabase が返す 409 [エラーレスポンス](/glossary/エラーレスポンス/)の `details` フィールドには、競合している[カラム](/glossary/カラム/)名や値が含まれています。この情報から原因を特定できます。例えば `"Key (email)=(test@example.com) already exists."` という記載があれば、email [カラム](/glossary/カラム/)の重複が原因です。
+**[エラーレスポンス](/glossary/エラーレスポンス/)の details [フィールド](/glossary/フィールド/)確認：** Supabase が返す 409 [エラーレスポンス](/glossary/エラーレスポンス/)の `details` [フィールド](/glossary/フィールド/)には、競合している[カラム](/glossary/カラム/)名や値が含まれています。この情報から原因を特定できます。例えば `"Key (email)=(test@example.com) already exists."` という記載があれば、email [カラム](/glossary/カラム/)の重複が原因です。
 
 **RLS（Row Level Security）との関係：** RLS [ポリシー](/glossary/ポリシー/)が有効な場合、[ポリシー](/glossary/ポリシー/)違反で 403 [エラー](/glossary/エラー/)が返されることもあります。409 [エラー](/glossary/エラー/)が返される場合は、RLS ではなく実データの制約違反と判断できます。
 

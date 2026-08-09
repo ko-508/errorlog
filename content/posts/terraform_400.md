@@ -180,9 +180,9 @@ terraform apply
 
 Terraform の 400 [エラー](/glossary/エラー/)は、HCL の構文チェック（`terraform validate`）では検出されません。`validate` は HCL の文法チェックのみで、プロバイダー側の要件チェックは行わないためです。そのため必ず `terraform plan` で実際の[リクエスト](/glossary/リクエスト/)生成をシミュレートして、プロバイダーの要件に適合しているか確認する必要があります。
 
-[AWS](/glossary/aws/)、Azure、Google Cloud など、各クラウドプロバイダーの Terraform プロバイダーは定期的に更新されます。プロバイダーの[バージョン](/glossary/バージョン/)を固定せずに `version = ">= 5.0"` のように範囲指定している場合、[CI/CD](/glossary/ci-cd/) パイプラインで異なる[バージョン](/glossary/バージョン/)が使用される可能性があります。本番環境では `version = "= 5.12.0"` のように完全な[バージョン](/glossary/バージョン/)指定を検討してください。
+[AWS](/glossary/aws/)、Azure、Google Cloud など、各クラウドプロバイダーの Terraform プロバイダーは定期的に更新されます。プロバイダーの[バージョン](/glossary/バージョン/)を固定せずに `version = ">= 5.0"` のように範囲指定している場合、[CI/CD](/glossary/ci-cd/) パイプラインで異なる[バージョン](/glossary/バージョン/)が使用される可能性があります。[本番環境](/glossary/本番環境/)では `version = "= 5.12.0"` のように完全な[バージョン](/glossary/バージョン/)指定を検討してください。
 
-また、プロバイダーの公式ドキュメントには各リソースの「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、デフォルト値を必ず確認しましょう。
+また、プロバイダーの公式ドキュメントには各リソースの「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、[デフォルト値](/glossary/デフォルト値/)を必ず確認しましょう。
 
 ## それでも解決しない場合
 

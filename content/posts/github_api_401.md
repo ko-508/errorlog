@@ -18,7 +18,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 401 Unauthorized は、[認証](/glossary/認証/)そのものの失敗です。[権限](/glossary/権限/)の不足ではありません（権限不足は GitHub では 404 または 403 として返ります）。401 の応答の message は2種類しかなく、これが調査の分岐点になります。Requires authentication なら、認証情報がそもそも GitHub に届いていません（原因1）。Bad credentials なら、認証情報は届いたものの、その値が正しくありません（原因2・3）。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 401 Unauthorized は、[認証](/glossary/認証/)そのものの失敗です。[権限](/glossary/権限/)の不足ではありません（権限不足は [GitHub](/glossary/github/) では 404 または 403 として返ります）。401 の応答の message は2種類しかなく、これが調査の分岐点になります。Requires authentication なら、認証情報がそもそも [GitHub](/glossary/github/) に届いていません（原因1）。Bad credentials なら、認証情報は届いたものの、その値が正しくありません（原因2・3）。
 
 Bad credentials の正体は、[トークン](/glossary/トークン/)の誤記や期限切れ・失効のほか、「有効な[トークン](/glossary/トークン/)を設定し直したのに、別の場所（[環境変数](/glossary/環境変数/)など）に残った古い[トークン](/glossary/トークン/)が優先され続けている」という取り違えが定番です。どの文言か、そして実際にどの[トークン](/glossary/トークン/)が送られているかを確かめることから始めます。
 
@@ -82,11 +82,11 @@ curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/us
 
 ### 原因2：トークンの値が正しくない（Bad credentials）
 
-[ヘッダー](/glossary/ヘッダー/)は届いていますが、値が有効な[トークン](/glossary/トークン/)ではありません。確認すべきは次の点です。第一に、値の誤り。コピーの取りこぼしや前後の余分な文字が典型です。第二に、空の値。[環境変数](/glossary/環境変数/)が未定義のまま "Authorization: Bearer $TOKEN" のように[ヘッダー](/glossary/ヘッダー/)を組み立てると、値が空の[ヘッダー](/glossary/ヘッダー/)が送られ、実測でもこの場合の応答は Bad credentials になります。「設定したはずなのに Bad credentials」の一定数はこれです。第三に、期限切れと失効です。公式のトラブルシューティング文書も、[トークン](/glossary/トークン/)が期限切れ・取り消し済みでないことを確認項目に挙げています。fine-grained personal access token には有効期限があるため、ある日を境に突然401が始まった場合はまず期限を疑います。[トークン](/glossary/トークン/)の状態は GitHub の設定画面（Settings > Developer settings > Personal access tokens）で確認・再生成できます。
+[ヘッダー](/glossary/ヘッダー/)は届いていますが、値が有効な[トークン](/glossary/トークン/)ではありません。確認すべきは次の点です。第一に、値の誤り。コピーの取りこぼしや前後の余分な文字が典型です。第二に、空の値。[環境変数](/glossary/環境変数/)が未定義のまま "Authorization: Bearer $TOKEN" のように[ヘッダー](/glossary/ヘッダー/)を組み立てると、値が空の[ヘッダー](/glossary/ヘッダー/)が送られ、実測でもこの場合の応答は Bad credentials になります。「設定したはずなのに Bad credentials」の一定数はこれです。第三に、期限切れと失効です。公式のトラブルシューティング文書も、[トークン](/glossary/トークン/)が期限切れ・取り消し済みでないことを確認項目に挙げています。fine-grained personal access token には有効期限があるため、ある日を境に突然401が始まった場合はまず期限を疑います。[トークン](/glossary/トークン/)の状態は [GitHub](/glossary/github/) の設定画面（Settings > Developer settings > Personal access tokens）で確認・再生成できます。
 
 ### 原因3：意図したものと違うトークンが使われている（Bad credentials）
 
-[トークン](/glossary/トークン/)を正しく再設定したのに Bad credentials が続く場合、[アプリケーション](/glossary/アプリケーション/)が参照している認証情報が、いま設定したものと別である可能性が高いです。典型例は[環境変数](/glossary/環境変数/)です。GitHub [CLI](/glossary/cli/)（gh）のように、[環境変数](/glossary/環境変数/)（GITHUB_TOKEN や GH_TOKEN）が設定されていると、保存済みの[ログイン](/glossary/ログイン/)情報より[環境変数](/glossary/環境変数/)を優先する道具があります。この場合、gh auth login で何度[ログイン](/glossary/ログイン/)し直しても、[環境変数](/glossary/環境変数/)に残った古い[トークン](/glossary/トークン/)が送られ続け、401が再発します。CI [環境](/glossary/環境/)では、Secrets に登録された古い[トークン](/glossary/トークン/)や、別のサービス用に設定したままの[トークン](/glossary/トークン/)[変数](/glossary/変数/)（例として、パッケージ管理[ツール](/glossary/ツール/)用に設定して忘れられた[トークン](/glossary/トークン/)）が同じ症状を起こします。GitHub Enterprise と github.com の取り違え（接続先と違うホスト用の[トークン](/glossary/トークン/)を送っている）も同類です。
+[トークン](/glossary/トークン/)を正しく再設定したのに Bad credentials が続く場合、[アプリケーション](/glossary/アプリケーション/)が参照している認証情報が、いま設定したものと別である可能性が高いです。典型例は[環境変数](/glossary/環境変数/)です。[GitHub](/glossary/github/) [CLI](/glossary/cli/)（gh）のように、[環境変数](/glossary/環境変数/)（GITHUB_TOKEN や GH_TOKEN）が設定されていると、保存済みの[ログイン](/glossary/ログイン/)情報より[環境変数](/glossary/環境変数/)を優先する道具があります。この場合、gh auth login で何度[ログイン](/glossary/ログイン/)し直しても、[環境変数](/glossary/環境変数/)に残った古い[トークン](/glossary/トークン/)が送られ続け、401が再発します。CI [環境](/glossary/環境/)では、Secrets に登録された古い[トークン](/glossary/トークン/)や、別のサービス用に設定したままの[トークン](/glossary/トークン/)[変数](/glossary/変数/)（例として、パッケージ管理[ツール](/glossary/ツール/)用に設定して忘れられた[トークン](/glossary/トークン/)）が同じ症状を起こします。[GitHub](/glossary/github/) Enterprise と github.com の取り違え（接続先と違うホスト用の[トークン](/glossary/トークン/)を送っている）も同類です。
 
 対処は、実際に使われている[トークン](/glossary/トークン/)の特定です。
 
@@ -102,9 +102,9 @@ gh auth status
 
 ## 補足：401を繰り返すと一時的に403に変わる
 
-公式ドキュメントによると、短時間に無効な認証情報での[リクエスト](/glossary/リクエスト/)を繰り返すと、GitHub はそのユーザーの[認証](/glossary/認証/)の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効な[トークン](/glossary/トークン/)のまま自動[リトライ](/glossary/リトライ/)を回し続けると、正しい[トークン](/glossary/トークン/)に直した後もしばらく締め出される、という二次被害につながります。401 が出たら[リトライ](/glossary/リトライ/)で押し切ろうとせず、先に原因を直してください。
+公式ドキュメントによると、短時間に無効な認証情報での[リクエスト](/glossary/リクエスト/)を繰り返すと、[GitHub](/glossary/github/) はそのユーザーの[認証](/glossary/認証/)の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効な[トークン](/glossary/トークン/)のまま自動[リトライ](/glossary/リトライ/)を回し続けると、正しい[トークン](/glossary/トークン/)に直した後もしばらく締め出される、という二次被害につながります。401 が出たら[リトライ](/glossary/リトライ/)で押し切ろうとせず、先に原因を直してください。
 
-なお、[認証](/glossary/認証/)は通っているのに操作が拒否される場合の[コード](/glossary/コード/)は401ではありません。classic [トークン](/glossary/トークン/)の scope 不足や非公開リソースへの無権限アクセスは 404（[404 の記事](/posts/github_api_404/)）、GitHub App・fine-grained [トークン](/glossary/トークン/)の権限不足や[レート制限](/glossary/レート制限/)は 403（[403 の記事](/posts/github_api_403/)）です。
+なお、[認証](/glossary/認証/)は通っているのに操作が拒否される場合の[コード](/glossary/コード/)は401ではありません。classic [トークン](/glossary/トークン/)の scope 不足や非公開リソースへの無権限アクセスは 404（[404 の記事](/posts/github_api_404/)）、[GitHub](/glossary/github/) App・fine-grained [トークン](/glossary/トークン/)の権限不足や[レート制限](/glossary/レート制限/)は 403（[403 の記事](/posts/github_api_403/)）です。
 
 ## 切り分けの順序
 
@@ -132,7 +132,7 @@ gh auth status
 
 ## Editor's Note
 
-原因3の実例として、GitHub [CLI](/glossary/cli/) の公式[リポジトリ](/glossary/リポジトリ/)への報告があります（[401 Error at every turn](https://github.com/cli/cli/issues/10032)、2024年12月）。gh の[コマンド](/glossary/コマンド/)を実行するたびに [HTTP](/glossary/http/) 401: Bad credentials が出て、gh auth login で[ログイン](/glossary/ログイン/)し直しても少し経つとまた再発する、という報告です。報告者の[環境](/glossary/環境/)では[環境変数](/glossary/環境変数/) GITHUB_TOKEN に値が設定されており、gh は保存済みの[ログイン](/glossary/ログイン/)よりこの[環境変数](/glossary/環境変数/)を優先するため、[環境変数](/glossary/環境変数/)を消す（set GITHUB_TOKEN=）ことでその場をしのぎ、別の作業でまた設定されると再発する、という繰り返しが記録されています。「[ログイン](/glossary/ログイン/)は成功しているのに Bad credentials」という一見矛盾した症状の正体が、別の場所にある古い認証情報だったという典型例です。
+原因3の実例として、[GitHub](/glossary/github/) [CLI](/glossary/cli/) の公式[リポジトリ](/glossary/リポジトリ/)への報告があります（[401 Error at every turn](https://github.com/cli/cli/issues/10032)、2024年12月）。gh の[コマンド](/glossary/コマンド/)を実行するたびに [HTTP](/glossary/http/) 401: Bad credentials が出て、gh auth login で[ログイン](/glossary/ログイン/)し直しても少し経つとまた再発する、という報告です。報告者の[環境](/glossary/環境/)では[環境変数](/glossary/環境変数/) GITHUB_TOKEN に値が設定されており、gh は保存済みの[ログイン](/glossary/ログイン/)よりこの[環境変数](/glossary/環境変数/)を優先するため、[環境変数](/glossary/環境変数/)を消す（set GITHUB_TOKEN=）ことでその場をしのぎ、別の作業でまた設定されると再発する、という繰り返しが記録されています。「[ログイン](/glossary/ログイン/)は成功しているのに Bad credentials」という一見矛盾した症状の正体が、別の場所にある古い認証情報だったという典型例です。
 
 401 は、認証情報が「届いていない」のか「届いたが不正」なのかを message が最初に教えてくれる[エラー](/glossary/エラー/)です。[トークン](/glossary/トークン/)を作り直す前に、いま実際に何が送られているのかを確かめることが確実な近道です。
 

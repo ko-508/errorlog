@@ -56,7 +56,7 @@ POST http://api.example.com/users
   "address": "Tokyo"
 }
 ```
-↑ 上記は正しい[JSON](/glossary/json/)に見えますが、[API](/glossary/api/)が`phone`フィールドを必須としている場合や、Postmanで以下のようなボディを入力しているケースで[エラー](/glossary/エラー/)が発生します：
+↑ 上記は正しい[JSON](/glossary/json/)に見えますが、[API](/glossary/api/)が`phone`[フィールド](/glossary/フィールド/)を必須としている場合や、Postmanで以下のようなボディを入力しているケースで[エラー](/glossary/エラー/)が発生します：
 
 ```json
 {
@@ -83,7 +83,7 @@ Postmanで修正するには、Bodyタブを開き、以下の手順を実行し
 
 1. Body内の「Code beautifier」または「format」ボタンをクリックして[JSON](/glossary/json/)形式を自動整形する
 2. 右側に表示される「Error」メッセージを確認する
-3. [API](/glossary/api/)ドキュメントで必須フィールドを確認し、すべて揃っているか検証する
+3. [API](/glossary/api/)ドキュメントで必須[フィールド](/glossary/フィールド/)を確認し、すべて揃っているか検証する
 
 ### 原因2：Content-Typeヘッダーがボディのデータフォーマットと一致していない
 
@@ -199,7 +199,7 @@ curl -X POST http://api.example.com/users \
 
 **公式ドキュメントの参照**
 
-連携している[API](/glossary/api/)提供者の公式ドキュメントやリファレンスで、[リクエスト](/glossary/リクエスト/)形式の仕様を確認してください。必須フィールド、データ型、許可される値の範囲などが明記されていることが多く、自身の[リクエスト](/glossary/リクエスト/)との差異を特定できます。
+連携している[API](/glossary/api/)提供者の公式ドキュメントやリファレンスで、[リクエスト](/glossary/リクエスト/)形式の仕様を確認してください。必須[フィールド](/glossary/フィールド/)、データ型、許可される値の範囲などが明記されていることが多く、自身の[リクエスト](/glossary/リクエスト/)との差異を特定できます。
 
 ---
 

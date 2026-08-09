@@ -37,7 +37,7 @@ ERROR: (ci::pipeline:creation) This project does not have CI enabled
 
 ### 原因1：JSON リクエストボディの形式エラーまたは必須フィールドの欠落
 
-GitLab [API](/glossary/api/) への POST/PUT [リクエスト](/glossary/リクエスト/)で、[JSON](/glossary/json/) の形式が壊れているか、[API](/glossary/api/) が必須とするフィールドが含まれていません。特に issue 作成や merge request の更新時に頻発します。
+GitLab [API](/glossary/api/) への POST/PUT [リクエスト](/glossary/リクエスト/)で、[JSON](/glossary/json/) の形式が壊れているか、[API](/glossary/api/) が必須とする[フィールド](/glossary/フィールド/)が含まれていません。特に issue 作成や merge request の更新時に頻発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -163,9 +163,9 @@ print(response.json())
 
 `.gitlab-ci.yml` の構文[エラー](/glossary/エラー/)は、GitLab の公式 CI Lint [ツール](/glossary/ツール/)（`Settings` → `CI/CD` → `CI Lint`）を使用すると、[エラー](/glossary/エラー/)行と理由を詳細に確認できます。ローカルでパイプラインを[テスト](/glossary/テスト/)したい場合は、GitLab Runner に `--debug` フラグを付けて実行すると、詳細な[デバッグ](/glossary/デバッグ/)（問題調査）情報が出力されます。
 
-**[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)（返信）の message フィールドの重要性：**
+**[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)（返信）の message [フィールド](/glossary/フィールド/)の重要性：**
 
-GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` フィールドに具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを確認することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に設定されていることが判断できます。
+GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` [フィールド](/glossary/フィールド/)に具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを確認することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に設定されていることが判断できます。
 
 **[プロジェクト](/glossary/プロジェクト/)設定による [CI/CD](/glossary/ci-cd/) 有効化の確認：**
 

@@ -44,7 +44,7 @@ Error response from daemon: received unexpected HTTP status: 408 Request Timeout
 
 ### 原因1：Docker Daemon のタイムアウト設定が短すぎる
 
-[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト設定では、大規模[イメージ](/glossary/イメージ/)のビルドやプッシュ時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
+[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト設定では、大規模[イメージ](/glossary/イメージ/)のビルドや[プッシュ](/glossary/プッシュ/)時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -125,7 +125,7 @@ docker-compose push --timeout 300
 
 ### 原因3：レジストリの認証情報が正しくない、または有効期限切れ
 
-[Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/)へのプッシュ/プル時に、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れになっていると、Daemon が[認証](/glossary/認証/)[リトライ](/glossary/リトライ/)を試みる間に 408 [タイムアウト](/glossary/タイムアウト/)が発生します。
+[Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/)への[プッシュ](/glossary/プッシュ/)/プル時に、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れになっていると、Daemon が[認証](/glossary/認証/)[リトライ](/glossary/リトライ/)を試みる間に 408 [タイムアウト](/glossary/タイムアウト/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -206,7 +206,7 @@ docker run --rm alpine ping -c 3 registry.docker.io
 
 ### Docker Registry の接続テスト
 
-大規模[イメージ](/glossary/イメージ/)のプッシュ前に、[レジストリ](/glossary/レジストリ/)への基本的な接続を確認することが重要です：
+大規模[イメージ](/glossary/イメージ/)の[プッシュ](/glossary/プッシュ/)前に、[レジストリ](/glossary/レジストリ/)への基本的な接続を確認することが重要です：
 
 ```bash
 # Docker Hub への接続確認
@@ -283,7 +283,7 @@ docker -D push myregistry.azurecr.io/myimage:latest 2>&1 | tee docker-push.log
 
 ### コミュニティリソース
 
-GitHub の [Docker](/glossary/docker/) [リポジトリ](/glossary/リポジトリ/)で類似事例を検索：
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) [リポジトリ](/glossary/リポジトリ/)で類似事例を検索：
 - https://github.com/moby/moby/issues（キーワード："408" OR "Request Timeout"）
 - [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 

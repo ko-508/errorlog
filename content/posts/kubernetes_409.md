@@ -20,7 +20,7 @@ trend_incident: false
 
 2つ目は、更新しようとした対象が、読み取ってから書き込むまでの間に他者に変更されていた場合です。区分は `Conflict`、文言は「Operation cannot be fulfilled on ...」で始まり、中に「the object has been modified; please apply your changes to the latest version and try again」が入ります。
 
-3つ目は、Server-Side Apply でフィールドの所有権が衝突した場合です。区分は同じ `Conflict` ですが、**`details.causes` にフィールドごとの衝突と、その所有者の名前が入ります**。文言は「Apply failed with N conflict(s)」の形です。
+3つ目は、Server-Side Apply で[フィールド](/glossary/フィールド/)の所有権が衝突した場合です。区分は同じ `Conflict` ですが、**`details.causes` に[フィールド](/glossary/フィールド/)ごとの衝突と、その所有者の名前が入ります**。文言は「Apply failed with N conflict(s)」の形です。
 
 この3つは、対処が正反対です。1つ目は既存を使うか名前を変える。2つ目は**読み直してからやり直す**。3つ目は所有権を奪うか、手放すか、共有するかを選ぶ。**同じ要求をそのまま送り直して直るものは、1つもありません**。
 
@@ -61,7 +61,7 @@ are the ways you can resolve this warning:
 ...
 ```
 
-**衝突した相手の名前が文言に出ます**。上の例では `kubectl-edit`、つまり誰かが `kubectl edit` で直接編集した痕跡です。この案内文は `kubectl` が付け加えているもので、公式文書への URL も含まれます。
+**衝突した相手の名前が文言に出ます**。上の例では `kubectl-edit`、つまり誰かが `kubectl edit` で直接編集した痕跡です。この案内文は `kubectl` が付け加えているもので、公式文書への [URL](/glossary/url/) も含まれます。
 
 ## まず最初に：reason と details で3つに振り分ける
 
@@ -69,15 +69,15 @@ are the ways you can resolve this warning:
 
 第二に、`Conflict` の場合は文言の先頭を見ます。「Operation cannot be fulfilled」で始まれば楽観ロックの競合です。
 
-第三に、「Apply failed with」で始まれば Server-Side Apply の競合です。この場合は `details.causes` にフィールドごとの情報が入ります。
+第三に、「Apply failed with」で始まれば Server-Side Apply の競合です。この場合は `details.causes` に[フィールド](/glossary/フィールド/)ごとの情報が入ります。
 
-第四に、衝突した相手の名前を読みます。`kubectl-edit`、`kubectl-client-side-apply`、`helm` など、**誰がそのフィールドを管理しているかが名前で分かります**。
+第四に、衝突した相手の名前を読みます。`kubectl-edit`、`kubectl-client-side-apply`、`helm` など、**誰がその[フィールド](/glossary/フィールド/)を管理しているかが名前で分かります**。
 
 ## よくある原因と解決手順
 
 ### 原因1：既に存在するものを作ろうとしている
 
-[自動化](/glossary/自動化/)を2回実行した場合や、前回の実行が途中まで進んでいた場合に起きます。API の規約にも、既存と同じ名前で作成した場合は 409 を返さなければならない、と明記されています。
+[自動化](/glossary/自動化/)を2回実行した場合や、前回の実行が途中まで進んでいた場合に起きます。[API](/glossary/api/) の規約にも、既存と同じ名前で作成した場合は 409 を返さなければならない、と明記されています。
 
 **Before（重複を異常として止める）：**
 
@@ -100,7 +100,7 @@ kubectl apply -f configmap.yaml
 
 区分が `Conflict` で、文言に「the object has been modified」が含まれる場合です。
 
-API の規約に仕組みが説明されています。すべての資源は `resourceVersion` を持ち、更新時に保存済みの値と照合されます。一致しなければ 409 で失敗します。読み取りから書き込みまでの間に他の変更が入っていないことを、この値で検証する仕組みです。
+[API](/glossary/api/) の規約に仕組みが説明されています。すべての資源は `resourceVersion` を持ち、更新時に保存済みの値と照合されます。一致しなければ 409 で失敗します。読み取りから書き込みまでの間に他の変更が入っていないことを、この値で検証する仕組みです。
 
 したがって、**古い値を握ったまま送り直しても、同じ競合を繰り返すだけ**です。
 
@@ -134,7 +134,7 @@ err := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 
 ### 原因3：Server-Side Apply のフィールド競合
 
-区分は `Conflict` ですが、意味が違います。公式文書では、別の管理者が管理を主張しているフィールドを変更しようとしたときに起きる特別な状態[エラー](/glossary/エラー/)、と定義されています。意図しない上書きを防ぐ仕組みです。
+区分は `Conflict` ですが、意味が違います。公式文書では、別の管理者が管理を主張している[フィールド](/glossary/フィールド/)を変更しようとしたときに起きる特別な状態[エラー](/glossary/エラー/)、と定義されています。意図しない上書きを防ぐ仕組みです。
 
 公式文書は解決策を3つ挙げています。上書きして単独の管理者になる（`--force-conflicts` を付ける）、値を変えずに管理の主張を手放す（自分の[ファイル](/glossary/ファイル/)からその項目を消す）、値を変えずに共有の管理者になる（相手の現在値に合わせて書く）です。
 
@@ -157,9 +157,9 @@ kubectl get deploy web -o yaml --show-managed-fields | grep -A5 managedFields
 
 ### 原因4：apply と update で競合の意味が違う
 
-同じ「競合」でも、操作によって扱いが違います。公式文書に対比が書かれています。強制の指定が無い限り、フィールドの衝突が起きた apply は**常に失敗**します。一方、update（HTTP の PUT）で管理されたフィールドに影響する変更をしても、衝突が失敗を引き起こすことはありません。
+同じ「競合」でも、操作によって扱いが違います。公式文書に対比が書かれています。強制の指定が無い限り、[フィールド](/glossary/フィールド/)の衝突が起きた apply は**常に失敗**します。一方、update（[HTTP](/glossary/http/) の PUT）で管理された[フィールド](/glossary/フィールド/)に影響する変更をしても、衝突が失敗を引き起こすことはありません。
 
-つまり、`kubectl replace` や[プログラム](/glossary/プログラム/)からの更新では、フィールドの所有権による 409 は出ません。出るのは `resourceVersion` の不一致による 409 だけです。原因2と原因3のどちらを疑うべきかは、使っている操作で絞り込めます。
+つまり、`kubectl replace` や[プログラム](/glossary/プログラム/)からの更新では、[フィールド](/glossary/フィールド/)の所有権による 409 は出ません。出るのは `resourceVersion` の不一致による 409 だけです。原因2と原因3のどちらを疑うべきかは、使っている操作で絞り込めます。
 
 ### 原因5：自動化の記録が競合で埋まる
 
@@ -175,7 +175,7 @@ kubectl get deploy web -o yaml --show-managed-fields | grep -A5 managedFields
 
 対象が見つからない場合は 404 です（[Kubernetes の 404 の記事](/posts/kubernetes_404/)）。[権限](/glossary/権限/)が足りない場合は 403 です（[Kubernetes の 403 の記事](/posts/kubernetes_403/)）。要求が多すぎる場合は 429 ですが、退避の拒否など過負荷以外の意味も含みます（[Kubernetes の 429 の記事](/posts/kubernetes_429/)）。
 
-GCP でも 409 は2つの区分に対応し、既に存在する場合と同時実行の中断に分かれます（[GCP の 409 の記事](/posts/gcp_409/)）。「読み取りからやり直す」という対処は共通ですが、Kubernetes には Server-Side Apply という3つ目の系統がある点が違います。
+GCP でも 409 は2つの区分に対応し、既に存在する場合と同時実行の中断に分かれます（[GCP の 409 の記事](/posts/gcp_409/)）。「読み取りからやり直す」という対処は共通ですが、[Kubernetes](/glossary/kubernetes/) には Server-Side Apply という3つ目の系統がある点が違います。
 
 ## 切り分けの順序
 
@@ -184,7 +184,7 @@ GCP でも 409 は2つの区分に対応し、既に存在する場合と同時�
 3. Server-Side Apply なら、衝突した相手の名前を読む。誰が管理しているかがそこに書かれている。
 4. 楽観ロックなら、取得からやり直しているかを確認する。同じ要求の送り直しでは直らない。
 5. `generateName` を使っているなら、`AlreadyExists` への対処は再試行が正しい。
-6. 使っている操作を確認する。update ではフィールドの所有権による 409 は出ない。
+6. 使っている操作を確認する。update では[フィールド](/glossary/フィールド/)の所有権による 409 は出ない。
 7. 強制する前に、相手を手放すべきか共有すべきかを検討する。
 8. 競合が持続するなら、複数の[自動化](/glossary/自動化/)による奪い合いと、[キャッシュ](/glossary/キャッシュ/)からの読み取りを疑う。
 
@@ -227,7 +227,7 @@ Server-Side Apply の競合では、衝突した相手の名前が文言に出�
 
 象徴的な記録があります（[before-first-apply manager prevents resource updates](https://github.com/kubernetes/kubernetes/issues/89954)）。2020年4月、Server-Side Apply で更新しようとしたところ、`before-first-apply` という名前の管理者と衝突して失敗する、という報告です。この名前は、その対象が Server-Side Apply を使う前に作られたことを示しています。誰かの仕業ではなく、**移行前の状態がそのまま所有者として記録されていた**わけです。
 
-同じ構造は、日常的な場面でも起きます。誰かが `kubectl edit` で一時的に値を変えると、そのフィールドの管理者として `kubectl-edit` が記録されます。次にその[ファイル](/glossary/ファイル/)を適用したとき、衝突するのはその痕跡です。文言に出る名前を読めば、いつ誰が触ったかを推測せずに済みます。
+同じ構造は、日常的な場面でも起きます。誰かが `kubectl edit` で一時的に値を変えると、その[フィールド](/glossary/フィールド/)の管理者として `kubectl-edit` が記録されます。次にその[ファイル](/glossary/ファイル/)を適用したとき、衝突するのはその痕跡です。文言に出る名前を読めば、いつ誰が触ったかを推測せずに済みます。
 
 ただし、この情報にも限界があります。別の報告（[server-side apply conflict warning doesn't show which resource is causing the problem](https://github.com/kubernetes/kubernetes/issues/129898)）では、多数の[ファイル](/glossary/ファイル/)をまとめて適用したときに衝突の警告が大量に出るものの、文言にはグループと版しか含まれず、**どの対象で起きたのかが分からない**と指摘されています。一括適用のときは、対象を絞って再実行するのが結局は早道です。
 

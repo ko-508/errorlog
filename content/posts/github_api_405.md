@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 405 Method Not Allowed は、名前から受ける印象と中身が食い違う[コード](/glossary/コード/)です。[HTTP](/glossary/http/) の[メソッド](/glossary/メソッド/)を間違えたという意味ではありません。GitHub 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、405 を応答として定義している操作は全1,209操作のうち3つしかなく、そのうち実務で当たるのは事実上1つ、プルリクエストの[マージ](/glossary/マージ/)（`PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`）です。この 405 に付けられた定義文は「[マージ](/glossary/マージ/)を実行できない場合」であり、意味は「[メソッド](/glossary/メソッド/)が違う」ではなく「今は[マージ](/glossary/マージ/)できない」です。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 405 Method Not Allowed は、名前から受ける印象と中身が食い違う[コード](/glossary/コード/)です。[HTTP](/glossary/http/) の[メソッド](/glossary/メソッド/)を間違えたという意味ではありません。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、405 を応答として定義している操作は全1,209操作のうち3つしかなく、そのうち実務で当たるのは事実上1つ、プルリクエストの[マージ](/glossary/マージ/)（`PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`）です。この 405 に付けられた定義文は「[マージ](/glossary/マージ/)を実行できない場合」であり、意味は「[メソッド](/glossary/メソッド/)が違う」ではなく「今は[マージ](/glossary/マージ/)できない」です。
 
 応答本文には、422 のような errors 配列がありません。公式定義でも message と documentation_url の2つだけです。つまり調査は、message の文言を読むことに尽きます。実際に記録されている文言は5系統に整理できます。[マージ](/glossary/マージ/)できる状態にない（Pull Request is not mergeable）、base [ブランチ](/glossary/ブランチ/)が動いた（Base branch was modified. Review and try the merge again.）、必須ステータスチェックが未完了、必要なレビューが足りない、その[ブランチ](/glossary/ブランチ/)へ push する[権限](/glossary/権限/)がない、の5つです。
 
@@ -34,7 +34,7 @@ GitHub [API](/glossary/api/) の 405 Method Not Allowed は、名前から受け
 }
 ```
 
-もう1つ、先に否定しておくべき筋があります。「[メソッド](/glossary/メソッド/)を直せば解決する 405」は、GitHub [API](/glossary/api/) ではまず成り立ちません。2026年7月26日に未認証で実測したところ、GET だけを受け付ける[パス](/glossary/パス/)（`/users/octocat`）に DELETE・PUT・PATCH を送った場合、返るのは 405 ではなく 404 Not Found でした。GitHub [API](/glossary/api/) は、対応していない[メソッド](/glossary/メソッド/)の組み合わせを「そのような資源はない」として扱います。したがって、405 を見たときにまず確認すべきは、[メソッド](/glossary/メソッド/)名ではなく、それが[マージ](/glossary/マージ/)要求への応答かどうかです。
+もう1つ、先に否定しておくべき筋があります。「[メソッド](/glossary/メソッド/)を直せば解決する 405」は、[GitHub](/glossary/github/) [API](/glossary/api/) ではまず成り立ちません。2026年7月26日に未認証で実測したところ、GET だけを受け付ける[パス](/glossary/パス/)（`/users/octocat`）に DELETE・PUT・PATCH を送った場合、返るのは 405 ではなく 404 Not Found でした。[GitHub](/glossary/github/) [API](/glossary/api/) は、対応していない[メソッド](/glossary/メソッド/)の組み合わせを「そのような資源はない」として扱います。したがって、405 を見たときにまず確認すべきは、[メソッド](/glossary/メソッド/)名ではなく、それが[マージ](/glossary/マージ/)要求への応答かどうかです。
 
 ## まず最初に：message の文言で5系統に振り分ける
 
@@ -50,7 +50,7 @@ GitHub [API](/glossary/api/) の 405 Method Not Allowed は、名前から受け
 
 [マージ](/glossary/マージ/)可否そのものが立っていない状態です。代表は2つあります。
 
-1つ目は、[マージ](/glossary/マージ/)可否がまだ計算されていない場合です。公式リファレンスのとおり、プルリクエストの mergeable は true・false・null の3値を取り、null は「GitHub が背景の処理で計算を始めたところ」を意味します。時間を置いて取得し直せば null 以外になります。作成直後に即[マージ](/glossary/マージ/)する[自動化](/glossary/自動化/)で起きやすく、人がブラウザで見たときに「[マージ](/glossary/マージ/)できます」の表示が一拍遅れて緑になるのと同じ現象です。
+1つ目は、[マージ](/glossary/マージ/)可否がまだ計算されていない場合です。公式リファレンスのとおり、プルリクエストの mergeable は true・false・null の3値を取り、null は「[GitHub](/glossary/github/) が背景の処理で計算を始めたところ」を意味します。時間を置いて取得し直せば null 以外になります。作成直後に即[マージ](/glossary/マージ/)する[自動化](/glossary/自動化/)で起きやすく、人がブラウザで見たときに「[マージ](/glossary/マージ/)できます」の表示が一拍遅れて緑になるのと同じ現象です。
 
 2つ目は、下書き（draft）のプルリクエストです。公式文書に、下書きのプルリクエストは[マージ](/glossary/マージ/)できないと明記されています。取得したプルリクエストの draft が true なら、[マージ](/glossary/マージ/)の前に下書きを解除する必要があります。
 
@@ -152,13 +152,13 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 [ブランチ](/glossary/ブランチ/)保護の push 制限（特定の利用者・チーム・アプリだけに push を許可する設定）に引っかかった状態です。[権限](/glossary/権限/)の問題は通常 403 か 404 で現れますが、[マージ](/glossary/マージ/)時のこの制限は 405 として返った記録があります。[権限](/glossary/権限/)不足を [403 の記事](/posts/github_api_403/)だけで探すと見つからないのは、このためです。
 
-対処は、[マージ](/glossary/マージ/)を実行する主体（個人の[トークン](/glossary/トークン/)か、GitHub App のインストール[トークン](/glossary/トークン/)か）を保護設定の許可対象に加えるか、[マージ](/glossary/マージ/)を許可された主体から実行する形に変えることです。
+対処は、[マージ](/glossary/マージ/)を実行する主体（個人の[トークン](/glossary/トークン/)か、[GitHub](/glossary/github/) App のインストール[トークン](/glossary/トークン/)か）を保護設定の許可対象に加えるか、[マージ](/glossary/マージ/)を許可された主体から実行する形に変えることです。
 
 ## 補足：405ではない類似エラー
 
 [マージ](/glossary/マージ/)要求に sha を渡し、head がその値と一致しなかった場合は 409 で、message は Head branch was modified. Review and try the merge again. です。405 の Base branch was modified と1語しか違いませんが、意味は逆向きです。405 は「取り込む先が動いた」ので待って再試行、409 は「取り込む中身が動いた」のでレビュー済みの内容と実際の内容がずれていないかの確認が先です（[GitHub API の 409 の記事](/posts/github_api_409/)）。
 
-[リクエスト](/glossary/リクエスト/)の本文が [JSON](/glossary/json/) として壊れている場合は 400、[パラメータ](/glossary/パラメータ/)の検証に落ちた場合は 422 です（[GitHub API の 400 の記事](/posts/github_api_400/)、[422 の記事](/posts/github_api_422/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものが見えない・[権限](/glossary/権限/)がない場合は 404、GitHub App や細かい[権限](/glossary/権限/)の[トークン](/glossary/トークン/)での[権限](/glossary/権限/)不足は 403 です（[404 の記事](/posts/github_api_404/)、[403 の記事](/posts/github_api_403/)）。
+[リクエスト](/glossary/リクエスト/)の本文が [JSON](/glossary/json/) として壊れている場合は 400、[パラメータ](/glossary/パラメータ/)の検証に落ちた場合は 422 です（[GitHub API の 400 の記事](/posts/github_api_400/)、[422 の記事](/posts/github_api_422/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものが見えない・[権限](/glossary/権限/)がない場合は 404、[GitHub](/glossary/github/) App や細かい[権限](/glossary/権限/)の[トークン](/glossary/トークン/)での[権限](/glossary/権限/)不足は 403 です（[404 の記事](/posts/github_api_404/)、[403 の記事](/posts/github_api_403/)）。
 
 gh [コマンド](/glossary/コマンド/)を使っている場合は、[HTTP](/glossary/http/) の 405 が出ないことがあります。`gh pr merge` は [GraphQL](/glossary/graphql/) の mergePullRequest を呼ぶため、同じ原因でも `GraphQL: Base branch was modified. Review and try the merge again.` のように、[HTTP](/glossary/http/) の[ステータスコード](/glossary/ステータスコード/)を伴わない形で表示されます。文言が同じであれば、本記事の原因2と同じ扱いで構いません。
 
@@ -166,7 +166,7 @@ gh [コマンド](/glossary/コマンド/)を使っている場合は、[HTTP](/
 
 ## 切り分けの順序
 
-1. 405 を返した要求が `PUT …/pulls/{n}/merge` かを確認する。違うなら、[メソッド](/glossary/メソッド/)の誤りではなく、上記の作成上限系か、GitHub 以外の経路（手前の[プロキシ](/glossary/プロキシ/)など）を疑う。
+1. 405 を返した要求が `PUT …/pulls/{n}/merge` かを確認する。違うなら、[メソッド](/glossary/メソッド/)の誤りではなく、上記の作成上限系か、[GitHub](/glossary/github/) 以外の経路（手前の[プロキシ](/glossary/プロキシ/)など）を疑う。
 2. message を読む。文言で原因1〜5に振り分ける。errors 配列は無いので、文言以外の手がかりは無いと考えてよい。
 3. Base branch was modified のときだけ、待って再試行する。他の文言での再送は結果が変わらない。
 4. Pull Request is not mergeable のときは、プルリクエストを取得して mergeable と draft を見る。mergeable が null なら計算中なので待つ。false なら競合、draft が true なら下書き。
@@ -207,9 +207,9 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 この記録が示唆に富むのは、開発者側の返答です。「[マージ](/glossary/マージ/)を実行する前に[マージ](/glossary/マージ/)可否の確認をしているはずなのに、その確認を通過して、なお実際の[マージ](/glossary/マージ/)で405になるのはなぜか分からない」と書かれています。これは、確認してから[マージ](/glossary/マージ/)するという素直な作り方では、この405を無くせないということです。確認と[マージ](/glossary/マージ/)の間に他の[マージ](/glossary/マージ/)が割り込む余地は必ず残るためです。つまり原因2への対処は、確認の精度を上げることではなく、この文言に対する[リトライ](/glossary/リトライ/)を最初から設計に入れることです。
 
-もう1つ、原因3については、2021年3月30日に GitHub のコミュニティに投稿された質問があります（[How to deal with late required status checks?](https://github.com/orgs/community/discussions/24695)）。[マージ](/glossary/マージ/)を代行するボットの作者が、必須チェックの報告が遅れて届くために405を受ける問題を挙げ、文言の文字列一致で判定するのは将来変更されうるので不安だとして、安定した識別子を応答に付けてほしいと要望しています。同年10月に投稿者自身が、必須チェックの名前は保護設定の取得で事前に分かる、と結論を書き残しています。本記事の原因3の対処が「文言で判定する」ではなく「事前に必須チェック名を取得する」である理由は、ここにあります。
+もう1つ、原因3については、2021年3月30日に [GitHub](/glossary/github/) のコミュニティに投稿された質問があります（[How to deal with late required status checks?](https://github.com/orgs/community/discussions/24695)）。[マージ](/glossary/マージ/)を代行するボットの作者が、必須チェックの報告が遅れて届くために405を受ける問題を挙げ、文言の文字列一致で判定するのは将来変更されうるので不安だとして、安定した識別子を応答に付けてほしいと要望しています。同年10月に投稿者自身が、必須チェックの名前は保護設定の取得で事前に分かる、と結論を書き残しています。本記事の原因3の対処が「文言で判定する」ではなく「事前に必須チェック名を取得する」である理由は、ここにあります。
 
-405 の応答は、GitHub が返す[エラー](/glossary/エラー/)の中では情報が少ない部類です。errors 配列も、機械が読める識別子もありません。だからこそ、文言で5系統に分け、[リトライ](/glossary/リトライ/)してよい1つとそうでない4つを見分けるところまでを、あらかじめ決めておく価値があります。
+405 の応答は、[GitHub](/glossary/github/) が返す[エラー](/glossary/エラー/)の中では情報が少ない部類です。errors 配列も、機械が読める識別子もありません。だからこそ、文言で5系統に分け、[リトライ](/glossary/リトライ/)してよい1つとそうでない4つを見分けるところまでを、あらかじめ決めておく価値があります。
 
 ---
 

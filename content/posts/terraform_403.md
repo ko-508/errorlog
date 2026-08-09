@@ -167,7 +167,7 @@ Terraform で 403 [エラー](/glossary/エラー/)が発生した場合、ま�
 
 ## それでも解決しない場合
 
-[AWS](/glossary/aws/) CloudTrail（[AWS](/glossary/aws/) [API](/glossary/api/) の呼び出しを記録するサービス）の[イベント](/glossary/イベント/)履歴を確認して、Terraform が[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)がどの[アクション](/glossary/アクション/)で拒否されたかの詳細を確認します。CloudTrail [ダッシュボード](/glossary/ダッシュボード/)で該当する [API](/glossary/api/) コールを探し、`errorCode` および `errorMessage` フィールドを確認することで、[IAM](/glossary/iam/) ポリシーシミュレーターでは検出できない組織レベルの制限や、リソースベースの[ポリシー](/glossary/ポリシー/)による拒否を発見できます。
+[AWS](/glossary/aws/) CloudTrail（[AWS](/glossary/aws/) [API](/glossary/api/) の呼び出しを記録するサービス）の[イベント](/glossary/イベント/)履歴を確認して、Terraform が[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)がどの[アクション](/glossary/アクション/)で拒否されたかの詳細を確認します。CloudTrail [ダッシュボード](/glossary/ダッシュボード/)で該当する [API](/glossary/api/) コールを探し、`errorCode` および `errorMessage` [フィールド](/glossary/フィールド/)を確認することで、[IAM](/glossary/iam/) ポリシーシミュレーターでは検出できない組織レベルの制限や、リソースベースの[ポリシー](/glossary/ポリシー/)による拒否を発見できます。
 
 ```bash
 aws iam simulate-principal-policy \

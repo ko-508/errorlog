@@ -181,7 +181,7 @@ minikube update-context
 
 **[証明書](/glossary/証明書/)の検証をスキップしない**
 
-トラブルシューティング時に `--insecure-skip-tls-verify=true` で証明書検証をスキップするのは一時的な回避策に過ぎません。根本原因を解決せずに本番環境に似た設定をすると、セキュリティリスクが増加します。必ず kubeconfig の再同期で対応してください。
+トラブルシューティング時に `--insecure-skip-tls-verify=true` で証明書検証をスキップするのは一時的な回避策に過ぎません。根本原因を解決せずに[本番環境](/glossary/本番環境/)に似た設定をすると、セキュリティリスクが増加します。必ず kubeconfig の再同期で対応してください。
 
 ## それでも解決しない場合
 
@@ -220,7 +220,7 @@ minikube delete
 minikube start
 ```
 
-詳細は[Minikube公式ドキュメント - Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)および[kubectl config コマンド リファレンス](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#config)を参照してください。[Kubernetes](/glossary/kubernetes/) コミュニティの GitHub Issues でも同様の事例が報告されているため、[エラーメッセージ](/glossary/エラーメッセージ/)を検索すると解決策が見つかることが多くあります。
+詳細は[Minikube公式ドキュメント - Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)および[kubectl config コマンド リファレンス](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#config)を参照してください。[Kubernetes](/glossary/kubernetes/) コミュニティの [GitHub](/glossary/github/) Issues でも同様の事例が報告されているため、[エラーメッセージ](/glossary/エラーメッセージ/)を検索すると解決策が見つかることが多くあります。
 
 ---
 

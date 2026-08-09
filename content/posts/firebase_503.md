@@ -172,7 +172,7 @@ exports.processData = functions
 
 **[レート制限](/glossary/レート制限/)のクォータ確認**
 
-Firebase Console の「[プロジェクト](/glossary/プロジェクト/)設定 > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。本番環境では Blaze プラン（従量課金）への移行を検討してください。
+Firebase Console の「[プロジェクト](/glossary/プロジェクト/)設定 > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。[本番環境](/glossary/本番環境/)では Blaze プラン（従量課金）への移行を検討してください。
 
 ## それでも解決しない場合
 
@@ -202,7 +202,7 @@ timestamp>="<エラーが発生した時刻>"
 
 **コミュニティリソース**
 
-Firebase GitHub Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと対応が迅速になります。
+Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと対応が迅速になります。
 
 ---
 

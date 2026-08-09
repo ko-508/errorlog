@@ -101,7 +101,7 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Set
 
 Vercel では[プロジェクト](/glossary/プロジェクト/)の所有権と[アクセス権](/glossary/アクセス権/)が厳密に分離されています。同じメールアドレスで複数の[アカウント](/glossary/アカウント/)（個人・チーム）を保有している場合、ブラウザーの[セッション](/glossary/セッション/)と [CLI](/glossary/cli/) の認証状態がズレることがあります。
 
-[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。GitHub Actions 等で VERCEL_TOKEN を設定する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を登録します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、デフォルトで個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
+[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。[GitHub](/glossary/github/) Actions 等で VERCEL_TOKEN を設定する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を登録します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、デフォルトで個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
 
 [プロジェクト](/glossary/プロジェクト/)を個人[アカウント](/glossary/アカウント/)からチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント設定を確認してください。
 

@@ -20,7 +20,7 @@ Azure の 500 Internal Server Error は、まず「どの [URL](/glossary/url/) 
 
 ## エラーの概要
 
-Azure の管理 [API](/glossary/api/) の[エラー](/glossary/エラー/)は、error [オブジェクト](/glossary/オブジェクト/)（code と message）を持つ [JSON](/glossary/json/) で返ります。500の場合の code は InternalServerError などで、message は一時的な[エラー](/glossary/エラー/)である旨と再試行の案内になっているのが典型です。切り分けでまず読むべきは [HTTP](/glossary/http/) の[コード](/glossary/コード/)ではなく、この code フィールドです。MissingSubscriptionRegistration や AuthorizationFailed のような具体的な code が入っているなら、それは500の調査ではありません。
+Azure の管理 [API](/glossary/api/) の[エラー](/glossary/エラー/)は、error [オブジェクト](/glossary/オブジェクト/)（code と message）を持つ [JSON](/glossary/json/) で返ります。500の場合の code は InternalServerError などで、message は一時的な[エラー](/glossary/エラー/)である旨と再試行の案内になっているのが典型です。切り分けでまず読むべきは [HTTP](/glossary/http/) の[コード](/glossary/コード/)ではなく、この code [フィールド](/glossary/フィールド/)です。MissingSubscriptionRegistration や AuthorizationFailed のような具体的な code が入っているなら、それは500の調査ではありません。
 
 もう1つ、Azure の応答には必ず控えるべき[ヘッダー](/glossary/ヘッダー/)があります。x-ms-request-id と x-ms-correlation-request-id です（実際の[エラー](/glossary/エラー/)応答の記録でも、この2つの[ヘッダー](/glossary/ヘッダー/)が含まれていることが確認できます）。この値は Azure 側の[ログ](/glossary/ログ/)で[リクエスト](/glossary/リクエスト/)を特定する参照 [ID](/glossary/id/) で、500が再現・継続する場合にサポートへ渡す情報の中核になります。
 

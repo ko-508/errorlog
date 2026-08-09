@@ -134,7 +134,7 @@ docker volume create shared_data
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Compose [環境](/glossary/環境/)では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` フィールドに完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
+[Docker](/glossary/docker/) Compose [環境](/glossary/環境/)では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` [フィールド](/glossary/フィールド/)に完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
 さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 

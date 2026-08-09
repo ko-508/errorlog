@@ -295,7 +295,7 @@ azure_logger.setLevel(logging.DEBUG)
 
 ### コミュニティサポート
 
-Azure [SDK](/glossary/sdk/) の[リトライ](/glossary/リトライ/)実装に関する既知の問題や解決方法は、公式 GitHub [リポジトリ](/glossary/リポジトリ/)で確認できます：
+Azure [SDK](/glossary/sdk/) の[リトライ](/glossary/リトライ/)実装に関する既知の問題や解決方法は、公式 [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で確認できます：
 
 - https://github.com/Azure/azure-sdk-for-python/issues
 - https://github.com/Azure/azure-sdk-for-java/issues

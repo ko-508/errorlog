@@ -140,7 +140,7 @@ az storage account create \
 
 ## ツール固有の注意点
 
-**Azure [REST](/glossary/rest/) [API](/glossary/api/)の場合**：[エラーレスポンス](/glossary/エラーレスポンス/)の `details` フィールドを必ず確認してください。ここに具体的な問題[パラメータ](/glossary/パラメータ/)と制約条件が記載されます。複数の[パラメータ](/glossary/パラメータ/)に問題がある場合も、`details` 配列内に全て列挙されることがあります。また、[API](/glossary/api/)[バージョン](/glossary/バージョン/)（`api-version` クエリパラメータ）が古すぎたり新しすぎたりする場合も[エラー](/glossary/エラー/)になるため、Microsoft公式ドキュメントで対象リソースの最新[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認することが重要です。
+**Azure [REST](/glossary/rest/) [API](/glossary/api/)の場合**：[エラーレスポンス](/glossary/エラーレスポンス/)の `details` [フィールド](/glossary/フィールド/)を必ず確認してください。ここに具体的な問題[パラメータ](/glossary/パラメータ/)と制約条件が記載されます。複数の[パラメータ](/glossary/パラメータ/)に問題がある場合も、`details` 配列内に全て列挙されることがあります。また、[API](/glossary/api/)[バージョン](/glossary/バージョン/)（`api-version` クエリパラメータ）が古すぎたり新しすぎたりする場合も[エラー](/glossary/エラー/)になるため、Microsoft公式ドキュメントで対象リソースの最新[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認することが重要です。
 
 **Azure [CLI](/glossary/cli/)の場合**：`--debug` フラグを付与することで、[送信](/glossary/送信/)される[ペイロード](/glossary/ペイロード/)全体を[コンソール](/glossary/コンソール/)に出力できます。これにより、[CLI](/glossary/cli/)が実際に何を[送信](/glossary/送信/)しているかを検証でき、[デバッグ](/glossary/デバッグ/)が格段に容易になります。例えば `az vm create ... --debug` とすると、[REST](/glossary/rest/) [API](/glossary/api/)の完全な[リクエストボディ](/glossary/リクエストボディ/)が表示されます。
 

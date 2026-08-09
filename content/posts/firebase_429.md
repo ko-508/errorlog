@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-429 Too Many Requests は、Firebase の[レート制限](/glossary/レート制限/)に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Firestore の[データベース](/glossary/データベース/)操作、Cloud Functions の実行、Authentication メール[送信](/glossary/送信/)、Realtime Database へのアクセスなど、様々な Firebase サービスで発生します。無料プランでは特に厳しい制限があり、本番環境への移行時やトラフィック増加時に顕著になります。
+429 Too Many Requests は、Firebase の[レート制限](/glossary/レート制限/)に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Firestore の[データベース](/glossary/データベース/)操作、Cloud Functions の実行、Authentication メール[送信](/glossary/送信/)、Realtime Database へのアクセスなど、様々な Firebase サービスで発生します。無料プランでは特に厳しい制限があり、[本番環境](/glossary/本番環境/)への移行時やトラフィック増加時に顕著になります。
 
 ## 実際のエラーメッセージ例
 
@@ -219,7 +219,7 @@ gcloud functions logs read <function-name> --limit 50
 
 ### サポートへの問い合わせ
 
-Blaze プラン の有料顧客は Firebase Support から詳細な制限内容や一時的な上限引き上げを[リクエスト](/glossary/リクエスト/)できます。GitHub Issues や Stack Overflow でも同様の問題事例が多く報告されており、参考になります。
+Blaze プラン の有料顧客は Firebase Support から詳細な制限内容や一時的な上限引き上げを[リクエスト](/glossary/リクエスト/)できます。[GitHub](/glossary/github/) Issues や Stack Overflow でも同様の問題事例が多く報告されており、参考になります。
 
 ---
 

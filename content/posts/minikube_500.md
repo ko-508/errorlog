@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl", "etcd", "Docker", "VirtualBox", "KVM
 
 ## エラーの概要
 
-Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない障害に陥っている状態を示します。ローカル開発環境であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント障害などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
+Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない障害に陥っている状態を示します。ローカル[開発環境](/glossary/開発環境/)であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント障害などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
 
 ## 実際のエラーメッセージ例
 
@@ -238,7 +238,7 @@ minikube start --vm-driver=<ドライバ名>
 
 - Minikube 公式トラブルシューティング: https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/
 - [Kubernetes](/glossary/kubernetes/) 公式ドキュメント - [API](/glossary/api/)[サーバー](/glossary/サーバー/): https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
-- GitHub Issues（Minikube）: https://github.com/kubernetes/minikube/issues
+- [GitHub](/glossary/github/) Issues（Minikube）: https://github.com/kubernetes/minikube/issues
 - [Kubernetes](/glossary/kubernetes/) Slack コミュニティ（#minikube チャネル）
 
 ---

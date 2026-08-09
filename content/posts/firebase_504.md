@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、本番環境で多くのユーザーに影響を与える可能性があります。
+Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、[本番環境](/glossary/本番環境/)で多くのユーザーに影響を与える可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -223,7 +223,7 @@ Cloud Profilerを有効化することで、CPUと[メモリ](/glossary/メモ�
 - 「Firestoreの[パフォーマンス](/glossary/パフォーマンス/)[最適化](/glossary/最適化/)ガイド」
 - 「Cloud Functionsの[コールドスタート](/glossary/コールドスタート/)削減」
 
-問題が解決しない場合は、Firebase Support（有償[アカウント](/glossary/アカウント/)の場合）またはGitHub上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を検索してください。
+問題が解決しない場合は、Firebase Support（有償[アカウント](/glossary/アカウント/)の場合）または[GitHub](/glossary/github/)上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を検索してください。
 
 ---
 

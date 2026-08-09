@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-CircleCI の 404 [エラー](/glossary/エラー/)は、指定された[プロジェクト](/glossary/プロジェクト/)・パイプライン・ワークフローが見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（GitHub・Bitbucket）との認可情報の失効に起因します。
+CircleCI の 404 [エラー](/glossary/エラー/)は、指定された[プロジェクト](/glossary/プロジェクト/)・パイプライン・ワークフローが見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（[GitHub](/glossary/github/)・Bitbucket）との認可情報の失効に起因します。
 
 ## 実際のエラーメッセージ例
 
@@ -90,7 +90,7 @@ curl -X GET "https://circleci.com/api/v2/pipeline/correct-pipeline-id-12345/conf
 
 ### 原因3：GitHub / Bitbucket との認可情報が失効またはリセット
 
-CircleCI とGitHub・Bitbucket の連携が切れると、その[プロジェクト](/glossary/プロジェクト/)にアクセスできず 404 [エラー](/glossary/エラー/)が返されることがあります。これは、VCS 側で[認可](/glossary/認可/)を取り消した、CircleCI の[認証](/glossary/認証/)[トークン](/glossary/トークン/)が失効した、あるいはユーザーの[アカウント](/glossary/アカウント/)[権限](/glossary/権限/)が変更された場合に発生します。
+CircleCI と[GitHub](/glossary/github/)・Bitbucket の連携が切れると、その[プロジェクト](/glossary/プロジェクト/)にアクセスできず 404 [エラー](/glossary/エラー/)が返されることがあります。これは、VCS 側で[認可](/glossary/認可/)を取り消した、CircleCI の[認証](/glossary/認証/)[トークン](/glossary/トークン/)が失効した、あるいはユーザーの[アカウント](/glossary/アカウント/)[権限](/glossary/権限/)が変更された場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

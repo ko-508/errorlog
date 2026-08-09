@@ -15,14 +15,14 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`ContainerCreating` は、根本原因を示すエラー名ではありません。`kubectl get pods` が、[Kubernetes](/glossary/kubernetes/)でコンテナをまだ開始できていない状態を要約して表示したものです。
+`ContainerCreating` は、根本原因を示す[エラー](/glossary/エラー/)名ではありません。`kubectl get pods` が、[Kubernetes](/glossary/kubernetes/)で[コンテナ](/glossary/コンテナ/)をまだ開始できていない状態を要約して表示したものです。
 
 ```text
 NAME                      READY   STATUS              RESTARTS   AGE
 app-7f6f8d9c75-2kq8m     0/1     ContainerCreating   0          8m
 ```
 
-API上では、Podの段階は `Pending`、コンテナの状態は `Waiting`、その理由が `ContainerCreating` になっていることがあります。
+[API](/glossary/api/)上では、Podの段階は `Pending`、[コンテナ](/glossary/コンテナ/)の状態は `Waiting`、その理由が `ContainerCreating` になっていることがあります。
 
 ```text
 Status:  Pending
@@ -30,7 +30,7 @@ State:   Waiting
   Reason: ContainerCreating
 ```
 
-[Kubernetes公式のPodライフサイクル](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)は、`kubectl` の `STATUS` 欄をPodの `phase` と混同しないよう明記しています。`ContainerCreating` を見ただけでは、ボリューム、イメージ取得、Podの通信環境、コンテナ実行基盤のどこで止まったかは決まりません。
+[Kubernetes公式のPodライフサイクル](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)は、`kubectl` の `STATUS` 欄をPodの `phase` と混同しないよう明記しています。`ContainerCreating` を見ただけでは、ボリューム、[イメージ](/glossary/イメージ/)取得、Podの通信環境、[コンテナ](/glossary/コンテナ/)実行基盤のどこで止まったかは決まりません。
 
 そこで、次に `kubectl describe pod` の `Events` を読みます。
 
@@ -50,17 +50,17 @@ mount failed: exit status 32
 volume is already exclusively attached to one node
 ```
 
-つまり、**`ContainerCreating` を直接直すのではなく、最新イベントの具体的な失敗を直します**。`FailedMount` があるなら、最初に対象ボリューム名をPodの `volumes` と対応させ、参照先がSecret、ConfigMap、PVC、CSIのどれかを確定します。
+つまり、**`ContainerCreating` を直接直すのではなく、最新[イベント](/glossary/イベント/)の具体的な失敗を直します**。`FailedMount` があるなら、最初に対象ボリューム名をPodの `volumes` と対応させ、参照先がSecret、ConfigMap、PVC、CSIのどれかを確定します。
 
-もう1つ重要なのは、**`FailedMount` は現在も失敗中だという保証ではない**ことです。一度失敗しても、kubeletの再試行でマウントに成功し、Podが `Running` になることがあります。Eventsには過去の失敗が残るため、現在のPod状態、イベントの最終時刻、繰り返し回数を合わせて読みます。
+もう1つ重要なのは、**`FailedMount` は現在も失敗中だという保証ではない**ことです。一度失敗しても、kubeletの再試行でマウントに成功し、Podが `Running` になることがあります。Eventsには過去の失敗が残るため、現在のPod状態、[イベント](/glossary/イベント/)の最終時刻、繰り返し回数を合わせて読みます。
 
 ## エラーの概要
 
-公式文書によれば、コンテナの状態は `Waiting`、`Running`、`Terminated` の3つです。`Waiting` は、コンテナが起動に必要な処理をまだ終えていない状態で、イメージの取得やSecretの適用も含みます。
+公式文書によれば、[コンテナ](/glossary/コンテナ/)の状態は `Waiting`、`Running`、`Terminated` の3つです。`Waiting` は、[コンテナ](/glossary/コンテナ/)が起動に必要な処理をまだ終えていない状態で、[イメージ](/glossary/イメージ/)の取得やSecretの適用も含みます。
 
-Podがノードへ割り当てられた後は、kubeletが必要なボリュームをマウントし、コンテナ実行基盤を通してPodの通信環境とコンテナを準備します。[Podライフサイクルの公式説明](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-network-readiness)でも、必要なボリュームのマウント後に、Podの実行環境と通信設定を進める順序が示されています。
+Podがノードへ割り当てられた後は、kubeletが必要なボリュームをマウントし、[コンテナ](/glossary/コンテナ/)実行基盤を通してPodの通信環境と[コンテナ](/glossary/コンテナ/)を準備します。[Podライフサイクルの公式説明](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-network-readiness)でも、必要なボリュームのマウント後に、Podの実行環境と通信設定を進める順序が示されています。
 
-そのため、ボリュームの準備が終わらなければ、アプリケーションのコンテナはまだ動きません。
+そのため、ボリュームの準備が終わらなければ、[アプリケーション](/glossary/アプリケーション/)の[コンテナ](/glossary/コンテナ/)はまだ動きません。
 
 ```text
 Scheduled
@@ -72,7 +72,7 @@ Pod sandbox / network
 Container start
 ```
 
-この段階では、通常の `kubectl logs` にアプリケーションのログがないことがあります。アプリケーションが異常終了したのではなく、まだ開始されていないためです。原因はPodのEvents、PVCやPV、CSIドライバー、必要に応じてkubeletのログにあります。
+この段階では、通常の `kubectl logs` に[アプリケーション](/glossary/アプリケーション/)の[ログ](/glossary/ログ/)がないことがあります。[アプリケーション](/glossary/アプリケーション/)が異常終了したのではなく、まだ開始されていないためです。原因はPodのEvents、PVCやPV、CSIドライバー、必要に応じてkubeletの[ログ](/glossary/ログ/)にあります。
 
 `FailedMount` には、具体的な失敗と待機全体をまとめた失敗が混在します。
 
@@ -101,7 +101,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ノード名が空なら、マウントより前のスケジューリングで止まっています。`PodScheduled=False` と `FailedScheduling` を先に調べます。
 
-第二に、現在のコンテナ状態と最近のEventsを確認します。
+第二に、現在の[コンテナ](/glossary/コンテナ/)状態と最近のEventsを確認します。
 
 ```bash
 kubectl describe pod <Pod名> -n <名前空間>
@@ -123,9 +123,9 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .spec.volumes[*]}{.name}{"\tPVC="}{.persistentVolumeClaim.claimName}{"\tSecret="}{.secret.secretName}{"\tConfigMap="}{.configMap.name}{"\n"}{end}'
 ```
 
-たとえば、イベントに `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を確認します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
+たとえば、[イベント](/glossary/イベント/)に `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を確認します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
 
-第四に、Podを削除する前にイベントを保存します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
+第四に、Podを削除する前に[イベント](/glossary/イベント/)を保存します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml > pod-containercreating.yaml
@@ -189,9 +189,9 @@ kubectl get secret app-secret -n <名前空間> \
   -o go-template='{{range $k,$v := .data}}{{$k}}{{"\n"}}{{end}}'
 ```
 
-[Secretの公式文書](https://kubernetes.io/docs/concepts/configuration/secret/#optional-secrets)には、必須のSecretまたは指定キーが用意できるまで、Podのコンテナは開始されないと記載されています。
+[Secretの公式文書](https://kubernetes.io/docs/concepts/configuration/secret/#optional-secrets)には、必須のSecretまたは指定キーが用意できるまで、Podの[コンテナ](/glossary/コンテナ/)は開始されないと記載されています。
 
-`optional: true` にすれば、対象がなくても空の状態で進められます。ただし、アプリケーションが設定なしで安全に動ける場合だけ使います。エラーを消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の障害へ変わるだけです。
+`optional: true` にすれば、対象がなくても空の状態で進められます。ただし、[アプリケーション](/glossary/アプリケーション/)が設定なしで安全に動ける場合だけ使います。[エラー](/glossary/エラー/)を消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の障害へ変わるだけです。
 
 ### 原因2：PVCが存在しない、またはPVへ結び付いていない
 
@@ -228,7 +228,7 @@ StorageClassが `volumeBindingMode: WaitForFirstConsumer` の場合、PVCがPod�
 
 ### 原因3：CSIドライバーが失敗ノードに登録されていない
 
-永続ボリュームの多くは、CSIというストレージ接続の共通方式を使います。次の文言なら、失敗したノードのkubeletが必要なCSIドライバーを使える状態ではありません。
+永続ボリュームの多くは、CSIという[ストレージ](/glossary/ストレージ/)接続の共通方式を使います。次の文言なら、失敗したノードのkubeletが必要なCSIドライバーを使える状態ではありません。
 
 ```text
 driver name disk.csi.example.com not found in the list of registered CSI drivers
@@ -244,9 +244,9 @@ kubectl get csinode "$NODE" -o yaml
 kubectl get pods -n kube-system -o wide --field-selector spec.nodeName="$NODE"
 ```
 
-`CSINode` は、ノードに登録されたCSIドライバーの情報を持つオブジェクトです。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ登録すると、kubeletが `CSINode` を更新すると説明されています。
+`CSINode` は、ノードに登録されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ登録すると、kubeletが `CSINode` を更新すると説明されています。
 
-対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの登録、kubeletとの版の対応を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCやアプリケーションの定義ではなくノード側の問題です。
+対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの登録、kubeletとの版の対応を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
 
 ```bash
 kubectl describe pod <CSI node Pod名> -n kube-system
@@ -254,11 +254,11 @@ kubectl logs <CSI node Pod名> -n kube-system -c <ドライバーのコンテナ
 kubectl logs <CSI node Pod名> -n kube-system -c node-driver-registrar --since=20m
 ```
 
-CSIドライバーの名前空間やコンテナ名は製品ごとに異なります。`kube-system` と決めつけず、DaemonSetとPodの実際の配置を確認してください。
+CSIドライバーの名前空間や[コンテナ](/glossary/コンテナ/)名は製品ごとに異なります。`kube-system` と決めつけず、DaemonSetとPodの実際の配置を確認してください。
 
 ### 原因4：ボリュームの接続が終わっていない
 
-ネットワーク接続型やクラウドのブロックストレージでは、ノードへの接続と、ノード内でのマウントが別の段階です。
+[ネットワーク](/glossary/ネットワーク/)接続型や[クラウド](/glossary/クラウド/)のブロックストレージでは、ノードへの接続と、ノード内でのマウントが別の段階です。
 
 ```text
 Warning  FailedAttachVolume
@@ -285,7 +285,7 @@ Volume is already exclusively attached to one node and can't be attached to anot
 
 ReadWriteOnceは、1つのノードから読み書きできる指定です。同じノード上の複数Podを必ず排除する指定ではありません。1つのPodだけに限定する必要がある場合は、対応するCSIドライバーで `ReadWriteOncePod` を使います。
 
-古いノードやVolumeAttachmentを確認せず、ストレージ側で強制的に接続解除しないでください。以前のノードがまだ書き込んでいる状態で別ノードへ接続すると、ファイルシステムを壊す危険があります。ノードの生存、Podの終了、接続先、ストレージ提供元の手順を確認してから解除します。
+古いノードやVolumeAttachmentを確認せず、[ストレージ](/glossary/ストレージ/)側で強制的に接続解除しないでください。以前のノードがまだ書き込んでいる状態で別ノードへ接続すると、ファイルシステムを壊す危険があります。ノードの生存、Podの終了、接続先、[ストレージ](/glossary/ストレージ/)提供元の手順を確認してから解除します。
 
 また、PVの `nodeAffinity`、StorageClassの `allowedTopologies`、Podの配置先が異なる地域やゾーンを指していないかも確認します。
 
@@ -323,16 +323,16 @@ kubectl get pv <PV名> -o yaml
 kubectl get storageclass <StorageClass名> -o yaml
 ```
 
-その後、CSI controllerと失敗ノード上のCSI node Podのログを同じ時刻で確認します。PodのEventsが要約しか持たない場合でも、ドライバーのログにはストレージ提供元が返した識別子や理由が残ることがあります。
+その後、CSI controllerと失敗ノード上のCSI node Podの[ログ](/glossary/ログ/)を同じ時刻で確認します。PodのEventsが要約しか持たない場合でも、ドライバーの[ログ](/glossary/ログ/)には[ストレージ](/glossary/ストレージ/)提供元が返した識別子や理由が残ることがあります。
 
-自己管理ノードで必要な場合は、kubeletのログも確認します。
+自己管理ノードで必要な場合は、kubeletの[ログ](/glossary/ログ/)も確認します。
 
 ```bash
 sudo journalctl -u kubelet --since "20 minutes ago" --no-pager \
   | grep -E '<Pod名>|<PodのUID>|MountVolume|FailedMount'
 ```
 
-マウント先の削除、手動 `umount`、CSI管理ディレクトリの消去を最初の対処にしません。kubeletとCSIが管理する状態を手作業で変えると、実際の接続状態と記録がずれることがあります。
+マウント先の削除、手動 `umount`、CSI管理[ディレクトリ](/glossary/ディレクトリ/)の消去を最初の対処にしません。kubeletとCSIが管理する状態を手作業で変えると、実際の接続状態と記録がずれることがあります。
 
 ### 原因6：対象は存在するが、kubeletがSecretやConfigMapを取得できない
 
@@ -351,9 +351,9 @@ kubectl get configmap app-config -n <名前空間>
 kubectl get secret app-secret -n <名前空間>
 ```
 
-対象が存在し、指定名とキーも正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletとAPIサーバー間の通信、kubeletの監視処理、ノードの負荷を確認します。
+対象が存在し、指定名とキーも正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を確認します。
 
-[ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの更新を監視またはキャッシュし、定期的な同期で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末からAPIサーバーへ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
+[ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの更新を監視または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
 
 実際に、公式課題（[Kubelet reports configmaps not found even though they do exist](https://github.com/kubernetes/kubernetes/issues/90725)）では、ConfigMapが存在して `kubectl get` でも取得できる一方、複数Podが `ContainerCreating` になり、kubeletが `configmap not found` を繰り返した事例が報告されています。
 
@@ -387,7 +387,7 @@ Podが `Running` かつ `Ready` で、`FailedMount` の最終時刻が古く、�
 
 ### 原因8：FailedMountではなく、別の準備処理で止まっている
 
-`ContainerCreating` でも `FailedMount` がない場合は、最新のWarningイベントを読みます。
+`ContainerCreating` でも `FailedMount` がない場合は、最新のWarning[イベント](/glossary/イベント/)を読みます。
 
 ```text
 ErrImagePull / ImagePullBackOff
@@ -403,21 +403,21 @@ FailedCreatePodContainer
   → コンテナ実行基盤が返した具体的な文を確認する
 ```
 
-Secretが原因でも、ボリュームとして参照した場合は `FailedMount`、環境変数として参照した場合は `CreateContainerConfigError` になることがあります。同じ対象名でも、Pod定義のどこから使っているかで失敗段階が変わります。
+Secretが原因でも、ボリュームとして参照した場合は `FailedMount`、[環境変数](/glossary/環境変数/)として参照した場合は `CreateContainerConfigError` になることがあります。同じ対象名でも、Pod定義のどこから使っているかで失敗段階が変わります。
 
 ## 補足：似ているが別のもの
 
-`Pending` はPodのphaseです。ノードへ未配置の場合と、配置済みだがコンテナ準備中の場合を含みます。`ContainerCreating` は、その中で `kubectl` がコンテナの待機理由を表示したものです。
+`Pending` はPodのphaseです。ノードへ未配置の場合と、配置済みだが[コンテナ](/glossary/コンテナ/)準備中の場合を含みます。`ContainerCreating` は、その中で `kubectl` が[コンテナ](/glossary/コンテナ/)の待機理由を表示したものです。
 
-`ImagePullBackOff` は、コンテナイメージの取得に失敗し、再試行まで待っている状態です。ボリュームの `FailedMount` とは別の準備処理です。
+`ImagePullBackOff` は、[コンテナイメージ](/glossary/コンテナイメージ/)の取得に失敗し、再試行まで待っている状態です。ボリュームの `FailedMount` とは別の準備処理です。
 
-`CreateContainerConfigError` は、コンテナを作る設定を完成できない状態です。SecretやConfigMapが関係していても、volumeではなく `env` や `envFrom` から参照している場合はこちらになることがあります。
+`CreateContainerConfigError` は、[コンテナ](/glossary/コンテナ/)を作る設定を完成できない状態です。SecretやConfigMapが関係していても、volumeではなく `env` や `envFrom` から参照している場合はこちらになることがあります。
 
-`FailedAttachVolume` は、ストレージをノードへ接続する段階の失敗です。`FailedMount` は、そのボリュームをノード上で利用可能にする段階の失敗、または接続待ち全体の結果として出ます。両方がある場合は、時系列で先に出た具体的な接続失敗を優先します。
+`FailedAttachVolume` は、[ストレージ](/glossary/ストレージ/)をノードへ接続する段階の失敗です。`FailedMount` は、そのボリュームをノード上で利用可能にする段階の失敗、または接続待ち全体の結果として出ます。両方がある場合は、時系列で先に出た具体的な接続失敗を優先します。
 
-`CrashLoopBackOff` は、コンテナが少なくとも一度は開始し、終了を繰り返している状態です。こちらではアプリケーションログと終了コードが主な調査対象になります。`ContainerCreating` は開始前なので、通常のアプリケーションログがないこと自体は異常ではありません。
+`CrashLoopBackOff` は、[コンテナ](/glossary/コンテナ/)が少なくとも一度は開始し、終了を繰り返している状態です。こちらではアプリケーションログと終了[コード](/glossary/コード/)が主な調査対象になります。`ContainerCreating` は開始前なので、通常のアプリケーションログがないこと自体は異常ではありません。
 
-`MountVolume.SetUp succeeded` または `SuccessfulMountVolume` があっても、コンテナ開始が保証されたわけではありません。マウント後のPod通信環境、イメージ取得、コンテナ作成で別の失敗が起きる可能性があります。最新イベントを最後まで読みます。
+`MountVolume.SetUp succeeded` または `SuccessfulMountVolume` があっても、[コンテナ](/glossary/コンテナ/)開始が保証されたわけではありません。マウント後のPod通信環境、[イメージ](/glossary/イメージ/)取得、[コンテナ](/glossary/コンテナ/)作成で別の失敗が起きる可能性があります。最新[イベント](/glossary/イベント/)を最後まで読みます。
 
 ## 切り分けの順序
 
@@ -429,9 +429,9 @@ Secretが原因でも、ボリュームとして参照した場合は `FailedMou
 6. SecretやConfigMapなら、同じ名前空間の対象名とキーを確認する。
 7. PVCなら、PVCの状態からPV、StorageClass、CSIドライバーまでたどる。
 8. `FailedAttachVolume` が先にあるなら、接続先ノード、VolumeAttachment、アクセスモード、場所の制約を確認する。
-9. CSIの `rpc error` や `mount failed` は、`desc` と `Output` の末尾を読み、失敗ノードのCSIログと照合する。
-10. Podの現在状態、イベントの最終時刻、回数を比べ、古い失敗記録か現在も続く失敗かを分ける。
-11. `FailedMount` がなければ、イメージ、Podの通信環境、コンテナ実行基盤など別の準備処理へ進む。
+9. CSIの `rpc error` や `mount failed` は、`desc` と `Output` の末尾を読み、失敗ノードのCSI[ログ](/glossary/ログ/)と照合する。
+10. Podの現在状態、[イベント](/glossary/イベント/)の最終時刻、回数を比べ、古い失敗記録か現在も続く失敗かを分ける。
+11. `FailedMount` がなければ、[イメージ](/glossary/イメージ/)、Podの通信環境、[コンテナ](/glossary/コンテナ/)実行基盤など別の準備処理へ進む。
 12. Pod削除やノード再起動は、証拠を保存し、原因の範囲を絞った後に行う。
 
 ## 確認コマンド集
@@ -488,19 +488,19 @@ kubectl get events -n <名前空間> \
 
 ## Editor's Note
 
-`ContainerCreating` と `FailedMount` が分かりにくい理由は、**現在の要約と過去の試行記録が同じ画面に並ぶ**ことにあります。この境界は、Kubernetesの公式課題でも繰り返し問題になっています。
+`ContainerCreating` と `FailedMount` が分かりにくい理由は、**現在の要約と過去の試行記録が同じ画面に並ぶ**ことにあります。この境界は、[Kubernetes](/glossary/kubernetes/)の公式課題でも繰り返し問題になっています。
 
-2017年の報告（[FailedMount event can be misleading](https://github.com/kubernetes/kubernetes/issues/42867)）では、ボリュームのマウントが最終的には成功したのに、Eventsには `FailedMount` だけが残り、現在も失敗中なのか分からないと指摘されました。報告者は、成功したことを示すイベントが必要だと求めています。
+2017年の報告（[FailedMount event can be misleading](https://github.com/kubernetes/kubernetes/issues/42867)）では、ボリュームのマウントが最終的には成功したのに、Eventsには `FailedMount` だけが残り、現在も失敗中なのか分からないと指摘されました。報告者は、成功したことを示す[イベント](/glossary/イベント/)が必要だと求めています。
 
 この課題に対して、同年に [SuccessfulMountVolumeを追加する変更](https://github.com/kubernetes/kubernetes/pull/43852) が取り込まれました。変更の説明にも、最初のマウントは失敗しても、複数回の再試行後に成功し得るため、失敗だけが見えると判断を誤ると書かれています。
 
-しかし、問題の構造はそれだけでは消えませんでした。2021年の報告（[False Positive: FailedMount events generated even when the pod comes up fine](https://github.com/kubernetes/kubernetes/issues/99475)）では、ServiceAccount用のボリュームで `failed to sync secret cache` が一時的に出た後、Podは正常に起動しました。報告者は、`FailedMount` だけで監視すると誤検知になるため、イベントを出す前に再試行してほしいと述べています。
+しかし、問題の構造はそれだけでは消えませんでした。2021年の報告（[False Positive: FailedMount events generated even when the pod comes up fine](https://github.com/kubernetes/kubernetes/issues/99475)）では、ServiceAccount用のボリュームで `failed to sync secret cache` が一時的に出た後、Podは正常に起動しました。報告者は、`FailedMount` だけで監視すると誤検知になるため、[イベント](/glossary/イベント/)を出す前に再試行してほしいと述べています。
 
 さらに2022年の報告（[Inconsistent POD status reporting with kubectl get && describe](https://github.com/kubernetes/kubernetes/issues/109451)）では、同じPodが `kubectl get` では `ContainerCreating`、`kubectl describe` の `Status` では `Pending` と表示されました。報告内でも、前者は表示用の要約、後者はPodのphaseで、同じ項目を見ていないことが指摘されています。
 
-3件が示しているのは、文言の正誤より、**どの時点の何を表す情報かを分ける必要がある**ということです。`ContainerCreating` は現在の待機理由をまとめた表示です。`Pending` はPodのphaseです。`FailedMount` は失敗した試行のイベントです。どれか1つだけでは、現在も障害が続いているかを判断できません。
+3件が示しているのは、文言の正誤より、**どの時点の何を表す情報かを分ける必要がある**ということです。`ContainerCreating` は現在の待機理由をまとめた表示です。`Pending` はPodのphaseです。`FailedMount` は失敗した試行の[イベント](/glossary/イベント/)です。どれか1つだけでは、現在も障害が続いているかを判断できません。
 
-だから、`ContainerCreating` を見たら状態名を検索して終わらず、最新イベントへ進みます。`FailedMount` を見たら、その存在だけで警報を確定せず、末尾の具体的な理由、最終時刻、回数、現在のReady状態を確認します。情報の種類と時刻をそろえることが、この組み合わせを正しく読むための中心です。
+だから、`ContainerCreating` を見たら状態名を検索して終わらず、最新[イベント](/glossary/イベント/)へ進みます。`FailedMount` を見たら、その存在だけで警報を確定せず、末尾の具体的な理由、最終時刻、回数、現在のReady状態を確認します。情報の種類と時刻をそろえることが、この組み合わせを正しく読むための中心です。
 
 ---
 

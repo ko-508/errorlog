@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman で 403 [エラー](/glossary/エラー/)が発生した場合、[認証](/glossary/認証/)には成功していますがリソースへの[アクセス権限](/glossary/アクセス権限/)がない状態です。[プライベートレジストリ](/glossary/プライベートレジストリ/)へのアクセスやシステムのセキュリティポリシーが原因となることがほとんどです。Podman は [Docker](/glossary/docker/) と[互換性](/glossary/互換性/)のあるコンテナランタイムですが、権限管理の厳密さから、[Docker](/glossary/docker/) では許可されるアクセスが Podman では制限されることもあります。
+Podman で 403 [エラー](/glossary/エラー/)が発生した場合、[認証](/glossary/認証/)には成功していますがリソースへの[アクセス権限](/glossary/アクセス権限/)がない状態です。[プライベートレジストリ](/glossary/プライベートレジストリ/)へのアクセスやシステムの[セキュリティポリシー](/glossary/セキュリティポリシー/)が原因となることがほとんどです。Podman は [Docker](/glossary/docker/) と[互換性](/glossary/互換性/)のあるコンテナランタイムですが、権限管理の厳密さから、[Docker](/glossary/docker/) では許可されるアクセスが Podman では制限されることもあります。
 
 ## 実際のエラーメッセージ例
 
@@ -86,7 +86,7 @@ podman push registry.example.com/restricted-repo/image:v1.0
 
 ### 原因3：Podman の rootless モード での SELinux/AppArmor ポリシー違反
 
-Podman をルートレスモードで実行している場合、SELinux または AppArmor のセキュリティポリシーがネットワークアクセスやボリュームマウントを制限し、実質的に 403 に相当する[エラー](/glossary/エラー/)を発生させることがあります。
+Podman をルートレスモードで実行している場合、SELinux または AppArmor の[セキュリティポリシー](/glossary/セキュリティポリシー/)がネットワークアクセスやボリュームマウントを制限し、実質的に 403 に相当する[エラー](/glossary/エラー/)を発生させることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

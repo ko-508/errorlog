@@ -16,7 +16,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 429 Too Many Requests は、呼び出しの量が制限を超えたことを示します。重要なのは、制限が2種類あることです。第一に primary rate limit で、時間あたりの総量の上限です。これに達すると応答[ヘッダー](/glossary/ヘッダー/)の x-ratelimit-remaining が 0 になります。第二に secondary rate limit で、短時間の集中（大量の並列[リクエスト](/glossary/リクエスト/)、作成系操作の連打など）に対する保護です。こちらは残量が残っていても発動し、message に secondary rate limit という文言が入ります。なお、公式ドキュメントのとおり、同じ制限超過が 429 ではなく 403 で返ることもあります（対処は同じです）。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 429 Too Many Requests は、呼び出しの量が制限を超えたことを示します。重要なのは、制限が2種類あることです。第一に primary rate limit で、時間あたりの総量の上限です。これに達すると応答[ヘッダー](/glossary/ヘッダー/)の x-ratelimit-remaining が 0 になります。第二に secondary rate limit で、短時間の集中（大量の並列[リクエスト](/glossary/リクエスト/)、作成系操作の連打など）に対する保護です。こちらは残量が残っていても発動し、message に secondary rate limit という文言が入ります。なお、公式ドキュメントのとおり、同じ制限超過が 429 ではなく 403 で返ることもあります（対処は同じです）。
 
 429 を受け取ったときにやってはいけないのが、待たずに再試行を繰り返すことです。対処の順序は、まず[ヘッダー](/glossary/ヘッダー/)の指示どおりに待つ、次に[認証](/glossary/認証/)を付けて上限を上げる、最後に呼び出しそのものを減らす（直列化・条件付き[リクエスト](/glossary/リクエスト/)・webhook への転換）、です。いずれも公式の指針が明確に定まっています。
 
@@ -109,7 +109,7 @@ curl -si -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/<owner>/<repo> | head -1
 ```
 
-第二に、ポーリング自体をやめて webhook（変更時に GitHub 側から通知が届く仕組み）を購読することです。公式ベストプラクティスの筆頭に挙げられている方法で、変化のたびに知らせが来るため、確認のための取得が不要になります。
+第二に、ポーリング自体をやめて webhook（変更時に [GitHub](/glossary/github/) 側から通知が届く仕組み）を購読することです。公式ベストプラクティスの筆頭に挙げられている方法で、変化のたびに知らせが来るため、確認のための取得が不要になります。
 
 ## 補足：429ではない類似エラー
 
@@ -145,7 +145,7 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 
 ## Editor's Note
 
-原因4の効果を数字で示した解説として、GitHub 公式コミュニティの議論があります（[Working with the GitHub API rate limit](https://github.com/orgs/community/discussions/189255)）。50個の[リポジトリ](/glossary/リポジトリ/)の pull request を5分おきに監視する例で、9割の確率で変更がないとすると、1時間600回の取得のうち540回が同じデータの取り直しに消えます。etag による条件付き[リクエスト](/glossary/リクエスト/)に切り替えると、取得の回数自体は600回のままでも、制限を消費するのは変更のあった約60回だけになる、という計算が示されています。あわせて実務上の注意も記録されています。etag はページ単位なので、ページ分割された一覧では1ページ目が 304 でも他のページが未変更とは限らないこと、[GraphQL](/glossary/graphql/) は etag に対応していないため、[GraphQL](/glossary/graphql/) の結果は[クエリ](/glossary/クエリ/)と[変数](/glossary/変数/)を鍵に自前で[キャッシュ](/glossary/キャッシュ/)する必要があること、通知系の[エンドポイント](/glossary/エンドポイント/)では応答の X-Poll-Interval [ヘッダー](/glossary/ヘッダー/)が示す間隔を守るべきことです。「呼び出しを減らす」の具体像として、そのまま設計の参考にできます。
+原因4の効果を数字で示した解説として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[Working with the GitHub API rate limit](https://github.com/orgs/community/discussions/189255)）。50個の[リポジトリ](/glossary/リポジトリ/)の pull request を5分おきに監視する例で、9割の確率で変更がないとすると、1時間600回の取得のうち540回が同じデータの取り直しに消えます。etag による条件付き[リクエスト](/glossary/リクエスト/)に切り替えると、取得の回数自体は600回のままでも、制限を消費するのは変更のあった約60回だけになる、という計算が示されています。あわせて実務上の注意も記録されています。etag はページ単位なので、ページ分割された一覧では1ページ目が 304 でも他のページが未変更とは限らないこと、[GraphQL](/glossary/graphql/) は etag に対応していないため、[GraphQL](/glossary/graphql/) の結果は[クエリ](/glossary/クエリ/)と[変数](/glossary/変数/)を鍵に自前で[キャッシュ](/glossary/キャッシュ/)する必要があること、通知系の[エンドポイント](/glossary/エンドポイント/)では応答の X-Poll-Interval [ヘッダー](/glossary/ヘッダー/)が示す間隔を守るべきことです。「呼び出しを減らす」の具体像として、そのまま設計の参考にできます。
 
 429 は、応答の[ヘッダー](/glossary/ヘッダー/)が「いつまで待てばよいか」を毎回教えてくれる[エラー](/glossary/エラー/)です。感覚で待ち時間を決めたり連打で押し切ろうとしたりせず、[ヘッダー](/glossary/ヘッダー/)の指示に従い、そのうえで呼び出しの総量と勢いを設計で減らすことが確実な近道です。
 

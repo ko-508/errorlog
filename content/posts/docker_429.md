@@ -120,7 +120,7 @@ sudo systemctl restart docker
 
 ## 補足：このコードではない類似エラー
 
-pull access denied は[認証](/glossary/認証/)・権限系の[エラー](/glossary/エラー/)で、対象の存在と[権限](/glossary/権限/)を区別しない設計です。回数制限とは無関係で、調査は[ログイン](/glossary/ログイン/)状態と[リポジトリ](/glossary/リポジトリ/)名に向けます（[docker_404 の記事](/posts/docker_404/)の補足を参照）。Cannot connect to the [Docker](/glossary/docker/) daemon は[デーモン](/glossary/デーモン/)不達で、[Docker](/glossary/docker/) Hub に到達する前の問題です（[docker_500 の記事](/posts/docker_500/)の補足を参照）。received unexpected [HTTP](/glossary/http/) status: 500 は[レジストリ](/glossary/レジストリ/)側の内部[エラー](/glossary/エラー/)、504 は[レジストリ](/glossary/レジストリ/)経路のゲートウェイの時間切れで、いずれも回数とは別の系統です（[docker_500 の記事](/posts/docker_500/)、[docker_504 の記事](/posts/docker_504/)）。また、GitHub [API](/glossary/api/) など他サービスの429は制限の仕組みも待ち方の指示も異なります（[GitHub API の 429 の記事](/posts/github_api_429/)、[AWS の 429 の記事](/posts/aws_429/)）。
+pull access denied は[認証](/glossary/認証/)・権限系の[エラー](/glossary/エラー/)で、対象の存在と[権限](/glossary/権限/)を区別しない設計です。回数制限とは無関係で、調査は[ログイン](/glossary/ログイン/)状態と[リポジトリ](/glossary/リポジトリ/)名に向けます（[docker_404 の記事](/posts/docker_404/)の補足を参照）。Cannot connect to the [Docker](/glossary/docker/) daemon は[デーモン](/glossary/デーモン/)不達で、[Docker](/glossary/docker/) Hub に到達する前の問題です（[docker_500 の記事](/posts/docker_500/)の補足を参照）。received unexpected [HTTP](/glossary/http/) status: 500 は[レジストリ](/glossary/レジストリ/)側の内部[エラー](/glossary/エラー/)、504 は[レジストリ](/glossary/レジストリ/)経路のゲートウェイの時間切れで、いずれも回数とは別の系統です（[docker_500 の記事](/posts/docker_500/)、[docker_504 の記事](/posts/docker_504/)）。また、[GitHub](/glossary/github/) [API](/glossary/api/) など他サービスの429は制限の仕組みも待ち方の指示も異なります（[GitHub API の 429 の記事](/posts/github_api_429/)、[AWS の 429 の記事](/posts/aws_429/)）。
 
 ## 切り分けの順序
 

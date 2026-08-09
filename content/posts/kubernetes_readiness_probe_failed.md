@@ -15,7 +15,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`Readiness probe failed` は、kubeletが「このコンテナは現在、利用者からの要求を受ける準備ができていない」と判定した記録です。
+`Readiness probe failed` は、kubeletが「この[コンテナ](/glossary/コンテナ/)は現在、利用者からの要求を受ける準備ができていない」と判定した記録です。
 
 ```text
 Warning  Unhealthy  kubelet  Readiness probe failed:
@@ -23,7 +23,7 @@ Get "http://10.244.1.18:8080/readyz":
 context deadline exceeded
 ```
 
-失敗が `failureThreshold` の回数だけ連続すると、kubeletはコンテナを終了せず、Podの `Ready` conditionを `False` にします。該当Podを選択するServiceでは、EndpointSliceの通常転送対象から外れます。
+失敗が `failureThreshold` の回数だけ連続すると、kubeletは[コンテナ](/glossary/コンテナ/)を終了せず、Podの `Ready` conditionを `False` にします。該当Podを選択するServiceでは、EndpointSliceの通常転送対象から外れます。
 
 ```text
 Readiness probeが失敗
@@ -71,7 +71,7 @@ Pod IPへの直接接続、kubectl port-forward、独自に管理したEndpointS
   → readiness失敗だけで切断される保証はない
 ```
 
-また、EndpointSliceと各Nodeの転送規則は制御処理で更新されるため、失敗した瞬間にクラスタ内のすべての通信が同時停止するわけではありません。外部Load Balancer、Ingress、service meshには、それぞれ反映時間と動作があります。
+また、EndpointSliceと各Nodeの転送規則は制御処理で更新されるため、失敗した瞬間にクラスタ内のすべての[通信](/glossary/通信/)が同時停止するわけではありません。外部Load Balancer、Ingress、service meshには、それぞれ反映時間と動作があります。
 
 最初に確認するのは、Podだけではなく次の3点です。
 
@@ -83,7 +83,7 @@ PodのReady conditionがどうなったか
 
 ## エラーの概要
 
-readiness probeは、コンテナが現在、要求を受けてよいかを定期的に判定します。HTTP、TCP、exec、gRPCの方式はlivenessと共通ですが、失敗後の処理が違います。
+readiness probeは、[コンテナ](/glossary/コンテナ/)が現在、要求を受けてよいかを定期的に判定します。[HTTP](/glossary/http/)、TCP、exec、[gRPC](/glossary/grpc/)の方式はlivenessと共通ですが、失敗後の処理が違います。
 
 ```yaml
 readinessProbe:
@@ -103,13 +103,13 @@ readinessProbe:
 
 | 項目 | 既定値 | 意味 |
 |---|---:|---|
-| `initialDelaySeconds` | 0秒 | コンテナ開始後、最初のprobeまで待つ時間 |
+| `initialDelaySeconds` | 0秒 | [コンテナ](/glossary/コンテナ/)開始後、最初のprobeまで待つ時間 |
 | `periodSeconds` | 10秒 | probeの基本間隔 |
 | `timeoutSeconds` | 1秒 | 1回のprobeを失敗とする時間 |
 | `successThreshold` | 1回 | 失敗後にReadyへ戻す連続成功数 |
 | `failureThreshold` | 3回 | Unreadyとする連続失敗数 |
 
-コンテナがUnreadyの間、readiness probeは復帰を早く検出するため、設定した `periodSeconds` 以外の時点にも実行されることがあります。したがって、常に正確な固定間隔だと仮定してprobe回数を監視しないでください。
+[コンテナ](/glossary/コンテナ/)がUnreadyの間、readiness probeは復帰を早く検出するため、設定した `periodSeconds` 以外の時点にも実行されることがあります。したがって、常に正確な固定間隔だと仮定してprobe回数を監視しないでください。
 
 PodのReadyは、1つのreadiness probeだけで決まるとは限りません。
 
@@ -121,11 +121,11 @@ ContainersReady=True
 Pod Ready=True
 ```
 
-複数コンテナのうち1つでもReadyでなければ、Pod全体のReadyはFalseになります。また、`readinessGates` を使っている場合は、すべてのprobeが成功しても独自conditionがFalseまたは未設定ならPodはReadyになりません。
+複数[コンテナ](/glossary/コンテナ/)のうち1つでもReadyでなければ、Pod全体のReadyはFalseになります。また、`readinessGates` を使っている場合は、すべてのprobeが成功しても独自conditionがFalseまたは未設定ならPodはReadyになりません。
 
 PodがReadyになると、EndpointSlice controllerは該当Service向けのendpointへ状態を反映します。[EndpointSliceの公式資料](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/#conditions)では、`ready`、`serving`、`terminating` のconditionが定義されています。通常の実行中Podでは、PodのReadyがService endpointの `ready` と `serving` に対応します。
 
-各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを監視し、Serviceの仮想IPへ来た通信の転送先を更新します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この監視と同期の制御処理が説明されています。
+各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを監視し、Serviceの仮想IPへ来た[通信](/glossary/通信/)の転送先を更新します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この監視と[同期](/glossary/同期/)の制御処理が説明されています。
 
 ## まず最初に：Pod、condition、EndpointSliceを同じ時刻で見る
 
@@ -136,7 +136,7 @@ kubectl get pod <Pod名> -n <名前空間> -o wide
 kubectl describe pod <Pod名> -n <名前空間>
 ```
 
-イベント末尾の具体的な理由を読みます。
+[イベント](/glossary/イベント/)末尾の具体的な理由を読みます。
 
 ```text
 Readiness probe failed: dial tcp ... connect: connection refused
@@ -144,7 +144,7 @@ Readiness probe failed: context deadline exceeded
 Readiness probe failed: HTTP probe failed with statuscode: 503
 ```
 
-第二に、Pod conditionとコンテナごとのready状態を確認します。
+第二に、Pod conditionと[コンテナ](/glossary/コンテナ/)ごとのready状態を確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -181,7 +181,7 @@ endpoints:
       terminating: false
 ```
 
-古い `Endpoints` APIではなく、現在のService転送の基礎であるEndpointSliceを優先して確認します。`kubectl describe service` の要約だけで判定しません。
+古い `Endpoints` [API](/glossary/api/)ではなく、現在のService転送の基礎であるEndpointSliceを優先して確認します。`kubectl describe service` の要約だけで判定しません。
 
 最後に、Pod IPへ直接接続して、アプリ自体の応答とService経由の応答を分けます。
 
@@ -230,11 +230,11 @@ readinessProbe:
     port: http
 ```
 
-HTTP 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute登録を確認します。HTTP 401または403なら、認証が必要なendpointをprobeしていないか確認します。
+[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute登録を確認します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか確認します。
 
 ### 原因2：アプリがlocalhostだけで待ち受けている
 
-HTTPとTCPのprobeは、Node側のkubeletからPod IPへ接続します。コンテナ内の次の接続だけで成功しても不十分です。
+[HTTP](/glossary/http/)とTCPのprobeは、Node側のkubeletからPod IPへ接続します。[コンテナ](/glossary/コンテナ/)内の次の接続だけで成功しても不十分です。
 
 ```bash
 curl http://127.0.0.1:8080/readyz
@@ -259,7 +259,7 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
 
 readiness probeがあるPodは、最初の成功までServiceの転送先へ入りません。これは起動中の要求を防ぐ正しい動作です。
 
-一方、起動に数分かかることが正常なのに、イベントを障害として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしもアプリ異常ではありません。
+一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を障害として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしもアプリ異常ではありません。
 
 起動処理と起動後の一時的な準備不足を分けたい場合は、startup probeを追加します。
 
@@ -279,7 +279,7 @@ readinessProbe:
   failureThreshold: 2
 ```
 
-startup probeが成功するまでreadinessとlivenessは開始されません。起動中の `Readiness probe failed` イベントを減らせますが、その間もPodはReadyになりません。
+startup probeが成功するまでreadinessとlivenessは開始されません。起動中の `Readiness probe failed` [イベント](/glossary/イベント/)を減らせますが、その間もPodはReadyになりません。
 
 ### 原因4：timeoutSecondsが短く、高負荷時だけ失敗する
 
@@ -312,7 +312,7 @@ timeoutを延ばすとUnreadyの検出も遅くなるため、値を大きくす
 
 ### 原因5：一時的な外部依存障害を正しく検出している
 
-アプリが外部DBなしでは正しい応答を返せないなら、その依存先の停止でreadinessを失敗させる設計は合理的です。コンテナを再起動せず、誤った応答を返すPodをServiceから外せます。
+アプリが外部DBなしでは正しい応答を返せないなら、その依存先の停止でreadinessを失敗させる設計は合理的です。[コンテナ](/glossary/コンテナ/)を再起動せず、誤った応答を返すPodをServiceから外せます。
 
 ```text
 DB接続不可
@@ -352,14 +352,14 @@ readinessProbe:
 
 ### 原因7：複数コンテナの別コンテナがUnreadyになっている
 
-main containerの `/readyz` が成功していても、sidecarなど別のコンテナがReadyでなければPod全体はReadyになりません。
+main containerの `/readyz` が成功していても、sidecarなど別の[コンテナ](/glossary/コンテナ/)がReadyでなければPod全体はReadyになりません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" state="}{.state}{"\n"}{end}'
 ```
 
-各コンテナの `ready` を確認し、イベントに表示されたcontainer名とprobe設定を対応させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
+各[コンテナ](/glossary/コンテナ/)の `ready` を確認し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe設定を対応させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
 
 ### 原因8：readinessGateがFalseまたは未設定になっている
 
@@ -378,7 +378,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.conditions[*]}{.type}{"="}{.status}{" reason="}{.reason}{" message="}{.message}{"\n"}{end}'
 ```
 
-`Readiness probe failed` が過去イベントに残っていても、現在のReady=FalseがreadinessGateによる場合があります。イベントの最終時刻と現在conditionを分けます。
+`Readiness probe failed` が過去[イベント](/glossary/イベント/)に残っていても、現在のReady=FalseがreadinessGateによる場合があります。[イベント](/glossary/イベント/)の最終時刻と現在conditionを分けます。
 
 ### 原因9：ServiceがpublishNotReadyAddressesを有効にしている
 
@@ -389,14 +389,14 @@ spec:
   publishNotReadyAddresses: true
 ```
 
-[Service APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/core/service-v1/#ServiceSpec)では、Kubernetesが生成するEndpointsとEndpointSliceで、すべてのendpointをreadyとして扱う設定と説明されています。主な用途は、StatefulSetのpeer discoveryなどです。
+[Service APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/core/service-v1/#ServiceSpec)では、[Kubernetes](/glossary/kubernetes/)が生成するEndpointsとEndpointSliceで、すべてのendpointをreadyとして扱う設定と説明されています。主な用途は、StatefulSetのpeer discoveryなどです。
 
 ```bash
 kubectl get service <Service名> -n <名前空間> \
   -o jsonpath='{.spec.publishNotReadyAddresses}{"\n"}'
 ```
 
-この設定では、readiness probeが失敗してもService経由の通信が続き得ます。利用者要求を止める目的のServiceで必要な設定かを確認します。
+この設定では、readiness probeが失敗してもService経由の[通信](/glossary/通信/)が続き得ます。利用者要求を止める目的のServiceで必要な設定かを確認します。
 
 ### 原因10：ServiceのselectorまたはEndpointSliceの管理主体が違う
 
@@ -415,17 +415,17 @@ metadata:
     endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
 ```
 
-独自管理なら、そのcontrollerがPod Readyをどう扱うかを確認します。Kubernetes標準のreadinessだけで外れると仮定しません。
+独自管理なら、そのcontrollerがPod Readyをどう扱うかを確認します。[Kubernetes](/glossary/kubernetes/)標準のreadinessだけで外れると仮定しません。
 
 ## 補足：似ているが別のもの
 
 ### Liveness probe failed
 
-liveness失敗が閾値へ達すると、対象コンテナを終了し、restartPolicyに従って再起動します。`RESTARTS` が増え、同じ失敗が続けばCrashLoopBackOffになり得ます。readinessの修正と混同しないでください。
+liveness失敗が閾値へ達すると、対象[コンテナ](/glossary/コンテナ/)を終了し、restartPolicyに従って再起動します。`RESTARTS` が増え、同じ失敗が続けばCrashLoopBackOffになり得ます。readinessの修正と混同しないでください。
 
 ### Startup probe failed
 
-startup probeが成功するまでreadinessとlivenessを開始しません。起動に時間がかかるコンテナを保護します。startup失敗が閾値へ達すると、readinessとは違ってコンテナ終了と再起動の対象になります。
+startup probeが成功するまでreadinessとlivenessを開始しません。起動に時間がかかる[コンテナ](/glossary/コンテナ/)を保護します。startup失敗が閾値へ達すると、readinessとは違って[コンテナ](/glossary/コンテナ/)終了と再起動の対象になります。
 
 ### Serviceのselector不一致
 
@@ -437,7 +437,7 @@ readinessはServiceの転送先を制御する状態です。NetworkPolicyはPod
 
 ### terminating Pod
 
-Podが削除されると、readiness probeとは別にEndpointSliceの `terminating` がTrueとなり、通常は `ready` がFalseになります。終了処理中の通信には `serving` conditionも使われます。削除中の動作をreadiness失敗だけで説明しません。
+Podが削除されると、readiness probeとは別にEndpointSliceの `terminating` がTrueとなり、通常は `ready` がFalseになります。終了処理中の[通信](/glossary/通信/)には `serving` conditionも使われます。削除中の動作をreadiness失敗だけで説明しません。
 
 ### Ingressや外部Load Balancerのhealth check
 
@@ -458,14 +458,14 @@ Ingress controllerや外部Load Balancerが独自のhealth checkとbackend管理
 
 ## 確認コマンド集
 
-PodのReady状態とイベントを確認します。
+PodのReady状態と[イベント](/glossary/イベント/)を確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
 kubectl describe pod <Pod名> -n <名前空間>
 ```
 
-コンテナとPod conditionをまとめて確認します。
+[コンテナ](/glossary/コンテナ/)とPod conditionをまとめて確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -488,7 +488,7 @@ kubectl get endpointslice -n <名前空間> \
   -l kubernetes.io/service-name=<Service名> -o yaml
 ```
 
-対象Podのイベントを時刻順に確認します。
+対象Podの[イベント](/glossary/イベント/)を時刻順に確認します。
 
 ```bash
 kubectl get events -n <名前空間> \
@@ -519,13 +519,13 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 ## Editor's Note
 
-`Readiness probe failed` を「Podへの通信が遮断された」とまとめると、実際の変更範囲を広く見積もりすぎます。readinessが直接変更するのは、containerとPodのReady状態です。そこからEndpointSlice controller、kube-proxyや代替実装、IngressやLoad Balancerへ状態が伝わり、Service経由の通常転送先が更新されます。
+`Readiness probe failed` を「Podへの[通信](/glossary/通信/)が遮断された」とまとめると、実際の変更範囲を広く見積もりすぎます。readinessが直接変更するのは、containerとPodのReady状態です。そこからEndpointSlice controller、kube-proxyや代替実装、IngressやLoad Balancerへ状態が伝わり、Service経由の通常転送先が更新されます。
 
-2024年のKubernetesの課題（[`kubectl describe service` shows endpoints that are not ready](https://github.com/kubernetes/kubernetes/issues/126922)）では、readinessが失敗して `kubectl get endpoints` では転送先が空なのに、`kubectl describe service` の要約にはUnreadyなPod IPが表示される不整合が報告されました。修正は[Pull Request #126932](https://github.com/kubernetes/kubernetes/pull/126932)で取り込まれています。
+2024年の[Kubernetes](/glossary/kubernetes/)の課題（[`kubectl describe service` shows endpoints that are not ready](https://github.com/kubernetes/kubernetes/issues/126922)）では、readinessが失敗して `kubectl get endpoints` では転送先が空なのに、`kubectl describe service` の要約にはUnreadyなPod IPが表示される不整合が報告されました。修正は[Pull Request #126932](https://github.com/kubernetes/kubernetes/pull/126932)で取り込まれています。
 
 この事例は、Pod IPが画面に見えることと、実際の転送対象であることが同じではないと示します。現在の切り分けでは、Serviceの要約だけでなくEndpointSliceの `conditions.ready` を確認する必要があります。
 
-一方、2024年のAWS Load Balancer Controllerの課題（[Potential thundering herd caused by readiness probes](https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/3711)）では、全Podのreadinessが失敗するとcontrollerがALBの対象から外し、少数のPodがReadyへ戻った瞬間に要求が集中して再びUnreadyになる循環が報告されました。コンテナは生存していても、外部転送先の管理によって全体障害を増幅し得る例です。
+一方、2024年の[AWS](/glossary/aws/) Load Balancer Controllerの課題（[Potential thundering herd caused by readiness probes](https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/3711)）では、全Podのreadinessが失敗するとcontrollerがALBの対象から外し、少数のPodがReadyへ戻った瞬間に要求が集中して再びUnreadyになる循環が報告されました。[コンテナ](/glossary/コンテナ/)は生存していても、外部転送先の管理によって全体障害を増幅し得る例です。
 
 readinessは再起動を起こさないため、livenessより安全とは限りません。全Podが同じ外部依存を確認し、その依存先の障害で同時にUnreadyになると、Serviceから利用可能な転送先が消えます。復帰時の `successThreshold` が1なら、最初に成功した少数のPodへ負荷が集中することもあります。
 

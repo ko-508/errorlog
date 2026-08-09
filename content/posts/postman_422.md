@@ -18,7 +18,7 @@ Postmanで422（Unprocessable Entity）[エラー](/glossary/エラー/)が発�
 
 ## 実際のエラーメッセージ例
 
-GitHubの[API](/glossary/api/)検索[エンドポイント](/glossary/エンドポイント/)で報告された[エラー](/glossary/エラー/)：
+[GitHub](/glossary/github/)の[API](/glossary/api/)検索[エンドポイント](/glossary/エンドポイント/)で報告された[エラー](/glossary/エラー/)：
 
 ```json
 {
@@ -54,7 +54,7 @@ FastAPI[サーバー](/glossary/サーバー/)からの報告：
 
 - `"status": "422"` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を理解したが、含まれるデータに検証[エラー](/glossary/エラー/)がある
 - `"message": "Validation Failed"` → [リクエストボディ](/glossary/リクエストボディ/)のデータが [API](/glossary/api/) の要件を満たしていないことを示す
-- `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（フィールド名、エラーコード、説明）を含む
+- `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（[フィールド](/glossary/フィールド/)名、エラーコード、説明）を含む
 - `"loc": ["body"]` → FastAPI形式：[エラー](/glossary/エラー/)の位置がボディ部分にあることを指示する
 - `"msg": "value is not a valid dict"` → 期待されたデータ型（辞書/[オブジェクト](/glossary/オブジェクト/)）が[送信](/glossary/送信/)されていない
 
@@ -209,23 +209,23 @@ Postmanの Body タブには複数の送信方法があり、選択した方法�
 
 ### GitHub APIでの422エラーの頻出パターン
 
-GitHubのSearch [API](/glossary/api/)で422が返される場合、クエリパラメータ `q` の値が不正であることが多いです。特に以下のケースで発生します：
+[GitHub](/glossary/github/)のSearch [API](/glossary/api/)で422が返される場合、クエリパラメータ `q` の値が不正であることが多いです。特に以下のケースで発生します：
 
 - 検索語が長すぎる（最大256文字）
 - [スコープ](/glossary/スコープ/)が無効（例：`q=user:nonexistent+repo:nonexistent`）
 - 特殊文字が[URL](/glossary/url/) エンコードされていない
 
-Postmanの Params タブで `q` を設定する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) エンコードされます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性をGitHubの検索構文ドキュメントで確認することを推奨します。
+Postmanの Params タブで `q` を設定する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) エンコードされます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文ドキュメントで確認することを推奨します。
 
 ### FastAPIの Pydantic バリデーション
 
 FastAPIで422が頻発する場合、Postmanから[送信](/glossary/送信/)されるデータが Pydantic [モデル](/glossary/モデル/)の定義と一致しているか確認してください。以下の点をチェックします：
 
-- すべての必須フィールドが含まれているか
-- 各フィールドのデータ型が一致しているか（文字列 vs 数値など）
+- すべての必須[フィールド](/glossary/フィールド/)が含まれているか
+- 各[フィールド](/glossary/フィールド/)のデータ型が一致しているか（文字列 vs 数値など）
 - ネストされた[オブジェクト](/glossary/オブジェクト/)の構造が期待通りか
 
-Postmanの[レスポンス](/glossary/レスポンス/)に `"loc": ["body", "フィールド名"]` と表示されていれば、そのフィールドの型またはバリデーションルール違反が原因です。
+Postmanの[レスポンス](/glossary/レスポンス/)に `"loc": ["body", "フィールド名"]` と表示されていれば、その[フィールド](/glossary/フィールド/)の型またはバリデーションルール違反が原因です。
 
 ## それでも解決しない場合
 
@@ -259,7 +259,7 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 送信先[API](/glossary/api/)の公式ドキュメントを確認し、該当[エンドポイント](/glossary/エンドポイント/)の[リクエスト](/glossary/リクエスト/)仕様を再度チェックしてください。特に以下の項目を確認します。
 
 - 必須[ヘッダー](/glossary/ヘッダー/)（Authorization、[API](/glossary/api/)-Keyなど）
-- 必須フィールドと省略可能フィールド
+- 必須[フィールド](/glossary/フィールド/)と省略可能[フィールド](/glossary/フィールド/)
 - サポートされるデータ型とフォーマット
 - [ペイロード](/glossary/ペイロード/)例
 

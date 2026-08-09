@@ -196,7 +196,7 @@ Datadog の Organization Settings → Application Keys にアクセスし、使�
 
 Datadog では、[API](/glossary/api/) Key と Application Key が異なる目的で使い分けられます。[API](/glossary/api/) Key は[メトリクス](/glossary/メトリクス/)[送信](/glossary/送信/)や[ログ](/glossary/ログ/)[送信](/glossary/送信/)に使用され、Application Key は機密性の高い [API](/glossary/api/)（ユーザー管理、組織設定、[ダッシュボード](/glossary/ダッシュボード/)操作など）に必要です。Terraform Provider for Datadog を使用する場合は、`api_key` と `app_key` の両方を[環境変数](/glossary/環境変数/)または[設定ファイル](/glossary/設定ファイル/)で明示的に指定する必要があります。
 
-また、KEDA（[Kubernetes](/glossary/kubernetes/) Event-based Autoscaling）で Datadog をメトリクスプロバイダーとして使用する場合、ScaledObject の `authenticationRef` で指定される Secret に、両方のキーが正しく含まれていることを確認してください。[Kubernetes](/glossary/kubernetes/) Secret で `api-key` と `app-key` というキー名で保存し、KEDA の設定では `apiKey` と `appKey` のフィールドで参照するという対応も重要です。
+また、KEDA（[Kubernetes](/glossary/kubernetes/) Event-based Autoscaling）で Datadog をメトリクスプロバイダーとして使用する場合、ScaledObject の `authenticationRef` で指定される Secret に、両方のキーが正しく含まれていることを確認してください。[Kubernetes](/glossary/kubernetes/) Secret で `api-key` と `app-key` というキー名で保存し、KEDA の設定では `apiKey` と `appKey` の[フィールド](/glossary/フィールド/)で参照するという対応も重要です。
 
 オーガニゼーション内に複数のサイト（US/EU など）がある場合、[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) も `api.datadoghq.com`（US）と `api.datadoghq.eu`（EU）で異なります。間違ったサイトのキーで異なるサイトの [API](/glossary/api/) にアクセスしようとすると 403 [エラー](/glossary/エラー/)が返されるため、[環境](/glossary/環境/)に応じた [URL](/glossary/url/) 設定が必須です。
 

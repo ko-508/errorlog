@@ -233,7 +233,7 @@ terraform login  # 新しいトークンで再設定
 
 ### CI/CD パイプライン（GitHub Actions・GitLab CI 等）での環境変数設定
 
-パイプラインで Terraform を実行する場合、シークレット[環境変数](/glossary/環境変数/)として認証情報を登録する必要があります。例えば GitHub Actions では以下のように設定します。
+パイプラインで Terraform を実行する場合、シークレット[環境変数](/glossary/環境変数/)として認証情報を登録する必要があります。例えば [GitHub](/glossary/github/) Actions では以下のように設定します。
 
 ```yaml
 # .github/workflows/terraform.yml

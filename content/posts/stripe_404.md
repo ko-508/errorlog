@@ -78,7 +78,7 @@ retrieved = stripe.Customer.retrieve(customer.id)
 
 ### 原因2：テスト環境と本番環境のAPIキー混在
 
-[テスト](/glossary/テスト/)用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で本番環境のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
+[テスト](/glossary/テスト/)用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -219,7 +219,7 @@ Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers�
 - 実際の[リクエスト](/glossary/リクエスト/)内容（個人情報を除外）
 - [Webhook](/glossary/webhook/) [ID](/glossary/id/)（該当する場合）
 
-GitHubのstripe-nodeやstripe-pythonリポジトリーのIssuesセクションで、類似の問題が報告されていないか確認することも有効です。
+[GitHub](/glossary/github/)のstripe-nodeやstripe-pythonリポジトリーのIssuesセクションで、類似の問題が報告されていないか確認することも有効です。
 
 ---
 

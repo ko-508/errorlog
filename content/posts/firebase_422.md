@@ -56,7 +56,7 @@ FirebaseError: [firestore/permission-denied]: Missing or insufficient permission
 }
 ```
 
-上記のルール下で、必須フィールド `age` を含めずにデータを書き込もうとします：
+上記のルール下で、必須[フィールド](/glossary/フィールド/) `age` を含めずにデータを書き込もうとします：
 
 ```javascript
 firebase.database().ref('users/' + uid).set({
@@ -78,7 +78,7 @@ firebase.database().ref('users/' + uid).set({
 
 ### 原因2：Cloud Firestore のドキュメントスキーマ検証エラー
 
-Firestore でセキュリティルールに `allow write if request.resource.data.keys().hasAll(['requiredField'])` のような検証を設定している場合、要求されるフィールドが不足していると 422 [エラー](/glossary/エラー/)が返されます。
+Firestore でセキュリティルールに `allow write if request.resource.data.keys().hasAll(['requiredField'])` のような検証を設定している場合、要求される[フィールド](/glossary/フィールド/)が不足していると 422 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
@@ -198,7 +198,7 @@ Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase C
 
 ### コミュニティリソース
 
-Firebase の公式 GitHub [リポジトリ](/glossary/リポジトリ/)で同様のイシューが報告されていないか確認してください：https://github.com/firebase/firebase-js-sdk/issues
+Firebase の公式 [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同様のイシューが報告されていないか確認してください：https://github.com/firebase/firebase-js-sdk/issues
 
 Stack Overflow の `firebase` [タグ](/glossary/タグ/)で過去の質問を検索することも有効です。特に「422 validation」や「security rules validation error」で検索すると、具体的な解決事例が見つかりやすいです。
 

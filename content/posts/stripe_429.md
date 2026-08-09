@@ -15,7 +15,7 @@ top_queries:
 ---
 ## エラーの概要
 
-**429 Too Many Requests** は、短時間に Stripe [API](/glossary/api/) へ[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)数が[レート制限](/glossary/レート制限/)を超えたときに返される [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Stripe は [API](/glossary/api/) 呼び出しの頻度を制限しており、本番環境では 1 秒あたり約 100 [リクエスト](/glossary/リクエスト/)が上限となります。この[エラー](/glossary/エラー/)が発生してもデータは消失せず、適切に[リトライ](/glossary/リトライ/)することで解決できます。
+**429 Too Many Requests** は、短時間に Stripe [API](/glossary/api/) へ[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)数が[レート制限](/glossary/レート制限/)を超えたときに返される [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Stripe は [API](/glossary/api/) 呼び出しの頻度を制限しており、[本番環境](/glossary/本番環境/)では 1 秒あたり約 100 [リクエスト](/glossary/リクエスト/)が上限となります。この[エラー](/glossary/エラー/)が発生してもデータは消失せず、適切に[リトライ](/glossary/リトライ/)することで解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -234,7 +234,7 @@ except requests.exceptions.Timeout:
 
 ### API バージョンとレート制限の違い
 
-Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/) [バージョン](/glossary/バージョン/)によって異なります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)（`sk_test_`）では本番環境より高い[レート制限](/glossary/レート制限/)が適用されていますが、本番環境でも同じコードロジックが使えるように設計すべきです。
+Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/) [バージョン](/glossary/バージョン/)によって異なります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)（`sk_test_`）では[本番環境](/glossary/本番環境/)より高い[レート制限](/glossary/レート制限/)が適用されていますが、[本番環境](/glossary/本番環境/)でも同じコードロジックが使えるように設計すべきです。
 
 ### 検索 API のレート制限
 
@@ -298,7 +298,7 @@ curl -u sk_test_<your-secret-key>: \
 
 ### コミュニティーリソース
 
-GitHub の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが一般的です。
+[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが一般的です。
 
 公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装パターンのアドバイスを提供しています。
 

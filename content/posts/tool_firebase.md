@@ -18,7 +18,7 @@ Firebase は Google が提供するバックエンドプラットフォーム（
 
 - **Cloud Firestore**：複数の[クライアント](/glossary/クライアント/)間での[リアルタイム](/glossary/リアルタイム/)なデータ[同期](/glossary/同期/)が可能な[データベース](/glossary/データベース/)です
 - **Realtime Database**：[JSON](/glossary/json/) 形式の[データベース](/glossary/データベース/)で低遅延な[同期](/glossary/同期/)が特徴です
-- **認証機能**：Google、Facebook、GitHub など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に対応した[認証](/glossary/認証/)システムです
+- **認証機能**：Google、Facebook、[GitHub](/glossary/github/) など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に対応した[認証](/glossary/認証/)システムです
 - **ホスティング**：静的コンテンツと動的コンテンツの両方をホストでき、自動的に [SSL](/glossary/ssl/) で保護されます
 - **Cloud Functions**：[サーバーレス](/glossary/サーバーレス/)（[サーバー](/glossary/サーバー/)管理なし）で[関数](/glossary/関数/)を実行し、[イベント](/glossary/イベント/)駆動型（[イベント](/glossary/イベント/)をきっかけに起動）な処理を構築できます
 - **Cloud Storage**：画像やビデオなどの[ファイル](/glossary/ファイル/)を安全に保存・配信できます
@@ -60,4 +60,4 @@ Firebase はシンプルな導入を優先する場合に向いており、複�
 
 ## Crashlytics によるエラー監視
 
-[アプリケーション](/glossary/アプリケーション/)の[エラーログ](/glossary/エラーログ/)監視においても、Firebase の Crashlytics を活用することで、本番環境でのクラッシュや[エラー](/glossary/エラー/)の詳細な情報を即座に把握できます。これにより、トラブルシューティング時間を大幅に短縮し、ユーザー体験の向上に直結する対応が可能です。Firebase は Google の支援を受けた安定したプラットフォームであり、継続的に機能追加・改善が行われています。
+[アプリケーション](/glossary/アプリケーション/)の[エラーログ](/glossary/エラーログ/)監視においても、Firebase の Crashlytics を活用することで、[本番環境](/glossary/本番環境/)でのクラッシュや[エラー](/glossary/エラー/)の詳細な情報を即座に把握できます。これにより、トラブルシューティング時間を大幅に短縮し、ユーザー体験の向上に直結する対応が可能です。Firebase は Google の支援を受けた安定したプラットフォームであり、継続的に機能追加・改善が行われています。

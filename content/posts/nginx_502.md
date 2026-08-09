@@ -215,7 +215,7 @@ openssl s_client -connect 203.0.113.5:443 -servername backend.example.com
 
 ## 補足：このコードではない類似エラー
 
-上流の応答待ちの時間切れは504です。[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) と残り、調査対象は proxy_read_timeout などの時間設定と上流の処理時間になります（[Nginx の 504 の記事](/posts/nginx_504/)）。limit_req・limit_conn の制限超過や、設定に残った return 503 は503です（[Nginx の 503 の記事](/posts/nginx_503/)）。応答を返す前に[クライアント](/glossary/クライアント/)側から切断された場合はアクセスログに499が残ります。上流が遅いことが引き金になる点は502の原因4と似ていますが、切ったのが上流なら502、[クライアント](/glossary/クライアント/)なら499です（[Nginx の 499 の記事](/posts/nginx_499/)）。上流[アプリケーション](/glossary/アプリケーション/)の内部[エラー](/glossary/エラー/)は、上流が自分で500を返す限り Nginx はそれをそのまま中継します（[Nginx の 500 の記事](/posts/nginx_500/)）。また、ALB や [API](/glossary/api/) Gateway が返す502は Nginx とは別の仕組みで発生します（[AWS の 502 の記事](/posts/aws_502/)）。GitHub [API](/glossary/api/) など外部サービス側の502は、こちらの設定では解決できません（[GitHub API の 502 の記事](/posts/github_api_502/)）。
+上流の応答待ちの時間切れは504です。[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) と残り、調査対象は proxy_read_timeout などの時間設定と上流の処理時間になります（[Nginx の 504 の記事](/posts/nginx_504/)）。limit_req・limit_conn の制限超過や、設定に残った return 503 は503です（[Nginx の 503 の記事](/posts/nginx_503/)）。応答を返す前に[クライアント](/glossary/クライアント/)側から切断された場合はアクセスログに499が残ります。上流が遅いことが引き金になる点は502の原因4と似ていますが、切ったのが上流なら502、[クライアント](/glossary/クライアント/)なら499です（[Nginx の 499 の記事](/posts/nginx_499/)）。上流[アプリケーション](/glossary/アプリケーション/)の内部[エラー](/glossary/エラー/)は、上流が自分で500を返す限り Nginx はそれをそのまま中継します（[Nginx の 500 の記事](/posts/nginx_500/)）。また、ALB や [API](/glossary/api/) Gateway が返す502は Nginx とは別の仕組みで発生します（[AWS の 502 の記事](/posts/aws_502/)）。[GitHub](/glossary/github/) [API](/glossary/api/) など外部サービス側の502は、こちらの設定では解決できません（[GitHub API の 502 の記事](/posts/github_api_502/)）。
 
 ## 切り分けの順序
 

@@ -54,7 +54,7 @@ Slack [API](/glossary/api/) が返す典型的な 401 [エラーレスポンス]
 
 ### 原因1：トークンの期限切れまたは無効化
 
-Slack のセキュリティポリシー変更による[トークン](/glossary/トークン/)自動失効、ユーザーが手動でアプリを削除した、または定期的な[セキュリティ](/glossary/セキュリティ/)監査で古い[トークン](/glossary/トークン/)が無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` [エラー](/glossary/エラー/)が返されます。
+Slack の[セキュリティポリシー](/glossary/セキュリティポリシー/)変更による[トークン](/glossary/トークン/)自動失効、ユーザーが手動でアプリを削除した、または定期的な[セキュリティ](/glossary/セキュリティ/)監査で古い[トークン](/glossary/トークン/)が無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -220,7 +220,7 @@ print(response)
 
 ### トークンローテーションとその影響
 
-Slack は定期的に[セキュリティ](/glossary/セキュリティ/)監査を実施し、使用されていない[トークン](/glossary/トークン/)や古い[トークン](/glossary/トークン/)を自動的に無効化することがあります。本番環境では少なくとも月1回は[トークン](/glossary/トークン/)の有効性を確認し、必要に応じて新規発行してください。
+Slack は定期的に[セキュリティ](/glossary/セキュリティ/)監査を実施し、使用されていない[トークン](/glossary/トークン/)や古い[トークン](/glossary/トークン/)を自動的に無効化することがあります。[本番環境](/glossary/本番環境/)では少なくとも月1回は[トークン](/glossary/トークン/)の有効性を確認し、必要に応じて新規発行してください。
 
 ### ボットアプリとユーザーアプリの区別
 
@@ -252,7 +252,7 @@ curl -X POST https://slack.com/api/auth.test \
 
 - **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各アプリのインストール日時と最終使用日時を確認
 - **Slack [API](/glossary/api/) テスター**：https://api.slack.com/methods/auth.test で直接[トークン](/glossary/トークン/)検証可能
-- **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく設定されているか、リクエストヘッダーに `Authorization` フィールドが含まれているか確認
+- **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく設定されているか、リクエストヘッダーに `Authorization` [フィールド](/glossary/フィールド/)が含まれているか確認
 
 ### 公式リソース
 
@@ -262,7 +262,7 @@ curl -X POST https://slack.com/api/auth.test \
 
 ### コミュニティサポート
 
-Slack Community（https://slackcommunity.com）や GitHub の Slack [SDK](/glossary/sdk/) [リポジトリ](/glossary/リポジトリ/)（例：https://github.com/slackapi/python-slack-sdk）で同様の問題報告がないか検索し、既知の問題か確認することをお勧めします。
+Slack Community（https://slackcommunity.com）や [GitHub](/glossary/github/) の Slack [SDK](/glossary/sdk/) [リポジトリ](/glossary/リポジトリ/)（例：https://github.com/slackapi/python-slack-sdk）で同様の問題報告がないか検索し、既知の問題か確認することをお勧めします。
 
 ---
 

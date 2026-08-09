@@ -197,7 +197,7 @@ Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「C
 認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて確認します。
 
 **[テスト](/glossary/テスト/)用[API](/glossary/api/)キーを使用**
-本番環境の[API](/glossary/api/)キーではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)キーが別途提供されている場合、それを使用して401が解消するか試してください。本番キーに[権限](/glossary/権限/)がない可能性も考慮します。
+[本番環境](/glossary/本番環境/)の[API](/glossary/api/)キーではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)キーが別途提供されている場合、それを使用して401が解消するか試してください。本番キーに[権限](/glossary/権限/)がない可能性も考慮します。
 
 **Postmanを再起動**
 [環境変数](/glossary/環境変数/)の反映遅延や[キャッシュ](/glossary/キャッシュ/)の問題を排除するため、Postman[アプリケーション](/glossary/アプリケーション/)全体を再起動し、再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してみてください。

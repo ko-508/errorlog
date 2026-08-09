@@ -14,7 +14,7 @@ related_services: ["Azure App Service", "GitHub API"]
 
 ## エラーの概要
 
-[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 409 は、[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)上のリソースの現在の状態と競合していることを示します。GitHub Actions では、別の[デプロイ](/glossary/デプロイ/)が進行中である場合や複数の同時更新が[ファイル](/glossary/ファイル/)のハッシュ値と競合している場合、または[ポリシー](/glossary/ポリシー/)変更が[リポジトリ](/glossary/リポジトリ/)権限設定と競合する場合に発生することが多いです。
+[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 409 は、[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)上のリソースの現在の状態と競合していることを示します。[GitHub](/glossary/github/) Actions では、別の[デプロイ](/glossary/デプロイ/)が進行中である場合や複数の同時更新が[ファイル](/glossary/ファイル/)のハッシュ値と競合している場合、または[ポリシー](/glossary/ポリシー/)変更が[リポジトリ](/glossary/リポジトリ/)権限設定と競合する場合に発生することが多いです。
 
 ## 実際のエラーメッセージ例
 
@@ -116,7 +116,7 @@ jobs:
 
 ### 原因2：ファイルハッシュ（SHA）の不一致による同時更新競合
 
-GitHub [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数のワークフロー実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
+[GitHub](/glossary/github/) [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数のワークフロー実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -231,7 +231,7 @@ python update_file.py
 
 ### 原因3：Organization/Enterprise レベルのポリシーと権限設定の競合
 
-Organization または Enterprise レベルで GitHub Actions の[ポリシー](/glossary/ポリシー/)が設定されている場合、リポジトリレベルでの権限削除やアクセス設定の変更が禁止されていることがあります。[API](/glossary/api/) 経由で `actions/permissions` [エンドポイント](/glossary/エンドポイント/)にアクセスするとこの競合が発生します。
+Organization または Enterprise レベルで [GitHub](/glossary/github/) Actions の[ポリシー](/glossary/ポリシー/)が設定されている場合、リポジトリレベルでの権限削除やアクセス設定の変更が禁止されていることがあります。[API](/glossary/api/) 経由で `actions/permissions` [エンドポイント](/glossary/エンドポイント/)にアクセスするとこの競合が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -324,7 +324,7 @@ node update_permissions.js
 
 ### 原因4：マージ競合のある PR を API 経由でマージしようとした場合
 
-GitHub [API](/glossary/api/) でマージリクエストを[送信](/glossary/送信/)した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での対応が必要です。
+[GitHub](/glossary/github/) [API](/glossary/api/) でマージリクエストを[送信](/glossary/送信/)した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での対応が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -441,9 +441,9 @@ node merge_pr.js
 az webapp deployment list --resource-group <your-resource-group> --name <your-app-name>
 ```
 
-**GitHub Enterprise での権限設定**
+**[GitHub](/glossary/github/) Enterprise での権限設定**
 
-GitHub Enterprise 2.20 以降では、Enterprise Admin が Actions のアクセスポリシーを一元管理しています。リポジトリレベルでの権限変更は Enterprise [ポリシー](/glossary/ポリシー/)に制限されるため、変更前に Enterprise Admin に確認が必要な場合があります。
+[GitHub](/glossary/github/) Enterprise 2.20 以降では、Enterprise Admin が Actions の[アクセスポリシー](/glossary/アクセスポリシー/)を一元管理しています。リポジトリレベルでの権限変更は Enterprise [ポリシー](/glossary/ポリシー/)に制限されるため、変更前に Enterprise Admin に確認が必要な場合があります。
 
 **複数[ファイル](/glossary/ファイル/)更新時の [Git](/glossary/git/) Tree [API](/glossary/api/)**
 
@@ -478,7 +478,7 @@ const tree = await octokit.rest.git.createTree({
 
 [ログ](/glossary/ログ/)の確認と[デバッグ](/glossary/デバッグ/)手順を実施してください。
 
-**GitHub Actions [ログ](/glossary/ログ/)で詳細を確認**
+**[GitHub](/glossary/github/) Actions [ログ](/glossary/ログ/)で詳細を確認**
 
 ワークフロー実行ページの `Logs` タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。デバッグモードを有効化することでより詳細な情報が表示されます。
 
@@ -497,7 +497,7 @@ https://<your-app-name>.scm.azurewebsites.net/api/logstream
 az webapp log tail --resource-group <your-resource-group> --name <your-app-name>
 ```
 
-**GitHub [API](/glossary/api/) の詳細確認**
+**[GitHub](/glossary/github/) [API](/glossary/api/) の詳細確認**
 
 curl で[リクエスト](/glossary/リクエスト/)を手動実行し、レスポンスヘッダーの `X-RateLimit-*` や `Etag` を確認します。
 
@@ -508,9 +508,9 @@ curl -v -H "Authorization: token <your-github-token>" \
 
 **公式ドキュメント参照**
 
-- [GitHub Actions: Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-
+- [[GitHub](/glossary/github/) Actions: Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-
 
-> **調査について**　この記事の解決策は、GitHub Issues・Stack Overflow への公開報告（azure/webapps-deploy@v1, GitHub Enterprise 2.20 [環境](/glossary/環境/)での報告を含む）を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues・Stack Overflow への公開報告（azure/webapps-deploy@v1, [GitHub](/glossary/github/) Enterprise 2.20 [環境](/glossary/環境/)での報告を含む）を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 

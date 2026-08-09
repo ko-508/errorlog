@@ -16,13 +16,13 @@ top_queries:
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 400 Bad Request は、[リクエスト](/glossary/リクエスト/)の形式そのものが壊れていて、[サーバー](/glossary/サーバー/)が中身の検証に進めない場合に返されます。公式ドキュメントが 400 として挙げているのは、[リクエスト](/glossary/リクエスト/)本文が [JSON](/glossary/json/) として読めない（Problems parsing [JSON](/glossary/json/)）、本文が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)の形になっていない（Body should be a [JSON](/glossary/json/) object）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)指定の[ヘッダー](/glossary/ヘッダー/)に存在しない値を指定した、の3つです。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 400 Bad Request は、[リクエスト](/glossary/リクエスト/)の形式そのものが壊れていて、[サーバー](/glossary/サーバー/)が中身の検証に進めない場合に返されます。公式ドキュメントが 400 として挙げているのは、[リクエスト](/glossary/リクエスト/)本文が [JSON](/glossary/json/) として読めない（Problems parsing [JSON](/glossary/json/)）、本文が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)の形になっていない（Body should be a [JSON](/glossary/json/) object）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)指定の[ヘッダー](/glossary/ヘッダー/)に存在しない値を指定した、の3つです。
 
 一方、[JSON](/glossary/json/) としては正しく読めたうえで、必須[パラメータ](/glossary/パラメータ/)が足りない・値が仕様に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、設定や[パラメータ](/glossary/パラメータ/)の見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じ[リクエスト](/glossary/リクエスト/)を再試行しても結果は変わりません。修正が必要です。
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/) の 400 の応答本文は次の形です。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 400 の応答本文は次の形です。
 
 ```json
 {
@@ -63,7 +63,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "New issue", "body": "This is a test"}'
 ```
 
-見落とされやすいのが、[プログラム](/glossary/プログラム/)から呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元の[コード](/glossary/コード/)上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに[送信](/glossary/送信/)すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが GitHub 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
+見落とされやすいのが、[プログラム](/glossary/プログラム/)から呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元の[コード](/glossary/コード/)上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに[送信](/glossary/送信/)すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが [GitHub](/glossary/github/) 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
 
 ```bash
 # 本文が JSON として正しいかを検証してから送信する
@@ -97,7 +97,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ### 原因3：API バージョン指定の誤り
 
-GitHub [API](/glossary/api/) は、リクエストヘッダー X-GitHub-Api-Version で [API](/glossary/api/) [バージョン](/glossary/バージョン/)を指定します。公式ドキュメントのとおり、存在しない[バージョン](/glossary/バージョン/)を指定すると、400 とともにその[バージョン](/glossary/バージョン/)がサポートされていない旨のメッセージが返ります。
+[GitHub](/glossary/github/) [API](/glossary/api/) は、リクエストヘッダー X-[GitHub](/glossary/github/)-Api-Version で [API](/glossary/api/) [バージョン](/glossary/バージョン/)を指定します。公式ドキュメントのとおり、存在しない[バージョン](/glossary/バージョン/)を指定すると、400 とともにその[バージョン](/glossary/バージョン/)がサポートされていない旨のメッセージが返ります。
 
 ```bash
 curl -H "Authorization: Bearer <your-github-token>" \
@@ -112,7 +112,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
 1. 応答の message を読む。Validation Failed / Invalid request なら 422 の問題として切り替える（[422 の記事](/posts/github_api_422/)）。Bad credentials なら 401。
 2. Problems parsing [JSON](/glossary/json/) なら、[送信](/glossary/送信/)している本文そのものを取り出して [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）。[プログラム](/glossary/プログラム/)からの[送信](/glossary/送信/)なら、直列化の有無を確認する。
 3. Body should be a [JSON](/glossary/json/) object なら、本文の先頭が { で始まる[オブジェクト](/glossary/オブジェクト/)かを確認する。直列化を2回していないかを確認する。
-4. [バージョン](/glossary/バージョン/)未サポートのメッセージなら、X-GitHub-Api-Version の値を公式の一覧と突き合わせる。
+4. [バージョン](/glossary/バージョン/)未サポートのメッセージなら、X-[GitHub](/glossary/github/)-Api-Version の値を公式の一覧と突き合わせる。
 
 ## 確認コマンド集
 
@@ -133,7 +133,7 @@ curl -v -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ## Editor's Note
 
-400 と 422 の境界を1つの流れで示す実例として、GitHub 公式コミュニティの議論があります（[github actions repository dispatch "message": "Problems parsing JSON"](https://github.com/orgs/community/discussions/28224)、2022年）。Python からワークフローを起動する [API](/glossary/api/) を呼んだ報告者は、まず 400 と Problems parsing [JSON](/glossary/json/) を受け取ります（本文が [JSON](/glossary/json/) として届いていない状態）。次に json.dumps() で直列化した文字列を requests の json= [引数](/glossary/引数/)に渡したところ、今度は 422 と「... is not an object」が返りました（[JSON](/glossary/json/) としては読めるが、二重直列化により文字列が届いた状態）。最終的な解決は、辞書を json= に直接渡して直列化をライブラリに任せる形でした。エラーコードが 400 から 422 に変わったこと自体が「[JSON](/glossary/json/) として読めるようになった」という前進のサインだった、という点がこの実例の要点です。2022年の議論ですが、400 と 422 のこの境界は現行の公式トラブルシューティング文書の記述と一致しています。
+400 と 422 の境界を1つの流れで示す実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[github actions repository dispatch "message": "Problems parsing JSON"](https://github.com/orgs/community/discussions/28224)、2022年）。Python からワークフローを起動する [API](/glossary/api/) を呼んだ報告者は、まず 400 と Problems parsing [JSON](/glossary/json/) を受け取ります（本文が [JSON](/glossary/json/) として届いていない状態）。次に json.dumps() で直列化した文字列を requests の json= [引数](/glossary/引数/)に渡したところ、今度は 422 と「... is not an object」が返りました（[JSON](/glossary/json/) としては読めるが、二重直列化により文字列が届いた状態）。最終的な解決は、辞書を json= に直接渡して直列化をライブラリに任せる形でした。エラーコードが 400 から 422 に変わったこと自体が「[JSON](/glossary/json/) として読めるようになった」という前進のサインだった、という点がこの実例の要点です。2022年の議論ですが、400 と 422 のこの境界は現行の公式トラブルシューティング文書の記述と一致しています。
 
 400 の対処は、[パラメータ](/glossary/パラメータ/)の意味を考える前に、送信物が [JSON](/glossary/json/) としてどう届いているかを機械的に検証することから始まります。message の文言が調査の場所を正確に教えてくれるので、[コード](/glossary/コード/)の数字だけで判断しないことが確実な近道です。
 

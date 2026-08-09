@@ -285,7 +285,7 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
 
 - [Slack API Status Page](https://status.slack.com/)：Slack側の既知障害を確認
 - [Slack Community Slack](https://slackcommunity.com/)：他ユーザーが同じ問題を報告していないか検索
-- GitHub Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知[バグ](/glossary/バグ/)を確認
+- [GitHub](/glossary/github/) Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知[バグ](/glossary/バグ/)を確認
 
 **Slackサポートへの問い合わせ**
 

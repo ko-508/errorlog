@@ -14,11 +14,11 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-GitHub [API](/glossary/api/) の 422 Unprocessable Entity は、[リクエスト](/glossary/リクエスト/)が [JSON](/glossary/json/) として正しく読めたうえで、中身がその[エンドポイント](/glossary/エンドポイント/)の検証ルールに通らなかったことを示す[コード](/glossary/コード/)です。GitHub 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、422 を応答として定義する[エンドポイント](/glossary/エンドポイント/)は308あり、全[コード](/glossary/コード/)の中で最多です。つまり422は特別な異常ではなく、「[パラメータ](/glossary/パラメータ/)を持つ操作の、最もありふれた失敗の形」です。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 422 Unprocessable Entity は、[リクエスト](/glossary/リクエスト/)が [JSON](/glossary/json/) として正しく読めたうえで、中身がその[エンドポイント](/glossary/エンドポイント/)の検証ルールに通らなかったことを示す[コード](/glossary/コード/)です。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、422 を応答として定義する[エンドポイント](/glossary/エンドポイント/)は308あり、全[コード](/glossary/コード/)の中で最多です。つまり422は特別な異常ではなく、「[パラメータ](/glossary/パラメータ/)を持つ操作の、最もありふれた失敗の形」です。
 
 調査の核は、応答の errors 配列を読むことに尽きます。公式文書のとおり、配列の各要素は resource（どの種類の対象か）、field（どの項目か）、code（何が悪いか）を持ち、code の値は公式に定義されています。missing_field は必須項目の未設定、invalid は項目の形式の不正、already_exists は同じ値を持つ対象が既に存在、missing は指した対象が存在しない、unprocessable は入力を処理できない、そして custom の場合は必ず message が付き、その文言をそのまま読みます。code と field が分かれば、原因はほぼ確定します。
 
-境界も先に引いておきます。本文が [JSON](/glossary/json/) として壊れている場合は 400（Problems parsing [JSON](/glossary/json/)）で、422の手前の問題です。対象の「今の状態」との矛盾（sha の不一致、空[リポジトリ](/glossary/リポジトリ/)）は 409 です。また、422は形式的な性質として、[リクエスト](/glossary/リクエスト/)を修正しない限り何度送っても同じ結果になります。GitHub 公式の Octokit の retry プラグインも422を再試行の対象外としており、422への正しい反応は再送ではなく修正です。
+境界も先に引いておきます。本文が [JSON](/glossary/json/) として壊れている場合は 400（Problems parsing [JSON](/glossary/json/)）で、422の手前の問題です。対象の「今の状態」との矛盾（sha の不一致、空[リポジトリ](/glossary/リポジトリ/)）は 409 です。また、422は形式的な性質として、[リクエスト](/glossary/リクエスト/)を修正しない限り何度送っても同じ結果になります。[GitHub](/glossary/github/) 公式の Octokit の retry プラグインも422を再試行の対象外としており、422への正しい反応は再送ではなく修正です。
 
 ## エラーの概要
 
@@ -173,9 +173,9 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST \
 
 ## Editor's Note
 
-原因5の実例として、GitHub 自身の [API](/glossary/api/) 定義[リポジトリ](/glossary/リポジトリ/)に残る報告があります（["Create a reference" API call fails with HTTP 422 without meaningful message](https://github.com/github/rest-api-description/issues/4887)）。2025年6月、参照作成 [API](/glossary/api/) が意味のあるメッセージを伴わない422を返すケースについての報告で、公式トラブルシューティング文書に挙げられた422の類型のどれにも当てはまらないこと、そして公式リファレンスの422の要約「Validation failed, or the endpoint has been spammed」のうちスパム判定側の挙動が詳しく文書化されていないことが指摘されています。この記録が示すのは、errors 配列の読み方は公式の設計であり最初に試すべき手段である一方、万能ではないという現実です。読めない422に当たったときの次の一手が、リファレンスの[パラメータ](/glossary/パラメータ/)表との突き合わせと、[リクエスト](/glossary/リクエスト/)の最小化です。執筆時点から約1年前の報告で、現行のトラブルシューティング文書と公式リファレンスの記述も本文で述べたとおりのままです。
+原因5の実例として、[GitHub](/glossary/github/) 自身の [API](/glossary/api/) 定義[リポジトリ](/glossary/リポジトリ/)に残る報告があります（["Create a reference" API call fails with HTTP 422 without meaningful message](https://github.com/github/rest-api-description/issues/4887)）。2025年6月、参照作成 [API](/glossary/api/) が意味のあるメッセージを伴わない422を返すケースについての報告で、公式トラブルシューティング文書に挙げられた422の類型のどれにも当てはまらないこと、そして公式リファレンスの422の要約「Validation failed, or the endpoint has been spammed」のうちスパム判定側の挙動が詳しく文書化されていないことが指摘されています。この記録が示すのは、errors 配列の読み方は公式の設計であり最初に試すべき手段である一方、万能ではないという現実です。読めない422に当たったときの次の一手が、リファレンスの[パラメータ](/glossary/パラメータ/)表との突き合わせと、[リクエスト](/glossary/リクエスト/)の最小化です。執筆時点から約1年前の報告で、現行のトラブルシューティング文書と公式リファレンスの記述も本文で述べたとおりのままです。
 
-422は、GitHub が「どこが悪いか」を構造化して返してくれる、最も親切な部類の[エラー](/glossary/エラー/)です。再送する前に errors 配列を読む。code と field を見る。それだけで、308の[エンドポイント](/glossary/エンドポイント/)に共通する調査の入口に立てます。
+422は、[GitHub](/glossary/github/) が「どこが悪いか」を構造化して返してくれる、最も親切な部類の[エラー](/glossary/エラー/)です。再送する前に errors 配列を読む。code と field を見る。それだけで、308の[エンドポイント](/glossary/エンドポイント/)に共通する調査の入口に立てます。
 
 ---
 

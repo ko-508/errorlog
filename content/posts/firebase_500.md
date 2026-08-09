@@ -99,7 +99,7 @@ service cloud.firestore {
 ### 原因3：Realtime Database のインデックスが未作成
 
 **なぜ発生するか**  
-Realtime Database で複数フィールドを`orderByChild()`や`orderByValue()`で[クエリ](/glossary/クエリ/)するとき、必要な[インデックス](/glossary/インデックス/)が[コンソール](/glossary/コンソール/)で作成されていないと 500 [エラー](/glossary/エラー/)が発生します。Firestore では自動[インデックス](/glossary/インデックス/)が作成されることが多いですが、Realtime Database は明示的な作成が必要です。
+Realtime Database で複数[フィールド](/glossary/フィールド/)を`orderByChild()`や`orderByValue()`で[クエリ](/glossary/クエリ/)するとき、必要な[インデックス](/glossary/インデックス/)が[コンソール](/glossary/コンソール/)で作成されていないと 500 [エラー](/glossary/エラー/)が発生します。Firestore では自動[インデックス](/glossary/インデックス/)が作成されることが多いですが、Realtime Database は明示的な作成が必要です。
 
 **Before（[インデックス](/glossary/インデックス/)なしでの[クエリ](/glossary/クエリ/)）**
 ```javascript
@@ -193,7 +193,7 @@ Firebase Console の「サポート」タブから公式サポートに問い合
 - [Firestore セキュリティルール ガイド](https://firebase.google.com/docs/firestore/security/start)
 - [Realtime Database インデックス設定](https://firebase.google.com/docs/database/security/indexing)
 
-**GitHub Issues**  
+**[GitHub](/glossary/github/) Issues**  
 firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リポジトリ/)で同様の[エラー](/glossary/エラー/)が報告されていないか検索してください。
 
 ---

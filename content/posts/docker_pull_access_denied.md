@@ -104,7 +104,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`docker pull`、`docker run`、`docker compose up`、`docker build` で次のエラーが出た場合、ログイン不足だけが原因とは限りません。
+`docker pull`、`docker run`、`docker compose up`、`docker build` で次の[エラー](/glossary/エラー/)が出た場合、[ログイン](/glossary/ログイン/)不足だけが原因とは限りません。
 
 ```text
 Error response from daemon: pull access denied for OWNER/IMAGE,
@@ -122,20 +122,20 @@ may require 'docker login'
   → 非公開リポジトリで、認証またはpull権限が足りない
 ```
 
-重要なのは、**`access denied` と表示されても、リポジトリが存在するとは限らない**ことです。反対に、`repository does not exist` と表示されても、削除済みとは限りません。非公開リポジトリは、権限を持たない利用者からは存在を確認できない場合があります。
+重要なのは、**`access denied` と表示されても、[リポジトリ](/glossary/リポジトリ/)が存在するとは限らない**ことです。反対に、`repository does not exist` と表示されても、削除済みとは限りません。非公開[リポジトリ](/glossary/リポジトリ/)は、[権限](/glossary/権限/)を持たない利用者からは存在を確認できない場合があります。
 
 ただし、Registryの仕様が404と403を同じものとして定義しているわけではありません。[CNCF DistributionのRegistry HTTP API V2仕様](https://distribution.github.io/distribution/spec/api/)は、次のように区別しています。
 
-| 状態 | HTTP | Registryのエラーコード |
+| 状態 | [HTTP](/glossary/http/) | Registryのエラーコード |
 |---|---:|---|
-| 認証が必要 | 401 | `UNAUTHORIZED` |
+| [認証](/glossary/認証/)が必要 | 401 | `UNAUTHORIZED` |
 | 操作を許可されていない | 403 | `DENIED` |
-| リポジトリ名が存在しない | 404 | `NAME_UNKNOWN` |
-| リポジトリはあるがタグやdigestがない | 404 | `MANIFEST_UNKNOWN` |
+| [リポジトリ](/glossary/リポジトリ/)名が存在しない | 404 | `NAME_UNKNOWN` |
+| [リポジトリ](/glossary/リポジトリ/)はあるが[タグ](/glossary/タグ/)やdigestがない | 404 | `MANIFEST_UNKNOWN` |
 
-混同が起きるのは、その手前に認証処理があるためです。Registryは最初に401と `WWW-Authenticate` を返し、クライアントは指定された認証サービスへ、対象リポジトリの `pull` 権限を含むトークンを要求します。権限のない主体には、要求した権限を含まないトークンが返ることがあります。その後のRegistry要求は拒否され、Docker CLIは不存在と権限不足の両方を含む案内へまとめます。
+混同が起きるのは、その手前に認証処理があるためです。Registryは最初に401と `WWW-Authenticate` を返し、[クライアント](/glossary/クライアント/)は指定された[認証](/glossary/認証/)サービスへ、対象[リポジトリ](/glossary/リポジトリ/)の `pull` [権限](/glossary/権限/)を含む[トークン](/glossary/トークン/)を要求します。[権限](/glossary/権限/)のない主体には、要求した[権限](/glossary/権限/)を含まない[トークン](/glossary/トークン/)が返ることがあります。その後のRegistry要求は拒否され、[Docker](/glossary/docker/) [CLI](/glossary/cli/)は不存在と権限不足の両方を含む案内へまとめます。
 
-したがって、最初に `docker login` を繰り返すのではなく、Dockerがどの名前へアクセスしたかを確定します。
+したがって、最初に `docker login` を繰り返すのではなく、[Docker](/glossary/docker/)がどの名前へアクセスしたかを確定します。
 
 ```text
 docker pull nginx
@@ -148,7 +148,7 @@ docker pull registry.example.com/team/app:1.2
   → registry.example.com/team/app:1.2
 ```
 
-[Docker公式のイメージ名の説明](https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/)でも、`nginx` は `docker.io/library/nginx:latest` と同じ意味です。ホスト名、名前空間、リポジトリ名、タグのどれかが想定と違えば、正しいアカウントでログインしても直りません。
+[Docker公式のイメージ名の説明](https://docs.docker.com/get-started/docker-concepts/building-images/build-tag-and-publish-an-image/)でも、`nginx` は `docker.io/library/nginx:latest` と同じ意味です。ホスト名、名前空間、[リポジトリ](/glossary/リポジトリ/)名、[タグ](/glossary/タグ/)のどれかが想定と違えば、正しい[アカウント](/glossary/アカウント/)で[ログイン](/glossary/ログイン/)しても直りません。
 
 切り分けの中心は次の順序です。
 
@@ -162,7 +162,7 @@ docker pull registry.example.com/team/app:1.2
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)でイメージを取得するとき、Docker CLIは直接ファイルを探すのではありません。選択中のDocker EngineまたはBuildKitが、イメージ名からRegistryを決め、認証を行い、manifestとlayerを順に取得します。
+[Docker](/glossary/docker/)で[イメージ](/glossary/イメージ/)を取得するとき、[Docker](/glossary/docker/) [CLI](/glossary/cli/)は直接[ファイル](/glossary/ファイル/)を探すのではありません。選択中の[Docker](/glossary/docker/) EngineまたはBuildKitが、[イメージ](/glossary/イメージ/)名からRegistryを決め、[認証](/glossary/認証/)を行い、manifestとlayerを順に取得します。
 
 ```text
 Docker CLI
@@ -177,7 +177,7 @@ Registry
   ↓ manifestとlayer、または拒否
 ```
 
-[Registryのトークン認証仕様](https://distribution.github.io/distribution/spec/auth/token/)では、クライアントが求めた操作と、その主体へ実際に許可された操作の共通部分をトークンへ入れます。たとえば `pull,push` を求めても、pullだけ許可されていればpullだけが入り、何も許可されていなければ空になります。認証サービスは、この不足自体をトークン発行時のエラーにする必要はありません。
+[Registryのトークン認証仕様](https://distribution.github.io/distribution/spec/auth/token/)では、[クライアント](/glossary/クライアント/)が求めた操作と、その主体へ実際に許可された操作の共通部分を[トークン](/glossary/トークン/)へ入れます。たとえば `pull,push` を求めても、pullだけ許可されていればpullだけが入り、何も許可されていなければ空になります。[認証](/glossary/認証/)サービスは、この不足自体を[トークン](/glossary/トークン/)発行時の[エラー](/glossary/エラー/)にする必要はありません。
 
 この仕組みでは、次の2つが利用者側で同じ拒否に見え得ます。
 
@@ -189,31 +189,31 @@ Registry
   → pullを許可できない
 ```
 
-Docker Hubでは、[非公開リポジトリは検索結果に表示されず、権限を与えられた利用者だけがアクセスできます](https://docs.docker.com/docker-hub/repos/manage/access/#repository-visibility)。そのため、権限を持たない状態で画面検索とpullの両方に失敗しても、不存在とは確定できません。
+[Docker](/glossary/docker/) Hubでは、[非公開リポジトリは検索結果に表示されず、権限を与えられた利用者だけがアクセスできます](https://docs.docker.com/docker-hub/repos/manage/access/#repository-visibility)。そのため、[権限](/glossary/権限/)を持たない状態で画面検索とpullの両方に失敗しても、不存在とは確定できません。
 
-一方、公開リポジトリへ到達できていて、タグだけがない場合は、通常は次の系統になります。
+一方、公開[リポジトリ](/glossary/リポジトリ/)へ到達できていて、[タグ](/glossary/タグ/)だけがない場合は、通常は次の系統になります。
 
 ```text
 manifest for OWNER/IMAGE:TAG not found: manifest unknown
 ```
 
-`pull access denied` はリポジトリへ入る境界、`manifest unknown` はそのリポジトリ内のタグやdigestを探す境界です。ただし、非公開リポジトリでは先に認証で止まるため、存在しないタグを指定していても、権限を直すまでは `manifest unknown` に進めないことがあります。
+`pull access denied` は[リポジトリ](/glossary/リポジトリ/)へ入る境界、`manifest unknown` はその[リポジトリ](/glossary/リポジトリ/)内の[タグ](/glossary/タグ/)やdigestを探す境界です。ただし、非公開[リポジトリ](/glossary/リポジトリ/)では先に[認証](/glossary/認証/)で止まるため、存在しない[タグ](/glossary/タグ/)を指定していても、[権限](/glossary/権限/)を直すまでは `manifest unknown` に進めないことがあります。
 
 ## まず最初に：完全なイメージ名を確定する
 
-第一に、失敗ログに出た名前をそのまま読みます。
+第一に、失敗[ログ](/glossary/ログ/)に出た名前をそのまま読みます。
 
 ```text
 pull access denied for my-app
 ```
 
-この場合、Docker Hub上の公式イメージ用名前空間へ補完されます。
+この場合、[Docker](/glossary/docker/) Hub上の公式[イメージ](/glossary/イメージ/)用名前空間へ補完されます。
 
 ```text
 docker.io/library/my-app:latest
 ```
 
-自分のDocker Hubアカウント `example` にある `my-app` を取得したいなら、正しい指定は次です。
+自分の[Docker](/glossary/docker/) Hub[アカウント](/glossary/アカウント/) `example` にある `my-app` を取得したいなら、正しい指定は次です。
 
 ```bash
 docker pull example/my-app:latest
@@ -232,16 +232,16 @@ registry.example.com/example/my-app
   → 指定したRegistry
 ```
 
-Docker Hubへログインしても、`ghcr.io` や自社Registryの権限は得られません。ログイン先は、イメージ名の先頭にあるRegistryと一致させます。
+[Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても、`ghcr.io` や自社Registryの[権限](/glossary/権限/)は得られません。[ログイン](/glossary/ログイン/)先は、[イメージ](/glossary/イメージ/)名の先頭にあるRegistryと一致させます。
 
-第三に、タグを確認します。タグを省略すると `latest` が使われます。
+第三に、[タグ](/glossary/タグ/)を確認します。[タグ](/glossary/タグ/)を省略すると `latest` が使われます。
 
 ```bash
 docker pull example/my-app
 # example/my-app:latest を要求する
 ```
 
-公開済みのタグが `v1.4.2` だけなら、`latest` は自動生成されません。存在するタグを明示します。
+公開済みの[タグ](/glossary/タグ/)が `v1.4.2` だけなら、`latest` は自動生成されません。存在する[タグ](/glossary/タグ/)を明示します。
 
 ```bash
 docker pull example/my-app:v1.4.2
@@ -260,7 +260,7 @@ Composeの環境変数展開後に、`image:` が空、古い名前、別Registr
 
 ### 原因1：名前空間を省略し、Docker Hubのlibraryを見ている {#docker-hub-library-namespace}
 
-自分のリポジトリを短い名前だけで指定すると、Docker Hub上の自分のアカウント名は補完されません。
+自分の[リポジトリ](/glossary/リポジトリ/)を短い名前だけで指定すると、[Docker](/glossary/docker/) Hub上の自分の[アカウント](/glossary/アカウント/)名は補完されません。
 
 **Before（`docker.io/library/my-app:latest` を探す）：**
 
@@ -286,7 +286,7 @@ services:
     image: example/my-app:latest
 ```
 
-`docker login` は名前を修正する処理ではありません。`library/my-app` が存在しないなら、Docker Hubへログインしても要求先は変わりません。
+`docker login` は名前を修正する処理ではありません。`library/my-app` が存在しないなら、[Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても要求先は変わりません。
 
 ### 原因2：リポジトリ名、所有者名、Registryが違う {#repository-not-found}
 
@@ -299,22 +299,22 @@ example/myapp
 registry.example.com/example/my-app
 ```
 
-公開元のREADME、Composeファイル、CI変数、Registry画面で、完全な参照名を照合します。特に組織移管、リポジトリ削除、製品名変更の後は、古い参照が残ることがあります。
+公開元のREADME、Compose[ファイル](/glossary/ファイル/)、CI[変数](/glossary/変数/)、Registry画面で、完全な参照名を照合します。特に組織移管、[リポジトリ](/glossary/リポジトリ/)削除、製品名変更の後は、古い参照が残ることがあります。
 
-Docker Hubのリポジトリ名は作成後に変更できません。[Docker Hubの作成資料](https://docs.docker.com/docker-hub/repos/create/)にも、既存リポジトリはrenameできないと記載されています。名称を変えた運用では、通常は新しいリポジトリを作り、イメージを新しい参照へ公開します。古い名前が自動転送されるとは考えないでください。
+[Docker](/glossary/docker/) Hubの[リポジトリ](/glossary/リポジトリ/)名は作成後に変更できません。[Docker Hubの作成資料](https://docs.docker.com/docker-hub/repos/create/)にも、既存[リポジトリ](/glossary/リポジトリ/)はrenameできないと記載されています。名称を変えた運用では、通常は新しい[リポジトリ](/glossary/リポジトリ/)を作り、[イメージ](/glossary/イメージ/)を新しい参照へ公開します。古い名前が自動転送されるとは考えないでください。
 
 ### 原因3：非公開リポジトリへ未認証でアクセスしている {#authentication}
 
-対象が非公開なら、まずそのRegistryへ認証します。
+対象が非公開なら、まずそのRegistryへ[認証](/glossary/認証/)します。
 
-Docker Hubの場合は次のとおりです。
+[Docker](/glossary/docker/) Hubの場合は次のとおりです。
 
 ```bash
 docker login
 docker pull example/private-app:1.2
 ```
 
-自社Registryの場合は、ホスト名と必要ならポートを指定します。
+自社Registryの場合は、ホスト名と必要なら[ポート](/glossary/ポート/)を指定します。
 
 ```bash
 docker login registry.example.com
@@ -326,7 +326,7 @@ docker login registry.example.com:5000
 docker pull registry.example.com:5000/team/private-app:1.2
 ```
 
-[`docker login` の公式資料](https://docs.docker.com/reference/cli/docker/login/)では、ログイン先にURLのpathを付けず、ホスト名と必要なポートだけを指定します。
+[`docker login` の公式資料](https://docs.docker.com/reference/cli/docker/login/)では、[ログイン](/glossary/ログイン/)先に[URL](/glossary/url/)のpathを付けず、ホスト名と必要な[ポート](/glossary/ポート/)だけを指定します。
 
 ```bash
 # 誤り
@@ -336,7 +336,7 @@ docker login registry.example.com/team
 docker login registry.example.com
 ```
 
-CIでは、秘密をコマンド引数へ直接書かず、標準入力から渡します。
+CIでは、秘密を[コマンド](/glossary/コマンド/)[引数](/glossary/引数/)へ直接書かず、標準入力から渡します。
 
 ```bash
 printf '%s' "$REGISTRY_TOKEN" |
@@ -345,11 +345,11 @@ printf '%s' "$REGISTRY_TOKEN" |
     --password-stdin
 ```
 
-トークン本体、`~/.docker/config.json`、資格情報保存先の内容をログへ出さないでください。
+[トークン](/glossary/トークン/)本体、`~/.docker/config.json`、資格情報保存先の内容を[ログ](/glossary/ログ/)へ出さないでください。
 
 ### 原因4：ログインには成功したが、pull権限がない {#pull-permission}
 
-`Login Succeeded` は、資格情報が認証サービスに受け入れられたことを示します。任意の非公開リポジトリをpullできるという意味ではありません。
+`Login Succeeded` は、資格情報が[認証](/glossary/認証/)サービスに受け入れられたことを示します。任意の非公開[リポジトリ](/glossary/リポジトリ/)をpullできるという意味ではありません。
 
 ```text
 Login Succeeded
@@ -365,11 +365,11 @@ denied: requested access to the resource is denied
 組織用トークンなら、対象リポジトリが許可範囲に含まれるか
 ```
 
-パスワードを何度作り直しても、対象リポジトリの許可は増えません。Registry管理者またはリポジトリ所有者側で、正しい主体へreadまたはpull権限を付けます。
+[パスワード](/glossary/パスワード/)を何度作り直しても、対象[リポジトリ](/glossary/リポジトリ/)の許可は増えません。Registry管理者または[リポジトリ](/glossary/リポジトリ/)所有者側で、正しい主体へreadまたはpull[権限](/glossary/権限/)を付けます。
 
 ### 原因5：タグを省略し、存在しないlatestを要求している {#missing-latest-tag}
 
-タグを省略したときに使われる `latest` は、最新時刻のイメージを自動で探す機能ではありません。`latest` という名前のタグです。
+[タグ](/glossary/タグ/)を省略したときに使われる `latest` は、最新時刻の[イメージ](/glossary/イメージ/)を自動で探す機能ではありません。`latest` という名前の[タグ](/glossary/タグ/)です。
 
 **Before（存在しない `latest` を要求）：**
 
@@ -377,25 +377,25 @@ denied: requested access to the resource is denied
 docker pull example/my-app
 ```
 
-**After（公開済みのタグを明示）：**
+**After（公開済みの[タグ](/glossary/タグ/)を明示）：**
 
 ```bash
 docker pull example/my-app:1.4.2
 ```
 
-リポジトリへの参照権限がある状態なら、タグ不足は通常、次のように `manifest unknown` で判別できます。
+[リポジトリ](/glossary/リポジトリ/)への参照権限がある状態なら、[タグ](/glossary/タグ/)不足は通常、次のように `manifest unknown` で判別できます。
 
 ```text
 manifest for example/my-app:latest not found: manifest unknown
 ```
 
-非公開リポジトリで権限もタグも不足している場合は、権限の検査が先です。`pull access denied` を直した後に `manifest unknown` が現れることがあります。これは原因が変わったのではなく、次の検査段階まで進んだ結果です。
+非公開[リポジトリ](/glossary/リポジトリ/)で[権限](/glossary/権限/)も[タグ](/glossary/タグ/)も不足している場合は、[権限](/glossary/権限/)の検査が先です。`pull access denied` を直した後に `manifest unknown` が現れることがあります。これは原因が変わったのではなく、次の検査段階まで進んだ結果です。
 
 ### 原因6：CIだけ別の認証設定を使っている {#ci-auth-config}
 
-手元で `docker login` しても、その資格情報は自動でCIへ渡りません。Dockerは通常、実行した利用者の設定または資格情報保存先を使います。Linuxでは `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が標準の設定場所です。
+手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の設定または資格情報保存先を使います。Linuxでは `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が標準の設定場所です。
 
-CIでは、pullする処理と同じjob、同じ実行利用者、同じDocker設定でログインします。
+CIでは、pullする処理と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)設定で[ログイン](/glossary/ログイン/)します。
 
 ```bash
 export DOCKER_CONFIG="$RUNNER_TEMP/docker-config"
@@ -409,11 +409,11 @@ printf '%s' "$REGISTRY_TOKEN" |
 docker pull registry.example.com/team/app:1.2
 ```
 
-`sudo docker pull` と通常の `docker login` を組み合わせると、資格情報を読む利用者が分かれる場合があります。権限回避のためだけに `sudo` を追加せず、ログインとpullを同じ実行環境へそろえます。
+`sudo docker pull` と通常の `docker login` を組み合わせると、資格情報を読む利用者が分かれる場合があります。権限回避のためだけに `sudo` を追加せず、[ログイン](/glossary/ログイン/)とpullを同じ実行環境へそろえます。
 
 ### 原因7：Dockerfileのstage名を間違え、外部イメージとしてpullしている {#copy-from-stage-name}
 
-`COPY --from` の値は、以前のbuild stage、名前付きcontext、または外部イメージを指せます。[Dockerfileの公式仕様](https://docs.docker.com/reference/dockerfile#copy---from)にあるとおり、stage名として見つからなければ、イメージ参照として解決される構成があります。
+`COPY --from` の値は、以前のbuild stage、名前付きcontext、または外部[イメージ](/glossary/イメージ/)を指せます。[Dockerfileの公式仕様](https://docs.docker.com/reference/dockerfile#copy---from)にあるとおり、stage名として見つからなければ、[イメージ](/glossary/イメージ/)参照として解決される構成があります。
 
 **Before（定義は `builder`、参照は `build`）：**
 
@@ -427,7 +427,7 @@ FROM scratch
 COPY --from=build /out/app /app
 ```
 
-ログでは、存在しない `build` という外部イメージを取得しようとして、次のように見えることがあります。
+[ログ](/glossary/ログ/)では、存在しない `build` という外部[イメージ](/glossary/イメージ/)を取得しようとして、次のように見えることがあります。
 
 ```text
 pull access denied for build, repository does not exist or may require authorization
@@ -440,7 +440,7 @@ FROM scratch
 COPY --from=builder /out/app /app
 ```
 
-この場合、Registryへのログインは不要です。誤って外部イメージ扱いされた文字列を直します。
+この場合、Registryへの[ログイン](/glossary/ログイン/)は不要です。誤って外部[イメージ](/glossary/イメージ/)扱いされた文字列を直します。
 
 ### 原因8：ローカルだけにあるイメージを、別のbuilderがpullしようとしている {#buildkit-local-image}
 
@@ -450,7 +450,7 @@ Dockerfileに次の指定があるとします。
 FROM my-local-base:latest
 ```
 
-通常のイメージ保存先に `my-local-base:latest` があっても、選択中のBuildKit builderが別の保存領域を使っていれば、Registryへ取得しに行くことがあります。
+通常の[イメージ](/glossary/イメージ/)保存先に `my-local-base:latest` があっても、選択中のBuildKit builderが別の保存領域を使っていれば、Registryへ取得しに行くことがあります。
 
 ```bash
 docker image inspect my-local-base:latest
@@ -458,7 +458,7 @@ docker buildx ls
 docker buildx inspect
 ```
 
-ローカルのDocker Engineと同じ保存先を使う必要があるなら、`docker` driverのbuilderを選びます。
+ローカルの[Docker](/glossary/docker/) Engineと同じ保存先を使う必要があるなら、`docker` driverのbuilderを選びます。
 
 ```bash
 docker buildx use default
@@ -466,9 +466,9 @@ docker buildx inspect
 docker buildx build .
 ```
 
-[`docker` driverの公式資料](https://docs.docker.com/build/builders/drivers/docker/)では、Docker Engine内蔵のBuildKitを使い、作成結果をローカルのimage storeへ自動で読み込むと説明されています。一方、`docker-container`、`kubernetes`、`remote` driverは別のBuildKitを使います。builderの実行場所が別なら、基礎イメージを共有Registryへpushし、完全な参照名で取得できるようにします。
+[`docker` driverの公式資料](https://docs.docker.com/build/builders/drivers/docker/)では、[Docker](/glossary/docker/) Engine内蔵のBuildKitを使い、作成結果をローカルのimage storeへ自動で読み込むと説明されています。一方、`docker-container`、`kubernetes`、`remote` driverは別のBuildKitを使います。builderの実行場所が別なら、基礎[イメージ](/glossary/イメージ/)を共有Registryへpushし、完全な参照名で取得できるようにします。
 
-`--load` は、buildの**結果**をローカルのimage storeへ読み込む指定です。別のbuilderへ既存の基礎イメージを渡す指定ではないため、入力側の `pull access denied` を直す目的では使いません。
+`--load` は、buildの**結果**をローカルのimage storeへ読み込む指定です。別のbuilderへ既存の基礎[イメージ](/glossary/イメージ/)を渡す指定ではないため、入力側の `pull access denied` を直す目的では使いません。
 
 ### 原因9：Composeのimageとbuildの関係が想定と違う {#compose-image-build}
 
@@ -490,7 +490,7 @@ services:
     image: example/app:local
 ```
 
-環境変数を使っている場合は、展開後の値を確認します。
+[環境変数](/glossary/環境変数/)を使っている場合は、展開後の値を確認します。
 
 ```yaml
 services:
@@ -502,7 +502,7 @@ services:
 docker compose config
 ```
 
-空の変数、余分な `/`、誤ったRegistry、意図しない `latest` がないかを見ます。
+空の[変数](/glossary/変数/)、余分な `/`、誤ったRegistry、意図しない `latest` がないかを見ます。
 
 ## 補足：似ているが別のもの
 
@@ -513,7 +513,7 @@ manifest unknown
 manifest for OWNER/IMAGE:TAG not found
 ```
 
-リポジトリへの参照には進めたものの、指定したタグまたはdigestに対応するmanifestがない状態です。リポジトリ名ではなく、タグ、digest、公開処理を確認します。
+[リポジトリ](/glossary/リポジトリ/)への参照には進めたものの、指定した[タグ](/glossary/タグ/)またはdigestに対応するmanifestがない状態です。[リポジトリ](/glossary/リポジトリ/)名ではなく、[タグ](/glossary/タグ/)、digest、公開処理を確認します。
 
 ### no matching manifest for linux/arm64
 
@@ -521,11 +521,11 @@ manifest for OWNER/IMAGE:TAG not found
 no matching manifest for linux/arm64/v8 in the manifest list entries
 ```
 
-タグは存在しますが、現在のOS・CPUに対応するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。認証の問題ではありません。
+[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・CPUに対応するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。[認証](/glossary/認証/)の問題ではありません。
 
 ### too many requests
 
-Docker Hubのpull回数制限は、`pull access denied` ではなく429と制限用の文言で返されます。[Docker Hub公式のpull制限資料](https://docs.docker.com/docker-hub/usage/pulls/#view-pull-rate-and-limit)にも、上限到達時はmanifest要求へ429を返すと記載されています。ログインや契約によって上限条件は変わりますが、リポジトリ名の修正とは別の問題です。
+[Docker](/glossary/docker/) Hubのpull回数制限は、`pull access denied` ではなく429と制限用の文言で返されます。[Docker Hub公式のpull制限資料](https://docs.docker.com/docker-hub/usage/pulls/#view-pull-rate-and-limit)にも、上限到達時はmanifest要求へ429を返すと記載されています。[ログイン](/glossary/ログイン/)や契約によって上限条件は変わりますが、[リポジトリ](/glossary/リポジトリ/)名の修正とは別の問題です。
 
 ### x509、connection refused、timeout
 
@@ -535,11 +535,11 @@ connect: connection refused
 i/o timeout
 ```
 
-これらは、RegistryへのTLS検証、接続、通信時間切れです。Registryから `DENIED` や `NAME_UNKNOWN` を受け取る前の失敗なので、権限追加ではなく証明書、ホスト名、port、proxy、firewallを確認します。
+これらは、Registryへの[TLS](/glossary/tls/)検証、接続、通信時間切れです。Registryから `DENIED` や `NAME_UNKNOWN` を受け取る前の失敗なので、権限追加ではなく[証明書](/glossary/証明書/)、ホスト名、port、proxy、firewallを確認します。
 
 ### requested access to the resource is deniedがpushで出る
 
-`docker push` では、pullではなくpush権限が必要です。正しいリポジトリへログインできていても、read-onlyの主体はpushできません。また、タグ付けした参照の名前空間が自分の所有先かを確認します。
+`docker push` では、pullではなくpush[権限](/glossary/権限/)が必要です。正しい[リポジトリ](/glossary/リポジトリ/)へ[ログイン](/glossary/ログイン/)できていても、read-onlyの主体はpushできません。また、[タグ](/glossary/タグ/)付けした参照の名前空間が自分の所有先かを確認します。
 
 ```bash
 docker image tag app:local example/app:1.0
@@ -548,26 +548,26 @@ docker push example/app:1.0
 
 ## 切り分けの順序
 
-1. エラーを出した処理がpull、run、Compose、Dockerfileのどれかを確認する。
-2. ログに出たイメージ名を、Registry、名前空間、リポジトリ、タグへ分ける。
-3. 省略されたRegistryが `docker.io`、名前空間が `library`、タグが `latest` になっていないか確認する。
+1. [エラー](/glossary/エラー/)を出した処理がpull、run、Compose、Dockerfileのどれかを確認する。
+2. [ログ](/glossary/ログ/)に出た[イメージ](/glossary/イメージ/)名を、Registry、名前空間、[リポジトリ](/glossary/リポジトリ/)、[タグ](/glossary/タグ/)へ分ける。
+3. 省略されたRegistryが `docker.io`、名前空間が `library`、[タグ](/glossary/タグ/)が `latest` になっていないか確認する。
 4. 公開元の資料またはRegistry画面で、完全な参照名が正しいか確認する。
-5. 非公開なら、イメージ名と同じRegistryへログインする。
-6. ログインした主体が想定したアカウントか、対象へのpull権限があるか確認する。
-7. 権限を通過した後、タグまたはdigestが存在するか確認する。
+5. 非公開なら、[イメージ](/glossary/イメージ/)名と同じRegistryへ[ログイン](/glossary/ログイン/)する。
+6. [ログイン](/glossary/ログイン/)した主体が想定した[アカウント](/glossary/アカウント/)か、対象へのpull[権限](/glossary/権限/)があるか確認する。
+7. [権限](/glossary/権限/)を通過した後、[タグ](/glossary/タグ/)またはdigestが存在するか確認する。
 8. Dockerfileなら、`FROM` と `COPY --from` のstage名を確認する。
 9. Composeなら、`docker compose config` で環境変数展開後の `image:` と `build:` を確認する。
 10. CIやBuildKitだけで失敗するなら、資格情報の保存先とbuilderの実行場所を確認する。
 
 ## 確認コマンド集
 
-直接pullし、対象名と最終エラーを確認します。
+直接pullし、対象名と最終[エラー](/glossary/エラー/)を確認します。
 
 ```bash
 docker pull OWNER/IMAGE:TAG
 ```
 
-ローカルにあるイメージ名とdigestを確認します。
+ローカルにある[イメージ](/glossary/イメージ/)名とdigestを確認します。
 
 ```bash
 docker image ls --digests
@@ -600,13 +600,13 @@ docker buildx ls
 docker buildx inspect
 ```
 
-現在のDocker設定場所を確認します。
+現在の[Docker](/glossary/docker/)設定場所を確認します。
 
 ```bash
 printf 'DOCKER_CONFIG=%s\n' "${DOCKER_CONFIG:-$HOME/.docker}"
 ```
 
-自社Registryへ安全な形でログインします。
+自社Registryへ安全な形で[ログイン](/glossary/ログイン/)します。
 
 ```bash
 printf '%s' "$REGISTRY_TOKEN" |
@@ -615,7 +615,7 @@ printf '%s' "$REGISTRY_TOKEN" |
     --password-stdin
 ```
 
-資格情報やトークンの本文は表示しません。
+資格情報や[トークン](/glossary/トークン/)の本文は表示しません。
 
 ## Editor's Note
 
@@ -632,15 +632,15 @@ printf '%s' "$REGISTRY_TOKEN" |
      repository does not exist or may require 'docker login'
 ```
 
-同じ変更のコードでは、Registryから `DENIED` を受け取ったときに複合案内を作り、`MANIFEST_UNKNOWN` なら `manifest ... not found`、`NAME_UNKNOWN` なら `repository ... not found` と分けています。つまり、Docker CLIがすべての404を権限エラーへ変換する実装ではありません。
+同じ変更の[コード](/glossary/コード/)では、Registryから `DENIED` を受け取ったときに複合案内を作り、`MANIFEST_UNKNOWN` なら `manifest ... not found`、`NAME_UNKNOWN` なら `repository ... not found` と分けています。つまり、[Docker](/glossary/docker/) [CLI](/glossary/cli/)がすべての404を[権限](/glossary/権限/)[エラー](/glossary/エラー/)へ変換する実装ではありません。
 
-それでも存在しない `nosuchimage` が `DENIED` になったのは、クライアントから見たRegistryの応答が権限拒否だったためです。認証の境界で存在を確認できなければ、クライアントは「本当にない」と「あるが見られない」を確定できません。その不確定さが、`repository does not exist or may require 'docker login'` という二者択一の文になっています。
+それでも存在しない `nosuchimage` が `DENIED` になったのは、[クライアント](/glossary/クライアント/)から見たRegistryの応答が権限拒否だったためです。[認証](/glossary/認証/)の境界で存在を確認できなければ、[クライアント](/glossary/クライアント/)は「本当にない」と「あるが見られない」を確定できません。その不確定さが、`repository does not exist or may require 'docker login'` という二者択一の文になっています。
 
-この構造は、ビルド機能が増えた後には別の混乱も生みました。2025年のMobyの課題（[Buildkit only wants to download images and refuse to use local images](https://github.com/moby/moby/issues/49542)）では、ローカルにある基礎イメージを使う意図でも、`docker-container` driverのBuildKitがRegistryから解決しようとして、`pull access denied` になった例が報告されています。
+この構造は、ビルド機能が増えた後には別の混乱も生みました。2025年のMobyの課題（[Buildkit only wants to download images and refuse to use local images](https://github.com/moby/moby/issues/49542)）では、ローカルにある基礎[イメージ](/glossary/イメージ/)を使う意図でも、`docker-container` driverのBuildKitがRegistryから解決しようとして、`pull access denied` になった例が報告されています。
 
-また、2018年のDocker CLIの課題（[Unable to use COPY --from, docker build trying to pull image](https://github.com/docker/cli/issues/1559)）では、`COPY --from` の値が外部イメージとして解釈され、同じ文言が出ています。これらは、対象リポジトリの権限を直す問題ではありません。Registryへ取りに行くはずのない名前が、イメージ参照として解決されたことが原因です。
+また、2018年の[Docker](/glossary/docker/) [CLI](/glossary/cli/)の課題（[Unable to use COPY --from, docker build trying to pull image](https://github.com/docker/cli/issues/1559)）では、`COPY --from` の値が外部[イメージ](/glossary/イメージ/)として解釈され、同じ文言が出ています。これらは、対象[リポジトリ](/glossary/リポジトリ/)の[権限](/glossary/権限/)を直す問題ではありません。Registryへ取りに行くはずのない名前が、[イメージ](/glossary/イメージ/)参照として解決されたことが原因です。
 
-だから、このエラーを見たときの最初の問いは「ログインしたか」ではありません。**Dockerは、どの文字列を、どのRegistryの、どのリポジトリとして取得しようとしたのか**です。完全な参照名が正しいと確認できてから、存在と権限を分けます。
+だから、この[エラー](/glossary/エラー/)を見たときの最初の問いは「[ログイン](/glossary/ログイン/)したか」ではありません。**[Docker](/glossary/docker/)は、どの文字列を、どのRegistryの、どの[リポジトリ](/glossary/リポジトリ/)として取得しようとしたのか**です。完全な参照名が正しいと確認できてから、存在と[権限](/glossary/権限/)を分けます。
 
 ---
 

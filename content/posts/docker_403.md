@@ -231,7 +231,7 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 
 ### コミュニティリソース
 
-GitHub の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（[AWS](/glossary/aws/) ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 [エラー](/glossary/エラー/)は、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（[AWS](/glossary/aws/) ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を検索し、同様のケースの解決策を確認することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 [エラー](/glossary/エラー/)は、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
 
 ---
 

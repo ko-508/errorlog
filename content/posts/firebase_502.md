@@ -243,7 +243,7 @@ gcloud functions describe <your-function-name>
 
 ### コミュニティリソース
 
-Firebase GitHub Issues（https://github.com/firebase/firebase-tools/issues）やStack Overflowの`firebase`[タグ](/glossary/タグ/)で同様の事例を検索すると、より詳しい情報が得られることがあります。
+Firebase [GitHub](/glossary/github/) Issues（https://github.com/firebase/firebase-tools/issues）やStack Overflowの`firebase`[タグ](/glossary/タグ/)で同様の事例を検索すると、より詳しい情報が得られることがあります。
 
 ---
 

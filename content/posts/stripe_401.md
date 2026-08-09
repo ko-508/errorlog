@@ -13,7 +13,7 @@ related_services: ["OAuth"]
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、開発環境と本番環境を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
+Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、[開発環境](/glossary/開発環境/)と[本番環境](/glossary/本番環境/)を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -40,9 +40,9 @@ curl https://api.stripe.com/v1/charges \
 
 ## よくある原因と解決手順
 
-**原因1：[テスト](/glossary/テスト/)[環境](/glossary/環境/)と本番環境のキーを混同している**
+**原因1：[テスト](/glossary/テスト/)[環境](/glossary/環境/)と[本番環境](/glossary/本番環境/)のキーを混同している**
 
-Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用キーと `sk_live_` で始まる本番用キーが別々に発行されます。本番環境の[コード](/glossary/コード/)で[テスト](/glossary/テスト/)用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
+Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用キーと `sk_live_` で始まる本番用キーが別々に発行されます。[本番環境](/glossary/本番環境/)の[コード](/glossary/コード/)で[テスト](/glossary/テスト/)用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```javascript
@@ -183,7 +183,7 @@ curl https://api.stripe.com/v1/charges \
   -u sk_test_xxxxx:
 ```
 
-**[テスト](/glossary/テスト/)用キーの機能制限：** [テスト](/glossary/テスト/)[環境](/glossary/環境/)の[テスト](/glossary/テスト/)用キー（`sk_test_`）では、本番環境でのみ利用可能な機能の実行が制限される場合があります。
+**[テスト](/glossary/テスト/)用キーの機能制限：** [テスト](/glossary/テスト/)[環境](/glossary/環境/)の[テスト](/glossary/テスト/)用キー（`sk_test_`）では、[本番環境](/glossary/本番環境/)でのみ利用可能な機能の実行が制限される場合があります。
 
 ## それでも解決しない場合
 
@@ -211,7 +211,7 @@ curl -v https://api.stripe.com/v1/charges \
 
 出力の `> Authorization` の行を確認し、キーが正しく[送信](/glossary/送信/)されているか確認します。
 
-**Step 4：公式ドキュメントと GitHub Issues を確認する**
+**Step 4：公式ドキュメントと [GitHub](/glossary/github/) Issues を確認する**
 
 [Stripe API リファレンス - Authentication](https://stripe.com/docs/api/authentication) で認証方法の最新仕様を確認してください。
 

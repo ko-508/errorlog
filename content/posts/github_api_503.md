@@ -16,11 +16,11 @@ top_queries:
 
 ## エラーの概要
 
-GitHub [API](/glossary/api/)における503[エラー](/glossary/エラー/)は、GitHubのサービスが一時的に利用不可の状態にあることを示します。この[エラー](/glossary/エラー/)はGitHub側のメンテナンス、インフラストラクチャの過負荷、または[API](/glossary/api/)呼び出しの集中に達した場合に発生します。503[エラー](/glossary/エラー/)が返される際には、通常`Retry-After`[ヘッダー](/glossary/ヘッダー/)が含まれており、どのくらい待つべきかの秒数目安が提示されます。
+[GitHub](/glossary/github/) [API](/glossary/api/)における503[エラー](/glossary/エラー/)は、[GitHub](/glossary/github/)のサービスが一時的に利用不可の状態にあることを示します。この[エラー](/glossary/エラー/)は[GitHub](/glossary/github/)側のメンテナンス、インフラストラクチャの過負荷、または[API](/glossary/api/)呼び出しの集中に達した場合に発生します。503[エラー](/glossary/エラー/)が返される際には、通常`Retry-After`[ヘッダー](/glossary/ヘッダー/)が含まれており、どのくらい待つべきかの秒数目安が提示されます。
 
 ## 実際のエラーメッセージ例
 
-GitHub [API](/glossary/api/)から返される実際の503[レスポンス](/glossary/レスポンス/)の例を以下に示します。
+[GitHub](/glossary/github/) [API](/glossary/api/)から返される実際の503[レスポンス](/glossary/レスポンス/)の例を以下に示します。
 
 ```json
 {
@@ -47,7 +47,7 @@ Content-Type: application/json
 
 ### 原因1：GitHub側のメンテナンスまたはシステム障害
 
-GitHubが定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では対応できず、GitHub側の復旧を待つ必要があります。
+[GitHub](/glossary/github/)が定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では対応できず、[GitHub](/glossary/github/)側の復旧を待つ必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -92,7 +92,7 @@ print(result)
 
 ### 原因2：APIレート制限への抵触
 
-GitHub [API](/glossary/api/)には時間ごとの呼び出し回数制限があります。[認証](/glossary/認証/)ユーザーは1時間あたり5,000[リクエスト](/glossary/リクエスト/)、未認証ユーザーは60[リクエスト](/glossary/リクエスト/)に制限されています。この制限に達すると429[エラー](/glossary/エラー/)が返されますが、その直後の集中アクセスによって503[エラー](/glossary/エラー/)が発生する可能性があります。
+[GitHub](/glossary/github/) [API](/glossary/api/)には時間ごとの呼び出し回数制限があります。[認証](/glossary/認証/)ユーザーは1時間あたり5,000[リクエスト](/glossary/リクエスト/)、未認証ユーザーは60[リクエスト](/glossary/リクエスト/)に制限されています。この制限に達すると429[エラー](/glossary/エラー/)が返されますが、その直後の集中アクセスによって503[エラー](/glossary/エラー/)が発生する可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -170,7 +170,7 @@ issues = fetch_paginated(
 
 ### 原因3：不適切な並行リクエスト処理
 
-複数の非同期タスクやマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、GitHub側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
+複数の非同期タスクやマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、[GitHub](/glossary/github/)側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -225,7 +225,7 @@ results = asyncio.run(
 
 ### GitHub Actions内での503エラー対応
 
-GitHub Actionsでは、ワークフロー実行中にGitHub [API](/glossary/api/)を呼び出す際に503[エラー](/glossary/エラー/)が発生することがあります。`actions/github-script`[アクション](/glossary/アクション/)を使用する場合、内部的にはOctokitライブラリが使用されるため、リトライロジックを明示的に組み込む必要があります。
+[GitHub](/glossary/github/) Actionsでは、ワークフロー実行中に[GitHub](/glossary/github/) [API](/glossary/api/)を呼び出す際に503[エラー](/glossary/エラー/)が発生することがあります。`actions/github-script`[アクション](/glossary/アクション/)を使用する場合、内部的にはOctokitライブラリが使用されるため、リトライロジックを明示的に組み込む必要があります。
 
 ```yaml
 name: Fetch Issues with Retry
@@ -265,7 +265,7 @@ jobs:
 
 ### Webhookシステム への影響
 
-GitHubの[Webhook](/glossary/webhook/)配信システムが503を経験している場合、[イベント](/glossary/イベント/)配信の遅延が発生します。[Webhook](/glossary/webhook/)受信側では、失敗時の再試行メカニズムが3時間以内に発動されるため、一時的な503は通常問題になりません。ただし、受信側[サーバー](/glossary/サーバー/)が503に応答するように設定されている場合、GitHubからの再試行が繰り返される可能性があります。
+[GitHub](/glossary/github/)の[Webhook](/glossary/webhook/)配信システムが503を経験している場合、[イベント](/glossary/イベント/)配信の遅延が発生します。[Webhook](/glossary/webhook/)受信側では、失敗時の再試行メカニズムが3時間以内に発動されるため、一時的な503は通常問題になりません。ただし、受信側[サーバー](/glossary/サーバー/)が503に応答するように設定されている場合、[GitHub](/glossary/github/)からの再試行が繰り返される可能性があります。
 
 ### REST API vs GraphQL APIの選択
 
@@ -292,7 +292,7 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 確認すべきポイント
 
-1. **GitHub Status Pageの確認**：https://www.githubstatus.com で現在のGitHubサービス状態を[リアルタイム](/glossary/リアルタイム/)で確認してください。システム障害が継続中の場合は復旧待機が必要です。
+1. **[GitHub](/glossary/github/) Status Pageの確認**：https://www.githubstatus.com で現在の[GitHub](/glossary/github/)サービス状態を[リアルタイム](/glossary/リアルタイム/)で確認してください。システム障害が継続中の場合は復旧待機が必要です。
 
 2. **[API](/glossary/api/)レスポンスヘッダーの詳細確認**：
 ```bash
@@ -303,7 +303,7 @@ curl -v -H "Authorization: token <your-github-token>" \
 
 3. **公式ドキュメント**：https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting の「Exceeding the rate limit」セクションで、[レート制限](/glossary/レート制限/)と503[エラー](/glossary/エラー/)の関係を確認してください。
 
-4. **コミュニティリソース**：GitHub [API](/glossary/api/)に関する既知の503問題は、https://github.com/orgs/github/discussions で報告・議論されていることがあります。検索してみてください。
+4. **コミュニティリソース**：[GitHub](/glossary/github/) [API](/glossary/api/)に関する既知の503問題は、https://github.com/orgs/github/discussions で報告・議論されていることがあります。検索してみてください。
 
 ---
 

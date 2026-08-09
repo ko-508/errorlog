@@ -215,7 +215,7 @@ curl -X GET "https://slack.com/api/conversations.list?limit=100" \
 
 ### ログとデバッグ
 
-Slack [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)の`response_metadata`フィールドにはより詳細な[エラー](/glossary/エラー/)情報が含まれています。必ず全[レスポンス](/glossary/レスポンス/)を確認してください：
+Slack [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)の`response_metadata`[フィールド](/glossary/フィールド/)にはより詳細な[エラー](/glossary/エラー/)情報が含まれています。必ず全[レスポンス](/glossary/レスポンス/)を確認してください：
 
 ```python
 import json
