@@ -1278,5 +1278,16 @@
         "note": "Kubernetes の学習ロードマップ記事を新規追加。Docker 版と同じ6段階構成で、Pod／Deployment／Service／設定とデータ／スケジューリング／トラブルシューティングに分けた。仕様は Kubernetes 公式ドキュメントで照合。Udemy の PR リンクを1か所配置し、冒頭に広告表示を追加"
       }
     ]
+  },
+  "content/posts/terraform_learning_guide.md": {
+    "verified": true,
+    "verified_at": "2026-08-09",
+    "last_verified_at": "2026-08-09",
+    "history": [
+      {
+        "date": "2026-08-09",
+        "note": "Terraform の学習ロードマップ記事を新規追加。Docker 版・Kubernetes 版と同じ6段階構成で、初期化とプロバイダー／状態ファイル／計画と適用／参照と依存関係／変数とモジュール／トラブルシューティングに分けた。仕様は Terraform 公式ドキュメントで照合。Udemy の PR リンクを1か所配置し、冒頭に広告表示を追加"
+      }
+    ]
   }
 }
