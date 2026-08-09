@@ -1245,5 +1245,16 @@
         "note": "npm の EAI_AGAIN を新規追加。simple 形式かつ検索対応の新規格。error-message.js に専用分岐が無く既定の扱いになる点を軸に据え、エラー文末尾の引けなかった名前と npm ping で切り分ける構成にした"
       }
     ]
+  },
+  "content/posts/conoha_vps_docker_ufw.md": {
+    "verified": true,
+    "verified_at": "2026-08-09",
+    "last_verified_at": "2026-08-09",
+    "history": [
+      {
+        "date": "2026-08-09",
+        "note": "ConoHa VPS の Docker と ufw の関係を新規追加。OS 内の ufw と VPS 外側のセキュリティグループの2層構成を軸に、Docker の公開ポートが ufw の INPUT 規則を迂回する仕様を公式資料から整理。Editor's Note に moby/moby#4737 と #42563 を追加"
+      }
+    ]
   }
 }
