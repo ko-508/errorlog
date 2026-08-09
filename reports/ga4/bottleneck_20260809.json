@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-08-09",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/docker_pull_access_denied/",
+      "pageTitle": "Docker pull拒否エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 13.0,
+      "averageSessionDuration": 34.47484133333334,
+      "engagementRate": 0.6666666666666666,
+      "bounceRate": 0.3333333333333333
+    },
+    {
+      "pagePath": "/posts/postgresql_connection_refused/",
+      "pageTitle": "PostgreSQL の connection refused：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 25.0,
+      "averageSessionDuration": 556.86182,
+      "engagementRate": 1.0,
+      "bounceRate": 0.0
+    }
+  ]
+}
