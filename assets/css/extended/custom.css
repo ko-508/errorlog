@@ -1281,7 +1281,7 @@ html[data-theme="dark"] .incident-banner__header {
     display: block;
     position: absolute;
     top: 72px;
-    right: calc(100% + 8px);
+    right: calc(100% + 24px);
     width: 270px;
     z-index: 40;
   }
