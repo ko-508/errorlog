@@ -258,13 +258,15 @@
       {{- range $related }}
       <li class="related-errors__item">
         <a href="{{ .page.Permalink }}" class="related-errors__link">
+          <span class="related-errors__badges">
           {{- with index .page.Params.tags 0 }}
           <span class="tool-badge tool-badge-{{ . | lower | replaceRE " " "-" }}">{{ . }}</span>
           {{- end }}
           {{- with .page.Params.errorCode }}
           <span class="error-badge">{{ . }}</span>
           {{- end }}
-          {{ .page.Title }}
+          </span>
+          <span class="related-errors__link-title">{{ .page.Title }}</span>
         </a>
         {{- with .page.Description }}<p class="related-errors__desc">{{ . }}</p>{{ end }}
       </li>

@@ -309,7 +309,8 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
 .related-errors__item:hover { border-color: var(--primary); }
 .related-errors__link {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 0.5rem;
   font-size: 0.88rem;
   font-weight: 600;
@@ -318,6 +319,24 @@ html[data-theme="dark"] .feedback-panel__thanks { color: #3dd68c; }
   line-height: 1.4;
 }
 .related-errors__link:hover { text-decoration: underline; }
+.related-errors__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  width: 100%;
+}
+.related-errors__badges .tool-badge,
+.related-errors__badges .error-badge {
+  max-width: 100%;
+  margin-bottom: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.related-errors__link-title {
+  width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 .related-errors__desc {
   font-size: 0.8rem;
   color: var(--secondary);
