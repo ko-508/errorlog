@@ -154,7 +154,7 @@ $ az role assignment create \
 # (マネージドIDが有効になっているため、認証が成功)
 ```
 
-Python スクリプト本体の修正は不要です。リソース側のマネージド [ID](/glossary/id/) 設定を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を処理します。
+Python スクリプト本体の[修正](/glossary/修正/)は不要です。リソース側のマネージド [ID](/glossary/id/) 設定を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を処理します。
 
 ## ツール固有の注意点
 

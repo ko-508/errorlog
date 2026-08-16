@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに対応しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)キーの[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
+Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに対応しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト
 
 ### 原因1：APIキーに必要なスコープが付与されていない
 
-[API](/glossary/api/)キーに設定された[スコープ](/glossary/スコープ/)（権限範囲）と、アクセスしようとしている[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)の要求[スコープ](/glossary/スコープ/)が一致していない場合に発生します。たとえば、読み取り専用の[スコープ](/glossary/スコープ/)しか持たない[API](/glossary/api/)キーで、書き込み操作を実行しようとするとこの[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)[キー](/glossary/キー/)に設定された[スコープ](/glossary/スコープ/)（権限範囲）と、アクセスしようとしている[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)の要求[スコープ](/glossary/スコープ/)が一致していない場合に発生します。たとえば、読み取り専用の[スコープ](/glossary/スコープ/)しか持たない[API](/glossary/api/)[キー](/glossary/キー/)で、書き込み操作を実行しようとするとこの[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -93,7 +93,7 @@ fetch('https://api.example.com/v1/resources', requestOptions)
   .then(data => console.log(data));
 ```
 
-使用中の[API](/glossary/api/)キーがどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、更新されたキーに置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
+使用中の[API](/glossary/api/)[キー](/glossary/キー/)がどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、更新された[キー](/glossary/キー/)に置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
 
 ### 原因2：テスト対象APIのIPホワイトリストにPostmanの送信元IPが含まれていない
 
@@ -125,7 +125,7 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 
 ### 原因3：試している操作がAPIキーの権限レベルを超えている
 
-[API](/glossary/api/)キーにはそれぞれ[権限](/glossary/権限/)レベル（管理者、ユーザー、ゲストなど）が設定されており、特定の操作は高い[権限](/glossary/権限/)レベルのキーでのみ実行可能です。たとえば、ユーザーレベルのキーで[アカウント](/glossary/アカウント/)削除操作を実行しようとすると403[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)[キー](/glossary/キー/)にはそれぞれ[権限](/glossary/権限/)レベル（管理者、ユーザー、ゲストなど）が設定されており、特定の操作は高い[権限](/glossary/権限/)レベルの[キー](/glossary/キー/)でのみ実行可能です。たとえば、ユーザーレベルの[キー](/glossary/キー/)で[アカウント](/glossary/アカウント/)削除操作を実行しようとすると403[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -161,13 +161,13 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 }
 ```
 
-[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)キーの[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)キーを生成し、Postmanの「Environment」または「Variables」タブでキーを更新してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)キーを使い分ける場合は、Postmanの環境変数機能で各キーを明確に管理すると、混同を避けられます。
+[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)[キー](/glossary/キー/)の[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)[キー](/glossary/キー/)を生成し、Postmanの「Environment」または「Variables」タブで[キー](/glossary/キー/)を更新してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)[キー](/glossary/キー/)を使い分ける場合は、Postmanの環境変数機能で各[キー](/glossary/キー/)を明確に管理すると、混同を避けられます。
 
 ## ツール固有の注意点
 
 ### Postman Environment 変数の活用
 
-複数の[API](/glossary/api/)キーやスコープレベルが異なる[環境](/glossary/環境/)で[テスト](/glossary/テスト/)する場合、Postman の Environment 機能を使用して[変数](/glossary/変数/)を管理することで、403[エラー](/glossary/エラー/)の原因特定を効率化できます。
+複数の[API](/glossary/api/)[キー](/glossary/キー/)やスコープレベルが異なる[環境](/glossary/環境/)で[テスト](/glossary/テスト/)する場合、Postman の Environment 機能を使用して[変数](/glossary/変数/)を管理することで、403[エラー](/glossary/エラー/)の原因特定を効率化できます。
 
 ```json
 // Postman Environment JSON
@@ -194,7 +194,7 @@ Postman Interceptor を使用することで、ローカル[環境](/glossary/�
 
 ### Pre-request Script でのスコープ検証
 
-[API](/glossary/api/)キーの[スコープ](/glossary/スコープ/)が動的に変わる場合、Postman の Pre-request Script タブで事前検証を実装することで、[リクエスト](/glossary/リクエスト/)前に[権限](/glossary/権限/)の妥当性を確認できます。
+[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)が動的に変わる場合、Postman の Pre-request Script タブで事前検証を実装することで、[リクエスト](/glossary/リクエスト/)前に[権限](/glossary/権限/)の妥当性を確認できます。
 
 ```javascript
 // Pre-request Script
@@ -218,8 +218,8 @@ console.log('Using API key with scopes: ' + requiredScopes);
 3. **[API](/glossary/api/)提供元の公式ドキュメント参照**
    - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの要件を確認します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
 
-4. **[API](/glossary/api/)キーの有効性確認**
-   - 使用している[API](/glossary/api/)キーが失効していないか、[API](/glossary/api/)提供元の管理画面で確認します。キーの作成日時、最終使用日時、有効期限を確認し、必要に応じて新しいキーを生成してください。
+4. **[API](/glossary/api/)[キー](/glossary/キー/)の有効性確認**
+   - 使用している[API](/glossary/api/)[キー](/glossary/キー/)が失効していないか、[API](/glossary/api/)提供元の管理画面で確認します。[キー](/glossary/キー/)の作成日時、最終使用日時、有効期限を確認し、必要に応じて新しい[キー](/glossary/キー/)を生成してください。
 
 5. **別の[テスト](/glossary/テスト/)[環境](/glossary/環境/)での再試行**
    - 別のマシンや[ネットワーク](/glossary/ネットワーク/)からPostmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)し、同じ403[エラー](/glossary/エラー/)が発生するか確認します。特定の[ネットワーク](/glossary/ネットワーク/)からのみ[エラー](/glossary/エラー/)が発生する場合、IPホワイトリストが原因である可能性が高まります。

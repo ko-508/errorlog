@@ -55,7 +55,7 @@ Hugo テンプレートで `{{ .PublishDate }}` を素のまま展開すると�
 
 ## 解決手順
 
-**解決策（テンプレートオーバーライドで日付フォーマットを修正）：**
+**解決策（テンプレートオーバーライドで日付フォーマットを[修正](/glossary/修正/)）：**
 
 ### 1. テーマのテンプレートをオーバーライドする
 
@@ -78,7 +78,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
 "dateModified": {{ $modDate.UTC.Format "2006-01-02T15:04:05Z" | jsonify }},
 ```
 
-**修正のポイント：**
+**[修正](/glossary/修正/)のポイント：**
 
 - `.PublishDate` の代わりに `.Date` を使う（フロントマターの `date:` [フィールド](/glossary/フィールド/)を確実に参照する）
 - `.Lastmod.IsZero` で未設定チェックをして、ゼロ値の場合は `.Date` にフォールバックする

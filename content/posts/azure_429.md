@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/) が[スロットリング](/glossary/スロットリング/)制限に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Azure では、各[サブスクリプション](/glossary/サブスクリプション/)と [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を設定しており、この制限を超えたときに発生します。特に、[自動化](/glossary/自動化/)スクリプトやバッチ処理でループ内から大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に見られます。
+429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/) が[スロットリング](/glossary/スロットリング/)制限に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Azure では、各[サブスクリプション](/glossary/サブスクリプション/)と [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を設定しており、この制限を超えたときに発生します。特に、[自動化](/glossary/自動化/)スクリプトやバッチ処理で[ループ](/glossary/ループ/)内から大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -41,7 +41,7 @@ azure.core.exceptions.HttpResponseError: (429) Throttling error. Subscription ha
 
 ### 原因1：リクエストレートが上限を超えている
 
-Azure には、[API](/glossary/api/) ごと・操作ごと（例：仮想マシン作成、[ストレージ](/glossary/ストレージ/)読み書き）に一定秒あたりの[リクエスト](/glossary/リクエスト/)数制限があります。制限値は[サブスクリプション](/glossary/サブスクリプション/)、リージョン、リソースの種類によって異なり、ループ内で連続して [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
+Azure には、[API](/glossary/api/) ごと・操作ごと（例：仮想マシン作成、[ストレージ](/glossary/ストレージ/)読み書き）に一定秒あたりの[リクエスト](/glossary/リクエスト/)数制限があります。制限値は[サブスクリプション](/glossary/サブスクリプション/)、リージョン、リソースの種類によって異なり、[ループ](/glossary/ループ/)内で連続して [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

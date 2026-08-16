@@ -13,7 +13,7 @@ related_services: ["API", "Dashboard", "Stripe Connect"]
 ---
 ## エラーの概要
 
-Stripe の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)には成功したものの、その[リクエスト](/glossary/リクエスト/)に対する十分な[権限](/glossary/権限/)や許可がないことを示します。[API](/glossary/api/) キーが有効であっても、アクセス対象のリソースや実行しようとする操作に対して権限不足の状態です。[本番環境](/glossary/本番環境/)のデータ保護や機能制限の都合上、Stripe 側で意図的にアクセスをブロックしているケースが大半を占めます。
+Stripe の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)には成功したものの、その[リクエスト](/glossary/リクエスト/)に対する十分な[権限](/glossary/権限/)や許可がないことを示します。[API](/glossary/api/) [キー](/glossary/キー/)が有効であっても、アクセス対象のリソースや実行しようとする操作に対して権限不足の状態です。[本番環境](/glossary/本番環境/)のデータ保護や機能制限の都合上、Stripe 側で意図的にアクセスをブロックしているケースが大半を占めます。
 
 ## 実際のエラーメッセージ例
 
@@ -49,7 +49,7 @@ HTTP/1.1 403 Forbidden
 
 ### 原因1: API キーの権限設定が不足している
 
-Stripe では [API](/glossary/api/) キーに対して細かい権限制御（制限付き [API](/glossary/api/) キー）が可能です。制限付きキーを使用している場合、必要な操作に対応する[権限](/glossary/権限/)が付与されていないと 403 が発生します。
+Stripe では [API](/glossary/api/) [キー](/glossary/キー/)に対して細かい権限制御（制限付き [API](/glossary/api/) [キー](/glossary/キー/)）が可能です。制限付き[キー](/glossary/キー/)を使用している場合、必要な操作に対応する[権限](/glossary/権限/)が付与されていないと 403 が発生します。
 
 **Before（権限不足）:**
 ```bash
@@ -64,7 +64,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 ```
 
 **After（権限追加）:**
-Stripe [ダッシュボード](/glossary/ダッシュボード/) → Settings → [API](/glossary/api/) Keys → Restricted keys で対象キーを編集し、以下の[権限](/glossary/権限/)を追加します。
+Stripe [ダッシュボード](/glossary/ダッシュボード/) → Settings → [API](/glossary/api/) Keys → Restricted keys で対象[キー](/glossary/キー/)を編集し、以下の[権限](/glossary/権限/)を追加します。
 - `charges:write` （決済作成・キャプチャに必要）
 - `charges:read` （決済情報取得に必要）
 - `payment_intents:write` （Payment Intent 操作に必要）
@@ -73,7 +73,7 @@ Stripe [ダッシュボード](/glossary/ダッシュボード/) → Settings �
 
 ### 原因2: テスト環境と本番環境の API キーを混同している
 
-[テスト](/glossary/テスト/)用 [API](/glossary/api/) キー（`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行おうとすると 403 が返されます。Stripe は[環境](/glossary/環境/)を厳密に分離しているため、キーとリソースの[環境](/glossary/環境/)が一致していないとアクセスが拒否されます。
+[テスト](/glossary/テスト/)用 [API](/glossary/api/) [キー](/glossary/キー/)（`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行おうとすると 403 が返されます。Stripe は[環境](/glossary/環境/)を厳密に分離しているため、[キー](/glossary/キー/)とリソースの[環境](/glossary/環境/)が一致していないとアクセスが拒否されます。
 
 **Before（[環境](/glossary/環境/)の混同）:**
 ```python
@@ -125,7 +125,7 @@ stripe.files.create({
 
 ### API バージョンによる権限要件の変化
 
-Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バージョン/)をサポートしており、[バージョン](/glossary/バージョン/)によって必要な[権限](/glossary/権限/)が異なることがあります。例えば、Charges [API](/glossary/api/) と Payment Intents [API](/glossary/api/) では権限設定が異なります。Payment Intents を使う場合は `payment_intents:write` [権限](/glossary/権限/)が必須ですが、古いキーには付与されていないケースが見られます。
+Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バージョン/)をサポートしており、[バージョン](/glossary/バージョン/)によって必要な[権限](/glossary/権限/)が異なることがあります。例えば、Charges [API](/glossary/api/) と Payment Intents [API](/glossary/api/) では権限設定が異なります。Payment Intents を使う場合は `payment_intents:write` [権限](/glossary/権限/)が必須ですが、古い[キー](/glossary/キー/)には付与されていないケースが見られます。
 
 ### Webhook エンドポイントと IP ホワイトリスト
 
@@ -141,7 +141,7 @@ Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バー�
 
 ### 冪等性キーと再試行の権限
 
-Stripe は[冪等性](/glossary/冪等性/)キー（何度実行しても同じ結果が得られる特性）を使った安全な再試行をサポートしていますが、特定の制限付きキーではこの機能が使用禁止になる場合があります。
+Stripe は[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)（何度実行しても同じ結果が得られる特性）を使った安全な再試行をサポートしていますが、特定の制限付き[キー](/glossary/キー/)ではこの機能が使用禁止になる場合があります。
 
 ```javascript
 // 冪等性キー付きリクエスト
@@ -161,7 +161,7 @@ const charge = await stripe.charges.create(
 
 ### 確認すべき情報
 
-1. **[API](/glossary/api/) キーの詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象キーをクリックし、付与されている権限一覧を確認します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか確認してください。
+1. **[API](/glossary/api/) [キー](/glossary/キー/)の詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象[キー](/glossary/キー/)をクリックし、付与されている権限一覧を確認します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか確認してください。
 
 2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を検索し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
 

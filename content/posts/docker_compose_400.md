@@ -72,7 +72,7 @@ services:
 
 ### 原因2：サービス定義の必須キー不足または値の型エラー
 
-serviceセクション内で必須キーが欠けている、または値の型が仕様と異なる場合も400[エラー](/glossary/エラー/)になります。例えば、`ports`に文字列を指定すべきところに数値を指定したり、`environment`をリスト形式で記述すべきところに[オブジェクト](/glossary/オブジェクト/)形式で書いたりすると発生します。また、キー名のタイプミス（`cointainer_name`など）も認識されず[エラー](/glossary/エラー/)となります。
+serviceセクション内で必須[キー](/glossary/キー/)が欠けている、または値の型が仕様と異なる場合も400[エラー](/glossary/エラー/)になります。例えば、`ports`に文字列を指定すべきところに数値を指定したり、`environment`をリスト形式で記述すべきところに[オブジェクト](/glossary/オブジェクト/)形式で書いたりすると発生します。また、[キー](/glossary/キー/)名のタイプミス（`cointainer_name`など）も認識されず[エラー](/glossary/エラー/)となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -174,7 +174,7 @@ networks:
 docker compose -f compose.yml config
 ```
 
-**[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`キーで指定したCompose仕様の[バージョン](/glossary/バージョン/)が、インストール済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
+**[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`[キー](/glossary/キー/)で指定したCompose仕様の[バージョン](/glossary/バージョン/)が、インストール済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
 
 **[環境変数](/glossary/環境変数/)の展開[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`[ファイル](/glossary/ファイル/)の存在確認と変数定義を必ず確認してください。
 
@@ -198,7 +198,7 @@ docker compose --verbose up 2>&1 | head -50
 yamllint compose.yml
 ```
 
-**公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の仕様を確認してください。キー名や値の型、必須キーが正確に記載されています。
+**公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の仕様を確認してください。[キー](/glossary/キー/)名や値の型、必須[キー](/glossary/キー/)が正確に記載されています。
 
 **[GitHub](/glossary/github/) Issuesの検索：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を検索し、既知の問題や回避策がないか確認してください。
 

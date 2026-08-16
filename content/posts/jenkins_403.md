@@ -141,7 +141,7 @@ Jenkins では `/user/<username>/generateApiToken` [エンドポイント](/glos
 
 **複数ジョブへのアクセス制御：**
 
-Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を設定できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で権限管理すると運用が楽になります。
+Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を設定できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
 
 **Jenkins Pipeline での CSRF 対策：**
 

@@ -90,16 +90,16 @@ git push -u origin fix/update-version
 
 設定画面で自分や[自動化](/glossary/自動化/)用の身元を bypass 一覧に加えたのに変わらない、という場合です。原因は[権限](/glossary/権限/)ではなく、push に使われた資格情報にあります。
 
-[GitHub](/glossary/github/) Actions で起きやすい形が知られています。`actions/checkout` は既定で資格情報を保存するため、以降の push はその保存された身元で行われます。あとから別の[トークン](/glossary/トークン/)を[変数](/glossary/変数/)に入れても、`git push` はそれを読みません。結果として、bypass 一覧に入れた身元ではなく、既定の[トークン](/glossary/トークン/)の身元で判定されます。
+[GitHub](/glossary/github/) Actions で起きやすい形が知られています。`actions/checkout` は既定で資格情報を[保存](/glossary/保存/)するため、以降の push はその[保存](/glossary/保存/)された身元で行われます。あとから別の[トークン](/glossary/トークン/)を[変数](/glossary/変数/)に入れても、`git push` はそれを読みません。結果として、bypass 一覧に入れた身元ではなく、既定の[トークン](/glossary/トークン/)の身元で判定されます。
 
-**Before（保存された資格情報のまま送る）：**
+**Before（[保存](/glossary/保存/)された資格情報のまま送る）：**
 
 ```yaml
 - uses: actions/checkout@v4
 - run: git push origin main
 ```
 
-**After（保存を止め、送り先に使う身元を明示する）：**
+**After（[保存](/glossary/保存/)を止め、送り先に使う身元を明示する）：**
 
 ```yaml
 - uses: actions/checkout@v4
@@ -172,7 +172,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 4. 見出しが無い場合、違反した規則の名前を読み、その規則に沿えるかどうかを判断する。
 5. bypass を持っているはずなら、`rules/branches` の経路で規則の出どころを確認する。組織側の別の ruleset に当たっていることがある。
 6. それでも拒まれるなら、push に使われた資格情報の持ち主を確認する。設定画面ではなく、実際の[送信](/glossary/送信/)に使われた身元を見る。
-7. 自動処理なら、資格情報が保存されたまま使われていないかを確認する。
+7. 自動処理なら、資格情報が[保存](/glossary/保存/)されたまま使われていないかを確認する。
 8. 直せない規則であれば、[マージ](/glossary/マージ/)要求を経由する経路に切り替える。
 
 ## 確認コマンド集
@@ -210,7 +210,7 @@ bypass 一覧に入れたのに拒まれるという現象は、[GitHub コミ�
 
 投稿者の状況はこうです。main への直接の push を禁じる規則を作り、bypass 一覧に自分を追加した。手元から push すると素通りできる。ところが [GitHub](/glossary/github/) Actions のワークフローから同じことをすると `GH013: Repository rule violations found for refs/heads/main.` が返る。設定画面の書き込み[権限](/glossary/権限/)も有効にしてある。
 
-原因は[権限](/glossary/権限/)ではありませんでした。投稿者自身が書いた回答によれば、`actions/checkout` が既定で資格情報を保存するため、以降の push がその保存された身元で行われていたのです。解決は2段構えでした。取得の段階で保存を止め、そのうえで push の[コマンド](/glossary/コマンド/)に、bypass を持つ利用者の[トークン](/glossary/トークン/)を明示的に渡すことです。
+原因は[権限](/glossary/権限/)ではありませんでした。投稿者自身が書いた回答によれば、`actions/checkout` が既定で資格情報を[保存](/glossary/保存/)するため、以降の push がその[保存](/glossary/保存/)された身元で行われていたのです。解決は2段構えでした。取得の段階で[保存](/glossary/保存/)を止め、そのうえで push の[コマンド](/glossary/コマンド/)に、bypass を持つ利用者の[トークン](/glossary/トークン/)を明示的に渡すことです。
 
 同じ構図は [GitHub](/glossary/github/) App でも報告されています。[Discussion #136531](https://github.com/orgs/community/discussions/136531) では、App にすべての[権限](/glossary/権限/)を与え、bypass 一覧にも加え、短命な[トークン](/glossary/トークン/)を発行したうえで、それを[変数](/glossary/変数/)に入れて push しています。それでも同じ符号が返りました。寄せられた指摘は、App の[トークン](/glossary/トークン/)ではなく既定の[トークン](/glossary/トークン/)で送っているのではないか、というものでした。
 

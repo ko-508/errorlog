@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Slackの400[エラー](/glossary/エラー/)は、Slack [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が不正な形式で[送信](/glossary/送信/)されたか、必須の[パラメータ](/glossary/パラメータ/)が不足していることを示します。クライアントアプリケーション、ボット、[Webhook](/glossary/webhook/)からの連携時に頻出する[エラー](/glossary/エラー/)で、[リクエスト](/glossary/リクエスト/)自体が[サーバー](/glossary/サーバー/)に拒否される状態です。データは破損しないため、設定や[リクエスト](/glossary/リクエスト/)内容を修正すれば解決できます。
+Slackの400[エラー](/glossary/エラー/)は、Slack [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)が不正な形式で[送信](/glossary/送信/)されたか、必須の[パラメータ](/glossary/パラメータ/)が不足していることを示します。クライアントアプリケーション、ボット、[Webhook](/glossary/webhook/)からの連携時に頻出する[エラー](/glossary/エラー/)で、[リクエスト](/glossary/リクエスト/)自体が[サーバー](/glossary/サーバー/)に拒否される状態です。データは破損しないため、設定や[リクエスト](/glossary/リクエスト/)内容を[修正](/glossary/修正/)すれば解決できます。
 
 ## 実際のエラーメッセージ例
 

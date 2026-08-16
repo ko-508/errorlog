@@ -104,7 +104,7 @@ az webapp log tail --name <app-name> --resource-group <resource-group>
 
 ## 補足：500ではない類似エラー
 
-Azure の実際の応答では、次の問題に500以外の[コード](/glossary/コード/)が割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過や[リクエスト](/glossary/リクエスト/)の集中（[スロットリング](/glossary/スロットリング/)）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。テンプレートや[パラメータ](/glossary/パラメータ/)の検証[エラー](/glossary/エラー/)は 400 系で、message が名指しする項目の修正が対処です。権限不足は 403 の AuthorizationFailed で、調査は[ロール](/glossary/ロール/)割り当て（[RBAC](/glossary/rbac/)）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
+Azure の実際の応答では、次の問題に500以外の[コード](/glossary/コード/)が割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過や[リクエスト](/glossary/リクエスト/)の集中（[スロットリング](/glossary/スロットリング/)）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。テンプレートや[パラメータ](/glossary/パラメータ/)の検証[エラー](/glossary/エラー/)は 400 系で、message が名指しする項目の[修正](/glossary/修正/)が対処です。権限不足は 403 の AuthorizationFailed で、調査は[ロール](/glossary/ロール/)割り当て（[RBAC](/glossary/rbac/)）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
 
 ## 切り分けの順序
 
@@ -112,7 +112,7 @@ Azure の実際の応答では、次の問題に500以外の[コード](/glossar
 2. 応答の error.code を読む。MissingSubscriptionRegistration（409）・[スロットリング](/glossary/スロットリング/)（429）・検証[エラー](/glossary/エラー/)（400）・AuthorizationFailed（403）なら、それぞれの調査に切り替える。
 3. 原因1は、x-ms-request-id と時刻を控え、[SDK](/glossary/sdk/) の再試行が尽きていることを前提に、時間をおいて再実行する。書き込みは二重作成の確認を先に行う。
 4. 500が続く場合は、稼働状況ページとポータルの Service Health を確認し、解消しなければ参照 [ID](/glossary/id/) を添えてサポートへ問い合わせる。
-5. 原因2は、サブステータスで段階を特定し、イベントログと stdout [ログ](/glossary/ログ/)で実際の例外を確認して修正する。
+5. 原因2は、サブステータスで段階を特定し、イベントログと stdout [ログ](/glossary/ログ/)で実際の例外を確認して[修正](/glossary/修正/)する。
 
 ## 確認コマンド集
 

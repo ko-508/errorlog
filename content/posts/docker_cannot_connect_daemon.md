@@ -158,7 +158,7 @@ namei -l /var/run/docker.sock
 
 通常の構成では `docker` グループに読み書きが許可されます。ただし、手動でdaemonを起動した場合、別のサービス定義を使った場合、[Docker](/glossary/docker/) DesktopやRootless modeと混在した場合は、接続先や所有グループが変わります。
 
-ここで次の修正は避けます。
+ここで次の[修正](/glossary/修正/)は避けます。
 
 ```bash
 sudo chmod 666 /var/run/docker.sock

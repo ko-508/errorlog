@@ -18,7 +18,7 @@ trend_incident: false
 
 重要なのは、**この文字列自体には原因が書かれていない**ことです。実装を見ると、これは分類のための名前で、`kubectl get pods` の状態欄にはこの名前だけが出ます。実際の原因は、`kubectl describe pod` の[イベント](/glossary/イベント/)の側に入ります。しかも、その[イベント](/glossary/イベント/)の理由欄は `CreateContainerConfigError` ではなく **`Failed`** です。実装で理由の定数がそう定義されています。
 
-原因の大半は、[環境変数](/glossary/環境変数/)として参照している ConfigMap や Secret が解決できないことです。文言は2種類に分かれます。**参照先そのものが無い**場合は `secret "app-secrets" not found` の形、**参照先はあるがキーが無い**場合は `couldn't find key API_KEY in Secret default/app-secrets` の形になります。実装でも、この2つは別々の分岐で作られています。
+原因の大半は、[環境変数](/glossary/環境変数/)として参照している ConfigMap や Secret が解決できないことです。文言は2種類に分かれます。**参照先そのものが無い**場合は `secret "app-secrets" not found` の形、**参照先はあるが[キー](/glossary/キー/)が無い**場合は `couldn't find key API_KEY in Secret default/app-secrets` の形になります。実装でも、この2つは別々の分岐で作られています。
 
 もう1つ、実務で効く性質があります。kubelet は失敗しても作成を繰り返します。したがって、**足りない ConfigMap や Secret を後から作れば、Pod を作り直さなくても起動します**。実際の報告を見ても、[イベント](/glossary/イベント/)には同じ失敗が数分間で8回といった形で記録されています。
 
@@ -54,9 +54,9 @@ kubectl get pod <Pod名> -o jsonpath='{.status.containerStatuses[0].state.waitin
 
 第一に、`kubectl describe pod` を実行し、理由が `Failed` の[イベント](/glossary/イベント/)を探します。ここに原因の文言が入っています。
 
-第二に、文言の形を見ます。`not found` で終わっていれば参照先が存在しません。`couldn't find key` で始まっていれば、参照先はあるがキーがありません。
+第二に、文言の形を見ます。`not found` で終わっていれば参照先が存在しません。`couldn't find key` で始まっていれば、参照先はあるが[キー](/glossary/キー/)がありません。
 
-第三に、文言に含まれる名前空間を確認します。キー欠落の文言には `名前空間/名前` の形で入るため、意図した名前空間かどうかがその場で分かります。
+第三に、文言に含まれる名前空間を確認します。[キー](/glossary/キー/)欠落の文言には `名前空間/名前` の形で入るため、意図した名前空間かどうかがその場で分かります。
 
 第四に、`x8 over 9m` のような繰り返し回数を見ます。増え続けていれば、kubelet が再試行を続けている状態です。**参照先を用意すれば、そのまま起動します**。
 
@@ -82,9 +82,9 @@ kubectl get pod <Pod名> -o jsonpath='{range .spec.containers[*]}{.envFrom}{.env
 
 ### 原因2：参照先はあるが、キーが無い
 
-文言が `couldn't find key <キー> in Secret <名前空間>/<名前>` の形になります。ConfigMap の場合も同様です。実装では、参照先の取得に成功したあと、キーの存在を確認する段階で作られます。
+文言が `couldn't find key <キー> in Secret <名前空間>/<名前>` の形になります。ConfigMap の場合も同様です。実装では、参照先の取得に成功したあと、[キー](/glossary/キー/)の存在を確認する段階で作られます。
 
-公式文書にも、存在しないキーへの参照も同様に Pod の起動を妨げる、と書かれています。
+公式文書にも、存在しない[キー](/glossary/キー/)への参照も同様に Pod の起動を妨げる、と書かれています。
 
 ```bash
 # 実際に入っているキーの一覧を確認する
@@ -92,7 +92,7 @@ kubectl get secret <名前> -n <名前空間> -o jsonpath='{.data}' | tr ',' '\n
 kubectl get configmap <名前> -n <名前空間> -o jsonpath='{.data}' | tr ',' '\n'
 ```
 
-**Before（キー名を推測で書く）：**
+**Before（[キー](/glossary/キー/)名を推測で書く）：**
 
 ```yaml
 env:
@@ -103,7 +103,7 @@ env:
         key: password        # 実際は postgresql-password だった
 ```
 
-**After（実際のキー名に合わせる）：**
+**After（実際の[キー](/glossary/キー/)名に合わせる）：**
 
 ```yaml
 env:
@@ -114,11 +114,11 @@ env:
         key: postgresql-password
 ```
 
-この形は、外部の配布物を使うときによく起きます。作り手が使うキー名と、こちらが書いたキー名がずれているためです。推測せず、実物の一覧を確認してください。
+この形は、外部の配布物を使うときによく起きます。作り手が使う[キー](/glossary/キー/)名と、こちらが書いた[キー](/glossary/キー/)名がずれているためです。推測せず、実物の一覧を確認してください。
 
 ### 原因3：任意扱いにすべき参照を必須のままにしている
 
-参照を任意と指定すれば、存在しなくても起動します。公式文書によれば、任意と指定した場合、ConfigMap が存在しなければその[環境変数](/glossary/環境変数/)は空になり、存在してもキーが無ければ同じく空になります。
+参照を任意と指定すれば、存在しなくても起動します。公式文書によれば、任意と指定した場合、ConfigMap が存在しなければその[環境変数](/glossary/環境変数/)は空になり、存在しても[キー](/glossary/キー/)が無ければ同じく空になります。
 
 ```yaml
 env:
@@ -161,15 +161,15 @@ kubectl get pod <Pod名> -o jsonpath='{range .status.containerStatuses[*]}{.name
 
 `ContainerCreating` のまま進まない場合は、多くがボリュームの割り当て待ちです。[イベント](/glossary/イベント/)の理由が `FailedMount` になります。
 
-なお、`envFrom` で ConfigMap 全体を取り込む場合、環境変数名として使えないキーは**読み飛ばされ、Pod は起動します**。公式文書によれば、この場合は[イベント](/glossary/イベント/)に `InvalidVariableNames` として記録されます。起動しているのに値が入っていない、という現象はこちらです。
+なお、`envFrom` で ConfigMap 全体を取り込む場合、環境変数名として使えない[キー](/glossary/キー/)は**読み飛ばされ、Pod は起動します**。公式文書によれば、この場合は[イベント](/glossary/イベント/)に `InvalidVariableNames` として記録されます。起動しているのに値が入っていない、という現象はこちらです。
 
 ## 切り分けの順序
 
 1. `kubectl logs` ではなく `kubectl describe pod` を見る。[ログ](/glossary/ログ/)はまだ存在しない。
 2. 理由が `Failed` の[イベント](/glossary/イベント/)を探す。原因の文言はそこにある。
-3. 文言の形を見る。`not found` なら参照先が無い、`couldn't find key` ならキーが無い。
+3. 文言の形を見る。`not found` なら参照先が無い、`couldn't find key` なら[キー](/glossary/キー/)が無い。
 4. 文言に含まれる名前空間を確認する。取り違えていないか。
-5. 実物の一覧と突き合わせる。推測でキー名を直さない。
+5. 実物の一覧と突き合わせる。推測で[キー](/glossary/キー/)名を直さない。
 6. 配備直後なら、順序の問題かもしれない。後から作れば自動的に起動する。
 7. 文言が ConfigMap や Secret に触れていないなら、`runAsNonRoot` などの設定を疑う。
 8. 複数[コンテナ](/glossary/コンテナ/)なら、どの[コンテナ](/glossary/コンテナ/)で失敗しているかを確認する。
@@ -210,7 +210,7 @@ kubectl get pod <Pod名> -n <名前空間> -w
 
 この[エラー](/glossary/エラー/)の分かりにくさは、**分類名と原因が別の場所にある**という構造に由来します。それを一目で示す記録があります（[Error: couldn't find key postgresql-password in Secret](https://github.com/sentry-kubernetes/charts/issues/1433)）。
 
-貼られている出力では、`kubectl get pod` の状態欄に3つの Pod が `CreateContainerConfigError` と並んでいます。ここまでは、どれも同じに見えます。ところが[イベント](/glossary/イベント/)を見ると、内訳が違いました。ある Pod は `Error: couldn't find key postgresql-password in Secret test/my-postgresql`、別の Pod は `Error: secret "sentry-snuba-env" not found`。**前者は参照先はあるがキーが違う、後者はそもそも参照先が無い**という、対処のまったく異なる2つの問題が、同じ分類名の下に混ざっていたわけです。
+貼られている出力では、`kubectl get pod` の状態欄に3つの Pod が `CreateContainerConfigError` と並んでいます。ここまでは、どれも同じに見えます。ところが[イベント](/glossary/イベント/)を見ると、内訳が違いました。ある Pod は `Error: couldn't find key postgresql-password in Secret test/my-postgresql`、別の Pod は `Error: secret "sentry-snuba-env" not found`。**前者は参照先はあるが[キー](/glossary/キー/)が違う、後者はそもそも参照先が無い**という、対処のまったく異なる2つの問題が、同じ分類名の下に混ざっていたわけです。
 
 [イベント](/glossary/イベント/)の理由欄がどちらも `Failed` である点も、実装のとおりでした。分類名で検索しても解決しないのは、この構造のためです。
 

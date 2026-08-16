@@ -128,7 +128,7 @@ docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
 
 上から順に実行すると、原因を機械的に絞り込めます。
 
-1. **実際の出力を保存する**：文言と reference を一字も変えずに記録します。ここが以降の判断材料になります。
+1. **実際の出力を[保存](/glossary/保存/)する**：文言と reference を一字も変えずに記録します。ここが以降の判断材料になります。
 
     ```[bash](/glossary/bash/)
     docker pull <your-registry>/<your-namespace>/<your-image>:<your-tag>

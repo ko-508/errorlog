@@ -176,7 +176,7 @@ ls -la /run/user/$(id -u)/podman/podman.sock
 
 ### リモート Podman 接続での接続タイムアウト
 
-Podman を SSH 経由でリモート接続する場合、SSH キーが設定されていないか、リモート側の Podman [API](/glossary/api/) サービスが起動していないと 503 が発生します。
+Podman を SSH 経由でリモート接続する場合、SSH [キー](/glossary/キー/)が設定されていないか、リモート側の Podman [API](/glossary/api/) サービスが起動していないと 503 が発生します。
 
 ```bash
 # リモート接続先の接続情報確認

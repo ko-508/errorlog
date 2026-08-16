@@ -66,7 +66,7 @@ curl -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues" \
 
 ### 原因2：.gitlab-ci.yml ファイルの YAML 構文エラー
 
-`.gitlab-ci.yml` の [YAML](/glossary/yaml/) 構文が壊れている場合、パイプライン作成時に 400 [エラー](/glossary/エラー/)が返されます。インデント不正、不正なキー名、型の不一致が原因になることが多いです。
+`.gitlab-ci.yml` の [YAML](/glossary/yaml/) 構文が壊れている場合、パイプライン作成時に 400 [エラー](/glossary/エラー/)が返されます。インデント不正、不正な[キー](/glossary/キー/)名、型の不一致が原因になることが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -91,7 +91,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ここが `RunContainerError` でなければ、この記事の手順をそのまま当てはめません。表示されたreasonが示す段階へ戻ってください。
 
-第二に、messageをそのまま保存します。
+第二に、messageをそのまま[保存](/glossary/保存/)します。
 
 ```bash
 kubectl describe pod <Pod名> -n <名前空間>
@@ -225,7 +225,7 @@ df -h
 
 CRI互換runtimeの状態を直接見る場合は `crictl` が使えます。[Kubernetes](/glossary/kubernetes/)公式ドキュメントは、ノード上のcontainer runtimeと[アプリケーション](/glossary/アプリケーション/)を検査・[デバッグ](/glossary/デバッグ/)するための[ツール](/glossary/ツール/)として `crictl` を案内しています（[Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)）。
 
-containerdのCRI設定を疑う場合、containerd側ではCRI pluginの設定が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし設定キーは版によって変わるため、実行中の版のドキュメントと現在の `config.toml` を突き合わせてください。
+containerdのCRI設定を疑う場合、containerd側ではCRI pluginの設定が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし設定[キー](/glossary/キー/)は版によって変わるため、実行中の版のドキュメントと現在の `config.toml` を突き合わせてください。
 
 ## 補足：似ているが別のもの
 
@@ -283,7 +283,7 @@ crictl images
 ## 切り分けの順序
 
 1. `containerStatuses` と `initContainerStatuses` のreasonを確認し、`RunContainerError` であることを確定する。
-2. `kubectl describe pod` で `Message` をそのまま保存する。
+2. `kubectl describe pod` で `Message` をそのまま[保存](/glossary/保存/)する。
 3. Eventsを時系列で確認し、`FailedCreatePodSandbox` やimage pull系の前段階[エラー](/glossary/エラー/)が主因でないか確認する。
 4. `kubectl logs` が空でも、プロセス開始前なら異常ではないと判断する。
 5. `command`、`args`、`workingDir`、`securityContext` を外した最小構成で同じimageを起動する。
@@ -343,7 +343,7 @@ crictl images
 
 kubeletのソースにも、`RunContainerError` は `CreatePodSandboxError` や `KillContainerError` など段階の異なる[エラー](/glossary/エラー/)と並んで定義されています（[sync_result.go](https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/container/sync_result.go)）。つまり、この文字列は「[Kubernetes](/glossary/kubernetes/)全体が失敗した」という大ざっぱな印ではなく、Pod起動のどの境界で止まったかを示す印です。
 
-一方で、ノード上の実態を見るには[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)だけでは足りないことがあります。[Kubernetes](/glossary/kubernetes/)公式の [`crictl` デバッグ手順](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)は、ノード上のcontainer runtimeと[コンテナ](/glossary/コンテナ/)を直接調べる方法を案内しています。`RunContainerError` では、Pod定義の修正だけでなく、runtime[ログ](/glossary/ログ/)やCRIの状態確認まで含めて初めて原因が見えることがあります。
+一方で、ノード上の実態を見るには[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)だけでは足りないことがあります。[Kubernetes](/glossary/kubernetes/)公式の [`crictl` デバッグ手順](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)は、ノード上のcontainer runtimeと[コンテナ](/glossary/コンテナ/)を直接調べる方法を案内しています。`RunContainerError` では、Pod定義の[修正](/glossary/修正/)だけでなく、runtime[ログ](/glossary/ログ/)やCRIの状態確認まで含めて初めて原因が見えることがあります。
 
 だから、`RunContainerError` を見たら、まず `Message` を読み、次にPod定義かノードかを分けてください。[権限](/glossary/権限/)を広げる、runtimeを再起動する、image stateを消す、といった操作は、原因の層が分かってから行う最後の手段です。
 

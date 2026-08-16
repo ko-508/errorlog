@@ -119,7 +119,7 @@ test -f ~/.config/containers/auth.json && echo "認証ファイルが作成さ�
 
 ### 原因4: 使用しているユーザーアカウントが異なっている
 
-Podmanは各ユーザーごとに独立した認証情報を `~/.config/containers/auth.json` に保存します。root[権限](/glossary/権限/)で実行する場合と通常ユーザーで実行する場合で、異なる認証情報を使うことになり、一方が[ログイン](/glossary/ログイン/)済みでも他方は未認証状態になる可能性があります。
+Podmanは各ユーザーごとに独立した認証情報を `~/.config/containers/auth.json` に[保存](/glossary/保存/)します。root[権限](/glossary/権限/)で実行する場合と通常ユーザーで実行する場合で、異なる認証情報を使うことになり、一方が[ログイン](/glossary/ログイン/)済みでも他方は未認証状態になる可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -421,7 +421,7 @@ metadata:
 
 ### Liveness probe failed
 
-liveness失敗が閾値へ達すると、対象[コンテナ](/glossary/コンテナ/)を終了し、restartPolicyに従って再起動します。`RESTARTS` が増え、同じ失敗が続けばCrashLoopBackOffになり得ます。readinessの修正と混同しないでください。
+liveness失敗が閾値へ達すると、対象[コンテナ](/glossary/コンテナ/)を終了し、restartPolicyに従って再起動します。`RESTARTS` が増え、同じ失敗が続けばCrashLoopBackOffになり得ます。readinessの[修正](/glossary/修正/)と混同しないでください。
 
 ### Startup probe failed
 
@@ -521,7 +521,7 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 `Readiness probe failed` を「Podへの[通信](/glossary/通信/)が遮断された」とまとめると、実際の変更範囲を広く見積もりすぎます。readinessが直接変更するのは、containerとPodのReady状態です。そこからEndpointSlice controller、kube-proxyや代替実装、IngressやLoad Balancerへ状態が伝わり、Service経由の通常転送先が更新されます。
 
-2024年の[Kubernetes](/glossary/kubernetes/)の課題（[`kubectl describe service` shows endpoints that are not ready](https://github.com/kubernetes/kubernetes/issues/126922)）では、readinessが失敗して `kubectl get endpoints` では転送先が空なのに、`kubectl describe service` の要約にはUnreadyなPod IPが表示される不整合が報告されました。修正は[Pull Request #126932](https://github.com/kubernetes/kubernetes/pull/126932)で取り込まれています。
+2024年の[Kubernetes](/glossary/kubernetes/)の課題（[`kubectl describe service` shows endpoints that are not ready](https://github.com/kubernetes/kubernetes/issues/126922)）では、readinessが失敗して `kubectl get endpoints` では転送先が空なのに、`kubectl describe service` の要約にはUnreadyなPod IPが表示される不整合が報告されました。[修正](/glossary/修正/)は[Pull Request #126932](https://github.com/kubernetes/kubernetes/pull/126932)で取り込まれています。
 
 この事例は、Pod IPが画面に見えることと、実際の転送対象であることが同じではないと示します。現在の切り分けでは、Serviceの要約だけでなくEndpointSliceの `conditions.ready` を確認する必要があります。
 

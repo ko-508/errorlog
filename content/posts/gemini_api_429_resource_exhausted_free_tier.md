@@ -58,7 +58,7 @@ Gemini [API](/glossary/api/)の429[エラー](/glossary/エラー/)は、[API](/
 
 ### 原因1: 無料枠の1分あたりのリクエスト上限超過
 
-Gemini [API](/glossary/api/)の無料枠は1分間に最大60[リクエスト](/glossary/リクエスト/)という制限があります。ループ処理やバッチスクリプトで短時間に大量[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、この上限に即座に達します。
+Gemini [API](/glossary/api/)の無料枠は1分間に最大60[リクエスト](/glossary/リクエスト/)という制限があります。[ループ](/glossary/ループ/)処理やバッチスクリプトで短時間に大量[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、この上限に即座に達します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -245,7 +245,7 @@ response = call_with_retry("テストプロンプト")
 
 1. **Google Cloud Consoleのクォータ表示**：Quotasセクションで `generativelanguage.googleapis.com/generate_content_free_tier_requests` と `generativelanguage.googleapis.com/generate_content_free_tier_tokens` の現在値を確認してください。
 
-2. **[API](/glossary/api/)キーの有効性確認**：複数の[API](/glossary/api/)キーを使用している場合、別のキーで試行して、キー単位のクォータ制限か全体の制限かを判別します。
+2. **[API](/glossary/api/)[キー](/glossary/キー/)の有効性確認**：複数の[API](/glossary/api/)[キー](/glossary/キー/)を使用している場合、別の[キー](/glossary/キー/)で試行して、[キー](/glossary/キー/)単位のクォータ制限か全体の制限かを判別します。
 
 3. **リージョン別制限**：Gemini [API](/glossary/api/)は全リージョン共通のクォータを持つため、複数[プロジェクト](/glossary/プロジェクト/)やリージョンからの同時[リクエスト](/glossary/リクエスト/)は累算されます。
 

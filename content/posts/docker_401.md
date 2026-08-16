@@ -66,7 +66,7 @@ docker pull <your-username>/<image-name>:latest
 
 ### 原因2：AWS ECRの認証トークンが期限切れ
 
-ECRの[認証](/glossary/認証/)[トークン](/glossary/トークン/)は12時間の有効期限があります。[Docker](/glossary/docker/) daemonに保存された[トークン](/glossary/トークン/)が期限切れになると401[エラー](/glossary/エラー/)が発生します。
+ECRの[認証](/glossary/認証/)[トークン](/glossary/トークン/)は12時間の有効期限があります。[Docker](/glossary/docker/) daemonに[保存](/glossary/保存/)された[トークン](/glossary/トークン/)が期限切れになると401[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -87,7 +87,7 @@ docker pull <your-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-reposito
 
 ### 原因3：設定ファイル（config.json）の認証情報が破損または形式が不正
 
-`~/.docker/config.json` に保存された認証情報が破損しているか、[レジストリ](/glossary/レジストリ/)のホスト名が正確に記録されていない場合に発生します。
+`~/.docker/config.json` に[保存](/glossary/保存/)された認証情報が破損しているか、[レジストリ](/glossary/レジストリ/)のホスト名が正確に記録されていない場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

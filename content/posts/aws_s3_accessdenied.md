@@ -92,7 +92,7 @@ S3 [バケット](/glossary/バケット/)にアクセスするユーザー・[�
 aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 ```
 
-修正が反映されると、指定した[ファイル](/glossary/ファイル/)が[ダウンロード](/glossary/ダウンロード/)され、[エラー](/glossary/エラー/)が出なくなります。
+[修正](/glossary/修正/)が反映されると、指定した[ファイル](/glossary/ファイル/)が[ダウンロード](/glossary/ダウンロード/)され、[エラー](/glossary/エラー/)が出なくなります。
 
 ### 原因2：バケットポリシーで Deny が明示的に設定されている
 
@@ -240,7 +240,7 @@ aws s3 ls s3://my-bucket --profile <cross-account-profile>
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | [IAM](/glossary/iam/)[ポリシー](/glossary/ポリシー/)に[権限](/glossary/権限/)を追加 | 低 | 不要 | 全[OS](/glossary/os/) |
-| バケットポリシーの Deny 条件を修正 | 中 | 不要 | 全[OS](/glossary/os/) |
+| バケットポリシーの Deny 条件を[修正](/glossary/修正/) | 中 | 不要 | 全[OS](/glossary/os/) |
 | Block Public Access を無効化 | 低 | 不要 | 全[OS](/glossary/os/) |
 | クロスアカウント[権限](/glossary/権限/)を設定 | 中 | 不要 | 全[OS](/glossary/os/) |
 
@@ -291,7 +291,7 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 ## Editor's Note
 
-[AWS](/glossary/aws/) 公式ドキュメントでは [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)と バケットポリシーの関係を別々に説明していることが多いため、新規ユーザーは「[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow しているのに拒否される」という混乱に陥りやすいです。実際のサポートフォーラムでは、[AWS re:Post での AccessDenied 事例](https://repost.aws/)でもこの原因が頻出しており、バケットポリシーの Deny 条件や Block Public Access が見落とされるケースが圧倒的です。現場では、まず [AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator で[ポリシー](/glossary/ポリシー/)評価を実行し、複数の[ポリシー](/glossary/ポリシー/)がどの順序で評価されているか可視化してから、個別の[ポリシー](/glossary/ポリシー/)を修正するのが有効です。
+[AWS](/glossary/aws/) 公式ドキュメントでは [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)と バケットポリシーの関係を別々に説明していることが多いため、新規ユーザーは「[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow しているのに拒否される」という混乱に陥りやすいです。実際のサポートフォーラムでは、[AWS re:Post での AccessDenied 事例](https://repost.aws/)でもこの原因が頻出しており、バケットポリシーの Deny 条件や Block Public Access が見落とされるケースが圧倒的です。現場では、まず [AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator で[ポリシー](/glossary/ポリシー/)評価を実行し、複数の[ポリシー](/glossary/ポリシー/)がどの順序で評価されているか可視化してから、個別の[ポリシー](/glossary/ポリシー/)を[修正](/glossary/修正/)するのが有効です。
 
 ---
 

@@ -66,7 +66,7 @@ services:
 
 ### 原因2：build コンテキストのパスが存在しない、または間違っている
 
-`build` キーでコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、[ディレクトリ](/glossary/ディレクトリ/)が削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
+`build` [キー](/glossary/キー/)でコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、[ディレクトリ](/glossary/ディレクトリ/)が削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -150,7 +150,7 @@ docker volume create shared_data
 docker images
 ```
 
-この[コマンド](/glossary/コマンド/)で、使用しようとしている[イメージ](/glossary/イメージ/)がローカルに存在するかどうかをリスト表示します。存在しない場合は、[イメージ](/glossary/イメージ/)名または[タグ](/glossary/タグ/)を修正するか、`docker compose up --build` で再度ビルドしてください。
+この[コマンド](/glossary/コマンド/)で、使用しようとしている[イメージ](/glossary/イメージ/)がローカルに存在するかどうかをリスト表示します。存在しない場合は、[イメージ](/glossary/イメージ/)名または[タグ](/glossary/タグ/)を[修正](/glossary/修正/)するか、`docker compose up --build` で再度ビルドしてください。
 
 **ビルドコンテキストの[パス](/glossary/パス/)確認：**
 

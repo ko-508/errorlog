@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Terraform の実行中に現れる 500 Internal Server Error は、手元で動いている Terraform 自身の不具合ではなく、Terraform が[通信](/glossary/通信/)している相手側の[サーバー](/glossary/サーバー/)内部[エラー](/glossary/エラー/)です。Terraform は多数のリモート [API](/glossary/api/) の[クライアント](/glossary/クライアント/)であり、相手は大きく3つに分かれます。plan や apply の最中にリソースを操作するクラウドプロバイダーの [API](/glossary/api/)（原因1）、state の保存や取得、リモート実行を担う[バックエンド](/glossary/バックエンド/)（HCP Terraform など。原因2）、そして terraform init でプロバイダーやモジュールを取得する Terraform Registry（原因3）です。500の調査の第一歩は、[エラーメッセージ](/glossary/エラーメッセージ/)に含まれる [URL](/glossary/url/) と、どの段階で失敗したかを読んで、この3つのどれが相手かを特定することです。
+Terraform の実行中に現れる 500 Internal Server Error は、手元で動いている Terraform 自身の不具合ではなく、Terraform が[通信](/glossary/通信/)している相手側の[サーバー](/glossary/サーバー/)内部[エラー](/glossary/エラー/)です。Terraform は多数のリモート [API](/glossary/api/) の[クライアント](/glossary/クライアント/)であり、相手は大きく3つに分かれます。plan や apply の最中にリソースを操作するクラウドプロバイダーの [API](/glossary/api/)（原因1）、state の[保存](/glossary/保存/)や取得、リモート実行を担う[バックエンド](/glossary/バックエンド/)（HCP Terraform など。原因2）、そして terraform init でプロバイダーやモジュールを取得する Terraform Registry（原因3）です。500の調査の第一歩は、[エラーメッセージ](/glossary/エラーメッセージ/)に含まれる [URL](/glossary/url/) と、どの段階で失敗したかを読んで、この3つのどれが相手かを特定することです。
 
 境界も先に押さえておくと迷いません。実行[アカウント](/glossary/アカウント/)の権限不足は、[クラウド](/glossary/クラウド/)側から 403 系のアクセス拒否（[AWS](/glossary/aws/) なら AccessDenied や UnauthorizedOperation）として返り、500にはなりません。[AWS](/glossary/aws/) の[スロットリング](/glossary/スロットリング/)は ThrottlingException（[HTTP](/glossary/http/) では 400 として現れることもあります）や 429 で、プロバイダーが自動で再試行する対象です。また、TERRAFORM CRASH という見出しとスタックトレースが出る異常終了は、[HTTP](/glossary/http/) の500ではなく Terraform 本体の[バグ](/glossary/バグ/)であり、調査の場所がまったく異なります。
 
@@ -48,7 +48,7 @@ the request failed after 2 attempts, please try again later
 
 ## まず最初に：URL と段階で相手を特定する
 
-terraform init の段階で失敗し、対象がプロバイダーやモジュールの取得なら、相手は Terraform Registry です（原因3）。plan や apply の段階で、[エラー](/glossary/エラー/)に[クラウド](/glossary/クラウド/)の[エンドポイント](/glossary/エンドポイント/)（amazonaws.com、googleapis.com、azure.com など）やリソース名が含まれるなら、相手はクラウドプロバイダーの [API](/glossary/api/) です（原因1）。state の取得・保存やリモート実行の[エラー](/glossary/エラー/)（Error downloading state、app.terraform.io への[通信](/glossary/通信/)、自営の Terraform Enterprise）なら、相手は[バックエンド](/glossary/バックエンド/)です（原因2）。詳しいやり取りを見たい場合は、TF_LOG=DEBUG を付けて再実行すると、どの [URL](/glossary/url/) への[通信](/glossary/通信/)で失敗したかが[ログ](/glossary/ログ/)に残ります。
+terraform init の段階で失敗し、対象がプロバイダーやモジュールの取得なら、相手は Terraform Registry です（原因3）。plan や apply の段階で、[エラー](/glossary/エラー/)に[クラウド](/glossary/クラウド/)の[エンドポイント](/glossary/エンドポイント/)（amazonaws.com、googleapis.com、azure.com など）やリソース名が含まれるなら、相手はクラウドプロバイダーの [API](/glossary/api/) です（原因1）。state の取得・[保存](/glossary/保存/)やリモート実行の[エラー](/glossary/エラー/)（Error downloading state、app.terraform.io への[通信](/glossary/通信/)、自営の Terraform Enterprise）なら、相手は[バックエンド](/glossary/バックエンド/)です（原因2）。詳しいやり取りを見たい場合は、TF_LOG=DEBUG を付けて再実行すると、どの [URL](/glossary/url/) への[通信](/glossary/通信/)で失敗したかが[ログ](/glossary/ログ/)に残ります。
 
 ## よくある原因と解決手順
 

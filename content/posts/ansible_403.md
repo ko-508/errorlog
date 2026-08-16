@@ -134,7 +134,7 @@ ansible ALL=(ALL) NOPASSWD:/bin/systemctl start apache2, /bin/systemctl stop apa
       become: true
 ```
 
-対応するターゲットホスト側の修正：
+対応するターゲットホスト側の[修正](/glossary/修正/)：
 
 ```bash
 # /etc/sudoers.d/ansible - 必要なコマンドをすべて許可
@@ -191,7 +191,7 @@ drwx------ root root /opt/myapp
       become: true
 ```
 
-ターゲットホスト側の修正：
+ターゲットホスト側の[修正](/glossary/修正/)：
 
 ```bash
 # ディレクトリパーミッションを適切に設定

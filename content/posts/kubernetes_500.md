@@ -39,7 +39,7 @@ Error from server (InternalError): error when creating "deployment.yaml": Intern
 
 ### 1. etcdデータベースの障害
 
-**なぜ発生するか**：etcdは[Kubernetes](/glossary/kubernetes/)クラスタの状態を保持する分散キー・バリューストアです。etcdが応答しない、ディスク満杯、または不整合が発生すると[API](/glossary/api/)[サーバー](/glossary/サーバー/)は500[エラー](/glossary/エラー/)を返します。
+**なぜ発生するか**：etcdは[Kubernetes](/glossary/kubernetes/)クラスタの状態を保持する分散[キー](/glossary/キー/)・バリューストアです。etcdが応答しない、ディスク満杯、または不整合が発生すると[API](/glossary/api/)[サーバー](/glossary/サーバー/)は500[エラー](/glossary/エラー/)を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```bash

@@ -54,7 +54,7 @@ Datadog の公式ステータスページ（https://status.datadoghq.com）に�
 
 ### 原因2：Datadog エージェントの API キーまたはサイト設定が正しくない
 
-エージェントが無効な [API](/glossary/api/) キーやサイト [URL](/glossary/url/) を使用している場合、[リクエスト](/glossary/リクエスト/)が拒否される可能性があります。特に、複数環境を運用している場合に [API](/glossary/api/) キーを誤設定することが多くあります。
+エージェントが無効な [API](/glossary/api/) [キー](/glossary/キー/)やサイト [URL](/glossary/url/) を使用している場合、[リクエスト](/glossary/リクエスト/)が拒否される可能性があります。特に、複数環境を運用している場合に [API](/glossary/api/) [キー](/glossary/キー/)を誤設定することが多くあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -79,7 +79,7 @@ export DD_SITE="datadoghq.eu"  # 利用地域に応じた正しいサイト
 sudo datadog-agent configcheck
 ```
 
-エージェントが設定を正常に読み込み、「Check Configurations」セクションで [API](/glossary/api/) キーとサイトが正しく表示されていれば成功です。
+エージェントが設定を正常に読み込み、「Check Configurations」セクションで [API](/glossary/api/) [キー](/glossary/キー/)とサイトが正しく表示されていれば成功です。
 
 ### 原因3：ネットワーク接続またはプロキシ設定の問題
 
@@ -115,7 +115,7 @@ curl -i https://api.datadoghq.com/api/v1/validate
 
 ### 原因4：エージェントのバージョンが古すぎるまたは非対応
 
-Datadog エージェントの実行中の[バージョン](/glossary/バージョン/)が古い場合、[API](/glossary/api/) の仕様変更により 503 が返される可能性があります。最新[バージョン](/glossary/バージョン/)で修正されていることもあります。
+Datadog エージェントの実行中の[バージョン](/glossary/バージョン/)が古い場合、[API](/glossary/api/) の仕様変更により 503 が返される可能性があります。最新[バージョン](/glossary/バージョン/)で[修正](/glossary/修正/)されていることもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -205,7 +205,7 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | ステータスページで障害確認 | 低 | 不要 | 全[OS](/glossary/os/) |
-| [API](/glossary/api/) キーとサイト設定確認 | 低 | 必要 | 全[OS](/glossary/os/) |
+| [API](/glossary/api/) [キー](/glossary/キー/)とサイト設定確認 | 低 | 必要 | 全[OS](/glossary/os/) |
 | [プロキシ](/glossary/プロキシ/)設定の追加 | 中 | 必要 | 全[OS](/glossary/os/) |
 | エージェントバージョン更新 | 中 | 必要 | 全[OS](/glossary/os/) |
 | [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)間隔調整 | 中 | 不要 | 全[OS](/glossary/os/) |
@@ -214,7 +214,7 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 
 Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に障害がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（Linux）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
 
-複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) キーが正しいリージョンに対応しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
+複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに対応しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
 
 ## それでも解決しない場合
 
@@ -244,7 +244,7 @@ sudo journalctl -u datadog-agent -f
 
 ## Editor's Note
 
-Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)設定の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) キーの有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
+Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)設定の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
 
 > **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 

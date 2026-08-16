@@ -94,7 +94,7 @@ printenv PGPASSWORD | od -c | head -3
 SELECT rolname, rolcanlogin, rolvaliduntil FROM pg_roles ORDER BY rolname;
 ```
 
-対処は作成か、接続側の名前の修正です。作成する場合、[権限](/glossary/権限/)は必要な範囲にとどめてください。
+対処は作成か、接続側の名前の[修正](/glossary/修正/)です。作成する場合、[権限](/glossary/権限/)は必要な範囲にとどめてください。
 
 ```sql
 CREATE ROLE app LOGIN PASSWORD 'input-here';
@@ -119,9 +119,9 @@ ALTER ROLE app VALID UNTIL '2027-01-01';
 
 ### 原因4：保存されている形式と照合方式が合っていない
 
-`DETAIL` が `User "app" has a password that cannot be used with MD5 authentication.` または `Password of user "app" is in unrecognized format.` の場合です。`pg_hba.conf` が要求する方式と、保存されている値の種類が噛み合っていません。
+`DETAIL` が `User "app" has a password that cannot be used with MD5 authentication.` または `Password of user "app" is in unrecognized format.` の場合です。`pg_hba.conf` が要求する方式と、[保存](/glossary/保存/)されている値の種類が噛み合っていません。
 
-実装では、方式が `md5` の行に一致したとき、保存されている値が MD5 形式であれば MD5 で、そうでなければ SCRAM で確認します。方式が `scram-sha-256` の行であれば常に SCRAM で確認するため、MD5 形式で保存された値は必ず失敗します。
+実装では、方式が `md5` の行に一致したとき、[保存](/glossary/保存/)されている値が MD5 形式であれば MD5 で、そうでなければ SCRAM で確認します。方式が `scram-sha-256` の行であれば常に SCRAM で確認するため、MD5 形式で[保存](/glossary/保存/)された値は必ず失敗します。
 
 確認方法は、保存形式の先頭を見ることです。
 
@@ -131,7 +131,7 @@ SELECT rolname, left(rolpassword, 14) AS stored_format FROM pg_authid WHERE roln
 
 `SCRAM-SHA-256$` で始まっていれば SCRAM 形式、`md5` で始まっていれば MD5 形式です。
 
-対処は保存し直しです。`password_encryption` を目的の値にしてから、[パスワード](/glossary/パスワード/)を設定し直します。既存の値は再設定するまで古い形式のまま残るため、設定を変えるだけでは切り替わりません。
+対処は[保存](/glossary/保存/)し直しです。`password_encryption` を目的の値にしてから、[パスワード](/glossary/パスワード/)を設定し直します。既存の値は再設定するまで古い形式のまま残るため、設定を変えるだけでは切り替わりません。
 
 ```sql
 SET password_encryption = 'scram-sha-256';
@@ -151,7 +151,7 @@ SELECT line_number, type, database, user_name, address, auth_method
 FROM pg_hba_file_rules ORDER BY line_number;
 ```
 
-`error` 列に値が入っている行があれば、その行は読み込みに失敗しています。対処は順序の修正です。狭い条件の行を上に置いてください。編集後は再読み込みが要ります。
+`error` 列に値が入っている行があれば、その行は読み込みに失敗しています。対処は順序の[修正](/glossary/修正/)です。狭い条件の行を上に置いてください。編集後は再読み込みが要ります。
 
 ```sql
 SELECT pg_reload_conf();
@@ -193,7 +193,7 @@ MD5 形式は非推奨になりました。公式ドキュメントには、MD5 
 
 `password_encryption` の既定値変更は、この[エラー](/glossary/エラー/)の典型的な発生源になりました。PostgreSQL 14 の[リリース](/glossary/リリース/)は2021年9月30日で、この版から既定が `scram-sha-256` になっています。
 
-当時の状態としては、13 以前で作られた[ロール](/glossary/ロール/)の値が MD5 形式で保存されており、`pg_hba.conf` も `md5` のまま運用されている[環境](/glossary/環境/)が多くありました。この組み合わせでは、実装が保存形式を見て MD5 を選ぶため、そのまま動きます。問題は、版を上げたあとに `pg_hba.conf` だけを `scram-sha-256` へ変更した場合です。方式が `scram-sha-256` の行に一致すると常に SCRAM で確認されるため、MD5 形式のまま残った[ロール](/glossary/ロール/)だけが失敗します。しかも[クライアント](/glossary/クライアント/)側の文言は[パスワード](/glossary/パスワード/)の誤りと同一です。
+当時の状態としては、13 以前で作られた[ロール](/glossary/ロール/)の値が MD5 形式で[保存](/glossary/保存/)されており、`pg_hba.conf` も `md5` のまま運用されている[環境](/glossary/環境/)が多くありました。この組み合わせでは、実装が保存形式を見て MD5 を選ぶため、そのまま動きます。問題は、版を上げたあとに `pg_hba.conf` だけを `scram-sha-256` へ変更した場合です。方式が `scram-sha-256` の行に一致すると常に SCRAM で確認されるため、MD5 形式のまま残った[ロール](/glossary/ロール/)だけが失敗します。しかも[クライアント](/glossary/クライアント/)側の文言は[パスワード](/glossary/パスワード/)の誤りと同一です。
 
 現在も適用できるかという点では、そのまま当てはまります。実装の分岐は今も同じで、MD5 形式は非推奨として残っています。移行の手順も変わりません。`password_encryption` を切り替えたうえで、対象の[ロール](/glossary/ロール/)ごとに[パスワード](/glossary/パスワード/)を設定し直します。設定を変えるだけでは既存の値は書き換わらない、という点が要点です。
 

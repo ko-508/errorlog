@@ -27,7 +27,7 @@ trend_incident: false
 
 npm の処理は大きく3段階に分かれます。どの段階で拒まれたかで、疑う場所が変わります。
 
-第一段階は[キャッシュ](/glossary/キャッシュ/)への読み書きです。取得したパッケージの内容は[キャッシュ](/glossary/キャッシュ/)の置き場に保存されます。既定の場所は、POSIX 系が `~/.npm`、Windows が `%LocalAppData%\npm-cache` です。
+第一段階は[キャッシュ](/glossary/キャッシュ/)への読み書きです。取得したパッケージの内容は[キャッシュ](/glossary/キャッシュ/)の置き場に[保存](/glossary/保存/)されます。既定の場所は、POSIX 系が `~/.npm`、Windows が `%LocalAppData%\npm-cache` です。
 
 第二段階は導入先への展開です。通常の導入なら作業[ディレクトリ](/glossary/ディレクトリ/)の `node_modules`、全体向けの導入なら `prefix` の下です。公式の説明によれば、全体向けの導入ではパッケージが `{prefix}/lib/node_modules` に置かれ、実行[ファイル](/glossary/ファイル/)が `{prefix}/bin` に、説明書が `{prefix}/share/man` にそれぞれ結び付けられます。
 

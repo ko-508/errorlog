@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)キーの実装が不可欠になることです。
+Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)の実装が不可欠になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -53,7 +53,7 @@ HTTP/1.1 500 Internal Server Error
 
 ### 原因1：冪等性キー（Idempotency Key）の未設定による重複処理
 
-Stripeで500[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)が成功したのか失敗したのか不確実になります。[リトライ](/glossary/リトライ/)時に同じ操作が2回実行されるリスクが高まります。[冪等性](/glossary/冪等性/)キーを設定しないと、[エラー](/glossary/エラー/)発生時の[リトライ](/glossary/リトライ/)で二重課金などの問題が生じます。
+Stripeで500[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)が成功したのか失敗したのか不確実になります。[リトライ](/glossary/リトライ/)時に同じ操作が2回実行されるリスクが高まります。[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)を設定しないと、[エラー](/glossary/エラー/)発生時の[リトライ](/glossary/リトライ/)で二重課金などの問題が生じます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -152,7 +152,7 @@ if currency in supported_currencies:
 
 ### リトライ戦略の実装
 
-Stripe [API](/glossary/api/)の[レスポンス](/glossary/レスポンス/)が500の場合、Stripeの[サーバー](/glossary/サーバー/)側で処理途中の可能性があります。単純な[リトライ](/glossary/リトライ/)では[冪等性](/glossary/冪等性/)キーがないと重複決済が発生します。以下のように指数[バックオフ](/glossary/バックオフ/)+[冪等性](/glossary/冪等性/)キーを組み合わせてください：
+Stripe [API](/glossary/api/)の[レスポンス](/glossary/レスポンス/)が500の場合、Stripeの[サーバー](/glossary/サーバー/)側で処理途中の可能性があります。単純な[リトライ](/glossary/リトライ/)では[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)がないと重複決済が発生します。以下のように指数[バックオフ](/glossary/バックオフ/)+[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)を組み合わせてください：
 
 ```javascript
 async function createChargeWithRetry(chargeParams, maxRetries = 3) {

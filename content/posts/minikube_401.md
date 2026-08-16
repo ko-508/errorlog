@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Minikubeの401[エラー](/glossary/エラー/)は、kubectlがMinikubeクラスターへの[認証](/glossary/認証/)に失敗したことを示します。この[エラー](/glossary/エラー/)は通常、kubeconfig[設定ファイル](/glossary/設定ファイル/)に保存されたクラスター接続情報がMinikubeの現在の状態と一致していない場合に発生します。正常な[認証](/glossary/認証/)を行うために必要な[証明書](/glossary/証明書/)や[API](/glossary/api/)サーバーアドレスが古いままで、新しいクラスター状態との齟齬が生じているのが典型的な原因です。
+Minikubeの401[エラー](/glossary/エラー/)は、kubectlがMinikubeクラスターへの[認証](/glossary/認証/)に失敗したことを示します。この[エラー](/glossary/エラー/)は通常、kubeconfig[設定ファイル](/glossary/設定ファイル/)に[保存](/glossary/保存/)されたクラスター接続情報がMinikubeの現在の状態と一致していない場合に発生します。正常な[認証](/glossary/認証/)を行うために必要な[証明書](/glossary/証明書/)や[API](/glossary/api/)サーバーアドレスが古いままで、新しいクラスター状態との齟齬が生じているのが典型的な原因です。
 
 ## 実際のエラーメッセージ例
 

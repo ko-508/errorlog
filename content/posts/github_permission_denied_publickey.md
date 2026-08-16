@@ -167,7 +167,7 @@ ls -al ~/.ssh
 
 [GitHubが案内する既定の公開鍵名](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)は、`id_rsa.pub`、`id_ecdsa.pub`、`id_ed25519.pub` です。[秘密鍵](/glossary/秘密鍵/)は同名から `.pub` を除いた側です。
 
-鍵を既定以外の名前で保存した場合は、ssh-agentへ明示的に追加します。
+鍵を既定以外の名前で[保存](/glossary/保存/)した場合は、ssh-agentへ明示的に追加します。
 
 ```bash
 eval "$(ssh-agent -s)"
@@ -445,7 +445,7 @@ ssh -T -p 443 git@ssh.github.com
 
 2件を並べると、[アカウント](/glossary/アカウント/)画面、remote、鍵[ファイル](/glossary/ファイル/)の存在だけを見ても足りない理由が分かります。**SSH[認証](/glossary/認証/)の成否を決めるのは、失敗した処理が実際に起動したSSH[クライアント](/glossary/クライアント/)、その[クライアント](/glossary/クライアント/)が読んだ設定、接続できたagent、そして提示した鍵です**。上位の[GUI](/glossary/gui/)やIDEが要約すると、途中に出た具体的な理由が「Authentication failed」の一文へ畳まれることがあります。
 
-だから、本記事では鍵の再生成を最初の手順にしていません。まず失敗した経路で `ssh -vT` を実行し、`Offering public key` を境に分ける。提示していないならローカルの選択を直し、提示しているならフィンガープリントを照合する。`Hi USERNAME!` まで通って初めて[リポジトリ](/glossary/リポジトリ/)[権限](/glossary/権限/)を見る。この順序なら、別の原因に同じ修正を繰り返さずに済みます。
+だから、本記事では鍵の再生成を最初の手順にしていません。まず失敗した経路で `ssh -vT` を実行し、`Offering public key` を境に分ける。提示していないならローカルの選択を直し、提示しているならフィンガープリントを照合する。`Hi USERNAME!` まで通って初めて[リポジトリ](/glossary/リポジトリ/)[権限](/glossary/権限/)を見る。この順序なら、別の原因に同じ[修正](/glossary/修正/)を繰り返さずに済みます。
 
 ---
 

@@ -74,7 +74,7 @@ curl -I http://localhost:8080/jenkins/
 
 Jenkinsが管理するビルドジョブやプラグインが大量の[メモリ](/glossary/メモリ/)を消費し、Java のヒープメモリが枯渇してOutOfMemoryErrorが発生します。大規模な[プロジェクト](/glossary/プロジェクト/)や並行ビルド数が多い[環境](/glossary/環境/)で顕著です。
 
-Jenkinsの起動設定を修正して、ヒープメモリの上限を増やします。
+Jenkinsの起動設定を[修正](/glossary/修正/)して、ヒープメモリの上限を増やします。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

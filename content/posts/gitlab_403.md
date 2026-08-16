@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-GitLab の 403 [エラー](/glossary/エラー/)は、認証済みのユーザーが[プロジェクト](/glossary/プロジェクト/)やリソースへの[アクセス権限](/glossary/アクセス権限/)を持たないときに返されるアクセス拒否[エラー](/glossary/エラー/)です。認証自体は成功していますが、実行しようとした[アクション](/glossary/アクション/)（[プッシュ](/glossary/プッシュ/)、マージリクエストの作成、設定変更など）の[権限](/glossary/権限/)がないことを示します。GitLab での権限管理はロールベースアクセス制御（[RBAC](/glossary/rbac/)）に基づいており、プロジェクトメンバーシップ、グループ設定、[ブランチ](/glossary/ブランチ/)保護ルールなどの複数の層で管理されるため、原因の特定には段階的な確認が必要です。
+GitLab の 403 [エラー](/glossary/エラー/)は、認証済みのユーザーが[プロジェクト](/glossary/プロジェクト/)やリソースへの[アクセス権限](/glossary/アクセス権限/)を持たないときに返されるアクセス拒否[エラー](/glossary/エラー/)です。認証自体は成功していますが、実行しようとした[アクション](/glossary/アクション/)（[プッシュ](/glossary/プッシュ/)、マージリクエストの作成、設定変更など）の[権限](/glossary/権限/)がないことを示します。GitLab での[権限管理](/glossary/権限管理/)はロールベースアクセス制御（[RBAC](/glossary/rbac/)）に基づいており、プロジェクトメンバーシップ、グループ設定、[ブランチ](/glossary/ブランチ/)保護ルールなどの複数の層で管理されるため、原因の特定には段階的な確認が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -87,7 +87,7 @@ remote: Counting objects: 100% (50/50), done.
 
 **修正方法：**
 
-[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを確認・修正します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
+[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを確認・[修正](/glossary/修正/)します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
 
 ```yaml
 # Settings → Protected branches での修正例
@@ -154,9 +154,9 @@ $ git clone https://gitlab.example.com/group/project.git
 # 認証情報を再入力
 ```
 
-**3. SSH キーと [HTTPS](/glossary/https/) の切り替え**
+**3. SSH [キー](/glossary/キー/)と [HTTPS](/glossary/https/) の切り替え**
 
-[HTTPS](/glossary/https/) [認証](/glossary/認証/)で 403 が続く場合、SSH キー[認証](/glossary/認証/)に切り替えてみます。逆に SSH で 403 の場合は、[HTTPS](/glossary/https/) で試してください。
+[HTTPS](/glossary/https/) [認証](/glossary/認証/)で 403 が続く場合、SSH [キー](/glossary/キー/)[認証](/glossary/認証/)に切り替えてみます。逆に SSH で 403 の場合は、[HTTPS](/glossary/https/) で試してください。
 
 ```bash
 # SSH での接続試行

@@ -152,7 +152,7 @@ export AWS_SECRET_ACCESS_KEY=<your-restricted-secret>
 aws s3 ls s3://prod-data-bucket/
 ```
 
-このキーが `prod-data-bucket` へのアクセスを許可されていない場合、NoSuchBucket として報告されます。
+この[キー](/glossary/キー/)が `prod-data-bucket` へのアクセスを許可されていない場合、NoSuchBucket として報告されます。
 
 **After（修正後）：**
 
@@ -182,7 +182,7 @@ S3 [アクセス権限](/glossary/アクセス権限/)を持つ[ポリシー](/g
 
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
-| [バケット](/glossary/バケット/)名のスペルミスを修正 | 低 | 不要 | 全[OS](/glossary/os/) |
+| [バケット](/glossary/バケット/)名のスペルミスを[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
 | リージョン設定を正しく指定 | 低 | 不要 | 全[OS](/glossary/os/) |
 | 削除された[バケット](/glossary/バケット/)を再作成 | 中 | 不要 | 全[OS](/glossary/os/) |
 | [IAM](/glossary/iam/) [権限](/glossary/権限/)を付与・確認 | 中 | 不要 | 全[OS](/glossary/os/) |

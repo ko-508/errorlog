@@ -178,7 +178,7 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手�
 
 1. [プロジェクト](/glossary/プロジェクト/)の Settings > Environment Variables
 2. `DATABASE_URL` を入力
-3. [本番環境](/glossary/本番環境/)・プレビュー[環境](/glossary/環境/)・[開発環境](/glossary/開発環境/)を指定して保存
+3. [本番環境](/glossary/本番環境/)・プレビュー[環境](/glossary/環境/)・[開発環境](/glossary/開発環境/)を指定して[保存](/glossary/保存/)
 
 ## ツール固有の注意点
 

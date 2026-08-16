@@ -137,7 +137,7 @@ Datadog WebUI の **Metrics** > **Summary** タブで[メトリクス](/glossary
 
 ### 原因3：環境やワークスペース固有のリソース参照
 
-複数の Datadog [環境](/glossary/環境/)（本番・ステージング等）やサブアカウントを使用している場合、別の[環境](/glossary/環境/)で作成したモニターや[ダッシュボード](/glossary/ダッシュボード/)の [ID](/glossary/id/) を現在の[環境](/glossary/環境/)で[リクエスト](/glossary/リクエスト/)すると 404 が返ります。[API](/glossary/api/) キーやアプリケーションキーが異なる[環境](/glossary/環境/)に対応していないと、リソースが見つかりません。
+複数の Datadog [環境](/glossary/環境/)（本番・ステージング等）やサブアカウントを使用している場合、別の[環境](/glossary/環境/)で作成したモニターや[ダッシュボード](/glossary/ダッシュボード/)の [ID](/glossary/id/) を現在の[環境](/glossary/環境/)で[リクエスト](/glossary/リクエスト/)すると 404 が返ります。[API](/glossary/api/) [キー](/glossary/キー/)やアプリケーションキーが異なる[環境](/glossary/環境/)に対応していないと、リソースが見つかりません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -172,9 +172,9 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/dashboard/abc-123-xyz" \
 
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
-| モニター/[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) の確認と修正 | 低 | 不要 | 全[OS](/glossary/os/) |
+| モニター/[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) の確認と[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
 | [メトリクス](/glossary/メトリクス/)送信状況の確認・有効[メトリクス](/glossary/メトリクス/)への置換 | 中 | 不要 | 全[OS](/glossary/os/) |
-| [環境](/glossary/環境/)・[API](/glossary/api/) キーの切り替え | 低 | 不要 | 全[OS](/glossary/os/) |
+| [環境](/glossary/環境/)・[API](/glossary/api/) [キー](/glossary/キー/)の切り替え | 低 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
 

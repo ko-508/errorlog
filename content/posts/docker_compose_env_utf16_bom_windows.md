@@ -18,7 +18,7 @@ Windows[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使�
 failed to read C:\Users\user\project\.env: line 1: unexpected character "?" in variable name "\xff\xfeG\x00O\x00O\x00G\x00L\x00E\x00_\x00A\x00P\x00I\x00_\x00K\x00E\x00Y\x00=\x00A\x00I\x00z\x00a\x00..."
 ```
 
-`\xff\xfe` はUTF-16 LEのBOM（Byte Order Mark）です。続く`\x00`が各文字の後ろに並んでいることから、[ファイル](/glossary/ファイル/)全体がUTF-16 LEで保存されていることがわかります。[Docker](/glossary/docker/) Composeのenvファイルパーサーは**UTF-8（BOMなし）のみ**を受け付けるため、この[ファイル](/glossary/ファイル/)を読み込もうとした瞬間にクラッシュします。
+`\xff\xfe` はUTF-16 LEのBOM（Byte Order Mark）です。続く`\x00`が各文字の後ろに並んでいることから、[ファイル](/glossary/ファイル/)全体がUTF-16 LEで[保存](/glossary/保存/)されていることがわかります。[Docker](/glossary/docker/) Composeのenvファイルパーサーは**UTF-8（BOMなし）のみ**を受け付けるため、この[ファイル](/glossary/ファイル/)を読み込もうとした瞬間にクラッシュします。
 
 ## よくある原因
 
@@ -36,7 +36,7 @@ Linuxや macOSの[シェル](/glossary/シェル/)と違い、PowerShellは歴�
 
 ### VSCodeのエンコード設定が変わっている場合
 
-VSCodeで[ファイル](/glossary/ファイル/)を新規作成・保存する際、右下のステータスバーが「UTF-16 LE」になっていると[Docker](/glossary/docker/) Composeが読めない[ファイル](/glossary/ファイル/)が生成されます。
+VSCodeで[ファイル](/glossary/ファイル/)を新規作成・[保存](/glossary/保存/)する際、右下のステータスバーが「UTF-16 LE」になっていると[Docker](/glossary/docker/) Composeが読めない[ファイル](/glossary/ファイル/)が生成されます。
 
 ## 診断方法
 
@@ -107,7 +107,7 @@ DEBUG=false
 
 1. `.env`をVSCodeで開く
 2. 右下のステータスバーで現在のエンコードを確認（「UTF-16 LE」と表示されているはず）
-3. クリックして「エンコード付きで保存」→「UTF-8」を選択
+3. クリックして「エンコード付きで[保存](/glossary/保存/)」→「UTF-8」を選択
 
 ## Before / After の対比
 

@@ -158,7 +158,7 @@ sudo systemctl start jenkins
 
 Jenkins [環境](/glossary/環境/)ではプラグインの[バージョン](/glossary/バージョン/)競合やスクリプトコンソールの実行でも[メモリ](/glossary/メモリ/)枯渇が発生することがあります。「Manage Jenkins」→「Plugin Manager」で不要または古いプラグインを定期的に削除することをお勧めします。
 
-また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に保存されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に確認してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを検索するとよいでしょう。
+また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に[保存](/glossary/保存/)されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に確認してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを検索するとよいでしょう。
 
 [Docker](/glossary/docker/) を使用している場合、Jenkins[コンテナ](/glossary/コンテナ/)のリソース上限（CPU・[メモリ](/glossary/メモリ/)）が低く設定されていないか確認してください。`docker inspect <container-id>` で `Memory`、`MemorySwap` の値を確認し、必要に応じて `docker update --memory <新しいサイズ> <container-id>` で増加させます。
 

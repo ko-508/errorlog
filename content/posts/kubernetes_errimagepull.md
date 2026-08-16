@@ -91,7 +91,7 @@ kubectl get pod -n app \
 
 v1.31 以前では、待機中の本文は `Back-off pulling image "..."` だけでした。詳細は取得を試みた瞬間の[イベント](/glossary/イベント/)にしか無く、[イベント](/glossary/イベント/)が消えると追えなくなります。
 
-v1.32 で入った変更により、前回の失敗理由が本文の末尾に連結されるようになりました。実装では、`imageManager` が `sync.Map` の `prevPullErrMsg` に前回の理由を保存します。取得に失敗した時点で Pod UID と[イメージ](/glossary/イメージ/)から作った `backOffKey` に理由を `Store` し、待機中は同じキーで `Load` して本文へ付け足します。控えた内容は、次に実際の取得を始める直前に `Delete` されます。
+v1.32 で入った変更により、前回の失敗理由が本文の末尾に連結されるようになりました。実装では、`imageManager` が `sync.Map` の `prevPullErrMsg` に前回の理由を[保存](/glossary/保存/)します。取得に失敗した時点で Pod UID と[イメージ](/glossary/イメージ/)から作った `backOffKey` に理由を `Store` し、待機中は同じ[キー](/glossary/キー/)で `Load` して本文へ付け足します。控えた内容は、次に実際の取得を始める直前に `Delete` されます。
 
 **Before（待機中の本文だけを見て諦める）：**
 

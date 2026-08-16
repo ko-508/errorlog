@@ -113,7 +113,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/42/api/json" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-ビルド履歴の保持[ポリシー](/glossary/ポリシー/)は、ジョブの設定画面の「ビルド履歴の保存」セクションで確認・変更できます。`lastBuild`、`lastStableBuild`、`lastSuccessfulBuild` といった特殊な参照もJenkinsで利用可能で、ビルド番号が不確定な場合に活用できます。
+ビルド履歴の保持[ポリシー](/glossary/ポリシー/)は、ジョブの設定画面の「ビルド履歴の[保存](/glossary/保存/)」セクションで確認・変更できます。`lastBuild`、`lastStableBuild`、`lastSuccessfulBuild` といった特殊な参照もJenkinsで利用可能で、ビルド番号が不確定な場合に活用できます。
 
 ## ツール固有の注意点
 
@@ -131,7 +131,7 @@ build job: 'project-folder/deploy-test'
 
 **[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が保存されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
+ブラウザの[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
 
 **Jenkins UI上での確認方法：**
 

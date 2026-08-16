@@ -125,7 +125,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 たとえば、[イベント](/glossary/イベント/)に `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を確認します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
 
-第四に、Podを削除する前に[イベント](/glossary/イベント/)を保存します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
+第四に、Podを削除する前に[イベント](/glossary/イベント/)を[保存](/glossary/保存/)します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml > pod-containercreating.yaml
@@ -170,7 +170,7 @@ volumes:
       name: app-config-prodution
 ```
 
-**After（実在する名前へ修正）：**
+**After（実在する名前へ[修正](/glossary/修正/)）：**
 
 ```yaml
 volumes:
@@ -179,7 +179,7 @@ volumes:
       name: app-config-production
 ```
 
-対象自体は存在していても、`items` で指定したキーがなければ起動に失敗します。値を表示せず、キー名だけ確認します。
+対象自体は存在していても、`items` で指定した[キー](/glossary/キー/)がなければ起動に失敗します。値を表示せず、[キー](/glossary/キー/)名だけ確認します。
 
 ```bash
 kubectl get configmap app-config -n <名前空間> \
@@ -189,7 +189,7 @@ kubectl get secret app-secret -n <名前空間> \
   -o go-template='{{range $k,$v := .data}}{{$k}}{{"\n"}}{{end}}'
 ```
 
-[Secretの公式文書](https://kubernetes.io/docs/concepts/configuration/secret/#optional-secrets)には、必須のSecretまたは指定キーが用意できるまで、Podの[コンテナ](/glossary/コンテナ/)は開始されないと記載されています。
+[Secretの公式文書](https://kubernetes.io/docs/concepts/configuration/secret/#optional-secrets)には、必須のSecretまたは指定[キー](/glossary/キー/)が用意できるまで、Podの[コンテナ](/glossary/コンテナ/)は開始されないと記載されています。
 
 `optional: true` にすれば、対象がなくても空の状態で進められます。ただし、[アプリケーション](/glossary/アプリケーション/)が設定なしで安全に動ける場合だけ使います。[エラー](/glossary/エラー/)を消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の障害へ変わるだけです。
 
@@ -351,7 +351,7 @@ kubectl get configmap app-config -n <名前空間>
 kubectl get secret app-secret -n <名前空間>
 ```
 
-対象が存在し、指定名とキーも正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を確認します。
+対象が存在し、指定名と[キー](/glossary/キー/)も正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を確認します。
 
 [ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの更新を監視または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
 
@@ -379,7 +379,7 @@ kubectl describe pod <Pod名> -n <名前空間>
 kubectl events -n <名前空間> --for pod/<Pod名>
 ```
 
-Podが `Running` かつ `Ready` で、`FailedMount` の最終時刻が古く、その後に `SuccessfulMountVolume`、`Pulled`、`Created`、`Started` が並んでいるなら、過去の失敗だけを見て修正する必要はありません。
+Podが `Running` かつ `Ready` で、`FailedMount` の最終時刻が古く、その後に `SuccessfulMountVolume`、`Pulled`、`Created`、`Started` が並んでいるなら、過去の失敗だけを見て[修正](/glossary/修正/)する必要はありません。
 
 反対に、現在も `ContainerCreating` で、`FailedMount` の `Last Seen` が更新され続け、回数が増えているなら未解決です。
 
@@ -426,13 +426,13 @@ Secretが原因でも、ボリュームとして参照した場合は `FailedMou
 3. `kubectl describe pod` とEventsを時系列で確認し、最新のWarningを読む。
 4. `FailedMount` があれば、末尾の対象ボリューム名と具体的な失敗文を取り出す。
 5. Podの `spec.volumes` で、対象がSecret、ConfigMap、PVC、CSIのどれかを確定する。
-6. SecretやConfigMapなら、同じ名前空間の対象名とキーを確認する。
+6. SecretやConfigMapなら、同じ名前空間の対象名と[キー](/glossary/キー/)を確認する。
 7. PVCなら、PVCの状態からPV、StorageClass、CSIドライバーまでたどる。
 8. `FailedAttachVolume` が先にあるなら、接続先ノード、VolumeAttachment、アクセスモード、場所の制約を確認する。
 9. CSIの `rpc error` や `mount failed` は、`desc` と `Output` の末尾を読み、失敗ノードのCSI[ログ](/glossary/ログ/)と照合する。
 10. Podの現在状態、[イベント](/glossary/イベント/)の最終時刻、回数を比べ、古い失敗記録か現在も続く失敗かを分ける。
 11. `FailedMount` がなければ、[イメージ](/glossary/イメージ/)、Podの通信環境、[コンテナ](/glossary/コンテナ/)実行基盤など別の準備処理へ進む。
-12. Pod削除やノード再起動は、証拠を保存し、原因の範囲を絞った後に行う。
+12. Pod削除やノード再起動は、証拠を[保存](/glossary/保存/)し、原因の範囲を絞った後に行う。
 
 ## 確認コマンド集
 

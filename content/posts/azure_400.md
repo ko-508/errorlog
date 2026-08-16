@@ -144,7 +144,7 @@ az storage account create \
 
 **Azure [CLI](/glossary/cli/)の場合**：`--debug` フラグを付与することで、[送信](/glossary/送信/)される[ペイロード](/glossary/ペイロード/)全体を[コンソール](/glossary/コンソール/)に出力できます。これにより、[CLI](/glossary/cli/)が実際に何を[送信](/glossary/送信/)しているかを検証でき、[デバッグ](/glossary/デバッグ/)が格段に容易になります。例えば `az vm create ... --debug` とすると、[REST](/glossary/rest/) [API](/glossary/api/)の完全な[リクエストボディ](/glossary/リクエストボディ/)が表示されます。
 
-**Azure Portalの場合**：ブラウザーの開発者[ツール](/glossary/ツール/)（F12キー）でネットワークタブを開き、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を確認することで、[エラーメッセージ](/glossary/エラーメッセージ/)全文を取得できます。
+**Azure Portalの場合**：ブラウザーの開発者[ツール](/glossary/ツール/)（F12[キー](/glossary/キー/)）でネットワークタブを開き、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を確認することで、[エラーメッセージ](/glossary/エラーメッセージ/)全文を取得できます。
 
 ## それでも解決しない場合
 

@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanから[送信](/glossary/送信/)した[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の[パラメータ](/glossary/パラメータ/)や形式に誤りがある場合、[サーバー](/glossary/サーバー/)は400（Bad Request）[エラー](/glossary/エラー/)を返します。これは[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)構成に問題があることを示しており、[JSON](/glossary/json/)ボディの形式破損、Content-Type[ヘッダー](/glossary/ヘッダー/)とボディ内容の不一致、クエリパラメータの不正な文字などが典型的な原因です。Postmanでこの[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)内容の詳細確認と修正が必要になります。
+Postmanから[送信](/glossary/送信/)した[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の[パラメータ](/glossary/パラメータ/)や形式に誤りがある場合、[サーバー](/glossary/サーバー/)は400（Bad Request）[エラー](/glossary/エラー/)を返します。これは[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)構成に問題があることを示しており、[JSON](/glossary/json/)ボディの形式破損、Content-Type[ヘッダー](/glossary/ヘッダー/)とボディ内容の不一致、クエリパラメータの不正な文字などが典型的な原因です。Postmanでこの[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)内容の詳細確認と[修正](/glossary/修正/)が必要になります。
 
 ## 実際のエラーメッセージ例
 
@@ -44,7 +44,7 @@ POST http://api.example.com/users
 
 ### 原因1：JSONボディの形式が壊れている、または必須フィールドが欠けている
 
-[JSON](/glossary/json/)の文法[エラー](/glossary/エラー/)が最も一般的な原因です。括弧の閉じ忘れ、カンマの位置[エラー](/glossary/エラー/)、シングルクォートの使用、必須キーの欠落などが該当します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は[リクエストボディ](/glossary/リクエストボディ/)をパースする際に、形式が正確でないと400[エラー](/glossary/エラー/)で拒否します。
+[JSON](/glossary/json/)の文法[エラー](/glossary/エラー/)が最も一般的な原因です。括弧の閉じ忘れ、カンマの位置[エラー](/glossary/エラー/)、シングルクォートの使用、必須[キー](/glossary/キー/)の欠落などが該当します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は[リクエストボディ](/glossary/リクエストボディ/)をパースする際に、形式が正確でないと400[エラー](/glossary/エラー/)で拒否します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -79,7 +79,7 @@ POST http://api.example.com/users
 }
 ```
 
-Postmanで修正するには、Bodyタブを開き、以下の手順を実行してください。
+Postmanで[修正](/glossary/修正/)するには、Bodyタブを開き、以下の手順を実行してください。
 
 1. Body内の「Code beautifier」または「format」ボタンをクリックして[JSON](/glossary/json/)形式を自動整形する
 2. 右側に表示される「Error」メッセージを確認する
@@ -117,12 +117,12 @@ Postmanの[リクエスト](/glossary/リクエスト/)設定：
 }
 ```
 
-Postmanで修正するには、Headersタブを開き、以下の対応を行ってください。
+Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以下の対応を行ってください。
 
-1. Headersタブで「Content-Type」キーの値を確認する
+1. Headersタブで「Content-Type」[キー](/glossary/キー/)の値を確認する
 2. Bodyタブで「raw」を選択している場合、右側のドロップダウンから「[JSON](/glossary/json/)」を選択する
 3. ドロップダウン選択でContent-Typeが自動的に application/json に設定されることを確認する
-4. または、Headersタブで手動でContent-Type: application/json に修正する
+4. または、Headersタブで手動でContent-Type: application/json に[修正](/glossary/修正/)する
 
 ### 原因3：URLのクエリパラメータに不正な文字が含まれている
 

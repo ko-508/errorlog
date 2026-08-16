@@ -78,7 +78,7 @@ retrieved = stripe.Customer.retrieve(customer.id)
 
 ### 原因2：テスト環境と本番環境のAPIキー混在
 
-[テスト](/glossary/テスト/)用[API](/glossary/api/)キー（`pk_test_`、`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なるキーでアクセスしたリソースは見つかりません。
+[テスト](/glossary/テスト/)用[API](/glossary/api/)[キー](/glossary/キー/)（`pk_test_`、`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なる[キー](/glossary/キー/)でアクセスしたリソースは見つかりません。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -208,14 +208,14 @@ Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers�
 
 以下のページで詳細情報が入手できます：
 - 「[API](/glossary/api/) Errors」ページ：全エラータイプと対応方法の完全なリスト
-- 「Authentication」ページ：[API](/glossary/api/)キーの正しい使い分け方法
+- 「Authentication」ページ：[API](/glossary/api/)[キー](/glossary/キー/)の正しい使い分け方法
 - 「[API](/glossary/api/) Versioning」ページ：[バージョン管理](/glossary/バージョン管理/)のベストプラクティス
 
 ### サポート情報の収集
 
 解決しない場合は、Stripeサポートに以下の情報を提供してください：
 - 問題が発生した正確な日時（タイムゾーン付き）
-- 使用した[API](/glossary/api/)キー（テストキーか本番キーか）
+- 使用した[API](/glossary/api/)[キー](/glossary/キー/)（テストキーか本番[キー](/glossary/キー/)か）
 - 実際の[リクエスト](/glossary/リクエスト/)内容（個人情報を除外）
 - [Webhook](/glossary/webhook/) [ID](/glossary/id/)（該当する場合）
 

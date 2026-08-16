@@ -36,7 +36,7 @@ ERROR: for myapp  pull access denied for myregistry.azurecr.io/myimage, reposito
 
 ### 原因1：docker loginを実行していない
 
-[Docker](/glossary/docker/) Composeでプライベートイメージをpullする前に、`docker login`[コマンド](/glossary/コマンド/)で[認証](/glossary/認証/)を済ませていない状況です。認証情報が`~/.docker/config.json`に保存されていないため、レジストリー側は401で応答します。
+[Docker](/glossary/docker/) Composeでプライベートイメージをpullする前に、`docker login`[コマンド](/glossary/コマンド/)で[認証](/glossary/認証/)を済ませていない状況です。認証情報が`~/.docker/config.json`に[保存](/glossary/保存/)されていないため、レジストリー側は401で応答します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

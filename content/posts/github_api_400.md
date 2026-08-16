@@ -18,7 +18,7 @@ top_queries:
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の 400 Bad Request は、[リクエスト](/glossary/リクエスト/)の形式そのものが壊れていて、[サーバー](/glossary/サーバー/)が中身の検証に進めない場合に返されます。公式ドキュメントが 400 として挙げているのは、[リクエスト](/glossary/リクエスト/)本文が [JSON](/glossary/json/) として読めない（Problems parsing [JSON](/glossary/json/)）、本文が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)の形になっていない（Body should be a [JSON](/glossary/json/) object）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)指定の[ヘッダー](/glossary/ヘッダー/)に存在しない値を指定した、の3つです。
 
-一方、[JSON](/glossary/json/) としては正しく読めたうえで、必須[パラメータ](/glossary/パラメータ/)が足りない・値が仕様に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、設定や[パラメータ](/glossary/パラメータ/)の見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じ[リクエスト](/glossary/リクエスト/)を再試行しても結果は変わりません。修正が必要です。
+一方、[JSON](/glossary/json/) としては正しく読めたうえで、必須[パラメータ](/glossary/パラメータ/)が足りない・値が仕様に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、設定や[パラメータ](/glossary/パラメータ/)の見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じ[リクエスト](/glossary/リクエスト/)を再試行しても結果は変わりません。[修正](/glossary/修正/)が必要です。
 
 ## エラーの概要
 

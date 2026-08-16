@@ -215,7 +215,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 
 `.terraform/` [ディレクトリ](/glossary/ディレクトリ/)の削除は、module と provider の再取得を強制します。認証情報や[ネットワーク](/glossary/ネットワーク/)の条件が揃っていない[環境](/glossary/環境/)では、初期化自体が失敗して復旧に時間がかかります。手元の作業[ディレクトリ](/glossary/ディレクトリ/)で、再取得に必要な資格情報が揃っていることを確認してから実行してください。
 
-`.terraform/modules/` 配下の[ファイル](/glossary/ファイル/)編集は、恒久的な修正になりません。取得元の内容で上書きされ得るため、動作確認のための一時的な手段としてのみ使い、修正は[バージョン](/glossary/バージョン/)制約か module 本体へ反映します。
+`.terraform/modules/` 配下の[ファイル](/glossary/ファイル/)編集は、恒久的な[修正](/glossary/修正/)になりません。取得元の内容で上書きされ得るため、動作確認のための一時的な手段としてのみ使い、[修正](/glossary/修正/)は[バージョン](/glossary/バージョン/)制約か module 本体へ反映します。
 
 ## 切り分けの順序
 
@@ -225,7 +225,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 4. 対象[ファイル](/glossary/ファイル/)の[拡張子](/glossary/拡張子/)が `.tf.json` でないことを確認する。`.tf.json` なら別の診断を扱う記事に移る。
 5. `module` 系統なら、子 module の `variable` 宣言を `grep` で一覧し、呼び出し側の引数名と突き合わせる。ルート側の `variables.tf` は見ない。
 6. `resource` 系統なら、`terraform providers` と `.terraform.lock.hcl` で実際の provider 版を確定し、その版に対応するドキュメントを読み直す。
-7. 版を動かす必要があると判断した場合のみ、`required_providers` の制約を修正し、影響を確認してから `terraform init -upgrade` を実行してロックファイルの差分を読む。
+7. 版を動かす必要があると判断した場合のみ、`required_providers` の制約を[修正](/glossary/修正/)し、影響を確認してから `terraform init -upgrade` を実行してロックファイルの差分を読む。
 8. `terraform validate` で構成の読み込みが通ることを確認し、`terraform plan` で意図した差分になっているかを見る。
 
 ## 確認コマンド集

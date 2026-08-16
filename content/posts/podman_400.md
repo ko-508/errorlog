@@ -74,7 +74,7 @@ podman run myregistry.com:5000/app:v1
 
 **3. [レジストリ](/glossary/レジストリ/)認証情報の形式が不正である**
 
-`podman login` 時に[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/) の形式が間違っていたり、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が `auth.json` に不正な形式で保存されたりすると、プル操作で 400 [エラー](/glossary/エラー/)が発生します。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、[URL](/glossary/url/) にプロトコルスキーム（`https://` など）を含める必要があります。
+`podman login` 時に[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/) の形式が間違っていたり、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が `auth.json` に不正な形式で[保存](/glossary/保存/)されたりすると、プル操作で 400 [エラー](/glossary/エラー/)が発生します。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、[URL](/glossary/url/) にプロトコルスキーム（`https://` など）を含める必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -115,7 +115,7 @@ Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー
 
 Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古い[バージョン](/glossary/バージョン/)の [API](/glossary/api/) [パス](/glossary/パス/)を使用すると 400 [エラー](/glossary/エラー/)が返されます。
 
-また、SELinux が有効な[環境](/glossary/環境/)では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを修正してください。
+また、SELinux が有効な[環境](/glossary/環境/)では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを[修正](/glossary/修正/)してください。
 
 ## それでも解決しない場合
 

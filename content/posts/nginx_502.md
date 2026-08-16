@@ -152,7 +152,7 @@ journalctl -u myapp --since "10:24" --until "10:26"
 dmesg -T | grep -i "out of memory"
 ```
 
-対処は上流側の原因に応じて、クラッシュの修正、[メモリ](/glossary/メモリ/)割り当ての見直し、ワーカーの許容処理時間の延長（各アプリケーションサーバーの公式文書で設定名を確認）のいずれかになります。
+対処は上流側の原因に応じて、クラッシュの[修正](/glossary/修正/)、[メモリ](/glossary/メモリ/)割り当ての見直し、ワーカーの許容処理時間の延長（各アプリケーションサーバーの公式文書で設定名を確認）のいずれかになります。
 
 ### 原因5：応答ヘッダーがバッファに収まらない（too big header）
 
@@ -253,7 +253,7 @@ openssl s_client -connect <上流アドレス>:443 -servername <ホスト名>
 
 ## Editor's Note
 
-原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は設定ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の修正として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の修正[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も設定を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
+原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は設定ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も設定を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
 
 502の[エラーログ](/glossary/エラーログ/)は、接続先・失敗理由・タイミングをすべて一行に記録してくれます。推測で設定をいじる前に、まず括弧内の文言を読むことが確実な近道です。
 

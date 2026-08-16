@@ -162,7 +162,7 @@ spec:
 
 ### Docker Desktop での認証の永続化
 
-[Docker](/glossary/docker/) Desktop（Mac/Windows）では、`~/.docker/config.json` に認証情報が保存されますが、Credential Helper を使用している場合、[トークン](/glossary/トークン/)の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：
+[Docker](/glossary/docker/) Desktop（Mac/Windows）では、`~/.docker/config.json` に認証情報が[保存](/glossary/保存/)されますが、Credential Helper を使用している場合、[トークン](/glossary/トークン/)の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：
 
 ```bash
 # Credential Helper を経由してキャッシュを削除

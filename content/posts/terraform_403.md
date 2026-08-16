@@ -81,7 +81,7 @@ Terraform を実行するユーザーまたは[ロール](/glossary/ロール/)�
 
 ### 原因2：SCP（Service Control Policy）が実行を制限している
 
-[AWS](/glossary/aws/) Organizations で設定された SCP がリソース作成を明示的に拒否しているか、特定サービスの使用を制限している可能性があります。SCP は [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)より上位の制限であり、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で許可していても SCP で拒否されば操作は実行できません。[AWS](/glossary/aws/) Organizations の[コンソール](/glossary/コンソール/)で適用されている SCP を確認し、Terraform の実行に必要な[アクション](/glossary/アクション/)を許可するように SCP を修正します。
+[AWS](/glossary/aws/) Organizations で設定された SCP がリソース作成を明示的に拒否しているか、特定サービスの使用を制限している可能性があります。SCP は [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)より上位の制限であり、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で許可していても SCP で拒否されば操作は実行できません。[AWS](/glossary/aws/) Organizations の[コンソール](/glossary/コンソール/)で適用されている SCP を確認し、Terraform の実行に必要な[アクション](/glossary/アクション/)を許可するように SCP を[修正](/glossary/修正/)します。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -93,7 +93,7 @@ IP ホワイトリストは Workspace レベルで設定されており、Worksp
 
 ### 原因3：チーム Project 管理者のみが実行できる操作を試みている
 
-[リポジトリ](/glossary/リポジトリ/)の削除、保護[ブランチ](/glossary/ブランチ/)の設定変更、[デプロイ](/glossary/デプロイ/)キーの管理など、特定の操作は Admin [ロール](/glossary/ロール/)を持つユーザーのみが実行可能です。Write [権限](/glossary/権限/)ユーザーが管理機能にアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。
+[リポジトリ](/glossary/リポジトリ/)の削除、保護[ブランチ](/glossary/ブランチ/)の設定変更、[デプロイ](/glossary/デプロイ/)[キー](/glossary/キー/)の管理など、特定の操作は Admin [ロール](/glossary/ロール/)を持つユーザーのみが実行可能です。Write [権限](/glossary/権限/)ユーザーが管理機能にアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -131,7 +131,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 **[API](/glossary/api/) アクセストークンの[権限](/glossary/権限/)：** [REST](/glossary/rest/) [API](/glossary/api/) を使用する場合、Personal Access Token または App Password が持つ[スコープ](/glossary/スコープ/)[権限](/glossary/権限/)も確認が必要です。[トークン](/glossary/トークン/)生成時に `repository:write` [スコープ](/glossary/スコープ/)を付与していない場合、[API](/glossary/api/) 経由での push や[コミット](/glossary/コミット/)作成は 403 で失敗します。
 
-**デプロイキーと SSH アクセス：** SSH キーが[リポジトリ](/glossary/リポジトリ/)固有のデプロイキーとして登録されている場合、そのキーの[権限](/glossary/権限/)レベル（Read-only または Write）も考慮されます。[CI/CD](/glossary/ci-cd/) パイプラインから push が 403 で失敗する場合は、デプロイキーの[権限](/glossary/権限/)を確認してください。
+**デプロイキーと SSH アクセス：** SSH [キー](/glossary/キー/)が[リポジトリ](/glossary/リポジトリ/)固有のデプロイキーとして登録されている場合、その[キー](/glossary/キー/)の[権限](/glossary/権限/)レベル（Read-only または Write）も考慮されます。[CI/CD](/glossary/ci-cd/) パイプラインから push が 403 で失敗する場合は、デプロイキーの[権限](/glossary/権限/)を確認してください。
 
 ## それでも解決しない場合
 

@@ -286,7 +286,7 @@ services:
     image: example/my-app:latest
 ```
 
-`docker login` は名前を修正する処理ではありません。`library/my-app` が存在しないなら、[Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても要求先は変わりません。
+`docker login` は名前を[修正](/glossary/修正/)する処理ではありません。`library/my-app` が存在しないなら、[Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても要求先は変わりません。
 
 ### 原因2：リポジトリ名、所有者名、Registryが違う {#repository-not-found}
 
@@ -525,7 +525,7 @@ no matching manifest for linux/arm64/v8 in the manifest list entries
 
 ### too many requests
 
-[Docker](/glossary/docker/) Hubのpull回数制限は、`pull access denied` ではなく429と制限用の文言で返されます。[Docker Hub公式のpull制限資料](https://docs.docker.com/docker-hub/usage/pulls/#view-pull-rate-and-limit)にも、上限到達時はmanifest要求へ429を返すと記載されています。[ログイン](/glossary/ログイン/)や契約によって上限条件は変わりますが、[リポジトリ](/glossary/リポジトリ/)名の修正とは別の問題です。
+[Docker](/glossary/docker/) Hubのpull回数制限は、`pull access denied` ではなく429と制限用の文言で返されます。[Docker Hub公式のpull制限資料](https://docs.docker.com/docker-hub/usage/pulls/#view-pull-rate-and-limit)にも、上限到達時はmanifest要求へ429を返すと記載されています。[ログイン](/glossary/ログイン/)や契約によって上限条件は変わりますが、[リポジトリ](/glossary/リポジトリ/)名の[修正](/glossary/修正/)とは別の問題です。
 
 ### x509、connection refused、timeout
 

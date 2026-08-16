@@ -14,7 +14,7 @@ related_services: ["SDK", "REST API", "JavaScript SDK"]
 
 ## エラーの概要
 
-Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須[フィールド](/glossary/フィールド/)の欠落、[API](/glossary/api/)キーの無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と修正が必須です。
+Firebase の 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が不正な形式、無効な[パラメータ](/glossary/パラメータ/)、認証情報の不備を含んでいることを示します。この[エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)側の障害ではなく、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 形式[エラー](/glossary/エラー/)、必須[フィールド](/glossary/フィールド/)の欠落、[API](/glossary/api/)[キー](/glossary/キー/)の無効化、認可情報の不足など、送信側のデータに問題があることを意味します。Firebase を使用する際に最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つであり、正確な原因特定と[修正](/glossary/修正/)が必須です。
 
 ## 実際のエラーメッセージ例
 
@@ -79,7 +79,7 @@ response = requests.post(
 
 ### 原因2：API キーの無効化または無効な認証情報
 
-Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) キー、削除されたキー、または間違った[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) を使用しているケースです。
+Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) [キー](/glossary/キー/)、削除された[キー](/glossary/キー/)、または間違った[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) を使用しているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -270,9 +270,9 @@ db = firestore.client()
 
 1. **ネットワークレスポンスを確認**：ブラウザの開発者[ツール](/glossary/ツール/)（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
 
-2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) キーの状態を確認**：
-   - Firebase Console → [プロジェクト](/glossary/プロジェクト/)設定 → [API](/glossary/api/) キー
-   - 該当するキーが有効化されているか、制限が適切に設定されているかを確認してください。
+2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) [キー](/glossary/キー/)の状態を確認**：
+   - Firebase Console → [プロジェクト](/glossary/プロジェクト/)設定 → [API](/glossary/api/) [キー](/glossary/キー/)
+   - 該当する[キー](/glossary/キー/)が有効化されているか、制限が適切に設定されているかを確認してください。
 
 3. **ローカルでの[リクエスト](/glossary/リクエスト/)検証**：`curl` [コマンド](/glossary/コマンド/)や Postman を使用して[リクエスト](/glossary/リクエスト/)を再現し、[JSON](/glossary/json/) の妥当性を確認してください。
 

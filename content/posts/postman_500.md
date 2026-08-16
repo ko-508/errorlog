@@ -69,7 +69,7 @@ curl -X GET https://api.example.com/users \
 
 ### 原因 2：Postman Cloud サービスの一時的な障害
 
-Postman のクラウドサービス自体（[API](/glossary/api/) キー検証、同期機能、[環境変数](/glossary/環境変数/)の管理）に一時的な障害が発生していることがあります。この場合、[テスト](/glossary/テスト/)対象 [API](/glossary/api/) が正常でも Postman を経由した[リクエスト](/glossary/リクエスト/)が失敗することがあります。
+Postman のクラウドサービス自体（[API](/glossary/api/) [キー](/glossary/キー/)検証、同期機能、[環境変数](/glossary/環境変数/)の管理）に一時的な障害が発生していることがあります。この場合、[テスト](/glossary/テスト/)対象 [API](/glossary/api/) が正常でも Postman を経由した[リクエスト](/glossary/リクエスト/)が失敗することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -12,7 +12,7 @@ related_services: ["Jenkins", "CI/CD"]
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Bitbucket [API](/glossary/api/)に対して短時間に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が制限数を超過した場合に発生します。Bitbucket Cloud [API](/glossary/api/)は[レート制限](/glossary/レート制限/)を設けており、この上限に到達すると以降の[リクエスト](/glossary/リクエスト/)はすべて429[レスポンス](/glossary/レスポンス/)で拒否されます。デフォルトでは1時間あたり1000[リクエスト](/glossary/リクエスト/)ですが、[ワークスペース](/glossary/ワークスペース/)のプランや有料ユーザー数に応じてより高い制限が適用される場合があります。特に[CI/CD](/glossary/ci-cd/)パイプライン内で複数の並列ジョブが[API](/glossary/api/)呼び出しを実行する場合や、スクリプト内のループ処理で次々と[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に発生する現象です。
+[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Bitbucket [API](/glossary/api/)に対して短時間に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が制限数を超過した場合に発生します。Bitbucket Cloud [API](/glossary/api/)は[レート制限](/glossary/レート制限/)を設けており、この上限に到達すると以降の[リクエスト](/glossary/リクエスト/)はすべて429[レスポンス](/glossary/レスポンス/)で拒否されます。デフォルトでは1時間あたり1000[リクエスト](/glossary/リクエスト/)ですが、[ワークスペース](/glossary/ワークスペース/)のプランや有料ユーザー数に応じてより高い制限が適用される場合があります。特に[CI/CD](/glossary/ci-cd/)パイプライン内で複数の並列ジョブが[API](/glossary/api/)呼び出しを実行する場合や、スクリプト内の[ループ](/glossary/ループ/)処理で次々と[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に発生する現象です。
 
 ## 実際のエラーメッセージ例
 

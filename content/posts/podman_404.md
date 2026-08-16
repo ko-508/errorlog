@@ -171,7 +171,7 @@ podman run docker.io/library/nginx
 
 ## それでも解決しない場合
 
-ローカルに保存されている[イメージ](/glossary/イメージ/)を確認するには `podman images` [コマンド](/glossary/コマンド/)で一覧表示できます。この[コマンド](/glossary/コマンド/)の出力に目的の[イメージ](/glossary/イメージ/)が存在しない場合は、明示的に `podman pull` で[イメージ](/glossary/イメージ/)を取得する必要があります。
+ローカルに[保存](/glossary/保存/)されている[イメージ](/glossary/イメージ/)を確認するには `podman images` [コマンド](/glossary/コマンド/)で一覧表示できます。この[コマンド](/glossary/コマンド/)の出力に目的の[イメージ](/glossary/イメージ/)が存在しない場合は、明示的に `podman pull` で[イメージ](/glossary/イメージ/)を取得する必要があります。
 
 レジストリー接続の問題を切り分ける場合は、`podman pull` を単独で実行して[ネットワーク](/glossary/ネットワーク/)接続やレジストリー[認証](/glossary/認証/)に問題がないかを確認します。認証情報がある場合は `podman login` で事前[ログイン](/glossary/ログイン/)しておきます。
 

@@ -131,7 +131,7 @@ kubectl auth can-i get secrets \
 
 対処：
 
-- 参照している Secret / ConfigMap を、Pod と同じ namespace に用意します。名前の綴りとキー名も突き合わせます。
+- 参照している Secret / ConfigMap を、Pod と同じ namespace に用意します。名前の綴りと[キー](/glossary/キー/)名も突き合わせます。
 - volume を書き込み先として使う init container では、マウント先の[パス](/glossary/パス/)と書き込み[権限](/glossary/権限/)（`securityContext` の設定内容）が本体[コンテナ](/glossary/コンテナ/)と一致しているかを確認します。
 - 権限不足であれば、必要な操作に絞った Role / RoleBinding を付与します。広い[権限](/glossary/権限/)をまとめて付与する方法は取りません。
 
@@ -200,7 +200,7 @@ kubectl describe node <node-name>
 
 ## 補足：似ているが別のもの
 
-- **`CrashLoopBackOff`（`Init:` なし）**：通常[コンテナ](/glossary/コンテナ/)が起動後にクラッシュして再起動を繰り返している状態です。init container が成功するまで通常[コンテナ](/glossary/コンテナ/)は起動しないため、`Init:CrashLoopBackOff` の原因調査に本体[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)や設定を持ち込むと切り分けがずれます。両者は別々に修正してください。
+- **`CrashLoopBackOff`（`Init:` なし）**：通常[コンテナ](/glossary/コンテナ/)が起動後にクラッシュして再起動を繰り返している状態です。init container が成功するまで通常[コンテナ](/glossary/コンテナ/)は起動しないため、`Init:CrashLoopBackOff` の原因調査に本体[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)や設定を持ち込むと切り分けがずれます。両者は別々に[修正](/glossary/修正/)してください。
 - **`Init:Error`**：init container が失敗して終了した状態の表示です。`Init:CrashLoopBackOff` は、その失敗と再起動が繰り返されて[バックオフ](/glossary/バックオフ/)待ちになった状態を指します。`restartPolicy` が `Never` の場合は、公式ドキュメントの説明どおり Pod 全体が失敗として扱われるため、繰り返し再起動による[バックオフ](/glossary/バックオフ/)表示にはなりません。
 - **`FailedCreatePodSandbox`**：kubelet が Pod sandbox の作成に失敗した段階の[イベント](/glossary/イベント/)で、アプリコンテナ起動前の問題です（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。init container の[コマンド](/glossary/コマンド/)やマウント内容ではなく、[ネットワークプラグイン（CNI）とネットワーク設定](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)を優先して確認します。あわせて、[container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/) と pause / sandbox image の設定（containerd の場合は [CRI プラグインの設定](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）も切り分けの対象になります。
 - **サイドカーコンテナ**：公式ドキュメントでは、サイドカーコンテナは主アプリケーションコンテナより先に起動して動作を継続する[コンテナ](/glossary/コンテナ/)と説明されており、Pod の初期化中に完了まで実行される init container とは別の扱いです。長時間動き続ける処理を init container として書くと、完了しないまま[初期化](/glossary/初期化/)が止まります。自分の Pod がどちらの想定かは、[Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) の該当節で確認してください。
@@ -212,7 +212,7 @@ kubectl describe node <node-name>
 - **init container を削除・コメントアウトして起動させる**：[初期化](/glossary/初期化/)が完了しないまま本体[コンテナ](/glossary/コンテナ/)が動きます。マイグレーション、設定生成、証明書配置などを担う init container では、データ不整合や不完全な設定での稼働につながります。削除する場合は、その初期化処理が本当に不要であることを確認してからにします。
 - **失敗する[コマンド](/glossary/コマンド/)の末尾に `|| true` を付けて成功扱いにする**：終了[コード](/glossary/コード/)だけが変わり、[初期化](/glossary/初期化/)の失敗は残ります。原因が特定できるまでは使いません。
 - **権限不足を広い[権限](/glossary/権限/)で解消する**：ServiceAccount に過剰な[権限](/glossary/権限/)を与えると、失敗の原因は消えても影響範囲が広がります。`kubectl auth can-i` で不足している操作を特定し、その操作だけを許可します。
-- **Pod を強制削除して証跡を消す**：`kubectl describe pod` の出力、`--previous` 付きの[ログ](/glossary/ログ/)、Events は再起動や削除で失われます。対処に着手する前に保存してください。
+- **Pod を強制削除して証跡を消す**：`kubectl describe pod` の出力、`--previous` 付きの[ログ](/glossary/ログ/)、Events は再起動や削除で失われます。対処に着手する前に[保存](/glossary/保存/)してください。
 - **リソース上限を外して回避する**：`OOMKilled` の場合でも、上限を撤去するとノード全体の安定性に影響します。実測に基づいて上限値を調整します。
 
 いずれの変更も、まず開発・検証環境の Pod で再現と確認を行ってから本番へ適用してください。
@@ -224,7 +224,7 @@ kubectl describe node <node-name>
 3. 同じ出力の Events で、マウント失敗、[イメージ](/glossary/イメージ/)取得失敗、スケジューリング関連のメッセージがないかを確認します。
 4. `kubectl logs <pod-name> -c <init-container> --previous` で直前の終了時の出力を確認します。[ログ](/glossary/ログ/)が空なら、[コマンド](/glossary/コマンド/)実行前の失敗を疑って手順 3 に戻ります。
 5. Reason が `OOMKilled` なら原因 4、参照[エラー](/glossary/エラー/)やマウント失敗なら原因 2、待機処理の出力で止まっているなら原因 3、それ以外のアプリケーションエラーなら原因 1 へ進みます。
-6. 修正を適用し、`STATUS` が `PodInitializing` を経て `Running` になること、`RESTARTS` が増えないことを確認します。
+6. [修正](/glossary/修正/)を適用し、`STATUS` が `PodInitializing` を経て `Running` になること、`RESTARTS` が増えないことを確認します。
 7. ここまでで原因が特定できない場合は、init container の spec（`command`、`args`、`env`、`volumeMounts`、`resources`）を最小構成まで削って再現の有無を切り分けます。
 
 ## 確認コマンド集

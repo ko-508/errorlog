@@ -159,7 +159,7 @@ location = /maintenance.html {
 3. 記録がなければ `nginx -T` で `return 503`・`error_page 503` の有無を確認する（原因2）。
 4. それも見つからなければ、上流への直接[リクエスト](/glossary/リクエスト/)で応答を比較する（原因3）。上流由来なら対処は上流側で行う。
 
-設定を修正したら、文法確認をしてから反映します。
+設定を[修正](/glossary/修正/)したら、文法確認をしてから反映します。
 
 ```bash
 sudo nginx -t && sudo systemctl reload nginx

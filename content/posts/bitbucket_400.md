@@ -40,7 +40,7 @@ Pipeline error: 'message' field is required in bitbucket-pipelines.yml
 
 ### 原因 1：bitbucket-pipelines.yml の YAML 構文エラー
 
-Bitbucket Pipelines の[設定ファイル](/glossary/設定ファイル/)に [YAML](/glossary/yaml/) 形式の誤りがあると、パイプラインの起動時に 400 [エラー](/glossary/エラー/)が発生します。インデント不正、クォート漏れ、不正なキー名、シーケンス記法の誤りなどが該当します。
+Bitbucket Pipelines の[設定ファイル](/glossary/設定ファイル/)に [YAML](/glossary/yaml/) 形式の誤りがあると、パイプラインの起動時に 400 [エラー](/glossary/エラー/)が発生します。インデント不正、クォート漏れ、不正な[キー](/glossary/キー/)名、シーケンス記法の誤りなどが該当します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -74,7 +74,7 @@ pipelines:
           - node_modules/**
 ```
 
-上記の例では、`step:` の直下のキーが正しくインデントされていませんでした。各階層は 2 スペースまたは 4 スペースで統一する必要があります。
+上記の例では、`step:` の直下の[キー](/glossary/キー/)が正しくインデントされていませんでした。各階層は 2 スペースまたは 4 スペースで統一する必要があります。
 
 ### 原因 2：API リクエストボディの JSON 形式が不正
 

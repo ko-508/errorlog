@@ -18,7 +18,7 @@ trend_incident: false
 
 調査の核は、応答の errors 配列を読むことに尽きます。公式文書のとおり、配列の各要素は resource（どの種類の対象か）、field（どの項目か）、code（何が悪いか）を持ち、code の値は公式に定義されています。missing_field は必須項目の未設定、invalid は項目の形式の不正、already_exists は同じ値を持つ対象が既に存在、missing は指した対象が存在しない、unprocessable は入力を処理できない、そして custom の場合は必ず message が付き、その文言をそのまま読みます。code と field が分かれば、原因はほぼ確定します。
 
-境界も先に引いておきます。本文が [JSON](/glossary/json/) として壊れている場合は 400（Problems parsing [JSON](/glossary/json/)）で、422の手前の問題です。対象の「今の状態」との矛盾（sha の不一致、空[リポジトリ](/glossary/リポジトリ/)）は 409 です。また、422は形式的な性質として、[リクエスト](/glossary/リクエスト/)を修正しない限り何度送っても同じ結果になります。[GitHub](/glossary/github/) 公式の Octokit の retry プラグインも422を再試行の対象外としており、422への正しい反応は再送ではなく修正です。
+境界も先に引いておきます。本文が [JSON](/glossary/json/) として壊れている場合は 400（Problems parsing [JSON](/glossary/json/)）で、422の手前の問題です。対象の「今の状態」との矛盾（sha の不一致、空[リポジトリ](/glossary/リポジトリ/)）は 409 です。また、422は形式的な性質として、[リクエスト](/glossary/リクエスト/)を[修正](/glossary/修正/)しない限り何度送っても同じ結果になります。[GitHub](/glossary/github/) 公式の Octokit の retry プラグインも422を再試行の対象外としており、422への正しい反応は再送ではなく[修正](/glossary/修正/)です。
 
 ## エラーの概要
 
@@ -142,9 +142,9 @@ code が custom の場合、公式文書のとおり必ず message が付きま�
 
 1. [コード](/glossary/コード/)と message を確認する。Problems parsing [JSON](/glossary/json/) なら 400、状態の矛盾なら 409、それぞれの記事の調査に切り替える。
 2. errors 配列を読む。code（missing_field・invalid・already_exists・missing・custom）と field で、原因1〜5に振り分ける。
-3. missing_field・invalid は、公式リファレンスの[パラメータ](/glossary/パラメータ/)表と value の実値を突き合わせて修正する。
+3. missing_field・invalid は、公式リファレンスの[パラメータ](/glossary/パラメータ/)表と value の実値を突き合わせて[修正](/glossary/修正/)する。
 4. already_exists は、重複を正常系として扱う分岐（既存を取得・更新へフォールバック）に直す。
-5. message を読んでも確定しない場合は、[リクエスト](/glossary/リクエスト/)を必須[パラメータ](/glossary/パラメータ/)のみまで最小化し、422を引き起こす要素を特定する。422は修正するまで結果が変わらないため、そのままの再送はしない。
+5. message を読んでも確定しない場合は、[リクエスト](/glossary/リクエスト/)を必須[パラメータ](/glossary/パラメータ/)のみまで最小化し、422を引き起こす要素を特定する。422は[修正](/glossary/修正/)するまで結果が変わらないため、そのままの再送はしない。
 
 ## 確認コマンド集
 

@@ -41,7 +41,7 @@ X-RateLimit-Reset: 1704067200
 
 ### 原因1：Collection Runner で複数リクエストを間隔なしで実行
 
-Collection Runner はループ機能で指定回数だけ[リクエスト](/glossary/リクエスト/)を連続実行するため、短時間に大量の[リクエスト](/glossary/リクエスト/)が [API](/glossary/api/) に[送信](/glossary/送信/)されます。[API](/glossary/api/) 側の[レート制限](/glossary/レート制限/)（例：1分あたり 100 [リクエスト](/glossary/リクエスト/)）に瞬時に達してしまい、429 [エラー](/glossary/エラー/)が発生します。
+Collection Runner は[ループ](/glossary/ループ/)機能で指定回数だけ[リクエスト](/glossary/リクエスト/)を連続実行するため、短時間に大量の[リクエスト](/glossary/リクエスト/)が [API](/glossary/api/) に[送信](/glossary/送信/)されます。[API](/glossary/api/) 側の[レート制限](/glossary/レート制限/)（例：1分あたり 100 [リクエスト](/glossary/リクエスト/)）に瞬時に達してしまい、429 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -62,7 +62,7 @@ Collection Runner UI では、実行ボタンを押す前に「Delay (ms)」[フ
 
 ### 原因2：ループ処理の繰り返し回数がレート制限を超えている
 
-[API](/glossary/api/) が「1時間に 1000 [リクエスト](/glossary/リクエスト/)まで」という制限を設けている場合、Collection Runner で 500 回ループを 2回実行すれば制限を超えます。[テスト](/glossary/テスト/)[環境](/glossary/環境/)でも本番 [API](/glossary/api/) を直接使っていれば、割り当てが枯渇します。
+[API](/glossary/api/) が「1時間に 1000 [リクエスト](/glossary/リクエスト/)まで」という制限を設けている場合、Collection Runner で 500 回[ループ](/glossary/ループ/)を 2回実行すれば制限を超えます。[テスト](/glossary/テスト/)[環境](/glossary/環境/)でも本番 [API](/glossary/api/) を直接使っていれば、割り当てが枯渇します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -108,7 +108,7 @@ Collection Runner UI では、実行ボタンを押す前に「Delay (ms)」[フ
 }
 ```
 
-ループ回数を制限し、必要なテストケースだけに絞ります。あるいは [API](/glossary/api/) の割り当て期間内（1時間あたり、1日あたりなど）で[テスト](/glossary/テスト/)を分割実行します。
+[ループ](/glossary/ループ/)回数を制限し、必要なテストケースだけに絞ります。あるいは [API](/glossary/api/) の割り当て期間内（1時間あたり、1日あたりなど）で[テスト](/glossary/テスト/)を分割実行します。
 
 ### 原因3：テスト環境が本番 API に接続している
 
@@ -198,9 +198,9 @@ if (pm.environment.get("use_mock") === "true") {
 
 Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Option+C）を開き、[リクエスト](/glossary/リクエスト/)のタイムスタンプを確認します。短時間に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されていないか目視で判定できます。
 
-**[テスト](/glossary/テスト/)用の [API](/glossary/api/) キーまたは専用[レート制限](/glossary/レート制限/)を申請：**
+**[テスト](/glossary/テスト/)用の [API](/glossary/api/) [キー](/glossary/キー/)または専用[レート制限](/glossary/レート制限/)を申請：**
 
-[API](/glossary/api/) 提供元に問い合わせ、[テスト](/glossary/テスト/)用の別キーや引き上げ可能な制限値を用意してもらいます。開発段階では[レート制限](/glossary/レート制限/)を緩くしてもらう交渉も可能です。
+[API](/glossary/api/) 提供元に問い合わせ、[テスト](/glossary/テスト/)用の別[キー](/glossary/キー/)や引き上げ可能な制限値を用意してもらいます。開発段階では[レート制限](/glossary/レート制限/)を緩くしてもらう交渉も可能です。
 
 **公式ドキュメント参照：**
 

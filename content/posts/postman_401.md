@@ -52,7 +52,7 @@ Response Time: 150ms
 
 ### 原因1：AuthorizationタブでAPIキーやトークンが正しく設定されていない
 
-Postmanの[リクエスト](/glossary/リクエスト/)設定画面でAuthorizationタブを開いても、[認証](/glossary/認証/)タイプが「No Auth」のままであったり、[トークン](/glossary/トークン/)値が空白のまま[送信](/glossary/送信/)されたりすることで401が発生します。あるいは、[認証](/glossary/認証/)タイプは選択されていても、実際の[API](/glossary/api/)キーや[トークン](/glossary/トークン/)値が正しく入力されていない場合も該当します。
+Postmanの[リクエスト](/glossary/リクエスト/)設定画面でAuthorizationタブを開いても、[認証](/glossary/認証/)タイプが「No Auth」のままであったり、[トークン](/glossary/トークン/)値が空白のまま[送信](/glossary/送信/)されたりすることで401が発生します。あるいは、[認証](/glossary/認証/)タイプは選択されていても、実際の[API](/glossary/api/)[キー](/glossary/キー/)や[トークン](/glossary/トークン/)値が正しく入力されていない場合も該当します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -78,7 +78,7 @@ Add to: Header
 
 1. Postmanのリクエストタブを開き、「Authorization」タブをクリック
 2. 「Type」ドロップダウンで適切な[認証](/glossary/認証/)タイプを選択（Bearer Token、[API](/glossary/api/) Key、Basic Auth など）
-3. [API](/glossary/api/)ドキュメントに従い、正確な[トークン](/glossary/トークン/)またはキーを入力
+3. [API](/glossary/api/)ドキュメントに従い、正確な[トークン](/glossary/トークン/)または[キー](/glossary/キー/)を入力
 4. 「Send」ボタンで[リクエスト](/glossary/リクエスト/)を再送信
 
 ### 原因2：トークンの有効期限が切れている
@@ -136,13 +136,13 @@ if (!storedToken || (currentTime - tokenTimestamp) > tokenExpiresIn) {
 解決手順：
 
 1. [API](/glossary/api/)プロバイダーの[認証](/glossary/認証/)[エンドポイント](/glossary/エンドポイント/)（例：`/oauth/token`）にアクセスし、新しい[トークン](/glossary/トークン/)を取得
-2. 取得した[トークン](/glossary/トークン/)をPostmanの[環境変数](/glossary/環境変数/)に保存
+2. 取得した[トークン](/glossary/トークン/)をPostmanの[環境変数](/glossary/環境変数/)に[保存](/glossary/保存/)
 3. Pre-request Scriptを使用して、[リクエスト](/glossary/リクエスト/)送信前に自動的に[トークン](/glossary/トークン/)期限をチェック
 4. 期限切れの場合は自動更新するロジックを組み込む
 
 ### 原因3：環境変数に認証情報がセットされていない
 
-Postmanでは、[API](/glossary/api/)キーや[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)として管理することが推奨されています。しかし、[環境変数](/glossary/環境変数/)が正しくセットされていなかったり、参照する[環境](/glossary/環境/)が異なったりすると、リクエストヘッダーに`{{variable_name}}`という文字列がそのまま[送信](/glossary/送信/)され、[API](/glossary/api/)[サーバー](/glossary/サーバー/)は無効な[トークン](/glossary/トークン/)と判定して401を返します。
+Postmanでは、[API](/glossary/api/)[キー](/glossary/キー/)や[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)として管理することが推奨されています。しかし、[環境変数](/glossary/環境変数/)が正しくセットされていなかったり、参照する[環境](/glossary/環境/)が異なったりすると、リクエストヘッダーに`{{variable_name}}`という文字列がそのまま[送信](/glossary/送信/)され、[API](/glossary/api/)[サーバー](/glossary/サーバー/)は無効な[トークン](/glossary/トークン/)と判定して401を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -174,17 +174,17 @@ Token: {{api_token}}
 1. Postman左側の「Environments」をクリック
 2. 使用している[環境](/glossary/環境/)を選択（なければ「Create」で新規作成）
 3. 認証情報を格納する[変数](/glossary/変数/)を追加（例：`api_token`、`api_key`）
-4. 「Current Value」に実際の[トークン](/glossary/トークン/)値を入力して保存
+4. 「Current Value」に実際の[トークン](/glossary/トークン/)値を入力して[保存](/glossary/保存/)
 5. [リクエスト](/glossary/リクエスト/)画面右上の[環境](/glossary/環境/)セレクタで、今セットした[環境](/glossary/環境/)が選択されているか確認
 6. [リクエスト](/glossary/リクエスト/)のAuthorizationタブで、プレースホルダー構文 `{{variable_name}}` を使用
 
 ## Postman固有の注意点
 
-Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value）とグローバル（Initial Value）の2段階で管理されます。[セキュリティ](/glossary/セキュリティ/)上の理由から、[API](/glossary/api/)キーや[トークン](/glossary/トークン/)などの機密情報は「Initial Value」には記入せず、「Current Value」のみに設定することが重要です。これにより、チームとコレクションを共有する際に機密情報が意図せず流出するのを防げます。
+Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value）とグローバル（Initial Value）の2段階で管理されます。[セキュリティ](/glossary/セキュリティ/)上の理由から、[API](/glossary/api/)[キー](/glossary/キー/)や[トークン](/glossary/トークン/)などの機密情報は「Initial Value」には記入せず、「Current Value」のみに設定することが重要です。これにより、チームとコレクションを共有する際に機密情報が意図せず流出するのを防げます。
 
 またPostman Workspaceをチーム間で共有している場合、各自の[環境変数](/glossary/環境変数/)を「Private」に設定することで、ローカル端末に限定して認証情報を管理できます。設定方法は環境編集画面で、[環境変数](/glossary/環境変数/)の右側にある目のアイコンをクリックして「Private」を選択してください。
 
-さらに、Pre-request Scriptを使用する場合、スクリプト内で`pm.sendRequest()`を呼び出すと、同期的に別の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)（[トークン](/glossary/トークン/)取得など）を実行できます。ただし、この[メソッド](/glossary/メソッド/)は非同期で動作するため、続く実[メソッド](/glossary/メソッド/)は十分なコールバック処理を含めて記述する必要があります。コールバック内で`pm.environment.set()`を使い、取得した[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)に保存してから、メインリクエストに参照させるパターンが一般的です。
+さらに、Pre-request Scriptを使用する場合、スクリプト内で`pm.sendRequest()`を呼び出すと、同期的に別の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)（[トークン](/glossary/トークン/)取得など）を実行できます。ただし、この[メソッド](/glossary/メソッド/)は非同期で動作するため、続く実[メソッド](/glossary/メソッド/)は十分なコールバック処理を含めて記述する必要があります。コールバック内で`pm.environment.set()`を使い、取得した[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)に[保存](/glossary/保存/)してから、メインリクエストに参照させるパターンが一般的です。
 
 ## それでも解決しない場合
 
@@ -196,8 +196,8 @@ Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「C
 **[API](/glossary/api/)ドキュメントを再確認**
 認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて確認します。
 
-**[テスト](/glossary/テスト/)用[API](/glossary/api/)キーを使用**
-[本番環境](/glossary/本番環境/)の[API](/glossary/api/)キーではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)キーが別途提供されている場合、それを使用して401が解消するか試してください。本番キーに[権限](/glossary/権限/)がない可能性も考慮します。
+**[テスト](/glossary/テスト/)用[API](/glossary/api/)[キー](/glossary/キー/)を使用**
+[本番環境](/glossary/本番環境/)の[API](/glossary/api/)[キー](/glossary/キー/)ではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)[キー](/glossary/キー/)が別途提供されている場合、それを使用して401が解消するか試してください。本番[キー](/glossary/キー/)に[権限](/glossary/権限/)がない可能性も考慮します。
 
 **Postmanを再起動**
 [環境変数](/glossary/環境変数/)の反映遅延や[キャッシュ](/glossary/キャッシュ/)の問題を排除するため、Postman[アプリケーション](/glossary/アプリケーション/)全体を再起動し、再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してみてください。

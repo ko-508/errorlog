@@ -155,7 +155,7 @@ curl -X POST http://localhost:3000/api/datasources \
   '
 ```
 
-**修正のポイント：**
+**[修正](/glossary/修正/)のポイント：**
 - [JSON](/glossary/json/) 内の各[プロパティ](/glossary/プロパティ/)間に `,` を忘れずに付ける
 - 値は必ずダブルクォートで囲む（文字列の場合）
 - オンライン [JSON](/glossary/json/) バリデーター（jsonlint.com など）で事前チェック
@@ -235,7 +235,7 @@ curl -X POST http://localhost:3000/api/datasources \
 }
 ```
 
-**修正のポイント：**
+**[修正](/glossary/修正/)のポイント：**
 - `threshold`（`params` 配列）には数値を文字列ではなく数値型で設定
 - `evaluator.type` は `gt`、`lt`、`eq` など Grafana が認識する文字列のみ
 - `for` [フィールド](/glossary/フィールド/)（[アラート](/glossary/アラート/)状態継続時間）は `5m`、`10m` など有効な期間形式

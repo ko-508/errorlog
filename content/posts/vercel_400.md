@@ -35,7 +35,7 @@ POST /v13/deployments
 
 ### 原因1：vercel.json の設定に誤りがある
 
-vercel.json は、Vercel の[デプロイ](/glossary/デプロイ/)設定を定義する[ファイル](/glossary/ファイル/)です。[JSON](/glossary/json/) の形式誤りや、キーの綴り間違い、不正な値の型が 400 [エラー](/glossary/エラー/)を引き起こします。例えば、[環境変数](/glossary/環境変数/)の設定項目のキー名を間違えたり、配列であるべき値を[オブジェクト](/glossary/オブジェクト/)として定義したりすると、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が拒否されます。
+vercel.json は、Vercel の[デプロイ](/glossary/デプロイ/)設定を定義する[ファイル](/glossary/ファイル/)です。[JSON](/glossary/json/) の形式誤りや、[キー](/glossary/キー/)の綴り間違い、不正な値の型が 400 [エラー](/glossary/エラー/)を引き起こします。例えば、[環境変数](/glossary/環境変数/)の設定項目の[キー](/glossary/キー/)名を間違えたり、配列であるべき値を[オブジェクト](/glossary/オブジェクト/)として定義したりすると、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が拒否されます。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -158,7 +158,7 @@ const deployProject = async () => {
 
 ## ツール固有の注意点
 
-Vercel は厳密な [JSON](/glossary/json/) [スキーマ](/glossary/スキーマ/)検証を行うため、vercel.json の構造に 1 つでも不正があると即座に 400 [エラー](/glossary/エラー/)になります。特に複数環境を設定する場合、[環境](/glossary/環境/)ごとのキー名（`production`、`preview`、`development`）を正確に記述しないと拒否されます。
+Vercel は厳密な [JSON](/glossary/json/) [スキーマ](/glossary/スキーマ/)検証を行うため、vercel.json の構造に 1 つでも不正があると即座に 400 [エラー](/glossary/エラー/)になります。特に複数環境を設定する場合、[環境](/glossary/環境/)ごとの[キー](/glossary/キー/)名（`production`、`preview`、`development`）を正確に記述しないと拒否されます。
 
 また、Vercel [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)が古い場合、新しい [API](/glossary/api/) 仕様に対応できず、正しい[設定ファイル](/glossary/設定ファイル/)でも 400 [エラー](/glossary/エラー/)が発生することがあります。チームで複数のマシンから[デプロイ](/glossary/デプロイ/)する場合、全員が同じ[バージョン](/glossary/バージョン/)を使用していることを確認してください。
 
@@ -188,7 +188,7 @@ npm install -g vercel@latest
 vercel --version
 ```
 
-それでも解決しない場合は、[Vercel 公式ドキュメント](https://vercel.com/docs/api)の [API](/glossary/api/) 仕様確認と、[Vercel Community Discord](https://vercel.com/support)でのサポート相談を検討してください。[ログファイル](/glossary/ログファイル/)は `~/.vercel` ディレクトリーに保存されており、詳細な情報取得に役立ちます。
+それでも解決しない場合は、[Vercel 公式ドキュメント](https://vercel.com/docs/api)の [API](/glossary/api/) 仕様確認と、[Vercel Community Discord](https://vercel.com/support)でのサポート相談を検討してください。[ログファイル](/glossary/ログファイル/)は `~/.vercel` ディレクトリーに[保存](/glossary/保存/)されており、詳細な情報取得に役立ちます。
 
 ---
 

@@ -43,7 +43,7 @@ Supabase の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [�
 
 ### 原因 1：anon キーまたは service role キーが間違っている
 
-Supabase [プロジェクト](/glossary/プロジェクト/)には複数の[認証](/glossary/認証/)キーが存在します。anonymous キー（anon key）は[クライアント](/glossary/クライアント/)側で使用するもので、service role キーは[バックエンド](/glossary/バックエンド/)限定です。キーの値が誤っていたり、異なる[プロジェクト](/glossary/プロジェクト/)のキーを混在させると 401 [エラー](/glossary/エラー/)が発生します。
+Supabase [プロジェクト](/glossary/プロジェクト/)には複数の[認証](/glossary/認証/)[キー](/glossary/キー/)が存在します。anonymous [キー](/glossary/キー/)（anon key）は[クライアント](/glossary/クライアント/)側で使用するもので、service role [キー](/glossary/キー/)は[バックエンド](/glossary/バックエンド/)限定です。[キー](/glossary/キー/)の値が誤っていたり、異なる[プロジェクト](/glossary/プロジェクト/)の[キー](/glossary/キー/)を混在させると 401 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -221,7 +221,7 @@ export function UserList() {
 
 ### 認証キーの使い分け
 
-Supabase [プロジェクト](/glossary/プロジェクト/)の Settings > [API](/glossary/api/) で複数のキーが公開されています。**anon key（匿名キー）** はブラウザやモバイルアプリなど、[クライアント](/glossary/クライアント/)側での使用を想定しています。一方、**service role key** は[バックエンド](/glossary/バックエンド/)（Node.js [サーバー](/glossary/サーバー/)、Lambda [関数](/glossary/関数/)など）での限定的な使用を前提としており、[クライアント](/glossary/クライアント/)側に露出させてはいけません。`SUPABASE_ANON_KEY` と `SUPABASE_SERVICE_ROLE_KEY` を[環境変数](/glossary/環境変数/)で厳密に分け、[クライアント](/glossary/クライアント/)側には anon key のみを渡してください。
+Supabase [プロジェクト](/glossary/プロジェクト/)の Settings > [API](/glossary/api/) で複数の[キー](/glossary/キー/)が公開されています。**anon key（匿名[キー](/glossary/キー/)）** はブラウザやモバイルアプリなど、[クライアント](/glossary/クライアント/)側での使用を想定しています。一方、**service role key** は[バックエンド](/glossary/バックエンド/)（Node.js [サーバー](/glossary/サーバー/)、Lambda [関数](/glossary/関数/)など）での限定的な使用を前提としており、[クライアント](/glossary/クライアント/)側に露出させてはいけません。`SUPABASE_ANON_KEY` と `SUPABASE_SERVICE_ROLE_KEY` を[環境変数](/glossary/環境変数/)で厳密に分け、[クライアント](/glossary/クライアント/)側には anon key のみを渡してください。
 
 ### Row Level Security（RLS）ポリシーとの相互作用
 
@@ -229,7 +229,7 @@ Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/gloss
 
 ### マルチタブ・マルチデバイスでのセッション管理
 
-Supabase の JavaScript [クライアント](/glossary/クライアント/)はブラウザの LocalStorage に[セッション](/glossary/セッション/)情報を保存します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを設定して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
+Supabase の JavaScript [クライアント](/glossary/クライアント/)はブラウザの LocalStorage に[セッション](/glossary/セッション/)情報を[保存](/glossary/保存/)します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを設定して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
 
 ## それでも解決しない場合
 
@@ -239,7 +239,7 @@ Supabase Dashboard の Authentication セクションで、「Logs」タブを�
 
 ### デバッグコマンド
 
-ブラウザの開発者[ツール](/glossary/ツール/)（DevTools）の Application タブで、Local Storage に保存された[セッション](/glossary/セッション/)情報を確認してください：
+ブラウザの開発者[ツール](/glossary/ツール/)（DevTools）の Application タブで、Local Storage に[保存](/glossary/保存/)された[セッション](/glossary/セッション/)情報を確認してください：
 
 ```javascript
 // ブラウザコンソールで実行

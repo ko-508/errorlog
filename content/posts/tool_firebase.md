@@ -21,7 +21,7 @@ Firebase は Google が提供するバックエンドプラットフォーム（
 - **認証機能**：Google、Facebook、[GitHub](/glossary/github/) など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に対応した[認証](/glossary/認証/)システムです
 - **ホスティング**：静的コンテンツと動的コンテンツの両方をホストでき、自動的に [SSL](/glossary/ssl/) で保護されます
 - **Cloud Functions**：[サーバーレス](/glossary/サーバーレス/)（[サーバー](/glossary/サーバー/)管理なし）で[関数](/glossary/関数/)を実行し、[イベント](/glossary/イベント/)駆動型（[イベント](/glossary/イベント/)をきっかけに起動）な処理を構築できます
-- **Cloud Storage**：画像やビデオなどの[ファイル](/glossary/ファイル/)を安全に保存・配信できます
+- **Cloud Storage**：画像やビデオなどの[ファイル](/glossary/ファイル/)を安全に[保存](/glossary/保存/)・配信できます
 - **Analytics と Crashlytics**：ユーザー行動の分析と[アプリケーション](/glossary/アプリケーション/)のクラッシュレポート機能があります
 - **Remote Config**：[サーバー](/glossary/サーバー/)側から[アプリケーション](/glossary/アプリケーション/)の設定を動的に変更できます
 

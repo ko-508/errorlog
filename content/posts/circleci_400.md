@@ -43,7 +43,7 @@ The following errors were found:
 
 ### 原因 1：config.yml の構文エラーまたは必須フィールドの欠落
 
-CircleCI の[設定ファイル](/glossary/設定ファイル/)が [YAML](/glossary/yaml/) として不正な構文になっているか、`version` や `jobs` などの必須[フィールド](/glossary/フィールド/)が定義されていない場合に 400 [エラー](/glossary/エラー/)が発生します。[YAML](/glossary/yaml/) のインデント不正や、必須キーの完全な欠落が典型的です。
+CircleCI の[設定ファイル](/glossary/設定ファイル/)が [YAML](/glossary/yaml/) として不正な構文になっているか、`version` や `jobs` などの必須[フィールド](/glossary/フィールド/)が定義されていない場合に 400 [エラー](/glossary/エラー/)が発生します。[YAML](/glossary/yaml/) のインデント不正や、必須[キー](/glossary/キー/)の完全な欠落が典型的です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

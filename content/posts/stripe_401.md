@@ -13,7 +13,7 @@ related_services: ["OAuth"]
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) キーまたはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、[開発環境](/glossary/開発環境/)と[本番環境](/glossary/本番環境/)を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
+Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) [キー](/glossary/キー/)またはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、[開発環境](/glossary/開発環境/)と[本番環境](/glossary/本番環境/)を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -40,9 +40,9 @@ curl https://api.stripe.com/v1/charges \
 
 ## よくある原因と解決手順
 
-**原因1：[テスト](/glossary/テスト/)[環境](/glossary/環境/)と[本番環境](/glossary/本番環境/)のキーを混同している**
+**原因1：[テスト](/glossary/テスト/)[環境](/glossary/環境/)と[本番環境](/glossary/本番環境/)の[キー](/glossary/キー/)を混同している**
 
-Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用キーと `sk_live_` で始まる本番用キーが別々に発行されます。[本番環境](/glossary/本番環境/)の[コード](/glossary/コード/)で[テスト](/glossary/テスト/)用キーを使用すると 401 [エラー](/glossary/エラー/)になります。
+Stripe では `sk_test_` で始まる[テスト](/glossary/テスト/)用[キー](/glossary/キー/)と `sk_live_` で始まる本番用[キー](/glossary/キー/)が別々に発行されます。[本番環境](/glossary/本番環境/)の[コード](/glossary/コード/)で[テスト](/glossary/テスト/)用[キー](/glossary/キー/)を使用すると 401 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```javascript
@@ -70,9 +70,9 @@ const charge = await stripe.charges.create({
 });
 ```
 
-**原因2：シークレットキーではなく公開キーを使用している**
+**原因2：シークレットキーではなく公開[キー](/glossary/キー/)を使用している**
 
-Stripe には 2 種類のキーが存在します。[サーバー](/glossary/サーバー/)側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開キー（`pk_live_` または `pk_test_`）は[クライアント](/glossary/クライアント/)側のみで使用します。
+Stripe には 2 種類の[キー](/glossary/キー/)が存在します。[サーバー](/glossary/サーバー/)側では必ずシークレットキー（`sk_live_` または `sk_test_`）を使用し、公開[キー](/glossary/キー/)（`pk_live_` または `pk_test_`）は[クライアント](/glossary/クライアント/)側のみで使用します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```python
@@ -108,9 +108,9 @@ except stripe.error.AuthenticationError as e:
     print("認証エラー:", e)
 ```
 
-**原因3：[API](/glossary/api/) キーの形式が不正またはコピー時にスペースが含まれている**
+**原因3：[API](/glossary/api/) [キー](/glossary/キー/)の形式が不正またはコピー時にスペースが含まれている**
 
-[API](/glossary/api/) キーをコピー＆ペーストする際に、誤って前後に空白文字やタブが含まれたり、キーの一部が欠落していたりすると 401 [エラー](/glossary/エラー/)になります。
+[API](/glossary/api/) [キー](/glossary/キー/)をコピー＆ペーストする際に、誤って前後に空白文字やタブが含まれたり、[キー](/glossary/キー/)の一部が欠落していたりすると 401 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```bash
@@ -171,7 +171,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 ## Stripe 固有の注意点
 
-**[API](/glossary/api/) キーの権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) キーの[権限](/glossary/権限/)を制限することができます。制限されたキーで全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) キー」セクションで、各キーの[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
+**[API](/glossary/api/) [キー](/glossary/キー/)の権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) [キー](/glossary/キー/)の[権限](/glossary/権限/)を制限することができます。制限された[キー](/glossary/キー/)で全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」セクションで、各[キー](/glossary/キー/)の[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
 **[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
@@ -183,7 +183,7 @@ curl https://api.stripe.com/v1/charges \
   -u sk_test_xxxxx:
 ```
 
-**[テスト](/glossary/テスト/)用キーの機能制限：** [テスト](/glossary/テスト/)[環境](/glossary/環境/)の[テスト](/glossary/テスト/)用キー（`sk_test_`）では、[本番環境](/glossary/本番環境/)でのみ利用可能な機能の実行が制限される場合があります。
+**[テスト](/glossary/テスト/)用[キー](/glossary/キー/)の機能制限：** [テスト](/glossary/テスト/)[環境](/glossary/環境/)の[テスト](/glossary/テスト/)用[キー](/glossary/キー/)（`sk_test_`）では、[本番環境](/glossary/本番環境/)でのみ利用可能な機能の実行が制限される場合があります。
 
 ## それでも解決しない場合
 
@@ -195,9 +195,9 @@ Node.js では以下の[コマンド](/glossary/コマンド/)で詳細な[デ�
 DEBUG=stripe:* node your_script.js
 ```
 
-**Step 2：[API](/glossary/api/) キーの妥当性を確認する**
+**Step 2：[API](/glossary/api/) [キー](/glossary/キー/)の妥当性を確認する**
 
-Stripe [ダッシュボード](/glossary/ダッシュボード/)に[ログイン](/glossary/ログイン/)し、「開発者」→「[API](/glossary/api/) キー」から実際に発行されているキーのリストを確認してください。コピー＆ペーストしたキーが有効なキーと完全一致しているか確認します。
+Stripe [ダッシュボード](/glossary/ダッシュボード/)に[ログイン](/glossary/ログイン/)し、「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」から実際に発行されている[キー](/glossary/キー/)のリストを確認してください。コピー＆ペーストした[キー](/glossary/キー/)が有効な[キー](/glossary/キー/)と完全一致しているか確認します。
 
 **Step 3：[リクエスト](/glossary/リクエスト/)の[ヘッダー](/glossary/ヘッダー/)を確認する**
 
@@ -209,7 +209,7 @@ curl -v https://api.stripe.com/v1/charges \
   -d amount=2000
 ```
 
-出力の `> Authorization` の行を確認し、キーが正しく[送信](/glossary/送信/)されているか確認します。
+出力の `> Authorization` の行を確認し、[キー](/glossary/キー/)が正しく[送信](/glossary/送信/)されているか確認します。
 
 **Step 4：公式ドキュメントと [GitHub](/glossary/github/) Issues を確認する**
 
