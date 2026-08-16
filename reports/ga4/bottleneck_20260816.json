@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-08-16",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/terraform_state_lock/",
+      "pageTitle": "Terraform の state lock エラー：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 78.0,
+      "averageSessionDuration": 1468.362583,
+      "engagementRate": 1.0,
+      "bounceRate": 0.0
+    }
+  ]
+}
