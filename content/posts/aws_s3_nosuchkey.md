@@ -139,7 +139,7 @@ aws s3api head-object --bucket my-bucket --key "uploads/user123/profile.jpg"
 
 ### 原因3：バージョニング有効なバケットで旧バージョンのオブジェクトにアクセス
 
-S3の **[バージョニング](/glossary/バージョニング/)** を有効化した[バケット](/glossary/バケット/)では、[オブジェクト](/glossary/オブジェクト/)が複数の[バージョン](/glossary/バージョン/)（VersionId）を持つことがあります。最新[バージョン](/glossary/バージョン/)が削除マーカーで標記されている場合、`VersionId` を明示せずにアクセスすると NoSuchKey [エラー](/glossary/エラー/)が発生します。また、古い[バージョン](/glossary/バージョン/)の VersionId を指定しているが、削除されている場合も同じ[エラー](/glossary/エラー/)が出ます。
+S3の **[バージョニング](/glossary/バージョニング/)** を有効化した[バケット](/glossary/バケット/)では、[オブジェクト](/glossary/オブジェクト/)が複数の[バージョン](/glossary/バージョン/)（VersionId）を持つことがあります。最新[バージョン](/glossary/バージョン/)が[削除](/glossary/削除/)マーカーで標記されている場合、`VersionId` を明示せずにアクセスすると NoSuchKey [エラー](/glossary/エラー/)が発生します。また、古い[バージョン](/glossary/バージョン/)の VersionId を指定しているが、[削除](/glossary/削除/)されている場合も同じ[エラー](/glossary/エラー/)が出ます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

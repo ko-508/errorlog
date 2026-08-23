@@ -52,7 +52,7 @@ related_services: []
 | `CreateContainerConfigError` | sandbox 後の[コンテナ](/glossary/コンテナ/)設定 | 参照している ConfigMap / Secret |
 | `CreateContainerError` | sandbox 後の[コンテナ](/glossary/コンテナ/)作成 | runtime、マウント、リソース設定 |
 | `FailedScheduling`（Pending） | ノードへの割り当て前 | スケジューラ、リソース、taint |
-| `FailedMount` | ボリュームのマウント | CSI ドライバ、PV/PVC |
+| `FailedMount` | ボリュームのマウント | CSI [ドライバ](/glossary/ドライバ/)、PV/PVC |
 | `CrashLoopBackOff` | [コンテナ](/glossary/コンテナ/)起動後 | [アプリケーション](/glossary/アプリケーション/)の[ログ](/glossary/ログ/) |
 
 この記事が扱うのは1行目、つまり「sandbox が作れない」段階に限定します。sandbox 作成後に発生する `CreateContainerError` 系や、アプリイメージの pull 失敗は範囲外です。[イベント](/glossary/イベント/)の `reason` を先に確定させてから読み進めてください。
@@ -83,7 +83,7 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 なお、同じ Pod で同種の[イベント](/glossary/イベント/)が大量に出ると、kubelet は「類似[イベント](/glossary/イベント/)をまとめた」形（発生回数付き）で1行に集約して出力します。回数と経過時間が大きい場合は、恒久的な設定不備である可能性が高くなります。
 
-[イベント](/glossary/イベント/)自体は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の設定に従って一定時間で削除されるため、古い障害を後追いする場合は[イベント](/glossary/イベント/)ではなくノードの[ログ](/glossary/ログ/)（後述）を確認してください。
+[イベント](/glossary/イベント/)自体は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の設定に従って一定時間で[削除](/glossary/削除/)されるため、古い障害を後追いする場合は[イベント](/glossary/イベント/)ではなくノードの[ログ](/glossary/ログ/)（後述）を確認してください。
 
 ## 原因と解決策
 
@@ -94,8 +94,8 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 | CNI 設定・プラグインの不整合 | CNI アドオンの Pod 状態、CNI 設定[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI 設定・バイナリの整合を回復 |
 | [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | アドオン側の IPAM 状態、Pod CIDR 設定の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
 | pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム設定の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー設定 |
-| container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の復旧、設定不整合（cgroup ドライバ等）の[修正](/glossary/修正/) |
-| ノードのディスク・inode 枯渇 | `df -h` / `df -i`、ノードの `DiskPressure` | 不要[イメージ](/glossary/イメージ/)・[ログ](/glossary/ログ/)の削除、容量拡張 |
+| container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の復旧、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
+| ノードのディスク・inode 枯渇 | `df -h` / `df -i`、ノードの `DiskPressure` | 不要[イメージ](/glossary/イメージ/)・[ログ](/glossary/ログ/)の[削除](/glossary/削除/)、容量拡張 |
 | [ネットワーク](/glossary/ネットワーク/)前提条件の欠落 | カーネルモジュールと sysctl、iptables の[バックエンド](/glossary/バックエンド/) | 公式ドキュメントの前提条件どおりに設定 |
 
 ### 原因1：CNI プラグインまたは CNI 設定の不整合
@@ -106,7 +106,7 @@ sandbox の[ネットワーク](/glossary/ネットワーク/)設定は containe
 - **アドオンの DaemonSet が該当ノードで動いていない**：ノード追加直後、taint、[イメージ](/glossary/イメージ/)取得失敗などでアドオンの Pod が起動せず、そのノードだけ CNI 設定が配置されないケースです。
 - **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：設定[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧アドオンの設定が残っていると意図しないプラグインが使われます。アドオンを入れ替えた際に起きやすい失敗です。
 - **CNI プラグインのバイナリが無い、実行できない**：ノードの初期化方法を変えた、[イメージ](/glossary/イメージ/)を作り直した、ディスクを入れ替えたといった変更の直後に起きます。
-- **[IP アドレス](/glossary/ip-アドレス/)の枯渇や IPAM 情報の不整合**：ノードに割り当てられた Pod 用アドレス範囲を使い切ると、新しい sandbox に IP を割り当てられません。削除しきれなかった sandbox が IP を保持し続けている場合もあります。
+- **[IP アドレス](/glossary/ip-アドレス/)の枯渇や IPAM 情報の不整合**：ノードに割り当てられた Pod 用アドレス範囲を使い切ると、新しい sandbox に IP を割り当てられません。[削除](/glossary/削除/)しきれなかった sandbox が IP を保持し続けている場合もあります。
 
 **対処の流れ**
 
@@ -132,7 +132,7 @@ container runtime は sandbox [コンテナ](/glossary/コンテナ/)を起動�
 - **エアギャップ[環境](/glossary/環境/)・制限された[ネットワーク](/glossary/ネットワーク/)で pause image を取得できない**：ノードから公開[レジストリ](/glossary/レジストリ/)へ到達できない、[プロキシ](/glossary/プロキシ/)設定が runtime に反映されていない、[DNS](/glossary/dns/) が引けない、といった状況です。
 - **ランタイム設定の sandbox image 指定が誤っている**：存在しない[タグ](/glossary/タグ/)、到達できないミラー、アーキテクチャの異なる[イメージ](/glossary/イメージ/)を指定している場合です。
 - **[プライベートレジストリ](/glossary/プライベートレジストリ/)の[認証](/glossary/認証/)**：sandbox image の取得は container runtime 自身の設定と認証情報で行われるため、Pod の `imagePullSecrets` を追加しても解決しない場合があります。ランタイム側の[レジストリ](/glossary/レジストリ/)認証設定を公式ドキュメントで確認してください。
-- **container runtime 本体の異常**：プロセスが停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup ドライバの設定が kubelet と食い違っている、といった状態です。
+- **container runtime 本体の異常**：プロセスが停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup [ドライバ](/glossary/ドライバ/)の設定が kubelet と食い違っている、といった状態です。
 
 **確認方法**
 
@@ -155,7 +155,7 @@ sudo containerd config dump | grep -i -E 'sandbox|pause|pinned'
 sudo crictl pull <your-sandbox-image>
 ```
 
-`crictl pull` が失敗するなら、原因は[レジストリ](/glossary/レジストリ/)疎通か[認証](/glossary/認証/)か[設定値](/glossary/設定値/)です。成功するのに sandbox が作れないなら、CNI（原因1）かノード状態（原因3）を疑います。cgroup ドライバやランタイムの前提設定については、[Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に記載された手順を基準にしてください。
+`crictl pull` が失敗するなら、原因は[レジストリ](/glossary/レジストリ/)疎通か[認証](/glossary/認証/)か[設定値](/glossary/設定値/)です。成功するのに sandbox が作れないなら、CNI（原因1）かノード状態（原因3）を疑います。cgroup [ドライバ](/glossary/ドライバ/)やランタイムの前提設定については、[Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に記載された手順を基準にしてください。
 
 ### 原因3：ノード側の状態（ディスク・iptables・sysctl・カーネル）
 
@@ -186,7 +186,7 @@ iptables -V
 sudo dmesg -T | tail -50
 ```
 
-不要[イメージ](/glossary/イメージ/)の整理など、削除を伴う対処を行うときは、先に対象ノードを `kubectl cordon`（必要に応じて `kubectl drain`）して影響範囲を限定してください。`iptables -F` の実行やランタイムのデータディレクトリの削除は、クラスタ全体の通信断や復旧困難な状態を招く可能性があるため、主たる解決策としては採りません。
+不要[イメージ](/glossary/イメージ/)の整理など、[削除](/glossary/削除/)を伴う対処を行うときは、先に対象ノードを `kubectl cordon`（必要に応じて `kubectl drain`）して影響範囲を限定してください。`iptables -F` の実行やランタイムのデータディレクトリの[削除](/glossary/削除/)は、クラスタ全体の通信断や復旧困難な状態を招く可能性があるため、主たる解決策としては採りません。
 
 ## 確認・切り分け手順
 

@@ -43,7 +43,7 @@ fatal: Authentication failed for 'https://gitlab.example.com/group/project.git/'
 
 ### 原因1：パーソナルアクセストークン（PAT）が無効または期限切れになっている
 
-GitLab のパーソナルアクセストークンには有効期限が設定でき、期限を過ぎた[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。また、[トークン](/glossary/トークン/)を無効化した場合や、[ユーザーアカウント](/glossary/ユーザーアカウント/)設定で特定の[スコープ](/glossary/スコープ/)を失った場合も[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインやスクリプトで長期間使用する[トークン](/glossary/トークン/)は、期限切れに気づきにくいため注意が必要です。
+GitLab のパーソナルアクセストークンには有効期限が設定でき、期限を過ぎた[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。また、[トークン](/glossary/トークン/)を無効化した場合や、[ユーザーアカウント](/glossary/ユーザーアカウント/)設定で特定の[スコープ](/glossary/スコープ/)を失った場合も[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインや[スクリプト](/glossary/スクリプト/)で長期間使用する[トークン](/glossary/トークン/)は、期限切れに気づきにくいため注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -169,7 +169,7 @@ self-hosted GitLab の場合、[サーバー](/glossary/サーバー/)の `/var/
 sudo tail -f /var/log/gitlab/gitlab-rails/production.log | grep 401
 ```
 
-**[トークン](/glossary/トークン/)の有効性をスクリプトで検証：**
+**[トークン](/glossary/トークン/)の有効性を[スクリプト](/glossary/スクリプト/)で検証：**
 
 以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効か即座に確認できます。
 

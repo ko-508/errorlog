@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（[本番環境](/glossary/本番環境/)）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が削除されていたり、ルーティング設定の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
+Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（[本番環境](/glossary/本番環境/)）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が[削除](/glossary/削除/)されていたり、ルーティング設定の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ Error: Deployment not found. The deployment <deployment-id> does not exist or ha
 
 ### 原因1：デプロイメント URL が古いか誤っている
 
-Vercel で[プロジェクト](/glossary/プロジェクト/)を更新・再[デプロイ](/glossary/デプロイ/)したり、[本番環境](/glossary/本番環境/)の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。ブラウザのブックマークやスクリプトに古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
+Vercel で[プロジェクト](/glossary/プロジェクト/)を更新・再[デプロイ](/glossary/デプロイ/)したり、[本番環境](/glossary/本番環境/)の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。ブラウザのブックマークや[スクリプト](/glossary/スクリプト/)に古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -86,7 +86,7 @@ Vercel Dashboard の「Deployments」タブを開き、最新のデプロイメ�
 
 ### 原因2：削除されたデプロイメントにアクセスしている
 
-Vercel では、古いデプロイメントは一定期間後に自動削除されたり、ユーザーが手動で削除したりします。削除済みのデプロイメント [ID](/glossary/id/) を直接指定してアクセスすると、404 [エラー](/glossary/エラー/)が返されます。
+Vercel では、古いデプロイメントは一定期間後に自動削除されたり、ユーザーが手動で[削除](/glossary/削除/)したりします。削除済みのデプロイメント [ID](/glossary/id/) を直接指定してアクセスすると、404 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -153,7 +153,7 @@ vercel.json でルーティング設定を誤ると、存在する[ファイル]
 
 **Production デプロイメント vs Preview デプロイメント：**
 
-Vercel では、メインブランチへの[プッシュ](/glossary/プッシュ/)で Production デプロイメントが生成され、プルリクエストごとに Preview デプロイメントが作成されます。Preview [URL](/glossary/url/) は PR が閉じられると削除されるため、古い PR の [URL](/glossary/url/) にアクセスすると 404 になります。[本番環境](/glossary/本番環境/)には必ず Production [URL](/glossary/url/) を使用してください。
+Vercel では、メインブランチへの[プッシュ](/glossary/プッシュ/)で Production デプロイメントが生成され、プルリクエストごとに Preview デプロイメントが作成されます。Preview [URL](/glossary/url/) は PR が閉じられると[削除](/glossary/削除/)されるため、古い PR の [URL](/glossary/url/) にアクセスすると 404 になります。[本番環境](/glossary/本番環境/)には必ず Production [URL](/glossary/url/) を使用してください。
 
 **[環境変数](/glossary/環境変数/)と動的 [URL](/glossary/url/) の扱い：**
 

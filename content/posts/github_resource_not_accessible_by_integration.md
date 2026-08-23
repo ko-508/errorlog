@@ -22,7 +22,7 @@ RequestError [HttpError]: Resource not accessible by integration
 status: 403
 ```
 
-同じ[リポジトリ](/glossary/リポジトリ/)で、`push` や組織内部からの実行が起点なら、解決は失敗した操作に対応する [`permissions`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions) をワークフローへ追加することです。
+同じ[リポジトリ](/glossary/リポジトリ/)で、`push` や組織内部からの実行が起点なら、解決は失敗した操作に対応する [`permissions`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions) を[ワークフロー](/glossary/ワークフロー/)へ追加することです。
 
 たとえば、[コード](/glossary/コード/)を読み、IssueとPull Requestへ書き込むジョブなら次のようにします。
 
@@ -47,7 +47,7 @@ commit statusを書く              → statuses: write
 OIDCトークンを発行する            → id-token: write
 ```
 
-ただし、`permissions` を書けば必ず直るわけではありません。次の実行では、ワークフロー側から書き込み[権限](/glossary/権限/)へ引き上げられないことがあります。
+ただし、`permissions` を書けば必ず直るわけではありません。次の実行では、[ワークフロー](/glossary/ワークフロー/)側から書き込み[権限](/glossary/権限/)へ引き上げられないことがあります。
 
 ```text
 外部フォークからのpull_request
@@ -68,7 +68,7 @@ GITHUB_TOKENの対象外である別リポジトリや組織資源への操作
 
 ## エラーの概要
 
-[GitHub](/glossary/github/) Actionsは各ジョブの開始時に、そのジョブ専用の `GITHUB_TOKEN` を作ります。[GitHub公式の説明](https://docs.github.com/en/actions/concepts/security/github_token)では、この[トークン](/glossary/トークン/)はワークフローを含む[リポジトリ](/glossary/リポジトリ/)へインストールされた[GitHub](/glossary/github/) Appのインストールアクセストークンで、ジョブが終わると失効します。
+[GitHub](/glossary/github/) Actionsは各ジョブの開始時に、そのジョブ専用の `GITHUB_TOKEN` を作ります。[GitHub公式の説明](https://docs.github.com/en/actions/concepts/security/github_token)では、この[トークン](/glossary/トークン/)は[ワークフロー](/glossary/ワークフロー/)を含む[リポジトリ](/glossary/リポジトリ/)へインストールされた[GitHub](/glossary/github/) Appのインストールアクセストークンで、ジョブが終わると失効します。
 
 つまり、[エラー](/glossary/エラー/)中の `integration` は、通常は操作に使った[GitHub](/glossary/github/) App、[GitHub](/glossary/github/) Actionsでは `GITHUB_TOKEN` の発行元を指します。[リポジトリ](/glossary/リポジトリ/)やIssueが存在しないという意味ではありません。
 
@@ -84,9 +84,9 @@ env:
   GH_TOKEN: ${{ github.token }}
 ```
 
-[アクション](/glossary/アクション/)によっては、入力として明示していなくても `github.token` を利用できます。そのため、外部[アクション](/glossary/アクション/)を使う場合も、ワークフローの `permissions` は必要最小限にします。
+[アクション](/glossary/アクション/)によっては、入力として明示していなくても `github.token` を利用できます。そのため、外部[アクション](/glossary/アクション/)を使う場合も、[ワークフロー](/glossary/ワークフロー/)の `permissions` は必要最小限にします。
 
-[権限](/glossary/権限/)はワークフロー全体またはジョブごとに指定できます。
+[権限](/glossary/権限/)は[ワークフロー](/glossary/ワークフロー/)全体またはジョブごとに指定できます。
 
 ```yaml
 permissions:
@@ -99,7 +99,7 @@ jobs:
       pull-requests: write
 ```
 
-ジョブ側の指定は、そのジョブで実行する[アクション](/glossary/アクション/)と[コマンド](/glossary/コマンド/)へ適用されます。ワークフロー上部で書き込みを許可していても、ジョブ側で狭めれば、そのジョブは狭めた[権限](/glossary/権限/)で動きます。
+ジョブ側の指定は、そのジョブで実行する[アクション](/glossary/アクション/)と[コマンド](/glossary/コマンド/)へ適用されます。[ワークフロー](/glossary/ワークフロー/)上部で書き込みを許可していても、ジョブ側で狭めれば、そのジョブは狭めた[権限](/glossary/権限/)で動きます。
 
 また、`permissions` に1つでも項目を書くと、列挙しなかった項目は `none` になります。
 
@@ -149,9 +149,9 @@ X-Accepted-GitHub-Permissions: pull_requests=write, contents=read
 
 `pull_request` なら、Pull Requestが同じ[リポジトリ](/glossary/リポジトリ/)内の[ブランチ](/glossary/ブランチ/)から来たのか、外部フォークから来たのかを確認します。`github.actor` が `dependabot[bot]` なら、通常の利用者によるPull Requestとは権限条件が異なります。
 
-第三に、[API](/glossary/api/)が操作しようとしている対象を確認します。`GITHUB_TOKEN` の[権限](/glossary/権限/)は、ワークフローを含む現在の[リポジトリ](/glossary/リポジトリ/)に限定されています。`github.repository` と[API](/glossary/api/)の `OWNER/REPO` が違う場合、現在のワークフローへ[権限](/glossary/権限/)を追加するだけでは解決しません。
+第三に、[API](/glossary/api/)が操作しようとしている対象を確認します。`GITHUB_TOKEN` の[権限](/glossary/権限/)は、[ワークフロー](/glossary/ワークフロー/)を含む現在の[リポジトリ](/glossary/リポジトリ/)に限定されています。`github.repository` と[API](/glossary/api/)の `OWNER/REPO` が違う場合、現在の[ワークフロー](/glossary/ワークフロー/)へ[権限](/glossary/権限/)を追加するだけでは解決しません。
 
-最後に、ワークフロー上部、失敗したジョブ、再利用ワークフローの呼び出し元にある `permissions` をすべて確認します。
+最後に、[ワークフロー](/glossary/ワークフロー/)上部、失敗したジョブ、再利用[ワークフロー](/glossary/ワークフロー/)の呼び出し元にある `permissions` をすべて確認します。
 
 ```bash
 rg -n 'permissions:|workflow_call|pull_request_target|pull_request:' .github/workflows
@@ -213,11 +213,11 @@ permissions:
   issues: write
 ```
 
-`write-all` を付けると表面上は直ることがありますが、どの外部[アクション](/glossary/アクション/)やスクリプトにも不要な書き込み[権限](/glossary/権限/)が渡ります。切り分け中に広い[権限](/glossary/権限/)を試した場合も、最終的には[ログ](/glossary/ログ/)と[API](/glossary/api/)資料を基に必要な項目へ戻します。
+`write-all` を付けると表面上は直ることがありますが、どの外部[アクション](/glossary/アクション/)や[スクリプト](/glossary/スクリプト/)にも不要な書き込み[権限](/glossary/権限/)が渡ります。切り分け中に広い[権限](/glossary/権限/)を試した場合も、最終的には[ログ](/glossary/ログ/)と[API](/glossary/api/)資料を基に必要な項目へ戻します。
 
 ### 原因3：ジョブ側または再利用ワークフローの呼び出し元で権限を狭めている
 
-ワークフロー上部の指定だけを見ても、実際のジョブ[権限](/glossary/権限/)は確定しません。
+[ワークフロー](/glossary/ワークフロー/)上部の指定だけを見ても、実際のジョブ[権限](/glossary/権限/)は確定しません。
 
 ```yaml
 permissions:
@@ -240,7 +240,7 @@ jobs:
       pull-requests: write
 ```
 
-再利用ワークフローでも、呼び出された側が[権限](/glossary/権限/)を引き上げることはできません。[再利用ワークフローの公式資料](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#supported-keywords-for-jobs-that-call-a-reusable-workflow)では、呼び出しの連鎖で[権限](/glossary/権限/)を維持または引き下げることはできても、引き上げられないと説明されています。
+再利用[ワークフロー](/glossary/ワークフロー/)でも、呼び出された側が[権限](/glossary/権限/)を引き上げることはできません。[再利用ワークフローの公式資料](https://docs.github.com/en/actions/reference/workflows-and-actions/reusing-workflow-configurations#supported-keywords-for-jobs-that-call-a-reusable-workflow)では、呼び出しの連鎖で[権限](/glossary/権限/)を維持または引き下げることはできても、引き上げられないと説明されています。
 
 呼び出し元のジョブで必要な[権限](/glossary/権限/)を与えます。
 
@@ -257,7 +257,7 @@ jobs:
 
 [リポジトリ](/glossary/リポジトリ/)の `Settings` → `Actions` → `General` → `Workflow permissions` では、`GITHUB_TOKEN` の既定権限を設定できます。[GitHub公式の設定手順](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)によれば、組織やEnterpriseの設定を継承していると、[リポジトリ](/glossary/リポジトリ/)側で広い既定値を選べない場合があります。
 
-既定値が読み取り専用でも、信頼された通常実行なら、ワークフローへ必要な[権限](/glossary/権限/)を明示して解決できます。
+既定値が読み取り専用でも、信頼された通常実行なら、[ワークフロー](/glossary/ワークフロー/)へ必要な[権限](/glossary/権限/)を明示して解決できます。
 
 ```yaml
 permissions:
@@ -269,7 +269,7 @@ permissions:
 
 ### 原因5：外部フォークからのpull_requestで書き込みを要求している
 
-公開[リポジトリ](/glossary/リポジトリ/)の外部フォークから実行される `pull_request` では、`GITHUB_TOKEN` は読み取り専用です。ワークフローに `write` を書いても、フォーク側の[コード](/glossary/コード/)を起点に書き込み[権限](/glossary/権限/)へ引き上げることはできません。
+公開[リポジトリ](/glossary/リポジトリ/)の外部フォークから実行される `pull_request` では、`GITHUB_TOKEN` は読み取り専用です。[ワークフロー](/glossary/ワークフロー/)に `write` を書いても、フォーク側の[コード](/glossary/コード/)を起点に書き込み[権限](/glossary/権限/)へ引き上げることはできません。
 
 ```yaml
 on:
@@ -320,13 +320,13 @@ Dependabotが作成したPull Requestは、[GitHub](/glossary/github/) Actions�
 if: github.actor != 'dependabot[bot]'
 ```
 
-単に書き込み処理を除外できるなら、上のようにDependabot実行ではそのジョブを動かさない方法があります。必要な処理なら、信頼された後続ワークフローへ分離します。
+単に書き込み処理を除外できるなら、上のようにDependabot実行ではそのジョブを動かさない方法があります。必要な処理なら、信頼された後続[ワークフロー](/glossary/ワークフロー/)へ分離します。
 
 コードスキャン結果の[送信](/glossary/送信/)には、公式に個別の扱いがあります。[Dependabotでのコードスキャン403の資料](https://docs.github.com/en/code-security/reference/code-scanning/troubleshoot-analysis-errors/resource-not-accessible)は、Dependabot[ブランチ](/glossary/ブランチ/)への `push` を起点に[アップロード](/glossary/アップロード/)せず、`pull_request` [イベント](/glossary/イベント/)から解析結果を[アップロード](/glossary/アップロード/)する構成を案内しています。これはコードスキャン[API](/glossary/api/)の例外を利用する対処であり、一般のIssueやPull Request書き込みを許可する方法ではありません。
 
 ### 原因7：別のリポジトリまたは組織の資源を操作している
 
-`GITHUB_TOKEN` は、ワークフローが置かれた現在の[リポジトリ](/glossary/リポジトリ/)に限定されます。
+`GITHUB_TOKEN` は、[ワークフロー](/glossary/ワークフロー/)が置かれた現在の[リポジトリ](/glossary/リポジトリ/)に限定されます。
 
 ```text
 実行元: OWNER/app
@@ -404,7 +404,7 @@ x-ratelimit-remaining: 0
 
 ### GITHUB_TOKENで行った操作から次のワークフローが起動しない
 
-`GITHUB_TOKEN` を使った操作は、無限再帰を防ぐため、原則として新しいワークフロー実行を起こしません。これは[API](/glossary/api/)が403を返す権限不足とは別です。`workflow_dispatch` と `repository_dispatch` は例外です。また、Pull Requestの作成・更新による `opened`、`synchronize`、`reopened` も、承認待ちの状態で実行を作る場合があります。書き込み自体は成功するのに後続ワークフローだけが始まらない場合は、現在の[イベント](/glossary/イベント/)発生規則を確認します。
+`GITHUB_TOKEN` を使った操作は、無限再帰を防ぐため、原則として新しい[ワークフロー](/glossary/ワークフロー/)実行を起こしません。これは[API](/glossary/api/)が403を返す権限不足とは別です。`workflow_dispatch` と `repository_dispatch` は例外です。また、Pull Requestの作成・更新による `opened`、`synchronize`、`reopened` も、承認待ちの状態で実行を作る場合があります。書き込み自体は成功するのに後続[ワークフロー](/glossary/ワークフロー/)だけが始まらない場合は、現在の[イベント](/glossary/イベント/)発生規則を確認します。
 
 ### ブランチ保護またはルールセットによる拒否
 
@@ -416,16 +416,16 @@ x-ratelimit-remaining: 0
 2. [API](/glossary/api/)資料または `X-Accepted-GitHub-Permissions` で必要な[権限](/glossary/権限/)を確認する。
 3. `GITHUB_EVENT_NAME`、`GITHUB_ACTOR`、`GITHUB_REPOSITORY` を確認する。
 4. 操作先が現在の[リポジトリ](/glossary/リポジトリ/)か、別[リポジトリ](/glossary/リポジトリ/)・組織かを確認する。
-5. ワークフロー上部と失敗したジョブの `permissions` を確認する。
+5. [ワークフロー](/glossary/ワークフロー/)上部と失敗したジョブの `permissions` を確認する。
 6. `permissions` に列挙しなかった必要なread[権限](/glossary/権限/)が `none` になっていないか確認する。
-7. 再利用ワークフローなら、呼び出し元ジョブが必要な[権限](/glossary/権限/)を渡しているか確認する。
+7. 再利用[ワークフロー](/glossary/ワークフロー/)なら、呼び出し元ジョブが必要な[権限](/glossary/権限/)を渡しているか確認する。
 8. 外部フォークまたはDependabotなら、書き込み[権限](/glossary/権限/)を追加できるという前提を外す。
 9. 別[リポジトリ](/glossary/リポジトリ/)または対象外の[権限](/glossary/権限/)なら、対象へインストールした[GitHub](/glossary/github/) Appを使う。
 10. `pull_request_target` を使う場合は、Pull Request側の[コード](/glossary/コード/)を実行しない構成か確認する。
 
 ## 確認コマンド集
 
-ワークフローとジョブに書かれた[権限](/glossary/権限/)を探します。
+[ワークフロー](/glossary/ワークフロー/)とジョブに書かれた[権限](/glossary/権限/)を探します。
 
 ```bash
 rg -n 'permissions:|workflow_call|pull_request_target|pull_request:' .github/workflows
@@ -455,7 +455,7 @@ gh api --include "repos/$GITHUB_REPOSITORY"
 
 ただし、GETが成功しても書き込み[権限](/glossary/権限/)があるとは限りません。403になった実際の[エンドポイント](/glossary/エンドポイント/)の資料と応答を確認します。確認のためだけにIssueやコメントを作成するなど、状態を変更する[API](/glossary/api/)を実行しないでください。
 
-ワークフローで `gh` を使う場合は、[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)へ渡します。
+[ワークフロー](/glossary/ワークフロー/)で `gh` を使う場合は、[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)へ渡します。
 
 ```yaml
 - name: Read repository
@@ -475,11 +475,11 @@ echo "$GH_TOKEN"
 
 この[エラー](/glossary/エラー/)を「`permissions: write-all` を足せば直る」と覚えると、外部フォークで誤診します。
 
-[GitHub CLIのIssue #10464](https://github.com/cli/cli/issues/10464)では、Pull Requestへコメントするワークフローが、個人フォークでは動くのに、上流の公開組織[リポジトリ](/glossary/リポジトリ/)では `403 Resource not accessible by integration` になりました。原因は、外部フォークからの `pull_request` に書き込み可能な `GITHUB_TOKEN` が渡らないことでした。`permissions` の不足という同じ文言でも、[YAML](/glossary/yaml/)で引き上げられる不足ではありません。
+[GitHub CLIのIssue #10464](https://github.com/cli/cli/issues/10464)では、Pull Requestへコメントする[ワークフロー](/glossary/ワークフロー/)が、個人フォークでは動くのに、上流の公開組織[リポジトリ](/glossary/リポジトリ/)では `403 Resource not accessible by integration` になりました。原因は、外部フォークからの `pull_request` に書き込み可能な `GITHUB_TOKEN` が渡らないことでした。`permissions` の不足という同じ文言でも、[YAML](/glossary/yaml/)で引き上げられる不足ではありません。
 
-その事例では `pull_request_target` へ変更した後も、変更したワークフロー自体が上流の既定[ブランチ](/glossary/ブランチ/)へ入るまでは期待どおり起動しませんでした。`pull_request_target` は基準[リポジトリ](/glossary/リポジトリ/)側のワークフローを使うためです。そして、起動できたことと安全であることは別です。Pull Request側のheadをcheckoutして実行すれば、書き込み[権限](/glossary/権限/)やシークレットを攻撃者の[コード](/glossary/コード/)へ渡し得ます。
+その事例では `pull_request_target` へ変更した後も、変更した[ワークフロー](/glossary/ワークフロー/)自体が上流の既定[ブランチ](/glossary/ブランチ/)へ入るまでは期待どおり起動しませんでした。`pull_request_target` は基準[リポジトリ](/glossary/リポジトリ/)側の[ワークフロー](/glossary/ワークフロー/)を使うためです。そして、起動できたことと安全であることは別です。Pull Request側のheadをcheckoutして実行すれば、書き込み[権限](/glossary/権限/)やシークレットを攻撃者の[コード](/glossary/コード/)へ渡し得ます。
 
-一方、[CodeQLのIssue #8843](https://github.com/github/codeql/issues/8843)では、読み取り専用の既定権限へ変えた後にコードスキャン結果の[アップロード](/glossary/アップロード/)が403となり、ワークフローへ `actions: read`、`contents: read`、`security-events: write` を明示することで解決しています。こちらは操作と[権限](/glossary/権限/)が1対1で対応する通常の不足です。
+一方、[CodeQLのIssue #8843](https://github.com/github/codeql/issues/8843)では、読み取り専用の既定権限へ変えた後にコードスキャン結果の[アップロード](/glossary/アップロード/)が403となり、[ワークフロー](/glossary/ワークフロー/)へ `actions: read`、`contents: read`、`security-events: write` を明示することで解決しています。こちらは操作と[権限](/glossary/権限/)が1対1で対応する通常の不足です。
 
 また、[GitHub](/glossary/github/)は[2021年4月に `permissions` キーを追加](https://github.blog/changelog/2021-04-20-github-actions-control-permissions-for-github_token/)し、列挙しなかった[権限](/glossary/権限/)を `none` とする仕組みを導入しました。さらに[2023年2月には、新しく作成される組織や個人アカウントのリポジトリで、`GITHUB_TOKEN` の既定値を読み取り専用へ変更](https://github.blog/changelog/2023-02-02-github-actions-updating-the-default-github_token-permissions-to-read-only/)しました。古い[リポジトリ](/glossary/リポジトリ/)では動くのに新しい[リポジトリ](/glossary/リポジトリ/)では403になる差は、この既定値から生じることがあります。
 

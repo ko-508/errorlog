@@ -199,7 +199,7 @@ done
 
 **[API](/glossary/api/)呼び出し時の 503 [エラー](/glossary/エラー/)対応:**
 
-CircleCI [API](/glossary/api/)を直接呼び出す場合（[CI/CD](/glossary/ci-cd/)パイプラインからの[トリガー](/glossary/トリガー/)など）、503 [エラー](/glossary/エラー/)に対応するリトライロジックを実装することが推奨されます。CircleCI公式[SDK](/glossary/sdk/)やライブラリを使用している場合は、自動[リトライ](/glossary/リトライ/)機能が組み込まれている可能性があるため、ドキュメントを確認してください。
+CircleCI [API](/glossary/api/)を直接呼び出す場合（[CI/CD](/glossary/ci-cd/)パイプラインからの[トリガー](/glossary/トリガー/)など）、503 [エラー](/glossary/エラー/)に対応するリトライロジックを実装することが推奨されます。CircleCI公式[SDK](/glossary/sdk/)や[ライブラリ](/glossary/ライブラリ/)を使用している場合は、自動[リトライ](/glossary/リトライ/)機能が組み込まれている可能性があるため、ドキュメントを確認してください。
 
 ```bash
 # CircleCI CLIから直接実行する場合

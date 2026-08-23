@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-GitLabの404[エラー](/glossary/エラー/)は、指定した[プロジェクト](/glossary/プロジェクト/)・マージリクエスト・[ファイル](/glossary/ファイル/)などのリソースが見つからないことを意味します。[API](/glossary/api/)呼び出しやWebUIでのアクセス時に発生し、[プロジェクト](/glossary/プロジェクト/)の存在確認、[アクセス権限](/glossary/アクセス権限/)、リソースパスの誤入力などが主な原因です。[プロジェクト](/glossary/プロジェクト/)が削除された、[URL](/glossary/url/)エンコーディングが正しくない、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が不足している場合にも表示されます。
+GitLabの404[エラー](/glossary/エラー/)は、指定した[プロジェクト](/glossary/プロジェクト/)・マージリクエスト・[ファイル](/glossary/ファイル/)などのリソースが見つからないことを意味します。[API](/glossary/api/)呼び出しやWebUIでのアクセス時に発生し、[プロジェクト](/glossary/プロジェクト/)の存在確認、[アクセス権限](/glossary/アクセス権限/)、リソースパスの誤入力などが主な原因です。[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された、[URL](/glossary/url/)エンコーディングが正しくない、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が不足している場合にも表示されます。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ $ curl -H "PRIVATE-TOKEN: <your-token>" "https://gitlab.com/api/v4/projects/wron
 The page you're looking for could not be found.
 ```
 
-**Python requests ライブラリでの[エラー](/glossary/エラー/)：**
+**Python requests [ライブラリ](/glossary/ライブラリ/)での[エラー](/glossary/エラー/)：**
 
 ```python
 import requests
@@ -125,7 +125,7 @@ elif response.status_code == 200:
 
 ### 原因3：プロジェクトが削除された、または名前空間が変更された
 
-[プロジェクト](/glossary/プロジェクト/)が削除された場合、その[URL](/glossary/url/)にアクセスすると404が返されます。また、グループやユーザーの名前空間が変更された場合、古い[パス](/glossary/パス/)でのアクセスも404になります。[プロジェクト](/glossary/プロジェクト/)が転送（移動）された場合、古い[URL](/glossary/url/)から新しい[URL](/glossary/url/)へのリダイレクトが設定されていないと404が表示されます。
+[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された場合、その[URL](/glossary/url/)にアクセスすると404が返されます。また、グループやユーザーの名前空間が変更された場合、古い[パス](/glossary/パス/)でのアクセスも404になります。[プロジェクト](/glossary/プロジェクト/)が転送（移動）された場合、古い[URL](/glossary/url/)から新しい[URL](/glossary/url/)へのリダイレクトが設定されていないと404が表示されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -151,7 +151,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 ### 原因4：マージリクエストやイシューのIDが存在しない
 
-[プロジェクト](/glossary/プロジェクト/)内の特定マージリクエスト、イシュー、パイプラインなどの[ID](/glossary/id/)が存在しない場合、404が返されます。[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)は正しいがリソース[ID](/glossary/id/)が誤っている、または削除されている状況です。
+[プロジェクト](/glossary/プロジェクト/)内の特定マージリクエスト、イシュー、パイプラインなどの[ID](/glossary/id/)が存在しない場合、404が返されます。[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)は正しいがリソース[ID](/glossary/id/)が誤っている、または[削除](/glossary/削除/)されている状況です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -177,7 +177,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 ### 原因5：ファイルパスが間違っている、またはブランチが削除されている
 
-[リポジトリ](/glossary/リポジトリ/)内の[ファイル](/glossary/ファイル/)にアクセスする際、ファイルパスや[ブランチ](/glossary/ブランチ/)名が誤っている場合に404が返されます。特定[ブランチ](/glossary/ブランチ/)が削除されている、[ファイル](/glossary/ファイル/)が移動された、[パス](/glossary/パス/)の大文字小文字が一致していない場合も対象です。
+[リポジトリ](/glossary/リポジトリ/)内の[ファイル](/glossary/ファイル/)にアクセスする際、ファイルパスや[ブランチ](/glossary/ブランチ/)名が誤っている場合に404が返されます。特定[ブランチ](/glossary/ブランチ/)が[削除](/glossary/削除/)されている、[ファイル](/glossary/ファイル/)が移動された、[パス](/glossary/パス/)の大文字小文字が一致していない場合も対象です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -41,7 +41,7 @@ Failed to authenticate with CircleCI. Please check your CIRCLE_TOKEN environment
 
 ### 原因1：APIトークンが無効または削除されている
 
-CircleCI のシステム側で[トークン](/glossary/トークン/)が無効化・削除された、または生成元の[ユーザーアカウント](/glossary/ユーザーアカウント/)が削除された場合、それ以降その[トークン](/glossary/トークン/)はすべての[リクエスト](/glossary/リクエスト/)で 401 を返します。[トークン](/glossary/トークン/)の有効性は CircleCI [ダッシュボード](/glossary/ダッシュボード/)で確認できますが、削除された[トークン](/glossary/トークン/)は履歴にも表示されなくなるため、新たに生成する必要があります。
+CircleCI のシステム側で[トークン](/glossary/トークン/)が無効化・[削除](/glossary/削除/)された、または生成元の[ユーザーアカウント](/glossary/ユーザーアカウント/)が[削除](/glossary/削除/)された場合、それ以降その[トークン](/glossary/トークン/)はすべての[リクエスト](/glossary/リクエスト/)で 401 を返します。[トークン](/glossary/トークン/)の有効性は CircleCI [ダッシュボード](/glossary/ダッシュボード/)で確認できますが、[削除](/glossary/削除/)された[トークン](/glossary/トークン/)は履歴にも表示されなくなるため、新たに生成する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -139,7 +139,7 @@ jobs:
 
 ### 原因3：Personal Access Token と Project Token を使い分けていない
 
-CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token は[プロジェクト](/glossary/プロジェクト/)固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。[プロジェクト](/glossary/プロジェクト/)のワークフローから[プロジェクト](/glossary/プロジェクト/)特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
+CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token は[プロジェクト](/glossary/プロジェクト/)固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。[プロジェクト](/glossary/プロジェクト/)の[ワークフロー](/glossary/ワークフロー/)から[プロジェクト](/glossary/プロジェクト/)特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

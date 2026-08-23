@@ -68,7 +68,7 @@ terraform providers lock \
   → terraform providers lock -platform=<OS_CPU>
 ```
 
-`.terraform.lock.hcl` を消せば通ることはあります。しかし、それは固定していた版と検査値を捨てて選び直す操作です。原因を確認せず削除するのではなく、設定変更と実行環境のどちらが不一致なのかを先に確定します。
+`.terraform.lock.hcl` を消せば通ることはあります。しかし、それは固定していた版と検査値を捨てて選び直す操作です。原因を確認せず[削除](/glossary/削除/)するのではなく、設定変更と実行環境のどちらが不一致なのかを先に確定します。
 
 ## エラーの概要
 
@@ -480,7 +480,7 @@ CIで `terraform init -upgrade` を毎回実行すると、設定条件内で公
 7. `.terraform.lock.hcl` の差分と署名者を確認し、設定変更と一緒に版管理へ入れる。
 8. CIでは `terraform init -lockfile=readonly` を使い、未登録の変更を検出する。
 9. [保存](/glossary/保存/)したplanが古い場合は、更新後の同じ設定と依存関係から作り直す。
-10. `.terraform.lock.hcl` の削除や検査の無効化は、原因を隠すための手段として使わない。
+10. `.terraform.lock.hcl` の[削除](/glossary/削除/)や検査の無効化は、原因を隠すための手段として使わない。
 
 ## 確認コマンド集
 

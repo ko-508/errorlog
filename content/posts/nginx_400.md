@@ -38,7 +38,7 @@ Nginx のアクセスログに記録される 400 [エラー](/glossary/エラ�
 **なぜ発生するか**  
 Nginx は `large_client_header_buffers` で設定されたサイズ制限を超える[ヘッダー](/glossary/ヘッダー/)を受け取ると、400 [エラー](/glossary/エラー/)を返します。これは[メモリ](/glossary/メモリ/)消費やバッファオーバーフロー攻撃を防ぐための保護機構です。特に Cookie やカスタムヘッダーが多い場合に発生しやすくなります。
 
-**Before（デフォルト設定での問題）**
+**Before（[デフォルト設定](/glossary/デフォルト設定/)での問題）**
 ```nginx
 # Nginx デフォルト設定
 # large_client_header_buffers 4 8k; # 4個のバッファ、各8KB

@@ -298,7 +298,7 @@ curl -u sk_test_<your-secret-key>: \
 
 ### コミュニティーリソース
 
-[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模なバッチ処理を行う場合は、既に同様の問題が報告されていることが一般的です。
+[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模な[バッチ処理](/glossary/バッチ処理/)を行う場合は、既に同様の問題が報告されていることが一般的です。
 
 公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装パターンのアドバイスを提供しています。
 

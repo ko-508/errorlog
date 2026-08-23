@@ -16,11 +16,11 @@ top_queries:
 
 ## エラーの概要
 
-Gemini [API](/glossary/api/)の429[エラー](/glossary/エラー/)は、[API](/glossary/api/)呼び出しのクォータ制限に達したことを示す標準的な[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。Gemini [API](/glossary/api/)では無料枠に1分あたりの[リクエスト](/glossary/リクエスト/)数制限と1日あたりの[リクエスト](/glossary/リクエスト/)数制限が設定されており、これを超過すると[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)を拒否します。特に自動スクリプトやバッチ処理で複数の[リクエスト](/glossary/リクエスト/)を並列実行する場合、瞬時にクォータを枯渇させることがあります。
+Gemini [API](/glossary/api/)の429[エラー](/glossary/エラー/)は、[API](/glossary/api/)呼び出しのクォータ制限に達したことを示す標準的な[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。Gemini [API](/glossary/api/)では無料枠に1分あたりの[リクエスト](/glossary/リクエスト/)数制限と1日あたりの[リクエスト](/glossary/リクエスト/)数制限が設定されており、これを超過すると[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)を拒否します。特に自動[スクリプト](/glossary/スクリプト/)や[バッチ処理](/glossary/バッチ処理/)で複数の[リクエスト](/glossary/リクエスト/)を並列実行する場合、瞬時にクォータを枯渇させることがあります。
 
 ## 実際のエラーメッセージ例
 
-**Pythonライブラリ使用時：**
+**Python[ライブラリ](/glossary/ライブラリ/)使用時：**
 
 ```
 429 RESOURCE_EXHAUSTED. {

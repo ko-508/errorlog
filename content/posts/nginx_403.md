@@ -173,7 +173,7 @@ location /admin/ {
 
 ### 原因5：SELinux または AppArmor がアクセスを遮っている
 
-Unix の[権限](/glossary/権限/)が正しくても、強制アクセス制御(SELinux は RHEL/CentOS 系、AppArmor は Ubuntu 系)が、その下の層でアクセスを拒否することがあります。[権限](/glossary/権限/)を直しても 403 が消えない場合に疑います。
+Unix の[権限](/glossary/権限/)が正しくても、強制[アクセス制御](/glossary/アクセス制御/)(SELinux は RHEL/CentOS 系、AppArmor は Ubuntu 系)が、その下の層でアクセスを拒否することがあります。[権限](/glossary/権限/)を直しても 403 が消えない場合に疑います。
 
 SELinux(RHEL/CentOS 系)の確認と対処です。
 

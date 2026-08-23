@@ -60,9 +60,9 @@ gcloud config list
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：`gcloud` では通るのに[コード](/glossary/コード/)では拒否される、という症状の大半はここです。
 
-**最低限覚える概念**：[アプリケーション](/glossary/アプリケーション/)のデフォルト認証情報（ADC）は、[認証](/glossary/認証/)ライブラリが実行環境に応じて自動的に認証情報を探す仕組みです。公式ドキュメントによれば、ADCは次の場所を順に探します。`GOOGLE_APPLICATION_CREDENTIALS` [環境変数](/glossary/環境変数/)、`gcloud auth application-default login` [コマンド](/glossary/コマンド/)で作られた認証情報[ファイル](/glossary/ファイル/)、そしてメタデータサーバーが返す接続済みの[サービスアカウント](/glossary/サービスアカウント/)です（[How Application Default Credentials works](https://cloud.google.com/docs/authentication/application-default-credentials)）。
+**最低限覚える概念**：[アプリケーション](/glossary/アプリケーション/)のデフォルト認証情報（ADC）は、[認証](/glossary/認証/)[ライブラリ](/glossary/ライブラリ/)が実行環境に応じて自動的に認証情報を探す仕組みです。公式ドキュメントによれば、ADCは次の場所を順に探します。`GOOGLE_APPLICATION_CREDENTIALS` [環境変数](/glossary/環境変数/)、`gcloud auth application-default login` [コマンド](/glossary/コマンド/)で作られた認証情報[ファイル](/glossary/ファイル/)、そしてメタデータサーバーが返す接続済みの[サービスアカウント](/glossary/サービスアカウント/)です（[How Application Default Credentials works](https://cloud.google.com/docs/authentication/application-default-credentials)）。
 
-ここに重要な注意があります。公式ドキュメントは、gcloud [CLI](/glossary/cli/)自体はGoogle Cloudの資源へアクセスするためにADCを使わないと明記しています（[Set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)）。つまり `gcloud auth login` で入れた認証情報と、ライブラリが使う認証情報は別管理です。
+ここに重要な注意があります。公式ドキュメントは、gcloud [CLI](/glossary/cli/)自体はGoogle Cloudの資源へアクセスするためにADCを使わないと明記しています（[Set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)）。つまり `gcloud auth login` で入れた認証情報と、[ライブラリ](/glossary/ライブラリ/)が使う認証情報は別管理です。
 
 この2つを混同すると、手元では `gcloud` が動くのに[コード](/glossary/コード/)だけ[認証](/glossary/認証/)[エラー](/glossary/エラー/)になる、という状況が生まれます。[コード](/glossary/コード/)を動かすなら `gcloud auth application-default login` が必要です。
 
@@ -103,7 +103,7 @@ env | grep -i "GOOGLE_"
 
 有効化そのものにも[権限](/glossary/権限/)が要ります。公式ドキュメントは、[API](/glossary/api/)を有効化するには対象[プロジェクト](/glossary/プロジェクト/)に対する `serviceusage.services.enable` [権限](/glossary/権限/)が必要だと述べています（[Cloud APIs getting started](https://cloud.google.com/apis/docs/getting-started)）。したがって「[API](/glossary/api/)を有効にすればよい」と分かっても、自分にその[権限](/glossary/権限/)が無ければ進めません。
 
-無効化にも注意が要ります。公式ドキュメントは、サービスの[API](/glossary/api/)アクセスを無効にしても背後のデータは削除されず、課金は続くと述べています。またGKEの[API](/glossary/api/)を無効にすると、その[プロジェクト](/glossary/プロジェクト/)で動いているクラスターが停止状態になり、30日後に削除されるとも明記されています（[Enable and disable services](https://cloud.google.com/service-usage/docs/enable-disable)）。整理のつもりで無効化すると、取り返しがつかなくなります。
+無効化にも注意が要ります。公式ドキュメントは、サービスの[API](/glossary/api/)アクセスを無効にしても背後のデータは[削除](/glossary/削除/)されず、課金は続くと述べています。またGKEの[API](/glossary/api/)を無効にすると、その[プロジェクト](/glossary/プロジェクト/)で動いているクラスターが停止状態になり、30日後に[削除](/glossary/削除/)されるとも明記されています（[Enable and disable services](https://cloud.google.com/service-usage/docs/enable-disable)）。整理のつもりで無効化すると、取り返しがつかなくなります。
 
 **実際に試す[コマンド](/glossary/コマンド/)**：
 
@@ -213,7 +213,7 @@ gcloud iam service-accounts get-iam-policy <サービスアカウントのメー
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：「繋がらない」という症状は、[権限](/glossary/権限/)の[エラー](/glossary/エラー/)と違って明示的なメッセージが出ないまま時間切れになります。既定を知らないと、どこから見ればよいか決まりません。
 
-**最低限覚える概念**：[VPC](/glossary/vpc/)には削除できない暗黙の規則があります。公式ドキュメントによれば、受信方向の暗黙の動作は拒否で、送信方向の暗黙の動作は許可です（[Evaluation order for firewall policies and rules](https://cloud.google.com/firewall/docs/firewall-policies-rule-eval-order)）。つまり外から入る[通信](/glossary/通信/)は明示的に許可しない限り届かず、中から出る[通信](/glossary/通信/)は明示的に拒否しない限り通ります。
+**最低限覚える概念**：[VPC](/glossary/vpc/)には[削除](/glossary/削除/)できない暗黙の規則があります。公式ドキュメントによれば、受信方向の暗黙の動作は拒否で、送信方向の暗黙の動作は許可です（[Evaluation order for firewall policies and rules](https://cloud.google.com/firewall/docs/firewall-policies-rule-eval-order)）。つまり外から入る[通信](/glossary/通信/)は明示的に許可しない限り届かず、中から出る[通信](/glossary/通信/)は明示的に拒否しない限り通ります。
 
 そして状態の扱いです。公式ドキュメントは、あるVMが送った[通信](/glossary/通信/)に対する応答が許可される理由として、[ファイアウォール](/glossary/ファイアウォール/)規則が状態を持つためだと説明しています（[VPC firewall rules](https://cloud.google.com/firewall/docs/firewalls)）。したがって、接続を開始する向きにだけ規則を書けば、戻りの[通信](/glossary/通信/)は自動的に通ります。
 

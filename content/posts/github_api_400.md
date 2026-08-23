@@ -93,7 +93,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "New issue"}'
 ```
 
-[プログラム](/glossary/プログラム/)からの呼び出しでは、二重の直列化が典型的な発生源です。すでに [JSON](/glossary/json/) 文字列に変換済みのデータを、さらに [JSON](/glossary/json/) として[送信](/glossary/送信/)する仕組み（Python の requests の json= [引数](/glossary/引数/)など）に渡すと、[オブジェクト](/glossary/オブジェクト/)ではなく「[JSON](/glossary/json/) の文字列」が届きます。直列化は1回だけ、[送信](/glossary/送信/)ライブラリの [JSON](/glossary/json/) 送信機能を使うならライブラリに任せる、と決めておくのが安全です。なおこの種の誤りは、[エンドポイント](/glossary/エンドポイント/)によっては 400 ではなく 422（... is not an object という文言）として報告されることもあります。どちらの[コード](/glossary/コード/)でも、疑う場所は同じく直列化の回数です。
+[プログラム](/glossary/プログラム/)からの呼び出しでは、二重の直列化が典型的な発生源です。すでに [JSON](/glossary/json/) 文字列に変換済みのデータを、さらに [JSON](/glossary/json/) として[送信](/glossary/送信/)する仕組み（Python の requests の json= [引数](/glossary/引数/)など）に渡すと、[オブジェクト](/glossary/オブジェクト/)ではなく「[JSON](/glossary/json/) の文字列」が届きます。直列化は1回だけ、[送信](/glossary/送信/)[ライブラリ](/glossary/ライブラリ/)の [JSON](/glossary/json/) 送信機能を使うなら[ライブラリ](/glossary/ライブラリ/)に任せる、と決めておくのが安全です。なおこの種の誤りは、[エンドポイント](/glossary/エンドポイント/)によっては 400 ではなく 422（... is not an object という文言）として報告されることもあります。どちらの[コード](/glossary/コード/)でも、疑う場所は同じく直列化の回数です。
 
 ### 原因3：API バージョン指定の誤り
 
@@ -133,7 +133,7 @@ curl -v -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ## Editor's Note
 
-400 と 422 の境界を1つの流れで示す実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[github actions repository dispatch "message": "Problems parsing JSON"](https://github.com/orgs/community/discussions/28224)、2022年）。Python からワークフローを起動する [API](/glossary/api/) を呼んだ報告者は、まず 400 と Problems parsing [JSON](/glossary/json/) を受け取ります（本文が [JSON](/glossary/json/) として届いていない状態）。次に json.dumps() で直列化した文字列を requests の json= [引数](/glossary/引数/)に渡したところ、今度は 422 と「... is not an object」が返りました（[JSON](/glossary/json/) としては読めるが、二重直列化により文字列が届いた状態）。最終的な解決は、辞書を json= に直接渡して直列化をライブラリに任せる形でした。エラーコードが 400 から 422 に変わったこと自体が「[JSON](/glossary/json/) として読めるようになった」という前進のサインだった、という点がこの実例の要点です。2022年の議論ですが、400 と 422 のこの境界は現行の公式トラブルシューティング文書の記述と一致しています。
+400 と 422 の境界を1つの流れで示す実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[github actions repository dispatch "message": "Problems parsing JSON"](https://github.com/orgs/community/discussions/28224)、2022年）。Python から[ワークフロー](/glossary/ワークフロー/)を起動する [API](/glossary/api/) を呼んだ報告者は、まず 400 と Problems parsing [JSON](/glossary/json/) を受け取ります（本文が [JSON](/glossary/json/) として届いていない状態）。次に json.dumps() で直列化した文字列を requests の json= [引数](/glossary/引数/)に渡したところ、今度は 422 と「... is not an object」が返りました（[JSON](/glossary/json/) としては読めるが、二重直列化により文字列が届いた状態）。最終的な解決は、辞書を json= に直接渡して直列化を[ライブラリ](/glossary/ライブラリ/)に任せる形でした。エラーコードが 400 から 422 に変わったこと自体が「[JSON](/glossary/json/) として読めるようになった」という前進のサインだった、という点がこの実例の要点です。2022年の議論ですが、400 と 422 のこの境界は現行の公式トラブルシューティング文書の記述と一致しています。
 
 400 の対処は、[パラメータ](/glossary/パラメータ/)の意味を考える前に、送信物が [JSON](/glossary/json/) としてどう届いているかを機械的に検証することから始まります。message の文言が調査の場所を正確に教えてくれるので、[コード](/glossary/コード/)の数字だけで判断しないことが確実な近道です。
 

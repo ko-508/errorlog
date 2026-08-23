@@ -108,7 +108,7 @@ grep -rn 'variable "' <module ディレクトリ>
 
 ドキュメントに書かれているとおりに[引数](/glossary/引数/)を書いたのに拒否される場合です。この状態は珍しくなく、`aws_elasticache_replication_group` で「ドキュメントに載っている[引数](/glossary/引数/)が not expected と言われる」という報告が上がっています。
 
-構成の検証に使われるのは、[レジストリ](/glossary/レジストリ/)のドキュメントではなく、**実際に[初期化](/glossary/初期化/)されて手元に置かれた provider が持つ[スキーマ](/glossary/スキーマ/)**です。[レジストリ](/glossary/レジストリ/)のドキュメントは既定で最新版を表示するため、手元の版が古ければ、まだ存在しない[引数](/glossary/引数/)を読んでいることになります。逆に、手元の版が新しければ、削除された[引数](/glossary/引数/)のドキュメントを読んでいる可能性があります。
+構成の検証に使われるのは、[レジストリ](/glossary/レジストリ/)のドキュメントではなく、**実際に[初期化](/glossary/初期化/)されて手元に置かれた provider が持つ[スキーマ](/glossary/スキーマ/)**です。[レジストリ](/glossary/レジストリ/)のドキュメントは既定で最新版を表示するため、手元の版が古ければ、まだ存在しない[引数](/glossary/引数/)を読んでいることになります。逆に、手元の版が新しければ、[削除](/glossary/削除/)された[引数](/glossary/引数/)のドキュメントを読んでいる可能性があります。
 
 判断材料は、実際に使われている版です。
 
@@ -179,13 +179,13 @@ resource "example_resource" "this" {
 
 [パス](/glossary/パス/)が `.terraform/modules/` で始まる場合です。この配下は `terraform init` が取得した module の実体であり、自分の[リポジトリ](/glossary/リポジトリ/)の一部ではありません。
 
-意味するところは、module 作者が書いた `resource` の[引数](/glossary/引数/)が、いま入っている provider の[スキーマ](/glossary/スキーマ/)と噛み合っていないということです。provider のメジャー更新で[引数](/glossary/引数/)が削除・改称され、module がまだ対応していない状況で起こります。`.terraform/modules/test_db/modules/db_instance/main.tf` の行が指されたという報告がそのまま該当します。
+意味するところは、module 作者が書いた `resource` の[引数](/glossary/引数/)が、いま入っている provider の[スキーマ](/glossary/スキーマ/)と噛み合っていないということです。provider のメジャー更新で[引数](/glossary/引数/)が[削除](/glossary/削除/)・改称され、module がまだ対応していない状況で起こります。`.terraform/modules/test_db/modules/db_instance/main.tf` の行が指されたという報告がそのまま該当します。
 
 判断材料は、その[ファイル](/glossary/ファイル/)を自分が書いた覚えがあるかどうかです。ないなら、その行を編集しても意味がありません。編集しても `terraform init` のたびに取得元の内容へ戻り得ます。
 
 対処は2方向あります。module 側を provider の新しい版に対応した版へ上げるか、provider の版を module が想定している範囲に固定するかです。どちらも[バージョン](/glossary/バージョン/)制約の調整であり、[エラー](/glossary/エラー/)行の編集ではありません。module の版を上げる場合、引数名が変わっていることもあるため、呼び出し側の[引数](/glossary/引数/)も合わせて見直します。
 
-**注意**：`.terraform/` を手で削除して再取得させる手順を安易に取らないでください。private registry の[認証](/glossary/認証/)や、[ネットワーク](/glossary/ネットワーク/)の到達性、[Git](/glossary/git/) の資格情報などを再度満たす必要があり、CI では[初期化](/glossary/初期化/)そのものが失敗し得ます。
+**注意**：`.terraform/` を手で[削除](/glossary/削除/)して再取得させる手順を安易に取らないでください。private registry の[認証](/glossary/認証/)や、[ネットワーク](/glossary/ネットワーク/)の到達性、[Git](/glossary/git/) の資格情報などを再度満たす必要があり、CI では[初期化](/glossary/初期化/)そのものが失敗し得ます。
 
 ### 原因6：別の診断を同じものとして調べている
 
@@ -213,7 +213,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 
 `terraform init -upgrade` は、依存関係を再解決して `.terraform.lock.hcl` を書き換えます。制約に幅がある状態で実行すると、意図していない provider まで版が動くことがあります。実行前に、`required_providers` の `version` が対象 provider に対して十分に狭いことを確認してください。実行後は必ずロックファイルの差分を読み、変わった provider が想定どおりかを確かめます。
 
-`.terraform/` [ディレクトリ](/glossary/ディレクトリ/)の削除は、module と provider の再取得を強制します。認証情報や[ネットワーク](/glossary/ネットワーク/)の条件が揃っていない[環境](/glossary/環境/)では、初期化自体が失敗して復旧に時間がかかります。手元の作業[ディレクトリ](/glossary/ディレクトリ/)で、再取得に必要な資格情報が揃っていることを確認してから実行してください。
+`.terraform/` [ディレクトリ](/glossary/ディレクトリ/)の[削除](/glossary/削除/)は、module と provider の再取得を強制します。認証情報や[ネットワーク](/glossary/ネットワーク/)の条件が揃っていない[環境](/glossary/環境/)では、初期化自体が失敗して復旧に時間がかかります。手元の作業[ディレクトリ](/glossary/ディレクトリ/)で、再取得に必要な資格情報が揃っていることを確認してから実行してください。
 
 `.terraform/modules/` 配下の[ファイル](/glossary/ファイル/)編集は、恒久的な[修正](/glossary/修正/)になりません。取得元の内容で上書きされ得るため、動作確認のための一時的な手段としてのみ使い、[修正](/glossary/修正/)は[バージョン](/glossary/バージョン/)制約か module 本体へ反映します。
 

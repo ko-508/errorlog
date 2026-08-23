@@ -181,7 +181,7 @@ docker-container ドライバーでは、状態が `buildx_buildkit_<ノード�
 5. 実行段なら、区切りの手前にある[コマンド](/glossary/コマンド/)自身の出力を読む。終了[コード](/glossary/コード/)は結果であって理由ではない。
 6. 解決段なら、最後尾で[認証](/glossary/認証/)・[通信](/glossary/通信/)方式・到達性に分け、`docker manifest inspect` で確かめる。
 7. `not found` を含むなら、`<contextの起点>/<相対パス>` の形で照合し、`transferring context` の行と突き合わせる。
-8. 準備・書き出し段なら、ビルダー側の[容量](/glossary/容量/)と[権限](/glossary/権限/)を確認する。削除は共有範囲を確かめたうえで最後に行う。
+8. 準備・書き出し段なら、ビルダー側の[容量](/glossary/容量/)と[権限](/glossary/権限/)を確認する。[削除](/glossary/削除/)は共有範囲を確かめたうえで最後に行う。
 
 ## 確認コマンド集
 

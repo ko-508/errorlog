@@ -74,7 +74,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 ### 原因2：外部API のURL が間違っているか変更された
 
-`uri` モジュールや `get_url` モジュールで外部 [API](/glossary/api/) に接続する際、[エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) が誤っているか、[API](/glossary/api/) 側で廃止されている可能性があります。特に [API](/glossary/api/) の[バージョン](/glossary/バージョン/)が変更された場合は旧[エンドポイント](/glossary/エンドポイント/)が削除されることがあります。
+`uri` モジュールや `get_url` モジュールで外部 [API](/glossary/api/) に接続する際、[エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) が誤っているか、[API](/glossary/api/) 側で廃止されている可能性があります。特に [API](/glossary/api/) の[バージョン](/glossary/バージョン/)が変更された場合は旧[エンドポイント](/glossary/エンドポイント/)が[削除](/glossary/削除/)されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

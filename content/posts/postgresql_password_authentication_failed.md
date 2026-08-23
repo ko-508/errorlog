@@ -66,7 +66,7 @@ DETAIL:  Password does not match for user "app".
 
 `DETAIL` が `Password does not match for user "app".` の場合です。値そのものが違います。
 
-確認方法は、疑いのある値を対話入力で試すことです。[環境変数](/glossary/環境変数/)や接続文字列に埋め込んだ値には、末尾の改行や引用符が紛れ込むことがあります。
+確認方法は、疑いのある値を対話入力で試すことです。[環境変数](/glossary/環境変数/)や接続文字列に埋め込んだ値には、末尾の[改行](/glossary/改行/)や引用符が紛れ込むことがあります。
 
 ```bash
 psql "host=db.internal port=5432 dbname=app user=app"
@@ -183,7 +183,7 @@ SELECT pg_reload_conf();
 
 `password_encryption` の既定値は、現在の版では `scram-sha-256` です。この既定は PostgreSQL 14 で `md5` から切り替わりました。14 より前に作られた[ロール](/glossary/ロール/)の値は MD5 形式のまま残るため、版を上げただけでは切り替わりません。`pg_hba.conf` を `scram-sha-256` に変えると、再設定していない[ロール](/glossary/ロール/)だけが失敗します。原因4の形です。
 
-MD5 形式は非推奨になりました。公式ドキュメントには、MD5 で[暗号化](/glossary/暗号化/)された[パスワード](/glossary/パスワード/)の対応は非推奨であり、将来の版で削除されると明記されています。新しく作る[ロール](/glossary/ロール/)は SCRAM 形式にしてください。
+MD5 形式は非推奨になりました。公式ドキュメントには、MD5 で[暗号化](/glossary/暗号化/)された[パスワード](/glossary/パスワード/)の対応は非推奨であり、将来の版で[削除](/glossary/削除/)されると明記されています。新しく作る[ロール](/glossary/ロール/)は SCRAM 形式にしてください。
 
 [ログ](/glossary/ログ/)の設定にも版による差があります。`log_connections` は 18 で真偽値から選択肢の一覧へ拡張されました。リリースノートには、従来の真偽値も引き続き使えると書かれています。既定値は空文字で、接続に関する記録は無効です。ただし `FATAL` の行と `DETAIL` は `log_connections` とは無関係に出力されるため、この[エラー](/glossary/エラー/)の調査には有効化は要りません。
 

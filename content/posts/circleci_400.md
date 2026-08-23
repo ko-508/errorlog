@@ -13,7 +13,7 @@ related_services: ["GitHub", "curl"]
 
 ## エラーの概要
 
-CircleCI の 400 [エラー](/glossary/エラー/)は、CircleCI [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容に誤りがある場合に発生します。[設定ファイル](/glossary/設定ファイル/)の構文[エラー](/glossary/エラー/)、[API](/glossary/api/)[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 不正、パイプラインパラメータの型不一致などが主な原因です。この[エラー](/glossary/エラー/)が発生すると、パイプラインの実行や [API](/glossary/api/) 連携が失敗し、[CI/CD](/glossary/ci-cd/) ワークフローが停止します。
+CircleCI の 400 [エラー](/glossary/エラー/)は、CircleCI [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容に誤りがある場合に発生します。[設定ファイル](/glossary/設定ファイル/)の構文[エラー](/glossary/エラー/)、[API](/glossary/api/)[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 不正、パイプラインパラメータの型不一致などが主な原因です。この[エラー](/glossary/エラー/)が発生すると、パイプラインの実行や [API](/glossary/api/) 連携が失敗し、[CI/CD](/glossary/ci-cd/) [ワークフロー](/glossary/ワークフロー/)が停止します。
 
 ## 実際のエラーメッセージ例
 

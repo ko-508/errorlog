@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/glossary/設定ファイル/)で参照しているクラウドリソースが実際には存在しないか、削除されている状態を示します。この[エラー](/glossary/エラー/)が発生すると、`terraform plan` や `terraform apply` の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する設定で頻出します。
+Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/glossary/設定ファイル/)で参照しているクラウドリソースが実際には存在しないか、[削除](/glossary/削除/)されている状態を示します。この[エラー](/glossary/エラー/)が発生すると、`terraform plan` や `terraform apply` の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する設定で頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -36,7 +36,7 @@ Error: Error when reading or editing Compute Instance: googleapi: Error 404: The
 
 ### 原因 1：data source で参照しているリソースがまだ作成されていないか削除されている
 
-リソースを作成する前に、そのリソース情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動でリソースを削除した場合、Terraform の state [ファイル](/glossary/ファイル/)にはまだ存在するとして記録されたままになり、再度参照しようとすると 404 [エラー](/glossary/エラー/)になります。
+リソースを作成する前に、そのリソース情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動でリソースを[削除](/glossary/削除/)した場合、Terraform の state [ファイル](/glossary/ファイル/)にはまだ存在するとして記録されたままになり、再度参照しようとすると 404 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -184,7 +184,7 @@ resource "aws_instance" "prod_server" {
 
 ## ツール固有の注意点
 
-Terraform は state [ファイル](/glossary/ファイル/)と実際のクラウドリソースの整合性に依存しています。手動でクラウドコンソールからリソースを削除した場合、state [ファイル](/glossary/ファイル/)には古い情報が残ったままになり、404 [エラー](/glossary/エラー/)の原因になります。本来なら `terraform destroy` で state を削除すべきですが、事後対応として `terraform state rm <resource-address>` で state から該当リソースを削除できます。
+Terraform は state [ファイル](/glossary/ファイル/)と実際のクラウドリソースの整合性に依存しています。手動でクラウドコンソールからリソースを[削除](/glossary/削除/)した場合、state [ファイル](/glossary/ファイル/)には古い情報が残ったままになり、404 [エラー](/glossary/エラー/)の原因になります。本来なら `terraform destroy` で state を[削除](/glossary/削除/)すべきですが、事後対応として `terraform state rm <resource-address>` で state から該当リソースを[削除](/glossary/削除/)できます。
 
 また、マルチプロバイダー設定を使う場合、各 data source にどの provider を使うかを明示的に指定する必要があります。指定を忘れると、デフォルト provider がリソースを探してしまい、期待と異なるリージョンや[アカウント](/glossary/アカウント/)で 404 [エラー](/glossary/エラー/)が発生することがあります。
 

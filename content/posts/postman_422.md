@@ -56,7 +56,7 @@ FastAPI[サーバー](/glossary/サーバー/)からの報告：
 - `"message": "Validation Failed"` → [リクエストボディ](/glossary/リクエストボディ/)のデータが [API](/glossary/api/) の要件を満たしていないことを示す
 - `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（[フィールド](/glossary/フィールド/)名、エラーコード、説明）を含む
 - `"loc": ["body"]` → FastAPI形式：[エラー](/glossary/エラー/)の位置がボディ部分にあることを指示する
-- `"msg": "value is not a valid dict"` → 期待されたデータ型（辞書/[オブジェクト](/glossary/オブジェクト/)）が[送信](/glossary/送信/)されていない
+- `"msg": "value is not a valid dict"` → 期待された[データ型](/glossary/データ型/)（辞書/[オブジェクト](/glossary/オブジェクト/)）が[送信](/glossary/送信/)されていない
 
 ## よくある原因と解決手順
 
@@ -222,7 +222,7 @@ Postmanの Params タブで `q` を設定する場合、値に空白やコロン
 FastAPIで422が頻発する場合、Postmanから[送信](/glossary/送信/)されるデータが Pydantic [モデル](/glossary/モデル/)の定義と一致しているか確認してください。以下の点をチェックします：
 
 - すべての必須[フィールド](/glossary/フィールド/)が含まれているか
-- 各[フィールド](/glossary/フィールド/)のデータ型が一致しているか（文字列 vs 数値など）
+- 各[フィールド](/glossary/フィールド/)の[データ型](/glossary/データ型/)が一致しているか（文字列 vs 数値など）
 - ネストされた[オブジェクト](/glossary/オブジェクト/)の構造が期待通りか
 
 Postmanの[レスポンス](/glossary/レスポンス/)に `"loc": ["body", "フィールド名"]` と表示されていれば、その[フィールド](/glossary/フィールド/)の型またはバリデーションルール違反が原因です。
@@ -260,7 +260,7 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 
 - 必須[ヘッダー](/glossary/ヘッダー/)（Authorization、[API](/glossary/api/)-Keyなど）
 - 必須[フィールド](/glossary/フィールド/)と省略可能[フィールド](/glossary/フィールド/)
-- サポートされるデータ型とフォーマット
+- サポートされる[データ型](/glossary/データ型/)とフォーマット
 - [ペイロード](/glossary/ペイロード/)例
 
 ## 代替ツールの検討

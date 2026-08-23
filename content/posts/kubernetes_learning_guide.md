@@ -29,7 +29,7 @@ trend_incident: false
 
 検索で見つかる対処は、多くの場合その[環境](/glossary/環境/)で有効だった手順です。なぜ有効だったかは書かれていないことがあります。
 
-たとえば、Podが起動しないときに `kubectl delete pod` を実行したら直った、という手順があります。Deploymentの管理下にあるPodは削除すると作り直されるので、一時的な不具合であれば確かに解消します。しかし原因が[マニフェスト](/glossary/マニフェスト/)の側にあれば、作り直されたPodも同じ理由で止まります。Podが誰に管理されているかを知らないと、この区別ができません。
+たとえば、Podが起動しないときに `kubectl delete pod` を実行したら直った、という手順があります。Deploymentの管理下にあるPodは[削除](/glossary/削除/)すると作り直されるので、一時的な不具合であれば確かに解消します。しかし原因が[マニフェスト](/glossary/マニフェスト/)の側にあれば、作り直されたPodも同じ理由で止まります。Podが誰に管理されているかを知らないと、この区別ができません。
 
 同じことが[ネットワーク](/glossary/ネットワーク/)でも起きます。Serviceの `port` と `targetPort` を同じ値に揃えたら繋がった、という手順は、どちらがService側でどちらが[コンテナ](/glossary/コンテナ/)側かを知らなければ再現できません。
 
@@ -97,7 +97,7 @@ kubectl exec -it <Pod名> -c <コンテナ名> -- sh
 
 **最低限覚える概念**：公式ドキュメントによれば、DeploymentはPodとReplicaSetに対する宣言的な更新を提供します。Deploymentに望ましい状態を記述すると、Deploymentコントローラーが実際の状態を望ましい状態へ、制御された速度で変更します（[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)）。
 
-関係は3層です。DeploymentがReplicaSetを作り、ReplicaSetがPodを作ります。Podを手で削除しても、ReplicaSetが数を保とうとして作り直します。同じページには、Deploymentが所有するReplicaSetを直接操作しないように、という注意も書かれています。
+関係は3層です。DeploymentがReplicaSetを作り、ReplicaSetがPodを作ります。Podを手で[削除](/glossary/削除/)しても、ReplicaSetが数を保とうとして作り直します。同じページには、Deploymentが所有するReplicaSetを直接操作しないように、という注意も書かれています。
 
 この層があるため、[マニフェスト](/glossary/マニフェスト/)を直さずにPodだけを消しても意味がありません。直す対象は常に宣言の側です。
 
@@ -122,7 +122,7 @@ kubectl rollout undo deployment/<Deployment名>
 
 `kubectl get deployments` の READY 欄は、望ましい数に対して実際に準備できた数を示します。ここが揃わないまま止まっているなら、原因はPod側にあります。
 
-**次の段階へ進む目安**：Podを1つ削除したときに何が起きるかを、実行前に説明できることです。
+**次の段階へ進む目安**：Podを1つ[削除](/glossary/削除/)したときに何が起きるかを、実行前に説明できることです。
 
 **関連して発生しやすい[エラー](/glossary/エラー/)**：更新が進まない場合、新しいReplicaSetのPodが起動できていないことがほとんどです。`kubectl rollout status` が止まったら、`kubectl get pods` で新しいPodの状態を確認してください。
 
@@ -202,9 +202,9 @@ kubectl get secrets
 kubectl get pod <Pod名> -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.volumeMounts}{"\n"}{end}'
 ```
 
-`kubectl delete pvc` は永続領域の要求を削除する操作です。回収方針によっては実データも削除されます。実行前に、その要求がどの領域に結び付いているかを `kubectl describe pvc` で確認してください。同様に、名前空間ごと削除する操作は中の永続領域の要求も巻き込みます。
+`kubectl delete pvc` は永続領域の要求を[削除](/glossary/削除/)する操作です。回収方針によっては実データも[削除](/glossary/削除/)されます。実行前に、その要求がどの領域に結び付いているかを `kubectl describe pvc` で確認してください。同様に、名前空間ごと[削除](/glossary/削除/)する操作は中の永続領域の要求も巻き込みます。
 
-**次の段階へ進む目安**：Podを削除して作り直したときに、どのデータが残りどのデータが消えるかを、実際に手を動かして確認できることです。
+**次の段階へ進む目安**：Podを[削除](/glossary/削除/)して作り直したときに、どのデータが残りどのデータが消えるかを、実際に手を動かして確認できることです。
 
 **関連して発生しやすい[エラー](/glossary/エラー/)**：`PVCがPending` のまま進まない状態は、条件に合う領域が用意されていないか、最初の利用者を待っている状態です。`CreateContainerConfigError` は、参照しているConfigMapやSecretが存在しない場合に出ます。
 
@@ -304,7 +304,7 @@ kubectl get pods -n kube-system
 
 **次の段階へ進む目安**：初めて見る[エラー](/glossary/エラー/)に対して、この6段階のどこから調べるかを即座に決められることです。
 
-**避けるべき対処**：原因を確認しないまま `kubectl delete` を繰り返す、ServiceAccountに強い[権限](/glossary/権限/)を与えて通す、リソース制限を外して回避する、`--force --grace-period=0` を常用する、といった手順は、症状を消しても原因を残します。特に[権限](/glossary/権限/)の付与と削除の強行は、後から戻せない影響を残すことがあります。
+**避けるべき対処**：原因を確認しないまま `kubectl delete` を繰り返す、ServiceAccountに強い[権限](/glossary/権限/)を与えて通す、リソース制限を外して回避する、`--force --grace-period=0` を常用する、といった手順は、症状を消しても原因を残します。特に[権限](/glossary/権限/)の付与と[削除](/glossary/削除/)の強行は、後から戻せない影響を残すことがあります。
 
 ## 独学と動画講座の使い分け
 
@@ -322,7 +322,7 @@ kubectl get pods -n kube-system
 
 到達点を具体的に置いておきます。以下を自分の[環境](/glossary/環境/)で確認できるようになっていれば、この記事の範囲は終わりです。
 
-`kubectl apply` が成功した表示と、実際に動き出したことが別だと説明できる。`kubectl describe pod` の出力を、宣言部分と[イベント](/glossary/イベント/)部分に分けて読める。Podを1つ削除したときに何が起きるかを、実行前に言える。Serviceの `port` と `targetPort` がどちらを指すかを説明でき、Pod内から書く接続先と手元から入力する接続先の違いを説明できる。Podを削除したときに消えるデータと残るデータを、実際に試して確認できる。`Pending` と `CrashLoopBackOff` と `OOMKilled` が、それぞれ処理のどの段階の話かを区別できる。初めて見る[エラー](/glossary/エラー/)に対して、[コマンド](/glossary/コマンド/)、表示内容、リソースの状態、[イベント](/glossary/イベント/)、[ログ](/glossary/ログ/)、[ネットワーク](/glossary/ネットワーク/)とノードの順で調べられる。
+`kubectl apply` が成功した表示と、実際に動き出したことが別だと説明できる。`kubectl describe pod` の出力を、宣言部分と[イベント](/glossary/イベント/)部分に分けて読める。Podを1つ[削除](/glossary/削除/)したときに何が起きるかを、実行前に言える。Serviceの `port` と `targetPort` がどちらを指すかを説明でき、Pod内から書く接続先と手元から入力する接続先の違いを説明できる。Podを[削除](/glossary/削除/)したときに消えるデータと残るデータを、実際に試して確認できる。`Pending` と `CrashLoopBackOff` と `OOMKilled` が、それぞれ処理のどの段階の話かを区別できる。初めて見る[エラー](/glossary/エラー/)に対して、[コマンド](/glossary/コマンド/)、表示内容、リソースの状態、[イベント](/glossary/イベント/)、[ログ](/glossary/ログ/)、[ネットワーク](/glossary/ネットワーク/)とノードの順で調べられる。
 
 これらは暗記ではなく、手を動かして確認する操作です。読んだだけでは身に付かない部分なので、手元のクラスターで1つずつ試してください。
 

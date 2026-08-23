@@ -84,7 +84,7 @@ ssh -T git@github.com
 Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-「shell accessを提供しない」は失敗の説明ではありません。[GitHub](/glossary/github/)のSSH接続は[Git](/glossary/git/)操作用で、対話型[シェル](/glossary/シェル/)を開かないという意味です。[公式の接続テスト](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection)には、**この成功時にも[コマンド](/glossary/コマンド/)は終了[コード](/glossary/コード/)1を返す**と明記されています。CIやスクリプトで終了[コード](/glossary/コード/)だけを見ると、成功を失敗と判定するため注意してください。
+「shell accessを提供しない」は失敗の説明ではありません。[GitHub](/glossary/github/)のSSH接続は[Git](/glossary/git/)操作用で、対話型[シェル](/glossary/シェル/)を開かないという意味です。[公式の接続テスト](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection)には、**この成功時にも[コマンド](/glossary/コマンド/)は終了[コード](/glossary/コード/)1を返す**と明記されています。CIや[スクリプト](/glossary/スクリプト/)で終了[コード](/glossary/コード/)だけを見ると、成功を失敗と判定するため注意してください。
 
 ## まず最初に：失敗した経路で提示した鍵を確認する
 
@@ -218,7 +218,7 @@ cat ~/.ssh/id_ed25519.pub
 ~/.ssh/id_ed25519.pub      ← 公開鍵。GitHubへ登録する
 ```
 
-見覚えのないSSH鍵が[GitHub](/glossary/github/)の設定にある場合は、単なる接続不良として放置しません。公式文書は、その鍵を削除して[GitHub](/glossary/github/) Supportへ連絡するよう警告しています。
+見覚えのないSSH鍵が[GitHub](/glossary/github/)の設定にある場合は、単なる接続不良として放置しません。公式文書は、その鍵を[削除](/glossary/削除/)して[GitHub](/glossary/github/) Supportへ連絡するよう警告しています。
 
 ### 原因4：複数アカウント用の別の鍵を提示している
 
@@ -320,7 +320,7 @@ chmod 600 ~/.ssh/id_ed25519
 chmod 644 ~/.ssh/id_ed25519.pub
 ```
 
-`chmod 777` は逆効果です。[秘密鍵](/glossary/秘密鍵/)を全利用者へ開くため、OpenSSHがその鍵を拒否し、漏えいの危険も作ります。WindowsはNTFSのアクセス制御を使うため、[Git](/glossary/git/) Bash向けの `chmod` をそのまま答えにせず、`ssh -vT` を実行したSSH[クライアント](/glossary/クライアント/)が示す[ファイル](/glossary/ファイル/)と[権限](/glossary/権限/)を確認します。
+`chmod 777` は逆効果です。[秘密鍵](/glossary/秘密鍵/)を全利用者へ開くため、OpenSSHがその鍵を拒否し、漏えいの危険も作ります。WindowsはNTFSの[アクセス制御](/glossary/アクセス制御/)を使うため、[Git](/glossary/git/) Bash向けの `chmod` をそのまま答えにせず、`ssh -vT` を実行したSSH[クライアント](/glossary/クライアント/)が示す[ファイル](/glossary/ファイル/)と[権限](/glossary/権限/)を確認します。
 
 次の形なら、[サーバー](/glossary/サーバー/)が公開鍵を認識した後、ssh-agentが[秘密鍵](/glossary/秘密鍵/)による署名に失敗しています。
 

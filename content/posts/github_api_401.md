@@ -62,7 +62,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/us
 
 ### 原因1：認証情報がそもそも送られていない（Requires authentication）
 
-Authorization [ヘッダー](/glossary/ヘッダー/)が付いていない[リクエスト](/glossary/リクエスト/)が、認証必須の[エンドポイント](/glossary/エンドポイント/)に届いています。[コード](/glossary/コード/)で[ヘッダー](/glossary/ヘッダー/)を付け忘れているか、[条件分岐](/glossary/条件分岐/)によって[ヘッダー](/glossary/ヘッダー/)なしの経路を通っているのが典型です。ライブラリによっては、[トークン](/glossary/トークン/)が未設定のときに Authorization [ヘッダー](/glossary/ヘッダー/)自体を送らない作りになっているため、「設定したつもりの[トークン](/glossary/トークン/)が読み込まれていない」場合もこの文言になります。
+Authorization [ヘッダー](/glossary/ヘッダー/)が付いていない[リクエスト](/glossary/リクエスト/)が、認証必須の[エンドポイント](/glossary/エンドポイント/)に届いています。[コード](/glossary/コード/)で[ヘッダー](/glossary/ヘッダー/)を付け忘れているか、[条件分岐](/glossary/条件分岐/)によって[ヘッダー](/glossary/ヘッダー/)なしの経路を通っているのが典型です。[ライブラリ](/glossary/ライブラリ/)によっては、[トークン](/glossary/トークン/)が未設定のときに Authorization [ヘッダー](/glossary/ヘッダー/)自体を送らない作りになっているため、「設定したつもりの[トークン](/glossary/トークン/)が読み込まれていない」場合もこの文言になります。
 
 **Before（[ヘッダー](/glossary/ヘッダー/)なし）：**
 
@@ -98,7 +98,7 @@ env | grep -iE "github|gh_" | sed 's/=.*/=（値は非表示）/'
 gh auth status
 ```
 
-[環境変数](/glossary/環境変数/)が優先されている場合は、その[変数](/glossary/変数/)を更新するか削除したうえで、再度最小の[リクエスト](/glossary/リクエスト/)（/user）で確認します。
+[環境変数](/glossary/環境変数/)が優先されている場合は、その[変数](/glossary/変数/)を更新するか[削除](/glossary/削除/)したうえで、再度最小の[リクエスト](/glossary/リクエスト/)（/user）で確認します。
 
 ## 補足：401を繰り返すと一時的に403に変わる
 

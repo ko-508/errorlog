@@ -66,7 +66,7 @@ terraform import aws_s3_bucket.data_bucket my-existing-bucket
 terraform plan
 ```
 
-ACL（アクセス制御リスト）を設定する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
+ACL（[アクセス制御](/glossary/アクセス制御/)リスト）を設定する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
 
 ```hcl
 resource "aws_s3_bucket" "data_bucket" {
@@ -113,7 +113,7 @@ terraform apply
 
 ### 原因 3：tfstate ファイルが古く、実際のインフラストラクチャーと差異がある
 
-複数のユーザーが同じ[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)を管理している場合、あるユーザーが手動でリソースを削除したり、別の[ツール](/glossary/ツール/)（CloudFormation など）でリソースを作成したりすると、tfstate の記録内容と実際のクラウドリソースの状態がずれます。その状態で `terraform apply` を実行すると、削除されたはずのリソースを再作成しようとして競合が発生することがあります。
+複数のユーザーが同じ[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)を管理している場合、あるユーザーが手動でリソースを[削除](/glossary/削除/)したり、別の[ツール](/glossary/ツール/)（CloudFormation など）でリソースを作成したりすると、tfstate の記録内容と実際のクラウドリソースの状態がずれます。その状態で `terraform apply` を実行すると、[削除](/glossary/削除/)されたはずのリソースを再作成しようとして競合が発生することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -154,7 +154,7 @@ proxy_temp_path       /var/cache/nginx/proxy_temp;
 df -h /var/lib/nginx
 ```
 
-強制アクセス制御が有効な[環境](/glossary/環境/)では、所有者と[権限](/glossary/権限/)が正しくても拒否されることがあります。その場合、記録は Nginx ではなく システム側の[ログ](/glossary/ログ/)に出ます。
+強制[アクセス制御](/glossary/アクセス制御/)が有効な[環境](/glossary/環境/)では、所有者と[権限](/glossary/権限/)が正しくても拒否されることがあります。その場合、記録は Nginx ではなく システム側の[ログ](/glossary/ログ/)に出ます。
 
 ### 原因3：上流が返した500を中継している
 

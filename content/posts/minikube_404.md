@@ -184,7 +184,7 @@ docker logs <container-id>
 
 **Minikube の [DNS](/glossary/dns/) 設定による Service 検索の失敗**
 
-Minikube 内の Service に対して Pod から接続できない場合、Minikube の [DNS](/glossary/dns/) [キャッシュ](/glossary/キャッシュ/)が[リセット](/glossary/リセット/)されていない可能性があります。Service を削除・再作成した直後に 404 が返される場合は、[DNS](/glossary/dns/) の キャッシュクリアを試みてください。
+Minikube 内の Service に対して Pod から接続できない場合、Minikube の [DNS](/glossary/dns/) [キャッシュ](/glossary/キャッシュ/)が[リセット](/glossary/リセット/)されていない可能性があります。Service を[削除](/glossary/削除/)・再作成した直後に 404 が返される場合は、[DNS](/glossary/dns/) の キャッシュクリアを試みてください。
 
 ```bash
 minikube ssh

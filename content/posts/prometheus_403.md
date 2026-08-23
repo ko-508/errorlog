@@ -41,7 +41,7 @@ level=warn msg="Received request to admin endpoint without admin API enabled" en
 
 ### 原因 1：管理 API が無効化されている
 
-Prometheus のデフォルト設定では、[セキュリティ](/glossary/セキュリティ/)上の理由から危険な管理 [API](/glossary/api/)（時系列データの削除など）が無効化されています。`--web.enable-admin-api` フラグを明示的に指定しない起動では、管理[エンドポイント](/glossary/エンドポイント/)がすべて 403 で応答します。
+Prometheus の[デフォルト設定](/glossary/デフォルト設定/)では、[セキュリティ](/glossary/セキュリティ/)上の理由から危険な管理 [API](/glossary/api/)（時系列データの[削除](/glossary/削除/)など）が無効化されています。`--web.enable-admin-api` フラグを明示的に指定しない起動では、管理[エンドポイント](/glossary/エンドポイント/)がすべて 403 で応答します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -117,7 +117,7 @@ sudo iptables -A INPUT -p tcp --dport 9090 -j DROP
 
 ### 原因 3：リバースプロキシの ACL 設定で管理 API がブロックされている
 
-Prometheus の前段に Nginx・Apache・Envoy などのリバースプロキシを配置している場合、[プロキシ](/glossary/プロキシ/)側の ACL（アクセス制御リスト）で `/api/v1/admin/*` [エンドポイント](/glossary/エンドポイント/)が明示的に拒否されていることがあります。この場合、リバースプロキシ自体から 403 が返却されます。
+Prometheus の前段に Nginx・Apache・Envoy などのリバースプロキシを配置している場合、[プロキシ](/glossary/プロキシ/)側の ACL（[アクセス制御](/glossary/アクセス制御/)リスト）で `/api/v1/admin/*` [エンドポイント](/glossary/エンドポイント/)が明示的に拒否されていることがあります。この場合、リバースプロキシ自体から 403 が返却されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -192,7 +192,7 @@ prometheus:
 
 **削除操作の実行例：**
 
-管理 [API](/glossary/api/) 有効化後、時系列データの削除は以下の[コマンド](/glossary/コマンド/)で実行できます。
+管理 [API](/glossary/api/) 有効化後、時系列データの[削除](/glossary/削除/)は以下の[コマンド](/glossary/コマンド/)で実行できます。
 
 ```bash
 # メトリクス削除例

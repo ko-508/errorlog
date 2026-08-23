@@ -14,7 +14,7 @@ related_services: ["PostgreSQL", "JavaScript"]
 
 ## エラーの概要
 
-Supabase の 409 [エラー](/glossary/エラー/)は「Conflict（競合）」を意味し、[データベース](/glossary/データベース/)のユニークネス制約や外部[キー](/glossary/キー/)制約に違反するデータ操作を試みた際に発生します。INSERT や UPDATE 時に PRIMARY KEY の重複、UNIQUE 制約のある[カラム](/glossary/カラム/)への重複値挿入、または存在しない親[レコード](/glossary/レコード/)への参照が行われた場合に返されます。特に複数[クライアント](/glossary/クライアント/)からの同時書き込みやバッチ処理で頻発する典型的な[データベース](/glossary/データベース/)競合[エラー](/glossary/エラー/)です。
+Supabase の 409 [エラー](/glossary/エラー/)は「Conflict（競合）」を意味し、[データベース](/glossary/データベース/)のユニークネス制約や外部[キー](/glossary/キー/)制約に違反するデータ操作を試みた際に発生します。INSERT や UPDATE 時に PRIMARY KEY の重複、UNIQUE 制約のある[カラム](/glossary/カラム/)への重複値挿入、または存在しない親[レコード](/glossary/レコード/)への参照が行われた場合に返されます。特に複数[クライアント](/glossary/クライアント/)からの同時書き込みや[バッチ処理](/glossary/バッチ処理/)で頻発する典型的な[データベース](/glossary/データベース/)競合[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -216,7 +216,7 @@ if (error) {
 }
 ```
 
-または、事前に重複を削除する方法：
+または、事前に重複を[削除](/glossary/削除/)する方法：
 
 ```javascript
 // ユニークキーでグループ化して重複を排除

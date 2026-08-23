@@ -49,7 +49,7 @@ docker compose down -v
 docker compose up -d
 ```
 
-`-v` フラグでボリュームも削除されるため、データの永続化が必要な場合は事前に[バックアップ](/glossary/バックアップ/)を取得してください。
+`-v` フラグでボリュームも[削除](/glossary/削除/)されるため、データの永続化が必要な場合は事前に[バックアップ](/glossary/バックアップ/)を取得してください。
 
 ### 原因2：同じポートを複数のサービスが使おうとしている
 
@@ -88,7 +88,7 @@ netstat -ano | findstr :<port-number>
 
 `docker-compose.yml` で定義したカスタムネットワークやボリュームが、すでに [Docker](/glossary/docker/) [環境](/glossary/環境/)に存在する場合、409 [エラー](/glossary/エラー/)が発生します。特に複数の[プロジェクト](/glossary/プロジェクト/)で同じ命名規則を使用している場合に起こりやすい[エラー](/glossary/エラー/)です。
 
-**既存リソースの削除：**
+**既存リソースの[削除](/glossary/削除/)：**
 
 ```bash
 # 既存のネットワークとボリュームを確認して削除
@@ -135,9 +135,9 @@ docker compose -p <project-name> up -d
 
 `docker compose down` を実行する際、オプションの選択が重要です。
 
-- `docker compose down`：コンテナーと[ネットワーク](/glossary/ネットワーク/)を削除（ボリュームは保持）
-- `docker compose down -v`：コンテナー、[ネットワーク](/glossary/ネットワーク/)、ボリュームをすべて削除
-- `docker compose down --remove-orphans`：定義されていないコンテナーも削除
+- `docker compose down`：コンテナーと[ネットワーク](/glossary/ネットワーク/)を[削除](/glossary/削除/)（ボリュームは保持）
+- `docker compose down -v`：コンテナー、[ネットワーク](/glossary/ネットワーク/)、ボリュームをすべて[削除](/glossary/削除/)
+- `docker compose down --remove-orphans`：定義されていないコンテナーも[削除](/glossary/削除/)
 
 ### Docker Desktop での特殊な注意
 

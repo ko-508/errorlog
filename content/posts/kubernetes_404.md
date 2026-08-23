@@ -44,7 +44,7 @@ Error from server (NotFound): pods "my-app" not found
 ### 原因1：リソースが削除されている
 
 **なぜ発生するか：**
-Podやサービスが意図せず削除されたり、別のプロセスによって削除された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
+Podやサービスが意図せず[削除](/glossary/削除/)されたり、別のプロセスによって[削除](/glossary/削除/)された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -188,7 +188,7 @@ subjects:
 [Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、デフォルトで異なる[Namespace](/glossary/namespace/)間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
 
 **Ingress・Service・Pod間の連携[エラー](/glossary/エラー/)：**
-IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが設定されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが削除されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
+IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが設定されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
 
 **CRD（Custom Resource Definition）のコンテキスト：**
 カスタムリソースを使用する場合、CRDが登録されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。

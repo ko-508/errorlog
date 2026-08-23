@@ -54,7 +54,7 @@ Error: PUT https://ndia.ghe.com/api/v3/repos/<organization>/<repository>/actions
 
 ### 原因1：別のデプロイが進行中
 
-複数のワークフロー実行が同時に[デプロイ](/glossary/デプロイ/)を試みた場合、同じ[アプリケーション](/glossary/アプリケーション/)に対する競合が発生します。Azure App Service などでは、一度に 1 つのデプロイメントのみを受け付けるため、進行中の[デプロイ](/glossary/デプロイ/)が完了するまで待つ必要があります。
+複数の[ワークフロー](/glossary/ワークフロー/)実行が同時に[デプロイ](/glossary/デプロイ/)を試みた場合、同じ[アプリケーション](/glossary/アプリケーション/)に対する競合が発生します。Azure App Service などでは、一度に 1 つのデプロイメントのみを受け付けるため、進行中の[デプロイ](/glossary/デプロイ/)が完了するまで待つ必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -116,7 +116,7 @@ jobs:
 
 ### 原因2：ファイルハッシュ（SHA）の不一致による同時更新競合
 
-[GitHub](/glossary/github/) [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数のワークフロー実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
+[GitHub](/glossary/github/) [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数の[ワークフロー](/glossary/ワークフロー/)実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -480,7 +480,7 @@ const tree = await octokit.rest.git.createTree({
 
 **[GitHub](/glossary/github/) Actions [ログ](/glossary/ログ/)で詳細を確認**
 
-ワークフロー実行ページの `Logs` タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。デバッグモードを有効化することでより詳細な情報が表示されます。
+[ワークフロー](/glossary/ワークフロー/)実行ページの `Logs` タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。デバッグモードを有効化することでより詳細な情報が表示されます。
 
 ```bash
 # ワークフロー内でデバッグモードを有効化（secrets.ACTIONS_STEP_DEBUG を設定）

@@ -74,7 +74,7 @@ const response = await fetch('https://firestore.googleapis.com/v1/projects/<proj
 
 ### 原因 2: サービスアカウント認証鍵ファイルが無効または古い
 
-Node.js や Python でサーバーサイド処理を行う場合、[サービスアカウント](/glossary/サービスアカウント/)の [JSON](/glossary/json/) 鍵[ファイル](/glossary/ファイル/)が削除されたり、ローテーションされたりすると 401 が発生します。
+Node.js や Python でサーバーサイド処理を行う場合、[サービスアカウント](/glossary/サービスアカウント/)の [JSON](/glossary/json/) 鍵[ファイル](/glossary/ファイル/)が[削除](/glossary/削除/)されたり、ローテーションされたりすると 401 が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 

@@ -278,7 +278,7 @@ Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glos
 
 - **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、安定性を優先する[環境](/glossary/環境/)では有効です。
 
-- **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した[開発環境](/glossary/開発環境/)です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)設定を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりもセットアップが直感的です。特にローカル[開発環境](/glossary/開発環境/)では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
+- **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した[開発環境](/glossary/開発環境/)です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)設定を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりも[セットアップ](/glossary/セットアップ/)が直感的です。特にローカル[開発環境](/glossary/開発環境/)では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
 
 ---
 

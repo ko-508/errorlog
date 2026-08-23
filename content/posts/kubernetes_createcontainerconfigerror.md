@@ -78,7 +78,7 @@ kubectl get secret,configmap -n <名前空間>
 kubectl get pod <Pod名> -o jsonpath='{range .spec.containers[*]}{.envFrom}{.env}{"\n"}{end}'
 ```
 
-配備の道具を使っている場合、**作成の順序が原因**であることもあります。Deployment が先に作られ、Secret が後から作られる構成では、その間だけこの状態になります。前述のとおり kubelet は再試行するため、Secret が作られた時点で自動的に起動します。慌てて Pod を削除する必要はありません。
+配備の道具を使っている場合、**作成の順序が原因**であることもあります。Deployment が先に作られ、Secret が後から作られる構成では、その間だけこの状態になります。前述のとおり kubelet は再試行するため、Secret が作られた時点で自動的に起動します。慌てて Pod を[削除](/glossary/削除/)する必要はありません。
 
 ### 原因2：参照先はあるが、キーが無い
 

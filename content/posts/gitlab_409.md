@@ -79,7 +79,7 @@ fi
 
 ### 原因 2：MergeRequest のソースブランチとターゲットブランチが同じになっている
 
-MergeRequest を作成する際、ソースブランチとターゲットブランチが同じ場合に 409 [エラー](/glossary/エラー/)が発生します。これは論理的に無意味な操作（自分自身への[マージ](/glossary/マージ/)）であるため、GitLab はこれを防止しています。複雑なパイプライン設定や[自動化](/glossary/自動化/)スクリプト内で、[ブランチ](/glossary/ブランチ/)[変数](/glossary/変数/)の設定ミスにより起こることがあります。
+MergeRequest を作成する際、ソースブランチとターゲットブランチが同じ場合に 409 [エラー](/glossary/エラー/)が発生します。これは論理的に無意味な操作（自分自身への[マージ](/glossary/マージ/)）であるため、GitLab はこれを防止しています。複雑なパイプライン設定や[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)内で、[ブランチ](/glossary/ブランチ/)[変数](/glossary/変数/)の設定ミスにより起こることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -140,7 +140,7 @@ fi
 
 ## ツール固有の注意点
 
-GitLab の 409 [エラー](/glossary/エラー/)は、[REST](/glossary/rest/) [API](/glossary/api/) と [GraphQL](/glossary/graphql/) [API](/glossary/api/) の両方で発生する可能性があります。[GraphQL](/glossary/graphql/) を使用している場合、[エラーメッセージ](/glossary/エラーメッセージ/)の形式が異なることに注意してください。また、GitLab の自動[マージ](/glossary/マージ/)機能（Auto-Merge）を使用している場合、パイプライン実行中にソースブランチが削除されると競合状態が発生し、409 [エラー](/glossary/エラー/)に繋がることがあります。
+GitLab の 409 [エラー](/glossary/エラー/)は、[REST](/glossary/rest/) [API](/glossary/api/) と [GraphQL](/glossary/graphql/) [API](/glossary/api/) の両方で発生する可能性があります。[GraphQL](/glossary/graphql/) を使用している場合、[エラーメッセージ](/glossary/エラーメッセージ/)の形式が異なることに注意してください。また、GitLab の自動[マージ](/glossary/マージ/)機能（Auto-Merge）を使用している場合、パイプライン実行中にソースブランチが[削除](/glossary/削除/)されると競合状態が発生し、409 [エラー](/glossary/エラー/)に繋がることがあります。
 
 さらに、GitLab [インスタンス](/glossary/インスタンス/)（[環境](/glossary/環境/)）が複数の[サーバー](/glossary/サーバー/)で構成されている場合、レプリケーション遅延により一時的に 409 [エラー](/glossary/エラー/)が発生することがあります。特に直後の操作では、短時間の待機を挟むことが推奨されます。GitLab [CI/CD](/glossary/ci-cd/) パイプラインで[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)を自動生成する場合は、適切な[バックオフ](/glossary/バックオフ/)戦略（待機時間を段階的に増やして再試行する手法）を実装することが重要です。
 

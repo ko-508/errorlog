@@ -79,7 +79,7 @@ response = requests.post(
 
 ### 原因2：API キーの無効化または無効な認証情報
 
-Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) [キー](/glossary/キー/)、削除された[キー](/glossary/キー/)、または間違った[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) を使用しているケースです。
+Realtime Database または Firestore へのアクセス時に、存在しない [API](/glossary/api/) [キー](/glossary/キー/)、[削除](/glossary/削除/)された[キー](/glossary/キー/)、または間違った[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) を使用しているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

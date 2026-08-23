@@ -60,7 +60,7 @@ services:
       - DATABASE_URL=postgresql://user:pass@db:5432/mydb
 ```
 
-上記の場合、`main.py` が `DATABASE_URL` をパースしようとした際に例外が発生したり、必要なライブラリがインストールされていない場合にクラッシュします。
+上記の場合、`main.py` が `DATABASE_URL` をパースしようとした際に例外が発生したり、必要な[ライブラリ](/glossary/ライブラリ/)がインストールされていない場合にクラッシュします。
 
 **After（修正後）：**
 
@@ -100,7 +100,7 @@ docker compose logs <service-name>
 
 ### 原因2：コンテナーのエントリポイントやコマンドが失敗して終了した
 
-`docker-compose.yml` の `command` または `entrypoint` に指定したスクリプト・実行[ファイル](/glossary/ファイル/)が見つからない、または実行権限がない場合に発生します。これは[パス](/glossary/パス/)指定の誤り、[ファイル](/glossary/ファイル/)の忘れ、ビルド時のレイヤー構成ミスが原因となります。
+`docker-compose.yml` の `command` または `entrypoint` に指定した[スクリプト](/glossary/スクリプト/)・実行[ファイル](/glossary/ファイル/)が見つからない、または実行権限がない場合に発生します。これは[パス](/glossary/パス/)指定の誤り、[ファイル](/glossary/ファイル/)の忘れ、ビルド時のレイヤー構成ミスが原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -229,7 +229,7 @@ services:
 
 ### マルチステージビルドでの依存関係漏れ
 
-Dockerfile でマルチステージビルドを使用する場合、最終ステージに必要なランタイムやライブラリをコピーし忘れると、実行時に 500 [エラー](/glossary/エラー/)が発生します。
+Dockerfile でマルチステージビルドを使用する場合、最終ステージに必要なランタイムや[ライブラリ](/glossary/ライブラリ/)をコピーし忘れると、実行時に 500 [エラー](/glossary/エラー/)が発生します。
 
 ```dockerfile
 FROM golang:1.19 as builder
@@ -242,7 +242,7 @@ COPY --from=builder /app/myapp /usr/local/bin/
 # libc がないため実行時エラー
 ```
 
-解決策として、必要なライブラリをインストールします。
+解決策として、必要な[ライブラリ](/glossary/ライブラリ/)をインストールします。
 
 ```dockerfile
 FROM alpine:latest

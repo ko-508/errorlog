@@ -285,7 +285,7 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 - **Google Cloud Storage（GCS）**：[IAM](/glossary/iam/) [ロール](/glossary/ロール/)管理がシンプルで、事前定義[ロール](/glossary/ロール/)（Storage Object Admin など）を割り当てるだけで権限制御が可能です。[ポリシー](/glossary/ポリシー/)言語が単純化されているため、AccessDenied の原因特定も素早くできます。
 
-- **Azure Blob Storage**：ロールベースアクセス制御（[RBAC](/glossary/rbac/)）が統一されており、Azure AD との連携も強固です。きめ細かいアクセス制御が必要な企業環境に適しています。
+- **Azure Blob Storage**：ロールベースアクセス制御（[RBAC](/glossary/rbac/)）が統一されており、Azure AD との連携も強固です。きめ細かい[アクセス制御](/glossary/アクセス制御/)が必要な企業環境に適しています。
 
 - **Cloudflare R2**：S3 互換 [API](/glossary/api/) を提供しながら、シンプルなアクセストークンベースの[認証](/glossary/認証/)を採用しており、複雑な[ポリシー](/glossary/ポリシー/)管理が不要です。軽量な運用を重視する場合に有効です。
 

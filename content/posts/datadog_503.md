@@ -147,7 +147,7 @@ sudo datadog-agent version
 
 ### 原因5：Datadog API のレート制限に達している
 
-短時間に大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、Datadog [API](/glossary/api/) の[レート制限](/glossary/レート制限/)に抵触し、503 が返される場合があります。これは特にカスタムメトリクスの[送信](/glossary/送信/)やバッチ処理で発生しやすいです。
+短時間に大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、Datadog [API](/glossary/api/) の[レート制限](/glossary/レート制限/)に抵触し、503 が返される場合があります。これは特にカスタムメトリクスの[送信](/glossary/送信/)や[バッチ処理](/glossary/バッチ処理/)で発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

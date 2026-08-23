@@ -138,7 +138,7 @@ const response = await fetch('https://<your-project>.supabase.co/rest/v1/users',
 
 ### 原因 3：Auth API パラメータの型ミスまたは無効な値
 
-Supabase Auth [API](/glossary/api/)（ユーザー登録・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他[メタデータ](/glossary/メタデータ/)の[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須[フィールド](/glossary/フィールド/)が欠けていたり、データ型が違ったり、無効な形式だったりすると 400 が返ります。
+Supabase Auth [API](/glossary/api/)（ユーザー登録・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他[メタデータ](/glossary/メタデータ/)の[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須[フィールド](/glossary/フィールド/)が欠けていたり、[データ型](/glossary/データ型/)が違ったり、無効な形式だったりすると 400 が返ります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

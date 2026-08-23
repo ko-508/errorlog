@@ -219,7 +219,7 @@ curl -sS https://api.openai.com/v1/models \
 
 `param` に `max_tokens` と出ている以上、それは送られています。**画面上の見え方ではなく、応答が事実を示している**。この読み方ができれば、設定を疑うのではなく、送信部分を疑う段階へ一足飛びに進めます。
 
-同じ[エラー](/glossary/エラー/)は、公式の開発キットの[リポジトリ](/glossary/リポジトリ/)にも「ライブラリの不具合」として報告されています（[openai.BadRequestError: Error code: 400](https://github.com/openai/openai-python/issues/2046)）。実際にはライブラリの問題ではなく、[モデル](/glossary/モデル/)側の仕様変更に呼び出し側が追随していない状態でした。**400 は、送った側と受け取る側の食い違いを指しています**。どちらが古いのかを見極めるのが、この[エラー](/glossary/エラー/)の本質です。
+同じ[エラー](/glossary/エラー/)は、公式の開発キットの[リポジトリ](/glossary/リポジトリ/)にも「[ライブラリ](/glossary/ライブラリ/)の不具合」として報告されています（[openai.BadRequestError: Error code: 400](https://github.com/openai/openai-python/issues/2046)）。実際には[ライブラリ](/glossary/ライブラリ/)の問題ではなく、[モデル](/glossary/モデル/)側の仕様変更に呼び出し側が追随していない状態でした。**400 は、送った側と受け取る側の食い違いを指しています**。どちらが古いのかを見極めるのが、この[エラー](/glossary/エラー/)の本質です。
 
 ---
 

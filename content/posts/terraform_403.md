@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform が [AWS](/glossary/aws/) などのクラウドプロバイダーにリソースの作成・更新・削除を要求したとき、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)または SCP（Service Control Policy）により操作が拒否される状態です。この[エラー](/glossary/エラー/)は実行[ロール](/glossary/ロール/)に必要な[権限](/glossary/権限/)がないか、組織レベルの制限によって操作が許可されていないことを示しています。
+Terraform が [AWS](/glossary/aws/) などのクラウドプロバイダーにリソースの作成・更新・[削除](/glossary/削除/)を要求したとき、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)または SCP（Service Control Policy）により操作が拒否される状態です。この[エラー](/glossary/エラー/)は実行[ロール](/glossary/ロール/)に必要な[権限](/glossary/権限/)がないか、組織レベルの制限によって操作が許可されていないことを示しています。
 
 ## 実際のエラーメッセージ例
 

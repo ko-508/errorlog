@@ -102,7 +102,7 @@ $ cat ~/.docker/config.json
 
 ### 原因3：レジストリーのアクセストークンが期限切れまたは無効
 
-[Docker](/glossary/docker/) Hubやプライベートレジストリーで生成したアクセストークンが期限切れ、削除された、または[権限](/glossary/権限/)が制限されている場合です。
+[Docker](/glossary/docker/) Hubやプライベートレジストリーで生成したアクセストークンが期限切れ、[削除](/glossary/削除/)された、または[権限](/glossary/権限/)が制限されている場合です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

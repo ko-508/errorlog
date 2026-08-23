@@ -167,7 +167,7 @@ export default async function handler(req, res) {
 }
 ```
 
-または `package.json` の build スクリプトに問題がないか確認：
+または `package.json` の build [スクリプト](/glossary/スクリプト/)に問題がないか確認：
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

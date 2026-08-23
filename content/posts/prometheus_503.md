@@ -154,7 +154,7 @@ find /var/lib/prometheus/data -type d -name "*.db" -mtime +30 -exec rm -rf {} \;
 sudo systemctl restart prometheus
 ```
 
-[容量](/glossary/容量/)が逼迫している場合、即座に古いデータを削除するか、アーカイブストレージへの移行を検討します。
+[容量](/glossary/容量/)が逼迫している場合、即座に古いデータを[削除](/glossary/削除/)するか、アーカイブストレージへの移行を検討します。
 
 ## ツール固有の注意点
 

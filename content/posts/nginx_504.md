@@ -127,7 +127,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-「設定したのに効かない」の実例として、海外の技術 Q&A サイトの報告があります（[qna.habr.com の質問](https://qna.habr.com/q/156375)、2014年）。約3分かかるスクリプトのために fastcgi_read_timeout 600 を設定したのに、ブラウザにはちょうど1分で 504 Gateway Time-out が表示され、[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) while reading response header from upstream が記録されている、という内容です。注目すべきは時間です。切れているのは設定した600秒ではなく、既定値と同じ60秒です。つまりこの記録は、書いた設定がその[リクエスト](/glossary/リクエスト/)の処理に使われていない（別の location が処理しているか、設定が読み込まれていない）ことを、[ログ](/glossary/ログ/)の数字そのものが示している実例です。古い報告ですが、fastcgi_read_timeout と proxy_read_timeout のこの挙動は現行の公式ドキュメントの仕様と変わりません。504 の調査で値を延ばす前に実効設定を確認すべき理由が、ここに凝縮されています。
+「設定したのに効かない」の実例として、海外の技術 Q&A サイトの報告があります（[qna.habr.com の質問](https://qna.habr.com/q/156375)、2014年）。約3分かかる[スクリプト](/glossary/スクリプト/)のために fastcgi_read_timeout 600 を設定したのに、ブラウザにはちょうど1分で 504 Gateway Time-out が表示され、[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) while reading response header from upstream が記録されている、という内容です。注目すべきは時間です。切れているのは設定した600秒ではなく、既定値と同じ60秒です。つまりこの記録は、書いた設定がその[リクエスト](/glossary/リクエスト/)の処理に使われていない（別の location が処理しているか、設定が読み込まれていない）ことを、[ログ](/glossary/ログ/)の数字そのものが示している実例です。古い報告ですが、fastcgi_read_timeout と proxy_read_timeout のこの挙動は現行の公式ドキュメントの仕様と変わりません。504 の調査で値を延ばす前に実効設定を確認すべき理由が、ここに凝縮されています。
 
 504 は「どのタイマーが切れたか」を[ログ](/glossary/ログ/)が名指ししてくれる[エラー](/glossary/エラー/)です。文言と実測時間を読み、経路・処理・設定の三択のどれかを確定してから手を打つことが確実な近道です。
 

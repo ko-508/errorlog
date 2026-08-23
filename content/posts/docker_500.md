@@ -85,7 +85,7 @@ docker system df
 docker system prune -a
 ```
 
-削除は元に戻せないため、docker system df で内訳を確認してから実行してください。
+[削除](/glossary/削除/)は元に戻せないため、docker system df で内訳を確認してから実行してください。
 
 メッセージの文言だけで原因が分からない場合は、[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認します。公式ドキュメントによると、systemd を使う Linux では次の[コマンド](/glossary/コマンド/)で確認できます。
 

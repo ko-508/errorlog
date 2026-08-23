@@ -90,7 +90,7 @@ export default async function handler(req, res) {
 
 複雑なデータ処理や[ループ](/glossary/ループ/)処理が実行時間内に完了していない場合があります。大量データの変換や[ファイル](/glossary/ファイル/)処理など、CPU 集約的なタスクが[関数](/glossary/関数/)の実行時間を超過させます。
 
-**解決策：バッチ処理による分割実行**
+**解決策：[バッチ処理](/glossary/バッチ処理/)による分割実行**
 
 ```json
 {
@@ -159,7 +159,7 @@ export default async function handler(req, res) {
 ## Vercel 固有の注意点
 
 **Hobby プランの[タイムアウト](/glossary/タイムアウト/)制限：**
-Hobby プランはデフォルト 10 秒に制限されており、`maxDuration` を設定することで最大 60 秒まで延長可能です。より長時間の処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、バッチ処理）ことが必須です。
+Hobby プランはデフォルト 10 秒に制限されており、`maxDuration` を設定することで最大 60 秒まで延長可能です。より長時間の処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、[バッチ処理](/glossary/バッチ処理/)）ことが必須です。
 
 **Pro プランのデフォルトタイムアウト：**
 2023年10月1日以降、新規[プロジェクト](/glossary/プロジェクト/)または 15 秒以上関数を実行していない[プロジェクト](/glossary/プロジェクト/)では、デフォルトタイムアウトは 15 秒に短縮されています。ただし Pro プラン以上では `maxDuration` を設定することで、最大 300 秒（5 分）まで延長可能です。
@@ -204,7 +204,7 @@ Vercel 公式の「Serverless Function Configuration」（https://vercel.com/doc
 Vercel の Observability 機能（Pro プラン以上）を有効にすると、[関数](/glossary/関数/)の CPU 使用率、[メモリ](/glossary/メモリ/)使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
 
 **[GitHub](/glossary/github/) Issues・コミュニティ：**
-同じ問題が Vercel [GitHub](/glossary/github/) Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定のライブラリとの相性問題などが記載されている場合があります。
+同じ問題が Vercel [GitHub](/glossary/github/) Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定の[ライブラリ](/glossary/ライブラリ/)との相性問題などが記載されている場合があります。
 
 ---
 

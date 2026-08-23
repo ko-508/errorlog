@@ -81,7 +81,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
 
 ### 原因2：削除済みまたは無効なメトリクスへのアクセス
 
-[クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に[送信](/glossary/送信/)されていない、または既に削除された場合、[ダッシュボード](/glossary/ダッシュボード/)やグラフの表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の[送信](/glossary/送信/)が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
+[クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に[送信](/glossary/送信/)されていない、または既に[削除](/glossary/削除/)された場合、[ダッシュボード](/glossary/ダッシュボード/)やグラフの表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の[送信](/glossary/送信/)が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -198,7 +198,7 @@ for monitor in monitors:
     print(f"Monitor ID: {monitor['id']}, Name: {monitor['name']}")
 ```
 
-このスクリプトを実行すると、環境内のすべてのモニター [ID](/glossary/id/) と名前が列挙されます。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)で使用する正確な [ID](/glossary/id/) をこの出力から確認してください。
+この[スクリプト](/glossary/スクリプト/)を実行すると、環境内のすべてのモニター [ID](/glossary/id/) と名前が列挙されます。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)で使用する正確な [ID](/glossary/id/) をこの出力から確認してください。
 
 **Metrics Explorer での動作確認**
 

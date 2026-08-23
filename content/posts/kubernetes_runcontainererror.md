@@ -271,7 +271,7 @@ kubectl cordon <ノード名>
 
 本番ノードでcontainer runtimeを再起動すると、そのノード上のPodに影響します。まず対象ノードのPod、PodDisruptionBudget、冗長性を確認し、必要ならcordonやdrainの計画を立てます。
 
-imageやレイヤを削除する場合も、対象を限定します。
+imageやレイヤを[削除](/glossary/削除/)する場合も、対象を限定します。
 
 ```bash
 # 実行前に対象ノードと対象imageを確認する

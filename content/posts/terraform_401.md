@@ -32,7 +32,7 @@ HTTP status code: 401 Unauthorized
 
 ### 原因1：AWS アクセスキーの認証情報が不正または期限切れ
 
-[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が削除されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、設定ミスが起こりやすくなります。
+[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が[削除](/glossary/削除/)されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、設定ミスが起こりやすくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -106,7 +106,7 @@ terraform plan
 
 ### 原因3：Terraform Cloud の認証トークンが無効または期限切れ
 
-`terraform login` で取得した Terraform Cloud の[トークン](/glossary/トークン/)が有効期限を超えた場合や、[トークン](/glossary/トークン/)が削除された場合に発生します。リモート状態を利用している[環境](/glossary/環境/)では特に重要です。
+`terraform login` で取得した Terraform Cloud の[トークン](/glossary/トークン/)が有効期限を超えた場合や、[トークン](/glossary/トークン/)が[削除](/glossary/削除/)された場合に発生します。リモート状態を利用している[環境](/glossary/環境/)では特に重要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -271,7 +271,7 @@ grep -i "401\|unauthorized" terraform_debug.log
 
 ### 認証情報キャッシュをクリア
 
-古い[キャッシュ](/glossary/キャッシュ/)が残っている場合、以下の[コマンド](/glossary/コマンド/)で Terraform のプラグインキャッシュを削除してください。
+古い[キャッシュ](/glossary/キャッシュ/)が残っている場合、以下の[コマンド](/glossary/コマンド/)で Terraform のプラグインキャッシュを[削除](/glossary/削除/)してください。
 
 ```bash
 # Terraform プラグインキャッシュをクリア

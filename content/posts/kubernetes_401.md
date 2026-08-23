@@ -43,7 +43,7 @@ Error from server (Unauthorized): pods "pod-name" is forbidden: User "system:ser
 
 ### 原因1：kubeconfig設定の無効化または存在しない認証情報
 
-kubeconfig内の[証明書](/glossary/証明書/)や[トークン](/glossary/トークン/)が無効になっている、または参照している[ファイル](/glossary/ファイル/)が削除されている場合に401[エラー](/glossary/エラー/)が発生します。クラスタをセットアップした時点での認証情報が失われたり、[パス](/glossary/パス/)が誤っていたりすることが多いです。
+kubeconfig内の[証明書](/glossary/証明書/)や[トークン](/glossary/トークン/)が無効になっている、または参照している[ファイル](/glossary/ファイル/)が[削除](/glossary/削除/)されている場合に401[エラー](/glossary/エラー/)が発生します。クラスタを[セットアップ](/glossary/セットアップ/)した時点での認証情報が失われたり、[パス](/glossary/パス/)が誤っていたりすることが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -51,7 +51,7 @@ metadata:
   deletionGracePeriodSeconds: 30
 ```
 
-この時点で削除要求は失敗していません。[finalizerの公式説明](https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/)によれば、finalizerを持つ[オブジェクト](/glossary/オブジェクト/)への削除要求は `202 Accepted` で受理され、`.metadata.deletionTimestamp` が設定されます。その後、必要な後処理が済み、finalizerの一覧が空になると削除が完了します。
+この時点で削除要求は失敗していません。[finalizerの公式説明](https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/)によれば、finalizerを持つ[オブジェクト](/glossary/オブジェクト/)への削除要求は `202 Accepted` で受理され、`.metadata.deletionTimestamp` が設定されます。その後、必要な後処理が済み、finalizerの一覧が空になると[削除](/glossary/削除/)が完了します。
 
 `Terminating` は、この途中経過を `kubectl` が表示したものです。[API](/glossary/api/)上のPodの `status.phase` は、終了処理中も `Running` や `Pending` のままの場合があります。
 
@@ -72,7 +72,7 @@ kubectl delete --grace-period  今回の削除で指定する猶予期間
 kubectl delete --wait          kubectlが削除完了を待つかどうか
 ```
 
-`--wait=false` は、手元の `kubectl` を先に終了させるだけです。Podの終了処理、finalizerの後処理、[API](/glossary/api/)上の削除は引き続き進みます。対して `--grace-period=0 --force` は、停止確認を待たずに[API](/glossary/api/)からPodを消します。見た目は似ていても、意味と危険性はまったく違います。
+`--wait=false` は、手元の `kubectl` を先に終了させるだけです。Podの終了処理、finalizerの後処理、[API](/glossary/api/)上の[削除](/glossary/削除/)は引き続き進みます。対して `--grace-period=0 --force` は、停止確認を待たずに[API](/glossary/api/)からPodを消します。見た目は似ていても、意味と危険性はまったく違います。
 
 ## まず最初に：削除要求・猶予期間・finalizer・ノードを分ける
 
@@ -101,7 +101,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .metadata.finalizers[*]}{.}{"\n"}{end}'
 ```
 
-文字列がある場合は、それを追加したコントローラーを特定します。finalizerの文字列自体が後処理を実行するわけではありません。対象のコントローラーが削除を検知し、外部資源や依存関係を片付け、最後に自分のfinalizerを外します。
+文字列がある場合は、それを追加したコントローラーを特定します。finalizerの文字列自体が後処理を実行するわけではありません。対象のコントローラーが[削除](/glossary/削除/)を検知し、外部資源や依存関係を片付け、最後に自分のfinalizerを外します。
 
 第四に、配置先ノードの状態を確認します。
 
@@ -152,7 +152,7 @@ spec:
 
 ### 原因2：preStopまたはアプリケーションの終了処理が完了しない
 
-削除から猶予期間を大きく超えても残る場合は、実際にどこまで進んだかを確認します。
+[削除](/glossary/削除/)から猶予期間を大きく超えても残る場合は、実際にどこまで進んだかを確認します。
 
 ```bash
 kubectl describe pod <Pod名> -n <名前空間>
@@ -168,7 +168,7 @@ kubectl get events -n <名前空間> \
 
 ### 原因3：finalizerを管理するコントローラーが後処理を完了できない
 
-finalizerが残っていると、[コンテナ](/glossary/コンテナ/)が停止済みでも[API](/glossary/api/)上の[オブジェクト](/glossary/オブジェクト/)は削除されません。
+finalizerが残っていると、[コンテナ](/glossary/コンテナ/)が停止済みでも[API](/glossary/api/)上の[オブジェクト](/glossary/オブジェクト/)は[削除](/glossary/削除/)されません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -194,7 +194,7 @@ kubectl auth can-i update pods/finalizers \
   -n <Podの名前空間>
 ```
 
-finalizerを手で消す前に、誰が何を片付けるために付けたものかを確認してください。公式文書も、目的を理解せずfinalizerを手動で削除することを避けるよう警告しています。外部[ストレージ](/glossary/ストレージ/)、[ネットワーク](/glossary/ネットワーク/)、[クラウド](/glossary/クラウド/)資源などの後処理を飛ばすと、リークや二重管理が残ります。
+finalizerを手で消す前に、誰が何を片付けるために付けたものかを確認してください。公式文書も、目的を理解せずfinalizerを手動で[削除](/glossary/削除/)することを避けるよう警告しています。外部[ストレージ](/glossary/ストレージ/)、[ネットワーク](/glossary/ネットワーク/)、[クラウド](/glossary/クラウド/)資源などの後処理を飛ばすと、リークや二重管理が残ります。
 
 ### 原因4：ノードまたはkubeletへ到達できない
 
@@ -210,7 +210,7 @@ kubectl get events -A --field-selector involvedObject.name=<ノード名> \
 
 一時的な通信断なら、ノードとkubeletを復旧させ、通常の終了処理を完了させます。ノードを再起動すればPodが必ず止まる、という判断も危険です。[公式文書](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination)は、kubeletを再起動しても実行中のPodや[コンテナ](/glossary/コンテナ/)は停止せず、動作を続けると説明しています。
 
-ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を確認し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード削除の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い処理が復帰できない状態を先に作るのが順序です。
+ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を確認し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード[削除](/glossary/削除/)の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い処理が復帰できない状態を先に作るのが順序です。
 
 ### 原因5：Admission Webhookが削除途中の更新を拒否する
 
@@ -236,7 +236,7 @@ StatefulSetのPodは、名前、[ネットワーク](/glossary/ネットワー�
 
 ### 原因7：親オブジェクトのforeground削除が依存先を待っている
 
-Deployment、ReplicaSet、StatefulSetなどを `--cascade=foreground` で削除すると、所有する側は依存する[オブジェクト](/glossary/オブジェクト/)の削除完了を待ちます。[所有者と依存先の公式文書](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/#foreground-cascading-deletion)では、この待機に `foregroundDeletion` finalizerが使われると説明されています。
+Deployment、ReplicaSet、StatefulSetなどを `--cascade=foreground` で[削除](/glossary/削除/)すると、所有する側は依存する[オブジェクト](/glossary/オブジェクト/)の削除完了を待ちます。[所有者と依存先の公式文書](https://kubernetes.io/docs/concepts/overview/working-with-objects/owners-dependents/#foreground-cascading-deletion)では、この待機に `foregroundDeletion` finalizerが使われると説明されています。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -279,7 +279,7 @@ PodDisruptionBudgetに拒否された退避では、Eviction [API](/glossary/api
 kubectl delete pod <Pod名> -n <名前空間> --wait=false
 ```
 
-通常の削除が完了しない原因を解消し、対象が消えるかを監視します。
+通常の[削除](/glossary/削除/)が完了しない原因を解消し、対象が消えるかを監視します。
 
 ```bash
 kubectl wait --for=delete pod/<Pod名> -n <名前空間> --timeout=120s
@@ -303,13 +303,13 @@ kubectl patch pod <Pod名> -n <名前空間> --type=merge \
   -p '{"metadata":{"finalizers":[]}}'
 ```
 
-この操作は後処理を実行しません。後処理が終わったことにして、削除を先へ進めるだけです。原因調査の第一手として使わないでください。
+この操作は後処理を実行しません。後処理が終わったことにして、[削除](/glossary/削除/)を先へ進めるだけです。原因調査の第一手として使わないでください。
 
 ## 切り分けの順序
 
 1. `.metadata.deletionTimestamp` を確認し、削除要求が入った時刻を確定する。
 2. `.metadata.deletionGracePeriodSeconds` と `.spec.terminationGracePeriodSeconds` を確認する。
-3. 削除からの経過時間が猶予期間内なら、`preStop` と[アプリケーション](/glossary/アプリケーション/)の正常終了を待つ。
+3. [削除](/glossary/削除/)からの経過時間が猶予期間内なら、`preStop` と[アプリケーション](/glossary/アプリケーション/)の正常終了を待つ。
 4. Eventsと全[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)から、終了処理の停止位置を確認する。
 5. `.metadata.finalizers` を確認し、各finalizerを管理するコントローラーを特定する。
 6. Podの所有者がJobやStatefulSetなら、親[オブジェクト](/glossary/オブジェクト/)とコントローラーの状態を確認する。
@@ -361,9 +361,9 @@ kubectl get validatingwebhookconfigurations,mutatingwebhookconfigurations -o yam
 
 `Terminating` が分かりにくい理由は、**1つの表示に複数の待ち時間が重なって見える**ことです。[アプリケーション](/glossary/アプリケーション/)の終了、ボリュームや通信環境の片付け、finalizerを管理するコントローラー、到達不能なノード。どれが止まっても一覧の文字は同じです。
 
-この性質は、[Kubernetes](/glossary/kubernetes/)の課題にも長く現れています。2017年の[Pods stuck on terminating](https://github.com/kubernetes/kubernetes/issues/51835)では、Podが数時間 `Terminating` のまま残る事象が報告されました。議論では、ボリュームの片付け中に `device or resource busy` が発生し、kubelet側の削除が完了しない記録が示されています。`Terminating` という表示だけでは、その停止位置までは分からない例です。
+この性質は、[Kubernetes](/glossary/kubernetes/)の課題にも長く現れています。2017年の[Pods stuck on terminating](https://github.com/kubernetes/kubernetes/issues/51835)では、Podが数時間 `Terminating` のまま残る事象が報告されました。議論では、ボリュームの片付け中に `device or resource busy` が発生し、kubelet側の[削除](/glossary/削除/)が完了しない記録が示されています。`Terminating` という表示だけでは、その停止位置までは分からない例です。
 
-一方、表示を消すために削除を先へ進めると、別の危険が生まれます。2025年の[The pod garbage collector deletes the old pod ... and the new pod is started](https://github.com/kubernetes/kubernetes/issues/131775)では、StatefulSetの古いPodに関する通信環境の後処理が終わる前に同名の新しいPodが作られ、古い削除処理が新しいPodの通信環境を壊した事象が報告されました。報告された個別条件をすべての[環境](/glossary/環境/)へ一般化はできませんが、**[API](/glossary/api/)上の削除完了とノード側の後処理完了は同じではない**ことを具体的に示しています。
+一方、表示を消すために[削除](/glossary/削除/)を先へ進めると、別の危険が生まれます。2025年の[The pod garbage collector deletes the old pod ... and the new pod is started](https://github.com/kubernetes/kubernetes/issues/131775)では、StatefulSetの古いPodに関する通信環境の後処理が終わる前に同名の新しいPodが作られ、古い削除処理が新しいPodの通信環境を壊した事象が報告されました。報告された個別条件をすべての[環境](/glossary/環境/)へ一般化はできませんが、**[API](/glossary/api/)上の削除完了とノード側の後処理完了は同じではない**ことを具体的に示しています。
 
 だから、`Terminating` の解決を「強制削除[コマンド](/glossary/コマンド/)を通すこと」と定義してはいけません。解決とは、本来の終了処理がどこで止まったかを特定し、プロセス、通信環境、[ストレージ](/glossary/ストレージ/)、外部資源の後処理を安全に完了させることです。
 

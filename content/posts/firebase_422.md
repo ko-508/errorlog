@@ -137,7 +137,7 @@ firebase.auth().createUserWithEmailAndPassword(
 
 ### Realtime Database の REST API 使用時
 
-[REST](/glossary/rest/) [API](/glossary/api/) で直接書き込む場合、`Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 422 が返ることがあります。また、`.validate` ルールで `newData.isNumber()` や `newData.isString()` のようなデータ型チェックが厳密に定義されている場合、型が一致しないデータを[送信](/glossary/送信/)すると即座に[エラー](/glossary/エラー/)が返されます。
+[REST](/glossary/rest/) [API](/glossary/api/) で直接書き込む場合、`Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 422 が返ることがあります。また、`.validate` ルールで `newData.isNumber()` や `newData.isString()` のような[データ型](/glossary/データ型/)チェックが厳密に定義されている場合、型が一致しないデータを[送信](/glossary/送信/)すると即座に[エラー](/glossary/エラー/)が返されます。
 
 ```bash
 # Before: ヘッダーなしで送信（エラーが出やすい）

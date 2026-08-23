@@ -38,7 +38,7 @@ message の文言が、系統を見分ける最初の手がかりです。[Git](
 
 ## まず最初に：どの操作への409かで3つに分岐する
 
-[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/)（POST .../merges）や上流との[同期](/glossary/同期/)（POST .../merge-upstream）への409なら、[マージ](/glossary/マージ/)競合です（原因1）。pull request の[マージ](/glossary/マージ/)（PUT .../pulls/{n}/merge）への409は、[リクエスト](/glossary/リクエスト/)に sha を渡している場合に head の移動を検出したガードです（原因2）。[ファイル](/glossary/ファイル/)の作成・更新・削除（PUT / DELETE .../contents/{path}）への409も、並行更新による sha の食い違いというガードです（原因2）。[コミット](/glossary/コミット/)一覧や [Git](/glossary/git/) [データベース](/glossary/データベース/)系（git/refs、git/commits、git/trees など）の取得・作成への409で、message が [Git](/glossary/git/) Repository is empty なら、[リポジトリ](/glossary/リポジトリ/)が空です（原因3）。
+[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/)（POST .../merges）や上流との[同期](/glossary/同期/)（POST .../merge-upstream）への409なら、[マージ](/glossary/マージ/)競合です（原因1）。pull request の[マージ](/glossary/マージ/)（PUT .../pulls/{n}/merge）への409は、[リクエスト](/glossary/リクエスト/)に sha を渡している場合に head の移動を検出したガードです（原因2）。[ファイル](/glossary/ファイル/)の作成・更新・[削除](/glossary/削除/)（PUT / DELETE .../contents/{path}）への409も、並行更新による sha の食い違いというガードです（原因2）。[コミット](/glossary/コミット/)一覧や [Git](/glossary/git/) [データベース](/glossary/データベース/)系（git/refs、git/commits、git/trees など）の取得・作成への409で、message が [Git](/glossary/git/) Repository is empty なら、[リポジトリ](/glossary/リポジトリ/)が空です（原因3）。
 
 ## よくある原因と解決手順
 
@@ -48,7 +48,7 @@ message の文言が、系統を見分ける最初の手がかりです。[Git](
 
 この系統の409に対して、[API](/glossary/api/) の再試行は意味を持ちません。競合の解決は [API](/glossary/api/) ではできず、作業コピーで行います。
 
-**Before（[同期](/glossary/同期/)スクリプトが409を一時[エラー](/glossary/エラー/)扱いして再試行し続ける）：**
+**Before（[同期](/glossary/同期/)[スクリプト](/glossary/スクリプト/)が409を一時[エラー](/glossary/エラー/)扱いして再試行し続ける）：**
 
 ```bash
 # 上流の変更を main に取り込む定期ジョブ
@@ -80,7 +80,7 @@ esac
 
 pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha [パラメータ](/glossary/パラメータ/)を渡すと、「この head のときだけ[マージ](/glossary/マージ/)してよい」という指定になり、公式定義のとおり、head がその sha と一致しなければ409が返ります。これはレビューが済んだ内容と実際に[マージ](/glossary/マージ/)される内容のすり替えを防ぐガードで、409は「レビュー後に新しい[コミット](/glossary/コミット/)が積まれた」という通知です。対処は、head を確認し直し、必要なら再レビューのうえ最新の sha で再実行することです。
 
-[ファイル](/glossary/ファイル/)の作成・更新・削除（contents [API](/glossary/api/)）の409も同じ構図です。更新には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を更新すると、渡した sha が古くなって409になります。典型は、[GitHub](/glossary/github/) Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を更新する構成です。
+[ファイル](/glossary/ファイル/)の作成・更新・[削除](/glossary/削除/)（contents [API](/glossary/api/)）の409も同じ構図です。更新には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を更新すると、渡した sha が古くなって409になります。典型は、[GitHub](/glossary/github/) Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を更新する構成です。
 
 **Before（並列ジョブが同じ[ファイル](/glossary/ファイル/)を取得→更新し、先に書いた方以外が409になる）：**
 

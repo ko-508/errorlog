@@ -145,7 +145,7 @@ curl -X POST http://localhost:8080/job/<your-job-name>/build \
   -H "Authorization: Bearer <your-api-token>"
 ```
 
-セーフリスタートファイルを手動で削除する方法もあります（強制的な解除）。
+セーフリスタートファイルを手動で[削除](/glossary/削除/)する方法もあります（強制的な解除）。
 
 ```bash
 # Jenkinsを停止してからセーフリスタートファイルを削除
@@ -156,7 +156,7 @@ sudo systemctl start jenkins
 
 ## ツール固有の注意点
 
-Jenkins [環境](/glossary/環境/)ではプラグインの[バージョン](/glossary/バージョン/)競合やスクリプトコンソールの実行でも[メモリ](/glossary/メモリ/)枯渇が発生することがあります。「Manage Jenkins」→「Plugin Manager」で不要または古いプラグインを定期的に削除することをお勧めします。
+Jenkins [環境](/glossary/環境/)ではプラグインの[バージョン](/glossary/バージョン/)競合やスクリプトコンソールの実行でも[メモリ](/glossary/メモリ/)枯渇が発生することがあります。「Manage Jenkins」→「Plugin Manager」で不要または古いプラグインを定期的に[削除](/glossary/削除/)することをお勧めします。
 
 また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に[保存](/glossary/保存/)されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に確認してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを検索するとよいでしょう。
 

@@ -171,7 +171,7 @@ Collection Runner の Delay とは別に、Pre-request Script で動的に待機
 setTimeout(() => {}, 1000); // 1秒待機
 ```
 
-ただし Postman のスクリプト実行は限定的なため、UI の Delay [フィールド](/glossary/フィールド/)を使う方が確実です。
+ただし Postman の[スクリプト](/glossary/スクリプト/)実行は限定的なため、UI の Delay [フィールド](/glossary/フィールド/)を使う方が確実です。
 
 **Environment と Mock Server の連携：**
 

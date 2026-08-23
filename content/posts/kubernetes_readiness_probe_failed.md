@@ -437,7 +437,7 @@ readinessはServiceの転送先を制御する状態です。NetworkPolicyはPod
 
 ### terminating Pod
 
-Podが削除されると、readiness probeとは別にEndpointSliceの `terminating` がTrueとなり、通常は `ready` がFalseになります。終了処理中の[通信](/glossary/通信/)には `serving` conditionも使われます。削除中の動作をreadiness失敗だけで説明しません。
+Podが[削除](/glossary/削除/)されると、readiness probeとは別にEndpointSliceの `terminating` がTrueとなり、通常は `ready` がFalseになります。終了処理中の[通信](/glossary/通信/)には `serving` conditionも使われます。削除中の動作をreadiness失敗だけで説明しません。
 
 ### Ingressや外部Load Balancerのhealth check
 

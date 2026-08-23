@@ -13,7 +13,7 @@ related_services: ["REST API", "Jenkinsfile"]
 
 ## エラーの概要
 
-404[エラー](/glossary/エラー/)は、Jenkinsが指定したジョブまたはビルドを見つけられない状態を示します。この[エラー](/glossary/エラー/)はパイプライン実行時、[API](/glossary/api/)アクセス時、またはWebUIでのジョブ確認時に発生し、ジョブの削除・リネーム、[URL](/glossary/url/)構成の誤り、ビルド番号の不一致などが主な原因となります。
+404[エラー](/glossary/エラー/)は、Jenkinsが指定したジョブまたはビルドを見つけられない状態を示します。この[エラー](/glossary/エラー/)はパイプライン実行時、[API](/glossary/api/)アクセス時、またはWebUIでのジョブ確認時に発生し、ジョブの[削除](/glossary/削除/)・リネーム、[URL](/glossary/url/)構成の誤り、ビルド番号の不一致などが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -90,7 +90,7 @@ curl -X POST "http://localhost:8080/job/project-folder/job/deploy-test/build" \
 
 ### 原因3：ビルド番号が存在しないか削除されている
 
-Jenkinsのビルド履歴は保持[ポリシー](/glossary/ポリシー/)によって自動削除される場合があります。削除されたビルド番号にアクセスしようとすると404[エラー](/glossary/エラー/)が返されます。また、存在しないビルド番号（例：ビルド100が最新のときにビルド200にアクセス）を指定した場合も同様です。
+Jenkinsのビルド履歴は保持[ポリシー](/glossary/ポリシー/)によって自動削除される場合があります。[削除](/glossary/削除/)されたビルド番号にアクセスしようとすると404[エラー](/glossary/エラー/)が返されます。また、存在しないビルド番号（例：ビルド100が最新のときにビルド200にアクセス）を指定した場合も同様です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -135,7 +135,7 @@ build job: 'project-folder/deploy-test'
 
 **Jenkins UI上での確認方法：**
 
-Jenkinsホーム画面で目的のジョブを開き、ブラウザのアドレスバーに表示された[URL](/glossary/url/)が正確な[パス](/glossary/パス/)です。この[URL](/glossary/url/)をコピーして、[API](/glossary/api/)呼び出しやスクリプトで使用することで、綴り間違いを防げます。
+Jenkinsホーム画面で目的のジョブを開き、ブラウザのアドレスバーに表示された[URL](/glossary/url/)が正確な[パス](/glossary/パス/)です。この[URL](/glossary/url/)をコピーして、[API](/glossary/api/)呼び出しや[スクリプト](/glossary/スクリプト/)で使用することで、綴り間違いを防げます。
 
 ## それでも解決しない場合
 

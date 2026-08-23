@@ -208,7 +208,7 @@ git push --dry-run --all origin
 
 bypass 一覧に入れたのに拒まれるという現象は、[GitHub コミュニティの Discussion #110674](https://github.com/orgs/community/discussions/110674) に典型例が残っています。2024年3月に回答が付いています。
 
-投稿者の状況はこうです。main への直接の push を禁じる規則を作り、bypass 一覧に自分を追加した。手元から push すると素通りできる。ところが [GitHub](/glossary/github/) Actions のワークフローから同じことをすると `GH013: Repository rule violations found for refs/heads/main.` が返る。設定画面の書き込み[権限](/glossary/権限/)も有効にしてある。
+投稿者の状況はこうです。main への直接の push を禁じる規則を作り、bypass 一覧に自分を追加した。手元から push すると素通りできる。ところが [GitHub](/glossary/github/) Actions の[ワークフロー](/glossary/ワークフロー/)から同じことをすると `GH013: Repository rule violations found for refs/heads/main.` が返る。設定画面の書き込み[権限](/glossary/権限/)も有効にしてある。
 
 原因は[権限](/glossary/権限/)ではありませんでした。投稿者自身が書いた回答によれば、`actions/checkout` が既定で資格情報を[保存](/glossary/保存/)するため、以降の push がその[保存](/glossary/保存/)された身元で行われていたのです。解決は2段構えでした。取得の段階で[保存](/glossary/保存/)を止め、そのうえで push の[コマンド](/glossary/コマンド/)に、bypass を持つ利用者の[トークン](/glossary/トークン/)を明示的に渡すことです。
 

@@ -48,7 +48,7 @@ Authentication required
 
 ### 原因1：CSRF保護が有効なのにCrumbヘッダーを付けずにAPIを呼び出している
 
-Jenkins の CSRF 保護が有効になっていると、POST [リクエスト](/glossary/リクエスト/)（ジョブの実行、設定変更など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部スクリプトから Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
+Jenkins の CSRF 保護が有効になっていると、POST [リクエスト](/glossary/リクエスト/)（ジョブの実行、設定変更など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部[スクリプト](/glossary/スクリプト/)から Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -106,7 +106,7 @@ curl -X POST "http://localhost:8080/job/my-job/build" \
 
 ### 原因3：匿名ユーザーのアクセスが制限されているのに認証なしで API を呼んでいる
 
-Jenkins で匿名アクセスを禁止しているのに、認証情報を付けずに [API](/glossary/api/) を呼び出すと 403 [エラー](/glossary/エラー/)が返されます。外部の CD/CD [ツール](/glossary/ツール/)や監視スクリプトから Jenkins にアクセスする際、[API](/glossary/api/) [トークン](/glossary/トークン/)の生成や指定を忘れると発生しやすい[エラー](/glossary/エラー/)です。
+Jenkins で匿名アクセスを禁止しているのに、認証情報を付けずに [API](/glossary/api/) を呼び出すと 403 [エラー](/glossary/エラー/)が返されます。外部の CD/CD [ツール](/glossary/ツール/)や監視[スクリプト](/glossary/スクリプト/)から Jenkins にアクセスする際、[API](/glossary/api/) [トークン](/glossary/トークン/)の生成や指定を忘れると発生しやすい[エラー](/glossary/エラー/)です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -139,13 +139,13 @@ Jenkins 管理画面で **Manage Jenkins** → **Configure Global Security** を
 
 Jenkins では `/user/<username>/generateApiToken` [エンドポイント](/glossary/エンドポイント/)経由で生成した[トークン](/glossary/トークン/)を使い、[HTTP](/glossary/http/) 基本認証で `username:api-token` の形式で[認証](/glossary/認証/)します。[パスワード](/glossary/パスワード/)ではなく [API](/glossary/api/) [トークン](/glossary/トークン/)を使うことで、複雑な[パスワード](/glossary/パスワード/)管理を避けられます。
 
-**複数ジョブへのアクセス制御：**
+**複数ジョブへの[アクセス制御](/glossary/アクセス制御/)：**
 
 Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を設定できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
 
 **Jenkins Pipeline での CSRF 対策：**
 
-Groovy スクリプト内で Jenkins [API](/glossary/api/) を呼ぶ場合、スクリプトの実行ユーザーの[権限](/glossary/権限/)が適用されます。Pipeline ステップ内で `sh` で curl を実行する場合でも、該当ユーザーに[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
+Groovy [スクリプト](/glossary/スクリプト/)内で Jenkins [API](/glossary/api/) を呼ぶ場合、[スクリプト](/glossary/スクリプト/)の実行ユーザーの[権限](/glossary/権限/)が適用されます。Pipeline ステップ内で `sh` で curl を実行する場合でも、該当ユーザーに[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 
@@ -174,7 +174,7 @@ curl -v -X POST "http://localhost:8080/job/my-job/build" \
 
 **公式ドキュメント参照：**
 
-Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy スクリプトを直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を確認したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) プラグインのドキュメントも参照してください。
+Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を確認したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) プラグインのドキュメントも参照してください。
 
 ---
 

@@ -35,7 +35,7 @@ kubeletが対象コンテナを終了
 失敗が続けば再起動待ちが長くなり、CrashLoopBackOffになり得る
 ```
 
-ここで、Podが削除されて新しいPodへ置き換わるわけではありません。Pod名とUIDは同じまま、[コンテナ](/glossary/コンテナ/)の `restartCount` が増えます。複数[コンテナ](/glossary/コンテナ/)のPodなら、probeに失敗した[コンテナ](/glossary/コンテナ/)が対象です。
+ここで、Podが[削除](/glossary/削除/)されて新しいPodへ置き換わるわけではありません。Pod名とUIDは同じまま、[コンテナ](/glossary/コンテナ/)の `restartCount` が増えます。複数[コンテナ](/glossary/コンテナ/)のPodなら、probeに失敗した[コンテナ](/glossary/コンテナ/)が対象です。
 
 [Kubernetes公式のprobe資料](https://kubernetes.io/docs/concepts/workloads/pods/probes/#liveness-probe)は、liveness probeを、停止しているように見えないまま処理が進まなくなった[コンテナ](/glossary/コンテナ/)を再起動する仕組みとして説明しています。一時的な高負荷、外部[データベース](/glossary/データベース/)の停止、起動の遅さを検出するためのものではありません。
 
@@ -438,7 +438,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### Podの再作成
 
-liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)再起動です。Deploymentが新しいPodを作るのは、Pod削除、rollout、Node障害、replica不足など別の制御です。Pod UIDが変わっているなら、livenessだけで説明しません。
+liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)再起動です。Deploymentが新しいPodを作るのは、Pod[削除](/glossary/削除/)、rollout、Node障害、replica不足など別の制御です。Pod UIDが変わっているなら、livenessだけで説明しません。
 
 ## 切り分けの順序
 

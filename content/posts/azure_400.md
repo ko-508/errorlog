@@ -43,7 +43,7 @@ $ az vm create --resource-group myRG --name "invalid@vm#name" --image UbuntuLTS
 
 ### 原因1：必須パラメータの不足または型の不正
 
-[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待するデータ型と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の仕様では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
+[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待する[データ型](/glossary/データ型/)と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の仕様では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

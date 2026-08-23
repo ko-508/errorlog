@@ -299,7 +299,7 @@ example/myapp
 registry.example.com/example/my-app
 ```
 
-公開元のREADME、Compose[ファイル](/glossary/ファイル/)、CI[変数](/glossary/変数/)、Registry画面で、完全な参照名を照合します。特に組織移管、[リポジトリ](/glossary/リポジトリ/)削除、製品名変更の後は、古い参照が残ることがあります。
+公開元のREADME、Compose[ファイル](/glossary/ファイル/)、CI[変数](/glossary/変数/)、Registry画面で、完全な参照名を照合します。特に組織移管、[リポジトリ](/glossary/リポジトリ/)[削除](/glossary/削除/)、製品名変更の後は、古い参照が残ることがあります。
 
 [Docker](/glossary/docker/) Hubの[リポジトリ](/glossary/リポジトリ/)名は作成後に変更できません。[Docker Hubの作成資料](https://docs.docker.com/docker-hub/repos/create/)にも、既存[リポジトリ](/glossary/リポジトリ/)はrenameできないと記載されています。名称を変えた運用では、通常は新しい[リポジトリ](/glossary/リポジトリ/)を作り、[イメージ](/glossary/イメージ/)を新しい参照へ公開します。古い名前が自動転送されるとは考えないでください。
 

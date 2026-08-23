@@ -12,7 +12,7 @@ related_services: ["Jenkins", "CI/CD"]
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Bitbucket [API](/glossary/api/)に対して短時間に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が制限数を超過した場合に発生します。Bitbucket Cloud [API](/glossary/api/)は[レート制限](/glossary/レート制限/)を設けており、この上限に到達すると以降の[リクエスト](/glossary/リクエスト/)はすべて429[レスポンス](/glossary/レスポンス/)で拒否されます。デフォルトでは1時間あたり1000[リクエスト](/glossary/リクエスト/)ですが、[ワークスペース](/glossary/ワークスペース/)のプランや有料ユーザー数に応じてより高い制限が適用される場合があります。特に[CI/CD](/glossary/ci-cd/)パイプライン内で複数の並列ジョブが[API](/glossary/api/)呼び出しを実行する場合や、スクリプト内の[ループ](/glossary/ループ/)処理で次々と[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に発生する現象です。
+[HTTP](/glossary/http/) 429 [エラー](/glossary/エラー/)は「Too Many Requests」を意味し、Bitbucket [API](/glossary/api/)に対して短時間に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が制限数を超過した場合に発生します。Bitbucket Cloud [API](/glossary/api/)は[レート制限](/glossary/レート制限/)を設けており、この上限に到達すると以降の[リクエスト](/glossary/リクエスト/)はすべて429[レスポンス](/glossary/レスポンス/)で拒否されます。デフォルトでは1時間あたり1000[リクエスト](/glossary/リクエスト/)ですが、[ワークスペース](/glossary/ワークスペース/)のプランや有料ユーザー数に応じてより高い制限が適用される場合があります。特に[CI/CD](/glossary/ci-cd/)パイプライン内で複数の並列ジョブが[API](/glossary/api/)呼び出しを実行する場合や、[スクリプト](/glossary/スクリプト/)内の[ループ](/glossary/ループ/)処理で次々と[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に発生する現象です。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 ### 原因1：短時間に多数のAPIリクエストを送信している
 
-Bitbucket [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)を制御なく連続送信すると、すぐに[レート制限](/glossary/レート制限/)に引っかかります。特にスクリプトやバッチ処理で大量の[リポジトリ](/glossary/リポジトリ/)情報やプルリクエストを取得する際に発生しやすい現象です。各[リクエスト](/glossary/リクエスト/)間に待機時間を設けずに処理すると、数秒で1000[リクエスト](/glossary/リクエスト/)に達する可能性があります。
+Bitbucket [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)を制御なく連続送信すると、すぐに[レート制限](/glossary/レート制限/)に引っかかります。特に[スクリプト](/glossary/スクリプト/)や[バッチ処理](/glossary/バッチ処理/)で大量の[リポジトリ](/glossary/リポジトリ/)情報やプルリクエストを取得する際に発生しやすい現象です。各[リクエスト](/glossary/リクエスト/)間に待機時間を設けずに処理すると、数秒で1000[リクエスト](/glossary/リクエスト/)に達する可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -217,7 +217,7 @@ async function getAllPullRequests() {
 
 ## ツール固有の注意点
 
-Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークスペース](/glossary/ワークスペース/)単位ではなく、**[認証](/glossary/認証/)ユーザー・[トークン](/glossary/トークン/)単位**で適用されます。そのため同一[トークン](/glossary/トークン/)を複数の[CI/CD](/glossary/ci-cd/)ジョブやスクリプトで共有している場合、各プロセスの負荷が累積されます。[本番環境](/glossary/本番環境/)では専用の[API](/glossary/api/)[トークン](/glossary/トークン/)を作成し、必要に応じて複数[トークン](/glossary/トークン/)を用意して負荷分散することが推奨されます。
+Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークスペース](/glossary/ワークスペース/)単位ではなく、**[認証](/glossary/認証/)ユーザー・[トークン](/glossary/トークン/)単位**で適用されます。そのため同一[トークン](/glossary/トークン/)を複数の[CI/CD](/glossary/ci-cd/)ジョブや[スクリプト](/glossary/スクリプト/)で共有している場合、各プロセスの負荷が累積されます。[本番環境](/glossary/本番環境/)では専用の[API](/glossary/api/)[トークン](/glossary/トークン/)を作成し、必要に応じて複数[トークン](/glossary/トークン/)を用意して負荷分散することが推奨されます。
 
 また、Bitbucket Server（オンプレミス版）を使用している場合は、[レート制限](/glossary/レート制限/)がデフォルトで無効である場合が多いため、この429[エラー](/glossary/エラー/)は発生しにくいです。一方、Bitbucket Cloud [API](/glossary/api/) v2.0 を使用している場合は必ず[レート制限](/glossary/レート制限/)の対象となるため、[リクエスト](/glossary/リクエスト/)設計の段階で考慮する必要があります。
 

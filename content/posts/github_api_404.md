@@ -108,7 +108,7 @@ personal access token (classic) を使っている場合は、[エンドポイ�
 
 fine-grained personal access token や [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)の場合は、[エンドポイント](/glossary/エンドポイント/)が要求する[権限](/glossary/権限/)（permissions）が付与されているかに加えて、その[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかを確認します。[トークン](/glossary/トークン/)作成時に対象[リポジトリ](/glossary/リポジトリ/)を限定していると、[権限](/glossary/権限/)の種類が合っていても対象外の[リポジトリ](/glossary/リポジトリ/)には届きません。
 
-[GitHub](/glossary/github/) Actions の GITHUB_TOKEN を使っている場合は、その[トークン](/glossary/トークン/)で操作できるのはワークフローが動いている[リポジトリ](/glossary/リポジトリ/)の資源に限られます。別の[リポジトリ](/glossary/リポジトリ/)や組織の資源を操作するには、personal access token か [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)が必要です。
+[GitHub](/glossary/github/) Actions の GITHUB_TOKEN を使っている場合は、その[トークン](/glossary/トークン/)で操作できるのは[ワークフロー](/glossary/ワークフロー/)が動いている[リポジトリ](/glossary/リポジトリ/)の資源に限られます。別の[リポジトリ](/glossary/リポジトリ/)や組織の資源を操作するには、personal access token か [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)が必要です。
 
 また、読み取りはできる相手でも、書き込み系の[エンドポイント](/glossary/エンドポイント/)（[リポジトリ](/glossary/リポジトリ/)設定の更新など）はより強い役割を要求します。閲覧できるのに更新だけ404になる場合は、その操作に必要な役割を[エンドポイント](/glossary/エンドポイント/)のリファレンス（応答の documentation_url が指すページ）で確認してください。
 

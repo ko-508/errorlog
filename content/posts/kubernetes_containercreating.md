@@ -125,7 +125,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 たとえば、[イベント](/glossary/イベント/)に `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を確認します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
 
-第四に、Podを削除する前に[イベント](/glossary/イベント/)を[保存](/glossary/保存/)します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
+第四に、Podを[削除](/glossary/削除/)する前に[イベント](/glossary/イベント/)を[保存](/glossary/保存/)します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml > pod-containercreating.yaml
@@ -211,7 +211,7 @@ volumes:
       claimName: app-data
 ```
 
-PVCが `Pending` の場合は、Podを削除しても直りません。PVCのEventsを読み、要求容量、アクセスモード、StorageClass、動的作成を担当する処理を確認します。
+PVCが `Pending` の場合は、Podを[削除](/glossary/削除/)しても直りません。PVCのEventsを読み、要求容量、アクセスモード、StorageClass、動的作成を担当する処理を確認します。
 
 ```bash
 kubectl get pvc <PVC名> -n <名前空間> -o wide
@@ -332,7 +332,7 @@ sudo journalctl -u kubelet --since "20 minutes ago" --no-pager \
   | grep -E '<Pod名>|<PodのUID>|MountVolume|FailedMount'
 ```
 
-マウント先の削除、手動 `umount`、CSI管理[ディレクトリ](/glossary/ディレクトリ/)の消去を最初の対処にしません。kubeletとCSIが管理する状態を手作業で変えると、実際の接続状態と記録がずれることがあります。
+マウント先の[削除](/glossary/削除/)、手動 `umount`、CSI管理[ディレクトリ](/glossary/ディレクトリ/)の消去を最初の対処にしません。kubeletとCSIが管理する状態を手作業で変えると、実際の接続状態と記録がずれることがあります。
 
 ### 原因6：対象は存在するが、kubeletがSecretやConfigMapを取得できない
 
@@ -357,7 +357,7 @@ kubectl get secret app-secret -n <名前空間>
 
 実際に、公式課題（[Kubelet reports configmaps not found even though they do exist](https://github.com/kubernetes/kubernetes/issues/90725)）では、ConfigMapが存在して `kubectl get` でも取得できる一方、複数Podが `ContainerCreating` になり、kubeletが `configmap not found` を繰り返した事例が報告されています。
 
-対象を削除して作り直す前に、失敗が1つのPodだけか、1つのノードに集中しているか、複数ノードで同時に起きているかを比較します。
+対象を[削除](/glossary/削除/)して作り直す前に、失敗が1つのPodだけか、1つのノードに集中しているか、複数ノードで同時に起きているかを比較します。
 
 ```bash
 kubectl get pods -A -o wide \
@@ -432,7 +432,7 @@ Secretが原因でも、ボリュームとして参照した場合は `FailedMou
 9. CSIの `rpc error` や `mount failed` は、`desc` と `Output` の末尾を読み、失敗ノードのCSI[ログ](/glossary/ログ/)と照合する。
 10. Podの現在状態、[イベント](/glossary/イベント/)の最終時刻、回数を比べ、古い失敗記録か現在も続く失敗かを分ける。
 11. `FailedMount` がなければ、[イメージ](/glossary/イメージ/)、Podの通信環境、[コンテナ](/glossary/コンテナ/)実行基盤など別の準備処理へ進む。
-12. Pod削除やノード再起動は、証拠を[保存](/glossary/保存/)し、原因の範囲を絞った後に行う。
+12. Pod[削除](/glossary/削除/)やノード再起動は、証拠を[保存](/glossary/保存/)し、原因の範囲を絞った後に行う。
 
 ## 確認コマンド集
 

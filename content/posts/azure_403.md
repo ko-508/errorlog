@@ -114,7 +114,7 @@ $ az sql db show \
 ## ツール固有の注意点
 
 **Azure Portal での [RBAC](/glossary/rbac/) 確認方法**：
-リソースに対して直接アクセス制御（[IAM](/glossary/iam/)）を設定することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal でリソースを選択し、左側メニューから「アクセス制御（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを確認」をクリックすることで、現在の割り当て状況を視覚的に確認できます。
+リソースに対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を設定することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal でリソースを選択し、左側メニューから「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを確認」をクリックすることで、現在の割り当て状況を視覚的に確認できます。
 
 **Azure [CLI](/glossary/cli/) での権限確認[コマンド](/glossary/コマンド/)**：
 ```bash

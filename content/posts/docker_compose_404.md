@@ -66,7 +66,7 @@ services:
 
 ### 原因2：build コンテキストのパスが存在しない、または間違っている
 
-`build` [キー](/glossary/キー/)でコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、[ディレクトリ](/glossary/ディレクトリ/)が削除されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
+`build` [キー](/glossary/キー/)でコンテキストパスを指定する際、相対[パス](/glossary/パス/)が誤っていたり、[ディレクトリ](/glossary/ディレクトリ/)が[削除](/glossary/削除/)されていたりすると、[Docker](/glossary/docker/) Compose は[イメージ](/glossary/イメージ/)をビルドできず 404 [エラー](/glossary/エラー/)を出力します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

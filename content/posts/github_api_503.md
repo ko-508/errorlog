@@ -29,7 +29,7 @@ top_queries:
 }
 ```
 
-cURLやPythonのrequestsライブラリを使用した場合の[コンソール](/glossary/コンソール/)出力例：
+cURLやPythonのrequests[ライブラリ](/glossary/ライブラリ/)を使用した場合の[コンソール](/glossary/コンソール/)出力例：
 
 ```bash
 curl -H "Authorization: token <your-github-token>" \
@@ -225,7 +225,7 @@ results = asyncio.run(
 
 ### GitHub Actions内での503エラー対応
 
-[GitHub](/glossary/github/) Actionsでは、ワークフロー実行中に[GitHub](/glossary/github/) [API](/glossary/api/)を呼び出す際に503[エラー](/glossary/エラー/)が発生することがあります。`actions/github-script`[アクション](/glossary/アクション/)を使用する場合、内部的にはOctokitライブラリが使用されるため、リトライロジックを明示的に組み込む必要があります。
+[GitHub](/glossary/github/) Actionsでは、[ワークフロー](/glossary/ワークフロー/)実行中に[GitHub](/glossary/github/) [API](/glossary/api/)を呼び出す際に503[エラー](/glossary/エラー/)が発生することがあります。`actions/github-script`[アクション](/glossary/アクション/)を使用する場合、内部的にはOctokit[ライブラリ](/glossary/ライブラリ/)が使用されるため、リトライロジックを明示的に組み込む必要があります。
 
 ```yaml
 name: Fetch Issues with Retry

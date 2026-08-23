@@ -111,7 +111,7 @@ const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345'
 
 ### 原因3：リソースが削除済みまたは有効期限切れ
 
-Stripe上で削除されたリソースや、有効期限が切れた支払い[セッション](/glossary/セッション/)へのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
+Stripe上で[削除](/glossary/削除/)されたリソースや、有効期限が切れた支払い[セッション](/glossary/セッション/)へのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

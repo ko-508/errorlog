@@ -124,7 +124,7 @@ az storage account show --resource-group correctResourceGroup --name mystorageac
 
 ### 原因3：リソースがすでに削除されている
 
-Azureでリソースを削除した後、その削除が完全に反映されるまでにはわずかな遅延が生じることがあります。削除後のリソースに対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。削除されたリソースの復旧が必要な場合、Azure Backupやリソースの再作成が必要になります。
+Azureでリソースを[削除](/glossary/削除/)した後、その[削除](/glossary/削除/)が完全に反映されるまでにはわずかな遅延が生じることがあります。削除後のリソースに対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。[削除](/glossary/削除/)されたリソースの復旧が必要な場合、Azure Backupやリソースの再作成が必要になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -169,7 +169,7 @@ az storage account create --name mynewstorageaccount --resource-group myResource
 
 Azure[環境](/glossary/環境/)では、複数のレイヤーで404[エラー](/glossary/エラー/)が発生する可能性があります。
 
-**Azure Portalでの確認：** Portalから直接リソースを検索する際、左側の検索バーにリソース名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に削除されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
+**Azure Portalでの確認：** Portalから直接リソースを検索する際、左側の検索バーにリソース名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に[削除](/glossary/削除/)されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
 
 **Azure [CLI](/glossary/cli/)と[API](/glossary/api/)[バージョン](/glossary/バージョン/)：** Azure [CLI](/glossary/cli/)でリソースを操作する際、使用している[API](/glossary/api/)[バージョン](/glossary/バージョン/)が古い場合、新しいリソースタイプが認識されない可能性があります。例えば、`az vm show`の背後で使用されるCompute [API](/glossary/api/)の[バージョン](/glossary/バージョン/)が古いと、新しいVM[プロパティ](/glossary/プロパティ/)は見つからずに404的な[エラー](/glossary/エラー/)になることもあります。最新の操作には`--api-version`パラメーターで明示的に[バージョン](/glossary/バージョン/)を指定することをお勧めします。
 

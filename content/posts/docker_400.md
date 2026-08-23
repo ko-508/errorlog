@@ -52,7 +52,7 @@ docker version
 env | grep -i docker_api
 ```
 
-不一致が起きる典型は3つです。第一に、古い[デーモン](/glossary/デーモン/)が更新されないまま、[クライアント](/glossary/クライアント/)側（[CLI](/glossary/cli/) や、[Docker](/glossary/docker/) [API](/glossary/api/) を使う[ツール](/glossary/ツール/)・ライブラリ）だけが更新されるケースです。NAS などの組み込み[環境](/glossary/環境/)や、長期稼働の古い[サーバー](/glossary/サーバー/)で起きやすい形です。第二に、CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成です。dind [イメージ](/glossary/イメージ/)やジョブ内の [CLI](/glossary/cli/) に :latest のような浮動[タグ](/glossary/タグ/)を使っていると、どちらか一方だけが新しくなった時点で組み合わせが壊れます。第三に、DOCKER_[API](/glossary/api/)_VERSION [環境変数](/glossary/環境変数/)に古い値が残っているケースで、この場合[クライアント](/glossary/クライアント/)は常にその古い[バージョン](/glossary/バージョン/)を名乗るため、[デーモン](/glossary/デーモン/)側の下限引き上げで突然 too old になります。
+不一致が起きる典型は3つです。第一に、古い[デーモン](/glossary/デーモン/)が更新されないまま、[クライアント](/glossary/クライアント/)側（[CLI](/glossary/cli/) や、[Docker](/glossary/docker/) [API](/glossary/api/) を使う[ツール](/glossary/ツール/)・[ライブラリ](/glossary/ライブラリ/)）だけが更新されるケースです。NAS などの組み込み[環境](/glossary/環境/)や、長期稼働の古い[サーバー](/glossary/サーバー/)で起きやすい形です。第二に、CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成です。dind [イメージ](/glossary/イメージ/)やジョブ内の [CLI](/glossary/cli/) に :latest のような浮動[タグ](/glossary/タグ/)を使っていると、どちらか一方だけが新しくなった時点で組み合わせが壊れます。第三に、DOCKER_[API](/glossary/api/)_VERSION [環境変数](/glossary/環境変数/)に古い値が残っているケースで、この場合[クライアント](/glossary/クライアント/)は常にその古い[バージョン](/glossary/バージョン/)を名乗るため、[デーモン](/glossary/デーモン/)側の下限引き上げで突然 too old になります。
 
 対処の本筋は、[デーモン](/glossary/デーモン/)（[サーバー](/glossary/サーバー/)側）を更新して対応範囲を揃えることです。すぐに更新できない場合の応急策として、DOCKER_[API](/glossary/api/)_VERSION を[サーバー](/glossary/サーバー/)が対応する値（docker version の Server: の [API](/glossary/api/) version）に固定すれば、[クライアント](/glossary/クライアント/)がその[バージョン](/glossary/バージョン/)として振る舞い、[通信](/glossary/通信/)は成立します。ただし[クライアント](/glossary/クライアント/)の新機能はその[バージョン](/glossary/バージョン/)の範囲に制限されます。CI では、dind [イメージ](/glossary/イメージ/)と [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)を浮動[タグ](/glossary/タグ/)ではなく明示的に固定し、更新を意図的に行う運用が恒久対処です。
 
@@ -79,7 +79,7 @@ curl -s --unix-socket /var/run/docker.sock \
   http://localhost/containers/create
 ```
 
-送信前に本文を [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）のが確実です。[プログラム](/glossary/プログラム/)からの呼び出しなら、直列化をライブラリに任せているかを確認します（この落とし穴の詳細は [GitHub API の 400 の記事](/posts/github_api_400/)で扱った内容と同型です）。
+送信前に本文を [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）のが確実です。[プログラム](/glossary/プログラム/)からの呼び出しなら、直列化を[ライブラリ](/glossary/ライブラリ/)に任せているかを確認します（この落とし穴の詳細は [GitHub API の 400 の記事](/posts/github_api_400/)で扱った内容と同型です）。
 
 ### 原因3：設定値がデーモンの検証で弾かれている
 

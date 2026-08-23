@@ -210,7 +210,7 @@ ls ~/.minikube/profiles/minikube/client.key
 
 **Minikubeを[初期化](/glossary/初期化/)してやり直す**
 
-上記の手順で解決しない場合、Minikubeクラスターを完全に削除して再作成することで解決することがあります。
+上記の手順で解決しない場合、Minikubeクラスターを完全に[削除](/glossary/削除/)して再作成することで解決することがあります。
 
 ```bash
 # 既存のクラスター削除

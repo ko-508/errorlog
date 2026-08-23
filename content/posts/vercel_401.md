@@ -58,7 +58,7 @@ HTTP/1.1 401 Unauthorized
 
 ### 原因1：Vercel API トークンが無効または期限切れになっている
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)で生成した [API](/glossary/api/) [トークン](/glossary/トークン/)は、[セキュリティ](/glossary/セキュリティ/)上の理由から有効期限が設定されることがあります。また、[トークン](/glossary/トークン/)を削除した後も[環境変数](/glossary/環境変数/)に古い値が残っていると、[認証](/glossary/認証/)に失敗します。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)で生成した [API](/glossary/api/) [トークン](/glossary/トークン/)は、[セキュリティ](/glossary/セキュリティ/)上の理由から有効期限が設定されることがあります。また、[トークン](/glossary/トークン/)を[削除](/glossary/削除/)した後も[環境変数](/glossary/環境変数/)に古い値が残っていると、[認証](/glossary/認証/)に失敗します。
 
 **修正方法：**
 
@@ -144,12 +144,12 @@ VERCEL_DEBUG=1 vercel deploy
 
 **[GitHub](/glossary/github/) Actions 内の[ログ](/glossary/ログ/)確認：**
 
-[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新のワークフロー実行結果を開き、失敗したステップの出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
+[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新の[ワークフロー](/glossary/ワークフロー/)実行結果を開き、失敗したステップの出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
 
 **[トークン](/glossary/トークン/)再生成のベストプラクティス：**
 
 1. Vercel [ダッシュボード](/glossary/ダッシュボード/)の Account Settings → Tokens に移動
-2. 現在の[トークン](/glossary/トークン/)を「Delete」で削除
+2. 現在の[トークン](/glossary/トークン/)を「Delete」で[削除](/glossary/削除/)
 3. 「Create Token」で新規作成（有効期限を 90 日程度に設定推奨）
 4. 生成直後にコピー（二度と表示されません）
 5. 各 [CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)のシークレット[変数](/glossary/変数/)を上書き

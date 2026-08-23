@@ -84,7 +84,7 @@ exports.fastFunction = functions.https.onRequest(async (req, res) => {
 
 ### 2. コールドスタート時の初期化処理に時間がかかっている
 
-Cloud Functionsの[関数](/glossary/関数/)が一定期間実行されていない場合、起動時に[メモリ](/glossary/メモリ/)確保やライブラリの読み込みが必要になります。大規模なライブラリの読み込みや[データベース](/glossary/データベース/)接続の[初期化](/glossary/初期化/)が[コールドスタート](/glossary/コールドスタート/)中に実行されると、[タイムアウト](/glossary/タイムアウト/)に達しやすくなります。
+Cloud Functionsの[関数](/glossary/関数/)が一定期間実行されていない場合、起動時に[メモリ](/glossary/メモリ/)確保や[ライブラリ](/glossary/ライブラリ/)の読み込みが必要になります。大規模な[ライブラリ](/glossary/ライブラリ/)の読み込みや[データベース](/glossary/データベース/)接続の[初期化](/glossary/初期化/)が[コールドスタート](/glossary/コールドスタート/)中に実行されると、[タイムアウト](/glossary/タイムアウト/)に達しやすくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -154,7 +154,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 4. データベースクエリの効率性が低い
 
-Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)やバッチ処理、[インデックス](/glossary/インデックス/)設定により改善できます。
+Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)や[バッチ処理](/glossary/バッチ処理/)、[インデックス](/glossary/インデックス/)設定により改善できます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
