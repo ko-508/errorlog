@@ -1,0 +1,304 @@
+{
+  "generated_at": "2026-08-23",
+  "period": "2026-08-14 〜 2026-08-20",
+  "period_detail": {
+    "start": "2026-08-14",
+    "end": "2026-08-20"
+  },
+  "previous_period": {
+    "start": "2026-08-07",
+    "end": "2026-08-13"
+  },
+  "issue_title": "【週次レポート】GA4 + GSC ボトルネック (2026-08-23)",
+  "issue_body": "## 週次統合分析レポート（2026-08-14 〜 2026-08-20）\n\n## 異常検知\n\n- 🚨 Organic Searchセッションが大幅減少しました。\n\n---\n\n## 今週の総括\n\n- GA4 Organic Searchセッション: 3（前週比 -83.3%）\n- GSC表示回数: 0（前週比 データなし）\n- GSCクリック数: 0（前週比 データなし）\n- 平均掲載順位: 0.0（前週 データなし）\n- 今週の修正記事数: 0\n- 今週の新規記事数: 0\n- 最優先対応記事: 該当なし\n\nOrganic Searchセッションが大きく減少しています。\n\n---\n\n### 1. GA4 トラフィックサマリー\n\nメイン指標は `hostname = errorlog.jp` のみで集計しています。\n\n| 指標 | 今週 | 前週 | 前週比 |\n| :--- | ---: | ---: | ---: |\n| アクティブユーザー数 | 4 | 9 | -55.6% |\n| セッション数 | 6 | 26 | -76.9% |\n| Organic Searchセッション数 | 3 | 18 | -83.3% |\n| Directセッション数 | 2 | 3 | -33.3% |\n| 日本ユーザー率 | 75.00% | 88.89% | -13.89pt |\n| 1セッションあたりPV数 | 1.50 | 5.81 | -74.2% |\n| 平均エンゲージ時間 | 10.3秒 | 679.4秒 | -98.5% |\n| 離脱率 | 50.00% | 19.23% | +30.77pt |\n\n| 補助指標 | 今週の実績値 | 状態 |\n| :--- | ---: | :--- |\n| チャネル比率 | Organic Search: 50%, Direct: 33%, Referral: 17% | ✅ 良好 |\n| 日本国内率 | 75.0% | ✅ 良好 |\n| フロントエラー発生数 | 0件 | ✅ エラーなし |\n\n---\n\n### 2. Search Console サイト全体サマリー\n\n_GSCデータが取得できませんでした。_\n\n---\n\n### 3. Search Console ボトルネック記事\n\n_今週のボトルネック記事はありませんでした。_\n\n---\n\n### 改善効果トラッカー\n\n| URL | 修正日 | 修正後経過日数 | 修正前表示回数 | 修正後表示回数 | 修正前CTR | 修正後CTR | 修正前順位 | 修正後順位 | 判定 |\n| :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :--- |\n| `https://errorlog.jp/posts/nginx_500/` | 2026-06-10 | 74日 | 0 | 9 | 0.00% | 0.00% | 0.0 | 8.1 | 判定保留 |\n\n---\n\n### サイト全体の順位推移\n\n直近4週間の傾向: **悪化傾向**\n\n| 週 | 表示回数 | クリック | CTR | 平均順位 |\n| :--- | ---: | ---: | ---: | ---: |\n| 2026-07-24 〜 2026-07-30 | 189 | 0 | 0.00% | 57.0 |\n| 2026-07-17 〜 2026-07-23 | 155 | 0 | 0.00% | 52.6 |\n| 2026-07-10 〜 2026-07-16 | 387 | 0 | 0.00% | 59.7 |\n| 2026-07-03 〜 2026-07-09 | 388 | 6 | 1.55% | 43.9 |\n| 2026-06-26 〜 2026-07-02 | 2,304 | 37 | 1.61% | 19.0 |\n| 2026-06-19 〜 2026-06-25 | 1,660 | 24 | 1.45% | 20.9 |\n\n---\n\n### インデックス状況\n\nSearch Console APIではページインデックス登録レポートの集計値を直接取得できないため、自動取得していません。\n\n---\n\n### 記事品質改善の進捗\n\n| 指標 | 値 |\n| :--- | ---: |\n| 公開記事数 | 171 |\n| 手動検証済み | 115 |\n| 未検証 | 56 |\n| 検証進捗率 | 67.3% |\n| 今週修正 | 0 |\n| 今週新規公開 | 0 |\n| 今週非公開化 | 0 |\n\n直近4週間の修正記事数: 2026-08-14 〜 2026-08-20: 0 / 2026-08-07 〜 2026-08-13: 0 / 2026-07-31 〜 2026-08-06: 0 / 2026-07-24 〜 2026-07-30: 0\n\n> 検証済み判定の入力元: data/article_review_status.json。未設定の場合、不明な記事は未検証として扱います。\n\n---\n\n### ホスト別トラフィック内訳（混入監視）\n\n| ホスト | PV | PV% | UU | UU% |\n| :--- | :--- | :--- | :--- | :--- |\n| `zenn.dev` | 23 | 59.0% | 20 | 80.0% |\n| `errorlog.jp` | 9 | 23.1% | 4 | 16.0% |\n| `127.0.0.1` | 7 | 17.9% | 1 | 4.0% |\n\n> メイン指標は errorlog.jp のみ（PV の 23.1%）で集計しています。\n\n> ⚠️ zenn.dev が全体の **59.0%** を占めています。メイン指標は errorlog.jp のみに絞って集計しています。\n\n---\n\n### ノイズ除外サマリー（Cloudflare bot対策の観測点）\n\n| 項目 | 値 |\n| :--- | :--- |\n| 除外対象国 | Singapore |\n| 滞在時間しきい値 | 5.0秒未満 |\n| 今週の除外件数 | **1 行 / 1 UU** |\n| 国別内訳 | Singapore: 1 UU |\n\n> Cloudflare bot対策（Bot Fight Mode / WAF）導入後、この数字が減少することを確認してください。\n\n---\n\n### 国別分布（継続観測・ボット判定の参考。断定ではありません）\n\n| 国 | セッション数 | アクティブUU | エンゲージ率 | 平均エンゲージ時間(秒) | 直帰率 |\n| :--- | :--- | :--- | :--- | :--- | :--- |\n| Japan | 5 | 3 | 60.00% | 12.3 | 40.00% |\n| Singapore ⚠️ | 1 | 1 | 0.00% | 0.0 | 100.00% |\n\n> ⚠️ は平均エンゲージ時間 < 10秒 または 直帰率 > 90% の国に付けた**参考フラグ**です（直帰率の閾値は仮値であり、運用しながら見直してください）。エラー解決サイトでは検索流入後すぐ離脱する正常な利用も多いため、この指標だけではボットと**断定できません**。毎週の推移を人が見て判断するための記録であり、自動的な除外・ブロックには使用していません。\n---\n\n## Content Gap Report\n\nCoverage Rate: **4.7%**\n\n| 分類 | 件数 |\n| :--- | :--- |\n| ✅ Covered   | 2 |\n| ⚠️ Partial   | 9 |\n| 🔴 Uncovered | 32 |\n| **合計**     | **43** |\n\n### Top Opportunities\n\n1. 🔴 `error> <code>nosuchkey</code> <message>the specified key does not exist.</message> </error>` — Score: 0.0\n2. 🔴 `graphql とは` — Score: 0.0\n3. 🔴 `graphqlとは何か` — Score: 0.0\n4. 🔴 `nosuchkeyexception` — Score: 0.0\n5. 🔴 `nosuchkeythe specified key does not exist.` — Score: 0.0\n6. 🔴 `you don't have permission to access this resource` — Score: 0.0\n7. 🔴 `トークン と は わかり やすく` — Score: 0.0\n8. 🔴 `トークンとは わかりやすく` — Score: 0.0\n9. 🔴 `レスポンス 意味 使い方` — Score: 0.0\n10. 🔴 `ワード ファイル と は` — Score: 0.0\n\n\n> このIssueは `weekly_ga4.yml` によって自動生成されました。対応完了後クローズしてください。",
+  "bottlenecks_count": 0,
+  "summary": {
+    "judgement": "Organic Searchセッションが大きく減少しています。",
+    "anomalies": [
+      "🚨 Organic Searchセッションが大幅減少しました。"
+    ],
+    "top_bottlenecks": []
+  },
+  "metrics_snapshot": {
+    "active_users": 4,
+    "sessions": 6,
+    "organic_sessions": 3,
+    "direct_sessions": 2,
+    "organic_ratio": 0.5,
+    "japan_ratio": 0.75,
+    "pv_per_sess": 1.5,
+    "avg_engagement_time": 10.25,
+    "bounce_rate": 0.5,
+    "js_errors": 0
+  },
+  "ga4": {
+    "current": {
+      "active_users": 4,
+      "sessions": 6,
+      "organic_sessions": 3,
+      "direct_sessions": 2,
+      "organic_ratio": 0.5,
+      "japan_ratio": 0.75,
+      "pv_per_sess": 1.5,
+      "avg_engagement_time": 10.250057333333332,
+      "bounce_rate": 0.5,
+      "js_errors": 0,
+      "channel_str": "Organic Search: 50%, Direct: 33%, Referral: 17%"
+    },
+    "previous": {
+      "active_users": 9,
+      "sessions": 26,
+      "organic_sessions": 18,
+      "direct_sessions": 3,
+      "organic_ratio": 0.6923076923076923,
+      "japan_ratio": 0.8888888888888888,
+      "pv_per_sess": 5.8076923076923075,
+      "avg_engagement_time": 679.3696074230769,
+      "bounce_rate": 0.19230769230769232,
+      "js_errors": 0,
+      "channel_str": "Organic Social: 69%, Organic Search: 19%, Direct: 12%"
+    },
+    "change": {
+      "active_users": {
+        "current": 4.0,
+        "previous": 9.0,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -5.0,
+        "pct_change": -0.5555555555555556,
+        "kind": "number"
+      },
+      "sessions": {
+        "current": 6.0,
+        "previous": 26.0,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -20.0,
+        "pct_change": -0.7692307692307693,
+        "kind": "number"
+      },
+      "organic_sessions": {
+        "current": 3.0,
+        "previous": 18.0,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -15.0,
+        "pct_change": -0.8333333333333334,
+        "kind": "number"
+      },
+      "direct_sessions": {
+        "current": 2.0,
+        "previous": 3.0,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -1.0,
+        "pct_change": -0.3333333333333333,
+        "kind": "number"
+      },
+      "japan_ratio": {
+        "current": 0.75,
+        "previous": 0.8888888888888888,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -0.13888888888888884,
+        "pct_change": null,
+        "kind": "ratio"
+      },
+      "pv_per_sess": {
+        "current": 1.5,
+        "previous": 5.8076923076923075,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -4.3076923076923075,
+        "pct_change": -0.7417218543046358,
+        "kind": "number"
+      },
+      "avg_engagement_time": {
+        "current": 10.250057333333332,
+        "previous": 679.3696074230769,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": -669.1195500897436,
+        "pct_change": -0.9849123993458982,
+        "kind": "number"
+      },
+      "bounce_rate": {
+        "current": 0.5,
+        "previous": 0.19230769230769232,
+        "current_exists": true,
+        "previous_exists": true,
+        "delta": 0.3076923076923077,
+        "pct_change": null,
+        "kind": "rate"
+      }
+    }
+  },
+  "gsc": {
+    "current": {},
+    "previous": {},
+    "change": {
+      "impressions": {
+        "current": 0.0,
+        "previous": 0.0,
+        "current_exists": true,
+        "previous_exists": false,
+        "delta": 0.0,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "clicks": {
+        "current": 0.0,
+        "previous": 0.0,
+        "current_exists": true,
+        "previous_exists": false,
+        "delta": 0.0,
+        "pct_change": null,
+        "kind": "number"
+      },
+      "ctr": {
+        "current": 0.0,
+        "previous": 0.0,
+        "current_exists": true,
+        "previous_exists": false,
+        "delta": 0.0,
+        "pct_change": null,
+        "kind": "rate"
+      },
+      "position": {
+        "current": 0.0,
+        "previous": 0.0,
+        "current_exists": true,
+        "previous_exists": false,
+        "delta": 0.0,
+        "pct_change": null,
+        "kind": "position"
+      }
+    },
+    "weekly_history": [
+      {
+        "period": "2026-07-24 〜 2026-07-30",
+        "impressions": 189,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 56.98412698412698
+      },
+      {
+        "period": "2026-07-17 〜 2026-07-23",
+        "impressions": 155,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 52.57419354838709
+      },
+      {
+        "period": "2026-07-10 〜 2026-07-16",
+        "impressions": 387,
+        "clicks": 0,
+        "ctr": 0,
+        "position": 59.6640826873385
+      },
+      {
+        "period": "2026-07-03 〜 2026-07-09",
+        "impressions": 388,
+        "clicks": 6,
+        "ctr": 0.015463917525773196,
+        "position": 43.891752577319586
+      },
+      {
+        "period": "2026-06-26 〜 2026-07-02",
+        "impressions": 2304,
+        "clicks": 37,
+        "ctr": 0.016059027777777776,
+        "position": 19.016493055555557
+      },
+      {
+        "period": "2026-06-19 〜 2026-06-25",
+        "impressions": 1660,
+        "clicks": 24,
+        "ctr": 0.014457831325301205,
+        "position": 20.900602409638555
+      }
+    ]
+  },
+  "gsc_summary": {},
+  "ga4_host_summary": {
+    "primary_host": "errorlog.jp",
+    "hosts": [
+      {
+        "host": "zenn.dev",
+        "pv": 23,
+        "uu": 20,
+        "sessions": 24,
+        "pv_share": 0.5897,
+        "uu_share": 0.8
+      },
+      {
+        "host": "errorlog.jp",
+        "pv": 9,
+        "uu": 4,
+        "sessions": 6,
+        "pv_share": 0.2308,
+        "uu_share": 0.16
+      },
+      {
+        "host": "127.0.0.1",
+        "pv": 7,
+        "uu": 1,
+        "sessions": 1,
+        "pv_share": 0.1795,
+        "uu_share": 0.04
+      }
+    ],
+    "primary_host_pv_share": 0.2308,
+    "total_pv_all_hosts": 39,
+    "total_uu_all_hosts": 25
+  },
+  "article_progress": {
+    "published_count": 171,
+    "verified_count": 115,
+    "unverified_count": 56,
+    "verification_rate": 0.672514619883041,
+    "weekly_modified": 0,
+    "weekly_new": 0,
+    "weekly_unpublished": 0,
+    "recent4_modified": [
+      {
+        "period": "2026-08-14 〜 2026-08-20",
+        "modified": 0
+      },
+      {
+        "period": "2026-08-07 〜 2026-08-13",
+        "modified": 0
+      },
+      {
+        "period": "2026-07-31 〜 2026-08-06",
+        "modified": 0
+      },
+      {
+        "period": "2026-07-24 〜 2026-07-30",
+        "modified": 0
+      }
+    ],
+    "review_status_source": "data/article_review_status.json"
+  },
+  "rewrite_tracking": [
+    {
+      "url": "https://errorlog.jp/posts/nginx_500/",
+      "rewrite_date": "2026-06-10",
+      "elapsed_days": 74,
+      "before_impressions": null,
+      "after_impressions": 9,
+      "before_clicks": null,
+      "after_clicks": null,
+      "before_ctr": null,
+      "after_ctr": 0,
+      "before_position": null,
+      "after_position": 8.11,
+      "verdict": "判定保留",
+      "reason": "修正前データ不足"
+    }
+  ],
+  "index_status": {
+    "available": false,
+    "message": "Search Console APIではページインデックス登録レポートの集計値を直接取得できないため、自動取得していません。"
+  }
+}
