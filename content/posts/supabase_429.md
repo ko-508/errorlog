@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-429は [HTTP](/glossary/http/) 標準の[レート制限](/glossary/レート制限/)（許可された[リクエスト](/glossary/リクエスト/)数を超過）を示し、Supabaseでは無料プランのリソース上限または [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達したことを意味します。データベースリクエスト、Edge Functions、[認証](/glossary/認証/) [API](/glossary/api/) など、複数のサービスで発生する可能性があり、放置すると[アプリケーション](/glossary/アプリケーション/)全体が一時的に利用不可になります。
+429は [HTTP](/glossary/http/) [標準](/glossary/標準/)の[レート制限](/glossary/レート制限/)（許可された[リクエスト](/glossary/リクエスト/)数を超過）を示し、Supabaseでは無料プランのリソース上限または [API](/glossary/api/) [レート制限](/glossary/レート制限/)に達したことを意味します。データベースリクエスト、Edge Functions、[認証](/glossary/認証/) [API](/glossary/api/) など、複数のサービスで発生する可能性があり、放置すると[アプリケーション](/glossary/アプリケーション/)全体が一時的に利用不可になります。
 
 ## 実際のエラーメッセージ例
 

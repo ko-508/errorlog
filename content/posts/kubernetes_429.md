@@ -125,7 +125,7 @@ kubectl get --raw /debug/api_priority_and_fairness/dump_priority_levels
 
 [ログ](/glossary/ログ/)に「client-side throttling, not priority and fairness」が出ている場合です。前述のとおり、要求は送られていません。
 
-原因は、[クライアント](/glossary/クライアント/)側の毎秒あたりの上限が低いことです。標準の[ソフトウェア](/glossary/ソフトウェア/)部品の既定値は毎秒5件、瞬間的な上限は10件で、これは控えめな値です。[Kubernetes](/glossary/kubernetes/) 自身の構成要素はこの既定を使っておらず、明示的に引き上げています。制御系の管理役は毎秒20件・上限30件、割り当て役と各ノードの担当役は毎秒50件・上限100件です。
+原因は、[クライアント](/glossary/クライアント/)側の毎秒あたりの上限が低いことです。[標準](/glossary/標準/)の[ソフトウェア](/glossary/ソフトウェア/)部品の既定値は毎秒5件、瞬間的な上限は10件で、これは控えめな値です。[Kubernetes](/glossary/kubernetes/) 自身の構成要素はこの既定を使っておらず、明示的に引き上げています。制御系の管理役は毎秒20件・上限30件、割り当て役と各ノードの担当役は毎秒50件・上限100件です。
 
 **Before（並列度だけを上げる）：**
 

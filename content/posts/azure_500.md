@@ -24,7 +24,7 @@ Azure の管理 [API](/glossary/api/) の[エラー](/glossary/エラー/)は、
 
 もう1つ、Azure の応答には必ず控えるべき[ヘッダー](/glossary/ヘッダー/)があります。x-ms-request-id と x-ms-correlation-request-id です（実際の[エラー](/glossary/エラー/)応答の記録でも、この2つの[ヘッダー](/glossary/ヘッダー/)が含まれていることが確認できます）。この値は Azure 側の[ログ](/glossary/ログ/)で[リクエスト](/glossary/リクエスト/)を特定する参照 [ID](/glossary/id/) で、500が再現・継続する場合にサポートへ渡す情報の中核になります。
 
-自分のアプリ（App Service）の500は、ブラウザにサブステータスつきのエラーページとして現れることがあります。ASP.NET Core では次の形が代表です。
+自分のアプリ（App Service）の500は、[ブラウザ](/glossary/ブラウザ/)にサブステータスつきのエラーページとして現れることがあります。ASP.NET Core では次の形が代表です。
 
 ```text
 HTTP Error 500.30 - ANCM In-Process Start Failure
@@ -77,7 +77,7 @@ def call_azure(url, headers, max_retries=4):
 
 ### 原因2：自分のアプリ（App Service）が500を返している
 
-App Service に[デプロイ](/glossary/デプロイ/)したアプリの [URL](/glossary/url/) が500を返す場合、原因はアプリ側にあります。ASP.NET Core では、サブステータスが調査の入口を教えてくれます。500.30（ANCM In-Process Start Failure）は、[リクエスト](/glossary/リクエスト/)処理中の例外ではなく、アプリの起動自体が失敗している状態です。公式トラブルシューティング文書（Troubleshoot ASP.NET Core on Azure App Service and IIS）が示す手順は一貫していて、アプリのイベントログを確認すること、そして stdout [ログ](/glossary/ログ/)を有効にして起動時の実際の例外を見ることです。ブラウザに出るエラーページ自体には原因が含まれないため、[ログ](/glossary/ログ/)を見えるようにすることが実質的な第一歩になります。
+App Service に[デプロイ](/glossary/デプロイ/)したアプリの [URL](/glossary/url/) が500を返す場合、原因はアプリ側にあります。ASP.NET Core では、サブステータスが調査の入口を教えてくれます。500.30（ANCM In-Process Start Failure）は、[リクエスト](/glossary/リクエスト/)処理中の例外ではなく、アプリの起動自体が失敗している状態です。公式トラブルシューティング文書（Troubleshoot ASP.NET Core on Azure App Service and IIS）が示す手順は一貫していて、アプリのイベントログを確認すること、そして stdout [ログ](/glossary/ログ/)を有効にして起動時の実際の例外を見ることです。[ブラウザ](/glossary/ブラウザ/)に出るエラーページ自体には原因が含まれないため、[ログ](/glossary/ログ/)を見えるようにすることが実質的な第一歩になります。
 
 **Before（起動失敗の中身がどこにも出力されず、500.30 の表示だけで手掛かりがない状態）：**
 
@@ -100,7 +100,7 @@ App Service に[デプロイ](/glossary/デプロイ/)したアプリの [URL](/
 az webapp log tail --name <app-name> --resource-group <resource-group>
 ```
 
-起動失敗の典型は、[設定値](/glossary/設定値/)や接続文字列の不足、参照するランタイムやフレームワークの版の不一致、起動処理内での例外です。500.30 以外のサブステータス（起動失敗の別パターン）もあり、それぞれの意味と対処は同じ公式文書に一覧があります。共通するのは、サブステータスは「どの段階で失敗したか」までしか教えないので、実際の例外はイベントログと stdout [ログ](/glossary/ログ/)で確認する、という進め方です。なお、stdout [ログ](/glossary/ログ/)はローテーションされないため、公式文書のとおり調査が済んだら無効に戻します。
+起動失敗の典型は、[設定値](/glossary/設定値/)や接続文字列の不足、参照するランタイムや[フレームワーク](/glossary/フレームワーク/)の版の不一致、起動処理内での例外です。500.30 以外のサブステータス（起動失敗の別パターン）もあり、それぞれの意味と対処は同じ公式文書に一覧があります。共通するのは、サブステータスは「どの段階で失敗したか」までしか教えないので、実際の例外はイベントログと stdout [ログ](/glossary/ログ/)で確認する、という進め方です。なお、stdout [ログ](/glossary/ログ/)はローテーションされないため、公式文書のとおり調査が済んだら無効に戻します。
 
 ## 補足：500ではない類似エラー
 
@@ -136,7 +136,7 @@ az webapp log config --name <app-name> --resource-group <resource-group> \
 
 ## Editor's Note
 
-原因2の実例として、ASP.NET Core の公式[リポジトリ](/glossary/リポジトリ/)に残る報告があります（[HTTP Error 500.30 - ANCM In-Process Start Failure](https://github.com/dotnet/aspnetcore/issues/18262)）。同じ .NET Core アプリが、ローカルでも1つ目の App Service でも問題なく動くのに、同一設定のはずの2つ目の App Service に[デプロイ](/glossary/デプロイ/)すると 500.30 で起動しない、という2020年の記録です。ブラウザに出るのは 500.30 の定型ページだけで、アプリのイベントログに残っていたのは failed to load coreclr という1行の記録でした。「[コード](/glossary/コード/)は同じなのに、[環境](/glossary/環境/)によって500」という原因2の典型で、エラーページの表示からは決して原因に到達できず、イベントログと stdout [ログ](/glossary/ログ/)だけが手がかりになる、という本記事の進め方がそのまま現れています。約6年前の事例ですが、ANCM がサブステータスで起動失敗を示す仕組みと、イベントログ・stdout [ログ](/glossary/ログ/)を起点にする調査手順は、現行の公式トラブルシューティング文書でも同一です。
+原因2の実例として、ASP.NET Core の公式[リポジトリ](/glossary/リポジトリ/)に残る報告があります（[HTTP Error 500.30 - ANCM In-Process Start Failure](https://github.com/dotnet/aspnetcore/issues/18262)）。同じ .NET Core アプリが、ローカルでも1つ目の App Service でも問題なく動くのに、同一設定のはずの2つ目の App Service に[デプロイ](/glossary/デプロイ/)すると 500.30 で起動しない、という2020年の記録です。[ブラウザ](/glossary/ブラウザ/)に出るのは 500.30 の定型ページだけで、アプリのイベントログに残っていたのは failed to load coreclr という1行の記録でした。「[コード](/glossary/コード/)は同じなのに、[環境](/glossary/環境/)によって500」という原因2の典型で、エラーページの表示からは決して原因に到達できず、イベントログと stdout [ログ](/glossary/ログ/)だけが手がかりになる、という本記事の進め方がそのまま現れています。約6年前の事例ですが、ANCM がサブステータスで起動失敗を示す仕組みと、イベントログ・stdout [ログ](/glossary/ログ/)を起点にする調査手順は、現行の公式トラブルシューティング文書でも同一です。
 
 Azure の500は、管理 [API](/glossary/api/) 側なら「参照 [ID](/glossary/id/) を控えて正しく待つ」、アプリ側なら「サブステータスで段階を特定し、[ログ](/glossary/ログ/)を見えるようにする」。どちらの500かを最初に確定すれば、やることは2つに1つです。
 

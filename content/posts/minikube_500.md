@@ -50,7 +50,7 @@ panic: runtime error: invalid memory address or nil pointer dereference
 
 **原因1: [API](/glossary/api/)[サーバー](/glossary/サーバー/)の[メモリ](/glossary/メモリ/)枯渇またはOOM Killer による強制終了**
 
-MinikubeのノードVM内に割り当てた[メモリ](/glossary/メモリ/)が不足すると、kube-apiserverプロセスが Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じ[メモリ](/glossary/メモリ/)不足に直面するため、500[エラー](/glossary/エラー/)が継続します。
+MinikubeのノードVM内に割り当てた[メモリ](/glossary/メモリ/)が不足すると、kube-apiserver[プロセス](/glossary/プロセス/)が Out Of Memory（OOM）に達して Killer によって強制終了されます。その後、再起動時にも同じ[メモリ](/glossary/メモリ/)不足に直面するため、500[エラー](/glossary/エラー/)が継続します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

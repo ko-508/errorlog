@@ -18,7 +18,7 @@ GitLabの500[エラー](/glossary/エラー/)は、GitLab[サーバー](/glossar
 
 ## 実際のエラーメッセージ例
 
-ブラウザでGitLabにアクセスした際の表示：
+[ブラウザ](/glossary/ブラウザ/)でGitLabにアクセスした際の表示：
 
 ```
 500

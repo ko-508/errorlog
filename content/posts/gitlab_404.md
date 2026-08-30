@@ -34,7 +34,7 @@ $ curl -H "PRIVATE-TOKEN: <your-token>" "https://gitlab.com/api/v4/projects/wron
 {"message":"404 Not Found"}
 ```
 
-**WebUIでのブラウザ表示：**
+**WebUIでの[ブラウザ](/glossary/ブラウザ/)表示：**
 
 ```
 404 Not Found

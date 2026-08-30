@@ -86,7 +86,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/us
 
 ### 原因3：意図したものと違うトークンが使われている（Bad credentials）
 
-[トークン](/glossary/トークン/)を正しく再設定したのに Bad credentials が続く場合、[アプリケーション](/glossary/アプリケーション/)が参照している認証情報が、いま設定したものと別である可能性が高いです。典型例は[環境変数](/glossary/環境変数/)です。[GitHub](/glossary/github/) [CLI](/glossary/cli/)（gh）のように、[環境変数](/glossary/環境変数/)（GITHUB_TOKEN や GH_TOKEN）が設定されていると、保存済みの[ログイン](/glossary/ログイン/)情報より[環境変数](/glossary/環境変数/)を優先する道具があります。この場合、gh auth login で何度[ログイン](/glossary/ログイン/)し直しても、[環境変数](/glossary/環境変数/)に残った古い[トークン](/glossary/トークン/)が送られ続け、401が再発します。CI [環境](/glossary/環境/)では、Secrets に登録された古い[トークン](/glossary/トークン/)や、別のサービス用に設定したままの[トークン](/glossary/トークン/)[変数](/glossary/変数/)（例として、パッケージ管理[ツール](/glossary/ツール/)用に設定して忘れられた[トークン](/glossary/トークン/)）が同じ症状を起こします。[GitHub](/glossary/github/) Enterprise と github.com の取り違え（接続先と違うホスト用の[トークン](/glossary/トークン/)を送っている）も同類です。
+[トークン](/glossary/トークン/)を正しく再設定したのに Bad credentials が続く場合、[アプリケーション](/glossary/アプリケーション/)が参照している認証情報が、いま設定したものと別である可能性が高いです。典型例は[環境変数](/glossary/環境変数/)です。[GitHub](/glossary/github/) [CLI](/glossary/cli/)（gh）のように、[環境変数](/glossary/環境変数/)（GITHUB_TOKEN や GH_TOKEN）が設定されていると、保存済みの[ログイン](/glossary/ログイン/)情報より[環境変数](/glossary/環境変数/)を優先する道具があります。この場合、gh auth login で何度[ログイン](/glossary/ログイン/)し直しても、[環境変数](/glossary/環境変数/)に残った古い[トークン](/glossary/トークン/)が送られ続け、401が再発します。CI [環境](/glossary/環境/)では、Secrets に登録された古い[トークン](/glossary/トークン/)や、別のサービス用に設定したままの[トークン](/glossary/トークン/)[変数](/glossary/変数/)（例として、[パッケージ](/glossary/パッケージ/)管理[ツール](/glossary/ツール/)用に設定して忘れられた[トークン](/glossary/トークン/)）が同じ症状を起こします。[GitHub](/glossary/github/) Enterprise と github.com の取り違え（接続先と違うホスト用の[トークン](/glossary/トークン/)を送っている）も同類です。
 
 対処は、実際に使われている[トークン](/glossary/トークン/)の特定です。
 

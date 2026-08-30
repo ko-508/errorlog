@@ -21,9 +21,9 @@ Nginx の 503 Service Unavailable の原因は、ほぼ次の3系統のいずれ
 
 ## エラーの概要
 
-503 Service Unavailable は、[サーバー](/glossary/サーバー/)が一時的に[リクエスト](/glossary/リクエスト/)を処理できない状態を示します。Nginx をリバースプロキシとして使っている場合、似た状況で返る[コード](/glossary/コード/)が3つあり、区別が重要です。上流への接続自体に失敗した場合（プロセス停止、[ポート](/glossary/ポート/)違い、接続拒否など）は 502、接続はできたが応答が時間内に返らなかった場合は 504、そして上流が「処理できない」と自ら 503 を応答した場合はその 503 がそのまま中継されます。加えて、上流と無関係に Nginx 自身が制限機能によって 503 を返す場合があります。
+503 Service Unavailable は、[サーバー](/glossary/サーバー/)が一時的に[リクエスト](/glossary/リクエスト/)を処理できない状態を示します。Nginx をリバースプロキシとして使っている場合、似た状況で返る[コード](/glossary/コード/)が3つあり、区別が重要です。上流への接続自体に失敗した場合（[プロセス](/glossary/プロセス/)停止、[ポート](/glossary/ポート/)違い、接続拒否など）は 502、接続はできたが応答が時間内に返らなかった場合は 504、そして上流が「処理できない」と自ら 503 を応答した場合はその 503 がそのまま中継されます。加えて、上流と無関係に Nginx 自身が制限機能によって 503 を返す場合があります。
 
-Nginx が自身の既定ページで 503 を返す場合、ブラウザには「503 Service Temporarily Unavailable」という見出しだけが表示されます。「The server is temporarily unable to service your request due to maintenance downtime or capacity problems.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではなく、上流の別の[サーバー](/glossary/サーバー/)が生成した 503 を中継している可能性が高いです（原因3）。
+Nginx が自身の既定ページで 503 を返す場合、[ブラウザ](/glossary/ブラウザ/)には「503 Service Temporarily Unavailable」という見出しだけが表示されます。「The server is temporarily unable to service your request due to maintenance downtime or capacity problems.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではなく、上流の別の[サーバー](/glossary/サーバー/)が生成した 503 を中継している可能性が高いです（原因3）。
 
 アクセスログ（既定の combined 形式）には次のように記録されます。
 
@@ -55,7 +55,7 @@ sudo grep "limiting" /var/log/nginx/error.log
 
 `limit_req` は、ゾーンに設定した頻度を超えた[リクエスト](/glossary/リクエスト/)を遅延させ、`burst`（超過分の待ち枠）も使い切ると拒否します。`limit_conn` は同時接続数が上限を超えたとき拒否します。どちらも拒否時の応答[コード](/glossary/コード/)は既定で 503 です（`limit_req_status`、`limit_conn_status` の既定値）。
 
-よくあるのが、burst を指定していないために正当な利用者まで拒否されるケースです。burst の既定は 0 なので、設定した頻度をわずかでも超えた瞬間に 503 が返ります。1つのページを開くとブラウザは CSS・画像・[スクリプト](/glossary/スクリプト/)などを続けて取得するため、rate=1r/s のような厳しい設定では通常の閲覧でも即座に超過します。
+よくあるのが、burst を指定していないために正当な利用者まで拒否されるケースです。burst の既定は 0 なので、設定した頻度をわずかでも超えた瞬間に 503 が返ります。1つのページを開くと[ブラウザ](/glossary/ブラウザ/)は CSS・画像・[スクリプト](/glossary/スクリプト/)などを続けて取得するため、rate=1r/s のような厳しい設定では通常の閲覧でも即座に超過します。
 
 **Before（正当な閲覧でも503が出やすい設定）：**
 
@@ -150,7 +150,7 @@ location = /maintenance.html {
 
 ## 補足：503だと思っていたら502・504だったとき
 
-「[バックエンド](/glossary/バックエンド/)が落ちると503になる」という説明を見かけますが、Nginx では正しくありません。上流への接続に失敗した場合（プロセス停止、[ポート](/glossary/ポート/)違い、全[サーバー](/glossary/サーバー/)利用不可）に返るのは 502 で、[エラーログ](/glossary/エラーログ/)には `connect() failed` や `no live upstreams` が記録されます。応答待ちの時間切れは 504 で、`upstream timed out` が記録されます。これらに該当する場合は、[Nginx の 502 エラー](/posts/nginx_502/)、[Nginx の 504 エラー](/posts/nginx_504/)の記事を参照してください。
+「[バックエンド](/glossary/バックエンド/)が落ちると503になる」という説明を見かけますが、Nginx では正しくありません。上流への接続に失敗した場合（[プロセス](/glossary/プロセス/)停止、[ポート](/glossary/ポート/)違い、全[サーバー](/glossary/サーバー/)利用不可）に返るのは 502 で、[エラーログ](/glossary/エラーログ/)には `connect() failed` や `no live upstreams` が記録されます。応答待ちの時間切れは 504 で、`upstream timed out` が記録されます。これらに該当する場合は、[Nginx の 502 エラー](/posts/nginx_502/)、[Nginx の 504 エラー](/posts/nginx_504/)の記事を参照してください。
 
 ## 切り分けの順序
 

@@ -415,7 +415,7 @@ metadata:
     endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
 ```
 
-独自管理なら、そのcontrollerがPod Readyをどう扱うかを確認します。[Kubernetes](/glossary/kubernetes/)標準のreadinessだけで外れると仮定しません。
+独自管理なら、そのcontrollerがPod Readyをどう扱うかを確認します。[Kubernetes](/glossary/kubernetes/)[標準](/glossary/標準/)のreadinessだけで外れると仮定しません。
 
 ## 補足：似ているが別のもの
 

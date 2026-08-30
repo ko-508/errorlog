@@ -268,7 +268,7 @@ db = firestore.client()
 
 ### デバッグ手順
 
-1. **ネットワークレスポンスを確認**：ブラウザの開発者[ツール](/glossary/ツール/)（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
+1. **ネットワークレスポンスを確認**：[ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
 
 2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) [キー](/glossary/キー/)の状態を確認**：
    - Firebase Console → [プロジェクト](/glossary/プロジェクト/)設定 → [API](/glossary/api/) [キー](/glossary/キー/)

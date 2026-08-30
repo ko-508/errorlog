@@ -64,7 +64,7 @@ terraform apply -parallelism=2 -auto-approve
 
 ### 原因 2：複数の Terraform プロセスが同時に実行されている
 
-[CI/CD](/glossary/ci-cd/) パイプラインやスケジュール実行を複数設定している場合、同じプロバイダーに対して複数の Terraform プロセスが同時にアクセスし、[API](/glossary/api/) [レート制限](/glossary/レート制限/)に達します。
+[CI/CD](/glossary/ci-cd/) パイプラインやスケジュール実行を複数設定している場合、同じプロバイダーに対して複数の Terraform [プロセス](/glossary/プロセス/)が同時にアクセスし、[API](/glossary/api/) [レート制限](/glossary/レート制限/)に達します。
 
 **修正前：**
 
@@ -196,7 +196,7 @@ terraform apply -parallelism=3
 
 ### リソース分割による段階的デプロイ
 
-規模が大きい場合は、Terraform [コード](/glossary/コード/)自体をモジュール単位で分割し、段階的に apply することも有効です。
+規模が大きい場合は、Terraform [コード](/glossary/コード/)自体を[モジュール](/glossary/モジュール/)単位で分割し、段階的に apply することも有効です。
 
 ```bash
 # ステップ 1：ネットワーク系

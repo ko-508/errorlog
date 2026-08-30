@@ -46,6 +46,6 @@ top_queries:
 
 ## Docker Composeの実務的な利点
 
-[Docker](/glossary/docker/) Composeは開発プロセスにおける[エラー](/glossary/エラー/)原因の特定を効率化します。`docker compose logs`[コマンド](/glossary/コマンド/)で全サービスの[ログ](/glossary/ログ/)を一元表示できるため、[エラー](/glossary/エラー/)の原因追跡が容易になり、[デバッグ](/glossary/デバッグ/)時間を大幅に削減できます。
+[Docker](/glossary/docker/) Composeは開発[プロセス](/glossary/プロセス/)における[エラー](/glossary/エラー/)原因の特定を効率化します。`docker compose logs`[コマンド](/glossary/コマンド/)で全サービスの[ログ](/glossary/ログ/)を一元表示できるため、[エラー](/glossary/エラー/)の原因追跡が容易になり、[デバッグ](/glossary/デバッグ/)時間を大幅に削減できます。
 
 同一の[設定ファイル](/glossary/設定ファイル/)を共有することで、「この[環境](/glossary/環境/)ではうまくいくが、別の[環境](/glossary/環境/)では動作しない」といった環境依存の[バグ](/glossary/バグ/)を防止できます。チーム開発では、全員が同一設定で作業でき、メンバー間の環境差分によるトラブルを排除できます。

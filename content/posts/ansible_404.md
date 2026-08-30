@@ -23,7 +23,7 @@ Ansible の 404 [エラー](/glossary/エラー/)は、ターゲットホスト�
 fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get information about file/directory <path>: No such file or directory", "path": "<path>"}
 ```
 
-[HTTP](/glossary/http/) モジュール（uri, get_url）経由の[エラー](/glossary/エラー/)例：
+[HTTP](/glossary/http/) [モジュール](/glossary/モジュール/)（uri, get_url）経由の[エラー](/glossary/エラー/)例：
 
 ```json
 {
@@ -38,7 +38,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 ### 原因1：タスク内で参照するファイルまたはディレクトリが存在しない
 
-ターゲットホスト上に[ファイル](/glossary/ファイル/)や[ディレクトリ](/glossary/ディレクトリ/)が存在しない場合、Ansible はそのリソースを操作できません。特に `copy` モジュールで `src` パラメーターに指定した[ファイル](/glossary/ファイル/)、あるいは `stat` や `find` モジュールで検索対象の[パス](/glossary/パス/)が間違っていると発生します。
+ターゲットホスト上に[ファイル](/glossary/ファイル/)や[ディレクトリ](/glossary/ディレクトリ/)が存在しない場合、Ansible はそのリソースを操作できません。特に `copy` [モジュール](/glossary/モジュール/)で `src` パラメーターに指定した[ファイル](/glossary/ファイル/)、あるいは `stat` や `find` [モジュール](/glossary/モジュール/)で検索対象の[パス](/glossary/パス/)が間違っていると発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -74,7 +74,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
 
 ### 原因2：外部API のURL が間違っているか変更された
 
-`uri` モジュールや `get_url` モジュールで外部 [API](/glossary/api/) に接続する際、[エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) が誤っているか、[API](/glossary/api/) 側で廃止されている可能性があります。特に [API](/glossary/api/) の[バージョン](/glossary/バージョン/)が変更された場合は旧[エンドポイント](/glossary/エンドポイント/)が[削除](/glossary/削除/)されることがあります。
+`uri` [モジュール](/glossary/モジュール/)や `get_url` [モジュール](/glossary/モジュール/)で外部 [API](/glossary/api/) に接続する際、[エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) が誤っているか、[API](/glossary/api/) 側で廃止されている可能性があります。特に [API](/glossary/api/) の[バージョン](/glossary/バージョン/)が変更された場合は旧[エンドポイント](/glossary/エンドポイント/)が[削除](/glossary/削除/)されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -149,15 +149,15 @@ web02 ansible_host=webserver02.example.com
 
 ### copy モジュールの src パラメーター
 
-Ansible の `copy` モジュールにおいて `src` パラメーターで指定する[パス](/glossary/パス/)は、**Ansible コントローラーマシン**上の[パス](/glossary/パス/)であって、ターゲットホスト上の[パス](/glossary/パス/)ではありません。コントローラーマシン側で実際に[ファイル](/glossary/ファイル/)が存在するか確認が必要です。
+Ansible の `copy` [モジュール](/glossary/モジュール/)において `src` パラメーターで指定する[パス](/glossary/パス/)は、**Ansible コントローラーマシン**上の[パス](/glossary/パス/)であって、ターゲットホスト上の[パス](/glossary/パス/)ではありません。コントローラーマシン側で実際に[ファイル](/glossary/ファイル/)が存在するか確認が必要です。
 
 ### リモートホスト上でのファイル操作
 
-逆に `file` モジュールや `stat` モジュールで操作対象を指定する場合は、ターゲットホスト上での絶対[パス](/glossary/パス/)を指定します。`shell` モジュールで `find` [コマンド](/glossary/コマンド/)を実行して、事前にターゲットホスト上で[ファイル](/glossary/ファイル/)の場所を確認するのも有効です。
+逆に `file` [モジュール](/glossary/モジュール/)や `stat` [モジュール](/glossary/モジュール/)で操作対象を指定する場合は、ターゲットホスト上での絶対[パス](/glossary/パス/)を指定します。`shell` [モジュール](/glossary/モジュール/)で `find` [コマンド](/glossary/コマンド/)を実行して、事前にターゲットホスト上で[ファイル](/glossary/ファイル/)の場所を確認するのも有効です。
 
 ### HTTP ステータスコードの明示的な指定
 
-`uri` モジュールを使用する際は、想定される [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)を `status_code` パラメーターで明示的に指定してください。404 が予期された[レスポンス](/glossary/レスポンス/)の場合は、`status_code: [200, 404]` のように複数の値を許容することで、Ansible が[エラー](/glossary/エラー/)と判定しなくなります。
+`uri` [モジュール](/glossary/モジュール/)を使用する際は、想定される [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)を `status_code` パラメーターで明示的に指定してください。404 が予期された[レスポンス](/glossary/レスポンス/)の場合は、`status_code: [200, 404]` のように複数の値を許容することで、Ansible が[エラー](/glossary/エラー/)と判定しなくなります。
 
 ## それでも解決しない場合
 
@@ -193,7 +193,7 @@ ansible-playbook playbook.yml
 
 ### 公式リソースへの参照
 
-Ansible 公式ドキュメント（https://docs.ansible.com/）の該当モジュールセクションを確認してください。特に `uri` モジュール、`copy` モジュール、`stat` モジュールのドキュメントには、各パラメーターの詳細とよくある落とし穴が記載されています。
+Ansible 公式ドキュメント（https://docs.ansible.com/）の該当モジュールセクションを確認してください。特に `uri` [モジュール](/glossary/モジュール/)、`copy` [モジュール](/glossary/モジュール/)、`stat` [モジュール](/glossary/モジュール/)のドキュメントには、各パラメーターの詳細とよくある落とし穴が記載されています。
 
 ---
 

@@ -54,7 +54,7 @@ related_services: ["kubectl"]
 | --- | --- | --- |
 | どの init container で止まっているか | `kubectl get pod <pod-name>` の `Init:N/M`、`kubectl describe pod` の Init Containers セクション | 複数ある場合は N 番目の次の init container が対象 |
 | 終了[コード](/glossary/コード/)と Reason | `kubectl describe pod <pod-name>` の該当 init container の State / Last State（Exit Code、Reason） | `OOMKilled` ならリソース側、それ以外は処理内容側 |
-| [ログ](/glossary/ログ/)が出ているか | `kubectl logs <pod-name> -c <init-container> --previous` | 出ている＝プロセスは起動した。出ていない＝起動前に失敗した可能性 |
+| [ログ](/glossary/ログ/)が出ているか | `kubectl logs <pod-name> -c <init-container> --previous` | 出ている＝[プロセス](/glossary/プロセス/)は起動した。出ていない＝起動前に失敗した可能性 |
 | Pod の[イベント](/glossary/イベント/) | `kubectl describe pod <pod-name>` の Events | マウント失敗、[イメージ](/glossary/イメージ/)取得失敗などはここに出ます |
 | 再起動回数の増え方 | `kubectl get pod <pod-name> -w` の RESTARTS | 増え続けるなら失敗は継続中。止まっているなら別状態へ遷移した可能性 |
 

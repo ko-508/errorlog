@@ -217,7 +217,7 @@ async function getAllPullRequests() {
 
 ## ツール固有の注意点
 
-Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークスペース](/glossary/ワークスペース/)単位ではなく、**[認証](/glossary/認証/)ユーザー・[トークン](/glossary/トークン/)単位**で適用されます。そのため同一[トークン](/glossary/トークン/)を複数の[CI/CD](/glossary/ci-cd/)ジョブや[スクリプト](/glossary/スクリプト/)で共有している場合、各プロセスの負荷が累積されます。[本番環境](/glossary/本番環境/)では専用の[API](/glossary/api/)[トークン](/glossary/トークン/)を作成し、必要に応じて複数[トークン](/glossary/トークン/)を用意して負荷分散することが推奨されます。
+Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークスペース](/glossary/ワークスペース/)単位ではなく、**[認証](/glossary/認証/)ユーザー・[トークン](/glossary/トークン/)単位**で適用されます。そのため同一[トークン](/glossary/トークン/)を複数の[CI/CD](/glossary/ci-cd/)ジョブや[スクリプト](/glossary/スクリプト/)で共有している場合、各[プロセス](/glossary/プロセス/)の負荷が累積されます。[本番環境](/glossary/本番環境/)では専用の[API](/glossary/api/)[トークン](/glossary/トークン/)を作成し、必要に応じて複数[トークン](/glossary/トークン/)を用意して負荷分散することが推奨されます。
 
 また、Bitbucket Server（オンプレミス版）を使用している場合は、[レート制限](/glossary/レート制限/)がデフォルトで無効である場合が多いため、この429[エラー](/glossary/エラー/)は発生しにくいです。一方、Bitbucket Cloud [API](/glossary/api/) v2.0 を使用している場合は必ず[レート制限](/glossary/レート制限/)の対象となるため、[リクエスト](/glossary/リクエスト/)設計の段階で考慮する必要があります。
 
@@ -225,7 +225,7 @@ Bitbucket Cloud の[レート制限](/glossary/レート制限/)は[ワークス
 
 ## それでも解決しない場合
 
-まずBitbucket の[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)[ログ](/glossary/ログ/)を確認し、実際の送信数を把握してください。ブラウザの開発者ツールネットワークタブや、`curl -v` で詳細[ヘッダー](/glossary/ヘッダー/)を確認することで、[レート制限](/glossary/レート制限/)に関する詳細情報（X-RateLimit-* [ヘッダー](/glossary/ヘッダー/)）が表示されます。
+まずBitbucket の[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)[ログ](/glossary/ログ/)を確認し、実際の送信数を把握してください。[ブラウザ](/glossary/ブラウザ/)の開発者ツールネットワークタブや、`curl -v` で詳細[ヘッダー](/glossary/ヘッダー/)を確認することで、[レート制限](/glossary/レート制限/)に関する詳細情報（X-RateLimit-* [ヘッダー](/glossary/ヘッダー/)）が表示されます。
 
 ```bash
 curl -v -H "Authorization: Bearer <your-bitbucket-api-token>" \

@@ -110,13 +110,13 @@ docker run -p 8081:8080 myapp      # ホスト側だけ 8081 に変える
 
 誰も待ち受けていないのに `port is already allocated` が出る場合です。前述のとおり、[Docker](/glossary/docker/) は台帳を見て判断するため、実態とずれれば矛盾した結果になります。
 
-見分け方があります。[ポート](/glossary/ポート/)の持ち主を調べたとき、**持ち主として [Docker](/glossary/docker/) の常駐プロセス自身や中継用のプロセスが出てくる**場合、[コンテナ](/glossary/コンテナ/)は既に無いのに掴んだままになっています。
+見分け方があります。[ポート](/glossary/ポート/)の持ち主を調べたとき、**持ち主として [Docker](/glossary/docker/) の常駐[プロセス](/glossary/プロセス/)自身や中継用の[プロセス](/glossary/プロセス/)が出てくる**場合、[コンテナ](/glossary/コンテナ/)は既に無いのに掴んだままになっています。
 
 ```bash
 sudo lsof -i :8080 | grep -E "dockerd|docker-proxy"
 ```
 
-対処は常駐プロセスの再起動です。これで台帳が作り直されます。
+対処は常駐[プロセス](/glossary/プロセス/)の再起動です。これで台帳が作り直されます。
 
 ```bash
 sudo systemctl restart docker
@@ -147,9 +147,9 @@ netsh interface ipv4 show excludedportrange protocol=tcp
 
 ## 補足：似ているが別のもの
 
-`bind: address already in use` は基本[ソフトウェア](/glossary/ソフトウェア/)が返した拒否です。前述のとおり、必ず実際の持ち主がいます。台帳の不整合ではないため、常駐プロセスを再起動しても解決しません。
+`bind: address already in use` は基本[ソフトウェア](/glossary/ソフトウェア/)が返した拒否です。前述のとおり、必ず実際の持ち主がいます。台帳の不整合ではないため、常駐[プロセス](/glossary/プロセス/)を再起動しても解決しません。
 
-常駐プロセスに接続できない場合は別の[エラー](/glossary/エラー/)です（[Docker の Cannot connect to the Docker daemon の記事](/posts/docker_cannot_connect_daemon/)）。
+常駐[プロセス](/glossary/プロセス/)に接続できない場合は別の[エラー](/glossary/エラー/)です（[Docker の Cannot connect to the Docker daemon の記事](/posts/docker_cannot_connect_daemon/)）。
 
 [イメージ](/glossary/イメージ/)が起動できない場合や[容量](/glossary/容量/)が尽きた場合も、それぞれ別系統です（[Docker の exec format error の記事](/posts/docker_exec_format_error/)、[no space left on device の記事](/posts/docker_no_space_left_on_device/)）。
 
@@ -162,7 +162,7 @@ netsh interface ipv4 show excludedportrange protocol=tcp
 3. 停止中も含めて[コンテナ](/glossary/コンテナ/)を絞り込む。`-a` を忘れない。
 4. [コンテナ](/glossary/コンテナ/)以外の待ち受けを確認する。
 5. 誰も見つからないなら、台帳の不整合を疑う。持ち主が [Docker](/glossary/docker/) 自身なら確定。
-6. 常駐プロセスの再起動は影響範囲を確認してから。
+6. 常駐[プロセス](/glossary/プロセス/)の再起動は影響範囲を確認してから。
 7. Windows で番号によって成否がばらつくなら、予約範囲を確認する。
 8. `expose` への書き換えは解決策にならない。占有するのは公開の指定だけ。
 
@@ -200,9 +200,9 @@ docker port <コンテナ名>
 
 「誰も使っていないのに使用中だと言われる」——この[エラー](/glossary/エラー/)で最も混乱するのがこの状況です。それを証拠付きで記録した報告があります（[Bind for ip:port failed: port is already allocated](https://github.com/moby/moby/issues/36591)）。
 
-2018年3月の報告で、内容が徹底しています。報告者は問題の[ポート](/glossary/ポート/)について調べ、待ち受けているプロセスを特定しました。**それは [Docker](/glossary/docker/) の常駐プロセスそのものでした**。プロセス番号、[ファイル](/glossary/ファイル/)記述子の番号、その記述子が指すソケット、カーネル側の記録まで辿り、同じソケットであることを確認しています。[コンテナ](/glossary/コンテナ/)は既に存在しないのに、掴んだままだったわけです。
+2018年3月の報告で、内容が徹底しています。報告者は問題の[ポート](/glossary/ポート/)について調べ、待ち受けている[プロセス](/glossary/プロセス/)を特定しました。**それは [Docker](/glossary/docker/) の常駐[プロセス](/glossary/プロセス/)そのものでした**。[プロセス](/glossary/プロセス/)番号、[ファイル](/glossary/ファイル/)記述子の番号、その記述子が指すソケット、カーネル側の記録まで辿り、同じソケットであることを確認しています。[コンテナ](/glossary/コンテナ/)は既に存在しないのに、掴んだままだったわけです。
 
-そして報告にはこう書かれています。**現時点での唯一の回避策は常駐プロセスの再起動だが、それは停止時間を意味するので避けたい**。
+そして報告にはこう書かれています。**現時点での唯一の回避策は常駐[プロセス](/glossary/プロセス/)の再起動だが、それは停止時間を意味するので避けたい**。
 
 同種の報告はもっと前からあります（[Cannot start containers: port is already allocated](https://github.com/moby/moby/issues/20486)）。2016年、[コンテナ](/glossary/コンテナ/)を起動しようとして同じ[エラー](/glossary/エラー/)が出た報告で、報告者は明確に書いています。ホスト上でその[ポート](/glossary/ポート/)を待ち受けているものは何も無い、そして別の[コンテナ](/glossary/コンテナ/)を同じ[ポート](/glossary/ポート/)で起動すると成功する、と。
 

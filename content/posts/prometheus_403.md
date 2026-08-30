@@ -178,7 +178,7 @@ docker run -d \
 
 **[Kubernetes](/glossary/kubernetes/) での Prometheus [デプロイ](/glossary/デプロイ/)：**
 
-Helm で Prometheus をインストールする場合、`values.yaml` の `serverFiles.args` に フラグを追加してください。
+Helm で Prometheus を[インストール](/glossary/インストール/)する場合、`values.yaml` の `serverFiles.args` に フラグを追加してください。
 
 ```yaml
 prometheus:

@@ -13,7 +13,7 @@ related_services: ["Java", "Groovy", "OutOfMemoryError"]
 
 ## エラーの概要
 
-Jenkinsの500[エラー](/glossary/エラー/)は、Jenkins[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。この際、[リクエスト](/glossary/リクエスト/)の処理中に[サーバー](/glossary/サーバー/)側で制御不能な例外やリソース枯渇が生じており、正常な[レスポンス](/glossary/レスポンス/)を返すことができない状態です。Webブラウザでジョブを実行したり、設定を変更したり、[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)にアクセスしたりする際に発生することが多くあります。
+Jenkinsの500[エラー](/glossary/エラー/)は、Jenkins[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。この際、[リクエスト](/glossary/リクエスト/)の処理中に[サーバー](/glossary/サーバー/)側で制御不能な例外やリソース枯渇が生じており、正常な[レスポンス](/glossary/レスポンス/)を返すことができない状態です。Web[ブラウザ](/glossary/ブラウザ/)でジョブを実行したり、設定を変更したり、[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)にアクセスしたりする際に発生することが多くあります。
 
 ## 実際のエラーメッセージ例
 
@@ -26,7 +26,7 @@ java.lang.OutOfMemoryError: Java heap space
 	at hudson.model.AbstractProject.scheduleBuild2(AbstractProject.java:567)
 ```
 
-**ブラウザの[コンソール](/glossary/コンソール/)出力（[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)時）：**
+**[ブラウザ](/glossary/ブラウザ/)の[コンソール](/glossary/コンソール/)出力（[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)時）：**
 
 ```json
 {
@@ -40,7 +40,7 @@ java.lang.OutOfMemoryError: Java heap space
 
 ### 原因1：プラグインのクラッシュまたは競合
 
-Jenkinsのプラグインが正常に動作せず、クラッシュするか他のプラグインと競合している場合、500[エラー](/glossary/エラー/)が発生します。特に新しくインストールされたプラグインやバージョンアップ直後に多く見られます。
+Jenkinsのプラグインが正常に動作せず、クラッシュするか他のプラグインと競合している場合、500[エラー](/glossary/エラー/)が発生します。特に新しく[インストール](/glossary/インストール/)されたプラグインやバージョンアップ直後に多く見られます。
 
 Jenkinsの[ログファイル](/glossary/ログファイル/)を確認してから、問題のあるプラグインを特定し無効化します。
 
@@ -165,7 +165,7 @@ pipeline {
 
 **Jenkinsのプラグイン管理画面での確認方法：**
 
-Manage Jenkins → System Configuration → Manage Plugins から、インストール済みのプラグイン一覧を確認できます。[エラー](/glossary/エラー/)発生前後でインストール・更新したプラグインを特定し、その右側のチェックボックスを外して無効化できます。ただしこの操作中も500[エラー](/glossary/エラー/)が出ることがあるため、前述のファイルシステム操作での対応が確実です。
+Manage Jenkins → System Configuration → Manage Plugins から、[インストール](/glossary/インストール/)済みのプラグイン一覧を確認できます。[エラー](/glossary/エラー/)発生前後で[インストール](/glossary/インストール/)・更新したプラグインを特定し、その右側のチェックボックスを外して無効化できます。ただしこの操作中も500[エラー](/glossary/エラー/)が出ることがあるため、前述のファイルシステム操作での対応が確実です。
 
 **Jenkinsの[設定ファイル](/glossary/設定ファイル/)直接編集：**
 
@@ -187,7 +187,7 @@ sudo systemctl start jenkins
 
 **Jenkinsの[バージョン](/glossary/バージョン/)と[互換性](/glossary/互換性/)：**
 
-古い[バージョン](/glossary/バージョン/)のJenkinsで新しいプラグインをインストールすると[バージョン](/glossary/バージョン/)競合が発生し、500[エラー](/glossary/エラー/)になります。`Manage Plugins` で各プラグインが「[互換性](/glossary/互換性/)のある[バージョン](/glossary/バージョン/)」になっているか確認してください。
+古い[バージョン](/glossary/バージョン/)のJenkinsで新しいプラグインを[インストール](/glossary/インストール/)すると[バージョン](/glossary/バージョン/)競合が発生し、500[エラー](/glossary/エラー/)になります。`Manage Plugins` で各プラグインが「[互換性](/glossary/互換性/)のある[バージョン](/glossary/バージョン/)」になっているか確認してください。
 
 ## それでも解決しない場合
 

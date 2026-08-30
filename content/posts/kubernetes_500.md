@@ -64,7 +64,7 @@ kubectl logs -n kube-system -l component=kube-apiserver --tail=100
 
 ### 2. APIサーバーのメモリ不足またはクラッシュ
 
-**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義を[メモリ](/glossary/メモリ/)に保持しています。大規模クラスタや[メモリ](/glossary/メモリ/)制限が厳しい[環境](/glossary/環境/)では、[メモリ](/glossary/メモリ/)不足（OOM）によりプロセスがクラッシュし500[エラー](/glossary/エラー/)が多発します。
+**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義を[メモリ](/glossary/メモリ/)に保持しています。大規模クラスタや[メモリ](/glossary/メモリ/)制限が厳しい[環境](/glossary/環境/)では、[メモリ](/glossary/メモリ/)不足（OOM）により[プロセス](/glossary/プロセス/)がクラッシュし500[エラー](/glossary/エラー/)が多発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml

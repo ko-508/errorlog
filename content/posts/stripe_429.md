@@ -252,7 +252,7 @@ for customer in customers.auto_paging_iter():
 
 ### Webhook エンドポイントの署名検証でのレート制限回避
 
-[Webhook](/glossary/webhook/) 処理の中で複数の [API](/glossary/api/) 呼び出しが必要な場合、非同期処理（キューイング）を導入することで、429 [エラー](/glossary/エラー/)を回避できます。
+[Webhook](/glossary/webhook/) 処理の中で複数の [API](/glossary/api/) 呼び出しが必要な場合、[非同期処理](/glossary/非同期処理/)（キューイング）を導入することで、429 [エラー](/glossary/エラー/)を回避できます。
 
 ```python
 import stripe

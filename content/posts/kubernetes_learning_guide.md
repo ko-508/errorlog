@@ -33,7 +33,7 @@ trend_incident: false
 
 同じことが[ネットワーク](/glossary/ネットワーク/)でも起きます。Serviceの `port` と `targetPort` を同じ値に揃えたら繋がった、という手順は、どちらがService側でどちらが[コンテナ](/glossary/コンテナ/)側かを知らなければ再現できません。
 
-[エラー](/glossary/エラー/)文と[イベント](/glossary/イベント/)も同じです。[Kubernetes](/glossary/kubernetes/)の表示は、どの部品が判断したのかを示しています。スケジューラが置き場所を決められないのか、kubeletが[イメージ](/glossary/イメージ/)を取得できないのか、[コンテナ](/glossary/コンテナ/)の中のプロセスが落ちているのかで、直す場所が変わります。この区別は、次に説明する全体像を知っていれば読み取れます。
+[エラー](/glossary/エラー/)文と[イベント](/glossary/イベント/)も同じです。[Kubernetes](/glossary/kubernetes/)の表示は、どの部品が判断したのかを示しています。スケジューラが置き場所を決められないのか、kubeletが[イメージ](/glossary/イメージ/)を取得できないのか、[コンテナ](/glossary/コンテナ/)の中の[プロセス](/glossary/プロセス/)が落ちているのかで、直す場所が変わります。この区別は、次に説明する全体像を知っていれば読み取れます。
 
 ## 最初に理解するべきKubernetesの全体像
 
@@ -134,7 +134,7 @@ kubectl rollout undo deployment/<Deployment名>
 
 **最低限覚える概念**：
 
-第一に、[コンテナ](/glossary/コンテナ/)が待ち受けている[ポート](/glossary/ポート/)です。Podの中のプロセスが実際に開いている番号です。
+第一に、[コンテナ](/glossary/コンテナ/)が待ち受けている[ポート](/glossary/ポート/)です。Podの中の[プロセス](/glossary/プロセス/)が実際に開いている番号です。
 
 第二に、Serviceの `port` と `targetPort` です。公式ドキュメントによれば、Serviceは任意の[受信](/glossary/受信/) `port` を `targetPort` へ対応付けられます。既定では利便性のため、`targetPort` は `port` と同じ値に設定されます（[Service](https://kubernetes.io/docs/concepts/services-networking/service/)）。`port` がServiceの入口、`targetPort` がPod側の受け口です。同じページには、Podの[ポート](/glossary/ポート/)に名前を付けて `targetPort` からその名前で参照できることも記載されています。
 
@@ -166,7 +166,7 @@ kubectl port-forward service/<Service名> 8080:80
 
 `kubectl describe service` の Endpoints 欄が空であれば、セレクターに一致するPodがありません。ラベルの綴り違いが原因のことが多くあります。
 
-**次の段階へ進む目安**：Pod内の[アプリケーション](/glossary/アプリケーション/)が書く接続先と、手元のブラウザに入力する接続先が違う理由を説明できることです。
+**次の段階へ進む目安**：Pod内の[アプリケーション](/glossary/アプリケーション/)が書く接続先と、手元の[ブラウザ](/glossary/ブラウザ/)に入力する接続先が違う理由を説明できることです。
 
 **関連して発生しやすい[エラー](/glossary/エラー/)**：クラスター内で `could not translate host name` のような名前解決の失敗が出る場合、接続先にService名ではなく `localhost` を書いている可能性があります。到達はするが応答しない場合は `targetPort` の指定を確認してください。
 
@@ -276,7 +276,7 @@ kubectl get events --sort-by=.lastTimestamp
 
 [イベント](/glossary/イベント/)は既定で一定時間後に消えます。時間が経ってから調べる場合、詳細が残っていないことがあります。
 
-第五に、[ログ](/glossary/ログ/)を読みます。[コンテナ](/glossary/コンテナ/)の中のプロセスが出力した内容です。
+第五に、[ログ](/glossary/ログ/)を読みます。[コンテナ](/glossary/コンテナ/)の中の[プロセス](/glossary/プロセス/)が出力した内容です。
 
 ```bash
 # 直近の100行を表示する

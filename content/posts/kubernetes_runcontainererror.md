@@ -32,7 +32,7 @@ State:          Waiting
 3. volume、[権限](/glossary/権限/)、[セキュリティ](/glossary/セキュリティ/)設定など、Pod定義とノード条件の組み合わせで失敗しているのか。
 4. containerd、CRI-O、runc、cgroup、ディスクなど、ノード側runtimeの問題なのか。
 
-`kubectl logs` が空でも不思議ではありません。プロセスがまだ開始できていないため、アプリケーションログへ到達しないことがあります。最初に読むべきなのは、アプリログではなく `kubectl describe pod` のState、Message、Eventsです。
+`kubectl logs` が空でも不思議ではありません。[プロセス](/glossary/プロセス/)がまだ開始できていないため、アプリケーションログへ到達しないことがあります。最初に読むべきなのは、アプリログではなく `kubectl describe pod` のState、Message、Eventsです。
 
 ## エラーの概要
 
@@ -76,7 +76,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 | `CreateContainerConfigError` | kubeletが[コンテナ](/glossary/コンテナ/)設定を解決できない | 対象外 |
 | `FailedCreatePodSandbox` | sandbox作成、CNI、pause container付近 | 対象外 |
 | `ImagePullBackOff` / `ErrImagePull` | [イメージ](/glossary/イメージ/)取得 | 対象外 |
-| `CrashLoopBackOff` | 起動後にプロセスが終了し再起動を繰り返す | 対象外 |
+| `CrashLoopBackOff` | 起動後に[プロセス](/glossary/プロセス/)が終了し再起動を繰り返す | 対象外 |
 
 [Kubernetes](/glossary/kubernetes/)公式のPod[デバッグ](/glossary/デバッグ/)手順でも、まずPodを確認し、`kubectl describe` で状態と最近のEventsを見る流れが示されています（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。
 
@@ -122,7 +122,7 @@ kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
 
 ### 原因1：command、args、workingDir、実行権限が不正
 
-`command`、`args`、`workingDir`、実行[ファイル](/glossary/ファイル/)の[パス](/glossary/パス/)、実行権限、`runAsUser` などが噛み合っていないと、runtimeはプロセスを開始できません。[イメージ](/glossary/イメージ/)取得までは成功しているため、`kubectl logs` は空のままになりがちです。
+`command`、`args`、`workingDir`、実行[ファイル](/glossary/ファイル/)の[パス](/glossary/パス/)、実行権限、`runAsUser` などが噛み合っていないと、runtimeは[プロセス](/glossary/プロセス/)を開始できません。[イメージ](/glossary/イメージ/)取得までは成功しているため、`kubectl logs` は空のままになりがちです。
 
 **Before（entrypointを上書きしている）：**
 
@@ -237,7 +237,7 @@ containerdのCRI設定を疑う場合、containerd側ではCRI pluginの設定�
 
 `ImagePullBackOff` と `ErrImagePull` は、image取得の失敗です。[認証](/glossary/認証/)、[タグ](/glossary/タグ/)、registry到達性を確認します。`RunContainerError` はimage取得後の段階です。
 
-`OOMKilled` は、起動後に[メモリ](/glossary/メモリ/)制限などでプロセスが終了した結果です。`RunContainerError` はプロセス開始前または開始時点で止まるため、調査する時間軸が違います。
+`OOMKilled` は、起動後に[メモリ](/glossary/メモリ/)制限などで[プロセス](/glossary/プロセス/)が終了した結果です。`RunContainerError` は[プロセス](/glossary/プロセス/)開始前または開始時点で止まるため、調査する時間軸が違います。
 
 ## 危険な対応を行う前の確認
 
@@ -285,7 +285,7 @@ crictl images
 1. `containerStatuses` と `initContainerStatuses` のreasonを確認し、`RunContainerError` であることを確定する。
 2. `kubectl describe pod` で `Message` をそのまま[保存](/glossary/保存/)する。
 3. Eventsを時系列で確認し、`FailedCreatePodSandbox` やimage pull系の前段階[エラー](/glossary/エラー/)が主因でないか確認する。
-4. `kubectl logs` が空でも、プロセス開始前なら異常ではないと判断する。
+4. `kubectl logs` が空でも、[プロセス](/glossary/プロセス/)開始前なら異常ではないと判断する。
 5. `command`、`args`、`workingDir`、`securityContext` を外した最小構成で同じimageを起動する。
 6. volumeMount、Secret、ConfigMap、hostPathを1つずつ戻し、どの設定で再発するか確認する。
 7. 同じPodを別ノードで動かし、ノード固有かワークロード固有かを分ける。

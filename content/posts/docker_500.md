@@ -25,7 +25,7 @@ top_queries:
 
 [Docker](/glossary/docker/) の[コマンド](/glossary/コマンド/)（docker ps、docker run など）は、裏側で [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の [API](/glossary/api/) に [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)を送って動いています。500 Internal Server Error は、その応答として[サーバー](/glossary/サーバー/)側（[デーモン](/glossary/デーモン/)、その手前の中継役、または[レジストリ](/glossary/レジストリ/)）が「内部で[エラー](/glossary/エラー/)が起きた」と返してきたことを意味します。
 
-このため、500が出たという事実は「相手まで[リクエスト](/glossary/リクエスト/)が届いた」ことの証拠でもあります。[デーモン](/glossary/デーモン/)のプロセスが停止している、ソケットファイルにアクセスできない、といった場合は [HTTP](/glossary/http/) の応答自体を受け取れないので、500ではなく Cannot connect to the [Docker](/glossary/docker/) daemon という別の[エラー](/glossary/エラー/)になります。500の調査で[デーモン](/glossary/デーモン/)の死活だけを疑うと原因を取り違えるので、まず[エラーメッセージ](/glossary/エラーメッセージ/)の文言全体を読みます。
+このため、500が出たという事実は「相手まで[リクエスト](/glossary/リクエスト/)が届いた」ことの証拠でもあります。[デーモン](/glossary/デーモン/)の[プロセス](/glossary/プロセス/)が停止している、ソケットファイルにアクセスできない、といった場合は [HTTP](/glossary/http/) の応答自体を受け取れないので、500ではなく Cannot connect to the [Docker](/glossary/docker/) daemon という別の[エラー](/glossary/エラー/)になります。500の調査で[デーモン](/glossary/デーモン/)の死活だけを疑うと原因を取り違えるので、まず[エラーメッセージ](/glossary/エラーメッセージ/)の文言全体を読みます。
 
 ## まず最初に：エラーメッセージの全体を読む
 

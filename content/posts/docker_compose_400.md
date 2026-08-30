@@ -174,7 +174,7 @@ networks:
 docker compose -f compose.yml config
 ```
 
-**[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`[キー](/glossary/キー/)で指定したCompose仕様の[バージョン](/glossary/バージョン/)が、インストール済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
+**[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`[キー](/glossary/キー/)で指定したCompose仕様の[バージョン](/glossary/バージョン/)が、[インストール](/glossary/インストール/)済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
 
 **[環境変数](/glossary/環境変数/)の展開[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`[ファイル](/glossary/ファイル/)の存在確認と変数定義を必ず確認してください。
 

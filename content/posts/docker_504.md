@@ -18,7 +18,7 @@ top_queries:
 
 [Docker](/glossary/docker/) まわりの 504 Gateway Timeout で最初に確定させるべき事実は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)自身は504を返さない、ということです。[デーモン](/glossary/デーモン/)が[エラー](/glossary/エラー/)を [HTTP](/glossary/http/) のステータスに割り当てる実装（moby のソースコード）には504がそもそも存在せず、時間切れ系の内部[エラー](/glossary/エラー/)（deadline exceeded）ですら500に割り当てられています。したがって、[Docker](/glossary/docker/) の操作で504を見たとき、それを返しているのは必ず[デーモン](/glossary/デーモン/)以外のどこかの「中継役」です。実際に起きる場所は3つに絞れます。第一に、docker pull / push の通信経路にあるゲートウェイ（自前[レジストリ](/glossary/レジストリ/)の前段の Nginx や ingress、[Docker](/glossary/docker/) Hub 側の基盤）です。第二に、リモートの [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)をリバースプロキシ越しに公開している構成の、その[プロキシ](/glossary/プロキシ/)です。第三に、[コンテナ](/glossary/コンテナ/)で動かしている[アプリケーション](/glossary/アプリケーション/)の前段の[プロキシ](/glossary/プロキシ/)で、これは [Docker](/glossary/docker/) ではなく[プロキシ](/glossary/プロキシ/)とアプリの調査になります。
 
-見分けは文言でつきます。received unexpected [HTTP](/glossary/http/) status: 504 Gateway Time-out や error parsing [HTTP](/glossary/http/) 504 response body なら、pull / push の経路の504です（原因1）。docker [コマンド](/glossary/コマンド/)全般がリモートデーモン相手に504になるなら、[デーモン](/glossary/デーモン/)の前の[プロキシ](/glossary/プロキシ/)です（原因2）。ブラウザや curl で[コンテナ](/glossary/コンテナ/)上のアプリにアクセスして504が返るなら、それは [Docker](/glossary/docker/) の問題ではありません（原因3として境界を示します）。
+見分けは文言でつきます。received unexpected [HTTP](/glossary/http/) status: 504 Gateway Time-out や error parsing [HTTP](/glossary/http/) 504 response body なら、pull / push の経路の504です（原因1）。docker [コマンド](/glossary/コマンド/)全般がリモートデーモン相手に504になるなら、[デーモン](/glossary/デーモン/)の前の[プロキシ](/glossary/プロキシ/)です（原因2）。[ブラウザ](/glossary/ブラウザ/)や curl で[コンテナ](/glossary/コンテナ/)上のアプリにアクセスして504が返るなら、それは [Docker](/glossary/docker/) の問題ではありません（原因3として境界を示します）。
 
 ## エラーの概要
 

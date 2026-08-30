@@ -382,7 +382,7 @@ ssh -T -p 443 git@ssh.github.com
 https://github.com/OWNER/REPOSITORY.git
 ```
 
-この場合は、[Git](/glossary/git/) Credential Manager、個人アクセストークン、ブラウザ[認証](/glossary/認証/)など、[HTTPS](/glossary/https/)側の資格情報を確認します。SSH鍵を追加しても[HTTPS](/glossary/https/) remoteの[認証](/glossary/認証/)には使われません。
+この場合は、[Git](/glossary/git/) Credential Manager、個人アクセストークン、[ブラウザ](/glossary/ブラウザ/)[認証](/glossary/認証/)など、[HTTPS](/glossary/https/)側の資格情報を確認します。SSH鍵を追加しても[HTTPS](/glossary/https/) remoteの[認証](/glossary/認証/)には使われません。
 
 `Could not resolve hostname github.com` は名前解決、`Connection refused` は接続先の待受、`no matching host key type found` は暗号方式の交渉です。いずれも `Offering public key` より前に止まるため、[アカウント](/glossary/アカウント/)への公開鍵登録から調べる問題ではありません。
 

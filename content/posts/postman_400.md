@@ -134,7 +134,7 @@ Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以
 GET http://api.example.com/search?keyword=東京都&sort=新着順
 ```
 
-上記の[URL](/glossary/url/)はブラウザでは自動的にエンコードされますが、Postmanで手動入力した場合、日本語や記号がそのまま[送信](/glossary/送信/)されて400[エラー](/glossary/エラー/)になる可能性があります。
+上記の[URL](/glossary/url/)は[ブラウザ](/glossary/ブラウザ/)では自動的にエンコードされますが、Postmanで手動入力した場合、日本語や記号がそのまま[送信](/glossary/送信/)されて400[エラー](/glossary/エラー/)になる可能性があります。
 
 **After（修正後）：**
 

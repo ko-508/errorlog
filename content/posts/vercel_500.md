@@ -16,11 +16,11 @@ top_queries:
 ---
 ## エラーの概要
 
-Vercel の 500 [エラー](/glossary/エラー/)は、[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行中に内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は Vercel の[バックエンド](/glossary/バックエンド/)側で例外がキャッチされず、[クライアント](/glossary/クライアント/)には[エラー](/glossary/エラー/)内容の詳細が返されません。[デプロイ](/glossary/デプロイ/)は成功していても、[関数](/glossary/関数/)の実行時に[コード](/glossary/コード/)内の[バグ](/glossary/バグ/)、依存パッケージの問題、[環境変数](/glossary/環境変数/)の欠落などが原因で発生することがほとんどです。
+Vercel の 500 [エラー](/glossary/エラー/)は、[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行中に内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は Vercel の[バックエンド](/glossary/バックエンド/)側で例外がキャッチされず、[クライアント](/glossary/クライアント/)には[エラー](/glossary/エラー/)内容の詳細が返されません。[デプロイ](/glossary/デプロイ/)は成功していても、[関数](/glossary/関数/)の実行時に[コード](/glossary/コード/)内の[バグ](/glossary/バグ/)、依存[パッケージ](/glossary/パッケージ/)の問題、[環境変数](/glossary/環境変数/)の欠落などが原因で発生することがほとんどです。
 
 ## 実際のエラーメッセージ例
 
-**ブラウザでの表示：**
+**[ブラウザ](/glossary/ブラウザ/)での表示：**
 
 ```json
 {
@@ -43,7 +43,7 @@ TypeError: Cannot read property 'db' of undefined
 
 ### 原因1：サーバーレス関数内でキャッチされない例外が発生している
 
-[関数](/glossary/関数/)の[コード](/glossary/コード/)内で例外がスローされ、try-catch で捕捉されていない場合、そのまま 500 [エラー](/glossary/エラー/)となります。非同期処理（Promise・async/await の[エラーハンドリング](/glossary/エラーハンドリング/)漏れ）が特に起きやすいです。
+[関数](/glossary/関数/)の[コード](/glossary/コード/)内で例外がスローされ、try-catch で捕捉されていない場合、そのまま 500 [エラー](/glossary/エラー/)となります。[非同期処理](/glossary/非同期処理/)（Promise・async/await の[エラーハンドリング](/glossary/エラーハンドリング/)漏れ）が特に起きやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -91,7 +91,7 @@ async function fetchDatabase(id) {
 
 ### 原因2：必要なパッケージが正しくインストールされていない
 
-`package.json` に記載されたパッケージがインストールされていない、あるいは[デプロイ](/glossary/デプロイ/)時にインストール段階で失敗している場合、関数内で依存モジュールを呼び出すと 500 [エラー](/glossary/エラー/)になります。
+`package.json` に記載された[パッケージ](/glossary/パッケージ/)が[インストール](/glossary/インストール/)されていない、あるいは[デプロイ](/glossary/デプロイ/)時に[インストール](/glossary/インストール/)段階で失敗している場合、関数内で依存[モジュール](/glossary/モジュール/)を呼び出すと 500 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -201,7 +201,7 @@ Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うこと�
 vercel dev
 ```
 
-この[コマンド](/glossary/コマンド/)で立ち上がるローカル[環境](/glossary/環境/)は、ほぼ[本番環境](/glossary/本番環境/)と同じ条件で[関数](/glossary/関数/)を実行します。ブラウザで `http://localhost:3000/api/<function-name>` にアクセスして[テスト](/glossary/テスト/)してください。
+この[コマンド](/glossary/コマンド/)で立ち上がるローカル[環境](/glossary/環境/)は、ほぼ[本番環境](/glossary/本番環境/)と同じ条件で[関数](/glossary/関数/)を実行します。[ブラウザ](/glossary/ブラウザ/)で `http://localhost:3000/api/<function-name>` にアクセスして[テスト](/glossary/テスト/)してください。
 
 ### 環境変数のローカル設定
 

@@ -326,7 +326,7 @@ Role では特定の Pod 名を直接指定することはできませんが、L
 kubectl get clusterrole
 ```
 
-`view`、`edit`、`admin` といった標準[ロール](/glossary/ロール/)が存在し、これらを RoleBinding で参照する方法も有効です。
+`view`、`edit`、`admin` といった[標準](/glossary/標準/)[ロール](/glossary/ロール/)が存在し、これらを RoleBinding で参照する方法も有効です。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

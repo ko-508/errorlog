@@ -82,7 +82,7 @@ workflows:
       - build
 ```
 
-検証方法として、[リポジトリ](/glossary/リポジトリ/)の CircleCI [CLI](/glossary/cli/) をインストールして以下の[コマンド](/glossary/コマンド/)を実行します。
+検証方法として、[リポジトリ](/glossary/リポジトリ/)の CircleCI [CLI](/glossary/cli/) を[インストール](/glossary/インストール/)して以下の[コマンド](/glossary/コマンド/)を実行します。
 
 ```bash
 circleci config validate .circleci/config.yml

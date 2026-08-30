@@ -68,7 +68,7 @@ GITHUB_TOKENの対象外である別リポジトリや組織資源への操作
 
 ## エラーの概要
 
-[GitHub](/glossary/github/) Actionsは各ジョブの開始時に、そのジョブ専用の `GITHUB_TOKEN` を作ります。[GitHub公式の説明](https://docs.github.com/en/actions/concepts/security/github_token)では、この[トークン](/glossary/トークン/)は[ワークフロー](/glossary/ワークフロー/)を含む[リポジトリ](/glossary/リポジトリ/)へインストールされた[GitHub](/glossary/github/) Appのインストールアクセストークンで、ジョブが終わると失効します。
+[GitHub](/glossary/github/) Actionsは各ジョブの開始時に、そのジョブ専用の `GITHUB_TOKEN` を作ります。[GitHub公式の説明](https://docs.github.com/en/actions/concepts/security/github_token)では、この[トークン](/glossary/トークン/)は[ワークフロー](/glossary/ワークフロー/)を含む[リポジトリ](/glossary/リポジトリ/)へ[インストール](/glossary/インストール/)された[GitHub](/glossary/github/) Appのインストールアクセストークンで、ジョブが終わると失効します。
 
 つまり、[エラー](/glossary/エラー/)中の `integration` は、通常は操作に使った[GitHub](/glossary/github/) App、[GitHub](/glossary/github/) Actionsでは `GITHUB_TOKEN` の発行元を指します。[リポジトリ](/glossary/リポジトリ/)やIssueが存在しないという意味ではありません。
 
@@ -335,7 +335,7 @@ if: github.actor != 'dependabot[bot]'
 
 この場合、`OWNER/app` 側で `contents: write` を与えても、`OWNER/infrastructure` への書き込み[権限](/glossary/権限/)にはなりません。
 
-[GitHub AppをActionsで使う公式手順](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow)に沿って、対象[リポジトリ](/glossary/リポジトリ/)へインストールした[GitHub](/glossary/github/) Appの[トークン](/glossary/トークン/)を発行します。
+[GitHub AppをActionsで使う公式手順](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/making-authenticated-api-requests-with-a-github-app-in-a-github-actions-workflow)に沿って、対象[リポジトリ](/glossary/リポジトリ/)へ[インストール](/glossary/インストール/)した[GitHub](/glossary/github/) Appの[トークン](/glossary/トークン/)を発行します。
 
 ```yaml
 permissions:
@@ -358,7 +358,7 @@ steps:
     run: gh api repos/TARGET_OWNER/TARGET_REPOSITORY
 ```
 
-[GitHub](/glossary/github/) Appには対象操作に必要な[権限](/glossary/権限/)を設定し、対象の[アカウント](/glossary/アカウント/)と[リポジトリ](/glossary/リポジトリ/)へインストールします。個人の[権限](/glossary/権限/)と寿命に依存するPATより、継続的な[自動化](/glossary/自動化/)には[GitHub](/glossary/github/) Appを優先します。
+[GitHub](/glossary/github/) Appには対象操作に必要な[権限](/glossary/権限/)を設定し、対象の[アカウント](/glossary/アカウント/)と[リポジトリ](/glossary/リポジトリ/)へ[インストール](/glossary/インストール/)します。個人の[権限](/glossary/権限/)と寿命に依存するPATより、継続的な[自動化](/glossary/自動化/)には[GitHub](/glossary/github/) Appを優先します。
 
 ### 原因8：GITHUB_TOKENでは利用できない権限または設定が必要
 
@@ -420,7 +420,7 @@ x-ratelimit-remaining: 0
 6. `permissions` に列挙しなかった必要なread[権限](/glossary/権限/)が `none` になっていないか確認する。
 7. 再利用[ワークフロー](/glossary/ワークフロー/)なら、呼び出し元ジョブが必要な[権限](/glossary/権限/)を渡しているか確認する。
 8. 外部フォークまたはDependabotなら、書き込み[権限](/glossary/権限/)を追加できるという前提を外す。
-9. 別[リポジトリ](/glossary/リポジトリ/)または対象外の[権限](/glossary/権限/)なら、対象へインストールした[GitHub](/glossary/github/) Appを使う。
+9. 別[リポジトリ](/glossary/リポジトリ/)または対象外の[権限](/glossary/権限/)なら、対象へ[インストール](/glossary/インストール/)した[GitHub](/glossary/github/) Appを使う。
 10. `pull_request_target` を使う場合は、Pull Request側の[コード](/glossary/コード/)を実行しない構成か確認する。
 
 ## 確認コマンド集

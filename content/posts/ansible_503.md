@@ -82,7 +82,7 @@ Ansible でサービス再起動・[デプロイ](/glossary/デプロイ/)を行
   register: api_check
 ```
 
-`wait_for` モジュールを挿入することで、サービスが[ポート](/glossary/ポート/) 8080 でリッスン開始するまで次のタスク実行を遅延させます。`delay` は[リトライ](/glossary/リトライ/)開始前の待機秒数、`timeout` は総試行時間の上限です。
+`wait_for` [モジュール](/glossary/モジュール/)を挿入することで、サービスが[ポート](/glossary/ポート/) 8080 でリッスン開始するまで次のタスク実行を遅延させます。`delay` は[リトライ](/glossary/リトライ/)開始前の待機秒数、`timeout` は総試行時間の上限です。
 
 ### 原因2：ターゲットホストへの SSH 接続がタイムアウトしている
 
@@ -156,13 +156,13 @@ ansible_ssh_timeout=60
       when: ping_result is succeeded
 ```
 
-`ping` モジュールで基本接続を確認し、[DNS](/glossary/dns/) 解決と[ポート](/glossary/ポート/)到達可能性を事前チェックしてからタスク実行に進みます。条件付き実行（`when`）で失敗時の安全性も確保します。
+`ping` [モジュール](/glossary/モジュール/)で基本接続を確認し、[DNS](/glossary/dns/) 解決と[ポート](/glossary/ポート/)到達可能性を事前チェックしてからタスク実行に進みます。条件付き実行（`when`）で失敗時の安全性も確保します。
 
 ## ツール固有の注意点
 
-**wait_for モジュールのパラメーター設計**
+**wait_for [モジュール](/glossary/モジュール/)のパラメーター設計**
 
-`wait_for` で[ポート](/glossary/ポート/)のリッスン確認をする際、`state: started` は TCP [コネクション](/glossary/コネクション/)試行で判定するため、サービスが [HTTP](/glossary/http/) [レスポンス](/glossary/レスポンス/)を返せるまでの時間は含みません。より堅牢なチェックには、URI モジュールにリトライロジックを組み合わせます：
+`wait_for` で[ポート](/glossary/ポート/)のリッスン確認をする際、`state: started` は TCP [コネクション](/glossary/コネクション/)試行で判定するため、サービスが [HTTP](/glossary/http/) [レスポンス](/glossary/レスポンス/)を返せるまでの時間は含みません。より堅牢なチェックには、URI [モジュール](/glossary/モジュール/)にリトライロジックを組み合わせます：
 
 ```yaml
 - name: Wait for HTTP endpoint to be healthy

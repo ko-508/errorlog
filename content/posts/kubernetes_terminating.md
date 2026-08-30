@@ -37,7 +37,7 @@ app-7d8f767544-pk4ch   1/1     Terminating   0          3d
 kubectl delete pod <Pod名> -n <名前空間> --grace-period=0 --force
 ```
 
-この強制削除は、**ノード上のプロセスを確実に停止してからPodを消す操作ではありません**。[`kubectl delete` の公式リファレンス](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_delete/)は、[API](/glossary/api/) Serverがkubeletによる終了確認を待たず、同じ識別情報を持つ処理が別のマシンで動き続け、データの不整合や損失につながる可能性を警告しています。
+この強制削除は、**ノード上の[プロセス](/glossary/プロセス/)を確実に停止してからPodを消す操作ではありません**。[`kubectl delete` の公式リファレンス](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_delete/)は、[API](/glossary/api/) Serverがkubeletによる終了確認を待たず、同じ識別情報を持つ処理が別のマシンで動き続け、データの不整合や損失につながる可能性を警告しています。
 
 強制削除は一覧をきれいにする操作ではありません。古い処理が停止済み、または二度と共有資源へ接続できないと確認した後に限る、最後の手段です。
 
@@ -118,7 +118,7 @@ kubectl get lease "$NODE" -n kube-node-lease -o yaml
 
 ### 原因1：まだ正常な猶予期間内にいる
 
-Podの `terminationGracePeriodSeconds` の[既定値は30秒](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)です。削除要求を受けたkubeletは、猶予期間が0でなく `preStop` があれば先に実行し、その後[コンテナ](/glossary/コンテナ/)のプロセス1へ終了シグナルを送ります。猶予期間を過ぎても処理が残れば、[コンテナ](/glossary/コンテナ/)実行基盤が強制終了します。
+Podの `terminationGracePeriodSeconds` の[既定値は30秒](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)です。削除要求を受けたkubeletは、猶予期間が0でなく `preStop` があれば先に実行し、その後[コンテナ](/glossary/コンテナ/)の[プロセス](/glossary/プロセス/)1へ終了シグナルを送ります。猶予期間を過ぎても処理が残れば、[コンテナ](/glossary/コンテナ/)実行基盤が強制終了します。
 
 `preStop` が猶予期間の終了時にも動いている場合、kubeletは一度だけ2秒の延長を要求します。この2秒を含め、`preStop` と[アプリケーション](/glossary/アプリケーション/)の終了処理は同じ猶予時間を使います。
 
@@ -365,7 +365,7 @@ kubectl get validatingwebhookconfigurations,mutatingwebhookconfigurations -o yam
 
 一方、表示を消すために[削除](/glossary/削除/)を先へ進めると、別の危険が生まれます。2025年の[The pod garbage collector deletes the old pod ... and the new pod is started](https://github.com/kubernetes/kubernetes/issues/131775)では、StatefulSetの古いPodに関する通信環境の後処理が終わる前に同名の新しいPodが作られ、古い削除処理が新しいPodの通信環境を壊した事象が報告されました。報告された個別条件をすべての[環境](/glossary/環境/)へ一般化はできませんが、**[API](/glossary/api/)上の削除完了とノード側の後処理完了は同じではない**ことを具体的に示しています。
 
-だから、`Terminating` の解決を「強制削除[コマンド](/glossary/コマンド/)を通すこと」と定義してはいけません。解決とは、本来の終了処理がどこで止まったかを特定し、プロセス、通信環境、[ストレージ](/glossary/ストレージ/)、外部資源の後処理を安全に完了させることです。
+だから、`Terminating` の解決を「強制削除[コマンド](/glossary/コマンド/)を通すこと」と定義してはいけません。解決とは、本来の終了処理がどこで止まったかを特定し、[プロセス](/glossary/プロセス/)、通信環境、[ストレージ](/glossary/ストレージ/)、外部資源の後処理を安全に完了させることです。
 
 finalizerは邪魔な文字列ではなく、その確認を削除完了より先に行わせるための印です。猶予期間も単なる待ち時間ではなく、処理中の要求や書き込みを終えるための予算です。両方を飛ばす強制削除は、原因を直す操作ではありません。
 

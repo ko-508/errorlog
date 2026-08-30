@@ -20,7 +20,7 @@ related_services: []
 
 1. CNI プラグインまたは CNI 設定の不整合で、Pod の[ネットワーク](/glossary/ネットワーク/)設定（IP 割り当てを含む）に失敗している
 2. container runtime が sandbox image（pause image）を取得・起動できず、sandbox [コンテナ](/glossary/コンテナ/)を作れない
-3. ノード側の状態（ディスク、iptables/sysctl、カーネルモジュール、runtime プロセス）が壊れている
+3. ノード側の状態（ディスク、iptables/sysctl、カーネルモジュール、runtime [プロセス](/glossary/プロセス/)）が壊れている
 
 調査の出発点は「[イベント](/glossary/イベント/)本文の `desc =` 以降に書かれた、container runtime から返った実メッセージ」です。ここに `cni` / `network` / `image` / `no space left on device` のどの語が出ているかで、上の1〜3のどれを追うべきかがほぼ決まります。次に「1ノードだけの問題か、クラスタ全体か」を確認すると、ノード修復かクラスタ設定修正かの判断が付きます。
 
@@ -132,7 +132,7 @@ container runtime は sandbox [コンテナ](/glossary/コンテナ/)を起動�
 - **エアギャップ[環境](/glossary/環境/)・制限された[ネットワーク](/glossary/ネットワーク/)で pause image を取得できない**：ノードから公開[レジストリ](/glossary/レジストリ/)へ到達できない、[プロキシ](/glossary/プロキシ/)設定が runtime に反映されていない、[DNS](/glossary/dns/) が引けない、といった状況です。
 - **ランタイム設定の sandbox image 指定が誤っている**：存在しない[タグ](/glossary/タグ/)、到達できないミラー、アーキテクチャの異なる[イメージ](/glossary/イメージ/)を指定している場合です。
 - **[プライベートレジストリ](/glossary/プライベートレジストリ/)の[認証](/glossary/認証/)**：sandbox image の取得は container runtime 自身の設定と認証情報で行われるため、Pod の `imagePullSecrets` を追加しても解決しない場合があります。ランタイム側の[レジストリ](/glossary/レジストリ/)認証設定を公式ドキュメントで確認してください。
-- **container runtime 本体の異常**：プロセスが停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup [ドライバ](/glossary/ドライバ/)の設定が kubelet と食い違っている、といった状態です。
+- **container runtime 本体の異常**：[プロセス](/glossary/プロセス/)が停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup [ドライバ](/glossary/ドライバ/)の設定が kubelet と食い違っている、といった状態です。
 
 **確認方法**
 
@@ -164,7 +164,7 @@ kubelet と container runtime はノードの [OS](/glossary/os/) 機能に強�
 - **ディスクや inode の枯渇**：`no space left on device` を含むメッセージで sandbox 作成が失敗する事例は、[クラウド](/glossary/クラウド/)提供元のトラブルシューティング文書でも紹介されています（例：[Tencent Cloud TKE のドキュメント](https://www.tencentcloud.com/document/product/457/35761)）。ランタイムのデータディレクトリ、`/var/log`、`/var/lib/kubelet` を個別に確認します。
 - **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の設定）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の設定に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
 - **iptables/nftables の不整合**：ホストの `iptables` がどの[バックエンド](/glossary/バックエンド/)（legacy / nft）で動いているかが、CNI やサービスプロキシの想定と食い違うと、ルール適用が失敗したり無効化されたりします。ノード再作成やディストリビューション更新の後に起きやすい問題です。
-- **プロセス・ファイルディスクリプタ・PID の上限**：ノードが高負荷のときに sandbox 作成だけが失敗することがあります。カーネルログ（`dmesg`）に該当メッセージが出ていないか確認します。
+- **[プロセス](/glossary/プロセス/)・ファイルディスクリプタ・PID の上限**：ノードが高負荷のときに sandbox 作成だけが失敗することがあります。カーネルログ（`dmesg`）に該当メッセージが出ていないか確認します。
 - **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に対応する handler がノードの runtime 側に設定されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を確認してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
 
 **確認[コマンド](/glossary/コマンド/)**
@@ -293,7 +293,7 @@ df -h > df.txt; df -i > df-inode.txt
 - **kubelet や CRI の挙動そのものに疑問がある**：kubernetes/kubernetes の Issue を検索し、同種の報告があるか確認する
 - **マネージドサービス（[クラウド](/glossary/クラウド/)提供の [Kubernetes](/glossary/kubernetes/)）を利用している**：ノードイメージや[ネットワーク](/glossary/ネットワーク/)実装が提供元固有のため、提供元のサポート窓口が最短
 
-報告時は、クラスタの構築方法（kubeadm、マネージドサービス、ディストリビューション）、使用しているネットワークアドオン、container runtime の種類、直前に行った変更（ノード追加、アップグレード、設定変更）を添えると切り分けが早くなります。[ログ](/glossary/ログ/)を共有する際は、[トークン](/glossary/トークン/)や認証情報が含まれていないかを確認し、必要に応じて `<your-token>` のような形に置き換えてください。
+報告時は、クラスタの構築方法（kubeadm、マネージドサービス、ディストリビューション）、使用しているネットワークアドオン、container runtime の種類、直前に行った変更（ノード追加、アップグレード、[設定変更](/glossary/設定変更/)）を添えると切り分けが早くなります。[ログ](/glossary/ログ/)を共有する際は、[トークン](/glossary/トークン/)や認証情報が含まれていないかを確認し、必要に応じて `<your-token>` のような形に置き換えてください。
 
 ## Editor's Note
 

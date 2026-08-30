@@ -152,7 +152,7 @@ VERCEL_DEBUG=1 vercel deploy
 2. 現在の[トークン](/glossary/トークン/)を「Delete」で[削除](/glossary/削除/)
 3. 「Create Token」で新規作成（有効期限を 90 日程度に設定推奨）
 4. 生成直後にコピー（二度と表示されません）
-5. 各 [CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)のシークレット[変数](/glossary/変数/)を上書き
+5. 各 [CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)のシークレット[変数](/glossary/変数/)を[上書き](/glossary/上書き/)
 6. テストデプロイで認証確認を実施
 
 **公式サポートへの問い合わせ：**

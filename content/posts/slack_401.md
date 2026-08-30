@@ -153,7 +153,7 @@ const client = new WebClient(process.env.SLACK_BOT_TOKEN);
 })();
 ```
 
-Slack App 管理画面の「[OAuth](/glossary/oauth/) & Permissions」セクションで、必要な[スコープ](/glossary/スコープ/)を明示的に追加し、[ワークスペース](/glossary/ワークスペース/)に再インストールしてください。
+Slack App 管理画面の「[OAuth](/glossary/oauth/) & Permissions」セクションで、必要な[スコープ](/glossary/スコープ/)を明示的に追加し、[ワークスペース](/glossary/ワークスペース/)に再[インストール](/glossary/インストール/)してください。
 
 ### 原因3：トークン形式の誤りまたは環境変数の未設定
 
@@ -228,7 +228,7 @@ Slack は定期的に[セキュリティ](/glossary/セキュリティ/)監査�
 
 ### Slack アプリのインストール/再インストール
 
-[スコープ](/glossary/スコープ/)を追加・変更した場合は、単なる[認可](/glossary/認可/)フロー再実行では不十分で、[ワークスペース](/glossary/ワークスペース/)への**再インストール**が必須です。ブラウザの[キャッシュ](/glossary/キャッシュ/)をクリアした上で、[OAuth](/glossary/oauth/) 画面から改めて承認操作を行ってください。
+[スコープ](/glossary/スコープ/)を追加・変更した場合は、単なる[認可](/glossary/認可/)フロー再実行では不十分で、[ワークスペース](/glossary/ワークスペース/)への**再[インストール](/glossary/インストール/)**が必須です。[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)をクリアした上で、[OAuth](/glossary/oauth/) 画面から改めて承認操作を行ってください。
 
 ### Bot Token Rotations（ベータ機能）
 
@@ -250,7 +250,7 @@ curl -X POST https://slack.com/api/auth.test \
 
 ### ログの確認箇所
 
-- **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各アプリのインストール日時と最終使用日時を確認
+- **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各アプリの[インストール](/glossary/インストール/)日時と最終使用日時を確認
 - **Slack [API](/glossary/api/) テスター**：https://api.slack.com/methods/auth.test で直接[トークン](/glossary/トークン/)検証可能
 - **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく設定されているか、リクエストヘッダーに `Authorization` [フィールド](/glossary/フィールド/)が含まれているか確認
 

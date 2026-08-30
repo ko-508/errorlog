@@ -74,7 +74,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
 # X-Accepted-GitHub-Permissions: contents=read
 ```
 
-この例なら、[トークン](/glossary/トークン/)に contents の read [権限](/glossary/権限/)が必要という意味です。複数の組み合わせで満たせる場合は、セミコロン区切りで複数の一覧が示されます。[ヘッダー](/glossary/ヘッダー/)で特定した[権限](/glossary/権限/)を、fine-grained [トークン](/glossary/トークン/)なら設定画面の Repository permissions で、[GitHub](/glossary/github/) App なら App の権限設定とインストール先で付与します。[権限](/glossary/権限/)の種類だけでなく、[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかも確認してください。
+この例なら、[トークン](/glossary/トークン/)に contents の read [権限](/glossary/権限/)が必要という意味です。複数の組み合わせで満たせる場合は、セミコロン区切りで複数の一覧が示されます。[ヘッダー](/glossary/ヘッダー/)で特定した[権限](/glossary/権限/)を、fine-grained [トークン](/glossary/トークン/)なら設定画面の Repository permissions で、[GitHub](/glossary/github/) App なら App の権限設定と[インストール](/glossary/インストール/)先で付与します。[権限](/glossary/権限/)の種類だけでなく、[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかも確認してください。
 
 [GitHub](/glossary/github/) Actions の中でこの403が出る場合、使われているのは自動発行の GITHUB_TOKEN です。この[トークン](/glossary/トークン/)の[権限](/glossary/権限/)は workflow [ファイル](/glossary/ファイル/)の permissions ブロックで決まり、書き込みが必要な操作（[ファイル](/glossary/ファイル/)の作成、[リリース](/glossary/リリース/)の作成、pull request へのコメントなど）には明示的な付与が必要です。
 

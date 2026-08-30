@@ -154,7 +154,7 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 ## それでも解決しない場合
 
 - **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（[bash](/glossary/bash/)/zsh）から`echo`で[ファイル](/glossary/ファイル/)を作成するとデフォルトがUTF-8になります
-- **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードがUTF-8に変わっています。`winget install Microsoft.PowerShell`でインストール可能です
+- **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードがUTF-8に変わっています。`winget install Microsoft.PowerShell`で[インストール](/glossary/インストール/)可能です
 - **docker composeではなくdocker-composeを使う**: 古いv1系は挙動が違うことがありますが、現在は非推奨のため根本解決にはなりません
 
 ---

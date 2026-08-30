@@ -70,7 +70,7 @@ $ az login --use-device-code
 $ az vm list --resource-group myResourceGroup
 ```
 
-`az login` [コマンド](/glossary/コマンド/)を実行すると、ブラウザが起動して Azure ポータルへの[ログイン](/glossary/ログイン/)が求められます。完了後、[CLI](/glossary/cli/) [セッション](/glossary/セッション/)が更新され、その後の[コマンド](/glossary/コマンド/)が正常に実行できるようになります。
+`az login` [コマンド](/glossary/コマンド/)を実行すると、[ブラウザ](/glossary/ブラウザ/)が起動して Azure ポータルへの[ログイン](/glossary/ログイン/)が求められます。完了後、[CLI](/glossary/cli/) [セッション](/glossary/セッション/)が更新され、その後の[コマンド](/glossary/コマンド/)が正常に実行できるようになります。
 
 ### 原因2：サービスプリンシパルのシークレットが期限切れになっている
 

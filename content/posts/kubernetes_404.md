@@ -44,7 +44,7 @@ Error from server (NotFound): pods "my-app" not found
 ### 原因1：リソースが削除されている
 
 **なぜ発生するか：**
-Podやサービスが意図せず[削除](/glossary/削除/)されたり、別のプロセスによって[削除](/glossary/削除/)された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
+Podやサービスが意図せず[削除](/glossary/削除/)されたり、別の[プロセス](/glossary/プロセス/)によって[削除](/glossary/削除/)された後もアクセスしようとした場合に発生します。Deployment経由でPodを管理している場合、Podは自動的に再作成されることもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

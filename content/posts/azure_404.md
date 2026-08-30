@@ -36,7 +36,7 @@ Azureの404[エラー](/glossary/エラー/)は、[API](/glossary/api/)やポー
 }
 ```
 
-**Azure [CLI](/glossary/cli/)標準[エラー](/glossary/エラー/)出力例：**
+**Azure [CLI](/glossary/cli/)[標準](/glossary/標準/)[エラー](/glossary/エラー/)出力例：**
 
 ```bash
 The resource with id /subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.Storage/storageAccounts/<account-name> does not exist. (Code: ResourceNotFound)

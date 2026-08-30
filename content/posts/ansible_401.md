@@ -163,7 +163,7 @@ ansible-playbook -i inventory.ini playbook.yml -K
 
 ### 原因3：外部APIにアクセスするモジュールの認証情報が間違っている
 
-`uri`、`ansible.posix.synchronize`、クラウドプロバイダー連携モジュール（aws_s3、azure_vm等）などで使用する[API](/glossary/api/)[トークン](/glossary/トークン/)、アクセスキー、[パスワード](/glossary/パスワード/)が誤っている場合、外部サービスが401 Unauthorizedで応答し、モジュールが失敗します。
+`uri`、`ansible.posix.synchronize`、クラウドプロバイダー連携[モジュール](/glossary/モジュール/)（aws_s3、azure_vm等）などで使用する[API](/glossary/api/)[トークン](/glossary/トークン/)、アクセスキー、[パスワード](/glossary/パスワード/)が誤っている場合、外部サービスが401 Unauthorizedで応答し、[モジュール](/glossary/モジュール/)が失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -18,7 +18,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## 実際のエラーメッセージ例
 
-ブラウザまたはcurl[コマンド](/glossary/コマンド/)でアクセスした際の典型例：
+[ブラウザ](/glossary/ブラウザ/)またはcurl[コマンド](/glossary/コマンド/)でアクセスした際の典型例：
 
 ```
 $ curl -v http://192.168.49.2:30080/api/users

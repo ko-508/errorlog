@@ -17,7 +17,7 @@ Jenkins の 403 Forbidden [エラー](/glossary/エラー/)は、ユーザーが
 
 ## 実際のエラーメッセージ例
 
-**ブラウザから直接アクセスした場合：**
+**[ブラウザ](/glossary/ブラウザ/)から直接アクセスした場合：**
 
 ```
 HTTP/1.1 403 Forbidden
@@ -48,7 +48,7 @@ Authentication required
 
 ### 原因1：CSRF保護が有効なのにCrumbヘッダーを付けずにAPIを呼び出している
 
-Jenkins の CSRF 保護が有効になっていると、POST [リクエスト](/glossary/リクエスト/)（ジョブの実行、設定変更など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部[スクリプト](/glossary/スクリプト/)から Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
+Jenkins の CSRF 保護が有効になっていると、POST [リクエスト](/glossary/リクエスト/)（ジョブの実行、[設定変更](/glossary/設定変更/)など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部[スクリプト](/glossary/スクリプト/)から Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

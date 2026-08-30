@@ -13,11 +13,11 @@ related_services: ["systemd", "curl", "nc"]
 
 ## エラーの概要
 
-Jenkins の 503 [エラー](/glossary/エラー/)は「Service Unavailable」を意味し、Jenkins[サーバー](/glossary/サーバー/)が一時的に[リクエスト](/glossary/リクエスト/)を処理できない状態です。この[エラー](/glossary/エラー/)が発生すると、ブラウザ上でジョブの[トリガー](/glossary/トリガー/)や[ダッシュボード](/glossary/ダッシュボード/)へのアクセスが失敗します。原因としてはJenkinsプロセスの停止、[メモリ](/glossary/メモリ/)枯渇、セーフリスタートモード中の状態などが考えられます。
+Jenkins の 503 [エラー](/glossary/エラー/)は「Service Unavailable」を意味し、Jenkins[サーバー](/glossary/サーバー/)が一時的に[リクエスト](/glossary/リクエスト/)を処理できない状態です。この[エラー](/glossary/エラー/)が発生すると、[ブラウザ](/glossary/ブラウザ/)上でジョブの[トリガー](/glossary/トリガー/)や[ダッシュボード](/glossary/ダッシュボード/)へのアクセスが失敗します。原因としてはJenkins[プロセス](/glossary/プロセス/)の停止、[メモリ](/glossary/メモリ/)枯渇、セーフリスタートモード中の状態などが考えられます。
 
 ## 実際のエラーメッセージ例
 
-ブラウザでJenkinsにアクセスした際に表示される[エラー](/glossary/エラー/)：
+[ブラウザ](/glossary/ブラウザ/)でJenkinsにアクセスした際に表示される[エラー](/glossary/エラー/)：
 
 ```
 HTTP/1.1 503 Service Unavailable
@@ -44,7 +44,7 @@ Jenkinsの[ログ](/glossary/ログ/)に出力される典型的なメッセー�
 
 ### 原因1：Jenkinsのサービスが停止またはクラッシュしている
 
-Jenkinsプロセスが意図しないタイミングで終了していたり、起動に失敗している場合、[サーバー](/glossary/サーバー/)に接続できずに503[エラー](/glossary/エラー/)が返されます。これはOOMKill（[メモリ](/glossary/メモリ/)不足による強制終了）や予期したシャットダウンで発生することが多いです。
+Jenkins[プロセス](/glossary/プロセス/)が意図しないタイミングで終了していたり、起動に失敗している場合、[サーバー](/glossary/サーバー/)に接続できずに503[エラー](/glossary/エラー/)が返されます。これはOOMKill（[メモリ](/glossary/メモリ/)不足による強制終了）や予期したシャットダウンで発生することが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -76,7 +76,7 @@ timeout 60 bash -c 'until nc -z localhost 8080; do sleep 1; done' && echo "Jenki
 
 ### 原因2：Jenkinsのメモリ不足や過負荷でリクエストを処理できない
 
-複数の大規模ビルドが並行実行されたり、プラグイン数が増加したり、古いビルドログが蓄積したりすると、Jenkinsプロセスが[メモリ](/glossary/メモリ/)枯渇に陥ります。この場合、新規[リクエスト](/glossary/リクエスト/)は受け付けられず503[エラー](/glossary/エラー/)が返されます。
+複数の大規模ビルドが並行実行されたり、プラグイン数が増加したり、古いビルドログが蓄積したりすると、Jenkins[プロセス](/glossary/プロセス/)が[メモリ](/glossary/メモリ/)枯渇に陥ります。この場合、新規[リクエスト](/glossary/リクエスト/)は受け付けられず503[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -112,7 +112,7 @@ top -p $(pgrep -f "jenkins.war")
 
 ### 原因3：セーフリスタートモードが有効になっている
 
-Jenkinsの更新やプラグインのインストール後、セーフリスタートモードに入ることがあります。このモード中は新規ビルドの[トリガー](/glossary/トリガー/)が拒否され、既存のジョブも完全には動作しない状態になります。ユーザーが誤ってセーフリスタートを実行したり、手動で[ファイル](/glossary/ファイル/)を編集してこのモードに突入することもあります。
+Jenkinsの更新やプラグインの[インストール](/glossary/インストール/)後、セーフリスタートモードに入ることがあります。このモード中は新規ビルドの[トリガー](/glossary/トリガー/)が拒否され、既存のジョブも完全には動作しない状態になります。ユーザーが誤ってセーフリスタートを実行したり、手動で[ファイル](/glossary/ファイル/)を編集してこのモードに突入することもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -176,7 +176,7 @@ sudo tail -f /var/log/jenkins/jenkins.log
 sudo tail -f /var/lib/jenkins/jenkins.log
 ```
 
-**2. Jenkinsプロセスが起動していることを確認する**
+**2. Jenkins[プロセス](/glossary/プロセス/)が起動していることを確認する**
 
 ```bash
 # Javaプロセスが存在するか確認
@@ -216,7 +216,7 @@ cat /etc/systemd/system/jenkins.service
 cat /etc/default/jenkins
 ```
 
-これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、インストール済みプラグイン一覧、[メモリ](/glossary/メモリ/)設定を記録して報告すると、より正確な原因特定が可能になります。
+これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、[インストール](/glossary/インストール/)済みプラグイン一覧、[メモリ](/glossary/メモリ/)設定を記録して報告すると、より正確な原因特定が可能になります。
 
 ---
 

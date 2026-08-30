@@ -393,7 +393,7 @@ manifest for example/my-app:latest not found: manifest unknown
 
 ### 原因6：CIだけ別の認証設定を使っている {#ci-auth-config}
 
-手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の設定または資格情報保存先を使います。Linuxでは `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が標準の設定場所です。
+手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の設定または資格情報保存先を使います。Linuxでは `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が[標準](/glossary/標準/)の設定場所です。
 
 CIでは、pullする処理と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)設定で[ログイン](/glossary/ログイン/)します。
 

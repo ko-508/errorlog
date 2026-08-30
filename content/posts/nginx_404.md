@@ -22,7 +22,7 @@ Nginx の 404 Not Found は、[リクエスト](/glossary/リクエスト/)さ�
 
 404 Not Found は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を受け取ったものの、対応するリソースを見つけられなかった状態です。アクセス自体を拒否された 403 Forbidden とは異なります。この2つは[エラーログ](/glossary/エラーログ/)の文言で区別できます。404 は `open()` の失敗として `(2: No such file or directory)` と記録され、403 は `(13: Permission denied)` や `is forbidden` と記録されます。[ファイル](/glossary/ファイル/)が実在しても読み取り[権限](/glossary/権限/)がなければ、返るのは 404 ではなく 403 です。
 
-Nginx が自身の既定ページで 404 を返す場合、ブラウザには「404 Not Found」という見出しと nginx の署名だけが表示されます。もし「The requested [URL](/glossary/url/) /xxx was not found on this server.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではありません。上流の別の[サーバー](/glossary/サーバー/)や[アプリケーション](/glossary/アプリケーション/)が生成した 404 をそのまま中継している可能性が高く、これ自体が切り分けの手がかりになります(原因5)。
+Nginx が自身の既定ページで 404 を返す場合、[ブラウザ](/glossary/ブラウザ/)には「404 Not Found」という見出しと nginx の署名だけが表示されます。もし「The requested [URL](/glossary/url/) /xxx was not found on this server.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではありません。上流の別の[サーバー](/glossary/サーバー/)や[アプリケーション](/glossary/アプリケーション/)が生成した 404 をそのまま中継している可能性が高く、これ自体が切り分けの手がかりになります(原因5)。
 
 アクセスログ(既定の combined 形式)には次のように記録されます。日付と時刻はコロンで区切られます。
 

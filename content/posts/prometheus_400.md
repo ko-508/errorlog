@@ -142,7 +142,7 @@ Prometheus の 400 [エラー](/glossary/エラー/)は管理 UI で確認する
 promtool check query 'up{job="prometheus"} / rate(http_requests_total[5m])'
 ```
 
-[HTTP](/glossary/http/) [API](/glossary/api/) 使用時は、ユーザー入力をクエリパラメータに含める場合、[URL](/glossary/url/) エンコード処理が正しく行われているか確認も必要です。特にプログラミング言語の [HTTP](/glossary/http/) [ライブラリ](/glossary/ライブラリ/)を使う際、手動で [URL](/glossary/url/) 文字列を組み立てるとエンコード漏れが発生しやすくなります。
+[HTTP](/glossary/http/) [API](/glossary/api/) 使用時は、ユーザー入力をクエリパラメータに含める場合、[URL](/glossary/url/) エンコード処理が正しく行われているか確認も必要です。特に[プログラミング言語](/glossary/プログラミング言語/)の [HTTP](/glossary/http/) [ライブラリ](/glossary/ライブラリ/)を使う際、手動で [URL](/glossary/url/) 文字列を組み立てるとエンコード漏れが発生しやすくなります。
 
 ## それでも解決しない場合
 

@@ -35,7 +35,7 @@ top_queries:
 }
 ```
 
-message 内のバッククォートで囲まれた文字列は、その[リクエスト](/glossary/リクエスト/)を特定するための参照 [ID](/glossary/id/) です。[GitHub](/glossary/github/) サポートやコミュニティへ報告する際に必要になるため、502が続く場合は控えておきます。文言にあるとおり、この応答は時間切れ（timeout）の可能性を [GitHub](/glossary/github/) 自身が示しています。なお、ブラウザの [GitHub](/glossary/github/) 上で同種の問題が起きた場合は「We couldn't respond to your request in time.」という表示になり、これも「時間内に応答できなかった」という同じ状態を指します。
+message 内のバッククォートで囲まれた文字列は、その[リクエスト](/glossary/リクエスト/)を特定するための参照 [ID](/glossary/id/) です。[GitHub](/glossary/github/) サポートやコミュニティへ報告する際に必要になるため、502が続く場合は控えておきます。文言にあるとおり、この応答は時間切れ（timeout）の可能性を [GitHub](/glossary/github/) 自身が示しています。なお、[ブラウザ](/glossary/ブラウザ/)の [GitHub](/glossary/github/) 上で同種の問題が起きた場合は「We couldn't respond to your request in time.」という表示になり、これも「時間内に応答できなかった」という同じ状態を指します。
 
 ## まず最初に：稼働状況と操作の重さを確認する
 

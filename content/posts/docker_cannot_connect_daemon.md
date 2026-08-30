@@ -332,7 +332,7 @@ docker info
 
 さらに、一般形の `Cannot connect ... Is the docker daemon running?` は、接続先の指定ミスまでdaemon停止のように見せます。2025年2月の[Docker](/glossary/docker/) [CLI](/glossary/cli/)の課題では、`DOCKER_HOST=/invalid.sock` という不正な値が `tcp://localhost:2375/invalid.sock` と表示され、混乱を招くと指摘されました（[`DOCKER_HOST` without `unix://` prefix prints a confusing error](https://github.com/docker/cli/issues/5846)）。
 
-だから、この文言を見て最初からdaemonを再インストールしないでください。**表示された接続先と末尾の[OS](/glossary/os/)[エラー](/glossary/エラー/)を先に読む**。停止、接続先のずれ、権限不足は、そこで初めて分かれます。
+だから、この文言を見て最初からdaemonを再[インストール](/glossary/インストール/)しないでください。**表示された接続先と末尾の[OS](/glossary/os/)[エラー](/glossary/エラー/)を先に読む**。停止、接続先のずれ、権限不足は、そこで初めて分かれます。
 
 ---
 

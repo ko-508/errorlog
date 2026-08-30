@@ -136,7 +136,7 @@ spec:
 
 ### 原因3: APIバージョンまたはリソース種別の不一致
 
-**なぜ発生するか：** 廃止された[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用したり、クラスタにインストールされていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、[バージョン](/glossary/バージョン/)間での互換性問題が頻繁に起きます。
+**なぜ発生するか：** 廃止された[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用したり、クラスタに[インストール](/glossary/インストール/)されていないカスタムリソース定義（CRD）にアクセスしたりするときに発生します。[Kubernetes](/glossary/kubernetes/) 1.16以降でv1beta1 extensionsが廃止されるなど、[バージョン](/glossary/バージョン/)間での互換性問題が頻繁に起きます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```bash
@@ -240,7 +240,7 @@ kubectl apply -f deployment.yaml -n production
 ```
 
 ### CRD（CustomResourceDefinition）のバージョン不一致
-インストール済みのCRDの[バージョン](/glossary/バージョン/)と、マニフェストファイルの[API](/glossary/api/)[バージョン](/glossary/バージョン/)が一致していない場合、400[エラー](/glossary/エラー/)が発生します。`kubectl api-resources`で確認可能です。
+[インストール](/glossary/インストール/)済みのCRDの[バージョン](/glossary/バージョン/)と、マニフェストファイルの[API](/glossary/api/)[バージョン](/glossary/バージョン/)が一致していない場合、400[エラー](/glossary/エラー/)が発生します。`kubectl api-resources`で確認可能です。
 
 ```bash
 kubectl api-resources | grep customresource

@@ -18,7 +18,7 @@ Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バッ
 
 ## 実際のエラーメッセージ例
 
-**ブラウザの[コンソール](/glossary/コンソール/)出力例：**
+**[ブラウザ](/glossary/ブラウザ/)の[コンソール](/glossary/コンソール/)出力例：**
 
 ```json
 {
@@ -196,7 +196,7 @@ Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する�
 
 **Realtime DatabaseとFirestoreの遅延**
 
-Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)処理が遅い場合、Pub/Sub経由での非同期処理への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける[関数](/glossary/関数/)から長時間の処理を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
+Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)処理が遅い場合、Pub/Sub経由での[非同期処理](/glossary/非同期処理/)への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける[関数](/glossary/関数/)から長時間の処理を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
 
 **Firebase Hostingの統合[タイムアウト](/glossary/タイムアウト/)**
 

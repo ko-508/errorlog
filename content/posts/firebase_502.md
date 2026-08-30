@@ -164,7 +164,7 @@ firebase.jsonのリライトルール設定が間違っていると、Hostingが
 
 ### Cloud Functionsのメモリと CPU設定
 
-Cloud Functionsの[メモリ](/glossary/メモリ/)割り当てが小さすぎると、大量のデータ処理中にプロセスがクラッシュして502[エラー](/glossary/エラー/)になることがあります。Firebase Consoleまたはgcloud [CLI](/glossary/cli/)で設定を確認してください。
+Cloud Functionsの[メモリ](/glossary/メモリ/)割り当てが小さすぎると、大量のデータ処理中に[プロセス](/glossary/プロセス/)がクラッシュして502[エラー](/glossary/エラー/)になることがあります。Firebase Consoleまたはgcloud [CLI](/glossary/cli/)で設定を確認してください。
 
 ```bash
 gcloud functions deploy myFunction \
@@ -194,7 +194,7 @@ Firebase Hostingでカスタムオリジンをリワイトルールに指定し�
 
 ### CORS設定とプリフライトリクエスト
 
-Cloud Functionsで[CORS](/glossary/cors/)対応が不十分だと、ブラウザのプリフライトOPTIONS[リクエスト](/glossary/リクエスト/)が失敗して502[エラー](/glossary/エラー/)になる場合があります。
+Cloud Functionsで[CORS](/glossary/cors/)対応が不十分だと、[ブラウザ](/glossary/ブラウザ/)のプリフライトOPTIONS[リクエスト](/glossary/リクエスト/)が失敗して502[エラー](/glossary/エラー/)になる場合があります。
 
 ```javascript
 exports.corsFunction = functions.https.onRequest((req, res) => {

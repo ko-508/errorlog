@@ -241,7 +241,7 @@ async def delete_storage_accounts():
 
 ### Azure ストレージアカウントのスロットリング制限
 
-ストレージアカウントには、BLOB、Table、Queue などのサービスごとに独立した制限があります。標準[アカウント](/glossary/アカウント/)のスケーラビリティ目標は、単一[アカウント](/glossary/アカウント/)あたり秒間 20,000 [リクエスト](/glossary/リクエスト/)程度ですが、特定の操作（例：PutBlock）はさらに低い制限を持ちます。大規模な[アップロード](/glossary/アップロード/)・[ダウンロード](/glossary/ダウンロード/)時は、複数ストレージアカウントに分散させるか、Azure Data Lake Storage Gen2 への移行を検討してください。
+ストレージアカウントには、BLOB、Table、Queue などのサービスごとに独立した制限があります。[標準](/glossary/標準/)[アカウント](/glossary/アカウント/)のスケーラビリティ目標は、単一[アカウント](/glossary/アカウント/)あたり秒間 20,000 [リクエスト](/glossary/リクエスト/)程度ですが、特定の操作（例：PutBlock）はさらに低い制限を持ちます。大規模な[アップロード](/glossary/アップロード/)・[ダウンロード](/glossary/ダウンロード/)時は、複数ストレージアカウントに分散させるか、Azure Data Lake Storage Gen2 への移行を検討してください。
 
 ### Azure App Service・Function App での 429
 

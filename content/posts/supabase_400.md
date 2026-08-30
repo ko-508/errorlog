@@ -200,7 +200,7 @@ const { data, error } = await supabase.auth.signUp({
 
 Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)に詳細な情報を含めます。400 [エラー](/glossary/エラー/)が返された場合、その message を確認することが問題解決の第一歩です。例えば「Invalid filter」と明記されれば PostgREST フィルタの誤り、「Invalid credentials」なら[認証](/glossary/認証/)[パラメータ](/glossary/パラメータ/)の誤りなど、原因が特定しやすくなります。
 
-また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接ブラウザで試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じロジックを[コード](/glossary/コード/)側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
+また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接[ブラウザ](/glossary/ブラウザ/)で試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じロジックを[コード](/glossary/コード/)側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
 
 さらに、JavaScript クライアントライブラリは頻繁に更新されており、古い[バージョン](/glossary/バージョン/)を使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
 

@@ -77,7 +77,7 @@ sudo nginx -t && sudo systemctl restart nginx
 ### 原因2：URI に含まれる不正な文字やエンコーディング
 
 **なぜ発生するか**  
-[URL](/glossary/url/) に日本語やマルチバイト文字が直接含まれていたり、%エンコーディングが不正な場合、Nginx が [HTTP](/glossary/http/) 仕様違反と判定します。ブラウザから自動的に[送信](/glossary/送信/)される場合や[API](/glossary/api/) [クライアント](/glossary/クライアント/)の設定ミスで発生することが多いです。
+[URL](/glossary/url/) に日本語やマルチバイト文字が直接含まれていたり、%エンコーディングが不正な場合、Nginx が [HTTP](/glossary/http/) 仕様違反と判定します。[ブラウザ](/glossary/ブラウザ/)から自動的に[送信](/glossary/送信/)される場合や[API](/glossary/api/) [クライアント](/glossary/クライアント/)の設定ミスで発生することが多いです。
 
 **Before（不正なエンコーディング例）**
 ```javascript

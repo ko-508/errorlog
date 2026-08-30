@@ -81,7 +81,7 @@ resource "aws_s3_bucket_acl" "data_bucket_acl" {
 
 ### 原因 2：terraform apply が中断して中途半端な状態になっている
 
-`terraform apply` の実行中に[ネットワーク](/glossary/ネットワーク/)が切れたり、プロセスが強制終了されたりすると、リソースの一部が作成されたまま tfstate が更新されないことがあります。その状態で再度 `terraform apply` を実行すると、既に存在するリソースとの競合が発生します。
+`terraform apply` の実行中に[ネットワーク](/glossary/ネットワーク/)が切れたり、[プロセス](/glossary/プロセス/)が強制終了されたりすると、リソースの一部が作成されたまま tfstate が更新されないことがあります。その状態で再度 `terraform apply` を実行すると、既に存在するリソースとの競合が発生します。
 
 この場合、`terraform refresh` で[クラウド](/glossary/クラウド/)の実態をもとに tfstate を最新の状態に更新し、差異を解消します。
 

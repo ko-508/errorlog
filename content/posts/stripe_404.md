@@ -13,7 +13,7 @@ related_services: ["REST API", "Node.js SDK", "Python SDK"]
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripe[サーバー](/glossary/サーバー/)上に存在しないか、[アクセス権限](/glossary/アクセス権限/)のないリソースへのアクセスを試みたことを示します。この[エラー](/glossary/エラー/)は[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe [API](/glossary/api/)の標準[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の一つで、[REST](/glossary/rest/) [API](/glossary/api/)とNode.js/Python [SDK](/glossary/sdk/)でも同じ形式で返されます。
+Stripe [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripe[サーバー](/glossary/サーバー/)上に存在しないか、[アクセス権限](/glossary/アクセス権限/)のないリソースへのアクセスを試みたことを示します。この[エラー](/glossary/エラー/)は[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe [API](/glossary/api/)の[標準](/glossary/標準/)[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の一つで、[REST](/glossary/rest/) [API](/glossary/api/)とNode.js/Python [SDK](/glossary/sdk/)でも同じ形式で返されます。
 
 ## 実際のエラーメッセージ例
 

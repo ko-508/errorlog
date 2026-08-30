@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Azure で 504 Gateway Timeout を受け取ったとき、出どころは2系統に分かれます。資源の作成や設定変更を受け付ける管理側の窓口が返すものと、利用者からの[通信](/glossary/通信/)を取り次ぐ中継役が返すものです。前者は Azure Resource Manager、後者は Application Gateway や Azure Front Door などが該当します。
+Azure で 504 Gateway Timeout を受け取ったとき、出どころは2系統に分かれます。資源の作成や[設定変更](/glossary/設定変更/)を受け付ける管理側の窓口が返すものと、利用者からの[通信](/glossary/通信/)を取り次ぐ中継役が返すものです。前者は Azure Resource Manager、後者は Application Gateway や Azure Front Door などが該当します。
 
 管理側の 504 には、原因を絞り込める特徴があります。文言に、応答しなかったリソースプロバイダの名前が含まれるためです。`The gateway did not receive a response from 'Microsoft.Web' within the specified time period.` のような形で、`Microsoft.Web` や `Microsoft.App` といった名前が入ります。この名前は、どの機能群が応答しなかったかを示します。自分が操作している資源の種類と一致していれば、その資源の担当が遅れています。一致していなければ、内部で呼ばれている別の機能群が遅れています。
 

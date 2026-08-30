@@ -43,7 +43,7 @@ level=warn ts=2024-01-15T10:23:45.123Z caller=scrape.go:1234 component=scraper m
 
 ### 原因1：Prometheus が起動中またはクラッシュしている
 
-Prometheus の起動直後は、WAL（Write-Ahead Log）の復旧や[メモリ](/glossary/メモリ/)初期化処理が行われます。この期間中は外部からの[リクエスト](/glossary/リクエスト/)に対して 503 [エラー](/glossary/エラー/)を返します。同時に、[メモリ](/glossary/メモリ/)不足やセグメンテーションフォルトなどの原因でプロセスが停止している場合も 503 が返されます。
+Prometheus の起動直後は、WAL（Write-Ahead Log）の復旧や[メモリ](/glossary/メモリ/)初期化処理が行われます。この期間中は外部からの[リクエスト](/glossary/リクエスト/)に対して 503 [エラー](/glossary/エラー/)を返します。同時に、[メモリ](/glossary/メモリ/)不足やセグメンテーションフォルトなどの原因で[プロセス](/glossary/プロセス/)が停止している場合も 503 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

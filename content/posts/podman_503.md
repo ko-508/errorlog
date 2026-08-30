@@ -89,7 +89,7 @@ curl -I https://registry-1.docker.io/v2/
 
 ### 原因3：Podman デーモンがクラッシュまたはメモリ不足
 
-Podman デーモンプロセス（`podman system service` で起動したプロセス）がクラッシュしたり、[メモリ](/glossary/メモリ/)不足でキルされたりすると、新しい[リクエスト](/glossary/リクエスト/)に対して 503 を返します。特に大量の[コンテナ](/glossary/コンテナ/)を同時実行している[環境](/glossary/環境/)で顕著です。
+Podman デーモンプロセス（`podman system service` で起動した[プロセス](/glossary/プロセス/)）がクラッシュしたり、[メモリ](/glossary/メモリ/)不足でキルされたりすると、新しい[リクエスト](/glossary/リクエスト/)に対して 503 を返します。特に大量の[コンテナ](/glossary/コンテナ/)を同時実行している[環境](/glossary/環境/)で顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

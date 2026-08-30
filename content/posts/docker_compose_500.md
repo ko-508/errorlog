@@ -60,7 +60,7 @@ services:
       - DATABASE_URL=postgresql://user:pass@db:5432/mydb
 ```
 
-上記の場合、`main.py` が `DATABASE_URL` をパースしようとした際に例外が発生したり、必要な[ライブラリ](/glossary/ライブラリ/)がインストールされていない場合にクラッシュします。
+上記の場合、`main.py` が `DATABASE_URL` をパースしようとした際に例外が発生したり、必要な[ライブラリ](/glossary/ライブラリ/)が[インストール](/glossary/インストール/)されていない場合にクラッシュします。
 
 **After（修正後）：**
 
@@ -79,7 +79,7 @@ services:
     restart: on-failure
 ```
 
-対応する `Dockerfile` では依存パッケージをすべてインストールし、[エラーハンドリング](/glossary/エラーハンドリング/)を強化します。
+対応する `Dockerfile` では依存[パッケージ](/glossary/パッケージ/)をすべて[インストール](/glossary/インストール/)し、[エラーハンドリング](/glossary/エラーハンドリング/)を強化します。
 
 ```dockerfile
 FROM python:3.9
@@ -242,7 +242,7 @@ COPY --from=builder /app/myapp /usr/local/bin/
 # libc がないため実行時エラー
 ```
 
-解決策として、必要な[ライブラリ](/glossary/ライブラリ/)をインストールします。
+解決策として、必要な[ライブラリ](/glossary/ライブラリ/)を[インストール](/glossary/インストール/)します。
 
 ```dockerfile
 FROM alpine:latest

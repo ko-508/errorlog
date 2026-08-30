@@ -220,7 +220,7 @@ kubectl describe pod my-app
 - [Minikube 公式ドキュメント：Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)
 - [GitHub：Minikube Issues](https://github.com/kubernetes/minikube/issues)
 
-問題が解決しない場合、Minikube のバージョンアップや再インストールを検討してください。
+問題が解決しない場合、Minikube のバージョンアップや再[インストール](/glossary/インストール/)を検討してください。
 
 ---
 

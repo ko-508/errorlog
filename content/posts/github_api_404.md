@@ -76,7 +76,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/microsoft/vscode/contents/LICENSE.txt
 ```
 
-[ファイル名](/glossary/ファイル名/)の確認には、親[ディレクトリ](/glossary/ディレクトリ/)の一覧取得（/contents/ を[パス](/glossary/パス/)なしで叩く）や、ブラウザでの[リポジトリ](/glossary/リポジトリ/)の目視が確実です。
+[ファイル名](/glossary/ファイル名/)の確認には、親[ディレクトリ](/glossary/ディレクトリ/)の一覧取得（/contents/ を[パス](/glossary/パス/)なしで叩く）や、[ブラウザ](/glossary/ブラウザ/)での[リポジトリ](/glossary/リポジトリ/)の目視が確実です。
 
 綴り以外に、公式ドキュメントが名指しで挙げている落とし穴が2つあります。1つは末尾スラッシュで、[エンドポイント](/glossary/エンドポイント/)の末尾に / を付けるだけで404になります。もう1つはパスパラメータの [URL](/glossary/url/) エンコードで、[パラメータ](/glossary/パラメータ/)値にスラッシュなどの特殊文字が含まれる場合、正しくエンコードしないと [URL](/glossary/url/) が別の形として解釈されます。[ブランチ](/glossary/ブランチ/)名にスラッシュが含まれる場合（feature/login など）が典型です。
 
