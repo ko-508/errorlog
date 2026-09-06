@@ -171,7 +171,7 @@ kubectl delete pod <対象> -n app
 
 原因ごとの対処は別記事にまとめてあります。名前や[タグ](/glossary/タグ/)が存在しない場合、非公開の置き場に資格情報が渡っていない場合、取得回数の上限、土台の種類の不一致などです（[Kubernetes の ImagePullBackOff の記事](/posts/kubernetes_imagepullbackoff/)）。
 
-`CreateContainerConfigError` は取得より後の段階です。[イメージ](/glossary/イメージ/)は手に入っており、[コンテナ](/glossary/コンテナ/)の設定を組み立てる時点で止まっています（[Kubernetes の CreateContainerConfigError の記事](/posts/kubernetes_createcontainerconfigerror/)）。
+`CreateContainerConfigError` は取得より後の段階です。[イメージ](/glossary/イメージ/)は手に入っており、[コンテナ](/glossary/コンテナ/)の[設定](/glossary/設定/)を組み立てる時点で止まっています（[Kubernetes の CreateContainerConfigError の記事](/posts/kubernetes_createcontainerconfigerror/)）。
 
 `CrashLoopBackOff` は起動した後の話です。名前に `BackOff` が付くため混同されますが、待機の記録は別に管理されており、値が同じでも別物です（[Kubernetes の CrashLoopBackOff の記事](/posts/kubernetes_crashloopbackoff/)）。
 

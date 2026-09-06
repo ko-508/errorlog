@@ -55,7 +55,7 @@ Error response from daemon: toomanyrequests: You have reached your pull rate lim
 
 第三に、`pull_policy` と `--pull` の指定を確認します。`always` になっていないか。
 
-第四に、[認証](/glossary/認証/)状態を確認します。ただしこれは Compose ではなく Engine 側の設定です。`docker login` の有無で決まります。
+第四に、[認証](/glossary/認証/)状態を確認します。ただしこれは Compose ではなく Engine 側の[設定](/glossary/設定/)です。`docker login` の有無で決まります。
 
 ## よくある原因と解決手順
 
@@ -131,7 +131,7 @@ services:
 
 匿名の枠は IP 単位で数えられるため、同じ[回線](/glossary/回線/)を使う全員で共有します。[認証](/glossary/認証/)すると[アカウント](/glossary/アカウント/)単位に変わります。
 
-ここで重要なのは、**[認証](/glossary/認証/)は Compose の設定ではない**ことです。取得は Engine が行うため、`docker login` で Engine に資格情報を渡します。構成[ファイル](/glossary/ファイル/)に書く項目はありません。
+ここで重要なのは、**[認証](/glossary/認証/)は Compose の[設定](/glossary/設定/)ではない**ことです。取得は Engine が行うため、`docker login` で Engine に資格情報を渡します。構成[ファイル](/glossary/ファイル/)に書く項目はありません。
 
 ```bash
 docker login
@@ -174,7 +174,7 @@ docker compose pull --policy missing
 2. 同時に何件失敗したかを見る。複数なら並列度が効いている。
 3. 記述している[タグ](/glossary/タグ/)を確認する。省略や `latest` は毎回取得の対象。
 4. `pull_policy` と `--pull` を確認する。`always` なら中間の方針に変える。
-5. `docker login` の有無を確認する。Compose 側ではなく Engine 側の設定。
+5. `docker login` の有無を確認する。Compose 側ではなく Engine 側の[設定](/glossary/設定/)。
 6. `--parallel 1` で同時実行数を絞り、再現するかを見る。
 7. `--ignore-pull-failures` でどの[イメージ](/glossary/イメージ/)が落ちているかを一覧化する。
 8. 取得と構築のどちらで枠を使っているかを分ける。
@@ -216,7 +216,7 @@ Compose で 429 に当たると、Compose 側の不具合を疑いたくなり�
 
 返答は明快でした。関連は無い、取得は Engine の中で行われ、Compose のような[クライアント](/glossary/クライアント/)は Engine に取得を依頼して進捗を報告するだけで、その中身を制御していない、というものです。そのうえで、[自動化](/glossary/自動化/)の中で最初に `docker login` を実行するのが枠を増やす簡単な方法だ、と案内されています。
 
-この説明は正確ですが、そこで話を終えると半分を取りこぼします。**Compose は取得の中身を制御しませんが、「何件の取得を、いくつ同時に依頼するか」は制御します**。並列度の既定が無制限であること、`latest` [タグ](/glossary/タグ/)が毎回の取得対象になること、取得方針が `always` なら手元にあっても取りに行くこと。これらはすべて Compose 側の設定で決まります。
+この説明は正確ですが、そこで話を終えると半分を取りこぼします。**Compose は取得の中身を制御しませんが、「何件の取得を、いくつ同時に依頼するか」は制御します**。並列度の既定が無制限であること、`latest` [タグ](/glossary/タグ/)が毎回の取得対象になること、取得方針が `always` なら手元にあっても取りに行くこと。これらはすべて Compose 側の[設定](/glossary/設定/)で決まります。
 
 同じ報告の中で参照されている別の相談には、「取得していないのに制限に達した」という趣旨の題名が付いています。心当たりが無いのに枠が減っていく感覚は、`latest` [タグ](/glossary/タグ/)の扱いを知ると腑に落ちます。手元にあるから取りに行かないはずだ、という前提が成り立っていないためです。
 

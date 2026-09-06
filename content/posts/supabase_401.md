@@ -14,7 +14,7 @@ related_services: ["JavaScript", "TypeScript", "REST API", "JWT"]
 
 ## エラーの概要
 
-Supabase の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に含まれる[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効であるか、有効期限が切れていることを示します。Supabase ではすべてのデータベースアクセスと[認証](/glossary/認証/)が必要な [API](/glossary/api/) 呼び出しに [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)を使用します。[クライアント](/glossary/クライアント/)側で認証情報が正しく設定されていない、または有効期限切れの[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合に発生します。
+Supabase の 401 [エラー](/glossary/エラー/)は、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)に含まれる[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効であるか、有効期限が切れていることを示します。Supabase ではすべてのデータベースアクセスと[認証](/glossary/認証/)が必要な [API](/glossary/api/) 呼び出しに [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)を使用します。[クライアント](/glossary/クライアント/)側で認証情報が正しく[設定](/glossary/設定/)されていない、または有効期限切れの[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -225,11 +225,11 @@ Supabase [プロジェクト](/glossary/プロジェクト/)の Settings > [API]
 
 ### Row Level Security（RLS）ポリシーとの相互作用
 
-Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/glossary/ポリシー/)（行レベルセキュリティ）が有効になっている場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の user_id が正しくないと、データ取得可能でも 401 [エラー](/glossary/エラー/)のように見える 403 [エラー](/glossary/エラー/)が返されることがあります。RLS [ポリシー](/glossary/ポリシー/)が設定されている[テーブル](/glossary/テーブル/)へのアクセスは、`auth.uid()` や `auth.role()` を使用して現在のユーザー情報が正しく紐づけられていることを確認してください。
+Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/glossary/ポリシー/)（行レベルセキュリティ）が有効になっている場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の user_id が正しくないと、データ取得可能でも 401 [エラー](/glossary/エラー/)のように見える 403 [エラー](/glossary/エラー/)が返されることがあります。RLS [ポリシー](/glossary/ポリシー/)が[設定](/glossary/設定/)されている[テーブル](/glossary/テーブル/)へのアクセスは、`auth.uid()` や `auth.role()` を使用して現在のユーザー情報が正しく紐づけられていることを確認してください。
 
 ### マルチタブ・マルチデバイスでのセッション管理
 
-Supabase の JavaScript [クライアント](/glossary/クライアント/)は[ブラウザ](/glossary/ブラウザ/)の LocalStorage に[セッション](/glossary/セッション/)情報を[保存](/glossary/保存/)します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを設定して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
+Supabase の JavaScript [クライアント](/glossary/クライアント/)は[ブラウザ](/glossary/ブラウザ/)の LocalStorage に[セッション](/glossary/セッション/)情報を[保存](/glossary/保存/)します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを[設定](/glossary/設定/)して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
 
 ## それでも解決しない場合
 

@@ -48,7 +48,7 @@ Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト
 
 ### 原因1：APIキーに必要なスコープが付与されていない
 
-[API](/glossary/api/)[キー](/glossary/キー/)に設定された[スコープ](/glossary/スコープ/)（権限範囲）と、アクセスしようとしている[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)の要求[スコープ](/glossary/スコープ/)が一致していない場合に発生します。たとえば、読み取り専用の[スコープ](/glossary/スコープ/)しか持たない[API](/glossary/api/)[キー](/glossary/キー/)で、書き込み操作を実行しようとするとこの[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)[キー](/glossary/キー/)に[設定](/glossary/設定/)された[スコープ](/glossary/スコープ/)（権限範囲）と、アクセスしようとしている[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)の要求[スコープ](/glossary/スコープ/)が一致していない場合に発生します。たとえば、読み取り専用の[スコープ](/glossary/スコープ/)しか持たない[API](/glossary/api/)[キー](/glossary/キー/)で、書き込み操作を実行しようとするとこの[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -121,11 +121,11 @@ curl -H "Authorization: Bearer <your-api-key>" \
 # 結果: 200 OK
 ```
 
-Postman Cloudの公式ドキュメントに記載されている送信元IP範囲を[API](/glossary/api/)提供元に通知し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」ボタンをクリックする前に、Console タブで「Request Headers」を確認し、実際のソースIPが許可されているか確認します。
+Postman Cloudの公式ドキュメントに記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」ボタンをクリックする前に、Console タブで「Request Headers」を確認し、実際のソースIPが許可されているか確認します。
 
 ### 原因3：試している操作がAPIキーの権限レベルを超えている
 
-[API](/glossary/api/)[キー](/glossary/キー/)にはそれぞれ[権限](/glossary/権限/)レベル（管理者、ユーザー、ゲストなど）が設定されており、特定の操作は高い[権限](/glossary/権限/)レベルの[キー](/glossary/キー/)でのみ実行可能です。たとえば、ユーザーレベルの[キー](/glossary/キー/)で[アカウント](/glossary/アカウント/)削除操作を実行しようとすると403[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)[キー](/glossary/キー/)にはそれぞれ[権限](/glossary/権限/)レベル（管理者、ユーザー、ゲストなど）が[設定](/glossary/設定/)されており、特定の操作は高い[権限](/glossary/権限/)レベルの[キー](/glossary/キー/)でのみ実行可能です。たとえば、ユーザーレベルの[キー](/glossary/キー/)で[アカウント](/glossary/アカウント/)削除操作を実行しようとすると403[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -210,7 +210,7 @@ console.log('Using API key with scopes: ' + requiredScopes);
 ### 確認すべきログとデバッグ手順
 
 1. **Postman Console の確認**
-   - 画面左下の「Console」を開き、[送信](/glossary/送信/)されたリクエストヘッダーと[レスポンス](/glossary/レスポンス/)本文を確認します。Authorization [ヘッダー](/glossary/ヘッダー/)が正しく設定されているか、レスポンスエラーメッセージに[スコープ](/glossary/スコープ/)不足の記載がないか確認してください。
+   - 画面左下の「Console」を開き、[送信](/glossary/送信/)されたリクエストヘッダーと[レスポンス](/glossary/レスポンス/)本文を確認します。Authorization [ヘッダー](/glossary/ヘッダー/)が正しく[設定](/glossary/設定/)されているか、レスポンスエラーメッセージに[スコープ](/glossary/スコープ/)不足の記載がないか確認してください。
 
 2. **Network タブでの詳細確認**
    - [ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（F12）を開き、「Network」タブで[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の詳細を確認します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ確認し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。

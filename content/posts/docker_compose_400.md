@@ -13,7 +13,7 @@ related_services: ["Docker", "yamllint", "YAML"]
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) Composeで400[エラー](/glossary/エラー/)が発生する場合、`compose.yml`（または`docker-compose.yml`）の設定に問題があるか、[コマンド](/glossary/コマンド/)のオプション指定が誤っている可能性があります。この[エラー](/glossary/エラー/)はCompose自体が[設定ファイル](/glossary/設定ファイル/)を正しくパースできないことを示しており、[設定ファイル](/glossary/設定ファイル/)の検証と[コマンド](/glossary/コマンド/)構文の確認により、ほぼすべてのケースで解決します。
+[Docker](/glossary/docker/) Composeで400[エラー](/glossary/エラー/)が発生する場合、`compose.yml`（または`docker-compose.yml`）の[設定](/glossary/設定/)に問題があるか、[コマンド](/glossary/コマンド/)のオプション指定が誤っている可能性があります。この[エラー](/glossary/エラー/)はCompose自体が[設定ファイル](/glossary/設定ファイル/)を正しくパースできないことを示しており、[設定ファイル](/glossary/設定ファイル/)の検証と[コマンド](/glossary/コマンド/)構文の確認により、ほぼすべてのケースで解決します。
 
 ## 実際のエラーメッセージ例
 

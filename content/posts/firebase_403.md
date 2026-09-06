@@ -55,7 +55,7 @@ FirebaseError: Missing or insufficient permissions. (permission-denied)
 **なぜ発生するか**
 Firestore のセキュリティルールが `allow read: if false;` のような形で、すべてのアクセスを拒否している状況です。[開発環境](/glossary/開発環境/)で一時的に制限を設けたまま本番[コード](/glossary/コード/)でアクセスしている場合が多くあります。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 
 ```yaml
 rules_version = '2';
@@ -117,7 +117,7 @@ firebase.auth().signInAnonymously()
 **なぜ発生するか**
 セキュリティルールで `request.auth.uid` と実際のドキュメント所有者 UID が一致していない場合、アクセスが拒否されます。例えば、ユーザーが別ユーザーのドキュメントに書き込もうとしているケースです。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 
 ```yaml
 rules_version = '2';
@@ -154,9 +154,9 @@ service cloud.firestore {
 ### 原因4：Cloud Storage のバケットレベルのセキュリティルールが設定されていない
 
 **なぜ発生するか**
-Cloud Storage では Firestore とは異なる `storage.rules` を使用します。この[ファイル](/glossary/ファイル/)を設定していない場合や、ルールが不十分な場合に 403 が発生します。
+Cloud Storage では Firestore とは異なる `storage.rules` を使用します。この[ファイル](/glossary/ファイル/)を[設定](/glossary/設定/)していない場合や、ルールが不十分な場合に 403 が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 
 ```yaml
 rules_version = '2';
@@ -197,11 +197,11 @@ Firebase Authentication と Firestore セキュリティルールは必ずセッ
 
 ### Realtime Database での UID パスの重要性
 
-Realtime Database の場合、ルール内で `.uid` を参照するときの[パス](/glossary/パス/)指定が重要です。例えば `/users/{uid}` という構造にしておき、セキュリティルール内で `auth.uid` と直接比較する設計パターンが一般的です。
+Realtime Database の場合、ルール内で `.uid` を参照するときの[パス](/glossary/パス/)指定が重要です。例えば `/users/{uid}` という構造にしておき、セキュリティルール内で `auth.uid` と直接比較する設計[パターン](/glossary/パターン/)が一般的です。
 
 ### GCP 権限と Firebase 権限の区別
 
-Firebase [プロジェクト](/glossary/プロジェクト/)所有者が GCP のプロジェクトレベルで[ファイアウォール](/glossary/ファイアウォール/)設定や[サービスアカウント](/glossary/サービスアカウント/)[権限](/glossary/権限/)を制限している場合も 403 が発生することがあります。Firebase Admin [SDK](/glossary/sdk/) を使う場合は、使用する[サービスアカウント](/glossary/サービスアカウント/)が適切な[ロール](/glossary/ロール/)（`roles/editor` 以上）を持っているか確認してください。
+Firebase [プロジェクト](/glossary/プロジェクト/)所有者が GCP のプロジェクトレベルで[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)や[サービスアカウント](/glossary/サービスアカウント/)[権限](/glossary/権限/)を制限している場合も 403 が発生することがあります。Firebase Admin [SDK](/glossary/sdk/) を使う場合は、使用する[サービスアカウント](/glossary/サービスアカウント/)が適切な[ロール](/glossary/ロール/)（`roles/editor` 以上）を持っているか確認してください。
 
 ## それでも解決しない場合
 
@@ -219,7 +219,7 @@ firebase.auth().onAuthStateChanged(user => {
 ```
 
 3. **セキュリティルールをテストモードで一時的に緩和**  
-開発中は以下の設定で全アクセスを許可し、具体的な 403 が解消されるか確認します。
+開発中は以下の[設定](/glossary/設定/)で全アクセスを許可し、具体的な 403 が解消されるか確認します。
 ```yaml
 rules_version = '2';
 service cloud.firestore {
@@ -245,7 +245,7 @@ Google Cloud Console の「ログエクスプローラー」から `resource.typ
 
 - [Stack Overflow の firebase-403 タグ](https://stackoverflow.com/questions/tagged/firebase)
 - [Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues)
-- Firebase 公式 Slack コミュニティで質問を投稿し、セキュリティルール設定のスクリーンショットを共有することで、より正確なアドバイスが得られます。
+- Firebase 公式 Slack コミュニティで質問を投稿し、セキュリティルール[設定](/glossary/設定/)のスクリーンショットを共有することで、より正確なアドバイスが得られます。
 
 ---
 

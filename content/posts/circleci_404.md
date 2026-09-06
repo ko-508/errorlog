@@ -119,7 +119,7 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo" \
   -H "Circle-Token: $CIRCLECI_TOKEN"
 ```
 
-WebUI から [OAuth](/glossary/oauth/) 再認証を実行するか、[API](/glossary/api/) [トークン](/glossary/トークン/)を再生成して設定し直します。
+WebUI から [OAuth](/glossary/oauth/) 再認証を実行するか、[API](/glossary/api/) [トークン](/glossary/トークン/)を再生成して[設定](/glossary/設定/)し直します。
 
 ## ツール固有の注意点
 

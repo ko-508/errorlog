@@ -120,7 +120,7 @@ docker push org/repo:v1.0
 
 なぜ発生するか：[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)を [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet が[イメージ](/glossary/イメージ/)取得時に 403 [エラー](/glossary/エラー/)を受け取ります。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 
 ```yaml
 apiVersion: v1
@@ -134,7 +134,7 @@ spec:
   # imagePullSecrets が指定されていない → 403 エラー
 ```
 
-**After（修正後の設定）**
+**After（修正後の[設定](/glossary/設定/)）**
 
 ```bash
 # まずシークレットを作成

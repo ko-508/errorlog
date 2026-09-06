@@ -13,7 +13,7 @@ related_services: ["REST API", "LDAP", "SSO", "cURL", "Python requests", "Declar
 
 ## エラーの概要
 
-Jenkins 401[エラー](/glossary/エラー/)は、Jenkins[サーバー](/glossary/サーバー/)へのアクセス時に[認証](/glossary/認証/)が失敗したことを示します。[API](/glossary/api/)[トークン](/glossary/トークン/)の有効期限切れ、ユーザー名や[パスワード](/glossary/パスワード/)の誤入力、セキュリティレルム設定の変更により、[クライアント](/glossary/クライアント/)がJenkinsに正常に[認証](/glossary/認証/)できない状態です。特にパイプラインスクリプトからの自動アクセスや[REST](/glossary/rest/) [API](/glossary/api/)呼び出し時に頻出します。
+Jenkins 401[エラー](/glossary/エラー/)は、Jenkins[サーバー](/glossary/サーバー/)へのアクセス時に[認証](/glossary/認証/)が失敗したことを示します。[API](/glossary/api/)[トークン](/glossary/トークン/)の有効期限切れ、ユーザー名や[パスワード](/glossary/パスワード/)の誤入力、セキュリティレルム[設定](/glossary/設定/)の変更により、[クライアント](/glossary/クライアント/)がJenkinsに正常に[認証](/glossary/認証/)できない状態です。特にパイプラインスクリプトからの自動アクセスや[REST](/glossary/rest/) [API](/glossary/api/)呼び出し時に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ hudson.security.SecurityException: Authentication failed: Invalid username or AP
 
 ### 原因1：APIトークンの有効期限切れまたは削除
 
-Jenkinsの[セキュリティ](/glossary/セキュリティ/)向上のため、[API](/glossary/api/)[トークン](/glossary/トークン/)には有効期限が設定されることがあります。[トークン](/glossary/トークン/)が自動削除されたり、セキュリティレルムの再設定時に既存[トークン](/glossary/トークン/)が無効化される場合があります。
+Jenkinsの[セキュリティ](/glossary/セキュリティ/)向上のため、[API](/glossary/api/)[トークン](/glossary/トークン/)には有効期限が[設定](/glossary/設定/)されることがあります。[トークン](/glossary/トークン/)が自動削除されたり、セキュリティレルムの再設定時に既存[トークン](/glossary/トークン/)が無効化される場合があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -70,9 +70,9 @@ Jenkins[サーバー](/glossary/サーバー/)で以下の手順を実行して�
 
 1. Jenkins管理画面に[ログイン](/glossary/ログイン/)
 2. 左メニューから「ユーザー」→ユーザー一覧から該当ユーザーを選択
-3. 「設定」ページで「[API](/glossary/api/)[トークン](/glossary/トークン/)」セクションへスクロール
+3. 「[設定](/glossary/設定/)」ページで「[API](/glossary/api/)[トークン](/glossary/トークン/)」セクションへスクロール
 4. 既存[トークン](/glossary/トークン/)が無効な場合は[削除](/glossary/削除/)し、「新しい[トークン](/glossary/トークン/)を生成」をクリック
-5. 生成された[トークン](/glossary/トークン/)値をコピーして、[スクリプト](/glossary/スクリプト/)や[API](/glossary/api/)[クライアント](/glossary/クライアント/)に設定
+5. 生成された[トークン](/glossary/トークン/)値をコピーして、[スクリプト](/glossary/スクリプト/)や[API](/glossary/api/)[クライアント](/glossary/クライアント/)に[設定](/glossary/設定/)
 
 ### 原因2：ユーザー名またはAPIトークンの入力ミス
 
@@ -115,7 +115,7 @@ response = requests.get(
 
 ### 原因3：セキュリティレルムの設定変更
 
-Jenkinsのセキュリティレルム設定を変更すると（例：ローカルユーザーデータベースからLDAPへ、またはその逆）、既存の[API](/glossary/api/)[トークン](/glossary/トークン/)やユーザー認証情報が無効になることがあります。特にLDAPやSSO[認証](/glossary/認証/)への移行時に発生しやすいです。
+Jenkinsのセキュリティレルム[設定](/glossary/設定/)を変更すると（例：ローカルユーザーデータベースからLDAPへ、またはその逆）、既存の[API](/glossary/api/)[トークン](/glossary/トークン/)やユーザー認証情報が無効になることがあります。特にLDAPやSSO[認証](/glossary/認証/)への移行時に発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -137,7 +137,7 @@ curl -u admin:<your-new-realm-token> \
 
 対応手順：
 
-1. Jenkins管理画面の「[セキュリティ](/glossary/セキュリティ/)」設定ページを確認
+1. Jenkins管理画面の「[セキュリティ](/glossary/セキュリティ/)」[設定](/glossary/設定/)ページを確認
 2. セキュリティレルムが最近変更されていないか履歴を確認
 3. セキュリティレルム変更後は、すべてのユーザーが自分のユーザーページで[API](/glossary/api/)[トークン](/glossary/トークン/)を再生成する必要があります
 4. LDAP連携やSSO[認証](/glossary/認証/)に移行した場合、LDAPユーザー名がJenkinsのローカルユーザー名と異なる可能性があるため、正確なユーザー名を確認してください
@@ -146,7 +146,7 @@ curl -u admin:<your-new-realm-token> \
 
 **Declarativeパイプラインでの認証設定：**
 
-Jenkinsパイプラインから[プライベートレジストリ](/glossary/プライベートレジストリ/)やリモートサーバーにアクセスする際、認証情報が正しく設定されていない場合は401[エラー](/glossary/エラー/)が発生します。
+Jenkinsパイプラインから[プライベートレジストリ](/glossary/プライベートレジストリ/)やリモートサーバーにアクセスする際、認証情報が正しく[設定](/glossary/設定/)されていない場合は401[エラー](/glossary/エラー/)が発生します。
 
 ```groovy
 pipeline {
@@ -192,7 +192,7 @@ Jenkinsが[Docker](/glossary/docker/)[コンテナ](/glossary/コンテナ/)ま�
 </hudson>
 ```
 
-セキュリティレルムクラスが空の場合やコメントアウトされている場合は、ユーザー[認証](/glossary/認証/)が無効になっているため、設定を確認して[修正](/glossary/修正/)する必要があります。
+セキュリティレルムクラスが空の場合やコメントアウトされている場合は、ユーザー[認証](/glossary/認証/)が無効になっているため、[設定](/glossary/設定/)を確認して[修正](/glossary/修正/)する必要があります。
 
 ## それでも解決しない場合
 

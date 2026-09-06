@@ -140,7 +140,7 @@ curl -s -o /dev/null -w "%{http_code}\n" -H "Authorization: Bearer <your-github-
 
 ## Editor's Note
 
-原因1の実例として、[GitHub](/glossary/github/) 自身が公開した記録があります（[GitHub availability report: March 2026](https://github.blog/news-insights/company-news/github-availability-report-march-2026/)）。2026年3月3日、18:46 から 20:09 UTC にかけて github.com と [API](/glossary/api/) を含む広い範囲で可用性が低下し、公式レポートによればピーク時には [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の約43%が失敗しました。原因はユーザー設定の[キャッシュ](/glossary/キャッシュ/)機構への大量の書き込みで、2月上旬に起きたインシデントと同じ根です。レポートには、この機構への killswitch の追加、監視の強化、機構の専用ホストへの分離という再発防止策まで記載されています。執筆時点から4か月前の直近の事例であり、「正しい[リクエスト](/glossary/リクエスト/)でも失敗する時間帯は現実にあり、その間に手元でできるのは待つことと安全な再試行だけ」という原因1の構図をそのまま示しています。[GitHub](/glossary/github/) は月次の可用性レポートでインシデントの原因まで公開しているため、手元の[ログ](/glossary/ログ/)で500が特定の日時に集中していた場合、その日付のレポートで裏が取れることも覚えておくと役に立ちます。
+原因1の実例として、[GitHub](/glossary/github/) 自身が公開した記録があります（[GitHub availability report: March 2026](https://github.blog/news-insights/company-news/github-availability-report-march-2026/)）。2026年3月3日、18:46 から 20:09 UTC にかけて github.com と [API](/glossary/api/) を含む広い範囲で可用性が低下し、公式レポートによればピーク時には [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の約43%が失敗しました。原因はユーザー[設定](/glossary/設定/)の[キャッシュ](/glossary/キャッシュ/)機構への大量の書き込みで、2月上旬に起きたインシデントと同じ根です。レポートには、この機構への killswitch の追加、監視の強化、機構の専用ホストへの分離という再発防止策まで記載されています。執筆時点から4か月前の直近の事例であり、「正しい[リクエスト](/glossary/リクエスト/)でも失敗する時間帯は現実にあり、その間に手元でできるのは待つことと安全な再試行だけ」という原因1の構図をそのまま示しています。[GitHub](/glossary/github/) は月次の可用性レポートでインシデントの原因まで公開しているため、手元の[ログ](/glossary/ログ/)で500が特定の日時に集中していた場合、その日付のレポートで裏が取れることも覚えておくと役に立ちます。
 
 500は応答から得られる手がかりが最も少ない[コード](/glossary/コード/)ですが、やるべきことは「散発か再現か」の見極めと x-github-request-id の控えだけで決まります。手元の[リクエスト](/glossary/リクエスト/)の体裁を疑い始める前に、まず稼働状況と再現性を確認することが確実な近道です。
 

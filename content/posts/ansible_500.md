@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Ansibleの500[エラー](/glossary/エラー/)は、ターゲットサーバー上で実行された[コマンド](/glossary/コマンド/)や[モジュール](/glossary/モジュール/)が内部[エラー](/glossary/エラー/)で終了したことを示します。この[エラー](/glossary/エラー/)が発生するとPlaybookの実行が中断され、該当タスク以降の処理が実行されなくなります。Playbook内のshellやcommandタスク、またはPython[モジュール](/glossary/モジュール/)の実行中にターゲットホスト側で予期しない障害が発生した場合に出現します。
+Ansibleの500[エラー](/glossary/エラー/)は、ターゲットサーバー上で実行された[コマンド](/glossary/コマンド/)や[モジュール](/glossary/モジュール/)が内部[エラー](/glossary/エラー/)で終了したことを示します。この[エラー](/glossary/エラー/)が発生するとPlaybookの実行が中断され、該当[タスク](/glossary/タスク/)以降の処理が実行されなくなります。Playbook内のshellやcommand[タスク](/glossary/タスク/)、またはPython[モジュール](/glossary/モジュール/)の実行中にターゲットホスト側で予期しない障害が発生した場合に出現します。
 
 ## 実際のエラーメッセージ例
 
@@ -120,7 +120,7 @@ Ansibleが使用するPython[モジュール](/glossary/モジュール/)（apt_
 
 ### 原因4：変数展開時のエラーや環境変数の不正
 
-Playbook内で存在しない[変数](/glossary/変数/)を参照したり、[シェル](/glossary/シェル/)の[環境変数](/glossary/環境変数/)が正しく設定されていない場合、実行時に[エラー](/glossary/エラー/)が発生し500[コード](/glossary/コード/)で返されます。
+Playbook内で存在しない[変数](/glossary/変数/)を参照したり、[シェル](/glossary/シェル/)の[環境変数](/glossary/環境変数/)が正しく[設定](/glossary/設定/)されていない場合、実行時に[エラー](/glossary/エラー/)が発生し500[コード](/glossary/コード/)で返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

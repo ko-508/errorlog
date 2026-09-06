@@ -75,7 +75,7 @@ Crumb の取得に失敗した場合は、Jenkins が CSRF 保護を有効にし
 
 ### 原因2：Matrix-based security でジョブへの Build/Configure 権限がない
 
-Jenkins の権限設定で Matrix-based security または Role-based Access Control を使用している場合、ユーザーがジョブをビルドしたり設定を変更したりする[権限](/glossary/権限/)がないと 403 [エラー](/glossary/エラー/)が発生します。[権限](/glossary/権限/)マトリックスでユーザー行とジョブ権限列の交差点がチェックされていないと拒否されます。
+Jenkins の権限設定で Matrix-based security または Role-based Access Control を使用している場合、ユーザーがジョブをビルドしたり[設定](/glossary/設定/)を変更したりする[権限](/glossary/権限/)がないと 403 [エラー](/glossary/エラー/)が発生します。[権限](/glossary/権限/)マトリックスでユーザー行とジョブ権限列の交差点がチェックされていないと拒否されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -127,7 +127,7 @@ curl "http://localhost:8080/api/json" \
 # → 200 OK でJSON応答が返される
 ```
 
-[API](/glossary/api/) [トークン](/glossary/トークン/)の取得方法：**Jenkins 管理画面** → **ユーザー一覧** → 対象ユーザーをクリック → **設定** → **[API](/glossary/api/) Token** セクションで新しい[トークン](/glossary/トークン/)を生成してください。
+[API](/glossary/api/) [トークン](/glossary/トークン/)の取得方法：**Jenkins 管理画面** → **ユーザー一覧** → 対象ユーザーをクリック → **[設定](/glossary/設定/)** → **[API](/glossary/api/) Token** セクションで新しい[トークン](/glossary/トークン/)を生成してください。
 
 ## ツール固有の注意点
 
@@ -141,7 +141,7 @@ Jenkins では `/user/<username>/generateApiToken` [エンドポイント](/glos
 
 **複数ジョブへの[アクセス制御](/glossary/アクセス制御/)：**
 
-Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を設定できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
+Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を[設定](/glossary/設定/)できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
 
 **Jenkins Pipeline での CSRF 対策：**
 

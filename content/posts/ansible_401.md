@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Ansibleで[認証](/glossary/認証/)[エラー](/glossary/エラー/)が発生する場合、ターゲットホストまたは連携している外部サービスへの[認証](/glossary/認証/)に失敗していることを示します。この[エラー](/glossary/エラー/)は主にSSH接続時の認証失敗、sudo権限昇格時の[パスワード](/glossary/パスワード/)不一致、[API](/glossary/api/)[トークン](/glossary/トークン/)または[クレデンシャル](/glossary/クレデンシャル/)（認証情報）の誤りによって発生し、Playbookの実行が途中で停止する重大な状況です。認証情報の管理ミスや[キー](/glossary/キー/)設定の誤りが原因となることが大部分です。
+Ansibleで[認証](/glossary/認証/)[エラー](/glossary/エラー/)が発生する場合、ターゲットホストまたは連携している外部サービスへの[認証](/glossary/認証/)に失敗していることを示します。この[エラー](/glossary/エラー/)は主にSSH接続時の認証失敗、sudo権限昇格時の[パスワード](/glossary/パスワード/)不一致、[API](/glossary/api/)[トークン](/glossary/トークン/)または[クレデンシャル](/glossary/クレデンシャル/)（認証情報）の誤りによって発生し、Playbookの実行が途中で停止する重大な状況です。認証情報の管理ミスや[キー](/glossary/キー/)[設定](/glossary/設定/)の誤りが原因となることが大部分です。
 
 ## 実際のエラーメッセージ例
 
@@ -110,7 +110,7 @@ private_key_file = ~/.ssh/id_rsa
 
 ### 原因2：become（sudo）のパスワードが間違っているか、未設定
 
-ターゲットホストで[管理者権限](/glossary/管理者権限/)が必要なタスク（パッケージインストール、[ファイル](/glossary/ファイル/)編集など）を実行する際に、`become: yes`の設定だけではbecome_passwordが未設定のため、sudoの[認証](/glossary/認証/)に失敗します。
+ターゲットホストで[管理者権限](/glossary/管理者権限/)が必要な[タスク](/glossary/タスク/)（パッケージインストール、[ファイル](/glossary/ファイル/)編集など）を実行する際に、`become: yes`の[設定](/glossary/設定/)だけではbecome_passwordが未設定のため、sudoの[認証](/glossary/認証/)に失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -240,11 +240,11 @@ ansible-playbook playbook.yml --vault-password-file ~/.vault_pass
 
 ## ツール固有の注意点
 
-**SSHエージェント設定の確認：**
-パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを確認してください。Linuxで`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を登録することで、Ansibleの実行時にパスフレーズ入力が不要になります。
+**SSHエージェント[設定](/glossary/設定/)の確認：**
+パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを確認してください。[Linux](/glossary/linux/)で`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を登録することで、Ansibleの実行時にパスフレーズ入力が不要になります。
 
 **become_methodの指定：**
-デフォルトではsudoが使用されますが、[環境](/glossary/環境/)によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト[環境](/glossary/環境/)に応じた設定をinventoryで指定してください。
+デフォルトではsudoが使用されますが、[環境](/glossary/環境/)によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト[環境](/glossary/環境/)に応じた[設定](/glossary/設定/)をinventoryで指定してください。
 
 **複数ホストへの並列実行時：**
 `-f`オプションで並列数を制限している場合、複数ホストの[認証](/glossary/認証/)が同時に行われるため、ホスト単位で認証情報が異なるケースでは単一実行で検証してから並列実行に移行することが推奨されます。

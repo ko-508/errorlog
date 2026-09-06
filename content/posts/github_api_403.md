@@ -18,7 +18,7 @@ top_queries:
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の 403 Forbidden は、「[権限](/glossary/権限/)が足りないとき全般」に返る[コード](/glossary/コード/)ではありません。[GitHub](/glossary/github/) は、非公開リソースへの権限不足に対しては存在を隠すために 404 を返す設計であり、classic の personal access token の scope 不足も 404 になります。403 が返るのは、主に次の3つの場面です。第一に、[レート制限](/glossary/レート制限/)の超過（403 または 429）。第二に、[GitHub](/glossary/github/) App・fine-grained personal access token・Actions の GITHUB_TOKEN の権限不足で、この場合だけ Resource not accessible by integration（または by personal access token）という固有の文言が返ります。第三に、組織が SAML SSO（組織のシングルサインオン）を強制していて、[トークン](/glossary/トークン/)がその組織に対して未承認の場合です。
 
-3つの場面はいずれも応答の message の文言で即座に見分けられます。403 の調査は、設定を触る前に message を読むことから始めます。
+3つの場面はいずれも応答の message の文言で即座に見分けられます。403 の調査は、[設定](/glossary/設定/)を触る前に message を読むことから始めます。
 
 ## エラーの概要
 

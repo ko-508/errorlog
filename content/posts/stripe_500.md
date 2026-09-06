@@ -53,7 +53,7 @@ HTTP/1.1 500 Internal Server Error
 
 ### 原因1：冪等性キー（Idempotency Key）の未設定による重複処理
 
-Stripeで500[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)が成功したのか失敗したのか不確実になります。[リトライ](/glossary/リトライ/)時に同じ操作が2回実行されるリスクが高まります。[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)を設定しないと、[エラー](/glossary/エラー/)発生時の[リトライ](/glossary/リトライ/)で二重課金などの問題が生じます。
+Stripeで500[エラー](/glossary/エラー/)が発生した場合、[リクエスト](/glossary/リクエスト/)が成功したのか失敗したのか不確実になります。[リトライ](/glossary/リトライ/)時に同じ操作が2回実行されるリスクが高まります。[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)を[設定](/glossary/設定/)しないと、[エラー](/glossary/エラー/)発生時の[リトライ](/glossary/リトライ/)で二重課金などの問題が生じます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -177,7 +177,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)設定 → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
+[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)[設定](/glossary/設定/) → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
 
 ## それでも解決しない場合
 

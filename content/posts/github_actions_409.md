@@ -48,7 +48,7 @@ Error: PUT https://ndia.ghe.com/api/v3/repos/<organization>/<repository>/actions
 - `Conflict` → 理由フレーズ：複数の操作や状態の不整合を示す
 - `"There is a deployment currently in progress. Please try again when it completes."` → [エラー](/glossary/エラー/)本体：別の[デプロイ](/glossary/デプロイ/)がまだ実行中であることを明示
 - `scm-deployment-id` → デプロイメント [ID](/glossary/id/)：進行中の[デプロイ](/glossary/デプロイ/)を特定するための識別子
-- `statusCode: 409` → [JSON](/glossary/json/) 形式のレスポンスボディ：[プログラム](/glossary/プログラム/)で処理可能な形式で[エラー](/glossary/エラー/)を通知
+- `statusCode: 409` → [JSON](/glossary/json/) 形式のレスポンスボディ：[プログラム](/glossary/プログラム/)で処理可能な形式で[エラー](/glossary/エラー/)を[通知](/glossary/通知/)
 
 ## よくある原因と解決手順
 
@@ -231,7 +231,7 @@ python update_file.py
 
 ### 原因3：Organization/Enterprise レベルのポリシーと権限設定の競合
 
-Organization または Enterprise レベルで [GitHub](/glossary/github/) Actions の[ポリシー](/glossary/ポリシー/)が設定されている場合、リポジトリレベルでの権限削除やアクセス設定の変更が禁止されていることがあります。[API](/glossary/api/) 経由で `actions/permissions` [エンドポイント](/glossary/エンドポイント/)にアクセスするとこの競合が発生します。
+Organization または Enterprise レベルで [GitHub](/glossary/github/) Actions の[ポリシー](/glossary/ポリシー/)が[設定](/glossary/設定/)されている場合、リポジトリレベルでの権限削除やアクセス[設定](/glossary/設定/)の変更が禁止されていることがあります。[API](/glossary/api/) 経由で `actions/permissions` [エンドポイント](/glossary/エンドポイント/)にアクセスするとこの競合が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

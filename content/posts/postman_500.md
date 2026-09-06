@@ -13,7 +13,7 @@ related_services: ["Postman Cloud", "Postman Console"]
 
 ## エラーの概要
 
-Postman で 500 [エラー](/glossary/エラー/)が表示される場合、[リクエスト](/glossary/リクエスト/)の送信先[サーバー](/glossary/サーバー/)が内部[エラー](/glossary/エラー/)（Internal Server Error）を返していることを意味します。この[エラー](/glossary/エラー/)は[テスト](/glossary/テスト/)対象の [API](/glossary/api/) [サーバー](/glossary/サーバー/)側で予期しない[エラー](/glossary/エラー/)が発生したか、Postman Cloud サービス自体に一時的な障害が生じている可能性があります。500 [エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)の状態異常を示すため、[クライアント](/glossary/クライアント/)側の設定の問題ではなく、[サーバー](/glossary/サーバー/)側の調査が必要です。
+Postman で 500 [エラー](/glossary/エラー/)が表示される場合、[リクエスト](/glossary/リクエスト/)の送信先[サーバー](/glossary/サーバー/)が内部[エラー](/glossary/エラー/)（Internal Server Error）を返していることを意味します。この[エラー](/glossary/エラー/)は[テスト](/glossary/テスト/)対象の [API](/glossary/api/) [サーバー](/glossary/サーバー/)側で予期しない[エラー](/glossary/エラー/)が発生したか、Postman Cloud サービス自体に一時的な障害が生じている可能性があります。500 [エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)の状態異常を示すため、[クライアント](/glossary/クライアント/)側の[設定](/glossary/設定/)の問題ではなく、[サーバー](/glossary/サーバー/)側の調査が必要です。
 
 ## 実際のエラーメッセージ例
 

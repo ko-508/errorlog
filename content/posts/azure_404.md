@@ -124,7 +124,7 @@ az storage account show --resource-group correctResourceGroup --name mystorageac
 
 ### 原因3：リソースがすでに削除されている
 
-Azureでリソースを[削除](/glossary/削除/)した後、その[削除](/glossary/削除/)が完全に反映されるまでにはわずかな遅延が生じることがあります。削除後のリソースに対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。[削除](/glossary/削除/)されたリソースの復旧が必要な場合、Azure Backupやリソースの再作成が必要になります。
+Azureでリソースを[削除](/glossary/削除/)した後、その[削除](/glossary/削除/)が完全に反映されるまでにはわずかな[遅延](/glossary/遅延/)が生じることがあります。削除後のリソースに対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。[削除](/glossary/削除/)されたリソースの復旧が必要な場合、Azure Backupやリソースの再作成が必要になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

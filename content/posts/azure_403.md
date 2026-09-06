@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Azure リソースへのアクセスが拒否されたことを示す [HTTP](/glossary/http/) 403 [エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)は、ユーザーや[アプリケーション](/glossary/アプリケーション/)が[認証](/glossary/認証/)には成功（401 ではなく）したものの、対象リソースに対する**操作権限がない**ことを意味します。Azure では [RBAC](/glossary/rbac/)（ロールベースアクセス制御）、Azure Policy、[ネットワーク](/glossary/ネットワーク/)設定などの複数のレイヤーで[権限](/glossary/権限/)チェックが行われるため、403 が頻繁に発生します。
+Azure リソースへのアクセスが拒否されたことを示す [HTTP](/glossary/http/) 403 [エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)は、ユーザーや[アプリケーション](/glossary/アプリケーション/)が[認証](/glossary/認証/)には成功（401 ではなく）したものの、対象リソースに対する**操作権限がない**ことを意味します。Azure では [RBAC](/glossary/rbac/)（ロールベースアクセス制御）、Azure Policy、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)などの複数のレイヤーで[権限](/glossary/権限/)チェックが行われるため、403 が頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -86,7 +86,7 @@ $ az storage account create \
 
 ### 原因 3：リソースのネットワーク設定でアクセスが制限されている
 
-リソースが仮想[ネットワーク](/glossary/ネットワーク/)内に配置されていたり、プライベートエンドポイント経由のアクセスのみに制限されていたり、[ファイアウォール](/glossary/ファイアウォール/)設定で特定の IP 範囲のみを許可しているケースです。管理者側の [RBAC](/glossary/rbac/) は正しくても、ネットワークレベルで接続そのものが遮断されると、403 で拒否されます。例えば、Azure [SQL](/glossary/sql/) Database に[ファイアウォール](/glossary/ファイアウォール/)設定があり、[クライアント](/glossary/クライアント/) IP が許可リストに含まれていない場合、認証後も操作は 403 となります。
+リソースが仮想[ネットワーク](/glossary/ネットワーク/)内に配置されていたり、プライベートエンドポイント経由のアクセスのみに制限されていたり、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)で特定の IP 範囲のみを許可しているケースです。管理者側の [RBAC](/glossary/rbac/) は正しくても、ネットワークレベルで接続そのものが遮断されると、403 で拒否されます。例えば、Azure [SQL](/glossary/sql/) Database に[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)があり、[クライアント](/glossary/クライアント/) IP が許可リストに含まれていない場合、認証後も操作は 403 となります。
 
 **修正例：**
 
@@ -114,7 +114,7 @@ $ az sql db show \
 ## ツール固有の注意点
 
 **Azure Portal での [RBAC](/glossary/rbac/) 確認方法**：
-リソースに対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を設定することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal でリソースを選択し、左側メニューから「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを確認」をクリックすることで、現在の割り当て状況を視覚的に確認できます。
+リソースに対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を[設定](/glossary/設定/)することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal でリソースを選択し、左側メニューから「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを確認」をクリックすることで、現在の割り当て状況を視覚的に確認できます。
 
 **Azure [CLI](/glossary/cli/) での権限確認[コマンド](/glossary/コマンド/)**：
 ```bash
@@ -154,7 +154,7 @@ $ az monitor activity-log list \
   --output table
 ```
 
-Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを検索し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)設定かを判定できます。
+Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを検索し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
 
 サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で確認できます。
 

@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/) が[スロットリング](/glossary/スロットリング/)制限に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Azure では、各[サブスクリプション](/glossary/サブスクリプション/)と [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を設定しており、この制限を超えたときに発生します。特に、[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)や[バッチ処理](/glossary/バッチ処理/)で[ループ](/glossary/ループ/)内から大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に見られます。
+429 Too Many Requests [エラー](/glossary/エラー/)は、Azure [API](/glossary/api/) が[スロットリング](/glossary/スロットリング/)制限に達したことを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Azure では、各[サブスクリプション](/glossary/サブスクリプション/)と [API](/glossary/api/) に対して一定期間内の[リクエスト](/glossary/リクエスト/)数に上限を[設定](/glossary/設定/)しており、この制限を超えたときに発生します。特に、[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)や[バッチ処理](/glossary/バッチ処理/)で[ループ](/glossary/ループ/)内から大量の[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合に頻繁に見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -170,7 +170,7 @@ async function createVMs() {
 
 ### 原因3：複数の操作を同時実行している
 
-Azure [関数](/glossary/関数/)、Logic Apps、Data Factory など、複数の処理が並列実行される[環境](/glossary/環境/)では、複合的な[スロットリング](/glossary/スロットリング/)が発生しやすくなります。特にマネージドサービスでの自動スケーリング時に、大量のワーカーが同時に同じ [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
+Azure [関数](/glossary/関数/)、Logic Apps、Data Factory など、複数の処理が並列実行される[環境](/glossary/環境/)では、複合的な[スロットリング](/glossary/スロットリング/)が発生しやすくなります。特にマネージドサービスでの[自動スケーリング](/glossary/自動スケーリング/)時に、大量のワーカーが同時に同じ [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

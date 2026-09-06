@@ -39,7 +39,7 @@ Error: Error creating load balancer: InvalidParameterValue
 
 ### 原因 1：Terraform の並列実行数が多すぎる
 
-Terraform はデフォルトで 10 個のリソースを同時に作成する設定になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
+Terraform はデフォルトで 10 個のリソースを同時に作成する[設定](/glossary/設定/)になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
 
 **修正前：**
 
@@ -82,7 +82,7 @@ deploy_env2:
     - terraform apply -auto-approve
 ```
 
-この設定では `deploy_env1` と `deploy_env2` が並列実行され、同一プロバイダーへの [API](/glossary/api/) 呼び出しが競合します。
+この[設定](/glossary/設定/)では `deploy_env1` と `deploy_env2` が並列実行され、同一プロバイダーへの [API](/glossary/api/) 呼び出しが競合します。
 
 **修正後：**
 
@@ -107,7 +107,7 @@ deploy_env2:
 
 ### 原因 3：プロバイダー設定にリトライロジックがない
 
-一時的な [API](/glossary/api/) 制限[エラー](/glossary/エラー/)に対して自動的に再試行する機構がない場合、すぐに[エラー](/glossary/エラー/)で終了してしまいます。プロバイダー設定にリトライパラメーターを追加することで、指数[バックオフ](/glossary/バックオフ/)を用いた自動再試行が可能になります。
+一時的な [API](/glossary/api/) 制限[エラー](/glossary/エラー/)に対して自動的に再試行する機構がない場合、すぐに[エラー](/glossary/エラー/)で終了してしまいます。プロバイダー[設定](/glossary/設定/)にリトライパラメーターを追加することで、指数[バックオフ](/glossary/バックオフ/)を用いた自動再試行が可能になります。
 
 **修正前：**
 
@@ -164,7 +164,7 @@ terraform apply -parallelism=3
 
 ### Google Cloud プロバイダーでの対応
 
-Google Cloud は [API](/glossary/api/) ごとに異なるクォータを設定しており、Compute Engine [API](/glossary/api/) はデフォルトで 1 分間に 240 [リクエスト](/glossary/リクエスト/)に制限されています。
+Google Cloud は [API](/glossary/api/) ごとに異なるクォータを[設定](/glossary/設定/)しており、Compute Engine [API](/glossary/api/) はデフォルトで 1 分間に 240 [リクエスト](/glossary/リクエスト/)に制限されています。
 
 ```hcl
 provider "google" {

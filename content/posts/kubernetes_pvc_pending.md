@@ -17,13 +17,13 @@ trend_incident: false
 
 PVC（PersistentVolumeClaim、[ストレージ](/glossary/ストレージ/)の割り当てを求める[オブジェクト](/glossary/オブジェクト/)）が Pending のままになったとき、まず[容量](/glossary/容量/)や[設定ファイル](/glossary/設定ファイル/)を読み返す人が多くいます。順序としては後回しでかまいません。先に読むべきなのは `kubectl describe pvc` の Events に出る Reason の1語です。
 
-理由は実装にあります。[Kubernetes](/glossary/kubernetes/) の制御側は、未結合の要求を1か所で3つの経路に振り分けています。結合を遅らせる設定で誰も使っていない場合、[クラス](/glossary/クラス/)名が指定されていて動的な作成に進む場合、そのどちらでもない場合です。この3分岐がそのまま Reason になるため、Reason を見れば自分がどの経路にいるかが確定します。
+理由は実装にあります。[Kubernetes](/glossary/kubernetes/) の制御側は、未結合の要求を1か所で3つの経路に振り分けています。結合を遅らせる[設定](/glossary/設定/)で誰も使っていない場合、[クラス](/glossary/クラス/)名が指定されていて動的な作成に進む場合、そのどちらでもない場合です。この3分岐がそのまま Reason になるため、Reason を見れば自分がどの経路にいるかが確定します。
 
 分かれ方は5通りです。`WaitForFirstConsumer` と `WaitForPodScheduled` は待機、`ExternalProvisioning` と `ProvisioningFailed` は動的な作成、`FailedBinding` は既存の領域との突き合わせで、それぞれ直す場所が違います。
 
 最も見落とされるのが2番目です。`WaitForPodScheduled` が出ているなら、待たせているのは PVC ではありません。それを使う Pod が配置できずに止まっています。PVC の定義を読み直しても原因は出てきません。
 
-`WaitForFirstConsumer` も異常ではありません。公式ドキュメントは、この設定が Pod ができるまで結合と作成を意図的に遅らせるものだと説明しています。Pending の表示だけを見て設定を書き換えると、かえって配置できない Pod を作ることになります。
+`WaitForFirstConsumer` も異常ではありません。公式ドキュメントは、この[設定](/glossary/設定/)が Pod ができるまで結合と作成を意図的に遅らせるものだと説明しています。Pending の表示だけを見て[設定](/glossary/設定/)を書き換えると、かえって配置できない Pod を作ることになります。
 
 ## エラーの概要
 
@@ -45,7 +45,7 @@ Events:
   Normal  WaitForFirstConsumer  20s (x6 over 87s)  persistentvolume-controller  waiting for first consumer to be created before binding
 ```
 
-出所は `persistentvolume-controller` です。この[コード](/glossary/コード/)は未結合の要求を3つに振り分けます。第一に、結合を遅らせる設定で、まだ配置の判断が渡ってきていない場合。第二に、[クラス](/glossary/クラス/)名が空でない場合。第三に、そのどちらでもない場合です。1番目からは `WaitForFirstConsumer` または `WaitForPodScheduled`、2番目からは `ExternalProvisioning`・`ProvisioningFailed`・`ProvisioningSucceeded`、3番目からは `FailedBinding` が出ます。
+出所は `persistentvolume-controller` です。この[コード](/glossary/コード/)は未結合の要求を3つに振り分けます。第一に、結合を遅らせる[設定](/glossary/設定/)で、まだ配置の判断が渡ってきていない場合。第二に、[クラス](/glossary/クラス/)名が空でない場合。第三に、そのどちらでもない場合です。1番目からは `WaitForFirstConsumer` または `WaitForPodScheduled`、2番目からは `ExternalProvisioning`・`ProvisioningFailed`・`ProvisioningSucceeded`、3番目からは `FailedBinding` が出ます。
 
 3番目の文言は固定です。
 
@@ -65,7 +65,7 @@ kubectl describe pvc <要求名> -n <区画名> | sed -n '/^Events:/,$p'
 
 出てきた語で、そこから先の調べ方が決まります。`WaitForFirstConsumer` なら原因1、`WaitForPodScheduled` なら原因2、`ExternalProvisioning` なら原因3、`ProvisioningFailed` なら原因4、`FailedBinding` なら原因5です。
 
-Events が空のこともあります。[イベント](/glossary/イベント/)は既定で一定時間後に消えるため、時間の経った要求には何も残りません。その場合は、指定している[クラス](/glossary/クラス/)の結合の設定を先に確認します。
+Events が空のこともあります。[イベント](/glossary/イベント/)は既定で一定時間後に消えるため、時間の経った要求には何も残りません。その場合は、指定している[クラス](/glossary/クラス/)の結合の[設定](/glossary/設定/)を先に確認します。
 
 ```bash
 kubectl get sc <クラス名> -o jsonpath='{.volumeBindingMode}{"\n"}{.provisioner}{"\n"}'
@@ -77,17 +77,17 @@ kubectl get sc <クラス名> -o jsonpath='{.volumeBindingMode}{"\n"}{.provision
 
 ### 原因1：結合を遅らせる設定で、使う相手がまだいない
 
-`WaitForFirstConsumer` は、公式ドキュメントに書かれたとおりの動きです。この設定は、PVC を使う Pod ができるまで結合と作成を遅らせます。目的は、置ける場所が限られる[ストレージ](/glossary/ストレージ/)で、Pod の配置条件を知らないまま先に割り当ててしまい、結果として置き場所の無い Pod ができることを防ぐことにあります。
+`WaitForFirstConsumer` は、公式ドキュメントに書かれたとおりの動きです。この[設定](/glossary/設定/)は、PVC を使う Pod ができるまで結合と作成を遅らせます。目的は、置ける場所が限られる[ストレージ](/glossary/ストレージ/)で、Pod の配置条件を知らないまま先に割り当ててしまい、結果として置き場所の無い Pod ができることを防ぐことにあります。
 
 この Reason が出ている間は何も壊れていません。PVC を使う Pod を作れば先へ進みます。Pod を作っても変わらないなら、Reason は原因2の語に変わっているはずです。
 
-**Before（待機を異常と判断して設定を書き換える）：**
+**Before（待機を異常と判断して[設定](/glossary/設定/)を書き換える）：**
 
 ```yaml
 volumeBindingMode: Immediate
 ```
 
-**After（設定は変えず、要求を使う相手を作る）：**
+**After（[設定](/glossary/設定/)は変えず、要求を使う相手を作る）：**
 
 ```yaml
 spec:
@@ -193,13 +193,13 @@ kubectl patch pv <領域名> -p '{"spec":{"claimRef": null}}'
 
 中身が残ったままの領域を再び使う操作なので、前の利用者のデータが残っている点を承知したうえで行ってください。
 
-もう1つ、[クラス](/glossary/クラス/)名の扱いにも規則があります。空文字を明示した要求は「[クラス](/glossary/クラス/)無し」を求めるものとして扱われ、同じく[クラス](/glossary/クラス/)無しの領域としか結合しません。未指定は別扱いで、既定の[クラス](/glossary/クラス/)があればそれが使われます。既定が無い時期に未指定で作った要求は、作り直す必要がありません。後から既定を用意すれば、制御側が未指定の要求を見つけて設定します。この遡及の動きは v1.28 で安定版になりました。ただし空文字を明示した要求は対象外です。
+もう1つ、[クラス](/glossary/クラス/)名の扱いにも規則があります。空文字を明示した要求は「[クラス](/glossary/クラス/)無し」を求めるものとして扱われ、同じく[クラス](/glossary/クラス/)無しの領域としか結合しません。未指定は別扱いで、既定の[クラス](/glossary/クラス/)があればそれが使われます。既定が無い時期に未指定で作った要求は、作り直す必要がありません。後から既定を用意すれば、制御側が未指定の要求を見つけて[設定](/glossary/設定/)します。この遡及の動きは v1.28 で安定版になりました。ただし空文字を明示した要求は対象外です。
 
 ## 補足：似ているが別のもの
 
 Pod が Pending の場合は別の[コード](/glossary/コード/)が担当します。要求が結合されていないことが Pod の停止として現れているだけのこともあり、その場合は本記事の系統に戻ってきます（[Kubernetes の Pending の記事](/posts/kubernetes_pending/)）。
 
-Pod 側に `pod has unbound immediate PersistentVolumeClaims` が出る場合は、結合の設定が `Immediate` で、まだ結合が終わっていないという意味です。この文言が出ている間は、配置の判断そのものが行われません。
+Pod 側に `pod has unbound immediate PersistentVolumeClaims` が出る場合は、結合の[設定](/glossary/設定/)が `Immediate` で、まだ結合が終わっていないという意味です。この文言が出ている間は、配置の判断そのものが行われません。
 
 要求の状態が `Lost` の場合は Pending とは違います。一度は結合していた領域が失われた状態で、データが残っていないことを示します。
 
@@ -215,7 +215,7 @@ Pod 側に `pod has unbound immediate PersistentVolumeClaims` が出る場合は
 4. `ExternalProvisioning` が繰り返し出ているなら、指定名と動いている担当の一覧を突き合わせる。
 5. `ProvisioningFailed` なら、Warning の文言をそのまま読む。理由は文言に含まれている。
 6. `FailedBinding` なら、既存の領域を一覧し、[容量](/glossary/容量/)・利用の形式・[クラス](/glossary/クラス/)名・状態の4点を順に照らす。
-7. Events が空なら、指定している[クラス](/glossary/クラス/)の結合の設定と作成担当の名前を確認する。
+7. Events が空なら、指定している[クラス](/glossary/クラス/)の結合の[設定](/glossary/設定/)と作成担当の名前を確認する。
 8. それでも決まらない場合は、制御側の記録を要求名で絞り込む。
 
 ## 確認コマンド集
@@ -250,7 +250,7 @@ kubectl logs -n kube-system -l component=kube-controller-manager --tail=200 | gr
 
 Reason の1語が決め手になるという読み方は、後から補われたものです。その経緯が [kubernetes/kubernetes の Issue #88229](https://github.com/kubernetes/kubernetes/issues/88229) に残っています。2020年2月17日に開かれ、既に閉じられています。
 
-報告の内容はこうです。結合を遅らせる設定を使っていて、PVC が結合されない。Pod 側には条件に合う領域が見つからないという明確な記録が出ているのに、PVC 側には「最初の利用者ができるのを待っている」という文言しか出ない。しかし Pod は既に存在している。実際の理由は、指定した[クラス](/glossary/クラス/)が動的な作成を行わない設定で、条件に合う既存の領域も無かったことでした。
+報告の内容はこうです。結合を遅らせる[設定](/glossary/設定/)を使っていて、PVC が結合されない。Pod 側には条件に合う領域が見つからないという明確な記録が出ているのに、PVC 側には「最初の利用者ができるのを待っている」という文言しか出ない。しかし Pod は既に存在している。実際の理由は、指定した[クラス](/glossary/クラス/)が動的な作成を行わない[設定](/glossary/設定/)で、条件に合う既存の領域も無かったことでした。
 
 報告者が求めたのは、Pod 側と同じ内容を PVC 側にも出すことです。この報告を受けて出された変更（[Pull Request #91455](https://github.com/kubernetes/kubernetes/pull/91455)）が、`WaitForPodScheduled` を追加しました。要求を参照する Pod が見つかった場合には、待機の文言を「その Pod の配置を待っている」に切り替えるという内容です。変更の説明には、対象が1つの場合と2つの場合の表示例が並べて示されています。
 

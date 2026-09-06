@@ -87,17 +87,17 @@ docker system prune -a
 
 [削除](/glossary/削除/)は元に戻せないため、docker system df で内訳を確認してから実行してください。
 
-メッセージの文言だけで原因が分からない場合は、[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認します。公式ドキュメントによると、systemd を使う Linux では次の[コマンド](/glossary/コマンド/)で確認できます。
+メッセージの文言だけで原因が分からない場合は、[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認します。公式ドキュメントによると、systemd を使う [Linux](/glossary/linux/) では次の[コマンド](/glossary/コマンド/)で確認できます。
 
 ```bash
 sudo journalctl -u docker.service -n 100 --no-pager
 ```
 
-さらに詳しい記録が必要な場合は、[設定ファイル](/glossary/設定ファイル/) /etc/docker/daemon.json に "debug": true を追加し、[デーモン](/glossary/デーモン/)に設定を読み直させると、動作の詳細が[ログ](/glossary/ログ/)に出力されるようになります（公式ドキュメント記載の手順）。
+さらに詳しい記録が必要な場合は、[設定ファイル](/glossary/設定ファイル/) /etc/docker/daemon.json に "debug": true を追加し、[デーモン](/glossary/デーモン/)に[設定](/glossary/設定/)を読み直させると、動作の詳細が[ログ](/glossary/ログ/)に出力されるようになります（公式ドキュメント記載の手順）。
 
 ## 補足：500ではない類似エラー
 
-500の調査だと思っていたものが、実は別の問題であることがよくあります。「Cannot connect to the [Docker](/glossary/docker/) daemon at ... Is the docker daemon running?」は、[デーモン](/glossary/デーモン/)に到達できない状態です。Linux であれば sudo systemctl status docker で[デーモン](/glossary/デーモン/)の稼働を確認し、停止していれば sudo systemctl start docker で起動します。起動に失敗する場合は journalctl -u docker.service で失敗の理由を確認します。「permission denied」がソケット（/var/run/docker.sock）絡みで出る場合は、実行ユーザーの[権限](/glossary/権限/)の問題です。これらはいずれも[デーモン](/glossary/デーモン/)が500を返したのではなく、そもそも応答を受け取れていない状態なので、調査の対象が異なります。
+500の調査だと思っていたものが、実は別の問題であることがよくあります。「Cannot connect to the [Docker](/glossary/docker/) daemon at ... Is the docker daemon running?」は、[デーモン](/glossary/デーモン/)に到達できない状態です。[Linux](/glossary/linux/) であれば sudo systemctl status docker で[デーモン](/glossary/デーモン/)の稼働を確認し、停止していれば sudo systemctl start docker で起動します。起動に失敗する場合は journalctl -u docker.service で失敗の理由を確認します。「permission denied」がソケット（/var/run/docker.sock）絡みで出る場合は、実行ユーザーの[権限](/glossary/権限/)の問題です。これらはいずれも[デーモン](/glossary/デーモン/)が500を返したのではなく、そもそも応答を受け取れていない状態なので、調査の対象が異なります。
 
 ## 切り分けの順序
 

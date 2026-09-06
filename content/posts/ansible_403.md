@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Ansibleで403[エラー](/glossary/エラー/)が発生する場合、ターゲットシステムへの[アクセス権限](/glossary/アクセス権限/)が不足していることを意味します。この[エラー](/glossary/エラー/)はSSH接続後、実行対象のタスクや[ファイル](/glossary/ファイル/)操作時に権限不足を検出した際に表示されます。Ansibleが接続した[ユーザーアカウント](/glossary/ユーザーアカウント/)に必要な[権限](/glossary/権限/)がないため、[コマンド](/glossary/コマンド/)実行や[ファイル](/glossary/ファイル/)読み書きが拒否される状況です。
+Ansibleで403[エラー](/glossary/エラー/)が発生する場合、ターゲットシステムへの[アクセス権限](/glossary/アクセス権限/)が不足していることを意味します。この[エラー](/glossary/エラー/)はSSH接続後、実行対象の[タスク](/glossary/タスク/)や[ファイル](/glossary/ファイル/)操作時に権限不足を検出した際に表示されます。Ansibleが接続した[ユーザーアカウント](/glossary/ユーザーアカウント/)に必要な[権限](/glossary/権限/)がないため、[コマンド](/glossary/コマンド/)実行や[ファイル](/glossary/ファイル/)読み書きが拒否される状況です。
 
 ## 実際のエラーメッセージ例
 
@@ -48,7 +48,7 @@ FAILED! => {
 
 ### 原因1：SSHユーザーにsudo権限が付与されていない
 
-Ansibleで接続した[ユーザーアカウント](/glossary/ユーザーアカウント/)に対して、sudo実行権限そのものが付与されていないケースです。`become: true`を指定してroot[権限](/glossary/権限/)での実行を試みても、sudo[権限](/glossary/権限/)がなければタスクは失敗します。
+Ansibleで接続した[ユーザーアカウント](/glossary/ユーザーアカウント/)に対して、sudo実行権限そのものが付与されていないケースです。`become: true`を指定してroot[権限](/glossary/権限/)での実行を試みても、sudo[権限](/glossary/権限/)がなければ[タスク](/glossary/タスク/)は失敗します。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -79,7 +79,7 @@ Ansibleで接続した[ユーザーアカウント](/glossary/ユーザーアカ
       become_user: root
 ```
 
-対応するターゲットホスト側の設定：
+対応するターゲットホスト側の[設定](/glossary/設定/)：
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -112,7 +112,7 @@ sudoers[ファイル](/glossary/ファイル/)で特定の[コマンド](/glossa
       become: true
 ```
 
-対応するターゲットホスト側の制限的な設定：
+対応するターゲットホスト側の制限的な[設定](/glossary/設定/)：
 
 ```bash
 # /etc/sudoers.d/ansible - systemctl の特定コマンドのみ許可
@@ -212,9 +212,9 @@ sudo -l
 
 この[コマンド](/glossary/コマンド/)の出力から、そのユーザーが実行可能な[コマンド](/glossary/コマンド/)が明記されます。`(ALL) NOPASSWD:ALL`と表示されれば、すべての[コマンド](/glossary/コマンド/)が許可されている状態です。
 
-**Ansibleプレイブックでのbecome設定**
+**Ansibleプレイブックでのbecome[設定](/glossary/設定/)**
 
-`become`と`become_user`の組み合わせは以下のパターンがあります。
+`become`と`become_user`の組み合わせは以下の[パターン](/glossary/パターン/)があります。
 
 ```yaml
 # パターン1：sudo で root に昇格（デフォルト）
@@ -266,11 +266,11 @@ sudo tail -f /var/log/auth.log  # Debian/Ubuntu の場合
 sudo tail -f /var/log/secure   # RHEL/CentOS の場合
 ```
 
-`sudo: <user> : command not allowed`のようなメッセージが表示されていれば、sudoersの設定を再確認してください。
+`sudo: <user> : command not allowed`のようなメッセージが表示されていれば、sudoersの[設定](/glossary/設定/)を再確認してください。
 
 **ターゲットホストでの[コマンド](/glossary/コマンド/)実行[テスト](/glossary/テスト/)**
 
-ローカルでプレイブックの各タスクを手動で実行してみることで、権限問題を特定しやすくなります。
+ローカルでプレイブックの各[タスク](/glossary/タスク/)を手動で実行してみることで、権限問題を特定しやすくなります。
 
 ```bash
 # Ansibleが接続するユーザーで直接実行

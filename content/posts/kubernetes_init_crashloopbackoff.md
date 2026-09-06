@@ -200,16 +200,16 @@ kubectl describe node <node-name>
 
 ## 補足：似ているが別のもの
 
-- **`CrashLoopBackOff`（`Init:` なし）**：通常[コンテナ](/glossary/コンテナ/)が起動後にクラッシュして再起動を繰り返している状態です。init container が成功するまで通常[コンテナ](/glossary/コンテナ/)は起動しないため、`Init:CrashLoopBackOff` の原因調査に本体[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)や設定を持ち込むと切り分けがずれます。両者は別々に[修正](/glossary/修正/)してください。
+- **`CrashLoopBackOff`（`Init:` なし）**：通常[コンテナ](/glossary/コンテナ/)が起動後にクラッシュして再起動を繰り返している状態です。init container が成功するまで通常[コンテナ](/glossary/コンテナ/)は起動しないため、`Init:CrashLoopBackOff` の原因調査に本体[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)や[設定](/glossary/設定/)を持ち込むと切り分けがずれます。両者は別々に[修正](/glossary/修正/)してください。
 - **`Init:Error`**：init container が失敗して終了した状態の表示です。`Init:CrashLoopBackOff` は、その失敗と再起動が繰り返されて[バックオフ](/glossary/バックオフ/)待ちになった状態を指します。`restartPolicy` が `Never` の場合は、公式ドキュメントの説明どおり Pod 全体が失敗として扱われるため、繰り返し再起動による[バックオフ](/glossary/バックオフ/)表示にはなりません。
-- **`FailedCreatePodSandbox`**：kubelet が Pod sandbox の作成に失敗した段階の[イベント](/glossary/イベント/)で、アプリコンテナ起動前の問題です（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。init container の[コマンド](/glossary/コマンド/)やマウント内容ではなく、[ネットワークプラグイン（CNI）とネットワーク設定](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)を優先して確認します。あわせて、[container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/) と pause / sandbox image の設定（containerd の場合は [CRI プラグインの設定](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）も切り分けの対象になります。
+- **`FailedCreatePodSandbox`**：kubelet が Pod sandbox の作成に失敗した段階の[イベント](/glossary/イベント/)で、アプリコンテナ起動前の問題です（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。init container の[コマンド](/glossary/コマンド/)やマウント内容ではなく、[ネットワークプラグイン（CNI）とネットワーク設定](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)を優先して確認します。あわせて、[container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/) と pause / sandbox image の[設定](/glossary/設定/)（containerd の場合は [CRI プラグインの設定](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）も切り分けの対象になります。
 - **サイドカーコンテナ**：公式ドキュメントでは、サイドカーコンテナは主アプリケーションコンテナより先に起動して動作を継続する[コンテナ](/glossary/コンテナ/)と説明されており、Pod の初期化中に完了まで実行される init container とは別の扱いです。長時間動き続ける処理を init container として書くと、完了しないまま[初期化](/glossary/初期化/)が止まります。自分の Pod がどちらの想定かは、[Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) の該当節で確認してください。
 
 ## 危険な対応を行う前の確認
 
 再起動が続く状況では手早く止めたくなりますが、次の対応は原因を隠したまま本番稼働させる結果になり得ます。主たる解決策として選ばないでください。
 
-- **init container を[削除](/glossary/削除/)・コメントアウトして起動させる**：[初期化](/glossary/初期化/)が完了しないまま本体[コンテナ](/glossary/コンテナ/)が動きます。マイグレーション、設定生成、証明書配置などを担う init container では、データ不整合や不完全な設定での稼働につながります。[削除](/glossary/削除/)する場合は、その初期化処理が本当に不要であることを確認してからにします。
+- **init container を[削除](/glossary/削除/)・コメントアウトして起動させる**：[初期化](/glossary/初期化/)が完了しないまま本体[コンテナ](/glossary/コンテナ/)が動きます。マイグレーション、設定生成、証明書配置などを担う init container では、データ不整合や不完全な[設定](/glossary/設定/)での稼働につながります。[削除](/glossary/削除/)する場合は、その初期化処理が本当に不要であることを確認してからにします。
 - **失敗する[コマンド](/glossary/コマンド/)の末尾に `|| true` を付けて成功扱いにする**：終了[コード](/glossary/コード/)だけが変わり、[初期化](/glossary/初期化/)の失敗は残ります。原因が特定できるまでは使いません。
 - **権限不足を広い[権限](/glossary/権限/)で解消する**：ServiceAccount に過剰な[権限](/glossary/権限/)を与えると、失敗の原因は消えても影響範囲が広がります。`kubectl auth can-i` で不足している操作を特定し、その操作だけを許可します。
 - **Pod を強制削除して証跡を消す**：`kubectl describe pod` の出力、`--previous` 付きの[ログ](/glossary/ログ/)、Events は再起動や[削除](/glossary/削除/)で失われます。対処に着手する前に[保存](/glossary/保存/)してください。

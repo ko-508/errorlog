@@ -89,7 +89,7 @@ git push origin main
 # 正常に push が完了
 ```
 
-IP ホワイトリストは Workspace レベルで設定されており、Workspace 管理者のみが変更可能です。詳細は Workspace Settings → IP Whitelisting で確認できます。
+IP ホワイトリストは Workspace レベルで[設定](/glossary/設定/)されており、Workspace 管理者のみが変更可能です。詳細は Workspace Settings → IP Whitelisting で確認できます。
 
 ### 原因3：チーム Project 管理者のみが実行できる操作を試みている
 
@@ -127,7 +127,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 ## ツール固有の注意点
 
-**Workspace と Repository の[ロール](/glossary/ロール/)区別：** Bitbucket では Workspace レベルと Repository レベルで異なる[ロール](/glossary/ロール/)設定を持ちます。Workspace 管理者でも、特定[リポジトリ](/glossary/リポジトリ/)に対して Read [ロール](/glossary/ロール/)のみが付与されている場合は、その[リポジトリ](/glossary/リポジトリ/)に対する write 操作は 403 [エラー](/glossary/エラー/)で拒否されます。
+**Workspace と Repository の[ロール](/glossary/ロール/)区別：** Bitbucket では Workspace レベルと Repository レベルで異なる[ロール](/glossary/ロール/)[設定](/glossary/設定/)を持ちます。Workspace 管理者でも、特定[リポジトリ](/glossary/リポジトリ/)に対して Read [ロール](/glossary/ロール/)のみが付与されている場合は、その[リポジトリ](/glossary/リポジトリ/)に対する write 操作は 403 [エラー](/glossary/エラー/)で拒否されます。
 
 **[API](/glossary/api/) アクセストークンの[権限](/glossary/権限/)：** [REST](/glossary/rest/) [API](/glossary/api/) を使用する場合、Personal Access Token または App Password が持つ[スコープ](/glossary/スコープ/)[権限](/glossary/権限/)も確認が必要です。[トークン](/glossary/トークン/)生成時に `repository:write` [スコープ](/glossary/スコープ/)を付与していない場合、[API](/glossary/api/) 経由での push や[コミット](/glossary/コミット/)作成は 403 で失敗します。
 
@@ -146,7 +146,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
    # macOS（Keychain）
    security delete-internet-password -s bitbucket.org
    
-   # Linux（[キャッシュ](/glossary/キャッシュ/)をクリア）
+   # [Linux](/glossary/linux/)（[キャッシュ](/glossary/キャッシュ/)をクリア）
    git credential reject https://bitbucket.org
    ```
 

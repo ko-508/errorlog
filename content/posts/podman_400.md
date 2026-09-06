@@ -111,7 +111,7 @@ podman run --net bridge ubuntu:latest
 
 ## Podman 固有の注意点
 
-Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー/)を使用している場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の `Content-Type` [ヘッダー](/glossary/ヘッダー/)が正しく設定されていないと 400 [エラー](/glossary/エラー/)が発生します。`application/json` を指定し、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式であることを確認してください。
+Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー/)を使用している場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の `Content-Type` [ヘッダー](/glossary/ヘッダー/)が正しく[設定](/glossary/設定/)されていないと 400 [エラー](/glossary/エラー/)が発生します。`application/json` を指定し、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式であることを確認してください。
 
 Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古い[バージョン](/glossary/バージョン/)の [API](/glossary/api/) [パス](/glossary/パス/)を使用すると 400 [エラー](/glossary/エラー/)が返されます。
 

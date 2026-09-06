@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Nginx における 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が [HTTP](/glossary/http/) 仕様に違反していることを示します。リクエストヘッダーの形式が不正、サイズ超過、または URI の不正な文字エンコーディングなどが原因となり、[サーバー](/glossary/サーバー/)側で処理できない状態を意味します。本[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題であるため、[サーバー](/glossary/サーバー/)設定と[リクエスト](/glossary/リクエスト/)内容の両面から原因特定が必要です。
+Nginx における 400 [エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)から[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が [HTTP](/glossary/http/) 仕様に違反していることを示します。リクエストヘッダーの形式が不正、サイズ超過、または URI の不正な文字エンコーディングなどが原因となり、[サーバー](/glossary/サーバー/)側で処理できない状態を意味します。本[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題であるため、[サーバー](/glossary/サーバー/)[設定](/glossary/設定/)と[リクエスト](/glossary/リクエスト/)内容の両面から原因特定が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -36,7 +36,7 @@ Nginx のアクセスログに記録される 400 [エラー](/glossary/エラ�
 ### 原因1：リクエストヘッダーサイズの超過
 
 **なぜ発生するか**  
-Nginx は `large_client_header_buffers` で設定されたサイズ制限を超える[ヘッダー](/glossary/ヘッダー/)を受け取ると、400 [エラー](/glossary/エラー/)を返します。これは[メモリ](/glossary/メモリ/)消費やバッファオーバーフロー攻撃を防ぐための保護機構です。特に Cookie やカスタムヘッダーが多い場合に発生しやすくなります。
+Nginx は `large_client_header_buffers` で[設定](/glossary/設定/)されたサイズ制限を超える[ヘッダー](/glossary/ヘッダー/)を受け取ると、400 [エラー](/glossary/エラー/)を返します。これは[メモリ](/glossary/メモリ/)消費やバッファオーバーフロー攻撃を防ぐための保護機構です。特に Cookie やカスタムヘッダーが多い場合に発生しやすくなります。
 
 **Before（[デフォルト設定](/glossary/デフォルト設定/)での問題）**
 ```nginx
@@ -69,7 +69,7 @@ server {
 }
 ```
 
-修正後、Nginx を再起動して設定を反映させます。
+修正後、Nginx を再起動して[設定](/glossary/設定/)を反映させます。
 ```bash
 sudo nginx -t && sudo systemctl restart nginx
 ```
@@ -77,7 +77,7 @@ sudo nginx -t && sudo systemctl restart nginx
 ### 原因2：URI に含まれる不正な文字やエンコーディング
 
 **なぜ発生するか**  
-[URL](/glossary/url/) に日本語やマルチバイト文字が直接含まれていたり、%エンコーディングが不正な場合、Nginx が [HTTP](/glossary/http/) 仕様違反と判定します。[ブラウザ](/glossary/ブラウザ/)から自動的に[送信](/glossary/送信/)される場合や[API](/glossary/api/) [クライアント](/glossary/クライアント/)の設定ミスで発生することが多いです。
+[URL](/glossary/url/) に日本語やマルチバイト文字が直接含まれていたり、%エンコーディングが不正な場合、Nginx が [HTTP](/glossary/http/) 仕様違反と判定します。[ブラウザ](/glossary/ブラウザ/)から自動的に[送信](/glossary/送信/)される場合や[API](/glossary/api/) [クライアント](/glossary/クライアント/)の[設定](/glossary/設定/)ミスで発生することが多いです。
 
 **Before（不正なエンコーディング例）**
 ```javascript
@@ -151,7 +151,7 @@ server {
 
 ### location ブロック内での URI 検証
 
-Nginx の `if` ディレクティブで URI パターンをチェックし、不正な[リクエスト](/glossary/リクエスト/)を事前に遮断できます。
+Nginx の `if` ディレクティブで URI [パターン](/glossary/パターン/)をチェックし、不正な[リクエスト](/glossary/リクエスト/)を事前に遮断できます。
 
 ```nginx
 server {
@@ -244,7 +244,7 @@ sudo nginx -T | head -50
 
 ### コミュニティリソース
 
-Nginx のスタックオーバーフローや[GitHub](/glossary/github/) Issues で「400 bad request」を検索すると、環境固有の事例が見つかることがあります。特にリバースプロキシや[ロードバランサー](/glossary/ロードバランサー/)の背後での設定については参考になる質問が多く掲載されています。
+Nginx のスタックオーバーフローや[GitHub](/glossary/github/) Issues で「400 bad request」を検索すると、環境固有の事例が見つかることがあります。特にリバースプロキシや[ロードバランサー](/glossary/ロードバランサー/)の背後での[設定](/glossary/設定/)については参考になる質問が多く掲載されています。
 
 ---
 

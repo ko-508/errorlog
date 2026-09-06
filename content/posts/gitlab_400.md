@@ -165,9 +165,9 @@ print(response.json())
 
 **[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)（返信）の message [フィールド](/glossary/フィールド/)の重要性：**
 
-GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` [フィールド](/glossary/フィールド/)に具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを確認することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に設定されていることが判断できます。
+GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` [フィールド](/glossary/フィールド/)に具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを確認することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に[設定](/glossary/設定/)されていることが判断できます。
 
-**[プロジェクト](/glossary/プロジェクト/)設定による [CI/CD](/glossary/ci-cd/) 有効化の確認：**
+**[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)による [CI/CD](/glossary/ci-cd/) 有効化の確認：**
 
 稀に、プロジェクトレベルで [CI/CD](/glossary/ci-cd/) が無効化されていると 400 [エラー](/glossary/エラー/)が返される場合があります。`Settings` → `General` → `Visibility, project features, permissions` で [CI/CD](/glossary/ci-cd/) を有効化しているか確認してください。
 

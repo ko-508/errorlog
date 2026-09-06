@@ -27,7 +27,7 @@ unix:///var/run/docker.sock: dial unix /var/run/docker.sock:
 connect: permission denied
 ```
 
-これは、**daemon の停止を確認する前に、利用者がソケットへ接続する[権限](/glossary/権限/)を疑うべき文言**です。Linuxでは通常、`/var/run/docker.sock` を通して[Docker](/glossary/docker/) [API](/glossary/api/)を呼びます。ソケットが `root:docker` の所有で、現在の利用者が有効な `docker` グループに入っていなければ、接続の時点で拒否されます。
+これは、**daemon の停止を確認する前に、利用者がソケットへ接続する[権限](/glossary/権限/)を疑うべき文言**です。[Linux](/glossary/linux/)では通常、`/var/run/docker.sock` を通して[Docker](/glossary/docker/) [API](/glossary/api/)を呼びます。ソケットが `root:docker` の所有で、現在の利用者が有効な `docker` グループに入っていなければ、接続の時点で拒否されます。
 
 2つは同じ接続失敗の系統ですが、同じ原因ではありません。読むべき部分は末尾です。
 
@@ -61,7 +61,7 @@ dial unix /var/run/docker.sock: connect: permission denied
 
 途中の `http://%2Fvar%2Frun%2Fdocker.sock/...` は、外部のWebサイトへ接続しているという意味ではありません。[Docker](/glossary/docker/) [CLI](/glossary/cli/)がUnixソケット上で[HTTP](/glossary/http/)形式の[API](/glossary/api/)を使うため、その内部表現が[エラー](/glossary/エラー/)に出ています。原因を示すのは末尾の `dial unix ... permission denied` です。
 
-この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)の取得や[コンテナ](/glossary/コンテナ/)の作成より前に起きます。したがって、Dockerfile、Compose[ファイル](/glossary/ファイル/)、対象[コンテナ](/glossary/コンテナ/)の設定を直しても解決しません。
+この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)の取得や[コンテナ](/glossary/コンテナ/)の作成より前に起きます。したがって、Dockerfile、Compose[ファイル](/glossary/ファイル/)、対象[コンテナ](/glossary/コンテナ/)の[設定](/glossary/設定/)を直しても解決しません。
 
 ## まず最初に：接続先・稼働状態・権限を分ける
 
@@ -73,9 +73,9 @@ docker context ls
 env | grep -E '^DOCKER_(HOST|CONTEXT)='
 ```
 
-第二に、その接続先に合った方法でdaemonの稼働状態を確認します。通常のLinux版[Docker](/glossary/docker/) Engineなら `systemctl`、Rootless modeなら `systemctl --user`、[Docker](/glossary/docker/) Desktopならアプリ本体の状態を見ます。
+第二に、その接続先に合った方法でdaemonの稼働状態を確認します。通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineなら `systemctl`、Rootless modeなら `systemctl --user`、[Docker](/glossary/docker/) Desktopならアプリ本体の状態を見ます。
 
-第三に、Linuxの `/var/run/docker.sock` へ接続している場合だけ、ソケットの所有者と現在のグループを確認します。
+第三に、[Linux](/glossary/linux/)の `/var/run/docker.sock` へ接続している場合だけ、ソケットの所有者と現在のグループを確認します。
 
 ```bash
 stat -c '%A %U %G %n' /var/run/docker.sock
@@ -88,7 +88,7 @@ id -nG
 
 ### 原因1：Docker daemonが起動していない
 
-通常のLinux版[Docker](/glossary/docker/) Engineでは、まずサービスの状態を確認します。
+通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineでは、まずサービスの状態を確認します。
 
 ```bash
 sudo systemctl is-active docker
@@ -118,7 +118,7 @@ sudo journalctl -u docker.service -n 100 --no-pager
 
 ### 原因2：`docker` グループが現在の接続に反映されていない
 
-Linux版[Docker](/glossary/docker/) Engineをroot[権限](/glossary/権限/)で動かす標準的な構成では、daemonが `docker` グループから使えるUnixソケットを作ります。[公式の導入後手順](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)は、利用者をそのグループへ追加し、[ログイン](/glossary/ログイン/)し直すよう案内しています。
+[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineをroot[権限](/glossary/権限/)で動かす標準的な構成では、daemonが `docker` グループから使えるUnixソケットを作ります。[公式の導入後手順](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)は、利用者をそのグループへ追加し、[ログイン](/glossary/ログイン/)し直すよう案内しています。
 
 **Before（グループ一覧に `docker` がない）：**
 
@@ -164,7 +164,7 @@ namei -l /var/run/docker.sock
 sudo chmod 666 /var/run/docker.sock
 ```
 
-これは全利用者に[Docker](/glossary/docker/) [API](/glossary/api/)の操作を許可します。[Docker](/glossary/docker/)はホストの任意の場所を[コンテナ](/glossary/コンテナ/)へマウントできるため、[公式のセキュリティ文書](https://docs.docker.com/engine/security/#docker-daemon-attack-surface)はdaemonを操作できる利用者を信頼済みに限定するよう求めています。また、ソケットはdaemonの再起動時に作り直されるため、手作業の変更は恒久的な設定にもなりません。
+これは全利用者に[Docker](/glossary/docker/) [API](/glossary/api/)の操作を許可します。[Docker](/glossary/docker/)はホストの任意の場所を[コンテナ](/glossary/コンテナ/)へマウントできるため、[公式のセキュリティ文書](https://docs.docker.com/engine/security/#docker-daemon-attack-surface)はdaemonを操作できる利用者を信頼済みに限定するよう求めています。また、ソケットはdaemonの再起動時に作り直されるため、手作業の変更は恒久的な[設定](/glossary/設定/)にもなりません。
 
 所有者を直接書き換える前に、[Docker](/glossary/docker/)の起動方法と接続先を直してください。
 
@@ -182,7 +182,7 @@ env | grep -E '^DOCKER_(HOST|CONTEXT)='
 
 [Docker CLIの公式資料](https://docs.docker.com/reference/cli/docker/#environment-variables)では、`DOCKER_HOST` がdaemonの接続先を指定し、`DOCKER_CONTEXT` はその `DOCKER_HOST` と保存済みの既定contextを上書きすると説明されています。つまり `docker context use default` を実行しても、[環境変数](/glossary/環境変数/)が残っていれば期待した接続先にならない場合があります。
 
-誤って設定されていた場合は、現在の[シェル](/glossary/シェル/)から外します。
+誤って[設定](/glossary/設定/)されていた場合は、現在の[シェル](/glossary/シェル/)から外します。
 
 ```bash
 unset DOCKER_HOST DOCKER_CONTEXT
@@ -215,9 +215,9 @@ export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
 
 ### 原因6：Docker Desktopが停止している、またはcontextがずれている
 
-macOSとWindowsでは、`dockerd` を `systemctl` で起動するのではなく、[Docker](/glossary/docker/) Desktopを起動します。Linux版[Docker](/glossary/docker/) Desktopも、ホストへ直接入れた[Docker](/glossary/docker/) Engineとは別の[環境](/glossary/環境/)です。
+macOSとWindowsでは、`dockerd` を `systemctl` で起動するのではなく、[Docker](/glossary/docker/) Desktopを起動します。[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopも、ホストへ直接入れた[Docker](/glossary/docker/) Engineとは別の[環境](/glossary/環境/)です。
 
-Linux版[Docker](/glossary/docker/) Desktopは `desktop-linux` contextを作り、起動中は[CLI](/glossary/cli/)の接続先として選びます。停止時には以前のcontextへ戻すため、ホスト側の[Docker](/glossary/docker/) Engineと両方を入れている[環境](/glossary/環境/)ではまずcontextを確認します。
+[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopは `desktop-linux` contextを作り、起動中は[CLI](/glossary/cli/)の接続先として選びます。停止時には以前のcontextへ戻すため、ホスト側の[Docker](/glossary/docker/) Engineと両方を入れている[環境](/glossary/環境/)ではまずcontextを確認します。
 
 ```bash
 docker context ls
@@ -225,13 +225,13 @@ docker context use desktop-linux
 docker info
 ```
 
-Linux版[Docker](/glossary/docker/) Desktop本体は次でも起動できます。
+[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktop本体は次でも起動できます。
 
 ```bash
 systemctl --user start docker-desktop
 ```
 
-さらに、Linux版[Docker](/glossary/docker/) Desktopは `/var/run/docker.sock` ではなく、利用者ごとの `~/.docker/desktop/docker.sock` を使います。[Docker](/glossary/docker/) [CLI](/glossary/cli/)はcontextを通して自動で扱いますが、[SDK](/glossary/sdk/)など、ソケットを直接見る道具には[公式FAQ](https://docs.docker.com/desktop/troubleshoot-and-support/faqs/linuxfaqs/)の説明どおり接続先の指定が必要です。
+さらに、[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopは `/var/run/docker.sock` ではなく、利用者ごとの `~/.docker/desktop/docker.sock` を使います。[Docker](/glossary/docker/) [CLI](/glossary/cli/)はcontextを通して自動で扱いますが、[SDK](/glossary/sdk/)など、ソケットを直接見る道具には[公式FAQ](https://docs.docker.com/desktop/troubleshoot-and-support/faqs/linuxfaqs/)の説明どおり接続先の指定が必要です。
 
 ```bash
 export DOCKER_HOST="unix://$HOME/.docker/desktop/docker.sock"
@@ -239,7 +239,7 @@ export DOCKER_HOST="unix://$HOME/.docker/desktop/docker.sock"
 
 ### 原因7：`sudo` の使用で `~/.docker` がroot所有になった
 
-これはdaemonソケットの `permission denied` とは別です。次の警告なら、[クライアント](/glossary/クライアント/)設定の所有権を直します。
+これはdaemonソケットの `permission denied` とは別です。次の警告なら、[クライアント](/glossary/クライアント/)[設定](/glossary/設定/)の所有権を直します。
 
 ```text
 WARNING: Error loading config file: /home/user/.docker/config.json -
@@ -253,11 +253,11 @@ sudo chown "$USER":"$USER" "$HOME/.docker" -R
 sudo chmod g+rwx "$HOME/.docker" -R
 ```
 
-`/var/run/docker.sock` と `~/.docker/config.json` は場所も役割も違います。前者はdaemonとの通信口、後者は[クライアント](/glossary/クライアント/)の設定です。[エラー](/glossary/エラー/)に出た[パス](/glossary/パス/)を見て分けてください。
+`/var/run/docker.sock` と `~/.docker/config.json` は場所も役割も違います。前者はdaemonとの通信口、後者は[クライアント](/glossary/クライアント/)の[設定](/glossary/設定/)です。[エラー](/glossary/エラー/)に出た[パス](/glossary/パス/)を見て分けてください。
 
 ## 補足：似ているが別のもの
 
-`error during connect` の後に[証明書](/glossary/証明書/)の検証[エラー](/glossary/エラー/)が出る場合は、TCP接続と[TLS](/glossary/tls/)[証明書](/glossary/証明書/)の問題です。daemon停止やUnixソケットのグループ設定ではありません。遠隔接続を[HTTP](/glossary/http/)で公開する場合、[Docker](/glossary/docker/)公式は[TLS](/glossary/tls/)と[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)で保護するよう案内しています。
+`error during connect` の後に[証明書](/glossary/証明書/)の検証[エラー](/glossary/エラー/)が出る場合は、TCP接続と[TLS](/glossary/tls/)[証明書](/glossary/証明書/)の問題です。daemon停止やUnixソケットのグループ[設定](/glossary/設定/)ではありません。遠隔接続を[HTTP](/glossary/http/)で公開する場合、[Docker](/glossary/docker/)公式は[TLS](/glossary/tls/)と[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)で保護するよう案内しています。
 
 `Cannot connect` の前後に `context deadline exceeded` が出る場合は、接続先が無応答または到達不能になっている可能性があります。ローカルのソケット[権限](/glossary/権限/)だけでなく、遠隔ホスト、SSH、[ネットワーク](/glossary/ネットワーク/)を確認します。
 
@@ -274,7 +274,7 @@ sudo chmod g+rwx "$HOME/.docker" -R
 5. `/var/run/docker.sock` への `permission denied` なら、ソケットの所有グループと `id -nG` を比べる。
 6. グループを追加した直後なら、[ログイン](/glossary/ログイン/)し直すか `newgrp docker` で現在の接続へ反映する。
 7. `sudo docker info` は原因を絞る診断にだけ使う。常用して[設定ファイル](/glossary/設定ファイル/)の所有権問題を増やさない。
-8. `chmod 666` でソケットを全利用者へ開放しない。起動方法、context、正しいグループ設定を直す。
+8. `chmod 666` でソケットを全利用者へ開放しない。起動方法、context、正しいグループ[設定](/glossary/設定/)を直す。
 
 ## 確認コマンド集
 

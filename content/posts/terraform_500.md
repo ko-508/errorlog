@@ -58,7 +58,7 @@ plan や apply の最中に、[AWS](/glossary/aws/) などの[クラウド](/glo
 
 対処は、[クラウド](/glossary/クラウド/)側のステータス確認と、時間をおいた再実行です。ただし、途中まで進んだ apply を再実行する前に、必ず plan で現状との差分を確認してください。state に記録済みのリソースは再作成されませんが、「[クラウド](/glossary/クラウド/)側では作成が完了したのに、応答が届かず state に記録されなかった」可能性は排除できないためです。plan の差分に「すでに存在するはずのリソースの新規作成」が含まれていたら、実際の状態を確認してから進めます。
 
-**Before（再試行回数を絞っていて、一時[エラー](/glossary/エラー/)がそのまま失敗になる設定）：**
+**Before（再試行回数を絞っていて、一時[エラー](/glossary/エラー/)がそのまま失敗になる[設定](/glossary/設定/)）：**
 
 ```hcl
 provider "aws" {
@@ -92,7 +92,7 @@ state の取得・保存先や、リモート実行の基盤（HCP Terraform、�
 
 ### 原因3：Terraform Registry が内部エラーを返している（terraform init）
 
-terraform init はプロバイダーと[モジュール](/glossary/モジュール/)を Terraform Registry（registry.terraform.io）から取得します。[レジストリ](/glossary/レジストリ/)側の障害中は、設定を何も変えていなくても init が失敗します。現行の Terraform のソースコードのとおり、[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)は失敗時に自動で再試行されますが、既定の再試行回数は1回だけです。回数は[環境変数](/glossary/環境変数/) TF_REGISTRY_DISCOVERY_RETRY で、[タイムアウト](/glossary/タイムアウト/)秒数は TF_REGISTRY_CLIENT_TIMEOUT で変更できます。
+terraform init はプロバイダーと[モジュール](/glossary/モジュール/)を Terraform Registry（registry.terraform.io）から取得します。[レジストリ](/glossary/レジストリ/)側の障害中は、[設定](/glossary/設定/)を何も変えていなくても init が失敗します。現行の Terraform のソースコードのとおり、[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)は失敗時に自動で再試行されますが、既定の再試行回数は1回だけです。回数は[環境変数](/glossary/環境変数/) TF_REGISTRY_DISCOVERY_RETRY で、[タイムアウト](/glossary/タイムアウト/)秒数は TF_REGISTRY_CLIENT_TIMEOUT で変更できます。
 
 **Before（毎回まっさらな[環境](/glossary/環境/)でフル取得する CI。[レジストリ](/glossary/レジストリ/)の一時障害を直撃する）：**
 
@@ -151,9 +151,9 @@ ls .terraform/providers/registry.terraform.io/hashicorp/ 2>/dev/null
 
 ## Editor's Note
 
-原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合で[エラー](/glossary/エラー/)を返す状態になり、公式の告知に terraform init の[ワークフロー](/glossary/ワークフロー/)とドキュメント閲覧への影響が明記されました。原因は[レジストリ](/glossary/レジストリ/)の一部機能を支える[データベース](/glossary/データベース/)で、[データベース](/glossary/データベース/)のスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の設定を何も変えていないのに init が失敗する」という症状の裏に[レジストリ](/glossary/レジストリ/)側の障害があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから確認でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
+原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合で[エラー](/glossary/エラー/)を返す状態になり、公式の告知に terraform init の[ワークフロー](/glossary/ワークフロー/)とドキュメント閲覧への影響が明記されました。原因は[レジストリ](/glossary/レジストリ/)の一部機能を支える[データベース](/glossary/データベース/)で、[データベース](/glossary/データベース/)のスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の[設定](/glossary/設定/)を何も変えていないのに init が失敗する」という症状の裏に[レジストリ](/glossary/レジストリ/)側の障害があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから確認でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
 
-Terraform の500は、Terraform が「どこかの[サーバー](/glossary/サーバー/)の調子が悪い」と伝えているだけで、悪いのがどこかはメッセージの中の [URL](/glossary/url/) が教えてくれます。HCL や手元の設定を疑い始める前に、まず相手を特定することが確実な近道です。
+Terraform の500は、Terraform が「どこかの[サーバー](/glossary/サーバー/)の調子が悪い」と伝えているだけで、悪いのがどこかはメッセージの中の [URL](/glossary/url/) が教えてくれます。HCL や手元の[設定](/glossary/設定/)を疑い始める前に、まず相手を特定することが確実な近道です。
 
 ---
 

@@ -81,7 +81,7 @@ curl -X GET \
 
 ### 原因2：CIRCLE_TOKEN 環境変数が設定されていない
 
-CircleCI のジョブ内から [API](/glossary/api/) を呼び出す場合、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)が定義されていないと、curl や [API](/glossary/api/) クライアントライブラリが[トークン](/glossary/トークン/)を含めずに[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。結果として 401 [エラー](/glossary/エラー/)が返ります。この[環境変数](/glossary/環境変数/)は[プロジェクト](/glossary/プロジェクト/)設定またはコンテキスト（Context）で明示的に設定する必要があります。
+CircleCI のジョブ内から [API](/glossary/api/) を呼び出す場合、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)が定義されていないと、curl や [API](/glossary/api/) クライアントライブラリが[トークン](/glossary/トークン/)を含めずに[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。結果として 401 [エラー](/glossary/エラー/)が返ります。この[環境変数](/glossary/環境変数/)は[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)またはコンテキスト（Context）で明示的に[設定](/glossary/設定/)する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -199,7 +199,7 @@ Project Token 取得方法：Project Settings → Project [API](/glossary/api/) 
 
 **CircleCI [CLI](/glossary/cli/) との連携：**
 
-CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が設定されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)[環境](/glossary/環境/)に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に[保存](/glossary/保存/)します。
+CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が[設定](/glossary/設定/)されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)[環境](/glossary/環境/)に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に[保存](/glossary/保存/)します。
 
 ```bash
 # シェル環境に設定
@@ -239,7 +239,7 @@ curl -X GET \
 
 **ステップ2：ジョブ実行時のシークレット状態を確認**
 
-CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Details → Step Output で[環境変数](/glossary/環境変数/)がマスク（隠蔽）されているか確認します。[環境変数](/glossary/環境変数/)が表示されている場合、[トークン](/glossary/トークン/)が正しく設定されています。
+CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Details → Step Output で[環境変数](/glossary/環境変数/)がマスク（隠蔽）されているか確認します。[環境変数](/glossary/環境変数/)が表示されている場合、[トークン](/glossary/トークン/)が正しく[設定](/glossary/設定/)されています。
 
 **ステップ3：公式 [API](/glossary/api/) リファレンスの確認**
 

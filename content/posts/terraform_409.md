@@ -66,7 +66,7 @@ terraform import aws_s3_bucket.data_bucket my-existing-bucket
 terraform plan
 ```
 
-ACL（[アクセス制御](/glossary/アクセス制御/)リスト）を設定する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
+ACL（[アクセス制御](/glossary/アクセス制御/)リスト）を[設定](/glossary/設定/)する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
 
 ```hcl
 resource "aws_s3_bucket" "data_bucket" {

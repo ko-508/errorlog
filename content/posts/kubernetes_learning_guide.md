@@ -23,7 +23,7 @@ trend_incident: false
 
 [Docker](/glossary/docker/)との最大の違いはここにあります。[Docker](/glossary/docker/)では実行した命令がそのまま結果になりますが、[Kubernetes](/glossary/kubernetes/)では「こうあってほしい」という宣言を出し、それを実現しようとする過程が延々と続きます。したがって[エラー](/glossary/エラー/)は、失敗した瞬間ではなく、実現できないまま繰り返している状態として現れます。
 
-学ぶ順序は、Podと[コンテナ](/glossary/コンテナ/)、Deploymentと宣言、Serviceと[ネットワーク](/glossary/ネットワーク/)、設定とデータ、スケジューリングとリソース、[ログ](/glossary/ログ/)とトラブルシューティングの6段階です。各段階には「次へ進む目安」を置きました。飛ばした段階は、後の段階の[エラー](/glossary/エラー/)として別の顔で現れます。
+学ぶ順序は、Podと[コンテナ](/glossary/コンテナ/)、Deploymentと宣言、Serviceと[ネットワーク](/glossary/ネットワーク/)、[設定](/glossary/設定/)とデータ、スケジューリングとリソース、[ログ](/glossary/ログ/)とトラブルシューティングの6段階です。各段階には「次へ進む目安」を置きました。飛ばした段階は、後の段階の[エラー](/glossary/エラー/)として別の顔で現れます。
 
 ## 個別に直すだけでは理解しにくい理由
 
@@ -136,11 +136,11 @@ kubectl rollout undo deployment/<Deployment名>
 
 第一に、[コンテナ](/glossary/コンテナ/)が待ち受けている[ポート](/glossary/ポート/)です。Podの中の[プロセス](/glossary/プロセス/)が実際に開いている番号です。
 
-第二に、Serviceの `port` と `targetPort` です。公式ドキュメントによれば、Serviceは任意の[受信](/glossary/受信/) `port` を `targetPort` へ対応付けられます。既定では利便性のため、`targetPort` は `port` と同じ値に設定されます（[Service](https://kubernetes.io/docs/concepts/services-networking/service/)）。`port` がServiceの入口、`targetPort` がPod側の受け口です。同じページには、Podの[ポート](/glossary/ポート/)に名前を付けて `targetPort` からその名前で参照できることも記載されています。
+第二に、Serviceの `port` と `targetPort` です。公式ドキュメントによれば、Serviceは任意の[受信](/glossary/受信/) `port` を `targetPort` へ対応付けられます。既定では利便性のため、`targetPort` は `port` と同じ値に[設定](/glossary/設定/)されます（[Service](https://kubernetes.io/docs/concepts/services-networking/service/)）。`port` がServiceの入口、`targetPort` がPod側の受け口です。同じページには、Podの[ポート](/glossary/ポート/)に名前を付けて `targetPort` からその名前で参照できることも記載されています。
 
 第三に、クラスターの外からの入口です。Serviceの `type` は既定で `ClusterIP` であり、この場合はクラスターの内側からしか到達できません。外へ出すには別の型やIngressといった仕組みが要ります。
 
-そして名前解決です。公式ドキュメントによれば、Podの `/etc/resolv.conf` はkubeletが設定し、`search` には `<namespace>.svc.cluster.local`、`svc.cluster.local`、`cluster.local` が並びます。この展開により、`test` 名前空間のPodは `data.prod` でも `data.prod.svc.cluster.local` でも解決できます（[DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
+そして名前解決です。公式ドキュメントによれば、Podの `/etc/resolv.conf` はkubeletが[設定](/glossary/設定/)し、`search` には `<namespace>.svc.cluster.local`、`svc.cluster.local`、`cluster.local` が並びます。この展開により、`test` 名前空間のPodは `data.prod` でも `data.prod.svc.cluster.local` でも解決できます（[DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
 
 ここが `localhost` の話と繋がります。同じPodの中の[コンテナ](/glossary/コンテナ/)同士は `localhost` で[通信](/glossary/通信/)できますが、別のPodのサービスへ `localhost` と書いても届きません。Service名を書きます。名前空間が違えば `<Service名>.<名前空間>` と書きます。
 
@@ -180,7 +180,7 @@ kubectl port-forward service/<Service名> 8080:80
 
 つまり境界は2段あります。[コンテナ](/glossary/コンテナ/)の再起動をまたぐかどうかと、Podの消滅をまたぐかどうかです。前者はボリュームを使えば保たれ、後者は永続的なボリュームでなければ保たれません。
 
-設定については、ConfigMapとSecretで本体から切り離します。ここで重要な注意が公式に書かれています。[Kubernetes](/glossary/kubernetes/)のSecretは既定で[API](/glossary/api/)[サーバー](/glossary/サーバー/)の背後にあるデータストア（etcd）に[暗号化](/glossary/暗号化/)されずに[保存](/glossary/保存/)されます。[API](/glossary/api/)にアクセスできる者は誰でもSecretを取得または変更でき、etcdにアクセスできる者も同様です。さらに、ある名前空間でPodを作る[権限](/glossary/権限/)を持つ者は、その[権限](/glossary/権限/)を使って同じ名前空間の任意のSecretを読めます（[Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)）。
+[設定](/glossary/設定/)については、ConfigMapとSecretで本体から切り離します。ここで重要な注意が公式に書かれています。[Kubernetes](/glossary/kubernetes/)のSecretは既定で[API](/glossary/api/)[サーバー](/glossary/サーバー/)の背後にあるデータストア（etcd）に[暗号化](/glossary/暗号化/)されずに[保存](/glossary/保存/)されます。[API](/glossary/api/)にアクセスできる者は誰でもSecretを取得または変更でき、etcdにアクセスできる者も同様です。さらに、ある名前空間でPodを作る[権限](/glossary/権限/)を持つ者は、その[権限](/glossary/権限/)を使って同じ名前空間の任意のSecretを読めます（[Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)）。
 
 Secretの値がbase64で表示されるのは符号化であって[暗号化](/glossary/暗号化/)ではありません。同じページは、安全に使うために保存時の[暗号化](/glossary/暗号化/)を有効にするなどの手順を取るよう促しています。
 
@@ -216,7 +216,7 @@ kubectl get pod <Pod名> -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.
 
 **最低限覚える概念**：公式ドキュメントによれば、Podを作るとスケジューラが実行先のノードを選びます。各ノードには資源の種類ごとに最大容量があり、スケジューラは資源の種類ごとに、割り当て済み[コンテナ](/glossary/コンテナ/)の[リクエスト](/glossary/リクエスト/)の合計がノードの[容量](/glossary/容量/)を下回るようにします。実際の使用量が低くても、[容量](/glossary/容量/)の確認に失敗すればスケジューラはそのノードへの配置を拒みます（[Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)）。
 
-`requests` と `limits` の違いも同じページに書かれています。ノードに十分な余裕があれば、[コンテナ](/glossary/コンテナ/)は `request` を超えて資源を使うことが可能であり、許されてもいます。一方 `limits` は別の話で、CPUと[メモリ](/glossary/メモリ/)のどちらの上限もkubeletとコンテナランタイムによって適用されます。
+`requests` と `limits` の違いも同じページに書かれています。ノードに十分な余裕があれば、[コンテナ](/glossary/コンテナ/)は `request` を超えて資源を使うことが可能であり、許されてもいます。一方 `limits` は別の話で、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)のどちらの上限もkubeletとコンテナランタイムによって適用されます。
 
 つまり `requests` は置き場所を決めるための申告、`limits` は動き始めた後の上限です。前者が大きすぎればPodは置かれず、後者が小さすぎればPodは置かれた後に止められます。
 
@@ -330,7 +330,7 @@ kubectl get pods -n kube-system
 
 [Kubernetes](/glossary/kubernetes/)の[エラー](/glossary/エラー/)が繰り返し起きるのは、[マニフェスト](/glossary/マニフェスト/)の書き方を知らないからではなく、境界を知らないからです。宣言と実際、コントロールプレーンとノード、Podの内と外、そして消えるデータと残るデータ。この4つの境界を押さえると、[イベント](/glossary/イベント/)の読み方が変わります。
 
-学ぶ順序は、Podと[コンテナ](/glossary/コンテナ/)、Deploymentと宣言、Serviceと[ネットワーク](/glossary/ネットワーク/)、設定とデータ、スケジューリングとリソース、トラブルシューティングです。それぞれに「次へ進む目安」を置いたのは、飛ばした段階が後から別の顔で現れるからです。
+学ぶ順序は、Podと[コンテナ](/glossary/コンテナ/)、Deploymentと宣言、Serviceと[ネットワーク](/glossary/ネットワーク/)、[設定](/glossary/設定/)とデータ、スケジューリングとリソース、トラブルシューティングです。それぞれに「次へ進む目安」を置いたのは、飛ばした段階が後から別の顔で現れるからです。
 
 公式ドキュメントは仕様の確認先として最も確実です。一方で、学ぶ順序や検証用のクラスターを自分で用意する負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
 

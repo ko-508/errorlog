@@ -28,8 +28,8 @@ State:          Waiting
 まず次の4つを分けてください。
 
 1. 表示されているreasonが本当に `RunContainerError` なのか。
-2. messageがワークロード設定の問題を示しているのか。
-3. volume、[権限](/glossary/権限/)、[セキュリティ](/glossary/セキュリティ/)設定など、Pod定義とノード条件の組み合わせで失敗しているのか。
+2. messageがワークロード[設定](/glossary/設定/)の問題を示しているのか。
+3. volume、[権限](/glossary/権限/)、[セキュリティ](/glossary/セキュリティ/)[設定](/glossary/設定/)など、Pod定義とノード条件の組み合わせで失敗しているのか。
 4. containerd、CRI-O、runc、cgroup、ディスクなど、ノード側runtimeの問題なのか。
 
 `kubectl logs` が空でも不思議ではありません。[プロセス](/glossary/プロセス/)がまだ開始できていないため、アプリケーションログへ到達しないことがあります。最初に読むべきなのは、アプリログではなく `kubectl describe pod` のState、Message、Eventsです。
@@ -73,7 +73,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 | 表示 | 失敗している段階 | 本記事の対象 |
 | --- | --- | --- |
 | `RunContainerError` | sandbox作成後、runtimeが[コンテナ](/glossary/コンテナ/)を起動できない | 対象 |
-| `CreateContainerConfigError` | kubeletが[コンテナ](/glossary/コンテナ/)設定を解決できない | 対象外 |
+| `CreateContainerConfigError` | kubeletが[コンテナ](/glossary/コンテナ/)[設定](/glossary/設定/)を解決できない | 対象外 |
 | `FailedCreatePodSandbox` | sandbox作成、CNI、pause container付近 | 対象外 |
 | `ImagePullBackOff` / `ErrImagePull` | [イメージ](/glossary/イメージ/)取得 | 対象外 |
 | `CrashLoopBackOff` | 起動後に[プロセス](/glossary/プロセス/)が終了し再起動を繰り返す | 対象外 |
@@ -107,7 +107,7 @@ kubectl get events -n <名前空間> \
   --sort-by=.lastTimestamp
 ```
 
-`FailedCreatePodSandbox` が繰り返し出ているなら、主戦場はsandbox作成側です。CNI、pause image、container runtimeのsandbox設定を優先し、`RunContainerError` の記事から離れます。
+`FailedCreatePodSandbox` が繰り返し出ているなら、主戦場はsandbox作成側です。CNI、pause image、container runtimeのsandbox[設定](/glossary/設定/)を優先し、`RunContainerError` の記事から離れます。
 
 第四に、ノード偏りを見ます。
 
@@ -153,7 +153,7 @@ kubectl apply -f <manifest.yaml>
 kubectl get pod <Pod名> -n <名前空間> -w
 ```
 
-これで起動するなら、外した項目を1つずつ戻します。`command` だけ、`workingDir` だけ、`securityContext` だけ、という順に戻すと、どの設定がruntimeを止めているかが分かります。
+これで起動するなら、外した項目を1つずつ戻します。`command` だけ、`workingDir` だけ、`securityContext` だけ、という順に戻すと、どの[設定](/glossary/設定/)がruntimeを止めているかが分かります。
 
 ### 原因2：volumeMount、Secret、ConfigMap、hostPath、権限が合っていない
 
@@ -187,7 +187,7 @@ spec:
       image: <your-image>
 ```
 
-設定を棚卸しします。
+[設定](/glossary/設定/)を棚卸しします。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml \
@@ -225,13 +225,13 @@ df -h
 
 CRI互換runtimeの状態を直接見る場合は `crictl` が使えます。[Kubernetes](/glossary/kubernetes/)公式ドキュメントは、ノード上のcontainer runtimeと[アプリケーション](/glossary/アプリケーション/)を検査・[デバッグ](/glossary/デバッグ/)するための[ツール](/glossary/ツール/)として `crictl` を案内しています（[Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)）。
 
-containerdのCRI設定を疑う場合、containerd側ではCRI pluginの設定が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし設定[キー](/glossary/キー/)は版によって変わるため、実行中の版のドキュメントと現在の `config.toml` を突き合わせてください。
+containerdのCRI[設定](/glossary/設定/)を疑う場合、containerd側ではCRI pluginの[設定](/glossary/設定/)が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし[設定](/glossary/設定/)[キー](/glossary/キー/)は版によって変わるため、実行中の版のドキュメントと現在の `config.toml` を突き合わせてください。
 
 ## 補足：似ているが別のもの
 
 `CreateContainerConfigError` は、SecretやConfigMapの参照、[環境変数](/glossary/環境変数/)、設定解決など、container runtimeへ起動を依頼する前の段階で止まる表示です。`RunContainerError` と同じ「[コンテナ](/glossary/コンテナ/)が動かない」見た目でも、調査対象はPod定義の解決側です。
 
-`FailedCreatePodSandbox` は、Pod sandbox、CNI、pause container付近の失敗です。アプリコンテナの起動以前で止まっています。Eventsにこのreasonが出ているなら、CNI pluginやcontainer runtimeのsandbox設定を先に見ます。
+`FailedCreatePodSandbox` は、Pod sandbox、CNI、pause container付近の失敗です。アプリコンテナの起動以前で止まっています。Eventsにこのreasonが出ているなら、CNI pluginやcontainer runtimeのsandbox[設定](/glossary/設定/)を先に見ます。
 
 `CrashLoopBackOff` は、[コンテナ](/glossary/コンテナ/)の起動には成功した後、[アプリケーション](/glossary/アプリケーション/)が終了して再起動を繰り返している状態です。この場合は `kubectl logs --previous` や終了[コード](/glossary/コード/)が主な手がかりです。
 
@@ -287,7 +287,7 @@ crictl images
 3. Eventsを時系列で確認し、`FailedCreatePodSandbox` やimage pull系の前段階[エラー](/glossary/エラー/)が主因でないか確認する。
 4. `kubectl logs` が空でも、[プロセス](/glossary/プロセス/)開始前なら異常ではないと判断する。
 5. `command`、`args`、`workingDir`、`securityContext` を外した最小構成で同じimageを起動する。
-6. volumeMount、Secret、ConfigMap、hostPathを1つずつ戻し、どの設定で再発するか確認する。
+6. volumeMount、Secret、ConfigMap、hostPathを1つずつ戻し、どの[設定](/glossary/設定/)で再発するか確認する。
 7. 同じPodを別ノードで動かし、ノード固有かワークロード固有かを分ける。
 8. ノード固有なら kubelet、containerd/CRI-O、runc、cgroup、ディスク[容量](/glossary/容量/)を確認する。
 9. 権限緩和やruntime再起動を行う前に、影響範囲と戻し方を決める。

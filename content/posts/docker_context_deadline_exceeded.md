@@ -14,13 +14,13 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`context deadline exceeded` は、[Docker](/glossary/docker/) が独自に定義した[エラー](/glossary/エラー/)ではありません。[Docker](/glossary/docker/) が書かれている Go 言語の[標準](/glossary/標準/)の仕組みが返す、時間切れを表す[エラー](/glossary/エラー/)です。Go のソースでは、この文字列を返す値が定義されており、時間切れかどうかを尋ねると真を返すことも明記されています。つまりこの文言が伝えているのは「何かの締め切りに間に合わなかった」という事実だけで、どこの締め切りかは書かれていません。だからこそ、締め切りの持ち主を特定しないまま設定をいじると、直らないまま時間だけが過ぎます。
+`context deadline exceeded` は、[Docker](/glossary/docker/) が独自に定義した[エラー](/glossary/エラー/)ではありません。[Docker](/glossary/docker/) が書かれている Go 言語の[標準](/glossary/標準/)の仕組みが返す、時間切れを表す[エラー](/glossary/エラー/)です。Go のソースでは、この文字列を返す値が定義されており、時間切れかどうかを尋ねると真を返すことも明記されています。つまりこの文言が伝えているのは「何かの締め切りに間に合わなかった」という事実だけで、どこの締め切りかは書かれていません。だからこそ、締め切りの持ち主を特定しないまま[設定](/glossary/設定/)をいじると、直らないまま時間だけが過ぎます。
 
 特定の手がかりは、文言の末尾です。3通りあります。
 
-括弧が何も付かず `context deadline exceeded` だけの場合、切れたのは呼び出し側が設定した締め切りです。末尾に `(Client.Timeout exceeded while awaiting headers)` が付く場合、[クライアント](/glossary/クライアント/)自身の制限時間が、応答の見出し部分が届く前に切れています。末尾が `(Client.Timeout or context cancellation while reading body)` の場合、見出しは届いており、本体の転送の途中で切れています。この2つの接尾辞は、Go の [HTTP](/glossary/http/) の実装の中でそれぞれ別の場所に定義されており、付く条件も違います。前者なら接続・名前解決・[プロキシ](/glossary/プロキシ/)・相手の無応答を、後者なら転送速度と転送量を疑う、という具合に、見るべき場所が変わります。
+括弧が何も付かず `context deadline exceeded` だけの場合、切れたのは呼び出し側が[設定](/glossary/設定/)した締め切りです。末尾に `(Client.Timeout exceeded while awaiting headers)` が付く場合、[クライアント](/glossary/クライアント/)自身の制限時間が、応答の見出し部分が届く前に切れています。末尾が `(Client.Timeout or context cancellation while reading body)` の場合、見出しは届いており、本体の転送の途中で切れています。この2つの接尾辞は、Go の [HTTP](/glossary/http/) の実装の中でそれぞれ別の場所に定義されており、付く条件も違います。前者なら接続・名前解決・[プロキシ](/glossary/プロキシ/)・相手の無応答を、後者なら転送速度と転送量を疑う、という具合に、見るべき場所が変わります。
 
-もう1つ、先に否定しておくべき助言があります。「`COMPOSE_HTTP_TIMEOUT` を大きくする」という案内が今も多く見つかりますが、[Docker](/glossary/docker/) Compose の公式文書には「Compose V2 では効果がない[環境変数](/glossary/環境変数/)」という一覧があり、この[環境変数](/glossary/環境変数/)はそこに挙げられています。設定しても何も変わりません。
+もう1つ、先に否定しておくべき助言があります。「`COMPOSE_HTTP_TIMEOUT` を大きくする」という案内が今も多く見つかりますが、[Docker](/glossary/docker/) Compose の公式文書には「Compose V2 では効果がない[環境変数](/glossary/環境変数/)」という一覧があり、この[環境変数](/glossary/環境変数/)はそこに挙げられています。[設定](/glossary/設定/)しても何も変わりません。
 
 境界も引いておきます。`context canceled` は時間切れではなく取り消しで、別の[エラー](/glossary/エラー/)です。Go のソースでも別の値として定義されています。
 
@@ -53,7 +53,7 @@ context deadline exceeded (Client.Timeout or context cancellation while reading 
 
 ## まず最初に：末尾の括弧を読む
 
-第一に、`context deadline exceeded` の直後を見ます。何も付いていないなら、[Docker](/glossary/docker/) やその周辺の[ソフトウェア](/glossary/ソフトウェア/)が自分で設けた締め切りです。この場合、[ネットワーク](/glossary/ネットワーク/)の設定を触っても意味がないことがあります。
+第一に、`context deadline exceeded` の直後を見ます。何も付いていないなら、[Docker](/glossary/docker/) やその周辺の[ソフトウェア](/glossary/ソフトウェア/)が自分で設けた締め切りです。この場合、[ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)を触っても意味がないことがあります。
 
 第二に、`while awaiting headers` が付いているなら、相手からの最初の反応が返ってきていません。名前解決、[プロキシ](/glossary/プロキシ/)、経路、相手側の停止を順に確認します。
 
@@ -74,9 +74,9 @@ nslookup registry-1.docker.io
 curl -sI --connect-timeout 10 https://registry-1.docker.io/v2/ | head -3
 ```
 
-ここで止まるなら、[Docker](/glossary/docker/) ではなく[ネットワーク](/glossary/ネットワーク/)側の問題です。手元では通るのに [Docker](/glossary/docker/) からは通らない場合は、[プロキシ](/glossary/プロキシ/)の設定が [Docker](/glossary/docker/) に渡っていない可能性が高くなります。利用者の[環境変数](/glossary/環境変数/)を設定しても、常駐している側には届きません。
+ここで止まるなら、[Docker](/glossary/docker/) ではなく[ネットワーク](/glossary/ネットワーク/)側の問題です。手元では通るのに [Docker](/glossary/docker/) からは通らない場合は、[プロキシ](/glossary/プロキシ/)の[設定](/glossary/設定/)が [Docker](/glossary/docker/) に渡っていない可能性が高くなります。利用者の[環境変数](/glossary/環境変数/)を[設定](/glossary/設定/)しても、常駐している側には届きません。
 
-**Before（自分の[環境変数](/glossary/環境変数/)にだけ設定している）：**
+**Before（自分の[環境変数](/glossary/環境変数/)にだけ[設定](/glossary/設定/)している）：**
 
 ```bash
 export HTTPS_PROXY=http://proxy.example.com:8080
@@ -84,7 +84,7 @@ docker pull example:1.0
 # → 常駐側は proxy を知らないままなので変わらない
 ```
 
-**After（常駐側の設定として渡す）：**
+**After（常駐側の[設定](/glossary/設定/)として渡す）：**
 
 ```bash
 sudo mkdir -p /etc/systemd/system/docker.service.d
@@ -98,7 +98,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-設定が効いているかは、次で確認できます。
+[設定](/glossary/設定/)が効いているかは、次で確認できます。
 
 ```bash
 docker info | grep -i proxy
@@ -117,7 +117,7 @@ docker info | grep -i proxy
 }
 ```
 
-この内容を `/etc/docker/daemon.json` に置き、常駐している側を再起動します。設定を変えたら、実際に反映されているかを確認してください。
+この内容を `/etc/docker/daemon.json` に置き、常駐している側を再起動します。[設定](/glossary/設定/)を変えたら、実際に反映されているかを確認してください。
 
 ```bash
 docker info | grep -i "concurrent"
@@ -129,7 +129,7 @@ docker info | grep -i "concurrent"
 
 Compose の実行中に出た場合、`COMPOSE_HTTP_TIMEOUT` を上げるという助言は使えません。公式文書に、Compose V2 では効果がない[環境変数](/glossary/環境変数/)として明記されています。この[環境変数](/glossary/環境変数/)は、Python で書かれていた古い Compose の時代のものです。当時の時間切れの文言は `An HTTP request took too long to complete` で、今の文言とはそもそも別物でした。
 
-**Before（効かない[環境変数](/glossary/環境変数/)を設定する）：**
+**Before（効かない[環境変数](/glossary/環境変数/)を[設定](/glossary/設定/)する）：**
 
 ```bash
 export COMPOSE_HTTP_TIMEOUT=300
@@ -145,13 +145,13 @@ docker compose up -d
 
 `COMPOSE_PARALLEL_LIMIT` は、常駐側への同時呼び出しの上限を指定する[環境変数](/glossary/環境変数/)として公式文書に載っています。一度に多くの[コンテナ](/glossary/コンテナ/)を起動しようとして詰まっている場合は、これで収まることがあります。
 
-なお、[環境変数](/glossary/環境変数/)は書き出さないと Compose に渡りません。設定したのに変わらない場合は、`export` を忘れていないかを確認してください。
+なお、[環境変数](/glossary/環境変数/)は書き出さないと Compose に渡りません。[設定](/glossary/設定/)したのに変わらない場合は、`export` を忘れていないかを確認してください。
 
 ### 原因4：ビルド中に出た
 
 `failed to solve` に続いて出た場合、時間切れが起きたのはビルドを担当する仕組みの側です。`failed to resolve source metadata` が付いていれば、土台となる[イメージ](/glossary/イメージ/)の情報を[レジストリ](/glossary/レジストリ/)へ問い合わせる段階です。原因1と同じ経路の問題を疑います。
 
-ビルドの途中で、[コンテナ](/glossary/コンテナ/)の中から外部へ出る[通信](/glossary/通信/)が時間切れになる場合は、別の話です。この場合は、ビルドの際に[プロキシ](/glossary/プロキシ/)の設定を渡す必要があります。
+ビルドの途中で、[コンテナ](/glossary/コンテナ/)の中から外部へ出る[通信](/glossary/通信/)が時間切れになる場合は、別の話です。この場合は、ビルドの際に[プロキシ](/glossary/プロキシ/)の[設定](/glossary/設定/)を渡す必要があります。
 
 ```bash
 docker build \
@@ -175,7 +175,7 @@ docker build \
 
 1. 文言の末尾を読む。括弧なし、`while awaiting headers`、`while reading body` のどれかを確定させる。
 2. 進捗表示があれば、切れる位置を2回以上見比べる。同じ位置なら締め切りが固定、違う位置なら[回線](/glossary/回線/)の不安定さを疑う。
-3. `while awaiting headers` なら、[Docker](/glossary/docker/) の外から名前解決と到達性を確かめる。外から通るなら[プロキシ](/glossary/プロキシ/)設定が常駐側に渡っているかを確認する。
+3. `while awaiting headers` なら、[Docker](/glossary/docker/) の外から名前解決と到達性を確かめる。外から通るなら[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)が常駐側に渡っているかを確認する。
 4. `while reading body` なら、同時取得数を減らし、試行回数を増やす。それでも同じ位置で切れるなら、締め切りの持ち主は [Docker](/glossary/docker/) ではない。
 5. Compose なら、`COMPOSE_HTTP_TIMEOUT` は効かない前提で考える。同時実行数を絞る方向を試す。
 6. `failed to solve` が付いていればビルド側。土台の取得か、命令の実行中かを出力の位置で見分ける。
@@ -212,7 +212,7 @@ docker run --rm alpine sh -c "nslookup registry-1.docker.io; wget -S -O /dev/nul
 
 もし文言の末尾を読まずに対処していたら、名前解決を変える、[プロキシ](/glossary/プロキシ/)を疑う、常駐側を再起動する、といった作業に時間を使ったはずです。しかし `while reading body` は「相手には繋がっていて、転送が始まっている」と告げていました。この一言が、疑うべき場所を[ネットワーク](/glossary/ネットワーク/)から呼び出し側へ移してくれます。
 
-`context deadline exceeded` は、それ自体には何の情報もない[エラー](/glossary/エラー/)です。しかし括弧の中と、切れる位置と秒数を並べれば、締め切りの持ち主はかなり絞り込めます。設定を変える前に、まずそこを読んでください。
+`context deadline exceeded` は、それ自体には何の情報もない[エラー](/glossary/エラー/)です。しかし括弧の中と、切れる位置と秒数を並べれば、締め切りの持ち主はかなり絞り込めます。[設定](/glossary/設定/)を変える前に、まずそこを読んでください。
 
 ---
 

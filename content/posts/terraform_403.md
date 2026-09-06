@@ -81,7 +81,7 @@ Terraform を実行するユーザーまたは[ロール](/glossary/ロール/)�
 
 ### 原因2：SCP（Service Control Policy）が実行を制限している
 
-[AWS](/glossary/aws/) Organizations で設定された SCP がリソース作成を明示的に拒否しているか、特定サービスの使用を制限している可能性があります。SCP は [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)より上位の制限であり、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で許可していても SCP で拒否されば操作は実行できません。[AWS](/glossary/aws/) Organizations の[コンソール](/glossary/コンソール/)で適用されている SCP を確認し、Terraform の実行に必要な[アクション](/glossary/アクション/)を許可するように SCP を[修正](/glossary/修正/)します。
+[AWS](/glossary/aws/) Organizations で[設定](/glossary/設定/)された SCP がリソース作成を明示的に拒否しているか、特定サービスの使用を制限している可能性があります。SCP は [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)より上位の制限であり、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で許可していても SCP で拒否されば操作は実行できません。[AWS](/glossary/aws/) Organizations の[コンソール](/glossary/コンソール/)で適用されている SCP を確認し、Terraform の実行に必要な[アクション](/glossary/アクション/)を許可するように SCP を[修正](/glossary/修正/)します。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -125,7 +125,7 @@ Terraform を実行するユーザーまたは[ロール](/glossary/ロール/)�
 
 ### 原因3：別のアカウントやリージョンのリソースを変更しようとしている
 
-Terraform の provider 設定で指定されている [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/) [ID](/glossary/id/) やリージョンと、実際に操作しようとしているリソースが一致していないケースです。tfstate [ファイル](/glossary/ファイル/)（Terraform の状態を記録する[ファイル](/glossary/ファイル/)）に記録されたリソース ARN が、現在の実行環境と異なる[アカウント](/glossary/アカウント/)・リージョンを指しているため、操作権限がないリソースへのアクセスが試みられます。provider ブロックの account_id・region と、リソース定義を確認して一致させます。
+Terraform の provider [設定](/glossary/設定/)で指定されている [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/) [ID](/glossary/id/) やリージョンと、実際に操作しようとしているリソースが一致していないケースです。tfstate [ファイル](/glossary/ファイル/)（Terraform の状態を記録する[ファイル](/glossary/ファイル/)）に記録されたリソース ARN が、現在の実行環境と異なる[アカウント](/glossary/アカウント/)・リージョンを指しているため、操作権限がないリソースへのアクセスが試みられます。provider ブロックの account_id・region と、リソース定義を確認して一致させます。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -163,7 +163,7 @@ resource "aws_instance" "example" {
 
 Terraform で 403 [エラー](/glossary/エラー/)が発生した場合、まず `terraform plan` を実行して、どのリソースのどの[アクション](/glossary/アクション/)（RunInstances、PutBucketPolicy など）が拒否されるかを特定することが重要です。[AWS](/glossary/aws/) [IAM](/glossary/iam/) ポリシーシミュレーターを使用して、対象の[ロール](/glossary/ロール/)・ユーザーに対して特定の[アクション](/glossary/アクション/)が許可されているかどうかを事前に検証できます。
 
-また、Terraform State [ファイル](/glossary/ファイル/)（tfstate）に記録されたリソース情報が実際の[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)と不一致している場合、`terraform refresh` で状態を再同期したり、必要に応じて `terraform import` でリソースを再度管理下に置くことで問題が解決するケースもあります。特にマルチアカウント[環境](/glossary/環境/)や複数リージョンを管理している場合は、AssumeRole を使用して適切なクロスアカウントアクセスを設定することをお勧めします。
+また、Terraform State [ファイル](/glossary/ファイル/)（tfstate）に記録されたリソース情報が実際の[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)と不一致している場合、`terraform refresh` で状態を再同期したり、必要に応じて `terraform import` でリソースを再度管理下に置くことで問題が解決するケースもあります。特にマルチアカウント[環境](/glossary/環境/)や複数リージョンを管理している場合は、AssumeRole を使用して適切なクロスアカウントアクセスを[設定](/glossary/設定/)することをお勧めします。
 
 ## それでも解決しない場合
 

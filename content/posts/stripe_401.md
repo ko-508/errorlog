@@ -173,7 +173,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **[API](/glossary/api/) [キー](/glossary/キー/)の権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) [キー](/glossary/キー/)の[権限](/glossary/権限/)を制限することができます。制限された[キー](/glossary/キー/)で全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」セクションで、各[キー](/glossary/キー/)の[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
-**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)通知）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
+**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)[通知](/glossary/通知/)）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
 **Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` [ID](/glossary/id/) を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 

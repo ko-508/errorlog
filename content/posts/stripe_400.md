@@ -140,7 +140,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### APIバージョンの不整合
 
-Stripeの[アカウント](/glossary/アカウント/)設定では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)がデフォルトで使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
+Stripeの[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)がデフォルトで使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
 
 ```bash
 curl https://api.stripe.com/v1/payment_intents \

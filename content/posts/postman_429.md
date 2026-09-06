@@ -58,7 +58,7 @@ Collection Runner は[ループ](/glossary/ループ/)機能で指定回数だ�
 // Run Collection ダイアログの "Delay" フィールドに 1000 を入力
 ```
 
-Collection Runner UI では、実行ボタンを押す前に「Delay (ms)」[フィールド](/glossary/フィールド/)に値を入力します。デフォルトは 0ms（待機なし）ですが、[API](/glossary/api/) の制限に合わせて 1000～5000ms の間隔を設定すると有効です。
+Collection Runner UI では、実行ボタンを押す前に「Delay (ms)」[フィールド](/glossary/フィールド/)に値を入力します。デフォルトは 0ms（待機なし）ですが、[API](/glossary/api/) の制限に合わせて 1000～5000ms の間隔を[設定](/glossary/設定/)すると有効です。
 
 ### 原因2：ループ処理の繰り返し回数がレート制限を超えている
 
@@ -162,7 +162,7 @@ Postman Mock Server または開発環境用の [API](/glossary/api/) [エンド
 
 Postman の Collection Runner（▶ Run Collection ボタン）を起動すると、左側のサイドパネルに「Delay」[フィールド](/glossary/フィールド/)が表示されます。ここに **ミリ秒単位** で値を入力します。例えば、1 秒間隔で実行するなら 1000、500ms なら 500 です。
 
-**Pre-request Script で[リクエスト](/glossary/リクエスト/)間の遅延を設定する別法：**
+**Pre-request Script で[リクエスト](/glossary/リクエスト/)間の[遅延](/glossary/遅延/)を[設定](/glossary/設定/)する別法：**
 
 Collection Runner の Delay とは別に、Pre-request Script で動的に待機を挿入する方法もあります。
 
@@ -175,7 +175,7 @@ setTimeout(() => {}, 1000); // 1秒待機
 
 **Environment と Mock Server の連携：**
 
-Environment を使い、本番 [API](/glossary/api/) とモック [API](/glossary/api/) を切り替える設定も効果的です。
+Environment を使い、本番 [API](/glossary/api/) とモック [API](/glossary/api/) を切り替える[設定](/glossary/設定/)も効果的です。
 
 ```javascript
 // Collection の Pre-request Script

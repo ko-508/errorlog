@@ -159,7 +159,7 @@ kubectl logs <Pod名> -n <名前空間> \
 
 現在の[ログ](/glossary/ログ/)だけを見ると、再起動後の正常な起動しか残っていない場合があります。`--previous` は直前に終了した[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)を取る指定です。
 
-第三に、現在適用されているprobe設定を確認します。
+第三に、現在適用されているprobe[設定](/glossary/設定/)を確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml
@@ -237,7 +237,7 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
   sh -c 'ss -lnt || netstat -lnt'
 ```
 
-[コンテナ](/glossary/コンテナ/)内だけで確認する必要があるなら `exec` probeも選択肢ですが、単に設定ミスを隠すために変更しないでください。実際の利用者がPod[ネットワーク](/glossary/ネットワーク/)経由で接続するなら、その経路で成功する必要があります。
+[コンテナ](/glossary/コンテナ/)内だけで確認する必要があるなら `exec` probeも選択肢ですが、単に[設定](/glossary/設定/)ミスを隠すために変更しないでください。実際の利用者がPod[ネットワーク](/glossary/ネットワーク/)経由で接続するなら、その経路で成功する必要があります。
 
 ### 原因3：起動完了前にliveness probeが始まる
 
@@ -265,7 +265,7 @@ startup probeが一度成功するまで、livenessとreadinessは実行され�
 
 ### 原因4：timeoutSecondsが実際の応答時間より短い
 
-probeの既定の時間切れは1秒です。通常は速いendpointでも、CPU制限、GC、Node高負荷、disk待ちによって一時的に超えることがあります。
+probeの既定の時間切れは1秒です。通常は速いendpointでも、[CPU](/glossary/cpu/)制限、GC、Node高負荷、disk待ちによって一時的に超えることがあります。
 
 ```text
 Liveness probe failed: Get "http://10.244.1.17:8080/livez":
@@ -291,7 +291,7 @@ livenessProbe:
   failureThreshold: 3
 ```
 
-timeoutを延ばすだけでは、CPU不足や停止状態の原因は直りません。
+timeoutを延ばすだけでは、[CPU](/glossary/cpu/)不足や停止状態の原因は直りません。
 
 ### 原因5：一時的な外部依存障害をlivenessへ含めている
 
@@ -421,7 +421,7 @@ readiness失敗では[コンテナ](/glossary/コンテナ/)を終了しませ�
 
 ### Startup probe failed
 
-startup probeが設定されている間、livenessとreadinessは開始されません。startup失敗が閾値へ達すると[コンテナ](/glossary/コンテナ/)を終了し、restartPolicyの対象になります。起動中のliveness再起動を防ぐ目的で使います。
+startup probeが[設定](/glossary/設定/)されている間、livenessとreadinessは開始されません。startup失敗が閾値へ達すると[コンテナ](/glossary/コンテナ/)を終了し、restartPolicyの対象になります。起動中のliveness再起動を防ぐ目的で使います。
 
 ### OOMKilled
 
@@ -447,7 +447,7 @@ liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)
 3. `kubectl logs --previous` で終了直前のアプリログを取得する。
 4. 作成済みPodからpath、port、scheme、timeout、各thresholdを確認する。
 5. `connection refused` なら待受portとアドレス、404ならpath、401・403なら認証条件を確認する。
-6. timeoutならprobe処理時間、CPU、memory、Node負荷を確認する。
+6. timeoutならprobe処理時間、[CPU](/glossary/cpu/)、memory、Node負荷を確認する。
 7. 起動中だけ失敗するなら `startupProbe` を追加する。
 8. 外部依存の一時障害をliveness条件から外し、必要ならreadinessへ分離する。
 9. `restartPolicy` と終了猶予を確認する。
@@ -479,7 +479,7 @@ kubectl logs <Pod名> -n <名前空間> -c <コンテナ名> \
   --timestamps > liveness-current.log
 ```
 
-probe設定だけを確認します。
+probe[設定](/glossary/設定/)だけを確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -509,7 +509,7 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 ## Editor's Note
 
-`Liveness probe failed` を「アプリが壊れた証拠」と読むと、probe側の誤りを見落とします。[Kubernetes](/glossary/kubernetes/)が確定したのは、設定された方法が設定された時間内に成功しなかったことです。その失敗が、再起動でしか直らない状態かどうかは、probe設計者が決めています。
+`Liveness probe failed` を「アプリが壊れた証拠」と読むと、probe側の誤りを見落とします。[Kubernetes](/glossary/kubernetes/)が確定したのは、[設定](/glossary/設定/)された方法が[設定](/glossary/設定/)された時間内に成功しなかったことです。その失敗が、再起動でしか直らない状態かどうかは、probe設計者が決めています。
 
 2018年の[Kubernetes](/glossary/kubernetes/)の課題（[Liveness/Readiness probes are failing with connection refused](https://github.com/kubernetes/kubernetes/issues/62594)）では、同じDeploymentのprobeが断続的に `connection refused` となり、一部のPodが多くの再起動を繰り返して `CrashLoopBackOff` になった状況が報告されました。[ログ](/glossary/ログ/)にはlivenessとreadinessの両方の失敗がありましたが、[コンテナ](/glossary/コンテナ/)を再起動させるのはliveness側です。
 

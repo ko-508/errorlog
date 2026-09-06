@@ -32,7 +32,7 @@ HTTP status code: 401 Unauthorized
 
 ### 原因1：AWS アクセスキーの認証情報が不正または期限切れ
 
-[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が[削除](/glossary/削除/)されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、設定ミスが起こりやすくなります。
+[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が[削除](/glossary/削除/)されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、[設定](/glossary/設定/)ミスが起こりやすくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -142,7 +142,7 @@ terraform init
 
 ### 原因4：プロバイダーブロックの認証情報が直接記述されている場合のキー値エラー
 
-プロバイダーブロック内に直接認証情報を記述している場合、[キー](/glossary/キー/)名やフォーマットのタイプミスが 401 [エラー](/glossary/エラー/)を引き起こします。
+プロバイダーブロック内に直接認証情報を記述している場合、[キー](/glossary/キー/)名や[フォーマット](/glossary/フォーマット/)のタイプミスが 401 [エラー](/glossary/エラー/)を引き起こします。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -187,7 +187,7 @@ provider "aws" {
 
 ### 複数プロバイダーを利用する場合
 
-Terraform で [AWS](/glossary/aws/)・Azure・GCP など複数のクラウドプロバイダーを組み合わせる場合、各プロバイダーの認証情報をそれぞれ設定する必要があります。一つのプロバイダーの[認証](/glossary/認証/)が失敗すると、全体の `terraform plan` がブロックされます。
+Terraform で [AWS](/glossary/aws/)・Azure・GCP など複数のクラウドプロバイダーを組み合わせる場合、各プロバイダーの認証情報をそれぞれ[設定](/glossary/設定/)する必要があります。一つのプロバイダーの[認証](/glossary/認証/)が失敗すると、全体の `terraform plan` がブロックされます。
 
 ```hcl
 provider "aws" {
@@ -233,7 +233,7 @@ terraform login  # 新しいトークンで再設定
 
 ### CI/CD パイプライン（GitHub Actions・GitLab CI 等）での環境変数設定
 
-パイプラインで Terraform を実行する場合、シークレット[環境変数](/glossary/環境変数/)として認証情報を登録する必要があります。例えば [GitHub](/glossary/github/) Actions では以下のように設定します。
+パイプラインで Terraform を実行する場合、シークレット[環境変数](/glossary/環境変数/)として認証情報を登録する必要があります。例えば [GitHub](/glossary/github/) Actions では以下のように[設定](/glossary/設定/)します。
 
 ```yaml
 # .github/workflows/terraform.yml
@@ -259,7 +259,7 @@ jobs:
 
 ### ログレベルを上げてデバッグ情報を取得
 
-Terraform のログレベルを `DEBUG` に設定すると、[認証](/glossary/認証/)フローの詳細が表示されます。
+Terraform のログレベルを `DEBUG` に[設定](/glossary/設定/)すると、[認証](/glossary/認証/)フローの詳細が表示されます。
 
 ```bash
 export TF_LOG=DEBUG

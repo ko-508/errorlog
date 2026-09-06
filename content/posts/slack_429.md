@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が短時間に集中し、[レート制限](/glossary/レート制限/)を超えた場合に発生する[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。429 Too Many Requests[レスポンス](/glossary/レスポンス/)が返された場合、[クライアント](/glossary/クライアント/)側で一時的に再試行を延期する必要があります。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は[メソッド](/glossary/メソッド/)ごと、[アプリケーション](/glossary/アプリケーション/)ごとに段階的に設定されており、制限を超えると [API](/glossary/api/)呼び出しが一時的に拒否されます。
+Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が短時間に集中し、[レート制限](/glossary/レート制限/)を超えた場合に発生する[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。429 Too Many Requests[レスポンス](/glossary/レスポンス/)が返された場合、[クライアント](/glossary/クライアント/)側で一時的に再試行を延期する必要があります。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は[メソッド](/glossary/メソッド/)ごと、[アプリケーション](/glossary/アプリケーション/)ごとに段階的に[設定](/glossary/設定/)されており、制限を超えると [API](/glossary/api/)呼び出しが一時的に拒否されます。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ Content-Type: application/json
 
 ### 1. ループ処理内での API 呼び出し間隔がない
 
-[ループ](/glossary/ループ/)で複数のメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに設定されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
+[ループ](/glossary/ループ/)で複数のメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに[設定](/glossary/設定/)されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -178,11 +178,11 @@ while True:
 
 ### ボット・App・ワークスペースレベルのレート制限区別
 
-Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は複数のレベルで適用されます。個別のボット、[OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)、[ワークスペース](/glossary/ワークスペース/)全体で異なる上限が設定されているため、同じ[メソッド](/glossary/メソッド/)でも[環境](/glossary/環境/)によって制限が変わります。特に[開発環境](/glossary/開発環境/)では余裕があっても、[本番環境](/glossary/本番環境/)の大規模[ワークスペース](/glossary/ワークスペース/)では厳しく制限される傾向があります。
+Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は複数のレベルで適用されます。個別のボット、[OAuth](/glossary/oauth/) [トークン](/glossary/トークン/)、[ワークスペース](/glossary/ワークスペース/)全体で異なる上限が[設定](/glossary/設定/)されているため、同じ[メソッド](/glossary/メソッド/)でも[環境](/glossary/環境/)によって制限が変わります。特に[開発環境](/glossary/開発環境/)では余裕があっても、[本番環境](/glossary/本番環境/)の大規模[ワークスペース](/glossary/ワークスペース/)では厳しく制限される傾向があります。
 
 ### Web API メソッドごとのレート制限差
 
-`chat.postMessage` は比較的厳しい制限（1分間～数十～数百[リクエスト](/glossary/リクエスト/)程度）がある一方、`auth.test` のような軽量[メソッド](/glossary/メソッド/)は緩い制限が設定されています。また、`conversations.history`、`conversations.replies` は会話履歴取得用として異なる制限枠を持つため、[メソッド](/glossary/メソッド/)ごとに待機戦略を変えることが重要です。
+`chat.postMessage` は比較的厳しい制限（1分間～数十～数百[リクエスト](/glossary/リクエスト/)程度）がある一方、`auth.test` のような軽量[メソッド](/glossary/メソッド/)は緩い制限が[設定](/glossary/設定/)されています。また、`conversations.history`、`conversations.replies` は会話履歴取得用として異なる制限枠を持つため、[メソッド](/glossary/メソッド/)ごとに待機戦略を変えることが重要です。
 
 ### Event Subscriptions との相互作用
 
@@ -196,7 +196,7 @@ Slack Bolt（Python / JavaScript / Java）を使用している場合、フレ�
 
 ### ログ確認ポイント
 
-Slack Python/JavaScript [SDK](/glossary/sdk/) は `debug=True` または[環境変数](/glossary/環境変数/) `SLACK_SDK_LOG_LEVEL=DEBUG` で詳細[ログ](/glossary/ログ/)を出力します。実際の [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)[ヘッダー](/glossary/ヘッダー/)、リクエストタイミング、`Retry-After` 値を確認し、[レート制限](/glossary/レート制限/)に達する前後の[リクエスト](/glossary/リクエスト/)数・間隔を記録することで、設定すべき待機時間を正確に把握できます。
+Slack Python/JavaScript [SDK](/glossary/sdk/) は `debug=True` または[環境変数](/glossary/環境変数/) `SLACK_SDK_LOG_LEVEL=DEBUG` で詳細[ログ](/glossary/ログ/)を出力します。実際の [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)[ヘッダー](/glossary/ヘッダー/)、リクエストタイミング、`Retry-After` 値を確認し、[レート制限](/glossary/レート制限/)に達する前後の[リクエスト](/glossary/リクエスト/)数・間隔を記録することで、[設定](/glossary/設定/)すべき待機時間を正確に把握できます。
 
 ### 公式ドキュメント参照
 

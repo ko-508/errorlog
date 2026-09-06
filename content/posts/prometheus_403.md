@@ -99,7 +99,7 @@ EC2・[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)では�
 # Source: <your-client-ip>/32 または <your-vpc-cidr>
 ```
 
-Linux ホスト上の firewalld を使用している場合：
+[Linux](/glossary/linux/) ホスト上の firewalld を使用している場合：
 
 ```bash
 # Prometheus ポートを許可
@@ -157,7 +157,7 @@ server {
 }
 ```
 
-Nginx の設定変更後、`sudo nginx -s reload` で設定を反映させてください。
+Nginx の設定変更後、`sudo nginx -s reload` で[設定](/glossary/設定/)を反映させてください。
 
 ## ツール固有の注意点
 

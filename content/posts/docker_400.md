@@ -83,7 +83,7 @@ curl -s --unix-socket /var/run/docker.sock \
 
 ### 原因3：設定値がデーモンの検証で弾かれている
 
-[コンテナ](/glossary/コンテナ/)作成時の設定（再起動[ポリシー](/glossary/ポリシー/)、資源制限などの各項目）は、[デーモン](/glossary/デーモン/)側で値の検証が行われ、不正な値は不正な[パラメータ](/glossary/パラメータ/)として400で拒否されます。この場合の[エラー](/glossary/エラー/)文言には、どの項目のどの値が不正かが具体的に書かれます。対処は文言が名指しする項目の[修正](/glossary/修正/)で、指定できる値の一覧は該当機能の公式リファレンスで確認します。「400だから形式の問題だろう」と [JSON](/glossary/json/) の体裁ばかり見るのではなく、文言が指す個別の値を読むのが近道です。
+[コンテナ](/glossary/コンテナ/)作成時の[設定](/glossary/設定/)（再起動[ポリシー](/glossary/ポリシー/)、資源制限などの各項目）は、[デーモン](/glossary/デーモン/)側で値の検証が行われ、不正な値は不正な[パラメータ](/glossary/パラメータ/)として400で拒否されます。この場合の[エラー](/glossary/エラー/)文言には、どの項目のどの値が不正かが具体的に書かれます。対処は文言が名指しする項目の[修正](/glossary/修正/)で、指定できる値の一覧は該当機能の公式リファレンスで確認します。「400だから形式の問題だろう」と [JSON](/glossary/json/) の体裁ばかり見るのではなく、文言が指す個別の値を読むのが近道です。
 
 ## 補足：400ではない類似エラー
 
@@ -114,7 +114,7 @@ python3 -m json.tool < body.json
 
 ## Editor's Note
 
-原因1の実例として、GitLab の公式サポート文書があります（[Docker API Version Mismatch Errors in CI/CD Pipelines](https://support.gitlab.com/hc/en-us/articles/23582251372060)）。CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成で、too new と too old の両方の[エラー](/glossary/エラー/)が発生する事象について、原因と対処がまとめられています。背景は、[Docker](/glossary/docker/) 29 が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことです。dind サービスの[イメージ](/glossary/イメージ/)に :latest や :dind のような浮動[タグ](/glossary/タグ/)を使っていると、サービス側だけが自動的に29系へ更新され、ジョブ内の古い[クライアント](/glossary/クライアント/)との組み合わせが壊れます。対処として、ランナーが使う [Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)を明示的に固定する設定が示されています。「何も変えていないのに昨日から急に400」という症状の裏に、浮動[タグ](/glossary/タグ/)経由の片側だけの自動更新がある、という CI の定番の構図をそのまま示す記録です。同種の報告は、古い[デーモン](/glossary/デーモン/)を更新できない NAS [環境](/glossary/環境/)（更新された[ツール](/glossary/ツール/)が too new で接続不能になった例）など、CI 以外でも確認できます。
+原因1の実例として、GitLab の公式サポート文書があります（[Docker API Version Mismatch Errors in CI/CD Pipelines](https://support.gitlab.com/hc/en-us/articles/23582251372060)）。CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成で、too new と too old の両方の[エラー](/glossary/エラー/)が発生する事象について、原因と対処がまとめられています。背景は、[Docker](/glossary/docker/) 29 が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことです。dind サービスの[イメージ](/glossary/イメージ/)に :latest や :dind のような浮動[タグ](/glossary/タグ/)を使っていると、サービス側だけが自動的に29系へ更新され、ジョブ内の古い[クライアント](/glossary/クライアント/)との組み合わせが壊れます。対処として、ランナーが使う [Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)を明示的に固定する[設定](/glossary/設定/)が示されています。「何も変えていないのに昨日から急に400」という症状の裏に、浮動[タグ](/glossary/タグ/)経由の片側だけの自動更新がある、という CI の定番の構図をそのまま示す記録です。同種の報告は、古い[デーモン](/glossary/デーモン/)を更新できない NAS [環境](/glossary/環境/)（更新された[ツール](/glossary/ツール/)が too new で接続不能になった例）など、CI 以外でも確認できます。
 
 [Docker](/glossary/docker/) の400は、文言が[バージョン](/glossary/バージョン/)の数字や不正な項目を名指ししてくれる親切な[エラー](/glossary/エラー/)です。[リクエスト](/glossary/リクエスト/)の体裁を疑う前に、まず文言を読み、[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の組み合わせを確認することが確実な近道です。
 

@@ -44,7 +44,7 @@ Error response from daemon: received unexpected HTTP status: 408 Request Timeout
 
 ### 原因1：Docker Daemon のタイムアウト設定が短すぎる
 
-[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト設定では、大規模[イメージ](/glossary/イメージ/)のビルドや[プッシュ](/glossary/プッシュ/)時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
+[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト[設定](/glossary/設定/)では、大規模[イメージ](/glossary/イメージ/)のビルドや[プッシュ](/glossary/プッシュ/)時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -77,7 +77,7 @@ sudo systemctl restart docker
 
 ### 原因2：Docker Compose の接続タイムアウトが不適切
 
-docker-compose.ymlで明示的に[タイムアウト](/glossary/タイムアウト/)値が設定されていない、または[ネットワーク](/glossary/ネットワーク/)遅延を考慮していない場合、特にリモートレジストリアクセス時に408[エラー](/glossary/エラー/)が発生します。
+docker-compose.ymlで明示的に[タイムアウト](/glossary/タイムアウト/)値が[設定](/glossary/設定/)されていない、または[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)を考慮していない場合、特にリモートレジストリアクセス時に408[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -164,7 +164,7 @@ docker info | grep Username
 
 ### 原因4：ネットワークの不安定性またはプロキシ設定の誤り
 
-[ファイアウォール](/glossary/ファイアウォール/)、[プロキシ](/glossary/プロキシ/)、[DNS](/glossary/dns/)解決の遅延など、[ネットワーク](/glossary/ネットワーク/)層の問題が408[エラー](/glossary/エラー/)の根本原因になることがあります。特にエンタープライズ[環境](/glossary/環境/)では顕著です。
+[ファイアウォール](/glossary/ファイアウォール/)、[プロキシ](/glossary/プロキシ/)、[DNS](/glossary/dns/)解決の[遅延](/glossary/遅延/)など、[ネットワーク](/glossary/ネットワーク/)層の問題が408[エラー](/glossary/エラー/)の根本原因になることがあります。特にエンタープライズ[環境](/glossary/環境/)では顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -233,7 +233,7 @@ RUN apt-get update && \
 
 ### Docker Desktop のリソース制限
 
-Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当てられた[メモリ](/glossary/メモリ/)やCPUが不足していると、処理の遅延が408[エラー](/glossary/エラー/)につながります：
+Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当てられた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足していると、処理の[遅延](/glossary/遅延/)が408[エラー](/glossary/エラー/)につながります：
 
 ```bash
 # Docker Desktop の設定確認（Mac の場合）
@@ -287,7 +287,7 @@ docker -D push myregistry.azurecr.io/myimage:latest 2>&1 | tee docker-push.log
 - https://github.com/moby/moby/issues（キーワード："408" OR "Request Timeout"）
 - [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 
-[ネットワーク](/glossary/ネットワーク/)設定や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織のシステム管理者に相談し、[ネットワーク](/glossary/ネットワーク/)遅延や[ファイアウォール](/glossary/ファイアウォール/)設定を確認させることを推奨します。
+[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織のシステム管理者に相談し、[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を確認させることを推奨します。
 
 ---
 

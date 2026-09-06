@@ -81,11 +81,11 @@ jobs:
       - run: docker build -t myapp .
 ```
 
-手元のマシンでは docker login、[Kubernetes](/glossary/kubernetes/) では imagePullSecrets による[認証](/glossary/認証/)を設定します（公式文書が [Kubernetes](/glossary/kubernetes/) の手順ページを案内しています）。Swarm では docker service create の --with-registry-auth が必要です。なお、公式文書には注意書きがあり、サードパーティのプラットフォーム経由では多数の利用者が同じ IP を共有するため、[認証](/glossary/認証/)していても IP 単位の不正利用対策の制限（abuse rate limit。pull 回数制限とは別枠）に当たることがあります。
+手元のマシンでは docker login、[Kubernetes](/glossary/kubernetes/) では imagePullSecrets による[認証](/glossary/認証/)を[設定](/glossary/設定/)します（公式文書が [Kubernetes](/glossary/kubernetes/) の手順ページを案内しています）。Swarm では docker service create の --with-registry-auth が必要です。なお、公式文書には注意書きがあり、サードパーティのプラットフォーム経由では多数の利用者が同じ IP を共有するため、[認証](/glossary/認証/)していても IP 単位の不正利用対策の制限（abuse rate limit。pull 回数制限とは別枠）に当たることがあります。
 
 ### 原因2：pull の回数自体が多すぎる
 
-[認証](/glossary/認証/)しても、クラスタの規模やジョブ数によっては枠や帯域を圧迫します。構造的な対処は、同じ[イメージ](/glossary/イメージ/)の pull を1回にまとめることです。[Docker](/glossary/docker/) はレジストリミラー（pull-through cache）を公式にサポートしており、[デーモン](/glossary/デーモン/)の設定で全ノードの pull をミラー経由にできます。ミラーが一度取得した[イメージ](/glossary/イメージ/)はミラーから配られるため、[Docker](/glossary/docker/) Hub への pull は[キャッシュ](/glossary/キャッシュ/)が切れたときの1回だけになります。
+[認証](/glossary/認証/)しても、クラスタの規模やジョブ数によっては枠や帯域を圧迫します。構造的な対処は、同じ[イメージ](/glossary/イメージ/)の pull を1回にまとめることです。[Docker](/glossary/docker/) はレジストリミラー（pull-through cache）を公式にサポートしており、[デーモン](/glossary/デーモン/)の[設定](/glossary/設定/)で全ノードの pull をミラー経由にできます。ミラーが一度取得した[イメージ](/glossary/イメージ/)はミラーから配られるため、[Docker](/glossary/docker/) Hub への pull は[キャッシュ](/glossary/キャッシュ/)が切れたときの1回だけになります。
 
 **Before（全ノード・全ジョブがそれぞれ [Docker](/glossary/docker/) Hub から pull する）：**
 
@@ -116,7 +116,7 @@ sudo systemctl restart docker
 
 ### 原因3：想定した枠が効いていない（帰属と別種の制限）
 
-有料プランや[認証](/glossary/認証/)を設定したのに429が出る場合、pull が意図した[アカウント](/glossary/アカウント/)に帰属していない可能性があります。確認の起点は docker-ratelimit-source です。[IP アドレス](/glossary/ip-アドレス/)が表示されるなら、その経路の pull は匿名のままです（[デーモン](/glossary/デーモン/)・CI・クラスタの一部だけ[認証](/glossary/認証/)が漏れている構成が典型です）。また、公式文書のとおり、pull の帰属には規則があり、非公開[リポジトリ](/glossary/リポジトリ/)の pull は[リポジトリ](/glossary/リポジトリ/)の名前空間の所有者に帰属します。組織で契約しているのに個人[アカウント](/glossary/アカウント/)で pull している、あるいはその逆で、意図しない側の枠を消費していることもあります。[ヘッダー](/glossary/ヘッダー/)がまったく返らないなら無制限が効いており、pull 回数制限が原因の429ではないため、別種の制限（abuse rate limit）や [Docker](/glossary/docker/) Hub 以外の429を疑います。
+有料プランや[認証](/glossary/認証/)を[設定](/glossary/設定/)したのに429が出る場合、pull が意図した[アカウント](/glossary/アカウント/)に帰属していない可能性があります。確認の起点は docker-ratelimit-source です。[IP アドレス](/glossary/ip-アドレス/)が表示されるなら、その経路の pull は匿名のままです（[デーモン](/glossary/デーモン/)・CI・クラスタの一部だけ[認証](/glossary/認証/)が漏れている構成が典型です）。また、公式文書のとおり、pull の帰属には規則があり、非公開[リポジトリ](/glossary/リポジトリ/)の pull は[リポジトリ](/glossary/リポジトリ/)の名前空間の所有者に帰属します。組織で契約しているのに個人[アカウント](/glossary/アカウント/)で pull している、あるいはその逆で、意図しない側の枠を消費していることもあります。[ヘッダー](/glossary/ヘッダー/)がまったく返らないなら無制限が効いており、pull 回数制限が原因の429ではないため、別種の制限（abuse rate limit）や [Docker](/glossary/docker/) Hub 以外の429を疑います。
 
 ## 補足：このコードではない類似エラー
 

@@ -32,7 +32,7 @@ related_services: []
 | --- | --- | --- |
 | `manifest unknown`（manifest が見つからない） | 参照先の[タグ](/glossary/タグ/)・ダイジェストが存在しない | image reference と[タグ](/glossary/タグ/)一覧 |
 | `denied` / `unauthorized` などの権限系の文言 | [認証](/glossary/認証/)・[認可](/glossary/認可/)が足りない、または対象が非公開 | [ログイン](/glossary/ログイン/)状態と[アクセス権](/glossary/アクセス権/) |
-| 接続[タイムアウト](/glossary/タイムアウト/)、名前解決失敗、[証明書](/glossary/証明書/)[エラー](/glossary/エラー/) | [レジストリ](/glossary/レジストリ/)まで到達できていない | [ネットワーク](/glossary/ネットワーク/)、[プロキシ](/glossary/プロキシ/)、[TLS](/glossary/tls/) 設定 |
+| 接続[タイムアウト](/glossary/タイムアウト/)、名前解決失敗、[証明書](/glossary/証明書/)[エラー](/glossary/エラー/) | [レジストリ](/glossary/レジストリ/)まで到達できていない | [ネットワーク](/glossary/ネットワーク/)、[プロキシ](/glossary/プロキシ/)、[TLS](/glossary/tls/) [設定](/glossary/設定/) |
 | 500・502・503・504 | [レジストリ](/glossary/レジストリ/)側の障害 | [レジストリ](/glossary/レジストリ/)の稼働状況 |
 
 なお、非公開[リポジトリ](/glossary/リポジトリ/)に対して存在を隠すために「見つからない」相当の応答を返す[レジストリ](/glossary/レジストリ/)もあります。権限系と参照先不在の切り分けで迷う場合は、対象[レジストリ](/glossary/レジストリ/)の公式ドキュメントで応答の仕様を確認してください。
@@ -88,7 +88,7 @@ docker manifest inspect --help
 
 ### 原因2：image reference が意図した対象を指していない
 
-レジストリホストの誤り、名前空間や組織名の誤り、似た名前の[リポジトリ](/glossary/リポジトリ/)、そしてプラットフォーム指定の不一致により、意図した manifest list や image manifest とは別の対象を参照している場合があります。レジストリホストを省略したときの既定の参照先は、[クライアント](/glossary/クライアント/)とその設定によって変わります。切り分け中は省略せず、完全な形で指定してください。
+レジストリホストの誤り、名前空間や組織名の誤り、似た名前の[リポジトリ](/glossary/リポジトリ/)、そしてプラットフォーム指定の不一致により、意図した manifest list や image manifest とは別の対象を参照している場合があります。レジストリホストを省略したときの既定の参照先は、[クライアント](/glossary/クライアント/)とその[設定](/glossary/設定/)によって変わります。切り分け中は省略せず、完全な形で指定してください。
 
 ```bash
 # レジストリホストから明示して確認する
@@ -144,7 +144,7 @@ docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
     docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
     ```
 
-    - 成功する場合：参照先は存在します。プラットフォーム指定や、pull を実行している環境側の設定を疑います
+    - 成功する場合：参照先は存在します。プラットフォーム指定や、pull を実行している環境側の[設定](/glossary/設定/)を疑います
     - 失敗する場合：参照先が存在しません。[タグ](/glossary/タグ/)一覧と公開側の工程を確認します
 
 5. **[タグ](/glossary/タグ/)一覧と突き合わせる**：[レジストリ](/glossary/レジストリ/)の管理画面または[タグ](/glossary/タグ/)一覧 [API](/glossary/api/) で、実在する[タグ](/glossary/タグ/)を列挙して比較します。
@@ -179,7 +179,7 @@ docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
 
 そのうえで、次の点も確認してください。
 
-- **レジストリミラーや[プロキシ](/glossary/プロキシ/)を経由していないか**：経由している場合、参照しているのは本来の[レジストリ](/glossary/レジストリ/)ではない可能性があります。[デーモン](/glossary/デーモン/)のミラー設定と、その経路で対象[タグ](/glossary/タグ/)が取得できるかを確認します。設定項目名は、利用している[クライアント](/glossary/クライアント/)の公式リファレンスで確認してください。
+- **レジストリミラーや[プロキシ](/glossary/プロキシ/)を経由していないか**：経由している場合、参照しているのは本来の[レジストリ](/glossary/レジストリ/)ではない可能性があります。[デーモン](/glossary/デーモン/)のミラー[設定](/glossary/設定/)と、その経路で対象[タグ](/glossary/タグ/)が取得できるかを確認します。設定項目名は、利用している[クライアント](/glossary/クライアント/)の公式リファレンスで確認してください。
 - **[クライアント](/glossary/クライアント/)と[レジストリ](/glossary/レジストリ/)の応答仕様**：manifest や[タグ](/glossary/タグ/)の取得 [API](/glossary/api/) の挙動は [OCI Distribution Specification](https://github.com/opencontainers/distribution-spec/blob/main/spec.md) が基準です。レジジストリ固有の挙動は、各[レジストリ](/glossary/レジストリ/)の公式ドキュメントで確認します。
 - **[レジストリ](/glossary/レジストリ/)側の稼働状況**：応答が 5xx に変わっている場合は、参照先の問題ではなく[レジストリ](/glossary/レジストリ/)側の障害です。
 

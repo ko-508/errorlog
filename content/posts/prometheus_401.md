@@ -100,7 +100,7 @@ print(response.status_code)  # 200 が返される
 
 ### 原因2：TLS クライアント証明書認証が必要なのに証明書を設定していない
 
-Prometheus が相互 [TLS](/glossary/tls/)（mTLS）[認証](/glossary/認証/)で保護されている場合、[クライアント](/glossary/クライアント/)側で[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)と[秘密鍵](/glossary/秘密鍵/)を提示する必要があります。これらの設定がない場合、[TLS](/glossary/tls/) ハンドシェイクが失敗し、[認証](/glossary/認証/)[エラー](/glossary/エラー/)として 401 が返されます。
+Prometheus が相互 [TLS](/glossary/tls/)（mTLS）[認証](/glossary/認証/)で保護されている場合、[クライアント](/glossary/クライアント/)側で[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)と[秘密鍵](/glossary/秘密鍵/)を提示する必要があります。これらの[設定](/glossary/設定/)がない場合、[TLS](/glossary/tls/) ハンドシェイクが失敗し、[認証](/glossary/認証/)[エラー](/glossary/エラー/)として 401 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -150,7 +150,7 @@ curl --cert /etc/prometheus/certs/client.crt \
 
 ### 原因3：リバースプロキシ（Nginx 等）の認証設定でブロックされている
 
-Prometheus の前段に Nginx や Apache などのリバースプロキシが配置されている場合、[プロキシ](/glossary/プロキシ/)側で[認証](/glossary/認証/)が設定されていることがあります。この場合、[プロキシ](/glossary/プロキシ/)への認証情報が必要であり、同時に Prometheus 自体の認証設定とも整合させなければなりません。
+Prometheus の前段に Nginx や Apache などのリバースプロキシが配置されている場合、[プロキシ](/glossary/プロキシ/)側で[認証](/glossary/認証/)が[設定](/glossary/設定/)されていることがあります。この場合、[プロキシ](/glossary/プロキシ/)への認証情報が必要であり、同時に Prometheus 自体の認証設定とも整合させなければなりません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -189,7 +189,7 @@ server {
 }
 ```
 
-または、Prometheus 側で直接ベーシック[認証](/glossary/認証/)を設定する場合：
+または、Prometheus 側で直接ベーシック[認証](/glossary/認証/)を[設定](/glossary/設定/)する場合：
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -210,11 +210,11 @@ server {
 
 ## ツール固有の注意点
 
-**Prometheus スクレイパーの[認証](/glossary/認証/)：** `prometheus.yml` 内で定義されたスクレイプ対象も 401 を返す可能性があります。特にエクスポーター（Node Exporter、MySQL Exporter など）がベーシック[認証](/glossary/認証/)で保護されている場合、該当するジョブ設定に `basic_auth` セクションを追加する必要があります。
+**Prometheus スクレイパーの[認証](/glossary/認証/)：** `prometheus.yml` 内で定義されたスクレイプ対象も 401 を返す可能性があります。特にエクスポーター（Node Exporter、MySQL Exporter など）がベーシック[認証](/glossary/認証/)で保護されている場合、該当するジョブ[設定](/glossary/設定/)に `basic_auth` セクションを追加する必要があります。
 
 **Grafana 経由でのアクセス：** Grafana が Prometheus を Datasource として登録している場合、Datasource 設定画面の「Authentication」セクションで認証情報を入力してください。curl で[テスト](/glossary/テスト/)する際と同じ認証方式（ベーシック[認証](/glossary/認証/)、[TLS](/glossary/tls/)、[OAuth](/glossary/oauth/) など）を選択します。
 
-**リモート書き込み・読み取り設定：** `remote_write` や `remote_read` で別の Prometheus [インスタンス](/glossary/インスタンス/)と[通信](/glossary/通信/)する際も、同様に `basic_auth` や `tls_config` を設定する必要があります。
+**リモート書き込み・読み取り[設定](/glossary/設定/)：** `remote_write` や `remote_read` で別の Prometheus [インスタンス](/glossary/インスタンス/)と[通信](/glossary/通信/)する際も、同様に `basic_auth` や `tls_config` を[設定](/glossary/設定/)する必要があります。
 
 ```yaml
 remote_write:
@@ -259,7 +259,7 @@ curl --cert /path/to/client.crt \
 ./prometheus --config.file=prometheus.yml --config.check
 ```
 
-設定に誤りがないか確認します。
+[設定](/glossary/設定/)に誤りがないか確認します。
 
 **4. リバースプロキシのアクセスログ確認：**
 

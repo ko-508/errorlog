@@ -87,11 +87,11 @@ Postmanで[修正](/glossary/修正/)するには、Bodyタブを開き、以下
 
 ### 原因2：Content-Typeヘッダーがボディのデータフォーマットと一致していない
 
-Postmanが[送信](/glossary/送信/)するContent-Type[ヘッダー](/glossary/ヘッダー/)の値が、実際のボディの形式と異なると[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返します。[JSON](/glossary/json/)形式のボディを[送信](/glossary/送信/)する場合はapplication/jsonを指定する必要がありますが、誤ってtext/plainやapplication/x-www-form-urlencodedが設定されているケースが多く見られます。
+Postmanが[送信](/glossary/送信/)するContent-Type[ヘッダー](/glossary/ヘッダー/)の値が、実際のボディの形式と異なると[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返します。[JSON](/glossary/json/)形式のボディを[送信](/glossary/送信/)する場合はapplication/jsonを指定する必要がありますが、誤ってtext/plainやapplication/x-www-form-urlencodedが[設定](/glossary/設定/)されているケースが多く見られます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
-Postmanの[リクエスト](/glossary/リクエスト/)設定：
+Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定/)：
 - Method: POST
 - [URL](/glossary/url/): http://api.example.com/data
 - Headers: Content-Type: text/plain
@@ -105,7 +105,7 @@ Postmanの[リクエスト](/glossary/リクエスト/)設定：
 
 **After（修正後）：**
 
-Postmanの[リクエスト](/glossary/リクエスト/)設定：
+Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定/)：
 - Method: POST
 - [URL](/glossary/url/): http://api.example.com/data
 - Headers: Content-Type: application/json
@@ -121,7 +121,7 @@ Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以
 
 1. Headersタブで「Content-Type」[キー](/glossary/キー/)の値を確認する
 2. Bodyタブで「raw」を選択している場合、右側のドロップダウンから「[JSON](/glossary/json/)」を選択する
-3. ドロップダウン選択でContent-Typeが自動的に application/json に設定されることを確認する
+3. ドロップダウン選択でContent-Typeが自動的に application/json に[設定](/glossary/設定/)されることを確認する
 4. または、Headersタブで手動でContent-Type: application/json に[修正](/glossary/修正/)する
 
 ### 原因3：URLのクエリパラメータに不正な文字が含まれている
@@ -142,9 +142,9 @@ GET http://api.example.com/search?keyword=東京都&sort=新着順
 GET http://api.example.com/search?keyword=%E6%9D%B1%E4%BA%AC%E9%83%BD&sort=%E6%96%B0%E7%9D%80%E9%A0%86
 ```
 
-またはPostmanで以下の方法で安全に設定します：
+またはPostmanで以下の方法で安全に[設定](/glossary/設定/)します：
 
-Postmanの[リクエスト](/glossary/リクエスト/)設定：
+Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定/)：
 - Method: GET
 - [URL](/glossary/url/): http://api.example.com/search
 - Params（タブ）:
@@ -159,7 +159,7 @@ Postmanで400[エラー](/glossary/エラー/)が発生した際、以下の[ツ
 
 **Postman Consoleの活用**
 
-View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。UIで設定した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
+View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。UIで[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
 
 **[環境変数](/glossary/環境変数/)とコレクション[変数](/glossary/変数/)の確認**
 
@@ -183,7 +183,7 @@ Postman Consoleを開き、以下の情報を確認します：
 
 **cURL[コマンド](/glossary/コマンド/)での検証**
 
-Postmanの[リクエスト](/glossary/リクエスト/)右側にある「</> Code」ボタンをクリックし、cURL[コマンド](/glossary/コマンド/)をコピーして[ターミナル](/glossary/ターミナル/)で実行してみてください。もし同じ[エラー](/glossary/エラー/)がcURLでも発生すれば、Postmanではなく[リクエスト](/glossary/リクエスト/)自体が不正です。反対に、cURLでは成功する場合、Postman固有の設定に問題がある可能性があります。
+Postmanの[リクエスト](/glossary/リクエスト/)右側にある「</> Code」ボタンをクリックし、cURL[コマンド](/glossary/コマンド/)をコピーして[ターミナル](/glossary/ターミナル/)で実行してみてください。もし同じ[エラー](/glossary/エラー/)がcURLでも発生すれば、Postmanではなく[リクエスト](/glossary/リクエスト/)自体が不正です。反対に、cURLでは成功する場合、Postman固有の[設定](/glossary/設定/)に問題がある可能性があります。
 
 例：
 

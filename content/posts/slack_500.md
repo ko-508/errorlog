@@ -257,7 +257,7 @@ Slackアプリが`view.open`や`chat.postMessage`をInteractive Componentsの応
 
 **[Webhook](/glossary/webhook/) [URL](/glossary/url/)の廃止と再認証**
 
-Incoming [Webhook](/glossary/webhook/)やOutgoing [Webhook](/glossary/webhook/)の[URL](/glossary/url/)は、[ワークスペース](/glossary/ワークスペース/)設定の変更や[セキュリティ](/glossary/セキュリティ/)理由で予告なく無効化されることがあります。その際、古い[URL](/glossary/url/)への[リクエスト](/glossary/リクエスト/)は404を返すべきですが、稀に500[エラー](/glossary/エラー/)で応答することもあります。
+Incoming [Webhook](/glossary/webhook/)やOutgoing [Webhook](/glossary/webhook/)の[URL](/glossary/url/)は、[ワークスペース](/glossary/ワークスペース/)[設定](/glossary/設定/)の変更や[セキュリティ](/glossary/セキュリティ/)理由で予告なく無効化されることがあります。その際、古い[URL](/glossary/url/)への[リクエスト](/glossary/リクエスト/)は404を返すべきですが、稀に500[エラー](/glossary/エラー/)で応答することもあります。
 
 ## それでも解決しない場合
 

@@ -32,7 +32,7 @@ Nginx が自身の既定ページで 404 を返す場合、[ブラウザ](/gloss
 
 ## まず最初に：エラーログを読む
 
-アクセスログは「404 が起きた」ことしか教えてくれません。なぜ起きたかは[エラーログ](/glossary/エラーログ/)が示します。設定をいじる前に、まず[エラーログ](/glossary/エラーログ/)の該当行を確認します。
+アクセスログは「404 が起きた」ことしか教えてくれません。なぜ起きたかは[エラーログ](/glossary/エラーログ/)が示します。[設定](/glossary/設定/)をいじる前に、まず[エラーログ](/glossary/エラーログ/)の該当行を確認します。
 
 ```bash
 # 直近のエラーを表示
@@ -44,17 +44,17 @@ sudo grep -i "no such file" /var/log/nginx/error.log
 
 見るべきポイントは2つです。
 
-該当時刻に `open() "/var/www/html/app/users" failed (2: No such file or directory)` のような行があれば、Nginx が静的[ファイル](/glossary/ファイル/)としてその[パス](/glossary/パス/)を開こうとして失敗しています。[ログ](/glossary/ログ/)に出ている絶対[パス](/glossary/パス/)が「Nginx が実際に探した場所」なので、これを見れば `root` や `alias` の設定と実際の配置のどちらがずれているかを直接確認できます(原因1〜3)。
+該当時刻に `open() "/var/www/html/app/users" failed (2: No such file or directory)` のような行があれば、Nginx が静的[ファイル](/glossary/ファイル/)としてその[パス](/glossary/パス/)を開こうとして失敗しています。[ログ](/glossary/ログ/)に出ている絶対[パス](/glossary/パス/)が「Nginx が実際に探した場所」なので、これを見れば `root` や `alias` の[設定](/glossary/設定/)と実際の配置のどちらがずれているかを直接確認できます(原因1〜3)。
 
-該当時刻に[エラーログ](/glossary/エラーログ/)の行がないのにアクセスログには 404 が残っている場合、Nginx は自分で[ファイル](/glossary/ファイル/)を探して失敗したのではありません。`try_files` の `=404` 指定で意図的に返しているか、`proxy_pass` 先の応答をそのまま中継しているかのどちらかが典型です(原因3〜5)。なお `log_not_found off;` が設定されていると[ファイル](/glossary/ファイル/)不存在が[エラーログ](/glossary/エラーログ/)に記録されなくなるため、設定を確認してから判断してください。
+該当時刻に[エラーログ](/glossary/エラーログ/)の行がないのにアクセスログには 404 が残っている場合、Nginx は自分で[ファイル](/glossary/ファイル/)を探して失敗したのではありません。`try_files` の `=404` 指定で意図的に返しているか、`proxy_pass` 先の応答をそのまま中継しているかのどちらかが典型です(原因3〜5)。なお `log_not_found off;` が[設定](/glossary/設定/)されていると[ファイル](/glossary/ファイル/)不存在が[エラーログ](/glossary/エラーログ/)に記録されなくなるため、[設定](/glossary/設定/)を確認してから判断してください。
 
 ## よくある原因と解決手順
 
 ### 原因1：root のパスが実際のファイル配置と合っていない
 
-公式ドキュメントのとおり、`root` を使う場合のファイルパスは「root の値 + [リクエスト](/glossary/リクエスト/) URI」の単純な連結で作られます。設定では `/var/www/html` を指しているのに実際の[ファイル](/glossary/ファイル/)が `/home/app/public` にある、といったずれがあれば 404 になります。
+公式ドキュメントのとおり、`root` を使う場合のファイルパスは「root の値 + [リクエスト](/glossary/リクエスト/) URI」の単純な連結で作られます。[設定](/glossary/設定/)では `/var/www/html` を指しているのに実際の[ファイル](/glossary/ファイル/)が `/home/app/public` にある、といったずれがあれば 404 になります。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）：**
 
 ```nginx
 server {
@@ -82,13 +82,13 @@ server {
 }
 ```
 
-[修正](/glossary/修正/)の際は、推測ではなく[エラーログ](/glossary/エラーログ/)の[パス](/glossary/パス/)と `ls` の結果を突き合わせてください。Linux の一般的なファイルシステムは[パス](/glossary/パス/)の大文字小文字を区別するため、`Index.html` と `index.html` の違いでも 404 になります。
+[修正](/glossary/修正/)の際は、推測ではなく[エラーログ](/glossary/エラーログ/)の[パス](/glossary/パス/)と `ls` の結果を突き合わせてください。[Linux](/glossary/linux/) の一般的なファイルシステムは[パス](/glossary/パス/)の大文字小文字を区別するため、`Index.html` と `index.html` の違いでも 404 になります。
 
 ### 原因2：alias の末尾スラッシュの不一致でパス結合がずれる
 
 `alias` は `root` と結合規則が異なります。[リクエスト](/glossary/リクエスト/) URI のうち location に一致した部分が、alias の値に「置き換え」られます。このため location とalias の末尾のスラッシュの有無が揃っていないと、置き換え結果の[パス](/glossary/パス/)が崩れます。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）：**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）：**
 
 ```nginx
 location /static/ {
@@ -112,9 +112,9 @@ location /static/ {
 
 `try_files` は列挙した[パス](/glossary/パス/)の存在を順に確認し、最初に見つかったもので[リクエスト](/glossary/リクエスト/)を処理します。よくある誤解が2つあります。
 
-1つ目は `=404` の意味です。`try_files $uri =404;` は「$uri が存在しなければ 404 を返す」という意図的な指定です。シングルページアプリケーション（1枚の HTML に画面遷移をまとめる作りのウェブアプリ）のように、どの[パス](/glossary/パス/)でも `index.html` を返したい場合にこの設定のままだと、直リンクやリロードがすべて 404 になります。
+1つ目は `=404` の意味です。`try_files $uri =404;` は「$uri が存在しなければ 404 を返す」という意図的な指定です。シングルページアプリケーション（1枚の HTML に画面遷移をまとめる作りのウェブアプリ）のように、どの[パス](/glossary/パス/)でも `index.html` を返したい場合にこの[設定](/glossary/設定/)のままだと、直リンクやリロードがすべて 404 になります。
 
-**Before（SPA で 404 になる設定）：**
+**Before（SPA で 404 になる[設定](/glossary/設定/)）：**
 
 ```nginx
 location / {
@@ -132,13 +132,13 @@ location / {
 }
 ```
 
-2つ目は最後の[引数](/glossary/引数/)の扱いです。公式ドキュメントのとおり、最後の[引数](/glossary/引数/)だけは存在確認の対象ではなく「どれも見つからなかったときの内部転送先」です。ここに存在しない URI（例：`/notfound.html`）を書くと、転送先でまた同じ location が処理して転送し……という循環になります。Nginx は内部転送を1[リクエスト](/glossary/リクエスト/)あたり10回までに制限しており、超えると返るのは 404 ではなく 500 Internal Server Error で、[エラーログ](/glossary/エラーログ/)には `rewrite or internal redirection cycle` と記録されます。「404 対策のつもりの設定が 500 を生む」典型なので、転送先の[ファイル](/glossary/ファイル/)が実在することを必ず確認してください。
+2つ目は最後の[引数](/glossary/引数/)の扱いです。公式ドキュメントのとおり、最後の[引数](/glossary/引数/)だけは存在確認の対象ではなく「どれも見つからなかったときの内部転送先」です。ここに存在しない URI（例：`/notfound.html`）を書くと、転送先でまた同じ location が処理して転送し……という循環になります。Nginx は内部転送を1[リクエスト](/glossary/リクエスト/)あたり10回までに制限しており、超えると返るのは 404 ではなく 500 Internal Server Error で、[エラーログ](/glossary/エラーログ/)には `rewrite or internal redirection cycle` と記録されます。「404 対策のつもりの[設定](/glossary/設定/)が 500 を生む」典型なので、転送先の[ファイル](/glossary/ファイル/)が実在することを必ず確認してください。
 
 ### 原因4：意図しない location ブロックがリクエストを処理している
 
 404 の対象[リクエスト](/glossary/リクエスト/)を、想定と別の location が処理していることがあります。location の選択は記述順ではなく次の優先順位で決まります。まず `=`（完全一致）が最優先、次に前方一致の中で最長のものが記憶され、その location に `^~` が付いていれば確定、付いていなければ正規表現（`~`、`~*`）が[設定ファイル](/glossary/設定ファイル/)の記述順に評価され、最初に一致したものが勝ちます。正規表現がどれも一致しなければ、記憶していた前方一致が使われます。
 
-例えば次の設定では、`/downloads/manual.png` は `location /downloads/` ではなく正規表現の location が処理します。そちらに `root` の指定がなければ、意図しない場所（継承された root）を探して 404 になります。
+例えば次の[設定](/glossary/設定/)では、`/downloads/manual.png` は `location /downloads/` ではなく正規表現の location が処理します。そちらに `root` の指定がなければ、意図しない場所（継承された root）を探して 404 になります。
 
 ```nginx
 location /downloads/ {
@@ -151,7 +151,7 @@ location ~* \.(gif|jpg|png)$ {
 }
 ```
 
-どの location が処理しているか不明なときは、`nginx -T` で実際に読み込まれている設定の全体（include された[ファイル](/glossary/ファイル/)を含む）を確認し、上記の優先順位に沿って追ってください。
+どの location が処理しているか不明なときは、`nginx -T` で実際に読み込まれている[設定](/glossary/設定/)の全体（include された[ファイル](/glossary/ファイル/)を含む）を確認し、上記の優先順位に沿って追ってください。
 
 ### 原因5：proxy_pass 先のアプリケーションが 404 を返している
 
@@ -171,18 +171,18 @@ location /api/ {
 }
 ```
 
-上流アプリのルート定義が `/users` なのにパターンBで `/api/users` を渡していれば、アプリ側のルーティングに一致せず 404 が返ります。逆も同様です。切り分けは、上流アプリのアクセスログで「実際にどの[パス](/glossary/パス/)が届いたか」を確認するのが確実です。
+上流アプリのルート定義が `/users` なのに[パターン](/glossary/パターン/)Bで `/api/users` を渡していれば、アプリ側のルーティングに一致せず 404 が返ります。逆も同様です。切り分けは、上流アプリのアクセスログで「実際にどの[パス](/glossary/パス/)が届いたか」を確認するのが確実です。
 
 ## 切り分けの順序
 
-手当たり次第に設定を変えるのではなく、次の順で範囲を狭めます。
+手当たり次第に[設定](/glossary/設定/)を変えるのではなく、次の順で範囲を狭めます。
 
 1. [エラーログ](/glossary/エラーログ/)を見る。`(2: No such file or directory)` の行があれば、そこに出ている[パス](/glossary/パス/)と実際の配置を突き合わせる（原因1〜3）。行がなければ 2 へ。
-2. `nginx -T` で有効な設定の全体を確認し、対象[リクエスト](/glossary/リクエスト/)をどの server・location が処理するかを優先順位に沿って特定する（原因4）。
+2. `nginx -T` で有効な[設定](/glossary/設定/)の全体を確認し、対象[リクエスト](/glossary/リクエスト/)をどの server・location が処理するかを優先順位に沿って特定する（原因4）。
 3. その location が `proxy_pass` なら、上流アプリの[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答[コード](/glossary/コード/)を確認する（原因5）。
 4. `try_files` がある場合は、`=404` の意図と、最後の転送先の実在を確認する（原因3）。
 
-設定を[修正](/glossary/修正/)したら、文法確認をしてから反映します。文法[エラー](/glossary/エラー/)があると古い設定のまま動き続け、[修正](/glossary/修正/)が反映されない錯覚に陥ります。
+[設定](/glossary/設定/)を[修正](/glossary/修正/)したら、文法確認をしてから反映します。文法[エラー](/glossary/エラー/)があると古い[設定](/glossary/設定/)のまま動き続け、[修正](/glossary/修正/)が反映されない錯覚に陥ります。
 
 ```bash
 sudo nginx -t && sudo systemctl reload nginx
@@ -215,9 +215,9 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-実際の報告例として、`try_files` の設定が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と設定していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを確認する、という切り分けが示されています。
+実際の報告例として、`try_files` の[設定](/glossary/設定/)が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と[設定](/glossary/設定/)していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを確認する、という切り分けが示されています。
 
-この事例が示すとおり、404 と try_files をめぐる設定ミスは、症状が 404 ではなく 500 として現れることがあります。エラーコードの見た目だけで判断せず、[エラーログ](/glossary/エラーログ/)の文言から原因をたどることが確実な近道です。
+この事例が示すとおり、404 と try_files をめぐる[設定](/glossary/設定/)ミスは、症状が 404 ではなく 500 として現れることがあります。エラーコードの見た目だけで判断せず、[エラーログ](/glossary/エラーログ/)の文言から原因をたどることが確実な近道です。
 
 ---
 

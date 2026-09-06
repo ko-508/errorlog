@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-503[エラー](/glossary/エラー/)は「Service Unavailable」を意味し、[Docker](/glossary/docker/) Composeでは依存するサービスが正常に起動できていない、または起動完了前にアクセスされている状況を示します。マイクロサービスアーキテクチャではよく発生する[エラー](/glossary/エラー/)で、特に複数コンテナーの起動順序や[ヘルスチェック](/glossary/ヘルスチェック/)設定に起因することが多いです。
+503[エラー](/glossary/エラー/)は「Service Unavailable」を意味し、[Docker](/glossary/docker/) Composeでは依存するサービスが正常に起動できていない、または起動完了前にアクセスされている状況を示します。マイクロサービスアーキテクチャではよく発生する[エラー](/glossary/エラー/)で、特に複数コンテナーの起動順序や[ヘルスチェック](/glossary/ヘルスチェック/)[設定](/glossary/設定/)に起因することが多いです。
 
 ## 実際のエラーメッセージ例
 
@@ -159,7 +159,7 @@ EXPOSE 8080
 CMD ["sh", "-c", "echo 'Starting app...' && python app.py || (echo 'App startup failed'; exit 1)"]
 ```
 
-同時に[Docker](/glossary/docker/) Composeの設定でも確認メカニズムを追加します。
+同時に[Docker](/glossary/docker/) Composeの[設定](/glossary/設定/)でも確認メカニズムを追加します。
 
 ```yaml
 version: '3.8'
@@ -182,11 +182,11 @@ services:
 
 [Docker](/glossary/docker/) Composeで503[エラー](/glossary/エラー/)を防ぐために、以下のベストプラクティスに従うことが重要です。
 
-**[ヘルスチェック](/glossary/ヘルスチェック/)の`start_period`パラメーター**：[アプリケーション](/glossary/アプリケーション/)[初期化](/glossary/初期化/)に時間がかかる場合は、`start_period`を設定して初期[ヘルスチェック](/glossary/ヘルスチェック/)失敗を無視させます。これにより、起動直後の一時的な接続失敗で「unhealthy」と判定されるのを防げます。
+**[ヘルスチェック](/glossary/ヘルスチェック/)の`start_period`パラメーター**：[アプリケーション](/glossary/アプリケーション/)[初期化](/glossary/初期化/)に時間がかかる場合は、`start_period`を[設定](/glossary/設定/)して初期[ヘルスチェック](/glossary/ヘルスチェック/)失敗を無視させます。これにより、起動直後の一時的な接続失敗で「unhealthy」と判定されるのを防げます。
 
-**複数レイヤーの依存構成**：3層以上の[マイクロサービス](/glossary/マイクロサービス/)構成（例：Nginx → [API](/glossary/api/) → Database）では、各層すべてに`condition: service_healthy`を設定します。中間層のみ待機しても、その先のサービスがダウンしていれば結局503[エラー](/glossary/エラー/)が発生します。
+**複数レイヤーの依存構成**：3層以上の[マイクロサービス](/glossary/マイクロサービス/)構成（例：Nginx → [API](/glossary/api/) → Database）では、各層すべてに`condition: service_healthy`を[設定](/glossary/設定/)します。中間層のみ待機しても、その先のサービスがダウンしていれば結局503[エラー](/glossary/エラー/)が発生します。
 
-**[ネットワーク](/glossary/ネットワーク/)分離**：複数のCompose設定を運用する場合、`networks`セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、不要なサービス間通信を遮断することで、予期しない503[エラー](/glossary/エラー/)の原因を減らせます。
+**[ネットワーク](/glossary/ネットワーク/)分離**：複数のCompose[設定](/glossary/設定/)を運用する場合、`networks`セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、不要なサービス間通信を遮断することで、予期しない503[エラー](/glossary/エラー/)の原因を減らせます。
 
 ```yaml
 version: '3.8'

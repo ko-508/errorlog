@@ -226,7 +226,7 @@ spec:
 ## Kubernetes固有の注意点
 
 ### ServiceAccountとRBAC設定
-400[エラー](/glossary/エラー/)は[認可](/glossary/認可/)[エラー](/glossary/エラー/)（403）ではなく検証[エラー](/glossary/エラー/)ですが、ServiceAccountが適切に設定されていない場合、リソース作成時に引き続き400が発生することがあります。`kubectl auth can-i`[コマンド](/glossary/コマンド/)で権限確認を併せて実施してください。
+400[エラー](/glossary/エラー/)は[認可](/glossary/認可/)[エラー](/glossary/エラー/)（403）ではなく検証[エラー](/glossary/エラー/)ですが、ServiceAccountが適切に[設定](/glossary/設定/)されていない場合、リソース作成時に引き続き400が発生することがあります。`kubectl auth can-i`[コマンド](/glossary/コマンド/)で権限確認を併せて実施してください。
 
 ```bash
 kubectl auth can-i create deployments --as=system:serviceaccount:default:my-sa -n default

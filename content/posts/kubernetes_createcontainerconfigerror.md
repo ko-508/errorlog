@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`CreateContainerConfigError` は、[Kubernetes](/glossary/kubernetes/) が[コンテナ](/glossary/コンテナ/)を起動する前段階、**設定を組み立てる段階で失敗した**ことを示します。[イメージ](/glossary/イメージ/)の取得は成功しており、[コンテナ](/glossary/コンテナ/)の作成にも到達していません。
+`CreateContainerConfigError` は、[Kubernetes](/glossary/kubernetes/) が[コンテナ](/glossary/コンテナ/)を起動する前段階、**[設定](/glossary/設定/)を組み立てる段階で失敗した**ことを示します。[イメージ](/glossary/イメージ/)の取得は成功しており、[コンテナ](/glossary/コンテナ/)の作成にも到達していません。
 
 重要なのは、**この文字列自体には原因が書かれていない**ことです。実装を見ると、これは分類のための名前で、`kubectl get pods` の状態欄にはこの名前だけが出ます。実際の原因は、`kubectl describe pod` の[イベント](/glossary/イベント/)の側に入ります。しかも、その[イベント](/glossary/イベント/)の理由欄は `CreateContainerConfigError` ではなく **`Failed`** です。実装で理由の定数がそう定義されています。
 
@@ -136,9 +136,9 @@ env:
 
 ### 原因4：環境変数の設定以外が原因
 
-頻度は下がりますが、設定を組み立てる段階には他の処理も含まれます。実装では、[イメージ](/glossary/イメージ/)の利用者の解決や、`runAsNonRoot` の検証、[ログ](/glossary/ログ/)用[ディレクトリ](/glossary/ディレクトリ/)の作成もこの段階で行われ、いずれの失敗も同じ分類名になります。
+頻度は下がりますが、[設定](/glossary/設定/)を組み立てる段階には他の処理も含まれます。実装では、[イメージ](/glossary/イメージ/)の利用者の解決や、`runAsNonRoot` の検証、[ログ](/glossary/ログ/)用[ディレクトリ](/glossary/ディレクトリ/)の作成もこの段階で行われ、いずれの失敗も同じ分類名になります。
 
-したがって、[イベント](/glossary/イベント/)の文言が ConfigMap や Secret に触れていない場合は、そちらを疑ってください。とくに `runAsNonRoot` を指定しているのに[イメージ](/glossary/イメージ/)が root で動く設定になっている場合が該当します。
+したがって、[イベント](/glossary/イベント/)の文言が ConfigMap や Secret に触れていない場合は、そちらを疑ってください。とくに `runAsNonRoot` を指定しているのに[イメージ](/glossary/イメージ/)が root で動く[設定](/glossary/設定/)になっている場合が該当します。
 
 ### 原因5：分類名だけで判断してしまう
 
@@ -153,11 +153,11 @@ kubectl get pod <Pod名> -o jsonpath='{range .status.containerStatuses[*]}{.name
 
 ## 補足：似ているが別のもの
 
-`CreateContainerError` は別の分類です。実装では定数からして別物で、こちらは設定の組み立てではなく、[コンテナ](/glossary/コンテナ/)の作成そのものに失敗した場合に使われます。名前が似ているため取り違えやすいので、文字列を最後まで読んでください。
+`CreateContainerError` は別の分類です。実装では定数からして別物で、こちらは[設定](/glossary/設定/)の組み立てではなく、[コンテナ](/glossary/コンテナ/)の作成そのものに失敗した場合に使われます。名前が似ているため取り違えやすいので、文字列を最後まで読んでください。
 
 [イメージ](/glossary/イメージ/)が取得できない場合は `ImagePullBackOff` です（[Kubernetes の ImagePullBackOff の記事](/posts/kubernetes_imagepullbackoff/)）。この[エラー](/glossary/エラー/)は[イメージ](/glossary/イメージ/)の取得に成功したあとの段階なので、両者は排他です。
 
-[コンテナ](/glossary/コンテナ/)が起動したあとで落ちる場合は `CrashLoopBackOff` です（[Kubernetes の CrashLoopBackOff の記事](/posts/kubernetes_crashloopbackoff/)）。設定は組み立てられているため、原因は[アプリケーション](/glossary/アプリケーション/)側にあります。
+[コンテナ](/glossary/コンテナ/)が起動したあとで落ちる場合は `CrashLoopBackOff` です（[Kubernetes の CrashLoopBackOff の記事](/posts/kubernetes_crashloopbackoff/)）。[設定](/glossary/設定/)は組み立てられているため、原因は[アプリケーション](/glossary/アプリケーション/)側にあります。
 
 `ContainerCreating` のまま進まない場合は、多くがボリュームの割り当て待ちです。[イベント](/glossary/イベント/)の理由が `FailedMount` になります。
 
@@ -171,7 +171,7 @@ kubectl get pod <Pod名> -o jsonpath='{range .status.containerStatuses[*]}{.name
 4. 文言に含まれる名前空間を確認する。取り違えていないか。
 5. 実物の一覧と突き合わせる。推測で[キー](/glossary/キー/)名を直さない。
 6. 配備直後なら、順序の問題かもしれない。後から作れば自動的に起動する。
-7. 文言が ConfigMap や Secret に触れていないなら、`runAsNonRoot` などの設定を疑う。
+7. 文言が ConfigMap や Secret に触れていないなら、`runAsNonRoot` などの[設定](/glossary/設定/)を疑う。
 8. 複数[コンテナ](/glossary/コンテナ/)なら、どの[コンテナ](/glossary/コンテナ/)で失敗しているかを確認する。
 
 ## 確認コマンド集

@@ -15,19 +15,19 @@ related_services: ["Docker", "nginx"]
 
 ## 実際のエラーメッセージ例
 
-**パターン1：コンテナー名の競合**
+**[パターン](/glossary/パターン/)1：コンテナー名の競合**
 
 ```json
 Error response from daemon: Conflict. The container name "<container-name>" is already in use by container "<existing-container-id>". You have to remove (or rename) that container to be able to reuse that name.
 ```
 
-**パターン2：[ポート](/glossary/ポート/)番号の競合**
+**[パターン](/glossary/パターン/)2：[ポート](/glossary/ポート/)番号の競合**
 
 ```bash
 ERROR: for <service-name>  Cannot start service <service-name>: driver failed programming external connectivity on endpoint <endpoint-name>: Bind for 0.0.0.0:<port> failed: port is already allocated
 ```
 
-**パターン3：[ネットワーク](/glossary/ネットワーク/)またはボリュームの競合**
+**[パターン](/glossary/パターン/)3：[ネットワーク](/glossary/ネットワーク/)またはボリュームの競合**
 
 ```json
 Error response from daemon: network with name <network-name> already exists
@@ -99,7 +99,7 @@ docker volume ls
 docker volume rm <existing-volume-name>
 ```
 
-**既存リソースを再利用する場合の設定：**
+**既存リソースを再利用する場合の[設定](/glossary/設定/)：**
 
 ```yaml
 version: '3.8'
@@ -141,7 +141,7 @@ docker compose -p <project-name> up -d
 
 ### Docker Desktop での特殊な注意
 
-Windows または macOS の [Docker](/glossary/docker/) Desktop [環境](/glossary/環境/)では、ホストマシンのリソースが仮想マシン上の Linux にマッピングされます。[ポート](/glossary/ポート/)競合の問題が解決しない場合、[Docker](/glossary/docker/) Desktop のリソース割り当てやポートフォワード設定を確認してください。
+Windows または macOS の [Docker](/glossary/docker/) Desktop [環境](/glossary/環境/)では、ホストマシンのリソースが仮想マシン上の [Linux](/glossary/linux/) にマッピングされます。[ポート](/glossary/ポート/)競合の問題が解決しない場合、[Docker](/glossary/docker/) Desktop のリソース割り当てやポートフォワード[設定](/glossary/設定/)を確認してください。
 
 ## それでも解決しない場合
 
@@ -175,7 +175,7 @@ docker system prune -a --volumes
 
 ### 公式ドキュメントの確認
 
-[Docker](/glossary/docker/) Compose の公式ドキュメント（https://docs.docker.com/compose/）では、詳細な設定オプションと各エラーの詳説が提供されています。また、`docker compose config` [コマンド](/glossary/コマンド/)で現在の設定を検証できます。
+[Docker](/glossary/docker/) Compose の公式ドキュメント（https://docs.docker.com/compose/）では、詳細な設定オプションと各エラーの詳説が提供されています。また、`docker compose config` [コマンド](/glossary/コマンド/)で現在の[設定](/glossary/設定/)を検証できます。
 
 ```bash
 # compose.yml の構文チェック

@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 ---
 ## エラーの概要
 
-Vercel の 504 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)された[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行時間が設定された[タイムアウト](/glossary/タイムアウト/)制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 10 秒に制限されており、最大 60 秒まで延長可能です。Pro プラン以上ではデフォルト 15 秒ですが、最大 300 秒（5 分）まで延長可能です。Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。[API](/glossary/api/) 呼び出し、データベースクエリ、外部 [API](/glossary/api/) 連携など、応答待ちが長引く処理で頻繁に発生します。
+Vercel の 504 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)された[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行時間が[設定](/glossary/設定/)された[タイムアウト](/glossary/タイムアウト/)制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 10 秒に制限されており、最大 60 秒まで延長可能です。Pro プラン以上ではデフォルト 15 秒ですが、最大 300 秒（5 分）まで延長可能です。Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。[API](/glossary/api/) 呼び出し、データベースクエリ、外部 [API](/glossary/api/) 連携など、応答待ちが長引く処理で頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -56,7 +56,7 @@ Content-Type: application/json
 
 ### 原因 1: 外部 API への応答待ちが長い
 
-外部サービス（[データベース](/glossary/データベース/)、第三者 [API](/glossary/api/) など）の[レスポンス](/glossary/レスポンス/)が遅れていることが最も一般的な原因です。[ネットワーク](/glossary/ネットワーク/)遅延やサービスの過負荷により、[タイムアウト](/glossary/タイムアウト/)に達する前に結果が返されません。
+外部サービス（[データベース](/glossary/データベース/)、第三者 [API](/glossary/api/) など）の[レスポンス](/glossary/レスポンス/)が遅れていることが最も一般的な原因です。[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)やサービスの過負荷により、[タイムアウト](/glossary/タイムアウト/)に達する前に結果が返されません。
 
 **修正方法：**
 
@@ -84,11 +84,11 @@ export default async function handler(req, res) {
 }
 ```
 
-外部 [API](/glossary/api/) 呼び出しに AbortController を使用して明示的な[タイムアウト](/glossary/タイムアウト/)を設定し、関数全体の[タイムアウト](/glossary/タイムアウト/)制限に達する前に制御を返すようにします。
+外部 [API](/glossary/api/) 呼び出しに AbortController を使用して明示的な[タイムアウト](/glossary/タイムアウト/)を[設定](/glossary/設定/)し、関数全体の[タイムアウト](/glossary/タイムアウト/)制限に達する前に制御を返すようにします。
 
 ### 原因 2: タイムアウト制限が処理の実行時間に不適切
 
-複雑なデータ処理や[ループ](/glossary/ループ/)処理が実行時間内に完了していない場合があります。大量データの変換や[ファイル](/glossary/ファイル/)処理など、CPU 集約的なタスクが[関数](/glossary/関数/)の実行時間を超過させます。
+複雑なデータ処理や[ループ](/glossary/ループ/)処理が実行時間内に完了していない場合があります。大量データの変換や[ファイル](/glossary/ファイル/)処理など、[CPU](/glossary/cpu/) 集約的な[タスク](/glossary/タスク/)が[関数](/glossary/関数/)の実行時間を超過させます。
 
 **解決策：[バッチ処理](/glossary/バッチ処理/)による分割実行**
 
@@ -154,18 +154,18 @@ export default async function handler(req, res) {
 }
 ```
 
-[データベース](/glossary/データベース/)側で[インデックス](/glossary/インデックス/)を設定し、不要な[カラム](/glossary/カラム/)取得を避け、結果件数を制限することで、[クエリ](/glossary/クエリ/)実行時間を大幅に短縮します。
+[データベース](/glossary/データベース/)側で[インデックス](/glossary/インデックス/)を[設定](/glossary/設定/)し、不要な[カラム](/glossary/カラム/)取得を避け、結果件数を制限することで、[クエリ](/glossary/クエリ/)実行時間を大幅に短縮します。
 
 ## Vercel 固有の注意点
 
 **Hobby プランの[タイムアウト](/glossary/タイムアウト/)制限：**
-Hobby プランはデフォルト 10 秒に制限されており、`maxDuration` を設定することで最大 60 秒まで延長可能です。より長時間の処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、[バッチ処理](/glossary/バッチ処理/)）ことが必須です。
+Hobby プランはデフォルト 10 秒に制限されており、`maxDuration` を[設定](/glossary/設定/)することで最大 60 秒まで延長可能です。より長時間の処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、[バッチ処理](/glossary/バッチ処理/)）ことが必須です。
 
 **Pro プランのデフォルトタイムアウト：**
-2023年10月1日以降、新規[プロジェクト](/glossary/プロジェクト/)または 15 秒以上関数を実行していない[プロジェクト](/glossary/プロジェクト/)では、デフォルトタイムアウトは 15 秒に短縮されています。ただし Pro プラン以上では `maxDuration` を設定することで、最大 300 秒（5 分）まで延長可能です。
+2023年10月1日以降、新規[プロジェクト](/glossary/プロジェクト/)または 15 秒以上関数を実行していない[プロジェクト](/glossary/プロジェクト/)では、デフォルトタイムアウトは 15 秒に短縮されています。ただし Pro プラン以上では `maxDuration` を[設定](/glossary/設定/)することで、最大 300 秒（5 分）まで延長可能です。
 
 **Fluid Compute の有効化：**
-Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。[ダッシュボード](/glossary/ダッシュボード/)の Project Settings から確認し、`vercel.json` で[関数](/glossary/関数/)ごとに `maxDuration` を設定してください。
+Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。[ダッシュボード](/glossary/ダッシュボード/)の Project Settings から確認し、`vercel.json` で[関数](/glossary/関数/)ごとに `maxDuration` を[設定](/glossary/設定/)してください。
 
 ```json
 {
@@ -184,7 +184,7 @@ Pro プラン以上で Fluid Compute を使用している場合、800 秒まで
 Vercel の Edge Functions は地理的に分散されており、冷起動が少なく、外部 [API](/glossary/api/) への応答遅延が減少することがあります。軽量な処理で頻繁な[タイムアウト](/glossary/タイムアウト/)が発生する場合、Edge Functions への移行を検討してください。
 
 **[環境変数](/glossary/環境変数/)の確認：**
-リトライロジックや[キャッシュ](/glossary/キャッシュ/)の設定が[環境変数](/glossary/環境変数/)に依存している場合、[本番環境](/glossary/本番環境/)と[開発環境](/glossary/開発環境/)で値が異なると[タイムアウト](/glossary/タイムアウト/)発生パターンが変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を確認してください。
+リトライロジックや[キャッシュ](/glossary/キャッシュ/)の[設定](/glossary/設定/)が[環境変数](/glossary/環境変数/)に依存している場合、[本番環境](/glossary/本番環境/)と[開発環境](/glossary/開発環境/)で値が異なると[タイムアウト](/glossary/タイムアウト/)発生[パターン](/glossary/パターン/)が変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を確認してください。
 
 ## それでも解決しない場合
 
@@ -201,7 +201,7 @@ console.log(`[${new Date().toISOString()}] DB query completed`);
 Vercel 公式の「Serverless Function Configuration」（https://vercel.com/docs/functions/serverless-functions/configuration）および「Limits」（https://vercel.com/docs/limits）ページで最新の制限値とベストプラクティスを確認してください。
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析[ツール](/glossary/ツール/)：**
-Vercel の Observability 機能（Pro プラン以上）を有効にすると、[関数](/glossary/関数/)の CPU 使用率、[メモリ](/glossary/メモリ/)使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
+Vercel の Observability 機能（Pro プラン以上）を有効にすると、[関数](/glossary/関数/)の [CPU](/glossary/cpu/) 使用率、[メモリ](/glossary/メモリ/)使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
 
 **[GitHub](/glossary/github/) Issues・コミュニティ：**
 同じ問題が Vercel [GitHub](/glossary/github/) Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定の[ライブラリ](/glossary/ライブラリ/)との相性問題などが記載されている場合があります。

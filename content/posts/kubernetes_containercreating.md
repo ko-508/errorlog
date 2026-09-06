@@ -125,7 +125,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 たとえば、[イベント](/glossary/イベント/)に `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を確認します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
 
-第四に、Podを[削除](/glossary/削除/)する前に[イベント](/glossary/イベント/)を[保存](/glossary/保存/)します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは設定が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
+第四に、Podを[削除](/glossary/削除/)する前に[イベント](/glossary/イベント/)を[保存](/glossary/保存/)します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは[設定](/glossary/設定/)が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml > pod-containercreating.yaml
@@ -191,7 +191,7 @@ kubectl get secret app-secret -n <名前空間> \
 
 [Secretの公式文書](https://kubernetes.io/docs/concepts/configuration/secret/#optional-secrets)には、必須のSecretまたは指定[キー](/glossary/キー/)が用意できるまで、Podの[コンテナ](/glossary/コンテナ/)は開始されないと記載されています。
 
-`optional: true` にすれば、対象がなくても空の状態で進められます。ただし、[アプリケーション](/glossary/アプリケーション/)が設定なしで安全に動ける場合だけ使います。[エラー](/glossary/エラー/)を消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の障害へ変わるだけです。
+`optional: true` にすれば、対象がなくても空の状態で進められます。ただし、[アプリケーション](/glossary/アプリケーション/)が[設定](/glossary/設定/)なしで安全に動ける場合だけ使います。[エラー](/glossary/エラー/)を消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の障害へ変わるだけです。
 
 ### 原因2：PVCが存在しない、またはPVへ結び付いていない
 
@@ -316,7 +316,7 @@ already mounted / busy     → 残ったマウント、同時処理、CSIの状�
 context deadline exceeded  → CSI、ストレージAPI、ネットワークの無応答
 ```
 
-PVとStorageClassの設定を確認します。
+PVとStorageClassの[設定](/glossary/設定/)を確認します。
 
 ```bash
 kubectl get pv <PV名> -o yaml
@@ -383,7 +383,7 @@ Podが `Running` かつ `Ready` で、`FailedMount` の最終時刻が古く、�
 
 反対に、現在も `ContainerCreating` で、`FailedMount` の `Last Seen` が更新され続け、回数が増えているなら未解決です。
 
-監視でも、`FailedMount` が1回出た事実だけを障害条件にすると、一時的な再試行を恒久障害として通知します。Podが一定時間 `Waiting` のままか、直近の失敗が繰り返されているか、Readyになったかを合わせて判定します。
+監視でも、`FailedMount` が1回出た事実だけを障害条件にすると、一時的な再試行を恒久障害として[通知](/glossary/通知/)します。Podが一定時間 `Waiting` のままか、直近の失敗が繰り返されているか、Readyになったかを合わせて判定します。
 
 ### 原因8：FailedMountではなく、別の準備処理で止まっている
 
@@ -411,7 +411,7 @@ Secretが原因でも、ボリュームとして参照した場合は `FailedMou
 
 `ImagePullBackOff` は、[コンテナイメージ](/glossary/コンテナイメージ/)の取得に失敗し、再試行まで待っている状態です。ボリュームの `FailedMount` とは別の準備処理です。
 
-`CreateContainerConfigError` は、[コンテナ](/glossary/コンテナ/)を作る設定を完成できない状態です。SecretやConfigMapが関係していても、volumeではなく `env` や `envFrom` から参照している場合はこちらになることがあります。
+`CreateContainerConfigError` は、[コンテナ](/glossary/コンテナ/)を作る[設定](/glossary/設定/)を完成できない状態です。SecretやConfigMapが関係していても、volumeではなく `env` や `envFrom` から参照している場合はこちらになることがあります。
 
 `FailedAttachVolume` は、[ストレージ](/glossary/ストレージ/)をノードへ接続する段階の失敗です。`FailedMount` は、そのボリュームをノード上で利用可能にする段階の失敗、または接続待ち全体の結果として出ます。両方がある場合は、時系列で先に出た具体的な接続失敗を優先します。
 

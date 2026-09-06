@@ -42,7 +42,7 @@ Unable to connect to Datadog backend
 
 ### 原因1：Datadog サービスのメンテナンスまたは障害
 
-Datadog 側でメンテナンスが実施中、または一時的な障害が発生している場合、すべての[リクエスト](/glossary/リクエスト/)が 503 で拒否されます。この場合、ユーザー側の設定や[環境](/glossary/環境/)は問題ではなく、サービスの復旧を待つ必要があります。
+Datadog 側でメンテナンスが実施中、または一時的な障害が発生している場合、すべての[リクエスト](/glossary/リクエスト/)が 503 で拒否されます。この場合、ユーザー側の[設定](/glossary/設定/)や[環境](/glossary/環境/)は問題ではなく、サービスの復旧を待つ必要があります。
 
 **確認方法：**
 
@@ -50,7 +50,7 @@ Datadog の公式ステータスページ（https://status.datadoghq.com）に�
 
 ✅ 修正後の確認：
 
-ステータスページで「All Systems Operational」と表示されていれば、Datadog 側は正常です。その場合は、エージェント側の設定を確認してください。
+ステータスページで「All Systems Operational」と表示されていれば、Datadog 側は正常です。その場合は、エージェント側の[設定](/glossary/設定/)を確認してください。
 
 ### 原因2：Datadog エージェントの API キーまたはサイト設定が正しくない
 
@@ -79,7 +79,7 @@ export DD_SITE="datadoghq.eu"  # 利用地域に応じた正しいサイト
 sudo datadog-agent configcheck
 ```
 
-エージェントが設定を正常に読み込み、「Check Configurations」セクションで [API](/glossary/api/) [キー](/glossary/キー/)とサイトが正しく表示されていれば成功です。
+エージェントが[設定](/glossary/設定/)を正常に読み込み、「Check Configurations」セクションで [API](/glossary/api/) [キー](/glossary/キー/)とサイトが正しく表示されていれば成功です。
 
 ### 原因3：ネットワーク接続またはプロキシ設定の問題
 
@@ -206,13 +206,13 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 |--------|-----------|-----------|-------|
 | ステータスページで障害確認 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [API](/glossary/api/) [キー](/glossary/キー/)とサイト設定確認 | 低 | 必要 | 全[OS](/glossary/os/) |
-| [プロキシ](/glossary/プロキシ/)設定の追加 | 中 | 必要 | 全[OS](/glossary/os/) |
+| [プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)の追加 | 中 | 必要 | 全[OS](/glossary/os/) |
 | エージェントバージョン更新 | 中 | 必要 | 全[OS](/glossary/os/) |
 | [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)間隔調整 | 中 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
 
-Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に障害がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（Linux）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
+Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に障害がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（[Linux](/glossary/linux/)）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
 
 複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに対応しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
 
@@ -228,7 +228,7 @@ sudo tail -f /var/log/datadog/agent.log
 sudo journalctl -u datadog-agent -f
 ```
 
-[ログ](/glossary/ログ/)に `Connection refused`、`Name or service not known`、`403 Forbidden` などが表示される場合は、[ネットワーク](/glossary/ネットワーク/)設定または[ファイアウォール](/glossary/ファイアウォール/)設定を再度確認してください。
+[ログ](/glossary/ログ/)に `Connection refused`、`Name or service not known`、`403 Forbidden` などが表示される場合は、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)または[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を再度確認してください。
 
 [ファイアウォール](/glossary/ファイアウォール/)側で Datadog への[通信](/glossary/通信/)が遮断されている可能性もあります。以下の IP レンジと [ポート](/glossary/ポート/)443 への外向き[通信](/glossary/通信/)が許可されているか、ネットワークチーム経由で確認してください。Datadog の公式ドキュメント（https://docs.datadoghq.com/ja/agent/guide/network/）に許可すべき IP レンジと ホスト名が記載されています。
 
@@ -244,7 +244,7 @@ sudo journalctl -u datadog-agent -f
 
 ## Editor's Note
 
-Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)設定の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
+Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
 
 > **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 

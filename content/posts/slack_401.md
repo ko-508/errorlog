@@ -100,7 +100,7 @@ except Exception as e:
     # トークンが無効な場合は再生成が必要
 ```
 
-Slack [ワークスペース](/glossary/ワークスペース/)管理画面で新しいボットトークンを生成し、[環境変数](/glossary/環境変数/)に設定し直してください。
+Slack [ワークスペース](/glossary/ワークスペース/)管理画面で新しいボットトークンを生成し、[環境変数](/glossary/環境変数/)に[設定](/glossary/設定/)し直してください。
 
 ### 原因2：OAuth スコープの不足
 
@@ -157,7 +157,7 @@ Slack App 管理画面の「[OAuth](/glossary/oauth/) & Permissions」セクシ�
 
 ### 原因3：トークン形式の誤りまたは環境変数の未設定
 
-[トークン](/glossary/トークン/)が正しく[環境変数](/glossary/環境変数/)に設定されていない、型番が違う（xoxb の代わりに xoxp を使用）、または空文字列が渡されている場合に[エラー](/glossary/エラー/)が発生します。
+[トークン](/glossary/トークン/)が正しく[環境変数](/glossary/環境変数/)に[設定](/glossary/設定/)されていない、型番が違う（xoxb の代わりに xoxp を使用）、または空文字列が渡されている場合に[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -214,7 +214,7 @@ response = client.chat_postMessage(channel="C12345", text="Hello")
 print(response)
 ```
 
-[環境変数](/glossary/環境変数/)を確認し、[トークン](/glossary/トークン/)が正しい形式（xoxb- または xoxp-で始まる長い文字列）で設定されていることを確認してください。
+[環境変数](/glossary/環境変数/)を確認し、[トークン](/glossary/トークン/)が正しい形式（xoxb- または xoxp-で始まる長い文字列）で[設定](/glossary/設定/)されていることを確認してください。
 
 ## Slack 固有の注意点
 
@@ -252,7 +252,7 @@ curl -X POST https://slack.com/api/auth.test \
 
 - **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各アプリの[インストール](/glossary/インストール/)日時と最終使用日時を確認
 - **Slack [API](/glossary/api/) テスター**：https://api.slack.com/methods/auth.test で直接[トークン](/glossary/トークン/)検証可能
-- **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく設定されているか、リクエストヘッダーに `Authorization` [フィールド](/glossary/フィールド/)が含まれているか確認
+- **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく[設定](/glossary/設定/)されているか、リクエストヘッダーに `Authorization` [フィールド](/glossary/フィールド/)が含まれているか確認
 
 ### 公式リソース
 

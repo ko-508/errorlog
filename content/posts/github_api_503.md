@@ -170,7 +170,7 @@ issues = fetch_paginated(
 
 ### 原因3：不適切な並行リクエスト処理
 
-複数の非同期タスクやマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、[GitHub](/glossary/github/)側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
+複数の非同期[タスク](/glossary/タスク/)やマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、[GitHub](/glossary/github/)側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -265,7 +265,7 @@ jobs:
 
 ### Webhookシステム への影響
 
-[GitHub](/glossary/github/)の[Webhook](/glossary/webhook/)配信システムが503を経験している場合、[イベント](/glossary/イベント/)配信の遅延が発生します。[Webhook](/glossary/webhook/)受信側では、失敗時の再試行メカニズムが3時間以内に発動されるため、一時的な503は通常問題になりません。ただし、受信側[サーバー](/glossary/サーバー/)が503に応答するように設定されている場合、[GitHub](/glossary/github/)からの再試行が繰り返される可能性があります。
+[GitHub](/glossary/github/)の[Webhook](/glossary/webhook/)配信システムが503を経験している場合、[イベント](/glossary/イベント/)配信の[遅延](/glossary/遅延/)が発生します。[Webhook](/glossary/webhook/)受信側では、失敗時の再試行メカニズムが3時間以内に発動されるため、一時的な503は通常問題になりません。ただし、受信側[サーバー](/glossary/サーバー/)が503に応答するように[設定](/glossary/設定/)されている場合、[GitHub](/glossary/github/)からの再試行が繰り返される可能性があります。
 
 ### REST API vs GraphQL APIの選択
 

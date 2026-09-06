@@ -13,7 +13,7 @@ related_services: ["AWS CLI", "EC2"]
 
 ## エラーの概要
 
-[AWS](/glossary/aws/) S3 の NoSuchBucket [エラー](/glossary/エラー/)は、指定した[バケット](/glossary/バケット/)名が存在しない、またはその[バケット](/glossary/バケット/)に[アクセス権限](/glossary/アクセス権限/)がない場合に発生します。[バケット](/glossary/バケット/)名のスペルミスや、別のリージョンに存在する[バケット](/glossary/バケット/)を現在のリージョン設定で参照しようとした場合、あるいは既に[削除](/glossary/削除/)された[バケット](/glossary/バケット/)にアクセスしようとした場合に起こります。
+[AWS](/glossary/aws/) S3 の NoSuchBucket [エラー](/glossary/エラー/)は、指定した[バケット](/glossary/バケット/)名が存在しない、またはその[バケット](/glossary/バケット/)に[アクセス権限](/glossary/アクセス権限/)がない場合に発生します。[バケット](/glossary/バケット/)名のスペルミスや、別のリージョンに存在する[バケット](/glossary/バケット/)を現在のリージョン[設定](/glossary/設定/)で参照しようとした場合、あるいは既に[削除](/glossary/削除/)された[バケット](/glossary/バケット/)にアクセスしようとした場合に起こります。
 
 ## 実際のエラーメッセージ例
 
@@ -69,7 +69,7 @@ aws s3 ls s3://my-data-bucket-prod/
 
 ### 原因2：リージョン設定の誤り
 
-[バケット](/glossary/バケット/)は特定のリージョンに作成されます。[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデフォルトリージョン設定が、[バケット](/glossary/バケット/)作成時のリージョンと異なると、[バケット](/glossary/バケット/)が見つからない[エラー](/glossary/エラー/)が発生します。別のプロファイルや EC2 [インスタンス](/glossary/インスタンス/)から実行する場合に特に注意が必要です。
+[バケット](/glossary/バケット/)は特定のリージョンに作成されます。[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデフォルトリージョン[設定](/glossary/設定/)が、[バケット](/glossary/バケット/)作成時のリージョンと異なると、[バケット](/glossary/バケット/)が見つからない[エラー](/glossary/エラー/)が発生します。別のプロファイルや EC2 [インスタンス](/glossary/インスタンス/)から実行する場合に特に注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -99,11 +99,11 @@ aws s3 ls s3://my-asia-bucket/ --region ap-northeast-1
 aws s3api get-bucket-location --bucket my-asia-bucket
 ```
 
-実行結果に `"LocationConstraint": "ap-northeast-1"` と表示されれば、[バケット](/glossary/バケット/)が確実に存在し、正しいリージョンで設定されていることが確認できます。
+実行結果に `"LocationConstraint": "ap-northeast-1"` と表示されれば、[バケット](/glossary/バケット/)が確実に存在し、正しいリージョンで[設定](/glossary/設定/)されていることが確認できます。
 
 ### 原因3：バケットが削除されている
 
-S3 [バケット](/glossary/バケット/)は[削除](/glossary/削除/)されると復旧できません。かつて存在していた[バケット](/glossary/バケット/)名を参照しようとしても、NoSuchBucket [エラー](/glossary/エラー/)が発生します。[バケット](/glossary/バケット/)削除時に実際に[削除](/glossary/削除/)される前に設定を控えていなかった場合に発生することがあります。
+S3 [バケット](/glossary/バケット/)は[削除](/glossary/削除/)されると復旧できません。かつて存在していた[バケット](/glossary/バケット/)名を参照しようとしても、NoSuchBucket [エラー](/glossary/エラー/)が発生します。[バケット](/glossary/バケット/)削除時に実際に[削除](/glossary/削除/)される前に[設定](/glossary/設定/)を控えていなかった場合に発生することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -183,7 +183,7 @@ S3 [アクセス権限](/glossary/アクセス権限/)を持つ[ポリシー](/g
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | [バケット](/glossary/バケット/)名のスペルミスを[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
-| リージョン設定を正しく指定 | 低 | 不要 | 全[OS](/glossary/os/) |
+| リージョン[設定](/glossary/設定/)を正しく指定 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [削除](/glossary/削除/)された[バケット](/glossary/バケット/)を再作成 | 中 | 不要 | 全[OS](/glossary/os/) |
 | [IAM](/glossary/iam/) [権限](/glossary/権限/)を付与・確認 | 中 | 不要 | 全[OS](/glossary/os/) |
 

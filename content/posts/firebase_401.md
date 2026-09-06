@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Firebase の 401 [エラー](/glossary/エラー/)は、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。[ID](/glossary/id/)[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの設定ミスなど、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合、認証周りの設定を段階的に確認することで、ほとんどの場合は短時間で解決できます。
+Firebase の 401 [エラー](/glossary/エラー/)は、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。[ID](/glossary/id/)[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの[設定](/glossary/設定/)ミスなど、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合、認証周りの[設定](/glossary/設定/)を段階的に確認することで、ほとんどの場合は短時間で解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -142,9 +142,9 @@ service cloud.firestore {
 
 ### 原因 4: 環境変数 GOOGLE_APPLICATION_CREDENTIALS が未設定
 
-[サーバー](/glossary/サーバー/)[環境](/glossary/環境/)で `GOOGLE_APPLICATION_CREDENTIALS` が正しく設定されていないと、[SDK](/glossary/sdk/) が認証情報を見つけられず 401 が発生します。
+[サーバー](/glossary/サーバー/)[環境](/glossary/環境/)で `GOOGLE_APPLICATION_CREDENTIALS` が正しく[設定](/glossary/設定/)されていないと、[SDK](/glossary/sdk/) が認証情報を見つけられず 401 が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 
 ```bash
 # .env ファイルに記述しているだけで、実際には読み込まれていない
@@ -195,7 +195,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
 ### REST API の Authorization ヘッダー形式
 
-Firebase [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、Authorization [ヘッダー](/glossary/ヘッダー/)のフォーマットが正確でないと 401 が返されます。
+Firebase [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場合、Authorization [ヘッダー](/glossary/ヘッダー/)の[フォーマット](/glossary/フォーマット/)が正確でないと 401 が返されます。
 
 ```bash
 # 正しい形式

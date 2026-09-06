@@ -82,7 +82,7 @@ curl https://us-central1-<your-project-id>.cloudfunctions.net/getUserData?userId
 curl https://us-central1-<your-project-id>.cloudfunctions.net/get-user-data?userId=123
 ```
 
-Cloud Functionsの[デプロイ](/glossary/デプロイ/)設定の確認：
+Cloud Functionsの[デプロイ](/glossary/デプロイ/)[設定](/glossary/設定/)の確認：
 ```yaml
 # firebase.json
 {

@@ -239,7 +239,7 @@ Minikubeではデフォルトでアドミッションコントローラーとし
 minikube start --extra-config=apiserver.enable-admission-plugins=RBAC
 ```
 
-既存のMinikubeクラスタで[RBAC](/glossary/rbac/)設定を確認する場合：
+既存のMinikubeクラスタで[RBAC](/glossary/rbac/)[設定](/glossary/設定/)を確認する場合：
 
 ```bash
 kubectl api-resources

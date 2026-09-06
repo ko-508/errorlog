@@ -255,7 +255,7 @@ jobs:
 
 ### 原因4：リポジトリまたは組織の既定値が読み取り専用になっている
 
-[リポジトリ](/glossary/リポジトリ/)の `Settings` → `Actions` → `General` → `Workflow permissions` では、`GITHUB_TOKEN` の既定権限を設定できます。[GitHub公式の設定手順](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)によれば、組織やEnterpriseの設定を継承していると、[リポジトリ](/glossary/リポジトリ/)側で広い既定値を選べない場合があります。
+[リポジトリ](/glossary/リポジトリ/)の `Settings` → `Actions` → `General` → `Workflow permissions` では、`GITHUB_TOKEN` の既定権限を[設定](/glossary/設定/)できます。[GitHub公式の設定手順](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#configuring-the-default-github_token-permissions)によれば、組織やEnterpriseの[設定](/glossary/設定/)を継承していると、[リポジトリ](/glossary/リポジトリ/)側で広い既定値を選べない場合があります。
 
 既定値が読み取り専用でも、信頼された通常実行なら、[ワークフロー](/glossary/ワークフロー/)へ必要な[権限](/glossary/権限/)を明示して解決できます。
 
@@ -265,7 +265,7 @@ permissions:
   issues: write
 ```
 
-一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や承認を行う処理は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この設定と、組織・Enterprise側で変更を制限されていないかを確認します。
+一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や承認を行う処理は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを確認します。
 
 ### 原因5：外部フォークからのpull_requestで書き込みを要求している
 
@@ -358,11 +358,11 @@ steps:
     run: gh api repos/TARGET_OWNER/TARGET_REPOSITORY
 ```
 
-[GitHub](/glossary/github/) Appには対象操作に必要な[権限](/glossary/権限/)を設定し、対象の[アカウント](/glossary/アカウント/)と[リポジトリ](/glossary/リポジトリ/)へ[インストール](/glossary/インストール/)します。個人の[権限](/glossary/権限/)と寿命に依存するPATより、継続的な[自動化](/glossary/自動化/)には[GitHub](/glossary/github/) Appを優先します。
+[GitHub](/glossary/github/) Appには対象操作に必要な[権限](/glossary/権限/)を[設定](/glossary/設定/)し、対象の[アカウント](/glossary/アカウント/)と[リポジトリ](/glossary/リポジトリ/)へ[インストール](/glossary/インストール/)します。個人の[権限](/glossary/権限/)と寿命に依存するPATより、継続的な[自動化](/glossary/自動化/)には[GitHub](/glossary/github/) Appを優先します。
 
 ### 原因8：GITHUB_TOKENでは利用できない権限または設定が必要
 
-[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に対応するものがない場合があります。また、前述のPull Request作成・承認のように、[リポジトリ](/glossary/リポジトリ/)設定で別途許可が必要な操作もあります。
+[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に対応するものがない場合があります。また、前述のPull Request作成・承認のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
 
 この場合は `write-all` を追加しても解決しません。
 

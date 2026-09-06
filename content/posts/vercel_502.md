@@ -195,7 +195,7 @@ export default async function handler(req, res) {
 
 Vercel での 502 [エラー](/glossary/エラー/)は、[環境](/glossary/環境/)によって表現が異なります。[本番環境](/glossary/本番環境/)（Production）では即座にエラーページが返されますが、プレビュー[環境](/glossary/環境/)（Preview）では[関数](/glossary/関数/)の[ログ](/glossary/ログ/)が詳細に表示されることがあります。
 
-**Serverless Function の[タイムアウト](/glossary/タイムアウト/)設定**：デフォルトでは最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が設定されています（Pro プラン以上で最大 900 秒）。より長い処理が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
+**Serverless Function の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**：デフォルトでは最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が[設定](/glossary/設定/)されています（Pro プラン以上で最大 900 秒）。より長い処理が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
 
 ```json
 {
@@ -238,9 +238,9 @@ vercel dev
 
 この際、ローカルでは動作するが本番で 502 が出ている場合、以下を確認してください：
 
-- [環境変数](/glossary/環境変数/)が[本番環境](/glossary/本番環境/)で正しく設定されているか（Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables）
-- [関数](/glossary/関数/)のメモリー設定が不足していないか
-- 外部 [API](/glossary/api/) のホワイトリスト設定に本番[ドメイン](/glossary/ドメイン/)が含まれているか
+- [環境変数](/glossary/環境変数/)が[本番環境](/glossary/本番環境/)で正しく[設定](/glossary/設定/)されているか（Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables）
+- [関数](/glossary/関数/)のメモリー[設定](/glossary/設定/)が不足していないか
+- 外部 [API](/glossary/api/) のホワイトリスト[設定](/glossary/設定/)に本番[ドメイン](/glossary/ドメイン/)が含まれているか
 
 ### 公式ドキュメントの参照
 

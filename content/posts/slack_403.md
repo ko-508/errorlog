@@ -32,7 +32,7 @@ Slack [API](/glossary/api/)で403[エラー](/glossary/エラー/)が返され�
 }
 ```
 
-**別パターン（[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)不足）：**
+**別[パターン](/glossary/パターン/)（[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)不足）：**
 
 ```json
 {

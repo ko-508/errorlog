@@ -87,11 +87,11 @@ export VERCEL_TOKEN=<チームスコープのトークン>
 vercel deploy
 ```
 
-正しい[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/) とチーム[ID](/glossary/id/) は、Vercel [ダッシュボード](/glossary/ダッシュボード/)の[プロジェクト](/glossary/プロジェクト/)設定ページの Settings → General から確認できます。
+正しい[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/) とチーム[ID](/glossary/id/) は、Vercel [ダッシュボード](/glossary/ダッシュボード/)の[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)ページの Settings → General から確認できます。
 
 ### 原因3：プロジェクトのアクセス制限が有効
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)で[プロジェクト](/glossary/プロジェクト/)にメンバー制限を設定している場合、対象の [API](/glossary/api/) [トークン](/glossary/トークン/)やユーザーが許可リストに入っていないと 403 が返されます。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)で[プロジェクト](/glossary/プロジェクト/)にメンバー制限を[設定](/glossary/設定/)している場合、対象の [API](/glossary/api/) [トークン](/glossary/トークン/)やユーザーが許可リストに入っていないと 403 が返されます。
 
 **修正方法：**
 
@@ -101,13 +101,13 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Set
 
 Vercel では[プロジェクト](/glossary/プロジェクト/)の所有権と[アクセス権](/glossary/アクセス権/)が厳密に分離されています。同じメールアドレスで複数の[アカウント](/glossary/アカウント/)（個人・チーム）を保有している場合、ブラウザーの[セッション](/glossary/セッション/)と [CLI](/glossary/cli/) の認証状態がズレることがあります。
 
-[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。[GitHub](/glossary/github/) Actions 等で VERCEL_TOKEN を設定する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を登録します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、デフォルトで個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
+[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。[GitHub](/glossary/github/) Actions 等で VERCEL_TOKEN を[設定](/glossary/設定/)する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を登録します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、デフォルトで個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
 
-[プロジェクト](/glossary/プロジェクト/)を個人[アカウント](/glossary/アカウント/)からチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント設定を確認してください。
+[プロジェクト](/glossary/プロジェクト/)を個人[アカウント](/glossary/アカウント/)からチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント[設定](/glossary/設定/)を確認してください。
 
 ## それでも解決しない場合
 
-まず Vercel [ダッシュボード](/glossary/ダッシュボード/)の[アカウント](/glossary/アカウント/)設定で、現在[ログイン](/glossary/ログイン/)しているのが正しい[アカウント](/glossary/アカウント/)であることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、[CLI](/glossary/cli/) の認証状態と一致しているか確認してください。
+まず Vercel [ダッシュボード](/glossary/ダッシュボード/)の[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)で、現在[ログイン](/glossary/ログイン/)しているのが正しい[アカウント](/glossary/アカウント/)であることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、[CLI](/glossary/cli/) の認証状態と一致しているか確認してください。
 
 ```bash
 # 現在の認証状態を確認

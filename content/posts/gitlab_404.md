@@ -125,7 +125,7 @@ elif response.status_code == 200:
 
 ### 原因3：プロジェクトが削除された、または名前空間が変更された
 
-[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された場合、その[URL](/glossary/url/)にアクセスすると404が返されます。また、グループやユーザーの名前空間が変更された場合、古い[パス](/glossary/パス/)でのアクセスも404になります。[プロジェクト](/glossary/プロジェクト/)が転送（移動）された場合、古い[URL](/glossary/url/)から新しい[URL](/glossary/url/)へのリダイレクトが設定されていないと404が表示されます。
+[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された場合、その[URL](/glossary/url/)にアクセスすると404が返されます。また、グループやユーザーの名前空間が変更された場合、古い[パス](/glossary/パス/)でのアクセスも404になります。[プロジェクト](/glossary/プロジェクト/)が転送（移動）された場合、古い[URL](/glossary/url/)から新しい[URL](/glossary/url/)へのリダイレクトが[設定](/glossary/設定/)されていないと404が表示されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -213,7 +213,7 @@ GitLab [API](/glossary/api/)ではリソース所有者の[権限](/glossary/権
 
 **Self-hosted GitLab での[URL](/glossary/url/)確認：**
 
-オンプレミスGitLab[環境](/glossary/環境/)では、WebUIで確認した[URL](/glossary/url/)と[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)のベース[URL](/glossary/url/)が一致しているか確認します。リバースプロキシや[ロードバランサー](/glossary/ロードバランサー/)経由でアクセスしている場合、`gitlab.yml` の `external_url` 設定が正確か検証が必要です。
+オンプレミスGitLab[環境](/glossary/環境/)では、WebUIで確認した[URL](/glossary/url/)と[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)のベース[URL](/glossary/url/)が一致しているか確認します。リバースプロキシや[ロードバランサー](/glossary/ロードバランサー/)経由でアクセスしている場合、`gitlab.yml` の `external_url` [設定](/glossary/設定/)が正確か検証が必要です。
 
 **Legacy [API](/glossary/api/) vs [GraphQL](/glossary/graphql/)：**
 

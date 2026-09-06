@@ -14,7 +14,7 @@ related_services: ["gcloud"]
 
 ## エラーの概要
 
-Firebase（Cloud FunctionsやHosting）で502[エラー](/glossary/エラー/)が発生するのは、Firebaseの中継[サーバー](/glossary/サーバー/)が上流の[バックエンド](/glossary/バックエンド/)（Cloud Functionsやカスタムオリジンサーバー）から不正な形式の[レスポンス](/glossary/レスポンス/)を受け取ったか、[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)した場合です。この[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題ではなく、[サーバー](/glossary/サーバー/)側の設定や[コード](/glossary/コード/)に原因があることがほとんどです。
+Firebase（Cloud FunctionsやHosting）で502[エラー](/glossary/エラー/)が発生するのは、Firebaseの中継[サーバー](/glossary/サーバー/)が上流の[バックエンド](/glossary/バックエンド/)（Cloud Functionsやカスタムオリジンサーバー）から不正な形式の[レスポンス](/glossary/レスポンス/)を受け取ったか、[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)した場合です。この[エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側の問題ではなく、[サーバー](/glossary/サーバー/)側の[設定](/glossary/設定/)や[コード](/glossary/コード/)に原因があることがほとんどです。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ The request failed because the origin is unreachable. This can happen if the ori
 
 Cloud Functionsの[関数](/glossary/関数/)が`res.send()`や`res.json()`などの[レスポンス](/glossary/レスポンス/)[送信](/glossary/送信/)[メソッド](/glossary/メソッド/)を呼び出さずに終了すると、Firebaseは[レスポンス](/glossary/レスポンス/)を受け取れず502[エラー](/glossary/エラー/)を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）:**
 ```javascript
 exports.helloWorld = functions.https.onRequest((req, res) => {
   // 処理を実行
@@ -61,7 +61,7 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 
 関数内で`throw new Error()`が実行されたり、未処理の非同期[エラー](/glossary/エラー/)が発生すると、[関数](/glossary/関数/)は正常に終了せず502[エラー](/glossary/エラー/)になります。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）:**
 ```javascript
 exports.processData = functions.https.onRequest((req, res) => {
   const data = JSON.parse(req.body);
@@ -92,7 +92,7 @@ exports.processData = functions.https.onRequest((req, res) => {
 
 Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)時間（デフォルト60秒）を超える処理を実行すると、実行が[キャンセル](/glossary/キャンセル/)されて502[エラー](/glossary/エラー/)が返されます。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）:**
 ```bash
 gcloud functions deploy slowFunction \
   --runtime nodejs18 \
@@ -130,9 +130,9 @@ exports.slowFunction = functions.https.onRequest(async (req, res) => {
 
 ### 原因4：Firebase HostingのリライトルールがCloud Functionsを指していない、または存在しない
 
-firebase.jsonのリライトルール設定が間違っていると、Hostingが存在しない[バックエンド](/glossary/バックエンド/)に接続しようとして502[エラー](/glossary/エラー/)を返します。
+firebase.jsonのリライトルール[設定](/glossary/設定/)が間違っていると、Hostingが存在しない[バックエンド](/glossary/バックエンド/)に接続しようとして502[エラー](/glossary/エラー/)を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）:**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）:**
 ```json
 {
   "hosting": {
@@ -164,7 +164,7 @@ firebase.jsonのリライトルール設定が間違っていると、Hostingが
 
 ### Cloud Functionsのメモリと CPU設定
 
-Cloud Functionsの[メモリ](/glossary/メモリ/)割り当てが小さすぎると、大量のデータ処理中に[プロセス](/glossary/プロセス/)がクラッシュして502[エラー](/glossary/エラー/)になることがあります。Firebase Consoleまたはgcloud [CLI](/glossary/cli/)で設定を確認してください。
+Cloud Functionsの[メモリ](/glossary/メモリ/)割り当てが小さすぎると、大量のデータ処理中に[プロセス](/glossary/プロセス/)がクラッシュして502[エラー](/glossary/エラー/)になることがあります。Firebase Consoleまたはgcloud [CLI](/glossary/cli/)で[設定](/glossary/設定/)を確認してください。
 
 ```bash
 gcloud functions deploy myFunction \
@@ -175,7 +175,7 @@ gcloud functions deploy myFunction \
 
 ### Firebase Hostingとカスタムオリジンの接続
 
-Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、その[オリジン](/glossary/オリジン/)が不可達または応答が遅いと502[エラー](/glossary/エラー/)が返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)設定も確認してください。
+Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、その[オリジン](/glossary/オリジン/)が不可達または応答が遅いと502[エラー](/glossary/エラー/)が返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)も確認してください。
 
 ```json
 {
@@ -228,7 +228,7 @@ gcloud logging read "resource.type=cloud_function AND resource.labels.function_n
 
 ### デプロイと権限の確認
 
-[関数](/glossary/関数/)が[デプロイ](/glossary/デプロイ/)されているか、[IAM](/glossary/iam/)[権限](/glossary/権限/)が正しく設定されているか確認してください。
+[関数](/glossary/関数/)が[デプロイ](/glossary/デプロイ/)されているか、[IAM](/glossary/iam/)[権限](/glossary/権限/)が正しく[設定](/glossary/設定/)されているか確認してください。
 
 ```bash
 gcloud functions list
@@ -239,7 +239,7 @@ gcloud functions describe <your-function-name>
 
 - Cloud Functionsトラブルシューティング：https://firebase.google.com/docs/functions/troubleshooting
 - [HTTP](/glossary/http/)[関数](/glossary/関数/)のベストプラクティス：https://firebase.google.com/docs/functions/http-events
-- Firebase Hostingリライト設定：https://firebase.google.com/docs/hosting/full-config
+- Firebase Hostingリライト[設定](/glossary/設定/)：https://firebase.google.com/docs/hosting/full-config
 
 ### コミュニティリソース
 

@@ -60,9 +60,9 @@ aws configure list
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：手元では通るのに継続的インテグレーションでは拒否される、という症状の大半はここです。[環境](/glossary/環境/)ごとに使われている認証情報が違います。
 
-**最低限覚える概念**：公式ドキュメントによれば、[AWS](/glossary/aws/) [CLI](/glossary/cli/)はシステムやユーザーの[環境変数](/glossary/環境変数/)、ローカルの[設定ファイル](/glossary/設定ファイル/)、[コマンドライン](/glossary/コマンドライン/)のパラメーターなど複数の場所にある認証情報と設定を使い、場所によって優先順位があります。優先順位は上から順に、コマンドラインオプション、[環境変数](/glossary/環境変数/)、[CLI](/glossary/cli/)の認証情報[ファイル](/glossary/ファイル/)、[CLI](/glossary/cli/)の[設定ファイル](/glossary/設定ファイル/)、[コンテナ](/glossary/コンテナ/)の認証情報、そしてEC2インスタンスプロファイルの認証情報です（[Configuration settings and precedence](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)）。
+**最低限覚える概念**：公式ドキュメントによれば、[AWS](/glossary/aws/) [CLI](/glossary/cli/)はシステムやユーザーの[環境変数](/glossary/環境変数/)、ローカルの[設定ファイル](/glossary/設定ファイル/)、[コマンドライン](/glossary/コマンドライン/)のパラメーターなど複数の場所にある認証情報と[設定](/glossary/設定/)を使い、場所によって優先順位があります。優先順位は上から順に、コマンドラインオプション、[環境変数](/glossary/環境変数/)、[CLI](/glossary/cli/)の認証情報[ファイル](/glossary/ファイル/)、[CLI](/glossary/cli/)の[設定ファイル](/glossary/設定ファイル/)、[コンテナ](/glossary/コンテナ/)の認証情報、そしてEC2インスタンスプロファイルの認証情報です（[Configuration settings and precedence](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html)）。
 
-この順序が重要です。[環境変数](/glossary/環境変数/)に古い[キー](/glossary/キー/)が残っていると、[設定ファイル](/glossary/設定ファイル/)を正しく直しても[環境変数](/glossary/環境変数/)が優先されます。「設定を直したのに変わらない」という状況の典型です。
+この順序が重要です。[環境変数](/glossary/環境変数/)に古い[キー](/glossary/キー/)が残っていると、[設定ファイル](/glossary/設定ファイル/)を正しく直しても[環境変数](/glossary/環境変数/)が優先されます。「[設定](/glossary/設定/)を直したのに変わらない」という状況の典型です。
 
 同じページには、認証情報[ファイル](/glossary/ファイル/)と[設定ファイル](/glossary/設定ファイル/)の両方に同じ名前のプロファイルがある場合、認証情報[ファイル](/glossary/ファイル/)の値が優先されるという記述もあります。
 
@@ -206,7 +206,7 @@ aws ec2 create-network-insights-path \
 
 **何を理解する段階か**：[AWS](/glossary/aws/)側が意図的に要求を絞る仕組みと、それに対する再試行の扱いです。
 
-**なぜ[エラー](/glossary/エラー/)解決に必要か**：断続的に失敗する、負荷を上げると失敗する、という症状はここです。設定の誤りではないため、設定をいくら見直しても直りません。
+**なぜ[エラー](/glossary/エラー/)解決に必要か**：断続的に失敗する、負荷を上げると失敗する、という症状はここです。[設定](/glossary/設定/)の誤りではないため、[設定](/glossary/設定/)をいくら見直しても直りません。
 
 **最低限覚える概念**：公式ドキュメントによれば、[AWS](/glossary/aws/) [CLI](/glossary/cli/)は[サーバー](/glossary/サーバー/)側の問題や、呼び出そうとしているサービスからの速度制限によって失敗を見ることがあります。この種の失敗は通常、特別な処理を必要とせず、短い待機の後に自動的に再度呼び出されます（[AWS CLI retries](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-retries.html)）。
 
@@ -233,7 +233,7 @@ aws service-quotas list-requested-service-quota-change-history
 
 再試行回数を増やす対処は、一時的な不調には有効です。しかし恒常的に上限へ当たっている場合は、回数を増やしても遅くなるだけです。上限そのものの確認へ進んでください。
 
-**次の段階へ進む目安**：断続的な失敗を見たときに、設定の誤りではなく制限の可能性を先に疑えることです。
+**次の段階へ進む目安**：断続的な失敗を見たときに、[設定](/glossary/設定/)の誤りではなく制限の可能性を先に疑えることです。
 
 **関連して発生しやすい[エラー](/glossary/エラー/)**：`ThrottlingException` や `TooManyRequestsException` は速度制限です。`LimitExceeded` の形は数量の上限を指します。前者は待てば通り、後者は待っても通りません。
 

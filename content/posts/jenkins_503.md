@@ -160,7 +160,7 @@ Jenkins [環境](/glossary/環境/)ではプラグインの[バージョン](/gl
 
 また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に[保存](/glossary/保存/)されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に確認してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを検索するとよいでしょう。
 
-[Docker](/glossary/docker/) を使用している場合、Jenkins[コンテナ](/glossary/コンテナ/)のリソース上限（CPU・[メモリ](/glossary/メモリ/)）が低く設定されていないか確認してください。`docker inspect <container-id>` で `Memory`、`MemorySwap` の値を確認し、必要に応じて `docker update --memory <新しいサイズ> <container-id>` で増加させます。
+[Docker](/glossary/docker/) を使用している場合、Jenkins[コンテナ](/glossary/コンテナ/)のリソース上限（[CPU](/glossary/cpu/)・[メモリ](/glossary/メモリ/)）が低く[設定](/glossary/設定/)されていないか確認してください。`docker inspect <container-id>` で `Memory`、`MemorySwap` の値を確認し、必要に応じて `docker update --memory <新しいサイズ> <container-id>` で増加させます。
 
 ## それでも解決しない場合
 
@@ -216,7 +216,7 @@ cat /etc/systemd/system/jenkins.service
 cat /etc/default/jenkins
 ```
 
-これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、[インストール](/glossary/インストール/)済みプラグイン一覧、[メモリ](/glossary/メモリ/)設定を記録して報告すると、より正確な原因特定が可能になります。
+これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、[インストール](/glossary/インストール/)済みプラグイン一覧、[メモリ](/glossary/メモリ/)[設定](/glossary/設定/)を記録して報告すると、より正確な原因特定が可能になります。
 
 ---
 

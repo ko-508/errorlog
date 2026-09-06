@@ -195,7 +195,7 @@ resource "example_resource" "this" {
 
 `.tf.json` を使っている場合の混同です。[JSON](/glossary/json/) 構文では別の Summary（`Extraneous JSON object property` と `No argument or block type is named "..."`）が出ます。[エラー](/glossary/エラー/)が [JSON](/glossary/json/) の1行目を指すことがあり、[行番号](/glossary/行番号/)から場所を絞れません。
 
-apply 時に[クラウド](/glossary/クラウド/) [API](/glossary/api/) が返す `UnsupportedArgument` との混同です。こちらは `status code: 400` などを伴い、`plan` は通って `apply` で失敗します。設定の[スキーマ](/glossary/スキーマ/)ではなく、[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が拒否されています。
+apply 時に[クラウド](/glossary/クラウド/) [API](/glossary/api/) が返す `UnsupportedArgument` との混同です。こちらは `status code: 400` などを伴い、`plan` は通って `apply` で失敗します。[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)ではなく、[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)が拒否されています。
 
 Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。同じ文言は TFLint の `.tflint.hcl`、Packer の `.pkr.hcl`、Nomad のジョブ定義でも出ます。[スキーマ](/glossary/スキーマ/)の持ち主がそれぞれ別なので、Terraform provider の版を調べても解決しません。[エラー](/glossary/エラー/)が指す[ファイル](/glossary/ファイル/)の[拡張子](/glossary/拡張子/)を最初に見てください。
 
@@ -207,7 +207,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 
 `Extraneous JSON object property`（`No argument or block type is named "..."`）は、`.tf.json` を使っているときに出ます。判別材料は対象[ファイル](/glossary/ファイル/)の[拡張子](/glossary/拡張子/)です。[JSON](/glossary/json/) 構文では、[エラー](/glossary/エラー/)箇所が `on main.tf.json line 1` のように示されることがあります。
 
-`UnsupportedArgument: The request contained an unsupported argument. status code: 400` は、provider が[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)に対する[クラウド](/glossary/クラウド/) [API](/glossary/api/) の応答です。`status code` と `request id` を伴い、`plan` の段階では現れません。設定の検証を疑うのではなく、provider が組み立てた[リクエスト](/glossary/リクエスト/)と [API](/glossary/api/) の受け付け条件を照合します。
+`UnsupportedArgument: The request contained an unsupported argument. status code: 400` は、provider が[送信](/glossary/送信/)した[リクエスト](/glossary/リクエスト/)に対する[クラウド](/glossary/クラウド/) [API](/glossary/api/) の応答です。`status code` と `request id` を伴い、`plan` の段階では現れません。[設定](/glossary/設定/)の検証を疑うのではなく、provider が組み立てた[リクエスト](/glossary/リクエスト/)と [API](/glossary/api/) の受け付け条件を照合します。
 
 ## 危険な対応を行う前の確認
 

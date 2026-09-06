@@ -115,7 +115,7 @@ kubectl logs <pod-name> -n <namespace>
 
 ### 原因2: Readiness Probeに失敗している
 
-Readiness Probeが設定されているものの、起動時間が長すぎたり、ヘルスチェックエンドポイントが応答しなかったりして、Podが「Ready」状態に到達していません。この場合、Pod[プロセス](/glossary/プロセス/)は動作していても、トラフィックがルーティングされません。
+Readiness Probeが[設定](/glossary/設定/)されているものの、起動時間が長すぎたり、ヘルスチェックエンドポイントが応答しなかったりして、Podが「Ready」状態に到達していません。この場合、Pod[プロセス](/glossary/プロセス/)は動作していても、トラフィックがルーティングされません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -288,11 +288,11 @@ kubectl describe service <service-name> -n <namespace>
 
 ### RBAC（Role-Based Access Control）による制限
 
-ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部リソースへのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider [API](/glossary/api/)、その他外部サービスにアクセスする必要がある場合は、[RBAC](/glossary/rbac/)の設定を確認してください。
+ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部リソースへのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider [API](/glossary/api/)、その他外部サービスにアクセスする必要がある場合は、[RBAC](/glossary/rbac/)の[設定](/glossary/設定/)を確認してください。
 
 ### リソースリクエスト・リミットの不足
 
-CPUメモリリクエスト/リミットが不適切に設定されていると、Nodeのリソースが不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
+[CPU](/glossary/cpu/)メモリリクエスト/リミットが不適切に[設定](/glossary/設定/)されていると、Nodeのリソースが不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -326,7 +326,7 @@ spec:
 
 ### Ingress設定の不備
 
-IngressコントローラーがServiceを正しく検出できていない場合、Ingressを経由したアクセスで503が発生します。IngressのBackend設定とServiceのPort番号の一致を確認してください。
+IngressコントローラーがServiceを正しく検出できていない場合、Ingressを経由したアクセスで503が発生します。IngressのBackend[設定](/glossary/設定/)とServiceのPort番号の一致を確認してください。
 
 ## それでも解決しない場合
 

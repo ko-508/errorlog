@@ -32,7 +32,7 @@ echo GOOGLE_API_KEY=AIzaSy... > .env
 # → .envがUTF-16 LE（BOM付き）で保存される
 ```
 
-Linuxや macOSの[シェル](/glossary/シェル/)と違い、PowerShellは歴史的な経緯からUTF-16をデフォルトエンコードとして採用しています。`echo`や`Set-Content`を使う限り、意識しない限りこの問題が発生します。
+[Linux](/glossary/linux/)や macOSの[シェル](/glossary/シェル/)と違い、PowerShellは歴史的な経緯からUTF-16をデフォルトエンコードとして採用しています。`echo`や`Set-Content`を使う限り、意識しない限りこの問題が発生します。
 
 ### VSCodeのエンコード設定が変わっている場合
 

@@ -18,7 +18,7 @@ related_services: []
 
 原因はほぼ次の3方向に分かれます。
 
-1. CNI プラグインまたは CNI 設定の不整合で、Pod の[ネットワーク](/glossary/ネットワーク/)設定（IP 割り当てを含む）に失敗している
+1. CNI プラグインまたは CNI [設定](/glossary/設定/)の不整合で、Pod の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)（IP 割り当てを含む）に失敗している
 2. container runtime が sandbox image（pause image）を取得・起動できず、sandbox [コンテナ](/glossary/コンテナ/)を作れない
 3. ノード側の状態（ディスク、iptables/sysctl、カーネルモジュール、runtime [プロセス](/glossary/プロセス/)）が壊れている
 
@@ -38,7 +38,7 @@ related_services: []
 
 1. kubelet が CRI の `RunPodSandbox` を container runtime に要求する
 2. container runtime が sandbox image をもとに sandbox [コンテナ](/glossary/コンテナ/)（一般に pause [コンテナ](/glossary/コンテナ/)）を作り、名前空間を用意する
-3. container runtime が CNI プラグインを呼び出し、Pod に[ネットワーク](/glossary/ネットワーク/)（[IP アドレス](/glossary/ip-アドレス/)やルート）を設定する
+3. container runtime が CNI プラグインを呼び出し、Pod に[ネットワーク](/glossary/ネットワーク/)（[IP アドレス](/glossary/ip-アドレス/)やルート）を[設定](/glossary/設定/)する
 4. 成功後、init [コンテナ](/glossary/コンテナ/)とアプリコンテナの[イメージ](/glossary/イメージ/)取得・作成に進む
 
 `FailedCreatePodSandBox` は、この1〜3のどこかで失敗した場合に出ます。**アプリコンテナの[イメージ](/glossary/イメージ/)や[コマンド](/glossary/コマンド/)はまだ関係しません。** ここを押さえると、Deployment の[マニフェスト](/glossary/マニフェスト/)ばかり見直して時間を失う事故を避けられます。
@@ -49,8 +49,8 @@ related_services: []
 | --- | --- | --- |
 | `FailedCreatePodSandBox` | sandbox 作成（名前空間・CNI・pause） | ノードの kubelet / runtime / CNI |
 | `ErrImagePull` / `ImagePullBackOff` | アプリコンテナの[イメージ](/glossary/イメージ/)取得 | [レジストリ](/glossary/レジストリ/)疎通、`imagePullSecrets` |
-| `CreateContainerConfigError` | sandbox 後の[コンテナ](/glossary/コンテナ/)設定 | 参照している ConfigMap / Secret |
-| `CreateContainerError` | sandbox 後の[コンテナ](/glossary/コンテナ/)作成 | runtime、マウント、リソース設定 |
+| `CreateContainerConfigError` | sandbox 後の[コンテナ](/glossary/コンテナ/)[設定](/glossary/設定/) | 参照している ConfigMap / Secret |
+| `CreateContainerError` | sandbox 後の[コンテナ](/glossary/コンテナ/)作成 | runtime、マウント、リソース[設定](/glossary/設定/) |
 | `FailedScheduling`（Pending） | ノードへの割り当て前 | スケジューラ、リソース、taint |
 | `FailedMount` | ボリュームのマウント | CSI [ドライバ](/glossary/ドライバ/)、PV/PVC |
 | `CrashLoopBackOff` | [コンテナ](/glossary/コンテナ/)起動後 | [アプリケーション](/glossary/アプリケーション/)の[ログ](/glossary/ログ/) |
@@ -75,15 +75,15 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 | メッセージに含まれる語の傾向 | 疑う対象 | この記事の該当箇所 |
 | --- | --- | --- |
-| `cni`、`plugin`、`network for sandbox`、IPAM やアドレス枯渇を示す表現 | CNI プラグイン・CNI 設定・IP 管理 | 原因1 |
-| `cni config uninitialized`、`NetworkPluginNotReady` | CNI 設定がランタイムに読み込まれていない | 原因1 |
+| `cni`、`plugin`、`network for sandbox`、IPAM やアドレス枯渇を示す表現 | CNI プラグイン・CNI [設定](/glossary/設定/)・IP 管理 | 原因1 |
+| `cni config uninitialized`、`NetworkPluginNotReady` | CNI [設定](/glossary/設定/)がランタイムに読み込まれていない | 原因1 |
 | sandbox image や pull、[認証](/glossary/認証/)、名前解決に関する表現 | pause image の取得 | 原因2 |
 | runtime のソケット、cgroup、runtime 起動に関する表現 | container runtime 本体 | 原因2 |
 | `no space left on device`、inode や[ファイル](/glossary/ファイル/)作成の失敗 | ノードのディスク・資源 | 原因3 |
 
 なお、同じ Pod で同種の[イベント](/glossary/イベント/)が大量に出ると、kubelet は「類似[イベント](/glossary/イベント/)をまとめた」形（発生回数付き）で1行に集約して出力します。回数と経過時間が大きい場合は、恒久的な設定不備である可能性が高くなります。
 
-[イベント](/glossary/イベント/)自体は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の設定に従って一定時間で[削除](/glossary/削除/)されるため、古い障害を後追いする場合は[イベント](/glossary/イベント/)ではなくノードの[ログ](/glossary/ログ/)（後述）を確認してください。
+[イベント](/glossary/イベント/)自体は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[設定](/glossary/設定/)に従って一定時間で[削除](/glossary/削除/)されるため、古い障害を後追いする場合は[イベント](/glossary/イベント/)ではなくノードの[ログ](/glossary/ログ/)（後述）を確認してください。
 
 ## 原因と解決策
 
@@ -91,20 +91,20 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 | 原因 | 主な確認 | 主な対処 |
 | --- | --- | --- |
-| CNI 設定・プラグインの不整合 | CNI アドオンの Pod 状態、CNI 設定[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI 設定・バイナリの整合を回復 |
-| [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | アドオン側の IPAM 状態、Pod CIDR 設定の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
-| pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム設定の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー設定 |
+| CNI [設定](/glossary/設定/)・プラグインの不整合 | CNI アドオンの Pod 状態、CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI [設定](/glossary/設定/)・バイナリの整合を回復 |
+| [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | アドオン側の IPAM 状態、Pod CIDR [設定](/glossary/設定/)の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
+| pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム[設定](/glossary/設定/)の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー[設定](/glossary/設定/) |
 | container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の復旧、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
 | ノードのディスク・inode 枯渇 | `df -h` / `df -i`、ノードの `DiskPressure` | 不要[イメージ](/glossary/イメージ/)・[ログ](/glossary/ログ/)の[削除](/glossary/削除/)、容量拡張 |
-| [ネットワーク](/glossary/ネットワーク/)前提条件の欠落 | カーネルモジュールと sysctl、iptables の[バックエンド](/glossary/バックエンド/) | 公式ドキュメントの前提条件どおりに設定 |
+| [ネットワーク](/glossary/ネットワーク/)前提条件の欠落 | カーネルモジュールと sysctl、iptables の[バックエンド](/glossary/バックエンド/) | 公式ドキュメントの前提条件どおりに[設定](/glossary/設定/) |
 
 ### 原因1：CNI プラグインまたは CNI 設定の不整合
 
-sandbox の[ネットワーク](/glossary/ネットワーク/)設定は container runtime が CNI プラグインを呼び出して行います。ここが成立しないと、pause [コンテナ](/glossary/コンテナ/)まで作れていても sandbox 作成全体が失敗として扱われます。よくあるパターンは次のとおりです。
+sandbox の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)は container runtime が CNI プラグインを呼び出して行います。ここが成立しないと、pause [コンテナ](/glossary/コンテナ/)まで作れていても sandbox 作成全体が失敗として扱われます。よくある[パターン](/glossary/パターン/)は次のとおりです。
 
-- **クラスタ構築直後にネットワークアドオンを適用していない**：kubeadm などで構築した直後は CNI 設定が存在せず、kubelet は「ネットワークプラグインが未初期化」であることを示すメッセージとともに Pod を起動できません。ノードの Ready 条件のメッセージにも `NetworkPluginNotReady` 相当の記述が出ます。この症状は公式[リポジトリ](/glossary/リポジトリ/)の Issue でも繰り返し報告されています（[kubernetes/kubernetes#48798](https://github.com/kubernetes/kubernetes/issues/48798)、[kubernetes/kubeadm#1031](https://github.com/kubernetes/kubeadm/issues/1031)）。
-- **アドオンの DaemonSet が該当ノードで動いていない**：ノード追加直後、taint、[イメージ](/glossary/イメージ/)取得失敗などでアドオンの Pod が起動せず、そのノードだけ CNI 設定が配置されないケースです。
-- **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：設定[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧アドオンの設定が残っていると意図しないプラグインが使われます。アドオンを入れ替えた際に起きやすい失敗です。
+- **クラスタ構築直後にネットワークアドオンを適用していない**：kubeadm などで構築した直後は CNI [設定](/glossary/設定/)が存在せず、kubelet は「ネットワークプラグインが未初期化」であることを示すメッセージとともに Pod を起動できません。ノードの Ready 条件のメッセージにも `NetworkPluginNotReady` 相当の記述が出ます。この症状は公式[リポジトリ](/glossary/リポジトリ/)の Issue でも繰り返し報告されています（[kubernetes/kubernetes#48798](https://github.com/kubernetes/kubernetes/issues/48798)、[kubernetes/kubeadm#1031](https://github.com/kubernetes/kubeadm/issues/1031)）。
+- **アドオンの DaemonSet が該当ノードで動いていない**：ノード追加直後、taint、[イメージ](/glossary/イメージ/)取得失敗などでアドオンの Pod が起動せず、そのノードだけ CNI [設定](/glossary/設定/)が配置されないケースです。
+- **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：[設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧アドオンの[設定](/glossary/設定/)が残っていると意図しないプラグインが使われます。アドオンを入れ替えた際に起きやすい失敗です。
 - **CNI プラグインのバイナリが無い、実行できない**：ノードの初期化方法を変えた、[イメージ](/glossary/イメージ/)を作り直した、ディスクを入れ替えたといった変更の直後に起きます。
 - **[IP アドレス](/glossary/ip-アドレス/)の枯渇や IPAM 情報の不整合**：ノードに割り当てられた Pod 用アドレス範囲を使い切ると、新しい sandbox に IP を割り当てられません。[削除](/glossary/削除/)しきれなかった sandbox が IP を保持し続けている場合もあります。
 
@@ -121,18 +121,18 @@ kubectl describe node <your-node-name> | sed -n '/Conditions:/,/Addresses:/p'
 sudo crictl info | grep -i -A20 cni
 ```
 
-CNI 設定[ディレクトリ](/glossary/ディレクトリ/)やバイナリディレクトリの場所は container runtime の設定で決まります。既定値を推測せず、`crictl info` の出力やランタイムの[設定ファイル](/glossary/設定ファイル/)で実際の[パス](/glossary/パス/)を確認してください。
+CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)やバイナリディレクトリの場所は container runtime の[設定](/glossary/設定/)で決まります。既定値を推測せず、`crictl info` の出力やランタイムの[設定ファイル](/glossary/設定ファイル/)で実際の[パス](/glossary/パス/)を確認してください。
 
-修復手順（[設定ファイル](/glossary/設定ファイル/)の内容、Pod CIDR の指定方法、必要な [RBAC](/glossary/rbac/) など）はアドオンごとに大きく異なります。使用しているアドオンの公式ドキュメントに従ってください。Pod CIDR は kubeadm 側の指定とアドオン側の設定が一致している必要があるため、両方を照合します。
+修復手順（[設定ファイル](/glossary/設定ファイル/)の内容、Pod CIDR の指定方法、必要な [RBAC](/glossary/rbac/) など）はアドオンごとに大きく異なります。使用しているアドオンの公式ドキュメントに従ってください。Pod CIDR は kubeadm 側の指定とアドオン側の[設定](/glossary/設定/)が一致している必要があるため、両方を照合します。
 
 ### 原因2：pause image または container runtime が sandbox コンテナを作れない
 
 container runtime は sandbox [コンテナ](/glossary/コンテナ/)を起動するために sandbox image（pause image）を必要とします。この取得や起動に失敗すると、CNI が正常でも sandbox は作れません。
 
-- **エアギャップ[環境](/glossary/環境/)・制限された[ネットワーク](/glossary/ネットワーク/)で pause image を取得できない**：ノードから公開[レジストリ](/glossary/レジストリ/)へ到達できない、[プロキシ](/glossary/プロキシ/)設定が runtime に反映されていない、[DNS](/glossary/dns/) が引けない、といった状況です。
-- **ランタイム設定の sandbox image 指定が誤っている**：存在しない[タグ](/glossary/タグ/)、到達できないミラー、アーキテクチャの異なる[イメージ](/glossary/イメージ/)を指定している場合です。
-- **[プライベートレジストリ](/glossary/プライベートレジストリ/)の[認証](/glossary/認証/)**：sandbox image の取得は container runtime 自身の設定と認証情報で行われるため、Pod の `imagePullSecrets` を追加しても解決しない場合があります。ランタイム側の[レジストリ](/glossary/レジストリ/)認証設定を公式ドキュメントで確認してください。
-- **container runtime 本体の異常**：[プロセス](/glossary/プロセス/)が停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup [ドライバ](/glossary/ドライバ/)の設定が kubelet と食い違っている、といった状態です。
+- **エアギャップ[環境](/glossary/環境/)・制限された[ネットワーク](/glossary/ネットワーク/)で pause image を取得できない**：ノードから公開[レジストリ](/glossary/レジストリ/)へ到達できない、[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)が runtime に反映されていない、[DNS](/glossary/dns/) が引けない、といった状況です。
+- **ランタイム[設定](/glossary/設定/)の sandbox image 指定が誤っている**：存在しない[タグ](/glossary/タグ/)、到達できないミラー、アーキテクチャの異なる[イメージ](/glossary/イメージ/)を指定している場合です。
+- **[プライベートレジストリ](/glossary/プライベートレジストリ/)の[認証](/glossary/認証/)**：sandbox image の取得は container runtime 自身の[設定](/glossary/設定/)と認証情報で行われるため、Pod の `imagePullSecrets` を追加しても解決しない場合があります。ランタイム側の[レジストリ](/glossary/レジストリ/)認証設定を公式ドキュメントで確認してください。
+- **container runtime 本体の異常**：[プロセス](/glossary/プロセス/)が停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup [ドライバ](/glossary/ドライバ/)の[設定](/glossary/設定/)が kubelet と食い違っている、といった状態です。
 
 **確認方法**
 
@@ -145,7 +145,7 @@ sudo journalctl -u containerd --since "15 min ago" --no-pager | grep -i -E 'sand
 sudo crictl images | grep -i pause
 ```
 
-設定されている sandbox image 名は、推測せずランタイムの実効設定から読み取ります。containerd と CRI-O では設定[キー](/glossary/キー/)名が異なり、containerd はメジャーバージョンによっても書き方が変わるため、実効設定のダンプ出力を確認するのが確実です。
+[設定](/glossary/設定/)されている sandbox image 名は、推測せずランタイムの実効設定から読み取ります。containerd と CRI-O では[設定](/glossary/設定/)[キー](/glossary/キー/)名が異なり、containerd はメジャーバージョンによっても書き方が変わるため、実効設定のダンプ出力を確認するのが確実です。
 
 ```bash
 # containerd：実効設定から sandbox / pause 関連の項目を探す
@@ -162,10 +162,10 @@ sudo crictl pull <your-sandbox-image>
 kubelet と container runtime はノードの [OS](/glossary/os/) 機能に強く依存します。ノード側が壊れていると、[マニフェスト](/glossary/マニフェスト/)が正しくても sandbox は作れません。
 
 - **ディスクや inode の枯渇**：`no space left on device` を含むメッセージで sandbox 作成が失敗する事例は、[クラウド](/glossary/クラウド/)提供元のトラブルシューティング文書でも紹介されています（例：[Tencent Cloud TKE のドキュメント](https://www.tencentcloud.com/document/product/457/35761)）。ランタイムのデータディレクトリ、`/var/log`、`/var/lib/kubelet` を個別に確認します。
-- **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の設定）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の設定に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
+- **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の[設定](/glossary/設定/)）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
 - **iptables/nftables の不整合**：ホストの `iptables` がどの[バックエンド](/glossary/バックエンド/)（legacy / nft）で動いているかが、CNI やサービスプロキシの想定と食い違うと、ルール適用が失敗したり無効化されたりします。ノード再作成やディストリビューション更新の後に起きやすい問題です。
 - **[プロセス](/glossary/プロセス/)・ファイルディスクリプタ・PID の上限**：ノードが高負荷のときに sandbox 作成だけが失敗することがあります。カーネルログ（`dmesg`）に該当メッセージが出ていないか確認します。
-- **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に対応する handler がノードの runtime 側に設定されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を確認してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
+- **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に対応する handler がノードの runtime 側に[設定](/glossary/設定/)されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を確認してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
 
 **確認[コマンド](/glossary/コマンド/)**
 
@@ -219,7 +219,7 @@ kubectl describe node <your-node-name>
 
 - **特定ノードに集中**：そのノードの runtime・CNI・資源（原因2、原因3）を追います。
 - **クラスタ全体**：ネットワークアドオン、クラスタ共通設定、[レジストリ](/glossary/レジストリ/)疎通（原因1、原因2）を追います。
-- **特定 Pod だけ**：`hostNetwork`、`hostPort` の競合、`runtimeClassName`、Pod 単位の設定を確認します。
+- **特定 Pod だけ**：`hostNetwork`、`hostPort` の競合、`runtimeClassName`、Pod 単位の[設定](/glossary/設定/)を確認します。
 
 ### 手順3：ノードの kubelet ログを読む
 
@@ -237,11 +237,11 @@ sudo crictl info
 sudo crictl pods
 ```
 
-`crictl info` の出力にはランタイムの状態（`RuntimeReady` / `NetworkReady` に相当する条件）と CNI 設定の読み込み状況が含まれます。`NetworkReady` が false なら原因1、ランタイム自体が応答しないなら原因2に進みます。`crictl` の使い方は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Debugging [Kubernetes](/glossary/kubernetes/) nodes with crictl」に説明があります。
+`crictl info` の出力にはランタイムの状態（`RuntimeReady` / `NetworkReady` に相当する条件）と CNI [設定](/glossary/設定/)の読み込み状況が含まれます。`NetworkReady` が false なら原因1、ランタイム自体が応答しないなら原因2に進みます。`crictl` の使い方は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Debugging [Kubernetes](/glossary/kubernetes/) nodes with crictl」に説明があります。
 
 ### 手順5：仮説を1つずつ検証する
 
-- CNI を疑うなら：アドオン Pod の状態と[ログ](/glossary/ログ/)、ノード上の CNI 設定・バイナリの存在を確認
+- CNI を疑うなら：アドオン Pod の状態と[ログ](/glossary/ログ/)、ノード上の CNI [設定](/glossary/設定/)・バイナリの存在を確認
 - pause image を疑うなら：`crictl pull <your-sandbox-image>` を実行
 - ノード状態を疑うなら：`df -h` / `df -i` / `sysctl` / `lsmod` / `dmesg`
 

@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase 408 [エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[HTTP](/glossary/http/) 408 Request Timeout は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)の到着を待機している間に予定時間を超えたことを示します。[ネットワーク](/glossary/ネットワーク/)[環境](/glossary/環境/)の不安定性や[アプリケーション](/glossary/アプリケーション/)の処理遅延、Firebase [SDK](/glossary/sdk/) の設定ミスが主な原因となります。
+Firebase 408 [エラー](/glossary/エラー/)は[クライアント](/glossary/クライアント/)側からの[リクエスト](/glossary/リクエスト/)が[タイムアウト](/glossary/タイムアウト/)時間内に完了できず、Firebase [サーバー](/glossary/サーバー/)が接続を切断した状態です。[HTTP](/glossary/http/) 408 Request Timeout は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)の到着を待機している間に予定時間を超えたことを示します。[ネットワーク](/glossary/ネットワーク/)[環境](/glossary/環境/)の不安定性や[アプリケーション](/glossary/アプリケーション/)の処理遅延、Firebase [SDK](/glossary/sdk/) の[設定](/glossary/設定/)ミスが主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -77,7 +77,7 @@ async function fetchUserWithRetry() {
 
 ### 原因2：Firebase SDK のタイムアウト設定が短すぎる
 
-Firebase [SDK](/glossary/sdk/) の[タイムアウト](/glossary/タイムアウト/)設定が[ネットワーク](/glossary/ネットワーク/)遅延に対応できないほど短く設定されている場合、正常な[リクエスト](/glossary/リクエスト/)でも 408 [エラー](/glossary/エラー/)が発生します。特にデータ量の多い操作や複雑な[クエリ](/glossary/クエリ/)では処理時間が長くなります。
+Firebase [SDK](/glossary/sdk/) の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)が[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)に対応できないほど短く[設定](/glossary/設定/)されている場合、正常な[リクエスト](/glossary/リクエスト/)でも 408 [エラー](/glossary/エラー/)が発生します。特にデータ量の多い操作や複雑な[クエリ](/glossary/クエリ/)では処理時間が長くなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -231,7 +231,7 @@ function errorCallback(error) {
 
 ### Authentication のタイムアウト
 
-ユーザー認証時に[ネットワーク](/glossary/ネットワーク/)遅延がある場合、[ID](/glossary/id/) [トークン](/glossary/トークン/)取得時に 408 が発生することがあります。リトライロジックと明示的な[タイムアウト](/glossary/タイムアウト/)設定を組み合わせてください。
+ユーザー認証時に[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)がある場合、[ID](/glossary/id/) [トークン](/glossary/トークン/)取得時に 408 が発生することがあります。リトライロジックと明示的な[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)を組み合わせてください。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

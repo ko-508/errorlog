@@ -43,7 +43,7 @@ fatal: Authentication failed for 'https://gitlab.example.com/group/project.git/'
 
 ### 原因1：パーソナルアクセストークン（PAT）が無効または期限切れになっている
 
-GitLab のパーソナルアクセストークンには有効期限が設定でき、期限を過ぎた[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。また、[トークン](/glossary/トークン/)を無効化した場合や、[ユーザーアカウント](/glossary/ユーザーアカウント/)設定で特定の[スコープ](/glossary/スコープ/)を失った場合も[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインや[スクリプト](/glossary/スクリプト/)で長期間使用する[トークン](/glossary/トークン/)は、期限切れに気づきにくいため注意が必要です。
+GitLab のパーソナルアクセストークンには有効期限が[設定](/glossary/設定/)でき、期限を過ぎた[トークン](/glossary/トークン/)で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。また、[トークン](/glossary/トークン/)を無効化した場合や、[ユーザーアカウント](/glossary/ユーザーアカウント/)[設定](/glossary/設定/)で特定の[スコープ](/glossary/スコープ/)を失った場合も[認証](/glossary/認証/)に失敗します。特に [CI/CD](/glossary/ci-cd/) パイプラインや[スクリプト](/glossary/スクリプト/)で長期間使用する[トークン](/glossary/トークン/)は、期限切れに気づきにくいため注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -108,7 +108,7 @@ $ git clone https://oauth2:<pat-token>@gitlab.example.com/group/project.git
 
 ### 原因3：CI/CD パイプラインで正しいジョブトークンが使われていない
 
-[CI/CD](/glossary/ci-cd/) パイプラインから GitLab [API](/glossary/api/) にアクセスする場合、`CI_JOB_TOKEN` という特別な[環境変数](/glossary/環境変数/)が提供されます。この[トークン](/glossary/トークン/)はジョブ実行時に自動的に設定されますが、パイプラインの設定[エラー](/glossary/エラー/)や古い実装では、代わりにパーソナルアクセストークンを使用していることがあります。その場合、[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)不足や期限切れで 401 [エラー](/glossary/エラー/)が発生します。
+[CI/CD](/glossary/ci-cd/) パイプラインから GitLab [API](/glossary/api/) にアクセスする場合、`CI_JOB_TOKEN` という特別な[環境変数](/glossary/環境変数/)が提供されます。この[トークン](/glossary/トークン/)はジョブ実行時に自動的に[設定](/glossary/設定/)されますが、パイプラインの[設定](/glossary/設定/)[エラー](/glossary/エラー/)や古い実装では、代わりにパーソナルアクセストークンを使用していることがあります。その場合、[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)不足や期限切れで 401 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -147,7 +147,7 @@ api_test:
 
 ## ツール固有の注意点
 
-**GitLab のトークンスコープ設定の重要性：**
+**GitLab のトークンスコープ[設定](/glossary/設定/)の重要性：**
 
 パーソナルアクセストークン生成時に「[スコープ](/glossary/スコープ/)」を選択します。[API](/glossary/api/) 呼び出しに必要な[スコープ](/glossary/スコープ/)が不足していると、[トークン](/glossary/トークン/)自体は有効でも 401 [エラー](/glossary/エラー/)が返される可能性があります。たとえば、`read_repository` [スコープ](/glossary/スコープ/)なしでは repository [API](/glossary/api/) にアクセスできません。[トークン](/glossary/トークン/)生成時に必要最小限の[スコープ](/glossary/スコープ/)を指定してください。
 
@@ -187,7 +187,7 @@ curl -s -H "PRIVATE-TOKEN: ${TOKEN}" \
 
 **[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)での環境変数確認：**
 
-パイプラインスクリプト内で `CI_JOB_TOKEN` が正しく設定されているか、以下で確認します。
+パイプラインスクリプト内で `CI_JOB_TOKEN` が正しく[設定](/glossary/設定/)されているか、以下で確認します。
 
 ```bash
 # .gitlab-ci.yml内

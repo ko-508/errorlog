@@ -17,7 +17,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-Nginx の 403 Forbidden は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を理解したうえで、アクセスを拒否したときに返されます。原因はほぼ次の6つのいずれかです。[ファイル](/glossary/ファイル/)[権限](/glossary/権限/)の不足、[パス](/glossary/パス/)の途中の親[ディレクトリ](/glossary/ディレクトリ/)に実行権限がない、index [ファイル](/glossary/ファイル/)がなく autoindex も無効、設定の deny ルール、SELinux/AppArmor、そして upstream(PHP-FPM など)自身が 403 を返すケースです。調査は、設定をいじる前に、まず `/var/log/nginx/error.log` を読むことから始めます。[ログ](/glossary/ログ/)の文言が、どの原因なのかの手がかりになります。
+Nginx の 403 Forbidden は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を理解したうえで、アクセスを拒否したときに返されます。原因はほぼ次の6つのいずれかです。[ファイル](/glossary/ファイル/)[権限](/glossary/権限/)の不足、[パス](/glossary/パス/)の途中の親[ディレクトリ](/glossary/ディレクトリ/)に実行権限がない、index [ファイル](/glossary/ファイル/)がなく autoindex も無効、[設定](/glossary/設定/)の deny ルール、SELinux/AppArmor、そして upstream(PHP-FPM など)自身が 403 を返すケースです。調査は、[設定](/glossary/設定/)をいじる前に、まず `/var/log/nginx/error.log` を読むことから始めます。[ログ](/glossary/ログ/)の文言が、どの原因なのかの手がかりになります。
 
 ## エラーの概要
 
@@ -153,14 +153,14 @@ autoindex の有効化は、[ディレクトリ](/glossary/ディレクトリ/)�
 
 ### 原因4：設定の deny ルールや auth_basic で拒否されている
 
-`deny` ディレクティブ、`auth_basic`、`internal` などの設定が、[リクエスト](/glossary/リクエスト/)を意図的に拒否しているケースです。設定全体を展開して、該当する行を探します。
+`deny` ディレクティブ、`auth_basic`、`internal` などの[設定](/glossary/設定/)が、[リクエスト](/glossary/リクエスト/)を意図的に拒否しているケースです。設定全体を展開して、該当する行を探します。
 
 ```bash
 # 展開後の設定全体から、アクセス制御に関わる行を探す
 sudo nginx -T | grep -nE "deny|allow|auth_basic|internal"
 ```
 
-たとえば次の設定は、特定 IP 以外を拒否します。
+たとえば次の[設定](/glossary/設定/)は、特定 IP 以外を拒否します。
 
 ```nginx
 location /admin/ {
@@ -225,7 +225,7 @@ Nginx の[エラーログ](/glossary/エラーログ/)に[権限](/glossary/権�
 
 403 は、次の順で原因を一つずつ除外していくと、最短で特定できます。
 
-[エラーログ](/glossary/エラーログ/)を読む。`Permission denied` なら原因1か2、`directory index ... is forbidden` なら原因3。[権限](/glossary/権限/)を点検する(`namei -l` で親[ディレクトリ](/glossary/ディレクトリ/)の実行権限まで)。設定を点検する(`nginx -T | grep` で deny/auth_basic を確認)。[権限](/glossary/権限/)も設定も正しいのに消えないなら SELinux/AppArmor を疑う。それでも残るなら upstream の[ログ](/glossary/ログ/)を見る。この順に進めれば、6つのどれかに必ず行き着きます。
+[エラーログ](/glossary/エラーログ/)を読む。`Permission denied` なら原因1か2、`directory index ... is forbidden` なら原因3。[権限](/glossary/権限/)を点検する(`namei -l` で親[ディレクトリ](/glossary/ディレクトリ/)の実行権限まで)。[設定](/glossary/設定/)を点検する(`nginx -T | grep` で deny/auth_basic を確認)。[権限](/glossary/権限/)も[設定](/glossary/設定/)も正しいのに消えないなら SELinux/AppArmor を疑う。それでも残るなら upstream の[ログ](/glossary/ログ/)を見る。この順に進めれば、6つのどれかに必ず行き着きます。
 
 ## それでも解決しない場合
 

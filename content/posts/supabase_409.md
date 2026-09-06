@@ -121,7 +121,7 @@ if (selectError && selectError.code !== 'PGRST116') {
 
 ### 原因 2：外部キー制約の親レコードが存在しない
 
-外部[キー](/glossary/キー/)制約が設定されている[カラム](/glossary/カラム/)に、参照先[テーブル](/glossary/テーブル/)に存在しない[レコード](/glossary/レコード/)の [ID](/glossary/id/) を挿入しようとした場合に発生します。例えば、orders [テーブル](/glossary/テーブル/)の user_id が users [テーブル](/glossary/テーブル/)に存在しない [ID](/glossary/id/) を指す場合です。
+外部[キー](/glossary/キー/)制約が[設定](/glossary/設定/)されている[カラム](/glossary/カラム/)に、参照先[テーブル](/glossary/テーブル/)に存在しない[レコード](/glossary/レコード/)の [ID](/glossary/id/) を挿入しようとした場合に発生します。例えば、orders [テーブル](/glossary/テーブル/)の user_id が users [テーブル](/glossary/テーブル/)に存在しない [ID](/glossary/id/) を指す場合です。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -243,7 +243,7 @@ if (error) console.error('Insert error:', error);
 
 **RLS（Row Level Security）との関係：** RLS [ポリシー](/glossary/ポリシー/)が有効な場合、[ポリシー](/glossary/ポリシー/)違反で 403 [エラー](/glossary/エラー/)が返されることもあります。409 [エラー](/glossary/エラー/)が返される場合は、RLS ではなく実データの制約違反と判断できます。
 
-**Supabase [ダッシュボード](/glossary/ダッシュボード/)での制約確認：** Supabase [ダッシュボード](/glossary/ダッシュボード/)のテーブルエディターで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どの[カラム](/glossary/カラム/)にどのような制約が設定されているかを確認できます。事前にここで制約定義を把握しておくと、409 [エラー](/glossary/エラー/)を事前に防げます。
+**Supabase [ダッシュボード](/glossary/ダッシュボード/)での制約確認：** Supabase [ダッシュボード](/glossary/ダッシュボード/)のテーブルエディターで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どの[カラム](/glossary/カラム/)にどのような制約が[設定](/glossary/設定/)されているかを確認できます。事前にここで制約定義を把握しておくと、409 [エラー](/glossary/エラー/)を事前に防げます。
 
 **Realtime 機能との相性：** Realtime リスナーを有効にしている[テーブル](/glossary/テーブル/)で競合が発生した場合、INSERT/UPDATE が[ロールバック](/glossary/ロールバック/)されたことを[リアルタイム](/glossary/リアルタイム/)で検知できます。[クライアント](/glossary/クライアント/)側で[エラーハンドリング](/glossary/エラーハンドリング/)とリトライロジックを組み込むことを推奨します。
 

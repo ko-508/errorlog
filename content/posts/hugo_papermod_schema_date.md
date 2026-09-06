@@ -10,7 +10,7 @@ related_services: ["Google", "JSON-LD", "Git", "GitHub Actions"]
 
 ## エラーの概要
 
-Hugo（PaperMod テーマ）で構築したサイトの構造化データ（[JSON](/glossary/json/)-LD）を Google のリッチリザルトテストで確認したところ、`datePublished` と `dateModified` に `0001-01-01T00:00:00Z` という明らかに誤った日付が出力されていた。記事のフロントマターには正しく `date: 2026-05-29` を設定していたにもかかわらず、構造化データには Go の「ゼロ値」に相当する日付が混入していた。
+Hugo（PaperMod テーマ）で構築したサイトの構造化データ（[JSON](/glossary/json/)-LD）を Google のリッチリザルトテストで確認したところ、`datePublished` と `dateModified` に `0001-01-01T00:00:00Z` という明らかに誤った日付が出力されていた。記事のフロントマターには正しく `date: 2026-05-29` を[設定](/glossary/設定/)していたにもかかわらず、構造化データには Go の「ゼロ値」に相当する日付が混入していた。
 
 ---
 
@@ -49,13 +49,13 @@ PaperMod テーマの `themes/PaperMod/layouts/_partials/templates/schema_json.h
 
 Hugo テンプレートで `{{ .PublishDate }}` を素のまま展開すると、Go の `time.Time` 型がデフォルト形式でシリアライズされる。この形式は `0001-01-01 00:00:00 +0000 UTC` のような文字列になり、[JSON](/glossary/json/) として無効な出力になる。
 
-さらに `.PublishDate` はフロントマターに `publishDate` を明示しない場合にゼロ値（`0001-01-01`）になることがある（Hugo の[バージョン](/glossary/バージョン/)や設定により挙動が異なる）。`lastmod` も同様で、フロントマターに未設定の場合にゼロ値が返る。
+さらに `.PublishDate` はフロントマターに `publishDate` を明示しない場合にゼロ値（`0001-01-01`）になることがある（Hugo の[バージョン](/glossary/バージョン/)や[設定](/glossary/設定/)により挙動が異なる）。`lastmod` も同様で、フロントマターに未設定の場合にゼロ値が返る。
 
 ---
 
 ## 解決手順
 
-**解決策（テンプレートオーバーライドで日付フォーマットを[修正](/glossary/修正/)）：**
+**解決策（テンプレートオーバーライドで日付[フォーマット](/glossary/フォーマット/)を[修正](/glossary/修正/)）：**
 
 ### 1. テーマのテンプレートをオーバーライドする
 
@@ -83,7 +83,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
 - `.PublishDate` の代わりに `.Date` を使う（フロントマターの `date:` [フィールド](/glossary/フィールド/)を確実に参照する）
 - `.Lastmod.IsZero` で未設定チェックをして、ゼロ値の場合は `.Date` にフォールバックする
 - `jsonify` フィルタで文字列として正しくクォートする
-- `.UTC.Format "2006-01-02T15:04:05Z"` で ISO 8601 フルフォーマットに変換する（Go の時刻フォーマットは参照日時 `2006-01-02T15:04:05Z07:00` を使う点に注意）
+- `.UTC.Format "2006-01-02T15:04:05Z"` で ISO 8601 フルフォーマットに変換する（Go の時刻[フォーマット](/glossary/フォーマット/)は参照日時 `2006-01-02T15:04:05Z07:00` を使う点に注意）
 
 ### 3. 出力結果の確認
 
@@ -111,7 +111,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 ### `lastmod` の自動設定
 
-`hugo.toml`（または `config.yaml`）に以下を設定すると、Hugo が[ファイル](/glossary/ファイル/)の git [コミット](/glossary/コミット/)日時を `lastmod` として自動設定する：
+`hugo.toml`（または `config.yaml`）に以下を[設定](/glossary/設定/)すると、Hugo が[ファイル](/glossary/ファイル/)の git [コミット](/glossary/コミット/)日時を `lastmod` として自動設定する：
 
 ```toml
 [frontmatter]

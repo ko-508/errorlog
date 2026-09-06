@@ -61,7 +61,7 @@ $ docker-compose up
 
 ### 原因2：compose.ymlで正しい認証情報が参照されていない
 
-compose.ymlにレジストリー認証情報を含めるとき、`x-aws-cred-helper`や`credHelpers`設定が不正な場合や、[設定ファイル](/glossary/設定ファイル/)自体が存在しない場合に401が発生します。
+compose.ymlにレジストリー認証情報を含めるとき、`x-aws-cred-helper`や`credHelpers`[設定](/glossary/設定/)が不正な場合や、[設定ファイル](/glossary/設定ファイル/)自体が存在しない場合に401が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

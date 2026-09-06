@@ -66,11 +66,11 @@ git@github.com:OWNER/REPOSITORY.git
 [Git](/glossary/git/)操作は、大きく次の順で進みます。
 
 1. remoteから接続先と方式を決める。
-2. SSH[クライアント](/glossary/クライアント/)が設定とssh-agentから鍵を選ぶ。
+2. SSH[クライアント](/glossary/クライアント/)が[設定](/glossary/設定/)とssh-agentから鍵を選ぶ。
 3. [GitHub](/glossary/github/)が提示された鍵を[アカウント](/glossary/アカウント/)またはDeploy keyと照合する。
 4. 認証後、その主体が対象[リポジトリ](/glossary/リポジトリ/)を読み書きできるか確認する。
 
-`Permission denied (publickey)` は3番までに失敗した文言です。末尾に続く `Please make sure you have the correct access rights and the repository exists` は広い案内ですが、そこから先に[リポジトリ](/glossary/リポジトリ/)設定を調べると順番が逆になります。
+`Permission denied (publickey)` は3番までに失敗した文言です。末尾に続く `Please make sure you have the correct access rights and the repository exists` は広い案内ですが、そこから先に[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)を調べると順番が逆になります。
 
 接続だけを試す公式の確認方法は次のとおりです。
 
@@ -103,7 +103,7 @@ git config --show-origin --get core.sshCommand
 
 何も出なければ、`core.sshCommand` による上書きはありません。値が出た場合は、普段[ターミナル](/glossary/ターミナル/)で実行している `ssh` と別の実行[ファイル](/glossary/ファイル/)や鍵を指定していないかを見ます。
 
-第三に、失敗した[Git](/glossary/git/)操作と同じ[環境](/glossary/環境/)で詳細[ログ](/glossary/ログ/)を出します。macOS・Linux・[Git](/glossary/git/) Bashでは次のとおりです。
+第三に、失敗した[Git](/glossary/git/)操作と同じ[環境](/glossary/環境/)で詳細[ログ](/glossary/ログ/)を出します。macOS・[Linux](/glossary/linux/)・[Git](/glossary/git/) Bashでは次のとおりです。
 
 ```bash
 command -v git
@@ -185,7 +185,7 @@ Host github.com
     IdentitiesOnly yes
 ```
 
-`IdentitiesOnly yes` は、ssh-agentに多数の鍵が入っていても、このホストでは指定した鍵だけを使わせる設定です。変更後に `ssh -vT git@github.com` を再実行し、対象の鍵が `Offering public key` に出ることを確認します。
+`IdentitiesOnly yes` は、ssh-agentに多数の鍵が入っていても、このホストでは指定した鍵だけを使わせる[設定](/glossary/設定/)です。変更後に `ssh -vT git@github.com` を再実行し、対象の鍵が `Offering public key` に出ることを確認します。
 
 ### 原因3：提示した公開鍵がGitHubアカウントに登録されていない
 
@@ -218,7 +218,7 @@ cat ~/.ssh/id_ed25519.pub
 ~/.ssh/id_ed25519.pub      ← 公開鍵。GitHubへ登録する
 ```
 
-見覚えのないSSH鍵が[GitHub](/glossary/github/)の設定にある場合は、単なる接続不良として放置しません。公式文書は、その鍵を[削除](/glossary/削除/)して[GitHub](/glossary/github/) Supportへ連絡するよう警告しています。
+見覚えのないSSH鍵が[GitHub](/glossary/github/)の[設定](/glossary/設定/)にある場合は、単なる接続不良として放置しません。公式文書は、その鍵を[削除](/glossary/削除/)して[GitHub](/glossary/github/) Supportへ連絡するよう警告しています。
 
 ### 原因4：複数アカウント用の別の鍵を提示している
 
@@ -262,7 +262,7 @@ git remote set-url origin git@github-work:OWNER/REPOSITORY.git
 ssh -T git@github-work
 ```
 
-[GitHub](/glossary/github/)の[コミット](/glossary/コミット/)作者を決める `user.name`、`user.email` と、SSHで接続する[アカウント](/glossary/アカウント/)は別の設定です。`git config user.email` を変えても、提示するSSH鍵は変わりません。
+[GitHub](/glossary/github/)の[コミット](/glossary/コミット/)作者を決める `user.name`、`user.email` と、SSHで接続する[アカウント](/glossary/アカウント/)は別の[設定](/glossary/設定/)です。`git config user.email` を変えても、提示するSSH鍵は変わりません。
 
 ### 原因5：ターミナルとGitHub Desktop・IDE・WSLで実行環境が違う
 
@@ -312,7 +312,7 @@ Permissions for '/home/user/.ssh/id_ed25519' are too open.
 This private key will be ignored.
 ```
 
-macOS・Linuxでは、所有者だけが[秘密鍵](/glossary/秘密鍵/)を読める状態へ戻します。
+macOS・[Linux](/glossary/linux/)では、所有者だけが[秘密鍵](/glossary/秘密鍵/)を読める状態へ戻します。
 
 ```bash
 chmod 700 ~/.ssh
@@ -330,7 +330,7 @@ sign_and_send_pubkey: signing failed
 Permission denied (publickey).
 ```
 
-[GitHubの接続テスト](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection#testing-your-ssh-connection)にも、この形が一部のLinux[環境](/glossary/環境/)で発生する既知の問題として記載されています。鍵を作り直す前に、agentへ読み込み直し、同じ鍵で署名できるかを確認します。
+[GitHubの接続テスト](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/testing-your-ssh-connection#testing-your-ssh-connection)にも、この形が一部の[Linux](/glossary/linux/)[環境](/glossary/環境/)で発生する既知の問題として記載されています。鍵を作り直す前に、agentへ読み込み直し、同じ鍵で署名できるかを確認します。
 
 ```bash
 ssh-add -d ~/.ssh/id_ed25519
@@ -439,11 +439,11 @@ ssh -T -p 443 git@ssh.github.com
 
 この[エラー](/glossary/エラー/)の難しさは、**同じPC上のすべての[Git](/glossary/git/)操作が、同じSSHを使うとは限らない**ことです。[GitHub](/glossary/github/) Desktopの公式[リポジトリ](/glossary/リポジトリ/)には、その境界が見えにくかった記録が残っています。
 
-2019年の報告（[Unable to push/pull from GitHub Desktop after adding SSH key to account](https://github.com/desktop/desktop/issues/7337)）では、SSH鍵を[アカウント](/glossary/アカウント/)へ追加し、[CLI](/glossary/cli/)ではremoteを設定してpushできた一方、[GitHub](/glossary/github/) Desktopでは取得に失敗しました。画面が示したのは「[リポジトリ](/glossary/リポジトリ/)の[権限](/glossary/権限/)がないか、[アーカイブ](/glossary/アーカイブ/)済みかもしれない」という広い案内です。課題は環境依存として閉じられており、原因は確定していませんが、**[CLI](/glossary/cli/)で通ることは[GUI](/glossary/gui/)が同じ認証経路を使う証明にならない**という切り分け上の注意を示しています。
+2019年の報告（[Unable to push/pull from GitHub Desktop after adding SSH key to account](https://github.com/desktop/desktop/issues/7337)）では、SSH鍵を[アカウント](/glossary/アカウント/)へ追加し、[CLI](/glossary/cli/)ではremoteを[設定](/glossary/設定/)してpushできた一方、[GitHub](/glossary/github/) Desktopでは取得に失敗しました。画面が示したのは「[リポジトリ](/glossary/リポジトリ/)の[権限](/glossary/権限/)がないか、[アーカイブ](/glossary/アーカイブ/)済みかもしれない」という広い案内です。課題は環境依存として閉じられており、原因は確定していませんが、**[CLI](/glossary/cli/)で通ることは[GUI](/glossary/gui/)が同じ認証経路を使う証明にならない**という切り分け上の注意を示しています。
 
 2023年の報告（[SSH key bad permissions results in no error message in GitHub Desktop](https://github.com/desktop/desktop/issues/16875)）では、違いがさらに具体的です。Windowsのネットワークドライブに置いた[秘密鍵](/glossary/秘密鍵/)を[Git](/glossary/git/) Bash側のSSHは読めた一方、system OpenSSHは[アクセス権](/glossary/アクセス権/)が広すぎるとして拒否しました。[GitHub](/glossary/github/) Desktopがsystem OpenSSHを使った操作ではpushが終わらず、利用者が期待した `UNPROTECTED PRIVATE KEY FILE` の情報も画面に出ませんでした。
 
-2件を並べると、[アカウント](/glossary/アカウント/)画面、remote、鍵[ファイル](/glossary/ファイル/)の存在だけを見ても足りない理由が分かります。**SSH[認証](/glossary/認証/)の成否を決めるのは、失敗した処理が実際に起動したSSH[クライアント](/glossary/クライアント/)、その[クライアント](/glossary/クライアント/)が読んだ設定、接続できたagent、そして提示した鍵です**。上位の[GUI](/glossary/gui/)やIDEが要約すると、途中に出た具体的な理由が「Authentication failed」の一文へ畳まれることがあります。
+2件を並べると、[アカウント](/glossary/アカウント/)画面、remote、鍵[ファイル](/glossary/ファイル/)の存在だけを見ても足りない理由が分かります。**SSH[認証](/glossary/認証/)の成否を決めるのは、失敗した処理が実際に起動したSSH[クライアント](/glossary/クライアント/)、その[クライアント](/glossary/クライアント/)が読んだ[設定](/glossary/設定/)、接続できたagent、そして提示した鍵です**。上位の[GUI](/glossary/gui/)やIDEが要約すると、途中に出た具体的な理由が「Authentication failed」の一文へ畳まれることがあります。
 
 だから、本記事では鍵の再生成を最初の手順にしていません。まず失敗した経路で `ssh -vT` を実行し、`Offering public key` を境に分ける。提示していないならローカルの選択を直し、提示しているならフィンガープリントを照合する。`Hi USERNAME!` まで通って初めて[リポジトリ](/glossary/リポジトリ/)[権限](/glossary/権限/)を見る。この順序なら、別の原因に同じ[修正](/glossary/修正/)を繰り返さずに済みます。
 

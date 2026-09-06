@@ -109,7 +109,7 @@ readinessProbe:
 | `successThreshold` | 1回 | 失敗後にReadyへ戻す連続成功数 |
 | `failureThreshold` | 3回 | Unreadyとする連続失敗数 |
 
-[コンテナ](/glossary/コンテナ/)がUnreadyの間、readiness probeは復帰を早く検出するため、設定した `periodSeconds` 以外の時点にも実行されることがあります。したがって、常に正確な固定間隔だと仮定してprobe回数を監視しないでください。
+[コンテナ](/glossary/コンテナ/)がUnreadyの間、readiness probeは復帰を早く検出するため、[設定](/glossary/設定/)した `periodSeconds` 以外の時点にも実行されることがあります。したがって、常に正確な固定間隔だと仮定してprobe回数を監視しないでください。
 
 PodのReadyは、1つのreadiness probeだけで決まるとは限りません。
 
@@ -289,7 +289,7 @@ startup probeが成功するまでreadinessとlivenessは開始されません�
 Readiness probe failed: context deadline exceeded
 ```
 
-probe endpointの応答時間、CPU制限、GC、Node負荷を確認します。
+probe endpointの応答時間、[CPU](/glossary/cpu/)制限、GC、Node負荷を確認します。
 
 ```bash
 kubectl top pod <Pod名> -n <名前空間> --containers
@@ -335,7 +335,7 @@ readiness: 現在、要求を正しく処理できるか
 
 ### 原因6：failureThresholdとsuccessThresholdが敏感すぎる
 
-1回の短い遅延で転送先から外したくない場合は、`failureThreshold` を調整します。復帰直後の揺れを抑えるなら `successThreshold` を2以上にできます。
+1回の短い[遅延](/glossary/遅延/)で転送先から外したくない場合は、`failureThreshold` を調整します。復帰直後の揺れを抑えるなら `successThreshold` を2以上にできます。
 
 ```yaml
 readinessProbe:
@@ -359,7 +359,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" state="}{.state}{"\n"}{end}'
 ```
 
-各[コンテナ](/glossary/コンテナ/)の `ready` を確認し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe設定を対応させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
+各[コンテナ](/glossary/コンテナ/)の `ready` を確認し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を対応させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
 
 ### 原因8：readinessGateがFalseまたは未設定になっている
 
@@ -382,21 +382,21 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### 原因9：ServiceがpublishNotReadyAddressesを有効にしている
 
-Serviceに次の設定があると、EndpointSliceを利用する処理はPodのReadyを無視する扱いになります。
+Serviceに次の[設定](/glossary/設定/)があると、EndpointSliceを利用する処理はPodのReadyを無視する扱いになります。
 
 ```yaml
 spec:
   publishNotReadyAddresses: true
 ```
 
-[Service APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/core/service-v1/#ServiceSpec)では、[Kubernetes](/glossary/kubernetes/)が生成するEndpointsとEndpointSliceで、すべてのendpointをreadyとして扱う設定と説明されています。主な用途は、StatefulSetのpeer discoveryなどです。
+[Service APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/core/service-v1/#ServiceSpec)では、[Kubernetes](/glossary/kubernetes/)が生成するEndpointsとEndpointSliceで、すべてのendpointをreadyとして扱う[設定](/glossary/設定/)と説明されています。主な用途は、StatefulSetのpeer discoveryなどです。
 
 ```bash
 kubectl get service <Service名> -n <名前空間> \
   -o jsonpath='{.spec.publishNotReadyAddresses}{"\n"}'
 ```
 
-この設定では、readiness probeが失敗してもService経由の[通信](/glossary/通信/)が続き得ます。利用者要求を止める目的のServiceで必要な設定かを確認します。
+この[設定](/glossary/設定/)では、readiness probeが失敗してもService経由の[通信](/glossary/通信/)が続き得ます。利用者要求を止める目的のServiceで必要な[設定](/glossary/設定/)かを確認します。
 
 ### 原因10：ServiceのselectorまたはEndpointSliceの管理主体が違う
 
@@ -472,7 +472,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" restarts="}{.restartCount}{"\n"}{end}{range .status.conditions[*]}{.type}{"="}{.status}{" reason="}{.reason}{"\n"}{end}'
 ```
 
-readiness設定だけを確認します。
+readiness[設定](/glossary/設定/)だけを確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \

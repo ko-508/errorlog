@@ -90,7 +90,7 @@ circleci config validate .circleci/config.yml
 
 ### 原因 2：API リクエストボディの JSON が不正な形式
 
-CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が仕様に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) のフォーマット不正やシングルクォート使用、値の型不一致などが該当します。
+CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が仕様に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) の[フォーマット](/glossary/フォーマット/)不正やシングルクォート使用、値の型不一致などが該当します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -145,7 +145,7 @@ jobs:
       - run: echo "Feature enabled: << pipeline.parameters.enable_feature >>"
 ```
 
-この設定で、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)で `enable_feature` を文字列 `"true"` で渡すと 400 [エラー](/glossary/エラー/)になります。
+この[設定](/glossary/設定/)で、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)で `enable_feature` を文字列 `"true"` で渡すと 400 [エラー](/glossary/エラー/)になります。
 
 ```bash
 curl -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo>/pipeline \

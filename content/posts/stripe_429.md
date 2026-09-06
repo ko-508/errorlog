@@ -106,7 +106,7 @@ for customer_id in customer_ids:
 
 **なぜ発生するか**
 
-[Webhook](/glossary/webhook/) の[エラーハンドリング](/glossary/エラーハンドリング/)で指数[バックオフ](/glossary/バックオフ/)（段階的に遅延を長くする再試行方法）を実装せず、即座に何度も [API](/glossary/api/) 呼び出しを行う場合に発生します。特に [Webhook](/glossary/webhook/) 署名検証失敗時の[ログ](/glossary/ログ/)記録で複数の [API](/glossary/api/) を呼び出すと顕著です。
+[Webhook](/glossary/webhook/) の[エラーハンドリング](/glossary/エラーハンドリング/)で指数[バックオフ](/glossary/バックオフ/)（段階的に[遅延](/glossary/遅延/)を長くする再試行方法）を実装せず、即座に何度も [API](/glossary/api/) 呼び出しを行う場合に発生します。特に [Webhook](/glossary/webhook/) 署名検証失敗時の[ログ](/glossary/ログ/)記録で複数の [API](/glossary/api/) を呼び出すと顕著です。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
@@ -300,7 +300,7 @@ curl -u sk_test_<your-secret-key>: \
 
 [GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模な[バッチ処理](/glossary/バッチ処理/)を行う場合は、既に同様の問題が報告されていることが一般的です。
 
-公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装パターンのアドバイスを提供しています。
+公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装[パターン](/glossary/パターン/)のアドバイスを提供しています。
 
 ---
 

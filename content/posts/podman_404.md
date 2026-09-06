@@ -148,7 +148,7 @@ sudo podman pull ubuntu:latest
 sudo podman run ubuntu:latest
 ```
 
-また、Podman のレジストリー[設定ファイル](/glossary/設定ファイル/)（`$HOME/.config/containers/registries.conf`）が正しく設定されていないと、デフォルトレジストリーからの[イメージ](/glossary/イメージ/)取得に失敗する可能性があります。デフォルトでは[スコープ](/glossary/スコープ/)なしで[イメージ](/glossary/イメージ/)名を指定した場合、[設定ファイル](/glossary/設定ファイル/)に記載されたレジストリーから順に検索されます。
+また、Podman のレジストリー[設定ファイル](/glossary/設定ファイル/)（`$HOME/.config/containers/registries.conf`）が正しく[設定](/glossary/設定/)されていないと、デフォルトレジストリーからの[イメージ](/glossary/イメージ/)取得に失敗する可能性があります。デフォルトでは[スコープ](/glossary/スコープ/)なしで[イメージ](/glossary/イメージ/)名を指定した場合、[設定ファイル](/glossary/設定ファイル/)に記載されたレジストリーから順に検索されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -177,7 +177,7 @@ podman run docker.io/library/nginx
 
 詳細な[デバッグ](/glossary/デバッグ/)情報を得るには、`podman --log-level=debug` オプションを付けて[コマンド](/glossary/コマンド/)を再実行することで、[イメージ](/glossary/イメージ/)検索の詳細な[プロセス](/glossary/プロセス/)を確認できます。
 
-Podman の公式ドキュメントにある「Podman Image Search」セクションでは、レジストリー設定や[イメージ](/glossary/イメージ/)取得の詳細が説明されています。また、[GitHub](/glossary/github/) の Podman [リポジトリ](/glossary/リポジトリ/)の Issues セクションで、類似の[エラー](/glossary/エラー/)報告と解決方法を検索することも有効です。
+Podman の公式ドキュメントにある「Podman Image Search」セクションでは、レジストリー[設定](/glossary/設定/)や[イメージ](/glossary/イメージ/)取得の詳細が説明されています。また、[GitHub](/glossary/github/) の Podman [リポジトリ](/glossary/リポジトリ/)の Issues セクションで、類似の[エラー](/glossary/エラー/)報告と解決方法を検索することも有効です。
 
 ---
 

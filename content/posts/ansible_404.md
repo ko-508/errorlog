@@ -51,7 +51,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
   remote_user: root
 ```
 
-このタスクを実行した際、ターゲットホスト上に `/etc/myapp/config.yml` が存在しないと 404 [エラー](/glossary/エラー/)が発生します。
+この[タスク](/glossary/タスク/)を実行した際、ターゲットホスト上に `/etc/myapp/config.yml` が存在しないと 404 [エラー](/glossary/エラー/)が発生します。
 
 **After（修正後）：**
 
@@ -143,7 +143,7 @@ web02 ansible_host=webserver02.example.com
       when: ping_result is succeeded
 ```
 
-まず `ansible <ホスト名> -m ping` [コマンド](/glossary/コマンド/)を実行してホストへの接続を確認します。接続できない場合は、ホスト名、[IP アドレス](/glossary/ip-アドレス/)、[ネットワーク](/glossary/ネットワーク/)設定を見直してください。
+まず `ansible <ホスト名> -m ping` [コマンド](/glossary/コマンド/)を実行してホストへの接続を確認します。接続できない場合は、ホスト名、[IP アドレス](/glossary/ip-アドレス/)、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を見直してください。
 
 ## ツール固有の注意点
 

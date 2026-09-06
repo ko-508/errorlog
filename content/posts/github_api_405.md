@@ -137,7 +137,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ### 原因4：必要なレビューが足りない（At least 1 approving review is required by reviewers with write access）
 
-[ブランチ](/glossary/ブランチ/)保護でレビュー必須を設定している場合、承認が足りない状態での[マージ](/glossary/マージ/)要求はこの 405 になります。自分が[リポジトリ](/glossary/リポジトリ/)の所有者であっても、保護規則の対象に管理者を含めていれば同じです。
+[ブランチ](/glossary/ブランチ/)保護でレビュー必須を[設定](/glossary/設定/)している場合、承認が足りない状態での[マージ](/glossary/マージ/)要求はこの 405 になります。自分が[リポジトリ](/glossary/リポジトリ/)の所有者であっても、保護規則の対象に管理者を含めていれば同じです。
 
 必要な承認数は保護設定から取得できます。
 
@@ -150,7 +150,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ### 原因5：そのブランチに push する権限がない（You're not authorized to push to this branch.）
 
-[ブランチ](/glossary/ブランチ/)保護の push 制限（特定の利用者・チーム・アプリだけに push を許可する設定）に引っかかった状態です。[権限](/glossary/権限/)の問題は通常 403 か 404 で現れますが、[マージ](/glossary/マージ/)時のこの制限は 405 として返った記録があります。[権限](/glossary/権限/)不足を [403 の記事](/posts/github_api_403/)だけで探すと見つからないのは、このためです。
+[ブランチ](/glossary/ブランチ/)保護の push 制限（特定の利用者・チーム・アプリだけに push を許可する[設定](/glossary/設定/)）に引っかかった状態です。[権限](/glossary/権限/)の問題は通常 403 か 404 で現れますが、[マージ](/glossary/マージ/)時のこの制限は 405 として返った記録があります。[権限](/glossary/権限/)不足を [403 の記事](/posts/github_api_403/)だけで探すと見つからないのは、このためです。
 
 対処は、[マージ](/glossary/マージ/)を実行する主体（個人の[トークン](/glossary/トークン/)か、[GitHub](/glossary/github/) App の[インストール](/glossary/インストール/)[トークン](/glossary/トークン/)か）を保護設定の許可対象に加えるか、[マージ](/glossary/マージ/)を許可された主体から実行する形に変えることです。
 

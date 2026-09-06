@@ -134,7 +134,7 @@ npm install --production
 
 ### 原因3：環境変数が設定されていないことで実行時エラーが起きている
 
-[コード](/glossary/コード/)内で `process.env.DATABASE_URL` など[環境変数](/glossary/環境変数/)を参照していても、Vercel [ダッシュボード](/glossary/ダッシュボード/)で設定されていない場合、`undefined` を参照することになり 500 [エラー](/glossary/エラー/)の原因となります。
+[コード](/glossary/コード/)内で `process.env.DATABASE_URL` など[環境変数](/glossary/環境変数/)を参照していても、Vercel [ダッシュボード](/glossary/ダッシュボード/)で[設定](/glossary/設定/)されていない場合、`undefined` を参照することになり 500 [エラー](/glossary/エラー/)の原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -174,7 +174,7 @@ export default async function handler(req, res) {
 }
 ```
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手順で[環境変数](/glossary/環境変数/)を設定します：
+Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手順で[環境変数](/glossary/環境変数/)を[設定](/glossary/設定/)します：
 
 1. [プロジェクト](/glossary/プロジェクト/)の Settings > Environment Variables
 2. `DATABASE_URL` を入力

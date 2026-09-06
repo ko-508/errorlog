@@ -81,7 +81,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
 
 ### 原因2：削除済みまたは無効なメトリクスへのアクセス
 
-[クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に[送信](/glossary/送信/)されていない、または既に[削除](/glossary/削除/)された場合、[ダッシュボード](/glossary/ダッシュボード/)やグラフの表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の[送信](/glossary/送信/)が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
+[クエリ](/glossary/クエリ/)で指定した[メトリクス](/glossary/メトリクス/)が Datadog に[送信](/glossary/送信/)されていない、または既に[削除](/glossary/削除/)された場合、[ダッシュボード](/glossary/ダッシュボード/)や[グラフ](/glossary/グラフ/)の表示時に 404 が発生します。[メトリクス](/glossary/メトリクス/)の[送信](/glossary/送信/)が中断されたホストや[アプリケーション](/glossary/アプリケーション/)、アップグレード後に廃止された[メトリクス](/glossary/メトリクス/)名を参照しようとすると、この[エラー](/glossary/エラー/)が起こります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -202,7 +202,7 @@ for monitor in monitors:
 
 **Metrics Explorer での動作確認**
 
-Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グラフを描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト検索する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
+Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、[グラフ](/glossary/グラフ/)を描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト検索する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
 
 ## それでも解決しない場合
 
@@ -213,7 +213,7 @@ Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、グ
    [メトリクス](/glossary/メトリクス/)が[送信](/glossary/送信/)されていない場合、Agent の[設定ファイル](/glossary/設定ファイル/)を確認します。
 
    ```[bash](/glossary/bash/)
-   # Linux/macOS
+   # [Linux](/glossary/linux/)/macOS
    tail -f /var/log/datadog/agent.log | grep -i "metric\|error"
 
    # Windows

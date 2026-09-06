@@ -199,7 +199,7 @@ curl -X POST http://localhost:8000/users \
 
 ### Postmanの Body タブの設定による違い
 
-Postmanの Body タブには複数の送信方法があり、選択した方法によって自動的に Content-Type が設定されます。
+Postmanの Body タブには複数の送信方法があり、選択した方法によって自動的に Content-Type が[設定](/glossary/設定/)されます。
 
 - **form-data** → `multipart/form-data`（ファイルアップロード向け）
 - **x-www-form-urlencoded** → `application/x-www-form-urlencoded`（フォーム送信向け）
@@ -215,7 +215,7 @@ Postmanの Body タブには複数の送信方法があり、選択した方法�
 - [スコープ](/glossary/スコープ/)が無効（例：`q=user:nonexistent+repo:nonexistent`）
 - 特殊文字が[URL](/glossary/url/) エンコードされていない
 
-Postmanの Params タブで `q` を設定する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) エンコードされます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文ドキュメントで確認することを推奨します。
+Postmanの Params タブで `q` を[設定](/glossary/設定/)する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) エンコードされます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文ドキュメントで確認することを推奨します。
 
 ### FastAPIの Pydantic バリデーション
 
@@ -260,7 +260,7 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 
 - 必須[ヘッダー](/glossary/ヘッダー/)（Authorization、[API](/glossary/api/)-Keyなど）
 - 必須[フィールド](/glossary/フィールド/)と省略可能[フィールド](/glossary/フィールド/)
-- サポートされる[データ型](/glossary/データ型/)とフォーマット
+- サポートされる[データ型](/glossary/データ型/)と[フォーマット](/glossary/フォーマット/)
 - [ペイロード](/glossary/ペイロード/)例
 
 ## 代替ツールの検討

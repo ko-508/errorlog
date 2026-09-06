@@ -21,7 +21,7 @@ Google Cloudの[エラー](/glossary/エラー/)を検索して1件ずつ直し�
 
 Google Cloudの[エラー](/glossary/エラー/)の多くは、4つの境界のどこかで起きています。誰として呼んでいるかという境界、その[API](/glossary/api/)が[プロジェクト](/glossary/プロジェクト/)で有効になっているかという境界、何を許されているかという境界、そして[ネットワーク](/glossary/ネットワーク/)の到達性の境界です。[エラー](/glossary/エラー/)文はこの境界のどれで止まったかを示していますが、境界の存在を知らないと文言が読めません。
 
-他の[クラウド](/glossary/クラウド/)と比べたときの最大の違いは、2つ目です。Google Cloudでは、[権限](/glossary/権限/)があっても[API](/glossary/api/)が有効でなければ呼べません。公式ドキュメントは、ほとんどのGoogle [API](/glossary/api/)を使う前にGoogle Cloud[プロジェクト](/glossary/プロジェクト/)で有効化する必要があると明記しています（[Service Usage overview](https://cloud.google.com/service-usage/docs/overview)）。この段階を知らないと、[権限](/glossary/権限/)の設定を延々と見直すことになります。
+他の[クラウド](/glossary/クラウド/)と比べたときの最大の違いは、2つ目です。Google Cloudでは、[権限](/glossary/権限/)があっても[API](/glossary/api/)が有効でなければ呼べません。公式ドキュメントは、ほとんどのGoogle [API](/glossary/api/)を使う前にGoogle Cloud[プロジェクト](/glossary/プロジェクト/)で有効化する必要があると明記しています（[Service Usage overview](https://cloud.google.com/service-usage/docs/overview)）。この段階を知らないと、[権限](/glossary/権限/)の[設定](/glossary/設定/)を延々と見直すことになります。
 
 学ぶ順序は、認証情報と[プロジェクト](/glossary/プロジェクト/)、[API](/glossary/api/)の有効化、[IAM](/glossary/iam/)の評価順序、[サービスアカウント](/glossary/サービスアカウント/)、[ネットワーク](/glossary/ネットワーク/)の到達性、トラブルシューティングの6段階です。各段階には「次へ進む目安」を置きました。飛ばした段階は、後の段階の[エラー](/glossary/エラー/)として別の顔で現れます。
 
@@ -43,7 +43,7 @@ Google Cloudの[エラー](/glossary/エラー/)の多くは、4つの境界の�
 
 この4つは独立しています。認証情報が正しくても[API](/glossary/api/)が無効なら止まります。[API](/glossary/api/)が有効でも[権限](/glossary/権限/)が無ければ止まります。順番に確認しないと、直したはずのものが直っていない状態が続きます。
 
-もう1つ、資源の階層が重要です。組織、[フォルダ](/glossary/フォルダ/)、[プロジェクト](/glossary/プロジェクト/)、そして個々の資源という階層があり、上位に設定した内容は下位へ引き継がれます。したがって、[プロジェクト](/glossary/プロジェクト/)の設定だけを見ても答えが出ないことがあります。
+もう1つ、資源の階層が重要です。組織、[フォルダ](/glossary/フォルダ/)、[プロジェクト](/glossary/プロジェクト/)、そして個々の資源という階層があり、上位に[設定](/glossary/設定/)した内容は下位へ引き継がれます。したがって、[プロジェクト](/glossary/プロジェクト/)の[設定](/glossary/設定/)だけを見ても答えが出ないことがあります。
 
 まずは手元の[環境](/glossary/環境/)が誰として、どの[プロジェクト](/glossary/プロジェクト/)に対して動いているかを確認してください。
 
@@ -87,7 +87,7 @@ gcloud auth application-default login
 env | grep -i "GOOGLE_"
 ```
 
-`GOOGLE_APPLICATION_CREDENTIALS` に古い[ファイル](/glossary/ファイル/)の経路が残っていると、それが最優先で使われます。「設定を直したのに変わらない」という状況の典型です。
+`GOOGLE_APPLICATION_CREDENTIALS` に古い[ファイル](/glossary/ファイル/)の経路が残っていると、それが最優先で使われます。「[設定](/glossary/設定/)を直したのに変わらない」という状況の典型です。
 
 **次の段階へ進む目安**：`gcloud` が使う認証情報と[コード](/glossary/コード/)が使う認証情報の違いを説明できることです。
 
@@ -121,7 +121,7 @@ gcloud services list --available --filter="NAME:pubsub"
 gcloud services enable pubsub.googleapis.com
 ```
 
-[エラー](/glossary/エラー/)本文に `SERVICE_DISABLED` や有効化用の画面へのリンクが含まれていれば、この段階で止まっています。[権限](/glossary/権限/)の設定を見直す必要はありません。
+[エラー](/glossary/エラー/)本文に `SERVICE_DISABLED` や有効化用の画面へのリンクが含まれていれば、この段階で止まっています。[権限](/glossary/権限/)の[設定](/glossary/設定/)を見直す必要はありません。
 
 **次の段階へ進む目安**：[エラー](/glossary/エラー/)を見て、[API](/glossary/api/)の有効化の問題か[権限](/glossary/権限/)の問題かを区別できることです。
 
@@ -135,7 +135,7 @@ gcloud services enable pubsub.googleapis.com
 
 **最低限覚える概念**：公式ドキュメントによれば、[IAM](/glossary/iam/)はまず該当するプリンシパルアクセス境界[ポリシー](/glossary/ポリシー/)を確認し、次に該当するすべての拒否[ポリシー](/glossary/ポリシー/)を確認して、そのプリンシパルが[権限](/glossary/権限/)を拒否されていないかを見ます。拒否[ポリシー](/glossary/ポリシー/)が妨げていない場合にのみ、次の段階へ進んで許可[ポリシー](/glossary/ポリシー/)を確認します（[IAM policy types](https://cloud.google.com/iam/docs/policy-types)）。つまり拒否が先に評価され、そこで止まれば許可は見られません。
 
-階層の引き継ぎも押さえてください。公式ドキュメントは、資源が親の許可[ポリシー](/glossary/ポリシー/)を継承すること、そしてある資源に対する実効的な許可[ポリシー](/glossary/ポリシー/)が、その資源に設定された許可[ポリシー](/glossary/ポリシー/)と親から継承した許可[ポリシー](/glossary/ポリシー/)の和集合であることを明記しています（[Using resource hierarchy for access control](https://cloud.google.com/iam/docs/resource-hierarchy-access-control)）。
+階層の引き継ぎも押さえてください。公式ドキュメントは、資源が親の許可[ポリシー](/glossary/ポリシー/)を継承すること、そしてある資源に対する実効的な許可[ポリシー](/glossary/ポリシー/)が、その資源に[設定](/glossary/設定/)された許可[ポリシー](/glossary/ポリシー/)と親から継承した許可[ポリシー](/glossary/ポリシー/)の和集合であることを明記しています（[Using resource hierarchy for access control](https://cloud.google.com/iam/docs/resource-hierarchy-access-control)）。
 
 拒否[ポリシー](/glossary/ポリシー/)も同じく階層を通じて継承されます。公式ドキュメントによれば、組織の拒否[ポリシー](/glossary/ポリシー/)がある[権限](/glossary/権限/)を使えないと定めれば、その組織内のどの資源に対してもその[権限](/glossary/権限/)は使えません。これは配下の[フォルダ](/glossary/フォルダ/)や[プロジェクト](/glossary/プロジェクト/)がより緩やかな拒否[ポリシー](/glossary/ポリシー/)を持っていても適用されます（[Deny policies](https://cloud.google.com/iam/docs/deny-overview)）。
 

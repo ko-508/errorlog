@@ -129,9 +129,9 @@ Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バー�
 
 ### Webhook エンドポイントと IP ホワイトリスト
 
-[Webhook](/glossary/webhook/) [エンドポイント](/glossary/エンドポイント/)への 403 [エラー](/glossary/エラー/)は、Stripe ダッシュボールで設定した IP ホワイトリストに Stripe の[サーバー](/glossary/サーバー/) IP が含まれていない場合に発生します。本来はリクエストソースの[認証](/glossary/認証/)なので 401 が適切ですが、一部の構成では 403 として返ることがあります。
+[Webhook](/glossary/webhook/) [エンドポイント](/glossary/エンドポイント/)への 403 [エラー](/glossary/エラー/)は、Stripe ダッシュボールで[設定](/glossary/設定/)した IP ホワイトリストに Stripe の[サーバー](/glossary/サーバー/) IP が含まれていない場合に発生します。本来はリクエストソースの[認証](/glossary/認証/)なので 401 が適切ですが、一部の構成では 403 として返ることがあります。
 
-**確認と設定:**
+**確認と[設定](/glossary/設定/):**
 ```bash
 # Webhook エンドポイント設定で IP ホワイトリストを確認
 # Settings → Webhooks → Endpoint → IP Whitelist
@@ -165,7 +165,7 @@ const charge = await stripe.charges.create(
 
 2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を検索し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
 
-3. **Stripe [CLI](/glossary/cli/) での[テスト](/glossary/テスト/)**: Stripe [CLI](/glossary/cli/) を使ってローカル[環境](/glossary/環境/)で[テスト](/glossary/テスト/)することで、[ネットワーク](/glossary/ネットワーク/)経由の[エラー](/glossary/エラー/)か[アカウント](/glossary/アカウント/)設定の[エラー](/glossary/エラー/)か判別できます。
+3. **Stripe [CLI](/glossary/cli/) での[テスト](/glossary/テスト/)**: Stripe [CLI](/glossary/cli/) を使ってローカル[環境](/glossary/環境/)で[テスト](/glossary/テスト/)することで、[ネットワーク](/glossary/ネットワーク/)経由の[エラー](/glossary/エラー/)か[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)の[エラー](/glossary/エラー/)か判別できます。
 
 ```bash
 # Stripe CLI をインストール後

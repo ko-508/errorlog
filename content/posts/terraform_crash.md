@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Terraform の crash は、設定の誤りではなく[ソフトウェア](/glossary/ソフトウェア/)側の不具合を示します。ただし「Terraform が落ちた」と一口に言っても、中身は2種類あります。Terraform 本体が落ちた場合と、プロバイダのプラグインが落ちた場合です。文言も、確認する場所も、報告する相手も違います。ソースを読むと、この2つには別々の出力文が定義されています。本体が落ちた場合は `TERRAFORM CRASH` という帯で囲まれた文が出て、報告先は Terraform 本体です。プラグインが落ちた場合は `Stack trace from the <プラグイン名> plugin:` に続けてスタックトレースが出て、末尾に `Error: The <プラグイン名> plugin crashed!` が付き、報告先はそのプラグインの保守者です。
+Terraform の crash は、[設定](/glossary/設定/)の誤りではなく[ソフトウェア](/glossary/ソフトウェア/)側の不具合を示します。ただし「Terraform が落ちた」と一口に言っても、中身は2種類あります。Terraform 本体が落ちた場合と、プロバイダのプラグインが落ちた場合です。文言も、確認する場所も、報告する相手も違います。ソースを読むと、この2つには別々の出力文が定義されています。本体が落ちた場合は `TERRAFORM CRASH` という帯で囲まれた文が出て、報告先は Terraform 本体です。プラグインが落ちた場合は `Stack trace from the <プラグイン名> plugin:` に続けてスタックトレースが出て、末尾に `Error: The <プラグイン名> plugin crashed!` が付き、報告先はそのプラグインの保守者です。
 
 実務で頻度が高いのは後者です。そして厄介なのは、プラグインが落ちると、そのプラグインを使っていた他の処理が巻き添えで失敗し、`Plugin did not respond` や `Request cancelled` という[エラー](/glossary/エラー/)が大量に並ぶことです。これらは結果であって原因ではありません。原因は、その下に1つだけ出ているスタックトレースです。
 
@@ -67,7 +67,7 @@ panic: ...
 
 第二に、スタックトレースの1行目を読みます。`panic: runtime error: invalid memory address or nil pointer dereference` であれば、値が無い状態を参照した不具合です。`index out of range` であれば範囲外の参照、`interface conversion` であれば型の取り違えです。この1行が、報告時に最も重要な情報になります。
 
-第三に、スタックトレースの中でプラグインの[ファイル](/glossary/ファイル/)名と[行番号](/glossary/行番号/)が出ている箇所を探します。どの資源の処理で落ちたかがここで分かります。該当する資源を設定から一時的に外せば、原因が確定するとともに、当座の回避策にもなります。
+第三に、スタックトレースの中でプラグインの[ファイル](/glossary/ファイル/)名と[行番号](/glossary/行番号/)が出ている箇所を探します。どの資源の処理で落ちたかがここで分かります。該当する資源を[設定](/glossary/設定/)から一時的に外せば、原因が確定するとともに、当座の回避策にもなります。
 
 `Plugin did not respond` の行を1つずつ追いかけるのは、遠回りになります。落ちたプラグインを共有していた処理はすべて失敗するため、この[エラー](/glossary/エラー/)は資源の数だけ並びます。読むべきはスタックトレースの側です。
 
@@ -104,7 +104,7 @@ terraform {
 
 固定したら `terraform init -upgrade` で入れ替えます。落ちる版と落ちない版が分かれば、それ自体が報告に必要な情報になります。報告先は Terraform 本体ではなく、そのプラグインの保守元です。出力の末尾の文にも、プラグインの保守者に報告してほしいと書かれています。
 
-なお、画面に出るプラグインのスタックトレースは全文ではありません。ソースでは、パニックの始まりを検知してから記録する行数の上限が100行に設定されています。画面が埋まるのを避けるための制限です。全文が必要な場合は、次の項の方法で[ログ](/glossary/ログ/)を採ります。
+なお、画面に出るプラグインのスタックトレースは全文ではありません。ソースでは、パニックの始まりを検知してから記録する行数の上限が100行に[設定](/glossary/設定/)されています。画面が埋まるのを避けるための制限です。全文が必要な場合は、次の項の方法で[ログ](/glossary/ログ/)を採ります。
 
 ### 原因2：出力を取り逃がしている
 
@@ -122,7 +122,7 @@ terraform apply
 terraform apply -no-color 2>&1 | tee terraform-apply.log
 ```
 
-さらに詳しい情報が要る場合は、[環境変数](/glossary/環境変数/)で[ログ](/glossary/ログ/)を有効にします。公式文書のとおり、`TF_LOG` に `TRACE`・`DEBUG`・`INFO`・`WARN`・`ERROR` のいずれかを設定すると詳細な[ログ](/glossary/ログ/)が[標準](/glossary/標準/)[エラー](/glossary/エラー/)出力に出ます。`TF_LOG_CORE` と `TF_LOG_PROVIDER` で本体側とプラグイン側を分けて指定でき、`TF_LOG_PATH` で[ファイル](/glossary/ファイル/)に追記できます。ただし `TF_LOG_PATH` だけでは何も出ません。`TF_LOG` が設定されていることが条件だと公式文書に明記されています。
+さらに詳しい情報が要る場合は、[環境変数](/glossary/環境変数/)で[ログ](/glossary/ログ/)を有効にします。公式文書のとおり、`TF_LOG` に `TRACE`・`DEBUG`・`INFO`・`WARN`・`ERROR` のいずれかを[設定](/glossary/設定/)すると詳細な[ログ](/glossary/ログ/)が[標準](/glossary/標準/)[エラー](/glossary/エラー/)出力に出ます。`TF_LOG_CORE` と `TF_LOG_PROVIDER` で本体側とプラグイン側を分けて指定でき、`TF_LOG_PATH` で[ファイル](/glossary/ファイル/)に追記できます。ただし `TF_LOG_PATH` だけでは何も出ません。`TF_LOG` が[設定](/glossary/設定/)されていることが条件だと公式文書に明記されています。
 
 ```bash
 export TF_LOG=TRACE
@@ -160,7 +160,7 @@ terraform apply -parallelism=5
 
 ### 原因4：Terraform 本体が落ちた
 
-`TERRAFORM CRASH` の帯が出た場合です。頻度は高くありませんが、設定の書き方が引き金になっている場合があり、その場合は最小の再現手順を作れます。
+`TERRAFORM CRASH` の帯が出た場合です。頻度は高くありませんが、[設定](/glossary/設定/)の書き方が引き金になっている場合があり、その場合は最小の再現手順を作れます。
 
 手順は、対象を絞りながら落ちる範囲を狭めることです。
 
@@ -168,7 +168,7 @@ terraform apply -parallelism=5
 terraform plan -target=module.example
 ```
 
-落ちる対象が特定できたら、その部分だけを別の[ディレクトリ](/glossary/ディレクトリ/)に切り出し、最小の設定で再現するかを確かめます。再現できれば、その設定と[バージョン](/glossary/バージョン/)、スタックトレースを添えて Terraform 本体へ報告できます。出力にも報告先の場所が書かれています。
+落ちる対象が特定できたら、その部分だけを別の[ディレクトリ](/glossary/ディレクトリ/)に切り出し、最小の[設定](/glossary/設定/)で再現するかを確かめます。再現できれば、その[設定](/glossary/設定/)と[バージョン](/glossary/バージョン/)、スタックトレースを添えて Terraform 本体へ報告できます。出力にも報告先の場所が書かれています。
 
 また、本体を新しい[バージョン](/glossary/バージョン/)に上げると直っている場合があります。落ちた[バージョン](/glossary/バージョン/)は `terraform version` で確認し、変更履歴でその不具合が修正済みかを調べてから上げてください。
 
@@ -222,7 +222,7 @@ dmesg -T | grep -i "killed process"
 
 ## Editor's Note
 
-出力の読み方を1件で示す実例として、GitLab のプロバイダに残る不具合報告があります（[Terraform Gitlab provider 17.2 and 17.3 panic: runtime error: invalid memory address or nil pointer dereference](https://gitlab.com/gitlab-org/terraform-provider-gitlab/-/issues/6350)）。Terraform 1.9.5、プロバイダ 17.2 の[環境](/glossary/環境/)で、以前の版では通っていた設定が落ちるようになった、という報告です。
+出力の読み方を1件で示す実例として、GitLab のプロバイダに残る不具合報告があります（[Terraform Gitlab provider 17.2 and 17.3 panic: runtime error: invalid memory address or nil pointer dereference](https://gitlab.com/gitlab-org/terraform-provider-gitlab/-/issues/6350)）。Terraform 1.9.5、プロバイダ 17.2 の[環境](/glossary/環境/)で、以前の版では通っていた[設定](/glossary/設定/)が落ちるようになった、という報告です。
 
 貼られている出力がそのまま教材になっています。まず `Request cancelled` が4つ、`Plugin did not respond` が2つ並びます。これだけを見ると6つの問題が起きたように見えますが、その下に出ているスタックトレースは1つだけで、個人アクセストークンを扱う資源の処理で値の無い状態を参照して落ちたことが、[ファイル](/glossary/ファイル/)名と[行番号](/glossary/行番号/)まで含めて記録されています。最後に `Error: The terraform-provider-gitlab_v17.2.0 plugin crashed!` が付き、報告先がプラグイン側であることも明示されています。並んだ[エラー](/glossary/エラー/)の数と、原因の数は一致しません。
 

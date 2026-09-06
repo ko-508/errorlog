@@ -73,7 +73,7 @@ podman pull quay.io/<your-namespace>/<image-name>:latest
 
 ### 原因2：リバースプロキシ内のネットワーク設定不備
 
-リバースプロキシ設定において、[コンテナ](/glossary/コンテナ/)内の `localhost` がホストの `localhost` と異なる、または同じ[ネットワーク](/glossary/ネットワーク/)上にないため、[コンテナ](/glossary/コンテナ/)が外部または他の[コンテナ](/glossary/コンテナ/)のサービスに接続できません。[コンテナ](/glossary/コンテナ/)の 127.0.0.1 は[コンテナ](/glossary/コンテナ/)内部のループバックアドレスであり、ホストのサービスにアクセスできません。
+リバースプロキシ[設定](/glossary/設定/)において、[コンテナ](/glossary/コンテナ/)内の `localhost` がホストの `localhost` と異なる、または同じ[ネットワーク](/glossary/ネットワーク/)上にないため、[コンテナ](/glossary/コンテナ/)が外部または他の[コンテナ](/glossary/コンテナ/)のサービスに接続できません。[コンテナ](/glossary/コンテナ/)の 127.0.0.1 は[コンテナ](/glossary/コンテナ/)内部のループバックアドレスであり、ホストのサービスにアクセスできません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -198,7 +198,7 @@ podman run --rm nginx curl localhost
 
 ### 原因5：Podman 5.0 のネットワークスタック変更（slirp4netns → pasta）
 
-Podman 5.0 では、ユーザーモード・ネットワークスタックが `slirp4netns` から `pasta` に変更されました。既存の[コンテナ](/glossary/コンテナ/)設定が `pasta` と[互換性](/glossary/互換性/)がない場合（例：特定のポートマッピング、UDP トラフィック）、[通信](/glossary/通信/)が失敗して 502 [エラー](/glossary/エラー/)が発生します。
+Podman 5.0 では、ユーザーモード・ネットワークスタックが `slirp4netns` から `pasta` に変更されました。既存の[コンテナ](/glossary/コンテナ/)[設定](/glossary/設定/)が `pasta` と[互換性](/glossary/互換性/)がない場合（例：特定のポートマッピング、UDP トラフィック）、[通信](/glossary/通信/)が失敗して 502 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -237,10 +237,10 @@ curl http://localhost:8000
 | 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | レジストリコンテナの再起動 | 低 | 必要 | 全[OS](/glossary/os/) |
-| リバースプロキシ設定の[修正](/glossary/修正/) | 中 | 必要 | 全[OS](/glossary/os/) |
+| リバースプロキシ[設定](/glossary/設定/)の[修正](/glossary/修正/) | 中 | 必要 | 全[OS](/glossary/os/) |
 | コンテナネットワークの明示的定義 | 中 | 必要 | 全[OS](/glossary/os/) |
 | ランタイムの変更またはダウングレード | 中 | 必要 | 全[OS](/glossary/os/) |
-| ネットワークスタックパラメータ調整 | 高 | 必要 | Linuxのみ |
+| ネットワークスタックパラメータ調整 | 高 | 必要 | [Linux](/glossary/linux/)のみ |
 
 ## ツール固有の注意点
 
@@ -270,7 +270,7 @@ podman run --rm alpine nslookup <service-name>
 
 公式ドキュメント：[Podman Networking](https://docs.podman.io/en/latest/markdown/podman.1.html#network) および [Red Hat Solutions 6987158](https://access.redhat.com/solutions/6987158) で詳細なトラブルシューティング手順が提供されています。
 
-Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)設定を v5.0 に対応させたかどうかを検証してください。
+Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に対応させたかどうかを検証してください。
 
 ## 代替ツールの検討
 
@@ -278,7 +278,7 @@ Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glos
 
 - **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、安定性を優先する[環境](/glossary/環境/)では有効です。
 
-- **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した[開発環境](/glossary/開発環境/)です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)設定を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりも[セットアップ](/glossary/セットアップ/)が直感的です。特にローカル[開発環境](/glossary/開発環境/)では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
+- **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した[開発環境](/glossary/開発環境/)です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりも[セットアップ](/glossary/セットアップ/)が直感的です。特にローカル[開発環境](/glossary/開発環境/)では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
 
 ---
 

@@ -36,7 +36,7 @@ FirebaseError: [code=failed-precondition]: The transaction was aborted due to co
 
 ### 原因1：複数のクライアント・プロセスが同じドキュメントを同時に更新している
 
-複数の[クライアント](/glossary/クライアント/)、別タブ、または複数の[バックエンド](/glossary/バックエンド/)処理が同じドキュメントに対して競合する更新を行う場合、Firestore は[トランザクション](/glossary/トランザクション/)を自動的に中止し 409 [エラー](/glossary/エラー/)を発生させます。[トランザクション](/glossary/トランザクション/)の分離レベルが SERIALIZABLE に設定されているため、読み取りと書き込みの一貫性が保証されません。
+複数の[クライアント](/glossary/クライアント/)、別タブ、または複数の[バックエンド](/glossary/バックエンド/)処理が同じドキュメントに対して競合する更新を行う場合、Firestore は[トランザクション](/glossary/トランザクション/)を自動的に中止し 409 [エラー](/glossary/エラー/)を発生させます。[トランザクション](/glossary/トランザクション/)の分離レベルが SERIALIZABLE に[設定](/glossary/設定/)されているため、読み取りと書き込みの一貫性が保証されません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -74,7 +74,7 @@ services:
 # または docker login で事前に認証を完了させる
 ```
 
-事前に認証情報を設定する方法：
+事前に認証情報を[設定](/glossary/設定/)する方法：
 
 ```bash
 # Docker Hub の場合
@@ -224,7 +224,7 @@ docker compose up -d
 
 **Windows または macOS で [Docker](/glossary/docker/) Desktop を使用している場合：**
 
-[Docker](/glossary/docker/) Desktop の[ファイル](/glossary/ファイル/)共有設定で、マウント対象[ディレクトリ](/glossary/ディレクトリ/)が許可リストに含まれている必要があります。設定→ Resources→ File Sharing で確認し、マウント先の[パス](/glossary/パス/)が含まれていることを確認してください。
+[Docker](/glossary/docker/) Desktop の[ファイル](/glossary/ファイル/)共有設定で、マウント対象[ディレクトリ](/glossary/ディレクトリ/)が許可リストに含まれている必要があります。[設定](/glossary/設定/)→ Resources→ File Sharing で確認し、マウント先の[パス](/glossary/パス/)が含まれていることを確認してください。
 
 **Swarm モード使用時：**
 
@@ -253,7 +253,7 @@ sudo journalctl -u docker -n 100
 ~/Library/Logs/Docker/com.docker.docker.log
 ```
 
-[Docker](/glossary/docker/) の設定を確認：
+[Docker](/glossary/docker/) の[設定](/glossary/設定/)を確認：
 
 ```bash
 # 認証設定を確認

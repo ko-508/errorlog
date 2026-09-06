@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-502 Bad Gateway は、[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内で実行される[アプリケーション](/glossary/アプリケーション/)やリバースプロキシが、上流の[サーバー](/glossary/サーバー/)から不正な応答を受け取ったときに発生します。[Docker](/glossary/docker/) Compose や [Kubernetes](/glossary/kubernetes/) でマルチコンテナを運用する[環境](/glossary/環境/)では、[コンテナ](/glossary/コンテナ/)間通信の失敗、[プロキシ](/glossary/プロキシ/)設定のミス、[ネットワーク](/glossary/ネットワーク/)分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。
+502 Bad Gateway は、[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内で実行される[アプリケーション](/glossary/アプリケーション/)やリバースプロキシが、上流の[サーバー](/glossary/サーバー/)から不正な応答を受け取ったときに発生します。[Docker](/glossary/docker/) Compose や [Kubernetes](/glossary/kubernetes/) でマルチコンテナを運用する[環境](/glossary/環境/)では、[コンテナ](/glossary/コンテナ/)間通信の失敗、[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)のミス、[ネットワーク](/glossary/ネットワーク/)分断などが典型的な原因です。特に、Nginx や Apache をリバースプロキシとして使用している場合に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -44,7 +44,7 @@ $ curl -v http://localhost:80/api
 
 上流[アプリケーション](/glossary/アプリケーション/)（Node.js、Python、Java など）が起動に失敗していたり、クラッシュしていたりする場合、[プロキシ](/glossary/プロキシ/)は接続できずに 502 を返します。
 
-**Before（[エラー](/glossary/エラー/)が起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている[設定](/glossary/設定/)）**
 ```yaml
 version: '3.8'
 services:
@@ -94,7 +94,7 @@ services:
 
 [Docker](/glossary/docker/) Compose の[ネットワーク](/glossary/ネットワーク/)内では、サービス名が [DNS](/glossary/dns/) として解決されます。ホスト名や[ポート](/glossary/ポート/)番号を誤ると接続失敗になります。
 
-**Before（[エラー](/glossary/エラー/)が起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている[設定](/glossary/設定/)）**
 ```nginx
 upstream backend {
     server app:3000;  # 実際は8080で起動している
@@ -132,9 +132,9 @@ server {
 
 ### 原因3：Docker ネットワーク設定の不備またはコンテナ間通信の分断
 
-複数の[ネットワーク](/glossary/ネットワーク/)を使用している場合や、`--net host` モードの設定ミスがあると、[コンテナ](/glossary/コンテナ/)同士が[通信](/glossary/通信/)できず 502 が発生します。
+複数の[ネットワーク](/glossary/ネットワーク/)を使用している場合や、`--net host` モードの[設定](/glossary/設定/)ミスがあると、[コンテナ](/glossary/コンテナ/)同士が[通信](/glossary/通信/)できず 502 が発生します。
 
-**Before（[エラー](/glossary/エラー/)が起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている[設定](/glossary/設定/)）**
 ```yaml
 version: '3.8'
 services:
@@ -176,7 +176,7 @@ networks:
 
 [アプリケーション](/glossary/アプリケーション/)が `localhost` または `127.0.0.1` にのみバインドしている場合、[Docker](/glossary/docker/) のネットワークインターフェース経由でのアクセスが拒否されます。
 
-**Before（[エラー](/glossary/エラー/)が起きている設定）**
+**Before（[エラー](/glossary/エラー/)が起きている[設定](/glossary/設定/)）**
 ```python
 # Flask アプリケーション
 app.run(host='127.0.0.1', port=8080)  # localhost のみ
@@ -196,7 +196,7 @@ app.run(host='0.0.0.0', port=8080, debug=False)
 
 ### Nginx プロキシの resolver 設定
 
-[Docker](/glossary/docker/) の[ネットワーク](/glossary/ネットワーク/)で [DNS](/glossary/dns/) が動的に変わる場合、Nginx の `resolver` 設定が必要になることがあります。
+[Docker](/glossary/docker/) の[ネットワーク](/glossary/ネットワーク/)で [DNS](/glossary/dns/) が動的に変わる場合、Nginx の `resolver` [設定](/glossary/設定/)が必要になることがあります。
 
 ```nginx
 resolver 127.0.0.11 valid=10s;
@@ -243,11 +243,11 @@ docker exec <nginx-container-name> getent hosts app
 
 ### 公式ドキュメント
 
-[Docker](/glossary/docker/) Compose の[ネットワーク](/glossary/ネットワーク/)設定については、[Networking in Compose](https://docs.docker.com/compose/networking/) が詳細です。Nginx の[プロキシ](/glossary/プロキシ/)設定については [Nginx Proxy Module Documentation](https://nginx.org/en/docs/http/ngx_http_proxy_module.html) を参照してください。
+[Docker](/glossary/docker/) Compose の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)については、[Networking in Compose](https://docs.docker.com/compose/networking/) が詳細です。Nginx の[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)については [Nginx Proxy Module Documentation](https://nginx.org/en/docs/http/ngx_http_proxy_module.html) を参照してください。
 
 ### コミュニティリソース
 
-[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の設定（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも確認してください。
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の[設定](/glossary/設定/)（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも確認してください。
 
 ---
 

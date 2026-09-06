@@ -105,11 +105,11 @@ ls -l /run/php/php-fpm.sock
 # srw-rw---- 1 www-data www-data ... となれば接続できる
 ```
 
-[パス](/glossary/パス/)違いの場合は、Nginx 側とアプリ側の設定が指す[パス](/glossary/パス/)を突き合わせて一致させます。所有権と[権限](/glossary/権限/)が正しいのに (13) が消えない場合は、SELinux や AppArmor がソケットへのアクセスを遮断している可能性があり、監査[ログ](/glossary/ログ/)（audit.log）の確認に切り替えます。
+[パス](/glossary/パス/)違いの場合は、Nginx 側とアプリ側の[設定](/glossary/設定/)が指す[パス](/glossary/パス/)を突き合わせて一致させます。所有権と[権限](/glossary/権限/)が正しいのに (13) が消えない場合は、SELinux や AppArmor がソケットへのアクセスを遮断している可能性があり、監査[ログ](/glossary/ログ/)（audit.log）の確認に切り替えます。
 
 ### 原因3：全上流サーバーが一時除外されている（no live upstreams）
 
-upstream ブロックに複数の[サーバー](/glossary/サーバー/)を並べた構成で、直近の失敗によりすべての[サーバー](/glossary/サーバー/)が「利用不可」と記録され、送る先がなくなった状態です。公式文書のとおり、各[サーバー](/glossary/サーバー/)は fail_timeout の期間内に max_fails 回失敗すると、fail_timeout の間だけ除外されます。既定は max_fails=1、fail_timeout=10秒 で、何を失敗と数えるかは proxy_next_upstream 系の設定に従います。既定値では1回の失敗で10秒間除外されるため、上流全体が短時間不安定になるだけで no live upstreams が連鎖的に発生します。
+upstream ブロックに複数の[サーバー](/glossary/サーバー/)を並べた構成で、直近の失敗によりすべての[サーバー](/glossary/サーバー/)が「利用不可」と記録され、送る先がなくなった状態です。公式文書のとおり、各[サーバー](/glossary/サーバー/)は fail_timeout の期間内に max_fails 回失敗すると、fail_timeout の間だけ除外されます。既定は max_fails=1、fail_timeout=10秒 で、何を失敗と数えるかは proxy_next_upstream 系の[設定](/glossary/設定/)に従います。既定値では1回の失敗で10秒間除外されるため、上流全体が短時間不安定になるだけで no live upstreams が連鎖的に発生します。
 
 なお、この文言は複数[サーバー](/glossary/サーバー/)構成でのみ発生します。公式文書のとおり、upstream 内の[サーバー](/glossary/サーバー/)が1台だけの場合は max_fails と fail_timeout が無視され、利用不可の扱いになりません。
 
@@ -184,7 +184,7 @@ curl -s -D - -o /dev/null http://127.0.0.1:8000/login | wc -c
 
 proxy_pass https://... の構成で、Nginx が [TLS](/glossary/tls/) [クライアント](/glossary/クライアント/)として上流とのハンドシェイクに失敗した状態です。頻出は2つで、いずれも[エラーログ](/glossary/エラーログ/)の括弧内の文言で見分けます。
 
-第一に wrong version number です。文言に反して [TLS](/glossary/tls/) [バージョン](/glossary/バージョン/)設定の誤りであることはまれで、実態の多くは「https:// を指定した接続先が実際には平文 [HTTP](/glossary/http/) で待ち受けている」ケースです。[TLS](/glossary/tls/) の応答を期待した Nginx が平文の [HTTP](/glossary/http/) 応答を受け取り、解釈できずにこの文言になります。
+第一に wrong version number です。文言に反して [TLS](/glossary/tls/) [バージョン](/glossary/バージョン/)[設定](/glossary/設定/)の誤りであることはまれで、実態の多くは「https:// を指定した接続先が実際には平文 [HTTP](/glossary/http/) で待ち受けている」ケースです。[TLS](/glossary/tls/) の応答を期待した Nginx が平文の [HTTP](/glossary/http/) 応答を受け取り、解釈できずにこの文言になります。
 
 第二に SNI の未送信です。接続先が SNI（接続時にホスト名を伝える [TLS](/glossary/tls/) の拡張）を前提に[証明書](/glossary/証明書/)を選ぶ[サーバー](/glossary/サーバー/)の場合、proxy_ssl_server_name on を明示しない限り Nginx は SNI を送らないため、ハンドシェイクが拒否されます。
 
@@ -215,7 +215,7 @@ openssl s_client -connect 203.0.113.5:443 -servername backend.example.com
 
 ## 補足：このコードではない類似エラー
 
-上流の応答待ちの時間切れは504です。[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) と残り、調査対象は proxy_read_timeout などの時間設定と上流の処理時間になります（[Nginx の 504 の記事](/posts/nginx_504/)）。limit_req・limit_conn の制限超過や、設定に残った return 503 は503です（[Nginx の 503 の記事](/posts/nginx_503/)）。応答を返す前に[クライアント](/glossary/クライアント/)側から切断された場合はアクセスログに499が残ります。上流が遅いことが引き金になる点は502の原因4と似ていますが、切ったのが上流なら502、[クライアント](/glossary/クライアント/)なら499です（[Nginx の 499 の記事](/posts/nginx_499/)）。上流[アプリケーション](/glossary/アプリケーション/)の内部[エラー](/glossary/エラー/)は、上流が自分で500を返す限り Nginx はそれをそのまま中継します（[Nginx の 500 の記事](/posts/nginx_500/)）。また、ALB や [API](/glossary/api/) Gateway が返す502は Nginx とは別の仕組みで発生します（[AWS の 502 の記事](/posts/aws_502/)）。[GitHub](/glossary/github/) [API](/glossary/api/) など外部サービス側の502は、こちらの設定では解決できません（[GitHub API の 502 の記事](/posts/github_api_502/)）。
+上流の応答待ちの時間切れは504です。[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) と残り、調査対象は proxy_read_timeout などの時間設定と上流の処理時間になります（[Nginx の 504 の記事](/posts/nginx_504/)）。limit_req・limit_conn の制限超過や、[設定](/glossary/設定/)に残った return 503 は503です（[Nginx の 503 の記事](/posts/nginx_503/)）。応答を返す前に[クライアント](/glossary/クライアント/)側から切断された場合はアクセスログに499が残ります。上流が遅いことが引き金になる点は502の原因4と似ていますが、切ったのが上流なら502、[クライアント](/glossary/クライアント/)なら499です（[Nginx の 499 の記事](/posts/nginx_499/)）。上流[アプリケーション](/glossary/アプリケーション/)の内部[エラー](/glossary/エラー/)は、上流が自分で500を返す限り Nginx はそれをそのまま中継します（[Nginx の 500 の記事](/posts/nginx_500/)）。また、ALB や [API](/glossary/api/) Gateway が返す502は Nginx とは別の仕組みで発生します（[AWS の 502 の記事](/posts/aws_502/)）。[GitHub](/glossary/github/) [API](/glossary/api/) など外部サービス側の502は、こちらの[設定](/glossary/設定/)では解決できません（[GitHub API の 502 の記事](/posts/github_api_502/)）。
 
 ## 切り分けの順序
 
@@ -253,9 +253,9 @@ openssl s_client -connect <上流アドレス>:443 -servername <ホスト名>
 
 ## Editor's Note
 
-原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は設定ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も設定を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
+原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は[設定](/glossary/設定/)ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も[設定](/glossary/設定/)を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
 
-502の[エラーログ](/glossary/エラーログ/)は、接続先・失敗理由・タイミングをすべて一行に記録してくれます。推測で設定をいじる前に、まず括弧内の文言を読むことが確実な近道です。
+502の[エラーログ](/glossary/エラーログ/)は、接続先・失敗理由・タイミングをすべて一行に記録してくれます。推測で[設定](/glossary/設定/)をいじる前に、まず括弧内の文言を読むことが確実な近道です。
 
 ---
 

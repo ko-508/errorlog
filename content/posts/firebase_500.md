@@ -14,7 +14,7 @@ related_services: ["HTTP", "API"]
 
 ## エラーの概要
 
-Firebase における 500 [エラー](/glossary/エラー/)は、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。この[エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側の設定ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
+Firebase における 500 [エラー](/glossary/エラー/)は、Firebase [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示す[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)です。Realtime Database、Firestore、Cloud Functions、Authentication など、Firebase のどのサービスでも発生する可能性があります。この[エラー](/glossary/エラー/)は、[クライアント](/glossary/クライアント/)側の[設定](/glossary/設定/)ミスではなく、[サーバー](/glossary/サーバー/)側の処理失敗を意味することが多いため、段階的な調査が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -70,9 +70,9 @@ exports.processData = functions.https.onCall(async (data, context) => {
 ### 原因2：Firestore / Realtime Database のセキュリティルールが許可していない
 
 **なぜ発生するか**  
-セキュリティルールが不適切に設定されていると、[クエリ](/glossary/クエリ/)実行時にルール評価[エラー](/glossary/エラー/)が発生し、500 が返される場合があります。特に複雑な条件や無限[ループ](/glossary/ループ/)するルールが設定されているとき顕著です。
+セキュリティルールが不適切に[設定](/glossary/設定/)されていると、[クエリ](/glossary/クエリ/)実行時にルール評価[エラー](/glossary/エラー/)が発生し、500 が返される場合があります。特に複雑な条件や無限[ループ](/glossary/ループ/)するルールが[設定](/glossary/設定/)されているとき顕著です。
 
-**Before（[エラー](/glossary/エラー/)が起きる設定）**
+**Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 ```yaml
 rules_version = '2';
 service cloud.firestore {

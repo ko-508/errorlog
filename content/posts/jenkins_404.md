@@ -63,7 +63,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/api/json" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-確認方法としては、Jenkinsのホーム画面で該当ジョブを右クリック→「リンクアドレスをコピー」で正確な[URL](/glossary/url/)を取得するか、ジョブ設定ページから直接[URL](/glossary/url/)を確認することが確実です。
+確認方法としては、Jenkinsのホーム画面で該当ジョブを右クリック→「リンクアドレスをコピー」で正確な[URL](/glossary/url/)を取得するか、ジョブ[設定](/glossary/設定/)ページから直接[URL](/glossary/url/)を確認することが確実です。
 
 ### 原因2：フォルダ内のジョブのURLパスが間違っている
 
@@ -131,7 +131,7 @@ build job: 'project-folder/deploy-test'
 
 **[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に設定された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
+[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に[設定](/glossary/設定/)された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
 
 **Jenkins UI上での確認方法：**
 

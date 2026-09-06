@@ -51,7 +51,7 @@ Content-Type: application/json
 
 ### 1. Cloud Functionsの処理時間がタイムアウト制限を超えている
 
-Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)はデフォルトでHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの遅延、外部[API](/glossary/api/)の呼び出し遅延、処理の複雑さが原因となります。
+Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)はデフォルトでHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの[遅延](/glossary/遅延/)、外部[API](/glossary/api/)の呼び出し[遅延](/glossary/遅延/)、処理の複雑さが原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -125,7 +125,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 3. Cloud Functionsのメモリ割り当てが不足している
 
-[メモリ](/glossary/メモリ/)割り当てが少ないと、CPUの性能も制限され、同じ処理でも実行時間が延びます。デフォルトの256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
+[メモリ](/glossary/メモリ/)割り当てが少ないと、[CPU](/glossary/cpu/)の性能も制限され、同じ処理でも実行時間が延びます。デフォルトの256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -154,7 +154,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 4. データベースクエリの効率性が低い
 
-Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)や[バッチ処理](/glossary/バッチ処理/)、[インデックス](/glossary/インデックス/)設定により改善できます。
+Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)や[バッチ処理](/glossary/バッチ処理/)、[インデックス](/glossary/インデックス/)[設定](/glossary/設定/)により改善できます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -190,11 +190,11 @@ exports.getOrdersWithUsers = functions.https.onRequest(async (req, res) => {
 
 ## Firebase特有の注意点
 
-**Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)設定**
+**Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**
 
-Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する際、`firebase.json`で[タイムアウト](/glossary/タイムアウト/)秒数を明示的に設定できます。デフォルトは60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎる[タイムアウト](/glossary/タイムアウト/)は本質的な問題を隠すため、根本的な[最適化](/glossary/最適化/)を優先してください。
+Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する際、`firebase.json`で[タイムアウト](/glossary/タイムアウト/)秒数を明示的に[設定](/glossary/設定/)できます。デフォルトは60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎる[タイムアウト](/glossary/タイムアウト/)は本質的な問題を隠すため、根本的な[最適化](/glossary/最適化/)を優先してください。
 
-**Realtime DatabaseとFirestoreの遅延**
+**Realtime DatabaseとFirestoreの[遅延](/glossary/遅延/)**
 
 Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)処理が遅い場合、Pub/Sub経由での[非同期処理](/glossary/非同期処理/)への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける[関数](/glossary/関数/)から長時間の処理を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
 
@@ -211,11 +211,11 @@ gcloud functions describe <関数名> --runtime nodejs18
 gcloud functions logs read <関数名> --limit 50
 ```
 
-または、Firebase Consoleで「[関数](/glossary/関数/)」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を確認してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を確認でき、504の発生パターンが明らかになります。
+または、Firebase Consoleで「[関数](/glossary/関数/)」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を確認してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を確認でき、504の発生[パターン](/glossary/パターン/)が明らかになります。
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析**
 
-Cloud Profilerを有効化することで、CPUと[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを確認し、ボトルネック箇所を特定してください。
+Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを確認し、ボトルネック箇所を特定してください。
 
 **公式ドキュメント**
 

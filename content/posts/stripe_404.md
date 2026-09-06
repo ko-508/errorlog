@@ -151,7 +151,7 @@ except stripe.error.InvalidRequestError as e:
 
 ### APIバージョンの違いによる404
 
-Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加されたリソースにアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)設定で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
+Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加されたリソースにアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)[設定](/glossary/設定/)で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ```bash
 # リクエストヘッダーでAPIバージョンを明示的に指定
@@ -162,7 +162,7 @@ curl https://api.stripe.com/v1/customers/cus_test123 \
 
 ### Webhook署名検証とリソースID
 
-[Webhook](/glossary/webhook/)で受け取った[イベント](/glossary/イベント/)のリソース[ID](/glossary/id/)を直後に参照する場合、わずかな遅延で404が返ることがあります。Stripeの[イベント](/glossary/イベント/)処理は非同期のため、リトライロジック（失敗時に何度か再試行する処理）を実装することが推奨されます。
+[Webhook](/glossary/webhook/)で受け取った[イベント](/glossary/イベント/)のリソース[ID](/glossary/id/)を直後に参照する場合、わずかな[遅延](/glossary/遅延/)で404が返ることがあります。Stripeの[イベント](/glossary/イベント/)処理は非同期のため、リトライロジック（失敗時に何度か再試行する処理）を実装することが推奨されます。
 
 ```python
 import time

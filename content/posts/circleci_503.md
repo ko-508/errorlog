@@ -46,7 +46,7 @@ curl -H "Circle-Token: <your-api-token>" \
 
 ### 原因1：CircleCIプラットフォームのメンテナンス
 
-CircleCIのインフラストラクチャ定期メンテナンスやセキュリティアップデートが実施されている場合、サービス全体が一時的に停止状態になります。この場合、ユーザー側の設定や[コード](/glossary/コード/)に問題がなくても 503 [エラー](/glossary/エラー/)が返却されます。
+CircleCIのインフラストラクチャ定期メンテナンスやセキュリティアップデートが実施されている場合、サービス全体が一時的に停止状態になります。この場合、ユーザー側の[設定](/glossary/設定/)や[コード](/glossary/コード/)に問題がなくても 503 [エラー](/glossary/エラー/)が返却されます。
 
 **確認と解決手順：**
 
@@ -229,9 +229,9 @@ https://status.circleci.com にアクセスして、現在進行中のインシ�
 
 CircleCI ダッシュボーク → Pipelines で、失敗したジョブの詳細[ログ](/glossary/ログ/)を確認してください。ネットワークエラーや[タイムアウト](/glossary/タイムアウト/)が記録されていれば、一時的な通信障害の可能性が高まります。
 
-**ステップ3：Organization設定の確認**
+**ステップ3：Organization[設定](/glossary/設定/)の確認**
 
-Organization Settings → Security で、[セキュリティポリシー](/glossary/セキュリティポリシー/)やIP制限が設定されていないか確認してください。特に企業[ネットワーク](/glossary/ネットワーク/)を使用している場合、[ファイアウォール](/glossary/ファイアウォール/)設定によってCircleCI [API](/glossary/api/)へのアクセスがブロックされている可能性があります。
+Organization Settings → Security で、[セキュリティポリシー](/glossary/セキュリティポリシー/)やIP制限が[設定](/glossary/設定/)されていないか確認してください。特に企業[ネットワーク](/glossary/ネットワーク/)を使用している場合、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)によってCircleCI [API](/glossary/api/)へのアクセスがブロックされている可能性があります。
 
 **ステップ4：CircleCI公式サポートへの連絡**
 

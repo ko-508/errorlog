@@ -110,7 +110,7 @@ fine-grained personal access token や [GitHub](/glossary/github/) App の[ト�
 
 [GitHub](/glossary/github/) Actions の GITHUB_TOKEN を使っている場合は、その[トークン](/glossary/トークン/)で操作できるのは[ワークフロー](/glossary/ワークフロー/)が動いている[リポジトリ](/glossary/リポジトリ/)の資源に限られます。別の[リポジトリ](/glossary/リポジトリ/)や組織の資源を操作するには、personal access token か [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)が必要です。
 
-また、読み取りはできる相手でも、書き込み系の[エンドポイント](/glossary/エンドポイント/)（[リポジトリ](/glossary/リポジトリ/)設定の更新など）はより強い役割を要求します。閲覧できるのに更新だけ404になる場合は、その操作に必要な役割を[エンドポイント](/glossary/エンドポイント/)のリファレンス（応答の documentation_url が指すページ）で確認してください。
+また、読み取りはできる相手でも、書き込み系の[エンドポイント](/glossary/エンドポイント/)（[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)の更新など）はより強い役割を要求します。閲覧できるのに更新だけ404になる場合は、その操作に必要な役割を[エンドポイント](/glossary/エンドポイント/)のリファレンス（応答の documentation_url が指すページ）で確認してください。
 
 ## 切り分けの順序
 

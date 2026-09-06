@@ -72,7 +72,7 @@ sleep 10 && curl -s http://localhost:9090/-/healthy
 
 ### 原因2：スクレイプターゲットが停止またはタイムアウトしている
 
-Prometheus の主要機能は[メトリクス](/glossary/メトリクス/)の収集です。[設定ファイル](/glossary/設定ファイル/)内に定義されたターゲット（監視対象[サーバー](/glossary/サーバー/)の[エンドポイント](/glossary/エンドポイント/)）が停止していたり、ネットワークタイムアウトが発生していたりすると、Prometheus 全体が 503 を返すことがあります。特に、スクレイプタイムアウトが非常に短く設定されている場合は注意が必要です。
+Prometheus の主要機能は[メトリクス](/glossary/メトリクス/)の収集です。[設定ファイル](/glossary/設定ファイル/)内に定義されたターゲット（監視対象[サーバー](/glossary/サーバー/)の[エンドポイント](/glossary/エンドポイント/)）が停止していたり、ネットワークタイムアウトが発生していたりすると、Prometheus 全体が 503 を返すことがあります。特に、スクレイプタイムアウトが非常に短く[設定](/glossary/設定/)されている場合は注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -116,7 +116,7 @@ curl -s http://localhost:9090/api/v1/targets | jq '.data.activeTargets[] | {job:
 curl -v http://<your-target-host>:9100/metrics
 ```
 
-ターゲットが応答しない場合は、対象[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号や[ファイアウォール](/glossary/ファイアウォール/)設定を確認します。
+ターゲットが応答しない場合は、対象[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を確認します。
 
 ### 原因3：Prometheus のストレージが満杯になっている
 
@@ -216,7 +216,7 @@ curl -X POST http://localhost:9090/-/reload
 promtool check config /etc/prometheus/prometheus.yml
 ```
 
-[ファイアウォール](/glossary/ファイアウォール/)・セキュリティグループの設定を確認し、Prometheus から各スクレイプターゲットへの[通信](/glossary/通信/)が遮断されていないか確認します：
+[ファイアウォール](/glossary/ファイアウォール/)・セキュリティグループの[設定](/glossary/設定/)を確認し、Prometheus から各スクレイプターゲットへの[通信](/glossary/通信/)が遮断されていないか確認します：
 
 ```bash
 # ターゲットへの通信を確認

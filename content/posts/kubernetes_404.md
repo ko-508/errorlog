@@ -188,7 +188,7 @@ subjects:
 [Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、デフォルトで異なる[Namespace](/glossary/namespace/)間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
 
 **Ingress・Service・Pod間の連携[エラー](/glossary/エラー/)：**
-IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが設定されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
+IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが[設定](/glossary/設定/)されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
 
 **CRD（Custom Resource Definition）のコンテキスト：**
 カスタムリソースを使用する場合、CRDが登録されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
@@ -227,7 +227,7 @@ kubectl proxy
 [Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
-[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な設定ミスの解決策を見つけることができます。
+[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な[設定](/glossary/設定/)ミスの解決策を見つけることができます。
 
 ---
 

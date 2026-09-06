@@ -31,7 +31,7 @@ starting container process caused: exec:
 <service-name> | (Exit status: 1)
 ```
 
-[アプリケーション](/glossary/アプリケーション/)実行時の[エラーログ](/glossary/エラーログ/)は以下のようなパターンです。
+[アプリケーション](/glossary/アプリケーション/)実行時の[エラーログ](/glossary/エラーログ/)は以下のような[パターン](/glossary/パターン/)です。
 
 ```bash
 docker-compose logs <service-name>
@@ -191,7 +191,7 @@ services:
       start_period: 20s
 ```
 
-`start_period` を追加することで、コンテナー起動直後の[ヘルスチェック](/glossary/ヘルスチェック/)を遅延させ、[アプリケーション](/glossary/アプリケーション/)が準備完了するまで待機します。
+`start_period` を追加することで、コンテナー起動直後の[ヘルスチェック](/glossary/ヘルスチェック/)を[遅延](/glossary/遅延/)させ、[アプリケーション](/glossary/アプリケーション/)が準備完了するまで待機します。
 
 **診断[コマンド](/glossary/コマンド/)：**
 
@@ -225,7 +225,7 @@ services:
       test: ["CMD", "pg_isready"]
 ```
 
-`condition: service_healthy` を使用することで、[ヘルスチェック](/glossary/ヘルスチェック/)成功まで[アプリケーション](/glossary/アプリケーション/)起動を遅延させます。
+`condition: service_healthy` を使用することで、[ヘルスチェック](/glossary/ヘルスチェック/)成功まで[アプリケーション](/glossary/アプリケーション/)起動を[遅延](/glossary/遅延/)させます。
 
 ### マルチステージビルドでの依存関係漏れ
 

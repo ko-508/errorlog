@@ -12,7 +12,7 @@ related_services: ["JavaScript", "REST API", "SendGrid", "Mailgun", "Gmail"]
 ---
 ## エラーの概要
 
-Supabaseの422[エラー](/glossary/エラー/)は「Unprocessable Entity」を意味し、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、[サーバー](/glossary/サーバー/)がデータの検証ルール違反を検出したときに発生します。Supabaseの[認証](/glossary/認証/)（Auth）機能では、[パスワード](/glossary/パスワード/)やメールアドレスの形式チェック、カスタムSMTP設定の検証で特に頻繁に見られます。この[エラー](/glossary/エラー/)が返されると、ユーザー登録や[パスワード](/glossary/パスワード/)変更などの認証処理が失敗します。
+Supabaseの422[エラー](/glossary/エラー/)は「Unprocessable Entity」を意味し、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、[サーバー](/glossary/サーバー/)がデータの検証ルール違反を検出したときに発生します。Supabaseの[認証](/glossary/認証/)（Auth）機能では、[パスワード](/glossary/パスワード/)やメールアドレスの形式チェック、カスタムSMTP[設定](/glossary/設定/)の検証で特に頻繁に見られます。この[エラー](/glossary/エラー/)が返されると、ユーザー登録や[パスワード](/glossary/パスワード/)変更などの認証処理が失敗します。
 
 ## 実際のエラーメッセージ例
 
@@ -117,7 +117,7 @@ if (error) {
 
 ### 原因3：Supabase AuthのカスタムSMTP設定またはメールテンプレート設定に問題がある
 
-Supabase Dashboardでカスタムメールプロバイダー（SendGrid、Mailgun等）を設定した場合、認証情報の誤り、テンプレート[変数](/glossary/変数/)の不一致、またはメール送信設定の検証ルール違反で422[エラー](/glossary/エラー/)が発生することがあります。特に[環境変数](/glossary/環境変数/)の値が不完全であったり、テンプレート内の[変数](/glossary/変数/)が不正な形式である場合に顕著です。
+Supabase Dashboardでカスタムメールプロバイダー（SendGrid、Mailgun等）を[設定](/glossary/設定/)した場合、認証情報の誤り、テンプレート[変数](/glossary/変数/)の不一致、またはメール送信設定の検証ルール違反で422[エラー](/glossary/エラー/)が発生することがあります。特に[環境変数](/glossary/環境変数/)の値が不完全であったり、テンプレート内の[変数](/glossary/変数/)が不正な形式である場合に顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -181,9 +181,9 @@ const { data, error } = await supabase.auth.signUp({
 
 ## ツール固有の注意点
 
-Supabaseの422[エラー](/glossary/エラー/)は**[プロジェクト](/glossary/プロジェクト/)設定の違いで挙動が異なります**。以下の点を確認してください。
+Supabaseの422[エラー](/glossary/エラー/)は**[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)の違いで挙動が異なります**。以下の点を確認してください。
 
-**Authentication > Providers > メール設定の確認：**
+**Authentication > Providers > メール[設定](/glossary/設定/)の確認：**
 Supabase Dashboardの「Authentication」→「Providers」→「Email」で、以下の項目を確認しましょう。
 - 「Confirm email」が有効になっている場合、メールアドレス形式の検証がより厳密になります。
 - 「Double confirm change」を有効にしている場合、メール変更時の追加検証が動作します。
@@ -191,8 +191,8 @@ Supabase Dashboardの「Authentication」→「Providers」→「Email」で、�
 **カスタムSMTP vs Supabase[標準](/glossary/標準/)メール：**
 Supabaseの[標準](/glossary/標準/)メール機能を使用している場合、制限が異なります。SendGridやMailgunなどを統合している場合は、各プロバイダー側の検証ルールも確認が必要です。
 
-**パスワードポリシーの設定：**
-Supabase Dashboardの「Authentication」→「Policies」で、[パスワード](/glossary/パスワード/)の最小文字数、複雑性要件、有効期限などをカスタマイズできます。デフォルトより厳しい設定にしている場合は、そのルールに合わせた[バリデーション](/glossary/バリデーション/)を[フロントエンド](/glossary/フロントエンド/)に実装してください。
+**パスワードポリシーの[設定](/glossary/設定/)：**
+Supabase Dashboardの「Authentication」→「Policies」で、[パスワード](/glossary/パスワード/)の最小文字数、複雑性要件、有効期限などを[カスタマイズ](/glossary/カスタマイズ/)できます。デフォルトより厳しい[設定](/glossary/設定/)にしている場合は、そのルールに合わせた[バリデーション](/glossary/バリデーション/)を[フロントエンド](/glossary/フロントエンド/)に実装してください。
 
 ```javascript
 // ダッシュボード設定に基づいてバリデーション関数を作成
@@ -235,7 +235,7 @@ curl -X POST 'https://<your-project-ref>.supabase.co/auth/v1/signup' \
 - [Supabase メール設定ガイド](https://supabase.com/docs/guides/auth/auth-smtp)
 - [Supabase GitHub Issues](https://github.com/supabase/supabase/issues)
 
-[プロジェクト](/glossary/プロジェクト/)設定や[API](/glossary/api/)[キー](/glossary/キー/)に関わる部分は、Supabaseサポートに直接問い合わせることも有効です。Dashboardの「Help」→「Support」から公式サポートチャネルにアクセスできます。
+[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)や[API](/glossary/api/)[キー](/glossary/キー/)に関わる部分は、Supabaseサポートに直接問い合わせることも有効です。Dashboardの「Help」→「Support」から公式サポートチャネルにアクセスできます。
 
 ---
 

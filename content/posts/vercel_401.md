@@ -58,7 +58,7 @@ HTTP/1.1 401 Unauthorized
 
 ### 原因1：Vercel API トークンが無効または期限切れになっている
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)で生成した [API](/glossary/api/) [トークン](/glossary/トークン/)は、[セキュリティ](/glossary/セキュリティ/)上の理由から有効期限が設定されることがあります。また、[トークン](/glossary/トークン/)を[削除](/glossary/削除/)した後も[環境変数](/glossary/環境変数/)に古い値が残っていると、[認証](/glossary/認証/)に失敗します。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)で生成した [API](/glossary/api/) [トークン](/glossary/トークン/)は、[セキュリティ](/glossary/セキュリティ/)上の理由から有効期限が[設定](/glossary/設定/)されることがあります。また、[トークン](/glossary/トークン/)を[削除](/glossary/削除/)した後も[環境変数](/glossary/環境変数/)に古い値が残っていると、[認証](/glossary/認証/)に失敗します。
 
 **修正方法：**
 
@@ -129,7 +129,7 @@ git push origin main
 
 **[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
-**vercel.json 設定：** プロジェクトルートの `vercel.json` に記述される設定は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の設定を確認してから[ファイル](/glossary/ファイル/)設定を疑ってください。
+**vercel.json [設定](/glossary/設定/)：** プロジェクトルートの `vercel.json` に記述される[設定](/glossary/設定/)は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の[設定](/glossary/設定/)を確認してから[ファイル](/glossary/ファイル/)[設定](/glossary/設定/)を疑ってください。
 
 ## それでも解決しない場合
 

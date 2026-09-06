@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/glossary/設定ファイル/)で参照しているクラウドリソースが実際には存在しないか、[削除](/glossary/削除/)されている状態を示します。この[エラー](/glossary/エラー/)が発生すると、`terraform plan` や `terraform apply` の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する設定で頻出します。
+Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/glossary/設定ファイル/)で参照しているクラウドリソースが実際には存在しないか、[削除](/glossary/削除/)されている状態を示します。この[エラー](/glossary/エラー/)が発生すると、`terraform plan` や `terraform apply` の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する[設定](/glossary/設定/)で頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -186,7 +186,7 @@ resource "aws_instance" "prod_server" {
 
 Terraform は state [ファイル](/glossary/ファイル/)と実際のクラウドリソースの整合性に依存しています。手動でクラウドコンソールからリソースを[削除](/glossary/削除/)した場合、state [ファイル](/glossary/ファイル/)には古い情報が残ったままになり、404 [エラー](/glossary/エラー/)の原因になります。本来なら `terraform destroy` で state を[削除](/glossary/削除/)すべきですが、事後対応として `terraform state rm <resource-address>` で state から該当リソースを[削除](/glossary/削除/)できます。
 
-また、マルチプロバイダー設定を使う場合、各 data source にどの provider を使うかを明示的に指定する必要があります。指定を忘れると、デフォルト provider がリソースを探してしまい、期待と異なるリージョンや[アカウント](/glossary/アカウント/)で 404 [エラー](/glossary/エラー/)が発生することがあります。
+また、マルチプロバイダー[設定](/glossary/設定/)を使う場合、各 data source にどの provider を使うかを明示的に指定する必要があります。指定を忘れると、デフォルト provider がリソースを探してしまい、期待と異なるリージョンや[アカウント](/glossary/アカウント/)で 404 [エラー](/glossary/エラー/)が発生することがあります。
 
 [AWS](/glossary/aws/) の場合、リソース [ID](/glossary/id/) には各リージョン固有の値が使われるため、リージョン指定の誤りは一般的に 404 [エラー](/glossary/エラー/)に繋がります。Google Cloud でも同様なことが言えるため、複数リージョンで運用する場合は provider alias を活用し、リソース参照時に明示的に provider を指定するのがベストプラクティスです。
 

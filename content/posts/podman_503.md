@@ -63,7 +63,7 @@ podman info
 
 ### 原因2：コンテナレジストリ（Docker Hub・Quay.io等）のメンテナンスまたは障害
 
-[Docker](/glossary/docker/) Hub や Quay.io などの外部[レジストリ](/glossary/レジストリ/)がメンテナンス中、負荷が高い状態、または[ネットワーク](/glossary/ネットワーク/)遅延により一時的に 503 を返しています。この場合、イメージプル操作が失敗します。
+[Docker](/glossary/docker/) Hub や Quay.io などの外部[レジストリ](/glossary/レジストリ/)がメンテナンス中、負荷が高い状態、または[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)により一時的に 503 を返しています。この場合、イメージプル操作が失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -176,7 +176,7 @@ ls -la /run/user/$(id -u)/podman/podman.sock
 
 ### リモート Podman 接続での接続タイムアウト
 
-Podman を SSH 経由でリモート接続する場合、SSH [キー](/glossary/キー/)が設定されていないか、リモート側の Podman [API](/glossary/api/) サービスが起動していないと 503 が発生します。
+Podman を SSH 経由でリモート接続する場合、SSH [キー](/glossary/キー/)が[設定](/glossary/設定/)されていないか、リモート側の Podman [API](/glossary/api/) サービスが起動していないと 503 が発生します。
 
 ```bash
 # リモート接続先の接続情報確認

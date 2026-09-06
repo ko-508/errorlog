@@ -51,7 +51,7 @@ metadata:
   deletionGracePeriodSeconds: 30
 ```
 
-この時点で削除要求は失敗していません。[finalizerの公式説明](https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/)によれば、finalizerを持つ[オブジェクト](/glossary/オブジェクト/)への削除要求は `202 Accepted` で受理され、`.metadata.deletionTimestamp` が設定されます。その後、必要な後処理が済み、finalizerの一覧が空になると[削除](/glossary/削除/)が完了します。
+この時点で削除要求は失敗していません。[finalizerの公式説明](https://kubernetes.io/docs/concepts/overview/working-with-objects/finalizers/)によれば、finalizerを持つ[オブジェクト](/glossary/オブジェクト/)への削除要求は `202 Accepted` で受理され、`.metadata.deletionTimestamp` が[設定](/glossary/設定/)されます。その後、必要な後処理が済み、finalizerの一覧が空になると[削除](/glossary/削除/)が完了します。
 
 `Terminating` は、この途中経過を `kubectl` が表示したものです。[API](/glossary/api/)上のPodの `status.phase` は、終了処理中も `Running` や `Pending` のままの場合があります。
 
@@ -85,7 +85,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 `deletionTimestamp` が空なら、この記事で扱う削除処理中の状態ではありません。画面や監視側が古い情報を表示していないかも確認します。
 
-第二に、Podに設定された終了猶予期間と `preStop` を確認します。
+第二に、Podに[設定](/glossary/設定/)された終了猶予期間と `preStop` を確認します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \

@@ -74,7 +74,7 @@ $ az vm list --resource-group myResourceGroup
 
 ### 原因2：サービスプリンシパルのシークレットが期限切れになっている
 
-[CI/CD](/glossary/ci-cd/) パイプラインや[スクリプト](/glossary/スクリプト/)[自動化](/glossary/自動化/)でサービスプリンシパル[認証](/glossary/認証/)を使用している場合、設定したシークレット（またはクライアントシークレット）の有効期限が切れると 401 [エラー](/glossary/エラー/)が発生します。Azure では[セキュリティ](/glossary/セキュリティ/)上の理由から、デフォルトでシークレットに 1 ～ 2 年の有効期限が設定されます。
+[CI/CD](/glossary/ci-cd/) パイプラインや[スクリプト](/glossary/スクリプト/)[自動化](/glossary/自動化/)でサービスプリンシパル[認証](/glossary/認証/)を使用している場合、[設定](/glossary/設定/)したシークレット（またはクライアントシークレット）の有効期限が切れると 401 [エラー](/glossary/エラー/)が発生します。Azure では[セキュリティ](/glossary/セキュリティ/)上の理由から、デフォルトでシークレットに 1 ～ 2 年の有効期限が[設定](/glossary/設定/)されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -110,7 +110,7 @@ $ az login --service-principal \
   --tenant <tenant-id>
 ```
 
-新しいシークレットを生成後、[CI/CD](/glossary/ci-cd/) [環境変数](/glossary/環境変数/)や[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)に設定される秘密情報を更新することを忘れずに行ってください。
+新しいシークレットを生成後、[CI/CD](/glossary/ci-cd/) [環境変数](/glossary/環境変数/)や[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)に[設定](/glossary/設定/)される秘密情報を更新することを忘れずに行ってください。
 
 ### 原因3：マネージド ID が有効になっていないリソースで使用しようとしている
 
@@ -154,13 +154,13 @@ $ az role assignment create \
 # (マネージドIDが有効になっているため、認証が成功)
 ```
 
-Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/修正/)は不要です。リソース側のマネージド [ID](/glossary/id/) 設定を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を処理します。
+Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/修正/)は不要です。リソース側のマネージド [ID](/glossary/id/) [設定](/glossary/設定/)を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を処理します。
 
 ## ツール固有の注意点
 
 **Azure [CLI](/glossary/cli/) の複数[アカウント](/glossary/アカウント/)管理：** 複数の Azure [サブスクリプション](/glossary/サブスクリプション/)やテナントにアクセスしている場合、`az account show` でアクティブな[アカウント](/glossary/アカウント/)を確認し、`az account set --subscription <subscription-id>` で対象[サブスクリプション](/glossary/サブスクリプション/)に切り替えてください。誤った[アカウント](/glossary/アカウント/)で[認証](/glossary/認証/)されている場合も 401 [エラー](/glossary/エラー/)が発生します。
 
-**[環境変数](/glossary/環境変数/)による[認証](/glossary/認証/)：** `AZURE_CLIENT_ID`、`AZURE_CLIENT_SECRET`、`AZURE_TENANT_ID` などの[環境変数](/glossary/環境変数/)を使用する場合、これらが正しい値で設定されているか確認してください。特に自動[デプロイ](/glossary/デプロイ/)[環境](/glossary/環境/)では、[環境変数](/glossary/環境変数/)の値が古いままになっていることが原因の 1 つです。
+**[環境変数](/glossary/環境変数/)による[認証](/glossary/認証/)：** `AZURE_CLIENT_ID`、`AZURE_CLIENT_SECRET`、`AZURE_TENANT_ID` などの[環境変数](/glossary/環境変数/)を使用する場合、これらが正しい値で[設定](/glossary/設定/)されているか確認してください。特に自動[デプロイ](/glossary/デプロイ/)[環境](/glossary/環境/)では、[環境変数](/glossary/環境変数/)の値が古いままになっていることが原因の 1 つです。
 
 **マネージド [ID](/glossary/id/) と Role-Based Access Control（[RBAC](/glossary/rbac/)）の組み合わせ：** マネージド [ID](/glossary/id/) を有効化した後、リソースが実際にアクセスしたい対象（ストレージアカウント、キーボルト など）に対する [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。マネージド [ID](/glossary/id/) の有効化だけでは[権限](/glossary/権限/)が付与されないため注意が必要です。
 
@@ -168,7 +168,7 @@ Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/
 
 **Azure のアクティビティログを確認：** Azure ポータルの「アクティビティログ」セクションで、失敗した操作の詳細を確認してください。具体的な[認証](/glossary/認証/)[エラー](/glossary/エラー/)の理由が記録されていることがあります。
 
-**Azure [SDK](/glossary/sdk/) のデバッグログを有効化：** Python や Node.js でログレベルを設定し、詳細な認証情報を出力します：
+**Azure [SDK](/glossary/sdk/) のデバッグログを有効化：** Python や Node.js でログレベルを[設定](/glossary/設定/)し、詳細な認証情報を出力します：
 
 ```python
 import logging

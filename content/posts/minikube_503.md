@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-[HTTP](/glossary/http/) 503（Service Unavailable）は、[リクエスト](/glossary/リクエスト/)されたサービスが一時的に利用できない状態を示す[エラー](/glossary/エラー/)です。Minikube[環境](/glossary/環境/)では、クラスター内のPodが正常に動作していない、リソース不足、あるいはクラスター自体の起動失敗が原因で503[エラー](/glossary/エラー/)が発生します。特に[開発環境](/glossary/開発環境/)でのローカル[Kubernetes](/glossary/kubernetes/)[テスト](/glossary/テスト/)では、設定ミスやリソース制限による503が頻出します。
+[HTTP](/glossary/http/) 503（Service Unavailable）は、[リクエスト](/glossary/リクエスト/)されたサービスが一時的に利用できない状態を示す[エラー](/glossary/エラー/)です。Minikube[環境](/glossary/環境/)では、クラスター内のPodが正常に動作していない、リソース不足、あるいはクラスター自体の起動失敗が原因で503[エラー](/glossary/エラー/)が発生します。特に[開発環境](/glossary/開発環境/)でのローカル[Kubernetes](/glossary/kubernetes/)[テスト](/glossary/テスト/)では、[設定](/glossary/設定/)ミスやリソース制限による503が頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -171,7 +171,7 @@ spec:
 
 ### 原因3: リソース不足またはOOMKill
 
-Minikubeに割り当てた[メモリ](/glossary/メモリ/)やCPUが不足している場合、PodがOOMKill（Out of Memory Kill）されて503[エラー](/glossary/エラー/)が発生します。また、ノードのリソースが枯渇するとPodのスケジューリングができず、Pending状態のままになります。
+Minikubeに割り当てた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足している場合、PodがOOMKill（Out of Memory Kill）されて503[エラー](/glossary/エラー/)が発生します。また、ノードのリソースが枯渇するとPodのスケジューリングができず、Pending状態のままになります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -272,7 +272,7 @@ $ kubectl apply -f deployment.yaml
 
 ### ドライバー設定の問題
 
-Minikubeは複数のドライバー（[Docker](/glossary/docker/)、VirtualBox、KVM等）をサポートしていますが、ドライバーの不具合や設定ミスが503[エラー](/glossary/エラー/)を引き起こすことがあります。特に[Docker](/glossary/docker/) DesktopやPodman[互換性](/glossary/互換性/)の問題がある場合、クラスター全体が不安定になります。
+Minikubeは複数のドライバー（[Docker](/glossary/docker/)、VirtualBox、KVM等）をサポートしていますが、ドライバーの不具合や[設定](/glossary/設定/)ミスが503[エラー](/glossary/エラー/)を引き起こすことがあります。特に[Docker](/glossary/docker/) DesktopやPodman[互換性](/glossary/互換性/)の問題がある場合、クラスター全体が不安定になります。
 
 ```bash
 # 現在のドライバーを確認
@@ -290,7 +290,7 @@ $ minikube status --format=json
 
 ### Ingressの設定ミス
 
-Minikubeで外部からの[リクエスト](/glossary/リクエスト/)をサービスにルーティングする際、Ingress設定が誤っていると503[エラー](/glossary/エラー/)が返されます。Ingressコントローラーが起動していない、またはバックエンドサービスの[エンドポイント](/glossary/エンドポイント/)が存在しない場合が該当します。
+Minikubeで外部からの[リクエスト](/glossary/リクエスト/)をサービスにルーティングする際、Ingress[設定](/glossary/設定/)が誤っていると503[エラー](/glossary/エラー/)が返されます。Ingressコントローラーが起動していない、またはバックエンドサービスの[エンドポイント](/glossary/エンドポイント/)が存在しない場合が該当します。
 
 ```bash
 # Ingress アドオンを有効化

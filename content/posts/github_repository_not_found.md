@@ -66,7 +66,7 @@ Invalid username or token. Password authentication is not supported for Git oper
 
 ## まず最初に：いま誰として通信しているかを確定する
 
-原因を推測する前に、[通信](/glossary/通信/)の主体を1つに固定します。[HTTPS](/glossary/https/) なら、[git](/glossary/git/) が実際に取り出す資格情報を表示させます。`git credential fill` は、設定と保存先と補助[プログラム](/glossary/プログラム/)を経由して、その[エンドポイント](/glossary/エンドポイント/)に使う値を決める公式の手段です。
+原因を推測する前に、[通信](/glossary/通信/)の主体を1つに固定します。[HTTPS](/glossary/https/) なら、[git](/glossary/git/) が実際に取り出す資格情報を表示させます。`git credential fill` は、[設定](/glossary/設定/)と保存先と補助[プログラム](/glossary/プログラム/)を経由して、その[エンドポイント](/glossary/エンドポイント/)に使う値を決める公式の手段です。
 
 ```bash
 printf 'protocol=https\nhost=github.com\n\n' | git credential fill
@@ -162,11 +162,11 @@ Host github-work
 git clone git@github-work:OWNER/REPO.git
 ```
 
-`IdentitiesOnly yes` は、指定した鍵だけを提示させる設定です。これがないと、エージェントが抱える別の鍵が先に通り、想定と違う[アカウント](/glossary/アカウント/)として扱われることがあります。
+`IdentitiesOnly yes` は、指定した鍵だけを提示させる[設定](/glossary/設定/)です。これがないと、エージェントが抱える別の鍵が先に通り、想定と違う[アカウント](/glossary/アカウント/)として扱われることがあります。
 
 ### 原因4：トークンを直したのに、通信経路が SSH のまま
 
-[トークン](/glossary/トークン/)を作り直しても状況が変わらないなら、そもそもそれが使われていない可能性があります。公式ドキュメントは、[トークン](/glossary/トークン/)が [HTTPS](/glossary/https/) の [git](/glossary/git/) 操作でしか使えず、SSH のアドレスを設定している場合は [HTTPS](/glossary/https/) への切り替えが要ると明記しています。逆に、鍵を整備したのに [URL](/glossary/url/) が [HTTPS](/glossary/https/) のままでも同じことが起きます。
+[トークン](/glossary/トークン/)を作り直しても状況が変わらないなら、そもそもそれが使われていない可能性があります。公式ドキュメントは、[トークン](/glossary/トークン/)が [HTTPS](/glossary/https/) の [git](/glossary/git/) 操作でしか使えず、SSH のアドレスを[設定](/glossary/設定/)している場合は [HTTPS](/glossary/https/) への切り替えが要ると明記しています。逆に、鍵を整備したのに [URL](/glossary/url/) が [HTTPS](/glossary/https/) のままでも同じことが起きます。
 
 **Before（経路を確かめずに[トークン](/glossary/トークン/)だけ入れ替える）：**
 
@@ -207,7 +207,7 @@ git remote -v
 1. `git remote -v` で、通信経路が [HTTPS](/glossary/https/) か SSH かを確定する。以降の確認先がここで分かれる。
 2. [HTTPS](/glossary/https/) なら `git credential fill` で、実際に使われる資格情報の持ち主を表示する。想定と違えば原因1で確定する。
 3. SSH なら `ssh -T git@github.com` で、鍵がどの[アカウント](/glossary/アカウント/)として認識されるかを表示する。想定と違えば原因3で確定する。
-4. 確実に見えるはずの公開[リポジトリ](/glossary/リポジトリ/)に対して、同じ形のクローンを試す。ここで失敗するなら、原因は対象[リポジトリ](/glossary/リポジトリ/)ではなく経路や設定の側にある。
+4. 確実に見えるはずの公開[リポジトリ](/glossary/リポジトリ/)に対して、同じ形のクローンを試す。ここで失敗するなら、原因は対象[リポジトリ](/glossary/リポジトリ/)ではなく経路や[設定](/glossary/設定/)の側にある。
 5. `curl -i` で探索[エンドポイント](/glossary/エンドポイント/)を直接叩き、状態[コード](/glossary/コード/)と本文を確認する。
 6. 401 なら[認証](/glossary/認証/)の問題として原因1と原因4を、404 なら不可視の問題として原因2と原因3を見る。
 7. [トークン](/glossary/トークン/)や鍵の適用範囲、および SSO の承認状態を確認する。組織の設定画面で承認が必要な場合がある。

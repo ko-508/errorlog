@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-[AWS](/glossary/aws/) S3 の AccessDenied [エラー](/glossary/エラー/)は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)の不足、バケットポリシーの明示的な拒否設定、または[オブジェクト](/glossary/オブジェクト/)の ACL 設定によって、リソースへのアクセスが拒否されたときに発生します。認証情報は正常に認識されているものの、[権限](/glossary/権限/)がない状態です。
+[AWS](/glossary/aws/) S3 の AccessDenied [エラー](/glossary/エラー/)は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)の不足、バケットポリシーの明示的な拒否設定、または[オブジェクト](/glossary/オブジェクト/)の ACL [設定](/glossary/設定/)によって、リソースへのアクセスが拒否されたときに発生します。認証情報は正常に認識されているものの、[権限](/glossary/権限/)がない状態です。
 
 ## 実際のエラーメッセージ例
 
@@ -96,7 +96,7 @@ aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 
 ### 原因2：バケットポリシーで Deny が明示的に設定されている
 
-バケットポリシーで `"Effect": "Deny"` が設定されている場合、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow されていても、より制限的な[ポリシー](/glossary/ポリシー/)が優先されて AccessDenied が発生します。[IP アドレス](/glossary/ip-アドレス/)制限やプリンシパル制限などの条件で無意識に Deny が適用されていることもあります。
+バケットポリシーで `"Effect": "Deny"` が[設定](/glossary/設定/)されている場合、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow されていても、より制限的な[ポリシー](/glossary/ポリシー/)が優先されて AccessDenied が発生します。[IP アドレス](/glossary/ip-アドレス/)制限やプリンシパル制限などの条件で無意識に Deny が適用されていることもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -141,11 +141,11 @@ aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 aws s3api get-bucket-policy --bucket my-bucket --profile <your-profile>
 ```
 
-バケットポリシーが新しい設定に更新されていれば、制限が解除されます。
+バケットポリシーが新しい[設定](/glossary/設定/)に更新されていれば、制限が解除されます。
 
 ### 原因3：Block Public Access 設定が有効で、公開アクセスがブロックされている
 
-[オブジェクト](/glossary/オブジェクト/)の ACL を Public に設定しても、S3 の Block Public Access 機能が有効な場合は公開アクセスが拒否されます。特に外部ユーザーや別[アカウント](/glossary/アカウント/)からのアクセスを想定している場合に発生します。
+[オブジェクト](/glossary/オブジェクト/)の ACL を Public に[設定](/glossary/設定/)しても、S3 の Block Public Access 機能が有効な場合は公開アクセスが拒否されます。特に外部ユーザーや別[アカウント](/glossary/アカウント/)からのアクセスを想定している場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -178,7 +178,7 @@ aws s3api put-public-access-block \
 aws s3api get-public-access-block --bucket my-bucket --profile <your-profile>
 ```
 
-`BlockPublicAcls`、`BlockPublicPolicy` などの値が `false` に変更されていれば、Block Public Access 設定が解除されています。
+`BlockPublicAcls`、`BlockPublicPolicy` などの値が `false` に変更されていれば、Block Public Access [設定](/glossary/設定/)が解除されています。
 
 ### 原因4：別のAWSアカウント・クロスアカウントアクセスが正しく設定されていない
 
@@ -242,7 +242,7 @@ aws s3 ls s3://my-bucket --profile <cross-account-profile>
 | [IAM](/glossary/iam/)[ポリシー](/glossary/ポリシー/)に[権限](/glossary/権限/)を追加 | 低 | 不要 | 全[OS](/glossary/os/) |
 | バケットポリシーの Deny 条件を[修正](/glossary/修正/) | 中 | 不要 | 全[OS](/glossary/os/) |
 | Block Public Access を無効化 | 低 | 不要 | 全[OS](/glossary/os/) |
-| クロスアカウント[権限](/glossary/権限/)を設定 | 中 | 不要 | 全[OS](/glossary/os/) |
+| クロスアカウント[権限](/glossary/権限/)を[設定](/glossary/設定/) | 中 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
 

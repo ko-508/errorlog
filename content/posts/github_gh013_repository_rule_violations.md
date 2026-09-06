@@ -15,7 +15,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`GH013: Repository rule violations found` を検索すると、秘密情報が混ざったときの対処が数多く出てきます。それは3系統あるうちの1つにすぎません。GH013 は ruleset（[リポジトリ](/glossary/リポジトリ/)に設定された規則の集まり）に違反したという符号で、中身は[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則、push そのものへの規則、そして秘密情報の検知に分かれます。
+`GH013: Repository rule violations found` を検索すると、秘密情報が混ざったときの対処が数多く出てきます。それは3系統あるうちの1つにすぎません。GH013 は ruleset（[リポジトリ](/glossary/リポジトリ/)に[設定](/glossary/設定/)された規則の集まり）に違反したという符号で、中身は[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則、push そのものへの規則、そして秘密情報の検知に分かれます。
 
 見分ける手がかりは、符号のすぐ下に出ます。[GitHub](/glossary/github/) は `Review all repository rules at` に続けて、その[ブランチ](/glossary/ブランチ/)に効いている規則の一覧を示す[URL](/glossary/url/) を返します。公式ドキュメントによれば、この一覧は読み取り[権限](/glossary/権限/)さえあれば誰でも見られます。管理者に問い合わせる前に、まずここを開けば済みます。
 
@@ -61,7 +61,7 @@ remote:     - Files cannot include restricted file extensions.
 gh api "repos/OWNER/REPO/rules/branches/main"
 ```
 
-この経路の説明には重要な性質が3つ書かれています。指定した[ブランチ](/glossary/ブランチ/)に効いている規則をすべて返すこと、[ブランチ](/glossary/ブランチ/)が実在しなくてもその名前なら効くはずの規則を返すこと、そして[リポジトリ](/glossary/リポジトリ/)側で設定されたものか組織側で設定されたものかを問わず返すことです。施行状態が評価のみか無効の ruleset は返りません。
+この経路の説明には重要な性質が3つ書かれています。指定した[ブランチ](/glossary/ブランチ/)に効いている規則をすべて返すこと、[ブランチ](/glossary/ブランチ/)が実在しなくてもその名前なら効くはずの規則を返すこと、そして[リポジトリ](/glossary/リポジトリ/)側で[設定](/glossary/設定/)されたものか組織側で[設定](/glossary/設定/)されたものかを問わず返すことです。施行状態が評価のみか無効の ruleset は返りません。
 
 つまりこの出力に規則が並んでいれば、それは今この瞬間に効いている規則です。[リポジトリ](/glossary/リポジトリ/)の設定画面に見当たらないという理由で、規則の存在を否定できません。
 
@@ -71,7 +71,7 @@ gh api "repos/OWNER/REPO/rules/branches/main"
 
 最も単純な系統です。直接 push を禁じる規則や、[マージ](/glossary/マージ/)前の確認を求める規則に当たっています。公式ドキュメントの一覧では、更新の制限は bypass を持つ人だけが push できるという意味だと説明されています。
 
-対処は規則に沿うことです。`Changes must be made through a pull request.` なら作業用の[ブランチ](/glossary/ブランチ/)へ push して[マージ](/glossary/マージ/)要求を出します。[コミット](/glossary/コミット/)の署名を求める規則なら、設定を直したうえで過去の[コミット](/glossary/コミット/)を書き直す必要があります。公式のトラブルシューティング文書も、この場合は手元で履歴を作り直してから push するよう案内しています。
+対処は規則に沿うことです。`Changes must be made through a pull request.` なら作業用の[ブランチ](/glossary/ブランチ/)へ push して[マージ](/glossary/マージ/)要求を出します。[コミット](/glossary/コミット/)の署名を求める規則なら、[設定](/glossary/設定/)を直したうえで過去の[コミット](/glossary/コミット/)を書き直す必要があります。公式のトラブルシューティング文書も、この場合は手元で履歴を作り直してから push するよう案内しています。
 
 **Before（保護された行き先へ直接送る）：**
 
@@ -110,7 +110,7 @@ git push -u origin fix/update-version
 
 [GitHub](/glossary/github/) App を使う場合も同じです。App を bypass 一覧に入れ、App の[トークン](/glossary/トークン/)を発行しても、push がそれを使っていなければ意味がありません。発行した[トークン](/glossary/トークン/)が実際に[送信](/glossary/送信/)に使われているかを、まず確かめてください。
 
-bypass の与え方には2種類あることも押さえておきます。公式ドキュメントによれば、常に許可するほかに、[マージ](/glossary/マージ/)要求を経由する場合だけ許可する設定を選べます。後者を選んだ身元は直接 push できず、要求を出したうえで保護を越えて[マージ](/glossary/マージ/)する形になります。自分がどちらの扱いかは、ruleset を取得したときの `current_user_can_bypass` で確認できます。値は常に許可・要求経由のみ・不可・対象外の4つです。
+bypass の与え方には2種類あることも押さえておきます。公式ドキュメントによれば、常に許可するほかに、[マージ](/glossary/マージ/)要求を経由する場合だけ許可する[設定](/glossary/設定/)を選べます。後者を選んだ身元は直接 push できず、要求を出したうえで保護を越えて[マージ](/glossary/マージ/)する形になります。自分がどちらの扱いかは、ruleset を取得したときの `current_user_can_bypass` で確認できます。値は常に許可・要求経由のみ・不可・対象外の4つです。
 
 ### 原因3：組織の階層で作られた規則に当たっている
 
@@ -132,7 +132,7 @@ Settings → Rules → Rulesets
 gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, ruleset_source_type}'
 ```
 
-`ruleset_source_type` には `Repository` か `Organization` が入るので、どちらで設定されたものかが分かります。`ruleset_source` には設定元の名前が入ります。
+`ruleset_source_type` には `Repository` か `Organization` が入るので、どちらで[設定](/glossary/設定/)されたものかが分かります。`ruleset_source` には設定元の名前が入ります。
 
 ### 原因4：秘密情報の検知で止まっている
 
@@ -154,7 +154,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 ## 補足：似ているが別のもの
 
-`GH006: Protected branch update failed` は branch protection 由来で、GH013 とは別の仕組みです。公式ドキュメントには `remote: error: GH006: Protected branch update failed for refs/heads/main.` の形で例が載っています。既定の扱いが逆である点に注意してください。branch protection は管理[権限](/glossary/権限/)を持つ人に既定で適用されず、素通りを止めるには明示的な設定が要ります。
+`GH006: Protected branch update failed` は branch protection 由来で、GH013 とは別の仕組みです。公式ドキュメントには `remote: error: GH006: Protected branch update failed for refs/heads/main.` の形で例が載っています。既定の扱いが逆である点に注意してください。branch protection は管理[権限](/glossary/権限/)を持つ人に既定で適用されず、素通りを止めるには明示的な[設定](/glossary/設定/)が要ります。
 
 `Repository not found` は、そもそも相手が見えていない場合の応答です。規則の話にすら進んでいません（[GitHub の Repository not found の記事](/posts/github_repository_not_found/)）。
 
@@ -214,7 +214,7 @@ bypass 一覧に入れたのに拒まれるという現象は、[GitHub コミ�
 
 同じ構図は [GitHub](/glossary/github/) App でも報告されています。[Discussion #136531](https://github.com/orgs/community/discussions/136531) では、App にすべての[権限](/glossary/権限/)を与え、bypass 一覧にも加え、短命な[トークン](/glossary/トークン/)を発行したうえで、それを[変数](/glossary/変数/)に入れて push しています。それでも同じ符号が返りました。寄せられた指摘は、App の[トークン](/glossary/トークン/)ではなく既定の[トークン](/glossary/トークン/)で送っているのではないか、というものでした。
 
-2件に共通するのは、設定画面で完結すると考えた点です。bypass 一覧は身元の名簿であって、[アカウント](/glossary/アカウント/)に付与される[権限](/glossary/権限/)ではありません。判定されるのは、その push を実際に行った身元です。GH013 が出て bypass を疑うときは、設定を見直す前に、いま誰として送っているのかを確かめてください。
+2件に共通するのは、設定画面で完結すると考えた点です。bypass 一覧は身元の名簿であって、[アカウント](/glossary/アカウント/)に付与される[権限](/glossary/権限/)ではありません。判定されるのは、その push を実際に行った身元です。GH013 が出て bypass を疑うときは、[設定](/glossary/設定/)を見直す前に、いま誰として送っているのかを確かめてください。
 
 ---
 

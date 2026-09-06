@@ -12,7 +12,7 @@ related_services: ["Bitbucket Pipelines", "Bitbucket REST API", "Bitbucket Cloud
 ---
 ## エラーの概要
 
-Bitbucket の 400 [エラー](/glossary/エラー/)は、[API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容が不正であることを示します。[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 破損、必須[パラメータ](/glossary/パラメータ/)の欠落、[YAML](/glossary/yaml/) 構文[エラー](/glossary/エラー/)、クエリパラメータの不正な値など、[クライアント](/glossary/クライアント/)側の入力データに問題がある場合に返されます。この[エラー](/glossary/エラー/)はデプロイメント、リポジトリー操作、パイプライン設定で頻繁に遭遇します。
+Bitbucket の 400 [エラー](/glossary/エラー/)は、[API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)の形式または内容が不正であることを示します。[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 破損、必須[パラメータ](/glossary/パラメータ/)の欠落、[YAML](/glossary/yaml/) 構文[エラー](/glossary/エラー/)、クエリパラメータの不正な値など、[クライアント](/glossary/クライアント/)側の入力データに問題がある場合に返されます。この[エラー](/glossary/エラー/)はデプロイメント、リポジトリー操作、パイプライン[設定](/glossary/設定/)で頻繁に遭遇します。
 
 ## 実際のエラーメッセージ例
 
@@ -152,7 +152,7 @@ curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/is
 
 オンラインの [YAML](/glossary/yaml/) バリデーターを使用して、bitbucket-pipelines.yml の構文を独立して検証することもできます（例：https://www.yamllint.com）。
 
-最後に、[Bitbucket Cloud REST API ドキュメント](https://developer.atlassian.com/cloud/bitbucket/rest/)で対象の[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と形式を確認し、[Bitbucket Pipelines YAML リファレンス](https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/)でパイプライン設定の仕様を参照してください。
+最後に、[Bitbucket Cloud REST API ドキュメント](https://developer.atlassian.com/cloud/bitbucket/rest/)で対象の[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と形式を確認し、[Bitbucket Pipelines YAML リファレンス](https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/)でパイプライン[設定](/glossary/設定/)の仕様を参照してください。
 
 ---
 

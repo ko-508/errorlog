@@ -133,7 +133,7 @@ minikube ssh "chmod 644 /etc/kubernetes/manifests/kube-apiserver.yaml"
 
 **原因4: ホストマシンのリソース不足によるMinikubeのハング**
 
-ホストマシン全体の[メモリ](/glossary/メモリ/)やCPUリソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
+ホストマシン全体の[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)リソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

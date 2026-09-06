@@ -393,9 +393,9 @@ manifest for example/my-app:latest not found: manifest unknown
 
 ### 原因6：CIだけ別の認証設定を使っている {#ci-auth-config}
 
-手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の設定または資格情報保存先を使います。Linuxでは `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が[標準](/glossary/標準/)の設定場所です。
+手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の[設定](/glossary/設定/)または資格情報保存先を使います。[Linux](/glossary/linux/)では `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が[標準](/glossary/標準/)の設定場所です。
 
-CIでは、pullする処理と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)設定で[ログイン](/glossary/ログイン/)します。
+CIでは、pullする処理と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)[設定](/glossary/設定/)で[ログイン](/glossary/ログイン/)します。
 
 ```bash
 export DOCKER_CONFIG="$RUNNER_TEMP/docker-config"
@@ -480,7 +480,7 @@ services:
     image: example/app:latest
 ```
 
-ローカルのDockerfileから作る意図なら、`build:` を設定します。
+ローカルのDockerfileから作る意図なら、`build:` を[設定](/glossary/設定/)します。
 
 ```yaml
 services:
@@ -521,7 +521,7 @@ manifest for OWNER/IMAGE:TAG not found
 no matching manifest for linux/arm64/v8 in the manifest list entries
 ```
 
-[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・CPUに対応するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。[認証](/glossary/認証/)の問題ではありません。
+[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・[CPU](/glossary/cpu/)に対応するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。[認証](/glossary/認証/)の問題ではありません。
 
 ### too many requests
 

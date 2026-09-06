@@ -14,7 +14,7 @@ conclusion: "Grafana の 400 エラーは、API リクエストの JSON 形式�
 
 ## エラーの概要
 
-Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式や内容が Grafana の仕様に合致していないことを示します。[ダッシュボード](/glossary/ダッシュボード/)作成、アラートルール設定、データソース登録など、[API](/glossary/api/) 経由で Grafana を操作する際に頻繁に発生します。この[エラー](/glossary/エラー/)が出た場合、[リクエスト](/glossary/リクエスト/)自体が Grafana [サーバー](/glossary/サーバー/)に正しく理解されていないため、[レスポンス](/glossary/レスポンス/)の詳細メッセージを確認することが解決の第一歩となります。
+Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式や内容が Grafana の仕様に合致していないことを示します。[ダッシュボード](/glossary/ダッシュボード/)作成、アラートルール[設定](/glossary/設定/)、データソース登録など、[API](/glossary/api/) 経由で Grafana を操作する際に頻繁に発生します。この[エラー](/glossary/エラー/)が出た場合、[リクエスト](/glossary/リクエスト/)自体が Grafana [サーバー](/glossary/サーバー/)に正しく理解されていないため、[レスポンス](/glossary/レスポンス/)の詳細メッセージを確認することが解決の第一歩となります。
 
 ## 実際のエラーメッセージ例
 
@@ -38,7 +38,7 @@ Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossa
 }
 ```
 
-**例3：不正な [JSON](/glossary/json/) フォーマット**
+**例3：不正な [JSON](/glossary/json/) [フォーマット](/glossary/フォーマット/)**
 
 ```bash
 curl -X POST http://localhost:3000/api/dashboards/db \
@@ -236,7 +236,7 @@ curl -X POST http://localhost:3000/api/datasources \
 ```
 
 **[修正](/glossary/修正/)のポイント：**
-- `threshold`（`params` 配列）には数値を文字列ではなく数値型で設定
+- `threshold`（`params` 配列）には数値を文字列ではなく数値型で[設定](/glossary/設定/)
 - `evaluator.type` は `gt`、`lt`、`eq` など Grafana が認識する文字列のみ
 - `for` [フィールド](/glossary/フィールド/)（[アラート](/glossary/アラート/)状態継続時間）は `5m`、`10m` など有効な期間形式
 - `conditions` には `type` と `query` [フィールド](/glossary/フィールド/)が必須
@@ -245,7 +245,7 @@ curl -X POST http://localhost:3000/api/datasources \
 
 **Grafana [バージョン](/glossary/バージョン/)差異への対応**
 
-Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)設定の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) ドキュメントを使用している Grafana [バージョン](/glossary/バージョン/)に合わせて確認してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
+Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) ドキュメントを使用している Grafana [バージョン](/glossary/バージョン/)に合わせて確認してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
 
 **[エラーメッセージ](/glossary/エラーメッセージ/)の詳細確認**
 
