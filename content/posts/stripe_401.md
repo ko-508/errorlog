@@ -215,7 +215,7 @@ curl -v https://api.stripe.com/v1/charges \
 
 [Stripe API リファレンス - Authentication](https://stripe.com/docs/api/authentication) で認証方法の最新仕様を確認してください。
 
-使用しているライブラリー（stripe.js、stripe-python など）の [GitHub リポジトリー](https://github.com/stripe) で同じ[エラー](/glossary/エラー/)について報告されていないか検索し、既知の問題がないか確認します。
+使用しているライブラリー（stripe.js、stripe-python など）の [GitHub リポジトリー](https://github.com/stripe) で同じ[エラー](/glossary/エラー/)について報告されていないか[検索](/glossary/検索/)し、既知の問題がないか確認します。
 
 ---
 

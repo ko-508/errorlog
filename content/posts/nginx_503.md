@@ -17,7 +17,7 @@ top_queries:
 
 Nginx の 503 Service Unavailable の原因は、ほぼ次の3系統のいずれかです。第一に、`limit_req`（[リクエスト](/glossary/リクエスト/)頻度の制限）や `limit_conn`（同時接続数の制限）の超過で、Nginx 自身が既定で 503 を返します。第二に、メンテナンス用に[設定](/glossary/設定/)した `return 503` が設定内に残っているケースです。第三に、`proxy_pass` 先の上流[アプリケーション](/glossary/アプリケーション/)自身が 503 を返し、Nginx がそれをそのまま中継しているケースです。
 
-注意すべき点として、「[バックエンド](/glossary/バックエンド/)に接続できない」ときに Nginx が返すのは 503 ではなく 502 Bad Gateway、応答待ちで時間切れになったときは 504 Gateway Timeout です。503 の調査だと思っていたものが実は 502 や 504 の問題だった、ということが起こりやすいので、まずアクセスログで実際の[ステータスコード](/glossary/ステータスコード/)を確かめ、次に[エラーログ](/glossary/エラーログ/)の文言で原因を絞り込みます。
+注意すべき点として、「[バックエンド](/glossary/バックエンド/)に接続できない」ときに Nginx が返すのは 503 ではなく 502 Bad Gateway、応答待ちで時間切れになったときは 504 Gateway Timeout です。503 の調査だと思っていたものが実は 502 や 504 の問題だった、ということが起こりやすいので、まず[アクセスログ](/glossary/アクセスログ/)で実際の[ステータスコード](/glossary/ステータスコード/)を確かめ、次に[エラーログ](/glossary/エラーログ/)の文言で原因を絞り込みます。
 
 ## エラーの概要
 
@@ -25,7 +25,7 @@ Nginx の 503 Service Unavailable の原因は、ほぼ次の3系統のいずれ
 
 Nginx が自身の既定ページで 503 を返す場合、[ブラウザ](/glossary/ブラウザ/)には「503 Service Temporarily Unavailable」という見出しだけが表示されます。「The server is temporarily unable to service your request due to maintenance downtime or capacity problems.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではなく、上流の別の[サーバー](/glossary/サーバー/)が生成した 503 を中継している可能性が高いです（原因3）。
 
-アクセスログ（既定の combined 形式）には次のように記録されます。
+[アクセスログ](/glossary/アクセスログ/)（既定の combined 形式）には次のように記録されます。
 
 ```
 192.168.1.100 - - [02/Jul/2026:10:45:32 +0900] "GET /api/users HTTP/1.1" 503 190 "-" "Mozilla/5.0"
@@ -33,7 +33,7 @@ Nginx が自身の既定ページで 503 を返す場合、[ブラウザ](/gloss
 
 ## まず最初に：エラーログを読む
 
-アクセスログで対象[リクエスト](/glossary/リクエスト/)の[コード](/glossary/コード/)が本当に 503 であることを確かめたら、同時刻の[エラーログ](/glossary/エラーログ/)を見ます。503 の原因は[エラーログ](/glossary/エラーログ/)の文言でほぼ特定できます。
+[アクセスログ](/glossary/アクセスログ/)で対象[リクエスト](/glossary/リクエスト/)の[コード](/glossary/コード/)が本当に 503 であることを確かめたら、同時刻の[エラーログ](/glossary/エラーログ/)を見ます。503 の原因は[エラーログ](/glossary/エラーログ/)の文言でほぼ特定できます。
 
 ```bash
 # 直近のエラーを表示
@@ -47,7 +47,7 @@ sudo grep "limiting" /var/log/nginx/error.log
 
 該当時刻に何も記録がない場合、設定内の `return 503`（原因2）か、上流からの 503 の中継（原因3）を疑います。どちらも Nginx にとっては[エラー](/glossary/エラー/)ではなく正常な処理なので、[エラーログ](/glossary/エラーログ/)には残りません。
 
-逆に、該当時刻に `connect() failed (111: Connection refused) while connecting to upstream` や `upstream timed out` が記録されている場合、その[リクエスト](/glossary/リクエスト/)への応答は 503 ではなく 502 または 504 のはずです。調べている[コード](/glossary/コード/)を取り違えていないか、アクセスログに戻って確認してください（後述の補足を参照）。
+逆に、該当時刻に `connect() failed (111: Connection refused) while connecting to upstream` や `upstream timed out` が記録されている場合、その[リクエスト](/glossary/リクエスト/)への応答は 503 ではなく 502 または 504 のはずです。調べている[コード](/glossary/コード/)を取り違えていないか、[アクセスログ](/glossary/アクセスログ/)に戻って確認してください（後述の補足を参照）。
 
 ## よくある原因と解決手順
 
@@ -154,7 +154,7 @@ location = /maintenance.html {
 
 ## 切り分けの順序
 
-1. アクセスログで対象[リクエスト](/glossary/リクエスト/)の[コード](/glossary/コード/)を確認する。503 でなければ該当[コード](/glossary/コード/)の調査に切り替える。
+1. [アクセスログ](/glossary/アクセスログ/)で対象[リクエスト](/glossary/リクエスト/)の[コード](/glossary/コード/)を確認する。503 でなければ該当[コード](/glossary/コード/)の調査に切り替える。
 2. [エラーログ](/glossary/エラーログ/)の該当時刻を見る。`limiting requests` / `limiting connections` があれば原因1。どのゾーンかも行内で特定できる。
 3. 記録がなければ `nginx -T` で `return 503`・`error_page 503` の有無を確認する（原因2）。
 4. それも見つからなければ、上流への直接[リクエスト](/glossary/リクエスト/)で応答を比較する（原因3）。上流由来なら対処は上流側で行う。

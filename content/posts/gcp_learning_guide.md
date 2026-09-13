@@ -17,7 +17,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Google Cloudの[エラー](/glossary/エラー/)を検索して1件ずつ直しているのに、翌日は別のサービスで同じような壁に当たる。この繰り返しから抜けるには、覚える順序を変える必要があります。
+Google Cloudの[エラー](/glossary/エラー/)を[検索](/glossary/検索/)して1件ずつ直しているのに、翌日は別のサービスで同じような壁に当たる。この繰り返しから抜けるには、覚える順序を変える必要があります。
 
 Google Cloudの[エラー](/glossary/エラー/)の多くは、4つの境界のどこかで起きています。誰として呼んでいるかという境界、その[API](/glossary/api/)が[プロジェクト](/glossary/プロジェクト/)で有効になっているかという境界、何を許されているかという境界、そして[ネットワーク](/glossary/ネットワーク/)の到達性の境界です。[エラー](/glossary/エラー/)文はこの境界のどれで止まったかを示していますが、境界の存在を知らないと文言が読めません。
 
@@ -27,7 +27,7 @@ Google Cloudの[エラー](/glossary/エラー/)の多くは、4つの境界の�
 
 ## 個別に直すだけでは理解しにくい理由
 
-検索で見つかる対処は、多くの場合その[環境](/glossary/環境/)で有効だった手順です。なぜ有効だったかは書かれていないことがあります。
+[検索](/glossary/検索/)で見つかる対処は、多くの場合その[環境](/glossary/環境/)で有効だった手順です。なぜ有効だったかは書かれていないことがあります。
 
 たとえば、アクセスが拒否されたときに編集者や所有者の役割を付けたら通った、という手順があります。確かに[エラー](/glossary/エラー/)は消えます。しかし何が足りなかったのかは分からないままです。次に同じ構成を作るとき、同じ広い役割を付けることになります。
 
@@ -60,7 +60,7 @@ gcloud config list
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：`gcloud` では通るのに[コード](/glossary/コード/)では拒否される、という症状の大半はここです。
 
-**最低限覚える概念**：[アプリケーション](/glossary/アプリケーション/)のデフォルト認証情報（ADC）は、[認証](/glossary/認証/)[ライブラリ](/glossary/ライブラリ/)が実行環境に応じて自動的に認証情報を探す仕組みです。公式ドキュメントによれば、ADCは次の場所を順に探します。`GOOGLE_APPLICATION_CREDENTIALS` [環境変数](/glossary/環境変数/)、`gcloud auth application-default login` [コマンド](/glossary/コマンド/)で作られた認証情報[ファイル](/glossary/ファイル/)、そしてメタデータサーバーが返す接続済みの[サービスアカウント](/glossary/サービスアカウント/)です（[How Application Default Credentials works](https://cloud.google.com/docs/authentication/application-default-credentials)）。
+**最低限覚える概念**：[アプリケーション](/glossary/アプリケーション/)の[デフォルト](/glossary/デフォルト/)認証情報（ADC）は、[認証](/glossary/認証/)[ライブラリ](/glossary/ライブラリ/)が実行環境に応じて自動的に認証情報を探す仕組みです。公式ドキュメントによれば、ADCは次の場所を順に探します。`GOOGLE_APPLICATION_CREDENTIALS` [環境変数](/glossary/環境変数/)、`gcloud auth application-default login` [コマンド](/glossary/コマンド/)で作られた認証情報[ファイル](/glossary/ファイル/)、そしてメタデータサーバーが返す接続済みの[サービスアカウント](/glossary/サービスアカウント/)です（[How Application Default Credentials works](https://cloud.google.com/docs/authentication/application-default-credentials)）。
 
 ここに重要な注意があります。公式ドキュメントは、gcloud [CLI](/glossary/cli/)自体はGoogle Cloudの資源へアクセスするためにADCを使わないと明記しています（[Set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)）。つまり `gcloud auth login` で入れた認証情報と、[ライブラリ](/glossary/ライブラリ/)が使う認証情報は別管理です。
 

@@ -24,7 +24,7 @@ failed to read C:\Users\user\project\.env: line 1: unexpected character "?" in v
 
 ### PowerShellのechoコマンドはUTF-16 LEで書き出す
 
-WindowsのPowerShell（5.1系）では、リダイレクト演算子`>`や`echo`[コマンド](/glossary/コマンド/)がデフォルトでUTF-16 LE（BOM付き）を使用します。
+WindowsのPowerShell（5.1系）では、リダイレクト演算子`>`や`echo`[コマンド](/glossary/コマンド/)が[デフォルト](/glossary/デフォルト/)でUTF-16 LE（BOM付き）を使用します。
 
 ```powershell
 # これをやってはいけない
@@ -153,7 +153,7 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 
 ## それでも解決しない場合
 
-- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（[bash](/glossary/bash/)/zsh）から`echo`で[ファイル](/glossary/ファイル/)を作成するとデフォルトがUTF-8になります
+- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（[bash](/glossary/bash/)/zsh）から`echo`で[ファイル](/glossary/ファイル/)を作成すると[デフォルト](/glossary/デフォルト/)がUTF-8になります
 - **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードがUTF-8に変わっています。`winget install Microsoft.PowerShell`で[インストール](/glossary/インストール/)可能です
 - **docker composeではなくdocker-composeを使う**: 古いv1系は挙動が違うことがありますが、現在は非推奨のため根本解決にはなりません
 

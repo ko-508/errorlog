@@ -233,7 +233,7 @@ service cloud.firestore {
 （[本番環境](/glossary/本番環境/)では絶対に使用しないでください）
 
 4. **Cloud Logging で詳細[ログ](/glossary/ログ/)を確認**  
-Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で検索し、403 [エラー](/glossary/エラー/)の詳細メッセージを確認します。
+Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で[検索](/glossary/検索/)し、403 [エラー](/glossary/エラー/)の詳細メッセージを確認します。
 
 ### 公式ドキュメント参照
 

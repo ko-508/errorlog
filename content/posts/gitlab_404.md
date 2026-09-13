@@ -223,7 +223,7 @@ GitLab [REST](/glossary/rest/) [API](/glossary/api/)と[GraphQL](/glossary/graph
 
 **確認すべき[ログ](/glossary/ログ/)の場所：**
 
-GitLab[管理者権限](/glossary/管理者権限/)がある場合は、管理画面の「[ログ](/glossary/ログ/)」セクションで詳細なアクセスログを確認します。また、自身のGitLab[インスタンス](/glossary/インスタンス/)へのアクセス履歴は、WebUI右上のプロフィール > 「Last activity」で時系列確認できます。
+GitLab[管理者権限](/glossary/管理者権限/)がある場合は、管理画面の「[ログ](/glossary/ログ/)」セクションで詳細な[アクセスログ](/glossary/アクセスログ/)を確認します。また、自身のGitLab[インスタンス](/glossary/インスタンス/)へのアクセス履歴は、WebUI右上のプロフィール > 「Last activity」で時系列確認できます。
 
 **デバッグコマンド：**
 
@@ -249,7 +249,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 **コミュニティリソース：**
 
-GitLab公式フォーラム（`https://forum.gitlab.com`）や[GitHub](/glossary/github/) Issues（GitLab Runnerなどのオープンソースコンポーネントの場合）でも同様の問題が報告されていないか検索してみてください。特に「404」「Not Found」「[API](/glossary/api/)」を組み合わせた[キーワード](/glossary/キーワード/)検索が有効です。
+GitLab公式フォーラム（`https://forum.gitlab.com`）や[GitHub](/glossary/github/) Issues（GitLab Runnerなどのオープンソースコンポーネントの場合）でも同様の問題が報告されていないか[検索](/glossary/検索/)してみてください。特に「404」「Not Found」「[API](/glossary/api/)」を組み合わせた[キーワード](/glossary/キーワード/)[検索](/glossary/検索/)が有効です。
 
 ---
 

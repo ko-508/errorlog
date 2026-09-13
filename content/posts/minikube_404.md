@@ -42,7 +42,7 @@ error: the server doesn't have a resource type "ingres"
 
 **原因1：[Namespace](/glossary/namespace/) の指定が間違っているか省略されている**
 
-[Kubernetes](/glossary/kubernetes/) ではすべてのリソースは [Namespace](/glossary/namespace/) に属しています。`kubectl get pod` のように [Namespace](/glossary/namespace/) を明示しない[コマンド](/glossary/コマンド/)を実行すると、デフォルトの `default` [Namespace](/glossary/namespace/) のみを検索します。リソースが別の [Namespace](/glossary/namespace/)（例：`kube-system`、`monitoring`）に存在する場合、404 [エラー](/glossary/エラー/)が返されます。
+[Kubernetes](/glossary/kubernetes/) ではすべてのリソースは [Namespace](/glossary/namespace/) に属しています。`kubectl get pod` のように [Namespace](/glossary/namespace/) を明示しない[コマンド](/glossary/コマンド/)を実行すると、[デフォルト](/glossary/デフォルト/)の `default` [Namespace](/glossary/namespace/) のみを[検索](/glossary/検索/)します。リソースが別の [Namespace](/glossary/namespace/)（例：`kube-system`、`monitoring`）に存在する場合、404 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -182,7 +182,7 @@ docker logs <container-id>
 # コンテナログを確認
 ```
 
-**Minikube の [DNS](/glossary/dns/) [設定](/glossary/設定/)による Service 検索の失敗**
+**Minikube の [DNS](/glossary/dns/) [設定](/glossary/設定/)による Service [検索](/glossary/検索/)の失敗**
 
 Minikube 内の Service に対して Pod から接続できない場合、Minikube の [DNS](/glossary/dns/) [キャッシュ](/glossary/キャッシュ/)が[リセット](/glossary/リセット/)されていない可能性があります。Service を[削除](/glossary/削除/)・再作成した直後に 404 が返される場合は、[DNS](/glossary/dns/) の キャッシュクリアを試みてください。
 

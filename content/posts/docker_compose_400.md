@@ -174,7 +174,7 @@ networks:
 docker compose -f compose.yml config
 ```
 
-**[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`[キー](/glossary/キー/)で指定したCompose仕様の[バージョン](/glossary/バージョン/)が、[インストール](/glossary/インストール/)済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。デフォルトは最新安定版を使用することを推奨します。
+**[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`[キー](/glossary/キー/)で指定したCompose仕様の[バージョン](/glossary/バージョン/)が、[インストール](/glossary/インストール/)済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で対応していない場合も400[エラー](/glossary/エラー/)になります。[デフォルト](/glossary/デフォルト/)は最新安定版を使用することを推奨します。
 
 **[環境変数](/glossary/環境変数/)の展開[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`[ファイル](/glossary/ファイル/)の存在確認と変数定義を必ず確認してください。
 
@@ -200,7 +200,7 @@ yamllint compose.yml
 
 **公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の仕様を確認してください。[キー](/glossary/キー/)名や値の型、必須[キー](/glossary/キー/)が正確に記載されています。
 
-**[GitHub](/glossary/github/) Issuesの検索：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を検索し、既知の問題や回避策がないか確認してください。
+**[GitHub](/glossary/github/) Issuesの[検索](/glossary/検索/)：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を[検索](/glossary/検索/)し、既知の問題や回避策がないか確認してください。
 
 ---
 

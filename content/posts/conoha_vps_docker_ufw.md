@@ -35,7 +35,7 @@ ConoHa VPS で [Docker](/glossary/docker/) を動かすとき、[通信](/glossa
 
 どちらも、ufw の表示と実際の通信経路がずれていることから生じます。ufw の一覧はあくまで ufw が管理している規則を示すもので、[Docker](/glossary/docker/) が別に作る規則は含まれません。
 
-前提として、ConoHa の [Docker](/glossary/docker/) テンプレートの仕様を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum RAM は 1024 MB と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 MB のプランはこの最小要件を下回ります。
+前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の仕様を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum RAM は 1024 MB と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 MB のプランはこの最小要件を下回ります。
 
 ## まず最初に：どちらの層を触っているのかを確定する
 
@@ -102,7 +102,7 @@ docker run -d -p 8080:80 nginx
 docker run -d -p 127.0.0.1:8080:80 nginx
 ```
 
-同じページには、28.0.0 より前の版では同じ L2 セグメントにいるホストから、localhost へ公開した[ポート](/glossary/ポート/)に到達できるという注意も書かれています（[moby/moby#45610](https://github.com/moby/moby/issues/45610)）。ConoHa の [Docker](/glossary/docker/) テンプレートに入っている 29.2.1 はこれより新しい版です。
+同じページには、28.0.0 より前の版では同じ L2 セグメントにいるホストから、localhost へ公開した[ポート](/glossary/ポート/)に到達できるという注意も書かれています（[moby/moby#45610](https://github.com/moby/moby/issues/45610)）。ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)に入っている 29.2.1 はこれより新しい版です。
 
 外部から使う予定がないなら、まずこの書き方に変えるのが確実です。外側の[設定](/glossary/設定/)に依存せず、公開範囲そのものを狭められます。
 
@@ -122,7 +122,7 @@ ufw の一覧に規則が出ていること自体は誤りではありません�
 
 `docker run` を使わずホスト上で直接起動した[プロセス](/glossary/プロセス/)は、この話の対象外です。ufw の[設定](/glossary/設定/)がそのまま適用されます。
 
-ConoHa の公式ドキュメントに載っている `ufw allow` の手順は、テンプレート全般に共通する [OS](/glossary/os/) 内[ファイアウォール](/glossary/ファイアウォール/)の操作方法として書かれています。[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に関しては、上記の [Docker](/glossary/docker/) 側の仕様と合わせて読む必要があります。
+ConoHa の公式ドキュメントに載っている `ufw allow` の手順は、[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内[ファイアウォール](/glossary/ファイアウォール/)の操作方法として書かれています。[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に関しては、上記の [Docker](/glossary/docker/) 側の仕様と合わせて読む必要があります。
 
 なお、swap の[設定](/glossary/設定/)、プライベートネットワークと [Docker](/glossary/docker/) の既定アドレス帯の衝突、IPv6 固有の挙動については、本記事では確認できていないため扱いません。
 
@@ -169,7 +169,7 @@ curl -sS -o /dev/null -w '%{http_code}\n' http://<VPSのIPアドレス>:8080/
 
 この記事の内容は、2つの公式ドキュメントを突き合わせると読み取れます。どちらも単体では誤っていませんが、対象としている範囲が違います。
 
-ConoHa 側の [Docker](/glossary/docker/) テンプレート解説は、最終更新が2026年2月25日です。[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)として `ufw status verbose` での確認と `ufw allow 443` での開放を案内しています。これはテンプレート全般に共通する [OS](/glossary/os/) 内の操作方法の説明であり、[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に限定した記述ではありません（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。
+ConoHa 側の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)解説は、最終更新が2026年2月25日です。[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)として `ufw status verbose` での確認と `ufw allow 443` での開放を案内しています。これは[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内の操作方法の説明であり、[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に限定した記述ではありません（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。
 
 [Docker](/glossary/docker/) 側のドキュメントは、[Docker](/glossary/docker/) と ufw が互いに相容れない使い方で規則を使うこと、公開された[コンテナ](/glossary/コンテナ/)宛の[通信](/glossary/通信/)が nat [テーブル](/glossary/テーブル/)で転送され ufw の INPUT と OUTPUT チェーンに届く前に迂回することを述べています（[Packet filtering and firewalls](https://docs.docker.com/engine/network/packet-filtering-firewalls/)）。
 

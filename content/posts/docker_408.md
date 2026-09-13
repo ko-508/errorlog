@@ -283,7 +283,7 @@ docker -D push myregistry.azurecr.io/myimage:latest 2>&1 | tee docker-push.log
 
 ### コミュニティリソース
 
-[GitHub](/glossary/github/) の [Docker](/glossary/docker/) [リポジトリ](/glossary/リポジトリ/)で類似事例を検索：
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) [リポジトリ](/glossary/リポジトリ/)で類似事例を[検索](/glossary/検索/)：
 - https://github.com/moby/moby/issues（キーワード："408" OR "Request Timeout"）
 - [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 

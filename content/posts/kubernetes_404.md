@@ -67,7 +67,7 @@ kubectl run my-app --image=my-image:latest
 ### 原因2：Namespaceの指定ミス
 
 **なぜ発生するか：**
-リソースがある[Namespace](/glossary/namespace/)と異なる[Namespace](/glossary/namespace/)を指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[Namespace](/glossary/namespace/)内のリソースを探すため404となります。デフォルトの`default` [Namespace](/glossary/namespace/)ではなく、`production`や`staging`などの[Namespace](/glossary/namespace/)にリソースが存在することを見落とすことが多くあります。
+リソースがある[Namespace](/glossary/namespace/)と異なる[Namespace](/glossary/namespace/)を指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[Namespace](/glossary/namespace/)内のリソースを探すため404となります。[デフォルト](/glossary/デフォルト/)の`default` [Namespace](/glossary/namespace/)ではなく、`production`や`staging`などの[Namespace](/glossary/namespace/)にリソースが存在することを見落とすことが多くあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -185,7 +185,7 @@ subjects:
 ## ツール固有の注意点
 
 **[Namespace](/glossary/namespace/)分離の設計：**
-[Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、デフォルトで異なる[Namespace](/glossary/namespace/)間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
+[Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、[デフォルト](/glossary/デフォルト/)で異なる[Namespace](/glossary/namespace/)間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
 
 **Ingress・Service・Pod間の連携[エラー](/glossary/エラー/)：**
 IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが[設定](/glossary/設定/)されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
@@ -227,7 +227,7 @@ kubectl proxy
 [Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
-[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を検索することで、複雑な[設定](/glossary/設定/)ミスの解決策を見つけることができます。
+[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を[検索](/glossary/検索/)することで、複雑な[設定](/glossary/設定/)ミスの解決策を見つけることができます。
 
 ---
 

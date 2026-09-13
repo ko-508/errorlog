@@ -109,7 +109,7 @@ npm config set https-proxy http://proxy.example.com:8080
 
 npm は同じ向き先に対して既定で15本まで接続を張ります。経路上の機器がこれを過剰と判断すると、途中の接続が切られます。
 
-確認方法は現在値の照会と、失敗対象の変化です。
+確認方法は現在値の照会と、失敗対象の[変化](/glossary/変化/)です。
 
 ```bash
 npm config get maxsockets

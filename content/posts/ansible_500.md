@@ -65,7 +65,7 @@ FAILED - RETRYING: Install package (1 of 3): FAILED! => {
 
 ### 原因2：shellまたはcommandタスクがゼロ以外の終了コードを返した
 
-shellやcommand[モジュール](/glossary/モジュール/)で実行された[コマンド](/glossary/コマンド/)が失敗した（終了[コード](/glossary/コード/)0以外）場合、Ansibleはデフォルトでそれを失敗と判定します。[コマンド](/glossary/コマンド/)自体の失敗ロジックとAnsibleの失敗判定が一致していない場合、意図しない500[エラー](/glossary/エラー/)が発生します。
+shellやcommand[モジュール](/glossary/モジュール/)で実行された[コマンド](/glossary/コマンド/)が失敗した（終了[コード](/glossary/コード/)0以外）場合、Ansibleは[デフォルト](/glossary/デフォルト/)でそれを失敗と判定します。[コマンド](/glossary/コマンド/)自体の失敗ロジックとAnsibleの失敗判定が一致していない場合、意図しない500[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

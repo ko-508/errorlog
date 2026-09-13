@@ -46,7 +46,7 @@ Pod内から[API](/glossary/api/)サーバーアクセス時の[エラー](/glos
 
 ### 原因1：デフォルトServiceAccountに必要な権限がない
 
-Minikubeのデフォルト名前空間では、`default` ServiceAccountが使用されますが、この[アカウント](/glossary/アカウント/)には最小限の[権限](/glossary/権限/)しか持っていません。Deploymentの一覧取得やPodの作成といった操作を試みると、権限不足により403[エラー](/glossary/エラー/)が発生します。
+Minikubeの[デフォルト](/glossary/デフォルト/)名前空間では、`default` ServiceAccountが使用されますが、この[アカウント](/glossary/アカウント/)には最小限の[権限](/glossary/権限/)しか持っていません。Deploymentの一覧取得やPodの作成といった操作を試みると、権限不足により403[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -233,7 +233,7 @@ subjects:
 
 **[RBAC](/glossary/rbac/)有効化の確認**
 
-Minikubeではデフォルトでアドミッションコントローラーとして[RBAC](/glossary/rbac/)が有効です。[RBAC](/glossary/rbac/)が意図的に無効化されていないか確認するには、以下の[コマンド](/glossary/コマンド/)で確認できます。
+Minikubeでは[デフォルト](/glossary/デフォルト/)でアドミッションコントローラーとして[RBAC](/glossary/rbac/)が有効です。[RBAC](/glossary/rbac/)が意図的に無効化されていないか確認するには、以下の[コマンド](/glossary/コマンド/)で確認できます。
 
 ```bash
 minikube start --extra-config=apiserver.enable-admission-plugins=RBAC
@@ -307,7 +307,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:deploye
 - [Kubernetes公式：ServiceAccount](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
 - [Minikube公式ドキュメント](https://minikube.sigs.k8s.io/)
 
-[GitHub](/glossary/github/) Issuesでは、Minikube固有の[RBAC](/glossary/rbac/)問題が報告されています。[エラーメッセージ](/glossary/エラーメッセージ/)の詳細な文言で検索すると、同じ問題を解決した事例が見つかる可能性があります。
+[GitHub](/glossary/github/) Issuesでは、Minikube固有の[RBAC](/glossary/rbac/)問題が報告されています。[エラーメッセージ](/glossary/エラーメッセージ/)の詳細な文言で[検索](/glossary/検索/)すると、同じ問題を解決した事例が見つかる可能性があります。
 
 ---
 

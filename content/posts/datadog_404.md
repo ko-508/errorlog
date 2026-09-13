@@ -133,7 +133,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
 # メトリクスが存在しており、グラフが描画されれば成功です
 ```
 
-Datadog WebUI の **Metrics** > **Summary** タブで[メトリクス](/glossary/メトリクス/)名を検索し、データ送信中の項目が表示されていれば成功です。
+Datadog WebUI の **Metrics** > **Summary** タブで[メトリクス](/glossary/メトリクス/)名を[検索](/glossary/検索/)し、データ送信中の項目が表示されていれば成功です。
 
 ### 原因3：環境やワークスペース固有のリソース参照
 
@@ -202,7 +202,7 @@ for monitor in monitors:
 
 **Metrics Explorer での動作確認**
 
-Datadog WebUI 上部の検索バーから **Metrics > Explorer** に進み、[グラフ](/glossary/グラフ/)を描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト検索する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
+Datadog WebUI 上部の[検索](/glossary/検索/)バーから **Metrics > Explorer** に進み、[グラフ](/glossary/グラフ/)を描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト[検索](/glossary/検索/)する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
 
 ## それでも解決しない場合
 

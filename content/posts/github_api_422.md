@@ -90,7 +90,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
   -d '{"ref": "refs/heads/feature-x", "sha": "<コミットSHA>"}'
 ```
 
-invalid の応答に value が含まれる場合は、実際に届いた値がそこに写ります。手元の[コード](/glossary/コード/)が組み立てた値と見比べれば、テンプレートの展開漏れや余分な空白がその場で見つかります。
+invalid の応答に value が含まれる場合は、実際に届いた値がそこに写ります。手元の[コード](/glossary/コード/)が組み立てた値と見比べれば、[テンプレート](/glossary/テンプレート/)の展開漏れや余分な空白がその場で見つかります。
 
 ### 原因3：同じ値の対象が既に存在する（already_exists）
 

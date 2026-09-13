@@ -51,7 +51,7 @@ Content-Type: application/json
 
 ### 1. Cloud Functionsの処理時間がタイムアウト制限を超えている
 
-Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)はデフォルトでHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの[遅延](/glossary/遅延/)、外部[API](/glossary/api/)の呼び出し[遅延](/glossary/遅延/)、処理の複雑さが原因となります。
+Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)は[デフォルト](/glossary/デフォルト/)でHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの[遅延](/glossary/遅延/)、外部[API](/glossary/api/)の呼び出し[遅延](/glossary/遅延/)、処理の複雑さが原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -125,7 +125,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 3. Cloud Functionsのメモリ割り当てが不足している
 
-[メモリ](/glossary/メモリ/)割り当てが少ないと、[CPU](/glossary/cpu/)の性能も制限され、同じ処理でも実行時間が延びます。デフォルトの256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
+[メモリ](/glossary/メモリ/)割り当てが少ないと、[CPU](/glossary/cpu/)の性能も制限され、同じ処理でも実行時間が延びます。[デフォルト](/glossary/デフォルト/)の256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -192,7 +192,7 @@ exports.getOrdersWithUsers = functions.https.onRequest(async (req, res) => {
 
 **Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**
 
-Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する際、`firebase.json`で[タイムアウト](/glossary/タイムアウト/)秒数を明示的に[設定](/glossary/設定/)できます。デフォルトは60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎる[タイムアウト](/glossary/タイムアウト/)は本質的な問題を隠すため、根本的な[最適化](/glossary/最適化/)を優先してください。
+Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する際、`firebase.json`で[タイムアウト](/glossary/タイムアウト/)秒数を明示的に[設定](/glossary/設定/)できます。[デフォルト](/glossary/デフォルト/)は60秒ですが、最大540秒（9分）まで延長可能です。ただし長すぎる[タイムアウト](/glossary/タイムアウト/)は本質的な問題を隠すため、根本的な[最適化](/glossary/最適化/)を優先してください。
 
 **Realtime DatabaseとFirestoreの[遅延](/glossary/遅延/)**
 
@@ -223,7 +223,7 @@ Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](
 - 「Firestoreの[パフォーマンス](/glossary/パフォーマンス/)[最適化](/glossary/最適化/)ガイド」
 - 「Cloud Functionsの[コールドスタート](/glossary/コールドスタート/)削減」
 
-問題が解決しない場合は、Firebase Support（有償[アカウント](/glossary/アカウント/)の場合）または[GitHub](/glossary/github/)上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を検索してください。
+問題が解決しない場合は、Firebase Support（有償[アカウント](/glossary/アカウント/)の場合）または[GitHub](/glossary/github/)上の[firebase-tools issues](https://github.com/firebase/firebase-tools/issues)で類似事例を[検索](/glossary/検索/)してください。
 
 ---
 

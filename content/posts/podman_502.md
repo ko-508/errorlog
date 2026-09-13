@@ -244,7 +244,7 @@ curl http://localhost:8000
 
 ## ツール固有の注意点
 
-**Podman のネットワークモード差異**：Podman はデフォルトでユーザーモード・[ネットワーク](/glossary/ネットワーク/)（`slirp4netns` または `pasta`）を使用します。これは `localhost` が[コンテナ](/glossary/コンテナ/)内のみのループバックである点が [Docker](/glossary/docker/) と異なります。[Docker](/glossary/docker/) では `--network=host` でホストの[ネットワーク](/glossary/ネットワーク/)名前空間を直接共有できますが、Podman では `host.containers.internal` を使用してホストのサービスにアクセスします。
+**Podman のネットワークモード差異**：Podman は[デフォルト](/glossary/デフォルト/)でユーザーモード・[ネットワーク](/glossary/ネットワーク/)（`slirp4netns` または `pasta`）を使用します。これは `localhost` が[コンテナ](/glossary/コンテナ/)内のみのループバックである点が [Docker](/glossary/docker/) と異なります。[Docker](/glossary/docker/) では `--network=host` でホストの[ネットワーク](/glossary/ネットワーク/)名前空間を直接共有できますが、Podman では `host.containers.internal` を使用してホストのサービスにアクセスします。
 
 **Quadlet との組み合わせ**：Podman v4.4 以降、systemd ネイティブの Quadlet [ファイル形式](/glossary/ファイル形式/)で[コンテナ](/glossary/コンテナ/)を管理できます。この場合、`[Network]` セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、複数の `[Container]` で同じ[ネットワーク](/glossary/ネットワーク/)名を参照することが重要です。`podman-compose` や [YAML](/glossary/yaml/) [ファイル](/glossary/ファイル/)とは異なり、Quadlet は各[ファイル](/glossary/ファイル/)が独立して systemd サービスに変換されるため、[ネットワーク](/glossary/ネットワーク/)定義を別[ファイル](/glossary/ファイル/)で明示的に記述する必要があります。
 
@@ -276,7 +276,7 @@ Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glos
 
 この[エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます：
 
-- **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、安定性を優先する[環境](/glossary/環境/)では有効です。
+- **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、[安定性](/glossary/安定性/)を優先する[環境](/glossary/環境/)では有効です。
 
 - **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した[開発環境](/glossary/開発環境/)です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりも[セットアップ](/glossary/セットアップ/)が直感的です。特にローカル[開発環境](/glossary/開発環境/)では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
 

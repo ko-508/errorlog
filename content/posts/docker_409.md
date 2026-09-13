@@ -234,7 +234,7 @@ docker volume ls
 
 ### コミュニティリソース
 
-既知の409[エラー](/glossary/エラー/)については、[Docker GitHub Issues](https://github.com/moby/moby/issues)で類似事例を検索することで解決策が見つかることが多くあります。特に「Conflict」という[キーワード](/glossary/キーワード/)で検索すると、数千件の関連イシューが存在します。
+既知の409[エラー](/glossary/エラー/)については、[Docker GitHub Issues](https://github.com/moby/moby/issues)で類似事例を[検索](/glossary/検索/)することで解決策が見つかることが多くあります。特に「Conflict」という[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)すると、数千件の関連イシューが存在します。
 
 ---
 

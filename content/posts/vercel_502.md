@@ -195,7 +195,7 @@ export default async function handler(req, res) {
 
 Vercel での 502 [エラー](/glossary/エラー/)は、[環境](/glossary/環境/)によって表現が異なります。[本番環境](/glossary/本番環境/)（Production）では即座にエラーページが返されますが、プレビュー[環境](/glossary/環境/)（Preview）では[関数](/glossary/関数/)の[ログ](/glossary/ログ/)が詳細に表示されることがあります。
 
-**Serverless Function の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**：デフォルトでは最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が[設定](/glossary/設定/)されています（Pro プラン以上で最大 900 秒）。より長い処理が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
+**Serverless Function の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**：[デフォルト](/glossary/デフォルト/)では最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が[設定](/glossary/設定/)されています（Pro プラン以上で最大 900 秒）。より長い処理が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
 
 ```json
 {

@@ -154,7 +154,7 @@ $ az monitor activity-log list \
   --output table
 ```
 
-Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを検索し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
+Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、対応するログエントリを[検索](/glossary/検索/)し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
 
 サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で確認できます。
 

@@ -67,7 +67,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/api/json" \
 
 ### 原因2：フォルダ内のジョブのURLパスが間違っている
 
-Jenkinsで[フォルダ](/glossary/フォルダ/)を使用してジョブを整理している場合、[URL](/glossary/url/)[パス](/glossary/パス/)は `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか検索されずに404[エラー](/glossary/エラー/)が発生します。
+Jenkinsで[フォルダ](/glossary/フォルダ/)を使用してジョブを整理している場合、[URL](/glossary/url/)[パス](/glossary/パス/)は `job/<フォルダ名>/job/<ジョブ名>` という形式になります。単純に `job/<ジョブ名>` でアクセスすると、トップレベルのジョブしか[検索](/glossary/検索/)されずに404[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

@@ -226,7 +226,7 @@ sudo ss -tlnp | grep 9090
 
 **リバースプロキシの[ログ](/glossary/ログ/)確認：**
 
-Nginx・Apache など[プロキシ](/glossary/プロキシ/)のアクセスログで実際の[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を確認します。
+Nginx・Apache など[プロキシ](/glossary/プロキシ/)の[アクセスログ](/glossary/アクセスログ/)で実際の[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を確認します。
 
 ```bash
 # Nginx アクセスログ確認

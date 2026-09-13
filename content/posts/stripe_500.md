@@ -207,7 +207,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 - Stripe [GitHub](/glossary/github/) Issues：https://github.com/stripe/stripe-python/issues （該当言語の[リポジトリ](/glossary/リポジトリ/)）
 - Stripe Developer Community：https://stripe.com/docs/support
-- Stack Overflow の `stripe` [タグ](/glossary/タグ/)：実装言語固有の問題は検索してみてください
+- Stack Overflow の `stripe` [タグ](/glossary/タグ/)：実装言語固有の問題は[検索](/glossary/検索/)してみてください
 
 公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に対応してもらえます。
 

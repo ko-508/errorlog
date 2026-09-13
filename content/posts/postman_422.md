@@ -18,7 +18,7 @@ Postmanで422（Unprocessable Entity）[エラー](/glossary/エラー/)が発�
 
 ## 実際のエラーメッセージ例
 
-[GitHub](/glossary/github/)の[API](/glossary/api/)検索[エンドポイント](/glossary/エンドポイント/)で報告された[エラー](/glossary/エラー/)：
+[GitHub](/glossary/github/)の[API](/glossary/api/)[検索](/glossary/検索/)[エンドポイント](/glossary/エンドポイント/)で報告された[エラー](/glossary/エラー/)：
 
 ```json
 {
@@ -54,7 +54,7 @@ FastAPI[サーバー](/glossary/サーバー/)からの報告：
 
 - `"status": "422"` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を理解したが、含まれるデータに検証[エラー](/glossary/エラー/)がある
 - `"message": "Validation Failed"` → [リクエストボディ](/glossary/リクエストボディ/)のデータが [API](/glossary/api/) の要件を満たしていないことを示す
-- `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（[フィールド](/glossary/フィールド/)名、エラーコード、説明）を含む
+- `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（[フィールド](/glossary/フィールド/)名、[エラーコード](/glossary/エラーコード/)、説明）を含む
 - `"loc": ["body"]` → FastAPI形式：[エラー](/glossary/エラー/)の位置がボディ部分にあることを指示する
 - `"msg": "value is not a valid dict"` → 期待された[データ型](/glossary/データ型/)（辞書/[オブジェクト](/glossary/オブジェクト/)）が[送信](/glossary/送信/)されていない
 

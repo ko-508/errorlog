@@ -219,7 +219,7 @@ firebase functions:shell
 
 **[GitHub](/glossary/github/) Issuesとコミュニティ**
 
-firebase-js[リポジトリ](/glossary/リポジトリ/)のIssueで類似ケースが報告されていることが多くあります。[エラーメッセージ](/glossary/エラーメッセージ/)をコピーして検索することで、既知の問題と解決策を見つけられる場合があります。Firebase公式フォーラムでも専門家による回答が得られます。
+firebase-js[リポジトリ](/glossary/リポジトリ/)のIssueで類似ケースが報告されていることが多くあります。[エラーメッセージ](/glossary/エラーメッセージ/)をコピーして[検索](/glossary/検索/)することで、既知の問題と解決策を見つけられる場合があります。Firebase公式フォーラムでも専門家による回答が得られます。
 
 ---
 

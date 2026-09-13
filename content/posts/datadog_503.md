@@ -236,7 +236,7 @@ sudo journalctl -u datadog-agent -f
 
 この[エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
-- **New Relic**：UI が直感的で、可観測性機能が充実しています。503 [エラー](/glossary/エラー/)の頻度が低く、サービスの安定性が高いという報告があります。
+- **New Relic**：UI が直感的で、可観測性機能が充実しています。503 [エラー](/glossary/エラー/)の頻度が低く、サービスの[安定性](/glossary/安定性/)が高いという報告があります。
 
 - **Splunk Observability Cloud**：エンタープライズ向けの強力な[ログ](/glossary/ログ/)分析機能を備えており、オンプレミス[環境](/glossary/環境/)との統合がしやすい設計になっています。
 
@@ -246,7 +246,7 @@ sudo journalctl -u datadog-agent -f
 
 Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
 
-> **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で[検索](/glossary/検索/)・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 

@@ -214,7 +214,7 @@ rules:
 
 ### 原因4: デフォルト ServiceAccount が使用されている
 
-Pod 定義で `serviceAccountName` を明示的に指定しない場合、デフォルトの `default` ServiceAccount が使用されます。この `default` [アカウント](/glossary/アカウント/)には通常、リソースへの[アクセス権限](/glossary/アクセス権限/)がないため、403 [エラー](/glossary/エラー/)が発生します。
+Pod 定義で `serviceAccountName` を明示的に指定しない場合、[デフォルト](/glossary/デフォルト/)の `default` ServiceAccount が使用されます。この `default` [アカウント](/glossary/アカウント/)には通常、リソースへの[アクセス権限](/glossary/アクセス権限/)がないため、403 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

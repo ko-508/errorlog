@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Terraform の crash は、[設定](/glossary/設定/)の誤りではなく[ソフトウェア](/glossary/ソフトウェア/)側の不具合を示します。ただし「Terraform が落ちた」と一口に言っても、中身は2種類あります。Terraform 本体が落ちた場合と、プロバイダのプラグインが落ちた場合です。文言も、確認する場所も、報告する相手も違います。ソースを読むと、この2つには別々の出力文が定義されています。本体が落ちた場合は `TERRAFORM CRASH` という帯で囲まれた文が出て、報告先は Terraform 本体です。プラグインが落ちた場合は `Stack trace from the <プラグイン名> plugin:` に続けてスタックトレースが出て、末尾に `Error: The <プラグイン名> plugin crashed!` が付き、報告先はそのプラグインの保守者です。
+Terraform の crash は、[設定](/glossary/設定/)の誤りではなく[ソフトウェア](/glossary/ソフトウェア/)側の不具合を示します。ただし「Terraform が落ちた」と一口に言っても、中身は2種類あります。Terraform 本体が落ちた場合と、[プロバイダ](/glossary/プロバイダ/)のプラグインが落ちた場合です。文言も、確認する場所も、報告する相手も違います。ソースを読むと、この2つには別々の出力文が定義されています。本体が落ちた場合は `TERRAFORM CRASH` という帯で囲まれた文が出て、報告先は Terraform 本体です。プラグインが落ちた場合は `Stack trace from the <プラグイン名> plugin:` に続けてスタックトレースが出て、末尾に `Error: The <プラグイン名> plugin crashed!` が付き、報告先はそのプラグインの保守者です。
 
 実務で頻度が高いのは後者です。そして厄介なのは、プラグインが落ちると、そのプラグインを使っていた他の処理が巻き添えで失敗し、`Plugin did not respond` や `Request cancelled` という[エラー](/glossary/エラー/)が大量に並ぶことです。これらは結果であって原因ではありません。原因は、その下に1つだけ出ているスタックトレースです。
 
@@ -182,7 +182,7 @@ terraform plan -target=module.example
 
 いずれもスタックトレースを伴いません。逆に言えば、スタックトレースが無い[エラー](/glossary/エラー/)を crash として報告しても、受け取った側は原因を追えません。報告の前に、スタックトレースが出ているかを必ず確かめてください。
 
-状態[ファイル](/glossary/ファイル/)の鍵が絡む失敗は、これらとは別系統です（[Terraform の state lock の記事](/posts/terraform_state_lock/)）。プロバイダから返る [HTTP](/glossary/http/) の[エラー](/glossary/エラー/)は、そもそも crash ではありません（[Terraform の 500 の記事](/posts/terraform_500/)、[429 の記事](/posts/terraform_429/)）。
+状態[ファイル](/glossary/ファイル/)の鍵が絡む失敗は、これらとは別系統です（[Terraform の state lock の記事](/posts/terraform_state_lock/)）。[プロバイダ](/glossary/プロバイダ/)から返る [HTTP](/glossary/http/) の[エラー](/glossary/エラー/)は、そもそも crash ではありません（[Terraform の 500 の記事](/posts/terraform_500/)、[429 の記事](/posts/terraform_429/)）。
 
 ## 切り分けの順序
 
@@ -222,7 +222,7 @@ dmesg -T | grep -i "killed process"
 
 ## Editor's Note
 
-出力の読み方を1件で示す実例として、GitLab のプロバイダに残る不具合報告があります（[Terraform Gitlab provider 17.2 and 17.3 panic: runtime error: invalid memory address or nil pointer dereference](https://gitlab.com/gitlab-org/terraform-provider-gitlab/-/issues/6350)）。Terraform 1.9.5、プロバイダ 17.2 の[環境](/glossary/環境/)で、以前の版では通っていた[設定](/glossary/設定/)が落ちるようになった、という報告です。
+出力の読み方を1件で示す実例として、GitLab の[プロバイダ](/glossary/プロバイダ/)に残る不具合報告があります（[Terraform Gitlab provider 17.2 and 17.3 panic: runtime error: invalid memory address or nil pointer dereference](https://gitlab.com/gitlab-org/terraform-provider-gitlab/-/issues/6350)）。Terraform 1.9.5、[プロバイダ](/glossary/プロバイダ/) 17.2 の[環境](/glossary/環境/)で、以前の版では通っていた[設定](/glossary/設定/)が落ちるようになった、という報告です。
 
 貼られている出力がそのまま教材になっています。まず `Request cancelled` が4つ、`Plugin did not respond` が2つ並びます。これだけを見ると6つの問題が起きたように見えますが、その下に出ているスタックトレースは1つだけで、個人アクセストークンを扱う資源の処理で値の無い状態を参照して落ちたことが、[ファイル](/glossary/ファイル/)名と[行番号](/glossary/行番号/)まで含めて記録されています。最後に `Error: The terraform-provider-gitlab_v17.2.0 plugin crashed!` が付き、報告先がプラグイン側であることも明示されています。並んだ[エラー](/glossary/エラー/)の数と、原因の数は一致しません。
 

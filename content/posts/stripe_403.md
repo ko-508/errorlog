@@ -163,7 +163,7 @@ const charge = await stripe.charges.create(
 
 1. **[API](/glossary/api/) [キー](/glossary/キー/)の詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象[キー](/glossary/キー/)をクリックし、付与されている権限一覧を確認します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか確認してください。
 
-2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を検索し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
+2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を[検索](/glossary/検索/)し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
 
 3. **Stripe [CLI](/glossary/cli/) での[テスト](/glossary/テスト/)**: Stripe [CLI](/glossary/cli/) を使ってローカル[環境](/glossary/環境/)で[テスト](/glossary/テスト/)することで、[ネットワーク](/glossary/ネットワーク/)経由の[エラー](/glossary/エラー/)か[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)の[エラー](/glossary/エラー/)か判別できます。
 

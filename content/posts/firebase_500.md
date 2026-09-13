@@ -139,7 +139,7 @@ admin.database().ref('posts')
 ## Firebase 固有の注意点
 
 ### Cloud Functions の実行タイムアウト
-デフォルトの[タイムアウト](/glossary/タイムアウト/)時間は 60 秒ですが、長時間の処理が必要な場合は最大 540 秒まで延長できます。[タイムアウト](/glossary/タイムアウト/)超過時に 500 が返される場合があります。
+[デフォルト](/glossary/デフォルト/)の[タイムアウト](/glossary/タイムアウト/)時間は 60 秒ですが、長時間の処理が必要な場合は最大 540 秒まで延長できます。[タイムアウト](/glossary/タイムアウト/)超過時に 500 が返される場合があります。
 
 ```bash
 gcloud functions deploy <function-name> --timeout=300
@@ -194,7 +194,7 @@ Firebase Console の「サポート」タブから公式サポートに問い合
 - [Realtime Database インデックス設定](https://firebase.google.com/docs/database/security/indexing)
 
 **[GitHub](/glossary/github/) Issues**  
-firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リポジトリ/)で同様の[エラー](/glossary/エラー/)が報告されていないか検索してください。
+firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リポジトリ/)で同様の[エラー](/glossary/エラー/)が報告されていないか[検索](/glossary/検索/)してください。
 
 ---
 

@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 ---
 ## エラーの概要
 
-Vercel の 504 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)された[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行時間が[設定](/glossary/設定/)された[タイムアウト](/glossary/タイムアウト/)制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランではデフォルト 10 秒に制限されており、最大 60 秒まで延長可能です。Pro プラン以上ではデフォルト 15 秒ですが、最大 300 秒（5 分）まで延長可能です。Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。[API](/glossary/api/) 呼び出し、データベースクエリ、外部 [API](/glossary/api/) 連携など、応答待ちが長引く処理で頻繁に発生します。
+Vercel の 504 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)された[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実行時間が[設定](/glossary/設定/)された[タイムアウト](/glossary/タイムアウト/)制限を超えたときに発生するゲートウェイタイムアウトエラーです。Hobby プランでは[デフォルト](/glossary/デフォルト/) 10 秒に制限されており、最大 60 秒まで延長可能です。Pro プラン以上では[デフォルト](/glossary/デフォルト/) 15 秒ですが、最大 300 秒（5 分）まで延長可能です。Fluid Compute を有効にすると最大 800 秒（約 13 分）まで延長可能です。[API](/glossary/api/) 呼び出し、データベースクエリ、外部 [API](/glossary/api/) 連携など、応答待ちが長引く処理で頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -159,7 +159,7 @@ export default async function handler(req, res) {
 ## Vercel 固有の注意点
 
 **Hobby プランの[タイムアウト](/glossary/タイムアウト/)制限：**
-Hobby プランはデフォルト 10 秒に制限されており、`maxDuration` を[設定](/glossary/設定/)することで最大 60 秒まで延長可能です。より長時間の処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、[バッチ処理](/glossary/バッチ処理/)）ことが必須です。
+Hobby プランは[デフォルト](/glossary/デフォルト/) 10 秒に制限されており、`maxDuration` を[設定](/glossary/設定/)することで最大 60 秒まで延長可能です。より長時間の処理が必要な場合は Pro プラン以上へのアップグレード、もしくは処理を分割する（キューイング、[バッチ処理](/glossary/バッチ処理/)）ことが必須です。
 
 **Pro プランのデフォルトタイムアウト：**
 2023年10月1日以降、新規[プロジェクト](/glossary/プロジェクト/)または 15 秒以上関数を実行していない[プロジェクト](/glossary/プロジェクト/)では、デフォルトタイムアウトは 15 秒に短縮されています。ただし Pro プラン以上では `maxDuration` を[設定](/glossary/設定/)することで、最大 300 秒（5 分）まで延長可能です。
@@ -204,7 +204,7 @@ Vercel 公式の「Serverless Function Configuration」（https://vercel.com/doc
 Vercel の Observability 機能（Pro プラン以上）を有効にすると、[関数](/glossary/関数/)の [CPU](/glossary/cpu/) 使用率、[メモリ](/glossary/メモリ/)使用量、実行時間を[リアルタイム](/glossary/リアルタイム/)で監視できます。ボトルネック特定に有効です。
 
 **[GitHub](/glossary/github/) Issues・コミュニティ：**
-同じ問題が Vercel [GitHub](/glossary/github/) Repository（https://github.com/vercel/vercel）の Issues で報告されていないか検索してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定の[ライブラリ](/glossary/ライブラリ/)との相性問題などが記載されている場合があります。
+同じ問題が Vercel [GitHub](/glossary/github/) Repository（https://github.com/vercel/vercel）の Issues で報告されていないか[検索](/glossary/検索/)してください。[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の実装、特定の[ライブラリ](/glossary/ライブラリ/)との相性問題などが記載されている場合があります。
 
 ---
 

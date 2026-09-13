@@ -183,7 +183,7 @@ EOF
 
 ### 原因4: セレクタラベルの不一致
 
-**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod テンプレートの`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証[エラー](/glossary/エラー/)が発生します。
+**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod [テンプレート](/glossary/テンプレート/)の`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
@@ -233,7 +233,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:my-sa -
 ```
 
 ### Namespace指定の欠落
-リソース定義で`metadata.namespace`を明示しない場合、デフォルト[Namespace](/glossary/namespace/)に作成されます。別の[Namespace](/glossary/namespace/)に配置する場合は、明示的に指定するか、`-n`フラグを使用してください。
+リソース定義で`metadata.namespace`を明示しない場合、[デフォルト](/glossary/デフォルト/)[Namespace](/glossary/namespace/)に作成されます。別の[Namespace](/glossary/namespace/)に配置する場合は、明示的に指定するか、`-n`フラグを使用してください。
 
 ```bash
 kubectl apply -f deployment.yaml -n production
@@ -247,7 +247,7 @@ kubectl api-resources | grep customresource
 ```
 
 ### 環境変数置換の不完全性
-テンプレート化されたマニフェストファイルで、プレースホルダーが置換されないまま[送信](/glossary/送信/)された場合、不正な[YAML](/glossary/yaml/)値として認識されます。envsubstやkustomizeを使用する際は、置換前の[ファイル](/glossary/ファイル/)をバイパスしないよう注意してください。
+[テンプレート](/glossary/テンプレート/)化されたマニフェストファイルで、プレースホルダーが置換されないまま[送信](/glossary/送信/)された場合、不正な[YAML](/glossary/yaml/)値として認識されます。envsubstやkustomizeを使用する際は、置換前の[ファイル](/glossary/ファイル/)をバイパスしないよう注意してください。
 
 ## それでも解決しない場合
 
@@ -274,7 +274,7 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 ### コミュニティリソース
 
-問題が解決しない場合は、以下で検索してください。
+問題が解決しない場合は、以下で[検索](/glossary/検索/)してください。
 
 - **[Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/) Issues** - https://github.com/kubernetes/kubernetes/issues （[API](/glossary/api/)[バージョン](/glossary/バージョン/)や[バリデーション](/glossary/バリデーション/)関連の[バグ](/glossary/バグ/)報告）
 - **Stack Overflow** - `[kubernetes] 400` [タグ](/glossary/タグ/)での質問検索

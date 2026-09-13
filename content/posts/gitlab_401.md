@@ -161,7 +161,7 @@ GitLab には「Deploy Token」という別種の[トークン](/glossary/トー
 
 ## それでも解決しない場合
 
-**GitLab [インスタンス](/glossary/インスタンス/)のアクセスログを確認：**
+**GitLab [インスタンス](/glossary/インスタンス/)の[アクセスログ](/glossary/アクセスログ/)を確認：**
 
 self-hosted GitLab の場合、[サーバー](/glossary/サーバー/)の `/var/log/gitlab/gitlab-rails/production.log` に詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が記録されています。
 

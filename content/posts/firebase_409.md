@@ -235,7 +235,7 @@ Firestore の[トランザクション](/glossary/トランザクション/)は 
 
 ### Cloud Functions での推奨パターン
 
-Cloud Functions のバックグラウンド[関数](/glossary/関数/)で `onWrite` [トリガー](/glossary/トリガー/)を使用している場合、複数の[関数](/glossary/関数/)が同じドキュメントに書き込むと 409 [エラー](/glossary/エラー/)が連鎖します。[関数](/glossary/関数/)の実行順序を Firestore の階層構造で制御し、トリガーチェーンを最小化することが重要です。
+Cloud Functions の[バックグラウンド](/glossary/バックグラウンド/)[関数](/glossary/関数/)で `onWrite` [トリガー](/glossary/トリガー/)を使用している場合、複数の[関数](/glossary/関数/)が同じドキュメントに書き込むと 409 [エラー](/glossary/エラー/)が連鎖します。[関数](/glossary/関数/)の実行順序を Firestore の階層構造で制御し、トリガーチェーンを最小化することが重要です。
 
 ## それでも解決しない場合
 
@@ -257,7 +257,7 @@ Firestore の操作[ログ](/glossary/ログ/)は Firebase Console → Firestore
 
 3. **公式ドキュメント参照**：[Firestore トランザクションおよびバッチ書き込み](https://firebase.google.com/docs/firestore/transactions)に詳細な実装例が掲載されています。
 
-4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を検索し、解決策を参考にしてください。特に `transaction-abort` [タグ](/glossary/タグ/)が付いたイシューを確認してください。
+4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を[検索](/glossary/検索/)し、解決策を参考にしてください。特に `transaction-abort` [タグ](/glossary/タグ/)が付いたイシューを確認してください。
 
 ---
 

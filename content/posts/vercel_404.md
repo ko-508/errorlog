@@ -204,7 +204,7 @@ vercel dev
 - [Rewrites and Redirects](https://vercel.com/docs/concepts/next.js/rewrites)
 - [Deployments API Reference](https://vercel.com/docs/rest-api/endpoints#list-deployments)
 
-[GitHub](/glossary/github/) や Vercel のコミュニティフォーラムで同様の事例が報告されていないか検索することも有効です。問題が解決しない場合は、Vercel サポートチケットを作成し、デプロイメント [ID](/glossary/id/) と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を添付してください。
+[GitHub](/glossary/github/) や Vercel のコミュニティフォーラムで同様の事例が報告されていないか[検索](/glossary/検索/)することも有効です。問題が解決しない場合は、Vercel サポートチケットを作成し、デプロイメント [ID](/glossary/id/) と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を添付してください。
 
 ---
 

@@ -16,20 +16,20 @@ trend_incident: false
 
 Nginx の 502 Bad Gateway は、リバースプロキシとしての Nginx が上流（proxy_pass や fastcgi_pass の接続先）への接続に失敗したか、接続はできたものの応答として解釈できないデータを受け取ったことを示します。原因はほぼ確実に[エラーログ](/glossary/エラーログ/)の文言で特定できます。connect() failed (111: Connection refused) なら上流が起動していないか接続先の指定違い、unix ソケットへの (2: No such file or directory) や (13: Permission denied) ならソケットの[パス](/glossary/パス/)か[権限](/glossary/権限/)、no live upstreams なら全上流[サーバー](/glossary/サーバー/)の一時除外、upstream prematurely closed connection なら上流の応答途中の切断、upstream sent too big header なら応答[ヘッダー](/glossary/ヘッダー/)の[バッファ](/glossary/バッファ/)超過、[SSL](/glossary/ssl/)_do_handshake() failed なら上流との [TLS](/glossary/tls/) ハンドシェイク失敗です。
 
-502と誤解されやすい隣の[コード](/glossary/コード/)も押さえておくと迷いません。上流の応答待ちの時間切れは502ではなく504です（[エラーログ](/glossary/エラーログ/)に upstream timed out と残ります）。limit_req などの制限超過は503、応答前に[クライアント](/glossary/クライアント/)側が切断した場合はアクセスログに499が残ります。「遅いから502」という説明を見かけますが、Nginx のソースコード上、時間切れは504に明示的に割り当てられており、502になるのはそれ以外の接続失敗と不正応答です。
+502と誤解されやすい隣の[コード](/glossary/コード/)も押さえておくと迷いません。上流の応答待ちの時間切れは502ではなく504です（[エラーログ](/glossary/エラーログ/)に upstream timed out と残ります）。limit_req などの制限超過は503、応答前に[クライアント](/glossary/クライアント/)側が切断した場合は[アクセスログ](/glossary/アクセスログ/)に499が残ります。「遅いから502」という説明を見かけますが、Nginx のソースコード上、時間切れは504に明示的に割り当てられており、502になるのはそれ以外の接続失敗と不正応答です。
 
 ## エラーの概要
 
 Nginx は上流への中継に失敗したとき、失敗の種類ごとに返す[ステータスコード](/glossary/ステータスコード/)を割り当てます。この割り当てはソースコード（ngx_http_upstream.c の ngx_http_upstream_next）で確認でき、時間切れ（NGX_[HTTP](/glossary/http/)_UPSTREAM_FT_TIMEOUT）は504、接続失敗・不正な応答[ヘッダー](/glossary/ヘッダー/)・全[サーバー](/glossary/サーバー/)除外などそれ以外の失敗は既定の分岐として502になります。つまり502は「時間内に、しかし正常には、上流とやり取りできなかった」ことの総称です。
 
-[ブラウザ](/glossary/ブラウザ/)に表示されるデフォルトのエラーページ：
+[ブラウザ](/glossary/ブラウザ/)に表示される[デフォルト](/glossary/デフォルト/)のエラーページ：
 
 ```text
 502 Bad Gateway
 nginx
 ```
 
-アクセスログの出力例：
+[アクセスログ](/glossary/アクセスログ/)の出力例：
 
 ```text
 192.0.2.10 - - [15/Jul/2026:10:23:45 +0900] "GET /api/users HTTP/1.1" 502 157 "-" "Mozilla/5.0"
@@ -215,7 +215,7 @@ openssl s_client -connect 203.0.113.5:443 -servername backend.example.com
 
 ## 補足：このコードではない類似エラー
 
-上流の応答待ちの時間切れは504です。[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) と残り、調査対象は proxy_read_timeout などの時間設定と上流の処理時間になります（[Nginx の 504 の記事](/posts/nginx_504/)）。limit_req・limit_conn の制限超過や、[設定](/glossary/設定/)に残った return 503 は503です（[Nginx の 503 の記事](/posts/nginx_503/)）。応答を返す前に[クライアント](/glossary/クライアント/)側から切断された場合はアクセスログに499が残ります。上流が遅いことが引き金になる点は502の原因4と似ていますが、切ったのが上流なら502、[クライアント](/glossary/クライアント/)なら499です（[Nginx の 499 の記事](/posts/nginx_499/)）。上流[アプリケーション](/glossary/アプリケーション/)の内部[エラー](/glossary/エラー/)は、上流が自分で500を返す限り Nginx はそれをそのまま中継します（[Nginx の 500 の記事](/posts/nginx_500/)）。また、ALB や [API](/glossary/api/) Gateway が返す502は Nginx とは別の仕組みで発生します（[AWS の 502 の記事](/posts/aws_502/)）。[GitHub](/glossary/github/) [API](/glossary/api/) など外部サービス側の502は、こちらの[設定](/glossary/設定/)では解決できません（[GitHub API の 502 の記事](/posts/github_api_502/)）。
+上流の応答待ちの時間切れは504です。[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) と残り、調査対象は proxy_read_timeout などの時間設定と上流の処理時間になります（[Nginx の 504 の記事](/posts/nginx_504/)）。limit_req・limit_conn の制限超過や、[設定](/glossary/設定/)に残った return 503 は503です（[Nginx の 503 の記事](/posts/nginx_503/)）。応答を返す前に[クライアント](/glossary/クライアント/)側から切断された場合は[アクセスログ](/glossary/アクセスログ/)に499が残ります。上流が遅いことが引き金になる点は502の原因4と似ていますが、切ったのが上流なら502、[クライアント](/glossary/クライアント/)なら499です（[Nginx の 499 の記事](/posts/nginx_499/)）。上流[アプリケーション](/glossary/アプリケーション/)の内部[エラー](/glossary/エラー/)は、上流が自分で500を返す限り Nginx はそれをそのまま中継します（[Nginx の 500 の記事](/posts/nginx_500/)）。また、ALB や [API](/glossary/api/) Gateway が返す502は Nginx とは別の仕組みで発生します（[AWS の 502 の記事](/posts/aws_502/)）。[GitHub](/glossary/github/) [API](/glossary/api/) など外部サービス側の502は、こちらの[設定](/glossary/設定/)では解決できません（[GitHub API の 502 の記事](/posts/github_api_502/)）。
 
 ## 切り分けの順序
 

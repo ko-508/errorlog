@@ -117,7 +117,7 @@ if (error) {
 
 ### 原因3：Supabase AuthのカスタムSMTP設定またはメールテンプレート設定に問題がある
 
-Supabase Dashboardでカスタムメールプロバイダー（SendGrid、Mailgun等）を[設定](/glossary/設定/)した場合、認証情報の誤り、テンプレート[変数](/glossary/変数/)の不一致、またはメール送信設定の検証ルール違反で422[エラー](/glossary/エラー/)が発生することがあります。特に[環境変数](/glossary/環境変数/)の値が不完全であったり、テンプレート内の[変数](/glossary/変数/)が不正な形式である場合に顕著です。
+Supabase Dashboardでカスタムメールプロバイダー（SendGrid、Mailgun等）を[設定](/glossary/設定/)した場合、認証情報の誤り、[テンプレート](/glossary/テンプレート/)[変数](/glossary/変数/)の不一致、またはメール送信設定の検証ルール違反で422[エラー](/glossary/エラー/)が発生することがあります。特に[環境変数](/glossary/環境変数/)の値が不完全であったり、[テンプレート](/glossary/テンプレート/)内の[変数](/glossary/変数/)が不正な形式である場合に顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -192,7 +192,7 @@ Supabase Dashboardの「Authentication」→「Providers」→「Email」で、�
 Supabaseの[標準](/glossary/標準/)メール機能を使用している場合、制限が異なります。SendGridやMailgunなどを統合している場合は、各プロバイダー側の検証ルールも確認が必要です。
 
 **パスワードポリシーの[設定](/glossary/設定/)：**
-Supabase Dashboardの「Authentication」→「Policies」で、[パスワード](/glossary/パスワード/)の最小文字数、複雑性要件、有効期限などを[カスタマイズ](/glossary/カスタマイズ/)できます。デフォルトより厳しい[設定](/glossary/設定/)にしている場合は、そのルールに合わせた[バリデーション](/glossary/バリデーション/)を[フロントエンド](/glossary/フロントエンド/)に実装してください。
+Supabase Dashboardの「Authentication」→「Policies」で、[パスワード](/glossary/パスワード/)の最小文字数、複雑性要件、有効期限などを[カスタマイズ](/glossary/カスタマイズ/)できます。[デフォルト](/glossary/デフォルト/)より厳しい[設定](/glossary/設定/)にしている場合は、そのルールに合わせた[バリデーション](/glossary/バリデーション/)を[フロントエンド](/glossary/フロントエンド/)に実装してください。
 
 ```javascript
 // ダッシュボード設定に基づいてバリデーション関数を作成

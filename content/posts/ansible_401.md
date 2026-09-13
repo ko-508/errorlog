@@ -244,7 +244,7 @@ ansible-playbook playbook.yml --vault-password-file ~/.vault_pass
 パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを確認してください。[Linux](/glossary/linux/)で`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を登録することで、Ansibleの実行時にパスフレーズ入力が不要になります。
 
 **become_methodの指定：**
-デフォルトではsudoが使用されますが、[環境](/glossary/環境/)によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト[環境](/glossary/環境/)に応じた[設定](/glossary/設定/)をinventoryで指定してください。
+[デフォルト](/glossary/デフォルト/)ではsudoが使用されますが、[環境](/glossary/環境/)によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト[環境](/glossary/環境/)に応じた[設定](/glossary/設定/)をinventoryで指定してください。
 
 **複数ホストへの並列実行時：**
 `-f`オプションで並列数を制限している場合、複数ホストの[認証](/glossary/認証/)が同時に行われるため、ホスト単位で認証情報が異なるケースでは単一実行で検証してから並列実行に移行することが推奨されます。

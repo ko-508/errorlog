@@ -15,7 +15,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`ERROR: failed to solve:` を原因名として検索しているなら、探す場所がずれています。この一行は1つの部品が出した文言ではなく、3か所が順に書き足した結果です。
+`ERROR: failed to solve:` を原因名として[検索](/glossary/検索/)しているなら、探す場所がずれています。この一行は1つの部品が出した文言ではなく、3か所が順に書き足した結果です。
 
 先頭の `ERROR:` を付けるのは buildx の入口部分です（[cmd/buildx/main.go](https://github.com/docker/buildx/blob/master/cmd/buildx/main.go)）。続く `failed to solve` は、BuildKit の[クライアント](/glossary/クライアント/)がビルド[サーバー](/glossary/サーバー/)から受け取った[エラー](/glossary/エラー/)を包む語です（[client/solve.go](https://github.com/moby/buildkit/blob/master/client/solve.go)）。コロンより後ろが、失敗した部品の言い分です。
 

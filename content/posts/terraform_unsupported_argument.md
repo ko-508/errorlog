@@ -83,7 +83,7 @@ An argument named "env" is not expected here. Did you mean to define a block of 
 terraform providers schema -json > schema.json
 ```
 
-出力される [JSON](/glossary/json/) の構造は[環境](/glossary/環境/)と版によって異なるため、`jq` で目的のリソースを探すより先に、まず全体をページャで開いて対象リソース名を検索するのが確実です。
+出力される [JSON](/glossary/json/) の構造は[環境](/glossary/環境/)と版によって異なるため、`jq` で目的のリソースを探すより先に、まず全体をページャで開いて対象リソース名を[検索](/glossary/検索/)するのが確実です。
 
 **注意**：候補が提示されても、それが目的の[引数](/glossary/引数/)とは限りません。名前が似ているだけの別の[引数](/glossary/引数/)を提示している場合があります。採用する前に、対象 provider の版に対応するドキュメントで意味を確認してください。
 

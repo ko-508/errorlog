@@ -112,7 +112,7 @@ ansible_connection_timeout=60
 ansible_ssh_timeout=60
 ```
 
-インベントリファイルに `ansible_connection_timeout` と `ansible_ssh_timeout` を[設定](/glossary/設定/)し、デフォルトの 10 秒から 60 秒に延長します。非常に遠い[環境](/glossary/環境/)や低速[ネットワーク](/glossary/ネットワーク/)では、さらに 120 秒以上に[設定](/glossary/設定/)することもあります。
+インベントリファイルに `ansible_connection_timeout` と `ansible_ssh_timeout` を[設定](/glossary/設定/)し、[デフォルト](/glossary/デフォルト/)の 10 秒から 60 秒に延長します。非常に遠い[環境](/glossary/環境/)や低速[ネットワーク](/glossary/ネットワーク/)では、さらに 120 秒以上に[設定](/glossary/設定/)することもあります。
 
 ### 原因3：ネットワーク障害でターゲットに到達できない
 

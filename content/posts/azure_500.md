@@ -16,7 +16,7 @@ trend_incident: false
 
 Azure の 500 Internal Server Error は、まず「どの [URL](/glossary/url/) が返したか」で2系統に分けると迷いません。第一に、Azure の管理 [API](/glossary/api/)（management.azure.com への操作）や各サービスの [API](/glossary/api/) が返す500で、[エラー](/glossary/エラー/)応答の code は InternalServerError などになります。これは Azure 側の予期しない内部[エラー](/glossary/エラー/)で、手元の[リクエスト](/glossary/リクエスト/)を直して消えるものではありません。Azure の公式 [SDK](/glossary/sdk/) は、408・429・500・502・503・504 を既定の再試行対象とし、既定で合計10回まで再試行する設計になっており（Python 版 [SDK](/glossary/sdk/) の共通基盤 azure-core のソースコードで確認できます）、[SDK](/glossary/sdk/) 経由で500が[エラー](/glossary/エラー/)として見えた時点で、この再試行はすでに尽きています。第二に、自分が[デプロイ](/glossary/デプロイ/)したアプリ（App Service）の [URL](/glossary/url/) が返す500です。こちらは Azure 側の障害ではなくアプリの調査で、ASP.NET Core の場合は 500.30 のようなサブステータスが失敗の種類まで教えてくれます。
 
-500だと思い込みやすいのに500ではない[エラー](/glossary/エラー/)も先に押さえます。リソースプロバイダーの未登録は、公式トラブルシューティング文書のある MissingSubscriptionRegistration で、実際の応答は 409 Conflict です。クォータや[スロットリング](/glossary/スロットリング/)は 429 系、テンプレートや[パラメータ](/glossary/パラメータ/)の不正は 400 系の検証[エラー](/glossary/エラー/)、権限不足は 403 の AuthorizationFailed です。「プロバイダー未登録で500」「クォータ超過で500」という説明は Azure の実際の応答と一致しません。
+500だと思い込みやすいのに500ではない[エラー](/glossary/エラー/)も先に押さえます。リソースプロバイダーの未登録は、公式トラブルシューティング文書のある MissingSubscriptionRegistration で、実際の応答は 409 Conflict です。クォータや[スロットリング](/glossary/スロットリング/)は 429 系、[テンプレート](/glossary/テンプレート/)や[パラメータ](/glossary/パラメータ/)の不正は 400 系の検証[エラー](/glossary/エラー/)、権限不足は 403 の AuthorizationFailed です。「プロバイダー未登録で500」「クォータ超過で500」という説明は Azure の実際の応答と一致しません。
 
 ## エラーの概要
 
@@ -104,7 +104,7 @@ az webapp log tail --name <app-name> --resource-group <resource-group>
 
 ## 補足：500ではない類似エラー
 
-Azure の実際の応答では、次の問題に500以外の[コード](/glossary/コード/)が割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過や[リクエスト](/glossary/リクエスト/)の集中（[スロットリング](/glossary/スロットリング/)）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。テンプレートや[パラメータ](/glossary/パラメータ/)の検証[エラー](/glossary/エラー/)は 400 系で、message が名指しする項目の[修正](/glossary/修正/)が対処です。権限不足は 403 の AuthorizationFailed で、調査は[ロール](/glossary/ロール/)割り当て（[RBAC](/glossary/rbac/)）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
+Azure の実際の応答では、次の問題に500以外の[コード](/glossary/コード/)が割り当てられています。リソースプロバイダーの未登録（MissingSubscriptionRegistration、NoRegisteredProviderFound）は 409 で、公式トラブルシューティング文書に従い az provider register で該当の名前空間を登録すれば解決します。クォータ超過や[リクエスト](/glossary/リクエスト/)の集中（[スロットリング](/glossary/スロットリング/)）は 429 で、Retry-After に従って待つか、割り当ての引き上げを申請します（仕組みの考え方は [AWS の 429 の記事](/posts/aws_429/)と同型です）。[テンプレート](/glossary/テンプレート/)や[パラメータ](/glossary/パラメータ/)の検証[エラー](/glossary/エラー/)は 400 系で、message が名指しする項目の[修正](/glossary/修正/)が対処です。権限不足は 403 の AuthorizationFailed で、調査は[ロール](/glossary/ロール/)割り当て（[RBAC](/glossary/rbac/)）に向けます。また、Front Door や Application Gateway を自分のアプリの前段に置いている構成では、前段が作る 502・504 は別系統の調査になります（前段のゲートウェイという構図は [Nginx の 502 の記事](/posts/nginx_502/)・[504 の記事](/posts/nginx_504/)で扱った考え方がそのまま使えます）。
 
 ## 切り分けの順序
 

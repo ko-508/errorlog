@@ -47,7 +47,7 @@ PaperMod テーマの `themes/PaperMod/layouts/_partials/templates/schema_json.h
 "dateModified": {{ .Lastmod }},
 ```
 
-Hugo テンプレートで `{{ .PublishDate }}` を素のまま展開すると、Go の `time.Time` 型がデフォルト形式でシリアライズされる。この形式は `0001-01-01 00:00:00 +0000 UTC` のような文字列になり、[JSON](/glossary/json/) として無効な出力になる。
+Hugo [テンプレート](/glossary/テンプレート/)で `{{ .PublishDate }}` を素のまま展開すると、Go の `time.Time` 型が[デフォルト](/glossary/デフォルト/)形式でシリアライズされる。この形式は `0001-01-01 00:00:00 +0000 UTC` のような文字列になり、[JSON](/glossary/json/) として無効な出力になる。
 
 さらに `.PublishDate` はフロントマターに `publishDate` を明示しない場合にゼロ値（`0001-01-01`）になることがある（Hugo の[バージョン](/glossary/バージョン/)や[設定](/glossary/設定/)により挙動が異なる）。`lastmod` も同様で、フロントマターに未設定の場合にゼロ値が返る。
 
@@ -59,7 +59,7 @@ Hugo テンプレートで `{{ .PublishDate }}` を素のまま展開すると�
 
 ### 1. テーマのテンプレートをオーバーライドする
 
-Hugo はテーマのテンプレートを `layouts/` 以下の同名[ファイル](/glossary/ファイル/)で上書きできる。テーマファイルを直接編集すると git submodule 更新時に差分が消えるため、必ずオーバーライドで対応する。
+Hugo はテーマの[テンプレート](/glossary/テンプレート/)を `layouts/` 以下の同名[ファイル](/glossary/ファイル/)で上書きできる。テーマファイルを直接編集すると git submodule 更新時に差分が消えるため、必ずオーバーライドで対応する。
 
 ```bash
 mkdir -p layouts/_partials/templates
@@ -118,7 +118,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
   lastmod = [":git", "lastmod", ":fileModTime", ":default"]
 ```
 
-ただし [GitHub](/glossary/github/) Actions [環境](/glossary/環境/)では `actions/checkout` がデフォルトでシャロークローンを行うため、git の履歴に基づく日時が正しく取得できないことがある。その場合は `fetch-depth: 0` を指定するか、フロントマターに明示的に `lastmod:` を書く。
+ただし [GitHub](/glossary/github/) Actions [環境](/glossary/環境/)では `actions/checkout` が[デフォルト](/glossary/デフォルト/)でシャロークローンを行うため、git の履歴に基づく日時が正しく取得できないことがある。その場合は `fetch-depth: 0` を指定するか、フロントマターに明示的に `lastmod:` を書く。
 
 ### PaperMod のバージョンと `schema_json.html` の仕様変更
 
@@ -135,7 +135,7 @@ diff themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 - [Google リッチリザルトテスト](https://search.google.com/test/rich-results) でページの [URL](/glossary/url/) を直接[テスト](/glossary/テスト/)して、構造化データのパースエラーを確認する
 - Hugo の `hugo server` でローカルビルドし、ページのソースを直接確認する
-- PaperMod の [GitHub Issues](https://github.com/adityatelange/hugo-PaperMod/issues) で同様の報告を検索する
+- PaperMod の [GitHub Issues](https://github.com/adityatelange/hugo-PaperMod/issues) で同様の報告を[検索](/glossary/検索/)する
 
 ---
 

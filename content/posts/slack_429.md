@@ -204,7 +204,7 @@ Slack 公式ドキュメントの「Rate Limiting」セクション（https://ap
 
 ### GitHub Issues・Slack コミュニティ
 
-Slack [SDK](/glossary/sdk/) の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)（`slackapi/python-slack-sdk`、`slackapi/bolt-js` など）の Issues セクションで、同様の 429 [エラー](/glossary/エラー/)報告と解決例を検索できます。また、Slack Developer Community（https://slackcommunity.com/）のフォーラムでは、ワークスペース規模別・使用メソッド別の実装相談が活発に行われています。
+Slack [SDK](/glossary/sdk/) の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)（`slackapi/python-slack-sdk`、`slackapi/bolt-js` など）の Issues セクションで、同様の 429 [エラー](/glossary/エラー/)報告と解決例を[検索](/glossary/検索/)できます。また、Slack Developer Community（https://slackcommunity.com/）のフォーラムでは、ワークスペース規模別・使用メソッド別の実装相談が活発に行われています。
 
 ---
 

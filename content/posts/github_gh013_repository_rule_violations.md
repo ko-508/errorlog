@@ -15,7 +15,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`GH013: Repository rule violations found` を検索すると、秘密情報が混ざったときの対処が数多く出てきます。それは3系統あるうちの1つにすぎません。GH013 は ruleset（[リポジトリ](/glossary/リポジトリ/)に[設定](/glossary/設定/)された規則の集まり）に違反したという符号で、中身は[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則、push そのものへの規則、そして秘密情報の検知に分かれます。
+`GH013: Repository rule violations found` を[検索](/glossary/検索/)すると、秘密情報が混ざったときの対処が数多く出てきます。それは3系統あるうちの1つにすぎません。GH013 は ruleset（[リポジトリ](/glossary/リポジトリ/)に[設定](/glossary/設定/)された規則の集まり）に違反したという符号で、中身は[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則、push そのものへの規則、そして秘密情報の検知に分かれます。
 
 見分ける手がかりは、符号のすぐ下に出ます。[GitHub](/glossary/github/) は `Review all repository rules at` に続けて、その[ブランチ](/glossary/ブランチ/)に効いている規則の一覧を示す[URL](/glossary/url/) を返します。公式ドキュメントによれば、この一覧は読み取り[権限](/glossary/権限/)さえあれば誰でも見られます。管理者に問い合わせる前に、まずここを開けば済みます。
 

@@ -211,7 +211,7 @@ docker inspect <container-id> | grep -A 20 "Health"
 
 ### サービス間の依存関係と起動順序
 
-[Docker](/glossary/docker/) Compose の `depends_on` オプションはデフォルトではサービスの起動完了を待たず、コンテナー起動後すぐに次のサービスを起動します。[データベース](/glossary/データベース/)が完全に[初期化](/glossary/初期化/)される前に[アプリケーション](/glossary/アプリケーション/)が接続を試みる場合、500 [エラー](/glossary/エラー/)が発生します。
+[Docker](/glossary/docker/) Compose の `depends_on` オプションは[デフォルト](/glossary/デフォルト/)ではサービスの起動完了を待たず、コンテナー起動後すぐに次のサービスを起動します。[データベース](/glossary/データベース/)が完全に[初期化](/glossary/初期化/)される前に[アプリケーション](/glossary/アプリケーション/)が接続を試みる場合、500 [エラー](/glossary/エラー/)が発生します。
 
 ```yaml
 version: '3.8'

@@ -186,7 +186,7 @@ firebase emulators:start
 firebase functions:log
 ```
 
-Cloud Console の「Cloud Logging」で該当時刻の[エラーログ](/glossary/エラーログ/)を検索します。フィルター条件を以下のように[設定](/glossary/設定/)してください：
+Cloud Console の「Cloud Logging」で該当時刻の[エラーログ](/glossary/エラーログ/)を[検索](/glossary/検索/)します。フィルター条件を以下のように[設定](/glossary/設定/)してください：
 
 ```
 resource.type="cloud_function"
@@ -202,7 +202,7 @@ timestamp>="<エラーが発生した時刻>"
 
 **コミュニティリソース**
 
-Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で検索し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと対応が迅速になります。
+Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと対応が迅速になります。
 
 ---
 

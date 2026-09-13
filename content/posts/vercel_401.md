@@ -102,7 +102,7 @@ jobs:
 
 ### 原因3：GitHub との OAuth 連携が切れている
 
-Vercel はデフォルトで[プッシュ](/glossary/プッシュ/)自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、[GitHub](/glossary/github/) 連携の[権限](/glossary/権限/)が失効したり、[GitHub](/glossary/github/) [アカウント](/glossary/アカウント/)側で当該[アプリケーション](/glossary/アプリケーション/)の[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
+Vercel は[デフォルト](/glossary/デフォルト/)で[プッシュ](/glossary/プッシュ/)自動[デプロイ](/glossary/デプロイ/)機能を提供していますが、[GitHub](/glossary/github/) 連携の[権限](/glossary/権限/)が失効したり、[GitHub](/glossary/github/) [アカウント](/glossary/アカウント/)側で当該[アプリケーション](/glossary/アプリケーション/)の[認可](/glossary/認可/)を取り消したりすると、デプロイトリガーが動作しなくなります。
 
 **修正方法：**
 
@@ -127,7 +127,7 @@ git push origin main
 
 **複数組織の場合：** Vercel [アカウント](/glossary/アカウント/)が複数の Team（組織）に属している場合、[デプロイ](/glossary/デプロイ/)先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` で[スコープ](/glossary/スコープ/)を指定し、そのチームに所属する[トークン](/glossary/トークン/)であることを確認してください。
 
-**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。テンプレートやドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
+**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。[テンプレート](/glossary/テンプレート/)やドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
 **vercel.json [設定](/glossary/設定/)：** プロジェクトルートの `vercel.json` に記述される[設定](/glossary/設定/)は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の[設定](/glossary/設定/)を確認してから[ファイル](/glossary/ファイル/)[設定](/glossary/設定/)を疑ってください。
 

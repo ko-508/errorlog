@@ -261,7 +261,7 @@ curl --cert /path/to/client.crt \
 
 [設定](/glossary/設定/)に誤りがないか確認します。
 
-**4. リバースプロキシのアクセスログ確認：**
+**4. リバースプロキシの[アクセスログ](/glossary/アクセスログ/)確認：**
 
 Nginx の場合、`/var/log/nginx/access.log` や `error.log` で[認証](/glossary/認証/)の成否や転送状況を確認します。
 

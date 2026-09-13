@@ -183,7 +183,7 @@ const response = await fetch('/api/promote-admin', {
 
 Supabase [ダッシュボード](/glossary/ダッシュボード/)から以下の手順で[ポリシー](/glossary/ポリシー/)を確認できます：
 
-1. 左サイドバーから「[SQL](/glossary/sql/) Editor」を開き、目的の[テーブル](/glossary/テーブル/)名を検索
+1. 左サイドバーから「[SQL](/glossary/sql/) Editor」を開き、目的の[テーブル](/glossary/テーブル/)名を[検索](/glossary/検索/)
 2. または「Authentication」→「Policies」タブで[テーブル](/glossary/テーブル/)ごとの[ポリシー](/glossary/ポリシー/)一覧を表示
 3. 各[ポリシー](/glossary/ポリシー/)の「USING」「WITH CHECK」条件が正しいか確認
 

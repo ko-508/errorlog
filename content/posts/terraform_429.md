@@ -39,7 +39,7 @@ Error: Error creating load balancer: InvalidParameterValue
 
 ### 原因 1：Terraform の並列実行数が多すぎる
 
-Terraform はデフォルトで 10 個のリソースを同時に作成する[設定](/glossary/設定/)になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、デフォルトの並列度では超過しやすくなります。
+Terraform は[デフォルト](/glossary/デフォルト/)で 10 個のリソースを同時に作成する[設定](/glossary/設定/)になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、[デフォルト](/glossary/デフォルト/)の並列度では超過しやすくなります。
 
 **修正前：**
 
@@ -153,7 +153,7 @@ provider "aws" {
 
 ### AWS プロバイダーでの対応
 
-[AWS](/glossary/aws/) には複数の[レート制限](/glossary/レート制限/)があり、[IAM](/glossary/iam/) [API](/glossary/api/)・EC2 [API](/glossary/api/)・CloudFormation [API](/glossary/api/) などサービスごとに異なります。Terraform が CloudFormation を背後で使用している場合、CloudFormation のスタック作成数制限（デフォルトでは 200 スタック）に達することもあります。
+[AWS](/glossary/aws/) には複数の[レート制限](/glossary/レート制限/)があり、[IAM](/glossary/iam/) [API](/glossary/api/)・EC2 [API](/glossary/api/)・CloudFormation [API](/glossary/api/) などサービスごとに異なります。Terraform が CloudFormation を背後で使用している場合、CloudFormation のスタック作成数制限（[デフォルト](/glossary/デフォルト/)では 200 スタック）に達することもあります。
 
 ```bash
 # AWS リクエストスロットリング対策
@@ -164,7 +164,7 @@ terraform apply -parallelism=3
 
 ### Google Cloud プロバイダーでの対応
 
-Google Cloud は [API](/glossary/api/) ごとに異なるクォータを[設定](/glossary/設定/)しており、Compute Engine [API](/glossary/api/) はデフォルトで 1 分間に 240 [リクエスト](/glossary/リクエスト/)に制限されています。
+Google Cloud は [API](/glossary/api/) ごとに異なるクォータを[設定](/glossary/設定/)しており、Compute Engine [API](/glossary/api/) は[デフォルト](/glossary/デフォルト/)で 1 分間に 240 [リクエスト](/glossary/リクエスト/)に制限されています。
 
 ```hcl
 provider "google" {

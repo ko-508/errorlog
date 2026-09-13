@@ -245,7 +245,7 @@ async def delete_storage_accounts():
 
 ### Azure App Service・Function App での 429
 
-Azure Function App で[バージョン](/glossary/バージョン/) 4 ランタイムを使用している場合、デフォルトの [HTTP](/glossary/http/) 接続数制限（`http.connectionLimit`）により、外部 [API](/glossary/api/) へのアウトバウンド呼び出しがスロットルされることがあります。このとき、Azure の [REST](/glossary/rest/) [API](/glossary/api/) ではなく、呼び出し先の外部サービスの 429 が返される可能性も高いため、[エラーメッセージ](/glossary/エラーメッセージ/)で `microsoft.com` を含むか確認し、実際にどのサービスが制限を返しているかを特定してください。
+Azure Function App で[バージョン](/glossary/バージョン/) 4 ランタイムを使用している場合、[デフォルト](/glossary/デフォルト/)の [HTTP](/glossary/http/) 接続数制限（`http.connectionLimit`）により、外部 [API](/glossary/api/) へのアウトバウンド呼び出しがスロットルされることがあります。このとき、Azure の [REST](/glossary/rest/) [API](/glossary/api/) ではなく、呼び出し先の外部サービスの 429 が返される可能性も高いため、[エラーメッセージ](/glossary/エラーメッセージ/)で `microsoft.com` を含むか確認し、実際にどのサービスが制限を返しているかを特定してください。
 
 ### Azure DevOps の API レート制限
 

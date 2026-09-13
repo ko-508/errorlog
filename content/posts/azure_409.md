@@ -149,7 +149,7 @@ az webapp create \
 Azure Portal からリソースの詳細ページを開くと、「概要」タブに「Provisioning state」が表示されます。このステータスが「Succeeded」になるまで、そのリソースに対する変更操作は待機してください。
 
 **複数リソースの[デプロイ](/glossary/デプロイ/)時の注意：**
-Azure Resource Manager (ARM) テンプレートや Terraform、Bicep などで複数リソースを一括[デプロイ](/glossary/デプロイ/)する場合、`dependsOn` [属性](/glossary/属性/)を明示的に指定してリソース間の依存関係を定義することが重要です。これによりリソースが順序通りにプロビジョニングされ、409 [エラー](/glossary/エラー/)を防げます。
+Azure Resource Manager (ARM) [テンプレート](/glossary/テンプレート/)や Terraform、Bicep などで複数リソースを一括[デプロイ](/glossary/デプロイ/)する場合、`dependsOn` [属性](/glossary/属性/)を明示的に指定してリソース間の依存関係を定義することが重要です。これによりリソースが順序通りにプロビジョニングされ、409 [エラー](/glossary/エラー/)を防げます。
 
 ```yaml
 # 例：Bicep での依存関係定義

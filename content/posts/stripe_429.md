@@ -238,7 +238,7 @@ Stripe の[レート制限](/glossary/レート制限/)は [API](/glossary/api/)
 
 ### 検索 API のレート制限
 
-`stripe.Customer.search()` や `stripe.Charge.search()` などの検索 [API](/glossary/api/) は通常の [API](/glossary/api/) より厳しい[レート制限](/glossary/レート制限/)が適用されます。特に大規模な顧客[データベース](/glossary/データベース/)を検索する場合は、List [API](/glossary/api/) で自動ページングを使う方が推奨されます。
+`stripe.Customer.search()` や `stripe.Charge.search()` などの[検索](/glossary/検索/) [API](/glossary/api/) は通常の [API](/glossary/api/) より厳しい[レート制限](/glossary/レート制限/)が適用されます。特に大規模な顧客[データベース](/glossary/データベース/)を[検索](/glossary/検索/)する場合は、List [API](/glossary/api/) で自動ページングを使う方が推奨されます。
 
 ```python
 # 重い検索（レート制限に引っかかりやすい）
@@ -298,7 +298,7 @@ curl -u sk_test_<your-secret-key>: \
 
 ### コミュニティーリソース
 
-[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を検索すると、他のユーザーの解決事例が見つかります。特に大規模な[バッチ処理](/glossary/バッチ処理/)を行う場合は、既に同様の問題が報告されていることが一般的です。
+[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を[検索](/glossary/検索/)すると、他のユーザーの解決事例が見つかります。特に大規模な[バッチ処理](/glossary/バッチ処理/)を行う場合は、既に同様の問題が報告されていることが一般的です。
 
 公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装[パターン](/glossary/パターン/)のアドバイスを提供しています。
 

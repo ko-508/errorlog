@@ -164,7 +164,7 @@ kubectl get nodes
 
 **kubeconfig の自動管理**
 
-Minikubeはデフォルトで `~/.kube/config` に接続情報を自動的に書き込みます。`minikube start` を実行する際に `--keep-context=false`（デフォルト）オプションが指定されていると、既存のコンテキストが上書きされます。複数の[Kubernetes](/glossary/kubernetes/)クラスターを管理している場合は、`--keep-context=true` を使用して既存の[設定](/glossary/設定/)を保護してください。
+Minikubeは[デフォルト](/glossary/デフォルト/)で `~/.kube/config` に接続情報を自動的に書き込みます。`minikube start` を実行する際に `--keep-context=false`（[デフォルト](/glossary/デフォルト/)）オプションが指定されていると、既存のコンテキストが上書きされます。複数の[Kubernetes](/glossary/kubernetes/)クラスターを管理している場合は、`--keep-context=true` を使用して既存の[設定](/glossary/設定/)を保護してください。
 
 **ドライバー固有の問題**
 
@@ -220,7 +220,7 @@ minikube delete
 minikube start
 ```
 
-詳細は[Minikube公式ドキュメント - Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)および[kubectl config コマンド リファレンス](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#config)を参照してください。[Kubernetes](/glossary/kubernetes/) コミュニティの [GitHub](/glossary/github/) Issues でも同様の事例が報告されているため、[エラーメッセージ](/glossary/エラーメッセージ/)を検索すると解決策が見つかることが多くあります。
+詳細は[Minikube公式ドキュメント - Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)および[kubectl config コマンド リファレンス](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#config)を参照してください。[Kubernetes](/glossary/kubernetes/) コミュニティの [GitHub](/glossary/github/) Issues でも同様の事例が報告されているため、[エラーメッセージ](/glossary/エラーメッセージ/)を[検索](/glossary/検索/)すると解決策が見つかることが多くあります。
 
 ---
 

@@ -35,7 +35,7 @@ The specified bucket does not exist
 
 **[エラーメッセージ](/glossary/エラーメッセージ/)の読み方：**
 
-- `NoSuchBucket` → [HTTP](/glossary/http/) エラーコード：指定された[バケット](/glossary/バケット/)が見つからないことを示す
+- `NoSuchBucket` → [HTTP](/glossary/http/) [エラーコード](/glossary/エラーコード/)：指定された[バケット](/glossary/バケット/)が見つからないことを示す
 - `The specified bucket does not exist` → メッセージ本文：[バケット](/glossary/バケット/)が存在していない、または[アクセス権限](/glossary/アクセス権限/)がない状態
 - `GetBucketLocation operation` → 実行しようとしていたオペレーション：この例ではバケットロケーション情報の取得
 
@@ -227,7 +227,7 @@ NoSuchBucket [エラー](/glossary/エラー/)が頻発して S3 の運用に支
 
 公式ドキュメントでは NoSuchBucket [エラー](/glossary/エラー/)の原因を「[バケット](/glossary/バケット/)が存在しない」と説明していますが、Stack Overflow の[実際の報告](https://stackoverflow.com/questions/55940082/nosuchbucket-error-sometimes-occurs-when-looping-through-all-s3-buckets)から明らかなように、[IAM](/glossary/iam/) 権限不足でも同じ[エラー](/glossary/エラー/)が返されることが一般的です。同じく [EC2 環境での報告](https://stackoverflow.com/questions/40871221/aws-s3-ls-bucket-name-works-on-local-machine-but-on-ec2-nosuchbucket-error) では、ローカルマシンでは動作していても EC2 [インスタンス](/glossary/インスタンス/)で[エラー](/glossary/エラー/)になるケースが多く報告されており、この場合の原因はほぼ確実に[ロール](/glossary/ロール/)[権限](/glossary/権限/)です。現場では、[バケット](/glossary/バケット/)存在確認より先に [IAM](/glossary/iam/) [権限](/glossary/権限/)を確認する方が、[エラー](/glossary/エラー/)原因の特定が効率的になります。
 
-> **調査について**　この記事の解決策は、Stack Overflow への公開報告を Gemini + Google Search で検索・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
+> **調査について**　この記事の解決策は、Stack Overflow への公開報告を Gemini + Google Search で[検索](/glossary/検索/)・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 

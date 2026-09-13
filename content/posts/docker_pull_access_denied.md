@@ -126,7 +126,7 @@ may require 'docker login'
 
 ただし、Registryの仕様が404と403を同じものとして定義しているわけではありません。[CNCF DistributionのRegistry HTTP API V2仕様](https://distribution.github.io/distribution/spec/api/)は、次のように区別しています。
 
-| 状態 | [HTTP](/glossary/http/) | Registryのエラーコード |
+| 状態 | [HTTP](/glossary/http/) | Registryの[エラーコード](/glossary/エラーコード/) |
 |---|---:|---|
 | [認証](/glossary/認証/)が必要 | 401 | `UNAUTHORIZED` |
 | 操作を許可されていない | 403 | `DENIED` |

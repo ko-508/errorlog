@@ -169,7 +169,7 @@ az storage account create --name mynewstorageaccount --resource-group myResource
 
 Azure[環境](/glossary/環境/)では、複数のレイヤーで404[エラー](/glossary/エラー/)が発生する可能性があります。
 
-**Azure Portalでの確認：** Portalから直接リソースを検索する際、左側の検索バーにリソース名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に[削除](/glossary/削除/)されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
+**Azure Portalでの確認：** Portalから直接リソースを[検索](/glossary/検索/)する際、左側の[検索](/glossary/検索/)バーにリソース名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に[削除](/glossary/削除/)されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
 
 **Azure [CLI](/glossary/cli/)と[API](/glossary/api/)[バージョン](/glossary/バージョン/)：** Azure [CLI](/glossary/cli/)でリソースを操作する際、使用している[API](/glossary/api/)[バージョン](/glossary/バージョン/)が古い場合、新しいリソースタイプが認識されない可能性があります。例えば、`az vm show`の背後で使用されるCompute [API](/glossary/api/)の[バージョン](/glossary/バージョン/)が古いと、新しいVM[プロパティ](/glossary/プロパティ/)は見つからずに404的な[エラー](/glossary/エラー/)になることもあります。最新の操作には`--api-version`パラメーターで明示的に[バージョン](/glossary/バージョン/)を指定することをお勧めします。
 

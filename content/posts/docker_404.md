@@ -20,9 +20,9 @@ trend_incident: true
 
 ## エラーの概要
 
-docker [コマンド](/glossary/コマンド/)の[エラー](/glossary/エラー/)で Error response from daemon: と付くものは、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)まで指示が届いたうえで、[デーモン](/glossary/デーモン/)が処理を拒否したことを示します。[デーモン](/glossary/デーモン/)は、[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)などの資源が見つからない場合、[API](/glossary/api/) 上は 404 として応答し、[CLI](/glossary/cli/) には No such container: <名前> のような文言で表示されます（この対応は [Docker](/glossary/docker/) のソースコードで確認できます）。一方、docker pull や docker push で[レジストリ](/glossary/レジストリ/)とやり取りする場合の404は、[レジストリ](/glossary/レジストリ/)側の応答に由来します。[レジストリ](/glossary/レジストリ/)の標準仕様では、[リポジトリ](/glossary/リポジトリ/)名が不明な場合のエラーコードは NAME_UNKNOWN（repository name not known to registry）で、これも [HTTP](/glossary/http/) 404 に対応付けられています。
+docker [コマンド](/glossary/コマンド/)の[エラー](/glossary/エラー/)で Error response from daemon: と付くものは、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)まで指示が届いたうえで、[デーモン](/glossary/デーモン/)が処理を拒否したことを示します。[デーモン](/glossary/デーモン/)は、[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)などの資源が見つからない場合、[API](/glossary/api/) 上は 404 として応答し、[CLI](/glossary/cli/) には No such container: <名前> のような文言で表示されます（この対応は [Docker](/glossary/docker/) のソースコードで確認できます）。一方、docker pull や docker push で[レジストリ](/glossary/レジストリ/)とやり取りする場合の404は、[レジストリ](/glossary/レジストリ/)側の応答に由来します。[レジストリ](/glossary/レジストリ/)の標準仕様では、[リポジトリ](/glossary/リポジトリ/)名が不明な場合の[エラーコード](/glossary/エラーコード/)は NAME_UNKNOWN（repository name not known to registry）で、これも [HTTP](/glossary/http/) 404 に対応付けられています。
 
-どの場合も、エラーコードの数字より文言のほうが多くを語ります。以下、文言ごとに切り分けます。
+どの場合も、[エラーコード](/glossary/エラーコード/)の数字より文言のほうが多くを語ります。以下、文言ごとに切り分けます。
 
 ## まず最初に：エラー文言で3つに分岐する
 

@@ -140,7 +140,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### APIバージョンの不整合
 
-Stripeの[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)がデフォルトで使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
+Stripeの[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)が[デフォルト](/glossary/デフォルト/)で使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
 
 ```bash
 curl https://api.stripe.com/v1/payment_intents \
@@ -200,7 +200,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### ログとデバッグ方法
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)[ID](/glossary/id/)を記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を検索しやすくなります。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)[ID](/glossary/id/)を記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を[検索](/glossary/検索/)しやすくなります。
 
 ```python
 # レスポンスからリクエストIDを取得
@@ -215,12 +215,12 @@ except stripe.error.InvalidRequestError as e:
 ### 公式ドキュメント参照
 
 - **[Stripe API Reference](https://stripe.com/docs/api)**：各[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を確認
-- **[Error Handling](https://stripe.com/docs/error-handling)**：エラーコードと対処法の公式ガイド
+- **[Error Handling](https://stripe.com/docs/error-handling)**：[エラーコード](/glossary/エラーコード/)と対処法の公式ガイド
 - **[API Versioning](https://stripe.com/docs/upgrades)**：[API](/glossary/api/)[バージョン](/glossary/バージョン/)変更履歴と非推奨[パラメータ](/glossary/パラメータ/)
 
 ### コミュニティリソース
 
-Stripe公式の[GitHub Issues](https://github.com/stripe/stripe-python)や[Stack Overflow](https://stackoverflow.com/questions/tagged/stripe)では、同様の問題に直面した開発者の解決例が多数記録されています。[エラーメッセージ](/glossary/エラーメッセージ/)を含めて検索すると、既知の問題と解決策が見つかる可能性が高いです。
+Stripe公式の[GitHub Issues](https://github.com/stripe/stripe-python)や[Stack Overflow](https://stackoverflow.com/questions/tagged/stripe)では、同様の問題に直面した開発者の解決例が多数記録されています。[エラーメッセージ](/glossary/エラーメッセージ/)を含めて[検索](/glossary/検索/)すると、既知の問題と解決策が見つかる可能性が高いです。
 
 ---
 

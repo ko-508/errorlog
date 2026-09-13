@@ -278,7 +278,7 @@ sudo journalctl -u kubelet -n 50
 
 ### コミュニティリソース
 
-- [Kubernetes GitHub Issues](https://github.com/kubernetes/kubernetes/issues)：認証関連の既知問題を検索
+- [Kubernetes GitHub Issues](https://github.com/kubernetes/kubernetes/issues)：認証関連の既知問題を[検索](/glossary/検索/)
 - [Kubernetes Slack コミュニティ](https://kubernetes.slack.com/)：`#general` チャネルで質問
 
 ---

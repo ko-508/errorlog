@@ -158,7 +158,7 @@ sudo podman pull registry.example.com/myimage:latest
 
 **デバッグログの確認**: `PODMAN_LOG_LEVEL=debug podman pull <image>` でデバッグログを出力し、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)がどう[送信](/glossary/送信/)されているかを確認してください。
 
-**[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)確認**: [プライベートレジストリ](/glossary/プライベートレジストリ/)を運用している場合、レジストリサーバー側の[ログ](/glossary/ログ/)で拒否理由を確認できます。例えばRegistry V2の標準実装では `/var/log/registry/` 配下にアクセスログが記録されます。
+**[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)確認**: [プライベートレジストリ](/glossary/プライベートレジストリ/)を運用している場合、レジストリサーバー側の[ログ](/glossary/ログ/)で拒否理由を確認できます。例えばRegistry V2の標準実装では `/var/log/registry/` 配下に[アクセスログ](/glossary/アクセスログ/)が記録されます。
 
 **[ネットワーク](/glossary/ネットワーク/)接続の確認**: [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が[認証](/glossary/認証/)[リクエスト](/glossary/リクエスト/)をブロックしていないか、`curl -v https://registry.example.com/v2/` で[HTTP](/glossary/http/)応答を確認してください。
 

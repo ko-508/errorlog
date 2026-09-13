@@ -142,7 +142,7 @@ env:
 
 ### 原因5：分類名だけで判断してしまう
 
-対処ではなく、進め方の問題です。この分類名は原因を含まないため、名前だけを検索しても自分の状況には辿り着きません。
+対処ではなく、進め方の問題です。この分類名は原因を含まないため、名前だけを[検索](/glossary/検索/)しても自分の状況には辿り着きません。
 
 ```bash
 # 状態と文言を同時に取り出す（複数コンテナにも対応）
@@ -212,7 +212,7 @@ kubectl get pod <Pod名> -n <名前空間> -w
 
 貼られている出力では、`kubectl get pod` の状態欄に3つの Pod が `CreateContainerConfigError` と並んでいます。ここまでは、どれも同じに見えます。ところが[イベント](/glossary/イベント/)を見ると、内訳が違いました。ある Pod は `Error: couldn't find key postgresql-password in Secret test/my-postgresql`、別の Pod は `Error: secret "sentry-snuba-env" not found`。**前者は参照先はあるが[キー](/glossary/キー/)が違う、後者はそもそも参照先が無い**という、対処のまったく異なる2つの問題が、同じ分類名の下に混ざっていたわけです。
 
-[イベント](/glossary/イベント/)の理由欄がどちらも `Failed` である点も、実装のとおりでした。分類名で検索しても解決しないのは、この構造のためです。
+[イベント](/glossary/イベント/)の理由欄がどちらも `Failed` である点も、実装のとおりでした。分類名で[検索](/glossary/検索/)しても解決しないのは、この構造のためです。
 
 もう1つ、入口でつまずく例もあります（[CreateContainerConfigError on multiple pods after install](https://github.com/argoproj/argo-cd/issues/18993)）。報告者が原因を調べようと[ログ](/glossary/ログ/)を取得したところ、[コンテナ](/glossary/コンテナ/)が起動待ちである旨だけが返ってきています。この段階では[コンテナ](/glossary/コンテナ/)が存在しないため、当然の応答です。同じ報告の[イベント](/glossary/イベント/)には、失敗が9分間で8回繰り返された記録が残っており、kubelet が諦めずに再試行していることも読み取れます。
 

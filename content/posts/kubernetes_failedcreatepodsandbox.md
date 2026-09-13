@@ -28,9 +28,9 @@ related_services: []
 
 ### これは HTTP ステータスではなく kubelet のイベント理由です
 
-`FailedCreatePodSandbox` はエラーコードではなく、kubelet が Pod に対して発行する Event の `reason` です。`kubectl describe pod` の Events 欄や `kubectl get events` に現れます。
+`FailedCreatePodSandbox` は[エラーコード](/glossary/エラーコード/)ではなく、kubelet が Pod に対して発行する Event の `reason` です。`kubectl describe pod` の Events 欄や `kubectl get events` に現れます。
 
-実際にクラスタ上で出力される文字列は **`FailedCreatePodSandBox`（`Box` の B が大文字）** です。[ログ](/glossary/ログ/)や[イベント](/glossary/イベント/)を検索するときは大文字小文字を区別しない検索（`grep -i`）を使うと取りこぼしが減ります。
+実際にクラスタ上で出力される文字列は **`FailedCreatePodSandBox`（`Box` の B が大文字）** です。[ログ](/glossary/ログ/)や[イベント](/glossary/イベント/)を[検索](/glossary/検索/)するときは大文字小文字を区別しない[検索](/glossary/検索/)（`grep -i`）を使うと取りこぼしが減ります。
 
 ### sandbox とは何か
 
@@ -290,7 +290,7 @@ df -h > df.txt; df -i > df-inode.txt
 
 - **CNI 由来のメッセージが出ている**：使用しているネットワークアドオンの公式[リポジトリ](/glossary/リポジトリ/)・ドキュメント
 - **container runtime 由来のメッセージが出ている**：containerd や CRI-O の公式[リポジトリ](/glossary/リポジトリ/)・ドキュメント
-- **kubelet や CRI の挙動そのものに疑問がある**：kubernetes/kubernetes の Issue を検索し、同種の報告があるか確認する
+- **kubelet や CRI の挙動そのものに疑問がある**：kubernetes/kubernetes の Issue を[検索](/glossary/検索/)し、同種の報告があるか確認する
 - **マネージドサービス（[クラウド](/glossary/クラウド/)提供の [Kubernetes](/glossary/kubernetes/)）を利用している**：ノードイメージや[ネットワーク](/glossary/ネットワーク/)実装が提供元固有のため、提供元のサポート窓口が最短
 
 報告時は、クラスタの構築方法（kubeadm、マネージドサービス、ディストリビューション）、使用しているネットワークアドオン、container runtime の種類、直前に行った変更（ノード追加、アップグレード、[設定変更](/glossary/設定変更/)）を添えると切り分けが早くなります。[ログ](/glossary/ログ/)を共有する際は、[トークン](/glossary/トークン/)や認証情報が含まれていないかを確認し、必要に応じて `<your-token>` のような形に置き換えてください。

@@ -90,7 +90,7 @@ exports.processData = functions.https.onRequest((req, res) => {
 
 ### 原因3：Cloud Functionsがタイムアウトしている
 
-Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)時間（デフォルト60秒）を超える処理を実行すると、実行が[キャンセル](/glossary/キャンセル/)されて502[エラー](/glossary/エラー/)が返されます。
+Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)時間（[デフォルト](/glossary/デフォルト/)60秒）を超える処理を実行すると、実行が[キャンセル](/glossary/キャンセル/)されて502[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）:**
 ```bash
@@ -220,7 +220,7 @@ Firebase Consoleの[ログ](/glossary/ログ/)機能または以下の[コマン
 gcloud functions logs read <your-function-name> --limit 50
 ```
 
-Cloud Loggingで詳しく検索する場合：
+Cloud Loggingで詳しく[検索](/glossary/検索/)する場合：
 
 ```bash
 gcloud logging read "resource.type=cloud_function AND resource.labels.function_name=<your-function-name>" --limit 50
@@ -243,7 +243,7 @@ gcloud functions describe <your-function-name>
 
 ### コミュニティリソース
 
-Firebase [GitHub](/glossary/github/) Issues（https://github.com/firebase/firebase-tools/issues）やStack Overflowの`firebase`[タグ](/glossary/タグ/)で同様の事例を検索すると、より詳しい情報が得られることがあります。
+Firebase [GitHub](/glossary/github/) Issues（https://github.com/firebase/firebase-tools/issues）やStack Overflowの`firebase`[タグ](/glossary/タグ/)で同様の事例を[検索](/glossary/検索/)すると、より詳しい情報が得られることがあります。
 
 ---
 
