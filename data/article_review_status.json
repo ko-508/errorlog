@@ -1311,5 +1311,16 @@
         "note": "Google Cloud の学習ロードマップ記事を新規追加。既存4本と同じ6段階構成で、認証情報とプロジェクト／APIの有効化／IAM の評価順序／サービスアカウント／ネットワークの到達性／トラブルシューティングに分けた。仕様は Google Cloud 公式ドキュメントで照合。Udemy の PR リンクを1か所配置し、冒頭に広告表示を追加"
       }
     ]
+  },
+  "content/posts/postgresql_relation_does_not_exist.md": {
+    "verified": true,
+    "verified_at": "2026-09-15",
+    "last_verified_at": "2026-09-15",
+    "history": [
+      {
+        "date": "2026-09-15",
+        "note": "新規作成。文言とエラーコードは parse_relation.c と namespace.c、relation の定義・USAGE 権限・識別子の畳み込みは公式ドキュメントのソースで照合"
+      }
+    ]
   }
 }
