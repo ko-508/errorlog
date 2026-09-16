@@ -1322,5 +1322,16 @@
         "note": "新規作成。文言とエラーコードは parse_relation.c と namespace.c、relation の定義・USAGE 権限・識別子の畳み込みは公式ドキュメントのソースで照合"
       }
     ]
+  },
+  "content/posts/github_failed_to_push_some_refs.md": {
+    "verified": true,
+    "verified_at": "2026-09-16",
+    "last_verified_at": "2026-09-16",
+    "history": [
+      {
+        "date": "2026-09-16",
+        "note": "新規作成。要約行と hint の分岐は builtin/push.c、括弧の語は transport.c、判定順は remote.c、--force-if-includes は公式ドキュメントと 2.30 リリースノートで照合"
+      }
+    ]
   }
 }
