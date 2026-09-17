@@ -6,3 +6,5 @@ add_sa_to_ga4.py
 __pycache__/
 run/
 .tmp_pytest_run/
+data/topics.json
+data/topics.md
