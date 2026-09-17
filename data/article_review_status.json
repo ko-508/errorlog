@@ -1333,5 +1333,16 @@
         "note": "新規作成。要約行と hint の分岐は builtin/push.c、括弧の語は transport.c、判定順は remote.c、--force-if-includes は公式ドキュメントと 2.30 リリースノートで照合"
       }
     ]
+  },
+  "content/posts/npm_gyp_err_build_error.md": {
+    "verified": true,
+    "verified_at": "2026-09-17",
+    "last_verified_at": "2026-09-17",
+    "history": [
+      {
+        "date": "2026-09-17",
+        "note": "新規作成。見出しの組み立てと環境情報の出力は bin/node-gyp.js、終了コードと信号の文言は lib/build.js、必要な道具は README で照合"
+      }
+    ]
   }
 }
