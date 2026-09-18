@@ -1,7 +1,7 @@
 ---
 title: "Gitのdubious ownershipエラーの原因と解決策"
 date: 2026-09-18
-draft: true
+draft: false
 description: "Gitでfatal: detected dubious ownership in repository atと表示されるのは、リポジトリの所有者とGitを実行している利用者が一致しないためです。信頼できるリポジトリならsafe.directoryへ登録できますが、所有者の設定を直した方がよい場合もあります。Windows、Linux、コンテナでの確認方法と安全な対処を説明します。"
 tags: ["Git"]
 images: ["og/posts/git_detected_dubious_ownership.png"]
