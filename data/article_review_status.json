@@ -1344,5 +1344,16 @@
         "note": "新規作成。見出しの組み立てと環境情報の出力は bin/node-gyp.js、終了コードと信号の文言は lib/build.js、必要な道具は README で照合"
       }
     ]
+  },
+  "content/posts/git_detected_dubious_ownership.md": {
+    "verified": true,
+    "verified_at": "2026-09-18",
+    "last_verified_at": "2026-09-18",
+    "history": [
+      {
+        "date": "2026-09-18",
+        "note": "新規作成。原因・safe.directoryの仕様・SUDO_UIDの挙動はGit公式文書およびGit本体の実装で照合"
+      }
+    ]
   }
 }
