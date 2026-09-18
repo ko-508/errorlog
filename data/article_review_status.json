@@ -1359,5 +1359,16 @@
         "note": "draft設定を解除して公開"
       }
     ]
+  },
+  "content/posts/postgresql_deadlock_detected.md": {
+    "verified": true,
+    "verified_at": "2026-09-18",
+    "last_verified_at": "2026-09-18",
+    "history": [
+      {
+        "date": "2026-09-18",
+        "note": "新規作成。SQLSTATE 40P01、ロック順序、再試行、deadlock_timeout、log_lock_waitsの仕様をPostgreSQL公式文書および本体ソースで照合"
+      }
+    ]
   }
 }
