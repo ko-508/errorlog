@@ -173,6 +173,7 @@
   "postgresql_deadlock_detected": "2026-09-18T12:34:10.589870+00:00",
   "postgresql_password_authentication_failed": "2026-09-06T22:53:02.360400+00:00",
   "postgresql_relation_does_not_exist": "2026-09-15T10:26:55.401146+00:00",
+  "postgresql_too_many_clients": "2026-09-19T11:59:36.610280+00:00",
   "slack_400": "2026-07-13T08:15:44.229269+00:00",
   "slack_401": "2026-07-13T08:15:44.228721+00:00",
   "slack_403": "2026-07-13T08:15:44.226856+00:00",
