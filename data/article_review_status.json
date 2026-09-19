@@ -1370,5 +1370,16 @@
         "note": "新規作成。SQLSTATE 40P01、ロック順序、再試行、deadlock_timeout、log_lock_waitsの仕様をPostgreSQL公式文書および本体ソースで照合"
       }
     ]
+  },
+  "content/posts/postgresql_too_many_clients.md": {
+    "verified": true,
+    "verified_at": "2026-09-19",
+    "last_verified_at": "2026-09-19",
+    "history": [
+      {
+        "date": "2026-09-19",
+        "note": "新規作成。SQLSTATE 53300、予約接続枠、max_connections、待機接続の仕様をPostgreSQL公式文書および本体ソースで照合"
+      }
+    ]
   }
 }
