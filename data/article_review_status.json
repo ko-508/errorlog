@@ -1381,5 +1381,16 @@
         "note": "新規作成。SQLSTATE 53300、予約接続枠、max_connections、待機接続の仕様をPostgreSQL公式文書および本体ソースで照合"
       }
     ]
+  },
+  "content/posts/postgresql_no_pg_hba_conf_entry.md": {
+    "verified": true,
+    "verified_at": "2026-09-20",
+    "last_verified_at": "2026-09-20",
+    "history": [
+      {
+        "date": "2026-09-20",
+        "note": "新規作成。照合条件、規則の適用順、SSL条件、再読み込み、pg_hba_file_rulesの仕様をPostgreSQL公式文書および本体ソースで照合"
+      }
+    ]
   }
 }
