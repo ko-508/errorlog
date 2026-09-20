@@ -191,7 +191,7 @@ const inStockItems = snap.docs.filter(doc => doc.data().inStock).map(doc => doc.
 
 ### Realtime Database の接続維持
 
-Realtime Database との接続が切断されると 408 が発生する可能性があります。連続接続を行う場合は再接続ロジックを実装してください。
+Realtime Database との接続が切断されると 408 が発生する可能性があります。連続接続を行う場合は再接続[ロジック](/glossary/ロジック/)を実装してください。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

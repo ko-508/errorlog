@@ -222,7 +222,7 @@ Firestore [REST](/glossary/rest/) [API](/glossary/api/) を直接呼び出す場
 
 ### Realtime Database の場合
 
-`.json` [エンドポイント](/glossary/エンドポイント/)経由でのアクセス時に、スラッシュ文字や特殊文字を含む[パス](/glossary/パス/)が [URL](/glossary/url/) エンコードされていないと 400 [エラー](/glossary/エラー/)が発生します。[パス](/glossary/パス/)内の空白やスペースは必ず `%20` に置き換える必要があります。
+`.json` [エンドポイント](/glossary/エンドポイント/)経由でのアクセス時に、スラッシュ文字や特殊文字を含む[パス](/glossary/パス/)が [URL](/glossary/url/) [エンコード](/glossary/エンコード/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[パス](/glossary/パス/)内の空白やスペースは必ず `%20` に置き換える必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

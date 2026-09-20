@@ -126,7 +126,7 @@ Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以
 
 ### 原因3：URLのクエリパラメータに不正な文字が含まれている
 
-[URL](/glossary/url/)のクエリパラメータに、スペースや日本語などのエンコードが必要な文字が含まれている場合、[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返すことがあります。特にPostmanで手動で[URL](/glossary/url/)を入力している場合、[URL](/glossary/url/)エンコードが自動的に行われないかもしれません。
+[URL](/glossary/url/)のクエリパラメータに、スペースや日本語などの[エンコード](/glossary/エンコード/)が必要な文字が含まれている場合、[サーバー](/glossary/サーバー/)が400[エラー](/glossary/エラー/)を返すことがあります。特にPostmanで手動で[URL](/glossary/url/)を入力している場合、[URL](/glossary/url/)[エンコード](/glossary/エンコード/)が自動的に行われないかもしれません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -134,7 +134,7 @@ Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以
 GET http://api.example.com/search?keyword=東京都&sort=新着順
 ```
 
-上記の[URL](/glossary/url/)は[ブラウザ](/glossary/ブラウザ/)では自動的にエンコードされますが、Postmanで手動入力した場合、日本語や記号がそのまま[送信](/glossary/送信/)されて400[エラー](/glossary/エラー/)になる可能性があります。
+上記の[URL](/glossary/url/)は[ブラウザ](/glossary/ブラウザ/)では自動的に[エンコード](/glossary/エンコード/)されますが、Postmanで手動入力した場合、日本語や記号がそのまま[送信](/glossary/送信/)されて400[エラー](/glossary/エラー/)になる可能性があります。
 
 **After（修正後）：**
 
@@ -151,7 +151,7 @@ Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定
   - Key: keyword, Value: 東京都
   - Key: sort, Value: 新着順
 
-Paramsタブを使用することで、Postmanが自動的に[URL](/glossary/url/)エンコードを行い、正しい形式で[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
+Paramsタブを使用することで、Postmanが自動的に[URL](/glossary/url/)[エンコード](/glossary/エンコード/)を行い、正しい形式で[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
 
 ## ツール固有の注意点
 

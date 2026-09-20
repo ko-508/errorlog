@@ -51,9 +51,9 @@ trend_incident: false
 
 ## 結論
 
-`gyp ERR! build error` の build は、原因の名前ではありません。失敗した[コマンド](/glossary/コマンド/)の名前です。node-gyp の実装は、処理が例外で終わったときに「その[コマンド](/glossary/コマンド/)名」と `error` をつないだ見出しを出します。だから `configure error` や `install error` も同じ書式で現れます。build と出ていれば、設定の段階は通っていて、組み立ての段階で落ちたという意味になります。
+`gyp ERR! build error` の build は、原因の名前ではありません。失敗した[コマンド](/glossary/コマンド/)の名前です。node-gyp の実装は、処理が例外で終わったときに「その[コマンド](/glossary/コマンド/)名」と `error` をつないだ見出しを出します。だから `configure error` や `install error` も同じ書式で現れます。build と出ていれば、[設定](/glossary/設定/)の段階は通っていて、組み立ての段階で落ちたという意味になります。
 
-もう1つ押さえる点があります。この段階で node-gyp 自身が投げる[エラー](/glossary/エラー/)は、ほぼ1種類しかありません。実装では、呼び出した `make` か `msbuild` が 0 以外で終わったときに、終了コードをそのまま載せた[エラー](/glossary/エラー/)を作ります。つまり `gyp ERR! stack` の行は「外部の[プロセス](/glossary/プロセス/)が失敗した」としか言っていません。
+もう1つ押さえる点があります。この段階で node-gyp 自身が投げる[エラー](/glossary/エラー/)は、ほぼ1種類しかありません。実装では、呼び出した `make` か `msbuild` が 0 以外で終わったときに、終了[コード](/glossary/コード/)をそのまま載せた[エラー](/glossary/エラー/)を作ります。つまり `gyp ERR! stack` の行は「外部の[プロセス](/glossary/プロセス/)が失敗した」としか言っていません。
 
 本当の原因は、その上にあります。組み立ての出力は node-gyp を素通りして画面に出るため、`gyp ERR!` の並びより前に、実際の失敗が文字として残っています。読む場所はそこです。
 
@@ -74,7 +74,7 @@ gyp ERR! stack Error: `make` failed with exit code: 2
 gyp ERR! stack Error: Could not find *.sln file or Makefile. Did you run "configure"?
 ```
 
-`gyp ERR!` の末尾に並ぶ System、command、cwd、node -v、node-gyp -v の5行は、失敗のたびに必ず出る環境の記録です。原因は入っていません。ただし node -v の値は、次の原因1の判断に使います。
+`gyp ERR!` の末尾に並ぶ System、command、cwd、node -v、node-gyp -v の5行は、失敗のたびに必ず出る[環境](/glossary/環境/)の記録です。原因は入っていません。ただし node -v の値は、次の原因1の判断に使います。
 
 ## 原因別の確認方法と解決策
 
@@ -90,15 +90,15 @@ gyp ERR! node -v v24.0.0
 
 ### 原因2：組み立てに使う道具が無い {#build-tool-not-found}
 
-node-gyp は自分では組み立てません。外部の道具を呼びます。公式の案内では、Unix 系で Python と make と C/C++ の組み立て環境、macOS では Xcode の[コマンド](/glossary/コマンド/)行[ツール](/glossary/ツール/)が必要だと示されています。
+node-gyp は自分では組み立てません。外部の道具を呼びます。公式の案内では、Unix 系で Python と make と C/C++ の組み立て[環境](/glossary/環境/)、macOS では Xcode の[コマンド](/glossary/コマンド/)行[ツール](/glossary/ツール/)が必要だと示されています。
 
-この不足は多くの場合 `configure error` として先に出ますが、設定が残ったまま道具だけ失われた場合は build の側で出ます。`gyp ERR! stack` に終了コードではなく道具が見つからない旨の文が出ていれば、こちらです。
+この不足は多くの場合 `configure error` として先に出ますが、[設定](/glossary/設定/)が残ったまま道具だけ失われた場合は build の側で出ます。`gyp ERR! stack` に終了[コード](/glossary/コード/)ではなく道具が見つからない旨の文が出ていれば、こちらです。
 
-軽量な[コンテナ](/glossary/コンテナ/)の土台では、この手の道具が最初から入っていません。[インストール](/glossary/インストール/)の手順に組み立て環境を加えてください。
+軽量な[コンテナ](/glossary/コンテナ/)の土台では、この手の道具が最初から入っていません。[インストール](/glossary/インストール/)の手順に組み立て[環境](/glossary/環境/)を加えてください。
 
 ### 原因3：組み立て中に中身が通らない {#compiler-error-in-source}
 
-道具は揃っていて、それでも失敗する場合です。終了コードは 2 になることが多く、画面には `error:` で始まる行が並びます。
+道具は揃っていて、それでも失敗する場合です。終了[コード](/glossary/コード/)は 2 になることが多く、画面には `error:` で始まる行が並びます。
 
 ```text
 ../src/binding.cc:42:10: error: no member named 'New' in 'v8::String'
@@ -106,13 +106,13 @@ gyp ERR! build error
 gyp ERR! stack Error: `make` failed with exit code: 2
 ```
 
-原因は部品側と土台側のずれです。古い部品が新しい Node.js の内部[インターフェース](/glossary/インターフェース/)を前提にしていない場合や、逆に新しすぎる組み立て環境が古い書き方を受け付けない場合に起きます。
+原因は部品側と土台側のずれです。古い部品が新しい Node.js の内部[インターフェース](/glossary/インターフェース/)を前提にしていない場合や、逆に新しすぎる組み立て[環境](/glossary/環境/)が古い書き方を受け付けない場合に起きます。
 
 対処は、その部品の版を対応しているものに合わせることです。読み手が[モジュール](/glossary/モジュール/)の作者でない限り、中身を直す選択肢は現実的ではありません。
 
 ### 原因4：メモリが尽きて外から止められた {#killed-by-memory-limit}
 
-[コンテナ](/glossary/コンテナ/)や小さな仮想機械で起きます。node-gyp は、呼んだ[プロセス](/glossary/プロセス/)が信号で終わった場合、終了コードではなく信号の名前を載せます。
+[コンテナ](/glossary/コンテナ/)や小さな仮想機械で起きます。node-gyp は、呼んだ[プロセス](/glossary/プロセス/)が信号で終わった場合、終了[コード](/glossary/コード/)ではなく信号の名前を載せます。
 
 ```text
 gyp ERR! stack Error: `make` got signal: SIGKILL
@@ -122,13 +122,13 @@ gyp ERR! stack Error: `make` got signal: SIGKILL
 
 ## 近いエラーとの違い
 
-`gyp ERR! configure error` は、組み立ての前の段階です。Python や組み立て環境を探す処理で止まっており、`gyp ERR! find Python` のような別の見出しが一緒に出ます。
+`gyp ERR! configure error` は、組み立ての前の段階です。Python や組み立て[環境](/glossary/環境/)を探す処理で止まっており、`gyp ERR! find Python` のような別の見出しが一緒に出ます。
 
 `gyp ERR! not ok` は失敗の締めくくりとして必ず出る行で、原因とは関係ありません。
 
 `npm error code 1` は、同じ失敗を npm の側から見た表示です。npm にとっては、[インストール](/glossary/インストール/)の途中で呼んだ[スクリプト](/glossary/スクリプト/)が 0 以外で終わっただけなので、中身の区別はありません。原因を探すなら node-gyp の側の行を読みます。
 
-`Completion callback never invoked!` と `UNCAUGHT EXCEPTION` は、node-gyp の内部で想定外が起きた場合の表示です。どちらも組み立ての失敗ではなく、終了コードも 6 と 7 で分かれています。
+`Completion callback never invoked!` と `UNCAUGHT EXCEPTION` は、node-gyp の内部で想定外が起きた場合の表示です。どちらも組み立ての失敗ではなく、終了[コード](/glossary/コード/)も 6 と 7 で分かれています。
 
 ## 参考資料
 

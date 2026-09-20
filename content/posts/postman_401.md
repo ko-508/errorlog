@@ -138,7 +138,7 @@ if (!storedToken || (currentTime - tokenTimestamp) > tokenExpiresIn) {
 1. [API](/glossary/api/)プロバイダーの[認証](/glossary/認証/)[エンドポイント](/glossary/エンドポイント/)（例：`/oauth/token`）にアクセスし、新しい[トークン](/glossary/トークン/)を取得
 2. 取得した[トークン](/glossary/トークン/)をPostmanの[環境変数](/glossary/環境変数/)に[保存](/glossary/保存/)
 3. Pre-request Scriptを使用して、[リクエスト](/glossary/リクエスト/)送信前に自動的に[トークン](/glossary/トークン/)期限をチェック
-4. 期限切れの場合は自動更新するロジックを組み込む
+4. 期限切れの場合は自動更新する[ロジック](/glossary/ロジック/)を組み込む
 
 ### 原因3：環境変数に認証情報がセットされていない
 

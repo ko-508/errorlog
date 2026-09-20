@@ -10,7 +10,7 @@ components: ["Compose"]
 related_services: ["PowerShell", "VSCode"]
 ---
 
-Windows[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`[ファイル](/glossary/ファイル/)が原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、[ファイル](/glossary/ファイル/)のエンコードが原因です。
+Windows[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`[ファイル](/glossary/ファイル/)が原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、[ファイル](/glossary/ファイル/)の[エンコード](/glossary/エンコード/)が原因です。
 
 ## エラーの全文
 
@@ -106,8 +106,8 @@ DEBUG=false
 ### 方法3：VSCodeで修正する
 
 1. `.env`をVSCodeで開く
-2. 右下のステータスバーで現在のエンコードを確認（「UTF-16 LE」と表示されているはず）
-3. クリックして「エンコード付きで[保存](/glossary/保存/)」→「UTF-8」を選択
+2. 右下のステータスバーで現在の[エンコード](/glossary/エンコード/)を確認（「UTF-16 LE」と表示されているはず）
+3. クリックして「[エンコード](/glossary/エンコード/)付きで[保存](/glossary/保存/)」→「UTF-8」を選択
 
 ## Before / After の対比
 
@@ -139,7 +139,7 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 
 ## 根本的な対策：.gitattributesで管理する
 
-チーム開発の場合、[リポジトリ](/glossary/リポジトリ/)に`.gitattributes`を追加することでエンコードを強制できます。
+チーム開発の場合、[リポジトリ](/glossary/リポジトリ/)に`.gitattributes`を追加することで[エンコード](/glossary/エンコード/)を強制できます。
 
 ```gitattributes
 # .gitattributes

@@ -35,7 +35,7 @@ ConoHa VPS で [Docker](/glossary/docker/) を動かすとき、[通信](/glossa
 
 どちらも、ufw の表示と実際の通信経路がずれていることから生じます。ufw の一覧はあくまで ufw が管理している規則を示すもので、[Docker](/glossary/docker/) が別に作る規則は含まれません。
 
-前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の仕様を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum RAM は 1024 MB と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 MB のプランはこの最小要件を下回ります。
+前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の仕様を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum [RAM](/glossary/ram/) は 1024 [MB](/glossary/mb/) と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 [MB](/glossary/mb/) のプランはこの最小要件を下回ります。
 
 ## まず最初に：どちらの層を触っているのかを確定する
 

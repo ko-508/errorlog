@@ -167,7 +167,7 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 
 ### Postman Environment 変数の活用
 
-複数の[API](/glossary/api/)[キー](/glossary/キー/)やスコープレベルが異なる[環境](/glossary/環境/)で[テスト](/glossary/テスト/)する場合、Postman の Environment 機能を使用して[変数](/glossary/変数/)を管理することで、403[エラー](/glossary/エラー/)の原因特定を効率化できます。
+複数の[API](/glossary/api/)[キー](/glossary/キー/)やスコープレベルが異なる[環境](/glossary/環境/)で[テスト](/glossary/テスト/)する場合、Postman の Environment 機能を使用して[変数](/glossary/変数/)を管理することで、403[エラー](/glossary/エラー/)の原因特定を[効率化](/glossary/効率化/)できます。
 
 ```json
 // Postman Environment JSON

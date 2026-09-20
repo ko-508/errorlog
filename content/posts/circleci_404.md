@@ -123,8 +123,8 @@ WebUI から [OAuth](/glossary/oauth/) 再認証を実行するか、[API](/glos
 
 ## ツール固有の注意点
 
-**プロジェクトスラッグの[URL](/glossary/url/) エンコード：**
-[API](/glossary/api/) 呼び出しでスラッグを [URL](/glossary/url/) [パス](/glossary/パス/)の一部として使用する場合、特殊文字が含まれていれば[URL](/glossary/url/) エンコードが必要です。例えば、組織名が `my-org` であれば、そのまま使用できますが、スペースやその他の記号が含まれる場合は適切にエンコードしてください。
+**プロジェクトスラッグの[URL](/glossary/url/) [エンコード](/glossary/エンコード/)：**
+[API](/glossary/api/) 呼び出しでスラッグを [URL](/glossary/url/) [パス](/glossary/パス/)の一部として使用する場合、特殊文字が含まれていれば[URL](/glossary/url/) [エンコード](/glossary/エンコード/)が必要です。例えば、組織名が `my-org` であれば、そのまま使用できますが、スペースやその他の記号が含まれる場合は適切に[エンコード](/glossary/エンコード/)してください。
 
 ```bash
 # スラッグに特殊文字がある場合の例

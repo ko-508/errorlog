@@ -50,7 +50,7 @@ trend_incident: false
 
 ## 結論
 
-`relation "users" does not exist` は、対象がこの世に無いという意味ではありません。指定した名前を、今の接続から解決できなかったという意味です。[SQL](/glossary/sql/) の状態コードは 42P01、名称は undefined_table です。
+`relation "users" does not exist` は、対象がこの世に無いという意味ではありません。指定した名前を、今の接続から解決できなかったという意味です。[SQL](/glossary/sql/) の状態[コード](/glossary/コード/)は 42P01、名称は undefined_table です。
 
 relation は[テーブル](/glossary/テーブル/)だけを指しません。公式ドキュメントは、pg_class が[インデックス](/glossary/インデックス/)、シーケンス、ビュー、実体化ビューなども扱い、これらをまとめて relation と呼ぶと説明しています。
 
@@ -93,7 +93,7 @@ SELECT * FROM app.users;
 SET search_path TO app, public;
 ```
 
-`SET` はその[セッション](/glossary/セッション/)の間だけ有効です。毎回同じ状態にしたい場合は、[ロール](/glossary/ロール/)や[データベース](/glossary/データベース/)へ既定値を設定します。
+`SET` はその[セッション](/glossary/セッション/)の間だけ有効です。毎回同じ状態にしたい場合は、[ロール](/glossary/ロール/)や[データベース](/glossary/データベース/)へ既定値を[設定](/glossary/設定/)します。
 
 ### 原因2：スキーマへの USAGE 権限が無い {#schema-usage-not-granted}
 
@@ -155,7 +155,7 @@ SELECT current_database();
 
 `database "..." does not exist`（3D000）は、接続の段階で失敗しています。
 
-`relation "..." does not exist, skipping` は[エラー](/glossary/エラー/)ではなく通知です。`IF EXISTS` を付けた削除や変更で対象が無かったときに出ます。
+`relation "..." does not exist, skipping` は[エラー](/glossary/エラー/)ではなく[通知](/glossary/通知/)です。`IF EXISTS` を付けた[削除](/glossary/削除/)や変更で対象が無かったときに出ます。
 
 同じ文言に `There is a WITH item named ...` という詳細が付く場合は別の状況です。`WITH` で定義した名前を、まだ参照できない位置から呼んでいます。`WITH RECURSIVE` を使うか並び順を変えるようにという助言が一緒に出ます。
 

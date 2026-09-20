@@ -57,7 +57,7 @@ print(response.status_code)  # 404
 
 ### 原因1：プロジェクトIDまたはパスの誤入力
 
-GitLab [API](/glossary/api/)の[プロジェクト](/glossary/プロジェクト/)指定時に、数字の[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)、または[URL](/glossary/url/)形式の `namespace/project-name` を使用します。[パス](/glossary/パス/)に特殊文字やスペースが含まれる場合は、[URL](/glossary/url/)エンコーディングが必須です。スラッシュ（`/`）は `%2F` にエンコードする必要があります。
+GitLab [API](/glossary/api/)の[プロジェクト](/glossary/プロジェクト/)指定時に、数字の[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)、または[URL](/glossary/url/)形式の `namespace/project-name` を使用します。[パス](/glossary/パス/)に特殊文字やスペースが含まれる場合は、[URL](/glossary/url/)エンコーディングが必須です。スラッシュ（`/`）は `%2F` に[エンコード](/glossary/エンコード/)する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

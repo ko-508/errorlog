@@ -179,7 +179,7 @@ curl -v --unix-socket /var/run/docker.sock \
 
 - **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、サポートされているイメージマニフェスト形式を検証します
 - **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`[設定](/glossary/設定/)とイメージレジストリの [CORS](/glossary/cors/)[設定](/glossary/設定/)を確認します
-- **[CI/CD](/glossary/ci-cd/)パイプライン**: [GitHub](/glossary/github/) Actions や GitLab CI のアーティファクトストレージ[設定](/glossary/設定/)を見直し、イメージダイジェストの計算ロジックを[テスト](/glossary/テスト/)します
+- **[CI/CD](/glossary/ci-cd/)パイプライン**: [GitHub](/glossary/github/) Actions や GitLab CI のアーティファクトストレージ[設定](/glossary/設定/)を見直し、イメージダイジェストの計算[ロジック](/glossary/ロジック/)を[テスト](/glossary/テスト/)します
 
 ---
 

@@ -213,9 +213,9 @@ Postmanの Body タブには複数の送信方法があり、選択した方法�
 
 - 検索語が長すぎる（最大256文字）
 - [スコープ](/glossary/スコープ/)が無効（例：`q=user:nonexistent+repo:nonexistent`）
-- 特殊文字が[URL](/glossary/url/) エンコードされていない
+- 特殊文字が[URL](/glossary/url/) [エンコード](/glossary/エンコード/)されていない
 
-Postmanの Params タブで `q` を[設定](/glossary/設定/)する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) エンコードされます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文ドキュメントで確認することを推奨します。
+Postmanの Params タブで `q` を[設定](/glossary/設定/)する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) [エンコード](/glossary/エンコード/)されます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文ドキュメントで確認することを推奨します。
 
 ### FastAPIの Pydantic バリデーション
 

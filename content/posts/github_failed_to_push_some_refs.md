@@ -67,7 +67,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`error: failed to push some refs to '...'` は、理由を含んでいません。[git](/glossary/git/) の実装では、送信の処理が失敗して戻ってきたときに、この1行を無条件で出します。中身が何であれ表示されるため、この行を[検索](/glossary/検索/)しても自分の状況に合う答えには辿り着きにくくなります。
+`error: failed to push some refs to '...'` は、理由を含んでいません。[git](/glossary/git/) の実装では、[送信](/glossary/送信/)の処理が失敗して戻ってきたときに、この1行を無条件で出します。中身が何であれ表示されるため、この行を[検索](/glossary/検索/)しても自分の状況に合う答えには辿り着きにくくなります。
 
 理由は、この行の1つ上に出ます。`! [rejected]` で始まる行の末尾、括弧の中に入る語がそれです。入りうる語は `non-fast-forward`、`fetch first`、`already exists`、`needs force`、`stale info` の5つと、受け取り側が断ったことを示す `[remote rejected]` です。
 
@@ -97,13 +97,13 @@ hint: 'git pull' before pushing again.
 
 ## まず最初に：拒否された行だけを取り出す
 
-出力が長いときは、送信を実際には行わずに結果だけを見ます。
+出力が長いときは、[送信](/glossary/送信/)を実際には行わずに結果だけを見ます。
 
 ```bash
 git push --dry-run origin main
 ```
 
-`--dry-run` は送信せずに同じ判定を行い、同じ `!` の行を表示します。相手を壊す心配なく何度でも試せます。
+`--dry-run` は[送信](/glossary/送信/)せずに同じ判定を行い、同じ `!` の行を表示します。相手を壊す心配なく何度でも試せます。
 
 次に、相手と手元の位置関係を数えます。
 
@@ -143,7 +143,7 @@ git push origin main
 
 ### 原因2：相手の現在位置を手元が持っていない（fetch first） {#fetch-first}
 
-`non-fast-forward` と混同されやすい状態です。[git](/glossary/git/) は、相手の現在位置が指す[オブジェクト](/glossary/オブジェクト/)が手元のデータベースに無いかどうかを先に調べます。無ければ、続きかどうかを判定する材料自体が無いため `fetch first` になります。
+`non-fast-forward` と混同されやすい状態です。[git](/glossary/git/) は、相手の現在位置が指す[オブジェクト](/glossary/オブジェクト/)が手元の[データベース](/glossary/データベース/)に無いかどうかを先に調べます。無ければ、続きかどうかを判定する材料自体が無いため `fetch first` になります。
 
 ```text
  ! [rejected]        main -> main (fetch first)
@@ -240,7 +240,7 @@ git ls-remote origin refs/heads/main
 
 `fatal: Could not read from remote repository.` や `Repository not found` は、この記事の要約行より手前で止まっています。[認証](/glossary/認証/)や宛先の段階なので、判定まで進んでいません。前者は [publickey の記事](/posts/github_permission_denied_publickey/)、後者は [Repository not found の記事](/posts/github_repository_not_found/)を参照してください。
 
-`! [remote failure]` は受け取り側が結果を報告しなかった場合です。拒否とは別で、通信が途中で終わったときに出ます。
+`! [remote failure]` は受け取り側が結果を報告しなかった場合です。拒否とは別で、[通信](/glossary/通信/)が途中で終わったときに出ます。
 
 ## 切り分けの順序
 
@@ -285,7 +285,7 @@ git cat-file -t v1.0.0
 
 `--force-with-lease` は安全な[上書き](/glossary/上書き/)の手段として広く紹介されています。ところが [git](/glossary/git/) 自身は、このこの指定が条件付きでしか安全でないと説明しています。
 
-[公式ドキュメント](https://github.com/git/git/blob/master/Documentation/git-push.adoc)には、背景で `git fetch --all` を走らせる仕組みがあると、この方法は完全に無効化されると書かれています。理由は照合の対象にあります。`--force-with-lease` が期待値として使うのは、手元に保存されている相手の位置の記録です。編集[ツール](/glossary/ツール/)や[自動化](/glossary/自動化/)が裏で取得を行えば、その記録は内容を確認しないまま新しい位置へ進みます。期待値が実際の値に追いついてしまうため、照合は通り、他人の[コミット](/glossary/コミット/)は消えます。
+[公式ドキュメント](https://github.com/git/git/blob/master/Documentation/git-push.adoc)には、背景で `git fetch --all` を走らせる仕組みがあると、この方法は完全に無効化されると書かれています。理由は照合の対象にあります。`--force-with-lease` が期待値として使うのは、手元に[保存](/glossary/保存/)されている相手の位置の記録です。編集[ツール](/glossary/ツール/)や[自動化](/glossary/自動化/)が裏で取得を行えば、その記録は内容を確認しないまま新しい位置へ進みます。期待値が実際の値に追いついてしまうため、照合は通り、他人の[コミット](/glossary/コミット/)は消えます。
 
 [git](/glossary/git/) はこの問題に対して、2020年公開の 2.30 で `--force-if-includes` を追加しました。[リリースノート](https://github.com/git/git/blob/master/Documentation/RelNotes/2.30.0.adoc)には、`--force-with-lease` は自分で `git fetch` をよく管理していない限り[コミット](/glossary/コミット/)を失いやすい、と率直に書かれています。追加された確認は、置き換えようとしている相手の位置を実際に見たうえで手元の内容が作られたかどうかを調べるものです。
 
