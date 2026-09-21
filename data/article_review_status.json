@@ -1392,5 +1392,16 @@
         "note": "新規作成。照合条件、規則の適用順、SSL条件、再読み込み、pg_hba_file_rulesの仕様をPostgreSQL公式文書および本体ソースで照合"
       }
     ]
+  },
+  "content/posts/npm_cert_has_expired.md": {
+    "verified": true,
+    "verified_at": "2026-09-21",
+    "last_verified_at": "2026-09-21",
+    "history": [
+      {
+        "date": "2026-09-21",
+        "note": "新規作成。CERT_HAS_EXPIRED、Node.js内蔵CA、npmのca・cafile・strict-ssl、NODE_EXTRA_CA_CERTSの仕様をNode.jsおよびnpm公式文書で照合"
+      }
+    ]
   }
 }
