@@ -1414,5 +1414,16 @@
         "note": "新規作成。E401の認証拒否、.npmrcの環境変数展開、取得先別の認証設定、scope別レジストリ、classicトークン無効化をnpmおよびGitHub公式文書で照合"
       }
     ]
+  },
+  "content/posts/aws_signaturedoesnotmatch.md": {
+    "verified": true,
+    "verified_at": "2026-09-23",
+    "last_verified_at": "2026-09-23",
+    "history": [
+      {
+        "date": "2026-09-23",
+        "note": "新規作成。署名の再計算、Canonical Request、Credential Scope、S3事前署名URL、時刻・リージョン・プロキシの影響をAWS公式文書で照合"
+      }
+    ]
   }
 }
