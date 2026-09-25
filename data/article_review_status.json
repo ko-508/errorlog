@@ -1436,5 +1436,16 @@
         "note": "新規作成。countの計画時確定条件、null・型・負数・一時値の検査、-targetの注意点、for_eachとの違いをTerraform公式文書および実装で照合"
       }
     ]
+  },
+  "content/posts/aws_expiredtoken.md": {
+    "verified": true,
+    "verified_at": "2026-09-25",
+    "last_verified_at": "2026-09-25",
+    "history": [
+      {
+        "date": "2026-09-25",
+        "note": "新規作成。一時的な認証情報の期限、取得元の優先順位、ロール用プロファイルの自動更新、AssumeRoleの時間制限、サービスごとのHTTP状態コードをAWS公式文書で照合"
+      }
+    ]
   }
 }
