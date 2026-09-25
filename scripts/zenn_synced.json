@@ -121,6 +121,7 @@
   "kubernetes_errimagepull": "2026-09-13T23:07:48.237067+00:00",
   "kubernetes_evicted": "2026-09-06T22:53:02.435256+00:00",
   "kubernetes_failedcreatepodsandbox": "2026-09-13T23:07:48.241127+00:00",
+  "kubernetes_failedscheduling": "2026-09-25T12:51:09.352231+00:00",
   "kubernetes_imagepullbackoff": "2026-09-13T23:07:48.234362+00:00",
   "kubernetes_learning_guide": "2026-09-13T23:07:48.242507+00:00",
   "kubernetes_liveness_probe_failed": "2026-09-06T22:53:02.437179+00:00",
