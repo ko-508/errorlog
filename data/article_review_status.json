@@ -1447,5 +1447,16 @@
         "note": "新規作成。一時的な認証情報の期限、取得元の優先順位、ロール用プロファイルの自動更新、AssumeRoleの時間制限、サービスごとのHTTP状態コードをAWS公式文書で照合"
       }
     ]
+  },
+  "content/posts/kubernetes_failedscheduling.md": {
+    "verified": true,
+    "verified_at": "2026-09-25",
+    "last_verified_at": "2026-09-25",
+    "history": [
+      {
+        "date": "2026-09-25",
+        "note": "新規作成。イベントの形式、requestsとAllocatableの判定、NodeAffinity・Taint・PV・Preemptionの挙動をKubernetes公式文書および本体実装で照合"
+      }
+    ]
   }
 }
