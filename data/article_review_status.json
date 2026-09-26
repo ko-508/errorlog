@@ -1458,5 +1458,16 @@
         "note": "新規作成。イベントの形式、requestsとAllocatableの判定、NodeAffinity・Taint・PV・Preemptionの挙動をKubernetes公式文書および本体実装で照合"
       }
     ]
+  },
+  "content/posts/terraform_inconsistent_final_plan.md": {
+    "verified": true,
+    "verified_at": "2026-09-26",
+    "last_verified_at": "2026-09-26",
+    "history": [
+      {
+        "date": "2026-09-26",
+        "note": "新規作成。apply中の最終計画の再評価、providerとTerraform Coreの文言差、下流リソースで不整合が表面化する挙動、providerの更新・切り戻しとrefresh-onlyの用途をHashiCorp公式文書・Terraform本体実装・公式Issueで照合"
+      }
+    ]
   }
 }
