@@ -1478,6 +1478,10 @@
       {
         "date": "2026-09-28",
         "note": "新規作成。接続エラーの文言分岐、kubeconfigの読み込み順序、context・DNS・TCP・TLS・認証の切り分けをKubernetes公式文書およびkubectl・client-go本体実装で照合"
+      },
+      {
+        "date": "2026-09-28",
+        "note": "公開日をUTC基準に修正。本文は変更なし"
       }
     ]
   }

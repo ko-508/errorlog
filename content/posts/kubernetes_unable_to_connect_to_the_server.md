@@ -1,6 +1,6 @@
 ---
 title: "kubectl接続エラーの原因と対処法"
-date: 2026-09-28
+date: 2026-09-27
 draft: false
 description: "kubectlのUnable to connect to the serverは、APIサーバーへ接続できないときに表示されます。kubeconfig、connection refused、名前解決、タイムアウト、TLSエラーを順番に切り分ける方法を解説します。"
 tags: ["Kubernetes"]
