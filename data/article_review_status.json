@@ -1469,5 +1469,16 @@
         "note": "新規作成。apply中の最終計画の再評価、providerとTerraform Coreの文言差、下流リソースで不整合が表面化する挙動、providerの更新・切り戻しとrefresh-onlyの用途をHashiCorp公式文書・Terraform本体実装・公式Issueで照合"
       }
     ]
+  },
+  "content/posts/kubernetes_unable_to_connect_to_the_server.md": {
+    "verified": true,
+    "verified_at": "2026-09-28",
+    "last_verified_at": "2026-09-28",
+    "history": [
+      {
+        "date": "2026-09-28",
+        "note": "新規作成。接続エラーの文言分岐、kubeconfigの読み込み順序、context・DNS・TCP・TLS・認証の切り分けをKubernetes公式文書およびkubectl・client-go本体実装で照合"
+      }
+    ]
   }
 }
