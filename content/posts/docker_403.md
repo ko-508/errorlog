@@ -17,7 +17,7 @@ top_queries:
 ---
 # エラーの概要
 
-[Docker](/glossary/docker/) の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)（[ログイン](/glossary/ログイン/)）には成功したものの、対象のリソース（[イメージ](/glossary/イメージ/)、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内のアクセス制限、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇する[エラー](/glossary/エラー/)です。
+[Docker](/glossary/docker/) の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)（[ログイン](/glossary/ログイン/)）には成功したものの、対象のリソース（[イメージ](/glossary/イメージ/)、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内の[アクセス制限](/glossary/アクセス制限/)、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 

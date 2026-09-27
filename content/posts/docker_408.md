@@ -287,7 +287,7 @@ docker -D push myregistry.azurecr.io/myimage:latest 2>&1 | tee docker-push.log
 - https://github.com/moby/moby/issues（キーワード："408" OR "Request Timeout"）
 - [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 
-[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織のシステム管理者に相談し、[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を確認させることを推奨します。
+[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織の[システム管理者](/glossary/システム管理者/)に相談し、[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を確認させることを推奨します。
 
 ---
 

@@ -14,7 +14,7 @@ conclusion: "Prometheus の 403 エラーは、管理 API が有効化されて�
 
 ## エラーの概要
 
-Prometheus の 403 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) Forbidden を意味し、[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)へのアクセスが明示的に拒否されたことを示します。Prometheus では主に管理 [API](/glossary/api/)（削除操作やスナップショット生成など）へのアクセス制限に該当します。認証情報の不足や権限不足ではなく、[エンドポイント](/glossary/エンドポイント/)自体が無効化されているか、ネットワークレベルで遮断されている状態です。
+Prometheus の 403 [エラー](/glossary/エラー/)は、[HTTP](/glossary/http/) Forbidden を意味し、[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)へのアクセスが明示的に拒否されたことを示します。Prometheus では主に管理 [API](/glossary/api/)（削除操作やスナップショット生成など）への[アクセス制限](/glossary/アクセス制限/)に該当します。認証情報の不足や権限不足ではなく、[エンドポイント](/glossary/エンドポイント/)自体が無効化されているか、ネットワークレベルで遮断されている状態です。
 
 ## 実際のエラーメッセージ例
 

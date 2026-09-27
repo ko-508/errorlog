@@ -112,7 +112,7 @@ git config --local --add safe.directory "<repository-path>"
 sudo chown -R "$(id -u):$(id -g)" "<repository-path>"
 ```
 
-`-R`は配下の[ファイル](/glossary/ファイル/)にも変更を適用します。共有[リポジトリ](/glossary/リポジトリ/)やシステム管理者が用意した[フォルダ](/glossary/フォルダ/)では、管理方針を確認せずに実行しないでください。
+`-R`は配下の[ファイル](/glossary/ファイル/)にも変更を適用します。共有[リポジトリ](/glossary/リポジトリ/)や[システム管理者](/glossary/システム管理者/)が用意した[フォルダ](/glossary/フォルダ/)では、管理方針を確認せずに実行しないでください。
 
 Windowsでは、[フォルダ](/glossary/フォルダ/)の[プロパティ](/glossary/プロパティ/)にある「[セキュリティ](/glossary/セキュリティ/)」の詳細設定から所有者を変更できます。[コマンド](/glossary/コマンド/)で変更する場合は、管理者として開いたPowerShellまたは[コマンドプロンプト](/glossary/コマンドプロンプト/)で次を実行します。
 
