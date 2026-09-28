@@ -1484,5 +1484,16 @@
         "note": "公開日をUTC基準に修正。本文は変更なし"
       }
     ]
+  },
+  "content/posts/postgresql_role_does_not_exist.md": {
+    "verified": true,
+    "verified_at": "2026-09-28",
+    "last_verified_at": "2026-09-28",
+    "history": [
+      {
+        "date": "2026-09-28",
+        "note": "新規作成。ロール不在の確認方法、pg_dumpallのグローバルオブジェクト、pg_restoreの所有者・権限オプションをPostgreSQL公式文書と本体実装で照合。復元時の実事例も確認"
+      }
+    ]
   }
 }
