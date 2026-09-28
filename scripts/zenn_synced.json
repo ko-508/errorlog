@@ -180,6 +180,7 @@
   "postgresql_no_pg_hba_conf_entry": "2026-09-27T23:47:32.818219+00:00",
   "postgresql_password_authentication_failed": "2026-09-06T22:53:02.360400+00:00",
   "postgresql_relation_does_not_exist": "2026-09-20T23:13:57.835283+00:00",
+  "postgresql_role_does_not_exist": "2026-09-28T13:35:19.798217+00:00",
   "postgresql_too_many_clients": "2026-09-20T23:13:57.837396+00:00",
   "slack_400": "2026-07-13T08:15:44.229269+00:00",
   "slack_401": "2026-07-13T08:15:44.228721+00:00",
