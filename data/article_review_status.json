@@ -1506,5 +1506,16 @@
         "note": "新規作成。対応プラットフォームの確認、--platformの適用条件、マルチプラットフォームビルドをDocker公式文書およびcontainerd本体実装で照合"
       }
     ]
+  },
+  "content/posts/kubernetes_server_could_not_find.md": {
+    "verified": true,
+    "verified_at": "2026-09-30",
+    "last_verified_at": "2026-09-30",
+    "history": [
+      {
+        "date": "2026-09-30",
+        "note": "新規作成。404の文言生成、RESTMapperの照合、CRDの登録待機、API移行、HelmのCRD導入を公式文書と本体実装・実例で照合"
+      }
+    ]
   }
 }
