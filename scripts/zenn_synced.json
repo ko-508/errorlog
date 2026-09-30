@@ -132,6 +132,7 @@
   "kubernetes_pvc_pending": "2026-09-06T22:53:02.422656+00:00",
   "kubernetes_readiness_probe_failed": "2026-09-06T22:53:02.418202+00:00",
   "kubernetes_runcontainererror": "2026-09-06T22:53:02.415882+00:00",
+  "kubernetes_server_could_not_find": "2026-09-30T10:14:52.113766+00:00",
   "kubernetes_terminating": "2026-09-06T22:53:02.420456+00:00",
   "kubernetes_unable_to_connect_to_the_server": "2026-09-27T17:57:50.685682+00:00",
   "minikube_400": "2026-07-13T08:15:44.262773+00:00",
