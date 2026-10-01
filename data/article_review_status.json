@@ -1517,5 +1517,16 @@
         "note": "新規作成。404の文言生成、RESTMapperの照合、CRDの登録待機、API移行、HelmのCRD導入を公式文書と本体実装・実例で照合"
       }
     ]
+  },
+  "content/posts/aws_unable_to_locate_credentials.md": {
+    "verified": true,
+    "verified_at": "2026-10-01",
+    "last_verified_at": "2026-10-01",
+    "history": [
+      {
+        "date": "2026-10-01",
+        "note": "新規作成。認証情報の探索、明示プロファイルの挙動、EC2・ECS・Lambdaの認証情報取得をAWS公式文書とbotocore実装で照合。aws/aws-cli#8270の実例を確認"
+      }
+    ]
   }
 }
