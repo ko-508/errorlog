@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 from pathlib import Path
 
@@ -62,12 +63,21 @@ def generate_article_og_image(slug: str, title: str, service: str, public_too: b
     if not icon_path.exists():
         die(f"ロゴ画像が見つかりません: {icon_path}")
 
-    courier_bold = r"C:\Windows\Fonts\courbd.ttf"
-    meiryo = r"C:\Windows\Fonts\meiryo.ttc"
-    meiryo_bold = r"C:\Windows\Fonts\meiryob.ttc"
-    for font_path in [courier_bold, meiryo, meiryo_bold]:
-        if not Path(font_path).exists():
-            die(f"フォントが見つかりません: {font_path}")
+    courier_bold = os.environ.get(
+        "OGP_FONT_MONO",
+        r"C:\Windows\Fonts\courbd.ttf",
+    )
+    meiryo = os.environ.get(
+        "OGP_FONT_JP",
+        r"C:\Windows\Fonts\meiryo.ttc",
+    )
+    meiryo_bold = os.environ.get(
+        "OGP_FONT_JP_BOLD",
+        r"C:\Windows\Fonts\meiryob.ttc",
+    )
+    for _fp in [courier_bold, meiryo, meiryo_bold]:
+        if not Path(_fp).exists():
+            die(f"フォントが見つかりません: {_fp}")
 
     bg = (26, 26, 46)
     red = (224, 82, 82)

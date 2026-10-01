@@ -1,0 +1,411 @@
+name: Mobile Publish
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "スラッグ（drafts/ に置いたファイル名、例: nginx_502）"
+        required: true
+        type: string
+      marker:
+        description: "配置確認用の目印文字列（記事本文に存在する固有の文字列）"
+        required: true
+        type: string
+      note:
+        description: "検証内容の説明（data/article_review_status.json に記録される）"
+        required: false
+        default: "スマホから公開"
+        type: string
+      sync_zenn:
+        description: "Zenn にも公開する"
+        required: false
+        default: "false"
+        type: boolean
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  actions: write
+
+concurrency:
+  group: mobile-publish-${{ github.event.inputs.slug }}
+  cancel-in-progress: false
+
+jobs:
+
+  publish:
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    outputs:
+      head_sha: ${{ steps.push.outputs.head_sha }}
+      title: ${{ steps.process.outputs.title }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install system fonts
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y fonts-noto-cjk fonts-liberation
+
+      - name: Install Python dependencies
+        run: pip install pillow pyyaml
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.161.1"
+          extended: true
+
+      - name: Configure git
+        run: |
+          git config user.name "ErrorLog Bot"
+          git config user.email "bot@users.noreply.github.com"
+
+      - name: Validate slug and check draft
+        env:
+          SLUG: ${{ github.event.inputs.slug }}
+        run: |
+          python3 - << 'PYEOF'
+          import os, re, sys
+          from pathlib import Path
+
+          slug = os.environ["SLUG"]
+
+          # slug バリデーション（article_og_image.py と同じ正規表現）
+          if not re.fullmatch(r"[a-z0-9_+-]+", slug):
+              print(f"slug に使用できない文字が含まれています: {slug}", file=sys.stderr)
+              sys.exit(1)
+
+          # drafts ファイルの存在確認
+          draft = Path(f"drafts/{slug}.md")
+          if not draft.exists():
+              print(f"drafts/{slug}.md が存在しません。先にファイルを作成してください。", file=sys.stderr)
+              sys.exit(1)
+
+          # 新規公開専用：content/posts に既存ファイルがあれば停止
+          article = Path(f"content/posts/{slug}.md")
+          if article.exists():
+              print(f"content/posts/{slug}.md がすでに存在します。", file=sys.stderr)
+              print("このワークフローは新規公開専用です。", file=sys.stderr)
+              print("既存記事の書き直しは PC から publish_article.py を実行してください。", file=sys.stderr)
+              sys.exit(1)
+
+          print(f"slug OK: {slug}")
+          print(f"draft OK: {draft}")
+          print("content/posts に既存ファイルなし → 新規公開として続行")
+          PYEOF
+
+      - name: Process article
+        id: process
+        # OGP 生成・marker・免責事項・lint・hugo・検証記録・git commit
+        env:
+          SLUG:    ${{ github.event.inputs.slug }}
+          MARKER:  ${{ github.event.inputs.marker }}
+          NOTE:    ${{ github.event.inputs.note }}
+          OGP_FONT_MONO:    /usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf
+          OGP_FONT_JP:      /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc
+          OGP_FONT_JP_BOLD: /usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc
+          # GITHUB_OUTPUT は Actions ランナーが自動設定する。env で明示しない。
+        run: |
+          python3 - << 'PYEOF'
+          import json, os, re, shutil, subprocess, sys
+          from datetime import date
+          from pathlib import Path
+
+          sys.path.insert(0, ".")
+          from scripts.publish_article import (
+              parse_frontmatter_for_x_post,
+              ensure_article_og_image_param,
+              update_review_status,
+          )
+          from scripts.article_og_image import generate_article_og_image
+
+          BASE   = Path.cwd()
+          slug   = os.environ["SLUG"]
+          marker = os.environ["MARKER"]
+          note   = os.environ["NOTE"]
+
+          LINT_REPORTS = ["data/lint_report.json", "reports/lint/lint_summary.md"]
+
+          def die(msg: str) -> None:
+              print(msg, file=sys.stderr)
+              sys.exit(1)
+
+          def run_cmd(cmd: list, check: bool = True):
+              r = subprocess.run(cmd, cwd=BASE, check=False,
+                                 capture_output=True, text=True, encoding="utf-8")
+              if check and r.returncode != 0:
+                  die(f"コマンド失敗 {cmd}: {r.stderr}")
+              return r
+
+          def dirty_files() -> set:
+              return {
+                  line[3:].strip().strip('"').replace("\\", "/")
+                  for line in run_cmd(["git", "status", "--porcelain"], check=False).stdout.splitlines()
+                  if line[:2] != "??"
+              }
+
+          # ── A: drafts/ → content/posts/ にコピーして git add ──
+          draft   = BASE / "drafts"  / f"{slug}.md"
+          article = BASE / "content" / "posts" / f"{slug}.md"
+          shutil.copy(draft, article)
+          run_cmd(["git", "add", "--", str(article.relative_to(BASE))])
+          print(f"コピー完了: drafts/{slug}.md → content/posts/{slug}.md")
+
+          # ── B: OGP 画像生成・frontmatter に images 挿入 ──
+          text = article.read_text(encoding="utf-8")
+          title, _tags, service = parse_frontmatter_for_x_post(text)
+          og_rel  = generate_article_og_image(slug, title, service)
+          updated = ensure_article_og_image_param(text, og_rel)
+          if updated != text:
+              article.write_text(updated, encoding="utf-8")
+              text = updated
+          print(f"OGP 生成 OK: {og_rel}")
+
+          # ── C: 検証済み本文を保存（images 挿入済みのこの時点が比較基準）──
+          Path("/tmp/validated_article.md").write_text(text, encoding="utf-8")
+
+          # ── D: marker 確認 ──
+          if marker not in text:
+              die(f"目印文字列が見つかりません: {marker}")
+
+          # ── E: 免責事項確認 ──
+          if "免責事項：本記事の内容は" not in text:
+              die("免責事項の定型文が見つかりません。")
+
+          print("marker・免責事項 OK")
+
+          # ── F: lint 実行 → fails/warns を変数に保持 → レポート復元 → FAIL 確認 ──
+          # publish_article.py 329〜345 行目と同じ順序
+          rel = f"content/posts/{slug}.md"
+
+          # lint 前の dirty 一覧を記録（復元対象を特定するため）
+          before_dirty = dirty_files()
+
+          subprocess.run(
+              [sys.executable, "scripts/lint_articles.py", "--path", rel],
+              cwd=BASE, check=False,
+          )
+
+          # レポートを読んで fails/warns を変数に保持
+          try:
+              report = json.loads((BASE / "data" / "lint_report.json").read_text(encoding="utf-8"))
+              fails = report["articles"][0]["fails"]
+              warns = report["articles"][0]["warns"]
+          except Exception as e:
+              die(f"lint レポートを読めませんでした: {e}")
+
+          # レポートファイルが tracked 変更になっていたら復元
+          after_dirty  = dirty_files()
+          to_restore = [p for p in LINT_REPORTS if p in after_dirty and p not in before_dirty]
+          if to_restore:
+              run_cmd(["git", "restore", "--"] + to_restore)
+              print(f"lint レポート復元: {to_restore}")
+
+          # FAIL 確認
+          if fails:
+              die("lint FAIL: " + "; ".join(f"{f['rule']}: {f['detail']}" for f in fails))
+
+          warn_note = "（WARN: " + ", ".join(w["rule"] for w in warns) + "）" if warns else ""
+          print(f"lint OK{warn_note}")
+
+          # ── G: Hugo ビルド確認 ──
+          b = subprocess.run(["hugo", "--minify", "--quiet"], cwd=BASE,
+                              capture_output=True, text=True)
+          if b.returncode != 0:
+              die(f"Hugo ビルド失敗:\n{b.stderr[-1500:]}")
+          print("Hugo ビルド OK")
+
+          # ── H: 検証記録更新 ──
+          update_review_status(rel, note, date.today())
+          print(f"検証記録 OK: {rel}")
+
+          # ── I: 想定外の変更がないか確認してから git add・git rm・commit ──
+          current_dirty = dirty_files()
+          allowed = {rel, "data/article_review_status.json", f"static/{og_rel}", f"drafts/{slug}.md"}
+          unexpected = current_dirty - allowed
+          if unexpected:
+              die(f"想定外のファイルが変更されています: {', '.join(sorted(unexpected))}")
+
+          run_cmd(["git", "add", "--", rel, "data/article_review_status.json", f"static/{og_rel}"])
+          run_cmd(["git", "rm",  "--", f"drafts/{slug}.md"])
+          run_cmd(["git", "commit", "-m", f"post: {slug} 記事を新規作成（スマホから公開）"])
+          print("commit OK")
+
+          # ── J: title を GitHub Actions の output に出力 ──
+          # GITHUB_OUTPUT は Actions ランナーが自動設定する環境変数
+          output_file = os.environ.get("GITHUB_OUTPUT", "")
+          if output_file:
+              with open(output_file, "a", encoding="utf-8") as f:
+                  f.write(f"title<<TITLE_EOF\n{title}\nTITLE_EOF\n")
+          PYEOF
+
+      - name: Pull rebase and verify content
+        env:
+          SLUG: ${{ github.event.inputs.slug }}
+        run: |
+          git pull --rebase || {
+            echo "git pull --rebase が失敗しました。競合を手動で解決してください。" >&2
+            exit 1
+          }
+
+          python3 - << 'PYEOF'
+          import os, sys
+          from pathlib import Path
+
+          slug      = os.environ["SLUG"]
+          current   = Path(f"content/posts/{slug}.md").read_text(encoding="utf-8")
+          validated = Path("/tmp/validated_article.md").read_text(encoding="utf-8")
+
+          if current != validated:
+              print("rebase により記事の内容が変わりました。", file=sys.stderr)
+              print("drafts/<slug>.md を更新してから再実行してください。", file=sys.stderr)
+              sys.exit(1)
+
+          print("rebase 後の内容確認 OK")
+          PYEOF
+
+      - name: Push
+        id: push
+        run: |
+          git push
+          SHA=$(git rev-parse HEAD)
+          echo "head_sha=${SHA}" >> "$GITHUB_OUTPUT"
+          echo "push OK: ${SHA}"
+
+  deploy:
+    needs: publish
+    if: needs.publish.result == 'success'
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
+
+  zenn:
+    needs: publish
+    if: needs.publish.result == 'success' && inputs.sync_zenn == true
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Trigger and wait for Zenn sync
+        env:
+          SLUG: ${{ github.event.inputs.slug }}
+        run: |
+          BEFORE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          sleep 1
+
+          gh workflow run zenn_sync.yml \
+            --ref main \
+            -f "slugs=${SLUG}"
+
+          RUN_ID=""
+          for i in $(seq 1 30); do
+            sleep 3
+            RUN_ID=$(gh run list \
+              --workflow zenn_sync.yml \
+              --branch main \
+              --event workflow_dispatch \
+              --limit 5 \
+              --json databaseId,createdAt \
+              --jq ".[] | select(.createdAt > \"${BEFORE}\") | .databaseId" \
+              | head -1)
+            [ -n "$RUN_ID" ] && break
+          done
+
+          if [ -z "$RUN_ID" ]; then
+            echo "Zenn 同期の実行を特定できませんでした（${BEFORE} 以降なし）" >&2
+            exit 1
+          fi
+
+          echo "Zenn 同期 run_id: ${RUN_ID}"
+          gh run watch "${RUN_ID}" --exit-status
+
+  summary:
+    needs: [publish, deploy, zenn]
+    if: always()
+    runs-on: ubuntu-latest
+    env:
+      SLUG:           ${{ github.event.inputs.slug }}
+      SYNC_ZENN:      ${{ inputs.sync_zenn }}
+      PUBLISH_RESULT: ${{ needs.publish.result }}
+      DEPLOY_RESULT:  ${{ needs.deploy.result }}
+      ZENN_RESULT:    ${{ needs.zenn.result }}
+      TITLE:          ${{ needs.publish.outputs.title }}
+      HEAD_SHA:       ${{ needs.publish.outputs.head_sha }}
+
+    steps:
+      - name: Show result
+        run: |
+          python3 - << 'PYEOF'
+          import os
+
+          slug           = os.environ.get("SLUG", "")
+          sync_zenn      = os.environ.get("SYNC_ZENN", "false").lower() == "true"
+          publish_result = os.environ.get("PUBLISH_RESULT", "")
+          deploy_result  = os.environ.get("DEPLOY_RESULT", "")
+          zenn_result    = os.environ.get("ZENN_RESULT", "")
+          title          = os.environ.get("TITLE", "")
+          head_sha       = os.environ.get("HEAD_SHA", "")
+
+          SEP = "=" * 60
+          print(SEP)
+          print("公開結果サマリー")
+          print(SEP)
+
+          if publish_result != "success":
+              print("❌ 公開処理が失敗しました")
+              print("   記事はリモートに送信されていません")
+              print("   deploy: 未実行（公開処理が先に失敗したため）")
+              if sync_zenn:
+                  print("   Zenn:   未実行（同上）")
+              print()
+              print("再実行: Actions → Mobile Publish → Run workflow")
+              raise SystemExit(0)
+
+          sha_short = head_sha[:8] if head_sha else "（不明）"
+          print(f"   ✅ 公開処理（push）: 成功（コミット: {sha_short}）")
+
+          deploy_ok = deploy_result == "success"
+          zenn_ok   = (not sync_zenn) or zenn_result == "success"
+
+          print(f"   {'✅' if deploy_ok else '❌'} サイト公開（deploy）: {deploy_result}")
+          if sync_zenn:
+              print(f"   {'✅' if zenn_ok else '❌'} Zenn 同期: {zenn_result}")
+
+          print()
+
+          if deploy_ok and zenn_ok:
+              url = f"https://errorlog.jp/posts/{slug}/?utm_source=x&utm_medium=social&utm_campaign=article_share"
+              print("✅ 公開完了")
+              print(f"URL: {url}")
+              if title:
+                  print()
+                  print("X 投稿用")
+                  print(title)
+                  print(url)
+          else:
+              if not deploy_ok:
+                  print("❌ サイト公開が失敗しました（build か deploy の失敗）")
+                  print(f"   記事はリポジトリに追加されています（コミット: {sha_short}）")
+                  print("   サイトへの反映はまだです")
+                  print("   再実行: Actions → Deploy Hugo to GitHub Pages → Run workflow")
+              else:
+                  url = f"https://errorlog.jp/posts/{slug}/?utm_source=x&utm_medium=social&utm_campaign=article_share"
+                  print(f"✅ サイトへの公開は成功しました: {url}")
+
+              if sync_zenn and not zenn_ok:
+                  print()
+                  print("❌ Zenn 同期が失敗しました")
+                  print("   再実行: Actions → Sync to Zenn → Run workflow → slugs 欄にスラッグを入力")
+          PYEOF
