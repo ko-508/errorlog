@@ -4,6 +4,7 @@ date: 2026-10-01
 draft: false
 description: "npmのENOTFOUNDは、通信に必要なホスト名をIPアドレスへ変換できなかったときに発生します。ログのホスト名から、取得先・プロキシ・社内DNS・コンテナの設定を切り分ける手順を解説します。"
 tags: ["npm"]
+images: ["og/posts/npm_enotfound.png"]
 errorCode: "ENOTFOUND"
 urgency: "medium"
 service: "npm"

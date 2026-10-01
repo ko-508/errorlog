@@ -1528,5 +1528,16 @@
         "note": "新規作成。認証情報の探索、明示プロファイルの挙動、EC2・ECS・Lambdaの認証情報取得をAWS公式文書とbotocore実装で照合。aws/aws-cli#8270の実例を確認"
       }
     ]
+  },
+  "content/posts/npm_enotfound.md": {
+    "verified": true,
+    "verified_at": "2026-10-01",
+    "last_verified_at": "2026-10-01",
+    "history": [
+      {
+        "date": "2026-10-01",
+        "note": "スマホから公開"
+      }
+    ]
   }
 }
