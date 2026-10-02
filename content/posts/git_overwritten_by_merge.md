@@ -4,6 +4,7 @@ date: 2026-10-02
 draft: false
 description: "GitのYour local changes would be overwrittenは、未コミットの変更を上書きから守るための停止です。差分の確認、コミット、一時退避、対象ファイルだけの破棄と、未追跡ファイルの扱いを解説します。"
 tags: ["git"]
+images: ["og/posts/git_overwritten_by_merge.png"]
 errorCode: "Your local changes to the following files would be overwritten"
 urgency: "medium"
 service: "git"
@@ -11,9 +12,6 @@ error_type: "local_changes_would_be_overwritten"
 components: ["Git", "merge", "checkout"]
 related_services: []
 trend_incident: false
-publish_slug: "git_overwritten_by_merge"
-publish_note: "新規作成。上書き拒否の文言と条件をGit公式文書・本体実装で照合。未ステージ変更、switch、stash pop競合、restoreの挙動を一時リポジトリで再現。ComfyUI#6726の実例を確認"
-publish_zenn: true
 ---
 
 ## 冒頭まとめ

@@ -1539,5 +1539,16 @@
         "note": "スマホから公開"
       }
     ]
+  },
+  "content/posts/git_overwritten_by_merge.md": {
+    "verified": true,
+    "verified_at": "2026-10-02",
+    "last_verified_at": "2026-10-02",
+    "history": [
+      {
+        "date": "2026-10-02",
+        "note": "新規作成。上書き拒否の文言と条件をGit公式文書・本体実装で照合。未ステージ変更、switch、stash pop競合、restoreの挙動を一時リポジトリで再現。ComfyUI#6726の実例を確認"
+      }
+    ]
   }
 }
