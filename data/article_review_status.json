@@ -1561,5 +1561,16 @@
         "note": "新規作成。未宣言参照、モジュールの読込範囲、data参照、output、tryの制限をTerraform公式文書・本体実装で照合。terraform#24402の実例を確認"
       }
     ]
+  },
+  "content/posts/python_modulenotfounderror.md": {
+    "verified": true,
+    "verified_at": "2026-10-04",
+    "last_verified_at": "2026-10-04",
+    "history": [
+      {
+        "date": "2026-10-04",
+        "note": "新規作成。import、pip、venvを公式文書・CPython実装で照合。環境差、名前衝突、相対importを再現。requests#7006の報告を確認"
+      }
+    ]
   }
 }
