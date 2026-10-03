@@ -1550,5 +1550,16 @@
         "note": "新規作成。上書き拒否の文言と条件をGit公式文書・本体実装で照合。未ステージ変更、switch、stash pop競合、restoreの挙動を一時リポジトリで再現。ComfyUI#6726の実例を確認"
       }
     ]
+  },
+  "content/posts/terraform_reference_to_undeclared_resource.md": {
+    "verified": true,
+    "verified_at": "2026-10-03",
+    "last_verified_at": "2026-10-03",
+    "history": [
+      {
+        "date": "2026-10-03",
+        "note": "新規作成。未宣言参照、モジュールの読込範囲、data参照、output、tryの制限をTerraform公式文書・本体実装で照合。terraform#24402の実例を確認"
+      }
+    ]
   }
 }
