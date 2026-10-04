@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+import os
 from pathlib import Path
 from typing import Any, Callable, Mapping, Sequence
 
@@ -21,6 +22,7 @@ StageRunner = Callable[["StageContext", dict[str, Any]], Mapping[str, Any] | Non
 class ArtifactSpec:
     path: str
     kind: str = "generated"
+    manifest: bool = False
 
     def __post_init__(self) -> None:
         if self.kind not in ARTIFACT_KINDS:
@@ -37,8 +39,15 @@ class StageSpec:
     dependencies: tuple[str, ...] = ()
     config_keys: tuple[str, ...] = ()
     artifacts: tuple[ArtifactSpec, ...] = ()
+    owned_dirs: tuple[str, ...] = ()
     input_provider: InputProvider | None = None
     runner: StageRunner | None = None
+
+    def __post_init__(self) -> None:
+        for owned in self.owned_dirs:
+            path = Path(owned)
+            if path.is_absolute() or not path.parts or ".." in path.parts:
+                raise ValueError(f"owned directory must be relative: {owned}")
 
 
 @dataclass
@@ -57,6 +66,9 @@ class StageContext:
 
     def write_text(self, artifact_path: str, value: str) -> None:
         self.store.write_text(self.artifact_relative(artifact_path), value)
+
+    def write_bytes(self, artifact_path: str, value: bytes) -> None:
+        self.store.write_bytes(self.artifact_relative(artifact_path), value)
 
 
 class PipelineGraph:
@@ -119,19 +131,94 @@ class PipelineGraph:
         through: str | None = None,
         from_stage: str | None = None,
         accept_modified: Sequence[str] = (),
+        refetch: str | None = None,
     ) -> dict[str, Any]:
         if through is not None and through not in self.by_name:
             raise PipelineError(f"終了工程が不明です: stage={through}")
         if from_stage is not None and from_stage not in self.by_name:
             raise PipelineError(f"--from の工程が不明です: stage={from_stage}")
+        if refetch not in {None, "failed", "all"}:
+            raise PipelineError(f"--refetch の値が不正です: value={refetch!r}")
         state = state_file.read()
-        state = self._inspect_resume_outputs(
-            context, state_file, state, accept_modified=accept_modified
+        pending = state.get("pending_recovery")
+        s2_index = self.stage_names.index("S2_sources") if "S2_sources" in self.by_name else None
+        from_index = self.stage_names.index(from_stage) if from_stage is not None else None
+        recovery_scope = (
+            from_stage is not None
+            and s2_index is not None
+            and from_index is not None
+            and from_index <= s2_index
         )
-        if from_stage is not None:
-            state = self.invalidate_from(
-                context, state_file, state, from_stage, reason=f"--from {from_stage}"
+        if refetch is not None and from_stage is None:
+            raise PipelineError("--refetch は --from S0_intake|S1_plan|S2_sources と一緒に指定してください")
+        if refetch is not None and not recovery_scope:
+            raise PipelineError(
+                f"--refetch は S2_sources 以前からの再実行にだけ指定できます: from={from_stage}"
             )
+        if through is not None and from_stage is not None:
+            if self.stage_names.index(through) < self.stage_names.index(from_stage):
+                raise PipelineError(
+                    f"--through は --from と同じ工程か後続工程が必要です: from={from_stage}, through={through}"
+                )
+        if refetch is not None and through is not None and s2_index is not None:
+            if self.stage_names.index(through) < s2_index:
+                raise PipelineError(
+                    f"--refetch を指定した復旧は S2_sources まで実行する必要があります: through={through}"
+                )
+        continued_recovery = False
+        if recovery_scope and refetch is None:
+            raise PipelineError(
+                "S2_sources 以前から再実行するときは --refetch failed|all が必要です: "
+                f"from={from_stage}"
+            )
+        if pending is not None:
+            report = context.store.read_json(pending["report"])
+            expected_from = report.get("from_stage")
+            if not recovery_scope or refetch != "all" or from_stage != expected_from:
+                raise PipelineError(
+                    "未完了の復旧があります。通常の resume は実行できません。"
+                    f"同じ復旧コマンドを再実行してください: pending_recovery={pending}, "
+                    f"command='resume --run {context.run_id} --from {expected_from} --refetch all'"
+                )
+            state = self._continue_pending_recovery(context, state_file, state)
+            continued_recovery = True
+        if from_stage is None:
+            state = self._inspect_resume_outputs(
+                context, state_file, state, accept_modified=accept_modified
+            )
+        else:
+            if continued_recovery:
+                issues = []
+                material_issues = []
+            else:
+                issues = self._collect_output_issues(context, state)
+                upstream_names = set(self.stage_names[:from_index])
+                protected_names = {name for name in ("S0_intake", "S1_plan") if name in self.by_name}
+                blocking = [item for item in issues if item["stage"] in upstream_names | protected_names]
+                if blocking:
+                    raise PipelineError(self._issues_message(context, blocking))
+                material_issues = [item for item in issues if item["stage"] == "S2_sources"]
+            if continued_recovery:
+                pass
+            elif material_issues:
+                if refetch != "all":
+                    raise PipelineError(
+                        self._issues_message(context, material_issues)
+                        + f"\n壊れた資料は --refetch all でのみ復旧できます。"
+                    )
+                state = self._start_recovery(
+                    context,
+                    state_file,
+                    state,
+                    from_stage=from_stage,
+                    issues=issues,
+                    refetch=refetch,
+                )
+            else:
+                state = self.invalidate_from(
+                    context, state_file, state, from_stage, reason=f"--from {from_stage}"
+                )
+        context.cache["refetch"] = refetch
         for stage in self.stages:
             record = state["stages"][stage.name]
             if record["status"] == "running":
@@ -152,6 +239,8 @@ class PipelineGraph:
             previous_outputs = dict(record.get("outputs", {}))
             if record["status"] in {"done", "failed"}:
                 state = self._archive_current_stage_outputs(context, state_file, state, stage)
+            if stage.name == "S2_sources":
+                context.cache["previous_S2_quarantined"] = bool(record.get("quarantined"))
             state = self._run_stage(
                 context,
                 state_file,
@@ -167,6 +256,18 @@ class PipelineGraph:
 
     def verify_status(self, context: StageContext, state_file: StateFile) -> dict[str, Any]:
         state = state_file.read()
+        if state.get("pending_recovery") is not None:
+            pending = state["pending_recovery"]
+            report = context.store.read_json(pending["report"])
+            expected_from = report.get("from_stage", "S2_sources")
+            raise PipelineError(
+                "未完了の復旧があります。status は変更せず停止します: "
+                f"pending_recovery={pending}, "
+                f"command='resume --run {context.run_id} --from {expected_from} --refetch all'"
+            )
+        issues = self._collect_output_issues(context, state, include_running=True)
+        if issues:
+            raise PipelineError(self._issues_message(context, issues))
         for stage in self.stages:
             record = state["stages"].get(stage.name)
             if record is None:
@@ -187,20 +288,6 @@ class PipelineGraph:
                     f"工程の入力指紋が一致しません: stage={stage.name}, "
                     f"recorded={record.get('input_fingerprint')}, current={current_fingerprint}"
                 )
-            recorded = record.get("outputs", {})
-            for artifact in stage.artifacts:
-                relative = context.artifact_relative(artifact.path)
-                if not context.store.exists(relative):
-                    raise PipelineError(
-                        f"工程の出力ファイルが欠損しています: stage={stage.name}, path={context.store.path(relative)}"
-                    )
-                actual = context.store.hash(relative)
-                expected = recorded.get(artifact.path)
-                if actual != expected:
-                    raise PipelineError(
-                        f"工程の出力ハッシュが一致しません: stage={stage.name}, "
-                        f"path={context.store.path(relative)}, expected={expected}, actual={actual}"
-                    )
         self._verify_body_hash_records(context)
         return state
 
@@ -241,27 +328,45 @@ class PipelineGraph:
         previous_outputs: Mapping[str, str],
     ) -> dict[str, Any]:
         attempts = int(state["stages"][stage.name].get("attempts", 0)) + 1
+        running_fields: dict[str, Any] = {
+            "stage_version": stage.stage_version,
+            "input_parts": dict(input_parts),
+            "input_fingerprint": input_fingerprint,
+            "attempts": attempts,
+            "started_at": utc_now(),
+        }
+        if stage.name == "S2_sources":
+            running_fields["refetch"] = context.cache.get("refetch")
+            running_fields["quarantined"] = False
         state = state_file.transition(
             state,
             stage.name,
             "running",
-            stage_version=stage.stage_version,
-            input_parts=dict(input_parts),
-            input_fingerprint=input_fingerprint,
-            attempts=attempts,
-            started_at=utc_now(),
+            **running_fields,
         )
         try:
             updates = stage.runner(context, state) if stage.runner is not None else None
             outputs: dict[str, str] = {}
             snapshots: dict[str, str] = {}
             kinds: dict[str, str] = {}
+            for owned in stage.owned_dirs:
+                if owned.endswith(".staging") and context.store.exists(context.artifact_relative(owned)):
+                    raise PipelineError(
+                        f"工程完了時に作業用ディレクトリが残っています: stage={stage.name}, "
+                        f"path={context.store.path(context.artifact_relative(owned))}"
+                    )
             for artifact in stage.artifacts:
                 relative = context.artifact_relative(artifact.path)
                 if not context.store.exists(relative):
                     raise PipelineError(
                         f"工程が宣言した出力を作成しませんでした: stage={stage.name}, path={context.store.path(relative)}"
                     )
+                if artifact.manifest:
+                    manifest_issues = self._manifest_issues(
+                        context, stage, artifact, check_recorded_manifest=False
+                    )
+                    if manifest_issues:
+                        raise PipelineError(self._issues_message(context, manifest_issues))
                 digest = context.store.hash(relative)
                 snapshot = self._snapshot_relative(
                     context.run_id, stage.name, artifact.path, digest
@@ -285,7 +390,10 @@ class PipelineGraph:
                     )
             if updates:
                 for key, value in updates.items():
-                    if key in {"schema_version", "run_id", "slug", "mode", "topic_source", "created_at", "stages"}:
+                    if key in {
+                        "schema_version", "run_id", "slug", "mode", "topic_source",
+                        "url_candidates_source", "created_at", "stages", "pending_recovery",
+                    }:
                         raise PipelineError(
                             f"工程が固定 state キーを変更しようとしました: stage={stage.name}, key={key}"
                         )
@@ -335,11 +443,20 @@ class PipelineGraph:
     ) -> dict[str, Any]:
         accepted = set(accept_modified)
         used: set[str] = set()
+        issues = self._collect_output_issues(context, state)
+        blocking = [
+            item for item in issues
+            if item.get("manifest") or item["kind"] in {"missing", "extra", "link", "staging"}
+        ]
+        if blocking:
+            raise PipelineError(self._issues_message(context, blocking))
         for stage in self.stages:
             record = state["stages"][stage.name]
             if record["status"] != "done":
                 continue
             for artifact in stage.artifacts:
+                if artifact.manifest:
+                    continue
                 relative = context.artifact_relative(artifact.path)
                 absolute = context.store.path(relative)
                 if not absolute.is_file():
@@ -446,7 +563,9 @@ class PipelineGraph:
             finished_at=utc_now(),
             error="前回の実行が running のまま終了しました",
         )
-        return self._archive_current_stage_outputs(context, state_file, state, stage)
+        return self._archive_current_stage_outputs(
+            context, state_file, state, stage, reason="interrupted"
+        )
 
     def _archive_current_stage_outputs(
         self,
@@ -454,26 +573,15 @@ class PipelineGraph:
         state_file: StateFile,
         state: dict[str, Any],
         stage: StageSpec,
+        *,
+        reason: str = "rerun",
     ) -> dict[str, Any]:
         stamp = self._stamp()
-        moved = False
-        for artifact in stage.artifacts:
-            source = context.artifact_relative(artifact.path)
-            if context.store.exists(source):
-                destination = (
-                    Path("runs")
-                    / context.run_id
-                    / "superseded"
-                    / stamp
-                    / stage.name
-                    / artifact.path
-                )
-                context.store.move(source, destination)
-                moved = True
+        moved, destination = self._archive_stage_content(
+            context, stage, stamp=stamp, reason=reason
+        )
         if moved:
-            state["stages"][stage.name]["superseded_dir"] = (
-                Path("superseded") / stamp / stage.name
-            ).as_posix()
+            state["stages"][stage.name]["superseded_dir"] = destination
             state_file.write(state)
         return state
 
@@ -493,24 +601,315 @@ class PipelineGraph:
             if stage.name not in targets:
                 continue
             record = state["stages"][stage.name]
-            for artifact in stage.artifacts:
-                source = context.artifact_relative(artifact.path)
-                if context.store.exists(source):
-                    destination = (
-                        Path("runs")
-                        / context.run_id
-                        / "superseded"
-                        / stamp
-                        / stage.name
-                        / artifact.path
-                    )
-                    context.store.move(source, destination)
+            _moved, destination = self._archive_stage_content(
+                context, stage, stamp=stamp, reason="invalidated"
+            )
             record["status"] = "invalidated"
             record["invalidated_by"] = invalidated_by
             record["invalidated_at"] = utc_now()
-            record["superseded_dir"] = (
-                Path("superseded") / stamp / stage.name
-            ).as_posix()
+            record["superseded_dir"] = destination
+        state_file.write(state)
+        return state
+
+    def _archive_stage_content(
+        self,
+        context: StageContext,
+        stage: StageSpec,
+        *,
+        stamp: str,
+        reason: str,
+    ) -> tuple[bool, str]:
+        destination_relative = (Path("superseded") / stamp / stage.name).as_posix()
+        destination_base = Path("runs") / context.run_id / destination_relative
+        inventory: list[dict[str, Any]] = []
+        moved = False
+        for owned in stage.owned_dirs:
+            source = context.artifact_relative(owned)
+            if not context.store.exists(source):
+                continue
+            destination = destination_base / owned
+            entries = context.store.move_tree(source, destination)
+            inventory.extend({**entry, "path": f"{owned}/{entry['path']}"} for entry in entries)
+            moved = True
+        for artifact in stage.artifacts:
+            if any(Path(artifact.path).is_relative_to(Path(owned)) for owned in stage.owned_dirs):
+                continue
+            source = context.artifact_relative(artifact.path)
+            if context.store.exists(source):
+                digest = context.store.hash(source)
+                size = len(context.store.read_bytes(source))
+                destination = destination_base / artifact.path
+                context.store.move(source, destination)
+                inventory.append(
+                    {"path": artifact.path, "kind": "file", "bytes": size, "sha256": digest}
+                )
+                moved = True
+        if moved:
+            context.store.write_json(
+                destination_base / "archive_note.json",
+                {"reason": reason, "stage": stage.name, "inventory": inventory},
+            )
+        return moved, destination_relative
+
+    def _collect_output_issues(
+        self,
+        context: StageContext,
+        state: dict[str, Any],
+        *,
+        include_running: bool = False,
+    ) -> list[dict[str, Any]]:
+        issues: list[dict[str, Any]] = []
+        for stage in self.stages:
+            record = state["stages"][stage.name]
+            if include_running or record["status"] != "running":
+                for owned in stage.owned_dirs:
+                    if owned.endswith(".staging"):
+                        relative = context.artifact_relative(owned)
+                        if context.store.exists(relative):
+                            issues.append(
+                                {
+                                    "stage": stage.name,
+                                    "path": owned,
+                                    "kind": "staging",
+                                    "expected": "absent",
+                                    "actual": "present",
+                                    "manifest": True,
+                                }
+                            )
+            if record["status"] != "done":
+                continue
+            for artifact in stage.artifacts:
+                if artifact.manifest:
+                    issues.extend(self._manifest_issues(context, stage, artifact))
+                    continue
+                relative = context.artifact_relative(artifact.path)
+                absolute = context.store.root / relative
+                if self._path_has_link(absolute, context.store.root):
+                    issues.append(
+                        {
+                            "stage": stage.name,
+                            "path": artifact.path,
+                            "kind": "link",
+                            "expected": record.get("outputs", {}).get(artifact.path),
+                            "actual": "link",
+                            "manifest": False,
+                        }
+                    )
+                elif not absolute.is_file():
+                    issues.append(
+                        {
+                            "stage": stage.name,
+                            "path": artifact.path,
+                            "kind": "missing",
+                            "expected": record.get("outputs", {}).get(artifact.path),
+                            "actual": None,
+                            "manifest": False,
+                        }
+                    )
+                else:
+                    actual = context.store.hash(relative)
+                    expected = record.get("outputs", {}).get(artifact.path)
+                    if actual != expected:
+                        issues.append(
+                            {
+                                "stage": stage.name,
+                                "path": artifact.path,
+                                "kind": "modified",
+                                "expected": expected,
+                                "actual": actual,
+                                "manifest": False,
+                            }
+                        )
+        return issues
+
+    def _manifest_issues(
+        self,
+        context: StageContext,
+        stage: StageSpec,
+        artifact: ArtifactSpec,
+        *,
+        check_recorded_manifest: bool = True,
+    ) -> list[dict[str, Any]]:
+        issues: list[dict[str, Any]] = []
+        relative = context.artifact_relative(artifact.path)
+        absolute = context.store.root / relative
+        record = context.store.read_json(Path("runs") / context.run_id / "state.json")
+        expected_manifest = (
+            record["stages"][stage.name].get("outputs", {}).get(artifact.path)
+            if check_recorded_manifest
+            else None
+        )
+        if self._path_has_link(absolute, context.store.root):
+            return [{"stage": stage.name, "path": artifact.path, "kind": "link", "expected": expected_manifest, "actual": "link", "manifest": True}]
+        if not absolute.is_file():
+            return [{"stage": stage.name, "path": artifact.path, "kind": "missing", "expected": expected_manifest, "actual": None, "manifest": True}]
+        actual_manifest = context.store.hash(relative)
+        if expected_manifest is not None and actual_manifest != expected_manifest:
+            issues.append({"stage": stage.name, "path": artifact.path, "kind": "modified", "expected": expected_manifest, "actual": actual_manifest, "manifest": True})
+        try:
+            manifest = context.store.read_json(relative)
+        except PipelineError as exc:
+            issues.append({"stage": stage.name, "path": artifact.path, "kind": "modified", "expected": "valid manifest", "actual": str(exc), "manifest": True})
+            return issues
+        members = manifest.get("members") if isinstance(manifest, dict) else None
+        if not isinstance(members, list):
+            issues.append({"stage": stage.name, "path": artifact.path, "kind": "modified", "expected": "members array", "actual": type(members).__name__, "manifest": True})
+            return issues
+        root = absolute.parent
+        expected_paths = {Path(artifact.path).name}
+        seen: set[str] = set()
+        for index, member in enumerate(members):
+            if not isinstance(member, dict) or set(member) != {"path", "sha256"}:
+                issues.append({"stage": stage.name, "path": f"members[{index}]", "kind": "modified", "expected": "{path, sha256}", "actual": repr(member), "manifest": True})
+                continue
+            member_path = member["path"]
+            path = Path(member_path) if isinstance(member_path, str) else Path()
+            if not isinstance(member_path, str) or path.is_absolute() or not path.parts or ".." in path.parts:
+                issues.append({"stage": stage.name, "path": str(member_path), "kind": "modified", "expected": "sources-relative path", "actual": "invalid path", "manifest": True})
+                continue
+            if member_path in seen:
+                issues.append({"stage": stage.name, "path": member_path, "kind": "modified", "expected": "unique member", "actual": "duplicate", "manifest": True})
+                continue
+            seen.add(member_path)
+            expected_paths.add(path.as_posix())
+            target = root.joinpath(*path.parts)
+            if self._path_has_link(target, root):
+                issues.append({"stage": stage.name, "path": member_path, "kind": "link", "expected": member["sha256"], "actual": "link", "manifest": True})
+            elif not target.is_file():
+                issues.append({"stage": stage.name, "path": member_path, "kind": "missing", "expected": member["sha256"], "actual": None, "manifest": True})
+            else:
+                from .store import sha256_file
+
+                actual = sha256_file(target)
+                if actual != member["sha256"]:
+                    issues.append({"stage": stage.name, "path": member_path, "kind": "modified", "expected": member["sha256"], "actual": actual, "manifest": True})
+        try:
+            inventory = context.store.inspect_tree(relative.parent)
+        except PipelineError as exc:
+            issues.append({"stage": stage.name, "path": str(relative.parent), "kind": "modified", "expected": "readable tree", "actual": str(exc), "manifest": True})
+            return issues
+        actual_paths = {entry["path"] for entry in inventory}
+        for extra in sorted(actual_paths - expected_paths):
+            kind = next(entry["kind"] for entry in inventory if entry["path"] == extra)
+            issues.append({"stage": stage.name, "path": extra, "kind": "link" if kind == "link" else "extra", "expected": None, "actual": kind, "manifest": True})
+        return issues
+
+    def _issues_message(self, context: StageContext, issues: list[dict[str, Any]]) -> str:
+        lines = ["工程の出力に不一致または欠損があります。何も変更せず停止します:"]
+        for item in issues:
+            lines.append(
+                f"- stage={item['stage']}, path={item['path']}, kind={item['kind']}, "
+                f"expected={item.get('expected')}, actual={item.get('actual')}"
+            )
+        if any(item.get("manifest") for item in issues):
+            lines.append(
+                "復旧コマンド: "
+                f"resume --run {context.run_id} --from S2_sources --refetch all"
+            )
+        return "\n".join(lines)
+
+    def _start_recovery(
+        self,
+        context: StageContext,
+        state_file: StateFile,
+        state: dict[str, Any],
+        *,
+        from_stage: str,
+        issues: list[dict[str, Any]],
+        refetch: str,
+    ) -> dict[str, Any]:
+        stamp = self._stamp()
+        target_names = {from_stage} | self.descendants(from_stage)
+        planned: list[dict[str, str]] = []
+        for stage in self.stages:
+            if stage.name not in target_names:
+                continue
+            destination_base = Path("runs") / context.run_id / "superseded" / stamp / stage.name
+            for owned in stage.owned_dirs:
+                source = context.artifact_relative(owned)
+                if context.store.exists(source):
+                    planned.append({"source": source.as_posix(), "destination": (destination_base / owned).as_posix(), "stage": stage.name, "kind": "tree"})
+            for artifact in stage.artifacts:
+                if any(Path(artifact.path).is_relative_to(Path(owned)) for owned in stage.owned_dirs):
+                    continue
+                source = context.artifact_relative(artifact.path)
+                if context.store.exists(source):
+                    planned.append({"source": source.as_posix(), "destination": (destination_base / artifact.path).as_posix(), "stage": stage.name, "kind": "file"})
+        report_relative = Path("runs") / context.run_id / "superseded" / stamp / "recovery_report.json"
+        report = {
+            "reason": "recovery",
+            "quarantined": True,
+            "from_stage": from_stage,
+            "refetch": refetch,
+            "issues": issues,
+            "planned": planned,
+            "completed": False,
+        }
+        context.store.write_json(report_relative, report)
+        state["pending_recovery"] = {
+            "stamp": stamp,
+            "report": report_relative.as_posix(),
+            "planned": planned,
+        }
+        state_file.write(state)
+        return self._continue_pending_recovery(context, state_file, state)
+
+    def _continue_pending_recovery(
+        self,
+        context: StageContext,
+        state_file: StateFile,
+        state: dict[str, Any],
+    ) -> dict[str, Any]:
+        pending = state["pending_recovery"]
+        report = context.store.read_json(pending["report"])
+        from_stage = report.get("from_stage")
+        if from_stage not in self.by_name:
+            raise PipelineError(f"recovery_report.json の from_stage が不正です: value={from_stage!r}")
+        inventories: dict[str, list[dict[str, Any]]] = {}
+        for item in pending["planned"]:
+            source = Path(item["source"])
+            destination = Path(item["destination"])
+            source_absolute = context.store.root / source
+            destination_absolute = context.store.root / destination
+            source_exists = source_absolute.exists() or source_absolute.is_symlink()
+            destination_exists = destination_absolute.exists() or destination_absolute.is_symlink()
+            if source_exists and destination_exists:
+                raise PipelineError(f"復旧の移動元と移動先が両方存在します: source={source_absolute}, destination={destination_absolute}")
+            if not source_exists and not destination_exists:
+                raise PipelineError(f"復旧の移動元と移動先が両方ありません: source={source_absolute}, destination={destination_absolute}")
+            if source_exists:
+                if item["kind"] == "tree":
+                    inventory = context.store.move_tree(source, destination)
+                else:
+                    data = context.store.read_bytes(source)
+                    inventory = [{"path": Path(item["destination"]).name, "kind": "file", "bytes": len(data), "sha256": sha256_bytes(data)}]
+                    context.store.move(source, destination)
+            else:
+                if item["kind"] == "tree":
+                    inventory = context.store.inspect_tree(destination)
+                else:
+                    data = context.store.read_bytes(destination)
+                    inventory = [{"path": Path(item["destination"]).name, "kind": "file", "bytes": len(data), "sha256": sha256_bytes(data)}]
+            inventories.setdefault(item["stage"], []).extend(inventory)
+        stamp = pending["stamp"]
+        targets = {from_stage} | self.descendants(from_stage)
+        report_run_relative = Path(pending["report"]).relative_to(Path("runs") / context.run_id)
+        for stage_name in targets:
+            if stage_name in inventories:
+                base = Path("runs") / context.run_id / "superseded" / stamp / stage_name
+                context.store.write_json(base / "archive_note.json", {"reason": "recovery", "stage": stage_name, "inventory": inventories[stage_name]})
+            record = state["stages"][stage_name]
+            record["status"] = "invalidated"
+            record["invalidated_by"] = "recovery"
+            record["invalidated_at"] = utc_now()
+            record["superseded_dir"] = (Path("superseded") / stamp / stage_name).as_posix()
+            record["recovery_report"] = report_run_relative.as_posix()
+            if stage_name == "S2_sources":
+                record["quarantined"] = True
+        report["completed"] = True
+        report["inventories"] = inventories
+        context.store.write_json(pending["report"], report)
+        del state["pending_recovery"]
         state_file.write(state)
         return state
 
@@ -542,6 +941,19 @@ class PipelineGraph:
                         "検証結果は無効です（本文が検証後に変わっています）: "
                         f"record={record_name}, body={body_name}, expected={record[key]}, actual={actual}"
                     )
+
+    @staticmethod
+    def _path_has_link(path: Path, root: Path) -> bool:
+        try:
+            relative = path.relative_to(root)
+        except ValueError:
+            return True
+        current = root
+        for part in relative.parts:
+            current /= part
+            if current.is_symlink() or bool(getattr(os.path, "isjunction", lambda _p: False)(current)):
+                return True
+        return False
 
     @staticmethod
     def _accepted_key(
@@ -585,7 +997,9 @@ class PipelineGraph:
 
 
 def build_production_stages() -> list[StageSpec]:
+    from .acquire import STAGE_VERSION as ACQUIRE_STAGE_VERSION, run_acquire
     from .intake import prepare_intake
+    from .plan_manual import prepare_plan
 
     def s0_inputs(context: StageContext, state: dict[str, Any]) -> Mapping[str, Any]:
         prepared = prepare_intake(
@@ -611,6 +1025,19 @@ def build_production_stages() -> list[StageSpec]:
             updates["comparison_target"] = prepared["comparison_target"]
         return updates
 
+    def s1_inputs(context: StageContext, state: dict[str, Any]) -> Mapping[str, Any]:
+        topic = context.store.read_json(context.artifact_relative("topic.json"))
+        prepared = prepare_plan(state=state, config=context.config, topic=topic)
+        context.cache["S1_plan"] = prepared
+        return prepared["input_parts"]
+
+    def s1_run(context: StageContext, state: dict[str, Any]) -> None:
+        prepared = context.cache.get("S1_plan")
+        if prepared is None:
+            topic = context.store.read_json(context.artifact_relative("topic.json"))
+            prepared = prepare_plan(state=state, config=context.config, topic=topic)
+        context.write_json("research_plan.json", prepared["plan"])
+
     return [
         StageSpec(
             "S0_intake",
@@ -623,13 +1050,19 @@ def build_production_stages() -> list[StageSpec]:
             "S1_plan",
             1,
             dependencies=("S0_intake",),
+            config_keys=("plan",),
             artifacts=(ArtifactSpec("research_plan.json"),),
+            input_provider=s1_inputs,
+            runner=s1_run,
         ),
         StageSpec(
             "S2_sources",
-            1,
+            ACQUIRE_STAGE_VERSION,
             dependencies=("S1_plan",),
-            artifacts=(ArtifactSpec("sources/index.json"),),
+            config_keys=("acquire",),
+            artifacts=(ArtifactSpec("sources/index.json", manifest=True),),
+            owned_dirs=("sources", "sources.staging"),
+            runner=run_acquire,
         ),
         StageSpec(
             "S3_claims",

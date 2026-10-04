@@ -218,6 +218,64 @@ class RunStore:
                 f"ファイルを退避できません: source={src}, destination={dst}, error={exc}"
             ) from exc
 
+    def inspect_tree(self, relative: str | Path) -> list[dict[str, Any]]:
+        root = self.path(relative)
+        if not root.is_dir():
+            raise PipelineError(f"一覧対象のディレクトリがありません: path={root}")
+        entries: list[dict[str, Any]] = []
+
+        def walk(directory: Path, prefix: Path) -> None:
+            try:
+                children = sorted(os.scandir(directory), key=lambda item: item.name)
+            except OSError as exc:
+                raise PipelineError(f"ディレクトリを一覧できません: path={directory}, error={exc}") from exc
+            for child in children:
+                child_relative = prefix / child.name
+                try:
+                    is_junction = bool(getattr(os.path, "isjunction", lambda _p: False)(child.path))
+                    if child.is_symlink() or is_junction:
+                        entries.append({"path": child_relative.as_posix(), "kind": "link"})
+                    elif child.is_dir(follow_symlinks=False):
+                        walk(Path(child.path), child_relative)
+                    elif child.is_file(follow_symlinks=False):
+                        data = Path(child.path).read_bytes()
+                        entries.append(
+                            {
+                                "path": child_relative.as_posix(),
+                                "kind": "file",
+                                "bytes": len(data),
+                                "sha256": sha256_bytes(data),
+                            }
+                        )
+                    else:
+                        entries.append({"path": child_relative.as_posix(), "kind": "other"})
+                except OSError as exc:
+                    raise PipelineError(f"退避対象を検査できません: path={child.path}, error={exc}") from exc
+
+        walk(root, Path())
+        return entries
+
+    def move_tree(self, source: str | Path, destination: str | Path) -> list[dict[str, Any]]:
+        src = self.path(source)
+        dst = self.path(destination)
+        if not src.is_dir():
+            raise PipelineError(f"移動元ディレクトリがありません: path={src}")
+        if dst.exists() or dst.is_symlink():
+            raise PipelineError(f"移動先ディレクトリが既に存在します: path={dst}")
+        inventory = self.inspect_tree(source)
+        try:
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            os.replace(src, dst)
+        except OSError as exc:
+            raise PipelineError(
+                f"ディレクトリを改名で退避できません: source={src}, destination={dst}, error={exc}"
+            ) from exc
+        if src.exists() or src.is_symlink():
+            raise PipelineError(f"改名後も移動元ディレクトリが残っています: path={src}")
+        if not dst.is_dir():
+            raise PipelineError(f"改名後の移動先ディレクトリがありません: path={dst}")
+        return inventory
+
     def copy_bytes(self, source: str | Path, destination: str | Path) -> None:
         self.write_bytes(destination, self.read_bytes(source))
 

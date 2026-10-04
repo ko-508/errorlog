@@ -36,6 +36,7 @@ def initial_state(
     mode: str,
     topic_source: Path,
     stage_names: list[str],
+    url_candidates_source: Path | None = None,
 ) -> dict[str, Any]:
     if mode not in {"candidate", "comparison"}:
         raise PipelineError(f"実行モードが不正です: mode={mode}")
@@ -49,6 +50,8 @@ def initial_state(
         "stages": {name: {"status": "pending", "attempts": 0} for name in stage_names},
         "draft_revisions": [],
     }
+    if url_candidates_source is not None:
+        state["url_candidates_source"] = str(url_candidates_source.resolve(strict=True))
     if mode == "comparison":
         state["publish_allowed"] = False
     return state
@@ -124,6 +127,44 @@ class StateFile:
             raise PipelineError(
                 f"comparison の publish_allowed は false 固定です: run_id={self.run_id}, value={value.get('publish_allowed')}"
             )
+        candidate_source = value.get("url_candidates_source")
+        if candidate_source is not None:
+            if not isinstance(candidate_source, str) or not candidate_source or not Path(candidate_source).is_absolute():
+                raise PipelineError(
+                    "state.json の url_candidates_source は絶対パスの空でない文字列が必要です: "
+                    f"run_id={self.run_id}, value={candidate_source!r}"
+                )
+        pending = value.get("pending_recovery")
+        if pending is not None:
+            expected = {"stamp", "report", "planned"}
+            if not isinstance(pending, dict) or set(pending) != expected:
+                raise PipelineError(
+                    f"state.json の pending_recovery が不正です: run_id={self.run_id}, value={pending!r}"
+                )
+            if not isinstance(pending["stamp"], str) or not pending["stamp"]:
+                raise PipelineError(f"pending_recovery.stamp が不正です: run_id={self.run_id}")
+            if not isinstance(pending["report"], str) or not pending["report"]:
+                raise PipelineError(f"pending_recovery.report が不正です: run_id={self.run_id}")
+            if not isinstance(pending["planned"], list):
+                raise PipelineError(f"pending_recovery.planned が配列ではありません: run_id={self.run_id}")
+            for index, item in enumerate(pending["planned"]):
+                keys = {"source", "destination", "stage", "kind"}
+                if not isinstance(item, dict) or set(item) != keys or not all(
+                    isinstance(item[key], str) and item[key] for key in keys
+                ):
+                    raise PipelineError(
+                        f"pending_recovery.planned[{index}] が不正です: run_id={self.run_id}, value={item!r}"
+                    )
+                if item["kind"] not in {"file", "tree"}:
+                    raise PipelineError(
+                        f"pending_recovery.planned[{index}].kind が不正です: value={item['kind']!r}"
+                    )
+                for key in ("source", "destination"):
+                    path = Path(item[key])
+                    if path.is_absolute() or not path.parts or ".." in path.parts:
+                        raise PipelineError(
+                            f"pending_recovery.planned[{index}].{key} が不正です: value={item[key]!r}"
+                        )
         stages = value["stages"]
         if not isinstance(stages, dict):
             raise PipelineError(f"state.json の stages が object ではありません: run_id={self.run_id}")

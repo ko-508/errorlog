@@ -6,3 +6,50 @@ paths:
 intake:
   overlap_threshold: 0.5
   overlap_top_n: 5
+
+plan:
+  mode: manual
+
+acquire:
+  allowed_hosts:
+    - {host: raw.githubusercontent.com, include_subdomains: false}
+    - {host: api.github.com, include_subdomains: false}
+    - {host: git-scm.com, include_subdomains: false}
+    - {host: docs.python.org, include_subdomains: false}
+    - {host: packaging.python.org, include_subdomains: false}
+    - {host: pip.pypa.io, include_subdomains: false}
+    - {host: docs.npmjs.com, include_subdomains: false}
+    - {host: nodejs.org, include_subdomains: false}
+    - {host: kubernetes.io, include_subdomains: false}
+    - {host: docs.docker.com, include_subdomains: false}
+    - {host: developer.hashicorp.com, include_subdomains: false}
+    - {host: docs.aws.amazon.com, include_subdomains: false}
+    - {host: www.postgresql.org, include_subdomains: false}
+    - {host: learn.microsoft.com, include_subdomains: false}
+    - {host: cloud.google.com, include_subdomains: false}
+    - {host: discuss.python.org, include_subdomains: false}
+    - {host: discuss.hashicorp.com, include_subdomains: false}
+    - {host: forums.docker.com, include_subdomains: false}
+  comparison_denied_hosts: [zenn.dev, qiita.com]
+  self_hosts: [errorlog.jp]
+  self_repos: [ko-508/errorlog, ko-508/zenn-content]
+  challenge_markers: ["cf-chl", "Just a moment...", "captcha"]
+  user_agent: "errorlog-article-pipeline/1 (+https://errorlog.jp/about/)"
+  dns_timeout_s: 10
+  connect_timeout_s: 10
+  read_timeout_s: 20
+  request_deadline_s: 60
+  source_deadline_s: 180
+  run_deadline_s: 1800
+  max_abandoned_resolvers: 3
+  max_redirects: 5
+  max_body_bytes: 5242880
+  max_total_bytes: 52428800
+  max_sources: 40
+  per_host_interval_s: 1.0
+  max_retries: 2
+  retry_backoff_s: [5, 20]
+  retry_after_max_s: 60
+  min_text_chars: 200
+  issue_comment_pages_max: 3
+  reuse_max_age_hours: 72

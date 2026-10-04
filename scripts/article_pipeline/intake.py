@@ -9,13 +9,9 @@ from pathlib import Path
 from typing import Any
 
 from . import PipelineError
+from .config import load_config, load_strict_yaml, yaml
 from .posts_index import build_posts_index, posts_index_hash
 from .store import canonical_json_bytes, sha256_bytes, sha256_file
-
-try:
-    import yaml
-except ImportError:
-    yaml = None
 
 
 SLUG_RE = re.compile(r"^[a-z0-9_+\-]+$")
@@ -30,47 +26,6 @@ ALLOWED_TOPIC_KEYS = {
     "notes",
 }
 REQUIRED_TOPIC_KEYS = {"slug", "service", "error_text", "error_code"}
-
-
-if yaml is not None:
-    class UniqueKeyLoader(yaml.SafeLoader):
-        pass
-
-
-    def _construct_unique_mapping(loader: Any, node: Any, deep: bool = False) -> dict[Any, Any]:
-        mapping: dict[Any, Any] = {}
-        for key_node, value_node in node.value:
-            key = loader.construct_object(key_node, deep=deep)
-            if key in mapping:
-                raise yaml.constructor.ConstructorError(
-                    "while constructing a mapping",
-                    node.start_mark,
-                    f"duplicate key: {key!r}",
-                    key_node.start_mark,
-                )
-            mapping[key] = loader.construct_object(value_node, deep=deep)
-        return mapping
-
-
-    UniqueKeyLoader.add_constructor(
-        yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
-        _construct_unique_mapping,
-    )
-
-
-def load_strict_yaml(path: Path) -> Any:
-    if yaml is None:
-        raise PipelineError(
-            f"PyYAML が必要です: path={path}, install_command='pip install pyyaml'"
-        )
-    try:
-        text = path.read_text(encoding="utf-8")
-    except (OSError, UnicodeError) as exc:
-        raise PipelineError(f"YAML ファイルを読めません: path={path}, error={exc}") from exc
-    try:
-        return yaml.load(text, Loader=UniqueKeyLoader)
-    except yaml.YAMLError as exc:
-        raise PipelineError(f"YAML を解析できません: path={path}, error={exc}") from exc
 
 
 def load_topic(path: Path) -> dict[str, Any]:
@@ -109,45 +64,6 @@ def load_topic(path: Path) -> dict[str, Any]:
     if "target_versions" in value and not isinstance(value["target_versions"], list):
         raise PipelineError(
             f"topic.yml の target_versions は配列でなければなりません: path={path}, value={value['target_versions']!r}"
-        )
-    return value
-
-
-def load_config(path: Path) -> dict[str, Any]:
-    value = load_strict_yaml(path)
-    if not isinstance(value, dict):
-        raise PipelineError(f"設定のルートが object ではありません: path={path}")
-    if set(value) != {"paths", "intake"}:
-        raise PipelineError(
-            f"設定のトップレベルキーが不正です: path={path}, actual={sorted(value)}, expected=['intake', 'paths']"
-        )
-    paths = value["paths"]
-    intake = value["intake"]
-    expected_paths = {"run_root", "posts_dir", "drafts_dir"}
-    expected_intake = {"overlap_threshold", "overlap_top_n"}
-    if not isinstance(paths, dict) or set(paths) != expected_paths:
-        raise PipelineError(
-            f"設定 paths のキーが不正です: path={path}, actual={sorted(paths) if isinstance(paths, dict) else type(paths).__name__}, expected={sorted(expected_paths)}"
-        )
-    if not isinstance(intake, dict) or set(intake) != expected_intake:
-        raise PipelineError(
-            f"設定 intake のキーが不正です: path={path}, actual={sorted(intake) if isinstance(intake, dict) else type(intake).__name__}, expected={sorted(expected_intake)}"
-        )
-    if paths["run_root"] != "run/article_pipeline":
-        raise PipelineError(
-            f"設定 paths.run_root は固定です: path={path}, actual={paths['run_root']!r}, expected='run/article_pipeline'"
-        )
-    if not all(isinstance(paths[key], str) and paths[key] for key in expected_paths):
-        raise PipelineError(f"設定 paths の値は空でない文字列が必要です: path={path}, value={paths!r}")
-    threshold = intake["overlap_threshold"]
-    top_n = intake["overlap_top_n"]
-    if not isinstance(threshold, (int, float)) or isinstance(threshold, bool) or not 0 <= threshold <= 1:
-        raise PipelineError(
-            f"overlap_threshold は 0 以上 1 以下の数値が必要です: path={path}, value={threshold!r}"
-        )
-    if not isinstance(top_n, int) or isinstance(top_n, bool) or top_n <= 0:
-        raise PipelineError(
-            f"overlap_top_n は正の整数が必要です: path={path}, value={top_n!r}"
         )
     return value
 
