@@ -1,0 +1,8 @@
+paths:
+  run_root: run/article_pipeline
+  posts_dir: content/posts
+  drafts_dir: drafts
+
+intake:
+  overlap_threshold: 0.5
+  overlap_top_n: 5
