@@ -229,7 +229,7 @@ Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/gloss
 
 ### マルチタブ・マルチデバイスでのセッション管理
 
-Supabase の JavaScript [クライアント](/glossary/クライアント/)は[ブラウザ](/glossary/ブラウザ/)の LocalStorage に[セッション](/glossary/セッション/)情報を[保存](/glossary/保存/)します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` リスナーを[設定](/glossary/設定/)して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
+Supabase の JavaScript [クライアント](/glossary/クライアント/)は[ブラウザ](/glossary/ブラウザ/)の LocalStorage に[セッション](/glossary/セッション/)情報を[保存](/glossary/保存/)します。複数のタブやデバイスからアクセスする場合、各環境で独立した[セッション](/glossary/セッション/)が存在します。[セッション](/glossary/セッション/)がリフレッシュされても他のタブに自動同期されないため、ページリロード後に 401 [エラー](/glossary/エラー/)が発生することがあります。`supabase.auth.onAuthStateChange()` [リスナー](/glossary/リスナー/)を[設定](/glossary/設定/)して、[セッション](/glossary/セッション/)変更を監視し、UI を動的に更新することを推奨します。
 
 ## それでも解決しない場合
 

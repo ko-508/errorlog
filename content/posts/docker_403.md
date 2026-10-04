@@ -99,7 +99,7 @@ docker push org/repo:v1.0
 # Error: denied: requested access to the resource is denied
 ```
 
-**After（修正後の対応）**
+**After（修正後の[対応](/glossary/対応/)）**
 
 [リポジトリ](/glossary/リポジトリ/)の所有者が [Docker](/glossary/docker/) Hub Web UI で[アクセス権限](/glossary/アクセス権限/)を明示的に付与する必要があります：
 

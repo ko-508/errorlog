@@ -37,7 +37,7 @@ sudo tail -50 /var/log/nginx/error.log
 sudo grep -iE "permission denied|forbidden|denied" /var/log/nginx/error.log
 ```
 
-[ログ](/glossary/ログ/)の文言と原因の対応は次のとおりです。
+[ログ](/glossary/ログ/)の文言と原因の[対応](/glossary/対応/)は次のとおりです。
 
 ```text
 # ファイルまたは親ディレクトリの権限不足

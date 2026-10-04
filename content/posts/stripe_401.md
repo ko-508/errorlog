@@ -13,7 +13,7 @@ related_services: ["OAuth"]
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) [キー](/glossary/キー/)またはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、[開発環境](/glossary/開発環境/)と[本番環境](/glossary/本番環境/)を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な対応が必要です。
+Stripe [API](/glossary/api/) から返される 401（Unauthorized）[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に含まれる認証情報（[API](/glossary/api/) [キー](/glossary/キー/)またはアクセストークン）が無効・期限切れ・形式不正であることを示します。Stripe では[認証](/glossary/認証/)なしにはいかなる [API](/glossary/api/) 呼び出しも実行できないため、[開発環境](/glossary/開発環境/)と[本番環境](/glossary/本番環境/)を問わず頻繁に発生する[エラー](/glossary/エラー/)です。データが消失することはありませんが、決済処理が停止するため迅速な[対応](/glossary/対応/)が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -173,7 +173,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 **[API](/glossary/api/) [キー](/glossary/キー/)の権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) [キー](/glossary/キー/)の[権限](/glossary/権限/)を制限することができます。制限された[キー](/glossary/キー/)で全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」セクションで、各[キー](/glossary/キー/)の[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
 
-**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の非同期[イベント](/glossary/イベント/)[通知](/glossary/通知/)）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
+**[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の[非同期](/glossary/非同期/)[イベント](/glossary/イベント/)[通知](/glossary/通知/)）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
 **Connected Account（Stripe Connect）：** 複数の Stripe [アカウント](/glossary/アカウント/)を管理する場合、リクエストヘッダーに正しい `Stripe-Account` [ID](/glossary/id/) を指定しないと 401 [エラー](/glossary/エラー/)が発生します。
 

@@ -77,7 +77,7 @@ async function fetchUserWithRetry() {
 
 ### 原因2：Firebase SDK のタイムアウト設定が短すぎる
 
-Firebase [SDK](/glossary/sdk/) の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)が[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)に対応できないほど短く[設定](/glossary/設定/)されている場合、正常な[リクエスト](/glossary/リクエスト/)でも 408 [エラー](/glossary/エラー/)が発生します。特にデータ量の多い操作や複雑な[クエリ](/glossary/クエリ/)では処理時間が長くなります。
+Firebase [SDK](/glossary/sdk/) の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)が[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)に[対応](/glossary/対応/)できないほど短く[設定](/glossary/設定/)されている場合、正常な[リクエスト](/glossary/リクエスト/)でも 408 [エラー](/glossary/エラー/)が発生します。特にデータ量の多い操作や複雑な[クエリ](/glossary/クエリ/)では処理時間が長くなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

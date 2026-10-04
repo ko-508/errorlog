@@ -76,7 +76,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### 原因2：通貨コードまたは金額の値が不正
 
-なぜ発生するか：Stripeは対応する通貨[コード](/glossary/コード/)（`jpy`、`usd`等）のみを受け入れます。また、金額は通貨によって有効な範囲が決まっており、JPYは通常1円以上の整数、USDは1セント以上である必要があります。0円や負の金額を指定すると400[エラー](/glossary/エラー/)になります。
+なぜ発生するか：Stripeは[対応](/glossary/対応/)する通貨[コード](/glossary/コード/)（`jpy`、`usd`等）のみを受け入れます。また、金額は通貨によって有効な範囲が決まっており、JPYは通常1円以上の整数、USDは1セント以上である必要があります。0円や負の金額を指定すると400[エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）:**
 ```javascript
@@ -140,7 +140,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### APIバージョンの不整合
 
-Stripeの[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)が[デフォルト](/glossary/デフォルト/)で使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に対応していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
+Stripeの[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)では特定の[API](/glossary/api/)[バージョン](/glossary/バージョン/)が[デフォルト](/glossary/デフォルト/)で使用されます。古い[コード](/glossary/コード/)が新しい[API](/glossary/api/)[バージョン](/glossary/バージョン/)に[対応](/glossary/対応/)していない場合、[パラメータ](/glossary/パラメータ/)名の廃止や仕様変更により400[エラー](/glossary/エラー/)が発生します。リクエストヘッダーに`Stripe-Version`を明示的に指定すると、特定[バージョン](/glossary/バージョン/)での動作を強制できます。
 
 ```bash
 curl https://api.stripe.com/v1/payment_intents \

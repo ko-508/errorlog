@@ -188,7 +188,7 @@ npm config get globalconfig
 
 `SELF_SIGNED_CERT_IN_CHAIN`は、[証明書](/glossary/証明書/)チェーンに自己署名証明書があり、信頼できない場合に出ます。`UNABLE_TO_GET_ISSUER_CERT_LOCALLY`は、発行元証明書をローカルで取得できず、チェーンを検証できない状態です。
 
-`CERT_NOT_YET_VALID`は、[証明書](/glossary/証明書/)の有効期間がまだ始まっていない場合の[エラー](/glossary/エラー/)です。`CERT_HAS_EXPIRED`は、有効期間がすでに終了した場合に対応します。
+`CERT_NOT_YET_VALID`は、[証明書](/glossary/証明書/)の有効期間がまだ始まっていない場合の[エラー](/glossary/エラー/)です。`CERT_HAS_EXPIRED`は、有効期間がすでに終了した場合に[対応](/glossary/対応/)します。
 
 `ECONNRESET`は通信中に接続が切断された状態、`EAI_AGAIN`は一時的な名前解決失敗です。どちらも[TLS](/glossary/tls/)[証明書](/glossary/証明書/)の有効期限とは調べる場所が異なります。
 

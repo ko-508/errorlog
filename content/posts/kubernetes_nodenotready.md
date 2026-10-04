@@ -111,7 +111,7 @@ kubectl get pods -n kube-system -o wide | grep <ノード名>
 ls -l /etc/cni/net.d/
 ```
 
-[設定](/glossary/設定/)[ファイル](/glossary/ファイル/)が置かれていない、あるいは対応する Pod が起動していない場合、その配布を担う仕組みの側を調べます。
+[設定](/glossary/設定/)[ファイル](/glossary/ファイル/)が置かれていない、あるいは[対応](/glossary/対応/)する Pod が起動していない場合、その配布を担う仕組みの側を調べます。
 
 ### 原因4：実行環境の応答が遅れている（False で断続的に切り替わる）
 

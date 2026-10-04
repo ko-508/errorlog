@@ -63,7 +63,7 @@ SHOW max_connections;
 SHOW superuser_reserved_connections;
 ```
 
-`reserved_connections`に対応する[環境](/glossary/環境/)では、次の値も確認してください。未対応の版では設定項目が存在しないため、[エラー](/glossary/エラー/)になります。
+`reserved_connections`に[対応](/glossary/対応/)する[環境](/glossary/環境/)では、次の値も確認してください。未対応の版では設定項目が存在しないため、[エラー](/glossary/エラー/)になります。
 
 ```sql
 SHOW reserved_connections;
@@ -152,7 +152,7 @@ SET idle_in_transaction_session_timeout = '5min';
 
 この[設定](/glossary/設定/)の既定値は`0`で、無効です。長時間開いた[トランザクション](/glossary/トランザクション/)はロックを保持する場合があり、不要になった行の掃除も妨げます。[PostgreSQL公式の接続既定値](https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-IDLE-IN-TRANSACTION-SESSION-TIMEOUT)では、表の肥大につながる可能性も説明されています。
 
-[トランザクション](/glossary/トランザクション/)外の待機接続を終了する`idle_session_timeout`もありますが、接続プールなどが予期しない切断へ対応できない場合があります。公式文書も、この[設定](/glossary/設定/)を中間[ソフトウェア](/glossary/ソフトウェア/)経由の接続へ適用する際は注意するよう案内しています。
+[トランザクション](/glossary/トランザクション/)外の待機接続を終了する`idle_session_timeout`もありますが、接続プールなどが予期しない切断へ[対応](/glossary/対応/)できない場合があります。公式文書も、この[設定](/glossary/設定/)を中間[ソフトウェア](/glossary/ソフトウェア/)経由の接続へ適用する際は注意するよう案内しています。
 
 ## max_connectionsを上げる前に確認すること
 

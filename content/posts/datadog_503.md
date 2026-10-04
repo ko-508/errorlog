@@ -202,7 +202,7 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 
 ## 解決策の早見表
 
-| 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
+| 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | ステータスページで障害確認 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [API](/glossary/api/) [キー](/glossary/キー/)とサイト設定確認 | 低 | 必要 | 全[OS](/glossary/os/) |
@@ -214,7 +214,7 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 
 Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に障害がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（[Linux](/glossary/linux/)）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
 
-複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに対応しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
+複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに[対応](/glossary/対応/)しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
 
 ## それでも解決しない場合
 

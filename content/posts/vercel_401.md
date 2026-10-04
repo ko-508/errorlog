@@ -15,7 +15,7 @@ trend_incident: true
 
 ## エラーの概要
 
-Vercel 401 [エラー](/glossary/エラー/)は、Vercel の[サーバー](/glossary/サーバー/)に対する[認証](/glossary/認証/)が失敗したことを示します。[API](/glossary/api/) [トークン](/glossary/トークン/)の無効化、[環境変数](/glossary/環境変数/)の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、[デプロイ](/glossary/デプロイ/)や [CLI](/glossary/cli/) 操作が停止します。この[エラー](/glossary/エラー/)が発生すると[プロジェクト](/glossary/プロジェクト/)のデプロイメント（自動構築・[デプロイ](/glossary/デプロイ/)）パイプラインが停止するため、素早い対応が必要です。
+Vercel 401 [エラー](/glossary/エラー/)は、Vercel の[サーバー](/glossary/サーバー/)に対する[認証](/glossary/認証/)が失敗したことを示します。[API](/glossary/api/) [トークン](/glossary/トークン/)の無効化、[環境変数](/glossary/環境変数/)の設定漏れ、外部サービス連携の切断など、認証周辺の問題が原因となり、[デプロイ](/glossary/デプロイ/)や [CLI](/glossary/cli/) 操作が停止します。この[エラー](/glossary/エラー/)が発生すると[プロジェクト](/glossary/プロジェクト/)のデプロイメント（自動構築・[デプロイ](/glossary/デプロイ/)）パイプラインが停止するため、素早い[対応](/glossary/対応/)が必要です。
 
 ## 実際のエラーメッセージ例
 

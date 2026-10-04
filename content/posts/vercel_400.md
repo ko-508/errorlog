@@ -160,7 +160,7 @@ const deployProject = async () => {
 
 Vercel は厳密な [JSON](/glossary/json/) [スキーマ](/glossary/スキーマ/)検証を行うため、vercel.json の構造に 1 つでも不正があると即座に 400 [エラー](/glossary/エラー/)になります。特に複数環境を[設定](/glossary/設定/)する場合、[環境](/glossary/環境/)ごとの[キー](/glossary/キー/)名（`production`、`preview`、`development`）を正確に記述しないと拒否されます。
 
-また、Vercel [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)が古い場合、新しい [API](/glossary/api/) 仕様に対応できず、正しい[設定ファイル](/glossary/設定ファイル/)でも 400 [エラー](/glossary/エラー/)が発生することがあります。チームで複数のマシンから[デプロイ](/glossary/デプロイ/)する場合、全員が同じ[バージョン](/glossary/バージョン/)を使用していることを確認してください。
+また、Vercel [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)が古い場合、新しい [API](/glossary/api/) 仕様に[対応](/glossary/対応/)できず、正しい[設定ファイル](/glossary/設定ファイル/)でも 400 [エラー](/glossary/エラー/)が発生することがあります。チームで複数のマシンから[デプロイ](/glossary/デプロイ/)する場合、全員が同じ[バージョン](/glossary/バージョン/)を使用していることを確認してください。
 
 [環境変数](/glossary/環境変数/)の値の型も厳密です。数値は文字列で囲む必要があり、配列や[オブジェクト](/glossary/オブジェクト/)は正しくシリアライズされていなければなりません。特に [API](/glossary/api/) を直接呼び出す場合、ファイルコンテンツは Base64 [エンコード](/glossary/エンコード/)（64進法のテキスト形式に変換）で[送信](/glossary/送信/)する必要があり、バイナリのまま[送信](/glossary/送信/)すると 400 [エラー](/glossary/エラー/)が発生します。
 

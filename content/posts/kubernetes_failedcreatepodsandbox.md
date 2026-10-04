@@ -165,7 +165,7 @@ kubelet と container runtime はノードの [OS](/glossary/os/) 機能に強�
 - **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の[設定](/glossary/設定/)）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
 - **iptables/nftables の不整合**：ホストの `iptables` がどの[バックエンド](/glossary/バックエンド/)（legacy / nft）で動いているかが、CNI やサービスプロキシの想定と食い違うと、ルール適用が失敗したり無効化されたりします。ノード再作成やディストリビューション更新の後に起きやすい問題です。
 - **[プロセス](/glossary/プロセス/)・ファイルディスクリプタ・PID の上限**：ノードが高負荷のときに sandbox 作成だけが失敗することがあります。カーネルログ（`dmesg`）に該当メッセージが出ていないか確認します。
-- **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に対応する handler がノードの runtime 側に[設定](/glossary/設定/)されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を確認してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
+- **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に[対応](/glossary/対応/)する handler がノードの runtime 側に[設定](/glossary/設定/)されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を確認してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
 
 **確認[コマンド](/glossary/コマンド/)**
 

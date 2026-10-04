@@ -135,7 +135,7 @@ build job: 'project-folder/deploy-test'
 
 **Jenkins UI上での確認方法：**
 
-Jenkinsホーム画面で目的のジョブを開き、[ブラウザ](/glossary/ブラウザ/)のアドレスバーに表示された[URL](/glossary/url/)が正確な[パス](/glossary/パス/)です。この[URL](/glossary/url/)をコピーして、[API](/glossary/api/)呼び出しや[スクリプト](/glossary/スクリプト/)で使用することで、綴り間違いを防げます。
+Jenkinsホーム画面で目的のジョブを開き、[ブラウザ](/glossary/ブラウザ/)の[アドレスバー](/glossary/アドレスバー/)に表示された[URL](/glossary/url/)が正確な[パス](/glossary/パス/)です。この[URL](/glossary/url/)をコピーして、[API](/glossary/api/)呼び出しや[スクリプト](/glossary/スクリプト/)で使用することで、綴り間違いを防げます。
 
 ## それでも解決しない場合
 

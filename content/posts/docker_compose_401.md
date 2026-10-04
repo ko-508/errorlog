@@ -189,7 +189,7 @@ $ docker-compose up
 
 ### AWS ECR（Elastic Container Registry）での認証
 
-ECRは[AWS](/glossary/aws/) [IAM](/glossary/iam/)[認証](/glossary/認証/)を使用するため、従来の`docker login`では対応できません。`aws ecr get-login-password`[コマンド](/glossary/コマンド/)で一時的な[認証](/glossary/認証/)[トークン](/glossary/トークン/)を取得する必要があります。
+ECRは[AWS](/glossary/aws/) [IAM](/glossary/iam/)[認証](/glossary/認証/)を使用するため、従来の`docker login`では[対応](/glossary/対応/)できません。`aws ecr get-login-password`[コマンド](/glossary/コマンド/)で一時的な[認証](/glossary/認証/)[トークン](/glossary/トークン/)を取得する必要があります。
 
 ```bash
 # ECR認証（12時間有効なトークンを生成）

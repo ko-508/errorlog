@@ -174,7 +174,7 @@ kubectl describe node <node-name>
 kubectl get pod <pod-name> -n <namespace> -o yaml
 ```
 
-そのPodをTaint付きノードで動かす設計なら、対応するTolerationを追加します。
+そのPodをTaint付きノードで動かす設計なら、[対応](/glossary/対応/)するTolerationを追加します。
 
 ```yaml
 spec:

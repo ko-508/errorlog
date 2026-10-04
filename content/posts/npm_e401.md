@@ -31,7 +31,7 @@ npm error Unable to authenticate, your authentication token seems to be invalid.
 
 E401は、接続した[レジストリ](/glossary/レジストリ/)が認証情報を受け付けなかったときに表示されます。[レジストリ](/glossary/レジストリ/)とは、npm[パッケージ](/glossary/パッケージ/)を取得または公開する[サーバー](/glossary/サーバー/)です。
 
-表示は1種類ではありません。代表的には、[トークン](/glossary/トークン/)が無効であるという案内、[パスワード](/glossary/パスワード/)が未設定または誤っているという案内、二段階認証を求める案内があります。社内[レジストリ](/glossary/レジストリ/)などでは、[レジストリ](/glossary/レジストリ/)側が返した独自の文が表示される場合もあります。
+表示は1種類ではありません。代表的には、[トークン](/glossary/トークン/)が無効であるという案内、[パスワード](/glossary/パスワード/)が未設定または誤っているという案内、[二段階認証](/glossary/二段階認証/)を求める案内があります。社内[レジストリ](/glossary/レジストリ/)などでは、[レジストリ](/glossary/レジストリ/)側が返した独自の文が表示される場合もあります。
 
 重要なのは、E401が必ずnpmjs.comから返るとは限らないことです。`@myorg/package`のようにscopeが付いた[パッケージ](/glossary/パッケージ/)は、[設定](/glossary/設定/)によって[GitHub](/glossary/github/) Packagesや社内[レジストリ](/glossary/レジストリ/)へ送られます。[エラー](/glossary/エラー/)に含まれる[URL](/glossary/url/)を基準に調べてください。
 
@@ -151,7 +151,7 @@ npm config fix
 //packages.example.com/npm/private/:_authToken=${COMPANY_NPM_TOKEN}
 ```
 
-ホスト名、[パス](/glossary/パス/)、末尾のスラッシュが実際の[レジストリ](/glossary/レジストリ/)[設定](/glossary/設定/)と対応しているかを確認してください。別のサービス用[トークン](/glossary/トークン/)を使い回さず、各[レジストリ](/glossary/レジストリ/)が指定する種類と[権限](/glossary/権限/)の[トークン](/glossary/トークン/)を利用します。
+ホスト名、[パス](/glossary/パス/)、末尾のスラッシュが実際の[レジストリ](/glossary/レジストリ/)[設定](/glossary/設定/)と[対応](/glossary/対応/)しているかを確認してください。別のサービス用[トークン](/glossary/トークン/)を使い回さず、各[レジストリ](/glossary/レジストリ/)が指定する種類と[権限](/glossary/権限/)の[トークン](/glossary/トークン/)を利用します。
 
 ## npm whoamiで認証を確認する
 
@@ -167,7 +167,7 @@ npm whoami
 npm whoami --registry=https://npm.pkg.github.com
 ```
 
-[npm whoamiの公式文書](https://docs.npmjs.com/cli/v11/commands/npm-whoami/)によると、[トークン](/glossary/トークン/)[認証](/glossary/認証/)に対応する[レジストリ](/glossary/レジストリ/)では、npmが`/-/whoami`へ接続し、その[トークン](/glossary/トークン/)に対応する利用者名を表示します。ただし、[レジストリ](/glossary/レジストリ/)がこの確認方法に対応していない場合もあります。
+[npm whoamiの公式文書](https://docs.npmjs.com/cli/v11/commands/npm-whoami/)によると、[トークン](/glossary/トークン/)[認証](/glossary/認証/)に[対応](/glossary/対応/)する[レジストリ](/glossary/レジストリ/)では、npmが`/-/whoami`へ接続し、その[トークン](/glossary/トークン/)に[対応](/glossary/対応/)する利用者名を表示します。ただし、[レジストリ](/glossary/レジストリ/)がこの確認方法に[対応](/glossary/対応/)していない場合もあります。
 
 また、OIDCによるtrusted publishingの[認証](/glossary/認証/)は公開処理の実行時に行われるため、`npm whoami`では確認できません。`npm whoami`が失敗したことだけを理由に、trusted publishingの設定不良とは判断できません。
 
@@ -186,7 +186,7 @@ npm config get globalconfig
 
 ## 二段階認証を求められた場合
 
-E401と一緒に`This operation requires a one-time password`と表示された場合は、二段階認証が必要です。表示された[URL](/glossary/url/)を[ブラウザ](/glossary/ブラウザ/)で開いて[認証](/glossary/認証/)するか、[認証](/glossary/認証/)アプリの一時的な符号を求められている場合は、実行した[コマンド](/glossary/コマンド/)に`--otp`を付けます。
+E401と一緒に`This operation requires a one-time password`と表示された場合は、[二段階認証](/glossary/二段階認証/)が必要です。表示された[URL](/glossary/url/)を[ブラウザ](/glossary/ブラウザ/)で開いて[認証](/glossary/認証/)するか、[認証](/glossary/認証/)アプリの一時的な符号を求められている場合は、実行した[コマンド](/glossary/コマンド/)に`--otp`を付けます。
 
 ```bash
 npm publish --otp=<code>
@@ -202,7 +202,7 @@ E401は[レジストリ](/glossary/レジストリ/)が[認証](/glossary/認証
 
 ## 近い認証エラーとの違い
 
-`npm error code EOTP`は、公開などの操作で二段階認証の一時的な符号が必要な場合に表示されます。E401でも本文に二段階認証の案内が含まれる場合があるため、[コード](/glossary/コード/)だけでなく続く文を確認してください。
+`npm error code EOTP`は、公開などの操作で[二段階認証](/glossary/二段階認証/)の一時的な符号が必要な場合に表示されます。E401でも本文に[二段階認証](/glossary/二段階認証/)の案内が含まれる場合があるため、[コード](/glossary/コード/)だけでなく続く文を確認してください。
 
 `Invalid auth configuration found`は、[URL](/glossary/url/)に結び付いていない`_authToken`などをnpmが設定検証で見つけた状態です。[レジストリ](/glossary/レジストリ/)からE401を返される前に、手元の設定検証で止まっています。
 
@@ -214,6 +214,6 @@ E401は[レジストリ](/glossary/レジストリ/)が[認証](/glossary/認証
 
 classic[トークン](/glossary/トークン/)、期限切れ[トークン](/glossary/トークン/)、無効化された[トークン](/glossary/トークン/)は、現在有効なgranular access tokenへ交換します。ローカルの公開作業は`npm login`で[認証](/glossary/認証/)し直せますが、[セッション](/glossary/セッション/)は2時間で期限切れになるため、CI用の秘密情報としては使いません。
 
-最後に`npm whoami --registry=<URL>`で認証先を確認します。認証情報、取得先、[権限](/glossary/権限/)の対応を直すことがE401の解決になります。
+最後に`npm whoami --registry=<URL>`で認証先を確認します。認証情報、取得先、[権限](/glossary/権限/)の[対応](/glossary/対応/)を直すことがE401の解決になります。
 
 免責事項：本記事の内容は一般的なnpm、npmjs.com、[GitHub](/glossary/github/) Packages、CI[環境](/glossary/環境/)を前提としています。[トークン](/glossary/トークン/)や`.npmrc`を変更する前に現在の[設定](/glossary/設定/)を[保存](/glossary/保存/)し、秘密情報を[ログ](/glossary/ログ/)や[リポジトリ](/glossary/リポジトリ/)へ出さないようにしてください。社内[レジストリ](/glossary/レジストリ/)では、管理者が定めた認証方法と更新手順を優先してください。

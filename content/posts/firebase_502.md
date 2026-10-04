@@ -59,7 +59,7 @@ exports.helloWorld = functions.https.onRequest((req, res) => {
 
 ### 原因2：Cloud Functionsが実行時エラーで例外をスローしている
 
-関数内で`throw new Error()`が実行されたり、未処理の非同期[エラー](/glossary/エラー/)が発生すると、[関数](/glossary/関数/)は正常に終了せず502[エラー](/glossary/エラー/)になります。
+関数内で`throw new Error()`が実行されたり、未処理の[非同期](/glossary/非同期/)[エラー](/glossary/エラー/)が発生すると、[関数](/glossary/関数/)は正常に終了せず502[エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）:**
 ```javascript
@@ -194,7 +194,7 @@ Firebase Hostingでカスタムオリジンをリワイトルールに指定し�
 
 ### CORS設定とプリフライトリクエスト
 
-Cloud Functionsで[CORS](/glossary/cors/)対応が不十分だと、[ブラウザ](/glossary/ブラウザ/)のプリフライトOPTIONS[リクエスト](/glossary/リクエスト/)が失敗して502[エラー](/glossary/エラー/)になる場合があります。
+Cloud Functionsで[CORS](/glossary/cors/)[対応](/glossary/対応/)が不十分だと、[ブラウザ](/glossary/ブラウザ/)のプリフライトOPTIONS[リクエスト](/glossary/リクエスト/)が失敗して502[エラー](/glossary/エラー/)になる場合があります。
 
 ```javascript
 exports.corsFunction = functions.https.onRequest((req, res) => {

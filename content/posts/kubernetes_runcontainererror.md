@@ -241,9 +241,9 @@ containerdのCRI[設定](/glossary/設定/)を疑う場合、containerd側では
 
 ## 危険な対応を行う前の確認
 
-`RunContainerError` でよくある危険な対応は、原因を確定しないまま[権限](/glossary/権限/)や保護機構を広げることです。
+`RunContainerError` でよくある危険な[対応](/glossary/対応/)は、原因を確定しないまま[権限](/glossary/権限/)や保護機構を広げることです。
 
-次の対応は、原因切り分けの一時検証に限定してください。
+次の[対応](/glossary/対応/)は、原因切り分けの一時検証に限定してください。
 
 ```yaml
 securityContext:

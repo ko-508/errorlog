@@ -245,7 +245,7 @@ if (error) console.error('Insert error:', error);
 
 **Supabase [ダッシュボード](/glossary/ダッシュボード/)での制約確認：** Supabase [ダッシュボード](/glossary/ダッシュボード/)のテーブルエディターで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どの[カラム](/glossary/カラム/)にどのような制約が[設定](/glossary/設定/)されているかを確認できます。事前にここで制約定義を把握しておくと、409 [エラー](/glossary/エラー/)を事前に防げます。
 
-**Realtime 機能との相性：** Realtime リスナーを有効にしている[テーブル](/glossary/テーブル/)で競合が発生した場合、INSERT/UPDATE が[ロールバック](/glossary/ロールバック/)されたことを[リアルタイム](/glossary/リアルタイム/)で検知できます。[クライアント](/glossary/クライアント/)側で[エラーハンドリング](/glossary/エラーハンドリング/)とリトライロジックを組み込むことを推奨します。
+**Realtime 機能との相性：** Realtime [リスナー](/glossary/リスナー/)を有効にしている[テーブル](/glossary/テーブル/)で競合が発生した場合、INSERT/UPDATE が[ロールバック](/glossary/ロールバック/)されたことを[リアルタイム](/glossary/リアルタイム/)で検知できます。[クライアント](/glossary/クライアント/)側で[エラーハンドリング](/glossary/エラーハンドリング/)とリトライロジックを組み込むことを推奨します。
 
 ## それでも解決しない場合
 

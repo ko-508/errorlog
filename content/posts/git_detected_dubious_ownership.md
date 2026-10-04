@@ -137,7 +137,7 @@ CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は
 
 ## `sudo`で実行した場合
 
-[Linux](/glossary/linux/)などで[Git](/glossary/git/)がrootとして動いている場合、[Git](/glossary/git/)は`SUDO_UID`も確認します。これは、通常の利用者が`sudo`を使って[インストール](/glossary/インストール/)処理を実行する場面に対応するためです。[Git本体の実装](https://github.com/git/git/blob/master/git-compat-util.h)と[公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)の両方で確認できます。
+[Linux](/glossary/linux/)などで[Git](/glossary/git/)がrootとして動いている場合、[Git](/glossary/git/)は`SUDO_UID`も確認します。これは、通常の利用者が`sudo`を使って[インストール](/glossary/インストール/)処理を実行する場面に[対応](/glossary/対応/)するためです。[Git本体の実装](https://github.com/git/git/blob/master/git-compat-util.h)と[公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)の両方で確認できます。
 
 `sudo -i`や`su -`など、元の利用者を示す情報が引き継がれない実行方法では、同じ[フォルダ](/glossary/フォルダ/)でも所有者が一致しないと判断されることがあります。[Git](/glossary/git/)をrootで動かす必要があるかを先に確認し、通常の利用者で実行できる処理なら`sudo`を外してください。
 

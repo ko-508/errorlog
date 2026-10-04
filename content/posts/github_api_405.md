@@ -34,7 +34,7 @@ trend_incident: false
 }
 ```
 
-もう1つ、先に否定しておくべき筋があります。「[メソッド](/glossary/メソッド/)を直せば解決する 405」は、[GitHub](/glossary/github/) [API](/glossary/api/) ではまず成り立ちません。2026年7月26日に未認証で実測したところ、GET だけを受け付ける[パス](/glossary/パス/)（`/users/octocat`）に DELETE・PUT・PATCH を送った場合、返るのは 405 ではなく 404 Not Found でした。[GitHub](/glossary/github/) [API](/glossary/api/) は、対応していない[メソッド](/glossary/メソッド/)の組み合わせを「そのような資源はない」として扱います。したがって、405 を見たときにまず確認すべきは、[メソッド](/glossary/メソッド/)名ではなく、それが[マージ](/glossary/マージ/)要求への応答かどうかです。
+もう1つ、先に否定しておくべき筋があります。「[メソッド](/glossary/メソッド/)を直せば解決する 405」は、[GitHub](/glossary/github/) [API](/glossary/api/) ではまず成り立ちません。2026年7月26日に未認証で実測したところ、GET だけを受け付ける[パス](/glossary/パス/)（`/users/octocat`）に DELETE・PUT・PATCH を送った場合、返るのは 405 ではなく 404 Not Found でした。[GitHub](/glossary/github/) [API](/glossary/api/) は、[対応](/glossary/対応/)していない[メソッド](/glossary/メソッド/)の組み合わせを「そのような資源はない」として扱います。したがって、405 を見たときにまず確認すべきは、[メソッド](/glossary/メソッド/)名ではなく、それが[マージ](/glossary/マージ/)要求への応答かどうかです。
 
 ## まず最初に：message の文言で5系統に振り分ける
 

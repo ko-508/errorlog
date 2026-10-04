@@ -202,7 +202,7 @@ timestamp>="<エラーが発生した時刻>"
 
 **コミュニティリソース**
 
-Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと対応が迅速になります。
+Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと[対応](/glossary/対応/)が迅速になります。
 
 ---
 

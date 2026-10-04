@@ -190,7 +190,7 @@ aws s3api list-object-versions --bucket versioned-bucket --prefix "important-fil
 
 ## 解決策の早見表
 
-| 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
+| 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | [キー](/glossary/キー/)名のスペルミス・[パス](/glossary/パス/)区切りを[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
 | HeadObject で事前存在確認を追加 | 低 | 不要 | 全[OS](/glossary/os/) |

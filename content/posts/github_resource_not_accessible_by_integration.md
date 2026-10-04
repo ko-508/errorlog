@@ -22,7 +22,7 @@ RequestError [HttpError]: Resource not accessible by integration
 status: 403
 ```
 
-同じ[リポジトリ](/glossary/リポジトリ/)で、`push` や組織内部からの実行が起点なら、解決は失敗した操作に対応する [`permissions`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions) を[ワークフロー](/glossary/ワークフロー/)へ追加することです。
+同じ[リポジトリ](/glossary/リポジトリ/)で、`push` や組織内部からの実行が起点なら、解決は失敗した操作に[対応](/glossary/対応/)する [`permissions`](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions) を[ワークフロー](/glossary/ワークフロー/)へ追加することです。
 
 たとえば、[コード](/glossary/コード/)を読み、IssueとPull Requestへ書き込むジョブなら次のようにします。
 
@@ -180,7 +180,7 @@ permissions:
 
 Issueコメント[API](/glossary/api/)はPull Requestの会話にも使われるため、利用する[エンドポイント](/glossary/エンドポイント/)によっては `issues: write` が必要です。Pull Requestを操作するから常に `pull-requests: write` と推測せず、その[エンドポイント](/glossary/エンドポイント/)の「Fine-grained access tokens」欄を確認します。
 
-代表的な対応は次のとおりです。
+代表的な[対応](/glossary/対応/)は次のとおりです。
 
 | 操作 | 主に確認する[権限](/glossary/権限/) |
 |---|---|
@@ -362,7 +362,7 @@ steps:
 
 ### 原因8：GITHUB_TOKENでは利用できない権限または設定が必要
 
-[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に対応するものがない場合があります。また、前述のPull Request作成・承認のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
+[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に[対応](/glossary/対応/)するものがない場合があります。また、前述のPull Request作成・承認のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
 
 この場合は `write-all` を追加しても解決しません。
 
@@ -479,7 +479,7 @@ echo "$GH_TOKEN"
 
 その事例では `pull_request_target` へ変更した後も、変更した[ワークフロー](/glossary/ワークフロー/)自体が上流の既定[ブランチ](/glossary/ブランチ/)へ入るまでは期待どおり起動しませんでした。`pull_request_target` は基準[リポジトリ](/glossary/リポジトリ/)側の[ワークフロー](/glossary/ワークフロー/)を使うためです。そして、起動できたことと安全であることは別です。Pull Request側のheadをcheckoutして実行すれば、書き込み[権限](/glossary/権限/)やシークレットを攻撃者の[コード](/glossary/コード/)へ渡し得ます。
 
-一方、[CodeQLのIssue #8843](https://github.com/github/codeql/issues/8843)では、読み取り専用の既定権限へ変えた後にコードスキャン結果の[アップロード](/glossary/アップロード/)が403となり、[ワークフロー](/glossary/ワークフロー/)へ `actions: read`、`contents: read`、`security-events: write` を明示することで解決しています。こちらは操作と[権限](/glossary/権限/)が1対1で対応する通常の不足です。
+一方、[CodeQLのIssue #8843](https://github.com/github/codeql/issues/8843)では、読み取り専用の既定権限へ変えた後にコードスキャン結果の[アップロード](/glossary/アップロード/)が403となり、[ワークフロー](/glossary/ワークフロー/)へ `actions: read`、`contents: read`、`security-events: write` を明示することで解決しています。こちらは操作と[権限](/glossary/権限/)が1対1で[対応](/glossary/対応/)する通常の不足です。
 
 また、[GitHub](/glossary/github/)は[2021年4月に `permissions` キーを追加](https://github.blog/changelog/2021-04-20-github-actions-control-permissions-for-github_token/)し、列挙しなかった[権限](/glossary/権限/)を `none` とする仕組みを導入しました。さらに[2023年2月には、新しく作成される組織や個人アカウントのリポジトリで、`GITHUB_TOKEN` の既定値を読み取り専用へ変更](https://github.blog/changelog/2023-02-02-github-actions-updating-the-default-github_token-permissions-to-read-only/)しました。古い[リポジトリ](/glossary/リポジトリ/)では動くのに新しい[リポジトリ](/glossary/リポジトリ/)では403になる差は、この既定値から生じることがあります。
 

@@ -134,7 +134,7 @@ Request Body に不正な [JSON](/glossary/json/)、不正な[認証](/glossary/
 
 ## Postman 固有の注意点
 
-Postman で 500 [エラー](/glossary/エラー/)に対応する際は、まず **Postman Console** を活用して詳細情報を確認することが重要です。`View` メニューから `Show Postman Console` を選択すると、[リクエスト](/glossary/リクエスト/)・レスポンスヘッダ、Cookie、認証情報、本文など詳細が表示されます。この[コンソール](/glossary/コンソール/)で[サーバー](/glossary/サーバー/)からの実際の[エラーメッセージ](/glossary/エラーメッセージ/)を確認できるため、問題の原因特定が容易になります。
+Postman で 500 [エラー](/glossary/エラー/)に[対応](/glossary/対応/)する際は、まず **Postman Console** を活用して詳細情報を確認することが重要です。`View` メニューから `Show Postman Console` を選択すると、[リクエスト](/glossary/リクエスト/)・レスポンスヘッダ、Cookie、認証情報、本文など詳細が表示されます。この[コンソール](/glossary/コンソール/)で[サーバー](/glossary/サーバー/)からの実際の[エラーメッセージ](/glossary/エラーメッセージ/)を確認できるため、問題の原因特定が容易になります。
 
 また、Postman は[環境変数](/glossary/環境変数/)を使用して[テスト](/glossary/テスト/)を実行する場合が多いため、[環境変数](/glossary/環境変数/)の値が期限切れの[認証](/glossary/認証/)[トークン](/glossary/トークン/)や[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) の誤りでないか確認してください。Environment タブで各変数の値を検証し、特に認証関連の値は最新の状態かどうか再度確認します。
 

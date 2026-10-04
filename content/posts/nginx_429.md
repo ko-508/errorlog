@@ -172,7 +172,7 @@ curl -sI http://127.0.0.1:8080/path | head -1
 
 1. [エラー](/glossary/エラー/)の記録に `limiting requests` か `limiting connections` があるかを見る。あれば Nginx 自身が拒否している。
 2. 文言が `requests` か `connections` かを確認する。[設定](/glossary/設定/)すべき項目が違う。
-3. 429 が出ないなら、対応する側の状態[コード](/glossary/コード/)の[設定](/glossary/設定/)を確認する。片方だけでは足りない。
+3. 429 が出ないなら、[対応](/glossary/対応/)する側の状態[コード](/glossary/コード/)の[設定](/glossary/設定/)を確認する。片方だけでは足りない。
 4. `$limit_req_status` を記録に加える。拒否と[遅延](/glossary/遅延/)を区別できる。
 5. 待ち時間の[ヘッダー](/glossary/ヘッダー/)が必要なら自分で付ける。Nginx は付けない。
 6. 制限が厳しすぎるなら、待ち枠の既定がゼロであることを思い出す。

@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）やアクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の対応が必要です。
+[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）やアクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の[対応](/glossary/対応/)が必要です。
 
 ## 実際のエラーメッセージ例
 

@@ -175,7 +175,7 @@ kubectl get deploy web -o yaml --show-managed-fields | grep -A5 managedFields
 
 対象が見つからない場合は 404 です（[Kubernetes の 404 の記事](/posts/kubernetes_404/)）。[権限](/glossary/権限/)が足りない場合は 403 です（[Kubernetes の 403 の記事](/posts/kubernetes_403/)）。要求が多すぎる場合は 429 ですが、退避の拒否など過負荷以外の意味も含みます（[Kubernetes の 429 の記事](/posts/kubernetes_429/)）。
 
-GCP でも 409 は2つの区分に対応し、既に存在する場合と同時実行の中断に分かれます（[GCP の 409 の記事](/posts/gcp_409/)）。「読み取りからやり直す」という対処は共通ですが、[Kubernetes](/glossary/kubernetes/) には Server-Side Apply という3つ目の系統がある点が違います。
+GCP でも 409 は2つの区分に[対応](/glossary/対応/)し、既に存在する場合と同時実行の中断に分かれます（[GCP の 409 の記事](/posts/gcp_409/)）。「読み取りからやり直す」という対処は共通ですが、[Kubernetes](/glossary/kubernetes/) には Server-Side Apply という3つ目の系統がある点が違います。
 
 ## 切り分けの順序
 

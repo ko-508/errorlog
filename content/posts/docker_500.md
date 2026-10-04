@@ -129,7 +129,7 @@ docker system prune -a
 
 ## Editor's Note
 
-原因2の実例として、[Docker](/glossary/docker/) Hub 側の障害の報告があります（[docker/hub-feedback #2439](https://github.com/docker/hub-feedback/issues/2439)、2025年2月）。報告者の[環境](/glossary/環境/)では docker pull hello-world という最も基本的な取得すら「received unexpected [HTTP](/glossary/http/) status: 500 Internal Server Error」で失敗しており、複数の国の別々の接続元から試しても同じ結果でした。報告の経過では、当初は公式の稼働状況ページに障害が掲載されておらず、その後に掲載されて対応が進んだことが記録されています。手元の[環境](/glossary/環境/)を疑う前に稼働状況ページを見る、掲載がなくても障害の可能性は残る、という2点がわかる実例です。
+原因2の実例として、[Docker](/glossary/docker/) Hub 側の障害の報告があります（[docker/hub-feedback #2439](https://github.com/docker/hub-feedback/issues/2439)、2025年2月）。報告者の[環境](/glossary/環境/)では docker pull hello-world という最も基本的な取得すら「received unexpected [HTTP](/glossary/http/) status: 500 Internal Server Error」で失敗しており、複数の国の別々の接続元から試しても同じ結果でした。報告の経過では、当初は公式の稼働状況ページに障害が掲載されておらず、その後に掲載されて[対応](/glossary/対応/)が進んだことが記録されています。手元の[環境](/glossary/環境/)を疑う前に稼働状況ページを見る、掲載がなくても障害の可能性は残る、という2点がわかる実例です。
 
 500という[コード](/glossary/コード/)自体は「内部で[エラー](/glossary/エラー/)が起きた」以上のことを教えてくれません。[Docker](/glossary/docker/) では、メッセージの文言の形式が発生源を示してくれるので、[コード](/glossary/コード/)の数字ではなく文言の全体から調査を始めることが確実な近道です。
 

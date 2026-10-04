@@ -33,7 +33,7 @@ Error from server (Timeout): error when creating "example.yaml":
 Timeout: request did not complete within the allotted timeout
 ```
 
-応答そのものは次の構造です。区分と状態[コード](/glossary/コード/)が対応しています。
+応答そのものは次の構造です。区分と状態[コード](/glossary/コード/)が[対応](/glossary/対応/)しています。
 
 ```json
 {

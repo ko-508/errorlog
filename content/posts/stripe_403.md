@@ -49,7 +49,7 @@ HTTP/1.1 403 Forbidden
 
 ### 原因1: API キーの権限設定が不足している
 
-Stripe では [API](/glossary/api/) [キー](/glossary/キー/)に対して細かい権限制御（制限付き [API](/glossary/api/) [キー](/glossary/キー/)）が可能です。制限付き[キー](/glossary/キー/)を使用している場合、必要な操作に対応する[権限](/glossary/権限/)が付与されていないと 403 が発生します。
+Stripe では [API](/glossary/api/) [キー](/glossary/キー/)に対して細かい権限制御（制限付き [API](/glossary/api/) [キー](/glossary/キー/)）が可能です。制限付き[キー](/glossary/キー/)を使用している場合、必要な操作に[対応](/glossary/対応/)する[権限](/glossary/権限/)が付与されていないと 403 が発生します。
 
 **Before（権限不足）:**
 ```bash

@@ -11,7 +11,7 @@ related_services: ["Docker", "PostgreSQL"]
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose の 500 [エラー](/glossary/エラー/)は、[Docker](/glossary/docker/) Compose 自体またはそれが管理するコンテナー内で内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は通常、コンテナー起動時のアプリケーションクラッシュ、エントリポイント実行の失敗、または[ヘルスチェック](/glossary/ヘルスチェック/)機構の不具合によって引き起こされます。対象のサービスが正常に起動・稼働できない状態を意味しており、迅速な原因特定と対応が必要です。
+[Docker](/glossary/docker/) Compose の 500 [エラー](/glossary/エラー/)は、[Docker](/glossary/docker/) Compose 自体またはそれが管理するコンテナー内で内部[エラー](/glossary/エラー/)が発生したことを示します。この[エラー](/glossary/エラー/)は通常、コンテナー起動時のアプリケーションクラッシュ、エントリポイント実行の失敗、または[ヘルスチェック](/glossary/ヘルスチェック/)機構の不具合によって引き起こされます。対象のサービスが正常に起動・稼働できない状態を意味しており、迅速な原因特定と[対応](/glossary/対応/)が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -79,7 +79,7 @@ services:
     restart: on-failure
 ```
 
-対応する `Dockerfile` では依存[パッケージ](/glossary/パッケージ/)をすべて[インストール](/glossary/インストール/)し、[エラーハンドリング](/glossary/エラーハンドリング/)を強化します。
+[対応](/glossary/対応/)する `Dockerfile` では依存[パッケージ](/glossary/パッケージ/)をすべて[インストール](/glossary/インストール/)し、[エラーハンドリング](/glossary/エラーハンドリング/)を強化します。
 
 ```dockerfile
 FROM python:3.9
@@ -129,7 +129,7 @@ services:
       - "80:80"
 ```
 
-対応する `Dockerfile`：
+[対応](/glossary/対応/)する `Dockerfile`：
 
 ```dockerfile
 FROM nginx:latest

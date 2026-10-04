@@ -126,11 +126,11 @@ aws sts get-caller-identity --profile project1
 
 EC2上の[アプリケーション](/glossary/アプリケーション/)では、[IAM](/glossary/iam/)[ロール](/glossary/ロール/)を含むインスタンスプロファイルをEC2へ関連付け、[AWS](/glossary/aws/) [CLI](/glossary/cli/)や[SDK](/glossary/sdk/)に認証情報の取得を任せます。[EC2の公式文書](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-metadata-security-credentials.html)では、[CLI](/glossary/cli/)と[SDK](/glossary/sdk/)がインスタンスメタデータから認証情報を自動取得すると説明されています。
 
-ECSでは、[コンテナ](/glossary/コンテナ/)へアクセスキーを埋め込まず、[タスク](/glossary/タスク/)定義に[IAM](/glossary/iam/)タスクロールを[設定](/glossary/設定/)します。対応する[SDK](/glossary/sdk/)は[コンテナ](/glossary/コンテナ/)用の認証情報取得元から一時的な認証情報を読み込みます。
+ECSでは、[コンテナ](/glossary/コンテナ/)へアクセスキーを埋め込まず、[タスク](/glossary/タスク/)定義に[IAM](/glossary/iam/)タスクロールを[設定](/glossary/設定/)します。[対応](/glossary/対応/)する[SDK](/glossary/sdk/)は[コンテナ](/glossary/コンテナ/)用の認証情報取得元から一時的な認証情報を読み込みます。
 
 ただし、[環境変数](/glossary/環境変数/)に古い認証情報が残っていると、インスタンスプロファイルやタスクロールより先に使われる場合があります。EC2やECSへ[ロール](/glossary/ロール/)を[設定](/glossary/設定/)した後も`ExpiredToken`が続く場合は、[コンテナ](/glossary/コンテナ/)定義、起動[スクリプト](/glossary/スクリプト/)、CIのシークレットに`AWS_ACCESS_KEY_ID`などが残っていないか確認してください。
 
-[メタデータ](/glossary/メタデータ/)の値を`curl`で取得して[環境変数](/glossary/環境変数/)へ固定する方法は避けます。取得時点では有効でも、その値を使い続ければ期限切れになります。[SDK](/glossary/sdk/)が対応している認証情報の取得経路を使うことで、更新後の値を再取得できます。
+[メタデータ](/glossary/メタデータ/)の値を`curl`で取得して[環境変数](/glossary/環境変数/)へ固定する方法は避けます。取得時点では有効でも、その値を使い続ければ期限切れになります。[SDK](/glossary/sdk/)が[対応](/glossary/対応/)している認証情報の取得経路を使うことで、更新後の値を再取得できます。
 
 ## セッション時間と時計を確認する
 

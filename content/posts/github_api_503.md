@@ -47,7 +47,7 @@ Content-Type: application/json
 
 ### 原因1：GitHub側のメンテナンスまたはシステム障害
 
-[GitHub](/glossary/github/)が定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では対応できず、[GitHub](/glossary/github/)側の復旧を待つ必要があります。
+[GitHub](/glossary/github/)が定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の復旧を待つ必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -170,7 +170,7 @@ issues = fetch_paginated(
 
 ### 原因3：不適切な並行リクエスト処理
 
-複数の非同期[タスク](/glossary/タスク/)やマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、[GitHub](/glossary/github/)側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
+複数の[非同期](/glossary/非同期/)[タスク](/glossary/タスク/)やマルチスレッドで同時に大量の[API](/glossary/api/)呼び出しを行うと、[GitHub](/glossary/github/)側に過大な負荷をかけて503[エラー](/glossary/エラー/)を[トリガー](/glossary/トリガー/)する可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

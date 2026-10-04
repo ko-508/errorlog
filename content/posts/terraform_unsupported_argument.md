@@ -85,7 +85,7 @@ terraform providers schema -json > schema.json
 
 出力される [JSON](/glossary/json/) の構造は[環境](/glossary/環境/)と版によって異なるため、`jq` で目的のリソースを探すより先に、まず全体をページャで開いて対象リソース名を[検索](/glossary/検索/)するのが確実です。
 
-**注意**：候補が提示されても、それが目的の[引数](/glossary/引数/)とは限りません。名前が似ているだけの別の[引数](/glossary/引数/)を提示している場合があります。採用する前に、対象 provider の版に対応するドキュメントで意味を確認してください。
+**注意**：候補が提示されても、それが目的の[引数](/glossary/引数/)とは限りません。名前が似ているだけの別の[引数](/glossary/引数/)を提示している場合があります。採用する前に、対象 provider の版に[対応](/glossary/対応/)するドキュメントで意味を確認してください。
 
 ### 原因2：module 呼び出しに、子 module が宣言していない入力を渡している
 
@@ -117,7 +117,7 @@ grep -rn 'variable "' <module ディレクトリ>
 terraform providers
 ```
 
-あわせて `.terraform.lock.hcl` を開き、対象 provider のブロックに書かれた版を確認します。その版に対応するドキュメントを読み直すのが先で、[コード](/glossary/コード/)を書き換えるのはその後です。
+あわせて `.terraform.lock.hcl` を開き、対象 provider のブロックに書かれた版を確認します。その版に[対応](/glossary/対応/)するドキュメントを読み直すのが先で、[コード](/glossary/コード/)を書き換えるのはその後です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -179,11 +179,11 @@ resource "example_resource" "this" {
 
 [パス](/glossary/パス/)が `.terraform/modules/` で始まる場合です。この配下は `terraform init` が取得した module の実体であり、自分の[リポジトリ](/glossary/リポジトリ/)の一部ではありません。
 
-意味するところは、module 作者が書いた `resource` の[引数](/glossary/引数/)が、いま入っている provider の[スキーマ](/glossary/スキーマ/)と噛み合っていないということです。provider のメジャー更新で[引数](/glossary/引数/)が[削除](/glossary/削除/)・改称され、module がまだ対応していない状況で起こります。`.terraform/modules/test_db/modules/db_instance/main.tf` の行が指されたという報告がそのまま該当します。
+意味するところは、module 作者が書いた `resource` の[引数](/glossary/引数/)が、いま入っている provider の[スキーマ](/glossary/スキーマ/)と噛み合っていないということです。provider のメジャー更新で[引数](/glossary/引数/)が[削除](/glossary/削除/)・改称され、module がまだ[対応](/glossary/対応/)していない状況で起こります。`.terraform/modules/test_db/modules/db_instance/main.tf` の行が指されたという報告がそのまま該当します。
 
 判断材料は、その[ファイル](/glossary/ファイル/)を自分が書いた覚えがあるかどうかです。ないなら、その行を編集しても意味がありません。編集しても `terraform init` のたびに取得元の内容へ戻り得ます。
 
-対処は2方向あります。module 側を provider の新しい版に対応した版へ上げるか、provider の版を module が想定している範囲に固定するかです。どちらも[バージョン](/glossary/バージョン/)制約の調整であり、[エラー](/glossary/エラー/)行の編集ではありません。module の版を上げる場合、引数名が変わっていることもあるため、呼び出し側の[引数](/glossary/引数/)も合わせて見直します。
+対処は2方向あります。module 側を provider の新しい版に[対応](/glossary/対応/)した版へ上げるか、provider の版を module が想定している範囲に固定するかです。どちらも[バージョン](/glossary/バージョン/)制約の調整であり、[エラー](/glossary/エラー/)行の編集ではありません。module の版を上げる場合、引数名が変わっていることもあるため、呼び出し側の[引数](/glossary/引数/)も合わせて見直します。
 
 **注意**：`.terraform/` を手で[削除](/glossary/削除/)して再取得させる手順を安易に取らないでください。private registry の[認証](/glossary/認証/)や、[ネットワーク](/glossary/ネットワーク/)の到達性、[Git](/glossary/git/) の資格情報などを再度満たす必要があり、CI では[初期化](/glossary/初期化/)そのものが失敗し得ます。
 
@@ -224,7 +224,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 3. 最後の行の末尾を読む。`Did you mean "..."?` なら綴り違い、`Did you mean to define a block of type "..."?` なら階層の取り違えとして扱う。
 4. 対象[ファイル](/glossary/ファイル/)の[拡張子](/glossary/拡張子/)が `.tf.json` でないことを確認する。`.tf.json` なら別の診断を扱う記事に移る。
 5. `module` 系統なら、子 module の `variable` 宣言を `grep` で一覧し、呼び出し側の引数名と突き合わせる。ルート側の `variables.tf` は見ない。
-6. `resource` 系統なら、`terraform providers` と `.terraform.lock.hcl` で実際の provider 版を確定し、その版に対応するドキュメントを読み直す。
+6. `resource` 系統なら、`terraform providers` と `.terraform.lock.hcl` で実際の provider 版を確定し、その版に[対応](/glossary/対応/)するドキュメントを読み直す。
 7. 版を動かす必要があると判断した場合のみ、`required_providers` の制約を[修正](/glossary/修正/)し、影響を確認してから `terraform init -upgrade` を実行してロックファイルの差分を読む。
 8. `terraform validate` で構成の読み込みが通ることを確認し、`terraform plan` で意図した差分になっているかを見る。
 
@@ -265,7 +265,7 @@ git diff .terraform.lock.hcl
 
 同じ月には、Terraform本体の[リポジトリ](/glossary/リポジトリ/)にも、RDS module 3.5.0の内部にある`aws_db_instance`の`name`[引数](/glossary/引数/)が拒否された[報告](https://github.com/hashicorp/terraform/issues/33348)があります。[エラー](/glossary/エラー/)が指したのは利用者のルートmoduleではなく、`.terraform/modules/test_db/`配下でした。このIssueは`not planned`としてクローズされています。
 
-この2件が示す診断上の要点は、**[エラー](/glossary/エラー/)行がmodule[キャッシュ](/glossary/キャッシュ/)内にあり、複数の[引数](/glossary/引数/)が同時に拒否された場合、呼び出し側の綴りより先に依存関係の組み合わせを疑う**ことです。`terraform providers`と`.terraform.lock.hcl`で実際のproviderを確定し、moduleが想定する版との対応を確認してから、制約変更や`terraform init -upgrade`を判断します。
+この2件が示す診断上の要点は、**[エラー](/glossary/エラー/)行がmodule[キャッシュ](/glossary/キャッシュ/)内にあり、複数の[引数](/glossary/引数/)が同時に拒否された場合、呼び出し側の綴りより先に依存関係の組み合わせを疑う**ことです。`terraform providers`と`.terraform.lock.hcl`で実際のproviderを確定し、moduleが想定する版との[対応](/glossary/対応/)を確認してから、制約変更や`terraform init -upgrade`を判断します。
 
 ---
 

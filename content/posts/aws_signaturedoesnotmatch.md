@@ -98,7 +98,7 @@ SigV4のCanonical Requestは、次の要素を[改行](/glossary/改行/)で連�
 
 [エラー](/glossary/エラー/)応答に[AWS](/glossary/aws/)側のCanonical RequestやString to Signが含まれている場合は、自分の実装が署名前に出力した文字列と比較します。見やすく整形し直すと差が消える可能性があるため、[改行](/glossary/改行/)、空白、符号化後の文字列をそのまま[保存](/glossary/保存/)して比べてください。
 
-[AWS](/glossary/aws/)公式文書は、署名処理が複雑になり得るため、可能な限り[AWS](/glossary/aws/) [SDK](/glossary/sdk/)または[AWS](/glossary/aws/) [CLI](/glossary/cli/)を使うよう推奨しています。独自実装が必須でなければ、対応する[SDK](/glossary/sdk/)へ置き換えるほうが安全です。
+[AWS](/glossary/aws/)公式文書は、署名処理が複雑になり得るため、可能な限り[AWS](/glossary/aws/) [SDK](/glossary/sdk/)または[AWS](/glossary/aws/) [CLI](/glossary/cli/)を使うよう推奨しています。独自実装が必須でなければ、[対応](/glossary/対応/)する[SDK](/glossary/sdk/)へ置き換えるほうが安全です。
 
 ## 日付・リージョン・サービス名を確認する
 

@@ -209,7 +209,7 @@ GitLab [API](/glossary/api/)ではリソース所有者の[権限](/glossary/権
 
 **グループ・サブグループ間での[パス](/glossary/パス/)変更：**
 
-グループやサブグループの構造が変わった場合、[API](/glossary/api/)呼び出しの[パス](/glossary/パス/)も対応する必要があります。`/groups/<id>` と `/groups/<path>` の両形式がサポートされていますが、パスベースでアクセスする場合は完全な階層[パス](/glossary/パス/)が必須です。
+グループやサブグループの構造が変わった場合、[API](/glossary/api/)呼び出しの[パス](/glossary/パス/)も[対応](/glossary/対応/)する必要があります。`/groups/<id>` と `/groups/<path>` の両形式がサポートされていますが、パスベースでアクセスする場合は完全な階層[パス](/glossary/パス/)が必須です。
 
 **Self-hosted GitLab での[URL](/glossary/url/)確認：**
 

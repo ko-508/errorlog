@@ -423,7 +423,7 @@ terraform apply tfplan
 
 `Failed to query available provider packages` と `no available releases match the given constraints` は、ルートと子[モジュール](/glossary/モジュール/)から集めた版の条件に共通部分がない状態です。ロックファイルを更新しても、条件を満たす版が存在しなければ解決しません。`terraform providers` で要求元を確認し、矛盾する条件を直します。
 
-`does not have a package available for your current platform` は、対象のプロバイダー版が現在の[OS](/glossary/os/)または[CPU](/glossary/cpu/)向けに配布されていない状態です。`providers lock -platform` は、存在しない配布物を作りません。[対応版](/glossary/対応版/)へ更新するか、対応している実行環境を使います。
+`does not have a package available for your current platform` は、対象のプロバイダー版が現在の[OS](/glossary/os/)または[CPU](/glossary/cpu/)向けに配布されていない状態です。`providers lock -platform` は、存在しない配布物を作りません。[対応版](/glossary/対応版/)へ更新するか、[対応](/glossary/対応/)している実行環境を使います。
 
 `doesn't match any of the checksums previously recorded` は、選択済みの版に対する配布物の検査[エラー](/glossary/エラー/)です。実行環境の検査値不足なら `providers lock -platform` で直せますが、配布物が改変されている可能性もあります。検査を無効にせず、取得元、ミラー、[キャッシュ](/glossary/キャッシュ/)、署名者を確認します。
 

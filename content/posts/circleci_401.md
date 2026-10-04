@@ -243,7 +243,7 @@ CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Detai
 
 **ステップ3：公式 [API](/glossary/api/) リファレンスの確認**
 
-[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で、使用している [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)が該当トークンタイプで対応しているか確認します。Personal Token では呼べない[エンドポイント](/glossary/エンドポイント/)も存在します。
+[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で、使用している [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)が該当トークンタイプで[対応](/glossary/対応/)しているか確認します。Personal Token では呼べない[エンドポイント](/glossary/エンドポイント/)も存在します。
 
 **ステップ4：CircleCI サポートへの問い合わせ**
 

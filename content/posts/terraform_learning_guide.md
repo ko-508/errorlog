@@ -92,7 +92,7 @@ terraform validate
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：Terraform固有の[エラー](/glossary/エラー/)の多くは、この層で起きています。ここを飛ばすと、以降のすべての対処が当てずっぽうになります。
 
-**最低限覚える概念**：状態は[設定](/glossary/設定/)と実物を結び付ける対応表です。[設定](/glossary/設定/)に書いたアドレスと、実際に作られた資源の識別子が組になって記録されています。この対応が切れると、Terraformは「[設定](/glossary/設定/)にはあるが状態にない」ものを新規作成しようとし、「状態にはあるが[設定](/glossary/設定/)にない」ものを[削除](/glossary/削除/)しようとします。
+**最低限覚える概念**：状態は[設定](/glossary/設定/)と実物を結び付ける対応表です。[設定](/glossary/設定/)に書いたアドレスと、実際に作られた資源の識別子が組になって記録されています。この[対応](/glossary/対応/)が切れると、Terraformは「[設定](/glossary/設定/)にはあるが状態にない」ものを新規作成しようとし、「状態にはあるが[設定](/glossary/設定/)にない」ものを[削除](/glossary/削除/)しようとします。
 
 状態を操作する手段も用意されています。公式ドキュメントによれば、`terraform state` の各[コマンド](/glossary/コマンド/)は高度な状態管理を可能にするもので、状態を直接編集する代わりにこれらを使います（[terraform state](https://developer.hashicorp.com/terraform/cli/commands/state)）。副[コマンド](/glossary/コマンド/)には `list`、`mv`、`pull`、`replace-provider`、`rm`、`show` があります。
 

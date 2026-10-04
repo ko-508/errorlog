@@ -189,7 +189,7 @@ curl -X POST http://localhost:8000/users \
 
 ## 解決策の早見表
 
-| 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
+| 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | Content-Typeとボディ形式の一致を確認 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [ファイル](/glossary/ファイル/)添付の[パス](/glossary/パス/)をワーキングディレクトリに[修正](/glossary/修正/) | 中 | 不要 | 全[OS](/glossary/os/) |

@@ -46,7 +46,7 @@ Bad credentials の正体は、[トークン](/glossary/トークン/)の誤記�
 }
 ```
 
-[ヘッダー](/glossary/ヘッダー/)の形式について、公式ドキュメントは、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでも[トークン](/glossary/トークン/)を渡せる（[JSON](/glossary/json/) Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の [API](/glossary/api/) はユーザー名と[パスワード](/glossary/パスワード/)による[認証](/glossary/認証/)に対応していないため、[パスワード](/glossary/パスワード/)での[認証](/glossary/認証/)を試みる古い[コード](/glossary/コード/)は動きません。[トークン](/glossary/トークン/)による[認証](/glossary/認証/)が前提です。
+[ヘッダー](/glossary/ヘッダー/)の形式について、公式ドキュメントは、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでも[トークン](/glossary/トークン/)を渡せる（[JSON](/glossary/json/) Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の [API](/glossary/api/) はユーザー名と[パスワード](/glossary/パスワード/)による[認証](/glossary/認証/)に[対応](/glossary/対応/)していないため、[パスワード](/glossary/パスワード/)での[認証](/glossary/認証/)を試みる古い[コード](/glossary/コード/)は動きません。[トークン](/glossary/トークン/)による[認証](/glossary/認証/)が前提です。
 
 ## まず最初に：message を読み、最小のリクエストで再現する
 

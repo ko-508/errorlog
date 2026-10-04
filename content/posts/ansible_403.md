@@ -79,7 +79,7 @@ Ansibleで接続した[ユーザーアカウント](/glossary/ユーザーアカ
       become_user: root
 ```
 
-対応するターゲットホスト側の[設定](/glossary/設定/)：
+[対応](/glossary/対応/)するターゲットホスト側の[設定](/glossary/設定/)：
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -112,7 +112,7 @@ sudoers[ファイル](/glossary/ファイル/)で特定の[コマンド](/glossa
       become: true
 ```
 
-対応するターゲットホスト側の制限的な[設定](/glossary/設定/)：
+[対応](/glossary/対応/)するターゲットホスト側の制限的な[設定](/glossary/設定/)：
 
 ```bash
 # /etc/sudoers.d/ansible - systemctl の特定コマンドのみ許可
@@ -134,7 +134,7 @@ ansible ALL=(ALL) NOPASSWD:/bin/systemctl start apache2, /bin/systemctl stop apa
       become: true
 ```
 
-対応するターゲットホスト側の[修正](/glossary/修正/)：
+[対応](/glossary/対応/)するターゲットホスト側の[修正](/glossary/修正/)：
 
 ```bash
 # /etc/sudoers.d/ansible - 必要なコマンドをすべて許可

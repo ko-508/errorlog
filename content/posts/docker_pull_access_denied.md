@@ -513,7 +513,7 @@ manifest unknown
 manifest for OWNER/IMAGE:TAG not found
 ```
 
-[リポジトリ](/glossary/リポジトリ/)への参照には進めたものの、指定した[タグ](/glossary/タグ/)またはdigestに対応するmanifestがない状態です。[リポジトリ](/glossary/リポジトリ/)名ではなく、[タグ](/glossary/タグ/)、digest、公開処理を確認します。
+[リポジトリ](/glossary/リポジトリ/)への参照には進めたものの、指定した[タグ](/glossary/タグ/)またはdigestに[対応](/glossary/対応/)するmanifestがない状態です。[リポジトリ](/glossary/リポジトリ/)名ではなく、[タグ](/glossary/タグ/)、digest、公開処理を確認します。
 
 ### no matching manifest for linux/arm64
 
@@ -521,7 +521,7 @@ manifest for OWNER/IMAGE:TAG not found
 no matching manifest for linux/arm64/v8 in the manifest list entries
 ```
 
-[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・[CPU](/glossary/cpu/)に対応するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。[認証](/glossary/認証/)の問題ではありません。
+[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・[CPU](/glossary/cpu/)に[対応](/glossary/対応/)するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。[認証](/glossary/認証/)の問題ではありません。
 
 ### too many requests
 

@@ -50,7 +50,7 @@ mount failed: exit status 32
 volume is already exclusively attached to one node
 ```
 
-つまり、**`ContainerCreating` を直接直すのではなく、最新[イベント](/glossary/イベント/)の具体的な失敗を直します**。`FailedMount` があるなら、最初に対象ボリューム名をPodの `volumes` と対応させ、参照先がSecret、ConfigMap、PVC、CSIのどれかを確定します。
+つまり、**`ContainerCreating` を直接直すのではなく、最新[イベント](/glossary/イベント/)の具体的な失敗を直します**。`FailedMount` があるなら、最初に対象ボリューム名をPodの `volumes` と[対応](/glossary/対応/)させ、参照先がSecret、ConfigMap、PVC、CSIのどれかを確定します。
 
 もう1つ重要なのは、**`FailedMount` は現在も失敗中だという保証ではない**ことです。一度失敗しても、kubeletの再試行でマウントに成功し、Podが `Running` になることがあります。Eventsには過去の失敗が残るため、現在のPod状態、[イベント](/glossary/イベント/)の最終時刻、繰り返し回数を合わせて読みます。
 
@@ -116,7 +116,7 @@ kubectl get events -n <名前空間> \
   --sort-by=.lastTimestamp
 ```
 
-第三に、`FailedMount` に出たボリューム名をPodの定義と対応させます。
+第三に、`FailedMount` に出たボリューム名をPodの定義と[対応](/glossary/対応/)させます。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -246,7 +246,7 @@ kubectl get pods -n kube-system -o wide --field-selector spec.nodeName="$NODE"
 
 `CSINode` は、ノードに登録されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ登録すると、kubeletが `CSINode` を更新すると説明されています。
 
-対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの登録、kubeletとの版の対応を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
+対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの登録、kubeletとの版の[対応](/glossary/対応/)を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
 
 ```bash
 kubectl describe pod <CSI node Pod名> -n kube-system
@@ -283,7 +283,7 @@ Multi-Attach error for volume "pvc-..."
 Volume is already exclusively attached to one node and can't be attached to another
 ```
 
-ReadWriteOnceは、1つのノードから読み書きできる指定です。同じノード上の複数Podを必ず排除する指定ではありません。1つのPodだけに限定する必要がある場合は、対応するCSIドライバーで `ReadWriteOncePod` を使います。
+ReadWriteOnceは、1つのノードから読み書きできる指定です。同じノード上の複数Podを必ず排除する指定ではありません。1つのPodだけに限定する必要がある場合は、[対応](/glossary/対応/)するCSIドライバーで `ReadWriteOncePod` を使います。
 
 古いノードやVolumeAttachmentを確認せず、[ストレージ](/glossary/ストレージ/)側で強制的に接続解除しないでください。以前のノードがまだ書き込んでいる状態で別ノードへ接続すると、ファイルシステムを壊す危険があります。ノードの生存、Podの終了、接続先、[ストレージ](/glossary/ストレージ/)提供元の手順を確認してから解除します。
 

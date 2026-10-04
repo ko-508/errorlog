@@ -177,7 +177,7 @@ except openai.AuthenticationError as e:
 
 この[エラー](/glossary/エラー/)の判定が「利用者の国」ではなく「送信元 IP の判定結果」であることを、当事者のやり取りごと記録した相談があります（[Cloud Run in asia-northeast3 Suddenly Getting 'unsupported_country_region_territory' Error](https://community.openai.com/t/cloud-run-in-asia-northeast3-suddenly-getting-unsupported-country-region-territory-error-from-openai-api/1279969)）。
 
-2025年6月、韓国の実行環境に配備していた[サービス](/glossary/サービス/)が、突然 403 を返し始めました。相談者はこう書いています。**[コード](/glossary/コード/)も配備の[設定](/glossary/設定/)も変えていない**。[キー](/glossary/キー/)は有効で、上限にも達していない。そして「この地域は対応しているはずだ」と。
+2025年6月、韓国の実行環境に配備していた[サービス](/glossary/サービス/)が、突然 403 を返し始めました。相談者はこう書いています。**[コード](/glossary/コード/)も配備の[設定](/glossary/設定/)も変えていない**。[キー](/glossary/キー/)は有効で、上限にも達していない。そして「この地域は[対応](/glossary/対応/)しているはずだ」と。
 
 同じ症状の報告が次々と続きます。同じ[クラウド](/glossary/クラウド/)の同じ地域を使う利用者が、数日のうちに4人以上集まりました。
 

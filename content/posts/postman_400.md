@@ -117,7 +117,7 @@ Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定
 }
 ```
 
-Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以下の対応を行ってください。
+Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以下の[対応](/glossary/対応/)を行ってください。
 
 1. Headersタブで「Content-Type」[キー](/glossary/キー/)の値を確認する
 2. Bodyタブで「raw」を選択している場合、右側のドロップダウンから「[JSON](/glossary/json/)」を選択する

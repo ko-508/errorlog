@@ -44,7 +44,7 @@ trend_incident: false
 
 ## まず最初に：errors 配列を3段階で読む
 
-第一に、応答に errors 配列があるかを確認します。無い、または文字列だけの場合は、message の文言そのものが手がかりです。第二に、各要素の code を読みます。missing_field・invalid・already_exists・missing のどれかであれば、この記事の原因1〜4に対応します。custom であれば message を読みます（原因5）。第三に、field と resource で対象の項目を特定します。value が含まれていれば、実際に届いた値まで分かるため、手元で送ったつもりの値との差がその場で確認できます。
+第一に、応答に errors 配列があるかを確認します。無い、または文字列だけの場合は、message の文言そのものが手がかりです。第二に、各要素の code を読みます。missing_field・invalid・already_exists・missing のどれかであれば、この記事の原因1〜4に[対応](/glossary/対応/)します。custom であれば message を読みます（原因5）。第三に、field と resource で対象の項目を特定します。value が含まれていれば、実際に届いた値まで分かるため、手元で送ったつもりの値との差がその場で確認できます。
 
 ## よくある原因と解決手順
 

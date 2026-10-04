@@ -14,7 +14,7 @@ related_services: []
 
 ## 冒頭まとめ
 
-`manifest unknown` は、[レジストリ](/glossary/レジストリ/)との通信自体は成立しているのに、指定した image reference（[タグ](/glossary/タグ/)またはダイジェスト）に対応する manifest がその[リポジトリ](/glossary/リポジトリ/)で解決できなかったときに出る[エラー](/glossary/エラー/)です。OCI Distribution Specification では、[リポジトリ](/glossary/リポジトリ/)に blob または manifest が見つからない場合の応答は 404 Not Found と定められており、この系統の[エラー](/glossary/エラー/)は「[サーバー](/glossary/サーバー/)が壊れている」ではなく「参照先が存在するか」を疑うところから始めます（[OCI Distribution Specification](https://github.com/opencontainers/distribution-spec/blob/main/spec.md)）。
+`manifest unknown` は、[レジストリ](/glossary/レジストリ/)との通信自体は成立しているのに、指定した image reference（[タグ](/glossary/タグ/)またはダイジェスト）に[対応](/glossary/対応/)する manifest がその[リポジトリ](/glossary/リポジトリ/)で解決できなかったときに出る[エラー](/glossary/エラー/)です。OCI Distribution Specification では、[リポジトリ](/glossary/リポジトリ/)に blob または manifest が見つからない場合の応答は 404 Not Found と定められており、この系統の[エラー](/glossary/エラー/)は「[サーバー](/glossary/サーバー/)が壊れている」ではなく「参照先が存在するか」を疑うところから始めます（[OCI Distribution Specification](https://github.com/opencontainers/distribution-spec/blob/main/spec.md)）。
 
 調査は次の3点を順に確認するのが最短です。
 

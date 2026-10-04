@@ -161,7 +161,7 @@ minikube start
 
 Minikubeが使用するハイパーバイザー（[Docker](/glossary/docker/)、Hyper-V、VirtualBox等）の不安定性も[API](/glossary/api/)[サーバー](/glossary/サーバー/)のクラッシュに影響します。特に[Docker](/glossary/docker/) Desktopを使用している場合、[Docker](/glossary/docker/) Daemonが再起動されるとMinikubeのVM内部の[コンテナ](/glossary/コンテナ/)が予期せず停止し、[API](/glossary/api/)サーバープロセスが強制終了されることがあります。
 
-確認・対応：
+確認・[対応](/glossary/対応/)：
 
 ```bash
 # 現在のハイパーバイザーを確認

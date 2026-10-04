@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 
-Azure 400[エラー](/glossary/エラー/)は「Bad Request」を意味し、Azure [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)に含まれる[パラメータ](/glossary/パラメータ/)や値に誤りがある場合に発生します。これは[認証](/glossary/認証/)[エラー](/glossary/エラー/)ではなく、[リクエスト](/glossary/リクエスト/)の内容そのものが仕様に違反していることを示す重要な信号です。Azure PortalやAzure [CLI](/glossary/cli/)、[REST](/glossary/rest/) [API](/glossary/api/)を通じてリソースを作成・更新する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、適切な対応により確実に解決できます。
+Azure 400[エラー](/glossary/エラー/)は「Bad Request」を意味し、Azure [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)に含まれる[パラメータ](/glossary/パラメータ/)や値に誤りがある場合に発生します。これは[認証](/glossary/認証/)[エラー](/glossary/エラー/)ではなく、[リクエスト](/glossary/リクエスト/)の内容そのものが仕様に違反していることを示す重要な信号です。Azure PortalやAzure [CLI](/glossary/cli/)、[REST](/glossary/rest/) [API](/glossary/api/)を通じてリソースを作成・更新する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、適切な[対応](/glossary/対応/)により確実に解決できます。
 
 ## 実際のエラーメッセージ例
 

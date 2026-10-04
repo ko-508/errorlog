@@ -209,7 +209,7 @@ if (confirmedIntent.status === 'succeeded') {
 ## Stripe固有の注意点
 
 ### APIバージョンの確認
-古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用していると、3Dセキュアなどの最新[セキュリティ](/glossary/セキュリティ/)機能に対応していない可能性があります。[ダッシュボード](/glossary/ダッシュボード/)の[設定](/glossary/設定/)から使用中の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、最新の安定版（2024年以降）にアップグレードしてください。
+古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)を使用していると、3Dセキュアなどの最新[セキュリティ](/glossary/セキュリティ/)機能に[対応](/glossary/対応/)していない可能性があります。[ダッシュボード](/glossary/ダッシュボード/)の[設定](/glossary/設定/)から使用中の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、最新の安定版（2024年以降）にアップグレードしてください。
 
 ### Webhookの署名検証とリトライ処理
 決済失敗時に[Webhook](/glossary/webhook/)で`charge.failed`[イベント](/glossary/イベント/)が[送信](/glossary/送信/)されます。この[イベント](/glossary/イベント/)を正しく検証して、重複処理を防ぐ必要があります。
@@ -273,7 +273,7 @@ Stripe[ダッシュボード](/glossary/ダッシュボード/)（https://dashbo
 - 「Strong Customer Authentication」（https://stripe.com/docs/strong-customer-authentication）：3Dセキュア対応方法
 
 ### サポートへの問い合わせ
-特定のカード番号での継続的な拒否、またはテストカードでも再現する場合は、Stripe公式サポート（https://support.stripe.com）へ問い合わせてください。その際、Charge [ID](/glossary/id/)やPayment Intent [ID](/glossary/id/)を記載すれば、迅速な対応が期待できます。
+特定のカード番号での継続的な拒否、またはテストカードでも再現する場合は、Stripe公式サポート（https://support.stripe.com）へ問い合わせてください。その際、Charge [ID](/glossary/id/)やPayment Intent [ID](/glossary/id/)を記載すれば、迅速な[対応](/glossary/対応/)が期待できます。
 
 ---
 

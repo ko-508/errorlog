@@ -34,7 +34,7 @@ the request failed after 2 attempts, please try again later:
 502 Bad Gateway returned from https://registry.terraform.io/v1/providers/...
 ```
 
-「2回試した」という数字は、既定の再試行回数が1回であることに対応します。この数字が2以外になっていれば、[環境変数](/glossary/環境変数/)で回数が変更されているということです。
+「2回試した」という数字は、既定の再試行回数が1回であることに[対応](/glossary/対応/)します。この数字が2以外になっていれば、[環境変数](/glossary/環境変数/)で回数が変更されているということです。
 
 [プロバイダ](/glossary/プロバイダ/)の[ファイル](/glossary/ファイル/)を取得する段階でも起きます。この場合、宛先は[レジストリ](/glossary/レジストリ/)ではなく配布元です。
 

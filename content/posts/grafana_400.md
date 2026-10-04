@@ -243,7 +243,7 @@ curl -X POST http://localhost:3000/api/datasources \
 
 ## ツール固有の注意点
 
-**Grafana [バージョン](/glossary/バージョン/)差異への対応**
+**Grafana [バージョン](/glossary/バージョン/)差異への[対応](/glossary/対応/)**
 
 Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) ドキュメントを使用している Grafana [バージョン](/glossary/バージョン/)に合わせて確認してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
 

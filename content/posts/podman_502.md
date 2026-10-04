@@ -234,7 +234,7 @@ curl http://localhost:8000
 
 ## 解決策の早見表
 
-| 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
+| 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | レジストリコンテナの再起動 | 低 | 必要 | 全[OS](/glossary/os/) |
 | リバースプロキシ[設定](/glossary/設定/)の[修正](/glossary/修正/) | 中 | 必要 | 全[OS](/glossary/os/) |
@@ -270,13 +270,13 @@ podman run --rm alpine nslookup <service-name>
 
 公式ドキュメント：[Podman Networking](https://docs.podman.io/en/latest/markdown/podman.1.html#network) および [Red Hat Solutions 6987158](https://access.redhat.com/solutions/6987158) で詳細なトラブルシューティング手順が提供されています。
 
-Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に対応させたかどうかを検証してください。
+Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に[対応](/glossary/対応/)させたかどうかを検証してください。
 
 ## 代替ツールの検討
 
 この[エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます：
 
-- **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の対応も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、[安定性](/glossary/安定性/)を優先する[環境](/glossary/環境/)では有効です。
+- **[Docker](/glossary/docker/)**：[Docker](/glossary/docker/) Desktop および [Docker](/glossary/docker/) Engine は[ネットワーク](/glossary/ネットワーク/)層の実装が安定しており、`host.containers.internal` の[対応](/glossary/対応/)も [Docker](/glossary/docker/) 18.03 以降で標準化されています。Podman のランタイム変更やネットワークスタック変更による互換性問題が少ないため、[安定性](/glossary/安定性/)を優先する[環境](/glossary/環境/)では有効です。
 
 - **Rancher Desktop**：Rancher Desktop は [Docker](/glossary/docker/) と [Kubernetes](/glossary/kubernetes/) を統合した[開発環境](/glossary/開発環境/)です。[GUI](/glossary/gui/) で[コンテナ](/glossary/コンテナ/)と[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を管理でき、Podman のプレインな[コマンドライン](/glossary/コマンドライン/)よりも[セットアップ](/glossary/セットアップ/)が直感的です。特にローカル[開発環境](/glossary/開発環境/)では Podman よりも[デバッグ](/glossary/デバッグ/)が容易です。
 

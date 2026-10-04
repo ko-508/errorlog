@@ -181,7 +181,7 @@ minikube update-context
 
 **[証明書](/glossary/証明書/)の検証をスキップしない**
 
-トラブルシューティング時に `--insecure-skip-tls-verify=true` で証明書検証をスキップするのは一時的な回避策に過ぎません。根本原因を解決せずに[本番環境](/glossary/本番環境/)に似た[設定](/glossary/設定/)をすると、セキュリティリスクが増加します。必ず kubeconfig の再同期で対応してください。
+トラブルシューティング時に `--insecure-skip-tls-verify=true` で証明書検証をスキップするのは一時的な回避策に過ぎません。根本原因を解決せずに[本番環境](/glossary/本番環境/)に似た[設定](/glossary/設定/)をすると、セキュリティリスクが増加します。必ず kubeconfig の再同期で[対応](/glossary/対応/)してください。
 
 ## それでも解決しない場合
 

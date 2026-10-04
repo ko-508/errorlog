@@ -145,7 +145,7 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 
 ## Editor's Note
 
-原因4の効果を数字で示した解説として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[Working with the GitHub API rate limit](https://github.com/orgs/community/discussions/189255)）。50個の[リポジトリ](/glossary/リポジトリ/)の pull request を5分おきに監視する例で、9割の確率で変更がないとすると、1時間600回の取得のうち540回が同じデータの取り直しに消えます。etag による条件付き[リクエスト](/glossary/リクエスト/)に切り替えると、取得の回数自体は600回のままでも、制限を消費するのは変更のあった約60回だけになる、という計算が示されています。あわせて実務上の注意も記録されています。etag はページ単位なので、ページ分割された一覧では1ページ目が 304 でも他のページが未変更とは限らないこと、[GraphQL](/glossary/graphql/) は etag に対応していないため、[GraphQL](/glossary/graphql/) の結果は[クエリ](/glossary/クエリ/)と[変数](/glossary/変数/)を鍵に自前で[キャッシュ](/glossary/キャッシュ/)する必要があること、通知系の[エンドポイント](/glossary/エンドポイント/)では応答の X-Poll-Interval [ヘッダー](/glossary/ヘッダー/)が示す間隔を守るべきことです。「呼び出しを減らす」の具体像として、そのまま設計の参考にできます。
+原因4の効果を数字で示した解説として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[Working with the GitHub API rate limit](https://github.com/orgs/community/discussions/189255)）。50個の[リポジトリ](/glossary/リポジトリ/)の pull request を5分おきに監視する例で、9割の確率で変更がないとすると、1時間600回の取得のうち540回が同じデータの取り直しに消えます。etag による条件付き[リクエスト](/glossary/リクエスト/)に切り替えると、取得の回数自体は600回のままでも、制限を消費するのは変更のあった約60回だけになる、という計算が示されています。あわせて実務上の注意も記録されています。etag はページ単位なので、ページ分割された一覧では1ページ目が 304 でも他のページが未変更とは限らないこと、[GraphQL](/glossary/graphql/) は etag に[対応](/glossary/対応/)していないため、[GraphQL](/glossary/graphql/) の結果は[クエリ](/glossary/クエリ/)と[変数](/glossary/変数/)を鍵に自前で[キャッシュ](/glossary/キャッシュ/)する必要があること、通知系の[エンドポイント](/glossary/エンドポイント/)では応答の X-Poll-Interval [ヘッダー](/glossary/ヘッダー/)が示す間隔を守るべきことです。「呼び出しを減らす」の具体像として、そのまま設計の参考にできます。
 
 429 は、応答の[ヘッダー](/glossary/ヘッダー/)が「いつまで待てばよいか」を毎回教えてくれる[エラー](/glossary/エラー/)です。感覚で待ち時間を決めたり連打で押し切ろうとしたりせず、[ヘッダー](/glossary/ヘッダー/)の指示に従い、そのうえで呼び出しの総量と勢いを設計で減らすことが確実な近道です。
 

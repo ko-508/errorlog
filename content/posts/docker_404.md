@@ -20,7 +20,7 @@ trend_incident: true
 
 ## エラーの概要
 
-docker [コマンド](/glossary/コマンド/)の[エラー](/glossary/エラー/)で Error response from daemon: と付くものは、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)まで指示が届いたうえで、[デーモン](/glossary/デーモン/)が処理を拒否したことを示します。[デーモン](/glossary/デーモン/)は、[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)などの資源が見つからない場合、[API](/glossary/api/) 上は 404 として応答し、[CLI](/glossary/cli/) には No such container: <名前> のような文言で表示されます（この対応は [Docker](/glossary/docker/) のソースコードで確認できます）。一方、docker pull や docker push で[レジストリ](/glossary/レジストリ/)とやり取りする場合の404は、[レジストリ](/glossary/レジストリ/)側の応答に由来します。[レジストリ](/glossary/レジストリ/)の標準仕様では、[リポジトリ](/glossary/リポジトリ/)名が不明な場合の[エラーコード](/glossary/エラーコード/)は NAME_UNKNOWN（repository name not known to registry）で、これも [HTTP](/glossary/http/) 404 に対応付けられています。
+docker [コマンド](/glossary/コマンド/)の[エラー](/glossary/エラー/)で Error response from daemon: と付くものは、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)まで指示が届いたうえで、[デーモン](/glossary/デーモン/)が処理を拒否したことを示します。[デーモン](/glossary/デーモン/)は、[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)などの資源が見つからない場合、[API](/glossary/api/) 上は 404 として応答し、[CLI](/glossary/cli/) には No such container: <名前> のような文言で表示されます（この[対応](/glossary/対応/)は [Docker](/glossary/docker/) のソースコードで確認できます）。一方、docker pull や docker push で[レジストリ](/glossary/レジストリ/)とやり取りする場合の404は、[レジストリ](/glossary/レジストリ/)側の応答に由来します。[レジストリ](/glossary/レジストリ/)の標準仕様では、[リポジトリ](/glossary/リポジトリ/)名が不明な場合の[エラーコード](/glossary/エラーコード/)は NAME_UNKNOWN（repository name not known to registry）で、これも [HTTP](/glossary/http/) 404 に対応付けられています。
 
 どの場合も、[エラーコード](/glossary/エラーコード/)の数字より文言のほうが多くを語ります。以下、文言ごとに切り分けます。
 
@@ -98,7 +98,7 @@ push や pull の相手が実は[レジストリ](/glossary/レジストリ/)で
 ## 切り分けの順序
 
 1. [エラー](/glossary/エラー/)文言を読む。No such 系なら手元（原因1）、manifest 系なら[タグ](/glossary/タグ/)（原因2）、pull access denied 系なら[リポジトリ](/glossary/リポジトリ/)または[権限](/glossary/権限/)（原因3）。
-2. 原因1なら docker ps -a と docker images で実在の名前を確認する。Compose 管理下なら docker compose ps で対応を確認する。
+2. 原因1なら docker ps -a と docker images で実在の名前を確認する。Compose 管理下なら docker compose ps で[対応](/glossary/対応/)を確認する。
 3. 原因2なら[レジストリ](/glossary/レジストリ/)の[タグ](/glossary/タグ/)一覧で実在する[タグ](/glossary/タグ/)を確認し、明示する。
 4. 原因3なら、名前空間（library/ と解釈されていないか）、docker login、綴りの順に確認する。
 

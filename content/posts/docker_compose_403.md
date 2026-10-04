@@ -201,7 +201,7 @@ id -nG
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Compose で 403 [エラー](/glossary/エラー/)が発生する際、以下のシナリオ別の対応が必要です。
+[Docker](/glossary/docker/) Compose で 403 [エラー](/glossary/エラー/)が発生する際、以下のシナリオ別の[対応](/glossary/対応/)が必要です。
 
 **マルチステージビルドでプライベートイメージを使用する場合：**
 
@@ -270,7 +270,7 @@ stat /data/app  # マウント対象のパーミッション詳細表示
 - [Docker Hub レジストリ認証](https://docs.docker.com/engine/reference/commandline/login/)
 - [ボリュームマウント トラブルシューティング](https://docs.docker.com/storage/volumes/)
 
-上記の対応でも解決しない場合、以下を確認してください：
+上記の[対応](/glossary/対応/)でも解決しない場合、以下を確認してください：
 
 ```bash
 # Docker デーモンの状態確認

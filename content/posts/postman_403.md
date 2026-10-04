@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに対応しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
+Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに[対応](/glossary/対応/)しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
 
 ## 実際のエラーメッセージ例
 

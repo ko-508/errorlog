@@ -59,7 +59,7 @@ Hugo [テンプレート](/glossary/テンプレート/)で `{{ .PublishDate }}`
 
 ### 1. テーマのテンプレートをオーバーライドする
 
-Hugo はテーマの[テンプレート](/glossary/テンプレート/)を `layouts/` 以下の同名[ファイル](/glossary/ファイル/)で上書きできる。テーマファイルを直接編集すると git submodule 更新時に差分が消えるため、必ずオーバーライドで対応する。
+Hugo はテーマの[テンプレート](/glossary/テンプレート/)を `layouts/` 以下の同名[ファイル](/glossary/ファイル/)で上書きできる。テーマファイルを直接編集すると git submodule 更新時に差分が消えるため、必ずオーバーライドで[対応](/glossary/対応/)する。
 
 ```bash
 mkdir -p layouts/_partials/templates

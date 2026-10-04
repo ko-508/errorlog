@@ -18,7 +18,7 @@ Firebase は Google が提供するバックエンドプラットフォーム（
 
 - **Cloud Firestore**：複数の[クライアント](/glossary/クライアント/)間での[リアルタイム](/glossary/リアルタイム/)なデータ[同期](/glossary/同期/)が可能な[データベース](/glossary/データベース/)です
 - **Realtime Database**：[JSON](/glossary/json/) 形式の[データベース](/glossary/データベース/)で低遅延な[同期](/glossary/同期/)が特徴です
-- **認証機能**：Google、Facebook、[GitHub](/glossary/github/) など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に対応した[認証](/glossary/認証/)システムです
+- **認証機能**：Google、Facebook、[GitHub](/glossary/github/) など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に[対応](/glossary/対応/)した[認証](/glossary/認証/)システムです
 - **[ホスティング](/glossary/ホスティング/)**：静的コンテンツと動的コンテンツの両方をホストでき、自動的に [SSL](/glossary/ssl/) で保護されます
 - **Cloud Functions**：[サーバーレス](/glossary/サーバーレス/)（[サーバー](/glossary/サーバー/)管理なし）で[関数](/glossary/関数/)を実行し、[イベント](/glossary/イベント/)駆動型（[イベント](/glossary/イベント/)をきっかけに起動）な処理を構築できます
 - **Cloud Storage**：画像やビデオなどの[ファイル](/glossary/ファイル/)を安全に[保存](/glossary/保存/)・配信できます
@@ -53,11 +53,11 @@ Firebase はシンプルな導入を優先する場合に向いており、複�
 
 - **スタートアップ企業**：初期段階で迅速にプロダクトをローンチしたい場合
 - **個人開発者**：[バックエンド](/glossary/バックエンド/)構築の知識が限定的でも、モダンな[アプリケーション](/glossary/アプリケーション/)開発を進めたい場合
-- **モバイルアプリ開発チーム**：iOS・Android・Web の複数プラットフォーム対応を[効率化](/glossary/効率化/)したい場合
+- **モバイルアプリ開発チーム**：iOS・Android・Web の複数プラットフォーム[対応](/glossary/対応/)を[効率化](/glossary/効率化/)したい場合
 - **プロトタイピング段階**：概念実証や MVP（最小限の機能を持つ製品）開発で迅速な実装を重視する場合
 - **既存の Google Cloud Platform [環境](/glossary/環境/)を活用している**：[IAM](/glossary/iam/) 統合によりシームレスな管理環境が構築できます
 - **[リアルタイム](/glossary/リアルタイム/)機能が必須**：チャットアプリケーション、協調編集機能、ライブ通知機能を必要とする場合
 
 ## Crashlytics によるエラー監視
 
-[アプリケーション](/glossary/アプリケーション/)の[エラーログ](/glossary/エラーログ/)監視においても、Firebase の Crashlytics を活用することで、[本番環境](/glossary/本番環境/)でのクラッシュや[エラー](/glossary/エラー/)の詳細な情報を即座に把握できます。これにより、トラブルシューティング時間を大幅に短縮し、ユーザー体験の向上に直結する対応が可能です。Firebase は Google の支援を受けた安定したプラットフォームであり、継続的に機能追加・改善が行われています。
+[アプリケーション](/glossary/アプリケーション/)の[エラーログ](/glossary/エラーログ/)監視においても、Firebase の Crashlytics を活用することで、[本番環境](/glossary/本番環境/)でのクラッシュや[エラー](/glossary/エラー/)の詳細な情報を即座に把握できます。これにより、トラブルシューティング時間を大幅に短縮し、ユーザー体験の向上に直結する[対応](/glossary/対応/)が可能です。Firebase は Google の支援を受けた安定したプラットフォームであり、継続的に機能追加・改善が行われています。

@@ -237,7 +237,7 @@ aws s3 ls s3://my-bucket --profile <cross-account-profile>
 
 ## 解決策の早見表
 
-| 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
+| 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | [IAM](/glossary/iam/)[ポリシー](/glossary/ポリシー/)に[権限](/glossary/権限/)を追加 | 低 | 不要 | 全[OS](/glossary/os/) |
 | バケットポリシーの Deny 条件を[修正](/glossary/修正/) | 中 | 不要 | 全[OS](/glossary/os/) |

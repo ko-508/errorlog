@@ -177,7 +177,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン対応が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)[設定](/glossary/設定/) → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が対応している機能と[バージョン](/glossary/バージョン/)を確認してください。
+[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン[対応](/glossary/対応/)が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)[設定](/glossary/設定/) → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が[対応](/glossary/対応/)している機能と[バージョン](/glossary/バージョン/)を確認してください。
 
 ## それでも解決しない場合
 
@@ -209,7 +209,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 - Stripe Developer Community：https://stripe.com/docs/support
 - Stack Overflow の `stripe` [タグ](/glossary/タグ/)：実装言語固有の問題は[検索](/glossary/検索/)してみてください
 
-公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に対応してもらえます。
+公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に[対応](/glossary/対応/)してもらえます。
 
 ---
 

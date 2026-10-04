@@ -123,7 +123,7 @@ Pod Ready=True
 
 複数[コンテナ](/glossary/コンテナ/)のうち1つでもReadyでなければ、Pod全体のReadyはFalseになります。また、`readinessGates` を使っている場合は、すべてのprobeが成功しても独自conditionがFalseまたは未設定ならPodはReadyになりません。
 
-PodがReadyになると、EndpointSlice controllerは該当Service向けのendpointへ状態を反映します。[EndpointSliceの公式資料](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/#conditions)では、`ready`、`serving`、`terminating` のconditionが定義されています。通常の実行中Podでは、PodのReadyがService endpointの `ready` と `serving` に対応します。
+PodがReadyになると、EndpointSlice controllerは該当Service向けのendpointへ状態を反映します。[EndpointSliceの公式資料](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/#conditions)では、`ready`、`serving`、`terminating` のconditionが定義されています。通常の実行中Podでは、PodのReadyがService endpointの `ready` と `serving` に[対応](/glossary/対応/)します。
 
 各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを監視し、Serviceの仮想IPへ来た[通信](/glossary/通信/)の転送先を更新します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この監視と[同期](/glossary/同期/)の制御処理が説明されています。
 
@@ -359,7 +359,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" state="}{.state}{"\n"}{end}'
 ```
 
-各[コンテナ](/glossary/コンテナ/)の `ready` を確認し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を対応させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
+各[コンテナ](/glossary/コンテナ/)の `ready` を確認し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を[対応](/glossary/対応/)させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
 
 ### 原因8：readinessGateがFalseまたは未設定になっている
 

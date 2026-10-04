@@ -162,7 +162,7 @@ curl https://api.stripe.com/v1/customers/cus_test123 \
 
 ### Webhook署名検証とリソースID
 
-[Webhook](/glossary/webhook/)で受け取った[イベント](/glossary/イベント/)のリソース[ID](/glossary/id/)を直後に参照する場合、わずかな[遅延](/glossary/遅延/)で404が返ることがあります。Stripeの[イベント](/glossary/イベント/)処理は非同期のため、リトライロジック（失敗時に何度か再試行する処理）を実装することが推奨されます。
+[Webhook](/glossary/webhook/)で受け取った[イベント](/glossary/イベント/)のリソース[ID](/glossary/id/)を直後に参照する場合、わずかな[遅延](/glossary/遅延/)で404が返ることがあります。Stripeの[イベント](/glossary/イベント/)処理は[非同期](/glossary/非同期/)のため、リトライロジック（失敗時に何度か再試行する処理）を実装することが推奨されます。
 
 ```python
 import time

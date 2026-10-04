@@ -324,7 +324,7 @@ node update_permissions.js
 
 ### 原因4：マージ競合のある PR を API 経由でマージしようとした場合
 
-[GitHub](/glossary/github/) [API](/glossary/api/) でマージリクエストを[送信](/glossary/送信/)した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での対応が必要です。
+[GitHub](/glossary/github/) [API](/glossary/api/) でマージリクエストを[送信](/glossary/送信/)した際に、自動的に解決できない[マージ](/glossary/マージ/)競合が存在すると 409 [エラー](/glossary/エラー/)が返されます。この場合、[API](/glossary/api/) では解決できず、手動での[対応](/glossary/対応/)が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -422,7 +422,7 @@ node merge_pr.js
 
 ## 解決策の早見表
 
-| 解決策 | 実装難易度 | 再起動要否 | 対応[OS](/glossary/os/) |
+| 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | 同時[デプロイ](/glossary/デプロイ/)の制御（concurrency） | 低 | 不要 | 全[OS](/glossary/os/) |
 | [ファイル](/glossary/ファイル/)更新時の SHA リトライロジック | 中 | 不要 | 全[OS](/glossary/os/) |

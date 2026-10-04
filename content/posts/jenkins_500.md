@@ -165,7 +165,7 @@ pipeline {
 
 **Jenkinsのプラグイン管理画面での確認方法：**
 
-Manage Jenkins → System Configuration → Manage Plugins から、[インストール](/glossary/インストール/)済みのプラグイン一覧を確認できます。[エラー](/glossary/エラー/)発生前後で[インストール](/glossary/インストール/)・更新したプラグインを特定し、その右側のチェックボックスを外して無効化できます。ただしこの操作中も500[エラー](/glossary/エラー/)が出ることがあるため、前述のファイルシステム操作での対応が確実です。
+Manage Jenkins → System Configuration → Manage Plugins から、[インストール](/glossary/インストール/)済みのプラグイン一覧を確認できます。[エラー](/glossary/エラー/)発生前後で[インストール](/glossary/インストール/)・更新したプラグインを特定し、その右側のチェックボックスを外して無効化できます。ただしこの操作中も500[エラー](/glossary/エラー/)が出ることがあるため、前述のファイルシステム操作での[対応](/glossary/対応/)が確実です。
 
 **Jenkinsの[設定ファイル](/glossary/設定ファイル/)直接編集：**
 

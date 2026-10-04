@@ -62,7 +62,7 @@ Repository not found.
 Invalid username or token. Password authentication is not supported for Git operations.
 ```
 
-応答本文と2行目は対応しています。本文が `Repository not found.` で2行目が `fatal: repository '...' not found` なら、最終的な応答は 404 です。本文が `Invalid username or token.` で始まり2行目が `fatal: Authentication failed for '...'` なら 401 です。前者は[認証](/glossary/認証/)が通った上での不可視、後者は[認証](/glossary/認証/)そのものの失敗で、直す場所が違います。
+応答本文と2行目は[対応](/glossary/対応/)しています。本文が `Repository not found.` で2行目が `fatal: repository '...' not found` なら、最終的な応答は 404 です。本文が `Invalid username or token.` で始まり2行目が `fatal: Authentication failed for '...'` なら 401 です。前者は[認証](/glossary/認証/)が通った上での不可視、後者は[認証](/glossary/認証/)そのものの失敗で、直す場所が違います。
 
 ## まず最初に：いま誰として通信しているかを確定する
 
@@ -200,7 +200,7 @@ git remote -v
 
 `git@github.com: Permission denied (publickey).` は、提示した鍵がどの[アカウント](/glossary/アカウント/)としても受け付けられなかった状態です。[GitHub](/glossary/github/) が相手を誰とも認識していないため、[リポジトリ](/glossary/リポジトリ/)の判定にまだ進んでいません。
 
-[REST](/glossary/rest/) [API](/glossary/api/) の 404 も考え方は同じですが、応答の読み方が違います。[API](/glossary/api/) 側は [JSON](/glossary/json/) 本文に `message` と `documentation_url` を返すため、判断材料が増えます。詳しくは [GitHub API の 404 の記事](/posts/github_api_404/)を参照してください。[トークン](/glossary/トークン/)の値そのものが疑わしい場合は [GitHub API の 401 の記事](/posts/github_api_401/)が対応します。
+[REST](/glossary/rest/) [API](/glossary/api/) の 404 も考え方は同じですが、応答の読み方が違います。[API](/glossary/api/) 側は [JSON](/glossary/json/) 本文に `message` と `documentation_url` を返すため、判断材料が増えます。詳しくは [GitHub API の 404 の記事](/posts/github_api_404/)を参照してください。[トークン](/glossary/トークン/)の値そのものが疑わしい場合は [GitHub API の 401 の記事](/posts/github_api_401/)が[対応](/glossary/対応/)します。
 
 ## 切り分けの順序
 

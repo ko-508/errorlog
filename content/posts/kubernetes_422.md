@@ -16,7 +16,7 @@ trend_incident: false
 
 [Kubernetes](/glossary/kubernetes/) の 422 Unprocessable Entity は、区分が `Invalid` の[エラー](/glossary/エラー/)です。意味は明快で、**内容は読めたが、検証を通らなかった**という状態を指します。
 
-この[エラー](/glossary/エラー/)の扱いやすさは、応答の `details.causes` にあります。実装を読むと、検証の[エラー](/glossary/エラー/)一覧がそのまま `causes` に変換され、各要素に **どの[フィールド](/glossary/フィールド/)か（`field`）** と **なぜ駄目か（`reason`）** が入ります。`reason` に入る値は決まっていて、必須項目の欠落なら `FieldValueRequired`、値が不正なら `FieldValueInvalid`、対応していない値なら `FieldValueNotSupported`、禁止された操作なら `FieldValueForbidden` といった具合です。つまり、**推測は不要です**。どこがなぜ駄目かは応答に書かれています。
+この[エラー](/glossary/エラー/)の扱いやすさは、応答の `details.causes` にあります。実装を読むと、検証の[エラー](/glossary/エラー/)一覧がそのまま `causes` に変換され、各要素に **どの[フィールド](/glossary/フィールド/)か（`field`）** と **なぜ駄目か（`reason`）** が入ります。`reason` に入る値は決まっていて、必須項目の欠落なら `FieldValueRequired`、値が不正なら `FieldValueInvalid`、[対応](/glossary/対応/)していない値なら `FieldValueNotSupported`、禁止された操作なら `FieldValueForbidden` といった具合です。つまり、**推測は不要です**。どこがなぜ駄目かは応答に書かれています。
 
 もう1つ、実務で最も誤解されている点があります。**知らない[フィールド](/glossary/フィールド/)を書いても 422 にはなりません**。公式文書には、検証の水準を厳格にした場合、未知または重複した[フィールド](/glossary/フィールド/)を検出すると **400 Bad Request** で拒否する、と明記されています。さらに但し書きとして、既知の[フィールド](/glossary/フィールド/)に型の違う値を入れた場合も 400 になる、とも書かれています。
 
