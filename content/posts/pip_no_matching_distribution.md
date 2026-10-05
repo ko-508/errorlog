@@ -4,6 +4,7 @@ date: 2026-10-05T09:00:00+09:00
 draft: false
 description: "pipのCould not find a version that satisfies the requirementとNo matching distribution foundの原因を解説。from versions: noneでもパッケージが存在しないとは限りません。配布名、Pythonの版、取得先、wheelの対応条件を順に確認します。"
 tags: ["Python"]
+images: ["og/posts/pip_no_matching_distribution.png"]
 errorCode: "Could not find a version that satisfies the requirement"
 urgency: "medium"
 service: "Python"
@@ -11,9 +12,6 @@ error_type: "distribution_not_found"
 components: ["Python", "pip", "PyPI"]
 related_services: []
 trend_incident: false
-publish_slug: "pip_no_matching_distribution"
-publish_note: "新規作成。候補の絞り込みと診断をpip 26.2.1の実装・pipおよびPyPA公式文書で照合。ローカルwheelを用い、版不一致、OS不一致でのversions:none、Python要件不一致を再現。pypa/pip#10501を確認"
-publish_zenn: true
 ---
 
 ## 冒頭まとめ

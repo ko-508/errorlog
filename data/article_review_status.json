@@ -1572,5 +1572,16 @@
         "note": "新規作成。import、pip、venvを公式文書・CPython実装で照合。環境差、名前衝突、相対importを再現。requests#7006の報告を確認"
       }
     ]
+  },
+  "content/posts/pip_no_matching_distribution.md": {
+    "verified": true,
+    "verified_at": "2026-10-05",
+    "last_verified_at": "2026-10-05",
+    "history": [
+      {
+        "date": "2026-10-05",
+        "note": "新規作成。候補の絞り込みと診断をpip 26.2.1の実装・pipおよびPyPA公式文書で照合。ローカルwheelを用い、版不一致、OS不一致でのversions:none、Python要件不一致を再現。pypa/pip#10501を確認"
+      }
+    ]
   }
 }
