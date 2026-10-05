@@ -144,7 +144,7 @@ class RunStore:
         target = self.path(relative)
         try:
             target.parent.mkdir(parents=True, exist_ok=True)
-            temp = target.with_name(f".{target.name}.{uuid.uuid4().hex}.tmp")
+            temp = target.with_name(f".tmp-{uuid.uuid4().hex}.tmp")
             self._reject_links(temp)
             with temp.open("xb") as handle:
                 handle.write(data)

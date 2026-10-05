@@ -7,7 +7,7 @@ import os
 import subprocess
 import sys
 from pathlib import Path
-from unittest import mock
+from unittest import mock, skipUnless
 
 from scripts.article_pipeline import PipelineError
 from scripts.article_pipeline.__main__ import command_new
@@ -40,6 +40,43 @@ def _new_process(root_text, topic_text, entered, release, result, delayed):
 
 
 class RunStoreTest(RepoCase):
+    @skipUnless(os.name == "nt", "Windows path-length regression")
+    def test_write_bytes_uses_short_temp_at_windows_path_boundary(self) -> None:
+        store = RunStore(self.root)
+        filename = f"{'d' * 64}.bin"
+        base_parent = store.root / "runs" / "path-length"
+        padding_length = 222 - len(str(base_parent)) - len(filename) - 2
+        self.assertGreater(padding_length, 0)
+        target = base_parent / ("p" * padding_length) / filename
+        relative = target.relative_to(store.root)
+        legacy_temp = target.with_name(f".{target.name}.{'0' * 32}.tmp")
+
+        self.assertEqual(len(str(target)), 222)
+        self.assertEqual(len(str(legacy_temp)), 260)
+
+        written = store.write_bytes(relative, b"windows path boundary")
+
+        self.assertEqual(written, target)
+        self.assertEqual(target.read_bytes(), b"windows path boundary")
+        self.assertEqual(list(target.parent.glob(".tmp-*.tmp")), [])
+
+    def test_write_bytes_reports_final_replace_error_and_removes_temp(self) -> None:
+        store = RunStore(self.root)
+        relative = Path("runs/final-target/file.bin")
+        target = store.root / relative
+        error = OSError(206, "The filename or extension is too long", str(target))
+
+        with mock.patch("scripts.article_pipeline.store.os.replace", side_effect=error):
+            with self.assertRaises(PipelineError) as raised:
+                store.write_bytes(relative, b"not committed")
+
+        message = str(raised.exception)
+        self.assertIn("ファイルを原子的に書き込めません", message)
+        self.assertIn(f"path={target}", message)
+        self.assertIn("206", message)
+        self.assertFalse(target.exists())
+        self.assertEqual(list(target.parent.glob(".tmp-*.tmp")), [])
+
     def test_rejects_parent_absolute_and_link_writes(self) -> None:
         store = RunStore(self.root)
         with self.assertRaisesRegex(PipelineError, "不正な相対パス"):
