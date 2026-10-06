@@ -1583,5 +1583,16 @@
         "note": "新規作成。候補の絞り込みと診断をpip 26.2.1の実装・pipおよびPyPA公式文書で照合。ローカルwheelを用い、版不一致、OS不一致でのversions:none、Python要件不一致を再現。pypa/pip#10501を確認"
       }
     ]
+  },
+  "content/posts/npm_ebadengine.md": {
+    "verified": true,
+    "verified_at": "2026-10-06",
+    "last_verified_at": "2026-10-06",
+    "history": [
+      {
+        "date": "2026-10-06",
+        "note": "新規作成。npm公式文書と実装を照合"
+      }
+    ]
   }
 }
