@@ -80,7 +80,7 @@ def load_config(path: Path) -> dict[str, Any]:
     value = load_strict_yaml(path)
     root = _exact_mapping(
         value,
-        {"paths", "intake", "plan", "acquire"},
+        {"paths", "intake", "plan", "acquire", "llm", "budget", "claims"},
         label="トップレベル",
         path=path,
     )
@@ -124,6 +124,21 @@ def load_config(path: Path) -> dict[str, Any]:
         "reuse_max_age_hours",
     }
     acquire = _exact_mapping(root["acquire"], acquire_keys, label="acquire", path=path)
+    llm = _exact_mapping(
+        root["llm"],
+        {"store", "budget_lock_wait_s", "max_retries", "retry_backoff_s", "retry_after_max_s",
+         "count_timeout_s", "create_timeout_s", "retrieve_timeout_s", "poll_interval_s",
+         "call_deadline_s", "pricing"},
+        label="llm", path=path,
+    )
+    budget = _exact_mapping(
+        root["budget"], {"monthly_limit_usd", "run_limit_usd", "call_limit_usd"},
+        label="budget", path=path,
+    )
+    claims = _exact_mapping(
+        root["claims"], {"extract", "support", "source_types", "injection_markers"},
+        label="claims", path=path,
+    )
 
     if paths["run_root"] != "run/article_pipeline":
         raise PipelineError(
@@ -215,4 +230,79 @@ def load_config(path: Path) -> dict[str, Any]:
             "時間上限の関係が不正です: "
             f"request_deadline_s={request}, source_deadline_s={source}, run_deadline_s={run}"
         )
+
+    if llm["store"] is not None and not isinstance(llm["store"], bool):
+        raise PipelineError(f"設定 llm.store は bool または null が必要です: value={llm['store']!r}")
+    for key in ("budget_lock_wait_s", "retry_after_max_s", "count_timeout_s", "create_timeout_s",
+                "retrieve_timeout_s", "poll_interval_s", "call_deadline_s"):
+        _positive_number(llm[key], key=f"llm.{key}")
+    if not isinstance(llm["max_retries"], int) or isinstance(llm["max_retries"], bool) or llm["max_retries"] < 0:
+        raise PipelineError(f"設定 llm.max_retries は0以上の整数が必要です: value={llm['max_retries']!r}")
+    if (not isinstance(llm["retry_backoff_s"], list)
+            or len(llm["retry_backoff_s"]) != llm["max_retries"]):
+        raise PipelineError("設定 llm.retry_backoff_s の件数は llm.max_retries と一致する必要があります")
+    for index, seconds in enumerate(llm["retry_backoff_s"]):
+        _positive_number(seconds, key=f"llm.retry_backoff_s[{index}]")
+    pricing = _exact_mapping(llm["pricing"], {"max_age_days", "models"}, label="llm.pricing", path=path)
+    if pricing["max_age_days"] is not None:
+        _positive_number(pricing["max_age_days"], key="llm.pricing.max_age_days", integer=True)
+    if not isinstance(pricing["models"], dict) or not pricing["models"]:
+        raise PipelineError("設定 llm.pricing.models は1件以上の object が必要です")
+    price_keys = {"input", "cached_input", "cache_write", "output"}
+    for model, raw_model in pricing["models"].items():
+        if not isinstance(model, str) or not model:
+            raise PipelineError(f"設定 llm.pricing.models のモデル名が不正です: value={model!r}")
+        model_cfg = _exact_mapping(
+            raw_model, {"source", "checked_at", "short_context_max_input_tokens", "short", "long"},
+            label=f"llm.pricing.models.{model}", path=path,
+        )
+        if not isinstance(model_cfg["source"], str) or not model_cfg["source"].startswith("https://"):
+            raise PipelineError(f"単価の source は https URL が必要です: model={model}")
+        if not isinstance(model_cfg["checked_at"], str) or not model_cfg["checked_at"]:
+            raise PipelineError(f"単価の checked_at は空でない文字列が必要です: model={model}")
+        _positive_number(model_cfg["short_context_max_input_tokens"], key=f"pricing.{model}.short_context_max_input_tokens", integer=True)
+        for band in ("short", "long"):
+            rates = _exact_mapping(model_cfg[band], price_keys, label=f"pricing.{model}.{band}", path=path)
+            for rate, number in rates.items():
+                _positive_number(number, key=f"pricing.{model}.{band}.{rate}")
+
+    for key, value in budget.items():
+        if value is not None:
+            _positive_number(value, key=f"budget.{key}")
+
+    extract = _exact_mapping(
+        claims["extract"],
+        {"model", "reasoning_effort", "max_output_tokens", "expected_output_tokens",
+         "max_input_tokens_per_call", "max_claims_per_call", "max_evidence_per_claim", "max_quote_chars"},
+        label="claims.extract", path=path,
+    )
+    support = _exact_mapping(
+        claims["support"],
+        {"model", "reasoning_effort", "max_output_tokens", "expected_output_tokens",
+         "claims_per_call", "context_lines", "max_link_span_lines"},
+        label="claims.support", path=path,
+    )
+    for label, section, nullable in (
+        ("claims.extract", extract, {"model", "reasoning_effort", "max_output_tokens", "expected_output_tokens", "max_input_tokens_per_call"}),
+        ("claims.support", support, {"model", "reasoning_effort", "max_output_tokens", "expected_output_tokens"}),
+    ):
+        for key, item in section.items():
+            if key in {"model", "reasoning_effort"}:
+                if item is not None and (not isinstance(item, str) or not item):
+                    raise PipelineError(f"設定 {label}.{key} は空でない文字列または null が必要です")
+            elif item is None:
+                if key not in nullable:
+                    raise PipelineError(f"設定 {label}.{key} は null にできません")
+            else:
+                _positive_number(item, key=f"{label}.{key}", integer=True)
+    source_types = _exact_mapping(
+        claims["source_types"], {"official_repos", "official_doc_hosts", "vendor_community_hosts"},
+        label="claims.source_types", path=path,
+    )
+    for key, items in source_types.items():
+        if not isinstance(items, list) or not all(isinstance(item, str) and item for item in items) or len(set(items)) != len(items):
+            raise PipelineError(f"設定 claims.source_types.{key} は重複のない文字列配列が必要です")
+    markers = claims["injection_markers"]
+    if not isinstance(markers, list) or not markers or not all(isinstance(item, str) and item for item in markers):
+        raise PipelineError("設定 claims.injection_markers は空でない文字列の配列が必要です")
     return root

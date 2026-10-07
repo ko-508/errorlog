@@ -86,6 +86,45 @@ CONFIG = json.dumps(
             "issue_comment_pages_max": 3,
             "reuse_max_age_hours": 72,
         },
+        "llm": {
+            "store": None,
+            "budget_lock_wait_s": 0.1,
+            "max_retries": 2,
+            "retry_backoff_s": [0.001, 0.001],
+            "retry_after_max_s": 1,
+            "count_timeout_s": 1,
+            "create_timeout_s": 1,
+            "retrieve_timeout_s": 1,
+            "poll_interval_s": 0.001,
+            "call_deadline_s": 5,
+            "pricing": {
+                "max_age_days": None,
+                "models": {
+                    "test-model": {
+                        "source": "https://example.com/pricing",
+                        "checked_at": "2026-10-05",
+                        "short_context_max_input_tokens": 272000,
+                        "short": {"input": 2, "cached_input": 0.1, "cache_write": 2.5, "output": 10},
+                        "long": {"input": 4, "cached_input": 0.2, "cache_write": 5, "output": 15},
+                    }
+                },
+            },
+        },
+        "budget": {"monthly_limit_usd": None, "run_limit_usd": None, "call_limit_usd": None},
+        "claims": {
+            "extract": {
+                "model": None, "reasoning_effort": None, "max_output_tokens": None,
+                "expected_output_tokens": None, "max_input_tokens_per_call": None,
+                "max_claims_per_call": 60, "max_evidence_per_claim": 4, "max_quote_chars": 400,
+            },
+            "support": {
+                "model": None, "reasoning_effort": None, "max_output_tokens": None,
+                "expected_output_tokens": None, "claims_per_call": 10,
+                "context_lines": 40, "max_link_span_lines": 80,
+            },
+            "source_types": {"official_repos": [], "official_doc_hosts": [], "vendor_community_hosts": []},
+            "injection_markers": ["ignore previous instructions", "以前の指示を無視", "system prompt", "あなたは"],
+        },
     },
     ensure_ascii=False,
     indent=2,

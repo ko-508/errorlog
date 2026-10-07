@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claims", "instruction_like_text"],
+  "properties": {
+    "claims": {
+      "type": "array",
+      "maxItems": 60,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["temp_id", "kind", "text", "subject", "evidence", "version_scope"],
+        "properties": {
+          "temp_id": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["message_text", "cause", "default_value", "version_behavior", "remedy", "occurrence", "boundary"]},
+          "text": {"type": "string", "minLength": 1},
+          "subject": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["message_literal", "identifier", "value", "version", "other_error"],
+            "properties": {
+              "message_literal": {"type": ["string", "null"]},
+              "identifier": {"type": ["string", "null"]},
+              "value": {"type": ["string", "null"]},
+              "version": {"type": ["string", "null"]},
+              "other_error": {"type": ["string", "null"]}
+            }
+          },
+          "evidence": {
+            "type": "array",
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["source_id", "role", "quote"],
+              "properties": {
+                "source_id": {"type": "string", "pattern": "^S[0-9]{3}$"},
+                "role": {"enum": ["emission", "condition", "statement", "report", "version_note", "context"]},
+                "quote": {"type": "string", "minLength": 1, "maxLength": 400}
+              }
+            }
+          },
+          "version_scope": {
+            "type": ["object", "null"],
+            "additionalProperties": false,
+            "required": ["product", "constraint"],
+            "properties": {
+              "product": {"type": "string", "minLength": 1},
+              "constraint": {"type": ["string", "null"]}
+            }
+          }
+        }
+      }
+    },
+    "instruction_like_text": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "excerpt"],
+        "properties": {
+          "source_id": {"type": "string"},
+          "excerpt": {"type": "string"}
+        }
+      }
+    }
+  }
+}
+

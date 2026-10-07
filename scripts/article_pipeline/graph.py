@@ -132,6 +132,7 @@ class PipelineGraph:
         from_stage: str | None = None,
         accept_modified: Sequence[str] = (),
         refetch: str | None = None,
+        retry_unknown_llm_calls: bool = False,
     ) -> dict[str, Any]:
         if through is not None and through not in self.by_name:
             raise PipelineError(f"終了工程が不明です: stage={through}")
@@ -139,7 +140,7 @@ class PipelineGraph:
             raise PipelineError(f"--from の工程が不明です: stage={from_stage}")
         if refetch not in {None, "failed", "all"}:
             raise PipelineError(f"--refetch の値が不正です: value={refetch!r}")
-        state = state_file.read()
+        state = self._migrate_state(state_file, state_file.read())
         pending = state.get("pending_recovery")
         s2_index = self.stage_names.index("S2_sources") if "S2_sources" in self.by_name else None
         from_index = self.stage_names.index(from_stage) if from_stage is not None else None
@@ -219,6 +220,7 @@ class PipelineGraph:
                     context, state_file, state, from_stage, reason=f"--from {from_stage}"
                 )
         context.cache["refetch"] = refetch
+        context.cache["retry_unknown_llm_calls"] = retry_unknown_llm_calls
         for stage in self.stages:
             record = state["stages"][stage.name]
             if record["status"] == "running":
@@ -255,7 +257,7 @@ class PipelineGraph:
         return state
 
     def verify_status(self, context: StageContext, state_file: StateFile) -> dict[str, Any]:
-        state = state_file.read()
+        state = self._migrate_state(state_file, state_file.read())
         if state.get("pending_recovery") is not None:
             pending = state["pending_recovery"]
             report = context.store.read_json(pending["report"])
@@ -289,6 +291,51 @@ class PipelineGraph:
                     f"recorded={record.get('input_fingerprint')}, current={current_fingerprint}"
                 )
         self._verify_body_hash_records(context)
+        return state
+
+    def _migrate_state(self, state_file: StateFile, state: dict[str, Any]) -> dict[str, Any]:
+        """Add P3's S3_support to a P2 state without guessing through conflicts."""
+        actual = list(state["stages"])
+        expected = self.stage_names
+        unknown = [name for name in actual if name not in expected]
+        if unknown:
+            raise PipelineError(f"state.json に現在の工程一覧にない工程があります: stages={unknown}")
+        positions = [expected.index(name) for name in actual]
+        if positions != sorted(positions):
+            raise PipelineError(f"state.json の工程順が現在の工程一覧と一致しません: actual={actual}, expected={expected}")
+        for name in actual:
+            record = state["stages"][name]
+            if record.get("status") != "done" or not isinstance(record.get("input_parts"), dict):
+                continue
+            recorded = {
+                key.removeprefix("dependency.")
+                for key in record["input_parts"] if key.startswith("dependency.")
+            }
+            current = set(self.by_name[name].dependencies)
+            # S3_claims is handled separately below because its dependencies
+            # and outputs intentionally changed in P3.
+            if name != "S3_claims" and recorded != current:
+                raise PipelineError(
+                    f"state.json の工程依存が現在の実装と一致しません: stage={name}, "
+                    f"recorded={sorted(recorded)}, current={sorted(current)}"
+                )
+        if actual == expected:
+            return state
+        missing = [name for name in expected if name not in state["stages"]]
+        if missing != ["S3_support"]:
+            raise PipelineError(f"state.json の工程一覧を安全に移行できません: missing={missing}, actual={actual}")
+        if state["stages"].get("S3_claims", {}).get("status") == "done":
+            raise PipelineError("P3 より前の S3_claims が done です。出力定義が異なるため自動移行できません")
+        insert_at = expected.index("S3_support")
+        later = expected[insert_at + 1:]
+        completed_later = [name for name in later if state["stages"].get(name, {}).get("status") == "done"]
+        if completed_later:
+            raise PipelineError(f"追加工程より後ろに done の工程があるため移行できません: stages={completed_later}")
+        state["stages"] = {
+            name: state["stages"].get(name, {"status": "pending", "attempts": 0})
+            for name in expected
+        }
+        state_file.write(state)
         return state
 
     def invalidate_from(
@@ -476,6 +523,11 @@ class PipelineGraph:
                     raise PipelineError(
                         "派生物が直接変更されています。正本を修正してください: "
                         f"stage={stage.name}, path={absolute}, expected={expected}, actual={actual}"
+                    )
+                if artifact.path in {"claims.extracted.json", "claims.json", "sufficiency.json"}:
+                    raise PipelineError(
+                        "主張と判定の生成物は --accept-modified で受け入れられません。"
+                        f" --from {stage.name} でやり直してください: path={absolute}"
                     )
                 if artifact.kind == "generated" and accepted_key is None:
                     raise PipelineError(
@@ -941,6 +993,24 @@ class PipelineGraph:
                         "検証結果は無効です（本文が検証後に変わっています）: "
                         f"record={record_name}, body={body_name}, expected={record[key]}, actual={actual}"
                     )
+        claims_relative = context.artifact_relative("claims.json")
+        if context.store.exists(claims_relative):
+            claims = context.store.read_json(claims_relative)
+            if not isinstance(claims, dict):
+                raise PipelineError(f"claims.json が object ではありません: path={context.store.path(claims_relative)}")
+            for key, name in (
+                ("sources_index_sha256", "sources/index.json"),
+                ("claims_extracted_sha256", "claims.extracted.json"),
+            ):
+                relative = context.artifact_relative(name)
+                if not context.store.exists(relative):
+                    raise PipelineError(f"判定結果の参照先が欠損しています: key={key}, path={context.store.path(relative)}")
+                actual = context.store.hash(relative)
+                if claims.get(key) != actual:
+                    raise PipelineError(
+                        "判定結果は無効です（資料または抽出結果が判定後に変わっています）: "
+                        f"key={key}, expected={claims.get(key)}, actual={actual}"
+                    )
 
     @staticmethod
     def _path_has_link(path: Path, root: Path) -> bool:
@@ -998,6 +1068,8 @@ class PipelineGraph:
 
 def build_production_stages() -> list[StageSpec]:
     from .acquire import STAGE_VERSION as ACQUIRE_STAGE_VERSION, run_acquire
+    from .claims_extract import STAGE_VERSION as CLAIMS_STAGE_VERSION, run_claims_extract
+    from .claims_support import STAGE_VERSION as SUPPORT_STAGE_VERSION, run_claims_support
     from .intake import prepare_intake
     from .plan_manual import prepare_plan
 
@@ -1038,6 +1110,16 @@ def build_production_stages() -> list[StageSpec]:
             prepared = prepare_plan(state=state, config=context.config, topic=topic)
         context.write_json("research_plan.json", prepared["plan"])
 
+    def p3_inputs(prompt_name: str, schema_name: str) -> InputProvider:
+        def provide(context: StageContext, _state: dict[str, Any]) -> Mapping[str, Any]:
+            from .store import sha256_file
+
+            return {
+                "prompt_sha256": sha256_file(context.repo_root / "config/prompts" / prompt_name),
+                "output_schema_sha256": sha256_file(context.repo_root / "config/schemas" / schema_name),
+            }
+        return provide
+
     return [
         StageSpec(
             "S0_intake",
@@ -1066,14 +1148,26 @@ def build_production_stages() -> list[StageSpec]:
         ),
         StageSpec(
             "S3_claims",
-            1,
-            dependencies=("S2_sources",),
+            CLAIMS_STAGE_VERSION,
+            dependencies=("S0_intake", "S2_sources"),
+            config_keys=("claims.extract", "claims.injection_markers", "llm.pricing"),
+            artifacts=(ArtifactSpec("claims.extracted.json"),),
+            input_provider=p3_inputs("s3_extract.v1.md", "claims_extract.v1.json"),
+            runner=run_claims_extract,
+        ),
+        StageSpec(
+            "S3_support",
+            SUPPORT_STAGE_VERSION,
+            dependencies=("S2_sources", "S3_claims"),
+            config_keys=("claims.support", "claims.source_types"),
             artifacts=(ArtifactSpec("claims.json"), ArtifactSpec("sufficiency.json")),
+            input_provider=p3_inputs("s3_support.v1.md", "claims_support.v2.json"),
+            runner=run_claims_support,
         ),
         StageSpec(
             "S4_write",
             1,
-            dependencies=("S3_claims",),
+            dependencies=("S3_support",),
             artifacts=(
                 ArtifactSpec("draft.annotated.md", "editable"),
                 ArtifactSpec("draft.md", "derived"),
@@ -1088,7 +1182,7 @@ def build_production_stages() -> list[StageSpec]:
         StageSpec(
             "S6_verify",
             1,
-            dependencies=("S2_sources", "S3_claims", "S4_write", "S5_code"),
+            dependencies=("S2_sources", "S3_claims", "S3_support", "S4_write", "S5_code"),
             artifacts=(ArtifactSpec("verification.json"),),
         ),
         StageSpec(

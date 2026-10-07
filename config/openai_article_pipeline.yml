@@ -53,3 +53,65 @@ acquire:
   min_text_chars: 200
   issue_comment_pages_max: 3
   reuse_max_age_hours: 72
+
+llm:
+  store: null
+  budget_lock_wait_s: 10
+  max_retries: 2
+  retry_backoff_s: [5, 20]
+  retry_after_max_s: 60
+  count_timeout_s: 30
+  create_timeout_s: 30
+  retrieve_timeout_s: 30
+  poll_interval_s: 5
+  call_deadline_s: 900
+  pricing:
+    max_age_days: null
+    models:
+      gpt-6.1-sol:
+        source: "https://developers.openai.com/api/docs/pricing.md"
+        checked_at: "2026-10-05"
+        short_context_max_input_tokens: 272000
+        short: {input: 2.00, cached_input: 0.10, cache_write: 2.50, output: 10.00}
+        long: {input: 4.00, cached_input: 0.20, cache_write: 5.00, output: 15.00}
+      gpt-6-astra:
+        source: "https://developers.openai.com/api/docs/pricing.md"
+        checked_at: "2026-10-05"
+        short_context_max_input_tokens: 272000
+        short: {input: 10.00, cached_input: 1.00, cache_write: 12.50, output: 50.00}
+        long: {input: 10.00, cached_input: 1.00, cache_write: 12.50, output: 50.00}
+      gpt-6-luna:
+        source: "https://developers.openai.com/api/docs/pricing.md"
+        checked_at: "2026-10-05"
+        short_context_max_input_tokens: 272000
+        short: {input: 0.10, cached_input: 0.01, cache_write: 0.125, output: 0.50}
+        long: {input: 0.10, cached_input: 0.01, cache_write: 0.125, output: 0.50}
+
+budget:
+  monthly_limit_usd: null
+  run_limit_usd: null
+  call_limit_usd: null
+
+claims:
+  extract:
+    model: null
+    reasoning_effort: null
+    max_output_tokens: null
+    expected_output_tokens: null
+    max_input_tokens_per_call: null
+    max_claims_per_call: 60
+    max_evidence_per_claim: 4
+    max_quote_chars: 400
+  support:
+    model: null
+    reasoning_effort: null
+    max_output_tokens: null
+    expected_output_tokens: null
+    claims_per_call: 10
+    context_lines: 40
+    max_link_span_lines: 80
+  source_types:
+    official_repos: []
+    official_doc_hosts: []
+    vendor_community_hosts: []
+  injection_markers: ["ignore previous instructions", "以前の指示を無視", "system prompt", "あなたは"]

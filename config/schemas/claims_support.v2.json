@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["judgements"],
+  "properties": {
+    "judgements": {
+      "type": "array",
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["claim_id", "basis_code", "evidence_assessment", "link_confirmed", "support", "contradicted", "reason", "missing"],
+        "properties": {
+          "claim_id": {"type": "string", "pattern": "^C[0-9]{3}$"},
+          "basis_code": {"enum": ["MT-IMPL", "MT-DOC", "CA-DOC", "CA-IMPL", "DV-DOC", "DV-IMPL", "VB-NOTES", "VB-DIFF", "RM-DOC", "OC-REPORT", "BD-PAIR", "NONE"]},
+          "evidence_assessment": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["evidence_index", "function", "reason"],
+              "properties": {
+                "evidence_index": {"type": "integer", "minimum": 0},
+                "function": {"enum": ["emits_message", "documents_message", "states_cause", "condition_leads_to_emission", "states_default", "defines_value", "uses_value", "states_version_change", "shows_behavior_before", "shows_behavior_after", "recommends_remedy", "reports_occurrence", "distinguishes", "unrelated", "contradicts"]},
+                "reason": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "link_confirmed": {"type": ["boolean", "null"]},
+          "support": {"enum": ["supported", "partial", "unsupported"]},
+          "contradicted": {"type": "boolean"},
+          "reason": {"type": "string", "minLength": 1},
+          "missing": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

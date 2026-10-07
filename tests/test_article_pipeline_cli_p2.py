@@ -38,12 +38,12 @@ class FixedClient:
         )
 
 
-def test_only_net_module_imports_network_apis() -> None:
+def test_only_network_boundary_modules_import_network_apis() -> None:
     root = Path(__file__).parents[1] / "scripts/article_pipeline"
-    forbidden = {"socket", "ssl", "http.client", "urllib.request", "requests", "openai"}
+    forbidden = {"socket", "ssl", "http.client", "urllib.request", "requests", "openai", "httpx", "httpx2"}
     violations = []
     for path in root.glob("*.py"):
-        if path.name == "net.py":
+        if path.name in {"net.py", "llm_client.py"}:
             continue
         tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
         for node in ast.walk(tree):
