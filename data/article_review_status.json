@@ -1594,5 +1594,16 @@
         "note": "新規作成。npm公式文書と実装を照合"
       }
     ]
+  },
+  "content/posts/python_ssl_certificate_verify_failed.md": {
+    "verified": true,
+    "verified_at": "2026-10-07",
+    "last_verified_at": "2026-10-07",
+    "history": [
+      {
+        "date": "2026-10-07",
+        "note": "新規作成。Python・Requests公式文書、CPython実装、GitHub実例を照合"
+      }
+    ]
   }
 }
