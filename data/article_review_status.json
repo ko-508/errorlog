@@ -1605,5 +1605,16 @@
         "note": "新規作成。Python・Requests公式文書、CPython実装、GitHub実例を照合"
       }
     ]
+  },
+  "content/posts/node_err_require_esm.md": {
+    "verified": true,
+    "verified_at": "2026-10-08",
+    "last_verified_at": "2026-10-08",
+    "history": [
+      {
+        "date": "2026-10-08",
+        "note": "新規作成。Node.js公式文書・実装、GitHub実例を照合。最小例を実行確認"
+      }
+    ]
   }
 }
