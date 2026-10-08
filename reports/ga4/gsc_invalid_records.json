@@ -1,0 +1,93 @@
+{
+  "description": "誤って 0 件・空として保存された Search Console の記録。ファイルは書き換えず、履歴・比較からこの一覧で除く。",
+  "identified_at": "2026-10-07",
+  "evidence": "GSC_OAUTH_CLIENT_ID・GSC_OAUTH_CLIENT_SECRET・GSC_OAUTH_REFRESH_TOKEN の登録が 2026-08-08。weekly_ga4.yml は GA4_OAUTH_CLIENT_ID・GA4_OAUTH_CLIENT_SECRET と GSC_OAUTH_REFRESH_TOKEN を組み合わせていた。実行ログ: 2026-08-02（run 30771293046）は raw rows 58 で成功、2026-08-09（31339818759）・08-16（31976340427）・10-05（37248224049）は unauthorized_client",
+  "records": [
+    {
+      "file": "gsc_20260809.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260809.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260816.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260816.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260823.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260823.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260831.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260831.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260906.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260906.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260914.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260914.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260921.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260921.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20260928.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20260928.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "gsc_20261005.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が total_pages=0 として保存した"
+    },
+    {
+      "file": "weekly_report_20261005.json",
+      "reason": "週次の Search Console 取得が unauthorized_client で失敗したが、旧実装が失敗を空の値として保存した（gsc.current={}）"
+    },
+    {
+      "file": "monthly_report_202608.json",
+      "reason": "月次の Search Console 取得が同じ認証の組み合わせで失敗し、gsc.current={} として保存された"
+    },
+    {
+      "file": "monthly_report_202609.json",
+      "reason": "月次の Search Console 取得が同じ認証の組み合わせで失敗し、gsc.current={} として保存された"
+    }
+  ],
+  "suspected": [
+    {
+      "file": "gsc_20260614.json",
+      "reason": "total_pages=0 だが、同じ日の weekly_report_20260614.json には表示回数 560 がある。実行ログに取得の記録がなく、原因は未確認。履歴からは除いていない（gsc_*.json は週次・月次の履歴に使われない）"
+    }
+  ]
+}

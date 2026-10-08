@@ -1,0 +1,64 @@
+name: Inspect Index Status (read-only)
+
+# Search Console のサイトマップ状態と URL 検査の結果を読み取る。
+# 読み取り専用: リポジトリに書き込まない。ライブテストと登録リクエストは行わない（API にもない）。
+# 結果は artifact（index-status）に保存する。
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "初回公開日がこの日以降の記事を検査する（YYYY-MM-DD）"
+        required: true
+        default: "2026-07-01"
+      limit:
+        description: "検査件数の上限（0 は対象全件。最初は少数で確認する）"
+        required: true
+        default: "3"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: inspect-index-status
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 初回公開日を Git 履歴から求めるため全履歴を取得する
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth
+
+      - name: Inspect sitemap and URLs
+        env:
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
+          INPUT_SINCE: ${{ github.event.inputs.since }}
+          INPUT_LIMIT: ${{ github.event.inputs.limit }}
+        run: |
+          python scripts/inspect_index_status.py \
+            --since "$INPUT_SINCE" \
+            --limit "$INPUT_LIMIT" \
+            --out-dir "$RUNNER_TEMP/index-status"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: index-status
+          path: ${{ runner.temp }}/index-status/
+          if-no-files-found: warn
+          retention-days: 30

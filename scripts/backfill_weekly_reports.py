@@ -51,13 +51,18 @@ def _existing_run_dates() -> list[date]:
 
 def _load_previous_weekly_reports_for(output_path: Path, limit: int = 8) -> list[dict]:
     reports = []
+    invalid = weekly.load_invalid_gsc_records()
     for path in sorted(REPORTS_DIR.glob("weekly_report_*.json"), reverse=True):
         if path == output_path:
             continue
         try:
-            reports.append(json.loads(path.read_text(encoding="utf-8")))
+            report = json.loads(path.read_text(encoding="utf-8"))
         except Exception as e:
             print(f"  [WARN] weekly report履歴読み込みエラー {path.name}: {e}")
+            continue
+        report["_file"] = path.name
+        report["_gsc_invalid"] = path.name in invalid or not weekly.gsc_fetch_ok(report)
+        reports.append(report)
         if len(reports) >= limit:
             break
     return reports

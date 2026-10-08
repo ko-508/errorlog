@@ -374,42 +374,21 @@ def _sig(value: float, good: float, bad: float, lower_is_better: bool = False) -
 
 # ── GSC Auth ──────────────────────────────────────────────────────────────────
 
-_GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+sys.path.insert(0, str(Path(__file__).parent))
+import gsc_client  # noqa: E402
+from gsc_client import GscError  # noqa: E402
+
+# 誤って 0 件として保存された過去の記録の一覧（履歴・比較から除く）
+GSC_INVALID_RECORDS_FILE = BASE / "reports" / "ga4" / "gsc_invalid_records.json"
 
 
 def _build_gsc_service():
-    from googleapiclient.discovery import build
-
-    sa_json = (
-        os.environ.get("GSC_SERVICE_ACCOUNT_KEY", "").strip()
-        or os.environ.get("GA4_SERVICE_ACCOUNT_KEY", "").strip()
-    )
-    if sa_json:
-        from google.oauth2.service_account import Credentials
-        info  = json.loads(sa_json)
-        creds = Credentials.from_service_account_info(info, scopes=_GSC_SCOPES)
-        return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
-
-    client_id     = (os.environ.get("GSC_OAUTH_CLIENT_ID")     or os.environ.get("GA4_OAUTH_CLIENT_ID",     "")).strip()
-    client_secret = (os.environ.get("GSC_OAUTH_CLIENT_SECRET") or os.environ.get("GA4_OAUTH_CLIENT_SECRET", "")).strip()
-    refresh_token = (os.environ.get("GSC_OAUTH_REFRESH_TOKEN") or os.environ.get("GA4_OAUTH_REFRESH_TOKEN", "")).strip()
-
-    if all([client_id, client_secret, refresh_token]):
-        from google.oauth2.credentials import Credentials
-        creds = Credentials(
-            token=None,
-            refresh_token=refresh_token,
-            client_id=client_id,
-            client_secret=client_secret,
-            token_uri="https://oauth2.googleapis.com/token",
-            scopes=_GSC_SCOPES,
-        )
-        return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
-
-    raise RuntimeError("GSC auth missing")
+    """Search Console API のクライアント。認証の規則は gsc_client.build_service。"""
+    return gsc_client.build_service()
 
 
 def _gsc_query(service, dimensions: list[str], row_limit: int = 1000, start_date=None, end_date=None) -> list[dict]:
+    """searchanalytics.query。失敗は GscError として呼び出し元に伝える。"""
     if start_date is None or end_date is None:
         end   = (TODAY - timedelta(days=3)).strftime("%Y-%m-%d")
         start = (TODAY - timedelta(days=9)).strftime("%Y-%m-%d")
@@ -423,14 +402,8 @@ def _gsc_query(service, dimensions: list[str], row_limit: int = 1000, start_date
         "rowLimit":   row_limit,
         "dataState":  "all",
     }
-    try:
-        resp = service.searchanalytics().query(siteUrl=SITE_URL, body=body).execute()
-    except Exception as e:
-        print(f"  [WARN] GSC query failed (dims={dimensions}): {e}")
-        return []
-
     rows = []
-    for r in resp.get("rows", []):
+    for r in gsc_client.search_analytics(service, SITE_URL, body):
         keys  = r.get("keys", [])
         entry = {d: keys[i] for i, d in enumerate(dimensions) if i < len(keys)}
         entry.update({
@@ -443,26 +416,53 @@ def _gsc_query(service, dimensions: list[str], row_limit: int = 1000, start_date
     return rows
 
 
+def load_invalid_gsc_records() -> set[str]:
+    """誤って 0 件として保存された記録のファイル名の集合。"""
+    if not GSC_INVALID_RECORDS_FILE.exists():
+        return set()
+    data = json.loads(GSC_INVALID_RECORDS_FILE.read_text(encoding="utf-8"))
+    return {item["file"] for item in data.get("records", [])}
+
+
+def gsc_fetch_ok(report: dict) -> bool:
+    """週次・月次レポートの GSC が、正常に取得された記録かを返す。
+
+    fetch_status がない古い記録は、誤った 0 件の一覧に載っていなければ取得済みとみなす。
+    """
+    status = (report.get("gsc") or {}).get("fetch_status") or report.get("gsc_fetch_status")
+    if status is None:
+        return True
+    return status.get("status") == gsc_client.STATUS_OK
+
+
 # ── GSC: fetch data ────────────────────────────────────────────────────────────
 
-def fetch_gsc_data() -> tuple[list[dict], dict, dict]:
-    """ボトルネック記事とサイト全体サマリーをまとめて取得する。"""
+def fetch_gsc_data() -> tuple[list[dict], dict | None, dict | None, dict]:
+    """ボトルネック記事とサイト全体サマリーをまとめて取得する。
+
+    戻り値の最後は取得状態（gsc_client.fetch_status）。失敗時、サマリーは None になる
+    （0 件の実績と区別するため）。
+    """
     try:
         service = _build_gsc_service()
-    except Exception as e:
-        print(f"  [WARN] GSC auth failed: {e}")
-        return [], {}, {}
-
-    current_start, current_end = _date_range_pair()
-    previous_start, previous_end = _previous_range(current_start, current_end)
-    bottlenecks  = _fetch_gsc_bottlenecks(service, current_start, current_end)
-    site_summary = _fetch_gsc_site_summary(service, current_start, current_end)
-    previous_summary = _fetch_gsc_site_summary(service, previous_start, previous_end)
-    return bottlenecks, site_summary, previous_summary
+        permission = gsc_client.verify_property_access(service, SITE_URL)
+        current_start, current_end = _date_range_pair()
+        previous_start, previous_end = _previous_range(current_start, current_end)
+        bottlenecks  = _fetch_gsc_bottlenecks(service, current_start, current_end)
+        site_summary = _fetch_gsc_site_summary(service, current_start, current_end)
+        previous_summary = _fetch_gsc_site_summary(service, previous_start, previous_end)
+    except GscError as e:
+        print(f"  [ERROR] Search Console の取得に失敗しました（{e.kind}）: {e}", file=sys.stderr)
+        return [], None, None, gsc_client.fetch_status(gsc_client.STATUS_FAILED, error=e)
+    status = gsc_client.fetch_status(gsc_client.STATUS_OK, extra={"permission": permission})
+    return bottlenecks, site_summary, previous_summary, status
 
 
 def _fetch_gsc_site_summary(service, start_date=None, end_date=None) -> dict:
-    """GSCのサイト全体週次集計（インプレッション・クリック・掲載順位・CTR）を返す。"""
+    """GSCのサイト全体週次集計（インプレッション・クリック・掲載順位・CTR）を返す。
+
+    API が正常に応答して行が 0 件なら、正常に取得できた 0 として返す。失敗は GscError。
+    """
     if start_date is None or end_date is None:
         end   = (TODAY - timedelta(days=3)).strftime("%Y-%m-%d")
         start = (TODAY - timedelta(days=9)).strftime("%Y-%m-%d")
@@ -474,13 +474,7 @@ def _fetch_gsc_site_summary(service, start_date=None, end_date=None) -> dict:
         "endDate":   end,
         "dataState": "all",
     }
-    try:
-        resp = service.searchanalytics().query(siteUrl=SITE_URL, body=body).execute()
-    except Exception as e:
-        print(f"  [WARN] GSC site summary failed: {e}")
-        return {}
-
-    rows = resp.get("rows", [])
+    rows = gsc_client.search_analytics(service, SITE_URL, body)
     if not rows:
         return {"impressions": 0, "clicks": 0, "ctr": 0.0, "position": 0.0}
     r = rows[0]
@@ -974,13 +968,18 @@ def build_gsc_comparison(current: dict, previous: dict | None) -> dict:
 
 def _load_previous_weekly_reports(limit: int = 8) -> list[dict]:
     reports = []
+    invalid = load_invalid_gsc_records()
     for path in sorted(REPORTS_DIR.glob("weekly_report_*.json"), reverse=True):
         if path == REPORT_FILE:
             continue
         try:
-            reports.append(json.loads(path.read_text(encoding="utf-8")))
+            report = json.loads(path.read_text(encoding="utf-8"))
         except Exception as e:
             print(f"  [WARN] weekly report履歴読み込みエラー {path.name}: {e}")
+            continue
+        report["_file"] = path.name
+        report["_gsc_invalid"] = path.name in invalid or not gsc_fetch_ok(report)
+        reports.append(report)
         if len(reports) >= limit:
             break
     return reports
@@ -994,6 +993,9 @@ def _extract_gsc_history(current_period: str, current_gsc: dict, previous_report
             **{k: current_gsc.get(k, 0) for k in ("impressions", "clicks", "ctr", "position")},
         })
     for report in previous_reports:
+        if report.get("_gsc_invalid"):
+            # 取得失敗、または誤って 0 件として保存された記録は履歴に入れない
+            continue
         gsc = report.get("gsc_summary") or report.get("gsc", {}).get("current") or {}
         if not gsc:
             continue
@@ -1315,15 +1317,22 @@ def _build_weekly_overview_section(
     gsc_change: dict,
     article_progress: dict,
     bottlenecks: list[dict],
+    fetch_status: dict | None = None,
 ) -> str:
     top = ", ".join(_slug_from_url(b.get("page", "")) for b in bottlenecks[:3]) or "該当なし"
     judgement = judge_overall_summary(gsc_change, ga4_change)
+    if fetch_status is not None and fetch_status.get("status") != gsc_client.STATUS_OK:
+        gsc_lines = "- GSC: 🚨 取得失敗（表示回数・クリック数・掲載順位は未取得）"
+    else:
+        gsc_lines = (
+            f"- GSC表示回数: {_fmt_int(gsc_summary.get('impressions'))}（前週比 {_format_change(gsc_change['impressions'])}）\n"
+            f"- GSCクリック数: {_fmt_int(gsc_summary.get('clicks'))}（前週比 {_format_change(gsc_change['clicks'])}）\n"
+            f"- 平均掲載順位: {_fmt_float(gsc_summary.get('position'))}（前週 {_fmt_previous(gsc_change['position'], _fmt_float)}）"
+        )
     return f"""## 今週の総括
 
 - GA4 Organic Searchセッション: {_fmt_int(ga4_metrics.get('organic_sessions'))}（前週比 {_format_change(ga4_change['organic_sessions'])}）
-- GSC表示回数: {_fmt_int(gsc_summary.get('impressions'))}（前週比 {_format_change(gsc_change['impressions'])}）
-- GSCクリック数: {_fmt_int(gsc_summary.get('clicks'))}（前週比 {_format_change(gsc_change['clicks'])}）
-- 平均掲載順位: {_fmt_float(gsc_summary.get('position'))}（前週 {_fmt_previous(gsc_change['position'], _fmt_float)}）
+{gsc_lines}
 - 今週の修正記事数: {_fmt_int(article_progress.get('weekly_modified'))}
 - 今週の新規記事数: {_fmt_int(article_progress.get('weekly_new'))}
 - 最優先対応記事: {top}
@@ -1363,7 +1372,13 @@ def _build_ga4_comparison_section(m: dict, ga4_change: dict) -> str:
 | フロントエラー発生数 | {m['js_errors']:,}件 | {"✅ エラーなし" if m['js_errors'] == 0 else f"🔴 {m['js_errors']}件検出"} |"""
 
 
-def _build_gsc_summary_section(gsc_summary: dict, gsc_change: dict) -> str:
+def _build_gsc_summary_section(gsc_summary: dict, gsc_change: dict, fetch_status: dict | None = None) -> str:
+    if fetch_status is not None and fetch_status.get("status") != gsc_client.STATUS_OK:
+        return f"""### 2. Search Console サイト全体サマリー
+
+**🚨 Search Console の取得に失敗しました（{fetch_status.get('error_kind', '不明')}）。** 表示回数は 0 ではなく未取得です。
+
+> {fetch_status.get('error', '')}"""
     if not gsc_summary:
         return """### 2. Search Console サイト全体サマリー
 
@@ -1506,6 +1521,7 @@ def render_issue_body(
     content_gap_section: str = "",
     indexnow_section: str = "",
     host_summary_section: str = "",
+    gsc_fetch_status: dict | None = None,
 ) -> str:
     if gsc_summary is None:
         gsc_summary = {}
@@ -1522,11 +1538,11 @@ def render_issue_body(
         f"## 週次統合分析レポート（{period}）\n\n"
         + _build_anomaly_section(gsc_change, ga4_change)
         + "\n\n---\n\n"
-        + _build_weekly_overview_section(m, ga4_change, gsc_summary, gsc_change, article_progress, sort_bottlenecks(bottlenecks))
+        + _build_weekly_overview_section(m, ga4_change, gsc_summary, gsc_change, article_progress, sort_bottlenecks(bottlenecks), gsc_fetch_status)
         + "\n\n---\n\n"
         + _build_ga4_comparison_section(m, ga4_change)
         + "\n\n---\n\n"
-        + _build_gsc_summary_section(gsc_summary, gsc_change)
+        + _build_gsc_summary_section(gsc_summary, gsc_change, gsc_fetch_status)
         + "\n\n---\n\n"
         + _build_bottleneck_section(bottlenecks)
         + "\n\n---\n\n"
@@ -1572,7 +1588,8 @@ def main() -> None:
     previous_metrics = compute_metrics(previous_raw_data)
 
     print("[3/3] Fetching GSC data...")
-    bottlenecks, gsc_summary, previous_gsc_summary = fetch_gsc_data()
+    bottlenecks, gsc_summary, previous_gsc_summary, gsc_fetch_status = fetch_gsc_data()
+    gsc_ok = gsc_fetch_status["status"] == gsc_client.STATUS_OK
 
     noise_section        = _build_noise_section()
     country_section      = _build_country_section(raw_data.get("countries", []))
@@ -1584,7 +1601,7 @@ def main() -> None:
     rewrite_tracking     = load_rewrite_tracking()
     index_status         = load_index_status()
     previous_reports     = _load_previous_weekly_reports()
-    gsc_history          = _extract_gsc_history(period, gsc_summary, previous_reports)
+    gsc_history          = _extract_gsc_history(period, gsc_summary if gsc_ok else {}, previous_reports)
     # competitor_section = _load_competitor_section()  # 競合スクレイピングは無効化中
     if content_gap_section:
         print("  → Content Gap データあり（Issueに追記します）")
@@ -1605,10 +1622,13 @@ def main() -> None:
         indexnow_section=indexnow_section,
         content_gap_section=content_gap_section,
         host_summary_section=host_summary_section,
+        gsc_fetch_status=gsc_fetch_status,
     )
     issue_title = f"【週次レポート】GA4 + GSC ボトルネック ({TODAY.isoformat()})"
     ga4_change = build_ga4_comparison(metrics, previous_metrics)
-    gsc_change = build_gsc_comparison(gsc_summary, previous_gsc_summary)
+    # 取得失敗のときは比較を作らない（0 との比較にしない）
+    gsc_change = build_gsc_comparison(gsc_summary, previous_gsc_summary) if gsc_ok else None
+    summary_gsc_change = gsc_change if gsc_change is not None else {}
 
     output = {
         "generated_at":      TODAY.isoformat(),
@@ -1626,10 +1646,11 @@ def main() -> None:
         "bottlenecks_count": len(bottlenecks),
         "summary": {
             "judgement": judge_overall_summary(
-                gsc_change,
+                summary_gsc_change,
                 ga4_change,
             ),
-            "anomalies": build_anomaly_alerts(gsc_change, ga4_change),
+            "anomalies": build_anomaly_alerts(summary_gsc_change, ga4_change)
+            + ([] if gsc_ok else ["🚨 Search Console の取得に失敗しました（数値は未取得）。"]),
             "top_bottlenecks": [_slug_from_url(b.get("page", "")) for b in sort_bottlenecks(bottlenecks)[:3]],
         },
         "metrics_snapshot": {
@@ -1650,6 +1671,7 @@ def main() -> None:
             "change": ga4_change,
         },
         "gsc": {
+            "fetch_status": gsc_fetch_status,
             "current": gsc_summary,
             "previous": previous_gsc_summary,
             "change": gsc_change,
@@ -1668,8 +1690,10 @@ def main() -> None:
     print(f"\nSaved: {REPORT_FILE.relative_to(BASE)}")
     print(f"  active_users={metrics['active_users']}, sessions={metrics['sessions']}, "
           f"organic_ratio={metrics['organic_ratio']:.1%}, bottlenecks={len(bottlenecks)}")
-    if gsc_summary:
+    if gsc_ok and gsc_summary:
         print(f"  gsc_impressions={gsc_summary['impressions']:,}, avg_position={gsc_summary['position']:.1f}")
+    if not gsc_ok:
+        print("  [ERROR] Search Console は取得失敗として記録しました（GA4 部分のレポートは保存済み）。", file=sys.stderr)
     print("Done.")
 
 

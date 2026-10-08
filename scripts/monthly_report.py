@@ -191,23 +191,27 @@ def monthly_report_path(start: date) -> Path:
     return REPORTS_DIR / f"monthly_report_{start.strftime('%Y%m')}.json"
 
 
-def fetch_monthly_gsc(start: date, end: date, previous_start: date, previous_end: date) -> tuple[list[dict], dict, dict, list[dict]]:
+def fetch_monthly_gsc(
+    start: date, end: date, previous_start: date, previous_end: date
+) -> tuple[list[dict], dict | None, dict | None, list[dict], dict]:
+    """月次の GSC を取得する。最後の戻り値は取得状態。失敗時、サマリーは None。"""
     try:
         service = weekly._build_gsc_service()
-    except Exception as e:
-        print(f"  [WARN] GSC auth failed: {e}")
-        return [], {}, {}, []
+        permission = weekly.gsc_client.verify_property_access(service, weekly.SITE_URL)
+        current_bottlenecks = weekly._fetch_gsc_bottlenecks(service, start, end)
+        previous_bottlenecks = weekly._fetch_gsc_bottlenecks(service, previous_start, previous_end)
+        current_summary = weekly._fetch_gsc_site_summary(service, start, end)
+        previous_summary = weekly._fetch_gsc_site_summary(service, previous_start, previous_end)
+    except weekly.GscError as e:
+        print(f"  [ERROR] Search Console の取得に失敗しました（{e.kind}）: {e}")
+        status = weekly.gsc_client.fetch_status(weekly.gsc_client.STATUS_FAILED, error=e)
+        return [], None, None, [], status
 
-    current_bottlenecks = weekly._fetch_gsc_bottlenecks(service, start, end)
-    previous_bottlenecks = weekly._fetch_gsc_bottlenecks(service, previous_start, previous_end)
     previous_pages = {b.get("page") for b in previous_bottlenecks}
-
     for item in current_bottlenecks:
         item["status"] = "継続" if item.get("page") in previous_pages else "新規"
-
-    current_summary = weekly._fetch_gsc_site_summary(service, start, end)
-    previous_summary = weekly._fetch_gsc_site_summary(service, previous_start, previous_end)
-    return current_bottlenecks, current_summary, previous_summary, previous_bottlenecks
+    status = weekly.gsc_client.fetch_status(weekly.gsc_client.STATUS_OK, extra={"permission": permission})
+    return current_bottlenecks, current_summary, previous_summary, previous_bottlenecks, status
 
 
 def build_monthly_anomaly_alerts(
@@ -598,11 +602,16 @@ def load_monthly_history(current_output: dict | None = None, limit: int = 6) -> 
     if current_output:
         rows.append(_history_row_from_report(current_output))
 
+    invalid = weekly.load_invalid_gsc_records()
     for path in sorted(REPORTS_DIR.glob("monthly_report_*.json"), reverse=True):
         data = read_report_json(path)
         if not data:
             continue
         row = _history_row_from_report(data)
+        if path.name in invalid:
+            # 誤って 0 件として保存された月は、GSC の値を未取得にする
+            for key in ("impressions", "clicks", "ctr", "position"):
+                row[key] = None
         if current_output and row.get("month") == current_output.get("month"):
             continue
         rows.append(row)
@@ -627,7 +636,18 @@ def _history_row_from_report(report: dict) -> dict:
         "position": gsc.get("position", 0.0),
         "modified": current_progress.get("modified", current_progress.get("weekly_modified", 0)),
         "added": current_progress.get("added", current_progress.get("weekly_new", 0)),
+        **(
+            {}
+            if weekly.gsc_fetch_ok(report)
+            # GSC が取得失敗の月は、0 ではなく未取得として扱う
+            else {"impressions": None, "clicks": None, "ctr": None, "position": None}
+        ),
     }
+
+
+def _gsc_history_value(value, formatter) -> str:
+    """GSC の履歴の値。None（取得失敗・誤った記録）は 0 と表示せず「未取得」とする。"""
+    return "未取得" if value is None else formatter(value)
 
 
 def _build_monthly_history_section(history: list[dict]) -> str:
@@ -636,8 +656,8 @@ def _build_monthly_history_section(history: list[dict]) -> str:
     rows = "\n".join(
         f"| {h.get('month', '')} | {weekly._fmt_int(h.get('active_users'))} | "
         f"{weekly._fmt_int(h.get('sessions'))} | {weekly._fmt_int(h.get('organic_sessions'))} | "
-        f"{weekly._fmt_int(h.get('impressions'))} | {weekly._fmt_int(h.get('clicks'))} | "
-        f"{weekly._fmt_rate(h.get('ctr'))} | {weekly._fmt_float(h.get('position'))} | "
+        f"{_gsc_history_value(h.get('impressions'), weekly._fmt_int)} | {_gsc_history_value(h.get('clicks'), weekly._fmt_int)} | "
+        f"{_gsc_history_value(h.get('ctr'), weekly._fmt_rate)} | {_gsc_history_value(h.get('position'), weekly._fmt_float)} | "
         f"{weekly._fmt_int(h.get('modified'))} | {weekly._fmt_int(h.get('added'))} |"
         for h in history
     )
@@ -923,11 +943,18 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
     if previous_metrics.get("status") != "ok":
         data_status.append(f"GA4前月データ: {previous_metrics.get('status')} ({previous_metrics.get('reason')})")
 
-    bottlenecks, gsc_summary, previous_gsc_summary, _previous_bottlenecks = fetch_monthly_gsc(
+    bottlenecks, gsc_summary, previous_gsc_summary, _previous_bottlenecks, gsc_fetch_status = fetch_monthly_gsc(
         start, end, previous_start, previous_end
     )
-    if not gsc_summary:
-        data_status.append("GSCデータ取得失敗またはデータなし")
+    gsc_ok = gsc_fetch_status["status"] == weekly.gsc_client.STATUS_OK
+    if not gsc_ok:
+        data_status.append(
+            f"GSCデータ取得失敗（{gsc_fetch_status.get('error_kind')}）: 表示回数などは 0 ではなく未取得"
+        )
+        gsc_summary = {}
+        previous_gsc_summary = {}
+    elif not gsc_summary.get("impressions"):
+        data_status.append("GSCは正常に取得し、対象期間の表示回数は 0 でした")
 
     rewrite_tracking = load_monthly_rewrite_tracking(start, end, today=run_date)
     article_progress = build_monthly_article_progress(start, end, previous_start, previous_end)
@@ -962,9 +989,10 @@ def build_monthly_output(run_date: date = TODAY) -> dict:
             "host_breakdown": host_summary.get("hosts", []),
         },
         "gsc": {
-            "current": gsc_summary,
-            "previous": previous_gsc_summary,
-            "change": gsc_change,
+            "fetch_status": gsc_fetch_status,
+            "current": gsc_summary if gsc_ok else None,
+            "previous": previous_gsc_summary if gsc_ok else None,
+            "change": gsc_change if gsc_ok else None,
             "bottlenecks": weekly.sort_bottlenecks(bottlenecks),
         },
         "rewrite_tracking": rewrite_tracking,

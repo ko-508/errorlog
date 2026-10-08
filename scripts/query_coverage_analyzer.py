@@ -301,17 +301,15 @@ def _suggest_title(query: str, service: str = "") -> str:
 def _load_queries_from_gsc() -> list[dict]:
     """GSC API から全クエリデータを取得する（dimensions=["query"]）。"""
     sys.path.insert(0, str(SCRIPTS_DIR))
-    try:
-        from fetch_search_console import _build_service, _query as _gsc_query
-    except ImportError as e:
-        print(f"  [WARN] fetch_search_console import failed: {e}")
-        return []
+    from fetch_search_console import _build_service, _query as _gsc_query
+    from gsc_client import GscError
     try:
         service = _build_service()
-    except Exception as e:
-        print(f"  [WARN] GSC auth failed: {e}")
-        return []
-    rows   = _gsc_query(service, ["query"])
+        rows    = _gsc_query(service, ["query"])
+    except GscError as e:
+        # 取得失敗を「クエリ 0 件」として扱わない
+        print(f"[ERROR] Search Console の取得に失敗しました（{e.kind}）: {e}", file=sys.stderr)
+        sys.exit(1)
     result = [
         {
             "query":       r.get("query", "").strip(),
@@ -477,20 +475,22 @@ def main() -> None:
     articles = _build_article_index()
     print(f"  articles indexed: {len(articles)}")
 
-    gsc_available = bool(
-        os.environ.get("GSC_SERVICE_ACCOUNT_KEY", "").strip()
-        or os.environ.get("GA4_SERVICE_ACCOUNT_KEY", "").strip()
-        or (
-            os.environ.get("GA4_OAUTH_CLIENT_ID", "").strip()
-            and os.environ.get("GA4_OAUTH_REFRESH_TOKEN", "").strip()
-        )
-    )
+    sys.path.insert(0, str(SCRIPTS_DIR))
+    import gsc_client
+    gsc_env_names = (gsc_client.SERVICE_ACCOUNT_ENV_NAME, *gsc_client.OAUTH_ENV_NAMES)
+    gsc_available = any(os.environ.get(name, "").strip() for name in gsc_env_names)
+    if gsc_available:
+        try:
+            gsc_client.auth_mode()  # 一部だけの設定はここで停止する
+        except gsc_client.GscError as e:
+            print(f"[ERROR] {e}", file=sys.stderr)
+            sys.exit(1)
 
     if gsc_available:
         print("  [1/3] GSC API からクエリを取得中...")
         queries = _load_queries_from_gsc()
     else:
-        print("  [1/3] GSC auth not set - using cache (data/search_queries.json)")
+        print("  [1/3] GSC の認証設定がないため、キャッシュ（data/search_queries.json）を使います（Search Console からは未取得）")
         queries = _load_queries_from_cache()
 
     if not queries:

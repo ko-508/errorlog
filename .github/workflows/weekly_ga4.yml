@@ -61,15 +61,17 @@ jobs:
       #   continue-on-error: true
       #   run: python scripts/scan_competitors.py
 
+      # GSC は GSC_* の組だけで認証する（GA4 のクライアントと GSC の更新トークンを混ぜると unauthorized_client になる）。
+      # 失敗しても週次レポート（GA4 部分）は作り、最後の "Fail on Search Console fetch failure" でジョブを失敗にする。
       - name: Run Search Console analysis
         id: fetch_gsc
+        continue-on-error: true
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
           GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GA4_SERVICE_ACCOUNT_KEY: ${{ secrets.GA4_SERVICE_ACCOUNT_KEY }}
-          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
-          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
-          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/fetch_search_console.py
 
       - name: Run weekly unified report
@@ -80,9 +82,11 @@ jobs:
           GA4_OAUTH_CLIENT_ID:      ${{ secrets.GA4_OAUTH_CLIENT_ID }}
           GA4_OAUTH_CLIENT_SECRET:  ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
           GA4_OAUTH_REFRESH_TOKEN:  ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
-          GSC_SITE_URL:             ${{ secrets.GSC_SITE_URL }}
-          GSC_SERVICE_ACCOUNT_KEY:  ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GSC_OAUTH_REFRESH_TOKEN:  ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/weekly_report.py
 
       - name: Run Content Gap Analyzer
@@ -91,9 +95,9 @@ jobs:
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
           GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
-          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
-          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/query_coverage_analyzer.py
 
       - name: Update rewrite experiment results
@@ -102,9 +106,9 @@ jobs:
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
           GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
-          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
-          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/update_rewrite_results.py
 
       - name: Collect step status
@@ -124,7 +128,7 @@ jobs:
           steps = [
             {"id": "ga4_analyzer",    "name": "GA4分析",            "outcome": os.getenv("STATUS_GA4_ANALYZER"),    "continue_on_error": False, "impact": "GA4トラフィックデータが更新されていません"},
             {"id": "ga4_feedback",    "name": "GA4フィードバック",  "outcome": os.getenv("STATUS_GA4_FEEDBACK"),    "continue_on_error": False, "impact": "リライト優先度スコアが更新されていません"},
-            {"id": "fetch_gsc",       "name": "Search Console取得", "outcome": os.getenv("STATUS_FETCH_GSC"),       "continue_on_error": False, "impact": "GSCボトルネック・クエリデータが更新されていません"},
+            {"id": "fetch_gsc",       "name": "Search Console取得", "outcome": os.getenv("STATUS_FETCH_GSC"),       "continue_on_error": True,  "impact": "GSCは取得失敗として記録されました（0件の実績ではありません）。ジョブは最後に失敗になります"},
             {"id": "weekly_report",   "name": "週次レポート生成",   "outcome": os.getenv("STATUS_WEEKLY_REPORT"),   "continue_on_error": False, "impact": "Issueが生成されない可能性があります"},
             {"id": "content_gap",     "name": "Content Gap分析",    "outcome": os.getenv("STATUS_CONTENT_GAP"),     "continue_on_error": True,  "impact": "Content Gap分析は今週更新されていません"},
             {"id": "rewrite_results", "name": "リライト実績更新",   "outcome": os.getenv("STATUS_REWRITE_RESULTS"), "continue_on_error": True,  "impact": "CTR実験のafter指標が更新されていません"},
@@ -229,10 +233,11 @@ jobs:
                 }
               }
 
-              // GSCデータ空欄警告（認証失敗時に gsc_summary が {} になる）
-              const gsc = data.gsc_summary || {};
-              if (Object.keys(gsc).length === 0) {
-                lines.push('\n> 🔴 **GSCデータ取得失敗の可能性**: Search Console データが空です。認証トークンを確認してください。\n');
+              // GSC の取得状態（failed は 0 件の実績ではない）
+              const gscStatus = (data.gsc && data.gsc.fetch_status) || null;
+              if (!gscStatus || gscStatus.status !== 'ok') {
+                const kind = gscStatus ? (gscStatus.error_kind || '不明') : '状態の記録なし';
+                lines.push(`\n> 🔴 **Search Console の取得に失敗しました（${kind}）**: 表示回数などは 0 ではなく未取得です。GSC_OAUTH_* の設定を確認してください。\n`);
               }
 
               statusSection = lines.join('\n') + '\n---\n\n';
@@ -263,6 +268,35 @@ jobs:
               labels: ['weekly-report'],
             });
             console.log(`Issue created: #${issue.number}  ${issue.html_url}`);
+
+      # GSC の取得失敗を、ジョブの失敗として検知する（Issue の作成とコミットの後に判定する）
+      - name: Fail on Search Console fetch failure
+        if: always()
+        env:
+          STATUS_FETCH_GSC: ${{ steps.fetch_gsc.outcome }}
+        run: |
+          python - <<'PYEOF'
+          import json, os, sys
+          from pathlib import Path
+
+          problems = []
+          if os.environ.get("STATUS_FETCH_GSC") != "success":
+              problems.append(f"fetch_search_console.py: outcome={os.environ.get('STATUS_FETCH_GSC')}")
+          reports = sorted(Path("reports/ga4").glob("weekly_report_*.json"), reverse=True)
+          if not reports:
+              problems.append("weekly_report の JSON がありません")
+          else:
+              data = json.loads(reports[0].read_text(encoding="utf-8"))
+              status = (data.get("gsc") or {}).get("fetch_status") or {}
+              if status.get("status") != "ok":
+                  problems.append(f"{reports[0].name}: gsc.fetch_status={status.get('status')} ({status.get('error_kind')})")
+          if problems:
+              print("Search Console の取得に失敗しています:", file=sys.stderr)
+              for item in problems:
+                  print(f"  - {item}", file=sys.stderr)
+              sys.exit(1)
+          print("Search Console の取得: ok")
+          PYEOF
 
       - name: Notify on failure
         if: failure()

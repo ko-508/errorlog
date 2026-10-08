@@ -6,9 +6,13 @@ Google Search Console API から過去7日間の検索パフォーマンスデ�
   reports/ga4/gsc_YYYYMMDD.json   ボトルネックデータ（Issue 起票用）
   scripts/rewrite_priority.json   top_query を追記（refresh_articles.py 連携）
 
-認証（優先順）:
+認証（どちらか一方。詳細は scripts/gsc_client.py）:
   GSC_SERVICE_ACCOUNT_KEY   サービスアカウント JSON 文字列
-  GA4_SERVICE_ACCOUNT_KEY   フォールバック（同一 SA が GSC にもアクセス権を持つ場合）
+  GSC_OAUTH_CLIENT_ID + GSC_OAUTH_CLIENT_SECRET + GSC_OAUTH_REFRESH_TOKEN
+
+取得状態:
+  reports/ga4/gsc_YYYYMMDD.json の fetch_status.status に ok / failed を必ず書く。
+  失敗時は failed を記録して終了コード 1 で終わる（0 件の実績としては保存しない）。
 """
 
 import json
@@ -48,56 +52,17 @@ PRIORITY_REPORT_FILE = SCRIPTS_DIR / "rewrite_priority_report.json"
 MIN_IMPRESSIONS_FOR_REWRITE = int(os.getenv("MIN_IMPRESSIONS_FOR_REWRITE", "50"))
 
 
-# ── Authentication ────────────────────────────────────────────────────────────
+# ── Authentication / API helpers ──────────────────────────────────────────────
 
-_GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
+sys.path.insert(0, str(Path(__file__).parent))
+import gsc_client  # noqa: E402
+from gsc_client import GscError  # noqa: E402
 
 
 def _build_service():
-    """認証優先順:
-    1. GSC_SERVICE_ACCOUNT_KEY  サービスアカウント JSON（Search Console にユーザー追加不要）
-    2. GA4_SERVICE_ACCOUNT_KEY  同上（GA4 と共用 SA の場合）
-    3. GSC_OAUTH_* / GA4_OAUTH_* OAuth2リフレッシュトークン（Search Console プロパティへ
-       アクセス権を持つ Google アカウントで取得したもの）
-    """
-    from googleapiclient.discovery import build
+    """Search Console API のクライアント。認証の規則は gsc_client.build_service。"""
+    return gsc_client.build_service()
 
-    # ── サービスアカウント ──────────────────────────────────────────────────
-    sa_json = (
-        os.environ.get("GSC_SERVICE_ACCOUNT_KEY", "").strip()
-        or os.environ.get("GA4_SERVICE_ACCOUNT_KEY", "").strip()
-    )
-    if sa_json:
-        from google.oauth2.service_account import Credentials
-        info  = json.loads(sa_json)
-        creds = Credentials.from_service_account_info(info, scopes=_GSC_SCOPES)
-        return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
-
-    # ── OAuth2（GA4_OAUTH_* または GSC_OAUTH_* を流用） ───────────────────
-    client_id     = (os.environ.get("GSC_OAUTH_CLIENT_ID")     or os.environ.get("GA4_OAUTH_CLIENT_ID",     "")).strip()
-    client_secret = (os.environ.get("GSC_OAUTH_CLIENT_SECRET") or os.environ.get("GA4_OAUTH_CLIENT_SECRET", "")).strip()
-    refresh_token = (os.environ.get("GSC_OAUTH_REFRESH_TOKEN") or os.environ.get("GA4_OAUTH_REFRESH_TOKEN", "")).strip()
-
-    if all([client_id, client_secret, refresh_token]):
-        from google.oauth2.credentials import Credentials
-        creds = Credentials(
-            token=None,
-            refresh_token=refresh_token,
-            client_id=client_id,
-            client_secret=client_secret,
-            token_uri="https://oauth2.googleapis.com/token",
-            scopes=_GSC_SCOPES,
-        )
-        return build("searchconsole", "v1", credentials=creds, cache_discovery=False)
-
-    raise RuntimeError(
-        "GSC auth missing. Set one of:\n"
-        "  GSC_SERVICE_ACCOUNT_KEY  (service account JSON)\n"
-        "  GA4_OAUTH_CLIENT_ID + GA4_OAUTH_CLIENT_SECRET + GA4_OAUTH_REFRESH_TOKEN  (OAuth2)"
-    )
-
-
-# ── API helpers ───────────────────────────────────────────────────────────────
 
 def _date_range() -> dict[str, str]:
     end   = (TODAY - timedelta(days=3)).strftime("%Y-%m-%d")
@@ -106,20 +71,15 @@ def _date_range() -> dict[str, str]:
 
 
 def _query(service, dimensions: list[str], row_limit: int = ROW_LIMIT) -> list[dict]:
+    """searchanalytics.query。失敗は GscError として呼び出し元に伝える。"""
     body = {
         **_date_range(),
         "dimensions":       dimensions,
         "rowLimit":         row_limit,
         "dataState":        "all",
     }
-    try:
-        resp = service.searchanalytics().query(siteUrl=SITE_URL, body=body).execute()
-    except Exception as e:
-        print(f"  [WARN] GSC query failed (dimensions={dimensions}): {e}")
-        return []
-
     rows = []
-    for r in resp.get("rows", []):
+    for r in gsc_client.search_analytics(service, SITE_URL, body):
         keys   = r.get("keys", [])
         entry  = {d: keys[i] for i, d in enumerate(dimensions) if i < len(keys)}
         entry["impressions"] = r.get("impressions", 0)
@@ -246,11 +206,16 @@ def identify_bottlenecks(
 
 # ── Persistence ───────────────────────────────────────────────────────────────
 
-def save_gsc_report(bottlenecks: list[dict], page_rows: list[dict]) -> None:
+def save_gsc_report(bottlenecks: list[dict], page_rows: list[dict], status: dict) -> None:
+    """取得に成功したときのレポート。0 件でも status=ok なら正常に取得できた 0 件である。"""
+    if status.get("status") != gsc_client.STATUS_OK:
+        raise ValueError("save_gsc_report は取得成功のときだけ使う")
     output = {
         "generated_at":     TODAY.isoformat(),
         "site_url":         SITE_URL,
         "period_days":      7,
+        "date_range":       _date_range(),
+        "fetch_status":     status,
         "ctr_threshold":    CTR_THRESHOLD,
         "pos_range":        [POS_MIN, POS_MAX],
         "total_pages":      len(page_rows),
@@ -261,6 +226,22 @@ def save_gsc_report(bottlenecks: list[dict], page_rows: list[dict]) -> None:
         encoding="utf-8",
     )
     print(f"  GSC report: {GSC_REPORT_FILE.relative_to(BASE)}")
+
+
+def save_failed_gsc_report(error: GscError) -> None:
+    """取得に失敗したことを記録する。件数の欄（total_pages・bottlenecks）は書かない。"""
+    output = {
+        "generated_at": TODAY.isoformat(),
+        "site_url":     SITE_URL,
+        "period_days":  7,
+        "date_range":   _date_range(),
+        "fetch_status": gsc_client.fetch_status(gsc_client.STATUS_FAILED, error=error),
+    }
+    GSC_REPORT_FILE.write_text(
+        json.dumps(output, ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    print(f"  GSC report (failed): {GSC_REPORT_FILE.relative_to(BASE)}")
 
 
 def _article_title_from_slug(slug: str) -> str:
@@ -544,40 +525,36 @@ def main() -> None:
     print(f"  Site: {SITE_URL}")
 
     try:
+        print(f"  auth mode: {gsc_client.auth_mode()}")
         service = _build_service()
-    except Exception as e:
-        print(f"[ERROR] GSC auth failed: {e}", file=sys.stderr)
+        permission = gsc_client.verify_property_access(service, SITE_URL)
+        print(f"  property access: {permission}")
+
+        print("  [1/4] Fetching page metrics...")
+        raw_rows = _query(service, ["page"])
+        print(f"  raw rows from API: {len(raw_rows)}")
+        page_rows = [r for r in raw_rows if "/posts/" in r.get("page", "")]
+        print(f"  /posts/ rows after filter: {len(page_rows)}")
+
+        _qp_rows: list[dict] = []
+        if raw_rows:
+            print("  [2/4] Fetching query data per page...")
+            _qp_rows = _query(service, ["query", "page"])
+    except GscError as e:
+        print(f"[ERROR] Search Console の取得に失敗しました（{e.kind}）: {e}", file=sys.stderr)
+        save_failed_gsc_report(e)
         sys.exit(1)
 
-    # 診断: アクセス可能なプロパティ一覧
-    try:
-        sites_resp = service.sites().list().execute()
-        site_entries = sites_resp.get("siteEntry", [])
-        print(f"  accessible sites: {len(site_entries)}")
-        for s in site_entries:
-            print(f"    {s.get('permissionLevel','?'):12s}  {s.get('siteUrl','')}")
-    except Exception as e:
-        print(f"  [WARN] sites().list() failed: {e}")
-
-    print("  [1/4] Fetching page metrics...")
-    # 診断用: /posts/ フィルター前の全データを確認
-    raw_rows = _query(service, ["page"])
-    print(f"  raw rows from API: {len(raw_rows)}")
-    if raw_rows:
-        sample = raw_rows[0].get("page", "")
-        print(f"  sample page URL: {sample}")
-    page_rows = [r for r in raw_rows if "/posts/" in r.get("page", "")]
-    print(f"  /posts/ rows after filter: {len(page_rows)}")
-
-    # データが空でもレポートは常に保存する
+    status = gsc_client.fetch_status(
+        gsc_client.STATUS_OK,
+        extra={"raw_rows": len(raw_rows), "posts_rows": len(page_rows), "permission": permission},
+    )
     if not raw_rows:
-        print("  [WARN] No data returned from Search Console API.")
-        print("         Check: site URL, OAuth scope (webmasters.readonly), property access.")
-        save_gsc_report([], [])
+        # 正常に取得できた 0 件。失敗とは区別して保存する。
+        print("  [INFO] Search Console API は正常に応答し、対象期間の行は 0 件でした。")
+        save_gsc_report([], [], status)
         return
 
-    print("  [2/4] Fetching query data per page...")
-    _qp_rows = _query(service, ["query", "page"])
     top_queries = fetch_top_queries(service, rows=_qp_rows)
     print(f"  top queries resolved: {len(top_queries)} pages")
     query_aggregates = _build_query_aggregates(_qp_rows)
@@ -597,7 +574,7 @@ def main() -> None:
             + (f"\n      top_query: {b['top_query']}" if b['top_query'] else "")
         )
 
-    save_gsc_report(bottlenecks, page_rows)
+    save_gsc_report(bottlenecks, page_rows, status)
     update_priority_with_top_query(bottlenecks)
     _save_rewrite_priority_report(bottlenecks)
 

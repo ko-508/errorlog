@@ -48,9 +48,9 @@ jobs:
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
           GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
-          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
-          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/query_coverage_analyzer.py
 
       - name: Update rewrite experiment results
@@ -60,9 +60,9 @@ jobs:
         env:
           GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
           GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GA4_OAUTH_CLIENT_ID:     ${{ secrets.GA4_OAUTH_CLIENT_ID }}
-          GA4_OAUTH_CLIENT_SECRET: ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
-          GA4_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/update_rewrite_results.py
 
       - name: Run monthly unified report
@@ -74,9 +74,11 @@ jobs:
           GA4_OAUTH_CLIENT_ID:      ${{ secrets.GA4_OAUTH_CLIENT_ID }}
           GA4_OAUTH_CLIENT_SECRET:  ${{ secrets.GA4_OAUTH_CLIENT_SECRET }}
           GA4_OAUTH_REFRESH_TOKEN:  ${{ secrets.GA4_OAUTH_REFRESH_TOKEN }}
-          GSC_SITE_URL:             ${{ secrets.GSC_SITE_URL }}
-          GSC_SERVICE_ACCOUNT_KEY:  ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
-          GSC_OAUTH_REFRESH_TOKEN:  ${{ secrets.GSC_OAUTH_REFRESH_TOKEN || secrets.GA4_OAUTH_REFRESH_TOKEN }}
+          GSC_SITE_URL:            ${{ secrets.GSC_SITE_URL }}
+          GSC_SERVICE_ACCOUNT_KEY: ${{ secrets.GSC_SERVICE_ACCOUNT_KEY }}
+          GSC_OAUTH_CLIENT_ID:     ${{ secrets.GSC_OAUTH_CLIENT_ID }}
+          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
+          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
         run: python scripts/monthly_report.py
 
       - name: Collect monthly step status
@@ -215,3 +217,27 @@ jobs:
               labels: ['monthly-report'],
             });
             console.log(`Issue created: #${created.data.number} ${created.data.html_url}`);
+
+      # GSC の取得失敗を、ジョブの失敗として検知する（Issue の作成とコミットの後に判定する）
+      - name: Fail on Search Console fetch failure
+        if: always() && steps.jst_date.outputs.run_monthly == 'true'
+        run: |
+          python - <<'PYEOF'
+          import json, sys
+          from pathlib import Path
+
+          reports = sorted(Path("reports/ga4").glob("monthly_report_*.json"), reverse=True)
+          if not reports:
+              print("monthly_report の JSON がありません", file=sys.stderr)
+              sys.exit(1)
+          data = json.loads(reports[0].read_text(encoding="utf-8"))
+          status = (data.get("gsc") or {}).get("fetch_status") or {}
+          if status.get("status") != "ok":
+              print(
+                  f"Search Console の取得に失敗しています: {reports[0].name} "
+                  f"gsc.fetch_status={status.get('status')} ({status.get('error_kind')})",
+                  file=sys.stderr,
+              )
+              sys.exit(1)
+          print("Search Console の取得: ok")
+          PYEOF

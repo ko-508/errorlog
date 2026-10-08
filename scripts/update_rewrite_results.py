@@ -74,13 +74,14 @@ def main() -> None:
 
     print(f"[INFO] after 指標更新対象: {len(pending)} 件 (cutoff={cutoff})")
 
+    from gsc_client import GscError
     try:
         service = _build_service()
-    except Exception as e:
-        print(f"[ERROR] GSC 認証失敗: {e}", file=sys.stderr)
+        page_metrics = _fetch_page_metrics(service)
+    except GscError as e:
+        # 取得失敗のときは記録を更新しない（「GSC にデータなし」と区別する）
+        print(f"[ERROR] Search Console の取得に失敗しました（{e.kind}）: {e}", file=sys.stderr)
         sys.exit(1)
-
-    page_metrics = _fetch_page_metrics(service)
     print(f"[INFO] GSC page データ取得: {len(page_metrics)} URL")
 
     updated = 0
