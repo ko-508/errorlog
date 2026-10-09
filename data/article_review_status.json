@@ -1172,11 +1172,15 @@
   "content/posts/npm_eresolve.md": {
     "verified": true,
     "verified_at": "2026-08-08",
-    "last_verified_at": "2026-08-08",
+    "last_verified_at": "2026-10-09",
     "history": [
       {
         "date": "2026-08-08",
         "note": "npm の ERESOLVE を新規追加。simple 形式。While resolving / Found / Could not resolve dependency の3行を突き合わせる読み方を軸に、画面の説明が深さ4段までで全文がキャッシュの eresolve-report.txt に出ること、strict-peer-deps の既定が false であることを実装から説明"
+      },
+      {
+        "date": "2026-10-09",
+        "note": "既存記事を修正・追記。npm公式文書・現行実装・GitHub実例を照合"
       }
     ]
   },
