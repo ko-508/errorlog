@@ -1620,5 +1620,16 @@
         "note": "新規作成。Node.js公式文書・実装、GitHub実例を照合。最小例を実行確認"
       }
     ]
+  },
+  "content/posts/pip_externally_managed_environment.md": {
+    "verified": true,
+    "verified_at": "2026-10-09",
+    "last_verified_at": "2026-10-09",
+    "history": [
+      {
+        "date": "2026-10-09",
+        "note": "新規作成。PyPA・pip・Debian・Homebrew公式資料とGitHub実例を照合。venv作成とpip起動を確認"
+      }
+    ]
   }
 }
