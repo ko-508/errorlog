@@ -6,6 +6,7 @@ from scripts.article_og_image import split_title
 from scripts.publish_article import (
     ensure_article_og_image_param,
     parse_frontmatter_for_x_post,
+    print_publish_followup,
     print_x_post_fields,
     unexpected_dirty_files,
 )
@@ -79,6 +80,22 @@ body
             "\nX 投稿用\n"
             "OpenAI API の 429 エラー：原因と解決策\n"
             "https://errorlog.jp/posts/openai_api_429/?utm_source=x&utm_medium=social&utm_campaign=article_share\n",
+        )
+
+    def test_print_publish_followup_outputs_article_and_search_console_urls(self) -> None:
+        out = StringIO()
+
+        with redirect_stdout(out):
+            print_publish_followup("openai_api_429")
+
+        self.assertEqual(
+            out.getvalue(),
+            "\n公開後の確認\n"
+            "状態: push完了（本番への公開完了は未確認）\n"
+            "記事URL: https://errorlog.jp/posts/openai_api_429/\n"
+            "Search Console: https://search.google.com/search-console?resource_id=https%3A%2F%2Ferrorlog.jp%2F\n"
+            "本番で記事が表示されることを確認してください。\n"
+            "公開完了後、URL検査欄に記事URLを貼り付けて、インデックス登録をリクエストしてください。\n",
         )
 
 

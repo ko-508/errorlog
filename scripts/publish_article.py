@@ -33,6 +33,7 @@ import sys
 import time
 from datetime import date
 from pathlib import Path
+from urllib.parse import urlencode
 
 try:
     from scripts.article_og_image import article_og_rel, generate_article_og_image
@@ -58,6 +59,10 @@ LINT_REPORTS = [
 
 REVIEW_STATUS_REL = "data/article_review_status.json"
 SITE_BASE = "https://errorlog.jp"
+SEARCH_CONSOLE_PROPERTY = f"{SITE_BASE}/"
+SEARCH_CONSOLE_URL = "https://search.google.com/search-console?" + urlencode(
+    {"resource_id": SEARCH_CONSOLE_PROPERTY}
+)
 
 
 def run(cmd: list[str], check: bool = True, capture: bool = True) -> subprocess.CompletedProcess:
@@ -175,6 +180,16 @@ def print_x_post_fields(slug: str, title: str) -> None:
     print("\nX 投稿用")
     print(title)
     print(f"{SITE_BASE}/posts/{slug}/?utm_source=x&utm_medium=social&utm_campaign=article_share")
+
+
+def print_publish_followup(slug: str) -> None:
+    article_url = f"{SITE_BASE}/posts/{slug}/"
+    print("\n公開後の確認")
+    print("状態: push完了（本番への公開完了は未確認）")
+    print(f"記事URL: {article_url}")
+    print(f"Search Console: {SEARCH_CONSOLE_URL}")
+    print("本番で記事が表示されることを確認してください。")
+    print("公開完了後、URL検査欄に記事URLを貼り付けて、インデックス登録をリクエストしてください。")
 
 
 def wait_zenn_workflow(head_sha: str, branch: str) -> None:
@@ -415,6 +430,7 @@ def main() -> None:
             die("gh CLI がないため Zenn 同期を起動できません。")
 
     print_x_post_fields(args.slug, x_title)
+    print_publish_followup(args.slug)
 
 
 if __name__ == "__main__":
