@@ -3,10 +3,34 @@ from contextlib import redirect_stdout
 from io import StringIO
 
 from scripts.article_og_image import split_title
-from scripts.publish_article import ensure_article_og_image_param, parse_frontmatter_for_x_post, print_x_post_fields
+from scripts.publish_article import (
+    ensure_article_og_image_param,
+    parse_frontmatter_for_x_post,
+    print_x_post_fields,
+    unexpected_dirty_files,
+)
 
 
 class PublishArticleXPostTest(unittest.TestCase):
+    def test_target_article_og_image_is_allowed_dirty_file(self) -> None:
+        article = "content/posts/npm_eresolve.md"
+        target_og = "static/og/posts/npm_eresolve.png"
+
+        unexpected = unexpected_dirty_files({article, target_og}, article, target_og)
+
+        self.assertEqual(unexpected, set())
+
+    def test_other_article_og_image_remains_unexpected(self) -> None:
+        article = "content/posts/npm_eresolve.md"
+        target_og = "static/og/posts/npm_eresolve.png"
+        other_og = "static/og/posts/npm_e404.png"
+
+        unexpected = unexpected_dirty_files(
+            {article, target_og, other_og}, article, target_og
+        )
+
+        self.assertEqual(unexpected, {other_og})
+
     def test_parse_frontmatter_for_x_post_reads_title_and_tags(self) -> None:
         text = """---
 title: "AWS S3 の AccessDenied エラー：原因と解決策"

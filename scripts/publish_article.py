@@ -35,9 +35,9 @@ from datetime import date
 from pathlib import Path
 
 try:
-    from scripts.article_og_image import generate_article_og_image
+    from scripts.article_og_image import article_og_rel, generate_article_og_image
 except ModuleNotFoundError:
-    from article_og_image import generate_article_og_image
+    from article_og_image import article_og_rel, generate_article_og_image
 
 BASE = Path(__file__).resolve().parent.parent
 
@@ -81,6 +81,11 @@ def git_dirty_files() -> set[str]:
         if status != "??":  # 未追跡は対象外（触らない）
             dirty.add(path.replace("\\", "/"))
     return dirty
+
+
+def unexpected_dirty_files(dirty: set[str], article_rel: str, og_image_path: str) -> set[str]:
+    """対象記事とその OGP 画像以外の tracked 変更を返す。"""
+    return dirty - set(ALLOWED_DIRTY) - {article_rel, og_image_path}
 
 
 def die(msg: str) -> None:
@@ -297,6 +302,8 @@ def main() -> None:
 
     article = BASE / "content" / "posts" / f"{args.slug}.md"
     rel = f"content/posts/{args.slug}.md"
+    og_image_rel = article_og_rel(args.slug)
+    og_image_path = f"static/{og_image_rel}"
 
     # ── 1. 作業ツリーの安全確認 ───────────────────────────────────────────
     if not article.exists():
@@ -306,7 +313,7 @@ def main() -> None:
     is_new = rel not in dirty and not run(
         ["git", "ls-files", "--error-unmatch", rel], check=False
     ).returncode == 0
-    unexpected = dirty - set(ALLOWED_DIRTY) - {rel}
+    unexpected = unexpected_dirty_files(dirty, rel, og_image_path)
     if unexpected:
         die("対象外の tracked ファイルに変更があります: " + ", ".join(sorted(unexpected)))
     if not is_new and rel not in dirty:
@@ -315,7 +322,7 @@ def main() -> None:
     # ── 2. 配置確認（目印文字列） ─────────────────────────────────────────
     text = article.read_text(encoding="utf-8")
     x_title, _x_tags, service = parse_frontmatter_for_x_post(text)
-    og_image_rel = generate_article_og_image(args.slug, x_title, service)
+    generate_article_og_image(args.slug, x_title, service)
     updated_text = ensure_article_og_image_param(text, og_image_rel)
     if updated_text != text:
         article.write_text(updated_text, encoding="utf-8")
@@ -365,7 +372,7 @@ def main() -> None:
         msg = f"post: {args.slug} 記事を新規作成（確立済みの型・照合済みソースで執筆）"
     else:
         msg = f"rewrite: {args.slug} 記事を新しい質の型で書き直し"
-    run(["git", "add", "--", rel, REVIEW_STATUS_REL, f"static/{og_image_rel}"])
+    run(["git", "add", "--", rel, REVIEW_STATUS_REL, og_image_path])
     run(["git", "commit", "-m", msg])
     print(f"[5/7] コミット OK: {msg}")
 
