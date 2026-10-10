@@ -1631,5 +1631,16 @@
         "note": "新規作成。PyPA・pip・Debian・Homebrew公式資料とGitHub実例を照合。venv作成とpip起動を確認"
       }
     ]
+  },
+  "content/posts/git_refusing_to_merge_unrelated_histories.md": {
+    "verified": true,
+    "verified_at": "2026-10-10",
+    "last_verified_at": "2026-10-10",
+    "history": [
+      {
+        "date": "2026-10-10",
+        "note": "新規作成。Git公式文書・リリースノート・GitHub実例を照合。独立した履歴の拒否と競合解消をGit 2.51.1で確認"
+      }
+    ]
   }
 }
