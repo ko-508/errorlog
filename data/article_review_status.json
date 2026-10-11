@@ -1642,5 +1642,16 @@
         "note": "新規作成。Git公式文書・リリースノート・GitHub実例を照合。独立した履歴の拒否と競合解消をGit 2.51.1で確認"
       }
     ]
+  },
+  "content/posts/git_reconcile_divergent_branches.md": {
+    "verified": true,
+    "verified_at": "2026-10-11",
+    "last_verified_at": "2026-10-11",
+    "history": [
+      {
+        "date": "2026-10-11",
+        "note": "新規作成。Git公式文書・実装・GitHub実例を照合。方式未指定の停止、マージ、リベース、早送りのみの拒否をGit 2.51.1で確認"
+      }
+    ]
   }
 }
