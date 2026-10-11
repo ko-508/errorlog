@@ -189,7 +189,7 @@ Vercel の Edge Functions は地理的に分散されており、冷起動が少
 ## それでも解決しない場合
 
 **[関数](/glossary/関数/)[ログ](/glossary/ログ/)の詳細確認：**
-Vercel [ダッシュボード](/glossary/ダッシュボード/)の Logs タブで関数実行[ログ](/glossary/ログ/)を確認し、どのステップで時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)の Logs タブで関数実行[ログ](/glossary/ログ/)を確認し、どの[ステップ](/glossary/ステップ/)で時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
 
 ```javascript
 console.log(`[${new Date().toISOString()}] Processing started`);

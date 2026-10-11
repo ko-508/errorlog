@@ -142,7 +142,7 @@ uptime; iostat -x 1 3
 kubectl get nodes -o custom-columns='NAME:.metadata.name,READY:.status.conditions[?(@.type=="Ready")].status,DISK:.status.conditions[?(@.type=="DiskPressure")].status,MEM:.status.conditions[?(@.type=="MemoryPressure")].status'
 ```
 
-圧迫の条件が先に立っている場合、根本原因はそちらです。ノードの復旧だけを試みても、また同じ状態になります。
+圧迫の条件が先に立っている場合、根本原因はそちらです。ノードの[復旧](/glossary/復旧/)だけを試みても、また同じ状態になります。
 
 ### 原因6：退去が始まらない、あるいは一斉に始まる
 

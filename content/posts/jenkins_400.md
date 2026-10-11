@@ -166,7 +166,7 @@ curl -X POST \
 
 **[REST](/glossary/rest/) [API](/glossary/api/)[認証](/glossary/認証/)[トークン](/glossary/トークン/)の確認：** Jenkinsfilesで外部[API](/glossary/api/)を呼び出す場合、認証情報が正しく[設定](/glossary/設定/)されているかを確認してください。[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)が漏れていたり、[トークン](/glossary/トークン/)が期限切れになっていたりすると、Jenkinsが外部サービスからの応答をパースできず400[エラー](/glossary/エラー/)が返されることがあります。
 
-**Groovy[変数](/glossary/変数/)の型マッピング：** パイプラインで外部[JSON](/glossary/json/) [API](/glossary/api/)の[レスポンス](/glossary/レスポンス/)を処理する場合、Groovyの型推論が期待と異なる場合があります。明示的に型キャストを行うか、`readJSON`ステップを使用して[JSON](/glossary/json/) を確実にマップに変換することが重要です。
+**Groovy[変数](/glossary/変数/)の型マッピング：** パイプラインで外部[JSON](/glossary/json/) [API](/glossary/api/)の[レスポンス](/glossary/レスポンス/)を処理する場合、Groovyの型推論が期待と異なる場合があります。明示的に型キャストを行うか、`readJSON`[ステップ](/glossary/ステップ/)を使用して[JSON](/glossary/json/) を確実にマップに変換することが重要です。
 
 ## それでも解決しない場合
 

@@ -18,7 +18,7 @@ Windows[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使�
 failed to read C:\Users\user\project\.env: line 1: unexpected character "?" in variable name "\xff\xfeG\x00O\x00O\x00G\x00L\x00E\x00_\x00A\x00P\x00I\x00_\x00K\x00E\x00Y\x00=\x00A\x00I\x00z\x00a\x00..."
 ```
 
-`\xff\xfe` はUTF-16 LEのBOM（Byte Order Mark）です。続く`\x00`が各文字の後ろに並んでいることから、[ファイル](/glossary/ファイル/)全体がUTF-16 LEで[保存](/glossary/保存/)されていることがわかります。[Docker](/glossary/docker/) Composeのenvファイルパーサーは**UTF-8（BOMなし）のみ**を受け付けるため、この[ファイル](/glossary/ファイル/)を読み込もうとした瞬間にクラッシュします。
+`\xff\xfe` はUTF-16 LEのBOM（Byte Order Mark）です。続く`\x00`が各文字の後ろに並んでいることから、[ファイル](/glossary/ファイル/)全体がUTF-16 LEで[保存](/glossary/保存/)されていることがわかります。[Docker](/glossary/docker/) Composeのenvファイルパーサーは**[UTF-8](/glossary/utf-8/)（BOMなし）のみ**を受け付けるため、この[ファイル](/glossary/ファイル/)を読み込もうとした瞬間にクラッシュします。
 
 ## よくある原因
 
@@ -48,7 +48,7 @@ $bytes = [System.IO.File]::ReadAllBytes(".env")
 $bytes[0..3] | ForEach-Object { $_.ToString("X2") }
 ```
 
-**正常（UTF-8 BOMなし）:**
+**正常（[UTF-8](/glossary/utf-8/) BOMなし）:**
 ```
 47 4F 4F 47   ← "GOOG"の文字コード（例：GOOGLE_API_KEY=...）
 ```
@@ -107,7 +107,7 @@ DEBUG=false
 
 1. `.env`をVSCodeで開く
 2. 右下のステータスバーで現在の[エンコード](/glossary/エンコード/)を確認（「UTF-16 LE」と表示されているはず）
-3. クリックして「[エンコード](/glossary/エンコード/)付きで[保存](/glossary/保存/)」→「UTF-8」を選択
+3. クリックして「[エンコード](/glossary/エンコード/)付きで[保存](/glossary/保存/)」→「[UTF-8](/glossary/utf-8/)」を選択
 
 ## Before / After の対比
 
@@ -153,8 +153,8 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 
 ## それでも解決しない場合
 
-- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（[bash](/glossary/bash/)/zsh）から`echo`で[ファイル](/glossary/ファイル/)を作成すると[デフォルト](/glossary/デフォルト/)がUTF-8になります
-- **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードがUTF-8に変わっています。`winget install Microsoft.PowerShell`で[インストール](/glossary/インストール/)可能です
+- **WSL2を経由する**: WSL2の[シェル](/glossary/シェル/)（[bash](/glossary/bash/)/zsh）から`echo`で[ファイル](/glossary/ファイル/)を作成すると[デフォルト](/glossary/デフォルト/)が[UTF-8](/glossary/utf-8/)になります
+- **PowerShell 7以降に移行**: PowerShell 7（pwsh）はデフォルトエンコードが[UTF-8](/glossary/utf-8/)に変わっています。`winget install Microsoft.PowerShell`で[インストール](/glossary/インストール/)可能です
 - **docker composeではなくdocker-composeを使う**: 古いv1系は挙動が違うことがありますが、現在は非推奨のため根本解決にはなりません
 
 ---

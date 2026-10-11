@@ -224,8 +224,8 @@ kubectl get nodes
 
 `Insufficient cpu`や`Insufficient memory`なら、PodのrequestsとノードのAllocatable、配置済みPodの要求量を比較してください。現在の使用率だけでは配置できるかを判断できません。
 
-リソースに問題がなければ、nodeSelector、Node Affinity、TaintとToleration、PVのNode Affinityを順に照合します。ノード自体が存在しない場合や`NotReady`の場合は、Podではなくノード側の復旧が先です。
+リソースに問題がなければ、nodeSelector、Node Affinity、TaintとToleration、PVのNode Affinityを順に照合します。ノード自体が存在しない場合や`NotReady`の場合は、Podではなくノード側の[復旧](/glossary/復旧/)が先です。
 
 複数の理由が並んでいるときは、すべてを解消する必要があります。Podの[設定](/glossary/設定/)を変える場合は、実行中のPodではなく、DeploymentやJobなど作成元の[マニフェスト](/glossary/マニフェスト/)を[修正](/glossary/修正/)してください。
 
-免責事項：本記事の内容は一般的な[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)を前提としています。リソース要求、配置条件、Taint、ノード構成を[本番環境](/glossary/本番環境/)で変更する前に、可用性、費用、[セキュリティ](/glossary/セキュリティ/)方針への影響を検証してください。
+免責事項：本記事の内容は一般的な[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)を前提としています。リソース要求、配置条件、Taint、ノード構成を[本番環境](/glossary/本番環境/)で変更する前に、[可用性](/glossary/可用性/)、費用、[セキュリティ](/glossary/セキュリティ/)方針への影響を検証してください。

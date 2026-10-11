@@ -27,7 +27,7 @@ trend_incident: false
 
 BuildKit のビルドは、Dockerfile を内部表現へ変換する段、[イメージ](/glossary/イメージ/)参照を解決する段、[コマンド](/glossary/コマンド/)を実行する段、書き出す段の順に進みます。`failed to solve` は全体を包む外枠で、どの段で止まっても先頭は同じです。区別できるのは後ろだけです。
 
-**型1：ステップ見出しと Dockerfile の囲みを伴う**
+**型1：[ステップ](/glossary/ステップ/)見出しと Dockerfile の囲みを伴う**
 
 ```text
 > [2/2] RUN apk add --no-cache bash:
@@ -45,7 +45,7 @@ exited with error 127
 ERROR: failed to build: failed to solve: process "/dev/.buildkit_qemu_emulator /bin/sh -c apk add --no-cache bash" did not complete successfully: exit code: 2
 ```
 
-`> [2/2]` がステップ番号、`>>>` の行が失敗した命令、区切りの手前の `exited with error 127` が[コマンド](/glossary/コマンド/)自身の出力です。末尾の `exit code: 2` は結果であり、理由ではありません。
+`> [2/2]` が[ステップ](/glossary/ステップ/)番号、`>>>` の行が失敗した命令、区切りの手前の `exited with error 127` が[コマンド](/glossary/コマンド/)自身の出力です。末尾の `exit code: 2` は結果であり、理由ではありません。
 
 **型2：[イメージ](/glossary/イメージ/)参照の解決で止まっている**
 
@@ -55,7 +55,7 @@ error: failed to solve: <レジストリ>:5000/<イメージ>:22.04: failed to r
 
 命令は1つも実行されていません。読むのは最後尾の[通信](/glossary/通信/)理由で、この例では [HTTPS](/glossary/https/) で問い合わせた先が [HTTP](/glossary/http/) で応答しています。
 
-**型3：ステップ番号も[コマンド](/glossary/コマンド/)出力も伴わない**
+**型3：[ステップ](/glossary/ステップ/)番号も[コマンド](/glossary/コマンド/)出力も伴わない**
 
 ```text
 ERROR: failed to solve: source can't be a git ref for COPY
@@ -128,7 +128,7 @@ Compose 経由なら、起点は Dockerfile の置き場所ではなく `context
 
 ### 原因4：Dockerfile の記述を frontend が解釈できない
 
-Dockerfile を内部表現へ変換する段で止まる場合です。表示はステップ番号も[コマンド](/glossary/コマンド/)出力も伴わない一行になります。
+Dockerfile を内部表現へ変換する段で止まる場合です。表示は[ステップ](/glossary/ステップ/)番号も[コマンド](/glossary/コマンド/)出力も伴わない一行になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

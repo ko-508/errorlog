@@ -124,7 +124,7 @@ Cannot connect to the [Docker](/glossary/docker/) daemon は、[デーモン](/g
 1. どの操作で504が出たかを確認する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、[コンテナ](/glossary/コンテナ/)上のアプリへのアクセスなら原因3（Nginx の 504 の手順へ）。
 2. 文言を読む。error parsing [HTTP](/glossary/http/) 504 response body があれば、応答したのは[レジストリ](/glossary/レジストリ/)本体ではなく前段の[プロキシ](/glossary/プロキシ/)だと確定できる。
 3. 原因1は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)を突き合わせ、打ち切った層を特定する。本体が正常（200/202）なら前段の制限を広げ、本体側に[遅延](/glossary/遅延/)の記録があれば[ストレージ](/glossary/ストレージ/)や負荷を調べる。
-4. [Docker](/glossary/docker/) Hub 相手なら公式の稼働状況を確認し、復旧を待って再試行する。
+4. [Docker](/glossary/docker/) Hub 相手なら公式の稼働状況を確認し、[復旧](/glossary/復旧/)を待って再試行する。
 5. 原因2は、[プロキシ](/glossary/プロキシ/)の読み取り[タイムアウト](/glossary/タイムアウト/)とストリーミング[設定](/glossary/設定/)を [Docker](/glossary/docker/) [API](/glossary/api/) の長い呼び出しに合わせる。
 
 ## 確認コマンド集

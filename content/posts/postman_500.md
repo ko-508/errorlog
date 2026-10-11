@@ -152,7 +152,7 @@ Postman Cloud 機能（History、Sync、Shared Collections）を使用してい�
 2. **Postman のサービス状態を確認する**
    - https://status.postman.com にアクセス
    - [API](/glossary/api/)・Cloud Sync・Web Dashboard など各サービスの状態を確認
-   - 障害が報告されている場合は復旧を待つ
+   - 障害が報告されている場合は[復旧](/glossary/復旧/)を待つ
 
 3. **[テスト](/glossary/テスト/)対象 [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認する**
    - [API](/glossary/api/) の管理者に連絡し、該当時刻のサーバーエラーログを確認してもらう

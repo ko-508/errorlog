@@ -28,7 +28,7 @@ You have reached your pull rate limit. You may increase the limit by authenticat
 
 [CLI](/glossary/cli/) や [Docker](/glossary/docker/) Engine の[ログ](/glossary/ログ/)では toomanyrequests: を先頭に付けた形で現れます。[Kubernetes](/glossary/kubernetes/) 経由では、kubelet の[イベント](/glossary/イベント/)（ErrImagePull / ImagePullBackOff の理由）に同じ文言が記録されます。
 
-現在の残量は、公式文書の手順で[ヘッダー](/glossary/ヘッダー/)から確認できます。この確認用[リポジトリ](/glossary/リポジトリ/)への HEAD [リクエスト](/glossary/リクエスト/)は枠を消費しません（GET は実際の pull と同様に消費します）。
+現在の残量は、公式文書の手順で[ヘッダー](/glossary/ヘッダー/)から確認できます。この確認用[リポジトリ](/glossary/リポジトリ/)への HEAD [リクエスト](/glossary/リクエスト/)は枠を消費しません（[GET](/glossary/get/) は実際の pull と同様に消費します）。
 
 ```bash
 TOKEN=$(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)

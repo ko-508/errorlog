@@ -39,7 +39,7 @@ top_queries:
 
 Resource not accessible by integration、または Resource not accessible by personal access token なら、[GitHub](/glossary/github/) App・fine-grained [トークン](/glossary/トークン/)・Actions の GITHUB_TOKEN の権限不足です（原因2）。
 
-Resource protected by organization SAML enforcement なら、組織の SAML SSO に対する[トークン](/glossary/トークン/)の承認が済んでいません（原因3）。
+Resource protected by organization SAML enforcement なら、組織の SAML SSO に対する[トークン](/glossary/トークン/)の[承認](/glossary/承認/)が済んでいません（原因3）。
 
 これらのどれでもなく、[権限](/glossary/権限/)の問題を疑っているのに 404 が返っている場合は、classic [トークン](/glossary/トークン/)の scope や非公開リソースへの[アクセス権](/glossary/アクセス権/)の問題です（[404 の記事](/posts/github_api_404/)）。認証自体の失敗（Bad credentials）は 401 です（[401 の記事](/posts/github_api_401/)）。
 
@@ -88,7 +88,7 @@ permissions:
 
 ### 原因3：組織の SAML SSO に対する承認が済んでいない
 
-組織が SAML SSO を強制している場合、その組織のリソースにアクセスするには、[トークン](/glossary/トークン/)自体を組織に対して承認しておく必要があります。未承認の[トークン](/glossary/トークン/)でアクセスすると、次の文言の403が返ります。
+組織が SAML SSO を強制している場合、その組織のリソースにアクセスするには、[トークン](/glossary/トークン/)自体を組織に対して[承認](/glossary/承認/)しておく必要があります。未承認の[トークン](/glossary/トークン/)でアクセスすると、次の文言の403が返ります。
 
 ```json
 {
@@ -97,14 +97,14 @@ permissions:
 }
 ```
 
-応答[ヘッダー](/glossary/ヘッダー/)には X-[GitHub](/glossary/github/)-Sso が付き、承認のための [URL](/glossary/url/) が示される場合もあります。対処は、[GitHub](/glossary/github/) の設定画面（Settings > Developer settings > Personal access tokens）で対象[トークン](/glossary/トークン/)の Configure SSO から該当組織を承認することです。応答本文の documentation_url が公式の手順を直接指しているので、そのまま参照できます。組織側で SSO を有効化した直後から、それまで動いていた[トークン](/glossary/トークン/)が一斉にこの403を返し始める、という形で現れるのが典型です。
+応答[ヘッダー](/glossary/ヘッダー/)には X-[GitHub](/glossary/github/)-Sso が付き、[承認](/glossary/承認/)のための [URL](/glossary/url/) が示される場合もあります。対処は、[GitHub](/glossary/github/) の設定画面（Settings > Developer settings > Personal access tokens）で対象[トークン](/glossary/トークン/)の Configure SSO から該当組織を[承認](/glossary/承認/)することです。応答本文の documentation_url が公式の手順を直接指しているので、そのまま参照できます。組織側で SSO を有効化した直後から、それまで動いていた[トークン](/glossary/トークン/)が一斉にこの403を返し始める、という形で現れるのが典型です。
 
 ## 切り分けの順序
 
 1. 応答の message を読む。レート制限系・Resource not accessible 系・SAML enforcement 系のどれかを確定する。どれでもなければ、404（scope・[アクセス権](/glossary/アクセス権/)）や 401（[認証](/glossary/認証/)）の問題として切り替える。
 2. レート制限系なら、retry-after と x-ratelimit-reset に従って待つ。恒久対処として、[認証](/glossary/認証/)の付与と呼び出し回数の削減を検討する。
 3. Resource not accessible 系なら、X-Accepted-[GitHub](/glossary/github/)-Permissions [ヘッダー](/glossary/ヘッダー/)で必要権限を特定し、[トークン](/glossary/トークン/)（fine-grained・App・GITHUB_TOKEN）側に付与する。対象[リポジトリ](/glossary/リポジトリ/)が範囲に含まれているかも確認する。
-4. SAML enforcement 系なら、[トークン](/glossary/トークン/)を組織に対して承認する。
+4. SAML enforcement 系なら、[トークン](/glossary/トークン/)を組織に対して[承認](/glossary/承認/)する。
 
 ## 確認コマンド集
 

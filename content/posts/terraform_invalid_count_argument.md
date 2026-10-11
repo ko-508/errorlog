@@ -188,7 +188,7 @@ terraform apply
 
 1回目で依存元を作成し、値が状態へ[保存](/glossary/保存/)されれば、2回目の通常適用で`count`を確定できる場合があります。
 
-ただし、[terraform planの公式文書](https://developer.hashicorp.com/terraform/cli/commands/plan#resource-targeting)は、`-target`を誤りからの復旧やTerraformの制約を回避する例外的な状況に限るよう案内しています。日常的に使うと、対象外の変更を見落とし、[設定](/glossary/設定/)と実際の状態の関係が分かりにくくなるためです。
+ただし、[terraform planの公式文書](https://developer.hashicorp.com/terraform/cli/commands/plan#resource-targeting)は、`-target`を誤りからの[復旧](/glossary/復旧/)やTerraformの制約を回避する例外的な状況に限るよう案内しています。日常的に使うと、対象外の変更を見落とし、[設定](/glossary/設定/)と実際の状態の関係が分かりにくくなるためです。
 
 `-target`で依存元を適用した後は、必ずオプションなしで`terraform plan`を実行し、構成全体の差分を確認してください。継続的に二段階適用が必要なら、入力変数から個数を決めるか、構成を分割する方法を検討します。
 

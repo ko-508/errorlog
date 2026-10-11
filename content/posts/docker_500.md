@@ -65,7 +65,7 @@ $ docker pull hello-world
 Error response from daemon: received unexpected HTTP status: 500 Internal Server Error
 ```
 
-[Docker](/glossary/docker/) Hub（既定の[レジストリ](/glossary/レジストリ/)）からの取得でこれが出た場合、まず公式の稼働状況ページ https://www.dockerstatus.com/ を確認します。実際に2025年2月には、[Docker](/glossary/docker/) Hub 側の障害により、どの[イメージ](/glossary/イメージ/)の取得もこの500[エラー](/glossary/エラー/)で失敗する事象が発生し、稼働状況ページに障害として掲載されました。障害中は手元でできることはなく、復旧を待って再実行するのが対処です。
+[Docker](/glossary/docker/) Hub（既定の[レジストリ](/glossary/レジストリ/)）からの取得でこれが出た場合、まず公式の稼働状況ページ https://www.dockerstatus.com/ を確認します。実際に2025年2月には、[Docker](/glossary/docker/) Hub 側の障害により、どの[イメージ](/glossary/イメージ/)の取得もこの500[エラー](/glossary/エラー/)で失敗する事象が発生し、稼働状況ページに障害として掲載されました。障害中は手元でできることはなく、[復旧](/glossary/復旧/)を待って再実行するのが対処です。
 
 会社内などで運用している私設の[レジストリ](/glossary/レジストリ/)が相手の場合は、その[レジストリ](/glossary/レジストリ/)側の[ログ](/glossary/ログ/)を確認します。500を返しているのは[レジストリ](/glossary/レジストリ/)なので、原因の記録も[レジストリ](/glossary/レジストリ/)側に残ります。
 

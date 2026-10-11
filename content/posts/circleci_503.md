@@ -144,7 +144,7 @@ jobs:
 
 **確認と解決手順：**
 
-status.circleci.comを確認して「Degraded Performance」または「Major Outage」の[アラート](/glossary/アラート/)がないか確認してください。過負荷が原因であれば、通常は数分〜数十分で復旧します。
+status.circleci.comを確認して「Degraded Performance」または「Major Outage」の[アラート](/glossary/アラート/)がないか確認してください。過負荷が原因であれば、通常は数分〜数十分で[復旧](/glossary/復旧/)します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -221,19 +221,19 @@ Free プランはリソース共有型であり、ピーク時間帯に 503 [エ
 
 ## それでも解決しない場合
 
-**ステップ1：CircleCI公式ステータスページの確認**
+**[ステップ](/glossary/ステップ/)1：CircleCI公式ステータスページの確認**
 
 https://status.circleci.com にアクセスして、現在進行中のインシデント・メンテナンス情報が記載されていないか確認してください。過去のインシデント履歴も参考になります。
 
-**ステップ2：[ログ](/glossary/ログ/)の確認**
+**[ステップ](/glossary/ステップ/)2：[ログ](/glossary/ログ/)の確認**
 
 CircleCI ダッシュボーク → Pipelines で、失敗したジョブの詳細[ログ](/glossary/ログ/)を確認してください。ネットワークエラーや[タイムアウト](/glossary/タイムアウト/)が記録されていれば、一時的な通信障害の可能性が高まります。
 
-**ステップ3：Organization[設定](/glossary/設定/)の確認**
+**[ステップ](/glossary/ステップ/)3：Organization[設定](/glossary/設定/)の確認**
 
 Organization Settings → Security で、[セキュリティポリシー](/glossary/セキュリティポリシー/)やIP制限が[設定](/glossary/設定/)されていないか確認してください。特に企業[ネットワーク](/glossary/ネットワーク/)を使用している場合、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)によってCircleCI [API](/glossary/api/)へのアクセスがブロックされている可能性があります。
 
-**ステップ4：CircleCI公式サポートへの連絡**
+**[ステップ](/glossary/ステップ/)4：CircleCI公式サポートへの連絡**
 
 上記の確認を実施しても解決しない場合は、CircleCI の公式サポートに問い合わせてください。https://support.circleci.com からサポートチケットを作成できます。その際、以下の情報を含めてください：
 
@@ -242,7 +242,7 @@ Organization Settings → Security で、[セキュリティポリシー](/gloss
 - 失敗したパイプライン[ID](/glossary/id/)
 - [エラー](/glossary/エラー/)が発生する前の最後の成功したビルド
 
-**ステップ5：代替手段の検討**
+**[ステップ](/glossary/ステップ/)5：代替手段の検討**
 
 複数時間にわたって 503 [エラー](/glossary/エラー/)が解決しない場合、別の[CI/CD](/glossary/ci-cd/)[ツール](/glossary/ツール/)（[GitHub](/glossary/github/)
 

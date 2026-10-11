@@ -213,7 +213,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 
 `terraform init -upgrade` は、依存関係を再解決して `.terraform.lock.hcl` を書き換えます。制約に幅がある状態で実行すると、意図していない provider まで版が動くことがあります。実行前に、`required_providers` の `version` が対象 provider に対して十分に狭いことを確認してください。実行後は必ずロックファイルの差分を読み、変わった provider が想定どおりかを確かめます。
 
-`.terraform/` [ディレクトリ](/glossary/ディレクトリ/)の[削除](/glossary/削除/)は、module と provider の再取得を強制します。認証情報や[ネットワーク](/glossary/ネットワーク/)の条件が揃っていない[環境](/glossary/環境/)では、初期化自体が失敗して復旧に時間がかかります。手元の作業[ディレクトリ](/glossary/ディレクトリ/)で、再取得に必要な資格情報が揃っていることを確認してから実行してください。
+`.terraform/` [ディレクトリ](/glossary/ディレクトリ/)の[削除](/glossary/削除/)は、module と provider の再取得を強制します。認証情報や[ネットワーク](/glossary/ネットワーク/)の条件が揃っていない[環境](/glossary/環境/)では、初期化自体が失敗して[復旧](/glossary/復旧/)に時間がかかります。手元の作業[ディレクトリ](/glossary/ディレクトリ/)で、再取得に必要な資格情報が揃っていることを確認してから実行してください。
 
 `.terraform/modules/` 配下の[ファイル](/glossary/ファイル/)編集は、恒久的な[修正](/glossary/修正/)になりません。取得元の内容で上書きされ得るため、動作確認のための一時的な手段としてのみ使い、[修正](/glossary/修正/)は[バージョン](/glossary/バージョン/)制約か module 本体へ反映します。
 

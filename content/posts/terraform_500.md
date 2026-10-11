@@ -88,7 +88,7 @@ terraform plan
 
 state の取得・保存先や、リモート実行の基盤（HCP Terraform、自営の Terraform Enterprise、その他の[バックエンド](/glossary/バックエンド/)）側の障害でも500が返ります。冒頭に示した Error downloading state: 500 Internal Server Error はこの系統で、HashiCorp 自身が障害復旧の公式文書の中で、[バックエンド](/glossary/バックエンド/)障害時に現れる[ログ](/glossary/ログ/)として例示しているものです。
 
-この[エラー](/glossary/エラー/)は「state の[ダウンロード](/glossary/ダウンロード/)に失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の復旧を確認します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所は[サーバー](/glossary/サーバー/)側（アプリケーションログ、[データベース](/glossary/データベース/)、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは障害でないことの証明にはなりません。
+この[エラー](/glossary/エラー/)は「state の[ダウンロード](/glossary/ダウンロード/)に失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の[復旧](/glossary/復旧/)を確認します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所は[サーバー](/glossary/サーバー/)側（アプリケーションログ、[データベース](/glossary/データベース/)、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは障害でないことの証明にはなりません。
 
 ### 原因3：Terraform Registry が内部エラーを返している（terraform init）
 

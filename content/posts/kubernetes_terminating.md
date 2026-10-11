@@ -208,7 +208,7 @@ kubectl get events -A --field-selector involvedObject.name=<ノード名> \
   --sort-by=.lastTimestamp
 ```
 
-一時的な通信断なら、ノードとkubeletを復旧させ、通常の終了処理を完了させます。ノードを再起動すればPodが必ず止まる、という判断も危険です。[公式文書](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination)は、kubeletを再起動しても実行中のPodや[コンテナ](/glossary/コンテナ/)は停止せず、動作を続けると説明しています。
+一時的な通信断なら、ノードとkubeletを[復旧](/glossary/復旧/)させ、通常の終了処理を完了させます。ノードを再起動すればPodが必ず止まる、という判断も危険です。[公式文書](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination)は、kubeletを再起動しても実行中のPodや[コンテナ](/glossary/コンテナ/)は停止せず、動作を続けると説明しています。
 
 ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を確認し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード[削除](/glossary/削除/)の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い処理が復帰できない状態を先に作るのが順序です。
 
@@ -292,7 +292,7 @@ kubectl delete pod <Pod名> -n <名前空間> \
   --grace-period=0 --force
 ```
 
-finalizerの後処理を別の方法で完了し、対象のfinalizerを管理するコントローラーが復旧できない場合に限り、最終手段としてfinalizerを除去します。
+finalizerの後処理を別の方法で完了し、対象のfinalizerを管理するコントローラーが[復旧](/glossary/復旧/)できない場合に限り、最終手段としてfinalizerを除去します。
 
 ```bash
 # 実行前に現在の一覧を保存する
@@ -315,7 +315,7 @@ kubectl patch pod <Pod名> -n <名前空間> --type=merge \
 6. Podの所有者がJobやStatefulSetなら、親[オブジェクト](/glossary/オブジェクト/)とコントローラーの状態を確認する。
 7. 配置先ノード、Lease、kubeletの到達性を確認する。
 8. Admission [Webhook](/glossary/webhook/)が削除途中の更新を拒否していないか確認する。
-9. 通常の後処理を復旧させる。手元だけ待たない場合は `--wait=false` を使う。
+9. 通常の後処理を[復旧](/glossary/復旧/)させる。手元だけ待たない場合は `--wait=false` を使う。
 10. 古い処理の停止または隔離を確認できた場合だけ、強制削除やfinalizer除去を検討する。
 
 ## 確認コマンド集

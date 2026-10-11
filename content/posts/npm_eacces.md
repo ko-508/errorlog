@@ -71,7 +71,7 @@ ls -ld "$(npm config get cache)" "$(npm config get prefix)/lib/node_modules"
 
 過去に `sudo npm` を実行したことがあると起きます。root で作られた[ファイル](/glossary/ファイル/)が[キャッシュ](/glossary/キャッシュ/)に残り、以後の通常実行が拒まれます。
 
-この場合、npm は専用の文面を出します。実行中の利用者番号を埋め込んだ復旧[コマンド](/glossary/コマンド/)まで示されます。
+この場合、npm は専用の文面を出します。実行中の利用者番号を埋め込んだ[復旧](/glossary/復旧/)[コマンド](/glossary/コマンド/)まで示されます。
 
 ```text
 npm ERR! Your cache folder contains root-owned files, due to a bug in previous versions of npm which has since been addressed.

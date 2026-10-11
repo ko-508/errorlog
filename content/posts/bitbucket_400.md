@@ -130,7 +130,7 @@ curl -X GET "https://api.bitbucket.org/2.0/repositories/<workspace>?pagelen=50&p
 ## ツール固有の注意点
 
 **Bitbucket Pipelines での注意：**
-bitbucket-pipelines.yml をリポジトリーのルートに配置する際、[ファイル](/glossary/ファイル/)のエンコーディングが UTF-8 であることを確認してください。また、Bitbucket の Web UI にある「Pipeline Validator」で [YAML](/glossary/yaml/) 構文を事前検証できます。リポジトリー設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。
+bitbucket-pipelines.yml をリポジトリーのルートに配置する際、[ファイル](/glossary/ファイル/)のエンコーディングが [UTF-8](/glossary/utf-8/) であることを確認してください。また、Bitbucket の Web UI にある「Pipeline Validator」で [YAML](/glossary/yaml/) 構文を事前検証できます。リポジトリー設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。
 
 **Bitbucket Cloud [API](/glossary/api/) での注意：**
 [API](/glossary/api/) 呼び出し時に `Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)を明示的に指定することが重要です。また、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れは 401 [エラー](/glossary/エラー/)になりますが、[トークン](/glossary/トークン/)が存在しても[スコープ](/glossary/スコープ/)（[API](/glossary/api/) の使用権限範囲）が不足していると 400 が返される場合があります。[API](/glossary/api/) [トークン](/glossary/トークン/)の生成時に、必要な[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（例：`repository:read`, `issue:write`）を確認します。

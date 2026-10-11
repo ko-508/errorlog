@@ -103,7 +103,7 @@ aws s3api get-bucket-location --bucket my-asia-bucket
 
 ### 原因3：バケットが削除されている
 
-S3 [バケット](/glossary/バケット/)は[削除](/glossary/削除/)されると復旧できません。かつて存在していた[バケット](/glossary/バケット/)名を参照しようとしても、NoSuchBucket [エラー](/glossary/エラー/)が発生します。[バケット](/glossary/バケット/)削除時に実際に[削除](/glossary/削除/)される前に[設定](/glossary/設定/)を控えていなかった場合に発生することがあります。
+S3 [バケット](/glossary/バケット/)は[削除](/glossary/削除/)されると[復旧](/glossary/復旧/)できません。かつて存在していた[バケット](/glossary/バケット/)名を参照しようとしても、NoSuchBucket [エラー](/glossary/エラー/)が発生します。[バケット](/glossary/バケット/)削除時に実際に[削除](/glossary/削除/)される前に[設定](/glossary/設定/)を控えていなかった場合に発生することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

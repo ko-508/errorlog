@@ -269,7 +269,7 @@ kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
 kubectl cordon <ノード名>
 ```
 
-本番ノードでcontainer runtimeを再起動すると、そのノード上のPodに影響します。まず対象ノードのPod、PodDisruptionBudget、冗長性を確認し、必要ならcordonやdrainの計画を立てます。
+本番ノードでcontainer runtimeを再起動すると、そのノード上のPodに影響します。まず対象ノードのPod、PodDisruptionBudget、[冗長性](/glossary/冗長性/)を確認し、必要ならcordonやdrainの計画を立てます。
 
 imageやレイヤを[削除](/glossary/削除/)する場合も、対象を限定します。
 
@@ -278,7 +278,7 @@ imageやレイヤを[削除](/glossary/削除/)する場合も、対象を限定
 crictl images
 ```
 
-不要だからといって広範囲にimageやcontainer stateを消すと、他のPodの再起動や復旧に影響します。messageとruntime[ログ](/glossary/ログ/)で対象を絞ってから実行してください。
+不要だからといって広範囲にimageやcontainer stateを消すと、他のPodの再起動や[復旧](/glossary/復旧/)に影響します。messageとruntime[ログ](/glossary/ログ/)で対象を絞ってから実行してください。
 
 ## 切り分けの順序
 

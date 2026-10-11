@@ -145,7 +145,7 @@ Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入して
 
 **Jenkins Pipeline での CSRF 対策：**
 
-Groovy [スクリプト](/glossary/スクリプト/)内で Jenkins [API](/glossary/api/) を呼ぶ場合、[スクリプト](/glossary/スクリプト/)の実行ユーザーの[権限](/glossary/権限/)が適用されます。Pipeline ステップ内で `sh` で curl を実行する場合でも、該当ユーザーに[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
+Groovy [スクリプト](/glossary/スクリプト/)内で Jenkins [API](/glossary/api/) を呼ぶ場合、[スクリプト](/glossary/スクリプト/)の実行ユーザーの[権限](/glossary/権限/)が適用されます。Pipeline [ステップ](/glossary/ステップ/)内で `sh` で curl を実行する場合でも、該当ユーザーに[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 

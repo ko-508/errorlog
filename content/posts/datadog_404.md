@@ -227,7 +227,7 @@ Datadog WebUI 上部の[検索](/glossary/検索/)バーから **Metrics > Explo
    `-v` フラグを付けて curl [リクエスト](/glossary/リクエスト/)を実行し、[ステータスコード](/glossary/ステータスコード/)とレスポンスヘッダーを確認します。
 
    ```[bash](/glossary/bash/)
-   curl -v -X GET "https://api.datadoghq.com/api/v1/monitor/<your-monitor-id>" \
+   curl -v -X [GET](/glossary/get/) "https://api.datadoghq.com/api/v1/monitor/<your-monitor-id>" \
      -H "DD-[API](/glossary/api/)-KEY: <your-api-key>" \
      -H "DD-APPLICATION-KEY: <your-app-key>"
    ```

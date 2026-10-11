@@ -123,7 +123,7 @@ async function sendMessage() {
 
 ### 原因3：削除済みチャンネルにアクセスしている
 
-チャンネルが[削除](/glossary/削除/)された後、そのチャンネル[ID](/glossary/id/)に対して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を実行すると404が返されます。[アーカイブ](/glossary/アーカイブ/)されたチャンネルと[削除](/glossary/削除/)されたチャンネルは異なり、削除後は復旧できません。
+チャンネルが[削除](/glossary/削除/)された後、そのチャンネル[ID](/glossary/id/)に対して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を実行すると404が返されます。[アーカイブ](/glossary/アーカイブ/)されたチャンネルと[削除](/glossary/削除/)されたチャンネルは異なり、削除後は[復旧](/glossary/復旧/)できません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

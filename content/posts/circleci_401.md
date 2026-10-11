@@ -225,7 +225,7 @@ workflows:
 
 ## それでも解決しない場合
 
-**ステップ1：[トークン](/glossary/トークン/)の有効性をダイレクト確認**
+**[ステップ](/glossary/ステップ/)1：[トークン](/glossary/トークン/)の有効性をダイレクト確認**
 
 以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効か直接[テスト](/glossary/テスト/)します。
 
@@ -237,15 +237,15 @@ curl -X GET \
 
 200 OK が返れば、[トークン](/glossary/トークン/)自体は有効です。
 
-**ステップ2：ジョブ実行時のシークレット状態を確認**
+**[ステップ](/glossary/ステップ/)2：ジョブ実行時のシークレット状態を確認**
 
 CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Details → Step Output で[環境変数](/glossary/環境変数/)がマスク（隠蔽）されているか確認します。[環境変数](/glossary/環境変数/)が表示されている場合、[トークン](/glossary/トークン/)が正しく[設定](/glossary/設定/)されています。
 
-**ステップ3：公式 [API](/glossary/api/) リファレンスの確認**
+**[ステップ](/glossary/ステップ/)3：公式 [API](/glossary/api/) リファレンスの確認**
 
 [CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で、使用している [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)が該当トークンタイプで[対応](/glossary/対応/)しているか確認します。Personal Token では呼べない[エンドポイント](/glossary/エンドポイント/)も存在します。
 
-**ステップ4：CircleCI サポートへの問い合わせ**
+**[ステップ](/glossary/ステップ/)4：CircleCI サポートへの問い合わせ**
 
 [トークン](/glossary/トークン/)生成時刻、ジョブ [ID](/glossary/id/)、[エラー](/glossary/エラー/)が発生した正確な時刻を記録した上で、CircleCI Support（support@circleci.com）に問い合わせます。[サーバー](/glossary/サーバー/)側の[トークン](/glossary/トークン/)失効・[ユーザーアカウント](/glossary/ユーザーアカウント/)問題の可能性があります。
 

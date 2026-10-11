@@ -42,7 +42,7 @@ botocore.exceptions.NoCredentialsError: Unable to locate credentials
 
 ## 最初に取得元とプロファイルを確認する
 
-失敗した[コマンド](/glossary/コマンド/)と同じユーザー、同じ[コンテナ](/glossary/コンテナ/)、同じCIのステップで確認します。
+失敗した[コマンド](/glossary/コマンド/)と同じユーザー、同じ[コンテナ](/glossary/コンテナ/)、同じCIの[ステップ](/glossary/ステップ/)で確認します。
 
 ```bash
 aws configure list
@@ -120,7 +120,7 @@ docker run --rm \
 
 root以外で動く[イメージ](/glossary/イメージ/)では、マウント先をそのユーザーの`.aws`[ディレクトリ](/glossary/ディレクトリ/)に変更します。SSOを使う場合は[ログイン](/glossary/ログイン/)済みの[キャッシュ](/glossary/キャッシュ/)も必要で、読み取り専用のマウントでは[コンテナ](/glossary/コンテナ/)内から[キャッシュ](/glossary/キャッシュ/)を更新できないことがあります。認証情報をDockerfileにコピーして[イメージ](/glossary/イメージ/)へ含める方法は使いません。
 
-CIでは、認証処理が[AWS](/glossary/aws/)[コマンド](/glossary/コマンド/)より前に実行され、その[コマンド](/glossary/コマンド/)を動かすステップや[コンテナ](/glossary/コンテナ/)まで[設定](/glossary/設定/)が渡っているか確認します。[GitHub](/glossary/github/) Actionsでは、[AWS公式の認証情報設定アクション](https://github.com/aws-actions/configure-aws-credentials)を利用し、OIDCで[IAM](/glossary/iam/)[ロール](/glossary/ロール/)を引き受ける構成を選べます。OIDCでは、[GitHub](/glossary/github/)側の[トークン](/glossary/トークン/)発行権限と[AWS](/glossary/aws/)側の信頼[ポリシー](/glossary/ポリシー/)も必要です。
+CIでは、認証処理が[AWS](/glossary/aws/)[コマンド](/glossary/コマンド/)より前に実行され、その[コマンド](/glossary/コマンド/)を動かす[ステップ](/glossary/ステップ/)や[コンテナ](/glossary/コンテナ/)まで[設定](/glossary/設定/)が渡っているか確認します。[GitHub](/glossary/github/) Actionsでは、[AWS公式の認証情報設定アクション](https://github.com/aws-actions/configure-aws-credentials)を利用し、OIDCで[IAM](/glossary/iam/)[ロール](/glossary/ロール/)を引き受ける構成を選べます。OIDCでは、[GitHub](/glossary/github/)側の[トークン](/glossary/トークン/)発行権限と[AWS](/glossary/aws/)側の信頼[ポリシー](/glossary/ポリシー/)も必要です。
 
 [環境変数](/glossary/環境変数/)で渡す構成なら、`AWS_ACCESS_KEY_ID`と`AWS_SECRET_ACCESS_KEY`、一時的な認証情報では`AWS_SESSION_TOKEN`も同じ発行結果から渡します。確認のために[秘密鍵](/glossary/秘密鍵/)や[トークン](/glossary/トークン/)を[ログ](/glossary/ログ/)へ出力せず、`aws configure list`と`get-caller-identity`で取得元と実行主体を確認してください。
 

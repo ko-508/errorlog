@@ -144,7 +144,7 @@ VERCEL_DEBUG=1 vercel deploy
 
 **[GitHub](/glossary/github/) Actions 内の[ログ](/glossary/ログ/)確認：**
 
-[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新の[ワークフロー](/glossary/ワークフロー/)実行結果を開き、失敗したステップの出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
+[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新の[ワークフロー](/glossary/ワークフロー/)実行結果を開き、失敗した[ステップ](/glossary/ステップ/)の出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
 
 **[トークン](/glossary/トークン/)再生成のベストプラクティス：**
 

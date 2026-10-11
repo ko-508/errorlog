@@ -20,7 +20,7 @@ publish_zenn: true
 
 ## 冒頭まとめ
 
-`npm install` が `ERESOLVE` で止まったら、まずログの `Found:` と、その下の `peer` が要求する版を比べる。パッケージ本体と、それを利用するプラグインなどの要求が合わず、npmが依存関係を配置できない場合に起きる。
+`npm install` が `ERESOLVE` で止まったら、まず[ログ](/glossary/ログ/)の `Found:` と、その下の `peer` が要求する版を比べる。[パッケージ](/glossary/パッケージ/)本体と、それを利用するプラグインなどの要求が合わず、npmが依存関係を配置できない場合に起きる。
 
 ```text
 npm error code ERESOLVE
@@ -29,11 +29,11 @@ npm error ERESOLVE unable to resolve dependency tree
 
 `could not resolve` と表示される場合もある。古いnpmでは接頭辞が `npm ERR!` になる。文言の違いだけで対処を変える必要はない。
 
-基本の対処は、競合する両側を互換性のある版に揃えること。`--legacy-peer-deps` はpeerの要求を無視する回避策であり、`--force` はさらに広い保護を外す。インストール完了だけでは動作確認にならない。
+基本の対処は、競合する両側を[互換性](/glossary/互換性/)のある版に揃えること。`--legacy-peer-deps` はpeerの要求を無視する回避策であり、`--force` はさらに広い保護を外す。[インストール](/glossary/インストール/)完了だけでは動作確認にならない。
 
 ## Foundとpeerの要求を読み比べる
 
-peer dependencyは、プラグインなどが利用側に求めるパッケージと版の条件を表す。たとえば次は説明用の例である。
+peer dependencyは、プラグインなどが利用側に求める[パッケージ](/glossary/パッケージ/)と版の条件を表す。たとえば次は説明用の例である。
 
 ```text
 Found: host-lib@2.0.0
@@ -41,18 +41,18 @@ Could not resolve dependency:
 peer host-lib@"^1.0.0" from plugin-lib@1.0.0
 ```
 
-`host-lib@2.0.0` は `^1.0.0` を満たさない。`plugin-lib`を2系のhostに対応した版へ変えるか、host側を1系へ揃える必要がある。
+`host-lib@2.0.0` は `^1.0.0` を満たさない。`plugin-lib`を2系のhostに[対応](/glossary/対応/)した版へ変えるか、host側を1系へ揃える必要がある。
 
 | 表示 | 読み取る内容 |
 |---|---|
-| `While resolving:` | 解決中のプロジェクトやパッケージ。必ずしも競合元そのものではない |
-| `Found:` | 解決中のツリーで使おうとしている版。既にインストール済みとは限らない |
-| `peer ... from ...` | 要求されるパッケージ・範囲と、その要求を出したパッケージ |
+| `While resolving:` | 解決中の[プロジェクト](/glossary/プロジェクト/)や[パッケージ](/glossary/パッケージ/)。必ずしも競合元そのものではない |
+| `Found:` | 解決中のツリーで使おうとしている版。既に[インストール](/glossary/インストール/)済みとは限らない |
+| `peer ... from ...` | 要求される[パッケージ](/glossary/パッケージ/)・範囲と、その要求を出した[パッケージ](/glossary/パッケージ/) |
 | `Conflicting peer dependency:` | 競合するpeerを満たす候補。これを単独で入れれば直るとは限らない |
 
-ログにレポートのパスが表示されたら、そのファイルも読む。保存先はnpmの版や設定で変わるため、`~/.npm/eresolve-report.txt`に固定しない。
+[ログ](/glossary/ログ/)にレポートの[パス](/glossary/パス/)が表示されたら、その[ファイル](/glossary/ファイル/)も読む。保存先はnpmの版や[設定](/glossary/設定/)で変わるため、`~/.npm/eresolve-report.txt`に固定しない。
 
-[npm/cli Issue #6476](https://github.com/npm/cli/issues/6476)には、npm 9.5.1・Node.js 18.16.0での実例がある。rootがcommonを1.0.6に固定する一方、解決されたdecoratorsがcommonの1.0.8以上を要求していた。投稿者がcoreを1.0.6へ固定していても、そのpeer範囲から別パッケージの1.0.8が選ばれていた。これは過去の報告であり、現在のnpm全般に同じ不具合があると示すものではない。
+[npm/cli Issue #6476](https://github.com/npm/cli/issues/6476)には、npm 9.5.1・Node.js 18.16.0での実例がある。rootがcommonを1.0.6に固定する一方、解決されたdecoratorsがcommonの1.0.8以上を要求していた。投稿者がcoreを1.0.6へ固定していても、そのpeer範囲から別[パッケージ](/glossary/パッケージ/)の1.0.8が選ばれていた。これは過去の報告であり、現在のnpm全般に同じ不具合があると示すものではない。
 
 ## npmの版と設定を確認する
 
@@ -64,15 +64,15 @@ npm config get legacy-peer-deps
 npm config get force
 ```
 
-npm 7からpeer dependencyが既定で自動インストールされるようになった。npmを変えたことで、以前は通った組合せが解決に失敗することがある。Node.jsの版だけで判断せず、実際のnpmの版を確認する。
+npm 7からpeer dependencyが既定で自動[インストール](/glossary/インストール/)されるようになった。npmを変えたことで、以前は通った組合せが解決に失敗することがある。Node.jsの版だけで判断せず、実際のnpmの版を確認する。
 
-ただし「npm 7以降ではすべてのpeer競合で停止する」という説明は正確ではない。既定では、深い依存関係の競合を非peerの要求から解決し、警告で進む場合がある。`strict-peer-deps=true`は、そうした推測で進められる競合も失敗にする設定である。
+ただし「npm 7以降ではすべてのpeer競合で停止する」という説明は正確ではない。既定では、深い依存関係の競合を非peerの要求から解決し、警告で進む場合がある。`strict-peer-deps=true`は、そうした推測で進められる競合も失敗にする[設定](/glossary/設定/)である。
 
-現行の[npm CLI内のplace-dep.js](https://github.com/npm/cli/blob/latest/workspaces/arborist/lib/place-dep.js)でも、配置できないときにforce・root/workspace由来か・strict設定を確認し、エラーと警告を分けている。アーカイブ済みのnpm/arboristの行番号を現行実装へそのまま当てはめない。
+現行の[npm CLI内のplace-dep.js](https://github.com/npm/cli/blob/latest/workspaces/arborist/lib/place-dep.js)でも、配置できないときにforce・root/workspace由来か・strict[設定](/glossary/設定/)を確認し、[エラー](/glossary/エラー/)と警告を分けている。[アーカイブ](/glossary/アーカイブ/)済みのnpm/arboristの[行番号](/glossary/行番号/)を現行実装へそのまま当てはめない。
 
 ## 互換性のあるパッケージの版に揃える
 
-ログの `peer ... from ...` に出た要求元と、要求されている側を調べる。以下の名前と版は実際の対象へ置き換える。
+[ログ](/glossary/ログ/)の `peer ... from ...` に出た要求元と、要求されている側を調べる。以下の名前と版は実際の対象へ置き換える。
 
 ```bash
 npm view plugin-lib@1.0.0 peerDependencies
@@ -81,11 +81,11 @@ npm ls host-lib plugin-lib
 npm explain host-lib
 ```
 
-`npm view`は通常レジストリへ問い合わせる。`npm ls`と`npm explain`はインストール済みツリーの調査に使うため、初回インストール前や途中失敗後には十分な情報がないこともある。`npm ls`は不整合を表示して終了コードが非0になる場合がある。
+`npm view`は通常[レジストリ](/glossary/レジストリ/)へ問い合わせる。`npm ls`と`npm explain`は[インストール](/glossary/インストール/)済みツリーの調査に使うため、初回[インストール](/glossary/インストール/)前や途中失敗後には十分な情報がないこともある。`npm ls`は不整合を表示して終了[コード](/glossary/コード/)が非0になる場合がある。
 
-要求元の新版が現在のhostに対応しているなら、要求元を更新する。hostを変更するなら、ほかのプラグインのpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを更新し、差分・ビルド・テストを確認する。devDependenciesならインストール時の `-D` も維持する。
+要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を更新する。hostを変更するなら、ほかのプラグインのpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを更新し、差分・ビルド・[テスト](/glossary/テスト/)を確認する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
 
-lockfile削除やキャッシュ削除から始めても、互いに交わらない要求範囲は直らない。lockfileを消すと関係のない依存まで更新される可能性がある。
+lockfile[削除](/glossary/削除/)や[キャッシュ](/glossary/キャッシュ/)[削除](/glossary/削除/)から始めても、互いに交わらない要求範囲は直らない。lockfileを消すと関係のない依存まで更新される可能性がある。
 
 ## legacy-peer-depsとforceを区別する
 
@@ -101,38 +101,38 @@ lockfile削除やキャッシュ削除から始めても、互いに交わらな
 npm install --legacy-peer-deps
 ```
 
-[npm公式の設定説明](https://docs.npmjs.com/cli/v11/using-npm/config#legacy-peer-deps)は、この設定を推奨していない。peerを無視して入った組合せは、実際に利用する機能で検証する。
+[npm公式の設定説明](https://docs.npmjs.com/cli/v11/using-npm/config#legacy-peer-deps)は、この[設定](/glossary/設定/)を推奨していない。peerを無視して入った組合せは、実際に利用する機能で検証する。
 
-`.npmrc`に常設すると以後の操作にも効く。共有する場合は、その理由と解除する条件をプロジェクトで管理する。`--force`も同等の代替として気軽に追加しない。
+`.npmrc`に常設すると以後の操作にも効く。共有する場合は、その理由と解除する条件を[プロジェクト](/glossary/プロジェクト/)で管理する。`--force`も同等の代替として気軽に追加しない。
 
 ## overridesとCIで注意する点
 
-`overrides`は依存ツリーのパッケージを指定した版などへ置き換える仕組みであり、置き換えた先の互換性を証明するものではない。webpack 3を要求するプラグインへwebpack 4を指定しても、そのプラグインが4に対応するようにはならない。
+`overrides`は依存ツリーの[パッケージ](/glossary/パッケージ/)を指定した版などへ置き換える仕組みであり、置き換えた先の[互換性](/glossary/互換性/)を証明するものではない。webpack 3を要求するプラグインへwebpack 4を指定しても、そのプラグインが4に[対応](/glossary/対応/)するようにはならない。
 
 [npmのpackage.json仕様](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides)には、直接依存を上書きする場合は依存指定とoverrideの指定を一致させる制約もある。違う指定を置くと `EOVERRIDE` の原因になる。rootのoverridesで何を置き換えるのか確認してから使う。
 
-`--legacy-peer-deps`でlockfileを作った場合、CIの `npm ci` にも同じ設定が必要になる。[npm ciの公式説明](https://docs.npmjs.com/cli/v11/commands/npm-ci)がこの条件を案内している。
+`--legacy-peer-deps`でlockfileを作った場合、CIの `npm ci` にも同じ[設定](/glossary/設定/)が必要になる。[npm ciの公式説明](https://docs.npmjs.com/cli/v11/commands/npm-ci)がこの条件を案内している。
 
 ```bash
 npm ci --legacy-peer-deps
 ```
 
-これは回避策を採用したプロジェクト向けの例である。CIだけ通すために追加する前に、開発環境で使った設定とlockfileを確認する。`npm ci`は既存のnode_modulesを削除してからインストールするため、調査だけの目的では実行しない。
+これは回避策を採用した[プロジェクト](/glossary/プロジェクト/)向けの例である。CIだけ通すために追加する前に、[開発環境](/glossary/開発環境/)で使った[設定](/glossary/設定/)とlockfileを確認する。`npm ci`は既存のnode_modulesを[削除](/glossary/削除/)してから[インストール](/glossary/インストール/)するため、調査だけの目的では実行しない。
 
 ## 補足：似ているが別のエラー
 
-`npm warn ERESOLVE overriding peer dependency`は、競合を警告として扱って解決を続けた表示である。その行だけではコマンド全体の成功・失敗を判断できない。最後の終了結果も確認する。
+`npm warn ERESOLVE overriding peer dependency`は、競合を警告として扱って解決を続けた表示である。その行だけでは[コマンド](/glossary/コマンド/)全体の成功・失敗を判断できない。最後の終了結果も確認する。
 
-`EBADENGINE`はNode.jsやnpmの版とengines条件の不一致、`EBADPLATFORM`はOS・CPUなどの条件の不一致を示す。peerの要求を無視するフラグで一律に直す問題ではない。
+`EBADENGINE`はNode.jsやnpmの版とengines条件の不一致、`EBADPLATFORM`は[OS](/glossary/os/)・[CPU](/glossary/cpu/)などの条件の不一致を示す。peerの要求を無視するフラグで一律に直す問題ではない。
 
 `EOVERRIDE`はoverridesの指定の問題、`ETARGET`は要求を満たす公開版が見つからない場合などに出る。`Found`に正常な版が表示されない場合は、公開版や取得条件の確認も必要になる。
 
-Yarnやpnpmへ変更する場合も、npmの設定名や既定動作をそのまま当てはめない。パッケージマネージャーの変更は互換性のある版を選ぶ作業の代わりにはならない。
+Yarnやpnpmへ変更する場合も、npmの設定名や既定動作をそのまま当てはめない。パッケージマネージャーの変更は[互換性](/glossary/互換性/)のある版を選ぶ作業の代わりにはならない。
 
 ## 解決手順のまとめ
 
-`Found:`の版と、`peer ... from ...`の要求範囲を比べ、要求元と要求先を互換性のある版に揃える。npmの版とstrict設定も確認する。回避が必要な場合はlegacy-peer-depsとforceの違いを理解し、lockfile作成時とCIの設定を揃えて、ビルド・テストで確認する。
+`Found:`の版と、`peer ... from ...`の要求範囲を比べ、要求元と要求先を[互換性](/glossary/互換性/)のある版に揃える。npmの版とstrict[設定](/glossary/設定/)も確認する。回避が必要な場合はlegacy-peer-depsとforceの違いを理解し、lockfile作成時とCIの[設定](/glossary/設定/)を揃えて、ビルド・[テスト](/glossary/テスト/)で確認する。
 
-本記事のコマンドは調査・対処の例であり、外部パッケージを使ったインストール結果は未検証です。公式仕様・現行ソース・過去のGitHub報告を2026年10月9日に確認しました。
+本記事の[コマンド](/glossary/コマンド/)は調査・対処の例であり、外部[パッケージ](/glossary/パッケージ/)を使った[インストール](/glossary/インストール/)結果は未検証です。公式仕様・現行ソース・過去の[GitHub](/glossary/github/)報告を2026年10月9日に確認しました。
 
 *免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

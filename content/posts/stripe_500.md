@@ -185,7 +185,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` [フィールド](/glossary/フィールド/)をメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
 
-2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に障害がないか確認します。インシデント進行中の場合は、復旧を待つ必要があります。
+2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に障害がないか確認します。インシデント進行中の場合は、[復旧](/glossary/復旧/)を待つ必要があります。
 
 3. **ホスト側[ログ](/glossary/ログ/)の確認**：アプリケーションサーバーの[エラーログ](/glossary/エラーログ/)を詳しく確認し、Stripe [SDK](/glossary/sdk/)内部で例外が発生していないかを確認します。
 

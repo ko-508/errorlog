@@ -47,7 +47,7 @@ Content-Type: application/json
 
 ### 原因1：GitHub側のメンテナンスまたはシステム障害
 
-[GitHub](/glossary/github/)が定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の復旧を待つ必要があります。
+[GitHub](/glossary/github/)が定期メンテナンスやシステム障害の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の[復旧](/glossary/復旧/)を待つ必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

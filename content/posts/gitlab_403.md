@@ -44,7 +44,7 @@ $ curl -H "PRIVATE-TOKEN: <your-token>" https://gitlab.example.com/api/v4/projec
 
 ### 原因1：プロジェクトメンバーのロール権限が不足している
 
-GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアクセスレベルが細分化されています。Guest（ゲスト）や Reporter（レポーター）[ロール](/glossary/ロール/)では、[コード](/glossary/コード/)の[プッシュ](/glossary/プッシュ/)やマージリクエストの承認などの重要な操作ができません。ユーザーが必要な操作を実行しようとしても、割り当てられた[ロール](/glossary/ロール/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
+GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアクセスレベルが細分化されています。Guest（ゲスト）や Reporter（レポーター）[ロール](/glossary/ロール/)では、[コード](/glossary/コード/)の[プッシュ](/glossary/プッシュ/)やマージリクエストの[承認](/glossary/承認/)などの重要な操作ができません。ユーザーが必要な操作を実行しようとしても、割り当てられた[ロール](/glossary/ロール/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
 
 **修正方法：**
 

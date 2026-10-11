@@ -145,7 +145,7 @@ GET http://api.example.com/search?keyword=%E6%9D%B1%E4%BA%AC%E9%83%BD&sort=%E6%9
 またはPostmanで以下の方法で安全に[設定](/glossary/設定/)します：
 
 Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定/)：
-- Method: GET
+- Method: [GET](/glossary/get/)
 - [URL](/glossary/url/): http://api.example.com/search
 - Params（タブ）:
   - Key: keyword, Value: 東京都

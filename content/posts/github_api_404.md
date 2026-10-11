@@ -140,7 +140,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
 
 ## Editor's Note
 
-[権限](/glossary/権限/)の問題が404として現れることの実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[REST API GET /repos/{owner}/{repo}/pages 404s](https://github.com/orgs/community/discussions/24604)）。[GitHub](/glossary/github/) Pages の情報を返す[エンドポイント](/glossary/エンドポイント/)で404が出続けるという報告に対し、repo scope を持つ[トークン](/glossary/トークン/)で[認証](/glossary/認証/)したら取得できたという検証結果が寄せられています。当時のリファレンスには追加の[権限](/glossary/権限/)が不要と読める記載があり、[認証](/glossary/認証/)すれば通るという事実に報告者たちがなかなか到達できなかった経過が記録されています。また、組織で SSO（シングルサインオン）を使っている[環境](/glossary/環境/)では、[トークン](/glossary/トークン/)を組織に対して承認することで解決したという報告も含まれています。2024年時点でも同様の報告が続いており、404の正体が[権限](/glossary/権限/)だったという本記事の原因3の典型例です。
+[権限](/glossary/権限/)の問題が404として現れることの実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[REST API GET /repos/{owner}/{repo}/pages 404s](https://github.com/orgs/community/discussions/24604)）。[GitHub](/glossary/github/) Pages の情報を返す[エンドポイント](/glossary/エンドポイント/)で404が出続けるという報告に対し、repo scope を持つ[トークン](/glossary/トークン/)で[認証](/glossary/認証/)したら取得できたという検証結果が寄せられています。当時のリファレンスには追加の[権限](/glossary/権限/)が不要と読める記載があり、[認証](/glossary/認証/)すれば通るという事実に報告者たちがなかなか到達できなかった経過が記録されています。また、組織で SSO（シングルサインオン）を使っている[環境](/glossary/環境/)では、[トークン](/glossary/トークン/)を組織に対して[承認](/glossary/承認/)することで解決したという報告も含まれています。2024年時点でも同様の報告が続いており、404の正体が[権限](/glossary/権限/)だったという本記事の原因3の典型例です。
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の404は、存在と[権限](/glossary/権限/)を意図的に区別しない設計であるぶん、調査する側の手順が重要になります。[URL](/glossary/url/) の綴りを何度も見直す前に、[トークン](/glossary/トークン/)の生死と[権限](/glossary/権限/)を先に確かめることが確実な近道です。
 

@@ -42,7 +42,7 @@ Please retry the request after some time. RequestId: abc123def456
 
 ### 原因1：Azureリージョンで障害が発生している
 
-Azure のデータセンター障害やメンテナンス作業により、特定のリージョン全体がサービス停止している場合があります。この場合、[アプリケーション](/glossary/アプリケーション/)側での[修正](/glossary/修正/)では解決できず、Azure のサービス復旧を待つか、別リージョンへの切り替えが必要です。
+Azure のデータセンター障害やメンテナンス作業により、特定のリージョン全体がサービス停止している場合があります。この場合、[アプリケーション](/glossary/アプリケーション/)側での[修正](/glossary/修正/)では解決できず、Azure のサービス[復旧](/glossary/復旧/)を待つか、別リージョンへの切り替えが必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -259,7 +259,7 @@ spec:
 
 ### Azure Portal でのサービス状態確認
 
-`status.azure.com` にアクセスして、リージョン全体の障害情報を確認することが最初のステップです。特定のサービス（App Service、[SQL](/glossary/sql/) Database、Storage など）のステータスが「Degraded」または「Service Interruption」と表示されている場合、その解決を待つ必要があります。
+`status.azure.com` にアクセスして、リージョン全体の障害情報を確認することが最初の[ステップ](/glossary/ステップ/)です。特定のサービス（App Service、[SQL](/glossary/sql/) Database、Storage など）のステータスが「Degraded」または「Service Interruption」と表示されている場合、その解決を待つ必要があります。
 
 ### App Service のインスタンス数と消費プランの検討
 

@@ -34,7 +34,7 @@ trend_incident: false
 }
 ```
 
-もう1つ、先に否定しておくべき筋があります。「[メソッド](/glossary/メソッド/)を直せば解決する 405」は、[GitHub](/glossary/github/) [API](/glossary/api/) ではまず成り立ちません。2026年7月26日に未認証で実測したところ、GET だけを受け付ける[パス](/glossary/パス/)（`/users/octocat`）に DELETE・PUT・PATCH を送った場合、返るのは 405 ではなく 404 Not Found でした。[GitHub](/glossary/github/) [API](/glossary/api/) は、[対応](/glossary/対応/)していない[メソッド](/glossary/メソッド/)の組み合わせを「そのような資源はない」として扱います。したがって、405 を見たときにまず確認すべきは、[メソッド](/glossary/メソッド/)名ではなく、それが[マージ](/glossary/マージ/)要求への応答かどうかです。
+もう1つ、先に否定しておくべき筋があります。「[メソッド](/glossary/メソッド/)を直せば解決する 405」は、[GitHub](/glossary/github/) [API](/glossary/api/) ではまず成り立ちません。2026年7月26日に未認証で実測したところ、[GET](/glossary/get/) だけを受け付ける[パス](/glossary/パス/)（`/users/octocat`）に DELETE・PUT・PATCH を送った場合、返るのは 405 ではなく 404 Not Found でした。[GitHub](/glossary/github/) [API](/glossary/api/) は、[対応](/glossary/対応/)していない[メソッド](/glossary/メソッド/)の組み合わせを「そのような資源はない」として扱います。したがって、405 を見たときにまず確認すべきは、[メソッド](/glossary/メソッド/)名ではなく、それが[マージ](/glossary/マージ/)要求への応答かどうかです。
 
 ## まず最初に：message の文言で5系統に振り分ける
 
@@ -137,7 +137,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ### 原因4：必要なレビューが足りない（At least 1 approving review is required by reviewers with write access）
 
-[ブランチ](/glossary/ブランチ/)保護でレビュー必須を[設定](/glossary/設定/)している場合、承認が足りない状態での[マージ](/glossary/マージ/)要求はこの 405 になります。自分が[リポジトリ](/glossary/リポジトリ/)の所有者であっても、保護規則の対象に管理者を含めていれば同じです。
+[ブランチ](/glossary/ブランチ/)保護でレビュー必須を[設定](/glossary/設定/)している場合、[承認](/glossary/承認/)が足りない状態での[マージ](/glossary/マージ/)要求はこの 405 になります。自分が[リポジトリ](/glossary/リポジトリ/)の所有者であっても、保護規則の対象に管理者を含めていれば同じです。
 
 必要な承認数は保護設定から取得できます。
 
@@ -146,7 +146,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/<owner>/<repo>/branches/<branch>/protection/required_pull_request_reviews
 ```
 
-[自動化](/glossary/自動化/)から呼ぶ場合、承認は [API](/glossary/api/) では代替できません。設計としては、承認が揃うまで[マージ](/glossary/マージ/)を試みない（レビュー完了の [Webhook](/glossary/webhook/) を待つ）か、承認が揃っていない状態を異常ではなく「まだその時ではない」として扱う分岐にします。
+[自動化](/glossary/自動化/)から呼ぶ場合、[承認](/glossary/承認/)は [API](/glossary/api/) では代替できません。設計としては、[承認](/glossary/承認/)が揃うまで[マージ](/glossary/マージ/)を試みない（レビュー完了の [Webhook](/glossary/webhook/) を待つ）か、[承認](/glossary/承認/)が揃っていない状態を異常ではなく「まだその時ではない」として扱う分岐にします。
 
 ### 原因5：そのブランチに push する権限がない（You're not authorized to push to this branch.）
 

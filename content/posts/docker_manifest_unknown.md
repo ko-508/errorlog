@@ -122,7 +122,7 @@ docker push <your-registry>/<your-namespace>/<your-image>:<your-tag>
 docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
 ```
 
-マルチアーキテクチャで配布する場合は、各アーキテクチャの[イメージ](/glossary/イメージ/)を push したうえで、manifest の作成と公開まで終える必要があります。構文は版により異なるため、`docker manifest create --help` と `docker manifest push --help` で確認してから実行してください。[CI/CD](/glossary/ci-cd/) では、build → tag → push → manifest 作成 → manifest 公開の順序と、各ステップの終了[コード](/glossary/コード/)をパイプラインの[ログ](/glossary/ログ/)で確認します。前段が失敗しているのに後段が走っている構成では、この[エラー](/glossary/エラー/)が再発します。
+マルチアーキテクチャで配布する場合は、各アーキテクチャの[イメージ](/glossary/イメージ/)を push したうえで、manifest の作成と公開まで終える必要があります。構文は版により異なるため、`docker manifest create --help` と `docker manifest push --help` で確認してから実行してください。[CI/CD](/glossary/ci-cd/) では、build → tag → push → manifest 作成 → manifest 公開の順序と、各[ステップ](/glossary/ステップ/)の終了[コード](/glossary/コード/)をパイプラインの[ログ](/glossary/ログ/)で確認します。前段が失敗しているのに後段が走っている構成では、この[エラー](/glossary/エラー/)が再発します。
 
 ## 確認・切り分け手順
 
@@ -161,7 +161,7 @@ docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
     docker image ls --digests
     ```
 
-8. **公開側の[ログ](/glossary/ログ/)を確認する**：[CI/CD](/glossary/ci-cd/) の push ステップが成功しているか、manifest の公開まで到達しているかを確認します。
+8. **公開側の[ログ](/glossary/ログ/)を確認する**：[CI/CD](/glossary/ci-cd/) の push [ステップ](/glossary/ステップ/)が成功しているか、manifest の公開まで到達しているかを確認します。
 
 対処後は、手順4と手順1を再実行し、`docker manifest inspect` が manifest を返し、`docker pull` が完了することを確認してください。
 

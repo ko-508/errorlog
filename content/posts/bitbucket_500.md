@@ -44,7 +44,7 @@ error: failed to push some refs to 'https://bitbucket.org/<your-workspace>/<your
 
 ### 原因 1：Bitbucket インフラの一時的な障害
 
-Bitbucket のサーバーシステムやクラウドインフラで一時的な障害が発生している状態です。Atlassian のシステムメンテナンス中、[ネットワーク](/glossary/ネットワーク/)障害、または[データベース](/glossary/データベース/)接続の問題が原因となります。このような障害は通常、Atlassian 側で自動的に復旧されますが、復旧までの間はすべてのユーザーに影響します。
+Bitbucket のサーバーシステムやクラウドインフラで一時的な障害が発生している状態です。Atlassian のシステムメンテナンス中、[ネットワーク](/glossary/ネットワーク/)障害、または[データベース](/glossary/データベース/)接続の問題が原因となります。このような障害は通常、Atlassian 側で自動的に[復旧](/glossary/復旧/)されますが、[復旧](/glossary/復旧/)までの間はすべてのユーザーに影響します。
 
 **復旧方法：**
 

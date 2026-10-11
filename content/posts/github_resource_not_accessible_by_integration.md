@@ -265,7 +265,7 @@ permissions:
   issues: write
 ```
 
-一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や承認を行う処理は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを確認します。
+一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や[承認](/glossary/承認/)を行う処理は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを確認します。
 
 ### 原因5：外部フォークからのpull_requestで書き込みを要求している
 
@@ -362,7 +362,7 @@ steps:
 
 ### 原因8：GITHUB_TOKENでは利用できない権限または設定が必要
 
-[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に[対応](/glossary/対応/)するものがない場合があります。また、前述のPull Request作成・承認のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
+[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に[対応](/glossary/対応/)するものがない場合があります。また、前述のPull Request作成・[承認](/glossary/承認/)のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
 
 この場合は `write-all` を追加しても解決しません。
 
@@ -453,7 +453,7 @@ gh api "repos/$GITHUB_REPOSITORY"
 gh api --include "repos/$GITHUB_REPOSITORY"
 ```
 
-ただし、GETが成功しても書き込み[権限](/glossary/権限/)があるとは限りません。403になった実際の[エンドポイント](/glossary/エンドポイント/)の資料と応答を確認します。確認のためだけにIssueやコメントを作成するなど、状態を変更する[API](/glossary/api/)を実行しないでください。
+ただし、[GET](/glossary/get/)が成功しても書き込み[権限](/glossary/権限/)があるとは限りません。403になった実際の[エンドポイント](/glossary/エンドポイント/)の資料と応答を確認します。確認のためだけにIssueやコメントを作成するなど、状態を変更する[API](/glossary/api/)を実行しないでください。
 
 [ワークフロー](/glossary/ワークフロー/)で `gh` を使う場合は、[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)へ渡します。
 

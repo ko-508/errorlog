@@ -94,7 +94,7 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 | CNI [設定](/glossary/設定/)・プラグインの不整合 | CNI アドオンの Pod 状態、CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI [設定](/glossary/設定/)・バイナリの整合を回復 |
 | [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | アドオン側の IPAM 状態、Pod CIDR [設定](/glossary/設定/)の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
 | pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム[設定](/glossary/設定/)の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー[設定](/glossary/設定/) |
-| container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の復旧、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
+| container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の[復旧](/glossary/復旧/)、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
 | ノードのディスク・inode 枯渇 | `df -h` / `df -i`、ノードの `DiskPressure` | 不要[イメージ](/glossary/イメージ/)・[ログ](/glossary/ログ/)の[削除](/glossary/削除/)、容量拡張 |
 | [ネットワーク](/glossary/ネットワーク/)前提条件の欠落 | カーネルモジュールと sysctl、iptables の[バックエンド](/glossary/バックエンド/) | 公式ドキュメントの前提条件どおりに[設定](/glossary/設定/) |
 

@@ -182,7 +182,7 @@ Token: {{api_token}}
 
 Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value）とグローバル（Initial Value）の2段階で管理されます。[セキュリティ](/glossary/セキュリティ/)上の理由から、[API](/glossary/api/)[キー](/glossary/キー/)や[トークン](/glossary/トークン/)などの機密情報は「Initial Value」には記入せず、「Current Value」のみに[設定](/glossary/設定/)することが重要です。これにより、チームとコレクションを共有する際に機密情報が意図せず流出するのを防げます。
 
-またPostman Workspaceをチーム間で共有している場合、各自の[環境変数](/glossary/環境変数/)を「Private」に[設定](/glossary/設定/)することで、ローカル端末に限定して認証情報を管理できます。設定方法は環境編集画面で、[環境変数](/glossary/環境変数/)の右側にある目のアイコンをクリックして「Private」を選択してください。
+またPostman Workspaceをチーム間で共有している場合、各自の[環境変数](/glossary/環境変数/)を「Private」に[設定](/glossary/設定/)することで、ローカル端末に限定して認証情報を管理できます。設定方法は環境編集画面で、[環境変数](/glossary/環境変数/)の右側にある目の[アイコン](/glossary/アイコン/)をクリックして「Private」を選択してください。
 
 さらに、Pre-request Scriptを使用する場合、[スクリプト](/glossary/スクリプト/)内で`pm.sendRequest()`を呼び出すと、同期的に別の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)（[トークン](/glossary/トークン/)取得など）を実行できます。ただし、この[メソッド](/glossary/メソッド/)は[非同期](/glossary/非同期/)で動作するため、続く実[メソッド](/glossary/メソッド/)は十分な[コールバック](/glossary/コールバック/)処理を含めて記述する必要があります。[コールバック](/glossary/コールバック/)内で`pm.environment.set()`を使い、取得した[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)に[保存](/glossary/保存/)してから、メインリクエストに参照させる[パターン](/glossary/パターン/)が一般的です。
 
