@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-10-12",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/postgresql_no_pg_hba_conf_entry/",
+      "pageTitle": "pg_hba.conf接続拒否の原因と対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 18.0,
+      "averageSessionDuration": 357.44512933333334,
+      "engagementRate": 0.6,
+      "bounceRate": 0.4
+    }
+  ]
+}

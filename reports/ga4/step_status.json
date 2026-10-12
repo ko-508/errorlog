@@ -18,8 +18,8 @@
       "id": "fetch_gsc",
       "name": "Search Console取得",
       "outcome": "success",
-      "continue_on_error": false,
-      "impact": "GSCボトルネック・クエリデータが更新されていません"
+      "continue_on_error": true,
+      "impact": "GSCは取得失敗として記録されました（0件の実績ではありません）。ジョブは最後に失敗になります"
     },
     {
       "id": "weekly_report",

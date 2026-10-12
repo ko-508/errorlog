@@ -1,0 +1,23 @@
+{
+  "generated_at": "2026-10-12",
+  "site_url": "https://errorlog.jp/",
+  "period_days": 7,
+  "date_range": {
+    "startDate": "2026-10-03",
+    "endDate": "2026-10-09"
+  },
+  "fetch_status": {
+    "status": "ok",
+    "checked_at": "2026-10-12T01:07:02.808775Z",
+    "raw_rows": 18,
+    "posts_rows": 2,
+    "permission": "siteOwner"
+  },
+  "ctr_threshold": 0.015,
+  "pos_range": [
+    11.0,
+    20.0
+  ],
+  "total_pages": 2,
+  "bottlenecks": []
+}
