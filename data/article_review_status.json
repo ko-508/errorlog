@@ -1653,5 +1653,16 @@
         "note": "新規作成。Git公式文書・実装・GitHub実例を照合。方式未指定の停止、マージ、リベース、早送りのみの拒否をGit 2.51.1で確認"
       }
     ]
+  },
+  "content/posts/node_err_ossl_evp_unsupported.md": {
+    "verified": true,
+    "verified_at": "2026-10-12",
+    "last_verified_at": "2026-10-12",
+    "history": [
+      {
+        "date": "2026-10-12",
+        "note": "新規作成。Node.js・webpack公式資料、固定版の実装、GitHub実例を照合。MD4の失敗とlegacy指定の効果をNode.js 24.19.0で確認"
+      }
+    ]
   }
 }
