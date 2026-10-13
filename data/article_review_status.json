@@ -1664,5 +1664,16 @@
         "note": "新規作成。Node.js・webpack公式資料、固定版の実装、GitHub実例を照合。MD4の失敗とlegacy指定の効果をNode.js 24.19.0で確認"
       }
     ]
+  },
+  "content/posts/python_unicodedecodeerror_cp932.md": {
+    "verified": true,
+    "verified_at": "2026-10-13",
+    "last_verified_at": "2026-10-13",
+    "history": [
+      {
+        "date": "2026-10-13",
+        "note": "新規作成。Python公式文書とGitHub実例を照合。cp932・UTF-8の読み込み、BOM処理、文字化けをCPython 3.12.14で確認"
+      }
+    ]
   }
 }
