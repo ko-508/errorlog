@@ -1675,5 +1675,16 @@
         "note": "新規作成。Python公式文書とGitHub実例を照合。cp932・UTF-8の読み込み、BOM処理、文字化けをCPython 3.12.14で確認"
       }
     ]
+  },
+  "content/posts/git_not_a_git_repository.md": {
+    "verified": true,
+    "verified_at": "2026-10-14",
+    "last_verified_at": "2026-10-14",
+    "history": [
+      {
+        "date": "2026-10-14",
+        "note": "新規作成。Git公式文書・固定版実装・GitHub関連事例を照合。リポジトリ探索、空の.git、不正なGIT_DIR、worktreeをGit 2.51.1で確認"
+      }
+    ]
   }
 }
