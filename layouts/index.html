@@ -1,11 +1,17 @@
 {{- define "main" }}
-{{- $fusejs := resources.Get "js/fuse.basic.min.js" }}
+{{- $fuseSource := resources.Get "js/fuse.basic.min.js" }}
+{{- $fusejs := $fuseSource | fingerprint }}
+{{- /* 更新前のHTMLとの互換性のため、同じ資源を旧URLにも出力する。 */}}
+{{- $legacyFuse := resources.Copy "js/fuse.basic.min.js" $fuseSource }}
+{{- $legacyFuseURL := $legacyFuse.RelPermalink }}
 
 {{- /* ── ヒーロー + 検索 ── */}}
 <section class="hp-hero">
   <h1 class="hp-hero__title">エラーコードで詰まったら、ここへ。</h1>
   <p class="hp-hero__sub">HTTP ステータス・API エラー・ツール固有エラーを<br>ツール × コードで横断検索できる開発者向けリファレンス</p>
-  <div class="hp-search-form" id="hp-searchbox">
+  <div class="hp-search-form" id="hp-searchbox"
+    data-fuse-src="{{ $fusejs.RelPermalink }}" data-fuse-integrity="{{ $fusejs.Data.Integrity }}"
+    data-index-src="{{ "index.json" | relURL }}">
     <div class="hp-search-wrap">
       <input class="hp-search-input" id="hp-searchInput" type="search"
         placeholder="例：Docker 404、AWS 403..." autocomplete="off" maxlength="64">
@@ -18,28 +24,92 @@
       </button>
     </div>
     <ul class="hp-search-results" id="hp-searchResults" role="listbox"></ul>
+    <p class="hp-search-status" id="hp-searchStatus" role="status" aria-live="polite"></p>
   </div>
 </section>
 
-<script src="{{ $fusejs.RelPermalink }}"></script>
 <script>
 (function () {
   var fuse;
-  var input   = document.getElementById('hp-searchInput');
-  var resList = document.getElementById('hp-searchResults');
-  var btn     = document.getElementById('hp-searchBtn');
-  var box     = document.getElementById('hp-searchbox');
+  var input    = document.getElementById('hp-searchInput');
+  var resList  = document.getElementById('hp-searchResults');
+  var btn      = document.getElementById('hp-searchBtn');
+  var box      = document.getElementById('hp-searchbox');
+  var statusEl = document.getElementById('hp-searchStatus');
 
-  fetch('/index.json').then(function (r) { return r.json(); }).then(function (data) {
-    fuse = new Fuse(data, {
-      threshold: 0.4,
-      ignoreLocation: true,
-      keys: [
-        { name: 'title',   weight: 3 },
-        { name: 'summary', weight: 1 }
-      ]
+  /* 検索の準備状態: idle → loading → ready / error（error からは再試行でのみ loading へ） */
+  var state = 'idle';
+  var readyPromise = null;
+  var scriptPromise = null;
+  var indexPromise = null;
+
+  function loadFuseScript() {
+    if (scriptPromise) return scriptPromise;
+    scriptPromise = new Promise(function (resolve, reject) {
+      var script = document.createElement('script');
+      script.src = box.dataset.fuseSrc;
+      script.integrity = box.dataset.fuseIntegrity;
+      script.crossOrigin = 'anonymous';
+      script.onload = function () {
+        if (typeof Fuse !== 'function') {
+          reject(new Error('Fuse is not defined after loading ' + script.src));
+          return;
+        }
+        resolve();
+      };
+      script.onerror = function () {
+        script.parentNode.removeChild(script);
+        reject(new Error('failed to load ' + script.src));
+      };
+      document.head.appendChild(script);
     });
-  }).catch(function () {});
+    scriptPromise.catch(function () { scriptPromise = null; });
+    return scriptPromise;
+  }
+
+  function fetchIndex() {
+    if (indexPromise) return indexPromise;
+    var url = box.dataset.indexSrc;
+    indexPromise = fetch(url).then(function (response) {
+      if (!response.ok) throw new Error('failed to fetch ' + url + ': HTTP ' + response.status);
+      return response.json();
+    });
+    indexPromise.catch(function () { indexPromise = null; });
+    return indexPromise;
+  }
+
+  function initializationFailed(err) {
+    console.error('[hp-search] search initialization failed:', err);
+    state = 'error';
+    readyPromise = null;
+    render();
+  }
+
+  /* 複数回のフォーカス・入力でも、読み込みとインデックス構築は1回だけ行う。
+     失敗後は自動で再読み込みせず、再試行ボタンからのみ読み込み直す。 */
+  function ensureReady() {
+    if (state === 'error') return;
+    startLoading();
+  }
+
+  function startLoading() {
+    if (readyPromise) return readyPromise;
+    state = 'loading';
+    render();
+    readyPromise = Promise.all([loadFuseScript(), fetchIndex()]).then(function (results) {
+      fuse = new Fuse(results[1], {
+        threshold: 0.4,
+        ignoreLocation: true,
+        keys: [
+          { name: 'title',   weight: 3 },
+          { name: 'summary', weight: 1 }
+        ]
+      });
+      state = 'ready';
+      render();
+    }).catch(initializationFailed);
+    return readyPromise;
+  }
 
   /* エラー記事=0、その他投稿=1、用語集=2 の順で並び替える */
   function articlePriority(item) {
@@ -106,9 +176,17 @@
   }
 
   var timer;
-  input.addEventListener('input', function () {
+  input.addEventListener('focus', ensureReady);
+  input.addEventListener('input', function (e) {
+    ensureReady();
+    /* 日本語変換中は確定まで検索しない（compositionend で検索する）。 */
+    if (e.isComposing) return;
     clearTimeout(timer);
-    timer = setTimeout(doSearch, 150);
+    timer = setTimeout(render, 150);
+  });
+  input.addEventListener('compositionend', function () {
+    clearTimeout(timer);
+    timer = setTimeout(render, 150);
   });
 
   function goFull() {
@@ -116,25 +194,65 @@
     if (q) window.location.href = '/search/?q=' + encodeURIComponent(q);
   }
 
-  function doSearch() {
+  function setStatus(text, withRetry) {
+    statusEl.textContent = text;
+    if (withRetry) {
+      var retry = document.createElement('button');
+      retry.type = 'button';
+      retry.className = 'hp-search-status__retry';
+      retry.textContent = '再試行';
+      retry.addEventListener('click', function () {
+        startLoading();
+        input.focus();
+      });
+      statusEl.appendChild(document.createTextNode(' '));
+      statusEl.appendChild(retry);
+    }
+    statusEl.classList.add('visible');
+  }
+
+  function clearStatus() {
+    statusEl.classList.remove('visible');
+    statusEl.textContent = '';
+  }
+
+  /* 準備完了時にも最新の入力値で描画し、読み込み中に変わった検索語を取りこぼさない。 */
+  function render() {
     var q = input.value.trim();
-    if (!q || !fuse) { hide(); return; }
+    if (state === 'error') {
+      hide();
+      setStatus('検索の準備に失敗しました。通信状況を確認して、もう一度お試しください。', true);
+      return;
+    }
+    if (!q) { hide(); clearStatus(); return; }
+    if (state !== 'ready') {
+      hide();
+      setStatus('検索を準備しています…', false);
+      return;
+    }
+    clearStatus();
     var queryCode = extractErrorCode(q);
     var toolTerms = extractToolTerms(q, queryCode);
     var hits = fuse.search(q, { limit: 20 });
-    if (!hits.length) { hide(); return; }
-    hits.sort(function (a, b) {
-      return compareSearchHits(a, b, queryCode, toolTerms);
-    });
     resList.innerHTML = '';
-    hits.slice(0, 8).forEach(function (h) {
-      var li = document.createElement('li');
-      var a  = document.createElement('a');
-      a.href = h.item.permalink;
-      a.textContent = h.item.title;
-      li.appendChild(a);
-      resList.appendChild(li);
-    });
+    if (!hits.length) {
+      var none = document.createElement('li');
+      none.className = 'hp-search-results__empty';
+      none.textContent = '「' + q + '」に一致する記事は見つかりませんでした';
+      resList.appendChild(none);
+    } else {
+      hits.sort(function (a, b) {
+        return compareSearchHits(a, b, queryCode, toolTerms);
+      });
+      hits.slice(0, 8).forEach(function (h) {
+        var li = document.createElement('li');
+        var a  = document.createElement('a');
+        a.href = h.item.permalink;
+        a.textContent = h.item.title;
+        li.appendChild(a);
+        resList.appendChild(li);
+      });
+    }
     var more = document.createElement('li');
     more.className = 'hp-search-results__more';
     var moreA = document.createElement('a');
@@ -153,6 +271,8 @@
   btn.addEventListener('click', goFull);
 
   input.addEventListener('keydown', function (e) {
+    /* 日本語変換の確定 Enter では移動しない。 */
+    if (e.isComposing || e.keyCode === 229) return;
     if (e.key === 'Enter') {
       var first = resList.querySelector('li:not(.hp-search-results__more) a');
       window.location.href = first ? first.href : ('/search/?q=' + encodeURIComponent(input.value.trim()));
@@ -180,7 +300,10 @@
   });
 
   document.addEventListener('click', function (e) {
-    if (!box.contains(e.target)) hide();
+    if (!box.contains(e.target)) {
+      hide();
+      if (state !== 'error') clearStatus();
+    }
   });
 }());
 </script>

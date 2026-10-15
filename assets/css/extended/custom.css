@@ -1091,6 +1091,39 @@ html[data-theme="dark"] .incident-banner__header {
   text-decoration: none;
 }
 .hp-search-results__more a:hover { background: var(--tertiary); }
+.hp-search-results__empty {
+  padding: .55rem 1rem;
+  color: var(--secondary);
+  font-size: .85rem;
+  line-height: 1.35;
+}
+.hp-search-status {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 0;
+  padding: .55rem 1rem;
+  color: var(--secondary);
+  font-size: .85rem;
+  line-height: 1.5;
+  z-index: 200;
+  box-shadow: 0 6px 16px rgba(0,0,0,.15);
+}
+.hp-search-status.visible { display: block; }
+.hp-search-status__retry {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--primary);
+  font: inherit;
+  padding: .1rem .6rem;
+  cursor: pointer;
+}
+.hp-search-status__retry:hover { background: var(--tertiary); }
 .hp-search-input {
   flex: 1;
   border: none;
