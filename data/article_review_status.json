@@ -1697,5 +1697,16 @@
         "note": "新規作成。npm公式文書・GitHub実例を照合。未定義スクリプト、server.js、ENOENT、workspace、if-presentをnpm 11.9.0で確認"
       }
     ]
+  },
+  "content/posts/postgresql_database_does_not_exist.md": {
+    "verified": true,
+    "verified_at": "2026-10-17",
+    "last_verified_at": "2026-10-17",
+    "history": [
+      {
+        "date": "2026-10-17",
+        "note": "新規作成。PostgreSQL公式文書・18系実装・Docker公式資料・GitHub実例を照合。掲載コマンドは未実行"
+      }
+    ]
   }
 }
