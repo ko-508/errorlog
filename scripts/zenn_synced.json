@@ -190,6 +190,7 @@
   "podman_500": "2026-07-13T08:15:44.229746+00:00",
   "podman_503": "2026-07-13T08:15:44.230656+00:00",
   "postgresql_connection_refused": "2026-10-04T23:56:42.568418+00:00",
+  "postgresql_database_does_not_exist": "2026-10-17T05:20:46.863150+00:00",
   "postgresql_deadlock_detected": "2026-09-20T23:13:57.848614+00:00",
   "postgresql_no_pg_hba_conf_entry": "2026-09-27T23:47:32.818219+00:00",
   "postgresql_password_authentication_failed": "2026-10-04T23:56:42.557512+00:00",
