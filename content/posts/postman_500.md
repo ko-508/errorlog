@@ -13,7 +13,7 @@ related_services: ["Postman Cloud", "Postman Console"]
 
 ## エラーの概要
 
-Postman で 500 [エラー](/glossary/エラー/)が表示される場合、[リクエスト](/glossary/リクエスト/)の送信先[サーバー](/glossary/サーバー/)が内部[エラー](/glossary/エラー/)（Internal Server Error）を返していることを意味します。この[エラー](/glossary/エラー/)は[テスト](/glossary/テスト/)対象の [API](/glossary/api/) [サーバー](/glossary/サーバー/)側で予期しない[エラー](/glossary/エラー/)が発生したか、Postman Cloud サービス自体に一時的な障害が生じている可能性があります。500 [エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)の状態異常を示すため、[クライアント](/glossary/クライアント/)側の[設定](/glossary/設定/)の問題ではなく、[サーバー](/glossary/サーバー/)側の調査が必要です。
+Postman で 500 [エラー](/glossary/エラー/)が表示される場合、[リクエスト](/glossary/リクエスト/)の送信先[サーバー](/glossary/サーバー/)が内部[エラー](/glossary/エラー/)（Internal Server Error）を返していることを意味します。この[エラー](/glossary/エラー/)は[テスト](/glossary/テスト/)対象の [API](/glossary/api/) [サーバー](/glossary/サーバー/)側で予期しない[エラー](/glossary/エラー/)が発生したか、Postman Cloud サービス自体に一時的な[障害](/glossary/障害/)が生じている可能性があります。500 [エラー](/glossary/エラー/)は[サーバー](/glossary/サーバー/)の状態異常を示すため、[クライアント](/glossary/クライアント/)側の[設定](/glossary/設定/)の問題ではなく、[サーバー](/glossary/サーバー/)側の調査が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -69,7 +69,7 @@ curl -X GET https://api.example.com/users \
 
 ### 原因 2：Postman Cloud サービスの一時的な障害
 
-Postman の[クラウドサービス](/glossary/クラウドサービス/)自体（[API](/glossary/api/) [キー](/glossary/キー/)検証、同期機能、[環境変数](/glossary/環境変数/)の管理）に一時的な障害が発生していることがあります。この場合、[テスト](/glossary/テスト/)対象 [API](/glossary/api/) が正常でも Postman を経由した[リクエスト](/glossary/リクエスト/)が失敗することがあります。
+Postman の[クラウドサービス](/glossary/クラウドサービス/)自体（[API](/glossary/api/) [キー](/glossary/キー/)検証、同期機能、[環境変数](/glossary/環境変数/)の管理）に一時的な[障害](/glossary/障害/)が発生していることがあります。この場合、[テスト](/glossary/テスト/)対象 [API](/glossary/api/) が正常でも Postman を経由した[リクエスト](/glossary/リクエスト/)が失敗することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -152,7 +152,7 @@ Postman Cloud 機能（History、Sync、Shared Collections）を使用してい�
 2. **Postman のサービス状態を確認する**
    - https://status.postman.com にアクセス
    - [API](/glossary/api/)・Cloud Sync・Web Dashboard など各サービスの状態を確認
-   - 障害が報告されている場合は[復旧](/glossary/復旧/)を待つ
+   - [障害](/glossary/障害/)が報告されている場合は[復旧](/glossary/復旧/)を待つ
 
 3. **[テスト](/glossary/テスト/)対象 [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認する**
    - [API](/glossary/api/) の管理者に連絡し、該当時刻のサーバーエラーログを確認してもらう
@@ -168,4 +168,4 @@ Postman Cloud 機能（History、Sync、Shared Collections）を使用してい�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

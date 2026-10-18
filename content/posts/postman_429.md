@@ -58,7 +58,7 @@ Collection Runner は[ループ](/glossary/ループ/)機能で指定回数だ�
 // Run Collection ダイアログの "Delay" フィールドに 1000 を入力
 ```
 
-Collection Runner UI では、実行ボタンを押す前に「Delay (ms)」[フィールド](/glossary/フィールド/)に値を入力します。[デフォルト](/glossary/デフォルト/)は 0ms（待機なし）ですが、[API](/glossary/api/) の制限に合わせて 1000～5000ms の間隔を[設定](/glossary/設定/)すると有効です。
+Collection Runner UI では、実行[ボタン](/glossary/ボタン/)を押す前に「Delay (ms)」[フィールド](/glossary/フィールド/)に値を入力します。[デフォルト](/glossary/デフォルト/)は 0ms（待機なし）ですが、[API](/glossary/api/) の制限に合わせて 1000～5000ms の間隔を[設定](/glossary/設定/)すると有効です。
 
 ### 原因2：ループ処理の繰り返し回数がレート制限を超えている
 
@@ -160,7 +160,7 @@ Postman Mock Server または開発環境用の [API](/glossary/api/) [エンド
 
 **Collection Runner での正確な Delay 設定方法：**
 
-Postman の Collection Runner（▶ Run Collection ボタン）を起動すると、左側のサイドパネルに「Delay」[フィールド](/glossary/フィールド/)が表示されます。ここに **ミリ秒単位** で値を入力します。例えば、1 秒間隔で実行するなら 1000、500ms なら 500 です。
+Postman の Collection Runner（▶ Run Collection [ボタン](/glossary/ボタン/)）を起動すると、左側のサイドパネルに「Delay」[フィールド](/glossary/フィールド/)が表示されます。ここに **ミリ秒単位** で値を入力します。例えば、1 秒間隔で実行するなら 1000、500ms なら 500 です。
 
 **Pre-request Script で[リクエスト](/glossary/リクエスト/)間の[遅延](/glossary/遅延/)を[設定](/glossary/設定/)する別法：**
 
@@ -209,4 +209,4 @@ Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Opti
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

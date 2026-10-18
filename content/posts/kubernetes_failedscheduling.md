@@ -206,7 +206,7 @@ PVのNode Affinityについては[Persistent Volumes](https://kubernetes.io/docs
 kubectl get nodes
 ```
 
-ノードが`NotReady`なら、Podの[設定](/glossary/設定/)を変更する前にノード障害を調べます。自動スケールを利用している場合は、ノード追加処理の成否と、追加されるノードがPodのリソース、ラベル、Taint、ゾーンの条件を満たすかを確認してください。
+ノードが`NotReady`なら、Podの[設定](/glossary/設定/)を変更する前にノード[障害](/glossary/障害/)を調べます。自動スケールを利用している場合は、ノード追加処理の成否と、追加されるノードがPodのリソース、ラベル、Taint、ゾーンの条件を満たすかを確認してください。
 
 ## Pending・Preempting・OOMKilledとの違い
 

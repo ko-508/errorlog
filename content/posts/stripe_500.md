@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な障害、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)の実装が不可欠になることです。
+Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な[障害](/glossary/障害/)、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)の実装が不可欠になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -82,7 +82,7 @@ const charge = await stripe.charges.create({
 
 ### 原因2：非推奨なAPIバージョンの使用
 
-Stripeは[API](/glossary/api/)仕様を定期的に更新し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
+Stripeは[API](/glossary/api/)[仕様](/glossary/仕様/)を定期的に更新し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -185,7 +185,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` [フィールド](/glossary/フィールド/)をメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
 
-2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に障害がないか確認します。インシデント進行中の場合は、[復旧](/glossary/復旧/)を待つ必要があります。
+2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に[障害](/glossary/障害/)がないか確認します。インシデント進行中の場合は、[復旧](/glossary/復旧/)を待つ必要があります。
 
 3. **ホスト側[ログ](/glossary/ログ/)の確認**：アプリケーションサーバーの[エラーログ](/glossary/エラーログ/)を詳しく確認し、Stripe [SDK](/glossary/sdk/)内部で例外が発生していないかを確認します。
 
@@ -213,4 +213,4 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

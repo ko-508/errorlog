@@ -167,7 +167,7 @@ fatal: refusing to merge unrelated histories
 
 `local changes would be overwritten by merge`は、未[コミット](/glossary/コミット/)の変更が上書きされる場合の拒否です。変更を一時保管しても、[コミット](/glossary/コミット/)済みの分岐をどう取り込むかは別に決める必要があります。
 
-[VS CodeのIssue #198210](https://github.com/microsoft/vscode/issues/198210)には、手元とリモートをそれぞれ更新し、[同期](/glossary/同期/)ボタンから実行された`git pull --tags origin main`が今回の[エラー](/glossary/エラー/)で停止した報告があります。画面上の同期操作でも、内部の[Git](/glossary/git/)[コマンド](/glossary/コマンド/)と[設定](/glossary/設定/)を確認する必要があることを示す実例です。すべてのVS Code[環境](/glossary/環境/)で同じ挙動になるという意味ではありません。
+[VS CodeのIssue #198210](https://github.com/microsoft/vscode/issues/198210)には、手元とリモートをそれぞれ更新し、[同期](/glossary/同期/)[ボタン](/glossary/ボタン/)から実行された`git pull --tags origin main`が今回の[エラー](/glossary/エラー/)で停止した報告があります。画面上の同期操作でも、内部の[Git](/glossary/git/)[コマンド](/glossary/コマンド/)と[設定](/glossary/設定/)を確認する必要があることを示す実例です。すべてのVS Code[環境](/glossary/環境/)で同じ挙動になるという意味ではありません。
 
 ## 解決手順のまとめ
 
@@ -179,4 +179,4 @@ fatal: refusing to merge unrelated histories
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

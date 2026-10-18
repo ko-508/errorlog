@@ -86,9 +86,9 @@ terraform plan
 
 ### 原因2：state・リモート実行のバックエンドが内部エラーを返している
 
-state の取得・保存先や、リモート実行の基盤（HCP Terraform、自営の Terraform Enterprise、その他の[バックエンド](/glossary/バックエンド/)）側の障害でも500が返ります。冒頭に示した Error downloading state: 500 Internal Server Error はこの系統で、HashiCorp 自身が障害復旧の公式文書の中で、[バックエンド](/glossary/バックエンド/)障害時に現れる[ログ](/glossary/ログ/)として例示しているものです。
+state の取得・保存先や、リモート実行の基盤（HCP Terraform、自営の Terraform Enterprise、その他の[バックエンド](/glossary/バックエンド/)）側の[障害](/glossary/障害/)でも500が返ります。冒頭に示した Error downloading state: 500 Internal Server Error はこの系統で、HashiCorp 自身が障害復旧の公式文書の中で、[バックエンド](/glossary/バックエンド/)障害時に現れる[ログ](/glossary/ログ/)として例示しているものです。
 
-この[エラー](/glossary/エラー/)は「state の[ダウンロード](/glossary/ダウンロード/)に失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の[復旧](/glossary/復旧/)を確認します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所は[サーバー](/glossary/サーバー/)側（アプリケーションログ、[データベース](/glossary/データベース/)、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは障害でないことの証明にはなりません。
+この[エラー](/glossary/エラー/)は「state の[ダウンロード](/glossary/ダウンロード/)に失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の[復旧](/glossary/復旧/)を確認します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所は[サーバー](/glossary/サーバー/)側（アプリケーションログ、[データベース](/glossary/データベース/)、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは[障害](/glossary/障害/)でないことの証明にはなりません。
 
 ### 原因3：Terraform Registry が内部エラーを返している（terraform init）
 
@@ -151,10 +151,10 @@ ls .terraform/providers/registry.terraform.io/hashicorp/ 2>/dev/null
 
 ## Editor's Note
 
-原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合で[エラー](/glossary/エラー/)を返す状態になり、公式の告知に terraform init の[ワークフロー](/glossary/ワークフロー/)とドキュメント閲覧への影響が明記されました。原因は[レジストリ](/glossary/レジストリ/)の一部機能を支える[データベース](/glossary/データベース/)で、[データベース](/glossary/データベース/)のスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の[設定](/glossary/設定/)を何も変えていないのに init が失敗する」という症状の裏に[レジストリ](/glossary/レジストリ/)側の障害があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから確認でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
+原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合で[エラー](/glossary/エラー/)を返す状態になり、公式の告知に terraform init の[ワークフロー](/glossary/ワークフロー/)とドキュメント閲覧への影響が明記されました。原因は[レジストリ](/glossary/レジストリ/)の一部機能を支える[データベース](/glossary/データベース/)で、[データベース](/glossary/データベース/)のスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の[設定](/glossary/設定/)を何も変えていないのに init が失敗する」という症状の裏に[レジストリ](/glossary/レジストリ/)側の[障害](/glossary/障害/)があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから確認でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
 
 Terraform の500は、Terraform が「どこかの[サーバー](/glossary/サーバー/)の調子が悪い」と伝えているだけで、悪いのがどこかはメッセージの中の [URL](/glossary/url/) が教えてくれます。HCL や手元の[設定](/glossary/設定/)を疑い始める前に、まず相手を特定することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

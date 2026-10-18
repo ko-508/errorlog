@@ -226,7 +226,7 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 ### 公式ドキュメント参照
 
 - [Docker Hub Authentication](https://docs.docker.com/docker-hub/access-tokens/)：アクセストークンの生成と管理
-- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) 仕様
+- [Docker Registry HTTP API](https://docs.docker.com/registry/spec/api/)：[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) [仕様](/glossary/仕様/)
 - [Kubernetes Image Pull Secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)：[Kubernetes](/glossary/kubernetes/) での認証設定
 
 ### コミュニティリソース
@@ -235,4 +235,4 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

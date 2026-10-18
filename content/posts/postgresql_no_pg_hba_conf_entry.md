@@ -124,7 +124,7 @@ postgresql://app@example.com/mydb?sslmode=require
 
 [暗号化](/glossary/暗号化/)なしの接続も意図的に許可する場合は、接続元を狭く限定したうえで`host`または`hostnossl`を使います。ただし、`scram-sha-256`は[パスワード](/glossary/パスワード/)[認証](/glossary/認証/)の方式であり、通信全体を[暗号化](/glossary/暗号化/)する[設定](/glossary/設定/)ではありません。
 
-接続種別の仕様は[PostgreSQL公式のpg_hba.conf文書](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)に記載されています。
+接続種別の[仕様](/glossary/仕様/)は[PostgreSQL公式のpg_hba.conf文書](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)に記載されています。
 
 ## データベース名と利用者名を合わせる
 

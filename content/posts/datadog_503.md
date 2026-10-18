@@ -42,7 +42,7 @@ Unable to connect to Datadog backend
 
 ### 原因1：Datadog サービスのメンテナンスまたは障害
 
-Datadog 側でメンテナンスが実施中、または一時的な障害が発生している場合、すべての[リクエスト](/glossary/リクエスト/)が 503 で拒否されます。この場合、ユーザー側の[設定](/glossary/設定/)や[環境](/glossary/環境/)は問題ではなく、サービスの[復旧](/glossary/復旧/)を待つ必要があります。
+Datadog 側でメンテナンスが実施中、または一時的な[障害](/glossary/障害/)が発生している場合、すべての[リクエスト](/glossary/リクエスト/)が 503 で拒否されます。この場合、ユーザー側の[設定](/glossary/設定/)や[環境](/glossary/環境/)は問題ではなく、サービスの[復旧](/glossary/復旧/)を待つ必要があります。
 
 **確認方法：**
 
@@ -212,7 +212,7 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 
 ## ツール固有の注意点
 
-Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に障害がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（[Linux](/glossary/linux/)）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
+Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に[障害](/glossary/障害/)がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（[Linux](/glossary/linux/)）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
 
 複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに[対応](/glossary/対応/)しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
 
@@ -250,4 +250,4 @@ Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossa
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

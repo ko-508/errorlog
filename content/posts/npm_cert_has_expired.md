@@ -81,11 +81,11 @@ openssl s_client -connect example.com:443 -servername example.com < /dev/null 2>
 
 `notAfter`が有効期限です。ただし、[プロキシ](/glossary/プロキシ/)を経由する[環境](/glossary/環境/)でこの[コマンド](/glossary/コマンド/)がnpmと同じ通信経路を通るとは限りません。[ブラウザ](/glossary/ブラウザ/)、[プロキシ](/glossary/プロキシ/)管理画面、組織の証明書管理手段も併用し、npmが実際に受け取った[証明書](/glossary/証明書/)を確認してください。
 
-公開[レジストリ](/glossary/レジストリ/)側の障害が疑われる場合は、npmの[サービス稼働状況](https://status.npmjs.org/)も確認します。社内[レジストリ](/glossary/レジストリ/)や[プロキシ](/glossary/プロキシ/)の場合は、管理者へ接続先[URL](/glossary/url/)、発生時刻、[証明書](/glossary/証明書/)の発行者と有効期限を伝えると調査しやすくなります。
+公開[レジストリ](/glossary/レジストリ/)側の[障害](/glossary/障害/)が疑われる場合は、npmの[サービス稼働状況](https://status.npmjs.org/)も確認します。社内[レジストリ](/glossary/レジストリ/)や[プロキシ](/glossary/プロキシ/)の場合は、管理者へ接続先[URL](/glossary/url/)、発生時刻、[証明書](/glossary/証明書/)の発行者と有効期限を伝えると調査しやすくなります。
 
 ## npmのcaまたはcafileが古い場合
 
-npmの`ca`は、[レジストリ](/glossary/レジストリ/)との[SSL](/glossary/ssl/)接続で信頼するCA[証明書](/glossary/証明書/)を直接指定する[設定](/glossary/設定/)です。`cafile`は、1つ以上のCA[証明書](/glossary/証明書/)を含む[ファイル](/glossary/ファイル/)の[パス](/glossary/パス/)を指定します。どちらも既定値は`null`です。[npm公式のconfig文書](https://docs.npmjs.com/cli/v11/using-npm/config/#ca)に仕様があります。
+npmの`ca`は、[レジストリ](/glossary/レジストリ/)との[SSL](/glossary/ssl/)接続で信頼するCA[証明書](/glossary/証明書/)を直接指定する[設定](/glossary/設定/)です。`cafile`は、1つ以上のCA[証明書](/glossary/証明書/)を含む[ファイル](/glossary/ファイル/)の[パス](/glossary/パス/)を指定します。どちらも既定値は`null`です。[npm公式のconfig文書](https://docs.npmjs.com/cli/v11/using-npm/config/#ca)に[仕様](/glossary/仕様/)があります。
 
 過去に社内CAや古い[証明書](/glossary/証明書/)を登録し、その[設定](/glossary/設定/)だけが残っていると、現在の正しい[証明書](/glossary/証明書/)チェーンを検証できないことがあります。[設定](/glossary/設定/)が不要になったことを確認できた場合は[削除](/glossary/削除/)します。
 

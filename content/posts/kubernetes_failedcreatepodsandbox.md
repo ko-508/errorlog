@@ -18,7 +18,7 @@ related_services: []
 
 原因はほぼ次の3方向に分かれます。
 
-1. CNI プラグインまたは CNI [設定](/glossary/設定/)の不整合で、Pod の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)（IP 割り当てを含む）に失敗している
+1. CNI [プラグイン](/glossary/プラグイン/)または CNI [設定](/glossary/設定/)の不整合で、Pod の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)（IP 割り当てを含む）に失敗している
 2. container runtime が sandbox image（pause image）を取得・起動できず、sandbox [コンテナ](/glossary/コンテナ/)を作れない
 3. ノード側の状態（ディスク、iptables/sysctl、カーネルモジュール、runtime [プロセス](/glossary/プロセス/)）が壊れている
 
@@ -38,7 +38,7 @@ related_services: []
 
 1. kubelet が CRI の `RunPodSandbox` を container runtime に要求する
 2. container runtime が sandbox image をもとに sandbox [コンテナ](/glossary/コンテナ/)（一般に pause [コンテナ](/glossary/コンテナ/)）を作り、名前空間を用意する
-3. container runtime が CNI プラグインを呼び出し、Pod に[ネットワーク](/glossary/ネットワーク/)（[IP アドレス](/glossary/ip-アドレス/)やルート）を[設定](/glossary/設定/)する
+3. container runtime が CNI [プラグイン](/glossary/プラグイン/)を呼び出し、Pod に[ネットワーク](/glossary/ネットワーク/)（[IP アドレス](/glossary/ip-アドレス/)やルート）を[設定](/glossary/設定/)する
 4. 成功後、init [コンテナ](/glossary/コンテナ/)とアプリコンテナの[イメージ](/glossary/イメージ/)取得・作成に進む
 
 `FailedCreatePodSandBox` は、この1〜3のどこかで失敗した場合に出ます。**アプリコンテナの[イメージ](/glossary/イメージ/)や[コマンド](/glossary/コマンド/)はまだ関係しません。** ここを押さえると、Deployment の[マニフェスト](/glossary/マニフェスト/)ばかり見直して時間を失う事故を避けられます。
@@ -75,7 +75,7 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 | メッセージに含まれる語の傾向 | 疑う対象 | この記事の該当箇所 |
 | --- | --- | --- |
-| `cni`、`plugin`、`network for sandbox`、IPAM やアドレス枯渇を示す表現 | CNI プラグイン・CNI [設定](/glossary/設定/)・IP 管理 | 原因1 |
+| `cni`、`plugin`、`network for sandbox`、IPAM やアドレス枯渇を示す表現 | CNI [プラグイン](/glossary/プラグイン/)・CNI [設定](/glossary/設定/)・IP 管理 | 原因1 |
 | `cni config uninitialized`、`NetworkPluginNotReady` | CNI [設定](/glossary/設定/)がランタイムに読み込まれていない | 原因1 |
 | sandbox image や pull、[認証](/glossary/認証/)、名前解決に関する表現 | pause image の取得 | 原因2 |
 | runtime のソケット、cgroup、runtime 起動に関する表現 | container runtime 本体 | 原因2 |
@@ -83,7 +83,7 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 なお、同じ Pod で同種の[イベント](/glossary/イベント/)が大量に出ると、kubelet は「類似[イベント](/glossary/イベント/)をまとめた」形（発生回数付き）で1行に集約して出力します。回数と経過時間が大きい場合は、恒久的な設定不備である可能性が高くなります。
 
-[イベント](/glossary/イベント/)自体は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[設定](/glossary/設定/)に従って一定時間で[削除](/glossary/削除/)されるため、古い障害を後追いする場合は[イベント](/glossary/イベント/)ではなくノードの[ログ](/glossary/ログ/)（後述）を確認してください。
+[イベント](/glossary/イベント/)自体は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[設定](/glossary/設定/)に従って一定時間で[削除](/glossary/削除/)されるため、古い[障害](/glossary/障害/)を後追いする場合は[イベント](/glossary/イベント/)ではなくノードの[ログ](/glossary/ログ/)（後述）を確認してください。
 
 ## 原因と解決策
 
@@ -91,7 +91,7 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 | 原因 | 主な確認 | 主な対処 |
 | --- | --- | --- |
-| CNI [設定](/glossary/設定/)・プラグインの不整合 | CNI アドオンの Pod 状態、CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI [設定](/glossary/設定/)・バイナリの整合を回復 |
+| CNI [設定](/glossary/設定/)・[プラグイン](/glossary/プラグイン/)の不整合 | CNI アドオンの Pod 状態、CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI [設定](/glossary/設定/)・バイナリの整合を回復 |
 | [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | アドオン側の IPAM 状態、Pod CIDR [設定](/glossary/設定/)の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
 | pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム[設定](/glossary/設定/)の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー[設定](/glossary/設定/) |
 | container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の[復旧](/glossary/復旧/)、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
@@ -100,12 +100,12 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 ### 原因1：CNI プラグインまたは CNI 設定の不整合
 
-sandbox の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)は container runtime が CNI プラグインを呼び出して行います。ここが成立しないと、pause [コンテナ](/glossary/コンテナ/)まで作れていても sandbox 作成全体が失敗として扱われます。よくある[パターン](/glossary/パターン/)は次のとおりです。
+sandbox の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)は container runtime が CNI [プラグイン](/glossary/プラグイン/)を呼び出して行います。ここが成立しないと、pause [コンテナ](/glossary/コンテナ/)まで作れていても sandbox 作成全体が失敗として扱われます。よくある[パターン](/glossary/パターン/)は次のとおりです。
 
 - **クラスタ構築直後にネットワークアドオンを適用していない**：kubeadm などで構築した直後は CNI [設定](/glossary/設定/)が存在せず、kubelet は「ネットワークプラグインが未初期化」であることを示すメッセージとともに Pod を起動できません。ノードの Ready 条件のメッセージにも `NetworkPluginNotReady` 相当の記述が出ます。この症状は公式[リポジトリ](/glossary/リポジトリ/)の Issue でも繰り返し報告されています（[kubernetes/kubernetes#48798](https://github.com/kubernetes/kubernetes/issues/48798)、[kubernetes/kubeadm#1031](https://github.com/kubernetes/kubeadm/issues/1031)）。
 - **アドオンの DaemonSet が該当ノードで動いていない**：ノード追加直後、taint、[イメージ](/glossary/イメージ/)取得失敗などでアドオンの Pod が起動せず、そのノードだけ CNI [設定](/glossary/設定/)が配置されないケースです。
-- **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：[設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧アドオンの[設定](/glossary/設定/)が残っていると意図しないプラグインが使われます。アドオンを入れ替えた際に起きやすい失敗です。
-- **CNI プラグインのバイナリが無い、実行できない**：ノードの初期化方法を変えた、[イメージ](/glossary/イメージ/)を作り直した、ディスクを入れ替えたといった変更の直後に起きます。
+- **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：[設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧アドオンの[設定](/glossary/設定/)が残っていると意図しない[プラグイン](/glossary/プラグイン/)が使われます。アドオンを入れ替えた際に起きやすい失敗です。
+- **CNI [プラグイン](/glossary/プラグイン/)のバイナリが無い、実行できない**：ノードの初期化方法を変えた、[イメージ](/glossary/イメージ/)を作り直した、ディスクを入れ替えたといった変更の直後に起きます。
 - **[IP アドレス](/glossary/ip-アドレス/)の枯渇や IPAM 情報の不整合**：ノードに割り当てられた Pod 用アドレス範囲を使い切ると、新しい sandbox に IP を割り当てられません。[削除](/glossary/削除/)しきれなかった sandbox が IP を保持し続けている場合もあります。
 
 **対処の流れ**
@@ -297,8 +297,8 @@ df -h > df.txt; df -i > df-inode.txt
 
 ## Editor's Note
 
-この[エラー](/glossary/エラー/)はアプリコンテナの失敗ではなく、kubelet が sandbox を作る前段で止まる点が重要です。[Kubernetes](/glossary/kubernetes/) の Pod [デバッグ](/glossary/デバッグ/)手順は[イベント](/glossary/イベント/)確認を起点にしており（[公式ドキュメント](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）、[ネットワーク](/glossary/ネットワーク/)実装は CNI プラグインが担うため（[Network Plugins](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)）、現場では `desc =` 以降の文言から CNI か runtime かを先に分けるのが有効です。
+この[エラー](/glossary/エラー/)はアプリコンテナの失敗ではなく、kubelet が sandbox を作る前段で止まる点が重要です。[Kubernetes](/glossary/kubernetes/) の Pod [デバッグ](/glossary/デバッグ/)手順は[イベント](/glossary/イベント/)確認を起点にしており（[公式ドキュメント](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）、[ネットワーク](/glossary/ネットワーク/)実装は CNI [プラグイン](/glossary/プラグイン/)が担うため（[Network Plugins](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)）、現場では `desc =` 以降の文言から CNI か runtime かを先に分けるのが有効です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

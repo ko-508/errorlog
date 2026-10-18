@@ -113,7 +113,7 @@ terraform init -upgrade
 terraform plan
 ```
 
-`terraform init -upgrade`は、制約を満たす新しいproviderを選び直してロックファイルを更新します。すべての[環境](/glossary/環境/)で同じ更新結果になるよう、変更された`.terraform.lock.hcl`をレビューし、意図した内容だけを[バージョン管理](/glossary/バージョン管理/)へ含めてください。依存関係の選択方法は[Dependency Lock File](https://developer.hashicorp.com/terraform/language/files/dependency-lock)で説明されています。
+`terraform init -upgrade`は、制約を満たす新しいproviderを選び直してロックファイルを更新します。すべての[環境](/glossary/環境/)で同じ更新結果になるよう、変更された`.terraform.lock.hcl`を[レビュー](/glossary/レビュー/)し、意図した内容だけを[バージョン管理](/glossary/バージョン管理/)へ含めてください。依存関係の選択方法は[Dependency Lock File](https://developer.hashicorp.com/terraform/language/files/dependency-lock)で説明されています。
 
 新しいproviderで問題が発生し、以前の[バージョン](/glossary/バージョン/)では再現しないことを確認できた場合は、version constraintsを以前の正常な版へ戻し、`terraform init`で選択し直す方法もあります。ロックファイルを手作業で書き換えるのではなく、[設定](/glossary/設定/)した制約に基づいてTerraformに更新させます。
 
@@ -145,7 +145,7 @@ applyが[エラー](/glossary/エラー/)で終了しても、それ以前に処
 terraform plan
 ```
 
-ここで新しい差分が出たら、[エラー](/glossary/エラー/)前のplanと比較します。CIで保存済みplanを使っている場合は、失敗したplan[ファイル](/glossary/ファイル/)をそのまま再利用せず、新しいplanを作成してレビューしてください。
+ここで新しい差分が出たら、[エラー](/glossary/エラー/)前のplanと比較します。CIで保存済みplanを使っている場合は、失敗したplan[ファイル](/glossary/ファイル/)をそのまま再利用せず、新しいplanを作成して[レビュー](/glossary/レビュー/)してください。
 
 手動操作や別の[自動化](/glossary/自動化/)によって[インフラ](/glossary/インフラ/)が変更され、意図した外部変更をstateへ取り込みたい場合は、最初にrefresh-onlyのplanを確認します。
 

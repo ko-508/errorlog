@@ -76,7 +76,7 @@ timeout 60 bash -c 'until nc -z localhost 8080; do sleep 1; done' && echo "Jenki
 
 ### 原因2：Jenkinsのメモリ不足や過負荷でリクエストを処理できない
 
-複数の大規模ビルドが並行実行されたり、プラグイン数が増加したり、古いビルドログが蓄積したりすると、Jenkins[プロセス](/glossary/プロセス/)が[メモリ](/glossary/メモリ/)枯渇に陥ります。この場合、新規[リクエスト](/glossary/リクエスト/)は受け付けられず503[エラー](/glossary/エラー/)が返されます。
+複数の大規模ビルドが並行実行されたり、[プラグイン](/glossary/プラグイン/)数が増加したり、古いビルドログが蓄積したりすると、Jenkins[プロセス](/glossary/プロセス/)が[メモリ](/glossary/メモリ/)枯渇に陥ります。この場合、新規[リクエスト](/glossary/リクエスト/)は受け付けられず503[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -112,7 +112,7 @@ top -p $(pgrep -f "jenkins.war")
 
 ### 原因3：セーフリスタートモードが有効になっている
 
-Jenkinsの更新やプラグインの[インストール](/glossary/インストール/)後、セーフリスタートモードに入ることがあります。このモード中は新規ビルドの[トリガー](/glossary/トリガー/)が拒否され、既存のジョブも完全には動作しない状態になります。ユーザーが誤ってセーフリスタートを実行したり、手動で[ファイル](/glossary/ファイル/)を編集してこのモードに突入することもあります。
+Jenkinsの更新や[プラグイン](/glossary/プラグイン/)の[インストール](/glossary/インストール/)後、セーフリスタートモードに入ることがあります。このモード中は新規ビルドの[トリガー](/glossary/トリガー/)が拒否され、既存のジョブも完全には動作しない状態になります。ユーザーが誤ってセーフリスタートを実行したり、手動で[ファイル](/glossary/ファイル/)を編集してこのモードに突入することもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -156,7 +156,7 @@ sudo systemctl start jenkins
 
 ## ツール固有の注意点
 
-Jenkins [環境](/glossary/環境/)ではプラグインの[バージョン](/glossary/バージョン/)競合やスクリプトコンソールの実行でも[メモリ](/glossary/メモリ/)枯渇が発生することがあります。「Manage Jenkins」→「Plugin Manager」で不要または古いプラグインを定期的に[削除](/glossary/削除/)することをお勧めします。
+Jenkins [環境](/glossary/環境/)では[プラグイン](/glossary/プラグイン/)の[バージョン](/glossary/バージョン/)競合やスクリプトコンソールの実行でも[メモリ](/glossary/メモリ/)枯渇が発生することがあります。「Manage Jenkins」→「Plugin Manager」で不要または古い[プラグイン](/glossary/プラグイン/)を定期的に[削除](/glossary/削除/)することをお勧めします。
 
 また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に[保存](/glossary/保存/)されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に確認してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを[検索](/glossary/検索/)するとよいでしょう。
 
@@ -216,8 +216,8 @@ cat /etc/systemd/system/jenkins.service
 cat /etc/default/jenkins
 ```
 
-これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、[インストール](/glossary/インストール/)済みプラグイン一覧、[メモリ](/glossary/メモリ/)[設定](/glossary/設定/)を記録して報告すると、より正確な原因特定が可能になります。
+これらの診断を実施してもなお503[エラー](/glossary/エラー/)が解決しない場合は、Jenkins の公式ドキュメント（https://www.jenkins.io/doc/）や [GitHub](/glossary/github/) Issues（https://github.com/jenkinsci/jenkins/issues）で同様の事例がないか検索することをお勧めします。その際、Jenkins の[バージョン](/glossary/バージョン/)、JDK [バージョン](/glossary/バージョン/)、[インストール](/glossary/インストール/)済み[プラグイン](/glossary/プラグイン/)一覧、[メモリ](/glossary/メモリ/)[設定](/glossary/設定/)を記録して報告すると、より正確な原因特定が可能になります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

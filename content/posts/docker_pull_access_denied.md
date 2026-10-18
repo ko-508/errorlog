@@ -124,7 +124,7 @@ may require 'docker login'
 
 重要なのは、**`access denied` と表示されても、[リポジトリ](/glossary/リポジトリ/)が存在するとは限らない**ことです。反対に、`repository does not exist` と表示されても、削除済みとは限りません。非公開[リポジトリ](/glossary/リポジトリ/)は、[権限](/glossary/権限/)を持たない利用者からは存在を確認できない場合があります。
 
-ただし、Registryの仕様が404と403を同じものとして定義しているわけではありません。[CNCF DistributionのRegistry HTTP API V2仕様](https://distribution.github.io/distribution/spec/api/)は、次のように区別しています。
+ただし、Registryの[仕様](/glossary/仕様/)が404と403を同じものとして定義しているわけではありません。[CNCF DistributionのRegistry HTTP API V2仕様](https://distribution.github.io/distribution/spec/api/)は、次のように区別しています。
 
 | 状態 | [HTTP](/glossary/http/) | Registryの[エラーコード](/glossary/エラーコード/) |
 |---|---:|---|
@@ -644,4 +644,4 @@ printf '%s' "$REGISTRY_TOKEN" |
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

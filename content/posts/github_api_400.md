@@ -18,7 +18,7 @@ top_queries:
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の 400 Bad Request は、[リクエスト](/glossary/リクエスト/)の形式そのものが壊れていて、[サーバー](/glossary/サーバー/)が中身の検証に進めない場合に返されます。公式ドキュメントが 400 として挙げているのは、[リクエスト](/glossary/リクエスト/)本文が [JSON](/glossary/json/) として読めない（Problems parsing [JSON](/glossary/json/)）、本文が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)の形になっていない（Body should be a [JSON](/glossary/json/) object）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)指定の[ヘッダー](/glossary/ヘッダー/)に存在しない値を指定した、の3つです。
 
-一方、[JSON](/glossary/json/) としては正しく読めたうえで、必須[パラメータ](/glossary/パラメータ/)が足りない・値が仕様に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、[設定](/glossary/設定/)や[パラメータ](/glossary/パラメータ/)の見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じ[リクエスト](/glossary/リクエスト/)を再試行しても結果は変わりません。[修正](/glossary/修正/)が必要です。
+一方、[JSON](/glossary/json/) としては正しく読めたうえで、必須[パラメータ](/glossary/パラメータ/)が足りない・値が[仕様](/glossary/仕様/)に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、[設定](/glossary/設定/)や[パラメータ](/glossary/パラメータ/)の見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じ[リクエスト](/glossary/リクエスト/)を再試行しても結果は変わりません。[修正](/glossary/修正/)が必要です。
 
 ## エラーの概要
 
@@ -39,7 +39,7 @@ top_queries:
 
 Problems parsing [JSON](/glossary/json/) なら、本文が [JSON](/glossary/json/) として壊れています（原因1）。Body should be a [JSON](/glossary/json/) object なら、[JSON](/glossary/json/) としては読めるものの、[オブジェクト](/glossary/オブジェクト/)（波かっこで始まる形）になっていません（原因2）。[API](/glossary/api/) [バージョン](/glossary/バージョン/)が未サポートである旨のメッセージなら、[バージョン](/glossary/バージョン/)指定[ヘッダー](/glossary/ヘッダー/)の値の問題です（原因3）。
 
-Validation Failed や Invalid request が返っているなら、それは 400 ではなく 422 の問題です。本文の形式は正しく届いており、中身が[エンドポイント](/glossary/エンドポイント/)の仕様に合っていません。[GitHub API の 422 エラー](/posts/github_api_422/)の記事を参照してください。Bad credentials なら 401 で、[トークン](/glossary/トークン/)の問題です（[GitHub API の 401 エラー](/posts/github_api_401/)）。
+Validation Failed や Invalid request が返っているなら、それは 400 ではなく 422 の問題です。本文の形式は正しく届いており、中身が[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)に合っていません。[GitHub API の 422 エラー](/posts/github_api_422/)の記事を参照してください。Bad credentials なら 401 で、[トークン](/glossary/トークン/)の問題です（[GitHub API の 401 エラー](/posts/github_api_401/)）。
 
 ## よくある原因と解決手順
 
@@ -139,4 +139,4 @@ curl -v -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

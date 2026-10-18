@@ -146,7 +146,7 @@ ALTER SYSTEM SET log_lock_waits = on;
 SELECT pg_reload_conf();
 ```
 
-`log_lock_waits`は、[セッション](/glossary/セッション/)が`deadlock_timeout`を超えてロックを待ったときに記録を残す[設定](/glossary/設定/)です。既定値は`off`で、変更にはスーパーユーザーまたは適切な`SET`[権限](/glossary/権限/)が必要です。仕様は[PostgreSQL公式のログ設定](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-LOCK-WAITS)で確認できます。
+`log_lock_waits`は、[セッション](/glossary/セッション/)が`deadlock_timeout`を超えてロックを待ったときに記録を残す[設定](/glossary/設定/)です。既定値は`off`で、変更にはスーパーユーザーまたは適切な`SET`[権限](/glossary/権限/)が必要です。[仕様](/glossary/仕様/)は[PostgreSQL公式のログ設定](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-LOCK-WAITS)で確認できます。
 
 調査後にシステム全体の[設定](/glossary/設定/)を元へ戻す場合は、次を実行します。
 
@@ -165,7 +165,7 @@ SELECT pg_reload_conf();
 SHOW deadlock_timeout;
 ```
 
-この値はデッドロックを解消する制限時間ではありません。更新順序が逆のままなら、値を変えても待ち合わせの輪は残ります。調査目的で変更する場合も、まず現在値を確認し、恒久的な解決は[SQL](/glossary/sql/)や処理設計の[修正](/glossary/修正/)で行ってください。詳しい仕様は[PostgreSQL公式のロック管理設定](https://www.postgresql.org/docs/current/runtime-config-locks.html#GUC-DEADLOCK-TIMEOUT)にあります。
+この値はデッドロックを解消する制限時間ではありません。更新順序が逆のままなら、値を変えても待ち合わせの輪は残ります。調査目的で変更する場合も、まず現在値を確認し、恒久的な解決は[SQL](/glossary/sql/)や処理設計の[修正](/glossary/修正/)で行ってください。詳しい[仕様](/glossary/仕様/)は[PostgreSQL公式のロック管理設定](https://www.postgresql.org/docs/current/runtime-config-locks.html#GUC-DEADLOCK-TIMEOUT)にあります。
 
 ## 似たエラーとの違い
 

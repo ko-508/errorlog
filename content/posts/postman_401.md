@@ -79,7 +79,7 @@ Add to: Header
 1. Postmanのリクエストタブを開き、「Authorization」タブをクリック
 2. 「Type」ドロップダウンで適切な[認証](/glossary/認証/)タイプを選択（Bearer Token、[API](/glossary/api/) Key、Basic Auth など）
 3. [API](/glossary/api/)ドキュメントに従い、正確な[トークン](/glossary/トークン/)または[キー](/glossary/キー/)を入力
-4. 「Send」ボタンで[リクエスト](/glossary/リクエスト/)を再送信
+4. 「Send」[ボタン](/glossary/ボタン/)で[リクエスト](/glossary/リクエスト/)を再送信
 
 ### 原因2：トークンの有効期限が切れている
 
@@ -191,7 +191,7 @@ Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value
 以下の確認手順を実施してください：
 
 **ネットワークトラフィックを確認**
-Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」ボタン）、[送信](/glossary/送信/)されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを確認します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく[送信](/glossary/送信/)されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
+Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」[ボタン](/glossary/ボタン/)）、[送信](/glossary/送信/)されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを確認します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく[送信](/glossary/送信/)されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
 
 **[API](/glossary/api/)ドキュメントを再確認**
 認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて確認します。
@@ -207,4 +207,4 @@ Postmanの公式サポートサイト（https://learning.postman.com/docs/sendin
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

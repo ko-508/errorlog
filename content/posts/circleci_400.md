@@ -90,7 +90,7 @@ circleci config validate .circleci/config.yml
 
 ### 原因 2：API リクエストボディの JSON が不正な形式
 
-CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が仕様に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) の[フォーマット](/glossary/フォーマット/)不正やシングルクォート使用、値の型不一致などが該当します。
+CircleCI [API](/glossary/api/) に直接[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の [JSON](/glossary/json/) 構造が[仕様](/glossary/仕様/)に合致していないと 400 [エラー](/glossary/エラー/)が返されます。[JSON](/glossary/json/) の[フォーマット](/glossary/フォーマット/)不正やシングルクォート使用、値の型不一致などが該当します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -219,7 +219,7 @@ curl -v -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo
 
 **3. CircleCI [API](/glossary/api/) ドキュメントで仕様確認：**
 
-[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型を再確認してください。特に Trigger Pipeline [エンドポイント](/glossary/エンドポイント/)（POST /project/{project-slug}/pipeline）の仕様は頻繁に更新されるため、常に最新のドキュメントを参照してください。
+[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型を再確認してください。特に Trigger Pipeline [エンドポイント](/glossary/エンドポイント/)（POST /project/{project-slug}/pipeline）の[仕様](/glossary/仕様/)は頻繁に更新されるため、常に最新のドキュメントを参照してください。
 
 **4. CircleCI サポートへの問い合わせ：**
 
@@ -227,4 +227,4 @@ curl -v -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

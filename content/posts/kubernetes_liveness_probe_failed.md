@@ -317,7 +317,7 @@ liveness endpointがDB、cache、外部[API](/glossary/api/)、[DNS](/glossary/d
   → 現在、利用者の要求を正しく処理できるか
 ```
 
-外部依存が利用者要求に必須ならreadinessで判定し、Serviceから一時的に外します。ただし、共有依存先の障害で全PodをUnreadyにするとServiceの転送先が0になるため、依存関係と縮退動作を含めて設計します。
+外部依存が利用者要求に必須ならreadinessで判定し、Serviceから一時的に外します。ただし、共有依存先の[障害](/glossary/障害/)で全PodをUnreadyにするとServiceの転送先が0になるため、依存関係と縮退動作を含めて設計します。
 
 ### 原因6：認証が必要なendpointを指定している
 
@@ -336,7 +336,7 @@ livenessProbe:
     port: http
 ```
 
-機密情報や内部状態を本文へ含めず、成功時は小さな応答を返します。固定tokenをPod定義の `httpHeaders` へ直接書くと、Podを読める主体から見えるため避けます。[認証](/glossary/認証/)が必須なら、Secretを利用した `exec` probeなど、資格情報を平文でPod仕様へ置かない方法を検討します。
+機密情報や内部状態を本文へ含めず、成功時は小さな応答を返します。固定tokenをPod定義の `httpHeaders` へ直接書くと、Podを読める主体から見えるため避けます。[認証](/glossary/認証/)が必須なら、Secretを利用した `exec` probeなど、資格情報を平文でPod[仕様](/glossary/仕様/)へ置かない方法を検討します。
 
 ### 原因7：HTTPのschemeまたはHost条件が違う
 
@@ -438,7 +438,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### Podの再作成
 
-liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)再起動です。Deploymentが新しいPodを作るのは、Pod[削除](/glossary/削除/)、rollout、Node障害、replica不足など別の制御です。Pod UIDが変わっているなら、livenessだけで説明しません。
+liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)再起動です。Deploymentが新しいPodを作るのは、Pod[削除](/glossary/削除/)、rollout、Node[障害](/glossary/障害/)、replica不足など別の制御です。Pod UIDが変わっているなら、livenessだけで説明しません。
 
 ## 切り分けの順序
 
@@ -517,10 +517,10 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 2019年の課題（[Give the proper reason for killing pods](https://github.com/kubernetes/kubernetes/issues/81723)）では、[コンテナ](/glossary/コンテナ/)が終了した理由として広い `Killing` だけが表示され、liveness、memory、別の理由を区別しにくいことが指摘されました。現在も、終了[コード](/glossary/コード/)だけでlivenessを確定するのは危険です。[イベント](/glossary/イベント/)の `Liveness probe failed` と `Container ... failed liveness probe, will be restarted`、container status、直前[ログ](/glossary/ログ/)を時刻で結びます。
 
-[Kubernetes](/glossary/kubernetes/)公式は、誤ったlivenessが高負荷時に[コンテナ](/glossary/コンテナ/)を再起動し、残ったPodへ負荷を集中させ、連鎖的な失敗を起こし得ると警告しています。再起動は回復手段ですが、負荷、外部依存、遅い起動に対しては障害を増幅する処理にもなります。
+[Kubernetes](/glossary/kubernetes/)公式は、誤ったlivenessが高負荷時に[コンテナ](/glossary/コンテナ/)を再起動し、残ったPodへ負荷を集中させ、連鎖的な失敗を起こし得ると警告しています。再起動は回復手段ですが、負荷、外部依存、遅い起動に対しては[障害](/glossary/障害/)を増幅する処理にもなります。
 
 だから、liveness endpointが答えるべき問いは「今、完全に正常か」ではありません。**この[プロセス](/glossary/プロセス/)は、再起動しなければ回復できない状態か**です。一時的に要求を受けられない状態はreadinessへ、まだ起動中の状態はstartupへ分けます。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

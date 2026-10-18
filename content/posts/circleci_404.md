@@ -161,12 +161,12 @@ curl -X GET "https://circleci.com/api/v2/me" \
 
 **3. [ネットワーク](/glossary/ネットワーク/)と[ログ](/glossary/ログ/)の確認**
 
-CircleCI のステータスページ（`https://status.circleci.com`）でサービス障害がないか確認し、[AWS](/glossary/aws/) CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか確認してください。
+CircleCI のステータスページ（`https://status.circleci.com`）でサービス[障害](/glossary/障害/)がないか確認し、[AWS](/glossary/aws/) CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか確認してください。
 
 **4. 公式ドキュメントと [API](/glossary/api/) リファレンス**
 
-CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の仕様を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の要件を確認してください。
+CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の要件を確認してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

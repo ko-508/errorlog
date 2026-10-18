@@ -259,7 +259,7 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
 
 readiness probeがあるPodは、最初の成功までServiceの転送先へ入りません。これは起動中の要求を防ぐ正しい動作です。
 
-一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を障害として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしもアプリ異常ではありません。
+一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を[障害](/glossary/障害/)として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしもアプリ異常ではありません。
 
 起動処理と起動後の一時的な準備不足を分けたい場合は、startup probeを追加します。
 
@@ -363,7 +363,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### 原因8：readinessGateがFalseまたは未設定になっている
 
-Pod仕様に `readinessGates` がある場合、probeが成功しても独自conditionがTrueになるまでPodはReadyになりません。
+Pod[仕様](/glossary/仕様/)に `readinessGates` がある場合、probeが成功しても独自conditionがTrueになるまでPodはReadyになりません。
 
 ```yaml
 spec:
@@ -527,10 +527,10 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 一方、2024年の[AWS](/glossary/aws/) Load Balancer Controllerの課題（[Potential thundering herd caused by readiness probes](https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/3711)）では、全Podのreadinessが失敗するとcontrollerがALBの対象から外し、少数のPodがReadyへ戻った瞬間に要求が集中して再びUnreadyになる循環が報告されました。[コンテナ](/glossary/コンテナ/)は生存していても、外部転送先の管理によって全体障害を増幅し得る例です。
 
-readinessは再起動を起こさないため、livenessより安全とは限りません。全Podが同じ外部依存を確認し、その依存先の障害で同時にUnreadyになると、Serviceから利用可能な転送先が消えます。復帰時の `successThreshold` が1なら、最初に成功した少数のPodへ負荷が集中することもあります。
+readinessは再起動を起こさないため、livenessより安全とは限りません。全Podが同じ外部依存を確認し、その依存先の[障害](/glossary/障害/)で同時にUnreadyになると、Serviceから利用可能な転送先が消えます。復帰時の `successThreshold` が1なら、最初に成功した少数のPodへ負荷が集中することもあります。
 
 だから、readiness endpointが答えるべき問いは「すべての依存先が完全に正常か」ではありません。**このPodへ今、新しい要求を送ると、利用者へ意味のある応答を返せるか**です。そして失敗時の結果は通信遮断ではなく、Serviceの通常転送先からの除外です。直接通信、既存接続、独自EndpointSlice、`publishNotReadyAddresses` は別に確認します。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

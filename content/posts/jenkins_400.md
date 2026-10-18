@@ -155,7 +155,7 @@ pipeline {
 
 ## ツール固有の注意点
 
-**Jenkinsfile Linterの活用：** Jenkinsの管理画面に「Declarative: Validate」という機能があります。パイプラインジョブの設定画面で「Validate」ボタンをクリックするか、以下のcURL[コマンド](/glossary/コマンド/)で構文チェックが可能です。この[ツール](/glossary/ツール/)はGroovy構文[エラー](/glossary/エラー/)を事前に検出し、[デプロイ](/glossary/デプロイ/)前にJenkinsfileを検証するのに非常に効果的です。
+**Jenkinsfile Linterの活用：** Jenkinsの管理画面に「Declarative: Validate」という機能があります。パイプラインジョブの設定画面で「Validate」[ボタン](/glossary/ボタン/)をクリックするか、以下のcURL[コマンド](/glossary/コマンド/)で構文チェックが可能です。この[ツール](/glossary/ツール/)はGroovy構文[エラー](/glossary/エラー/)を事前に検出し、[デプロイ](/glossary/デプロイ/)前にJenkinsfileを検証するのに非常に効果的です。
 
 ```bash
 curl -X POST \
@@ -182,10 +182,10 @@ curl -v -X POST \
   http://jenkins.example.com/job/<job-name>/buildWithParameters
 ```
 
-**公式ドキュメントで[エンドポイント](/glossary/エンドポイント/)仕様を確認する：** Jenkins [REST](/glossary/rest/) [API](/glossary/api/)公式ドキュメント（`http://<jenkins-url>/api/`にアクセスして[JSON](/glossary/json/)形式の[API](/glossary/api/)仕様を参照）で、対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を確認してください。[エンドポイント](/glossary/エンドポイント/)固有の[リクエスト](/glossary/リクエスト/)形式が記載されており、400[エラー](/glossary/エラー/)の原因特定に有効です。
+**公式ドキュメントで[エンドポイント](/glossary/エンドポイント/)[仕様](/glossary/仕様/)を確認する：** Jenkins [REST](/glossary/rest/) [API](/glossary/api/)公式ドキュメント（`http://<jenkins-url>/api/`にアクセスして[JSON](/glossary/json/)形式の[API](/glossary/api/)[仕様](/glossary/仕様/)を参照）で、対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を確認してください。[エンドポイント](/glossary/エンドポイント/)固有の[リクエスト](/glossary/リクエスト/)形式が記載されており、400[エラー](/glossary/エラー/)の原因特定に有効です。
 
 **ユーザー[権限](/glossary/権限/)の確認：** [REST](/glossary/rest/) [API](/glossary/api/)[リクエスト](/glossary/リクエスト/)に使用している[認証](/glossary/認証/)[トークン](/glossary/トークン/)・[API](/glossary/api/)[キー](/glossary/キー/)に対象ジョブの実行権限がない場合、[サーバー](/glossary/サーバー/)が400ではなく401・403[エラー](/glossary/エラー/)を返すことが多いですが、[ツール](/glossary/ツール/)の[バージョン](/glossary/バージョン/)や[セキュリティ](/glossary/セキュリティ/)[設定](/glossary/設定/)によっては400が返されることもあります。Jenkins管理画面でユーザーロールと[権限](/glossary/権限/)を再度確認してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

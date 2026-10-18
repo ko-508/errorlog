@@ -111,7 +111,7 @@ kubectl --kubeconfig=/path/to/config get nodes
 
 この指定で接続できるなら、クラスターではなく、通常実行時に読み込まれているkubeconfigやcontextが原因です。
 
-`error: no configuration has been provided`や`cluster has no server defined`が出る場合は、TCP接続より前に[設定](/glossary/設定/)の読み込みで止まっています。クラスター管理者または利用している[クラウド](/glossary/クラウド/)・ローカルクラスターの公式手順から、kubeconfigを取得し直してください。入手元が不明なkubeconfigは、[認証](/glossary/認証/)プラグインなどを通じて[コード](/glossary/コード/)を実行する可能性があるため使用しないでください。
+`error: no configuration has been provided`や`cluster has no server defined`が出る場合は、TCP接続より前に[設定](/glossary/設定/)の読み込みで止まっています。クラスター管理者または利用している[クラウド](/glossary/クラウド/)・ローカルクラスターの公式手順から、kubeconfigを取得し直してください。入手元が不明なkubeconfigは、[認証](/glossary/認証/)[プラグイン](/glossary/プラグイン/)などを通じて[コード](/glossary/コード/)を実行する可能性があるため使用しないでください。
 
 ## connection refusedの対処
 
@@ -189,7 +189,7 @@ kubectl config view --minify
 
 `insecure-skip-tls-verify: true`を恒久的に[設定](/glossary/設定/)すると、kubectlが接続先の正当性を確認できなくなります。原因調査を省略するための対処としては使わないでください。
 
-[証明書](/glossary/証明書/)が正しく、その後に`Unauthorized`や`Forbidden`へ変わった場合は、接続自体は成立しています。次に[トークン](/glossary/トークン/)、[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)、exec[認証](/glossary/認証/)プラグイン、[RBAC](/glossary/rbac/)を調べます。
+[証明書](/glossary/証明書/)が正しく、その後に`Unauthorized`や`Forbidden`へ変わった場合は、接続自体は成立しています。次に[トークン](/glossary/トークン/)、[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)、exec[認証](/glossary/認証/)[プラグイン](/glossary/プラグイン/)、[RBAC](/glossary/rbac/)を調べます。
 
 ## 似たエラーとの違い
 
@@ -207,7 +207,7 @@ Podの`Pending`、`CrashLoopBackOff`、`ImagePullBackOff`は、[API](/glossary/a
 
 最初に`kubectl config current-context`と`kubectl config view --minify`を実行し、kubectlが選んでいるクラスター、利用者、[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[URL](/glossary/url/)を確認します。
 
-[設定](/glossary/設定/)が違う場合は、`--kubeconfig`、`KUBECONFIG`、`$HOME/.kube/config`の読み込み規則を確認してください。新しい端末、[コンテナ](/glossary/コンテナ/)、CIでは、kubeconfigや[認証](/glossary/認証/)プラグインを渡していないことがあります。
+[設定](/glossary/設定/)が違う場合は、`--kubeconfig`、`KUBECONFIG`、`$HOME/.kube/config`の読み込み規則を確認してください。新しい端末、[コンテナ](/glossary/コンテナ/)、CIでは、kubeconfigや[認証](/glossary/認証/)[プラグイン](/glossary/プラグイン/)を渡していないことがあります。
 
 接続先が正しければ、後半の文言に従って切り分けます。`connection refused`は[API](/glossary/api/)[サーバー](/glossary/サーバー/)と[ポート](/glossary/ポート/)、`no such host`は[DNS](/glossary/dns/)とVPN、`timeout`は経路と[ファイアウォール](/glossary/ファイアウォール/)、`x509`や`tls`は[証明書](/glossary/証明書/)と接続先名を確認します。
 

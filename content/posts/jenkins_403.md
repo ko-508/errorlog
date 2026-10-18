@@ -141,7 +141,7 @@ Jenkins では `/user/<username>/generateApiToken` [エンドポイント](/glos
 
 **複数ジョブへの[アクセス制御](/glossary/アクセス制御/)：**
 
-Role-based Access Control([RBAC](/glossary/rbac/))プラグインを導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を[設定](/glossary/設定/)できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
+Role-based Access Control([RBAC](/glossary/rbac/))[プラグイン](/glossary/プラグイン/)を導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を[設定](/glossary/設定/)できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
 
 **Jenkins Pipeline での CSRF 対策：**
 
@@ -174,8 +174,8 @@ curl -v -X POST "http://localhost:8080/job/my-job/build" \
 
 **公式ドキュメント参照：**
 
-Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を確認したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) プラグインのドキュメントも参照してください。
+Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を確認したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) [プラグイン](/glossary/プラグイン/)のドキュメントも参照してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

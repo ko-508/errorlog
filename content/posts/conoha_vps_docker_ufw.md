@@ -35,7 +35,7 @@ ConoHa VPS で [Docker](/glossary/docker/) を動かすとき、[通信](/glossa
 
 どちらも、ufw の表示と実際の通信経路がずれていることから生じます。ufw の一覧はあくまで ufw が管理している規則を示すもので、[Docker](/glossary/docker/) が別に作る規則は含まれません。
 
-前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の仕様を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum [RAM](/glossary/ram/) は 1024 [MB](/glossary/mb/) と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 [MB](/glossary/mb/) のプランはこの最小要件を下回ります。
+前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の[仕様](/glossary/仕様/)を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum [RAM](/glossary/ram/) は 1024 [MB](/glossary/mb/) と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 [MB](/glossary/mb/) のプランはこの最小要件を下回ります。
 
 ## まず最初に：どちらの層を触っているのかを確定する
 
@@ -122,7 +122,7 @@ ufw の一覧に規則が出ていること自体は誤りではありません�
 
 `docker run` を使わずホスト上で直接起動した[プロセス](/glossary/プロセス/)は、この話の対象外です。ufw の[設定](/glossary/設定/)がそのまま適用されます。
 
-ConoHa の公式ドキュメントに載っている `ufw allow` の手順は、[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内[ファイアウォール](/glossary/ファイアウォール/)の操作方法として書かれています。[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に関しては、上記の [Docker](/glossary/docker/) 側の仕様と合わせて読む必要があります。
+ConoHa の公式ドキュメントに載っている `ufw allow` の手順は、[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内[ファイアウォール](/glossary/ファイアウォール/)の操作方法として書かれています。[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に関しては、上記の [Docker](/glossary/docker/) 側の[仕様](/glossary/仕様/)と合わせて読む必要があります。
 
 なお、swap の[設定](/glossary/設定/)、プライベートネットワークと [Docker](/glossary/docker/) の既定アドレス帯の衝突、IPv6 固有の挙動については、本記事では確認できていないため扱いません。
 
@@ -175,7 +175,7 @@ ConoHa 側の [Docker](/glossary/docker/) [テンプレート](/glossary/テン�
 
 この性質は、以前から繰り返し報告されてきたものです。[Docker](/glossary/docker/) の開発[リポジトリ](/glossary/リポジトリ/)には2014年3月18日に [docker and ufw serious problems](https://github.com/moby/moby/issues/4737) という報告が出ています。報告者は[受信](/glossary/受信/)を既定で拒否する[設定](/glossary/設定/)にしていたにもかかわらず、[Docker](/glossary/docker/) がホストへ割り当てた[ポート](/glossary/ポート/)へ外部から到達できた、と述べています。この報告は完了として閉じられています。
 
-同じ内容が2021年6月24日に [Docker does not honor ufw rules.](https://github.com/moby/moby/issues/42563) として改めて提起され、こちらは現在も開いたままです。提起者はこれを繰り返し起きる落とし穴だと書き、先の2014年の報告を参照しています。仕様の説明としてだけでなく、長期にわたって同じ行き違いが起きてきた点も踏まえて読んでください。
+同じ内容が2021年6月24日に [Docker does not honor ufw rules.](https://github.com/moby/moby/issues/42563) として改めて提起され、こちらは現在も開いたままです。提起者はこれを繰り返し起きる落とし穴だと書き、先の2014年の報告を参照しています。[仕様](/glossary/仕様/)の説明としてだけでなく、長期にわたって同じ行き違いが起きてきた点も踏まえて読んでください。
 
 したがって、ConoHa の手順に従って ufw を[設定](/glossary/設定/)した状態でも、[Docker](/glossary/docker/) で公開した[ポート](/glossary/ポート/)については `ufw allow` だけでは制御できません。読み替えとしては、ufw の操作は [Docker](/glossary/docker/) を経由しない[通信](/glossary/通信/)に対する[設定](/glossary/設定/)として扱い、[Docker](/glossary/docker/) の公開[ポート](/glossary/ポート/)については公開の指定とセキュリティグループの側で考える、という分け方になります。
 
@@ -186,4 +186,4 @@ ConoHa 側の [Docker](/glossary/docker/) [テンプレート](/glossary/テン�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

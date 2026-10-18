@@ -20,7 +20,7 @@ publish_zenn: true
 
 ## 冒頭まとめ
 
-`npm install` が `ERESOLVE` で止まったら、まず[ログ](/glossary/ログ/)の `Found:` と、その下の `peer` が要求する版を比べる。[パッケージ](/glossary/パッケージ/)本体と、それを利用するプラグインなどの要求が合わず、npmが依存関係を配置できない場合に起きる。
+`npm install` が `ERESOLVE` で止まったら、まず[ログ](/glossary/ログ/)の `Found:` と、その下の `peer` が要求する版を比べる。[パッケージ](/glossary/パッケージ/)本体と、それを利用する[プラグイン](/glossary/プラグイン/)などの要求が合わず、npmが依存関係を配置できない場合に起きる。
 
 ```text
 npm error code ERESOLVE
@@ -33,7 +33,7 @@ npm error ERESOLVE unable to resolve dependency tree
 
 ## Foundとpeerの要求を読み比べる
 
-peer dependencyは、プラグインなどが利用側に求める[パッケージ](/glossary/パッケージ/)と版の条件を表す。たとえば次は説明用の例である。
+peer dependencyは、[プラグイン](/glossary/プラグイン/)などが利用側に求める[パッケージ](/glossary/パッケージ/)と版の条件を表す。たとえば次は説明用の例である。
 
 ```text
 Found: host-lib@2.0.0
@@ -83,7 +83,7 @@ npm explain host-lib
 
 `npm view`は通常[レジストリ](/glossary/レジストリ/)へ問い合わせる。`npm ls`と`npm explain`は[インストール](/glossary/インストール/)済みツリーの調査に使うため、初回[インストール](/glossary/インストール/)前や途中失敗後には十分な情報がないこともある。`npm ls`は不整合を表示して終了[コード](/glossary/コード/)が非0になる場合がある。
 
-要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を更新する。hostを変更するなら、ほかのプラグインのpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを更新し、差分・ビルド・[テスト](/glossary/テスト/)を確認する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
+要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を更新する。hostを変更するなら、ほかの[プラグイン](/glossary/プラグイン/)のpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを更新し、差分・ビルド・[テスト](/glossary/テスト/)を確認する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
 
 lockfile[削除](/glossary/削除/)や[キャッシュ](/glossary/キャッシュ/)[削除](/glossary/削除/)から始めても、互いに交わらない要求範囲は直らない。lockfileを消すと関係のない依存まで更新される可能性がある。
 
@@ -107,7 +107,7 @@ npm install --legacy-peer-deps
 
 ## overridesとCIで注意する点
 
-`overrides`は依存ツリーの[パッケージ](/glossary/パッケージ/)を指定した版などへ置き換える仕組みであり、置き換えた先の[互換性](/glossary/互換性/)を証明するものではない。webpack 3を要求するプラグインへwebpack 4を指定しても、そのプラグインが4に[対応](/glossary/対応/)するようにはならない。
+`overrides`は依存ツリーの[パッケージ](/glossary/パッケージ/)を指定した版などへ置き換える仕組みであり、置き換えた先の[互換性](/glossary/互換性/)を証明するものではない。webpack 3を要求する[プラグイン](/glossary/プラグイン/)へwebpack 4を指定しても、その[プラグイン](/glossary/プラグイン/)が4に[対応](/glossary/対応/)するようにはならない。
 
 [npmのpackage.json仕様](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides)には、直接依存を上書きする場合は依存指定とoverrideの指定を一致させる制約もある。違う指定を置くと `EOVERRIDE` の原因になる。rootのoverridesで何を置き換えるのか確認してから使う。
 
@@ -135,4 +135,4 @@ Yarnやpnpmへ変更する場合も、npmの設定名や既定動作をそのま
 
 本記事の[コマンド](/glossary/コマンド/)は調査・対処の例であり、外部[パッケージ](/glossary/パッケージ/)を使った[インストール](/glossary/インストール/)結果は未検証です。公式仕様・現行ソース・過去の[GitHub](/glossary/github/)報告を2026年10月9日に確認しました。
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

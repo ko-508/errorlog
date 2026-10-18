@@ -136,7 +136,7 @@ uptime; iostat -x 1 3
 
 ### 原因5：資源の枯渇
 
-ディスクや[メモリ](/glossary/メモリ/)が尽きた場合です。まず圧迫の条件が立ち、Pod の退避が始まります（[Kubernetes の Evicted の記事](/posts/kubernetes_evicted/)）。それでも改善しなければ、常駐処理自体が動けなくなり `NotReady` に至ります。
+ディスクや[メモリ](/glossary/メモリ/)が尽きた場合です。まず圧迫の条件が立ち、Pod の退避が始まります（[Kubernetes の Evicted の記事](/posts/kubernetes_evicted/)）。それでも[改善](/glossary/改善/)しなければ、常駐処理自体が動けなくなり `NotReady` に至ります。
 
 ```bash
 kubectl get nodes -o custom-columns='NAME:.metadata.name,READY:.status.conditions[?(@.type=="Ready")].status,DISK:.status.conditions[?(@.type=="DiskPressure")].status,MEM:.status.conditions[?(@.type=="MemoryPressure")].status'
@@ -150,7 +150,7 @@ kubectl get nodes -o custom-columns='NAME:.metadata.name,READY:.status.condition
 
 さらに、区画ごとの健全性による調整があります。不健全なノードの割合が既定0.55以上になった場合、退去の速度は下げられます。そして**ノード数が50以下の小規模な構成では、退去そのものが停止します**。
 
-この設計を知らないと、「ノードが落ちたのに Pod が移らない」という状況で原因を探し回ることになります。小規模な構成で複数ノードが同時に落ちた場合、**それは仕様どおりの停止**です。制御側が壊れたわけではありません。
+この設計を知らないと、「ノードが落ちたのに Pod が移らない」という状況で原因を探し回ることになります。小規模な構成で複数ノードが同時に落ちた場合、**それは[仕様](/glossary/仕様/)どおりの停止**です。制御側が壊れたわけではありません。
 
 ## 補足：似ているが別のもの
 
@@ -219,4 +219,4 @@ kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

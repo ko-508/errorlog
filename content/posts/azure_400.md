@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 
-Azure 400[エラー](/glossary/エラー/)は「Bad Request」を意味し、Azure [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)に含まれる[パラメータ](/glossary/パラメータ/)や値に誤りがある場合に発生します。これは[認証](/glossary/認証/)[エラー](/glossary/エラー/)ではなく、[リクエスト](/glossary/リクエスト/)の内容そのものが仕様に違反していることを示す重要な信号です。Azure PortalやAzure [CLI](/glossary/cli/)、[REST](/glossary/rest/) [API](/glossary/api/)を通じてリソースを作成・更新する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、適切な[対応](/glossary/対応/)により確実に解決できます。
+Azure 400[エラー](/glossary/エラー/)は「Bad Request」を意味し、Azure [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)に含まれる[パラメータ](/glossary/パラメータ/)や値に誤りがある場合に発生します。これは[認証](/glossary/認証/)[エラー](/glossary/エラー/)ではなく、[リクエスト](/glossary/リクエスト/)の内容そのものが[仕様](/glossary/仕様/)に違反していることを示す重要な信号です。Azure PortalやAzure [CLI](/glossary/cli/)、[REST](/glossary/rest/) [API](/glossary/api/)を通じてリソースを作成・更新する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、適切な[対応](/glossary/対応/)により確実に解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -43,7 +43,7 @@ $ az vm create --resource-group myRG --name "invalid@vm#name" --image UbuntuLTS
 
 ### 原因1：必須パラメータの不足または型の不正
 
-[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待する[データ型](/glossary/データ型/)と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の仕様では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
+[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待する[データ型](/glossary/データ型/)と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の[仕様](/glossary/仕様/)では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -192,4 +192,4 @@ except HttpResponseError as e:
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

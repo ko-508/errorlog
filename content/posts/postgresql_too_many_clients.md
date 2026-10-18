@@ -156,7 +156,7 @@ SET idle_in_transaction_session_timeout = '5min';
 
 ## max_connectionsを上げる前に確認すること
 
-`max_connections`は同時接続数の上限です。既定値は通常100ですが、`initdb`の判断により小さくなる場合があります。[PostgreSQL公式の接続設定](https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-MAX-CONNECTIONS)に仕様が記載されています。
+`max_connections`は同時接続数の上限です。既定値は通常100ですが、`initdb`の判断により小さくなる場合があります。[PostgreSQL公式の接続設定](https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-MAX-CONNECTIONS)に[仕様](/glossary/仕様/)が記載されています。
 
 値を増やせば受け付けられる接続数は増えますが、PostgreSQLはこの値に基づいて共有[メモリ](/glossary/メモリ/)を含む一部の資源を確保します。また、変更は[設定](/glossary/設定/)の再読み込みだけでは反映されず、[サーバー](/glossary/サーバー/)の再起動が必要です。
 

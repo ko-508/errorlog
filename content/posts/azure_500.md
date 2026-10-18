@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Azure の 500 Internal Server Error は、まず「どの [URL](/glossary/url/) が返したか」で2系統に分けると迷いません。第一に、Azure の管理 [API](/glossary/api/)（management.azure.com への操作）や各サービスの [API](/glossary/api/) が返す500で、[エラー](/glossary/エラー/)応答の code は InternalServerError などになります。これは Azure 側の予期しない内部[エラー](/glossary/エラー/)で、手元の[リクエスト](/glossary/リクエスト/)を直して消えるものではありません。Azure の公式 [SDK](/glossary/sdk/) は、408・429・500・502・503・504 を既定の再試行対象とし、既定で合計10回まで再試行する設計になっており（Python 版 [SDK](/glossary/sdk/) の共通基盤 azure-core のソースコードで確認できます）、[SDK](/glossary/sdk/) 経由で500が[エラー](/glossary/エラー/)として見えた時点で、この再試行はすでに尽きています。第二に、自分が[デプロイ](/glossary/デプロイ/)したアプリ（App Service）の [URL](/glossary/url/) が返す500です。こちらは Azure 側の障害ではなくアプリの調査で、ASP.NET Core の場合は 500.30 のようなサブステータスが失敗の種類まで教えてくれます。
+Azure の 500 Internal Server Error は、まず「どの [URL](/glossary/url/) が返したか」で2系統に分けると迷いません。第一に、Azure の管理 [API](/glossary/api/)（management.azure.com への操作）や各サービスの [API](/glossary/api/) が返す500で、[エラー](/glossary/エラー/)応答の code は InternalServerError などになります。これは Azure 側の予期しない内部[エラー](/glossary/エラー/)で、手元の[リクエスト](/glossary/リクエスト/)を直して消えるものではありません。Azure の公式 [SDK](/glossary/sdk/) は、408・429・500・502・503・504 を既定の再試行対象とし、既定で合計10回まで再試行する設計になっており（Python 版 [SDK](/glossary/sdk/) の共通基盤 azure-core のソースコードで確認できます）、[SDK](/glossary/sdk/) 経由で500が[エラー](/glossary/エラー/)として見えた時点で、この再試行はすでに尽きています。第二に、自分が[デプロイ](/glossary/デプロイ/)したアプリ（App Service）の [URL](/glossary/url/) が返す500です。こちらは Azure 側の[障害](/glossary/障害/)ではなくアプリの調査で、ASP.NET Core の場合は 500.30 のようなサブステータスが失敗の種類まで教えてくれます。
 
 500だと思い込みやすいのに500ではない[エラー](/glossary/エラー/)も先に押さえます。リソースプロバイダーの未登録は、公式トラブルシューティング文書のある MissingSubscriptionRegistration で、実際の応答は 409 Conflict です。クォータや[スロットリング](/glossary/スロットリング/)は 429 系、[テンプレート](/glossary/テンプレート/)や[パラメータ](/glossary/パラメータ/)の不正は 400 系の検証[エラー](/glossary/エラー/)、権限不足は 403 の AuthorizationFailed です。「プロバイダー未登録で500」「クォータ超過で500」という説明は Azure の実際の応答と一致しません。
 
@@ -73,7 +73,7 @@ def call_azure(url, headers, max_retries=4):
     return r
 ```
 
-書き込み操作（リソースの作成・更新）で500を受け取った場合は、応答が届かなかっただけで処理が完了している可能性を排除できません。再試行の前に対象リソースの状態を確認し、二重作成を避けてください。500が続く・広がる場合は、Azure の稼働状況（https://azure.status.microsoft）と、ポータルの Service Health を確認します。全体のステータスページに載らない規模の問題も Service Health のリソース単位の[通知](/glossary/通知/)には出ることがあるため、両方を見るのが確実です。掲載がないことは障害でないことの証明にはなりません。解決しない場合は、控えておいた x-ms-request-id・x-ms-correlation-request-id・発生時刻を添えてサポートに問い合わせます。
+書き込み操作（リソースの作成・更新）で500を受け取った場合は、応答が届かなかっただけで処理が完了している可能性を排除できません。再試行の前に対象リソースの状態を確認し、二重作成を避けてください。500が続く・広がる場合は、Azure の稼働状況（https://azure.status.microsoft）と、ポータルの Service Health を確認します。全体のステータスページに載らない規模の問題も Service Health のリソース単位の[通知](/glossary/通知/)には出ることがあるため、両方を見るのが確実です。掲載がないことは[障害](/glossary/障害/)でないことの証明にはなりません。解決しない場合は、控えておいた x-ms-request-id・x-ms-correlation-request-id・発生時刻を添えてサポートに問い合わせます。
 
 ### 原因2：自分のアプリ（App Service）が500を返している
 
@@ -142,4 +142,4 @@ Azure の500は、管理 [API](/glossary/api/) 側なら「参照 [ID](/glossary
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

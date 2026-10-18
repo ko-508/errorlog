@@ -23,7 +23,7 @@ npm error code ENOTFOUND
 npm error network request to https://registry.npmjs.org/express failed, reason: getaddrinfo ENOTFOUND registry.npmjs.org
 ```
 
-この例なら`registry.npmjs.org`を調べます。社内の取得先や[プロキシ](/glossary/プロキシ/)の名前が表示されているなら、そのホストの[設定](/glossary/設定/)と名前解決を確認してください。取得先の[URL](/glossary/url/)だけを見て、npmの公開[サーバー](/glossary/サーバー/)に障害があると判断するのは早い段階です。
+この例なら`registry.npmjs.org`を調べます。社内の取得先や[プロキシ](/glossary/プロキシ/)の名前が表示されているなら、そのホストの[設定](/glossary/設定/)と名前解決を確認してください。取得先の[URL](/glossary/url/)だけを見て、npmの公開[サーバー](/glossary/サーバー/)に[障害](/glossary/障害/)があると判断するのは早い段階です。
 
 同じ実行環境で名前解決を確認し、失敗するホストに[対応](/glossary/対応/)する[設定](/glossary/設定/)を直します。社内の取得先を使う[プロジェクト](/glossary/プロジェクト/)では、公開の取得先や外部の[DNS](/glossary/dns/)へ一律に変更しないでください。
 

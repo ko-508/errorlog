@@ -210,7 +210,7 @@ aws s3 ls s3://my-bucket/documents/
 
 ### IAMアクセス権限による隠蔽
 
-[IAM](/glossary/iam/)[権限](/glossary/権限/)が不足している場合、通常は 403 Forbidden が返ります。ただし、[オブジェクト](/glossary/オブジェクト/)が存在せず、かつ s3:ListBucket [権限](/glossary/権限/)もない場合は NoSuchKey ではなく 403 が返るため、「存在しないはずの[キー](/glossary/キー/)で 403 が出る」という逆の混同が生じることがあります。権限関連が疑われる場合は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)のレビューを並行して行ってください。
+[IAM](/glossary/iam/)[権限](/glossary/権限/)が不足している場合、通常は 403 Forbidden が返ります。ただし、[オブジェクト](/glossary/オブジェクト/)が存在せず、かつ s3:ListBucket [権限](/glossary/権限/)もない場合は NoSuchKey ではなく 403 が返るため、「存在しないはずの[キー](/glossary/キー/)で 403 が出る」という逆の混同が生じることがあります。権限関連が疑われる場合は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)の[レビュー](/glossary/レビュー/)を並行して行ってください。
 
 ### CloudFormation・IaC環境での再デプロイ
 
@@ -247,7 +247,7 @@ aws s3api get-bucket-location --bucket my-bucket
 
 NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
-- **Google Cloud Storage（GCS）** ：S3と[互換性](/glossary/互換性/)が高く、[オブジェクト](/glossary/オブジェクト/)存在確認の[API](/glossary/api/)仕様もシンプルです。特にマルチクラウド戦略がある場合、統一的な[SDK](/glossary/sdk/)で複数[クラウド](/glossary/クラウド/)を管理できます。
+- **Google Cloud Storage（GCS）** ：S3と[互換性](/glossary/互換性/)が高く、[オブジェクト](/glossary/オブジェクト/)存在確認の[API](/glossary/api/)[仕様](/glossary/仕様/)もシンプルです。特にマルチクラウド戦略がある場合、統一的な[SDK](/glossary/sdk/)で複数[クラウド](/glossary/クラウド/)を管理できます。
 
 - **Azure Blob Storage** ：マイクロソフトエコシステムとの連携が必要な場合に有効です。[エラーハンドリング](/glossary/エラーハンドリング/)が詳細で、ブロブの存在確認と取得を単一の[API](/glossary/api/)呼び出しで実行できます。
 
@@ -261,4 +261,4 @@ NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

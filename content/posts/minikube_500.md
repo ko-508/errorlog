@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl", "etcd", "Docker", "VirtualBox", "KVM
 
 ## エラーの概要
 
-Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない障害に陥っている状態を示します。ローカル[開発環境](/glossary/開発環境/)であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント障害などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
+Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない[障害](/glossary/障害/)に陥っている状態を示します。ローカル[開発環境](/glossary/開発環境/)であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント[障害](/glossary/障害/)などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
 
 ## 実際のエラーメッセージ例
 
@@ -192,7 +192,7 @@ minikube start
 
 **3. [Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)による不安定性**
 
-Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)で動作している場合や、プラグインが古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)に依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
+Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)で動作している場合や、[プラグイン](/glossary/プラグイン/)が古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)に依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
 
 ```bash
 # Minikube および Kubernetes バージョン確認
@@ -243,4 +243,4 @@ minikube start --vm-driver=<ドライバ名>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

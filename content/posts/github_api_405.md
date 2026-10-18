@@ -16,7 +16,7 @@ trend_incident: false
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の 405 Method Not Allowed は、名前から受ける印象と中身が食い違う[コード](/glossary/コード/)です。[HTTP](/glossary/http/) の[メソッド](/glossary/メソッド/)を間違えたという意味ではありません。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、405 を応答として定義している操作は全1,209操作のうち3つしかなく、そのうち実務で当たるのは事実上1つ、プルリクエストの[マージ](/glossary/マージ/)（`PUT /repos/{owner}/{repo}/pulls/{pull_number}/merge`）です。この 405 に付けられた定義文は「[マージ](/glossary/マージ/)を実行できない場合」であり、意味は「[メソッド](/glossary/メソッド/)が違う」ではなく「今は[マージ](/glossary/マージ/)できない」です。
 
-応答本文には、422 のような errors 配列がありません。公式定義でも message と documentation_url の2つだけです。つまり調査は、message の文言を読むことに尽きます。実際に記録されている文言は5系統に整理できます。[マージ](/glossary/マージ/)できる状態にない（Pull Request is not mergeable）、base [ブランチ](/glossary/ブランチ/)が動いた（Base branch was modified. Review and try the merge again.）、必須ステータスチェックが未完了、必要なレビューが足りない、その[ブランチ](/glossary/ブランチ/)へ push する[権限](/glossary/権限/)がない、の5つです。
+応答本文には、422 のような errors 配列がありません。公式定義でも message と documentation_url の2つだけです。つまり調査は、message の文言を読むことに尽きます。実際に記録されている文言は5系統に整理できます。[マージ](/glossary/マージ/)できる状態にない（Pull Request is not mergeable）、base [ブランチ](/glossary/ブランチ/)が動いた（Base branch was modified. Review and try the merge again.）、必須ステータスチェックが未完了、必要な[レビュー](/glossary/レビュー/)が足りない、その[ブランチ](/glossary/ブランチ/)へ push する[権限](/glossary/権限/)がない、の5つです。
 
 [リトライ](/glossary/リトライ/)してよいかどうかも系統で分かれます。Base branch was modified だけが一時的な状態で、待って再試行するのが正しい対処です。残りは、状態を直さない限り何度送っても同じ結果になります。
 
@@ -137,7 +137,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ### 原因4：必要なレビューが足りない（At least 1 approving review is required by reviewers with write access）
 
-[ブランチ](/glossary/ブランチ/)保護でレビュー必須を[設定](/glossary/設定/)している場合、[承認](/glossary/承認/)が足りない状態での[マージ](/glossary/マージ/)要求はこの 405 になります。自分が[リポジトリ](/glossary/リポジトリ/)の所有者であっても、保護規則の対象に管理者を含めていれば同じです。
+[ブランチ](/glossary/ブランチ/)保護で[レビュー](/glossary/レビュー/)必須を[設定](/glossary/設定/)している場合、[承認](/glossary/承認/)が足りない状態での[マージ](/glossary/マージ/)要求はこの 405 になります。自分が[リポジトリ](/glossary/リポジトリ/)の所有者であっても、保護規則の対象に管理者を含めていれば同じです。
 
 必要な承認数は保護設定から取得できます。
 
@@ -146,7 +146,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/<owner>/<repo>/branches/<branch>/protection/required_pull_request_reviews
 ```
 
-[自動化](/glossary/自動化/)から呼ぶ場合、[承認](/glossary/承認/)は [API](/glossary/api/) では代替できません。設計としては、[承認](/glossary/承認/)が揃うまで[マージ](/glossary/マージ/)を試みない（レビュー完了の [Webhook](/glossary/webhook/) を待つ）か、[承認](/glossary/承認/)が揃っていない状態を異常ではなく「まだその時ではない」として扱う分岐にします。
+[自動化](/glossary/自動化/)から呼ぶ場合、[承認](/glossary/承認/)は [API](/glossary/api/) では代替できません。設計としては、[承認](/glossary/承認/)が揃うまで[マージ](/glossary/マージ/)を試みない（[レビュー](/glossary/レビュー/)完了の [Webhook](/glossary/webhook/) を待つ）か、[承認](/glossary/承認/)が揃っていない状態を異常ではなく「まだその時ではない」として扱う分岐にします。
 
 ### 原因5：そのブランチに push する権限がない（You're not authorized to push to this branch.）
 
@@ -156,7 +156,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ## 補足：405ではない類似エラー
 
-[マージ](/glossary/マージ/)要求に sha を渡し、head がその値と一致しなかった場合は 409 で、message は Head branch was modified. Review and try the merge again. です。405 の Base branch was modified と1語しか違いませんが、意味は逆向きです。405 は「取り込む先が動いた」ので待って再試行、409 は「取り込む中身が動いた」のでレビュー済みの内容と実際の内容がずれていないかの確認が先です（[GitHub API の 409 の記事](/posts/github_api_409/)）。
+[マージ](/glossary/マージ/)要求に sha を渡し、head がその値と一致しなかった場合は 409 で、message は Head branch was modified. Review and try the merge again. です。405 の Base branch was modified と1語しか違いませんが、意味は逆向きです。405 は「取り込む先が動いた」ので待って再試行、409 は「取り込む中身が動いた」ので[レビュー](/glossary/レビュー/)済みの内容と実際の内容がずれていないかの確認が先です（[GitHub API の 409 の記事](/posts/github_api_409/)）。
 
 [リクエスト](/glossary/リクエスト/)の本文が [JSON](/glossary/json/) として壊れている場合は 400、[パラメータ](/glossary/パラメータ/)の検証に落ちた場合は 422 です（[GitHub API の 400 の記事](/posts/github_api_400/)、[422 の記事](/posts/github_api_422/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものが見えない・[権限](/glossary/権限/)がない場合は 404、[GitHub](/glossary/github/) App や細かい[権限](/glossary/権限/)の[トークン](/glossary/トークン/)での[権限](/glossary/権限/)不足は 403 です（[404 の記事](/posts/github_api_404/)、[403 の記事](/posts/github_api_403/)）。
 
@@ -170,7 +170,7 @@ gh [コマンド](/glossary/コマンド/)を使っている場合は、[HTTP](/
 2. message を読む。文言で原因1〜5に振り分ける。errors 配列は無いので、文言以外の手がかりは無いと考えてよい。
 3. Base branch was modified のときだけ、待って再試行する。他の文言での再送は結果が変わらない。
 4. Pull Request is not mergeable のときは、プルリクエストを取得して mergeable と draft を見る。mergeable が null なら計算中なので待つ。false なら競合、draft が true なら下書き。
-5. チェック・レビュー・push [権限](/glossary/権限/)の文言なら、対象[ブランチ](/glossary/ブランチ/)の保護設定を取得して、満たしていない条件を特定する。
+5. チェック・[レビュー](/glossary/レビュー/)・push [権限](/glossary/権限/)の文言なら、対象[ブランチ](/glossary/ブランチ/)の保護設定を取得して、満たしていない条件を特定する。
 6. [自動化](/glossary/自動化/)に組み込む場合は、405 を一律の失敗にせず、文言で「待つ」と「止める」に分ける。
 
 ## 確認コマンド集
@@ -213,4 +213,4 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -191,7 +191,7 @@ kubectl get secret app-secret -n <名前空間> \
 
 [Secretの公式文書](https://kubernetes.io/docs/concepts/configuration/secret/#optional-secrets)には、必須のSecretまたは指定[キー](/glossary/キー/)が用意できるまで、Podの[コンテナ](/glossary/コンテナ/)は開始されないと記載されています。
 
-`optional: true` にすれば、対象がなくても空の状態で進められます。ただし、[アプリケーション](/glossary/アプリケーション/)が[設定](/glossary/設定/)なしで安全に動ける場合だけ使います。[エラー](/glossary/エラー/)を消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の障害へ変わるだけです。
+`optional: true` にすれば、対象がなくても空の状態で進められます。ただし、[アプリケーション](/glossary/アプリケーション/)が[設定](/glossary/設定/)なしで安全に動ける場合だけ使います。[エラー](/glossary/エラー/)を消す目的だけで必須の認証情報を任意扱いにすると、起動後の別の[障害](/glossary/障害/)へ変わるだけです。
 
 ### 原因2：PVCが存在しない、またはPVへ結び付いていない
 
@@ -498,10 +498,10 @@ kubectl get events -n <名前空間> \
 
 さらに2022年の報告（[Inconsistent POD status reporting with kubectl get && describe](https://github.com/kubernetes/kubernetes/issues/109451)）では、同じPodが `kubectl get` では `ContainerCreating`、`kubectl describe` の `Status` では `Pending` と表示されました。報告内でも、前者は表示用の要約、後者はPodのphaseで、同じ項目を見ていないことが指摘されています。
 
-3件が示しているのは、文言の正誤より、**どの時点の何を表す情報かを分ける必要がある**ということです。`ContainerCreating` は現在の待機理由をまとめた表示です。`Pending` はPodのphaseです。`FailedMount` は失敗した試行の[イベント](/glossary/イベント/)です。どれか1つだけでは、現在も障害が続いているかを判断できません。
+3件が示しているのは、文言の正誤より、**どの時点の何を表す情報かを分ける必要がある**ということです。`ContainerCreating` は現在の待機理由をまとめた表示です。`Pending` はPodのphaseです。`FailedMount` は失敗した試行の[イベント](/glossary/イベント/)です。どれか1つだけでは、現在も[障害](/glossary/障害/)が続いているかを判断できません。
 
 だから、`ContainerCreating` を見たら状態名を[検索](/glossary/検索/)して終わらず、最新[イベント](/glossary/イベント/)へ進みます。`FailedMount` を見たら、その存在だけで警報を確定せず、末尾の具体的な理由、最終時刻、回数、現在のReady状態を確認します。情報の種類と時刻をそろえることが、この組み合わせを正しく読むための中心です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の仕様は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
