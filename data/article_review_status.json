@@ -1719,5 +1719,16 @@
         "note": "新規作成。Git・GitHub公式文書とGitHub実例を照合。重複登録、set-url、rename、removeをGit 2.51.1で確認"
       }
     ]
+  },
+  "content/posts/python_msvc_14_required.md": {
+    "verified": true,
+    "verified_at": "2026-10-19",
+    "last_verified_at": "2026-10-19",
+    "history": [
+      {
+        "date": "2026-10-19",
+        "note": "新規作成。Microsoft・pip公式資料、setuptools実装、GitHub実例を照合。Windows実機での導入操作は未検証"
+      }
+    ]
   }
 }
