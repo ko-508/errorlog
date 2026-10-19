@@ -1,108 +1,38 @@
 {
-  "generated_at": "2026-10-12",
+  "generated_at": "2026-10-19",
   "uncovered": [
     {
-      "query": "graphql とは",
+      "query": "err_invalid_url",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 86.0,
+      "position": 85.0,
+      "coverage": "uncovered",
+      "best_match_slug": "stripe_402",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "graphql とは",
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 88.5,
       "coverage": "uncovered",
       "best_match_slug": "firebase_401",
       "match_score": 0.069,
       "opportunity_score": 0.0
     },
     {
-      "query": "grpcとは何か",
-      "impressions": 3,
-      "ctr": 0.0,
-      "position": 92.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "gyp err configure error",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 64.0,
-      "coverage": "uncovered",
-      "best_match_slug": "npm_gyp_err_build_error",
-      "match_score": 0.09,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "xml",
-      "impressions": 4,
-      "ctr": 0.0,
-      "position": 94.75,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "yaml",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 108.0,
-      "coverage": "uncovered",
-      "best_match_slug": "docker_compose_400",
-      "match_score": 0.034,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "yamlとは",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 92.5,
-      "coverage": "uncovered",
-      "best_match_slug": "tool_docker_compose",
-      "match_score": 0.103,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "クラウド",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 56.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "クレデンシャル ビジネス",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 29.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "サービスアカウント とは",
+      "query": "rfc",
       "impressions": 1,
       "ctr": 0.0,
       "position": 14.0,
       "coverage": "uncovered",
-      "best_match_slug": "firebase_401",
-      "match_score": 0.069,
+      "best_match_slug": "docker_408",
+      "match_score": 0.034,
       "opportunity_score": 0.0
     },
     {
-      "query": "ダッシュ ボード",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 99.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "ダッシュボード",
+      "query": "xml",
       "impressions": 2,
       "ctr": 0.0,
       "position": 97.0,
@@ -110,14 +40,65 @@
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
+    },
+    {
+      "query": "クラウド",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 59.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ストレージ トランザクション",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 81.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "ターミナル とは",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 93.0,
+      "coverage": "uncovered",
+      "best_match_slug": "firebase_401",
+      "match_score": 0.069,
+      "opportunity_score": 0.0
+    },
+    {
+      "query": "冪 等 性",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 96.0,
+      "coverage": "uncovered",
+      "best_match_slug": "",
+      "match_score": 0.0,
+      "opportunity_score": 0.0
     }
   ],
-  "partial": [],
+  "partial": [
+    {
+      "query": "aws エラー",
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 85.0,
+      "coverage": "partial",
+      "best_match_slug": "aws_401",
+      "match_score": 0.538,
+      "opportunity_score": 0.0
+    }
+  ],
   "summary": {
-    "total_queries": 11,
+    "total_queries": 9,
     "covered": 0,
-    "partial": 0,
-    "uncovered": 11,
+    "partial": 1,
+    "uncovered": 8,
     "coverage_rate": 0.0
   }
 }
