@@ -199,6 +199,7 @@
   "postgresql_role_does_not_exist": "2026-10-04T23:56:42.563559+00:00",
   "postgresql_too_many_clients": "2026-10-18T23:08:41.329574+00:00",
   "python_modulenotfounderror": "2026-10-04T23:56:42.551849+00:00",
+  "python_msvc_14_required": "2026-10-19T02:50:04.828132+00:00",
   "python_ssl_certificate_verify_failed": "2026-10-12T00:30:49.377716+00:00",
   "python_unicodedecodeerror_cp932": "2026-10-18T23:08:41.314290+00:00",
   "slack_400": "2026-07-13T08:15:44.229269+00:00",
