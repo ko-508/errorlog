@@ -1730,5 +1730,16 @@
         "note": "新規作成。Microsoft・pip公式資料、setuptools実装、GitHub実例を照合。Windows実機での導入操作は未検証"
       }
     ]
+  },
+  "content/posts/node_eaddrinuse.md": {
+    "verified": true,
+    "verified_at": "2026-10-20",
+    "last_verified_at": "2026-10-20",
+    "history": [
+      {
+        "date": "2026-10-20",
+        "note": "新規作成。Node.js・Microsoft公式資料を照合。LinuxのNode.js 24.19.0でポート競合と解放後の再起動を確認。Windows操作は未検証"
+      }
+    ]
   }
 }
