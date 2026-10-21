@@ -87,6 +87,7 @@
   "git_detected_dubious_ownership": "2026-10-18T23:08:41.566040+00:00",
   "git_not_a_git_repository": "2026-10-18T23:08:41.575943+00:00",
   "git_overwritten_by_merge": "2026-10-04T23:56:42.776983+00:00",
+  "git_pathspec_did_not_match": "2026-10-21T04:39:29.522111+00:00",
   "git_reconcile_divergent_branches": "2026-10-18T23:08:41.571093+00:00",
   "git_refusing_to_merge_unrelated_histories": "2026-10-18T23:08:41.568646+00:00",
   "git_remote_origin_already_exists": "2026-10-18T23:08:41.563632+00:00",
