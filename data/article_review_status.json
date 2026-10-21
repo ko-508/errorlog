@@ -1741,5 +1741,16 @@
         "note": "新規作成。Node.js・Microsoft公式資料を照合。LinuxのNode.js 24.19.0でポート競合と解放後の再起動を確認。Windows操作は未検証"
       }
     ]
+  },
+  "content/posts/git_pathspec_did_not_match.md": {
+    "verified": true,
+    "verified_at": "2026-10-21",
+    "last_verified_at": "2026-10-21",
+    "history": [
+      {
+        "date": "2026-10-21",
+        "note": "新規作成。Git公式文書を照合。Git 2.51.1で未取得ブランチ、no-guess、single-branch、ファイル指定のエラーを再現確認"
+      }
+    ]
   }
 }
