@@ -1752,5 +1752,16 @@
         "note": "新規作成。Git公式文書を照合。Git 2.51.1で未取得ブランチ、no-guess、single-branch、ファイル指定のエラーを再現確認"
       }
     ]
+  },
+  "content/posts/php_allowed_memory_size_exhausted.md": {
+    "verified": true,
+    "verified_at": "2026-10-22",
+    "last_verified_at": "2026-10-22",
+    "history": [
+      {
+        "date": "2026-10-22",
+        "note": "新規作成。PHP・Composer公式資料とPHP 8.4.27実装を照合。2026年10月21日の更新勧告を確認。掲載例は実行未検証"
+      }
+    ]
   }
 }
