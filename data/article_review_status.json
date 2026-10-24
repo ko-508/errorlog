@@ -1774,5 +1774,16 @@
         "note": "新規作成。PHP・nginx公式資料とPHP 8.5.12実装を照合。CLIの既定値と変更方法、時間計測方式を確認。掲載例は実行未検証"
       }
     ]
+  },
+  "content/posts/php_headers_already_sent.md": {
+    "verified": true,
+    "verified_at": "2026-10-24",
+    "last_verified_at": "2026-10-24",
+    "history": [
+      {
+        "date": "2026-10-24",
+        "note": "新規作成。PHP公式資料とPHP 8.5.12実装を照合。出力順序、headers_sent、出力バッファの扱いを確認。掲載コードは実行未検証"
+      }
+    ]
   }
 }
