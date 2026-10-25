@@ -31,7 +31,7 @@ top_queries:
 }
 ```
 
-公式のトラブルシューティング文書は、400 と 422 の境界を明確に定めています。[リクエスト](/glossary/リクエスト/)本文に不正な [JSON](/glossary/json/) を送ると 400 と Problems parsing [JSON](/glossary/json/) が返ります。[エンドポイント](/glossary/エンドポイント/)が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)を期待しているのに本文がその形になっていないと 400 と Body should be a [JSON](/glossary/json/) object が返ります。これに対し、必須[パラメータ](/glossary/パラメータ/)の省略や[パラメータ](/glossary/パラメータ/)の型の誤りは 422 と Invalid request、[リクエスト](/glossary/リクエスト/)を処理できない場合は 422 と Validation Failed です。つまり「[JSON](/glossary/json/) として読めるかどうか」が 400 と 422 のおおまかな境界線です。
+公式のトラブルシューティング文書は、400 と 422 の境界を明確に定めています。[リクエスト](/glossary/リクエスト/)本文に不正な [JSON](/glossary/json/) を送ると 400 と Problems parsing [JSON](/glossary/json/) が返ります。[エンドポイント](/glossary/エンドポイント/)が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)を期待しているのに本文がその形になっていないと 400 と Body should be a [JSON](/glossary/json/) object が返ります。これに対し、必須[パラメータ](/glossary/パラメータ/)の省略や[パラメータ](/glossary/パラメータ/)の型の誤りは 422 と Invalid request、[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)できない場合は 422 と Validation Failed です。つまり「[JSON](/glossary/json/) として読めるかどうか」が 400 と 422 のおおまかな境界線です。
 
 ## まず最初に：message を読んで境界を確定する
 
@@ -63,7 +63,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "New issue", "body": "This is a test"}'
 ```
 
-見落とされやすいのが、[プログラム](/glossary/プログラム/)から呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する処理）の漏れです。手元の[コード](/glossary/コード/)上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに[送信](/glossary/送信/)すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが [GitHub](/glossary/github/) 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
+見落とされやすいのが、[プログラム](/glossary/プログラム/)から呼び出す場合の直列化（[オブジェクト](/glossary/オブジェクト/)を [JSON](/glossary/json/) 文字列に変換する[処理](/glossary/処理/)）の漏れです。手元の[コード](/glossary/コード/)上では[オブジェクト](/glossary/オブジェクト/)が正しく見えていても、直列化せずに[送信](/glossary/送信/)すると、通信路には [JSON](/glossary/json/) でない文字列が流れます。実際の報告例として、JavaScript の fetch で body に[オブジェクト](/glossary/オブジェクト/)をそのまま渡して Problems parsing [JSON](/glossary/json/) になったケースが [GitHub](/glossary/github/) 公式コミュニティに記録されています。fetch の body には [JSON](/glossary/json/).stringify() で変換した文字列を渡す必要があります。送信前の検証には、本文を一度[ファイル](/glossary/ファイル/)に書き出して確かめる方法が確実です。
 
 ```bash
 # 本文が JSON として正しいかを検証してから送信する

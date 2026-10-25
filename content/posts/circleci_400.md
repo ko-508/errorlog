@@ -190,9 +190,9 @@ CircleCI では、[エラーレスポンス](/glossary/エラーレスポンス/
 }
 ```
 
-また、CircleCI の config.yml は v2.1 以上を使用する場合、Orb の参照やパイプラインパラメータの定義が可能になります。古い v2 形式を使用している場合は、これらの機能がサポートされないため、[バージョン](/glossary/バージョン/)を明示的に `version: 2.1` に更新してください。
+また、CircleCI の config.yml は v2.1 以上を使用する場合、Orb の参照やパイプラインパラメータの定義が可能になります。古い v2 形式を使用している場合は、これらの機能がサポートされないため、[バージョン](/glossary/バージョン/)を明示的に `version: 2.1` に[更新](/glossary/更新/)してください。
 
-Web UI からパイプラインを手動[トリガー](/glossary/トリガー/)する場合でも、[パラメータ](/glossary/パラメータ/)の入力欄に型に合致しない値を入力すると 400 [エラー](/glossary/エラー/)で[送信](/glossary/送信/)が拒否されます。
+Web [UI](/glossary/ui/) からパイプラインを手動[トリガー](/glossary/トリガー/)する場合でも、[パラメータ](/glossary/パラメータ/)の入力欄に型に合致しない値を入力すると 400 [エラー](/glossary/エラー/)で[送信](/glossary/送信/)が拒否されます。
 
 ## それでも解決しない場合
 
@@ -219,7 +219,7 @@ curl -v -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo
 
 **3. CircleCI [API](/glossary/api/) ドキュメントで仕様確認：**
 
-[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型を再確認してください。特に Trigger Pipeline [エンドポイント](/glossary/エンドポイント/)（POST /project/{project-slug}/pipeline）の[仕様](/glossary/仕様/)は頻繁に更新されるため、常に最新のドキュメントを参照してください。
+[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型を再確認してください。特に Trigger Pipeline [エンドポイント](/glossary/エンドポイント/)（POST /project/{project-slug}/pipeline）の[仕様](/glossary/仕様/)は頻繁に[更新](/glossary/更新/)されるため、常に最新のドキュメントを参照してください。
 
 **4. CircleCI サポートへの問い合わせ：**
 

@@ -87,7 +87,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
   register: api_response
 ```
 
-[API](/glossary/api/) が v2 に更新され、`v1/old-endpoint` が廃止されていると 404 を返します。
+[API](/glossary/api/) が v2 に[更新](/glossary/更新/)され、`v1/old-endpoint` が廃止されていると 404 を返します。
 
 **After（修正後）：**
 

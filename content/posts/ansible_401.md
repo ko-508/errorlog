@@ -53,7 +53,7 @@ FAILED! => {
 
 ### 原因1：SSH秘密鍵が間違っているか、パスフレーズが設定されている
 
-SSHで使用する[秘密鍵](/glossary/秘密鍵/)がターゲットホストの公開鍵と[対応](/glossary/対応/)していない場合、またはパスフレーズで保護された鍵をAnsibleが処理できない場合に発生します。Ansibleがホストに接続する際に認証情報を提示できず、Permission deniedで弾かれる状況です。
+SSHで使用する[秘密鍵](/glossary/秘密鍵/)がターゲットホストの公開鍵と[対応](/glossary/対応/)していない場合、またはパスフレーズで保護された鍵をAnsibleが[処理](/glossary/処理/)できない場合に発生します。Ansibleがホストに接続する際に認証情報を提示できず、Permission deniedで弾かれる状況です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -250,7 +250,7 @@ ansible-playbook playbook.yml --vault-password-file ~/.vault_pass
 `-f`オプションで並列数を制限している場合、複数ホストの[認証](/glossary/認証/)が同時に行われるため、ホスト単位で認証情報が異なるケースでは単一実行で検証してから並列実行に移行することが推奨されます。
 
 **[API](/glossary/api/)[トークン](/glossary/トークン/)の有効期限：**
-外部[API](/glossary/api/)の[トークン](/glossary/トークン/)は有効期限切れになることがあります。定期的に新規[トークン](/glossary/トークン/)を取得し、vaultで更新する運用フローを構築してください。
+外部[API](/glossary/api/)の[トークン](/glossary/トークン/)は有効期限切れになることがあります。定期的に新規[トークン](/glossary/トークン/)を取得し、vaultで[更新](/glossary/更新/)する運用フローを構築してください。
 
 ## それでも解決しない場合
 

@@ -78,7 +78,7 @@ server {
 }
 ```
 
-切り分けの決め手は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)の突き合わせです。[クライアント](/glossary/クライアント/)には504が返っているのに、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)には 200 や 202 が並んでいて異常がない場合、打ち切ったのは前段です。逆に[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)に処理の[遅延](/glossary/遅延/)や[ストレージ](/glossary/ストレージ/)（S3 など）への[エラー](/glossary/エラー/)が残っているなら、根本は[レジストリ](/glossary/レジストリ/)の後ろ側にあり、[プロキシ](/glossary/プロキシ/)の時間延長は対症にすぎません。相手が [Docker](/glossary/docker/) Hub の場合は手元で直せる[設定](/glossary/設定/)はなく、公式の稼働状況ページ（https://www.dockerstatus.com）を確認し、復旧を待って再試行します。pull も push も層ごとに自動で再試行される設計のため、散発的な504は再実行で通ることがあります。
+切り分けの決め手は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)の突き合わせです。[クライアント](/glossary/クライアント/)には504が返っているのに、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)には 200 や 202 が並んでいて異常がない場合、打ち切ったのは前段です。逆に[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)に[処理](/glossary/処理/)の[遅延](/glossary/遅延/)や[ストレージ](/glossary/ストレージ/)（S3 など）への[エラー](/glossary/エラー/)が残っているなら、根本は[レジストリ](/glossary/レジストリ/)の後ろ側にあり、[プロキシ](/glossary/プロキシ/)の時間延長は対症にすぎません。相手が [Docker](/glossary/docker/) Hub の場合は手元で直せる[設定](/glossary/設定/)はなく、公式の稼働状況ページ（https://www.dockerstatus.com）を確認し、復旧を待って再試行します。pull も push も層ごとに自動で再試行される設計のため、散発的な504は再実行で通ることがあります。
 
 ### 原因2：リモートデーモンの前のプロキシが長い API 呼び出しを打ち切っている
 
@@ -113,11 +113,11 @@ location / {
 
 docker [コマンド](/glossary/コマンド/)は正常で、[コンテナ](/glossary/コンテナ/)で動かしているアプリへの [HTTP](/glossary/http/) アクセスが504になる場合、その504を作っているのは前段の[プロキシ](/glossary/プロキシ/)（Nginx など）で、原因はアプリの応答が時間内に完成しないことです。[コンテナ](/glossary/コンテナ/)で動いていることは本質ではなく、調査の手順は [Nginx の 504 の記事](/posts/nginx_504/)がそのまま使えます。[プロキシ](/glossary/プロキシ/)の[エラーログ](/glossary/エラーログ/)の upstream timed out の行を起点に、[プロキシ](/glossary/プロキシ/)の時間設定とアプリの処理時間を突き合わせてください。
 
-[Docker](/glossary/docker/) 固有の落とし穴として1つだけ区別しておくと、Compose 構成で上流の[コンテナ](/glossary/コンテナ/)が停止している場合、[プロキシ](/glossary/プロキシ/)から見れば接続の失敗なので、返るのは504ではなく502です。504が出ているなら接続自体はできており、「[コンテナ](/glossary/コンテナ/)に届いていない」のではなく「[コンテナ](/glossary/コンテナ/)の中の処理が遅い」方向を調べるのが近道です（この境界は [Nginx の 502 の記事](/posts/nginx_502/)で扱っています）。
+[Docker](/glossary/docker/) 固有の落とし穴として1つだけ区別しておくと、Compose 構成で上流の[コンテナ](/glossary/コンテナ/)が停止している場合、[プロキシ](/glossary/プロキシ/)から見れば接続の失敗なので、返るのは504ではなく502です。504が出ているなら接続自体はできており、「[コンテナ](/glossary/コンテナ/)に届いていない」のではなく「[コンテナ](/glossary/コンテナ/)の中の[処理](/glossary/処理/)が遅い」方向を調べるのが近道です（この境界は [Nginx の 502 の記事](/posts/nginx_502/)で扱っています）。
 
 ## 補足：このコードではない類似エラー
 
-Cannot connect to the [Docker](/glossary/docker/) daemon は、[デーモン](/glossary/デーモン/)に到達できていない状態で、[HTTP](/glossary/http/) のやり取り自体が成立していません（[docker_500 の記事](/posts/docker_500/)の補足を参照）。context deadline exceeded や Client.Timeout exceeded、net/http: [TLS](/glossary/tls/) handshake timeout を含む[エラー](/glossary/エラー/)は、手元の[クライアント](/glossary/クライアント/)側が時間切れで接続を打ち切ったもので、[サーバー](/glossary/サーバー/)から504が返ったのとは別の事象です（[Docker の context deadline exceeded の記事](/posts/docker_context_deadline_exceeded/)）。Error response from daemon: の直後に具体的な処理の失敗が書かれた500系は、[デーモン](/glossary/デーモン/)または[レジストリ](/glossary/レジストリ/)の内部[エラー](/glossary/エラー/)です（[docker_500 の記事](/posts/docker_500/)）。[Docker](/glossary/docker/) Hub の利用回数の制限は toomanyrequests の文言を伴う 429 で、時間切れではありません（[docker_429 の記事](/posts/docker_429/)）。pull access denied は[認証](/glossary/認証/)・権限系で、対象の存在と[権限](/glossary/権限/)を区別しない設計の[エラー](/glossary/エラー/)です（[docker_404 の記事](/posts/docker_404/)の補足を参照）。
+Cannot connect to the [Docker](/glossary/docker/) daemon は、[デーモン](/glossary/デーモン/)に到達できていない状態で、[HTTP](/glossary/http/) のやり取り自体が成立していません（[docker_500 の記事](/posts/docker_500/)の補足を参照）。context deadline exceeded や Client.Timeout exceeded、net/http: [TLS](/glossary/tls/) handshake timeout を含む[エラー](/glossary/エラー/)は、手元の[クライアント](/glossary/クライアント/)側が時間切れで接続を打ち切ったもので、[サーバー](/glossary/サーバー/)から504が返ったのとは別の事象です（[Docker の context deadline exceeded の記事](/posts/docker_context_deadline_exceeded/)）。Error response from daemon: の直後に具体的な[処理](/glossary/処理/)の失敗が書かれた500系は、[デーモン](/glossary/デーモン/)または[レジストリ](/glossary/レジストリ/)の内部[エラー](/glossary/エラー/)です（[docker_500 の記事](/posts/docker_500/)）。[Docker](/glossary/docker/) Hub の利用回数の制限は toomanyrequests の文言を伴う 429 で、時間切れではありません（[docker_429 の記事](/posts/docker_429/)）。pull access denied は[認証](/glossary/認証/)・権限系で、対象の存在と[権限](/glossary/権限/)を区別しない設計の[エラー](/glossary/エラー/)です（[docker_404 の記事](/posts/docker_404/)の補足を参照）。
 
 ## 切り分けの順序
 

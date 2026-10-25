@@ -152,7 +152,7 @@ curl https://api.stripe.com/v1/payment_intents \
 
 ### Webhookペイロードの署名検証
 
-[Webhook](/glossary/webhook/)を受け取る際、`Stripe-Signature`[ヘッダー](/glossary/ヘッダー/)を検証しないと、不正な[ペイロード](/glossary/ペイロード/)が処理される可能性があります。署名検証を実装し、署名が一致しない場合は400で応答することで、[セキュリティ](/glossary/セキュリティ/)を強化できます。
+[Webhook](/glossary/webhook/)を受け取る際、`Stripe-Signature`[ヘッダー](/glossary/ヘッダー/)を検証しないと、不正な[ペイロード](/glossary/ペイロード/)が[処理](/glossary/処理/)される可能性があります。署名検証を実装し、署名が一致しない場合は400で応答することで、[セキュリティ](/glossary/セキュリティ/)を強化できます。
 
 ```python
 import stripe

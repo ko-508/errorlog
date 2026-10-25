@@ -151,7 +151,7 @@ async function fetchAllUsers() {
 
 ### 原因3：認証APIへのリクエストが短時間に集中している
 
-ユーザー登録・[ログイン](/glossary/ログイン/)処理が短時間に大量発生する場合（例：バッチユーザー作成[スクリプト](/glossary/スクリプト/)）、Supabase[認証](/glossary/認証/) [API](/glossary/api/) の[レート制限](/glossary/レート制限/)に引っかかります。
+ユーザー登録・[ログイン](/glossary/ログイン/)[処理](/glossary/処理/)が短時間に大量発生する場合（例：バッチユーザー作成[スクリプト](/glossary/スクリプト/)）、Supabase[認証](/glossary/認証/) [API](/glossary/api/) の[レート制限](/glossary/レート制限/)に引っかかります。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

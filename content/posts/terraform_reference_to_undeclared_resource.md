@@ -47,7 +47,7 @@ Terraformの[参照の公式文書](https://developer.hashicorp.com/terraform/la
 | 入力変数 | `var.instance_count` |
 | ローカル値 | `local.common_tags` |
 
-本体の[evaluate_valid.go](https://github.com/hashicorp/terraform/blob/main/internal/terraform/evaluate_valid.go)では、参照している[モジュール](/glossary/モジュール/)の[設定](/glossary/設定/)からリソース宣言を探し、見つからなければこの診断を作ります。stateに記録されているかを調べることで、未宣言の参照を有効にする処理ではありません。
+本体の[evaluate_valid.go](https://github.com/hashicorp/terraform/blob/main/internal/terraform/evaluate_valid.go)では、参照している[モジュール](/glossary/モジュール/)の[設定](/glossary/設定/)からリソース宣言を探し、見つからなければこの診断を作ります。stateに記録されているかを調べることで、未宣言の参照を有効にする[処理](/glossary/処理/)ではありません。
 
 ## 最初に型名・ラベル名・読込範囲を確認する
 
@@ -96,7 +96,7 @@ output "value" {
 # ami = data.aws_ami.ubuntu.id
 ```
 
-これは既存のresourceブロック内に書く[引数](/glossary/引数/)の抜粋です。`data.`を省くと、Terraformは`resource "aws_ami" "ubuntu"`を探します。本体実装には、同名のデータソースがある場合に`Did you mean the data resource ...?`と案内する処理もあります。候補の表示があるかどうかにかかわらず、宣言の種類を確認してください。
+これは既存のresourceブロック内に書く[引数](/glossary/引数/)の抜粋です。`data.`を省くと、Terraformは`resource "aws_ami" "ubuntu"`を探します。本体実装には、同名のデータソースがある場合に`Did you mean the data resource ...?`と案内する[処理](/glossary/処理/)もあります。候補の表示があるかどうかにかかわらず、宣言の種類を確認してください。
 
 ## 別モジュールのリソースはoutputを経由する
 

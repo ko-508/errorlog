@@ -20,7 +20,7 @@ Firebase は Google が提供するバックエンドプラットフォーム（
 - **Realtime Database**：[JSON](/glossary/json/) 形式の[データベース](/glossary/データベース/)で低遅延な[同期](/glossary/同期/)が特徴です
 - **認証機能**：Google、Facebook、[GitHub](/glossary/github/) など複数の [OAuth](/glossary/oauth/) プロバイダー（[認証](/glossary/認証/)を提供するサービス）に[対応](/glossary/対応/)した[認証](/glossary/認証/)システムです
 - **[ホスティング](/glossary/ホスティング/)**：静的コンテンツと動的コンテンツの両方をホストでき、自動的に [SSL](/glossary/ssl/) で保護されます
-- **Cloud Functions**：[サーバーレス](/glossary/サーバーレス/)（[サーバー](/glossary/サーバー/)管理なし）で[関数](/glossary/関数/)を実行し、[イベント](/glossary/イベント/)駆動型（[イベント](/glossary/イベント/)をきっかけに起動）な処理を構築できます
+- **Cloud Functions**：[サーバーレス](/glossary/サーバーレス/)（[サーバー](/glossary/サーバー/)管理なし）で[関数](/glossary/関数/)を実行し、[イベント](/glossary/イベント/)駆動型（[イベント](/glossary/イベント/)をきっかけに起動）な[処理](/glossary/処理/)を構築できます
 - **Cloud Storage**：画像やビデオなどの[ファイル](/glossary/ファイル/)を安全に[保存](/glossary/保存/)・配信できます
 - **Analytics と Crashlytics**：ユーザー行動の分析と[アプリケーション](/glossary/アプリケーション/)のクラッシュレポート機能があります
 - **Remote Config**：[サーバー](/glossary/サーバー/)側から[アプリケーション](/glossary/アプリケーション/)の[設定](/glossary/設定/)を動的に変更できます

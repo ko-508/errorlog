@@ -93,9 +93,9 @@ kubectl exec -it <Pod名> -c <コンテナ名> -- sh
 
 **何を理解する段階か**：Podを直接作るのではなく、あるべき状態を宣言して任せる仕組みです。
 
-**なぜ[エラー](/glossary/エラー/)解決に必要か**：Podが消えても勝手に作り直される、更新したのに古いPodが残っている、といった現象は、この層を知らないと理解できません。
+**なぜ[エラー](/glossary/エラー/)解決に必要か**：Podが消えても勝手に作り直される、[更新](/glossary/更新/)したのに古いPodが残っている、といった現象は、この層を知らないと理解できません。
 
-**最低限覚える概念**：公式ドキュメントによれば、DeploymentはPodとReplicaSetに対する宣言的な更新を提供します。Deploymentに望ましい状態を記述すると、Deploymentコントローラーが実際の状態を望ましい状態へ、制御された速度で変更します（[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)）。
+**最低限覚える概念**：公式ドキュメントによれば、DeploymentはPodとReplicaSetに対する宣言的な[更新](/glossary/更新/)を提供します。Deploymentに望ましい状態を記述すると、Deploymentコントローラーが実際の状態を望ましい状態へ、制御された速度で変更します（[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)）。
 
 関係は3層です。DeploymentがReplicaSetを作り、ReplicaSetがPodを作ります。Podを手で[削除](/glossary/削除/)しても、ReplicaSetが数を保とうとして作り直します。同じページには、Deploymentが所有するReplicaSetを直接操作しないように、という注意も書かれています。
 
@@ -124,7 +124,7 @@ kubectl rollout undo deployment/<Deployment名>
 
 **次の段階へ進む目安**：Podを1つ[削除](/glossary/削除/)したときに何が起きるかを、実行前に説明できることです。
 
-**関連して発生しやすい[エラー](/glossary/エラー/)**：更新が進まない場合、新しいReplicaSetのPodが起動できていないことがほとんどです。`kubectl rollout status` が止まったら、`kubectl get pods` で新しいPodの状態を確認してください。
+**関連して発生しやすい[エラー](/glossary/エラー/)**：[更新](/glossary/更新/)が進まない場合、新しいReplicaSetのPodが起動できていないことがほとんどです。`kubectl rollout status` が止まったら、`kubectl get pods` で新しいPodの状態を確認してください。
 
 ## 学習ステップ3：Serviceとネットワーク
 
@@ -322,7 +322,7 @@ kubectl get pods -n kube-system
 
 到達点を具体的に置いておきます。以下を自分の[環境](/glossary/環境/)で確認できるようになっていれば、この記事の範囲は終わりです。
 
-`kubectl apply` が成功した表示と、実際に動き出したことが別だと説明できる。`kubectl describe pod` の出力を、宣言部分と[イベント](/glossary/イベント/)部分に分けて読める。Podを1つ[削除](/glossary/削除/)したときに何が起きるかを、実行前に言える。Serviceの `port` と `targetPort` がどちらを指すかを説明でき、Pod内から書く接続先と手元から入力する接続先の違いを説明できる。Podを[削除](/glossary/削除/)したときに消えるデータと残るデータを、実際に試して確認できる。`Pending` と `CrashLoopBackOff` と `OOMKilled` が、それぞれ処理のどの段階の話かを区別できる。初めて見る[エラー](/glossary/エラー/)に対して、[コマンド](/glossary/コマンド/)、表示内容、リソースの状態、[イベント](/glossary/イベント/)、[ログ](/glossary/ログ/)、[ネットワーク](/glossary/ネットワーク/)とノードの順で調べられる。
+`kubectl apply` が成功した表示と、実際に動き出したことが別だと説明できる。`kubectl describe pod` の出力を、宣言部分と[イベント](/glossary/イベント/)部分に分けて読める。Podを1つ[削除](/glossary/削除/)したときに何が起きるかを、実行前に言える。Serviceの `port` と `targetPort` がどちらを指すかを説明でき、Pod内から書く接続先と手元から入力する接続先の違いを説明できる。Podを[削除](/glossary/削除/)したときに消えるデータと残るデータを、実際に試して確認できる。`Pending` と `CrashLoopBackOff` と `OOMKilled` が、それぞれ[処理](/glossary/処理/)のどの段階の話かを区別できる。初めて見る[エラー](/glossary/エラー/)に対して、[コマンド](/glossary/コマンド/)、表示内容、リソースの状態、[イベント](/glossary/イベント/)、[ログ](/glossary/ログ/)、[ネットワーク](/glossary/ネットワーク/)とノードの順で調べられる。
 
 これらは暗記ではなく、手を動かして確認する操作です。読んだだけでは身に付かない部分なので、手元のクラスターで1つずつ試してください。
 

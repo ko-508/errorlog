@@ -69,7 +69,7 @@ gh api "repos/OWNER/REPO/rules/branches/main"
 
 ### 原因1：規則そのものに触れている
 
-最も単純な系統です。直接 push を禁じる規則や、[マージ](/glossary/マージ/)前の確認を求める規則に当たっています。公式ドキュメントの一覧では、更新の制限は bypass を持つ人だけが push できるという意味だと説明されています。
+最も単純な系統です。直接 push を禁じる規則や、[マージ](/glossary/マージ/)前の確認を求める規則に当たっています。公式ドキュメントの一覧では、[更新](/glossary/更新/)の制限は bypass を持つ人だけが push できるという意味だと説明されています。
 
 対処は規則に沿うことです。`Changes must be made through a pull request.` なら作業用の[ブランチ](/glossary/ブランチ/)へ push して[マージ](/glossary/マージ/)要求を出します。[コミット](/glossary/コミット/)の署名を求める規則なら、[設定](/glossary/設定/)を直したうえで過去の[コミット](/glossary/コミット/)を書き直す必要があります。公式のトラブルシューティング文書も、この場合は手元で履歴を作り直してから push するよう案内しています。
 
@@ -150,7 +150,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 制限できるのは、[ファイル](/glossary/ファイル/)の経路、経路の長さ、[拡張子](/glossary/拡張子/)、[ファイル](/glossary/ファイル/)の大きさの4つです。大きな[ファイル](/glossary/ファイル/)で止まっている場合は、対象を履歴から取り除くか、別の保管方法へ移してください。
 
-もう1つ、公式のトラブルシューティング文書に書かれた上限があります。push への規則が有効な場合、1回の push で更新できる参照は1000件までで、超えると拒まれます。大量の[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)をまとめて送るときに当たります。
+もう1つ、公式のトラブルシューティング文書に書かれた上限があります。push への規則が有効な場合、1回の push で[更新](/glossary/更新/)できる参照は1000件までで、超えると拒まれます。大量の[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)をまとめて送るときに当たります。
 
 ## 補足：似ているが別のもの
 
@@ -160,7 +160,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 `remote: Permission to OWNER/REPO.git denied to USER.` は、[リポジトリ](/glossary/リポジトリ/)への書き込み[権限](/glossary/権限/)が無い場合です。規則ではなく[ロール](/glossary/ロール/)の問題なので、bypass 一覧をいくら直しても変わりません。
 
-[REST](/glossary/rest/) [API](/glossary/api/) 経由の書き込みでも push への規則は効きます。公式のトラブルシューティング文書は、blob の作成・tree の作成・[ファイル](/glossary/ファイル/)の作成と更新の3つの経路に適用されると明記しています。[API](/glossary/api/) を使えば回避できる、という理解は成り立ちません。
+[REST](/glossary/rest/) [API](/glossary/api/) 経由の書き込みでも push への規則は効きます。公式のトラブルシューティング文書は、blob の作成・tree の作成・[ファイル](/glossary/ファイル/)の作成と[更新](/glossary/更新/)の3つの経路に適用されると明記しています。[API](/glossary/api/) を使えば回避できる、という理解は成り立ちません。
 
 施行状態が評価のみの ruleset は拒みません。この状態では違反しても push は通り、記録だけが残ります。GH013 が出ていないのに規則が見えている場合は、この状態を疑ってください。
 

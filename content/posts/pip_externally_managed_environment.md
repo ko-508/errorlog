@@ -48,7 +48,7 @@ python3 -c "import pathlib, sysconfig; p = pathlib.Path(sysconfig.get_path('stdl
 
 [OS](/glossary/os/)やHomebrewは、自分が提供したPythonと[パッケージ](/glossary/パッケージ/)を管理している。そこへpipで別の版を入れると、管理元が想定した構成と食い違う可能性がある。管理用[ファイル](/glossary/ファイル/)は、その[環境](/glossary/環境/)を通常のpip操作で変更しないよう示すものだ。
 
-[pipの変更履歴](https://pip.pypa.io/en/stable/news/#v23-0)では、この[ファイル](/glossary/ファイル/)を読む処理が23.0で追加されている。管理用[ファイル](/glossary/ファイル/)を置くかどうかはPythonの提供元が決めるため、pipの版が新しいだけで必ず発生するわけではない。
+[pipの変更履歴](https://pip.pypa.io/en/stable/news/#v23-0)では、この[ファイル](/glossary/ファイル/)を読む[処理](/glossary/処理/)が23.0で追加されている。管理用[ファイル](/glossary/ファイル/)を置くかどうかはPythonの提供元が決めるため、pipの版が新しいだけで必ず発生するわけではない。
 
 [Debian 12のリリースノート](https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.en.html#python-interpreters-marked-externally-managed)は、提供するPythonを外部管理対象にしたことと、[ライブラリ](/glossary/ライブラリ/)には仮想環境、アプリにはpipxを使う方針を説明している。[Homebrewの現行文書](https://docs.brew.sh/Language-Runtimes-and-Packages#python)も、現在提供するPythonの外部管理と仮想環境の利用を案内している。
 

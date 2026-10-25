@@ -141,7 +141,7 @@ aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 aws s3api get-bucket-policy --bucket my-bucket --profile <your-profile>
 ```
 
-バケットポリシーが新しい[設定](/glossary/設定/)に更新されていれば、制限が解除されます。
+バケットポリシーが新しい[設定](/glossary/設定/)に[更新](/glossary/更新/)されていれば、制限が解除されます。
 
 ### 原因3：Block Public Access 設定が有効で、公開アクセスがブロックされている
 

@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Ansibleの500[エラー](/glossary/エラー/)は、ターゲットサーバー上で実行された[コマンド](/glossary/コマンド/)や[モジュール](/glossary/モジュール/)が内部[エラー](/glossary/エラー/)で終了したことを示します。この[エラー](/glossary/エラー/)が発生するとPlaybookの実行が中断され、該当[タスク](/glossary/タスク/)以降の処理が実行されなくなります。Playbook内のshellやcommand[タスク](/glossary/タスク/)、またはPython[モジュール](/glossary/モジュール/)の実行中にターゲットホスト側で予期しない[障害](/glossary/障害/)が発生した場合に出現します。
+Ansibleの500[エラー](/glossary/エラー/)は、ターゲットサーバー上で実行された[コマンド](/glossary/コマンド/)や[モジュール](/glossary/モジュール/)が内部[エラー](/glossary/エラー/)で終了したことを示します。この[エラー](/glossary/エラー/)が発生するとPlaybookの実行が中断され、該当[タスク](/glossary/タスク/)以降の[処理](/glossary/処理/)が実行されなくなります。Playbook内のshellやcommand[タスク](/glossary/タスク/)、またはPython[モジュール](/glossary/モジュール/)の実行中にターゲットホスト側で予期しない[障害](/glossary/障害/)が発生した場合に出現します。
 
 ## 実際のエラーメッセージ例
 

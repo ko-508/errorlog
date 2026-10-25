@@ -35,7 +35,7 @@ Unable to connect to Datadog backend
 **[エラーメッセージ](/glossary/エラーメッセージ/)の読み方：**
 
 - `503` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[サーバー](/glossary/サーバー/)が一時的に利用不可能な状態
-- `Service Unavailable` → 理由フレーズ：[リクエスト](/glossary/リクエスト/)の処理ができない状況を示す
+- `Service Unavailable` → 理由フレーズ：[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)ができない状況を示す
 - `Unable to connect to Datadog backend` → エージェント側が Datadog [バックエンド](/glossary/バックエンド/)到達できていない
 
 ## よくある原因と解決手順
@@ -207,7 +207,7 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 | ステータスページで障害確認 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [API](/glossary/api/) [キー](/glossary/キー/)とサイト設定確認 | 低 | 必要 | 全[OS](/glossary/os/) |
 | [プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)の追加 | 中 | 必要 | 全[OS](/glossary/os/) |
-| エージェントバージョン更新 | 中 | 必要 | 全[OS](/glossary/os/) |
+| エージェントバージョン[更新](/glossary/更新/) | 中 | 必要 | 全[OS](/glossary/os/) |
 | [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)間隔調整 | 中 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
@@ -236,7 +236,7 @@ sudo journalctl -u datadog-agent -f
 
 この[エラー](/glossary/エラー/)が頻発して運用に支障が出る場合は、以下の[ツール](/glossary/ツール/)への移行を検討できます。
 
-- **New Relic**：UI が直感的で、可観測性機能が充実しています。503 [エラー](/glossary/エラー/)の頻度が低く、サービスの[安定性](/glossary/安定性/)が高いという報告があります。
+- **New Relic**：[UI](/glossary/ui/) が直感的で、可観測性機能が充実しています。503 [エラー](/glossary/エラー/)の頻度が低く、サービスの[安定性](/glossary/安定性/)が高いという報告があります。
 
 - **Splunk Observability Cloud**：エンタープライズ向けの強力な[ログ](/glossary/ログ/)分析機能を備えており、オンプレミス[環境](/glossary/環境/)との統合がしやすい設計になっています。
 

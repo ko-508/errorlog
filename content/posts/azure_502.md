@@ -101,7 +101,7 @@ az network application-gateway show-backend-health \
 
 前述のとおり、公式文書には v1 における既定の待ち時間が20秒であること、その時間内に応答が返らないと 502 になることが明記されています。
 
-時間のかかる処理を通している場合、この値を伸ばす必要があります。
+時間のかかる[処理](/glossary/処理/)を通している場合、この値を伸ばす必要があります。
 
 ```bash
 az network application-gateway http-settings update \
@@ -121,7 +121,7 @@ az network application-gateway http-settings update \
 
 管理側の窓口が返す時間切れは 504 で、文言にリソースプロバイダ名が入ります（[Azure の 504 の記事](/posts/azure_504/)）。本記事で扱っている 502 は、利用者向けの[通信](/glossary/通信/)を取り次ぐ側の話で、性質が違います。
 
-窓口が一時的に処理できない場合は 503、内部で処理が失敗した場合は 500 です（[Azure の 503 の記事](/posts/azure_503/)、[500 の記事](/posts/azure_500/)）。[権限](/glossary/権限/)の不足は 403 です（[Azure の 403 の記事](/posts/azure_403/)）。
+窓口が一時的に[処理](/glossary/処理/)できない場合は 503、内部で[処理](/glossary/処理/)が失敗した場合は 500 です（[Azure の 503 の記事](/posts/azure_503/)、[500 の記事](/posts/azure_500/)）。[権限](/glossary/権限/)の不足は 403 です（[Azure の 403 の記事](/posts/azure_403/)）。
 
 ## 切り分けの順序
 
@@ -131,7 +131,7 @@ az network application-gateway http-settings update \
 4. 確認先の[パス](/glossary/パス/)が 200 から 399 を返すかを、背後の機器から直接叩いて確かめる。
 5. 一覧が空でないか、登録内容が正しいかを確認する。
 6. 正常と判定されているのに 502 が出るなら、[証明書](/glossary/証明書/)と名前の扱いを疑う。
-7. 時間のかかる処理なら、待ち時間の[設定](/glossary/設定/)と自分の版を確認する。
+7. 時間のかかる[処理](/glossary/処理/)なら、待ち時間の[設定](/glossary/設定/)と自分の版を確認する。
 
 ## 確認コマンド集
 

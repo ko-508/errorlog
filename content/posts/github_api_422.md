@@ -16,7 +16,7 @@ trend_incident: false
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の 422 Unprocessable Entity は、[リクエスト](/glossary/リクエスト/)が [JSON](/glossary/json/) として正しく読めたうえで、中身がその[エンドポイント](/glossary/エンドポイント/)の検証ルールに通らなかったことを示す[コード](/glossary/コード/)です。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で数えると、422 を応答として定義する[エンドポイント](/glossary/エンドポイント/)は308あり、全[コード](/glossary/コード/)の中で最多です。つまり422は特別な異常ではなく、「[パラメータ](/glossary/パラメータ/)を持つ操作の、最もありふれた失敗の形」です。
 
-調査の核は、応答の errors 配列を読むことに尽きます。公式文書のとおり、配列の各要素は resource（どの種類の対象か）、field（どの項目か）、code（何が悪いか）を持ち、code の値は公式に定義されています。missing_field は必須項目の未設定、invalid は項目の形式の不正、already_exists は同じ値を持つ対象が既に存在、missing は指した対象が存在しない、unprocessable は入力を処理できない、そして custom の場合は必ず message が付き、その文言をそのまま読みます。code と field が分かれば、原因はほぼ確定します。
+調査の核は、応答の errors 配列を読むことに尽きます。公式文書のとおり、配列の各要素は resource（どの種類の対象か）、field（どの項目か）、code（何が悪いか）を持ち、code の値は公式に定義されています。missing_field は必須項目の未設定、invalid は項目の形式の不正、already_exists は同じ値を持つ対象が既に存在、missing は指した対象が存在しない、unprocessable は入力を[処理](/glossary/処理/)できない、そして custom の場合は必ず message が付き、その文言をそのまま読みます。code と field が分かれば、原因はほぼ確定します。
 
 境界も先に引いておきます。本文が [JSON](/glossary/json/) として壊れている場合は 400（Problems parsing [JSON](/glossary/json/)）で、422の手前の問題です。対象の「今の状態」との矛盾（sha の不一致、空[リポジトリ](/glossary/リポジトリ/)）は 409 です。また、422は形式的な性質として、[リクエスト](/glossary/リクエスト/)を[修正](/glossary/修正/)しない限り何度送っても同じ結果になります。[GitHub](/glossary/github/) 公式の Octokit の retry [プラグイン](/glossary/プラグイン/)も422を再試行の対象外としており、422への正しい反応は再送ではなく[修正](/glossary/修正/)です。
 
@@ -96,7 +96,7 @@ invalid の応答に value が含まれる場合は、実際に届いた値が�
 
 一意であるべき値が既存の対象と重複した状態です。[ブランチ](/glossary/ブランチ/)・[タグ](/glossary/タグ/)・ラベル・[リリース](/glossary/リリース/)の[タグ](/glossary/タグ/)名などで起き、[ブランチ](/glossary/ブランチ/)作成なら message に Reference already exists が入ります。
 
-対処は「確認してから作る」ではなく、「already_exists を正常系として扱う」設計を推奨します。確認と作成の間に他の処理が割り込めば、確認は無意味になるためです。
+対処は「確認してから作る」ではなく、「already_exists を正常系として扱う」設計を推奨します。確認と作成の間に他の[処理](/glossary/処理/)が割り込めば、確認は無意味になるためです。
 
 **Before（重複を異常として落ちる[自動化](/glossary/自動化/)）：**
 
@@ -136,14 +136,14 @@ code が custom の場合、公式文書のとおり必ず message が付きま�
 
 ## 補足：422ではない類似エラー
 
-本文が [JSON](/glossary/json/) として読めない場合は 400 で、message は Problems parsing [JSON](/glossary/json/) や Body should be a [JSON](/glossary/json/) object になります。422の調査の手前で、直列化の回数を疑う段階です（[GitHub API の 400 の記事](/posts/github_api_400/)）。[リクエスト](/glossary/リクエスト/)の中身ではなく「対象の今の状態」との矛盾は 409 です。sha を伴う更新の追い越し、空[リポジトリ](/glossary/リポジトリ/)への [Git](/glossary/git/) 系 [API](/glossary/api/) がこれにあたります（[GitHub API の 409 の記事](/posts/github_api_409/)）。[マージ](/glossary/マージ/)できない状態のプルリクエストへの[マージ](/glossary/マージ/)要求は 405 です（[405 の記事](/posts/github_api_405/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものの不存在・権限不足は、private の秘匿のため 404 です（[GitHub API の 404 の記事](/posts/github_api_404/)）。[リクエスト](/glossary/リクエスト/)の量や頻度が弾かれる場合、通常は 403 または 429 の secondary rate limit として現れます（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。ただし前述のとおり、公式リファレンスの422の要約にはスパム判定の場合が含まれており、連続作成系の操作では「量の問題が422の形で現れる」ことがある点も覚えておくと迷いません。
+本文が [JSON](/glossary/json/) として読めない場合は 400 で、message は Problems parsing [JSON](/glossary/json/) や Body should be a [JSON](/glossary/json/) object になります。422の調査の手前で、直列化の回数を疑う段階です（[GitHub API の 400 の記事](/posts/github_api_400/)）。[リクエスト](/glossary/リクエスト/)の中身ではなく「対象の今の状態」との矛盾は 409 です。sha を伴う[更新](/glossary/更新/)の追い越し、空[リポジトリ](/glossary/リポジトリ/)への [Git](/glossary/git/) 系 [API](/glossary/api/) がこれにあたります（[GitHub API の 409 の記事](/posts/github_api_409/)）。[マージ](/glossary/マージ/)できない状態のプルリクエストへの[マージ](/glossary/マージ/)要求は 405 です（[405 の記事](/posts/github_api_405/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものの不存在・権限不足は、private の秘匿のため 404 です（[GitHub API の 404 の記事](/posts/github_api_404/)）。[リクエスト](/glossary/リクエスト/)の量や頻度が弾かれる場合、通常は 403 または 429 の secondary rate limit として現れます（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。ただし前述のとおり、公式リファレンスの422の要約にはスパム判定の場合が含まれており、連続作成系の操作では「量の問題が422の形で現れる」ことがある点も覚えておくと迷いません。
 
 ## 切り分けの順序
 
 1. [コード](/glossary/コード/)と message を確認する。Problems parsing [JSON](/glossary/json/) なら 400、状態の矛盾なら 409、それぞれの記事の調査に切り替える。
 2. errors 配列を読む。code（missing_field・invalid・already_exists・missing・custom）と field で、原因1〜5に振り分ける。
 3. missing_field・invalid は、公式リファレンスの[パラメータ](/glossary/パラメータ/)表と value の実値を突き合わせて[修正](/glossary/修正/)する。
-4. already_exists は、重複を正常系として扱う分岐（既存を取得・更新へフォールバック）に直す。
+4. already_exists は、重複を正常系として扱う分岐（既存を取得・[更新](/glossary/更新/)へフォールバック）に直す。
 5. message を読んでも確定しない場合は、[リクエスト](/glossary/リクエスト/)を必須[パラメータ](/glossary/パラメータ/)のみまで最小化し、422を引き起こす要素を特定する。422は[修正](/glossary/修正/)するまで結果が変わらないため、そのままの再送はしない。
 
 ## 確認コマンド集

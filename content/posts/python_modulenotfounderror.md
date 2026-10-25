@@ -165,7 +165,7 @@ python -m mypkg.app
 | `import demo.child`で`'demo' is not a package` | 親が[パッケージ](/glossary/パッケージ/)か、同名の[ファイル](/glossary/ファイル/)を読み込んでいないか |
 | `from demo import missing`で`ImportError: cannot import name` | 読み込んだ[モジュール](/glossary/モジュール/)からその名前を取得できるか |
 | `import demo`後の`demo.missing`で`AttributeError` | 読み込み済み[モジュール](/glossary/モジュール/)にその[属性](/glossary/属性/)があるか |
-| `import of demo halted; None in sys.modules` | `sys.modules`への代入や、読み込みを制御する処理 |
+| `import of demo halted; None in sys.modules` | `sys.modules`への代入や、読み込みを制御する[処理](/glossary/処理/) |
 
 `from requests import get`は、単純に`requests.get`という子[モジュール](/glossary/モジュール/)を探す操作ではありません。[モジュール](/glossary/モジュール/)が公開する[関数](/glossary/関数/)などの名前も取得します。そのため、`from ... import ...`の失敗をすべて`is not a package`として扱うことはできません。
 

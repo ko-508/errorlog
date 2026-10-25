@@ -21,7 +21,7 @@ Nginx の 503 Service Unavailable の原因は、ほぼ次の3系統のいずれ
 
 ## エラーの概要
 
-503 Service Unavailable は、[サーバー](/glossary/サーバー/)が一時的に[リクエスト](/glossary/リクエスト/)を処理できない状態を示します。Nginx をリバースプロキシとして使っている場合、似た状況で返る[コード](/glossary/コード/)が3つあり、区別が重要です。上流への接続自体に失敗した場合（[プロセス](/glossary/プロセス/)停止、[ポート](/glossary/ポート/)違い、接続拒否など）は 502、接続はできたが応答が時間内に返らなかった場合は 504、そして上流が「処理できない」と自ら 503 を応答した場合はその 503 がそのまま中継されます。加えて、上流と無関係に Nginx 自身が制限機能によって 503 を返す場合があります。
+503 Service Unavailable は、[サーバー](/glossary/サーバー/)が一時的に[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)できない状態を示します。Nginx をリバースプロキシとして使っている場合、似た状況で返る[コード](/glossary/コード/)が3つあり、区別が重要です。上流への接続自体に失敗した場合（[プロセス](/glossary/プロセス/)停止、[ポート](/glossary/ポート/)違い、接続拒否など）は 502、接続はできたが応答が時間内に返らなかった場合は 504、そして上流が「[処理](/glossary/処理/)できない」と自ら 503 を応答した場合はその 503 がそのまま中継されます。加えて、上流と無関係に Nginx 自身が制限機能によって 503 を返す場合があります。
 
 Nginx が自身の既定ページで 503 を返す場合、[ブラウザ](/glossary/ブラウザ/)には「503 Service Temporarily Unavailable」という見出しだけが表示されます。「The server is temporarily unable to service your request due to maintenance downtime or capacity problems.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではなく、上流の別の[サーバー](/glossary/サーバー/)が生成した 503 を中継している可能性が高いです（原因3）。
 
@@ -45,7 +45,7 @@ sudo grep "limiting" /var/log/nginx/error.log
 
 `limiting requests, excess: ... by zone "..."` とあれば `limit_req` による拒否、`limiting connections by zone "..."` とあれば `limit_conn` による拒否です（原因1）。どのゾーンの制限に当たったかも同じ行に書かれています。
 
-該当時刻に何も記録がない場合、設定内の `return 503`（原因2）か、上流からの 503 の中継（原因3）を疑います。どちらも Nginx にとっては[エラー](/glossary/エラー/)ではなく正常な処理なので、[エラーログ](/glossary/エラーログ/)には残りません。
+該当時刻に何も記録がない場合、設定内の `return 503`（原因2）か、上流からの 503 の中継（原因3）を疑います。どちらも Nginx にとっては[エラー](/glossary/エラー/)ではなく正常な[処理](/glossary/処理/)なので、[エラーログ](/glossary/エラーログ/)には残りません。
 
 逆に、該当時刻に `connect() failed (111: Connection refused) while connecting to upstream` や `upstream timed out` が記録されている場合、その[リクエスト](/glossary/リクエスト/)への応答は 503 ではなく 502 または 504 のはずです。調べている[コード](/glossary/コード/)を取り違えていないか、[アクセスログ](/glossary/アクセスログ/)に戻って確認してください（後述の補足を参照）。
 

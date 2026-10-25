@@ -134,7 +134,7 @@ curl -X GET "https://circleci.com/api/v2/project/$ENCODED_SLUG" \
 ```
 
 **パイプラインフィルタリング：**
-複数のパイプラインが存在する場合、`?filter=` [パラメータ](/glossary/パラメータ/)を使用してフィルタリングできます。これにより、特定の条件に一致するパイプラインのみを取得し、[ID](/glossary/id/) の確認が容易になります。
+複数のパイプラインが存在する場合、`?filter=` [パラメータ](/glossary/パラメータ/)を使用して[フィルタリング](/glossary/フィルタリング/)できます。これにより、特定の条件に一致するパイプラインのみを取得し、[ID](/glossary/id/) の確認が容易になります。
 
 ```bash
 curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline?filter=completed" \
@@ -165,7 +165,7 @@ CircleCI のステータスページ（`https://status.circleci.com`）でサー
 
 **4. 公式ドキュメントと [API](/glossary/api/) リファレンス**
 
-CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の要件を確認してください。
+CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の[要件](/glossary/要件/)を確認してください。
 
 ---
 

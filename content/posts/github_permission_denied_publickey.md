@@ -338,7 +338,7 @@ ssh-add ~/.ssh/id_ed25519
 ssh -vT git@github.com
 ```
 
-古い鍵形式と古いSSH[クライアント](/glossary/クライアント/)にも注意が必要です。[GitHub](/glossary/github/)は2022年3月15日からDSA鍵をサポートしていません。また、2021年11月2日以降に作られたRSA鍵はSHA-2署名を使う必要があり、古い[クライアント](/glossary/クライアント/)では更新が必要な場合があります。
+古い鍵形式と古いSSH[クライアント](/glossary/クライアント/)にも注意が必要です。[GitHub](/glossary/github/)は2022年3月15日からDSA鍵をサポートしていません。また、2021年11月2日以降に作られたRSA鍵はSHA-2署名を使う必要があり、古い[クライアント](/glossary/クライアント/)では[更新](/glossary/更新/)が必要な場合があります。
 
 既存の対応鍵がないと確認できた場合だけ、新しい鍵を作ります。既存の既定鍵を誤って上書きしないよう、用途が分かる名前を指定します。
 
@@ -443,7 +443,7 @@ ssh -T -p 443 git@ssh.github.com
 
 2023年の報告（[SSH key bad permissions results in no error message in GitHub Desktop](https://github.com/desktop/desktop/issues/16875)）では、違いがさらに具体的です。Windowsのネットワークドライブに置いた[秘密鍵](/glossary/秘密鍵/)を[Git](/glossary/git/) Bash側のSSHは読めた一方、system OpenSSHは[アクセス権](/glossary/アクセス権/)が広すぎるとして拒否しました。[GitHub](/glossary/github/) Desktopがsystem OpenSSHを使った操作ではpushが終わらず、利用者が期待した `UNPROTECTED PRIVATE KEY FILE` の情報も画面に出ませんでした。
 
-2件を並べると、[アカウント](/glossary/アカウント/)画面、remote、鍵[ファイル](/glossary/ファイル/)の存在だけを見ても足りない理由が分かります。**SSH[認証](/glossary/認証/)の成否を決めるのは、失敗した処理が実際に起動したSSH[クライアント](/glossary/クライアント/)、その[クライアント](/glossary/クライアント/)が読んだ[設定](/glossary/設定/)、接続できたagent、そして提示した鍵です**。上位の[GUI](/glossary/gui/)や[IDE](/glossary/ide/)が要約すると、途中に出た具体的な理由が「Authentication failed」の一文へ畳まれることがあります。
+2件を並べると、[アカウント](/glossary/アカウント/)画面、remote、鍵[ファイル](/glossary/ファイル/)の存在だけを見ても足りない理由が分かります。**SSH[認証](/glossary/認証/)の成否を決めるのは、失敗した[処理](/glossary/処理/)が実際に起動したSSH[クライアント](/glossary/クライアント/)、その[クライアント](/glossary/クライアント/)が読んだ[設定](/glossary/設定/)、接続できたagent、そして提示した鍵です**。上位の[GUI](/glossary/gui/)や[IDE](/glossary/ide/)が要約すると、途中に出た具体的な理由が「Authentication failed」の一文へ畳まれることがあります。
 
 だから、本記事では鍵の再生成を最初の手順にしていません。まず失敗した経路で `ssh -vT` を実行し、`Offering public key` を境に分ける。提示していないならローカルの選択を直し、提示しているならフィンガープリントを照合する。`Hi USERNAME!` まで通って初めて[リポジトリ](/glossary/リポジトリ/)[権限](/glossary/権限/)を見る。この順序なら、別の原因に同じ[修正](/glossary/修正/)を繰り返さずに済みます。
 

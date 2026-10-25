@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)処理が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、[本番環境](/glossary/本番環境/)で多くのユーザーに影響を与える可能性があります。
+Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)[処理](/glossary/処理/)が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、[本番環境](/glossary/本番環境/)で多くのユーザーに影響を与える可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -51,7 +51,7 @@ Content-Type: application/json
 
 ### 1. Cloud Functionsの処理時間がタイムアウト制限を超えている
 
-Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)は[デフォルト](/glossary/デフォルト/)でHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの[遅延](/glossary/遅延/)、外部[API](/glossary/api/)の呼び出し[遅延](/glossary/遅延/)、処理の複雑さが原因となります。
+Cloud Functionsの実行時間が[タイムアウト](/glossary/タイムアウト/)値を超えると504[エラー](/glossary/エラー/)が発生します。Firebase Hostingからの[リクエスト](/glossary/リクエスト/)は[デフォルト](/glossary/デフォルト/)でHosting側の60秒制限があり、この間にCloud Functionsが応答を返す必要があります。データベースクエリの[遅延](/glossary/遅延/)、外部[API](/glossary/api/)の呼び出し[遅延](/glossary/遅延/)、[処理](/glossary/処理/)の複雑さが原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -125,7 +125,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 3. Cloud Functionsのメモリ割り当てが不足している
 
-[メモリ](/glossary/メモリ/)割り当てが少ないと、[CPU](/glossary/cpu/)の性能も制限され、同じ処理でも実行時間が延びます。[デフォルト](/glossary/デフォルト/)の256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
+[メモリ](/glossary/メモリ/)割り当てが少ないと、[CPU](/glossary/cpu/)の性能も制限され、同じ[処理](/glossary/処理/)でも実行時間が延びます。[デフォルト](/glossary/デフォルト/)の256MBから512MB以上に増やすことで、処理速度が向上し、[タイムアウト](/glossary/タイムアウト/)を回避できます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -196,7 +196,7 @@ Firebase [CLI](/glossary/cli/)で[デプロイ](/glossary/デプロイ/)する�
 
 **Realtime DatabaseとFirestoreの[遅延](/glossary/遅延/)**
 
-Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)処理が遅い場合、Pub/Sub経由での[非同期処理](/glossary/非同期処理/)への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける[関数](/glossary/関数/)から長時間の処理を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
+Realtime Databaseへの大量書き込みやFirestoreの[トランザクション](/glossary/トランザクション/)[処理](/glossary/処理/)が遅い場合、Pub/Sub経由での[非同期処理](/glossary/非同期処理/)への移行を検討してください。[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)を受け付ける[関数](/glossary/関数/)から長時間の[処理](/glossary/処理/)を切り離すことで、504[エラー](/glossary/エラー/)を回避できます。
 
 **Firebase Hostingの統合[タイムアウト](/glossary/タイムアウト/)**
 

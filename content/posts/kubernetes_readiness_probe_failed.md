@@ -71,7 +71,7 @@ Pod IPへの直接接続、kubectl port-forward、独自に管理したEndpointS
   → readiness失敗だけで切断される保証はない
 ```
 
-また、EndpointSliceと各Nodeの転送規則は制御処理で更新されるため、失敗した瞬間にクラスタ内のすべての[通信](/glossary/通信/)が同時停止するわけではありません。外部Load Balancer、Ingress、service meshには、それぞれ反映時間と動作があります。
+また、EndpointSliceと各Nodeの転送規則は制御処理で[更新](/glossary/更新/)されるため、失敗した瞬間にクラスタ内のすべての[通信](/glossary/通信/)が同時停止するわけではありません。外部Load Balancer、Ingress、service meshには、それぞれ反映時間と動作があります。
 
 最初に確認するのは、Podだけではなく次の3点です。
 
@@ -83,7 +83,7 @@ PodのReady conditionがどうなったか
 
 ## エラーの概要
 
-readiness probeは、[コンテナ](/glossary/コンテナ/)が現在、要求を受けてよいかを定期的に判定します。[HTTP](/glossary/http/)、TCP、exec、[gRPC](/glossary/grpc/)の方式はlivenessと共通ですが、失敗後の処理が違います。
+readiness probeは、[コンテナ](/glossary/コンテナ/)が現在、要求を受けてよいかを定期的に判定します。[HTTP](/glossary/http/)、TCP、exec、[gRPC](/glossary/grpc/)の方式はlivenessと共通ですが、失敗後の[処理](/glossary/処理/)が違います。
 
 ```yaml
 readinessProbe:
@@ -125,7 +125,7 @@ Pod Ready=True
 
 PodがReadyになると、EndpointSlice controllerは該当Service向けのendpointへ状態を反映します。[EndpointSliceの公式資料](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/#conditions)では、`ready`、`serving`、`terminating` のconditionが定義されています。通常の実行中Podでは、PodのReadyがService endpointの `ready` と `serving` に[対応](/glossary/対応/)します。
 
-各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを監視し、Serviceの仮想IPへ来た[通信](/glossary/通信/)の転送先を更新します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この監視と[同期](/glossary/同期/)の制御処理が説明されています。
+各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを監視し、Serviceの仮想IPへ来た[通信](/glossary/通信/)の転送先を[更新](/glossary/更新/)します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この監視と[同期](/glossary/同期/)の制御処理が説明されています。
 
 ## まず最初に：Pod、condition、EndpointSliceを同じ時刻で見る
 
@@ -348,7 +348,7 @@ readinessProbe:
   successThreshold: 2
 ```
 
-この値では、失敗判定まで最低でも複数回のprobeが必要になります。数を増やすほど、一時的な失敗には強くなりますが、本当に要求を処理できないPodを転送先に残す時間も長くなります。
+この値では、失敗判定まで最低でも複数回のprobeが必要になります。数を増やすほど、一時的な失敗には強くなりますが、本当に要求を[処理](/glossary/処理/)できないPodを転送先に残す時間も長くなります。
 
 ### 原因7：複数コンテナの別コンテナがUnreadyになっている
 
@@ -382,7 +382,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### 原因9：ServiceがpublishNotReadyAddressesを有効にしている
 
-Serviceに次の[設定](/glossary/設定/)があると、EndpointSliceを利用する処理はPodのReadyを無視する扱いになります。
+Serviceに次の[設定](/glossary/設定/)があると、EndpointSliceを利用する[処理](/glossary/処理/)はPodのReadyを無視する扱いになります。
 
 ```yaml
 spec:
@@ -519,7 +519,7 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 ## Editor's Note
 
-`Readiness probe failed` を「Podへの[通信](/glossary/通信/)が遮断された」とまとめると、実際の変更範囲を広く見積もりすぎます。readinessが直接変更するのは、containerとPodのReady状態です。そこからEndpointSlice controller、kube-proxyや代替実装、IngressやLoad Balancerへ状態が伝わり、Service経由の通常転送先が更新されます。
+`Readiness probe failed` を「Podへの[通信](/glossary/通信/)が遮断された」とまとめると、実際の変更範囲を広く見積もりすぎます。readinessが直接変更するのは、containerとPodのReady状態です。そこからEndpointSlice controller、kube-proxyや代替実装、IngressやLoad Balancerへ状態が伝わり、Service経由の通常転送先が[更新](/glossary/更新/)されます。
 
 2024年の[Kubernetes](/glossary/kubernetes/)の課題（[`kubectl describe service` shows endpoints that are not ready](https://github.com/kubernetes/kubernetes/issues/126922)）では、readinessが失敗して `kubectl get endpoints` では転送先が空なのに、`kubectl describe service` の要約にはUnreadyなPod IPが表示される不整合が報告されました。[修正](/glossary/修正/)は[Pull Request #126932](https://github.com/kubernetes/kubernetes/pull/126932)で取り込まれています。
 

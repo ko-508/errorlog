@@ -93,7 +93,7 @@ fetch('https://api.example.com/v1/resources', requestOptions)
   .then(data => console.log(data));
 ```
 
-使用中の[API](/glossary/api/)[キー](/glossary/キー/)がどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、更新された[キー](/glossary/キー/)に置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
+使用中の[API](/glossary/api/)[キー](/glossary/キー/)がどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、[更新](/glossary/更新/)された[キー](/glossary/キー/)に置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
 
 ### 原因2：テスト対象APIのIPホワイトリストにPostmanの送信元IPが含まれていない
 
@@ -161,7 +161,7 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 }
 ```
 
-[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)[キー](/glossary/キー/)の[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)[キー](/glossary/キー/)を生成し、Postmanの「Environment」または「Variables」タブで[キー](/glossary/キー/)を更新してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)[キー](/glossary/キー/)を使い分ける場合は、Postmanの環境変数機能で各[キー](/glossary/キー/)を明確に管理すると、混同を避けられます。
+[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)[キー](/glossary/キー/)の[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)[キー](/glossary/キー/)を生成し、Postmanの「Environment」または「Variables」タブで[キー](/glossary/キー/)を[更新](/glossary/更新/)してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)[キー](/glossary/キー/)を使い分ける場合は、Postmanの環境変数機能で各[キー](/glossary/キー/)を明確に管理すると、混同を避けられます。
 
 ## ツール固有の注意点
 
@@ -216,7 +216,7 @@ console.log('Using API key with scopes: ' + requiredScopes);
    - [ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（F12）を開き、「Network」タブで[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の詳細を確認します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ確認し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
 
 3. **[API](/glossary/api/)提供元の公式ドキュメント参照**
-   - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの要件を確認します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
+   - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの[要件](/glossary/要件/)を確認します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
 
 4. **[API](/glossary/api/)[キー](/glossary/キー/)の有効性確認**
    - 使用している[API](/glossary/api/)[キー](/glossary/キー/)が失効していないか、[API](/glossary/api/)提供元の管理画面で確認します。[キー](/glossary/キー/)の作成日時、最終使用日時、有効期限を確認し、必要に応じて新しい[キー](/glossary/キー/)を生成してください。

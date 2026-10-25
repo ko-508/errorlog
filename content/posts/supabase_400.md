@@ -42,7 +42,7 @@ curl -X GET "https://<your-project>.supabase.co/rest/v1/users?status=eq.active&a
 
 ### 原因 1：PostgREST フィルタ構文の誤り
 
-Supabase は PostgreSQL の高度なフィルタリング機能を提供していますが、正しい演算子と記号を使わなければ 400 [エラー](/glossary/エラー/)が返ります。`>` や `<` などの [SQL](/glossary/sql/) 記号をそのまま[クエリ](/glossary/クエリ/)に含めると、[URL](/glossary/url/) エンコーディングの問題やパーサーエラーが発生します。
+Supabase は PostgreSQL の高度な[フィルタリング](/glossary/フィルタリング/)機能を提供していますが、正しい演算子と記号を使わなければ 400 [エラー](/glossary/エラー/)が返ります。`>` や `<` などの [SQL](/glossary/sql/) 記号をそのまま[クエリ](/glossary/クエリ/)に含めると、[URL](/glossary/url/) エンコーディングの問題やパーサーエラーが発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -202,7 +202,7 @@ Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `
 
 また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接[ブラウザ](/glossary/ブラウザ/)で試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じ[ロジック](/glossary/ロジック/)を[コード](/glossary/コード/)側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
 
-さらに、JavaScript クライアントライブラリは頻繁に更新されており、古い[バージョン](/glossary/バージョン/)を使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
+さらに、JavaScript クライアントライブラリは頻繁に[更新](/glossary/更新/)されており、古い[バージョン](/glossary/バージョン/)を使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
 
 ## それでも解決しない場合
 

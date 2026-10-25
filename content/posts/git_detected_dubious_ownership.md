@@ -37,7 +37,7 @@ To add an exception for this directory, call:
     git config --global --add safe.directory <path>
 ```
 
-[Git](/glossary/git/)は通常、[Git](/glossary/git/)を実行している利用者が所有する[リポジトリ](/glossary/リポジトリ/)だけを信頼します。所有者が異なる場合、[リポジトリ](/glossary/リポジトリ/)内の[設定](/glossary/設定/)やフックを読み込む前に処理を止めます。[Gitの公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)では、所有者が異なっていても信頼する[ディレクトリ](/glossary/ディレクトリ/)を`safe.directory`で個別に登録できると説明されています。
+[Git](/glossary/git/)は通常、[Git](/glossary/git/)を実行している利用者が所有する[リポジトリ](/glossary/リポジトリ/)だけを信頼します。所有者が異なる場合、[リポジトリ](/glossary/リポジトリ/)内の[設定](/glossary/設定/)やフックを読み込む前に[処理](/glossary/処理/)を止めます。[Gitの公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)では、所有者が異なっていても信頼する[ディレクトリ](/glossary/ディレクトリ/)を`safe.directory`で個別に登録できると説明されています。
 
 この[エラー](/glossary/エラー/)はWindowsだけでなく、[Linux](/glossary/linux/)、macOS、[Docker](/glossary/docker/)などの[コンテナ](/glossary/コンテナ/)、CIでも発生します。特に、[ファイル](/glossary/ファイル/)を作成した利用者と[Git](/glossary/git/)を実行する利用者が異なる[環境](/glossary/環境/)で起こりやすくなります。
 
@@ -133,13 +133,13 @@ id -u
 
 2つの[ID](/glossary/id/)が異なる場合は、[コンテナ](/glossary/コンテナ/)をホストと同じ利用者[ID](/glossary/id/)で動かす、マウント先の所有者を実行利用者に合わせる、信頼できる作業[ディレクトリ](/glossary/ディレクトリ/)だけを`safe.directory`へ登録する、という順で対処を検討します。
 
-CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は、処理の開始時に対象の作業[ディレクトリ](/glossary/ディレクトリ/)を登録します。固定[パス](/glossary/パス/)だからという理由だけで、すべての[リポジトリ](/glossary/リポジトリ/)を許可する[設定](/glossary/設定/)へ広げないでください。
+CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は、[処理](/glossary/処理/)の開始時に対象の作業[ディレクトリ](/glossary/ディレクトリ/)を登録します。固定[パス](/glossary/パス/)だからという理由だけで、すべての[リポジトリ](/glossary/リポジトリ/)を許可する[設定](/glossary/設定/)へ広げないでください。
 
 ## `sudo`で実行した場合
 
-[Linux](/glossary/linux/)などで[Git](/glossary/git/)がrootとして動いている場合、[Git](/glossary/git/)は`SUDO_UID`も確認します。これは、通常の利用者が`sudo`を使って[インストール](/glossary/インストール/)処理を実行する場面に[対応](/glossary/対応/)するためです。[Git本体の実装](https://github.com/git/git/blob/master/git-compat-util.h)と[公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)の両方で確認できます。
+[Linux](/glossary/linux/)などで[Git](/glossary/git/)がrootとして動いている場合、[Git](/glossary/git/)は`SUDO_UID`も確認します。これは、通常の利用者が`sudo`を使って[インストール](/glossary/インストール/)[処理](/glossary/処理/)を実行する場面に[対応](/glossary/対応/)するためです。[Git本体の実装](https://github.com/git/git/blob/master/git-compat-util.h)と[公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)の両方で確認できます。
 
-`sudo -i`や`su -`など、元の利用者を示す情報が引き継がれない実行方法では、同じ[フォルダ](/glossary/フォルダ/)でも所有者が一致しないと判断されることがあります。[Git](/glossary/git/)をrootで動かす必要があるかを先に確認し、通常の利用者で実行できる処理なら`sudo`を外してください。
+`sudo -i`や`su -`など、元の利用者を示す情報が引き継がれない実行方法では、同じ[フォルダ](/glossary/フォルダ/)でも所有者が一致しないと判断されることがあります。[Git](/glossary/git/)をrootで動かす必要があるかを先に確認し、通常の利用者で実行できる[処理](/glossary/処理/)なら`sudo`を外してください。
 
 ## 広い範囲を許可するときの注意点
 

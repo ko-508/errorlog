@@ -16,7 +16,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`pip install`で次の[エラー](/glossary/エラー/)が出た場合、pipは指定された要件を満たす配布[ファイル](/glossary/ファイル/)を選べていません。
+`pip install`で次の[エラー](/glossary/エラー/)が出た場合、pipは指定された[要件](/glossary/要件/)を満たす配布[ファイル](/glossary/ファイル/)を選べていません。
 
 ```text
 ERROR: Could not find a version that satisfies the requirement demo_probe==99.0 (from versions: 1.0)
@@ -47,7 +47,7 @@ pipは、取得先から見つけた[ファイル](/glossary/ファイル/)を�
 | `from versions: none` | 表示対象の候補が残っていない | [パッケージ](/glossary/パッケージ/)自体が存在しないのか、[環境](/glossary/環境/)や取得先の問題なのか |
 | `from versions: 1.0, 2.0` | その版の候補は見つかっている | 指定した版や依存関係を満たして[インストール](/glossary/インストール/)できるか |
 
-[pip 26.2.1の診断処理](https://github.com/pypa/pip/blob/26.2.1/src/pip/_internal/resolution/resolvelib/factory.py)は、候補の版を集めて一覧を作り、一覧が空なら`none`を表示します。Python要件で除外した版があれば、その案内を先に出す処理もあります。Python要件の不一致が別の診断として出る場合もあり、[エラー](/glossary/エラー/)が常にこの2行になるわけではありません。
+[pip 26.2.1の診断処理](https://github.com/pypa/pip/blob/26.2.1/src/pip/_internal/resolution/resolvelib/factory.py)は、候補の版を集めて一覧を作り、一覧が空なら`none`を表示します。Python[要件](/glossary/要件/)で除外した版があれば、その案内を先に出す[処理](/glossary/処理/)もあります。Python[要件](/glossary/要件/)の不一致が別の診断として出る場合もあり、[エラー](/glossary/エラー/)が常にこの2行になるわけではありません。
 
 冒頭の出力は、CPython 3.12.14とpip 26.2.1で、ローカルに作成した検証用wheelを使って再現したものです。`demo_probe`は説明用の名前で、PyPIから取得した[パッケージ](/glossary/パッケージ/)ではありません。1.0だけがある場所で99.0を要求すると、候補一覧には1.0が出ても[インストール](/glossary/インストール/)には進めませんでした。
 
@@ -73,11 +73,11 @@ python -m pip index versions requests
 
 [パッケージ](/glossary/パッケージ/)には、使えるPythonの範囲を示す`Requires-Python`が[設定](/glossary/設定/)されていることがあります。実行中のPythonが範囲外なら、その版は利用できません。
 
-先ほどの`sys.version`で実行環境を確認し、PyPIの対象版のページや[ライブラリ](/glossary/ライブラリ/)の公式文書にある対応条件と照合してください。`pip index versions`は版の一覧を見るための[コマンド](/glossary/コマンド/)で、各版のPython要件を一覧表示するものではありません。
+先ほどの`sys.version`で実行環境を確認し、PyPIの対象版のページや[ライブラリ](/glossary/ライブラリ/)の公式文書にある対応条件と照合してください。`pip index versions`は版の一覧を見るための[コマンド](/glossary/コマンド/)で、各版のPython[要件](/glossary/要件/)を一覧表示するものではありません。
 
 [ログ](/glossary/ログ/)には、Pythonの条件で無視された版の案内が出る場合があります。また、候補の情報を読み込んだあとで、[パッケージ](/glossary/パッケージ/)が別のPythonを要求しているという診断が出る場合もあります。
 
-ローカル検証では、`Requires-Python: >=4`を持つ検証用wheelをPython 3.12.14で指定すると、`requires a different Python`を含む診断になりました。候補が残らない場合と、候補のPython要件が満たせない場合で、表示される経路が異なります。
+ローカル検証では、`Requires-Python: >=4`を持つ検証用wheelをPython 3.12.14で指定すると、`requires a different Python`を含む診断になりました。候補が残らない場合と、候補のPython[要件](/glossary/要件/)が満たせない場合で、表示される経路が異なります。
 
 Pythonを変更する場合は、[アプリケーション](/glossary/アプリケーション/)側も[対応](/glossary/対応/)している版を選び、そのPythonの[環境](/glossary/環境/)で[インストール](/glossary/インストール/)し直します。既存のPythonを維持する場合は、[ライブラリ](/glossary/ライブラリ/)の対応表を確認して[互換性](/glossary/互換性/)のある版を指定してください。特定の版番号を推測して選ばず、対応条件を根拠に決めます。
 
@@ -101,7 +101,7 @@ python -m pip config debug
 python -m pip install -vvv requests
 ```
 
-これは調査だけの[コマンド](/glossary/コマンド/)ではなく、条件が満たされれば実際に[インストール](/glossary/インストール/)します。変更してよい仮想環境で実行し、`requests`を対象の配布名や実際の要件に置き換えてください。[設定](/glossary/設定/)や[ログ](/glossary/ログ/)を共有するときは、認証情報を含む[URL](/glossary/url/)や社内の情報を伏せます。
+これは調査だけの[コマンド](/glossary/コマンド/)ではなく、条件が満たされれば実際に[インストール](/glossary/インストール/)します。変更してよい仮想環境で実行し、`requests`を対象の配布名や実際の[要件](/glossary/要件/)に置き換えてください。[設定](/glossary/設定/)や[ログ](/glossary/ログ/)を共有するときは、認証情報を含む[URL](/glossary/url/)や社内の情報を伏せます。
 
 ## OSとCPUに対応するwheelを確認する
 
@@ -127,10 +127,10 @@ python -m pip debug --verbose
 
 | 文言・状況 | 確認する内容 |
 |---|---|
-| `No matching distribution found` | 取得先と実行環境で、要件を満たす候補を選べるか |
+| `No matching distribution found` | 取得先と実行環境で、[要件](/glossary/要件/)を満たす候補を選べるか |
 | `ResolutionImpossible`と依存関係の競合説明 | 複数の要求を同時に満たせるか |
-| `requires a different Python` | 対象[パッケージ](/glossary/パッケージ/)のPython要件 |
-| `Failed building wheel` | 候補を取得したあとのビルド処理 |
+| `requires a different Python` | 対象[パッケージ](/glossary/パッケージ/)のPython[要件](/glossary/要件/) |
+| `Failed building wheel` | 候補を取得したあとのビルド[処理](/glossary/処理/) |
 | `ModuleNotFoundError` | 実行中のPythonが[モジュール](/glossary/モジュール/)を読み込めるか |
 
 依存関係が競合している場合は、[pipの依存関係解決の公式文書](https://pip.pypa.io/en/stable/topics/dependency-resolution/)にあるように、競合の説明から各[パッケージ](/glossary/パッケージ/)の要求を確認します。
@@ -145,6 +145,6 @@ python -m pip debug --verbose
 
 接続に問題がなければ、配布名、固定した版、Pythonの対応範囲、取得先の指定を確認します。[OS](/glossary/os/)向けのwheelが候補から外れている場合は、その[環境](/glossary/環境/)を正式にサポートする配布方法を選びます。
 
-最後に、[修正](/glossary/修正/)した要件で[インストール](/glossary/インストール/)し、[アプリケーション](/glossary/アプリケーション/)の動作を確認してください。候補選び、ビルド、実行時の読み込みは別の段階なので、実際に止まった段階の[ログ](/glossary/ログ/)に沿って対処します。
+最後に、[修正](/glossary/修正/)した[要件](/glossary/要件/)で[インストール](/glossary/インストール/)し、[アプリケーション](/glossary/アプリケーション/)の動作を確認してください。候補選び、ビルド、実行時の読み込みは別の段階なので、実際に止まった段階の[ログ](/glossary/ログ/)に沿って対処します。
 
 免責事項：本記事の内容は一般的な情報提供を目的としています。[インストール](/glossary/インストール/)や[設定変更](/glossary/設定変更/)は、利用するPythonの[バージョン](/glossary/バージョン/)と[プロジェクト](/glossary/プロジェクト/)の依存関係を確認したうえで行ってください。

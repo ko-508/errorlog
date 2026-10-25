@@ -193,7 +193,7 @@ Firebase Authentication と Firestore セキュリティルールは必ずセッ
 
 ### デプロイ反映の遅延
 
-セキュリティルール を Firebase Console や [CLI](/glossary/cli/) で更新した直後、すべての[サーバー](/glossary/サーバー/)への反映に数秒～数分かかることがあります。ルール変更後、すぐに[テスト](/glossary/テスト/)するのではなく、少し待ってから再度アクセスしてください。
+セキュリティルール を Firebase Console や [CLI](/glossary/cli/) で[更新](/glossary/更新/)した直後、すべての[サーバー](/glossary/サーバー/)への反映に数秒～数分かかることがあります。ルール変更後、すぐに[テスト](/glossary/テスト/)するのではなく、少し待ってから再度アクセスしてください。
 
 ### Realtime Database での UID パスの重要性
 

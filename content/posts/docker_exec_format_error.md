@@ -34,7 +34,7 @@ docker: Error response from daemon: failed to create task for container:
   unable to start container process: exec /entrypoint.sh: exec format error
 ```
 
-長く見えますが、読むべきは末尾だけです。`unable to start container process:` までは実行系が付け加えた前置きで、実装でもこの文言でくるむ処理が確認できます。その後ろの `exec <対象>: exec format error` が本体です。
+長く見えますが、読むべきは末尾だけです。`unable to start container process:` までは実行系が付け加えた前置きで、実装でもこの文言でくるむ[処理](/glossary/処理/)が確認できます。その後ろの `exec <対象>: exec format error` が本体です。
 
 古い版では、次の形で表示されることもあります。意味は同じです。
 

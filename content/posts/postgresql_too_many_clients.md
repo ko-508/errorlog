@@ -32,7 +32,7 @@ PostgreSQLは、同時に受け付ける接続数を`max_connections`で制限�
 
 この[エラー](/glossary/エラー/)のSQLSTATEは`53300`、条件名は`too_many_connections`です。[アプリケーション](/glossary/アプリケーション/)で[エラー](/glossary/エラー/)を判定するときは、表示文ではなくSQLSTATEを使うと、言語設定や文言の違いに影響されにくくなります。[PostgreSQL公式のエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)でも確認できます。
 
-PostgreSQL本体では、接続処理に必要な領域を確保できなかったときに、この[エラー](/glossary/エラー/)を返します。処理は[PostgreSQL本体のproc.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/lmgr/proc.c#L435-L458)で確認できます。
+PostgreSQL本体では、接続処理に必要な領域を確保できなかったときに、この[エラー](/glossary/エラー/)を返します。[処理](/glossary/処理/)は[PostgreSQL本体のproc.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/lmgr/proc.c#L435-L458)で確認できます。
 
 ## 似た2つのエラーとの違い
 
@@ -139,7 +139,7 @@ SELECT pg_terminate_backend(12345);
 
 ## idle in transactionを放置しない
 
-[トランザクション](/glossary/トランザクション/)を開いたまま止まる接続が繰り返し発生する場合は、まず[アプリケーション](/glossary/アプリケーション/)の処理を[修正](/glossary/修正/)します。そのうえで、安全網として`idle_in_transaction_session_timeout`を[設定](/glossary/設定/)できます。
+[トランザクション](/glossary/トランザクション/)を開いたまま止まる接続が繰り返し発生する場合は、まず[アプリケーション](/glossary/アプリケーション/)の[処理](/glossary/処理/)を[修正](/glossary/修正/)します。そのうえで、安全網として`idle_in_transaction_session_timeout`を[設定](/glossary/設定/)できます。
 
 特定の[アプリケーション](/glossary/アプリケーション/)用の役割だけに[設定](/glossary/設定/)する例は次のとおりです。
 
@@ -184,7 +184,7 @@ SET idle_in_transaction_session_timeout = '5min';
 
 最初に`pg_stat_activity`を利用者、接続元、[アプリケーション](/glossary/アプリケーション/)名、状態ごとに集計します。不要な接続や`idle in transaction`が多ければ、対象を確認したうえで整理してください。
 
-次に、[アプリケーション](/glossary/アプリケーション/)が例外時にも接続を返しているか、複数の接続プールの上限合計が大きすぎないかを確認します。長時間放置される[トランザクション](/glossary/トランザクション/)には、処理の[修正](/glossary/修正/)と`idle_in_transaction_session_timeout`を検討します。
+次に、[アプリケーション](/glossary/アプリケーション/)が例外時にも接続を返しているか、複数の接続プールの上限合計が大きすぎないかを確認します。長時間放置される[トランザクション](/glossary/トランザクション/)には、[処理](/glossary/処理/)の[修正](/glossary/修正/)と`idle_in_transaction_session_timeout`を検討します。
 
 `max_connections`の増加は最後に判断します。再起動と資源の増加を伴うため、接続数の原因を確認せずに変更しないでください。
 

@@ -122,7 +122,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 ### PaperMod のバージョンと `schema_json.html` の仕様変更
 
-PaperMod v8 以降、`schema_json.html` の構造が変更されている場合がある。テーマを更新した際はオーバーライドファイルとの差分を確認すること。
+PaperMod v8 以降、`schema_json.html` の構造が変更されている場合がある。テーマを[更新](/glossary/更新/)した際はオーバーライドファイルとの差分を確認すること。
 
 ```bash
 diff themes/PaperMod/layouts/_partials/templates/schema_json.html \

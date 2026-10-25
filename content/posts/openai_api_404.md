@@ -150,7 +150,7 @@ curl -sS https://api.openai.com/v1/files \
   | python3 -c "import json,sys; [print(f['id'], f.get('filename')) for f in json.load(sys.stdin)['data']]"
 ```
 
-削除済みの対象を参照している場合も同じ結果になります。作成した処理と参照する処理が別々に動いている構成では、順序や有効期限を確認してください。
+削除済みの対象を参照している場合も同じ結果になります。作成した[処理](/glossary/処理/)と参照する[処理](/glossary/処理/)が別々に動いている構成では、順序や有効期限を確認してください。
 
 ## 補足：似ているが別のもの
 

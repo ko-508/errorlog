@@ -222,7 +222,7 @@ gcloud auth list
 
 ### Terraform Cloud / Enterprise でのリモート状態管理
 
-`terraform login` で正常に[認証](/glossary/認証/)できても、後で組織の [API](/glossary/api/) トークンポリシーが変更される場合があります。Terraform Cloud の Web UI で自分の[トークン](/glossary/トークン/)有効期限を確認し、期限が近い場合は新規[トークン](/glossary/トークン/)を生成してください。
+`terraform login` で正常に[認証](/glossary/認証/)できても、後で組織の [API](/glossary/api/) トークンポリシーが変更される場合があります。Terraform Cloud の Web [UI](/glossary/ui/) で自分の[トークン](/glossary/トークン/)有効期限を確認し、期限が近い場合は新規[トークン](/glossary/トークン/)を生成してください。
 
 ```bash
 # トークン情報の確認（Terraform Cloud Web UI: https://app.terraform.io/app/settings/tokens）
@@ -286,7 +286,7 @@ terraform init
 
 ### プロバイダーと API 仕様の確認
 
-使用するプロバイダーの[バージョン](/glossary/バージョン/)が古い場合、[API](/glossary/api/) 仕様変更により認証方式が変わっている可能性があります。最新[バージョン](/glossary/バージョン/)へのアップグレードを試してください。
+使用するプロバイダーの[バージョン](/glossary/バージョン/)が古い場合、[API](/glossary/api/) 仕様変更により認証方式が変わっている可能性があります。最新[バージョン](/glossary/バージョン/)への[アップグレード](/glossary/アップグレード/)を試してください。
 
 ```bash
 # プロバイダーのバージョン確認

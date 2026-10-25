@@ -23,7 +23,7 @@ publish_zenn: true
 
 最初に[エラー](/glossary/エラー/)に出た読み込み先と読み込み元、実際に使われたNode.jsの版を確認します。自分のCommonJS[コード](/glossary/コード/)なら、[非同期](/glossary/非同期/)の`import()`に書き換える方法があります。依存[パッケージ](/glossary/パッケージ/)内部で起きているなら、呼び出している[パッケージ](/glossary/パッケージ/)の[対応版](/glossary/対応版/)も調べてください。
 
-新しいNode.jsは同期的なESMを`require()`で読み込めます。ただし、更新だけで元の使い方が必ず通るわけではありません。[戻り値](/glossary/戻り値/)の取り出し方と、依存先を含めたトップレベルの`await`の有無も確認します。
+新しいNode.jsは同期的なESMを`require()`で読み込めます。ただし、[更新](/glossary/更新/)だけで元の使い方が必ず通るわけではありません。[戻り値](/glossary/戻り値/)の取り出し方と、依存先を含めたトップレベルの`await`の有無も確認します。
 
 ## エラーのパスと実行環境を確認する
 
@@ -37,7 +37,7 @@ Error [ERR_REQUIRE_ESM]: require() of ES Module /project/lib.mjs from /project/m
 
 [Node.js v22.12.0のエラー生成実装](https://github.com/nodejs/node/blob/v22.12.0/lib/internal/errors.js)には、`.mjs`の場合、ESM構文を含む場合、近くの`package.json`の`"type": "module"`によってESMとして扱う場合に応じた補足があります。ただし、補足の種類だけで対処を固定せず、実際の[コード](/glossary/コード/)と[設定](/glossary/設定/)も確認します。
 
-失敗した処理と同じ[ターミナル](/glossary/ターミナル/)やCIジョブで、次を実行してください。
+失敗した[処理](/glossary/処理/)と同じ[ターミナル](/glossary/ターミナル/)やCIジョブで、次を実行してください。
 
 ```bash
 node -v
@@ -45,7 +45,7 @@ node -p "process.execPath"
 node -p "JSON.stringify({execArgv: process.execArgv, NODE_OPTIONS: process.env.NODE_OPTIONS})"
 ```
 
-最後の[コマンド](/glossary/コマンド/)は、その確認用[プロセス](/glossary/プロセス/)の起動引数と`NODE_OPTIONS`を表示します。npm[スクリプト](/glossary/スクリプト/)や[ツール](/glossary/ツール/)が別途渡す[引数](/glossary/引数/)は、その実行設定も確認してください。Node.jsを更新したつもりでも、[IDE](/glossary/ide/)、CI、[コンテナ](/glossary/コンテナ/)では別の実行[ファイル](/glossary/ファイル/)を使っている場合があります。
+最後の[コマンド](/glossary/コマンド/)は、その確認用[プロセス](/glossary/プロセス/)の起動引数と`NODE_OPTIONS`を表示します。npm[スクリプト](/glossary/スクリプト/)や[ツール](/glossary/ツール/)が別途渡す[引数](/glossary/引数/)は、その実行設定も確認してください。Node.jsを[更新](/glossary/更新/)したつもりでも、[IDE](/glossary/ide/)、CI、[コンテナ](/glossary/コンテナ/)では別の実行[ファイル](/glossary/ファイル/)を使っている場合があります。
 
 ## Node.jsの版による違いを切り分ける
 
@@ -60,7 +60,7 @@ node -p "JSON.stringify({execArgv: process.execArgv, NODE_OPTIONS: process.env.N
 | 22.12.0以降の22系 | 既定で有効 |
 | 23.0.0以降の系列 | 既定で有効。無効化設定にも注意 |
 
-これは機能が導入された境界の表です。古い系列への更新を推奨する表ではありません。更新先は、[Node.js公式のサポート状況](https://nodejs.org/en/about/previous-releases)と[プロジェクト](/glossary/プロジェクト/)の要件を確認して、サポート中のLTS(長期サポート版)から選びます。2026年10月8日の確認では22系と24系がLTS、20系は[サポート終了](/glossary/サポート終了/)です。
+これは機能が導入された境界の表です。古い系列への[更新](/glossary/更新/)を推奨する表ではありません。更新先は、[Node.js公式のサポート状況](https://nodejs.org/en/about/previous-releases)と[プロジェクト](/glossary/プロジェクト/)の[要件](/glossary/要件/)を確認して、サポート中のLTS(長期サポート版)から選びます。2026年10月8日の確認では22系と24系がLTS、20系は[サポート終了](/glossary/サポート終了/)です。
 
 機能を無効化している場合、新しい版でも`ERR_REQUIRE_ESM`が出ることがあります。起動設定や`NODE_OPTIONS`の`--no-experimental-require-module`などを確認します。フラグの名称や利用可否は、使用中の版の文書に合わせてください。
 
@@ -158,6 +158,6 @@ CommonJSに[対応](/glossary/対応/)する旧版を一時的に使う方法も
 
 まず、[エラー](/glossary/エラー/)の読み込み元と先を特定し、失敗した[環境](/glossary/環境/)のNode.jsの版と起動設定を確認します。自分のCommonJS[コード](/glossary/コード/)であれば、`async`関数内の`import()`に変更し、公開された値を正しく取り出します。
 
-Node.jsを更新する場合は、[プロジェクト](/glossary/プロジェクト/)が[対応](/glossary/対応/)するサポート中の版を選びます。更新後は、[戻り値](/glossary/戻り値/)とトップレベルの`await`の条件を確認してください。依存[パッケージ](/glossary/パッケージ/)内部で起きているなら、呼び出している[パッケージ](/glossary/パッケージ/)や[ツール](/glossary/ツール/)の[対応](/glossary/対応/)を調べ、元の処理と[テスト](/glossary/テスト/)を再実行します。
+Node.jsを[更新](/glossary/更新/)する場合は、[プロジェクト](/glossary/プロジェクト/)が[対応](/glossary/対応/)するサポート中の版を選びます。更新後は、[戻り値](/glossary/戻り値/)とトップレベルの`await`の条件を確認してください。依存[パッケージ](/glossary/パッケージ/)内部で起きているなら、呼び出している[パッケージ](/glossary/パッケージ/)や[ツール](/glossary/ツール/)の[対応](/glossary/対応/)を調べ、元の[処理](/glossary/処理/)と[テスト](/glossary/テスト/)を再実行します。
 
-免責事項：本記事の内容は一般的なNode.jsの構成を前提としています。[モジュール](/glossary/モジュール/)の読み込み方法や[戻り値](/glossary/戻り値/)は、Node.js、依存[パッケージ](/glossary/パッケージ/)、ビルドツールの版と[設定](/glossary/設定/)によって異なります。[環境](/glossary/環境/)や依存関係を変更する前に、[プロジェクト](/glossary/プロジェクト/)の要件を確認してください。
+免責事項：本記事の内容は一般的なNode.jsの構成を前提としています。[モジュール](/glossary/モジュール/)の読み込み方法や[戻り値](/glossary/戻り値/)は、Node.js、依存[パッケージ](/glossary/パッケージ/)、ビルドツールの版と[設定](/glossary/設定/)によって異なります。[環境](/glossary/環境/)や依存関係を変更する前に、[プロジェクト](/glossary/プロジェクト/)の[要件](/glossary/要件/)を確認してください。

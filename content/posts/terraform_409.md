@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 409 [エラー](/glossary/エラー/)は、Terraform が作成・更新しようとするリソースが既に[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)に存在し、状態[ファイル](/glossary/ファイル/)（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。この[エラー](/glossary/エラー/)は特にマルチユーザー[環境](/glossary/環境/)や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
+Terraform の 409 [エラー](/glossary/エラー/)は、Terraform が作成・[更新](/glossary/更新/)しようとするリソースが既に[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)に存在し、状態[ファイル](/glossary/ファイル/)（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。この[エラー](/glossary/エラー/)は特にマルチユーザー[環境](/glossary/環境/)や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
 
 ## 実際のエラーメッセージ例
 
@@ -81,9 +81,9 @@ resource "aws_s3_bucket_acl" "data_bucket_acl" {
 
 ### 原因 2：terraform apply が中断して中途半端な状態になっている
 
-`terraform apply` の実行中に[ネットワーク](/glossary/ネットワーク/)が切れたり、[プロセス](/glossary/プロセス/)が強制終了されたりすると、リソースの一部が作成されたまま tfstate が更新されないことがあります。その状態で再度 `terraform apply` を実行すると、既に存在するリソースとの競合が発生します。
+`terraform apply` の実行中に[ネットワーク](/glossary/ネットワーク/)が切れたり、[プロセス](/glossary/プロセス/)が強制終了されたりすると、リソースの一部が作成されたまま tfstate が[更新](/glossary/更新/)されないことがあります。その状態で再度 `terraform apply` を実行すると、既に存在するリソースとの競合が発生します。
 
-この場合、`terraform refresh` で[クラウド](/glossary/クラウド/)の実態をもとに tfstate を最新の状態に更新し、差異を解消します。
+この場合、`terraform refresh` で[クラウド](/glossary/クラウド/)の実態をもとに tfstate を最新の状態に[更新](/glossary/更新/)し、差異を解消します。
 
 **Before（[エラー](/glossary/エラー/)が起きる状況）：**
 

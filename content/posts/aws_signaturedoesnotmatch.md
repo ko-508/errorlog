@@ -92,7 +92,7 @@ SigV4のCanonical Requestは、次の要素を[改行](/glossary/改行/)で連�
 <HashedPayload>
 ```
 
-[HTTP](/glossary/http/)[メソッド](/glossary/メソッド/)の違い、[パス](/glossary/パス/)の符号化、[クエリ](/glossary/クエリ/)文字列の順序、見出し名の小文字化、空白の処理、本文の要約値のどれか1文字でも違えば、最終的な署名は一致しません。
+[HTTP](/glossary/http/)[メソッド](/glossary/メソッド/)の違い、[パス](/glossary/パス/)の符号化、[クエリ](/glossary/クエリ/)文字列の順序、見出し名の小文字化、空白の[処理](/glossary/処理/)、本文の要約値のどれか1文字でも違えば、最終的な署名は一致しません。
 
 [AWS公式の署名作成手順](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv-create-signed-request.html)では、空白を`+`ではなく`%20`にすること、パーセント符号化した16進数では大文字を使うことなどが示されています。一般的な[URL](/glossary/url/)符号化関数が[AWS](/glossary/aws/)の規則と一致するとは限らない点にも注意が必要です。
 
@@ -123,7 +123,7 @@ Credential should be scoped with a valid terminator: 'aws4_request'
 
 なお、SigV4aではリージョンがCredential Scopeに含まれません。SigV4とSigV4aを同じ構成として扱わないようにします。
 
-途中の[プロキシ](/glossary/プロキシ/)や独自の[HTTP](/glossary/http/)処理にも注意が必要です。署名後に`Host`などの見出し、[パス](/glossary/パス/)、[クエリ](/glossary/クエリ/)文字列、本文が変更されると、[AWS](/glossary/aws/)が再計算する材料と一致しなくなります。可能であれば[プロキシ](/glossary/プロキシ/)を通さない経路で試し、差があるか確認してください。
+途中の[プロキシ](/glossary/プロキシ/)や独自の[HTTP](/glossary/http/)[処理](/glossary/処理/)にも注意が必要です。署名後に`Host`などの見出し、[パス](/glossary/パス/)、[クエリ](/glossary/クエリ/)文字列、本文が変更されると、[AWS](/glossary/aws/)が再計算する材料と一致しなくなります。可能であれば[プロキシ](/glossary/プロキシ/)を通さない経路で試し、差があるか確認してください。
 
 ## S3の事前署名URLを確認する
 
@@ -177,7 +177,7 @@ SignedHeaders=content-type;host;x-amz-date
 
 [CLI](/glossary/cli/)は成功し、独自実装だけが失敗する場合は、Canonical RequestとString to Signを出力し、[AWS](/glossary/aws/)の[エラー](/glossary/エラー/)応答に比較対象があれば[改行](/glossary/改行/)や符号化を含めて照合します。Credential Scopeの日付、リージョン、サービス名、`aws4_request`も確認してください。
 
-S3の事前署名[URL](/glossary/url/)では、[URL](/glossary/url/)、[HTTP](/glossary/http/)[メソッド](/glossary/メソッド/)、署名対象の見出し、`Content-Type`、リージョン、有効期限を発行時と一致させます。[URL](/glossary/url/)を途中で変更する代理[サーバー](/glossary/サーバー/)や処理を外して再現するかも調べます。
+S3の事前署名[URL](/glossary/url/)では、[URL](/glossary/url/)、[HTTP](/glossary/http/)[メソッド](/glossary/メソッド/)、署名対象の見出し、`Content-Type`、リージョン、有効期限を発行時と一致させます。[URL](/glossary/url/)を途中で変更する代理[サーバー](/glossary/サーバー/)や[処理](/glossary/処理/)を外して再現するかも調べます。
 
 [IAM](/glossary/iam/)[権限](/glossary/権限/)を広げる前に、[エラーコード](/glossary/エラーコード/)が`SignatureDoesNotMatch`なのか`AccessDenied`なのかを確認することが重要です。署名処理を自作する必要がなければ、[AWS](/glossary/aws/) [SDK](/glossary/sdk/)または[AWS](/glossary/aws/) [CLI](/glossary/cli/)へ置き換えることで計算や正規化の誤りを避けられます。
 

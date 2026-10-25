@@ -30,13 +30,13 @@ kubectl api-versions
 kubectl api-resources --cached=false
 ```
 
-カスタムリソースなら、その種類を追加する定義であるCRD（CustomResourceDefinition）が必要です。CRDを先に適用して登録を待ち、その後にカスタムリソースを適用します。組み込みリソースなら、`apiVersion`の誤りや、クラスターの更新で提供されなくなった旧[API](/glossary/api/)を確認します。
+カスタムリソースなら、その種類を追加する定義であるCRD（CustomResourceDefinition）が必要です。CRDを先に適用して登録を待ち、その後にカスタムリソースを適用します。組み込みリソースなら、`apiVersion`の誤りや、クラスターの[更新](/glossary/更新/)で提供されなくなった旧[API](/glossary/api/)を確認します。
 
 ただし、この文言だけでCRD不足と断定はできません。404は要求先が見つからなかった応答で、接続先や途中の[プロキシ](/glossary/プロキシ/)が誤っている場合も調査対象になります。
 
 ## 3つのエラー文言の違い
 
-似た状況で次の文言も出ますが、発生する処理は異なります。
+似た状況で次の文言も出ますが、発生する[処理](/glossary/処理/)は異なります。
 
 | 文言 | 示していること |
 |---|---|
@@ -66,7 +66,7 @@ kubectl api-versions
 kubectl api-resources --api-group=apps --cached=false
 ```
 
-`api-versions`では`apps/v1`が提供されているか、`api-resources`では`Deployment`に[対応](/glossary/対応/)するリソースがあるかを調べます。後者は[API](/glossary/api/)グループで絞り込む[コマンド](/glossary/コマンド/)で、指定したすべての版を一覧にするものではありません。版の確認には両方を使ってください。[kubectl本体の実装](https://github.com/kubernetes/kubectl/blob/master/pkg/cmd/apiresources/apiresources.go)では、`--cached=false`の場合に[API](/glossary/api/)一覧の取得情報を更新します。
+`api-versions`では`apps/v1`が提供されているか、`api-resources`では`Deployment`に[対応](/glossary/対応/)するリソースがあるかを調べます。後者は[API](/glossary/api/)グループで絞り込む[コマンド](/glossary/コマンド/)で、指定したすべての版を一覧にするものではありません。版の確認には両方を使ってください。[kubectl本体の実装](https://github.com/kubernetes/kubectl/blob/master/pkg/cmd/apiresources/apiresources.go)では、`--cached=false`の場合に[API](/glossary/api/)一覧の取得情報を[更新](/glossary/更新/)します。
 
 一覧にあるのに404が続く場合は、読み取り[コマンド](/glossary/コマンド/)で具体的な[API](/glossary/api/)[パス](/glossary/パス/)を確認できます。次は`apps/v1`の[API](/glossary/api/)一覧を要求する例です。
 
@@ -78,7 +78,7 @@ kubectl get --raw /apis/apps/v1
 
 ## CRDを先に適用して登録を待つ
 
-`kind: MyApp`のような独自の種類には、[対応](/glossary/対応/)するCRDが必要です。Operatorを使う手順なら、配布元が指定するCRDの導入方法を確認してください。Operatorは独自リソースの状態に応じて処理する[プログラム](/glossary/プログラム/)で、CRDの登録と、その[プログラム](/glossary/プログラム/)の稼働は別の確認項目です。
+`kind: MyApp`のような独自の種類には、[対応](/glossary/対応/)するCRDが必要です。Operatorを使う手順なら、配布元が指定するCRDの導入方法を確認してください。Operatorは独自リソースの状態に応じて[処理](/glossary/処理/)する[プログラム](/glossary/プログラム/)で、CRDの登録と、その[プログラム](/glossary/プログラム/)の稼働は別の確認項目です。
 
 ```bash
 kubectl get crd
@@ -125,11 +125,11 @@ apiVersion: batch/v1
 kind: CronJob
 ```
 
-これは変更する冒頭部分の例で、単独では適用できません。実際の[マニフェスト](/glossary/マニフェスト/)全体について、移行ガイドの項目変更も確認します。[API](/glossary/api/)によっては、`apiVersion`を書き換えるだけでは不十分です。Helmを使っている場合は、手元の出力だけでなく、クラスターの版に[対応](/glossary/対応/)したchartへ更新する必要があるかも調べてください。
+これは変更する冒頭部分の例で、単独では適用できません。実際の[マニフェスト](/glossary/マニフェスト/)全体について、移行ガイドの項目変更も確認します。[API](/glossary/api/)によっては、`apiVersion`を書き換えるだけでは不十分です。Helmを使っている場合は、手元の出力だけでなく、クラスターの版に[対応](/glossary/対応/)したchartへ[更新](/glossary/更新/)する必要があるかも調べてください。
 
 ## Helmで失敗した場合の確認点
 
-Helmのchartは、[アプリケーション](/glossary/アプリケーション/)の導入に使う定義一式です。[Helm公式のCRD説明](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)では、chartの`crds/`に配置されたCRDを`helm install`で先に導入する方式を説明しています。一方、`--skip-crds`を付けるとこの導入を省き、既存CRDの更新も自動で済むとは限りません。chartがCRDを別配布している場合は、その導入手順に従います。
+Helmのchartは、[アプリケーション](/glossary/アプリケーション/)の導入に使う定義一式です。[Helm公式のCRD説明](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)では、chartの`crds/`に配置されたCRDを`helm install`で先に導入する方式を説明しています。一方、`--skip-crds`を付けるとこの導入を省き、既存CRDの[更新](/glossary/更新/)も自動で済むとは限りません。chartがCRDを別配布している場合は、その導入手順に従います。
 
 `--set crds.install=true`はすべてのchartに共通する指定ではありません。chartがその[設定](/glossary/設定/)を実装している場合にだけ使えます。`--wait`を追加するだけで、CRD不足や旧[API](/glossary/api/)の使用が解消すると考えないでください。また、`--dry-run`ではCRD自体を登録できないため、まだ存在しないカスタムリソースを検証できない場合があります。
 
@@ -158,6 +158,6 @@ kubectl get deployments.apps -A
 
 最初にcontextを確認し、[マニフェスト](/glossary/マニフェスト/)の`apiVersion`と`kind`を、接続先の[API](/glossary/api/)一覧へ照合します。独自の種類ならCRDの有無と提供する版を確認し、CRDを適用して`Established`を待った後にカスタムリソースを適用してください。
 
-組み込み[API](/glossary/api/)やCRD定義そのものの旧[バージョン](/glossary/バージョン/)が原因なら、公式の移行手順に従って[マニフェスト](/glossary/マニフェスト/)やchartを更新します。[API](/glossary/api/)が一覧にあるのに404が続く場合は、実際の要求[パス](/glossary/パス/)と応答元を調べます。個別の名前が見つからないNotFoundなら、名前と名前空間の確認へ進みます。
+組み込み[API](/glossary/api/)やCRD定義そのものの旧[バージョン](/glossary/バージョン/)が原因なら、公式の移行手順に従って[マニフェスト](/glossary/マニフェスト/)やchartを[更新](/glossary/更新/)します。[API](/glossary/api/)が一覧にあるのに404が続く場合は、実際の要求[パス](/glossary/パス/)と応答元を調べます。個別の名前が見つからないNotFoundなら、名前と名前空間の確認へ進みます。
 
 免責事項：本記事の内容は一般的な[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)を前提としています。CRDやchartを[本番環境](/glossary/本番環境/)で変更する前に、利用中のカスタムリソースと[対応](/glossary/対応/)する[API](/glossary/api/)[バージョン](/glossary/バージョン/)への影響を確認してください。

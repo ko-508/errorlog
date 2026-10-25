@@ -37,7 +37,7 @@ kubeletが対象コンテナを終了
 
 ここで、Podが[削除](/glossary/削除/)されて新しいPodへ置き換わるわけではありません。Pod名とUIDは同じまま、[コンテナ](/glossary/コンテナ/)の `restartCount` が増えます。複数[コンテナ](/glossary/コンテナ/)のPodなら、probeに失敗した[コンテナ](/glossary/コンテナ/)が対象です。
 
-[Kubernetes公式のprobe資料](https://kubernetes.io/docs/concepts/workloads/pods/probes/#liveness-probe)は、liveness probeを、停止しているように見えないまま処理が進まなくなった[コンテナ](/glossary/コンテナ/)を再起動する仕組みとして説明しています。一時的な高負荷、外部[データベース](/glossary/データベース/)の停止、起動の遅さを検出するためのものではありません。
+[Kubernetes公式のprobe資料](https://kubernetes.io/docs/concepts/workloads/pods/probes/#liveness-probe)は、liveness probeを、停止しているように見えないまま[処理](/glossary/処理/)が進まなくなった[コンテナ](/glossary/コンテナ/)を再起動する仕組みとして説明しています。一時的な高負荷、外部[データベース](/glossary/データベース/)の停止、起動の遅さを検出するためのものではありません。
 
 同じ接続失敗でも、readiness probeとは結果が違います。
 
@@ -109,7 +109,7 @@ livenessProbe:
 initialDelaySeconds + periodSeconds × failureThreshold
 ```
 
-probeの実行時間、最初の実行時刻、kubeletの処理、[コンテナ](/glossary/コンテナ/)の終了猶予、再起動の待ち時間が加わります。概算には使えても、正確な再起動時刻の式ではありません。
+probeの実行時間、最初の実行時刻、kubeletの[処理](/glossary/処理/)、[コンテナ](/glossary/コンテナ/)の終了猶予、再起動の待ち時間が加わります。概算には使えても、正確な再起動時刻の式ではありません。
 
 失敗が閾値へ達すると、kubeletは[コンテナ](/glossary/コンテナ/)を終了させます。liveness probeには、Pod全体の `terminationGracePeriodSeconds` を上書きするprobe単位の値も指定できます。
 
@@ -451,7 +451,7 @@ liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)
 7. 起動中だけ失敗するなら `startupProbe` を追加する。
 8. 外部依存の一時障害をliveness条件から外し、必要ならreadinessへ分離する。
 9. `restartPolicy` と終了猶予を確認する。
-10. 修正後、[イベント](/glossary/イベント/)の最終時刻、`restartCount`、Ready状態を継続して確認する。
+10. 修正後、[イベント](/glossary/イベント/)の最終時刻、`restartCount`、Ready状態を[継続](/glossary/継続/)して確認する。
 
 ## 確認コマンド集
 
@@ -517,7 +517,7 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 2019年の課題（[Give the proper reason for killing pods](https://github.com/kubernetes/kubernetes/issues/81723)）では、[コンテナ](/glossary/コンテナ/)が終了した理由として広い `Killing` だけが表示され、liveness、memory、別の理由を区別しにくいことが指摘されました。現在も、終了[コード](/glossary/コード/)だけでlivenessを確定するのは危険です。[イベント](/glossary/イベント/)の `Liveness probe failed` と `Container ... failed liveness probe, will be restarted`、container status、直前[ログ](/glossary/ログ/)を時刻で結びます。
 
-[Kubernetes](/glossary/kubernetes/)公式は、誤ったlivenessが高負荷時に[コンテナ](/glossary/コンテナ/)を再起動し、残ったPodへ負荷を集中させ、連鎖的な失敗を起こし得ると警告しています。再起動は回復手段ですが、負荷、外部依存、遅い起動に対しては[障害](/glossary/障害/)を増幅する処理にもなります。
+[Kubernetes](/glossary/kubernetes/)公式は、誤ったlivenessが高負荷時に[コンテナ](/glossary/コンテナ/)を再起動し、残ったPodへ負荷を集中させ、連鎖的な失敗を起こし得ると警告しています。再起動は回復手段ですが、負荷、外部依存、遅い起動に対しては[障害](/glossary/障害/)を増幅する[処理](/glossary/処理/)にもなります。
 
 だから、liveness endpointが答えるべき問いは「今、完全に正常か」ではありません。**この[プロセス](/glossary/プロセス/)は、再起動しなければ回復できない状態か**です。一時的に要求を受けられない状態はreadinessへ、まだ起動中の状態はstartupへ分けます。
 

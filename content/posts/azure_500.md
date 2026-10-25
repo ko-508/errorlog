@@ -22,7 +22,7 @@ Azure の 500 Internal Server Error は、まず「どの [URL](/glossary/url/) 
 
 Azure の管理 [API](/glossary/api/) の[エラー](/glossary/エラー/)は、error [オブジェクト](/glossary/オブジェクト/)（code と message）を持つ [JSON](/glossary/json/) で返ります。500の場合の code は InternalServerError などで、message は一時的な[エラー](/glossary/エラー/)である旨と再試行の案内になっているのが典型です。切り分けでまず読むべきは [HTTP](/glossary/http/) の[コード](/glossary/コード/)ではなく、この code [フィールド](/glossary/フィールド/)です。MissingSubscriptionRegistration や AuthorizationFailed のような具体的な code が入っているなら、それは500の調査ではありません。
 
-もう1つ、Azure の応答には必ず控えるべき[ヘッダー](/glossary/ヘッダー/)があります。x-ms-request-id と x-ms-correlation-request-id です（実際の[エラー](/glossary/エラー/)応答の記録でも、この2つの[ヘッダー](/glossary/ヘッダー/)が含まれていることが確認できます）。この値は Azure 側の[ログ](/glossary/ログ/)で[リクエスト](/glossary/リクエスト/)を特定する参照 [ID](/glossary/id/) で、500が再現・継続する場合にサポートへ渡す情報の中核になります。
+もう1つ、Azure の応答には必ず控えるべき[ヘッダー](/glossary/ヘッダー/)があります。x-ms-request-id と x-ms-correlation-request-id です（実際の[エラー](/glossary/エラー/)応答の記録でも、この2つの[ヘッダー](/glossary/ヘッダー/)が含まれていることが確認できます）。この値は Azure 側の[ログ](/glossary/ログ/)で[リクエスト](/glossary/リクエスト/)を特定する参照 [ID](/glossary/id/) で、500が再現・[継続](/glossary/継続/)する場合にサポートへ渡す情報の中核になります。
 
 自分のアプリ（App Service）の500は、[ブラウザ](/glossary/ブラウザ/)にサブステータスつきのエラーページとして現れることがあります。ASP.NET Core では次の形が代表です。
 
@@ -73,7 +73,7 @@ def call_azure(url, headers, max_retries=4):
     return r
 ```
 
-書き込み操作（リソースの作成・更新）で500を受け取った場合は、応答が届かなかっただけで処理が完了している可能性を排除できません。再試行の前に対象リソースの状態を確認し、二重作成を避けてください。500が続く・広がる場合は、Azure の稼働状況（https://azure.status.microsoft）と、ポータルの Service Health を確認します。全体のステータスページに載らない規模の問題も Service Health のリソース単位の[通知](/glossary/通知/)には出ることがあるため、両方を見るのが確実です。掲載がないことは[障害](/glossary/障害/)でないことの証明にはなりません。解決しない場合は、控えておいた x-ms-request-id・x-ms-correlation-request-id・発生時刻を添えてサポートに問い合わせます。
+書き込み操作（リソースの作成・[更新](/glossary/更新/)）で500を受け取った場合は、応答が届かなかっただけで[処理](/glossary/処理/)が完了している可能性を排除できません。再試行の前に対象リソースの状態を確認し、二重作成を避けてください。500が続く・広がる場合は、Azure の稼働状況（https://azure.status.microsoft）と、ポータルの Service Health を確認します。全体のステータスページに載らない規模の問題も Service Health のリソース単位の[通知](/glossary/通知/)には出ることがあるため、両方を見るのが確実です。掲載がないことは[障害](/glossary/障害/)でないことの証明にはなりません。解決しない場合は、控えておいた x-ms-request-id・x-ms-correlation-request-id・発生時刻を添えてサポートに問い合わせます。
 
 ### 原因2：自分のアプリ（App Service）が500を返している
 

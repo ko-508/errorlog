@@ -28,7 +28,7 @@ FATAL:  database "myapp" does not exist
 
 ## エラーが示すのは接続先のデータベース名
 
-[PostgreSQLの接続初期化処理](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/init/postinit.c)には、指定した[データベース](/glossary/データベース/)が見つからないと接続を終了する処理があります。SQLSTATEという5文字の[エラー](/glossary/エラー/)識別子は`3D000`です。[公式のエラーコード表](https://www.postgresql.org/docs/18/errcodes-appendix.html)では`invalid_catalog_name`に[対応](/glossary/対応/)します。
+[PostgreSQLの接続初期化処理](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/init/postinit.c)には、指定した[データベース](/glossary/データベース/)が見つからないと接続を終了する[処理](/glossary/処理/)があります。SQLSTATEという5文字の[エラー](/glossary/エラー/)識別子は`3D000`です。[公式のエラーコード表](https://www.postgresql.org/docs/18/errcodes-appendix.html)では`invalid_catalog_name`に[対応](/glossary/対応/)します。
 
 `myapp`は接続時に使われた名前です。[エラー](/glossary/エラー/)に書かれた名前が、[設定](/glossary/設定/)したつもりの名前と一致するか確認してください。psqlやアプリが付ける前置き、接続先の表示は[クライアント](/glossary/クライアント/)によって異なります。
 

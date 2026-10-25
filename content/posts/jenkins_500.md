@@ -40,7 +40,7 @@ java.lang.OutOfMemoryError: Java heap space
 
 ### 原因1：プラグインのクラッシュまたは競合
 
-Jenkinsの[プラグイン](/glossary/プラグイン/)が正常に動作せず、クラッシュするか他の[プラグイン](/glossary/プラグイン/)と競合している場合、500[エラー](/glossary/エラー/)が発生します。特に新しく[インストール](/glossary/インストール/)された[プラグイン](/glossary/プラグイン/)やバージョンアップ直後に多く見られます。
+Jenkinsの[プラグイン](/glossary/プラグイン/)が正常に動作せず、クラッシュするか他の[プラグイン](/glossary/プラグイン/)と競合している場合、500[エラー](/glossary/エラー/)が発生します。特に新しく[インストール](/glossary/インストール/)された[プラグイン](/glossary/プラグイン/)や[バージョンアップ](/glossary/バージョンアップ/)直後に多く見られます。
 
 Jenkinsの[ログファイル](/glossary/ログファイル/)を確認してから、問題のある[プラグイン](/glossary/プラグイン/)を特定し無効化します。
 
@@ -165,7 +165,7 @@ pipeline {
 
 **Jenkinsの[プラグイン](/glossary/プラグイン/)管理画面での確認方法：**
 
-Manage Jenkins → System Configuration → Manage Plugins から、[インストール](/glossary/インストール/)済みの[プラグイン](/glossary/プラグイン/)一覧を確認できます。[エラー](/glossary/エラー/)発生前後で[インストール](/glossary/インストール/)・更新した[プラグイン](/glossary/プラグイン/)を特定し、その右側のチェックボックスを外して無効化できます。ただしこの操作中も500[エラー](/glossary/エラー/)が出ることがあるため、前述のファイルシステム操作での[対応](/glossary/対応/)が確実です。
+Manage Jenkins → System Configuration → Manage Plugins から、[インストール](/glossary/インストール/)済みの[プラグイン](/glossary/プラグイン/)一覧を確認できます。[エラー](/glossary/エラー/)発生前後で[インストール](/glossary/インストール/)・[更新](/glossary/更新/)した[プラグイン](/glossary/プラグイン/)を特定し、その右側のチェックボックスを外して無効化できます。ただしこの操作中も500[エラー](/glossary/エラー/)が出ることがあるため、前述のファイルシステム操作での[対応](/glossary/対応/)が確実です。
 
 **Jenkinsの[設定ファイル](/glossary/設定ファイル/)直接編集：**
 

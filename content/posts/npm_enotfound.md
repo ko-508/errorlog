@@ -148,7 +148,7 @@ docker exec container_name cat /etc/resolv.conf
 | `ENOTFOUND` | 名前解決が失敗。対象ホスト、[設定](/glossary/設定/)、実行環境を確認 |
 | `EAI_AGAIN` | 名前解決の一時的な失敗。接続状態や再発の有無を確認 |
 | `ECONNRESET` | [通信](/glossary/通信/)が[リセット](/glossary/リセット/)された。途中の接続や中継機器を確認 |
-| `ETIMEDOUT` | 処理が時間内に完了しなかった。失敗箇所を[ログ](/glossary/ログ/)で確認 |
+| `ETIMEDOUT` | [処理](/glossary/処理/)が時間内に完了しなかった。失敗箇所を[ログ](/glossary/ログ/)で確認 |
 | `CERT_HAS_EXPIRED` | [証明書](/glossary/証明書/)の期限に関する失敗。対象証明書を確認 |
 
 `ENOTFOUND`と`EAI_AGAIN`は、どちらも名前解決の調査が必要です。ただし、`ENOTFOUND`でも[環境](/glossary/環境/)の一時的な不調で起きる可能性があるため、「再試行で絶対に直らない」とは言えません。繰り返し同じ名前で失敗する場合は、その名前を指定した[設定](/glossary/設定/)と、その[環境](/glossary/環境/)での解決結果を確認します。
@@ -159,7 +159,7 @@ docker exec container_name cat /etc/resolv.conf
 
 最初に`getaddrinfo ENOTFOUND`の直後のホスト名を確認します。取得先の[URL](/glossary/url/)と異なる名前なら、[プロキシ](/glossary/プロキシ/)など中継先の[設定](/glossary/設定/)を調べます。
 
-次に、失敗した処理と同じ[環境](/glossary/環境/)でNode.jsの名前解決を確認します。取得先の指定に誤りがあればregistryや[スコープ](/glossary/スコープ/)別設定を直し、社内ホストならVPNと社内[DNS](/glossary/dns/)、[コンテナ](/glossary/コンテナ/)内だけの失敗なら[Docker](/glossary/docker/)の[設定](/glossary/設定/)を確認してください。
+次に、失敗した[処理](/glossary/処理/)と同じ[環境](/glossary/環境/)でNode.jsの名前解決を確認します。取得先の指定に誤りがあればregistryや[スコープ](/glossary/スコープ/)別設定を直し、社内ホストならVPNと社内[DNS](/glossary/dns/)、[コンテナ](/glossary/コンテナ/)内だけの失敗なら[Docker](/glossary/docker/)の[設定](/glossary/設定/)を確認してください。
 
 修正後は、失敗した`npm install`や`npm ci`を同じ条件で再実行します。名前解決の失敗に対して、先にlockfileを[削除](/glossary/削除/)したり、証明書検証を無効にしたりする必要はありません。
 

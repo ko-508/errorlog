@@ -25,11 +25,11 @@ npm error errno CERT_HAS_EXPIRED
 
 最初に接続先[URL](/glossary/url/)とnpm[レジストリ](/glossary/レジストリ/)を確認してください。公式[レジストリ](/glossary/レジストリ/)ではなく、社内[レジストリ](/glossary/レジストリ/)、ミラー、[プロキシ](/glossary/プロキシ/)を経由している場合は、その途中で提示された[証明書](/glossary/証明書/)が原因になることもあります。
 
-次にnpmの`ca`と`cafile`、Node.jsの[バージョン](/glossary/バージョン/)を確認します。古いCA[証明書](/glossary/証明書/)が明示的に[設定](/glossary/設定/)されている場合は[設定](/glossary/設定/)を更新し、Node.jsが古い場合はサポート中の版へ更新します。[証明書](/glossary/証明書/)の検証を無効にする`strict-ssl=false`は、安全な解決方法ではありません。
+次にnpmの`ca`と`cafile`、Node.jsの[バージョン](/glossary/バージョン/)を確認します。古いCA[証明書](/glossary/証明書/)が明示的に[設定](/glossary/設定/)されている場合は[設定](/glossary/設定/)を[更新](/glossary/更新/)し、Node.jsが古い場合はサポート中の版へ[更新](/glossary/更新/)します。[証明書](/glossary/証明書/)の検証を無効にする`strict-ssl=false`は、安全な解決方法ではありません。
 
 ## CERT_HAS_EXPIREDの意味
 
-`CERT_HAS_EXPIRED`は、Node.jsの[TLS](/glossary/tls/)処理が返すX.509[証明書](/glossary/証明書/)[エラー](/glossary/エラー/)です。Node.js公式文書では「[証明書](/glossary/証明書/)の有効期限が切れている」状態として定義されています。
+`CERT_HAS_EXPIRED`は、Node.jsの[TLS](/glossary/tls/)[処理](/glossary/処理/)が返すX.509[証明書](/glossary/証明書/)[エラー](/glossary/エラー/)です。Node.js公式文書では「[証明書](/glossary/証明書/)の有効期限が切れている」状態として定義されています。
 
 npmは[パッケージ](/glossary/パッケージ/)や[メタデータ](/glossary/メタデータ/)を[HTTPS](/glossary/https/)で取得するとき、接続先から提示された[証明書](/glossary/証明書/)をNode.jsで検証します。[証明書](/glossary/証明書/)チェーンの検証対象に期限切れの[証明書](/glossary/証明書/)が含まれていると、npmは[通信](/glossary/通信/)を中止し、この[コード](/glossary/コード/)を表示します。
 
@@ -70,7 +70,7 @@ $env:NODE_EXTRA_CA_CERTS
 
 ## 接続先やプロキシの証明書が期限切れの場合
 
-社内[レジストリ](/glossary/レジストリ/)、[キャッシュ](/glossary/キャッシュ/)用ミラー、[HTTPS](/glossary/https/)[プロキシ](/glossary/プロキシ/)などの[証明書](/glossary/証明書/)が期限切れなら、[サーバー](/glossary/サーバー/)または[プロキシ](/glossary/プロキシ/)側で[証明書](/glossary/証明書/)を更新する必要があります。利用者側でnpmの検証を無効にしても、期限切れそのものは解消しません。
+社内[レジストリ](/glossary/レジストリ/)、[キャッシュ](/glossary/キャッシュ/)用ミラー、[HTTPS](/glossary/https/)[プロキシ](/glossary/プロキシ/)などの[証明書](/glossary/証明書/)が期限切れなら、[サーバー](/glossary/サーバー/)または[プロキシ](/glossary/プロキシ/)側で[証明書](/glossary/証明書/)を[更新](/glossary/更新/)する必要があります。利用者側でnpmの検証を無効にしても、期限切れそのものは解消しません。
 
 OpenSSLを利用できる[環境](/glossary/環境/)では、実際の接続先ホストを指定して[証明書](/glossary/証明書/)の有効期間を確認できます。
 
@@ -102,7 +102,7 @@ npm config get cafile
 npm install
 ```
 
-社内[プロキシ](/glossary/プロキシ/)への接続に独自CAが必要な[環境](/glossary/環境/)では、[設定](/glossary/設定/)を単に[削除](/glossary/削除/)すると別の[証明書](/glossary/証明書/)[エラー](/glossary/エラー/)へ変わります。その場合は、管理者から現在有効なCA[証明書](/glossary/証明書/)を受け取り、`cafile`の参照先を更新してください。
+社内[プロキシ](/glossary/プロキシ/)への接続に独自CAが必要な[環境](/glossary/環境/)では、[設定](/glossary/設定/)を単に[削除](/glossary/削除/)すると別の[証明書](/glossary/証明書/)[エラー](/glossary/エラー/)へ変わります。その場合は、管理者から現在有効なCA[証明書](/glossary/証明書/)を受け取り、`cafile`の参照先を[更新](/glossary/更新/)してください。
 
 ```bash
 npm config set cafile /path/to/current-corporate-ca.pem
@@ -118,9 +118,9 @@ npm config set cafile "C:\certs\current-corporate-ca.pem"
 
 ## 古いNode.jsの内蔵CAを更新する
 
-Node.jsは、利用する[設定](/glossary/設定/)によってNode.jsに同梱されたCAストアを使います。このストアはMozillaのCAストアをNode.jsの[リリース](/glossary/リリース/)時点で固定したスナップショットです。そのため、古いNode.jsではCAの追加や更新が反映されていない可能性があります。
+Node.jsは、利用する[設定](/glossary/設定/)によってNode.jsに同梱されたCAストアを使います。このストアはMozillaのCAストアをNode.jsの[リリース](/glossary/リリース/)時点で固定したスナップショットです。そのため、古いNode.jsではCAの追加や[更新](/glossary/更新/)が反映されていない可能性があります。
 
-まず`node -v`で版を確認し、サポートが終了した古い版なら、公式の[Node.jsリリース情報](https://nodejs.org/en/about/previous-releases)を確認してサポート中のLTS版へ更新します。更新後は、新しい[シェル](/glossary/シェル/)で次を確認してからnpmを再実行してください。
+まず`node -v`で版を確認し、サポートが終了した古い版なら、公式の[Node.jsリリース情報](https://nodejs.org/en/about/previous-releases)を確認してサポート中のLTS版へ[更新](/glossary/更新/)します。更新後は、新しい[シェル](/glossary/シェル/)で次を確認してからnpmを再実行してください。
 
 ```bash
 node -v
@@ -128,7 +128,7 @@ npm -v
 npm install
 ```
 
-ただし、Node.jsを更新すれば必ず直るわけではありません。npmの`ca`や`cafile`でCAを明示している場合や、接続先が本当に期限切れの[証明書](/glossary/証明書/)を提示している場合は、それぞれの[設定](/glossary/設定/)や[証明書](/glossary/証明書/)を[修正](/glossary/修正/)する必要があります。
+ただし、Node.jsを[更新](/glossary/更新/)すれば必ず直るわけではありません。npmの`ca`や`cafile`でCAを明示している場合や、接続先が本当に期限切れの[証明書](/glossary/証明書/)を提示している場合は、それぞれの[設定](/glossary/設定/)や[証明書](/glossary/証明書/)を[修正](/glossary/修正/)する必要があります。
 
 ## 社内CAはNODE_EXTRA_CA_CERTSで追加できる
 
@@ -194,11 +194,11 @@ npm config get globalconfig
 
 ## 解決手順のまとめ
 
-最初に[エラー](/glossary/エラー/)付近の[URL](/glossary/url/)と`npm config get registry`を確認し、どの[レジストリ](/glossary/レジストリ/)、ミラー、[プロキシ](/glossary/プロキシ/)へ接続しているかを特定します。接続先が提示する[証明書](/glossary/証明書/)の期限が切れていれば、[サーバー](/glossary/サーバー/)または[プロキシ](/glossary/プロキシ/)側で更新してください。
+最初に[エラー](/glossary/エラー/)付近の[URL](/glossary/url/)と`npm config get registry`を確認し、どの[レジストリ](/glossary/レジストリ/)、ミラー、[プロキシ](/glossary/プロキシ/)へ接続しているかを特定します。接続先が提示する[証明書](/glossary/証明書/)の期限が切れていれば、[サーバー](/glossary/サーバー/)または[プロキシ](/glossary/プロキシ/)側で[更新](/glossary/更新/)してください。
 
 次に`npm config get ca`と`npm config get cafile`を調べます。不要な古い[設定](/glossary/設定/)なら[削除](/glossary/削除/)し、社内CAが必要なら信頼できる配布元から新しい[証明書](/glossary/証明書/)を取得して差し替えます。
 
-Node.jsが古い場合はサポート中の版へ更新します。既定CAへ社内CAを追加するときは`NODE_EXTRA_CA_CERTS`をNode.jsの起動前に[設定](/glossary/設定/)してください。
+Node.jsが古い場合はサポート中の版へ[更新](/glossary/更新/)します。既定CAへ社内CAを追加するときは`NODE_EXTRA_CA_CERTS`をNode.jsの起動前に[設定](/glossary/設定/)してください。
 
 証明書検証を無効にする`strict-ssl=false`や`NODE_TLS_REJECT_UNAUTHORIZED=0`は使わず、期限切れの[証明書](/glossary/証明書/)または古いCA[設定](/glossary/設定/)を[修正](/glossary/修正/)することが重要です。
 

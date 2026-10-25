@@ -120,7 +120,7 @@ permissions:
 
 ## まず最初に：失敗した操作・実行起点・対象を確認する
 
-第一に、[ログ](/glossary/ログ/)中で最初に403を返した操作を確認します。後続の「処理に失敗した」という行ではなく、[API](/glossary/api/)の[メソッド](/glossary/メソッド/)、[URL](/glossary/url/)、`documentation_url`、実行した `gh` [コマンド](/glossary/コマンド/)、使用した[アクション](/glossary/アクション/)の処理を見ます。
+第一に、[ログ](/glossary/ログ/)中で最初に403を返した操作を確認します。後続の「[処理](/glossary/処理/)に失敗した」という行ではなく、[API](/glossary/api/)の[メソッド](/glossary/メソッド/)、[URL](/glossary/url/)、`documentation_url`、実行した `gh` [コマンド](/glossary/コマンド/)、使用した[アクション](/glossary/アクション/)の[処理](/glossary/処理/)を見ます。
 
 ```text
 POST /repos/OWNER/REPO/issues/123/comments
@@ -161,7 +161,7 @@ rg -n 'permissions:|workflow_call|pull_request_target|pull_request:' .github/wor
 
 ### 原因1：同じリポジトリへの書き込み権限が不足している
 
-最も直接的な原因です。たとえば、Pull Requestへコメントする処理なのに、[トークン](/glossary/トークン/)が読み取り専用なら403になります。
+最も直接的な原因です。たとえば、Pull Requestへコメントする[処理](/glossary/処理/)なのに、[トークン](/glossary/トークン/)が読み取り専用なら403になります。
 
 **Before（読み取りだけ）：**
 
@@ -186,9 +186,9 @@ Issueコメント[API](/glossary/api/)はPull Requestの会話にも使われる
 |---|---|
 | checkout、[コミット](/glossary/コミット/)や[ファイル](/glossary/ファイル/)の参照 | `contents: read` |
 | push、[タグ](/glossary/タグ/)、Releaseの作成 | `contents: write` |
-| Issueの作成・更新・コメント | `issues: write` |
-| Pull Requestの作成・更新 | `pull-requests: write` |
-| Check Runの作成・更新 | `checks: write` |
+| Issueの作成・[更新](/glossary/更新/)・コメント | `issues: write` |
+| Pull Requestの作成・[更新](/glossary/更新/) | `pull-requests: write` |
+| Check Runの作成・[更新](/glossary/更新/) | `checks: write` |
 | commit statusの作成 | `statuses: write` |
 | [GitHub](/glossary/github/) Packagesへの公開 | `packages: write` |
 | コードスキャン結果の[アップロード](/glossary/アップロード/) | `security-events: write` |
@@ -205,7 +205,7 @@ permissions:
   issues: write
 ```
 
-コメント処理の前にcheckoutや[設定ファイル](/glossary/設定ファイル/)の読み取りを行うなら、必要なread[権限](/glossary/権限/)も残します。
+コメント[処理](/glossary/処理/)の前にcheckoutや[設定ファイル](/glossary/設定ファイル/)の読み取りを行うなら、必要なread[権限](/glossary/権限/)も残します。
 
 ```yaml
 permissions:
@@ -265,7 +265,7 @@ permissions:
   issues: write
 ```
 
-一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や[承認](/glossary/承認/)を行う処理は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを確認します。
+一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や[承認](/glossary/承認/)を行う[処理](/glossary/処理/)は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを確認します。
 
 ### 原因5：外部フォークからのpull_requestで書き込みを要求している
 
@@ -280,7 +280,7 @@ permissions:
   pull-requests: write  # 外部フォークではwriteへ引き上がらない
 ```
 
-解決は処理を二つに分けることです。
+解決は[処理](/glossary/処理/)を二つに分けることです。
 
 ```text
 Pull Request側のコードをcheckoutしてテストする
@@ -302,7 +302,7 @@ permissions:
   pull-requests: write
 ```
 
-ただし、ここへ次の処理を追加してはいけません。
+ただし、ここへ次の[処理](/glossary/処理/)を追加してはいけません。
 
 ```text
 Pull Requestのheadをcheckoutする
@@ -320,7 +320,7 @@ Dependabotが作成したPull Requestは、[GitHub](/glossary/github/) Actions�
 if: github.actor != 'dependabot[bot]'
 ```
 
-単に書き込み処理を除外できるなら、上のようにDependabot実行ではそのジョブを動かさない方法があります。必要な処理なら、信頼された後続[ワークフロー](/glossary/ワークフロー/)へ分離します。
+単に書き込み[処理](/glossary/処理/)を除外できるなら、上のようにDependabot実行ではそのジョブを動かさない方法があります。必要な[処理](/glossary/処理/)なら、信頼された後続[ワークフロー](/glossary/ワークフロー/)へ分離します。
 
 コードスキャン結果の[送信](/glossary/送信/)には、公式に個別の扱いがあります。[Dependabotでのコードスキャン403の資料](https://docs.github.com/en/code-security/reference/code-scanning/troubleshoot-analysis-errors/resource-not-accessible)は、Dependabot[ブランチ](/glossary/ブランチ/)への `push` を起点に[アップロード](/glossary/アップロード/)せず、`pull_request` [イベント](/glossary/イベント/)から解析結果を[アップロード](/glossary/アップロード/)する構成を案内しています。これはコードスキャン[API](/glossary/api/)の例外を利用する対処であり、一般のIssueやPull Request書き込みを許可する方法ではありません。
 
@@ -404,7 +404,7 @@ x-ratelimit-remaining: 0
 
 ### GITHUB_TOKENで行った操作から次のワークフローが起動しない
 
-`GITHUB_TOKEN` を使った操作は、無限再帰を防ぐため、原則として新しい[ワークフロー](/glossary/ワークフロー/)実行を起こしません。これは[API](/glossary/api/)が403を返す権限不足とは別です。`workflow_dispatch` と `repository_dispatch` は例外です。また、Pull Requestの作成・更新による `opened`、`synchronize`、`reopened` も、承認待ちの状態で実行を作る場合があります。書き込み自体は成功するのに後続[ワークフロー](/glossary/ワークフロー/)だけが始まらない場合は、現在の[イベント](/glossary/イベント/)発生規則を確認します。
+`GITHUB_TOKEN` を使った操作は、無限再帰を防ぐため、原則として新しい[ワークフロー](/glossary/ワークフロー/)実行を起こしません。これは[API](/glossary/api/)が403を返す権限不足とは別です。`workflow_dispatch` と `repository_dispatch` は例外です。また、Pull Requestの作成・[更新](/glossary/更新/)による `opened`、`synchronize`、`reopened` も、承認待ちの状態で実行を作る場合があります。書き込み自体は成功するのに後続[ワークフロー](/glossary/ワークフロー/)だけが始まらない場合は、現在の[イベント](/glossary/イベント/)発生規則を確認します。
 
 ### ブランチ保護またはルールセットによる拒否
 
@@ -412,7 +412,7 @@ x-ratelimit-remaining: 0
 
 ## 切り分けの順序
 
-1. [ログ](/glossary/ログ/)で最初に403になった[API](/glossary/api/)、`gh` [コマンド](/glossary/コマンド/)、[アクション](/glossary/アクション/)の処理を特定する。
+1. [ログ](/glossary/ログ/)で最初に403になった[API](/glossary/api/)、`gh` [コマンド](/glossary/コマンド/)、[アクション](/glossary/アクション/)の[処理](/glossary/処理/)を特定する。
 2. [API](/glossary/api/)資料または `X-Accepted-GitHub-Permissions` で必要な[権限](/glossary/権限/)を確認する。
 3. `GITHUB_EVENT_NAME`、`GITHUB_ACTOR`、`GITHUB_REPOSITORY` を確認する。
 4. 操作先が現在の[リポジトリ](/glossary/リポジトリ/)か、別[リポジトリ](/glossary/リポジトリ/)・組織かを確認する。

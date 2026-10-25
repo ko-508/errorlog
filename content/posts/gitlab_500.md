@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-GitLabの500[エラー](/glossary/エラー/)は、GitLab[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の問題ではなく、GitLabのインフラストラクチャまたはアプリケーションレイヤーで何らかの処理に失敗した状態です。この[エラー](/glossary/エラー/)が発生すると、リポジトリーへのアクセス、[プッシュ](/glossary/プッシュ/)、マージリクエストの操作など、あらゆるGitLab機能が一時的に利用できなくなります。
+GitLabの500[エラー](/glossary/エラー/)は、GitLab[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の問題ではなく、GitLabのインフラストラクチャまたはアプリケーションレイヤーで何らかの[処理](/glossary/処理/)に失敗した状態です。この[エラー](/glossary/エラー/)が発生すると、リポジトリーへのアクセス、[プッシュ](/glossary/プッシュ/)、マージリクエストの操作など、あらゆるGitLab機能が一時的に利用できなくなります。
 
 ## 実際のエラーメッセージ例
 
@@ -47,7 +47,7 @@ fatal: unable to access 'https://gitlab.example.com/project.git/': The requested
 
 ### 原因1：GitLabインフラの一時的な障害
 
-GitLabのサーバーインフラストラクチャ側で一時的な[障害](/glossary/障害/)が発生している場合、[リクエスト](/glossary/リクエスト/)を処理できず500[エラー](/glossary/エラー/)が返却されます。これは[データベース](/glossary/データベース/)接続の喪失、[メモリ](/glossary/メモリ/)不足、ディスク[容量](/glossary/容量/)の枯渇、または主要サービス（Sidekiq、Puma等）のクラッシュなど、複数の要因が考えられます。
+GitLabのサーバーインフラストラクチャ側で一時的な[障害](/glossary/障害/)が発生している場合、[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)できず500[エラー](/glossary/エラー/)が返却されます。これは[データベース](/glossary/データベース/)接続の喪失、[メモリ](/glossary/メモリ/)不足、ディスク[容量](/glossary/容量/)の枯渇、または主要サービス（Sidekiq、Puma等）のクラッシュなど、複数の要因が考えられます。
 
 **解決手順：**
 
@@ -67,7 +67,7 @@ GitLabの障害情報は `status.gitlab.com` で公開されています。こ�
 
 ### 原因2：リポジトリのGitオブジェクト破損
 
-GitLab内のリポジトリーが[保存](/glossary/保存/)されているディスク上の[Git](/glossary/git/)[オブジェクト](/glossary/オブジェクト/)が破損した場合、リポジトリーの読み書き処理で500[エラー](/glossary/エラー/)が発生します。これはハードウェア[障害](/glossary/障害/)、不正なシャットダウン、ファイルシステムエラーなどに起因することがあります。
+GitLab内のリポジトリーが[保存](/glossary/保存/)されているディスク上の[Git](/glossary/git/)[オブジェクト](/glossary/オブジェクト/)が破損した場合、リポジトリーの読み書き[処理](/glossary/処理/)で500[エラー](/glossary/エラー/)が発生します。これはハードウェア[障害](/glossary/障害/)、不正なシャットダウン、ファイルシステムエラーなどに起因することがあります。
 
 **解決手順：**
 
@@ -89,7 +89,7 @@ git fsck --full
 
 ### 原因3：GitLab設定ファイルの不整合
 
-GitLabの[設定ファイル](/glossary/設定ファイル/)（`/etc/gitlab/gitlab.rb`）に誤りがあるか、最近のアップグレード後に[設定](/glossary/設定/)が不完全な場合、500[エラー](/glossary/エラー/)が頻発します。特に[データベース](/glossary/データベース/)接続情報、Redis[キャッシュ](/glossary/キャッシュ/)（一時的にデータを[保存](/glossary/保存/)する領域）の[設定](/glossary/設定/)、外部[ストレージ](/glossary/ストレージ/)の[設定](/glossary/設定/)に問題があるとこの[エラー](/glossary/エラー/)が出やすくなります。
+GitLabの[設定ファイル](/glossary/設定ファイル/)（`/etc/gitlab/gitlab.rb`）に誤りがあるか、最近の[アップグレード](/glossary/アップグレード/)後に[設定](/glossary/設定/)が不完全な場合、500[エラー](/glossary/エラー/)が頻発します。特に[データベース](/glossary/データベース/)接続情報、Redis[キャッシュ](/glossary/キャッシュ/)（一時的にデータを[保存](/glossary/保存/)する領域）の[設定](/glossary/設定/)、外部[ストレージ](/glossary/ストレージ/)の[設定](/glossary/設定/)に問題があるとこの[エラー](/glossary/エラー/)が出やすくなります。
 
 **解決手順：**
 
@@ -110,7 +110,7 @@ sudo gitlab-ctl restart
 
 ## ツール固有の注意点
 
-**GitLab.comの場合：** GitLab.comそのものが提供するサービスで500[エラー](/glossary/エラー/)が発生している場合、まず `status.gitlab.com` を確認してください。[障害](/glossary/障害/)が報告されていなければ、その[プロジェクト](/glossary/プロジェクト/)または[アカウント](/glossary/アカウント/)固有の問題です。GitLab.comのサポートリクエストは Web UI の右上メニューから[送信](/glossary/送信/)できます。
+**GitLab.comの場合：** GitLab.comそのものが提供するサービスで500[エラー](/glossary/エラー/)が発生している場合、まず `status.gitlab.com` を確認してください。[障害](/glossary/障害/)が報告されていなければ、その[プロジェクト](/glossary/プロジェクト/)または[アカウント](/glossary/アカウント/)固有の問題です。GitLab.comのサポートリクエストは Web [UI](/glossary/ui/) の右上メニューから[送信](/glossary/送信/)できます。
 
 **自社運用のGitLabの場合：** [Docker](/glossary/docker/)コンテナーで運用している場合は `docker logs <container-id>` でアプリケーションログを確認してください。Omnibus GitLabの場合は `/var/log/gitlab/` ディレクトリー配下の各サービスログを確認します。特に `gitlab-rails/production.log` と `sidekiq/current` には詳細な[エラー](/glossary/エラー/)情報が記録されています。
 

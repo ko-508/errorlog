@@ -170,7 +170,7 @@ async function createVMs() {
 
 ### 原因3：複数の操作を同時実行している
 
-Azure [関数](/glossary/関数/)、Logic Apps、Data Factory など、複数の処理が並列実行される[環境](/glossary/環境/)では、複合的な[スロットリング](/glossary/スロットリング/)が発生しやすくなります。特にマネージドサービスでの[自動スケーリング](/glossary/自動スケーリング/)時に、大量のワーカーが同時に同じ [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
+Azure [関数](/glossary/関数/)、Logic Apps、Data Factory など、複数の[処理](/glossary/処理/)が並列実行される[環境](/glossary/環境/)では、複合的な[スロットリング](/glossary/スロットリング/)が発生しやすくなります。特にマネージドサービスでの[自動スケーリング](/glossary/自動スケーリング/)時に、大量のワーカーが同時に同じ [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

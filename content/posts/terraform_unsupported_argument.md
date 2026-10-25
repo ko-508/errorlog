@@ -179,7 +179,7 @@ resource "example_resource" "this" {
 
 [パス](/glossary/パス/)が `.terraform/modules/` で始まる場合です。この配下は `terraform init` が取得した module の実体であり、自分の[リポジトリ](/glossary/リポジトリ/)の一部ではありません。
 
-意味するところは、module 作者が書いた `resource` の[引数](/glossary/引数/)が、いま入っている provider の[スキーマ](/glossary/スキーマ/)と噛み合っていないということです。provider のメジャー更新で[引数](/glossary/引数/)が[削除](/glossary/削除/)・改称され、module がまだ[対応](/glossary/対応/)していない状況で起こります。`.terraform/modules/test_db/modules/db_instance/main.tf` の行が指されたという報告がそのまま該当します。
+意味するところは、module 作者が書いた `resource` の[引数](/glossary/引数/)が、いま入っている provider の[スキーマ](/glossary/スキーマ/)と噛み合っていないということです。provider のメジャー[更新](/glossary/更新/)で[引数](/glossary/引数/)が[削除](/glossary/削除/)・改称され、module がまだ[対応](/glossary/対応/)していない状況で起こります。`.terraform/modules/test_db/modules/db_instance/main.tf` の行が指されたという報告がそのまま該当します。
 
 判断材料は、その[ファイル](/glossary/ファイル/)を自分が書いた覚えがあるかどうかです。ないなら、その行を編集しても意味がありません。編集しても `terraform init` のたびに取得元の内容へ戻り得ます。
 

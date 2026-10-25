@@ -195,7 +195,7 @@ Firestore では「読み取り」「書き込み」「[削除](/glossary/削除
 
 ### Realtime Database での制限
 
-Firebase Realtime Database でも 429 が発生します。`.limitToFirst()``.limitToLast()` で[クエリ](/glossary/クエリ/)結果を制限し、不要なデータ転送を削減してください。
+Firebase Realtime Database でも 429 が発生します。`.limitToFirst()``.limitToLast()` で[クエリ](/glossary/クエリ/)結果を制限し、不要な[データ転送](/glossary/データ転送/)を削減してください。
 
 ### Cloud Storage のダウンロード制限
 

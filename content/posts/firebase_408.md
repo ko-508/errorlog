@@ -105,7 +105,7 @@ doc = db.collection('large_data').document('doc_id').get(timeout=60)
 
 ### 原因3：Cloud Functions の実行時間が長すぎる
 
-Firebase Cloud Functions 内での[リクエスト](/glossary/リクエスト/)処理が [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の[タイムアウト](/glossary/タイムアウト/)時間を超えると、[クライアント](/glossary/クライアント/)側で 408 [エラー](/glossary/エラー/)が発生します。Firebase Functions のデフォルトタイムアウトは 60 秒で、これを超える処理は完了する前に接続が切断されます。
+Firebase Cloud Functions 内での[リクエスト](/glossary/リクエスト/)[処理](/glossary/処理/)が [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の[タイムアウト](/glossary/タイムアウト/)時間を超えると、[クライアント](/glossary/クライアント/)側で 408 [エラー](/glossary/エラー/)が発生します。Firebase Functions のデフォルトタイムアウトは 60 秒で、これを超える[処理](/glossary/処理/)は完了する前に接続が切断されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

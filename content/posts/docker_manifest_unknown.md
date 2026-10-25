@@ -77,7 +77,7 @@ docker pull <your-registry>/<your-namespace>/<your-image>:<your-tag>
 docker manifest inspect <your-registry>/<your-namespace>/<your-image>:<your-tag>
 ```
 
-[タグ](/glossary/タグ/)の一覧は、対象[レジストリ](/glossary/レジストリ/)の管理画面か、OCI Distribution Specification で定義されている[タグ](/glossary/タグ/)一覧の [API](/glossary/api/) で確認します。[エンドポイント](/glossary/エンドポイント/)の正確な形式は、上記の仕様書と各[レジストリ](/glossary/レジストリ/)の公式リファレンスで確認してください。
+[タグ](/glossary/タグ/)の一覧は、対象[レジストリ](/glossary/レジストリ/)の管理画面か、OCI Distribution Specification で定義されている[タグ](/glossary/タグ/)一覧の [API](/glossary/api/) で確認します。[エンドポイント](/glossary/エンドポイント/)の正確な形式は、上記の[仕様書](/glossary/仕様書/)と各[レジストリ](/glossary/レジストリ/)の公式リファレンスで確認してください。
 
 `docker manifest` は[クライアント](/glossary/クライアント/)の版によって利用可否や構文が異なることがあるため、実行前に手元で確認しておくと確実です。
 

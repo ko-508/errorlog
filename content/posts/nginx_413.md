@@ -96,7 +96,7 @@ sudo nginx -t && sudo systemctl reload nginx
 sudo nginx -T | grep -n "client_max_body_size"
 ```
 
-出力されたすべての指定と、その場所（どの server・どの location か）を確認し、対象[リクエスト](/glossary/リクエスト/)を処理するブロックに意図した値が届いているかを確かめてください。もう1つの見落としが、[設定](/glossary/設定/)を反映していないケースです。編集後に `sudo systemctl reload nginx` を実行したか、また `nginx -t` が成功しているか（文法[エラー](/glossary/エラー/)があると古い[設定](/glossary/設定/)のまま動き続けます）を確認します。
+出力されたすべての指定と、その場所（どの server・どの location か）を確認し、対象[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)するブロックに意図した値が届いているかを確かめてください。もう1つの見落としが、[設定](/glossary/設定/)を反映していないケースです。編集後に `sudo systemctl reload nginx` を実行したか、また `nginx -t` が成功しているか（文法[エラー](/glossary/エラー/)があると古い[設定](/glossary/設定/)のまま動き続けます）を確認します。
 
 ### 原因3：上流アプリケーション側の上限を超えている
 
@@ -110,7 +110,7 @@ Nginx をリバースプロキシとして使っている場合、Nginx の検�
 
 1. [アクセスログ](/glossary/アクセスログ/)で対象[リクエスト](/glossary/リクエスト/)の[コード](/glossary/コード/)が413であることを確認する。
 2. [エラーログ](/glossary/エラーログ/)を見る。`too large body` の行があれば Nginx 自身の拒否で、記録された[バイト](/glossary/バイト/)数が必要サイズの実測値になる。行がなければ上流由来（原因3）。
-3. Nginx 自身の拒否なら、`nginx -T` で `client_max_body_size` の指定箇所をすべて洗い出し、対象[リクエスト](/glossary/リクエスト/)を処理するブロックに効いている値を特定する（原因1・2）。
+3. Nginx 自身の拒否なら、`nginx -T` で `client_max_body_size` の指定箇所をすべて洗い出し、対象[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)するブロックに効いている値を特定する（原因1・2）。
 4. 適切な場所に適切な値を[設定](/glossary/設定/)し、`nginx -t` で文法確認のうえ反映する。再度[アップロード](/glossary/アップロード/)して、[エラーログ](/glossary/エラーログ/)の `too large body` が消えたことを確認する。
 
 ## 確認コマンド集

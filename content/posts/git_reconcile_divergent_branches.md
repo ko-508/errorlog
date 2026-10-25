@@ -34,11 +34,11 @@ git pull --no-rebase --ff origin main
 
 ## エラーは取り込み方を決める段階で出る
 
-[Git 2.51のpull公式文書](https://git-scm.com/docs/git-pull/2.51.0)は、ローカルがリモートより遅れているだけなら早送りし、履歴が分岐していれば[マージ](/glossary/マージ/)かリベースを指定する必要があると説明しています。早送りは、新しい[コミット](/glossary/コミット/)を作らず、[ブランチ](/glossary/ブランチ/)の先端を既存の[コミット](/glossary/コミット/)へ進める更新です。
+[Git 2.51のpull公式文書](https://git-scm.com/docs/git-pull/2.51.0)は、ローカルがリモートより遅れているだけなら早送りし、履歴が分岐していれば[マージ](/glossary/マージ/)かリベースを指定する必要があると説明しています。早送りは、新しい[コミット](/glossary/コミット/)を作らず、[ブランチ](/glossary/ブランチ/)の先端を既存の[コミット](/glossary/コミット/)へ進める[更新](/glossary/更新/)です。
 
 [Git 2.51.1のpull実装](https://github.com/git/git/blob/v2.51.1/builtin/pull.c)では、早送りできず、現在の履歴が既に取り込み先を含んでいるわけでもない場合に、分岐と判定します。取り込み方が未指定なら、[マージ](/glossary/マージ/)やリベースを始める前に終了します。
 
-したがって、この[エラー](/glossary/エラー/)だけで[ファイル](/glossary/ファイル/)の競合が起きたとは判断できません。ただし、`pull`の前半にあるfetchは既に実行されています。現在の[コミット](/glossary/コミット/)が変わらなくても、`origin/main`などのリモート追跡情報は更新されている場合があります。
+したがって、この[エラー](/glossary/エラー/)だけで[ファイル](/glossary/ファイル/)の競合が起きたとは判断できません。ただし、`pull`の前半にあるfetchは既に実行されています。現在の[コミット](/glossary/コミット/)が変わらなくても、`origin/main`などのリモート追跡情報は[更新](/glossary/更新/)されている場合があります。
 
 この記事では[Git](/glossary/git/) 2.51.1を使い、共通の[コミット](/glossary/コミット/)からローカルとリモートを別々に進めて確認しました。方式未指定のpullは終了[コード](/glossary/コード/)128となり、現在の[コミット](/glossary/コミット/)は変わらず、上記の[エラー](/glossary/エラー/)と`hint:`付きの案内が表示されました。
 
@@ -81,7 +81,7 @@ git config --show-origin --get branch.main.rebase
 |---|---|---|
 | [マージ](/glossary/マージ/) | 既存の両側の[コミット](/glossary/コミット/)を残し、結合する[コミット](/glossary/コミット/)を作る | `git pull --no-rebase --ff origin main` |
 | リベース | ローカル側の[コミット](/glossary/コミット/)を取り込み先の上に作り直す | `git pull --rebase origin main` |
-| 早送りのみ | 先端を進めるだけで取り込める場合に限って更新する | `git pull --ff-only origin main` |
+| 早送りのみ | 先端を進めるだけで取り込める場合に限って[更新](/glossary/更新/)する | `git pull --ff-only origin main` |
 
 [マージ](/glossary/マージ/)の例に付けた`--ff`は、早送りできればそれを使い、できなければ通常の[マージ](/glossary/マージ/)を許可する指定です。既存の`pull.ff=only`がある[環境](/glossary/環境/)でも、今回の[マージ](/glossary/マージ/)を明示できます。`--ff-only`とは異なります。
 
@@ -167,7 +167,7 @@ fatal: refusing to merge unrelated histories
 
 `local changes would be overwritten by merge`は、未[コミット](/glossary/コミット/)の変更が上書きされる場合の拒否です。変更を一時保管しても、[コミット](/glossary/コミット/)済みの分岐をどう取り込むかは別に決める必要があります。
 
-[VS CodeのIssue #198210](https://github.com/microsoft/vscode/issues/198210)には、手元とリモートをそれぞれ更新し、[同期](/glossary/同期/)[ボタン](/glossary/ボタン/)から実行された`git pull --tags origin main`が今回の[エラー](/glossary/エラー/)で停止した報告があります。画面上の同期操作でも、内部の[Git](/glossary/git/)[コマンド](/glossary/コマンド/)と[設定](/glossary/設定/)を確認する必要があることを示す実例です。すべてのVS Code[環境](/glossary/環境/)で同じ挙動になるという意味ではありません。
+[VS CodeのIssue #198210](https://github.com/microsoft/vscode/issues/198210)には、手元とリモートをそれぞれ[更新](/glossary/更新/)し、[同期](/glossary/同期/)[ボタン](/glossary/ボタン/)から実行された`git pull --tags origin main`が今回の[エラー](/glossary/エラー/)で停止した報告があります。画面上の同期操作でも、内部の[Git](/glossary/git/)[コマンド](/glossary/コマンド/)と[設定](/glossary/設定/)を確認する必要があることを示す実例です。すべてのVS Code[環境](/glossary/環境/)で同じ挙動になるという意味ではありません。
 
 ## 解決手順のまとめ
 

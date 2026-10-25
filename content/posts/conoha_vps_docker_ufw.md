@@ -110,7 +110,7 @@ docker run -d -p 127.0.0.1:8080:80 nginx
 
 外側の[設定](/glossary/設定/)に加えて、ホストの中でも[通信](/glossary/通信/)を絞りたい場合です。ufw に書いても [Docker](/glossary/docker/) の公開[ポート](/glossary/ポート/)には適用されません。
 
-[Docker](/glossary/docker/) の公式ドキュメントは、利用者が独自の規則を書く場所として `DOCKER-USER` チェーンを用意しており、ここに置いた規則が `DOCKER-FORWARD` や `DOCKER` の各チェーンより先に処理される、と説明しています。FORWARD チェーンへ追加した規則は [Docker](/glossary/docker/) の規則より後に処理されるため、この目的には `DOCKER-USER` を使うように、とも書かれています（[Docker and iptables](https://docs.docker.com/engine/network/firewall-iptables/)）。
+[Docker](/glossary/docker/) の公式ドキュメントは、利用者が独自の規則を書く場所として `DOCKER-USER` チェーンを用意しており、ここに置いた規則が `DOCKER-FORWARD` や `DOCKER` の各チェーンより先に[処理](/glossary/処理/)される、と説明しています。FORWARD チェーンへ追加した規則は [Docker](/glossary/docker/) の規則より後に[処理](/glossary/処理/)されるため、この目的には `DOCKER-USER` を使うように、とも書かれています（[Docker and iptables](https://docs.docker.com/engine/network/firewall-iptables/)）。
 
 同じページには注意点もあります。`DOCKER-USER` チェーンへ到達した時点で、[パケット](/glossary/パケット/)は既に宛先アドレスの変換を通過しているため、`iptables` の一致条件では[コンテナ](/glossary/コンテナ/)側の内部アドレスと[ポート](/glossary/ポート/)しか照合できません。元の宛先で照合したい場合は `conntrack` の拡張を使う必要があります。
 

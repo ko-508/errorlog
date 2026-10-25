@@ -164,7 +164,7 @@ axios.post('https://slack.com/api/chat.postMessage', data, config)
 
 ### Slack Appのトークン検証
 
-Slack Appから発行された[トークン](/glossary/トークン/)には有効期限と権限範囲があります。[トークン](/glossary/トークン/)が無効な場合も400が返されることがあります。[トークン](/glossary/トークン/)は[環境変数](/glossary/環境変数/)で管理し、定期的に更新してください。
+Slack Appから発行された[トークン](/glossary/トークン/)には有効期限と権限範囲があります。[トークン](/glossary/トークン/)が無効な場合も400が返されることがあります。[トークン](/glossary/トークン/)は[環境変数](/glossary/環境変数/)で管理し、定期的に[更新](/glossary/更新/)してください。
 
 ### Incoming Webhookの形式
 
@@ -200,7 +200,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
 **公式ドキュメント参照**  
 - [Slack API Documentation](https://api.slack.com/docs) の「[API](/glossary/api/) Methods」セクションで該当[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)を確認
 - [Slack API Errors](https://api.slack.com/apis/rate-limits) で[エラーコード](/glossary/エラーコード/)一覧を確認
-- [Incoming Webhooks](https://api.slack.com/messaging/webhooks) で[Webhook](/glossary/webhook/)固有の要件を確認
+- [Incoming Webhooks](https://api.slack.com/messaging/webhooks) で[Webhook](/glossary/webhook/)固有の[要件](/glossary/要件/)を確認
 
 **コミュニティリソース**  
 Slack Developer Community (community.slack.com) で同様の事例を[検索](/glossary/検索/)するか、[GitHub](/glossary/github/) Issues内でSlack [SDK](/glossary/sdk/)（python-slack-sdk等）のトラブルシューティングを参照してください。

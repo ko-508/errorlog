@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) の 403 [エラー](/glossary/エラー/)は「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・更新・[削除](/glossary/削除/)など、特定の操作が[セキュリティポリシー](/glossary/セキュリティポリシー/)により拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl [コマンド](/glossary/コマンド/)実行時に頻繁に発生します。
+[Kubernetes](/glossary/kubernetes/) の 403 [エラー](/glossary/エラー/)は「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・[更新](/glossary/更新/)・[削除](/glossary/削除/)など、特定の操作が[セキュリティポリシー](/glossary/セキュリティポリシー/)により拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl [コマンド](/glossary/コマンド/)実行時に頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -316,7 +316,7 @@ subjects:
 
 ### リソースの詳細なパーミッション制御（特定の Pod のみアクセス許可）
 
-Role では特定の Pod 名を直接指定することはできませんが、Label Selector を活用することで粒度の細かい制御が可能です。ただし [RBAC](/glossary/rbac/) では Label ベースのフィルタリングが直接機能しないため、webhook ベースの[認可](/glossary/認可/)[ポリシー](/glossary/ポリシー/)を検討してください。
+Role では特定の Pod 名を直接指定することはできませんが、Label Selector を活用することで粒度の細かい制御が可能です。ただし [RBAC](/glossary/rbac/) では Label ベースの[フィルタリング](/glossary/フィルタリング/)が直接機能しないため、webhook ベースの[認可](/glossary/認可/)[ポリシー](/glossary/ポリシー/)を検討してください。
 
 ### 標準的な Role テンプレート（view, edit, admin）
 

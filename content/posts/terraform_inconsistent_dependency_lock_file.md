@@ -48,7 +48,7 @@ doesn't match any of the checksums previously recorded in the
 dependency lock file
 ```
 
-この場合は、選択する版ではなく、配布物を検査するための値が不足しています。CIが `linux_amd64`、開発機がApple SiliconのmacOSなら、両方を明示してロックファイルを更新します。
+この場合は、選択する版ではなく、配布物を検査するための値が不足しています。CIが `linux_amd64`、開発機がApple SiliconのmacOSなら、両方を明示してロックファイルを[更新](/glossary/更新/)します。
 
 ```bash
 terraform providers lock \
@@ -100,7 +100,7 @@ provider "registry.terraform.io/hashicorp/aws" {
 
 [公式資料](https://developer.hashicorp.com/terraform/language/files/dependency-lock#dependency-installation-behavior)では、設定中の版の条件は「利用できる範囲」、ロックファイルの `version` は「前回選んだ具体的な版」という役割で説明されています。通常の `terraform init` は、ロックファイルに選択済みの版があれば、新しい版が公開されていてもその版を再利用します。
 
-`terraform init -upgrade` を付けると、既存の選択をいったん無視し、[設定](/glossary/設定/)された条件を満たす新しい版を改めて探します。したがって、これは単なる再初期化ではありません。条件内に新しい版があれば、プロバイダーや子[モジュール](/glossary/モジュール/)が更新されます。
+`terraform init -upgrade` を付けると、既存の選択をいったん無視し、[設定](/glossary/設定/)された条件を満たす新しい版を改めて探します。したがって、これは単なる再初期化ではありません。条件内に新しい版があれば、プロバイダーや子[モジュール](/glossary/モジュール/)が[更新](/glossary/更新/)されます。
 
 ロックファイルが現在の[設定](/glossary/設定/)と一致しない場合、主に次の2種類の文が出ます。
 
@@ -117,7 +117,7 @@ version constraints "~> 6.0"
 
 ロックファイルが選んでいる版を、現在の版の条件が許可していません。`required_providers` または子[モジュール](/glossary/モジュール/)の条件が変わったのに、古いロックファイルが残っています。
 
-なお、ロックファイルが現在追跡するのはプロバイダーだけです。遠隔の場所から取得する子[モジュール](/glossary/モジュール/)の選択版は記録しません。ただし、子[モジュール](/glossary/モジュール/)が要求するプロバイダー条件は全体の選択に影響するため、[モジュール](/glossary/モジュール/)更新をきっかけにこの[エラー](/glossary/エラー/)が発生することがあります。
+なお、ロックファイルが現在追跡するのはプロバイダーだけです。遠隔の場所から取得する子[モジュール](/glossary/モジュール/)の選択版は記録しません。ただし、子[モジュール](/glossary/モジュール/)が要求するプロバイダー条件は全体の選択に影響するため、[モジュール](/glossary/モジュール/)[更新](/glossary/更新/)をきっかけにこの[エラー](/glossary/エラー/)が発生することがあります。
 
 ## まず最初に：エラー本文を4種類に分ける
 
@@ -128,7 +128,7 @@ provider registry.terraform.io/hashicorp/random:
 required by this configuration but no version is selected
 ```
 
-この場合、現在の[設定](/glossary/設定/)が必要とするプロバイダーにロックファイルの項目がありません。CIで `plan` の前に `init` を実行しているか、開発側で更新した `.terraform.lock.hcl` を登録したかを確認します。
+この場合、現在の[設定](/glossary/設定/)が必要とするプロバイダーにロックファイルの項目がありません。CIで `plan` の前に `init` を実行しているか、開発側で[更新](/glossary/更新/)した `.terraform.lock.hcl` を登録したかを確認します。
 
 第二に、`doesn't match the updated version constraints` かを確認します。
 
@@ -206,7 +206,7 @@ provider "registry.terraform.io/hashicorp/aws" {
 }
 ```
 
-`-upgrade` は、変更した1つだけでなく、条件を満たす範囲でほかのプロバイダーや取得済み[モジュール](/glossary/モジュール/)も更新し得ます。[`terraform init` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/init#plugin-installation)にも、既存の選択を無視し、設定条件を満たす新しい版を選ぶと記載されています。差分を見ずに更新結果を登録しないでください。
+`-upgrade` は、変更した1つだけでなく、条件を満たす範囲でほかのプロバイダーや取得済み[モジュール](/glossary/モジュール/)も[更新](/glossary/更新/)し得ます。[`terraform init` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/init#plugin-installation)にも、既存の選択を無視し、設定条件を満たす新しい版を選ぶと記載されています。差分を見ずに更新結果を登録しないでください。
 
 ### 原因2：新しいプロバイダーまたは子モジュールを追加した
 
@@ -231,7 +231,7 @@ terraform init -upgrade
 git diff -- .terraform.lock.hcl
 ```
 
-直接プロバイダーを追加していなくても、子[モジュール](/glossary/モジュール/)の追加や更新によって新しい要求が入ることがあります。どの階層が何を要求しているかは、次で確認します。
+直接プロバイダーを追加していなくても、子[モジュール](/glossary/モジュール/)の追加や[更新](/glossary/更新/)によって新しい要求が入ることがあります。どの階層が何を要求しているかは、次で確認します。
 
 ```bash
 terraform providers
@@ -261,7 +261,7 @@ git check-ignore -v .terraform.lock.hcl
 # .terraform.lock.hcl は除外しない
 ```
 
-CIで自動生成したロックファイルを、その実行の間だけ使う構成にすると、実行ごとに選択が変わる余地が残ります。ロックファイルは開発時に更新し、確認を経て登録し、CIでは変更が必要なら失敗させる方が不意の更新を見つけやすくなります。
+CIで自動生成したロックファイルを、その実行の間だけ使う構成にすると、実行ごとに選択が変わる余地が残ります。ロックファイルは開発時に[更新](/glossary/更新/)し、確認を経て登録し、CIでは変更が必要なら失敗させる方が不意の[更新](/glossary/更新/)を見つけやすくなります。
 
 ```bash
 terraform init -input=false -lockfile=readonly
@@ -360,7 +360,7 @@ repository/
     └── network/
 ```
 
-`envs/prod` のCIが失敗しているのに、[リポジトリ](/glossary/リポジトリ/)の直下や `envs/dev` で更新しても直りません。CIと同じルートモジュールを指定します。
+`envs/prod` のCIが失敗しているのに、[リポジトリ](/glossary/リポジトリ/)の直下や `envs/dev` で[更新](/glossary/更新/)しても直りません。CIと同じルートモジュールを指定します。
 
 ```bash
 terraform -chdir=envs/prod init -upgrade
@@ -381,7 +381,7 @@ git diff -- envs/prod/.terraform.lock.hcl
 .terraform/          作業環境ごとの初期化結果。版管理しない。
 ```
 
-CIで `.terraform` 全体を、[OS](/glossary/os/)、[CPU](/glossary/cpu/)、Terraformの版、ロックファイルが異なる処理の間で共有すると、古いプロバイダーや子[モジュール](/glossary/モジュール/)が混ざります。[ダウンロード](/glossary/ダウンロード/)を減らす場合は、作業[ディレクトリ](/glossary/ディレクトリ/)全体を使い回すのではなく、[公式の共有プラグインキャッシュ](https://developer.hashicorp.com/terraform/cli/config/config-file#provider-plugin-cache)を使い、[キャッシュ](/glossary/キャッシュ/)の[キー](/glossary/キー/)へ少なくとも[OS](/glossary/os/)、[CPU](/glossary/cpu/)、Terraformの版、`.terraform.lock.hcl` の内容を含めます。
+CIで `.terraform` 全体を、[OS](/glossary/os/)、[CPU](/glossary/cpu/)、Terraformの版、ロックファイルが異なる[処理](/glossary/処理/)の間で共有すると、古いプロバイダーや子[モジュール](/glossary/モジュール/)が混ざります。[ダウンロード](/glossary/ダウンロード/)を減らす場合は、作業[ディレクトリ](/glossary/ディレクトリ/)全体を使い回すのではなく、[公式の共有プラグインキャッシュ](https://developer.hashicorp.com/terraform/cli/config/config-file#provider-plugin-cache)を使い、[キャッシュ](/glossary/キャッシュ/)の[キー](/glossary/キー/)へ少なくとも[OS](/glossary/os/)、[CPU](/glossary/cpu/)、Terraformの版、`.terraform.lock.hcl` の内容を含めます。
 
 初期化時には、どの版をどこから使ったかが表示されます。
 
@@ -394,7 +394,7 @@ CI上の一時的な作業場所なら、古い `.terraform` を引き継がな�
 
 ### 原因8：plan作成後に設定またはロックファイルが変わった
 
-CIで `plan` と `apply` を別の段階に分ける場合、[保存](/glossary/保存/)したplanには作成時点の[設定](/glossary/設定/)と依存関係の情報が入ります。plan作成後に `.terraform.lock.hcl` を更新し、古いplanを適用すると不一致になります。
+CIで `plan` と `apply` を別の段階に分ける場合、[保存](/glossary/保存/)したplanには作成時点の[設定](/glossary/設定/)と依存関係の情報が入ります。plan作成後に `.terraform.lock.hcl` を[更新](/glossary/更新/)し、古いplanを適用すると不一致になります。
 
 ```text
 Error: Inconsistent dependency lock file
@@ -421,9 +421,9 @@ terraform apply tfplan
 
 `Error acquiring the state lock` は、状態[ファイル](/glossary/ファイル/)への同時書き込みを防ぐためのロックです。`.terraform.lock.hcl` が扱うプロバイダー依存関係とは別です。`terraform force-unlock` や `-lock=false` では、`Inconsistent dependency lock file` は直りません。
 
-`Failed to query available provider packages` と `no available releases match the given constraints` は、ルートと子[モジュール](/glossary/モジュール/)から集めた版の条件に共通部分がない状態です。ロックファイルを更新しても、条件を満たす版が存在しなければ解決しません。`terraform providers` で要求元を確認し、矛盾する条件を直します。
+`Failed to query available provider packages` と `no available releases match the given constraints` は、ルートと子[モジュール](/glossary/モジュール/)から集めた版の条件に共通部分がない状態です。ロックファイルを[更新](/glossary/更新/)しても、条件を満たす版が存在しなければ解決しません。`terraform providers` で要求元を確認し、矛盾する条件を直します。
 
-`does not have a package available for your current platform` は、対象のプロバイダー版が現在の[OS](/glossary/os/)または[CPU](/glossary/cpu/)向けに配布されていない状態です。`providers lock -platform` は、存在しない配布物を作りません。[対応版](/glossary/対応版/)へ更新するか、[対応](/glossary/対応/)している実行環境を使います。
+`does not have a package available for your current platform` は、対象のプロバイダー版が現在の[OS](/glossary/os/)または[CPU](/glossary/cpu/)向けに配布されていない状態です。`providers lock -platform` は、存在しない配布物を作りません。[対応版](/glossary/対応版/)へ[更新](/glossary/更新/)するか、[対応](/glossary/対応/)している実行環境を使います。
 
 `doesn't match any of the checksums previously recorded` は、選択済みの版に対する配布物の検査[エラー](/glossary/エラー/)です。実行環境の検査値不足なら `providers lock -platform` で直せますが、配布物が改変されている可能性もあります。検査を無効にせず、取得元、ミラー、[キャッシュ](/glossary/キャッシュ/)、署名者を確認します。
 
@@ -431,7 +431,7 @@ terraform apply tfplan
 
 ## CI向けの再発防止
 
-ロックファイルを更新する処理と、CIで検証する処理を分けます。
+ロックファイルを[更新](/glossary/更新/)する[処理](/glossary/処理/)と、CIで検証する[処理](/glossary/処理/)を分けます。
 
 開発側では、設定変更後に版と対象環境を確定します。
 
@@ -467,7 +467,7 @@ OSとCPU
 保存したplanファイル
 ```
 
-CIで `terraform init -upgrade` を毎回実行すると、設定条件内で公開された新しい版が自動的に選ばれ、ロックファイルの差分が[保存](/glossary/保存/)されないまま処理が進む可能性があります。依存関係の更新を行う専用処理でない限り、CIは `-lockfile=readonly` で不一致を検出する側に置きます。
+CIで `terraform init -upgrade` を毎回実行すると、設定条件内で公開された新しい版が自動的に選ばれ、ロックファイルの差分が[保存](/glossary/保存/)されないまま[処理](/glossary/処理/)が進む可能性があります。依存関係の[更新](/glossary/更新/)を行う専用処理でない限り、CIは `-lockfile=readonly` で不一致を検出する側に置きます。
 
 ## 切り分けの順序
 
@@ -537,7 +537,7 @@ Terraformの依存ロックファイルは、[公式資料](https://developer.ha
 
 議論で示された対処は、チームが使う[環境](/glossary/環境/)を最初からすべて `terraform providers lock -platform=...` へ渡すことでした。2022年7月に課題が閉じられた際、Terraform 1.2.6へ入る変更として、`providers lock` が既存の検査値に阻まれず対象環境の検査値を追加できるようになったこと、`terraform init` が不完全なロックファイルに警告を出すこと、検査値不一致時に資料への案内を出すことが説明されています。
 
-同じ議論の末尾では、`terraform providers lock` は既存の項目があればその `version` を使い、版自体は更新しないことも確認されています。版を更新するには、引き続き `terraform init -upgrade` が必要です。
+同じ議論の末尾では、`terraform providers lock` は既存の項目があればその `version` を使い、版自体は[更新](/glossary/更新/)しないことも確認されています。版を[更新](/glossary/更新/)するには、引き続き `terraform init -upgrade` が必要です。
 
 ここに2つの[コマンド](/glossary/コマンド/)の境界があります。
 
@@ -549,7 +549,7 @@ terraform providers lock -platform=...
   選択済みの版について、各実行環境の検査値をそろえる。
 ```
 
-CIでロックファイルが刺さるのは、ロック機能が無関係な処理を妨げているからではありません。[設定](/glossary/設定/)、選択済みの版、取得した配布物、実行環境のどれかが、開発時とCIで同じではないことを止めて知らせています。
+CIでロックファイルが刺さるのは、ロック機能が無関係な[処理](/glossary/処理/)を妨げているからではありません。[設定](/glossary/設定/)、選択済みの版、取得した配布物、実行環境のどれかが、開発時とCIで同じではないことを止めて知らせています。
 
 `.terraform.lock.hcl` を消すと、その不一致を見えなくして、新しい選択を作り直せます。しかし、何が変わったかを確認する機会も同時に消えます。[設定変更](/glossary/設定変更/)なら `init -upgrade`、環境差なら `providers lock -platform`。原因を分け、差分を版管理へ残すことが、この[エラー](/glossary/エラー/)の解決です。
 

@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な[障害](/glossary/障害/)、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に処理されている可能性があり、[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)の実装が不可欠になることです。
+Stripe [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Stripe側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生していることを示します。この[エラー](/glossary/エラー/)はStripeのインフラストラクチャーの一時的な[障害](/glossary/障害/)、[リクエスト](/glossary/リクエスト/)処理中の予期しない例外、または[API](/glossary/api/)実装側の互換性問題など複数の原因で発生します。重要な点は、500[エラー](/glossary/エラー/)発生時に[リクエスト](/glossary/リクエスト/)が部分的に[処理](/glossary/処理/)されている可能性があり、[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)の実装が不可欠になることです。
 
 ## 実際のエラーメッセージ例
 
@@ -82,7 +82,7 @@ const charge = await stripe.charges.create({
 
 ### 原因2：非推奨なAPIバージョンの使用
 
-Stripeは[API](/glossary/api/)[仕様](/glossary/仕様/)を定期的に更新し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
+Stripeは[API](/glossary/api/)[仕様](/glossary/仕様/)を定期的に[更新](/glossary/更新/)し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -106,7 +106,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 ### 原因3：不正なカードブランドまたはサポート外の通貨組み合わせ
 
-Stripeが内部的に処理できない決済パラメーター（例：実装環境でサポートしていないカードブランド、特定国での未対応通貨）を指定すると、500[エラー](/glossary/エラー/)で応答することがあります。
+Stripeが内部的に[処理](/glossary/処理/)できない決済パラメーター（例：実装環境でサポートしていないカードブランド、特定国での未対応通貨）を指定すると、500[エラー](/glossary/エラー/)で応答することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -148,7 +148,7 @@ if currency in supported_currencies:
 
 ### Webhook署名検証とAPIバージョンの整合性
 
-[Webhook](/glossary/webhook/)を[受信](/glossary/受信/)する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が[送信](/glossary/送信/)されます。ホスト側でこれを無視して古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)と想定して処理すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定するか、[ダッシュボード](/glossary/ダッシュボード/)で[バージョン](/glossary/バージョン/)を統一する必要があります。
+[Webhook](/glossary/webhook/)を[受信](/glossary/受信/)する際、Stripe-Version [ヘッダー](/glossary/ヘッダー/)が[送信](/glossary/送信/)されます。ホスト側でこれを無視して古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)と想定して[処理](/glossary/処理/)すると、[ペイロード](/glossary/ペイロード/)構造の不一致が生じて500[エラー](/glossary/エラー/)につながります。[Webhook](/glossary/webhook/)[エンドポイント](/glossary/エンドポイント/)側も明示的に[API](/glossary/api/)[バージョン](/glossary/バージョン/)を指定するか、[ダッシュボード](/glossary/ダッシュボード/)で[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ### リトライ戦略の実装
 

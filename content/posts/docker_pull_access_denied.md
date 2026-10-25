@@ -286,7 +286,7 @@ services:
     image: example/my-app:latest
 ```
 
-`docker login` は名前を[修正](/glossary/修正/)する処理ではありません。`library/my-app` が存在しないなら、[Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても要求先は変わりません。
+`docker login` は名前を[修正](/glossary/修正/)する[処理](/glossary/処理/)ではありません。`library/my-app` が存在しないなら、[Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても要求先は変わりません。
 
 ### 原因2：リポジトリ名、所有者名、Registryが違う {#repository-not-found}
 
@@ -395,7 +395,7 @@ manifest for example/my-app:latest not found: manifest unknown
 
 手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の[設定](/glossary/設定/)または資格情報保存先を使います。[Linux](/glossary/linux/)では `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が[標準](/glossary/標準/)の設定場所です。
 
-CIでは、pullする処理と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)[設定](/glossary/設定/)で[ログイン](/glossary/ログイン/)します。
+CIでは、pullする[処理](/glossary/処理/)と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)[設定](/glossary/設定/)で[ログイン](/glossary/ログイン/)します。
 
 ```bash
 export DOCKER_CONFIG="$RUNNER_TEMP/docker-config"
@@ -548,7 +548,7 @@ docker push example/app:1.0
 
 ## 切り分けの順序
 
-1. [エラー](/glossary/エラー/)を出した処理がpull、run、Compose、Dockerfileのどれかを確認する。
+1. [エラー](/glossary/エラー/)を出した[処理](/glossary/処理/)がpull、run、Compose、Dockerfileのどれかを確認する。
 2. [ログ](/glossary/ログ/)に出た[イメージ](/glossary/イメージ/)名を、Registry、名前空間、[リポジトリ](/glossary/リポジトリ/)、[タグ](/glossary/タグ/)へ分ける。
 3. 省略されたRegistryが `docker.io`、名前空間が `library`、[タグ](/glossary/タグ/)が `latest` になっていないか確認する。
 4. 公開元の資料またはRegistry画面で、完全な参照名が正しいか確認する。

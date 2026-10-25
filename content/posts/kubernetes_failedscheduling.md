@@ -49,7 +49,7 @@ kube-schedulerは、まだ配置先が決まっていないPodを監視し、次
 
 すべてのノードがいずれかの条件で候補から外れると、配置に失敗して`FailedScheduling`が記録されます。この仕組みは[Kubernetes Schedulerの公式ドキュメント](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/)で確認できます。
 
-同じ`Pending`でも、すでに配置先ノードが決まり、[イメージ](/glossary/イメージ/)取得や[コンテナ](/glossary/コンテナ/)作成を待っている場合はスケジューラーの問題ではありません。`FailedScheduling`が出ている場合は、Podを起動する処理より前の「配置先を決める段階」で止まっています。
+同じ`Pending`でも、すでに配置先ノードが決まり、[イメージ](/glossary/イメージ/)取得や[コンテナ](/glossary/コンテナ/)作成を待っている場合はスケジューラーの問題ではありません。`FailedScheduling`が出ている場合は、Podを起動する[処理](/glossary/処理/)より前の「配置先を決める段階」で止まっています。
 
 ## 0/N nodes are availableの読み方
 

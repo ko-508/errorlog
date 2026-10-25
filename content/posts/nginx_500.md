@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Nginx が返す 500 Internal Server Error には、出どころが2つあります。Nginx 自身が処理を続けられずに生成したものと、上流の[アプリケーション](/glossary/アプリケーション/)が返した 500 をそのまま中継しただけのものです。この2つは対処が完全に別なので、最初に切り分ける必要があります。
+Nginx が返す 500 Internal Server Error には、出どころが2つあります。Nginx 自身が[処理](/glossary/処理/)を続けられずに生成したものと、上流の[アプリケーション](/glossary/アプリケーション/)が返した 500 をそのまま中継しただけのものです。この2つは対処が完全に別なので、最初に切り分ける必要があります。
 
 見分け方は単純です。Nginx 自身が生成した場合、`error.log` に必ず理由を書いた行が出ます。中継しただけの場合、`access.log` には 500 が記録されますが、`error.log` に Nginx 発の行は出ません。つまり、[ログ](/glossary/ログ/)を2つ並べて、同じ時刻に[対応](/glossary/対応/)する行があるかどうかを見れば、責任の所在はその場で決まります。
 
@@ -63,7 +63,7 @@ failed (13: Permission denied), client: 192.0.2.10, server: example.com
 
 第一に、`access.log` で 500 が出た時刻を特定します。第二に、同じ時刻の `error.log` を見ます。第三に、行があれば深刻度と文言を読み、無ければ上流の[ログ](/glossary/ログ/)へ移ります。
 
-行があった場合、深刻度で当たりが付きます。`[error]` なら処理の流れの問題、`[crit]` なら[ファイル](/glossary/ファイル/)の作成や[権限](/glossary/権限/)といった環境側の問題です。一時[ファイル](/glossary/ファイル/)の作成失敗は `[crit]` で記録されると Nginx のソースで定義されています。
+行があった場合、深刻度で当たりが付きます。`[error]` なら[処理](/glossary/処理/)の流れの問題、`[crit]` なら[ファイル](/glossary/ファイル/)の作成や[権限](/glossary/権限/)といった環境側の問題です。一時[ファイル](/glossary/ファイル/)の作成失敗は `[crit]` で記録されると Nginx のソースで定義されています。
 
 文言では次を目印にします。`rewrite or internal redirection cycle` なら原因1、`Permission denied` を含むなら原因2、`subrequests cycle` なら原因4です。`connect() failed` や `upstream timed out` が出ている場合、応答は 500 ではなく 502 か 504 のはずなので、そもそも見ている行が違います。
 
@@ -73,7 +73,7 @@ failed (13: Permission denied), client: 192.0.2.10, server: example.com
 
 `try_files` や `rewrite`、`error_page` による転送先が、また同じ場所へ戻ってくる状態です。Nginx は転送のたびに残り回数を1つ減らし、0になると循環と判断して 500 を返します。上限は10回です。
 
-文言が2種類あり、どちらが出たかで発生源が分かります。`rewrite or internal redirection cycle while processing "..."` は、書き換え後の[パス](/glossary/パス/)で処理をやり直した結果の循環です。`rewrite or internal redirection cycle while internally redirecting to "..."` は、`@名前` の形で指定した転送先へ移ろうとした際の循環です。ソースでも別々の箇所に定義されています。
+文言が2種類あり、どちらが出たかで発生源が分かります。`rewrite or internal redirection cycle while processing "..."` は、書き換え後の[パス](/glossary/パス/)で[処理](/glossary/処理/)をやり直した結果の循環です。`rewrite or internal redirection cycle while internally redirecting to "..."` は、`@名前` の形で指定した転送先へ移ろうとした際の循環です。ソースでも別々の箇所に定義されています。
 
 最も多いのは、`try_files` の最後の候補が存在しない、あるいは自分自身に戻ってくる形です。
 
@@ -102,7 +102,7 @@ server {
 }
 ```
 
-[アプリケーション](/glossary/アプリケーション/)へ渡す構成なら、最後の候補を処理できる場所にします。
+[アプリケーション](/glossary/アプリケーション/)へ渡す構成なら、最後の候補を[処理](/glossary/処理/)できる場所にします。
 
 ```nginx
 location / {
@@ -122,7 +122,7 @@ location ~ \.php$ {
 
 ### 原因2：一時ファイルを作れない
 
-要求の本体や上流からの応答が大きい場合、Nginx はいったん一時[ファイル](/glossary/ファイル/)に書き出します。この作成や書き込みに失敗すると 500 になります。要求本体の処理で失敗した場合に 500 を返すことは、ソースにも定義されています。
+要求の本体や上流からの応答が大きい場合、Nginx はいったん一時[ファイル](/glossary/ファイル/)に書き出します。この作成や書き込みに失敗すると 500 になります。要求本体の[処理](/glossary/処理/)で失敗した場合に 500 を返すことは、ソースにも定義されています。
 
 原因のほとんどは[権限](/glossary/権限/)です。`error.log` に `[crit]` と `Permission denied` が出ていれば、この形です。
 
@@ -186,7 +186,7 @@ location = /50x.html {
 
 ### 原因4：サブリクエストが循環している
 
-`ssi` や `auth_request`、`mirror` のように、1つの要求の中から別の要求を発生させる仕組みを使っている場合に起きます。Nginx はこの入れ子の上限を50回と定めており、これを超えると `subrequests cycle while processing "..."` を記録して処理を打ち切ります。
+`ssi` や `auth_request`、`mirror` のように、1つの要求の中から別の要求を発生させる仕組みを使っている場合に起きます。Nginx はこの入れ子の上限を50回と定めており、これを超えると `subrequests cycle while processing "..."` を記録して[処理](/glossary/処理/)を打ち切ります。
 
 自分自身を含めてしまう指定が典型です。`auth_request` の宛先が、また `auth_request` の対象になっている場合などがこれにあたります。認証用の場所を分けて、その場所自体には[認証](/glossary/認証/)を掛けないようにします。
 
@@ -218,7 +218,7 @@ location = /auth {
 
 1. `access.log` で 500 の時刻を特定する。
 2. 同じ時刻の `error.log` を見る。行が無ければ上流発の 500 なので、上流の[ログ](/glossary/ログ/)へ移る。
-3. 行があれば深刻度を見る。`[error]` なら処理の流れ、`[crit]` なら[ファイル](/glossary/ファイル/)や[権限](/glossary/権限/)。
+3. 行があれば深刻度を見る。`[error]` なら[処理](/glossary/処理/)の流れ、`[crit]` なら[ファイル](/glossary/ファイル/)や[権限](/glossary/権限/)。
 4. `rewrite or internal redirection cycle` なら、文言の後半で発生源を絞る。`while processing` は書き換え後の再処理、`while internally redirecting to` は `@名前` への転送。
 5. 循環なら `try_files` の最後の候補を確認する。存在しない[パス](/glossary/パス/)を最後に置いていないか、自分自身に戻っていないかを見る。
 6. `Permission denied` なら、一時[ファイル](/glossary/ファイル/)の置き場所の所有者と空き[容量](/glossary/容量/)を確認する。
@@ -253,7 +253,7 @@ sudo nginx -T | grep -A5 "location /"
 
 原因1で挙げた2つの文言の違いは、Nginx の内部の作りに根ざしています。これを外側から裏付ける記録が、Nginx 向けの第三者拡張である ModSecurity の改修提案に残っています（[fix: reset context in internal redirect](https://github.com/owasp-modsecurity/ModSecurity-nginx/pull/273)）。
 
-この提案の説明には、Nginx の2つの転送の仕組みが、それぞれ異なる段階から処理をやり直すことが書かれています。[パス](/glossary/パス/)を書き換える側は、[サーバー](/glossary/サーバー/)単位の書き換えの段階から。`@名前` の形の転送は、場所単位の書き換えの段階から。拡張側から見ると、どちらの場合も自分が保持していた文脈が消えるため、同じ要求なのに新しい要求として扱われてしまう、という不具合につながっていました。2022年に提案され、その後も議論が続いています。
+この提案の説明には、Nginx の2つの転送の仕組みが、それぞれ異なる段階から[処理](/glossary/処理/)をやり直すことが書かれています。[パス](/glossary/パス/)を書き換える側は、[サーバー](/glossary/サーバー/)単位の書き換えの段階から。`@名前` の形の転送は、場所単位の書き換えの段階から。拡張側から見ると、どちらの場合も自分が保持していた文脈が消えるため、同じ要求なのに新しい要求として扱われてしまう、という不具合につながっていました。2022年に提案され、その後も議論が続いています。
 
 利用する側にとっての含意は2つあります。1つは、循環の文言が2種類あるのは表記の揺れではなく、通ってきた経路が本当に違うということ。もう1つは、内部リダイレクトを挟むと、第三者の拡張から見た状態が[初期化](/glossary/初期化/)されうるということです。[認証](/glossary/認証/)や検査の拡張を入れている構成で、転送を経由した要求だけ挙動が変わる場合は、この性質を疑う価値があります。
 

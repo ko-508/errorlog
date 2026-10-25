@@ -14,7 +14,7 @@ related_services: ["GitHub API", "FastAPI"]
 
 ## エラーの概要
 
-Postmanで422（Unprocessable Entity）[エラー](/glossary/エラー/)が発生すると、[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の構文は正しく到達していますが、[サーバー](/glossary/サーバー/)が[リクエストボディ](/glossary/リクエストボディ/)の内容を処理できない状態を示しています。これは[リクエスト](/glossary/リクエスト/)の[データ形式](/glossary/データ形式/)、Content-Typeの不一致、[バリデーション](/glossary/バリデーション/)失敗など、意味論的な問題が原因です。
+Postmanで422（Unprocessable Entity）[エラー](/glossary/エラー/)が発生すると、[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)の構文は正しく到達していますが、[サーバー](/glossary/サーバー/)が[リクエストボディ](/glossary/リクエストボディ/)の内容を[処理](/glossary/処理/)できない状態を示しています。これは[リクエスト](/glossary/リクエスト/)の[データ形式](/glossary/データ形式/)、Content-Typeの不一致、[バリデーション](/glossary/バリデーション/)失敗など、意味論的な問題が原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -53,7 +53,7 @@ FastAPI[サーバー](/glossary/サーバー/)からの報告：
 **[エラーメッセージ](/glossary/エラーメッセージ/)の読み方：**
 
 - `"status": "422"` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を理解したが、含まれるデータに検証[エラー](/glossary/エラー/)がある
-- `"message": "Validation Failed"` → [リクエストボディ](/glossary/リクエストボディ/)のデータが [API](/glossary/api/) の要件を満たしていないことを示す
+- `"message": "Validation Failed"` → [リクエストボディ](/glossary/リクエストボディ/)のデータが [API](/glossary/api/) の[要件](/glossary/要件/)を満たしていないことを示す
 - `"errors"` 配列 → 複数の検証[エラー](/glossary/エラー/)が存在する場合、各[エラー](/glossary/エラー/)の詳細情報（[フィールド](/glossary/フィールド/)名、[エラーコード](/glossary/エラーコード/)、説明）を含む
 - `"loc": ["body"]` → FastAPI形式：[エラー](/glossary/エラー/)の位置がボディ部分にあることを指示する
 - `"msg": "value is not a valid dict"` → 期待された[データ型](/glossary/データ型/)（辞書/[オブジェクト](/glossary/オブジェクト/)）が[送信](/glossary/送信/)されていない
@@ -101,7 +101,7 @@ Postmanのレスポンスパネルで、`status: 200` または `status: 201` �
 
 ### 原因2：コレクション実行時のファイル添付で、対象ファイルがワーキングディレクトリに存在しない
 
-Postmanのコレクションランナーで[テスト](/glossary/テスト/)を実行する際、`form-data` で[ファイル](/glossary/ファイル/)添付（File型）を指定しても、[ファイル](/glossary/ファイル/)が Postman の実行ワーキングディレクトリに配置されていないと、422[エラー](/glossary/エラー/)が発生します。UI上での単発[リクエスト](/glossary/リクエスト/)実行では成功しても、Collection Run では失敗するケースが典型的です。
+Postmanのコレクションランナーで[テスト](/glossary/テスト/)を実行する際、`form-data` で[ファイル](/glossary/ファイル/)添付（File型）を指定しても、[ファイル](/glossary/ファイル/)が Postman の実行ワーキングディレクトリに配置されていないと、422[エラー](/glossary/エラー/)が発生します。[UI](/glossary/ui/)上での単発[リクエスト](/glossary/リクエスト/)実行では成功しても、Collection Run では失敗するケースが典型的です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

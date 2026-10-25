@@ -116,7 +116,7 @@ jobs:
 
 ### 原因2：ファイルハッシュ（SHA）の不一致による同時更新競合
 
-[GitHub](/glossary/github/) [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を更新する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数の[ワークフロー](/glossary/ワークフロー/)実行が同じ[ファイル](/glossary/ファイル/)を同時に更新しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
+[GitHub](/glossary/github/) [API](/glossary/api/) で[ファイル](/glossary/ファイル/)を[更新](/glossary/更新/)する際、[リクエスト](/glossary/リクエスト/)に含まれる SHA（[ファイル](/glossary/ファイル/)の現在のハッシュ値）が[サーバー](/glossary/サーバー/)上の実際の状態と一致しない場合に発生します。特に複数の[ワークフロー](/glossary/ワークフロー/)実行が同じ[ファイル](/glossary/ファイル/)を同時に[更新](/glossary/更新/)しようとすると、最初の更新後に 2 番目の[リクエスト](/glossary/リクエスト/)の SHA が古くなり競合します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -447,7 +447,7 @@ az webapp deployment list --resource-group <your-resource-group> --name <your-ap
 
 **複数[ファイル](/glossary/ファイル/)更新時の [Git](/glossary/git/) Tree [API](/glossary/api/)**
 
-複数の[ファイル](/glossary/ファイル/)を同時に更新する場合、個別の PUT [リクエスト](/glossary/リクエスト/)を連続送信するのではなく、[Git](/glossary/git/) Tree [API](/glossary/api/) を使用して一括更新する方法が 409 [エラー](/glossary/エラー/)を回避しやすいです。
+複数の[ファイル](/glossary/ファイル/)を同時に[更新](/glossary/更新/)する場合、個別の PUT [リクエスト](/glossary/リクエスト/)を連続送信するのではなく、[Git](/glossary/git/) Tree [API](/glossary/api/) を使用して一括更新する方法が 409 [エラー](/glossary/エラー/)を回避しやすいです。
 
 ```javascript
 // 複数ファイルを一度に更新する場合の例

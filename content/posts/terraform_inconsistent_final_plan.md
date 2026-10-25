@@ -29,7 +29,7 @@ This is a bug in the provider, which should be reported in the provider's
 own issue tracker.
 ```
 
-この[エラー](/glossary/エラー/)は、apply中に新しく確定した値を使って計画を更新したところ、providerが最初のplanと両立しない結果を返したことを示します。[エラー](/glossary/エラー/)本文にもあるとおり、基本的にはprovider側の不整合として扱います。
+この[エラー](/glossary/エラー/)は、apply中に新しく確定した値を使って計画を[更新](/glossary/更新/)したところ、providerが最初のplanと両立しない結果を返したことを示します。[エラー](/glossary/エラー/)本文にもあるとおり、基本的にはprovider側の不整合として扱います。
 
 ただし、[エラー](/glossary/エラー/)に表示されたリソースが不具合の発生元とは限りません。そのリソースが参照している上流リソースの値がapply中に変わり、下流で不整合として検出される場合があります。
 
@@ -47,7 +47,7 @@ applyの途中まで変更が反映されている可能性があります。取
 
 Terraformのplanには、作成時に[API](/glossary/api/)から発行される[ID](/glossary/id/)や[IPアドレス](/glossary/ipアドレス/)など、applyするまで確定しない値が含まれることがあります。planでは、このような値が`(known after apply)`と表示されます。
 
-applyが進んで値が確定すると、Terraformはその値を参照する後続リソースの計画を具体化します。この処理でproviderが最初の計画と矛盾する値や操作を返すと、安全にapplyを続行できないため処理が停止します。
+applyが進んで値が確定すると、Terraformはその値を参照する後続リソースの計画を具体化します。この[処理](/glossary/処理/)でproviderが最初の計画と矛盾する値や操作を返すと、安全にapplyを続行できないため[処理](/glossary/処理/)が停止します。
 
 HashiCorpのprovider向け資料では、次のように下流リソースで[エラー](/glossary/エラー/)が表面化する例が示されています。
 
@@ -69,7 +69,7 @@ learned so far during apply, provider "null" produced an invalid new value for
 | `was present, but now absent` | planにあった値がapply時に消えた |
 | `was known, but now unknown` | 確定していた値が未確定へ戻った |
 | `was <値A>, but now <値B>` | plan時とapply時で具体的な値が変わった |
-| `changed the planned action from ... to ...` | 更新、作成、[削除](/glossary/削除/)、再作成などの操作が変わった |
+| `changed the planned action from ... to ...` | [更新](/glossary/更新/)、作成、[削除](/glossary/削除/)、再作成などの操作が変わった |
 
 たとえば、`was known, but now unknown`ならproviderが確定済みとしていた[属性](/glossary/属性/)を、apply中の再計算で未確定へ戻しています。`changed the planned action from Update to DeleteThenCreate`なら、当初は更新予定だったリソースを再作成へ変更しています。
 
@@ -106,16 +106,16 @@ terraform providers
 git diff -- .terraform.lock.hcl
 ```
 
-providerの更新直後から発生した場合は、その[バージョン](/glossary/バージョン/)のリリースノートとissueを確認します。修正版が公開されていれば、version constraintsの範囲を確認してから更新します。
+providerの更新直後から発生した場合は、その[バージョン](/glossary/バージョン/)のリリースノートとissueを確認します。修正版が公開されていれば、version constraintsの範囲を確認してから[更新](/glossary/更新/)します。
 
 ```bash
 terraform init -upgrade
 terraform plan
 ```
 
-`terraform init -upgrade`は、制約を満たす新しいproviderを選び直してロックファイルを更新します。すべての[環境](/glossary/環境/)で同じ更新結果になるよう、変更された`.terraform.lock.hcl`を[レビュー](/glossary/レビュー/)し、意図した内容だけを[バージョン管理](/glossary/バージョン管理/)へ含めてください。依存関係の選択方法は[Dependency Lock File](https://developer.hashicorp.com/terraform/language/files/dependency-lock)で説明されています。
+`terraform init -upgrade`は、制約を満たす新しいproviderを選び直してロックファイルを[更新](/glossary/更新/)します。すべての[環境](/glossary/環境/)で同じ更新結果になるよう、変更された`.terraform.lock.hcl`を[レビュー](/glossary/レビュー/)し、意図した内容だけを[バージョン管理](/glossary/バージョン管理/)へ含めてください。依存関係の選択方法は[Dependency Lock File](https://developer.hashicorp.com/terraform/language/files/dependency-lock)で説明されています。
 
-新しいproviderで問題が発生し、以前の[バージョン](/glossary/バージョン/)では再現しないことを確認できた場合は、version constraintsを以前の正常な版へ戻し、`terraform init`で選択し直す方法もあります。ロックファイルを手作業で書き換えるのではなく、[設定](/glossary/設定/)した制約に基づいてTerraformに更新させます。
+新しいproviderで問題が発生し、以前の[バージョン](/glossary/バージョン/)では再現しないことを確認できた場合は、version constraintsを以前の正常な版へ戻し、`terraform init`で選択し直す方法もあります。ロックファイルを手作業で書き換えるのではなく、[設定](/glossary/設定/)した制約に基づいてTerraformに[更新](/glossary/更新/)させます。
 
 ## 原因2：上流リソースの値がapply中に変わった
 
@@ -139,7 +139,7 @@ resource "null_resource" "configure" {
 
 ## stateと再実行を確認する
 
-applyが[エラー](/glossary/エラー/)で終了しても、それ以前に処理されたリソースまで元に戻るとは限りません。まず通常のplanを取り直し、現在のstateと実際の[インフラ](/glossary/インフラ/)をTerraformに再確認させます。
+applyが[エラー](/glossary/エラー/)で終了しても、それ以前に[処理](/glossary/処理/)されたリソースまで元に戻るとは限りません。まず通常のplanを取り直し、現在のstateと実際の[インフラ](/glossary/インフラ/)をTerraformに再確認させます。
 
 ```bash
 terraform plan
@@ -180,7 +180,7 @@ refresh-onlyは実際の[インフラ](/glossary/インフラ/)を変更せず�
 
 ## 似たエラーとの違い
 
-`Provider produced invalid plan`は、providerが最初のplan作成時に無効な計画を返した場合の[エラー](/glossary/エラー/)です。今回の`inconsistent final plan`は、apply中に未確定値が確定し、計画を更新した段階で矛盾が見つかっています。
+`Provider produced invalid plan`は、providerが最初のplan作成時に無効な計画を返した場合の[エラー](/glossary/エラー/)です。今回の`inconsistent final plan`は、apply中に未確定値が確定し、計画を[更新](/glossary/更新/)した段階で矛盾が見つかっています。
 
 `Provider produced inconsistent result after apply`は、リソースを実際に変更した後、providerが報告した最終状態と計画が一致しない場合に出ます。どちらもproviderの不具合として扱われますが、検出される段階が異なります。
 
@@ -192,10 +192,10 @@ refresh-onlyは実際の[インフラ](/glossary/インフラ/)を変更せず�
 
 `Provider produced inconsistent final plan`が出たら、[エラー](/glossary/エラー/)本文からprovider名、リソースアドレス、属性名、値または操作の[変化](/glossary/変化/)を確認します。`Terraform produced`の場合はTerraform Core側の問題なので、主語も必ず確認してください。
 
-次に、`terraform providers`と`.terraform.lock.hcl`でproviderの[バージョン](/glossary/バージョン/)を特定し、該当providerのissueとリリースノートを調べます。更新直後なら正常だった版への切り戻し、修正版があるなら検証後の更新を検討します。
+次に、`terraform providers`と`.terraform.lock.hcl`でproviderの[バージョン](/glossary/バージョン/)を特定し、該当providerのissueとリリースノートを調べます。更新直後なら正常だった版への切り戻し、修正版があるなら検証後の[更新](/glossary/更新/)を検討します。
 
 [エラー](/glossary/エラー/)に表示されたリソースだけでなく、そのリソースが参照している上流の値も確認してください。下流リソースで不整合が検出されても、原因は上流のproviderにある場合があります。
 
 失敗後は通常のplanを取り直し、一部だけ適用されていないかを確認します。refresh-onlyは外部変更をstateへ受け入れる場合だけ、planを確認してから使用してください。providerの不具合を直す一般的な再試行手段ではありません。
 
-免責事項：本記事の内容は一般的なTerraform[環境](/glossary/環境/)を前提としています。providerの更新・切り戻しやstateの変更を行う前に、plan、[バックアップ](/glossary/バックアップ/)、ロックファイルの差分、実際の[インフラ](/glossary/インフラ/)への影響を確認してください。
+免責事項：本記事の内容は一般的なTerraform[環境](/glossary/環境/)を前提としています。providerの[更新](/glossary/更新/)・切り戻しやstateの変更を行う前に、plan、[バックアップ](/glossary/バックアップ/)、ロックファイルの差分、実際の[インフラ](/glossary/インフラ/)への影響を確認してください。

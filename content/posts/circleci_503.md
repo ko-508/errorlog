@@ -13,11 +13,11 @@ related_services: ["GitHub"]
 
 ## エラーの概要
 
-CircleCI の 503 [エラー](/glossary/エラー/)は、「Service Unavailable」を示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)で、CircleCIサービス自体が一時的に利用できない状態です。ジョブの実行[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した際に[サーバー](/glossary/サーバー/)側で処理できず、返却される[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生するとビルド・デプロイパイプラインが停止し、[プロジェクト](/glossary/プロジェクト/)全体の開発フローに影響します。
+CircleCI の 503 [エラー](/glossary/エラー/)は、「Service Unavailable」を示す[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)で、CircleCIサービス自体が一時的に利用できない状態です。ジョブの実行[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した際に[サーバー](/glossary/サーバー/)側で[処理](/glossary/処理/)できず、返却される[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生するとビルド・デプロイパイプラインが停止し、[プロジェクト](/glossary/プロジェクト/)全体の開発フローに影響します。
 
 ## 実際のエラーメッセージ例
 
-**CircleCI Web UI上での[エラー](/glossary/エラー/)表示:**
+**CircleCI Web [UI](/glossary/ui/)上での[エラー](/glossary/エラー/)表示:**
 
 ```
 503 Service Unavailable
@@ -217,7 +217,7 @@ CircleCIが[GitHub](/glossary/github/)/GitLabと[通信](/glossary/通信/)す�
 
 **無料プランでの制限:**
 
-Free プランはリソース共有型であり、ピーク時間帯に 503 [エラー](/glossary/エラー/)が発生しやすくなります。[本番環境](/glossary/本番環境/)での安定運用が必要な場合は、有料プランへのアップグレードを検討してください。
+Free プランはリソース共有型であり、ピーク時間帯に 503 [エラー](/glossary/エラー/)が発生しやすくなります。[本番環境](/glossary/本番環境/)での安定運用が必要な場合は、有料プランへの[アップグレード](/glossary/アップグレード/)を検討してください。
 
 ## それでも解決しない場合
 

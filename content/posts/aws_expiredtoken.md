@@ -24,7 +24,7 @@ ExpiredToken: The security token included in the request is expired
 
 最初に`aws configure list`と[環境変数](/glossary/環境変数/)を確認し、[AWS](/glossary/aws/) [CLI](/glossary/cli/)や[SDK](/glossary/sdk/)がどこから認証情報を取得しているかを特定します。`AWS_ACCESS_KEY_ID`、`AWS_SECRET_ACCESS_KEY`、`AWS_SESSION_TOKEN`を手動で[設定](/glossary/設定/)している場合は、3つをまとめて[削除](/glossary/削除/)し、新しい認証情報を取得してください。
 
-一時的な認証情報を毎回環境変数へコピーする運用では、期限切れが再発します。[AWS](/glossary/aws/) [CLI](/glossary/cli/)では[ロール](/glossary/ロール/)を指定したプロファイル、EC2ではインスタンスプロファイル、ECSではタスクロールを使い、[CLI](/glossary/cli/)や[SDK](/glossary/sdk/)に取得と更新を任せる方法へ変更します。
+一時的な認証情報を毎回環境変数へコピーする運用では、期限切れが再発します。[AWS](/glossary/aws/) [CLI](/glossary/cli/)では[ロール](/glossary/ロール/)を指定したプロファイル、EC2ではインスタンスプロファイル、ECSではタスクロールを使い、[CLI](/glossary/cli/)や[SDK](/glossary/sdk/)に取得と[更新](/glossary/更新/)を任せる方法へ変更します。
 
 ## ExpiredTokenの意味
 
@@ -69,7 +69,7 @@ Get-ChildItem Env:AWS_*
 
 `AWS_SESSION_TOKEN`があれば、[環境変数](/glossary/環境変数/)に一時的な認証情報が[設定](/glossary/設定/)されています。ただし、表示されない場合でも、プロファイル、EC2のインスタンスプロファイル、ECSのタスクロールなどから一時的な認証情報を取得している可能性があります。
 
-有効な認証情報へ更新した後は、呼び出し元も確認します。
+有効な認証情報へ[更新](/glossary/更新/)した後は、呼び出し元も確認します。
 
 ```bash
 aws sts get-caller-identity
@@ -97,7 +97,7 @@ Remove-Item Env:AWS_SECRET_ACCESS_KEY -ErrorAction SilentlyContinue
 Remove-Item Env:AWS_SESSION_TOKEN -ErrorAction SilentlyContinue
 ```
 
-削除後に、利用している認証方法に従ってサインインまたは`AssumeRole`をやり直します。アクセスキーだけ、またはセッショントークンだけを更新すると、異なる[セッション](/glossary/セッション/)の値が混在するため、必ず同時に発行された3つを1組として扱ってください。
+削除後に、利用している認証方法に従ってサインインまたは`AssumeRole`をやり直します。アクセスキーだけ、またはセッショントークンだけを[更新](/glossary/更新/)すると、異なる[セッション](/glossary/セッション/)の値が混在するため、必ず同時に発行された3つを1組として扱ってください。
 
 [環境変数](/glossary/環境変数/)は共有プロファイルより優先されます。[AWS CLIの設定優先順位](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)でも、[環境変数](/glossary/環境変数/)がプロファイルより先に評価されることが示されています。新しいプロファイルを[設定](/glossary/設定/)しても直らない場合は、古い[環境変数](/glossary/環境変数/)が残っていないか確認します。
 
@@ -118,7 +118,7 @@ region = ap-northeast-1
 aws sts get-caller-identity --profile project1
 ```
 
-[AWS CLIの公式文書](https://docs.aws.amazon.com/cli/latest/topic/config-vars.html)によると、[ロール](/glossary/ロール/)用プロファイルを使うと、[CLI](/glossary/cli/)が`AssumeRole`を実行して一時的な認証情報を[キャッシュ](/glossary/キャッシュ/)し、期限切れ時に更新します。`source_profile`に指定した元の認証情報が有効であることは必要です。
+[AWS CLIの公式文書](https://docs.aws.amazon.com/cli/latest/topic/config-vars.html)によると、[ロール](/glossary/ロール/)用プロファイルを使うと、[CLI](/glossary/cli/)が`AssumeRole`を実行して一時的な認証情報を[キャッシュ](/glossary/キャッシュ/)し、期限切れ時に[更新](/glossary/更新/)します。`source_profile`に指定した元の認証情報が有効であることは必要です。
 
 [IAM](/glossary/iam/) Identity Centerを利用している場合は、その[設定](/glossary/設定/)に従って`aws sso login --profile <プロファイル名>`を再実行します。組織が指定する認証方法を優先し、長期アクセスキーを新しく作ることを期限切れ対策にしないでください。
 
@@ -136,9 +136,9 @@ ECSでは、[コンテナ](/glossary/コンテナ/)へアクセスキーを埋�
 
 `AssumeRole`の`DurationSeconds`は、[ロール](/glossary/ロール/)に[設定](/glossary/設定/)された最大[セッション](/glossary/セッション/)時間の範囲で指定します。[AssumeRole APIの公式文書](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html)では、最大43200秒、つまり12時間まで[設定](/glossary/設定/)できます。ただし、許可される上限は対象[ロール](/glossary/ロール/)の[設定](/glossary/設定/)によって変わります。
 
-一時的な認証情報で別の[ロール](/glossary/ロール/)を引き受ける[ロール](/glossary/ロール/)連鎖では、[セッション](/glossary/セッション/)は最大1時間です。1時間を超える`DurationSeconds`を指定すると、期限が延びるのではなく`AssumeRole`自体が失敗します。長時間動く処理では、期限を長くするだけでなく、[CLI](/glossary/cli/)や[SDK](/glossary/sdk/)が再取得できる構成にしてください。
+一時的な認証情報で別の[ロール](/glossary/ロール/)を引き受ける[ロール](/glossary/ロール/)連鎖では、[セッション](/glossary/セッション/)は最大1時間です。1時間を超える`DurationSeconds`を指定すると、期限が延びるのではなく`AssumeRole`自体が失敗します。長時間動く[処理](/glossary/処理/)では、期限を長くするだけでなく、[CLI](/glossary/cli/)や[SDK](/glossary/sdk/)が再取得できる構成にしてください。
 
-認証情報を更新してもすぐ期限切れと判定される場合は、実行環境の日時とタイムゾーンも確認します。[AWS](/glossary/aws/)の要求には署名時刻が含まれるため、大きな時刻ずれは[認証](/glossary/認証/)[エラー](/glossary/エラー/)の原因になります。ただし、時刻ずれでは`RequestExpired`や署名関連の別[エラー](/glossary/エラー/)になる場合もあります。先に認証情報の実際の有効期限と取得元を確認してください。
+認証情報を[更新](/glossary/更新/)してもすぐ期限切れと判定される場合は、実行環境の日時とタイムゾーンも確認します。[AWS](/glossary/aws/)の要求には署名時刻が含まれるため、大きな時刻ずれは[認証](/glossary/認証/)[エラー](/glossary/エラー/)の原因になります。ただし、時刻ずれでは`RequestExpired`や署名関連の別[エラー](/glossary/エラー/)になる場合もあります。先に認証情報の実際の有効期限と取得元を確認してください。
 
 ### 近い認証エラーとの違い
 
@@ -156,6 +156,6 @@ ECSでは、[コンテナ](/glossary/コンテナ/)へアクセスキーを埋�
 
 新しい一時的な認証情報を取得したら、`aws sts get-caller-identity`で[アカウント](/glossary/アカウント/)とARNを確認します。直った後は、手動コピーを続けず、[ロール](/glossary/ロール/)用プロファイル、[IAM](/glossary/iam/) Identity Center、EC2のインスタンスプロファイル、ECSのタスクロールなど、自動で再取得できる方法へ変更してください。
 
-[ロール](/glossary/ロール/)連鎖は最大1時間です。処理時間が長い場合は、`DurationSeconds`だけで解決しようとせず、処理中に認証情報を更新できる構成かを確認します。認証情報が有効なのに失敗する場合は、最後に実行環境の時計を確認してください。
+[ロール](/glossary/ロール/)連鎖は最大1時間です。処理時間が長い場合は、`DurationSeconds`だけで解決しようとせず、処理中に認証情報を[更新](/glossary/更新/)できる構成かを確認します。認証情報が有効なのに失敗する場合は、最後に実行環境の時計を確認してください。
 
-免責事項：本記事の内容は一般的な[AWS](/glossary/aws/) [CLI](/glossary/cli/)および[AWS](/glossary/aws/) [SDK](/glossary/sdk/)の構成を前提としています。認証情報を[削除](/glossary/削除/)または変更する前に、実行中の処理と使用中のプロファイルを確認してください。アクセスキー、シークレットアクセスキー、セッショントークンを[ログ](/glossary/ログ/)や画面共有へ表示しないでください。[本番環境](/glossary/本番環境/)では、組織の認証方針と[IAM](/glossary/iam/)管理者の手順を優先してください。
+免責事項：本記事の内容は一般的な[AWS](/glossary/aws/) [CLI](/glossary/cli/)および[AWS](/glossary/aws/) [SDK](/glossary/sdk/)の構成を前提としています。認証情報を[削除](/glossary/削除/)または変更する前に、実行中の[処理](/glossary/処理/)と使用中のプロファイルを確認してください。アクセスキー、シークレットアクセスキー、セッショントークンを[ログ](/glossary/ログ/)や画面共有へ表示しないでください。[本番環境](/glossary/本番環境/)では、組織の認証方針と[IAM](/glossary/iam/)管理者の手順を優先してください。

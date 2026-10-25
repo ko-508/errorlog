@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose の 404 [エラー](/glossary/エラー/)は、`docker-compose.yml`（または `compose.yml`）で指定された[イメージ](/glossary/イメージ/)、サービス、ボリューム、または[ネットワーク](/glossary/ネットワーク/)がシステムに見つからないときに発生します。この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)のプル失敗、ビルドコンテキストの誤設定、または依存リソースの不足が原因となることがほとんどです。[Docker](/glossary/docker/) Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、この[エラー](/glossary/エラー/)を出力して処理を中断します。
+[Docker](/glossary/docker/) Compose の 404 [エラー](/glossary/エラー/)は、`docker-compose.yml`（または `compose.yml`）で指定された[イメージ](/glossary/イメージ/)、サービス、ボリューム、または[ネットワーク](/glossary/ネットワーク/)がシステムに見つからないときに発生します。この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)のプル失敗、ビルドコンテキストの誤設定、または依存リソースの不足が原因となることがほとんどです。[Docker](/glossary/docker/) Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、この[エラー](/glossary/エラー/)を出力して[処理](/glossary/処理/)を中断します。
 
 ## 実際のエラーメッセージ例
 

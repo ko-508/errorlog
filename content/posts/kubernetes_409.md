@@ -18,7 +18,7 @@ trend_incident: false
 
 1つ目は、同じ名前のものが既に存在する場合です。区分は `AlreadyExists`、文言は対象の名前に「already exists」を付けた形になります。
 
-2つ目は、更新しようとした対象が、読み取ってから書き込むまでの間に他者に変更されていた場合です。区分は `Conflict`、文言は「Operation cannot be fulfilled on ...」で始まり、中に「the object has been modified; please apply your changes to the latest version and try again」が入ります。
+2つ目は、[更新](/glossary/更新/)しようとした対象が、読み取ってから書き込むまでの間に他者に変更されていた場合です。区分は `Conflict`、文言は「Operation cannot be fulfilled on ...」で始まり、中に「the object has been modified; please apply your changes to the latest version and try again」が入ります。
 
 3つ目は、Server-Side Apply で[フィールド](/glossary/フィールド/)の所有権が衝突した場合です。区分は同じ `Conflict` ですが、**`details.causes` に[フィールド](/glossary/フィールド/)ごとの衝突と、その所有者の名前が入ります**。文言は「Apply failed with N conflict(s)」の形です。
 
@@ -92,7 +92,7 @@ kubectl create configmap app-config --from-file=./conf
 kubectl apply -f configmap.yaml
 ```
 
-`apply` は存在すれば更新、無ければ作成なので、繰り返し実行できます。作成の[コマンド](/glossary/コマンド/)をそのまま繰り返す設計自体を見直すのが本筋です。
+`apply` は存在すれば[更新](/glossary/更新/)、無ければ作成なので、繰り返し実行できます。作成の[コマンド](/glossary/コマンド/)をそのまま繰り返す設計自体を見直すのが本筋です。
 
 ただし例外があります。規約には、`metadata.generateName` で名前を生成させた場合、生成された名前が既に存在すれば区分 `AlreadyExists` の 409 を返し、**[クライアント](/glossary/クライアント/)は再試行すべき**だ（応答に待ち時間の指定があればその時間だけ待つ）と書かれています。名前を明示した場合と違い、こちらは再試行が正しい対処です。生成される名前が変わるためです。
 
@@ -159,15 +159,15 @@ kubectl get deploy web -o yaml --show-managed-fields | grep -A5 managedFields
 
 同じ「競合」でも、操作によって扱いが違います。公式文書に対比が書かれています。強制の指定が無い限り、[フィールド](/glossary/フィールド/)の衝突が起きた apply は**常に失敗**します。一方、update（[HTTP](/glossary/http/) の PUT）で管理された[フィールド](/glossary/フィールド/)に影響する変更をしても、衝突が失敗を引き起こすことはありません。
 
-つまり、`kubectl replace` や[プログラム](/glossary/プログラム/)からの更新では、[フィールド](/glossary/フィールド/)の所有権による 409 は出ません。出るのは `resourceVersion` の不一致による 409 だけです。原因2と原因3のどちらを疑うべきかは、使っている操作で絞り込めます。
+つまり、`kubectl replace` や[プログラム](/glossary/プログラム/)からの[更新](/glossary/更新/)では、[フィールド](/glossary/フィールド/)の所有権による 409 は出ません。出るのは `resourceVersion` の不一致による 409 だけです。原因2と原因3のどちらを疑うべきかは、使っている操作で絞り込めます。
 
 ### 原因5：自動化の記録が競合で埋まる
 
-制御[ループ](/glossary/ループ/)を持つ[自動化](/glossary/自動化/)では、楽観ロックの競合はある程度まで正常な現象です。複数の担当が同じ対象を更新すれば必ず起きます。
+制御[ループ](/glossary/ループ/)を持つ[自動化](/glossary/自動化/)では、楽観ロックの競合はある程度まで正常な現象です。複数の担当が同じ対象を[更新](/glossary/更新/)すれば必ず起きます。
 
 問題は、それが持続する場合です。規約にも、監視の仕組みが供給する[キャッシュ](/glossary/キャッシュ/)は直近の書き込みを反映していないことがあるため、`resourceVersion` を前提条件にして競合を検出するのが一般的な作法だ、と書かれています。[キャッシュ](/glossary/キャッシュ/)の古い値をそのまま送れば、競合は繰り返されます。
 
-競合が止まらない場合、疑うべきは3つです。同じ対象を複数の[自動化](/glossary/自動化/)が奪い合っていないか。取得を[キャッシュ](/glossary/キャッシュ/)から行い、書き込み前に取り直していないか。そして、更新の頻度が高すぎないか。再試行の回数を増やすのは、これらを確認したあとの選択肢です。
+競合が止まらない場合、疑うべきは3つです。同じ対象を複数の[自動化](/glossary/自動化/)が奪い合っていないか。取得を[キャッシュ](/glossary/キャッシュ/)から行い、書き込み前に取り直していないか。そして、[更新](/glossary/更新/)の頻度が高すぎないか。再試行の回数を増やすのは、これらを確認したあとの選択肢です。
 
 ## 補足：似ているが別のもの
 
@@ -225,7 +225,7 @@ EOF
 
 Server-Side Apply の競合では、衝突した相手の名前が文言に出ます。この名前が、しばしば原因そのものを説明します。
 
-象徴的な記録があります（[before-first-apply manager prevents resource updates](https://github.com/kubernetes/kubernetes/issues/89954)）。2020年4月、Server-Side Apply で更新しようとしたところ、`before-first-apply` という名前の管理者と衝突して失敗する、という報告です。この名前は、その対象が Server-Side Apply を使う前に作られたことを示しています。誰かの仕業ではなく、**移行前の状態がそのまま所有者として記録されていた**わけです。
+象徴的な記録があります（[before-first-apply manager prevents resource updates](https://github.com/kubernetes/kubernetes/issues/89954)）。2020年4月、Server-Side Apply で[更新](/glossary/更新/)しようとしたところ、`before-first-apply` という名前の管理者と衝突して失敗する、という報告です。この名前は、その対象が Server-Side Apply を使う前に作られたことを示しています。誰かの仕業ではなく、**移行前の状態がそのまま所有者として記録されていた**わけです。
 
 同じ構造は、日常的な場面でも起きます。誰かが `kubectl edit` で一時的に値を変えると、その[フィールド](/glossary/フィールド/)の管理者として `kubectl-edit` が記録されます。次にその[ファイル](/glossary/ファイル/)を適用したとき、衝突するのはその痕跡です。文言に出る名前を読めば、いつ誰が触ったかを推測せずに済みます。
 

@@ -198,7 +198,7 @@ script:
 
 **公式ドキュメントと最新情報：**
 
-GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)[仕様](/glossary/仕様/)は定期的に更新されます。公式ドキュメント（https://docs.gitlab.com/ee/api/#authentication）と、プロジェクトの Release Notes で最新情報を確認してください。特にマイナーバージョンアップ後は認証方式の非推奨化がないか確認することをお勧めします。
+GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)[仕様](/glossary/仕様/)は定期的に[更新](/glossary/更新/)されます。公式ドキュメント（https://docs.gitlab.com/ee/api/#authentication）と、プロジェクトの Release Notes で最新情報を確認してください。特にマイナーバージョンアップ後は認証方式の非推奨化がないか確認することをお勧めします。
 
 ---
 

@@ -131,9 +131,9 @@ build job: 'project-folder/deploy-test'
 
 **[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に[設定](/glossary/設定/)された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も更新が必要です。
+[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に[設定](/glossary/設定/)された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も[更新](/glossary/更新/)が必要です。
 
-**Jenkins UI上での確認方法：**
+**Jenkins [UI](/glossary/ui/)上での確認方法：**
 
 Jenkinsホーム画面で目的のジョブを開き、[ブラウザ](/glossary/ブラウザ/)の[アドレスバー](/glossary/アドレスバー/)に表示された[URL](/glossary/url/)が正確な[パス](/glossary/パス/)です。この[URL](/glossary/url/)をコピーして、[API](/glossary/api/)呼び出しや[スクリプト](/glossary/スクリプト/)で使用することで、綴り間違いを防げます。
 

@@ -48,7 +48,7 @@ Error: Deployment not found. The deployment <deployment-id> does not exist or ha
 
 ### 原因1：デプロイメント URL が古いか誤っている
 
-Vercel で[プロジェクト](/glossary/プロジェクト/)を更新・再[デプロイ](/glossary/デプロイ/)したり、[本番環境](/glossary/本番環境/)の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。[ブラウザ](/glossary/ブラウザ/)のブックマークや[スクリプト](/glossary/スクリプト/)に古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
+Vercel で[プロジェクト](/glossary/プロジェクト/)を[更新](/glossary/更新/)・再[デプロイ](/glossary/デプロイ/)したり、[本番環境](/glossary/本番環境/)の[ドメイン](/glossary/ドメイン/)を変更したりすると、以前のデプロイメント [URL](/glossary/url/) は自動的に無効化されます。[ブラウザ](/glossary/ブラウザ/)のブックマークや[スクリプト](/glossary/スクリプト/)に古い [URL](/glossary/url/) が残っていると、404 [エラー](/glossary/エラー/)が発生します。また、手動で [URL](/glossary/url/) を入力する際の誤字も考えられます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

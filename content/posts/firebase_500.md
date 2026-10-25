@@ -139,7 +139,7 @@ admin.database().ref('posts')
 ## Firebase 固有の注意点
 
 ### Cloud Functions の実行タイムアウト
-[デフォルト](/glossary/デフォルト/)の[タイムアウト](/glossary/タイムアウト/)時間は 60 秒ですが、長時間の処理が必要な場合は最大 540 秒まで延長できます。[タイムアウト](/glossary/タイムアウト/)超過時に 500 が返される場合があります。
+[デフォルト](/glossary/デフォルト/)の[タイムアウト](/glossary/タイムアウト/)時間は 60 秒ですが、長時間の[処理](/glossary/処理/)が必要な場合は最大 540 秒まで延長できます。[タイムアウト](/glossary/タイムアウト/)超過時に 500 が返される場合があります。
 
 ```bash
 gcloud functions deploy <function-name> --timeout=300
@@ -168,7 +168,7 @@ exports.myFunction = functions.region('asia-northeast1').https.onCall(async (dat
 ```
 
 ### Authentication トークンの有効期限切れ
-[SDK](/glossary/sdk/) が古いキャッシュトークンを使用している場合、[認証](/glossary/認証/)[エラー](/glossary/エラー/)が 500 として返される場合があります。[トークン](/glossary/トークン/)の更新メカニズムを確認してください。
+[SDK](/glossary/sdk/) が古いキャッシュトークンを使用している場合、[認証](/glossary/認証/)[エラー](/glossary/エラー/)が 500 として返される場合があります。[トークン](/glossary/トークン/)の[更新](/glossary/更新/)メカニズムを確認してください。
 
 ```javascript
 // トークンの強制更新

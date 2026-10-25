@@ -133,7 +133,7 @@ CREATE POLICY "Users can access own profile"
 
 ### 原因3：service_role キーが必要な管理操作を anon キーで実行している
 
-Supabase では 2 種類の [API](/glossary/api/) [キー](/glossary/キー/)が存在します。`anon`（匿名[キー](/glossary/キー/)）は[フロントエンド](/glossary/フロントエンド/)で使用し、RLS [ポリシー](/glossary/ポリシー/)の制約を受けます。一方、`service_role`（サービスロールキー）は[バックエンド](/glossary/バックエンド/)限定で、RLS をバイパスして操作できます。[管理者権限](/glossary/管理者権限/)の操作（例：ユーザーの一括削除、[ポリシー](/glossary/ポリシー/)を無視したデータ更新）を anon [キー](/glossary/キー/)で実行しようとすると 403 [エラー](/glossary/エラー/)になります。
+Supabase では 2 種類の [API](/glossary/api/) [キー](/glossary/キー/)が存在します。`anon`（匿名[キー](/glossary/キー/)）は[フロントエンド](/glossary/フロントエンド/)で使用し、RLS [ポリシー](/glossary/ポリシー/)の制約を受けます。一方、`service_role`（サービスロールキー）は[バックエンド](/glossary/バックエンド/)限定で、RLS をバイパスして操作できます。[管理者権限](/glossary/管理者権限/)の操作（例：ユーザーの一括削除、[ポリシー](/glossary/ポリシー/)を無視したデータ[更新](/glossary/更新/)）を anon [キー](/glossary/キー/)で実行しようとすると 403 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

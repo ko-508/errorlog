@@ -119,7 +119,7 @@ GitLabでは422[エラー](/glossary/エラー/)が返る際、レスポンス�
 
 ## それでも解決しない場合
 
-GitLabの[API](/glossary/api/)[レスポンス](/glossary/レスポンス/)に記載されている`errors`[フィールド](/glossary/フィールド/)の内容をそのまま確認することで、検証ルールの具体的な要件を明確にできます。以下の[コマンド](/glossary/コマンド/)で[JSON](/glossary/json/)整形済みの[エラー](/glossary/エラー/)詳細を確認してください。
+GitLabの[API](/glossary/api/)[レスポンス](/glossary/レスポンス/)に記載されている`errors`[フィールド](/glossary/フィールド/)の内容をそのまま確認することで、検証ルールの具体的な[要件](/glossary/要件/)を明確にできます。以下の[コマンド](/glossary/コマンド/)で[JSON](/glossary/json/)整形済みの[エラー](/glossary/エラー/)詳細を確認してください。
 
 ```bash
 curl -i --request POST \

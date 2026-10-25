@@ -25,7 +25,7 @@ Error: error:0308010C:digital envelope routines::unsupported
 
 OpenSSLは、Node.jsが暗号処理などに使う部品です。この[エラー](/glossary/エラー/)は、OpenSSLの現在の[設定](/glossary/設定/)で使えない方式などを呼び出した場合に起こります。古いwebpackでは、[ファイル](/glossary/ファイル/)を識別する値の計算に使うMD4が原因になる例があります。
 
-まず、[エラー](/glossary/エラー/)の実行履歴に出る[パッケージ](/glossary/パッケージ/)と、その版を確認してください。更新で原因を取り除くのが本来の[対応](/glossary/対応/)です。`--openssl-legacy-provider`は、古い方式を利用可能にする一時的な回避策です。
+まず、[エラー](/glossary/エラー/)の実行履歴に出る[パッケージ](/glossary/パッケージ/)と、その版を確認してください。[更新](/glossary/更新/)で原因を取り除くのが本来の[対応](/glossary/対応/)です。`--openssl-legacy-provider`は、古い方式を利用可能にする一時的な回避策です。
 
 ## Node.jsの更新で表面化する理由
 
@@ -48,19 +48,19 @@ npm ls react-scripts @vue/cli-service
 
 後半は、それらの道具を使っている場合の確認例です。`npm ls`では、直接指定した依存だけでなく、別の道具が内部で使うwebpackも確認します。依存関係に問題があると、終了[コード](/glossary/コード/)が非0になる場合があります。
 
-[エラー](/glossary/エラー/)の下に並ぶ実行履歴も読みます。`node:crypto`の直後に`webpack/lib/util/createHash.js`が出る場合と、別のloaderや自分の[コード](/glossary/コード/)が出る場合では、更新する対象が異なります。
+[エラー](/glossary/エラー/)の下に並ぶ実行履歴も読みます。`node:crypto`の直後に`webpack/lib/util/createHash.js`が出る場合と、別のloaderや自分の[コード](/glossary/コード/)が出る場合では、[更新](/glossary/更新/)する対象が異なります。
 
 `npx webpack --version`は、ローカルに実行対象がない場合に取得を促すことがあります。調査のために別のwebpackを取得するより、まず導入済みの依存関係を確認してください。
 
 ## webpack本体と周辺の道具を更新する
 
-[webpack 4.47.0のcreateHash実装](https://github.com/webpack/webpack/blob/v4.47.0/lib/util/createHash.js)では、`md4`指定に対し、Node.js 18以上ならwebpack自身のMD4実装を使います。18未満ではNode.jsの`crypto.createHash`へ処理が渡ります。webpack 4でも、版と実行環境によって経路が異なります。
+[webpack 4.47.0のcreateHash実装](https://github.com/webpack/webpack/blob/v4.47.0/lib/util/createHash.js)では、`md4`指定に対し、Node.js 18以上ならwebpack自身のMD4実装を使います。18未満ではNode.jsの`crypto.createHash`へ[処理](/glossary/処理/)が渡ります。webpack 4でも、版と実行環境によって経路が異なります。
 
-webpackを直接管理している[プロジェクト](/glossary/プロジェクト/)なら、[webpackの移行ガイド](https://webpack.js.org/migrate/5/)を参照し、[設定](/glossary/設定/)・loader・pluginを含めて更新します。webpack 4を維持する場合も、4.47.0の実装を確認したうえで、[プロジェクト](/glossary/プロジェクト/)の対応範囲内で検証してください。
+webpackを直接管理している[プロジェクト](/glossary/プロジェクト/)なら、[webpackの移行ガイド](https://webpack.js.org/migrate/5/)を参照し、[設定](/glossary/設定/)・loader・pluginを含めて[更新](/glossary/更新/)します。webpack 4を維持する場合も、4.47.0の実装を確認したうえで、[プロジェクト](/glossary/プロジェクト/)の対応範囲内で検証してください。
 
 react-scriptsやVue [CLI](/glossary/cli/)などがwebpackを内部で管理している場合、webpackだけを追加しても、その道具の内部の依存が置き換わるとは限りません。管理元の道具と関連する依存を確認します。
 
-webpack 5という大きな版番号だけでも判断できません。[webpackのIssue #14532](https://github.com/webpack/webpack/issues/14532)には、webpack 5.59.0・Node.js 17.0.0で同じ[エラー](/glossary/エラー/)が出た報告があります。更新後は、[エラー](/glossary/エラー/)を出していた実際の処理が通るか確認します。
+webpack 5という大きな版番号だけでも判断できません。[webpackのIssue #14532](https://github.com/webpack/webpack/issues/14532)には、webpack 5.59.0・Node.js 17.0.0で同じ[エラー](/glossary/エラー/)が出た報告があります。更新後は、[エラー](/glossary/エラー/)を出していた実際の[処理](/glossary/処理/)が通るか確認します。
 
 [output.hashFunctionの公式説明](https://webpack.js.org/configuration/output/#outputhashfunction)にはハッシュ方式の指定があります。ただし、この[設定](/glossary/設定/)がすべてのloaderやpluginの呼び出しを変えるわけではありません。[設定](/glossary/設定/)を一か所変えれば必ず直るとは扱わないでください。
 

@@ -56,7 +56,7 @@ volume is already exclusively attached to one node
 
 ## エラーの概要
 
-公式文書によれば、[コンテナ](/glossary/コンテナ/)の状態は `Waiting`、`Running`、`Terminated` の3つです。`Waiting` は、[コンテナ](/glossary/コンテナ/)が起動に必要な処理をまだ終えていない状態で、[イメージ](/glossary/イメージ/)の取得やSecretの適用も含みます。
+公式文書によれば、[コンテナ](/glossary/コンテナ/)の状態は `Waiting`、`Running`、`Terminated` の3つです。`Waiting` は、[コンテナ](/glossary/コンテナ/)が起動に必要な[処理](/glossary/処理/)をまだ終えていない状態で、[イメージ](/glossary/イメージ/)の取得やSecretの適用も含みます。
 
 Podがノードへ割り当てられた後は、kubeletが必要なボリュームをマウントし、[コンテナ](/glossary/コンテナ/)実行基盤を通してPodの通信環境と[コンテナ](/glossary/コンテナ/)を準備します。[Podライフサイクルの公式説明](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-network-readiness)でも、必要なボリュームのマウント後に、Podの実行環境と通信設定を進める順序が示されています。
 
@@ -211,7 +211,7 @@ volumes:
       claimName: app-data
 ```
 
-PVCが `Pending` の場合は、Podを[削除](/glossary/削除/)しても直りません。PVCのEventsを読み、要求容量、アクセスモード、StorageClass、動的作成を担当する処理を確認します。
+PVCが `Pending` の場合は、Podを[削除](/glossary/削除/)しても直りません。PVCのEventsを読み、要求容量、アクセスモード、StorageClass、動的作成を担当する[処理](/glossary/処理/)を確認します。
 
 ```bash
 kubectl get pvc <PVC名> -n <名前空間> -o wide
@@ -244,7 +244,7 @@ kubectl get csinode "$NODE" -o yaml
 kubectl get pods -n kube-system -o wide --field-selector spec.nodeName="$NODE"
 ```
 
-`CSINode` は、ノードに登録されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ登録すると、kubeletが `CSINode` を更新すると説明されています。
+`CSINode` は、ノードに登録されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ登録すると、kubeletが `CSINode` を[更新](/glossary/更新/)すると説明されています。
 
 対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの登録、kubeletとの版の[対応](/glossary/対応/)を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
 
@@ -353,7 +353,7 @@ kubectl get secret app-secret -n <名前空間>
 
 対象が存在し、指定名と[キー](/glossary/キー/)も正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を確認します。
 
-[ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの更新を監視または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
+[ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの[更新](/glossary/更新/)を監視または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
 
 実際に、公式課題（[Kubelet reports configmaps not found even though they do exist](https://github.com/kubernetes/kubernetes/issues/90725)）では、ConfigMapが存在して `kubectl get` でも取得できる一方、複数Podが `ContainerCreating` になり、kubeletが `configmap not found` を繰り返した事例が報告されています。
 
@@ -381,7 +381,7 @@ kubectl events -n <名前空間> --for pod/<Pod名>
 
 Podが `Running` かつ `Ready` で、`FailedMount` の最終時刻が古く、その後に `SuccessfulMountVolume`、`Pulled`、`Created`、`Started` が並んでいるなら、過去の失敗だけを見て[修正](/glossary/修正/)する必要はありません。
 
-反対に、現在も `ContainerCreating` で、`FailedMount` の `Last Seen` が更新され続け、回数が増えているなら未解決です。
+反対に、現在も `ContainerCreating` で、`FailedMount` の `Last Seen` が[更新](/glossary/更新/)され続け、回数が増えているなら未解決です。
 
 監視でも、`FailedMount` が1回出た事実だけを障害条件にすると、一時的な再試行を恒久障害として[通知](/glossary/通知/)します。Podが一定時間 `Waiting` のままか、直近の失敗が繰り返されているか、Readyになったかを合わせて判定します。
 

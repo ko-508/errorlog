@@ -83,9 +83,9 @@ npm explain host-lib
 
 `npm view`は通常[レジストリ](/glossary/レジストリ/)へ問い合わせる。`npm ls`と`npm explain`は[インストール](/glossary/インストール/)済みツリーの調査に使うため、初回[インストール](/glossary/インストール/)前や途中失敗後には十分な情報がないこともある。`npm ls`は不整合を表示して終了[コード](/glossary/コード/)が非0になる場合がある。
 
-要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を更新する。hostを変更するなら、ほかの[プラグイン](/glossary/プラグイン/)のpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを更新し、差分・ビルド・[テスト](/glossary/テスト/)を確認する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
+要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を[更新](/glossary/更新/)する。hostを変更するなら、ほかの[プラグイン](/glossary/プラグイン/)のpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを[更新](/glossary/更新/)し、差分・ビルド・[テスト](/glossary/テスト/)を確認する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
 
-lockfile[削除](/glossary/削除/)や[キャッシュ](/glossary/キャッシュ/)[削除](/glossary/削除/)から始めても、互いに交わらない要求範囲は直らない。lockfileを消すと関係のない依存まで更新される可能性がある。
+lockfile[削除](/glossary/削除/)や[キャッシュ](/glossary/キャッシュ/)[削除](/glossary/削除/)から始めても、互いに交わらない要求範囲は直らない。lockfileを消すと関係のない依存まで[更新](/glossary/更新/)される可能性がある。
 
 ## legacy-peer-depsとforceを区別する
 

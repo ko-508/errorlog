@@ -18,7 +18,7 @@ Prometheus が 503 Service Unavailable [エラー](/glossary/エラー/)を返�
 
 ## 実際のエラーメッセージ例
 
-Prometheus の Web UI にアクセスした際の[レスポンス](/glossary/レスポンス/):
+Prometheus の Web [UI](/glossary/ui/) にアクセスした際の[レスポンス](/glossary/レスポンス/):
 
 ```
 HTTP/1.1 503 Service Unavailable
@@ -160,7 +160,7 @@ sudo systemctl restart prometheus
 
 Prometheus は [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 503 を複数の状況で返すため、[エラーメッセージ](/glossary/エラーメッセージ/)のテキスト内容で原因を判定することが重要です。
 
-Web UI の「Status」メニューから以下の情報を確認できます：
+Web [UI](/glossary/ui/) の「Status」メニューから以下の情報を確認できます：
 
 ```
 - Targets：各スクレイプターゲットの状態（UP/DOWN）

@@ -41,7 +41,7 @@ error pulling image "registry.example.com/myimage:latest": unable to pull regist
 
 ### 原因1: podman loginを実行していない
 
-Podmanで[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)を取得するには、事前に[認証](/glossary/認証/)を完了する必要があります。[ログイン](/glossary/ログイン/)処理を行わずにpull[コマンド](/glossary/コマンド/)を実行すると、認証情報がないため401[エラー](/glossary/エラー/)が発生します。特に新しい環境構築時や別の[レジストリ](/glossary/レジストリ/)を利用する場合に見落とされやすいです。
+Podmanで[レジストリ](/glossary/レジストリ/)から[イメージ](/glossary/イメージ/)を取得するには、事前に[認証](/glossary/認証/)を完了する必要があります。[ログイン](/glossary/ログイン/)[処理](/glossary/処理/)を行わずにpull[コマンド](/glossary/コマンド/)を実行すると、認証情報がないため401[エラー](/glossary/エラー/)が発生します。特に新しい環境構築時や別の[レジストリ](/glossary/レジストリ/)を利用する場合に見落とされやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

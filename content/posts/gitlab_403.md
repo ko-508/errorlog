@@ -24,7 +24,7 @@ remote: GitLab: You are not allowed to push code to this project.
 fatal: unable to access 'https://gitlab.example.com/group/project.git/': The requested URL returned error: 403
 ```
 
-**GitLab Web UI の[レスポンス](/glossary/レスポンス/)：**
+**GitLab Web [UI](/glossary/ui/) の[レスポンス](/glossary/レスポンス/)：**
 
 ```json
 {
@@ -48,7 +48,7 @@ GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアク�
 
 **修正方法：**
 
-GitLab の Web UI から、対象[プロジェクト](/glossary/プロジェクト/)の **Settings → Members** に移動し、ユーザーの[ロール](/glossary/ロール/)を Developer 以上に変更します。変更後、ユーザーは[コード](/glossary/コード/)を[プッシュ](/glossary/プッシュ/)できるようになります。
+GitLab の Web [UI](/glossary/ui/) から、対象[プロジェクト](/glossary/プロジェクト/)の **Settings → Members** に移動し、ユーザーの[ロール](/glossary/ロール/)を Developer 以上に変更します。変更後、ユーザーは[コード](/glossary/コード/)を[プッシュ](/glossary/プッシュ/)できるようになります。
 
 ```bash
 # Developer ロール以上に昇格後、プッシュが成功

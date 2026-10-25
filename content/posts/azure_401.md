@@ -70,7 +70,7 @@ $ az login --use-device-code
 $ az vm list --resource-group myResourceGroup
 ```
 
-`az login` [コマンド](/glossary/コマンド/)を実行すると、[ブラウザ](/glossary/ブラウザ/)が起動して Azure ポータルへの[ログイン](/glossary/ログイン/)が求められます。完了後、[CLI](/glossary/cli/) [セッション](/glossary/セッション/)が更新され、その後の[コマンド](/glossary/コマンド/)が正常に実行できるようになります。
+`az login` [コマンド](/glossary/コマンド/)を実行すると、[ブラウザ](/glossary/ブラウザ/)が起動して Azure ポータルへの[ログイン](/glossary/ログイン/)が求められます。完了後、[CLI](/glossary/cli/) [セッション](/glossary/セッション/)が[更新](/glossary/更新/)され、その後の[コマンド](/glossary/コマンド/)が正常に実行できるようになります。
 
 ### 原因2：サービスプリンシパルのシークレットが期限切れになっている
 
@@ -110,7 +110,7 @@ $ az login --service-principal \
   --tenant <tenant-id>
 ```
 
-新しいシークレットを生成後、[CI/CD](/glossary/ci-cd/) [環境変数](/glossary/環境変数/)や[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)に[設定](/glossary/設定/)される秘密情報を更新することを忘れずに行ってください。
+新しいシークレットを生成後、[CI/CD](/glossary/ci-cd/) [環境変数](/glossary/環境変数/)や[自動化](/glossary/自動化/)[スクリプト](/glossary/スクリプト/)に[設定](/glossary/設定/)される秘密情報を[更新](/glossary/更新/)することを忘れずに行ってください。
 
 ### 原因3：マネージド ID が有効になっていないリソースで使用しようとしている
 
@@ -154,7 +154,7 @@ $ az role assignment create \
 # (マネージドIDが有効になっているため、認証が成功)
 ```
 
-Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/修正/)は不要です。リソース側のマネージド [ID](/glossary/id/) [設定](/glossary/設定/)を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を処理します。
+Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/修正/)は不要です。リソース側のマネージド [ID](/glossary/id/) [設定](/glossary/設定/)を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を[処理](/glossary/処理/)します。
 
 ## ツール固有の注意点
 

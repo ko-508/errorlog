@@ -41,7 +41,7 @@ Error: Error writing blob: Error initiating layer upload to /v2/repo/image/blobs
 
 ### 原因1：コンテナレジストリとの通信障害（Quay等）
 
-Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)をプルまたは[プッシュ](/glossary/プッシュ/)する際に、[SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体がダウンしているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
+Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)をプルまたは[プッシュ](/glossary/プッシュ/)する際に、[SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体が[ダウン](/glossary/ダウン/)しているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -270,7 +270,7 @@ podman run --rm alpine nslookup <service-name>
 
 公式ドキュメント：[Podman Networking](https://docs.podman.io/en/latest/markdown/podman.1.html#network) および [Red Hat Solutions 6987158](https://access.redhat.com/solutions/6987158) で詳細なトラブルシューティング手順が提供されています。
 
-Podman v4.x から v5.0 へのアップグレード後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に[対応](/glossary/対応/)させたかどうかを検証してください。
+Podman v4.x から v5.0 への[アップグレード](/glossary/アップグレード/)後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に[対応](/glossary/対応/)させたかどうかを検証してください。
 
 ## 代替ツールの検討
 

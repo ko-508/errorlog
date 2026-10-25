@@ -59,7 +59,7 @@ curl -X POST http://localhost:3000/api/dashboards/db \
 
 ### 原因1：ダッシュボード JSON に必須フィールドが欠けている
 
-[ダッシュボード](/glossary/ダッシュボード/)を [API](/glossary/api/) 経由で作成または更新する際、`title`、`panels`、`uid` など必須[フィールド](/glossary/フィールド/)が不足していると 400 [エラー](/glossary/エラー/)が発生します。Grafana の各[バージョン](/glossary/バージョン/)で要求される必須[フィールド](/glossary/フィールド/)が異なる場合もあります。
+[ダッシュボード](/glossary/ダッシュボード/)を [API](/glossary/api/) 経由で作成または[更新](/glossary/更新/)する際、`title`、`panels`、`uid` など必須[フィールド](/glossary/フィールド/)が不足していると 400 [エラー](/glossary/エラー/)が発生します。Grafana の各[バージョン](/glossary/バージョン/)で要求される必須[フィールド](/glossary/フィールド/)が異なる場合もあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

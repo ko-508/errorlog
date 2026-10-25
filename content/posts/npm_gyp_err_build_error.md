@@ -51,7 +51,7 @@ trend_incident: false
 
 ## 結論
 
-`gyp ERR! build error` の build は、原因の名前ではありません。失敗した[コマンド](/glossary/コマンド/)の名前です。node-gyp の実装は、処理が例外で終わったときに「その[コマンド](/glossary/コマンド/)名」と `error` をつないだ見出しを出します。だから `configure error` や `install error` も同じ書式で現れます。build と出ていれば、[設定](/glossary/設定/)の段階は通っていて、組み立ての段階で落ちたという意味になります。
+`gyp ERR! build error` の build は、原因の名前ではありません。失敗した[コマンド](/glossary/コマンド/)の名前です。node-gyp の実装は、[処理](/glossary/処理/)が例外で終わったときに「その[コマンド](/glossary/コマンド/)名」と `error` をつないだ見出しを出します。だから `configure error` や `install error` も同じ書式で現れます。build と出ていれば、[設定](/glossary/設定/)の段階は通っていて、組み立ての段階で落ちたという意味になります。
 
 もう1つ押さえる点があります。この段階で node-gyp 自身が投げる[エラー](/glossary/エラー/)は、ほぼ1種類しかありません。実装では、呼び出した `make` か `msbuild` が 0 以外で終わったときに、終了[コード](/glossary/コード/)をそのまま載せた[エラー](/glossary/エラー/)を作ります。つまり `gyp ERR! stack` の行は「外部の[プロセス](/glossary/プロセス/)が失敗した」としか言っていません。
 
@@ -122,7 +122,7 @@ gyp ERR! stack Error: `make` got signal: SIGKILL
 
 ## 近いエラーとの違い
 
-`gyp ERR! configure error` は、組み立ての前の段階です。Python や組み立て[環境](/glossary/環境/)を探す処理で止まっており、`gyp ERR! find Python` のような別の見出しが一緒に出ます。
+`gyp ERR! configure error` は、組み立ての前の段階です。Python や組み立て[環境](/glossary/環境/)を探す[処理](/glossary/処理/)で止まっており、`gyp ERR! find Python` のような別の見出しが一緒に出ます。
 
 `gyp ERR! not ok` は失敗の締めくくりとして必ず出る行で、原因とは関係ありません。
 

@@ -106,7 +106,7 @@ git status
 
 空の`.git`[ディレクトリ](/glossary/ディレクトリ/)を作るだけでは、[リポジトリ](/glossary/リポジトリ/)にはなりません。今回の確認でも、空の`.git`だけがある場所の`git status`は同じ[エラー](/glossary/エラー/)になりました。
 
-[Git 2.51.1の探索実装](https://github.com/git/git/blob/v2.51.1/setup.c)には、HEADの書式、[オブジェクト](/glossary/オブジェクト/)の保存先、参照情報を確認する処理があります。ただし、それらが必ず同じ`.git`の直下に全部あるとは限りません。
+[Git 2.51.1の探索実装](https://github.com/git/git/blob/v2.51.1/setup.c)には、HEADの書式、[オブジェクト](/glossary/オブジェクト/)の保存先、参照情報を確認する[処理](/glossary/処理/)があります。ただし、それらが必ず同じ`.git`の直下に全部あるとは限りません。
 
 [リポジトリ構成の公式文書](https://git-scm.com/docs/gitrepository-layout)によると、`.git`は[ディレクトリ](/glossary/ディレクトリ/)ではなく、実際の管理情報の場所を示す[ファイル](/glossary/ファイル/)の場合もあります。worktreeやsubmoduleで使われる構成です。今回作成したworktreeでは、`.git`が[ファイル](/glossary/ファイル/)でも`git status`は成功しました。
 

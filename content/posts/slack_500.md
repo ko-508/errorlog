@@ -14,7 +14,7 @@ related_services: ["Python", "requests"]
 
 ## エラーの概要
 
-Slack [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Slack側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生している状況です。[HTTP](/glossary/http/) 500 Internal Server Errorは、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)自体は正しい形式であっても、Slack側のインフラストラクチャで処理に失敗したことを示します。ほとんどのケースは一時的な[障害](/glossary/障害/)ですが、[クライアント](/glossary/クライアント/)側の不適切なリクエストパターンが引き金になることもあります。
+Slack [API](/glossary/api/)で500[エラー](/glossary/エラー/)が返される場合、Slack側の[サーバー](/glossary/サーバー/)で予期しない内部[エラー](/glossary/エラー/)が発生している状況です。[HTTP](/glossary/http/) 500 Internal Server Errorは、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)自体は正しい形式であっても、Slack側のインフラストラクチャで[処理](/glossary/処理/)に失敗したことを示します。ほとんどのケースは一時的な[障害](/glossary/障害/)ですが、[クライアント](/glossary/クライアント/)側の不適切なリクエストパターンが引き金になることもあります。
 
 ## 実際のエラーメッセージ例
 
@@ -52,7 +52,7 @@ Timestamp: 2024-01-15T10:23:45Z
 
 **原因1：[レート制限](/glossary/レート制限/)による一時的なサーバーストール**
 
-Slackの[レート制限](https://api.slack.com/docs/rate-limits)を超えた状態で連続して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、Slack[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)処理に失敗して500[エラー](/glossary/エラー/)を返すことがあります。特に`chat.postMessage`や`files.upload`など重い処理を伴う[エンドポイント](/glossary/エンドポイント/)でこの症状が起きやすいです。
+Slackの[レート制限](https://api.slack.com/docs/rate-limits)を超えた状態で連続して[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると、Slack[サーバー](/glossary/サーバー/)側が[リクエスト](/glossary/リクエスト/)[処理](/glossary/処理/)に失敗して500[エラー](/glossary/エラー/)を返すことがあります。特に`chat.postMessage`や`files.upload`など重い[処理](/glossary/処理/)を伴う[エンドポイント](/glossary/エンドポイント/)でこの症状が起きやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -117,7 +117,7 @@ for i in range(100):
 
 **原因2：不正な形式またはサイズを超過した[ペイロード](/glossary/ペイロード/)**
 
-テキストフィールドに過度に長い文字列を[送信](/glossary/送信/)したり、ブロック要素の階層が深すぎたり、[ファイルサイズ](/glossary/ファイルサイズ/)が大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)処理[ロジック](/glossary/ロジック/)が例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
+テキストフィールドに過度に長い文字列を[送信](/glossary/送信/)したり、ブロック要素の階層が深すぎたり、[ファイルサイズ](/glossary/ファイルサイズ/)が大きすぎる場合、Slack[サーバー](/glossary/サーバー/)の[ペイロード](/glossary/ペイロード/)[処理](/glossary/処理/)[ロジック](/glossary/ロジック/)が例外をスローして500[エラー](/glossary/エラー/)が返されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -245,7 +245,7 @@ except Exception as e:
 
 **Slack [API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)別の500[エラー](/glossary/エラー/)頻度**
 
-`chat.postMessage`と`files.upload`は比較的500[エラー](/glossary/エラー/)が返されやすい[エンドポイント](/glossary/エンドポイント/)です。これらは大量の[データベース](/glossary/データベース/)操作と[ログ](/glossary/ログ/)処理を伴うため、Slackの[サーバー](/glossary/サーバー/)負荷が高い時間帯（営業時間帯、グローバルイベント開催時など）に失敗しやすい傾向があります。
+`chat.postMessage`と`files.upload`は比較的500[エラー](/glossary/エラー/)が返されやすい[エンドポイント](/glossary/エンドポイント/)です。これらは大量の[データベース](/glossary/データベース/)操作と[ログ](/glossary/ログ/)[処理](/glossary/処理/)を伴うため、Slackの[サーバー](/glossary/サーバー/)負荷が高い時間帯（営業時間帯、グローバルイベント開催時など）に失敗しやすい傾向があります。
 
 **[ワークスペース](/glossary/ワークスペース/)規模とスロットル**
 

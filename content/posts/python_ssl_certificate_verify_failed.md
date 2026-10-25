@@ -49,7 +49,7 @@ ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verif
 
 ## 実行中のPythonと証明書の設定を確認する
 
-[エラー](/glossary/エラー/)が出た[ターミナル](/glossary/ターミナル/)、仮想環境、CIジョブ、[コンテナ](/glossary/コンテナ/)の中で確認します。以下の`python`は、失敗した処理で使うPythonの[コマンド](/glossary/コマンド/)名に合わせてください。
+[エラー](/glossary/エラー/)が出た[ターミナル](/glossary/ターミナル/)、仮想環境、CIジョブ、[コンテナ](/glossary/コンテナ/)の中で確認します。以下の`python`は、失敗した[処理](/glossary/処理/)で使うPythonの[コマンド](/glossary/コマンド/)名に合わせてください。
 
 ```bash
 python -c "import sys, ssl; print(sys.executable); print(ssl.OPENSSL_VERSION); print(ssl.get_default_verify_paths())"
@@ -77,7 +77,7 @@ Finderで[アプリケーション](/glossary/アプリケーション/)内のPy
 "/Applications/Python 3.13/Install Certificates.command"
 ```
 
-`3.13`は実際に導入した版へ置き換えます。処理が成功したことを確認してから、元の[プログラム](/glossary/プログラム/)を再実行してください。
+`3.13`は実際に導入した版へ置き換えます。[処理](/glossary/処理/)が成功したことを確認してから、元の[プログラム](/glossary/プログラム/)を再実行してください。
 
 この手順で直らなければ、使っているPythonの場所と[エラー](/glossary/エラー/)末尾を再確認します。別のPythonを起動している、社内CAが必要、接続先の[証明書](/glossary/証明書/)が不正などの原因は、この手順だけでは解消しません。`certifi`を[インストール](/glossary/インストール/)しただけで、すべてのPythonの信頼設定が自動的に切り替わるわけでもありません。
 
@@ -126,11 +126,11 @@ Requestsの通常の呼び出しには、[環境変数](/glossary/環境変数/)
 export REQUESTS_CA_BUNDLE=/path/to/company-ca-bundle.pem
 ```
 
-[標準](/glossary/標準/)の`ssl`の既定[パス](/glossary/パス/)に関係する`SSL_CERT_FILE`とは、対象が異なります。また、Requestsの`PreparedRequest`を独自に送る処理では、環境設定の取り込みが必要になる場合があります。[Requestsの公式説明](https://requests.readthedocs.io/en/latest/user/advanced/#prepared-requests)を確認してください。`certifi`の[インストール](/glossary/インストール/)先[ファイル](/glossary/ファイル/)へ直接追記する方法は、ここでは使いません。
+[標準](/glossary/標準/)の`ssl`の既定[パス](/glossary/パス/)に関係する`SSL_CERT_FILE`とは、対象が異なります。また、Requestsの`PreparedRequest`を独自に送る[処理](/glossary/処理/)では、環境設定の取り込みが必要になる場合があります。[Requestsの公式説明](https://requests.readthedocs.io/en/latest/user/advanced/#prepared-requests)を確認してください。`certifi`の[インストール](/glossary/インストール/)先[ファイル](/glossary/ファイル/)へ直接追記する方法は、ここでは使いません。
 
 ## 期限切れ・名前の不一致・コンテナを確認する
 
-`certificate has expired`なら、接続先が送る[証明書](/glossary/証明書/)の期限と実行環境の時計を確認します。[OpenSSLの説明](https://docs.openssl.org/3.0/man1/openssl-verification-options/)では、連鎖内の[証明書](/glossary/証明書/)について有効期間を検査します。接続先の[証明書](/glossary/証明書/)が実際に期限切れなら、管理者による更新が必要です。CA[ファイル](/glossary/ファイル/)を指定するだけでは期限の問題は直りません。
+`certificate has expired`なら、接続先が送る[証明書](/glossary/証明書/)の期限と実行環境の時計を確認します。[OpenSSLの説明](https://docs.openssl.org/3.0/man1/openssl-verification-options/)では、連鎖内の[証明書](/glossary/証明書/)について有効期間を検査します。接続先の[証明書](/glossary/証明書/)が実際に期限切れなら、管理者による[更新](/glossary/更新/)が必要です。CA[ファイル](/glossary/ファイル/)を指定するだけでは期限の問題は直りません。
 
 名前の不一致なら、[URL](/glossary/url/)のホスト名が[証明書](/glossary/証明書/)の対象名に含まれるかを確認します。[ドメイン](/glossary/ドメイン/)用の[証明書](/glossary/証明書/)を持つ[サーバー](/glossary/サーバー/)へ[IPアドレス](/glossary/ipアドレス/)でアクセスしている場合などは、正しい[URL](/glossary/url/)か、適切な[証明書](/glossary/証明書/)へ直します。
 
@@ -150,7 +150,7 @@ export REQUESTS_CA_BUNDLE=/path/to/company-ca-bundle.pem
 
 ## 解決手順のまとめ
 
-最初に[エラー](/glossary/エラー/)末尾の理由を読み、発行者の確認、期限、名前のどこで失敗したかを切り分けます。次に、失敗した処理と同じ[環境](/glossary/環境/)でPythonの実行場所とCA[設定](/glossary/設定/)を確認します。
+最初に[エラー](/glossary/エラー/)末尾の理由を読み、発行者の確認、期限、名前のどこで失敗したかを切り分けます。次に、失敗した[処理](/glossary/処理/)と同じ[環境](/glossary/環境/)でPythonの実行場所とCA[設定](/glossary/設定/)を確認します。
 
 python.org版のmacOSなら証明書導入手順を確認し、社内CAが必要なら管理された[証明書](/glossary/証明書/)を検証へ追加します。[サーバー](/glossary/サーバー/)の中間証明書不足、期限切れ、名前の不一致なら、接続先の[設定](/glossary/設定/)や[URL](/glossary/url/)を直してください。
 

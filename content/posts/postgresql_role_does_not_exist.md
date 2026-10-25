@@ -38,7 +38,7 @@ WHERE rolname = 'app_user';
 
 PostgreSQLの[ロール](/glossary/ロール/)はクラスタ全体で共有されます。`pg_roles`は[ロール](/glossary/ロール/)の情報を参照できるビューで、[パスワード](/glossary/パスワード/)を隠した`pg_authid`の内容を表示します。[データベース](/glossary/データベース/)に接続できているなら、[公式の`pg_roles`の説明](https://www.postgresql.org/docs/current/view-pg-roles.html)に従い、このビューで対象名を確認できます。
 
-`ERROR: role "..." does not exist`は、すでに接続した[セッション](/glossary/セッション/)で、存在しない[ロール](/glossary/ロール/)名を[SQL](/glossary/sql/)が参照したときの一つの表示です。SQLSTATEは`42704`（`undefined_object`）です。PostgreSQL本体の[`get_role_oid()`](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/adt/acl.c)など、[ロール](/glossary/ロール/)名を解決する処理で発生します。
+`ERROR: role "..." does not exist`は、すでに接続した[セッション](/glossary/セッション/)で、存在しない[ロール](/glossary/ロール/)名を[SQL](/glossary/sql/)が参照したときの一つの表示です。SQLSTATEは`42704`（`undefined_object`）です。PostgreSQL本体の[`get_role_oid()`](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/adt/acl.c)など、[ロール](/glossary/ロール/)名を解決する[処理](/glossary/処理/)で発生します。
 
 ただし、**`role "..." does not exist`という文字列だけで接続後の[エラー](/glossary/エラー/)と決めることはできません**。接続時に存在しない利用者を指定した場合、認証方式などによっては`FATAL: role "..." does not exist`と表示されます。先頭が`ERROR`か`FATAL`か、接続が成立したかを先に確認してください。
 
@@ -133,7 +133,7 @@ pg_restore -h target_host -U target_owner -d target_db \
 
 `FATAL: password authentication failed for user "app_user"`は[認証](/glossary/認証/)に失敗した状態です。[パスワード](/glossary/パスワード/)[認証](/glossary/認証/)では、[ロール](/glossary/ロール/)が存在しない場合でも、利用者の存在を外部へ明かさないために同じ認証失敗の文言が返ることがあります。表示だけで[ロール](/glossary/ロール/)の有無を断定せず、管理者が接続先の`pg_roles`を確認してください。
 
-`ERROR: role "app_user" already exists`は、逆に同名の[ロール](/glossary/ロール/)を作ろうとして重複した場合です。`DROP ROLE IF EXISTS app_user`で出る`role "app_user" does not exist, skipping`はNOTICEで、対象がなければ[削除](/glossary/削除/)を飛ばして処理を続けます。`IF EXISTS`は存在しない[ロール](/glossary/ロール/)への`GRANT`や所有者の指定を直す手段ではありません。
+`ERROR: role "app_user" already exists`は、逆に同名の[ロール](/glossary/ロール/)を作ろうとして重複した場合です。`DROP ROLE IF EXISTS app_user`で出る`role "app_user" does not exist, skipping`はNOTICEで、対象がなければ[削除](/glossary/削除/)を飛ばして[処理](/glossary/処理/)を続けます。`IF EXISTS`は存在しない[ロール](/glossary/ロール/)への`GRANT`や所有者の指定を直す手段ではありません。
 
 ## 解決手順のまとめ
 
@@ -141,6 +141,6 @@ pg_restore -h target_host -U target_owner -d target_db \
 
 `GRANT`や`SET ROLE`なら、[ロール](/glossary/ロール/)の作成順序と[設定](/glossary/設定/)を確認します。復元時の[エラー](/glossary/エラー/)なら、元の所有者や[権限](/glossary/権限/)を引き継ぐのか、移行先の[ロール](/glossary/ロール/)へ置き換えるのかを決めます。前者は[ロール](/glossary/ロール/)を先に用意し、後者は復元形式に応じて`--no-owner`と`--no-acl`を使い分けます。
 
-復元時に[エラー](/glossary/エラー/)が出ても、`pg_restore`は既定で処理を続けます。最後の[エラー](/glossary/エラー/)件数と[復元](/glossary/復元/)された[オブジェクト](/glossary/オブジェクト/)を確認し、不完全な状態を放置しないでください。再実行する前には、復元先を作り直すか、どこまで適用されたかを確認します。
+復元時に[エラー](/glossary/エラー/)が出ても、`pg_restore`は既定で[処理](/glossary/処理/)を続けます。最後の[エラー](/glossary/エラー/)件数と[復元](/glossary/復元/)された[オブジェクト](/glossary/オブジェクト/)を確認し、不完全な状態を放置しないでください。再実行する前には、復元先を作り直すか、どこまで適用されたかを確認します。
 
 免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[ロール](/glossary/ロール/)、所有者、[権限](/glossary/権限/)、ダンプを[本番環境](/glossary/本番環境/)で変更する前に、既存の権限構成と復元先への影響を確認してください。

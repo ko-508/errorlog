@@ -47,7 +47,7 @@ with open("data.txt", encoding="utf-8") as f:
 | `illegal multibyte sequence` | cp932として不正な並び |
 | `incomplete multibyte sequence` | 複数[バイト](/glossary/バイト/)で表す文字の並びが途中で終わっている |
 
-位置は[行番号](/glossary/行番号/)ではありません。テキスト読み込みで内部の[バッファ](/glossary/バッファ/)を処理している場合、[ファイル](/glossary/ファイル/)全体の先頭からの位置とも限りません。値や位置は内容によって変わります。
+位置は[行番号](/glossary/行番号/)ではありません。テキスト読み込みで内部の[バッファ](/glossary/バッファ/)を[処理](/glossary/処理/)している場合、[ファイル](/glossary/ファイル/)全体の先頭からの位置とも限りません。値や位置は内容によって変わります。
 
 また、今回の確認では、[UTF-8](/glossary/utf-8/)の「日本」をcp932で読むと、例外を出さず「譌･譛ｬ」になりました。[エラー](/glossary/エラー/)が出ないことだけでは、正しく読めたと判断できません。
 
@@ -136,7 +136,7 @@ python -X utf8 read.py
 
 [Python 3.15の変更点](https://docs.python.org/3.15/whatsnew/3.15.html)では、[UTF-8](/glossary/utf-8/)モードが既定で有効となり、文字[コード](/glossary/コード/)未指定の`open()`が[UTF-8](/glossary/utf-8/)を使うと説明されています。`PYTHONUTF8=0`や`-X utf8=0`で無効にすると、地域設定に依存する動作へ戻ります。
 
-そのため、3.15への更新だけを解決策にすると、今度は文字[コード](/glossary/コード/)未指定で読んでいたcp932の[ファイル](/glossary/ファイル/)が読めなくなる可能性があります。[UTF-8](/glossary/utf-8/)の[ファイル](/glossary/ファイル/)には[UTF-8](/glossary/utf-8/)、cp932の[ファイル](/glossary/ファイル/)にはcp932を明示する方法なら、既定値の変更に左右されません。
+そのため、3.15への[更新](/glossary/更新/)だけを解決策にすると、今度は文字[コード](/glossary/コード/)未指定で読んでいたcp932の[ファイル](/glossary/ファイル/)が読めなくなる可能性があります。[UTF-8](/glossary/utf-8/)の[ファイル](/glossary/ファイル/)には[UTF-8](/glossary/utf-8/)、cp932の[ファイル](/glossary/ファイル/)にはcp932を明示する方法なら、既定値の変更に左右されません。
 
 文字[コード](/glossary/コード/)未指定の箇所を探すには、Python 3.10以降で次を使えます。
 
@@ -160,7 +160,7 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0x93 in position 0: invalid 
 
 この表示は、今回の確認でcp932の「日本語」を[UTF-8](/glossary/utf-8/)として読んだ結果です。`encoding="utf-8"`は、[ファイル](/glossary/ファイル/)の中身を[UTF-8](/glossary/utf-8/)へ変換する指定ではありません。
 
-`errors="ignore"`で読めない[バイト](/glossary/バイト/)を捨てたり、`errors="replace"`で置き換えたりすると、元の内容が失われます。処理を止めなくすることと、正しい内容を読むことは別です。元の文字を必要とするデータでは、文字[コード](/glossary/コード/)の不一致を先に直します。
+`errors="ignore"`で読めない[バイト](/glossary/バイト/)を捨てたり、`errors="replace"`で置き換えたりすると、元の内容が失われます。[処理](/glossary/処理/)を止めなくすることと、正しい内容を読むことは別です。元の文字を必要とするデータでは、文字[コード](/glossary/コード/)の不一致を先に直します。
 
 ## 解決手順のまとめ
 
@@ -168,7 +168,7 @@ UnicodeDecodeError: 'utf-8' codec can't decode byte 0x93 in position 0: invalid 
 
 Pythonの既定値や地域設定だけに頼らず、[ファイル](/glossary/ファイル/)の[仕様](/glossary/仕様/)に合わせて指定してください。読み込み後には、日本語の内容やCSVの列名も確認します。
 
-この記事の最小例は、[Linux](/glossary/linux/)上のCPython 3.12.14で文字[コード](/glossary/コード/)を明示して検証しました。[UTF-8](/glossary/utf-8/)の「あいうえお」をcp932で読むと、冒頭に掲載した`0x86`・位置8の[エラー](/glossary/エラー/)になりました。正しい指定による読み込み、逆方向の[エラー](/glossary/エラー/)、BOMの処理、例外なしの文字化け、`-X utf8`による有効化も確認しています。日本語Windowsの既定値での実行と、Python 3.15での実行は未検証です。
+この記事の最小例は、[Linux](/glossary/linux/)上のCPython 3.12.14で文字[コード](/glossary/コード/)を明示して検証しました。[UTF-8](/glossary/utf-8/)の「あいうえお」をcp932で読むと、冒頭に掲載した`0x86`・位置8の[エラー](/glossary/エラー/)になりました。正しい指定による読み込み、逆方向の[エラー](/glossary/エラー/)、BOMの[処理](/glossary/処理/)、例外なしの文字化け、`-X utf8`による有効化も確認しています。日本語Windowsの既定値での実行と、Python 3.15での実行は未検証です。
 
 ---
 

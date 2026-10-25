@@ -100,7 +100,7 @@ spec:
         app.kubernetes.io/version: "1.2.3"   # 印としては付けてよい
 ```
 
-すでに作成済みの対象で変更が必要な場合、更新では通りません。[削除](/glossary/削除/)して作り直すか、別の名前で新しく作ることになります。`kubectl apply` を繰り返しても状況は変わりません。
+すでに作成済みの対象で変更が必要な場合、[更新](/glossary/更新/)では通りません。[削除](/glossary/削除/)して作り直すか、別の名前で新しく作ることになります。`kubectl apply` を繰り返しても状況は変わりません。
 
 Deployment の選別条件のほか、Job の雛形、PersistentVolumeClaim の一部の項目なども同じ扱いです。共通の見分け方は、`message` の末尾が `field is immutable` であることです。
 
@@ -174,7 +174,7 @@ kubectl apply -f manifest.yaml --dry-run=client
 1. `details.causes` を開く。ここに、どの[フィールド](/glossary/フィールド/)がなぜ駄目かが列挙されている。
 2. `reason` を読む。`FieldValueRequired` は書き忘れ、`FieldValueInvalid` は値の問題。
 3. `message` の末尾に `field is immutable` があるかを見る。あれば値ではなく変更可否の問題。
-4. 不変[フィールド](/glossary/フィールド/)なら、更新では通らない。作り直すか、その項目を変えない設計にする。
+4. 不変[フィールド](/glossary/フィールド/)なら、[更新](/glossary/更新/)では通らない。作り直すか、その項目を変えない設計にする。
 5. `causes` が複数あるなら、まとめて直す。1つずつ試すと往復が増える。
 6. 422 ではなく 400 が返っているなら、綴り・重複・型を疑う。`--validate=warn` で先に進める。
 7. `Error from server` の付かない[エラー](/glossary/エラー/)は 422 の可能性が高い。表示形式が違う。

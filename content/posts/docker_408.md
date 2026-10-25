@@ -44,7 +44,7 @@ Error response from daemon: received unexpected HTTP status: 408 Request Timeout
 
 ### 原因1：Docker Daemon のタイムアウト設定が短すぎる
 
-[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト[設定](/glossary/設定/)では、大規模[イメージ](/glossary/イメージ/)のビルドや[プッシュ](/glossary/プッシュ/)時に処理が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
+[Docker](/glossary/docker/) Daemon（dockerd）のデフォルトタイムアウト[設定](/glossary/設定/)では、大規模[イメージ](/glossary/イメージ/)のビルドや[プッシュ](/glossary/プッシュ/)時に[処理](/glossary/処理/)が間に合わないことがあります。特に[ネットワーク](/glossary/ネットワーク/)が遅い[環境](/glossary/環境/)では顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -233,7 +233,7 @@ RUN apt-get update && \
 
 ### Docker Desktop のリソース制限
 
-Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当てられた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足していると、処理の[遅延](/glossary/遅延/)が408[エラー](/glossary/エラー/)につながります：
+Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当てられた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足していると、[処理](/glossary/処理/)の[遅延](/glossary/遅延/)が408[エラー](/glossary/エラー/)につながります：
 
 ```bash
 # Docker Desktop の設定確認（Mac の場合）

@@ -50,7 +50,7 @@ trend_incident: false
 
 [マージ](/glossary/マージ/)可否そのものが立っていない状態です。代表は2つあります。
 
-1つ目は、[マージ](/glossary/マージ/)可否がまだ計算されていない場合です。公式リファレンスのとおり、プルリクエストの mergeable は true・false・null の3値を取り、null は「[GitHub](/glossary/github/) が背景の処理で計算を始めたところ」を意味します。時間を置いて取得し直せば null 以外になります。作成直後に即[マージ](/glossary/マージ/)する[自動化](/glossary/自動化/)で起きやすく、人が[ブラウザ](/glossary/ブラウザ/)で見たときに「[マージ](/glossary/マージ/)できます」の表示が一拍遅れて緑になるのと同じ現象です。
+1つ目は、[マージ](/glossary/マージ/)可否がまだ計算されていない場合です。公式リファレンスのとおり、プルリクエストの mergeable は true・false・null の3値を取り、null は「[GitHub](/glossary/github/) が背景の[処理](/glossary/処理/)で計算を始めたところ」を意味します。時間を置いて取得し直せば null 以外になります。作成直後に即[マージ](/glossary/マージ/)する[自動化](/glossary/自動化/)で起きやすく、人が[ブラウザ](/glossary/ブラウザ/)で見たときに「[マージ](/glossary/マージ/)できます」の表示が一拍遅れて緑になるのと同じ現象です。
 
 2つ目は、下書き（draft）のプルリクエストです。公式文書に、下書きのプルリクエストは[マージ](/glossary/マージ/)できないと明記されています。取得したプルリクエストの draft が true なら、[マージ](/glossary/マージ/)の前に下書きを解除する必要があります。
 
@@ -162,7 +162,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 gh [コマンド](/glossary/コマンド/)を使っている場合は、[HTTP](/glossary/http/) の 405 が出ないことがあります。`gh pr merge` は [GraphQL](/glossary/graphql/) の mergePullRequest を呼ぶため、同じ原因でも `GraphQL: Base branch was modified. Review and try the merge again.` のように、[HTTP](/glossary/http/) の[ステータスコード](/glossary/ステータスコード/)を伴わない形で表示されます。文言が同じであれば、本記事の原因2と同じ扱いで構いません。
 
-最後に、公式 [API](/glossary/api/) 定義で 405 を定義している残り2つは、[リポジトリ](/glossary/リポジトリ/)のプルリクエスト作成上限（pull request creation cap）の取得と更新の[エンドポイント](/glossary/エンドポイント/)です。ただし定義には Method Not Allowed とあるだけで、どの条件でそうなるかは記載されていません。[マージ](/glossary/マージ/)以外で 405 に当たった場合は、この2つに該当するかをまず確認してください。
+最後に、公式 [API](/glossary/api/) 定義で 405 を定義している残り2つは、[リポジトリ](/glossary/リポジトリ/)のプルリクエスト作成上限（pull request creation cap）の取得と[更新](/glossary/更新/)の[エンドポイント](/glossary/エンドポイント/)です。ただし定義には Method Not Allowed とあるだけで、どの条件でそうなるかは記載されていません。[マージ](/glossary/マージ/)以外で 405 に当たった場合は、この2つに該当するかをまず確認してください。
 
 ## 切り分けの順序
 
@@ -203,7 +203,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ## Editor's Note
 
-原因2の実例として、Kargo（継続的デリバリの[ツール](/glossary/ツール/)）の課題記録があります（[git-merge-pr: 'Base branch was modified' 405 should be retryable when wait=true](https://github.com/akuity/kargo/issues/5761)）。2026年2月18日に登録された報告で、同じ[リポジトリ](/glossary/リポジトリ/)に対して2つの処理が並行して昇格したとき、先のプルリクエストは通り、後のものが 405 Base branch was modified で失敗する、という状況が記録されています。
+原因2の実例として、Kargo（継続的デリバリの[ツール](/glossary/ツール/)）の課題記録があります（[git-merge-pr: 'Base branch was modified' 405 should be retryable when wait=true](https://github.com/akuity/kargo/issues/5761)）。2026年2月18日に登録された報告で、同じ[リポジトリ](/glossary/リポジトリ/)に対して2つの[処理](/glossary/処理/)が並行して昇格したとき、先のプルリクエストは通り、後のものが 405 Base branch was modified で失敗する、という状況が記録されています。
 
 この記録が示唆に富むのは、開発者側の返答です。「[マージ](/glossary/マージ/)を実行する前に[マージ](/glossary/マージ/)可否の確認をしているはずなのに、その確認を通過して、なお実際の[マージ](/glossary/マージ/)で405になるのはなぜか分からない」と書かれています。これは、確認してから[マージ](/glossary/マージ/)するという素直な作り方では、この405を無くせないということです。確認と[マージ](/glossary/マージ/)の間に他の[マージ](/glossary/マージ/)が割り込む余地は必ず残るためです。つまり原因2への対処は、確認の精度を上げることではなく、この文言に対する[リトライ](/glossary/リトライ/)を最初から設計に入れることです。
 

@@ -15,7 +15,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function または[フレームワーク](/glossary/フレームワーク/)の [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の処理を担当する[関数](/glossary/関数/)や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
+Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function または[フレームワーク](/glossary/フレームワーク/)の [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の[処理](/glossary/処理/)を担当する[関数](/glossary/関数/)や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
 
 ## 実際のエラーメッセージ例
 
@@ -71,7 +71,7 @@ export default function handler(req, res) {
 }
 ```
 
-[非同期処理](/glossary/非同期処理/)の場合、Promise の完了を待たずに[レスポンス](/glossary/レスポンス/)を返すと、[バックエンド](/glossary/バックエンド/)処理の不完全さや未処理の[エラー](/glossary/エラー/)が原因で Vercel が不正な応答と見なす可能性があります：
+[非同期処理](/glossary/非同期処理/)の場合、Promise の完了を待たずに[レスポンス](/glossary/レスポンス/)を返すと、[バックエンド](/glossary/バックエンド/)[処理](/glossary/処理/)の不完全さや未処理の[エラー](/glossary/エラー/)が原因で Vercel が不正な応答と見なす可能性があります：
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -195,7 +195,7 @@ export default async function handler(req, res) {
 
 Vercel での 502 [エラー](/glossary/エラー/)は、[環境](/glossary/環境/)によって表現が異なります。[本番環境](/glossary/本番環境/)（Production）では即座にエラーページが返されますが、プレビュー[環境](/glossary/環境/)（Preview）では[関数](/glossary/関数/)の[ログ](/glossary/ログ/)が詳細に表示されることがあります。
 
-**Serverless Function の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**：[デフォルト](/glossary/デフォルト/)では最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が[設定](/glossary/設定/)されています（Pro プラン以上で最大 900 秒）。より長い処理が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
+**Serverless Function の[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)**：[デフォルト](/glossary/デフォルト/)では最大 10 秒の[タイムアウト](/glossary/タイムアウト/)が[設定](/glossary/設定/)されています（Pro プラン以上で最大 900 秒）。より長い[処理](/glossary/処理/)が必要な場合、Pro 以上のプランであれば `vercel.json` で[タイムアウト](/glossary/タイムアウト/)時間を延長できます：
 
 ```json
 {

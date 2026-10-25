@@ -16,7 +16,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-[AWS](/glossary/aws/) [CLI](/glossary/cli/)やboto3で次の[エラー](/glossary/エラー/)が出たら、その処理が参照できる場所に認証情報が見つかっていません。
+[AWS](/glossary/aws/) [CLI](/glossary/cli/)やboto3で次の[エラー](/glossary/エラー/)が出たら、その[処理](/glossary/処理/)が参照できる場所に認証情報が見つかっていません。
 
 ```text
 Unable to locate credentials. You can configure credentials by running "aws configure".
@@ -118,7 +118,7 @@ docker run --rm \
   myimage
 ```
 
-root以外で動く[イメージ](/glossary/イメージ/)では、マウント先をそのユーザーの`.aws`[ディレクトリ](/glossary/ディレクトリ/)に変更します。SSOを使う場合は[ログイン](/glossary/ログイン/)済みの[キャッシュ](/glossary/キャッシュ/)も必要で、読み取り専用のマウントでは[コンテナ](/glossary/コンテナ/)内から[キャッシュ](/glossary/キャッシュ/)を更新できないことがあります。認証情報をDockerfileにコピーして[イメージ](/glossary/イメージ/)へ含める方法は使いません。
+root以外で動く[イメージ](/glossary/イメージ/)では、マウント先をそのユーザーの`.aws`[ディレクトリ](/glossary/ディレクトリ/)に変更します。SSOを使う場合は[ログイン](/glossary/ログイン/)済みの[キャッシュ](/glossary/キャッシュ/)も必要で、読み取り専用のマウントでは[コンテナ](/glossary/コンテナ/)内から[キャッシュ](/glossary/キャッシュ/)を[更新](/glossary/更新/)できないことがあります。認証情報をDockerfileにコピーして[イメージ](/glossary/イメージ/)へ含める方法は使いません。
 
 CIでは、認証処理が[AWS](/glossary/aws/)[コマンド](/glossary/コマンド/)より前に実行され、その[コマンド](/glossary/コマンド/)を動かす[ステップ](/glossary/ステップ/)や[コンテナ](/glossary/コンテナ/)まで[設定](/glossary/設定/)が渡っているか確認します。[GitHub](/glossary/github/) Actionsでは、[AWS公式の認証情報設定アクション](https://github.com/aws-actions/configure-aws-credentials)を利用し、OIDCで[IAM](/glossary/iam/)[ロール](/glossary/ロール/)を引き受ける構成を選べます。OIDCでは、[GitHub](/glossary/github/)側の[トークン](/glossary/トークン/)発行権限と[AWS](/glossary/aws/)側の信頼[ポリシー](/glossary/ポリシー/)も必要です。
 
@@ -137,13 +137,13 @@ ECSでは、[タスク](/glossary/タスク/)定義の`taskRoleArn`を確認し�
 | `taskRoleArn` | [コンテナ](/glossary/コンテナ/)内の[アプリケーション](/glossary/アプリケーション/)による[AWS](/glossary/aws/) [API](/glossary/api/)呼び出し |
 | `executionRoleArn` | ECSによる[イメージ](/glossary/イメージ/)取得や[ログ](/glossary/ログ/)[送信](/glossary/送信/)など |
 
-実行[ロール](/glossary/ロール/)だけを[設定](/glossary/設定/)しても、[アプリケーション](/glossary/アプリケーション/)の認証情報にはなりません。タスクロールを[設定](/glossary/設定/)した新しい[タスク](/glossary/タスク/)を起動し、[コンテナ](/glossary/コンテナ/)内の処理から確認します。
+実行[ロール](/glossary/ロール/)だけを[設定](/glossary/設定/)しても、[アプリケーション](/glossary/アプリケーション/)の認証情報にはなりません。タスクロールを[設定](/glossary/設定/)した新しい[タスク](/glossary/タスク/)を起動し、[コンテナ](/glossary/コンテナ/)内の[処理](/glossary/処理/)から確認します。
 
 Lambdaでは、実行[ロール](/glossary/ロール/)から得た認証情報をランタイムが提供します。[公式文書](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html)では、アクセスキーやセッショントークンが予約済みの[環境変数](/glossary/環境変数/)として記載されています。Lambda上でこの[エラー](/glossary/エラー/)が出る場合は、別[プロセス](/glossary/プロセス/)への[環境変数](/glossary/環境変数/)の引き渡しなどを確認し、ECSのタスクロールと同じ仕組みとして扱わないでください。
 
 ## 解決手順のまとめ
 
-最初に、失敗した処理と同じ[環境](/glossary/環境/)で`aws configure list`を実行します。プロファイルを指定している場合は同じ`--profile`を付け、認証情報が取得できているか確認します。
+最初に、失敗した[処理](/glossary/処理/)と同じ[環境](/glossary/環境/)で`aws configure list`を実行します。プロファイルを指定している場合は同じ`--profile`を付け、認証情報が取得できているか確認します。
 
 取得できていなければ、[開発環境](/glossary/開発環境/)ではプロファイルと[ログイン](/glossary/ログイン/)、[Docker](/glossary/docker/)・CIでは[設定](/glossary/設定/)の引き渡し、EC2・ECSでは認証情報を提供する[ロール](/glossary/ロール/)を直します。修正後は`aws sts get-caller-identity`で[アカウント](/glossary/アカウント/)とARNを確認し、元の操作を再実行してください。
 

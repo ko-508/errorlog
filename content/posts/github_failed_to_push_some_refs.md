@@ -67,7 +67,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`error: failed to push some refs to '...'` は、理由を含んでいません。[git](/glossary/git/) の実装では、[送信](/glossary/送信/)の処理が失敗して戻ってきたときに、この1行を無条件で出します。中身が何であれ表示されるため、この行を[検索](/glossary/検索/)しても自分の状況に合う答えには辿り着きにくくなります。
+`error: failed to push some refs to '...'` は、理由を含んでいません。[git](/glossary/git/) の実装では、[送信](/glossary/送信/)の[処理](/glossary/処理/)が失敗して戻ってきたときに、この1行を無条件で出します。中身が何であれ表示されるため、この行を[検索](/glossary/検索/)しても自分の状況に合う答えには辿り着きにくくなります。
 
 理由は、この行の1つ上に出ます。`! [rejected]` で始まる行の末尾、括弧の中に入る語がそれです。入りうる語は `non-fast-forward`、`fetch first`、`already exists`、`needs force`、`stale info` の5つと、受け取り側が断ったことを示す `[remote rejected]` です。
 
@@ -93,7 +93,7 @@ hint: 'git pull' before pushing again.
 
 括弧に入る5語は、[git](/glossary/git/) が次の順で判定した結果です。まず送り先が[タグ](/glossary/タグ/)で相手に同名があれば `already exists`。次に相手の現在位置が指す[オブジェクト](/glossary/オブジェクト/)を手元が持っていなければ `fetch first`。次に相手の位置か送る位置のどちらかが[コミット](/glossary/コミット/)でなければ `needs force`。最後に、送る位置が相手の位置の子孫でなければ `non-fast-forward` です。`stale info` だけは別経路で、`--force-with-lease` を付けたときの照合に失敗した場合に出ます。
 
-同じ「更新を拒んだ」でも、この5語は互いに排他です。上から順に当てはまった時点で確定するため、たとえば `fetch first` と表示されているときに履歴の前後関係を調べても意味がありません。判定はそこまで進んでいません。
+同じ「[更新](/glossary/更新/)を拒んだ」でも、この5語は互いに排他です。上から順に当てはまった時点で確定するため、たとえば `fetch first` と表示されているときに履歴の前後関係を調べても意味がありません。判定はそこまで進んでいません。
 
 ## まず最初に：拒否された行だけを取り出す
 
@@ -119,7 +119,7 @@ git log --oneline origin/main..main
 
 ### 原因1：手元の履歴が相手の続きになっていない（non-fast-forward） {#non-fast-forward}
 
-最も多い形です。相手の現在位置から手元の位置へ辿れないため、[git](/glossary/git/) は更新を拒みます。同じ[ブランチ](/glossary/ブランチ/)を複数人が触っている場合か、手元で `git commit --amend` や `git rebase` を行って履歴を作り直した場合に起きます。
+最も多い形です。相手の現在位置から手元の位置へ辿れないため、[git](/glossary/git/) は[更新](/glossary/更新/)を拒みます。同じ[ブランチ](/glossary/ブランチ/)を複数人が触っている場合か、手元で `git commit --amend` や `git rebase` を行って履歴を作り直した場合に起きます。
 
 表示はこうなります。
 

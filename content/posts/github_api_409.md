@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-[GitHub](/glossary/github/) [API](/glossary/api/) の 409 Conflict は、[リクエスト](/glossary/リクエスト/)の綴りや[権限](/glossary/権限/)の問題ではなく、「[リクエスト](/glossary/リクエスト/)の内容が対象の現在の状態と矛盾している」ことを示す[コード](/glossary/コード/)です。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で409が定義されている[エンドポイント](/glossary/エンドポイント/)を調べると、実際の409は3系統に整理できます。第一に、本物の[マージ](/glossary/マージ/)競合です（[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/) [API](/glossary/api/) や上流[ブランチ](/glossary/ブランチ/)との[同期](/glossary/同期/) [API](/glossary/api/) が、競合時に409を返すと定義されています）。第二に、競合ガードです。対象が「あなたが見た時点」から動いたことを検出して操作を止める仕組みで、pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha を渡した場合の head 不一致や、[ファイル](/glossary/ファイル/)更新（contents）[API](/glossary/api/) の sha 不一致がこれにあたります。第三に、[リポジトリ](/glossary/リポジトリ/)の状態が操作の前提を満たさないケースで、代表は空の[リポジトリ](/glossary/リポジトリ/)に対する [Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系の [API](/glossary/api/) です（公式ガイドに、[リポジトリ](/glossary/リポジトリ/)が空または利用不能のとき [REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています）。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 409 Conflict は、[リクエスト](/glossary/リクエスト/)の綴りや[権限](/glossary/権限/)の問題ではなく、「[リクエスト](/glossary/リクエスト/)の内容が対象の現在の状態と矛盾している」ことを示す[コード](/glossary/コード/)です。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で409が定義されている[エンドポイント](/glossary/エンドポイント/)を調べると、実際の409は3系統に整理できます。第一に、本物の[マージ](/glossary/マージ/)競合です（[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/) [API](/glossary/api/) や上流[ブランチ](/glossary/ブランチ/)との[同期](/glossary/同期/) [API](/glossary/api/) が、競合時に409を返すと定義されています）。第二に、競合ガードです。対象が「あなたが見た時点」から動いたことを検出して操作を止める仕組みで、pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha を渡した場合の head 不一致や、[ファイル](/glossary/ファイル/)[更新](/glossary/更新/)（contents）[API](/glossary/api/) の sha 不一致がこれにあたります。第三に、[リポジトリ](/glossary/リポジトリ/)の状態が操作の前提を満たさないケースで、代表は空の[リポジトリ](/glossary/リポジトリ/)に対する [Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系の [API](/glossary/api/) です（公式ガイドに、[リポジトリ](/glossary/リポジトリ/)が空または利用不能のとき [REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています）。
 
 同じくらい重要なのが、409だと思い込みやすいのに409ではない[エラー](/glossary/エラー/)です。「Reference already exists」（[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)が既に存在する）、「No commits between ...」（差分のないプルリクエスト作成）、既存[タグ](/glossary/タグ/)への[リリース](/glossary/リリース/)作成は、いずれも 422 Validation Failed です。また、競合状態のプルリクエストを[マージ](/glossary/マージ/)しようとした場合は 405 が定義されています。これらを409として調査すると出口のない回り道になるため、まず[コード](/glossary/コード/)と系統の確認から始めます。
 
@@ -34,11 +34,11 @@ HTTP/2 409
 }
 ```
 
-message の文言が、系統を見分ける最初の手がかりです。[Git](/glossary/git/) Repository is empty なら原因3、[マージ](/glossary/マージ/)操作への応答なら原因1か2、[ファイル](/glossary/ファイル/)更新への応答なら原因2です。
+message の文言が、系統を見分ける最初の手がかりです。[Git](/glossary/git/) Repository is empty なら原因3、[マージ](/glossary/マージ/)操作への応答なら原因1か2、[ファイル](/glossary/ファイル/)[更新](/glossary/更新/)への応答なら原因2です。
 
 ## まず最初に：どの操作への409かで3つに分岐する
 
-[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/)（POST .../merges）や上流との[同期](/glossary/同期/)（POST .../merge-upstream）への409なら、[マージ](/glossary/マージ/)競合です（原因1）。pull request の[マージ](/glossary/マージ/)（PUT .../pulls/{n}/merge）への409は、[リクエスト](/glossary/リクエスト/)に sha を渡している場合に head の移動を検出したガードです（原因2）。[ファイル](/glossary/ファイル/)の作成・更新・[削除](/glossary/削除/)（PUT / DELETE .../contents/{path}）への409も、並行更新による sha の食い違いというガードです（原因2）。[コミット](/glossary/コミット/)一覧や [Git](/glossary/git/) [データベース](/glossary/データベース/)系（git/refs、git/commits、git/trees など）の取得・作成への409で、message が [Git](/glossary/git/) Repository is empty なら、[リポジトリ](/glossary/リポジトリ/)が空です（原因3）。
+[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/)（POST .../merges）や上流との[同期](/glossary/同期/)（POST .../merge-upstream）への409なら、[マージ](/glossary/マージ/)競合です（原因1）。pull request の[マージ](/glossary/マージ/)（PUT .../pulls/{n}/merge）への409は、[リクエスト](/glossary/リクエスト/)に sha を渡している場合に head の移動を検出したガードです（原因2）。[ファイル](/glossary/ファイル/)の作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)（PUT / DELETE .../contents/{path}）への409も、並行更新による sha の食い違いというガードです（原因2）。[コミット](/glossary/コミット/)一覧や [Git](/glossary/git/) [データベース](/glossary/データベース/)系（git/refs、git/commits、git/trees など）の取得・作成への409で、message が [Git](/glossary/git/) Repository is empty なら、[リポジトリ](/glossary/リポジトリ/)が空です（原因3）。
 
 ## よくある原因と解決手順
 
@@ -80,9 +80,9 @@ esac
 
 pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha [パラメータ](/glossary/パラメータ/)を渡すと、「この head のときだけ[マージ](/glossary/マージ/)してよい」という指定になり、公式定義のとおり、head がその sha と一致しなければ409が返ります。これは[レビュー](/glossary/レビュー/)が済んだ内容と実際に[マージ](/glossary/マージ/)される内容のすり替えを防ぐガードで、409は「[レビュー](/glossary/レビュー/)後に新しい[コミット](/glossary/コミット/)が積まれた」という[通知](/glossary/通知/)です。対処は、head を確認し直し、必要なら再[レビュー](/glossary/レビュー/)のうえ最新の sha で再実行することです。
 
-[ファイル](/glossary/ファイル/)の作成・更新・[削除](/glossary/削除/)（contents [API](/glossary/api/)）の409も同じ構図です。更新には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を更新すると、渡した sha が古くなって409になります。典型は、[GitHub](/glossary/github/) Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を更新する構成です。
+[ファイル](/glossary/ファイル/)の作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)（contents [API](/glossary/api/)）の409も同じ構図です。[更新](/glossary/更新/)には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を[更新](/glossary/更新/)すると、渡した sha が古くなって409になります。典型は、[GitHub](/glossary/github/) Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を[更新](/glossary/更新/)する構成です。
 
-**Before（並列ジョブが同じ[ファイル](/glossary/ファイル/)を取得→更新し、先に書いた方以外が409になる）：**
+**Before（並列ジョブが同じ[ファイル](/glossary/ファイル/)を取得→[更新](/glossary/更新/)し、先に書いた方以外が409になる）：**
 
 ```yaml
 jobs:

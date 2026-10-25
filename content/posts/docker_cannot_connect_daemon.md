@@ -320,7 +320,7 @@ docker info
 
 ## Editor's Note
 
-この[エラー](/glossary/エラー/)の難しさは、**[Docker](/glossary/docker/) [CLI](/glossary/cli/)とdaemonが別の処理であること、さらに接続先が1つとは限らないことを、短い文言がほとんど説明していない**点にあります。
+この[エラー](/glossary/エラー/)の難しさは、**[Docker](/glossary/docker/) [CLI](/glossary/cli/)とdaemonが別の[処理](/glossary/処理/)であること、さらに接続先が1つとは限らないことを、短い文言がほとんど説明していない**点にあります。
 
 2014年4月、Mobyの課題に `dial unix /var/run/docker.sock: permission denied` という報告が登録されています（[dial unix /var/run/docker.sock: permission denied](https://github.com/moby/moby/issues/5314)）。報告者は、ソケットが `docker` グループに属することを確認し、自分をそのグループへ追加しても拒否された、と書いています。
 

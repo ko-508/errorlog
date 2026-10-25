@@ -111,7 +111,7 @@ SELECT rolname, rolpassword IS NOT NULL AS has_password, rolvaliduntil
 FROM pg_authid WHERE rolname = 'app';
 ```
 
-`rolvaliduntil` が過去の日時であれば期限切れです。対処は期限の更新です。無期限にする場合は `infinity` を指定できますが、期限を設けている運用であればその意図を確認してから変更してください。
+`rolvaliduntil` が過去の日時であれば期限切れです。対処は期限の[更新](/glossary/更新/)です。無期限にする場合は `infinity` を指定できますが、期限を設けている運用であればその意図を確認してから変更してください。
 
 ```sql
 ALTER ROLE app VALID UNTIL '2027-01-01';

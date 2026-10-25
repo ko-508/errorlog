@@ -220,7 +220,7 @@ curl -X GET \
 az vm show --resource-group myResourceGroup --name myVM --debug
 ```
 
-Azure公式ドキュメント（[Azure Resource Management API](https://learn.microsoft.com/en-us/rest/api/resources/)）では、各リソースタイプの正確な[API](/glossary/api/)形式と[パス](/glossary/パス/)が記載されています。疑わしい場合は、リソースタイプの公式リファレンスを参照して、正しい[エンドポイント](/glossary/エンドポイント/)形式と必須パラメーターを再確認することをお勧めします。また、Azure [CLI](/glossary/cli/)の[バージョン](/glossary/バージョン/)が古い可能性がある場合は、`az upgrade`で最新版に更新してから再度試行してください。
+Azure公式ドキュメント（[Azure Resource Management API](https://learn.microsoft.com/en-us/rest/api/resources/)）では、各リソースタイプの正確な[API](/glossary/api/)形式と[パス](/glossary/パス/)が記載されています。疑わしい場合は、リソースタイプの公式リファレンスを参照して、正しい[エンドポイント](/glossary/エンドポイント/)形式と必須パラメーターを再確認することをお勧めします。また、Azure [CLI](/glossary/cli/)の[バージョン](/glossary/バージョン/)が古い可能性がある場合は、`az upgrade`で最新版に[更新](/glossary/更新/)してから再度試行してください。
 
 ---
 

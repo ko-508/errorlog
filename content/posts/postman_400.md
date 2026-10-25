@@ -159,7 +159,7 @@ Postmanで400[エラー](/glossary/エラー/)が発生した際、以下の[ツ
 
 **Postman Consoleの活用**
 
-View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。UIで[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
+View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。[UI](/glossary/ui/)で[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
 
 **[環境変数](/glossary/環境変数/)とコレクション[変数](/glossary/変数/)の確認**
 

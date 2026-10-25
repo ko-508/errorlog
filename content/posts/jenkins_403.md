@@ -102,7 +102,7 @@ curl -X POST "http://localhost:8080/job/my-job/build" \
 # → 201 Created (成功)
 ```
 
-[権限](/glossary/権限/)の付与は Jenkins の Web UI で実施します。**Manage Jenkins** → **Configure Global Security** → **Authorization** セクションで Matrix-based security を選択し、該当ユーザー行と必要な権限列（Job/Build など）をチェックしてください。
+[権限](/glossary/権限/)の付与は Jenkins の Web [UI](/glossary/ui/) で実施します。**Manage Jenkins** → **Configure Global Security** → **Authorization** セクションで Matrix-based security を選択し、該当ユーザー行と必要な権限列（Job/Build など）をチェックしてください。
 
 ### 原因3：匿名ユーザーのアクセスが制限されているのに認証なしで API を呼んでいる
 

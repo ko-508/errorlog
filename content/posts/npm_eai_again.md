@@ -55,7 +55,7 @@ trend_incident: false
 
 ## 結論
 
-`npm error code EAI_AGAIN` は、名前を引く処理が一時的に失敗したという意味です。`syscall` の行には `getaddrinfo` が入ります。宛先の[サーバー](/glossary/サーバー/)へ接続する前の段階で止まっており、[レジストリ](/glossary/レジストリ/)の応答内容は関係ありません。
+`npm error code EAI_AGAIN` は、名前を引く[処理](/glossary/処理/)が一時的に失敗したという意味です。`syscall` の行には `getaddrinfo` が入ります。宛先の[サーバー](/glossary/サーバー/)へ接続する前の段階で止まっており、[レジストリ](/glossary/レジストリ/)の応答内容は関係ありません。
 
 注意すべき点があります。npm はこの[コード](/glossary/コード/)に専用の説明を持っていません。実装の[コード](/glossary/コード/)ごとの分岐には `ENOTFOUND` や `EAI_FAIL` はありますが、`EAI_AGAIN` は含まれておらず既定の扱いになります。したがって、`ECONNRESET` のときに出る「中継設定を確認してください」という案内も表示されません。表示されるのは、失敗した要求の内容を示す1文だけです。
 

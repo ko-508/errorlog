@@ -48,7 +48,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 **なぜ発生するか**
 
-顧客リストの更新や一括決済処理など、複数の [API](/glossary/api/) 呼び出しを[ループ](/glossary/ループ/)で実行する際、呼び出し間に待機時間を設けないと瞬時に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
+顧客リストの[更新](/glossary/更新/)や一括決済処理など、複数の [API](/glossary/api/) 呼び出しを[ループ](/glossary/ループ/)で実行する際、呼び出し間に待機時間を設けないと瞬時に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されます。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
@@ -252,7 +252,7 @@ for customer in customers.auto_paging_iter():
 
 ### Webhook エンドポイントの署名検証でのレート制限回避
 
-[Webhook](/glossary/webhook/) 処理の中で複数の [API](/glossary/api/) 呼び出しが必要な場合、[非同期処理](/glossary/非同期処理/)（キューイング）を導入することで、429 [エラー](/glossary/エラー/)を回避できます。
+[Webhook](/glossary/webhook/) [処理](/glossary/処理/)の中で複数の [API](/glossary/api/) 呼び出しが必要な場合、[非同期処理](/glossary/非同期処理/)（キューイング）を導入することで、429 [エラー](/glossary/エラー/)を回避できます。
 
 ```python
 import stripe

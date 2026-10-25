@@ -157,7 +157,7 @@ VERCEL_DEBUG=1 vercel deploy
 
 **公式サポートへの問い合わせ：**
 
-上記手順をすべて実施してもなお 401 が継続する場合は、Vercel 公式ドキュメント（https://vercel.com/docs/rest-api）の認証セクションを確認するか、Vercel サポート（https://vercel.com/support）に問い合わせてください。API 制限や[レート制限](/glossary/レート制限/)の影響を受けている可能性もあります。
+上記手順をすべて実施してもなお 401 が[継続](/glossary/継続/)する場合は、Vercel 公式ドキュメント（https://vercel.com/docs/rest-api）の認証セクションを確認するか、Vercel サポート（https://vercel.com/support）に問い合わせてください。API 制限や[レート制限](/glossary/レート制限/)の影響を受けている可能性もあります。
 
 ---
 

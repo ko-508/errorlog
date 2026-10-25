@@ -37,9 +37,9 @@ app-7d8f767544-pk4ch   1/1     Terminating   0          3d
 kubectl delete pod <Pod名> -n <名前空間> --grace-period=0 --force
 ```
 
-この強制削除は、**ノード上の[プロセス](/glossary/プロセス/)を確実に停止してからPodを消す操作ではありません**。[`kubectl delete` の公式リファレンス](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_delete/)は、[API](/glossary/api/) Serverがkubeletによる終了確認を待たず、同じ識別情報を持つ処理が別のマシンで動き続け、データの不整合や損失につながる可能性を警告しています。
+この強制削除は、**ノード上の[プロセス](/glossary/プロセス/)を確実に停止してからPodを消す操作ではありません**。[`kubectl delete` の公式リファレンス](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_delete/)は、[API](/glossary/api/) Serverがkubeletによる終了確認を待たず、同じ識別情報を持つ[処理](/glossary/処理/)が別のマシンで動き続け、データの不整合や損失につながる可能性を警告しています。
 
-強制削除は一覧をきれいにする操作ではありません。古い処理が停止済み、または二度と共有資源へ接続できないと確認した後に限る、最後の手段です。
+強制削除は一覧をきれいにする操作ではありません。古い[処理](/glossary/処理/)が停止済み、または二度と共有資源へ接続できないと確認した後に限る、最後の手段です。
 
 ## エラーの概要
 
@@ -112,13 +112,13 @@ kubectl describe node "$NODE"
 kubectl get lease "$NODE" -n kube-node-lease -o yaml
 ```
 
-ノードが `NotReady` または `Unknown` なら、[API](/glossary/api/)上の表示だけでノード上の処理が停止したとは判断できません。強制削除を検討する前に、ノードが停止済みか、隔離済みか、共有[ストレージ](/glossary/ストレージ/)や[ネットワーク](/glossary/ネットワーク/)へ再接続できないかを確認します。
+ノードが `NotReady` または `Unknown` なら、[API](/glossary/api/)上の表示だけでノード上の[処理](/glossary/処理/)が停止したとは判断できません。強制削除を検討する前に、ノードが停止済みか、隔離済みか、共有[ストレージ](/glossary/ストレージ/)や[ネットワーク](/glossary/ネットワーク/)へ再接続できないかを確認します。
 
 ## よくある原因と解決手順
 
 ### 原因1：まだ正常な猶予期間内にいる
 
-Podの `terminationGracePeriodSeconds` の[既定値は30秒](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)です。削除要求を受けたkubeletは、猶予期間が0でなく `preStop` があれば先に実行し、その後[コンテナ](/glossary/コンテナ/)の[プロセス](/glossary/プロセス/)1へ終了シグナルを送ります。猶予期間を過ぎても処理が残れば、[コンテナ](/glossary/コンテナ/)実行基盤が強制終了します。
+Podの `terminationGracePeriodSeconds` の[既定値は30秒](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)です。削除要求を受けたkubeletは、猶予期間が0でなく `preStop` があれば先に実行し、その後[コンテナ](/glossary/コンテナ/)の[プロセス](/glossary/プロセス/)1へ終了シグナルを送ります。猶予期間を過ぎても[処理](/glossary/処理/)が残れば、[コンテナ](/glossary/コンテナ/)実行基盤が強制終了します。
 
 `preStop` が猶予期間の終了時にも動いている場合、kubeletは一度だけ2秒の延長を要求します。この2秒を含め、`preStop` と[アプリケーション](/glossary/アプリケーション/)の終了処理は同じ猶予時間を使います。
 
@@ -162,7 +162,7 @@ kubectl get events -n <名前空間> \
   --sort-by=.lastTimestamp
 ```
 
-確認するのは、`preStop` が外部サービスの応答を無期限に待っていないか、[アプリケーション](/glossary/アプリケーション/)が終了シグナルを処理しているか、サイドカーを含む全[コンテナ](/glossary/コンテナ/)が終了できているかです。
+確認するのは、`preStop` が外部サービスの応答を無期限に待っていないか、[アプリケーション](/glossary/アプリケーション/)が終了シグナルを[処理](/glossary/処理/)しているか、サイドカーを含む全[コンテナ](/glossary/コンテナ/)が終了できているかです。
 
 なお、削除中のEndpointはEndpointSliceから直ちに消えるとは限りません。[Pod終了処理の公式説明](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)では、終了中のEndpointは `ready=false` になり、通常の[通信](/glossary/通信/)には使われない状態になると説明されています。[ロードバランサー](/glossary/ロードバランサー/)側の接続退避とPod内の終了処理は別に進むため、必要な待ち時間を実測して設計します。
 
@@ -210,7 +210,7 @@ kubectl get events -A --field-selector involvedObject.name=<ノード名> \
 
 一時的な通信断なら、ノードとkubeletを[復旧](/glossary/復旧/)させ、通常の終了処理を完了させます。ノードを再起動すればPodが必ず止まる、という判断も危険です。[公式文書](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination)は、kubeletを再起動しても実行中のPodや[コンテナ](/glossary/コンテナ/)は停止せず、動作を続けると説明しています。
 
-ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を確認し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード[削除](/glossary/削除/)の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い処理が復帰できない状態を先に作るのが順序です。
+ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を確認し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード[削除](/glossary/削除/)の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い[処理](/glossary/処理/)が復帰できない状態を先に作るのが順序です。
 
 ### 原因5：Admission Webhookが削除途中の更新を拒否する
 
@@ -222,17 +222,17 @@ kubectl get mutatingwebhookconfigurations
 kubectl get events -A --sort-by=.lastTimestamp | tail -50
 ```
 
-[Podのデバッグに関する公式文書](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/#my-pod-stays-terminating)は、削除中のPodが既存の規則違反を直せないために更新を拒まれる形を説明しています。[Webhook](/glossary/webhook/)がPodの `UPDATE` を対象にしているか、削除中の[オブジェクト](/glossary/オブジェクト/)を拒否していないか、[Webhook](/glossary/webhook/)サービスと[証明書](/glossary/証明書/)が正常かを確認します。
+[Podのデバッグに関する公式文書](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/#my-pod-stays-terminating)は、削除中のPodが既存の規則違反を直せないために[更新](/glossary/更新/)を拒まれる形を説明しています。[Webhook](/glossary/webhook/)がPodの `UPDATE` を対象にしているか、削除中の[オブジェクト](/glossary/オブジェクト/)を拒否していないか、[Webhook](/glossary/webhook/)サービスと[証明書](/glossary/証明書/)が正常かを確認します。
 
-[Webhook](/glossary/webhook/)全体を無効にする前に、失敗している規則と対象範囲を絞ります。削除途中のPodを通す例外を設ける場合も、通常の作成や更新の検査まで外さないようにします。
+[Webhook](/glossary/webhook/)全体を無効にする前に、失敗している規則と対象範囲を絞ります。削除途中のPodを通す例外を設ける場合も、通常の作成や[更新](/glossary/更新/)の検査まで外さないようにします。
 
 ### 原因6：StatefulSetで古いPodの停止を確認できない
 
-StatefulSetのPodは、名前、[ネットワーク](/glossary/ネットワーク/)識別、[ストレージ](/glossary/ストレージ/)を安定して保つ前提で動きます。たとえば `db-0` を強制削除すると、StatefulSetコントローラーは同じ名前の新しいPodを作れるようになります。しかし、古い `db-0` が分断先のノードで動き続けていれば、同じ役割を持つ2つの処理が同時に存在します。
+StatefulSetのPodは、名前、[ネットワーク](/glossary/ネットワーク/)識別、[ストレージ](/glossary/ストレージ/)を安定して保つ前提で動きます。たとえば `db-0` を強制削除すると、StatefulSetコントローラーは同じ名前の新しいPodを作れるようになります。しかし、古い `db-0` が分断先のノードで動き続けていれば、同じ役割を持つ2つの[処理](/glossary/処理/)が同時に存在します。
 
 [StatefulSet Podの強制削除に関する公式文書](https://kubernetes.io/docs/tasks/run-application/force-delete-stateful-set-pod/)は、これが「最大1つ」という前提を破り、分断状態やデータ損失を起こし得ると警告しています。
 
-強制削除を検討できるのは、古いPodが二度とStatefulSetのほかの構成要素と[通信](/glossary/通信/)しないと断言できる場合だけです。[データベース](/glossary/データベース/)、合意形成を行う処理、共有ボリュームへ書く処理では、一覧上の `Terminating` より二重起動の方が危険です。
+強制削除を検討できるのは、古いPodが二度とStatefulSetのほかの構成要素と[通信](/glossary/通信/)しないと断言できる場合だけです。[データベース](/glossary/データベース/)、合意形成を行う[処理](/glossary/処理/)、共有ボリュームへ書く[処理](/glossary/処理/)では、一覧上の `Terminating` より二重起動の方が危険です。
 
 ### 原因7：親オブジェクトのforeground削除が依存先を待っている
 
@@ -251,7 +251,7 @@ kubectl get deployment,replicaset,statefulset,job -n <名前空間>
 
 `Pending` は、Podがまだ実行開始まで進んでいないphaseです。`Terminating` は削除要求後の表示なので、時間の向きが逆です。
 
-`Completed` は、Pod内の処理が正常終了したことを示す表示です。終了済みでも、削除要求がなければ[API](/glossary/api/)上に残ります。
+`Completed` は、Pod内の[処理](/glossary/処理/)が正常終了したことを示す表示です。終了済みでも、削除要求がなければ[API](/glossary/api/)上に残ります。
 
 `Unknown` は、通常、Podの状態をノードから取得できないことを示します。ノード分断による `Terminating` と同時に問題になることはありますが、削除要求そのものを意味しません。
 
@@ -259,7 +259,7 @@ kubectl get deployment,replicaset,statefulset,job -n <名前空間>
 
 PodDisruptionBudgetに拒否された退避では、Eviction [API](/glossary/api/)が `429 Too Many Requests` を返し、削除要求が始まらないことがあります。この場合、通常は `deletionTimestamp` が入らず、`Terminating` にも進みません。直接の `kubectl delete pod` はPodDisruptionBudgetによる保護と同じ経路ではありません。
 
-[Namespace](/glossary/namespace/)の `Terminating` は、[Namespace](/glossary/namespace/)コントローラーが配下の資源と[Namespace](/glossary/namespace/)のfinalizerを処理する話です。本記事はPodを中心にしています。[Namespace](/glossary/namespace/)で発生している場合は、残存する[API](/glossary/api/)資源、利用不能なAPIService、[Namespace](/glossary/namespace/)のconditionsを別に確認します。
+[Namespace](/glossary/namespace/)の `Terminating` は、[Namespace](/glossary/namespace/)コントローラーが配下の資源と[Namespace](/glossary/namespace/)のfinalizerを[処理](/glossary/処理/)する話です。本記事はPodを中心にしています。[Namespace](/glossary/namespace/)で発生している場合は、残存する[API](/glossary/api/)資源、利用不能なAPIService、[Namespace](/glossary/namespace/)のconditionsを別に確認します。
 
 ## 強制削除またはfinalizer除去を行う前の確認
 
@@ -270,8 +270,8 @@ PodDisruptionBudgetに拒否された退避では、Eviction [API](/glossary/api
 3. finalizerの所有者と、本来行う後処理を特定した。
 4. 後処理が別の方法で完了済み、または不要だと確認した。
 5. 配置先ノード上で古い[コンテナ](/glossary/コンテナ/)が停止済み、あるいはノードが電源停止・隔離済みである。
-6. StatefulSetなどで同じ識別情報の処理が二重起動しない。
-7. 共有[ストレージ](/glossary/ストレージ/)、外部[API](/glossary/api/)、[データベース](/glossary/データベース/)へ古い処理が再接続しない。
+6. StatefulSetなどで同じ識別情報の[処理](/glossary/処理/)が二重起動しない。
+7. 共有[ストレージ](/glossary/ストレージ/)、外部[API](/glossary/api/)、[データベース](/glossary/データベース/)へ古い[処理](/glossary/処理/)が再接続しない。
 
 手元の[コマンド](/glossary/コマンド/)を待たせたくないだけなら、強制削除ではなく次を使います。
 
@@ -285,7 +285,7 @@ kubectl delete pod <Pod名> -n <名前空間> --wait=false
 kubectl wait --for=delete pod/<Pod名> -n <名前空間> --timeout=120s
 ```
 
-古い処理が停止済みと確認でき、[API](/glossary/api/)上のPodだけが残った場合の強制削除は次です。
+古い[処理](/glossary/処理/)が停止済みと確認でき、[API](/glossary/api/)上のPodだけが残った場合の強制削除は次です。
 
 ```bash
 kubectl delete pod <Pod名> -n <名前空間> \
@@ -314,9 +314,9 @@ kubectl patch pod <Pod名> -n <名前空間> --type=merge \
 5. `.metadata.finalizers` を確認し、各finalizerを管理するコントローラーを特定する。
 6. Podの所有者がJobやStatefulSetなら、親[オブジェクト](/glossary/オブジェクト/)とコントローラーの状態を確認する。
 7. 配置先ノード、Lease、kubeletの到達性を確認する。
-8. Admission [Webhook](/glossary/webhook/)が削除途中の更新を拒否していないか確認する。
+8. Admission [Webhook](/glossary/webhook/)が削除途中の[更新](/glossary/更新/)を拒否していないか確認する。
 9. 通常の後処理を[復旧](/glossary/復旧/)させる。手元だけ待たない場合は `--wait=false` を使う。
-10. 古い処理の停止または隔離を確認できた場合だけ、強制削除やfinalizer除去を検討する。
+10. 古い[処理](/glossary/処理/)の停止または隔離を確認できた場合だけ、強制削除やfinalizer除去を検討する。
 
 ## 確認コマンド集
 

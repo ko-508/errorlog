@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 409 Conflict [エラー](/glossary/エラー/)は、GitLab 上でリソースの状態が競合している場合に発生します。既に存在する[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)名での作成、MergeRequest のソースとターゲットブランチの重複、あるいは同名のグループ・[プロジェクト](/glossary/プロジェクト/)の存在などが典型的な原因です。この[エラー](/glossary/エラー/)が発生すると、意図した操作がブロックされ、リソースの作成や更新が完了しません。
+[HTTP](/glossary/http/) 409 Conflict [エラー](/glossary/エラー/)は、GitLab 上でリソースの状態が競合している場合に発生します。既に存在する[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)名での作成、MergeRequest のソースとターゲットブランチの重複、あるいは同名のグループ・[プロジェクト](/glossary/プロジェクト/)の存在などが典型的な原因です。この[エラー](/glossary/エラー/)が発生すると、意図した操作がブロックされ、リソースの作成や[更新](/glossary/更新/)が完了しません。
 
 ## 実際のエラーメッセージ例
 
@@ -36,7 +36,7 @@ GitLab [API](/glossary/api/) の 409 [エラー](/glossary/エラー/)は、以�
 }
 ```
 
-また、GitLab UI で[ブランチ](/glossary/ブランチ/)作成時に失敗する場合は、以下のような[通知](/glossary/通知/)メッセージが表示されます。
+また、GitLab [UI](/glossary/ui/) で[ブランチ](/glossary/ブランチ/)作成時に失敗する場合は、以下のような[通知](/glossary/通知/)メッセージが表示されます。
 
 ```
 Error: A branch with name 'main' already exists
@@ -170,7 +170,7 @@ curl -v --request POST https://gitlab.example.com/api/v4/projects/<project-id>/r
   --data "branch=develop&ref=main"
 ```
 
-GitLab [サーバー](/glossary/サーバー/)のシステムログ（通常は `/var/log/gitlab/` 配下）も確認の対象です。特に `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。問題が継続する場合は、GitLab の公式ドキュメント（https://docs.gitlab.com/ee/api/）を参照するか、GitLab サポートに問い合わせることをお勧めします。
+GitLab [サーバー](/glossary/サーバー/)のシステムログ（通常は `/var/log/gitlab/` 配下）も確認の対象です。特に `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。問題が[継続](/glossary/継続/)する場合は、GitLab の公式ドキュメント（https://docs.gitlab.com/ee/api/）を参照するか、GitLab サポートに問い合わせることをお勧めします。
 
 ---
 

@@ -178,7 +178,7 @@ location / {
 curl -s -D - -o /dev/null http://127.0.0.1:8000/login | wc -c
 ```
 
-なお、応答本文が大きいこと自体は502の原因になりません。[バッファ](/glossary/バッファ/)に収まらない本文は一時[ファイル](/glossary/ファイル/)に書き出して処理される設計です。502に関係するのは[ヘッダー](/glossary/ヘッダー/)を読む proxy_buffer_size だけです。
+なお、応答本文が大きいこと自体は502の原因になりません。[バッファ](/glossary/バッファ/)に収まらない本文は一時[ファイル](/glossary/ファイル/)に書き出して[処理](/glossary/処理/)される設計です。502に関係するのは[ヘッダー](/glossary/ヘッダー/)を読む proxy_buffer_size だけです。
 
 ### 原因6：上流との TLS ハンドシェイクに失敗している（SSL_do_handshake）
 
@@ -253,7 +253,7 @@ openssl s_client -connect <上流アドレス>:443 -servername <ホスト名>
 
 ## Editor's Note
 
-原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に更新した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は[設定](/glossary/設定/)ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では更新した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も[設定](/glossary/設定/)を変えていないのに、更新したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
+原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に[更新](/glossary/更新/)した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は[設定](/glossary/設定/)ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では[更新](/glossary/更新/)した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も[設定](/glossary/設定/)を変えていないのに、[更新](/glossary/更新/)したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
 
 502の[エラーログ](/glossary/エラーログ/)は、接続先・失敗理由・タイミングをすべて一行に記録してくれます。推測で[設定](/glossary/設定/)をいじる前に、まず括弧内の文言を読むことが確実な近道です。
 

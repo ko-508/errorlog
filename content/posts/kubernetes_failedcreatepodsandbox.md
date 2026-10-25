@@ -163,7 +163,7 @@ kubelet と container runtime はノードの [OS](/glossary/os/) 機能に強�
 
 - **ディスクや inode の枯渇**：`no space left on device` を含むメッセージで sandbox 作成が失敗する事例は、[クラウド](/glossary/クラウド/)提供元のトラブルシューティング文書でも紹介されています（例：[Tencent Cloud TKE のドキュメント](https://www.tencentcloud.com/document/product/457/35761)）。ランタイムのデータディレクトリ、`/var/log`、`/var/lib/kubelet` を個別に確認します。
 - **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の[設定](/glossary/設定/)）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
-- **iptables/nftables の不整合**：ホストの `iptables` がどの[バックエンド](/glossary/バックエンド/)（legacy / nft）で動いているかが、CNI やサービスプロキシの想定と食い違うと、ルール適用が失敗したり無効化されたりします。ノード再作成やディストリビューション更新の後に起きやすい問題です。
+- **iptables/nftables の不整合**：ホストの `iptables` がどの[バックエンド](/glossary/バックエンド/)（legacy / nft）で動いているかが、CNI やサービスプロキシの想定と食い違うと、ルール適用が失敗したり無効化されたりします。ノード再作成やディストリビューション[更新](/glossary/更新/)の後に起きやすい問題です。
 - **[プロセス](/glossary/プロセス/)・ファイルディスクリプタ・PID の上限**：ノードが高負荷のときに sandbox 作成だけが失敗することがあります。カーネルログ（`dmesg`）に該当メッセージが出ていないか確認します。
 - **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に[対応](/glossary/対応/)する handler がノードの runtime 側に[設定](/glossary/設定/)されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を確認してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
 
@@ -293,7 +293,7 @@ df -h > df.txt; df -i > df-inode.txt
 - **kubelet や CRI の挙動そのものに疑問がある**：kubernetes/kubernetes の Issue を[検索](/glossary/検索/)し、同種の報告があるか確認する
 - **マネージドサービス（[クラウド](/glossary/クラウド/)提供の [Kubernetes](/glossary/kubernetes/)）を利用している**：ノードイメージや[ネットワーク](/glossary/ネットワーク/)実装が提供元固有のため、提供元のサポート窓口が最短
 
-報告時は、クラスタの構築方法（kubeadm、マネージドサービス、ディストリビューション）、使用しているネットワークアドオン、container runtime の種類、直前に行った変更（ノード追加、アップグレード、[設定変更](/glossary/設定変更/)）を添えると切り分けが早くなります。[ログ](/glossary/ログ/)を共有する際は、[トークン](/glossary/トークン/)や認証情報が含まれていないかを確認し、必要に応じて `<your-token>` のような形に置き換えてください。
+報告時は、クラスタの構築方法（kubeadm、マネージドサービス、ディストリビューション）、使用しているネットワークアドオン、container runtime の種類、直前に行った変更（ノード追加、[アップグレード](/glossary/アップグレード/)、[設定変更](/glossary/設定変更/)）を添えると切り分けが早くなります。[ログ](/glossary/ログ/)を共有する際は、[トークン](/glossary/トークン/)や認証情報が含まれていないかを確認し、必要に応じて `<your-token>` のような形に置き換えてください。
 
 ## Editor's Note
 

@@ -13,7 +13,7 @@ related_services: []
 ---
 ## エラーの概要
 
-Ansible 400[エラー](/glossary/エラー/)は、ターゲットノードの[API](/glossary/api/)または[モジュール](/glossary/モジュール/)に送られる[リクエスト](/glossary/リクエスト/)の形式が正しくないことを示しています。主にPlaybookの[タスク](/glossary/タスク/)定義における[パラメータ](/glossary/パラメータ/)指定の誤り、[YAML](/glossary/yaml/)[ファイル](/glossary/ファイル/)の構文[エラー](/glossary/エラー/)、またはモジュールバージョンとの互換性不一致が原因です。この[エラー](/glossary/エラー/)が発生すると、該当[タスク](/glossary/タスク/)が実行されず、Playbook全体の処理が中断される可能性があります。
+Ansible 400[エラー](/glossary/エラー/)は、ターゲットノードの[API](/glossary/api/)または[モジュール](/glossary/モジュール/)に送られる[リクエスト](/glossary/リクエスト/)の形式が正しくないことを示しています。主にPlaybookの[タスク](/glossary/タスク/)定義における[パラメータ](/glossary/パラメータ/)指定の誤り、[YAML](/glossary/yaml/)[ファイル](/glossary/ファイル/)の構文[エラー](/glossary/エラー/)、またはモジュールバージョンとの互換性不一致が原因です。この[エラー](/glossary/エラー/)が発生すると、該当[タスク](/glossary/タスク/)が実行されず、Playbook全体の[処理](/glossary/処理/)が中断される可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -87,7 +87,7 @@ Playbookはインデント（スペース）を厳密に要求する[YAML](/glos
 
 ### 原因3：モジュールのバージョンとパラメータの互換性がない
 
-Ansibleのバージョンアップによって[モジュール](/glossary/モジュール/)の[パラメータ](/glossary/パラメータ/)が追加・変更・[削除](/glossary/削除/)されることがあります。古いPlaybookを新しいAnsibleで実行したり、その逆をしたりすると、存在しない[パラメータ](/glossary/パラメータ/)の指定となり400[エラー](/glossary/エラー/)が発生します。
+Ansibleの[バージョンアップ](/glossary/バージョンアップ/)によって[モジュール](/glossary/モジュール/)の[パラメータ](/glossary/パラメータ/)が追加・変更・[削除](/glossary/削除/)されることがあります。古いPlaybookを新しいAnsibleで実行したり、その逆をしたりすると、存在しない[パラメータ](/glossary/パラメータ/)の指定となり400[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

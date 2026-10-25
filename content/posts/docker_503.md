@@ -282,7 +282,7 @@ $ journalctl -u docker -f
 - [Docker Hub Status](https://www.docker.com/status)
 - [Docker Community Forums](https://forums.docker.com/)
 
-503[エラー](/glossary/エラー/)が継続する場合は、対象[レジストリ](/glossary/レジストリ/)のサポートチームへの問い合わせ、または最新の公式ドキュメント確認をお勧めします。
+503[エラー](/glossary/エラー/)が[継続](/glossary/継続/)する場合は、対象[レジストリ](/glossary/レジストリ/)のサポートチームへの問い合わせ、または最新の公式ドキュメント確認をお勧めします。
 
 ---
 
