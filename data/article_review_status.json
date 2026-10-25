@@ -1785,5 +1785,16 @@
         "note": "新規作成。PHP公式資料とPHP 8.5.12実装を照合。出力順序、headers_sent、出力バッファの扱いを確認。掲載コードは実行未検証"
       }
     ]
+  },
+  "content/posts/php_pdo_could_not_find_driver.md": {
+    "verified": true,
+    "verified_at": "2026-10-25",
+    "last_verified_at": "2026-10-25",
+    "history": [
+      {
+        "date": "2026-10-25",
+        "note": "新規作成。PHP・Docker公式資料とPHP 8.5.12実装を照合。DSNとドライバの対応、CLIとWebの設定差を確認。掲載例は実行未検証"
+      }
+    ]
   }
 }
