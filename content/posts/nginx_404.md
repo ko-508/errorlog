@@ -10,8 +10,7 @@ error_type: "404"
 components: ["HTTP Core"]
 related_services: []
 top_queries:
-- 'nginx 404'
-- 'nginx 404 not found'
+- 'rewrite or internal redirection cycle while internally redirecting to'
 ---
 
 ## 冒頭まとめ

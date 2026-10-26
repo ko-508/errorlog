@@ -1,1 +1,9 @@
-{}
+{
+  "nginx_404": {
+    "top_queries": [
+      "rewrite or internal redirection cycle while internally redirecting to"
+    ],
+    "avg_ctr": 0.0,
+    "avg_position": 7.0
+  }
+}

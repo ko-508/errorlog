@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-10-26",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/postgresql_no_pg_hba_conf_entry/",
+      "pageTitle": "pg_hba.conf接続拒否の原因と対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 11.0,
+      "averageSessionDuration": 262.20654750000006,
+      "engagementRate": 0.6,
+      "bounceRate": 0.4
+    },
+    {
+      "pagePath": "/posts/npm_e401/",
+      "pageTitle": "npm E401の原因と対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 10.0,
+      "averageSessionDuration": 327.72158133333335,
+      "engagementRate": 0.5,
+      "bounceRate": 0.5
+    }
+  ]
+}

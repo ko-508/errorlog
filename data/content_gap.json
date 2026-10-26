@@ -1,104 +1,43 @@
 {
-  "generated_at": "2026-10-19",
+  "generated_at": "2026-10-26",
   "uncovered": [
     {
-      "query": "err_invalid_url",
+      "query": "rewrite or internal redirection cycle while internally redirecting to",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 85.0,
+      "position": 7.0,
       "coverage": "uncovered",
-      "best_match_slug": "stripe_402",
+      "best_match_slug": "docker_500",
       "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "graphql とは",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 88.5,
-      "coverage": "uncovered",
-      "best_match_slug": "firebase_401",
-      "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "rfc",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 14.0,
-      "coverage": "uncovered",
-      "best_match_slug": "docker_408",
-      "match_score": 0.034,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "xml",
-      "impressions": 2,
-      "ctr": 0.0,
-      "position": 97.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
       "query": "クラウド",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 59.0,
+      "position": 60.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "ストレージ トランザクション",
-      "impressions": 1,
+      "query": "クレデンシャル ビジネス",
+      "impressions": 2,
       "ctr": 0.0,
-      "position": 81.0,
-      "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "ターミナル とは",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 93.0,
-      "coverage": "uncovered",
-      "best_match_slug": "firebase_401",
-      "match_score": 0.069,
-      "opportunity_score": 0.0
-    },
-    {
-      "query": "冪 等 性",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 96.0,
+      "position": 86.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     }
   ],
-  "partial": [
-    {
-      "query": "aws エラー",
-      "impressions": 1,
-      "ctr": 0.0,
-      "position": 85.0,
-      "coverage": "partial",
-      "best_match_slug": "aws_401",
-      "match_score": 0.538,
-      "opportunity_score": 0.0
-    }
-  ],
+  "partial": [],
   "summary": {
-    "total_queries": 9,
+    "total_queries": 3,
     "covered": 0,
-    "partial": 1,
-    "uncovered": 8,
+    "partial": 0,
+    "uncovered": 3,
     "coverage_rate": 0.0
   }
 }
