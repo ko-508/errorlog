@@ -1807,5 +1807,16 @@
         "note": "新規作成。PHP公式資料と実装を照合。掲載コードは実行未検証"
       }
     ]
+  },
+  "content/posts/gitlab_503.md": {
+    "verified": true,
+    "verified_at": "2026-10-27",
+    "last_verified_at": "2026-10-27",
+    "history": [
+      {
+        "date": "2026-10-27",
+        "note": "新規作成。GitLab公式資料と実装を照合。掲載コマンドは実行未検証"
+      }
+    ]
   }
 }
