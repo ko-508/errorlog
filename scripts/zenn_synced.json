@@ -188,6 +188,7 @@
   "php_headers_already_sent": "2026-10-25T23:14:22.345363+00:00",
   "php_maximum_execution_time_exceeded": "2026-10-25T23:14:22.350319+00:00",
   "php_pdo_could_not_find_driver": "2026-10-25T12:31:37.808516+00:00",
+  "php_undefined_array_key": "2026-10-27T01:44:21.110248+00:00",
   "pip_externally_managed_environment": "2026-10-25T23:14:22.347861+00:00",
   "pip_no_matching_distribution": "2026-10-25T23:14:22.337719+00:00",
   "podman_400": "2026-07-13T08:15:44.232649+00:00",
