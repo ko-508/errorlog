@@ -1818,5 +1818,16 @@
         "note": "新規作成。GitLab公式資料と実装を照合。掲載コマンドは実行未検証"
       }
     ]
+  },
+  "content/posts/gitlab_504.md": {
+    "verified": true,
+    "verified_at": "2026-10-29",
+    "last_verified_at": "2026-10-29",
+    "history": [
+      {
+        "date": "2026-10-29",
+        "note": "新規作成。GitLab・AWS・Git公式資料と実装を照合。掲載コマンドは実行未検証"
+      }
+    ]
   }
 }
