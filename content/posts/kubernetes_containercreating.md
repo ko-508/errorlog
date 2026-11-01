@@ -244,9 +244,9 @@ kubectl get csinode "$NODE" -o yaml
 kubectl get pods -n kube-system -o wide --field-selector spec.nodeName="$NODE"
 ```
 
-`CSINode` は、ノードに登録されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ登録すると、kubeletが `CSINode` を[更新](/glossary/更新/)すると説明されています。
+`CSINode` は、ノードに[登録](/glossary/登録/)されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ[登録](/glossary/登録/)すると、kubeletが `CSINode` を[更新](/glossary/更新/)すると説明されています。
 
-対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの登録、kubeletとの版の[対応](/glossary/対応/)を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
+対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの[登録](/glossary/登録/)、kubeletとの版の[対応](/glossary/対応/)を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
 
 ```bash
 kubectl describe pod <CSI node Pod名> -n kube-system

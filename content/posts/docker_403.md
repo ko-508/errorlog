@@ -118,7 +118,7 @@ docker push org/repo:v1.0
 
 ### 原因3：プライベートレジストリの認証情報が Kubernetes に未登録
 
-なぜ発生するか：[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)を [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として登録されていないため、kubelet が[イメージ](/glossary/イメージ/)取得時に 403 [エラー](/glossary/エラー/)を受け取ります。
+なぜ発生するか：[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)を [Kubernetes](/glossary/kubernetes/) クラスタで実行する際、[プライベートレジストリ](/glossary/プライベートレジストリ/)の認証情報が ImagePullSecret として[登録](/glossary/登録/)されていないため、kubelet が[イメージ](/glossary/イメージ/)取得時に 403 [エラー](/glossary/エラー/)を受け取ります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 

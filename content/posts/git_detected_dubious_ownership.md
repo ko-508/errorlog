@@ -18,13 +18,13 @@ trend_incident: false
 
 `fatal: detected dubious ownership in repository at`は、[Git](/glossary/git/)が[リポジトリ](/glossary/リポジトリ/)の所有者を確認し、現在[Git](/glossary/git/)を実行している利用者と一致しないと判断したときに発生します。これは[ファイル](/glossary/ファイル/)を読み書きできないという意味ではなく、所有者の異なる[リポジトリ](/glossary/リポジトリ/)を信頼しないための安全機能です。
 
-自分だけが使う[フォルダ](/glossary/フォルダ/)なら、まず所有者を確認し、誤って別の利用者や管理者の所有になっている場合は所有者を直します。共有[リポジトリ](/glossary/リポジトリ/)や[コンテナ](/glossary/コンテナ/)のように、所有者が異なる状態を意図している場合は、信頼できる[パス](/glossary/パス/)だけを`safe.directory`へ登録してください。
+自分だけが使う[フォルダ](/glossary/フォルダ/)なら、まず所有者を確認し、誤って別の利用者や管理者の所有になっている場合は所有者を直します。共有[リポジトリ](/glossary/リポジトリ/)や[コンテナ](/glossary/コンテナ/)のように、所有者が異なる状態を意図している場合は、信頼できる[パス](/glossary/パス/)だけを`safe.directory`へ[登録](/glossary/登録/)してください。
 
 ```bash
 git config --global --add safe.directory "<repository-path>"
 ```
 
-この[設定](/glossary/設定/)は原因となった所有者の違いを解消するものではありません。指定した[リポジトリ](/glossary/リポジトリ/)を例外として信頼する[設定](/glossary/設定/)です。内容を確認していない[リポジトリ](/glossary/リポジトリ/)や、外部から書き換えられる[フォルダ](/glossary/フォルダ/)は登録しないでください。
+この[設定](/glossary/設定/)は原因となった所有者の違いを解消するものではありません。指定した[リポジトリ](/glossary/リポジトリ/)を例外として信頼する[設定](/glossary/設定/)です。内容を確認していない[リポジトリ](/glossary/リポジトリ/)や、外部から書き換えられる[フォルダ](/glossary/フォルダ/)は[登録](/glossary/登録/)しないでください。
 
 ## エラーの概要
 
@@ -37,7 +37,7 @@ To add an exception for this directory, call:
     git config --global --add safe.directory <path>
 ```
 
-[Git](/glossary/git/)は通常、[Git](/glossary/git/)を実行している利用者が所有する[リポジトリ](/glossary/リポジトリ/)だけを信頼します。所有者が異なる場合、[リポジトリ](/glossary/リポジトリ/)内の[設定](/glossary/設定/)やフックを読み込む前に[処理](/glossary/処理/)を止めます。[Gitの公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)では、所有者が異なっていても信頼する[ディレクトリ](/glossary/ディレクトリ/)を`safe.directory`で個別に登録できると説明されています。
+[Git](/glossary/git/)は通常、[Git](/glossary/git/)を実行している利用者が所有する[リポジトリ](/glossary/リポジトリ/)だけを信頼します。所有者が異なる場合、[リポジトリ](/glossary/リポジトリ/)内の[設定](/glossary/設定/)やフックを読み込む前に[処理](/glossary/処理/)を止めます。[Gitの公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)では、所有者が異なっていても信頼する[ディレクトリ](/glossary/ディレクトリ/)を`safe.directory`で個別に[登録](/glossary/登録/)できると説明されています。
 
 この[エラー](/glossary/エラー/)はWindowsだけでなく、[Linux](/glossary/linux/)、macOS、[Docker](/glossary/docker/)などの[コンテナ](/glossary/コンテナ/)、CIでも発生します。特に、[ファイル](/glossary/ファイル/)を作成した利用者と[Git](/glossary/git/)を実行する利用者が異なる[環境](/glossary/環境/)で起こりやすくなります。
 
@@ -59,17 +59,17 @@ WindowsのPowerShellでは、次の[コマンド](/glossary/コマンド/)で[�
 whoami /user
 ```
 
-すでに登録されている`safe.directory`と、その[設定](/glossary/設定/)が書かれている場所は次の[コマンド](/glossary/コマンド/)で確認できます。
+すでに[登録](/glossary/登録/)されている`safe.directory`と、その[設定](/glossary/設定/)が書かれている場所は次の[コマンド](/glossary/コマンド/)で確認できます。
 
 ```bash
 git config --show-origin --get-all safe.directory
 ```
 
-何も表示されない場合は、`safe.directory`が登録されていません。
+何も表示されない場合は、`safe.directory`が[登録](/glossary/登録/)されていません。
 
 ## 信頼できるリポジトリだけを登録する
 
-共有[フォルダ](/glossary/フォルダ/)や[コンテナ](/glossary/コンテナ/)のマウント先など、所有者が異なる状態を意図している場合は、対象の[リポジトリ](/glossary/リポジトリ/)を個別に登録します。[エラーメッセージ](/glossary/エラーメッセージ/)に表示された[パス](/glossary/パス/)を確認し、絶対[パス](/glossary/パス/)で指定してください。
+共有[フォルダ](/glossary/フォルダ/)や[コンテナ](/glossary/コンテナ/)のマウント先など、所有者が異なる状態を意図している場合は、対象の[リポジトリ](/glossary/リポジトリ/)を個別に[登録](/glossary/登録/)します。[エラーメッセージ](/glossary/エラーメッセージ/)に表示された[パス](/glossary/パス/)を確認し、絶対[パス](/glossary/パス/)で指定してください。
 
 ```bash
 git config --global --add safe.directory "<repository-path>"
@@ -87,7 +87,7 @@ git config --global --add safe.directory "C:/work/example"
 git -c safe.directory="<repository-path>" status
 ```
 
-`safe.directory`は複数の値を持てる[設定](/glossary/設定/)です。別の[リポジトリ](/glossary/リポジトリ/)で同じ[エラー](/glossary/エラー/)が発生した場合、その[リポジトリ](/glossary/リポジトリ/)も個別に登録する必要があります。
+`safe.directory`は複数の値を持てる[設定](/glossary/設定/)です。別の[リポジトリ](/glossary/リポジトリ/)で同じ[エラー](/glossary/エラー/)が発生した場合、その[リポジトリ](/glossary/リポジトリ/)も個別に[登録](/glossary/登録/)する必要があります。
 
 ## `.git/config`に書いても解決しない理由
 
@@ -131,9 +131,9 @@ ls -ldn "<repository-path>"
 id -u
 ```
 
-2つの[ID](/glossary/id/)が異なる場合は、[コンテナ](/glossary/コンテナ/)をホストと同じ利用者[ID](/glossary/id/)で動かす、マウント先の所有者を実行利用者に合わせる、信頼できる作業[ディレクトリ](/glossary/ディレクトリ/)だけを`safe.directory`へ登録する、という順で対処を検討します。
+2つの[ID](/glossary/id/)が異なる場合は、[コンテナ](/glossary/コンテナ/)をホストと同じ利用者[ID](/glossary/id/)で動かす、マウント先の所有者を実行利用者に合わせる、信頼できる作業[ディレクトリ](/glossary/ディレクトリ/)だけを`safe.directory`へ[登録](/glossary/登録/)する、という順で対処を検討します。
 
-CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は、[処理](/glossary/処理/)の開始時に対象の作業[ディレクトリ](/glossary/ディレクトリ/)を登録します。固定[パス](/glossary/パス/)だからという理由だけで、すべての[リポジトリ](/glossary/リポジトリ/)を許可する[設定](/glossary/設定/)へ広げないでください。
+CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は、[処理](/glossary/処理/)の開始時に対象の作業[ディレクトリ](/glossary/ディレクトリ/)を[登録](/glossary/登録/)します。固定[パス](/glossary/パス/)だからという理由だけで、すべての[リポジトリ](/glossary/リポジトリ/)を許可する[設定](/glossary/設定/)へ広げないでください。
 
 ## `sudo`で実行した場合
 
@@ -143,7 +143,7 @@ CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は
 
 ## 広い範囲を許可するときの注意点
 
-現在の[Git](/glossary/git/)公式文書では、[パス](/glossary/パス/)の末尾に`/*`を付けると、その[ディレクトリ](/glossary/ディレクトリ/)配下にある[リポジトリ](/glossary/リポジトリ/)をまとめて登録できます。
+現在の[Git](/glossary/git/)公式文書では、[パス](/glossary/パス/)の末尾に`/*`を付けると、その[ディレクトリ](/glossary/ディレクトリ/)配下にある[リポジトリ](/glossary/リポジトリ/)をまとめて[登録](/glossary/登録/)できます。
 
 ```bash
 git config --global --add safe.directory "/srv/git/*"
@@ -161,7 +161,7 @@ git --version
 git config --global --add safe.directory "*"
 ```
 
-信頼できない場所に置かれた[リポジトリ](/glossary/リポジトリ/)も対象になるため、通常の解決方法としては推奨できません。個別の[パス](/glossary/パス/)を登録するか、所有者の[設定](/glossary/設定/)を直してください。
+信頼できない場所に置かれた[リポジトリ](/glossary/リポジトリ/)も対象になるため、通常の解決方法としては推奨できません。個別の[パス](/glossary/パス/)を[登録](/glossary/登録/)するか、所有者の[設定](/glossary/設定/)を直してください。
 
 ## 似ているが別のエラー
 

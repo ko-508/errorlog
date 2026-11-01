@@ -14,7 +14,7 @@ conclusion: "Grafana の 400 エラーは、API リクエストの JSON 形式�
 
 ## エラーの概要
 
-Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式や内容が Grafana の[仕様](/glossary/仕様/)に合致していないことを示します。[ダッシュボード](/glossary/ダッシュボード/)作成、アラートルール[設定](/glossary/設定/)、データソース登録など、[API](/glossary/api/) 経由で Grafana を操作する際に頻繁に発生します。この[エラー](/glossary/エラー/)が出た場合、[リクエスト](/glossary/リクエスト/)自体が Grafana [サーバー](/glossary/サーバー/)に正しく理解されていないため、[レスポンス](/glossary/レスポンス/)の詳細メッセージを確認することが解決の第一歩となります。
+Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式や内容が Grafana の[仕様](/glossary/仕様/)に合致していないことを示します。[ダッシュボード](/glossary/ダッシュボード/)作成、アラートルール[設定](/glossary/設定/)、データソース[登録](/glossary/登録/)など、[API](/glossary/api/) 経由で Grafana を操作する際に頻繁に発生します。この[エラー](/glossary/エラー/)が出た場合、[リクエスト](/glossary/リクエスト/)自体が Grafana [サーバー](/glossary/サーバー/)に正しく理解されていないため、[レスポンス](/glossary/レスポンス/)の詳細メッセージを確認することが解決の第一歩となります。
 
 ## 実際のエラーメッセージ例
 

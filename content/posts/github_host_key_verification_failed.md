@@ -80,7 +80,7 @@ Host key verification failed.
 git clone git@github.com:org/repo.git   # → Host key verification failed.
 ```
 
-**After（公開されている鍵を、指紋を確認したうえで登録する）：**
+**After（公開されている鍵を、指紋を確認したうえで[登録](/glossary/登録/)する）：**
 
 ```bash
 mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -162,7 +162,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null git@github.com
 
 ## 補足：似ているが別のもの
 
-鍵は登録されているのに拒否される場合は、[認証](/glossary/認証/)の失敗です。文言は「公開鍵での接続を拒否された」という趣旨になります（[GitHub の Permission denied (publickey) の記事](/posts/github_permission_denied_publickey/)）。**接続先の身元確認と、自分の身元証明は別の段階**です。
+鍵は[登録](/glossary/登録/)されているのに拒否される場合は、[認証](/glossary/認証/)の失敗です。文言は「公開鍵での接続を拒否された」という趣旨になります（[GitHub の Permission denied (publickey) の記事](/posts/github_permission_denied_publickey/)）。**接続先の身元確認と、自分の身元証明は別の段階**です。
 
 前者に失敗すると、後者には進みません。したがって、この[エラー](/glossary/エラー/)が出ているときに自分の鍵を作り直しても意味がありません。
 
@@ -175,7 +175,7 @@ ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null git@github.com
 3. 不一致の形なら、実際の指紋を公開値と突き合わせる。ここで判断する。
 4. 一致すれば該当行を消して入れ直す。一致しなければ接続を止める。
 5. `Offending` の[行番号](/glossary/行番号/)を使う。消すべき行が特定できる。
-6. 接続先が想定どおりかを[設定](/glossary/設定/)の展開で確認する。
+6. 接続先が想定どおりかを[設定](/glossary/設定/)の[展開](/glossary/展開/)で確認する。
 7. 記録[ファイル](/glossary/ファイル/)の場所と[権限](/glossary/権限/)、実行利用者を確認する。
 8. 検証を切る回避策は使わない。公開値との照合で固定する。
 

@@ -191,7 +191,7 @@ subjects:
 IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが[設定](/glossary/設定/)されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
 
 **CRD（Custom Resource Definition）のコンテキスト：**
-カスタムリソースを使用する場合、CRDが登録されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
+カスタムリソースを使用する場合、CRDが[登録](/glossary/登録/)されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
 
 **クラスタバージョン間の[互換性](/glossary/互換性/)：**
 異なる[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)間でマニフェストファイルを使用する場合、新しい[バージョン](/glossary/バージョン/)特有の[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が古いクラスタに存在しないことがあります。`kubectl api-resources`[コマンド](/glossary/コマンド/)で現在のクラスタで利用可能なリソースを確認してください。

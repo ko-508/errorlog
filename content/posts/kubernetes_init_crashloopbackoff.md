@@ -193,7 +193,7 @@ kubectl describe node <node-name>
 
 対処：
 
-- `OOMKilled` の場合は、init container の `resources.limits.memory` を実際の使用量に合わせて見直します。処理内容（大きな[アーカイブ](/glossary/アーカイブ/)の展開、大量データのコピーなど）を軽くする方向も検討します。
+- `OOMKilled` の場合は、init container の `resources.limits.memory` を実際の使用量に合わせて見直します。処理内容（大きな[アーカイブ](/glossary/アーカイブ/)の[展開](/glossary/展開/)、大量データのコピーなど）を軽くする方向も検討します。
 - ノードに空きがない場合は、`Init:CrashLoopBackOff` ではなくスケジューリング側の事象が併発している可能性があります。Events を先に確認してください。
 
 解決確認：再[デプロイ](/glossary/デプロイ/)後に Last State の `OOMKilled` が出なくなり、init container が完了することを確認します。

@@ -43,7 +43,7 @@ trend_incident: false
 
 この構造から、[エラー](/glossary/エラー/)の読み分けが決まります。`kubectl` は[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ要求を送るだけの道具です。[マニフェスト](/glossary/マニフェスト/)を適用した時点で成功と表示されても、それは「宣言が受け付けられた」という意味であり、動き出したという意味ではありません。実際に動くかどうかは、その後にスケジューラとkubeletが決めます。
 
-したがって[Kubernetes](/glossary/kubernetes/)の調査は、常に2段構えになります。宣言は正しく登録されたか。そしてその宣言を実現しようとした過程のどこで止まったか。前者は `kubectl get` で、後者は `kubectl describe` の[イベント](/glossary/イベント/)欄で確認します。
+したがって[Kubernetes](/glossary/kubernetes/)の調査は、常に2段構えになります。宣言は正しく[登録](/glossary/登録/)されたか。そしてその宣言を実現しようとした過程のどこで止まったか。前者は `kubectl get` で、後者は `kubectl describe` の[イベント](/glossary/イベント/)欄で確認します。
 
 まずは手元の[環境](/glossary/環境/)が動いているかを確認してください。
 
@@ -140,7 +140,7 @@ kubectl rollout undo deployment/<Deployment名>
 
 第三に、クラスターの外からの入口です。Serviceの `type` は既定で `ClusterIP` であり、この場合はクラスターの内側からしか到達できません。外へ出すには別の型やIngressといった仕組みが要ります。
 
-そして名前解決です。公式ドキュメントによれば、Podの `/etc/resolv.conf` はkubeletが[設定](/glossary/設定/)し、`search` には `<namespace>.svc.cluster.local`、`svc.cluster.local`、`cluster.local` が並びます。この展開により、`test` 名前空間のPodは `data.prod` でも `data.prod.svc.cluster.local` でも解決できます（[DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
+そして名前解決です。公式ドキュメントによれば、Podの `/etc/resolv.conf` はkubeletが[設定](/glossary/設定/)し、`search` には `<namespace>.svc.cluster.local`、`svc.cluster.local`、`cluster.local` が並びます。この[展開](/glossary/展開/)により、`test` 名前空間のPodは `data.prod` でも `data.prod.svc.cluster.local` でも解決できます（[DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
 
 ここが `localhost` の話と繋がります。同じPodの中の[コンテナ](/glossary/コンテナ/)同士は `localhost` で[通信](/glossary/通信/)できますが、別のPodのサービスへ `localhost` と書いても届きません。Service名を書きます。名前空間が違えば `<Service名>.<名前空間>` と書きます。
 

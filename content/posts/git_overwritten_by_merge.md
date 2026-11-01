@@ -168,7 +168,7 @@ Please move or remove them before you merge.
 Aborting
 ```
 
-未追跡とは、索引に登録されていない[ファイル](/glossary/ファイル/)です。通常の`git stash push`では未追跡[ファイル](/glossary/ファイル/)を含めません。まとめて退避したい場合は、次のように指定できます。
+未追跡とは、索引に[登録](/glossary/登録/)されていない[ファイル](/glossary/ファイル/)です。通常の`git stash push`では未追跡[ファイル](/glossary/ファイル/)を含めません。まとめて退避したい場合は、次のように指定できます。
 
 ```bash
 git stash push --include-untracked -m "before update with untracked files"

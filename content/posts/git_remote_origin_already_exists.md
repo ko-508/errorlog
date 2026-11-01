@@ -16,7 +16,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`git remote add origin ...`で次の[エラー](/glossary/エラー/)が出たら、同じ名前のリモートが既に登録されています。リモートは、取得先や送信先の[リポジトリ](/glossary/リポジトリ/)に付ける名前です。
+`git remote add origin ...`で次の[エラー](/glossary/エラー/)が出たら、同じ名前のリモートが既に[登録](/glossary/登録/)されています。リモートは、取得先や送信先の[リポジトリ](/glossary/リポジトリ/)に付ける名前です。
 
 ```text
 error: remote origin already exists.
@@ -42,7 +42,7 @@ git remote set-url origin https://github.com/OWNER/REPOSITORY.git
 
 `origin`は特別な[URL](/glossary/url/)や[GitHub](/glossary/github/)上の[リポジトリ](/glossary/リポジトリ/)名ではなく、手元で接続先を識別する登録名です。別の[URL](/glossary/url/)を指定しても、同じ名前が使われていれば追加は拒否されます。
 
-逆に、同じ[URL](/glossary/url/)を違う名前で登録することもできます。[エラー](/glossary/エラー/)の判定対象は[URL](/glossary/url/)の一致ではなく、名前の重複です。
+逆に、同じ[URL](/glossary/url/)を違う名前で[登録](/glossary/登録/)することもできます。[エラー](/glossary/エラー/)の判定対象は[URL](/glossary/url/)の一致ではなく、名前の重複です。
 
 今回の[Git](/glossary/git/) 2.51.1による確認では、clone済みの[リポジトリ](/glossary/リポジトリ/)に再び`origin`を追加すると、上記の文言と終了[コード](/glossary/コード/)3になりました。失敗した追加操作の前後で、[リポジトリ](/glossary/リポジトリ/)の[設定ファイル](/glossary/設定ファイル/)は変わっていませんでした。
 
@@ -70,7 +70,7 @@ origin  https://github.com/OWNER/REPOSITORY.git (push)
 
 `fetch`は取得、`push`は[送信](/glossary/送信/)に使う[URL](/glossary/url/)です。二行あるだけで、`origin`が二重登録されているという意味ではありません。
 
-[cloneの公式文書](https://git-scm.com/docs/git-clone)によると、cloneでは既定で複製元が`origin`として登録されます。clone後に、初期化済みの[リポジトリ](/glossary/リポジトリ/)向けの`remote add origin`手順を繰り返せば、名前が重なります。`clone --origin`などで名前を指定した場合は、実際の一覧で判断します。
+[cloneの公式文書](https://git-scm.com/docs/git-clone)によると、cloneでは既定で複製元が`origin`として[登録](/glossary/登録/)されます。clone後に、初期化済みの[リポジトリ](/glossary/リポジトリ/)向けの`remote add origin`手順を繰り返せば、名前が重なります。`clone --origin`などで名前を指定した場合は、実際の一覧で判断します。
 
 [URL](/glossary/url/)に認証情報が含まれている場合は、確認結果をそのまま公開しないでください。
 
@@ -87,9 +87,9 @@ git remote -v
 
 ただし、[URL](/glossary/url/)を変えても、その接続先から最新情報を取得したことにはなりません。特に別の[リポジトリ](/glossary/リポジトリ/)へ変更した場合、既存の`origin/main`が新しい接続先の最新状態を表しているとは限りません。
 
-取得先と送信先の[URL](/glossary/url/)を別々に登録している場合や、複数の[URL](/glossary/url/)がある場合もあります。通常の`set-url`一回ですべてを変更したつもりにならず、変更後も両側の一覧を確認してください。
+取得先と送信先の[URL](/glossary/url/)を別々に[登録](/glossary/登録/)している場合や、複数の[URL](/glossary/url/)がある場合もあります。通常の`set-url`一回ですべてを変更したつもりにならず、変更後も両側の一覧を確認してください。
 
-`set-url`に成功しても、[URL](/glossary/url/)の正しさや[アクセス権](/glossary/アクセス権/)、pushできることまで確認できたわけではありません。登録の[修正](/glossary/修正/)と、その後の通信結果を分けて判断します。
+`set-url`に成功しても、[URL](/glossary/url/)の正しさや[アクセス権](/glossary/アクセス権/)、pushできることまで確認できたわけではありません。[登録](/glossary/登録/)の[修正](/glossary/修正/)と、その後の通信結果を分けて判断します。
 
 ## 元の接続先を残すなら別名で追加する
 
@@ -100,7 +100,7 @@ git remote add upstream https://github.com/OTHER/REPOSITORY.git
 git remote -v
 ```
 
-`upstream`は名前の例で、既に登録済みなら別の名前にします。登録しただけでは、取得や[送信](/glossary/送信/)は実行されません。この例には、追加直後に取得する`-f`も付けていません。
+`upstream`は名前の例で、既に登録済みなら別の名前にします。[登録](/glossary/登録/)しただけでは、取得や[送信](/glossary/送信/)は実行されません。この例には、追加直後に取得する`-f`も付けていません。
 
 既存の`origin`を別名で残し、新しい接続先を`origin`にする方針なら、改名してから追加する方法もあります。
 

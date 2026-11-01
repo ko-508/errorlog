@@ -106,7 +106,7 @@ docker run --rm -it <検証用タグ> sh
 docker manifest inspect <レジストリ>/<イメージ>:<タグ>
 ```
 
-手元で通っても、ビルダーが別の場所で動いていれば問い合わせ元も別です。[認証](/glossary/認証/)情報を登録した場所と実行場所が一致しているかを先に見ます。理由が[認証](/glossary/認証/)なら [Docker の pull access denied の記事](/posts/docker_pull_access_denied/)、[タグ](/glossary/タグ/)が見つからないなら [Docker の manifest unknown の記事](/posts/docker_manifest_unknown/)、応答が返らないなら [Docker の context deadline exceeded の記事](/posts/docker_context_deadline_exceeded/)が対象になります。
+手元で通っても、ビルダーが別の場所で動いていれば問い合わせ元も別です。[認証](/glossary/認証/)情報を[登録](/glossary/登録/)した場所と実行場所が一致しているかを先に見ます。理由が[認証](/glossary/認証/)なら [Docker の pull access denied の記事](/posts/docker_pull_access_denied/)、[タグ](/glossary/タグ/)が見つからないなら [Docker の manifest unknown の記事](/posts/docker_manifest_unknown/)、応答が返らないなら [Docker の context deadline exceeded の記事](/posts/docker_context_deadline_exceeded/)が対象になります。
 
 ### 原因3：COPY の対象が context の起点から見つからない
 

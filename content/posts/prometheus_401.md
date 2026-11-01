@@ -212,7 +212,7 @@ server {
 
 **Prometheus スクレイパーの[認証](/glossary/認証/)：** `prometheus.yml` 内で定義されたスクレイプ対象も 401 を返す可能性があります。特にエクスポーター（Node Exporter、MySQL Exporter など）がベーシック[認証](/glossary/認証/)で保護されている場合、該当するジョブ[設定](/glossary/設定/)に `basic_auth` セクションを追加する必要があります。
 
-**Grafana 経由でのアクセス：** Grafana が Prometheus を Datasource として登録している場合、Datasource 設定画面の「Authentication」セクションで認証情報を入力してください。curl で[テスト](/glossary/テスト/)する際と同じ認証方式（ベーシック[認証](/glossary/認証/)、[TLS](/glossary/tls/)、[OAuth](/glossary/oauth/) など）を選択します。
+**Grafana 経由でのアクセス：** Grafana が Prometheus を Datasource として[登録](/glossary/登録/)している場合、Datasource 設定画面の「Authentication」セクションで認証情報を入力してください。curl で[テスト](/glossary/テスト/)する際と同じ認証方式（ベーシック[認証](/glossary/認証/)、[TLS](/glossary/tls/)、[OAuth](/glossary/oauth/) など）を選択します。
 
 **リモート書き込み・読み取り[設定](/glossary/設定/)：** `remote_write` や `remote_read` で別の Prometheus [インスタンス](/glossary/インスタンス/)と[通信](/glossary/通信/)する際も、同様に `basic_auth` や `tls_config` を[設定](/glossary/設定/)する必要があります。
 

@@ -47,7 +47,7 @@ PaperMod テーマの `themes/PaperMod/layouts/_partials/templates/schema_json.h
 "dateModified": {{ .Lastmod }},
 ```
 
-Hugo [テンプレート](/glossary/テンプレート/)で `{{ .PublishDate }}` を素のまま展開すると、Go の `time.Time` 型が[デフォルト](/glossary/デフォルト/)形式でシリアライズされる。この形式は `0001-01-01 00:00:00 +0000 UTC` のような文字列になり、[JSON](/glossary/json/) として無効な出力になる。
+Hugo [テンプレート](/glossary/テンプレート/)で `{{ .PublishDate }}` を素のまま[展開](/glossary/展開/)すると、Go の `time.Time` 型が[デフォルト](/glossary/デフォルト/)形式でシリアライズされる。この形式は `0001-01-01 00:00:00 +0000 UTC` のような文字列になり、[JSON](/glossary/json/) として無効な出力になる。
 
 さらに `.PublishDate` はフロントマターに `publishDate` を明示しない場合にゼロ値（`0001-01-01`）になることがある（Hugo の[バージョン](/glossary/バージョン/)や[設定](/glossary/設定/)により挙動が異なる）。`lastmod` も同様で、フロントマターに未設定の場合にゼロ値が返る。
 

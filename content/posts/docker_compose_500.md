@@ -258,7 +258,7 @@ COPY --from=builder /app/myapp /usr/local/bin/
 docker compose config
 ```
 
-で設定全体を確認し、[環境変数](/glossary/環境変数/)が適切に展開されているか検査します。
+で設定全体を確認し、[環境変数](/glossary/環境変数/)が適切に[展開](/glossary/展開/)されているか検査します。
 
 ## それでも解決しない場合
 

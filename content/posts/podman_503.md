@@ -63,7 +63,7 @@ podman info
 
 ### 原因2：コンテナレジストリ（Docker Hub・Quay.io等）のメンテナンスまたは障害
 
-[Docker](/glossary/docker/) Hub や Quay.io などの外部[レジストリ](/glossary/レジストリ/)がメンテナンス中、負荷が高い状態、または[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)により一時的に 503 を返しています。この場合、イメージプル操作が失敗します。
+[Docker](/glossary/docker/) Hub や Quay.io などの外部[レジストリ](/glossary/レジストリ/)が[メンテナンス](/glossary/メンテナンス/)中、負荷が高い状態、または[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)により一時的に 503 を返しています。この場合、イメージプル操作が失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

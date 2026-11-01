@@ -91,8 +91,8 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 
 | 原因 | 主な確認 | 主な対処 |
 | --- | --- | --- |
-| CNI [設定](/glossary/設定/)・[プラグイン](/glossary/プラグイン/)の不整合 | CNI アドオンの Pod 状態、CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | アドオンの公式手順どおりに再適用、ノード上の CNI [設定](/glossary/設定/)・バイナリの整合を回復 |
-| [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | アドオン側の IPAM 状態、Pod CIDR [設定](/glossary/設定/)の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
+| CNI [設定](/glossary/設定/)・[プラグイン](/glossary/プラグイン/)の不整合 | CNI [アドオン](/glossary/アドオン/)の Pod 状態、CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)とバイナリ、ノードの `NetworkUnavailable` | [アドオン](/glossary/アドオン/)の公式手順どおりに再適用、ノード上の CNI [設定](/glossary/設定/)・バイナリの整合を回復 |
+| [IP アドレス](/glossary/ip-アドレス/)の枯渇・IPAM の不整合 | [アドオン](/glossary/アドオン/)側の IPAM 状態、Pod CIDR [設定](/glossary/設定/)の一致 | 不要な Pod や滞留 sandbox の整理、CIDR 設計の見直し |
 | pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム[設定](/glossary/設定/)の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー[設定](/glossary/設定/) |
 | container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の[復旧](/glossary/復旧/)、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
 | ノードのディスク・inode 枯渇 | `df -h` / `df -i`、ノードの `DiskPressure` | 不要[イメージ](/glossary/イメージ/)・[ログ](/glossary/ログ/)の[削除](/glossary/削除/)、容量拡張 |
@@ -103,8 +103,8 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 sandbox の[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)は container runtime が CNI [プラグイン](/glossary/プラグイン/)を呼び出して行います。ここが成立しないと、pause [コンテナ](/glossary/コンテナ/)まで作れていても sandbox 作成全体が失敗として扱われます。よくある[パターン](/glossary/パターン/)は次のとおりです。
 
 - **クラスタ構築直後にネットワークアドオンを適用していない**：kubeadm などで構築した直後は CNI [設定](/glossary/設定/)が存在せず、kubelet は「ネットワークプラグインが未初期化」であることを示すメッセージとともに Pod を起動できません。ノードの Ready 条件のメッセージにも `NetworkPluginNotReady` 相当の記述が出ます。この症状は公式[リポジトリ](/glossary/リポジトリ/)の Issue でも繰り返し報告されています（[kubernetes/kubernetes#48798](https://github.com/kubernetes/kubernetes/issues/48798)、[kubernetes/kubeadm#1031](https://github.com/kubernetes/kubeadm/issues/1031)）。
-- **アドオンの DaemonSet が該当ノードで動いていない**：ノード追加直後、taint、[イメージ](/glossary/イメージ/)取得失敗などでアドオンの Pod が起動せず、そのノードだけ CNI [設定](/glossary/設定/)が配置されないケースです。
-- **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：[設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧アドオンの[設定](/glossary/設定/)が残っていると意図しない[プラグイン](/glossary/プラグイン/)が使われます。アドオンを入れ替えた際に起きやすい失敗です。
+- **[アドオン](/glossary/アドオン/)の DaemonSet が該当ノードで動いていない**：ノード追加直後、taint、[イメージ](/glossary/イメージ/)取得失敗などで[アドオン](/glossary/アドオン/)の Pod が起動せず、そのノードだけ CNI [設定](/glossary/設定/)が配置されないケースです。
+- **CNI [設定ファイル](/glossary/設定ファイル/)が壊れている・複数あって意図しないものが選ばれている**：[設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)内の[ファイル](/glossary/ファイル/)は名前順で評価されるため、旧[アドオン](/glossary/アドオン/)の[設定](/glossary/設定/)が残っていると意図しない[プラグイン](/glossary/プラグイン/)が使われます。[アドオン](/glossary/アドオン/)を入れ替えた際に起きやすい失敗です。
 - **CNI [プラグイン](/glossary/プラグイン/)のバイナリが無い、実行できない**：ノードの初期化方法を変えた、[イメージ](/glossary/イメージ/)を作り直した、ディスクを入れ替えたといった変更の直後に起きます。
 - **[IP アドレス](/glossary/ip-アドレス/)の枯渇や IPAM 情報の不整合**：ノードに割り当てられた Pod 用アドレス範囲を使い切ると、新しい sandbox に IP を割り当てられません。[削除](/glossary/削除/)しきれなかった sandbox が IP を保持し続けている場合もあります。
 
@@ -123,7 +123,7 @@ sudo crictl info | grep -i -A20 cni
 
 CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)やバイナリディレクトリの場所は container runtime の[設定](/glossary/設定/)で決まります。既定値を推測せず、`crictl info` の出力やランタイムの[設定ファイル](/glossary/設定ファイル/)で実際の[パス](/glossary/パス/)を確認してください。
 
-修復手順（[設定ファイル](/glossary/設定ファイル/)の内容、Pod CIDR の指定方法、必要な [RBAC](/glossary/rbac/) など）はアドオンごとに大きく異なります。使用しているアドオンの公式ドキュメントに従ってください。Pod CIDR は kubeadm 側の指定とアドオン側の[設定](/glossary/設定/)が一致している必要があるため、両方を照合します。
+修復手順（[設定ファイル](/glossary/設定ファイル/)の内容、Pod CIDR の指定方法、必要な [RBAC](/glossary/rbac/) など）は[アドオン](/glossary/アドオン/)ごとに大きく異なります。使用している[アドオン](/glossary/アドオン/)の公式ドキュメントに従ってください。Pod CIDR は kubeadm 側の指定と[アドオン](/glossary/アドオン/)側の[設定](/glossary/設定/)が一致している必要があるため、両方を照合します。
 
 ### 原因2：pause image または container runtime が sandbox コンテナを作れない
 
@@ -241,7 +241,7 @@ sudo crictl pods
 
 ### 手順5：仮説を1つずつ検証する
 
-- CNI を疑うなら：アドオン Pod の状態と[ログ](/glossary/ログ/)、ノード上の CNI [設定](/glossary/設定/)・バイナリの存在を確認
+- CNI を疑うなら：[アドオン](/glossary/アドオン/) Pod の状態と[ログ](/glossary/ログ/)、ノード上の CNI [設定](/glossary/設定/)・バイナリの存在を確認
 - pause image を疑うなら：`crictl pull <your-sandbox-image>` を実行
 - ノード状態を疑うなら：`df -h` / `df -i` / `sysctl` / `lsmod` / `dmesg`
 

@@ -108,7 +108,7 @@ provider "registry.terraform.io/hashicorp/aws" {
 required by this configuration but no version is selected
 ```
 
-現在の[設定](/glossary/設定/)には必要なプロバイダーがあるのに、ロックファイルに選択がありません。新しいプロバイダーまたは、それを必要とする子[モジュール](/glossary/モジュール/)を追加した後に、更新済みのロックファイルを登録していない場合が代表です。
+現在の[設定](/glossary/設定/)には必要なプロバイダーがあるのに、ロックファイルに選択がありません。新しいプロバイダーまたは、それを必要とする子[モジュール](/glossary/モジュール/)を追加した後に、更新済みのロックファイルを[登録](/glossary/登録/)していない場合が代表です。
 
 ```text
 locked version selection 5.100.0 doesn't match the updated
@@ -128,7 +128,7 @@ provider registry.terraform.io/hashicorp/random:
 required by this configuration but no version is selected
 ```
 
-この場合、現在の[設定](/glossary/設定/)が必要とするプロバイダーにロックファイルの項目がありません。CIで `plan` の前に `init` を実行しているか、開発側で[更新](/glossary/更新/)した `.terraform.lock.hcl` を登録したかを確認します。
+この場合、現在の[設定](/glossary/設定/)が必要とするプロバイダーにロックファイルの項目がありません。CIで `plan` の前に `init` を実行しているか、開発側で[更新](/glossary/更新/)した `.terraform.lock.hcl` を[登録](/glossary/登録/)したかを確認します。
 
 第二に、`doesn't match the updated version constraints` かを確認します。
 
@@ -206,7 +206,7 @@ provider "registry.terraform.io/hashicorp/aws" {
 }
 ```
 
-`-upgrade` は、変更した1つだけでなく、条件を満たす範囲でほかのプロバイダーや取得済み[モジュール](/glossary/モジュール/)も[更新](/glossary/更新/)し得ます。[`terraform init` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/init#plugin-installation)にも、既存の選択を無視し、設定条件を満たす新しい版を選ぶと記載されています。差分を見ずに更新結果を登録しないでください。
+`-upgrade` は、変更した1つだけでなく、条件を満たす範囲でほかのプロバイダーや取得済み[モジュール](/glossary/モジュール/)も[更新](/glossary/更新/)し得ます。[`terraform init` の公式資料](https://developer.hashicorp.com/terraform/cli/commands/init#plugin-installation)にも、既存の選択を無視し、設定条件を満たす新しい版を選ぶと記載されています。差分を見ずに更新結果を[登録](/glossary/登録/)しないでください。
 
 ### 原因2：新しいプロバイダーまたは子モジュールを追加した
 
@@ -241,7 +241,7 @@ terraform providers
 
 ### 原因3：ロックファイルの更新を登録していない
 
-手元では `terraform init -upgrade` が成功しても、`.terraform.lock.hcl` を登録しなければCIには古い選択が届きます。
+手元では `terraform init -upgrade` が成功しても、`.terraform.lock.hcl` を[登録](/glossary/登録/)しなければCIには古い選択が届きます。
 
 ```bash
 git status --short
@@ -249,7 +249,7 @@ git diff -- .terraform.lock.hcl
 git check-ignore -v .terraform.lock.hcl
 ```
 
-`.gitignore` がロックファイルを除外している場合は[修正](/glossary/修正/)します。[Terraformの公式スタイルガイド](https://developer.hashicorp.com/terraform/language/style#gitignore)は、`.terraform.lock.hcl` を常に登録し、`.terraform` [ディレクトリ](/glossary/ディレクトリ/)、状態[ファイル](/glossary/ファイル/)、[保存](/glossary/保存/)したplan[ファイル](/glossary/ファイル/)は登録しないよう示しています。
+`.gitignore` がロックファイルを除外している場合は[修正](/glossary/修正/)します。[Terraformの公式スタイルガイド](https://developer.hashicorp.com/terraform/language/style#gitignore)は、`.terraform.lock.hcl` を常に[登録](/glossary/登録/)し、`.terraform` [ディレクトリ](/glossary/ディレクトリ/)、状態[ファイル](/glossary/ファイル/)、[保存](/glossary/保存/)したplan[ファイル](/glossary/ファイル/)は[登録](/glossary/登録/)しないよう示しています。
 
 ```gitignore
 # 登録しない
@@ -261,7 +261,7 @@ git check-ignore -v .terraform.lock.hcl
 # .terraform.lock.hcl は除外しない
 ```
 
-CIで自動生成したロックファイルを、その実行の間だけ使う構成にすると、実行ごとに選択が変わる余地が残ります。ロックファイルは開発時に[更新](/glossary/更新/)し、確認を経て登録し、CIでは変更が必要なら失敗させる方が不意の[更新](/glossary/更新/)を見つけやすくなります。
+CIで自動生成したロックファイルを、その実行の間だけ使う構成にすると、実行ごとに選択が変わる余地が残ります。ロックファイルは開発時に[更新](/glossary/更新/)し、確認を経て[登録](/glossary/登録/)し、CIでは変更が必要なら失敗させる方が不意の[更新](/glossary/更新/)を見つけやすくなります。
 
 ```bash
 terraform init -input=false -lockfile=readonly
@@ -339,7 +339,7 @@ terraform providers lock \
   tf.example.com/example/internal
 ```
 
-公式資料は、公開元だけが配布者の署名で保護された公式の検査値を提供できると注意しています。ミラーを指定した場合は、そのミラーが返す配布物の検査値になります。出力に表示される署名者を確認してから、ロックファイルを登録します。
+公式資料は、公開元だけが配布者の署名で保護された公式の検査値を提供できると注意しています。ミラーを指定した場合は、そのミラーが返す配布物の検査値になります。出力に表示される署名者を確認してから、ロックファイルを[登録](/glossary/登録/)します。
 
 共有[キャッシュ](/glossary/キャッシュ/)を使う場合も、検査を無効にする[設定](/glossary/設定/)を安易に追加しないでください。[CLI設定の公式資料](https://developer.hashicorp.com/terraform/cli/config/config-file#allowing-the-provider-plugin-cache-to-break-the-dependency-lock-file)は、`plugin_cache_may_break_dependency_lock_file` を例外的な[設定](/glossary/設定/)とし、異なる[OS](/glossary/os/)や[CPU](/glossary/cpu/)では使えない不完全な項目を作る可能性を警告しています。
 

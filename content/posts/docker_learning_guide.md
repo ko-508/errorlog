@@ -197,7 +197,7 @@ docker volume inspect pgdata
 
 **最低限覚える概念**：`compose.yaml` は、どのサービスをどう組み合わせるかを書いたものです。Composeはこれを読んで、必要な[ネットワーク](/glossary/ネットワーク/)、ボリューム、[コンテナ](/glossary/コンテナ/)を作ります。
 
-サービス間通信の仕組みは押さえておいてください。公式ドキュメントによれば、Composeは既定で[アプリケーション](/glossary/アプリケーション/)用の[ネットワーク](/glossary/ネットワーク/)を1つ作り、各サービスの[コンテナ](/glossary/コンテナ/)をそこへ参加させます。[ネットワーク](/glossary/ネットワーク/)名は `<プロジェクト名>_default` で、各サービスは自分の名前を内部の[DNSサーバー](/glossary/dnsサーバー/)へ登録するため、[コンテナ](/glossary/コンテナ/)同士はサービス名で直接到達できます。[IPアドレス](/glossary/ipアドレス/)の指定や手動の[設定](/glossary/設定/)は不要です（[Networking in Compose](https://docs.docker.com/compose/how-tos/networking/)）。
+サービス間通信の仕組みは押さえておいてください。公式ドキュメントによれば、Composeは既定で[アプリケーション](/glossary/アプリケーション/)用の[ネットワーク](/glossary/ネットワーク/)を1つ作り、各サービスの[コンテナ](/glossary/コンテナ/)をそこへ参加させます。[ネットワーク](/glossary/ネットワーク/)名は `<プロジェクト名>_default` で、各サービスは自分の名前を内部の[DNSサーバー](/glossary/dnsサーバー/)へ[登録](/glossary/登録/)するため、[コンテナ](/glossary/コンテナ/)同士はサービス名で直接到達できます。[IPアドレス](/glossary/ipアドレス/)の指定や手動の[設定](/glossary/設定/)は不要です（[Networking in Compose](https://docs.docker.com/compose/how-tos/networking/)）。
 
 同じページには、`web` と `db` という2つのサービスがある場合、`web` は `postgres://db:5432` で[データベース](/glossary/データベース/)へ接続でき、ホストからは公開設定に応じて `postgres://localhost:8001` でアクセスできる、という例が示されています。ここが前段階の `localhost` の話と繋がります。[コンテナ](/glossary/コンテナ/)間はサービス名、ホストからは公開した[ポート](/glossary/ポート/)です。
 

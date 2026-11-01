@@ -16,7 +16,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`npm start`や`npm run dev`で次の[エラー](/glossary/エラー/)が出たら、まず利用できる[スクリプト](/glossary/スクリプト/)を確認します。ここでの[スクリプト](/glossary/スクリプト/)は、package.jsonの`scripts`に登録した[コマンド](/glossary/コマンド/)です。
+`npm start`や`npm run dev`で次の[エラー](/glossary/エラー/)が出たら、まず利用できる[スクリプト](/glossary/スクリプト/)を確認します。ここでの[スクリプト](/glossary/スクリプト/)は、package.jsonの`scripts`に[登録](/glossary/登録/)した[コマンド](/glossary/コマンド/)です。
 
 ```text
 npm error Missing script: "start"
@@ -106,7 +106,7 @@ npm run dev --workspace=app
 
 ## 必要な場合だけscriptsへ追加する
 
-既に別名で正しい[処理](/glossary/処理/)が定義されているなら、名前を増やす必要はありません。配布先や運用が`npm start`を必要とし、[プロジェクト](/glossary/プロジェクト/)側でも定義する方針なら、実際の起動[コマンド](/glossary/コマンド/)を登録します。
+既に別名で正しい[処理](/glossary/処理/)が定義されているなら、名前を増やす必要はありません。配布先や運用が`npm start`を必要とし、[プロジェクト](/glossary/プロジェクト/)側でも定義する方針なら、実際の起動[コマンド](/glossary/コマンド/)を[登録](/glossary/登録/)します。
 
 Node.jsで`index.js`を実行するアプリの例です。
 

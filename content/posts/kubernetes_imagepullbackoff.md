@@ -224,7 +224,7 @@ kubectl delete pod <ポッド名>
 
 ## Editor's Note
 
-この状態のいちばん厄介な性質は、失敗し続けても何も起きないことです。本体に登録された要望が、その問題をそのまま述べています（[A mechanism to fail a Pod that is stuck due to an invalid Image](https://github.com/kubernetes/kubernetes/issues/122300)）。
+この状態のいちばん厄介な性質は、失敗し続けても何も起きないことです。本体に[登録](/glossary/登録/)された要望が、その問題をそのまま述べています（[A mechanism to fail a Pod that is stuck due to an invalid Image](https://github.com/kubernetes/kubernetes/issues/122300)）。
 
 2023年12月の投稿で、求められているのは、取得の失敗が一定回数を超えたときに対象を失敗の状態へ移す仕組みです。現状では待機中の扱いのまま留まり続ける、と書かれています。
 

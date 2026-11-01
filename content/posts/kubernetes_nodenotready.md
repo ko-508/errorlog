@@ -207,7 +207,7 @@ kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
 
 `NotReady` の中でも、**行き来を繰り返す**形は原因の特定が難しくなります。落ちた瞬間には調査できず、調べたときには復帰しているためです。
 
-その典型を長期間にわたって記録した報告があります（[Node flapping between Ready/NotReady with PLEG issues](https://github.com/kubernetes/kubernetes/issues/45419)）。2017年5月に登録され、題名のとおり、ノードが `Ready` と `NotReady` を行き来する現象を扱っています。共通して現れていたのが、あの文言です。**最後に動作したのが3分と少し前、閾値は3分**。
+その典型を長期間にわたって記録した報告があります（[Node flapping between Ready/NotReady with PLEG issues](https://github.com/kubernetes/kubernetes/issues/45419)）。2017年5月に[登録](/glossary/登録/)され、題名のとおり、ノードが `Ready` と `NotReady` を行き来する現象を扱っています。共通して現れていたのが、あの文言です。**最後に動作したのが3分と少し前、閾値は3分**。
 
 この数字の並びが、問題の性質を物語っています。実装上、[コンテナ](/glossary/コンテナ/)の一覧を取得する[処理](/glossary/処理/)が3分以内に一巡しなければ不健全と判定されます。つまり、**わずかに超えただけで `NotReady` になる**。そして次の巡回が間に合えば `Ready` に戻ります。原因が消えたわけではなく、閾値の境界で揺れているだけです。
 

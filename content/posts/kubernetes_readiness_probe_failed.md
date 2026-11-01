@@ -230,7 +230,7 @@ readinessProbe:
     port: http
 ```
 
-[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute登録を確認します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか確認します。
+[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute[登録](/glossary/登録/)を確認します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか確認します。
 
 ### 原因2：アプリがlocalhostだけで待ち受けている
 

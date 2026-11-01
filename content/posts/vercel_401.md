@@ -76,7 +76,7 @@ vercel deploy
 
 ### 原因2：VERCEL_TOKEN 環境変数が正しく設定されていない
 
-[CI/CD](/glossary/ci-cd/) パイプライン（[GitHub](/glossary/github/) Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を[自動化](/glossary/自動化/)する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を登録する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
+[CI/CD](/glossary/ci-cd/) パイプライン（[GitHub](/glossary/github/) Actions、GitLab CI、CircleCI など）で[デプロイ](/glossary/デプロイ/)を[自動化](/glossary/自動化/)する際、シークレット[変数](/glossary/変数/)として VERCEL_TOKEN を[登録](/glossary/登録/)する必要があります。シークレット名の誤入力、ペーストミス、または設定漏れが発生しやすい箇所です。
 
 **修正方法：**
 

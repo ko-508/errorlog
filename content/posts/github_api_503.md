@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-[GitHub](/glossary/github/) [API](/glossary/api/)における503[エラー](/glossary/エラー/)は、[GitHub](/glossary/github/)のサービスが一時的に利用不可の状態にあることを示します。この[エラー](/glossary/エラー/)は[GitHub](/glossary/github/)側のメンテナンス、インフラストラクチャの過負荷、または[API](/glossary/api/)呼び出しの集中に達した場合に発生します。503[エラー](/glossary/エラー/)が返される際には、通常`Retry-After`[ヘッダー](/glossary/ヘッダー/)が含まれており、どのくらい待つべきかの秒数目安が提示されます。
+[GitHub](/glossary/github/) [API](/glossary/api/)における503[エラー](/glossary/エラー/)は、[GitHub](/glossary/github/)のサービスが一時的に利用不可の状態にあることを示します。この[エラー](/glossary/エラー/)は[GitHub](/glossary/github/)側の[メンテナンス](/glossary/メンテナンス/)、インフラストラクチャの過負荷、または[API](/glossary/api/)呼び出しの集中に達した場合に発生します。503[エラー](/glossary/エラー/)が返される際には、通常`Retry-After`[ヘッダー](/glossary/ヘッダー/)が含まれており、どのくらい待つべきかの秒数目安が提示されます。
 
 ## 実際のエラーメッセージ例
 
@@ -47,7 +47,7 @@ Content-Type: application/json
 
 ### 原因1：GitHub側のメンテナンスまたはシステム障害
 
-[GitHub](/glossary/github/)が定期メンテナンスやシステム[障害](/glossary/障害/)の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の[復旧](/glossary/復旧/)を待つ必要があります。
+[GitHub](/glossary/github/)が定期[メンテナンス](/glossary/メンテナンス/)やシステム[障害](/glossary/障害/)の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の[復旧](/glossary/復旧/)を待つ必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

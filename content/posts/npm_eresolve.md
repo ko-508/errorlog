@@ -93,7 +93,7 @@ lockfile[削除](/glossary/削除/)や[キャッシュ](/glossary/キャッシ�
 |---|---|---|
 | `npm install --legacy-peer-deps` | ツリー構築時にpeerの要求を無視する | 要求の整合性が保証されない |
 | `npm install --force` | peer競合の許容を含む、複数の保護を外す | peer以外にも影響する |
-| `npm install --omit=peer` | peerをディスクへ展開しない | peerの要求を考慮したツリー解決は行う |
+| `npm install --omit=peer` | peerをディスクへ[展開](/glossary/展開/)しない | peerの要求を考慮したツリー解決は行う |
 
 一時的にpeerの扱いを回避する必要がある場合は、影響を理解したうえで使う。
 

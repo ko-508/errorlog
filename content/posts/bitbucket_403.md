@@ -131,7 +131,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 **[API](/glossary/api/) アクセストークンの[権限](/glossary/権限/)：** [REST](/glossary/rest/) [API](/glossary/api/) を使用する場合、Personal Access Token または App Password が持つ[スコープ](/glossary/スコープ/)[権限](/glossary/権限/)も確認が必要です。[トークン](/glossary/トークン/)生成時に `repository:write` [スコープ](/glossary/スコープ/)を付与していない場合、[API](/glossary/api/) 経由での push や[コミット](/glossary/コミット/)作成は 403 で失敗します。
 
-**デプロイキーと SSH アクセス：** SSH [キー](/glossary/キー/)が[リポジトリ](/glossary/リポジトリ/)固有のデプロイキーとして登録されている場合、その[キー](/glossary/キー/)の[権限](/glossary/権限/)レベル（Read-only または Write）も考慮されます。[CI/CD](/glossary/ci-cd/) パイプラインから push が 403 で失敗する場合は、デプロイキーの[権限](/glossary/権限/)を確認してください。
+**デプロイキーと SSH アクセス：** SSH [キー](/glossary/キー/)が[リポジトリ](/glossary/リポジトリ/)固有のデプロイキーとして[登録](/glossary/登録/)されている場合、その[キー](/glossary/キー/)の[権限](/glossary/権限/)レベル（Read-only または Write）も考慮されます。[CI/CD](/glossary/ci-cd/) パイプラインから push が 403 で失敗する場合は、デプロイキーの[権限](/glossary/権限/)を確認してください。
 
 ## それでも解決しない場合
 

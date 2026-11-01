@@ -12,7 +12,7 @@ related_services: ["JavaScript", "REST API", "SendGrid", "Mailgun", "Gmail"]
 ---
 ## エラーの概要
 
-Supabaseの422[エラー](/glossary/エラー/)は「Unprocessable Entity」を意味し、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、[サーバー](/glossary/サーバー/)がデータの検証ルール違反を検出したときに発生します。Supabaseの[認証](/glossary/認証/)（Auth）機能では、[パスワード](/glossary/パスワード/)やメールアドレスの形式チェック、カスタムSMTP[設定](/glossary/設定/)の検証で特に頻繁に見られます。この[エラー](/glossary/エラー/)が返されると、ユーザー登録や[パスワード](/glossary/パスワード/)変更などの認証処理が失敗します。
+Supabaseの422[エラー](/glossary/エラー/)は「Unprocessable Entity」を意味し、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、[サーバー](/glossary/サーバー/)がデータの検証ルール違反を検出したときに発生します。Supabaseの[認証](/glossary/認証/)（Auth）機能では、[パスワード](/glossary/パスワード/)やメールアドレスの形式チェック、カスタムSMTP[設定](/glossary/設定/)の検証で特に頻繁に見られます。この[エラー](/glossary/エラー/)が返されると、ユーザー[登録](/glossary/登録/)や[パスワード](/glossary/パスワード/)変更などの認証処理が失敗します。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ Supabase JavaScript[クライアント](/glossary/クライアント/)から返�
 
 ### 原因1：パスワードが最低文字数を満たしていない
 
-Supabaseの[デフォルト設定](/glossary/デフォルト設定/)では、[パスワード](/glossary/パスワード/)は**最低6文字以上**である必要があります。これより短い[パスワード](/glossary/パスワード/)でユーザー登録や[パスワード](/glossary/パスワード/)変更を試みると、422[エラー](/glossary/エラー/)が返されます。ユーザー入力の検証を行わずに[API](/glossary/api/)に[送信](/glossary/送信/)している場合に発生することが多いです。
+Supabaseの[デフォルト設定](/glossary/デフォルト設定/)では、[パスワード](/glossary/パスワード/)は**最低6文字以上**である必要があります。これより短い[パスワード](/glossary/パスワード/)でユーザー[登録](/glossary/登録/)や[パスワード](/glossary/パスワード/)変更を試みると、422[エラー](/glossary/エラー/)が返されます。ユーザー入力の検証を行わずに[API](/glossary/api/)に[送信](/glossary/送信/)している場合に発生することが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

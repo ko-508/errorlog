@@ -154,7 +154,7 @@ npm install --fetch-retries 5 --fetch-retry-maxtimeout 120000
 npm config get registry
 ```
 
-対処は、組織が配布している[証明書](/glossary/証明書/)を登録することです。
+対処は、組織が配布している[証明書](/glossary/証明書/)を[登録](/glossary/登録/)することです。
 
 ```bash
 npm config set cafile /path/to/corporate-ca.pem

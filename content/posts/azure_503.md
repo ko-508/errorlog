@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI"]
 ---
 ## エラーの概要
 
-Azure 503 [エラー](/glossary/エラー/)は「Service Unavailable」を意味し、Azureサービスが一時的に利用できない状態を示します。[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)に到達しても、システムの過負荷、メンテナンス、[インフラ](/glossary/インフラ/)[障害](/glossary/障害/)などによって[レスポンス](/glossary/レスポンス/)を返すことができません。この[エラー](/glossary/エラー/)は一時的な場合が多いため、[リトライ](/glossary/リトライ/)戦略を実装することが重要です。
+Azure 503 [エラー](/glossary/エラー/)は「Service Unavailable」を意味し、Azureサービスが一時的に利用できない状態を示します。[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)に到達しても、システムの過負荷、[メンテナンス](/glossary/メンテナンス/)、[インフラ](/glossary/インフラ/)[障害](/glossary/障害/)などによって[レスポンス](/glossary/レスポンス/)を返すことができません。この[エラー](/glossary/エラー/)は一時的な場合が多いため、[リトライ](/glossary/リトライ/)戦略を実装することが重要です。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ Please retry the request after some time. RequestId: abc123def456
 
 ### 原因1：Azureリージョンで障害が発生している
 
-Azure のデータセンター[障害](/glossary/障害/)やメンテナンス作業により、特定のリージョン全体がサービス停止している場合があります。この場合、[アプリケーション](/glossary/アプリケーション/)側での[修正](/glossary/修正/)では解決できず、Azure のサービス[復旧](/glossary/復旧/)を待つか、別リージョンへの切り替えが必要です。
+Azure のデータセンター[障害](/glossary/障害/)や[メンテナンス](/glossary/メンテナンス/)作業により、特定のリージョン全体がサービス停止している場合があります。この場合、[アプリケーション](/glossary/アプリケーション/)側での[修正](/glossary/修正/)では解決できず、Azure のサービス[復旧](/glossary/復旧/)を待つか、別リージョンへの切り替えが必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

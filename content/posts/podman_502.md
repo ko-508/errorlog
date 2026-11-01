@@ -239,7 +239,7 @@ curl http://localhost:8000
 | レジストリコンテナの再起動 | 低 | 必要 | 全[OS](/glossary/os/) |
 | リバースプロキシ[設定](/glossary/設定/)の[修正](/glossary/修正/) | 中 | 必要 | 全[OS](/glossary/os/) |
 | コンテナネットワークの明示的定義 | 中 | 必要 | 全[OS](/glossary/os/) |
-| ランタイムの変更またはダウングレード | 中 | 必要 | 全[OS](/glossary/os/) |
+| ランタイムの変更または[ダウングレード](/glossary/ダウングレード/) | 中 | 必要 | 全[OS](/glossary/os/) |
 | ネットワークスタックパラメータ調整 | 高 | 必要 | [Linux](/glossary/linux/)のみ |
 
 ## ツール固有の注意点

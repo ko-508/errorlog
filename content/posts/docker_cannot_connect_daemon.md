@@ -322,11 +322,11 @@ docker info
 
 この[エラー](/glossary/エラー/)の難しさは、**[Docker](/glossary/docker/) [CLI](/glossary/cli/)とdaemonが別の[処理](/glossary/処理/)であること、さらに接続先が1つとは限らないことを、短い文言がほとんど説明していない**点にあります。
 
-2014年4月、Mobyの課題に `dial unix /var/run/docker.sock: permission denied` という報告が登録されています（[dial unix /var/run/docker.sock: permission denied](https://github.com/moby/moby/issues/5314)）。報告者は、ソケットが `docker` グループに属することを確認し、自分をそのグループへ追加しても拒否された、と書いています。
+2014年4月、Mobyの課題に `dial unix /var/run/docker.sock: permission denied` という報告が[登録](/glossary/登録/)されています（[dial unix /var/run/docker.sock: permission denied](https://github.com/moby/moby/issues/5314)）。報告者は、ソケットが `docker` グループに属することを確認し、自分をそのグループへ追加しても拒否された、と書いています。
 
 この記録だけから最終原因は確定できません。ただし、現在も重要な落とし穴がそのまま現れています。**グループの登録情報と、すでに開いている端末に反映済みのグループは同じとは限りません**。そのため現在の公式手順にも、追加後に[ログイン](/glossary/ログイン/)し直すか `newgrp docker` を実行する工程が残っています。
 
-2024年10月には、同じ `permission denied while trying to connect ... /var/run/docker.sock` を見た利用者が、[Docker](/glossary/docker/) Desktopを追加で入れる必要があるのかと尋ねる課題を登録しています（[Permission denied](https://github.com/docker/for-linux/issues/1502)）。少なくとも[Docker](/glossary/docker/) [CLI](/glossary/cli/)は実行できており、拒否された場所は`docker load`する[イメージ](/glossary/イメージ/)ではありません。[CLI](/glossary/cli/)から `/var/run/docker.sock` へ接続する段階です。
+2024年10月には、同じ `permission denied while trying to connect ... /var/run/docker.sock` を見た利用者が、[Docker](/glossary/docker/) Desktopを追加で入れる必要があるのかと尋ねる課題を[登録](/glossary/登録/)しています（[Permission denied](https://github.com/docker/for-linux/issues/1502)）。少なくとも[Docker](/glossary/docker/) [CLI](/glossary/cli/)は実行できており、拒否された場所は`docker load`する[イメージ](/glossary/イメージ/)ではありません。[CLI](/glossary/cli/)から `/var/run/docker.sock` へ接続する段階です。
 
 10年を隔てた2つの報告は、同じ読み違いを示します。利用者は `docker` という1つの道具を実行しているように見えますが、内部では**[クライアント](/glossary/クライアント/)、接続先、[権限](/glossary/権限/)、daemon**が分かれています。`permission denied` は「[Docker](/glossary/docker/)が壊れた」ではなく、その境界で[OS](/glossary/os/)に拒否されたという記録です。
 

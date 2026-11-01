@@ -87,7 +87,7 @@ openssl s_client -connect example.com:443 -servername example.com < /dev/null 2>
 
 npmの`ca`は、[レジストリ](/glossary/レジストリ/)との[SSL](/glossary/ssl/)接続で信頼するCA[証明書](/glossary/証明書/)を直接指定する[設定](/glossary/設定/)です。`cafile`は、1つ以上のCA[証明書](/glossary/証明書/)を含む[ファイル](/glossary/ファイル/)の[パス](/glossary/パス/)を指定します。どちらも既定値は`null`です。[npm公式のconfig文書](https://docs.npmjs.com/cli/v11/using-npm/config/#ca)に[仕様](/glossary/仕様/)があります。
 
-過去に社内CAや古い[証明書](/glossary/証明書/)を登録し、その[設定](/glossary/設定/)だけが残っていると、現在の正しい[証明書](/glossary/証明書/)チェーンを検証できないことがあります。[設定](/glossary/設定/)が不要になったことを確認できた場合は[削除](/glossary/削除/)します。
+過去に社内CAや古い[証明書](/glossary/証明書/)を[登録](/glossary/登録/)し、その[設定](/glossary/設定/)だけが残っていると、現在の正しい[証明書](/glossary/証明書/)チェーンを検証できないことがあります。[設定](/glossary/設定/)が不要になったことを確認できた場合は[削除](/glossary/削除/)します。
 
 ```bash
 npm config delete ca

@@ -30,7 +30,7 @@ kubectl api-versions
 kubectl api-resources --cached=false
 ```
 
-カスタムリソースなら、その種類を追加する定義であるCRD（CustomResourceDefinition）が必要です。CRDを先に適用して登録を待ち、その後にカスタムリソースを適用します。組み込みリソースなら、`apiVersion`の誤りや、クラスターの[更新](/glossary/更新/)で提供されなくなった旧[API](/glossary/api/)を確認します。
+カスタムリソースなら、その種類を追加する定義であるCRD（CustomResourceDefinition）が必要です。CRDを先に適用して[登録](/glossary/登録/)を待ち、その後にカスタムリソースを適用します。組み込みリソースなら、`apiVersion`の誤りや、クラスターの[更新](/glossary/更新/)で提供されなくなった旧[API](/glossary/api/)を確認します。
 
 ただし、この文言だけでCRD不足と断定はできません。404は要求先が見つからなかった応答で、接続先や途中の[プロキシ](/glossary/プロキシ/)が誤っている場合も調査対象になります。
 
@@ -78,7 +78,7 @@ kubectl get --raw /apis/apps/v1
 
 ## CRDを先に適用して登録を待つ
 
-`kind: MyApp`のような独自の種類には、[対応](/glossary/対応/)するCRDが必要です。Operatorを使う手順なら、配布元が指定するCRDの導入方法を確認してください。Operatorは独自リソースの状態に応じて[処理](/glossary/処理/)する[プログラム](/glossary/プログラム/)で、CRDの登録と、その[プログラム](/glossary/プログラム/)の稼働は別の確認項目です。
+`kind: MyApp`のような独自の種類には、[対応](/glossary/対応/)するCRDが必要です。Operatorを使う手順なら、配布元が指定するCRDの導入方法を確認してください。Operatorは独自リソースの状態に応じて[処理](/glossary/処理/)する[プログラム](/glossary/プログラム/)で、CRDの[登録](/glossary/登録/)と、その[プログラム](/glossary/プログラム/)の稼働は別の確認項目です。
 
 ```bash
 kubectl get crd
@@ -94,7 +94,7 @@ kubectl api-resources --api-group=myorg.example.com --cached=false
 kubectl apply -f resources/
 ```
 
-各[コマンド](/glossary/コマンド/)の成功を確認してから次へ進みます。CRDが複数あるなら、利用する種類に[対応](/glossary/対応/)するCRDすべてについて登録を待ってください。[Kubernetes公式のCRD手順](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)は、[API](/glossary/api/)の作成に数秒かかることがあり、`Established`条件が真になるか、[API](/glossary/api/)一覧に種類が現れるのを確認すると説明しています。
+各[コマンド](/glossary/コマンド/)の成功を確認してから次へ進みます。CRDが複数あるなら、利用する種類に[対応](/glossary/対応/)するCRDすべてについて[登録](/glossary/登録/)を待ってください。[Kubernetes公式のCRD手順](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)は、[API](/glossary/api/)の作成に数秒かかることがあり、`Established`条件が真になるか、[API](/glossary/api/)一覧に種類が現れるのを確認すると説明しています。
 
 待機が[タイムアウト](/glossary/タイムアウト/)した場合は、先へ進まず登録状態を調べます。
 
@@ -105,7 +105,7 @@ kubectl get crd myapps.myorg.example.com -o yaml
 
 CRDが存在しても、[マニフェスト](/glossary/マニフェスト/)に指定した版を提供していない場合があります。CRDの`spec.group`、`spec.names.kind`、`spec.versions`を確認し、要求した版の`served`が`true`かを照合します。[CRDのバージョン管理](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definition-versioning/)に各設定の意味が記載されています。
 
-[ファイル名](/glossary/ファイル名/)を並べ替えるだけでは、CRDの登録完了を待つことにはなりません。CRDとそれを使うリソースを同じ[ディレクトリ](/glossary/ディレクトリ/)へ入れて一度に適用するより、上のように適用と待機を分けると、失敗した段階を確認できます。`--server-side`や`--force-conflicts`は、存在しない[API](/glossary/api/)を登録するための指定ではありません。
+[ファイル名](/glossary/ファイル名/)を並べ替えるだけでは、CRDの登録完了を待つことにはなりません。CRDとそれを使うリソースを同じ[ディレクトリ](/glossary/ディレクトリ/)へ入れて一度に適用するより、上のように適用と待機を分けると、失敗した段階を確認できます。`--server-side`や`--force-conflicts`は、存在しない[API](/glossary/api/)を[登録](/glossary/登録/)するための指定ではありません。
 
 ## apiVersionの誤りと削除されたAPIを直す
 
@@ -131,7 +131,7 @@ kind: CronJob
 
 Helmのchartは、[アプリケーション](/glossary/アプリケーション/)の導入に使う定義一式です。[Helm公式のCRD説明](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/)では、chartの`crds/`に配置されたCRDを`helm install`で先に導入する方式を説明しています。一方、`--skip-crds`を付けるとこの導入を省き、既存CRDの[更新](/glossary/更新/)も自動で済むとは限りません。chartがCRDを別配布している場合は、その導入手順に従います。
 
-`--set crds.install=true`はすべてのchartに共通する指定ではありません。chartがその[設定](/glossary/設定/)を実装している場合にだけ使えます。`--wait`を追加するだけで、CRD不足や旧[API](/glossary/api/)の使用が解消すると考えないでください。また、`--dry-run`ではCRD自体を登録できないため、まだ存在しないカスタムリソースを検証できない場合があります。
+`--set crds.install=true`はすべてのchartに共通する指定ではありません。chartがその[設定](/glossary/設定/)を実装している場合にだけ使えます。`--wait`を追加するだけで、CRD不足や旧[API](/glossary/api/)の使用が解消すると考えないでください。また、`--dry-run`ではCRD自体を[登録](/glossary/登録/)できないため、まだ存在しないカスタムリソースを検証できない場合があります。
 
 実例として、[Argo Workflowsの報告](https://github.com/argoproj/argo-helm/issues/2751)では、CRDの導入時に`no matches for kind "CustomResourceDefinition" in version "apiextensions.k8s.io/v1beta1"`が出ています。[返信](https://github.com/argoproj/argo-helm/issues/2751#issuecomment-2155989787)では、当時の新しいchartがその旧[API](/glossary/api/)を使っていないことと、導入できた検証結果が示されています。
 

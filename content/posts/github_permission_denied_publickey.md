@@ -27,7 +27,7 @@ and the repository exists.
 
 最初に押さえるべきは、**この時点では対象[リポジトリ](/glossary/リポジトリ/)の権限確認まで進んでいない**ことです。[GitHub公式の説明](https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey)でも、`Permission denied` は[サーバー](/glossary/サーバー/)が接続を拒否した状態とされています。共同編集者の[権限](/glossary/権限/)、[ブランチ](/glossary/ブランチ/)保護、[リポジトリ](/glossary/リポジトリ/)の公開・非公開を調べる前に、SSH[認証](/glossary/認証/)を直します。
 
-また、末尾の `publickey` は「公開鍵[ファイル](/glossary/ファイル/)が壊れた」という意味ではありません。[サーバー](/glossary/サーバー/)が続行を許可した認証方式が公開鍵認証だけで、その方式では利用者を確認できなかったという意味です。実際の[認証](/glossary/認証/)では、端末にある[秘密鍵](/glossary/秘密鍵/)で署名し、[GitHub](/glossary/github/)に登録した公開鍵で検証します。[GitHub](/glossary/github/)へ追加するのは `.pub` 側だけです。[秘密鍵](/glossary/秘密鍵/)は[送信](/glossary/送信/)も貼り付けもしません。
+また、末尾の `publickey` は「公開鍵[ファイル](/glossary/ファイル/)が壊れた」という意味ではありません。[サーバー](/glossary/サーバー/)が続行を許可した認証方式が公開鍵認証だけで、その方式では利用者を確認できなかったという意味です。実際の[認証](/glossary/認証/)では、端末にある[秘密鍵](/glossary/秘密鍵/)で署名し、[GitHub](/glossary/github/)に[登録](/glossary/登録/)した公開鍵で検証します。[GitHub](/glossary/github/)へ追加するのは `.pub` 側だけです。[秘密鍵](/glossary/秘密鍵/)は[送信](/glossary/送信/)も貼り付けもしません。
 
 最初の診断は次の1行です。
 
@@ -146,7 +146,7 @@ git remote -v
 ssh -T git@github.com
 ```
 
-[GitHub](/glossary/github/) Enterprise Serverやデータ所在地付きのEnterprise Cloudを使っている場合は、`github.com` ではなく組織から案内されたホスト名を使います。最初から別ホストへ接続しているなら、[GitHub](/glossary/github/).com側へ鍵を登録してもその接続は直りません。
+[GitHub](/glossary/github/) Enterprise Serverやデータ所在地付きのEnterprise Cloudを使っている場合は、`github.com` ではなく組織から案内されたホスト名を使います。最初から別ホストへ接続しているなら、[GitHub](/glossary/github/).com側へ鍵を[登録](/glossary/登録/)してもその接続は直りません。
 
 ### 原因2：SSHが秘密鍵を見つけていない
 
@@ -189,7 +189,7 @@ Host github.com
 
 ### 原因3：提示した公開鍵がGitHubアカウントに登録されていない
 
-`Offering public key` は出るものの[認証](/glossary/認証/)されない場合は、提示した鍵と[GitHub](/glossary/github/)に登録した鍵をフィンガープリントで照合します。
+`Offering public key` は出るものの[認証](/glossary/認証/)されない場合は、提示した鍵と[GitHub](/glossary/github/)に[登録](/glossary/登録/)した鍵をフィンガープリントで照合します。
 
 ssh-agentに読み込まれている鍵は次で確認できます。
 
@@ -205,13 +205,13 @@ ssh-keygen -lf ~/.ssh/id_ed25519.pub -E sha256
 
 表示されたSHA256フィンガープリントを、[GitHub](/glossary/github/)の `Settings` → `SSH and GPG keys` にある鍵と比べます。[GitHub公式の手順](https://docs.github.com/en/authentication/troubleshooting-ssh/error-permission-denied-publickey#verify-the-public-key-is-attached-to-your-account)も、ssh-agentのフィンガープリントと[アカウント](/glossary/アカウント/)側の一覧を照合する流れです。
 
-登録されていなければ、公開鍵の内容を追加します。
+[登録](/glossary/登録/)されていなければ、公開鍵の内容を追加します。
 
 ```bash
 cat ~/.ssh/id_ed25519.pub
 ```
 
-画面へ貼り付けてよいのは、先頭が `ssh-ed25519` などで始まる `.pub` [ファイル](/glossary/ファイル/)だけです。次の[秘密鍵](/glossary/秘密鍵/)は表示、共有、[GitHub](/glossary/github/)への登録をしません。
+画面へ貼り付けてよいのは、先頭が `ssh-ed25519` などで始まる `.pub` [ファイル](/glossary/ファイル/)だけです。次の[秘密鍵](/glossary/秘密鍵/)は表示、共有、[GitHub](/glossary/github/)への[登録](/glossary/登録/)をしません。
 
 ```text
 ~/.ssh/id_ed25519          ← 秘密鍵。共有しない
@@ -347,7 +347,7 @@ ssh-keygen -t ed25519 -C "you@example.com" -f ~/.ssh/id_ed25519_github
 ssh-add ~/.ssh/id_ed25519_github
 ```
 
-生成後は `.pub` 側を[GitHub](/glossary/github/)へ登録し、`~/.ssh/config` の `IdentityFile` と一致させます。
+生成後は `.pub` 側を[GitHub](/glossary/github/)へ[登録](/glossary/登録/)し、`~/.ssh/config` の `IdentityFile` と一致させます。
 
 ### 原因7：SSH認証後のリポジトリ権限またはSSOで拒否されている
 
@@ -360,7 +360,7 @@ git ls-remote origin
 
 ここで `Repository not found` や `Permission to OWNER/REPOSITORY denied to OTHER-USER` が出るなら、SSH鍵がないのではなく、[認証](/glossary/認証/)された主体と[リポジトリ](/glossary/リポジトリ/)[権限](/glossary/権限/)の組み合わせが違います。
 
-組織がSSOを使う場合は、鍵を個人[アカウント](/glossary/アカウント/)へ登録しただけでは足りないことがあります。[GitHub Enterprise Cloudの公式手順](https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-single-sign-on/authorizing-an-ssh-key-for-use-with-single-sign-on)に従い、`Settings` → `SSH and GPG keys` → 対象鍵の `Configure SSO` から組織へ許可します。`Configure SSO` が出ない場合は、その組織のIdPで一度認証し、外部[ID](/glossary/id/)を関連付ける必要があります。
+組織がSSOを使う場合は、鍵を個人[アカウント](/glossary/アカウント/)へ[登録](/glossary/登録/)しただけでは足りないことがあります。[GitHub Enterprise Cloudの公式手順](https://docs.github.com/en/enterprise-cloud@latest/authentication/authenticating-with-single-sign-on/authorizing-an-ssh-key-for-use-with-single-sign-on)に従い、`Settings` → `SSH and GPG keys` → 対象鍵の `Configure SSO` から組織へ許可します。`Configure SSO` が出ない場合は、その組織のIdPで一度認証し、外部[ID](/glossary/id/)を関連付ける必要があります。
 
 Deploy keyは個人[アカウント](/glossary/アカウント/)ではなく、特定の[リポジトリ](/glossary/リポジトリ/)へ公開鍵を直接関連付ける仕組みです。別[リポジトリ](/glossary/リポジトリ/)には自動で[権限](/glossary/権限/)が広がりません。[公式文書](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys)では、Deploy keyは既定で読み取り専用であり、複数[リポジトリ](/glossary/リポジトリ/)で同じDeploy keyを再利用できないと説明されています。
 

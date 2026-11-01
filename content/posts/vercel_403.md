@@ -95,13 +95,13 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)で[プロジェ
 
 **修正方法：**
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → Security のアクセス制限設定を確認し、使用する [API](/glossary/api/) [トークン](/glossary/トークン/)が許可リストに登録されているか確認してください。必要に応じて、使用する[トークン](/glossary/トークン/)を許可リストに追加するか、許可済みの[トークン](/glossary/トークン/)に変更します。
+Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → Security のアクセス制限設定を確認し、使用する [API](/glossary/api/) [トークン](/glossary/トークン/)が許可リストに[登録](/glossary/登録/)されているか確認してください。必要に応じて、使用する[トークン](/glossary/トークン/)を許可リストに追加するか、許可済みの[トークン](/glossary/トークン/)に変更します。
 
 ## Vercel 固有の注意点
 
 Vercel では[プロジェクト](/glossary/プロジェクト/)の所有権と[アクセス権](/glossary/アクセス権/)が厳密に分離されています。同じメールアドレスで複数の[アカウント](/glossary/アカウント/)（個人・チーム）を保有している場合、ブラウザーの[セッション](/glossary/セッション/)と [CLI](/glossary/cli/) の認証状態がズレることがあります。
 
-[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。[GitHub](/glossary/github/) Actions 等で VERCEL_TOKEN を[設定](/glossary/設定/)する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を登録します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、[デフォルト](/glossary/デフォルト/)で個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
+[CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。[GitHub](/glossary/github/) Actions 等で VERCEL_TOKEN を[設定](/glossary/設定/)する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を[登録](/glossary/登録/)します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、[デフォルト](/glossary/デフォルト/)で個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
 
 [プロジェクト](/glossary/プロジェクト/)を個人[アカウント](/glossary/アカウント/)からチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント[設定](/glossary/設定/)を確認してください。
 

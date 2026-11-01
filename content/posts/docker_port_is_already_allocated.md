@@ -17,7 +17,7 @@ trend_incident: false
 
 `port is already allocated` を見たとき、多くの人は「その[ポート](/glossary/ポート/)で何かが待ち受けている」と考えます。しかし実装を読むと、**この文言を出しているのは [Docker](/glossary/docker/) 自身の割り当て台帳**です。
 
-[Docker](/glossary/docker/) は公開[ポート](/glossary/ポート/)を管理する専用の仕組みを持っており、アドレスと[プロトコル](/glossary/プロトコル/)ごとの対応表を内部に保持しています。要求された[ポート](/glossary/ポート/)をこの台帳と照合し、既に登録されていれば「Bind for アドレス:[ポート](/glossary/ポート/) failed: port is already allocated」という文言の[エラー](/glossary/エラー/)を返します。**この時点で、実際に接続を試みてはいません**。
+[Docker](/glossary/docker/) は公開[ポート](/glossary/ポート/)を管理する専用の仕組みを持っており、アドレスと[プロトコル](/glossary/プロトコル/)ごとの対応表を内部に保持しています。要求された[ポート](/glossary/ポート/)をこの台帳と照合し、既に[登録](/glossary/登録/)されていれば「Bind for アドレス:[ポート](/glossary/ポート/) failed: port is already allocated」という文言の[エラー](/glossary/エラー/)を返します。**この時点で、実際に接続を試みてはいません**。
 
 したがって、`ss` や `lsof` で調べて誰も待ち受けていなくても、この[エラー](/glossary/エラー/)は出ます。台帳と実態がずれている状態です。
 

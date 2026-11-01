@@ -78,7 +78,7 @@ JOIN pg_namespace n ON n.oid = c.relnamespace
 WHERE c.relname = 'users';
 ```
 
-[行](/glossary/行/)が返らなければ、この[データベース](/glossary/データベース/)には登録されていません。返るのに参照できないなら、[スキーマ](/glossary/スキーマ/)か綴りの問題です。
+[行](/glossary/行/)が返らなければ、この[データベース](/glossary/データベース/)には[登録](/glossary/登録/)されていません。返るのに参照できないなら、[スキーマ](/glossary/スキーマ/)か綴りの問題です。
 
 ## 原因別の確認方法と解決策
 
@@ -120,7 +120,7 @@ GRANT USAGE ON SCHEMA app TO app_user;
 
 二重引用符で囲んで作成した名前を、囲まずに参照している場合です。公式ドキュメントは、囲まない名前は常に小文字に畳まれると説明しています。`FOO`、`foo`、`"foo"` は同じものですが、`"Foo"` と `"FOO"` はそれらとも互いとも別です。
 
-確認方法は、登録されている綴りを見ることです。
+確認方法は、[登録](/glossary/登録/)されている綴りを見ることです。
 
 ```sql
 SELECT relname FROM pg_class WHERE relname ILIKE 'users';

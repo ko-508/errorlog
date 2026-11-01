@@ -29,7 +29,7 @@ npm の[処理](/glossary/処理/)は大きく3段階に分かれます。どの
 
 第一段階は[キャッシュ](/glossary/キャッシュ/)への読み書きです。取得した[パッケージ](/glossary/パッケージ/)の内容は[キャッシュ](/glossary/キャッシュ/)の置き場に[保存](/glossary/保存/)されます。既定の場所は、POSIX 系が `~/.npm`、Windows が `%LocalAppData%\npm-cache` です。
 
-第二段階は導入先への展開です。通常の導入なら作業[ディレクトリ](/glossary/ディレクトリ/)の `node_modules`、全体向けの導入なら `prefix` の下です。公式の説明によれば、全体向けの導入では[パッケージ](/glossary/パッケージ/)が `{prefix}/lib/node_modules` に置かれ、実行[ファイル](/glossary/ファイル/)が `{prefix}/bin` に、説明書が `{prefix}/share/man` にそれぞれ結び付けられます。
+第二段階は導入先への[展開](/glossary/展開/)です。通常の導入なら作業[ディレクトリ](/glossary/ディレクトリ/)の `node_modules`、全体向けの導入なら `prefix` の下です。公式の説明によれば、全体向けの導入では[パッケージ](/glossary/パッケージ/)が `{prefix}/lib/node_modules` に置かれ、実行[ファイル](/glossary/ファイル/)が `{prefix}/bin` に、説明書が `{prefix}/share/man` にそれぞれ結び付けられます。
 
 第三段階は導入後の[スクリプト](/glossary/スクリプト/)実行です。ここで失敗する場合、拒まれているのは npm ではなく[スクリプト](/glossary/スクリプト/)が触ろうとした場所です。
 

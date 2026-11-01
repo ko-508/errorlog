@@ -203,7 +203,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ## Editor's Note
 
-原因2の実例として、Kargo（継続的デリバリの[ツール](/glossary/ツール/)）の課題記録があります（[git-merge-pr: 'Base branch was modified' 405 should be retryable when wait=true](https://github.com/akuity/kargo/issues/5761)）。2026年2月18日に登録された報告で、同じ[リポジトリ](/glossary/リポジトリ/)に対して2つの[処理](/glossary/処理/)が並行して昇格したとき、先のプルリクエストは通り、後のものが 405 Base branch was modified で失敗する、という状況が記録されています。
+原因2の実例として、Kargo（継続的デリバリの[ツール](/glossary/ツール/)）の課題記録があります（[git-merge-pr: 'Base branch was modified' 405 should be retryable when wait=true](https://github.com/akuity/kargo/issues/5761)）。2026年2月18日に[登録](/glossary/登録/)された報告で、同じ[リポジトリ](/glossary/リポジトリ/)に対して2つの[処理](/glossary/処理/)が並行して昇格したとき、先のプルリクエストは通り、後のものが 405 Base branch was modified で失敗する、という状況が記録されています。
 
 この記録が示唆に富むのは、開発者側の返答です。「[マージ](/glossary/マージ/)を実行する前に[マージ](/glossary/マージ/)可否の確認をしているはずなのに、その確認を通過して、なお実際の[マージ](/glossary/マージ/)で405になるのはなぜか分からない」と書かれています。これは、確認してから[マージ](/glossary/マージ/)するという素直な作り方では、この405を無くせないということです。確認と[マージ](/glossary/マージ/)の間に他の[マージ](/glossary/マージ/)が割り込む余地は必ず残るためです。つまり原因2への対処は、確認の精度を上げることではなく、この文言に対する[リトライ](/glossary/リトライ/)を最初から設計に入れることです。
 

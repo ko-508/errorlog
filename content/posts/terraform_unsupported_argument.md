@@ -93,7 +93,7 @@ terraform providers schema -json > schema.json
 
 ここで最も多い誤解は、呼び出し側（ルートモジュール）の `variables.tf` に同名の[変数](/glossary/変数/)を追加すれば通るという考えです。実際に、ルートに `variables.tf` を置いているのに `module` ブロックの[引数](/glossary/引数/)が拒否されるという報告が繰り返し出ています。ルートの変数宣言は、ルート自身が外から受け取る値を定義するものであり、子 module が受け取れる[引数](/glossary/引数/)とは無関係です。
 
-判断材料は、子 module 側の `variable` 宣言と呼び出し側の引数名の突き合わせです。[レジストリ](/glossary/レジストリ/)や [Git](/glossary/git/) から取得した module なら、実体は `.terraform/modules/` 配下に展開されています。
+判断材料は、子 module 側の `variable` 宣言と呼び出し側の引数名の突き合わせです。[レジストリ](/glossary/レジストリ/)や [Git](/glossary/git/) から取得した module なら、実体は `.terraform/modules/` 配下に[展開](/glossary/展開/)されています。
 
 ```bash
 # 子 module 側の variable 宣言を一覧する（<module ディレクトリ> は取得先のパス）
@@ -261,7 +261,7 @@ git diff .terraform.lock.hcl
 
 `Unsupported argument`が多数同時に現れた場合、個々の行を独立したスペルミスとして直し始める前に、providerやmoduleの[バージョン](/glossary/バージョン/)がまとめて動いていないかを確認する必要があります。
 
-2023年6月、HashiCorpの[AWS](/glossary/aws/) provider[リポジトリ](/glossary/リポジトリ/)には、`terraform init -upgrade`の後に[AWS](/glossary/aws/) provider 4.xから5.xへ移行できず、複数のmodule内で多数の`Unsupported argument`が発生したという[報告](https://github.com/hashicorp/terraform-provider-aws/issues/32115)が登録されました。報告された出力では、`.terraform/modules/`配下の`aws_iam_policy_document`で`override_json`や`source_json`が拒否され、[VPC](/glossary/vpc/) moduleでは`enable_classiclink`関連の[引数](/glossary/引数/)も拒否されています。Issueは現在クローズされていますが、ページ上で確認できる情報だけから個々の解決理由までは断定できません。
+2023年6月、HashiCorpの[AWS](/glossary/aws/) provider[リポジトリ](/glossary/リポジトリ/)には、`terraform init -upgrade`の後に[AWS](/glossary/aws/) provider 4.xから5.xへ移行できず、複数のmodule内で多数の`Unsupported argument`が発生したという[報告](https://github.com/hashicorp/terraform-provider-aws/issues/32115)が[登録](/glossary/登録/)されました。報告された出力では、`.terraform/modules/`配下の`aws_iam_policy_document`で`override_json`や`source_json`が拒否され、[VPC](/glossary/vpc/) moduleでは`enable_classiclink`関連の[引数](/glossary/引数/)も拒否されています。Issueは現在クローズされていますが、ページ上で確認できる情報だけから個々の解決理由までは断定できません。
 
 同じ月には、Terraform本体の[リポジトリ](/glossary/リポジトリ/)にも、RDS module 3.5.0の内部にある`aws_db_instance`の`name`[引数](/glossary/引数/)が拒否された[報告](https://github.com/hashicorp/terraform/issues/33348)があります。[エラー](/glossary/エラー/)が指したのは利用者のルートmoduleではなく、`.terraform/modules/test_db/`配下でした。このIssueは`not planned`としてクローズされています。
 
