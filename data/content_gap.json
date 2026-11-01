@@ -1,31 +1,31 @@
 {
-  "generated_at": "2026-10-26",
+  "generated_at": "2026-11-01",
   "uncovered": [
     {
-      "query": "rewrite or internal redirection cycle while internally redirecting to",
+      "query": "grc エラー",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 7.0,
+      "position": 82.0,
       "coverage": "uncovered",
-      "best_match_slug": "docker_500",
+      "best_match_slug": "aws_401",
       "match_score": 0.069,
       "opportunity_score": 0.0
     },
     {
-      "query": "クラウド",
+      "query": "ui",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 60.0,
+      "position": 77.0,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
       "opportunity_score": 0.0
     },
     {
-      "query": "クレデンシャル ビジネス",
-      "impressions": 2,
+      "query": "サーバーダウン",
+      "impressions": 7,
       "ctr": 0.0,
-      "position": 86.0,
+      "position": 74.14,
       "coverage": "uncovered",
       "best_match_slug": "",
       "match_score": 0.0,
