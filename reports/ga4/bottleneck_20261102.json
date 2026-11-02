@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-11-02",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/postgresql_no_pg_hba_conf_entry/",
+      "pageTitle": "pg_hba.conf接続拒否の原因と対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 10.0,
+      "averageSessionDuration": 488.78997545454547,
+      "engagementRate": 0.18181818181818182,
+      "bounceRate": 0.8181818181818182
+    },
+    {
+      "pagePath": "/posts/php_pdo_could_not_find_driver/",
+      "pageTitle": "PHPのPDOドライバ不足の対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 10.0,
+      "averageSessionDuration": 854.2214558,
+      "engagementRate": 0.8,
+      "bounceRate": 0.2
+    }
+  ]
+}
