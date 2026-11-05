@@ -1840,5 +1840,16 @@
         "note": "新規作成。Nginx・curl・Apache公式資料と実装を照合。掲載コマンドは実行未検証"
       }
     ]
+  },
+  "content/posts/nginx_405.md": {
+    "verified": true,
+    "verified_at": "2026-11-05",
+    "last_verified_at": "2026-11-05",
+    "history": [
+      {
+        "date": "2026-11-05",
+        "note": "新規作成。Nginx公式資料と実装を照合。掲載設定・コマンドは実行未検証"
+      }
+    ]
   }
 }
