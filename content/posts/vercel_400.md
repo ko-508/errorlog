@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 400 [エラー](/glossary/エラー/)は、Vercel [API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式または内容に不正がある場合に発生します。これは[クライアント](/glossary/クライアント/)側の誤りを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)で、[デプロイ](/glossary/デプロイ/)時や [API](/glossary/api/) 呼び出し時に発生することがあります。Vercel [CLI](/glossary/cli/) を使用した[デプロイ](/glossary/デプロイ/)、または直接 [API](/glossary/api/) を呼び出している場合に確認が必要です。
+Vercel の 400 [エラー](/glossary/エラー/)は、Vercel [API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式または内容に不正がある場合に発生します。これは[クライアント](/glossary/クライアント/)側の誤りを示す [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)で、[デプロイ](/glossary/デプロイ/)時や [API](/glossary/api/) 呼び出し時に発生することがあります。Vercel [CLI](/glossary/cli/) を使用した[デプロイ](/glossary/デプロイ/)、または直接 [API](/glossary/api/) を呼び出している場合に[確認](/glossary/確認/)が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -78,7 +78,7 @@ vercel.json は、Vercel の[デプロイ](/glossary/デプロイ/)[設定](/glo
 
 ### 原因2：API リクエストの必須パラメーターが欠けている
 
-Vercel [API](/glossary/api/) を直接呼び出す場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)や[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/)、[デプロイ](/glossary/デプロイ/)対象の[ファイル](/glossary/ファイル/)情報など、必須パラメーターの不足が 400 [エラー](/glossary/エラー/)を引き起こします。特にカスタムスクリプトや [CI/CD](/glossary/ci-cd/) パイプライン（自動実行環境）から自動[デプロイ](/glossary/デプロイ/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の構造を厳密に確認する必要があります。
+Vercel [API](/glossary/api/) を直接呼び出す場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)や[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/)、[デプロイ](/glossary/デプロイ/)対象の[ファイル](/glossary/ファイル/)情報など、必須パラメーターの不足が 400 [エラー](/glossary/エラー/)を引き起こします。特にカスタムスクリプトや [CI/CD](/glossary/ci-cd/) パイプライン（自動実行環境）から自動[デプロイ](/glossary/デプロイ/)する場合、[リクエストボディ](/glossary/リクエストボディ/)の構造を厳密に[確認](/glossary/確認/)する必要があります。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -160,13 +160,13 @@ const deployProject = async () => {
 
 Vercel は厳密な [JSON](/glossary/json/) [スキーマ](/glossary/スキーマ/)検証を行うため、vercel.json の構造に 1 つでも不正があると即座に 400 [エラー](/glossary/エラー/)になります。特に複数環境を[設定](/glossary/設定/)する場合、[環境](/glossary/環境/)ごとの[キー](/glossary/キー/)名（`production`、`preview`、`development`）を正確に記述しないと拒否されます。
 
-また、Vercel [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)が古い場合、新しい [API](/glossary/api/) [仕様](/glossary/仕様/)に[対応](/glossary/対応/)できず、正しい[設定ファイル](/glossary/設定ファイル/)でも 400 [エラー](/glossary/エラー/)が発生することがあります。チームで複数のマシンから[デプロイ](/glossary/デプロイ/)する場合、全員が同じ[バージョン](/glossary/バージョン/)を使用していることを確認してください。
+また、Vercel [CLI](/glossary/cli/) の[バージョン](/glossary/バージョン/)が古い場合、新しい [API](/glossary/api/) [仕様](/glossary/仕様/)に[対応](/glossary/対応/)できず、正しい[設定ファイル](/glossary/設定ファイル/)でも 400 [エラー](/glossary/エラー/)が発生することがあります。チームで複数のマシンから[デプロイ](/glossary/デプロイ/)する場合、全員が同じ[バージョン](/glossary/バージョン/)を使用していることを[確認](/glossary/確認/)してください。
 
 [環境変数](/glossary/環境変数/)の値の型も厳密です。数値は文字列で囲む必要があり、配列や[オブジェクト](/glossary/オブジェクト/)は正しくシリアライズされていなければなりません。特に [API](/glossary/api/) を直接呼び出す場合、ファイルコンテンツは Base64 [エンコード](/glossary/エンコード/)（64進法のテキスト形式に変換）で[送信](/glossary/送信/)する必要があり、バイナリのまま[送信](/glossary/送信/)すると 400 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 
-まず、Vercel [CLI](/glossary/cli/) の `--debug` オプションでデプロイプロセスの詳細[ログ](/glossary/ログ/)を確認してください。
+まず、Vercel [CLI](/glossary/cli/) の `--debug` オプションでデプロイプロセスの詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。
 
 ```bash
 vercel deploy --debug
@@ -192,4 +192,4 @@ vercel --version
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

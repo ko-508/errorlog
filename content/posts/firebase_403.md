@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Firebase の 403 [エラー](/glossary/エラー/)は「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールが[リクエスト](/glossary/リクエスト/)をブロックしている状態です。ユーザーは[認証](/glossary/認証/)されていても、特定のデータへの[アクセス権限](/glossary/アクセス権限/)がないため発生します。
+Firebase の 403 [エラー](/glossary/エラー/)は「Forbidden（アクセス禁止）」を意味します。Firestore、Cloud Storage、Realtime Database などで、セキュリティルールが[リクエスト](/glossary/リクエスト/)をブロックしている状態です。[ユーザー](/glossary/ユーザー/)は[認証](/glossary/認証/)されていても、特定のデータへの[アクセス権限](/glossary/アクセス権限/)がないため発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -88,7 +88,7 @@ service cloud.firestore {
 ### 原因2：認証トークンが無効または期限切れ
 
 **なぜ発生するか**
-セキュリティルール内で `request.auth.uid` を参照しているのに、ユーザーが未認証の状態、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限が切れている場合、権限判定が失敗します。
+セキュリティルール内で `request.auth.uid` を参照しているのに、[ユーザー](/glossary/ユーザー/)が未認証の状態、または[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限が切れている場合、権限判定が失敗します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）**
 
@@ -115,7 +115,7 @@ firebase.auth().signInAnonymously()
 ### 原因3：セキュリティルール内のUID比較ロジックが間違っている
 
 **なぜ発生するか**
-セキュリティルールで `request.auth.uid` と実際のドキュメント所有者 UID が一致していない場合、アクセスが拒否されます。例えば、ユーザーが別ユーザーのドキュメントに書き込もうとしているケースです。
+セキュリティルールで `request.auth.uid` と実際のドキュメント所有者 UID が一致していない場合、アクセスが拒否されます。例えば、[ユーザー](/glossary/ユーザー/)が別[ユーザー](/glossary/ユーザー/)のドキュメントに書き込もうとしているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）**
 
@@ -189,7 +189,7 @@ service firebase.storage {
 
 ### Firestore のセキュリティルールと認証の組み合わせ
 
-Firebase Authentication と Firestore セキュリティルールは必ずセットで動作します。`request.auth` を参照するルールを書く場合、[クライアント](/glossary/クライアント/)側で `signIn()` や `signInAnonymously()` を実行済みであることを確認してください。
+Firebase Authentication と Firestore セキュリティルールは必ずセットで動作します。`request.auth` を参照するルールを書く場合、[クライアント](/glossary/クライアント/)側で `signIn()` や `signInAnonymously()` を実行済みであることを[確認](/glossary/確認/)してください。
 
 ### デプロイ反映の遅延
 
@@ -201,14 +201,14 @@ Realtime Database の場合、ルール内で `.uid` を参照するときの[�
 
 ### GCP 権限と Firebase 権限の区別
 
-Firebase [プロジェクト](/glossary/プロジェクト/)所有者が GCP のプロジェクトレベルで[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)や[サービスアカウント](/glossary/サービスアカウント/)[権限](/glossary/権限/)を制限している場合も 403 が発生することがあります。Firebase Admin [SDK](/glossary/sdk/) を使う場合は、使用する[サービスアカウント](/glossary/サービスアカウント/)が適切な[ロール](/glossary/ロール/)（`roles/editor` 以上）を持っているか確認してください。
+Firebase [プロジェクト](/glossary/プロジェクト/)所有者が GCP のプロジェクトレベルで[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)や[サービスアカウント](/glossary/サービスアカウント/)[権限](/glossary/権限/)を制限している場合も 403 が発生することがあります。Firebase Admin [SDK](/glossary/sdk/) を使う場合は、使用する[サービスアカウント](/glossary/サービスアカウント/)が適切な[ロール](/glossary/ロール/)（`roles/editor` 以上）を持っているか[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
 ### ステップバイステップのデバッグ手順
 
-1. **Firebase Console でセキュリティルールを確認**  
-   Firebase Console の「Firestore」または「Storage」メニューから、現在[デプロイ](/glossary/デプロイ/)されているルールを確認します。ローカルの `firestore.rules` [ファイル](/glossary/ファイル/)と一致しているかチェックしてください。
+1. **Firebase Console でセキュリティルールを[確認](/glossary/確認/)**  
+   Firebase Console の「Firestore」または「Storage」メニューから、現在[デプロイ](/glossary/デプロイ/)されているルールを[確認](/glossary/確認/)します。ローカルの `firestore.rules` [ファイル](/glossary/ファイル/)と一致しているかチェックしてください。
 
 2. **認証状態を[ログ](/glossary/ログ/)出力**  
 ```javascript
@@ -219,7 +219,7 @@ firebase.auth().onAuthStateChanged(user => {
 ```
 
 3. **セキュリティルールをテストモードで一時的に緩和**  
-開発中は以下の[設定](/glossary/設定/)で全アクセスを許可し、具体的な 403 が解消されるか確認します。
+開発中は以下の[設定](/glossary/設定/)で全アクセスを許可し、具体的な 403 が解消されるか[確認](/glossary/確認/)します。
 ```yaml
 rules_version = '2';
 service cloud.firestore {
@@ -232,8 +232,8 @@ service cloud.firestore {
 ```
 （[本番環境](/glossary/本番環境/)では絶対に使用しないでください）
 
-4. **Cloud Logging で詳細[ログ](/glossary/ログ/)を確認**  
-Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で[検索](/glossary/検索/)し、403 [エラー](/glossary/エラー/)の詳細メッセージを確認します。
+4. **Cloud Logging で詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)**  
+Google Cloud Console の「ログエクスプローラー」から `resource.type="cloud_firestore"` で[検索](/glossary/検索/)し、403 [エラー](/glossary/エラー/)の詳細メッセージを[確認](/glossary/確認/)します。
 
 ### 公式ドキュメント参照
 
@@ -249,4 +249,4 @@ Google Cloud Console の「ログエクスプローラー」から `resource.typ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

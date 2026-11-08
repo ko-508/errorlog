@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 
-Azure 400[エラー](/glossary/エラー/)は「Bad Request」を意味し、Azure [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)に含まれる[パラメータ](/glossary/パラメータ/)や値に誤りがある場合に発生します。これは[認証](/glossary/認証/)[エラー](/glossary/エラー/)ではなく、[リクエスト](/glossary/リクエスト/)の内容そのものが[仕様](/glossary/仕様/)に違反していることを示す重要な信号です。Azure PortalやAzure [CLI](/glossary/cli/)、[REST](/glossary/rest/) [API](/glossary/api/)を通じてリソースを作成・[更新](/glossary/更新/)する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、適切な[対応](/glossary/対応/)により確実に解決できます。
+Azure 400[エラー](/glossary/エラー/)は「Bad Request」を意味し、Azure [API](/glossary/api/)への[リクエスト](/glossary/リクエスト/)に含まれる[パラメータ](/glossary/パラメータ/)や値に誤りがある場合に発生します。これは[認証](/glossary/認証/)[エラー](/glossary/エラー/)ではなく、[リクエスト](/glossary/リクエスト/)の内容そのものが[仕様](/glossary/仕様/)に違反していることを示す重要な信号です。Azure PortalやAzure [CLI](/glossary/cli/)、[REST](/glossary/rest/) [API](/glossary/api/)を通じて[リソース](/glossary/リソース/)を作成・[更新](/glossary/更新/)する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、適切な[対応](/glossary/対応/)により確実に解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -43,7 +43,7 @@ $ az vm create --resource-group myRG --name "invalid@vm#name" --image UbuntuLTS
 
 ### 原因1：必須パラメータの不足または型の不正
 
-[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待する[データ型](/glossary/データ型/)と異なっている場合に発生します。例えば、リソース[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の[仕様](/glossary/仕様/)では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
+[リクエスト](/glossary/リクエスト/)に必須の[パラメータ](/glossary/パラメータ/)が含まれていないか、指定した値が[API](/glossary/api/)が期待する[データ型](/glossary/データ型/)と異なっている場合に発生します。例えば、[リソース](/glossary/リソース/)[ID](/glossary/id/)は文字列型で指定が必須であるのに対し、数値型で[送信](/glossary/送信/)された場合などが該当します。Azure [API](/glossary/api/)の[仕様](/glossary/仕様/)では厳密な型チェックが行われるため、[JSON](/glossary/json/)[ペイロード](/glossary/ペイロード/)の構造確認は必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -92,7 +92,7 @@ print(response.status_code)
 
 ### 原因2：リソース名の命名規則違反
 
-Azure リソース名には文字数制限および使用可能文字に関する厳格なルールが存在します。仮想マシンは最大15文字で英数字とハイフンのみ使用可能、ストレージアカウントは最大24文字で小文字英数字のみという具合に、リソースの種類ごとに異なる規則が適用されます。これらの規則を超えたり違反する文字を含めたりすると[エラー](/glossary/エラー/)が返されます。
+Azure [リソース](/glossary/リソース/)名には文字数制限および使用可能文字に関する厳格なルールが存在します。仮想マシンは最大15文字で英数字とハイフンのみ使用可能、ストレージアカウントは最大24文字で小文字英数字のみという具合に、[リソース](/glossary/リソース/)の種類ごとに異なる規則が適用されます。これらの規則を超えたり違反する文字を含めたりすると[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -116,7 +116,7 @@ az vm create \
 
 ### 原因3：プロパティ値が許容範囲外
 
-Azure リソースの[プロパティ](/glossary/プロパティ/)には有効な値の範囲が定義されています。例えば、ストレージアカウントのレプリケーション種別には「Standard_LRS」「Standard_GRS」などの定義された値のみが許可され、任意の値を指定することはできません。また、VNetのアドレス空間やサブネットのサイズなど、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)でも有効な範囲チェックが厳密に行われます。
+Azure [リソース](/glossary/リソース/)の[プロパティ](/glossary/プロパティ/)には有効な値の範囲が定義されています。例えば、ストレージアカウントのレプリケーション種別には「Standard_LRS」「Standard_GRS」などの定義された値のみが許可され、任意の値を指定することはできません。また、VNetのアドレス空間やサブネットのサイズなど、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)でも有効な範囲チェックが厳密に行われます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -140,11 +140,11 @@ az storage account create \
 
 ## ツール固有の注意点
 
-**Azure [REST](/glossary/rest/) [API](/glossary/api/)の場合**：[エラーレスポンス](/glossary/エラーレスポンス/)の `details` [フィールド](/glossary/フィールド/)を必ず確認してください。ここに具体的な問題[パラメータ](/glossary/パラメータ/)と制約条件が記載されます。複数の[パラメータ](/glossary/パラメータ/)に問題がある場合も、`details` 配列内に全て列挙されることがあります。また、[API](/glossary/api/)[バージョン](/glossary/バージョン/)（`api-version` クエリパラメータ）が古すぎたり新しすぎたりする場合も[エラー](/glossary/エラー/)になるため、Microsoft公式ドキュメントで対象リソースの最新[API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認することが重要です。
+**Azure [REST](/glossary/rest/) [API](/glossary/api/)の場合**：[エラーレスポンス](/glossary/エラーレスポンス/)の `details` [フィールド](/glossary/フィールド/)を必ず[確認](/glossary/確認/)してください。ここに具体的な問題[パラメータ](/glossary/パラメータ/)と制約条件が記載されます。複数の[パラメータ](/glossary/パラメータ/)に問題がある場合も、`details` 配列内に全て列挙されることがあります。また、[API](/glossary/api/)[バージョン](/glossary/バージョン/)（`api-version` クエリパラメータ）が古すぎたり新しすぎたりする場合も[エラー](/glossary/エラー/)になるため、Microsoft公式ドキュメントで対象[リソース](/glossary/リソース/)の最新[API](/glossary/api/)[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)することが重要です。
 
 **Azure [CLI](/glossary/cli/)の場合**：`--debug` フラグを付与することで、[送信](/glossary/送信/)される[ペイロード](/glossary/ペイロード/)全体を[コンソール](/glossary/コンソール/)に出力できます。これにより、[CLI](/glossary/cli/)が実際に何を[送信](/glossary/送信/)しているかを検証でき、[デバッグ](/glossary/デバッグ/)が格段に容易になります。例えば `az vm create ... --debug` とすると、[REST](/glossary/rest/) [API](/glossary/api/)の完全な[リクエストボディ](/glossary/リクエストボディ/)が表示されます。
 
-**Azure Portalの場合**：ブラウザーの開発者[ツール](/glossary/ツール/)（F12[キー](/glossary/キー/)）でネットワークタブを開き、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を確認することで、[エラーメッセージ](/glossary/エラーメッセージ/)全文を取得できます。
+**Azure Portalの場合**：ブラウザーの開発者[ツール](/glossary/ツール/)（F12[キー](/glossary/キー/)）でネットワークタブを開き、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)することで、[エラーメッセージ](/glossary/エラーメッセージ/)全文を取得できます。
 
 ## それでも解決しない場合
 
@@ -185,11 +185,11 @@ except HttpResponseError as e:
     print(f"Error Details: {e.error}")
 ```
 
-**公式リファレンス**：以下から対象リソースの最新仕様を確認してください。
+**公式リファレンス**：以下から対象[リソース](/glossary/リソース/)の最新仕様を[確認](/glossary/確認/)してください。
 - [Azure REST API Reference](https://learn.microsoft.com/en-us/rest/api/azure/)
 - [Azure CLI コマンドリファレンス](https://learn.microsoft.com/en-us/cli/azure/reference-index)
 - [リソース名の命名規則](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/naming-and-tagging)
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

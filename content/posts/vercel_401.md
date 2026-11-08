@@ -123,13 +123,13 @@ git push origin main
 
 ## Vercel 固有の注意点
 
-**[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)確認：** Vercel [API](/glossary/api/) [トークン](/glossary/トークン/)には複数のスコープレベルがあります（全[プロジェクト](/glossary/プロジェクト/)対象、特定[プロジェクト](/glossary/プロジェクト/)のみなど）。[スコープ](/glossary/スコープ/)が制限されている場合、対象外の[プロジェクト](/glossary/プロジェクト/)へのアクセスで 401 が返ります。[ダッシュボード](/glossary/ダッシュボード/)の Tokens ページで各[トークン](/glossary/トークン/)の詳細を確認してください。
+**[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)[確認](/glossary/確認/)：** Vercel [API](/glossary/api/) [トークン](/glossary/トークン/)には複数のスコープレベルがあります（全[プロジェクト](/glossary/プロジェクト/)対象、特定[プロジェクト](/glossary/プロジェクト/)のみなど）。[スコープ](/glossary/スコープ/)が制限されている場合、対象外の[プロジェクト](/glossary/プロジェクト/)へのアクセスで 401 が返ります。[ダッシュボード](/glossary/ダッシュボード/)の Tokens ページで各[トークン](/glossary/トークン/)の詳細を[確認](/glossary/確認/)してください。
 
-**複数組織の場合：** Vercel [アカウント](/glossary/アカウント/)が複数の Team（組織）に属している場合、[デプロイ](/glossary/デプロイ/)先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` で[スコープ](/glossary/スコープ/)を指定し、そのチームに所属する[トークン](/glossary/トークン/)であることを確認してください。
+**複数組織の場合：** Vercel [アカウント](/glossary/アカウント/)が複数の Team（組織）に属している場合、[デプロイ](/glossary/デプロイ/)先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` で[スコープ](/glossary/スコープ/)を指定し、そのチームに所属する[トークン](/glossary/トークン/)であることを[確認](/glossary/確認/)してください。
 
 **[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。[テンプレート](/glossary/テンプレート/)やドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
-**vercel.json [設定](/glossary/設定/)：** プロジェクトルートの `vercel.json` に記述される[設定](/glossary/設定/)は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の[設定](/glossary/設定/)を確認してから[ファイル](/glossary/ファイル/)[設定](/glossary/設定/)を疑ってください。
+**vercel.json [設定](/glossary/設定/)：** プロジェクトルートの `vercel.json` に記述される[設定](/glossary/設定/)は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の[設定](/glossary/設定/)を[確認](/glossary/確認/)してから[ファイル](/glossary/ファイル/)[設定](/glossary/設定/)を疑ってください。
 
 ## それでも解決しない場合
 
@@ -140,11 +140,11 @@ git push origin main
 VERCEL_DEBUG=1 vercel deploy
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/)のデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗した[デプロイ](/glossary/デプロイ/)をクリックし、Logs タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を確認してください。
+[ダッシュボード](/glossary/ダッシュボード/)のデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗した[デプロイ](/glossary/デプロイ/)をクリックし、Logs タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)してください。
 
-**[GitHub](/glossary/github/) Actions 内の[ログ](/glossary/ログ/)確認：**
+**[GitHub](/glossary/github/) Actions 内の[ログ](/glossary/ログ/)[確認](/glossary/確認/)：**
 
-[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新の[ワークフロー](/glossary/ワークフロー/)実行結果を開き、失敗した[ステップ](/glossary/ステップ/)の出力を確認してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
+[GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)の Actions タブから最新の[ワークフロー](/glossary/ワークフロー/)実行結果を開き、失敗した[ステップ](/glossary/ステップ/)の出力を[確認](/glossary/確認/)してください。シークレット[変数](/glossary/変数/)の値そのものはマスクされますが、[エラーメッセージ](/glossary/エラーメッセージ/)には認証失敗の詳細が記録されます。
 
 **[トークン](/glossary/トークン/)再生成のベストプラクティス：**
 
@@ -161,4 +161,4 @@ VERCEL_DEBUG=1 vercel deploy
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

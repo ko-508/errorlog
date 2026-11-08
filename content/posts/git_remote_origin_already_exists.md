@@ -22,7 +22,7 @@ trend_incident: false
 error: remote origin already exists.
 ```
 
-まず登録済みの名前と[URL](/glossary/url/)を確認します。
+まず登録済みの名前と[URL](/glossary/url/)を[確認](/glossary/確認/)します。
 
 ```bash
 git remote -v
@@ -44,13 +44,13 @@ git remote set-url origin https://github.com/OWNER/REPOSITORY.git
 
 逆に、同じ[URL](/glossary/url/)を違う名前で[登録](/glossary/登録/)することもできます。[エラー](/glossary/エラー/)の判定対象は[URL](/glossary/url/)の一致ではなく、名前の重複です。
 
-今回の[Git](/glossary/git/) 2.51.1による確認では、clone済みの[リポジトリ](/glossary/リポジトリ/)に再び`origin`を追加すると、上記の文言と終了[コード](/glossary/コード/)3になりました。失敗した追加操作の前後で、[リポジトリ](/glossary/リポジトリ/)の[設定ファイル](/glossary/設定ファイル/)は変わっていませんでした。
+今回の[Git](/glossary/git/) 2.51.1による[確認](/glossary/確認/)では、clone済みの[リポジトリ](/glossary/リポジトリ/)に再び`origin`を追加すると、上記の文言と終了[コード](/glossary/コード/)3になりました。失敗した追加操作の前後で、[リポジトリ](/glossary/リポジトリ/)の[設定ファイル](/glossary/設定ファイル/)は変わっていませんでした。
 
-[URL](/glossary/url/)の存在や[アクセス権](/glossary/アクセス権/)を確認する段階の[エラー](/glossary/エラー/)ではありません。再試行や[パスワード](/glossary/パスワード/)変更だけで、名前の重複がなくなるわけではありません。
+[URL](/glossary/url/)の存在や[アクセス権](/glossary/アクセス権/)を[確認](/glossary/確認/)する段階の[エラー](/glossary/エラー/)ではありません。再試行や[パスワード](/glossary/パスワード/)変更だけで、名前の重複がなくなるわけではありません。
 
 ## 登録済みのURLと作業場所を確認する
 
-別の[プロジェクト](/glossary/プロジェクト/)を操作していないかも含めて、現在の対象を確認します。
+別の[プロジェクト](/glossary/プロジェクト/)を操作していないかも含めて、現在の対象を[確認](/glossary/確認/)します。
 
 ```bash
 git rev-parse --show-toplevel
@@ -59,7 +59,7 @@ git remote get-url --all origin
 git remote get-url --push --all origin
 ```
 
-`--show-toplevel`は作業[ディレクトリ](/glossary/ディレクトリ/)の最上位を表示します。`get-url`の後半二つは、取得側と送信側の[URL](/glossary/url/)をそれぞれ確認する指定です。
+`--show-toplevel`は作業[ディレクトリ](/glossary/ディレクトリ/)の最上位を表示します。`get-url`の後半二つは、取得側と送信側の[URL](/glossary/url/)をそれぞれ[確認](/glossary/確認/)する指定です。
 
 通常の設定例では、`git remote -v`に次のように表示されます。
 
@@ -87,9 +87,9 @@ git remote -v
 
 ただし、[URL](/glossary/url/)を変えても、その接続先から最新情報を取得したことにはなりません。特に別の[リポジトリ](/glossary/リポジトリ/)へ変更した場合、既存の`origin/main`が新しい接続先の最新状態を表しているとは限りません。
 
-取得先と送信先の[URL](/glossary/url/)を別々に[登録](/glossary/登録/)している場合や、複数の[URL](/glossary/url/)がある場合もあります。通常の`set-url`一回ですべてを変更したつもりにならず、変更後も両側の一覧を確認してください。
+取得先と送信先の[URL](/glossary/url/)を別々に[登録](/glossary/登録/)している場合や、複数の[URL](/glossary/url/)がある場合もあります。通常の`set-url`一回ですべてを変更したつもりにならず、変更後も両側の一覧を[確認](/glossary/確認/)してください。
 
-`set-url`に成功しても、[URL](/glossary/url/)の正しさや[アクセス権](/glossary/アクセス権/)、pushできることまで確認できたわけではありません。[登録](/glossary/登録/)の[修正](/glossary/修正/)と、その後の通信結果を分けて判断します。
+`set-url`に成功しても、[URL](/glossary/url/)の正しさや[アクセス権](/glossary/アクセス権/)、pushできることまで[確認](/glossary/確認/)できたわけではありません。[登録](/glossary/登録/)の[修正](/glossary/修正/)と、その後の通信結果を分けて判断します。
 
 ## 元の接続先を残すなら別名で追加する
 
@@ -112,7 +112,7 @@ git remote -v
 
 これは前の例とは別の選択です。両方をまとめて実行する必要はありません。
 
-公式文書によると、`rename`ではリモート追跡[ブランチ](/glossary/ブランチ/)と関連設定も[更新](/glossary/更新/)されます。今回の確認でも、`origin/main`は`old-origin/main`へ変わりました。
+公式文書によると、`rename`ではリモート追跡[ブランチ](/glossary/ブランチ/)と関連設定も[更新](/glossary/更新/)されます。今回の[確認](/glossary/確認/)でも、`origin/main`は`old-origin/main`へ変わりました。
 
 改名先が既に使われていると、次のように同じ種類の[エラー](/glossary/エラー/)になります。
 
@@ -130,38 +130,38 @@ error: remote upstream already exists.
 git remote remove origin
 ```
 
-ただし、remoteの公式文書は、関連するリモート追跡[ブランチ](/glossary/ブランチ/)と[設定](/glossary/設定/)も[削除](/glossary/削除/)すると説明しています。今回の確認でも、削除対象の追跡情報は一覧から消えました。一方、現在のローカルブランチの[コミット](/glossary/コミット/)は変わっていませんでした。
+ただし、remoteの公式文書は、関連するリモート追跡[ブランチ](/glossary/ブランチ/)と[設定](/glossary/設定/)も[削除](/glossary/削除/)すると説明しています。今回の[確認](/glossary/確認/)でも、削除対象の追跡情報は一覧から消えました。一方、現在のローカルブランチの[コミット](/glossary/コミット/)は変わっていませんでした。
 
 [GitHubの公式説明](https://docs.github.com/en/get-started/git-basics/managing-remote-repositories#removing-a-remote-repository)も、ローカルの関連付けを外す操作であり、[サーバー](/glossary/サーバー/)上の[リポジトリ](/glossary/リポジトリ/)を[削除](/glossary/削除/)しないと説明しています。
 
 [URL](/glossary/url/)を変えたいだけなら、先に`set-url`を使う方法を検討してください。[削除](/glossary/削除/)して追加し直すことは、[URL](/glossary/url/)の変更と同じ影響範囲ではありません。
 
-`origin/main`などの追跡情報と、自分が作業する`main`などのローカルブランチも区別します。[削除](/glossary/削除/)した登録名を自動処理で使っていないか、操作前に確認してください。
+`origin/main`などの追跡情報と、自分が作業する`main`などのローカルブランチも区別します。[削除](/glossary/削除/)した登録名を自動処理で使っていないか、操作前に[確認](/glossary/確認/)してください。
 
 ## Repository not foundやNo such remoteとの違い
 
 `Repository not found`は、接続先の[URL](/glossary/url/)や[アクセス権](/glossary/アクセス権/)に関係する[エラー](/glossary/エラー/)です。`remote origin already exists`を解消した後でも、[URL](/glossary/url/)が誤っていれば別に発生し得ます。
 
-存在しない名前を`set-url`へ渡した今回の確認では、次の結果になりました。
+存在しない名前を`set-url`へ渡した今回の[確認](/glossary/確認/)では、次の結果になりました。
 
 ```text
 error: No such remote 'missing'
 ```
 
-この場合は、追加ではなく、変更しようとした名前の不在が問題です。`git remote -v`で登録名を確認します。
+この場合は、追加ではなく、変更しようとした名前の不在が問題です。`git remote -v`で登録名を[確認](/glossary/確認/)します。
 
-`not a git repository`なら、現在の[ディレクトリ](/glossary/ディレクトリ/)から[リポジトリ](/glossary/リポジトリ/)が認識できていません。リモート名を直す前に、作業場所を確認してください。
+`not a git repository`なら、現在の[ディレクトリ](/glossary/ディレクトリ/)から[リポジトリ](/glossary/リポジトリ/)が認識できていません。リモート名を直す前に、作業場所を[確認](/glossary/確認/)してください。
 
-[GitHub CLIのIssue #2166](https://github.com/cli/cli/issues/2166)には、`gh repo create`による[GitHub](/glossary/github/)上の作成後、`origin`の重複で停止した報告があります。2020年の[GitHub](/glossary/github/) [CLI](/glossary/cli/)の事例で、表示や終了[コード](/glossary/コード/)も今回検証した[Git](/glossary/git/)とは異なります。現在の[GitHub](/glossary/github/) [CLI](/glossary/cli/)全般で同じ問題が残るという意味ではありません。道具全体の操作が途中で止まった場合は、[サーバー](/glossary/サーバー/)側で何が作成済みかも分けて確認します。
+[GitHub CLIのIssue #2166](https://github.com/cli/cli/issues/2166)には、`gh repo create`による[GitHub](/glossary/github/)上の作成後、`origin`の重複で停止した報告があります。2020年の[GitHub](/glossary/github/) [CLI](/glossary/cli/)の事例で、表示や終了[コード](/glossary/コード/)も今回検証した[Git](/glossary/git/)とは異なります。現在の[GitHub](/glossary/github/) [CLI](/glossary/cli/)全般で同じ問題が残るという意味ではありません。道具全体の操作が途中で止まった場合は、[サーバー](/glossary/サーバー/)側で何が作成済みかも分けて[確認](/glossary/確認/)します。
 
 ## 解決手順のまとめ
 
-まず現在の[リポジトリ](/glossary/リポジトリ/)と登録済み[URL](/glossary/url/)を確認します。既存の[URL](/glossary/url/)が正しければ、同名リモートの追加は不要です。
+まず現在の[リポジトリ](/glossary/リポジトリ/)と登録済み[URL](/glossary/url/)を[確認](/glossary/確認/)します。既存の[URL](/glossary/url/)が正しければ、同名リモートの追加は不要です。
 
 [URL](/glossary/url/)の変更は`set-url`、元の接続先を残す追加は別名、登録名の整理は`rename`を使います。`remove`は追跡情報と[設定](/glossary/設定/)も消すため、[URL](/glossary/url/)変更だけの目的で最初に選ばないようにします。
 
-この記事では[Linux](/glossary/linux/)上の[Git](/glossary/git/) 2.51.1で、ローカルclone後の重複追加、[URL](/glossary/url/)変更、改名先の重複、正常な改名、[削除](/glossary/削除/)、存在しない名前への[URL](/glossary/url/)変更を確認しました。重複追加と重複改名は終了[コード](/glossary/コード/)3でした。外部[リポジトリ](/glossary/リポジトリ/)へのfetch・pushと、Windows上の実行は未検証です。
+この記事では[Linux](/glossary/linux/)上の[Git](/glossary/git/) 2.51.1で、ローカルclone後の重複追加、[URL](/glossary/url/)変更、改名先の重複、正常な改名、[削除](/glossary/削除/)、存在しない名前への[URL](/glossary/url/)変更を[確認](/glossary/確認/)しました。重複追加と重複改名は終了[コード](/glossary/コード/)3でした。外部[リポジトリ](/glossary/リポジトリ/)へのfetch・pushと、[Windows](/glossary/windows/)上の実行は未検証です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

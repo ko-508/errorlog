@@ -281,7 +281,7 @@ def webhook_handler():
 
 ### 確認すべきログとコマンド
 
-Stripe [ダッシュボード](/glossary/ダッシュボード/)の **Developers > Events** セクションで、429 [エラー](/glossary/エラー/)が発生した正確な時刻と頻度を確認できます。また、以下の[コマンド](/glossary/コマンド/)で [API](/glossary/api/) 呼び出し履歴を確認してください。
+Stripe [ダッシュボード](/glossary/ダッシュボード/)の **Developers > Events** セクションで、429 [エラー](/glossary/エラー/)が発生した正確な時刻と頻度を[確認](/glossary/確認/)できます。また、以下の[コマンド](/glossary/コマンド/)で [API](/glossary/api/) 呼び出し履歴を[確認](/glossary/確認/)してください。
 
 ```bash
 # curl で Stripe イベント一覧を取得し、429 エラーをフィルター
@@ -298,10 +298,10 @@ curl -u sk_test_<your-secret-key>: \
 
 ### コミュニティーリソース
 
-[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を[検索](/glossary/検索/)すると、他のユーザーの解決事例が見つかります。特に大規模な[バッチ処理](/glossary/バッチ処理/)を行う場合は、既に同様の問題が報告されていることが一般的です。
+[GitHub](/glossary/github/) の公式 Stripe ライブラリー（`stripe/stripe-python`、`stripe/stripe-node` など）の Issues セクションで「429」や「rate limit」を[検索](/glossary/検索/)すると、他の[ユーザー](/glossary/ユーザー/)の解決事例が見つかります。特に大規模な[バッチ処理](/glossary/バッチ処理/)を行う場合は、既に同様の問題が報告されていることが一般的です。
 
 公式 Stripe Slack コミュニティーでも、エンジニアサポートチームが実装[パターン](/glossary/パターン/)のアドバイスを提供しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl", "etcd", "Docker", "VirtualBox", "KVM
 
 ## エラーの概要
 
-Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない[障害](/glossary/障害/)に陥っている状態を示します。ローカル[開発環境](/glossary/開発環境/)であるMinikubeにおいて、リソース枯渇・etcdの破損・コンポーネント[障害](/glossary/障害/)などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
+Minikubeの[HTTP](/glossary/http/) 500[エラー](/glossary/エラー/)は、クラスター内部の[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[サーバー](/glossary/サーバー/)が予期しない[障害](/glossary/障害/)に陥っている状態を示します。ローカル[開発環境](/glossary/開発環境/)であるMinikubeにおいて、[リソース](/glossary/リソース/)枯渇・etcdの破損・コンポーネント[障害](/glossary/障害/)などが原因で、ほぼすべての[API](/glossary/api/)呼び出しが500で応答する深刻な状況です。
 
 ## 実際のエラーメッセージ例
 
@@ -66,7 +66,7 @@ minikube start --memory=512m
 minikube start --memory=4096m --cpus=2
 ```
 
-確認[コマンド](/glossary/コマンド/)：
+[確認](/glossary/確認/)[コマンド](/glossary/コマンド/)：
 
 ```bash
 minikube logs | grep -i "oom\|out of memory"
@@ -99,7 +99,7 @@ df -h
 minikube start --disk-size=30000mb
 ```
 
-確認[コマンド](/glossary/コマンド/)：
+[確認](/glossary/確認/)[コマンド](/glossary/コマンド/)：
 
 ```bash
 minikube ssh "df -h"
@@ -131,9 +131,9 @@ minikube start
 minikube ssh "chmod 644 /etc/kubernetes/manifests/kube-apiserver.yaml"
 ```
 
-**原因4: ホストマシンのリソース不足によるMinikubeのハング**
+**原因4: ホストマシンの[リソース](/glossary/リソース/)不足によるMinikubeのハング**
 
-ホストマシン全体の[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)リソースが枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
+ホストマシン全体の[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)[リソース](/glossary/リソース/)が枯渇すると、MinikubeのVM自体が応答不能になり、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が外部の[リクエスト](/glossary/リクエスト/)に応答できなくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -161,7 +161,7 @@ minikube start
 
 Minikubeが使用するハイパーバイザー（[Docker](/glossary/docker/)、Hyper-V、VirtualBox等）の不安定性も[API](/glossary/api/)[サーバー](/glossary/サーバー/)のクラッシュに影響します。特に[Docker](/glossary/docker/) Desktopを使用している場合、[Docker](/glossary/docker/) Daemonが再起動されるとMinikubeのVM内部の[コンテナ](/glossary/コンテナ/)が予期せず停止し、[API](/glossary/api/)サーバープロセスが強制終了されることがあります。
 
-確認・[対応](/glossary/対応/)：
+[確認](/glossary/確認/)・[対応](/glossary/対応/)：
 
 ```bash
 # 現在のハイパーバイザーを確認
@@ -206,7 +206,7 @@ minikube start --kubernetes-version=latest
 
 ## それでも解決しない場合
 
-**1. 詳細な[ログ](/glossary/ログ/)確認**
+**1. 詳細な[ログ](/glossary/ログ/)[確認](/glossary/確認/)**
 
 ```bash
 # APIサーバーのログを詳細に確認
@@ -243,4 +243,4 @@ minikube start --vm-driver=<ドライバ名>
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

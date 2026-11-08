@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 401 [エラー](/glossary/エラー/)は、クラウドプロバイダー（[AWS](/glossary/aws/)・Azure・GCP等）または Terraform Cloud/Enterprise への[認証](/glossary/認証/)に失敗したときに発生します。認証情報の不足・期限切れ・形式[エラー](/glossary/エラー/)などが原因で、リソースの操作やプランの実行が中断されます。
+Terraform の 401 [エラー](/glossary/エラー/)は、クラウドプロバイダー（[AWS](/glossary/aws/)・Azure・GCP等）または Terraform Cloud/Enterprise への[認証](/glossary/認証/)に失敗したときに発生します。認証情報の不足・期限切れ・形式[エラー](/glossary/エラー/)などが原因で、[リソース](/glossary/リソース/)の操作やプランの実行が中断されます。
 
 ## 実際のエラーメッセージ例
 
@@ -32,7 +32,7 @@ HTTP status code: 401 Unauthorized
 
 ### 原因1：AWS アクセスキーの認証情報が不正または期限切れ
 
-[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）ユーザーの[権限](/glossary/権限/)が[削除](/glossary/削除/)されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、[設定](/glossary/設定/)ミスが起こりやすくなります。
+[AWS](/glossary/aws/) のアクセスキーが間違っているか、[IAM](/glossary/iam/)（[AWS](/glossary/aws/) Identity and Access Management）[ユーザー](/glossary/ユーザー/)の[権限](/glossary/権限/)が[削除](/glossary/削除/)されている場合に発生します。特に複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)を扱う[環境](/glossary/環境/)では、[設定](/glossary/設定/)ミスが起こりやすくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -222,7 +222,7 @@ gcloud auth list
 
 ### Terraform Cloud / Enterprise でのリモート状態管理
 
-`terraform login` で正常に[認証](/glossary/認証/)できても、後で組織の [API](/glossary/api/) トークンポリシーが変更される場合があります。Terraform Cloud の Web [UI](/glossary/ui/) で自分の[トークン](/glossary/トークン/)有効期限を確認し、期限が近い場合は新規[トークン](/glossary/トークン/)を生成してください。
+`terraform login` で正常に[認証](/glossary/認証/)できても、後で組織の [API](/glossary/api/) トークンポリシーが変更される場合があります。Terraform Cloud の Web [UI](/glossary/ui/) で自分の[トークン](/glossary/トークン/)有効期限を[確認](/glossary/確認/)し、期限が近い場合は新規[トークン](/glossary/トークン/)を生成してください。
 
 ```bash
 # トークン情報の確認（Terraform Cloud Web UI: https://app.terraform.io/app/settings/tokens）
@@ -305,4 +305,4 @@ terraform init -upgrade
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

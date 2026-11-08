@@ -37,13 +37,13 @@ HINT:  See server log for query details.
 
 どの[トランザクション](/glossary/トランザクション/)が中断されるかは予測しにくく、[アプリケーション](/glossary/アプリケーション/)側で決めつけてはいけません。明示的に`LOCK TABLE`を使っていなくても、通常の`UPDATE`が取得する行ロックだけで発生します。これらの動作は[PostgreSQL公式文書のDeadlocks](https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-DEADLOCKS)で説明されています。
 
-この[エラー](/glossary/エラー/)のSQLSTATEは`40P01`、条件名は`deadlock_detected`です。[アプリケーション](/glossary/アプリケーション/)では文章ではなくSQLSTATEで判定すると、表示言語や文言の[変化](/glossary/変化/)に影響されにくくなります。[PostgreSQLのエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)でも`40P01`を確認できます。
+この[エラー](/glossary/エラー/)のSQLSTATEは`40P01`、条件名は`deadlock_detected`です。[アプリケーション](/glossary/アプリケーション/)では文章ではなくSQLSTATEで判定すると、表示言語や文言の[変化](/glossary/変化/)に影響されにくくなります。[PostgreSQLのエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)でも`40P01`を[確認](/glossary/確認/)できます。
 
 ## 最初にサーバーログを確認する
 
 手元の[エラー](/glossary/エラー/)に表示される`DETAIL`には、待っている[プロセス](/glossary/プロセス/)番号、ロックの種類、[トランザクション](/glossary/トランザクション/)番号などが並びます。ただし、衝突した問い合わせ文が[クライアント](/glossary/クライアント/)側の出力に含まれない場合があります。
 
-`HINT: See server log for query details.`と表示されたら、PostgreSQLのサーバーログを確認してください。PostgreSQL本体は、[クライアント](/glossary/クライアント/)向けの詳細と[ログ](/glossary/ログ/)向けの詳細を分けて組み立て、[ログ](/glossary/ログ/)側には各[プロセス](/glossary/プロセス/)の問い合わせ文を追加します。この[処理](/glossary/処理/)は[PostgreSQL本体のdeadlock.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/lmgr/deadlock.c#L1075-L1140)で確認できます。
+`HINT: See server log for query details.`と表示されたら、PostgreSQLのサーバーログを[確認](/glossary/確認/)してください。PostgreSQL本体は、[クライアント](/glossary/クライアント/)向けの詳細と[ログ](/glossary/ログ/)向けの詳細を分けて組み立て、[ログ](/glossary/ログ/)側には各[プロセス](/glossary/プロセス/)の問い合わせ文を追加します。この[処理](/glossary/処理/)は[PostgreSQL本体のdeadlock.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/lmgr/deadlock.c#L1075-L1140)で[確認](/glossary/確認/)できます。
 
 [ログ](/glossary/ログ/)には次のような情報が記録されます。
 
@@ -56,7 +56,7 @@ Process 4321: UPDATE accounts SET balance = balance + 100 WHERE acctnum = 11111;
 
 ## 実行中のロック待ちを確認する
 
-問題が発生している最中なら、`pg_stat_activity`でロック待ちの[処理](/glossary/処理/)を確認できます。
+問題が発生している最中なら、`pg_stat_activity`でロック待ちの[処理](/glossary/処理/)を[確認](/glossary/確認/)できます。
 
 ```sql
 SELECT
@@ -73,7 +73,7 @@ ORDER BY xact_start;
 
 `pid`は[プロセス](/glossary/プロセス/)番号、`xact_start`は[トランザクション](/glossary/トランザクション/)の開始時刻、`query`は実行中または直前の問い合わせです。長時間開いている[トランザクション](/glossary/トランザクション/)や、同じ対象を異なる順序で[更新](/glossary/更新/)する[処理](/glossary/処理/)を探します。
 
-`pg_stat_activity`の列とロック待ちの確認例は[PostgreSQL公式の監視統計](https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-ACTIVITY-VIEW)に記載されています。閲覧権限によっては、他の利用者が実行した問い合わせ文をすべて確認できません。
+`pg_stat_activity`の列とロック待ちの確認例は[PostgreSQL公式の監視統計](https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-ACTIVITY-VIEW)に記載されています。閲覧権限によっては、他の利用者が実行した問い合わせ文をすべて[確認](/glossary/確認/)できません。
 
 `DETAIL`に`relation 16384 of database ...`のような番号が表示された場合は、対象の[データベース](/glossary/データベース/)へ接続して次の[SQL](/glossary/sql/)を実行すると、リレーション名へ変換できます。
 
@@ -146,7 +146,7 @@ ALTER SYSTEM SET log_lock_waits = on;
 SELECT pg_reload_conf();
 ```
 
-`log_lock_waits`は、[セッション](/glossary/セッション/)が`deadlock_timeout`を超えてロックを待ったときに記録を残す[設定](/glossary/設定/)です。既定値は`off`で、変更にはスーパーユーザーまたは適切な`SET`[権限](/glossary/権限/)が必要です。[仕様](/glossary/仕様/)は[PostgreSQL公式のログ設定](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-LOCK-WAITS)で確認できます。
+`log_lock_waits`は、[セッション](/glossary/セッション/)が`deadlock_timeout`を超えてロックを待ったときに記録を残す[設定](/glossary/設定/)です。既定値は`off`で、変更にはスーパーユーザーまたは適切な`SET`[権限](/glossary/権限/)が必要です。[仕様](/glossary/仕様/)は[PostgreSQL公式のログ設定](https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-LOCK-WAITS)で[確認](/glossary/確認/)できます。
 
 調査後にシステム全体の[設定](/glossary/設定/)を元へ戻す場合は、次を実行します。
 
@@ -155,7 +155,7 @@ ALTER SYSTEM RESET log_lock_waits;
 SELECT pg_reload_conf();
 ```
 
-運用環境では、既存の設定管理方法と[ログ](/glossary/ログ/)量への影響を確認してから変更してください。
+運用環境では、既存の設定管理方法と[ログ](/glossary/ログ/)量への影響を[確認](/glossary/確認/)してから変更してください。
 
 ## deadlock_timeoutを変えれば直るのか
 
@@ -165,7 +165,7 @@ SELECT pg_reload_conf();
 SHOW deadlock_timeout;
 ```
 
-この値はデッドロックを解消する制限時間ではありません。更新順序が逆のままなら、値を変えても待ち合わせの輪は残ります。調査目的で変更する場合も、まず現在値を確認し、恒久的な解決は[SQL](/glossary/sql/)や処理設計の[修正](/glossary/修正/)で行ってください。詳しい[仕様](/glossary/仕様/)は[PostgreSQL公式のロック管理設定](https://www.postgresql.org/docs/current/runtime-config-locks.html#GUC-DEADLOCK-TIMEOUT)にあります。
+この値はデッドロックを解消する制限時間ではありません。更新順序が逆のままなら、値を変えても待ち合わせの輪は残ります。調査目的で変更する場合も、まず現在値を[確認](/glossary/確認/)し、恒久的な解決は[SQL](/glossary/sql/)や処理設計の[修正](/glossary/修正/)で行ってください。詳しい[仕様](/glossary/仕様/)は[PostgreSQL公式のロック管理設定](https://www.postgresql.org/docs/current/runtime-config-locks.html#GUC-DEADLOCK-TIMEOUT)にあります。
 
 ## 似たエラーとの違い
 
@@ -177,10 +177,10 @@ SHOW deadlock_timeout;
 
 ## 解決手順のまとめ
 
-最初にサーバーログを開き、[エラー](/glossary/エラー/)に関係した[プロセス](/glossary/プロセス/)の問い合わせ文を確認します。次に、同じ行や表を異なる順序で操作していないかを調べ、すべての[処理](/glossary/処理/)で順序を統一してください。
+最初にサーバーログを開き、[エラー](/glossary/エラー/)に関係した[プロセス](/glossary/プロセス/)の問い合わせ文を[確認](/glossary/確認/)します。次に、同じ行や表を異なる順序で操作していないかを調べ、すべての[処理](/glossary/処理/)で順序を統一してください。
 
 [トランザクション](/glossary/トランザクション/)内の利用者入力や外部通信を減らし、保持時間も短くします。それでも避けられない`40P01`には、回数制限付きで[トランザクション](/glossary/トランザクション/)全体を再試行します。
 
 `deadlock_timeout`の変更は原因の[修正](/glossary/修正/)ではありません。[設定値](/glossary/設定値/)を調整する前に、問い合わせとロック取得順序を直すことが基本です。
 
-免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[本番環境](/glossary/本番環境/)で[SQL](/glossary/sql/)や[サーバー](/glossary/サーバー/)[設定](/glossary/設定/)を変更する前に、[バックアップ](/glossary/バックアップ/)、[権限](/glossary/権限/)、監視方法、利用中のPostgreSQL版を確認してください。
+免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[本番環境](/glossary/本番環境/)で[SQL](/glossary/sql/)や[サーバー](/glossary/サーバー/)[設定](/glossary/設定/)を変更する前に、[バックアップ](/glossary/バックアップ/)、[権限](/glossary/権限/)、監視方法、利用中のPostgreSQL版を[確認](/glossary/確認/)してください。

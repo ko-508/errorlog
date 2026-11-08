@@ -15,11 +15,11 @@ top_queries:
 
 ## 冒頭まとめ
 
-Nginx の 404 Not Found は、[リクエスト](/glossary/リクエスト/)されたリソースが見つからないときに返されます。原因はほぼ次の5つのいずれかです。`root` の[パス](/glossary/パス/)が実際の[ファイル](/glossary/ファイル/)配置と合っていない、`alias` の末尾スラッシュの不一致で[パス](/glossary/パス/)結合がずれている、`try_files` の誤設定、意図しない `location` ブロックが[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)している、そして `proxy_pass` 先の[アプリケーション](/glossary/アプリケーション/)自身が 404 を返しているケースです。調査の分かれ道は[エラーログ](/glossary/エラーログ/)です。`/var/log/nginx/error.log` に `No such file or directory` の行があれば Nginx 自身の[パス](/glossary/パス/)解決の問題(原因1〜3)、なければ振り分けか上流の問題(原因4〜5)を疑います。
+Nginx の 404 Not Found は、[リクエスト](/glossary/リクエスト/)された[リソース](/glossary/リソース/)が見つからないときに返されます。原因はほぼ次の5つのいずれかです。`root` の[パス](/glossary/パス/)が実際の[ファイル](/glossary/ファイル/)配置と合っていない、`alias` の末尾スラッシュの不一致で[パス](/glossary/パス/)結合がずれている、`try_files` の誤設定、意図しない `location` ブロックが[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)している、そして `proxy_pass` 先の[アプリケーション](/glossary/アプリケーション/)自身が 404 を返しているケースです。調査の分かれ道は[エラーログ](/glossary/エラーログ/)です。`/var/log/nginx/error.log` に `No such file or directory` の行があれば Nginx 自身の[パス](/glossary/パス/)解決の問題(原因1〜3)、なければ振り分けか上流の問題(原因4〜5)を疑います。
 
 ## エラーの概要
 
-404 Not Found は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を受け取ったものの、[対応](/glossary/対応/)するリソースを見つけられなかった状態です。アクセス自体を拒否された 403 Forbidden とは異なります。この2つは[エラーログ](/glossary/エラーログ/)の文言で区別できます。404 は `open()` の失敗として `(2: No such file or directory)` と記録され、403 は `(13: Permission denied)` や `is forbidden` と記録されます。[ファイル](/glossary/ファイル/)が実在しても読み取り[権限](/glossary/権限/)がなければ、返るのは 404 ではなく 403 です。
+404 Not Found は、[サーバー](/glossary/サーバー/)が[リクエスト](/glossary/リクエスト/)を受け取ったものの、[対応](/glossary/対応/)する[リソース](/glossary/リソース/)を見つけられなかった状態です。アクセス自体を拒否された 403 Forbidden とは異なります。この2つは[エラーログ](/glossary/エラーログ/)の文言で区別できます。404 は `open()` の失敗として `(2: No such file or directory)` と記録され、403 は `(13: Permission denied)` や `is forbidden` と記録されます。[ファイル](/glossary/ファイル/)が実在しても読み取り[権限](/glossary/権限/)がなければ、返るのは 404 ではなく 403 です。
 
 Nginx が自身の既定ページで 404 を返す場合、[ブラウザ](/glossary/ブラウザ/)には「404 Not Found」という見出しと nginx の署名だけが表示されます。もし「The requested [URL](/glossary/url/) /xxx was not found on this server.」のような説明文が表示されているなら、それは Nginx の既定ページの文言ではありません。上流の別の[サーバー](/glossary/サーバー/)や[アプリケーション](/glossary/アプリケーション/)が生成した 404 をそのまま中継している可能性が高く、これ自体が切り分けの手がかりになります(原因5)。
 
@@ -31,7 +31,7 @@ Nginx が自身の既定ページで 404 を返す場合、[ブラウザ](/gloss
 
 ## まず最初に：エラーログを読む
 
-[アクセスログ](/glossary/アクセスログ/)は「404 が起きた」ことしか教えてくれません。なぜ起きたかは[エラーログ](/glossary/エラーログ/)が示します。[設定](/glossary/設定/)をいじる前に、まず[エラーログ](/glossary/エラーログ/)の該当行を確認します。
+[アクセスログ](/glossary/アクセスログ/)は「404 が起きた」ことしか教えてくれません。なぜ起きたかは[エラーログ](/glossary/エラーログ/)が示します。[設定](/glossary/設定/)をいじる前に、まず[エラーログ](/glossary/エラーログ/)の該当行を[確認](/glossary/確認/)します。
 
 ```bash
 # 直近のエラーを表示
@@ -45,7 +45,7 @@ sudo grep -i "no such file" /var/log/nginx/error.log
 
 該当時刻に `open() "/var/www/html/app/users" failed (2: No such file or directory)` のような行があれば、Nginx が静的[ファイル](/glossary/ファイル/)としてその[パス](/glossary/パス/)を開こうとして失敗しています。[ログ](/glossary/ログ/)に出ている絶対[パス](/glossary/パス/)が「Nginx が実際に探した場所」なので、これを見れば `root` や `alias` の[設定](/glossary/設定/)と実際の配置のどちらがずれているかを直接確認できます(原因1〜3)。
 
-該当時刻に[エラーログ](/glossary/エラーログ/)の行がないのに[アクセスログ](/glossary/アクセスログ/)には 404 が残っている場合、Nginx は自分で[ファイル](/glossary/ファイル/)を探して失敗したのではありません。`try_files` の `=404` 指定で意図的に返しているか、`proxy_pass` 先の応答をそのまま中継しているかのどちらかが典型です(原因3〜5)。なお `log_not_found off;` が[設定](/glossary/設定/)されていると[ファイル](/glossary/ファイル/)不存在が[エラーログ](/glossary/エラーログ/)に記録されなくなるため、[設定](/glossary/設定/)を確認してから判断してください。
+該当時刻に[エラーログ](/glossary/エラーログ/)の行がないのに[アクセスログ](/glossary/アクセスログ/)には 404 が残っている場合、Nginx は自分で[ファイル](/glossary/ファイル/)を探して失敗したのではありません。`try_files` の `=404` 指定で意図的に返しているか、`proxy_pass` 先の応答をそのまま中継しているかのどちらかが典型です(原因3〜5)。なお `log_not_found off;` が[設定](/glossary/設定/)されていると[ファイル](/glossary/ファイル/)不存在が[エラーログ](/glossary/エラーログ/)に記録されなくなるため、[設定](/glossary/設定/)を[確認](/glossary/確認/)してから判断してください。
 
 ## よくある原因と解決手順
 
@@ -109,9 +109,9 @@ location /static/ {
 
 ### 原因3：try_files の誤設定
 
-`try_files` は列挙した[パス](/glossary/パス/)の存在を順に確認し、最初に見つかったもので[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)します。よくある誤解が2つあります。
+`try_files` は列挙した[パス](/glossary/パス/)の存在を順に[確認](/glossary/確認/)し、最初に見つかったもので[リクエスト](/glossary/リクエスト/)を[処理](/glossary/処理/)します。よくある誤解が2つあります。
 
-1つ目は `=404` の意味です。`try_files $uri =404;` は「$uri が存在しなければ 404 を返す」という意図的な指定です。シングルページアプリケーション（1枚の HTML に画面遷移をまとめる作りのウェブアプリ）のように、どの[パス](/glossary/パス/)でも `index.html` を返したい場合にこの[設定](/glossary/設定/)のままだと、直リンクやリロードがすべて 404 になります。
+1つ目は `=404` の意味です。`try_files $uri =404;` は「$uri が存在しなければ 404 を返す」という意図的な指定です。シングルページアプリケーション（1枚の [HTML](/glossary/html/) に画面遷移をまとめる作りのウェブアプリ）のように、どの[パス](/glossary/パス/)でも `index.html` を返したい場合にこの[設定](/glossary/設定/)のままだと、直リンクやリロードがすべて 404 になります。
 
 **Before（SPA で 404 になる[設定](/glossary/設定/)）：**
 
@@ -131,7 +131,7 @@ location / {
 }
 ```
 
-2つ目は最後の[引数](/glossary/引数/)の扱いです。公式ドキュメントのとおり、最後の[引数](/glossary/引数/)だけは存在確認の対象ではなく「どれも見つからなかったときの内部転送先」です。ここに存在しない URI（例：`/notfound.html`）を書くと、転送先でまた同じ location が[処理](/glossary/処理/)して転送し……という循環になります。Nginx は内部転送を1[リクエスト](/glossary/リクエスト/)あたり10回までに制限しており、超えると返るのは 404 ではなく 500 Internal Server Error で、[エラーログ](/glossary/エラーログ/)には `rewrite or internal redirection cycle` と記録されます。「404 対策のつもりの[設定](/glossary/設定/)が 500 を生む」典型なので、転送先の[ファイル](/glossary/ファイル/)が実在することを必ず確認してください。
+2つ目は最後の[引数](/glossary/引数/)の扱いです。公式ドキュメントのとおり、最後の[引数](/glossary/引数/)だけは存在確認の対象ではなく「どれも見つからなかったときの内部転送先」です。ここに存在しない URI（例：`/notfound.html`）を書くと、転送先でまた同じ location が[処理](/glossary/処理/)して転送し……という循環になります。Nginx は内部転送を1[リクエスト](/glossary/リクエスト/)あたり10回までに制限しており、超えると返るのは 404 ではなく 500 Internal Server Error で、[エラーログ](/glossary/エラーログ/)には `rewrite or internal redirection cycle` と記録されます。「404 対策のつもりの[設定](/glossary/設定/)が 500 を生む」典型なので、転送先の[ファイル](/glossary/ファイル/)が実在することを必ず[確認](/glossary/確認/)してください。
 
 ### 原因4：意図しない location ブロックがリクエストを処理している
 
@@ -150,13 +150,13 @@ location ~* \.(gif|jpg|png)$ {
 }
 ```
 
-どの location が[処理](/glossary/処理/)しているか不明なときは、`nginx -T` で実際に読み込まれている[設定](/glossary/設定/)の全体（include された[ファイル](/glossary/ファイル/)を含む）を確認し、上記の優先順位に沿って追ってください。
+どの location が[処理](/glossary/処理/)しているか不明なときは、`nginx -T` で実際に読み込まれている[設定](/glossary/設定/)の全体（include された[ファイル](/glossary/ファイル/)を含む）を[確認](/glossary/確認/)し、上記の優先順位に沿って追ってください。
 
 ### 原因5：proxy_pass 先のアプリケーションが 404 を返している
 
 Nginx をリバースプロキシとして使っている場合、404 の発生源が Nginx ではなく上流（[プロキシ](/glossary/プロキシ/)先）の[アプリケーション](/glossary/アプリケーション/)であることは珍しくありません。[エラーログ](/glossary/エラーログ/)に `open()` の失敗が残っていないのに[アクセスログ](/glossary/アクセスログ/)に 404 がある、既定ページと違う本文が返っている、という場合はまずこれを疑います。上流の応答[コード](/glossary/コード/)は既定でそのまま[クライアント](/glossary/クライアント/)に中継されます（`proxy_intercept_errors` の既定は off）。
 
-このとき確認すべきなのが、`proxy_pass` の[パス](/glossary/パス/)書き換えです。公式ドキュメントのとおり、`proxy_pass` に URI 部分を付けた場合、[リクエスト](/glossary/リクエスト/) URI のうち location に一致した部分がその URI に置き換えられて上流に渡ります。URI 部分を付けない場合は、[リクエスト](/glossary/リクエスト/) URI がそのまま渡ります。
+このとき[確認](/glossary/確認/)すべきなのが、`proxy_pass` の[パス](/glossary/パス/)書き換えです。公式ドキュメントのとおり、`proxy_pass` に URI 部分を付けた場合、[リクエスト](/glossary/リクエスト/) URI のうち location に一致した部分がその URI に置き換えられて上流に渡ります。URI 部分を付けない場合は、[リクエスト](/glossary/リクエスト/) URI がそのまま渡ります。
 
 ```nginx
 # パターンA：/api/users へのリクエストは、上流に /users として渡る
@@ -170,16 +170,16 @@ location /api/ {
 }
 ```
 
-上流アプリのルート定義が `/users` なのに[パターン](/glossary/パターン/)Bで `/api/users` を渡していれば、アプリ側のルーティングに一致せず 404 が返ります。逆も同様です。切り分けは、上流アプリの[アクセスログ](/glossary/アクセスログ/)で「実際にどの[パス](/glossary/パス/)が届いたか」を確認するのが確実です。
+上流アプリのルート定義が `/users` なのに[パターン](/glossary/パターン/)Bで `/api/users` を渡していれば、アプリ側のルーティングに一致せず 404 が返ります。逆も同様です。切り分けは、上流アプリの[アクセスログ](/glossary/アクセスログ/)で「実際にどの[パス](/glossary/パス/)が届いたか」を[確認](/glossary/確認/)するのが確実です。
 
 ## 切り分けの順序
 
 手当たり次第に[設定](/glossary/設定/)を変えるのではなく、次の順で範囲を狭めます。
 
 1. [エラーログ](/glossary/エラーログ/)を見る。`(2: No such file or directory)` の行があれば、そこに出ている[パス](/glossary/パス/)と実際の配置を突き合わせる（原因1〜3）。行がなければ 2 へ。
-2. `nginx -T` で有効な[設定](/glossary/設定/)の全体を確認し、対象[リクエスト](/glossary/リクエスト/)をどの server・location が[処理](/glossary/処理/)するかを優先順位に沿って特定する（原因4）。
-3. その location が `proxy_pass` なら、上流アプリの[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答[コード](/glossary/コード/)を確認する（原因5）。
-4. `try_files` がある場合は、`=404` の意図と、最後の転送先の実在を確認する（原因3）。
+2. `nginx -T` で有効な[設定](/glossary/設定/)の全体を[確認](/glossary/確認/)し、対象[リクエスト](/glossary/リクエスト/)をどの server・location が[処理](/glossary/処理/)するかを優先順位に沿って特定する（原因4）。
+3. その location が `proxy_pass` なら、上流アプリの[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答[コード](/glossary/コード/)を[確認](/glossary/確認/)する（原因5）。
+4. `try_files` がある場合は、`=404` の意図と、最後の転送先の実在を[確認](/glossary/確認/)する（原因3）。
 
 [設定](/glossary/設定/)を[修正](/glossary/修正/)したら、文法確認をしてから反映します。文法[エラー](/glossary/エラー/)があると古い[設定](/glossary/設定/)のまま動き続け、[修正](/glossary/修正/)が反映されない錯覚に陥ります。
 
@@ -214,10 +214,10 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-実際の報告例として、`try_files` の[設定](/glossary/設定/)が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と[設定](/glossary/設定/)していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを確認する、という切り分けが示されています。
+実際の報告例として、`try_files` の[設定](/glossary/設定/)が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と[設定](/glossary/設定/)していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを[確認](/glossary/確認/)する、という切り分けが示されています。
 
 この事例が示すとおり、404 と try_files をめぐる[設定](/glossary/設定/)ミスは、症状が 404 ではなく 500 として現れることがあります。[エラーコード](/glossary/エラーコード/)の見た目だけで判断せず、[エラーログ](/glossary/エラーログ/)の文言から原因をたどることが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

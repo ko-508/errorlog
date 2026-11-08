@@ -175,9 +175,9 @@ exports.createUser = functions.https.onCall(async (data) => {
 
 ### デバッグ手順
 
-Firebase Console のセキュリティルールタブでシミュレーター機能を使い、実際の書き込み[リクエスト](/glossary/リクエスト/)を[テスト](/glossary/テスト/)しましょう。ここで「許可」か「拒否」かが明確に表示され、拒否理由も確認できます。
+Firebase Console のセキュリティルールタブでシミュレーター機能を使い、実際の書き込み[リクエスト](/glossary/リクエスト/)を[テスト](/glossary/テスト/)しましょう。ここで「許可」か「拒否」かが明確に表示され、拒否理由も[確認](/glossary/確認/)できます。
 
-ローカル[環境](/glossary/環境/)では Firebase Emulator Suite を起動して、ルール違反の詳細[ログ](/glossary/ログ/)を確認します：
+ローカル[環境](/glossary/環境/)では Firebase Emulator Suite を起動して、ルール違反の詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)します：
 
 ```bash
 firebase emulators:start --inspect-functions
@@ -185,7 +185,7 @@ firebase emulators:start --inspect-functions
 
 ### 確認すべきログ
 
-Cloud Functions の[ログ](/glossary/ログ/)は Google Cloud Console で以下の[パス](/glossary/パス/)で確認できます：
+Cloud Functions の[ログ](/glossary/ログ/)は Google Cloud Console で以下の[パス](/glossary/パス/)で[確認](/glossary/確認/)できます：
 - **Cloud Logging** > **ログエクスプローラー** > `resource.type="cloud_function"`
 
 Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase Console の **Realtime Database** > **ルール** > **シミュレーター** で再現[テスト](/glossary/テスト/)を実施できます。
@@ -198,10 +198,10 @@ Realtime Database の書き込み失敗[ログ](/glossary/ログ/)は Firebase C
 
 ### コミュニティリソース
 
-Firebase の公式 [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同様のイシューが報告されていないか確認してください：https://github.com/firebase/firebase-js-sdk/issues
+Firebase の公式 [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同様のイシューが報告されていないか[確認](/glossary/確認/)してください：https://github.com/firebase/firebase-js-sdk/issues
 
 Stack Overflow の `firebase` [タグ](/glossary/タグ/)で過去の質問を[検索](/glossary/検索/)することも有効です。特に「422 validation」や「security rules validation error」で[検索](/glossary/検索/)すると、具体的な解決事例が見つかりやすいです。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -22,7 +22,7 @@ PostgreSQLへの接続時に次の[エラー](/glossary/エラー/)が出る場�
 FATAL:  sorry, too many clients already
 ```
 
-まず、接続済みの管理用[セッション](/glossary/セッション/)があれば`pg_stat_activity`で内訳を確認します。不要な接続を安全に終了し、[アプリケーション](/glossary/アプリケーション/)が接続を閉じているか、複数の接続プールの上限が大きすぎないかを調べてください。
+まず、接続済みの管理用[セッション](/glossary/セッション/)があれば`pg_stat_activity`で内訳を[確認](/glossary/確認/)します。不要な接続を安全に終了し、[アプリケーション](/glossary/アプリケーション/)が接続を閉じているか、複数の接続プールの上限が大きすぎないかを調べてください。
 
 `max_connections`を上げるだけでは、接続の増え続ける原因は解消しません。この[設定](/glossary/設定/)の変更にはPostgreSQLの再起動が必要で、値を増やすと共有[メモリ](/glossary/メモリ/)を含む資源の割り当ても増えます。先に接続の使い方を直し、それでも必要な場合に限って上限を見直します。
 
@@ -30,9 +30,9 @@ FATAL:  sorry, too many clients already
 
 PostgreSQLは、同時に受け付ける接続数を`max_connections`で制限しています。利用可能な接続枠を使い切ると、新しい接続を受け付けられず、`sorry, too many clients already`を返します。
 
-この[エラー](/glossary/エラー/)のSQLSTATEは`53300`、条件名は`too_many_connections`です。[アプリケーション](/glossary/アプリケーション/)で[エラー](/glossary/エラー/)を判定するときは、表示文ではなくSQLSTATEを使うと、言語設定や文言の違いに影響されにくくなります。[PostgreSQL公式のエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)でも確認できます。
+この[エラー](/glossary/エラー/)のSQLSTATEは`53300`、条件名は`too_many_connections`です。[アプリケーション](/glossary/アプリケーション/)で[エラー](/glossary/エラー/)を判定するときは、表示文ではなくSQLSTATEを使うと、言語設定や文言の違いに影響されにくくなります。[PostgreSQL公式のエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)でも[確認](/glossary/確認/)できます。
 
-PostgreSQL本体では、接続処理に必要な領域を確保できなかったときに、この[エラー](/glossary/エラー/)を返します。[処理](/glossary/処理/)は[PostgreSQL本体のproc.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/lmgr/proc.c#L435-L458)で確認できます。
+PostgreSQL本体では、接続処理に必要な領域を確保できなかったときに、この[エラー](/glossary/エラー/)を返します。[処理](/glossary/処理/)は[PostgreSQL本体のproc.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/storage/lmgr/proc.c#L435-L458)で[確認](/glossary/確認/)できます。
 
 ## 似た2つのエラーとの違い
 
@@ -52,24 +52,24 @@ FATAL:  remaining connection slots are reserved for roles with privileges of the
 
 これは、残りが`pg_use_reserved_connections`の[権限](/glossary/権限/)を持つ役割とスーパーユーザー向けに確保されている状態です。
 
-一方、`sorry, too many clients already`まで進むと、接続処理に使える枠自体が残っていません。予約された[権限](/glossary/権限/)を持つ利用者でも、新しい接続に失敗する可能性があります。予約枠の判定と文言は[PostgreSQL本体のpostinit.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/init/postinit.c#L927-L952)で確認できます。
+一方、`sorry, too many clients already`まで進むと、接続処理に使える枠自体が残っていません。予約された[権限](/glossary/権限/)を持つ利用者でも、新しい接続に失敗する可能性があります。予約枠の判定と文言は[PostgreSQL本体のpostinit.c](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/init/postinit.c#L927-L952)で[確認](/glossary/確認/)できます。
 
 ## 接続数と設定値を確認する
 
-まだ利用できる管理用接続や既存の管理画面がある場合は、最初に現在値を確認します。
+まだ利用できる管理用接続や既存の管理画面がある場合は、最初に現在値を[確認](/glossary/確認/)します。
 
 ```sql
 SHOW max_connections;
 SHOW superuser_reserved_connections;
 ```
 
-`reserved_connections`に[対応](/glossary/対応/)する[環境](/glossary/環境/)では、次の値も確認してください。未対応の版では設定項目が存在しないため、[エラー](/glossary/エラー/)になります。
+`reserved_connections`に[対応](/glossary/対応/)する[環境](/glossary/環境/)では、次の値も[確認](/glossary/確認/)してください。未対応の版では設定項目が存在しないため、[エラー](/glossary/エラー/)になります。
 
 ```sql
 SHOW reserved_connections;
 ```
 
-現在の[クライアント](/glossary/クライアント/)接続数は、次の[SQL](/glossary/sql/)で確認できます。
+現在の[クライアント](/glossary/クライアント/)接続数は、次の[SQL](/glossary/sql/)で[確認](/glossary/確認/)できます。
 
 ```sql
 SELECT count(*) AS client_connections
@@ -77,7 +77,7 @@ FROM pg_stat_activity
 WHERE backend_type = 'client backend';
 ```
 
-`pg_stat_activity`にはサーバープロセスごとの状態が表示されます。PostgreSQL公式文書にも、現在の状態や問い合わせを確認する統計ビューとして説明されています。[pg_stat_activityの公式資料](https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-ACTIVITY-VIEW)
+`pg_stat_activity`にはサーバープロセスごとの状態が表示されます。PostgreSQL公式文書にも、現在の状態や問い合わせを[確認](/glossary/確認/)する統計ビューとして説明されています。[pg_stat_activityの公式資料](https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-ACTIVITY-VIEW)
 
 ## どの接続が枠を使っているか調べる
 
@@ -96,7 +96,7 @@ GROUP BY usename, application_name, client_addr, state
 ORDER BY connections DESC;
 ```
 
-特に確認したい状態は`idle in transaction`です。これは、[トランザクション](/glossary/トランザクション/)を開いたまま、次の問い合わせを待っている接続を示します。
+特に[確認](/glossary/確認/)したい状態は`idle in transaction`です。これは、[トランザクション](/glossary/トランザクション/)を開いたまま、次の問い合わせを待っている接続を示します。
 
 ```sql
 SELECT
@@ -113,11 +113,11 @@ WHERE state = 'idle in transaction'
 ORDER BY xact_start;
 ```
 
-同じ[アプリケーション](/glossary/アプリケーション/)名や接続元から想定以上の接続が作られている場合は、[アプリケーション](/glossary/アプリケーション/)側の接続上限と切断処理を確認してください。複数の[アプリケーション](/glossary/アプリケーション/)を動かしているなら、それぞれの最大接続数の合計も確認します。
+同じ[アプリケーション](/glossary/アプリケーション/)名や接続元から想定以上の接続が作られている場合は、[アプリケーション](/glossary/アプリケーション/)側の接続上限と切断処理を[確認](/glossary/確認/)してください。複数の[アプリケーション](/glossary/アプリケーション/)を動かしているなら、それぞれの最大接続数の合計も[確認](/glossary/確認/)します。
 
 ## 緊急時に不要な接続を終了する
 
-接続枠を戻す必要がある場合は、既存の管理用接続から対象を確認します。いきなり一括終了せず、`pid`、利用者、状態、開始時刻、問い合わせを確認してください。
+接続枠を戻す必要がある場合は、既存の管理用接続から対象を[確認](/glossary/確認/)します。いきなり一括終了せず、`pid`、利用者、状態、開始時刻、問い合わせを[確認](/glossary/確認/)してください。
 
 終了して問題ない接続を特定できた場合に限り、1件ずつ終了します。
 
@@ -127,13 +127,13 @@ SELECT pg_terminate_backend(12345);
 
 `12345`は確認済みの`pid`へ置き換えます。処理中の接続を終了すると、その接続で進行中の[トランザクション](/glossary/トランザクション/)は取り消されます。自分自身の接続、複製、[バックアップ](/glossary/バックアップ/)、保守処理を誤って終了しないでください。
 
-新しい管理用接続も作れない場合は、[アプリケーション](/glossary/アプリケーション/)からの新規接続をいったん止め、既存の管理経路や接続を取りまとめる仕組みから不要な接続を閉じます。それも使えない場合、再起動は最後の手段です。実行前に停止時間と処理中[トランザクション](/glossary/トランザクション/)への影響を確認してください。
+新しい管理用接続も作れない場合は、[アプリケーション](/glossary/アプリケーション/)からの新規接続をいったん止め、既存の管理経路や接続を取りまとめる仕組みから不要な接続を閉じます。それも使えない場合、再起動は最後の手段です。実行前に停止時間と処理中[トランザクション](/glossary/トランザクション/)への影響を[確認](/glossary/確認/)してください。
 
 ## 接続を閉じない実装を修正する
 
 接続を作るたびに新規接続を開き、処理後に返却または切断していないと、利用者が増えていなくても枠が埋まります。
 
-[アプリケーション](/glossary/アプリケーション/)では、正常終了だけでなく例外発生時にも接続が返却される構造にします。接続プールを使う場合は、各[アプリケーション](/glossary/アプリケーション/)の最大接続数、待ち時間、接続の寿命を確認してください。
+[アプリケーション](/glossary/アプリケーション/)では、正常終了だけでなく例外発生時にも接続が返却される構造にします。接続プールを使う場合は、各[アプリケーション](/glossary/アプリケーション/)の最大接続数、待ち時間、接続の寿命を[確認](/glossary/確認/)してください。
 
 たとえば、4つの[アプリケーション](/glossary/アプリケーション/)がそれぞれ最大30接続を確保できる[設定](/glossary/設定/)なら、合計は120接続です。PostgreSQL側の一般利用者向けの枠がこれより少なければ、負荷が重なったときに接続できなくなります。各設定を個別に見るだけでなく、同じPostgreSQLへ接続するすべての上限を合計して判断します。
 
@@ -160,7 +160,7 @@ SET idle_in_transaction_session_timeout = '5min';
 
 値を増やせば受け付けられる接続数は増えますが、PostgreSQLはこの値に基づいて共有[メモリ](/glossary/メモリ/)を含む一部の資源を確保します。また、変更は[設定](/glossary/設定/)の再読み込みだけでは反映されず、[サーバー](/glossary/サーバー/)の再起動が必要です。
 
-そのため、次の順序で判断します。まず不要な接続と接続漏れをなくし、各接続プールの合計上限を調整します。通常時と混雑時の接続数を測り、それでも正当な接続需要が上限を超える場合に、利用できる[メモリ](/glossary/メモリ/)と再起動手順を確認して`max_connections`を見直してください。
+そのため、次の順序で判断します。まず不要な接続と接続漏れをなくし、各接続プールの合計上限を調整します。通常時と混雑時の接続数を測り、それでも正当な接続需要が上限を超える場合に、利用できる[メモリ](/glossary/メモリ/)と再起動手順を[確認](/glossary/確認/)して`max_connections`を見直してください。
 
 ## 予約接続枠を理解する
 
@@ -174,18 +174,18 @@ SET idle_in_transaction_session_timeout = '5min';
 
 ## 近い接続エラーとの違い
 
-`could not connect to server: Connection refused`は、PostgreSQLの待ち受け先まで接続できていない状態です。[サーバー](/glossary/サーバー/)停止、[ポート](/glossary/ポート/)、待ち受けアドレス、通信経路などを確認します。
+`could not connect to server: Connection refused`は、PostgreSQLの待ち受け先まで接続できていない状態です。[サーバー](/glossary/サーバー/)停止、[ポート](/glossary/ポート/)、待ち受けアドレス、通信経路などを[確認](/glossary/確認/)します。
 
-`password authentication failed for user`は、PostgreSQLへ到達した後の認証失敗です。接続数ではなく、利用者名、[パスワード](/glossary/パスワード/)、認証設定を確認してください。
+`password authentication failed for user`は、PostgreSQLへ到達した後の認証失敗です。接続数ではなく、利用者名、[パスワード](/glossary/パスワード/)、認証設定を[確認](/glossary/確認/)してください。
 
 `number of requested standby connections exceeds "max_wal_senders"`は、複製用の接続枠に関する[エラー](/glossary/エラー/)です。通常の[アプリケーション](/glossary/アプリケーション/)接続とは分けて調査します。
 
 ## 解決手順のまとめ
 
-最初に`pg_stat_activity`を利用者、接続元、[アプリケーション](/glossary/アプリケーション/)名、状態ごとに集計します。不要な接続や`idle in transaction`が多ければ、対象を確認したうえで整理してください。
+最初に`pg_stat_activity`を利用者、接続元、[アプリケーション](/glossary/アプリケーション/)名、状態ごとに集計します。不要な接続や`idle in transaction`が多ければ、対象を[確認](/glossary/確認/)したうえで整理してください。
 
-次に、[アプリケーション](/glossary/アプリケーション/)が例外時にも接続を返しているか、複数の接続プールの上限合計が大きすぎないかを確認します。長時間放置される[トランザクション](/glossary/トランザクション/)には、[処理](/glossary/処理/)の[修正](/glossary/修正/)と`idle_in_transaction_session_timeout`を検討します。
+次に、[アプリケーション](/glossary/アプリケーション/)が例外時にも接続を返しているか、複数の接続プールの上限合計が大きすぎないかを[確認](/glossary/確認/)します。長時間放置される[トランザクション](/glossary/トランザクション/)には、[処理](/glossary/処理/)の[修正](/glossary/修正/)と`idle_in_transaction_session_timeout`を検討します。
 
-`max_connections`の増加は最後に判断します。再起動と資源の増加を伴うため、接続数の原因を確認せずに変更しないでください。
+`max_connections`の増加は最後に判断します。再起動と資源の増加を伴うため、接続数の原因を[確認](/glossary/確認/)せずに変更しないでください。
 
-免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[本番環境](/glossary/本番環境/)で接続の終了や[サーバー](/glossary/サーバー/)[設定](/glossary/設定/)の変更、再起動を行う前に、処理中の[トランザクション](/glossary/トランザクション/)、複製、[バックアップ](/glossary/バックアップ/)、停止時間への影響を確認してください。
+免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[本番環境](/glossary/本番環境/)で接続の終了や[サーバー](/glossary/サーバー/)[設定](/glossary/設定/)の変更、再起動を行う前に、処理中の[トランザクション](/glossary/トランザクション/)、複製、[バックアップ](/glossary/バックアップ/)、停止時間への影響を[確認](/glossary/確認/)してください。

@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-Minikube で 404 [エラー](/glossary/エラー/)が発生した場合、指定した [Kubernetes](/glossary/kubernetes/) リソースが見つからないことを示しています。この[エラー](/glossary/エラー/)は Pod、Service、Deployment などのリソースに対して `kubectl` [コマンド](/glossary/コマンド/)で アクセスしようとした際に、指定した [Namespace](/glossary/namespace/) やリソース名が一致しないときに返されます。[開発環境](/glossary/開発環境/)での検証時に頻繁に遭遇し、原因が特定できれば迅速に解決できる[エラー](/glossary/エラー/)です。
+Minikube で 404 [エラー](/glossary/エラー/)が発生した場合、指定した [Kubernetes](/glossary/kubernetes/) [リソース](/glossary/リソース/)が見つからないことを示しています。この[エラー](/glossary/エラー/)は Pod、Service、Deployment などの[リソース](/glossary/リソース/)に対して `kubectl` [コマンド](/glossary/コマンド/)で アクセスしようとした際に、指定した [Namespace](/glossary/namespace/) や[リソース](/glossary/リソース/)名が一致しないときに返されます。[開発環境](/glossary/開発環境/)での検証時に頻繁に遭遇し、原因が特定できれば迅速に解決できる[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -42,7 +42,7 @@ error: the server doesn't have a resource type "ingres"
 
 **原因1：[Namespace](/glossary/namespace/) の指定が間違っているか省略されている**
 
-[Kubernetes](/glossary/kubernetes/) ではすべてのリソースは [Namespace](/glossary/namespace/) に属しています。`kubectl get pod` のように [Namespace](/glossary/namespace/) を明示しない[コマンド](/glossary/コマンド/)を実行すると、[デフォルト](/glossary/デフォルト/)の `default` [Namespace](/glossary/namespace/) のみを[検索](/glossary/検索/)します。リソースが別の [Namespace](/glossary/namespace/)（例：`kube-system`、`monitoring`）に存在する場合、404 [エラー](/glossary/エラー/)が返されます。
+[Kubernetes](/glossary/kubernetes/) ではすべての[リソース](/glossary/リソース/)は [Namespace](/glossary/namespace/) に属しています。`kubectl get pod` のように [Namespace](/glossary/namespace/) を明示しない[コマンド](/glossary/コマンド/)を実行すると、[デフォルト](/glossary/デフォルト/)の `default` [Namespace](/glossary/namespace/) のみを[検索](/glossary/検索/)します。[リソース](/glossary/リソース/)が別の [Namespace](/glossary/namespace/)（例：`kube-system`、`monitoring`）に存在する場合、404 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -65,9 +65,9 @@ kubectl config get-contexts
 kubectl config set-context --current --namespace=monitoring
 ```
 
-**原因2：リソース名が誤字している、または存在しないリソースにアクセスしている**
+**原因2：[リソース](/glossary/リソース/)名が誤字している、または存在しない[リソース](/glossary/リソース/)にアクセスしている**
 
-Minikube に[デプロイ](/glossary/デプロイ/)したリソース名と kubectl [コマンド](/glossary/コマンド/)で指定したリソース名が完全に一致していない場合、404 [エラー](/glossary/エラー/)が発生します。大文字小文字の区別や、ハイフン・アンダースコア の違いも原因になります。
+Minikube に[デプロイ](/glossary/デプロイ/)した[リソース](/glossary/リソース/)名と kubectl [コマンド](/glossary/コマンド/)で指定した[リソース](/glossary/リソース/)名が完全に一致していない場合、404 [エラー](/glossary/エラー/)が発生します。大文字小文字の区別や、ハイフン・アンダースコア の違いも原因になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -124,7 +124,7 @@ kubectl get svc my-service
 
 **原因4：Minikube クラスタ自体が起動していないか、コンテキストが切り替わっている**
 
-複数の [Kubernetes](/glossary/kubernetes/) クラスタ（他の minikube [インスタンス](/glossary/インスタンス/)、[Docker](/glossary/docker/) Desktop、EKS など）を使い分けている場合、現在のコンテキストが Minikube を指していないと、リソースは存在しても 404 [エラー](/glossary/エラー/)が返されます。
+複数の [Kubernetes](/glossary/kubernetes/) クラスタ（他の minikube [インスタンス](/glossary/インスタンス/)、[Docker](/glossary/docker/) Desktop、EKS など）を使い分けている場合、現在のコンテキストが Minikube を指していないと、[リソース](/glossary/リソース/)は存在しても 404 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -157,19 +157,19 @@ kubectl get pod my-app
 
 ## ツール固有の注意点
 
-**Minikube [ダッシュボード](/glossary/ダッシュボード/)でリソースを確認する**
+**Minikube [ダッシュボード](/glossary/ダッシュボード/)で[リソース](/glossary/リソース/)を[確認](/glossary/確認/)する**
 
-`kubectl` [コマンド](/glossary/コマンド/)以外にも、Minikube [ダッシュボード](/glossary/ダッシュボード/)上で視覚的にリソースを確認できます。[コマンド](/glossary/コマンド/)が失敗する場合、[ダッシュボード](/glossary/ダッシュボード/)経由で同じリソースが表示されるかを確認することで、[Namespace](/glossary/namespace/) やリソース存在の問題を即座に判断できます。
+`kubectl` [コマンド](/glossary/コマンド/)以外にも、Minikube [ダッシュボード](/glossary/ダッシュボード/)上で視覚的に[リソース](/glossary/リソース/)を[確認](/glossary/確認/)できます。[コマンド](/glossary/コマンド/)が失敗する場合、[ダッシュボード](/glossary/ダッシュボード/)経由で同じ[リソース](/glossary/リソース/)が表示されるかを[確認](/glossary/確認/)することで、[Namespace](/glossary/namespace/) や[リソース](/glossary/リソース/)存在の問題を即座に判断できます。
 
 ```bash
 minikube dashboard
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/)の左側メニューで [Namespace](/glossary/namespace/) を切り替え、該当するリソースが表示されるか確認してください。
+[ダッシュボード](/glossary/ダッシュボード/)の左側メニューで [Namespace](/glossary/namespace/) を切り替え、該当する[リソース](/glossary/リソース/)が表示されるか[確認](/glossary/確認/)してください。
 
-**Minikube 内部のコンテナログを確認する**
+**Minikube 内部のコンテナログを[確認](/glossary/確認/)する**
 
-404 [エラー](/glossary/エラー/)がリソースの作成失敗に由来する場合、Minikube ノード内のコンテナログを確認することで根本原因が判明することがあります。
+404 [エラー](/glossary/エラー/)が[リソース](/glossary/リソース/)の作成失敗に由来する場合、Minikube ノード内のコンテナログを[確認](/glossary/確認/)することで根本原因が判明することがあります。
 
 ```bash
 minikube ssh
@@ -202,9 +202,9 @@ kubectl get pod my-app -v=8
 # API リクエスト・レスポンスの詳細が出力される
 ```
 
-**Minikube のリソース定義を確認する**
+**Minikube の[リソース](/glossary/リソース/)定義を[確認](/glossary/確認/)する**
 
-Pod や Deployment の定義[ファイル](/glossary/ファイル/)を確認し、[メタデータ](/glossary/メタデータ/)が正確に記述されているか検証してください。
+Pod や Deployment の定義[ファイル](/glossary/ファイル/)を[確認](/glossary/確認/)し、[メタデータ](/glossary/メタデータ/)が正確に記述されているか検証してください。
 
 ```bash
 kubectl get pod my-app -o yaml
@@ -224,4 +224,4 @@ kubectl describe pod my-app
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

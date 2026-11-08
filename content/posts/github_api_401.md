@@ -24,7 +24,7 @@ Bad credentials の正体は、[トークン](/glossary/トークン/)の誤記�
 
 ## エラーの概要
 
-401 の応答は次の2種類です（いずれも実際の応答をそのまま確認したものです）。
+401 の応答は次の2種類です（いずれも実際の応答をそのまま[確認](/glossary/確認/)したものです）。
 
 認証情報なしで認証必須の[エンドポイント](/glossary/エンドポイント/)にアクセスした場合：
 
@@ -46,11 +46,11 @@ Bad credentials の正体は、[トークン](/glossary/トークン/)の誤記�
 }
 ```
 
-[ヘッダー](/glossary/ヘッダー/)の形式について、公式ドキュメントは、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでも[トークン](/glossary/トークン/)を渡せる（[JSON](/glossary/json/) Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の [API](/glossary/api/) はユーザー名と[パスワード](/glossary/パスワード/)による[認証](/glossary/認証/)に[対応](/glossary/対応/)していないため、[パスワード](/glossary/パスワード/)での[認証](/glossary/認証/)を試みる古い[コード](/glossary/コード/)は動きません。[トークン](/glossary/トークン/)による[認証](/glossary/認証/)が前提です。
+[ヘッダー](/glossary/ヘッダー/)の形式について、公式ドキュメントは、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでも[トークン](/glossary/トークン/)を渡せる（[JSON](/glossary/json/) Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の [API](/glossary/api/) は[ユーザー名](/glossary/ユーザー名/)と[パスワード](/glossary/パスワード/)による[認証](/glossary/認証/)に[対応](/glossary/対応/)していないため、[パスワード](/glossary/パスワード/)での[認証](/glossary/認証/)を試みる古い[コード](/glossary/コード/)は動きません。[トークン](/glossary/トークン/)による[認証](/glossary/認証/)が前提です。
 
 ## まず最初に：message を読み、最小のリクエストで再現する
 
-まず message の文言で、認証情報が「届いていない」のか「届いたが不正」なのかを確定します。次に、問題を最小の形で再現します。認証済みユーザー自身の情報を返す /user [エンドポイント](/glossary/エンドポイント/)が最適です。
+まず message の文言で、認証情報が「届いていない」のか「届いたが不正」なのかを確定します。次に、問題を最小の形で再現します。認証済み[ユーザー](/glossary/ユーザー/)自身の情報を返す /user [エンドポイント](/glossary/エンドポイント/)が最適です。
 
 ```bash
 curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
@@ -78,11 +78,11 @@ curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/us
 # → 200 OK
 ```
 
-実際に[ヘッダー](/glossary/ヘッダー/)が送られているかは、curl の -v で送信内容を表示して、[リクエスト](/glossary/リクエスト/)に Authorization 行が含まれるかで確認できます。
+実際に[ヘッダー](/glossary/ヘッダー/)が送られているかは、curl の -v で送信内容を表示して、[リクエスト](/glossary/リクエスト/)に Authorization 行が含まれるかで[確認](/glossary/確認/)できます。
 
 ### 原因2：トークンの値が正しくない（Bad credentials）
 
-[ヘッダー](/glossary/ヘッダー/)は届いていますが、値が有効な[トークン](/glossary/トークン/)ではありません。確認すべきは次の点です。第一に、値の誤り。コピーの取りこぼしや前後の余分な文字が典型です。第二に、空の値。[環境変数](/glossary/環境変数/)が未定義のまま "Authorization: Bearer $TOKEN" のように[ヘッダー](/glossary/ヘッダー/)を組み立てると、値が空の[ヘッダー](/glossary/ヘッダー/)が送られ、実測でもこの場合の応答は Bad credentials になります。「[設定](/glossary/設定/)したはずなのに Bad credentials」の一定数はこれです。第三に、期限切れと失効です。公式のトラブルシューティング文書も、[トークン](/glossary/トークン/)が期限切れ・取り消し済みでないことを確認項目に挙げています。fine-grained personal access token には有効期限があるため、ある日を境に突然401が始まった場合はまず期限を疑います。[トークン](/glossary/トークン/)の状態は [GitHub](/glossary/github/) の設定画面（Settings > Developer settings > Personal access tokens）で確認・再生成できます。
+[ヘッダー](/glossary/ヘッダー/)は届いていますが、値が有効な[トークン](/glossary/トークン/)ではありません。[確認](/glossary/確認/)すべきは次の点です。第一に、値の誤り。コピーの取りこぼしや前後の余分な文字が典型です。第二に、空の値。[環境変数](/glossary/環境変数/)が未定義のまま "Authorization: Bearer $TOKEN" のように[ヘッダー](/glossary/ヘッダー/)を組み立てると、値が空の[ヘッダー](/glossary/ヘッダー/)が送られ、実測でもこの場合の応答は Bad credentials になります。「[設定](/glossary/設定/)したはずなのに Bad credentials」の一定数はこれです。第三に、期限切れと失効です。公式のトラブルシューティング文書も、[トークン](/glossary/トークン/)が期限切れ・取り消し済みでないことを確認項目に挙げています。fine-grained personal access token には有効期限があるため、ある日を境に突然401が始まった場合はまず期限を疑います。[トークン](/glossary/トークン/)の状態は [GitHub](/glossary/github/) の設定画面（Settings > Developer settings > Personal access tokens）で[確認](/glossary/確認/)・再生成できます。
 
 ### 原因3：意図したものと違うトークンが使われている（Bad credentials）
 
@@ -98,13 +98,13 @@ env | grep -iE "github|gh_" | sed 's/=.*/=（値は非表示）/'
 gh auth status
 ```
 
-[環境変数](/glossary/環境変数/)が優先されている場合は、その[変数](/glossary/変数/)を[更新](/glossary/更新/)するか[削除](/glossary/削除/)したうえで、再度最小の[リクエスト](/glossary/リクエスト/)（/user）で確認します。
+[環境変数](/glossary/環境変数/)が優先されている場合は、その[変数](/glossary/変数/)を[更新](/glossary/更新/)するか[削除](/glossary/削除/)したうえで、再度最小の[リクエスト](/glossary/リクエスト/)（/user）で[確認](/glossary/確認/)します。
 
 ## 補足：401を繰り返すと一時的に403に変わる
 
-公式ドキュメントによると、短時間に無効な認証情報での[リクエスト](/glossary/リクエスト/)を繰り返すと、[GitHub](/glossary/github/) はそのユーザーの[認証](/glossary/認証/)の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効な[トークン](/glossary/トークン/)のまま自動[リトライ](/glossary/リトライ/)を回し続けると、正しい[トークン](/glossary/トークン/)に直した後もしばらく締め出される、という二次被害につながります。401 が出たら[リトライ](/glossary/リトライ/)で押し切ろうとせず、先に原因を直してください。
+公式ドキュメントによると、短時間に無効な認証情報での[リクエスト](/glossary/リクエスト/)を繰り返すと、[GitHub](/glossary/github/) はその[ユーザー](/glossary/ユーザー/)の[認証](/glossary/認証/)の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効な[トークン](/glossary/トークン/)のまま自動[リトライ](/glossary/リトライ/)を回し続けると、正しい[トークン](/glossary/トークン/)に直した後もしばらく締め出される、という二次被害につながります。401 が出たら[リトライ](/glossary/リトライ/)で押し切ろうとせず、先に原因を直してください。
 
-なお、[認証](/glossary/認証/)は通っているのに操作が拒否される場合の[コード](/glossary/コード/)は401ではありません。classic [トークン](/glossary/トークン/)の scope 不足や非公開リソースへの無権限アクセスは 404（[404 の記事](/posts/github_api_404/)）、[GitHub](/glossary/github/) App・fine-grained [トークン](/glossary/トークン/)の権限不足や[レート制限](/glossary/レート制限/)は 403（[403 の記事](/posts/github_api_403/)）です。
+なお、[認証](/glossary/認証/)は通っているのに操作が拒否される場合の[コード](/glossary/コード/)は401ではありません。classic [トークン](/glossary/トークン/)の scope 不足や非公開[リソース](/glossary/リソース/)への無権限アクセスは 404（[404 の記事](/posts/github_api_404/)）、[GitHub](/glossary/github/) App・fine-grained [トークン](/glossary/トークン/)の権限不足や[レート制限](/glossary/レート制限/)は 403（[403 の記事](/posts/github_api_403/)）です。
 
 ## 切り分けの順序
 
@@ -138,4 +138,4 @@ gh auth status
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

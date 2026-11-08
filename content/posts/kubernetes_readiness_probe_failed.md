@@ -73,7 +73,7 @@ Pod IPへの直接接続、kubectl port-forward、独自に管理したEndpointS
 
 また、EndpointSliceと各Nodeの転送規則は制御処理で[更新](/glossary/更新/)されるため、失敗した瞬間にクラスタ内のすべての[通信](/glossary/通信/)が同時停止するわけではありません。外部Load Balancer、Ingress、service meshには、それぞれ反映時間と動作があります。
 
-最初に確認するのは、Podだけではなく次の3点です。
+最初に[確認](/glossary/確認/)するのは、Podだけではなく次の3点です。
 
 ```text
 probeがなぜ失敗したか
@@ -129,7 +129,7 @@ PodがReadyになると、EndpointSlice controllerは該当Service向けのendpo
 
 ## まず最初に：Pod、condition、EndpointSliceを同じ時刻で見る
 
-第一に、Podの表示を確認します。
+第一に、Podの表示を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
@@ -144,7 +144,7 @@ Readiness probe failed: context deadline exceeded
 Readiness probe failed: HTTP probe failed with statuscode: 503
 ```
 
-第二に、Pod conditionと[コンテナ](/glossary/コンテナ/)ごとのready状態を確認します。
+第二に、Pod conditionと[コンテナ](/glossary/コンテナ/)ごとのready状態を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -162,14 +162,14 @@ kubectl get pod <Pod名> -n <名前空間> --show-labels
 
 ServiceのselectorとPodのlabelが一致しなければ、probeが成功してもそのServiceの転送先には入りません。
 
-第四に、EndpointSliceを確認します。
+第四に、EndpointSliceを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get endpointslice -n <名前空間> \
   -l kubernetes.io/service-name=<Service名> -o yaml
 ```
 
-対象Pod IPを探し、`conditions.ready` を確認します。
+対象Pod IPを探し、`conditions.ready` を[確認](/glossary/確認/)します。
 
 ```yaml
 endpoints:
@@ -181,7 +181,7 @@ endpoints:
       terminating: false
 ```
 
-古い `Endpoints` [API](/glossary/api/)ではなく、現在のService転送の基礎であるEndpointSliceを優先して確認します。`kubectl describe service` の要約だけで判定しません。
+古い `Endpoints` [API](/glossary/api/)ではなく、現在のService転送の基礎であるEndpointSliceを優先して[確認](/glossary/確認/)します。`kubectl describe service` の要約だけで判定しません。
 
 最後に、Pod IPへ直接接続して、アプリ自体の応答とService経由の応答を分けます。
 
@@ -230,7 +230,7 @@ readinessProbe:
     port: http
 ```
 
-[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute[登録](/glossary/登録/)を確認します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか確認します。
+[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute[登録](/glossary/登録/)を[確認](/glossary/確認/)します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか[確認](/glossary/確認/)します。
 
 ### 原因2：アプリがlocalhostだけで待ち受けている
 
@@ -240,7 +240,7 @@ readinessProbe:
 curl http://127.0.0.1:8080/readyz
 ```
 
-待受状態を確認します。
+待受状態を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
@@ -253,7 +253,7 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
 0.0.0.0:8080
 ```
 
-実際の利用者がPod network経由で接続するアプリなら、readinessも同じ到達性を確認する必要があります。
+実際の利用者がPod network経由で接続するアプリなら、readinessも同じ到達性を[確認](/glossary/確認/)する必要があります。
 
 ### 原因3：起動処理が終わる前にreadinessを確認している
 
@@ -289,7 +289,7 @@ startup probeが成功するまでreadinessとlivenessは開始されません�
 Readiness probe failed: context deadline exceeded
 ```
 
-probe endpointの応答時間、[CPU](/glossary/cpu/)制限、GC、Node負荷を確認します。
+probe endpointの応答時間、[CPU](/glossary/cpu/)制限、GC、Node負荷を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl top pod <Pod名> -n <名前空間> --containers
@@ -359,7 +359,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" state="}{.state}{"\n"}{end}'
 ```
 
-各[コンテナ](/glossary/コンテナ/)の `ready` を確認し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を[対応](/glossary/対応/)させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
+各[コンテナ](/glossary/コンテナ/)の `ready` を[確認](/glossary/確認/)し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を[対応](/glossary/対応/)させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
 
 ### 原因8：readinessGateがFalseまたは未設定になっている
 
@@ -371,7 +371,7 @@ spec:
     - conditionType: example.com/feature-ready
 ```
 
-conditionを確認します。
+conditionを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -396,18 +396,18 @@ kubectl get service <Service名> -n <名前空間> \
   -o jsonpath='{.spec.publishNotReadyAddresses}{"\n"}'
 ```
 
-この[設定](/glossary/設定/)では、readiness probeが失敗してもService経由の[通信](/glossary/通信/)が続き得ます。利用者要求を止める目的のServiceで必要な[設定](/glossary/設定/)かを確認します。
+この[設定](/glossary/設定/)では、readiness probeが失敗してもService経由の[通信](/glossary/通信/)が続き得ます。利用者要求を止める目的のServiceで必要な[設定](/glossary/設定/)かを[確認](/glossary/確認/)します。
 
 ### 原因10：ServiceのselectorまたはEndpointSliceの管理主体が違う
 
-readinessが成功しているのにServiceへ入らない場合、ServiceのselectorとPod labelを確認します。
+readinessが成功しているのにServiceへ入らない場合、ServiceのselectorとPod labelを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get service <Service名> -n <名前空間> -o yaml
 kubectl get pod <Pod名> -n <名前空間> --show-labels
 ```
 
-selectorなしのServiceや、独自controllerが管理するEndpointSliceでは、Pod readinessが自動反映されない場合があります。EndpointSliceの次のlabelを確認します。
+selectorなしのServiceや、独自controllerが管理するEndpointSliceでは、Pod readinessが自動反映されない場合があります。EndpointSliceの次のlabelを[確認](/glossary/確認/)します。
 
 ```yaml
 metadata:
@@ -415,7 +415,7 @@ metadata:
     endpointslice.kubernetes.io/managed-by: endpointslice-controller.k8s.io
 ```
 
-独自管理なら、そのcontrollerがPod Readyをどう扱うかを確認します。[Kubernetes](/glossary/kubernetes/)[標準](/glossary/標準/)のreadinessだけで外れると仮定しません。
+独自管理なら、そのcontrollerがPod Readyをどう扱うかを[確認](/glossary/確認/)します。[Kubernetes](/glossary/kubernetes/)[標準](/glossary/標準/)のreadinessだけで外れると仮定しません。
 
 ## 補足：似ているが別のもの
 
@@ -433,7 +433,7 @@ Podが `1/1 Running` かつ `Ready=True` でも、Serviceのselectorとlabelが�
 
 ### NetworkPolicy
 
-readinessはServiceの転送先を制御する状態です。NetworkPolicyはPod間通信を許可または拒否する規則です。Pod IPへの直接接続も拒否されるなら、readinessだけでなくNetworkPolicy、CNI、firewallを確認します。
+readinessはServiceの転送先を制御する状態です。NetworkPolicyはPod間通信を許可または拒否する規則です。Pod IPへの直接接続も拒否されるなら、readinessだけでなくNetworkPolicy、CNI、firewallを[確認](/glossary/確認/)します。
 
 ### terminating Pod
 
@@ -445,41 +445,41 @@ Ingress controllerや外部Load Balancerが独自のhealth checkとbackend管理
 
 ## 切り分けの順序
 
-1. `kubectl describe pod` で `Readiness probe failed` の末尾と最終時刻を確認する。
-2. 各containerのready、Podの `ContainersReady` と `Ready` conditionを確認する。
-3. 作成済みPodからpath、port、scheme、timeout、thresholdを確認する。
-4. Podを選択するServiceと、そのselectorを確認する。
-5. EndpointSliceで対象Pod IPの `ready`、`serving`、`terminating` を確認する。
-6. `connection refused` なら待受portとアドレス、404ならpath、timeoutなら処理時間と資源を確認する。
+1. `kubectl describe pod` で `Readiness probe failed` の末尾と最終時刻を[確認](/glossary/確認/)する。
+2. 各containerのready、Podの `ContainersReady` と `Ready` conditionを[確認](/glossary/確認/)する。
+3. 作成済みPodからpath、port、scheme、timeout、thresholdを[確認](/glossary/確認/)する。
+4. Podを選択するServiceと、そのselectorを[確認](/glossary/確認/)する。
+5. EndpointSliceで対象Pod IPの `ready`、`serving`、`terminating` を[確認](/glossary/確認/)する。
+6. `connection refused` なら待受portとアドレス、404ならpath、timeoutなら処理時間と資源を[確認](/glossary/確認/)する。
 7. 起動中だけ失敗するならstartup probeを追加する。
-8. 外部依存を必須条件にする範囲と、全PodがUnreadyになる場合の縮退動作を確認する。
-9. `readinessGates` と `publishNotReadyAddresses` の有無を確認する。
-10. Pod IPへの直接通信、Service、Ingressを分け、どの経路で転送が止まったかを確認する。
+8. 外部依存を必須条件にする範囲と、全PodがUnreadyになる場合の縮退動作を[確認](/glossary/確認/)する。
+9. `readinessGates` と `publishNotReadyAddresses` の有無を[確認](/glossary/確認/)する。
+10. Pod IPへの直接通信、Service、Ingressを分け、どの経路で転送が止まったかを[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
-PodのReady状態と[イベント](/glossary/イベント/)を確認します。
+PodのReady状態と[イベント](/glossary/イベント/)を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
 kubectl describe pod <Pod名> -n <名前空間>
 ```
 
-[コンテナ](/glossary/コンテナ/)とPod conditionをまとめて確認します。
+[コンテナ](/glossary/コンテナ/)とPod conditionをまとめて[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" restarts="}{.restartCount}{"\n"}{end}{range .status.conditions[*]}{.type}{"="}{.status}{" reason="}{.reason}{"\n"}{end}'
 ```
 
-readiness[設定](/glossary/設定/)だけを確認します。
+readiness[設定](/glossary/設定/)だけを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .spec.containers[*]}{.name}{"\n"}{.readinessProbe}{"\n"}{end}'
 ```
 
-ServiceとEndpointSliceを確認します。
+ServiceとEndpointSliceを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get service <Service名> -n <名前空間> -o yaml
@@ -488,7 +488,7 @@ kubectl get endpointslice -n <名前空間> \
   -l kubernetes.io/service-name=<Service名> -o yaml
 ```
 
-対象Podの[イベント](/glossary/イベント/)を時刻順に確認します。
+対象Podの[イベント](/glossary/イベント/)を時刻順に[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get events -n <名前空間> \
@@ -496,20 +496,20 @@ kubectl get events -n <名前空間> \
   --sort-by=.lastTimestamp
 ```
 
-Podへ直接port-forwardして、Serviceを通さず確認します。
+Podへ直接port-forwardして、Serviceを通さず[確認](/glossary/確認/)します。
 
 ```bash
 kubectl port-forward -n <名前空間> pod/<Pod名> 18080:8080
 curl -i http://127.0.0.1:18080/readyz
 ```
 
-資源使用量を確認します。Metrics Serverなどが必要です。
+資源使用量を[確認](/glossary/確認/)します。Metrics Serverなどが必要です。
 
 ```bash
 kubectl top pod <Pod名> -n <名前空間> --containers
 ```
 
-rollout中のReady数を確認します。
+rollout中のReady数を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl rollout status deployment/<Deployment名> -n <名前空間>
@@ -523,14 +523,14 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 2024年の[Kubernetes](/glossary/kubernetes/)の課題（[`kubectl describe service` shows endpoints that are not ready](https://github.com/kubernetes/kubernetes/issues/126922)）では、readinessが失敗して `kubectl get endpoints` では転送先が空なのに、`kubectl describe service` の要約にはUnreadyなPod IPが表示される不整合が報告されました。[修正](/glossary/修正/)は[Pull Request #126932](https://github.com/kubernetes/kubernetes/pull/126932)で取り込まれています。
 
-この事例は、Pod IPが画面に見えることと、実際の転送対象であることが同じではないと示します。現在の切り分けでは、Serviceの要約だけでなくEndpointSliceの `conditions.ready` を確認する必要があります。
+この事例は、Pod IPが画面に見えることと、実際の転送対象であることが同じではないと示します。現在の切り分けでは、Serviceの要約だけでなくEndpointSliceの `conditions.ready` を[確認](/glossary/確認/)する必要があります。
 
 一方、2024年の[AWS](/glossary/aws/) Load Balancer Controllerの課題（[Potential thundering herd caused by readiness probes](https://github.com/kubernetes-sigs/aws-load-balancer-controller/issues/3711)）では、全Podのreadinessが失敗するとcontrollerがALBの対象から外し、少数のPodがReadyへ戻った瞬間に要求が集中して再びUnreadyになる循環が報告されました。[コンテナ](/glossary/コンテナ/)は生存していても、外部転送先の管理によって全体障害を増幅し得る例です。
 
-readinessは再起動を起こさないため、livenessより安全とは限りません。全Podが同じ外部依存を確認し、その依存先の[障害](/glossary/障害/)で同時にUnreadyになると、Serviceから利用可能な転送先が消えます。復帰時の `successThreshold` が1なら、最初に成功した少数のPodへ負荷が集中することもあります。
+readinessは再起動を起こさないため、livenessより安全とは限りません。全Podが同じ外部依存を[確認](/glossary/確認/)し、その依存先の[障害](/glossary/障害/)で同時にUnreadyになると、Serviceから利用可能な転送先が消えます。復帰時の `successThreshold` が1なら、最初に成功した少数のPodへ負荷が集中することもあります。
 
-だから、readiness endpointが答えるべき問いは「すべての依存先が完全に正常か」ではありません。**このPodへ今、新しい要求を送ると、利用者へ意味のある応答を返せるか**です。そして失敗時の結果は通信遮断ではなく、Serviceの通常転送先からの除外です。直接通信、既存接続、独自EndpointSlice、`publishNotReadyAddresses` は別に確認します。
+だから、readiness endpointが答えるべき問いは「すべての依存先が完全に正常か」ではありません。**このPodへ今、新しい要求を送ると、利用者へ意味のある応答を返せるか**です。そして失敗時の結果は通信遮断ではなく、Serviceの通常転送先からの除外です。直接通信、既存接続、独自EndpointSlice、`publishNotReadyAddresses` は別に[確認](/glossary/確認/)します。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -16,7 +16,7 @@ trend_incident: false
 
 [GitHub](/glossary/github/) [API](/glossary/api/) の 409 Conflict は、[リクエスト](/glossary/リクエスト/)の綴りや[権限](/glossary/権限/)の問題ではなく、「[リクエスト](/glossary/リクエスト/)の内容が対象の現在の状態と矛盾している」ことを示す[コード](/glossary/コード/)です。[GitHub](/glossary/github/) 公式の [API](/glossary/api/) 定義（OpenAPI）で409が定義されている[エンドポイント](/glossary/エンドポイント/)を調べると、実際の409は3系統に整理できます。第一に、本物の[マージ](/glossary/マージ/)競合です（[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/) [API](/glossary/api/) や上流[ブランチ](/glossary/ブランチ/)との[同期](/glossary/同期/) [API](/glossary/api/) が、競合時に409を返すと定義されています）。第二に、競合ガードです。対象が「あなたが見た時点」から動いたことを検出して操作を止める仕組みで、pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha を渡した場合の head 不一致や、[ファイル](/glossary/ファイル/)[更新](/glossary/更新/)（contents）[API](/glossary/api/) の sha 不一致がこれにあたります。第三に、[リポジトリ](/glossary/リポジトリ/)の状態が操作の前提を満たさないケースで、代表は空の[リポジトリ](/glossary/リポジトリ/)に対する [Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系の [API](/glossary/api/) です（公式ガイドに、[リポジトリ](/glossary/リポジトリ/)が空または利用不能のとき [REST](/glossary/rest/) [API](/glossary/api/) は 409 Conflict を返すと明記されています）。
 
-同じくらい重要なのが、409だと思い込みやすいのに409ではない[エラー](/glossary/エラー/)です。「Reference already exists」（[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)が既に存在する）、「No commits between ...」（差分のないプルリクエスト作成）、既存[タグ](/glossary/タグ/)への[リリース](/glossary/リリース/)作成は、いずれも 422 Validation Failed です。また、競合状態のプルリクエストを[マージ](/glossary/マージ/)しようとした場合は 405 が定義されています。これらを409として調査すると出口のない回り道になるため、まず[コード](/glossary/コード/)と系統の確認から始めます。
+同じくらい重要なのが、409だと思い込みやすいのに409ではない[エラー](/glossary/エラー/)です。「Reference already exists」（[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)が既に存在する）、「No commits between ...」（差分のない[プルリクエスト](/glossary/プルリクエスト/)作成）、既存[タグ](/glossary/タグ/)への[リリース](/glossary/リリース/)作成は、いずれも 422 Validation Failed です。また、競合状態の[プルリクエスト](/glossary/プルリクエスト/)を[マージ](/glossary/マージ/)しようとした場合は 405 が定義されています。これらを409として調査すると出口のない回り道になるため、まず[コード](/glossary/コード/)と系統の[確認](/glossary/確認/)から始めます。
 
 ## エラーの概要
 
@@ -78,7 +78,7 @@ esac
 
 ### 原因2：対象が「見た時点」から動いた（競合ガード）
 
-pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha [パラメータ](/glossary/パラメータ/)を渡すと、「この head のときだけ[マージ](/glossary/マージ/)してよい」という指定になり、公式定義のとおり、head がその sha と一致しなければ409が返ります。これは[レビュー](/glossary/レビュー/)が済んだ内容と実際に[マージ](/glossary/マージ/)される内容のすり替えを防ぐガードで、409は「[レビュー](/glossary/レビュー/)後に新しい[コミット](/glossary/コミット/)が積まれた」という[通知](/glossary/通知/)です。対処は、head を確認し直し、必要なら再[レビュー](/glossary/レビュー/)のうえ最新の sha で再実行することです。
+pull request の[マージ](/glossary/マージ/) [API](/glossary/api/) に sha [パラメータ](/glossary/パラメータ/)を渡すと、「この head のときだけ[マージ](/glossary/マージ/)してよい」という指定になり、公式定義のとおり、head がその sha と一致しなければ409が返ります。これは[レビュー](/glossary/レビュー/)が済んだ内容と実際に[マージ](/glossary/マージ/)される内容のすり替えを防ぐガードで、409は「[レビュー](/glossary/レビュー/)後に新しい[コミット](/glossary/コミット/)が積まれた」という[通知](/glossary/通知/)です。対処は、head を[確認](/glossary/確認/)し直し、必要なら再[レビュー](/glossary/レビュー/)のうえ最新の sha で再実行することです。
 
 [ファイル](/glossary/ファイル/)の作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)（contents [API](/glossary/api/)）の409も同じ構図です。[更新](/glossary/更新/)には現在の[ファイル](/glossary/ファイル/)の sha を渡す必要があり、取得から[リクエスト](/glossary/リクエスト/)までの間に誰かが同じ[ファイル](/glossary/ファイル/)を[更新](/glossary/更新/)すると、渡した sha が古くなって409になります。典型は、[GitHub](/glossary/github/) Actions の並列ジョブが同じ[ファイル](/glossary/ファイル/)（[バージョン](/glossary/バージョン/)表、集計結果など）を[更新](/glossary/更新/)する構成です。
 
@@ -158,12 +158,12 @@ curl -s -X PUT -H "Authorization: Bearer <your-github-token>" \
 
 ## 補足：409ではない類似エラー
 
-409と思われがちな検証[エラー](/glossary/エラー/)の正しい行き先です。[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)の作成で同名の参照が既に存在する場合の Reference already exists、差分のないプルリクエスト作成の No commits between、既存[タグ](/glossary/タグ/)と重複する[リリース](/glossary/リリース/)作成は、いずれも errors 配列を伴う 422 Validation Failed で、409ではありません（422 の読み方は [GitHub API の 400 の記事](/posts/github_api_400/)を参照）。競合などで[マージ](/glossary/マージ/)できない状態のプルリクエストへの[マージ](/glossary/マージ/)要求は、409ではなく 405 と定義されており（[405 の記事](/posts/github_api_405/)）、[マージ](/glossary/マージ/)可否は事前に pull request の mergeable [属性](/glossary/属性/)で確認できます（公式ガイドは mergeable が計算されるまでポーリングする方法を案内しています）。権限不足や不存在は、private [リポジトリ](/glossary/リポジトリ/)の秘匿のため 404 です（[404 の記事](/posts/github_api_404/)）。並行[リクエスト](/glossary/リクエスト/)の多さそのものが弾かれる場合は secondary rate limit で、403 または 429 です（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。
+409と思われがちな検証[エラー](/glossary/エラー/)の正しい行き先です。[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)の作成で同名の参照が既に存在する場合の Reference already exists、差分のない[プルリクエスト](/glossary/プルリクエスト/)作成の No commits between、既存[タグ](/glossary/タグ/)と重複する[リリース](/glossary/リリース/)作成は、いずれも errors 配列を伴う 422 Validation Failed で、409ではありません（422 の読み方は [GitHub API の 400 の記事](/posts/github_api_400/)を参照）。競合などで[マージ](/glossary/マージ/)できない状態の[プルリクエスト](/glossary/プルリクエスト/)への[マージ](/glossary/マージ/)要求は、409ではなく 405 と定義されており（[405 の記事](/posts/github_api_405/)）、[マージ](/glossary/マージ/)可否は事前に pull request の mergeable [属性](/glossary/属性/)で[確認](/glossary/確認/)できます（公式ガイドは mergeable が計算されるまでポーリングする方法を案内しています）。権限不足や不存在は、private [リポジトリ](/glossary/リポジトリ/)の秘匿のため 404 です（[404 の記事](/posts/github_api_404/)）。並行[リクエスト](/glossary/リクエスト/)の多さそのものが弾かれる場合は secondary rate limit で、403 または 429 です（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。
 
 ## 切り分けの順序
 
-1. [コード](/glossary/コード/)を確認する。422（Validation Failed）・405・404・403・429 なら、409ではないのでそれぞれの調査に切り替える。
-2. どの[エンドポイント](/glossary/エンドポイント/)への409かを確認する。[マージ](/glossary/マージ/)系なら原因1、sha を渡す操作（PR [マージ](/glossary/マージ/)・contents）なら原因2、[Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系なら原因3。
+1. [コード](/glossary/コード/)を[確認](/glossary/確認/)する。422（Validation Failed）・405・404・403・429 なら、409ではないのでそれぞれの調査に切り替える。
+2. どの[エンドポイント](/glossary/エンドポイント/)への409かを[確認](/glossary/確認/)する。[マージ](/glossary/マージ/)系なら原因1、sha を渡す操作（PR [マージ](/glossary/マージ/)・contents）なら原因2、[Git](/glossary/git/) 系・[コミット](/glossary/コミット/)系なら原因3。
 3. message を読む。[Git](/glossary/git/) Repository is empty なら[初期化](/glossary/初期化/)（auto_init または contents [API](/glossary/api/)）で解決する。
 4. ガード系（原因2）は、最新の状態（head の sha、[ファイル](/glossary/ファイル/)の sha）を取得し直してから再実行する。並行更新が常態なら直列化する。
 5. [マージ](/glossary/マージ/)競合（原因1）は [API](/glossary/api/) の再試行では解決しないため、ローカルまたは PR で競合を解決する。
@@ -198,4 +198,4 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

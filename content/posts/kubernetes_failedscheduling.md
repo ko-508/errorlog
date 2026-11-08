@@ -23,7 +23,7 @@ Warning  FailedScheduling  default-scheduler
 0/3 nodes are available: 1 Insufficient cpu, 2 node(s) had taints that the pod didn't tolerate.
 ```
 
-`FailedScheduling`は、kube-schedulerがPodを配置できるノードを見つけられなかったことを示す[イベント](/glossary/イベント/)です。[エラー](/glossary/エラー/)名だけでは原因を判断できません。`0/3 nodes are available:`の後ろにある理由を、最後まで確認する必要があります。
+`FailedScheduling`は、kube-schedulerがPodを配置できるノードを見つけられなかったことを示す[イベント](/glossary/イベント/)です。[エラー](/glossary/エラー/)名だけでは原因を判断できません。`0/3 nodes are available:`の後ろにある理由を、最後まで[確認](/glossary/確認/)する必要があります。
 
 最初に次の[コマンド](/glossary/コマンド/)を実行してください。
 
@@ -47,7 +47,7 @@ kube-schedulerは、まだ配置先が決まっていないPodを監視し、次
 - ノードのTaintをPodが許容しているか
 - 使用するボリュームの配置条件を満たすか
 
-すべてのノードがいずれかの条件で候補から外れると、配置に失敗して`FailedScheduling`が記録されます。この仕組みは[Kubernetes Schedulerの公式ドキュメント](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/)で確認できます。
+すべてのノードがいずれかの条件で候補から外れると、配置に失敗して`FailedScheduling`が記録されます。この仕組みは[Kubernetes Schedulerの公式ドキュメント](https://kubernetes.io/docs/concepts/scheduling-eviction/kube-scheduler/)で[確認](/glossary/確認/)できます。
 
 同じ`Pending`でも、すでに配置先ノードが決まり、[イメージ](/glossary/イメージ/)取得や[コンテナ](/glossary/コンテナ/)作成を待っている場合はスケジューラーの問題ではありません。`FailedScheduling`が出ている場合は、Podを起動する[処理](/glossary/処理/)より前の「配置先を決める段階」で止まっています。
 
@@ -59,15 +59,15 @@ kube-schedulerは、まだ配置先が決まっていないPodを監視し、次
 0/<ノード数> nodes are available: <配置できなかった理由>
 ```
 
-よく表示される理由と、最初に確認する項目は次のとおりです。
+よく表示される理由と、最初に[確認](/glossary/確認/)する項目は次のとおりです。
 
-| 理由 | 確認する項目 |
+| 理由 | [確認](/glossary/確認/)する項目 |
 |---|---|
 | `Insufficient cpu` | Podの[CPU](/glossary/cpu/) requestsとノードのAllocatable |
 | `Insufficient memory` | Podの[メモリ](/glossary/メモリ/)requestsとノードのAllocatable |
 | `Insufficient ephemeral-storage` | 一時[ストレージ](/glossary/ストレージ/)のrequestsとノード[容量](/glossary/容量/) |
 | `Too many pods` | ノードに配置済みのPod数と配置可能数 |
-| `Insufficient <resource-name>` | GPUなどの拡張リソース |
+| `Insufficient <resource-name>` | GPUなどの拡張[リソース](/glossary/リソース/) |
 | `node(s) didn't match Pod's node affinity/selector` | ノードのラベルとPodの配置条件 |
 | `node(s) had taints that the pod didn't tolerate` | ノードのTaintとPodのToleration |
 | ボリュームのNode Affinityに関する理由 | PVのゾーンと配置可能なノード |
@@ -80,11 +80,11 @@ kube-schedulerは、まだ配置先が決まっていないPodを監視し、次
 
 [CPU](/glossary/cpu/)不足だけを解消しても、PodがTaintを許容できなければ配置先は見つかりません。[イベント](/glossary/イベント/)に複数の理由があるときは、すべてをPodの[設定](/glossary/設定/)と照合してください。
 
-また、リソース不足には「空きができれば配置できる場合」と「現在のどのノードにも収まらない場合」があります。[Kubernetes](/glossary/kubernetes/)の実装では両者を区別していますが、この内部区分が[イベント](/glossary/イベント/)にそのまま表示されるわけではありません。Podの要求量と各ノードの最大割り当て量を比較して判断します。
+また、[リソース](/glossary/リソース/)不足には「空きができれば配置できる場合」と「現在のどのノードにも収まらない場合」があります。[Kubernetes](/glossary/kubernetes/)の実装では両者を区別していますが、この内部区分が[イベント](/glossary/イベント/)にそのまま表示されるわけではありません。Podの要求量と各ノードの最大割り当て量を比較して判断します。
 
 ## Insufficient cpu・memoryの対処
 
-`Insufficient cpu`や`Insufficient memory`が出たら、Podの`resources.requests`とノードの`Allocatable`を確認します。
+`Insufficient cpu`や`Insufficient memory`が出たら、Podの`resources.requests`とノードの`Allocatable`を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <pod-name> -n <namespace> -o yaml
@@ -124,7 +124,7 @@ resources:
 
 修正例の数値は一般的な正解ではありません。requestsを必要以上に下げると、ノードの過密化や性能低下につながります。
 
-2の場合は、不要なワークロードの縮小、処理中のJobの完了待ち、条件を満たすノードの追加などで空きを作ります。原因を確認せず、稼働中のPodを[削除](/glossary/削除/)して空きを作る方法は避けてください。コントローラーによって同じPodが再作成され、状況が変わらないこともあります。
+2の場合は、不要なワークロードの縮小、処理中のJobの完了待ち、条件を満たすノードの追加などで空きを作ります。原因を[確認](/glossary/確認/)せず、稼働中のPodを[削除](/glossary/削除/)して空きを作る方法は避けてください。コントローラーによって同じPodが再作成され、状況が変わらないこともあります。
 
 ## nodeSelector・Affinityの対処
 
@@ -134,7 +134,7 @@ resources:
 node(s) didn't match Pod's node affinity/selector
 ```
 
-Podの[設定](/glossary/設定/)とノードのラベルを確認します。
+Podの[設定](/glossary/設定/)とノードのラベルを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <pod-name> -n <namespace> -o yaml
@@ -149,7 +149,7 @@ spec:
     workload: batch
 ```
 
-意図した専用ノードにラベルが付いていないなら、対象を確認してからラベルを追加します。
+意図した専用ノードにラベルが付いていないなら、対象を[確認](/glossary/確認/)してからラベルを追加します。
 
 ```bash
 kubectl label node <node-name> workload=batch
@@ -167,7 +167,7 @@ Node Affinityでは、`requiredDuringSchedulingIgnoredDuringExecution`は必須�
 node(s) had taints that the pod didn't tolerate
 ```
 
-ノードとPodの[設定](/glossary/設定/)を確認します。
+ノードとPodの[設定](/glossary/設定/)を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl describe node <node-name>
@@ -187,9 +187,9 @@ spec:
 
 TolerationはTaintを許容する[設定](/glossary/設定/)であり、そのノードへの配置を保証するものではありません。[CPU](/glossary/cpu/)やラベルなど、ほかの条件も引き続き判定されます。[Taints and Tolerations](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/)にも、この点が明記されています。
 
-Taintをノードから[削除](/glossary/削除/)すると、同じTaintで除外されていたほかのPodも配置候補に入ります。専用ノードを分離するための[設定](/glossary/設定/)かを確認し、単に警告を消す目的では[削除](/glossary/削除/)しないでください。
+Taintをノードから[削除](/glossary/削除/)すると、同じTaintで除外されていたほかのPodも配置候補に入ります。専用ノードを分離するための[設定](/glossary/設定/)かを[確認](/glossary/確認/)し、単に警告を消す目的では[削除](/glossary/削除/)しないでください。
 
-PVCを使うPodでは、PVのNode Affinityやゾーンも確認します。PVが特定ゾーンのノードでしか使えないのに、そのゾーンに配置可能なノードがなければスケジューリングできません。
+PVCを使うPodでは、PVのNode Affinityやゾーンも[確認](/glossary/確認/)します。PVが特定ゾーンのノードでしか使えないのに、そのゾーンに配置可能なノードがなければスケジューリングできません。
 
 ```bash
 kubectl get pvc -n <namespace>
@@ -198,15 +198,15 @@ kubectl describe pv <pv-name>
 kubectl get nodes -L topology.kubernetes.io/zone
 ```
 
-PVのNode Affinityについては[Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#node-affinity)で確認できます。
+PVのNode Affinityについては[Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#node-affinity)で[確認](/glossary/確認/)できます。
 
-[イベント](/glossary/イベント/)が`0/0 nodes are available`になっている場合や、候補となるノードが見当たらない場合は、ノードの状態も確認します。
+[イベント](/glossary/イベント/)が`0/0 nodes are available`になっている場合や、候補となるノードが見当たらない場合は、ノードの状態も[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get nodes
 ```
 
-ノードが`NotReady`なら、Podの[設定](/glossary/設定/)を変更する前にノード[障害](/glossary/障害/)を調べます。自動スケールを利用している場合は、ノード追加処理の成否と、追加されるノードがPodのリソース、ラベル、Taint、ゾーンの条件を満たすかを確認してください。
+ノードが`NotReady`なら、Podの[設定](/glossary/設定/)を変更する前にノード[障害](/glossary/障害/)を調べます。自動スケールを利用している場合は、ノード追加処理の成否と、追加されるノードがPodの[リソース](/glossary/リソース/)、ラベル、Taint、ゾーンの条件を満たすかを[確認](/glossary/確認/)してください。
 
 ## Pending・Preempting・OOMKilledとの違い
 
@@ -216,16 +216,16 @@ kubectl get nodes
 
 `Evicted`は、すでにノードへ配置されていたPodが退避されたことを示します。配置先をまだ決められない`FailedScheduling`とは発生する段階が異なります。
 
-`OOMKilled`は、配置後に[コンテナ](/glossary/コンテナ/)が[メモリ](/glossary/メモリ/)制限を超えて終了した状態です。`Insufficient memory`は配置前にPodの[メモリ](/glossary/メモリ/)requestsを確保できない状態なので、同じ「[メモリ](/glossary/メモリ/)不足」でも確認する[設定](/glossary/設定/)が異なります。
+`OOMKilled`は、配置後に[コンテナ](/glossary/コンテナ/)が[メモリ](/glossary/メモリ/)制限を超えて終了した状態です。`Insufficient memory`は配置前にPodの[メモリ](/glossary/メモリ/)requestsを確保できない状態なので、同じ「[メモリ](/glossary/メモリ/)不足」でも[確認](/glossary/確認/)する[設定](/glossary/設定/)が異なります。
 
 ## 解決手順のまとめ
 
-`FailedScheduling`が出たら、最初に`kubectl describe pod`を実行し、`0/N nodes are available:`の後ろにある理由をすべて確認します。
+`FailedScheduling`が出たら、最初に`kubectl describe pod`を実行し、`0/N nodes are available:`の後ろにある理由をすべて[確認](/glossary/確認/)します。
 
 `Insufficient cpu`や`Insufficient memory`なら、PodのrequestsとノードのAllocatable、配置済みPodの要求量を比較してください。現在の使用率だけでは配置できるかを判断できません。
 
-リソースに問題がなければ、nodeSelector、Node Affinity、TaintとToleration、PVのNode Affinityを順に照合します。ノード自体が存在しない場合や`NotReady`の場合は、Podではなくノード側の[復旧](/glossary/復旧/)が先です。
+[リソース](/glossary/リソース/)に問題がなければ、nodeSelector、Node Affinity、TaintとToleration、PVのNode Affinityを順に照合します。ノード自体が存在しない場合や`NotReady`の場合は、Podではなくノード側の[復旧](/glossary/復旧/)が先です。
 
 複数の理由が並んでいるときは、すべてを解消する必要があります。Podの[設定](/glossary/設定/)を変える場合は、実行中のPodではなく、DeploymentやJobなど作成元の[マニフェスト](/glossary/マニフェスト/)を[修正](/glossary/修正/)してください。
 
-免責事項：本記事の内容は一般的な[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)を前提としています。リソース要求、配置条件、Taint、ノード構成を[本番環境](/glossary/本番環境/)で変更する前に、[可用性](/glossary/可用性/)、費用、[セキュリティ](/glossary/セキュリティ/)方針への影響を検証してください。
+免責事項：本記事の内容は一般的な[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)を前提としています。[リソース](/glossary/リソース/)要求、配置条件、Taint、ノード構成を[本番環境](/glossary/本番環境/)で変更する前に、[可用性](/glossary/可用性/)、費用、[セキュリティ](/glossary/セキュリティ/)方針への影響を検証してください。

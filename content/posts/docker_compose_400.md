@@ -13,7 +13,7 @@ related_services: ["Docker", "yamllint", "YAML"]
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) Composeで400[エラー](/glossary/エラー/)が発生する場合、`compose.yml`（または`docker-compose.yml`）の[設定](/glossary/設定/)に問題があるか、[コマンド](/glossary/コマンド/)のオプション指定が誤っている可能性があります。この[エラー](/glossary/エラー/)はCompose自体が[設定ファイル](/glossary/設定ファイル/)を正しくパースできないことを示しており、[設定ファイル](/glossary/設定ファイル/)の検証と[コマンド](/glossary/コマンド/)構文の確認により、ほぼすべてのケースで解決します。
+[Docker](/glossary/docker/) Composeで400[エラー](/glossary/エラー/)が発生する場合、`compose.yml`（または`docker-compose.yml`）の[設定](/glossary/設定/)に問題があるか、[コマンド](/glossary/コマンド/)のオプション指定が誤っている可能性があります。この[エラー](/glossary/エラー/)はCompose自体が[設定ファイル](/glossary/設定ファイル/)を正しくパースできないことを示しており、[設定ファイル](/glossary/設定ファイル/)の検証と[コマンド](/glossary/コマンド/)構文の[確認](/glossary/確認/)により、ほぼすべてのケースで解決します。
 
 ## 実際のエラーメッセージ例
 
@@ -130,7 +130,7 @@ services:
 
 ### 原因4：ネットワークまたはボリューム定義の不備
 
-`networks`または`volumes`トップレベルキーで定義されていない[ネットワーク](/glossary/ネットワーク/)・ボリュームを参照すると、400[エラー](/glossary/エラー/)が発生します。サービス内で使用する[ネットワーク](/glossary/ネットワーク/)やボリュームは、必ずcompose.yml内で事前に定義するか、`external: true`で外部リソースとして明示する必要があります。
+`networks`または`volumes`トップレベルキーで定義されていない[ネットワーク](/glossary/ネットワーク/)・ボリュームを参照すると、400[エラー](/glossary/エラー/)が発生します。サービス内で使用する[ネットワーク](/glossary/ネットワーク/)やボリュームは、必ずcompose.yml内で事前に定義するか、`external: true`で外部[リソース](/glossary/リソース/)として明示する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -168,7 +168,7 @@ networks:
 
 ## Docker Compose固有の注意点
 
-**compose.yml検証[コマンド](/glossary/コマンド/)：** `docker compose config` [コマンド](/glossary/コマンド/)を実行することで、[ファイル](/glossary/ファイル/)の妥当性を即座に確認できます。この[コマンド](/glossary/コマンド/)は[ファイル](/glossary/ファイル/)をパースして規範化された出力を表示するため、構文[エラー](/glossary/エラー/)を素早く発見できます。
+**compose.yml検証[コマンド](/glossary/コマンド/)：** `docker compose config` [コマンド](/glossary/コマンド/)を実行することで、[ファイル](/glossary/ファイル/)の妥当性を即座に[確認](/glossary/確認/)できます。この[コマンド](/glossary/コマンド/)は[ファイル](/glossary/ファイル/)をパースして規範化された出力を表示するため、構文[エラー](/glossary/エラー/)を素早く発見できます。
 
 ```bash
 docker compose -f compose.yml config
@@ -176,7 +176,7 @@ docker compose -f compose.yml config
 
 **[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)：** `version`[キー](/glossary/キー/)で指定したCompose[仕様](/glossary/仕様/)の[バージョン](/glossary/バージョン/)が、[インストール](/glossary/インストール/)済みの[Docker](/glossary/docker/) Compose[バージョン](/glossary/バージョン/)で[対応](/glossary/対応/)していない場合も400[エラー](/glossary/エラー/)になります。[デフォルト](/glossary/デフォルト/)は最新安定版を使用することを推奨します。
 
-**[環境変数](/glossary/環境変数/)の[展開](/glossary/展開/)[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`[ファイル](/glossary/ファイル/)の存在確認と変数定義を必ず確認してください。
+**[環境変数](/glossary/環境変数/)の[展開](/glossary/展開/)[エラー](/glossary/エラー/)：** `${VARIABLE_NAME}`形式で[環境変数](/glossary/環境変数/)を参照している場合、[変数](/glossary/変数/)が定義されていないと展開時に[エラー](/glossary/エラー/)になる可能性があります。`.env`[ファイル](/glossary/ファイル/)の存在確認と変数定義を必ず[確認](/glossary/確認/)してください。
 
 ```bash
 docker compose --env-file .env up
@@ -186,7 +186,7 @@ docker compose --env-file .env up
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)出力の詳細化：** `--verbose`フラグを付けて[コマンド](/glossary/コマンド/)を再実行し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認してください。
+**[ログ](/glossary/ログ/)出力の詳細化：** `--verbose`フラグを付けて[コマンド](/glossary/コマンド/)を再実行し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)してください。
 
 ```bash
 docker compose --verbose up 2>&1 | head -50
@@ -198,10 +198,10 @@ docker compose --verbose up 2>&1 | head -50
 yamllint compose.yml
 ```
 
-**公式リファレンス確認：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の[仕様](/glossary/仕様/)を確認してください。[キー](/glossary/キー/)名や値の型、必須[キー](/glossary/キー/)が正確に記載されています。
+**公式リファレンス[確認](/glossary/確認/)：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)してください。[キー](/glossary/キー/)名や値の型、必須[キー](/glossary/キー/)が正確に記載されています。
 
-**[GitHub](/glossary/github/) Issuesの[検索](/glossary/検索/)：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を[検索](/glossary/検索/)し、既知の問題や回避策がないか確認してください。
+**[GitHub](/glossary/github/) Issuesの[検索](/glossary/検索/)：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を[検索](/glossary/検索/)し、既知の問題や回避策がないか[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

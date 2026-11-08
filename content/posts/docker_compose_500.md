@@ -150,7 +150,7 @@ docker compose ps
 docker compose logs <service-name>
 ```
 
-で詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。
+で詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)します。
 
 ### 原因3：ヘルスチェックが失敗しコンテナーが再起動ループに入っている
 
@@ -199,7 +199,7 @@ services:
 docker compose logs <service-name> --tail=50
 ```
 
-繰り返される[エラーメッセージ](/glossary/エラーメッセージ/)を確認し、[ヘルスチェック](/glossary/ヘルスチェック/)失敗の理由を特定します。
+繰り返される[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)し、[ヘルスチェック](/glossary/ヘルスチェック/)失敗の理由を特定します。
 
 ```bash
 docker inspect <container-id> | grep -A 20 "Health"
@@ -258,7 +258,7 @@ COPY --from=builder /app/myapp /usr/local/bin/
 docker compose config
 ```
 
-で設定全体を確認し、[環境変数](/glossary/環境変数/)が適切に[展開](/glossary/展開/)されているか検査します。
+で設定全体を[確認](/glossary/確認/)し、[環境変数](/glossary/環境変数/)が適切に[展開](/glossary/展開/)されているか検査します。
 
 ## それでも解決しない場合
 
@@ -286,7 +286,7 @@ docker compose down
 docker compose run --rm <service-name> /bin/bash
 ```
 
-でコンテナー内の[シェル](/glossary/シェル/)を取得し、手動で[アプリケーション](/glossary/アプリケーション/)を実行して[エラー](/glossary/エラー/)を確認します。
+でコンテナー内の[シェル](/glossary/シェル/)を取得し、手動で[アプリケーション](/glossary/アプリケーション/)を実行して[エラー](/glossary/エラー/)を[確認](/glossary/確認/)します。
 
 ### イベントログの確認
 
@@ -304,4 +304,4 @@ docker events --filter type=container
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

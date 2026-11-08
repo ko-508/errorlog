@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Azure への [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や[コマンド](/glossary/コマンド/)実行時に 401 Unauthorized [エラー](/glossary/エラー/)が返される場合、認証情報が無効であるか期限切れになっていることを示しています。この[エラー](/glossary/エラー/)が発生すると、Azure リソースへのアクセスが完全にブロックされ、[デプロイ](/glossary/デプロイ/)やリソース管理の操作が実行できなくなります。Azure [CLI](/glossary/cli/)、[SDK](/glossary/sdk/)、マネージド [ID](/glossary/id/) など複数の認証方式で発生する可能性があります。
+Azure への [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や[コマンド](/glossary/コマンド/)実行時に 401 Unauthorized [エラー](/glossary/エラー/)が返される場合、認証情報が無効であるか期限切れになっていることを示しています。この[エラー](/glossary/エラー/)が発生すると、Azure [リソース](/glossary/リソース/)へのアクセスが完全にブロックされ、[デプロイ](/glossary/デプロイ/)や[リソース](/glossary/リソース/)管理の操作が実行できなくなります。Azure [CLI](/glossary/cli/)、[SDK](/glossary/sdk/)、マネージド [ID](/glossary/id/) など複数の認証方式で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -114,7 +114,7 @@ $ az login --service-principal \
 
 ### 原因3：マネージド ID が有効になっていないリソースで使用しようとしている
 
-Azure Virtual Machine、Azure Functions、App Service などのリソースでマネージド [ID](/glossary/id/) [認証](/glossary/認証/)を使用する場合、対象のリソースでマネージド [ID](/glossary/id/) 機能が有効化されていないと 401 [エラー](/glossary/エラー/)が発生します。マネージド [ID](/glossary/id/) は Azure が自動的に管理する認証方式で、シークレット管理の手間を削減します。
+Azure Virtual Machine、Azure Functions、App Service などの[リソース](/glossary/リソース/)でマネージド [ID](/glossary/id/) [認証](/glossary/認証/)を使用する場合、対象の[リソース](/glossary/リソース/)でマネージド [ID](/glossary/id/) 機能が有効化されていないと 401 [エラー](/glossary/エラー/)が発生します。マネージド [ID](/glossary/id/) は Azure が自動的に管理する認証方式で、シークレット管理の手間を削減します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -154,19 +154,19 @@ $ az role assignment create \
 # (マネージドIDが有効になっているため、認証が成功)
 ```
 
-Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/修正/)は不要です。リソース側のマネージド [ID](/glossary/id/) [設定](/glossary/設定/)を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を[処理](/glossary/処理/)します。
+Python [スクリプト](/glossary/スクリプト/)本体の[修正](/glossary/修正/)は不要です。[リソース](/glossary/リソース/)側のマネージド [ID](/glossary/id/) [設定](/glossary/設定/)を有効化すれば、Azure [SDK](/glossary/sdk/) が自動的に[認証](/glossary/認証/)を[処理](/glossary/処理/)します。
 
 ## ツール固有の注意点
 
-**Azure [CLI](/glossary/cli/) の複数[アカウント](/glossary/アカウント/)管理：** 複数の Azure [サブスクリプション](/glossary/サブスクリプション/)やテナントにアクセスしている場合、`az account show` でアクティブな[アカウント](/glossary/アカウント/)を確認し、`az account set --subscription <subscription-id>` で対象[サブスクリプション](/glossary/サブスクリプション/)に切り替えてください。誤った[アカウント](/glossary/アカウント/)で[認証](/glossary/認証/)されている場合も 401 [エラー](/glossary/エラー/)が発生します。
+**Azure [CLI](/glossary/cli/) の複数[アカウント](/glossary/アカウント/)管理：** 複数の Azure [サブスクリプション](/glossary/サブスクリプション/)やテナントにアクセスしている場合、`az account show` でアクティブな[アカウント](/glossary/アカウント/)を[確認](/glossary/確認/)し、`az account set --subscription <subscription-id>` で対象[サブスクリプション](/glossary/サブスクリプション/)に切り替えてください。誤った[アカウント](/glossary/アカウント/)で[認証](/glossary/認証/)されている場合も 401 [エラー](/glossary/エラー/)が発生します。
 
-**[環境変数](/glossary/環境変数/)による[認証](/glossary/認証/)：** `AZURE_CLIENT_ID`、`AZURE_CLIENT_SECRET`、`AZURE_TENANT_ID` などの[環境変数](/glossary/環境変数/)を使用する場合、これらが正しい値で[設定](/glossary/設定/)されているか確認してください。特に自動[デプロイ](/glossary/デプロイ/)[環境](/glossary/環境/)では、[環境変数](/glossary/環境変数/)の値が古いままになっていることが原因の 1 つです。
+**[環境変数](/glossary/環境変数/)による[認証](/glossary/認証/)：** `AZURE_CLIENT_ID`、`AZURE_CLIENT_SECRET`、`AZURE_TENANT_ID` などの[環境変数](/glossary/環境変数/)を使用する場合、これらが正しい値で[設定](/glossary/設定/)されているか[確認](/glossary/確認/)してください。特に自動[デプロイ](/glossary/デプロイ/)[環境](/glossary/環境/)では、[環境変数](/glossary/環境変数/)の値が古いままになっていることが原因の 1 つです。
 
-**マネージド [ID](/glossary/id/) と Role-Based Access Control（[RBAC](/glossary/rbac/)）の組み合わせ：** マネージド [ID](/glossary/id/) を有効化した後、リソースが実際にアクセスしたい対象（ストレージアカウント、キーボルト など）に対する [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。マネージド [ID](/glossary/id/) の有効化だけでは[権限](/glossary/権限/)が付与されないため注意が必要です。
+**マネージド [ID](/glossary/id/) と Role-Based Access Control（[RBAC](/glossary/rbac/)）の組み合わせ：** マネージド [ID](/glossary/id/) を有効化した後、[リソース](/glossary/リソース/)が実際にアクセスしたい対象（ストレージアカウント、キーボルト など）に対する [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。マネージド [ID](/glossary/id/) の有効化だけでは[権限](/glossary/権限/)が付与されないため注意が必要です。
 
 ## それでも解決しない場合
 
-**Azure のアクティビティログを確認：** Azure ポータルの「アクティビティログ」セクションで、失敗した操作の詳細を確認してください。具体的な[認証](/glossary/認証/)[エラー](/glossary/エラー/)の理由が記録されていることがあります。
+**Azure のアクティビティログを[確認](/glossary/確認/)：** Azure ポータルの「アクティビティログ」セクションで、失敗した操作の詳細を[確認](/glossary/確認/)してください。具体的な[認証](/glossary/認証/)[エラー](/glossary/エラー/)の理由が記録されていることがあります。
 
 **Azure [SDK](/glossary/sdk/) のデバッグログを有効化：** Python や Node.js でログレベルを[設定](/glossary/設定/)し、詳細な認証情報を出力します：
 
@@ -184,4 +184,4 @@ credential = DefaultAzureCredential()
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

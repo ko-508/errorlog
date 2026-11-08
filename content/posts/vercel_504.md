@@ -165,7 +165,7 @@ Hobby プランは[デフォルト](/glossary/デフォルト/) 10 秒に制限�
 2023年10月1日以降、新規[プロジェクト](/glossary/プロジェクト/)または 15 秒以上関数を実行していない[プロジェクト](/glossary/プロジェクト/)では、デフォルトタイムアウトは 15 秒に短縮されています。ただし Pro プラン以上では `maxDuration` を[設定](/glossary/設定/)することで、最大 300 秒（5 分）まで延長可能です。
 
 **Fluid Compute の有効化：**
-Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。[ダッシュボード](/glossary/ダッシュボード/)の Project Settings から確認し、`vercel.json` で[関数](/glossary/関数/)ごとに `maxDuration` を[設定](/glossary/設定/)してください。
+Pro プラン以上で Fluid Compute を使用している場合、800 秒までの延長が可能です。[ダッシュボード](/glossary/ダッシュボード/)の Project Settings から[確認](/glossary/確認/)し、`vercel.json` で[関数](/glossary/関数/)ごとに `maxDuration` を[設定](/glossary/設定/)してください。
 
 ```json
 {
@@ -183,13 +183,13 @@ Pro プラン以上で Fluid Compute を使用している場合、800 秒まで
 **Edge Functions の活用：**
 Vercel の Edge Functions は地理的に分散されており、冷起動が少なく、外部 [API](/glossary/api/) への応答遅延が減少することがあります。軽量な[処理](/glossary/処理/)で頻繁な[タイムアウト](/glossary/タイムアウト/)が発生する場合、Edge Functions への移行を検討してください。
 
-**[環境変数](/glossary/環境変数/)の確認：**
-リトライロジックや[キャッシュ](/glossary/キャッシュ/)の[設定](/glossary/設定/)が[環境変数](/glossary/環境変数/)に依存している場合、[本番環境](/glossary/本番環境/)と[開発環境](/glossary/開発環境/)で値が異なると[タイムアウト](/glossary/タイムアウト/)発生[パターン](/glossary/パターン/)が変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を確認してください。
+**[環境変数](/glossary/環境変数/)の[確認](/glossary/確認/)：**
+リトライロジックや[キャッシュ](/glossary/キャッシュ/)の[設定](/glossary/設定/)が[環境変数](/glossary/環境変数/)に依存している場合、[本番環境](/glossary/本番環境/)と[開発環境](/glossary/開発環境/)で値が異なると[タイムアウト](/glossary/タイムアウト/)発生[パターン](/glossary/パターン/)が変わります。Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables で本番値を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
 **[関数](/glossary/関数/)[ログ](/glossary/ログ/)の詳細確認：**
-Vercel [ダッシュボード](/glossary/ダッシュボード/)の Logs タブで関数実行[ログ](/glossary/ログ/)を確認し、どの[ステップ](/glossary/ステップ/)で時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)の Logs タブで関数実行[ログ](/glossary/ログ/)を[確認](/glossary/確認/)し、どの[ステップ](/glossary/ステップ/)で時間がかかっているか特定してください。タイムスタンプ付きの console.log を戦略的に追加し、実行時間を計測します。
 
 ```javascript
 console.log(`[${new Date().toISOString()}] Processing started`);
@@ -208,4 +208,4 @@ Vercel の Observability 機能（Pro プラン以上）を有効にすると、
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

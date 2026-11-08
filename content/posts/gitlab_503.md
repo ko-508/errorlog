@@ -16,7 +16,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-GitLab の [API](/glossary/api/) や [Git](/glossary/git/) 操作で `503 Service Unavailable` が返ったら、まず応答の本文と `Retry-After` [ヘッダー](/glossary/ヘッダー/)を確認してください。503 だけでは、原因を一つに決められません。
+GitLab の [API](/glossary/api/) や [Git](/glossary/git/) 操作で `503 Service Unavailable` が返ったら、まず応答の本文と `Retry-After` [ヘッダー](/glossary/ヘッダー/)を[確認](/glossary/確認/)してください。503 だけでは、原因を一つに決められません。
 
 Gitaly の資源不足を示す本文なら、同時に実行されている[処理](/glossary/処理/)や待ち行列が手がかりになります。一方、応答の大きさが上限を超えたことを示す本文なら、待つだけでは解消しない問題です。保守モード中の書き込みも 503 になる場合があります。
 
@@ -34,7 +34,7 @@ HTTP/1.1 503 Service Unavailable
 
 ## まず最初に：応答と障害情報を確認する
 
-[API](/glossary/api/) で失敗した場合は、状態[コード](/glossary/コード/)と本文に加えて、`Retry-After` があるか確認します。以下は読み取り要求の例です。[URL](/glossary/url/) と[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) は実際の接続先に置き換えてください。
+[API](/glossary/api/) で失敗した場合は、状態[コード](/glossary/コード/)と本文に加えて、`Retry-After` があるか[確認](/glossary/確認/)します。以下は読み取り要求の例です。[URL](/glossary/url/) と[プロジェクト](/glossary/プロジェクト/) [ID](/glossary/id/) は実際の接続先に置き換えてください。
 
 ```bash
 curl -i --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
@@ -43,15 +43,15 @@ curl -i --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
 
 `GITLAB_TOKEN` は事前に[設定](/glossary/設定/)したアクセストークンです。応答や[コマンド](/glossary/コマンド/)の記録を共有する際は、[トークン](/glossary/トークン/)などの秘密情報を含めないでください。
 
-`Retry-After` があれば、指定された待ち時間を守って再試行します。書き込み要求で失敗した場合は、重複した変更を避けるため、再実行する前に対象の状態も確認してください。
+`Retry-After` があれば、指定された待ち時間を守って再試行します。書き込み要求で失敗した場合は、重複した変更を避けるため、再実行する前に対象の状態も[確認](/glossary/確認/)してください。
 
-GitLab.com を利用している場合は、[GitLab の稼働状況ページ](https://status.gitlab.com/)でも[障害](/glossary/障害/)や保守の情報を確認できます。自分で運用する GitLab の場合は、その[環境](/glossary/環境/)の管理者に確認してください。
+GitLab.com を利用している場合は、[GitLab の稼働状況ページ](https://status.gitlab.com/)でも[障害](/glossary/障害/)や保守の情報を[確認](/glossary/確認/)できます。自分で運用する GitLab の場合は、その[環境](/glossary/環境/)の管理者に[確認](/glossary/確認/)してください。
 
 ## よくある原因と解決手順
 
 ### Gitaly の資源不足
 
-`Upstream Gitaly has been exhausted` と表示された場合は、Gitaly に関わる[処理](/glossary/処理/)が資源不足として扱われています。GitLab の実装では、詳細な制限[エラー](/glossary/エラー/)や `RESOURCE_EXHAUSTED` を、この文言を含む[エラー](/glossary/エラー/)へ変換する経路があります。本文だけで同時実行数が原因だと断定せず、管理者は Gitaly の[ログ](/glossary/ログ/)や監視情報も確認してください。
+`Upstream Gitaly has been exhausted` と表示された場合は、Gitaly に関わる[処理](/glossary/処理/)が資源不足として扱われています。GitLab の実装では、詳細な制限[エラー](/glossary/エラー/)や `RESOURCE_EXHAUSTED` を、この文言を含む[エラー](/glossary/エラー/)へ変換する経路があります。本文だけで同時実行数が原因だと断定せず、管理者は Gitaly の[ログ](/glossary/ログ/)や監視情報も[確認](/glossary/確認/)してください。
 
 [公式資料](https://docs.gitlab.com/administration/gitaly/concurrency_limiting/)では、[リポジトリ](/glossary/リポジトリ/)ごとの同時実行数や、待ち行列の長さ・待ち時間を制限できると説明されています。制限に達すると要求が拒否される場合があります。再試行が案内されている場合も、短い間隔で繰り返さず、指定された待ち時間や管理者の案内に従ってください。
 
@@ -59,19 +59,19 @@ GitLab.com を利用している場合は、[GitLab の稼働状況ページ](ht
 
 `The response from Gitaly is too large to load` に続き、`This is a size limit, not a temporary error` と表示される場合は、大きさの上限を超えた応答が原因です。GitLab の実装には、一時的な負荷ではなく設定上の上限として扱うコメントがあります。
 
-この文言が出ている場合は、待つだけで解消するとは限りません。管理者に対象の[リポジトリ](/glossary/リポジトリ/)や操作、応答を伝え、要求の分割や対象範囲の見直しが可能か確認してください。分割方法は操作によって異なります。
+この文言が出ている場合は、待つだけで解消するとは限りません。管理者に対象の[リポジトリ](/glossary/リポジトリ/)や操作、応答を伝え、要求の分割や対象範囲の見直しが可能か[確認](/glossary/確認/)してください。分割方法は操作によって異なります。
 
 ### 保守モード中の書き込み
 
 [API](/glossary/api/) の本文に `GitLab Maintenance: system is in maintenance mode` とあれば、保守モードが手がかりです。[GitLab の公式資料](https://docs.gitlab.com/ja-jp/administration/maintenance_mode/)によると、保守モード中は多くの [JSON](/glossary/json/) の書き込み要求が 503 で拒否されます。`git clone` や `git pull` は可能ですが、`git push` は拒否されます。
 
-この保守モードは、Self-Managed の Premium または Ultimate で利用できる機能です。利用者は保守の終了を待ち、管理者は作業の状況を確認してください。
+この保守モードは、Self-Managed の Premium または Ultimate で利用できる機能です。利用者は保守の終了を待ち、管理者は作業の状況を[確認](/glossary/確認/)してください。
 
 ### 前段の部品による負荷制御
 
 Gitaly や保守モードの文言が見えない場合もあります。例えば GitLab の [Webservice chart の資料](https://docs.gitlab.com/charts/charts/gitlab/webservice/)には、Workhorse が Puma の待機中の要求数に応じて 503 を返す[設定](/glossary/設定/)が記載されています。この[設定](/glossary/設定/)は既定では無効です。
 
-503 の本文だけで応答元を決められない場合は、構成に応じて GitLab の前段にある部品や中継先の[ログ](/glossary/ログ/)も確認します。
+503 の本文だけで応答元を決められない場合は、構成に応じて GitLab の前段にある部品や中継先の[ログ](/glossary/ログ/)も[確認](/glossary/確認/)します。
 
 ## 補足：似ているが別のもの
 
@@ -81,38 +81,38 @@ Gitaly や保守モードの文言が見えない場合もあります。例え�
 
 ## 切り分けの順序
 
-最初に失敗した操作と時刻を控え、応答本文と `Retry-After` を確認します。GitLab.com なら稼働状況ページを確認し、自分で運用している場合は管理者へ状況を伝えます。
+最初に失敗した操作と時刻を控え、応答本文と `Retry-After` を[確認](/glossary/確認/)します。GitLab.com なら稼働状況ページを[確認](/glossary/確認/)し、自分で運用している場合は管理者へ状況を伝えます。
 
-Gitaly の資源不足を示す場合は、一時的な集中と制限の状況を調べます。応答サイズの上限を示す場合は、対象の操作や[リポジトリ](/glossary/リポジトリ/)を調べます。保守モードの文言がある場合は、保守状況を確認します。
+Gitaly の資源不足を示す場合は、一時的な集中と制限の状況を調べます。応答サイズの上限を示す場合は、対象の操作や[リポジトリ](/glossary/リポジトリ/)を調べます。保守モードの文言がある場合は、保守状況を[確認](/glossary/確認/)します。
 
-どの文言にも当てはまらない場合は、応答を返した部品を[ログ](/glossary/ログ/)や構成から調べます。[メンテナンス](/glossary/メンテナンス/)時以外の書き込み要求では、再試行前に[処理](/glossary/処理/)が実行済みかも確認してください。
+どの文言にも当てはまらない場合は、応答を返した部品を[ログ](/glossary/ログ/)や構成から調べます。[メンテナンス](/glossary/メンテナンス/)時以外の書き込み要求では、再試行前に[処理](/glossary/処理/)が実行済みかも[確認](/glossary/確認/)してください。
 
 ## 確認コマンド集
 
-Self-Managed の管理者は、GitLab が要求を受け付けられるか、依存する部品も含めて確認できます。接続先のアドレスは実際の[環境](/glossary/環境/)に置き換えてください。
+Self-Managed の管理者は、GitLab が要求を受け付けられるか、依存する部品も含めて[確認](/glossary/確認/)できます。接続先のアドレスは実際の[環境](/glossary/環境/)に置き換えてください。
 
 ```bash
 curl -i "https://gitlab.example.com/-/readiness?all=1"
 curl -i "https://gitlab.example.com/-/liveness"
 ```
 
-[正常性確認の公式資料](https://docs.gitlab.com/ja-jp/administration/monitoring/health_check/)によると、`readiness?all=1` は[データベース](/glossary/データベース/)、Redis、Gitaly などの状態も確認します。`liveness` はアプリケーションサーバーの稼働を確認します。どちらも確認が失敗すると 503 を返します。利用できる接続元は[環境](/glossary/環境/)の[設定](/glossary/設定/)によって異なります。
+[正常性確認の公式資料](https://docs.gitlab.com/ja-jp/administration/monitoring/health_check/)によると、`readiness?all=1` は[データベース](/glossary/データベース/)、Redis、Gitaly などの状態も[確認](/glossary/確認/)します。`liveness` はアプリケーションサーバーの稼働を[確認](/glossary/確認/)します。どちらも[確認](/glossary/確認/)が失敗すると 503 を返します。利用できる接続元は[環境](/glossary/環境/)の[設定](/glossary/設定/)によって異なります。
 
-[Linux](/glossary/linux/) [パッケージ](/glossary/パッケージ/)版では、管理者は次の[コマンド](/glossary/コマンド/)で稼働状況と Gitaly の[ログ](/glossary/ログ/)を確認できます。
+[Linux](/glossary/linux/) [パッケージ](/glossary/パッケージ/)版では、管理者は次の[コマンド](/glossary/コマンド/)で稼働状況と Gitaly の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)できます。
 
 ```bash
 sudo gitlab-ctl status
 sudo gitlab-ctl tail gitaly
 ```
 
-導入方法が異なる場合は、その[環境](/glossary/環境/)に合った監視・[ログ](/glossary/ログ/)確認の方法を使ってください。掲載[コマンド](/glossary/コマンド/)の実行結果は[環境](/glossary/環境/)によって異なります。
+導入方法が異なる場合は、その[環境](/glossary/環境/)に合った監視・[ログ](/glossary/ログ/)[確認](/glossary/確認/)の方法を使ってください。掲載[コマンド](/glossary/コマンド/)の実行結果は[環境](/glossary/環境/)によって異なります。
 
 ## Editor's Note
 
-503 は再試行が役立つ場合がありますが、応答サイズの上限のように、時間を置くだけでは解決しない経路もあります。また、正常性確認の 503 は、その確認自体が失敗したことを示します。一般の [API](/glossary/api/) 要求で受け取った 503 と区別して、失敗した [URL](/glossary/url/) と本文を確認することが大切です。
+503 は再試行が役立つ場合がありますが、応答サイズの上限のように、時間を置くだけでは解決しない経路もあります。また、正常性確認の 503 は、その確認自体が失敗したことを示します。一般の [API](/glossary/api/) 要求で受け取った 503 と区別して、失敗した [URL](/glossary/url/) と本文を[確認](/glossary/確認/)することが大切です。
 
 実装に関する説明は、確認時点の [GitLab の Gitaly エラー処理](https://github.com/gitlabhq/gitlabhq/blob/master/lib/gitlab/git/wraps_gitaly_errors.rb)と [API の例外処理](https://github.com/gitlabhq/gitlabhq/blob/master/lib/api/api.rb)に基づきます。実際の文言や動作は利用している GitLab の版や構成で異なることがあります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

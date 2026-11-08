@@ -68,7 +68,7 @@ sudo systemctl start prometheus
 sleep 10 && curl -s http://localhost:9090/-/healthy
 ```
 
-起動完了の確認は `http://localhost:9090/-/healthy` [エンドポイント](/glossary/エンドポイント/)で行えます。[レスポンス](/glossary/レスポンス/)が 200 OK であれば起動完了です。
+起動完了の[確認](/glossary/確認/)は `http://localhost:9090/-/healthy` [エンドポイント](/glossary/エンドポイント/)で行えます。[レスポンス](/glossary/レスポンス/)が 200 OK であれば起動完了です。
 
 ### 原因2：スクレイプターゲットが停止またはタイムアウトしている
 
@@ -105,7 +105,7 @@ scrape_configs:
         target_label: instance
 ```
 
-Prometheus の管理画面で実際のターゲット状態を確認します：
+Prometheus の管理画面で実際のターゲット状態を[確認](/glossary/確認/)します：
 
 ```bash
 # Prometheus の Web UI から「Status」→「Targets」にアクセス
@@ -116,7 +116,7 @@ curl -s http://localhost:9090/api/v1/targets | jq '.data.activeTargets[] | {job:
 curl -v http://<your-target-host>:9100/metrics
 ```
 
-ターゲットが応答しない場合は、対象[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を確認します。
+ターゲットが応答しない場合は、対象[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)番号や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を[確認](/glossary/確認/)します。
 
 ### 原因3：Prometheus のストレージが満杯になっている
 
@@ -160,7 +160,7 @@ sudo systemctl restart prometheus
 
 Prometheus は [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 503 を複数の状況で返すため、[エラーメッセージ](/glossary/エラーメッセージ/)のテキスト内容で原因を判定することが重要です。
 
-Web [UI](/glossary/ui/) の「Status」メニューから以下の情報を確認できます：
+Web [UI](/glossary/ui/) の「Status」メニューから以下の情報を[確認](/glossary/確認/)できます：
 
 ```
 - Targets：各スクレイプターゲットの状態（UP/DOWN）
@@ -169,9 +169,9 @@ Web [UI](/glossary/ui/) の「Status」メニューから以下の情報を確�
 - Service Discovery：サービスディスカバリーで検出されたターゲット
 ```
 
-特に重要なのは Targets ページです。ここで DOWN となっているターゲットを確認し、Last Error メッセージから具体的な原因（接続拒否、[タイムアウト](/glossary/タイムアウト/)、[DNS](/glossary/dns/) 解決失敗など）を特定できます。
+特に重要なのは Targets ページです。ここで DOWN となっているターゲットを[確認](/glossary/確認/)し、Last Error メッセージから具体的な原因（接続拒否、[タイムアウト](/glossary/タイムアウト/)、[DNS](/glossary/dns/) 解決失敗など）を特定できます。
 
-[Kubernetes](/glossary/kubernetes/) [環境](/glossary/環境/)で Prometheus を運用する場合は、Pod のリソースリクエスト・リミットを確認し、[メモリ](/glossary/メモリ/)不足で OOMKill されていないかを確認します：
+[Kubernetes](/glossary/kubernetes/) [環境](/glossary/環境/)で Prometheus を運用する場合は、Pod のリソースリクエスト・リミットを[確認](/glossary/確認/)し、[メモリ](/glossary/メモリ/)不足で OOMKill されていないかを[確認](/glossary/確認/)します：
 
 ```bash
 # Pod のイベント履歴を確認
@@ -196,7 +196,7 @@ prometheus --config.file=/etc/prometheus/prometheus.yml --log.level=debug
 # ExecStart=/usr/local/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --log.level=debug
 ```
 
-ジャーナルログから詳細な[エラー](/glossary/エラー/)を確認します：
+ジャーナルログから詳細な[エラー](/glossary/エラー/)を[確認](/glossary/確認/)します：
 
 ```bash
 # リアルタイムでログを監視
@@ -216,7 +216,7 @@ curl -X POST http://localhost:9090/-/reload
 promtool check config /etc/prometheus/prometheus.yml
 ```
 
-[ファイアウォール](/glossary/ファイアウォール/)・セキュリティグループの[設定](/glossary/設定/)を確認し、Prometheus から各スクレイプターゲットへの[通信](/glossary/通信/)が遮断されていないか確認します：
+[ファイアウォール](/glossary/ファイアウォール/)・セキュリティグループの[設定](/glossary/設定/)を[確認](/glossary/確認/)し、Prometheus から各スクレイプターゲットへの[通信](/glossary/通信/)が遮断されていないか[確認](/glossary/確認/)します：
 
 ```bash
 # ターゲットへの通信を確認
@@ -228,4 +228,4 @@ nc -zv <your-target-host> 9100
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

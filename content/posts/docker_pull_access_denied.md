@@ -122,7 +122,7 @@ may require 'docker login'
   → 非公開リポジトリで、認証またはpull権限が足りない
 ```
 
-重要なのは、**`access denied` と表示されても、[リポジトリ](/glossary/リポジトリ/)が存在するとは限らない**ことです。反対に、`repository does not exist` と表示されても、削除済みとは限りません。非公開[リポジトリ](/glossary/リポジトリ/)は、[権限](/glossary/権限/)を持たない利用者からは存在を確認できない場合があります。
+重要なのは、**`access denied` と表示されても、[リポジトリ](/glossary/リポジトリ/)が存在するとは限らない**ことです。反対に、`repository does not exist` と表示されても、削除済みとは限りません。非公開[リポジトリ](/glossary/リポジトリ/)は、[権限](/glossary/権限/)を持たない利用者からは存在を[確認](/glossary/確認/)できない場合があります。
 
 ただし、Registryの[仕様](/glossary/仕様/)が404と403を同じものとして定義しているわけではありません。[CNCF DistributionのRegistry HTTP API V2仕様](https://distribution.github.io/distribution/spec/api/)は、次のように区別しています。
 
@@ -219,7 +219,7 @@ docker.io/library/my-app:latest
 docker pull example/my-app:latest
 ```
 
-第二に、ホスト名を確認します。
+第二に、ホスト名を[確認](/glossary/確認/)します。
 
 ```text
 example/my-app
@@ -234,7 +234,7 @@ registry.example.com/example/my-app
 
 [Docker](/glossary/docker/) Hubへ[ログイン](/glossary/ログイン/)しても、`ghcr.io` や自社Registryの[権限](/glossary/権限/)は得られません。[ログイン](/glossary/ログイン/)先は、[イメージ](/glossary/イメージ/)名の先頭にあるRegistryと一致させます。
 
-第三に、[タグ](/glossary/タグ/)を確認します。[タグ](/glossary/タグ/)を省略すると `latest` が使われます。
+第三に、[タグ](/glossary/タグ/)を[確認](/glossary/確認/)します。[タグ](/glossary/タグ/)を省略すると `latest` が使われます。
 
 ```bash
 docker pull example/my-app
@@ -247,14 +247,14 @@ docker pull example/my-app
 docker pull example/my-app:v1.4.2
 ```
 
-第四に、ComposeやDockerfileが実際に使う値を確認します。
+第四に、ComposeやDockerfileが実際に使う値を[確認](/glossary/確認/)します。
 
 ```bash
 docker compose config
 docker build --progress=plain .
 ```
 
-Composeの環境変数展開後に、`image:` が空、古い名前、別Registryになっていないかを見ます。ビルドでは、どの `FROM` または `COPY --from` の解決で止まったかを確認します。
+Composeの環境変数展開後に、`image:` が空、古い名前、別Registryになっていないかを見ます。ビルドでは、どの `FROM` または `COPY --from` の解決で止まったかを[確認](/glossary/確認/)します。
 
 ## よくある原因と解決手順
 
@@ -356,7 +356,7 @@ Login Succeeded
 denied: requested access to the resource is denied
 ```
 
-この場合は、次を確認します。
+この場合は、次を[確認](/glossary/確認/)します。
 
 ```text
 ログインした利用者が想定したアカウントか
@@ -393,7 +393,7 @@ manifest for example/my-app:latest not found: manifest unknown
 
 ### 原因6：CIだけ別の認証設定を使っている {#ci-auth-config}
 
-手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の[設定](/glossary/設定/)または資格情報保存先を使います。[Linux](/glossary/linux/)では `$HOME/.docker/config.json`、Windowsでは `%USERPROFILE%/.docker/config.json` が[標準](/glossary/標準/)の設定場所です。
+手元で `docker login` しても、その資格情報は自動でCIへ渡りません。[Docker](/glossary/docker/)は通常、実行した利用者の[設定](/glossary/設定/)または資格情報保存先を使います。[Linux](/glossary/linux/)では `$HOME/.docker/config.json`、[Windows](/glossary/windows/)では `%USERPROFILE%/.docker/config.json` が[標準](/glossary/標準/)の設定場所です。
 
 CIでは、pullする[処理](/glossary/処理/)と同じjob、同じ実行利用者、同じ[Docker](/glossary/docker/)[設定](/glossary/設定/)で[ログイン](/glossary/ログイン/)します。
 
@@ -490,7 +490,7 @@ services:
     image: example/app:local
 ```
 
-[環境変数](/glossary/環境変数/)を使っている場合は、展開後の値を確認します。
+[環境変数](/glossary/環境変数/)を使っている場合は、展開後の値を[確認](/glossary/確認/)します。
 
 ```yaml
 services:
@@ -513,7 +513,7 @@ manifest unknown
 manifest for OWNER/IMAGE:TAG not found
 ```
 
-[リポジトリ](/glossary/リポジトリ/)への参照には進めたものの、指定した[タグ](/glossary/タグ/)またはdigestに[対応](/glossary/対応/)するmanifestがない状態です。[リポジトリ](/glossary/リポジトリ/)名ではなく、[タグ](/glossary/タグ/)、digest、公開処理を確認します。
+[リポジトリ](/glossary/リポジトリ/)への参照には進めたものの、指定した[タグ](/glossary/タグ/)またはdigestに[対応](/glossary/対応/)するmanifestがない状態です。[リポジトリ](/glossary/リポジトリ/)名ではなく、[タグ](/glossary/タグ/)、digest、公開処理を[確認](/glossary/確認/)します。
 
 ### no matching manifest for linux/arm64
 
@@ -521,7 +521,7 @@ manifest for OWNER/IMAGE:TAG not found
 no matching manifest for linux/arm64/v8 in the manifest list entries
 ```
 
-[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・[CPU](/glossary/cpu/)に[対応](/glossary/対応/)するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを確認します。[認証](/glossary/認証/)の問題ではありません。
+[タグ](/glossary/タグ/)は存在しますが、現在の[OS](/glossary/os/)・[CPU](/glossary/cpu/)に[対応](/glossary/対応/)するmanifestがありません。`--platform`、公開済みの対応環境、multi-platform buildを[確認](/glossary/確認/)します。[認証](/glossary/認証/)の問題ではありません。
 
 ### too many requests
 
@@ -535,11 +535,11 @@ connect: connection refused
 i/o timeout
 ```
 
-これらは、Registryへの[TLS](/glossary/tls/)検証、接続、通信時間切れです。Registryから `DENIED` や `NAME_UNKNOWN` を受け取る前の失敗なので、権限追加ではなく[証明書](/glossary/証明書/)、ホスト名、port、proxy、firewallを確認します。
+これらは、Registryへの[TLS](/glossary/tls/)検証、接続、通信時間切れです。Registryから `DENIED` や `NAME_UNKNOWN` を受け取る前の失敗なので、権限追加ではなく[証明書](/glossary/証明書/)、ホスト名、port、proxy、firewallを[確認](/glossary/確認/)します。
 
 ### requested access to the resource is deniedがpushで出る
 
-`docker push` では、pullではなくpush[権限](/glossary/権限/)が必要です。正しい[リポジトリ](/glossary/リポジトリ/)へ[ログイン](/glossary/ログイン/)できていても、read-onlyの主体はpushできません。また、[タグ](/glossary/タグ/)付けした参照の名前空間が自分の所有先かを確認します。
+`docker push` では、pullではなくpush[権限](/glossary/権限/)が必要です。正しい[リポジトリ](/glossary/リポジトリ/)へ[ログイン](/glossary/ログイン/)できていても、read-onlyの主体はpushできません。また、[タグ](/glossary/タグ/)付けした参照の名前空間が自分の所有先かを[確認](/glossary/確認/)します。
 
 ```bash
 docker image tag app:local example/app:1.0
@@ -548,39 +548,39 @@ docker push example/app:1.0
 
 ## 切り分けの順序
 
-1. [エラー](/glossary/エラー/)を出した[処理](/glossary/処理/)がpull、run、Compose、Dockerfileのどれかを確認する。
+1. [エラー](/glossary/エラー/)を出した[処理](/glossary/処理/)がpull、run、Compose、Dockerfileのどれかを[確認](/glossary/確認/)する。
 2. [ログ](/glossary/ログ/)に出た[イメージ](/glossary/イメージ/)名を、Registry、名前空間、[リポジトリ](/glossary/リポジトリ/)、[タグ](/glossary/タグ/)へ分ける。
-3. 省略されたRegistryが `docker.io`、名前空間が `library`、[タグ](/glossary/タグ/)が `latest` になっていないか確認する。
-4. 公開元の資料またはRegistry画面で、完全な参照名が正しいか確認する。
+3. 省略されたRegistryが `docker.io`、名前空間が `library`、[タグ](/glossary/タグ/)が `latest` になっていないか[確認](/glossary/確認/)する。
+4. 公開元の資料またはRegistry画面で、完全な参照名が正しいか[確認](/glossary/確認/)する。
 5. 非公開なら、[イメージ](/glossary/イメージ/)名と同じRegistryへ[ログイン](/glossary/ログイン/)する。
-6. [ログイン](/glossary/ログイン/)した主体が想定した[アカウント](/glossary/アカウント/)か、対象へのpull[権限](/glossary/権限/)があるか確認する。
-7. [権限](/glossary/権限/)を通過した後、[タグ](/glossary/タグ/)またはdigestが存在するか確認する。
-8. Dockerfileなら、`FROM` と `COPY --from` のstage名を確認する。
-9. Composeなら、`docker compose config` で環境変数展開後の `image:` と `build:` を確認する。
-10. CIやBuildKitだけで失敗するなら、資格情報の保存先とbuilderの実行場所を確認する。
+6. [ログイン](/glossary/ログイン/)した主体が想定した[アカウント](/glossary/アカウント/)か、対象へのpull[権限](/glossary/権限/)があるか[確認](/glossary/確認/)する。
+7. [権限](/glossary/権限/)を通過した後、[タグ](/glossary/タグ/)またはdigestが存在するか[確認](/glossary/確認/)する。
+8. Dockerfileなら、`FROM` と `COPY --from` のstage名を[確認](/glossary/確認/)する。
+9. Composeなら、`docker compose config` で環境変数展開後の `image:` と `build:` を[確認](/glossary/確認/)する。
+10. CIやBuildKitだけで失敗するなら、資格情報の保存先とbuilderの実行場所を[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
-直接pullし、対象名と最終[エラー](/glossary/エラー/)を確認します。
+直接pullし、対象名と最終[エラー](/glossary/エラー/)を[確認](/glossary/確認/)します。
 
 ```bash
 docker pull OWNER/IMAGE:TAG
 ```
 
-ローカルにある[イメージ](/glossary/イメージ/)名とdigestを確認します。
+ローカルにある[イメージ](/glossary/イメージ/)名とdigestを[確認](/glossary/確認/)します。
 
 ```bash
 docker image ls --digests
 docker image inspect OWNER/IMAGE:TAG
 ```
 
-manifestを取得できるか確認します。
+manifestを取得できるか[確認](/glossary/確認/)します。
 
 ```bash
 docker manifest inspect OWNER/IMAGE:TAG
 ```
 
-Composeの展開後設定を確認します。
+Composeの展開後設定を[確認](/glossary/確認/)します。
 
 ```bash
 docker compose config
@@ -593,14 +593,14 @@ Dockerfileの取得位置を詳しく表示します。
 docker build --progress=plain .
 ```
 
-BuildKit builderを確認します。
+BuildKit builderを[確認](/glossary/確認/)します。
 
 ```bash
 docker buildx ls
 docker buildx inspect
 ```
 
-現在の[Docker](/glossary/docker/)設定場所を確認します。
+現在の[Docker](/glossary/docker/)設定場所を[確認](/glossary/確認/)します。
 
 ```bash
 printf 'DOCKER_CONFIG=%s\n' "${DOCKER_CONFIG:-$HOME/.docker}"
@@ -634,14 +634,14 @@ printf '%s' "$REGISTRY_TOKEN" |
 
 同じ変更の[コード](/glossary/コード/)では、Registryから `DENIED` を受け取ったときに複合案内を作り、`MANIFEST_UNKNOWN` なら `manifest ... not found`、`NAME_UNKNOWN` なら `repository ... not found` と分けています。つまり、[Docker](/glossary/docker/) [CLI](/glossary/cli/)がすべての404を[権限](/glossary/権限/)[エラー](/glossary/エラー/)へ変換する実装ではありません。
 
-それでも存在しない `nosuchimage` が `DENIED` になったのは、[クライアント](/glossary/クライアント/)から見たRegistryの応答が権限拒否だったためです。[認証](/glossary/認証/)の境界で存在を確認できなければ、[クライアント](/glossary/クライアント/)は「本当にない」と「あるが見られない」を確定できません。その不確定さが、`repository does not exist or may require 'docker login'` という二者択一の文になっています。
+それでも存在しない `nosuchimage` が `DENIED` になったのは、[クライアント](/glossary/クライアント/)から見たRegistryの応答が権限拒否だったためです。[認証](/glossary/認証/)の境界で存在を[確認](/glossary/確認/)できなければ、[クライアント](/glossary/クライアント/)は「本当にない」と「あるが見られない」を確定できません。その不確定さが、`repository does not exist or may require 'docker login'` という二者択一の文になっています。
 
 この構造は、ビルド機能が増えた後には別の混乱も生みました。2025年のMobyの課題（[Buildkit only wants to download images and refuse to use local images](https://github.com/moby/moby/issues/49542)）では、ローカルにある基礎[イメージ](/glossary/イメージ/)を使う意図でも、`docker-container` driverのBuildKitがRegistryから解決しようとして、`pull access denied` になった例が報告されています。
 
 また、2018年の[Docker](/glossary/docker/) [CLI](/glossary/cli/)の課題（[Unable to use COPY --from, docker build trying to pull image](https://github.com/docker/cli/issues/1559)）では、`COPY --from` の値が外部[イメージ](/glossary/イメージ/)として解釈され、同じ文言が出ています。これらは、対象[リポジトリ](/glossary/リポジトリ/)の[権限](/glossary/権限/)を直す問題ではありません。Registryへ取りに行くはずのない名前が、[イメージ](/glossary/イメージ/)参照として解決されたことが原因です。
 
-だから、この[エラー](/glossary/エラー/)を見たときの最初の問いは「[ログイン](/glossary/ログイン/)したか」ではありません。**[Docker](/glossary/docker/)は、どの文字列を、どのRegistryの、どの[リポジトリ](/glossary/リポジトリ/)として取得しようとしたのか**です。完全な参照名が正しいと確認できてから、存在と[権限](/glossary/権限/)を分けます。
+だから、この[エラー](/glossary/エラー/)を見たときの最初の問いは「[ログイン](/glossary/ログイン/)したか」ではありません。**[Docker](/glossary/docker/)は、どの文字列を、どのRegistryの、どの[リポジトリ](/glossary/リポジトリ/)として取得しようとしたのか**です。完全な参照名が正しいと[確認](/glossary/確認/)できてから、存在と[権限](/glossary/権限/)を分けます。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

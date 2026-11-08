@@ -31,7 +31,7 @@ trend_incident: false
 
 続いて `pg_hba.conf` の照合です。上から順に、接続の種類・[データベース](/glossary/データベース/)・利用者・接続元を見て、最初に一致した行が採用されます。一致する行が1つも無ければ `no pg_hba.conf entry for host` になります。
 
-一致した行の方式が[パスワード](/glossary/パスワード/)系であれば、ここで確認が行われます。失敗するとこの文言が返ります。[データベース](/glossary/データベース/)の存在確認や接続[権限](/glossary/権限/)の確認は、さらに後の段階です。
+一致した行の方式が[パスワード](/glossary/パスワード/)系であれば、ここで[確認](/glossary/確認/)が行われます。失敗するとこの文言が返ります。[データベース](/glossary/データベース/)の存在確認や接続[権限](/glossary/権限/)の[確認](/glossary/確認/)は、さらに後の段階です。
 
 ## 最初に確認すること
 
@@ -72,7 +72,7 @@ DETAIL:  Password does not match for user "app".
 psql "host=db.internal port=5432 dbname=app user=app"
 ```
 
-対話で通るなら、渡し方の側に問題があります。[設定ファイル](/glossary/設定ファイル/)や[環境変数](/glossary/環境変数/)の値を、見えない文字ごと確認してください。
+対話で通るなら、渡し方の側に問題があります。[設定ファイル](/glossary/設定ファイル/)や[環境変数](/glossary/環境変数/)の値を、見えない文字ごと[確認](/glossary/確認/)してください。
 
 ```bash
 printenv PGPASSWORD | od -c | head -3
@@ -111,7 +111,7 @@ SELECT rolname, rolpassword IS NOT NULL AS has_password, rolvaliduntil
 FROM pg_authid WHERE rolname = 'app';
 ```
 
-`rolvaliduntil` が過去の日時であれば期限切れです。対処は期限の[更新](/glossary/更新/)です。無期限にする場合は `infinity` を指定できますが、期限を設けている運用であればその意図を確認してから変更してください。
+`rolvaliduntil` が過去の日時であれば期限切れです。対処は期限の[更新](/glossary/更新/)です。無期限にする場合は `infinity` を指定できますが、期限を設けている運用であればその意図を[確認](/glossary/確認/)してから変更してください。
 
 ```sql
 ALTER ROLE app VALID UNTIL '2027-01-01';
@@ -121,7 +121,7 @@ ALTER ROLE app VALID UNTIL '2027-01-01';
 
 `DETAIL` が `User "app" has a password that cannot be used with MD5 authentication.` または `Password of user "app" is in unrecognized format.` の場合です。`pg_hba.conf` が要求する方式と、[保存](/glossary/保存/)されている値の種類が噛み合っていません。
 
-実装では、方式が `md5` の行に一致したとき、[保存](/glossary/保存/)されている値が MD5 形式であれば MD5 で、そうでなければ SCRAM で確認します。方式が `scram-sha-256` の行であれば常に SCRAM で確認するため、MD5 形式で[保存](/glossary/保存/)された値は必ず失敗します。
+実装では、方式が `md5` の行に一致したとき、[保存](/glossary/保存/)されている値が MD5 形式であれば MD5 で、そうでなければ SCRAM で[確認](/glossary/確認/)します。方式が `scram-sha-256` の行であれば常に SCRAM で[確認](/glossary/確認/)するため、MD5 形式で[保存](/glossary/保存/)された値は必ず失敗します。
 
 確認方法は、保存形式の先頭を見ることです。
 
@@ -138,7 +138,7 @@ SET password_encryption = 'scram-sha-256';
 \password app
 ```
 
-古い[クライアント](/glossary/クライアント/)は SCRAM に[対応](/glossary/対応/)していないことがあります。公式ドキュメントもこの点に触れているため、切り替え前に接続元の対応状況を確認してください。
+古い[クライアント](/glossary/クライアント/)は SCRAM に[対応](/glossary/対応/)していないことがあります。公式ドキュメントもこの点に触れているため、切り替え前に接続元の対応状況を[確認](/glossary/確認/)してください。
 
 ### 原因5：想定と違う行に一致している
 
@@ -193,7 +193,7 @@ MD5 形式は非推奨になりました。公式ドキュメントには、MD5 
 
 `password_encryption` の既定値変更は、この[エラー](/glossary/エラー/)の典型的な発生源になりました。PostgreSQL 14 の[リリース](/glossary/リリース/)は2021年9月30日で、この版から既定が `scram-sha-256` になっています。
 
-当時の状態としては、13 以前で作られた[ロール](/glossary/ロール/)の値が MD5 形式で[保存](/glossary/保存/)されており、`pg_hba.conf` も `md5` のまま運用されている[環境](/glossary/環境/)が多くありました。この組み合わせでは、実装が保存形式を見て MD5 を選ぶため、そのまま動きます。問題は、版を上げたあとに `pg_hba.conf` だけを `scram-sha-256` へ変更した場合です。方式が `scram-sha-256` の行に一致すると常に SCRAM で確認されるため、MD5 形式のまま残った[ロール](/glossary/ロール/)だけが失敗します。しかも[クライアント](/glossary/クライアント/)側の文言は[パスワード](/glossary/パスワード/)の誤りと同一です。
+当時の状態としては、13 以前で作られた[ロール](/glossary/ロール/)の値が MD5 形式で[保存](/glossary/保存/)されており、`pg_hba.conf` も `md5` のまま運用されている[環境](/glossary/環境/)が多くありました。この組み合わせでは、実装が保存形式を見て MD5 を選ぶため、そのまま動きます。問題は、版を上げたあとに `pg_hba.conf` だけを `scram-sha-256` へ変更した場合です。方式が `scram-sha-256` の行に一致すると常に SCRAM で[確認](/glossary/確認/)されるため、MD5 形式のまま残った[ロール](/glossary/ロール/)だけが失敗します。しかも[クライアント](/glossary/クライアント/)側の文言は[パスワード](/glossary/パスワード/)の誤りと同一です。
 
 現在も適用できるかという点では、そのまま当てはまります。実装の分岐は今も同じで、MD5 形式は非推奨として残っています。移行の手順も変わりません。`password_encryption` を切り替えたうえで、対象の[ロール](/glossary/ロール/)ごとに[パスワード](/glossary/パスワード/)を[設定](/glossary/設定/)し直します。[設定](/glossary/設定/)を変えるだけでは既存の値は書き換わらない、という点が要点です。
 
@@ -208,4 +208,4 @@ MD5 形式は非推奨になりました。公式ドキュメントには、MD5 
 - [パスワード照合の実装（crypt.c）](https://github.com/postgres/postgres/blob/master/src/backend/libpq/crypt.c)
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

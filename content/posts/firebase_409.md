@@ -241,13 +241,13 @@ Cloud Functions の[バックグラウンド](/glossary/バックグラウンド
 
 ### ログ確認方法
 
-Cloud Functions を使用している場合、Cloud Logging で詳細な[エラーログ](/glossary/エラーログ/)を確認してください。
+Cloud Functions を使用している場合、Cloud Logging で詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)してください。
 
 ```bash
 gcloud functions logs read <function-name> --limit=50 --region=<region>
 ```
 
-Firestore の操作[ログ](/glossary/ログ/)は Firebase Console → Firestore → 監査[ログ](/glossary/ログ/)から確認できます。409 [エラー](/glossary/エラー/)発生の直前に他の[クライアント](/glossary/クライアント/)の更新操作がないか確認してください。
+Firestore の操作[ログ](/glossary/ログ/)は Firebase Console → Firestore → 監査[ログ](/glossary/ログ/)から[確認](/glossary/確認/)できます。409 [エラー](/glossary/エラー/)発生の直前に他の[クライアント](/glossary/クライアント/)の更新操作がないか[確認](/glossary/確認/)してください。
 
 ### デバッグ手順
 
@@ -257,8 +257,8 @@ Firestore の操作[ログ](/glossary/ログ/)は Firebase Console → Firestore
 
 3. **公式ドキュメント参照**：[Firestore トランザクションおよびバッチ書き込み](https://firebase.google.com/docs/firestore/transactions)に詳細な実装例が掲載されています。
 
-4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を[検索](/glossary/検索/)し、解決策を参考にしてください。特に `transaction-abort` [タグ](/glossary/タグ/)が付いたイシューを確認してください。
+4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を[検索](/glossary/検索/)し、解決策を参考にしてください。特に `transaction-abort` [タグ](/glossary/タグ/)が付いたイシューを[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

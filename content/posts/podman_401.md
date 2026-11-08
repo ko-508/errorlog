@@ -119,7 +119,7 @@ test -f ~/.config/containers/auth.json && echo "認証ファイルが作成さ�
 
 ### 原因4: 使用しているユーザーアカウントが異なっている
 
-Podmanは各ユーザーごとに独立した認証情報を `~/.config/containers/auth.json` に[保存](/glossary/保存/)します。root[権限](/glossary/権限/)で実行する場合と通常ユーザーで実行する場合で、異なる認証情報を使うことになり、一方が[ログイン](/glossary/ログイン/)済みでも他方は未認証状態になる可能性があります。
+Podmanは各[ユーザー](/glossary/ユーザー/)ごとに独立した認証情報を `~/.config/containers/auth.json` に[保存](/glossary/保存/)します。root[権限](/glossary/権限/)で実行する場合と通常[ユーザー](/glossary/ユーザー/)で実行する場合で、異なる認証情報を使うことになり、一方が[ログイン](/glossary/ログイン/)済みでも他方は未認証状態になる可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -146,9 +146,9 @@ sudo podman pull registry.example.com/myimage:latest
 
 ## Podman固有の注意点
 
-**auth.json のパーミッション管理**: Podmanの認証情報[ファイル](/glossary/ファイル/)は自動的にパーミッション600で作成されますが、手動編集後にパーミッションが広げられていると、[セキュリティ](/glossary/セキュリティ/)の問題で[認証](/glossary/認証/)が拒否される場合があります。編集後は `chmod 600 ~/.config/containers/auth.json` で確認してください。
+**auth.json のパーミッション管理**: Podmanの認証情報[ファイル](/glossary/ファイル/)は自動的にパーミッション600で作成されますが、手動編集後にパーミッションが広げられていると、[セキュリティ](/glossary/セキュリティ/)の問題で[認証](/glossary/認証/)が拒否される場合があります。編集後は `chmod 600 ~/.config/containers/auth.json` で[確認](/glossary/確認/)してください。
 
-**マルチアーキテクチャイメージの取得**: Podman 4.0以降では、異なるプラットフォーム向け[イメージ](/glossary/イメージ/)を取得する際、[レジストリ](/glossary/レジストリ/)が厳格な[認証](/glossary/認証/)を要求することがあります。[プライベートレジストリ](/glossary/プライベートレジストリ/)の場合、必ず適切なユーザーで `podman login` してください。
+**マルチアーキテクチャイメージの取得**: Podman 4.0以降では、異なるプラットフォーム向け[イメージ](/glossary/イメージ/)を取得する際、[レジストリ](/glossary/レジストリ/)が厳格な[認証](/glossary/認証/)を要求することがあります。[プライベートレジストリ](/glossary/プライベートレジストリ/)の場合、必ず適切な[ユーザー](/glossary/ユーザー/)で `podman login` してください。
 
 **Podman Desktopでの[認証](/glossary/認証/)**: Podman Desktopを使用している場合、[GUI](/glossary/gui/)の認証管理が有効ですが、[コマンドライン](/glossary/コマンドライン/)から直接 `podman` [コマンド](/glossary/コマンド/)を実行する場合は、[コマンドライン](/glossary/コマンドライン/)でも別途 `podman login` が必要です。[GUI](/glossary/gui/)での[ログイン](/glossary/ログイン/)だけでは不十分です。
 
@@ -156,11 +156,11 @@ sudo podman pull registry.example.com/myimage:latest
 
 ## それでも解決しない場合
 
-**デバッグログの確認**: `PODMAN_LOG_LEVEL=debug podman pull <image>` でデバッグログを出力し、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)がどう[送信](/glossary/送信/)されているかを確認してください。
+**デバッグログの[確認](/glossary/確認/)**: `PODMAN_LOG_LEVEL=debug podman pull <image>` でデバッグログを出力し、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)がどう[送信](/glossary/送信/)されているかを[確認](/glossary/確認/)してください。
 
-**[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)確認**: [プライベートレジストリ](/glossary/プライベートレジストリ/)を運用している場合、レジストリサーバー側の[ログ](/glossary/ログ/)で拒否理由を確認できます。例えばRegistry V2の標準実装では `/var/log/registry/` 配下に[アクセスログ](/glossary/アクセスログ/)が記録されます。
+**[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)[確認](/glossary/確認/)**: [プライベートレジストリ](/glossary/プライベートレジストリ/)を運用している場合、レジストリサーバー側の[ログ](/glossary/ログ/)で拒否理由を[確認](/glossary/確認/)できます。例えばRegistry V2の標準実装では `/var/log/registry/` 配下に[アクセスログ](/glossary/アクセスログ/)が記録されます。
 
-**[ネットワーク](/glossary/ネットワーク/)接続の確認**: [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が[認証](/glossary/認証/)[リクエスト](/glossary/リクエスト/)をブロックしていないか、`curl -v https://registry.example.com/v2/` で[HTTP](/glossary/http/)応答を確認してください。
+**[ネットワーク](/glossary/ネットワーク/)接続の[確認](/glossary/確認/)**: [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が[認証](/glossary/認証/)[リクエスト](/glossary/リクエスト/)をブロックしていないか、`curl -v https://registry.example.com/v2/` で[HTTP](/glossary/http/)応答を[確認](/glossary/確認/)してください。
 
 **公式ドキュメント参照**:
 - [Podman ログイン - 公式ドキュメント](https://docs.podman.io/en/latest/markdown/podman-login.1.html)
@@ -172,4 +172,4 @@ sudo podman pull registry.example.com/myimage:latest
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

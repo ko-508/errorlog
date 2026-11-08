@@ -63,7 +63,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/api/json" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-確認方法としては、Jenkinsのホーム画面で該当ジョブを右クリック→「リンクアドレスをコピー」で正確な[URL](/glossary/url/)を取得するか、ジョブ[設定](/glossary/設定/)ページから直接[URL](/glossary/url/)を確認することが確実です。
+確認方法としては、Jenkinsのホーム画面で該当ジョブを右クリック→「リンクアドレスをコピー」で正確な[URL](/glossary/url/)を取得するか、ジョブ[設定](/glossary/設定/)ページから直接[URL](/glossary/url/)を[確認](/glossary/確認/)することが確実です。
 
 ### 原因2：フォルダ内のジョブのURLパスが間違っている
 
@@ -113,7 +113,7 @@ curl -X GET "http://localhost:8080/job/MyBuildJob/42/api/json" \
   -u <your-jenkins-user>:<your-api-token>
 ```
 
-ビルド履歴の保持[ポリシー](/glossary/ポリシー/)は、ジョブの設定画面の「ビルド履歴の[保存](/glossary/保存/)」セクションで確認・変更できます。`lastBuild`、`lastStableBuild`、`lastSuccessfulBuild` といった特殊な参照もJenkinsで利用可能で、ビルド番号が不確定な場合に活用できます。
+ビルド履歴の保持[ポリシー](/glossary/ポリシー/)は、ジョブの設定画面の「ビルド履歴の[保存](/glossary/保存/)」セクションで[確認](/glossary/確認/)・変更できます。`lastBuild`、`lastStableBuild`、`lastSuccessfulBuild` といった特殊な参照もJenkinsで利用可能で、ビルド番号が不確定な場合に活用できます。
 
 ## ツール固有の注意点
 
@@ -131,7 +131,7 @@ build job: 'project-folder/deploy-test'
 
 **[キャッシュ](/glossary/キャッシュ/)やショートカットによる古い[URL](/glossary/url/)：**
 
-[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか確認してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に[設定](/glossary/設定/)された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も[更新](/glossary/更新/)が必要です。
+[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)やブックマーク、外部[ツール](/glossary/ツール/)連携設定に古い[URL](/glossary/url/)が[保存](/glossary/保存/)されていないか[確認](/glossary/確認/)してください。Jenkinsでジョブをリネームまたは移動した場合、統合[ツール](/glossary/ツール/)（GitLab、[GitHub](/glossary/github/)、監視システム等）に[設定](/glossary/設定/)された[Webhook](/glossary/webhook/)や[API](/glossary/api/)呼び出し[URL](/glossary/url/)も[更新](/glossary/更新/)が必要です。
 
 **Jenkins [UI](/glossary/ui/)上での確認方法：**
 
@@ -139,9 +139,9 @@ Jenkinsホーム画面で目的のジョブを開き、[ブラウザ](/glossary/
 
 ## それでも解決しない場合
 
-**Jenkinsの[ログ](/glossary/ログ/)を確認する：**
+**Jenkinsの[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する：**
 
-Jenkins マスター上で以下の[ログファイル](/glossary/ログファイル/)を確認し、404[エラー](/glossary/エラー/)の詳細情報を取得します。
+Jenkins マスター上で以下の[ログファイル](/glossary/ログファイル/)を[確認](/glossary/確認/)し、404[エラー](/glossary/エラー/)の詳細情報を取得します。
 
 ```bash
 # Jenkinsのログファイル位置（デフォルト）
@@ -151,7 +151,7 @@ tail -f /var/log/jenkins/jenkins.log
 # 「Manage Jenkins」→「System Log」→「All Jenkins Logs」
 ```
 
-**[REST](/glossary/rest/) [API](/glossary/api/)を使用した確認：**
+**[REST](/glossary/rest/) [API](/glossary/api/)を使用した[確認](/glossary/確認/)：**
 
 ```bash
 # 利用可能なジョブ一覧を取得
@@ -178,8 +178,8 @@ curl -I "http://localhost:8080/job/MyBuildJob/api/json" \
 - ジョブの構成と[フォルダ](/glossary/フォルダ/): https://www.jenkins.io/doc/book/managing/organizing-jobs/
 - Jenkinsfileでのジョブ呼び出し: https://www.jenkins.io/doc/pipeline/steps/pipeline-build-step/
 
-これらの手段で原因を特定できない場合は、Jenkinsの[バージョン](/glossary/バージョン/)が最新であるか確認し、[プラグイン](/glossary/プラグイン/)の競合がないか確認することも有効です。
+これらの手段で原因を特定できない場合は、Jenkinsの[バージョン](/glossary/バージョン/)が最新であるか[確認](/glossary/確認/)し、[プラグイン](/glossary/プラグイン/)の競合がないか[確認](/glossary/確認/)することも有効です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

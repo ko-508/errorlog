@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-GitLabの429[エラー](/glossary/エラー/)（Too Many Requests）は、GitLab [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したことを示します。ユーザーまたは[CI/CD](/glossary/ci-cd/)パイプラインが短時間に許可された上限を超える[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合に発生します。[デフォルト](/glossary/デフォルト/)の[レート制限](/glossary/レート制限/)は[エンドポイント](/glossary/エンドポイント/)や[インスタンス](/glossary/インスタンス/)の構成によって異なり、一般的には[認証](/glossary/認証/)ユーザーは1分間に600[リクエスト](/glossary/リクエスト/)、未認証の場合は300[リクエスト](/glossary/リクエスト/)程度とされていますが、パッケージレジストリ[API](/glossary/api/)など特定の[エンドポイント](/glossary/エンドポイント/)ではより高い制限が適用される場合もあります。
+GitLabの429[エラー](/glossary/エラー/)（Too Many Requests）は、GitLab [API](/glossary/api/)の[レート制限](/glossary/レート制限/)に達したことを示します。[ユーザー](/glossary/ユーザー/)または[CI/CD](/glossary/ci-cd/)パイプラインが短時間に許可された上限を超える[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合に発生します。[デフォルト](/glossary/デフォルト/)の[レート制限](/glossary/レート制限/)は[エンドポイント](/glossary/エンドポイント/)や[インスタンス](/glossary/インスタンス/)の構成によって異なり、一般的には[認証](/glossary/認証/)[ユーザー](/glossary/ユーザー/)は1分間に600[リクエスト](/glossary/リクエスト/)、未認証の場合は300[リクエスト](/glossary/リクエスト/)程度とされていますが、パッケージレジストリ[API](/glossary/api/)など特定の[エンドポイント](/glossary/エンドポイント/)ではより高い制限が適用される場合もあります。
 
 ## 実際のエラーメッセージ例
 
@@ -122,7 +122,7 @@ deploy_job:
 
 ### 原因3：レスポンスヘッダーの確認なしに即座に再試行している
 
-429[エラー](/glossary/エラー/)を受け取った後、RateLimit-Reset[ヘッダー](/glossary/ヘッダー/)を確認せず、すぐに再試行するとさらに制限に抵触します。適切な待機時間を[設定](/glossary/設定/)することが重要です。
+429[エラー](/glossary/エラー/)を受け取った後、RateLimit-Reset[ヘッダー](/glossary/ヘッダー/)を[確認](/glossary/確認/)せず、すぐに再試行するとさらに制限に抵触します。適切な待機時間を[設定](/glossary/設定/)することが重要です。
 
 **解決策：RateLimit-Reset[ヘッダー](/glossary/ヘッダー/)から次の[リセット](/glossary/リセット/)時刻を取得して待機する**
 
@@ -166,7 +166,7 @@ async function fetchProjectData(projectId) {
 
 ## GitLab固有の注意点
 
-GitLabの[レート制限](/glossary/レート制限/)は、[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)やユーザーの[ロール](/glossary/ロール/)、[エンドポイント](/glossary/エンドポイント/)によって異なります。個人用アクセストークン（Personal Access Token）を使用する場合、該当する[トークン](/glossary/トークン/)に関連付けられたユーザーの制限が適用されます。GitLab管理者は、`/api/v4/admin/application_settings`[エンドポイント](/glossary/エンドポイント/)を通じて[インスタンス](/glossary/インスタンス/)全体の[レート制限](/glossary/レート制限/)を確認・調整可能です。
+GitLabの[レート制限](/glossary/レート制限/)は、[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)や[ユーザー](/glossary/ユーザー/)の[ロール](/glossary/ロール/)、[エンドポイント](/glossary/エンドポイント/)によって異なります。個人用アクセストークン（Personal Access Token）を使用する場合、該当する[トークン](/glossary/トークン/)に関連付けられた[ユーザー](/glossary/ユーザー/)の制限が適用されます。GitLab管理者は、`/api/v4/admin/application_settings`[エンドポイント](/glossary/エンドポイント/)を通じて[インスタンス](/glossary/インスタンス/)全体の[レート制限](/glossary/レート制限/)を[確認](/glossary/確認/)・調整可能です。
 
 また、[CI/CD](/glossary/ci-cd/)パイプライン内で使用する`$CI_JOB_TOKEN`はジョブ固有の[トークン](/glossary/トークン/)で、個人用アクセストークンとは独立した[レート制限](/glossary/レート制限/)が適用される場合があります。[GraphQL](/glossary/graphql/) [API](/glossary/api/)を使用する場合、[REST](/glossary/rest/) [API](/glossary/api/)とは異なる[クエリ](/glossary/クエリ/)の複雑さに基づいた[モデル](/glossary/モデル/)が採用されているため注意が必要です。
 
@@ -174,14 +174,14 @@ GitLabの[レート制限](/glossary/レート制限/)は、[トークン](/glos
 
 ## それでも解決しない場合
 
-まず、GitLab[インスタンス](/glossary/インスタンス/)の管理画面から現在のレート制限設定を確認してください。[管理者権限](/glossary/管理者権限/)がある場合、以下の[コマンド](/glossary/コマンド/)でインスタンスレベルの制限を確認できます：
+まず、GitLab[インスタンス](/glossary/インスタンス/)の管理画面から現在のレート制限設定を[確認](/glossary/確認/)してください。[管理者権限](/glossary/管理者権限/)がある場合、以下の[コマンド](/glossary/コマンド/)でインスタンスレベルの制限を[確認](/glossary/確認/)できます：
 
 ```bash
 curl -H "PRIVATE-TOKEN: <admin-token>" \
      "https://gitlab.example.com/api/v4/admin/application_settings" | grep -i rate
 ```
 
-ユーザーレベルの制限状況は、任意の[API](/glossary/api/)呼び出しのレスポンスヘッダーから確認できます：
+ユーザーレベルの制限状況は、任意の[API](/glossary/api/)呼び出しのレスポンスヘッダーから[確認](/glossary/確認/)できます：
 
 ```bash
 curl -i -H "PRIVATE-TOKEN: <your-access-token>" \
@@ -197,4 +197,4 @@ curl -i -H "PRIVATE-TOKEN: <your-access-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

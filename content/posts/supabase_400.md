@@ -138,7 +138,7 @@ const response = await fetch('https://<your-project>.supabase.co/rest/v1/users',
 
 ### 原因 3：Auth API パラメータの型ミスまたは無効な値
 
-Supabase Auth [API](/glossary/api/)（ユーザー[登録](/glossary/登録/)・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他[メタデータ](/glossary/メタデータ/)の[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須[フィールド](/glossary/フィールド/)が欠けていたり、[データ型](/glossary/データ型/)が違ったり、無効な形式だったりすると 400 が返ります。
+Supabase Auth [API](/glossary/api/)（[ユーザー](/glossary/ユーザー/)[登録](/glossary/登録/)・[ログイン](/glossary/ログイン/)）では、メールアドレスや[パスワード](/glossary/パスワード/)、その他[メタデータ](/glossary/メタデータ/)の[パラメータ](/glossary/パラメータ/)が厳密に検証されます。必須[フィールド](/glossary/フィールド/)が欠けていたり、[データ型](/glossary/データ型/)が違ったり、無効な形式だったりすると 400 が返ります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -198,17 +198,17 @@ const { data, error } = await supabase.auth.signUp({
 
 ## ツール固有の注意点
 
-Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)に詳細な情報を含めます。400 [エラー](/glossary/エラー/)が返された場合、その message を確認することが問題解決の第一歩です。例えば「Invalid filter」と明記されれば PostgREST フィルタの誤り、「Invalid credentials」なら[認証](/glossary/認証/)[パラメータ](/glossary/パラメータ/)の誤りなど、原因が特定しやすくなります。
+Supabase は[エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)に詳細な情報を含めます。400 [エラー](/glossary/エラー/)が返された場合、その message を[確認](/glossary/確認/)することが問題解決の第一歩です。例えば「Invalid filter」と明記されれば PostgREST フィルタの誤り、「Invalid credentials」なら[認証](/glossary/認証/)[パラメータ](/glossary/パラメータ/)の誤りなど、原因が特定しやすくなります。
 
-また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接[ブラウザ](/glossary/ブラウザ/)で試すことで、フィルタ構文の正確さを確認できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じ[ロジック](/glossary/ロジック/)を[コード](/glossary/コード/)側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
+また、Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Table Editor」機能を活用して、[クエリ](/glossary/クエリ/)を直接[ブラウザ](/glossary/ブラウザ/)で試すことで、フィルタ構文の正確さを[確認](/glossary/確認/)できます。正しく動作する[クエリ](/glossary/クエリ/)が[ダッシュボード](/glossary/ダッシュボード/)で作成できれば、それと同じ[ロジック](/glossary/ロジック/)を[コード](/glossary/コード/)側に実装することで 400 [エラー](/glossary/エラー/)を防げます。
 
 さらに、JavaScript クライアントライブラリは頻繁に[更新](/glossary/更新/)されており、古い[バージョン](/glossary/バージョン/)を使用していると [API](/glossary/api/) の変更に追従できず、正規の[リクエスト](/glossary/リクエスト/)まで 400 が返されることがあります。`npm install @supabase/supabase-js@latest` で常に最新版を保つようにしてください。
 
 ## それでも解決しない場合
 
-まずはブラウザーの開発者[ツール](/glossary/ツール/)（F12）のネットワークタブで、実際に[送信](/glossary/送信/)されているリクエストヘッダーと [URL](/glossary/url/) を確認します。Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションでは、[API](/glossary/api/) に到達した[リクエスト](/glossary/リクエスト/)の詳細[ログ](/glossary/ログ/)が記録されており、どの部分が不正と判定されたかを追跡できます。
+まずはブラウザーの開発者[ツール](/glossary/ツール/)（F12）のネットワークタブで、実際に[送信](/glossary/送信/)されているリクエストヘッダーと [URL](/glossary/url/) を[確認](/glossary/確認/)します。Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションでは、[API](/glossary/api/) に到達した[リクエスト](/glossary/リクエスト/)の詳細[ログ](/glossary/ログ/)が記録されており、どの部分が不正と判定されたかを追跡できます。
 
-以下の[コマンド](/glossary/コマンド/)で、[リクエスト](/glossary/リクエスト/)の詳細を verbose モードで確認することも有効です。
+以下の[コマンド](/glossary/コマンド/)で、[リクエスト](/glossary/リクエスト/)の詳細を verbose モードで[確認](/glossary/確認/)することも有効です。
 
 ```bash
 curl -v -X GET "https://<your-project>.supabase.co/rest/v1/users?status=eq.active" \
@@ -218,8 +218,8 @@ curl -v -X GET "https://<your-project>.supabase.co/rest/v1/users?status=eq.activ
 
 `-v` フラグにより、送受信される[ヘッダー](/glossary/ヘッダー/)と[レスポンス](/glossary/レスポンス/)全体が表示されます。
 
-また、Supabase の公式ドキュメント（https://supabase.com/docs/reference/javascript/select）で PostgREST フィルタ演算子の完全なリストを確認し、使用している演算子が正しいものであることを再度確認してください。Auth [API](/glossary/api/) の[パラメータ](/glossary/パラメータ/)についても公式リファレンス（https://supabase.com/docs/reference/javascript/auth-signup）で仕様を熟読することで、型や形式の誤りを防げます。
+また、Supabase の公式ドキュメント（https://supabase.com/docs/reference/javascript/select）で PostgREST フィルタ演算子の完全なリストを[確認](/glossary/確認/)し、使用している演算子が正しいものであることを再度確認してください。Auth [API](/glossary/api/) の[パラメータ](/glossary/パラメータ/)についても公式リファレンス（https://supabase.com/docs/reference/javascript/auth-signup）で仕様を熟読することで、型や形式の誤りを防げます。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

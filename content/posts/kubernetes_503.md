@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)で503[エラー](/glossary/エラー/)が発生するのは、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)に[対応](/glossary/対応/)できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべて[ダウン](/glossary/ダウン/)していたり、起動途中だったり、リソース不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
+[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)で503[エラー](/glossary/エラー/)が発生するのは、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)に[対応](/glossary/対応/)できるPodが存在しない、または全てのPodが利用不可状態にあることを示しています。Service経由でアクセスした際、[バックエンド](/glossary/バックエンド/)のPodがすべて[ダウン](/glossary/ダウン/)していたり、起動途中だったり、[リソース](/glossary/リソース/)不足で応答できない状態で表示される[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)です。本[エラー](/glossary/エラー/)は一時的な問題である場合が多く、Podの自動復旧により解決することもありますが、根本原因の特定と対処が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -105,7 +105,7 @@ spec:
           periodSeconds: 10
 ```
 
-Podのステータスを確認する[コマンド](/glossary/コマンド/)：
+Podのステータスを[確認](/glossary/確認/)する[コマンド](/glossary/コマンド/)：
 
 ```bash
 kubectl get pods -n <namespace>
@@ -185,7 +185,7 @@ spec:
           periodSeconds: 10
 ```
 
-Readiness Probeの状態を確認する[コマンド](/glossary/コマンド/)：
+Readiness Probeの状態を[確認](/glossary/確認/)する[コマンド](/glossary/コマンド/)：
 
 ```bash
 kubectl get pods -o wide -n <namespace>
@@ -277,7 +277,7 @@ spec:
     targetPort: 8080
 ```
 
-Serviceの[エンドポイント](/glossary/エンドポイント/)確認[コマンド](/glossary/コマンド/)：
+Serviceの[エンドポイント](/glossary/エンドポイント/)[確認](/glossary/確認/)[コマンド](/glossary/コマンド/)：
 
 ```bash
 kubectl get endpoints <service-name> -n <namespace>
@@ -288,11 +288,11 @@ kubectl describe service <service-name> -n <namespace>
 
 ### RBAC（Role-Based Access Control）による制限
 
-ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部リソースへのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider [API](/glossary/api/)、その他外部サービスにアクセスする必要がある場合は、[RBAC](/glossary/rbac/)の[設定](/glossary/設定/)を確認してください。
+ServiceAccountに対して必要なClusterRole/Roleが割り当てられていない場合、Podが外部[リソース](/glossary/リソース/)へのアクセスに失敗し、起動途中でクラッシュすることがあります。特に、PodがKubernetesAPI、CloudProvider [API](/glossary/api/)、その他外部サービスにアクセスする必要がある場合は、[RBAC](/glossary/rbac/)の[設定](/glossary/設定/)を[確認](/glossary/確認/)してください。
 
 ### リソースリクエスト・リミットの不足
 
-[CPU](/glossary/cpu/)メモリリクエスト/リミットが不適切に[設定](/glossary/設定/)されていると、Nodeのリソースが不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
+[CPU](/glossary/cpu/)メモリリクエスト/リミットが不適切に[設定](/glossary/設定/)されていると、Nodeの[リソース](/glossary/リソース/)が不足し、Podがスケジュールされなかったり、OOMKillerに強制終了されたりします。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -326,7 +326,7 @@ spec:
 
 ### Ingress設定の不備
 
-IngressコントローラーがServiceを正しく検出できていない場合、Ingressを経由したアクセスで503が発生します。IngressのBackend[設定](/glossary/設定/)とServiceのPort番号の一致を確認してください。
+IngressコントローラーがServiceを正しく検出できていない場合、Ingressを経由したアクセスで503が発生します。IngressのBackend[設定](/glossary/設定/)とServiceのPort番号の一致を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
@@ -362,7 +362,7 @@ kubectl get endpoints -A
 
 ### メトリクスの確認
 
-Podのリソース使用率を確認して、リソース不足が原因でないか調査します。
+Podの[リソース](/glossary/リソース/)使用率を[確認](/glossary/確認/)して、[リソース](/glossary/リソース/)不足が原因でないか調査します。
 
 ```bash
 kubectl top nodes
@@ -371,8 +371,8 @@ kubectl top pods -n <namespace>
 
 ### 公式ドキュメント参照
 
-[Kubernetes](/glossary/kubernetes/)公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用している[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)に応じた互換性情報も確認してください。
+[Kubernetes](/glossary/kubernetes/)公式ドキュメントの「Debugging Services」セクションと「Troubleshooting」ガイドに、さらに詳細なトラブルシューティング手順が記載されています。また、使用している[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)に応じた互換性情報も[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -22,7 +22,7 @@ PHPの[処理](/glossary/処理/)が、次の[エラー](/glossary/エラー/)�
 PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 20480 bytes) in /var/www/app/index.php on line 42
 ```
 
-PHPに[設定](/glossary/設定/)された[メモリ](/glossary/メモリ/)の上限を超えたことを示します。まず、[エラー](/glossary/エラー/)を出した実行環境で有効な `memory_limit` を確認し、[処理](/glossary/処理/)のどこで[メモリ](/glossary/メモリ/)が増えるかを調べます。
+PHPに[設定](/glossary/設定/)された[メモリ](/glossary/メモリ/)の上限を超えたことを示します。まず、[エラー](/glossary/エラー/)を出した実行環境で有効な `memory_limit` を[確認](/glossary/確認/)し、[処理](/glossary/処理/)のどこで[メモリ](/glossary/メモリ/)が増えるかを調べます。
 
 必要な処理量に対して上限が足りなければ調整します。ただし、`memory_limit = -1` にするとPHP側の制限がなくなります。[エラー](/glossary/エラー/)を消すためだけに、Webアプリ全体の上限を外す方法は避けてください。
 
@@ -34,11 +34,11 @@ PHPに[設定](/glossary/設定/)された[メモリ](/glossary/メモリ/)の�
 
 表示された[ファイル](/glossary/ファイル/)と[行番号](/glossary/行番号/)は調査の手がかりですが、その行だけが大量に[メモリ](/glossary/メモリ/)を使ったとは限りません。前の[処理](/glossary/処理/)から保持しているデータも確認対象です。
 
-[PHPマニュアル](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)に記載された `memory_limit` の既定値は `128M` です。ただし、配布元や[サーバー](/glossary/サーバー/)、アプリの[設定](/glossary/設定/)で変更されるため、実際の値を確認してください。
+[PHPマニュアル](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)に記載された `memory_limit` の既定値は `128M` です。ただし、配布元や[サーバー](/glossary/サーバー/)、アプリの[設定](/glossary/設定/)で変更されるため、実際の値を[確認](/glossary/確認/)してください。
 
 ## CLIとWebで有効な設定をそれぞれ確認する
 
-[コマンドライン](/glossary/コマンドライン/)で実行した[処理](/glossary/処理/)なら、次でPHPの版、読み込む[設定ファイル](/glossary/設定ファイル/)、現在の上限を確認します。
+[コマンドライン](/glossary/コマンドライン/)で実行した[処理](/glossary/処理/)なら、次でPHPの版、読み込む[設定ファイル](/glossary/設定ファイル/)、現在の上限を[確認](/glossary/確認/)します。
 
 ```bash
 php -v
@@ -57,7 +57,7 @@ error_log('memory_limit=' . ini_get('memory_limit'));
 error_log('php.ini=' . (php_ini_loaded_file() ?: '(none)'));
 ```
 
-確認用の[処理](/glossary/処理/)は公開したまま残さず、調査後に外してください。[設定ファイル](/glossary/設定ファイル/)を編集した場合も、同じ実行経路で値が変わったかを確認します。必要な再読み込みや再起動は、PHP-FPMやApacheなどの実行方式に合わせて行います。
+確認用の[処理](/glossary/処理/)は公開したまま残さず、調査後に外してください。[設定ファイル](/glossary/設定ファイル/)を編集した場合も、同じ実行経路で値が変わったかを[確認](/glossary/確認/)します。必要な再読み込みや再起動は、PHP-FPMやApacheなどの実行方式に合わせて行います。
 
 ## メモリが増える処理を記録して絞り込む
 
@@ -98,9 +98,9 @@ php.iniに書く場合は、次の形です。
 memory_limit = 256M
 ```
 
-256Mは例です。必要量と実行環境の[容量](/glossary/容量/)を確認して決めてください。Webで複数の[処理](/glossary/処理/)が同時に走る場合、1回の[処理](/glossary/処理/)の上限だけで[サーバー](/glossary/サーバー/)全体の使用量を判断しないようにします。
+256Mは例です。必要量と実行環境の[容量](/glossary/容量/)を[確認](/glossary/確認/)して決めてください。Webで複数の[処理](/glossary/処理/)が同時に走る場合、1回の[処理](/glossary/処理/)の上限だけで[サーバー](/glossary/サーバー/)全体の使用量を判断しないようにします。
 
-アプリ内で変更する場合は、[メモリ](/glossary/メモリ/)を使い切る前に[設定](/glossary/設定/)し、変更後の値を確認します。
+アプリ内で変更する場合は、[メモリ](/glossary/メモリ/)を使い切る前に[設定](/glossary/設定/)し、変更後の値を[確認](/glossary/確認/)します。
 
 ```php
 <?php
@@ -111,13 +111,13 @@ if ($previous === false) {
 error_log('effective memory_limit=' . ini_get('memory_limit'));
 ```
 
-変更できない場合は管理側の制限を確認します。[PHP-FPMの公式説明](https://www.php.net/manual/en/install.fpm.configuration.php)では、`php_admin_value` で指定した値は `ini_set()` で上書きできません。
+変更できない場合は管理側の制限を[確認](/glossary/確認/)します。[PHP-FPMの公式説明](https://www.php.net/manual/en/install.fpm.configuration.php)では、`php_admin_value` で指定した値は `ini_set()` で上書きできません。
 
-PHP 8.5以降には、`memory_limit` に指定できる最大値を決める `max_memory_limit` もあります。これを超える値は警告とともに上限へ制限されます。アプリ側の指定を繰り返す前に、[管理側の設定](https://www.php.net/manual/en/ini.core.php#ini.max-memory-limit)を確認してください。
+PHP 8.5以降には、`memory_limit` に指定できる最大値を決める `max_memory_limit` もあります。これを超える値は警告とともに上限へ制限されます。アプリ側の指定を繰り返す前に、[管理側の設定](https://www.php.net/manual/en/ini.core.php#ini.max-memory-limit)を[確認](/glossary/確認/)してください。
 
 ## Composerの場合はComposer自身の設定を確認する
 
-[Composerの公式の対処手順](https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors)は、まずComposer 2を使っているかを確認するよう案内しています。
+[Composerの公式の対処手順](https://getcomposer.org/doc/articles/troubleshooting.md#memory-limit-errors)は、まずComposer 2を使っているかを[確認](/glossary/確認/)するよう案内しています。
 
 ```bash
 composer --version
@@ -142,22 +142,22 @@ php -d memory_limit=2G composer.phar install
 
 ## OOMKilledとの違いとPHP更新の確認
 
-[KubernetesのOOMKilled](/posts/kubernetes_oomkilled/)は[コンテナ](/glossary/コンテナ/)側で確認する終了理由です。本件の `Allowed memory size ... exhausted` はPHPの上限による[エラー](/glossary/エラー/)なので、まずPHPの[設定](/glossary/設定/)と[ログ](/glossary/ログ/)を確認します。PHPの上限を増やしても、[コンテナ](/glossary/コンテナ/)や[OS](/glossary/os/)側の[容量](/glossary/容量/)は増えません。
+[KubernetesのOOMKilled](/posts/kubernetes_oomkilled/)は[コンテナ](/glossary/コンテナ/)側で[確認](/glossary/確認/)する終了理由です。本件の `Allowed memory size ... exhausted` はPHPの上限による[エラー](/glossary/エラー/)なので、まずPHPの[設定](/glossary/設定/)と[ログ](/glossary/ログ/)を[確認](/glossary/確認/)します。PHPの上限を増やしても、[コンテナ](/glossary/コンテナ/)や[OS](/glossary/os/)側の[容量](/glossary/容量/)は増えません。
 
-PHP 8.4.27の実装には、さらに上の制限に達したときに `Hard memory limit of ... exhausted` を出す[処理](/glossary/処理/)もあります。この別の表示が出ている場合は、通常の上限超過と区別してPHPの版と[ログ](/glossary/ログ/)を確認してください。
+PHP 8.4.27の実装には、さらに上の制限に達したときに `Hard memory limit of ... exhausted` を出す[処理](/glossary/処理/)もあります。この別の表示が出ている場合は、通常の上限超過と区別してPHPの版と[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。
 
-2026年10月21日には、[メモリ](/glossary/メモリ/)不足時の内部処理に関わる脆弱性を含む[公式の更新勧告](https://www.php.net/archive/2026.php#2026-10-21-5)が公開されています。修正版は8.2.35、8.3.36、8.4.27、8.5.12です。該当する系列では修正版以降への[更新](/glossary/更新/)を確認してください。
+2026年10月21日には、[メモリ](/glossary/メモリ/)不足時の内部処理に関わる脆弱性を含む[公式の更新勧告](https://www.php.net/archive/2026.php#2026-10-21-5)が公開されています。修正版は8.2.35、8.3.36、8.4.27、8.5.12です。該当する系列では修正版以降への[更新](/glossary/更新/)を[確認](/glossary/確認/)してください。
 
 公式勧告は、[更新](/glossary/更新/)だけが完全な対策であると説明しています。一時的な措置として示された `memory_limit=-1` を、一般的な[メモリ](/glossary/メモリ/)不足の解決策として常設しないようにします。また、本件の[エラー](/glossary/エラー/)が出ただけで攻撃を受けたとは判断できません。
 
 ## 解決手順のまとめ
 
-最初に、失敗した実行環境の上限と[設定ファイル](/glossary/設定ファイル/)を確認します。括弧内の追加確保量だけを見ず、[処理](/glossary/処理/)の途中の使用量と最大値を記録してください。
+最初に、失敗した実行環境の上限と[設定ファイル](/glossary/設定ファイル/)を[確認](/glossary/確認/)します。括弧内の追加確保量だけを見ず、[処理](/glossary/処理/)の途中の使用量と最大値を記録してください。
 
-[処理](/glossary/処理/)の分割などで使用量を減らすか、必要量を確認して上限を調整します。設定後は有効な値と処理結果を確認し、PHP自体の修正版への[更新](/glossary/更新/)も別に確認します。
+[処理](/glossary/処理/)の分割などで使用量を減らすか、必要量を[確認](/glossary/確認/)して上限を調整します。設定後は有効な値と処理結果を[確認](/glossary/確認/)し、PHP自体の修正版への[更新](/glossary/更新/)も別に[確認](/glossary/確認/)します。
 
-本記事は2026年10月22日に確認した公式資料とPHP 8.4.27の実装に基づきます。掲載したPHP・Composerの[コマンド](/glossary/コマンド/)と[コード](/glossary/コード/)は実行未検証です。
+本記事は2026年10月22日に[確認](/glossary/確認/)した公式資料とPHP 8.4.27の実装に基づきます。掲載したPHP・Composerの[コマンド](/glossary/コマンド/)と[コード](/glossary/コード/)は実行未検証です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

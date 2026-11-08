@@ -111,30 +111,30 @@ podman run --net bridge ubuntu:latest
 
 ## Podman 固有の注意点
 
-Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー/)を使用している場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の `Content-Type` [ヘッダー](/glossary/ヘッダー/)が正しく[設定](/glossary/設定/)されていないと 400 [エラー](/glossary/エラー/)が発生します。`application/json` を指定し、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式であることを確認してください。
+Podman のリモート[API](/glossary/api/)[サーバー](/glossary/サーバー/)を使用している場合、[HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)の `Content-Type` [ヘッダー](/glossary/ヘッダー/)が正しく[設定](/glossary/設定/)されていないと 400 [エラー](/glossary/エラー/)が発生します。`application/json` を指定し、[リクエストボディ](/glossary/リクエストボディ/)が有効な [JSON](/glossary/json/) 形式であることを[確認](/glossary/確認/)してください。
 
-Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか確認します。古い[バージョン](/glossary/バージョン/)の [API](/glossary/api/) [パス](/glossary/パス/)を使用すると 400 [エラー](/glossary/エラー/)が返されます。
+Podman Socket [API](/glossary/api/) を直接操作する際、リクエストパスが `/v1.0.0/libpod/...` の形式で正しく構成されているか[確認](/glossary/確認/)します。古い[バージョン](/glossary/バージョン/)の [API](/glossary/api/) [パス](/glossary/パス/)を使用すると 400 [エラー](/glossary/エラー/)が返されます。
 
-また、SELinux が有効な[環境](/glossary/環境/)では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で確認し、必要に応じてラベルを[修正](/glossary/修正/)してください。
+また、SELinux が有効な[環境](/glossary/環境/)では、socket [ファイル](/glossary/ファイル/)のパーミッションが不正な場合も[リクエスト](/glossary/リクエスト/)解析失敗につながります。`ls -Z ~/.local/share/podman/podman/podman.sock` で[確認](/glossary/確認/)し、必要に応じてラベルを[修正](/glossary/修正/)してください。
 
 ## それでも解決しない場合
 
-Podman [デーモン](/glossary/デーモン/)の詳細[ログ](/glossary/ログ/)を有効にして[エラー](/glossary/エラー/)の詳細を確認します。
+Podman [デーモン](/glossary/デーモン/)の詳細[ログ](/glossary/ログ/)を有効にして[エラー](/glossary/エラー/)の詳細を[確認](/glossary/確認/)します。
 
 ```bash
 podman --log-level debug run <options>
 ```
 
-[ログファイル](/glossary/ログファイル/)が記録されている場合は以下で確認します。
+[ログファイル](/glossary/ログファイル/)が記録されている場合は以下で[確認](/glossary/確認/)します。
 
 ```bash
 journalctl -u podman --no-pager | tail -50
 ```
 
-公式ドキュメント「Podman Run Options」および「Podman [API](/glossary/api/)」ページで、各オプションの正確な形式と使用例を確認してください。
+公式ドキュメント「Podman Run Options」および「Podman [API](/glossary/api/)」ページで、各オプションの正確な形式と使用例を[確認](/glossary/確認/)してください。
 
 [GitHub](/glossary/github/) の Podman Issues ページ（https://github.com/containers/podman/issues）で、類似の問題が報告されていないか検索することも有効です。環境固有の問題（Podman [バージョン](/glossary/バージョン/)、ホスト[OS](/glossary/os/)、コンテナランタイム）を報告する際は、`podman --version` と `podman info` の出力を含めてください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

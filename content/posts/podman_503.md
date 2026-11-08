@@ -33,7 +33,7 @@ Error: unable to connect to Podman socket: Get \"http://d/v4.0.0/libpod/_ping\":
 
 ### 原因1：Podman API ソケット（podman.socket）が起動していない
 
-Podman をシステムサービスとして動作させる場合、`podman.socket` がリッスンしていないと、すべての Podman [コマンド](/glossary/コマンド/)が 503 [エラー](/glossary/エラー/)で失敗します。特にリモート接続や複数ユーザーでの Podman 利用時に発生しやすいです。
+Podman をシステムサービスとして動作させる場合、`podman.socket` がリッスンしていないと、すべての Podman [コマンド](/glossary/コマンド/)が 503 [エラー](/glossary/エラー/)で失敗します。特にリモート接続や複数[ユーザー](/glossary/ユーザー/)での Podman 利用時に発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -160,7 +160,7 @@ podman pull docker.io/library/alpine:latest
 
 ### Podman ソケットのアクセス権限問題
 
-非root ユーザーで Podman を実行する場合、`/run/user/<uid>/podman/podman.sock` への[アクセス権限](/glossary/アクセス権限/)が不足していると 503 [エラー](/glossary/エラー/)が発生します。`podman.socket` ユーザーモード版が起動していることを確認してください。
+非root [ユーザー](/glossary/ユーザー/)で Podman を実行する場合、`/run/user/<uid>/podman/podman.sock` への[アクセス権限](/glossary/アクセス権限/)が不足していると 503 [エラー](/glossary/エラー/)が発生します。`podman.socket` ユーザーモード版が起動していることを[確認](/glossary/確認/)してください。
 
 ```bash
 # 現在のユーザーID を確認
@@ -225,8 +225,8 @@ curl -v https://registry-1.docker.io/v2/
 - 公式ドキュメント：[Podman Remote Connection](https://docs.podman.io/en/latest/markdown/podman-system-connection.1.html)
 - [GitHub](/glossary/github/) Issues：[Podman Issues](https://github.com/containers/podman/issues)
 - [Docker](/glossary/docker/) Hub Status：[status.docker.com](https://status.docker.com/)
-- [レジストリ](/glossary/レジストリ/)の公式ステータスページで障害情報を確認
+- [レジストリ](/glossary/レジストリ/)の公式ステータスページで障害情報を[確認](/glossary/確認/)
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

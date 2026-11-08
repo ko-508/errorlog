@@ -87,7 +87,7 @@ services:
       - DOCKER_PASSWORD=${DOCKER_PASSWORD}
 ```
 
-`~/.docker/config.json`の確認：
+`~/.docker/config.json`の[確認](/glossary/確認/)：
 
 ```bash
 $ cat ~/.docker/config.json
@@ -232,7 +232,7 @@ $ test -f ~/.docker/config.json && echo "Config file exists" || echo "Missing co
 
 ### デバッグログを有効化
 
-[Docker](/glossary/docker/) Composeのデバッグモードで詳細な[エラー](/glossary/エラー/)情報を確認できます。
+[Docker](/glossary/docker/) Composeのデバッグモードで詳細な[エラー](/glossary/エラー/)情報を[確認](/glossary/確認/)できます。
 
 ```bash
 $ DOCKER_CONTENT_TRUST_DEBUG=1 docker-compose up
@@ -254,7 +254,7 @@ $ curl -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/library
 
 ### ログファイルの確認
 
-[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認します。
+[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)します。
 
 ```bash
 # Linux（systemd利用）
@@ -277,4 +277,4 @@ $ log stream --predicate 'process == "com.docker.vmnetd"' --level debug
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

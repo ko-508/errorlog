@@ -171,7 +171,7 @@ const response = await fetch('https://api.stripe.com/v1/charges', {
 
 ## Stripe 固有の注意点
 
-**[API](/glossary/api/) [キー](/glossary/キー/)の権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) [キー](/glossary/キー/)の[権限](/glossary/権限/)を制限することができます。制限された[キー](/glossary/キー/)で全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」セクションで、各[キー](/glossary/キー/)の[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を確認してください。
+**[API](/glossary/api/) [キー](/glossary/キー/)の権限制限：** Stripe [ダッシュボード](/glossary/ダッシュボード/)で [API](/glossary/api/) [キー](/glossary/キー/)の[権限](/glossary/権限/)を制限することができます。制限された[キー](/glossary/キー/)で全権限が必要な操作（チャージ作成など）を実行すると 401 [エラー](/glossary/エラー/)になります。[ダッシュボード](/glossary/ダッシュボード/)の「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」セクションで、各[キー](/glossary/キー/)の[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（アクセス範囲）を[確認](/glossary/確認/)してください。
 
 **[Webhook](/glossary/webhook/) 署名検証：** [Webhook](/glossary/webhook/)（[サーバー](/glossary/サーバー/)間の[非同期](/glossary/非同期/)[イベント](/glossary/イベント/)[通知](/glossary/通知/)）を受け取る際、Stripe は `Stripe-Signature` [ヘッダー](/glossary/ヘッダー/)で署名を[送信](/glossary/送信/)します。この[ヘッダー](/glossary/ヘッダー/)が不正な場合も[認証](/glossary/認証/)[エラー](/glossary/エラー/)として扱われることがあります。[Webhook](/glossary/webhook/) の署名検証には必ず Stripe 公式ライブラリーの `verifyWebhookSignature()` [メソッド](/glossary/メソッド/)を使用してください。
 
@@ -187,7 +187,7 @@ curl https://api.stripe.com/v1/charges \
 
 ## それでも解決しない場合
 
-**Step 1：[ログ](/glossary/ログ/)を確認する**
+**Step 1：[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する**
 
 Node.js では以下の[コマンド](/glossary/コマンド/)で詳細な[デバッグ](/glossary/デバッグ/)情報を表示できます。
 
@@ -195,13 +195,13 @@ Node.js では以下の[コマンド](/glossary/コマンド/)で詳細な[デ�
 DEBUG=stripe:* node your_script.js
 ```
 
-**Step 2：[API](/glossary/api/) [キー](/glossary/キー/)の妥当性を確認する**
+**Step 2：[API](/glossary/api/) [キー](/glossary/キー/)の妥当性を[確認](/glossary/確認/)する**
 
-Stripe [ダッシュボード](/glossary/ダッシュボード/)に[ログイン](/glossary/ログイン/)し、「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」から実際に発行されている[キー](/glossary/キー/)のリストを確認してください。コピー＆ペーストした[キー](/glossary/キー/)が有効な[キー](/glossary/キー/)と完全一致しているか確認します。
+Stripe [ダッシュボード](/glossary/ダッシュボード/)に[ログイン](/glossary/ログイン/)し、「開発者」→「[API](/glossary/api/) [キー](/glossary/キー/)」から実際に発行されている[キー](/glossary/キー/)のリストを[確認](/glossary/確認/)してください。コピー＆ペーストした[キー](/glossary/キー/)が有効な[キー](/glossary/キー/)と完全一致しているか[確認](/glossary/確認/)します。
 
-**Step 3：[リクエスト](/glossary/リクエスト/)の[ヘッダー](/glossary/ヘッダー/)を確認する**
+**Step 3：[リクエスト](/glossary/リクエスト/)の[ヘッダー](/glossary/ヘッダー/)を[確認](/glossary/確認/)する**
 
-cURL または Postman で以下の[コマンド](/glossary/コマンド/)を実行し、実際に[送信](/glossary/送信/)されているリクエストヘッダーを確認してください。
+cURL または Postman で以下の[コマンド](/glossary/コマンド/)を実行し、実際に[送信](/glossary/送信/)されているリクエストヘッダーを[確認](/glossary/確認/)してください。
 
 ```bash
 curl -v https://api.stripe.com/v1/charges \
@@ -209,14 +209,14 @@ curl -v https://api.stripe.com/v1/charges \
   -d amount=2000
 ```
 
-出力の `> Authorization` の行を確認し、[キー](/glossary/キー/)が正しく[送信](/glossary/送信/)されているか確認します。
+出力の `> Authorization` の行を[確認](/glossary/確認/)し、[キー](/glossary/キー/)が正しく[送信](/glossary/送信/)されているか[確認](/glossary/確認/)します。
 
-**Step 4：公式ドキュメントと [GitHub](/glossary/github/) Issues を確認する**
+**Step 4：公式ドキュメントと [GitHub](/glossary/github/) Issues を[確認](/glossary/確認/)する**
 
-[Stripe API リファレンス - Authentication](https://stripe.com/docs/api/authentication) で認証方法の最新仕様を確認してください。
+[Stripe API リファレンス - Authentication](https://stripe.com/docs/api/authentication) で認証方法の最新仕様を[確認](/glossary/確認/)してください。
 
-使用しているライブラリー（stripe.js、stripe-python など）の [GitHub リポジトリー](https://github.com/stripe) で同じ[エラー](/glossary/エラー/)について報告されていないか[検索](/glossary/検索/)し、既知の問題がないか確認します。
+使用しているライブラリー（stripe.js、stripe-python など）の [GitHub リポジトリー](https://github.com/stripe) で同じ[エラー](/glossary/エラー/)について報告されていないか[検索](/glossary/検索/)し、既知の問題がないか[確認](/glossary/確認/)します。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

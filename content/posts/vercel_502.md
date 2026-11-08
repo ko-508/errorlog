@@ -15,7 +15,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function または[フレームワーク](/glossary/フレームワーク/)の [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の[処理](/glossary/処理/)を担当する[関数](/glossary/関数/)や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、ユーザーには「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
+Vercel の 502 Bad Gateway [エラー](/glossary/エラー/)は、Edge Network が[バックエンド](/glossary/バックエンド/)（Serverless Function または[フレームワーク](/glossary/フレームワーク/)の [API](/glossary/api/)）から不正な応答を受け取った、または[タイムアウト](/glossary/タイムアウト/)（応答待機時間超過）が発生したことを示します。つまり、[リクエスト](/glossary/リクエスト/)はVercel の[ネットワーク](/glossary/ネットワーク/)に到達しても、実際の[処理](/glossary/処理/)を担当する[関数](/glossary/関数/)や[サーバー](/glossary/サーバー/)が期待通りの応答を返していない状況です。この[エラー](/glossary/エラー/)が発生すると、[ユーザー](/glossary/ユーザー/)には「502 Bad Gateway」という [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)が返され、[アプリケーション](/glossary/アプリケーション/)の機能停止に直結します。
 
 ## 実際のエラーメッセージ例
 
@@ -167,7 +167,7 @@ export default async function handler(req, res) {
 }
 ```
 
-または `package.json` の build [スクリプト](/glossary/スクリプト/)に問題がないか確認：
+または `package.json` の build [スクリプト](/glossary/スクリプト/)に問題がないか[確認](/glossary/確認/)：
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -208,15 +208,15 @@ Vercel での 502 [エラー](/glossary/エラー/)は、[環境](/glossary/環�
 }
 ```
 
-**Next.js の [API](/glossary/api/) Routes の場合**：`/pages/api/` ディレクトリー配下の[ファイル](/glossary/ファイル/)が正しく[デプロイ](/glossary/デプロイ/)されているか、`vercel inspect` [コマンド](/glossary/コマンド/)で確認できます。
+**Next.js の [API](/glossary/api/) Routes の場合**：`/pages/api/` ディレクトリー配下の[ファイル](/glossary/ファイル/)が正しく[デプロイ](/glossary/デプロイ/)されているか、`vercel inspect` [コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)できます。
 
-**ミドルウェア層の確認**：Next.js の `middleware.ts` が大量のリソースを消費している場合、Serverless Function の実行前に失敗することがあります。
+**ミドルウェア層の[確認](/glossary/確認/)**：Next.js の `middleware.ts` が大量の[リソース](/glossary/リソース/)を消費している場合、Serverless Function の実行前に失敗することがあります。
 
 ## それでも解決しない場合
 
 ### ログの確認
 
-`vercel logs` [コマンド](/glossary/コマンド/)でリアルタイムログを確認します：
+`vercel logs` [コマンド](/glossary/コマンド/)でリアルタイムログを[確認](/glossary/確認/)します：
 
 ```bash
 vercel logs <url> --follow
@@ -236,7 +236,7 @@ vercel logs <your-production-url> --follow
 vercel dev
 ```
 
-この際、ローカルでは動作するが本番で 502 が出ている場合、以下を確認してください：
+この際、ローカルでは動作するが本番で 502 が出ている場合、以下を[確認](/glossary/確認/)してください：
 
 - [環境変数](/glossary/環境変数/)が[本番環境](/glossary/本番環境/)で正しく[設定](/glossary/設定/)されているか（Vercel [ダッシュボード](/glossary/ダッシュボード/)の Settings > Environment Variables）
 - [関数](/glossary/関数/)のメモリー[設定](/glossary/設定/)が不足していないか
@@ -250,4 +250,4 @@ vercel dev
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

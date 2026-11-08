@@ -155,11 +155,11 @@ firebase.auth().onAuthStateChanged(async (user) => {
 
 **Cloud Firestore と Realtime Database の違い**
 
-Firestore では 503 [エラー](/glossary/エラー/)が多く発生するのは、複雑な[クエリ](/glossary/クエリ/)が実行されている場合です。特に複合[インデックス](/glossary/インデックス/)が未作成の状態で大規模[クエリ](/glossary/クエリ/)を実行すると 503 が返されます。Firebase Console から「Firestore > [インデックス](/glossary/インデックス/)」を確認し、提案されている[インデックス](/glossary/インデックス/)をすべて作成してください。
+Firestore では 503 [エラー](/glossary/エラー/)が多く発生するのは、複雑な[クエリ](/glossary/クエリ/)が実行されている場合です。特に複合[インデックス](/glossary/インデックス/)が未作成の状態で大規模[クエリ](/glossary/クエリ/)を実行すると 503 が返されます。Firebase Console から「Firestore > [インデックス](/glossary/インデックス/)」を[確認](/glossary/確認/)し、提案されている[インデックス](/glossary/インデックス/)をすべて作成してください。
 
 **リージョン制約による 503**
 
-Firebase [プロジェクト](/glossary/プロジェクト/)が特定のリージョンに制限されている場合、異なるリージョンからの[リクエスト](/glossary/リクエスト/)が 503 を返すことがあります。Cloud Functions のリージョン[設定](/glossary/設定/)を確認してください。
+Firebase [プロジェクト](/glossary/プロジェクト/)が特定のリージョンに制限されている場合、異なるリージョンからの[リクエスト](/glossary/リクエスト/)が 503 を返すことがあります。Cloud Functions のリージョン[設定](/glossary/設定/)を[確認](/glossary/確認/)してください。
 
 ```javascript
 // リージョンを明示的に指定
@@ -170,13 +170,13 @@ exports.processData = functions
   });
 ```
 
-**[レート制限](/glossary/レート制限/)のクォータ確認**
+**[レート制限](/glossary/レート制限/)のクォータ[確認](/glossary/確認/)**
 
-Firebase Console の「[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/) > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を確認します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。[本番環境](/glossary/本番環境/)では Blaze プラン（従量課金）への移行を検討してください。
+Firebase Console の「[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/) > 使用状況」で[リアルタイム](/glossary/リアルタイム/) [API](/glossary/api/) 呼び出し数を[確認](/glossary/確認/)します。無料プランでは 1 秒あたり 1000 読み取り、100 書き込みに制限されており、超過すると 503 が返されます。[本番環境](/glossary/本番環境/)では Blaze プラン（従量課金）への移行を検討してください。
 
 ## それでも解決しない場合
 
-**確認すべき[ログ](/glossary/ログ/)と[デバッグ](/glossary/デバッグ/)手順**
+**[確認](/glossary/確認/)すべき[ログ](/glossary/ログ/)と[デバッグ](/glossary/デバッグ/)手順**
 
 ```bash
 # Firebase CLI でプロジェクトの接続確認
@@ -202,8 +202,8 @@ timestamp>="<エラーが発生した時刻>"
 
 **コミュニティリソース**
 
-Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を確認してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと[対応](/glossary/対応/)が迅速になります。
+Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を[確認](/glossary/確認/)してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと[対応](/glossary/対応/)が迅速になります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -55,7 +55,7 @@ context deadline exceeded (Client.Timeout or context cancellation while reading 
 
 第一に、`context deadline exceeded` の直後を見ます。何も付いていないなら、[Docker](/glossary/docker/) やその周辺の[ソフトウェア](/glossary/ソフトウェア/)が自分で設けた締め切りです。この場合、[ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)を触っても意味がないことがあります。
 
-第二に、`while awaiting headers` が付いているなら、相手からの最初の反応が返ってきていません。名前解決、[プロキシ](/glossary/プロキシ/)、経路、相手側の停止を順に確認します。
+第二に、`while awaiting headers` が付いているなら、相手からの最初の反応が返ってきていません。名前解決、[プロキシ](/glossary/プロキシ/)、経路、相手側の停止を順に[確認](/glossary/確認/)します。
 
 第三に、`while reading body` が付いているなら、[通信](/glossary/通信/)は成立し、転送が始まっています。疑うのは速度と量です。大きな[イメージ](/glossary/イメージ/)を細い[回線](/glossary/回線/)で取得している場合が典型です。
 
@@ -65,7 +65,7 @@ context deadline exceeded (Client.Timeout or context cancellation while reading 
 
 ### 原因1：応答の見出しが返る前に切れている
 
-末尾が `while awaiting headers` の場合です。順に確認します。
+末尾が `while awaiting headers` の場合です。順に[確認](/glossary/確認/)します。
 
 まず、名前解決と到達性を [Docker](/glossary/docker/) の外から確かめます。
 
@@ -98,7 +98,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-[設定](/glossary/設定/)が効いているかは、次で確認できます。
+[設定](/glossary/設定/)が効いているかは、次で[確認](/glossary/確認/)できます。
 
 ```bash
 docker info | grep -i proxy
@@ -117,7 +117,7 @@ docker info | grep -i proxy
 }
 ```
 
-この内容を `/etc/docker/daemon.json` に置き、常駐している側を再起動します。[設定](/glossary/設定/)を変えたら、実際に反映されているかを確認してください。
+この内容を `/etc/docker/daemon.json` に置き、常駐している側を再起動します。[設定](/glossary/設定/)を変えたら、実際に反映されているかを[確認](/glossary/確認/)してください。
 
 ```bash
 docker info | grep -i "concurrent"
@@ -145,7 +145,7 @@ docker compose up -d
 
 `COMPOSE_PARALLEL_LIMIT` は、常駐側への同時呼び出しの上限を指定する[環境変数](/glossary/環境変数/)として公式文書に載っています。一度に多くの[コンテナ](/glossary/コンテナ/)を起動しようとして詰まっている場合は、これで収まることがあります。
 
-なお、[環境変数](/glossary/環境変数/)は書き出さないと Compose に渡りません。[設定](/glossary/設定/)したのに変わらない場合は、`export` を忘れていないかを確認してください。
+なお、[環境変数](/glossary/環境変数/)は書き出さないと Compose に渡りません。[設定](/glossary/設定/)したのに変わらない場合は、`export` を忘れていないかを[確認](/glossary/確認/)してください。
 
 ### 原因4：ビルド中に出た
 
@@ -175,7 +175,7 @@ docker build \
 
 1. 文言の末尾を読む。括弧なし、`while awaiting headers`、`while reading body` のどれかを確定させる。
 2. 進捗表示があれば、切れる位置を2回以上見比べる。同じ位置なら締め切りが固定、違う位置なら[回線](/glossary/回線/)の不安定さを疑う。
-3. `while awaiting headers` なら、[Docker](/glossary/docker/) の外から名前解決と到達性を確かめる。外から通るなら[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)が常駐側に渡っているかを確認する。
+3. `while awaiting headers` なら、[Docker](/glossary/docker/) の外から名前解決と到達性を確かめる。外から通るなら[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)が常駐側に渡っているかを[確認](/glossary/確認/)する。
 4. `while reading body` なら、同時取得数を減らし、試行回数を増やす。それでも同じ位置で切れるなら、締め切りの持ち主は [Docker](/glossary/docker/) ではない。
 5. Compose なら、`COMPOSE_HTTP_TIMEOUT` は効かない前提で考える。同時実行数を絞る方向を試す。
 6. `failed to solve` が付いていればビルド側。土台の取得か、命令の実行中かを出力の位置で見分ける。
@@ -216,4 +216,4 @@ docker run --rm alpine sh -c "nslookup registry-1.docker.io; wget -S -O /dev/nul
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

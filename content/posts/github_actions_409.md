@@ -14,7 +14,7 @@ related_services: ["Azure App Service", "GitHub API"]
 
 ## エラーの概要
 
-[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 409 は、[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)上のリソースの現在の状態と競合していることを示します。[GitHub](/glossary/github/) Actions では、別の[デプロイ](/glossary/デプロイ/)が進行中である場合や複数の同時更新が[ファイル](/glossary/ファイル/)のハッシュ値と競合している場合、または[ポリシー](/glossary/ポリシー/)変更が[リポジトリ](/glossary/リポジトリ/)権限設定と競合する場合に発生することが多いです。
+[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 409 は、[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)上の[リソース](/glossary/リソース/)の現在の状態と競合していることを示します。[GitHub](/glossary/github/) Actions では、別の[デプロイ](/glossary/デプロイ/)が進行中である場合や複数の同時更新が[ファイル](/glossary/ファイル/)のハッシュ値と競合している場合、または[ポリシー](/glossary/ポリシー/)変更が[リポジトリ](/glossary/リポジトリ/)権限設定と競合する場合に発生することが多いです。
 
 ## 実際のエラーメッセージ例
 
@@ -44,7 +44,7 @@ Error: PUT https://ndia.ghe.com/api/v3/repos/<organization>/<repository>/actions
 
 **[エラーメッセージ](/glossary/エラーメッセージ/)の読み方：**
 
-- `409` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)のリソース状態と競合している
+- `409` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[リクエスト](/glossary/リクエスト/)が[サーバー](/glossary/サーバー/)の[リソース](/glossary/リソース/)状態と競合している
 - `Conflict` → 理由フレーズ：複数の操作や状態の不整合を示す
 - `"There is a deployment currently in progress. Please try again when it completes."` → [エラー](/glossary/エラー/)本体：別の[デプロイ](/glossary/デプロイ/)がまだ実行中であることを明示
 - `scm-deployment-id` → デプロイメント [ID](/glossary/id/)：進行中の[デプロイ](/glossary/デプロイ/)を特定するための識別子
@@ -106,7 +106,7 @@ jobs:
           package: ./build
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # Azure ポータルの App Service デプロイブレードで、デプロイが順序立てて実行されていることを確認します。
@@ -221,7 +221,7 @@ update_file_with_retry(
 )
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # スクリプトを実行して、複数回のコンフリクトが発生しても最終的に成功することを確認します。
@@ -314,7 +314,7 @@ async function updateActionsPermissionsWithCheck() {
 updateActionsPermissionsWithCheck();
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # スクリプトを実行して、Organization ポリシーの確認と権限更新が順番に実行されることを確認します。
@@ -412,7 +412,7 @@ async function checkAndMergePullRequest() {
 checkAndMergePullRequest();
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # スクリプトを実行して、PR の状態が確認され、mergeable_state が checked であれば成功です。
@@ -431,9 +431,9 @@ node merge_pr.js
 
 ## ツール固有の注意点
 
-**Azure App Service への[デプロイ](/glossary/デプロイ/)時の確認**
+**Azure App Service への[デプロイ](/glossary/デプロイ/)時の[確認](/glossary/確認/)**
 
-`azure/webapps-deploy` [アクション](/glossary/アクション/)を使用して[エラー](/glossary/エラー/) 409 が発生した場合、Azure ポータルのデプロイブレードで詳細を確認する必要があります。Kudu（App Service の高度な管理[ツール](/glossary/ツール/)）で進行中の[デプロイ](/glossary/デプロイ/)を強制停止できます。
+`azure/webapps-deploy` [アクション](/glossary/アクション/)を使用して[エラー](/glossary/エラー/) 409 が発生した場合、Azure ポータルのデプロイブレードで詳細を[確認](/glossary/確認/)する必要があります。Kudu（App Service の高度な管理[ツール](/glossary/ツール/)）で進行中の[デプロイ](/glossary/デプロイ/)を強制停止できます。
 
 ```bash
 # App Service のスケーリング中や再起動中に競合が発生することもあります
@@ -443,7 +443,7 @@ az webapp deployment list --resource-group <your-resource-group> --name <your-ap
 
 **[GitHub](/glossary/github/) Enterprise での権限設定**
 
-[GitHub](/glossary/github/) Enterprise 2.20 以降では、Enterprise Admin が Actions の[アクセスポリシー](/glossary/アクセスポリシー/)を一元管理しています。リポジトリレベルでの権限変更は Enterprise [ポリシー](/glossary/ポリシー/)に制限されるため、変更前に Enterprise Admin に確認が必要な場合があります。
+[GitHub](/glossary/github/) Enterprise 2.20 以降では、Enterprise Admin が Actions の[アクセスポリシー](/glossary/アクセスポリシー/)を一元管理しています。リポジトリレベルでの権限変更は Enterprise [ポリシー](/glossary/ポリシー/)に制限されるため、変更前に Enterprise Admin に[確認](/glossary/確認/)が必要な場合があります。
 
 **複数[ファイル](/glossary/ファイル/)更新時の [Git](/glossary/git/) Tree [API](/glossary/api/)**
 
@@ -476,11 +476,11 @@ const tree = await octokit.rest.git.createTree({
 
 ## それでも解決しない場合
 
-[ログ](/glossary/ログ/)の確認と[デバッグ](/glossary/デバッグ/)手順を実施してください。
+[ログ](/glossary/ログ/)の[確認](/glossary/確認/)と[デバッグ](/glossary/デバッグ/)手順を実施してください。
 
-**[GitHub](/glossary/github/) Actions [ログ](/glossary/ログ/)で詳細を確認**
+**[GitHub](/glossary/github/) Actions [ログ](/glossary/ログ/)で詳細を[確認](/glossary/確認/)**
 
-[ワークフロー](/glossary/ワークフロー/)実行ページの `Logs` タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。デバッグモードを有効化することでより詳細な情報が表示されます。
+[ワークフロー](/glossary/ワークフロー/)実行ページの `Logs` タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)します。デバッグモードを有効化することでより詳細な情報が表示されます。
 
 ```bash
 # ワークフロー内でデバッグモードを有効化（secrets.ACTIONS_STEP_DEBUG を設定）
@@ -499,7 +499,7 @@ az webapp log tail --resource-group <your-resource-group> --name <your-app-name>
 
 **[GitHub](/glossary/github/) [API](/glossary/api/) の詳細確認**
 
-curl で[リクエスト](/glossary/リクエスト/)を手動実行し、レスポンスヘッダーの `X-RateLimit-*` や `Etag` を確認します。
+curl で[リクエスト](/glossary/リクエスト/)を手動実行し、レスポンスヘッダーの `X-RateLimit-*` や `Etag` を[確認](/glossary/確認/)します。
 
 ```bash
 curl -v -H "Authorization: token <your-github-token>" \
@@ -514,4 +514,4 @@ curl -v -H "Authorization: token <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

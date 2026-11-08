@@ -10,13 +10,13 @@ related_services: ["Google", "JSON-LD", "Git", "GitHub Actions"]
 
 ## エラーの概要
 
-Hugo（PaperMod テーマ）で構築したサイトの構造化データ（[JSON](/glossary/json/)-LD）を Google のリッチリザルトテストで確認したところ、`datePublished` と `dateModified` に `0001-01-01T00:00:00Z` という明らかに誤った日付が出力されていた。記事のフロントマターには正しく `date: 2026-05-29` を[設定](/glossary/設定/)していたにもかかわらず、構造化データには Go の「ゼロ値」に相当する日付が混入していた。
+Hugo（PaperMod テーマ）で構築したサイトの構造化データ（[JSON](/glossary/json/)-LD）を Google のリッチリザルトテストで[確認](/glossary/確認/)したところ、`datePublished` と `dateModified` に `0001-01-01T00:00:00Z` という明らかに誤った日付が出力されていた。記事のフロントマターには正しく `date: 2026-05-29` を[設定](/glossary/設定/)していたにもかかわらず、構造化データには Go の「ゼロ値」に相当する日付が混入していた。
 
 ---
 
 ## 実際のエラー出力例
 
-Google のリッチリザルトテストおよびページソースで確認された [JSON](/glossary/json/)-LD の内容：
+Google のリッチリザルトテストおよびページソースで[確認](/glossary/確認/)された [JSON](/glossary/json/)-LD の内容：
 
 ```json
 {
@@ -122,7 +122,7 @@ cp themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 ### PaperMod のバージョンと `schema_json.html` の仕様変更
 
-PaperMod v8 以降、`schema_json.html` の構造が変更されている場合がある。テーマを[更新](/glossary/更新/)した際はオーバーライドファイルとの差分を確認すること。
+PaperMod v8 以降、`schema_json.html` の構造が変更されている場合がある。テーマを[更新](/glossary/更新/)した際はオーバーライドファイルとの差分を[確認](/glossary/確認/)すること。
 
 ```bash
 diff themes/PaperMod/layouts/_partials/templates/schema_json.html \
@@ -133,10 +133,10 @@ diff themes/PaperMod/layouts/_partials/templates/schema_json.html \
 
 ## それでも解決しない場合
 
-- [Google リッチリザルトテスト](https://search.google.com/test/rich-results) でページの [URL](/glossary/url/) を直接[テスト](/glossary/テスト/)して、構造化データのパースエラーを確認する
+- [Google リッチリザルトテスト](https://search.google.com/test/rich-results) でページの [URL](/glossary/url/) を直接[テスト](/glossary/テスト/)して、構造化データのパースエラーを[確認](/glossary/確認/)する
 - Hugo の `hugo server` でローカルビルドし、ページのソースを直接確認する
 - PaperMod の [GitHub Issues](https://github.com/adityatelange/hugo-PaperMod/issues) で同様の報告を[検索](/glossary/検索/)する
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

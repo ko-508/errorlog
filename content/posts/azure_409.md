@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "Azure PowerShell", "REST API"]
 ---
 ## エラーの概要
 
-Azure 409 Conflict [エラー](/glossary/エラー/)は、リソースの現在の状態と [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が競合している場合に発生します。通常、同じ名前のリソースが既に存在する、リソースがプロビジョニング途中である、または削除処理中の状態で新しい操作を実行しようとしたときに返されます。この[エラー](/glossary/エラー/)は Azure Portal、Azure [CLI](/glossary/cli/)、Azure PowerShell、[REST](/glossary/rest/) [API](/glossary/api/) など複数の[インターフェース](/glossary/インターフェース/)で発生する可能性があります。
+Azure 409 Conflict [エラー](/glossary/エラー/)は、[リソース](/glossary/リソース/)の現在の状態と [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が競合している場合に発生します。通常、同じ名前の[リソース](/glossary/リソース/)が既に存在する、[リソース](/glossary/リソース/)がプロビジョニング途中である、または削除処理中の状態で新しい操作を実行しようとしたときに返されます。この[エラー](/glossary/エラー/)は Azure Portal、Azure [CLI](/glossary/cli/)、Azure PowerShell、[REST](/glossary/rest/) [API](/glossary/api/) など複数の[インターフェース](/glossary/インターフェース/)で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -39,7 +39,7 @@ Message: The storage account myStorageAccount already exists.
 
 ### 原因1：同じ名前のリソースが既に存在する
 
-同じ名前のリソース（ストレージアカウント、App Service、Cosmos DB など）が既に同じリソースグループ内に存在すると、新規作成時に 409 Conflict が発生します。Azure の多くのリソースはグローバルに一意な名前を要求するため、他のリソースグループや他の[サブスクリプション](/glossary/サブスクリプション/)の同名リソースも競合の原因となります。
+同じ名前の[リソース](/glossary/リソース/)（ストレージアカウント、App Service、Cosmos DB など）が既に同じリソースグループ内に存在すると、新規作成時に 409 Conflict が発生します。Azure の多くの[リソース](/glossary/リソース/)はグローバルに一意な名前を要求するため、他のリソースグループや他の[サブスクリプション](/glossary/サブスクリプション/)の同名[リソース](/glossary/リソース/)も競合の原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -61,7 +61,7 @@ az storage account create \
 
 ### 原因2：リソースが削除処理中で他の操作ができない状態
 
-リソースを[削除](/glossary/削除/)してから数秒以内に同じ名前で新しいリソースを作成しようとすると、削除処理が[バックエンド](/glossary/バックエンド/)で完全に終了していないため 409 [エラー](/glossary/エラー/)が発生します。特にストレージアカウントや App Service Plan では数秒から数分の[遅延](/glossary/遅延/)が生じることがあります。
+[リソース](/glossary/リソース/)を[削除](/glossary/削除/)してから数秒以内に同じ名前で新しい[リソース](/glossary/リソース/)を作成しようとすると、削除処理が[バックエンド](/glossary/バックエンド/)で完全に終了していないため 409 [エラー](/glossary/エラー/)が発生します。特にストレージアカウントや App Service Plan では数秒から数分の[遅延](/glossary/遅延/)が生じることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -100,7 +100,7 @@ az storage account create \
 
 ### 原因3：Provisioning State が Succeeded でない状態で操作を実行
 
-リソースのプロビジョニングが進行中（Creating、Updating、Deleting）の状態で、同じリソースに対して別の操作（スケーリング、[設定変更](/glossary/設定変更/)、追加リソースの[デプロイ](/glossary/デプロイ/)など）を実行すると 409 [エラー](/glossary/エラー/)が発生します。特に大規模なリソースグループへのデプロイメントでは複数のリソースが[非同期](/glossary/非同期/)にプロビジョニングされるため、依存関係がある場合に問題が生じます。
+[リソース](/glossary/リソース/)のプロビジョニングが進行中（Creating、Updating、Deleting）の状態で、同じ[リソース](/glossary/リソース/)に対して別の操作（スケーリング、[設定変更](/glossary/設定変更/)、追加[リソース](/glossary/リソース/)の[デプロイ](/glossary/デプロイ/)など）を実行すると 409 [エラー](/glossary/エラー/)が発生します。特に大規模なリソースグループへのデプロイメントでは複数の[リソース](/glossary/リソース/)が[非同期](/glossary/非同期/)にプロビジョニングされるため、依存関係がある場合に問題が生じます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -146,10 +146,10 @@ az webapp create \
 ## ツール固有の注意点
 
 **Azure Portal での確認方法：**
-Azure Portal からリソースの詳細ページを開くと、「概要」タブに「Provisioning state」が表示されます。このステータスが「Succeeded」になるまで、そのリソースに対する変更操作は待機してください。
+Azure Portal から[リソース](/glossary/リソース/)の詳細ページを開くと、「概要」タブに「Provisioning state」が表示されます。このステータスが「Succeeded」になるまで、その[リソース](/glossary/リソース/)に対する変更操作は待機してください。
 
-**複数リソースの[デプロイ](/glossary/デプロイ/)時の注意：**
-Azure Resource Manager (ARM) [テンプレート](/glossary/テンプレート/)や Terraform、Bicep などで複数リソースを一括[デプロイ](/glossary/デプロイ/)する場合、`dependsOn` [属性](/glossary/属性/)を明示的に指定してリソース間の依存関係を定義することが重要です。これによりリソースが順序通りにプロビジョニングされ、409 [エラー](/glossary/エラー/)を防げます。
+**複数[リソース](/glossary/リソース/)の[デプロイ](/glossary/デプロイ/)時の注意：**
+Azure Resource Manager (ARM) [テンプレート](/glossary/テンプレート/)や Terraform、Bicep などで複数[リソース](/glossary/リソース/)を一括[デプロイ](/glossary/デプロイ/)する場合、`dependsOn` [属性](/glossary/属性/)を明示的に指定して[リソース](/glossary/リソース/)間の依存関係を定義することが重要です。これにより[リソース](/glossary/リソース/)が順序通りにプロビジョニングされ、409 [エラー](/glossary/エラー/)を防げます。
 
 ```yaml
 # 例：Bicep での依存関係定義
@@ -174,7 +174,7 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
 ```
 
 **グローバルに一意な名前の必要性：**
-ストレージアカウント、App Service、Cosmos DB、Azure [SQL](/glossary/sql/) Database など、インターネット経由でアクセスされるリソースはグローバル名前空間を共有します。同じ名前が世界中のどのリージョン・どの[サブスクリプション](/glossary/サブスクリプション/)にも存在しないことを確認してください。
+ストレージアカウント、App Service、Cosmos DB、Azure [SQL](/glossary/sql/) Database など、インターネット経由でアクセスされる[リソース](/glossary/リソース/)はグローバル名前空間を共有します。同じ名前が世界中のどのリージョン・どの[サブスクリプション](/glossary/サブスクリプション/)にも存在しないことを[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
@@ -188,17 +188,17 @@ az resource show \
   --query provisioningState
 ```
 
-2. **Activity Log の確認：**
-Azure Portal で「アクティビティログ」を開き、409 [エラー](/glossary/エラー/)の詳細なメッセージを確認します。「[JSON](/glossary/json/)」ビューで[展開](/glossary/展開/)すると、競合の具体的な原因が表示される場合があります。
+2. **Activity Log の[確認](/glossary/確認/)：**
+Azure Portal で「アクティビティログ」を開き、409 [エラー](/glossary/エラー/)の詳細なメッセージを[確認](/glossary/確認/)します。「[JSON](/glossary/json/)」ビューで[展開](/glossary/展開/)すると、競合の具体的な原因が表示される場合があります。
 
-3. **リソース グループのロック確認：**
+3. **[リソース](/glossary/リソース/) グループのロック[確認](/glossary/確認/)：**
 
 ```bash
 az group lock list \
   --resource-group <your-resource-group>
 ```
 
-リソースグループやリソースレベルでロックが[設定](/glossary/設定/)されていないか確認してください。
+リソースグループやリソースレベルでロックが[設定](/glossary/設定/)されていないか[確認](/glossary/確認/)してください。
 
 4. **一時的な[バックエンド](/glossary/バックエンド/)問題の可能性：**
 409 [エラー](/glossary/エラー/)が断続的に発生する場合、Azure [バックエンド](/glossary/バックエンド/)の一時的な問題の可能性があります。指数[バックオフ](/glossary/バックオフ/)で数分間隔を空けて再試行してください。
@@ -209,4 +209,4 @@ az group lock list \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

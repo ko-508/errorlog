@@ -134,28 +134,28 @@ Request Body に不正な [JSON](/glossary/json/)、不正な[認証](/glossary/
 
 ## Postman 固有の注意点
 
-Postman で 500 [エラー](/glossary/エラー/)に[対応](/glossary/対応/)する際は、まず **Postman Console** を活用して詳細情報を確認することが重要です。`View` メニューから `Show Postman Console` を選択すると、[リクエスト](/glossary/リクエスト/)・レスポンスヘッダ、Cookie、認証情報、本文など詳細が表示されます。この[コンソール](/glossary/コンソール/)で[サーバー](/glossary/サーバー/)からの実際の[エラーメッセージ](/glossary/エラーメッセージ/)を確認できるため、問題の原因特定が容易になります。
+Postman で 500 [エラー](/glossary/エラー/)に[対応](/glossary/対応/)する際は、まず **Postman Console** を活用して詳細情報を[確認](/glossary/確認/)することが重要です。`View` メニューから `Show Postman Console` を選択すると、[リクエスト](/glossary/リクエスト/)・レスポンスヘッダ、Cookie、認証情報、本文など詳細が表示されます。この[コンソール](/glossary/コンソール/)で[サーバー](/glossary/サーバー/)からの実際の[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)できるため、問題の原因特定が容易になります。
 
-また、Postman は[環境変数](/glossary/環境変数/)を使用して[テスト](/glossary/テスト/)を実行する場合が多いため、[環境変数](/glossary/環境変数/)の値が期限切れの[認証](/glossary/認証/)[トークン](/glossary/トークン/)や[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) の誤りでないか確認してください。Environment タブで各変数の値を検証し、特に認証関連の値は最新の状態かどうか再度確認します。
+また、Postman は[環境変数](/glossary/環境変数/)を使用して[テスト](/glossary/テスト/)を実行する場合が多いため、[環境変数](/glossary/環境変数/)の値が期限切れの[認証](/glossary/認証/)[トークン](/glossary/トークン/)や[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) の誤りでないか[確認](/glossary/確認/)してください。Environment タブで各変数の値を検証し、特に認証関連の値は最新の状態かどうか再度確認します。
 
-Postman Cloud 機能（History、Sync、Shared Collections）を使用している場合、インターネット接続の状態も確認してください。接続が不安定な[環境](/glossary/環境/)では Postman Cloud との[通信](/glossary/通信/)に失敗し、500 [エラー](/glossary/エラー/)のような形で表現されることがあります。
+Postman Cloud 機能（History、Sync、Shared Collections）を使用している場合、インターネット接続の状態も[確認](/glossary/確認/)してください。接続が不安定な[環境](/glossary/環境/)では Postman Cloud との[通信](/glossary/通信/)に失敗し、500 [エラー](/glossary/エラー/)のような形で表現されることがあります。
 
 ## それでも解決しない場合
 
 以下の手順でさらに詳細な情報を収集します。
 
-1. **Postman Console で詳細[ログ](/glossary/ログ/)を確認する**
+1. **Postman Console で詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する**
    - `View` → `Show Postman Console` を開く
-   - Request・Response タブでヘッダ、本文、タイミング情報を確認
-   - [エラーレスポンス](/glossary/エラーレスポンス/)に具体的な[エラーメッセージ](/glossary/エラーメッセージ/)が含まれているか確認する
+   - Request・Response タブでヘッダ、本文、タイミング情報を[確認](/glossary/確認/)
+   - [エラーレスポンス](/glossary/エラーレスポンス/)に具体的な[エラーメッセージ](/glossary/エラーメッセージ/)が含まれているか[確認](/glossary/確認/)する
 
-2. **Postman のサービス状態を確認する**
+2. **Postman のサービス状態を[確認](/glossary/確認/)する**
    - https://status.postman.com にアクセス
-   - [API](/glossary/api/)・Cloud Sync・Web Dashboard など各サービスの状態を確認
+   - [API](/glossary/api/)・Cloud Sync・Web Dashboard など各サービスの状態を[確認](/glossary/確認/)
    - [障害](/glossary/障害/)が報告されている場合は[復旧](/glossary/復旧/)を待つ
 
-3. **[テスト](/glossary/テスト/)対象 [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認する**
-   - [API](/glossary/api/) の管理者に連絡し、該当時刻のサーバーエラーログを確認してもらう
+3. **[テスト](/glossary/テスト/)対象 [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する**
+   - [API](/glossary/api/) の管理者に連絡し、該当時刻のサーバーエラーログを[確認](/glossary/確認/)してもらう
    - [データベース](/glossary/データベース/)接続[エラー](/glossary/エラー/)、[アプリケーション](/glossary/アプリケーション/)の例外、[メモリ](/glossary/メモリ/)不足など具体的な原因を特定する
 
 4. **代替方法で[エラー](/glossary/エラー/)を再現する**
@@ -164,8 +164,8 @@ Postman Cloud 機能（History、Sync、Shared Collections）を使用してい�
 
 5. **Postman 公式ドキュメントを参照する**
    - https://learning.postman.com/docs/sending-requests/troubleshooting-api-requests/ 
-   - Troubleshooting セクションで既知の問題と対応方法を確認する
+   - Troubleshooting セクションで既知の問題と対応方法を[確認](/glossary/確認/)する
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

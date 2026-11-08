@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-[Docker](/glossary/docker/)の409[エラー](/glossary/エラー/)は、[HTTP](/glossary/http/)標準仕様で「Conflict」を示す[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Daemonが[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)の操作を受け付けられない状態を表します。通常、リソースの重複、[ポート](/glossary/ポート/)の競合、不正な[コンテナ](/glossary/コンテナ/)の状態遷移などが原因となります。この[エラー](/glossary/エラー/)が発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しており、[Docker](/glossary/docker/)[コマンド](/glossary/コマンド/)実行時や[API](/glossary/api/)呼び出し時に頻繁に遭遇します。
+[Docker](/glossary/docker/)の409[エラー](/glossary/エラー/)は、[HTTP](/glossary/http/)標準仕様で「Conflict」を示す[ステータスコード](/glossary/ステータスコード/)です。[Docker](/glossary/docker/) Daemonが[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)の操作を受け付けられない状態を表します。通常、[リソース](/glossary/リソース/)の重複、[ポート](/glossary/ポート/)の競合、不正な[コンテナ](/glossary/コンテナ/)の状態遷移などが原因となります。この[エラー](/glossary/エラー/)が発生した場合、現在のシステム状態と実行しようとしている操作に矛盾があることを意味しており、[Docker](/glossary/docker/)[コマンド](/glossary/コマンド/)実行時や[API](/glossary/api/)呼び出し時に頻繁に遭遇します。
 
 ## 実際のエラーメッセージ例
 
@@ -196,7 +196,7 @@ docker push myregistry.azurecr.io/myapp:v1.0.0
 
 ### ログとデバッグコマンドの確認
 
-[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)を確認することで、詳細な[エラー](/glossary/エラー/)原因を特定できます。
+[Docker](/glossary/docker/) Daemonの[ログ](/glossary/ログ/)を[確認](/glossary/確認/)することで、詳細な[エラー](/glossary/エラー/)原因を特定できます。
 
 ```bash
 # Daemonログの確認（Linux/Mac）
@@ -211,7 +211,7 @@ Get-EventLog -LogName Application -Source Docker -Newest 20
 
 ### リソース競合の完全クリア
 
-頑固な409[エラー](/glossary/エラー/)が続く場合、以下の手順で全リソースを確認・クリアしてください。
+頑固な409[エラー](/glossary/エラー/)が続く場合、以下の手順で全[リソース](/glossary/リソース/)を[確認](/glossary/確認/)・クリアしてください。
 
 ```bash
 # 全コンテナをリスト表示（停止中も含む）
@@ -238,4 +238,4 @@ docker volume ls
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

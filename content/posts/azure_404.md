@@ -11,7 +11,7 @@ related_services: ["Azure Portal", "Azure CLI", "REST API"]
 ---
 ## エラーの概要
 
-Azureの404[エラー](/glossary/エラー/)は、[API](/glossary/api/)やポータルからアクセスしようとしたリソースが見つからないことを示す[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生すると、指定したリソース名、リソース[ID](/glossary/id/)、あるいは[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が存在しないか、[アクセス権限](/glossary/アクセス権限/)がない状態を意味します。Azure [CLI](/glossary/cli/)や[REST](/glossary/rest/) [API](/glossary/api/)、Azure Portalを通じてリソースを操作する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、原因の特定と対処には体系的なアプローチが必要です。
+Azureの404[エラー](/glossary/エラー/)は、[API](/glossary/api/)やポータルからアクセスしようとした[リソース](/glossary/リソース/)が見つからないことを示す[HTTP](/glossary/http/)[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)が発生すると、指定した[リソース](/glossary/リソース/)名、[リソース](/glossary/リソース/)[ID](/glossary/id/)、あるいは[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が存在しないか、[アクセス権限](/glossary/アクセス権限/)がない状態を意味します。Azure [CLI](/glossary/cli/)や[REST](/glossary/rest/) [API](/glossary/api/)、Azure Portalを通じて[リソース](/glossary/リソース/)を操作する際に頻繁に遭遇する[エラー](/glossary/エラー/)であり、原因の特定と対処には体系的なアプローチが必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ The resource with id /subscriptions/<subscription-id>/resourceGroups/<rg-name>/p
 
 ### 原因1：リソース名またはIDの綴りが間違っている
 
-Azureのリソース名やリソース[ID](/glossary/id/)に入力ミスがあると、404[エラー](/glossary/エラー/)が発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、[REST](/glossary/rest/) [API](/glossary/api/)で完全修飾リソース[ID](/glossary/id/)（例：`/subscriptions/.../resourceGroups/.../providers/...`）を指定する場合、[パス](/glossary/パス/)内のどこかに誤字があると該当リソースが見つかりません。
+Azureの[リソース](/glossary/リソース/)名や[リソース](/glossary/リソース/)[ID](/glossary/id/)に入力ミスがあると、404[エラー](/glossary/エラー/)が発生します。特にストレージアカウント名やVirtual Machine名は大文字小文字が区別され、ハイフンやアンダースコアが混在することで綴り間違いが起きやすくなります。また、[REST](/glossary/rest/) [API](/glossary/api/)で完全修飾[リソース](/glossary/リソース/)[ID](/glossary/id/)（例：`/subscriptions/.../resourceGroups/.../providers/...`）を指定する場合、[パス](/glossary/パス/)内のどこかに誤字があると該当[リソース](/glossary/リソース/)が見つかりません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -80,7 +80,7 @@ curl -X GET \
 
 ### 原因2：リソースが別のサブスクリプションまたはリソースグループに存在する
 
-複数のAzure[サブスクリプション](/glossary/サブスクリプション/)を管理している場合、現在の[CLI](/glossary/cli/)[セッション](/glossary/セッション/)で選択されている[サブスクリプション](/glossary/サブスクリプション/)と実際のリソースが存在する[サブスクリプション](/glossary/サブスクリプション/)が異なることがあります。同様に、リソース名は複数のリソースグループで重複する可能性があり、指定したリソースグループに該当するリソースが存在しない場合も404[エラー](/glossary/エラー/)が発生します。
+複数のAzure[サブスクリプション](/glossary/サブスクリプション/)を管理している場合、現在の[CLI](/glossary/cli/)[セッション](/glossary/セッション/)で選択されている[サブスクリプション](/glossary/サブスクリプション/)と実際の[リソース](/glossary/リソース/)が存在する[サブスクリプション](/glossary/サブスクリプション/)が異なることがあります。同様に、[リソース](/glossary/リソース/)名は複数のリソースグループで重複する可能性があり、指定したリソースグループに該当する[リソース](/glossary/リソース/)が存在しない場合も404[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -124,7 +124,7 @@ az storage account show --resource-group correctResourceGroup --name mystorageac
 
 ### 原因3：リソースがすでに削除されている
 
-Azureでリソースを[削除](/glossary/削除/)した後、その[削除](/glossary/削除/)が完全に反映されるまでにはわずかな[遅延](/glossary/遅延/)が生じることがあります。削除後のリソースに対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。[削除](/glossary/削除/)されたリソースの[復旧](/glossary/復旧/)が必要な場合、Azure Backupやリソースの再作成が必要になります。
+Azureで[リソース](/glossary/リソース/)を[削除](/glossary/削除/)した後、その[削除](/glossary/削除/)が完全に反映されるまでにはわずかな[遅延](/glossary/遅延/)が生じることがあります。削除後の[リソース](/glossary/リソース/)に対してアクセスや操作を行おうとすれば、404[エラー](/glossary/エラー/)が発生します。[削除](/glossary/削除/)された[リソース](/glossary/リソース/)の[復旧](/glossary/復旧/)が必要な場合、Azure Backupや[リソース](/glossary/リソース/)の再作成が必要になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -169,15 +169,15 @@ az storage account create --name mynewstorageaccount --resource-group myResource
 
 Azure[環境](/glossary/環境/)では、複数のレイヤーで404[エラー](/glossary/エラー/)が発生する可能性があります。
 
-**Azure Portalでの確認：** Portalから直接リソースを[検索](/glossary/検索/)する際、左側の[検索](/glossary/検索/)バーにリソース名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に[削除](/glossary/削除/)されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を確認することが重要です。
+**Azure Portalでの[確認](/glossary/確認/)：** Portalから直接[リソース](/glossary/リソース/)を[検索](/glossary/検索/)する際、左側の[検索](/glossary/検索/)バーに[リソース](/glossary/リソース/)名を入力してもヒットしない場合、別の[サブスクリプション](/glossary/サブスクリプション/)に存在するか、既に[削除](/glossary/削除/)されていることが大半です。Portalの場合、右上のサブスクリプションフィルターで現在の[スコープ](/glossary/スコープ/)（対象範囲）を[確認](/glossary/確認/)することが重要です。
 
-**Azure [CLI](/glossary/cli/)と[API](/glossary/api/)[バージョン](/glossary/バージョン/)：** Azure [CLI](/glossary/cli/)でリソースを操作する際、使用している[API](/glossary/api/)[バージョン](/glossary/バージョン/)が古い場合、新しいリソースタイプが認識されない可能性があります。例えば、`az vm show`の背後で使用されるCompute [API](/glossary/api/)の[バージョン](/glossary/バージョン/)が古いと、新しいVM[プロパティ](/glossary/プロパティ/)は見つからずに404的な[エラー](/glossary/エラー/)になることもあります。最新の操作には`--api-version`パラメーターで明示的に[バージョン](/glossary/バージョン/)を指定することをお勧めします。
+**Azure [CLI](/glossary/cli/)と[API](/glossary/api/)[バージョン](/glossary/バージョン/)：** Azure [CLI](/glossary/cli/)で[リソース](/glossary/リソース/)を操作する際、使用している[API](/glossary/api/)[バージョン](/glossary/バージョン/)が古い場合、新しいリソースタイプが認識されない可能性があります。例えば、`az vm show`の背後で使用されるCompute [API](/glossary/api/)の[バージョン](/glossary/バージョン/)が古いと、新しいVM[プロパティ](/glossary/プロパティ/)は見つからずに404的な[エラー](/glossary/エラー/)になることもあります。最新の操作には`--api-version`パラメーターで明示的に[バージョン](/glossary/バージョン/)を指定することをお勧めします。
 
-**[REST](/glossary/rest/) [API](/glossary/api/)とリソース[ID](/glossary/id/)形式：** Azure [REST](/glossary/rest/) [API](/glossary/api/)を直接呼び出す場合、リソース[ID](/glossary/id/)は必ず`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}`の形式に従う必要があります。この形式が少しでも異なると404が発生します。特に、入れ子になったリソース（例：VNet内のサブネット）では、[パス](/glossary/パス/)構造を厳密に守る必要があります。
+**[REST](/glossary/rest/) [API](/glossary/api/)と[リソース](/glossary/リソース/)[ID](/glossary/id/)形式：** Azure [REST](/glossary/rest/) [API](/glossary/api/)を直接呼び出す場合、[リソース](/glossary/リソース/)[ID](/glossary/id/)は必ず`/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}`の形式に従う必要があります。この形式が少しでも異なると404が発生します。特に、入れ子になった[リソース](/glossary/リソース/)（例：VNet内のサブネット）では、[パス](/glossary/パス/)構造を厳密に守る必要があります。
 
 ## それでも解決しない場合
 
-**リソースの存在確認[コマンド](/glossary/コマンド/)：**
+**[リソース](/glossary/リソース/)の存在確認[コマンド](/glossary/コマンド/)：**
 
 ```bash
 # 特定のリソースグループ内のすべてのリソースを一覧表示
@@ -190,7 +190,7 @@ az resource list --subscription <subscription-id>
 az storage account list --resource-group <resource-group-name>
 ```
 
-**現在の[サブスクリプション](/glossary/サブスクリプション/)確認：**
+**現在の[サブスクリプション](/glossary/サブスクリプション/)[確認](/glossary/確認/)：**
 
 ```bash
 # 現在選択されているサブスクリプションを表示
@@ -224,4 +224,4 @@ Azure公式ドキュメント（[Azure Resource Management API](https://learn.mi
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

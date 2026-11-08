@@ -12,7 +12,7 @@ related_services: ["Git", "REST API", "VPN", "Workspace"]
 ---
 ## エラーの概要
 
-Bitbucket の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)されたユーザーが[リポジトリ](/glossary/リポジトリ/)またはリソースへの[アクセス権限](/glossary/アクセス権限/)を持っていないことを示します。つまり、ユーザーが存在し、Bitbucket に正常に[ログイン](/glossary/ログイン/)できているものの、特定の[リポジトリ](/glossary/リポジトリ/)への操作権限が不足している状態です。この[エラー](/glossary/エラー/)は [Git](/glossary/git/) push、pull、または[リポジトリ](/glossary/リポジトリ/)設定変更時に頻繁に発生します。
+Bitbucket の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)された[ユーザー](/glossary/ユーザー/)が[リポジトリ](/glossary/リポジトリ/)または[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)を持っていないことを示します。つまり、[ユーザー](/glossary/ユーザー/)が存在し、Bitbucket に正常に[ログイン](/glossary/ログイン/)できているものの、特定の[リポジトリ](/glossary/リポジトリ/)への操作権限が不足している状態です。この[エラー](/glossary/エラー/)は [Git](/glossary/git/) push、pull、または[リポジトリ](/glossary/リポジトリ/)設定変更時に頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ fatal: unable to access 'https://bitbucket.org/<workspace>/<repository>.git/': T
 
 ### 原因1：リポジトリへの必要な権限が付与されていない
 
-[リポジトリ](/glossary/リポジトリ/)へのアクセスレベルが読み取り専用（Read）に制限されている場合、push や[設定変更](/glossary/設定変更/)などの書き込み操作は拒否されます。特にチームメンバーとして新たに追加されたユーザーや、[権限](/glossary/権限/)が[削除](/glossary/削除/)されたユーザーで発生しやすいです。
+[リポジトリ](/glossary/リポジトリ/)へのアクセスレベルが読み取り専用（Read）に制限されている場合、push や[設定変更](/glossary/設定変更/)などの書き込み操作は拒否されます。特にチームメンバーとして新たに追加された[ユーザー](/glossary/ユーザー/)や、[権限](/glossary/権限/)が[削除](/glossary/削除/)された[ユーザー](/glossary/ユーザー/)で発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -63,7 +63,7 @@ git push origin feature-branch
 # 正常に push が完了
 ```
 
-Workspace 管理者は、対象[リポジトリ](/glossary/リポジトリ/)のアクセス管理セクションにアクセスし、ユーザーの[ロール](/glossary/ロール/)（Read、Write、Admin）を確認・変更できます。Read では pull のみ可能で、write [権限](/glossary/権限/)を付与することで push が可能になります。
+Workspace 管理者は、対象[リポジトリ](/glossary/リポジトリ/)のアクセス管理セクションにアクセスし、[ユーザー](/glossary/ユーザー/)の[ロール](/glossary/ロール/)（Read、Write、Admin）を[確認](/glossary/確認/)・変更できます。Read では pull のみ可能で、write [権限](/glossary/権限/)を付与することで push が可能になります。
 
 ### 原因2：IP ホワイトリストの設定でアクセスがブロックされている
 
@@ -89,11 +89,11 @@ git push origin main
 # 正常に push が完了
 ```
 
-IP ホワイトリストは Workspace レベルで[設定](/glossary/設定/)されており、Workspace 管理者のみが変更可能です。詳細は Workspace Settings → IP Whitelisting で確認できます。
+IP ホワイトリストは Workspace レベルで[設定](/glossary/設定/)されており、Workspace 管理者のみが変更可能です。詳細は Workspace Settings → IP Whitelisting で[確認](/glossary/確認/)できます。
 
 ### 原因3：チーム Project 管理者のみが実行できる操作を試みている
 
-[リポジトリ](/glossary/リポジトリ/)の[削除](/glossary/削除/)、保護[ブランチ](/glossary/ブランチ/)の[設定変更](/glossary/設定変更/)、[デプロイ](/glossary/デプロイ/)[キー](/glossary/キー/)の管理など、特定の操作は Admin [ロール](/glossary/ロール/)を持つユーザーのみが実行可能です。Write [権限](/glossary/権限/)ユーザーが管理機能にアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。
+[リポジトリ](/glossary/リポジトリ/)の[削除](/glossary/削除/)、保護[ブランチ](/glossary/ブランチ/)の[設定変更](/glossary/設定変更/)、[デプロイ](/glossary/デプロイ/)[キー](/glossary/キー/)の管理など、特定の操作は Admin [ロール](/glossary/ロール/)を持つ[ユーザー](/glossary/ユーザー/)のみが実行可能です。Write [権限](/glossary/権限/)[ユーザー](/glossary/ユーザー/)が管理機能にアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -129,18 +129,18 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 **Workspace と Repository の[ロール](/glossary/ロール/)区別：** Bitbucket では Workspace レベルと Repository レベルで異なる[ロール](/glossary/ロール/)[設定](/glossary/設定/)を持ちます。Workspace 管理者でも、特定[リポジトリ](/glossary/リポジトリ/)に対して Read [ロール](/glossary/ロール/)のみが付与されている場合は、その[リポジトリ](/glossary/リポジトリ/)に対する write 操作は 403 [エラー](/glossary/エラー/)で拒否されます。
 
-**[API](/glossary/api/) アクセストークンの[権限](/glossary/権限/)：** [REST](/glossary/rest/) [API](/glossary/api/) を使用する場合、Personal Access Token または App Password が持つ[スコープ](/glossary/スコープ/)[権限](/glossary/権限/)も確認が必要です。[トークン](/glossary/トークン/)生成時に `repository:write` [スコープ](/glossary/スコープ/)を付与していない場合、[API](/glossary/api/) 経由での push や[コミット](/glossary/コミット/)作成は 403 で失敗します。
+**[API](/glossary/api/) アクセストークンの[権限](/glossary/権限/)：** [REST](/glossary/rest/) [API](/glossary/api/) を使用する場合、Personal Access Token または App Password が持つ[スコープ](/glossary/スコープ/)[権限](/glossary/権限/)も[確認](/glossary/確認/)が必要です。[トークン](/glossary/トークン/)生成時に `repository:write` [スコープ](/glossary/スコープ/)を付与していない場合、[API](/glossary/api/) 経由での push や[コミット](/glossary/コミット/)作成は 403 で失敗します。
 
-**デプロイキーと SSH アクセス：** SSH [キー](/glossary/キー/)が[リポジトリ](/glossary/リポジトリ/)固有のデプロイキーとして[登録](/glossary/登録/)されている場合、その[キー](/glossary/キー/)の[権限](/glossary/権限/)レベル（Read-only または Write）も考慮されます。[CI/CD](/glossary/ci-cd/) パイプラインから push が 403 で失敗する場合は、デプロイキーの[権限](/glossary/権限/)を確認してください。
+**デプロイキーと SSH アクセス：** SSH [キー](/glossary/キー/)が[リポジトリ](/glossary/リポジトリ/)固有のデプロイキーとして[登録](/glossary/登録/)されている場合、その[キー](/glossary/キー/)の[権限](/glossary/権限/)レベル（Read-only または Write）も考慮されます。[CI/CD](/glossary/ci-cd/) パイプラインから push が 403 で失敗する場合は、デプロイキーの[権限](/glossary/権限/)を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
 1. **権限状態を再確認する：** Bitbucket Web [UI](/glossary/ui/) のリポジトリアクセス管理ページを開き、[ブラウザ](/glossary/ブラウザ/)の[キャッシュ](/glossary/キャッシュ/)をクリアして再度アクセスしてください。権限変更が反映されるまで数分かかる場合があります。
 
-2. **[キャッシュ](/glossary/キャッシュ/)された認証情報を[リセット](/glossary/リセット/)する：** [Git](/glossary/git/) の認証情報マネージャーが古いアクセストークンを[キャッシュ](/glossary/キャッシュ/)していないか確認します。
+2. **[キャッシュ](/glossary/キャッシュ/)された認証情報を[リセット](/glossary/リセット/)する：** [Git](/glossary/git/) の認証情報マネージャーが古いアクセストークンを[キャッシュ](/glossary/キャッシュ/)していないか[確認](/glossary/確認/)します。
 
    ```[bash](/glossary/bash/)
-   # Windows（Credential Manager）
+   # [Windows](/glossary/windows/)（Credential Manager）
    git credential-manager erase https://bitbucket.org
    
    # macOS（Keychain）
@@ -150,17 +150,17 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
    git credential reject https://bitbucket.org
    ```
 
-3. **[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)詳細を確認する：** curl で Bitbucket [API](/glossary/api/) を直接呼び出し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。
+3. **[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)詳細を[確認](/glossary/確認/)する：** curl で Bitbucket [API](/glossary/api/) を直接呼び出し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)します。
 
    ```[bash](/glossary/bash/)
    curl -v -u <your-username>:<your-password> \
      https://api.bitbucket.org/2.0/repositories/<workspace>/<repository>
    ```
 
-4. **Workspace 管理者に監査[ログ](/glossary/ログ/)を確認させる：** Workspace Settings → Audit log で、ユーザーの権限変更履歴が正確に記録されているか確認できます。
+4. **Workspace 管理者に監査[ログ](/glossary/ログ/)を[確認](/glossary/確認/)させる：** Workspace Settings → Audit log で、[ユーザー](/glossary/ユーザー/)の権限変更履歴が正確に記録されているか[確認](/glossary/確認/)できます。
 
 5. **公式サポートに問い合わせる：** 上記の手順でも解決しない場合は、[Bitbucket Cloud サポート](https://support.atlassian.com/bitbucket-cloud/)に問い合わせてください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

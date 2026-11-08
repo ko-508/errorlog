@@ -161,21 +161,21 @@ print(response.json())
 
 **GitLab CI Lint を活用した検証：**
 
-`.gitlab-ci.yml` の構文[エラー](/glossary/エラー/)は、GitLab の公式 CI Lint [ツール](/glossary/ツール/)（`Settings` → `CI/CD` → `CI Lint`）を使用すると、[エラー](/glossary/エラー/)行と理由を詳細に確認できます。ローカルでパイプラインを[テスト](/glossary/テスト/)したい場合は、GitLab Runner に `--debug` フラグを付けて実行すると、詳細な[デバッグ](/glossary/デバッグ/)（問題調査）情報が出力されます。
+`.gitlab-ci.yml` の構文[エラー](/glossary/エラー/)は、GitLab の公式 CI Lint [ツール](/glossary/ツール/)（`Settings` → `CI/CD` → `CI Lint`）を使用すると、[エラー](/glossary/エラー/)行と理由を詳細に[確認](/glossary/確認/)できます。ローカルでパイプラインを[テスト](/glossary/テスト/)したい場合は、GitLab Runner に `--debug` フラグを付けて実行すると、詳細な[デバッグ](/glossary/デバッグ/)（問題調査）情報が出力されます。
 
 **[API](/glossary/api/) [レスポンス](/glossary/レスポンス/)（返信）の message [フィールド](/glossary/フィールド/)の重要性：**
 
-GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` [フィールド](/glossary/フィールド/)に具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを確認することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に[設定](/glossary/設定/)されていることが判断できます。
+GitLab [API](/glossary/api/) の 400 [レスポンス](/glossary/レスポンス/)には、`message` [フィールド](/glossary/フィールド/)に具体的な[エラー](/glossary/エラー/)内容が含まれています。このメッセージを[確認](/glossary/確認/)することで、原因を特定する速度が大幅に向上します。例えば「`Expires at date must be after today`」というメッセージから、有効期限の日付が過去に[設定](/glossary/設定/)されていることが判断できます。
 
-**[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)による [CI/CD](/glossary/ci-cd/) 有効化の確認：**
+**[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)による [CI/CD](/glossary/ci-cd/) 有効化の[確認](/glossary/確認/)：**
 
-稀に、プロジェクトレベルで [CI/CD](/glossary/ci-cd/) が無効化されていると 400 [エラー](/glossary/エラー/)が返される場合があります。`Settings` → `General` → `Visibility, project features, permissions` で [CI/CD](/glossary/ci-cd/) を有効化しているか確認してください。
+稀に、プロジェクトレベルで [CI/CD](/glossary/ci-cd/) が無効化されていると 400 [エラー](/glossary/エラー/)が返される場合があります。`Settings` → `General` → `Visibility, project features, permissions` で [CI/CD](/glossary/ci-cd/) を有効化しているか[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
-**1. GitLab システムログの確認：**
+**1. GitLab システムログの[確認](/glossary/確認/)：**
 
-[管理者権限](/glossary/管理者権限/)がある場合、`Admin Area` → `Logs` で詳細な[エラーログ](/glossary/エラーログ/)を確認できます。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の場合は、`gitlab-rails.log` に 400 [エラー](/glossary/エラー/)の詳細が記録されています。
+[管理者権限](/glossary/管理者権限/)がある場合、`Admin Area` → `Logs` で詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)できます。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の場合は、`gitlab-rails.log` に 400 [エラー](/glossary/エラー/)の詳細が記録されています。
 
 ```bash
 # GitLab がインストールされているサーバーで実行
@@ -184,7 +184,7 @@ sudo tail -f /var/log/gitlab/gitlab-rails/production.log | grep "400"
 
 **2. curl [コマンド](/glossary/コマンド/)で [API](/glossary/api/) [テスト](/glossary/テスト/)：**
 
-以下の[コマンド](/glossary/コマンド/)で[リクエスト](/glossary/リクエスト/)を[テスト](/glossary/テスト/)し、詳細な[エラーレスポンス](/glossary/エラーレスポンス/)を確認できます。
+以下の[コマンド](/glossary/コマンド/)で[リクエスト](/glossary/リクエスト/)を[テスト](/glossary/テスト/)し、詳細な[エラーレスポンス](/glossary/エラーレスポンス/)を[確認](/glossary/確認/)できます。
 
 ```bash
 curl -v -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues" \
@@ -203,4 +203,4 @@ curl -v -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues"
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -27,7 +27,7 @@ unix:///var/run/docker.sock: dial unix /var/run/docker.sock:
 connect: permission denied
 ```
 
-これは、**daemon の停止を確認する前に、利用者がソケットへ接続する[権限](/glossary/権限/)を疑うべき文言**です。[Linux](/glossary/linux/)では通常、`/var/run/docker.sock` を通して[Docker](/glossary/docker/) [API](/glossary/api/)を呼びます。ソケットが `root:docker` の所有で、現在の利用者が有効な `docker` グループに入っていなければ、接続の時点で拒否されます。
+これは、**daemon の停止を[確認](/glossary/確認/)する前に、利用者がソケットへ接続する[権限](/glossary/権限/)を疑うべき文言**です。[Linux](/glossary/linux/)では通常、`/var/run/docker.sock` を通して[Docker](/glossary/docker/) [API](/glossary/api/)を呼びます。ソケットが `root:docker` の所有で、現在の利用者が有効な `docker` グループに入っていなければ、接続の時点で拒否されます。
 
 2つは同じ接続失敗の系統ですが、同じ原因ではありません。読むべき部分は末尾です。
 
@@ -65,7 +65,7 @@ dial unix /var/run/docker.sock: connect: permission denied
 
 ## まず最初に：接続先・稼働状態・権限を分ける
 
-第一に、[クライアント](/glossary/クライアント/)の接続先を確認します。
+第一に、[クライアント](/glossary/クライアント/)の接続先を[確認](/glossary/確認/)します。
 
 ```bash
 docker context show
@@ -73,9 +73,9 @@ docker context ls
 env | grep -E '^DOCKER_(HOST|CONTEXT)='
 ```
 
-第二に、その接続先に合った方法でdaemonの稼働状態を確認します。通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineなら `systemctl`、Rootless modeなら `systemctl --user`、[Docker](/glossary/docker/) Desktopならアプリ本体の状態を見ます。
+第二に、その接続先に合った方法でdaemonの稼働状態を[確認](/glossary/確認/)します。通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineなら `systemctl`、Rootless modeなら `systemctl --user`、[Docker](/glossary/docker/) Desktopならアプリ本体の状態を見ます。
 
-第三に、[Linux](/glossary/linux/)の `/var/run/docker.sock` へ接続している場合だけ、ソケットの所有者と現在のグループを確認します。
+第三に、[Linux](/glossary/linux/)の `/var/run/docker.sock` へ接続している場合だけ、ソケットの所有者と現在のグループを[確認](/glossary/確認/)します。
 
 ```bash
 stat -c '%A %U %G %n' /var/run/docker.sock
@@ -88,7 +88,7 @@ id -nG
 
 ### 原因1：Docker daemonが起動していない
 
-通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineでは、まずサービスの状態を確認します。
+通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineでは、まずサービスの状態を[確認](/glossary/確認/)します。
 
 ```bash
 sudo systemctl is-active docker
@@ -137,7 +137,7 @@ newgrp docker
 
 `usermod` が成功しても、すでに開いている端末の所属グループは自動では変わりません。いったん[ログアウト](/glossary/ログアウト/)して入り直すか、`newgrp docker` で新しい[シェル](/glossary/シェル/)を開きます。仮想マシンでは再起動が必要な場合があることも公式文書に記載されています。
 
-反映後に確認します。
+反映後に[確認](/glossary/確認/)します。
 
 ```bash
 id -nG
@@ -196,7 +196,7 @@ docker info
 
 Rootless modeでは、daemon自体も一般利用者として動きます。既定のソケットは `/run/user/<UID>/docker.sock` です。`/var/run/docker.sock` の[権限](/glossary/権限/)を直す話ではありません。
 
-[公式のRootless mode資料](https://docs.docker.com/engine/security/rootless/tips/#client)では、[Docker](/glossary/docker/) Engine 23.0以降、設定道具が `rootless` contextを自動作成して選択します。まず状態とcontextを確認します。
+[公式のRootless mode資料](https://docs.docker.com/engine/security/rootless/tips/#client)では、[Docker](/glossary/docker/) Engine 23.0以降、設定道具が `rootless` contextを自動作成して選択します。まず状態とcontextを[確認](/glossary/確認/)します。
 
 ```bash
 systemctl --user is-active docker
@@ -215,9 +215,9 @@ export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/docker.sock"
 
 ### 原因6：Docker Desktopが停止している、またはcontextがずれている
 
-macOSとWindowsでは、`dockerd` を `systemctl` で起動するのではなく、[Docker](/glossary/docker/) Desktopを起動します。[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopも、ホストへ直接入れた[Docker](/glossary/docker/) Engineとは別の[環境](/glossary/環境/)です。
+macOSと[Windows](/glossary/windows/)では、`dockerd` を `systemctl` で起動するのではなく、[Docker](/glossary/docker/) Desktopを起動します。[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopも、ホストへ直接入れた[Docker](/glossary/docker/) Engineとは別の[環境](/glossary/環境/)です。
 
-[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopは `desktop-linux` contextを作り、起動中は[CLI](/glossary/cli/)の接続先として選びます。停止時には以前のcontextへ戻すため、ホスト側の[Docker](/glossary/docker/) Engineと両方を入れている[環境](/glossary/環境/)ではまずcontextを確認します。
+[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Desktopは `desktop-linux` contextを作り、起動中は[CLI](/glossary/cli/)の接続先として選びます。停止時には以前のcontextへ戻すため、ホスト側の[Docker](/glossary/docker/) Engineと両方を入れている[環境](/glossary/環境/)ではまずcontextを[確認](/glossary/確認/)します。
 
 ```bash
 docker context ls
@@ -259,7 +259,7 @@ sudo chmod g+rwx "$HOME/.docker" -R
 
 `error during connect` の後に[証明書](/glossary/証明書/)の検証[エラー](/glossary/エラー/)が出る場合は、TCP接続と[TLS](/glossary/tls/)[証明書](/glossary/証明書/)の問題です。daemon停止やUnixソケットのグループ[設定](/glossary/設定/)ではありません。遠隔接続を[HTTP](/glossary/http/)で公開する場合、[Docker](/glossary/docker/)公式は[TLS](/glossary/tls/)と[クライアント](/glossary/クライアント/)[証明書](/glossary/証明書/)で保護するよう案内しています。
 
-`Cannot connect` の前後に `context deadline exceeded` が出る場合は、接続先が無応答または到達不能になっている可能性があります。ローカルのソケット[権限](/glossary/権限/)だけでなく、遠隔ホスト、SSH、[ネットワーク](/glossary/ネットワーク/)を確認します。
+`Cannot connect` の前後に `context deadline exceeded` が出る場合は、接続先が無応答または到達不能になっている可能性があります。ローカルのソケット[権限](/glossary/権限/)だけでなく、遠隔ホスト、SSH、[ネットワーク](/glossary/ネットワーク/)を[確認](/glossary/確認/)します。
 
 `docker: command not found` は[クライアント](/glossary/クライアント/)自体がない状態です。daemonへの接続はまだ試されていません。
 
@@ -270,7 +270,7 @@ sudo chmod g+rwx "$HOME/.docker" -R
 1. [エラー](/glossary/エラー/)末尾を読む。`permission denied`、`no such file`、`connection refused` を分ける。
 2. `docker context ls` と `DOCKER_HOST`、`DOCKER_CONTEXT` で実際の接続先を確定する。
 3. 通常版、Rootless版、Desktop版のどのdaemonを使うのか決める。
-4. 接続先に合った方法でdaemonの稼働状態を確認する。
+4. 接続先に合った方法でdaemonの稼働状態を[確認](/glossary/確認/)する。
 5. `/var/run/docker.sock` への `permission denied` なら、ソケットの所有グループと `id -nG` を比べる。
 6. グループを追加した直後なら、[ログイン](/glossary/ログイン/)し直すか `newgrp docker` で現在の接続へ反映する。
 7. `sudo docker info` は原因を絞る診断にだけ使う。常用して[設定ファイル](/glossary/設定ファイル/)の所有権問題を増やさない。
@@ -322,7 +322,7 @@ docker info
 
 この[エラー](/glossary/エラー/)の難しさは、**[Docker](/glossary/docker/) [CLI](/glossary/cli/)とdaemonが別の[処理](/glossary/処理/)であること、さらに接続先が1つとは限らないことを、短い文言がほとんど説明していない**点にあります。
 
-2014年4月、Mobyの課題に `dial unix /var/run/docker.sock: permission denied` という報告が[登録](/glossary/登録/)されています（[dial unix /var/run/docker.sock: permission denied](https://github.com/moby/moby/issues/5314)）。報告者は、ソケットが `docker` グループに属することを確認し、自分をそのグループへ追加しても拒否された、と書いています。
+2014年4月、Mobyの課題に `dial unix /var/run/docker.sock: permission denied` という報告が[登録](/glossary/登録/)されています（[dial unix /var/run/docker.sock: permission denied](https://github.com/moby/moby/issues/5314)）。報告者は、ソケットが `docker` グループに属することを[確認](/glossary/確認/)し、自分をそのグループへ追加しても拒否された、と書いています。
 
 この記録だけから最終原因は確定できません。ただし、現在も重要な落とし穴がそのまま現れています。**グループの登録情報と、すでに開いている端末に反映済みのグループは同じとは限りません**。そのため現在の公式手順にも、追加後に[ログイン](/glossary/ログイン/)し直すか `newgrp docker` を実行する工程が残っています。
 
@@ -336,4 +336,4 @@ docker info
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ related_services: ["JavaScript", "SDK", "HTTP", "RFC 9110"]
 
 ## エラーの概要
 
-Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求したリソース（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。[開発環境](/glossary/開発環境/)から[本番環境](/glossary/本番環境/)への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
+Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求した[リソース](/glossary/リソース/)（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。[開発環境](/glossary/開発環境/)から[本番環境](/glossary/本番環境/)への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -82,7 +82,7 @@ curl https://us-central1-<your-project-id>.cloudfunctions.net/getUserData?userId
 curl https://us-central1-<your-project-id>.cloudfunctions.net/get-user-data?userId=123
 ```
 
-Cloud Functionsの[デプロイ](/glossary/デプロイ/)[設定](/glossary/設定/)の確認：
+Cloud Functionsの[デプロイ](/glossary/デプロイ/)[設定](/glossary/設定/)の[確認](/glossary/確認/)：
 ```yaml
 # firebase.json
 {
@@ -159,7 +159,7 @@ service cloud.firestore {
 }
 ```
 
-[認証](/glossary/認証/)ユーザーでない[リクエスト](/glossary/リクエスト/)は404を受け取ります。必ず[認証](/glossary/認証/)を実装してください。
+[認証](/glossary/認証/)[ユーザー](/glossary/ユーザー/)でない[リクエスト](/glossary/リクエスト/)は404を受け取ります。必ず[認証](/glossary/認証/)を実装してください。
 
 **Cloud Functionsのリージョン指定**
 
@@ -192,10 +192,10 @@ const database = getDatabase(app, "https://<your-project-id>.firebaseio.com");
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)確認の手順**
+**[ログ](/glossary/ログ/)[確認](/glossary/確認/)の手順**
 
 1. **Firebase Console** → 対象[プロジェクト](/glossary/プロジェクト/) → **Logs** セクションを開く
-2. Cloud Functionsの場合は **Functions** タブで詳細な[エラーログ](/glossary/エラーログ/)を確認
+2. Cloud Functionsの場合は **Functions** タブで詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)
 3. Firestoreの場合は **Firestore** → **Monitoring** でリアルタイムエラーを監視
 
 **デバッグコマンド**
@@ -223,4 +223,4 @@ firebase-js[リポジトリ](/glossary/リポジトリ/)のIssueで類似ケー�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

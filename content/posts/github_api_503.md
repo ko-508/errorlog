@@ -47,7 +47,7 @@ Content-Type: application/json
 
 ### 原因1：GitHub側のメンテナンスまたはシステム障害
 
-[GitHub](/glossary/github/)が定期[メンテナンス](/glossary/メンテナンス/)やシステム[障害](/glossary/障害/)の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、ユーザー側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の[復旧](/glossary/復旧/)を待つ必要があります。
+[GitHub](/glossary/github/)が定期[メンテナンス](/glossary/メンテナンス/)やシステム[障害](/glossary/障害/)の最中に[API](/glossary/api/)呼び出しを行うと503[エラー](/glossary/エラー/)が発生します。この場合、[ユーザー](/glossary/ユーザー/)側では[対応](/glossary/対応/)できず、[GitHub](/glossary/github/)側の[復旧](/glossary/復旧/)を待つ必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -92,7 +92,7 @@ print(result)
 
 ### 原因2：APIレート制限への抵触
 
-[GitHub](/glossary/github/) [API](/glossary/api/)には時間ごとの呼び出し回数制限があります。[認証](/glossary/認証/)ユーザーは1時間あたり5,000[リクエスト](/glossary/リクエスト/)、未認証ユーザーは60[リクエスト](/glossary/リクエスト/)に制限されています。この制限に達すると429[エラー](/glossary/エラー/)が返されますが、その直後の集中アクセスによって503[エラー](/glossary/エラー/)が発生する可能性があります。
+[GitHub](/glossary/github/) [API](/glossary/api/)には時間ごとの呼び出し回数制限があります。[認証](/glossary/認証/)[ユーザー](/glossary/ユーザー/)は1時間あたり5,000[リクエスト](/glossary/リクエスト/)、未認証[ユーザー](/glossary/ユーザー/)は60[リクエスト](/glossary/リクエスト/)に制限されています。この制限に達すると429[エラー](/glossary/エラー/)が返されますが、その直後の集中アクセスによって503[エラー](/glossary/エラー/)が発生する可能性があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -292,19 +292,19 @@ curl -H "Authorization: token <your-github-token>" \
 
 ### 確認すべきポイント
 
-1. **[GitHub](/glossary/github/) Status Pageの確認**：https://www.githubstatus.com で現在の[GitHub](/glossary/github/)サービス状態を[リアルタイム](/glossary/リアルタイム/)で確認してください。システム[障害](/glossary/障害/)が継続中の場合は復旧待機が必要です。
+1. **[GitHub](/glossary/github/) Status Pageの[確認](/glossary/確認/)**：https://www.githubstatus.com で現在の[GitHub](/glossary/github/)サービス状態を[リアルタイム](/glossary/リアルタイム/)で[確認](/glossary/確認/)してください。システム[障害](/glossary/障害/)が継続中の場合は復旧待機が必要です。
 
 2. **[API](/glossary/api/)レスポンスヘッダーの詳細確認**：
 ```bash
 curl -v -H "Authorization: token <your-github-token>" \
   https://api.github.com/user/repos 2>&1 | grep -E "(HTTP/|Retry-After|X-RateLimit)"
 ```
-この[コマンド](/glossary/コマンド/)で[HTTP](/glossary/http/)ステータス、Retry-After[ヘッダー](/glossary/ヘッダー/)、レート制限情報を確認できます。
+この[コマンド](/glossary/コマンド/)で[HTTP](/glossary/http/)ステータス、Retry-After[ヘッダー](/glossary/ヘッダー/)、レート制限情報を[確認](/glossary/確認/)できます。
 
-3. **公式ドキュメント**：https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting の「Exceeding the rate limit」セクションで、[レート制限](/glossary/レート制限/)と503[エラー](/glossary/エラー/)の関係を確認してください。
+3. **公式ドキュメント**：https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting の「Exceeding the rate limit」セクションで、[レート制限](/glossary/レート制限/)と503[エラー](/glossary/エラー/)の関係を[確認](/glossary/確認/)してください。
 
 4. **コミュニティリソース**：[GitHub](/glossary/github/) [API](/glossary/api/)に関する既知の503問題は、https://github.com/orgs/github/discussions で報告・議論されていることがあります。[検索](/glossary/検索/)してみてください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

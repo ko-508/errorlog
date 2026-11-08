@@ -105,7 +105,7 @@ curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/
   }'
 ```
 
-[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` [フィールド](/glossary/フィールド/)（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須[フィールド](/glossary/フィールド/)を確認し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。
+[JSON](/glossary/json/) の末尾のダブルクォートが閉じられておらず、また `content` [フィールド](/glossary/フィールド/)（必須）が欠落していました。[API](/glossary/api/) ドキュメントで必須[フィールド](/glossary/フィールド/)を[確認](/glossary/確認/)し、有効な [JSON](/glossary/json/) 形式で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)します。
 
 ### 原因 3：クエリパラメータの値が不正な形式
 
@@ -130,16 +130,16 @@ curl -X GET "https://api.bitbucket.org/2.0/repositories/<workspace>?pagelen=50&p
 ## ツール固有の注意点
 
 **Bitbucket Pipelines での注意：**
-bitbucket-pipelines.yml をリポジトリーのルートに配置する際、[ファイル](/glossary/ファイル/)のエンコーディングが [UTF-8](/glossary/utf-8/) であることを確認してください。また、Bitbucket の Web [UI](/glossary/ui/) にある「Pipeline Validator」で [YAML](/glossary/yaml/) 構文を事前検証できます。リポジトリー設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。
+bitbucket-pipelines.yml をリポジトリーのルートに配置する際、[ファイル](/glossary/ファイル/)のエンコーディングが [UTF-8](/glossary/utf-8/) であることを[確認](/glossary/確認/)してください。また、Bitbucket の Web [UI](/glossary/ui/) にある「Pipeline Validator」で [YAML](/glossary/yaml/) 構文を事前検証できます。リポジトリー設定内の「Pipelines」セクションから直接バリデーションツールにアクセス可能です。
 
 **Bitbucket Cloud [API](/glossary/api/) での注意：**
-[API](/glossary/api/) 呼び出し時に `Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)を明示的に指定することが重要です。また、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れは 401 [エラー](/glossary/エラー/)になりますが、[トークン](/glossary/トークン/)が存在しても[スコープ](/glossary/スコープ/)（[API](/glossary/api/) の使用権限範囲）が不足していると 400 が返される場合があります。[API](/glossary/api/) [トークン](/glossary/トークン/)の生成時に、必要な[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（例：`repository:read`, `issue:write`）を確認します。
+[API](/glossary/api/) 呼び出し時に `Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)を明示的に指定することが重要です。また、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限切れは 401 [エラー](/glossary/エラー/)になりますが、[トークン](/glossary/トークン/)が存在しても[スコープ](/glossary/スコープ/)（[API](/glossary/api/) の使用権限範囲）が不足していると 400 が返される場合があります。[API](/glossary/api/) [トークン](/glossary/トークン/)の生成時に、必要な[権限](/glossary/権限/)[スコープ](/glossary/スコープ/)（例：`repository:read`, `issue:write`）を[確認](/glossary/確認/)します。
 
 ## それでも解決しない場合
 
-まず Bitbucket [UI](/glossary/ui/) 内のパイプライン実行[ログ](/glossary/ログ/)を確認してください。詳細な[エラーメッセージ](/glossary/エラーメッセージ/)は「Pipeline」→「Build」→「Logs」タブに表示されます。
+まず Bitbucket [UI](/glossary/ui/) 内のパイプライン実行[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。詳細な[エラーメッセージ](/glossary/エラーメッセージ/)は「Pipeline」→「Build」→「Logs」タブに表示されます。
 
-[API](/glossary/api/) 呼び出しの場合、cURL に `-v` フラグを付けて詳細な[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を確認します：
+[API](/glossary/api/) 呼び出しの場合、cURL に `-v` フラグを付けて詳細な[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)します：
 
 ```bash
 curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/issues \
@@ -152,8 +152,8 @@ curl -v -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo>/is
 
 オンラインの [YAML](/glossary/yaml/) バリデーターを使用して、bitbucket-pipelines.yml の構文を独立して検証することもできます（例：https://www.yamllint.com）。
 
-最後に、[Bitbucket Cloud REST API ドキュメント](https://developer.atlassian.com/cloud/bitbucket/rest/)で対象の[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と形式を確認し、[Bitbucket Pipelines YAML リファレンス](https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/)でパイプライン[設定](/glossary/設定/)の[仕様](/glossary/仕様/)を参照してください。
+最後に、[Bitbucket Cloud REST API ドキュメント](https://developer.atlassian.com/cloud/bitbucket/rest/)で対象の[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と形式を[確認](/glossary/確認/)し、[Bitbucket Pipelines YAML リファレンス](https://support.atlassian.com/bitbucket-cloud/docs/build-with-pipelines/)でパイプライン[設定](/glossary/設定/)の[仕様](/glossary/仕様/)を参照してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

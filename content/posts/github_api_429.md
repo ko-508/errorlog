@@ -42,11 +42,11 @@ secondary rate limit の超過（短時間の集中に対する保護）：
 }
 ```
 
-あわせて読むべきなのが応答[ヘッダー](/glossary/ヘッダー/)です。x-ratelimit-limit が現在の自分の上限、x-ratelimit-remaining が残量、x-ratelimit-reset が残量の回復時刻（UTC の epoch 秒）、x-ratelimit-resource がどの区分（core、search、graphql など）の制限かを示します。retry-after [ヘッダー](/glossary/ヘッダー/)が付いている場合は、その秒数が最優先の待ち時間です。上限の具体的な数値は認証方法などで異なり、変更されることもあるため、この x-ratelimit-limit の実測値と公式の[レート制限](/glossary/レート制限/)ドキュメントで確認してください。
+あわせて読むべきなのが応答[ヘッダー](/glossary/ヘッダー/)です。x-ratelimit-limit が現在の自分の上限、x-ratelimit-remaining が残量、x-ratelimit-reset が残量の回復時刻（UTC の epoch 秒）、x-ratelimit-resource がどの区分（core、search、graphql など）の制限かを示します。retry-after [ヘッダー](/glossary/ヘッダー/)が付いている場合は、その秒数が最優先の待ち時間です。上限の具体的な数値は認証方法などで異なり、変更されることもあるため、この x-ratelimit-limit の実測値と公式の[レート制限](/glossary/レート制限/)ドキュメントで[確認](/glossary/確認/)してください。
 
 ## まず最初に：ヘッダーで primary か secondary かを確定する
 
-現在の状態は、利用枠を消費しない専用[エンドポイント](/glossary/エンドポイント/)でいつでも確認できます。
+現在の状態は、利用枠を消費しない専用[エンドポイント](/glossary/エンドポイント/)でいつでも[確認](/glossary/確認/)できます。
 
 ```bash
 curl -H "Authorization: Bearer <your-github-token>" https://api.github.com/rate_limit
@@ -84,7 +84,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
 date -d @<x-ratelimit-resetの値>
 ```
 
-自動[リトライ](/glossary/リトライ/)を実装している場合は、この指針に沿っているかを確認してください。待たない連打は、状況を[改善](/glossary/改善/)しないだけでなく、secondary の保護をさらに引き起こす方向に働きます。
+自動[リトライ](/glossary/リトライ/)を実装している場合は、この指針に沿っているかを[確認](/glossary/確認/)してください。待たない連打は、状況を[改善](/glossary/改善/)しないだけでなく、secondary の保護をさらに引き起こす方向に働きます。
 
 ### 原因3：短時間の集中・並列・作成の連打（secondary rate limit）
 
@@ -109,7 +109,7 @@ curl -si -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/<owner>/<repo> | head -1
 ```
 
-第二に、ポーリング自体をやめて webhook（変更時に [GitHub](/glossary/github/) 側から[通知](/glossary/通知/)が届く仕組み）を購読することです。公式ベストプラクティスの筆頭に挙げられている方法で、[変化](/glossary/変化/)のたびに知らせが来るため、確認のための取得が不要になります。
+第二に、ポーリング自体をやめて webhook（変更時に [GitHub](/glossary/github/) 側から[通知](/glossary/通知/)が届く仕組み）を購読することです。公式ベストプラクティスの筆頭に挙げられている方法で、[変化](/glossary/変化/)のたびに知らせが来るため、[確認](/glossary/確認/)のための取得が不要になります。
 
 ## 補足：429ではない類似エラー
 
@@ -117,9 +117,9 @@ curl -si -H "Authorization: Bearer <your-github-token>" \
 
 ## 切り分けの順序
 
-1. 応答[ヘッダー](/glossary/ヘッダー/)（または /rate_limit）で x-ratelimit-remaining を確認する。0 なら primary、残量があれば secondary。
+1. 応答[ヘッダー](/glossary/ヘッダー/)（または /rate_limit）で x-ratelimit-remaining を[確認](/glossary/確認/)する。0 なら primary、残量があれば secondary。
 2. retry-after があればその秒数、primary なら x-ratelimit-reset の時刻まで待つ。どちらもなければ最低1分。自動[リトライ](/glossary/リトライ/)は指数的な待ち時間と打ち切り回数を実装する。
-3. 未認証の呼び出しが残っていないかを確認し、[認証](/glossary/認証/)を付ける。
+3. 未認証の呼び出しが残っていないかを[確認](/glossary/確認/)し、[認証](/glossary/認証/)を付ける。
 4. 恒久対処として、並列の直列化、作成系操作の1秒以上の間隔、条件付き[リクエスト](/glossary/リクエスト/)（etag）、webhook への転換を、呼び出しの実態に合わせて導入する。
 
 ## 確認コマンド集
@@ -151,4 +151,4 @@ curl -s -o /dev/null -w "%{http_code}\n" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

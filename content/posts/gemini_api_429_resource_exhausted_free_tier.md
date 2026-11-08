@@ -204,7 +204,7 @@ for i in range(50):  # リクエスト数を削減
 
 ### Google Cloud Consoleでのクォータ監視
 
-Gemini [API](/glossary/api/)のクォータ状況はGoogle Cloud Consoleで確認できます。`APIs & Services` > `Quotas` から `generativelanguage.googleapis.com` を[検索](/glossary/検索/)し、現在の[リクエスト](/glossary/リクエスト/)数と[トークン](/glossary/トークン/)数を[リアルタイム](/glossary/リアルタイム/)で確認してください。無料枠では日次[リセット](/glossary/リセット/)が午前0時（UTC）に行われます。
+Gemini [API](/glossary/api/)のクォータ状況はGoogle Cloud Consoleで[確認](/glossary/確認/)できます。`APIs & Services` > `Quotas` から `generativelanguage.googleapis.com` を[検索](/glossary/検索/)し、現在の[リクエスト](/glossary/リクエスト/)数と[トークン](/glossary/トークン/)数を[リアルタイム](/glossary/リアルタイム/)で[確認](/glossary/確認/)してください。無料枠では日次[リセット](/glossary/リセット/)が午前0時（UTC）に行われます。
 
 ### 有料プランの段階的な価格設定
 
@@ -243,7 +243,7 @@ response = call_with_retry("テストプロンプト")
 
 ### 確認すべき項目とログ
 
-1. **Google Cloud Consoleのクォータ表示**：Quotasセクションで `generativelanguage.googleapis.com/generate_content_free_tier_requests` と `generativelanguage.googleapis.com/generate_content_free_tier_tokens` の現在値を確認してください。
+1. **Google Cloud Consoleのクォータ表示**：Quotasセクションで `generativelanguage.googleapis.com/generate_content_free_tier_requests` と `generativelanguage.googleapis.com/generate_content_free_tier_tokens` の現在値を[確認](/glossary/確認/)してください。
 
 2. **[API](/glossary/api/)[キー](/glossary/キー/)の有効性確認**：複数の[API](/glossary/api/)[キー](/glossary/キー/)を使用している場合、別の[キー](/glossary/キー/)で試行して、[キー](/glossary/キー/)単位のクォータ制限か全体の制限かを判別します。
 
@@ -261,4 +261,4 @@ Gemini [API](/glossary/api/)に関する問題は、[Google AI Stack Overflow](h
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

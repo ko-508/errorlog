@@ -25,7 +25,7 @@ Error: error:0308010C:digital envelope routines::unsupported
 
 OpenSSLは、Node.jsが暗号処理などに使う部品です。この[エラー](/glossary/エラー/)は、OpenSSLの現在の[設定](/glossary/設定/)で使えない方式などを呼び出した場合に起こります。古いwebpackでは、[ファイル](/glossary/ファイル/)を識別する値の計算に使うMD4が原因になる例があります。
 
-まず、[エラー](/glossary/エラー/)の実行履歴に出る[パッケージ](/glossary/パッケージ/)と、その版を確認してください。[更新](/glossary/更新/)で原因を取り除くのが本来の[対応](/glossary/対応/)です。`--openssl-legacy-provider`は、古い方式を利用可能にする一時的な回避策です。
+まず、[エラー](/glossary/エラー/)の実行履歴に出る[パッケージ](/glossary/パッケージ/)と、その版を[確認](/glossary/確認/)してください。[更新](/glossary/更新/)で原因を取り除くのが本来の[対応](/glossary/対応/)です。`--openssl-legacy-provider`は、古い方式を利用可能にする一時的な回避策です。
 
 ## Node.jsの更新で表面化する理由
 
@@ -33,11 +33,11 @@ OpenSSLは、Node.jsが暗号処理などに使う部品です。この[エラ�
 
 ただし、Node.js 17以降なら必ず[エラー](/glossary/エラー/)になるわけではありません。呼び出す方式、依存する[パッケージ](/glossary/パッケージ/)の実装、OpenSSLの[設定](/glossary/設定/)によって結果が変わります。Node.jsをさらに新しくするだけで、古いMD4呼び出しが直るとも限りません。
 
-この記事では、Node.js 24.19.0・OpenSSL 3.5.7で、MD4の直接呼び出しによる同じ文言を確認しました。通信先の[証明書](/glossary/証明書/)を検証する[エラー](/glossary/エラー/)とは区別します。
+この記事では、Node.js 24.19.0・OpenSSL 3.5.7で、MD4の直接呼び出しによる同じ文言を[確認](/glossary/確認/)しました。通信先の[証明書](/glossary/証明書/)を検証する[エラー](/glossary/エラー/)とは区別します。
 
 ## Node.jsと原因パッケージを確認する
 
-失敗する[プロジェクト](/glossary/プロジェクト/)の[環境](/glossary/環境/)で、次を確認します。
+失敗する[プロジェクト](/glossary/プロジェクト/)の[環境](/glossary/環境/)で、次を[確認](/glossary/確認/)します。
 
 ```bash
 node -v
@@ -46,21 +46,21 @@ npm ls webpack
 npm ls react-scripts @vue/cli-service
 ```
 
-後半は、それらの道具を使っている場合の確認例です。`npm ls`では、直接指定した依存だけでなく、別の道具が内部で使うwebpackも確認します。依存関係に問題があると、終了[コード](/glossary/コード/)が非0になる場合があります。
+後半は、それらの道具を使っている場合の確認例です。`npm ls`では、直接指定した依存だけでなく、別の道具が内部で使うwebpackも[確認](/glossary/確認/)します。依存関係に問題があると、終了[コード](/glossary/コード/)が非0になる場合があります。
 
 [エラー](/glossary/エラー/)の下に並ぶ実行履歴も読みます。`node:crypto`の直後に`webpack/lib/util/createHash.js`が出る場合と、別のloaderや自分の[コード](/glossary/コード/)が出る場合では、[更新](/glossary/更新/)する対象が異なります。
 
-`npx webpack --version`は、ローカルに実行対象がない場合に取得を促すことがあります。調査のために別のwebpackを取得するより、まず導入済みの依存関係を確認してください。
+`npx webpack --version`は、ローカルに実行対象がない場合に取得を促すことがあります。調査のために別のwebpackを取得するより、まず導入済みの依存関係を[確認](/glossary/確認/)してください。
 
 ## webpack本体と周辺の道具を更新する
 
 [webpack 4.47.0のcreateHash実装](https://github.com/webpack/webpack/blob/v4.47.0/lib/util/createHash.js)では、`md4`指定に対し、Node.js 18以上ならwebpack自身のMD4実装を使います。18未満ではNode.jsの`crypto.createHash`へ[処理](/glossary/処理/)が渡ります。webpack 4でも、版と実行環境によって経路が異なります。
 
-webpackを直接管理している[プロジェクト](/glossary/プロジェクト/)なら、[webpackの移行ガイド](https://webpack.js.org/migrate/5/)を参照し、[設定](/glossary/設定/)・loader・pluginを含めて[更新](/glossary/更新/)します。webpack 4を維持する場合も、4.47.0の実装を確認したうえで、[プロジェクト](/glossary/プロジェクト/)の対応範囲内で検証してください。
+webpackを直接管理している[プロジェクト](/glossary/プロジェクト/)なら、[webpackの移行ガイド](https://webpack.js.org/migrate/5/)を参照し、[設定](/glossary/設定/)・loader・pluginを含めて[更新](/glossary/更新/)します。webpack 4を維持する場合も、4.47.0の実装を[確認](/glossary/確認/)したうえで、[プロジェクト](/glossary/プロジェクト/)の対応範囲内で検証してください。
 
-react-scriptsやVue [CLI](/glossary/cli/)などがwebpackを内部で管理している場合、webpackだけを追加しても、その道具の内部の依存が置き換わるとは限りません。管理元の道具と関連する依存を確認します。
+react-scriptsやVue [CLI](/glossary/cli/)などがwebpackを内部で管理している場合、webpackだけを追加しても、その道具の内部の依存が置き換わるとは限りません。管理元の道具と関連する依存を[確認](/glossary/確認/)します。
 
-webpack 5という大きな版番号だけでも判断できません。[webpackのIssue #14532](https://github.com/webpack/webpack/issues/14532)には、webpack 5.59.0・Node.js 17.0.0で同じ[エラー](/glossary/エラー/)が出た報告があります。更新後は、[エラー](/glossary/エラー/)を出していた実際の[処理](/glossary/処理/)が通るか確認します。
+webpack 5という大きな版番号だけでも判断できません。[webpackのIssue #14532](https://github.com/webpack/webpack/issues/14532)には、webpack 5.59.0・Node.js 17.0.0で同じ[エラー](/glossary/エラー/)が出た報告があります。更新後は、[エラー](/glossary/エラー/)を出していた実際の[処理](/glossary/処理/)が通るか[確認](/glossary/確認/)します。
 
 [output.hashFunctionの公式説明](https://webpack.js.org/configuration/output/#outputhashfunction)にはハッシュ方式の指定があります。ただし、この[設定](/glossary/設定/)がすべてのloaderやpluginの呼び出しを変えるわけではありません。[設定](/glossary/設定/)を一か所変えれば必ず直るとは扱わないでください。
 
@@ -74,7 +74,7 @@ macOS・[Linux](/glossary/linux/)の[bash](/glossary/bash/)やzshでは、対象
 NODE_OPTIONS=--openssl-legacy-provider npm run build
 ```
 
-Windowsの[コマンドプロンプト](/glossary/コマンドプロンプト/)では、現在の画面で[設定](/glossary/設定/)して実行し、その後に解除します。以下は、既存の`NODE_OPTIONS`が空である場合の例です。
+[Windows](/glossary/windows/)の[コマンドプロンプト](/glossary/コマンドプロンプト/)では、現在の画面で[設定](/glossary/設定/)して実行し、その後に解除します。以下は、既存の`NODE_OPTIONS`が空である場合の例です。
 
 ```bat
 set "NODE_OPTIONS=--openssl-legacy-provider"
@@ -90,13 +90,13 @@ npm run build
 Remove-Item Env:NODE_OPTIONS
 ```
 
-[環境変数](/glossary/環境変数/)の操作は[Microsoftのset文書](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set_1)と[PowerShellの環境変数の説明](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables)を参照してください。Windows上での実行確認は行っていません。
+[環境変数](/glossary/環境変数/)の操作は[Microsoftのset文書](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/set_1)と[PowerShellの環境変数の説明](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables)を参照してください。[Windows](/glossary/windows/)上での実行確認は行っていません。
 
 既存の`NODE_OPTIONS`がある場合は、値を記録し、必要な指定を消さないようにしてください。上の代入は既存値を上書きします。恒久的な環境設定や全[プロジェクト](/glossary/プロジェクト/)共通の[設定](/glossary/設定/)へ無条件に追加しないようにします。
 
 ## MD4の最小例で確認する
 
-webpackを介さず、Node.jsの呼び出しだけでも確認できます。
+webpackを介さず、Node.jsの呼び出しだけでも[確認](/glossary/確認/)できます。
 
 ```bash
 node -e "require('node:crypto').createHash('md4')"
@@ -117,7 +117,7 @@ code: ERR_OSSL_EVP_UNSUPPORTED
 node --openssl-legacy-provider -e "console.log(require('node:crypto').createHash('md4').update('hello').digest('hex'))"
 ```
 
-これは、その[環境](/glossary/環境/)でMD4の呼び出しとlegacy指定の効果を確認する例です。[プロジェクト](/glossary/プロジェクト/)全体の修正完了を保証する[テスト](/glossary/テスト/)ではありません。[エラー](/glossary/エラー/)の数値部分や実行履歴の[行番号](/glossary/行番号/)が、すべての[環境](/glossary/環境/)で同じになるとも断定しません。
+これは、その[環境](/glossary/環境/)でMD4の呼び出しとlegacy指定の効果を[確認](/glossary/確認/)する例です。[プロジェクト](/glossary/プロジェクト/)全体の修正完了を保証する[テスト](/glossary/テスト/)ではありません。[エラー](/glossary/エラー/)の数値部分や実行履歴の[行番号](/glossary/行番号/)が、すべての[環境](/glossary/環境/)で同じになるとも断定しません。
 
 自分の[コード](/glossary/コード/)で古い方式を指定している場合は、用途に合った方式へ変更します。単なるビルド用の識別値なのか、署名・[認証](/glossary/認証/)・外部とのデータ交換に使うのかで必要な条件が異なるため、置き換え先を一律には決められません。
 
@@ -127,16 +127,16 @@ node --openssl-legacy-provider -e "console.log(require('node:crypto').createHash
 
 `ERR_REQUIRE_ESM`は、[モジュール](/glossary/モジュール/)を読み込む方式に関係する別の[エラー](/glossary/エラー/)です。legacy指定でCommonJSとES[モジュール](/glossary/モジュール/)の読み込み規則が変わるわけではありません。
 
-`npm warn EBADENGINE`は、[パッケージ](/glossary/パッケージ/)が要求するNode.jsなどの版と、現在の版の不一致を知らせる警告です。今回の[エラー](/glossary/エラー/)は、実行中の暗号処理から出ています。導入時の警告と、実行時の失敗を分けて確認します。
+`npm warn EBADENGINE`は、[パッケージ](/glossary/パッケージ/)が要求するNode.jsなどの版と、現在の版の不一致を知らせる警告です。今回の[エラー](/glossary/エラー/)は、実行中の暗号処理から出ています。導入時の警告と、実行時の失敗を分けて[確認](/glossary/確認/)します。
 
 ## 解決手順のまとめ
 
-Node.jsとOpenSSLの版、導入済みwebpackと周辺の道具、失敗した呼び出しの実行履歴を確認します。webpack本体を直すべきか、内部でwebpackを使う道具や別の依存を直すべきかを判断してください。
+Node.jsとOpenSSLの版、導入済みwebpackと周辺の道具、失敗した呼び出しの実行履歴を[確認](/glossary/確認/)します。webpack本体を直すべきか、内部でwebpackを使う道具や別の依存を直すべきかを判断してください。
 
-一時的にlegacy指定を使った場合は、更新後にその指定を外して同じビルドや起動を確認します。指定付きで成功するだけでは、古い方式への依存がなくなったとは判断できません。
+一時的にlegacy指定を使った場合は、更新後にその指定を外して同じビルドや起動を[確認](/glossary/確認/)します。指定付きで成功するだけでは、古い方式への依存がなくなったとは判断できません。
 
-今回確認したのはNode.js 24.19.0・OpenSSL 3.5.7によるMD4の最小例です。webpackを追加[インストール](/glossary/インストール/)したビルド検証、Node.js 17での実行、Windowsでの[環境変数](/glossary/環境変数/)の実行確認は行っていません。
+今回確認したのはNode.js 24.19.0・OpenSSL 3.5.7によるMD4の最小例です。webpackを追加[インストール](/glossary/インストール/)したビルド検証、Node.js 17での実行、[Windows](/glossary/windows/)での[環境変数](/glossary/環境変数/)の実行確認は行っていません。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

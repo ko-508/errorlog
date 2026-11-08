@@ -42,15 +42,15 @@ Unable to connect to Datadog backend
 
 ### 原因1：Datadog サービスのメンテナンスまたは障害
 
-Datadog 側で[メンテナンス](/glossary/メンテナンス/)が実施中、または一時的な[障害](/glossary/障害/)が発生している場合、すべての[リクエスト](/glossary/リクエスト/)が 503 で拒否されます。この場合、ユーザー側の[設定](/glossary/設定/)や[環境](/glossary/環境/)は問題ではなく、サービスの[復旧](/glossary/復旧/)を待つ必要があります。
+Datadog 側で[メンテナンス](/glossary/メンテナンス/)が実施中、または一時的な[障害](/glossary/障害/)が発生している場合、すべての[リクエスト](/glossary/リクエスト/)が 503 で拒否されます。この場合、[ユーザー](/glossary/ユーザー/)側の[設定](/glossary/設定/)や[環境](/glossary/環境/)は問題ではなく、サービスの[復旧](/glossary/復旧/)を待つ必要があります。
 
 **確認方法：**
 
 Datadog の公式ステータスページ（https://status.datadoghq.com）にアクセスし、現在の障害またはメンテナンス情報を確認してください。
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
-ステータスページで「All Systems Operational」と表示されていれば、Datadog 側は正常です。その場合は、エージェント側の[設定](/glossary/設定/)を確認してください。
+ステータスページで「All Systems Operational」と表示されていれば、Datadog 側は正常です。その場合は、エージェント側の[設定](/glossary/設定/)を[確認](/glossary/確認/)してください。
 
 ### 原因2：Datadog エージェントの API キーまたはサイト設定が正しくない
 
@@ -72,7 +72,7 @@ export DD_API_KEY="<your-actual-api-key>"
 export DD_SITE="datadoghq.eu"  # 利用地域に応じた正しいサイト
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # Datadog エージェントの設定を確認
@@ -104,7 +104,7 @@ proxy:
 # https: http://<proxy-username>:<proxy-password>@<proxy-host>:<proxy-port>
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # ネットワーク接続をテスト
@@ -136,7 +136,7 @@ sudo apt-get install datadog-agent
 brew upgrade datadog-agent
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # アップグレード後のバージョン確認
@@ -191,7 +191,7 @@ for i in range(0, 1000, batch_size):
     time.sleep(1)  # 1秒待機してレート制限を回避
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # Datadog API のレート制限ヘッダーを確認
@@ -212,13 +212,13 @@ curl -i -H "DD-API-KEY: <your-api-key>" https://api.datadoghq.com/api/v1/validat
 
 ## ツール固有の注意点
 
-Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に[障害](/glossary/障害/)がないか確認することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を確認してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（[Linux](/glossary/linux/)）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
+Datadog エージェントが 503 を返す場合、複数の要因が重なっていることがあります。まず https://status.datadoghq.com で Datadog 側に[障害](/glossary/障害/)がないか[確認](/glossary/確認/)することが最優先です。その上で、`sudo datadog-agent status` [コマンド](/glossary/コマンド/)でエージェントの健全性を[確認](/glossary/確認/)してください。エージェントの再起動が必要な場合は、`sudo systemctl restart datadog-agent`（[Linux](/glossary/linux/)）または `sudo launchctl restart com.datadoghq.agent`（macOS）で実行できます。
 
-複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに[対応](/glossary/対応/)しているか確認が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
+複数のリージョンで Datadog を利用している場合、[API](/glossary/api/) [キー](/glossary/キー/)が正しいリージョンに[対応](/glossary/対応/)しているか[確認](/glossary/確認/)が重要です。EU リージョンの場合は `datadoghq.eu`、US の場合は `datadoghq.com` を使い分ける必要があります。
 
 ## それでも解決しない場合
 
-Datadog エージェントの詳細[ログ](/glossary/ログ/)を確認してください。
+Datadog エージェントの詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。
 
 ```bash
 # ログの確認（Linux）
@@ -230,7 +230,7 @@ sudo journalctl -u datadog-agent -f
 
 [ログ](/glossary/ログ/)に `Connection refused`、`Name or service not known`、`403 Forbidden` などが表示される場合は、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)または[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を再度確認してください。
 
-[ファイアウォール](/glossary/ファイアウォール/)側で Datadog への[通信](/glossary/通信/)が遮断されている可能性もあります。以下の IP レンジと [ポート](/glossary/ポート/)443 への外向き[通信](/glossary/通信/)が許可されているか、ネットワークチーム経由で確認してください。Datadog の公式ドキュメント（https://docs.datadoghq.com/ja/agent/guide/network/）に許可すべき IP レンジと ホスト名が記載されています。
+[ファイアウォール](/glossary/ファイアウォール/)側で Datadog への[通信](/glossary/通信/)が遮断されている可能性もあります。以下の IP レンジと [ポート](/glossary/ポート/)443 への外向き[通信](/glossary/通信/)が許可されているか、ネットワークチーム経由で[確認](/glossary/確認/)してください。Datadog の公式ドキュメント（https://docs.datadoghq.com/ja/agent/guide/network/）に許可すべき IP レンジと ホスト名が記載されています。
 
 ## 代替ツールの検討
 
@@ -240,14 +240,14 @@ sudo journalctl -u datadog-agent -f
 
 - **Splunk Observability Cloud**：エンタープライズ向けの強力な[ログ](/glossary/ログ/)分析機能を備えており、オンプレミス[環境](/glossary/環境/)との統合がしやすい設計になっています。
 
-- **Grafana Cloud**：オープンソース ベースで拡張性に優れており、コスト面でも柔軟な選択肢が可能です。小～中規模環境での運用が効率的です。
+- **Grafana Cloud**：[オープンソース](/glossary/オープンソース/) ベースで拡張性に優れており、コスト面でも柔軟な選択肢が可能です。小～中規模環境での運用が効率的です。
 
 ## Editor's Note
 
-Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を確認すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ確認が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
+Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を[確認](/glossary/確認/)すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ[確認](/glossary/確認/)が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
 
 > **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で[検索](/glossary/検索/)・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

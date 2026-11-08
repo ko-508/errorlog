@@ -86,7 +86,7 @@ Ansible でサービス再起動・[デプロイ](/glossary/デプロイ/)を行
 
 ### 原因2：ターゲットホストへの SSH 接続がタイムアウトしている
 
-SSH 接続自体が[タイムアウト](/glossary/タイムアウト/)すると、サービス確認ができず 503 [エラー](/glossary/エラー/)と同じく実行が失敗します。[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)が大きい[環境](/glossary/環境/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)が厳しい場合に発生します。
+SSH 接続自体が[タイムアウト](/glossary/タイムアウト/)すると、サービス[確認](/glossary/確認/)ができず 503 [エラー](/glossary/エラー/)と同じく実行が失敗します。[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)が大きい[環境](/glossary/環境/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)が厳しい場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -156,13 +156,13 @@ ansible_ssh_timeout=60
       when: ping_result is succeeded
 ```
 
-`ping` [モジュール](/glossary/モジュール/)で基本接続を確認し、[DNS](/glossary/dns/) 解決と[ポート](/glossary/ポート/)到達可能性を事前チェックしてから[タスク](/glossary/タスク/)実行に進みます。条件付き実行（`when`）で失敗時の安全性も確保します。
+`ping` [モジュール](/glossary/モジュール/)で基本接続を[確認](/glossary/確認/)し、[DNS](/glossary/dns/) 解決と[ポート](/glossary/ポート/)到達可能性を事前チェックしてから[タスク](/glossary/タスク/)実行に進みます。条件付き実行（`when`）で失敗時の安全性も確保します。
 
 ## ツール固有の注意点
 
 **wait_for [モジュール](/glossary/モジュール/)のパラメーター設計**
 
-`wait_for` で[ポート](/glossary/ポート/)のリッスン確認をする際、`state: started` は TCP [コネクション](/glossary/コネクション/)試行で判定するため、サービスが [HTTP](/glossary/http/) [レスポンス](/glossary/レスポンス/)を返せるまでの時間は含みません。より堅牢なチェックには、URI [モジュール](/glossary/モジュール/)にリトライロジックを組み合わせます：
+`wait_for` で[ポート](/glossary/ポート/)のリッスン[確認](/glossary/確認/)をする際、`state: started` は TCP [コネクション](/glossary/コネクション/)試行で判定するため、サービスが [HTTP](/glossary/http/) [レスポンス](/glossary/レスポンス/)を返せるまでの時間は含みません。より堅牢なチェックには、URI [モジュール](/glossary/モジュール/)にリトライロジックを組み合わせます：
 
 ```yaml
 - name: Wait for HTTP endpoint to be healthy
@@ -217,7 +217,7 @@ ansible <ホスト名> -c local -m command -a "systemctl status nginx"
 
 **2. サービス状態を直接確認**
 
-ターゲットホストへ SSH で直接[ログイン](/glossary/ログイン/)し、サービスの状態を確認します：
+ターゲットホストへ SSH で直接[ログイン](/glossary/ログイン/)し、サービスの状態を[確認](/glossary/確認/)します：
 
 ```bash
 ssh deploy@192.168.1.100
@@ -234,14 +234,14 @@ Ansible 実行時に `-vvv` フラグで詳細[ログ](/glossary/ログ/)を取�
 ansible-playbook playbook.yml -vvv -e "ansible_python_interpreter=/usr/bin/python3"
 ```
 
-**4. 公式ドキュメント・コミュニティの確認**
+**4. 公式ドキュメント・コミュニティの[確認](/glossary/確認/)**
 
 - [Ansible 公式ドキュメント：uri モジュール](https://docs.ansible.com/ansible/latest/modules/uri_module.html)
 - [wait_for モジュール](https://docs.ansible.com/ansible/latest/modules/wait_for_module.html)
 - [インベントリ接続設定](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#managing-dynamic-inventory)
 
-[ファイアウォール](/glossary/ファイアウォール/)・セキュリティグループ[設定](/glossary/設定/)の確認も同時に実施してください。
+[ファイアウォール](/glossary/ファイアウォール/)・セキュリティグループ[設定](/glossary/設定/)の[確認](/glossary/確認/)も同時に実施してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

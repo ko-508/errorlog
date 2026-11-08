@@ -84,7 +84,7 @@ else console.log('Success:', data);
 
 ### 原因 2：JWT トークンの有効期限が切れている
 
-Supabase の [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)には[デフォルト](/glossary/デフォルト/)で 1 時間の有効期限があります。ユーザーが[ログイン](/glossary/ログイン/)後、時間が経過して[セッション](/glossary/セッション/)が切れた状態で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。特にモバイルアプリや[バックグラウンド](/glossary/バックグラウンド/)で長時間実行される[アプリケーション](/glossary/アプリケーション/)で頻出します。
+Supabase の [JWT](/glossary/jwt/) [トークン](/glossary/トークン/)には[デフォルト](/glossary/デフォルト/)で 1 時間の有効期限があります。[ユーザー](/glossary/ユーザー/)が[ログイン](/glossary/ログイン/)後、時間が経過して[セッション](/glossary/セッション/)が切れた状態で[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)すると 401 [エラー](/glossary/エラー/)が返されます。特にモバイルアプリや[バックグラウンド](/glossary/バックグラウンド/)で長時間実行される[アプリケーション](/glossary/アプリケーション/)で頻出します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -225,7 +225,7 @@ Supabase [プロジェクト](/glossary/プロジェクト/)の Settings > [API]
 
 ### Row Level Security（RLS）ポリシーとの相互作用
 
-Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/glossary/ポリシー/)（行レベルセキュリティ）が有効になっている場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の user_id が正しくないと、データ取得可能でも 401 [エラー](/glossary/エラー/)のように見える 403 [エラー](/glossary/エラー/)が返されることがあります。RLS [ポリシー](/glossary/ポリシー/)が[設定](/glossary/設定/)されている[テーブル](/glossary/テーブル/)へのアクセスは、`auth.uid()` や `auth.role()` を使用して現在のユーザー情報が正しく紐づけられていることを確認してください。
+Supabase で[テーブル](/glossary/テーブル/)に RLS [ポリシー](/glossary/ポリシー/)（行レベルセキュリティ）が有効になっている場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の user_id が正しくないと、データ取得可能でも 401 [エラー](/glossary/エラー/)のように見える 403 [エラー](/glossary/エラー/)が返されることがあります。RLS [ポリシー](/glossary/ポリシー/)が[設定](/glossary/設定/)されている[テーブル](/glossary/テーブル/)へのアクセスは、`auth.uid()` や `auth.role()` を使用して現在の[ユーザー](/glossary/ユーザー/)情報が正しく紐づけられていることを[確認](/glossary/確認/)してください。
 
 ### マルチタブ・マルチデバイスでのセッション管理
 
@@ -235,11 +235,11 @@ Supabase の JavaScript [クライアント](/glossary/クライアント/)は[�
 
 ### ログ確認の手順
 
-Supabase Dashboard の Authentication セクションで、「Logs」タブを開き、[エラーレスポンス](/glossary/エラーレスポンス/)の詳細確認ができます。[リクエスト](/glossary/リクエスト/)のタイムスタンプとユーザー [ID](/glossary/id/) を照合し、実際にどの[トークン](/glossary/トークン/)が拒否されたかを確認してください。
+Supabase Dashboard の Authentication セクションで、「Logs」タブを開き、[エラーレスポンス](/glossary/エラーレスポンス/)の詳細確認ができます。[リクエスト](/glossary/リクエスト/)のタイムスタンプと[ユーザー](/glossary/ユーザー/) [ID](/glossary/id/) を照合し、実際にどの[トークン](/glossary/トークン/)が拒否されたかを[確認](/glossary/確認/)してください。
 
 ### デバッグコマンド
 
-[ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（DevTools）の Application タブで、Local Storage に[保存](/glossary/保存/)された[セッション](/glossary/セッション/)情報を確認してください：
+[ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（DevTools）の Application タブで、Local Storage に[保存](/glossary/保存/)された[セッション](/glossary/セッション/)情報を[確認](/glossary/確認/)してください：
 
 ```javascript
 // ブラウザコンソールで実行
@@ -249,8 +249,8 @@ console.log('Expires At:', session?.expires_at);
 console.log('Now:', Math.floor(Date.now() / 1000));
 ```
 
-[トークン](/glossary/トークン/)の有効期限が切れていないか確認してください。expires_at がタイムスタンプ（秒単位）で表示され、現在時刻より後の値になっていれば有効です。
+[トークン](/glossary/トークン/)の有効期限が切れていないか[確認](/glossary/確認/)してください。expires_at がタイムスタンプ（秒単位）で表示され、現在時刻より後の値になっていれば有効です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

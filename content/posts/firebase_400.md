@@ -238,7 +238,7 @@ curl 'https://firebaseio.com/user%20data.json'
 
 ### Cloud Functions との連携時
 
-Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) [ファイル](/glossary/ファイル/)が正しく[初期化](/glossary/初期化/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく[設定](/glossary/設定/)されているか確認が必須です。
+Firebase Admin [SDK](/glossary/sdk/) を使用する際、[サービスアカウント](/glossary/サービスアカウント/)認証情報の [JSON](/glossary/json/) [ファイル](/glossary/ファイル/)が正しく[初期化](/glossary/初期化/)されていないと 400 [エラー](/glossary/エラー/)が発生します。[環境変数](/glossary/環境変数/) `GOOGLE_APPLICATION_CREDENTIALS` が正しく[設定](/glossary/設定/)されているか[確認](/glossary/確認/)が必須です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -268,19 +268,19 @@ db = firestore.client()
 
 ### デバッグ手順
 
-1. **ネットワークレスポンスを確認**：[ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを確認してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
+1. **ネットワークレスポンスを[確認](/glossary/確認/)**：[ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（DevTools）の Network タブで、実際のレスポンスボディとレスポンスヘッダーを[確認](/glossary/確認/)してください。[エラー](/glossary/エラー/)詳細がレスポンスボディに含まれることがあります。
 
-2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) [キー](/glossary/キー/)の状態を確認**：
+2. **Firebase [コンソール](/glossary/コンソール/)で [API](/glossary/api/) [キー](/glossary/キー/)の状態を[確認](/glossary/確認/)**：
    - Firebase Console → [プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/) → [API](/glossary/api/) [キー](/glossary/キー/)
-   - 該当する[キー](/glossary/キー/)が有効化されているか、制限が適切に[設定](/glossary/設定/)されているかを確認してください。
+   - 該当する[キー](/glossary/キー/)が有効化されているか、制限が適切に[設定](/glossary/設定/)されているかを[確認](/glossary/確認/)してください。
 
-3. **ローカルでの[リクエスト](/glossary/リクエスト/)検証**：`curl` [コマンド](/glossary/コマンド/)や Postman を使用して[リクエスト](/glossary/リクエスト/)を再現し、[JSON](/glossary/json/) の妥当性を確認してください。
+3. **ローカルでの[リクエスト](/glossary/リクエスト/)検証**：`curl` [コマンド](/glossary/コマンド/)や Postman を使用して[リクエスト](/glossary/リクエスト/)を再現し、[JSON](/glossary/json/) の妥当性を[確認](/glossary/確認/)してください。
 
-4. **Firebase ルール（Security Rules）を確認**：Firestore/Realtime Database のセキュリティルールが正しく[設定](/glossary/設定/)されているか確認してください。ルール違反は 401/403 [エラー](/glossary/エラー/)ですが、ルール構文[エラー](/glossary/エラー/)が 400 を返すことがあります。
+4. **Firebase ルール（Security Rules）を[確認](/glossary/確認/)**：Firestore/Realtime Database のセキュリティルールが正しく[設定](/glossary/設定/)されているか[確認](/glossary/確認/)してください。ルール違反は 401/403 [エラー](/glossary/エラー/)ですが、ルール構文[エラー](/glossary/エラー/)が 400 を返すことがあります。
 
 ### ログの確認
 
-Firebase Console の「[ログ](/glossary/ログ/)と統計」セクションで詳細な[エラーログ](/glossary/エラーログ/)を確認できます。また、ブラウザコンソールで以下を実行し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください：
+Firebase Console の「[ログ](/glossary/ログ/)と統計」セクションで詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)できます。また、ブラウザコンソールで以下を実行し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください：
 
 ```javascript
 firebase.initializeApp(config);
@@ -295,4 +295,4 @@ firebase.firestore().enableLogging(true);  // Firestore デバッグログを有
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

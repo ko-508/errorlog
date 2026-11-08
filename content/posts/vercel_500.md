@@ -184,18 +184,18 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手�
 
 ### Vercel ログの確認方法
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)から詳細な[エラーログ](/glossary/エラーログ/)を確認することが最初の[ステップ](/glossary/ステップ/)です。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)から詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)することが最初の[ステップ](/glossary/ステップ/)です。
 
 1. **[プロジェクト](/glossary/プロジェクト/)選択** → **Deployments** → **最新の[デプロイ](/glossary/デプロイ/)を選択**
 2. **Functions** タブをクリック
 3. **[エラー](/glossary/エラー/)が発生した[関数](/glossary/関数/)**を選択して **Logs** をクリック
-4. **Runtime logs** と **Build logs** の両方を確認
+4. **Runtime logs** と **Build logs** の両方を[確認](/glossary/確認/)
 
 Build logs では、[デプロイ](/glossary/デプロイ/)時の依存パッケージインストール段階の[エラー](/glossary/エラー/)が表示されます。
 
 ### ローカル開発環境での再現
 
-Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うことで、ローカルで[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の動作を確認できます。これにより、[本番環境](/glossary/本番環境/)に[デプロイ](/glossary/デプロイ/)する前に[エラー](/glossary/エラー/)を発見できます。
+Vercel の `vercel dev` [コマンド](/glossary/コマンド/)を使うことで、ローカルで[サーバーレス](/glossary/サーバーレス/)[関数](/glossary/関数/)の動作を[確認](/glossary/確認/)できます。これにより、[本番環境](/glossary/本番環境/)に[デプロイ](/glossary/デプロイ/)する前に[エラー](/glossary/エラー/)を発見できます。
 
 ```bash
 vercel dev
@@ -214,7 +214,7 @@ API_KEY=your-test-api-key
 
 ### Node.js ランタイムのバージョン確認
 
-Vercel でサポートされる Node.js [バージョン](/glossary/バージョン/)と[プロジェクト](/glossary/プロジェクト/)の `package.json` に記載された[バージョン](/glossary/バージョン/)が異なる場合、[互換性](/glossary/互換性/)の問題が発生することがあります。以下で確認・指定してください：
+Vercel でサポートされる Node.js [バージョン](/glossary/バージョン/)と[プロジェクト](/glossary/プロジェクト/)の `package.json` に記載された[バージョン](/glossary/バージョン/)が異なる場合、[互換性](/glossary/互換性/)の問題が発生することがあります。以下で[確認](/glossary/確認/)・指定してください：
 
 ```json
 {
@@ -228,7 +228,7 @@ Vercel でサポートされる Node.js [バージョン](/glossary/バージョ
 
 ### ログの詳細確認
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)の Functions タブで、以下をすべて確認してください：
+Vercel [ダッシュボード](/glossary/ダッシュボード/)の Functions タブで、以下をすべて[確認](/glossary/確認/)してください：
 
 - **Runtime logs**：実行時の[エラー](/glossary/エラー/)内容
 - **Build logs**：[デプロイ](/glossary/デプロイ/)時の警告・[エラー](/glossary/エラー/)
@@ -258,7 +258,7 @@ export default async function handler(req, res) {
 
 ### 公式リソース
 
-以下の公式ドキュメントを参照して、より詳しい設定方法を確認してください：
+以下の公式ドキュメントを参照して、より詳しい設定方法を[確認](/glossary/確認/)してください：
 
 - [Vercel Functions Documentation](https://vercel.com/docs/functions)
 - [Debugging in Vercel](https://vercel.com/docs/concepts/deployments/logs)
@@ -266,4 +266,4 @@ export default async function handler(req, res) {
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -44,7 +44,7 @@ trend_incident: false
 
 ## まず最初に：errors 配列を3段階で読む
 
-第一に、応答に errors 配列があるかを確認します。無い、または文字列だけの場合は、message の文言そのものが手がかりです。第二に、各要素の code を読みます。missing_field・invalid・already_exists・missing のどれかであれば、この記事の原因1〜4に[対応](/glossary/対応/)します。custom であれば message を読みます（原因5）。第三に、field と resource で対象の項目を特定します。value が含まれていれば、実際に届いた値まで分かるため、手元で送ったつもりの値との差がその場で確認できます。
+第一に、応答に errors 配列があるかを[確認](/glossary/確認/)します。無い、または文字列だけの場合は、message の文言そのものが手がかりです。第二に、各要素の code を読みます。missing_field・invalid・already_exists・missing のどれかであれば、この記事の原因1〜4に[対応](/glossary/対応/)します。custom であれば message を読みます（原因5）。第三に、field と resource で対象の項目を特定します。value が含まれていれば、実際に届いた値まで分かるため、手元で送ったつもりの値との差がその場で[確認](/glossary/確認/)できます。
 
 ## よくある原因と解決手順
 
@@ -60,7 +60,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"body": "説明だけを送っている"}'
 ```
 
-**After（必須項目を確認して追加する）：**
+**After（必須項目を[確認](/glossary/確認/)して追加する）：**
 
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
@@ -68,7 +68,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '{"title": "ログインボタンが反応しない", "body": "説明だけを送っている"}'
 ```
 
-どの項目が必須かは、公式リファレンスの各[エンドポイント](/glossary/エンドポイント/)の[パラメータ](/glossary/パラメータ/)表（Required の列）で確認できます。[プログラム](/glossary/プログラム/)からの呼び出しでは、[変数](/glossary/変数/)が空文字や null のまま送られて missing_field になるケースが典型で、送信直前の値の確認を[ログ](/glossary/ログ/)に残すと再発を防げます。
+どの項目が必須かは、公式リファレンスの各[エンドポイント](/glossary/エンドポイント/)の[パラメータ](/glossary/パラメータ/)表（Required の列）で[確認](/glossary/確認/)できます。[プログラム](/glossary/プログラム/)からの呼び出しでは、[変数](/glossary/変数/)が空文字や null のまま送られて missing_field になるケースが典型で、送信直前の値の[確認](/glossary/確認/)を[ログ](/glossary/ログ/)に残すと再発を防げます。
 
 ### 原因2：項目の形式が不正（invalid）
 
@@ -96,7 +96,7 @@ invalid の応答に value が含まれる場合は、実際に届いた値が�
 
 一意であるべき値が既存の対象と重複した状態です。[ブランチ](/glossary/ブランチ/)・[タグ](/glossary/タグ/)・ラベル・[リリース](/glossary/リリース/)の[タグ](/glossary/タグ/)名などで起き、[ブランチ](/glossary/ブランチ/)作成なら message に Reference already exists が入ります。
 
-対処は「確認してから作る」ではなく、「already_exists を正常系として扱う」設計を推奨します。確認と作成の間に他の[処理](/glossary/処理/)が割り込めば、確認は無意味になるためです。
+対処は「[確認](/glossary/確認/)してから作る」ではなく、「already_exists を正常系として扱う」設計を推奨します。[確認](/glossary/確認/)と作成の間に他の[処理](/glossary/処理/)が割り込めば、[確認](/glossary/確認/)は無意味になるためです。
 
 **Before（重複を異常として落ちる[自動化](/glossary/自動化/)）：**
 
@@ -126,21 +126,21 @@ fi
 
 ### 原因4：指した対象が存在しない（missing）
 
-公式定義のとおり、missing は「リソースが存在しない」ことを示します。[リクエスト](/glossary/リクエスト/)自体の形式は正しいものの、field が指す項目の参照先（指定した[ブランチ](/glossary/ブランチ/)、ユーザー、対象の [ID](/glossary/id/) など）が見つからない状態です。対処は、field が名指しする項目の値を、一覧系の[エンドポイント](/glossary/エンドポイント/)で実在確認することです。なお、[リポジトリ](/glossary/リポジトリ/)そのものが存在しない・[権限](/glossary/権限/)がない場合は 422 ではなく 404 になります。missing は「[リポジトリ](/glossary/リポジトリ/)には届いたが、その中の指定先がない」段階の話です。
+公式定義のとおり、missing は「[リソース](/glossary/リソース/)が存在しない」ことを示します。[リクエスト](/glossary/リクエスト/)自体の形式は正しいものの、field が指す項目の参照先（指定した[ブランチ](/glossary/ブランチ/)、[ユーザー](/glossary/ユーザー/)、対象の [ID](/glossary/id/) など）が見つからない状態です。対処は、field が名指しする項目の値を、一覧系の[エンドポイント](/glossary/エンドポイント/)で実在確認することです。なお、[リポジトリ](/glossary/リポジトリ/)そのものが存在しない・[権限](/glossary/権限/)がない場合は 422 ではなく 404 になります。missing は「[リポジトリ](/glossary/リポジトリ/)には届いたが、その中の指定先がない」段階の話です。
 
 ### 原因5：custom、または message だけの422
 
-code が custom の場合、公式文書のとおり必ず message が付きます。文言をそのまま読むのが対処です。代表例は、差分のないプルリクエスト作成で返る No commits between です。base と head の間に[コミット](/glossary/コミット/)差分がないという事実の[通知](/glossary/通知/)であり、[リクエスト](/glossary/リクエスト/)の書式をいくら直しても解決しません。差分の有無を compare 系の確認で先に見るか、差分がない状態を正常系として扱います。
+code が custom の場合、公式文書のとおり必ず message が付きます。文言をそのまま読むのが対処です。代表例は、差分のない[プルリクエスト](/glossary/プルリクエスト/)作成で返る No commits between です。base と head の間に[コミット](/glossary/コミット/)差分がないという事実の[通知](/glossary/通知/)であり、[リクエスト](/glossary/リクエスト/)の書式をいくら直しても解決しません。差分の有無を compare 系の[確認](/glossary/確認/)で先に見るか、差分がない状態を正常系として扱います。
 
-一方で、message を読んでも原因が判然としない422も現実には存在します。その場合の進め方は2つです。第一に、[エンドポイント](/glossary/エンドポイント/)のリファレンスに戻り、[パラメータ](/glossary/パラメータ/)表の制約（型・とりうる値・組み合わせ）と突き合わせます。第二に、[リクエスト](/glossary/リクエスト/)を最小化します。[パラメータ](/glossary/パラメータ/)を必須のみまで削って通ることを確認し、1つずつ戻して、422を引き起こす要素を特定します（この手法は [GitHub API の 500 の記事](/posts/github_api_500/)の原因2と同じです）。
+一方で、message を読んでも原因が判然としない422も現実には存在します。その場合の進め方は2つです。第一に、[エンドポイント](/glossary/エンドポイント/)のリファレンスに戻り、[パラメータ](/glossary/パラメータ/)表の制約（型・とりうる値・組み合わせ）と突き合わせます。第二に、[リクエスト](/glossary/リクエスト/)を最小化します。[パラメータ](/glossary/パラメータ/)を必須のみまで削って通ることを[確認](/glossary/確認/)し、1つずつ戻して、422を引き起こす要素を特定します（この手法は [GitHub API の 500 の記事](/posts/github_api_500/)の原因2と同じです）。
 
 ## 補足：422ではない類似エラー
 
-本文が [JSON](/glossary/json/) として読めない場合は 400 で、message は Problems parsing [JSON](/glossary/json/) や Body should be a [JSON](/glossary/json/) object になります。422の調査の手前で、直列化の回数を疑う段階です（[GitHub API の 400 の記事](/posts/github_api_400/)）。[リクエスト](/glossary/リクエスト/)の中身ではなく「対象の今の状態」との矛盾は 409 です。sha を伴う[更新](/glossary/更新/)の追い越し、空[リポジトリ](/glossary/リポジトリ/)への [Git](/glossary/git/) 系 [API](/glossary/api/) がこれにあたります（[GitHub API の 409 の記事](/posts/github_api_409/)）。[マージ](/glossary/マージ/)できない状態のプルリクエストへの[マージ](/glossary/マージ/)要求は 405 です（[405 の記事](/posts/github_api_405/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものの不存在・権限不足は、private の秘匿のため 404 です（[GitHub API の 404 の記事](/posts/github_api_404/)）。[リクエスト](/glossary/リクエスト/)の量や頻度が弾かれる場合、通常は 403 または 429 の secondary rate limit として現れます（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。ただし前述のとおり、公式リファレンスの422の要約にはスパム判定の場合が含まれており、連続作成系の操作では「量の問題が422の形で現れる」ことがある点も覚えておくと迷いません。
+本文が [JSON](/glossary/json/) として読めない場合は 400 で、message は Problems parsing [JSON](/glossary/json/) や Body should be a [JSON](/glossary/json/) object になります。422の調査の手前で、直列化の回数を疑う段階です（[GitHub API の 400 の記事](/posts/github_api_400/)）。[リクエスト](/glossary/リクエスト/)の中身ではなく「対象の今の状態」との矛盾は 409 です。sha を伴う[更新](/glossary/更新/)の追い越し、空[リポジトリ](/glossary/リポジトリ/)への [Git](/glossary/git/) 系 [API](/glossary/api/) がこれにあたります（[GitHub API の 409 の記事](/posts/github_api_409/)）。[マージ](/glossary/マージ/)できない状態の[プルリクエスト](/glossary/プルリクエスト/)への[マージ](/glossary/マージ/)要求は 405 です（[405 の記事](/posts/github_api_405/)）。[リポジトリ](/glossary/リポジトリ/)や対象そのものの不存在・権限不足は、private の秘匿のため 404 です（[GitHub API の 404 の記事](/posts/github_api_404/)）。[リクエスト](/glossary/リクエスト/)の量や頻度が弾かれる場合、通常は 403 または 429 の secondary rate limit として現れます（[403 の記事](/posts/github_api_403/)、[429 の記事](/posts/github_api_429/)）。ただし前述のとおり、公式リファレンスの422の要約にはスパム判定の場合が含まれており、連続作成系の操作では「量の問題が422の形で現れる」ことがある点も覚えておくと迷いません。
 
 ## 切り分けの順序
 
-1. [コード](/glossary/コード/)と message を確認する。Problems parsing [JSON](/glossary/json/) なら 400、状態の矛盾なら 409、それぞれの記事の調査に切り替える。
+1. [コード](/glossary/コード/)と message を[確認](/glossary/確認/)する。Problems parsing [JSON](/glossary/json/) なら 400、状態の矛盾なら 409、それぞれの記事の調査に切り替える。
 2. errors 配列を読む。code（missing_field・invalid・already_exists・missing・custom）と field で、原因1〜5に振り分ける。
 3. missing_field・invalid は、公式リファレンスの[パラメータ](/glossary/パラメータ/)表と value の実値を突き合わせて[修正](/glossary/修正/)する。
 4. already_exists は、重複を正常系として扱う分岐（既存を取得・[更新](/glossary/更新/)へフォールバック）に直す。
@@ -179,4 +179,4 @@ curl -s -o /dev/null -w "%{http_code}\n" -X POST \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

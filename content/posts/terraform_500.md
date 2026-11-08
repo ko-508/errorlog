@@ -14,7 +14,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-Terraform の実行中に現れる 500 Internal Server Error は、手元で動いている Terraform 自身の不具合ではなく、Terraform が[通信](/glossary/通信/)している相手側の[サーバー](/glossary/サーバー/)内部[エラー](/glossary/エラー/)です。Terraform は多数のリモート [API](/glossary/api/) の[クライアント](/glossary/クライアント/)であり、相手は大きく3つに分かれます。plan や apply の最中にリソースを操作するクラウドプロバイダーの [API](/glossary/api/)（原因1）、state の[保存](/glossary/保存/)や取得、リモート実行を担う[バックエンド](/glossary/バックエンド/)（HCP Terraform など。原因2）、そして terraform init でプロバイダーや[モジュール](/glossary/モジュール/)を取得する Terraform Registry（原因3）です。500の調査の第一歩は、[エラーメッセージ](/glossary/エラーメッセージ/)に含まれる [URL](/glossary/url/) と、どの段階で失敗したかを読んで、この3つのどれが相手かを特定することです。
+Terraform の実行中に現れる 500 Internal Server Error は、手元で動いている Terraform 自身の不具合ではなく、Terraform が[通信](/glossary/通信/)している相手側の[サーバー](/glossary/サーバー/)内部[エラー](/glossary/エラー/)です。Terraform は多数のリモート [API](/glossary/api/) の[クライアント](/glossary/クライアント/)であり、相手は大きく3つに分かれます。plan や apply の最中に[リソース](/glossary/リソース/)を操作するクラウドプロバイダーの [API](/glossary/api/)（原因1）、state の[保存](/glossary/保存/)や取得、リモート実行を担う[バックエンド](/glossary/バックエンド/)（HCP Terraform など。原因2）、そして terraform init でプロバイダーや[モジュール](/glossary/モジュール/)を取得する Terraform Registry（原因3）です。500の調査の第一歩は、[エラーメッセージ](/glossary/エラーメッセージ/)に含まれる [URL](/glossary/url/) と、どの段階で失敗したかを読んで、この3つのどれが相手かを特定することです。
 
 境界も先に押さえておくと迷いません。実行[アカウント](/glossary/アカウント/)の権限不足は、[クラウド](/glossary/クラウド/)側から 403 系のアクセス拒否（[AWS](/glossary/aws/) なら AccessDenied や UnauthorizedOperation）として返り、500にはなりません。[AWS](/glossary/aws/) の[スロットリング](/glossary/スロットリング/)は ThrottlingException（[HTTP](/glossary/http/) では 400 として現れることもあります）や 429 で、プロバイダーが自動で再試行する対象です。また、TERRAFORM CRASH という見出しとスタックトレースが出る異常終了は、[HTTP](/glossary/http/) の500ではなく Terraform 本体の[バグ](/glossary/バグ/)であり、調査の場所がまったく異なります。
 
@@ -22,7 +22,7 @@ Terraform の実行中に現れる 500 Internal Server Error は、手元で動�
 
 Terraform の500は、相手ごとに異なる文言で現れます。いずれもメッセージの中に相手を特定する手がかりが含まれています。
 
-クラウドプロバイダーの [API](/glossary/api/) が相手の場合、リソース操作の[エラー](/glossary/エラー/)として表示され、[リクエスト](/glossary/リクエスト/)先の[エンドポイント](/glossary/エンドポイント/)が含まれます。
+クラウドプロバイダーの [API](/glossary/api/) が相手の場合、[リソース](/glossary/リソース/)操作の[エラー](/glossary/エラー/)として表示され、[リクエスト](/glossary/リクエスト/)先の[エンドポイント](/glossary/エンドポイント/)が含まれます。
 
 ```text
 Error: creating EC2 Instance: 500 Internal Server Error
@@ -48,15 +48,15 @@ the request failed after 2 attempts, please try again later
 
 ## まず最初に：URL と段階で相手を特定する
 
-terraform init の段階で失敗し、対象がプロバイダーや[モジュール](/glossary/モジュール/)の取得なら、相手は Terraform Registry です（原因3）。plan や apply の段階で、[エラー](/glossary/エラー/)に[クラウド](/glossary/クラウド/)の[エンドポイント](/glossary/エンドポイント/)（amazonaws.com、googleapis.com、azure.com など）やリソース名が含まれるなら、相手はクラウドプロバイダーの [API](/glossary/api/) です（原因1）。state の取得・[保存](/glossary/保存/)やリモート実行の[エラー](/glossary/エラー/)（Error downloading state、app.terraform.io への[通信](/glossary/通信/)、自営の Terraform Enterprise）なら、相手は[バックエンド](/glossary/バックエンド/)です（原因2）。詳しいやり取りを見たい場合は、TF_LOG=DEBUG を付けて再実行すると、どの [URL](/glossary/url/) への[通信](/glossary/通信/)で失敗したかが[ログ](/glossary/ログ/)に残ります。
+terraform init の段階で失敗し、対象がプロバイダーや[モジュール](/glossary/モジュール/)の取得なら、相手は Terraform Registry です（原因3）。plan や apply の段階で、[エラー](/glossary/エラー/)に[クラウド](/glossary/クラウド/)の[エンドポイント](/glossary/エンドポイント/)（amazonaws.com、googleapis.com、azure.com など）や[リソース](/glossary/リソース/)名が含まれるなら、相手はクラウドプロバイダーの [API](/glossary/api/) です（原因1）。state の取得・[保存](/glossary/保存/)やリモート実行の[エラー](/glossary/エラー/)（Error downloading state、app.terraform.io への[通信](/glossary/通信/)、自営の Terraform Enterprise）なら、相手は[バックエンド](/glossary/バックエンド/)です（原因2）。詳しいやり取りを見たい場合は、TF_LOG=DEBUG を付けて再実行すると、どの [URL](/glossary/url/) への[通信](/glossary/通信/)で失敗したかが[ログ](/glossary/ログ/)に残ります。
 
 ## よくある原因と解決手順
 
 ### 原因1：クラウドプロバイダーの API が内部エラーを返している
 
-plan や apply の最中に、[AWS](/glossary/aws/) などの[クラウド](/glossary/クラウド/)側で一時的な内部[エラー](/glossary/エラー/)が起きると、リソース操作が500で失敗します。重要なのは、ユーザーに500が見えた時点で、プロバイダーの自動再試行をすでに使い切っているという点です。[AWS](/glossary/aws/) プロバイダーの公式文書のとおり、[スロットリング](/glossary/スロットリング/)や一時的な失敗に対しては [API](/glossary/api/) 呼び出しが指数[バックオフ](/glossary/バックオフ/)で自動的に再試行され、その回数の既定値は25回です。それでも失敗が続いた場合にだけ、[エラー](/glossary/エラー/)が表面化します。
+plan や apply の最中に、[AWS](/glossary/aws/) などの[クラウド](/glossary/クラウド/)側で一時的な内部[エラー](/glossary/エラー/)が起きると、[リソース](/glossary/リソース/)操作が500で失敗します。重要なのは、[ユーザー](/glossary/ユーザー/)に500が見えた時点で、プロバイダーの自動再試行をすでに使い切っているという点です。[AWS](/glossary/aws/) プロバイダーの公式文書のとおり、[スロットリング](/glossary/スロットリング/)や一時的な失敗に対しては [API](/glossary/api/) 呼び出しが指数[バックオフ](/glossary/バックオフ/)で自動的に再試行され、その回数の既定値は25回です。それでも失敗が続いた場合にだけ、[エラー](/glossary/エラー/)が表面化します。
 
-対処は、[クラウド](/glossary/クラウド/)側のステータス確認と、時間をおいた再実行です。ただし、途中まで進んだ apply を再実行する前に、必ず plan で現状との差分を確認してください。state に記録済みのリソースは再作成されませんが、「[クラウド](/glossary/クラウド/)側では作成が完了したのに、応答が届かず state に記録されなかった」可能性は排除できないためです。plan の差分に「すでに存在するはずのリソースの新規作成」が含まれていたら、実際の状態を確認してから進めます。
+対処は、[クラウド](/glossary/クラウド/)側のステータス[確認](/glossary/確認/)と、時間をおいた再実行です。ただし、途中まで進んだ apply を再実行する前に、必ず plan で現状との差分を[確認](/glossary/確認/)してください。state に記録済みの[リソース](/glossary/リソース/)は再作成されませんが、「[クラウド](/glossary/クラウド/)側では作成が完了したのに、応答が届かず state に記録されなかった」可能性は排除できないためです。plan の差分に「すでに存在するはずの[リソース](/glossary/リソース/)の新規作成」が含まれていたら、実際の状態を[確認](/glossary/確認/)してから進めます。
 
 **Before（再試行回数を絞っていて、一時[エラー](/glossary/エラー/)がそのまま失敗になる[設定](/glossary/設定/)）：**
 
@@ -88,7 +88,7 @@ terraform plan
 
 state の取得・保存先や、リモート実行の基盤（HCP Terraform、自営の Terraform Enterprise、その他の[バックエンド](/glossary/バックエンド/)）側の[障害](/glossary/障害/)でも500が返ります。冒頭に示した Error downloading state: 500 Internal Server Error はこの系統で、HashiCorp 自身が障害復旧の公式文書の中で、[バックエンド](/glossary/バックエンド/)障害時に現れる[ログ](/glossary/ログ/)として例示しているものです。
 
-この[エラー](/glossary/エラー/)は「state の[ダウンロード](/glossary/ダウンロード/)に失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の[復旧](/glossary/復旧/)を確認します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所は[サーバー](/glossary/サーバー/)側（アプリケーションログ、[データベース](/glossary/データベース/)、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは[障害](/glossary/障害/)でないことの証明にはなりません。
+この[エラー](/glossary/エラー/)は「state の[ダウンロード](/glossary/ダウンロード/)に失敗した」ことを示すだけで、state そのものが壊れたことを意味しません。手元で plan や apply を繰り返す前に、相手の[復旧](/glossary/復旧/)を[確認](/glossary/確認/)します。HCP Terraform（app.terraform.io）が相手なら、HashiCorp の稼働状況ページ（https://status.hashicorp.com）を確認し、インシデント中なら復旧を待って再実行します。自営の Terraform Enterprise が相手なら、調査の場所は[サーバー](/glossary/サーバー/)側（アプリケーションログ、[データベース](/glossary/データベース/)、オブジェクトストレージ）に移ります。掲載が遅れることもあるため、稼働状況ページに掲載がないことは[障害](/glossary/障害/)でないことの証明にはなりません。
 
 ### 原因3：Terraform Registry が内部エラーを返している（terraform init）
 
@@ -125,8 +125,8 @@ steps:
 
 1. [エラーメッセージ](/glossary/エラーメッセージ/)の [URL](/glossary/url/) と失敗した段階を読み、相手を特定する。init とプロバイダー取得なら原因3、plan・apply 中のクラウドエンドポイントなら原因1、state・リモート実行なら原因2。
 2. [権限](/glossary/権限/)[エラー](/glossary/エラー/)（403系・AccessDenied）、[スロットリング](/glossary/スロットリング/)（Throttling・429）、TERRAFORM CRASH、state ロックなら、500ではないのでそれぞれの調査に切り替える。
-3. 相手側の稼働状況を確認する。クラウドプロバイダーは各社のステータスページ、HCP Terraform と Terraform Registry は status.hashicorp.com。
-4. 時間をおいて再実行する。apply の再実行前には plan で差分を確認し、二重作成を防ぐ。
+3. 相手側の稼働状況を[確認](/glossary/確認/)する。クラウドプロバイダーは各社のステータスページ、HCP Terraform と Terraform Registry は status.hashicorp.com。
+4. 時間をおいて再実行する。apply の再実行前には plan で差分を[確認](/glossary/確認/)し、二重作成を防ぐ。
 5. 恒久策として、プロバイダーの再試行設定（原因1）、CI のプラグインキャッシュと再試行の[環境変数](/glossary/環境変数/)（原因3）を整える。
 
 ## 確認コマンド集
@@ -151,10 +151,10 @@ ls .terraform/providers/registry.terraform.io/hashicorp/ 2>/dev/null
 
 ## Editor's Note
 
-原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合で[エラー](/glossary/エラー/)を返す状態になり、公式の告知に terraform init の[ワークフロー](/glossary/ワークフロー/)とドキュメント閲覧への影響が明記されました。原因は[レジストリ](/glossary/レジストリ/)の一部機能を支える[データベース](/glossary/データベース/)で、[データベース](/glossary/データベース/)のスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の[設定](/glossary/設定/)を何も変えていないのに init が失敗する」という症状の裏に[レジストリ](/glossary/レジストリ/)側の[障害](/glossary/障害/)があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから確認でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
+原因3の実例として、HashiCorp 自身が公開した稼働状況の記録があります（[Terraform Registry Degraded](https://status.hashicorp.com/incidents/01KV60Z6KMP2TGHVJYC87MK4CM)）。2026年6月、Terraform Registry が高い割合で[エラー](/glossary/エラー/)を返す状態になり、公式の告知に terraform init の[ワークフロー](/glossary/ワークフロー/)とドキュメント閲覧への影響が明記されました。原因は[レジストリ](/glossary/レジストリ/)の一部機能を支える[データベース](/glossary/データベース/)で、[データベース](/glossary/データベース/)のスケールアップにより解消されています。執筆時点から約1か月前の直近の事例であり、「手元の[設定](/glossary/設定/)を何も変えていないのに init が失敗する」という症状の裏に[レジストリ](/glossary/レジストリ/)側の[障害](/glossary/障害/)があるという、原因3の構図をそのまま示す記録です。あわせて、init の失敗文言にある please try again later（後でやり直してください）が現行ソースコードの再試行実装（既定1回で諦める）に由来することもソースから[確認](/glossary/確認/)でき、「待って再実行」が Terraform 自身の想定する一次対処であることが分かります。
 
 Terraform の500は、Terraform が「どこかの[サーバー](/glossary/サーバー/)の調子が悪い」と伝えているだけで、悪いのがどこかはメッセージの中の [URL](/glossary/url/) が教えてくれます。HCL や手元の[設定](/glossary/設定/)を疑い始める前に、まず相手を特定することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

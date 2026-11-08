@@ -13,7 +13,7 @@ related_services: ["API", "Dashboard", "Stripe Connect"]
 ---
 ## エラーの概要
 
-Stripe の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)には成功したものの、その[リクエスト](/glossary/リクエスト/)に対する十分な[権限](/glossary/権限/)や許可がないことを示します。[API](/glossary/api/) [キー](/glossary/キー/)が有効であっても、アクセス対象のリソースや実行しようとする操作に対して権限不足の状態です。[本番環境](/glossary/本番環境/)のデータ保護や機能制限の都合上、Stripe 側で意図的にアクセスをブロックしているケースが大半を占めます。
+Stripe の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)には成功したものの、その[リクエスト](/glossary/リクエスト/)に対する十分な[権限](/glossary/権限/)や許可がないことを示します。[API](/glossary/api/) [キー](/glossary/キー/)が有効であっても、アクセス対象の[リソース](/glossary/リソース/)や実行しようとする操作に対して権限不足の状態です。[本番環境](/glossary/本番環境/)のデータ保護や機能制限の都合上、Stripe 側で意図的にアクセスをブロックしているケースが大半を占めます。
 
 ## 実際のエラーメッセージ例
 
@@ -73,7 +73,7 @@ Stripe [ダッシュボード](/glossary/ダッシュボード/) → Settings �
 
 ### 原因2: テスト環境と本番環境の API キーを混同している
 
-[テスト](/glossary/テスト/)用 [API](/glossary/api/) [キー](/glossary/キー/)（`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行おうとすると 403 が返されます。Stripe は[環境](/glossary/環境/)を厳密に分離しているため、[キー](/glossary/キー/)とリソースの[環境](/glossary/環境/)が一致していないとアクセスが拒否されます。
+[テスト](/glossary/テスト/)用 [API](/glossary/api/) [キー](/glossary/キー/)（`sk_test_`）で[本番環境](/glossary/本番環境/)の[リソース](/glossary/リソース/)にアクセスしたり、その逆を行おうとすると 403 が返されます。Stripe は[環境](/glossary/環境/)を厳密に分離しているため、[キー](/glossary/キー/)と[リソース](/glossary/リソース/)の[環境](/glossary/環境/)が一致していないとアクセスが拒否されます。
 
 **Before（[環境](/glossary/環境/)の混同）:**
 ```python
@@ -119,7 +119,7 @@ stripe.files.create({
 ```
 
 **After（制限解除または代替手段）:**
-[ダッシュボード](/glossary/ダッシュボード/) → Settings → Account status で制限状況を確認します。制限が解除されるまで待つか、制限の種類によっては Stripe サポートに問い合わせて解除を[リクエスト](/glossary/リクエスト/)します。国際決済などの制限は通常、[アカウント](/glossary/アカウント/)本人確認やビジネス情報の充実化により自動的に解除されます。
+[ダッシュボード](/glossary/ダッシュボード/) → Settings → Account status で制限状況を[確認](/glossary/確認/)します。制限が解除されるまで待つか、制限の種類によっては Stripe サポートに問い合わせて解除を[リクエスト](/glossary/リクエスト/)します。国際決済などの制限は通常、[アカウント](/glossary/アカウント/)本人確認やビジネス情報の充実化により自動的に解除されます。
 
 ## Stripe 固有の注意点
 
@@ -131,7 +131,7 @@ Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バー�
 
 [Webhook](/glossary/webhook/) [エンドポイント](/glossary/エンドポイント/)への 403 [エラー](/glossary/エラー/)は、Stripe ダッシュボールで[設定](/glossary/設定/)した IP ホワイトリストに Stripe の[サーバー](/glossary/サーバー/) IP が含まれていない場合に発生します。本来はリクエストソースの[認証](/glossary/認証/)なので 401 が適切ですが、一部の構成では 403 として返ることがあります。
 
-**確認と[設定](/glossary/設定/):**
+**[確認](/glossary/確認/)と[設定](/glossary/設定/):**
 ```bash
 # Webhook エンドポイント設定で IP ホワイトリストを確認
 # Settings → Webhooks → Endpoint → IP Whitelist
@@ -161,9 +161,9 @@ const charge = await stripe.charges.create(
 
 ### 確認すべき情報
 
-1. **[API](/glossary/api/) [キー](/glossary/キー/)の詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象[キー](/glossary/キー/)をクリックし、付与されている権限一覧を確認します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか確認してください。
+1. **[API](/glossary/api/) [キー](/glossary/キー/)の詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象[キー](/glossary/キー/)をクリックし、付与されている権限一覧を[確認](/glossary/確認/)します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか[確認](/glossary/確認/)してください。
 
-2. **イベントログの確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を[検索](/glossary/検索/)し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
+2. **イベントログの[確認](/glossary/確認/)**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を[検索](/glossary/検索/)し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
 
 3. **Stripe [CLI](/glossary/cli/) での[テスト](/glossary/テスト/)**: Stripe [CLI](/glossary/cli/) を使ってローカル[環境](/glossary/環境/)で[テスト](/glossary/テスト/)することで、[ネットワーク](/glossary/ネットワーク/)経由の[エラー](/glossary/エラー/)か[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)の[エラー](/glossary/エラー/)か判別できます。
 
@@ -182,8 +182,8 @@ stripe api POST /v1/charges amount=1000 currency=jpy source=tok_visa
 
 ### コミュニティリソース
 
-Stripe の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同じ問題を報告しているユーザーがいないか確認できます。また、Stripe サポートは 24 時間対応なので、[アカウント](/glossary/アカウント/)関連の制限が原因と疑われる場合は直接問い合わせることをお勧めします。
+Stripe の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同じ問題を報告している[ユーザー](/glossary/ユーザー/)がいないか[確認](/glossary/確認/)できます。また、Stripe サポートは 24 時間対応なので、[アカウント](/glossary/アカウント/)関連の制限が原因と疑われる場合は直接問い合わせることをお勧めします。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

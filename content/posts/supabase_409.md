@@ -44,7 +44,7 @@ Supabase の 409 [エラー](/glossary/エラー/)は「Conflict（競合）」�
 
 ### 原因 1：PRIMARY KEY または UNIQUE 制約への重複値挿入
 
-PRIMARY KEY（通常は id）または UNIQUE 制約が付与された[カラム](/glossary/カラム/)に、既に存在する値を挿入しようとすると競合が発生します。ユーザーのメールアドレスやユーザー名、商品の SKU [コード](/glossary/コード/)など、一意性が必要なデータをチェックなしで INSERT した場合に起こります。
+PRIMARY KEY（通常は id）または UNIQUE 制約が付与された[カラム](/glossary/カラム/)に、既に存在する値を挿入しようとすると競合が発生します。[ユーザー](/glossary/ユーザー/)のメールアドレスや[ユーザー名](/glossary/ユーザー名/)、商品の SKU [コード](/glossary/コード/)など、一意性が必要なデータをチェックなしで INSERT した場合に起こります。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -239,19 +239,19 @@ if (error) console.error('Insert error:', error);
 
 ## Supabase ツール固有の注意点
 
-**[エラーレスポンス](/glossary/エラーレスポンス/)の details [フィールド](/glossary/フィールド/)確認：** Supabase が返す 409 [エラーレスポンス](/glossary/エラーレスポンス/)の `details` [フィールド](/glossary/フィールド/)には、競合している[カラム](/glossary/カラム/)名や値が含まれています。この情報から原因を特定できます。例えば `"Key (email)=(test@example.com) already exists."` という記載があれば、email [カラム](/glossary/カラム/)の重複が原因です。
+**[エラーレスポンス](/glossary/エラーレスポンス/)の details [フィールド](/glossary/フィールド/)[確認](/glossary/確認/)：** Supabase が返す 409 [エラーレスポンス](/glossary/エラーレスポンス/)の `details` [フィールド](/glossary/フィールド/)には、競合している[カラム](/glossary/カラム/)名や値が含まれています。この情報から原因を特定できます。例えば `"Key (email)=(test@example.com) already exists."` という記載があれば、email [カラム](/glossary/カラム/)の重複が原因です。
 
 **RLS（Row Level Security）との関係：** RLS [ポリシー](/glossary/ポリシー/)が有効な場合、[ポリシー](/glossary/ポリシー/)違反で 403 [エラー](/glossary/エラー/)が返されることもあります。409 [エラー](/glossary/エラー/)が返される場合は、RLS ではなく実データの制約違反と判断できます。
 
-**Supabase [ダッシュボード](/glossary/ダッシュボード/)での制約確認：** Supabase [ダッシュボード](/glossary/ダッシュボード/)のテーブルエディターで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どの[カラム](/glossary/カラム/)にどのような制約が[設定](/glossary/設定/)されているかを確認できます。事前にここで制約定義を把握しておくと、409 [エラー](/glossary/エラー/)を事前に防げます。
+**Supabase [ダッシュボード](/glossary/ダッシュボード/)での制約確認：** Supabase [ダッシュボード](/glossary/ダッシュボード/)のテーブルエディターで「Primary Keys」「Unique Constraints」「Foreign Keys」タブを開き、どの[カラム](/glossary/カラム/)にどのような制約が[設定](/glossary/設定/)されているかを[確認](/glossary/確認/)できます。事前にここで制約定義を把握しておくと、409 [エラー](/glossary/エラー/)を事前に防げます。
 
 **Realtime 機能との相性：** Realtime [リスナー](/glossary/リスナー/)を有効にしている[テーブル](/glossary/テーブル/)で競合が発生した場合、INSERT/UPDATE が[ロールバック](/glossary/ロールバック/)されたことを[リアルタイム](/glossary/リアルタイム/)で検知できます。[クライアント](/glossary/クライアント/)側で[エラーハンドリング](/glossary/エラーハンドリング/)とリトライロジックを組み込むことを推奨します。
 
 ## それでも解決しない場合
 
-Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクション（Settings > Logs）でデータベースレベルの[エラーログ](/glossary/エラーログ/)を確認できます。[SQL](/glossary/sql/) [エラー](/glossary/エラー/)がより詳細に記録されており、正確な制約名や競合値を確認可能です。
+Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクション（Settings > Logs）でデータベースレベルの[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)できます。[SQL](/glossary/sql/) [エラー](/glossary/エラー/)がより詳細に記録されており、正確な制約名や競合値を確認可能です。
 
-以下の[コマンド](/glossary/コマンド/)で Supabase [CLI](/glossary/cli/) を使用してローカル[環境](/glossary/環境/)でテーブルスキーマを確認できます：
+以下の[コマンド](/glossary/コマンド/)で Supabase [CLI](/glossary/cli/) を使用してローカル[環境](/glossary/環境/)でテーブルスキーマを[確認](/glossary/確認/)できます：
 
 ```bash
 supabase db pull
@@ -265,4 +265,4 @@ PostgreSQL の公式ドキュメントの[整合性制約](https://www.postgresq
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

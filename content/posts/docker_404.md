@@ -14,13 +14,13 @@ trend_incident: true
 
 ## 冒頭まとめ
 
-[Docker](/glossary/docker/) の 404 は「指定したものが見つからない」ことを示しますが、探した場所によって原因も対処も変わります。系統は3つです。第一に、手元の[デーモン](/glossary/デーモン/)が管理する資源が見つからない場合で、No such container: や No such image: という文言になります。第二に、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub などの[イメージ](/glossary/イメージ/)保管先）に[リポジトリ](/glossary/リポジトリ/)はあるが[タグ](/glossary/タグ/)が見つからない場合で、manifest for ... not found という文言になります。第三に、[リポジトリ](/glossary/リポジトリ/)自体にたどり着けない場合で、pull access denied for ..., repository does not exist or may require 'docker login' という文言になります。この3つ目の文言が「存在しない」と「[権限](/glossary/権限/)がない」を並記しているのは意図的な設計で、[Docker](/glossary/docker/) Hub は非公開[リポジトリ](/glossary/リポジトリ/)の存在を外部に確認させないため、両者を区別しない[エラー](/glossary/エラー/)を返します。
+[Docker](/glossary/docker/) の 404 は「指定したものが見つからない」ことを示しますが、探した場所によって原因も対処も変わります。系統は3つです。第一に、手元の[デーモン](/glossary/デーモン/)が管理する資源が見つからない場合で、No such container: や No such image: という文言になります。第二に、[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub などの[イメージ](/glossary/イメージ/)保管先）に[リポジトリ](/glossary/リポジトリ/)はあるが[タグ](/glossary/タグ/)が見つからない場合で、manifest for ... not found という文言になります。第三に、[リポジトリ](/glossary/リポジトリ/)自体にたどり着けない場合で、pull access denied for ..., repository does not exist or may require 'docker login' という文言になります。この3つ目の文言が「存在しない」と「[権限](/glossary/権限/)がない」を並記しているのは意図的な設計で、[Docker](/glossary/docker/) Hub は非公開[リポジトリ](/glossary/リポジトリ/)の存在を外部に[確認](/glossary/確認/)させないため、両者を区別しない[エラー](/glossary/エラー/)を返します。
 
 つまり [Docker](/glossary/docker/) の404の調査は、[エラー](/glossary/エラー/)文言を読んで「手元」「[タグ](/glossary/タグ/)」「[リポジトリ](/glossary/リポジトリ/)（または[権限](/glossary/権限/)）」のどれかを確定するところから始まります。
 
 ## エラーの概要
 
-docker [コマンド](/glossary/コマンド/)の[エラー](/glossary/エラー/)で Error response from daemon: と付くものは、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)まで指示が届いたうえで、[デーモン](/glossary/デーモン/)が[処理](/glossary/処理/)を拒否したことを示します。[デーモン](/glossary/デーモン/)は、[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)などの資源が見つからない場合、[API](/glossary/api/) 上は 404 として応答し、[CLI](/glossary/cli/) には No such container: <名前> のような文言で表示されます（この[対応](/glossary/対応/)は [Docker](/glossary/docker/) のソースコードで確認できます）。一方、docker pull や docker push で[レジストリ](/glossary/レジストリ/)とやり取りする場合の404は、[レジストリ](/glossary/レジストリ/)側の応答に由来します。[レジストリ](/glossary/レジストリ/)の標準仕様では、[リポジトリ](/glossary/リポジトリ/)名が不明な場合の[エラーコード](/glossary/エラーコード/)は NAME_UNKNOWN（repository name not known to registry）で、これも [HTTP](/glossary/http/) 404 に対応付けられています。
+docker [コマンド](/glossary/コマンド/)の[エラー](/glossary/エラー/)で Error response from daemon: と付くものは、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)まで指示が届いたうえで、[デーモン](/glossary/デーモン/)が[処理](/glossary/処理/)を拒否したことを示します。[デーモン](/glossary/デーモン/)は、[コンテナ](/glossary/コンテナ/)や[イメージ](/glossary/イメージ/)などの資源が見つからない場合、[API](/glossary/api/) 上は 404 として応答し、[CLI](/glossary/cli/) には No such container: <名前> のような文言で表示されます（この[対応](/glossary/対応/)は [Docker](/glossary/docker/) のソースコードで[確認](/glossary/確認/)できます）。一方、docker pull や docker push で[レジストリ](/glossary/レジストリ/)とやり取りする場合の404は、[レジストリ](/glossary/レジストリ/)側の応答に由来します。[レジストリ](/glossary/レジストリ/)の標準仕様では、[リポジトリ](/glossary/リポジトリ/)名が不明な場合の[エラーコード](/glossary/エラーコード/)は NAME_UNKNOWN（repository name not known to registry）で、これも [HTTP](/glossary/http/) 404 に対応付けられています。
 
 どの場合も、[エラーコード](/glossary/エラーコード/)の数字より文言のほうが多くを語ります。以下、文言ごとに切り分けます。
 
@@ -45,7 +45,7 @@ docker exec -it web bash
 # Error response from daemon: No such container: web
 ```
 
-**After（実際の[コンテナ](/glossary/コンテナ/)名を確認して指定）：**
+**After（実際の[コンテナ](/glossary/コンテナ/)名を[確認](/glossary/確認/)して指定）：**
 
 ```bash
 # 停止中も含めて実際の名前を確認
@@ -58,7 +58,7 @@ docker compose ps
 docker compose exec web bash
 ```
 
-docker ps -a で名前自体は合っているのに404になる場合は、[コンテナ](/glossary/コンテナ/)が削除済みです（docker ps は既定で稼働中しか表示しないため、-a での確認が確実です）。No such image: の場合も同様に、docker images で手元の[イメージ](/glossary/イメージ/)一覧と名前・[タグ](/glossary/タグ/)を突き合わせます。
+docker ps -a で名前自体は合っているのに404になる場合は、[コンテナ](/glossary/コンテナ/)が削除済みです（docker ps は既定で稼働中しか表示しないため、-a での[確認](/glossary/確認/)が確実です）。No such image: の場合も同様に、docker images で手元の[イメージ](/glossary/イメージ/)一覧と名前・[タグ](/glossary/タグ/)を突き合わせます。
 
 ### 原因2：レジストリに指定したタグが存在しない
 
@@ -70,7 +70,7 @@ docker pull ubuntu:24.10.5
 # manifest unknown: manifest unknown
 ```
 
-原因は[タグ](/glossary/タグ/)の綴りの誤り、提供されていない[タグ](/glossary/タグ/)の指定、そして「[タグ](/glossary/タグ/)省略時の latest」です。[タグ](/glossary/タグ/)を省略すると latest が補われますが、すべての[リポジトリ](/glossary/リポジトリ/)が latest [タグ](/glossary/タグ/)を提供しているわけではないため、[リポジトリ](/glossary/リポジトリ/)名が正しくてもこの404になることがあります。対処は実在する[タグ](/glossary/タグ/)の確認です。[Docker](/glossary/docker/) Hub であれば[イメージ](/glossary/イメージ/)のページの Tags 一覧で確認できます。Dockerfile や compose [ファイル](/glossary/ファイル/)に[タグ](/glossary/タグ/)を書く場合は、確認した実在の[タグ](/glossary/タグ/)を明示します。
+原因は[タグ](/glossary/タグ/)の綴りの誤り、提供されていない[タグ](/glossary/タグ/)の指定、そして「[タグ](/glossary/タグ/)省略時の latest」です。[タグ](/glossary/タグ/)を省略すると latest が補われますが、すべての[リポジトリ](/glossary/リポジトリ/)が latest [タグ](/glossary/タグ/)を提供しているわけではないため、[リポジトリ](/glossary/リポジトリ/)名が正しくてもこの404になることがあります。対処は実在する[タグ](/glossary/タグ/)の[確認](/glossary/確認/)です。[Docker](/glossary/docker/) Hub であれば[イメージ](/glossary/イメージ/)のページの Tags 一覧で[確認](/glossary/確認/)できます。Dockerfile や compose [ファイル](/glossary/ファイル/)に[タグ](/glossary/タグ/)を書く場合は、[確認](/glossary/確認/)した実在の[タグ](/glossary/タグ/)を明示します。
 
 ### 原因3：リポジトリが存在しない、または権限がない
 
@@ -81,26 +81,26 @@ docker pull myteam/internal-tool
 # denied: requested access to the resource is denied
 ```
 
-この文言のとおり、[Docker](/glossary/docker/) Hub は「[リポジトリ](/glossary/リポジトリ/)が存在しない」場合と「非公開[リポジトリ](/glossary/リポジトリ/)に[権限](/glossary/権限/)がない」場合を区別せずに応答します。確認の順序は次のとおりです。
+この文言のとおり、[Docker](/glossary/docker/) Hub は「[リポジトリ](/glossary/リポジトリ/)が存在しない」場合と「非公開[リポジトリ](/glossary/リポジトリ/)に[権限](/glossary/権限/)がない」場合を区別せずに応答します。[確認](/glossary/確認/)の順序は次のとおりです。
 
-第一に、名前空間の欠落です。ユーザー名（または組織名）を省いた名前は、公式[イメージ](/glossary/イメージ/)の領域（docker.io/library/）として解釈されます。[エラー](/glossary/エラー/)文言や push 時の出力に library/ が含まれていたら、これが原因です。自分の[イメージ](/glossary/イメージ/)は <ユーザー名>/<イメージ名> の完全な形で指定します。
+第一に、名前空間の欠落です。[ユーザー名](/glossary/ユーザー名/)（または組織名）を省いた名前は、公式[イメージ](/glossary/イメージ/)の領域（docker.io/library/）として解釈されます。[エラー](/glossary/エラー/)文言や push 時の出力に library/ が含まれていたら、これが原因です。自分の[イメージ](/glossary/イメージ/)は <ユーザー名>/<イメージ名> の完全な形で指定します。
 
-第二に、[認証](/glossary/認証/)です。対象が非公開[リポジトリ](/glossary/リポジトリ/)なら、docker login で対象[レジストリ](/glossary/レジストリ/)に[ログイン](/glossary/ログイン/)してから再実行します。[ログイン](/glossary/ログイン/)済みでも失敗する場合は、その[アカウント](/glossary/アカウント/)に[リポジトリ](/glossary/リポジトリ/)への[アクセス権](/glossary/アクセス権/)があるかを確認します。
+第二に、[認証](/glossary/認証/)です。対象が非公開[リポジトリ](/glossary/リポジトリ/)なら、docker login で対象[レジストリ](/glossary/レジストリ/)に[ログイン](/glossary/ログイン/)してから再実行します。[ログイン](/glossary/ログイン/)済みでも失敗する場合は、その[アカウント](/glossary/アカウント/)に[リポジトリ](/glossary/リポジトリ/)への[アクセス権](/glossary/アクセス権/)があるかを[確認](/glossary/確認/)します。
 
-第三に、綴りです。上記2つに該当しなければ、[リポジトリ](/glossary/リポジトリ/)名そのものの誤りを疑い、[レジストリ](/glossary/レジストリ/)のウェブ画面で実在を確認します。
+第三に、綴りです。上記2つに該当しなければ、[リポジトリ](/glossary/リポジトリ/)名そのものの誤りを疑い、[レジストリ](/glossary/レジストリ/)のウェブ画面で実在を[確認](/glossary/確認/)します。
 
 なお、名前に大文字が含まれている場合は、この404系の[エラー](/glossary/エラー/)にはなりません。[リポジトリ](/glossary/リポジトリ/)名は小文字と定められており、[レジストリ](/glossary/レジストリ/)へ問い合わせる前に invalid reference format: repository name must be lowercase として拒否されます（[Docker の invalid reference format の記事](/posts/docker_invalid_reference_format/)）。この文言が出たら、404の調査ではなく名前の[修正](/glossary/修正/)です。
 
 ## 補足：404に見えて別の問題
 
-push や pull の相手が実は[レジストリ](/glossary/レジストリ/)ではない（[ポート](/glossary/ポート/)番号の誤りなどで通常のウェブサーバーに接続している）場合、相手の返す HTML の404を [JSON](/glossary/json/) として解析できない旨の[エラー](/glossary/エラー/)（error parsing [HTTP](/glossary/http/) 404 response body: invalid character '<' ...）になります。この場合の調査対象は名前ではなく接続先です。また、[レジストリ](/glossary/レジストリ/)に到達できない場合（[DNS](/glossary/dns/) 解決の失敗や接続[タイムアウト](/glossary/タイムアウト/)）は404ではなく接続系の[エラー](/glossary/エラー/)文言になります。404は「相手まで届いたうえで、見つからなかった」ことの証拠なので、経路の問題とは切り分けて考えられます。
+push や pull の相手が実は[レジストリ](/glossary/レジストリ/)ではない（[ポート](/glossary/ポート/)番号の誤りなどで通常のウェブサーバーに接続している）場合、相手の返す [HTML](/glossary/html/) の404を [JSON](/glossary/json/) として解析できない旨の[エラー](/glossary/エラー/)（error parsing [HTTP](/glossary/http/) 404 response body: invalid character '<' ...）になります。この場合の調査対象は名前ではなく接続先です。また、[レジストリ](/glossary/レジストリ/)に到達できない場合（[DNS](/glossary/dns/) 解決の失敗や接続[タイムアウト](/glossary/タイムアウト/)）は404ではなく接続系の[エラー](/glossary/エラー/)文言になります。404は「相手まで届いたうえで、見つからなかった」ことの証拠なので、経路の問題とは切り分けて考えられます。
 
 ## 切り分けの順序
 
 1. [エラー](/glossary/エラー/)文言を読む。No such 系なら手元（原因1）、manifest 系なら[タグ](/glossary/タグ/)（原因2）、pull access denied 系なら[リポジトリ](/glossary/リポジトリ/)または[権限](/glossary/権限/)（原因3）。
-2. 原因1なら docker ps -a と docker images で実在の名前を確認する。Compose 管理下なら docker compose ps で[対応](/glossary/対応/)を確認する。
-3. 原因2なら[レジストリ](/glossary/レジストリ/)の[タグ](/glossary/タグ/)一覧で実在する[タグ](/glossary/タグ/)を確認し、明示する。
-4. 原因3なら、名前空間（library/ と解釈されていないか）、docker login、綴りの順に確認する。
+2. 原因1なら docker ps -a と docker images で実在の名前を[確認](/glossary/確認/)する。Compose 管理下なら docker compose ps で[対応](/glossary/対応/)を[確認](/glossary/確認/)する。
+3. 原因2なら[レジストリ](/glossary/レジストリ/)の[タグ](/glossary/タグ/)一覧で実在する[タグ](/glossary/タグ/)を[確認](/glossary/確認/)し、明示する。
+4. 原因3なら、名前空間（library/ と解釈されていないか）、docker login、綴りの順に[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
@@ -123,10 +123,10 @@ docker pull docker.io/<ユーザー名>/<イメージ名>:<タグ>
 
 ## Editor's Note
 
-原因3の名前空間の欠落を示す実例として、[Docker](/glossary/docker/) 公式フォーラムの長期スレッドがあります（[Docker push - Error - requested access to the resource is denied](https://forums.docker.com/t/docker-push-error-requested-access-to-the-resource-is-denied/64468)、2018年開始）。docker login は成功しているのに push が denied: requested access to the resource is denied で失敗するという報告で、出力に The push refers to a repository [docker.io/library/[プロジェクト](/glossary/プロジェクト/)名] とあることから、ユーザー名を省いた名前が公式[イメージ](/glossary/イメージ/)の領域（library/）への操作として解釈されていたことが分かります。回答は、<ユーザー名>/<イメージ名> の形で[タグ](/glossary/タグ/)を付け直して push するというもので、その後も2024年に至るまで同種の報告と同じ解決が繰り返し書き込まれています。この記事は pull の404を中心に扱いましたが、名前空間の欠落という原因は push でも pull でも同じ形で現れる、ということを示す実例です。
+原因3の名前空間の欠落を示す実例として、[Docker](/glossary/docker/) 公式フォーラムの長期スレッドがあります（[Docker push - Error - requested access to the resource is denied](https://forums.docker.com/t/docker-push-error-requested-access-to-the-resource-is-denied/64468)、2018年開始）。docker login は成功しているのに push が denied: requested access to the resource is denied で失敗するという報告で、出力に The push refers to a repository [docker.io/library/[プロジェクト](/glossary/プロジェクト/)名] とあることから、[ユーザー名](/glossary/ユーザー名/)を省いた名前が公式[イメージ](/glossary/イメージ/)の領域（library/）への操作として解釈されていたことが分かります。回答は、<ユーザー名>/<イメージ名> の形で[タグ](/glossary/タグ/)を付け直して push するというもので、その後も2024年に至るまで同種の報告と同じ解決が繰り返し書き込まれています。この記事は pull の404を中心に扱いましたが、名前空間の欠落という原因は push でも pull でも同じ形で現れる、ということを示す実例です。
 
 [Docker](/glossary/docker/) の404は、文言が「どこで見つからなかったか」を最初に教えてくれます。名前を打ち直す前に、手元・[タグ](/glossary/タグ/)・[リポジトリ](/glossary/リポジトリ/)のどの話なのかを文言で確定することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -249,11 +249,11 @@ except Exception as e:
 
 **[ワークスペース](/glossary/ワークスペース/)規模とスロットル**
 
-大規模[ワークスペース](/glossary/ワークスペース/)（数万ユーザー以上）では、同一[エンドポイント](/glossary/エンドポイント/)への[リクエスト](/glossary/リクエスト/)がより厳しくスロットルされます。Slackは公開していませんが、ワークスペースメンバー数に応じて内部的に[レート制限](/glossary/レート制限/)を調整しており、500[エラー](/glossary/エラー/)は単なる[サーバー](/glossary/サーバー/)[障害](/glossary/障害/)だけでなく過度なスロットルの結果として返されることもあります。
+大規模[ワークスペース](/glossary/ワークスペース/)（数万[ユーザー](/glossary/ユーザー/)以上）では、同一[エンドポイント](/glossary/エンドポイント/)への[リクエスト](/glossary/リクエスト/)がより厳しくスロットルされます。Slackは公開していませんが、ワークスペースメンバー数に応じて内部的に[レート制限](/glossary/レート制限/)を調整しており、500[エラー](/glossary/エラー/)は単なる[サーバー](/glossary/サーバー/)[障害](/glossary/障害/)だけでなく過度なスロットルの結果として返されることもあります。
 
 **Interactive ComponentsとSlash Commands**
 
-Slackアプリが`view.open`や`chat.postMessage`をInteractive Componentsの応答（3秒以内）として実行する場合、500[エラー](/glossary/エラー/)が返されるとユーザーには「Something went wrong」という汎用[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。これが[エラー](/glossary/エラー/)追跡を困難にします。
+Slackアプリが`view.open`や`chat.postMessage`をInteractive Componentsの応答（3秒以内）として実行する場合、500[エラー](/glossary/エラー/)が返されると[ユーザー](/glossary/ユーザー/)には「Something went wrong」という汎用[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。これが[エラー](/glossary/エラー/)追跡を困難にします。
 
 **[Webhook](/glossary/webhook/) [URL](/glossary/url/)の廃止と再認証**
 
@@ -261,11 +261,11 @@ Incoming [Webhook](/glossary/webhook/)やOutgoing [Webhook](/glossary/webhook/)�
 
 ## それでも解決しない場合
 
-**確認すべきポイント**
+**[確認](/glossary/確認/)すべきポイント**
 
-1. Slack [API](/glossary/api/)ドキュメントの[エラーコード一覧](https://api.slack.com/methods/chat.postMessage#errors)で該当[エンドポイント](/glossary/エンドポイント/)の既知[エラー](/glossary/エラー/)を確認してください。
-2. Slackアプリダッシュボードの「[API](/glossary/api/) Usage」タブで直近1時間のレート制限状況を確認してください。赤色のバーが表示されている場合はスロットル状態です。
-3. `auth.test`[エンドポイント](/glossary/エンドポイント/)で[トークン](/glossary/トークン/)が有効か確認してください。
+1. Slack [API](/glossary/api/)ドキュメントの[エラーコード一覧](https://api.slack.com/methods/chat.postMessage#errors)で該当[エンドポイント](/glossary/エンドポイント/)の既知[エラー](/glossary/エラー/)を[確認](/glossary/確認/)してください。
+2. Slackアプリダッシュボードの「[API](/glossary/api/) Usage」タブで直近1時間のレート制限状況を[確認](/glossary/確認/)してください。赤色のバーが表示されている場合はスロットル状態です。
+3. `auth.test`[エンドポイント](/glossary/エンドポイント/)で[トークン](/glossary/トークン/)が有効か[確認](/glossary/確認/)してください。
 
 **デバッグコマンド**
 
@@ -281,11 +281,11 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
   -d '{"channel":"C123456789","text":"test"}'
 ```
 
-**公開リソース**
+**公開[リソース](/glossary/リソース/)**
 
-- [Slack API Status Page](https://status.slack.com/)：Slack側の既知障害を確認
-- [Slack Community Slack](https://slackcommunity.com/)：他ユーザーが同じ問題を報告していないか[検索](/glossary/検索/)
-- [GitHub](/glossary/github/) Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知[バグ](/glossary/バグ/)を確認
+- [Slack API Status Page](https://status.slack.com/)：Slack側の既知障害を[確認](/glossary/確認/)
+- [Slack Community Slack](https://slackcommunity.com/)：他[ユーザー](/glossary/ユーザー/)が同じ問題を報告していないか[検索](/glossary/検索/)
+- [GitHub](/glossary/github/) Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知[バグ](/glossary/バグ/)を[確認](/glossary/確認/)
 
 **Slackサポートへの問い合わせ**
 
@@ -297,4 +297,4 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

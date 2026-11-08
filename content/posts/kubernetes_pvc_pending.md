@@ -65,7 +65,7 @@ kubectl describe pvc <要求名> -n <区画名> | sed -n '/^Events:/,$p'
 
 出てきた語で、そこから先の調べ方が決まります。`WaitForFirstConsumer` なら原因1、`WaitForPodScheduled` なら原因2、`ExternalProvisioning` なら原因3、`ProvisioningFailed` なら原因4、`FailedBinding` なら原因5です。
 
-Events が空のこともあります。[イベント](/glossary/イベント/)は既定で一定時間後に消えるため、時間の経った要求には何も残りません。その場合は、指定している[クラス](/glossary/クラス/)の結合の[設定](/glossary/設定/)を先に確認します。
+Events が空のこともあります。[イベント](/glossary/イベント/)は既定で一定時間後に消えるため、時間の経った要求には何も残りません。その場合は、指定している[クラス](/glossary/クラス/)の結合の[設定](/glossary/設定/)を先に[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get sc <クラス名> -o jsonpath='{.volumeBindingMode}{"\n"}{.provisioner}{"\n"}'
@@ -147,7 +147,7 @@ kubectl get sc <クラス名> -o jsonpath='{.provisioner}{"\n"}'
 kubectl get csidrivers
 ```
 
-`csidrivers` の一覧に無い名前を指定していれば、それが原因です。一覧にあるのに進まない場合は、担当する[コンテナ](/glossary/コンテナ/)の記録を確認します。
+`csidrivers` の一覧に無い名前を指定していれば、それが原因です。一覧にあるのに進まない場合は、担当する[コンテナ](/glossary/コンテナ/)の記録を[確認](/glossary/確認/)します。
 
 ### 原因4：作成を試みて失敗している
 
@@ -210,12 +210,12 @@ Pod 側に `pod has unbound immediate PersistentVolumeClaims` が出る場合は
 ## 切り分けの順序
 
 1. `kubectl describe pvc` の Events から Reason を取り出す。ここで系統が決まる。
-2. `WaitForFirstConsumer` なら、要求を使う Pod があるかを確認する。無ければ作る。
+2. `WaitForFirstConsumer` なら、要求を使う Pod があるかを[確認](/glossary/確認/)する。無ければ作る。
 3. `WaitForPodScheduled` なら、PVC の調査を止めて Pod 側の記録を読む。
 4. `ExternalProvisioning` が繰り返し出ているなら、指定名と動いている担当の一覧を突き合わせる。
 5. `ProvisioningFailed` なら、Warning の文言をそのまま読む。理由は文言に含まれている。
 6. `FailedBinding` なら、既存の領域を一覧し、[容量](/glossary/容量/)・利用の形式・[クラス](/glossary/クラス/)名・状態の4点を順に照らす。
-7. Events が空なら、指定している[クラス](/glossary/クラス/)の結合の[設定](/glossary/設定/)と作成担当の名前を確認する。
+7. Events が空なら、指定している[クラス](/glossary/クラス/)の結合の[設定](/glossary/設定/)と作成担当の名前を[確認](/glossary/確認/)する。
 8. それでも決まらない場合は、制御側の記録を要求名で絞り込む。
 
 ## 確認コマンド集
@@ -258,4 +258,4 @@ Reason の1語が決め手になるという読み方は、後から補われた
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

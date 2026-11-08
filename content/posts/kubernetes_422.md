@@ -112,7 +112,7 @@ Deployment の選別条件のほか、Job の雛形、PersistentVolumeClaim の�
 The Pod "app" is invalid: spec.containers[0].image: Required value
 ```
 
-`causes` は複数返るため、一度にすべての不足を確認できます。1つ直しては試す、という進め方をせず、返ってきた一覧をまとめて直すほうが早く終わります。
+`causes` は複数返るため、一度にすべての不足を[確認](/glossary/確認/)できます。1つ直しては試す、という進め方をせず、返ってきた一覧をまとめて直すほうが早く終わります。
 
 ### 原因3：値が仕様の範囲外
 
@@ -157,7 +157,7 @@ kubectl apply -f manifest.yaml --dry-run=server
 kubectl apply -f manifest.yaml --dry-run=client
 ```
 
-重要なのは、手元だけの確認では不変[フィールド](/glossary/フィールド/)の違反を検出できないことです。既存の状態と比較する必要があるためです。[自動化](/glossary/自動化/)の中で事前確認を入れるなら、[サーバー](/glossary/サーバー/)側の指定を使ってください。
+重要なのは、手元だけの[確認](/glossary/確認/)では不変[フィールド](/glossary/フィールド/)の違反を検出できないことです。既存の状態と比較する必要があるためです。[自動化](/glossary/自動化/)の中で事前確認を入れるなら、[サーバー](/glossary/サーバー/)側の指定を使ってください。
 
 ## 補足：似ているが別のもの
 
@@ -178,7 +178,7 @@ kubectl apply -f manifest.yaml --dry-run=client
 5. `causes` が複数あるなら、まとめて直す。1つずつ試すと往復が増える。
 6. 422 ではなく 400 が返っているなら、綴り・重複・型を疑う。`--validate=warn` で先に進める。
 7. `Error from server` の付かない[エラー](/glossary/エラー/)は 422 の可能性が高い。表示形式が違う。
-8. 事前確認は[サーバー](/glossary/サーバー/)側の指定で行う。手元だけの確認では不変[フィールド](/glossary/フィールド/)を検出できない。
+8. 事前確認は[サーバー](/glossary/サーバー/)側の指定で行う。手元だけの[確認](/glossary/確認/)では不変[フィールド](/glossary/フィールド/)を検出できない。
 
 ## 確認コマンド集
 
@@ -211,7 +211,7 @@ kubectl get --raw /metrics | grep 'apiserver_request_total.*code="422"'
 
 ## Editor's Note
 
-422 の応答には、原因を特定するのに十分な情報が入っています。それを実際の記録で確認できます（[Deployment of new version of application fails with field is immutable](https://github.com/quarkusio/quarkus/issues/39180)）。2024年3月、ある開発道具から配備したところ、版を上げるたびに失敗するようになった、という報告です。
+422 の応答には、原因を特定するのに十分な情報が入っています。それを実際の記録で[確認](/glossary/確認/)できます（[Deployment of new version of application fails with field is immutable](https://github.com/quarkusio/quarkus/issues/39180)）。2024年3月、ある開発道具から配備したところ、版を上げるたびに失敗するようになった、という報告です。
 
 貼られている応答が示唆的です。状態[コード](/glossary/コード/)は 422、`causes` には対象の[フィールド](/glossary/フィールド/)が `spec.selector`、区分が `FieldValueInvalid`、文言の末尾が `field is immutable`。さらに `details` には group が `apps`、kind が `Deployment`、name が対象名。**調べるべきことがすべて1つの応答に入っています**。
 
@@ -223,4 +223,4 @@ kubectl get --raw /metrics | grep 'apiserver_request_total.*code="422"'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

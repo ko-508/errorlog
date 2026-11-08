@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-[HTTP](/glossary/http/) 409 Conflict [エラー](/glossary/エラー/)は、GitLab 上でリソースの状態が競合している場合に発生します。既に存在する[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)名での作成、MergeRequest のソースとターゲットブランチの重複、あるいは同名のグループ・[プロジェクト](/glossary/プロジェクト/)の存在などが典型的な原因です。この[エラー](/glossary/エラー/)が発生すると、意図した操作がブロックされ、リソースの作成や[更新](/glossary/更新/)が完了しません。
+[HTTP](/glossary/http/) 409 Conflict [エラー](/glossary/エラー/)は、GitLab 上で[リソース](/glossary/リソース/)の状態が競合している場合に発生します。既に存在する[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)名での作成、MergeRequest のソースとターゲットブランチの重複、あるいは同名のグループ・[プロジェクト](/glossary/プロジェクト/)の存在などが典型的な原因です。この[エラー](/glossary/エラー/)が発生すると、意図した操作がブロックされ、[リソース](/glossary/リソース/)の作成や[更新](/glossary/更新/)が完了しません。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ Error: A branch with name 'main' already exists
 
 ### 原因 1：既に存在するブランチ名またはタグ名で作成しようとしている
 
-[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)の作成時に、既に同名のリソースが存在する場合、409 [エラー](/glossary/エラー/)が発生します。これは [Git](/glossary/git/) の基本的な制約で、同じ名前空間内で重複する[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)を持つことはできません。[API](/glossary/api/) 経由での[ブランチ](/glossary/ブランチ/)作成や、[CI/CD](/glossary/ci-cd/) パイプライン内での自動[ブランチ](/glossary/ブランチ/)生成時に特に注意が必要です。
+[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)の作成時に、既に同名の[リソース](/glossary/リソース/)が存在する場合、409 [エラー](/glossary/エラー/)が発生します。これは [Git](/glossary/git/) の基本的な制約で、同じ名前空間内で重複する[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)を持つことはできません。[API](/glossary/api/) 経由での[ブランチ](/glossary/ブランチ/)作成や、[CI/CD](/glossary/ci-cd/) パイプライン内での自動[ブランチ](/glossary/ブランチ/)生成時に特に注意が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -106,7 +106,7 @@ fi
 
 ### 原因 3：同名のグループやプロジェクトがすでに存在する
 
-グループまたは[プロジェクト](/glossary/プロジェクト/)を作成する際、同じ名前空間内に既に同名のリソースが存在する場合に 409 [エラー](/glossary/エラー/)が発生します。GitLab では、同じグループ内の[プロジェクト](/glossary/プロジェクト/)名やサブグループ名はユニークである必要があります。特にテナント分離や自動プロビジョニング[環境](/glossary/環境/)では、[冪等性](/glossary/冪等性/)（何度実行しても結果が同じ性質）を考慮した設計が重要です。
+グループまたは[プロジェクト](/glossary/プロジェクト/)を作成する際、同じ名前空間内に既に同名の[リソース](/glossary/リソース/)が存在する場合に 409 [エラー](/glossary/エラー/)が発生します。GitLab では、同じグループ内の[プロジェクト](/glossary/プロジェクト/)名やサブグループ名はユニークである必要があります。特にテナント分離や自動プロビジョニング[環境](/glossary/環境/)では、[冪等性](/glossary/冪等性/)（何度実行しても結果が同じ性質）を考慮した設計が重要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -144,7 +144,7 @@ GitLab の 409 [エラー](/glossary/エラー/)は、[REST](/glossary/rest/) [A
 
 さらに、GitLab [インスタンス](/glossary/インスタンス/)（[環境](/glossary/環境/)）が複数の[サーバー](/glossary/サーバー/)で構成されている場合、レプリケーション[遅延](/glossary/遅延/)により一時的に 409 [エラー](/glossary/エラー/)が発生することがあります。特に直後の操作では、短時間の待機を挟むことが推奨されます。GitLab [CI/CD](/glossary/ci-cd/) パイプラインで[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)を自動生成する場合は、適切な[バックオフ](/glossary/バックオフ/)戦略（待機時間を段階的に増やして再試行する手法）を実装することが重要です。
 
-[CI/CD](/glossary/ci-cd/) 設定内で[ブランチ](/glossary/ブランチ/)作成を行う場合、以下の点を確認してください。
+[CI/CD](/glossary/ci-cd/) 設定内で[ブランチ](/glossary/ブランチ/)作成を行う場合、以下の点を[確認](/glossary/確認/)してください。
 
 ```yaml
 # 冪等性を持たせたパイプライン例
@@ -160,7 +160,7 @@ create_release_branch:
 
 ## それでも解決しない場合
 
-まず、GitLab [インスタンス](/glossary/インスタンス/)の[ログ](/glossary/ログ/)を確認してください。[プロジェクト](/glossary/プロジェクト/)[管理者権限](/glossary/管理者権限/)がある場合、管理者パネルの「[ログ](/glossary/ログ/)」セクションで詳細な[エラー](/glossary/エラー/)情報を確認できます。[API](/glossary/api/) レベルでは、[デバッグ](/glossary/デバッグ/)用の[ヘッダー](/glossary/ヘッダー/)を追加して詳細な[レスポンス](/glossary/レスポンス/)を取得してください。
+まず、GitLab [インスタンス](/glossary/インスタンス/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。[プロジェクト](/glossary/プロジェクト/)[管理者権限](/glossary/管理者権限/)がある場合、管理者パネルの「[ログ](/glossary/ログ/)」セクションで詳細な[エラー](/glossary/エラー/)情報を[確認](/glossary/確認/)できます。[API](/glossary/api/) レベルでは、[デバッグ](/glossary/デバッグ/)用の[ヘッダー](/glossary/ヘッダー/)を追加して詳細な[レスポンス](/glossary/レスポンス/)を取得してください。
 
 ```bash
 # 詳細なエラー応答を確認する
@@ -170,8 +170,8 @@ curl -v --request POST https://gitlab.example.com/api/v4/projects/<project-id>/r
   --data "branch=develop&ref=main"
 ```
 
-GitLab [サーバー](/glossary/サーバー/)のシステムログ（通常は `/var/log/gitlab/` 配下）も確認の対象です。特に `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。問題が[継続](/glossary/継続/)する場合は、GitLab の公式ドキュメント（https://docs.gitlab.com/ee/api/）を参照するか、GitLab サポートに問い合わせることをお勧めします。
+GitLab [サーバー](/glossary/サーバー/)のシステムログ（通常は `/var/log/gitlab/` 配下）も[確認](/glossary/確認/)の対象です。特に `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。問題が[継続](/glossary/継続/)する場合は、GitLab の公式ドキュメント（https://docs.gitlab.com/ee/api/）を参照するか、GitLab サポートに問い合わせることをお勧めします。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

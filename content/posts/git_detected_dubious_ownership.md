@@ -16,15 +16,15 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`fatal: detected dubious ownership in repository at`は、[Git](/glossary/git/)が[リポジトリ](/glossary/リポジトリ/)の所有者を確認し、現在[Git](/glossary/git/)を実行している利用者と一致しないと判断したときに発生します。これは[ファイル](/glossary/ファイル/)を読み書きできないという意味ではなく、所有者の異なる[リポジトリ](/glossary/リポジトリ/)を信頼しないための安全機能です。
+`fatal: detected dubious ownership in repository at`は、[Git](/glossary/git/)が[リポジトリ](/glossary/リポジトリ/)の所有者を[確認](/glossary/確認/)し、現在[Git](/glossary/git/)を実行している利用者と一致しないと判断したときに発生します。これは[ファイル](/glossary/ファイル/)を読み書きできないという意味ではなく、所有者の異なる[リポジトリ](/glossary/リポジトリ/)を信頼しないための安全機能です。
 
-自分だけが使う[フォルダ](/glossary/フォルダ/)なら、まず所有者を確認し、誤って別の利用者や管理者の所有になっている場合は所有者を直します。共有[リポジトリ](/glossary/リポジトリ/)や[コンテナ](/glossary/コンテナ/)のように、所有者が異なる状態を意図している場合は、信頼できる[パス](/glossary/パス/)だけを`safe.directory`へ[登録](/glossary/登録/)してください。
+自分だけが使う[フォルダ](/glossary/フォルダ/)なら、まず所有者を[確認](/glossary/確認/)し、誤って別の利用者や管理者の所有になっている場合は所有者を直します。共有[リポジトリ](/glossary/リポジトリ/)や[コンテナ](/glossary/コンテナ/)のように、所有者が異なる状態を意図している場合は、信頼できる[パス](/glossary/パス/)だけを`safe.directory`へ[登録](/glossary/登録/)してください。
 
 ```bash
 git config --global --add safe.directory "<repository-path>"
 ```
 
-この[設定](/glossary/設定/)は原因となった所有者の違いを解消するものではありません。指定した[リポジトリ](/glossary/リポジトリ/)を例外として信頼する[設定](/glossary/設定/)です。内容を確認していない[リポジトリ](/glossary/リポジトリ/)や、外部から書き換えられる[フォルダ](/glossary/フォルダ/)は[登録](/glossary/登録/)しないでください。
+この[設定](/glossary/設定/)は原因となった所有者の違いを解消するものではありません。指定した[リポジトリ](/glossary/リポジトリ/)を例外として信頼する[設定](/glossary/設定/)です。内容を[確認](/glossary/確認/)していない[リポジトリ](/glossary/リポジトリ/)や、外部から書き換えられる[フォルダ](/glossary/フォルダ/)は[登録](/glossary/登録/)しないでください。
 
 ## エラーの概要
 
@@ -39,11 +39,11 @@ To add an exception for this directory, call:
 
 [Git](/glossary/git/)は通常、[Git](/glossary/git/)を実行している利用者が所有する[リポジトリ](/glossary/リポジトリ/)だけを信頼します。所有者が異なる場合、[リポジトリ](/glossary/リポジトリ/)内の[設定](/glossary/設定/)やフックを読み込む前に[処理](/glossary/処理/)を止めます。[Gitの公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)では、所有者が異なっていても信頼する[ディレクトリ](/glossary/ディレクトリ/)を`safe.directory`で個別に[登録](/glossary/登録/)できると説明されています。
 
-この[エラー](/glossary/エラー/)はWindowsだけでなく、[Linux](/glossary/linux/)、macOS、[Docker](/glossary/docker/)などの[コンテナ](/glossary/コンテナ/)、CIでも発生します。特に、[ファイル](/glossary/ファイル/)を作成した利用者と[Git](/glossary/git/)を実行する利用者が異なる[環境](/glossary/環境/)で起こりやすくなります。
+この[エラー](/glossary/エラー/)は[Windows](/glossary/windows/)だけでなく、[Linux](/glossary/linux/)、macOS、[Docker](/glossary/docker/)などの[コンテナ](/glossary/コンテナ/)、CIでも発生します。特に、[ファイル](/glossary/ファイル/)を作成した利用者と[Git](/glossary/git/)を実行する利用者が異なる[環境](/glossary/環境/)で起こりやすくなります。
 
 ## まず所有者と設定を確認する
 
-先に`safe.directory`を追加するのではなく、誰が[リポジトリ](/glossary/リポジトリ/)を所有しているかを確認します。
+先に`safe.directory`を追加するのではなく、誰が[リポジトリ](/glossary/リポジトリ/)を所有しているかを[確認](/glossary/確認/)します。
 
 [Linux](/glossary/linux/)やmacOSでは、次の[コマンド](/glossary/コマンド/)で[フォルダ](/glossary/フォルダ/)の所有者[ID](/glossary/id/)と現在の利用者[ID](/glossary/id/)を比較できます。
 
@@ -52,14 +52,14 @@ ls -ldn "<repository-path>"
 id -u
 ```
 
-WindowsのPowerShellでは、次の[コマンド](/glossary/コマンド/)で[フォルダ](/glossary/フォルダ/)の所有者と現在の利用者を確認できます。
+[Windows](/glossary/windows/)のPowerShellでは、次の[コマンド](/glossary/コマンド/)で[フォルダ](/glossary/フォルダ/)の所有者と現在の利用者を[確認](/glossary/確認/)できます。
 
 ```powershell
 (Get-Acl "C:\path\to\repository").Owner
 whoami /user
 ```
 
-すでに[登録](/glossary/登録/)されている`safe.directory`と、その[設定](/glossary/設定/)が書かれている場所は次の[コマンド](/glossary/コマンド/)で確認できます。
+すでに[登録](/glossary/登録/)されている`safe.directory`と、その[設定](/glossary/設定/)が書かれている場所は次の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)できます。
 
 ```bash
 git config --show-origin --get-all safe.directory
@@ -69,13 +69,13 @@ git config --show-origin --get-all safe.directory
 
 ## 信頼できるリポジトリだけを登録する
 
-共有[フォルダ](/glossary/フォルダ/)や[コンテナ](/glossary/コンテナ/)のマウント先など、所有者が異なる状態を意図している場合は、対象の[リポジトリ](/glossary/リポジトリ/)を個別に[登録](/glossary/登録/)します。[エラーメッセージ](/glossary/エラーメッセージ/)に表示された[パス](/glossary/パス/)を確認し、絶対[パス](/glossary/パス/)で指定してください。
+共有[フォルダ](/glossary/フォルダ/)や[コンテナ](/glossary/コンテナ/)のマウント先など、所有者が異なる状態を意図している場合は、対象の[リポジトリ](/glossary/リポジトリ/)を個別に[登録](/glossary/登録/)します。[エラーメッセージ](/glossary/エラーメッセージ/)に表示された[パス](/glossary/パス/)を[確認](/glossary/確認/)し、絶対[パス](/glossary/パス/)で指定してください。
 
 ```bash
 git config --global --add safe.directory "<repository-path>"
 ```
 
-Windowsでは、次のようにスラッシュを使った[パス](/glossary/パス/)も指定できます。
+[Windows](/glossary/windows/)では、次のようにスラッシュを使った[パス](/glossary/パス/)も指定できます。
 
 ```powershell
 git config --global --add safe.directory "C:/work/example"
@@ -106,21 +106,21 @@ git config --local --add safe.directory "<repository-path>"
 
 自分だけが使う[リポジトリ](/glossary/リポジトリ/)なのに所有者が別の利用者になっている場合は、例外を増やすより所有者を直した方が再発を防げます。
 
-[Linux](/glossary/linux/)では、対象が自分の管理する[リポジトリ](/glossary/リポジトリ/)であることを確認してから、所有者を現在の利用者へ変更します。
+[Linux](/glossary/linux/)では、対象が自分の管理する[リポジトリ](/glossary/リポジトリ/)であることを[確認](/glossary/確認/)してから、所有者を現在の利用者へ変更します。
 
 ```bash
 sudo chown -R "$(id -u):$(id -g)" "<repository-path>"
 ```
 
-`-R`は配下の[ファイル](/glossary/ファイル/)にも変更を適用します。共有[リポジトリ](/glossary/リポジトリ/)や[システム管理者](/glossary/システム管理者/)が用意した[フォルダ](/glossary/フォルダ/)では、管理方針を確認せずに実行しないでください。
+`-R`は配下の[ファイル](/glossary/ファイル/)にも変更を適用します。共有[リポジトリ](/glossary/リポジトリ/)や[システム管理者](/glossary/システム管理者/)が用意した[フォルダ](/glossary/フォルダ/)では、管理方針を[確認](/glossary/確認/)せずに実行しないでください。
 
-Windowsでは、[フォルダ](/glossary/フォルダ/)の[プロパティ](/glossary/プロパティ/)にある「[セキュリティ](/glossary/セキュリティ/)」の詳細設定から所有者を変更できます。[コマンド](/glossary/コマンド/)で変更する場合は、管理者として開いたPowerShellまたは[コマンドプロンプト](/glossary/コマンドプロンプト/)で次を実行します。
+[Windows](/glossary/windows/)では、[フォルダ](/glossary/フォルダ/)の[プロパティ](/glossary/プロパティ/)にある「[セキュリティ](/glossary/セキュリティ/)」の詳細設定から所有者を変更できます。[コマンド](/glossary/コマンド/)で変更する場合は、管理者として開いたPowerShellまたは[コマンドプロンプト](/glossary/コマンドプロンプト/)で次を実行します。
 
 ```powershell
 takeown /f "C:\path\to\repository" /r
 ```
 
-`takeown`は所有者を変更する[コマンド](/glossary/コマンド/)です。`/r`を付けると配下にも適用されます。[Microsoftの公式文書](https://learn.microsoft.com/windows-server/administration/windows-commands/takeown)では、`/a`を付けない場合は現在ログオンしている利用者が所有者になると説明されています。会社や学校の端末では、[権限管理](/glossary/権限管理/)に影響するため管理者へ確認してください。
+`takeown`は所有者を変更する[コマンド](/glossary/コマンド/)です。`/r`を付けると配下にも適用されます。[Microsoftの公式文書](https://learn.microsoft.com/windows-server/administration/windows-commands/takeown)では、`/a`を付けない場合は現在ログオンしている利用者が所有者になると説明されています。会社や学校の端末では、[権限管理](/glossary/権限管理/)に影響するため管理者へ[確認](/glossary/確認/)してください。
 
 ## コンテナやCIで発生する場合
 
@@ -137,9 +137,9 @@ CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は
 
 ## `sudo`で実行した場合
 
-[Linux](/glossary/linux/)などで[Git](/glossary/git/)がrootとして動いている場合、[Git](/glossary/git/)は`SUDO_UID`も確認します。これは、通常の利用者が`sudo`を使って[インストール](/glossary/インストール/)[処理](/glossary/処理/)を実行する場面に[対応](/glossary/対応/)するためです。[Git本体の実装](https://github.com/git/git/blob/master/git-compat-util.h)と[公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)の両方で確認できます。
+[Linux](/glossary/linux/)などで[Git](/glossary/git/)がrootとして動いている場合、[Git](/glossary/git/)は`SUDO_UID`も[確認](/glossary/確認/)します。これは、通常の利用者が`sudo`を使って[インストール](/glossary/インストール/)[処理](/glossary/処理/)を実行する場面に[対応](/glossary/対応/)するためです。[Git本体の実装](https://github.com/git/git/blob/master/git-compat-util.h)と[公式文書](https://git-scm.com/docs/git-config#Documentation/git-config.txt-safedirectory)の両方で[確認](/glossary/確認/)できます。
 
-`sudo -i`や`su -`など、元の利用者を示す情報が引き継がれない実行方法では、同じ[フォルダ](/glossary/フォルダ/)でも所有者が一致しないと判断されることがあります。[Git](/glossary/git/)をrootで動かす必要があるかを先に確認し、通常の利用者で実行できる[処理](/glossary/処理/)なら`sudo`を外してください。
+`sudo -i`や`su -`など、元の利用者を示す情報が引き継がれない実行方法では、同じ[フォルダ](/glossary/フォルダ/)でも所有者が一致しないと判断されることがあります。[Git](/glossary/git/)をrootで動かす必要があるかを先に[確認](/glossary/確認/)し、通常の利用者で実行できる[処理](/glossary/処理/)なら`sudo`を外してください。
 
 ## 広い範囲を許可するときの注意点
 
@@ -149,13 +149,13 @@ CIで実行のたびに[環境](/glossary/環境/)が作り直される場合は
 git config --global --add safe.directory "/srv/git/*"
 ```
 
-この形式は、[Git 2.46.0のリリースノート](https://github.com/git/git/blob/master/Documentation/RelNotes/2.46.0.adoc)で追加が案内されています。古い[Git](/glossary/git/)では利用できない可能性があるため、先に版を確認してください。
+この形式は、[Git 2.46.0のリリースノート](https://github.com/git/git/blob/master/Documentation/RelNotes/2.46.0.adoc)で追加が案内されています。古い[Git](/glossary/git/)では利用できない可能性があるため、先に版を[確認](/glossary/確認/)してください。
 
 ```bash
 git --version
 ```
 
-次の[設定](/glossary/設定/)は、所有者の確認をすべての[リポジトリ](/glossary/リポジトリ/)で無効にします。
+次の[設定](/glossary/設定/)は、所有者の[確認](/glossary/確認/)をすべての[リポジトリ](/glossary/リポジトリ/)で無効にします。
 
 ```bash
 git config --global --add safe.directory "*"
@@ -165,11 +165,11 @@ git config --global --add safe.directory "*"
 
 ## 似ているが別のエラー
 
-`fatal: not a git repository`は、現在の場所から[Git](/glossary/git/)[リポジトリ](/glossary/リポジトリ/)を見つけられない場合の[エラー](/glossary/エラー/)です。所有者の確認で止まっているわけではありません。
+`fatal: not a git repository`は、現在の場所から[Git](/glossary/git/)[リポジトリ](/glossary/リポジトリ/)を見つけられない場合の[エラー](/glossary/エラー/)です。所有者の[確認](/glossary/確認/)で止まっているわけではありません。
 
 `Permission denied`は、[ファイル](/glossary/ファイル/)や[ディレクトリ](/glossary/ディレクトリ/)を読み書きする[権限](/glossary/権限/)がない場合に発生します。`detected dubious ownership`は、読み書きできる場合でも所有者が異なれば発生します。
 
-`cannot use bare repository ... safe.bareRepository`は、ベアリポジトリを使える条件に関する別の安全機能です。`safe.directory`ではなく`safe.bareRepository`の[設定](/glossary/設定/)を確認します。
+`cannot use bare repository ... safe.bareRepository`は、ベアリポジトリを使える条件に関する別の安全機能です。`safe.directory`ではなく`safe.bareRepository`の[設定](/glossary/設定/)を[確認](/glossary/確認/)します。
 
 ## 確認コマンド集
 
@@ -195,4 +195,4 @@ id -u
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は[Git](/glossary/git/)および各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は[Git](/glossary/git/)および各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform で 400 [エラー](/glossary/エラー/)が発生する場合、これはクラウドプロバイダーの [API](/glossary/api/) が「不正な[リクエスト](/glossary/リクエスト/)」と判定したことを意味します。HCL の構文自体は正しくても、リソース定義のパラメーター型や値がプロバイダーの期待形式と一致していない場合に起こります。`terraform apply` 実行時に最も頻繁に遭遇する[エラー](/glossary/エラー/)で、本来なら `terraform plan` で事前に検出すべき問題です。
+Terraform で 400 [エラー](/glossary/エラー/)が発生する場合、これはクラウドプロバイダーの [API](/glossary/api/) が「不正な[リクエスト](/glossary/リクエスト/)」と判定したことを意味します。HCL の構文自体は正しくても、[リソース](/glossary/リソース/)定義のパラメーター型や値がプロバイダーの期待形式と一致していない場合に起こります。`terraform apply` 実行時に最も頻繁に遭遇する[エラー](/glossary/エラー/)で、本来なら `terraform plan` で事前に検出すべき問題です。
 
 ## 実際のエラーメッセージ例
 
@@ -41,7 +41,7 @@ Error: error creating resource: BadRequest: The request body is malformed
 
 ### 原因 1：リソースパラメーターの型が不正
 
-Terraform のプロバイダーが期待する型（文字列、数値、リスト等）と異なる型で値を指定すると、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)生成時に 400 [エラー](/glossary/エラー/)が発生します。特に、数値として指定すべき[ポート](/glossary/ポート/)番号を文字列で渡したり、ブール値を文字列で指定したりするケースが多く見られます。
+Terraform のプロバイダーが期待する型（文字列、数値、リスト等）と異なる型で値を指定すると、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)生成時に 400 [エラー](/glossary/エラー/)が発生します。特に、数値として指定すべき[ポート](/glossary/ポート/)番号を文字列で渡したり、[ブール値](/glossary/ブール値/)を文字列で指定したりするケースが多く見られます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -178,11 +178,11 @@ terraform apply
 
 ## ツール固有の注意点
 
-Terraform の 400 [エラー](/glossary/エラー/)は、HCL の構文チェック（`terraform validate`）では検出されません。`validate` は HCL の文法チェックのみで、プロバイダー側の[要件](/glossary/要件/)チェックは行わないためです。そのため必ず `terraform plan` で実際の[リクエスト](/glossary/リクエスト/)生成をシミュレートして、プロバイダーの[要件](/glossary/要件/)に適合しているか確認する必要があります。
+Terraform の 400 [エラー](/glossary/エラー/)は、HCL の構文チェック（`terraform validate`）では検出されません。`validate` は HCL の文法チェックのみで、プロバイダー側の[要件](/glossary/要件/)チェックは行わないためです。そのため必ず `terraform plan` で実際の[リクエスト](/glossary/リクエスト/)生成をシミュレートして、プロバイダーの[要件](/glossary/要件/)に適合しているか[確認](/glossary/確認/)する必要があります。
 
 [AWS](/glossary/aws/)、Azure、Google Cloud など、各クラウドプロバイダーの Terraform プロバイダーは定期的に[更新](/glossary/更新/)されます。プロバイダーの[バージョン](/glossary/バージョン/)を固定せずに `version = ">= 5.0"` のように範囲指定している場合、[CI/CD](/glossary/ci-cd/) パイプラインで異なる[バージョン](/glossary/バージョン/)が使用される可能性があります。[本番環境](/glossary/本番環境/)では `version = "= 5.12.0"` のように完全な[バージョン](/glossary/バージョン/)指定を検討してください。
 
-また、プロバイダーの公式ドキュメントには各リソースの「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、[デフォルト値](/glossary/デフォルト値/)を必ず確認しましょう。
+また、プロバイダーの公式ドキュメントには各[リソース](/glossary/リソース/)の「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、[デフォルト値](/glossary/デフォルト値/)を必ず[確認](/glossary/確認/)しましょう。
 
 ## それでも解決しない場合
 
@@ -193,11 +193,11 @@ TF_LOG=DEBUG terraform plan
 TF_LOG=DEBUG terraform apply
 ```
 
-生成された[ログファイル](/glossary/ログファイル/)から、実際に [API](/glossary/api/) に[送信](/glossary/送信/)される[リクエスト](/glossary/リクエスト/)形式を確認できます。
+生成された[ログファイル](/glossary/ログファイル/)から、実際に [API](/glossary/api/) に[送信](/glossary/送信/)される[リクエスト](/glossary/リクエスト/)形式を[確認](/glossary/確認/)できます。
 
-2. **terraform state を確認する**
+2. **terraform state を[確認](/glossary/確認/)する**
 
-既存のリソースが部分的に作成されている場合、state [ファイル](/glossary/ファイル/)が破損していないか確認してください。
+既存の[リソース](/glossary/リソース/)が部分的に作成されている場合、state [ファイル](/glossary/ファイル/)が破損していないか[確認](/glossary/確認/)してください。
 
 ```bash
 terraform state list
@@ -206,13 +206,13 @@ terraform state show <resource_name>
 
 3. **プロバイダードキュメントを再確認**
 
-各プロバイダーの公式ドキュメントで、該当リソースの最新仕様を確認してください。
+各プロバイダーの公式ドキュメントで、該当[リソース](/glossary/リソース/)の最新仕様を[確認](/glossary/確認/)してください。
 
 - [AWS](/glossary/aws/) Provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 - Azure Provider: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs
 - Google Cloud Provider: https://registry.terraform.io/providers/hashicorp/google/latest/docs
 
-4. **プロバイダーの[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)を確認**
+4. **プロバイダーの[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)を[確認](/glossary/確認/)**
 
 ```bash
 terraform version
@@ -227,4 +227,4 @@ terraform init -upgrade
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

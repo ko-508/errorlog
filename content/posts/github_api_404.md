@@ -16,7 +16,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-[GitHub](/glossary/github/) [API](/glossary/api/) の 404 Not Found には、二重の意味があります。指定したリソースが本当に存在しない場合と、存在するが[権限](/glossary/権限/)がなくて見せてもらえない場合です。公式ドキュメントに明記されているとおり、[GitHub](/glossary/github/) は非公開[リポジトリ](/glossary/リポジトリ/)の存在を外部に確認させないために、[認証](/glossary/認証/)や[権限](/glossary/権限/)の不備に対して 403 Forbidden ではなく 404 を返す設計を採っています。つまり、リソースがあるはずなのに404が出たら、まず疑うべきは [URL](/glossary/url/) ではなく[認証](/glossary/認証/)と[権限](/glossary/権限/)です。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 404 Not Found には、二重の意味があります。指定した[リソース](/glossary/リソース/)が本当に存在しない場合と、存在するが[権限](/glossary/権限/)がなくて見せてもらえない場合です。公式ドキュメントに明記されているとおり、[GitHub](/glossary/github/) は非公開[リポジトリ](/glossary/リポジトリ/)の存在を外部に[確認](/glossary/確認/)させないために、[認証](/glossary/認証/)や[権限](/glossary/権限/)の不備に対して 403 Forbidden ではなく 404 を返す設計を採っています。つまり、[リソース](/glossary/リソース/)があるはずなのに404が出たら、まず疑うべきは [URL](/glossary/url/) ではなく[認証](/glossary/認証/)と[権限](/glossary/権限/)です。
 
 原因は3系統に整理できます。[URL](/glossary/url/) の指定誤り（タイポ・末尾スラッシュ・[エンコード](/glossary/エンコード/)漏れ）、[認証](/glossary/認証/)の不備（[トークン](/glossary/トークン/)未指定・期限切れ・失効）、そして[認証](/glossary/認証/)は通っているが[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が足りない場合です。切り分けの起点は、同じ形の[リクエスト](/glossary/リクエスト/)を条件を変えて比べることです。
 
@@ -34,13 +34,13 @@ top_queries:
 
 documentation_url は、[GitHub](/glossary/github/) がその[リクエスト](/glossary/リクエスト/)をどの[エンドポイント](/glossary/エンドポイント/)として解釈したかを示す手がかりです。意図と違う[エンドポイント](/glossary/エンドポイント/)のリファレンスが返ってきている場合は、[URL](/glossary/url/) の形そのものを取り違えています。意図どおりのリファレンスが返っているのに404なら、対象の存在か[権限](/glossary/権限/)の問題です。
 
-[権限](/glossary/権限/)の問題が404として現れるのは [GitHub](/glossary/github/) の意図的な設計です。もし権限不足に403を返すと、404との違いから「その[リポジトリ](/glossary/リポジトリ/)は存在する（が見られない）」という情報が漏れてしまいます。これを防ぐため、非公開リソースへの適切に[認証](/glossary/認証/)されていない[リクエスト](/glossary/リクエスト/)には、存在しない場合と同じ404を返します。診断する側から見ると、404は「無い」と「見せてもらえない」を区別してくれない[コード](/glossary/コード/)だ、と理解しておくことが出発点になります。
+[権限](/glossary/権限/)の問題が404として現れるのは [GitHub](/glossary/github/) の意図的な設計です。もし権限不足に403を返すと、404との違いから「その[リポジトリ](/glossary/リポジトリ/)は存在する（が見られない）」という情報が漏れてしまいます。これを防ぐため、非公開[リソース](/glossary/リソース/)への適切に[認証](/glossary/認証/)されていない[リクエスト](/glossary/リクエスト/)には、存在しない場合と同じ404を返します。診断する側から見ると、404は「無い」と「見せてもらえない」を区別してくれない[コード](/glossary/コード/)だ、と理解しておくことが出発点になります。
 
 ## まず最初に：条件を変えて同じリクエストを比べる
 
 404の原因を推測する前に、2つの比較で範囲を絞れます。
 
-第一に、[トークン](/glossary/トークン/)自体の生死を確認します。認証済みユーザー自身の情報を返す[エンドポイント](/glossary/エンドポイント/)を叩きます。
+第一に、[トークン](/glossary/トークン/)自体の生死を[確認](/glossary/確認/)します。認証済み[ユーザー](/glossary/ユーザー/)自身の情報を返す[エンドポイント](/glossary/エンドポイント/)を叩きます。
 
 ```bash
 curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/user
@@ -54,7 +54,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" https://api.github.com/us
 curl -i https://api.github.com/repos/octocat/Hello-World
 ```
 
-これが通るなら [URL](/glossary/url/) の組み立て方は正しく、問題は対象リソースの側（存在または[権限](/glossary/権限/)）に絞られます。これも404になるなら、[URL](/glossary/url/) の形そのものを疑います（原因1）。
+これが通るなら [URL](/glossary/url/) の組み立て方は正しく、問題は対象[リソース](/glossary/リソース/)の側（存在または[権限](/glossary/権限/)）に絞られます。これも404になるなら、[URL](/glossary/url/) の形そのものを疑います（原因1）。
 
 ## よくある原因と解決手順
 
@@ -69,14 +69,14 @@ curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/microsoft/vscode/contents/LICENSE.md
 ```
 
-**After（実際の[ファイル名](/glossary/ファイル名/)を確認して指定）：**
+**After（実際の[ファイル名](/glossary/ファイル名/)を[確認](/glossary/確認/)して指定）：**
 
 ```bash
 curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/microsoft/vscode/contents/LICENSE.txt
 ```
 
-[ファイル名](/glossary/ファイル名/)の確認には、親[ディレクトリ](/glossary/ディレクトリ/)の一覧取得（/contents/ を[パス](/glossary/パス/)なしで叩く）や、[ブラウザ](/glossary/ブラウザ/)での[リポジトリ](/glossary/リポジトリ/)の目視が確実です。
+[ファイル名](/glossary/ファイル名/)の[確認](/glossary/確認/)には、親[ディレクトリ](/glossary/ディレクトリ/)の一覧取得（/contents/ を[パス](/glossary/パス/)なしで叩く）や、[ブラウザ](/glossary/ブラウザ/)での[リポジトリ](/glossary/リポジトリ/)の目視が確実です。
 
 綴り以外に、公式ドキュメントが名指しで挙げている落とし穴が2つあります。1つは末尾スラッシュで、[エンドポイント](/glossary/エンドポイント/)の末尾に / を付けるだけで404になります。もう1つはパスパラメータの [URL](/glossary/url/) [エンコード](/glossary/エンコード/)で、[パラメータ](/glossary/パラメータ/)値にスラッシュなどの特殊文字が含まれる場合、正しく[エンコード](/glossary/エンコード/)しないと [URL](/glossary/url/) が別の形として解釈されます。[ブランチ](/glossary/ブランチ/)名にスラッシュが含まれる場合（feature/login など）が典型です。
 
@@ -98,26 +98,26 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/myorg/private-repo
 ```
 
-[トークン](/glossary/トークン/)の有効性は前述の /user への[リクエスト](/glossary/リクエスト/)で確認できます。有効なのにまだ404が出る場合は、原因3に進みます。
+[トークン](/glossary/トークン/)の有効性は前述の /user への[リクエスト](/glossary/リクエスト/)で[確認](/glossary/確認/)できます。有効なのにまだ404が出る場合は、原因3に進みます。
 
 ### 原因3：認証は通っているが、トークンの権限が足りない
 
-最も見落とされやすい原因です。[トークン](/glossary/トークン/)が有効でも、その[トークン](/glossary/トークン/)に対象リソースへの[権限](/glossary/権限/)がなければ、応答は403ではなく404です。公式のトラブルシューティング文書は、存在するはずのリソースで404が出た場合の確認項目を次のように挙げています。
+最も見落とされやすい原因です。[トークン](/glossary/トークン/)が有効でも、その[トークン](/glossary/トークン/)に対象[リソース](/glossary/リソース/)への[権限](/glossary/権限/)がなければ、応答は403ではなく404です。公式のトラブルシューティング文書は、存在するはずの[リソース](/glossary/リソース/)で404が出た場合の確認項目を次のように挙げています。
 
-personal access token (classic) を使っている場合は、[エンドポイント](/glossary/エンドポイント/)が要求する scope（非公開[リポジトリ](/glossary/リポジトリ/)なら repo など）を[トークン](/glossary/トークン/)が持っているか、[トークン](/glossary/トークン/)の所有者自身が[エンドポイント](/glossary/エンドポイント/)の要求する役割（組織オーナー限定の[エンドポイント](/glossary/エンドポイント/)など）を持っているか、[トークン](/glossary/トークン/)が対象の非公開[リポジトリ](/glossary/リポジトリ/)にアクセスできるか、失効・期限切れになっていないかを確認します。
+personal access token (classic) を使っている場合は、[エンドポイント](/glossary/エンドポイント/)が要求する scope（非公開[リポジトリ](/glossary/リポジトリ/)なら repo など）を[トークン](/glossary/トークン/)が持っているか、[トークン](/glossary/トークン/)の所有者自身が[エンドポイント](/glossary/エンドポイント/)の要求する役割（組織オーナー限定の[エンドポイント](/glossary/エンドポイント/)など）を持っているか、[トークン](/glossary/トークン/)が対象の非公開[リポジトリ](/glossary/リポジトリ/)にアクセスできるか、失効・期限切れになっていないかを[確認](/glossary/確認/)します。
 
-fine-grained personal access token や [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)の場合は、[エンドポイント](/glossary/エンドポイント/)が要求する[権限](/glossary/権限/)（permissions）が付与されているかに加えて、その[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかを確認します。[トークン](/glossary/トークン/)作成時に対象[リポジトリ](/glossary/リポジトリ/)を限定していると、[権限](/glossary/権限/)の種類が合っていても対象外の[リポジトリ](/glossary/リポジトリ/)には届きません。
+fine-grained personal access token や [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)の場合は、[エンドポイント](/glossary/エンドポイント/)が要求する[権限](/glossary/権限/)（permissions）が付与されているかに加えて、その[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかを[確認](/glossary/確認/)します。[トークン](/glossary/トークン/)作成時に対象[リポジトリ](/glossary/リポジトリ/)を限定していると、[権限](/glossary/権限/)の種類が合っていても対象外の[リポジトリ](/glossary/リポジトリ/)には届きません。
 
 [GitHub](/glossary/github/) Actions の GITHUB_TOKEN を使っている場合は、その[トークン](/glossary/トークン/)で操作できるのは[ワークフロー](/glossary/ワークフロー/)が動いている[リポジトリ](/glossary/リポジトリ/)の資源に限られます。別の[リポジトリ](/glossary/リポジトリ/)や組織の資源を操作するには、personal access token か [GitHub](/glossary/github/) App の[トークン](/glossary/トークン/)が必要です。
 
-また、読み取りはできる相手でも、書き込み系の[エンドポイント](/glossary/エンドポイント/)（[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)の[更新](/glossary/更新/)など）はより強い役割を要求します。閲覧できるのに[更新](/glossary/更新/)だけ404になる場合は、その操作に必要な役割を[エンドポイント](/glossary/エンドポイント/)のリファレンス（応答の documentation_url が指すページ）で確認してください。
+また、読み取りはできる相手でも、書き込み系の[エンドポイント](/glossary/エンドポイント/)（[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)の[更新](/glossary/更新/)など）はより強い役割を要求します。閲覧できるのに[更新](/glossary/更新/)だけ404になる場合は、その操作に必要な役割を[エンドポイント](/glossary/エンドポイント/)のリファレンス（応答の documentation_url が指すページ）で[確認](/glossary/確認/)してください。
 
 ## 切り分けの順序
 
-1. /user で[トークン](/glossary/トークン/)の生死を確認する。401なら[トークン](/glossary/トークン/)の値・失効の問題として先に解決する。
-2. 公開[リポジトリ](/glossary/リポジトリ/)への同じ形の[リクエスト](/glossary/リクエスト/)で、[URL](/glossary/url/) の組み立てを検証する（原因1）。末尾スラッシュとパスパラメータの[エンコード](/glossary/エンコード/)もここで確認する。
-3. 対象が非公開かどうかを確認する。非公開なら、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)の有無（原因2）と、[トークン](/glossary/トークン/)の scope・[権限](/glossary/権限/)・対象範囲（原因3）を順に確認する。
-4. 応答の documentation_url が指すリファレンスで、その[エンドポイント](/glossary/エンドポイント/)が要求する[権限](/glossary/権限/)・役割と、[URL](/glossary/url/) の正しい形を確認する。
+1. /user で[トークン](/glossary/トークン/)の生死を[確認](/glossary/確認/)する。401なら[トークン](/glossary/トークン/)の値・失効の問題として先に解決する。
+2. 公開[リポジトリ](/glossary/リポジトリ/)への同じ形の[リクエスト](/glossary/リクエスト/)で、[URL](/glossary/url/) の組み立てを検証する（原因1）。末尾スラッシュとパスパラメータの[エンコード](/glossary/エンコード/)もここで[確認](/glossary/確認/)する。
+3. 対象が非公開かどうかを[確認](/glossary/確認/)する。非公開なら、[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)の有無（原因2）と、[トークン](/glossary/トークン/)の scope・[権限](/glossary/権限/)・対象範囲（原因3）を順に[確認](/glossary/確認/)する。
+4. 応答の documentation_url が指すリファレンスで、その[エンドポイント](/glossary/エンドポイント/)が要求する[権限](/glossary/権限/)・役割と、[URL](/glossary/url/) の正しい形を[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
@@ -146,4 +146,4 @@ curl -H "Authorization: Bearer <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

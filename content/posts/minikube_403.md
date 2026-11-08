@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-Minikubeで403[エラー](/glossary/エラー/)が返される場合、[RBAC](/glossary/rbac/)（ロールベースアクセス制御）による[アクセス権限](/glossary/アクセス権限/)の拒否が原因です。この[エラー](/glossary/エラー/)は、PodやServiceAccountが[Kubernetes](/glossary/kubernetes/)リソースへのアクセスを試みた際に、十分な[権限](/glossary/権限/)がない状態で発生します。[開発環境](/glossary/開発環境/)での動作確認から本番運用まで、権限設定の誤りは頻繁に遭遇する問題です。
+Minikubeで403[エラー](/glossary/エラー/)が返される場合、[RBAC](/glossary/rbac/)（ロールベースアクセス制御）による[アクセス権限](/glossary/アクセス権限/)の拒否が原因です。この[エラー](/glossary/エラー/)は、PodやServiceAccountが[Kubernetes](/glossary/kubernetes/)[リソース](/glossary/リソース/)へのアクセスを試みた際に、十分な[権限](/glossary/権限/)がない状態で発生します。[開発環境](/glossary/開発環境/)での動作確認から本番運用まで、権限設定の誤りは頻繁に遭遇する問題です。
 
 ## 実際のエラーメッセージ例
 
@@ -112,7 +112,7 @@ spec:
 
 ### 原因2：RoleBindingが存在しない、または間違った名前空間に設定されている
 
-Roleを作成してもRoleBindingで適切なServiceAccountに紐付けなければ、[権限](/glossary/権限/)は有効になりません。また、名前空間固有の操作をする場合、RoleBindingが異なる名前空間に存在していないか確認が必要です。
+Roleを作成してもRoleBindingで適切なServiceAccountに紐付けなければ、[権限](/glossary/権限/)は有効になりません。また、名前空間固有の操作をする場合、RoleBindingが異なる名前空間に存在していないか[確認](/glossary/確認/)が必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -171,7 +171,7 @@ subjects:
 
 ### 原因3：複数の名前空間にアクセスする場合にClusterRoleが必要
 
-単一の名前空間内での操作はRoleで十分ですが、複数の名前空間にまたがったリソースへのアクセスや、クラスタ全体のリソース（Node、StorageClass等）にアクセスする場合はClusterRoleとClusterRoleBindingが必要です。
+単一の名前空間内での操作はRoleで十分ですが、複数の名前空間にまたがった[リソース](/glossary/リソース/)へのアクセスや、クラスタ全体の[リソース](/glossary/リソース/)（Node、StorageClass等）にアクセスする場合はClusterRoleとClusterRoleBindingが必要です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -231,24 +231,24 @@ subjects:
 
 ## Minikube固有の注意点
 
-**[RBAC](/glossary/rbac/)有効化の確認**
+**[RBAC](/glossary/rbac/)有効化の[確認](/glossary/確認/)**
 
-Minikubeでは[デフォルト](/glossary/デフォルト/)でアドミッションコントローラーとして[RBAC](/glossary/rbac/)が有効です。[RBAC](/glossary/rbac/)が意図的に無効化されていないか確認するには、以下の[コマンド](/glossary/コマンド/)で確認できます。
+Minikubeでは[デフォルト](/glossary/デフォルト/)でアドミッションコントローラーとして[RBAC](/glossary/rbac/)が有効です。[RBAC](/glossary/rbac/)が意図的に無効化されていないか[確認](/glossary/確認/)するには、以下の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)できます。
 
 ```bash
 minikube start --extra-config=apiserver.enable-admission-plugins=RBAC
 ```
 
-既存のMinikubeクラスタで[RBAC](/glossary/rbac/)[設定](/glossary/設定/)を確認する場合：
+既存のMinikubeクラスタで[RBAC](/glossary/rbac/)[設定](/glossary/設定/)を[確認](/glossary/確認/)する場合：
 
 ```bash
 kubectl api-resources
 kubectl describe clusterrole system:masters
 ```
 
-**ServiceAccount[トークン](/glossary/トークン/)の確認**
+**ServiceAccount[トークン](/glossary/トークン/)の[確認](/glossary/確認/)**
 
-Pod内から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が正しくマウントされているか確認します。
+Pod内から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へアクセスする際、ServiceAccountの[トークン](/glossary/トークン/)が正しくマウントされているか[確認](/glossary/確認/)します。
 
 ```bash
 kubectl describe pod <pod-name> -n <namespace>
@@ -276,9 +276,9 @@ subjects:
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)の確認と[デバッグ](/glossary/デバッグ/)**
+**[ログ](/glossary/ログ/)の[確認](/glossary/確認/)と[デバッグ](/glossary/デバッグ/)**
 
-[Kubernetes](/glossary/kubernetes/)の詳細な[ログ](/glossary/ログ/)を確認するには、以下の[コマンド](/glossary/コマンド/)を実行します。
+[Kubernetes](/glossary/kubernetes/)の詳細な[ログ](/glossary/ログ/)を[確認](/glossary/確認/)するには、以下の[コマンド](/glossary/コマンド/)を実行します。
 
 ```bash
 minikube logs
@@ -292,16 +292,16 @@ kubectl[コマンド](/glossary/コマンド/)実行時に詳細な情報を表�
 kubectl get pods -v=8
 ```
 
-**[権限](/glossary/権限/)の確認[コマンド](/glossary/コマンド/)**
+**[権限](/glossary/権限/)の[確認](/glossary/確認/)[コマンド](/glossary/コマンド/)**
 
-特定のServiceAccountが持つ[権限](/glossary/権限/)を確認するには`kubectl auth can-i`[コマンド](/glossary/コマンド/)を使用します。
+特定のServiceAccountが持つ[権限](/glossary/権限/)を[確認](/glossary/確認/)するには`kubectl auth can-i`[コマンド](/glossary/コマンド/)を使用します。
 
 ```bash
 kubectl auth can-i get pods --as=system:serviceaccount:default:default
 kubectl auth can-i create deployments --as=system:serviceaccount:default:deployer -n default
 ```
 
-**公式リソース**
+**公式[リソース](/glossary/リソース/)**
 
 - [Kubernetes公式：RBAC認可](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 - [Kubernetes公式：ServiceAccount](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/)
@@ -311,4 +311,4 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:deploye
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

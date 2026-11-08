@@ -16,7 +16,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-[GitHub](/glossary/github/) [API](/glossary/api/) の 403 Forbidden は、「[権限](/glossary/権限/)が足りないとき全般」に返る[コード](/glossary/コード/)ではありません。[GitHub](/glossary/github/) は、非公開リソースへの権限不足に対しては存在を隠すために 404 を返す設計であり、classic の personal access token の scope 不足も 404 になります。403 が返るのは、主に次の3つの場面です。第一に、[レート制限](/glossary/レート制限/)の超過（403 または 429）。第二に、[GitHub](/glossary/github/) App・fine-grained personal access token・Actions の GITHUB_TOKEN の権限不足で、この場合だけ Resource not accessible by integration（または by personal access token）という固有の文言が返ります。第三に、組織が SAML SSO（組織のシングルサインオン）を強制していて、[トークン](/glossary/トークン/)がその組織に対して未承認の場合です。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 403 Forbidden は、「[権限](/glossary/権限/)が足りないとき全般」に返る[コード](/glossary/コード/)ではありません。[GitHub](/glossary/github/) は、非公開[リソース](/glossary/リソース/)への権限不足に対しては存在を隠すために 404 を返す設計であり、classic の personal access token の scope 不足も 404 になります。403 が返るのは、主に次の3つの場面です。第一に、[レート制限](/glossary/レート制限/)の超過（403 または 429）。第二に、[GitHub](/glossary/github/) App・fine-grained personal access token・Actions の GITHUB_TOKEN の権限不足で、この場合だけ Resource not accessible by integration（または by personal access token）という固有の文言が返ります。第三に、組織が SAML SSO（組織のシングルサインオン）を強制していて、[トークン](/glossary/トークン/)がその組織に対して未承認の場合です。
 
 3つの場面はいずれも応答の message の文言で即座に見分けられます。403 の調査は、[設定](/glossary/設定/)を触る前に message を読むことから始めます。
 
@@ -41,7 +41,7 @@ Resource not accessible by integration、または Resource not accessible by pe
 
 Resource protected by organization SAML enforcement なら、組織の SAML SSO に対する[トークン](/glossary/トークン/)の[承認](/glossary/承認/)が済んでいません（原因3）。
 
-これらのどれでもなく、[権限](/glossary/権限/)の問題を疑っているのに 404 が返っている場合は、classic [トークン](/glossary/トークン/)の scope や非公開リソースへの[アクセス権](/glossary/アクセス権/)の問題です（[404 の記事](/posts/github_api_404/)）。認証自体の失敗（Bad credentials）は 401 です（[401 の記事](/posts/github_api_401/)）。
+これらのどれでもなく、[権限](/glossary/権限/)の問題を疑っているのに 404 が返っている場合は、classic [トークン](/glossary/トークン/)の scope や非公開[リソース](/glossary/リソース/)への[アクセス権](/glossary/アクセス権/)の問題です（[404 の記事](/posts/github_api_404/)）。認証自体の失敗（Bad credentials）は 401 です（[401 の記事](/posts/github_api_401/)）。
 
 ## よくある原因と解決手順
 
@@ -51,14 +51,14 @@ Resource protected by organization SAML enforcement なら、組織の SAML SSO 
 
 対処も公式ドキュメントに明確な指針があります。retry-after [ヘッダー](/glossary/ヘッダー/)があれば、その秒数が経過するまで再試行しない。x-ratelimit-remaining が 0 なら、x-ratelimit-reset [ヘッダー](/glossary/ヘッダー/)が示す時刻（UTC の epoch 秒）まで再試行しない。どちらもなければ最低1分待つ。secondary の超過が続く場合は、待ち時間を指数的に増やしながら再試行し、一定回数で打ち切る、というものです。
 
-現在の状態は、利用枠を消費しない専用[エンドポイント](/glossary/エンドポイント/)で確認できます。
+現在の状態は、利用枠を消費しない専用[エンドポイント](/glossary/エンドポイント/)で[確認](/glossary/確認/)できます。
 
 ```bash
 curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/rate_limit
 ```
 
-自分に適用されている上限そのものは、通常の応答の x-ratelimit-limit [ヘッダー](/glossary/ヘッダー/)にも表示されます。上限の具体的な値は認証方法によって異なり、変更されることもあるため、この実測値と公式の[レート制限](/glossary/レート制限/)ドキュメントで確認してください。未認証の[リクエスト](/glossary/リクエスト/)は認証済みより大幅に低い上限が適用されるため、繰り返し呼び出す[プログラム](/glossary/プログラム/)では[認証](/glossary/認証/)を付けることが第一の対策になります。
+自分に適用されている上限そのものは、通常の応答の x-ratelimit-limit [ヘッダー](/glossary/ヘッダー/)にも表示されます。上限の具体的な値は認証方法によって異なり、変更されることもあるため、この実測値と公式の[レート制限](/glossary/レート制限/)ドキュメントで[確認](/glossary/確認/)してください。未認証の[リクエスト](/glossary/リクエスト/)は認証済みより大幅に低い上限が適用されるため、繰り返し呼び出す[プログラム](/glossary/プログラム/)では[認証](/glossary/認証/)を付けることが第一の対策になります。
 
 ### 原因2：GitHub App・fine-grained トークン・GITHUB_TOKEN の権限不足
 
@@ -74,7 +74,7 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
 # X-Accepted-GitHub-Permissions: contents=read
 ```
 
-この例なら、[トークン](/glossary/トークン/)に contents の read [権限](/glossary/権限/)が必要という意味です。複数の組み合わせで満たせる場合は、セミコロン区切りで複数の一覧が示されます。[ヘッダー](/glossary/ヘッダー/)で特定した[権限](/glossary/権限/)を、fine-grained [トークン](/glossary/トークン/)なら設定画面の Repository permissions で、[GitHub](/glossary/github/) App なら App の権限設定と[インストール](/glossary/インストール/)先で付与します。[権限](/glossary/権限/)の種類だけでなく、[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかも確認してください。
+この例なら、[トークン](/glossary/トークン/)に contents の read [権限](/glossary/権限/)が必要という意味です。複数の組み合わせで満たせる場合は、セミコロン区切りで複数の一覧が示されます。[ヘッダー](/glossary/ヘッダー/)で特定した[権限](/glossary/権限/)を、fine-grained [トークン](/glossary/トークン/)なら設定画面の Repository permissions で、[GitHub](/glossary/github/) App なら App の権限設定と[インストール](/glossary/インストール/)先で付与します。[権限](/glossary/権限/)の種類だけでなく、[トークン](/glossary/トークン/)の対象範囲に該当[リポジトリ](/glossary/リポジトリ/)が含まれているかも[確認](/glossary/確認/)してください。
 
 [GitHub](/glossary/github/) Actions の中でこの403が出る場合、使われているのは自動発行の GITHUB_TOKEN です。この[トークン](/glossary/トークン/)の[権限](/glossary/権限/)は workflow [ファイル](/glossary/ファイル/)の permissions ブロックで決まり、書き込みが必要な操作（[ファイル](/glossary/ファイル/)の作成、[リリース](/glossary/リリース/)の作成、pull request へのコメントなど）には明示的な付与が必要です。
 
@@ -88,7 +88,7 @@ permissions:
 
 ### 原因3：組織の SAML SSO に対する承認が済んでいない
 
-組織が SAML SSO を強制している場合、その組織のリソースにアクセスするには、[トークン](/glossary/トークン/)自体を組織に対して[承認](/glossary/承認/)しておく必要があります。未承認の[トークン](/glossary/トークン/)でアクセスすると、次の文言の403が返ります。
+組織が SAML SSO を強制している場合、その組織の[リソース](/glossary/リソース/)にアクセスするには、[トークン](/glossary/トークン/)自体を組織に対して[承認](/glossary/承認/)しておく必要があります。未承認の[トークン](/glossary/トークン/)でアクセスすると、次の文言の403が返ります。
 
 ```json
 {
@@ -103,7 +103,7 @@ permissions:
 
 1. 応答の message を読む。レート制限系・Resource not accessible 系・SAML enforcement 系のどれかを確定する。どれでもなければ、404（scope・[アクセス権](/glossary/アクセス権/)）や 401（[認証](/glossary/認証/)）の問題として切り替える。
 2. レート制限系なら、retry-after と x-ratelimit-reset に従って待つ。恒久対処として、[認証](/glossary/認証/)の付与と呼び出し回数の削減を検討する。
-3. Resource not accessible 系なら、X-Accepted-[GitHub](/glossary/github/)-Permissions [ヘッダー](/glossary/ヘッダー/)で必要権限を特定し、[トークン](/glossary/トークン/)（fine-grained・App・GITHUB_TOKEN）側に付与する。対象[リポジトリ](/glossary/リポジトリ/)が範囲に含まれているかも確認する。
+3. Resource not accessible 系なら、X-Accepted-[GitHub](/glossary/github/)-Permissions [ヘッダー](/glossary/ヘッダー/)で必要権限を特定し、[トークン](/glossary/トークン/)（fine-grained・App・GITHUB_TOKEN）側に付与する。対象[リポジトリ](/glossary/リポジトリ/)が範囲に含まれているかも[確認](/glossary/確認/)する。
 4. SAML enforcement 系なら、[トークン](/glossary/トークン/)を組織に対して[承認](/glossary/承認/)する。
 
 ## 確認コマンド集
@@ -135,4 +135,4 @@ curl -i -H "Authorization: Bearer <your-github-token>" \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

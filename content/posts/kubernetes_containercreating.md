@@ -91,7 +91,7 @@ timed out waiting for the condition
 
 ## まず最初に：現在の状態・最新イベント・対象ボリュームを結ぶ
 
-第一に、Podがノードへ割り当てられているかを確認します。
+第一に、Podがノードへ割り当てられているかを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
@@ -101,14 +101,14 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ノード名が空なら、マウントより前のスケジューリングで止まっています。`PodScheduled=False` と `FailedScheduling` を先に調べます。
 
-第二に、現在の[コンテナ](/glossary/コンテナ/)状態と最近のEventsを確認します。
+第二に、現在の[コンテナ](/glossary/コンテナ/)状態と最近のEventsを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl describe pod <Pod名> -n <名前空間>
 kubectl events -n <名前空間> --for pod/<Pod名>
 ```
 
-古い `kubectl` で `kubectl events` が使えない場合は、次の形でも確認できます。
+古い `kubectl` で `kubectl events` が使えない場合は、次の形でも[確認](/glossary/確認/)できます。
 
 ```bash
 kubectl get events -n <名前空間> \
@@ -123,7 +123,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .spec.volumes[*]}{.name}{"\tPVC="}{.persistentVolumeClaim.claimName}{"\tSecret="}{.secret.secretName}{"\tConfigMap="}{.configMap.name}{"\n"}{end}'
 ```
 
-たとえば、[イベント](/glossary/イベント/)に `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を確認します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
+たとえば、[イベント](/glossary/イベント/)に `volume "config"` とあり、結果が `ConfigMap=app-config` なら、最初に同じ名前空間の `app-config` を[確認](/glossary/確認/)します。PVCなら、PVCからPV、StorageClass、CSIドライバーの順でたどります。
 
 第四に、Podを[削除](/glossary/削除/)する前に[イベント](/glossary/イベント/)を[保存](/glossary/保存/)します。kube-apiserverの `--event-ttl` の[既定値は1時間](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/#options)です。管理サービスでは[設定](/glossary/設定/)が異なる場合がありますが、Eventsは長期保存を前提にした記録ではありません。
 
@@ -150,7 +150,7 @@ MountVolume.SetUp failed for volume "credentials" :
 secret "app-secret" not found
 ```
 
-まず、Podと同じ名前空間に対象があるかを確認します。
+まず、Podと同じ名前空間に対象があるかを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get configmap app-config -n <名前空間>
@@ -179,7 +179,7 @@ volumes:
       name: app-config-production
 ```
 
-対象自体は存在していても、`items` で指定した[キー](/glossary/キー/)がなければ起動に失敗します。値を表示せず、[キー](/glossary/キー/)名だけ確認します。
+対象自体は存在していても、`items` で指定した[キー](/glossary/キー/)がなければ起動に失敗します。値を表示せず、[キー](/glossary/キー/)名だけ[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get configmap app-config -n <名前空間> \
@@ -195,14 +195,14 @@ kubectl get secret app-secret -n <名前空間> \
 
 ### 原因2：PVCが存在しない、またはPVへ結び付いていない
 
-PodがPVCを参照している場合は、名前と状態を確認します。
+PodがPVCを参照している場合は、名前と状態を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pvc -n <名前空間>
 kubectl describe pvc <PVC名> -n <名前空間>
 ```
 
-PVCが見つからない場合は、Podの `claimName` と作成順、名前空間を確認します。
+PVCが見つからない場合は、Podの `claimName` と作成順、名前空間を[確認](/glossary/確認/)します。
 
 ```yaml
 volumes:
@@ -211,7 +211,7 @@ volumes:
       claimName: app-data
 ```
 
-PVCが `Pending` の場合は、Podを[削除](/glossary/削除/)しても直りません。PVCのEventsを読み、要求容量、アクセスモード、StorageClass、動的作成を担当する[処理](/glossary/処理/)を確認します。
+PVCが `Pending` の場合は、Podを[削除](/glossary/削除/)しても直りません。PVCのEventsを読み、要求容量、アクセスモード、StorageClass、動的作成を担当する[処理](/glossary/処理/)を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pvc <PVC名> -n <名前空間> -o wide
@@ -234,7 +234,7 @@ StorageClassが `volumeBindingMode: WaitForFirstConsumer` の場合、PVCがPod�
 driver name disk.csi.example.com not found in the list of registered CSI drivers
 ```
 
-まず、Podの配置先とPVが要求するドライバーを確認します。
+まず、Podの配置先とPVが要求するドライバーを[確認](/glossary/確認/)します。
 
 ```bash
 NODE=$(kubectl get pod <Pod名> -n <名前空間> -o jsonpath='{.spec.nodeName}')
@@ -246,7 +246,7 @@ kubectl get pods -n kube-system -o wide --field-selector spec.nodeName="$NODE"
 
 `CSINode` は、ノードに[登録](/glossary/登録/)されたCSIドライバーの情報を持つ[オブジェクト](/glossary/オブジェクト/)です。[Kubernetes APIの公式資料](https://kubernetes.io/docs/reference/kubernetes-api/storage/csi-node-v1/)では、node-driver-registrarがkubeletへ[登録](/glossary/登録/)すると、kubeletが `CSINode` を[更新](/glossary/更新/)すると説明されています。
 
-対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの[登録](/glossary/登録/)、kubeletとの版の[対応](/glossary/対応/)を確認します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
+対象ドライバーが `CSINode` にない場合は、そのノードのCSI node Pod、`node-driver-registrar`、ソケットの[登録](/glossary/登録/)、kubeletとの版の[対応](/glossary/対応/)を[確認](/glossary/確認/)します。対象ノードだけでCSI node Podが停止しているなら、PVCや[アプリケーション](/glossary/アプリケーション/)の定義ではなくノード側の問題です。
 
 ```bash
 kubectl describe pod <CSI node Pod名> -n kube-system
@@ -254,7 +254,7 @@ kubectl logs <CSI node Pod名> -n kube-system -c <ドライバーのコンテナ
 kubectl logs <CSI node Pod名> -n kube-system -c node-driver-registrar --since=20m
 ```
 
-CSIドライバーの名前空間や[コンテナ](/glossary/コンテナ/)名は製品ごとに異なります。`kube-system` と決めつけず、DaemonSetとPodの実際の配置を確認してください。
+CSIドライバーの名前空間や[コンテナ](/glossary/コンテナ/)名は製品ごとに異なります。`kube-system` と決めつけず、DaemonSetとPodの実際の配置を[確認](/glossary/確認/)してください。
 
 ### 原因4：ボリュームの接続が終わっていない
 
@@ -285,9 +285,9 @@ Volume is already exclusively attached to one node and can't be attached to anot
 
 ReadWriteOnceは、1つのノードから読み書きできる指定です。同じノード上の複数Podを必ず排除する指定ではありません。1つのPodだけに限定する必要がある場合は、[対応](/glossary/対応/)するCSIドライバーで `ReadWriteOncePod` を使います。
 
-古いノードやVolumeAttachmentを確認せず、[ストレージ](/glossary/ストレージ/)側で強制的に接続解除しないでください。以前のノードがまだ書き込んでいる状態で別ノードへ接続すると、ファイルシステムを壊す危険があります。ノードの生存、Podの終了、接続先、[ストレージ](/glossary/ストレージ/)提供元の手順を確認してから解除します。
+古いノードやVolumeAttachmentを[確認](/glossary/確認/)せず、[ストレージ](/glossary/ストレージ/)側で強制的に接続解除しないでください。以前のノードがまだ書き込んでいる状態で別ノードへ接続すると、ファイルシステムを壊す危険があります。ノードの生存、Podの終了、接続先、[ストレージ](/glossary/ストレージ/)提供元の手順を[確認](/glossary/確認/)してから解除します。
 
-また、PVの `nodeAffinity`、StorageClassの `allowedTopologies`、Podの配置先が異なる地域やゾーンを指していないかも確認します。
+また、PVの `nodeAffinity`、StorageClassの `allowedTopologies`、Podの配置先が異なる地域やゾーンを指していないかも[確認](/glossary/確認/)します。
 
 ### 原因5：CSIまたはマウント処理の末尾に具体的な失敗がある
 
@@ -316,16 +316,16 @@ already mounted / busy     → 残ったマウント、同時処理、CSIの状�
 context deadline exceeded  → CSI、ストレージAPI、ネットワークの無応答
 ```
 
-PVとStorageClassの[設定](/glossary/設定/)を確認します。
+PVとStorageClassの[設定](/glossary/設定/)を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pv <PV名> -o yaml
 kubectl get storageclass <StorageClass名> -o yaml
 ```
 
-その後、CSI controllerと失敗ノード上のCSI node Podの[ログ](/glossary/ログ/)を同じ時刻で確認します。PodのEventsが要約しか持たない場合でも、ドライバーの[ログ](/glossary/ログ/)には[ストレージ](/glossary/ストレージ/)提供元が返した識別子や理由が残ることがあります。
+その後、CSI controllerと失敗ノード上のCSI node Podの[ログ](/glossary/ログ/)を同じ時刻で[確認](/glossary/確認/)します。PodのEventsが要約しか持たない場合でも、ドライバーの[ログ](/glossary/ログ/)には[ストレージ](/glossary/ストレージ/)提供元が返した識別子や理由が残ることがあります。
 
-自己管理ノードで必要な場合は、kubeletの[ログ](/glossary/ログ/)も確認します。
+自己管理ノードで必要な場合は、kubeletの[ログ](/glossary/ログ/)も[確認](/glossary/確認/)します。
 
 ```bash
 sudo journalctl -u kubelet --since "20 minutes ago" --no-pager \
@@ -344,14 +344,14 @@ failed to sync secret cache: timed out waiting for the condition
 configmap "app-config" not found
 ```
 
-最初に、同じ名前空間で対象が存在することを確認します。
+最初に、同じ名前空間で対象が存在することを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get configmap app-config -n <名前空間>
 kubectl get secret app-secret -n <名前空間>
 ```
 
-対象が存在し、指定名と[キー](/glossary/キー/)も正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を確認します。
+対象が存在し、指定名と[キー](/glossary/キー/)も正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を[確認](/glossary/確認/)します。
 
 [ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの[更新](/glossary/更新/)を監視または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
 
@@ -371,7 +371,7 @@ kubectl describe node <ノード名>
 
 Eventsは、現在値だけを置き換える一覧ではありません。失敗した試行が記録された後、kubeletが再試行して成功しても、古い `FailedMount` はしばらく残ります。
 
-次の3点を同時に確認します。
+次の3点を同時に[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間>
@@ -421,14 +421,14 @@ Secretが原因でも、ボリュームとして参照した場合は `FailedMou
 
 ## 切り分けの順序
 
-1. `kubectl get pod -o wide` で現在の状態、配置先ノード、経過時間を確認する。
+1. `kubectl get pod -o wide` で現在の状態、配置先ノード、経過時間を[確認](/glossary/確認/)する。
 2. `PodScheduled` がFalseなら、マウントではなく `FailedScheduling` を先に調べる。
-3. `kubectl describe pod` とEventsを時系列で確認し、最新のWarningを読む。
+3. `kubectl describe pod` とEventsを時系列で[確認](/glossary/確認/)し、最新のWarningを読む。
 4. `FailedMount` があれば、末尾の対象ボリューム名と具体的な失敗文を取り出す。
 5. Podの `spec.volumes` で、対象がSecret、ConfigMap、PVC、CSIのどれかを確定する。
-6. SecretやConfigMapなら、同じ名前空間の対象名と[キー](/glossary/キー/)を確認する。
+6. SecretやConfigMapなら、同じ名前空間の対象名と[キー](/glossary/キー/)を[確認](/glossary/確認/)する。
 7. PVCなら、PVCの状態からPV、StorageClass、CSIドライバーまでたどる。
-8. `FailedAttachVolume` が先にあるなら、接続先ノード、VolumeAttachment、アクセスモード、場所の制約を確認する。
+8. `FailedAttachVolume` が先にあるなら、接続先ノード、VolumeAttachment、アクセスモード、場所の制約を[確認](/glossary/確認/)する。
 9. CSIの `rpc error` や `mount failed` は、`desc` と `Output` の末尾を読み、失敗ノードのCSI[ログ](/glossary/ログ/)と照合する。
 10. Podの現在状態、[イベント](/glossary/イベント/)の最終時刻、回数を比べ、古い失敗記録か現在も続く失敗かを分ける。
 11. `FailedMount` がなければ、[イメージ](/glossary/イメージ/)、Podの通信環境、[コンテナ](/glossary/コンテナ/)実行基盤など別の準備処理へ進む。
@@ -500,8 +500,8 @@ kubectl get events -n <名前空間> \
 
 3件が示しているのは、文言の正誤より、**どの時点の何を表す情報かを分ける必要がある**ということです。`ContainerCreating` は現在の待機理由をまとめた表示です。`Pending` はPodのphaseです。`FailedMount` は失敗した試行の[イベント](/glossary/イベント/)です。どれか1つだけでは、現在も[障害](/glossary/障害/)が続いているかを判断できません。
 
-だから、`ContainerCreating` を見たら状態名を[検索](/glossary/検索/)して終わらず、最新[イベント](/glossary/イベント/)へ進みます。`FailedMount` を見たら、その存在だけで警報を確定せず、末尾の具体的な理由、最終時刻、回数、現在のReady状態を確認します。情報の種類と時刻をそろえることが、この組み合わせを正しく読むための中心です。
+だから、`ContainerCreating` を見たら状態名を[検索](/glossary/検索/)して終わらず、最新[イベント](/glossary/イベント/)へ進みます。`FailedMount` を見たら、その存在だけで警報を確定せず、末尾の具体的な理由、最終時刻、回数、現在のReady状態を[確認](/glossary/確認/)します。情報の種類と時刻をそろえることが、この組み合わせを正しく読むための中心です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

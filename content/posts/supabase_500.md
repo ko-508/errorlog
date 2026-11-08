@@ -12,7 +12,7 @@ related_services: ["PostgreSQL", "supabase-js", "Deno"]
 ---
 # エラーの概要
 
-Supabaseの500[エラー](/glossary/エラー/)は、Supabase[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)は正しくても、PostgreSQLの実行[エラー](/glossary/エラー/)・Functionsの例外処理漏れ・インフラストラクチャの一時的な問題など、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合は、サーバーログを確認して具体的な原因を特定する必要があります。
+Supabaseの500[エラー](/glossary/エラー/)は、Supabase[サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の[リクエスト](/glossary/リクエスト/)は正しくても、PostgreSQLの実行[エラー](/glossary/エラー/)・Functionsの例外処理漏れ・インフラストラクチャの一時的な問題など、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合は、サーバーログを[確認](/glossary/確認/)して具体的な原因を特定する必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -147,11 +147,11 @@ serve(async (req) => {
 
 ### 原因3：Supabaseインフラで一時的な障害が起きている
 
-Subaseのバックエンドサービス（PostgreSQL、Auth、Realtimeなどのインフラストラクチャレイヤーまたはデータセンター）で一時的な[障害](/glossary/障害/)が発生していることもあります。この場合、ユーザー側では対処できず、Supabaseサービスの[復旧](/glossary/復旧/)を待つ必要があります。
+Subaseのバックエンドサービス（PostgreSQL、Auth、Realtimeなどのインフラストラクチャレイヤーまたはデータセンター）で一時的な[障害](/glossary/障害/)が発生していることもあります。この場合、[ユーザー](/glossary/ユーザー/)側では対処できず、Supabaseサービスの[復旧](/glossary/復旧/)を待つ必要があります。
 
 **確認方法：**
 
-Supabase公式ステータスページ（status.supabase.com）にアクセスして、現在のサービス状態を確認します。
+Supabase公式ステータスページ（status.supabase.com）にアクセスして、現在のサービス状態を[確認](/glossary/確認/)します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -205,9 +205,9 @@ const data = await fetchWithRetry();
 
 Supabase Dashboardの「Logs」セクションは、500[エラー](/glossary/エラー/)の具体的な原因を特定するために不可欠です。
 
-1. **[SQL](/glossary/sql/) Logs**：`Home > Logs > PostgreSQL`で、実行された[クエリ](/glossary/クエリ/)と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認できます。
-2. **Function Logs**：`Edge Functions`の[ログ](/glossary/ログ/)から、[デプロイ](/glossary/デプロイ/)されたFunctionの[コンソール](/glossary/コンソール/)出力とエラースタックトレースを確認できます。
-3. **Auth Logs**：認証絡みの[エラー](/glossary/エラー/)は`Authentication > Logs`で確認します。
+1. **[SQL](/glossary/sql/) Logs**：`Home > Logs > PostgreSQL`で、実行された[クエリ](/glossary/クエリ/)と詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)できます。
+2. **Function Logs**：`Edge Functions`の[ログ](/glossary/ログ/)から、[デプロイ](/glossary/デプロイ/)されたFunctionの[コンソール](/glossary/コンソール/)出力とエラースタックトレースを[確認](/glossary/確認/)できます。
+3. **Auth Logs**：認証絡みの[エラー](/glossary/エラー/)は`Authentication > Logs`で[確認](/glossary/確認/)します。
 
 ### RLS（Row Level Security）ポリシーのデバッグ
 
@@ -260,11 +260,11 @@ GRANT SELECT ON public.users TO anon;
 https://status.supabase.com
 ```
 
-現在のインシデント情報を確認します。[障害](/glossary/障害/)が報告されている場合は、[復旧](/glossary/復旧/)を待ちます。
+現在のインシデント情報を[確認](/glossary/確認/)します。[障害](/glossary/障害/)が報告されている場合は、[復旧](/glossary/復旧/)を待ちます。
 
 ### ステップ2：詳細ログを確認
 
-Supabase Dashboard > **Logs** セクションで以下を順番に確認します：
+Supabase Dashboard > **Logs** セクションで以下を順番に[確認](/glossary/確認/)します：
 
 1. PostgreSQL Logs（`SELECT * FROM ...` の実行[ログ](/glossary/ログ/)）
 2. Function Logs（[デプロイ](/glossary/デプロイ/)されたFunctionの標準出力・[エラー](/glossary/エラー/)出力）
@@ -306,4 +306,4 @@ Supabase公式ドキュメント（https://supabase.com/docs）または、GitHu
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

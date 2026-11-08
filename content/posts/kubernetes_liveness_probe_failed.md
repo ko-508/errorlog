@@ -51,7 +51,7 @@ Readiness probe failed
 
 一時的に要求を受けられないだけなら、[`readinessProbe`](/posts/kubernetes_readiness_probe_failed/)でServiceから外します。起動に時間がかかるなら `startupProbe` で、livenessの開始を待たせます。再起動しなければ回復できない状態だけを `livenessProbe` で判定します。
 
-最初に確認するのは再起動回数ではなく、[イベント](/glossary/イベント/)末尾の失敗理由です。
+最初に[確認](/glossary/確認/)するのは再起動回数ではなく、[イベント](/glossary/イベント/)末尾の失敗理由です。
 
 ```text
 connect: connection refused
@@ -91,7 +91,7 @@ livenessProbe:
   failureThreshold: 3
 ```
 
-この例では、[コンテナ](/glossary/コンテナ/)開始後10秒待ってから、10秒ごとに `/livez` を確認します。1回の確認は2秒で時間切れとなり、3回連続で失敗するとliveness全体が失敗です。
+この例では、[コンテナ](/glossary/コンテナ/)開始後10秒待ってから、10秒ごとに `/livez` を[確認](/glossary/確認/)します。1回の[確認](/glossary/確認/)は2秒で時間切れとなり、3回連続で失敗するとliveness全体が失敗です。
 
 各値を省略したときの既定値は、現在の[Kubernetes公式設定資料](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes)で次のように定義されています。
 
@@ -130,7 +130,7 @@ probe単位の `terminationGracePeriodSeconds` は[Kubernetes](/glossary/kuberne
 
 ## まず最初に：イベント、直前ログ、現在の設定をそろえる
 
-第一に、Podの[イベント](/glossary/イベント/)を確認します。
+第一に、Podの[イベント](/glossary/イベント/)を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl describe pod <Pod名> -n <名前空間>
@@ -143,7 +143,7 @@ Warning  Unhealthy  kubelet  Liveness probe failed: ...
 Normal   Killing    kubelet  Container app failed liveness probe, will be restarted
 ```
 
-`Unhealthy` が1回あるだけでは、必ず再起動したとは限りません。`failureThreshold` へ達する前に成功すれば連続失敗は途切れます。`Killing`、`restartCount`、`lastState`を合わせて確認します。
+`Unhealthy` が1回あるだけでは、必ず再起動したとは限りません。`failureThreshold` へ達する前に成功すれば連続失敗は途切れます。`Killing`、`restartCount`、`lastState`を合わせて[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -159,7 +159,7 @@ kubectl logs <Pod名> -n <名前空間> \
 
 現在の[ログ](/glossary/ログ/)だけを見ると、再起動後の正常な起動しか残っていない場合があります。`--previous` は直前に終了した[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)を取る指定です。
 
-第三に、現在適用されているprobe[設定](/glossary/設定/)を確認します。
+第三に、現在適用されているprobe[設定](/glossary/設定/)を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o yaml
@@ -167,7 +167,7 @@ kubectl get pod <Pod名> -n <名前空間> -o yaml
 
 DeploymentやHelm valuesだけでなく、作成済みPodの値を見ます。chartの既定値、mutating admission、環境別overrideによって、想定と実値が違う場合があります。
 
-第四に、probeと同じ経路を確認します。[HTTP](/glossary/http/)とTCP probeはkubeletがNode側からPod IPへ接続します。[コンテナ](/glossary/コンテナ/)内の `localhost` で成功しても、Pod IPのportで待ち受けていなければprobeは失敗します。
+第四に、probeと同じ経路を[確認](/glossary/確認/)します。[HTTP](/glossary/http/)とTCP probeはkubeletがNode側からPod IPへ接続します。[コンテナ](/glossary/コンテナ/)内の `localhost` で成功しても、Pod IPのportで待ち受けていなければprobeは失敗します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
@@ -175,7 +175,7 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
   sh -c 'ss -lnt || netstat -lnt'
 ```
 
-probe用[URL](/glossary/url/)をService名へ置き換えて確認すると、実際のprobeと別経路になります。[イベント](/glossary/イベント/)に表示されたPod IP、path、port、schemeを基準にします。
+probe用[URL](/glossary/url/)をService名へ置き換えて[確認](/glossary/確認/)すると、実際のprobeと別経路になります。[イベント](/glossary/イベント/)に表示されたPod IP、path、port、schemeを基準にします。
 
 ## よくある原因と解決手順
 
@@ -214,7 +214,7 @@ livenessProbe:
 
 名前付きportを使うと、port番号の変更時にprobeだけ古く残る事故を減らせます。[gRPC](/glossary/grpc/) probeの `port` には名前を使えないため、数値で指定します。
 
-[HTTP](/glossary/http/) statusが404なら、portには到達しています。path、アプリのbase path、reverse proxyを通さない直接接続でそのpathが存在するかを確認します。
+[HTTP](/glossary/http/) statusが404なら、portには到達しています。path、アプリのbase path、reverse proxyを通さない直接接続でそのpathが存在するかを[確認](/glossary/確認/)します。
 
 ### 原因2：アプリがlocalhostだけで待ち受けている
 
@@ -230,14 +230,14 @@ livenessProbe:
 0.0.0.0:8080
 ```
 
-アプリの設定名は言語やWeb[サーバー](/glossary/サーバー/)ごとに違います。起動[ログ](/glossary/ログ/)と次の結果で、実際の待受アドレスを確認します。
+アプリの設定名は言語やWeb[サーバー](/glossary/サーバー/)ごとに違います。起動[ログ](/glossary/ログ/)と次の結果で、実際の待受アドレスを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
   sh -c 'ss -lnt || netstat -lnt'
 ```
 
-[コンテナ](/glossary/コンテナ/)内だけで確認する必要があるなら `exec` probeも選択肢ですが、単に[設定](/glossary/設定/)ミスを隠すために変更しないでください。実際の利用者がPod[ネットワーク](/glossary/ネットワーク/)経由で接続するなら、その経路で成功する必要があります。
+[コンテナ](/glossary/コンテナ/)内だけで[確認](/glossary/確認/)する必要があるなら `exec` probeも選択肢ですが、単に[設定](/glossary/設定/)ミスを隠すために変更しないでください。実際の利用者がPod[ネットワーク](/glossary/ネットワーク/)経由で接続するなら、その経路で成功する必要があります。
 
 ### 原因3：起動完了前にliveness probeが始まる
 
@@ -272,14 +272,14 @@ Liveness probe failed: Get "http://10.244.1.17:8080/livez":
 context deadline exceeded
 ```
 
-まずprobe endpointの処理時間と資源使用量を確認します。
+まずprobe endpointの処理時間と資源使用量を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl top pod <Pod名> -n <名前空間> --containers
 kubectl describe pod <Pod名> -n <名前空間>
 ```
 
-endpointがDB問い合わせや大きな計算をしているなら、単純で軽い判定へ変更します。正常時でも1秒を超え得ることが確認できた場合は、実測に基づいて `timeoutSeconds` と `failureThreshold` を調整します。
+endpointがDB問い合わせや大きな計算をしているなら、単純で軽い判定へ変更します。正常時でも1秒を超え得ることが[確認](/glossary/確認/)できた場合は、実測に基づいて `timeoutSeconds` と `failureThreshold` を調整します。
 
 ```yaml
 livenessProbe:
@@ -327,7 +327,7 @@ probeは通常の利用者[ログイン](/glossary/ログイン/)を行いませ
 Liveness probe failed: HTTP probe failed with statuscode: 401
 ```
 
-probe専用の最小endpointを用意し、Nodeからの確認に必要な条件だけを返します。
+probe専用の最小endpointを用意し、Nodeからの[確認](/glossary/確認/)に必要な条件だけを返します。
 
 ```yaml
 livenessProbe:
@@ -417,7 +417,7 @@ liveness: 再起動しなければ回復できないか
 
 ### Readiness probe failed
 
-readiness失敗では[コンテナ](/glossary/コンテナ/)を終了しません。Podの `Ready` conditionをFalseにし、該当Serviceの通常転送先から外します。`RESTARTS` が増えているなら、liveness、アプリ自身の終了、OOMKilledなど別の理由を確認します。
+readiness失敗では[コンテナ](/glossary/コンテナ/)を終了しません。Podの `Ready` conditionをFalseにし、該当Serviceの通常転送先から外します。`RESTARTS` が増えているなら、liveness、アプリ自身の終了、OOMKilledなど別の理由を[確認](/glossary/確認/)します。
 
 ### Startup probe failed
 
@@ -434,7 +434,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### CrashLoopBackOff
 
-短時間の終了と再起動が続き、kubeletが次の再起動まで待っている状態です。livenessが原因になることもありますが、アプリの終了、設定不足、command失敗などでも起きます。`Liveness probe failed` と `Killing` の[イベント](/glossary/イベント/)を確認して原因を結びます。
+短時間の終了と再起動が続き、kubeletが次の再起動まで待っている状態です。livenessが原因になることもありますが、アプリの終了、設定不足、command失敗などでも起きます。`Liveness probe failed` と `Killing` の[イベント](/glossary/イベント/)を[確認](/glossary/確認/)して原因を結びます。
 
 ### Podの再作成
 
@@ -442,27 +442,27 @@ liveness失敗は通常、同じPod内の[コンテナ](/glossary/コンテナ/)
 
 ## 切り分けの順序
 
-1. `kubectl describe pod` で `Liveness probe failed` の末尾を確認する。
-2. `Killing` [イベント](/glossary/イベント/)と `restartCount` を確認し、閾値到達後の再起動かを確定する。
+1. `kubectl describe pod` で `Liveness probe failed` の末尾を[確認](/glossary/確認/)する。
+2. `Killing` [イベント](/glossary/イベント/)と `restartCount` を[確認](/glossary/確認/)し、閾値到達後の再起動かを確定する。
 3. `kubectl logs --previous` で終了直前のアプリログを取得する。
-4. 作成済みPodからpath、port、scheme、timeout、各thresholdを確認する。
-5. `connection refused` なら待受portとアドレス、404ならpath、401・403なら認証条件を確認する。
-6. timeoutならprobe処理時間、[CPU](/glossary/cpu/)、memory、Node負荷を確認する。
+4. 作成済みPodからpath、port、scheme、timeout、各thresholdを[確認](/glossary/確認/)する。
+5. `connection refused` なら待受portとアドレス、404ならpath、401・403なら認証条件を[確認](/glossary/確認/)する。
+6. timeoutならprobe処理時間、[CPU](/glossary/cpu/)、memory、Node負荷を[確認](/glossary/確認/)する。
 7. 起動中だけ失敗するなら `startupProbe` を追加する。
 8. 外部依存の一時障害をliveness条件から外し、必要ならreadinessへ分離する。
-9. `restartPolicy` と終了猶予を確認する。
-10. 修正後、[イベント](/glossary/イベント/)の最終時刻、`restartCount`、Ready状態を[継続](/glossary/継続/)して確認する。
+9. `restartPolicy` と終了猶予を[確認](/glossary/確認/)する。
+10. 修正後、[イベント](/glossary/イベント/)の最終時刻、`restartCount`、Ready状態を[継続](/glossary/継続/)して[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
-Podの状態と再起動回数を確認します。
+Podの状態と再起動回数を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
 kubectl describe pod <Pod名> -n <名前空間>
 ```
 
-終了理由を[コンテナ](/glossary/コンテナ/)ごとに確認します。
+終了理由を[コンテナ](/glossary/コンテナ/)ごとに[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -479,7 +479,7 @@ kubectl logs <Pod名> -n <名前空間> -c <コンテナ名> \
   --timestamps > liveness-current.log
 ```
 
-probe[設定](/glossary/設定/)だけを確認します。
+probe[設定](/glossary/設定/)だけを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -494,13 +494,13 @@ kubectl get events -n <名前空間> \
   --sort-by=.lastTimestamp
 ```
 
-資源使用量を確認します。Metrics Serverなどが必要です。
+資源使用量を[確認](/glossary/確認/)します。Metrics Serverなどが必要です。
 
 ```bash
 kubectl top pod <Pod名> -n <名前空間> --containers
 ```
 
-Deploymentのrollout後に、新しいPodの状態を確認します。
+Deploymentのrollout後に、新しいPodの状態を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl rollout status deployment/<Deployment名> -n <名前空間>
@@ -523,4 +523,4 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

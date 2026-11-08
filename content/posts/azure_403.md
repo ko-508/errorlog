@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Azure リソースへのアクセスが拒否されたことを示す [HTTP](/glossary/http/) 403 [エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)は、ユーザーや[アプリケーション](/glossary/アプリケーション/)が[認証](/glossary/認証/)には成功（401 ではなく）したものの、対象リソースに対する**操作権限がない**ことを意味します。Azure では [RBAC](/glossary/rbac/)（ロールベースアクセス制御）、Azure Policy、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)などの複数のレイヤーで[権限](/glossary/権限/)チェックが行われるため、403 が頻繁に発生します。
+Azure [リソース](/glossary/リソース/)へのアクセスが拒否されたことを示す [HTTP](/glossary/http/) 403 [エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)は、[ユーザー](/glossary/ユーザー/)や[アプリケーション](/glossary/アプリケーション/)が[認証](/glossary/認証/)には成功（401 ではなく）したものの、対象[リソース](/glossary/リソース/)に対する**操作権限がない**ことを意味します。Azure では [RBAC](/glossary/rbac/)（ロールベースアクセス制御）、Azure Policy、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)などの複数のレイヤーで[権限](/glossary/権限/)チェックが行われるため、403 が頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -38,7 +38,7 @@ does not have authorization to perform action 'Microsoft.Compute/virtualMachines
 
 ### 原因 1：RBAC で必要なロールが割り当てられていない
 
-Azure [RBAC](/glossary/rbac/) により、ユーザーやサービスプリンシパルに対して明示的に[ロール](/glossary/ロール/)を割り当てない限り、リソースへの操作は拒否されます。例えば、仮想マシンの作成には「仮想マシン共同作成者」や「共同作成者」[ロール](/glossary/ロール/)が必要です。[サブスクリプション](/glossary/サブスクリプション/)やリソースグループレベルで[ロール](/glossary/ロール/)が割り当てられていなければ、その配下のすべてのリソース操作が 403 で拒否されます。
+Azure [RBAC](/glossary/rbac/) により、[ユーザー](/glossary/ユーザー/)やサービスプリンシパルに対して明示的に[ロール](/glossary/ロール/)を割り当てない限り、[リソース](/glossary/リソース/)への操作は拒否されます。例えば、仮想マシンの作成には「仮想マシン共同作成者」や「共同作成者」[ロール](/glossary/ロール/)が必要です。[サブスクリプション](/glossary/サブスクリプション/)やリソースグループレベルで[ロール](/glossary/ロール/)が割り当てられていなければ、その配下のすべての[リソース](/glossary/リソース/)操作が 403 で拒否されます。
 
 **修正例：**
 
@@ -61,7 +61,7 @@ $ az vm create \
 
 ### 原因 2：Azure Policy が操作を制限している
 
-Azure Policy により、特定の操作やリソースタイプの作成が組織レベルで制限されていることがあります。例えば、「[本番環境](/glossary/本番環境/)では D シリーズ以上の VM のみ許可」といった[ポリシー](/glossary/ポリシー/)が適用されている場合、B シリーズ VM の作成は 403 で拒否されます。ユーザーが十分な [RBAC](/glossary/rbac/) [権限](/glossary/権限/)を持っていても、Policy の制約により操作は失敗します。
+Azure Policy により、特定の操作やリソースタイプの作成が組織レベルで制限されていることがあります。例えば、「[本番環境](/glossary/本番環境/)では D シリーズ以上の VM のみ許可」といった[ポリシー](/glossary/ポリシー/)が適用されている場合、B シリーズ VM の作成は 403 で拒否されます。[ユーザー](/glossary/ユーザー/)が十分な [RBAC](/glossary/rbac/) [権限](/glossary/権限/)を持っていても、Policy の制約により操作は失敗します。
 
 **修正例：**
 
@@ -86,7 +86,7 @@ $ az storage account create \
 
 ### 原因 3：リソースのネットワーク設定でアクセスが制限されている
 
-リソースが仮想[ネットワーク](/glossary/ネットワーク/)内に配置されていたり、プライベートエンドポイント経由のアクセスのみに制限されていたり、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)で特定の IP 範囲のみを許可しているケースです。管理者側の [RBAC](/glossary/rbac/) は正しくても、ネットワークレベルで接続そのものが遮断されると、403 で拒否されます。例えば、Azure [SQL](/glossary/sql/) Database に[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)があり、[クライアント](/glossary/クライアント/) IP が許可リストに含まれていない場合、認証後も操作は 403 となります。
+[リソース](/glossary/リソース/)が仮想[ネットワーク](/glossary/ネットワーク/)内に配置されていたり、プライベートエンドポイント経由のアクセスのみに制限されていたり、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)で特定の IP 範囲のみを許可しているケースです。管理者側の [RBAC](/glossary/rbac/) は正しくても、ネットワークレベルで接続そのものが遮断されると、403 で拒否されます。例えば、Azure [SQL](/glossary/sql/) Database に[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)があり、[クライアント](/glossary/クライアント/) IP が許可リストに含まれていない場合、認証後も操作は 403 となります。
 
 **修正例：**
 
@@ -114,7 +114,7 @@ $ az sql db show \
 ## ツール固有の注意点
 
 **Azure Portal での [RBAC](/glossary/rbac/) 確認方法**：
-リソースに対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を[設定](/glossary/設定/)することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal でリソースを選択し、左側メニューから「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを確認」をクリックすることで、現在の割り当て状況を視覚的に確認できます。
+[リソース](/glossary/リソース/)に対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を[設定](/glossary/設定/)することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal で[リソース](/glossary/リソース/)を選択し、左側メニューから「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを[確認](/glossary/確認/)」をクリックすることで、現在の割り当て状況を視覚的に[確認](/glossary/確認/)できます。
 
 **Azure [CLI](/glossary/cli/) での権限確認[コマンド](/glossary/コマンド/)**：
 ```bash
@@ -130,7 +130,7 @@ $ az role assignment list \
 ```
 
 **マネージドアイデンティティの場合**：
-Azure VM や App Service などがマネージドアイデンティティを使用する場合、そのマネージドアイデンティティに対して [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。サービスプリンシパルの[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/)（通常は Azure AD 上の名前）を確認し、同様に `az role assignment create` で[ロール](/glossary/ロール/)割り当てを行います。
+Azure VM や App Service などがマネージドアイデンティティを使用する場合、そのマネージドアイデンティティに対して [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)を割り当てる必要があります。サービスプリンシパルの[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/)（通常は Azure AD 上の名前）を[確認](/glossary/確認/)し、同様に `az role assignment create` で[ロール](/glossary/ロール/)割り当てを行います。
 
 **Terraform での [RBAC](/glossary/rbac/) 設定例**：
 ```hcl
@@ -144,7 +144,7 @@ resource "azurerm_role_assignment" "example" {
 
 ## それでも解決しない場合
 
-Azure のアクティビティログを確認し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
+Azure のアクティビティログを[確認](/glossary/確認/)し、より詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
 
 ```bash
 # Azure Activity Log からエラーの詳細を検索
@@ -154,12 +154,12 @@ $ az monitor activity-log list \
   --output table
 ```
 
-Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、[対応](/glossary/対応/)するログエントリを[検索](/glossary/検索/)し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を確認することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
+Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、[対応](/glossary/対応/)するログエントリを[検索](/glossary/検索/)し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
 
-サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で確認できます。
+サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で[確認](/glossary/確認/)できます。
 
 最新の Azure [RBAC](/glossary/rbac/) [ロール](/glossary/ロール/)定義や Policy については、[Microsoft Learn - Azure RBAC のドキュメント](https://learn.microsoft.com/ja-jp/azure/role-based-access-control/)および [Azure Policy の公式ページ](https://learn.microsoft.com/ja-jp/azure/governance/policy/)を参照してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

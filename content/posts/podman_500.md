@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman 500 [エラー](/glossary/エラー/)は、Podman [デーモン](/glossary/デーモン/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[ストレージ](/glossary/ストレージ/)破損、ディスク容量不足、権限問題によって発生することが多く、[コンテナ](/glossary/コンテナ/)の起動・管理・[削除](/glossary/削除/)といった基本的な操作が失敗します。この[エラー](/glossary/エラー/)が発生した場合、Podman の[ストレージ](/glossary/ストレージ/)とシステムリソースの状態を段階的に確認する必要があります。
+Podman 500 [エラー](/glossary/エラー/)は、Podman [デーモン](/glossary/デーモン/)で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[ストレージ](/glossary/ストレージ/)破損、ディスク容量不足、権限問題によって発生することが多く、[コンテナ](/glossary/コンテナ/)の起動・管理・[削除](/glossary/削除/)といった基本的な操作が失敗します。この[エラー](/glossary/エラー/)が発生した場合、Podman の[ストレージ](/glossary/ストレージ/)とシステムリソースの状態を段階的に[確認](/glossary/確認/)する必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -37,7 +37,7 @@ Error: error creating container storage: mkdir /var/lib/containers/storage/overl
 
 Podman のストレージディレクトリ（通常 `/var/lib/containers/storage`）の[容量](/glossary/容量/)がいっぱいになると、新しいレイヤーやコンテナメタデータの書き込みに失敗し、500 [エラー](/glossary/エラー/)が発生します。
 
-**原因の確認：**
+**原因の[確認](/glossary/確認/)：**
 
 ```bash
 df -h /var/lib/containers
@@ -162,12 +162,12 @@ systemctl restart podman
 podman ps  # /var/lib/containers/ 使用
 ```
 
-**Rootless（一般ユーザーで実行）：**
+**Rootless（一般[ユーザー](/glossary/ユーザー/)で実行）：**
 ```bash
 podman ps  # ~/.local/share/containers/ 使用
 ```
 
-Rootless [環境](/glossary/環境/)での[ストレージ](/glossary/ストレージ/)破損の場合、該当ユーザーのホームディレクトリを確認してください。
+Rootless [環境](/glossary/環境/)での[ストレージ](/glossary/ストレージ/)破損の場合、該当[ユーザー](/glossary/ユーザー/)のホームディレクトリを[確認](/glossary/確認/)してください。
 
 ```bash
 du -sh ~/.local/share/containers/
@@ -196,7 +196,7 @@ systemctl --user reset-failed
 
 ### ログを確認する
 
-Podman [デーモン](/glossary/デーモン/)のジャーナルログを確認します。
+Podman [デーモン](/glossary/デーモン/)のジャーナルログを[確認](/glossary/確認/)します。
 
 ```bash
 # Systemd 管理下の Podman
@@ -237,4 +237,4 @@ podman system reset --force
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ conclusion: "Grafana の 400 エラーは、API リクエストの JSON 形式�
 
 ## エラーの概要
 
-Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式や内容が Grafana の[仕様](/glossary/仕様/)に合致していないことを示します。[ダッシュボード](/glossary/ダッシュボード/)作成、アラートルール[設定](/glossary/設定/)、データソース[登録](/glossary/登録/)など、[API](/glossary/api/) 経由で Grafana を操作する際に頻繁に発生します。この[エラー](/glossary/エラー/)が出た場合、[リクエスト](/glossary/リクエスト/)自体が Grafana [サーバー](/glossary/サーバー/)に正しく理解されていないため、[レスポンス](/glossary/レスポンス/)の詳細メッセージを確認することが解決の第一歩となります。
+Grafana の 400 Bad Request [エラー](/glossary/エラー/)は、[API](/glossary/api/) へ[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の形式や内容が Grafana の[仕様](/glossary/仕様/)に合致していないことを示します。[ダッシュボード](/glossary/ダッシュボード/)作成、アラートルール[設定](/glossary/設定/)、データソース[登録](/glossary/登録/)など、[API](/glossary/api/) 経由で Grafana を操作する際に頻繁に発生します。この[エラー](/glossary/エラー/)が出た場合、[リクエスト](/glossary/リクエスト/)自体が Grafana [サーバー](/glossary/サーバー/)に正しく理解されていないため、[レスポンス](/glossary/レスポンス/)の詳細メッセージを[確認](/glossary/確認/)することが解決の第一歩となります。
 
 ## 実際のエラーメッセージ例
 
@@ -245,21 +245,21 @@ curl -X POST http://localhost:3000/api/datasources \
 
 **Grafana [バージョン](/glossary/バージョン/)差異への[対応](/glossary/対応/)**
 
-Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) ドキュメントを使用している Grafana [バージョン](/glossary/バージョン/)に合わせて確認してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
+Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) ドキュメントを使用している Grafana [バージョン](/glossary/バージョン/)に合わせて[確認](/glossary/確認/)してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
 
 **[エラーメッセージ](/glossary/エラーメッセージ/)の詳細確認**
 
 [エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)には、問題箇所を指す有用な情報が含まれています。例えば `"missing required field \"title\""` と表示されれば、その時点で[ダッシュボード](/glossary/ダッシュボード/) の title [フィールド](/glossary/フィールド/)が不足していることが直ちに判明します。
 
-**Content-Type [ヘッダー](/glossary/ヘッダー/)の確認**
+**Content-Type [ヘッダー](/glossary/ヘッダー/)の[確認](/glossary/確認/)**
 
 [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)送信時は必ず `Content-Type: application/json` [ヘッダー](/glossary/ヘッダー/)を付与してください。この[ヘッダー](/glossary/ヘッダー/)がないと、Grafana が[リクエストボディ](/glossary/リクエストボディ/)を [JSON](/glossary/json/) と認識せず、パースエラーが発生します。
 
 ## それでも解決しない場合
 
-**1. Grafana [ログファイル](/glossary/ログファイル/)の確認**
+**1. Grafana [ログファイル](/glossary/ログファイル/)の[確認](/glossary/確認/)**
 
-Grafana [サーバー](/glossary/サーバー/)の[ログファイル](/glossary/ログファイル/)（通常 `/var/log/grafana/grafana.log` または `<grafana-installation>/data/log/grafana.log`）を確認してください。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の詳細なバリデーションエラーが記録されている場合があります。
+Grafana [サーバー](/glossary/サーバー/)の[ログファイル](/glossary/ログファイル/)（通常 `/var/log/grafana/grafana.log` または `<grafana-installation>/data/log/grafana.log`）を[確認](/glossary/確認/)してください。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の詳細なバリデーションエラーが記録されている場合があります。
 
 ```bash
 tail -f /var/log/grafana/grafana.log | grep "Bad Request"
@@ -267,7 +267,7 @@ tail -f /var/log/grafana/grafana.log | grep "Bad Request"
 
 **2. [API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の[デバッグ](/glossary/デバッグ/)**
 
-`curl` [コマンド](/glossary/コマンド/)に `-v` フラグを追加し、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の全詳細を確認してください。
+`curl` [コマンド](/glossary/コマンド/)に `-v` フラグを追加し、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の全詳細を[確認](/glossary/確認/)してください。
 
 ```bash
 curl -v -X POST http://localhost:3000/api/dashboards/db \
@@ -276,7 +276,7 @@ curl -v -X POST http://localhost:3000/api/dashboards/db \
   -d @dashboard.json
 ```
 
-**3. 公式ドキュメントの確認**
+**3. 公式ドキュメントの[確認](/glossary/確認/)**
 
 Grafana 公式の [API](/glossary/api/) ドキュメント（https://grafana.com/docs/grafana/latest/developers/http_api/）では、各エンドポイントごとに必須フィールド、リクエスト形式、レスポンス例が詳述されています。使用しているエンドポイントに対応するセクションを確認し、自身のリクエスト形式と比較してください。
 
@@ -286,4 +286,4 @@ Grafana 公式の [API](/glossary/api/) ドキュメント（https://grafana.com
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/) の 403 [エラー](/glossary/エラー/)は「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、そのリソースに対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、リソースの取得・[更新](/glossary/更新/)・[削除](/glossary/削除/)など、特定の操作が[セキュリティポリシー](/glossary/セキュリティポリシー/)により拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl [コマンド](/glossary/コマンド/)実行時に頻繁に発生します。
+[Kubernetes](/glossary/kubernetes/) の 403 [エラー](/glossary/エラー/)は「Forbidden」を意味し、[リクエスト](/glossary/リクエスト/)の[認証](/glossary/認証/)は成功しているものの、その[リソース](/glossary/リソース/)に対する操作権限（[RBAC](/glossary/rbac/): Role-Based Access Control）がないことを示します。Pod の実行、[リソース](/glossary/リソース/)の取得・[更新](/glossary/更新/)・[削除](/glossary/削除/)など、特定の操作が[セキュリティポリシー](/glossary/セキュリティポリシー/)により拒否された状態です。[API](/glossary/api/) [サーバー](/glossary/サーバー/)や[マニフェスト](/glossary/マニフェスト/)適用時、kubectl [コマンド](/glossary/コマンド/)実行時に頻繁に発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -43,7 +43,7 @@ Error from server (Forbidden): pods "my-pod" is forbidden: User "system:servicea
 
 ### 原因1: ServiceAccount に適切な Role が割り当てられていない
 
-ServiceAccount は [Kubernetes](/glossary/kubernetes/) 内の[アカウント](/glossary/アカウント/)であり、Pod がリソースにアクセスする際に使用されます。この[アカウント](/glossary/アカウント/)に必要な[権限](/glossary/権限/)を持つ Role が紐付けられていない場合、403 [エラー](/glossary/エラー/)が発生します。
+ServiceAccount は [Kubernetes](/glossary/kubernetes/) 内の[アカウント](/glossary/アカウント/)であり、Pod が[リソース](/glossary/リソース/)にアクセスする際に使用されます。この[アカウント](/glossary/アカウント/)に必要な[権限](/glossary/権限/)を持つ Role が紐付けられていない場合、403 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -173,7 +173,7 @@ subjects:
 
 ### 原因3: 必要な API グループが Role に指定されていない
 
-[Kubernetes](/glossary/kubernetes/) リソースは [API](/glossary/api/) グループ（例: `apps`, `batch`, `networking.k8s.io`）に属しており、Role で適切な [API](/glossary/api/) グループを指定しなければアクセスできません。`apiGroups: [""]` は core [API](/glossary/api/) グループのみを対象とするため、拡張リソースには無効です。
+[Kubernetes](/glossary/kubernetes/) [リソース](/glossary/リソース/)は [API](/glossary/api/) グループ（例: `apps`, `batch`, `networking.k8s.io`）に属しており、Role で適切な [API](/glossary/api/) グループを指定しなければアクセスできません。`apiGroups: [""]` は core [API](/glossary/api/) グループのみを対象とするため、拡張[リソース](/glossary/リソース/)には無効です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -214,7 +214,7 @@ rules:
 
 ### 原因4: デフォルト ServiceAccount が使用されている
 
-Pod 定義で `serviceAccountName` を明示的に指定しない場合、[デフォルト](/glossary/デフォルト/)の `default` ServiceAccount が使用されます。この `default` [アカウント](/glossary/アカウント/)には通常、リソースへの[アクセス権限](/glossary/アクセス権限/)がないため、403 [エラー](/glossary/エラー/)が発生します。
+Pod 定義で `serviceAccountName` を明示的に指定しない場合、[デフォルト](/glossary/デフォルト/)の `default` ServiceAccount が使用されます。この `default` [アカウント](/glossary/アカウント/)には通常、[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)がないため、403 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -348,7 +348,7 @@ subjects:
 
 ### kubectl auth can-i コマンドで権限を確認
 
-特定の ServiceAccount が特定の[アクション](/glossary/アクション/)を実行可能か事前に確認できます。
+特定の ServiceAccount が特定の[アクション](/glossary/アクション/)を実行可能か事前に[確認](/glossary/確認/)できます。
 
 ```bash
 kubectl auth can-i create deployments --as=system:serviceaccount:default:app-account -n default
@@ -358,7 +358,7 @@ kubectl auth can-i create deployments --as=system:serviceaccount:default:app-acc
 
 ### API サーバーのログを確認
 
-Cluster 管理者は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を調査して詳細な拒否理由を確認できます。
+Cluster 管理者は [API](/glossary/api/) [サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を調査して詳細な拒否理由を[確認](/glossary/確認/)できます。
 
 ```bash
 kubectl logs -n kube-system -l component=kube-apiserver | grep "Forbidden"
@@ -366,7 +366,7 @@ kubectl logs -n kube-system -l component=kube-apiserver | grep "Forbidden"
 
 ### kubectl describe で Role / RoleBinding を確認
 
-定義されている Role や RoleBinding が正しく参照されているか確認します。
+定義されている Role や RoleBinding が正しく参照されているか[確認](/glossary/確認/)します。
 
 ```bash
 kubectl describe rolebinding app-rolebinding -n default
@@ -381,4 +381,4 @@ kubectl describe role app-role -n default
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

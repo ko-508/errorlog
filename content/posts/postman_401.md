@@ -175,7 +175,7 @@ Token: {{api_token}}
 2. 使用している[環境](/glossary/環境/)を選択（なければ「Create」で新規作成）
 3. 認証情報を格納する[変数](/glossary/変数/)を追加（例：`api_token`、`api_key`）
 4. 「Current Value」に実際の[トークン](/glossary/トークン/)値を入力して[保存](/glossary/保存/)
-5. [リクエスト](/glossary/リクエスト/)画面右上の[環境](/glossary/環境/)セレクタで、今セットした[環境](/glossary/環境/)が選択されているか確認
+5. [リクエスト](/glossary/リクエスト/)画面右上の[環境](/glossary/環境/)セレクタで、今セットした[環境](/glossary/環境/)が選択されているか[確認](/glossary/確認/)
 6. [リクエスト](/glossary/リクエスト/)のAuthorizationタブで、プレースホルダー構文 `{{variable_name}}` を使用
 
 ## Postman固有の注意点
@@ -190,11 +190,11 @@ Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value
 
 以下の確認手順を実施してください：
 
-**ネットワークトラフィックを確認**
-Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」[ボタン](/glossary/ボタン/)）、[送信](/glossary/送信/)されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを確認します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく[送信](/glossary/送信/)されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
+**ネットワークトラフィックを[確認](/glossary/確認/)**
+Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」[ボタン](/glossary/ボタン/)）、[送信](/glossary/送信/)されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを[確認](/glossary/確認/)します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく[送信](/glossary/送信/)されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
 
 **[API](/glossary/api/)ドキュメントを再確認**
-認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて確認します。
+認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて[確認](/glossary/確認/)します。
 
 **[テスト](/glossary/テスト/)用[API](/glossary/api/)[キー](/glossary/キー/)を使用**
 [本番環境](/glossary/本番環境/)の[API](/glossary/api/)[キー](/glossary/キー/)ではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)[キー](/glossary/キー/)が別途提供されている場合、それを使用して401が解消するか試してください。本番[キー](/glossary/キー/)に[権限](/glossary/権限/)がない可能性も考慮します。
@@ -207,4 +207,4 @@ Postmanの公式サポートサイト（https://learning.postman.com/docs/sendin
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

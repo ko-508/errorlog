@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-GitLab で 401 Unauthorized [エラー](/glossary/エラー/)が発生する場合、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)が[認証](/glossary/認証/)されていない、または認証情報が無効であることを示しています。GitLab [API](/glossary/api/) へのアクセス、[Git](/glossary/git/) クローン、パイプラインからのリソース取得など、[認証](/glossary/認証/)が必要な操作全般で発生する可能性があります。この[エラー](/glossary/エラー/)が出た場合、提供された[トークン](/glossary/トークン/)や認証情報を確認し、それらの有効性と形式を検証する必要があります。
+GitLab で 401 Unauthorized [エラー](/glossary/エラー/)が発生する場合、[クライアント](/glossary/クライアント/)からの[リクエスト](/glossary/リクエスト/)が[認証](/glossary/認証/)されていない、または認証情報が無効であることを示しています。GitLab [API](/glossary/api/) へのアクセス、[Git](/glossary/git/) クローン、パイプラインからの[リソース](/glossary/リソース/)取得など、[認証](/glossary/認証/)が必要な操作全般で発生する可能性があります。この[エラー](/glossary/エラー/)が出た場合、提供された[トークン](/glossary/トークン/)や認証情報を[確認](/glossary/確認/)し、それらの有効性と形式を検証する必要があります。
 
 ## 実際のエラーメッセージ例
 
@@ -153,7 +153,7 @@ api_test:
 
 **Deploy Token との区別：**
 
-GitLab には「Deploy Token」という別種の[トークン](/glossary/トークン/)もあります。これは[プロジェクト](/glossary/プロジェクト/)単位で発行されるもので、パーソナルアクセストークンとは[スコープ](/glossary/スコープ/)と有効期限管理が異なります。[CI/CD](/glossary/ci-cd/) パイプラインで依存パッケージレジストリからの読み込みが必要な場合、Deploy Token が有効期限切れになっていないか確認してください。
+GitLab には「Deploy Token」という別種の[トークン](/glossary/トークン/)もあります。これは[プロジェクト](/glossary/プロジェクト/)単位で発行されるもので、パーソナルアクセストークンとは[スコープ](/glossary/スコープ/)と有効期限管理が異なります。[CI/CD](/glossary/ci-cd/) パイプラインで依存パッケージレジストリからの読み込みが必要な場合、Deploy Token が有効期限切れになっていないか[確認](/glossary/確認/)してください。
 
 **Self-hosted GitLab での [SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)：**
 
@@ -161,7 +161,7 @@ GitLab には「Deploy Token」という別種の[トークン](/glossary/トー
 
 ## それでも解決しない場合
 
-**GitLab [インスタンス](/glossary/インスタンス/)の[アクセスログ](/glossary/アクセスログ/)を確認：**
+**GitLab [インスタンス](/glossary/インスタンス/)の[アクセスログ](/glossary/アクセスログ/)を[確認](/glossary/確認/)：**
 
 self-hosted GitLab の場合、[サーバー](/glossary/サーバー/)の `/var/log/gitlab/gitlab-rails/production.log` に詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が記録されています。
 
@@ -171,7 +171,7 @@ sudo tail -f /var/log/gitlab/gitlab-rails/production.log | grep 401
 
 **[トークン](/glossary/トークン/)の有効性を[スクリプト](/glossary/スクリプト/)で検証：**
 
-以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効か即座に確認できます。
+以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効か即座に[確認](/glossary/確認/)できます。
 
 ```bash
 TOKEN="glpat-xxxxxxxxxxxx"
@@ -187,7 +187,7 @@ curl -s -H "PRIVATE-TOKEN: ${TOKEN}" \
 
 **[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)での環境変数確認：**
 
-パイプラインスクリプト内で `CI_JOB_TOKEN` が正しく[設定](/glossary/設定/)されているか、以下で確認します。
+パイプラインスクリプト内で `CI_JOB_TOKEN` が正しく[設定](/glossary/設定/)されているか、以下で[確認](/glossary/確認/)します。
 
 ```bash
 # .gitlab-ci.yml内
@@ -198,8 +198,8 @@ script:
 
 **公式ドキュメントと最新情報：**
 
-GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)[仕様](/glossary/仕様/)は定期的に[更新](/glossary/更新/)されます。公式ドキュメント（https://docs.gitlab.com/ee/api/#authentication）と、プロジェクトの Release Notes で最新情報を確認してください。特にマイナーバージョンアップ後は認証方式の非推奨化がないか確認することをお勧めします。
+GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)[仕様](/glossary/仕様/)は定期的に[更新](/glossary/更新/)されます。公式ドキュメント（https://docs.gitlab.com/ee/api/#authentication）と、プロジェクトの Release Notes で最新情報を[確認](/glossary/確認/)してください。特にマイナーバージョンアップ後は認証方式の非推奨化がないか[確認](/glossary/確認/)することをお勧めします。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

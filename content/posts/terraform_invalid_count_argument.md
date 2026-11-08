@@ -16,21 +16,21 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`terraform plan`で次の[エラー](/glossary/エラー/)が出る場合、`count`に渡した値をリソース数として確定できません。
+`terraform plan`で次の[エラー](/glossary/エラー/)が出る場合、`count`に渡した値を[リソース](/glossary/リソース/)数として確定できません。
 
 ```text
 Error: Invalid count argument
 ```
 
-この見出しだけでは原因は分かりません。直後の説明文を確認してください。主な原因は、適用後でないと決まらない値、`null`、一時値、整数に変換できない値、負数です。
+この見出しだけでは原因は分かりません。直後の説明文を[確認](/glossary/確認/)してください。主な原因は、適用後でないと決まらない値、`null`、一時値、整数に変換できない値、負数です。
 
-最も多いのは、別のリソースを作成した後で決まる[属性](/glossary/属性/)から`count`を計算している場合です。`count`は計画時に[インスタンス](/glossary/インスタンス/)数を確定する必要があるため、入力変数やローカル値など、計画時に分かる値から計算する形へ変更します。
+最も多いのは、別の[リソース](/glossary/リソース/)を作成した後で決まる[属性](/glossary/属性/)から`count`を計算している場合です。`count`は計画時に[インスタンス](/glossary/インスタンス/)数を確定する必要があるため、入力変数やローカル値など、計画時に分かる値から計算する形へ変更します。
 
 ## Invalid count argumentの意味
 
-`count`は、同じリソースや[モジュール](/glossary/モジュール/)を指定した数だけ作るためのメタ[引数](/glossary/引数/)です。たとえば`count = 3`なら、`example[0]`から`example[2]`までの3[インスタンス](/glossary/インスタンス/)が計画されます。
+`count`は、同じ[リソース](/glossary/リソース/)や[モジュール](/glossary/モジュール/)を指定した数だけ作るためのメタ[引数](/glossary/引数/)です。たとえば`count = 3`なら、`example[0]`から`example[2]`までの3[インスタンス](/glossary/インスタンス/)が計画されます。
 
-[Terraform公式のcount文書](https://developer.hashicorp.com/terraform/language/meta-arguments/count)によると、`count`が受け付けるのは整数です。さらに、一般的な[引数](/glossary/引数/)と違い、Terraformが遠隔のリソースを操作する前に値が確定していなければなりません。
+[Terraform公式のcount文書](https://developer.hashicorp.com/terraform/language/meta-arguments/count)によると、`count`が受け付けるのは整数です。さらに、一般的な[引数](/glossary/引数/)と違い、Terraformが遠隔の[リソース](/glossary/リソース/)を操作する前に値が確定していなければなりません。
 
 現在のTerraform実装では、`Invalid count argument`の見出しが複数の検査で共通して使われています。説明文には次のような違いがあります。
 
@@ -65,9 +65,9 @@ The "count" value depends on resource attributes that cannot be determined until
 so Terraform cannot predict how many instances will be created.
 ```
 
-リソースの[ID](/glossary/id/)や、遠隔[API](/glossary/api/)が作成時に返す値は、通常は適用するまで分かりません。その値を直接または間接的に`count`へ渡すと、Terraformは計画に必要な[インスタンス](/glossary/インスタンス/)のアドレスを確定できません。
+[リソース](/glossary/リソース/)の[ID](/glossary/id/)や、遠隔[API](/glossary/api/)が作成時に返す値は、通常は適用するまで分かりません。その値を直接または間接的に`count`へ渡すと、Terraformは計画に必要な[インスタンス](/glossary/インスタンス/)のアドレスを確定できません。
 
-次の例では、`random_integer.replica_count.result`がリソース作成後に決まるため、後続リソースの数を計画時に決められません。
+次の例では、`random_integer.replica_count.result`が[リソース](/glossary/リソース/)作成後に決まるため、後続[リソース](/glossary/リソース/)の数を計画時に決められません。
 
 ```hcl
 resource "random_integer" "replica_count" {
@@ -152,11 +152,11 @@ resource "terraform_data" "additional" {
 }
 ```
 
-値を無条件に0へ丸める前に、負数が[設定](/glossary/設定/)ミスを示していないか確認してください。誤った入力を隠したくない場合は、[変数](/glossary/変数/)の検証規則で0以上を要求する方法が適しています。
+値を無条件に0へ丸める前に、負数が[設定](/glossary/設定/)ミスを示していないか[確認](/glossary/確認/)してください。誤った入力を隠したくない場合は、[変数](/glossary/変数/)の検証規則で0以上を要求する方法が適しています。
 
 ## 一時値と機密値の違い
 
-Terraform 1.10以降では、一時値を[変数](/glossary/変数/)や一時的なリソースで扱えます。一時値は実行中には利用できますが、計画[ファイル](/glossary/ファイル/)や状態[ファイル](/glossary/ファイル/)には[保存](/glossary/保存/)されません。
+Terraform 1.10以降では、一時値を[変数](/glossary/変数/)や一時的な[リソース](/glossary/リソース/)で扱えます。一時値は実行中には利用できますが、計画[ファイル](/glossary/ファイル/)や状態[ファイル](/glossary/ファイル/)には[保存](/glossary/保存/)されません。
 
 ```hcl
 variable "instance_count" {
@@ -179,7 +179,7 @@ resource "terraform_data" "example" {
 
 ## -targetは一時的な回避策として使う
 
-未確定値の説明文には、依存するリソースだけを`-target`で先に適用する回避策が表示されます。
+未確定値の説明文には、依存する[リソース](/glossary/リソース/)だけを`-target`で先に適用する回避策が表示されます。
 
 ```bash
 terraform apply -target=<dependency-address>
@@ -190,28 +190,28 @@ terraform apply
 
 ただし、[terraform planの公式文書](https://developer.hashicorp.com/terraform/cli/commands/plan#resource-targeting)は、`-target`を誤りからの[復旧](/glossary/復旧/)やTerraformの制約を回避する例外的な状況に限るよう案内しています。日常的に使うと、対象外の変更を見落とし、[設定](/glossary/設定/)と実際の状態の関係が分かりにくくなるためです。
 
-`-target`で依存元を適用した後は、必ずオプションなしで`terraform plan`を実行し、構成全体の差分を確認してください。継続的に二段階適用が必要なら、入力変数から個数を決めるか、構成を分割する方法を検討します。
+`-target`で依存元を適用した後は、必ずオプションなしで`terraform plan`を実行し、構成全体の差分を[確認](/glossary/確認/)してください。継続的に二段階適用が必要なら、入力変数から個数を決めるか、構成を分割する方法を検討します。
 
 ## countとfor_eachを使い分ける
 
 `count`と`for_each`は、どちらも複数の[インスタンス](/glossary/インスタンス/)を作るためのメタ[引数](/glossary/引数/)ですが、[インスタンス](/glossary/インスタンス/)の識別方法が異なります。
 
-`count`は0から始まる番号を使い、`example[0]`のように識別します。ほぼ同じ[設定](/glossary/設定/)のリソースを指定数だけ作る場合に向いています。
+`count`は0から始まる番号を使い、`example[0]`のように識別します。ほぼ同じ[設定](/glossary/設定/)の[リソース](/glossary/リソース/)を指定数だけ作る場合に向いています。
 
 `for_each`は対応表の[キー](/glossary/キー/)または文字列集合の要素を使い、`example["api"]`のように識別します。[インスタンス](/glossary/インスタンス/)ごとに名前や[設定](/glossary/設定/)が異なる場合に向いています。
 
 どちらも、遠隔操作の前に[インスタンス](/glossary/インスタンス/)数または[キー](/glossary/キー/)が確定している必要があります。ただし、[for_eachの公式文書](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each#limitations-on-values)は機密値を明示的に禁止しています。[キー](/glossary/キー/)が画面に表示されるためです。`count`は機密値を受け付けますが、個数は表示されます。
 
-同じリソースまたは[モジュール](/glossary/モジュール/)のブロックに、`count`と`for_each`を同時には指定できません。併用時は`Invalid count argument`とは別の[設定](/glossary/設定/)[エラー](/glossary/エラー/)になる可能性があるため、片方だけを選んでください。
+同じ[リソース](/glossary/リソース/)または[モジュール](/glossary/モジュール/)のブロックに、`count`と`for_each`を同時には指定できません。併用時は`Invalid count argument`とは別の[設定](/glossary/設定/)[エラー](/glossary/エラー/)になる可能性があるため、片方だけを選んでください。
 
 ## 解決手順のまとめ
 
-最初に`Invalid count argument`の直後を読み、未確定値、一時値、`null`、変換不能、負数のどれに該当するかを確認します。
+最初に`Invalid count argument`の直後を読み、未確定値、一時値、`null`、変換不能、負数のどれに該当するかを[確認](/glossary/確認/)します。
 
-未確定値なら、適用後に決まるリソース[属性](/glossary/属性/)ではなく、入力変数や設定側の一覧など、計画時に分かる値から個数を計算します。`null`や型の問題は、[変数](/glossary/変数/)へ`type = number`と適切な既定値を[設定](/glossary/設定/)して防ぎます。負数は計算式と入力値を確認し、必要なら0以上になる条件を明示してください。
+未確定値なら、適用後に決まる[リソース](/glossary/リソース/)[属性](/glossary/属性/)ではなく、入力変数や設定側の一覧など、計画時に分かる値から個数を計算します。`null`や型の問題は、[変数](/glossary/変数/)へ`type = number`と適切な既定値を[設定](/glossary/設定/)して防ぎます。負数は計算式と入力値を[確認](/glossary/確認/)し、必要なら0以上になる条件を明示してください。
 
 一時値は計画と適用の間で[保存](/glossary/保存/)されないため、`count`には使用できません。機密値は現在の実装では受け付けられますが、個数が公開される点に注意が必要です。
 
 `-target`は依存元を先に作る一時的な回避策です。使用後は構成全体の`terraform plan`を実行し、恒常的に必要なら[設定](/glossary/設定/)の構造を[修正](/glossary/修正/)してください。
 
-免責事項：本記事の内容は一般的なTerraform構成を前提としています。[本番環境](/glossary/本番環境/)で`terraform apply`や`-target`を実行する前に、状態の保存先、対象リソース、実行計画を確認してください。重要な[環境](/glossary/環境/)では計画[ファイル](/glossary/ファイル/)を[レビュー](/glossary/レビュー/)し、意図しない作成、変更、[削除](/glossary/削除/)が含まれていないことを確認してから適用してください。
+免責事項：本記事の内容は一般的なTerraform構成を前提としています。[本番環境](/glossary/本番環境/)で`terraform apply`や`-target`を実行する前に、状態の保存先、対象[リソース](/glossary/リソース/)、実行計画を[確認](/glossary/確認/)してください。重要な[環境](/glossary/環境/)では計画[ファイル](/glossary/ファイル/)を[レビュー](/glossary/レビュー/)し、意図しない作成、変更、[削除](/glossary/削除/)が含まれていないことを[確認](/glossary/確認/)してから適用してください。

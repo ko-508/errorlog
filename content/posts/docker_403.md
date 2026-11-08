@@ -17,7 +17,7 @@ top_queries:
 ---
 # エラーの概要
 
-[Docker](/glossary/docker/) の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)（[ログイン](/glossary/ログイン/)）には成功したものの、対象のリソース（[イメージ](/glossary/イメージ/)、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内の[アクセス制限](/glossary/アクセス制限/)、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇する[エラー](/glossary/エラー/)です。
+[Docker](/glossary/docker/) の 403 [エラー](/glossary/エラー/)は、[認証](/glossary/認証/)（[ログイン](/glossary/ログイン/)）には成功したものの、対象の[リソース](/glossary/リソース/)（[イメージ](/glossary/イメージ/)、[レジストリ](/glossary/レジストリ/)、ボリューム等）への[アクセス権限](/glossary/アクセス権限/)がないことを示します。これはプライベートリポジトリへのアクセス、組織内の[アクセス制限](/glossary/アクセス制限/)、または不十分な[認証](/glossary/認証/)[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が原因で発生することがほとんどです。[Docker](/glossary/docker/) [CLI](/glossary/cli/)、[Docker](/glossary/docker/) Desktop、または docker push/pull 時に頻繁に遭遇する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -75,7 +75,7 @@ docker pull myusername/private-image:latest
 docker push myrepo/myimage:tag
 ```
 
-認証情報が有効か確認する方法：
+認証情報が有効か[確認](/glossary/確認/)する方法：
 
 ```bash
 # ログイン状態を確認
@@ -88,7 +88,7 @@ docker login
 
 ### 原因2：リポジトリの所有者または権限設定が不一致
 
-なぜ発生するか：[Docker](/glossary/docker/) Hub で[リポジトリ](/glossary/リポジトリ/)を作成した時点の所有者と異なる[アカウント](/glossary/アカウント/)、または組織に属さないユーザーがアクセスしようとすると、権限不足で 403 が返されます。
+なぜ発生するか：[Docker](/glossary/docker/) Hub で[リポジトリ](/glossary/リポジトリ/)を作成した時点の所有者と異なる[アカウント](/glossary/アカウント/)、または組織に属さない[ユーザー](/glossary/ユーザー/)がアクセスしようとすると、権限不足で 403 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる状況）**
 
@@ -108,7 +108,7 @@ Docker Hub Web UI > Repository > Settings > Collaborators
 → ユーザーB を追加し、"Write" 権限を付与
 ```
 
-その後、ユーザーB は以下を実行：
+その後、[ユーザー](/glossary/ユーザー/)B は以下を実行：
 
 ```bash
 docker logout
@@ -162,7 +162,7 @@ spec:
 
 ### Docker Desktop での認証の永続化
 
-[Docker](/glossary/docker/) Desktop（Mac/Windows）では、`~/.docker/config.json` に認証情報が[保存](/glossary/保存/)されますが、Credential Helper を使用している場合、[トークン](/glossary/トークン/)の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：
+[Docker](/glossary/docker/) Desktop（Mac/[Windows](/glossary/windows/)）では、`~/.docker/config.json` に認証情報が[保存](/glossary/保存/)されますが、Credential Helper を使用している場合、[トークン](/glossary/トークン/)の有効期限切れが原因で 403 が発生することがあります。その場合は以下を実行：
 
 ```bash
 # Credential Helper を経由してキャッシュを削除
@@ -185,7 +185,7 @@ services:
 
 ### Docker Registry API での 403
 
-自身が構築したプライベート [Docker](/glossary/docker/) Registry（[Docker](/glossary/docker/) Distribution）にアクセスする場合、Basic [認証](/glossary/認証/)または[トークン](/glossary/トークン/)[認証](/glossary/認証/)が有効か確認：
+自身が構築したプライベート [Docker](/glossary/docker/) Registry（[Docker](/glossary/docker/) Distribution）にアクセスする場合、Basic [認証](/glossary/認証/)または[トークン](/glossary/トークン/)[認証](/glossary/認証/)が有効か[確認](/glossary/確認/)：
 
 ```bash
 # Basic 認証でテスト
@@ -199,7 +199,7 @@ curl -u username:password https://your-registry.com/v2/
 
 ### 確認すべきログと情報
 
-[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認して詳細な[エラー](/glossary/エラー/)を特定します：
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)して詳細な[エラー](/glossary/エラー/)を特定します：
 
 ```bash
 # Docker Desktop (Mac)
@@ -231,8 +231,8 @@ curl -H "Authorization: Bearer $(cat ~/.docker/config.json | jq -r '.auths["regi
 
 ### コミュニティリソース
 
-[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（[AWS](/glossary/aws/) ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を[検索](/glossary/検索/)し、同様のケースの解決策を確認することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 [エラー](/glossary/エラー/)は、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて確認してください。
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Issues や [Docker](/glossary/docker/) Community Forums で、同じ組織・レジストリサービス（[AWS](/glossary/aws/) ECR、Azure Container Registry、Google Artifact Registry 等）固有の問題報告を[検索](/glossary/検索/)し、同様のケースの解決策を[確認](/glossary/確認/)することが有効です。特に [CI/CD](/glossary/ci-cd/) パイプライン内での 403 [エラー](/glossary/エラー/)は、service account の権限設定に関連することが多いため、該当サービスの公式ドキュメントも併せて[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

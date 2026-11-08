@@ -231,7 +231,7 @@ function errorCallback(error) {
 
 ### Authentication のタイムアウト
 
-ユーザー認証時に[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)がある場合、[ID](/glossary/id/) [トークン](/glossary/トークン/)取得時に 408 が発生することがあります。リトライロジックと明示的な[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)を組み合わせてください。
+[ユーザー](/glossary/ユーザー/)認証時に[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)がある場合、[ID](/glossary/id/) [トークン](/glossary/トークン/)取得時に 408 が発生することがあります。リトライロジックと明示的な[タイムアウト](/glossary/タイムアウト/)[設定](/glossary/設定/)を組み合わせてください。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -273,11 +273,11 @@ firebase.database.enableLogging(true);
 firebase.firestore.enableLogging(true);
 ```
 
-Android や iOS では Firebase Crashlytics の[ログ](/glossary/ログ/)、Cloud Functions では Cloud Logging [コンソール](/glossary/コンソール/)を確認します。特に「DEADLINE_EXCEEDED」メッセージが出ている場合は処理時間が長いことを示しています。
+Android や iOS では Firebase Crashlytics の[ログ](/glossary/ログ/)、Cloud Functions では Cloud Logging [コンソール](/glossary/コンソール/)を[確認](/glossary/確認/)します。特に「DEADLINE_EXCEEDED」メッセージが出ている場合は処理時間が長いことを示しています。
 
 ### ネットワーク接続の検証
 
-[クライアント](/glossary/クライアント/)側の[ネットワーク](/glossary/ネットワーク/)状態を監視して、接続が確立されているか確認してください。
+[クライアント](/glossary/クライアント/)側の[ネットワーク](/glossary/ネットワーク/)状態を監視して、接続が確立されているか[確認](/glossary/確認/)してください。
 
 ```javascript
 // ネットワーク接続状態の監視
@@ -302,4 +302,4 @@ Firebase [GitHub](/glossary/github/) Issues および Stack Overflow の「fireb
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

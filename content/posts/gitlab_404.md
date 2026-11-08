@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-GitLabの404[エラー](/glossary/エラー/)は、指定した[プロジェクト](/glossary/プロジェクト/)・マージリクエスト・[ファイル](/glossary/ファイル/)などのリソースが見つからないことを意味します。[API](/glossary/api/)呼び出しやWebUIでのアクセス時に発生し、[プロジェクト](/glossary/プロジェクト/)の存在確認、[アクセス権限](/glossary/アクセス権限/)、リソースパスの誤入力などが主な原因です。[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された、[URL](/glossary/url/)エンコーディングが正しくない、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が不足している場合にも表示されます。
+GitLabの404[エラー](/glossary/エラー/)は、指定した[プロジェクト](/glossary/プロジェクト/)・マージリクエスト・[ファイル](/glossary/ファイル/)などの[リソース](/glossary/リソース/)が見つからないことを意味します。[API](/glossary/api/)呼び出しやWebUIでのアクセス時に発生し、[プロジェクト](/glossary/プロジェクト/)の存在確認、[アクセス権限](/glossary/アクセス権限/)、リソースパスの誤入力などが主な原因です。[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された、[URL](/glossary/url/)エンコーディングが正しくない、[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が不足している場合にも表示されます。
 
 ## 実際のエラーメッセージ例
 
@@ -83,7 +83,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 ### 原因2：トークンの権限不足またはプロジェクトへのアクセス権限がない
 
-プライベートプロジェクトへのアクセスには、適切な[権限](/glossary/権限/)を持つ[トークン](/glossary/トークン/)が必要です。[トークン](/glossary/トークン/)が存在しない、有効期限が切れている、または該当[プロジェクト](/glossary/プロジェクト/)への[アクセス権限](/glossary/アクセス権限/)がないメンバーが使用している場合、404が返されます。GitLabは[セキュリティ](/glossary/セキュリティ/)の観点から、[権限](/glossary/権限/)がないリソースを404で返すため、403（Forbidden）と区別されません。
+プライベートプロジェクトへのアクセスには、適切な[権限](/glossary/権限/)を持つ[トークン](/glossary/トークン/)が必要です。[トークン](/glossary/トークン/)が存在しない、有効期限が切れている、または該当[プロジェクト](/glossary/プロジェクト/)への[アクセス権限](/glossary/アクセス権限/)がないメンバーが使用している場合、404が返されます。GitLabは[セキュリティ](/glossary/セキュリティ/)の観点から、[権限](/glossary/権限/)がない[リソース](/glossary/リソース/)を404で返すため、403（Forbidden）と区別されません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -125,7 +125,7 @@ elif response.status_code == 200:
 
 ### 原因3：プロジェクトが削除された、または名前空間が変更された
 
-[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された場合、その[URL](/glossary/url/)にアクセスすると404が返されます。また、グループやユーザーの名前空間が変更された場合、古い[パス](/glossary/パス/)でのアクセスも404になります。[プロジェクト](/glossary/プロジェクト/)が転送（移動）された場合、古い[URL](/glossary/url/)から新しい[URL](/glossary/url/)へのリダイレクトが[設定](/glossary/設定/)されていないと404が表示されます。
+[プロジェクト](/glossary/プロジェクト/)が[削除](/glossary/削除/)された場合、その[URL](/glossary/url/)にアクセスすると404が返されます。また、グループや[ユーザー](/glossary/ユーザー/)の名前空間が変更された場合、古い[パス](/glossary/パス/)でのアクセスも404になります。[プロジェクト](/glossary/プロジェクト/)が転送（移動）された場合、古い[URL](/glossary/url/)から新しい[URL](/glossary/url/)へのリダイレクトが[設定](/glossary/設定/)されていないと404が表示されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -151,7 +151,7 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 ### 原因4：マージリクエストやイシューのIDが存在しない
 
-[プロジェクト](/glossary/プロジェクト/)内の特定マージリクエスト、イシュー、パイプラインなどの[ID](/glossary/id/)が存在しない場合、404が返されます。[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)は正しいがリソース[ID](/glossary/id/)が誤っている、または[削除](/glossary/削除/)されている状況です。
+[プロジェクト](/glossary/プロジェクト/)内の特定マージリクエスト、イシュー、パイプラインなどの[ID](/glossary/id/)が存在しない場合、404が返されます。[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)は正しいが[リソース](/glossary/リソース/)[ID](/glossary/id/)が誤っている、または[削除](/glossary/削除/)されている状況です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -205,25 +205,25 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
 
 **GitLab [API](/glossary/api/)固有の問題：**
 
-GitLab [API](/glossary/api/)ではリソース所有者の[権限](/glossary/権限/)がない場合、[セキュリティ](/glossary/セキュリティ/)上の理由から404を返します。つまり、403（Forbidden）ではなく404が表示されるため、「リソースがない」のか「[権限](/glossary/権限/)がない」のか区別が難しくなります。WebUIで同じ[プロジェクト](/glossary/プロジェクト/)にアクセスできるか確認することが有効です。
+GitLab [API](/glossary/api/)では[リソース](/glossary/リソース/)所有者の[権限](/glossary/権限/)がない場合、[セキュリティ](/glossary/セキュリティ/)上の理由から404を返します。つまり、403（Forbidden）ではなく404が表示されるため、「[リソース](/glossary/リソース/)がない」のか「[権限](/glossary/権限/)がない」のか区別が難しくなります。WebUIで同じ[プロジェクト](/glossary/プロジェクト/)にアクセスできるか[確認](/glossary/確認/)することが有効です。
 
 **グループ・サブグループ間での[パス](/glossary/パス/)変更：**
 
 グループやサブグループの構造が変わった場合、[API](/glossary/api/)呼び出しの[パス](/glossary/パス/)も[対応](/glossary/対応/)する必要があります。`/groups/<id>` と `/groups/<path>` の両形式がサポートされていますが、パスベースでアクセスする場合は完全な階層[パス](/glossary/パス/)が必須です。
 
-**Self-hosted GitLab での[URL](/glossary/url/)確認：**
+**Self-hosted GitLab での[URL](/glossary/url/)[確認](/glossary/確認/)：**
 
-オンプレミスGitLab[環境](/glossary/環境/)では、WebUIで確認した[URL](/glossary/url/)と[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)のベース[URL](/glossary/url/)が一致しているか確認します。リバースプロキシや[ロードバランサー](/glossary/ロードバランサー/)経由でアクセスしている場合、`gitlab.yml` の `external_url` [設定](/glossary/設定/)が正確か検証が必要です。
+オンプレミスGitLab[環境](/glossary/環境/)では、WebUIで[確認](/glossary/確認/)した[URL](/glossary/url/)と[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)のベース[URL](/glossary/url/)が一致しているか[確認](/glossary/確認/)します。リバースプロキシや[ロードバランサー](/glossary/ロードバランサー/)経由でアクセスしている場合、`gitlab.yml` の `external_url` [設定](/glossary/設定/)が正確か検証が必要です。
 
 **Legacy [API](/glossary/api/) vs [GraphQL](/glossary/graphql/)：**
 
-GitLab [REST](/glossary/rest/) [API](/glossary/api/)と[GraphQL](/glossary/graphql/) [API](/glossary/api/)では、リソースの指定方法が異なります。特にマージリクエストやパイプラインでは[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)が必須の場合があり、プロジェクトパスだけでは404になることがあります。
+GitLab [REST](/glossary/rest/) [API](/glossary/api/)と[GraphQL](/glossary/graphql/) [API](/glossary/api/)では、[リソース](/glossary/リソース/)の指定方法が異なります。特にマージリクエストやパイプラインでは[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/)が必須の場合があり、プロジェクトパスだけでは404になることがあります。
 
 ## それでも解決しない場合
 
-**確認すべき[ログ](/glossary/ログ/)の場所：**
+**[確認](/glossary/確認/)すべき[ログ](/glossary/ログ/)の場所：**
 
-GitLab[管理者権限](/glossary/管理者権限/)がある場合は、管理画面の「[ログ](/glossary/ログ/)」セクションで詳細な[アクセスログ](/glossary/アクセスログ/)を確認します。また、自身のGitLab[インスタンス](/glossary/インスタンス/)へのアクセス履歴は、WebUI右上のプロフィール > 「Last activity」で時系列確認できます。
+GitLab[管理者権限](/glossary/管理者権限/)がある場合は、管理画面の「[ログ](/glossary/ログ/)」セクションで詳細な[アクセスログ](/glossary/アクセスログ/)を[確認](/glossary/確認/)します。また、自身のGitLab[インスタンス](/glossary/インスタンス/)へのアクセス履歴は、WebUI右上のプロフィール > 「Last activity」で時系列確認できます。
 
 **デバッグコマンド：**
 
@@ -253,4 +253,4 @@ GitLab公式フォーラム（`https://forum.gitlab.com`）や[GitHub](/glossary
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

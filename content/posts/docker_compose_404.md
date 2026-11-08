@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose の 404 [エラー](/glossary/エラー/)は、`docker-compose.yml`（または `compose.yml`）で指定された[イメージ](/glossary/イメージ/)、サービス、ボリューム、または[ネットワーク](/glossary/ネットワーク/)がシステムに見つからないときに発生します。この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)のプル失敗、ビルドコンテキストの誤設定、または依存リソースの不足が原因となることがほとんどです。[Docker](/glossary/docker/) Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、この[エラー](/glossary/エラー/)を出力して[処理](/glossary/処理/)を中断します。
+[Docker](/glossary/docker/) Compose の 404 [エラー](/glossary/エラー/)は、`docker-compose.yml`（または `compose.yml`）で指定された[イメージ](/glossary/イメージ/)、サービス、ボリューム、または[ネットワーク](/glossary/ネットワーク/)がシステムに見つからないときに発生します。この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)のプル失敗、ビルドコンテキストの誤設定、または依存[リソース](/glossary/リソース/)の不足が原因となることがほとんどです。[Docker](/glossary/docker/) Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、この[エラー](/glossary/エラー/)を出力して[処理](/glossary/処理/)を中断します。
 
 ## 実際のエラーメッセージ例
 
@@ -136,15 +136,15 @@ docker volume create shared_data
 
 [Docker](/glossary/docker/) Compose [環境](/glossary/環境/)では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` [フィールド](/glossary/フィールド/)に完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
-さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを確認してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
+さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを[確認](/glossary/確認/)してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 
-[環境変数](/glossary/環境変数/)を `.env` [ファイル](/glossary/ファイル/)で注入している場合、その[ファイル](/glossary/ファイル/)が compose [ファイル](/glossary/ファイル/)と同じ[ディレクトリ](/glossary/ディレクトリ/)に存在し、[変数](/glossary/変数/)の評価が正しく行われているか確認することも忘れずに。
+[環境変数](/glossary/環境変数/)を `.env` [ファイル](/glossary/ファイル/)で注入している場合、その[ファイル](/glossary/ファイル/)が compose [ファイル](/glossary/ファイル/)と同じ[ディレクトリ](/glossary/ディレクトリ/)に存在し、[変数](/glossary/変数/)の評価が正しく行われているか[確認](/glossary/確認/)することも忘れずに。
 
 ## それでも解決しない場合
 
-以下の手順で詳細を確認してください。
+以下の手順で詳細を[確認](/glossary/確認/)してください。
 
-**ローカルイメージの確認：**
+**ローカルイメージの[確認](/glossary/確認/)：**
 
 ```bash
 docker images
@@ -152,15 +152,15 @@ docker images
 
 この[コマンド](/glossary/コマンド/)で、使用しようとしている[イメージ](/glossary/イメージ/)がローカルに存在するかどうかをリスト表示します。存在しない場合は、[イメージ](/glossary/イメージ/)名または[タグ](/glossary/タグ/)を[修正](/glossary/修正/)するか、`docker compose up --build` で再度ビルドしてください。
 
-**ビルドコンテキストの[パス](/glossary/パス/)確認：**
+**ビルドコンテキストの[パス](/glossary/パス/)[確認](/glossary/確認/)：**
 
 ```bash
 ls -la <your-build-context-path>
 ```
 
-compose.yml で指定した[パス](/glossary/パス/)が実際に存在し、Dockerfile が含まれているか確認します。
+compose.yml で指定した[パス](/glossary/パス/)が実際に存在し、Dockerfile が含まれているか[確認](/glossary/確認/)します。
 
-**詳細なビルドログの確認：**
+**詳細なビルドログの[確認](/glossary/確認/)：**
 
 ```bash
 docker compose up --build --verbose
@@ -168,7 +168,7 @@ docker compose up --build --verbose
 
 `--verbose` フラグを付けることで、より詳細なビルドログが表示され、[エラー](/glossary/エラー/)の正確な位置を特定しやすくなります。
 
-**レジストリー[認証](/glossary/認証/)の確認（プライベートレジストリーの場合）：**
+**レジストリー[認証](/glossary/認証/)の[確認](/glossary/確認/)（プライベートレジストリーの場合）：**
 
 ```bash
 docker login <your-registry-url>
@@ -181,4 +181,4 @@ docker compose pull
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

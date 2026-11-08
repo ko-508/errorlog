@@ -200,7 +200,7 @@ payment_intent = stripe.PaymentIntent.create(
 
 ### ログとデバッグ方法
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を確認できます。[リクエスト](/glossary/リクエスト/)[ID](/glossary/id/)を記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を[検索](/glossary/検索/)しやすくなります。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の**Developers > Logs**セクションで、[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)/[レスポンス](/glossary/レスポンス/)の詳細を[確認](/glossary/確認/)できます。[リクエスト](/glossary/リクエスト/)[ID](/glossary/id/)を記録しておくと、問題の再現時に該当[ログ](/glossary/ログ/)を[検索](/glossary/検索/)しやすくなります。
 
 ```python
 # レスポンスからリクエストIDを取得
@@ -214,7 +214,7 @@ except stripe.error.InvalidRequestError as e:
 
 ### 公式ドキュメント参照
 
-- **[Stripe API Reference](https://stripe.com/docs/api)**：各[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を確認
+- **[Stripe API Reference](https://stripe.com/docs/api)**：各[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を[確認](/glossary/確認/)
 - **[Error Handling](https://stripe.com/docs/error-handling)**：[エラーコード](/glossary/エラーコード/)と対処法の公式ガイド
 - **[API Versioning](https://stripe.com/docs/upgrades)**：[API](/glossary/api/)[バージョン](/glossary/バージョン/)変更履歴と非推奨[パラメータ](/glossary/パラメータ/)
 
@@ -224,4 +224,4 @@ Stripe公式の[GitHub Issues](https://github.com/stripe/stripe-python)や[Stack
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

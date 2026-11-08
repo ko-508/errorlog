@@ -41,7 +41,7 @@ Failed to authenticate with CircleCI. Please check your CIRCLE_TOKEN environment
 
 ### 原因1：APIトークンが無効または削除されている
 
-CircleCI のシステム側で[トークン](/glossary/トークン/)が無効化・[削除](/glossary/削除/)された、または生成元の[ユーザーアカウント](/glossary/ユーザーアカウント/)が[削除](/glossary/削除/)された場合、それ以降その[トークン](/glossary/トークン/)はすべての[リクエスト](/glossary/リクエスト/)で 401 を返します。[トークン](/glossary/トークン/)の有効性は CircleCI [ダッシュボード](/glossary/ダッシュボード/)で確認できますが、[削除](/glossary/削除/)された[トークン](/glossary/トークン/)は履歴にも表示されなくなるため、新たに生成する必要があります。
+CircleCI のシステム側で[トークン](/glossary/トークン/)が無効化・[削除](/glossary/削除/)された、または生成元の[ユーザーアカウント](/glossary/ユーザーアカウント/)が[削除](/glossary/削除/)された場合、それ以降その[トークン](/glossary/トークン/)はすべての[リクエスト](/glossary/リクエスト/)で 401 を返します。[トークン](/glossary/トークン/)の有効性は CircleCI [ダッシュボード](/glossary/ダッシュボード/)で[確認](/glossary/確認/)できますが、[削除](/glossary/削除/)された[トークン](/glossary/トークン/)は履歴にも表示されなくなるため、新たに生成する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -139,7 +139,7 @@ jobs:
 
 ### 原因3：Personal Access Token と Project Token を使い分けていない
 
-CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token はユーザー個人のリソースへのアクセス用で、Project Token は[プロジェクト](/glossary/プロジェクト/)固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。[プロジェクト](/glossary/プロジェクト/)の[ワークフロー](/glossary/ワークフロー/)から[プロジェクト](/glossary/プロジェクト/)特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
+CircleCI では 2 種類の[トークン](/glossary/トークン/)が存在します。Personal [API](/glossary/api/) Token は[ユーザー](/glossary/ユーザー/)個人の[リソース](/glossary/リソース/)へのアクセス用で、Project Token は[プロジェクト](/glossary/プロジェクト/)固有の操作（ステータスチェック、[トリガー](/glossary/トリガー/)など）用です。[プロジェクト](/glossary/プロジェクト/)の[ワークフロー](/glossary/ワークフロー/)から[プロジェクト](/glossary/プロジェクト/)特有の [API](/glossary/api/) を呼び出す場合、Personal Token では権限不足で 401 が返されることがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -199,7 +199,7 @@ Project Token 取得方法：Project Settings → Project [API](/glossary/api/) 
 
 **CircleCI [CLI](/glossary/cli/) との連携：**
 
-CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が[設定](/glossary/設定/)されていることを確認してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)[環境](/glossary/環境/)に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に[保存](/glossary/保存/)します。
+CircleCI [CLI](/glossary/cli/) を使用している場合、`~/.circleci/cli.yml` に正しい[トークン](/glossary/トークン/)が[設定](/glossary/設定/)されていることを[確認](/glossary/確認/)してください。ローカルで[テスト](/glossary/テスト/)する際は、`CIRCLE_TOKEN` [環境変数](/glossary/環境変数/)を[シェル](/glossary/シェル/)[環境](/glossary/環境/)に直接設定するか、`~/.circlerc` [ファイル](/glossary/ファイル/)に[保存](/glossary/保存/)します。
 
 ```bash
 # シェル環境に設定
@@ -225,7 +225,7 @@ workflows:
 
 ## それでも解決しない場合
 
-**[ステップ](/glossary/ステップ/)1：[トークン](/glossary/トークン/)の有効性をダイレクト確認**
+**[ステップ](/glossary/ステップ/)1：[トークン](/glossary/トークン/)の有効性をダイレクト[確認](/glossary/確認/)**
 
 以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)が有効か直接[テスト](/glossary/テスト/)します。
 
@@ -237,13 +237,13 @@ curl -X GET \
 
 200 OK が返れば、[トークン](/glossary/トークン/)自体は有効です。
 
-**[ステップ](/glossary/ステップ/)2：ジョブ実行時のシークレット状態を確認**
+**[ステップ](/glossary/ステップ/)2：ジョブ実行時のシークレット状態を[確認](/glossary/確認/)**
 
-CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Details → Step Output で[環境変数](/glossary/環境変数/)がマスク（隠蔽）されているか確認します。[環境変数](/glossary/環境変数/)が表示されている場合、[トークン](/glossary/トークン/)が正しく[設定](/glossary/設定/)されています。
+CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Details → Step Output で[環境変数](/glossary/環境変数/)がマスク（隠蔽）されているか[確認](/glossary/確認/)します。[環境変数](/glossary/環境変数/)が表示されている場合、[トークン](/glossary/トークン/)が正しく[設定](/glossary/設定/)されています。
 
-**[ステップ](/glossary/ステップ/)3：公式 [API](/glossary/api/) リファレンスの確認**
+**[ステップ](/glossary/ステップ/)3：公式 [API](/glossary/api/) リファレンスの[確認](/glossary/確認/)**
 
-[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で、使用している [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)が該当トークンタイプで[対応](/glossary/対応/)しているか確認します。Personal Token では呼べない[エンドポイント](/glossary/エンドポイント/)も存在します。
+[CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で、使用している [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)が該当トークンタイプで[対応](/glossary/対応/)しているか[確認](/glossary/確認/)します。Personal Token では呼べない[エンドポイント](/glossary/エンドポイント/)も存在します。
 
 **[ステップ](/glossary/ステップ/)4：CircleCI サポートへの問い合わせ**
 
@@ -251,4 +251,4 @@ CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Detai
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

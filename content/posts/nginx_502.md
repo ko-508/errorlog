@@ -20,7 +20,7 @@ Nginx の 502 Bad Gateway は、リバースプロキシとしての Nginx が�
 
 ## エラーの概要
 
-Nginx は上流への中継に失敗したとき、失敗の種類ごとに返す[ステータスコード](/glossary/ステータスコード/)を割り当てます。この割り当てはソースコード（ngx_http_upstream.c の ngx_http_upstream_next）で確認でき、時間切れ（NGX_[HTTP](/glossary/http/)_UPSTREAM_FT_TIMEOUT）は504、接続失敗・不正な応答[ヘッダー](/glossary/ヘッダー/)・全[サーバー](/glossary/サーバー/)除外などそれ以外の失敗は既定の分岐として502になります。つまり502は「時間内に、しかし正常には、上流とやり取りできなかった」ことの総称です。
+Nginx は上流への中継に失敗したとき、失敗の種類ごとに返す[ステータスコード](/glossary/ステータスコード/)を割り当てます。この割り当てはソースコード（ngx_http_upstream.c の ngx_http_upstream_next）で[確認](/glossary/確認/)でき、時間切れ（NGX_[HTTP](/glossary/http/)_UPSTREAM_FT_TIMEOUT）は504、接続失敗・不正な応答[ヘッダー](/glossary/ヘッダー/)・全[サーバー](/glossary/サーバー/)除外などそれ以外の失敗は既定の分岐として502になります。つまり502は「時間内に、しかし正常には、上流とやり取りできなかった」ことの総称です。
 
 [ブラウザ](/glossary/ブラウザ/)に表示される[デフォルト](/glossary/デフォルト/)のエラーページ：
 
@@ -49,7 +49,7 @@ connect() failed (111: Connection refused) なら原因1（上流が接続を受
 
 ### 原因1：上流が接続を受けていない（Connection refused）
 
-上流のアプリケーションサーバーが起動していないか、起動していても Nginx の接続先（アドレス・[ポート](/glossary/ポート/)）と一致していない状態です。両方を一度に確認できます。
+上流のアプリケーションサーバーが起動していないか、起動していても Nginx の接続先（アドレス・[ポート](/glossary/ポート/)）と一致していない状態です。両方を一度に[確認](/glossary/確認/)できます。
 
 **Before（[エラー](/glossary/エラー/)が起きている状態）：**
 
@@ -74,7 +74,7 @@ gunicorn --bind 127.0.0.1:8000 wsgi:app
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
-[コンテナ](/glossary/コンテナ/)や別ホストの上流では、待ち受けアドレスの範囲も確認します。上流が 127.0.0.1 にのみバインドしていると、別のホストや[コンテナ](/glossary/コンテナ/)からの接続は届きません。ss -ltnp の Local Address 欄が 127.0.0.1:8000 か 0.0.0.0:8000 かで判別できます。
+[コンテナ](/glossary/コンテナ/)や別ホストの上流では、待ち受けアドレスの範囲も[確認](/glossary/確認/)します。上流が 127.0.0.1 にのみバインドしていると、別のホストや[コンテナ](/glossary/コンテナ/)からの接続は届きません。ss -ltnp の Local Address 欄が 127.0.0.1:8000 か 0.0.0.0:8000 かで判別できます。
 
 ### 原因2：unix ソケットのパスまたは権限が合っていない
 
@@ -105,7 +105,7 @@ ls -l /run/php/php-fpm.sock
 # srw-rw---- 1 www-data www-data ... となれば接続できる
 ```
 
-[パス](/glossary/パス/)違いの場合は、Nginx 側とアプリ側の[設定](/glossary/設定/)が指す[パス](/glossary/パス/)を突き合わせて一致させます。所有権と[権限](/glossary/権限/)が正しいのに (13) が消えない場合は、SELinux や AppArmor がソケットへのアクセスを遮断している可能性があり、監査[ログ](/glossary/ログ/)（audit.log）の確認に切り替えます。
+[パス](/glossary/パス/)違いの場合は、Nginx 側とアプリ側の[設定](/glossary/設定/)が指す[パス](/glossary/パス/)を突き合わせて一致させます。所有権と[権限](/glossary/権限/)が正しいのに (13) が消えない場合は、SELinux や AppArmor がソケットへのアクセスを遮断している可能性があり、監査[ログ](/glossary/ログ/)（audit.log）の[確認](/glossary/確認/)に切り替えます。
 
 ### 原因3：全上流サーバーが一時除外されている（no live upstreams）
 
@@ -152,7 +152,7 @@ journalctl -u myapp --since "10:24" --until "10:26"
 dmesg -T | grep -i "out of memory"
 ```
 
-対処は上流側の原因に応じて、クラッシュの[修正](/glossary/修正/)、[メモリ](/glossary/メモリ/)割り当ての見直し、ワーカーの許容処理時間の延長（各アプリケーションサーバーの公式文書で設定名を確認）のいずれかになります。
+対処は上流側の原因に応じて、クラッシュの[修正](/glossary/修正/)、[メモリ](/glossary/メモリ/)割り当ての見直し、ワーカーの許容処理時間の延長（各アプリケーションサーバーの公式文書で設定名を[確認](/glossary/確認/)）のいずれかになります。
 
 ### 原因5：応答ヘッダーがバッファに収まらない（too big header）
 
@@ -253,10 +253,10 @@ openssl s_client -connect <上流アドレス>:443 -servername <ホスト名>
 
 ## Editor's Note
 
-原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に[更新](/glossary/更新/)した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は[設定](/glossary/設定/)ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で確認できます）、所有者を明示していなかった[環境](/glossary/環境/)では[更新](/glossary/更新/)した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も[設定](/glossary/設定/)を変えていないのに、[更新](/glossary/更新/)したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
+原因2の実例として、2014年に公開された詳細な記録があります（[How to fix connect() to php5-fpm.sock failed (13: Permission denied)](https://websistent.com/fix-connect-to-php5-fpm-sock-failed-13-permission-denied-while-connecting-to-upstream-nginx-error/)）。PHP を 5.5.12 に[更新](/glossary/更新/)した直後からサイトが 502 Bad Gateway になり、[エラーログ](/glossary/エラーログ/)には connect() to unix:/var/run/php5-fpm.sock failed (13: Permission denied) が [crit] で記録されていた、という事例です。原因は[設定](/glossary/設定/)ミスではなく、PHP 側の仕様変更でした。PHP 5.5.12 は権限昇格の脆弱性（CVE-2014-0185）の[修正](/glossary/修正/)として、FPM のソケットの既定権限を誰でも書き込める 0666 から 0660 に変更しており（PHP 公式 ChangeLog と php-src の[修正](/glossary/修正/)[コミット](/glossary/コミット/)で[確認](/glossary/確認/)できます）、所有者を明示していなかった[環境](/glossary/環境/)では[更新](/glossary/更新/)した瞬間に Nginx がソケットへ接続できなくなりました。解決は listen.owner と listen.group の明示です。10年以上前の事例ですが、ソケットの所有権と[権限](/glossary/権限/)が接続の可否を決める仕組み、listen.owner・listen.group・listen.mode で解決するという対処は、現行の PHP-FPM でもそのまま一致します。「何も[設定](/glossary/設定/)を変えていないのに、[更新](/glossary/更新/)したら502」という症状の裏に既定値の変更がある、という更新起因の定番の構図を示す記録です。
 
 502の[エラーログ](/glossary/エラーログ/)は、接続先・失敗理由・タイミングをすべて一行に記録してくれます。推測で[設定](/glossary/設定/)をいじる前に、まず括弧内の文言を読むことが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

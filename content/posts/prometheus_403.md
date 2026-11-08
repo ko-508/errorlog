@@ -201,9 +201,9 @@ curl -X DELETE 'http://localhost:9090/api/v1/admin/tsdb/delete_series?match[]=me
 
 ## それでも解決しない場合
 
-**Prometheus [ログ](/glossary/ログ/)の確認：**
+**Prometheus [ログ](/glossary/ログ/)の[確認](/glossary/確認/)：**
 
-サービス起動時の[ログ](/glossary/ログ/)で `admin API` のメッセージを確認してください。
+サービス起動時の[ログ](/glossary/ログ/)で `admin API` のメッセージを[確認](/glossary/確認/)してください。
 
 ```bash
 # systemd サービス経由で起動している場合
@@ -213,9 +213,9 @@ sudo journalctl -u prometheus -f
 # "msg=Listening..." "address=0.0.0.0:9090"
 ```
 
-**[ネットワーク](/glossary/ネットワーク/)接続の確認：**
+**[ネットワーク](/glossary/ネットワーク/)接続の[確認](/glossary/確認/)：**
 
-Prometheus が実際に[ポート](/glossary/ポート/) 9090 でリッスンしているか確認します。
+Prometheus が実際に[ポート](/glossary/ポート/) 9090 でリッスンしているか[確認](/glossary/確認/)します。
 
 ```bash
 # ポートがリッスン中か確認
@@ -224,9 +224,9 @@ sudo netstat -tlnp | grep 9090
 sudo ss -tlnp | grep 9090
 ```
 
-**リバースプロキシの[ログ](/glossary/ログ/)確認：**
+**リバースプロキシの[ログ](/glossary/ログ/)[確認](/glossary/確認/)：**
 
-Nginx・Apache など[プロキシ](/glossary/プロキシ/)の[アクセスログ](/glossary/アクセスログ/)で実際の[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を確認します。
+Nginx・Apache など[プロキシ](/glossary/プロキシ/)の[アクセスログ](/glossary/アクセスログ/)で実際の[リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)します。
 
 ```bash
 # Nginx アクセスログ確認
@@ -252,4 +252,4 @@ curl -v http://localhost:9090/api/v1/query?query=up
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

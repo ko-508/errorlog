@@ -12,7 +12,7 @@ related_services: ["JavaScript", "REST API", "SendGrid", "Mailgun", "Gmail"]
 ---
 ## エラーの概要
 
-Supabaseの422[エラー](/glossary/エラー/)は「Unprocessable Entity」を意味し、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、[サーバー](/glossary/サーバー/)がデータの検証ルール違反を検出したときに発生します。Supabaseの[認証](/glossary/認証/)（Auth）機能では、[パスワード](/glossary/パスワード/)やメールアドレスの形式チェック、カスタムSMTP[設定](/glossary/設定/)の検証で特に頻繁に見られます。この[エラー](/glossary/エラー/)が返されると、ユーザー[登録](/glossary/登録/)や[パスワード](/glossary/パスワード/)変更などの認証処理が失敗します。
+Supabaseの422[エラー](/glossary/エラー/)は「Unprocessable Entity」を意味し、[リクエスト](/glossary/リクエスト/)の構文は正しいものの、[サーバー](/glossary/サーバー/)がデータの検証ルール違反を検出したときに発生します。Supabaseの[認証](/glossary/認証/)（Auth）機能では、[パスワード](/glossary/パスワード/)やメールアドレスの形式チェック、カスタムSMTP[設定](/glossary/設定/)の検証で特に頻繁に見られます。この[エラー](/glossary/エラー/)が返されると、[ユーザー](/glossary/ユーザー/)[登録](/glossary/登録/)や[パスワード](/glossary/パスワード/)変更などの認証処理が失敗します。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ Supabase JavaScript[クライアント](/glossary/クライアント/)から返�
 
 ### 原因1：パスワードが最低文字数を満たしていない
 
-Supabaseの[デフォルト設定](/glossary/デフォルト設定/)では、[パスワード](/glossary/パスワード/)は**最低6文字以上**である必要があります。これより短い[パスワード](/glossary/パスワード/)でユーザー[登録](/glossary/登録/)や[パスワード](/glossary/パスワード/)変更を試みると、422[エラー](/glossary/エラー/)が返されます。ユーザー入力の検証を行わずに[API](/glossary/api/)に[送信](/glossary/送信/)している場合に発生することが多いです。
+Supabaseの[デフォルト設定](/glossary/デフォルト設定/)では、[パスワード](/glossary/パスワード/)は**最低6文字以上**である必要があります。これより短い[パスワード](/glossary/パスワード/)で[ユーザー](/glossary/ユーザー/)[登録](/glossary/登録/)や[パスワード](/glossary/パスワード/)変更を試みると、422[エラー](/glossary/エラー/)が返されます。[ユーザー](/glossary/ユーザー/)入力の検証を行わずに[API](/glossary/api/)に[送信](/glossary/送信/)している場合に発生することが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -77,7 +77,7 @@ if (error) {
 
 ### 原因2：メールアドレスの形式が不正
 
-Supabaseは送信前にメールアドレス形式を厳密に検証します。スペースが含まれている、@記号が複数ある、[ドメイン](/glossary/ドメイン/)部分が不完全など、[RFC](/glossary/rfc/) 5322[標準](/glossary/標準/)から外れたアドレス形式では422[エラー](/glossary/エラー/)が発生します。ユーザー入力を整形せずに[送信](/glossary/送信/)している場合や、テストデータに誤りがある場合に多く見られます。
+Supabaseは送信前にメールアドレス形式を厳密に検証します。スペースが含まれている、@記号が複数ある、[ドメイン](/glossary/ドメイン/)部分が不完全など、[RFC](/glossary/rfc/) 5322[標準](/glossary/標準/)から外れたアドレス形式では422[エラー](/glossary/エラー/)が発生します。[ユーザー](/glossary/ユーザー/)入力を整形せずに[送信](/glossary/送信/)している場合や、テストデータに誤りがある場合に多く見られます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -155,7 +155,7 @@ SMTP_FROM_NAME: MyApp
 <a href="{{ .ConfirmationURL }}">認証リンク</a>
 ```
 
-またはJavaScriptでメール検証設定を確認する場合：
+またはJavaScriptでメール検証設定を[確認](/glossary/確認/)する場合：
 
 ```javascript
 // Supabaseクライアント初期化時に認証設定を確認
@@ -181,15 +181,15 @@ const { data, error } = await supabase.auth.signUp({
 
 ## ツール固有の注意点
 
-Supabaseの422[エラー](/glossary/エラー/)は**[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)の違いで挙動が異なります**。以下の点を確認してください。
+Supabaseの422[エラー](/glossary/エラー/)は**[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)の違いで挙動が異なります**。以下の点を[確認](/glossary/確認/)してください。
 
-**Authentication > Providers > メール[設定](/glossary/設定/)の確認：**
-Supabase Dashboardの「Authentication」→「Providers」→「Email」で、以下の項目を確認しましょう。
+**Authentication > Providers > メール[設定](/glossary/設定/)の[確認](/glossary/確認/)：**
+Supabase Dashboardの「Authentication」→「Providers」→「Email」で、以下の項目を[確認](/glossary/確認/)しましょう。
 - 「Confirm email」が有効になっている場合、メールアドレス形式の検証がより厳密になります。
 - 「Double confirm change」を有効にしている場合、メール変更時の追加検証が動作します。
 
 **カスタムSMTP vs Supabase[標準](/glossary/標準/)メール：**
-Supabaseの[標準](/glossary/標準/)メール機能を使用している場合、制限が異なります。SendGridやMailgunなどを統合している場合は、各プロバイダー側の検証ルールも確認が必要です。
+Supabaseの[標準](/glossary/標準/)メール機能を使用している場合、制限が異なります。SendGridやMailgunなどを統合している場合は、各プロバイダー側の検証ルールも[確認](/glossary/確認/)が必要です。
 
 **パスワードポリシーの[設定](/glossary/設定/)：**
 Supabase Dashboardの「Authentication」→「Policies」で、[パスワード](/glossary/パスワード/)の最小文字数、複雑性要件、有効期限などを[カスタマイズ](/glossary/カスタマイズ/)できます。[デフォルト](/glossary/デフォルト/)より厳しい[設定](/glossary/設定/)にしている場合は、そのルールに合わせた[バリデーション](/glossary/バリデーション/)を[フロントエンド](/glossary/フロントエンド/)に実装してください。
@@ -211,8 +211,8 @@ const validatePassword = (password) => {
 
 ## それでも解決しない場合
 
-**Supabase Logsの確認：**
-Supabase Dashboardの「Logs」セクションで、[リアルタイム](/glossary/リアルタイム/)の[エラーログ](/glossary/エラーログ/)を確認できます。`Status: 422`で[フィルタリング](/glossary/フィルタリング/)すると、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。
+**Supabase Logsの[確認](/glossary/確認/)：**
+Supabase Dashboardの「Logs」セクションで、[リアルタイム](/glossary/リアルタイム/)の[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)できます。`Status: 422`で[フィルタリング](/glossary/フィルタリング/)すると、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。
 
 **[REST](/glossary/rest/) [API](/glossary/api/)での詳細な[デバッグ](/glossary/デバッグ/)：**
 
@@ -230,7 +230,7 @@ curl -X POST 'https://<your-project-ref>.supabase.co/auth/v1/signup' \
 # レスポンスに詳細なエラー理由が含まれます
 ```
 
-**公式リソースへのアクセス：**
+**公式[リソース](/glossary/リソース/)へのアクセス：**
 - [Supabase Auth Documentation](https://supabase.com/docs/guides/auth)
 - [Supabase メール設定ガイド](https://supabase.com/docs/guides/auth/auth-smtp)
 - [Supabase GitHub Issues](https://github.com/supabase/supabase/issues)
@@ -239,4 +239,4 @@ curl -X POST 'https://<your-project-ref>.supabase.co/auth/v1/signup' \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

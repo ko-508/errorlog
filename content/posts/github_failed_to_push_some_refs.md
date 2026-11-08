@@ -158,7 +158,7 @@ git fetch origin
 git push origin main
 ```
 
-これで解消しない場合は、取得の深さが制限されていないかを確認します。
+これで解消しない場合は、取得の深さが制限されていないかを[確認](/glossary/確認/)します。
 
 ```bash
 git rev-parse --is-shallow-repository
@@ -177,7 +177,7 @@ hint: Updates were rejected because the tag already exists in the remote.
 
 [ブランチ](/glossary/ブランチ/)と違い、位置関係は見ません。[タグ](/glossary/タグ/)は特定の時点を指す固定の名前として扱われるためです。
 
-まず相手側を確認します。
+まず相手側を[確認](/glossary/確認/)します。
 
 ```bash
 git ls-remote --tags origin
@@ -196,7 +196,7 @@ hint: or update a remote ref to make it point at a non-commit object,
 hint: without using the '--force' option.
 ```
 
-種類を確認します。
+種類を[確認](/glossary/確認/)します。
 
 ```bash
 git cat-file -t v1.0.0
@@ -246,10 +246,10 @@ git ls-remote origin refs/heads/main
 
 1. `!` で始まる行を数える。複数あれば、助言は最優先の1件分しか出ていないと考える
 2. `[rejected]` か `[remote rejected]` かを見る。後者なら判定したのは相手側で、括弧の中がすべて
-3. `[rejected]` なら括弧の5語を確認する
+3. `[rejected]` なら括弧の5語を[確認](/glossary/確認/)する
 4. `fetch first` なら `git fetch` を先に行い、取得範囲が絞られていないかを調べる
 5. `non-fast-forward` なら相手と手元の差を数え、取り込むか[上書き](/glossary/上書き/)するかを決める
-6. `already exists` と `needs force` は[タグ](/glossary/タグ/)まわりなので、相手側の同名と種類を確認する
+6. `already exists` と `needs force` は[タグ](/glossary/タグ/)まわりなので、相手側の同名と種類を[確認](/glossary/確認/)する
 7. `stale info` は助言が出ないため、相手の現在位置を直接見る
 
 ## 確認コマンド集
@@ -285,12 +285,12 @@ git cat-file -t v1.0.0
 
 `--force-with-lease` は安全な[上書き](/glossary/上書き/)の手段として広く紹介されています。ところが [git](/glossary/git/) 自身は、このこの指定が条件付きでしか安全でないと説明しています。
 
-[公式ドキュメント](https://github.com/git/git/blob/master/Documentation/git-push.adoc)には、背景で `git fetch --all` を走らせる仕組みがあると、この方法は完全に無効化されると書かれています。理由は照合の対象にあります。`--force-with-lease` が期待値として使うのは、手元に[保存](/glossary/保存/)されている相手の位置の記録です。編集[ツール](/glossary/ツール/)や[自動化](/glossary/自動化/)が裏で取得を行えば、その記録は内容を確認しないまま新しい位置へ進みます。期待値が実際の値に追いついてしまうため、照合は通り、他人の[コミット](/glossary/コミット/)は消えます。
+[公式ドキュメント](https://github.com/git/git/blob/master/Documentation/git-push.adoc)には、背景で `git fetch --all` を走らせる仕組みがあると、この方法は完全に無効化されると書かれています。理由は照合の対象にあります。`--force-with-lease` が期待値として使うのは、手元に[保存](/glossary/保存/)されている相手の位置の記録です。編集[ツール](/glossary/ツール/)や[自動化](/glossary/自動化/)が裏で取得を行えば、その記録は内容を[確認](/glossary/確認/)しないまま新しい位置へ進みます。期待値が実際の値に追いついてしまうため、照合は通り、他人の[コミット](/glossary/コミット/)は消えます。
 
-[git](/glossary/git/) はこの問題に対して、2020年公開の 2.30 で `--force-if-includes` を追加しました。[リリースノート](https://github.com/git/git/blob/master/Documentation/RelNotes/2.30.0.adoc)には、`--force-with-lease` は自分で `git fetch` をよく管理していない限り[コミット](/glossary/コミット/)を失いやすい、と率直に書かれています。追加された確認は、置き換えようとしている相手の位置を実際に見たうえで手元の内容が作られたかどうかを調べるものです。
+[git](/glossary/git/) はこの問題に対して、2020年公開の 2.30 で `--force-if-includes` を追加しました。[リリースノート](https://github.com/git/git/blob/master/Documentation/RelNotes/2.30.0.adoc)には、`--force-with-lease` は自分で `git fetch` をよく管理していない限り[コミット](/glossary/コミット/)を失いやすい、と率直に書かれています。追加された[確認](/glossary/確認/)は、置き換えようとしている相手の位置を実際に見たうえで手元の内容が作られたかどうかを調べるものです。
 
 実務上の意味はこうです。`stale info` が出たときは、照合が働いたということです。むしろ出なかったときのほうを疑ってください。`--force-with-lease` が静かに通った直後に他人の変更が消えているなら、背景の取得が期待値を進めていた可能性があります。[上書き](/glossary/上書き/)を日常的に行う[リポジトリ](/glossary/リポジトリ/)では、`--force-if-includes` を併せて指定しておくほうが確実です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

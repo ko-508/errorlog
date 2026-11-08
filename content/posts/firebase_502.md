@@ -164,7 +164,7 @@ firebase.jsonのリライトルール[設定](/glossary/設定/)が間違って�
 
 ### Cloud Functionsのメモリと CPU設定
 
-Cloud Functionsの[メモリ](/glossary/メモリ/)割り当てが小さすぎると、大量のデータ処理中に[プロセス](/glossary/プロセス/)がクラッシュして502[エラー](/glossary/エラー/)になることがあります。Firebase Consoleまたはgcloud [CLI](/glossary/cli/)で[設定](/glossary/設定/)を確認してください。
+Cloud Functionsの[メモリ](/glossary/メモリ/)割り当てが小さすぎると、大量のデータ処理中に[プロセス](/glossary/プロセス/)がクラッシュして502[エラー](/glossary/エラー/)になることがあります。Firebase Consoleまたはgcloud [CLI](/glossary/cli/)で[設定](/glossary/設定/)を[確認](/glossary/確認/)してください。
 
 ```bash
 gcloud functions deploy myFunction \
@@ -175,7 +175,7 @@ gcloud functions deploy myFunction \
 
 ### Firebase Hostingとカスタムオリジンの接続
 
-Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、その[オリジン](/glossary/オリジン/)が不可達または応答が遅いと502[エラー](/glossary/エラー/)が返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)も確認してください。
+Firebase Hostingでカスタムオリジンをリワイトルールに指定している場合、その[オリジン](/glossary/オリジン/)が不可達または応答が遅いと502[エラー](/glossary/エラー/)が返されます。Cloud Load BalancingやCloud Armorを経由している場合は、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)も[確認](/glossary/確認/)してください。
 
 ```json
 {
@@ -214,7 +214,7 @@ exports.corsFunction = functions.https.onRequest((req, res) => {
 
 ### ログの確認
 
-Firebase Consoleの[ログ](/glossary/ログ/)機能または以下の[コマンド](/glossary/コマンド/)でCloud Functionsの詳細な[エラーログ](/glossary/エラーログ/)を確認してください。
+Firebase Consoleの[ログ](/glossary/ログ/)機能または以下の[コマンド](/glossary/コマンド/)でCloud Functionsの詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)してください。
 
 ```bash
 gcloud functions logs read <your-function-name> --limit 50
@@ -228,7 +228,7 @@ gcloud logging read "resource.type=cloud_function AND resource.labels.function_n
 
 ### デプロイと権限の確認
 
-[関数](/glossary/関数/)が[デプロイ](/glossary/デプロイ/)されているか、[IAM](/glossary/iam/)[権限](/glossary/権限/)が正しく[設定](/glossary/設定/)されているか確認してください。
+[関数](/glossary/関数/)が[デプロイ](/glossary/デプロイ/)されているか、[IAM](/glossary/iam/)[権限](/glossary/権限/)が正しく[設定](/glossary/設定/)されているか[確認](/glossary/確認/)してください。
 
 ```bash
 gcloud functions list
@@ -247,4 +247,4 @@ Firebase [GitHub](/glossary/github/) Issues（https://github.com/firebase/fireba
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

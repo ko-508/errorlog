@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定したリソース（Pod・Service・Deploymentなど）やアクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、リソースの削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、リソースが実際に動作していない状態を示しているため、早期の[対応](/glossary/対応/)が必要です。
+[Kubernetes](/glossary/kubernetes/)の404[エラー](/glossary/エラー/)は、[API](/glossary/api/)[サーバー](/glossary/サーバー/)が指定した[リソース](/glossary/リソース/)（Pod・Service・Deploymentなど）やアクセスしようとした[エンドポイント](/glossary/エンドポイント/)が存在しないことを示します。`kubectl`[コマンド](/glossary/コマンド/)実行時や[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)への[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)時に発生し、[リソース](/glossary/リソース/)の削除後のアクセスや存在しない[Namespace](/glossary/namespace/)への[クエリ](/glossary/クエリ/)で特に見られます。この[エラー](/glossary/エラー/)はデータ消失を意味しませんが、[リソース](/glossary/リソース/)が実際に動作していない状態を示しているため、早期の[対応](/glossary/対応/)が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -67,7 +67,7 @@ kubectl run my-app --image=my-image:latest
 ### 原因2：Namespaceの指定ミス
 
 **なぜ発生するか：**
-リソースがある[Namespace](/glossary/namespace/)と異なる[Namespace](/glossary/namespace/)を指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[Namespace](/glossary/namespace/)内のリソースを探すため404となります。[デフォルト](/glossary/デフォルト/)の`default` [Namespace](/glossary/namespace/)ではなく、`production`や`staging`などの[Namespace](/glossary/namespace/)にリソースが存在することを見落とすことが多くあります。
+[リソース](/glossary/リソース/)がある[Namespace](/glossary/namespace/)と異なる[Namespace](/glossary/namespace/)を指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[Namespace](/glossary/namespace/)内の[リソース](/glossary/リソース/)を探すため404となります。[デフォルト](/glossary/デフォルト/)の`default` [Namespace](/glossary/namespace/)ではなく、`production`や`staging`などの[Namespace](/glossary/namespace/)に[リソース](/glossary/リソース/)が存在することを見落とすことが多くあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -95,7 +95,7 @@ kubectl config set-context --current --namespace=production
 ### 原因3：APIバージョンやリソースタイプの指定ミス
 
 **なぜ発生するか：**
-[Kubernetes](/glossary/kubernetes/)は[API](/glossary/api/)[バージョン](/glossary/バージョン/)の進化に伴い、リソースの名称や形式が変更されることがあります。存在しない[API](/glossary/api/)[バージョン](/glossary/バージョン/)（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを認識できません。
+[Kubernetes](/glossary/kubernetes/)は[API](/glossary/api/)[バージョン](/glossary/バージョン/)の進化に伴い、[リソース](/glossary/リソース/)の名称や形式が変更されることがあります。存在しない[API](/glossary/api/)[バージョン](/glossary/バージョン/)（例：`apiVersion: v1beta1`）や誤ったリソースタイプを指定した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそれを認識できません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -144,7 +144,7 @@ spec:
 ### 原因4：RBAC（Role-Based Access Control）による権限不足
 
 **なぜ発生するか：**
-[RBAC](/glossary/rbac/)が有効な[環境](/glossary/環境/)で、ユーザーまたはServiceAccountが特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を持っていない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はそのリソースを見つけられないように振る舞うことがあります。これは[セキュリティ](/glossary/セキュリティ/)上の理由で、存在しないリソースと同じ404[エラー](/glossary/エラー/)を返します。
+[RBAC](/glossary/rbac/)が有効な[環境](/glossary/環境/)で、[ユーザー](/glossary/ユーザー/)またはServiceAccountが特定の[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)を持っていない場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)はその[リソース](/glossary/リソース/)を見つけられないように振る舞うことがあります。これは[セキュリティ](/glossary/セキュリティ/)上の理由で、存在しない[リソース](/glossary/リソース/)と同じ404[エラー](/glossary/エラー/)を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -185,21 +185,21 @@ subjects:
 ## ツール固有の注意点
 
 **[Namespace](/glossary/namespace/)分離の設計：**
-[Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、[デフォルト](/glossary/デフォルト/)で異なる[Namespace](/glossary/namespace/)間のリソースには直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
+[Kubernetes](/glossary/kubernetes/)では複数の[Namespace](/glossary/namespace/)を使用する場合、[デフォルト](/glossary/デフォルト/)で異なる[Namespace](/glossary/namespace/)間の[リソース](/glossary/リソース/)には直接アクセスできません。ServiceDiscoveryを使用する場合は、[DNS](/glossary/dns/)の形式が`<service-name>.<namespace-name>.svc.cluster.local`となります。別の[Namespace](/glossary/namespace/)のServiceにアクセスする際には、このFQDNを明記する必要があります。
 
 **Ingress・Service・Pod間の連携[エラー](/glossary/エラー/)：**
-IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが[設定](/glossary/設定/)されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を確認してください。
+IngressがServiceを参照する際、存在しないServiceを指定すると404が発生します。Ingressが[設定](/glossary/設定/)されていても、[バックエンド](/glossary/バックエンド/)のServiceやPodが[削除](/glossary/削除/)されると、トラフィックは応答できなくなります。`kubectl describe ingress`で[バックエンド](/glossary/バックエンド/)の状態を[確認](/glossary/確認/)してください。
 
 **CRD（Custom Resource Definition）のコンテキスト：**
-カスタムリソースを使用する場合、CRDが[登録](/glossary/登録/)されていないクラスタではそのリソースを取得する際に404が発生します。`kubectl get crd`でCRDが存在するか確認し、必要に応じてCRD定義をクラスタに適用してください。
+カスタムリソースを使用する場合、CRDが[登録](/glossary/登録/)されていないクラスタではその[リソース](/glossary/リソース/)を取得する際に404が発生します。`kubectl get crd`でCRDが存在するか[確認](/glossary/確認/)し、必要に応じてCRD定義をクラスタに適用してください。
 
 **クラスタバージョン間の[互換性](/glossary/互換性/)：**
-異なる[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)間でマニフェストファイルを使用する場合、新しい[バージョン](/glossary/バージョン/)特有の[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が古いクラスタに存在しないことがあります。`kubectl api-resources`[コマンド](/glossary/コマンド/)で現在のクラスタで利用可能なリソースを確認してください。
+異なる[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)間でマニフェストファイルを使用する場合、新しい[バージョン](/glossary/バージョン/)特有の[API](/glossary/api/)[エンドポイント](/glossary/エンドポイント/)が古いクラスタに存在しないことがあります。`kubectl api-resources`[コマンド](/glossary/コマンド/)で現在のクラスタで利用可能な[リソース](/glossary/リソース/)を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
 **[ログ](/glossary/ログ/)とデバッグコマンド：**
-[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を確認して詳細な[エラー](/glossary/エラー/)情報を取得します。
+[API](/glossary/api/)[サーバー](/glossary/サーバー/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)して詳細な[エラー](/glossary/エラー/)情報を取得します。
 
 ```bash
 # リソースが本当に存在しないか確認
@@ -216,7 +216,7 @@ kubectl logs -n kube-system -l component=kube-apiserver
 ```
 
 **[Kubernetes](/glossary/kubernetes/)[ダッシュボード](/glossary/ダッシュボード/)・[GUI](/glossary/gui/)[ツール](/glossary/ツール/)：**
-`kubectl proxy`を使用して[ダッシュボード](/glossary/ダッシュボード/)にアクセスし、リソースが実際に存在するか視覚的に確認することもできます。
+`kubectl proxy`を使用して[ダッシュボード](/glossary/ダッシュボード/)にアクセスし、[リソース](/glossary/リソース/)が実際に存在するか視覚的に[確認](/glossary/確認/)することもできます。
 
 ```bash
 kubectl proxy
@@ -224,11 +224,11 @@ kubectl proxy
 ```
 
 **公式ドキュメント：**
-[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を確認してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
+[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を[確認](/glossary/確認/)してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
 [Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を[検索](/glossary/検索/)することで、複雑な[設定](/glossary/設定/)ミスの解決策を見つけることができます。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

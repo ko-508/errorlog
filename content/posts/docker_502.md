@@ -192,7 +192,7 @@ app.run(host='0.0.0.0', port=8080, debug=False)
 
 ### Docker Compose での Service Discovery
 
-[Docker](/glossary/docker/) Compose は自動的に各サービス用の [DNS](/glossary/dns/) エントリを作成します。`<service-name>` で[コンテナ](/glossary/コンテナ/)間通信が可能です。ただし、`depends_on` では起動順序のみを制御し、サービスの準備状況は確認しません。**必ず `healthcheck` と `condition: service_healthy` を組み合わせ** てください。
+[Docker](/glossary/docker/) Compose は自動的に各サービス用の [DNS](/glossary/dns/) エントリを作成します。`<service-name>` で[コンテナ](/glossary/コンテナ/)間通信が可能です。ただし、`depends_on` では起動順序のみを制御し、サービスの準備状況は[確認](/glossary/確認/)しません。**必ず `healthcheck` と `condition: service_healthy` を組み合わせ** てください。
 
 ### Nginx プロキシの resolver 設定
 
@@ -211,7 +211,7 @@ upstream backend {
 docker ps --format "table {{.Names}}\t{{.Ports}}"
 ```
 
-この[コマンド](/glossary/コマンド/)で[ポート](/glossary/ポート/)がバインドされているか確認してください。[コンテナ](/glossary/コンテナ/)内[ポート](/glossary/ポート/)が外部に公開されていない場合、[プロキシ](/glossary/プロキシ/)がアクセスできません。
+この[コマンド](/glossary/コマンド/)で[ポート](/glossary/ポート/)がバインドされているか[確認](/glossary/確認/)してください。[コンテナ](/glossary/コンテナ/)内[ポート](/glossary/ポート/)が外部に公開されていない場合、[プロキシ](/glossary/プロキシ/)がアクセスできません。
 
 ### ログの確認方法
 
@@ -230,7 +230,7 @@ docker exec <nginx-container-name> curl -v http://app:8080/health
 
 ### 確認すべきログとデバッグコマンド
 
-Nginx の詳細[ログ](/glossary/ログ/)を有効化して接続状況を確認してください。
+Nginx の詳細[ログ](/glossary/ログ/)を有効化して接続状況を[確認](/glossary/確認/)してください。
 
 ```bash
 # コンテナ内から対象サービスへの接続性をテスト
@@ -247,8 +247,8 @@ docker exec <nginx-container-name> getent hosts app
 
 ### コミュニティリソース
 
-[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の[設定](/glossary/設定/)（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも確認してください。
+[GitHub](/glossary/github/) の [Docker](/glossary/docker/) Compose [リポジトリ](/glossary/リポジトリ/)（[docker/compose](https://github.com/docker/compose)）や StackOverflow の[タグ](/glossary/タグ/) `docker-compose` では、同様の問題が多く報告されており、解決策が見つかる可能性が高いです。また、[アプリケーション](/glossary/アプリケーション/)固有の[設定](/glossary/設定/)（Flask、Express、Django など）の問題の可能性もあるため、該当[アプリケーション](/glossary/アプリケーション/)のコミュニティも[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

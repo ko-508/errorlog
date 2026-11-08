@@ -41,7 +41,7 @@ azure.core.exceptions.HttpResponseError: (429) Throttling error. Subscription ha
 
 ### 原因1：リクエストレートが上限を超えている
 
-Azure には、[API](/glossary/api/) ごと・操作ごと（例：仮想マシン作成、[ストレージ](/glossary/ストレージ/)読み書き）に一定秒あたりの[リクエスト](/glossary/リクエスト/)数制限があります。制限値は[サブスクリプション](/glossary/サブスクリプション/)、リージョン、リソースの種類によって異なり、[ループ](/glossary/ループ/)内で連続して [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
+Azure には、[API](/glossary/api/) ごと・操作ごと（例：仮想マシン作成、[ストレージ](/glossary/ストレージ/)読み書き）に一定秒あたりの[リクエスト](/glossary/リクエスト/)数制限があります。制限値は[サブスクリプション](/glossary/サブスクリプション/)、リージョン、[リソース](/glossary/リソース/)の種類によって異なり、[ループ](/glossary/ループ/)内で連続して [API](/glossary/api/) を呼び出すと瞬時に制限に達します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -245,7 +245,7 @@ async def delete_storage_accounts():
 
 ### Azure App Service・Function App での 429
 
-Azure Function App で[バージョン](/glossary/バージョン/) 4 ランタイムを使用している場合、[デフォルト](/glossary/デフォルト/)の [HTTP](/glossary/http/) 接続数制限（`http.connectionLimit`）により、外部 [API](/glossary/api/) へのアウトバウンド呼び出しがスロットルされることがあります。このとき、Azure の [REST](/glossary/rest/) [API](/glossary/api/) ではなく、呼び出し先の外部サービスの 429 が返される可能性も高いため、[エラーメッセージ](/glossary/エラーメッセージ/)で `microsoft.com` を含むか確認し、実際にどのサービスが制限を返しているかを特定してください。
+Azure Function App で[バージョン](/glossary/バージョン/) 4 ランタイムを使用している場合、[デフォルト](/glossary/デフォルト/)の [HTTP](/glossary/http/) 接続数制限（`http.connectionLimit`）により、外部 [API](/glossary/api/) へのアウトバウンド呼び出しがスロットルされることがあります。このとき、Azure の [REST](/glossary/rest/) [API](/glossary/api/) ではなく、呼び出し先の外部サービスの 429 が返される可能性も高いため、[エラーメッセージ](/glossary/エラーメッセージ/)で `microsoft.com` を含むか[確認](/glossary/確認/)し、実際にどのサービスが制限を返しているかを特定してください。
 
 ### Azure DevOps の API レート制限
 
@@ -269,7 +269,7 @@ az monitor diagnostic-settings create \
   --workspace <workspace_id>
 ```
 
-Python [SDK](/glossary/sdk/) でデバッグレベルの[ログ](/glossary/ログ/)を有効化し、[リクエスト](/glossary/リクエスト/)・レスポンスヘッダーを確認：
+Python [SDK](/glossary/sdk/) でデバッグレベルの[ログ](/glossary/ログ/)を有効化し、[リクエスト](/glossary/リクエスト/)・レスポンスヘッダーを[確認](/glossary/確認/)：
 
 ```python
 import logging
@@ -282,7 +282,7 @@ azure_logger.setLevel(logging.DEBUG)
 
 ### 公式リファレンスの確認
 
-以下のドキュメントで、各 Azure サービスの具体的な[スロットリング](/glossary/スロットリング/)制限値を確認してください：
+以下のドキュメントで、各 Azure サービスの具体的な[スロットリング](/glossary/スロットリング/)制限値を[確認](/glossary/確認/)してください：
 
 - **Azure Subscription and service limits, quotas, and constraints**
   https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits
@@ -295,14 +295,14 @@ azure_logger.setLevel(logging.DEBUG)
 
 ### コミュニティサポート
 
-Azure [SDK](/glossary/sdk/) の[リトライ](/glossary/リトライ/)実装に関する既知の問題や解決方法は、公式 [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で確認できます：
+Azure [SDK](/glossary/sdk/) の[リトライ](/glossary/リトライ/)実装に関する既知の問題や解決方法は、公式 [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で[確認](/glossary/確認/)できます：
 
 - https://github.com/Azure/azure-sdk-for-python/issues
 - https://github.com/Azure/azure-sdk-for-java/issues
 - https://github.com/Azure/azure-sdk-for-js/issues
 
-問題が特定の [SDK](/glossary/sdk/) [バージョン](/glossary/バージョン/)やサービスに限定される場合は、リージョンの状態ページ（https://status.azure.com）も確認し、Azure 側のインシデント有無を確認してください。
+問題が特定の [SDK](/glossary/sdk/) [バージョン](/glossary/バージョン/)やサービスに限定される場合は、リージョンの状態ページ（https://status.azure.com）も確認し、Azure 側のインシデント有無を[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

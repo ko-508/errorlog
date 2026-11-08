@@ -40,7 +40,7 @@ top_queries:
 
 - `"Code": "NoSuchKey"` → S3が返す[エラーコード](/glossary/エラーコード/)。指定した[キー](/glossary/キー/)が[バケット](/glossary/バケット/)内に存在しないことを示す
 - `"Message": "The specified key does not exist."` → 詳細な説明。[リクエスト](/glossary/リクエスト/)で指定された[オブジェクト](/glossary/オブジェクト/)が[バケット](/glossary/バケット/)に見つからなかったことを意味する
-- `"HTTPStatusCode": 404` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)。リソースが見つからないことを示す標準的な応答
+- `"HTTPStatusCode": 404` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)。[リソース](/glossary/リソース/)が見つからないことを示す標準的な応答
 - `content-type: application/xml` → S3が[XML](/glossary/xml/)形式で[エラーレスポンス](/glossary/エラーレスポンス/)を返していることを示す
 
 ## よくある原因と解決手順
@@ -76,17 +76,17 @@ data = response['Body'].read()
 print(f"Successfully retrieved: {key}")
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3 ls s3://my-bucket/documents/
 ```
 
-`my_file.txt` が一覧に表示されれば[キー](/glossary/キー/)名が正しいことが確認できます。
+`my_file.txt` が一覧に表示されれば[キー](/glossary/キー/)名が正しいことが[確認](/glossary/確認/)できます。
 
 ### 原因2：バケット内のオブジェクトの存在確認なしにアクセス
 
-GetObject の前に HeadObject を使って、[オブジェクト](/glossary/オブジェクト/)が実際に存在するか確認していない場合、存在しない[キー](/glossary/キー/)へのアクセスが直ちに NoSuchKey [エラー](/glossary/エラー/)を引き起こします。特に、ユーザー入力やダイナミックに構築された[キー](/glossary/キー/)を使う場合は、事前の存在確認が不可欠です。
+GetObject の前に HeadObject を使って、[オブジェクト](/glossary/オブジェクト/)が実際に存在するか[確認](/glossary/確認/)していない場合、存在しない[キー](/glossary/キー/)へのアクセスが直ちに NoSuchKey [エラー](/glossary/エラー/)を引き起こします。特に、[ユーザー](/glossary/ユーザー/)入力やダイナミックに構築された[キー](/glossary/キー/)を使う場合は、事前の存在確認が不可欠です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -129,13 +129,13 @@ except ClientError as e:
         print(f"Error: {e}")
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3api head-object --bucket my-bucket --key "uploads/user123/profile.jpg"
 ```
 
-[メタデータ](/glossary/メタデータ/)が表示されれば、[オブジェクト](/glossary/オブジェクト/)が存在することが確認できます。[エラー](/glossary/エラー/)が出た場合は、[キー](/glossary/キー/)名を見直してください。
+[メタデータ](/glossary/メタデータ/)が表示されれば、[オブジェクト](/glossary/オブジェクト/)が存在することが[確認](/glossary/確認/)できます。[エラー](/glossary/エラー/)が出た場合は、[キー](/glossary/キー/)名を見直してください。
 
 ### 原因3：バージョニング有効なバケットで旧バージョンのオブジェクトにアクセス
 
@@ -180,13 +180,13 @@ if 'Versions' in versions:
             break
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3api list-object-versions --bucket versioned-bucket --prefix "important-file.txt"
 ```
 
-出力された `VersionId` が有効であることが確認でき、`IsLatest: true` で最新[バージョン](/glossary/バージョン/)を識別できます。
+出力された `VersionId` が有効であることが[確認](/glossary/確認/)でき、`IsLatest: true` で最新[バージョン](/glossary/バージョン/)を識別できます。
 
 ## 解決策の早見表
 
@@ -200,7 +200,7 @@ aws s3api list-object-versions --bucket versioned-bucket --prefix "important-fil
 
 ### AWS CLIコマンドラインでの確認方法
 
-S3の操作を [AWS](/glossary/aws/) [CLI](/glossary/cli/) で行う場合、`aws s3 ls` でプレフィックスを指定して存在する[オブジェクト](/glossary/オブジェクト/)一覧を確認することが最初のトラブルシューティングステップになります。
+S3の操作を [AWS](/glossary/aws/) [CLI](/glossary/cli/) で行う場合、`aws s3 ls` でプレフィックスを指定して存在する[オブジェクト](/glossary/オブジェクト/)一覧を[確認](/glossary/確認/)することが最初のトラブルシューティングステップになります。
 
 ```bash
 aws s3 ls s3://my-bucket/documents/
@@ -214,13 +214,13 @@ aws s3 ls s3://my-bucket/documents/
 
 ### CloudFormation・IaC環境での再デプロイ
 
-Infrastructure as Code（CloudFormation、Terraform等）でS3リソースを管理している場合、[デプロイ](/glossary/デプロイ/)時に[キー](/glossary/キー/)名の指定が[環境変数](/glossary/環境変数/)や出力値と不一致になることがあります。[テンプレート](/glossary/テンプレート/)内の[キー](/glossary/キー/)参照がハードコードされていないか、変数展開が正しく実行されているか確認してください。
+Infrastructure as Code（CloudFormation、Terraform等）でS3[リソース](/glossary/リソース/)を管理している場合、[デプロイ](/glossary/デプロイ/)時に[キー](/glossary/キー/)名の指定が[環境変数](/glossary/環境変数/)や出力値と不一致になることがあります。[テンプレート](/glossary/テンプレート/)内の[キー](/glossary/キー/)参照がハードコードされていないか、変数展開が正しく実行されているか[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
 ### ログ確認とデバッグ
 
-[AWS](/glossary/aws/) CloudTrail で S3 [API](/glossary/api/) 呼び出しの詳細[ログ](/glossary/ログ/)を確認できます。CloudTrail [コンソール](/glossary/コンソール/)から **Data events** を有効化し、GetObject、HeadObject の呼び出し履歴を確認することで、実際に[送信](/glossary/送信/)された[キー](/glossary/キー/)と[受信](/glossary/受信/)した[レスポンス](/glossary/レスポンス/)を追跡できます。
+[AWS](/glossary/aws/) CloudTrail で S3 [API](/glossary/api/) 呼び出しの詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)できます。CloudTrail [コンソール](/glossary/コンソール/)から **Data events** を有効化し、GetObject、HeadObject の呼び出し履歴を[確認](/glossary/確認/)することで、実際に[送信](/glossary/送信/)された[キー](/glossary/キー/)と[受信](/glossary/受信/)した[レスポンス](/glossary/レスポンス/)を追跡できます。
 
 ```bash
 aws cloudtrail lookup-events --lookup-attributes AttributeKey=ResourceName,AttributeValue=my-bucket
@@ -233,7 +233,7 @@ aws s3api get-bucket-policy --bucket my-bucket
 aws s3api get-object-acl --bucket my-bucket --key "path/to/object"
 ```
 
-バケットポリシーによって特定のプリンシパルに GetObject が明示的に拒否されていないか確認してください。
+バケットポリシーによって特定のプリンシパルに GetObject が明示的に拒否されていないか[確認](/glossary/確認/)してください。
 
 ### S3 リージョンの確認
 
@@ -241,7 +241,7 @@ aws s3api get-object-acl --bucket my-bucket --key "path/to/object"
 aws s3api get-bucket-location --bucket my-bucket
 ```
 
-[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)しているリージョンと[バケット](/glossary/バケット/)の実際のリージョンが異なっていないか確認します。
+[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)しているリージョンと[バケット](/glossary/バケット/)の実際のリージョンが異なっていないか[確認](/glossary/確認/)します。
 
 ## 代替ツールの検討
 
@@ -255,10 +255,10 @@ NoSuchKey [エラー](/glossary/エラー/)が頻発して運用に支障が出�
 
 ## Editor's Note
 
-[Stack Overflow での報告](https://stackoverflow.com/questions/44778448/s3-giving-me-nosuchkey-error-even-when-the-key-exists)では、「[キー](/glossary/キー/)は確実に存在しているのに NoSuchKey が出る」というケースが頻繁に報告されており、その多くは[キー](/glossary/キー/)末尾の改行文字（%0A）や先頭スラッシュなどの特殊文字の混入が原因でした。LocalStack の [GitHub Issue #8174](https://github.com/localstack/localstack/issues/8174) でも、特殊文字（a@a など）を含む[フォルダ](/glossary/フォルダ/)名で PutObject が NoSuchKey を返す問題が確認されており、特殊文字のエスケープ漏れは見落としやすい点として注意が必要です。現場では、HeadObject での事前確認と S3 サーバーアクセスログ（[AWS](/glossary/aws/) 公式が直接推奨）の確認から着手するのが有効です。CloudTrail も参照可能ですが、S3 アクセスの直接的な調査には S3 サーバーアクセスログが適しています。
+[Stack Overflow での報告](https://stackoverflow.com/questions/44778448/s3-giving-me-nosuchkey-error-even-when-the-key-exists)では、「[キー](/glossary/キー/)は確実に存在しているのに NoSuchKey が出る」というケースが頻繁に報告されており、その多くは[キー](/glossary/キー/)末尾の改行文字（%0A）や先頭スラッシュなどの特殊文字の混入が原因でした。LocalStack の [GitHub Issue #8174](https://github.com/localstack/localstack/issues/8174) でも、特殊文字（a@a など）を含む[フォルダ](/glossary/フォルダ/)名で PutObject が NoSuchKey を返す問題が[確認](/glossary/確認/)されており、特殊文字のエスケープ漏れは見落としやすい点として注意が必要です。現場では、HeadObject での事前確認と S3 サーバーアクセスログ（[AWS](/glossary/aws/) 公式が直接推奨）の[確認](/glossary/確認/)から着手するのが有効です。CloudTrail も参照可能ですが、S3 アクセスの直接的な調査には S3 サーバーアクセスログが適しています。
 
 > **調査について**　この記事の解決策は、Stack Overflow・[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で[検索](/glossary/検索/)・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

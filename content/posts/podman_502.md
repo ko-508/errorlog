@@ -64,7 +64,7 @@ oc wait --for=condition=Ready pod -l app=quay --timeout=300s
 podman pull quay.io/<your-namespace>/<image-name>:latest
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 podman pull quay.io/<your-namespace>/<image-name>:latest
@@ -100,7 +100,7 @@ Environment="PROXY_BACKEND=http://host.containers.internal:8000"
 Environment="PROXY_BACKEND=http://192.168.0.17:8000"
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 podman logs app-container | grep -i "proxy\|connection"
@@ -150,7 +150,7 @@ Network=app-network
 # frontend が backend に http://backend:8000 でアクセス可能になる
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 podman network ls
@@ -186,7 +186,7 @@ runtime = "runc"
 # krun のバージョンと Podman のバージョンの互換性を確認
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 podman info | grep -A 5 "runtimes:"
@@ -223,7 +223,7 @@ podman run -p 8000:8000 --network=slirp4netns myapp:latest
 # pasta_options = ["--mtu=1500"]
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 podman run --rm -p 8000:8000 myapp:latest &
@@ -248,11 +248,11 @@ curl http://localhost:8000
 
 **Quadlet との組み合わせ**：Podman v4.4 以降、systemd ネイティブの Quadlet [ファイル形式](/glossary/ファイル形式/)で[コンテナ](/glossary/コンテナ/)を管理できます。この場合、`[Network]` セクションで明示的に[ネットワーク](/glossary/ネットワーク/)を定義し、複数の `[Container]` で同じ[ネットワーク](/glossary/ネットワーク/)名を参照することが重要です。`podman-compose` や [YAML](/glossary/yaml/) [ファイル](/glossary/ファイル/)とは異なり、Quadlet は各[ファイル](/glossary/ファイル/)が独立して systemd サービスに変換されるため、[ネットワーク](/glossary/ネットワーク/)定義を別[ファイル](/glossary/ファイル/)で明示的に記述する必要があります。
 
-**Quay [インスタンス](/glossary/インスタンス/)の[バックエンド](/glossary/バックエンド/)確認**：自ホスト上で Quay を実行している場合、バックエンドストレージ（PostgreSQL、Redis 等）が正常に動作しているか確認してください。`podman logs quay-container` で[バックエンド](/glossary/バックエンド/)接続[エラー](/glossary/エラー/)が表示されていないか確認し、必要に応じてバックエンドサービスも再起動してください。
+**Quay [インスタンス](/glossary/インスタンス/)の[バックエンド](/glossary/バックエンド/)[確認](/glossary/確認/)**：自ホスト上で Quay を実行している場合、バックエンドストレージ（PostgreSQL、Redis 等）が正常に動作しているか[確認](/glossary/確認/)してください。`podman logs quay-container` で[バックエンド](/glossary/バックエンド/)接続[エラー](/glossary/エラー/)が表示されていないか[確認](/glossary/確認/)し、必要に応じてバックエンドサービスも再起動してください。
 
 ## それでも解決しない場合
 
-ポドマン・レジストリサーバーの[ログ](/glossary/ログ/)を詳しく確認してください：
+ポドマン・レジストリサーバーの[ログ](/glossary/ログ/)を詳しく[確認](/glossary/確認/)してください：
 
 ```bash
 # Podman デーモンのログを確認
@@ -270,7 +270,7 @@ podman run --rm alpine nslookup <service-name>
 
 公式ドキュメント：[Podman Networking](https://docs.podman.io/en/latest/markdown/podman.1.html#network) および [Red Hat Solutions 6987158](https://access.redhat.com/solutions/6987158) で詳細なトラブルシューティング手順が提供されています。
 
-Podman v4.x から v5.0 への[アップグレード](/glossary/アップグレード/)後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を確認し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に[対応](/glossary/対応/)させたかどうかを検証してください。
+Podman v4.x から v5.0 への[アップグレード](/glossary/アップグレード/)後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に[対応](/glossary/対応/)させたかどうかを検証してください。
 
 ## 代替ツールの検討
 
@@ -282,4 +282,4 @@ Podman v4.x から v5.0 への[アップグレード](/glossary/アップグレ�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

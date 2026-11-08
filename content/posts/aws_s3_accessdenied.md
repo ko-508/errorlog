@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-[AWS](/glossary/aws/) S3 の AccessDenied [エラー](/glossary/エラー/)は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)の不足、バケットポリシーの明示的な拒否設定、または[オブジェクト](/glossary/オブジェクト/)の ACL [設定](/glossary/設定/)によって、リソースへのアクセスが拒否されたときに発生します。認証情報は正常に認識されているものの、[権限](/glossary/権限/)がない状態です。
+[AWS](/glossary/aws/) S3 の AccessDenied [エラー](/glossary/エラー/)は、[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)の不足、バケットポリシーの明示的な拒否設定、または[オブジェクト](/glossary/オブジェクト/)の ACL [設定](/glossary/設定/)によって、[リソース](/glossary/リソース/)へのアクセスが拒否されたときに発生します。認証情報は正常に認識されているものの、[権限](/glossary/権限/)がない状態です。
 
 ## 実際のエラーメッセージ例
 
@@ -35,14 +35,14 @@ An error occurred (AccessDenied) when calling the GetObject operation: Access De
 **[エラーメッセージ](/glossary/エラーメッセージ/)の読み方：**
 
 - `AccessDenied` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 403 に相当。[認証](/glossary/認証/)は成功したが[権限](/glossary/権限/)がない
-- `Access Denied` → リソースへのアクセスが拒否されていることを示すメッセージ
-- [リクエスト](/glossary/リクエスト/)元の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)・[IAM](/glossary/iam/) ユーザー・[ロール](/glossary/ロール/)が、実行しようとした[アクション](/glossary/アクション/)（s3:GetObject など）を許可されていない
+- `Access Denied` → [リソース](/glossary/リソース/)へのアクセスが拒否されていることを示すメッセージ
+- [リクエスト](/glossary/リクエスト/)元の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)・[IAM](/glossary/iam/) [ユーザー](/glossary/ユーザー/)・[ロール](/glossary/ロール/)が、実行しようとした[アクション](/glossary/アクション/)（s3:GetObject など）を許可されていない
 
 ## よくある原因と解決手順
 
 ### 原因1：IAM ポリシーで必要なアクションが許可されていない
 
-S3 [バケット](/glossary/バケット/)にアクセスするユーザー・[ロール](/glossary/ロール/)・サービスに対して、`s3:GetObject`、`s3:PutObject` などの必要な[権限](/glossary/権限/)が付与されていない場合に発生します。特に新規に作成した [IAM](/glossary/iam/) ユーザーや、特定の[バケット](/glossary/バケット/)に限定したアクセスに構成した際に起きやすいです。
+S3 [バケット](/glossary/バケット/)にアクセスする[ユーザー](/glossary/ユーザー/)・[ロール](/glossary/ロール/)・サービスに対して、`s3:GetObject`、`s3:PutObject` などの必要な[権限](/glossary/権限/)が付与されていない場合に発生します。特に新規に作成した [IAM](/glossary/iam/) [ユーザー](/glossary/ユーザー/)や、特定の[バケット](/glossary/バケット/)に限定したアクセスに構成した際に起きやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -86,7 +86,7 @@ S3 [バケット](/glossary/バケット/)にアクセスするユーザー・[�
 }
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
@@ -135,7 +135,7 @@ aws s3 cp s3://my-bucket/test.txt . --profile <your-profile>
 }
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3api get-bucket-policy --bucket my-bucket --profile <your-profile>
@@ -145,7 +145,7 @@ aws s3api get-bucket-policy --bucket my-bucket --profile <your-profile>
 
 ### 原因3：Block Public Access 設定が有効で、公開アクセスがブロックされている
 
-[オブジェクト](/glossary/オブジェクト/)の ACL を Public に[設定](/glossary/設定/)しても、S3 の Block Public Access 機能が有効な場合は公開アクセスが拒否されます。特に外部ユーザーや別[アカウント](/glossary/アカウント/)からのアクセスを想定している場合に発生します。
+[オブジェクト](/glossary/オブジェクト/)の ACL を Public に[設定](/glossary/設定/)しても、S3 の Block Public Access 機能が有効な場合は公開アクセスが拒否されます。特に外部[ユーザー](/glossary/ユーザー/)や別[アカウント](/glossary/アカウント/)からのアクセスを想定している場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -172,7 +172,7 @@ aws s3api put-public-access-block \
   --profile <your-profile>
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3api get-public-access-block --bucket my-bucket --profile <your-profile>
@@ -182,7 +182,7 @@ aws s3api get-public-access-block --bucket my-bucket --profile <your-profile>
 
 ### 原因4：別のAWSアカウント・クロスアカウントアクセスが正しく設定されていない
 
-別の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)のユーザーまたは[ロール](/glossary/ロール/)が[バケット](/glossary/バケット/)にアクセスする場合、バケットポリシーでそのプリンシパル（外部[アカウント](/glossary/アカウント/)の ARN）を明示的に許可し、同時に外部[アカウント](/glossary/アカウント/)側の [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)も s3 [アクション](/glossary/アクション/)を許可する必要があります。どちらか一方が不足すると AccessDenied が発生します。
+別の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)の[ユーザー](/glossary/ユーザー/)または[ロール](/glossary/ロール/)が[バケット](/glossary/バケット/)にアクセスする場合、バケットポリシーでそのプリンシパル（外部[アカウント](/glossary/アカウント/)の ARN）を明示的に許可し、同時に外部[アカウント](/glossary/アカウント/)側の [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)も s3 [アクション](/glossary/アクション/)を許可する必要があります。どちらか一方が不足すると AccessDenied が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -202,7 +202,7 @@ aws s3api get-public-access-block --bucket my-bucket --profile <your-profile>
 }
 ```
 
-外部[アカウント](/glossary/アカウント/)（123456789012）の [IAM](/glossary/iam/) ユーザーの[権限](/glossary/権限/)が不足している状態。
+外部[アカウント](/glossary/アカウント/)（123456789012）の [IAM](/glossary/iam/) [ユーザー](/glossary/ユーザー/)の[権限](/glossary/権限/)が不足している状態。
 
 **After（修正後）：**
 
@@ -227,7 +227,7 @@ aws s3api get-public-access-block --bucket my-bucket --profile <your-profile>
 }
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3 ls s3://my-bucket --profile <cross-account-profile>
@@ -248,11 +248,11 @@ aws s3 ls s3://my-bucket --profile <cross-account-profile>
 
 **[AWS](/glossary/aws/) マネジメントコンソールでの確認方法：**
 
-S3 [コンソール](/glossary/コンソール/) → [バケット](/glossary/バケット/)名をクリック → 「[権限](/glossary/権限/)」タブで「バケットポリシー」「ACL」「Block Public Access」を確認します。[ポリシー](/glossary/ポリシー/)の [JSON](/glossary/json/) は視覚的には わかりにくいため、[AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator（`https://policysim.aws.amazon.com/`）を使用して[アクション](/glossary/アクション/)実行をシミュレーションすることで、どの[ポリシー](/glossary/ポリシー/)が拒否しているか特定できます。
+S3 [コンソール](/glossary/コンソール/) → [バケット](/glossary/バケット/)名をクリック → 「[権限](/glossary/権限/)」タブで「バケットポリシー」「ACL」「Block Public Access」を[確認](/glossary/確認/)します。[ポリシー](/glossary/ポリシー/)の [JSON](/glossary/json/) は視覚的には わかりにくいため、[AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator（`https://policysim.aws.amazon.com/`）を使用して[アクション](/glossary/アクション/)実行をシミュレーションすることで、どの[ポリシー](/glossary/ポリシー/)が拒否しているか特定できます。
 
 **[IAM](/glossary/iam/) [ロール](/glossary/ロール/)経由でのアクセス：**
 
-EC2 [インスタンス](/glossary/インスタンス/)や Lambda [関数](/glossary/関数/)から S3 にアクセスする場合、インスタンスプロファイルまたは実行[ロール](/glossary/ロール/)に s3 [権限](/glossary/権限/)が付与されていることを確認してください。`aws sts get-caller-identity` を実行し、実際に使用されている[ロール](/glossary/ロール/) ARN を確認したうえで、その[ロール](/glossary/ロール/)の[ポリシー](/glossary/ポリシー/)を検証します。
+EC2 [インスタンス](/glossary/インスタンス/)や Lambda [関数](/glossary/関数/)から S3 にアクセスする場合、インスタンスプロファイルまたは実行[ロール](/glossary/ロール/)に s3 [権限](/glossary/権限/)が付与されていることを[確認](/glossary/確認/)してください。`aws sts get-caller-identity` を実行し、実際に使用されている[ロール](/glossary/ロール/) ARN を[確認](/glossary/確認/)したうえで、その[ロール](/glossary/ロール/)の[ポリシー](/glossary/ポリシー/)を検証します。
 
 **[バージョン管理](/glossary/バージョン管理/)が有効な場合：**
 
@@ -260,7 +260,7 @@ EC2 [インスタンス](/glossary/インスタンス/)や Lambda [関数](/glos
 
 ## それでも解決しない場合
 
-**[AWS](/glossary/aws/) CloudTrail で[リクエスト](/glossary/リクエスト/)を確認：**
+**[AWS](/glossary/aws/) CloudTrail で[リクエスト](/glossary/リクエスト/)を[確認](/glossary/確認/)：**
 
 ```bash
 aws cloudtrail lookup-events \
@@ -269,11 +269,11 @@ aws cloudtrail lookup-events \
   --profile <your-profile>
 ```
 
-CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/glossary/リクエスト/)の詳細（どの [IAM](/glossary/iam/) ユーザー、どのプリンシパルが拒否されたか）が確認できます。拒否の理由が「implicitDeny」（明示的な Allow がない）なのか「explicitDeny」（Deny [ポリシー](/glossary/ポリシー/)が存在）なのか判定できます。
+CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/glossary/リクエスト/)の詳細（どの [IAM](/glossary/iam/) [ユーザー](/glossary/ユーザー/)、どのプリンシパルが拒否されたか）が[確認](/glossary/確認/)できます。拒否の理由が「implicitDeny」（明示的な Allow がない）なのか「explicitDeny」（Deny [ポリシー](/glossary/ポリシー/)が存在）なのか判定できます。
 
 **[AWS](/glossary/aws/) Access Analyzer の活用：**
 
-[AWS](/glossary/aws/) [IAM](/glossary/iam/) Access Analyzer を使用すると、バケットポリシーやロールポリシーの問題を自動検出できます。[AWS](/glossary/aws/) [コンソール](/glossary/コンソール/) → [IAM](/glossary/iam/) → Access Analyzer → リソースの外部アクセス可否を調査 で、アクセス拒否の原因を指摘してもらえます。
+[AWS](/glossary/aws/) [IAM](/glossary/iam/) Access Analyzer を使用すると、バケットポリシーやロールポリシーの問題を自動検出できます。[AWS](/glossary/aws/) [コンソール](/glossary/コンソール/) → [IAM](/glossary/iam/) → Access Analyzer → [リソース](/glossary/リソース/)の外部アクセス可否を調査 で、アクセス拒否の原因を指摘してもらえます。
 
 **公式ドキュメント：**
 
@@ -291,8 +291,8 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 ## Editor's Note
 
-[AWS](/glossary/aws/) 公式ドキュメントでは [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)と バケットポリシーの関係を別々に説明していることが多いため、新規ユーザーは「[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow しているのに拒否される」という混乱に陥りやすいです。実際のサポートフォーラムでは、[AWS re:Post での AccessDenied 事例](https://repost.aws/)でもこの原因が頻出しており、バケットポリシーの Deny 条件や Block Public Access が見落とされるケースが圧倒的です。現場では、まず [AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator で[ポリシー](/glossary/ポリシー/)評価を実行し、複数の[ポリシー](/glossary/ポリシー/)がどの順序で評価されているか可視化してから、個別の[ポリシー](/glossary/ポリシー/)を[修正](/glossary/修正/)するのが有効です。
+[AWS](/glossary/aws/) 公式ドキュメントでは [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)と バケットポリシーの関係を別々に説明していることが多いため、新規[ユーザー](/glossary/ユーザー/)は「[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow しているのに拒否される」という混乱に陥りやすいです。実際のサポートフォーラムでは、[AWS re:Post での AccessDenied 事例](https://repost.aws/)でもこの原因が頻出しており、バケットポリシーの Deny 条件や Block Public Access が見落とされるケースが圧倒的です。現場では、まず [AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator で[ポリシー](/glossary/ポリシー/)評価を実行し、複数の[ポリシー](/glossary/ポリシー/)がどの順序で評価されているか可視化してから、個別の[ポリシー](/glossary/ポリシー/)を[修正](/glossary/修正/)するのが有効です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

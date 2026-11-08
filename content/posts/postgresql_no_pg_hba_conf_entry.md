@@ -22,9 +22,9 @@ PostgreSQLへの接続時に次の[エラー](/glossary/エラー/)が出る場�
 FATAL:  no pg_hba.conf entry for host "192.168.1.10", user "app", database "mydb", no encryption
 ```
 
-[エラー](/glossary/エラー/)に表示された接続元IP、利用者名、[データベース](/glossary/データベース/)名、暗号化状態を確認し、この4つに合う規則を探してください。規則を追加する場合は、接続元を必要な範囲に絞り、`scram-sha-256`など適切な認証方式を指定します。
+[エラー](/glossary/エラー/)に表示された接続元IP、利用者名、[データベース](/glossary/データベース/)名、暗号化状態を[確認](/glossary/確認/)し、この4つに合う規則を探してください。規則を追加する場合は、接続元を必要な範囲に絞り、`scram-sha-256`など適切な認証方式を指定します。
 
-[Linux](/glossary/linux/)などでは、[ファイル](/glossary/ファイル/)の保存後に[設定](/glossary/設定/)の再読み込みが必要です。Microsoft Windowsでは、変更内容がその後の新しい接続へ直ちに適用されます。
+[Linux](/glossary/linux/)などでは、[ファイル](/glossary/ファイル/)の保存後に[設定](/glossary/設定/)の再読み込みが必要です。Microsoft [Windows](/glossary/windows/)では、変更内容がその後の新しい接続へ直ちに適用されます。
 
 ## no pg_hba.conf entry for hostの意味
 
@@ -32,7 +32,7 @@ FATAL:  no pg_hba.conf entry for host "192.168.1.10", user "app", database "mydb
 
 PostgreSQLは、接続種別、接続元アドレス、要求された[データベース](/glossary/データベース/)、利用者名の4つを上から順に照合します。一致する規則が1つもなければ、接続を拒否して`no pg_hba.conf entry for host`を返します。
 
-この[エラー](/glossary/エラー/)のSQLSTATEは`28000`、条件名は`invalid_authorization_specification`です。[パスワード](/glossary/パスワード/)が違う場合の`28P01`とは別の[エラー](/glossary/エラー/)です。[PostgreSQL公式のエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)で確認できます。
+この[エラー](/glossary/エラー/)のSQLSTATEは`28000`、条件名は`invalid_authorization_specification`です。[パスワード](/glossary/パスワード/)が違う場合の`28P01`とは別の[エラー](/glossary/エラー/)です。[PostgreSQL公式のエラーコード一覧](https://www.postgresql.org/docs/current/errcodes-appendix.html)で[確認](/glossary/確認/)できます。
 
 ## エラー文の4項目を確認する
 
@@ -47,25 +47,25 @@ no encryption
 
 `host`の値は、PostgreSQLから見た接続元IPです。利用者が想定していたIPではなく、[エラー](/glossary/エラー/)に表示された値を基準にしてください。
 
-`user`と`database`は、接続時に指定されたPostgreSQLの利用者名と[データベース](/glossary/データベース/)名です。似た名前の別環境へ接続していないかも確認します。
+`user`と`database`は、接続時に指定されたPostgreSQLの利用者名と[データベース](/glossary/データベース/)名です。似た名前の別環境へ接続していないかも[確認](/glossary/確認/)します。
 
 末尾の`no encryption`は[暗号化](/glossary/暗号化/)されていない接続です。[環境](/glossary/環境/)によっては`SSL encryption`または`GSS encryption`と表示されます。これは単なる補足ではなく、`hostssl`などの接続種別と照合する条件です。
 
 ## pg_hba.confの場所を確認する
 
-編集すべき[ファイル](/glossary/ファイル/)の場所は、接続済みの管理用[セッション](/glossary/セッション/)から確認できます。
+編集すべき[ファイル](/glossary/ファイル/)の場所は、接続済みの管理用[セッション](/glossary/セッション/)から[確認](/glossary/確認/)できます。
 
 ```sql
 SHOW hba_file;
 ```
 
-PostgreSQLは認証設定[ファイル](/glossary/ファイル/)を別の場所へ移せるため、想像した場所の[ファイル](/glossary/ファイル/)を編集すると反映されないことがあります。必ず実際に使用されている[パス](/glossary/パス/)を確認してください。
+PostgreSQLは認証設定[ファイル](/glossary/ファイル/)を別の場所へ移せるため、想像した場所の[ファイル](/glossary/ファイル/)を編集すると反映されないことがあります。必ず実際に使用されている[パス](/glossary/パス/)を[確認](/glossary/確認/)してください。
 
-接続できる管理用[セッション](/glossary/セッション/)がない場合は、[サーバー](/glossary/サーバー/)の設定管理、[コンテナ](/glossary/コンテナ/)のマウント[設定](/glossary/設定/)、[クラウドサービス](/glossary/クラウドサービス/)の管理画面などで使用中の認証設定を確認します。管理サービスでは`pg_hba.conf`を直接編集できない場合があります。
+接続できる管理用[セッション](/glossary/セッション/)がない場合は、[サーバー](/glossary/サーバー/)の設定管理、[コンテナ](/glossary/コンテナ/)のマウント[設定](/glossary/設定/)、[クラウドサービス](/glossary/クラウドサービス/)の管理画面などで使用中の認証設定を[確認](/glossary/確認/)します。管理サービスでは`pg_hba.conf`を直接編集できない場合があります。
 
 ## 読み込める規則と書式エラーを調べる
 
-`pg_hba_file_rules`を使うと、`pg_hba.conf`の規則と書式[エラー](/glossary/エラー/)を確認できます。既定ではスーパーユーザーだけが参照できます。
+`pg_hba_file_rules`を使うと、`pg_hba.conf`の規則と書式[エラー](/glossary/エラー/)を[確認](/glossary/確認/)できます。既定ではスーパーユーザーだけが参照できます。
 
 ```sql
 SELECT
@@ -134,7 +134,7 @@ postgresql://app@example.com/mydb?sslmode=require
 host    mydb    app    192.168.1.0/24    scram-sha-256
 ```
 
-接続先が別の[データベース](/glossary/データベース/)名だったり、利用者名が異なったりすれば対象外です。複数の値を広く許可する前に、[アプリケーション](/glossary/アプリケーション/)の接続文字列を確認してください。
+接続先が別の[データベース](/glossary/データベース/)名だったり、利用者名が異なったりすれば対象外です。複数の値を広く許可する前に、[アプリケーション](/glossary/アプリケーション/)の接続文字列を[確認](/glossary/確認/)してください。
 
 [データベース](/glossary/データベース/)列や利用者列の`all`は、その列のすべてに一致する指定です。ただし、接続種別や接続元まで無条件に許可する意味ではありません。4つの条件すべてに一致する必要があります。
 
@@ -173,7 +173,7 @@ pg_ctl reload -D /var/lib/postgresql/data
 
 実際のデータディレクトリやサービスの管理方法は[環境](/glossary/環境/)によって異なります。[コンテナ](/glossary/コンテナ/)や[クラウドサービス](/glossary/クラウドサービス/)では、提供されている再読み込み方法を使ってください。
 
-Microsoft Windowsでは例外として、[ファイル](/glossary/ファイル/)変更後の新しい接続へ直ちに適用されます。この違いは[PostgreSQL公式文書](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)に明記されています。
+Microsoft [Windows](/glossary/windows/)では例外として、[ファイル](/glossary/ファイル/)変更後の新しい接続へ直ちに適用されます。この違いは[PostgreSQL公式文書](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)に明記されています。
 
 ## trustや全アドレス許可を避ける
 
@@ -193,14 +193,14 @@ host    all    all    0.0.0.0/0    trust
 
 `no pg_hba.conf entry for host`は、PostgreSQLまで到達したうえで、接続を許可する規則が見つからなかった状態です。
 
-`password authentication failed for user`は、一致する規則が見つかり、その規則が指定した[認証](/glossary/認証/)に失敗した状態です。利用者名、[パスワード](/glossary/パスワード/)、[保存](/glossary/保存/)されている認証情報を確認してください。
+`password authentication failed for user`は、一致する規則が見つかり、その規則が指定した[認証](/glossary/認証/)に失敗した状態です。利用者名、[パスワード](/glossary/パスワード/)、[保存](/glossary/保存/)されている認証情報を[確認](/glossary/確認/)してください。
 
 ## 解決手順のまとめ
 
-最初に[エラー](/glossary/エラー/)文のIP、利用者名、[データベース](/glossary/データベース/)名、暗号化状態を確認します。次に`SHOW hba_file;`で実際の[設定ファイル](/glossary/設定ファイル/)を特定し、`pg_hba_file_rules`で規則と書式[エラー](/glossary/エラー/)を調べてください。
+最初に[エラー](/glossary/エラー/)文のIP、利用者名、[データベース](/glossary/データベース/)名、暗号化状態を[確認](/glossary/確認/)します。次に`SHOW hba_file;`で実際の[設定ファイル](/glossary/設定ファイル/)を特定し、`pg_hba_file_rules`で規則と書式[エラー](/glossary/エラー/)を調べてください。
 
-接続種別、接続元、[データベース](/glossary/データベース/)、利用者の4つに一致する規則を、必要な範囲だけ許可する形で追加または[修正](/glossary/修正/)します。規則の順序と[SSL](/glossary/ssl/)条件も確認してください。
+接続種別、接続元、[データベース](/glossary/データベース/)、利用者の4つに一致する規則を、必要な範囲だけ許可する形で追加または[修正](/glossary/修正/)します。規則の順序と[SSL](/glossary/ssl/)条件も[確認](/glossary/確認/)してください。
 
 [Linux](/glossary/linux/)などでは最後に[設定](/glossary/設定/)を再読み込みします。広すぎる接続元や`trust`を一時的な回避策として使わず、必要な接続だけを許可することが重要です。
 
-免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[本番環境](/glossary/本番環境/)で`pg_hba.conf`を変更する前に、現在の[設定](/glossary/設定/)を[保存](/glossary/保存/)し、管理用接続を維持した状態で書式、適用範囲、[暗号化](/glossary/暗号化/)、認証方式を確認してください。
+免責事項：本記事の内容は一般的なPostgreSQL[環境](/glossary/環境/)を前提としています。[本番環境](/glossary/本番環境/)で`pg_hba.conf`を変更する前に、現在の[設定](/glossary/設定/)を[保存](/glossary/保存/)し、管理用接続を維持した状態で書式、適用範囲、[暗号化](/glossary/暗号化/)、認証方式を[確認](/glossary/確認/)してください。

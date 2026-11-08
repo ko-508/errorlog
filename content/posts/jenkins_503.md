@@ -67,7 +67,7 @@ sleep 10
 curl -X POST http://localhost:8080/job/<your-job-name>/build
 ```
 
-サービスが起動していることを確認してから、以下の[コマンド](/glossary/コマンド/)でJenkinsが完全に起動するまで待つとよいでしょう。
+サービスが起動していることを[確認](/glossary/確認/)してから、以下の[コマンド](/glossary/コマンド/)でJenkinsが完全に起動するまで待つとよいでしょう。
 
 ```bash
 # Jenkinsが起動完了するまで待機（ポート接続確認）
@@ -98,7 +98,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart jenkins
 ```
 
-[メモリ](/glossary/メモリ/)使用状況を[リアルタイム](/glossary/リアルタイム/)で監視する場合は、以下の[コマンド](/glossary/コマンド/)で確認します。
+[メモリ](/glossary/メモリ/)使用状況を[リアルタイム](/glossary/リアルタイム/)で監視する場合は、以下の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)します。
 
 ```bash
 # Jenkinsプロセスのメモリ使用量を確認
@@ -108,11 +108,11 @@ ps aux | grep jenkins | grep -v grep
 top -p $(pgrep -f "jenkins.war")
 ```
 
-また、Jenkinsの管理画面の「Manage Jenkins」→「System Information」でヒープメモリの状態を確認することも重要です。ヒープ使用率が90%以上の場合は即座に[メモリ](/glossary/メモリ/)増設が必要です。
+また、Jenkinsの管理画面の「Manage Jenkins」→「System Information」でヒープメモリの状態を[確認](/glossary/確認/)することも重要です。ヒープ使用率が90%以上の場合は即座に[メモリ](/glossary/メモリ/)増設が必要です。
 
 ### 原因3：セーフリスタートモードが有効になっている
 
-Jenkinsの[更新](/glossary/更新/)や[プラグイン](/glossary/プラグイン/)の[インストール](/glossary/インストール/)後、セーフリスタートモードに入ることがあります。このモード中は新規ビルドの[トリガー](/glossary/トリガー/)が拒否され、既存のジョブも完全には動作しない状態になります。ユーザーが誤ってセーフリスタートを実行したり、手動で[ファイル](/glossary/ファイル/)を編集してこのモードに突入することもあります。
+Jenkinsの[更新](/glossary/更新/)や[プラグイン](/glossary/プラグイン/)の[インストール](/glossary/インストール/)後、セーフリスタートモードに入ることがあります。このモード中は新規ビルドの[トリガー](/glossary/トリガー/)が拒否され、既存のジョブも完全には動作しない状態になります。[ユーザー](/glossary/ユーザー/)が誤ってセーフリスタートを実行したり、手動で[ファイル](/glossary/ファイル/)を編集してこのモードに突入することもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -158,15 +158,15 @@ sudo systemctl start jenkins
 
 Jenkins [環境](/glossary/環境/)では[プラグイン](/glossary/プラグイン/)の[バージョン](/glossary/バージョン/)競合やスクリプトコンソールの実行でも[メモリ](/glossary/メモリ/)枯渇が発生することがあります。「Manage Jenkins」→「Plugin Manager」で不要または古い[プラグイン](/glossary/プラグイン/)を定期的に[削除](/glossary/削除/)することをお勧めします。
 
-また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に[保存](/glossary/保存/)されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に確認してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを[検索](/glossary/検索/)するとよいでしょう。
+また、Jenkinsの `jenkins.log` と `jenkins.err` [ログファイル](/glossary/ログファイル/)は `/var/log/jenkins/` または JENKINS_HOME 配下に[保存](/glossary/保存/)されます。503[エラー](/glossary/エラー/)の詳細な原因を調査する際は、これらの[ログ](/glossary/ログ/)を最初に[確認](/glossary/確認/)してください。特に「OutOfMemoryError」「Address already in use」というメッセージが出ていないかを[検索](/glossary/検索/)するとよいでしょう。
 
-[Docker](/glossary/docker/) を使用している場合、Jenkins[コンテナ](/glossary/コンテナ/)のリソース上限（[CPU](/glossary/cpu/)・[メモリ](/glossary/メモリ/)）が低く[設定](/glossary/設定/)されていないか確認してください。`docker inspect <container-id>` で `Memory`、`MemorySwap` の値を確認し、必要に応じて `docker update --memory <新しいサイズ> <container-id>` で増加させます。
+[Docker](/glossary/docker/) を使用している場合、Jenkins[コンテナ](/glossary/コンテナ/)の[リソース](/glossary/リソース/)上限（[CPU](/glossary/cpu/)・[メモリ](/glossary/メモリ/)）が低く[設定](/glossary/設定/)されていないか[確認](/glossary/確認/)してください。`docker inspect <container-id>` で `Memory`、`MemorySwap` の値を[確認](/glossary/確認/)し、必要に応じて `docker update --memory <新しいサイズ> <container-id>` で増加させます。
 
 ## それでも解決しない場合
 
 以下の手順でさらに詳細に診断を進めてください。
 
-**1. Jenkinsの[ログ](/glossary/ログ/)を確認する**
+**1. Jenkinsの[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する**
 
 ```bash
 # Jenkinsのログディレクトリを確認
@@ -176,7 +176,7 @@ sudo tail -f /var/log/jenkins/jenkins.log
 sudo tail -f /var/lib/jenkins/jenkins.log
 ```
 
-**2. Jenkins[プロセス](/glossary/プロセス/)が起動していることを確認する**
+**2. Jenkins[プロセス](/glossary/プロセス/)が起動していることを[確認](/glossary/確認/)する**
 
 ```bash
 # Javaプロセスが存在するか確認
@@ -188,7 +188,7 @@ sudo netstat -tlnp | grep 8080
 sudo ss -tlnp | grep 8080
 ```
 
-**3. Jenkinsの起動[ログ](/glossary/ログ/)を確認する**
+**3. Jenkinsの起動[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する**
 
 ```bash
 # systemd経由での起動ログを確認
@@ -198,7 +198,7 @@ sudo journalctl -u jenkins -n 50 --no-pager
 sudo grep jenkins /var/log/syslog | tail -20
 ```
 
-**4. JENKINS_HOME の[権限](/glossary/権限/)を確認する**
+**4. JENKINS_HOME の[権限](/glossary/権限/)を[確認](/glossary/確認/)する**
 
 ```bash
 # Jenkinsの JENKINS_HOME ディレクトリ（通常は /var/lib/jenkins）の権限確認
@@ -207,7 +207,7 @@ sudo chown -R jenkins:jenkins /var/lib/jenkins
 sudo chmod -R 755 /var/lib/jenkins
 ```
 
-**5. Jenkinsの[設定ファイル](/glossary/設定ファイル/)を確認する**
+**5. Jenkinsの[設定ファイル](/glossary/設定ファイル/)を[確認](/glossary/確認/)する**
 
 ```bash
 # Jenkins サービスファイルの設定を確認
@@ -220,4 +220,4 @@ cat /etc/default/jenkins
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -130,11 +130,11 @@ curl -X POST http://localhost:2375/containers/create \
 
 ### Docker Compose バージョンと設定値の互換性
 
-`docker-compose.yml`で `version: '3.8'`を指定した場合、古い構文（`1.0`時代の短縮[ポート](/glossary/ポート/)指定）は 422 で拒否されます。[バージョン](/glossary/バージョン/)と設定内容の整合性を確認してください。
+`docker-compose.yml`で `version: '3.8'`を指定した場合、古い構文（`1.0`時代の短縮[ポート](/glossary/ポート/)指定）は 422 で拒否されます。[バージョン](/glossary/バージョン/)と設定内容の整合性を[確認](/glossary/確認/)してください。
 
 ### レジストリ認証後のプッシュ時エラー
 
-[Docker](/glossary/docker/) Hub や Private Registry に[ログイン](/glossary/ログイン/)後、[プッシュ](/glossary/プッシュ/)時に 422 が出る場合は、[イメージ](/glossary/イメージ/)名が登録済み[プロジェクト](/glossary/プロジェクト/)の[パス](/glossary/パス/)構造に一致しているか確認します。
+[Docker](/glossary/docker/) Hub や Private Registry に[ログイン](/glossary/ログイン/)後、[プッシュ](/glossary/プッシュ/)時に 422 が出る場合は、[イメージ](/glossary/イメージ/)名が登録済み[プロジェクト](/glossary/プロジェクト/)の[パス](/glossary/パス/)構造に一致しているか[確認](/glossary/確認/)します。
 
 ```bash
 # 認証は成功したが 422 エラーが出る場合
@@ -157,7 +157,7 @@ DOCKER_BUILDKIT=1 docker build --no-cache -t myapp:v1 .
 
 ### ログ確認とデバッグコマンド
 
-[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を確認し、より詳細な[エラー](/glossary/エラー/)情報を取得します。
+[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)し、より詳細な[エラー](/glossary/エラー/)情報を取得します。
 
 ```bash
 # systemd でコンテナを実行している場合
@@ -177,10 +177,10 @@ curl -v --unix-socket /var/run/docker.sock \
 
 ### 環境別の確認ポイント
 
-- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を確認し、サポートされているイメージマニフェスト形式を検証します
-- **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`[設定](/glossary/設定/)とイメージレジストリの [CORS](/glossary/cors/)[設定](/glossary/設定/)を確認します
+- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)し、サポートされているイメージマニフェスト形式を検証します
+- **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`[設定](/glossary/設定/)とイメージレジストリの [CORS](/glossary/cors/)[設定](/glossary/設定/)を[確認](/glossary/確認/)します
 - **[CI/CD](/glossary/ci-cd/)パイプライン**: [GitHub](/glossary/github/) Actions や GitLab CI のアーティファクトストレージ[設定](/glossary/設定/)を見直し、イメージダイジェストの計算[ロジック](/glossary/ロジック/)を[テスト](/glossary/テスト/)します
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

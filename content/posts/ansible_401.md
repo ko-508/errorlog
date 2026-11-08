@@ -240,8 +240,8 @@ ansible-playbook playbook.yml --vault-password-file ~/.vault_pass
 
 ## ツール固有の注意点
 
-**SSHエージェント[設定](/glossary/設定/)の確認：**
-パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを確認してください。[Linux](/glossary/linux/)で`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を[登録](/glossary/登録/)することで、Ansibleの実行時にパスフレーズ入力が不要になります。
+**SSHエージェント[設定](/glossary/設定/)の[確認](/glossary/確認/)：**
+パスフレーズ保護された[秘密鍵](/glossary/秘密鍵/)を使用する場合、SSHエージェントが起動していることを[確認](/glossary/確認/)してください。[Linux](/glossary/linux/)で`eval $(ssh-agent -s)`を実行後、`ssh-add`で鍵を[登録](/glossary/登録/)することで、Ansibleの実行時にパスフレーズ入力が不要になります。
 
 **become_methodの指定：**
 [デフォルト](/glossary/デフォルト/)ではsudoが使用されますが、[環境](/glossary/環境/)によって異なる場合があります。`become_method: su`や`become_method: doas`など、ターゲットホスト[環境](/glossary/環境/)に応じた[設定](/glossary/設定/)をinventoryで指定してください。
@@ -264,7 +264,7 @@ ansible-playbook -i inventory.ini playbook.yml -vvv
 ssh -vvv -i ~/.ssh/id_rsa ubuntu@192.168.1.10
 ```
 
-**Ansible[設定ファイル](/glossary/設定ファイル/)で認証設定を確認：**
+**Ansible[設定ファイル](/glossary/設定ファイル/)で認証設定を[確認](/glossary/確認/)：**
 
 ```bash
 # 現在のAnsible設定を表示
@@ -276,7 +276,7 @@ cat ~/.ansible.ansible.cfg
 cat /etc/ansible/ansible.cfg
 ```
 
-**ターゲットホストの認証関連[ログ](/glossary/ログ/)を確認：**
+**ターゲットホストの認証関連[ログ](/glossary/ログ/)を[確認](/glossary/確認/)：**
 
 ```bash
 # リモートホストのSSH認証ログ確認
@@ -293,4 +293,4 @@ ssh ubuntu@192.168.1.10 'sudo journalctl -u sudo -n 20'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

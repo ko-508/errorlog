@@ -22,7 +22,7 @@ trend_incident: false
 no matching manifest for linux/amd64 in the manifest list entries
 ```
 
-この場合、まず**要求しているプラットフォーム**と、**その[イメージ](/glossary/イメージ/)の[タグ](/glossary/タグ/)に用意されているプラットフォーム**を比べます。例の`linux/amd64`は「[Linux](/glossary/linux/)用、x86-64 [CPU](/glossary/cpu/)向け」という要求です。[イメージ](/glossary/イメージ/)の名前だけでなく、[タグ](/glossary/タグ/)も含めて確認してください。
+この場合、まず**要求しているプラットフォーム**と、**その[イメージ](/glossary/イメージ/)の[タグ](/glossary/タグ/)に用意されているプラットフォーム**を比べます。例の`linux/amd64`は「[Linux](/glossary/linux/)用、x86-64 [CPU](/glossary/cpu/)向け」という要求です。[イメージ](/glossary/イメージ/)の名前だけでなく、[タグ](/glossary/タグ/)も含めて[確認](/glossary/確認/)してください。
 
 ```bash
 docker buildx imagetools inspect <image>:<tag>
@@ -45,27 +45,27 @@ no match for platform in manifest sha256:<digest>: not found
 
 ## タグの対応プラットフォームを確認する
 
-失敗した[コマンド](/glossary/コマンド/)の[イメージ](/glossary/イメージ/)名と[タグ](/glossary/タグ/)をそのまま使い、[レジストリ](/glossary/レジストリ/)上の一覧を調べます。`FROM`で止まった場合はDockerfileに書かれた基底[イメージ](/glossary/イメージ/)、Composeの場合は該当サービスの`image`を確認します。
+失敗した[コマンド](/glossary/コマンド/)の[イメージ](/glossary/イメージ/)名と[タグ](/glossary/タグ/)をそのまま使い、[レジストリ](/glossary/レジストリ/)上の一覧を調べます。`FROM`で止まった場合はDockerfileに書かれた基底[イメージ](/glossary/イメージ/)、Composeの場合は該当サービスの`image`を[確認](/glossary/確認/)します。
 
 ```bash
 docker buildx imagetools inspect registry.example.com/myapp:1.2
 ```
 
-複数の版を持つ場合、出力の`Manifests:`以下に`Platform: linux/amd64`や`Platform: linux/arm64`などが並びます。出力に要求した版があるかを見ます。[タグ](/glossary/タグ/)によっては単一プラットフォームのmanifestを指すため、一覧ではなく単一のmanifestとして表示されます。`unknown/unknown`の項目は証明情報などの付随データの場合もあるので、それだけを見て実行環境の自動検出が失敗したと判断しないでください。[`imagetools inspect`の出力例](https://docs.docker.com/reference/cli/docker/buildx/imagetools/inspect/)で形式を確認できます。
+複数の版を持つ場合、出力の`Manifests:`以下に`Platform: linux/amd64`や`Platform: linux/arm64`などが並びます。出力に要求した版があるかを見ます。[タグ](/glossary/タグ/)によっては単一プラットフォームのmanifestを指すため、一覧ではなく単一のmanifestとして表示されます。`unknown/unknown`の項目は証明情報などの付随データの場合もあるので、それだけを見て実行環境の自動検出が失敗したと判断しないでください。[`imagetools inspect`の出力例](https://docs.docker.com/reference/cli/docker/buildx/imagetools/inspect/)で形式を[確認](/glossary/確認/)できます。
 
 別の[タグ](/glossary/タグ/)を候補にするときも、置き換える前にその[タグ](/glossary/タグ/)を同じ[コマンド](/glossary/コマンド/)で調べます。`latest`という名前だけでは、必要な[CPU](/glossary/cpu/)向けの版が存在する保証にはなりません。
 
 ## 要求しているプラットフォームを確認する
 
-[エラー](/glossary/エラー/)に`linux/amd64`などが表示されていれば、まずその値を確認します。ローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が報告する[OS](/glossary/os/)とアーキテクチャは次のように調べられます。リモートの[Docker](/glossary/docker/) contextを使っている場合、表示されるのは接続先の[デーモン](/glossary/デーモン/)です。
+[エラー](/glossary/エラー/)に`linux/amd64`などが表示されていれば、まずその値を[確認](/glossary/確認/)します。ローカルの[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)が報告する[OS](/glossary/os/)とアーキテクチャは次のように調べられます。リモートの[Docker](/glossary/docker/) contextを使っている場合、表示されるのは接続先の[デーモン](/glossary/デーモン/)です。
 
 ```bash
 docker info --format '{{.OSType}}/{{.Architecture}}'
 ```
 
-[デーモン](/glossary/デーモン/)の値と[エラー](/glossary/エラー/)の値が違うなら、明示的な指定を探します。`docker pull --platform ...`、`docker run --platform ...`、`docker buildx build --platform ...`、Dockerfileの`FROM --platform=...`、Composeの`platform:`などです。ビルドではターゲットの指定と`FROM`の指定の両方を確認してください。
+[デーモン](/glossary/デーモン/)の値と[エラー](/glossary/エラー/)の値が違うなら、明示的な指定を探します。`docker pull --platform ...`、`docker run --platform ...`、`docker buildx build --platform ...`、Dockerfileの`FROM --platform=...`、Composeの`platform:`などです。ビルドではターゲットの指定と`FROM`の指定の両方を[確認](/glossary/確認/)してください。
 
-[CLI](/glossary/cli/)の`DOCKER_DEFAULT_PLATFORM`は、`--platform`を受け取る[コマンド](/glossary/コマンド/)の既定値を変えます。[シェル](/glossary/シェル/)に合わせて値を確認します。
+[CLI](/glossary/cli/)の`DOCKER_DEFAULT_PLATFORM`は、`--platform`を受け取る[コマンド](/glossary/コマンド/)の既定値を変えます。[シェル](/glossary/シェル/)に合わせて値を[確認](/glossary/確認/)します。
 
 ```bash
 # bash / zsh
@@ -111,7 +111,7 @@ docker buildx build \
   --push .
 ```
 
-これはビルドした二つの版とその一覧を[レジストリ](/glossary/レジストリ/)へ送る例です。[Docker公式のマルチプラットフォームビルド手順](https://docs.docker.com/build/building/multi-platform/)に沿っています。指定だけで各版のビルドが成功するわけではないため、ビルダーの対応状況、基底[イメージ](/glossary/イメージ/)、[アプリケーション](/glossary/アプリケーション/)のアーキテクチャ依存を確認してください。公開後は`docker buildx imagetools inspect registry.example.com/myapp:1.2`で、必要な両方の`Platform:`が表示されるか検証します。
+これはビルドした二つの版とその一覧を[レジストリ](/glossary/レジストリ/)へ送る例です。[Docker公式のマルチプラットフォームビルド手順](https://docs.docker.com/build/building/multi-platform/)に沿っています。指定だけで各版のビルドが成功するわけではないため、ビルダーの対応状況、基底[イメージ](/glossary/イメージ/)、[アプリケーション](/glossary/アプリケーション/)のアーキテクチャ依存を[確認](/glossary/確認/)してください。公開後は`docker buildx imagetools inspect registry.example.com/myapp:1.2`で、必要な両方の`Platform:`が表示されるか検証します。
 
 ## 似たエラーとの違い
 
@@ -127,6 +127,6 @@ docker buildx build \
 
 [エラー](/glossary/エラー/)に表示された`linux/amd64`などの要求値を控え、失敗した**同じ[イメージ](/glossary/イメージ/)名・[タグ](/glossary/タグ/)**を`docker buildx imagetools inspect`で調べます。[対応](/glossary/対応/)する版がなければ[タグ](/glossary/タグ/)を変更するか、その版を公開します。
 
-一覧に別の版がある場合は、`--platform`、Composeの`platform:`、Dockerfileの`FROM --platform`、`DOCKER_DEFAULT_PLATFORM`を確認します。実行環境が[対応](/glossary/対応/)するなら、その既存の版を指定できます。指定を変えても一覧にない版を取得することはできません。
+一覧に別の版がある場合は、`--platform`、Composeの`platform:`、Dockerfileの`FROM --platform`、`DOCKER_DEFAULT_PLATFORM`を[確認](/glossary/確認/)します。実行環境が[対応](/glossary/対応/)するなら、その既存の版を指定できます。指定を変えても一覧にない版を取得することはできません。
 
 免責事項：本記事の内容は一般的な[Docker](/glossary/docker/)[環境](/glossary/環境/)を前提としています。実際に選ばれる版は[イメージ](/glossary/イメージ/)の[タグ](/glossary/タグ/)、[Docker](/glossary/docker/)の接続先、ビルド[設定](/glossary/設定/)によって変わります。[本番環境](/glossary/本番環境/)の[タグ](/glossary/タグ/)や[CPU](/glossary/cpu/)アーキテクチャを変更する前に、実行結果と性能を検証してください。

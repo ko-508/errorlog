@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 409 [エラー](/glossary/エラー/)は、Terraform が作成・[更新](/glossary/更新/)しようとするリソースが既に[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)に存在し、状態[ファイル](/glossary/ファイル/)（tfstate）に記録された期待値と実際のリソース状態に競合が生じていることを示します。この[エラー](/glossary/エラー/)は特にマルチユーザー[環境](/glossary/環境/)や手動でリソースを作成した後に Terraform で管理を開始する場合に発生しやすくなります。
+Terraform の 409 [エラー](/glossary/エラー/)は、Terraform が作成・[更新](/glossary/更新/)しようとする[リソース](/glossary/リソース/)が既に[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)に存在し、状態[ファイル](/glossary/ファイル/)（tfstate）に記録された期待値と実際の[リソース](/glossary/リソース/)状態に競合が生じていることを示します。この[エラー](/glossary/エラー/)は特にマルチユーザー[環境](/glossary/環境/)や手動で[リソース](/glossary/リソース/)を作成した後に Terraform で管理を開始する場合に発生しやすくなります。
 
 ## 実際のエラーメッセージ例
 
@@ -36,9 +36,9 @@ Error: Error creating XXX: XXX (xxx): InvalidParameterException: Resource alread
 
 ### 原因 1：手動で作成したリソースを Terraform で管理しようとしている
 
-[クラウド](/glossary/クラウド/)管理[コンソール](/glossary/コンソール/)や[コマンドライン](/glossary/コマンドライン/)で直接作成したリソースに対して、Terraform [コード](/glossary/コード/)で同じリソースを定義すると、Terraform はそのリソースが「新規作成される対象」だと判断します。しかし実際にはリソースが存在するため、作成時に 409 [エラー](/glossary/エラー/)で競合が検出されます。
+[クラウド](/glossary/クラウド/)管理[コンソール](/glossary/コンソール/)や[コマンドライン](/glossary/コマンドライン/)で直接作成した[リソース](/glossary/リソース/)に対して、Terraform [コード](/glossary/コード/)で同じ[リソース](/glossary/リソース/)を定義すると、Terraform はその[リソース](/glossary/リソース/)が「新規作成される対象」だと判断します。しかし実際には[リソース](/glossary/リソース/)が存在するため、作成時に 409 [エラー](/glossary/エラー/)で競合が検出されます。
 
-この場合、`terraform import` [コマンド](/glossary/コマンド/)を使い、既存のリソースを Terraform の管理下に移す必要があります。
+この場合、`terraform import` [コマンド](/glossary/コマンド/)を使い、既存の[リソース](/glossary/リソース/)を Terraform の管理下に移す必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -66,7 +66,7 @@ terraform import aws_s3_bucket.data_bucket my-existing-bucket
 terraform plan
 ```
 
-ACL（[アクセス制御](/glossary/アクセス制御/)リスト）を[設定](/glossary/設定/)する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` リソースを使用することが推奨されています。
+ACL（[アクセス制御](/glossary/アクセス制御/)リスト）を[設定](/glossary/設定/)する場合は、Terraform [AWS](/glossary/aws/) Provider の[バージョン](/glossary/バージョン/) 4.0 以降では `aws_s3_bucket_acl` [リソース](/glossary/リソース/)を使用することが推奨されています。
 
 ```hcl
 resource "aws_s3_bucket" "data_bucket" {
@@ -81,7 +81,7 @@ resource "aws_s3_bucket_acl" "data_bucket_acl" {
 
 ### 原因 2：terraform apply が中断して中途半端な状態になっている
 
-`terraform apply` の実行中に[ネットワーク](/glossary/ネットワーク/)が切れたり、[プロセス](/glossary/プロセス/)が強制終了されたりすると、リソースの一部が作成されたまま tfstate が[更新](/glossary/更新/)されないことがあります。その状態で再度 `terraform apply` を実行すると、既に存在するリソースとの競合が発生します。
+`terraform apply` の実行中に[ネットワーク](/glossary/ネットワーク/)が切れたり、[プロセス](/glossary/プロセス/)が強制終了されたりすると、[リソース](/glossary/リソース/)の一部が作成されたまま tfstate が[更新](/glossary/更新/)されないことがあります。その状態で再度 `terraform apply` を実行すると、既に存在する[リソース](/glossary/リソース/)との競合が発生します。
 
 この場合、`terraform refresh` で[クラウド](/glossary/クラウド/)の実態をもとに tfstate を最新の状態に[更新](/glossary/更新/)し、差異を解消します。
 
@@ -113,7 +113,7 @@ terraform apply
 
 ### 原因 3：tfstate ファイルが古く、実際のインフラストラクチャーと差異がある
 
-複数のユーザーが同じ[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)を管理している場合、あるユーザーが手動でリソースを[削除](/glossary/削除/)したり、別の[ツール](/glossary/ツール/)（CloudFormation など）でリソースを作成したりすると、tfstate の記録内容と実際のクラウドリソースの状態がずれます。その状態で `terraform apply` を実行すると、[削除](/glossary/削除/)されたはずのリソースを再作成しようとして競合が発生することがあります。
+複数の[ユーザー](/glossary/ユーザー/)が同じ[クラウド](/glossary/クラウド/)[環境](/glossary/環境/)を管理している場合、ある[ユーザー](/glossary/ユーザー/)が手動で[リソース](/glossary/リソース/)を[削除](/glossary/削除/)したり、別の[ツール](/glossary/ツール/)（CloudFormation など）で[リソース](/glossary/リソース/)を作成したりすると、tfstate の記録内容と実際のクラウドリソースの状態がずれます。その状態で `terraform apply` を実行すると、[削除](/glossary/削除/)されたはずの[リソース](/glossary/リソース/)を再作成しようとして競合が発生することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -163,7 +163,7 @@ terraform force-unlock <LOCK_ID>
 ```
 
 **プロバイダーの設定誤りも関連：**
-複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)やリージョンで同じリソース名を使用する場合、プロバイダーの設定誤りが 409 [エラー](/glossary/エラー/)を引き起こすことがあります。`provider` ブロックが正しく指定されているか確認してください。
+複数の [AWS](/glossary/aws/) [アカウント](/glossary/アカウント/)やリージョンで同じ[リソース](/glossary/リソース/)名を使用する場合、プロバイダーの設定誤りが 409 [エラー](/glossary/エラー/)を引き起こすことがあります。`provider` ブロックが正しく指定されているか[確認](/glossary/確認/)してください。
 
 ```hcl
 # 正しい設定例
@@ -180,7 +180,7 @@ resource "aws_s3_bucket" "prod_bucket" {
 
 ## それでも解決しない場合
 
-**1. tfstate の詳細を確認：**
+**1. tfstate の詳細を[確認](/glossary/確認/)：**
 
 ```bash
 # tfstate の内容を確認（該当リソースが記録されているか）
@@ -197,8 +197,8 @@ terraform state list
 TF_LOG=DEBUG terraform apply 2>&1 | tee terraform_debug.log
 ```
 
-**3. クラウドプロバイダーの[ログ](/glossary/ログ/)を確認：**
-[AWS](/glossary/aws/) の場合は CloudTrail、Google Cloud の場合は Cloud Audit Logs を確認し、リソース作成の試行がどの段階で失敗したかを追跡します。
+**3. クラウドプロバイダーの[ログ](/glossary/ログ/)を[確認](/glossary/確認/)：**
+[AWS](/glossary/aws/) の場合は CloudTrail、Google Cloud の場合は Cloud Audit Logs を[確認](/glossary/確認/)し、[リソース](/glossary/リソース/)作成の試行がどの段階で失敗したかを追跡します。
 
 **4. 公式ドキュメントの参照：**
 - [Terraform state コマンドリファレンス](https://www.terraform.io/cli/commands/state)
@@ -218,4 +218,4 @@ vim terraform.tfstate
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

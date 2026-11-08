@@ -46,7 +46,7 @@ Content-Type: application/json
 
 ### 1. ループ処理内での API 呼び出し間隔がない
 
-[ループ](/glossary/ループ/)で複数のメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに[設定](/glossary/設定/)されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
+[ループ](/glossary/ループ/)で複数のメッセージ[送信](/glossary/送信/)や[ユーザー](/glossary/ユーザー/)情報取得を行う際、各[リクエスト](/glossary/リクエスト/)の間に待機時間を設けないと、短時間に大量の[リクエスト](/glossary/リクエスト/)が Slack [API](/glossary/api/) に到達します。Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は一般的に[メソッド](/glossary/メソッド/)ごとに[設定](/glossary/設定/)されており、例えば `chat.postMessage` は 1 分間に数十～数百[リクエスト](/glossary/リクエスト/)の上限があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -186,7 +186,7 @@ Slack [API](/glossary/api/) の[レート制限](/glossary/レート制限/)は�
 
 ### Event Subscriptions との相互作用
 
-Events [API](/glossary/api/)（[イベント](/glossary/イベント/)[受信](/glossary/受信/)）で[ワークスペース](/glossary/ワークスペース/)の変更を監視しながら、同時に Web [API](/glossary/api/) でメッセージ[送信](/glossary/送信/)やユーザー情報取得を行う場合、両者が同じレート制限枠を共有しないことに注意が必要です。[イベント](/glossary/イベント/)処理内で同期的に Web [API](/glossary/api/) を呼び出すと、[イベント](/glossary/イベント/)[処理](/glossary/処理/)がブロックされるだけでなく、429 [エラー](/glossary/エラー/)時の再試行が複雑になるため、[非同期](/glossary/非同期/)キューの使用を推奨します。
+Events [API](/glossary/api/)（[イベント](/glossary/イベント/)[受信](/glossary/受信/)）で[ワークスペース](/glossary/ワークスペース/)の変更を監視しながら、同時に Web [API](/glossary/api/) でメッセージ[送信](/glossary/送信/)や[ユーザー](/glossary/ユーザー/)情報取得を行う場合、両者が同じレート制限枠を共有しないことに注意が必要です。[イベント](/glossary/イベント/)処理内で同期的に Web [API](/glossary/api/) を呼び出すと、[イベント](/glossary/イベント/)[処理](/glossary/処理/)がブロックされるだけでなく、429 [エラー](/glossary/エラー/)時の再試行が複雑になるため、[非同期](/glossary/非同期/)キューの使用を推奨します。
 
 ### Bolt フレームワークの自動レート制限対応
 
@@ -196,7 +196,7 @@ Slack Bolt（Python / JavaScript / Java）を使用している場合、フレ�
 
 ### ログ確認ポイント
 
-Slack Python/JavaScript [SDK](/glossary/sdk/) は `debug=True` または[環境変数](/glossary/環境変数/) `SLACK_SDK_LOG_LEVEL=DEBUG` で詳細[ログ](/glossary/ログ/)を出力します。実際の [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)[ヘッダー](/glossary/ヘッダー/)、リクエストタイミング、`Retry-After` 値を確認し、[レート制限](/glossary/レート制限/)に達する前後の[リクエスト](/glossary/リクエスト/)数・間隔を記録することで、[設定](/glossary/設定/)すべき待機時間を正確に把握できます。
+Slack Python/JavaScript [SDK](/glossary/sdk/) は `debug=True` または[環境変数](/glossary/環境変数/) `SLACK_SDK_LOG_LEVEL=DEBUG` で詳細[ログ](/glossary/ログ/)を出力します。実際の [API](/glossary/api/)[レスポンス](/glossary/レスポンス/)[ヘッダー](/glossary/ヘッダー/)、リクエストタイミング、`Retry-After` 値を[確認](/glossary/確認/)し、[レート制限](/glossary/レート制限/)に達する前後の[リクエスト](/glossary/リクエスト/)数・間隔を記録することで、[設定](/glossary/設定/)すべき待機時間を正確に把握できます。
 
 ### 公式ドキュメント参照
 
@@ -208,4 +208,4 @@ Slack [SDK](/glossary/sdk/) の [GitHub](/glossary/github/) [リポジトリ](/g
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

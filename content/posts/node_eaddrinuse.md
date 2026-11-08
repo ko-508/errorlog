@@ -24,7 +24,7 @@ Error: listen EADDRINUSE: address already in use :::3000
 
 これは、指定した待ち受け先が既に使われていて、[サーバー](/glossary/サーバー/)を起動できなかったことを表します。[Node.jsの公式文書](https://nodejs.org/api/net.html#serverlisten)も、別の[サーバー](/glossary/サーバー/)が同じ待ち受け先を使用している場合の[エラー](/glossary/エラー/)として説明しています。
 
-まず、その[ポート](/glossary/ポート/)を使う[プログラム](/glossary/プログラム/)を確認します。不要な開発[サーバー](/glossary/サーバー/)なら停止し、必要なものなら今回起動する[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)を変えます。[パッケージ](/glossary/パッケージ/)の入れ直しを始める前に、待ち受け先を確認してください。
+まず、その[ポート](/glossary/ポート/)を使う[プログラム](/glossary/プログラム/)を[確認](/glossary/確認/)します。不要な開発[サーバー](/glossary/サーバー/)なら停止し、必要なものなら今回起動する[サーバー](/glossary/サーバー/)の[ポート](/glossary/ポート/)を変えます。[パッケージ](/glossary/パッケージ/)の入れ直しを始める前に、待ち受け先を[確認](/glossary/確認/)してください。
 
 ## :::3000はアドレスとポートをつないだ表示
 
@@ -48,7 +48,7 @@ netstat -a -n -o
 
 3000番で[エラー](/glossary/エラー/)が出たなら、TCPの行のローカルアドレスが `:3000` で終わり、状態が `LISTENING` になっている行を探します。外部アドレス側に3000番がある行とは区別してください。
 
-PIDが分かったら、[プログラム](/glossary/プログラム/)名を確認します。次の12345は例なので、確認したPIDに置き換えます。
+PIDが分かったら、[プログラム](/glossary/プログラム/)名を[確認](/glossary/確認/)します。次の12345は例なので、[確認](/glossary/確認/)したPIDに置き換えます。
 
 ```bat
 tasklist /fi "PID eq 12345"
@@ -58,7 +58,7 @@ tasklist /fi "PID eq 12345"
 
 ## Linuxでは対象ポートを指定して確認する
 
-[Linux](/glossary/linux/)では、次の[コマンド](/glossary/コマンド/)で待ち受け中のTCPの3000番を確認できます。
+[Linux](/glossary/linux/)では、次の[コマンド](/glossary/コマンド/)で待ち受け中のTCPの3000番を[確認](/glossary/確認/)できます。
 
 ```bash
 ss -ltnp 'sport = :3000'
@@ -66,27 +66,27 @@ ss -ltnp 'sport = :3000'
 
 [ssの説明書き](https://man7.org/linux/man-pages/man8/ss.8.html)では、`-l` は待ち受け、`-t` はTCP、`-n` は数値表示、`-p` は使用する[プロセス](/glossary/プロセス/)の表示です。`sport` の条件でローカル側の[ポート](/glossary/ポート/)を絞ります。
 
-[プロセス](/glossary/プロセス/)情報を確認できない場合は、必要な[権限](/glossary/権限/)で実行してください。表示されたPIDや[プログラム](/glossary/プログラム/)名を、停止する対象の確認に使います。
+[プロセス](/glossary/プロセス/)情報を[確認](/glossary/確認/)できない場合は、必要な[権限](/glossary/権限/)で実行してください。表示されたPIDや[プログラム](/glossary/プログラム/)名を、停止する対象の[確認](/glossary/確認/)に使います。
 
 まずは起動した[ターミナル](/glossary/ターミナル/)に戻り、Ctrl+Cで終了させます。自動で起動し直す仕組みを使っている場合は、その管理元で停止してください。子の[プロセス](/glossary/プロセス/)だけを止めても、再起動される可能性があります。
 
 ## 既存サーバーを止めるかポートを変える
 
-前に起動した開発[サーバー](/glossary/サーバー/)が不要なら、停止した後でもう一度[ポート](/glossary/ポート/)を確認し、今回の[サーバー](/glossary/サーバー/)を起動します。
+前に起動した開発[サーバー](/glossary/サーバー/)が不要なら、停止した後でもう一度[ポート](/glossary/ポート/)を[確認](/glossary/確認/)し、今回の[サーバー](/glossary/サーバー/)を起動します。
 
-Windowsで起動元から止められない場合は、対象を確認したうえでPIDを指定します。
+[Windows](/glossary/windows/)で起動元から止められない場合は、対象を[確認](/glossary/確認/)したうえでPIDを指定します。
 
 ```bat
 taskkill /pid 12345
 ```
 
-[taskkillの説明](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/taskkill)では、`/f` は強制終了です。通常の停止で終わらず、強制終了してよい対象だと確認できた場合に限り追加します。
+[taskkillの説明](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/taskkill)では、`/f` は強制終了です。通常の停止で終わらず、強制終了してよい対象だと[確認](/glossary/確認/)できた場合に限り追加します。
 
 ```bat
 taskkill /pid 12345 /f
 ```
 
-既存[サーバー](/glossary/サーバー/)も必要なら、今回の[ポート](/glossary/ポート/)を変えます。自分で書いた[HTTP](/glossary/http/)[サーバー](/glossary/サーバー/)なら、次のように指定できます。3001番も空いているとは限らないため、使用状況は確認してください。
+既存[サーバー](/glossary/サーバー/)も必要なら、今回の[ポート](/glossary/ポート/)を変えます。自分で書いた[HTTP](/glossary/http/)[サーバー](/glossary/サーバー/)なら、次のように指定できます。3001番も空いているとは限らないため、使用状況は[確認](/glossary/確認/)してください。
 
 ```js
 // server.cjs
@@ -136,22 +136,22 @@ server.listen(0, '127.0.0.1', () => {
 
 固定[URL](/glossary/url/)を前提にした[ブラウザ](/glossary/ブラウザ/)や他のサービスは、割り当てられた[ポート](/glossary/ポート/)に合わせる必要があります。
 
-[Linux](/glossary/linux/)のNode.js 24.19.0で、最初に[OS](/glossary/os/)が選んだ[ポート](/glossary/ポート/)に別の[サーバー](/glossary/サーバー/)を起動すると、`listen EADDRINUSE: address already in use :::34029` が出ることを確認しました。番号は実行時の値です。[エラー](/glossary/エラー/)を受け取らない子[プロセス](/glossary/プロセス/)は終了[コード](/glossary/コード/)1となり、既存[サーバー](/glossary/サーバー/)を閉じた後は同じ[ポート](/glossary/ポート/)で起動できました。Windowsの確認・停止[コマンド](/glossary/コマンド/)は公式資料との照合のみで、実機では未検証です。
+[Linux](/glossary/linux/)のNode.js 24.19.0で、最初に[OS](/glossary/os/)が選んだ[ポート](/glossary/ポート/)に別の[サーバー](/glossary/サーバー/)を起動すると、`listen EADDRINUSE: address already in use :::34029` が出ることを[確認](/glossary/確認/)しました。番号は実行時の値です。[エラー](/glossary/エラー/)を受け取らない子[プロセス](/glossary/プロセス/)は終了[コード](/glossary/コード/)1となり、既存[サーバー](/glossary/サーバー/)を閉じた後は同じ[ポート](/glossary/ポート/)で起動できました。[Windows](/glossary/windows/)の[確認](/glossary/確認/)・停止[コマンド](/glossary/コマンド/)は公式資料との照合のみで、実機では未検証です。
 
 ## Dockerのポート競合や接続失敗との違い
 
-[Dockerのport is already allocated](/posts/docker_port_is_already_allocated/)は、[Docker](/glossary/docker/)側の[ポート](/glossary/ポート/)公開で出る[エラー](/glossary/エラー/)です。Node.jsの[ログ](/glossary/ログ/)に本件が出ている場合と、[Docker](/glossary/docker/)が[コンテナ](/glossary/コンテナ/)を起動する段階で停止している場合を分けて確認します。
+[Dockerのport is already allocated](/posts/docker_port_is_already_allocated/)は、[Docker](/glossary/docker/)側の[ポート](/glossary/ポート/)公開で出る[エラー](/glossary/エラー/)です。Node.jsの[ログ](/glossary/ログ/)に本件が出ている場合と、[Docker](/glossary/docker/)が[コンテナ](/glossary/コンテナ/)を起動する段階で停止している場合を分けて[確認](/glossary/確認/)します。
 
 [connection refused](/posts/postgresql_connection_refused/)は接続する側で出る[エラー](/glossary/エラー/)です。本件は待ち受ける側が起動できなかったことを示します。
 
-`EADDRINUSE` の確認では、[エラー](/glossary/エラー/)内の[ポート番号](/glossary/ポート番号/)と実行環境を揃えてください。[コンテナ](/glossary/コンテナ/)や別の[OS](/glossary/os/)[環境](/glossary/環境/)の中で起動している場合は、[エラー](/glossary/エラー/)を出した環境内の待ち受けも確認対象です。
+`EADDRINUSE` の[確認](/glossary/確認/)では、[エラー](/glossary/エラー/)内の[ポート番号](/glossary/ポート番号/)と実行環境を揃えてください。[コンテナ](/glossary/コンテナ/)や別の[OS](/glossary/os/)[環境](/glossary/環境/)の中で起動している場合は、[エラー](/glossary/エラー/)を出した環境内の待ち受けも確認対象です。
 
 ## 解決手順のまとめ
 
-[エラー](/glossary/エラー/)に出た[ポート](/glossary/ポート/)の待ち受けとPIDを確認し、不要な開発[サーバー](/glossary/サーバー/)なら起動元から止めます。止める前に対象を特定し、既存[サーバー](/glossary/サーバー/)も必要なら今回の[ポート](/glossary/ポート/)を変更します。
+[エラー](/glossary/エラー/)に出た[ポート](/glossary/ポート/)の待ち受けとPIDを[確認](/glossary/確認/)し、不要な開発[サーバー](/glossary/サーバー/)なら起動元から止めます。止める前に対象を特定し、既存[サーバー](/glossary/サーバー/)も必要なら今回の[ポート](/glossary/ポート/)を変更します。
 
-`:::3000` のコロンを直したり、[エラー](/glossary/エラー/)表示だけを抑えたりしても、待ち受けの重なりは解消しません。停止や[設定変更](/glossary/設定変更/)の後に再起動し、実際に接続できるところまで確認してください。
+`:::3000` のコロンを直したり、[エラー](/glossary/エラー/)表示だけを抑えたりしても、待ち受けの重なりは解消しません。停止や[設定変更](/glossary/設定変更/)の後に再起動し、実際に接続できるところまで[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

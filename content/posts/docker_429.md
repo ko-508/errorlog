@@ -16,7 +16,7 @@ trend_incident: false
 
 [Docker](/glossary/docker/) の 429 Too Many Requests は、そのほとんどが [Docker](/glossary/docker/) Hub の pull 回数制限です。公式文書に明記された現行の制限は、匿名（未認証）が6時間あたり100回、認証済みの [Docker](/glossary/docker/) Personal が6時間あたり200回、Pro・Team・Business の有料プランはフェアユースの範囲で無制限です。ここで最も重要なのは回数の数字ではなく、数える単位です。匿名の枠は IPv4 アドレス（または IPv6 の /64 サブネット）単位で数えられるため、同じ NAT の下にいる社内の全マシン、CI の全ジョブ、[Kubernetes](/glossary/kubernetes/) クラスタの全ノードが1つの枠を共有します。自分はほとんど pull していないのに突然429になる場合、枠を使い切ったのは同じ IP を共有する誰かです。[認証](/glossary/認証/)すると枠が[アカウント](/glossary/アカウント/)単位に変わるため、対処の第一歩は回数を増やすことではなく、帰属を IP から[アカウント](/glossary/アカウント/)に切り替えることです。
 
-数えられ方も公式に定義されています。ローカルの確認だけで済む version check は消費に数えられず、通常の[イメージ](/glossary/イメージ/)の pull は[マニフェスト](/glossary/マニフェスト/)1つで1回、マルチアーキテクチャの[イメージ](/glossary/イメージ/)は取得したアーキテクチャごとに1回と数えます。対処は3方向に整理できます。[認証](/glossary/認証/)して[アカウント](/glossary/アカウント/)単位の枠にする（原因1）、ミラーや[キャッシュ](/glossary/キャッシュ/)で pull の回数自体を減らす（原因2）、そして帰属や別種の制限を確認する（原因3）です。
+数えられ方も公式に定義されています。ローカルの[確認](/glossary/確認/)だけで済む version check は消費に数えられず、通常の[イメージ](/glossary/イメージ/)の pull は[マニフェスト](/glossary/マニフェスト/)1つで1回、マルチアーキテクチャの[イメージ](/glossary/イメージ/)は取得したアーキテクチャごとに1回と数えます。対処は3方向に整理できます。[認証](/glossary/認証/)して[アカウント](/glossary/アカウント/)単位の枠にする（原因1）、ミラーや[キャッシュ](/glossary/キャッシュ/)で pull の回数自体を減らす（原因2）、そして帰属や別種の制限を[確認](/glossary/確認/)する（原因3）です。
 
 ## エラーの概要
 
@@ -28,7 +28,7 @@ You have reached your pull rate limit. You may increase the limit by authenticat
 
 [CLI](/glossary/cli/) や [Docker](/glossary/docker/) Engine の[ログ](/glossary/ログ/)では toomanyrequests: を先頭に付けた形で現れます。[Kubernetes](/glossary/kubernetes/) 経由では、kubelet の[イベント](/glossary/イベント/)（ErrImagePull / ImagePullBackOff の理由）に同じ文言が記録されます。
 
-現在の残量は、公式文書の手順で[ヘッダー](/glossary/ヘッダー/)から確認できます。この確認用[リポジトリ](/glossary/リポジトリ/)への HEAD [リクエスト](/glossary/リクエスト/)は枠を消費しません（[GET](/glossary/get/) は実際の pull と同様に消費します）。
+現在の残量は、公式文書の手順で[ヘッダー](/glossary/ヘッダー/)から[確認](/glossary/確認/)できます。この確認用[リポジトリ](/glossary/リポジトリ/)への HEAD [リクエスト](/glossary/リクエスト/)は枠を消費しません（[GET](/glossary/get/) は実際の pull と同様に消費します）。
 
 ```bash
 TOKEN=$(curl -s "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
@@ -41,11 +41,11 @@ ratelimit-remaining: 20;w=21600
 docker-ratelimit-source: 192.0.2.1
 ```
 
-この例は「6時間（21600秒）あたり100回の枠のうち残り20回、枠の帰属は [IP アドレス](/glossary/ip-アドレス/) 192.0.2.1」という読み方をします。認証済み[トークン](/glossary/トークン/)で同じ確認をすると、docker-ratelimit-source が自分の[アカウント](/glossary/アカウント/)帰属に変わったことを確かめられます。ratelimit 系の[ヘッダー](/glossary/ヘッダー/)が返らない場合は、有料プランや提携（公認[イメージ](/glossary/イメージ/)の提供元など）により無制限が適用されている状態で、その pull は制限に数えられません。
+この例は「6時間（21600秒）あたり100回の枠のうち残り20回、枠の帰属は [IP アドレス](/glossary/ip-アドレス/) 192.0.2.1」という読み方をします。認証済み[トークン](/glossary/トークン/)で同じ[確認](/glossary/確認/)をすると、docker-ratelimit-source が自分の[アカウント](/glossary/アカウント/)帰属に変わったことを確かめられます。ratelimit 系の[ヘッダー](/glossary/ヘッダー/)が返らない場合は、有料プランや提携（公認[イメージ](/glossary/イメージ/)の提供元など）により無制限が適用されている状態で、その pull は制限に数えられません。
 
 ## まず最初に：3点を確認する
 
-第一に、上記の手順で残量と docker-ratelimit-source を確認します。source が [IP アドレス](/glossary/ip-アドレス/)なら匿名の枠、[アカウント](/glossary/アカウント/)ならその[認証](/glossary/認証/)の枠を使っています。第二に、その IP を誰と共有しているかを考えます。オフィスの NAT、CI ランナー、クラスタのノード群は、全員で匿名の1枠です。第三に、429を返しているのが本当に [Docker](/glossary/docker/) Hub かを確認します。docker.io 以外の[レジストリ](/glossary/レジストリ/)やミラーも429を返すことがあり、その場合の制限値と対処は各サービスの文書に従います。
+第一に、上記の手順で残量と docker-ratelimit-source を[確認](/glossary/確認/)します。source が [IP アドレス](/glossary/ip-アドレス/)なら匿名の枠、[アカウント](/glossary/アカウント/)ならその[認証](/glossary/認証/)の枠を使っています。第二に、その IP を誰と共有しているかを考えます。オフィスの NAT、CI ランナー、クラスタのノード群は、全員で匿名の1枠です。第三に、429を返しているのが本当に [Docker](/glossary/docker/) Hub かを[確認](/glossary/確認/)します。docker.io 以外の[レジストリ](/glossary/レジストリ/)やミラーも429を返すことがあり、その場合の制限値と対処は各サービスの文書に従います。
 
 ## よくある原因と解決手順
 
@@ -116,7 +116,7 @@ sudo systemctl restart docker
 
 ### 原因3：想定した枠が効いていない（帰属と別種の制限）
 
-有料プランや[認証](/glossary/認証/)を[設定](/glossary/設定/)したのに429が出る場合、pull が意図した[アカウント](/glossary/アカウント/)に帰属していない可能性があります。確認の起点は docker-ratelimit-source です。[IP アドレス](/glossary/ip-アドレス/)が表示されるなら、その経路の pull は匿名のままです（[デーモン](/glossary/デーモン/)・CI・クラスタの一部だけ[認証](/glossary/認証/)が漏れている構成が典型です）。また、公式文書のとおり、pull の帰属には規則があり、非公開[リポジトリ](/glossary/リポジトリ/)の pull は[リポジトリ](/glossary/リポジトリ/)の名前空間の所有者に帰属します。組織で契約しているのに個人[アカウント](/glossary/アカウント/)で pull している、あるいはその逆で、意図しない側の枠を消費していることもあります。[ヘッダー](/glossary/ヘッダー/)がまったく返らないなら無制限が効いており、pull 回数制限が原因の429ではないため、別種の制限（abuse rate limit）や [Docker](/glossary/docker/) Hub 以外の429を疑います。
+有料プランや[認証](/glossary/認証/)を[設定](/glossary/設定/)したのに429が出る場合、pull が意図した[アカウント](/glossary/アカウント/)に帰属していない可能性があります。[確認](/glossary/確認/)の起点は docker-ratelimit-source です。[IP アドレス](/glossary/ip-アドレス/)が表示されるなら、その経路の pull は匿名のままです（[デーモン](/glossary/デーモン/)・CI・クラスタの一部だけ[認証](/glossary/認証/)が漏れている構成が典型です）。また、公式文書のとおり、pull の帰属には規則があり、非公開[リポジトリ](/glossary/リポジトリ/)の pull は[リポジトリ](/glossary/リポジトリ/)の名前空間の所有者に帰属します。組織で契約しているのに個人[アカウント](/glossary/アカウント/)で pull している、あるいはその逆で、意図しない側の枠を消費していることもあります。[ヘッダー](/glossary/ヘッダー/)がまったく返らないなら無制限が効いており、pull 回数制限が原因の429ではないため、別種の制限（abuse rate limit）や [Docker](/glossary/docker/) Hub 以外の429を疑います。
 
 ## 補足：このコードではない類似エラー
 
@@ -124,11 +124,11 @@ pull access denied は[認証](/glossary/認証/)・権限系の[エラー](/glo
 
 ## 切り分けの順序
 
-1. [エラー](/glossary/エラー/)文言を確認する。toomanyrequests と pull rate limit を含むなら [Docker](/glossary/docker/) Hub の回数制限で、この記事の調査を進める。別の文言なら補足の各記事へ。
-2. 公式手順の[ヘッダー](/glossary/ヘッダー/)確認で、残量と枠の帰属（docker-ratelimit-source）を見る。
+1. [エラー](/glossary/エラー/)文言を[確認](/glossary/確認/)する。toomanyrequests と pull rate limit を含むなら [Docker](/glossary/docker/) Hub の回数制限で、この記事の調査を進める。別の文言なら補足の各記事へ。
+2. 公式手順の[ヘッダー](/glossary/ヘッダー/)[確認](/glossary/確認/)で、残量と枠の帰属（docker-ratelimit-source）を見る。
 3. 帰属が IP なら、[認証](/glossary/認証/)の導入と、その IP を共有する pull 元の洗い出しを行う（原因1）。
 4. 認証済みでも消費が速いなら、ミラー・[キャッシュ](/glossary/キャッシュ/)・複製で pull 回数を構造的に減らす（原因2）。
-5. 有料・認証済みのはずなら、認証漏れの経路と帰属の規則、別種の制限を確認する（原因3）。
+5. 有料・認証済みのはずなら、認証漏れの経路と帰属の規則、別種の制限を[確認](/glossary/確認/)する（原因3）。
 6. 枠の回復を待つ間に急ぐ場合は、対象[イメージ](/glossary/イメージ/)を認証済みの別経路で取得してノードに配る。
 
 ## 確認コマンド集
@@ -160,4 +160,4 @@ kubectl describe pod <pod-name> | grep -A3 "Events:"
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

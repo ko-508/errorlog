@@ -230,14 +230,14 @@ remote_write:
 
 ## それでも解決しない場合
 
-**1. Prometheus の[ログ](/glossary/ログ/)を確認：**
+**1. Prometheus の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)：**
 
 ```bash
 # ログレベルをdebugに上げて起動
 ./prometheus --log.level=debug --config.file=prometheus.yml
 ```
 
-[ログ](/glossary/ログ/)に[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)や [TLS](/glossary/tls/) ハンドシェイクの[エラー](/glossary/エラー/)が記録されているか確認してください。
+[ログ](/glossary/ログ/)に[認証](/glossary/認証/)[ヘッダー](/glossary/ヘッダー/)や [TLS](/glossary/tls/) ハンドシェイクの[エラー](/glossary/エラー/)が記録されているか[確認](/glossary/確認/)してください。
 
 **2. curl での[テスト](/glossary/テスト/)：**
 
@@ -259,11 +259,11 @@ curl --cert /path/to/client.crt \
 ./prometheus --config.file=prometheus.yml --config.check
 ```
 
-[設定](/glossary/設定/)に誤りがないか確認します。
+[設定](/glossary/設定/)に誤りがないか[確認](/glossary/確認/)します。
 
-**4. リバースプロキシの[アクセスログ](/glossary/アクセスログ/)確認：**
+**4. リバースプロキシの[アクセスログ](/glossary/アクセスログ/)[確認](/glossary/確認/)：**
 
-Nginx の場合、`/var/log/nginx/access.log` や `error.log` で[認証](/glossary/認証/)の成否や転送状況を確認します。
+Nginx の場合、`/var/log/nginx/access.log` や `error.log` で[認証](/glossary/認証/)の成否や転送状況を[確認](/glossary/確認/)します。
 
 ```bash
 tail -f /var/log/nginx/error.log | grep authorization
@@ -276,4 +276,4 @@ tail -f /var/log/nginx/error.log | grep authorization
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

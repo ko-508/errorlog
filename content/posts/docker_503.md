@@ -205,7 +205,7 @@ services:
 
 ### Docker Hubの制限とレート制限
 
-[Docker](/glossary/docker/) Hubは匿名ユーザーに対して1時間に100プルの[レート制限](/glossary/レート制限/)を設けています。この制限に達すると[サーバー](/glossary/サーバー/)が503（または429）を返します。
+[Docker](/glossary/docker/) Hubは匿名[ユーザー](/glossary/ユーザー/)に対して1時間に100プルの[レート制限](/glossary/レート制限/)を設けています。この制限に達すると[サーバー](/glossary/サーバー/)が503（または429）を返します。
 
 ```bash
 # レート制限の状態を確認
@@ -220,7 +220,7 @@ docker pull docker.io/library/ubuntu:latest  # 制限対象
 
 ### プライベートレジストリ（Azure Container Registry、AWS ECR等）の接続問題
 
-`docker login` 直後にもかかわらず503が発生する場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限が短いことが原因の可能性があります。Azure Container Registryの場合、以下の[コマンド](/glossary/コマンド/)で有効期限を確認できます。
+`docker login` 直後にもかかわらず503が発生する場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限が短いことが原因の可能性があります。Azure Container Registryの場合、以下の[コマンド](/glossary/コマンド/)で有効期限を[確認](/glossary/確認/)できます。
 
 ```bash
 # Azure CLIでトークンを更新
@@ -282,8 +282,8 @@ $ journalctl -u docker -f
 - [Docker Hub Status](https://www.docker.com/status)
 - [Docker Community Forums](https://forums.docker.com/)
 
-503[エラー](/glossary/エラー/)が[継続](/glossary/継続/)する場合は、対象[レジストリ](/glossary/レジストリ/)のサポートチームへの問い合わせ、または最新の公式ドキュメント確認をお勧めします。
+503[エラー](/glossary/エラー/)が[継続](/glossary/継続/)する場合は、対象[レジストリ](/glossary/レジストリ/)のサポートチームへの問い合わせ、または最新の公式ドキュメント[確認](/glossary/確認/)をお勧めします。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

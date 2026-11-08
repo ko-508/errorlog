@@ -20,7 +20,7 @@ trend_incident: true
 
 ## エラーの概要
 
-docker [コマンド](/glossary/コマンド/)は、裏側で [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の [API](/glossary/api/) に [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)を送る[クライアント](/glossary/クライアント/)です。Error response from daemon: で始まる[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)が[デーモン](/glossary/デーモン/)まで届いたことを意味します。[デーモン](/glossary/デーモン/)は、不正な[パラメータ](/glossary/パラメータ/)に分類される[エラー](/glossary/エラー/)を 400 として応答する実装になっており（[Docker](/glossary/docker/) のソースコードで確認できます）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)の範囲外もこの分類に含まれます。実際の報告に共通する文言は次の2種です。
+docker [コマンド](/glossary/コマンド/)は、裏側で [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の [API](/glossary/api/) に [HTTP](/glossary/http/) [リクエスト](/glossary/リクエスト/)を送る[クライアント](/glossary/クライアント/)です。Error response from daemon: で始まる[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)が[デーモン](/glossary/デーモン/)まで届いたことを意味します。[デーモン](/glossary/デーモン/)は、不正な[パラメータ](/glossary/パラメータ/)に分類される[エラー](/glossary/エラー/)を 400 として応答する実装になっており（[Docker](/glossary/docker/) のソースコードで[確認](/glossary/確認/)できます）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)の範囲外もこの分類に含まれます。実際の報告に共通する文言は次の2種です。
 
 ```text
 Error response from daemon: client version 1.52 is too new.
@@ -42,7 +42,7 @@ client version ... is too new / too old なら、[API](/glossary/api/) [バー�
 
 ### 原因1：クライアントとデーモンの API バージョン不一致
 
-まず両者の[バージョン](/glossary/バージョン/)を確認します。
+まず両者の[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)します。
 
 ```bash
 docker version
@@ -79,11 +79,11 @@ curl -s --unix-socket /var/run/docker.sock \
   http://localhost/containers/create
 ```
 
-送信前に本文を [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）のが確実です。[プログラム](/glossary/プログラム/)からの呼び出しなら、直列化を[ライブラリ](/glossary/ライブラリ/)に任せているかを確認します（この落とし穴の詳細は [GitHub API の 400 の記事](/posts/github_api_400/)で扱った内容と同型です）。
+送信前に本文を [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）のが確実です。[プログラム](/glossary/プログラム/)からの呼び出しなら、直列化を[ライブラリ](/glossary/ライブラリ/)に任せているかを[確認](/glossary/確認/)します（この落とし穴の詳細は [GitHub API の 400 の記事](/posts/github_api_400/)で扱った内容と同型です）。
 
 ### 原因3：設定値がデーモンの検証で弾かれている
 
-[コンテナ](/glossary/コンテナ/)作成時の[設定](/glossary/設定/)（再起動[ポリシー](/glossary/ポリシー/)、資源制限などの各項目）は、[デーモン](/glossary/デーモン/)側で値の検証が行われ、不正な値は不正な[パラメータ](/glossary/パラメータ/)として400で拒否されます。この場合の[エラー](/glossary/エラー/)文言には、どの項目のどの値が不正かが具体的に書かれます。対処は文言が名指しする項目の[修正](/glossary/修正/)で、指定できる値の一覧は該当機能の公式リファレンスで確認します。「400だから形式の問題だろう」と [JSON](/glossary/json/) の体裁ばかり見るのではなく、文言が指す個別の値を読むのが近道です。
+[コンテナ](/glossary/コンテナ/)作成時の[設定](/glossary/設定/)（再起動[ポリシー](/glossary/ポリシー/)、資源制限などの各項目）は、[デーモン](/glossary/デーモン/)側で値の検証が行われ、不正な値は不正な[パラメータ](/glossary/パラメータ/)として400で拒否されます。この場合の[エラー](/glossary/エラー/)文言には、どの項目のどの値が不正かが具体的に書かれます。対処は文言が名指しする項目の[修正](/glossary/修正/)で、指定できる値の一覧は該当機能の公式リファレンスで[確認](/glossary/確認/)します。「400だから形式の問題だろう」と [JSON](/glossary/json/) の体裁ばかり見るのではなく、文言が指す個別の値を読むのが近道です。
 
 ## 補足：400ではない類似エラー
 
@@ -92,8 +92,8 @@ curl -s --unix-socket /var/run/docker.sock \
 ## 切り分けの順序
 
 1. [エラー](/glossary/エラー/)文言を読む。too new / too old なら原因1、invalid 系なら原因2・3、それ以外（parse error、[YAML](/glossary/yaml/)、reference format、Cannot connect）は400以外の調査に切り替える。
-2. 原因1なら docker version で両者の [API](/glossary/api/) [バージョン](/glossary/バージョン/)を確認し、DOCKER_[API](/glossary/api/)_VERSION の残存を洗い出す。本筋は[デーモン](/glossary/デーモン/)[更新](/glossary/更新/)、応急は[バージョン](/glossary/バージョン/)固定、CI は[イメージ](/glossary/イメージ/)の明示固定。
-3. 原因2なら送信本文を [JSON](/glossary/json/) 検証にかけ、直列化の経路を確認する。
+2. 原因1なら docker version で両者の [API](/glossary/api/) [バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)し、DOCKER_[API](/glossary/api/)_VERSION の残存を洗い出す。本筋は[デーモン](/glossary/デーモン/)[更新](/glossary/更新/)、応急は[バージョン](/glossary/バージョン/)固定、CI は[イメージ](/glossary/イメージ/)の明示固定。
+3. 原因2なら送信本文を [JSON](/glossary/json/) 検証にかけ、直列化の経路を[確認](/glossary/確認/)する。
 4. 原因3なら文言が名指しする設定項目を公式リファレンスと突き合わせて[修正](/glossary/修正/)する。
 
 ## 確認コマンド集
@@ -114,10 +114,10 @@ python3 -m json.tool < body.json
 
 ## Editor's Note
 
-原因1の実例として、GitLab の公式サポート文書があります（[Docker API Version Mismatch Errors in CI/CD Pipelines](https://support.gitlab.com/hc/en-us/articles/23582251372060)）。CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成で、too new と too old の両方の[エラー](/glossary/エラー/)が発生する事象について、原因と対処がまとめられています。背景は、[Docker](/glossary/docker/) 29 が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことです。dind サービスの[イメージ](/glossary/イメージ/)に :latest や :dind のような浮動[タグ](/glossary/タグ/)を使っていると、サービス側だけが自動的に29系へ[更新](/glossary/更新/)され、ジョブ内の古い[クライアント](/glossary/クライアント/)との組み合わせが壊れます。対処として、ランナーが使う [Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)を明示的に固定する[設定](/glossary/設定/)が示されています。「何も変えていないのに昨日から急に400」という症状の裏に、浮動[タグ](/glossary/タグ/)経由の片側だけの自動更新がある、という CI の定番の構図をそのまま示す記録です。同種の報告は、古い[デーモン](/glossary/デーモン/)を[更新](/glossary/更新/)できない NAS [環境](/glossary/環境/)（[更新](/glossary/更新/)された[ツール](/glossary/ツール/)が too new で接続不能になった例）など、CI 以外でも確認できます。
+原因1の実例として、GitLab の公式サポート文書があります（[Docker API Version Mismatch Errors in CI/CD Pipelines](https://support.gitlab.com/hc/en-us/articles/23582251372060)）。CI の [Docker](/glossary/docker/)-in-[Docker](/glossary/docker/) 構成で、too new と too old の両方の[エラー](/glossary/エラー/)が発生する事象について、原因と対処がまとめられています。背景は、[Docker](/glossary/docker/) 29 が受け付ける最小 [API](/glossary/api/) [バージョン](/glossary/バージョン/)を引き上げたことです。dind サービスの[イメージ](/glossary/イメージ/)に :latest や :dind のような浮動[タグ](/glossary/タグ/)を使っていると、サービス側だけが自動的に29系へ[更新](/glossary/更新/)され、ジョブ内の古い[クライアント](/glossary/クライアント/)との組み合わせが壊れます。対処として、ランナーが使う [Docker](/glossary/docker/) Engine の[バージョン](/glossary/バージョン/)を明示的に固定する[設定](/glossary/設定/)が示されています。「何も変えていないのに昨日から急に400」という症状の裏に、浮動[タグ](/glossary/タグ/)経由の片側だけの自動更新がある、という CI の定番の構図をそのまま示す記録です。同種の報告は、古い[デーモン](/glossary/デーモン/)を[更新](/glossary/更新/)できない NAS [環境](/glossary/環境/)（[更新](/glossary/更新/)された[ツール](/glossary/ツール/)が too new で接続不能になった例）など、CI 以外でも[確認](/glossary/確認/)できます。
 
-[Docker](/glossary/docker/) の400は、文言が[バージョン](/glossary/バージョン/)の数字や不正な項目を名指ししてくれる親切な[エラー](/glossary/エラー/)です。[リクエスト](/glossary/リクエスト/)の体裁を疑う前に、まず文言を読み、[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の組み合わせを確認することが確実な近道です。
+[Docker](/glossary/docker/) の400は、文言が[バージョン](/glossary/バージョン/)の数字や不正な項目を名指ししてくれる親切な[エラー](/glossary/エラー/)です。[リクエスト](/glossary/リクエスト/)の体裁を疑う前に、まず文言を読み、[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の組み合わせを[確認](/glossary/確認/)することが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

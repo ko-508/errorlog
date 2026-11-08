@@ -114,7 +114,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
 ### 原因3：無効なパラメータ値
 
 **なぜ発生するか**  
-チャネル[ID](/glossary/id/)やユーザー[ID](/glossary/id/)の形式が不正、またはタイムスタンプの値が無効な場合、[API](/glossary/api/)は400を返します。特にチャネル[ID](/glossary/id/)（Cで始まる）とユーザー[ID](/glossary/id/)（Uで始まる）を混同することが多いです。
+チャネル[ID](/glossary/id/)や[ユーザー](/glossary/ユーザー/)[ID](/glossary/id/)の形式が不正、またはタイムスタンプの値が無効な場合、[API](/glossary/api/)は400を返します。特にチャネル[ID](/glossary/id/)（Cで始まる）と[ユーザー](/glossary/ユーザー/)[ID](/glossary/id/)（Uで始まる）を混同することが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる場合）**
 ```javascript
@@ -185,7 +185,7 @@ Slackからの[リクエスト](/glossary/リクエスト/)がボット側に到
 ## それでも解決しない場合
 
 **[ログ](/glossary/ログ/)の確認場所**  
-ボット実装の場合、アプリケーションログとSlack [API](/glossary/api/)呼び出しのレスポンスボディを確認してください。より詳しい[エラーメッセージ](/glossary/エラーメッセージ/)が含まれています。
+ボット実装の場合、アプリケーションログとSlack [API](/glossary/api/)呼び出しのレスポンスボディを[確認](/glossary/確認/)してください。より詳しい[エラーメッセージ](/glossary/エラーメッセージ/)が含まれています。
 
 **デバッグコマンド**  
 ```bash
@@ -198,13 +198,13 @@ curl -X POST https://slack.com/api/chat.postMessage \
 ```
 
 **公式ドキュメント参照**  
-- [Slack API Documentation](https://api.slack.com/docs) の「[API](/glossary/api/) Methods」セクションで該当[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)を確認
-- [Slack API Errors](https://api.slack.com/apis/rate-limits) で[エラーコード](/glossary/エラーコード/)一覧を確認
-- [Incoming Webhooks](https://api.slack.com/messaging/webhooks) で[Webhook](/glossary/webhook/)固有の[要件](/glossary/要件/)を確認
+- [Slack API Documentation](https://api.slack.com/docs) の「[API](/glossary/api/) Methods」セクションで該当[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)を[確認](/glossary/確認/)
+- [Slack API Errors](https://api.slack.com/apis/rate-limits) で[エラーコード](/glossary/エラーコード/)一覧を[確認](/glossary/確認/)
+- [Incoming Webhooks](https://api.slack.com/messaging/webhooks) で[Webhook](/glossary/webhook/)固有の[要件](/glossary/要件/)を[確認](/glossary/確認/)
 
 **コミュニティリソース**  
 Slack Developer Community (community.slack.com) で同様の事例を[検索](/glossary/検索/)するか、[GitHub](/glossary/github/) Issues内でSlack [SDK](/glossary/sdk/)（python-slack-sdk等）のトラブルシューティングを参照してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

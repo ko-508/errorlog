@@ -34,7 +34,7 @@ docker: Error response from daemon: failed to create task for container:
   unable to start container process: exec /entrypoint.sh: exec format error
 ```
 
-長く見えますが、読むべきは末尾だけです。`unable to start container process:` までは実行系が付け加えた前置きで、実装でもこの文言でくるむ[処理](/glossary/処理/)が確認できます。その後ろの `exec <対象>: exec format error` が本体です。
+長く見えますが、読むべきは末尾だけです。`unable to start container process:` までは実行系が付け加えた前置きで、実装でもこの文言でくるむ[処理](/glossary/処理/)が[確認](/glossary/確認/)できます。その後ろの `exec <対象>: exec format error` が本体です。
 
 古い版では、次の形で表示されることもあります。意味は同じです。
 
@@ -42,17 +42,17 @@ docker: Error response from daemon: failed to create task for container:
 standard_init_linux.go:228: exec user process caused: exec format error
 ```
 
-まず確認すべきは、**どの対象で失敗したか**です。上の例では `/entrypoint.sh`。この[ファイル](/glossary/ファイル/)が、実行可能な形式として認識されなかった、という意味になります。
+まず[確認](/glossary/確認/)すべきは、**どの対象で失敗したか**です。上の例では `/entrypoint.sh`。この[ファイル](/glossary/ファイル/)が、実行可能な形式として認識されなかった、という意味になります。
 
 ## まず最初に：イメージとホストのアーキテクチャを突き合わせる
 
-第一に、[イメージ](/glossary/イメージ/)がどのアーキテクチャ向けかを確認します。
+第一に、[イメージ](/glossary/イメージ/)がどのアーキテクチャ向けかを[確認](/glossary/確認/)します。
 
 ```bash
 docker image inspect <イメージ> --format '{{.Os}}/{{.Architecture}}'
 ```
 
-第二に、ホストのアーキテクチャを確認します。`x86_64` なら amd64、`aarch64` なら arm64 です。
+第二に、ホストのアーキテクチャを[確認](/glossary/確認/)します。`x86_64` なら amd64、`aarch64` なら arm64 です。
 
 ```bash
 uname -m
@@ -173,12 +173,12 @@ ENTRYPOINT ["/bin/sh", "/entrypoint.sh"]
 ## 切り分けの順序
 
 1. 文言の末尾を読む。`exec format error` か `no such file or directory` かで系統が分かれる。
-2. どの対象で失敗したかを確認する。文言の中に入っている。
+2. どの対象で失敗したかを[確認](/glossary/確認/)する。文言の中に入っている。
 3. [イメージ](/glossary/イメージ/)とホストのアーキテクチャを突き合わせる。食い違えば原因は1つ目。
 4. 食い違っていれば、対象のアーキテクチャを指定して作り直す。実行時の指定だけでは解決しない。
-5. エミュレーションに頼るなら、[登録](/glossary/登録/)されているかを確認する。[Docker](/glossary/docker/) Desktop 以外では既定で有効ではない。
+5. エミュレーションに頼るなら、[登録](/glossary/登録/)されているかを[確認](/glossary/確認/)する。[Docker](/glossary/docker/) Desktop 以外では既定で有効ではない。
 6. アーキテクチャが一致しているなら、[イメージ](/glossary/イメージ/)内の混在を疑う。取得先にアーキテクチャを埋め込んでいないか。
-7. 対象が[スクリプト](/glossary/スクリプト/)なら、先頭行の指定を確認する。
+7. 対象が[スクリプト](/glossary/スクリプト/)なら、先頭行の指定を[確認](/glossary/確認/)する。
 8. `no such file or directory` なら、実行系や共有[ライブラリ](/glossary/ライブラリ/)の不足を疑う。
 
 ## 確認コマンド集
@@ -217,7 +217,7 @@ head -1 entrypoint.sh | cat -A | head -1
 
 その典型を記録した報告があります（[video-streaming image built on macbook M1 caused exec format error](https://github.com/bootstrapping-microservices/chapter-7/issues/8)）。2022年12月、Apple Silicon の機械で作った[イメージ](/glossary/イメージ/)を配備したところ、`standard_init_linux.go:228: exec user process caused: exec format error` で起動しなかった、という内容です。
 
-手元では動きます。当然で、作った機械と同じアーキテクチャだからです。問題が現れるのは、別のアーキテクチャの[環境](/glossary/環境/)へ持っていったときだけ。**開発機で確認しても意味が無い**という性質が、この[エラー](/glossary/エラー/)を配備直前まで隠します。
+手元では動きます。当然で、作った機械と同じアーキテクチャだからです。問題が現れるのは、別のアーキテクチャの[環境](/glossary/環境/)へ持っていったときだけ。**開発機で[確認](/glossary/確認/)しても意味が無い**という性質が、この[エラー](/glossary/エラー/)を配備直前まで隠します。
 
 報告の中で共有されている対処は、作成の手順を複数アーキテクチャ[対応](/glossary/対応/)の形に変え、`--platform linux/arm64,linux/amd64` を指定して作るというものでした。片方に決め打ちするのではなく、両方に[対応](/glossary/対応/)させています。手元でも配備先でも動く状態にすれば、同じ問題は二度と起きません。
 
@@ -227,4 +227,4 @@ head -1 entrypoint.sh | cat -A | head -1
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -78,7 +78,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 | `ImagePullBackOff` / `ErrImagePull` | [イメージ](/glossary/イメージ/)取得 | 対象外 |
 | `CrashLoopBackOff` | 起動後に[プロセス](/glossary/プロセス/)が終了し再起動を繰り返す | 対象外 |
 
-[Kubernetes](/glossary/kubernetes/)公式のPod[デバッグ](/glossary/デバッグ/)手順でも、まずPodを確認し、`kubectl describe` で状態と最近のEventsを見る流れが示されています（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。
+[Kubernetes](/glossary/kubernetes/)公式のPod[デバッグ](/glossary/デバッグ/)手順でも、まずPodを[確認](/glossary/確認/)し、`kubectl describe` で状態と最近のEventsを見る流れが示されています（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。
 
 ## まず最初に：reason・message・Events・ノード偏りを分ける
 
@@ -99,7 +99,7 @@ kubectl describe pod <Pod名> -n <名前空間>
 
 `RunContainerError` は段階名です。実際の原因は `Message:` にあります。実行[ファイル](/glossary/ファイル/)がない、[権限](/glossary/権限/)が拒否された、マウントできない、cgroupを作れない、runtimeが応答できない、といった語を探します。
 
-第三に、Eventsで前段階の失敗が混ざっていないかを確認します。
+第三に、Eventsで前段階の失敗が混ざっていないかを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get events -n <名前空間> \
@@ -137,7 +137,7 @@ spec:
         runAsUser: 1000
 ```
 
-**After（まず[イメージ](/glossary/イメージ/)既定で起動を確認する）：**
+**After（まず[イメージ](/glossary/イメージ/)既定で起動を[確認](/glossary/確認/)する）：**
 
 ```yaml
 spec:
@@ -146,7 +146,7 @@ spec:
       image: <your-image>
 ```
 
-修正後は、同じimageでPodが起動するかを確認します。
+修正後は、同じimageでPodが起動するかを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl apply -f <manifest.yaml>
@@ -178,7 +178,7 @@ spec:
         type: Directory
 ```
 
-**After（まずmountなしで起動段階を確認する）：**
+**After（まずmountなしで起動段階を[確認](/glossary/確認/)する）：**
 
 ```yaml
 spec:
@@ -194,7 +194,7 @@ kubectl get pod <Pod名> -n <名前空間> -o yaml \
   | grep -A 60 -E 'volumeMounts:|volumes:|securityContext:'
 ```
 
-同じノードで最小構成が起動するなら、原因はPod定義側です。mountを戻した瞬間に再発するなら、ノード上の[パス](/glossary/パス/)、[権限](/glossary/権限/)、ラベル、[ファイル](/glossary/ファイル/)/[ディレクトリ](/glossary/ディレクトリ/)の型を確認します。
+同じノードで最小構成が起動するなら、原因はPod定義側です。mountを戻した瞬間に再発するなら、ノード上の[パス](/glossary/パス/)、[権限](/glossary/権限/)、ラベル、[ファイル](/glossary/ファイル/)/[ディレクトリ](/glossary/ディレクトリ/)の型を[確認](/glossary/確認/)します。
 
 ### 原因3：containerd、CRI-O、runc、cgroup、ディスクなどノード側runtimeが壊れている
 
@@ -214,7 +214,7 @@ kubectl get pod <Pod名> -n <名前空間> -o wide
 kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
 ```
 
-ノードに入れる場合は、kubeletとruntimeの[ログ](/glossary/ログ/)を確認します。
+ノードに入れる場合は、kubeletとruntimeの[ログ](/glossary/ログ/)を[確認](/glossary/確認/)します。
 
 ```bash
 sudo journalctl -u kubelet --since "30 min ago" --no-pager
@@ -235,7 +235,7 @@ containerdのCRI[設定](/glossary/設定/)を疑う場合、containerd側では
 
 `CrashLoopBackOff` は、[コンテナ](/glossary/コンテナ/)の起動には成功した後、[アプリケーション](/glossary/アプリケーション/)が終了して再起動を繰り返している状態です。この場合は `kubectl logs --previous` や終了[コード](/glossary/コード/)が主な手がかりです。
 
-`ImagePullBackOff` と `ErrImagePull` は、image取得の失敗です。[認証](/glossary/認証/)、[タグ](/glossary/タグ/)、registry到達性を確認します。`RunContainerError` はimage取得後の段階です。
+`ImagePullBackOff` と `ErrImagePull` は、image取得の失敗です。[認証](/glossary/認証/)、[タグ](/glossary/タグ/)、registry到達性を[確認](/glossary/確認/)します。`RunContainerError` はimage取得後の段階です。
 
 `OOMKilled` は、起動後に[メモリ](/glossary/メモリ/)制限などで[プロセス](/glossary/プロセス/)が終了した結果です。`RunContainerError` は[プロセス](/glossary/プロセス/)開始前または開始時点で止まるため、調査する時間軸が違います。
 
@@ -260,16 +260,16 @@ securityContext:
   seLinuxOptions: null
 ```
 
-`privileged: true`、root実行、SELinux/AppArmor/seccompの無効化、hostPathの広範囲な付与は、Podの隔離を弱めます。動いたから恒久対応にするのではなく、どの[権限](/glossary/権限/)・ラベル・mount・実行ユーザーが必要だったのかを狭く戻します。
+`privileged: true`、root実行、SELinux/AppArmor/seccompの無効化、hostPathの広範囲な付与は、Podの隔離を弱めます。動いたから恒久対応にするのではなく、どの[権限](/glossary/権限/)・ラベル・mount・実行[ユーザー](/glossary/ユーザー/)が必要だったのかを狭く戻します。
 
-ノード側でruntimeを再起動する場合も、影響範囲を確認してください。
+ノード側でruntimeを再起動する場合も、影響範囲を[確認](/glossary/確認/)してください。
 
 ```bash
 kubectl get pods -A -o wide --field-selector spec.nodeName=<ノード名>
 kubectl cordon <ノード名>
 ```
 
-本番ノードでcontainer runtimeを再起動すると、そのノード上のPodに影響します。まず対象ノードのPod、PodDisruptionBudget、[冗長性](/glossary/冗長性/)を確認し、必要ならcordonやdrainの計画を立てます。
+本番ノードでcontainer runtimeを再起動すると、そのノード上のPodに影響します。まず対象ノードのPod、PodDisruptionBudget、[冗長性](/glossary/冗長性/)を[確認](/glossary/確認/)し、必要ならcordonやdrainの計画を立てます。
 
 imageやレイヤを[削除](/glossary/削除/)する場合も、対象を限定します。
 
@@ -282,16 +282,16 @@ crictl images
 
 ## 切り分けの順序
 
-1. `containerStatuses` と `initContainerStatuses` のreasonを確認し、`RunContainerError` であることを確定する。
+1. `containerStatuses` と `initContainerStatuses` のreasonを[確認](/glossary/確認/)し、`RunContainerError` であることを確定する。
 2. `kubectl describe pod` で `Message` をそのまま[保存](/glossary/保存/)する。
-3. Eventsを時系列で確認し、`FailedCreatePodSandbox` やimage pull系の前段階[エラー](/glossary/エラー/)が主因でないか確認する。
+3. Eventsを時系列で[確認](/glossary/確認/)し、`FailedCreatePodSandbox` やimage pull系の前段階[エラー](/glossary/エラー/)が主因でないか[確認](/glossary/確認/)する。
 4. `kubectl logs` が空でも、[プロセス](/glossary/プロセス/)開始前なら異常ではないと判断する。
 5. `command`、`args`、`workingDir`、`securityContext` を外した最小構成で同じimageを起動する。
-6. volumeMount、Secret、ConfigMap、hostPathを1つずつ戻し、どの[設定](/glossary/設定/)で再発するか確認する。
+6. volumeMount、Secret、ConfigMap、hostPathを1つずつ戻し、どの[設定](/glossary/設定/)で再発するか[確認](/glossary/確認/)する。
 7. 同じPodを別ノードで動かし、ノード固有かワークロード固有かを分ける。
-8. ノード固有なら kubelet、containerd/CRI-O、runc、cgroup、ディスク[容量](/glossary/容量/)を確認する。
+8. ノード固有なら kubelet、containerd/CRI-O、runc、cgroup、ディスク[容量](/glossary/容量/)を[確認](/glossary/確認/)する。
 9. 権限緩和やruntime再起動を行う前に、影響範囲と戻し方を決める。
-10. 修正後は `waiting.reason` が消え、Podが `Running` かつ `Ready` になることを確認する。
+10. 修正後は `waiting.reason` が消え、Podが `Running` かつ `Ready` になることを[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
@@ -349,4 +349,4 @@ kubeletのソースにも、`RunContainerError` は `CreatePodSandboxError` や 
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

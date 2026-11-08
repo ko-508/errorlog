@@ -10,7 +10,7 @@ components: ["Compose"]
 related_services: ["PowerShell", "VSCode"]
 ---
 
-Windows[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`[ファイル](/glossary/ファイル/)が原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、[ファイル](/glossary/ファイル/)の[エンコード](/glossary/エンコード/)が原因です。
+[Windows](/glossary/windows/)[環境](/glossary/環境/)で[Docker](/glossary/docker/) Composeを使う際、PowerShellで作成した`.env`[ファイル](/glossary/ファイル/)が原因で[コンテナ](/glossary/コンテナ/)が起動できないケースがあります。[エラーメッセージ](/glossary/エラーメッセージ/)に`\xff\xfe`や`unexpected character`が含まれている場合、[ファイル](/glossary/ファイル/)の[エンコード](/glossary/エンコード/)が原因です。
 
 ## エラーの全文
 
@@ -24,7 +24,7 @@ failed to read C:\Users\user\project\.env: line 1: unexpected character "?" in v
 
 ### PowerShellのechoコマンドはUTF-16 LEで書き出す
 
-WindowsのPowerShell（5.1系）では、リダイレクト演算子`>`や`echo`[コマンド](/glossary/コマンド/)が[デフォルト](/glossary/デフォルト/)でUTF-16 LE（BOM付き）を使用します。
+[Windows](/glossary/windows/)のPowerShell（5.1系）では、リダイレクト演算子`>`や`echo`[コマンド](/glossary/コマンド/)が[デフォルト](/glossary/デフォルト/)でUTF-16 LE（BOM付き）を使用します。
 
 ```powershell
 # これをやってはいけない
@@ -40,7 +40,7 @@ VSCodeで[ファイル](/glossary/ファイル/)を新規作成・[保存](/glos
 
 ## 診断方法
 
-`.env`[ファイル](/glossary/ファイル/)の先頭[バイト](/glossary/バイト/)を確認します。
+`.env`[ファイル](/glossary/ファイル/)の先頭[バイト](/glossary/バイト/)を[確認](/glossary/確認/)します。
 
 ```powershell
 # 先頭4バイトを16進数で確認
@@ -106,7 +106,7 @@ DEBUG=false
 ### 方法3：VSCodeで修正する
 
 1. `.env`をVSCodeで開く
-2. 右下のステータスバーで現在の[エンコード](/glossary/エンコード/)を確認（「UTF-16 LE」と表示されているはず）
+2. 右下のステータスバーで現在の[エンコード](/glossary/エンコード/)を[確認](/glossary/確認/)（「UTF-16 LE」と表示されているはず）
 3. クリックして「[エンコード](/glossary/エンコード/)付きで[保存](/glossary/保存/)」→「[UTF-8](/glossary/utf-8/)」を選択
 
 ## Before / After の対比
@@ -159,4 +159,4 @@ failed to read .env: line 1: unexpected character "?" in variable name "\xff\xfe
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

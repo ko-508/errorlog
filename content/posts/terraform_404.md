@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/glossary/設定ファイル/)で参照しているクラウドリソースが実際には存在しないか、[削除](/glossary/削除/)されている状態を示します。この[エラー](/glossary/エラー/)が発生すると、`terraform plan` や `terraform apply` の実行が中断され、リソース間の依存関係が解決できません。特に data source を使ってリソース情報を取得する場合や、既存リソースを参照する[設定](/glossary/設定/)で頻出します。
+Terraform の 404 [エラー](/glossary/エラー/)は、[設定ファイル](/glossary/設定ファイル/)で参照しているクラウドリソースが実際には存在しないか、[削除](/glossary/削除/)されている状態を示します。この[エラー](/glossary/エラー/)が発生すると、`terraform plan` や `terraform apply` の実行が中断され、[リソース](/glossary/リソース/)間の依存関係が解決できません。特に data source を使って[リソース](/glossary/リソース/)情報を取得する場合や、既存[リソース](/glossary/リソース/)を参照する[設定](/glossary/設定/)で頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -36,7 +36,7 @@ Error: Error when reading or editing Compute Instance: googleapi: Error 404: The
 
 ### 原因 1：data source で参照しているリソースがまだ作成されていないか削除されている
 
-リソースを作成する前に、そのリソース情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動でリソースを[削除](/glossary/削除/)した場合、Terraform の state [ファイル](/glossary/ファイル/)にはまだ存在するとして記録されたままになり、再度参照しようとすると 404 [エラー](/glossary/エラー/)になります。
+[リソース](/glossary/リソース/)を作成する前に、その[リソース](/glossary/リソース/)情報を data source で参照しようとするケースがよくあります。また、クラウドコンソールから手動で[リソース](/glossary/リソース/)を[削除](/glossary/削除/)した場合、Terraform の state [ファイル](/glossary/ファイル/)にはまだ存在するとして記録されたままになり、再度参照しようとすると 404 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -71,7 +71,7 @@ data "aws_instance" "existing" {
 
 ### 原因 2：リージョンまたはリソース名の指定が間違っている
 
-[AWS](/glossary/aws/) や Google Cloud などのマルチリージョンサービスでは、リージョン指定を誤ると別リージョンのリソースを探してしまい、404 [エラー](/glossary/エラー/)が発生します。リソース [ID](/glossary/id/) やリソース名の入力間違いも同様に原因となります。
+[AWS](/glossary/aws/) や Google Cloud などのマルチリージョンサービスでは、リージョン指定を誤ると別リージョンの[リソース](/glossary/リソース/)を探してしまい、404 [エラー](/glossary/エラー/)が発生します。[リソース](/glossary/リソース/) [ID](/glossary/id/) や[リソース](/glossary/リソース/)名の入力間違いも同様に原因となります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -123,7 +123,7 @@ data "aws_instance" "example" {
 
 ### 原因 3：別の Terraform workspace で管理しているリソースを参照しようとしている
 
-Terraform の workspace 機能を使って[環境](/glossary/環境/)を分け、別の workspace で管理されているリソースを参照しようとすると 404 [エラー](/glossary/エラー/)が発生します。同じリソースであっても workspace が異なると state [ファイル](/glossary/ファイル/)が分離されており、相互参照ができません。
+Terraform の workspace 機能を使って[環境](/glossary/環境/)を分け、別の workspace で管理されている[リソース](/glossary/リソース/)を参照しようとすると 404 [エラー](/glossary/エラー/)が発生します。同じ[リソース](/glossary/リソース/)であっても workspace が異なると state [ファイル](/glossary/ファイル/)が分離されており、相互参照ができません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -184,21 +184,21 @@ resource "aws_instance" "prod_server" {
 
 ## ツール固有の注意点
 
-Terraform は state [ファイル](/glossary/ファイル/)と実際のクラウドリソースの整合性に依存しています。手動でクラウドコンソールからリソースを[削除](/glossary/削除/)した場合、state [ファイル](/glossary/ファイル/)には古い情報が残ったままになり、404 [エラー](/glossary/エラー/)の原因になります。本来なら `terraform destroy` で state を[削除](/glossary/削除/)すべきですが、事後対応として `terraform state rm <resource-address>` で state から該当リソースを[削除](/glossary/削除/)できます。
+Terraform は state [ファイル](/glossary/ファイル/)と実際のクラウドリソースの整合性に依存しています。手動でクラウドコンソールから[リソース](/glossary/リソース/)を[削除](/glossary/削除/)した場合、state [ファイル](/glossary/ファイル/)には古い情報が残ったままになり、404 [エラー](/glossary/エラー/)の原因になります。本来なら `terraform destroy` で state を[削除](/glossary/削除/)すべきですが、事後対応として `terraform state rm <resource-address>` で state から該当[リソース](/glossary/リソース/)を[削除](/glossary/削除/)できます。
 
-また、マルチプロバイダー[設定](/glossary/設定/)を使う場合、各 data source にどの provider を使うかを明示的に指定する必要があります。指定を忘れると、[デフォルト](/glossary/デフォルト/) provider がリソースを探してしまい、期待と異なるリージョンや[アカウント](/glossary/アカウント/)で 404 [エラー](/glossary/エラー/)が発生することがあります。
+また、マルチプロバイダー[設定](/glossary/設定/)を使う場合、各 data source にどの provider を使うかを明示的に指定する必要があります。指定を忘れると、[デフォルト](/glossary/デフォルト/) provider が[リソース](/glossary/リソース/)を探してしまい、期待と異なるリージョンや[アカウント](/glossary/アカウント/)で 404 [エラー](/glossary/エラー/)が発生することがあります。
 
-[AWS](/glossary/aws/) の場合、リソース [ID](/glossary/id/) には各リージョン固有の値が使われるため、リージョン指定の誤りは一般的に 404 [エラー](/glossary/エラー/)に繋がります。Google Cloud でも同様なことが言えるため、複数リージョンで運用する場合は provider alias を活用し、リソース参照時に明示的に provider を指定するのがベストプラクティスです。
+[AWS](/glossary/aws/) の場合、[リソース](/glossary/リソース/) [ID](/glossary/id/) には各リージョン固有の値が使われるため、リージョン指定の誤りは一般的に 404 [エラー](/glossary/エラー/)に繋がります。Google Cloud でも同様なことが言えるため、複数リージョンで運用する場合は provider alias を活用し、[リソース](/glossary/リソース/)参照時に明示的に provider を指定するのがベストプラクティスです。
 
 ## それでも解決しない場合
 
-まず `terraform state list` [コマンド](/glossary/コマンド/)で、現在 Terraform が管理している全リソースを確認しましょう。期待するリソースがリストに含まれていなければ、state [ファイル](/glossary/ファイル/)がリソースを追跡していないことが明らかになります。
+まず `terraform state list` [コマンド](/glossary/コマンド/)で、現在 Terraform が管理している全[リソース](/glossary/リソース/)を[確認](/glossary/確認/)しましょう。期待する[リソース](/glossary/リソース/)がリストに含まれていなければ、state [ファイル](/glossary/ファイル/)が[リソース](/glossary/リソース/)を追跡していないことが明らかになります。
 
 ```bash
 terraform state list
 ```
 
-次に、[AWS](/glossary/aws/) [CLI](/glossary/cli/) や gcloud [コマンド](/glossary/コマンド/)でクラウドプロバイダー上に実際にリソースが存在するか確認します。例えば [AWS](/glossary/aws/) EC2 [インスタンス](/glossary/インスタンス/)なら以下の[コマンド](/glossary/コマンド/)で確認できます。
+次に、[AWS](/glossary/aws/) [CLI](/glossary/cli/) や gcloud [コマンド](/glossary/コマンド/)でクラウドプロバイダー上に実際に[リソース](/glossary/リソース/)が存在するか[確認](/glossary/確認/)します。例えば [AWS](/glossary/aws/) EC2 [インスタンス](/glossary/インスタンス/)なら以下の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)できます。
 
 ```bash
 # AWS の場合
@@ -208,14 +208,14 @@ aws ec2 describe-instances --instance-ids i-0123456789abcdef0 --region us-east-1
 gcloud compute instances describe old-instance --zone us-central1-a
 ```
 
-リソースが実在するのに state [ファイル](/glossary/ファイル/)に含まれていない場合、`terraform import` [コマンド](/glossary/コマンド/)でリソースを state に取り込みます。
+[リソース](/glossary/リソース/)が実在するのに state [ファイル](/glossary/ファイル/)に含まれていない場合、`terraform import` [コマンド](/glossary/コマンド/)で[リソース](/glossary/リソース/)を state に取り込みます。
 
 ```bash
 terraform import aws_instance.example i-0123456789abcdef0
 ```
 
-それでも問題が解決しない場合、`terraform plan -v` または `terraform plan -json` で詳細[ログ](/glossary/ログ/)を確認し、[API](/glossary/api/) 呼び出しレベルでどのリソースを探しているかを特定します。公式の Terraform ドキュメント内の該当 provider ページで data source の[仕様](/glossary/仕様/)を確認し、必須パラメーターを満たしているかも検証しましょう。
+それでも問題が解決しない場合、`terraform plan -v` または `terraform plan -json` で詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)し、[API](/glossary/api/) 呼び出しレベルでどの[リソース](/glossary/リソース/)を探しているかを特定します。公式の Terraform ドキュメント内の該当 provider ページで data source の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)し、必須パラメーターを満たしているかも検証しましょう。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

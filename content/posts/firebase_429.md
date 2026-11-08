@@ -141,7 +141,7 @@ exports.optimizedFunction = functions.https.onCall(async (data, context) => {
 
 ### 原因 3: Authentication メール送信の上限超過
 
-Spark プラン では Authentication メール送信数が 100 件/日に制限されています。パスワードリセットやメール確認の実装で短時間に大量送信すると制限に達します。
+Spark プラン では Authentication メール送信数が 100 件/日に制限されています。パスワードリセットやメール[確認](/glossary/確認/)の実装で短時間に大量送信すると制限に達します。
 
 **Before（制限を受ける実装）**
 
@@ -191,7 +191,7 @@ async function registerUserOptimized(email, password) {
 
 ### Firestore での 429 対策
 
-Firestore では「読み取り」「書き込み」「[削除](/glossary/削除/)」がそれぞれカウントされます。Spark プラン では日次 5 万件の読み取り、1 万件の書き込み、1 万件の[削除](/glossary/削除/)が上限です。複数ユーザーからの同時アクセスが見込まれる場合は、早期に **Blaze プラン（従量課金制）** への移行を検討してください。
+Firestore では「読み取り」「書き込み」「[削除](/glossary/削除/)」がそれぞれカウントされます。Spark プラン では日次 5 万件の読み取り、1 万件の書き込み、1 万件の[削除](/glossary/削除/)が上限です。複数[ユーザー](/glossary/ユーザー/)からの同時アクセスが見込まれる場合は、早期に **Blaze プラン（従量課金制）** への移行を検討してください。
 
 ### Realtime Database での制限
 
@@ -205,7 +205,7 @@ Cloud Storage では Spark プラン で 1GB/日の[ダウンロード](/glossar
 
 ### ログの確認
 
-Firebase Console の「Quotas」タブで現在の使用状況を確認します。`firebase-admin` を使用している場合は、[関数](/glossary/関数/)の実行[ログ](/glossary/ログ/)を Cloud Logging で確認してください。
+Firebase Console の「Quotas」タブで現在の使用状況を[確認](/glossary/確認/)します。`firebase-admin` を使用している場合は、[関数](/glossary/関数/)の実行[ログ](/glossary/ログ/)を Cloud Logging で[確認](/glossary/確認/)してください。
 
 ```bash
 gcloud functions logs read <function-name> --limit 50
@@ -223,4 +223,4 @@ Blaze プラン の有料顧客は Firebase Support から詳細な制限内容�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

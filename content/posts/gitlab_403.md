@@ -12,7 +12,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-GitLab の 403 [エラー](/glossary/エラー/)は、認証済みのユーザーが[プロジェクト](/glossary/プロジェクト/)やリソースへの[アクセス権限](/glossary/アクセス権限/)を持たないときに返されるアクセス拒否[エラー](/glossary/エラー/)です。認証自体は成功していますが、実行しようとした[アクション](/glossary/アクション/)（[プッシュ](/glossary/プッシュ/)、マージリクエストの作成、[設定変更](/glossary/設定変更/)など）の[権限](/glossary/権限/)がないことを示します。GitLab での[権限管理](/glossary/権限管理/)はロールベースアクセス制御（[RBAC](/glossary/rbac/)）に基づいており、プロジェクトメンバーシップ、グループ[設定](/glossary/設定/)、[ブランチ](/glossary/ブランチ/)保護ルールなどの複数の層で管理されるため、原因の特定には段階的な確認が必要です。
+GitLab の 403 [エラー](/glossary/エラー/)は、認証済みの[ユーザー](/glossary/ユーザー/)が[プロジェクト](/glossary/プロジェクト/)や[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)を持たないときに返されるアクセス拒否[エラー](/glossary/エラー/)です。認証自体は成功していますが、実行しようとした[アクション](/glossary/アクション/)（[プッシュ](/glossary/プッシュ/)、マージリクエストの作成、[設定変更](/glossary/設定変更/)など）の[権限](/glossary/権限/)がないことを示します。GitLab での[権限管理](/glossary/権限管理/)はロールベースアクセス制御（[RBAC](/glossary/rbac/)）に基づいており、プロジェクトメンバーシップ、グループ[設定](/glossary/設定/)、[ブランチ](/glossary/ブランチ/)保護ルールなどの複数の層で管理されるため、原因の特定には段階的な[確認](/glossary/確認/)が必要です。
 
 ## 実際のエラーメッセージ例
 
@@ -44,11 +44,11 @@ $ curl -H "PRIVATE-TOKEN: <your-token>" https://gitlab.example.com/api/v4/projec
 
 ### 原因1：プロジェクトメンバーのロール権限が不足している
 
-GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアクセスレベルが細分化されています。Guest（ゲスト）や Reporter（レポーター）[ロール](/glossary/ロール/)では、[コード](/glossary/コード/)の[プッシュ](/glossary/プッシュ/)やマージリクエストの[承認](/glossary/承認/)などの重要な操作ができません。ユーザーが必要な操作を実行しようとしても、割り当てられた[ロール](/glossary/ロール/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
+GitLab では、[プロジェクト](/glossary/プロジェクト/)へのアクセスレベルが細分化されています。Guest（ゲスト）や Reporter（レポーター）[ロール](/glossary/ロール/)では、[コード](/glossary/コード/)の[プッシュ](/glossary/プッシュ/)やマージリクエストの[承認](/glossary/承認/)などの重要な操作ができません。[ユーザー](/glossary/ユーザー/)が必要な操作を実行しようとしても、割り当てられた[ロール](/glossary/ロール/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
 
 **修正方法：**
 
-GitLab の Web [UI](/glossary/ui/) から、対象[プロジェクト](/glossary/プロジェクト/)の **Settings → Members** に移動し、ユーザーの[ロール](/glossary/ロール/)を Developer 以上に変更します。変更後、ユーザーは[コード](/glossary/コード/)を[プッシュ](/glossary/プッシュ/)できるようになります。
+GitLab の Web [UI](/glossary/ui/) から、対象[プロジェクト](/glossary/プロジェクト/)の **Settings → Members** に移動し、[ユーザー](/glossary/ユーザー/)の[ロール](/glossary/ロール/)を Developer 以上に変更します。変更後、[ユーザー](/glossary/ユーザー/)は[コード](/glossary/コード/)を[プッシュ](/glossary/プッシュ/)できるようになります。
 
 ```bash
 # Developer ロール以上に昇格後、プッシュが成功
@@ -63,11 +63,11 @@ remote:   https://gitlab.example.com/group/project/-/merge_requests/new?merge_re
 
 ### 原因2：グループレベルのアクセス制限（IP アドレスやメンバーシップ設定）
 
-グループの管理者が [IP アドレス](/glossary/ip-アドレス/)制限を[設定](/glossary/設定/)している場合や、グループのメンバーシップ[設定](/glossary/設定/)により一部のユーザーがアクセスできない構成になっていると、403 [エラー](/glossary/エラー/)が発生します。これはプロジェクトメンバーであっても、グループレベルで制限されている場合に起こります。
+グループの管理者が [IP アドレス](/glossary/ip-アドレス/)制限を[設定](/glossary/設定/)している場合や、グループのメンバーシップ[設定](/glossary/設定/)により一部の[ユーザー](/glossary/ユーザー/)がアクセスできない構成になっていると、403 [エラー](/glossary/エラー/)が発生します。これはプロジェクトメンバーであっても、グループレベルで制限されている場合に起こります。
 
 **修正方法：**
 
-グループの管理者が、**Group → Settings → General → Permissions** で IP 制限ルールを確認し、ユーザーのアクセス元 IP を許可リストに追加するか、制限を緩和します。または、VPN 経由でのアクセスを構成します。
+グループの管理者が、**Group → Settings → General → Permissions** で IP 制限ルールを[確認](/glossary/確認/)し、[ユーザー](/glossary/ユーザー/)のアクセス元 IP を許可リストに追加するか、制限を緩和します。または、VPN 経由でのアクセスを構成します。
 
 ```yaml
 # グループレベルの制限を解除/修正後
@@ -83,11 +83,11 @@ remote: Counting objects: 100% (50/50), done.
 
 ### 原因3：保護ブランチの設定により特定ロールのプッシュが禁止されている
 
-`main` や `production` など、重要な[ブランチ](/glossary/ブランチ/)は通常「保護[ブランチ](/glossary/ブランチ/)」として[設定](/glossary/設定/)されます。この[設定](/glossary/設定/)で「Maintainer のみが[プッシュ](/glossary/プッシュ/)可能」と指定されていると、Developer [ロール](/glossary/ロール/)のユーザーが直接[プッシュ](/glossary/プッシュ/)しようとしても 403 [エラー](/glossary/エラー/)が返されます。
+`main` や `production` など、重要な[ブランチ](/glossary/ブランチ/)は通常「保護[ブランチ](/glossary/ブランチ/)」として[設定](/glossary/設定/)されます。この[設定](/glossary/設定/)で「Maintainer のみが[プッシュ](/glossary/プッシュ/)可能」と指定されていると、Developer [ロール](/glossary/ロール/)の[ユーザー](/glossary/ユーザー/)が直接[プッシュ](/glossary/プッシュ/)しようとしても 403 [エラー](/glossary/エラー/)が返されます。
 
 **修正方法：**
 
-[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを確認・[修正](/glossary/修正/)します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
+[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを[確認](/glossary/確認/)・[修正](/glossary/修正/)します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
 
 ```yaml
 # Settings → Protected branches での修正例
@@ -134,18 +134,18 @@ deploy_job:
 
 ## それでも解決しない場合
 
-**1. GitLab [インスタンス](/glossary/インスタンス/)のシステムログを確認**
+**1. GitLab [インスタンス](/glossary/インスタンス/)のシステムログを[確認](/glossary/確認/)**
 
-管理者[アカウント](/glossary/アカウント/)でアクセスできる場合、**Admin → Logs** から詳細な[エラーログ](/glossary/エラーログ/)を確認します。プロジェクトレベルではなく、[インスタンス](/glossary/インスタンス/)全体の[設定](/glossary/設定/)に問題がないか確認できます。
+管理者[アカウント](/glossary/アカウント/)でアクセスできる場合、**Admin → Logs** から詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)します。プロジェクトレベルではなく、[インスタンス](/glossary/インスタンス/)全体の[設定](/glossary/設定/)に問題がないか[確認](/glossary/確認/)できます。
 
 ```bash
 # ローカル GitLab インスタンスの場合
 $ sudo tail -f /var/log/gitlab/gitlab-rails/production.log | grep "403"
 ```
 
-**2. ユーザー権限履歴を確認**
+**2. [ユーザー](/glossary/ユーザー/)権限履歴を[確認](/glossary/確認/)**
 
-**Admin → Users** から対象ユーザーを[検索](/glossary/検索/)し、最後に[権限](/glossary/権限/)が変更された時刻を確認します。権限変更直後であれば、[セッション](/glossary/セッション/)を[リセット](/glossary/リセット/)するため一度[ログアウト](/glossary/ログアウト/)・[ログイン](/glossary/ログイン/)を試みます。
+**Admin → Users** から対象[ユーザー](/glossary/ユーザー/)を[検索](/glossary/検索/)し、最後に[権限](/glossary/権限/)が変更された時刻を[確認](/glossary/確認/)します。権限変更直後であれば、[セッション](/glossary/セッション/)を[リセット](/glossary/リセット/)するため一度[ログアウト](/glossary/ログアウト/)・[ログイン](/glossary/ログイン/)を試みます。
 
 ```bash
 # Web UI でのログアウト・ログイン、または
@@ -167,8 +167,8 @@ $ git clone https://gitlab.example.com/group/project.git
 
 **4. 公式ドキュメントと管理者への相談**
 
-GitLab の[公式パーミッション ドキュメント](https://docs.gitlab.com/ee/user/permissions.html)で各[ロール](/glossary/ロール/)の正確な権限一覧を確認し、[プロジェクト](/glossary/プロジェクト/)管理者または GitLab [インスタンス](/glossary/インスタンス/)の管理者に権限設定の内容を確認します。
+GitLab の[公式パーミッション ドキュメント](https://docs.gitlab.com/ee/user/permissions.html)で各[ロール](/glossary/ロール/)の正確な権限一覧を[確認](/glossary/確認/)し、[プロジェクト](/glossary/プロジェクト/)管理者または GitLab [インスタンス](/glossary/インスタンス/)の管理者に権限設定の内容を[確認](/glossary/確認/)します。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

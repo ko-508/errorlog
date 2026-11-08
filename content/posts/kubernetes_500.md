@@ -14,7 +14,7 @@ trend_incident: true
 
 ## エラーの概要
 
-[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)で500[エラー](/glossary/エラー/)が発生した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)またはコントロールプレーンコンポーネントで予期しない内部[エラー](/glossary/エラー/)が生じています。この[エラー](/glossary/エラー/)はクラスタ全体の管理機能に影響を与える可能性があり、迅速な[対応](/glossary/対応/)が必要です。500[エラー](/glossary/エラー/)が返される場合、リソースの作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)やクラスタ情報の取得が失敗することになります。
+[Kubernetes](/glossary/kubernetes/)[環境](/glossary/環境/)で500[エラー](/glossary/エラー/)が発生した場合、[API](/glossary/api/)[サーバー](/glossary/サーバー/)またはコントロールプレーンコンポーネントで予期しない内部[エラー](/glossary/エラー/)が生じています。この[エラー](/glossary/エラー/)はクラスタ全体の管理機能に影響を与える可能性があり、迅速な[対応](/glossary/対応/)が必要です。500[エラー](/glossary/エラー/)が返される場合、[リソース](/glossary/リソース/)の作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)やクラスタ情報の取得が失敗することになります。
 
 ## 実際のエラーメッセージ例
 
@@ -64,7 +64,7 @@ kubectl logs -n kube-system -l component=kube-apiserver --tail=100
 
 ### 2. APIサーバーのメモリ不足またはクラッシュ
 
-**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべてのリソース定義を[メモリ](/glossary/メモリ/)に保持しています。大規模クラスタや[メモリ](/glossary/メモリ/)制限が厳しい[環境](/glossary/環境/)では、[メモリ](/glossary/メモリ/)不足（OOM）により[プロセス](/glossary/プロセス/)がクラッシュし500[エラー](/glossary/エラー/)が多発します。
+**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)はクラスタのすべての[リソース](/glossary/リソース/)定義を[メモリ](/glossary/メモリ/)に保持しています。大規模クラスタや[メモリ](/glossary/メモリ/)制限が厳しい[環境](/glossary/環境/)では、[メモリ](/glossary/メモリ/)不足（OOM）により[プロセス](/glossary/プロセス/)がクラッシュし500[エラー](/glossary/エラー/)が多発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml
@@ -105,7 +105,7 @@ spec:
 
 ### 3. RBAC設定またはServiceAccountの権限不足
 
-**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)が特定のリソースへの[アクセス権限](/glossary/アクセス権限/)を適切に検証できない、または[権限](/glossary/権限/)チェック中に[エラー](/glossary/エラー/)が発生すると500[エラー](/glossary/エラー/)が返されます。特にカスタムリソースに対して[RBAC](/glossary/rbac/)ルールが不完全な場合に顕著です。
+**なぜ発生するか**：[API](/glossary/api/)[サーバー](/glossary/サーバー/)が特定の[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)を適切に検証できない、または[権限](/glossary/権限/)チェック中に[エラー](/glossary/エラー/)が発生すると500[エラー](/glossary/エラー/)が返されます。特にカスタムリソースに対して[RBAC](/glossary/rbac/)ルールが不完全な場合に顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる状態）**：
 ```yaml
@@ -182,7 +182,7 @@ webhooks:
 
 ## Kubernetes固有の注意点
 
-**kube-apiserverの[ログ](/glossary/ログ/)確認**：
+**kube-apiserverの[ログ](/glossary/ログ/)[確認](/glossary/確認/)**：
 ```bash
 # マスターノード上で直接ログを確認
 journalctl -u kubelet -f | grep apiserver
@@ -196,19 +196,19 @@ kubectl logs -n kube-system deployment/kube-apiserver --tail=200
 kubectl exec -it etcd-<master-node-name> -n kube-system -- etcdctl alarm list
 ```
 
-**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ確認**：不正なフラグや[互換性](/glossary/互換性/)のない[バージョン](/glossary/バージョン/)指定も500[エラー](/glossary/エラー/)を引き起こします。
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)のフラグ[確認](/glossary/確認/)**：不正なフラグや[互換性](/glossary/互換性/)のない[バージョン](/glossary/バージョン/)指定も500[エラー](/glossary/エラー/)を引き起こします。
 ```bash
 kubectl get pod -n kube-system kube-apiserver-<master-node-name> -o jsonpath='{.spec.containers[0].command}' | tr ',' '\n'
 ```
 
-**[Webhook](/glossary/webhook/)・Admission制御チェーン**：複数の[Webhook](/glossary/webhook/)がある場合、どれが失敗しているか特定するために[Webhook](/glossary/webhook/)の[ログ](/glossary/ログ/)を確認してください。
+**[Webhook](/glossary/webhook/)・Admission制御チェーン**：複数の[Webhook](/glossary/webhook/)がある場合、どれが失敗しているか特定するために[Webhook](/glossary/webhook/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。
 ```bash
 kubectl logs -n kube-system -l component=webhook-server --tail=100
 ```
 
 ## それでも解決しない場合
 
-**確認すべき[ログ](/glossary/ログ/)の場所**：
+**[確認](/glossary/確認/)すべき[ログ](/glossary/ログ/)の場所**：
 - マスターノードのsyslog：`journalctl -u kubelet -f`
 - [API](/glossary/api/)サーバーコンテナログ：`kubectl logs -n kube-system -l component=kube-apiserver`
 - etcd[ログ](/glossary/ログ/)：`kubectl logs -n kube-system -l component=etcd`
@@ -239,4 +239,4 @@ kubectl get events -n kube-system --sort-by='.lastTimestamp'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

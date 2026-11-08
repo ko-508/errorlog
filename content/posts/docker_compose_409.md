@@ -11,7 +11,7 @@ related_services: ["Docker", "nginx"]
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose の 409 [エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)されたコンテナーや[ネットワーク](/glossary/ネットワーク/)、ボリュームの状態が現在の環境状態と競合していることを示します。この[エラー](/glossary/エラー/)は通常、既に存在するリソースの作成を試みたり、使用中の[ポート](/glossary/ポート/)・[ネットワーク](/glossary/ネットワーク/)を重複させたりした場合に発生します。既存の状態を認識しないまま操作を進めようとすると、[Docker](/glossary/docker/) Compose がこの競合を検出して実行を中止します。
+[Docker](/glossary/docker/) Compose の 409 [エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)されたコンテナーや[ネットワーク](/glossary/ネットワーク/)、ボリュームの状態が現在の環境状態と競合していることを示します。この[エラー](/glossary/エラー/)は通常、既に存在する[リソース](/glossary/リソース/)の作成を試みたり、使用中の[ポート](/glossary/ポート/)・[ネットワーク](/glossary/ネットワーク/)を重複させたりした場合に発生します。既存の状態を認識しないまま操作を進めようとすると、[Docker](/glossary/docker/) Compose がこの競合を検出して実行を中止します。
 
 ## 実際のエラーメッセージ例
 
@@ -71,7 +71,7 @@ services:
       - "8081:80"
 ```
 
-各サービスに異なるホストポートを割り当てることで競合を解決します。既に[ポート](/glossary/ポート/)が使用されている場合は、以下の[コマンド](/glossary/コマンド/)でホストマシン上の使用中[ポート](/glossary/ポート/)を確認できます。
+各サービスに異なるホストポートを割り当てることで競合を解決します。既に[ポート](/glossary/ポート/)が使用されている場合は、以下の[コマンド](/glossary/コマンド/)でホストマシン上の使用中[ポート](/glossary/ポート/)を[確認](/glossary/確認/)できます。
 
 ```bash
 # Linux の場合
@@ -88,7 +88,7 @@ netstat -ano | findstr :<port-number>
 
 `docker-compose.yml` で定義したカスタムネットワークやボリュームが、すでに [Docker](/glossary/docker/) [環境](/glossary/環境/)に存在する場合、409 [エラー](/glossary/エラー/)が発生します。特に複数の[プロジェクト](/glossary/プロジェクト/)で同じ命名規則を使用している場合に起こりやすい[エラー](/glossary/エラー/)です。
 
-**既存リソースの[削除](/glossary/削除/)：**
+**既存[リソース](/glossary/リソース/)の[削除](/glossary/削除/)：**
 
 ```bash
 # 既存のネットワークとボリュームを確認して削除
@@ -99,7 +99,7 @@ docker volume ls
 docker volume rm <existing-volume-name>
 ```
 
-**既存リソースを再利用する場合の[設定](/glossary/設定/)：**
+**既存[リソース](/glossary/リソース/)を再利用する場合の[設定](/glossary/設定/)：**
 
 ```yaml
 version: '3.8'
@@ -124,7 +124,7 @@ volumes:
 
 ### プロジェクト名による自動接頭辞
 
-[Docker](/glossary/docker/) Compose は、リソース作成時に[プロジェクト](/glossary/プロジェクト/)名を自動的に接頭辞として付与します。[デフォルト](/glossary/デフォルト/)では[ディレクトリ](/glossary/ディレクトリ/)名が[プロジェクト](/glossary/プロジェクト/)名として使用されるため、同じ `docker-compose.yml` を異なる[ディレクトリ](/glossary/ディレクトリ/)にコピーして実行すると、リソース名が異なるものになります。複数環境で同じ[プロジェクト](/glossary/プロジェクト/)名を使用する場合は、`-p` オプションで明示的に指定します。
+[Docker](/glossary/docker/) Compose は、[リソース](/glossary/リソース/)作成時に[プロジェクト](/glossary/プロジェクト/)名を自動的に接頭辞として付与します。[デフォルト](/glossary/デフォルト/)では[ディレクトリ](/glossary/ディレクトリ/)名が[プロジェクト](/glossary/プロジェクト/)名として使用されるため、同じ `docker-compose.yml` を異なる[ディレクトリ](/glossary/ディレクトリ/)にコピーして実行すると、[リソース](/glossary/リソース/)名が異なるものになります。複数環境で同じ[プロジェクト](/glossary/プロジェクト/)名を使用する場合は、`-p` オプションで明示的に指定します。
 
 ```bash
 # プロジェクト名を明示的に指定
@@ -141,7 +141,7 @@ docker compose -p <project-name> up -d
 
 ### Docker Desktop での特殊な注意
 
-Windows または macOS の [Docker](/glossary/docker/) Desktop [環境](/glossary/環境/)では、ホストマシンのリソースが仮想マシン上の [Linux](/glossary/linux/) にマッピングされます。[ポート](/glossary/ポート/)競合の問題が解決しない場合、[Docker](/glossary/docker/) Desktop のリソース割り当てやポートフォワード[設定](/glossary/設定/)を確認してください。
+[Windows](/glossary/windows/) または macOS の [Docker](/glossary/docker/) Desktop [環境](/glossary/環境/)では、ホストマシンの[リソース](/glossary/リソース/)が仮想マシン上の [Linux](/glossary/linux/) にマッピングされます。[ポート](/glossary/ポート/)競合の問題が解決しない場合、[Docker](/glossary/docker/) Desktop の[リソース](/glossary/リソース/)割り当てやポートフォワード[設定](/glossary/設定/)を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
@@ -184,4 +184,4 @@ docker compose config
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

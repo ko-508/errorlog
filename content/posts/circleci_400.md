@@ -177,7 +177,7 @@ boolean は [JSON](/glossary/json/) のネイティブ値 `true`/`false`（ク�
 
 ## ツール固有の注意点
 
-CircleCI では、[エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)と `errors` 配列に問題の詳細が記載されます。[API](/glossary/api/) 呼び出し時は、必ず[レスポンス](/glossary/レスポンス/)をフルで確認してください。
+CircleCI では、[エラーレスポンス](/glossary/エラーレスポンス/)の `message` [フィールド](/glossary/フィールド/)と `errors` 配列に問題の詳細が記載されます。[API](/glossary/api/) 呼び出し時は、必ず[レスポンス](/glossary/レスポンス/)をフルで[確認](/glossary/確認/)してください。
 
 ```json
 {
@@ -196,7 +196,7 @@ Web [UI](/glossary/ui/) からパイプラインを手動[トリガー](/glossar
 
 ## それでも解決しない場合
 
-以下の手順で詳細を確認してください。
+以下の手順で詳細を[確認](/glossary/確認/)してください。
 
 **1. [設定ファイル](/glossary/設定ファイル/)の詳細な検証：**
 
@@ -206,7 +206,7 @@ circleci config validate .circleci/config.yml --strict
 
 `--strict` オプションで、より詳細な検証ルールが適用されます。
 
-**2. [API](/glossary/api/) [レスポンス](/glossary/レスポンス/)の完全な内容を確認：**
+**2. [API](/glossary/api/) [レスポンス](/glossary/レスポンス/)の完全な内容を[確認](/glossary/確認/)：**
 
 ```bash
 curl -v -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo>/pipeline \
@@ -227,4 +227,4 @@ curl -v -X POST https://circleci.com/api/v2/project/github/<your-org>/<your-repo
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

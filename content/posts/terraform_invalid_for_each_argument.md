@@ -40,7 +40,7 @@ resource instance key.
 
 罫線の部分は補助情報で、式の中のどの[変数](/glossary/変数/)が問題なのかを示します。ここに名前が出ていれば、追う対象はその[変数](/glossary/変数/)です。
 
-要約の文言は2種類です。多くは `Invalid for_each argument` ですが、集合の中身に問題がある場合だけ `Invalid for_each set argument` になります。要素の型が文字列でない場合と、要素に null が混じっている場合がこちらです。見るべき場所が変わるので、まずここを確認してください。
+要約の文言は2種類です。多くは `Invalid for_each argument` ですが、集合の中身に問題がある場合だけ `Invalid for_each set argument` になります。要素の型が文字列でない場合と、要素に null が混じっている場合がこちらです。見るべき場所が変わるので、まずここを[確認](/glossary/確認/)してください。
 
 理由を述べる本文は、実装で固定の文字列として定義されています。代表的なものは5つです。未確定値なら `cannot be determined until apply` を含む長い説明、型違いなら `the "for_each" argument must be a map, or set of strings, and you have provided a value of type ...`、機密値なら `Sensitive values, or values derived from sensitive values, cannot be used as for_each arguments.`、null なら `the given "for_each" argument value is null. A map, or set of strings is allowed.`、集合の要素型違いなら `"for_each" supports maps and sets of strings, but you have provided a set containing type ...` です。
 
@@ -54,7 +54,7 @@ resource instance key.
 
 ### 原因1：apply の後でないと決まらない値をキーにしている
 
-別のリソースが作られてはじめて分かる[属性](/glossary/属性/)を、[キー](/glossary/キー/)の側に使っている場合です。公式ドキュメントは、`for_each` が反復するすべての値が遠隔操作の前に確定していなければならず、作成後にしか分からない一意な識別番号などを参照すると[エラー](/glossary/エラー/)になる、と明記しています。
+別の[リソース](/glossary/リソース/)が作られてはじめて分かる[属性](/glossary/属性/)を、[キー](/glossary/キー/)の側に使っている場合です。公式ドキュメントは、`for_each` が反復するすべての値が遠隔操作の前に確定していなければならず、作成後にしか分からない一意な識別番号などを参照すると[エラー](/glossary/エラー/)になる、と明記しています。
 
 実装が示す対処も明確です。未確定値の説明文には、[キー](/glossary/キー/)を[設定ファイル](/glossary/設定ファイル/)側に固定で書き、apply の後で決まる結果は値のほうにだけ置くのがよい、と書かれています。集合を使っている場合は、集合をやめて map にするよう案内されます。
 
@@ -126,7 +126,7 @@ for_each = var.ssh_key == null ? { "key" = {} } : {}
 for_each = nonsensitive(var.ssh_key == null) ? { "key" = {} } : {}
 ```
 
-`nonsensitive()` は印を外して中身を露出させる[関数](/glossary/関数/)です。公式ドキュメントは、無差別に使うと本来隠されるはずの値が平文で出ると警告しています。使うのは、機密の部分が結果から取り除かれていると自分で確認できる場合だけにしてください。map の[キー](/glossary/キー/)だけが必要なら、`toset([for k, v in local.map : k])` のように取り出す書き方も案内されています。
+`nonsensitive()` は印を外して中身を露出させる[関数](/glossary/関数/)です。公式ドキュメントは、無差別に使うと本来隠されるはずの値が平文で出ると警告しています。使うのは、機密の部分が結果から取り除かれていると自分で[確認](/glossary/確認/)できる場合だけにしてください。map の[キー](/glossary/キー/)だけが必要なら、`toset([for k, v in local.map : k])` のように取り出す書き方も案内されています。
 
 ### 原因4：null が混じっている
 
@@ -170,8 +170,8 @@ for_each = toset(compact([for u in var.users : u.nickname]))
 2. 本文の1文目を読み、未確定値・型違い・機密値・null・一時値のどれかに振り分ける。
 3. 罫線の中に[変数](/glossary/変数/)名が出ていれば、追う対象をその[変数](/glossary/変数/)に固定する。
 4. 型違いなら、本文末尾の型名を読む。`list of string` か `tuple` かで直し方が変わる。
-5. `terraform console` で実際の値と型を確認する。[設定](/glossary/設定/)の読み方と実際の値がずれていることがある。
-6. 未確定値なら、[キー](/glossary/キー/)に使っている参照が他のリソースの[属性](/glossary/属性/)かどうかを確認する。
+5. `terraform console` で実際の値と型を[確認](/glossary/確認/)する。[設定](/glossary/設定/)の読み方と実際の値がずれていることがある。
+6. 未確定値なら、[キー](/glossary/キー/)に使っている参照が他の[リソース](/glossary/リソース/)の[属性](/glossary/属性/)かどうかを[確認](/glossary/確認/)する。
 7. 機密値なら、どの[変数](/glossary/変数/)から印が伝わっているかを宣言までさかのぼる。
 8. [キー](/glossary/キー/)を変える方針が決まったら、既存の[インスタンス](/glossary/インスタンス/)が作り直しにならないよう移動の指定を先に用意する。
 
@@ -217,4 +217,4 @@ terraform state mv 'aws_iam_user.this["0"]' 'aws_iam_user.this["alice"]'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -190,13 +190,13 @@ if (pm.environment.get("use_mock") === "true") {
 
 ## それでも解決しない場合
 
-**[API](/glossary/api/) の制限仕様を確認する：**
+**[API](/glossary/api/) の制限仕様を[確認](/glossary/確認/)する：**
 
-レスポンスヘッダーの `Retry-After`、`X-RateLimit-Limit`、`X-RateLimit-Reset` を確認し、制限単位（1分あたり、1時間あたり、1日あたり）と上限値を把握します。Postman でレスポンスヘッダーを見るには、[レスポンス](/glossary/レスポンス/)画面の「Headers」タブを開きます。
+レスポンスヘッダーの `Retry-After`、`X-RateLimit-Limit`、`X-RateLimit-Reset` を[確認](/glossary/確認/)し、制限単位（1分あたり、1時間あたり、1日あたり）と上限値を把握します。Postman でレスポンスヘッダーを見るには、[レスポンス](/glossary/レスポンス/)画面の「Headers」タブを開きます。
 
 **Console Log で[リクエスト](/glossary/リクエスト/)[送信](/glossary/送信/)タイミングを検証：**
 
-Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Option+C）を開き、[リクエスト](/glossary/リクエスト/)のタイムスタンプを確認します。短時間に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されていないか目視で判定できます。
+Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Option+C）を開き、[リクエスト](/glossary/リクエスト/)のタイムスタンプを[確認](/glossary/確認/)します。短時間に大量の[リクエスト](/glossary/リクエスト/)が[送信](/glossary/送信/)されていないか目視で判定できます。
 
 **[テスト](/glossary/テスト/)用の [API](/glossary/api/) [キー](/glossary/キー/)または専用[レート制限](/glossary/レート制限/)を申請：**
 
@@ -209,4 +209,4 @@ Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Opti
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

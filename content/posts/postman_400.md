@@ -82,8 +82,8 @@ POST http://api.example.com/users
 Postmanで[修正](/glossary/修正/)するには、Bodyタブを開き、以下の手順を実行してください。
 
 1. Body内の「Code beautifier」または「format」[ボタン](/glossary/ボタン/)をクリックして[JSON](/glossary/json/)形式を自動整形する
-2. 右側に表示される「Error」メッセージを確認する
-3. [API](/glossary/api/)ドキュメントで必須[フィールド](/glossary/フィールド/)を確認し、すべて揃っているか検証する
+2. 右側に表示される「Error」メッセージを[確認](/glossary/確認/)する
+3. [API](/glossary/api/)ドキュメントで必須[フィールド](/glossary/フィールド/)を[確認](/glossary/確認/)し、すべて揃っているか検証する
 
 ### 原因2：Content-Typeヘッダーがボディのデータフォーマットと一致していない
 
@@ -119,9 +119,9 @@ Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定
 
 Postmanで[修正](/glossary/修正/)するには、Headersタブを開き、以下の[対応](/glossary/対応/)を行ってください。
 
-1. Headersタブで「Content-Type」[キー](/glossary/キー/)の値を確認する
+1. Headersタブで「Content-Type」[キー](/glossary/キー/)の値を[確認](/glossary/確認/)する
 2. Bodyタブで「raw」を選択している場合、右側のドロップダウンから「[JSON](/glossary/json/)」を選択する
-3. ドロップダウン選択でContent-Typeが自動的に application/json に[設定](/glossary/設定/)されることを確認する
+3. ドロップダウン選択でContent-Typeが自動的に application/json に[設定](/glossary/設定/)されることを[確認](/glossary/確認/)する
 4. または、Headersタブで手動でContent-Type: application/json に[修正](/glossary/修正/)する
 
 ### 原因3：URLのクエリパラメータに不正な文字が含まれている
@@ -155,19 +155,19 @@ Paramsタブを使用することで、Postmanが自動的に[URL](/glossary/url
 
 ## ツール固有の注意点
 
-Postmanで400[エラー](/glossary/エラー/)が発生した際、以下の[ツール](/glossary/ツール/)固有の確認ポイントがあります。
+Postmanで400[エラー](/glossary/エラー/)が発生した際、以下の[ツール](/glossary/ツール/)固有の[確認](/glossary/確認/)ポイントがあります。
 
 **Postman Consoleの活用**
 
-View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを確認できます。[UI](/glossary/ui/)で[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
+View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを[確認](/glossary/確認/)できます。[UI](/glossary/ui/)で[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
 
-**[環境変数](/glossary/環境変数/)とコレクション[変数](/glossary/変数/)の確認**
+**[環境変数](/glossary/環境変数/)とコレクション[変数](/glossary/変数/)の[確認](/glossary/確認/)**
 
-Postmanで[環境変数](/glossary/環境変数/)やコレクション[変数](/glossary/変数/)を使用している場合、[変数](/glossary/変数/)の値が意図しない形式で解決されていないか確認が必要です。例えば、{{api_key}} という[変数](/glossary/変数/)が空文字列に解決された場合、[ヘッダー](/glossary/ヘッダー/)が不完全になり400[エラー](/glossary/エラー/)が発生する可能性があります。左上の「Environments」セクションで変数値を確認してください。
+Postmanで[環境変数](/glossary/環境変数/)やコレクション[変数](/glossary/変数/)を使用している場合、[変数](/glossary/変数/)の値が意図しない形式で解決されていないか[確認](/glossary/確認/)が必要です。例えば、{{api_key}} という[変数](/glossary/変数/)が空文字列に解決された場合、[ヘッダー](/glossary/ヘッダー/)が不完全になり400[エラー](/glossary/エラー/)が発生する可能性があります。左上の「Environments」セクションで変数値を[確認](/glossary/確認/)してください。
 
 **Pre-request Scriptでの自動生成値の検証**
 
-Pre-request Scriptで動的にボディや[ヘッダー](/glossary/ヘッダー/)を生成している場合、その[スクリプト](/glossary/スクリプト/)が正確な[JSON](/glossary/json/)や[ヘッダー](/glossary/ヘッダー/)値を生成しているか確認してください。JavaScriptの文法[エラー](/glossary/エラー/)があれば、生成される値が不正となり400[エラー](/glossary/エラー/)の原因になります。
+Pre-request Scriptで動的にボディや[ヘッダー](/glossary/ヘッダー/)を生成している場合、その[スクリプト](/glossary/スクリプト/)が正確な[JSON](/glossary/json/)や[ヘッダー](/glossary/ヘッダー/)値を生成しているか[確認](/glossary/確認/)してください。JavaScriptの文法[エラー](/glossary/エラー/)があれば、生成される値が不正となり400[エラー](/glossary/エラー/)の原因になります。
 
 ## それでも解決しない場合
 
@@ -175,7 +175,7 @@ Pre-request Scriptで動的にボディや[ヘッダー](/glossary/ヘッダー/
 
 **Postman Consoleでの詳細確認**
 
-Postman Consoleを開き、以下の情報を確認します：
+Postman Consoleを開き、以下の情報を[確認](/glossary/確認/)します：
 
 ```
 リクエストURL、メソッド、すべてのヘッダー、ボディの完全な内容、サーバーから返されたレスポンスボディの全文を記録してください。
@@ -193,14 +193,14 @@ curl -X POST http://api.example.com/users \
   -d '{"name":"Yamada","email":"yamada@example.com"}'
 ```
 
-**[API](/glossary/api/)[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)を確認**
+**[API](/glossary/api/)[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)**
 
-自社の[API](/glossary/api/)[サーバー](/glossary/サーバー/)である場合、[サーバー](/glossary/サーバー/)側の[エラーログ](/glossary/エラーログ/)を確認してください。404や[タイムアウト](/glossary/タイムアウト/)ではなく400[エラー](/glossary/エラー/)であれば、[サーバー](/glossary/サーバー/)が受け取った[リクエスト](/glossary/リクエスト/)の内容についても詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているはずです。その情報から原因がより明確になります。
+自社の[API](/glossary/api/)[サーバー](/glossary/サーバー/)である場合、[サーバー](/glossary/サーバー/)側の[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)してください。404や[タイムアウト](/glossary/タイムアウト/)ではなく400[エラー](/glossary/エラー/)であれば、[サーバー](/glossary/サーバー/)が受け取った[リクエスト](/glossary/リクエスト/)の内容についても詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているはずです。その情報から原因がより明確になります。
 
 **公式ドキュメントの参照**
 
-連携している[API](/glossary/api/)提供者の公式ドキュメントやリファレンスで、[リクエスト](/glossary/リクエスト/)形式の[仕様](/glossary/仕様/)を確認してください。必須[フィールド](/glossary/フィールド/)、[データ型](/glossary/データ型/)、許可される値の範囲などが明記されていることが多く、自身の[リクエスト](/glossary/リクエスト/)との差異を特定できます。
+連携している[API](/glossary/api/)提供者の公式ドキュメントやリファレンスで、[リクエスト](/glossary/リクエスト/)形式の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)してください。必須[フィールド](/glossary/フィールド/)、[データ型](/glossary/データ型/)、許可される値の範囲などが明記されていることが多く、自身の[リクエスト](/glossary/リクエスト/)との差異を特定できます。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

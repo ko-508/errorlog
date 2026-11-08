@@ -105,13 +105,13 @@ curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/<owner>/<repo>
 ```
 
-指定できる値は公式ドキュメントの [API](/glossary/api/) [バージョン](/glossary/バージョン/)一覧で確認してください。日付の書式の誤記や、思い込みの値をそのまま書くことが原因になります。なお、かつて使われていた Accept [ヘッダー](/glossary/ヘッダー/)による[バージョン](/glossary/バージョン/)指定とは仕組みが異なるため、古い記事の[コード](/glossary/コード/)を流用する場合は注意が必要です。
+指定できる値は公式ドキュメントの [API](/glossary/api/) [バージョン](/glossary/バージョン/)一覧で[確認](/glossary/確認/)してください。日付の書式の誤記や、思い込みの値をそのまま書くことが原因になります。なお、かつて使われていた Accept [ヘッダー](/glossary/ヘッダー/)による[バージョン](/glossary/バージョン/)指定とは仕組みが異なるため、古い記事の[コード](/glossary/コード/)を流用する場合は注意が必要です。
 
 ## 切り分けの順序
 
 1. 応答の message を読む。Validation Failed / Invalid request なら 422 の問題として切り替える（[422 の記事](/posts/github_api_422/)）。Bad credentials なら 401。
-2. Problems parsing [JSON](/glossary/json/) なら、[送信](/glossary/送信/)している本文そのものを取り出して [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）。[プログラム](/glossary/プログラム/)からの[送信](/glossary/送信/)なら、直列化の有無を確認する。
-3. Body should be a [JSON](/glossary/json/) object なら、本文の先頭が { で始まる[オブジェクト](/glossary/オブジェクト/)かを確認する。直列化を2回していないかを確認する。
+2. Problems parsing [JSON](/glossary/json/) なら、[送信](/glossary/送信/)している本文そのものを取り出して [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）。[プログラム](/glossary/プログラム/)からの[送信](/glossary/送信/)なら、直列化の有無を[確認](/glossary/確認/)する。
+3. Body should be a [JSON](/glossary/json/) object なら、本文の先頭が { で始まる[オブジェクト](/glossary/オブジェクト/)かを[確認](/glossary/確認/)する。直列化を2回していないかを[確認](/glossary/確認/)する。
 4. [バージョン](/glossary/バージョン/)未サポートのメッセージなら、X-[GitHub](/glossary/github/)-Api-Version の値を公式の一覧と突き合わせる。
 
 ## 確認コマンド集
@@ -139,4 +139,4 @@ curl -v -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

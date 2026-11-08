@@ -134,7 +134,7 @@ const response = await fetch(
 
 ## ツール固有の注意点
 
-Prometheus の 400 [エラー](/glossary/エラー/)は管理 [UI](/glossary/ui/) で確認するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（[デフォルト](/glossary/デフォルト/)では `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)が[リアルタイム](/glossary/リアルタイム/)に表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、[修正](/glossary/修正/)が容易になります。
+Prometheus の 400 [エラー](/glossary/エラー/)は管理 [UI](/glossary/ui/) で[確認](/glossary/確認/)するとより詳細な情報が得られます。Prometheus [ダッシュボード](/glossary/ダッシュボード/)（[デフォルト](/glossary/デフォルト/)では `http://localhost:9090`）の **Graph** タブに[クエリ](/glossary/クエリ/)を直接入力すると、PromQL の構文[エラー](/glossary/エラー/)が[リアルタイム](/glossary/リアルタイム/)に表示されます。[エラー](/glossary/エラー/)箇所を示すキャレット記号（`^`）が表示されるため、[修正](/glossary/修正/)が容易になります。
 
 また、Prometheus 2.40 以降では[クライアント](/glossary/クライアント/)側で[クエリ](/glossary/クエリ/)を事前に検証できる `promtool` [コマンド](/glossary/コマンド/)が提供されています。複雑な PromQL を[本番環境](/glossary/本番環境/)に[送信](/glossary/送信/)する前に、ローカル[環境](/glossary/環境/)で以下のように検証すると 400 [エラー](/glossary/エラー/)を事前に防ぐことができます。
 
@@ -142,11 +142,11 @@ Prometheus の 400 [エラー](/glossary/エラー/)は管理 [UI](/glossary/ui/
 promtool check query 'up{job="prometheus"} / rate(http_requests_total[5m])'
 ```
 
-[HTTP](/glossary/http/) [API](/glossary/api/) 使用時は、ユーザー入力をクエリパラメータに含める場合、[URL](/glossary/url/) [エンコード](/glossary/エンコード/)[処理](/glossary/処理/)が正しく行われているか確認も必要です。特に[プログラミング言語](/glossary/プログラミング言語/)の [HTTP](/glossary/http/) [ライブラリ](/glossary/ライブラリ/)を使う際、手動で [URL](/glossary/url/) 文字列を組み立てると[エンコード](/glossary/エンコード/)漏れが発生しやすくなります。
+[HTTP](/glossary/http/) [API](/glossary/api/) 使用時は、[ユーザー](/glossary/ユーザー/)入力をクエリパラメータに含める場合、[URL](/glossary/url/) [エンコード](/glossary/エンコード/)[処理](/glossary/処理/)が正しく行われているか[確認](/glossary/確認/)も必要です。特に[プログラミング言語](/glossary/プログラミング言語/)の [HTTP](/glossary/http/) [ライブラリ](/glossary/ライブラリ/)を使う際、手動で [URL](/glossary/url/) 文字列を組み立てると[エンコード](/glossary/エンコード/)漏れが発生しやすくなります。
 
 ## それでも解決しない場合
 
-Prometheus の[アクセスログ](/glossary/アクセスログ/)を確認することで、[サーバー](/glossary/サーバー/)が実際に受け取った[リクエスト](/glossary/リクエスト/)の内容を確認できます。デバッグレベルで[ログ](/glossary/ログ/)を出力するには、Prometheus をスタート時に以下のフラグで起動してください。
+Prometheus の[アクセスログ](/glossary/アクセスログ/)を[確認](/glossary/確認/)することで、[サーバー](/glossary/サーバー/)が実際に受け取った[リクエスト](/glossary/リクエスト/)の内容を[確認](/glossary/確認/)できます。デバッグレベルで[ログ](/glossary/ログ/)を出力するには、Prometheus をスタート時に以下のフラグで起動してください。
 
 ```bash
 ./prometheus --log.level=debug
@@ -156,7 +156,7 @@ Prometheus の[アクセスログ](/glossary/アクセスログ/)を確認する
 
 PromQL の複雑な式については、Prometheus 公式ドキュメント「[PromQL Examples](https://prometheus.io/docs/prometheus/latest/querying/examples/)」を参照し、標準的なクエリパターンとの比較も有効です。[GitHub](/glossary/github/) の Prometheus [リポジトリ](/glossary/リポジトリ/)でも、過去のイシューから類似した 400 [エラー](/glossary/エラー/)の事例が報告されているため、[検索](/glossary/検索/)して参考にすることもできます。
 
-curl で[リクエスト](/glossary/リクエスト/)を[デバッグ](/glossary/デバッグ/)する場合は、`-v` フラグを付けることで [HTTP](/glossary/http/) [ヘッダー](/glossary/ヘッダー/)とレスポンスボディの全容を確認できます。
+curl で[リクエスト](/glossary/リクエスト/)を[デバッグ](/glossary/デバッグ/)する場合は、`-v` フラグを付けることで [HTTP](/glossary/http/) [ヘッダー](/glossary/ヘッダー/)とレスポンスボディの全容を[確認](/glossary/確認/)できます。
 
 ```bash
 curl -v 'http://localhost:9090/api/v1/query?query=up&time=2024-01-15T10:00:00Z'
@@ -164,4 +164,4 @@ curl -v 'http://localhost:9090/api/v1/query?query=up&time=2024-01-15T10:00:00Z'
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -19,7 +19,7 @@ top_queries:
 
 Nginx の 504 Gateway Time-out は、リバースプロキシとして上流（proxy_pass や fastcgi_pass の先）の応答を待ったが、時間内に届かなかったことを示します。時間切れになるタイマーは2つあり、どちらかは[エラーログ](/glossary/エラーログ/)の文言で判別できます。文言が while connecting to upstream で終わっていれば、接続の確立自体が時間切れです（proxy_connect_timeout。原因は経路の問題が典型）。while reading response header from upstream で終わっていれば、接続はできたが応答が返らない時間切れです（proxy_read_timeout。原因は上流の[処理](/glossary/処理/)の遅さが典型）。
 
-対処の本筋は、時間を延ばすことではなく、どのタイマーがなぜ切れたかを特定することです。応答待ちの時間切れなら遅い[処理](/glossary/処理/)の[改善](/glossary/改善/)が本筋で、正当に時間のかかる[処理](/glossary/処理/)に限って[タイムアウト](/glossary/タイムアウト/)を延ばします。その際、[設定](/glossary/設定/)したのに効かないという定番の落とし穴（別の location が[処理](/glossary/処理/)している、リロード漏れ）があるため、実効設定の確認までを対処に含めます。
+対処の本筋は、時間を延ばすことではなく、どのタイマーがなぜ切れたかを特定することです。応答待ちの時間切れなら遅い[処理](/glossary/処理/)の[改善](/glossary/改善/)が本筋で、正当に時間のかかる[処理](/glossary/処理/)に限って[タイムアウト](/glossary/タイムアウト/)を延ばします。その際、[設定](/glossary/設定/)したのに効かないという定番の落とし穴（別の location が[処理](/glossary/処理/)している、リロード漏れ）があるため、実効設定の[確認](/glossary/確認/)までを対処に含めます。
 
 ## エラーの概要
 
@@ -81,7 +81,7 @@ sudo nginx -t && sudo systemctl reload nginx
 sudo nginx -T | grep -nE "read_timeout|connect_timeout|send_timeout"
 ```
 
-「[設定](/glossary/設定/)したのに60秒で切れ続ける」場合、その60秒という値自体が、書いた[設定](/glossary/設定/)がその[リクエスト](/glossary/リクエスト/)に効いていないこと（既定値で動いていること）を示しています。対象[リクエスト](/glossary/リクエスト/)を実際に[処理](/glossary/処理/)している location はどれか（[404 の記事](/posts/nginx_404/)の location 優先順位を参照）、リロードは成功したかを確認してください。
+「[設定](/glossary/設定/)したのに60秒で切れ続ける」場合、その60秒という値自体が、書いた[設定](/glossary/設定/)がその[リクエスト](/glossary/リクエスト/)に効いていないこと（既定値で動いていること）を示しています。対象[リクエスト](/glossary/リクエスト/)を実際に[処理](/glossary/処理/)している location はどれか（[404 の記事](/posts/nginx_404/)の location 優先順位を参照）、リロードは成功したかを[確認](/glossary/確認/)してください。
 
 ### 原因2：接続の確立が時間切れになる（経路の問題）
 
@@ -101,10 +101,10 @@ Nginx の手前に別の中継役（[CDN](/glossary/cdn/)、[ロードバラン�
 
 ## 切り分けの順序
 
-1. [エラーログ](/glossary/エラーログ/)の upstream timed out の行を読み、connecting（原因2）か reading response header（原因1）かを確定する。行がないのに504が返る場合は、504を返したのが手前の中継役でないか（原因3）、上流自身が504を応答していないかを確認する。
-2. reading 側なら、$upstream_response_time 付きの[ログ](/glossary/ログ/)で遅い[処理](/glossary/処理/)を特定し、上流側で[改善](/glossary/改善/)する。正当な長時間処理は該当 location に限って read 系[タイムアウト](/glossary/タイムアウト/)を延ばし、nginx -T で実効値を確認する。
-3. connecting 側なら、上流への直接接続で経路を確認する。即拒否なら502の問題として切り替える。
-4. 多段構成なら、各段のタイマーが外側ほど長い並びになっているかを確認する。
+1. [エラーログ](/glossary/エラーログ/)の upstream timed out の行を読み、connecting（原因2）か reading response header（原因1）かを確定する。行がないのに504が返る場合は、504を返したのが手前の中継役でないか（原因3）、上流自身が504を応答していないかを[確認](/glossary/確認/)する。
+2. reading 側なら、$upstream_response_time 付きの[ログ](/glossary/ログ/)で遅い[処理](/glossary/処理/)を特定し、上流側で[改善](/glossary/改善/)する。正当な長時間処理は該当 location に限って read 系[タイムアウト](/glossary/タイムアウト/)を延ばし、nginx -T で実効値を[確認](/glossary/確認/)する。
+3. connecting 側なら、上流への直接接続で経路を[確認](/glossary/確認/)する。即拒否なら502の問題として切り替える。
+4. 多段構成なら、各段のタイマーが外側ほど長い並びになっているかを[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
@@ -127,10 +127,10 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-「[設定](/glossary/設定/)したのに効かない」の実例として、海外の技術 Q&A サイトの報告があります（[qna.habr.com の質問](https://qna.habr.com/q/156375)、2014年）。約3分かかる[スクリプト](/glossary/スクリプト/)のために fastcgi_read_timeout 600 を[設定](/glossary/設定/)したのに、[ブラウザ](/glossary/ブラウザ/)にはちょうど1分で 504 Gateway Time-out が表示され、[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) while reading response header from upstream が記録されている、という内容です。注目すべきは時間です。切れているのは[設定](/glossary/設定/)した600秒ではなく、既定値と同じ60秒です。つまりこの記録は、書いた[設定](/glossary/設定/)がその[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)に使われていない（別の location が[処理](/glossary/処理/)しているか、[設定](/glossary/設定/)が読み込まれていない）ことを、[ログ](/glossary/ログ/)の数字そのものが示している実例です。古い報告ですが、fastcgi_read_timeout と proxy_read_timeout のこの挙動は現行の公式ドキュメントの[仕様](/glossary/仕様/)と変わりません。504 の調査で値を延ばす前に実効設定を確認すべき理由が、ここに凝縮されています。
+「[設定](/glossary/設定/)したのに効かない」の実例として、海外の技術 Q&A サイトの報告があります（[qna.habr.com の質問](https://qna.habr.com/q/156375)、2014年）。約3分かかる[スクリプト](/glossary/スクリプト/)のために fastcgi_read_timeout 600 を[設定](/glossary/設定/)したのに、[ブラウザ](/glossary/ブラウザ/)にはちょうど1分で 504 Gateway Time-out が表示され、[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) while reading response header from upstream が記録されている、という内容です。注目すべきは時間です。切れているのは[設定](/glossary/設定/)した600秒ではなく、既定値と同じ60秒です。つまりこの記録は、書いた[設定](/glossary/設定/)がその[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)に使われていない（別の location が[処理](/glossary/処理/)しているか、[設定](/glossary/設定/)が読み込まれていない）ことを、[ログ](/glossary/ログ/)の数字そのものが示している実例です。古い報告ですが、fastcgi_read_timeout と proxy_read_timeout のこの挙動は現行の公式ドキュメントの[仕様](/glossary/仕様/)と変わりません。504 の調査で値を延ばす前に実効設定を[確認](/glossary/確認/)すべき理由が、ここに凝縮されています。
 
 504 は「どのタイマーが切れたか」を[ログ](/glossary/ログ/)が名指ししてくれる[エラー](/glossary/エラー/)です。文言と実測時間を読み、経路・[処理](/glossary/処理/)・[設定](/glossary/設定/)の三択のどれかを確定してから手を打つことが確実な近道です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

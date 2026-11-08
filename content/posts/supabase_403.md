@@ -12,7 +12,7 @@ related_services: ["JavaScript", "SQL"]
 ---
 ## エラーの概要
 
-Supabase の 403 [エラー](/glossary/エラー/)は、Row Level Security（RLS）またはその[ポリシー](/glossary/ポリシー/)によって[データベース](/glossary/データベース/)へのアクセスが拒否されたことを示します。これは権限不足を意味する最も一般的な[エラー](/glossary/エラー/)で、[テーブル](/glossary/テーブル/)に[設定](/glossary/設定/)されたセキュリティルールが、現在の[リクエスト](/glossary/リクエスト/)を許可していない状態です。特に[フロントエンド](/glossary/フロントエンド/)側で認証済みユーザーが操作する場合に頻出します。
+Supabase の 403 [エラー](/glossary/エラー/)は、Row Level Security（RLS）またはその[ポリシー](/glossary/ポリシー/)によって[データベース](/glossary/データベース/)へのアクセスが拒否されたことを示します。これは権限不足を意味する最も一般的な[エラー](/glossary/エラー/)で、[テーブル](/glossary/テーブル/)に[設定](/glossary/設定/)されたセキュリティルールが、現在の[リクエスト](/glossary/リクエスト/)を許可していない状態です。特に[フロントエンド](/glossary/フロントエンド/)側で認証済み[ユーザー](/glossary/ユーザー/)が操作する場合に頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -91,7 +91,7 @@ CREATE POLICY "Users can create their own posts"
 
 ### 原因2：ログイン済みユーザーが他ユーザーのデータにアクセスしようとしている
 
-認証済みのユーザートークンで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合、RLS [ポリシー](/glossary/ポリシー/)がそのユーザーに該当データへのアクセスを許可しているかが厳密にチェックされます。[ポリシー](/glossary/ポリシー/)で `auth.uid()` を使った条件が正しく[設定](/glossary/設定/)されていないと、自分以外のデータにアクセスできず 403 [エラー](/glossary/エラー/)が発生します。
+認証済みのユーザートークンで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した場合、RLS [ポリシー](/glossary/ポリシー/)がその[ユーザー](/glossary/ユーザー/)に該当データへのアクセスを許可しているかが厳密にチェックされます。[ポリシー](/glossary/ポリシー/)で `auth.uid()` を使った条件が正しく[設定](/glossary/設定/)されていないと、自分以外のデータにアクセスできず 403 [エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -121,7 +121,7 @@ const { data, error } = await supabase
 // または、RLSポリシーで user_id を省略し、セッションから自動判別させる設定も可
 ```
 
-また、Supabase [ダッシュボード](/glossary/ダッシュボード/)で以下の[ポリシー](/glossary/ポリシー/)が正しく[設定](/glossary/設定/)されていることを確認してください：
+また、Supabase [ダッシュボード](/glossary/ダッシュボード/)で以下の[ポリシー](/glossary/ポリシー/)が正しく[設定](/glossary/設定/)されていることを[確認](/glossary/確認/)してください：
 
 ```sql
 -- ポリシーが具体的に auth.uid() をチェックしているか確認
@@ -133,7 +133,7 @@ CREATE POLICY "Users can access own profile"
 
 ### 原因3：service_role キーが必要な管理操作を anon キーで実行している
 
-Supabase では 2 種類の [API](/glossary/api/) [キー](/glossary/キー/)が存在します。`anon`（匿名[キー](/glossary/キー/)）は[フロントエンド](/glossary/フロントエンド/)で使用し、RLS [ポリシー](/glossary/ポリシー/)の制約を受けます。一方、`service_role`（サービスロールキー）は[バックエンド](/glossary/バックエンド/)限定で、RLS をバイパスして操作できます。[管理者権限](/glossary/管理者権限/)の操作（例：ユーザーの一括削除、[ポリシー](/glossary/ポリシー/)を無視したデータ[更新](/glossary/更新/)）を anon [キー](/glossary/キー/)で実行しようとすると 403 [エラー](/glossary/エラー/)になります。
+Supabase では 2 種類の [API](/glossary/api/) [キー](/glossary/キー/)が存在します。`anon`（匿名[キー](/glossary/キー/)）は[フロントエンド](/glossary/フロントエンド/)で使用し、RLS [ポリシー](/glossary/ポリシー/)の制約を受けます。一方、`service_role`（サービスロールキー）は[バックエンド](/glossary/バックエンド/)限定で、RLS をバイパスして操作できます。[管理者権限](/glossary/管理者権限/)の操作（例：[ユーザー](/glossary/ユーザー/)の一括削除、[ポリシー](/glossary/ポリシー/)を無視したデータ[更新](/glossary/更新/)）を anon [キー](/glossary/キー/)で実行しようとすると 403 [エラー](/glossary/エラー/)になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -181,17 +181,17 @@ const response = await fetch('/api/promote-admin', {
 
 **Supabase [ダッシュボード](/glossary/ダッシュボード/)での確認方法**
 
-Supabase [ダッシュボード](/glossary/ダッシュボード/)から以下の手順で[ポリシー](/glossary/ポリシー/)を確認できます：
+Supabase [ダッシュボード](/glossary/ダッシュボード/)から以下の手順で[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)できます：
 
 1. 左サイドバーから「[SQL](/glossary/sql/) Editor」を開き、目的の[テーブル](/glossary/テーブル/)名を[検索](/glossary/検索/)
 2. または「Authentication」→「Policies」タブで[テーブル](/glossary/テーブル/)ごとの[ポリシー](/glossary/ポリシー/)一覧を表示
-3. 各[ポリシー](/glossary/ポリシー/)の「USING」「WITH CHECK」条件が正しいか確認
+3. 各[ポリシー](/glossary/ポリシー/)の「USING」「WITH CHECK」条件が正しいか[確認](/glossary/確認/)
 
-[テーブル](/glossary/テーブル/)の RLS が有効か無効かは、「Table Editor」で[テーブル](/glossary/テーブル/)を選択し、右上の「Security」セクションで「Enable RLS」がオンになっているかを確認します。
+[テーブル](/glossary/テーブル/)の RLS が有効か無効かは、「Table Editor」で[テーブル](/glossary/テーブル/)を選択し、右上の「Security」セクションで「Enable RLS」がオンになっているかを[確認](/glossary/確認/)します。
 
 **[認証](/glossary/認証/)[トークン](/glossary/トークン/)の有効期限**
 
-Supabase の[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。[トークン](/glossary/トークン/)が期限切れの場合、[リクエスト](/glossary/リクエスト/)が匿名状態として扱われ、RLS [ポリシー](/glossary/ポリシー/)で保護された[テーブル](/glossary/テーブル/)へのアクセスが拒否されることがあります。[トークン](/glossary/トークン/)の自動リフレッシュが[設定](/glossary/設定/)されているか確認してください。
+Supabase の[認証](/glossary/認証/)[トークン](/glossary/トークン/)には有効期限があります。[トークン](/glossary/トークン/)が期限切れの場合、[リクエスト](/glossary/リクエスト/)が匿名状態として扱われ、RLS [ポリシー](/glossary/ポリシー/)で保護された[テーブル](/glossary/テーブル/)へのアクセスが拒否されることがあります。[トークン](/glossary/トークン/)の自動リフレッシュが[設定](/glossary/設定/)されているか[確認](/glossary/確認/)してください。
 
 ```javascript
 // トークンが期限切れでないか確認
@@ -204,13 +204,13 @@ if (!user) {
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)を確認する方法**
+**[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する方法**
 
-Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションで、403 [エラー](/glossary/エラー/)の詳細を確認できます。特に以下の情報をチェックしてください：
+Supabase [ダッシュボード](/glossary/ダッシュボード/)の「Logs」セクションで、403 [エラー](/glossary/エラー/)の詳細を[確認](/glossary/確認/)できます。特に以下の情報をチェックしてください：
 
 - **Policy name**：どの[ポリシー](/glossary/ポリシー/)が拒否したか
 - **USING/WITH CHECK clause**：実際に評価された条件
-- **Authenticated user UID**：[リクエスト](/glossary/リクエスト/)時のユーザー [ID](/glossary/id/)
+- **Authenticated user UID**：[リクエスト](/glossary/リクエスト/)時の[ユーザー](/glossary/ユーザー/) [ID](/glossary/id/)
 
 **PostgreSQL [コマンドライン](/glossary/コマンドライン/)での[デバッグ](/glossary/デバッグ/)**
 
@@ -227,7 +227,7 @@ SELECT * FROM pg_policies
 WHERE tablename = 'your_table_name';
 ```
 
-**[バックアップ](/glossary/バックアップ/)としての確認**
+**[バックアップ](/glossary/バックアップ/)としての[確認](/glossary/確認/)**
 
 - [フロントエンド](/glossary/フロントエンド/)で使用している [API](/glossary/api/) [キー](/glossary/キー/)が本当に `anon キー` か `service_role キー` か再確認
 - `auth.uid()` の代わりに硬定値で[テスト](/glossary/テスト/)し、[ポリシー](/glossary/ポリシー/)評価自体は正常に機能しているか検証
@@ -235,4 +235,4 @@ WHERE tablename = 'your_table_name';
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

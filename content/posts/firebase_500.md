@@ -168,7 +168,7 @@ exports.myFunction = functions.region('asia-northeast1').https.onCall(async (dat
 ```
 
 ### Authentication トークンの有効期限切れ
-[SDK](/glossary/sdk/) が古いキャッシュトークンを使用している場合、[認証](/glossary/認証/)[エラー](/glossary/エラー/)が 500 として返される場合があります。[トークン](/glossary/トークン/)の[更新](/glossary/更新/)メカニズムを確認してください。
+[SDK](/glossary/sdk/) が古いキャッシュトークンを使用している場合、[認証](/glossary/認証/)[エラー](/glossary/エラー/)が 500 として返される場合があります。[トークン](/glossary/トークン/)の[更新](/glossary/更新/)メカニズムを[確認](/glossary/確認/)してください。
 
 ```javascript
 // トークンの強制更新
@@ -177,10 +177,10 @@ await firebase.auth().currentUser.getIdToken(true);
 
 ## それでも解決しない場合
 
-**Cloud Functions の[ログ](/glossary/ログ/)を確認する**  
-Firebase Console から「Functions」→「[ログ](/glossary/ログ/)」を開き、実行時の詳細[エラーメッセージ](/glossary/エラーメッセージ/)を確認してください。`console.error()`で出力した[ログ](/glossary/ログ/)も表示されます。
+**Cloud Functions の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)する**  
+Firebase Console から「Functions」→「[ログ](/glossary/ログ/)」を開き、実行時の詳細[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)してください。`console.error()`で出力した[ログ](/glossary/ログ/)も表示されます。
 
-**gcloud [CLI](/glossary/cli/) での[ログ](/glossary/ログ/)確認**
+**gcloud [CLI](/glossary/cli/) での[ログ](/glossary/ログ/)[確認](/glossary/確認/)**
 ```bash
 gcloud functions logs read <function-name> --limit 50
 ```
@@ -198,4 +198,4 @@ firebase-js-sdk および firebase-admin-node の[リポジトリ](/glossary/リ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

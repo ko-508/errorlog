@@ -14,7 +14,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)[処理](/glossary/処理/)が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、[本番環境](/glossary/本番環境/)で多くのユーザーに影響を与える可能性があります。
+Firebase HostingまたはCloud Functionsの[バックエンド](/glossary/バックエンド/)[処理](/glossary/処理/)が[タイムアウト](/glossary/タイムアウト/)し、[クライアント](/glossary/クライアント/)に504 Gateway Timeout[エラー](/glossary/エラー/)が返される状況です。この[エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)に対して指定時間内に[レスポンス](/glossary/レスポンス/)が返されなかったことを示します。Firebase[環境](/glossary/環境/)では、Cloud Functionsの実行時間制限やHostingの統合[タイムアウト](/glossary/タイムアウト/)（通常60秒）を超過した場合に発生することが多く、[本番環境](/glossary/本番環境/)で多くの[ユーザー](/glossary/ユーザー/)に影響を与える可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -211,11 +211,11 @@ gcloud functions describe <関数名> --runtime nodejs18
 gcloud functions logs read <関数名> --limit 50
 ```
 
-または、Firebase Consoleで「[関数](/glossary/関数/)」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を確認してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を確認でき、504の発生[パターン](/glossary/パターン/)が明らかになります。
+または、Firebase Consoleで「[関数](/glossary/関数/)」>「[ログ](/glossary/ログ/)」タブから実行[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。各[リクエスト](/glossary/リクエスト/)の実行時間と完了状況を[確認](/glossary/確認/)でき、504の発生[パターン](/glossary/パターン/)が明らかになります。
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析**
 
-Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを確認し、ボトルネック箇所を特定してください。
+Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを[確認](/glossary/確認/)し、ボトルネック箇所を特定してください。
 
 **公式ドキュメント**
 
@@ -227,4 +227,4 @@ Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

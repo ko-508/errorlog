@@ -22,7 +22,7 @@ trend_incident: false
 fatal: refusing to merge unrelated histories
 ```
 
-[通信](/glossary/通信/)をやり直すだけでは解消しません。接続先と対象[ブランチ](/glossary/ブランチ/)を確認し、独立した二つの履歴を本当に結合したい場合だけ、`--allow-unrelated-histories`を指定します。
+[通信](/glossary/通信/)をやり直すだけでは解消しません。接続先と対象[ブランチ](/glossary/ブランチ/)を[確認](/glossary/確認/)し、独立した二つの履歴を本当に結合したい場合だけ、`--allow-unrelated-histories`を指定します。
 
 ```bash
 git fetch origin
@@ -43,7 +43,7 @@ git merge --allow-unrelated-histories origin/main
 
 ## 接続先と共通の祖先を確認する
 
-最初に、別の[プロジェクト](/glossary/プロジェクト/)を接続先に指定していないかを確認します。
+最初に、別の[プロジェクト](/glossary/プロジェクト/)を接続先に指定していないかを[確認](/glossary/確認/)します。
 
 ```bash
 git status
@@ -56,7 +56,7 @@ git merge-base HEAD origin/main
 
 `git fetch`はリモートの履歴を取得します。この段階では作業中の[ブランチ](/glossary/ブランチ/)へ[マージ](/glossary/マージ/)しません。取得後の`origin/main`と、現在の[コミット](/glossary/コミット/)を表す`HEAD`を比べます。
 
-[merge-baseの公式文書](https://git-scm.com/docs/git-merge-base)によると、この[コマンド](/glossary/コマンド/)は二つの[コミット](/glossary/コミット/)の共通祖先を探します。この記事の[Git](/glossary/git/) 2.51.1による確認では、独立した履歴に対して標準出力は空、終了[コード](/glossary/コード/)は1でした。
+[merge-baseの公式文書](https://git-scm.com/docs/git-merge-base)によると、この[コマンド](/glossary/コマンド/)は二つの[コミット](/glossary/コミット/)の共通祖先を探します。この記事の[Git](/glossary/git/) 2.51.1による[確認](/glossary/確認/)では、独立した履歴に対して標準出力は空、終了[コード](/glossary/コード/)は1でした。
 
 ただし、出力がないだけで判断しないでください。[ブランチ](/glossary/ブランチ/)名が誤っているなどの[エラー](/glossary/エラー/)が表示された場合は、先にその問題を直します。
 
@@ -66,14 +66,14 @@ git merge-base HEAD origin/main
 git rev-parse --is-shallow-repository
 ```
 
-`true`なら、接続先を確認したうえで履歴全体を取得し、再確認します。
+`true`なら、接続先を[確認](/glossary/確認/)したうえで履歴全体を取得し、再確認します。
 
 ```bash
 git fetch --unshallow origin
 git merge-base HEAD origin/main
 ```
 
-浅い履歴の取得方法は[fetchの公式文書](https://git-scm.com/docs/git-fetch)に説明されています。共通の祖先が見つからない理由を確認する前に、結合の許可へ進まないようにします。
+浅い履歴の取得方法は[fetchの公式文書](https://git-scm.com/docs/git-fetch)に説明されています。共通の祖先が見つからない理由を[確認](/glossary/確認/)する前に、結合の許可へ進まないようにします。
 
 ## 別々の初期化で二つの履歴ができる
 
@@ -81,7 +81,7 @@ git merge-base HEAD origin/main
 
 [GitHub DesktopのIssue #1484](https://github.com/desktop/desktop/issues/1484)には、[GitHub](/glossary/github/)側とローカル側をそれぞれREADME付きで[初期化](/glossary/初期化/)し、Pullで同じ[エラー](/glossary/エラー/)になった報告があります。これは2017年の報告であり、現在のDesktop全般の不具合を示すものではありません。
 
-この記事では、外部へ接続せず、二つのローカルリポジトリを別々に[初期化](/glossary/初期化/)して確認しました。各[リポジトリ](/glossary/リポジトリ/)に異なる内容のREADMEを[コミット](/glossary/コミット/)し、一方をもう一方の接続先として取得すると、通常の[マージ](/glossary/マージ/)は次の結果になりました。
+この記事では、外部へ接続せず、二つのローカルリポジトリを別々に[初期化](/glossary/初期化/)して[確認](/glossary/確認/)しました。各[リポジトリ](/glossary/リポジトリ/)に異なる内容のREADMEを[コミット](/glossary/コミット/)し、一方をもう一方の接続先として取得すると、通常の[マージ](/glossary/マージ/)は次の結果になりました。
 
 ```text
 fatal: refusing to merge unrelated histories
@@ -91,7 +91,7 @@ fatal: refusing to merge unrelated histories
 
 ## 両方の履歴を残して結合する
 
-結合する対象が正しく、両方の[コミット](/glossary/コミット/)履歴を残したい場合は、変更を[保存](/glossary/保存/)してから[マージ](/glossary/マージ/)します。未[コミット](/glossary/コミット/)の変更がある場合は、内容を確認して[コミット](/glossary/コミット/)するか、一時保管しておきます。
+結合する対象が正しく、両方の[コミット](/glossary/コミット/)履歴を残したい場合は、変更を[保存](/glossary/保存/)してから[マージ](/glossary/マージ/)します。未[コミット](/glossary/コミット/)の変更がある場合は、内容を[確認](/glossary/確認/)して[コミット](/glossary/コミット/)するか、一時保管しておきます。
 
 現在の[コミット](/glossary/コミット/)を残すための[ブランチ](/glossary/ブランチ/)も作れます。次の名前が既に存在する場合は、別の名前にしてください。この[ブランチ](/glossary/ブランチ/)は未[コミット](/glossary/コミット/)の変更を[保存](/glossary/保存/)するものではありません。
 
@@ -113,7 +113,7 @@ git pull --no-rebase --allow-unrelated-histories origin main
 
 ## 許可後にREADMEが競合した場合
 
-同じ名前の[ファイル](/glossary/ファイル/)を両方で作っていると、履歴の結合を許可しても競合することがあります。今回の[Git](/glossary/git/) 2.51.1による確認では、READMEの内容が異なっていたため、次の表示になりました。
+同じ名前の[ファイル](/glossary/ファイル/)を両方で作っていると、履歴の結合を許可しても競合することがあります。今回の[Git](/glossary/git/) 2.51.1による[確認](/glossary/確認/)では、READMEの内容が異なっていたため、次の表示になりました。
 
 ```text
 CONFLICT (add/add): Merge conflict in README.md
@@ -133,7 +133,7 @@ git add README.md
 git commit
 ```
 
-ほかの[ファイル](/glossary/ファイル/)にも競合があれば、それぞれ解消して追加してください。今回の確認では、この操作後に二つの親[コミット](/glossary/コミット/)を持つマージコミットが作られました。
+ほかの[ファイル](/glossary/ファイル/)にも競合があれば、それぞれ解消して追加してください。今回の[確認](/glossary/確認/)では、この操作後に二つの親[コミット](/glossary/コミット/)を持つマージコミットが作られました。
 
 進行中の[マージ](/glossary/マージ/)を中止する場合は、次を使います。
 
@@ -151,7 +151,7 @@ git merge --abort
 git clone <repository-url> project-copy
 ```
 
-元の[ディレクトリ](/glossary/ディレクトリ/)は残します。新しいclone先へ必要な[ファイル](/glossary/ファイル/)をコピーし、差分を確認して[コミット](/glossary/コミット/)してください。元の`.git`[ディレクトリ](/glossary/ディレクトリ/)はコピーしません。この方法では、ローカル側の過去の[コミット](/glossary/コミット/)履歴は引き継がれません。
+元の[ディレクトリ](/glossary/ディレクトリ/)は残します。新しいclone先へ必要な[ファイル](/glossary/ファイル/)をコピーし、差分を[確認](/glossary/確認/)して[コミット](/glossary/コミット/)してください。元の`.git`[ディレクトリ](/glossary/ディレクトリ/)はコピーしません。この方法では、ローカル側の過去の[コミット](/glossary/コミット/)履歴は引き継がれません。
 
 `local changes would be overwritten by merge`は、手元の未[コミット](/glossary/コミット/)の変更が上書きされるという別の拒否です。変更を一時保管しても、今回の共通祖先の問題そのものは解消しません。
 
@@ -159,14 +159,14 @@ git clone <repository-url> project-copy
 
 ## 解決手順のまとめ
 
-まず接続先と[ブランチ](/glossary/ブランチ/)を確認し、履歴を取得して`git merge-base`で共通祖先を調べます。浅い履歴なら、必要な履歴を取得してから判断します。
+まず接続先と[ブランチ](/glossary/ブランチ/)を[確認](/glossary/確認/)し、履歴を取得して`git merge-base`で共通祖先を調べます。浅い履歴なら、必要な履歴を取得してから判断します。
 
 独立した二つの履歴を残して結合する場合だけ、`--allow-unrelated-histories`を付けて[マージ](/glossary/マージ/)します。許可後に[ファイル](/glossary/ファイル/)の競合が出た場合は、内容を解消して[コミット](/glossary/コミット/)します。
 
-[ファイル](/glossary/ファイル/)だけを移したい場合は、別の場所にcloneし、元の[リポジトリ](/glossary/リポジトリ/)を残したまま必要な[ファイル](/glossary/ファイル/)を追加できます。接続先の誤り、履歴の結合、[ファイル](/glossary/ファイル/)の競合を分けて確認してください。
+[ファイル](/glossary/ファイル/)だけを移したい場合は、別の場所にcloneし、元の[リポジトリ](/glossary/リポジトリ/)を残したまま必要な[ファイル](/glossary/ファイル/)を追加できます。接続先の誤り、履歴の結合、[ファイル](/glossary/ファイル/)の競合を分けて[確認](/glossary/確認/)してください。
 
-確認に使った[環境](/glossary/環境/)は[Git](/glossary/git/) 2.51.1です。通常[マージ](/glossary/マージ/)の拒否、共通祖先なしのmerge-base、許可後のREADME競合、解消後のマージコミットをローカルで確認しました。[GitHub](/glossary/github/)へのpushや、古い[Git](/glossary/git/)各版での実行確認は行っていません。
+[確認](/glossary/確認/)に使った[環境](/glossary/環境/)は[Git](/glossary/git/) 2.51.1です。通常[マージ](/glossary/マージ/)の拒否、共通祖先なしのmerge-base、許可後のREADME競合、解消後のマージコミットをローカルで[確認](/glossary/確認/)しました。[GitHub](/glossary/github/)へのpushや、古い[Git](/glossary/git/)各版での実行確認は行っていません。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

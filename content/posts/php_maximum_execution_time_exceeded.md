@@ -22,7 +22,7 @@ PHPで取り込みや集計などの[処理](/glossary/処理/)を実行する�
 PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /var/www/app/import.php on line 57
 ```
 
-PHPに[設定](/glossary/設定/)された実行時間の上限に達したことを示します。30は[設定値](/glossary/設定値/)の例です。まず失敗した実行環境で `max_execution_time` を確認し、時間のかかる[処理](/glossary/処理/)を特定します。
+PHPに[設定](/glossary/設定/)された実行時間の上限に達したことを示します。30は[設定値](/glossary/設定値/)の例です。まず失敗した実行環境で `max_execution_time` を[確認](/glossary/確認/)し、時間のかかる[処理](/glossary/処理/)を特定します。
 
 必要な処理量に対して上限が短ければ調整します。ただし、[OS](/glossary/os/)やPHPの組み立て方によって時間の数え方が異なり、Web[サーバー](/glossary/サーバー/)側にも別の制限があります。PHPの秒数を増やすだけで、必ず完了できるわけではありません。
 
@@ -32,9 +32,9 @@ PHPに[設定](/glossary/設定/)された実行時間の上限に達したこ�
 
 一般的な `setitimer(ITIMER_PROF)` を使う[環境](/glossary/環境/)では[CPU](/glossary/cpu/)時間を計ります。この場合、[データベース](/glossary/データベース/)の問い合わせや入出力などで待っている時間は、経過した実時間と同じようには加算されません。
 
-一方、Windowsや、`--enable-zend-max-execution-timers` を有効にして組み立てたPHPでは実時間を計ります。後者はPHP 8.3以降のスレッド[対応](/glossary/対応/)の組み立てで既定です。[PHP 8.5.12の実装](https://github.com/php/php-src/blob/php-8.5.12/Zend/zend_execute_API.c)には、Apple SiliconのmacOSなどで実時間のタイマーを使う分岐もあります。
+一方、[Windows](/glossary/windows/)や、`--enable-zend-max-execution-timers` を有効にして組み立てたPHPでは実時間を計ります。後者はPHP 8.3以降のスレッド[対応](/glossary/対応/)の組み立てで既定です。[PHP 8.5.12の実装](https://github.com/php/php-src/blob/php-8.5.12/Zend/zend_execute_API.c)には、Apple SiliconのmacOSなどで実時間のタイマーを使う分岐もあります。
 
-したがって、[Linux](/glossary/linux/)なら待ち時間は必ず除外される、Windows以外なら同じ結果になる、とも言い切れません。利用している[OS](/glossary/os/)とPHPの構成を合わせて確認してください。
+したがって、[Linux](/glossary/linux/)なら待ち時間は必ず除外される、[Windows](/glossary/windows/)以外なら同じ結果になる、とも言い切れません。利用している[OS](/glossary/os/)とPHPの構成を合わせて[確認](/glossary/確認/)してください。
 
 ## エラーが出た環境の有効値を確認する
 
@@ -48,7 +48,7 @@ error_log('PHP=' . PHP_VERSION . ' SAPI=' . PHP_SAPI);
 error_log('max_execution_time=' . ini_get('max_execution_time'));
 ```
 
-[CLI](/glossary/cli/)側の確認は次です。
+[CLI](/glossary/cli/)側の[確認](/glossary/確認/)は次です。
 
 ```bash
 php -v
@@ -56,7 +56,7 @@ php --ini
 php -r "echo ini_get('max_execution_time'), PHP_EOL;"
 ```
 
-[CLI](/glossary/cli/)の0は変更できない固定値ではありません。[PHPのコマンドライン引数の説明](https://www.php.net/manual/en/features.commandline.options.php)には、`-d max_execution_time=20` で値を指定する例もあります。アプリ内の `set_time_limit()` などによって変わっていないかも確認してください。
+[CLI](/glossary/cli/)の0は変更できない固定値ではありません。[PHPのコマンドライン引数の説明](https://www.php.net/manual/en/features.commandline.options.php)には、`-d max_execution_time=20` で値を指定する例もあります。アプリ内の `set_time_limit()` などによって変わっていないかも[確認](/glossary/確認/)してください。
 
 確認用の[コード](/glossary/コード/)をWebから誰でも使える状態で残さず、既存の[ログ](/glossary/ログ/)や管理者用の確認手段を使います。
 
@@ -79,13 +79,13 @@ error_log('import: elapsed=' . $elapsed . ' seconds');
 
 [hrtime()](https://www.php.net/manual/en/function.hrtime.php)は時間の計測に使う[関数](/glossary/関数/)です。この例は経過時間を測るため、PHPの上限が[CPU](/glossary/cpu/)時間を計る[環境](/glossary/環境/)では、その上限と同じ値にはなりません。
 
-[処理](/glossary/処理/)が途中で止まれば後の[ログ](/glossary/ログ/)は出ません。取り込み、変換、[保存](/glossary/保存/)などの区切りにも記録を置き、最後に完了した段階を確認します。入力件数も合わせて記録し、件数を減らすと完了するのか、特定の問い合わせや[通信](/glossary/通信/)で長く待つのかを切り分けます。
+[処理](/glossary/処理/)が途中で止まれば後の[ログ](/glossary/ログ/)は出ません。取り込み、変換、[保存](/glossary/保存/)などの区切りにも記録を置き、最後に完了した段階を[確認](/glossary/確認/)します。入力件数も合わせて記録し、件数を減らすと完了するのか、特定の問い合わせや[通信](/glossary/通信/)で長く待つのかを切り分けます。
 
-大量のデータを一括で[処理](/glossary/処理/)しているなら分割し、無駄な繰り返しや同じ問い合わせを重ねていないかを確認します。再実行する際は、途中まで[保存](/glossary/保存/)したデータを重複登録しないよう、処理済みの範囲も把握してください。
+大量のデータを一括で[処理](/glossary/処理/)しているなら分割し、無駄な繰り返しや同じ問い合わせを重ねていないかを[確認](/glossary/確認/)します。再実行する際は、途中まで[保存](/glossary/保存/)したデータを重複登録しないよう、処理済みの範囲も把握してください。
 
 ## set_time_limitは呼んだ時点から数え直す
 
-必要な時間が確認できた場合は、対象処理の前で上限を変える方法があります。120秒は指定方法を示す例です。
+必要な時間が[確認](/glossary/確認/)できた場合は、対象処理の前で上限を変える方法があります。120秒は指定方法を示す例です。
 
 ```php
 <?php
@@ -107,7 +107,7 @@ php.iniで指定する場合は、次の形です。
 max_execution_time = 120
 ```
 
-設定変更後は、実行方式に応じた再読み込みなどを行い、対象の[処理](/glossary/処理/)で有効な値を確認します。[PHP-FPMの管理者設定](https://www.php.net/manual/en/install.fpm.configuration.php)など、アプリから上書きできない指定がある場合は管理側を確認してください。
+設定変更後は、実行方式に応じた再読み込みなどを行い、対象の[処理](/glossary/処理/)で有効な値を[確認](/glossary/確認/)します。[PHP-FPMの管理者設定](https://www.php.net/manual/en/install.fpm.configuration.php)など、アプリから上書きできない指定がある場合は管理側を[確認](/glossary/確認/)してください。
 
 `set_time_limit(0)` はPHPの時間制限を外しますが、[処理](/glossary/処理/)を速くする指定ではありません。常時無制限にする前に、処理量と実行場所を見直します。
 
@@ -129,7 +129,7 @@ php import.php
 php -d max_execution_time=120 import.php
 ```
 
-Webアプリの[処理](/glossary/処理/)をそのまま[CLI](/glossary/cli/)に移せるとは限りません。[ログイン](/glossary/ログイン/)情報やWebの入力を前提にした部分を確認し、実行に必要な[引数](/glossary/引数/)や[設定](/glossary/設定/)を用意します。長い[処理](/glossary/処理/)では、進捗と途中結果を記録し、中断後に再開できる形にすると調査もしやすくなります。
+Webアプリの[処理](/glossary/処理/)をそのまま[CLI](/glossary/cli/)に移せるとは限りません。[ログイン](/glossary/ログイン/)情報やWebの入力を前提にした部分を[確認](/glossary/確認/)し、実行に必要な[引数](/glossary/引数/)や[設定](/glossary/設定/)を用意します。長い[処理](/glossary/処理/)では、進捗と途中結果を記録し、中断後に再開できる形にすると調査もしやすくなります。
 
 ## PHP-FPMやnginxの制限とは分けて確認する
 
@@ -147,12 +147,12 @@ nginxからPHP-FPMへ接続している場合は、[fastcgi_read_timeout](https:
 
 ## 解決手順のまとめ
 
-最初に、失敗した実行環境の `max_execution_time` と、[処理](/glossary/処理/)のどこで時間を使っているかを確認します。[OS](/glossary/os/)やPHPの構成によって、待ち時間が上限に含まれるかが異なる点も考慮してください。
+最初に、失敗した実行環境の `max_execution_time` と、[処理](/glossary/処理/)のどこで時間を使っているかを[確認](/glossary/確認/)します。[OS](/glossary/os/)やPHPの構成によって、待ち時間が上限に含まれるかが異なる点も考慮してください。
 
-[処理](/glossary/処理/)を[改善](/glossary/改善/)・分割し、必要な場合は対象を限定して上限を調整します。Webから長い[処理](/glossary/処理/)を実行しているなら[CLI](/glossary/cli/)などへの移行を検討し、PHP-FPMやWeb[サーバー](/glossary/サーバー/)の別の制限も確認します。
+[処理](/glossary/処理/)を[改善](/glossary/改善/)・分割し、必要な場合は対象を限定して上限を調整します。Webから長い[処理](/glossary/処理/)を実行しているなら[CLI](/glossary/cli/)などへの移行を検討し、PHP-FPMやWeb[サーバー](/glossary/サーバー/)の別の制限も[確認](/glossary/確認/)します。
 
-本記事は2026年10月24日に確認した公式資料とPHP 8.5.12の実装に基づきます。掲載したPHPの[コード](/glossary/コード/)・[コマンド](/glossary/コマンド/)と時間超過の挙動は、実行未検証です。
+本記事は2026年10月24日に[確認](/glossary/確認/)した公式資料とPHP 8.5.12の実装に基づきます。掲載したPHPの[コード](/glossary/コード/)・[コマンド](/glossary/コマンド/)と時間超過の挙動は、実行未検証です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-CircleCI の 404 [エラー](/glossary/エラー/)は、指定された[プロジェクト](/glossary/プロジェクト/)・パイプライン・[ワークフロー](/glossary/ワークフロー/)が見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しないリソースへアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（[GitHub](/glossary/github/)・Bitbucket）との認可情報の失効に起因します。
+CircleCI の 404 [エラー](/glossary/エラー/)は、指定された[プロジェクト](/glossary/プロジェクト/)・パイプライン・[ワークフロー](/glossary/ワークフロー/)が見つからないことを示します。[API](/glossary/api/)呼び出しやWebUI での操作時に、存在しない[リソース](/glossary/リソース/)へアクセスしようとした場合に発生する最も一般的な[エラー](/glossary/エラー/)です。この[エラー](/glossary/エラー/)はしばしばプロジェクトスラッグの誤記、パイプライン[ID](/glossary/id/)の指定ミス、あるいはVCS（[GitHub](/glossary/github/)・Bitbucket）との認可情報の失効に起因します。
 
 ## 実際のエラーメッセージ例
 
@@ -59,7 +59,7 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline" 
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-WebUI で確認した[プロジェクト](/glossary/プロジェクト/) [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
+WebUI で[確認](/glossary/確認/)した[プロジェクト](/glossary/プロジェクト/) [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
 
 ### 原因2：パイプラインID またはワークフローID が存在しない
 
@@ -86,11 +86,11 @@ curl -X GET "https://circleci.com/api/v2/pipeline/correct-pipeline-id-12345/conf
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-パイプラインが実際に存在するか、先にリスト取得 [API](/glossary/api/) で確認してから詳細情報にアクセスします。
+パイプラインが実際に存在するか、先にリスト取得 [API](/glossary/api/) で[確認](/glossary/確認/)してから詳細情報にアクセスします。
 
 ### 原因3：GitHub / Bitbucket との認可情報が失効またはリセット
 
-CircleCI と[GitHub](/glossary/github/)・Bitbucket の連携が切れると、その[プロジェクト](/glossary/プロジェクト/)にアクセスできず 404 [エラー](/glossary/エラー/)が返されることがあります。これは、VCS 側で[認可](/glossary/認可/)を取り消した、CircleCI の[認証](/glossary/認証/)[トークン](/glossary/トークン/)が失効した、あるいはユーザーの[アカウント](/glossary/アカウント/)[権限](/glossary/権限/)が変更された場合に発生します。
+CircleCI と[GitHub](/glossary/github/)・Bitbucket の連携が切れると、その[プロジェクト](/glossary/プロジェクト/)にアクセスできず 404 [エラー](/glossary/エラー/)が返されることがあります。これは、VCS 側で[認可](/glossary/認可/)を取り消した、CircleCI の[認証](/glossary/認証/)[トークン](/glossary/トークン/)が失効した、あるいは[ユーザー](/glossary/ユーザー/)の[アカウント](/glossary/アカウント/)[権限](/glossary/権限/)が変更された場合に発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -134,7 +134,7 @@ curl -X GET "https://circleci.com/api/v2/project/$ENCODED_SLUG" \
 ```
 
 **パイプラインフィルタリング：**
-複数のパイプラインが存在する場合、`?filter=` [パラメータ](/glossary/パラメータ/)を使用して[フィルタリング](/glossary/フィルタリング/)できます。これにより、特定の条件に一致するパイプラインのみを取得し、[ID](/glossary/id/) の確認が容易になります。
+複数のパイプラインが存在する場合、`?filter=` [パラメータ](/glossary/パラメータ/)を使用して[フィルタリング](/glossary/フィルタリング/)できます。これにより、特定の条件に一致するパイプラインのみを取得し、[ID](/glossary/id/) の[確認](/glossary/確認/)が容易になります。
 
 ```bash
 curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline?filter=completed" \
@@ -143,15 +143,15 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline?f
 
 ## それでも解決しない場合
 
-**1. 認可情報と[権限](/glossary/権限/)の確認**
+**1. 認可情報と[権限](/glossary/権限/)の[確認](/glossary/確認/)**
 
-CircleCI WebUI に[ログイン](/glossary/ログイン/)して、以下の確認を行ってください：
+CircleCI WebUI に[ログイン](/glossary/ログイン/)して、以下の[確認](/glossary/確認/)を行ってください：
 - 対象[プロジェクト](/glossary/プロジェクト/)への[アクセス権限](/glossary/アクセス権限/)があるか（[プロジェクト](/glossary/プロジェクト/)一覧に表示されているか）
 - VCS 連携状態が「Connected」になっているか（Project Settings > VCS）
 
-**2. [API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)確認**
+**2. [API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)[確認](/glossary/確認/)**
 
-使用している [API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)が十分か確認します。Personal Token の場合、`view:project` と `read:project` の[スコープ](/glossary/スコープ/)が必要です。
+使用している [API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)が十分か[確認](/glossary/確認/)します。Personal Token の場合、`view:project` と `read:project` の[スコープ](/glossary/スコープ/)が必要です。
 
 ```bash
 # 現在のトークンの情報を確認
@@ -159,14 +159,14 @@ curl -X GET "https://circleci.com/api/v2/me" \
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-**3. [ネットワーク](/glossary/ネットワーク/)と[ログ](/glossary/ログ/)の確認**
+**3. [ネットワーク](/glossary/ネットワーク/)と[ログ](/glossary/ログ/)の[確認](/glossary/確認/)**
 
-CircleCI のステータスページ（`https://status.circleci.com`）でサービス[障害](/glossary/障害/)がないか確認し、[AWS](/glossary/aws/) CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか確認してください。
+CircleCI のステータスページ（`https://status.circleci.com`）でサービス[障害](/glossary/障害/)がないか[確認](/glossary/確認/)し、[AWS](/glossary/aws/) CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか[確認](/glossary/確認/)してください。
 
 **4. 公式ドキュメントと [API](/glossary/api/) リファレンス**
 
-CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の[要件](/glossary/要件/)を確認してください。
+CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の[要件](/glossary/要件/)を[確認](/glossary/確認/)してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

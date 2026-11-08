@@ -24,12 +24,12 @@ app-7d8f767544-pk4ch   1/1     Terminating   0          3d
 
 削除要求が[API](/glossary/api/) Serverに受理されても、Podはすぐには消えません。[Kubernetes公式のPod終了処理](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)では、既定で30秒の猶予期間が設けられ、その間に `preStop`、終了シグナル、接続の退避、[コンテナ](/glossary/コンテナ/)停止などが進みます。finalizerがある場合は、そのfinalizerを管理するコントローラーの後処理が終わるまで、[API](/glossary/api/)上の[オブジェクト](/glossary/オブジェクト/)も残ります。
 
-したがって、数十秒の `Terminating` は異常とは限りません。長時間変わらない場合は、次の4つを分けて確認します。
+したがって、数十秒の `Terminating` は異常とは限りません。長時間変わらない場合は、次の4つを分けて[確認](/glossary/確認/)します。
 
 1. 猶予期間中の正常な終了処理なのか。
 2. `preStop` または[アプリケーション](/glossary/アプリケーション/)の終了処理が完了しないのか。
 3. finalizerを管理するコントローラーが後処理を完了できないのか。
-4. 配置先ノードまたはkubeletと[通信](/glossary/通信/)できず、停止を確認できないのか。
+4. 配置先ノードまたはkubeletと[通信](/glossary/通信/)できず、停止を[確認](/glossary/確認/)できないのか。
 
 ここで最も重要な事実訂正があります。
 
@@ -39,7 +39,7 @@ kubectl delete pod <Pod名> -n <名前空間> --grace-period=0 --force
 
 この強制削除は、**ノード上の[プロセス](/glossary/プロセス/)を確実に停止してからPodを消す操作ではありません**。[`kubectl delete` の公式リファレンス](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_delete/)は、[API](/glossary/api/) Serverがkubeletによる終了確認を待たず、同じ識別情報を持つ[処理](/glossary/処理/)が別のマシンで動き続け、データの不整合や損失につながる可能性を警告しています。
 
-強制削除は一覧をきれいにする操作ではありません。古い[処理](/glossary/処理/)が停止済み、または二度と共有資源へ接続できないと確認した後に限る、最後の手段です。
+強制削除は一覧をきれいにする操作ではありません。古い[処理](/glossary/処理/)が停止済み、または二度と共有資源へ接続できないと[確認](/glossary/確認/)した後に限る、最後の手段です。
 
 ## エラーの概要
 
@@ -76,16 +76,16 @@ kubectl delete --wait          kubectlが削除完了を待つかどうか
 
 ## まず最初に：削除要求・猶予期間・finalizer・ノードを分ける
 
-第一に、削除要求が入っているかを確認します。
+第一に、削除要求が入っているかを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{.metadata.deletionTimestamp}{"\n"}{.metadata.deletionGracePeriodSeconds}{"\n"}'
 ```
 
-`deletionTimestamp` が空なら、この記事で扱う削除処理中の状態ではありません。画面や監視側が古い情報を表示していないかも確認します。
+`deletionTimestamp` が空なら、この記事で扱う削除処理中の状態ではありません。画面や監視側が古い情報を表示していないかも[確認](/glossary/確認/)します。
 
-第二に、Podに[設定](/glossary/設定/)された終了猶予期間と `preStop` を確認します。
+第二に、Podに[設定](/glossary/設定/)された終了猶予期間と `preStop` を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -94,7 +94,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 kubectl get pod <Pod名> -n <名前空間> -o yaml
 ```
 
-第三に、finalizerを確認します。
+第三に、finalizerを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> \
@@ -103,7 +103,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 文字列がある場合は、それを追加したコントローラーを特定します。finalizerの文字列自体が後処理を実行するわけではありません。対象のコントローラーが[削除](/glossary/削除/)を検知し、外部資源や依存関係を片付け、最後に自分のfinalizerを外します。
 
-第四に、配置先ノードの状態を確認します。
+第四に、配置先ノードの状態を[確認](/glossary/確認/)します。
 
 ```bash
 NODE=$(kubectl get pod <Pod名> -n <名前空間> -o jsonpath='{.spec.nodeName}')
@@ -112,7 +112,7 @@ kubectl describe node "$NODE"
 kubectl get lease "$NODE" -n kube-node-lease -o yaml
 ```
 
-ノードが `NotReady` または `Unknown` なら、[API](/glossary/api/)上の表示だけでノード上の[処理](/glossary/処理/)が停止したとは判断できません。強制削除を検討する前に、ノードが停止済みか、隔離済みか、共有[ストレージ](/glossary/ストレージ/)や[ネットワーク](/glossary/ネットワーク/)へ再接続できないかを確認します。
+ノードが `NotReady` または `Unknown` なら、[API](/glossary/api/)上の表示だけでノード上の[処理](/glossary/処理/)が停止したとは判断できません。強制削除を検討する前に、ノードが停止済みか、隔離済みか、共有[ストレージ](/glossary/ストレージ/)や[ネットワーク](/glossary/ネットワーク/)へ再接続できないかを[確認](/glossary/確認/)します。
 
 ## よくある原因と解決手順
 
@@ -148,11 +148,11 @@ spec:
             command: ["sh", "-c", "/app/drain.sh"]
 ```
 
-時間を増やすだけでなく、`drain.sh` が有限時間で終わるか、[アプリケーション](/glossary/アプリケーション/)が終了シグナルを受けて新規受付を止め、処理中の要求を終えられるかを確認します。猶予期間を短くして表示を早く消すと、処理中の要求や書き込みを途中で切るだけになる場合があります。
+時間を増やすだけでなく、`drain.sh` が有限時間で終わるか、[アプリケーション](/glossary/アプリケーション/)が終了シグナルを受けて新規受付を止め、処理中の要求を終えられるかを[確認](/glossary/確認/)します。猶予期間を短くして表示を早く消すと、処理中の要求や書き込みを途中で切るだけになる場合があります。
 
 ### 原因2：preStopまたはアプリケーションの終了処理が完了しない
 
-[削除](/glossary/削除/)から猶予期間を大きく超えても残る場合は、実際にどこまで進んだかを確認します。
+[削除](/glossary/削除/)から猶予期間を大きく超えても残る場合は、実際にどこまで進んだかを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl describe pod <Pod名> -n <名前空間>
@@ -162,7 +162,7 @@ kubectl get events -n <名前空間> \
   --sort-by=.lastTimestamp
 ```
 
-確認するのは、`preStop` が外部サービスの応答を無期限に待っていないか、[アプリケーション](/glossary/アプリケーション/)が終了シグナルを[処理](/glossary/処理/)しているか、サイドカーを含む全[コンテナ](/glossary/コンテナ/)が終了できているかです。
+[確認](/glossary/確認/)するのは、`preStop` が外部サービスの応答を無期限に待っていないか、[アプリケーション](/glossary/アプリケーション/)が終了シグナルを[処理](/glossary/処理/)しているか、サイドカーを含む全[コンテナ](/glossary/コンテナ/)が終了できているかです。
 
 なお、削除中のEndpointはEndpointSliceから直ちに消えるとは限りません。[Pod終了処理の公式説明](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination-flow)では、終了中のEndpointは `ready=false` になり、通常の[通信](/glossary/通信/)には使われない状態になると説明されています。[ロードバランサー](/glossary/ロードバランサー/)側の接続退避とPod内の終了処理は別に進むため、必要な待ち時間を実測して設計します。
 
@@ -175,7 +175,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{.metadata.finalizers}{"\n"}'
 ```
 
-たとえばJobのPodには `batch.kubernetes.io/job-tracking` が付くことがあります。[Jobの公式文書](https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-tracking-with-finalizers)によれば、JobコントローラーはPodの終了をJobの状態へ反映してから、このfinalizerを外します。この文字列が長く残るなら、JobとJobコントローラー側を確認します。
+たとえばJobのPodには `batch.kubernetes.io/job-tracking` が付くことがあります。[Jobの公式文書](https://kubernetes.io/docs/concepts/workloads/controllers/job/#job-tracking-with-finalizers)によれば、JobコントローラーはPodの終了をJobの状態へ反映してから、このfinalizerを外します。この文字列が長く残るなら、JobとJobコントローラー側を[確認](/glossary/確認/)します。
 
 ```bash
 kubectl get job -n <名前空間>
@@ -194,11 +194,11 @@ kubectl auth can-i update pods/finalizers \
   -n <Podの名前空間>
 ```
 
-finalizerを手で消す前に、誰が何を片付けるために付けたものかを確認してください。公式文書も、目的を理解せずfinalizerを手動で[削除](/glossary/削除/)することを避けるよう警告しています。外部[ストレージ](/glossary/ストレージ/)、[ネットワーク](/glossary/ネットワーク/)、[クラウド](/glossary/クラウド/)資源などの後処理を飛ばすと、リークや二重管理が残ります。
+finalizerを手で消す前に、誰が何を片付けるために付けたものかを[確認](/glossary/確認/)してください。公式文書も、目的を理解せずfinalizerを手動で[削除](/glossary/削除/)することを避けるよう警告しています。外部[ストレージ](/glossary/ストレージ/)、[ネットワーク](/glossary/ネットワーク/)、[クラウド](/glossary/クラウド/)資源などの後処理を飛ばすと、リークや二重管理が残ります。
 
 ### 原因4：ノードまたはkubeletへ到達できない
 
-Podの終了処理は配置先ノードのkubeletが進めます。ノードが停止、分断、またはkubeletが応答不能なら、コントロールプレーンからは実際の[コンテナ](/glossary/コンテナ/)停止を確認できません。
+Podの終了処理は配置先ノードのkubeletが進めます。ノードが停止、分断、またはkubeletが応答不能なら、コントロールプレーンからは実際の[コンテナ](/glossary/コンテナ/)停止を[確認](/glossary/確認/)できません。
 
 ```bash
 kubectl get pod <Pod名> -n <名前空間> -o wide
@@ -210,7 +210,7 @@ kubectl get events -A --field-selector involvedObject.name=<ノード名> \
 
 一時的な通信断なら、ノードとkubeletを[復旧](/glossary/復旧/)させ、通常の終了処理を完了させます。ノードを再起動すればPodが必ず止まる、という判断も危険です。[公式文書](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination)は、kubeletを再起動しても実行中のPodや[コンテナ](/glossary/コンテナ/)は停止せず、動作を続けると説明しています。
 
-ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を確認し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード[削除](/glossary/削除/)の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い[処理](/glossary/処理/)が復帰できない状態を先に作るのが順序です。
+ノードが恒久的に失われた場合は、基盤側で電源停止または隔離を[確認](/glossary/確認/)し、[ストレージ](/glossary/ストレージ/)の安全な切り離しやノード[削除](/glossary/削除/)の手順へ進みます。[API](/glossary/api/)上のPodを先に消すのではなく、古い[処理](/glossary/処理/)が復帰できない状態を先に作るのが順序です。
 
 ### 原因5：Admission Webhookが削除途中の更新を拒否する
 
@@ -222,7 +222,7 @@ kubectl get mutatingwebhookconfigurations
 kubectl get events -A --sort-by=.lastTimestamp | tail -50
 ```
 
-[Podのデバッグに関する公式文書](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/#my-pod-stays-terminating)は、削除中のPodが既存の規則違反を直せないために[更新](/glossary/更新/)を拒まれる形を説明しています。[Webhook](/glossary/webhook/)がPodの `UPDATE` を対象にしているか、削除中の[オブジェクト](/glossary/オブジェクト/)を拒否していないか、[Webhook](/glossary/webhook/)サービスと[証明書](/glossary/証明書/)が正常かを確認します。
+[Podのデバッグに関する公式文書](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/#my-pod-stays-terminating)は、削除中のPodが既存の規則違反を直せないために[更新](/glossary/更新/)を拒まれる形を説明しています。[Webhook](/glossary/webhook/)がPodの `UPDATE` を対象にしているか、削除中の[オブジェクト](/glossary/オブジェクト/)を拒否していないか、[Webhook](/glossary/webhook/)サービスと[証明書](/glossary/証明書/)が正常かを[確認](/glossary/確認/)します。
 
 [Webhook](/glossary/webhook/)全体を無効にする前に、失敗している規則と対象範囲を絞ります。削除途中のPodを通す例外を設ける場合も、通常の作成や[更新](/glossary/更新/)の検査まで外さないようにします。
 
@@ -259,16 +259,16 @@ kubectl get deployment,replicaset,statefulset,job -n <名前空間>
 
 PodDisruptionBudgetに拒否された退避では、Eviction [API](/glossary/api/)が `429 Too Many Requests` を返し、削除要求が始まらないことがあります。この場合、通常は `deletionTimestamp` が入らず、`Terminating` にも進みません。直接の `kubectl delete pod` はPodDisruptionBudgetによる保護と同じ経路ではありません。
 
-[Namespace](/glossary/namespace/)の `Terminating` は、[Namespace](/glossary/namespace/)コントローラーが配下の資源と[Namespace](/glossary/namespace/)のfinalizerを[処理](/glossary/処理/)する話です。本記事はPodを中心にしています。[Namespace](/glossary/namespace/)で発生している場合は、残存する[API](/glossary/api/)資源、利用不能なAPIService、[Namespace](/glossary/namespace/)のconditionsを別に確認します。
+[Namespace](/glossary/namespace/)の `Terminating` は、[Namespace](/glossary/namespace/)コントローラーが配下の資源と[Namespace](/glossary/namespace/)のfinalizerを[処理](/glossary/処理/)する話です。本記事はPodを中心にしています。[Namespace](/glossary/namespace/)で発生している場合は、残存する[API](/glossary/api/)資源、利用不能なAPIService、[Namespace](/glossary/namespace/)のconditionsを別に[確認](/glossary/確認/)します。
 
 ## 強制削除またはfinalizer除去を行う前の確認
 
-強制削除は、次のすべてを確認した後の最後の手段です。
+強制削除は、次のすべてを[確認](/glossary/確認/)した後の最後の手段です。
 
 1. 通常の猶予期間と `preStop` の実行時間を過ぎている。
 2. Events、アプリケーションログ、コントローラーログを[保存](/glossary/保存/)した。
 3. finalizerの所有者と、本来行う後処理を特定した。
-4. 後処理が別の方法で完了済み、または不要だと確認した。
+4. 後処理が別の方法で完了済み、または不要だと[確認](/glossary/確認/)した。
 5. 配置先ノード上で古い[コンテナ](/glossary/コンテナ/)が停止済み、あるいはノードが電源停止・隔離済みである。
 6. StatefulSetなどで同じ識別情報の[処理](/glossary/処理/)が二重起動しない。
 7. 共有[ストレージ](/glossary/ストレージ/)、外部[API](/glossary/api/)、[データベース](/glossary/データベース/)へ古い[処理](/glossary/処理/)が再接続しない。
@@ -285,7 +285,7 @@ kubectl delete pod <Pod名> -n <名前空間> --wait=false
 kubectl wait --for=delete pod/<Pod名> -n <名前空間> --timeout=120s
 ```
 
-古い[処理](/glossary/処理/)が停止済みと確認でき、[API](/glossary/api/)上のPodだけが残った場合の強制削除は次です。
+古い[処理](/glossary/処理/)が停止済みと[確認](/glossary/確認/)でき、[API](/glossary/api/)上のPodだけが残った場合の強制削除は次です。
 
 ```bash
 kubectl delete pod <Pod名> -n <名前空間> \
@@ -307,16 +307,16 @@ kubectl patch pod <Pod名> -n <名前空間> --type=merge \
 
 ## 切り分けの順序
 
-1. `.metadata.deletionTimestamp` を確認し、削除要求が入った時刻を確定する。
-2. `.metadata.deletionGracePeriodSeconds` と `.spec.terminationGracePeriodSeconds` を確認する。
+1. `.metadata.deletionTimestamp` を[確認](/glossary/確認/)し、削除要求が入った時刻を確定する。
+2. `.metadata.deletionGracePeriodSeconds` と `.spec.terminationGracePeriodSeconds` を[確認](/glossary/確認/)する。
 3. [削除](/glossary/削除/)からの経過時間が猶予期間内なら、`preStop` と[アプリケーション](/glossary/アプリケーション/)の正常終了を待つ。
-4. Eventsと全[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)から、終了処理の停止位置を確認する。
-5. `.metadata.finalizers` を確認し、各finalizerを管理するコントローラーを特定する。
-6. Podの所有者がJobやStatefulSetなら、親[オブジェクト](/glossary/オブジェクト/)とコントローラーの状態を確認する。
-7. 配置先ノード、Lease、kubeletの到達性を確認する。
-8. Admission [Webhook](/glossary/webhook/)が削除途中の[更新](/glossary/更新/)を拒否していないか確認する。
+4. Eventsと全[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)から、終了処理の停止位置を[確認](/glossary/確認/)する。
+5. `.metadata.finalizers` を[確認](/glossary/確認/)し、各finalizerを管理するコントローラーを特定する。
+6. Podの所有者がJobやStatefulSetなら、親[オブジェクト](/glossary/オブジェクト/)とコントローラーの状態を[確認](/glossary/確認/)する。
+7. 配置先ノード、Lease、kubeletの到達性を[確認](/glossary/確認/)する。
+8. Admission [Webhook](/glossary/webhook/)が削除途中の[更新](/glossary/更新/)を拒否していないか[確認](/glossary/確認/)する。
 9. 通常の後処理を[復旧](/glossary/復旧/)させる。手元だけ待たない場合は `--wait=false` を使う。
-10. 古い[処理](/glossary/処理/)の停止または隔離を確認できた場合だけ、強制削除やfinalizer除去を検討する。
+10. 古い[処理](/glossary/処理/)の停止または隔離を[確認](/glossary/確認/)できた場合だけ、強制削除やfinalizer除去を検討する。
 
 ## 確認コマンド集
 
@@ -367,10 +367,10 @@ kubectl get validatingwebhookconfigurations,mutatingwebhookconfigurations -o yam
 
 だから、`Terminating` の解決を「強制削除[コマンド](/glossary/コマンド/)を通すこと」と定義してはいけません。解決とは、本来の終了処理がどこで止まったかを特定し、[プロセス](/glossary/プロセス/)、通信環境、[ストレージ](/glossary/ストレージ/)、外部資源の後処理を安全に完了させることです。
 
-finalizerは邪魔な文字列ではなく、その確認を削除完了より先に行わせるための印です。猶予期間も単なる待ち時間ではなく、処理中の要求や書き込みを終えるための予算です。両方を飛ばす強制削除は、原因を直す操作ではありません。
+finalizerは邪魔な文字列ではなく、その[確認](/glossary/確認/)を削除完了より先に行わせるための印です。猶予期間も単なる待ち時間ではなく、処理中の要求や書き込みを終えるための予算です。両方を飛ばす強制削除は、原因を直す操作ではありません。
 
-`Terminating` を見たら、まず `deletionTimestamp`、次に猶予期間、finalizer、配置先ノードの順で読んでください。強制削除は、その順序をすべて確認した後にだけ残る、最後の手段です。
+`Terminating` を見たら、まず `deletionTimestamp`、次に猶予期間、finalizer、配置先ノードの順で読んでください。強制削除は、その順序をすべて[確認](/glossary/確認/)した後にだけ残る、最後の手段です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -39,7 +39,7 @@ Error: Error creating load balancer: InvalidParameterValue
 
 ### 原因 1：Terraform の並列実行数が多すぎる
 
-Terraform は[デフォルト](/glossary/デフォルト/)で 10 個のリソースを同時に作成する[設定](/glossary/設定/)になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、[デフォルト](/glossary/デフォルト/)の並列度では超過しやすくなります。
+Terraform は[デフォルト](/glossary/デフォルト/)で 10 個の[リソース](/glossary/リソース/)を同時に作成する[設定](/glossary/設定/)になっており、これが [API](/glossary/api/) [レート制限](/glossary/レート制限/)に抵触します。特に [AWS](/glossary/aws/) や Google Cloud のプロバイダーでは、単位時間あたりの [API](/glossary/api/) 呼び出し数に制限があり、[デフォルト](/glossary/デフォルト/)の並列度では超過しやすくなります。
 
 **修正前：**
 
@@ -192,7 +192,7 @@ export TF_LOG_PATH=terraform.log
 terraform apply -parallelism=3
 ```
 
-生成される `terraform.log` には [API](/glossary/api/) [レスポンス](/glossary/レスポンス/)の詳細（[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)・[リトライ](/glossary/リトライ/)回数）が記録されており、どのリソース作成時に 429 [エラー](/glossary/エラー/)が発生したかを特定できます。
+生成される `terraform.log` には [API](/glossary/api/) [レスポンス](/glossary/レスポンス/)の詳細（[HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)・[リトライ](/glossary/リトライ/)回数）が記録されており、どの[リソース](/glossary/リソース/)作成時に 429 [エラー](/glossary/エラー/)が発生したかを特定できます。
 
 ### リソース分割による段階的デプロイ
 
@@ -215,4 +215,4 @@ terraform apply -target=module.compute
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -14,7 +14,7 @@ related_services: ["Kubernetes", "kubectl"]
 
 ## エラーの概要
 
-[HTTP](/glossary/http/) 503（Service Unavailable）は、[リクエスト](/glossary/リクエスト/)されたサービスが一時的に利用できない状態を示す[エラー](/glossary/エラー/)です。Minikube[環境](/glossary/環境/)では、クラスター内のPodが正常に動作していない、リソース不足、あるいはクラスター自体の起動失敗が原因で503[エラー](/glossary/エラー/)が発生します。特に[開発環境](/glossary/開発環境/)でのローカル[Kubernetes](/glossary/kubernetes/)[テスト](/glossary/テスト/)では、[設定](/glossary/設定/)ミスやリソース制限による503が頻出します。
+[HTTP](/glossary/http/) 503（Service Unavailable）は、[リクエスト](/glossary/リクエスト/)されたサービスが一時的に利用できない状態を示す[エラー](/glossary/エラー/)です。Minikube[環境](/glossary/環境/)では、クラスター内のPodが正常に動作していない、[リソース](/glossary/リソース/)不足、あるいはクラスター自体の起動失敗が原因で503[エラー](/glossary/エラー/)が発生します。特に[開発環境](/glossary/開発環境/)でのローカル[Kubernetes](/glossary/kubernetes/)[テスト](/glossary/テスト/)では、[設定](/glossary/設定/)ミスや[リソース](/glossary/リソース/)制限による503が頻出します。
 
 ## 実際のエラーメッセージ例
 
@@ -171,7 +171,7 @@ spec:
 
 ### 原因3: リソース不足またはOOMKill
 
-Minikubeに割り当てた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足している場合、PodがOOMKill（Out of Memory Kill）されて503[エラー](/glossary/エラー/)が発生します。また、ノードのリソースが枯渇するとPodのスケジューリングができず、Pending状態のままになります。
+Minikubeに割り当てた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足している場合、PodがOOMKill（Out of Memory Kill）されて503[エラー](/glossary/エラー/)が発生します。また、ノードの[リソース](/glossary/リソース/)が枯渇するとPodのスケジューリングができず、Pending状態のままになります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -365,4 +365,4 @@ $ kubectl run -it --rm debug --image=nicolaka/netshoot --restart=Never -- /bin/b
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

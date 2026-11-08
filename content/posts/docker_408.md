@@ -152,7 +152,7 @@ docker login -u <your-username> -p <your-password> myregistry.example.com
 docker push myregistry.azurecr.io/myimage:latest
 ```
 
-認証情報の有効期限を確認：
+認証情報の有効期限を[確認](/glossary/確認/)：
 
 ```bash
 # ~/.docker/config.json の確認（ファイル内容は表示しない）
@@ -192,7 +192,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
 
-[DNS](/glossary/dns/) 解決の確認：
+[DNS](/glossary/dns/) 解決の[確認](/glossary/確認/)：
 
 ```bash
 # DNS 解決が正常に動作しているか確認
@@ -206,7 +206,7 @@ docker run --rm alpine ping -c 3 registry.docker.io
 
 ### Docker Registry の接続テスト
 
-大規模[イメージ](/glossary/イメージ/)の[プッシュ](/glossary/プッシュ/)前に、[レジストリ](/glossary/レジストリ/)への基本的な接続を確認することが重要です：
+大規模[イメージ](/glossary/イメージ/)の[プッシュ](/glossary/プッシュ/)前に、[レジストリ](/glossary/レジストリ/)への基本的な接続を[確認](/glossary/確認/)することが重要です：
 
 ```bash
 # Docker Hub への接続確認
@@ -233,7 +233,7 @@ RUN apt-get update && \
 
 ### Docker Desktop のリソース制限
 
-Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当てられた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足していると、[処理](/glossary/処理/)の[遅延](/glossary/遅延/)が408[エラー](/glossary/エラー/)につながります：
+Mac と [Windows](/glossary/windows/) 上の [Docker](/glossary/docker/) Desktop では、割り当てられた[メモリ](/glossary/メモリ/)や[CPU](/glossary/cpu/)が不足していると、[処理](/glossary/処理/)の[遅延](/glossary/遅延/)が408[エラー](/glossary/エラー/)につながります：
 
 ```bash
 # Docker Desktop の設定確認（Mac の場合）
@@ -251,7 +251,7 @@ Mac と Windows 上の [Docker](/glossary/docker/) Desktop では、割り当て
 
 ### ログの確認方法
 
-[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を詳細に確認すること：
+[Docker](/glossary/docker/) Daemon の[ログ](/glossary/ログ/)を詳細に[確認](/glossary/確認/)すること：
 
 ```bash
 # Linux（systemd）の場合
@@ -287,8 +287,8 @@ docker -D push myregistry.azurecr.io/myimage:latest 2>&1 | tee docker-push.log
 - https://github.com/moby/moby/issues（キーワード："408" OR "Request Timeout"）
 - [Docker](/glossary/docker/) Community Forums：https://forums.docker.com/
 
-[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織の[システム管理者](/glossary/システム管理者/)に相談し、[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を確認させることを推奨します。
+[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)や[プロキシ](/glossary/プロキシ/)関連の特殊環境である場合は、貴組織の[システム管理者](/glossary/システム管理者/)に相談し、[ネットワーク](/glossary/ネットワーク/)[遅延](/glossary/遅延/)や[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を[確認](/glossary/確認/)させることを推奨します。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -58,7 +58,7 @@ GITHUB_TOKENの対象外である別リポジトリや組織資源への操作
 
 特に、外部フォークの失敗を直すために `pull_request_target` へ置き換え、Pull Request側の[コード](/glossary/コード/)をcheckoutして実行するのは危険です。書き込み可能な[トークン](/glossary/トークン/)やシークレットを、信頼できない[コード](/glossary/コード/)から利用できる状態にしないでください。
 
-この[エラー](/glossary/エラー/)は、次の3点を順に確認すると切り分けられます。
+この[エラー](/glossary/エラー/)は、次の3点を順に[確認](/glossary/確認/)すると切り分けられます。
 
 ```text
 何をしようとしたか   → 対応するpermission名とread/write
@@ -120,7 +120,7 @@ permissions:
 
 ## まず最初に：失敗した操作・実行起点・対象を確認する
 
-第一に、[ログ](/glossary/ログ/)中で最初に403を返した操作を確認します。後続の「[処理](/glossary/処理/)に失敗した」という行ではなく、[API](/glossary/api/)の[メソッド](/glossary/メソッド/)、[URL](/glossary/url/)、`documentation_url`、実行した `gh` [コマンド](/glossary/コマンド/)、使用した[アクション](/glossary/アクション/)の[処理](/glossary/処理/)を見ます。
+第一に、[ログ](/glossary/ログ/)中で最初に403を返した操作を[確認](/glossary/確認/)します。後続の「[処理](/glossary/処理/)に失敗した」という行ではなく、[API](/glossary/api/)の[メソッド](/glossary/メソッド/)、[URL](/glossary/url/)、`documentation_url`、実行した `gh` [コマンド](/glossary/コマンド/)、使用した[アクション](/glossary/アクション/)の[処理](/glossary/処理/)を見ます。
 
 ```text
 POST /repos/OWNER/REPO/issues/123/comments
@@ -129,7 +129,7 @@ POST /repos/OWNER/REPO/check-runs
 POST /repos/OWNER/REPO/code-scanning/sarifs
 ```
 
-[GitHub](/glossary/github/) [REST](/glossary/rest/) [API](/glossary/api/)の各[エンドポイント](/glossary/エンドポイント/)には、必要な[権限](/glossary/権限/)が記載されています。[REST APIのトラブルシューティング](https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api#resource-not-accessible)によれば、応答の `X-Accepted-GitHub-Permissions` [ヘッダー](/glossary/ヘッダー/)でも受け付ける[権限](/glossary/権限/)を確認できます。
+[GitHub](/glossary/github/) [REST](/glossary/rest/) [API](/glossary/api/)の各[エンドポイント](/glossary/エンドポイント/)には、必要な[権限](/glossary/権限/)が記載されています。[REST APIのトラブルシューティング](https://docs.github.com/en/rest/using-the-rest-api/troubleshooting-the-rest-api#resource-not-accessible)によれば、応答の `X-Accepted-GitHub-Permissions` [ヘッダー](/glossary/ヘッダー/)でも受け付ける[権限](/glossary/権限/)を[確認](/glossary/確認/)できます。
 
 ```text
 X-Accepted-GitHub-Permissions: pull_requests=write, contents=read
@@ -137,7 +137,7 @@ X-Accepted-GitHub-Permissions: pull_requests=write, contents=read
 
 複数の組み合わせを受け付ける[エンドポイント](/glossary/エンドポイント/)では、候補がセミコロンで区切られることがあります。[エラー](/glossary/エラー/)文だけから `contents: write` と決め打ちせず、失敗した[エンドポイント](/glossary/エンドポイント/)の資料または応答[ヘッダー](/glossary/ヘッダー/)を基準にします。
 
-第二に、実行の起点を確認します。ジョブログへ秘密を出さずに確認できる値は次のとおりです。
+第二に、実行の起点を[確認](/glossary/確認/)します。ジョブログへ秘密を出さずに[確認](/glossary/確認/)できる値は次のとおりです。
 
 ```yaml
 - name: Show workflow context
@@ -147,11 +147,11 @@ X-Accepted-GitHub-Permissions: pull_requests=write, contents=read
     echo "repository=$GITHUB_REPOSITORY"
 ```
 
-`pull_request` なら、Pull Requestが同じ[リポジトリ](/glossary/リポジトリ/)内の[ブランチ](/glossary/ブランチ/)から来たのか、外部フォークから来たのかを確認します。`github.actor` が `dependabot[bot]` なら、通常の利用者によるPull Requestとは権限条件が異なります。
+`pull_request` なら、Pull Requestが同じ[リポジトリ](/glossary/リポジトリ/)内の[ブランチ](/glossary/ブランチ/)から来たのか、外部フォークから来たのかを[確認](/glossary/確認/)します。`github.actor` が `dependabot[bot]` なら、通常の利用者によるPull Requestとは権限条件が異なります。
 
-第三に、[API](/glossary/api/)が操作しようとしている対象を確認します。`GITHUB_TOKEN` の[権限](/glossary/権限/)は、[ワークフロー](/glossary/ワークフロー/)を含む現在の[リポジトリ](/glossary/リポジトリ/)に限定されています。`github.repository` と[API](/glossary/api/)の `OWNER/REPO` が違う場合、現在の[ワークフロー](/glossary/ワークフロー/)へ[権限](/glossary/権限/)を追加するだけでは解決しません。
+第三に、[API](/glossary/api/)が操作しようとしている対象を[確認](/glossary/確認/)します。`GITHUB_TOKEN` の[権限](/glossary/権限/)は、[ワークフロー](/glossary/ワークフロー/)を含む現在の[リポジトリ](/glossary/リポジトリ/)に限定されています。`github.repository` と[API](/glossary/api/)の `OWNER/REPO` が違う場合、現在の[ワークフロー](/glossary/ワークフロー/)へ[権限](/glossary/権限/)を追加するだけでは解決しません。
 
-最後に、[ワークフロー](/glossary/ワークフロー/)上部、失敗したジョブ、再利用[ワークフロー](/glossary/ワークフロー/)の呼び出し元にある `permissions` をすべて確認します。
+最後に、[ワークフロー](/glossary/ワークフロー/)上部、失敗したジョブ、再利用[ワークフロー](/glossary/ワークフロー/)の呼び出し元にある `permissions` をすべて[確認](/glossary/確認/)します。
 
 ```bash
 rg -n 'permissions:|workflow_call|pull_request_target|pull_request:' .github/workflows
@@ -178,11 +178,11 @@ permissions:
   pull-requests: write
 ```
 
-Issueコメント[API](/glossary/api/)はPull Requestの会話にも使われるため、利用する[エンドポイント](/glossary/エンドポイント/)によっては `issues: write` が必要です。Pull Requestを操作するから常に `pull-requests: write` と推測せず、その[エンドポイント](/glossary/エンドポイント/)の「Fine-grained access tokens」欄を確認します。
+Issueコメント[API](/glossary/api/)はPull Requestの会話にも使われるため、利用する[エンドポイント](/glossary/エンドポイント/)によっては `issues: write` が必要です。Pull Requestを操作するから常に `pull-requests: write` と推測せず、その[エンドポイント](/glossary/エンドポイント/)の「Fine-grained access tokens」欄を[確認](/glossary/確認/)します。
 
 代表的な[対応](/glossary/対応/)は次のとおりです。
 
-| 操作 | 主に確認する[権限](/glossary/権限/) |
+| 操作 | 主に[確認](/glossary/確認/)する[権限](/glossary/権限/) |
 |---|---|
 | checkout、[コミット](/glossary/コミット/)や[ファイル](/glossary/ファイル/)の参照 | `contents: read` |
 | push、[タグ](/glossary/タグ/)、Releaseの作成 | `contents: write` |
@@ -265,7 +265,7 @@ permissions:
   issues: write
 ```
 
-一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や[承認](/glossary/承認/)を行う[処理](/glossary/処理/)は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを確認します。
+一方、[GitHub](/glossary/github/) ActionsからPull Requestの作成や[承認](/glossary/承認/)を行う[処理](/glossary/処理/)は、同じ画面にある `Allow GitHub Actions to create and approve pull requests` という別設定の影響も受けます。`pull-requests: write` だけで直らない場合は、この[設定](/glossary/設定/)と、組織・Enterprise側で変更を制限されていないかを[確認](/glossary/確認/)します。
 
 ### 原因5：外部フォークからのpull_requestで書き込みを要求している
 
@@ -362,7 +362,7 @@ steps:
 
 ### 原因8：GITHUB_TOKENでは利用できない権限または設定が必要
 
-[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を確認しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に[対応](/glossary/対応/)するものがない場合があります。また、前述のPull Request作成・[承認](/glossary/承認/)のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
+[API](/glossary/api/)資料で必要な[権限](/glossary/権限/)を[確認](/glossary/確認/)しても、`GITHUB_TOKEN` の [`permissions` で選べる項目](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions)に[対応](/glossary/対応/)するものがない場合があります。また、前述のPull Request作成・[承認](/glossary/承認/)のように、[リポジトリ](/glossary/リポジトリ/)[設定](/glossary/設定/)で別途許可が必要な操作もあります。
 
 この場合は `write-all` を追加しても解決しません。
 
@@ -390,7 +390,7 @@ GITHUB_TOKENが対象権限を持てない
 
 ### 404 Not Found
 
-対象が存在しない場合だけでなく、非公開資源の存在を見せないため、権限不足を404として返す[API](/glossary/api/)もあります。404なら[URL](/glossary/url/)、所有者名、[リポジトリ](/glossary/リポジトリ/)名、対象番号に加え、[トークン](/glossary/トークン/)が対象[リポジトリ](/glossary/リポジトリ/)へアクセスできるかを確認します。
+対象が存在しない場合だけでなく、非公開資源の存在を見せないため、権限不足を404として返す[API](/glossary/api/)もあります。404なら[URL](/glossary/url/)、所有者名、[リポジトリ](/glossary/リポジトリ/)名、対象番号に加え、[トークン](/glossary/トークン/)が対象[リポジトリ](/glossary/リポジトリ/)へアクセスできるかを[確認](/glossary/確認/)します。
 
 ### API rate limit exceededの403
 
@@ -400,11 +400,11 @@ GITHUB_TOKENが対象権限を持てない
 x-ratelimit-remaining: 0
 ```
 
-[権限](/glossary/権限/)を追加しても[レート制限](/glossary/レート制限/)は直りません。`X-Accepted-GitHub-Permissions` と `x-ratelimit-remaining` を分けて確認します。
+[権限](/glossary/権限/)を追加しても[レート制限](/glossary/レート制限/)は直りません。`X-Accepted-GitHub-Permissions` と `x-ratelimit-remaining` を分けて[確認](/glossary/確認/)します。
 
 ### GITHUB_TOKENで行った操作から次のワークフローが起動しない
 
-`GITHUB_TOKEN` を使った操作は、無限再帰を防ぐため、原則として新しい[ワークフロー](/glossary/ワークフロー/)実行を起こしません。これは[API](/glossary/api/)が403を返す権限不足とは別です。`workflow_dispatch` と `repository_dispatch` は例外です。また、Pull Requestの作成・[更新](/glossary/更新/)による `opened`、`synchronize`、`reopened` も、承認待ちの状態で実行を作る場合があります。書き込み自体は成功するのに後続[ワークフロー](/glossary/ワークフロー/)だけが始まらない場合は、現在の[イベント](/glossary/イベント/)発生規則を確認します。
+`GITHUB_TOKEN` を使った操作は、無限再帰を防ぐため、原則として新しい[ワークフロー](/glossary/ワークフロー/)実行を起こしません。これは[API](/glossary/api/)が403を返す権限不足とは別です。`workflow_dispatch` と `repository_dispatch` は例外です。また、Pull Requestの作成・[更新](/glossary/更新/)による `opened`、`synchronize`、`reopened` も、承認待ちの状態で実行を作る場合があります。書き込み自体は成功するのに後続[ワークフロー](/glossary/ワークフロー/)だけが始まらない場合は、現在の[イベント](/glossary/イベント/)発生規則を[確認](/glossary/確認/)します。
 
 ### ブランチ保護またはルールセットによる拒否
 
@@ -413,15 +413,15 @@ x-ratelimit-remaining: 0
 ## 切り分けの順序
 
 1. [ログ](/glossary/ログ/)で最初に403になった[API](/glossary/api/)、`gh` [コマンド](/glossary/コマンド/)、[アクション](/glossary/アクション/)の[処理](/glossary/処理/)を特定する。
-2. [API](/glossary/api/)資料または `X-Accepted-GitHub-Permissions` で必要な[権限](/glossary/権限/)を確認する。
-3. `GITHUB_EVENT_NAME`、`GITHUB_ACTOR`、`GITHUB_REPOSITORY` を確認する。
-4. 操作先が現在の[リポジトリ](/glossary/リポジトリ/)か、別[リポジトリ](/glossary/リポジトリ/)・組織かを確認する。
-5. [ワークフロー](/glossary/ワークフロー/)上部と失敗したジョブの `permissions` を確認する。
-6. `permissions` に列挙しなかった必要なread[権限](/glossary/権限/)が `none` になっていないか確認する。
-7. 再利用[ワークフロー](/glossary/ワークフロー/)なら、呼び出し元ジョブが必要な[権限](/glossary/権限/)を渡しているか確認する。
+2. [API](/glossary/api/)資料または `X-Accepted-GitHub-Permissions` で必要な[権限](/glossary/権限/)を[確認](/glossary/確認/)する。
+3. `GITHUB_EVENT_NAME`、`GITHUB_ACTOR`、`GITHUB_REPOSITORY` を[確認](/glossary/確認/)する。
+4. 操作先が現在の[リポジトリ](/glossary/リポジトリ/)か、別[リポジトリ](/glossary/リポジトリ/)・組織かを[確認](/glossary/確認/)する。
+5. [ワークフロー](/glossary/ワークフロー/)上部と失敗したジョブの `permissions` を[確認](/glossary/確認/)する。
+6. `permissions` に列挙しなかった必要なread[権限](/glossary/権限/)が `none` になっていないか[確認](/glossary/確認/)する。
+7. 再利用[ワークフロー](/glossary/ワークフロー/)なら、呼び出し元ジョブが必要な[権限](/glossary/権限/)を渡しているか[確認](/glossary/確認/)する。
 8. 外部フォークまたはDependabotなら、書き込み[権限](/glossary/権限/)を追加できるという前提を外す。
 9. 別[リポジトリ](/glossary/リポジトリ/)または対象外の[権限](/glossary/権限/)なら、対象へ[インストール](/glossary/インストール/)した[GitHub](/glossary/github/) Appを使う。
-10. `pull_request_target` を使う場合は、Pull Request側の[コード](/glossary/コード/)を実行しない構成か確認する。
+10. `pull_request_target` を使う場合は、Pull Request側の[コード](/glossary/コード/)を実行しない構成か[確認](/glossary/確認/)する。
 
 ## 確認コマンド集
 
@@ -431,7 +431,7 @@ x-ratelimit-remaining: 0
 rg -n 'permissions:|workflow_call|pull_request_target|pull_request:' .github/workflows
 ```
 
-Actions上で実行起点と対象[リポジトリ](/glossary/リポジトリ/)を確認します。
+Actions上で実行起点と対象[リポジトリ](/glossary/リポジトリ/)を[確認](/glossary/確認/)します。
 
 ```yaml
 - name: Show non-secret context
@@ -441,19 +441,19 @@ Actions上で実行起点と対象[リポジトリ](/glossary/リポジトリ/)�
     echo "repository=$GITHUB_REPOSITORY"
 ```
 
-`gh` が現在の[リポジトリ](/glossary/リポジトリ/)を読めるか確認します。
+`gh` が現在の[リポジトリ](/glossary/リポジトリ/)を読めるか[確認](/glossary/確認/)します。
 
 ```bash
 gh api "repos/$GITHUB_REPOSITORY"
 ```
 
-応答[ヘッダー](/glossary/ヘッダー/)を含めて確認します。
+応答[ヘッダー](/glossary/ヘッダー/)を含めて[確認](/glossary/確認/)します。
 
 ```bash
 gh api --include "repos/$GITHUB_REPOSITORY"
 ```
 
-ただし、[GET](/glossary/get/)が成功しても書き込み[権限](/glossary/権限/)があるとは限りません。403になった実際の[エンドポイント](/glossary/エンドポイント/)の資料と応答を確認します。確認のためだけにIssueやコメントを作成するなど、状態を変更する[API](/glossary/api/)を実行しないでください。
+ただし、[GET](/glossary/get/)が成功しても書き込み[権限](/glossary/権限/)があるとは限りません。403になった実際の[エンドポイント](/glossary/エンドポイント/)の資料と応答を[確認](/glossary/確認/)します。[確認](/glossary/確認/)のためだけにIssueやコメントを作成するなど、状態を変更する[API](/glossary/api/)を実行しないでください。
 
 [ワークフロー](/glossary/ワークフロー/)で `gh` を使う場合は、[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)へ渡します。
 
@@ -498,4 +498,4 @@ echo "$GH_TOKEN"
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

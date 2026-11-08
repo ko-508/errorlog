@@ -43,7 +43,7 @@ ValidationError(Deployment.spec.template.spec.containers[0].image): string lengt
 
 ### 原因1: YAML構文エラーまたはフィールド型の不一致
 
-**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型[フィールド](/glossary/フィールド/)を文字列で指定したり、[オブジェクト](/glossary/オブジェクト/)型[フィールド](/glossary/フィールド/)にスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号やリソース制限でこの問題が頻発します。
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)マニフェストファイルで、数値型[フィールド](/glossary/フィールド/)を文字列で指定したり、[オブジェクト](/glossary/オブジェクト/)型[フィールド](/glossary/フィールド/)にスカラー値を渡したりするときに発生します。特に[ポート](/glossary/ポート/)番号や[リソース](/glossary/リソース/)制限でこの問題が頻発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
@@ -86,7 +86,7 @@ spec:
 
 ### 原因2: 必須フィールドの欠落
 
-**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)リソースの必須[フィールド](/glossary/フィールド/)（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限のリソース定義すら受け付けません。
+**なぜ発生するか：** [Kubernetes](/glossary/kubernetes/)[リソース](/glossary/リソース/)の必須[フィールド](/glossary/フィールド/)（例：`metadata.name`、[コンテナ](/glossary/コンテナ/)の`image`）が定義されていない場合に発生します。[API](/glossary/api/)[サーバー](/glossary/サーバー/)は最小限の[リソース](/glossary/リソース/)定義すら受け付けません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
@@ -183,7 +183,7 @@ EOF
 
 ### 原因4: セレクタラベルの不一致
 
-**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod [テンプレート](/glossary/テンプレート/)の`labels`と一致していない場合に発生します。これにより、リソースが自身が管理すべきポッドを識別できず、検証[エラー](/glossary/エラー/)が発生します。
+**なぜ発生するか：** Deployment、Service、StatefulSetなどで定義した`selector`のラベルが、Pod [テンプレート](/glossary/テンプレート/)の`labels`と一致していない場合に発生します。これにより、[リソース](/glossary/リソース/)が自身が管理すべきポッドを識別できず、検証[エラー](/glossary/エラー/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 ```yaml
@@ -226,14 +226,14 @@ spec:
 ## Kubernetes固有の注意点
 
 ### ServiceAccountとRBAC設定
-400[エラー](/glossary/エラー/)は[認可](/glossary/認可/)[エラー](/glossary/エラー/)（403）ではなく検証[エラー](/glossary/エラー/)ですが、ServiceAccountが適切に[設定](/glossary/設定/)されていない場合、リソース作成時に引き続き400が発生することがあります。`kubectl auth can-i`[コマンド](/glossary/コマンド/)で権限確認を併せて実施してください。
+400[エラー](/glossary/エラー/)は[認可](/glossary/認可/)[エラー](/glossary/エラー/)（403）ではなく検証[エラー](/glossary/エラー/)ですが、ServiceAccountが適切に[設定](/glossary/設定/)されていない場合、[リソース](/glossary/リソース/)作成時に引き続き400が発生することがあります。`kubectl auth can-i`[コマンド](/glossary/コマンド/)で権限確認を併せて実施してください。
 
 ```bash
 kubectl auth can-i create deployments --as=system:serviceaccount:default:my-sa -n default
 ```
 
 ### Namespace指定の欠落
-リソース定義で`metadata.namespace`を明示しない場合、[デフォルト](/glossary/デフォルト/)[Namespace](/glossary/namespace/)に作成されます。別の[Namespace](/glossary/namespace/)に配置する場合は、明示的に指定するか、`-n`フラグを使用してください。
+[リソース](/glossary/リソース/)定義で`metadata.namespace`を明示しない場合、[デフォルト](/glossary/デフォルト/)[Namespace](/glossary/namespace/)に作成されます。別の[Namespace](/glossary/namespace/)に配置する場合は、明示的に指定するか、`-n`フラグを使用してください。
 
 ```bash
 kubectl apply -f deployment.yaml -n production
@@ -268,7 +268,7 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 ### 公式ドキュメントへの参照
 
-- **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[仕様](/glossary/仕様/)** - https://kubernetes.io/docs/reference/kubernetes-api/ で各リソースの[スキーマ](/glossary/スキーマ/)定義を確認
+- **[Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)[仕様](/glossary/仕様/)** - https://kubernetes.io/docs/reference/kubernetes-api/ で各[リソース](/glossary/リソース/)の[スキーマ](/glossary/スキーマ/)定義を[確認](/glossary/確認/)
 - **[API](/glossary/api/)[サーバー](/glossary/サーバー/)の検証ルール** - https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#validation
 - **廃止[API](/glossary/api/)[バージョン](/glossary/バージョン/)のマイグレーション** - https://kubernetes.io/docs/reference/using-api/deprecation-guide/
 
@@ -282,4 +282,4 @@ kubectl apply -f deployment.yaml --dry-run=client -o yaml
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

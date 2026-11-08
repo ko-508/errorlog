@@ -64,11 +64,11 @@ npm config get legacy-peer-deps
 npm config get force
 ```
 
-npm 7からpeer dependencyが既定で自動[インストール](/glossary/インストール/)されるようになった。npmを変えたことで、以前は通った組合せが解決に失敗することがある。Node.jsの版だけで判断せず、実際のnpmの版を確認する。
+npm 7からpeer dependencyが既定で自動[インストール](/glossary/インストール/)されるようになった。npmを変えたことで、以前は通った組合せが解決に失敗することがある。Node.jsの版だけで判断せず、実際のnpmの版を[確認](/glossary/確認/)する。
 
 ただし「npm 7以降ではすべてのpeer競合で停止する」という説明は正確ではない。既定では、深い依存関係の競合を非peerの要求から解決し、警告で進む場合がある。`strict-peer-deps=true`は、そうした推測で進められる競合も失敗にする[設定](/glossary/設定/)である。
 
-現行の[npm CLI内のplace-dep.js](https://github.com/npm/cli/blob/latest/workspaces/arborist/lib/place-dep.js)でも、配置できないときにforce・root/workspace由来か・strict[設定](/glossary/設定/)を確認し、[エラー](/glossary/エラー/)と警告を分けている。[アーカイブ](/glossary/アーカイブ/)済みのnpm/arboristの[行番号](/glossary/行番号/)を現行実装へそのまま当てはめない。
+現行の[npm CLI内のplace-dep.js](https://github.com/npm/cli/blob/latest/workspaces/arborist/lib/place-dep.js)でも、配置できないときにforce・root/workspace由来か・strict[設定](/glossary/設定/)を[確認](/glossary/確認/)し、[エラー](/glossary/エラー/)と警告を分けている。[アーカイブ](/glossary/アーカイブ/)済みのnpm/arboristの[行番号](/glossary/行番号/)を現行実装へそのまま当てはめない。
 
 ## 互換性のあるパッケージの版に揃える
 
@@ -83,7 +83,7 @@ npm explain host-lib
 
 `npm view`は通常[レジストリ](/glossary/レジストリ/)へ問い合わせる。`npm ls`と`npm explain`は[インストール](/glossary/インストール/)済みツリーの調査に使うため、初回[インストール](/glossary/インストール/)前や途中失敗後には十分な情報がないこともある。`npm ls`は不整合を表示して終了[コード](/glossary/コード/)が非0になる場合がある。
 
-要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を[更新](/glossary/更新/)する。hostを変更するなら、ほかの[プラグイン](/glossary/プラグイン/)のpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを[更新](/glossary/更新/)し、差分・ビルド・[テスト](/glossary/テスト/)を確認する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
+要求元の新版が現在のhostに[対応](/glossary/対応/)しているなら、要求元を[更新](/glossary/更新/)する。hostを変更するなら、ほかの[プラグイン](/glossary/プラグイン/)のpeer範囲も満たす版を選ぶ。変更後は `npm install` でlockfileを[更新](/glossary/更新/)し、差分・ビルド・[テスト](/glossary/テスト/)を[確認](/glossary/確認/)する。devDependenciesなら[インストール](/glossary/インストール/)時の `-D` も維持する。
 
 lockfile[削除](/glossary/削除/)や[キャッシュ](/glossary/キャッシュ/)[削除](/glossary/削除/)から始めても、互いに交わらない要求範囲は直らない。lockfileを消すと関係のない依存まで[更新](/glossary/更新/)される可能性がある。
 
@@ -109,7 +109,7 @@ npm install --legacy-peer-deps
 
 `overrides`は依存ツリーの[パッケージ](/glossary/パッケージ/)を指定した版などへ置き換える仕組みであり、置き換えた先の[互換性](/glossary/互換性/)を証明するものではない。webpack 3を要求する[プラグイン](/glossary/プラグイン/)へwebpack 4を指定しても、その[プラグイン](/glossary/プラグイン/)が4に[対応](/glossary/対応/)するようにはならない。
 
-[npmのpackage.json仕様](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides)には、直接依存を上書きする場合は依存指定とoverrideの指定を一致させる制約もある。違う指定を置くと `EOVERRIDE` の原因になる。rootのoverridesで何を置き換えるのか確認してから使う。
+[npmのpackage.json仕様](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#overrides)には、直接依存を上書きする場合は依存指定とoverrideの指定を一致させる制約もある。違う指定を置くと `EOVERRIDE` の原因になる。rootのoverridesで何を置き換えるのか[確認](/glossary/確認/)してから使う。
 
 `--legacy-peer-deps`でlockfileを作った場合、CIの `npm ci` にも同じ[設定](/glossary/設定/)が必要になる。[npm ciの公式説明](https://docs.npmjs.com/cli/v11/commands/npm-ci)がこの条件を案内している。
 
@@ -117,22 +117,22 @@ npm install --legacy-peer-deps
 npm ci --legacy-peer-deps
 ```
 
-これは回避策を採用した[プロジェクト](/glossary/プロジェクト/)向けの例である。CIだけ通すために追加する前に、[開発環境](/glossary/開発環境/)で使った[設定](/glossary/設定/)とlockfileを確認する。`npm ci`は既存のnode_modulesを[削除](/glossary/削除/)してから[インストール](/glossary/インストール/)するため、調査だけの目的では実行しない。
+これは回避策を採用した[プロジェクト](/glossary/プロジェクト/)向けの例である。CIだけ通すために追加する前に、[開発環境](/glossary/開発環境/)で使った[設定](/glossary/設定/)とlockfileを[確認](/glossary/確認/)する。`npm ci`は既存のnode_modulesを[削除](/glossary/削除/)してから[インストール](/glossary/インストール/)するため、調査だけの目的では実行しない。
 
 ## 補足：似ているが別のエラー
 
-`npm warn ERESOLVE overriding peer dependency`は、競合を警告として扱って解決を続けた表示である。その行だけでは[コマンド](/glossary/コマンド/)全体の成功・失敗を判断できない。最後の終了結果も確認する。
+`npm warn ERESOLVE overriding peer dependency`は、競合を警告として扱って解決を続けた表示である。その行だけでは[コマンド](/glossary/コマンド/)全体の成功・失敗を判断できない。最後の終了結果も[確認](/glossary/確認/)する。
 
 `EBADENGINE`はNode.jsやnpmの版とengines条件の不一致、`EBADPLATFORM`は[OS](/glossary/os/)・[CPU](/glossary/cpu/)などの条件の不一致を示す。peerの要求を無視するフラグで一律に直す問題ではない。
 
-`EOVERRIDE`はoverridesの指定の問題、`ETARGET`は要求を満たす公開版が見つからない場合などに出る。`Found`に正常な版が表示されない場合は、公開版や取得条件の確認も必要になる。
+`EOVERRIDE`はoverridesの指定の問題、`ETARGET`は要求を満たす公開版が見つからない場合などに出る。`Found`に正常な版が表示されない場合は、公開版や取得条件の[確認](/glossary/確認/)も必要になる。
 
 Yarnやpnpmへ変更する場合も、npmの設定名や既定動作をそのまま当てはめない。パッケージマネージャーの変更は[互換性](/glossary/互換性/)のある版を選ぶ作業の代わりにはならない。
 
 ## 解決手順のまとめ
 
-`Found:`の版と、`peer ... from ...`の要求範囲を比べ、要求元と要求先を[互換性](/glossary/互換性/)のある版に揃える。npmの版とstrict[設定](/glossary/設定/)も確認する。回避が必要な場合はlegacy-peer-depsとforceの違いを理解し、lockfile作成時とCIの[設定](/glossary/設定/)を揃えて、ビルド・[テスト](/glossary/テスト/)で確認する。
+`Found:`の版と、`peer ... from ...`の要求範囲を比べ、要求元と要求先を[互換性](/glossary/互換性/)のある版に揃える。npmの版とstrict[設定](/glossary/設定/)も[確認](/glossary/確認/)する。回避が必要な場合はlegacy-peer-depsとforceの違いを理解し、lockfile作成時とCIの[設定](/glossary/設定/)を揃えて、ビルド・[テスト](/glossary/テスト/)で[確認](/glossary/確認/)する。
 
-本記事の[コマンド](/glossary/コマンド/)は調査・対処の例であり、外部[パッケージ](/glossary/パッケージ/)を使った[インストール](/glossary/インストール/)結果は未検証です。公式仕様・現行ソース・過去の[GitHub](/glossary/github/)報告を2026年10月9日に確認しました。
+本記事の[コマンド](/glossary/コマンド/)は調査・対処の例であり、外部[パッケージ](/glossary/パッケージ/)を使った[インストール](/glossary/インストール/)結果は未検証です。公式仕様・現行ソース・過去の[GitHub](/glossary/github/)報告を2026年10月9日に[確認](/glossary/確認/)しました。
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

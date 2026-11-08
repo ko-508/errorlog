@@ -16,7 +16,7 @@ trend_incident: false
 
 ## 冒頭まとめ
 
-`git status`や`git add`で次の[エラー](/glossary/エラー/)が出たら、まず[コマンド](/glossary/コマンド/)を実行している場所を確認します。
+`git status`や`git add`で次の[エラー](/glossary/エラー/)が出たら、まず[コマンド](/glossary/コマンド/)を実行している場所を[確認](/glossary/確認/)します。
 
 ```text
 fatal: not a git repository (or any of the parent directories): .git
@@ -29,7 +29,7 @@ cd repo
 git status
 ```
 
-`repo`は実際の保存先に置き換えます。既存の[リポジトリ](/glossary/リポジトリ/)を使うつもりなら、[エラー](/glossary/エラー/)を消すためにその場で`git init`するのではなく、正しい場所を確認してください。
+`repo`は実際の保存先に置き換えます。既存の[リポジトリ](/glossary/リポジトリ/)を使うつもりなら、[エラー](/glossary/エラー/)を消すためにその場で`git init`するのではなく、正しい場所を[確認](/glossary/確認/)してください。
 
 ## Gitは現在の場所から親へ探す
 
@@ -43,28 +43,28 @@ git status
 
 ## 現在の場所とclone先を確認する
 
-macOS・[Linux](/glossary/linux/)・[Git](/glossary/git/) Bashでは、次で現在の場所と隠し[ファイル](/glossary/ファイル/)を確認できます。
+macOS・[Linux](/glossary/linux/)・[Git](/glossary/git/) Bashでは、次で現在の場所と隠し[ファイル](/glossary/ファイル/)を[確認](/glossary/確認/)できます。
 
 ```bash
 pwd
 ls -a
 ```
 
-Windowsの[コマンドプロンプト](/glossary/コマンドプロンプト/)では次を使います。
+[Windows](/glossary/windows/)の[コマンドプロンプト](/glossary/コマンドプロンプト/)では次を使います。
 
 ```bat
 cd
 dir /a
 ```
 
-[リポジトリ](/glossary/リポジトリ/)と思われる場所へ移動し、[Git](/glossary/git/)自身に確認させます。
+[リポジトリ](/glossary/リポジトリ/)と思われる場所へ移動し、[Git](/glossary/git/)自身に[確認](/glossary/確認/)させます。
 
 ```bash
 git rev-parse --is-inside-work-tree
 git rev-parse --show-toplevel
 ```
 
-[rev-parseの公式文書](https://git-scm.com/docs/git-rev-parse)によると、最初の指定は作業[ディレクトリ](/glossary/ディレクトリ/)内なら`true`を表示し、後の指定は作業[ディレクトリ](/glossary/ディレクトリ/)の最上位を表示します。今回の[Git](/glossary/git/) 2.51.1による確認では、[リポジトリ](/glossary/リポジトリ/)外の最初の[コマンド](/glossary/コマンド/)は、冒頭の[エラー](/glossary/エラー/)で終了[コード](/glossary/コード/)128となりました。
+[rev-parseの公式文書](https://git-scm.com/docs/git-rev-parse)によると、最初の指定は作業[ディレクトリ](/glossary/ディレクトリ/)内なら`true`を表示し、後の指定は作業[ディレクトリ](/glossary/ディレクトリ/)の最上位を表示します。今回の[Git](/glossary/git/) 2.51.1による[確認](/glossary/確認/)では、[リポジトリ](/glossary/リポジトリ/)外の最初の[コマンド](/glossary/コマンド/)は、冒頭の[エラー](/glossary/エラー/)で終了[コード](/glossary/コード/)128となりました。
 
 [cloneの公式文書](https://git-scm.com/docs/git-clone)は、新しい[ディレクトリ](/glossary/ディレクトリ/)に[リポジトリ](/glossary/リポジトリ/)を複製する操作を説明しています。保存先の名前を明示すると、移動先も分かりやすくなります。
 
@@ -74,7 +74,7 @@ cd repo
 git status
 ```
 
-`<repository-url>`は実際の[URL](/glossary/url/)へ置き換えます。cloneが失敗していた場合は、その出力を先に確認してください。
+`<repository-url>`は実際の[URL](/glossary/url/)へ置き換えます。cloneが失敗していた場合は、その出力を先に[確認](/glossary/確認/)してください。
 
 場所を移動せずに指定する方法もあります。
 
@@ -82,9 +82,9 @@ git status
 git -C repo status
 ```
 
-`-C`は、指定した場所で[Git](/glossary/git/)を実行するための指定です。エディターや自動処理から呼んでいる場合も、実際の作業場所がどこになっているかを確認します。
+`-C`は、指定した場所で[Git](/glossary/git/)を実行するための指定です。エディターや自動処理から呼んでいる場合も、実際の作業場所がどこになっているかを[確認](/glossary/確認/)します。
 
-[GitHub DesktopのIssue #11413](https://github.com/desktop/desktop/issues/11413)には、指定した親[ディレクトリ](/glossary/ディレクトリ/)ではなく、その下の[リポジトリ](/glossary/リポジトリ/)名の[ディレクトリ](/glossary/ディレクトリ/)に`.git`が作られたという報告があります。今回の[CLI](/glossary/cli/)の全文と同じ表示の報告ではありませんが、保存先の思い違いを確認する関連事例です。
+[GitHub DesktopのIssue #11413](https://github.com/desktop/desktop/issues/11413)には、指定した親[ディレクトリ](/glossary/ディレクトリ/)ではなく、その下の[リポジトリ](/glossary/リポジトリ/)名の[ディレクトリ](/glossary/ディレクトリ/)に`.git`が作られたという報告があります。今回の[CLI](/glossary/cli/)の全文と同じ表示の報告ではありませんが、保存先の思い違いを[確認](/glossary/確認/)する関連事例です。
 
 ## 新規管理とZIPからの取得を区別する
 
@@ -100,23 +100,23 @@ git status
 
 [GitHub](/glossary/github/)のDownload [ZIP](/glossary/zip/)で取得したものも、cloneとは異なります。[GitHubのアーカイブ公式説明](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives)では、[ZIP](/glossary/zip/)などの[アーカイブ](/glossary/アーカイブ/)は[ファイル](/glossary/ファイル/)のスナップショットで、[リポジトリ](/glossary/リポジトリ/)の履歴を含まないと説明しています。
 
-元の履歴と接続して作業したいなら、別の新しい場所へcloneします。[ZIP](/glossary/zip/)側や元の作業[ディレクトリ](/glossary/ディレクトリ/)に変更がある場合は、それを残したまま、必要な[ファイル](/glossary/ファイル/)をclone先へ移し、差分を確認してください。`.git`を上書きするコピーは行いません。
+元の履歴と接続して作業したいなら、別の新しい場所へcloneします。[ZIP](/glossary/zip/)側や元の作業[ディレクトリ](/glossary/ディレクトリ/)に変更がある場合は、それを残したまま、必要な[ファイル](/glossary/ファイル/)をclone先へ移し、差分を[確認](/glossary/確認/)してください。`.git`を上書きするコピーは行いません。
 
 ## .gitがあっても認識されない場合
 
-空の`.git`[ディレクトリ](/glossary/ディレクトリ/)を作るだけでは、[リポジトリ](/glossary/リポジトリ/)にはなりません。今回の確認でも、空の`.git`だけがある場所の`git status`は同じ[エラー](/glossary/エラー/)になりました。
+空の`.git`[ディレクトリ](/glossary/ディレクトリ/)を作るだけでは、[リポジトリ](/glossary/リポジトリ/)にはなりません。今回の[確認](/glossary/確認/)でも、空の`.git`だけがある場所の`git status`は同じ[エラー](/glossary/エラー/)になりました。
 
-[Git 2.51.1の探索実装](https://github.com/git/git/blob/v2.51.1/setup.c)には、HEADの書式、[オブジェクト](/glossary/オブジェクト/)の保存先、参照情報を確認する[処理](/glossary/処理/)があります。ただし、それらが必ず同じ`.git`の直下に全部あるとは限りません。
+[Git 2.51.1の探索実装](https://github.com/git/git/blob/v2.51.1/setup.c)には、HEADの書式、[オブジェクト](/glossary/オブジェクト/)の保存先、参照情報を[確認](/glossary/確認/)する[処理](/glossary/処理/)があります。ただし、それらが必ず同じ`.git`の直下に全部あるとは限りません。
 
 [リポジトリ構成の公式文書](https://git-scm.com/docs/gitrepository-layout)によると、`.git`は[ディレクトリ](/glossary/ディレクトリ/)ではなく、実際の管理情報の場所を示す[ファイル](/glossary/ファイル/)の場合もあります。worktreeやsubmoduleで使われる構成です。今回作成したworktreeでは、`.git`が[ファイル](/glossary/ファイル/)でも`git status`は成功しました。
 
-したがって、`.git`が[ファイル](/glossary/ファイル/)だから壊れていると判断して[削除](/glossary/削除/)しないでください。参照先へアクセスできるか、元の[リポジトリ](/glossary/リポジトリ/)を移動していないかを確認します。
+したがって、`.git`が[ファイル](/glossary/ファイル/)だから壊れていると判断して[削除](/glossary/削除/)しないでください。参照先へアクセスできるか、元の[リポジトリ](/glossary/リポジトリ/)を移動していないかを[確認](/glossary/確認/)します。
 
 以前は正常だったのに管理情報がなくなっている場合は、作業[ファイル](/glossary/ファイル/)と残っている管理情報を先に保全します。リモートから別の場所へcloneすれば、そのリモートにある履歴は取得できますが、未pushの[コミット](/glossary/コミット/)まで戻るとは限りません。それらは[バックアップ](/glossary/バックアップ/)や元の管理情報からの[復旧](/glossary/復旧/)が必要です。
 
 ## 環境変数と探索範囲を確認する
 
-正しい場所なのに見つからない場合は、[Git](/glossary/git/)の探索に関係する[環境変数](/glossary/環境変数/)を確認します。Windowsの[コマンドプロンプト](/glossary/コマンドプロンプト/)なら、次で該当する[変数](/glossary/変数/)を表示できます。
+正しい場所なのに見つからない場合は、[Git](/glossary/git/)の探索に関係する[環境変数](/glossary/環境変数/)を[確認](/glossary/確認/)します。[Windows](/glossary/windows/)の[コマンドプロンプト](/glossary/コマンドプロンプト/)なら、次で該当する[変数](/glossary/変数/)を表示できます。
 
 ```bat
 set GIT_
@@ -130,26 +130,26 @@ printf '%s\n' "$GIT_DIR" "$GIT_WORK_TREE" "$GIT_CEILING_DIRECTORIES" "$GIT_DISCO
 
 [Gitの環境変数の公式説明](https://git-scm.com/docs/git)に、それぞれの用途があります。
 
-| [変数](/glossary/変数/) | 確認する内容 |
+| [変数](/glossary/変数/) | [確認](/glossary/確認/)する内容 |
 |---|---|
 | `GIT_DIR` | 通常の探索先ではなく、指定した管理情報の場所を使っていないか |
 | `GIT_WORK_TREE` | 作業[ディレクトリ](/glossary/ディレクトリ/)の場所を別に指定していないか |
 | `GIT_CEILING_DIRECTORIES` | 親へたどる範囲を制限していないか |
 | `GIT_DISCOVERY_ACROSS_FILESYSTEM` | ファイルシステムの境界を越える探索を許可するか |
 
-意図せず残った値か、道具が必要として[設定](/glossary/設定/)した値かを確認します。全変数をまとめて[削除](/glossary/削除/)するのではなく、誤っている指定だけを[修正](/glossary/修正/)してください。
+意図せず残った値か、道具が必要として[設定](/glossary/設定/)した値かを[確認](/glossary/確認/)します。全変数をまとめて[削除](/glossary/削除/)するのではなく、誤っている指定だけを[修正](/glossary/修正/)してください。
 
 `GIT_CEILING_DIRECTORIES`は、指定した親[ディレクトリ](/glossary/ディレクトリ/)へ上がる探索を制限します。現在の[ディレクトリ](/glossary/ディレクトリ/)自体や、明示した`GIT_DIR`を除外する指定ではありません。今回も、子[ディレクトリ](/glossary/ディレクトリ/)から親の[リポジトリ](/glossary/リポジトリ/)へ到達する探索を制限すると、同じ拒否を再現できました。
 
 ## 似たエラーの文言で確認先を分ける
 
-`GIT_DIR`に存在しない場所を指定した確認では、次の別の文言になりました。
+`GIT_DIR`に存在しない場所を指定した[確認](/glossary/確認/)では、次の別の文言になりました。
 
 ```text
 fatal: not a git repository: '/path/to/missing'
 ```
 
-この場合は、現在の場所だけでなく、明示された管理情報の[パス](/glossary/パス/)を確認します。
+この場合は、現在の場所だけでなく、明示された管理情報の[パス](/glossary/パス/)を[確認](/glossary/確認/)します。
 
 次の文言なら、探索がファイルシステムの境界で停止しています。
 
@@ -166,12 +166,12 @@ Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
 
 ## 解決手順のまとめ
 
-現在の場所とclone先を確認し、[リポジトリ](/glossary/リポジトリ/)へ移動するか`git -C`で指定します。認識できたら、`git rev-parse --show-toplevel`で対象が意図した場所か確認してください。
+現在の場所とclone先を[確認](/glossary/確認/)し、[リポジトリ](/glossary/リポジトリ/)へ移動するか`git -C`で指定します。認識できたら、`git rev-parse --show-toplevel`で対象が意図した場所か[確認](/glossary/確認/)してください。
 
 新しく管理を始める場合だけ`git init`を使います。[ZIP](/glossary/zip/)取得や管理情報の欠損から既存の履歴を使いたい場合は、元の変更を残し、cloneや[バックアップ](/glossary/バックアップ/)からの[復旧](/glossary/復旧/)を検討します。
 
-この記事では[Linux](/glossary/linux/)上の[Git](/glossary/git/) 2.51.1で、[リポジトリ](/glossary/リポジトリ/)外、clone後の親[ディレクトリ](/glossary/ディレクトリ/)、子[ディレクトリ](/glossary/ディレクトリ/)からの探索、空の`.git`、不正な`GIT_DIR`、探索範囲の制限、正常なworktreeの`.git`[ファイル](/glossary/ファイル/)を確認しました。Windowsでの[コマンド](/glossary/コマンド/)実行と、実際のマウント境界での再現は未検証です。
+この記事では[Linux](/glossary/linux/)上の[Git](/glossary/git/) 2.51.1で、[リポジトリ](/glossary/リポジトリ/)外、clone後の親[ディレクトリ](/glossary/ディレクトリ/)、子[ディレクトリ](/glossary/ディレクトリ/)からの探索、空の`.git`、不正な`GIT_DIR`、探索範囲の制限、正常なworktreeの`.git`[ファイル](/glossary/ファイル/)を[確認](/glossary/確認/)しました。[Windows](/glossary/windows/)での[コマンド](/glossary/コマンド/)実行と、実際のマウント境界での再現は未検証です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

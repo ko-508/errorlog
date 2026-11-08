@@ -16,7 +16,7 @@ top_queries:
 
 ## エラーの概要
 
-Firebase の 401 [エラー](/glossary/エラー/)は、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。[ID](/glossary/id/)[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの[設定](/glossary/設定/)ミスなど、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合、認証周りの[設定](/glossary/設定/)を段階的に確認することで、ほとんどの場合は短時間で解決できます。
+Firebase の 401 [エラー](/glossary/エラー/)は、Firebase[サーバー](/glossary/サーバー/)への[リクエスト](/glossary/リクエスト/)に対して「認証情報が不足している、または無効である」という応答です。[ID](/glossary/id/)[トークン](/glossary/トークン/)の有効期限切れ、[サービスアカウント](/glossary/サービスアカウント/)認証鍵の誤り、セキュリティルールの[設定](/glossary/設定/)ミスなど、複数の原因が考えられます。この[エラー](/glossary/エラー/)が発生した場合、認証周りの[設定](/glossary/設定/)を段階的に[確認](/glossary/確認/)することで、ほとんどの場合は短時間で解決できます。
 
 ## 実際のエラーメッセージ例
 
@@ -109,7 +109,7 @@ doc = db.collection('users').document('user1').get()
 
 ### 原因 3: セキュリティルールが拒否設定になっている
 
-Cloud Firestore / Realtime Database のセキュリティルールが、そのユーザーに対して読み取り/書き込みを禁止していると 401 が返されます。
+Cloud Firestore / Realtime Database のセキュリティルールが、その[ユーザー](/glossary/ユーザー/)に対して読み取り/書き込みを禁止していると 401 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きるルール）**
 
@@ -168,7 +168,7 @@ docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \
 
 ### Cloud Firestore / Realtime Database のセキュリティルール検証
 
-セキュリティルールの構文[エラー](/glossary/エラー/)や論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定のユーザー[ID](/glossary/id/) と操作（read/write）の組み合わせで実際にアクセス可能か[テスト](/glossary/テスト/)してください。
+セキュリティルールの構文[エラー](/glossary/エラー/)や論理ミスは 401 として表面化します。Firebase Console の「ルール」タブでシミュレーター機能を使い、特定の[ユーザー](/glossary/ユーザー/)[ID](/glossary/id/) と操作（read/write）の組み合わせで実際にアクセス可能か[テスト](/glossary/テスト/)してください。
 
 ```
 // Firebase Console のシミュレーター実行例
@@ -180,7 +180,7 @@ docker run -e GOOGLE_APPLICATION_CREDENTIALS=/app/serviceAccountKey.json \
 
 ### Firebase Authentication の状態確認
 
-[クライアント](/glossary/クライアント/)側でユーザーが正しく[認証](/glossary/認証/)されているか確認します。[認証](/glossary/認証/)されていないユーザーでも [SDK](/glossary/sdk/) が[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してしまい、401 が返される場合があります。
+[クライアント](/glossary/クライアント/)側で[ユーザー](/glossary/ユーザー/)が正しく[認証](/glossary/認証/)されているか[確認](/glossary/確認/)します。[認証](/glossary/認証/)されていない[ユーザー](/glossary/ユーザー/)でも [SDK](/glossary/sdk/) が[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してしまい、401 が返される場合があります。
 
 ```javascript
 firebase.auth().onAuthStateChanged((user) => {
@@ -211,7 +211,7 @@ curl -H "Authorization:Bearer <ID_TOKEN>" \
 
 ### ログの確認方法
 
-Firebase Console の「[ログ](/glossary/ログ/)」セクション、または Cloud Logging で詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を確認します。
+Firebase Console の「[ログ](/glossary/ログ/)」セクション、または Cloud Logging で詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)します。
 
 ```bash
 # gcloud CLI で Firestore アクセスログを確認
@@ -248,4 +248,4 @@ Firebase コミュニティ StackOverflow の `firebase` [タグ](/glossary/タ�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

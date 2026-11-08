@@ -111,15 +111,15 @@ GitLabで定義されたカスタムフィールドやEpic、ボード、パイ�
 
 ## ツール固有の注意点
 
-GitLabでは422[エラー](/glossary/エラー/)が返る際、レスポンスボディの`errors`[フィールド](/glossary/フィールド/)に検証に失敗した[フィールド](/glossary/フィールド/)と理由が詳細に記載されます。[API](/glossary/api/)利用時は必ずこの[フィールド](/glossary/フィールド/)を確認して、具体的にどの[フィールド](/glossary/フィールド/)が問題かを特定することが重要です。
+GitLabでは422[エラー](/glossary/エラー/)が返る際、レスポンスボディの`errors`[フィールド](/glossary/フィールド/)に検証に失敗した[フィールド](/glossary/フィールド/)と理由が詳細に記載されます。[API](/glossary/api/)利用時は必ずこの[フィールド](/glossary/フィールド/)を[確認](/glossary/確認/)して、具体的にどの[フィールド](/glossary/フィールド/)が問題かを特定することが重要です。
 
-[ブラウザ](/glossary/ブラウザ/)のデベロッパーツール（F12[キー](/glossary/キー/)）のネットワークタブで、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を確認すれば、[エラー](/glossary/エラー/)詳細を即座に把握できます。また、グループやプロジェクトレベルでカスタム検証ルールが[設定](/glossary/設定/)されている場合、GitLab管理画面の「グループ[設定](/glossary/設定/)」→「詳細」または「[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)」から確認可能です。
+[ブラウザ](/glossary/ブラウザ/)のデベロッパーツール（F12[キー](/glossary/キー/)）のネットワークタブで、失敗した[リクエスト](/glossary/リクエスト/)の[レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)すれば、[エラー](/glossary/エラー/)詳細を即座に把握できます。また、グループやプロジェクトレベルでカスタム検証ルールが[設定](/glossary/設定/)されている場合、GitLab管理画面の「グループ[設定](/glossary/設定/)」→「詳細」または「[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)」から確認可能です。
 
-マージリクエストテンプレートが[設定](/glossary/設定/)されている[プロジェクト](/glossary/プロジェクト/)では、[テンプレート](/glossary/テンプレート/)の必須[フィールド](/glossary/フィールド/)を満たさないと422[エラー](/glossary/エラー/)が発生することもあります。この場合、[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)の「マージリクエスト」セクションで[テンプレート](/glossary/テンプレート/)内容を確認してください。
+マージリクエストテンプレートが[設定](/glossary/設定/)されている[プロジェクト](/glossary/プロジェクト/)では、[テンプレート](/glossary/テンプレート/)の必須[フィールド](/glossary/フィールド/)を満たさないと422[エラー](/glossary/エラー/)が発生することもあります。この場合、[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)の「マージリクエスト」セクションで[テンプレート](/glossary/テンプレート/)内容を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
-GitLabの[API](/glossary/api/)[レスポンス](/glossary/レスポンス/)に記載されている`errors`[フィールド](/glossary/フィールド/)の内容をそのまま確認することで、検証ルールの具体的な[要件](/glossary/要件/)を明確にできます。以下の[コマンド](/glossary/コマンド/)で[JSON](/glossary/json/)整形済みの[エラー](/glossary/エラー/)詳細を確認してください。
+GitLabの[API](/glossary/api/)[レスポンス](/glossary/レスポンス/)に記載されている`errors`[フィールド](/glossary/フィールド/)の内容をそのまま[確認](/glossary/確認/)することで、検証ルールの具体的な[要件](/glossary/要件/)を明確にできます。以下の[コマンド](/glossary/コマンド/)で[JSON](/glossary/json/)整形済みの[エラー](/glossary/エラー/)詳細を[確認](/glossary/確認/)してください。
 
 ```bash
 curl -i --request POST \
@@ -128,10 +128,10 @@ curl -i --request POST \
   --data "name=test&namespace_id=<group-id>" | jq '.errors'
 ```
 
-GitLab[インスタンス](/glossary/インスタンス/)の管理者[ログ](/glossary/ログ/)（通常は `/var/log/gitlab/gitlab-rails/production.log`）を確認することで、[サーバー](/glossary/サーバー/)側での検証処理の詳細が記録されている場合があります。また、カスタムプラグインや検証ルールが導入されている場合は、[Git](/glossary/git/)管理者に確認してください。
+GitLab[インスタンス](/glossary/インスタンス/)の管理者[ログ](/glossary/ログ/)（通常は `/var/log/gitlab/gitlab-rails/production.log`）を[確認](/glossary/確認/)することで、[サーバー](/glossary/サーバー/)側での検証処理の詳細が記録されている場合があります。また、カスタムプラグインや検証ルールが導入されている場合は、[Git](/glossary/git/)管理者に[確認](/glossary/確認/)してください。
 
 公式ドキュメント「[GitLab API - Error responses](https://docs.gitlab.com/ee/api/#error-responses)」に各[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の標準的な意味が記載されており、[プロジェクト](/glossary/プロジェクト/)固有のルール[設定](/glossary/設定/)については「[Projects API](https://docs.gitlab.com/ee/api/projects.html)」を参照してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

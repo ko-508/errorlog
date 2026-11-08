@@ -15,7 +15,7 @@ top_queries:
 
 ## エラーの概要
 
-Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに[対応](/glossary/対応/)しており、認証自体は成功しているものの、特定のリソースにアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
+Postmanで403[エラー](/glossary/エラー/)が返される場合、[テスト](/glossary/テスト/)対象の[API](/glossary/api/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)403 Forbiddenに[対応](/glossary/対応/)しており、認証自体は成功しているものの、特定の[リソース](/glossary/リソース/)にアクセスする[権限](/glossary/権限/)がないか、実行しようとしている操作が[認可](/glossary/認可/)レベルを超えていることを示します。Postmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)する際に頻繁に発生する問題であり、[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)、IP制限、または[権限](/glossary/権限/)レベルの不一致が原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -93,7 +93,7 @@ fetch('https://api.example.com/v1/resources', requestOptions)
   .then(data => console.log(data));
 ```
 
-使用中の[API](/glossary/api/)[キー](/glossary/キー/)がどの[スコープ](/glossary/スコープ/)を保有しているか確認し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を確認し、[更新](/glossary/更新/)された[キー](/glossary/キー/)に置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
+使用中の[API](/glossary/api/)[キー](/glossary/キー/)がどの[スコープ](/glossary/スコープ/)を保有しているか[確認](/glossary/確認/)し、必要に応じて[API](/glossary/api/)提供元の管理画面で[スコープ](/glossary/スコープ/)を追加します。Postmanでは、[リクエスト](/glossary/リクエスト/)の「Headers」タブで Authorization [ヘッダー](/glossary/ヘッダー/)を[確認](/glossary/確認/)し、[更新](/glossary/更新/)された[キー](/glossary/キー/)に置き換えてから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。
 
 ### 原因2：テスト対象APIのIPホワイトリストにPostmanの送信元IPが含まれていない
 
@@ -121,11 +121,11 @@ curl -H "Authorization: Bearer <your-api-key>" \
 # 結果: 200 OK
 ```
 
-Postman Cloudの公式ドキュメントに記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」[ボタン](/glossary/ボタン/)をクリックする前に、Console タブで「Request Headers」を確認し、実際のソースIPが許可されているか確認します。
+Postman Cloudの公式ドキュメントに記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」[ボタン](/glossary/ボタン/)をクリックする前に、Console タブで「Request Headers」を[確認](/glossary/確認/)し、実際のソースIPが許可されているか[確認](/glossary/確認/)します。
 
 ### 原因3：試している操作がAPIキーの権限レベルを超えている
 
-[API](/glossary/api/)[キー](/glossary/キー/)にはそれぞれ[権限](/glossary/権限/)レベル（管理者、ユーザー、ゲストなど）が[設定](/glossary/設定/)されており、特定の操作は高い[権限](/glossary/権限/)レベルの[キー](/glossary/キー/)でのみ実行可能です。たとえば、ユーザーレベルの[キー](/glossary/キー/)で[アカウント](/glossary/アカウント/)削除操作を実行しようとすると403[エラー](/glossary/エラー/)が返されます。
+[API](/glossary/api/)[キー](/glossary/キー/)にはそれぞれ[権限](/glossary/権限/)レベル（管理者、[ユーザー](/glossary/ユーザー/)、ゲストなど）が[設定](/glossary/設定/)されており、特定の操作は高い[権限](/glossary/権限/)レベルの[キー](/glossary/キー/)でのみ実行可能です。たとえば、ユーザーレベルの[キー](/glossary/キー/)で[アカウント](/glossary/アカウント/)削除操作を実行しようとすると403[エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -161,7 +161,7 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 }
 ```
 
-[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)[キー](/glossary/キー/)の[権限](/glossary/権限/)レベルを確認します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)[キー](/glossary/キー/)を生成し、Postmanの「Environment」または「Variables」タブで[キー](/glossary/キー/)を[更新](/glossary/更新/)してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)[キー](/glossary/キー/)を使い分ける場合は、Postmanの環境変数機能で各[キー](/glossary/キー/)を明確に管理すると、混同を避けられます。
+[API](/glossary/api/)提供元の管理画面で、使用している[API](/glossary/api/)[キー](/glossary/キー/)の[権限](/glossary/権限/)レベルを[確認](/glossary/確認/)します。必要に応じて、より高い[権限](/glossary/権限/)を持つ新しい[API](/glossary/api/)[キー](/glossary/キー/)を生成し、Postmanの「Environment」または「Variables」タブで[キー](/glossary/キー/)を[更新](/glossary/更新/)してから再度[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)してください。複数の[API](/glossary/api/)[キー](/glossary/キー/)を使い分ける場合は、Postmanの環境変数機能で各[キー](/glossary/キー/)を明確に管理すると、混同を避けられます。
 
 ## ツール固有の注意点
 
@@ -190,11 +190,11 @@ Postman Cloudの公式ドキュメントに記載されている送信元IP範�
 
 ### Postman Interceptor での送信元IP確認
 
-Postman Interceptor を使用することで、ローカル[環境](/glossary/環境/)からの[リクエスト](/glossary/リクエスト/)の実際の送信元IPを確認できます。IPホワイトリストが疑わしい場合、Interceptor を有効にして通信内容を検査してください。
+Postman Interceptor を使用することで、ローカル[環境](/glossary/環境/)からの[リクエスト](/glossary/リクエスト/)の実際の送信元IPを[確認](/glossary/確認/)できます。IPホワイトリストが疑わしい場合、Interceptor を有効にして通信内容を検査してください。
 
 ### Pre-request Script でのスコープ検証
 
-[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)が動的に変わる場合、Postman の Pre-request Script タブで事前検証を実装することで、[リクエスト](/glossary/リクエスト/)前に[権限](/glossary/権限/)の妥当性を確認できます。
+[API](/glossary/api/)[キー](/glossary/キー/)の[スコープ](/glossary/スコープ/)が動的に変わる場合、Postman の Pre-request Script タブで事前検証を実装することで、[リクエスト](/glossary/リクエスト/)前に[権限](/glossary/権限/)の妥当性を[確認](/glossary/確認/)できます。
 
 ```javascript
 // Pre-request Script
@@ -209,24 +209,24 @@ console.log('Using API key with scopes: ' + requiredScopes);
 
 ### 確認すべきログとデバッグ手順
 
-1. **Postman Console の確認**
-   - 画面左下の「Console」を開き、[送信](/glossary/送信/)されたリクエストヘッダーと[レスポンス](/glossary/レスポンス/)本文を確認します。Authorization [ヘッダー](/glossary/ヘッダー/)が正しく[設定](/glossary/設定/)されているか、レスポンスエラーメッセージに[スコープ](/glossary/スコープ/)不足の記載がないか確認してください。
+1. **Postman Console の[確認](/glossary/確認/)**
+   - 画面左下の「Console」を開き、[送信](/glossary/送信/)されたリクエストヘッダーと[レスポンス](/glossary/レスポンス/)本文を[確認](/glossary/確認/)します。Authorization [ヘッダー](/glossary/ヘッダー/)が正しく[設定](/glossary/設定/)されているか、レスポンスエラーメッセージに[スコープ](/glossary/スコープ/)不足の記載がないか[確認](/glossary/確認/)してください。
 
 2. **Network タブでの詳細確認**
-   - [ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（F12）を開き、「Network」タブで[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の詳細を確認します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ確認し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
+   - [ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（F12）を開き、「Network」タブで[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の詳細を[確認](/glossary/確認/)します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ[確認](/glossary/確認/)し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
 
 3. **[API](/glossary/api/)提供元の公式ドキュメント参照**
-   - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの[要件](/glossary/要件/)を確認します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
+   - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの[要件](/glossary/要件/)を[確認](/glossary/確認/)します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
 
 4. **[API](/glossary/api/)[キー](/glossary/キー/)の有効性確認**
-   - 使用している[API](/glossary/api/)[キー](/glossary/キー/)が失効していないか、[API](/glossary/api/)提供元の管理画面で確認します。[キー](/glossary/キー/)の作成日時、最終使用日時、有効期限を確認し、必要に応じて新しい[キー](/glossary/キー/)を生成してください。
+   - 使用している[API](/glossary/api/)[キー](/glossary/キー/)が失効していないか、[API](/glossary/api/)提供元の管理画面で[確認](/glossary/確認/)します。[キー](/glossary/キー/)の作成日時、最終使用日時、有効期限を[確認](/glossary/確認/)し、必要に応じて新しい[キー](/glossary/キー/)を生成してください。
 
 5. **別の[テスト](/glossary/テスト/)[環境](/glossary/環境/)での再試行**
-   - 別のマシンや[ネットワーク](/glossary/ネットワーク/)からPostmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)し、同じ403[エラー](/glossary/エラー/)が発生するか確認します。特定の[ネットワーク](/glossary/ネットワーク/)からのみ[エラー](/glossary/エラー/)が発生する場合、IPホワイトリストが原因である可能性が高まります。
+   - 別のマシンや[ネットワーク](/glossary/ネットワーク/)からPostmanで[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)し、同じ403[エラー](/glossary/エラー/)が発生するか[確認](/glossary/確認/)します。特定の[ネットワーク](/glossary/ネットワーク/)からのみ[エラー](/glossary/エラー/)が発生する場合、IPホワイトリストが原因である可能性が高まります。
 
-6. **cURL での確認**
+6. **cURL での[確認](/glossary/確認/)**
    - Postman の「Code」[ボタン](/glossary/ボタン/)（右上）で cURL [コマンド](/glossary/コマンド/)を生成し、[ターミナル](/glossary/ターミナル/)から直接実行することで、Postman
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

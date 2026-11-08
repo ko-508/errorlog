@@ -14,7 +14,7 @@ related_services: ["Python", "requests", "curl", "jq"]
 
 ## エラーの概要
 
-Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)された[メトリクス](/glossary/メトリクス/)・モニター・[ダッシュボード](/glossary/ダッシュボード/)が見つからないことを示します。モニター[ID](/glossary/id/) または[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) が間違っている、存在しないリソースにアクセスしようとしている、または該当する[メトリクス](/glossary/メトリクス/)がまだ Datadog に[送信](/glossary/送信/)されていない状況で発生します。
+Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossary/リクエスト/)された[メトリクス](/glossary/メトリクス/)・モニター・[ダッシュボード](/glossary/ダッシュボード/)が見つからないことを示します。モニター[ID](/glossary/id/) または[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) が間違っている、存在しない[リソース](/glossary/リソース/)にアクセスしようとしている、または該当する[メトリクス](/glossary/メトリクス/)がまだ Datadog に[送信](/glossary/送信/)されていない状況で発生します。
 
 ## 実際のエラーメッセージ例
 
@@ -39,16 +39,16 @@ Datadog の 404 [エラー](/glossary/エラー/)は、[リクエスト](/glossa
 
 **[エラーメッセージ](/glossary/エラーメッセージ/)の読み方：**
 
-- `404` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[リクエスト](/glossary/リクエスト/)されたリソースが[サーバー](/glossary/サーバー/)上に存在しない
+- `404` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[リクエスト](/glossary/リクエスト/)された[リソース](/glossary/リソース/)が[サーバー](/glossary/サーバー/)上に存在しない
 - `Not Found` → 理由フレーズ：対象のモニター [ID](/glossary/id/) や[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) が見つからなかった
-- `"Resource not found"` → リソースの不在を明示する [JSON](/glossary/json/) [フィールド](/glossary/フィールド/)：[ID](/glossary/id/) が間違っているか削除済みである可能性が高い
-- `"Please verify the monitor/dashboard ID is correct"` → トラブルシューティングガイダンス：入力した [ID](/glossary/id/) の正確性を確認するよう促す
+- `"Resource not found"` → [リソース](/glossary/リソース/)の不在を明示する [JSON](/glossary/json/) [フィールド](/glossary/フィールド/)：[ID](/glossary/id/) が間違っているか削除済みである可能性が高い
+- `"Please verify the monitor/dashboard ID is correct"` → トラブルシューティングガイダンス：入力した [ID](/glossary/id/) の正確性を[確認](/glossary/確認/)するよう促す
 
 ## よくある原因と解決手順
 
 ### 原因1：モニター ID またはダッシュボード ID が間違っている
 
-[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や[ダッシュボード](/glossary/ダッシュボード/) [URL](/glossary/url/) に指定したリソース [ID](/glossary/id/) が存在しないか、タイプミスがあります。[API](/glossary/api/) 呼び出しで `<your-monitor-id>` の部分に誤った数値を入力した場合、Datadog はそのリソースを特定できず 404 を返します。
+[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)や[ダッシュボード](/glossary/ダッシュボード/) [URL](/glossary/url/) に指定した[リソース](/glossary/リソース/) [ID](/glossary/id/) が存在しないか、タイプミスがあります。[API](/glossary/api/) 呼び出しで `<your-monitor-id>` の部分に誤った数値を入力した場合、Datadog はその[リソース](/glossary/リソース/)を特定できず 404 を返します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -68,7 +68,7 @@ curl -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
   -H "DD-APPLICATION-KEY: <your-app-key>"
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # レスポンスで モニターの詳細情報が返されることを確認
@@ -125,7 +125,7 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/monitor/12345678" \
 }
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # Metrics Explorer でメトリクスが実際に送信されているか確認
@@ -137,7 +137,7 @@ Datadog WebUI の **Metrics** > **Summary** タブで[メトリクス](/glossary
 
 ### 原因3：環境やワークスペース固有のリソース参照
 
-複数の Datadog [環境](/glossary/環境/)（本番・ステージング等）やサブアカウントを使用している場合、別の[環境](/glossary/環境/)で作成したモニターや[ダッシュボード](/glossary/ダッシュボード/)の [ID](/glossary/id/) を現在の[環境](/glossary/環境/)で[リクエスト](/glossary/リクエスト/)すると 404 が返ります。[API](/glossary/api/) [キー](/glossary/キー/)やアプリケーションキーが異なる[環境](/glossary/環境/)に[対応](/glossary/対応/)していないと、リソースが見つかりません。
+複数の Datadog [環境](/glossary/環境/)（本番・ステージング等）やサブアカウントを使用している場合、別の[環境](/glossary/環境/)で作成したモニターや[ダッシュボード](/glossary/ダッシュボード/)の [ID](/glossary/id/) を現在の[環境](/glossary/環境/)で[リクエスト](/glossary/リクエスト/)すると 404 が返ります。[API](/glossary/api/) [キー](/glossary/キー/)やアプリケーションキーが異なる[環境](/glossary/環境/)に[対応](/glossary/対応/)していないと、[リソース](/glossary/リソース/)が見つかりません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -157,7 +157,7 @@ curl -X GET "https://api.datadoghq.com/api/v1/dashboard/abc-123-xyz" \
   -H "DD-APPLICATION-KEY: <production-app-key>"
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # リクエストが成功し、ダッシュボード情報が返されることを確認
@@ -172,15 +172,15 @@ curl -s -X GET "https://api.datadoghq.com/api/v1/dashboard/abc-123-xyz" \
 
 | 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
-| モニター/[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) の確認と[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
-| [メトリクス](/glossary/メトリクス/)送信状況の確認・有効[メトリクス](/glossary/メトリクス/)への置換 | 中 | 不要 | 全[OS](/glossary/os/) |
+| モニター/[ダッシュボード](/glossary/ダッシュボード/) [ID](/glossary/id/) の[確認](/glossary/確認/)と[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
+| [メトリクス](/glossary/メトリクス/)送信状況の[確認](/glossary/確認/)・有効[メトリクス](/glossary/メトリクス/)への置換 | 中 | 不要 | 全[OS](/glossary/os/) |
 | [環境](/glossary/環境/)・[API](/glossary/api/) [キー](/glossary/キー/)の切り替え | 低 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
 
 **Datadog WebUI での [ID](/glossary/id/) 確認手順**
 
-モニターや[ダッシュボード](/glossary/ダッシュボード/)の正確な [ID](/glossary/id/) を確認する最も確実な方法は Datadog WebUI を使用することです。モニター一覧画面では各行の左側に [ID](/glossary/id/) が表示されます。Python クライアントライブラリを使用している場合は、以下の[コード](/glossary/コード/)で全モニターを列挙してから正確な [ID](/glossary/id/) を確認できます。
+モニターや[ダッシュボード](/glossary/ダッシュボード/)の正確な [ID](/glossary/id/) を[確認](/glossary/確認/)する最も確実な方法は Datadog WebUI を使用することです。モニター一覧画面では各行の左側に [ID](/glossary/id/) が表示されます。Python クライアントライブラリを使用している場合は、以下の[コード](/glossary/コード/)で全モニターを列挙してから正確な [ID](/glossary/id/) を[確認](/glossary/確認/)できます。
 
 ```python
 from datadog import initialize, api
@@ -198,33 +198,33 @@ for monitor in monitors:
     print(f"Monitor ID: {monitor['id']}, Name: {monitor['name']}")
 ```
 
-この[スクリプト](/glossary/スクリプト/)を実行すると、環境内のすべてのモニター [ID](/glossary/id/) と名前が列挙されます。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)で使用する正確な [ID](/glossary/id/) をこの出力から確認してください。
+この[スクリプト](/glossary/スクリプト/)を実行すると、環境内のすべてのモニター [ID](/glossary/id/) と名前が列挙されます。[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)で使用する正確な [ID](/glossary/id/) をこの出力から[確認](/glossary/確認/)してください。
 
 **Metrics Explorer での動作確認**
 
-Datadog WebUI 上部の[検索](/glossary/検索/)バーから **Metrics > Explorer** に進み、[グラフ](/glossary/グラフ/)を描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか確認できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト[検索](/glossary/検索/)する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか確認してください。
+Datadog WebUI 上部の[検索](/glossary/検索/)バーから **Metrics > Explorer** に進み、[グラフ](/glossary/グラフ/)を描画する[メトリクス](/glossary/メトリクス/)が本当に[送信](/glossary/送信/)されているか[確認](/glossary/確認/)できます。[メトリクス](/glossary/メトリクス/)名をフリーテキスト[検索](/glossary/検索/)する際は、完全一致ではなく部分一致でも候補が表示されるため、タイプミスが疑われる場合は似た名前の[メトリクス](/glossary/メトリクス/)がないか[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
-**確認すべき[ログ](/glossary/ログ/)・[デバッグ](/glossary/デバッグ/)手順**
+**[確認](/glossary/確認/)すべき[ログ](/glossary/ログ/)・[デバッグ](/glossary/デバッグ/)手順**
 
-1. **Datadog Agent の[ログ](/glossary/ログ/)確認**
+1. **Datadog Agent の[ログ](/glossary/ログ/)[確認](/glossary/確認/)**
 
-   [メトリクス](/glossary/メトリクス/)が[送信](/glossary/送信/)されていない場合、Agent の[設定ファイル](/glossary/設定ファイル/)を確認します。
+   [メトリクス](/glossary/メトリクス/)が[送信](/glossary/送信/)されていない場合、Agent の[設定ファイル](/glossary/設定ファイル/)を[確認](/glossary/確認/)します。
 
    ```[bash](/glossary/bash/)
    # [Linux](/glossary/linux/)/macOS
    tail -f /var/log/datadog/agent.log | grep -i "metric\|error"
 
-   # Windows
+   # [Windows](/glossary/windows/)
    Get-Content "C:\ProgramData\Datadog\Logs\agent.log" -Tail 50
    ```
 
-   Agent が正常に[メトリクス](/glossary/メトリクス/)を[送信](/glossary/送信/)しているか、接続[エラー](/glossary/エラー/)や[タイムアウト](/glossary/タイムアウト/)が記録されていないか確認してください。
+   Agent が正常に[メトリクス](/glossary/メトリクス/)を[送信](/glossary/送信/)しているか、接続[エラー](/glossary/エラー/)や[タイムアウト](/glossary/タイムアウト/)が記録されていないか[確認](/glossary/確認/)してください。
 
 2. **[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)の詳細確認**
 
-   `-v` フラグを付けて curl [リクエスト](/glossary/リクエスト/)を実行し、[ステータスコード](/glossary/ステータスコード/)とレスポンスヘッダーを確認します。
+   `-v` フラグを付けて curl [リクエスト](/glossary/リクエスト/)を実行し、[ステータスコード](/glossary/ステータスコード/)とレスポンスヘッダーを[確認](/glossary/確認/)します。
 
    ```[bash](/glossary/bash/)
    curl -v -X [GET](/glossary/get/) "https://api.datadoghq.com/api/v1/monitor/<your-monitor-id>" \
@@ -232,12 +232,12 @@ Datadog WebUI 上部の[検索](/glossary/検索/)バーから **Metrics > Explo
      -H "DD-APPLICATION-KEY: <your-app-key>"
    ```
 
-   [レスポンス](/glossary/レスポンス/)に `< HTTP/1.1 404 Not Found` と出力される場合、リソースが本当に存在しないことが確定します。
+   [レスポンス](/glossary/レスポンス/)に `< HTTP/1.1 404 Not Found` と出力される場合、[リソース](/glossary/リソース/)が本当に存在しないことが確定します。
 
-3. **公式ドキュメント・サポートの確認**
+3. **公式ドキュメント・サポートの[確認](/glossary/確認/)**
 
-   Datadog 公式ドキュメント（[Monitors API](https://docs.datadoghq.com/api/latest/monitors/)、[Dashboards API](https://docs.datadoghq.com/api/latest/dashboards/)）を参照し、使用中の [API](/glossary/api/) [バージョン](/glossary/バージョン/)が非推奨になっていないか確認してください。[API](/glossary/api/) のメジャーバージョンアップグレード後、旧[バージョン](/glossary/バージョン/)のエンドポ
+   Datadog 公式ドキュメント（[Monitors API](https://docs.datadoghq.com/api/latest/monitors/)、[Dashboards API](https://docs.datadoghq.com/api/latest/dashboards/)）を参照し、使用中の [API](/glossary/api/) [バージョン](/glossary/バージョン/)が非推奨になっていないか[確認](/glossary/確認/)してください。[API](/glossary/api/) のメジャーバージョンアップグレード後、旧[バージョン](/glossary/バージョン/)のエンドポ
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

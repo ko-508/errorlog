@@ -13,7 +13,7 @@ related_services: ["CSRF", "Matrix-based security", "Role-based Access Control",
 
 ## エラーの概要
 
-Jenkins の 403 Forbidden [エラー](/glossary/エラー/)は、ユーザーが[認可](/glossary/認可/)(Authorization)チェックに失敗したことを意味します。CSRF(クロスサイトリクエストフォージェリ)保護による拒否、または Jenkins の権限設定で必要な[権限](/glossary/権限/)がないために発生します。特に [CI/CD](/glossary/ci-cd/) パイプラインでジョブを自動実行したり、外部[ツール](/glossary/ツール/)から Jenkins [API](/glossary/api/) を呼び出したりする際に頻出する[エラー](/glossary/エラー/)です。
+Jenkins の 403 Forbidden [エラー](/glossary/エラー/)は、[ユーザー](/glossary/ユーザー/)が[認可](/glossary/認可/)(Authorization)チェックに失敗したことを意味します。CSRF(クロスサイトリクエストフォージェリ)保護による拒否、または Jenkins の権限設定で必要な[権限](/glossary/権限/)がないために発生します。特に [CI/CD](/glossary/ci-cd/) パイプラインでジョブを自動実行したり、外部[ツール](/glossary/ツール/)から Jenkins [API](/glossary/api/) を呼び出したりする際に頻出する[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -71,11 +71,11 @@ curl -X POST "http://localhost:8080/job/my-job/build" \
   -H "Jenkins-Crumb: $CRUMB"
 ```
 
-Crumb の取得に失敗した場合は、Jenkins が CSRF 保護を有効にしているか確認し、[API](/glossary/api/) [トークン](/glossary/トークン/)が正しいことを検証してください。
+Crumb の取得に失敗した場合は、Jenkins が CSRF 保護を有効にしているか[確認](/glossary/確認/)し、[API](/glossary/api/) [トークン](/glossary/トークン/)が正しいことを検証してください。
 
 ### 原因2：Matrix-based security でジョブへの Build/Configure 権限がない
 
-Jenkins の権限設定で Matrix-based security または Role-based Access Control を使用している場合、ユーザーがジョブをビルドしたり[設定](/glossary/設定/)を変更したりする[権限](/glossary/権限/)がないと 403 [エラー](/glossary/エラー/)が発生します。[権限](/glossary/権限/)マトリックスでユーザー行とジョブ権限列の交差点がチェックされていないと拒否されます。
+Jenkins の権限設定で Matrix-based security または Role-based Access Control を使用している場合、[ユーザー](/glossary/ユーザー/)がジョブをビルドしたり[設定](/glossary/設定/)を変更したりする[権限](/glossary/権限/)がないと 403 [エラー](/glossary/エラー/)が発生します。[権限](/glossary/権限/)マトリックスで[ユーザー](/glossary/ユーザー/)行とジョブ権限列の交差点がチェックされていないと拒否されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -102,7 +102,7 @@ curl -X POST "http://localhost:8080/job/my-job/build" \
 # → 201 Created (成功)
 ```
 
-[権限](/glossary/権限/)の付与は Jenkins の Web [UI](/glossary/ui/) で実施します。**Manage Jenkins** → **Configure Global Security** → **Authorization** セクションで Matrix-based security を選択し、該当ユーザー行と必要な権限列（Job/Build など）をチェックしてください。
+[権限](/glossary/権限/)の付与は Jenkins の Web [UI](/glossary/ui/) で実施します。**Manage Jenkins** → **Configure Global Security** → **Authorization** セクションで Matrix-based security を選択し、該当[ユーザー](/glossary/ユーザー/)行と必要な権限列（Job/Build など）をチェックしてください。
 
 ### 原因3：匿名ユーザーのアクセスが制限されているのに認証なしで API を呼んでいる
 
@@ -127,13 +127,13 @@ curl "http://localhost:8080/api/json" \
 # → 200 OK でJSON応答が返される
 ```
 
-[API](/glossary/api/) [トークン](/glossary/トークン/)の取得方法：**Jenkins 管理画面** → **ユーザー一覧** → 対象ユーザーをクリック → **[設定](/glossary/設定/)** → **[API](/glossary/api/) Token** セクションで新しい[トークン](/glossary/トークン/)を生成してください。
+[API](/glossary/api/) [トークン](/glossary/トークン/)の取得方法：**Jenkins 管理画面** → **[ユーザー](/glossary/ユーザー/)一覧** → 対象[ユーザー](/glossary/ユーザー/)をクリック → **[設定](/glossary/設定/)** → **[API](/glossary/api/) Token** セクションで新しい[トークン](/glossary/トークン/)を生成してください。
 
 ## ツール固有の注意点
 
 **CSRF保護の設定確認方法：**
 
-Jenkins 管理画面で **Manage Jenkins** → **Configure Global Security** を開き、**CSRF Protection** セクションを確認します。「Prevent Cross Site Request Forgery exploits」がチェックされていれば CSRF 保護が有効です。逆に無効にしたい場合（[セキュリティ](/glossary/セキュリティ/)上は推奨されませんが）はここでチェックを外します。
+Jenkins 管理画面で **Manage Jenkins** → **Configure Global Security** を開き、**CSRF Protection** セクションを[確認](/glossary/確認/)します。「Prevent Cross Site Request Forgery exploits」がチェックされていれば CSRF 保護が有効です。逆に無効にしたい場合（[セキュリティ](/glossary/セキュリティ/)上は推奨されませんが）はここでチェックを外します。
 
 **[API](/glossary/api/) [トークン](/glossary/トークン/)と基本認証の違い：**
 
@@ -141,17 +141,17 @@ Jenkins では `/user/<username>/generateApiToken` [エンドポイント](/glos
 
 **複数ジョブへの[アクセス制御](/glossary/アクセス制御/)：**
 
-Role-based Access Control([RBAC](/glossary/rbac/))[プラグイン](/glossary/プラグイン/)を導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を[設定](/glossary/設定/)できます。個別ユーザーではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
+Role-based Access Control([RBAC](/glossary/rbac/))[プラグイン](/glossary/プラグイン/)を導入している場合、[ロール](/glossary/ロール/)定義で「Job/Build」「Job/Configure」などの粒度の細かい[権限](/glossary/権限/)を[設定](/glossary/設定/)できます。個別[ユーザー](/glossary/ユーザー/)ではなく[ロール](/glossary/ロール/)単位で[権限管理](/glossary/権限管理/)すると運用が楽になります。
 
 **Jenkins Pipeline での CSRF 対策：**
 
-Groovy [スクリプト](/glossary/スクリプト/)内で Jenkins [API](/glossary/api/) を呼ぶ場合、[スクリプト](/glossary/スクリプト/)の実行ユーザーの[権限](/glossary/権限/)が適用されます。Pipeline [ステップ](/glossary/ステップ/)内で `sh` で curl を実行する場合でも、該当ユーザーに[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
+Groovy [スクリプト](/glossary/スクリプト/)内で Jenkins [API](/glossary/api/) を呼ぶ場合、[スクリプト](/glossary/スクリプト/)の実行[ユーザー](/glossary/ユーザー/)の[権限](/glossary/権限/)が適用されます。Pipeline [ステップ](/glossary/ステップ/)内で `sh` で curl を実行する場合でも、該当[ユーザー](/glossary/ユーザー/)に[権限](/glossary/権限/)がなければ 403 [エラー](/glossary/エラー/)が発生します。
 
 ## それでも解決しない場合
 
-**Jenkins[ログ](/glossary/ログ/)の確認：**
+**Jenkins[ログ](/glossary/ログ/)の[確認](/glossary/確認/)：**
 
-`<Jenkins ホーム>/logs/jenkins.log` または Jenkins 管理画面の **System Log** を確認します。「Permission denied」や「Insufficient permission」というメッセージが記録されているはずです。
+`<Jenkins ホーム>/logs/jenkins.log` または Jenkins 管理画面の **System Log** を[確認](/glossary/確認/)します。「Permission denied」や「Insufficient permission」というメッセージが記録されているはずです。
 
 **デバッグコマンド：**
 
@@ -170,12 +170,12 @@ curl -v -X POST "http://localhost:8080/job/my-job/build" \
   -H "Jenkins-Crumb: $CRUMB"
 ```
 
-`-v` フラグでレスポンスヘッダーを確認すると、Crumb の有無や権限周りの詳細がわかります。
+`-v` フラグでレスポンスヘッダーを[確認](/glossary/確認/)すると、Crumb の有無や権限周りの詳細がわかります。
 
 **公式ドキュメント参照：**
 
-Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を確認したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) [プラグイン](/glossary/プラグイン/)のドキュメントも参照してください。
+Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を[確認](/glossary/確認/)したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) [プラグイン](/glossary/プラグイン/)のドキュメントも参照してください。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（[本番環境](/glossary/本番環境/)）またはリソースが[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が[削除](/glossary/削除/)されていたり、ルーティング[設定](/glossary/設定/)の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
+Vercel の 404 [エラー](/glossary/エラー/)は、指定したデプロイメント（[本番環境](/glossary/本番環境/)）または[リソース](/glossary/リソース/)が[サーバー](/glossary/サーバー/)で見つからないことを示します。単なるページが存在しないというだけでなく、デプロイメント自体が[削除](/glossary/削除/)されていたり、ルーティング[設定](/glossary/設定/)の誤りで意図した[ファイル](/glossary/ファイル/)に到達できていない場合も含まれます。Vercel [環境](/glossary/環境/)では、[設定ファイル](/glossary/設定ファイル/)の記述ミスや古いデプロイメント [URL](/glossary/url/) へのアクセスが、この問題の主な原因となります。
 
 ## 実際のエラーメッセージ例
 
@@ -82,11 +82,11 @@ vercel ls
 # my-project    Production    https://my-project-xyz789.vercel.app  Ready
 ```
 
-Vercel Dashboard の「Deployments」タブを開き、最新のデプロイメント [URL](/glossary/url/) を確認してください。Production [環境](/glossary/環境/)と Preview [環境](/glossary/環境/)で異なる [URL](/glossary/url/) が割り当てられていることに注意してください。
+Vercel Dashboard の「Deployments」タブを開き、最新のデプロイメント [URL](/glossary/url/) を[確認](/glossary/確認/)してください。Production [環境](/glossary/環境/)と Preview [環境](/glossary/環境/)で異なる [URL](/glossary/url/) が割り当てられていることに注意してください。
 
 ### 原因2：削除されたデプロイメントにアクセスしている
 
-Vercel では、古いデプロイメントは一定期間後に自動削除されたり、ユーザーが手動で[削除](/glossary/削除/)したりします。削除済みのデプロイメント [ID](/glossary/id/) を直接指定してアクセスすると、404 [エラー](/glossary/エラー/)が返されます。
+Vercel では、古いデプロイメントは一定期間後に自動削除されたり、[ユーザー](/glossary/ユーザー/)が手動で[削除](/glossary/削除/)したりします。削除済みのデプロイメント [ID](/glossary/id/) を直接指定してアクセスすると、404 [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -109,7 +109,7 @@ export VERCEL_URL="my-project.vercel.app"
 curl https://$VERCEL_URL/api/data
 ```
 
-デプロイメント保持期間を確認するには、Vercel の[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)で「Retention」を参照してください。Production デプロイメントは最新のものが保持されますが、Preview デプロイメントは[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)で期間を指定できます。
+デプロイメント保持期間を[確認](/glossary/確認/)するには、Vercel の[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)で「Retention」を参照してください。Production デプロイメントは最新のものが保持されますが、Preview デプロイメントは[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)で期間を指定できます。
 
 ### 原因3：vercel.json のリライト・リダイレクト設定が間違っている
 
@@ -147,13 +147,13 @@ vercel.json でルーティング[設定](/glossary/設定/)を誤ると、存�
 }
 ```
 
-[ファイル](/glossary/ファイル/)構造をあらかじめ確認し、リライト・リダイレクトの[パターン](/glossary/パターン/)が実際のファイルパスと一致するか検証してください。Vercel では、`source` と `destination` の対応関係を厳密にチェックします。SPA（単一ページアプリケーション）の場合、すべてのルートを `index.html` にリライトする[設定](/glossary/設定/)が必須です。
+[ファイル](/glossary/ファイル/)構造をあらかじめ[確認](/glossary/確認/)し、リライト・リダイレクトの[パターン](/glossary/パターン/)が実際のファイルパスと一致するか検証してください。Vercel では、`source` と `destination` の対応関係を厳密にチェックします。SPA（単一ページアプリケーション）の場合、すべてのルートを `index.html` にリライトする[設定](/glossary/設定/)が必須です。
 
 ## ツール固有の注意点
 
 **Production デプロイメント vs Preview デプロイメント：**
 
-Vercel では、メインブランチへの[プッシュ](/glossary/プッシュ/)で Production デプロイメントが生成され、プルリクエストごとに Preview デプロイメントが作成されます。Preview [URL](/glossary/url/) は PR が閉じられると[削除](/glossary/削除/)されるため、古い PR の [URL](/glossary/url/) にアクセスすると 404 になります。[本番環境](/glossary/本番環境/)には必ず Production [URL](/glossary/url/) を使用してください。
+Vercel では、メインブランチへの[プッシュ](/glossary/プッシュ/)で Production デプロイメントが生成され、[プルリクエスト](/glossary/プルリクエスト/)ごとに Preview デプロイメントが作成されます。Preview [URL](/glossary/url/) は PR が閉じられると[削除](/glossary/削除/)されるため、古い PR の [URL](/glossary/url/) にアクセスすると 404 になります。[本番環境](/glossary/本番環境/)には必ず Production [URL](/glossary/url/) を使用してください。
 
 **[環境変数](/glossary/環境変数/)と動的 [URL](/glossary/url/) の扱い：**
 
@@ -174,7 +174,7 @@ fetch(`${baseUrl}/api/users`)
 
 ## それでも解決しない場合
 
-**デプロイメントログの確認：**
+**デプロイメントログの[確認](/glossary/確認/)：**
 
 ```bash
 # ビルドログと実行ログを確認
@@ -196,9 +196,9 @@ vercel dev
 
 **vercel.json の検証：**
 
-[JSON](/glossary/json/) の文法[エラー](/glossary/エラー/)がないか確認してください。Vercel では[デプロイ](/glossary/デプロイ/)時に [JSON](/glossary/json/) [バリデーション](/glossary/バリデーション/)を行い、[エラー](/glossary/エラー/)があるとビルドが失敗します。
+[JSON](/glossary/json/) の文法[エラー](/glossary/エラー/)がないか[確認](/glossary/確認/)してください。Vercel では[デプロイ](/glossary/デプロイ/)時に [JSON](/glossary/json/) [バリデーション](/glossary/バリデーション/)を行い、[エラー](/glossary/エラー/)があるとビルドが失敗します。
 
-**公式ドキュメントの確認：**
+**公式ドキュメントの[確認](/glossary/確認/)：**
 
 - [Vercel Routing Documentation](https://vercel.com/docs/concepts/projects/project-configuration)
 - [Rewrites and Redirects](https://vercel.com/docs/concepts/next.js/rewrites)
@@ -208,4 +208,4 @@ vercel dev
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

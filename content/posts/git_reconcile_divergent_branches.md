@@ -40,11 +40,11 @@ git pull --no-rebase --ff origin main
 
 したがって、この[エラー](/glossary/エラー/)だけで[ファイル](/glossary/ファイル/)の競合が起きたとは判断できません。ただし、`pull`の前半にあるfetchは既に実行されています。現在の[コミット](/glossary/コミット/)が変わらなくても、`origin/main`などのリモート追跡情報は[更新](/glossary/更新/)されている場合があります。
 
-この記事では[Git](/glossary/git/) 2.51.1を使い、共通の[コミット](/glossary/コミット/)からローカルとリモートを別々に進めて確認しました。方式未指定のpullは終了[コード](/glossary/コード/)128となり、現在の[コミット](/glossary/コミット/)は変わらず、上記の[エラー](/glossary/エラー/)と`hint:`付きの案内が表示されました。
+この記事では[Git](/glossary/git/) 2.51.1を使い、共通の[コミット](/glossary/コミット/)からローカルとリモートを別々に進めて[確認](/glossary/確認/)しました。方式未指定のpullは終了[コード](/glossary/コード/)128となり、現在の[コミット](/glossary/コミット/)は変わらず、上記の[エラー](/glossary/エラー/)と`hint:`付きの案内が表示されました。
 
 ## 接続先・分岐・設定を確認する
 
-取り込む対象と現在の状態を確認します。
+取り込む対象と現在の状態を[確認](/glossary/確認/)します。
 
 ```bash
 git status
@@ -57,7 +57,7 @@ git rev-list --left-right --count HEAD...origin/main
 
 最後の[コマンド](/glossary/コマンド/)は、二つの履歴のうち片側だけに存在する[コミット](/glossary/コミット/)数を表示します。`HEAD`側が左、`origin/main`側が右です。今回の再現では`1 1`となり、両側に独自の[コミット](/glossary/コミット/)がありました。接続先や[ブランチ](/glossary/ブランチ/)名の[エラー](/glossary/エラー/)が出た場合は、先にその指定を直します。
 
-次に、[設定値](/glossary/設定値/)と、その[設定](/glossary/設定/)がどの[ファイル](/glossary/ファイル/)から来ているかを確認します。
+次に、[設定値](/glossary/設定値/)と、その[設定](/glossary/設定/)がどの[ファイル](/glossary/ファイル/)から来ているかを[確認](/glossary/確認/)します。
 
 ```bash
 git config --show-origin --get pull.rebase
@@ -65,7 +65,7 @@ git config --show-origin --get pull.ff
 git branch --show-current
 ```
 
-現在の[ブランチ](/glossary/ブランチ/)が`main`なら、[ブランチ](/glossary/ブランチ/)専用の[設定](/glossary/設定/)も確認します。
+現在の[ブランチ](/glossary/ブランチ/)が`main`なら、[ブランチ](/glossary/ブランチ/)専用の[設定](/glossary/設定/)も[確認](/glossary/確認/)します。
 
 ```bash
 git config --show-origin --get branch.main.rebase
@@ -85,7 +85,7 @@ git config --show-origin --get branch.main.rebase
 
 [マージ](/glossary/マージ/)の例に付けた`--ff`は、早送りできればそれを使い、できなければ通常の[マージ](/glossary/マージ/)を許可する指定です。既存の`pull.ff=only`がある[環境](/glossary/環境/)でも、今回の[マージ](/glossary/マージ/)を明示できます。`--ff-only`とは異なります。
 
-リベースでは[コミット](/glossary/コミット/)が作り直されるため、識別する[ID](/glossary/id/)が変わります。[Gitのrebase公式文書](https://git-scm.com/docs/git-rebase)には、他の人が既に利用している履歴を書き換えた場合の問題が説明されています。共有済みの[コミット](/glossary/コミット/)を含む場合は、チームの運用を確認します。
+リベースでは[コミット](/glossary/コミット/)が作り直されるため、識別する[ID](/glossary/id/)が変わります。[Gitのrebase公式文書](https://git-scm.com/docs/git-rebase)には、他の人が既に利用している履歴を書き換えた場合の問題が説明されています。共有済みの[コミット](/glossary/コミット/)を含む場合は、チームの運用を[確認](/glossary/確認/)します。
 
 早送りのみは、分岐の解消方法ではありません。今回の再現でも、分岐した状態で指定すると次の[エラー](/glossary/エラー/)になりました。
 
@@ -119,7 +119,7 @@ git config --local pull.ff only
 
 [Gitの設定公式文書](https://git-scm.com/docs/git-config/2.51.0)には、`pull.rebase`、`pull.ff`、[ブランチ](/glossary/ブランチ/)専用の`branch.<名前>.rebase`が説明されています。これらは別の[設定](/glossary/設定/)なので、例えば`pull.rebase=false`を入れても、既存の`pull.ff=only`が自動で消えるわけではありません。
 
-`--global`を使うと、そのユーザーのほかの[リポジトリ](/glossary/リポジトリ/)にも既定値が適用されます。今回の一件を直すために、全[リポジトリ](/glossary/リポジトリ/)の方針まで変更する必要はありません。まず[コマンド](/glossary/コマンド/)の[引数](/glossary/引数/)で今回だけ指定するか、対象[リポジトリ](/glossary/リポジトリ/)に[設定](/glossary/設定/)します。
+`--global`を使うと、その[ユーザー](/glossary/ユーザー/)のほかの[リポジトリ](/glossary/リポジトリ/)にも既定値が適用されます。今回の一件を直すために、全[リポジトリ](/glossary/リポジトリ/)の方針まで変更する必要はありません。まず[コマンド](/glossary/コマンド/)の[引数](/glossary/引数/)で今回だけ指定するか、対象[リポジトリ](/glossary/リポジトリ/)に[設定](/glossary/設定/)します。
 
 ## 取り込みを始めた後に競合した場合
 
@@ -153,30 +153,30 @@ git rebase --abort
 
 今回の方式未指定[エラー](/glossary/エラー/)で止まっただけなら、[マージ](/glossary/マージ/)やリベースは始まっていないため、この中止操作は不要です。
 
-操作前に未[コミット](/glossary/コミット/)の変更がある場合は、内容を確認して[コミット](/glossary/コミット/)するか一時保管します。[mergeの公式文書](https://git-scm.com/docs/git-merge)は、開始前の未[コミット](/glossary/コミット/)変更を中止時に完全に[復元](/glossary/復元/)できない場合があると注意しています。中止[コマンド](/glossary/コマンド/)を使えばどんな状態でも安全に戻せる、とは考えないでください。
+操作前に未[コミット](/glossary/コミット/)の変更がある場合は、内容を[確認](/glossary/確認/)して[コミット](/glossary/コミット/)するか一時保管します。[mergeの公式文書](https://git-scm.com/docs/git-merge)は、開始前の未[コミット](/glossary/コミット/)変更を中止時に完全に[復元](/glossary/復元/)できない場合があると注意しています。中止[コマンド](/glossary/コマンド/)を使えばどんな状態でも安全に戻せる、とは考えないでください。
 
 ## 無関係な履歴の拒否や同期画面との違い
 
-今回の[エラー](/glossary/エラー/)が出たからといって、共通の祖先があるとは限りません。今回の[Git](/glossary/git/) 2.51.1による確認では、別々に[初期化](/glossary/初期化/)した履歴でも、方式未指定なら先に同じ[エラー](/glossary/エラー/)が表示されました。[マージ](/glossary/マージ/)方式を指定した後で、次の[エラー](/glossary/エラー/)になりました。
+今回の[エラー](/glossary/エラー/)が出たからといって、共通の祖先があるとは限りません。今回の[Git](/glossary/git/) 2.51.1による[確認](/glossary/確認/)では、別々に[初期化](/glossary/初期化/)した履歴でも、方式未指定なら先に同じ[エラー](/glossary/エラー/)が表示されました。[マージ](/glossary/マージ/)方式を指定した後で、次の[エラー](/glossary/エラー/)になりました。
 
 ```text
 fatal: refusing to merge unrelated histories
 ```
 
-これは、共通の祖先が見つからない履歴の結合を[マージ](/glossary/マージ/)が拒否したという別の条件です。今回の[エラー](/glossary/エラー/)への一般的な対処として、`--allow-unrelated-histories`を付ける必要はありません。接続先と履歴を確認し、独立した履歴を意図的に結合する場合だけ検討します。
+これは、共通の祖先が見つからない履歴の結合を[マージ](/glossary/マージ/)が拒否したという別の条件です。今回の[エラー](/glossary/エラー/)への一般的な対処として、`--allow-unrelated-histories`を付ける必要はありません。接続先と履歴を[確認](/glossary/確認/)し、独立した履歴を意図的に結合する場合だけ検討します。
 
 `local changes would be overwritten by merge`は、未[コミット](/glossary/コミット/)の変更が上書きされる場合の拒否です。変更を一時保管しても、[コミット](/glossary/コミット/)済みの分岐をどう取り込むかは別に決める必要があります。
 
-[VS CodeのIssue #198210](https://github.com/microsoft/vscode/issues/198210)には、手元とリモートをそれぞれ[更新](/glossary/更新/)し、[同期](/glossary/同期/)[ボタン](/glossary/ボタン/)から実行された`git pull --tags origin main`が今回の[エラー](/glossary/エラー/)で停止した報告があります。画面上の同期操作でも、内部の[Git](/glossary/git/)[コマンド](/glossary/コマンド/)と[設定](/glossary/設定/)を確認する必要があることを示す実例です。すべてのVS Code[環境](/glossary/環境/)で同じ挙動になるという意味ではありません。
+[VS CodeのIssue #198210](https://github.com/microsoft/vscode/issues/198210)には、手元とリモートをそれぞれ[更新](/glossary/更新/)し、[同期](/glossary/同期/)[ボタン](/glossary/ボタン/)から実行された`git pull --tags origin main`が今回の[エラー](/glossary/エラー/)で停止した報告があります。画面上の同期操作でも、内部の[Git](/glossary/git/)[コマンド](/glossary/コマンド/)と[設定](/glossary/設定/)を[確認](/glossary/確認/)する必要があることを示す実例です。すべてのVS Code[環境](/glossary/環境/)で同じ挙動になるという意味ではありません。
 
 ## 解決手順のまとめ
 
-接続先と取り込む[ブランチ](/glossary/ブランチ/)を確認し、ローカルと取得先の履歴、`pull.rebase`、`pull.ff`、[ブランチ](/glossary/ブランチ/)専用のrebase[設定](/glossary/設定/)を調べます。
+接続先と取り込む[ブランチ](/glossary/ブランチ/)を[確認](/glossary/確認/)し、ローカルと取得先の履歴、`pull.rebase`、`pull.ff`、[ブランチ](/glossary/ブランチ/)専用のrebase[設定](/glossary/設定/)を調べます。
 
 両方の既存[コミット](/glossary/コミット/)を残す方針なら[マージ](/glossary/マージ/)、ローカルの[コミット](/glossary/コミット/)を取り込み先の上に作り直す方針ならリベースを選びます。早送りのみは、分岐した履歴を自動でまとめず止める方針です。案内の三つの[設定](/glossary/設定/)を一括で実行しないでください。
 
-この記事は[Git](/glossary/git/) 2.51.1で、方式未指定の停止、[マージ](/glossary/マージ/)・リベースの成功、早送りのみの拒否、無関係な履歴での表示順序をローカルで確認しました。fatal表示が導入された最初の[Git](/glossary/git/)の版は特定していません。開発中のmasterの説明を、すべての[Git](/glossary/git/)の既定動作として扱うことも避けています。
+この記事は[Git](/glossary/git/) 2.51.1で、方式未指定の停止、[マージ](/glossary/マージ/)・リベースの成功、早送りのみの拒否、無関係な履歴での表示順序をローカルで[確認](/glossary/確認/)しました。fatal表示が導入された最初の[Git](/glossary/git/)の版は特定していません。開発中のmasterの説明を、すべての[Git](/glossary/git/)の既定動作として扱うことも避けています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

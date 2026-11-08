@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-Bitbucket の 500 [エラー](/glossary/エラー/)は、Bitbucket [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の問題ではなく、Bitbucket のインフラストラクチャや[リポジトリ](/glossary/リポジトリ/)処理中に異常が生じた状態です。この[エラー](/glossary/エラー/)が発生すると、[プッシュ](/glossary/プッシュ/)、プルリクエストの作成、リポジトリクローンなどの基本的な [Git](/glossary/git/) 操作が失敗し、開発フローが中断されます。
+Bitbucket の 500 [エラー](/glossary/エラー/)は、Bitbucket [サーバー](/glossary/サーバー/)側で予期しない内部[エラー](/glossary/エラー/)が発生したことを示します。[クライアント](/glossary/クライアント/)側の問題ではなく、Bitbucket のインフラストラクチャや[リポジトリ](/glossary/リポジトリ/)処理中に異常が生じた状態です。この[エラー](/glossary/エラー/)が発生すると、[プッシュ](/glossary/プッシュ/)、[プルリクエスト](/glossary/プルリクエスト/)の作成、リポジトリクローンなどの基本的な [Git](/glossary/git/) 操作が失敗し、開発フローが中断されます。
 
 ## 実際のエラーメッセージ例
 
@@ -44,7 +44,7 @@ error: failed to push some refs to 'https://bitbucket.org/<your-workspace>/<your
 
 ### 原因 1：Bitbucket インフラの一時的な障害
 
-Bitbucket のサーバーシステムやクラウドインフラで一時的な[障害](/glossary/障害/)が発生している状態です。Atlassian のシステムメンテナンス中、[ネットワーク](/glossary/ネットワーク/)[障害](/glossary/障害/)、または[データベース](/glossary/データベース/)接続の問題が原因となります。このような[障害](/glossary/障害/)は通常、Atlassian 側で自動的に[復旧](/glossary/復旧/)されますが、[復旧](/glossary/復旧/)までの間はすべてのユーザーに影響します。
+Bitbucket のサーバーシステムやクラウドインフラで一時的な[障害](/glossary/障害/)が発生している状態です。Atlassian のシステムメンテナンス中、[ネットワーク](/glossary/ネットワーク/)[障害](/glossary/障害/)、または[データベース](/glossary/データベース/)接続の問題が原因となります。このような[障害](/glossary/障害/)は通常、Atlassian 側で自動的に[復旧](/glossary/復旧/)されますが、[復旧](/glossary/復旧/)までの間はすべての[ユーザー](/glossary/ユーザー/)に影響します。
 
 **復旧方法：**
 
@@ -119,9 +119,9 @@ $ git config --global http.sslVerify true
 
 ## Bitbucket 固有の注意点
 
-Bitbucket の[クラウド](/glossary/クラウド/)版（bitbucket.org）と [サーバー](/glossary/サーバー/)版（自社ホスト）では、500 [エラー](/glossary/エラー/)の原因と[対応](/glossary/対応/)が異なります。[クラウド](/glossary/クラウド/)版の場合、https://bitbucket.status.atlassian.com で[リアルタイム](/glossary/リアルタイム/)の障害情報が公開されているため、必ず確認してください。[サーバー](/glossary/サーバー/)版の場合は、自社の Bitbucket [インスタンス](/glossary/インスタンス/)の[ログ](/glossary/ログ/)を `/opt/atlassian/bitbucket/logs/` 配下で確認し、[エラー](/glossary/エラー/)の詳細を特定する必要があります。
+Bitbucket の[クラウド](/glossary/クラウド/)版（bitbucket.org）と [サーバー](/glossary/サーバー/)版（自社ホスト）では、500 [エラー](/glossary/エラー/)の原因と[対応](/glossary/対応/)が異なります。[クラウド](/glossary/クラウド/)版の場合、https://bitbucket.status.atlassian.com で[リアルタイム](/glossary/リアルタイム/)の障害情報が公開されているため、必ず[確認](/glossary/確認/)してください。[サーバー](/glossary/サーバー/)版の場合は、自社の Bitbucket [インスタンス](/glossary/インスタンス/)の[ログ](/glossary/ログ/)を `/opt/atlassian/bitbucket/logs/` 配下で[確認](/glossary/確認/)し、[エラー](/glossary/エラー/)の詳細を特定する必要があります。
 
-また、Bitbucket Pipelines を使用している場合、パイプライン実行中に 500 [エラー](/glossary/エラー/)が発生することもあります。この場合、[リポジトリ](/glossary/リポジトリ/)の[設定](/glossary/設定/)（プロジェクトキー、[環境変数](/glossary/環境変数/)）を確認し、Pipelines の実行[ログ](/glossary/ログ/)から詳細なスタックトレースを取得することが重要です。
+また、Bitbucket Pipelines を使用している場合、パイプライン実行中に 500 [エラー](/glossary/エラー/)が発生することもあります。この場合、[リポジトリ](/glossary/リポジトリ/)の[設定](/glossary/設定/)（プロジェクトキー、[環境変数](/glossary/環境変数/)）を[確認](/glossary/確認/)し、Pipelines の実行[ログ](/glossary/ログ/)から詳細なスタックトレースを取得することが重要です。
 
 ```bash
 # サーバー版の Bitbucket で 500 エラーが発生した場合
@@ -164,4 +164,4 @@ Atlassian の公式ドキュメント（https://support.atlassian.com/bitbucket-
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

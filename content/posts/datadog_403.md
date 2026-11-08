@@ -14,7 +14,7 @@ related_services: ["API", "Organization Settings"]
 
 ## エラーの概要
 
-Datadog [API](/glossary/api/) への[アクセス権限](/glossary/アクセス権限/)がない、またはアプリケーションキーに対象リソースへのアクセスに必要な[スコープ](/glossary/スコープ/)がない場合に発生します。ユーザーに対して該当リソースの[アクセス権限](/glossary/アクセス権限/)がないか、オーガニゼーションレベルの[アクセス制御](/glossary/アクセス制御/)で制限されていることが原因です。
+Datadog [API](/glossary/api/) への[アクセス権限](/glossary/アクセス権限/)がない、またはアプリケーションキーに対象[リソース](/glossary/リソース/)へのアクセスに必要な[スコープ](/glossary/スコープ/)がない場合に発生します。[ユーザー](/glossary/ユーザー/)に対して該当[リソース](/glossary/リソース/)の[アクセス権限](/glossary/アクセス権限/)がないか、オーガニゼーションレベルの[アクセス制御](/glossary/アクセス制御/)で制限されていることが原因です。
 
 ## 実際のエラーメッセージ例
 
@@ -37,7 +37,7 @@ Datadog [API](/glossary/api/) への[アクセス権限](/glossary/アクセス�
 
 - `403` → [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/)：[リクエスト](/glossary/リクエスト/)は到達したが、[サーバー](/glossary/サーバー/)がアクセスを拒否した
 - `Insufficient permissions` → アプリケーションキーに必要な[スコープ](/glossary/スコープ/)（読み取り・書き込み[権限](/glossary/権限/)）が不足していることを示す
-- `User does not have access to this resource` → ユーザーまたは[キー](/glossary/キー/)がそのリソースへの[アクセス権限](/glossary/アクセス権限/)を持っていないことを示す [JSON](/glossary/json/) メッセージ
+- `User does not have access to this resource` → [ユーザー](/glossary/ユーザー/)または[キー](/glossary/キー/)がその[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)を持っていないことを示す [JSON](/glossary/json/) メッセージ
 
 ## よくある原因と解決手順
 
@@ -69,13 +69,13 @@ curl -X POST "https://api.datadoghq.com/api/v1/dashboard" \
 # 応答: 200 OK
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
-Datadog の Organization Settings → Application Keys で該当[キー](/glossary/キー/)を選択し、必要な[スコープ](/glossary/スコープ/)（例：`dashboards_write`、`monitors_write`）にチェックマークが付いているか確認してください。チェックが入っていれば、[スコープ](/glossary/スコープ/)割り当てが成功しています。
+Datadog の Organization Settings → Application Keys で該当[キー](/glossary/キー/)を選択し、必要な[スコープ](/glossary/スコープ/)（例：`dashboards_write`、`monitors_write`）にチェックマークが付いているか[確認](/glossary/確認/)してください。チェックが入っていれば、[スコープ](/glossary/スコープ/)割り当てが成功しています。
 
 ### 原因2：ユーザーロールに対象リソースへのアクセス権限がない
 
-アプリケーションキーを生成したユーザーの[ロール](/glossary/ロール/)が、その操作に必要な[権限](/glossary/権限/)を持っていない場合に発生します。オーガニゼーション管理者は多くの[スコープ](/glossary/スコープ/)にアクセスできますが、カスタムロールや制限された[ロール](/glossary/ロール/)（例：Monitor Editor）ではリソースごとのアクセスが限定されます。
+アプリケーションキーを生成した[ユーザー](/glossary/ユーザー/)の[ロール](/glossary/ロール/)が、その操作に必要な[権限](/glossary/権限/)を持っていない場合に発生します。オーガニゼーション管理者は多くの[スコープ](/glossary/スコープ/)にアクセスできますが、カスタムロールや制限された[ロール](/glossary/ロール/)（例：Monitor Editor）では[リソース](/glossary/リソース/)ごとのアクセスが限定されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -115,9 +115,9 @@ api.Monitor.update(123456, query="avg:system.cpu{*} > 0.8")
 # 応答: 200 OK
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
-Datadog の Organization Settings → Users で該当ユーザーを選択し、割り当てられている[ロール](/glossary/ロール/)を確認してください。必要な操作に[対応](/glossary/対応/)した[ロール](/glossary/ロール/)（例：Monitor Editor、Admin）が割り当てられていれば成功です。
+Datadog の Organization Settings → Users で該当[ユーザー](/glossary/ユーザー/)を選択し、割り当てられている[ロール](/glossary/ロール/)を[確認](/glossary/確認/)してください。必要な操作に[対応](/glossary/対応/)した[ロール](/glossary/ロール/)（例：Monitor Editor、Admin）が割り当てられていれば成功です。
 
 ### 原因3：API キーと Application Key の混同
 
@@ -144,7 +144,7 @@ curl -X GET "https://api.datadoghq.com/api/v1/dashboard" \
 # 応答: 200 OK
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 # キーの種類を確認するコマンド
@@ -179,9 +179,9 @@ curl -X GET "https://api.datadoghq.com/api/v1/monitor" \
 # 応答: 200 OK
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
-Datadog の Organization Settings → Application Keys にアクセスし、使用している[キー](/glossary/キー/)が「Active」ステータスで表示されているか確認してください。削除済み[キー](/glossary/キー/)のリストに含まれていなければ成功です。
+Datadog の Organization Settings → Application Keys にアクセスし、使用している[キー](/glossary/キー/)が「Active」ステータスで表示されているか[確認](/glossary/確認/)してください。削除済み[キー](/glossary/キー/)のリストに含まれていなければ成功です。
 
 ## 解決策の早見表
 
@@ -194,18 +194,18 @@ Datadog の Organization Settings → Application Keys にアクセスし、使�
 
 ## ツール固有の注意点
 
-Datadog では、[API](/glossary/api/) Key と Application Key が異なる目的で使い分けられます。[API](/glossary/api/) Key は[メトリクス](/glossary/メトリクス/)[送信](/glossary/送信/)や[ログ](/glossary/ログ/)[送信](/glossary/送信/)に使用され、Application Key は機密性の高い [API](/glossary/api/)（ユーザー管理、組織設定、[ダッシュボード](/glossary/ダッシュボード/)操作など）に必要です。Terraform Provider for Datadog を使用する場合は、`api_key` と `app_key` の両方を[環境変数](/glossary/環境変数/)または[設定ファイル](/glossary/設定ファイル/)で明示的に指定する必要があります。
+Datadog では、[API](/glossary/api/) Key と Application Key が異なる目的で使い分けられます。[API](/glossary/api/) Key は[メトリクス](/glossary/メトリクス/)[送信](/glossary/送信/)や[ログ](/glossary/ログ/)[送信](/glossary/送信/)に使用され、Application Key は機密性の高い [API](/glossary/api/)（[ユーザー](/glossary/ユーザー/)管理、組織設定、[ダッシュボード](/glossary/ダッシュボード/)操作など）に必要です。Terraform Provider for Datadog を使用する場合は、`api_key` と `app_key` の両方を[環境変数](/glossary/環境変数/)または[設定ファイル](/glossary/設定ファイル/)で明示的に指定する必要があります。
 
-また、KEDA（[Kubernetes](/glossary/kubernetes/) Event-based Autoscaling）で Datadog をメトリクスプロバイダーとして使用する場合、ScaledObject の `authenticationRef` で指定される Secret に、両方の[キー](/glossary/キー/)が正しく含まれていることを確認してください。[Kubernetes](/glossary/kubernetes/) Secret で `api-key` と `app-key` という[キー](/glossary/キー/)名で[保存](/glossary/保存/)し、KEDA の[設定](/glossary/設定/)では `apiKey` と `appKey` の[フィールド](/glossary/フィールド/)で参照するという[対応](/glossary/対応/)も重要です。
+また、KEDA（[Kubernetes](/glossary/kubernetes/) Event-based Autoscaling）で Datadog をメトリクスプロバイダーとして使用する場合、ScaledObject の `authenticationRef` で指定される Secret に、両方の[キー](/glossary/キー/)が正しく含まれていることを[確認](/glossary/確認/)してください。[Kubernetes](/glossary/kubernetes/) Secret で `api-key` と `app-key` という[キー](/glossary/キー/)名で[保存](/glossary/保存/)し、KEDA の[設定](/glossary/設定/)では `apiKey` と `appKey` の[フィールド](/glossary/フィールド/)で参照するという[対応](/glossary/対応/)も重要です。
 
 オーガニゼーション内に複数のサイト（US/EU など）がある場合、[API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の [URL](/glossary/url/) も `api.datadoghq.com`（US）と `api.datadoghq.eu`（EU）で異なります。間違ったサイトの[キー](/glossary/キー/)で異なるサイトの [API](/glossary/api/) にアクセスしようとすると 403 [エラー](/glossary/エラー/)が返されるため、[環境](/glossary/環境/)に応じた [URL](/glossary/url/) [設定](/glossary/設定/)が必須です。
 
 ## それでも解決しない場合
 
-**[ログ](/glossary/ログ/)の確認：**
+**[ログ](/glossary/ログ/)の[確認](/glossary/確認/)：**
 
-- [Kubernetes](/glossary/kubernetes/) を使用している場合、`kubectl logs <pod-name>` で Pod の[ログ](/glossary/ログ/)を確認し、[API](/glossary/api/) 呼び出しのレスポンスコードを確認してください
-- Terraform を使用している場合、`TF_LOG=DEBUG terraform apply` でデバッグログを有効化し、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の詳細を確認してください
+- [Kubernetes](/glossary/kubernetes/) を使用している場合、`kubectl logs <pod-name>` で Pod の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)し、[API](/glossary/api/) 呼び出しのレスポンスコードを[確認](/glossary/確認/)してください
+- Terraform を使用している場合、`TF_LOG=DEBUG terraform apply` でデバッグログを有効化し、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)・[レスポンス](/glossary/レスポンス/)の詳細を[確認](/glossary/確認/)してください
 
 **デバッグコマンド：**
 

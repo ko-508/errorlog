@@ -59,7 +59,7 @@ aws s3 ls s3://my-data-bucket/
 aws s3 ls s3://my-data-bucket-prod/
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3 ls s3://my-data-bucket-prod/
@@ -93,13 +93,13 @@ aws s3 ls s3://my-asia-bucket/
 aws s3 ls s3://my-asia-bucket/ --region ap-northeast-1
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3api get-bucket-location --bucket my-asia-bucket
 ```
 
-実行結果に `"LocationConstraint": "ap-northeast-1"` と表示されれば、[バケット](/glossary/バケット/)が確実に存在し、正しいリージョンで[設定](/glossary/設定/)されていることが確認できます。
+実行結果に `"LocationConstraint": "ap-northeast-1"` と表示されれば、[バケット](/glossary/バケット/)が確実に存在し、正しいリージョンで[設定](/glossary/設定/)されていることが[確認](/glossary/確認/)できます。
 
 ### 原因3：バケットが削除されている
 
@@ -132,7 +132,7 @@ aws s3api create-bucket \
   --create-bucket-configuration LocationConstraint=ap-northeast-1
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws s3 ls s3://my-new-bucket-v2/
@@ -164,13 +164,13 @@ aws s3 ls s3://prod-data-bucket/
 # または、IAM ポリシーをアタッチして権限を付与する
 ```
 
-✅ 修正後の確認：
+✅ 修正後の[確認](/glossary/確認/)：
 
 ```bash
 aws iam get-user
 ```
 
-現在のユーザー情報が表示されます。その後、アタッチされている[ポリシー](/glossary/ポリシー/)を確認します。
+現在の[ユーザー](/glossary/ユーザー/)情報が表示されます。その後、アタッチされている[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)します。
 
 ```bash
 aws iam list-attached-user-policies --user-name <your-username>
@@ -185,25 +185,25 @@ S3 [アクセス権限](/glossary/アクセス権限/)を持つ[ポリシー](/g
 | [バケット](/glossary/バケット/)名のスペルミスを[修正](/glossary/修正/) | 低 | 不要 | 全[OS](/glossary/os/) |
 | リージョン[設定](/glossary/設定/)を正しく指定 | 低 | 不要 | 全[OS](/glossary/os/) |
 | [削除](/glossary/削除/)された[バケット](/glossary/バケット/)を再作成 | 中 | 不要 | 全[OS](/glossary/os/) |
-| [IAM](/glossary/iam/) [権限](/glossary/権限/)を付与・確認 | 中 | 不要 | 全[OS](/glossary/os/) |
+| [IAM](/glossary/iam/) [権限](/glossary/権限/)を付与・[確認](/glossary/確認/) | 中 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点
 
 [AWS](/glossary/aws/) S3 はグローバルなネームスペースを使用するため、[バケット](/glossary/バケット/)名は世界中で一意である必要があります。削除済みの[バケット](/glossary/バケット/)名を再利用する場合は、[削除](/glossary/削除/)から数分の待機が必要になることがあります。
 
-EC2 [インスタンス](/glossary/インスタンス/)から S3 にアクセスする場合は、[インスタンス](/glossary/インスタンス/)に割り当てられている [IAM](/glossary/iam/) [ロール](/glossary/ロール/)を確認してください。[コンソール](/glossary/コンソール/)では動作していても、EC2 上では NoSuchBucket [エラー](/glossary/エラー/)が発生することがあります。これは[ロール](/glossary/ロール/)に S3 [アクセス権限](/glossary/アクセス権限/)がないためです。
+EC2 [インスタンス](/glossary/インスタンス/)から S3 にアクセスする場合は、[インスタンス](/glossary/インスタンス/)に割り当てられている [IAM](/glossary/iam/) [ロール](/glossary/ロール/)を[確認](/glossary/確認/)してください。[コンソール](/glossary/コンソール/)では動作していても、EC2 上では NoSuchBucket [エラー](/glossary/エラー/)が発生することがあります。これは[ロール](/glossary/ロール/)に S3 [アクセス権限](/glossary/アクセス権限/)がないためです。
 
-また、[バケット](/glossary/バケット/)名に大文字が含まれていないかも確認してください。S3 [バケット](/glossary/バケット/)名は小文字、数字、ハイフンのみで構成される必要があります。
+また、[バケット](/glossary/バケット/)名に大文字が含まれていないかも[確認](/glossary/確認/)してください。S3 [バケット](/glossary/バケット/)名は小文字、数字、ハイフンのみで構成される必要があります。
 
 ## それでも解決しない場合
 
-[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデバッグモードで詳細な[ログ](/glossary/ログ/)を確認してください。
+[AWS](/glossary/aws/) [CLI](/glossary/cli/) のデバッグモードで詳細な[ログ](/glossary/ログ/)を[確認](/glossary/確認/)してください。
 
 ```bash
 aws s3 ls s3://my-bucket/ --debug
 ```
 
-CloudTrail でアクションログを確認することで、実際にどの[バケット](/glossary/バケット/)へのアクセスが試みられたかが明確になります。
+CloudTrail でアクションログを[確認](/glossary/確認/)することで、実際にどの[バケット](/glossary/バケット/)へのアクセスが試みられたかが明確になります。
 
 ```bash
 aws cloudtrail lookup-events \
@@ -225,10 +225,10 @@ NoSuchBucket [エラー](/glossary/エラー/)が頻発して S3 の運用に支
 
 ## Editor's Note
 
-公式ドキュメントでは NoSuchBucket [エラー](/glossary/エラー/)の原因を「[バケット](/glossary/バケット/)が存在しない」と説明していますが、Stack Overflow の[実際の報告](https://stackoverflow.com/questions/55940082/nosuchbucket-error-sometimes-occurs-when-looping-through-all-s3-buckets)から明らかなように、[IAM](/glossary/iam/) 権限不足でも同じ[エラー](/glossary/エラー/)が返されることが一般的です。同じく [EC2 環境での報告](https://stackoverflow.com/questions/40871221/aws-s3-ls-bucket-name-works-on-local-machine-but-on-ec2-nosuchbucket-error) では、ローカルマシンでは動作していても EC2 [インスタンス](/glossary/インスタンス/)で[エラー](/glossary/エラー/)になるケースが多く報告されており、この場合の原因はほぼ確実に[ロール](/glossary/ロール/)[権限](/glossary/権限/)です。現場では、[バケット](/glossary/バケット/)存在確認より先に [IAM](/glossary/iam/) [権限](/glossary/権限/)を確認する方が、[エラー](/glossary/エラー/)原因の特定が効率的になります。
+公式ドキュメントでは NoSuchBucket [エラー](/glossary/エラー/)の原因を「[バケット](/glossary/バケット/)が存在しない」と説明していますが、Stack Overflow の[実際の報告](https://stackoverflow.com/questions/55940082/nosuchbucket-error-sometimes-occurs-when-looping-through-all-s3-buckets)から明らかなように、[IAM](/glossary/iam/) 権限不足でも同じ[エラー](/glossary/エラー/)が返されることが一般的です。同じく [EC2 環境での報告](https://stackoverflow.com/questions/40871221/aws-s3-ls-bucket-name-works-on-local-machine-but-on-ec2-nosuchbucket-error) では、ローカルマシンでは動作していても EC2 [インスタンス](/glossary/インスタンス/)で[エラー](/glossary/エラー/)になるケースが多く報告されており、この場合の原因はほぼ確実に[ロール](/glossary/ロール/)[権限](/glossary/権限/)です。現場では、[バケット](/glossary/バケット/)存在確認より先に [IAM](/glossary/iam/) [権限](/glossary/権限/)を[確認](/glossary/確認/)する方が、[エラー](/glossary/エラー/)原因の特定が効率的になります。
 
 > **調査について**　この記事の解決策は、Stack Overflow への公開報告を Gemini + Google Search で[検索](/glossary/検索/)・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

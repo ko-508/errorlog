@@ -14,7 +14,7 @@ top_queries:
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose で 403 [エラー](/glossary/エラー/)が発生する場合、これは[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）またはホストマシンのリソースに対して、実行ユーザーが十分な[アクセス権限](/glossary/アクセス権限/)を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、[Docker](/glossary/docker/) ソケットへのアクセスなど、複数の場面で発生する可能性があります。
+[Docker](/glossary/docker/) Compose で 403 [エラー](/glossary/エラー/)が発生する場合、これは[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub、[プライベートレジストリ](/glossary/プライベートレジストリ/)など）またはホストマシンの[リソース](/glossary/リソース/)に対して、実行[ユーザー](/glossary/ユーザー/)が十分な[アクセス権限](/glossary/アクセス権限/)を持っていないことを示しています。プライベートイメージの pull、ボリュームマウント時のファイルアクセス、[Docker](/glossary/docker/) ソケットへのアクセスなど、複数の場面で発生する可能性があります。
 
 ## 実際のエラーメッセージ例
 
@@ -98,7 +98,7 @@ services:
 
 ### 原因2：ボリュームマウント先ディレクトリのパーミッション不足
 
-[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先[ディレクトリ](/glossary/ディレクトリ/)に書き込みを試みると、パーミッション不足で 403 [エラー](/glossary/エラー/)が発生します。特に root でないユーザーで[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
+[Docker](/glossary/docker/) [コンテナ](/glossary/コンテナ/)内から、ホストマシンのマウント先[ディレクトリ](/glossary/ディレクトリ/)に書き込みを試みると、パーミッション不足で 403 [エラー](/glossary/エラー/)が発生します。特に root でない[ユーザー](/glossary/ユーザー/)で[コンテナ](/glossary/コンテナ/)を実行する場合に顕著です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -147,7 +147,7 @@ sudo chmod 777 /data/app
 docker-compose up -d
 ```
 
-あるいは、Dockerfile で[コンテナ](/glossary/コンテナ/)内のユーザーを指定する方法：
+あるいは、Dockerfile で[コンテナ](/glossary/コンテナ/)内の[ユーザー](/glossary/ユーザー/)を指定する方法：
 
 ```dockerfile
 FROM ubuntu:20.04
@@ -157,7 +157,7 @@ USER appuser
 
 ### 原因3：Docker ソケットへのアクセス権限不足
 
-現在のユーザーが docker グループに属していない場合、[Docker](/glossary/docker/) ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 [エラー](/glossary/エラー/)が発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
+現在の[ユーザー](/glossary/ユーザー/)が docker グループに属していない場合、[Docker](/glossary/docker/) ソケット（`/var/run/docker.sock`）へのアクセスが拒否され 403 [エラー](/glossary/エラー/)が発生します。sudo なしで docker-compose を実行しようとすると発生しやすい問題です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -192,7 +192,7 @@ docker-compose up -d
 sudo docker-compose up -d
 ```
 
-ユーザーが docker グループに追加されたか確認：
+[ユーザー](/glossary/ユーザー/)が docker グループに追加されたか[確認](/glossary/確認/)：
 
 ```bash
 id -nG
@@ -222,9 +222,9 @@ docker compose up -d
 # 権限がない場合は同じく docker グループへの追加が必要
 ```
 
-**Windows または macOS で [Docker](/glossary/docker/) Desktop を使用している場合：**
+**[Windows](/glossary/windows/) または macOS で [Docker](/glossary/docker/) Desktop を使用している場合：**
 
-[Docker](/glossary/docker/) Desktop の[ファイル](/glossary/ファイル/)共有設定で、マウント対象[ディレクトリ](/glossary/ディレクトリ/)が許可リストに含まれている必要があります。[設定](/glossary/設定/)→ Resources→ File Sharing で確認し、マウント先の[パス](/glossary/パス/)が含まれていることを確認してください。
+[Docker](/glossary/docker/) Desktop の[ファイル](/glossary/ファイル/)共有設定で、マウント対象[ディレクトリ](/glossary/ディレクトリ/)が許可リストに含まれている必要があります。[設定](/glossary/設定/)→ Resources→ File Sharing で[確認](/glossary/確認/)し、マウント先の[パス](/glossary/パス/)が含まれていることを[確認](/glossary/確認/)してください。
 
 **Swarm モード使用時：**
 
@@ -236,14 +236,14 @@ docker stack deploy -c docker-compose.yml <stack-name>
 
 ## それでも解決しない場合
 
-[Docker](/glossary/docker/) Compose の詳細な[エラー](/glossary/エラー/)出力を確認します。
+[Docker](/glossary/docker/) Compose の詳細な[エラー](/glossary/エラー/)出力を[確認](/glossary/確認/)します。
 
 ```bash
 # デバッグモードで実行（詳細ログを表示）
 docker-compose -v up
 ```
 
-[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を確認：
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)：
 
 ```bash
 # Linux の場合
@@ -253,7 +253,7 @@ sudo journalctl -u docker -n 100
 ~/Library/Logs/Docker/com.docker.docker.log
 ```
 
-[Docker](/glossary/docker/) の[設定](/glossary/設定/)を確認：
+[Docker](/glossary/docker/) の[設定](/glossary/設定/)を[確認](/glossary/確認/)：
 
 ```bash
 # 認証設定を確認
@@ -270,7 +270,7 @@ stat /data/app  # マウント対象のパーミッション詳細表示
 - [Docker Hub レジストリ認証](https://docs.docker.com/engine/reference/commandline/login/)
 - [ボリュームマウント トラブルシューティング](https://docs.docker.com/storage/volumes/)
 
-上記の[対応](/glossary/対応/)でも解決しない場合、以下を確認してください：
+上記の[対応](/glossary/対応/)でも解決しない場合、以下を[確認](/glossary/確認/)してください：
 
 ```bash
 # Docker デーモンの状態確認
@@ -285,4 +285,4 @@ getenforce
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

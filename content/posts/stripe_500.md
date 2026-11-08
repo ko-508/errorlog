@@ -177,7 +177,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### テスト環境とライブ環境でのAPI仕様の違い
 
-[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン[対応](/glossary/対応/)が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)[設定](/glossary/設定/) → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が[対応](/glossary/対応/)している機能と[バージョン](/glossary/バージョン/)を確認してください。
+[テスト](/glossary/テスト/)[環境](/glossary/環境/)（sk_test_）とライブ[環境](/glossary/環境/)（sk_live_）で、一部の機能やリージョン[対応](/glossary/対応/)が異なる場合があります。[テスト](/glossary/テスト/)[環境](/glossary/環境/)では成功するが[本番環境](/glossary/本番環境/)で500[エラー](/glossary/エラー/)になるケースは、この差異が原因のことがあります。Stripe[ダッシュボード](/glossary/ダッシュボード/)の「[アカウント](/glossary/アカウント/)[設定](/glossary/設定/) → [API](/glossary/api/)」セクションで、[アカウント](/glossary/アカウント/)が[対応](/glossary/対応/)している機能と[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
@@ -185,11 +185,11 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` [フィールド](/glossary/フィールド/)をメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
 
-2. **Stripeステータスページの確認**：https://status.stripe.com/ で、Stripe側に[障害](/glossary/障害/)がないか確認します。インシデント進行中の場合は、[復旧](/glossary/復旧/)を待つ必要があります。
+2. **Stripeステータスページの[確認](/glossary/確認/)**：https://status.stripe.com/ で、Stripe側に[障害](/glossary/障害/)がないか[確認](/glossary/確認/)します。インシデント進行中の場合は、[復旧](/glossary/復旧/)を待つ必要があります。
 
-3. **ホスト側[ログ](/glossary/ログ/)の確認**：アプリケーションサーバーの[エラーログ](/glossary/エラーログ/)を詳しく確認し、Stripe [SDK](/glossary/sdk/)内部で例外が発生していないかを確認します。
+3. **ホスト側[ログ](/glossary/ログ/)の[確認](/glossary/確認/)**：アプリケーションサーバーの[エラーログ](/glossary/エラーログ/)を詳しく[確認](/glossary/確認/)し、Stripe [SDK](/glossary/sdk/)内部で例外が発生していないかを[確認](/glossary/確認/)します。
 
-4. **[API](/glossary/api/)[バージョン](/glossary/バージョン/)の確認[コマンド](/glossary/コマンド/)**：
+4. **[API](/glossary/api/)[バージョン](/glossary/バージョン/)の[確認](/glossary/確認/)[コマンド](/glossary/コマンド/)**：
 
 ```bash
 # ダッシュボード設定から現在のAPIバージョンを確認
@@ -213,4 +213,4 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

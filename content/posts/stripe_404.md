@@ -13,7 +13,7 @@ related_services: ["REST API", "Node.js SDK", "Python SDK"]
 ---
 ## エラーの概要
 
-Stripe [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、指定したリソース（Customer、PaymentIntent、Chargeなど）がStripe[サーバー](/glossary/サーバー/)上に存在しないか、[アクセス権限](/glossary/アクセス権限/)のないリソースへのアクセスを試みたことを示します。この[エラー](/glossary/エラー/)は[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe [API](/glossary/api/)の[標準](/glossary/標準/)[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の一つで、[REST](/glossary/rest/) [API](/glossary/api/)とNode.js/Python [SDK](/glossary/sdk/)でも同じ形式で返されます。
+Stripe [API](/glossary/api/)で404[エラー](/glossary/エラー/)が返される場合、指定した[リソース](/glossary/リソース/)（Customer、PaymentIntent、Chargeなど）がStripe[サーバー](/glossary/サーバー/)上に存在しないか、[アクセス権限](/glossary/アクセス権限/)のない[リソース](/glossary/リソース/)へのアクセスを試みたことを示します。この[エラー](/glossary/エラー/)は[API](/glossary/api/)[リクエスト](/glossary/リクエスト/)の失敗を意味し、データの喪失ではなく、参照先の問題です。Stripe [API](/glossary/api/)の[標準](/glossary/標準/)[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の一つで、[REST](/glossary/rest/) [API](/glossary/api/)とNode.js/Python [SDK](/glossary/sdk/)でも同じ形式で返されます。
 
 ## 実際のエラーメッセージ例
 
@@ -78,7 +78,7 @@ retrieved = stripe.Customer.retrieve(customer.id)
 
 ### 原因2：テスト環境と本番環境のAPIキー混在
 
-[テスト](/glossary/テスト/)用[API](/glossary/api/)[キー](/glossary/キー/)（`pk_test_`、`sk_test_`）で[本番環境](/glossary/本番環境/)のリソースにアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なる[キー](/glossary/キー/)でアクセスしたリソースは見つかりません。
+[テスト](/glossary/テスト/)用[API](/glossary/api/)[キー](/glossary/キー/)（`pk_test_`、`sk_test_`）で[本番環境](/glossary/本番環境/)の[リソース](/glossary/リソース/)にアクセスしたり、その逆を行うと404が返されます。Stripeは[環境](/glossary/環境/)ごとにデータを完全に分離しているため、異なる[キー](/glossary/キー/)でアクセスした[リソース](/glossary/リソース/)は見つかりません。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -111,7 +111,7 @@ const paymentIntent = await stripeClient.paymentIntents.retrieve('pi_test_12345'
 
 ### 原因3：リソースが削除済みまたは有効期限切れ
 
-Stripe上で[削除](/glossary/削除/)されたリソースや、有効期限が切れた支払い[セッション](/glossary/セッション/)へのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
+Stripe上で[削除](/glossary/削除/)された[リソース](/glossary/リソース/)や、有効期限が切れた支払い[セッション](/glossary/セッション/)へのアクセス試行で404が返されます。特にPayment LinkやCheckout Sessionは一定期間後に参照できなくなるケースがあります。
 
 **修正前（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -151,7 +151,7 @@ except stripe.error.InvalidRequestError as e:
 
 ### APIバージョンの違いによる404
 
-Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加されたリソースにアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)[設定](/glossary/設定/)で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
+Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加された[リソース](/glossary/リソース/)にアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)[設定](/glossary/設定/)で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ```bash
 # リクエストヘッダーでAPIバージョンを明示的に指定
@@ -162,7 +162,7 @@ curl https://api.stripe.com/v1/customers/cus_test123 \
 
 ### Webhook署名検証とリソースID
 
-[Webhook](/glossary/webhook/)で受け取った[イベント](/glossary/イベント/)のリソース[ID](/glossary/id/)を直後に参照する場合、わずかな[遅延](/glossary/遅延/)で404が返ることがあります。Stripeの[イベント](/glossary/イベント/)[処理](/glossary/処理/)は[非同期](/glossary/非同期/)のため、リトライロジック（失敗時に何度か再試行する[処理](/glossary/処理/)）を実装することが推奨されます。
+[Webhook](/glossary/webhook/)で受け取った[イベント](/glossary/イベント/)の[リソース](/glossary/リソース/)[ID](/glossary/id/)を直後に参照する場合、わずかな[遅延](/glossary/遅延/)で404が返ることがあります。Stripeの[イベント](/glossary/イベント/)[処理](/glossary/処理/)は[非同期](/glossary/非同期/)のため、リトライロジック（失敗時に何度か再試行する[処理](/glossary/処理/)）を実装することが推奨されます。
 
 ```python
 import time
@@ -202,7 +202,7 @@ const customer = await stripe.customers.retrieve(
 
 ### ログとデバッグ情報の確認
 
-Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を確認できます。ここで正確な[エラーメッセージ](/glossary/エラーメッセージ/)とリソース[ID](/glossary/id/)を再度検証してください。
+Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers」→「[API](/glossary/api/) logs」セクションで、実際に[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)と返された[レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)できます。ここで正確な[エラーメッセージ](/glossary/エラーメッセージ/)と[リソース](/glossary/リソース/)[ID](/glossary/id/)を再度検証してください。
 
 ### 公式ドキュメント
 
@@ -219,8 +219,8 @@ Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers�
 - 実際の[リクエスト](/glossary/リクエスト/)内容（個人情報を除外）
 - [Webhook](/glossary/webhook/) [ID](/glossary/id/)（該当する場合）
 
-[GitHub](/glossary/github/)のstripe-nodeやstripe-pythonリポジトリーのIssuesセクションで、類似の問題が報告されていないか確認することも有効です。
+[GitHub](/glossary/github/)のstripe-nodeやstripe-pythonリポジトリーのIssuesセクションで、類似の問題が報告されていないか[確認](/glossary/確認/)することも有効です。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

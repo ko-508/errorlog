@@ -13,7 +13,7 @@ trend_incident: true
 ---
 ## エラーの概要
 
-Vercel の 403 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)や [API](/glossary/api/) 呼び出し時に[プロジェクト](/glossary/プロジェクト/)やリソースへの[アクセス権限](/glossary/アクセス権限/)がないことを意味します。これは認証自体は成功しているものの、[認可](/glossary/認可/)（[アクセス権](/glossary/アクセス権/)の許可判定）レベルで拒否される状態です。Vercel では、個人[アカウント](/glossary/アカウント/)・チームアカウント・[API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)（適用範囲）によって[権限](/glossary/権限/)が厳密に管理されており、不適切な組み合わせで 403 [エラー](/glossary/エラー/)が発生することがあります。
+Vercel の 403 [エラー](/glossary/エラー/)は、[デプロイ](/glossary/デプロイ/)や [API](/glossary/api/) 呼び出し時に[プロジェクト](/glossary/プロジェクト/)や[リソース](/glossary/リソース/)への[アクセス権限](/glossary/アクセス権限/)がないことを意味します。これは認証自体は成功しているものの、[認可](/glossary/認可/)（[アクセス権](/glossary/アクセス権/)の許可判定）レベルで拒否される状態です。Vercel では、個人[アカウント](/glossary/アカウント/)・チームアカウント・[API](/glossary/api/) [トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)（適用範囲）によって[権限](/glossary/権限/)が厳密に管理されており、不適切な組み合わせで 403 [エラー](/glossary/エラー/)が発生することがあります。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ You do not have permission to access this resource
 
 ### 原因1：別のチームのプロジェクトに個人トークンでアクセスしている
 
-個人[アカウント](/glossary/アカウント/)の [API](/glossary/api/) [トークン](/glossary/トークン/)を使用しながら、チームが所有する[プロジェクト](/glossary/プロジェクト/)にアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。Vercel では個人[スコープ](/glossary/スコープ/)の[トークン](/glossary/トークン/)ではチーム配下のリソースにアクセスできません。
+個人[アカウント](/glossary/アカウント/)の [API](/glossary/api/) [トークン](/glossary/トークン/)を使用しながら、チームが所有する[プロジェクト](/glossary/プロジェクト/)にアクセスしようとすると 403 [エラー](/glossary/エラー/)が発生します。Vercel では個人[スコープ](/glossary/スコープ/)の[トークン](/glossary/トークン/)ではチーム配下の[リソース](/glossary/リソース/)にアクセスできません。
 
 **修正前：**
 
@@ -87,15 +87,15 @@ export VERCEL_TOKEN=<チームスコープのトークン>
 vercel deploy
 ```
 
-正しい[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/) とチーム[ID](/glossary/id/) は、Vercel [ダッシュボード](/glossary/ダッシュボード/)の[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)ページの Settings → General から確認できます。
+正しい[プロジェクト](/glossary/プロジェクト/)[ID](/glossary/id/) とチーム[ID](/glossary/id/) は、Vercel [ダッシュボード](/glossary/ダッシュボード/)の[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)ページの Settings → General から[確認](/glossary/確認/)できます。
 
 ### 原因3：プロジェクトのアクセス制限が有効
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/)で[プロジェクト](/glossary/プロジェクト/)にメンバー制限を[設定](/glossary/設定/)している場合、対象の [API](/glossary/api/) [トークン](/glossary/トークン/)やユーザーが許可リストに入っていないと 403 が返されます。
+Vercel [ダッシュボード](/glossary/ダッシュボード/)で[プロジェクト](/glossary/プロジェクト/)にメンバー制限を[設定](/glossary/設定/)している場合、対象の [API](/glossary/api/) [トークン](/glossary/トークン/)や[ユーザー](/glossary/ユーザー/)が許可リストに入っていないと 403 が返されます。
 
 **修正方法：**
 
-Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → Security のアクセス制限設定を確認し、使用する [API](/glossary/api/) [トークン](/glossary/トークン/)が許可リストに[登録](/glossary/登録/)されているか確認してください。必要に応じて、使用する[トークン](/glossary/トークン/)を許可リストに追加するか、許可済みの[トークン](/glossary/トークン/)に変更します。
+Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → Security のアクセス制限設定を[確認](/glossary/確認/)し、使用する [API](/glossary/api/) [トークン](/glossary/トークン/)が許可リストに[登録](/glossary/登録/)されているか[確認](/glossary/確認/)してください。必要に応じて、使用する[トークン](/glossary/トークン/)を許可リストに追加するか、許可済みの[トークン](/glossary/トークン/)に変更します。
 
 ## Vercel 固有の注意点
 
@@ -103,11 +103,11 @@ Vercel では[プロジェクト](/glossary/プロジェクト/)の所有権と[
 
 [CI/CD](/glossary/ci-cd/) パイプラインで[デプロイ](/glossary/デプロイ/)を行う場合は、**チームスコープの [API](/glossary/api/) [トークン](/glossary/トークン/)を使用**してください。[GitHub](/glossary/github/) Actions 等で VERCEL_TOKEN を[設定](/glossary/設定/)する際は、リポジトリーの Settings → Secrets から、チームが所有する[プロジェクト](/glossary/プロジェクト/)用の[トークン](/glossary/トークン/)を[登録](/glossary/登録/)します。また VERCEL_ORG_[ID](/glossary/id/) を指定しない場合、[デフォルト](/glossary/デフォルト/)で個人[スコープ](/glossary/スコープ/)で動作するため注意が必要です。
 
-[プロジェクト](/glossary/プロジェクト/)を個人[アカウント](/glossary/アカウント/)からチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント[設定](/glossary/設定/)を確認してください。
+[プロジェクト](/glossary/プロジェクト/)を個人[アカウント](/glossary/アカウント/)からチームアカウントに移行した直後は、古い[環境変数](/glossary/環境変数/)が残っていないか全デプロイメント[設定](/glossary/設定/)を[確認](/glossary/確認/)してください。
 
 ## それでも解決しない場合
 
-まず Vercel [ダッシュボード](/glossary/ダッシュボード/)の[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)で、現在[ログイン](/glossary/ログイン/)しているのが正しい[アカウント](/glossary/アカウント/)であることを確認します。Settings → Account で表示されるメールアドレスと所属チームを確認し、[CLI](/glossary/cli/) の認証状態と一致しているか確認してください。
+まず Vercel [ダッシュボード](/glossary/ダッシュボード/)の[アカウント](/glossary/アカウント/)[設定](/glossary/設定/)で、現在[ログイン](/glossary/ログイン/)しているのが正しい[アカウント](/glossary/アカウント/)であることを[確認](/glossary/確認/)します。Settings → Account で表示されるメールアドレスと所属チームを[確認](/glossary/確認/)し、[CLI](/glossary/cli/) の認証状態と一致しているか[確認](/glossary/確認/)してください。
 
 ```bash
 # 現在の認証状態を確認
@@ -118,7 +118,7 @@ vercel logout
 vercel login
 ```
 
-[API](/glossary/api/) [トークン](/glossary/トークン/)の詳細情報を確認する場合、以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)や有効期限を確認できます。
+[API](/glossary/api/) [トークン](/glossary/トークン/)の詳細情報を[確認](/glossary/確認/)する場合、以下の[コマンド](/glossary/コマンド/)で[トークン](/glossary/トークン/)の[スコープ](/glossary/スコープ/)や有効期限を[確認](/glossary/確認/)できます。
 
 ```bash
 # トークンの詳細を確認（Bearer トークンを使用）
@@ -126,8 +126,8 @@ curl -H "Authorization: Bearer <your-vercel-token>" \
   https://api.vercel.com/v2/user
 ```
 
-[プロジェクト](/glossary/プロジェクト/)固有の設定確認は、Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → [API](/glossary/api/) から確認してください。公式ドキュメントの Access Control セクションに、[権限](/glossary/権限/)の詳細説明があります。
+[プロジェクト](/glossary/プロジェクト/)固有の設定確認は、Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → [API](/glossary/api/) から[確認](/glossary/確認/)してください。公式ドキュメントの Access Control セクションに、[権限](/glossary/権限/)の詳細説明があります。
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

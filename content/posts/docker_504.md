@@ -22,7 +22,7 @@ top_queries:
 
 ## エラーの概要
 
-[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)は、[エラー](/glossary/エラー/)の種類ごとに返す [HTTP](/glossary/http/) ステータスを割り当てます。この割り当てはソースコード（moby の daemon/server/httpstatus/status.go）で確認でき、404・400・409・503・500 などへの割り当てはあっても、504への割り当ては存在しません。つまり Error response from daemon: で始まる[エラー](/glossary/エラー/)の中に504の数字が現れた場合も、その504は[デーモン](/glossary/デーモン/)が作ったものではなく、[デーモン](/glossary/デーモン/)が[レジストリ](/glossary/レジストリ/)などの通信相手から受け取ったものの転記です。
+[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)は、[エラー](/glossary/エラー/)の種類ごとに返す [HTTP](/glossary/http/) ステータスを割り当てます。この割り当てはソースコード（moby の daemon/server/httpstatus/status.go）で[確認](/glossary/確認/)でき、404・400・409・503・500 などへの割り当てはあっても、504への割り当ては存在しません。つまり Error response from daemon: で始まる[エラー](/glossary/エラー/)の中に504の数字が現れた場合も、その504は[デーモン](/glossary/デーモン/)が作ったものではなく、[デーモン](/glossary/デーモン/)が[レジストリ](/glossary/レジストリ/)などの通信相手から受け取ったものの転記です。
 
 pull / push で504を受け取ったときの文言は、レジストリクライアントの実装（docker/distribution の registry/client/errors.go）で決まっており、2種類あります。
 
@@ -34,7 +34,7 @@ Error response from daemon: received unexpected HTTP status: 504 Gateway Time-ou
 Error response from daemon: error parsing HTTP 504 response body: invalid character '<' looking for beginning of value: "<html>\r\n<head><title>504 Gateway Time-out</title></head>\r\n..."
 ```
 
-前者は、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) として想定外のステータスを受け取ったことを示します。後者はさらに手がかりが濃く、応答の本文が[レジストリ](/glossary/レジストリ/)の返す [JSON](/glossary/json/) ではなく HTML だったことを示します。[レジストリ](/glossary/レジストリ/)本体は HTML のエラーページを返さないため、この文言は「応答したのは[レジストリ](/glossary/レジストリ/)ではなく、その手前にいる何か（Nginx や[ロードバランサー](/glossary/ロードバランサー/)）だ」という強い証拠になります。
+前者は、[レジストリ](/glossary/レジストリ/) [API](/glossary/api/) として想定外のステータスを受け取ったことを示します。後者はさらに手がかりが濃く、応答の本文が[レジストリ](/glossary/レジストリ/)の返す [JSON](/glossary/json/) ではなく [HTML](/glossary/html/) だったことを示します。[レジストリ](/glossary/レジストリ/)本体は [HTML](/glossary/html/) のエラーページを返さないため、この文言は「応答したのは[レジストリ](/glossary/レジストリ/)ではなく、その手前にいる何か（Nginx や[ロードバランサー](/glossary/ロードバランサー/)）だ」という強い証拠になります。
 
 ## まず最初に：どの操作の504かで3つに分岐する
 
@@ -107,7 +107,7 @@ location / {
 }
 ```
 
-なお、[デーモン](/glossary/デーモン/)の [API](/glossary/api/) はホストのほぼ全権に相当します。[プロキシ](/glossary/プロキシ/)経由で公開する場合は、504の調査とあわせて、到達できる範囲と[認証](/glossary/認証/)の設計を必ず確認してください。
+なお、[デーモン](/glossary/デーモン/)の [API](/glossary/api/) はホストのほぼ全権に相当します。[プロキシ](/glossary/プロキシ/)経由で公開する場合は、504の調査とあわせて、到達できる範囲と[認証](/glossary/認証/)の設計を必ず[確認](/glossary/確認/)してください。
 
 ### 原因3：コンテナ上のアプリの前段のプロキシが返している（Docker の問題ではない）
 
@@ -121,10 +121,10 @@ Cannot connect to the [Docker](/glossary/docker/) daemon は、[デーモン](/g
 
 ## 切り分けの順序
 
-1. どの操作で504が出たかを確認する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、[コンテナ](/glossary/コンテナ/)上のアプリへのアクセスなら原因3（Nginx の 504 の手順へ）。
+1. どの操作で504が出たかを[確認](/glossary/確認/)する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、[コンテナ](/glossary/コンテナ/)上のアプリへのアクセスなら原因3（Nginx の 504 の手順へ）。
 2. 文言を読む。error parsing [HTTP](/glossary/http/) 504 response body があれば、応答したのは[レジストリ](/glossary/レジストリ/)本体ではなく前段の[プロキシ](/glossary/プロキシ/)だと確定できる。
 3. 原因1は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)を突き合わせ、打ち切った層を特定する。本体が正常（200/202）なら前段の制限を広げ、本体側に[遅延](/glossary/遅延/)の記録があれば[ストレージ](/glossary/ストレージ/)や負荷を調べる。
-4. [Docker](/glossary/docker/) Hub 相手なら公式の稼働状況を確認し、[復旧](/glossary/復旧/)を待って再試行する。
+4. [Docker](/glossary/docker/) Hub 相手なら公式の稼働状況を[確認](/glossary/確認/)し、[復旧](/glossary/復旧/)を待って再試行する。
 5. 原因2は、[プロキシ](/glossary/プロキシ/)の読み取り[タイムアウト](/glossary/タイムアウト/)とストリーミング[設定](/glossary/設定/)を [Docker](/glossary/docker/) [API](/glossary/api/) の長い呼び出しに合わせる。
 
 ## 確認コマンド集
@@ -156,4 +156,4 @@ journalctl -u docker --since "10 minutes ago" | tail -20
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご確認ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)の[仕様](/glossary/仕様/)は予告なく変更されることがあります。最新の情報は各[ツール](/glossary/ツール/)の公式サポートページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
