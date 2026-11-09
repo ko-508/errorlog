@@ -1,12 +1,10 @@
 {
-  "date": "2026-11-02",
+  "date": "2026-11-09",
   "noise_countries": [
     "Singapore"
   ],
   "noise_time_threshold": 5.0,
-  "count": 1,
-  "users": 4,
-  "by_country": {
-    "Singapore": 4
-  }
+  "count": 0,
+  "users": 0,
+  "by_country": {}
 }
