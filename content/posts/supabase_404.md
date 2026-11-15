@@ -202,7 +202,7 @@ console.log('実行 SQL:', supabase.sql);  // 実際のクエリを出力
 console.log('エラーオブジェクト:', error);  // 詳細なエラー情報
 ```
 
-それでも解決しない場合は、Supabase の公式ドキュメント（https://supabase.com/docs）のテーブル、Storage、Functions のセクションを参照するか、[GitHub](/glossary/github/) Issues（https://github.com/supabase/supabase）でコミュニティに相談してください。
+それでも解決しない場合は、Supabase の公式[ドキュメント](/glossary/ドキュメント/)（https://supabase.com/docs）のテーブル、Storage、Functions のセクションを参照するか、[GitHub](/glossary/github/) Issues（https://github.com/supabase/supabase）でコミュニティに相談してください。
 
 ---
 

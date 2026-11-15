@@ -46,7 +46,7 @@ Bad credentials の正体は、[トークン](/glossary/トークン/)の誤記�
 }
 ```
 
-[ヘッダー](/glossary/ヘッダー/)の形式について、公式ドキュメントは、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでも[トークン](/glossary/トークン/)を渡せる（[JSON](/glossary/json/) Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の [API](/glossary/api/) は[ユーザー名](/glossary/ユーザー名/)と[パスワード](/glossary/パスワード/)による[認証](/glossary/認証/)に[対応](/glossary/対応/)していないため、[パスワード](/glossary/パスワード/)での[認証](/glossary/認証/)を試みる古い[コード](/glossary/コード/)は動きません。[トークン](/glossary/トークン/)による[認証](/glossary/認証/)が前提です。
+[ヘッダー](/glossary/ヘッダー/)の形式について、公式[ドキュメント](/glossary/ドキュメント/)は、ほとんどの場合 Authorization: Bearer と Authorization: token のどちらでも[トークン](/glossary/トークン/)を渡せる（[JSON](/glossary/json/) Web Token を渡す場合のみ Bearer が必須）としています。どちらの形式かが401の原因になることは基本的にありません。また、github.com の [API](/glossary/api/) は[ユーザー名](/glossary/ユーザー名/)と[パスワード](/glossary/パスワード/)による[認証](/glossary/認証/)に[対応](/glossary/対応/)していないため、[パスワード](/glossary/パスワード/)での[認証](/glossary/認証/)を試みる古い[コード](/glossary/コード/)は動きません。[トークン](/glossary/トークン/)による[認証](/glossary/認証/)が前提です。
 
 ## まず最初に：message を読み、最小のリクエストで再現する
 
@@ -102,7 +102,7 @@ gh auth status
 
 ## 補足：401を繰り返すと一時的に403に変わる
 
-公式ドキュメントによると、短時間に無効な認証情報での[リクエスト](/glossary/リクエスト/)を繰り返すと、[GitHub](/glossary/github/) はその[ユーザー](/glossary/ユーザー/)の[認証](/glossary/認証/)の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効な[トークン](/glossary/トークン/)のまま自動[リトライ](/glossary/リトライ/)を回し続けると、正しい[トークン](/glossary/トークン/)に直した後もしばらく締め出される、という二次被害につながります。401 が出たら[リトライ](/glossary/リトライ/)で押し切ろうとせず、先に原因を直してください。
+公式[ドキュメント](/glossary/ドキュメント/)によると、短時間に無効な認証情報での[リクエスト](/glossary/リクエスト/)を繰り返すと、[GitHub](/glossary/github/) はその[ユーザー](/glossary/ユーザー/)の[認証](/glossary/認証/)の試みを一時的にすべて拒否し、正しい認証情報を使っても 403 Forbidden が返るようになります。無効な[トークン](/glossary/トークン/)のまま自動[リトライ](/glossary/リトライ/)を回し続けると、正しい[トークン](/glossary/トークン/)に直した後もしばらく締め出される、という二次被害につながります。401 が出たら[リトライ](/glossary/リトライ/)で押し切ろうとせず、先に原因を直してください。
 
 なお、[認証](/glossary/認証/)は通っているのに操作が拒否される場合の[コード](/glossary/コード/)は401ではありません。classic [トークン](/glossary/トークン/)の scope 不足や非公開[リソース](/glossary/リソース/)への無権限アクセスは 404（[404 の記事](/posts/github_api_404/)）、[GitHub](/glossary/github/) App・fine-grained [トークン](/glossary/トークン/)の権限不足や[レート制限](/glossary/レート制限/)は 403（[403 の記事](/posts/github_api_403/)）です。
 

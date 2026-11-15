@@ -180,7 +180,7 @@ credential = DefaultAzureCredential()
 
 この[コード](/glossary/コード/)で、どの認証方式が試行され、どこで失敗しているかを特定できます。
 
-**公式ドキュメント参照：** Azure [認証](/glossary/認証/)について詳しくは、[Microsoft Learn の Azure 認証ガイド](https://learn.microsoft.com/ja-jp/azure/developer/python/sdk/authentication-overview) および [Azure CLI ドキュメント](https://learn.microsoft.com/ja-jp/cli/azure/) を参照してください。
+**公式[ドキュメント](/glossary/ドキュメント/)参照：** Azure [認証](/glossary/認証/)について詳しくは、[Microsoft Learn の Azure 認証ガイド](https://learn.microsoft.com/ja-jp/azure/developer/python/sdk/authentication-overview) および [Azure CLI ドキュメント](https://learn.microsoft.com/ja-jp/cli/azure/) を参照してください。
 
 ---
 

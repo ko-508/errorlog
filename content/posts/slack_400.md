@@ -197,7 +197,7 @@ curl -X POST https://slack.com/api/chat.postMessage \
   -v
 ```
 
-**公式ドキュメント参照**  
+**公式[ドキュメント](/glossary/ドキュメント/)参照**  
 - [Slack API Documentation](https://api.slack.com/docs) の「[API](/glossary/api/) Methods」セクションで該当[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)を[確認](/glossary/確認/)
 - [Slack API Errors](https://api.slack.com/apis/rate-limits) で[エラーコード](/glossary/エラーコード/)一覧を[確認](/glossary/確認/)
 - [Incoming Webhooks](https://api.slack.com/messaging/webhooks) で[Webhook](/glossary/webhook/)固有の[要件](/glossary/要件/)を[確認](/glossary/確認/)

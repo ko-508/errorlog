@@ -234,7 +234,7 @@ curl -s https://jenkins.example.com/api/json | grep version
 
 Jenkins 2.176以降を使用している場合、[API](/glossary/api/)[トークン](/glossary/トークン/)の有効期限設定が利用可能です。[バージョン](/glossary/バージョン/)が古い場合は[アップグレード](/glossary/アップグレード/)を検討してください。
 
-**公式ドキュメント参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)参照：**
 
 - [Jenkins API Token設定ガイド](https://www.jenkins.io/doc/book/system-administration/authenticating-scripted-clients/)
 - [Jenkins認証とセキュリティレルム](https://www.jenkins.io/doc/book/system-administration/security/)

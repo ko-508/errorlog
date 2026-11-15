@@ -105,11 +105,11 @@ ls -l /run/php/php-fpm.sock
 # srw-rw---- 1 www-data www-data ... となれば接続できる
 ```
 
-[パス](/glossary/パス/)違いの場合は、Nginx 側とアプリ側の[設定](/glossary/設定/)が指す[パス](/glossary/パス/)を突き合わせて一致させます。所有権と[権限](/glossary/権限/)が正しいのに (13) が消えない場合は、SELinux や AppArmor がソケットへのアクセスを遮断している可能性があり、監査[ログ](/glossary/ログ/)（audit.log）の[確認](/glossary/確認/)に切り替えます。
+[パス](/glossary/パス/)違いの場合は、Nginx 側と[アプリ](/glossary/アプリ/)側の[設定](/glossary/設定/)が指す[パス](/glossary/パス/)を突き合わせて一致させます。所有権と[権限](/glossary/権限/)が正しいのに (13) が消えない場合は、SELinux や AppArmor がソケットへのアクセスを遮断している可能性があり、監査[ログ](/glossary/ログ/)（audit.log）の[確認](/glossary/確認/)に切り替えます。
 
 ### 原因3：全上流サーバーが一時除外されている（no live upstreams）
 
-upstream ブロックに複数の[サーバー](/glossary/サーバー/)を並べた構成で、直近の失敗によりすべての[サーバー](/glossary/サーバー/)が「利用不可」と記録され、送る先がなくなった状態です。公式文書のとおり、各[サーバー](/glossary/サーバー/)は fail_timeout の期間内に max_fails 回失敗すると、fail_timeout の間だけ除外されます。既定は max_fails=1、fail_timeout=10秒 で、何を失敗と数えるかは proxy_next_upstream 系の[設定](/glossary/設定/)に従います。既定値では1回の失敗で10秒間除外されるため、上流全体が短時間不安定になるだけで no live upstreams が連鎖的に発生します。
+upstream ブロックに複数の[サーバー](/glossary/サーバー/)を並べた構成で、直近の失敗によりすべての[サーバー](/glossary/サーバー/)が「利用不可」と記録され、[送る](/glossary/送る/)先がなくなった状態です。公式文書のとおり、各[サーバー](/glossary/サーバー/)は fail_timeout の期間内に max_fails 回失敗すると、fail_timeout の間だけ除外されます。既定は max_fails=1、fail_timeout=10秒 で、何を失敗と数えるかは proxy_next_upstream 系の[設定](/glossary/設定/)に従います。既定値では1回の失敗で10秒間除外されるため、上流全体が短時間不安定になるだけで no live upstreams が連鎖的に発生します。
 
 なお、この文言は複数[サーバー](/glossary/サーバー/)構成でのみ発生します。公式文書のとおり、upstream 内の[サーバー](/glossary/サーバー/)が1台だけの場合は max_fails と fail_timeout が無視され、利用不可の扱いになりません。
 
@@ -156,7 +156,7 @@ dmesg -T | grep -i "out of memory"
 
 ### 原因5：応答ヘッダーがバッファに収まらない（too big header）
 
-上流からの応答の最初の部分（応答[ヘッダー](/glossary/ヘッダー/)）を読む[バッファ](/glossary/バッファ/)は proxy_buffer_size で決まり、公式文書のとおり既定値は1メモリページ（[環境](/glossary/環境/)により 4K または 8K）です。応答[ヘッダー](/glossary/ヘッダー/)がこれを超えると、公式文書に明記されているとおり応答は不正なものとして扱われ、502になります。巨大な Set-Cookie を発行するアプリや、[セッション](/glossary/セッション/)情報を[ヘッダー](/glossary/ヘッダー/)に詰め込む構成で発生します。
+上流からの応答の最初の部分（応答[ヘッダー](/glossary/ヘッダー/)）を読む[バッファ](/glossary/バッファ/)は proxy_buffer_size で決まり、公式文書のとおり既定値は1メモリページ（[環境](/glossary/環境/)により 4K または 8K）です。応答[ヘッダー](/glossary/ヘッダー/)がこれを超えると、公式文書に明記されているとおり応答は不正なものとして扱われ、502になります。巨大な Set-Cookie を発行する[アプリ](/glossary/アプリ/)や、[セッション](/glossary/セッション/)情報を[ヘッダー](/glossary/ヘッダー/)に詰め込む構成で発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きている状態）：**
 

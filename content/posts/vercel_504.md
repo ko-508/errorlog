@@ -197,7 +197,7 @@ console.log(`[${new Date().toISOString()}] Processing started`);
 console.log(`[${new Date().toISOString()}] DB query completed`);
 ```
 
-**公式ドキュメント参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)参照：**
 Vercel 公式の「Serverless Function Configuration」（https://vercel.com/docs/functions/serverless-functions/configuration）および「Limits」（https://vercel.com/docs/limits）ページで最新の制限値とベストプラクティスを確認してください。
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析[ツール](/glossary/ツール/)：**

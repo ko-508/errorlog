@@ -264,7 +264,7 @@ ls -la /var/run/docker.sock
 stat /data/app  # マウント対象のパーミッション詳細表示
 ```
 
-公式ドキュメントの参照：
+公式[ドキュメント](/glossary/ドキュメント/)の参照：
 
 - [Docker Compose 認証ドキュメント](https://docs.docker.com/compose/compose-file/compose-file-v3/)
 - [Docker Hub レジストリ認証](https://docs.docker.com/engine/reference/commandline/login/)

@@ -154,7 +154,7 @@ exports.mlFunction = functions.https.onRequest(async (req, res) => {
 
 ### 4. データベースクエリの効率性が低い
 
-Firestoreへの大量のドキュメント読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)や[バッチ処理](/glossary/バッチ処理/)、[インデックス](/glossary/インデックス/)[設定](/glossary/設定/)により[改善](/glossary/改善/)できます。
+Firestoreへの大量の[ドキュメント](/glossary/ドキュメント/)読み込みやN+1クエリパターンは、処理時間を大幅に増加させます。[クエリ](/glossary/クエリ/)の[最適化](/glossary/最適化/)や[バッチ処理](/glossary/バッチ処理/)、[インデックス](/glossary/インデックス/)[設定](/glossary/設定/)により[改善](/glossary/改善/)できます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -217,7 +217,7 @@ gcloud functions logs read <関数名> --limit 50
 
 Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを[確認](/glossary/確認/)し、ボトルネック箇所を特定してください。
 
-**公式ドキュメント**
+**公式[ドキュメント](/glossary/ドキュメント/)**
 
 - 「Cloud Functionsの[タイムアウト](/glossary/タイムアウト/)と[メモリ](/glossary/メモリ/)管理」（Firebase公式）
 - 「Firestoreの[パフォーマンス](/glossary/パフォーマンス/)[最適化](/glossary/最適化/)ガイド」

@@ -275,7 +275,7 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 [AWS](/glossary/aws/) [IAM](/glossary/iam/) Access Analyzer を使用すると、バケットポリシーやロールポリシーの問題を自動検出できます。[AWS](/glossary/aws/) [コンソール](/glossary/コンソール/) → [IAM](/glossary/iam/) → Access Analyzer → [リソース](/glossary/リソース/)の外部アクセス可否を調査 で、アクセス拒否の原因を指摘してもらえます。
 
-**公式ドキュメント：**
+**公式[ドキュメント](/glossary/ドキュメント/)：**
 
 [AWS S3 での AccessDenied トラブルシューティング](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-overview.html)
 
@@ -291,7 +291,7 @@ CloudTrail [ログ](/glossary/ログ/)から失敗した[リクエスト](/gloss
 
 ## Editor's Note
 
-[AWS](/glossary/aws/) 公式ドキュメントでは [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)と バケットポリシーの関係を別々に説明していることが多いため、新規[ユーザー](/glossary/ユーザー/)は「[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow しているのに拒否される」という混乱に陥りやすいです。実際のサポートフォーラムでは、[AWS re:Post での AccessDenied 事例](https://repost.aws/)でもこの原因が頻出しており、バケットポリシーの Deny 条件や Block Public Access が見落とされるケースが圧倒的です。現場では、まず [AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator で[ポリシー](/glossary/ポリシー/)評価を実行し、複数の[ポリシー](/glossary/ポリシー/)がどの順序で評価されているか可視化してから、個別の[ポリシー](/glossary/ポリシー/)を[修正](/glossary/修正/)するのが有効です。
+[AWS](/glossary/aws/) 公式[ドキュメント](/glossary/ドキュメント/)では [IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)と バケットポリシーの関係を別々に説明していることが多いため、新規[ユーザー](/glossary/ユーザー/)は「[IAM](/glossary/iam/) [ポリシー](/glossary/ポリシー/)で Allow しているのに拒否される」という混乱に陥りやすいです。実際のサポートフォーラムでは、[AWS re:Post での AccessDenied 事例](https://repost.aws/)でもこの原因が頻出しており、バケットポリシーの Deny 条件や Block Public Access が見落とされるケースが圧倒的です。現場では、まず [AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator で[ポリシー](/glossary/ポリシー/)評価を実行し、複数の[ポリシー](/glossary/ポリシー/)がどの順序で評価されているか可視化してから、個別の[ポリシー](/glossary/ポリシー/)を[修正](/glossary/修正/)するのが有効です。
 
 ---
 

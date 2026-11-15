@@ -23,9 +23,9 @@ Nginx の 413 Request Entity Too Large は、[リクエスト](/glossary/リク�
 
 ## エラーの概要
 
-413 は、[リクエスト](/glossary/リクエスト/)の本文（[ファイル](/glossary/ファイル/)の[アップロード](/glossary/アップロード/)内容やフォームの送信内容）が、[サーバー](/glossary/サーバー/)の受け入れ上限を超えたことを示す[コード](/glossary/コード/)です。Nginx では `client_max_body_size` がこの上限を定めており、公式ドキュメントのとおり既定値は 1m（1MB）です。なお、[HTTP](/glossary/http/) の現行仕様（[RFC](/glossary/rfc/) 9110）ではこの[コード](/glossary/コード/)の名称は Content Too Large に改められていますが、Nginx の既定エラーページの文言は「413 Request Entity Too Large」です。
+413 は、[リクエスト](/glossary/リクエスト/)の本文（[ファイル](/glossary/ファイル/)の[アップロード](/glossary/アップロード/)内容やフォームの送信内容）が、[サーバー](/glossary/サーバー/)の受け入れ上限を超えたことを示す[コード](/glossary/コード/)です。Nginx では `client_max_body_size` がこの上限を定めており、公式[ドキュメント](/glossary/ドキュメント/)のとおり既定値は 1m（1MB）です。なお、[HTTP](/glossary/http/) の現行仕様（[RFC](/glossary/rfc/) 9110）ではこの[コード](/glossary/コード/)の名称は Content Too Large に改められていますが、Nginx の既定エラーページの文言は「413 Request Entity Too Large」です。
 
-注意すべき点として、公式ドキュメントには、[ブラウザ](/glossary/ブラウザ/)はこの[エラー](/glossary/エラー/)を正しく表示できない場合があるという注記があります。つまり利用者の画面では、413のページが出るとは限らず、[送信](/glossary/送信/)が途中で失敗した・接続が切れた、といった413と分からない形で現れることがあります。[アップロード](/glossary/アップロード/)だけが原因不明で失敗するという相談を受けたら、まず[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)で413が出ていないかを[確認](/glossary/確認/)する価値があります。
+注意すべき点として、公式[ドキュメント](/glossary/ドキュメント/)には、[ブラウザ](/glossary/ブラウザ/)はこの[エラー](/glossary/エラー/)を正しく表示できない場合があるという注記があります。つまり利用者の画面では、413のページが出るとは限らず、[送信](/glossary/送信/)が途中で失敗した・接続が切れた、といった413と分からない形で現れることがあります。[アップロード](/glossary/アップロード/)だけが原因不明で失敗するという相談を受けたら、まず[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)で413が出ていないかを[確認](/glossary/確認/)する価値があります。
 
 [アクセスログ](/glossary/アクセスログ/)（既定の combined 形式）には次のように記録されます。
 
@@ -102,7 +102,7 @@ sudo nginx -T | grep -n "client_max_body_size"
 
 Nginx をリバースプロキシとして使っている場合、Nginx の検査を通っても、その先の[アプリケーション](/glossary/アプリケーション/)自身の受け入れ上限で拒否されることがあります。[アプリケーション](/glossary/アプリケーション/)が413を返した場合、既定ではそのまま[クライアント](/glossary/クライアント/)に中継されます（`proxy_intercept_errors` の既定は off）。
 
-見分け方は原因1・2と同じで、Nginx の[エラーログ](/glossary/エラーログ/)です。`client intended to send too large body` の行がないのに413が返っているなら、発生源は上流です。この場合、`client_max_body_size` をいくら上げても解決しません。対処する場所は上流[アプリケーション](/glossary/アプリケーション/)の[設定](/glossary/設定/)で、[アップロード](/glossary/アップロード/)上限にあたる項目は[フレームワーク](/glossary/フレームワーク/)や[アプリケーション](/glossary/アプリケーション/)ごとに異なるため、使っている[アプリケーション](/glossary/アプリケーション/)の公式ドキュメントで[確認](/glossary/確認/)してください。
+見分け方は原因1・2と同じで、Nginx の[エラーログ](/glossary/エラーログ/)です。`client intended to send too large body` の行がないのに413が返っているなら、発生源は上流です。この場合、`client_max_body_size` をいくら上げても解決しません。対処する場所は上流[アプリケーション](/glossary/アプリケーション/)の[設定](/glossary/設定/)で、[アップロード](/glossary/アップロード/)上限にあたる項目は[フレームワーク](/glossary/フレームワーク/)や[アプリケーション](/glossary/アプリケーション/)ごとに異なるため、使っている[アプリケーション](/glossary/アプリケーション/)の公式[ドキュメント](/glossary/ドキュメント/)で[確認](/glossary/確認/)してください。
 
 逆に、上流の上限を上げたのに413が続く場合は、手前の Nginx の `client_max_body_size` が小さいままというケースが典型です。経路上のすべての段階（Nginx が多段になっていれば各段）に、それぞれ上限があることを前提に[確認](/glossary/確認/)します。
 
@@ -135,7 +135,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-手前の上限と奥の上限が別々に存在することを示す実例として、Atlassian の公開課題管理システムへの報告があります（[CONFSERVER-52301](https://jira.atlassian.com/browse/CONFSERVER-52301)、2017年）。Confluence（社内向けの情報共有[ツール](/glossary/ツール/)）を Nginx のリバースプロキシ経由で使う構成で、Nginx が既定の1MBのままだと、Confluence 側で[設定](/glossary/設定/)した添付[ファイル](/glossary/ファイル/)の上限より小さい[ファイル](/glossary/ファイル/)でも413で失敗する、という内容です。報告では、Nginx の `client_max_body_size` を Confluence 側の添付上限と揃えるべきこと、揃えれば上限超過時に Confluence 自身の分かりやすい[エラー](/glossary/エラー/)表示が機能することが指摘されています。また、添付[ファイル](/glossary/ファイル/)だけでなくページ編集の[通信](/glossary/通信/)でも、既定の1MBでは足りず413になる場合があることも記録されています。2017年の報告と古いものですが、`client_max_body_size` の[仕様](/glossary/仕様/)（既定1MB、超過で413）は現行の公式ドキュメントと変わっていません。
+手前の上限と奥の上限が別々に存在することを示す実例として、Atlassian の公開課題管理システムへの報告があります（[CONFSERVER-52301](https://jira.atlassian.com/browse/CONFSERVER-52301)、2017年）。Confluence（社内向けの情報共有[ツール](/glossary/ツール/)）を Nginx のリバースプロキシ経由で使う構成で、Nginx が既定の1MBのままだと、Confluence 側で[設定](/glossary/設定/)した添付[ファイル](/glossary/ファイル/)の上限より小さい[ファイル](/glossary/ファイル/)でも413で失敗する、という内容です。報告では、Nginx の `client_max_body_size` を Confluence 側の添付上限と揃えるべきこと、揃えれば上限超過時に Confluence 自身の分かりやすい[エラー](/glossary/エラー/)表示が機能することが指摘されています。また、添付[ファイル](/glossary/ファイル/)だけでなくページ編集の[通信](/glossary/通信/)でも、既定の1MBでは足りず413になる場合があることも記録されています。2017年の報告と古いものですが、`client_max_body_size` の[仕様](/glossary/仕様/)（既定1MB、超過で413）は現行の公式[ドキュメント](/glossary/ドキュメント/)と変わっていません。
 
 413の対処は一見「上限を上げるだけ」ですが、実際には、どこの上限に当たったのかを特定することが本題です。[エラーログ](/glossary/エラーログ/)の実測[バイト](/glossary/バイト/)数と `nginx -T` の洗い出しを使えば、推測に頼らずに特定できます。
 

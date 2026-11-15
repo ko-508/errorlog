@@ -87,7 +87,7 @@ remote: Counting objects: 100% (50/50), done.
 
 **修正方法：**
 
-[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを[確認](/glossary/確認/)・[修正](/glossary/修正/)します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的なドキュメントを整備します。
+[プロジェクト](/glossary/プロジェクト/)の **Settings → Protected branches** で、保護[ブランチ](/glossary/ブランチ/)のルールを[確認](/glossary/確認/)・[修正](/glossary/修正/)します。Developer [ロール](/glossary/ロール/)に[プッシュ](/glossary/プッシュ/)[権限](/glossary/権限/)を付与するか、マージリクエストフローを使用する明示的な[ドキュメント](/glossary/ドキュメント/)を整備します。
 
 ```yaml
 # Settings → Protected branches での修正例
@@ -165,7 +165,7 @@ $ git clone git@gitlab.example.com:group/project.git
 $ git clone https://gitlab.example.com/group/project.git
 ```
 
-**4. 公式ドキュメントと管理者への相談**
+**4. 公式[ドキュメント](/glossary/ドキュメント/)と管理者への相談**
 
 GitLab の[公式パーミッション ドキュメント](https://docs.gitlab.com/ee/user/permissions.html)で各[ロール](/glossary/ロール/)の正確な権限一覧を[確認](/glossary/確認/)し、[プロジェクト](/glossary/プロジェクト/)管理者または GitLab [インスタンス](/glossary/インスタンス/)の管理者に権限設定の内容を[確認](/glossary/確認/)します。
 

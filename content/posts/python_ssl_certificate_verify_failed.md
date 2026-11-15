@@ -39,7 +39,7 @@ ssl.SSLCertVerificationError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verif
 
 | 末尾にある理由 | 最初に[確認](/glossary/確認/)すること |
 |---|---|
-| `unable to get local issuer certificate` | 信頼するCAの[設定](/glossary/設定/)と、[サーバー](/glossary/サーバー/)が送る中間証明書 |
+| `unable to get local issuer certificate` | 信頼するCAの[設定](/glossary/設定/)と、[サーバー](/glossary/サーバー/)が[送る](/glossary/送る/)中間証明書 |
 | `self-signed certificate` | 自己署名証明書を意図して使っているか、信頼設定があるか |
 | `self-signed certificate in certificate chain` | [証明書](/glossary/証明書/)の連鎖と、信頼の起点となるCA |
 | `certificate has expired` | [証明書](/glossary/証明書/)の期限と、実行環境の時計 |
@@ -126,11 +126,11 @@ Requestsの通常の呼び出しには、[環境変数](/glossary/環境変数/)
 export REQUESTS_CA_BUNDLE=/path/to/company-ca-bundle.pem
 ```
 
-[標準](/glossary/標準/)の`ssl`の既定[パス](/glossary/パス/)に関係する`SSL_CERT_FILE`とは、対象が異なります。また、Requestsの`PreparedRequest`を独自に送る[処理](/glossary/処理/)では、環境設定の取り込みが必要になる場合があります。[Requestsの公式説明](https://requests.readthedocs.io/en/latest/user/advanced/#prepared-requests)を[確認](/glossary/確認/)してください。`certifi`の[インストール](/glossary/インストール/)先[ファイル](/glossary/ファイル/)へ直接追記する方法は、ここでは使いません。
+[標準](/glossary/標準/)の`ssl`の既定[パス](/glossary/パス/)に関係する`SSL_CERT_FILE`とは、対象が異なります。また、Requestsの`PreparedRequest`を独自に[送る](/glossary/送る/)[処理](/glossary/処理/)では、環境設定の取り込みが必要になる場合があります。[Requestsの公式説明](https://requests.readthedocs.io/en/latest/user/advanced/#prepared-requests)を[確認](/glossary/確認/)してください。`certifi`の[インストール](/glossary/インストール/)先[ファイル](/glossary/ファイル/)へ直接追記する方法は、ここでは使いません。
 
 ## 期限切れ・名前の不一致・コンテナを確認する
 
-`certificate has expired`なら、接続先が送る[証明書](/glossary/証明書/)の期限と実行環境の時計を[確認](/glossary/確認/)します。[OpenSSLの説明](https://docs.openssl.org/3.0/man1/openssl-verification-options/)では、連鎖内の[証明書](/glossary/証明書/)について有効期間を検査します。接続先の[証明書](/glossary/証明書/)が実際に期限切れなら、管理者による[更新](/glossary/更新/)が必要です。CA[ファイル](/glossary/ファイル/)を指定するだけでは期限の問題は直りません。
+`certificate has expired`なら、接続先が[送る](/glossary/送る/)[証明書](/glossary/証明書/)の期限と実行環境の時計を[確認](/glossary/確認/)します。[OpenSSLの説明](https://docs.openssl.org/3.0/man1/openssl-verification-options/)では、連鎖内の[証明書](/glossary/証明書/)について有効期間を検査します。接続先の[証明書](/glossary/証明書/)が実際に期限切れなら、管理者による[更新](/glossary/更新/)が必要です。CA[ファイル](/glossary/ファイル/)を指定するだけでは期限の問題は直りません。
 
 名前の不一致なら、[URL](/glossary/url/)のホスト名が[証明書](/glossary/証明書/)の対象名に含まれるかを[確認](/glossary/確認/)します。[ドメイン](/glossary/ドメイン/)用の[証明書](/glossary/証明書/)を持つ[サーバー](/glossary/サーバー/)へ[IPアドレス](/glossary/ipアドレス/)でアクセスしている場合などは、正しい[URL](/glossary/url/)か、適切な[証明書](/glossary/証明書/)へ直します。
 

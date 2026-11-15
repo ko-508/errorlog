@@ -159,7 +159,7 @@ curl -X PUT https://api.bitbucket.org/2.0/repositories/<workspace>/<repository> 
 
 4. **Workspace 管理者に監査[ログ](/glossary/ログ/)を[確認](/glossary/確認/)させる：** Workspace Settings → Audit log で、[ユーザー](/glossary/ユーザー/)の権限変更履歴が正確に記録されているか[確認](/glossary/確認/)できます。
 
-5. **公式サポートに問い合わせる：** 上記の手順でも解決しない場合は、[Bitbucket Cloud サポート](https://support.atlassian.com/bitbucket-cloud/)に問い合わせてください。
+5. **公式[サポート](/glossary/サポート/)に問い合わせる：** 上記の手順でも解決しない場合は、[Bitbucket Cloud サポート](https://support.atlassian.com/bitbucket-cloud/)に問い合わせてください。
 
 ---
 

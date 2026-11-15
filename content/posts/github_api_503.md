@@ -301,7 +301,7 @@ curl -v -H "Authorization: token <your-github-token>" \
 ```
 この[コマンド](/glossary/コマンド/)で[HTTP](/glossary/http/)ステータス、Retry-After[ヘッダー](/glossary/ヘッダー/)、レート制限情報を[確認](/glossary/確認/)できます。
 
-3. **公式ドキュメント**：https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting の「Exceeding the rate limit」セクションで、[レート制限](/glossary/レート制限/)と503[エラー](/glossary/エラー/)の関係を[確認](/glossary/確認/)してください。
+3. **公式[ドキュメント](/glossary/ドキュメント/)**：https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting の「Exceeding the rate limit」セクションで、[レート制限](/glossary/レート制限/)と503[エラー](/glossary/エラー/)の関係を[確認](/glossary/確認/)してください。
 
 4. **コミュニティリソース**：[GitHub](/glossary/github/) [API](/glossary/api/)に関する既知の503問題は、https://github.com/orgs/github/discussions で報告・議論されていることがあります。[検索](/glossary/検索/)してみてください。
 

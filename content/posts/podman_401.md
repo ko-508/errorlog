@@ -162,7 +162,7 @@ sudo podman pull registry.example.com/myimage:latest
 
 **[ネットワーク](/glossary/ネットワーク/)接続の[確認](/glossary/確認/)**: [ファイアウォール](/glossary/ファイアウォール/)や[プロキシ](/glossary/プロキシ/)が[認証](/glossary/認証/)[リクエスト](/glossary/リクエスト/)をブロックしていないか、`curl -v https://registry.example.com/v2/` で[HTTP](/glossary/http/)応答を[確認](/glossary/確認/)してください。
 
-**公式ドキュメント参照**:
+**公式[ドキュメント](/glossary/ドキュメント/)参照**:
 - [Podman ログイン - 公式ドキュメント](https://docs.podman.io/en/latest/markdown/podman-login.1.html)
 - [認証設定 - containers-auth.json](https://github.com/containers/image/blob/main/docs/containers-auth.json.5.md)
 

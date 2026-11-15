@@ -71,7 +71,7 @@ Did you mean one of these?
   npm stars # View packages marked as favorites
 ```
 
-これらは[パッケージ](/glossary/パッケージ/)のお気に入りに関する[コマンド](/glossary/コマンド/)で、アプリを起動する操作ではありません。候補をそのまま実行するのではなく、[プロジェクト](/glossary/プロジェクト/)の説明と[スクリプト](/glossary/スクリプト/)一覧を[確認](/glossary/確認/)します。
+これらは[パッケージ](/glossary/パッケージ/)のお気に入りに関する[コマンド](/glossary/コマンド/)で、[アプリ](/glossary/アプリ/)を起動する操作ではありません。候補をそのまま実行するのではなく、[プロジェクト](/glossary/プロジェクト/)の説明と[スクリプト](/glossary/スクリプト/)一覧を[確認](/glossary/確認/)します。
 
 同じ[確認](/glossary/確認/)で、`biuld`に対する`build`の候補は表示されませんでした。似た名前が必ず案内されるとは考えないでください。
 
@@ -108,7 +108,7 @@ npm run dev --workspace=app
 
 既に別名で正しい[処理](/glossary/処理/)が定義されているなら、名前を増やす必要はありません。配布先や運用が`npm start`を必要とし、[プロジェクト](/glossary/プロジェクト/)側でも定義する方針なら、実際の起動[コマンド](/glossary/コマンド/)を[登録](/glossary/登録/)します。
 
-Node.jsで`index.js`を実行するアプリの例です。
+Node.jsで`index.js`を実行する[アプリ](/glossary/アプリ/)の例です。
 
 ```json
 {

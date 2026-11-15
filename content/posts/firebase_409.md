@@ -14,7 +14,7 @@ related_services: ["SDK"]
 
 ## エラーの概要
 
-Firebase の 409 Conflict [エラー](/glossary/エラー/)は、Firestore の[トランザクション](/glossary/トランザクション/)[処理](/glossary/処理/)が同時実行される競合操作によって失敗したことを示します。この[エラー](/glossary/エラー/)は主に Firestore の[トランザクション](/glossary/トランザクション/)実行中に同じドキュメントへの複数の書き込み操作が発生した場合、または読み取り値が[トランザクション](/glossary/トランザクション/)開始時から変更されている場合に発生します。Firebase Client [SDK](/glossary/sdk/) を使用している[環境](/glossary/環境/)で、特に高頻度の更新操作が集中したときに頻繁に見られます。
+Firebase の 409 Conflict [エラー](/glossary/エラー/)は、Firestore の[トランザクション](/glossary/トランザクション/)[処理](/glossary/処理/)が同時実行される競合操作によって失敗したことを示します。この[エラー](/glossary/エラー/)は主に Firestore の[トランザクション](/glossary/トランザクション/)実行中に同じ[ドキュメント](/glossary/ドキュメント/)への複数の書き込み操作が発生した場合、または読み取り値が[トランザクション](/glossary/トランザクション/)開始時から変更されている場合に発生します。Firebase Client [SDK](/glossary/sdk/) を使用している[環境](/glossary/環境/)で、特に高頻度の更新操作が集中したときに頻繁に見られます。
 
 ## 実際のエラーメッセージ例
 
@@ -36,7 +36,7 @@ FirebaseError: [code=failed-precondition]: The transaction was aborted due to co
 
 ### 原因1：複数のクライアント・プロセスが同じドキュメントを同時に更新している
 
-複数の[クライアント](/glossary/クライアント/)、別タブ、または複数の[バックエンド](/glossary/バックエンド/)[処理](/glossary/処理/)が同じドキュメントに対して競合する[更新](/glossary/更新/)を行う場合、Firestore は[トランザクション](/glossary/トランザクション/)を自動的に中止し 409 [エラー](/glossary/エラー/)を発生させます。[トランザクション](/glossary/トランザクション/)の分離レベルが SERIALIZABLE に[設定](/glossary/設定/)されているため、読み取りと書き込みの一貫性が保証されません。
+複数の[クライアント](/glossary/クライアント/)、別タブ、または複数の[バックエンド](/glossary/バックエンド/)[処理](/glossary/処理/)が同じ[ドキュメント](/glossary/ドキュメント/)に対して競合する[更新](/glossary/更新/)を行う場合、Firestore は[トランザクション](/glossary/トランザクション/)を自動的に中止し 409 [エラー](/glossary/エラー/)を発生させます。[トランザクション](/glossary/トランザクション/)の分離レベルが SERIALIZABLE に[設定](/glossary/設定/)されているため、読み取りと書き込みの一貫性が保証されません。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -96,7 +96,7 @@ updateBalanceWithRetry();
 
 ### 原因2：トランザクション内で読み取った値を基に計算し、その結果を書き込む際に元データが変更されている
 
-[トランザクション](/glossary/トランザクション/)開始時に読み取ったドキュメントの内容に基づいて計算を行い、その結果を書き込もうとしたときに、別の[プロセス](/glossary/プロセス/)がそのドキュメントを[更新](/glossary/更新/)した場合、Firestore は変更を検出して 409 [エラー](/glossary/エラー/)を発生させます。
+[トランザクション](/glossary/トランザクション/)開始時に読み取った[ドキュメント](/glossary/ドキュメント/)の内容に基づいて計算を行い、その結果を書き込もうとしたときに、別の[プロセス](/glossary/プロセス/)がその[ドキュメント](/glossary/ドキュメント/)を[更新](/glossary/更新/)した場合、Firestore は変更を検出して 409 [エラー](/glossary/エラー/)を発生させます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -164,7 +164,7 @@ exports.calculateOrderTotal = functions.https.onCall(async (data, context) => {
 
 ### 原因3：バッチ書き込み操作が Firestore のコンフリクト検出に引っかかっている
 
-バッチ操作（batch.set / batch.update / batch.delete）を使用する際に、同じドキュメントに対して複数の操作が集中する場合、[トランザクション](/glossary/トランザクション/)と同じ競合検出メカニズムにより 409 [エラー](/glossary/エラー/)が発生することがあります。
+バッチ操作（batch.set / batch.update / batch.delete）を使用する際に、同じ[ドキュメント](/glossary/ドキュメント/)に対して複数の操作が集中する場合、[トランザクション](/glossary/トランザクション/)と同じ競合検出メカニズムにより 409 [エラー](/glossary/エラー/)が発生することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -231,11 +231,11 @@ Firestore の[トランザクション](/glossary/トランザクション/)は 
 
 ### リアルタイムリスナーとの競合
 
-`onSnapshot()` で監視しているドキュメントに対して同時に[トランザクション](/glossary/トランザクション/)を実行すると、[リスナー](/glossary/リスナー/)の[更新](/glossary/更新/)と競合する可能性があります。[リアルタイム](/glossary/リアルタイム/)[更新](/glossary/更新/)が必要な場合は、[トランザクション](/glossary/トランザクション/)の粒度を小さくし、監視対象のドキュメント範囲を限定してください。
+`onSnapshot()` で監視している[ドキュメント](/glossary/ドキュメント/)に対して同時に[トランザクション](/glossary/トランザクション/)を実行すると、[リスナー](/glossary/リスナー/)の[更新](/glossary/更新/)と競合する可能性があります。[リアルタイム](/glossary/リアルタイム/)[更新](/glossary/更新/)が必要な場合は、[トランザクション](/glossary/トランザクション/)の粒度を小さくし、監視対象の[ドキュメント](/glossary/ドキュメント/)範囲を限定してください。
 
 ### Cloud Functions での推奨パターン
 
-Cloud Functions の[バックグラウンド](/glossary/バックグラウンド/)[関数](/glossary/関数/)で `onWrite` [トリガー](/glossary/トリガー/)を使用している場合、複数の[関数](/glossary/関数/)が同じドキュメントに書き込むと 409 [エラー](/glossary/エラー/)が連鎖します。[関数](/glossary/関数/)の実行順序を Firestore の階層構造で制御し、トリガーチェーンを最小化することが重要です。
+Cloud Functions の[バックグラウンド](/glossary/バックグラウンド/)[関数](/glossary/関数/)で `onWrite` [トリガー](/glossary/トリガー/)を使用している場合、複数の[関数](/glossary/関数/)が同じ[ドキュメント](/glossary/ドキュメント/)に書き込むと 409 [エラー](/glossary/エラー/)が連鎖します。[関数](/glossary/関数/)の実行順序を Firestore の階層構造で制御し、トリガーチェーンを最小化することが重要です。
 
 ## それでも解決しない場合
 
@@ -251,11 +251,11 @@ Firestore の操作[ログ](/glossary/ログ/)は Firebase Console → Firestore
 
 ### デバッグ手順
 
-1. **[トランザクション](/glossary/トランザクション/)内の読み取り操作を最小限に制限する**：[トランザクション](/glossary/トランザクション/)内で読み取るドキュメント数を減らし、複雑な計算は[トランザクション](/glossary/トランザクション/)外で行う。
+1. **[トランザクション](/glossary/トランザクション/)内の読み取り操作を最小限に制限する**：[トランザクション](/glossary/トランザクション/)内で読み取る[ドキュメント](/glossary/ドキュメント/)数を減らし、複雑な計算は[トランザクション](/glossary/トランザクション/)外で行う。
 
-2. **コンカレンシーパターンの見直し**：複数[クライアント](/glossary/クライアント/)の同時実行が避けられない場合、Firestore のドキュメント設計を見直し、異なるコレクションに分散させる検討。
+2. **コンカレンシーパターンの見直し**：複数[クライアント](/glossary/クライアント/)の同時実行が避けられない場合、Firestore の[ドキュメント](/glossary/ドキュメント/)設計を見直し、異なるコレクションに分散させる検討。
 
-3. **公式ドキュメント参照**：[Firestore トランザクションおよびバッチ書き込み](https://firebase.google.com/docs/firestore/transactions)に詳細な実装例が掲載されています。
+3. **公式[ドキュメント](/glossary/ドキュメント/)参照**：[Firestore トランザクションおよびバッチ書き込み](https://firebase.google.com/docs/firestore/transactions)に詳細な実装例が掲載されています。
 
 4. **コミュニティリソース**：[Firebase GitHub Issues](https://github.com/firebase/firebase-js-sdk/issues) で同様の 409 [エラー](/glossary/エラー/)報告を[検索](/glossary/検索/)し、解決策を参考にしてください。特に `transaction-abort` [タグ](/glossary/タグ/)が付いたイシューを[確認](/glossary/確認/)してください。
 

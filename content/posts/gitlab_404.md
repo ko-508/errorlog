@@ -209,7 +209,7 @@ GitLab [API](/glossary/api/)では[リソース](/glossary/リソース/)所有�
 
 **グループ・サブグループ間での[パス](/glossary/パス/)変更：**
 
-グループやサブグループの構造が変わった場合、[API](/glossary/api/)呼び出しの[パス](/glossary/パス/)も[対応](/glossary/対応/)する必要があります。`/groups/<id>` と `/groups/<path>` の両形式がサポートされていますが、パスベースでアクセスする場合は完全な階層[パス](/glossary/パス/)が必須です。
+グループやサブグループの構造が変わった場合、[API](/glossary/api/)呼び出しの[パス](/glossary/パス/)も[対応](/glossary/対応/)する必要があります。`/groups/<id>` と `/groups/<path>` の両形式が[サポート](/glossary/サポート/)されていますが、パスベースでアクセスする場合は完全な階層[パス](/glossary/パス/)が必須です。
 
 **Self-hosted GitLab での[URL](/glossary/url/)[確認](/glossary/確認/)：**
 
@@ -241,9 +241,9 @@ curl -H "PRIVATE-TOKEN: <your-token>" \
   "https://gitlab.example.com/api/v4/projects/<project-id>"
 ```
 
-**公式ドキュメント参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)参照：**
 
-- GitLab [API](/glossary/api/) ドキュメント：`https://docs.gitlab.com/ee/api/`
+- GitLab [API](/glossary/api/) [ドキュメント](/glossary/ドキュメント/)：`https://docs.gitlab.com/ee/api/`
 - [プロジェクト](/glossary/プロジェクト/)[API](/glossary/api/)：`https://docs.gitlab.com/ee/api/projects.html`
 - [トークン](/glossary/トークン/)管理：`https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html`
 

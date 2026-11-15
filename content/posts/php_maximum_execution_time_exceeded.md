@@ -56,7 +56,7 @@ php --ini
 php -r "echo ini_get('max_execution_time'), PHP_EOL;"
 ```
 
-[CLI](/glossary/cli/)の0は変更できない固定値ではありません。[PHPのコマンドライン引数の説明](https://www.php.net/manual/en/features.commandline.options.php)には、`-d max_execution_time=20` で値を指定する例もあります。アプリ内の `set_time_limit()` などによって変わっていないかも[確認](/glossary/確認/)してください。
+[CLI](/glossary/cli/)の0は変更できない固定値ではありません。[PHPのコマンドライン引数の説明](https://www.php.net/manual/en/features.commandline.options.php)には、`-d max_execution_time=20` で値を指定する例もあります。[アプリ](/glossary/アプリ/)内の `set_time_limit()` などによって変わっていないかも[確認](/glossary/確認/)してください。
 
 確認用の[コード](/glossary/コード/)をWebから誰でも使える状態で残さず、既存の[ログ](/glossary/ログ/)や管理者用の確認手段を使います。
 
@@ -107,7 +107,7 @@ php.iniで指定する場合は、次の形です。
 max_execution_time = 120
 ```
 
-設定変更後は、実行方式に応じた再読み込みなどを行い、対象の[処理](/glossary/処理/)で有効な値を[確認](/glossary/確認/)します。[PHP-FPMの管理者設定](https://www.php.net/manual/en/install.fpm.configuration.php)など、アプリから上書きできない指定がある場合は管理側を[確認](/glossary/確認/)してください。
+設定変更後は、実行方式に応じた再読み込みなどを行い、対象の[処理](/glossary/処理/)で有効な値を[確認](/glossary/確認/)します。[PHP-FPMの管理者設定](https://www.php.net/manual/en/install.fpm.configuration.php)など、[アプリ](/glossary/アプリ/)から上書きできない指定がある場合は管理側を[確認](/glossary/確認/)してください。
 
 `set_time_limit(0)` はPHPの時間制限を外しますが、[処理](/glossary/処理/)を速くする指定ではありません。常時無制限にする前に、処理量と実行場所を見直します。
 
@@ -121,7 +121,7 @@ max_execution_time = 120
 php import.php
 ```
 
-ただし、[CLI](/glossary/cli/)の既定が0でも、アプリが制限を[設定](/glossary/設定/)する場合や、実行を管理するサービスが時間制限を持つ場合があります。[CLI](/glossary/cli/)なら絶対に止まらない、とは判断しないでください。
+ただし、[CLI](/glossary/cli/)の既定が0でも、[アプリ](/glossary/アプリ/)が制限を[設定](/glossary/設定/)する場合や、実行を管理するサービスが時間制限を持つ場合があります。[CLI](/glossary/cli/)なら絶対に止まらない、とは判断しないでください。
 
 [CLI](/glossary/cli/)で明示的に120秒を指定する例は次です。
 
@@ -129,7 +129,7 @@ php import.php
 php -d max_execution_time=120 import.php
 ```
 
-Webアプリの[処理](/glossary/処理/)をそのまま[CLI](/glossary/cli/)に移せるとは限りません。[ログイン](/glossary/ログイン/)情報やWebの入力を前提にした部分を[確認](/glossary/確認/)し、実行に必要な[引数](/glossary/引数/)や[設定](/glossary/設定/)を用意します。長い[処理](/glossary/処理/)では、進捗と途中結果を記録し、中断後に再開できる形にすると調査もしやすくなります。
+Web[アプリ](/glossary/アプリ/)の[処理](/glossary/処理/)をそのまま[CLI](/glossary/cli/)に移せるとは限りません。[ログイン](/glossary/ログイン/)情報やWebの入力を前提にした部分を[確認](/glossary/確認/)し、実行に必要な[引数](/glossary/引数/)や[設定](/glossary/設定/)を用意します。長い[処理](/glossary/処理/)では、進捗と途中結果を記録し、中断後に再開できる形にすると調査もしやすくなります。
 
 ## PHP-FPMやnginxの制限とは分けて確認する
 

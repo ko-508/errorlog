@@ -34,7 +34,7 @@ PHP Warning:  Cannot modify header information - headers already sent by (output
 
 そのため、headerを書いた行だけでなく、先に読み込んだ[設定ファイル](/glossary/設定ファイル/)や表示用[ファイル](/glossary/ファイル/)も確認対象です。ただし、先の出力が正しい[HTML](/glossary/html/)なら、それを[削除](/glossary/削除/)するのではなく、出力前に転送の要否を決めるよう処理順を直します。
 
-これはWarningです。[標準](/glossary/標準/)の動作では警告の後も[処理](/glossary/処理/)が続くため、リダイレクトが失敗したまま後続の[HTML](/glossary/html/)や[処理](/glossary/処理/)が実行されることがあります。独自の[エラー](/glossary/エラー/)[処理](/glossary/処理/)を使うアプリでは、警告の扱いも[確認](/glossary/確認/)してください。
+これはWarningです。[標準](/glossary/標準/)の動作では警告の後も[処理](/glossary/処理/)が続くため、リダイレクトが失敗したまま後続の[HTML](/glossary/html/)や[処理](/glossary/処理/)が実行されることがあります。独自の[エラー](/glossary/エラー/)[処理](/glossary/処理/)を使う[アプリ](/glossary/アプリ/)では、警告の扱いも[確認](/glossary/確認/)してください。
 
 ## echo以外の空白や読み込み先も確認する
 
@@ -110,11 +110,11 @@ header('Location: /mypage.php');
 exit;
 ```
 
-[ob_end_clean()](https://www.php.net/manual/en/function.ob-end-clean.php)は、現在の[バッファ](/glossary/バッファ/)の内容を破棄して終了します。本文を送る操作とは異なります。
+[ob_end_clean()](https://www.php.net/manual/en/function.ob-end-clean.php)は、現在の[バッファ](/glossary/バッファ/)の内容を破棄して終了します。本文を[送る](/glossary/送る/)操作とは異なります。
 
-ただし、既に[送信](/glossary/送信/)した[ヘッダー](/glossary/ヘッダー/)を取り消すことはできません。途中まで本文を送った後にob_startを追加しても、元には戻りません。また、既存のアプリが管理する[バッファ](/glossary/バッファ/)を、内容を把握せず終了しないようにします。
+ただし、既に[送信](/glossary/送信/)した[ヘッダー](/glossary/ヘッダー/)を取り消すことはできません。途中まで本文を送った後にob_startを追加しても、元には戻りません。また、既存の[アプリ](/glossary/アプリ/)が管理する[バッファ](/glossary/バッファ/)を、内容を把握せず終了しないようにします。
 
-[output_bufferingの設定](https://www.php.net/manual/en/outcontrol.configuration.php)や、途中で[バッファ](/glossary/バッファ/)を送る[処理](/glossary/処理/)によっても結果が変わります。同じ[コード](/glossary/コード/)が[開発環境](/glossary/開発環境/)では通り、本番では警告になる場合は、[バッファ](/glossary/バッファ/)の[設定](/glossary/設定/)と[送信](/glossary/送信/)のタイミングも[確認](/glossary/確認/)してください。一定の文字数までは必ず安全、という前提では扱わないようにします。
+[output_bufferingの設定](https://www.php.net/manual/en/outcontrol.configuration.php)や、途中で[バッファ](/glossary/バッファ/)を[送る](/glossary/送る/)[処理](/glossary/処理/)によっても結果が変わります。同じ[コード](/glossary/コード/)が[開発環境](/glossary/開発環境/)では通り、本番では警告になる場合は、[バッファ](/glossary/バッファ/)の[設定](/glossary/設定/)と[送信](/glossary/送信/)のタイミングも[確認](/glossary/確認/)してください。一定の文字数までは必ず安全、という前提では扱わないようにします。
 
 ## 警告が消えた後にHTTPの結果も確認する
 

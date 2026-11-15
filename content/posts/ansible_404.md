@@ -103,7 +103,7 @@ fatal: [<target-host>]: FAILED! => {"changed": false, "msg": "Failed to get info
   failed_when: api_response.status not in [200, 404]
 ```
 
-[API](/glossary/api/) ドキュメントを[確認](/glossary/確認/)し、現在の[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) を使用します。必要に応じて[ヘッダー](/glossary/ヘッダー/)や認証情報も併せて[確認](/glossary/確認/)してください。
+[API](/glossary/api/) [ドキュメント](/glossary/ドキュメント/)を[確認](/glossary/確認/)し、現在の[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) を使用します。必要に応じて[ヘッダー](/glossary/ヘッダー/)や認証情報も併せて[確認](/glossary/確認/)してください。
 
 ### 原因3：インベントリに登録したホストに接続できない
 
@@ -193,7 +193,7 @@ ansible-playbook playbook.yml
 
 ### 公式リソースへの参照
 
-Ansible 公式ドキュメント（https://docs.ansible.com/）の該当モジュールセクションを確認してください。特に `uri` [モジュール](/glossary/モジュール/)、`copy` [モジュール](/glossary/モジュール/)、`stat` [モジュール](/glossary/モジュール/)のドキュメントには、各パラメーターの詳細とよくある落とし穴が記載されています。
+Ansible 公式[ドキュメント](/glossary/ドキュメント/)（https://docs.ansible.com/）の該当モジュールセクションを確認してください。特に `uri` [モジュール](/glossary/モジュール/)、`copy` [モジュール](/glossary/モジュール/)、`stat` [モジュール](/glossary/モジュール/)の[ドキュメント](/glossary/ドキュメント/)には、各パラメーターの詳細とよくある落とし穴が記載されています。
 
 ---
 

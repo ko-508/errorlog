@@ -116,7 +116,7 @@ const db = getDatabase(app);
 
 ### 原因3：必須フィールドが欠落している
 
-Firestore ドキュメントの作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須[フィールド](/glossary/フィールド/)を[送信](/glossary/送信/)していない場合に発生します。特に Firestore のバリデーションルールで指定された[フィールド](/glossary/フィールド/)が不足しているケースです。
+Firestore [ドキュメント](/glossary/ドキュメント/)の作成・更新時に、[スキーマ](/glossary/スキーマ/)で定義された必須[フィールド](/glossary/フィールド/)を[送信](/glossary/送信/)していない場合に発生します。特に Firestore のバリデーションルールで指定された[フィールド](/glossary/フィールド/)が不足しているケースです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -289,8 +289,8 @@ firebase.firestore().enableLogging(true);  // Firestore デバッグログを有
 
 ### 参考リソース
 
-- Firebase 公式ドキュメント：[Firestore エラーハンドリング](https://firebase.google.com/docs/firestore/troubleshoot)
-- Firebase Realtime Database [REST](/glossary/rest/) [API](/glossary/api/) ドキュメント：[Authentication](https://firebase.google.com/docs/database/rest/auth)
+- Firebase 公式[ドキュメント](/glossary/ドキュメント/)：[Firestore エラーハンドリング](https://firebase.google.com/docs/firestore/troubleshoot)
+- Firebase Realtime Database [REST](/glossary/rest/) [API](/glossary/api/) [ドキュメント](/glossary/ドキュメント/)：[Authentication](https://firebase.google.com/docs/database/rest/auth)
 - [GitHub](/glossary/github/) Issues：Firebase JavaScript [SDK](/glossary/sdk/) の既知の問題は [firebase-js-sdk リポジトリ](https://github.com/firebase/firebase-js-sdk/issues) で確認可能です。
 
 ---

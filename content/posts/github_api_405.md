@@ -150,7 +150,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ### 原因5：そのブランチに push する権限がない（You're not authorized to push to this branch.）
 
-[ブランチ](/glossary/ブランチ/)保護の push 制限（特定の利用者・チーム・アプリだけに push を許可する[設定](/glossary/設定/)）に引っかかった状態です。[権限](/glossary/権限/)の問題は通常 403 か 404 で現れますが、[マージ](/glossary/マージ/)時のこの制限は 405 として返った記録があります。[権限](/glossary/権限/)不足を [403 の記事](/posts/github_api_403/)だけで探すと見つからないのは、このためです。
+[ブランチ](/glossary/ブランチ/)保護の push 制限（特定の利用者・チーム・[アプリ](/glossary/アプリ/)だけに push を許可する[設定](/glossary/設定/)）に引っかかった状態です。[権限](/glossary/権限/)の問題は通常 403 か 404 で現れますが、[マージ](/glossary/マージ/)時のこの制限は 405 として返った記録があります。[権限](/glossary/権限/)不足を [403 の記事](/posts/github_api_403/)だけで探すと見つからないのは、このためです。
 
 対処は、[マージ](/glossary/マージ/)を実行する主体（個人の[トークン](/glossary/トークン/)か、[GitHub](/glossary/github/) App の[インストール](/glossary/インストール/)[トークン](/glossary/トークン/)か）を保護設定の許可対象に加えるか、[マージ](/glossary/マージ/)を許可された主体から実行する形に変えることです。
 

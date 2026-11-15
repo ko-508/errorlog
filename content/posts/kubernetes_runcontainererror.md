@@ -223,9 +223,9 @@ sudo journalctl -u containerd --since "30 min ago" --no-pager
 df -h
 ```
 
-CRI互換runtimeの状態を直接見る場合は `crictl` が使えます。[Kubernetes](/glossary/kubernetes/)公式ドキュメントは、ノード上のcontainer runtimeと[アプリケーション](/glossary/アプリケーション/)を検査・[デバッグ](/glossary/デバッグ/)するための[ツール](/glossary/ツール/)として `crictl` を案内しています（[Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)）。
+CRI互換runtimeの状態を直接見る場合は `crictl` が使えます。[Kubernetes](/glossary/kubernetes/)公式[ドキュメント](/glossary/ドキュメント/)は、ノード上のcontainer runtimeと[アプリケーション](/glossary/アプリケーション/)を検査・[デバッグ](/glossary/デバッグ/)するための[ツール](/glossary/ツール/)として `crictl` を案内しています（[Debugging Kubernetes nodes with crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)）。
 
-containerdのCRI[設定](/glossary/設定/)を疑う場合、containerd側ではCRI pluginの[設定](/glossary/設定/)が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし[設定](/glossary/設定/)[キー](/glossary/キー/)は版によって変わるため、実行中の版のドキュメントと現在の `config.toml` を突き合わせてください。
+containerdのCRI[設定](/glossary/設定/)を疑う場合、containerd側ではCRI pluginの[設定](/glossary/設定/)が `plugins."io.containerd.grpc.v1.cri"` セクションにまとまります（[containerd CRI Plugin Config Guide](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）。ただし[設定](/glossary/設定/)[キー](/glossary/キー/)は版によって変わるため、実行中の版の[ドキュメント](/glossary/ドキュメント/)と現在の `config.toml` を突き合わせてください。
 
 ## 補足：似ているが別のもの
 

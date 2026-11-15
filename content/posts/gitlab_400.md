@@ -37,7 +37,7 @@ ERROR: (ci::pipeline:creation) This project does not have CI enabled
 
 ### 原因1：JSON リクエストボディの形式エラーまたは必須フィールドの欠落
 
-GitLab [API](/glossary/api/) への POST/PUT [リクエスト](/glossary/リクエスト/)で、[JSON](/glossary/json/) の形式が壊れているか、[API](/glossary/api/) が必須とする[フィールド](/glossary/フィールド/)が含まれていません。特に issue 作成や merge request の更新時に頻発します。
+GitLab [API](/glossary/api/) への [POST](/glossary/post/)/PUT [リクエスト](/glossary/リクエスト/)で、[JSON](/glossary/json/) の形式が壊れているか、[API](/glossary/api/) が必須とする[フィールド](/glossary/フィールド/)が含まれていません。特に issue 作成や merge request の更新時に頻発します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -193,9 +193,9 @@ curl -v -X POST "https://gitlab.example.com/api/v4/projects/<project_id>/issues"
   -d '{"title":"Test"}'
 ```
 
-**3. GitLab 公式 [API](/glossary/api/) ドキュメントの参照：**
+**3. GitLab 公式 [API](/glossary/api/) [ドキュメント](/glossary/ドキュメント/)の参照：**
 
-[GitLab API Documentation](https://docs.gitlab.com/ee/api/) では、各[エンドポイント](/glossary/エンドポイント/)の必須パラメーター、[データ型](/glossary/データ型/)、有効値範囲が明記されています。[エラー](/glossary/エラー/)が続く場合は、該当する[エンドポイント](/glossary/エンドポイント/)のドキュメントを再度確認してください。
+[GitLab API Documentation](https://docs.gitlab.com/ee/api/) では、各[エンドポイント](/glossary/エンドポイント/)の必須パラメーター、[データ型](/glossary/データ型/)、有効値範囲が明記されています。[エラー](/glossary/エラー/)が続く場合は、該当する[エンドポイント](/glossary/エンドポイント/)の[ドキュメント](/glossary/ドキュメント/)を再度確認してください。
 
 **4. GitLab コミュニティフォーラムへの相談：**
 

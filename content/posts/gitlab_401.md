@@ -68,7 +68,7 @@ $ curl -H "PRIVATE-TOKEN: <your-gitlab-token>" \
 
 ### 原因2：Authorization ヘッダーの形式が誤っている
 
-GitLab [API](/glossary/api/) にアクセスする際、Authorization [ヘッダー](/glossary/ヘッダー/)の形式が[仕様](/glossary/仕様/)と異なると認証失敗になります。Bearer [トークン](/glossary/トークン/)を使う場合と PRIVATE-TOKEN [ヘッダー](/glossary/ヘッダー/)を使う場合で形式が異なり、特に古いドキュメントを参照している場合に混同しやすいです。また、[トークン](/glossary/トークン/)前後の空白や特殊文字の誤りも 401 の原因になります。
+GitLab [API](/glossary/api/) にアクセスする際、Authorization [ヘッダー](/glossary/ヘッダー/)の形式が[仕様](/glossary/仕様/)と異なると認証失敗になります。Bearer [トークン](/glossary/トークン/)を使う場合と PRIVATE-TOKEN [ヘッダー](/glossary/ヘッダー/)を使う場合で形式が異なり、特に古い[ドキュメント](/glossary/ドキュメント/)を参照している場合に混同しやすいです。また、[トークン](/glossary/トークン/)前後の空白や特殊文字の誤りも 401 の原因になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -196,9 +196,9 @@ script:
   - echo "GitLab URL: ${CI_SERVER_URL}"
 ```
 
-**公式ドキュメントと最新情報：**
+**公式[ドキュメント](/glossary/ドキュメント/)と最新情報：**
 
-GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)[仕様](/glossary/仕様/)は定期的に[更新](/glossary/更新/)されます。公式ドキュメント（https://docs.gitlab.com/ee/api/#authentication）と、プロジェクトの Release Notes で最新情報を[確認](/glossary/確認/)してください。特にマイナーバージョンアップ後は認証方式の非推奨化がないか[確認](/glossary/確認/)することをお勧めします。
+GitLab [API](/glossary/api/) の[トークン](/glossary/トークン/)[仕様](/glossary/仕様/)は定期的に[更新](/glossary/更新/)されます。公式[ドキュメント](/glossary/ドキュメント/)（https://docs.gitlab.com/ee/api/#authentication）と、プロジェクトの Release Notes で最新情報を[確認](/glossary/確認/)してください。特にマイナーバージョンアップ後は認証方式の非推奨化がないか[確認](/glossary/確認/)することをお勧めします。
 
 ---
 

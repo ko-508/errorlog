@@ -200,7 +200,7 @@ Slack Python/JavaScript [SDK](/glossary/sdk/) は `debug=True` または[環境�
 
 ### 公式ドキュメント参照
 
-Slack 公式ドキュメントの「Rate Limiting」セクション（https://api.slack.com/docs/rate-limits）に、メソッドごとのレート制限表と推奨される再試行戦略が記載されています。また、「Building resilient apps」（https://api.slack.com/best-practices/rate-limiting）には、本番環境で推奨される実装パターンが提示されています。
+Slack 公式[ドキュメント](/glossary/ドキュメント/)の「Rate Limiting」セクション（https://api.slack.com/docs/rate-limits）に、メソッドごとのレート制限表と推奨される再試行戦略が記載されています。また、「Building resilient apps」（https://api.slack.com/best-practices/rate-limiting）には、本番環境で推奨される実装パターンが提示されています。
 
 ### GitHub Issues・Slack コミュニティ
 

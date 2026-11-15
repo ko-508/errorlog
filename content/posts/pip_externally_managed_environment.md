@@ -50,7 +50,7 @@ python3 -c "import pathlib, sysconfig; p = pathlib.Path(sysconfig.get_path('stdl
 
 [pipの変更履歴](https://pip.pypa.io/en/stable/news/#v23-0)では、この[ファイル](/glossary/ファイル/)を読む[処理](/glossary/処理/)が23.0で追加されている。管理用[ファイル](/glossary/ファイル/)を置くかどうかはPythonの提供元が決めるため、pipの版が新しいだけで必ず発生するわけではない。
 
-[Debian 12のリリースノート](https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.en.html#python-interpreters-marked-externally-managed)は、提供するPythonを外部管理対象にしたことと、[ライブラリ](/glossary/ライブラリ/)には仮想環境、アプリにはpipxを使う方針を説明している。[Homebrewの現行文書](https://docs.brew.sh/Language-Runtimes-and-Packages#python)も、現在提供するPythonの外部管理と仮想環境の利用を案内している。
+[Debian 12のリリースノート](https://www.debian.org/releases/bookworm/amd64/release-notes/ch-information.en.html#python-interpreters-marked-externally-managed)は、提供するPythonを外部管理対象にしたことと、[ライブラリ](/glossary/ライブラリ/)には仮想環境、[アプリ](/glossary/アプリ/)にはpipxを使う方針を説明している。[Homebrewの現行文書](https://docs.brew.sh/Language-Runtimes-and-Packages#python)も、現在提供するPythonの外部管理と仮想環境の利用を案内している。
 
 [エラー](/glossary/エラー/)本文は[環境](/glossary/環境/)ごとに変わる。管理用[ファイル](/glossary/ファイル/)の`[externally-managed]`内にある`Error`や言語別の項目から案内を読むため、Debianのapt案内とHomebrewのbrew案内は同じ文面にはならない。適切な案内を読み取れなければpipの既定文面になる。空の[ファイル](/glossary/ファイル/)でも、存在による検査自体はなくならない。
 
@@ -96,7 +96,7 @@ sudo apt install python3-venv
 
 ## コマンド用ツールはpipxを使う
 
-blackなど、[コマンド](/glossary/コマンド/)として使いたいアプリにはpipxを使う方法がある。[ライブラリ](/glossary/ライブラリ/)を自分の[コード](/glossary/コード/)から`import`したい場合は、前の節のvenvを使う。pipxの[環境](/glossary/環境/)へ入れた[ライブラリ](/glossary/ライブラリ/)が、自分の[プロジェクト](/glossary/プロジェクト/)からそのまま読めるようになるわけではない。
+blackなど、[コマンド](/glossary/コマンド/)として使いたい[アプリ](/glossary/アプリ/)にはpipxを使う方法がある。[ライブラリ](/glossary/ライブラリ/)を自分の[コード](/glossary/コード/)から`import`したい場合は、前の節のvenvを使う。pipxの[環境](/glossary/環境/)へ入れた[ライブラリ](/glossary/ライブラリ/)が、自分の[プロジェクト](/glossary/プロジェクト/)からそのまま読めるようになるわけではない。
 
 Debian・Ubuntuでは、提供されているpipx[パッケージ](/glossary/パッケージ/)を使う。
 
@@ -138,7 +138,7 @@ pipx install black
 
 ## 解決手順のまとめ
 
-[エラー](/glossary/エラー/)を出したPythonの実行[パス](/glossary/パス/)とpipの配置先を[確認](/glossary/確認/)し、[プロジェクト](/glossary/プロジェクト/)用のvenvを作る。その中のPythonからpipを呼び、[コード](/glossary/コード/)も同じPythonで実行する。[コマンド](/glossary/コマンド/)用アプリはpipx、[OS](/glossary/os/)が提供する[パッケージ](/glossary/パッケージ/)は[OS](/glossary/os/)の管理[コマンド](/glossary/コマンド/)を使う方法を検討する。
+[エラー](/glossary/エラー/)を出したPythonの実行[パス](/glossary/パス/)とpipの配置先を[確認](/glossary/確認/)し、[プロジェクト](/glossary/プロジェクト/)用のvenvを作る。その中のPythonからpipを呼び、[コード](/glossary/コード/)も同じPythonで実行する。[コマンド](/glossary/コマンド/)用[アプリ](/glossary/アプリ/)はpipx、[OS](/glossary/os/)が提供する[パッケージ](/glossary/パッケージ/)は[OS](/glossary/os/)の管理[コマンド](/glossary/コマンド/)を使う方法を検討する。
 
 本記事では、ローカルのPython 3.12.14でvenvの作成と、そのPythonからのpip起動を[確認](/glossary/確認/)した。pip 26.2.1の検査関数には一時的な管理用[ファイル](/glossary/ファイル/)と模擬の環境判定を渡し、仮想環境外で拒否、仮想環境内で省略、[ファイル](/glossary/ファイル/)なしで省略、独自本文の読み取りを[確認](/glossary/確認/)した。システムの管理用[ファイル](/glossary/ファイル/)は変更していない。requests・blackの[インストール](/glossary/インストール/)とapt・brew操作は未実行である。
 

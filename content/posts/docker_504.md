@@ -16,9 +16,9 @@ top_queries:
 
 ## 冒頭まとめ
 
-[Docker](/glossary/docker/) まわりの 504 Gateway Timeout で最初に確定させるべき事実は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)自身は504を返さない、ということです。[デーモン](/glossary/デーモン/)が[エラー](/glossary/エラー/)を [HTTP](/glossary/http/) のステータスに割り当てる実装（moby のソースコード）には504がそもそも存在せず、時間切れ系の内部[エラー](/glossary/エラー/)（deadline exceeded）ですら500に割り当てられています。したがって、[Docker](/glossary/docker/) の操作で504を見たとき、それを返しているのは必ず[デーモン](/glossary/デーモン/)以外のどこかの「中継役」です。実際に起きる場所は3つに絞れます。第一に、docker pull / push の通信経路にあるゲートウェイ（自前[レジストリ](/glossary/レジストリ/)の前段の Nginx や ingress、[Docker](/glossary/docker/) Hub 側の基盤）です。第二に、リモートの [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)をリバースプロキシ越しに公開している構成の、その[プロキシ](/glossary/プロキシ/)です。第三に、[コンテナ](/glossary/コンテナ/)で動かしている[アプリケーション](/glossary/アプリケーション/)の前段の[プロキシ](/glossary/プロキシ/)で、これは [Docker](/glossary/docker/) ではなく[プロキシ](/glossary/プロキシ/)とアプリの調査になります。
+[Docker](/glossary/docker/) まわりの 504 Gateway Timeout で最初に確定させるべき事実は、[Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)自身は504を返さない、ということです。[デーモン](/glossary/デーモン/)が[エラー](/glossary/エラー/)を [HTTP](/glossary/http/) のステータスに割り当てる実装（moby のソースコード）には504がそもそも存在せず、時間切れ系の内部[エラー](/glossary/エラー/)（deadline exceeded）ですら500に割り当てられています。したがって、[Docker](/glossary/docker/) の操作で504を見たとき、それを返しているのは必ず[デーモン](/glossary/デーモン/)以外のどこかの「中継役」です。実際に起きる場所は3つに絞れます。第一に、docker pull / push の通信経路にあるゲートウェイ（自前[レジストリ](/glossary/レジストリ/)の前段の Nginx や ingress、[Docker](/glossary/docker/) Hub 側の基盤）です。第二に、リモートの [Docker](/glossary/docker/) [デーモン](/glossary/デーモン/)をリバースプロキシ越しに公開している構成の、その[プロキシ](/glossary/プロキシ/)です。第三に、[コンテナ](/glossary/コンテナ/)で動かしている[アプリケーション](/glossary/アプリケーション/)の前段の[プロキシ](/glossary/プロキシ/)で、これは [Docker](/glossary/docker/) ではなく[プロキシ](/glossary/プロキシ/)と[アプリ](/glossary/アプリ/)の調査になります。
 
-見分けは文言でつきます。received unexpected [HTTP](/glossary/http/) status: 504 Gateway Time-out や error parsing [HTTP](/glossary/http/) 504 response body なら、pull / push の経路の504です（原因1）。docker [コマンド](/glossary/コマンド/)全般がリモートデーモン相手に504になるなら、[デーモン](/glossary/デーモン/)の前の[プロキシ](/glossary/プロキシ/)です（原因2）。[ブラウザ](/glossary/ブラウザ/)や curl で[コンテナ](/glossary/コンテナ/)上のアプリにアクセスして504が返るなら、それは [Docker](/glossary/docker/) の問題ではありません（原因3として境界を示します）。
+見分けは文言でつきます。received unexpected [HTTP](/glossary/http/) status: 504 Gateway Time-out や error parsing [HTTP](/glossary/http/) 504 response body なら、pull / push の経路の504です（原因1）。docker [コマンド](/glossary/コマンド/)全般がリモートデーモン相手に504になるなら、[デーモン](/glossary/デーモン/)の前の[プロキシ](/glossary/プロキシ/)です（原因2）。[ブラウザ](/glossary/ブラウザ/)や curl で[コンテナ](/glossary/コンテナ/)上の[アプリ](/glossary/アプリ/)にアクセスして504が返るなら、それは [Docker](/glossary/docker/) の問題ではありません（原因3として境界を示します）。
 
 ## エラーの概要
 
@@ -38,15 +38,15 @@ Error response from daemon: error parsing HTTP 504 response body: invalid charac
 
 ## まず最初に：どの操作の504かで3つに分岐する
 
-docker pull・docker push・docker build の中の[イメージ](/glossary/イメージ/)取得で失敗し、上記のいずれかの文言が出ているなら、[レジストリ](/glossary/レジストリ/)経路の504です（原因1）。DOCKER_HOST や docker context でリモートの[デーモン](/glossary/デーモン/)に接続していて、pull に限らず操作全般が504になるなら、[デーモン](/glossary/デーモン/)の前に置いた[プロキシ](/glossary/プロキシ/)の504です（原因2）。docker [コマンド](/glossary/コマンド/)は成功していて、[コンテナ](/glossary/コンテナ/)で動くアプリへの [HTTP](/glossary/http/) アクセスが504を返すなら、返しているのは前段の[プロキシ](/glossary/プロキシ/)であり、調査対象は[プロキシ](/glossary/プロキシ/)の時間設定とアプリの応答時間です（原因3）。
+docker pull・docker push・docker build の中の[イメージ](/glossary/イメージ/)取得で失敗し、上記のいずれかの文言が出ているなら、[レジストリ](/glossary/レジストリ/)経路の504です（原因1）。DOCKER_HOST や docker context でリモートの[デーモン](/glossary/デーモン/)に接続していて、pull に限らず操作全般が504になるなら、[デーモン](/glossary/デーモン/)の前に置いた[プロキシ](/glossary/プロキシ/)の504です（原因2）。docker [コマンド](/glossary/コマンド/)は成功していて、[コンテナ](/glossary/コンテナ/)で動く[アプリ](/glossary/アプリ/)への [HTTP](/glossary/http/) アクセスが504を返すなら、返しているのは前段の[プロキシ](/glossary/プロキシ/)であり、調査対象は[プロキシ](/glossary/プロキシ/)の時間設定と[アプリ](/glossary/アプリ/)の応答時間です（原因3）。
 
 ## よくある原因と解決手順
 
 ### 原因1：レジストリの前段のゲートウェイが pull / push を打ち切っている
 
-自前で運用する[レジストリ](/glossary/レジストリ/)（registry:2、Harbor、GitLab Container Registry など）は、多くの場合 Nginx や ingress の背後に置かれます。[イメージ](/glossary/イメージ/)の層（blob）の転送は1[リクエスト](/glossary/リクエスト/)が長く大きいため、前段の[プロキシ](/glossary/プロキシ/)の読み取り時間や本文サイズの制限が、通常の Web アプリ向けの値のままだと、大きな層の push や、[ストレージ](/glossary/ストレージ/)が遅いときの pull で制限に達し、[プロキシ](/glossary/プロキシ/)が504を返します。[クライアント](/glossary/クライアント/)側では層ごとの再試行（Retrying in ... seconds）を繰り返した末に失敗する形で現れます。
+自前で運用する[レジストリ](/glossary/レジストリ/)（registry:2、Harbor、GitLab Container Registry など）は、多くの場合 Nginx や ingress の背後に置かれます。[イメージ](/glossary/イメージ/)の層（blob）の転送は1[リクエスト](/glossary/リクエスト/)が長く大きいため、前段の[プロキシ](/glossary/プロキシ/)の読み取り時間や本文サイズの制限が、通常の Web [アプリ](/glossary/アプリ/)向けの値のままだと、大きな層の push や、[ストレージ](/glossary/ストレージ/)が遅いときの pull で制限に達し、[プロキシ](/glossary/プロキシ/)が504を返します。[クライアント](/glossary/クライアント/)側では層ごとの再試行（Retrying in ... seconds）を繰り返した末に失敗する形で現れます。
 
-**Before（Web アプリ向けの既定値のまま[レジストリ](/glossary/レジストリ/)を中継している[設定](/glossary/設定/)）：**
+**Before（Web [アプリ](/glossary/アプリ/)向けの既定値のまま[レジストリ](/glossary/レジストリ/)を中継している[設定](/glossary/設定/)）：**
 
 ```nginx
 server {
@@ -111,7 +111,7 @@ location / {
 
 ### 原因3：コンテナ上のアプリの前段のプロキシが返している（Docker の問題ではない）
 
-docker [コマンド](/glossary/コマンド/)は正常で、[コンテナ](/glossary/コンテナ/)で動かしているアプリへの [HTTP](/glossary/http/) アクセスが504になる場合、その504を作っているのは前段の[プロキシ](/glossary/プロキシ/)（Nginx など）で、原因はアプリの応答が時間内に完成しないことです。[コンテナ](/glossary/コンテナ/)で動いていることは本質ではなく、調査の手順は [Nginx の 504 の記事](/posts/nginx_504/)がそのまま使えます。[プロキシ](/glossary/プロキシ/)の[エラーログ](/glossary/エラーログ/)の upstream timed out の行を起点に、[プロキシ](/glossary/プロキシ/)の時間設定とアプリの処理時間を突き合わせてください。
+docker [コマンド](/glossary/コマンド/)は正常で、[コンテナ](/glossary/コンテナ/)で動かしている[アプリ](/glossary/アプリ/)への [HTTP](/glossary/http/) アクセスが504になる場合、その504を作っているのは前段の[プロキシ](/glossary/プロキシ/)（Nginx など）で、原因は[アプリ](/glossary/アプリ/)の応答が時間内に完成しないことです。[コンテナ](/glossary/コンテナ/)で動いていることは本質ではなく、調査の手順は [Nginx の 504 の記事](/posts/nginx_504/)がそのまま使えます。[プロキシ](/glossary/プロキシ/)の[エラーログ](/glossary/エラーログ/)の upstream timed out の行を起点に、[プロキシ](/glossary/プロキシ/)の時間設定と[アプリ](/glossary/アプリ/)の処理時間を突き合わせてください。
 
 [Docker](/glossary/docker/) 固有の落とし穴として1つだけ区別しておくと、Compose 構成で上流の[コンテナ](/glossary/コンテナ/)が停止している場合、[プロキシ](/glossary/プロキシ/)から見れば接続の失敗なので、返るのは504ではなく502です。504が出ているなら接続自体はできており、「[コンテナ](/glossary/コンテナ/)に届いていない」のではなく「[コンテナ](/glossary/コンテナ/)の中の[処理](/glossary/処理/)が遅い」方向を調べるのが近道です（この境界は [Nginx の 502 の記事](/posts/nginx_502/)で扱っています）。
 
@@ -121,7 +121,7 @@ Cannot connect to the [Docker](/glossary/docker/) daemon は、[デーモン](/g
 
 ## 切り分けの順序
 
-1. どの操作で504が出たかを[確認](/glossary/確認/)する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、[コンテナ](/glossary/コンテナ/)上のアプリへのアクセスなら原因3（Nginx の 504 の手順へ）。
+1. どの操作で504が出たかを[確認](/glossary/確認/)する。pull / push なら原因1、リモートデーモン経由の操作全般なら原因2、[コンテナ](/glossary/コンテナ/)上の[アプリ](/glossary/アプリ/)へのアクセスなら原因3（Nginx の 504 の手順へ）。
 2. 文言を読む。error parsing [HTTP](/glossary/http/) 504 response body があれば、応答したのは[レジストリ](/glossary/レジストリ/)本体ではなく前段の[プロキシ](/glossary/プロキシ/)だと確定できる。
 3. 原因1は、[レジストリ](/glossary/レジストリ/)本体の[ログ](/glossary/ログ/)と前段の[ログ](/glossary/ログ/)を突き合わせ、打ち切った層を特定する。本体が正常（200/202）なら前段の制限を広げ、本体側に[遅延](/glossary/遅延/)の記録があれば[ストレージ](/glossary/ストレージ/)や負荷を調べる。
 4. [Docker](/glossary/docker/) Hub 相手なら公式の稼働状況を[確認](/glossary/確認/)し、[復旧](/glossary/復旧/)を待って再試行する。
@@ -152,7 +152,7 @@ journalctl -u docker --since "10 minutes ago" | tail -20
 
 原因1の実例として、Harbor（自前運用の[レジストリ](/glossary/レジストリ/)）の公開 issue に詳細な記録があります（[docker push received unexpected HTTP status: 504 Gateway Timeout](https://github.com/goharbor/harbor/issues/12126)）。[Kubernetes](/glossary/kubernetes/) 上に Helm で Harbor を立て、ingress 経由で公開した[環境](/glossary/環境/)で、docker push が層の[アップロード](/glossary/アップロード/)中に Retrying in 3 seconds の再試行を繰り返した末、received unexpected [HTTP](/glossary/http/) status: 504 Gateway Timeout で失敗した、という2020年の報告です。この記録の価値は、報告者自身が「[レジストリ](/glossary/レジストリ/)の[ログ](/glossary/ログ/)には 200 と 202 ばかりが並んでいて異常が見当たらない」と書き残している点にあります。[レジストリ](/glossary/レジストリ/)本体は正常に応答しており、504を作っていたのはその手前の中継層だった、という本記事の切り分けの決め手がそのまま現れています。約6年前の事例ですが、[レジストリ](/glossary/レジストリ/)を前段の[プロキシ](/glossary/プロキシ/)や ingress の背後に置く構成、層の転送が1[リクエスト](/glossary/リクエスト/)として長く大きいこと、[クライアント](/glossary/クライアント/)が層ごとに自動再試行することは現在も同じで、この構図は今日の自前[レジストリ](/glossary/レジストリ/)でもそのまま再現します。
 
-[Docker](/glossary/docker/) の504は、[デーモン](/glossary/デーモン/)が返せない[コード](/glossary/コード/)だからこそ、見た瞬間に「間に誰がいるか」を数える[エラー](/glossary/エラー/)です。pull / push の経路か、[デーモン](/glossary/デーモン/)の前か、アプリの前か。中継役を特定すれば、直すべき[設定](/glossary/設定/)は自然に決まります。
+[Docker](/glossary/docker/) の504は、[デーモン](/glossary/デーモン/)が返せない[コード](/glossary/コード/)だからこそ、見た瞬間に「間に誰がいるか」を数える[エラー](/glossary/エラー/)です。pull / push の経路か、[デーモン](/glossary/デーモン/)の前か、[アプリ](/glossary/アプリ/)の前か。中継役を特定すれば、直すべき[設定](/glossary/設定/)は自然に決まります。
 
 ---
 

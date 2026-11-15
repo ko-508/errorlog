@@ -83,7 +83,7 @@ Postmanで[修正](/glossary/修正/)するには、Bodyタブを開き、以下
 
 1. Body内の「Code beautifier」または「format」[ボタン](/glossary/ボタン/)をクリックして[JSON](/glossary/json/)形式を自動整形する
 2. 右側に表示される「Error」メッセージを[確認](/glossary/確認/)する
-3. [API](/glossary/api/)ドキュメントで必須[フィールド](/glossary/フィールド/)を[確認](/glossary/確認/)し、すべて揃っているか検証する
+3. [API](/glossary/api/)[ドキュメント](/glossary/ドキュメント/)で必須[フィールド](/glossary/フィールド/)を[確認](/glossary/確認/)し、すべて揃っているか検証する
 
 ### 原因2：Content-Typeヘッダーがボディのデータフォーマットと一致していない
 
@@ -92,7 +92,7 @@ Postmanが[送信](/glossary/送信/)するContent-Type[ヘッダー](/glossary/
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
 Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定/)：
-- Method: POST
+- Method: [POST](/glossary/post/)
 - [URL](/glossary/url/): http://api.example.com/data
 - Headers: Content-Type: text/plain
 - Body (raw):
@@ -106,7 +106,7 @@ Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定
 **After（修正後）：**
 
 Postmanの[リクエスト](/glossary/リクエスト/)[設定](/glossary/設定/)：
-- Method: POST
+- Method: [POST](/glossary/post/)
 - [URL](/glossary/url/): http://api.example.com/data
 - Headers: Content-Type: application/json
 - Body (raw):
@@ -197,9 +197,9 @@ curl -X POST http://api.example.com/users \
 
 自社の[API](/glossary/api/)[サーバー](/glossary/サーバー/)である場合、[サーバー](/glossary/サーバー/)側の[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)してください。404や[タイムアウト](/glossary/タイムアウト/)ではなく400[エラー](/glossary/エラー/)であれば、[サーバー](/glossary/サーバー/)が受け取った[リクエスト](/glossary/リクエスト/)の内容についても詳細な[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているはずです。その情報から原因がより明確になります。
 
-**公式ドキュメントの参照**
+**公式[ドキュメント](/glossary/ドキュメント/)の参照**
 
-連携している[API](/glossary/api/)提供者の公式ドキュメントやリファレンスで、[リクエスト](/glossary/リクエスト/)形式の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)してください。必須[フィールド](/glossary/フィールド/)、[データ型](/glossary/データ型/)、許可される値の範囲などが明記されていることが多く、自身の[リクエスト](/glossary/リクエスト/)との差異を特定できます。
+連携している[API](/glossary/api/)提供者の公式[ドキュメント](/glossary/ドキュメント/)やリファレンスで、[リクエスト](/glossary/リクエスト/)形式の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)してください。必須[フィールド](/glossary/フィールド/)、[データ型](/glossary/データ型/)、許可される値の範囲などが明記されていることが多く、自身の[リクエスト](/glossary/リクエスト/)との差異を特定できます。
 
 ---
 

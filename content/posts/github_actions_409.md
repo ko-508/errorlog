@@ -506,7 +506,7 @@ curl -v -H "Authorization: token <your-github-token>" \
   https://api.github.com/repos/<organization>/<repository>/actions/permissions
 ```
 
-**公式ドキュメント参照**
+**公式[ドキュメント](/glossary/ドキュメント/)参照**
 
 - [[GitHub](/glossary/github/) Actions: Workflow syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-
 

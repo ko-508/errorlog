@@ -248,7 +248,7 @@ curl -v http://localhost:9090/-/healthy
 curl -v http://localhost:9090/api/v1/query?query=up
 ```
 
-公式ドキュメント：[Prometheus Management API](https://prometheus.io/docs/prometheus/latest/management_api/)
+公式[ドキュメント](/glossary/ドキュメント/)：[Prometheus Management API](https://prometheus.io/docs/prometheus/latest/management_api/)
 
 ---
 

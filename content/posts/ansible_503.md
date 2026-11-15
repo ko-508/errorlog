@@ -234,7 +234,7 @@ Ansible 実行時に `-vvv` フラグで詳細[ログ](/glossary/ログ/)を取�
 ansible-playbook playbook.yml -vvv -e "ansible_python_interpreter=/usr/bin/python3"
 ```
 
-**4. 公式ドキュメント・コミュニティの[確認](/glossary/確認/)**
+**4. 公式[ドキュメント](/glossary/ドキュメント/)・コミュニティの[確認](/glossary/確認/)**
 
 - [Ansible 公式ドキュメント：uri モジュール](https://docs.ansible.com/ansible/latest/modules/uri_module.html)
 - [wait_for モジュール](https://docs.ansible.com/ansible/latest/modules/wait_for_module.html)

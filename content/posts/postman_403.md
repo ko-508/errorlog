@@ -121,7 +121,7 @@ curl -H "Authorization: Bearer <your-api-key>" \
 # 結果: 200 OK
 ```
 
-Postman Cloudの公式ドキュメントに記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」[ボタン](/glossary/ボタン/)をクリックする前に、Console タブで「Request Headers」を[確認](/glossary/確認/)し、実際のソースIPが許可されているか[確認](/glossary/確認/)します。
+Postman Cloudの公式[ドキュメント](/glossary/ドキュメント/)に記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」[ボタン](/glossary/ボタン/)をクリックする前に、Console タブで「Request Headers」を[確認](/glossary/確認/)し、実際のソースIPが許可されているか[確認](/glossary/確認/)します。
 
 ### 原因3：試している操作がAPIキーの権限レベルを超えている
 
@@ -215,8 +215,8 @@ console.log('Using API key with scopes: ' + requiredScopes);
 2. **Network タブでの詳細確認**
    - [ブラウザ](/glossary/ブラウザ/)の開発者[ツール](/glossary/ツール/)（F12）を開き、「Network」タブで[送信](/glossary/送信/)された[リクエスト](/glossary/リクエスト/)の詳細を[確認](/glossary/確認/)します。リクエストヘッダー、[ステータスコード](/glossary/ステータスコード/)、レスポンスボディをそれぞれ[確認](/glossary/確認/)し、具体的な[エラーメッセージ](/glossary/エラーメッセージ/)を取得してください。
 
-3. **[API](/glossary/api/)提供元の公式ドキュメント参照**
-   - 対象[API](/glossary/api/)の公式ドキュメントで、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの[要件](/glossary/要件/)を[確認](/glossary/確認/)します。ドキュメントに記載されていない場合は、[API](/glossary/api/)提供元のサポートに問い合わせてください。
+3. **[API](/glossary/api/)提供元の公式[ドキュメント](/glossary/ドキュメント/)参照**
+   - 対象[API](/glossary/api/)の公式[ドキュメント](/glossary/ドキュメント/)で、[エンドポイント](/glossary/エンドポイント/)別の必要[スコープ](/glossary/スコープ/)、IP制限[ポリシー](/glossary/ポリシー/)、[権限](/glossary/権限/)レベルの[要件](/glossary/要件/)を[確認](/glossary/確認/)します。[ドキュメント](/glossary/ドキュメント/)に記載されていない場合は、[API](/glossary/api/)提供元の[サポート](/glossary/サポート/)に問い合わせてください。
 
 4. **[API](/glossary/api/)[キー](/glossary/キー/)の有効性確認**
    - 使用している[API](/glossary/api/)[キー](/glossary/キー/)が失効していないか、[API](/glossary/api/)提供元の管理画面で[確認](/glossary/確認/)します。[キー](/glossary/キー/)の作成日時、最終使用日時、有効期限を[確認](/glossary/確認/)し、必要に応じて新しい[キー](/glossary/キー/)を生成してください。

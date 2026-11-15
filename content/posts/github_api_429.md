@@ -16,7 +16,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-[GitHub](/glossary/github/) [API](/glossary/api/) の 429 Too Many Requests は、呼び出しの量が制限を超えたことを示します。重要なのは、制限が2種類あることです。第一に primary rate limit で、時間あたりの総量の上限です。これに達すると応答[ヘッダー](/glossary/ヘッダー/)の x-ratelimit-remaining が 0 になります。第二に secondary rate limit で、短時間の集中（大量の並列[リクエスト](/glossary/リクエスト/)、作成系操作の連打など）に対する保護です。こちらは残量が残っていても発動し、message に secondary rate limit という文言が入ります。なお、公式ドキュメントのとおり、同じ制限超過が 429 ではなく 403 で返ることもあります（対処は同じです）。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 429 Too Many Requests は、呼び出しの量が制限を超えたことを示します。重要なのは、制限が2種類あることです。第一に primary rate limit で、時間あたりの総量の上限です。これに達すると応答[ヘッダー](/glossary/ヘッダー/)の x-ratelimit-remaining が 0 になります。第二に secondary rate limit で、短時間の集中（大量の並列[リクエスト](/glossary/リクエスト/)、作成系操作の連打など）に対する保護です。こちらは残量が残っていても発動し、message に secondary rate limit という文言が入ります。なお、公式[ドキュメント](/glossary/ドキュメント/)のとおり、同じ制限超過が 429 ではなく 403 で返ることもあります（対処は同じです）。
 
 429 を受け取ったときにやってはいけないのが、待たずに再試行を繰り返すことです。対処の順序は、まず[ヘッダー](/glossary/ヘッダー/)の指示どおりに待つ、次に[認証](/glossary/認証/)を付けて上限を上げる、最後に呼び出しそのものを減らす（直列化・条件付き[リクエスト](/glossary/リクエスト/)・webhook への転換）、です。いずれも公式の指針が明確に定まっています。
 
@@ -42,7 +42,7 @@ secondary rate limit の超過（短時間の集中に対する保護）：
 }
 ```
 
-あわせて読むべきなのが応答[ヘッダー](/glossary/ヘッダー/)です。x-ratelimit-limit が現在の自分の上限、x-ratelimit-remaining が残量、x-ratelimit-reset が残量の回復時刻（UTC の epoch 秒）、x-ratelimit-resource がどの区分（core、search、graphql など）の制限かを示します。retry-after [ヘッダー](/glossary/ヘッダー/)が付いている場合は、その秒数が最優先の待ち時間です。上限の具体的な数値は認証方法などで異なり、変更されることもあるため、この x-ratelimit-limit の実測値と公式の[レート制限](/glossary/レート制限/)ドキュメントで[確認](/glossary/確認/)してください。
+あわせて読むべきなのが応答[ヘッダー](/glossary/ヘッダー/)です。x-ratelimit-limit が現在の自分の上限、x-ratelimit-remaining が残量、x-ratelimit-reset が残量の回復時刻（UTC の epoch 秒）、x-ratelimit-resource がどの区分（core、search、graphql など）の制限かを示します。retry-after [ヘッダー](/glossary/ヘッダー/)が付いている場合は、その秒数が最優先の待ち時間です。上限の具体的な数値は認証方法などで異なり、変更されることもあるため、この x-ratelimit-limit の実測値と公式の[レート制限](/glossary/レート制限/)[ドキュメント](/glossary/ドキュメント/)で[確認](/glossary/確認/)してください。
 
 ## まず最初に：ヘッダーで primary か secondary かを確定する
 
@@ -58,7 +58,7 @@ curl -H "Authorization: Bearer <your-github-token>" https://api.github.com/rate_
 
 ### 原因1：認証なし（または低い上限のまま）で呼び出している
 
-公式ドキュメントのとおり、認証済みの[リクエスト](/glossary/リクエスト/)は未認証よりも大幅に高い primary の上限を持ちます。[スクリプト](/glossary/スクリプト/)や CI から未認証で繰り返し呼び出すと、すぐに上限に達します。しかも未認証の上限は接続元の [IP アドレス](/glossary/ip-アドレス/)単位で数えられるため、共有環境（CI サービスや社内[ネットワーク](/glossary/ネットワーク/)）では自分以外の利用と枠を取り合うことになります。
+公式[ドキュメント](/glossary/ドキュメント/)のとおり、認証済みの[リクエスト](/glossary/リクエスト/)は未認証よりも大幅に高い primary の上限を持ちます。[スクリプト](/glossary/スクリプト/)や CI から未認証で繰り返し呼び出すと、すぐに上限に達します。しかも未認証の上限は接続元の [IP アドレス](/glossary/ip-アドレス/)単位で数えられるため、共有環境（CI サービスや社内[ネットワーク](/glossary/ネットワーク/)）では自分以外の利用と枠を取り合うことになります。
 
 **Before（未認証で繰り返し呼び出す）：**
 
@@ -77,7 +77,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
 
 ### 原因2：待ち方が間違っている
 
-429 を受け取った直後に再試行しても成功しません。公式ドキュメントは待ち方を3段階で定めています。第一に、retry-after [ヘッダー](/glossary/ヘッダー/)があれば、その秒数が経過するまで再試行しない。第二に、x-ratelimit-remaining が 0 なら、x-ratelimit-reset が示す時刻（UTC の epoch 秒）まで再試行しない。第三に、どちらもなければ最低1分待つ。それでも続く場合は待ち時間を指数的に増やし、一定回数で打ち切って[エラー](/glossary/エラー/)にする、というものです。[リセット](/glossary/リセット/)時刻は次のように人間が読める形にできます。
+429 を受け取った直後に再試行しても成功しません。公式[ドキュメント](/glossary/ドキュメント/)は待ち方を3段階で定めています。第一に、retry-after [ヘッダー](/glossary/ヘッダー/)があれば、その秒数が経過するまで再試行しない。第二に、x-ratelimit-remaining が 0 なら、x-ratelimit-reset が示す時刻（UTC の epoch 秒）まで再試行しない。第三に、どちらもなければ最低1分待つ。それでも続く場合は待ち時間を指数的に増やし、一定回数で打ち切って[エラー](/glossary/エラー/)にする、というものです。[リセット](/glossary/リセット/)時刻は次のように人間が読める形にできます。
 
 ```bash
 # 応答ヘッダーの x-ratelimit-reset の値（epoch 秒）を時刻に変換
@@ -88,15 +88,15 @@ date -d @<x-ratelimit-resetの値>
 
 ### 原因3：短時間の集中・並列・作成の連打（secondary rate limit）
 
-secondary rate limit は総量ではなく「勢い」への制限です。公式ドキュメントが引き金として挙げているのは、同時に送る[リクエスト](/glossary/リクエスト/)が多すぎる（この同時数の枠は [REST](/glossary/rest/) と [GraphQL](/glossary/graphql/) で共有）、単一の[エンドポイント](/glossary/エンドポイント/)に1分間に集中しすぎる、[処理](/glossary/処理/)の重い[リクエスト](/glossary/リクエスト/)で [CPU](/glossary/cpu/) 時間を使いすぎる、短時間にコンテンツ（Issue、コメントなど）を作りすぎる（ウェブ画面での操作も合算されます）、といった類型です。個々のしきい値は公式に予告なく変更されるとされており、非公開の理由で発動する場合もあると明記されています。数値を当てにせず、挙動を設計で抑えるのが正攻法です。
+secondary rate limit は総量ではなく「勢い」への制限です。公式[ドキュメント](/glossary/ドキュメント/)が引き金として挙げているのは、同時に[送る](/glossary/送る/)[リクエスト](/glossary/リクエスト/)が多すぎる（この同時数の枠は [REST](/glossary/rest/) と [GraphQL](/glossary/graphql/) で共有）、単一の[エンドポイント](/glossary/エンドポイント/)に1分間に集中しすぎる、[処理](/glossary/処理/)の重い[リクエスト](/glossary/リクエスト/)で [CPU](/glossary/cpu/) 時間を使いすぎる、短時間にコンテンツ（Issue、コメントなど）を作りすぎる（ウェブ画面での操作も合算されます）、といった類型です。個々のしきい値は公式に予告なく変更されるとされており、非公開の理由で発動する場合もあると明記されています。数値を当てにせず、挙動を設計で抑えるのが正攻法です。
 
-公式の回避策は明確です。[リクエスト](/glossary/リクエスト/)は並列ではなく直列にする（必要ならキューを実装する）。作成・更新系の[リクエスト](/glossary/リクエスト/)（POST、PATCH、PUT、DELETE）を大量に行う場合は、1件ごとに1秒以上の間隔を空ける。この2つを守るだけで、secondary の大半は避けられます。並列で一括処理しているバッチや[ワークフロー](/glossary/ワークフロー/)があれば、そこが最初の見直し対象です。
+公式の回避策は明確です。[リクエスト](/glossary/リクエスト/)は並列ではなく直列にする（必要ならキューを実装する）。作成・更新系の[リクエスト](/glossary/リクエスト/)（[POST](/glossary/post/)、PATCH、PUT、DELETE）を大量に行う場合は、1件ごとに1秒以上の間隔を空ける。この2つを守るだけで、secondary の大半は避けられます。並列で一括処理しているバッチや[ワークフロー](/glossary/ワークフロー/)があれば、そこが最初の見直し対象です。
 
 ### 原因4：変わらないデータを取得し続けている
 
 定期的なポーリング（[変化](/glossary/変化/)の監視のための繰り返し取得）は、内容が変わっていなくても枠を消費します。公式のベストプラクティスは2つの削減策を示しています。
 
-第一に、条件付き[リクエスト](/glossary/リクエスト/)です。多くの[エンドポイント](/glossary/エンドポイント/)は応答に etag [ヘッダー](/glossary/ヘッダー/)（内容の指紋）を返し、last-modified を返すものもあります。次回の取得時に If-None-Match（または If-Modified-Since）[ヘッダー](/glossary/ヘッダー/)で前回の値を送ると、内容が変わっていなければ 304 Not Modified が返ります。公式ドキュメントのとおり、Authorization [ヘッダー](/glossary/ヘッダー/)付きで正しく[認証](/glossary/認証/)された[リクエスト](/glossary/リクエスト/)で 304 が返った場合、その取得は primary の制限を消費しません。
+第一に、条件付き[リクエスト](/glossary/リクエスト/)です。多くの[エンドポイント](/glossary/エンドポイント/)は応答に etag [ヘッダー](/glossary/ヘッダー/)（内容の指紋）を返し、last-modified を返すものもあります。次回の取得時に If-None-Match（または If-Modified-Since）[ヘッダー](/glossary/ヘッダー/)で前回の値を送ると、内容が変わっていなければ 304 Not Modified が返ります。公式[ドキュメント](/glossary/ドキュメント/)のとおり、Authorization [ヘッダー](/glossary/ヘッダー/)付きで正しく[認証](/glossary/認証/)された[リクエスト](/glossary/リクエスト/)で 304 が返った場合、その取得は primary の制限を消費しません。
 
 ```bash
 # 1回目: etag を控える

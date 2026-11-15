@@ -198,7 +198,7 @@ vercel dev
 
 [JSON](/glossary/json/) の文法[エラー](/glossary/エラー/)がないか[確認](/glossary/確認/)してください。Vercel では[デプロイ](/glossary/デプロイ/)時に [JSON](/glossary/json/) [バリデーション](/glossary/バリデーション/)を行い、[エラー](/glossary/エラー/)があるとビルドが失敗します。
 
-**公式ドキュメントの[確認](/glossary/確認/)：**
+**公式[ドキュメント](/glossary/ドキュメント/)の[確認](/glossary/確認/)：**
 
 - [Vercel Routing Documentation](https://vercel.com/docs/concepts/projects/project-configuration)
 - [Rewrites and Redirects](https://vercel.com/docs/concepts/next.js/rewrites)

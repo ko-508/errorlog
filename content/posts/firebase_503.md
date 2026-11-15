@@ -194,7 +194,7 @@ severity="ERROR"
 timestamp>="<エラーが発生した時刻>"
 ```
 
-**公式ドキュメント**
+**公式[ドキュメント](/glossary/ドキュメント/)**
 
 - [Firebase Quotas and Limits](https://firebase.google.com/docs/firestore/quotas)
 - [Cloud Functions のトラブルシューティング](https://cloud.google.com/functions/docs/troubleshooting/functions-framework)
@@ -202,7 +202,7 @@ timestamp>="<エラーが発生した時刻>"
 
 **コミュニティリソース**
 
-Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を[確認](/glossary/確認/)してください。Google Cloud サポートに連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと[対応](/glossary/対応/)が迅速になります。
+Firebase [GitHub](/glossary/github/) Issues や Stack Overflow で同様の 503 [エラー](/glossary/エラー/)が報告されている場合が多くあります。「Firebase 503」「Cloud Firestore Service Unavailable」などの[キーワード](/glossary/キーワード/)で[検索](/glossary/検索/)し、既存の解決策を[確認](/glossary/確認/)してください。Google Cloud [サポート](/glossary/サポート/)に連絡する場合は、[エラー](/glossary/エラー/)が発生した正確な時刻と `firebase-debug.log` [ファイル](/glossary/ファイル/)を準備しておくと[対応](/glossary/対応/)が迅速になります。
 
 ---
 

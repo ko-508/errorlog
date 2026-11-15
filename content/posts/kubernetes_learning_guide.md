@@ -39,7 +39,7 @@ trend_incident: false
 
 先に部品の関係を押さえます。ここを飛ばすと、後のすべての段階で判断がぶれます。
 
-公式ドキュメントによれば、[Kubernetes](/glossary/kubernetes/)クラスターはコントロールプレーンと1つ以上のワーカーノードで構成されます。コントロールプレーン側には、[Kubernetes](/glossary/kubernetes/)の[HTTP](/glossary/http/) [API](/glossary/api/)を公開する中核[サーバー](/glossary/サーバー/)である kube-apiserver、[API](/glossary/api/)[サーバー](/glossary/サーバー/)の全データを保持するキーバリューストアの etcd、まだノードに割り当てられていないPodを探して適切なノードへ割り当てる kube-scheduler、[API](/glossary/api/)の振る舞いを実装するコントローラーを動かす kube-controller-manager があります。ノード側には、Podとその[コンテナ](/glossary/コンテナ/)が動いていることを保証する kubelet、Serviceを実装する[ネットワーク](/glossary/ネットワーク/)規則を維持する kube-proxy、[コンテナ](/glossary/コンテナ/)の実行を担うコンテナランタイムがあります（[Cluster Architecture](https://kubernetes.io/docs/concepts/overview/components/)）。
+公式[ドキュメント](/glossary/ドキュメント/)によれば、[Kubernetes](/glossary/kubernetes/)クラスターはコントロールプレーンと1つ以上のワーカーノードで構成されます。コントロールプレーン側には、[Kubernetes](/glossary/kubernetes/)の[HTTP](/glossary/http/) [API](/glossary/api/)を公開する中核[サーバー](/glossary/サーバー/)である kube-apiserver、[API](/glossary/api/)[サーバー](/glossary/サーバー/)の全データを保持するキーバリューストアの etcd、まだノードに割り当てられていないPodを探して適切なノードへ割り当てる kube-scheduler、[API](/glossary/api/)の振る舞いを実装するコントローラーを動かす kube-controller-manager があります。ノード側には、Podとその[コンテナ](/glossary/コンテナ/)が動いていることを保証する kubelet、Serviceを実装する[ネットワーク](/glossary/ネットワーク/)規則を維持する kube-proxy、[コンテナ](/glossary/コンテナ/)の実行を担うコンテナランタイムがあります（[Cluster Architecture](https://kubernetes.io/docs/concepts/overview/components/)）。
 
 この構造から、[エラー](/glossary/エラー/)の読み分けが決まります。`kubectl` は[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ要求を送るだけの道具です。[マニフェスト](/glossary/マニフェスト/)を適用した時点で成功と表示されても、それは「宣言が受け付けられた」という意味であり、動き出したという意味ではありません。実際に動くかどうかは、その後にスケジューラとkubeletが決めます。
 
@@ -60,7 +60,7 @@ kubectl get nodes
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：[Kubernetes](/glossary/kubernetes/)の[エラー](/glossary/エラー/)の大半はPod単位で現れます。Podの状態欄と[コンテナ](/glossary/コンテナ/)の状態欄が別々にあることを知らないと、どちらの情報を読んでいるのか分からなくなります。
 
-**最低限覚える概念**：公式ドキュメントによれば、Podは[Kubernetes](/glossary/kubernetes/)で作成・管理できる最小の[デプロイ](/glossary/デプロイ/)単位で、1つ以上の[コンテナ](/glossary/コンテナ/)のグループです。[ストレージ](/glossary/ストレージ/)と[ネットワーク](/glossary/ネットワーク/)の資源を共有し、[コンテナ](/glossary/コンテナ/)をどう動かすかの[仕様](/glossary/仕様/)を持ちます。Podの中身は常に同じ場所に配置され、同時にスケジュールされ、共有された文脈で動きます（[Pods](https://kubernetes.io/docs/concepts/workloads/pods/)）。
+**最低限覚える概念**：公式[ドキュメント](/glossary/ドキュメント/)によれば、Podは[Kubernetes](/glossary/kubernetes/)で作成・管理できる最小の[デプロイ](/glossary/デプロイ/)単位で、1つ以上の[コンテナ](/glossary/コンテナ/)のグループです。[ストレージ](/glossary/ストレージ/)と[ネットワーク](/glossary/ネットワーク/)の資源を共有し、[コンテナ](/glossary/コンテナ/)をどう動かすかの[仕様](/glossary/仕様/)を持ちます。Podの中身は常に同じ場所に配置され、同時にスケジュールされ、共有された文脈で動きます（[Pods](https://kubernetes.io/docs/concepts/workloads/pods/)）。
 
 つまりPodは、複数の[コンテナ](/glossary/コンテナ/)をまとめて1台の論理的なホストのように扱う入れ物です。同じPodの中の[コンテナ](/glossary/コンテナ/)は同じ[ネットワーク](/glossary/ネットワーク/)名前空間を共有するため、互いに `localhost` で[通信](/glossary/通信/)できます。別のPodには届きません。
 
@@ -95,7 +95,7 @@ kubectl exec -it <Pod名> -c <コンテナ名> -- sh
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：Podが消えても勝手に作り直される、[更新](/glossary/更新/)したのに古いPodが残っている、といった現象は、この層を知らないと理解できません。
 
-**最低限覚える概念**：公式ドキュメントによれば、DeploymentはPodとReplicaSetに対する宣言的な[更新](/glossary/更新/)を提供します。Deploymentに望ましい状態を記述すると、Deploymentコントローラーが実際の状態を望ましい状態へ、制御された速度で変更します（[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)）。
+**最低限覚える概念**：公式[ドキュメント](/glossary/ドキュメント/)によれば、DeploymentはPodとReplicaSetに対する宣言的な[更新](/glossary/更新/)を提供します。Deploymentに望ましい状態を記述すると、Deploymentコントローラーが実際の状態を望ましい状態へ、制御された速度で変更します（[Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)）。
 
 関係は3層です。DeploymentがReplicaSetを作り、ReplicaSetがPodを作ります。Podを手で[削除](/glossary/削除/)しても、ReplicaSetが数を保とうとして作り直します。同じページには、Deploymentが所有するReplicaSetを直接操作しないように、という注意も書かれています。
 
@@ -136,11 +136,11 @@ kubectl rollout undo deployment/<Deployment名>
 
 第一に、[コンテナ](/glossary/コンテナ/)が待ち受けている[ポート](/glossary/ポート/)です。Podの中の[プロセス](/glossary/プロセス/)が実際に開いている番号です。
 
-第二に、Serviceの `port` と `targetPort` です。公式ドキュメントによれば、Serviceは任意の[受信](/glossary/受信/) `port` を `targetPort` へ対応付けられます。既定では利便性のため、`targetPort` は `port` と同じ値に[設定](/glossary/設定/)されます（[Service](https://kubernetes.io/docs/concepts/services-networking/service/)）。`port` がServiceの入口、`targetPort` がPod側の受け口です。同じページには、Podの[ポート](/glossary/ポート/)に名前を付けて `targetPort` からその名前で参照できることも記載されています。
+第二に、Serviceの `port` と `targetPort` です。公式[ドキュメント](/glossary/ドキュメント/)によれば、Serviceは任意の[受信](/glossary/受信/) `port` を `targetPort` へ対応付けられます。既定では利便性のため、`targetPort` は `port` と同じ値に[設定](/glossary/設定/)されます（[Service](https://kubernetes.io/docs/concepts/services-networking/service/)）。`port` がServiceの入口、`targetPort` がPod側の受け口です。同じページには、Podの[ポート](/glossary/ポート/)に名前を付けて `targetPort` からその名前で参照できることも記載されています。
 
 第三に、クラスターの外からの入口です。Serviceの `type` は既定で `ClusterIP` であり、この場合はクラスターの内側からしか到達できません。外へ出すには別の型やIngressといった仕組みが要ります。
 
-そして名前解決です。公式ドキュメントによれば、Podの `/etc/resolv.conf` はkubeletが[設定](/glossary/設定/)し、`search` には `<namespace>.svc.cluster.local`、`svc.cluster.local`、`cluster.local` が並びます。この[展開](/glossary/展開/)により、`test` 名前空間のPodは `data.prod` でも `data.prod.svc.cluster.local` でも解決できます（[DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
+そして名前解決です。公式[ドキュメント](/glossary/ドキュメント/)によれば、Podの `/etc/resolv.conf` はkubeletが[設定](/glossary/設定/)し、`search` には `<namespace>.svc.cluster.local`、`svc.cluster.local`、`cluster.local` が並びます。この[展開](/glossary/展開/)により、`test` 名前空間のPodは `data.prod` でも `data.prod.svc.cluster.local` でも解決できます（[DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)）。
 
 ここが `localhost` の話と繋がります。同じPodの中の[コンテナ](/glossary/コンテナ/)同士は `localhost` で[通信](/glossary/通信/)できますが、別のPodのサービスへ `localhost` と書いても届きません。Service名を書きます。名前空間が違えば `<Service名>.<名前空間>` と書きます。
 
@@ -176,7 +176,7 @@ kubectl port-forward service/<Service名> 8080:80
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：この区別を知らないまま「作り直せば直る」を続けると、いずれデータを失います。
 
-**最低限覚える概念**：公式ドキュメントによれば、一時的なボリュームの寿命は特定のPodに紐づきますが、永続的なボリュームは個々のPodの寿命を超えて存在します。Podが存在しなくなると[Kubernetes](/glossary/kubernetes/)は一時的なボリュームを破棄しますが、永続的なボリュームは破棄しません。なお、どの種類のボリュームでも、[コンテナ](/glossary/コンテナ/)の再起動をまたいでデータは保持されます（[Volumes](https://kubernetes.io/docs/concepts/storage/volumes/)）。
+**最低限覚える概念**：公式[ドキュメント](/glossary/ドキュメント/)によれば、一時的なボリュームの寿命は特定のPodに紐づきますが、永続的なボリュームは個々のPodの寿命を超えて存在します。Podが存在しなくなると[Kubernetes](/glossary/kubernetes/)は一時的なボリュームを破棄しますが、永続的なボリュームは破棄しません。なお、どの種類のボリュームでも、[コンテナ](/glossary/コンテナ/)の再起動をまたいでデータは保持されます（[Volumes](https://kubernetes.io/docs/concepts/storage/volumes/)）。
 
 つまり境界は2段あります。[コンテナ](/glossary/コンテナ/)の再起動をまたぐかどうかと、Podの消滅をまたぐかどうかです。前者はボリュームを使えば保たれ、後者は永続的なボリュームでなければ保たれません。
 
@@ -214,7 +214,7 @@ kubectl get pod <Pod名> -o jsonpath='{range .spec.containers[*]}{.name}{"\t"}{.
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：Podが起動しない原因には、置き場所が決まらない場合と、置かれた後に落ちる場合があります。この2つは対処がまったく違います。
 
-**最低限覚える概念**：公式ドキュメントによれば、Podを作るとスケジューラが実行先のノードを選びます。各ノードには資源の種類ごとに最大容量があり、スケジューラは資源の種類ごとに、割り当て済み[コンテナ](/glossary/コンテナ/)の[リクエスト](/glossary/リクエスト/)の合計がノードの[容量](/glossary/容量/)を下回るようにします。実際の使用量が低くても、[容量](/glossary/容量/)の[確認](/glossary/確認/)に失敗すればスケジューラはそのノードへの配置を拒みます（[Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)）。
+**最低限覚える概念**：公式[ドキュメント](/glossary/ドキュメント/)によれば、Podを作るとスケジューラが実行先のノードを選びます。各ノードには資源の種類ごとに最大容量があり、スケジューラは資源の種類ごとに、割り当て済み[コンテナ](/glossary/コンテナ/)の[リクエスト](/glossary/リクエスト/)の合計がノードの[容量](/glossary/容量/)を下回るようにします。実際の使用量が低くても、[容量](/glossary/容量/)の[確認](/glossary/確認/)に失敗すればスケジューラはそのノードへの配置を拒みます（[Resource Management for Pods and Containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/)）。
 
 `requests` と `limits` の違いも同じページに書かれています。ノードに十分な余裕があれば、[コンテナ](/glossary/コンテナ/)は `request` を超えて資源を使うことが可能であり、許されてもいます。一方 `limits` は別の話で、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)のどちらの上限もkubeletとコンテナランタイムによって適用されます。
 
@@ -308,15 +308,15 @@ kubectl get pods -n kube-system
 
 ## 独学と動画講座の使い分け
 
-ここまでの6段階は、公式ドキュメントと手元のクラスターだけでも進められます。実際、この記事で参照した[仕様](/glossary/仕様/)はすべて公式ドキュメントに書かれています。
+ここまでの6段階は、公式[ドキュメント](/glossary/ドキュメント/)と手元のクラスターだけでも進められます。実際、この記事で参照した[仕様](/glossary/仕様/)はすべて公式[ドキュメント](/glossary/ドキュメント/)に書かれています。
 
-独学が向いているのは、目的が明確な場合です。特定の[エラー](/glossary/エラー/)を直す、特定の[リソース](/glossary/リソース/)の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)する、といった作業は、公式ドキュメントを直接読むのが最短です。
+独学が向いているのは、目的が明確な場合です。特定の[エラー](/glossary/エラー/)を直す、特定の[リソース](/glossary/リソース/)の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)する、といった作業は、公式[ドキュメント](/glossary/ドキュメント/)を直接読むのが最短です。
 
 一方で、[Kubernetes](/glossary/kubernetes/)は独学の負担が[Docker](/glossary/docker/)より大きくなります。部品の数が多く、しかも部品どうしの関係を知らないと個々の説明が頭に入りません。どこから読むかを決める段階で止まりやすい構造です。加えて、手を動かすにはクラスターが要ります。
 
 動画講座は、この順序と[環境](/glossary/環境/)の用意がまとめて示されている点が違います。途中で詰まって止まる回数を減らせます。反面、自分に必要な部分だけを選んで進めるのは難しくなります。
 
-どちらが適しているかは、いま何に時間を取られているかで決まります。[仕様](/glossary/仕様/)が分からなくて止まっているなら公式ドキュメント、何から手を付けるか決められなくて止まっているなら講座、という切り分けが実際的です。
+どちらが適しているかは、いま何に時間を取られているかで決まります。[仕様](/glossary/仕様/)が分からなくて止まっているなら公式[ドキュメント](/glossary/ドキュメント/)、何から手を付けるか決められなくて止まっているなら講座、という切り分けが実際的です。
 
 ## 学習後に自力で確認できるようにしたいこと
 
@@ -332,7 +332,7 @@ kubectl get pods -n kube-system
 
 学ぶ順序は、Podと[コンテナ](/glossary/コンテナ/)、Deploymentと宣言、Serviceと[ネットワーク](/glossary/ネットワーク/)、[設定](/glossary/設定/)とデータ、スケジューリングと[リソース](/glossary/リソース/)、トラブルシューティングです。それぞれに「次へ進む目安」を置いたのは、飛ばした段階が後から別の顔で現れるからです。
 
-公式ドキュメントは[仕様](/glossary/仕様/)の確認先として最も確実です。一方で、学ぶ順序や検証用のクラスターを自分で用意する負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
+公式[ドキュメント](/glossary/ドキュメント/)は[仕様](/glossary/仕様/)の確認先として最も確実です。一方で、学ぶ順序や検証用のクラスターを自分で用意する負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
 
 [Kubernetesを体系的に学べるUdemy講座を確認する（PR）](https://trk.udemy.com/QYWqz3)
 
@@ -351,4 +351,4 @@ kubectl get pods -n kube-system
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)や講座の内容、価格、提供条件は予告なく変更されることがあります。最新の情報は[Kubernetes](/glossary/kubernetes/)公式ドキュメントおよびリンク先の講座ページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)や講座の内容、価格、提供条件は予告なく変更されることがあります。最新の情報は[Kubernetes](/glossary/kubernetes/)公式[ドキュメント](/glossary/ドキュメント/)およびリンク先の講座ページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

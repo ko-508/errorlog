@@ -60,7 +60,7 @@ node -p "JSON.stringify({execArgv: process.execArgv, NODE_OPTIONS: process.env.N
 | 22.12.0以降の22系 | 既定で有効 |
 | 23.0.0以降の系列 | 既定で有効。無効化設定にも注意 |
 
-これは機能が導入された境界の表です。古い系列への[更新](/glossary/更新/)を推奨する表ではありません。更新先は、[Node.js公式のサポート状況](https://nodejs.org/en/about/previous-releases)と[プロジェクト](/glossary/プロジェクト/)の[要件](/glossary/要件/)を[確認](/glossary/確認/)して、サポート中のLTS(長期サポート版)から選びます。2026年10月8日の[確認](/glossary/確認/)では22系と24系がLTS、20系は[サポート終了](/glossary/サポート終了/)です。
+これは機能が導入された境界の表です。古い系列への[更新](/glossary/更新/)を推奨する表ではありません。更新先は、[Node.js公式のサポート状況](https://nodejs.org/en/about/previous-releases)と[プロジェクト](/glossary/プロジェクト/)の[要件](/glossary/要件/)を[確認](/glossary/確認/)して、[サポート](/glossary/サポート/)中のLTS(長期[サポート](/glossary/サポート/)版)から選びます。2026年10月8日の[確認](/glossary/確認/)では22系と24系がLTS、20系は[サポート終了](/glossary/サポート終了/)です。
 
 機能を無効化している場合、新しい版でも`ERR_REQUIRE_ESM`が出ることがあります。起動設定や`NODE_OPTIONS`の`--no-experimental-require-module`などを[確認](/glossary/確認/)します。フラグの名称や利用可否は、使用中の版の文書に合わせてください。
 
@@ -158,6 +158,6 @@ CommonJSに[対応](/glossary/対応/)する旧版を一時的に使う方法も
 
 まず、[エラー](/glossary/エラー/)の読み込み元と先を特定し、失敗した[環境](/glossary/環境/)のNode.jsの版と起動設定を[確認](/glossary/確認/)します。自分のCommonJS[コード](/glossary/コード/)であれば、`async`関数内の`import()`に変更し、公開された値を正しく取り出します。
 
-Node.jsを[更新](/glossary/更新/)する場合は、[プロジェクト](/glossary/プロジェクト/)が[対応](/glossary/対応/)するサポート中の版を選びます。更新後は、[戻り値](/glossary/戻り値/)とトップレベルの`await`の条件を[確認](/glossary/確認/)してください。依存[パッケージ](/glossary/パッケージ/)内部で起きているなら、呼び出している[パッケージ](/glossary/パッケージ/)や[ツール](/glossary/ツール/)の[対応](/glossary/対応/)を調べ、元の[処理](/glossary/処理/)と[テスト](/glossary/テスト/)を再実行します。
+Node.jsを[更新](/glossary/更新/)する場合は、[プロジェクト](/glossary/プロジェクト/)が[対応](/glossary/対応/)する[サポート](/glossary/サポート/)中の版を選びます。更新後は、[戻り値](/glossary/戻り値/)とトップレベルの`await`の条件を[確認](/glossary/確認/)してください。依存[パッケージ](/glossary/パッケージ/)内部で起きているなら、呼び出している[パッケージ](/glossary/パッケージ/)や[ツール](/glossary/ツール/)の[対応](/glossary/対応/)を調べ、元の[処理](/glossary/処理/)と[テスト](/glossary/テスト/)を再実行します。
 
 免責事項：本記事の内容は一般的なNode.jsの構成を前提としています。[モジュール](/glossary/モジュール/)の読み込み方法や[戻り値](/glossary/戻り値/)は、Node.js、依存[パッケージ](/glossary/パッケージ/)、ビルドツールの版と[設定](/glossary/設定/)によって異なります。[環境](/glossary/環境/)や依存関係を変更する前に、[プロジェクト](/glossary/プロジェクト/)の[要件](/glossary/要件/)を[確認](/glossary/確認/)してください。

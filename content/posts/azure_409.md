@@ -203,7 +203,7 @@ az group lock list \
 4. **一時的な[バックエンド](/glossary/バックエンド/)問題の可能性：**
 409 [エラー](/glossary/エラー/)が断続的に発生する場合、Azure [バックエンド](/glossary/バックエンド/)の一時的な問題の可能性があります。指数[バックオフ](/glossary/バックオフ/)で数分間隔を空けて再試行してください。
 
-5. **公式ドキュメント参照：**
+5. **公式[ドキュメント](/glossary/ドキュメント/)参照：**
 - [Azure REST API エラーリファレンス](https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/management/common-deployment-errors)
 - [Azure Resource Manager のプロビジョニング状態](https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/management/async-operations)
 

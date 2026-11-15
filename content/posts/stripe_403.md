@@ -119,13 +119,13 @@ stripe.files.create({
 ```
 
 **After（制限解除または代替手段）:**
-[ダッシュボード](/glossary/ダッシュボード/) → Settings → Account status で制限状況を[確認](/glossary/確認/)します。制限が解除されるまで待つか、制限の種類によっては Stripe サポートに問い合わせて解除を[リクエスト](/glossary/リクエスト/)します。国際決済などの制限は通常、[アカウント](/glossary/アカウント/)本人確認やビジネス情報の充実化により自動的に解除されます。
+[ダッシュボード](/glossary/ダッシュボード/) → Settings → Account status で制限状況を[確認](/glossary/確認/)します。制限が解除されるまで待つか、制限の種類によっては Stripe [サポート](/glossary/サポート/)に問い合わせて解除を[リクエスト](/glossary/リクエスト/)します。国際決済などの制限は通常、[アカウント](/glossary/アカウント/)本人確認やビジネス情報の充実化により自動的に解除されます。
 
 ## Stripe 固有の注意点
 
 ### API バージョンによる権限要件の変化
 
-Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バージョン/)をサポートしており、[バージョン](/glossary/バージョン/)によって必要な[権限](/glossary/権限/)が異なることがあります。例えば、Charges [API](/glossary/api/) と Payment Intents [API](/glossary/api/) では権限設定が異なります。Payment Intents を使う場合は `payment_intents:write` [権限](/glossary/権限/)が必須ですが、古い[キー](/glossary/キー/)には付与されていないケースが見られます。
+Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バージョン/)を[サポート](/glossary/サポート/)しており、[バージョン](/glossary/バージョン/)によって必要な[権限](/glossary/権限/)が異なることがあります。例えば、Charges [API](/glossary/api/) と Payment Intents [API](/glossary/api/) では権限設定が異なります。Payment Intents を使う場合は `payment_intents:write` [権限](/glossary/権限/)が必須ですが、古い[キー](/glossary/キー/)には付与されていないケースが見られます。
 
 ### Webhook エンドポイントと IP ホワイトリスト
 
@@ -141,7 +141,7 @@ Stripe では複数の [API](/glossary/api/) [バージョン](/glossary/バー�
 
 ### 冪等性キーと再試行の権限
 
-Stripe は[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)（何度実行しても同じ結果が得られる特性）を使った安全な再試行をサポートしていますが、特定の制限付き[キー](/glossary/キー/)ではこの機能が使用禁止になる場合があります。
+Stripe は[冪等性](/glossary/冪等性/)[キー](/glossary/キー/)（何度実行しても同じ結果が得られる特性）を使った安全な再試行を[サポート](/glossary/サポート/)していますが、特定の制限付き[キー](/glossary/キー/)ではこの機能が使用禁止になる場合があります。
 
 ```javascript
 // 冪等性キー付きリクエスト
@@ -182,7 +182,7 @@ stripe api POST /v1/charges amount=1000 currency=jpy source=tok_visa
 
 ### コミュニティリソース
 
-Stripe の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同じ問題を報告している[ユーザー](/glossary/ユーザー/)がいないか[確認](/glossary/確認/)できます。また、Stripe サポートは 24 時間対応なので、[アカウント](/glossary/アカウント/)関連の制限が原因と疑われる場合は直接問い合わせることをお勧めします。
+Stripe の [GitHub](/glossary/github/) [リポジトリ](/glossary/リポジトリ/)で同じ問題を報告している[ユーザー](/glossary/ユーザー/)がいないか[確認](/glossary/確認/)できます。また、Stripe [サポート](/glossary/サポート/)は 24 時間対応なので、[アカウント](/glossary/アカウント/)関連の制限が原因と疑われる場合は直接問い合わせることをお勧めします。
 
 ---
 

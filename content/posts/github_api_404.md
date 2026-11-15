@@ -16,7 +16,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-[GitHub](/glossary/github/) [API](/glossary/api/) の 404 Not Found には、二重の意味があります。指定した[リソース](/glossary/リソース/)が本当に存在しない場合と、存在するが[権限](/glossary/権限/)がなくて見せてもらえない場合です。公式ドキュメントに明記されているとおり、[GitHub](/glossary/github/) は非公開[リポジトリ](/glossary/リポジトリ/)の存在を外部に[確認](/glossary/確認/)させないために、[認証](/glossary/認証/)や[権限](/glossary/権限/)の不備に対して 403 Forbidden ではなく 404 を返す設計を採っています。つまり、[リソース](/glossary/リソース/)があるはずなのに404が出たら、まず疑うべきは [URL](/glossary/url/) ではなく[認証](/glossary/認証/)と[権限](/glossary/権限/)です。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 404 Not Found には、二重の意味があります。指定した[リソース](/glossary/リソース/)が本当に存在しない場合と、存在するが[権限](/glossary/権限/)がなくて見せてもらえない場合です。公式[ドキュメント](/glossary/ドキュメント/)に明記されているとおり、[GitHub](/glossary/github/) は非公開[リポジトリ](/glossary/リポジトリ/)の存在を外部に[確認](/glossary/確認/)させないために、[認証](/glossary/認証/)や[権限](/glossary/権限/)の不備に対して 403 Forbidden ではなく 404 を返す設計を採っています。つまり、[リソース](/glossary/リソース/)があるはずなのに404が出たら、まず疑うべきは [URL](/glossary/url/) ではなく[認証](/glossary/認証/)と[権限](/glossary/権限/)です。
 
 原因は3系統に整理できます。[URL](/glossary/url/) の指定誤り（タイポ・末尾スラッシュ・[エンコード](/glossary/エンコード/)漏れ）、[認証](/glossary/認証/)の不備（[トークン](/glossary/トークン/)未指定・期限切れ・失効）、そして[認証](/glossary/認証/)は通っているが[トークン](/glossary/トークン/)の[権限](/glossary/権限/)が足りない場合です。切り分けの起点は、同じ形の[リクエスト](/glossary/リクエスト/)を条件を変えて比べることです。
 
@@ -78,7 +78,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
 
 [ファイル名](/glossary/ファイル名/)の[確認](/glossary/確認/)には、親[ディレクトリ](/glossary/ディレクトリ/)の一覧取得（/contents/ を[パス](/glossary/パス/)なしで叩く）や、[ブラウザ](/glossary/ブラウザ/)での[リポジトリ](/glossary/リポジトリ/)の目視が確実です。
 
-綴り以外に、公式ドキュメントが名指しで挙げている落とし穴が2つあります。1つは末尾スラッシュで、[エンドポイント](/glossary/エンドポイント/)の末尾に / を付けるだけで404になります。もう1つはパスパラメータの [URL](/glossary/url/) [エンコード](/glossary/エンコード/)で、[パラメータ](/glossary/パラメータ/)値にスラッシュなどの特殊文字が含まれる場合、正しく[エンコード](/glossary/エンコード/)しないと [URL](/glossary/url/) が別の形として解釈されます。[ブランチ](/glossary/ブランチ/)名にスラッシュが含まれる場合（feature/login など）が典型です。
+綴り以外に、公式[ドキュメント](/glossary/ドキュメント/)が名指しで挙げている落とし穴が2つあります。1つは末尾スラッシュで、[エンドポイント](/glossary/エンドポイント/)の末尾に / を付けるだけで404になります。もう1つはパスパラメータの [URL](/glossary/url/) [エンコード](/glossary/エンコード/)で、[パラメータ](/glossary/パラメータ/)値にスラッシュなどの特殊文字が含まれる場合、正しく[エンコード](/glossary/エンコード/)しないと [URL](/glossary/url/) が別の形として解釈されます。[ブランチ](/glossary/ブランチ/)名にスラッシュが含まれる場合（feature/login など）が典型です。
 
 ### 原因2：認証されていない・トークンが失効している
 

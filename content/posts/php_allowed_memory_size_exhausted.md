@@ -24,7 +24,7 @@ PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to all
 
 PHPに[設定](/glossary/設定/)された[メモリ](/glossary/メモリ/)の上限を超えたことを示します。まず、[エラー](/glossary/エラー/)を出した実行環境で有効な `memory_limit` を[確認](/glossary/確認/)し、[処理](/glossary/処理/)のどこで[メモリ](/glossary/メモリ/)が増えるかを調べます。
 
-必要な処理量に対して上限が足りなければ調整します。ただし、`memory_limit = -1` にするとPHP側の制限がなくなります。[エラー](/glossary/エラー/)を消すためだけに、Webアプリ全体の上限を外す方法は避けてください。
+必要な処理量に対して上限が足りなければ調整します。ただし、`memory_limit = -1` にするとPHP側の制限がなくなります。[エラー](/glossary/エラー/)を消すためだけに、Web[アプリ](/glossary/アプリ/)全体の上限を外す方法は避けてください。
 
 ## 最初の数字は上限で括弧内は追加確保量
 
@@ -34,7 +34,7 @@ PHPに[設定](/glossary/設定/)された[メモリ](/glossary/メモリ/)の�
 
 表示された[ファイル](/glossary/ファイル/)と[行番号](/glossary/行番号/)は調査の手がかりですが、その行だけが大量に[メモリ](/glossary/メモリ/)を使ったとは限りません。前の[処理](/glossary/処理/)から保持しているデータも確認対象です。
 
-[PHPマニュアル](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)に記載された `memory_limit` の既定値は `128M` です。ただし、配布元や[サーバー](/glossary/サーバー/)、アプリの[設定](/glossary/設定/)で変更されるため、実際の値を[確認](/glossary/確認/)してください。
+[PHPマニュアル](https://www.php.net/manual/en/ini.core.php#ini.memory-limit)に記載された `memory_limit` の既定値は `128M` です。ただし、配布元や[サーバー](/glossary/サーバー/)、[アプリ](/glossary/アプリ/)の[設定](/glossary/設定/)で変更されるため、実際の値を[確認](/glossary/確認/)してください。
 
 ## CLIとWebで有効な設定をそれぞれ確認する
 
@@ -48,7 +48,7 @@ php -r "echo ini_get('memory_limit'), PHP_EOL;"
 
 [設定ファイルの公式説明](https://www.php.net/manual/en/configuration.file.php)では、PHPの実行方法による[設定ファイル](/glossary/設定ファイル/)の指定や、追加のini[ファイル](/glossary/ファイル/)の読み込みが説明されています。[CLI](/glossary/cli/)の値を見ただけで、Web経由でも同じ[設定](/glossary/設定/)とは判断できません。
 
-Webの[処理](/glossary/処理/)で失敗する場合は、そのアプリの診断機能や、管理者だけが実行できる確認処理を使います。たとえば対象の処理内で、次の値を[ログ](/glossary/ログ/)に記録します。
+Webの[処理](/glossary/処理/)で失敗する場合は、その[アプリ](/glossary/アプリ/)の診断機能や、管理者だけが実行できる確認処理を使います。たとえば対象の処理内で、次の値を[ログ](/glossary/ログ/)に記録します。
 
 ```php
 <?php
@@ -100,7 +100,7 @@ memory_limit = 256M
 
 256Mは例です。必要量と実行環境の[容量](/glossary/容量/)を[確認](/glossary/確認/)して決めてください。Webで複数の[処理](/glossary/処理/)が同時に走る場合、1回の[処理](/glossary/処理/)の上限だけで[サーバー](/glossary/サーバー/)全体の使用量を判断しないようにします。
 
-アプリ内で変更する場合は、[メモリ](/glossary/メモリ/)を使い切る前に[設定](/glossary/設定/)し、変更後の値を[確認](/glossary/確認/)します。
+[アプリ](/glossary/アプリ/)内で変更する場合は、[メモリ](/glossary/メモリ/)を使い切る前に[設定](/glossary/設定/)し、変更後の値を[確認](/glossary/確認/)します。
 
 ```php
 <?php
@@ -113,7 +113,7 @@ error_log('effective memory_limit=' . ini_get('memory_limit'));
 
 変更できない場合は管理側の制限を[確認](/glossary/確認/)します。[PHP-FPMの公式説明](https://www.php.net/manual/en/install.fpm.configuration.php)では、`php_admin_value` で指定した値は `ini_set()` で上書きできません。
 
-PHP 8.5以降には、`memory_limit` に指定できる最大値を決める `max_memory_limit` もあります。これを超える値は警告とともに上限へ制限されます。アプリ側の指定を繰り返す前に、[管理側の設定](https://www.php.net/manual/en/ini.core.php#ini.max-memory-limit)を[確認](/glossary/確認/)してください。
+PHP 8.5以降には、`memory_limit` に指定できる最大値を決める `max_memory_limit` もあります。これを超える値は警告とともに上限へ制限されます。[アプリ](/glossary/アプリ/)側の指定を繰り返す前に、[管理側の設定](https://www.php.net/manual/en/ini.core.php#ini.max-memory-limit)を[確認](/glossary/確認/)してください。
 
 ## Composerの場合はComposer自身の設定を確認する
 

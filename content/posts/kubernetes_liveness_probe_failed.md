@@ -126,7 +126,7 @@ spec:
         terminationGracePeriodSeconds: 5
 ```
 
-probe単位の `terminationGracePeriodSeconds` は[Kubernetes](/glossary/kubernetes/) v1.28で安定機能になっています。readiness probeには指定できません。短くしすぎると、アプリの終了処理が完了する前に強制停止されます。
+probe単位の `terminationGracePeriodSeconds` は[Kubernetes](/glossary/kubernetes/) v1.28で安定機能になっています。readiness probeには指定できません。短くしすぎると、[アプリ](/glossary/アプリ/)の終了処理が完了する前に強制停止されます。
 
 ## まず最初に：イベント、直前ログ、現在の設定をそろえる
 
@@ -188,9 +188,9 @@ Liveness probe failed: Get "http://10.244.1.17:8080/healthz":
 dial tcp 10.244.1.17:8080: connect: connection refused
 ```
 
-`connection refused` は、接続先IPまでは到達したものの、そのportで接続を受け付けていない状態です。アプリの待受port、containerPort、probeの `port` を照合します。
+`connection refused` は、接続先IPまでは到達したものの、そのportで接続を受け付けていない状態です。[アプリ](/glossary/アプリ/)の待受port、containerPort、probeの `port` を照合します。
 
-**Before（アプリは8080、probeは8081）：**
+**Before（[アプリ](/glossary/アプリ/)は8080、probeは8081）：**
 
 ```yaml
 livenessProbe:
@@ -214,11 +214,11 @@ livenessProbe:
 
 名前付きportを使うと、port番号の変更時にprobeだけ古く残る事故を減らせます。[gRPC](/glossary/grpc/) probeの `port` には名前を使えないため、数値で指定します。
 
-[HTTP](/glossary/http/) statusが404なら、portには到達しています。path、アプリのbase path、reverse proxyを通さない直接接続でそのpathが存在するかを[確認](/glossary/確認/)します。
+[HTTP](/glossary/http/) statusが404なら、portには到達しています。path、[アプリ](/glossary/アプリ/)のbase path、reverse proxyを通さない直接接続でそのpathが存在するかを[確認](/glossary/確認/)します。
 
 ### 原因2：アプリがlocalhostだけで待ち受けている
 
-アプリが次だけで待ち受けている場合、[コンテナ](/glossary/コンテナ/)内からは成功しても、NodeからPod IPへ送る[HTTP](/glossary/http/)・TCP probeは失敗します。
+[アプリ](/glossary/アプリ/)が次だけで待ち受けている場合、[コンテナ](/glossary/コンテナ/)内からは成功しても、NodeからPod IPへ[送る](/glossary/送る/)[HTTP](/glossary/http/)・TCP probeは失敗します。
 
 ```text
 127.0.0.1:8080
@@ -230,7 +230,7 @@ livenessProbe:
 0.0.0.0:8080
 ```
 
-アプリの設定名は言語やWeb[サーバー](/glossary/サーバー/)ごとに違います。起動[ログ](/glossary/ログ/)と次の結果で、実際の待受アドレスを[確認](/glossary/確認/)します。
+[アプリ](/glossary/アプリ/)の設定名は言語やWeb[サーバー](/glossary/サーバー/)ごとに違います。起動[ログ](/glossary/ログ/)と次の結果で、実際の待受アドレスを[確認](/glossary/確認/)します。
 
 ```bash
 kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
@@ -340,7 +340,7 @@ livenessProbe:
 
 ### 原因7：HTTPのschemeまたはHost条件が違う
 
-アプリが[HTTPS](/glossary/https/)だけで待ち受けているのに、probeが既定の[HTTP](/glossary/http/)を使うと失敗します。
+[アプリ](/glossary/アプリ/)が[HTTPS](/glossary/https/)だけで待ち受けているのに、probeが既定の[HTTP](/glossary/http/)を使うと失敗します。
 
 ```yaml
 livenessProbe:
@@ -375,7 +375,7 @@ livenessProbe:
       - http://127.0.0.1:8080/livez
 ```
 
-distrolessや最小[イメージ](/glossary/イメージ/)には `curl`、`sh`、`cat` がない場合があります。commandが存在しなければアプリが正常でもprobeは失敗します。
+distrolessや最小[イメージ](/glossary/イメージ/)には `curl`、`sh`、`cat` がない場合があります。commandが存在しなければ[アプリ](/glossary/アプリ/)が正常でもprobeは失敗します。
 
 ```bash
 kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
@@ -417,7 +417,7 @@ liveness: 再起動しなければ回復できないか
 
 ### Readiness probe failed
 
-readiness失敗では[コンテナ](/glossary/コンテナ/)を終了しません。Podの `Ready` conditionをFalseにし、該当Serviceの通常転送先から外します。`RESTARTS` が増えているなら、liveness、アプリ自身の終了、OOMKilledなど別の理由を[確認](/glossary/確認/)します。
+readiness失敗では[コンテナ](/glossary/コンテナ/)を終了しません。Podの `Ready` conditionをFalseにし、該当Serviceの通常転送先から外します。`RESTARTS` が増えているなら、liveness、[アプリ](/glossary/アプリ/)自身の終了、OOMKilledなど別の理由を[確認](/glossary/確認/)します。
 
 ### Startup probe failed
 
@@ -434,7 +434,7 @@ kubectl get pod <Pod名> -n <名前空間> \
 
 ### CrashLoopBackOff
 
-短時間の終了と再起動が続き、kubeletが次の再起動まで待っている状態です。livenessが原因になることもありますが、アプリの終了、設定不足、command失敗などでも起きます。`Liveness probe failed` と `Killing` の[イベント](/glossary/イベント/)を[確認](/glossary/確認/)して原因を結びます。
+短時間の終了と再起動が続き、kubeletが次の再起動まで待っている状態です。livenessが原因になることもありますが、[アプリ](/glossary/アプリ/)の終了、設定不足、command失敗などでも起きます。`Liveness probe failed` と `Killing` の[イベント](/glossary/イベント/)を[確認](/glossary/確認/)して原因を結びます。
 
 ### Podの再作成
 
@@ -509,7 +509,7 @@ kubectl get pods -n <名前空間> -l <label-key>=<label-value> -w
 
 ## Editor's Note
 
-`Liveness probe failed` を「アプリが壊れた証拠」と読むと、probe側の誤りを見落とします。[Kubernetes](/glossary/kubernetes/)が確定したのは、[設定](/glossary/設定/)された方法が[設定](/glossary/設定/)された時間内に成功しなかったことです。その失敗が、再起動でしか直らない状態かどうかは、probe設計者が決めています。
+`Liveness probe failed` を「[アプリ](/glossary/アプリ/)が壊れた証拠」と読むと、probe側の誤りを見落とします。[Kubernetes](/glossary/kubernetes/)が確定したのは、[設定](/glossary/設定/)された方法が[設定](/glossary/設定/)された時間内に成功しなかったことです。その失敗が、再起動でしか直らない状態かどうかは、probe設計者が決めています。
 
 2018年の[Kubernetes](/glossary/kubernetes/)の課題（[Liveness/Readiness probes are failing with connection refused](https://github.com/kubernetes/kubernetes/issues/62594)）では、同じDeploymentのprobeが断続的に `connection refused` となり、一部のPodが多くの再起動を繰り返して `CrashLoopBackOff` になった状況が報告されました。[ログ](/glossary/ログ/)にはlivenessとreadinessの両方の失敗がありましたが、[コンテナ](/glossary/コンテナ/)を再起動させるのはliveness側です。
 

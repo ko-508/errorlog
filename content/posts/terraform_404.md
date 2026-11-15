@@ -214,7 +214,7 @@ gcloud compute instances describe old-instance --zone us-central1-a
 terraform import aws_instance.example i-0123456789abcdef0
 ```
 
-それでも問題が解決しない場合、`terraform plan -v` または `terraform plan -json` で詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)し、[API](/glossary/api/) 呼び出しレベルでどの[リソース](/glossary/リソース/)を探しているかを特定します。公式の Terraform ドキュメント内の該当 provider ページで data source の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)し、必須パラメーターを満たしているかも検証しましょう。
+それでも問題が解決しない場合、`terraform plan -v` または `terraform plan -json` で詳細[ログ](/glossary/ログ/)を[確認](/glossary/確認/)し、[API](/glossary/api/) 呼び出しレベルでどの[リソース](/glossary/リソース/)を探しているかを特定します。公式の Terraform [ドキュメント](/glossary/ドキュメント/)内の該当 provider ページで data source の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)し、必須パラメーターを満たしているかも検証しましょう。
 
 ---
 

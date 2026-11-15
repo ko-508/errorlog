@@ -216,7 +216,7 @@ minikube kubectl -- apply -f deployment.yaml --dry-run=client -o yaml
 minikube logs
 ```
 
-[Kubernetes](/glossary/kubernetes/)の公式ドキュメントの「[API](/glossary/api/) Conventions」ページで、各リソースタイプの必須[フィールド](/glossary/フィールド/)と型定義を[確認](/glossary/確認/)できます。また、`kubectl explain` [コマンド](/glossary/コマンド/)も有効です。
+[Kubernetes](/glossary/kubernetes/)の公式[ドキュメント](/glossary/ドキュメント/)の「[API](/glossary/api/) Conventions」ページで、各リソースタイプの必須[フィールド](/glossary/フィールド/)と型定義を[確認](/glossary/確認/)できます。また、`kubectl explain` [コマンド](/glossary/コマンド/)も有効です。
 
 ```bash
 minikube kubectl -- explain deployment.spec

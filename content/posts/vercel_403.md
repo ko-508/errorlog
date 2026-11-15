@@ -126,7 +126,7 @@ curl -H "Authorization: Bearer <your-vercel-token>" \
   https://api.vercel.com/v2/user
 ```
 
-[プロジェクト](/glossary/プロジェクト/)固有の設定確認は、Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → [API](/glossary/api/) から[確認](/glossary/確認/)してください。公式ドキュメントの Access Control セクションに、[権限](/glossary/権限/)の詳細説明があります。
+[プロジェクト](/glossary/プロジェクト/)固有の設定確認は、Vercel [ダッシュボード](/glossary/ダッシュボード/) → Project Settings → [API](/glossary/api/) から[確認](/glossary/確認/)してください。公式[ドキュメント](/glossary/ドキュメント/)の Access Control セクションに、[権限](/glossary/権限/)の詳細説明があります。
 
 ---
 

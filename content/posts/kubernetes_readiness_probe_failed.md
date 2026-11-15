@@ -183,7 +183,7 @@ endpoints:
 
 古い `Endpoints` [API](/glossary/api/)ではなく、現在のService転送の基礎であるEndpointSliceを優先して[確認](/glossary/確認/)します。`kubectl describe service` の要約だけで判定しません。
 
-最後に、Pod IPへ直接接続して、アプリ自体の応答とService経由の応答を分けます。
+最後に、Pod IPへ直接接続して、[アプリ](/glossary/アプリ/)自体の応答とService経由の応答を分けます。
 
 ```bash
 kubectl port-forward -n <名前空間> pod/<Pod名> 18080:8080
@@ -206,9 +206,9 @@ Readiness probe failed: Get "http://10.244.1.18:8081/readyz":
 dial tcp 10.244.1.18:8081: connect: connection refused
 ```
 
-`connection refused` なら、対象IPのportで待ち受けていません。アプリの待受port、probeの `port`、名前付きportを照合します。
+`connection refused` なら、対象IPのportで待ち受けていません。[アプリ](/glossary/アプリ/)の待受port、probeの `port`、名前付きportを照合します。
 
-**Before（アプリは8080、probeは8081）：**
+**Before（[アプリ](/glossary/アプリ/)は8080、probeは8081）：**
 
 ```yaml
 readinessProbe:
@@ -230,7 +230,7 @@ readinessProbe:
     port: http
 ```
 
-[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、アプリのroute[登録](/glossary/登録/)を[確認](/glossary/確認/)します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか[確認](/glossary/確認/)します。
+[HTTP](/glossary/http/) 404ならportへの接続は成功しています。`/readyz` のpath、base path、[アプリ](/glossary/アプリ/)のroute[登録](/glossary/登録/)を[確認](/glossary/確認/)します。[HTTP](/glossary/http/) 401または403なら、[認証](/glossary/認証/)が必要なendpointをprobeしていないか[確認](/glossary/確認/)します。
 
 ### 原因2：アプリがlocalhostだけで待ち受けている
 
@@ -253,13 +253,13 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
 0.0.0.0:8080
 ```
 
-実際の利用者がPod network経由で接続するアプリなら、readinessも同じ到達性を[確認](/glossary/確認/)する必要があります。
+実際の利用者がPod network経由で接続する[アプリ](/glossary/アプリ/)なら、readinessも同じ到達性を[確認](/glossary/確認/)する必要があります。
 
 ### 原因3：起動処理が終わる前にreadinessを確認している
 
 readiness probeがあるPodは、最初の成功までServiceの転送先へ入りません。これは起動中の要求を防ぐ正しい動作です。
 
-一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を[障害](/glossary/障害/)として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしもアプリ異常ではありません。
+一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を[障害](/glossary/障害/)として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしも[アプリ](/glossary/アプリ/)異常ではありません。
 
 起動処理と起動後の一時的な準備不足を分けたい場合は、startup probeを追加します。
 
@@ -312,7 +312,7 @@ timeoutを延ばすとUnreadyの検出も遅くなるため、値を大きくす
 
 ### 原因5：一時的な外部依存障害を正しく検出している
 
-アプリが外部DBなしでは正しい応答を返せないなら、その依存先の停止でreadinessを失敗させる設計は合理的です。[コンテナ](/glossary/コンテナ/)を再起動せず、誤った応答を返すPodをServiceから外せます。
+[アプリ](/glossary/アプリ/)が外部DBなしでは正しい応答を返せないなら、その依存先の停止でreadinessを失敗させる設計は合理的です。[コンテナ](/glossary/コンテナ/)を再起動せず、誤った応答を返すPodをServiceから外せます。
 
 ```text
 DB接続不可
@@ -324,7 +324,7 @@ Pod Ready=False
 Serviceの通常転送先から外れる
 ```
 
-ただし、全Podが同じDBを必須条件にすると、DB障害時に全endpointがUnreadyとなり、Serviceの転送先が0になります。アプリがcacheやread-onlyで縮退できるなら、どの依存先をreadiness必須条件にするかを見直します。
+ただし、全Podが同じDBを必須条件にすると、DB障害時に全endpointがUnreadyとなり、Serviceの転送先が0になります。[アプリ](/glossary/アプリ/)がcacheやread-onlyで縮退できるなら、どの依存先をreadiness必須条件にするかを見直します。
 
 再起動で直らない外部依存障害をlivenessにも入れると、全Pod再起動を重ねるため分離します。
 
@@ -359,7 +359,7 @@ kubectl get pod <Pod名> -n <名前空間> \
   -o jsonpath='{range .status.containerStatuses[*]}{.name}{" ready="}{.ready}{" state="}{.state}{"\n"}{end}'
 ```
 
-各[コンテナ](/glossary/コンテナ/)の `ready` を[確認](/glossary/確認/)し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を[対応](/glossary/対応/)させます。Serviceがmain containerだけへ送る構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
+各[コンテナ](/glossary/コンテナ/)の `ready` を[確認](/glossary/確認/)し、[イベント](/glossary/イベント/)に表示されたcontainer名とprobe[設定](/glossary/設定/)を[対応](/glossary/対応/)させます。Serviceがmain containerだけへ[送る](/glossary/送る/)構成でも、Pod単位のReadyがFalseなら通常転送先から外れます。
 
 ### 原因8：readinessGateがFalseまたは未設定になっている
 

@@ -130,7 +130,7 @@ curl -i --request POST \
 
 GitLab[インスタンス](/glossary/インスタンス/)の管理者[ログ](/glossary/ログ/)（通常は `/var/log/gitlab/gitlab-rails/production.log`）を[確認](/glossary/確認/)することで、[サーバー](/glossary/サーバー/)側での検証処理の詳細が記録されている場合があります。また、カスタムプラグインや検証ルールが導入されている場合は、[Git](/glossary/git/)管理者に[確認](/glossary/確認/)してください。
 
-公式ドキュメント「[GitLab API - Error responses](https://docs.gitlab.com/ee/api/#error-responses)」に各[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の標準的な意味が記載されており、[プロジェクト](/glossary/プロジェクト/)固有のルール[設定](/glossary/設定/)については「[Projects API](https://docs.gitlab.com/ee/api/projects.html)」を参照してください。
+公式[ドキュメント](/glossary/ドキュメント/)「[GitLab API - Error responses](https://docs.gitlab.com/ee/api/#error-responses)」に各[HTTP](/glossary/http/)[ステータスコード](/glossary/ステータスコード/)の標準的な意味が記載されており、[プロジェクト](/glossary/プロジェクト/)固有のルール[設定](/glossary/設定/)については「[Projects API](https://docs.gitlab.com/ee/api/projects.html)」を参照してください。
 
 ---
 

@@ -63,7 +63,7 @@ npm config get @myorg:registry
 
 昨日まで動いていたCIが突然E401になった場合は、[トークン](/glossary/トークン/)の期限切れや無効化を[確認](/glossary/確認/)します。
 
-npmでは2025年12月9日にclassic[トークン](/glossary/トークン/)が恒久的に無効化されました。現在はgranular access tokenだけがサポートされています。また、[2025年9月の公式発表](https://github.blog/changelog/2025-09-29-strengthening-npm-security-important-changes-to-authentication-and-token-management/)では、書き込み[権限](/glossary/権限/)を持つgranular access tokenの有効期限は上限90日とされています。
+npmでは2025年12月9日にclassic[トークン](/glossary/トークン/)が恒久的に無効化されました。現在はgranular access tokenだけが[サポート](/glossary/サポート/)されています。また、[2025年9月の公式発表](https://github.blog/changelog/2025-09-29-strengthening-npm-security-important-changes-to-authentication-and-token-management/)では、書き込み[権限](/glossary/権限/)を持つgranular access tokenの有効期限は上限90日とされています。
 
 CIの秘密情報にclassic[トークン](/glossary/トークン/)や期限切れ[トークン](/glossary/トークン/)が残っている場合は、npm上で用途と[権限](/glossary/権限/)を絞った新しいgranular access tokenを作成し、CI側の秘密情報を交換します。[トークン](/glossary/トークン/)の値は`.npmrc`や[ワークフロー](/glossary/ワークフロー/)へ直接書かず、CIの秘密情報として[保存](/glossary/保存/)してください。
 
@@ -186,7 +186,7 @@ npm config get globalconfig
 
 ## 二段階認証を求められた場合
 
-E401と一緒に`This operation requires a one-time password`と表示された場合は、[二段階認証](/glossary/二段階認証/)が必要です。表示された[URL](/glossary/url/)を[ブラウザ](/glossary/ブラウザ/)で開いて[認証](/glossary/認証/)するか、[認証](/glossary/認証/)アプリの一時的な符号を求められている場合は、実行した[コマンド](/glossary/コマンド/)に`--otp`を付けます。
+E401と一緒に`This operation requires a one-time password`と表示された場合は、[二段階認証](/glossary/二段階認証/)が必要です。表示された[URL](/glossary/url/)を[ブラウザ](/glossary/ブラウザ/)で開いて[認証](/glossary/認証/)するか、[認証](/glossary/認証/)[アプリ](/glossary/アプリ/)の一時的な符号を求められている場合は、実行した[コマンド](/glossary/コマンド/)に`--otp`を付けます。
 
 ```bash
 npm publish --otp=<code>

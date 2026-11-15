@@ -202,7 +202,7 @@ Postman の[コンソール](/glossary/コンソール/)（Ctrl+Alt+C / Cmd+Opti
 
 [API](/glossary/api/) 提供元に問い合わせ、[テスト](/glossary/テスト/)用の別[キー](/glossary/キー/)や引き上げ可能な制限値を用意してもらいます。開発段階では[レート制限](/glossary/レート制限/)を緩くしてもらう交渉も可能です。
 
-**公式ドキュメント参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)参照：**
 
 - [Postman Collection Runner](https://learning.postman.com/docs/running-collections/intro-to-collection-runs/)
 - [Postman Mock Server](https://learning.postman.com/docs/designing-and-developing-your-api/mocking-data/setting-up-mock/)

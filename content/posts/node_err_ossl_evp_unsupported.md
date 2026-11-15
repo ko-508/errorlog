@@ -29,7 +29,7 @@ OpenSSLは、Node.jsが暗号処理などに使う部品です。この[エラ�
 
 ## Node.jsの更新で表面化する理由
 
-[Node.js 17.0.0の公式リリース説明](https://nodejs.org/en/blog/release/v17.0.0)は、OpenSSL 3.0の導入と、利用できる方式や鍵の長さの制限変更を説明しています。同じ説明は、`ERR_OSSL_EVP_UNSUPPORTED`が出る場合、アプリや依存する[モジュール](/glossary/モジュール/)が既定では許可されない方式などを使っている可能性が高いとしています。
+[Node.js 17.0.0の公式リリース説明](https://nodejs.org/en/blog/release/v17.0.0)は、OpenSSL 3.0の導入と、利用できる方式や鍵の長さの制限変更を説明しています。同じ説明は、`ERR_OSSL_EVP_UNSUPPORTED`が出る場合、[アプリ](/glossary/アプリ/)や依存する[モジュール](/glossary/モジュール/)が既定では許可されない方式などを使っている可能性が高いとしています。
 
 ただし、Node.js 17以降なら必ず[エラー](/glossary/エラー/)になるわけではありません。呼び出す方式、依存する[パッケージ](/glossary/パッケージ/)の実装、OpenSSLの[設定](/glossary/設定/)によって結果が変わります。Node.jsをさらに新しくするだけで、古いMD4呼び出しが直るとも限りません。
 

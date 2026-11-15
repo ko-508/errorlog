@@ -176,7 +176,7 @@ aws iam simulate-principal-policy \
   --resource-arns arn:aws:ec2:us-east-1:123456789012:instance/*
 ```
 
-上記[コマンド](/glossary/コマンド/)で各[アクション](/glossary/アクション/)の評価結果（`EvaluationResult`）を[確認](/glossary/確認/)し、`allowed` が false の場合はどの[ポリシー](/glossary/ポリシー/)により拒否されているかを特定できます。公式の Terraform [AWS](/glossary/aws/) Provider ドキュメントで、対象[リソース](/glossary/リソース/)に必要な [IAM](/glossary/iam/) [アクション](/glossary/アクション/)の一覧を[確認](/glossary/確認/)し、実行[ロール](/glossary/ロール/)の[ポリシー](/glossary/ポリシー/)と照らし合わせることも有効です。
+上記[コマンド](/glossary/コマンド/)で各[アクション](/glossary/アクション/)の評価結果（`EvaluationResult`）を[確認](/glossary/確認/)し、`allowed` が false の場合はどの[ポリシー](/glossary/ポリシー/)により拒否されているかを特定できます。公式の Terraform [AWS](/glossary/aws/) Provider [ドキュメント](/glossary/ドキュメント/)で、対象[リソース](/glossary/リソース/)に必要な [IAM](/glossary/iam/) [アクション](/glossary/アクション/)の一覧を[確認](/glossary/確認/)し、実行[ロール](/glossary/ロール/)の[ポリシー](/glossary/ポリシー/)と照らし合わせることも有効です。
 
 ---
 

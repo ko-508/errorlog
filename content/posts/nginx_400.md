@@ -188,7 +188,7 @@ location /api/ {
 
 ### client_max_body_size との併用
 
-POST [リクエスト](/glossary/リクエスト/)のボディサイズ制限も 400 の原因になります。
+[POST](/glossary/post/) [リクエスト](/glossary/リクエスト/)のボディサイズ制限も 400 の原因になります。
 
 ```nginx
 server {

@@ -19,7 +19,7 @@ trend_incident: false
 
 ConoHa VPS で [Docker](/glossary/docker/) を動かすとき、[通信](/glossary/通信/)を止めたり通したりする[設定](/glossary/設定/)は2か所にあります。ひとつは [OS](/glossary/os/) の中にある ufw、もうひとつは VPS の外側にあるセキュリティグループです。
 
-ここで噛み合わなくなる理由が1つあります。[Docker](/glossary/docker/) が `-p` で公開した[ポート](/glossary/ポート/)宛の[通信](/glossary/通信/)は、ufw が使う規則を迂回します。[Docker](/glossary/docker/) の公式ドキュメントは、[Docker](/glossary/docker/) と ufw が互いに相容れない使い方で[ファイアウォール](/glossary/ファイアウォール/)の規則を使うと明記しており、公開された[コンテナ](/glossary/コンテナ/)への[通信](/glossary/通信/)は nat [テーブル](/glossary/テーブル/)で転送されるため、ufw が使う INPUT と OUTPUT のチェーンに到達する前に迂回する、と説明しています（[Packet filtering and firewalls](https://docs.docker.com/engine/network/packet-filtering-firewalls/)）。
+ここで噛み合わなくなる理由が1つあります。[Docker](/glossary/docker/) が `-p` で公開した[ポート](/glossary/ポート/)宛の[通信](/glossary/通信/)は、ufw が使う規則を迂回します。[Docker](/glossary/docker/) の公式[ドキュメント](/glossary/ドキュメント/)は、[Docker](/glossary/docker/) と ufw が互いに相容れない使い方で[ファイアウォール](/glossary/ファイアウォール/)の規則を使うと明記しており、公開された[コンテナ](/glossary/コンテナ/)への[通信](/glossary/通信/)は nat [テーブル](/glossary/テーブル/)で転送されるため、ufw が使う INPUT と OUTPUT のチェーンに到達する前に迂回する、と説明しています（[Packet filtering and firewalls](https://docs.docker.com/engine/network/packet-filtering-firewalls/)）。
 
 この性質から2つのことが言えます。第一に、`ufw allow` だけでは [Docker](/glossary/docker/) の公開[ポート](/glossary/ポート/)を制御できません。第二に、`ufw deny` で拒否しても、[Docker](/glossary/docker/) の公開[ポート](/glossary/ポート/)を塞いだことにはなりません。
 
@@ -35,7 +35,7 @@ ConoHa VPS で [Docker](/glossary/docker/) を動かすとき、[通信](/glossa
 
 どちらも、ufw の表示と実際の通信経路がずれていることから生じます。ufw の一覧はあくまで ufw が管理している規則を示すもので、[Docker](/glossary/docker/) が別に作る規則は含まれません。
 
-前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の[仕様](/glossary/仕様/)を押さえておきます。公式ドキュメントによれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum [RAM](/glossary/ram/) は 1024 [MB](/glossary/mb/) と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 [MB](/glossary/mb/) のプランはこの最小要件を下回ります。
+前提として、ConoHa の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)の[仕様](/glossary/仕様/)を押さえておきます。公式[ドキュメント](/glossary/ドキュメント/)によれば、[OS](/glossary/os/) は Ubuntu 24.04、[Docker](/glossary/docker/) CE は 29.2.1 で、[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)は既定で22番[ポート](/glossary/ポート/)（SSH）のみ許可となっています。また Minimum [RAM](/glossary/ram/) は 1024 [MB](/glossary/mb/) と明記されています（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。512 [MB](/glossary/mb/) のプランはこの最小要件を下回ります。
 
 ## まず最初に：どちらの層を触っているのかを確定する
 
@@ -49,7 +49,7 @@ sudo ufw status verbose
 
 ここに出るのは ufw が管理している規則だけです。[Docker](/glossary/docker/) が公開した[ポート](/glossary/ポート/)は、この一覧に現れなくても[通信](/glossary/通信/)が成立しうる、という点を踏まえて読んでください。
 
-外側の状態は ConoHa のコントロールパネルで見ます。ConoHa VPS(Ver.3.0) では、[サーバー](/glossary/サーバー/)ごとに [IP アドレス](/glossary/ip-アドレス/)や[ポート](/glossary/ポート/)、[プロトコル](/glossary/プロトコル/)で[通信](/glossary/通信/)を制御するホワイトリスト形式のセキュリティグループが[標準](/glossary/標準/)で[設定](/glossary/設定/)されます。公式ドキュメントは、[標準](/glossary/標準/)では各テナントごとの default セキュリティグループがアタッチされている[サーバー](/glossary/サーバー/)からのみ[通信](/glossary/通信/)を許可する[設定](/glossary/設定/)になっていること、外部からの[通信](/glossary/通信/)を許可したい場合は[サーバー](/glossary/サーバー/)の[ネットワーク](/glossary/ネットワーク/)ごとに許可設定が必要であることを述べています（[セキュリティグループ｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/security-v3/security-group-v3/)）。
+外側の状態は ConoHa のコントロールパネルで見ます。ConoHa VPS(Ver.3.0) では、[サーバー](/glossary/サーバー/)ごとに [IP アドレス](/glossary/ip-アドレス/)や[ポート](/glossary/ポート/)、[プロトコル](/glossary/プロトコル/)で[通信](/glossary/通信/)を制御するホワイトリスト形式のセキュリティグループが[標準](/glossary/標準/)で[設定](/glossary/設定/)されます。公式[ドキュメント](/glossary/ドキュメント/)は、[標準](/glossary/標準/)では各テナントごとの default セキュリティグループがアタッチされている[サーバー](/glossary/サーバー/)からのみ[通信](/glossary/通信/)を許可する[設定](/glossary/設定/)になっていること、外部からの[通信](/glossary/通信/)を許可したい場合は[サーバー](/glossary/サーバー/)の[ネットワーク](/glossary/ネットワーク/)ごとに許可設定が必要であることを述べています（[セキュリティグループ｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/security-v3/security-group-v3/)）。
 
 同じページには、イメージテンプレートによっては [OS](/glossary/os/) 内にもソフトウェアファイアウォールが[設定](/glossary/設定/)されているため、セキュリティグループとは別に [OS](/glossary/os/) 内の[設定](/glossary/設定/)もあわせて[確認](/glossary/確認/)するように、という案内もあります。2か所を分けて見る必要があるのは、この構成によります。
 
@@ -59,7 +59,7 @@ sudo ufw status verbose
 
 `ufw allow` を実行したのに外部から接続できない場合です。[OS](/glossary/os/) の中は通す[設定](/glossary/設定/)になっていても、外側で止まっていれば届きません。
 
-確認方法はコントロールパネル側です。対象[サーバー](/glossary/サーバー/)の[ネットワーク](/glossary/ネットワーク/)に、どのセキュリティグループが割り当てられているかを見ます。公式ドキュメントによれば、ConoHa が用意しているセキュリティグループはルールの[設定変更](/glossary/設定変更/)ができず、独自のルールが必要な場合はセキュリティグループを追加して[設定](/glossary/設定/)する必要があります。用意されているものとしては、SSH 用の IPv4v6-SSH が22番、Web 用の IPv4v6-Web が80番と443番を解放する構成です（[セキュリティグループ](https://doc.conoha.jp/products/vps-v3/security-v3/security-group-v3/)）。
+確認方法はコントロールパネル側です。対象[サーバー](/glossary/サーバー/)の[ネットワーク](/glossary/ネットワーク/)に、どのセキュリティグループが割り当てられているかを見ます。公式[ドキュメント](/glossary/ドキュメント/)によれば、ConoHa が用意しているセキュリティグループはルールの[設定変更](/glossary/設定変更/)ができず、独自のルールが必要な場合はセキュリティグループを追加して[設定](/glossary/設定/)する必要があります。用意されているものとしては、SSH 用の IPv4v6-SSH が22番、Web 用の IPv4v6-Web が80番と443番を解放する構成です（[セキュリティグループ](https://doc.conoha.jp/products/vps-v3/security-v3/security-group-v3/)）。
 
 **Before（[OS](/glossary/os/) 内だけを開けて[確認](/glossary/確認/)を終える）：**
 
@@ -80,7 +80,7 @@ sudo ufw status verbose
 
 8080番や3000番のような任意の[ポート](/glossary/ポート/)を公開したい場合です。ConoHa が用意しているセキュリティグループは用途ごとに解放[ポート](/glossary/ポート/)が決まっており、任意の[ポート](/glossary/ポート/)番号に[対応](/glossary/対応/)するものはありません。
 
-公式ドキュメントは、独自のセキュリティグループが必要な場合はセキュリティグループを追加してルールを[設定](/glossary/設定/)する、と明記しています。追加できるルールの項目は、通信方向、イーサタイプ、[プロトコル](/glossary/プロトコル/)、1から65535の[ポート](/glossary/ポート/)、そして [IP アドレス](/glossary/ip-アドレス/)または CIDR 形式の接続元です（[セキュリティグループ](https://doc.conoha.jp/products/vps-v3/security-v3/security-group-v3/)）。
+公式[ドキュメント](/glossary/ドキュメント/)は、独自のセキュリティグループが必要な場合はセキュリティグループを追加してルールを[設定](/glossary/設定/)する、と明記しています。追加できるルールの項目は、通信方向、イーサタイプ、[プロトコル](/glossary/プロトコル/)、1から65535の[ポート](/glossary/ポート/)、そして [IP アドレス](/glossary/ip-アドレス/)または CIDR 形式の接続元です（[セキュリティグループ](https://doc.conoha.jp/products/vps-v3/security-v3/security-group-v3/)）。
 
 したがって対処は、必要な[ポート](/glossary/ポート/)と接続元を絞った独自グループを作ることです。接続元を CIDR で限定できるので、開発中の管理画面のように公開範囲を狭めたい用途では、全開放ではなく接続元の指定を併用してください。
 
@@ -88,7 +88,7 @@ sudo ufw status verbose
 
 `-p 8080:80` の書き方は、ホストのすべてのアドレスで待ち受けます。手元からしか使わない管理画面や[データベース](/glossary/データベース/)でも、この書き方をすると外へ出る構成になります。
 
-[Docker](/glossary/docker/) の公式ドキュメントは、公開フラグに `127.0.0.1` や `::1` を含めると、[Docker](/glossary/docker/) ホストだけがその公開[ポート](/glossary/ポート/)へアクセスできると説明しています（[Port publishing](https://docs.docker.com/engine/network/port-publishing/)）。
+[Docker](/glossary/docker/) の公式[ドキュメント](/glossary/ドキュメント/)は、公開フラグに `127.0.0.1` や `::1` を含めると、[Docker](/glossary/docker/) ホストだけがその公開[ポート](/glossary/ポート/)へアクセスできると説明しています（[Port publishing](https://docs.docker.com/engine/network/port-publishing/)）。
 
 **Before（すべての宛先で待ち受ける）：**
 
@@ -110,7 +110,7 @@ docker run -d -p 127.0.0.1:8080:80 nginx
 
 外側の[設定](/glossary/設定/)に加えて、ホストの中でも[通信](/glossary/通信/)を絞りたい場合です。ufw に書いても [Docker](/glossary/docker/) の公開[ポート](/glossary/ポート/)には適用されません。
 
-[Docker](/glossary/docker/) の公式ドキュメントは、利用者が独自の規則を書く場所として `DOCKER-USER` チェーンを用意しており、ここに置いた規則が `DOCKER-FORWARD` や `DOCKER` の各チェーンより先に[処理](/glossary/処理/)される、と説明しています。FORWARD チェーンへ追加した規則は [Docker](/glossary/docker/) の規則より後に[処理](/glossary/処理/)されるため、この目的には `DOCKER-USER` を使うように、とも書かれています（[Docker and iptables](https://docs.docker.com/engine/network/firewall-iptables/)）。
+[Docker](/glossary/docker/) の公式[ドキュメント](/glossary/ドキュメント/)は、利用者が独自の規則を書く場所として `DOCKER-USER` チェーンを用意しており、ここに置いた規則が `DOCKER-FORWARD` や `DOCKER` の各チェーンより先に[処理](/glossary/処理/)される、と説明しています。FORWARD チェーンへ追加した規則は [Docker](/glossary/docker/) の規則より後に[処理](/glossary/処理/)されるため、この目的には `DOCKER-USER` を使うように、とも書かれています（[Docker and iptables](https://docs.docker.com/engine/network/firewall-iptables/)）。
 
 同じページには注意点もあります。`DOCKER-USER` チェーンへ到達した時点で、[パケット](/glossary/パケット/)は既に宛先アドレスの変換を通過しているため、`iptables` の一致条件では[コンテナ](/glossary/コンテナ/)側の内部アドレスと[ポート](/glossary/ポート/)しか照合できません。元の宛先で照合したい場合は `conntrack` の拡張を使う必要があります。
 
@@ -122,7 +122,7 @@ ufw の一覧に規則が出ていること自体は誤りではありません�
 
 `docker run` を使わずホスト上で直接起動した[プロセス](/glossary/プロセス/)は、この話の対象外です。ufw の[設定](/glossary/設定/)がそのまま適用されます。
 
-ConoHa の公式ドキュメントに載っている `ufw allow` の手順は、[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内[ファイアウォール](/glossary/ファイアウォール/)の操作方法として書かれています。[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に関しては、上記の [Docker](/glossary/docker/) 側の[仕様](/glossary/仕様/)と合わせて読む必要があります。
+ConoHa の公式[ドキュメント](/glossary/ドキュメント/)に載っている `ufw allow` の手順は、[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内[ファイアウォール](/glossary/ファイアウォール/)の操作方法として書かれています。[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に関しては、上記の [Docker](/glossary/docker/) 側の[仕様](/glossary/仕様/)と合わせて読む必要があります。
 
 なお、swap の[設定](/glossary/設定/)、プライベートネットワークと [Docker](/glossary/docker/) の既定アドレス帯の衝突、IPv6 固有の挙動については、本記事では[確認](/glossary/確認/)できていないため扱いません。
 
@@ -167,11 +167,11 @@ curl -sS -o /dev/null -w '%{http_code}\n' http://<VPSのIPアドレス>:8080/
 
 ## Editor's Note
 
-この記事の内容は、2つの公式ドキュメントを突き合わせると読み取れます。どちらも単体では誤っていませんが、対象としている範囲が違います。
+この記事の内容は、2つの公式[ドキュメント](/glossary/ドキュメント/)を突き合わせると読み取れます。どちらも単体では誤っていませんが、対象としている範囲が違います。
 
 ConoHa 側の [Docker](/glossary/docker/) [テンプレート](/glossary/テンプレート/)解説は、最終更新が2026年2月25日です。[OS](/glossary/os/) 内の[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)として `ufw status verbose` での[確認](/glossary/確認/)と `ufw allow 443` での開放を案内しています。これは[テンプレート](/glossary/テンプレート/)全般に共通する [OS](/glossary/os/) 内の操作方法の説明であり、[Docker](/glossary/docker/) が公開する[ポート](/glossary/ポート/)に限定した記述ではありません（[Docker｜ConoHaドキュメントサイト](https://doc.conoha.jp/products/vps-v3/image-v3/image-application-v3/docker-v3/)）。
 
-[Docker](/glossary/docker/) 側のドキュメントは、[Docker](/glossary/docker/) と ufw が互いに相容れない使い方で規則を使うこと、公開された[コンテナ](/glossary/コンテナ/)宛の[通信](/glossary/通信/)が nat [テーブル](/glossary/テーブル/)で転送され ufw の INPUT と OUTPUT チェーンに届く前に迂回することを述べています（[Packet filtering and firewalls](https://docs.docker.com/engine/network/packet-filtering-firewalls/)）。
+[Docker](/glossary/docker/) 側の[ドキュメント](/glossary/ドキュメント/)は、[Docker](/glossary/docker/) と ufw が互いに相容れない使い方で規則を使うこと、公開された[コンテナ](/glossary/コンテナ/)宛の[通信](/glossary/通信/)が nat [テーブル](/glossary/テーブル/)で転送され ufw の INPUT と OUTPUT チェーンに届く前に迂回することを述べています（[Packet filtering and firewalls](https://docs.docker.com/engine/network/packet-filtering-firewalls/)）。
 
 この性質は、以前から繰り返し報告されてきたものです。[Docker](/glossary/docker/) の開発[リポジトリ](/glossary/リポジトリ/)には2014年3月18日に [docker and ufw serious problems](https://github.com/moby/moby/issues/4737) という報告が出ています。報告者は[受信](/glossary/受信/)を既定で拒否する[設定](/glossary/設定/)にしていたにもかかわらず、[Docker](/glossary/docker/) がホストへ割り当てた[ポート](/glossary/ポート/)へ外部から到達できた、と述べています。この報告は完了として閉じられています。
 
@@ -179,7 +179,7 @@ ConoHa 側の [Docker](/glossary/docker/) [テンプレート](/glossary/テン�
 
 したがって、ConoHa の手順に従って ufw を[設定](/glossary/設定/)した状態でも、[Docker](/glossary/docker/) で公開した[ポート](/glossary/ポート/)については `ufw allow` だけでは制御できません。読み替えとしては、ufw の操作は [Docker](/glossary/docker/) を経由しない[通信](/glossary/通信/)に対する[設定](/glossary/設定/)として扱い、[Docker](/glossary/docker/) の公開[ポート](/glossary/ポート/)については公開の指定とセキュリティグループの側で考える、という分け方になります。
 
-なお、実際にどの[通信](/glossary/通信/)が到達するかは、外側のセキュリティグループ、[OS](/glossary/os/) 内の各種規則、[Docker](/glossary/docker/) が作る規則といった複数の層で決まります。本記事は公式ドキュメントの記述にもとづく整理であり、個別の[環境](/glossary/環境/)での挙動を[確認](/glossary/確認/)したものではありません。構成を変更する際は、変更前の状態を控えたうえで、限定した範囲から試してください。
+なお、実際にどの[通信](/glossary/通信/)が到達するかは、外側のセキュリティグループ、[OS](/glossary/os/) 内の各種規則、[Docker](/glossary/docker/) が作る規則といった複数の層で決まります。本記事は公式[ドキュメント](/glossary/ドキュメント/)の記述にもとづく整理であり、個別の[環境](/glossary/環境/)での挙動を[確認](/glossary/確認/)したものではありません。構成を変更する際は、変更前の状態を控えたうえで、限定した範囲から試してください。
 
 <a href="https://px.a8.net/svt/ejp?a8mat=4BA1PB+5QLFOY+50+4Z0M6A" rel="nofollow">ConoHa VPSのDockerテンプレートと料金を公式サイトで確認する（PR）</a>
 <img border="0" width="1" height="1" src="https://www17.a8.net/0.gif?a8mat=4BA1PB+5QLFOY+50+4Z0M6A" alt="">

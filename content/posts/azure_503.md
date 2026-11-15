@@ -298,7 +298,7 @@ var blobClient = new BlobClient(
 Azure Portal の「監視」セクションで、[リソース](/glossary/リソース/)の[メトリクス](/glossary/メトリクス/)を[確認](/glossary/確認/)してください。特に以下の指標をチェックします：
 
 - **[CPU](/glossary/cpu/) 使用率**：90% 以上が[継続](/glossary/継続/)している場合、スケーリング[設定](/glossary/設定/)を見直してください
-- **[メモリ](/glossary/メモリ/)使用率**：予期しないメモリリークがないか[確認](/glossary/確認/)します
+- **[メモリ](/glossary/メモリ/)使用率**：予期しない[メモリリーク](/glossary/メモリリーク/)がないか[確認](/glossary/確認/)します
 - **[ネットワーク](/glossary/ネットワーク/)入出力**：異常なトラフィック増加がないか[確認](/glossary/確認/)します
 
 ---

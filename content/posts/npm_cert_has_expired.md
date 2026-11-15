@@ -25,7 +25,7 @@ npm error errno CERT_HAS_EXPIRED
 
 最初に接続先[URL](/glossary/url/)とnpm[レジストリ](/glossary/レジストリ/)を[確認](/glossary/確認/)してください。公式[レジストリ](/glossary/レジストリ/)ではなく、社内[レジストリ](/glossary/レジストリ/)、ミラー、[プロキシ](/glossary/プロキシ/)を経由している場合は、その途中で提示された[証明書](/glossary/証明書/)が原因になることもあります。
 
-次にnpmの`ca`と`cafile`、Node.jsの[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)します。古いCA[証明書](/glossary/証明書/)が明示的に[設定](/glossary/設定/)されている場合は[設定](/glossary/設定/)を[更新](/glossary/更新/)し、Node.jsが古い場合はサポート中の版へ[更新](/glossary/更新/)します。[証明書](/glossary/証明書/)の検証を無効にする`strict-ssl=false`は、安全な解決方法ではありません。
+次にnpmの`ca`と`cafile`、Node.jsの[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)します。古いCA[証明書](/glossary/証明書/)が明示的に[設定](/glossary/設定/)されている場合は[設定](/glossary/設定/)を[更新](/glossary/更新/)し、Node.jsが古い場合は[サポート](/glossary/サポート/)中の版へ[更新](/glossary/更新/)します。[証明書](/glossary/証明書/)の検証を無効にする`strict-ssl=false`は、安全な解決方法ではありません。
 
 ## CERT_HAS_EXPIREDの意味
 
@@ -120,7 +120,7 @@ npm config set cafile "C:\certs\current-corporate-ca.pem"
 
 Node.jsは、利用する[設定](/glossary/設定/)によってNode.jsに同梱されたCAストアを使います。このストアはMozillaのCAストアをNode.jsの[リリース](/glossary/リリース/)時点で固定したスナップショットです。そのため、古いNode.jsではCAの追加や[更新](/glossary/更新/)が反映されていない可能性があります。
 
-まず`node -v`で版を[確認](/glossary/確認/)し、サポートが終了した古い版なら、公式の[Node.jsリリース情報](https://nodejs.org/en/about/previous-releases)を[確認](/glossary/確認/)してサポート中のLTS版へ[更新](/glossary/更新/)します。更新後は、新しい[シェル](/glossary/シェル/)で次を[確認](/glossary/確認/)してからnpmを再実行してください。
+まず`node -v`で版を[確認](/glossary/確認/)し、[サポート](/glossary/サポート/)が終了した古い版なら、公式の[Node.jsリリース情報](https://nodejs.org/en/about/previous-releases)を[確認](/glossary/確認/)して[サポート](/glossary/サポート/)中のLTS版へ[更新](/glossary/更新/)します。更新後は、新しい[シェル](/glossary/シェル/)で次を[確認](/glossary/確認/)してからnpmを再実行してください。
 
 ```bash
 node -v
@@ -198,7 +198,7 @@ npm config get globalconfig
 
 次に`npm config get ca`と`npm config get cafile`を調べます。不要な古い[設定](/glossary/設定/)なら[削除](/glossary/削除/)し、社内CAが必要なら信頼できる配布元から新しい[証明書](/glossary/証明書/)を取得して差し替えます。
 
-Node.jsが古い場合はサポート中の版へ[更新](/glossary/更新/)します。既定CAへ社内CAを追加するときは`NODE_EXTRA_CA_CERTS`をNode.jsの起動前に[設定](/glossary/設定/)してください。
+Node.jsが古い場合は[サポート](/glossary/サポート/)中の版へ[更新](/glossary/更新/)します。既定CAへ社内CAを追加するときは`NODE_EXTRA_CA_CERTS`をNode.jsの起動前に[設定](/glossary/設定/)してください。
 
 証明書検証を無効にする`strict-ssl=false`や`NODE_TLS_REJECT_UNAUTHORIZED=0`は使わず、期限切れの[証明書](/glossary/証明書/)または古いCA[設定](/glossary/設定/)を[修正](/glossary/修正/)することが重要です。
 

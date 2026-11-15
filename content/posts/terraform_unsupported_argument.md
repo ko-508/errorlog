@@ -19,7 +19,7 @@ related_services: ["Terraform Registry"]
 
 したがって、直すべき対象は行ではなく、**期待される[引数](/glossary/引数/)の集合を決めている側**です。これは大きく3系統に分かれます。`resource` / `data` / `provider` ブロックなら、いま初期化済みの provider が持つ[スキーマ](/glossary/スキーマ/)。`module` ブロックなら、子 module 側に書かれた `variable` 宣言。`terraform` や `lifecycle` のような固定ブロックなら Terraform 本体です。
 
-この区別を飛ばすと、典型的な失敗に入ります。module 呼び出しで拒否されたのに、呼び出し側（ルート）の `variables.tf` へ同名の[変数](/glossary/変数/)を追加してしまう例が繰り返し報告されています。宣言が必要なのは子 module の側なので、これでは通りません。また、公式ドキュメントどおりに書いたのに拒否されるという報告も多く、この場合はドキュメントの版と実際に[インストール](/glossary/インストール/)されている provider の版がずれています。
+この区別を飛ばすと、典型的な失敗に入ります。module 呼び出しで拒否されたのに、呼び出し側（ルート）の `variables.tf` へ同名の[変数](/glossary/変数/)を追加してしまう例が繰り返し報告されています。宣言が必要なのは子 module の側なので、これでは通りません。また、公式[ドキュメント](/glossary/ドキュメント/)どおりに書いたのに拒否されるという報告も多く、この場合は[ドキュメント](/glossary/ドキュメント/)の版と実際に[インストール](/glossary/インストール/)されている provider の版がずれています。
 
 判断の起点は、[エラー](/glossary/エラー/)出力の `on ... line N, in ...` の行です。**ファイルパスと、その後ろのブロック種別**を読めば、どの系統が拒否したかがほぼ決まります。末尾に `Did you mean` が付いているかどうかも、そのまま分岐材料になります。
 
@@ -85,7 +85,7 @@ terraform providers schema -json > schema.json
 
 出力される [JSON](/glossary/json/) の構造は[環境](/glossary/環境/)と版によって異なるため、`jq` で目的の[リソース](/glossary/リソース/)を探すより先に、まず全体をページャで開いて対象[リソース](/glossary/リソース/)名を[検索](/glossary/検索/)するのが確実です。
 
-**注意**：候補が提示されても、それが目的の[引数](/glossary/引数/)とは限りません。名前が似ているだけの別の[引数](/glossary/引数/)を提示している場合があります。採用する前に、対象 provider の版に[対応](/glossary/対応/)するドキュメントで意味を[確認](/glossary/確認/)してください。
+**注意**：候補が提示されても、それが目的の[引数](/glossary/引数/)とは限りません。名前が似ているだけの別の[引数](/glossary/引数/)を提示している場合があります。採用する前に、対象 provider の版に[対応](/glossary/対応/)する[ドキュメント](/glossary/ドキュメント/)で意味を[確認](/glossary/確認/)してください。
 
 ### 原因2：module 呼び出しに、子 module が宣言していない入力を渡している
 
@@ -106,9 +106,9 @@ grep -rn 'variable "' <module ディレクトリ>
 
 ### 原因3：インストールされている provider の版が、参照したドキュメントと違う
 
-ドキュメントに書かれているとおりに[引数](/glossary/引数/)を書いたのに拒否される場合です。この状態は珍しくなく、`aws_elasticache_replication_group` で「ドキュメントに載っている[引数](/glossary/引数/)が not expected と言われる」という報告が上がっています。
+[ドキュメント](/glossary/ドキュメント/)に書かれているとおりに[引数](/glossary/引数/)を書いたのに拒否される場合です。この状態は珍しくなく、`aws_elasticache_replication_group` で「[ドキュメント](/glossary/ドキュメント/)に載っている[引数](/glossary/引数/)が not expected と言われる」という報告が上がっています。
 
-構成の検証に使われるのは、[レジストリ](/glossary/レジストリ/)のドキュメントではなく、**実際に[初期化](/glossary/初期化/)されて手元に置かれた provider が持つ[スキーマ](/glossary/スキーマ/)**です。[レジストリ](/glossary/レジストリ/)のドキュメントは既定で最新版を表示するため、手元の版が古ければ、まだ存在しない[引数](/glossary/引数/)を読んでいることになります。逆に、手元の版が新しければ、[削除](/glossary/削除/)された[引数](/glossary/引数/)のドキュメントを読んでいる可能性があります。
+構成の検証に使われるのは、[レジストリ](/glossary/レジストリ/)の[ドキュメント](/glossary/ドキュメント/)ではなく、**実際に[初期化](/glossary/初期化/)されて手元に置かれた provider が持つ[スキーマ](/glossary/スキーマ/)**です。[レジストリ](/glossary/レジストリ/)の[ドキュメント](/glossary/ドキュメント/)は既定で最新版を表示するため、手元の版が古ければ、まだ存在しない[引数](/glossary/引数/)を読んでいることになります。逆に、手元の版が新しければ、[削除](/glossary/削除/)された[引数](/glossary/引数/)の[ドキュメント](/glossary/ドキュメント/)を読んでいる可能性があります。
 
 判断材料は、実際に使われている版です。
 
@@ -117,7 +117,7 @@ grep -rn 'variable "' <module ディレクトリ>
 terraform providers
 ```
 
-あわせて `.terraform.lock.hcl` を開き、対象 provider のブロックに書かれた版を[確認](/glossary/確認/)します。その版に[対応](/glossary/対応/)するドキュメントを読み直すのが先で、[コード](/glossary/コード/)を書き換えるのはその後です。
+あわせて `.terraform.lock.hcl` を開き、対象 provider のブロックに書かれた版を[確認](/glossary/確認/)します。その版に[対応](/glossary/対応/)する[ドキュメント](/glossary/ドキュメント/)を読み直すのが先で、[コード](/glossary/コード/)を書き換えるのはその後です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -171,7 +171,7 @@ resource "example_resource" "this" {
 }
 ```
 
-同じ階層の問題として、ネストされたブロックの中に置くべき[引数](/glossary/引数/)を `resource` 直下に書いてしまう形もあります。この場合はサフィックスが付かないこともあるため、ドキュメントで[引数](/glossary/引数/)がどのブロックに属しているかを[確認](/glossary/確認/)します。
+同じ階層の問題として、ネストされたブロックの中に置くべき[引数](/glossary/引数/)を `resource` 直下に書いてしまう形もあります。この場合はサフィックスが付かないこともあるため、[ドキュメント](/glossary/ドキュメント/)で[引数](/glossary/引数/)がどのブロックに属しているかを[確認](/glossary/確認/)します。
 
 **注意**：逆向き、つまりブロックとして書いたが実際は[属性](/glossary/属性/)だった場合は、`Unsupported argument` ではなく別の Summary になります。この記事の対象外です。
 
@@ -224,7 +224,7 @@ Terraform 以外の HCL [ツール](/glossary/ツール/)との混同です。�
 3. 最後の行の末尾を読む。`Did you mean "..."?` なら綴り違い、`Did you mean to define a block of type "..."?` なら階層の取り違えとして扱う。
 4. 対象[ファイル](/glossary/ファイル/)の[拡張子](/glossary/拡張子/)が `.tf.json` でないことを[確認](/glossary/確認/)する。`.tf.json` なら別の診断を扱う記事に移る。
 5. `module` 系統なら、子 module の `variable` 宣言を `grep` で一覧し、呼び出し側の引数名と突き合わせる。ルート側の `variables.tf` は見ない。
-6. `resource` 系統なら、`terraform providers` と `.terraform.lock.hcl` で実際の provider 版を確定し、その版に[対応](/glossary/対応/)するドキュメントを読み直す。
+6. `resource` 系統なら、`terraform providers` と `.terraform.lock.hcl` で実際の provider 版を確定し、その版に[対応](/glossary/対応/)する[ドキュメント](/glossary/ドキュメント/)を読み直す。
 7. 版を動かす必要があると判断した場合のみ、`required_providers` の制約を[修正](/glossary/修正/)し、影響を[確認](/glossary/確認/)してから `terraform init -upgrade` を実行してロックファイルの差分を読む。
 8. `terraform validate` で構成の読み込みが通ることを[確認](/glossary/確認/)し、`terraform plan` で意図した差分になっているかを見る。
 

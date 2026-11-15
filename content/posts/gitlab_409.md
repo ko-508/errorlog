@@ -170,7 +170,7 @@ curl -v --request POST https://gitlab.example.com/api/v4/projects/<project-id>/r
   --data "branch=develop&ref=main"
 ```
 
-GitLab [サーバー](/glossary/サーバー/)のシステムログ（通常は `/var/log/gitlab/` 配下）も[確認](/glossary/確認/)の対象です。特に `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。問題が[継続](/glossary/継続/)する場合は、GitLab の公式ドキュメント（https://docs.gitlab.com/ee/api/）を参照するか、GitLab サポートに問い合わせることをお勧めします。
+GitLab [サーバー](/glossary/サーバー/)のシステムログ（通常は `/var/log/gitlab/` 配下）も[確認](/glossary/確認/)の対象です。特に `gitlab-rails/production.log` と `gitlab-rails/api_json.log` には詳細な情報が記録されています。問題が[継続](/glossary/継続/)する場合は、GitLab の公式[ドキュメント](/glossary/ドキュメント/)（https://docs.gitlab.com/ee/api/）を参照するか、GitLab [サポート](/glossary/サポート/)に問い合わせることをお勧めします。
 
 ---
 

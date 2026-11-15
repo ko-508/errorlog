@@ -177,7 +177,7 @@ podman run docker.io/library/nginx
 
 詳細な[デバッグ](/glossary/デバッグ/)情報を得るには、`podman --log-level=debug` オプションを付けて[コマンド](/glossary/コマンド/)を再実行することで、[イメージ](/glossary/イメージ/)[検索](/glossary/検索/)の詳細な[プロセス](/glossary/プロセス/)を[確認](/glossary/確認/)できます。
 
-Podman の公式ドキュメントにある「Podman Image Search」セクションでは、レジストリー[設定](/glossary/設定/)や[イメージ](/glossary/イメージ/)取得の詳細が説明されています。また、[GitHub](/glossary/github/) の Podman [リポジトリ](/glossary/リポジトリ/)の Issues セクションで、類似の[エラー](/glossary/エラー/)報告と解決方法を[検索](/glossary/検索/)することも有効です。
+Podman の公式[ドキュメント](/glossary/ドキュメント/)にある「Podman Image Search」セクションでは、レジストリー[設定](/glossary/設定/)や[イメージ](/glossary/イメージ/)取得の詳細が説明されています。また、[GitHub](/glossary/github/) の Podman [リポジトリ](/glossary/リポジトリ/)の Issues セクションで、類似の[エラー](/glossary/エラー/)報告と解決方法を[検索](/glossary/検索/)することも有効です。
 
 ---
 

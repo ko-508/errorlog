@@ -111,7 +111,7 @@ docker buildx build \
   --push .
 ```
 
-これはビルドした二つの版とその一覧を[レジストリ](/glossary/レジストリ/)へ送る例です。[Docker公式のマルチプラットフォームビルド手順](https://docs.docker.com/build/building/multi-platform/)に沿っています。指定だけで各版のビルドが成功するわけではないため、ビルダーの対応状況、基底[イメージ](/glossary/イメージ/)、[アプリケーション](/glossary/アプリケーション/)のアーキテクチャ依存を[確認](/glossary/確認/)してください。公開後は`docker buildx imagetools inspect registry.example.com/myapp:1.2`で、必要な両方の`Platform:`が表示されるか検証します。
+これはビルドした二つの版とその一覧を[レジストリ](/glossary/レジストリ/)へ[送る](/glossary/送る/)例です。[Docker公式のマルチプラットフォームビルド手順](https://docs.docker.com/build/building/multi-platform/)に沿っています。指定だけで各版のビルドが成功するわけではないため、ビルダーの対応状況、基底[イメージ](/glossary/イメージ/)、[アプリケーション](/glossary/アプリケーション/)のアーキテクチャ依存を[確認](/glossary/確認/)してください。公開後は`docker buildx imagetools inspect registry.example.com/myapp:1.2`で、必要な両方の`Platform:`が表示されるか検証します。
 
 ## 似たエラーとの違い
 

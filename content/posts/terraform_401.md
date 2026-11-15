@@ -298,7 +298,7 @@ terraform init -upgrade
 
 ### 公式ドキュメントでの確認
 
-各プロバイダーの公式認証ドキュメントを参照してください：
+各プロバイダーの公式認証[ドキュメント](/glossary/ドキュメント/)を参照してください：
 - **[AWS](/glossary/aws/) Provider**: https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication-and-configuration
 - **Azure Provider**: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs#authentication
 - **Google Provider**: https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication

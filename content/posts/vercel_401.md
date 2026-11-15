@@ -127,7 +127,7 @@ git push origin main
 
 **複数組織の場合：** Vercel [アカウント](/glossary/アカウント/)が複数の Team（組織）に属している場合、[デプロイ](/glossary/デプロイ/)先チームを明示的に指定する必要があります。`vercel deploy --scope=<team-slug>` で[スコープ](/glossary/スコープ/)を指定し、そのチームに所属する[トークン](/glossary/トークン/)であることを[確認](/glossary/確認/)してください。
 
-**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。[テンプレート](/glossary/テンプレート/)やドキュメント閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
+**[環境変数](/glossary/環境変数/)の大文字小文字：** [CLI](/glossary/cli/) や [GitHub](/glossary/github/) Actions では `VERCEL_TOKEN` として大文字で定義します。[テンプレート](/glossary/テンプレート/)や[ドキュメント](/glossary/ドキュメント/)閲覧時に他の変数名（例：`vercel_token`）と混同しやすいため注意が必要です。
 
 **vercel.json [設定](/glossary/設定/)：** プロジェクトルートの `vercel.json` に記述される[設定](/glossary/設定/)は、[CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)では[環境変数](/glossary/環境変数/)より優先度が低いため、[環境変数](/glossary/環境変数/)の[設定](/glossary/設定/)を[確認](/glossary/確認/)してから[ファイル](/glossary/ファイル/)[設定](/glossary/設定/)を疑ってください。
 
@@ -155,9 +155,9 @@ VERCEL_DEBUG=1 vercel deploy
 5. 各 [CI/CD](/glossary/ci-cd/) [環境](/glossary/環境/)のシークレット[変数](/glossary/変数/)を[上書き](/glossary/上書き/)
 6. テストデプロイで認証確認を実施
 
-**公式サポートへの問い合わせ：**
+**公式[サポート](/glossary/サポート/)への問い合わせ：**
 
-上記手順をすべて実施してもなお 401 が[継続](/glossary/継続/)する場合は、Vercel 公式ドキュメント（https://vercel.com/docs/rest-api）の認証セクションを確認するか、Vercel サポート（https://vercel.com/support）に問い合わせてください。API 制限や[レート制限](/glossary/レート制限/)の影響を受けている可能性もあります。
+上記手順をすべて実施してもなお 401 が[継続](/glossary/継続/)する場合は、Vercel 公式[ドキュメント](/glossary/ドキュメント/)（https://vercel.com/docs/rest-api）の認証セクションを確認するか、Vercel [サポート](/glossary/サポート/)（https://vercel.com/support）に問い合わせてください。API 制限や[レート制限](/glossary/レート制限/)の影響を受けている可能性もあります。
 
 ---
 

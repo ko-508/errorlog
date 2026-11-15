@@ -269,7 +269,7 @@ Nginx の場合、`/var/log/nginx/access.log` や `error.log` で[認証](/gloss
 tail -f /var/log/nginx/error.log | grep authorization
 ```
 
-**5. 公式ドキュメント：**
+**5. 公式[ドキュメント](/glossary/ドキュメント/)：**
 
 - [Prometheus Configuration - Basic Auth](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#basic_auth)
 - [Prometheus Configuration - TLS Config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#tls_config)

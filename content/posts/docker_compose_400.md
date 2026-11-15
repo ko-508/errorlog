@@ -198,7 +198,7 @@ docker compose --verbose up 2>&1 | head -50
 yamllint compose.yml
 ```
 
-**公式リファレンス[確認](/glossary/確認/)：** [Docker](/glossary/docker/) Composeの公式ドキュメント「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)してください。[キー](/glossary/キー/)名や値の型、必須[キー](/glossary/キー/)が正確に記載されています。
+**公式リファレンス[確認](/glossary/確認/)：** [Docker](/glossary/docker/) Composeの公式[ドキュメント](/glossary/ドキュメント/)「[Compose file reference](https://docs.docker.com/compose/compose-file/)」で、使用している[バージョン](/glossary/バージョン/)の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)してください。[キー](/glossary/キー/)名や値の型、必須[キー](/glossary/キー/)が正確に記載されています。
 
 **[GitHub](/glossary/github/) Issuesの[検索](/glossary/検索/)：** 同じ[エラーメッセージ](/glossary/エラーメッセージ/)が記録されているか [Docker Compose GitHub リポジトリ](https://github.com/docker/compose/issues) を[検索](/glossary/検索/)し、既知の問題や回避策がないか[確認](/glossary/確認/)してください。
 

@@ -224,7 +224,7 @@ telnet <your-target-host> 9100
 nc -zv <your-target-host> 9100
 ```
 
-公式ドキュメントの[Troubleshooting](https://prometheus.io/docs/prometheus/latest/troubleshooting/troubleshooting/)セクションと[疎通確認ガイド](https://prometheus.io/docs/prometheus/latest/management_api/)も参照してください。
+公式[ドキュメント](/glossary/ドキュメント/)の[Troubleshooting](https://prometheus.io/docs/prometheus/latest/troubleshooting/troubleshooting/)セクションと[疎通確認ガイド](https://prometheus.io/docs/prometheus/latest/management_api/)も参照してください。
 
 ---
 

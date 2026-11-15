@@ -151,7 +151,7 @@ GitLab.com でのトラブルシューティングは以下の手順で進めて
 # https://gitlab.com/support にアクセス
 ```
 
-詳細な[デバッグ](/glossary/デバッグ/)（問題の原因を調べること）が必要な場合は、公式ドキュメント（https://docs.gitlab.com/ee/administration/troubleshooting/）を参照し、より詳細な設定確認やログ分析を行ってください。500エラーが頻繁に発生する場合は、GitLabのアップグレード、インフラの増強、またはサポートコントラクトの購入を検討する価値があります。
+詳細な[デバッグ](/glossary/デバッグ/)（問題の原因を調べること）が必要な場合は、公式[ドキュメント](/glossary/ドキュメント/)（https://docs.gitlab.com/ee/administration/troubleshooting/）を参照し、より詳細な設定確認やログ分析を行ってください。500エラーが頻繁に発生する場合は、GitLabのアップグレード、インフラの増強、またはサポートコントラクトの購入を検討する価値があります。
 
 ---
 

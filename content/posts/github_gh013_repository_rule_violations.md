@@ -17,11 +17,11 @@ trend_incident: false
 
 `GH013: Repository rule violations found` を[検索](/glossary/検索/)すると、秘密情報が混ざったときの対処が数多く出てきます。それは3系統あるうちの1つにすぎません。GH013 は ruleset（[リポジトリ](/glossary/リポジトリ/)に[設定](/glossary/設定/)された規則の集まり）に違反したという符号で、中身は[ブランチ](/glossary/ブランチ/)や[タグ](/glossary/タグ/)への規則、push そのものへの規則、そして秘密情報の検知に分かれます。
 
-見分ける手がかりは、符号のすぐ下に出ます。[GitHub](/glossary/github/) は `Review all repository rules at` に続けて、その[ブランチ](/glossary/ブランチ/)に効いている規則の一覧を示す[URL](/glossary/url/) を返します。公式ドキュメントによれば、この一覧は読み取り[権限](/glossary/権限/)さえあれば誰でも見られます。管理者に問い合わせる前に、まずここを開けば済みます。
+見分ける手がかりは、符号のすぐ下に出ます。[GitHub](/glossary/github/) は `Review all repository rules at` に続けて、その[ブランチ](/glossary/ブランチ/)に効いている規則の一覧を示す[URL](/glossary/url/) を返します。公式[ドキュメント](/glossary/ドキュメント/)によれば、この一覧は読み取り[権限](/glossary/権限/)さえあれば誰でも見られます。管理者に問い合わせる前に、まずここを開けば済みます。
 
 もう1つ、bypass（規則を素通りする許可）についての誤解があります。bypass は[アカウント](/glossary/アカウント/)に与える[権限](/glossary/権限/)ではありません。ruleset は push のたびに、そのとき使われた資格情報の持ち主を bypass 一覧と照合します。だから自分を一覧に入れても、CI が別の身元で push していれば拒まれます。手元では通るのに自動処理では落ちる、という報告のほとんどはこれです。
 
-branch protection との違いも押さえてください。公式ドキュメントは、branch protection の制限が既定では管理[権限](/glossary/権限/)を持つ人に適用されないと明記しています。ruleset は逆で、bypass 一覧に載せない限り誰も素通りできません。管理者だから通るはずだ、という前提はここで崩れます。
+branch protection との違いも押さえてください。公式[ドキュメント](/glossary/ドキュメント/)は、branch protection の制限が既定では管理[権限](/glossary/権限/)を持つ人に適用されないと明記しています。ruleset は逆で、bypass 一覧に載せない限り誰も素通りできません。管理者だから通るはずだ、という前提はここで崩れます。
 
 ## エラーの概要
 
@@ -53,7 +53,7 @@ remote:     - Files cannot include restricted file extensions.
 
 ## まず最初に：規則の一覧を開く
 
-推測の前に、[エラー](/glossary/エラー/)に書かれた[URL](/glossary/url/) を開きます。手元にない場合は、[リポジトリ](/glossary/リポジトリ/)の[URL](/glossary/url/) の末尾に `/rules` を足しても同じ画面に届きます。公式ドキュメントがこの短縮形を案内しています。
+推測の前に、[エラー](/glossary/エラー/)に書かれた[URL](/glossary/url/) を開きます。手元にない場合は、[リポジトリ](/glossary/リポジトリ/)の[URL](/glossary/url/) の末尾に `/rules` を足しても同じ画面に届きます。公式[ドキュメント](/glossary/ドキュメント/)がこの短縮形を案内しています。
 
 [コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)する手もあります。
 
@@ -69,7 +69,7 @@ gh api "repos/OWNER/REPO/rules/branches/main"
 
 ### 原因1：規則そのものに触れている
 
-最も単純な系統です。直接 push を禁じる規則や、[マージ](/glossary/マージ/)前の[確認](/glossary/確認/)を求める規則に当たっています。公式ドキュメントの一覧では、[更新](/glossary/更新/)の制限は bypass を持つ人だけが push できるという意味だと説明されています。
+最も単純な系統です。直接 push を禁じる規則や、[マージ](/glossary/マージ/)前の[確認](/glossary/確認/)を求める規則に当たっています。公式[ドキュメント](/glossary/ドキュメント/)の一覧では、[更新](/glossary/更新/)の制限は bypass を持つ人だけが push できるという意味だと説明されています。
 
 対処は規則に沿うことです。`Changes must be made through a pull request.` なら作業用の[ブランチ](/glossary/ブランチ/)へ push して[マージ](/glossary/マージ/)要求を出します。[コミット](/glossary/コミット/)の署名を求める規則なら、[設定](/glossary/設定/)を直したうえで過去の[コミット](/glossary/コミット/)を書き直す必要があります。公式のトラブルシューティング文書も、この場合は手元で履歴を作り直してから push するよう案内しています。
 
@@ -92,7 +92,7 @@ git push -u origin fix/update-version
 
 [GitHub](/glossary/github/) Actions で起きやすい形が知られています。`actions/checkout` は既定で資格情報を[保存](/glossary/保存/)するため、以降の push はその[保存](/glossary/保存/)された身元で行われます。あとから別の[トークン](/glossary/トークン/)を[変数](/glossary/変数/)に入れても、`git push` はそれを読みません。結果として、bypass 一覧に入れた身元ではなく、既定の[トークン](/glossary/トークン/)の身元で判定されます。
 
-**Before（[保存](/glossary/保存/)された資格情報のまま送る）：**
+**Before（[保存](/glossary/保存/)された資格情報のまま[送る](/glossary/送る/)）：**
 
 ```yaml
 - uses: actions/checkout@v4
@@ -110,13 +110,13 @@ git push -u origin fix/update-version
 
 [GitHub](/glossary/github/) App を使う場合も同じです。App を bypass 一覧に入れ、App の[トークン](/glossary/トークン/)を発行しても、push がそれを使っていなければ意味がありません。発行した[トークン](/glossary/トークン/)が実際に[送信](/glossary/送信/)に使われているかを、まず確かめてください。
 
-bypass の与え方には2種類あることも押さえておきます。公式ドキュメントによれば、常に許可するほかに、[マージ](/glossary/マージ/)要求を経由する場合だけ許可する[設定](/glossary/設定/)を選べます。後者を選んだ身元は直接 push できず、要求を出したうえで保護を越えて[マージ](/glossary/マージ/)する形になります。自分がどちらの扱いかは、ruleset を取得したときの `current_user_can_bypass` で[確認](/glossary/確認/)できます。値は常に許可・要求経由のみ・不可・対象外の4つです。
+bypass の与え方には2種類あることも押さえておきます。公式[ドキュメント](/glossary/ドキュメント/)によれば、常に許可するほかに、[マージ](/glossary/マージ/)要求を経由する場合だけ許可する[設定](/glossary/設定/)を選べます。後者を選んだ身元は直接 push できず、要求を出したうえで保護を越えて[マージ](/glossary/マージ/)する形になります。自分がどちらの扱いかは、ruleset を取得したときの `current_user_can_bypass` で[確認](/glossary/確認/)できます。値は常に許可・要求経由のみ・不可・対象外の4つです。
 
 ### 原因3：組織の階層で作られた規則に当たっている
 
 [リポジトリ](/glossary/リポジトリ/)の設定画面を見ても該当する規則が無い、という場合です。ruleset は組織や企業の階層でも作られ、複数の[リポジトリ](/glossary/リポジトリ/)を対象にできます。
 
-公式ドキュメントは、複数の ruleset が同じ[ブランチ](/glossary/ブランチ/)を対象にした場合、優先順位ではなく合算で扱うと説明しています。同じ規則が別々に定義されていれば、最も厳しい版が適用されます。branch protection とも重なって効きます。
+公式[ドキュメント](/glossary/ドキュメント/)は、複数の ruleset が同じ[ブランチ](/glossary/ブランチ/)を対象にした場合、優先順位ではなく合算で扱うと説明しています。同じ規則が別々に定義されていれば、最も厳しい版が適用されます。branch protection とも重なって効きます。
 
 したがって、1つの ruleset で bypass を持っていても、別の ruleset に当たれば拒まれます。前述の `rules/branches` の経路は階層を問わず返すため、ここで全体を[確認](/glossary/確認/)するのが確実です。
 
@@ -146,7 +146,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 ### 原因5：push への規則に当たっている
 
-`GITHUB PUSH PROTECTION` の下に、[拡張子](/glossary/拡張子/)・大きさ・経路に関する文が出る場合です。公式ドキュメントによれば、push への規則は[ブランチ](/glossary/ブランチ/)の指定を必要とせず、その[リポジトリ](/glossary/リポジトリ/)へのすべての push に適用されます。しかも、その[リポジトリ](/glossary/リポジトリ/)から派生した全体にも及びます。
+`GITHUB PUSH PROTECTION` の下に、[拡張子](/glossary/拡張子/)・大きさ・経路に関する文が出る場合です。公式[ドキュメント](/glossary/ドキュメント/)によれば、push への規則は[ブランチ](/glossary/ブランチ/)の指定を必要とせず、その[リポジトリ](/glossary/リポジトリ/)へのすべての push に適用されます。しかも、その[リポジトリ](/glossary/リポジトリ/)から派生した全体にも及びます。
 
 制限できるのは、[ファイル](/glossary/ファイル/)の経路、経路の長さ、[拡張子](/glossary/拡張子/)、[ファイル](/glossary/ファイル/)の大きさの4つです。大きな[ファイル](/glossary/ファイル/)で止まっている場合は、対象を履歴から取り除くか、別の保管方法へ移してください。
 
@@ -154,7 +154,7 @@ gh api "repos/OWNER/REPO/rules/branches/main" --jq '.[] | {type, ruleset_id, rul
 
 ## 補足：似ているが別のもの
 
-`GH006: Protected branch update failed` は branch protection 由来で、GH013 とは別の仕組みです。公式ドキュメントには `remote: error: GH006: Protected branch update failed for refs/heads/main.` の形で例が載っています。既定の扱いが逆である点に注意してください。branch protection は管理[権限](/glossary/権限/)を持つ人に既定で適用されず、素通りを止めるには明示的な[設定](/glossary/設定/)が要ります。
+`GH006: Protected branch update failed` は branch protection 由来で、GH013 とは別の仕組みです。公式[ドキュメント](/glossary/ドキュメント/)には `remote: error: GH006: Protected branch update failed for refs/heads/main.` の形で例が載っています。既定の扱いが逆である点に注意してください。branch protection は管理[権限](/glossary/権限/)を持つ人に既定で適用されず、素通りを止めるには明示的な[設定](/glossary/設定/)が要ります。
 
 `Repository not found` は、そもそも相手が見えていない場合の応答です。規則の話にすら進んでいません（[GitHub の Repository not found の記事](/posts/github_repository_not_found/)）。
 

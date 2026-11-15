@@ -133,7 +133,7 @@ $ curl -s https://api.bitbucket.status.atlassian.com/v2/status.json | jq '.statu
 
 ## それでも解決しない場合
 
-500 [エラー](/glossary/エラー/)が 30 分以上続く場合、またはステータスページに障害報告がない場合は、Atlassian サポートに直接問い合わせてください。その際、以下の情報を収集して提供することが重要です：
+500 [エラー](/glossary/エラー/)が 30 分以上続く場合、またはステータスページに障害報告がない場合は、Atlassian [サポート](/glossary/サポート/)に直接問い合わせてください。その際、以下の情報を収集して提供することが重要です：
 
 ```bash
 # 1. エラーが発生した時刻（UTC）を記録
@@ -160,7 +160,7 @@ $ curl -u <your-email>:<your-app-password> \
 - ローカル [Git](/glossary/git/) [バージョン](/glossary/バージョン/)（`git --version`）
 - [ネットワーク](/glossary/ネットワーク/)[環境](/glossary/環境/)（[プロキシ](/glossary/プロキシ/)の有無、VPN 使用状況）
 
-Atlassian の公式ドキュメント（https://support.atlassian.com/bitbucket-cloud/）でも関連する既知の問題が報告されていないか検索し、該当する対応方法がないか確認することも推奨されます。
+Atlassian の公式[ドキュメント](/glossary/ドキュメント/)（https://support.atlassian.com/bitbucket-cloud/）でも関連する既知の問題が報告されていないか検索し、該当する対応方法がないか確認することも推奨されます。
 
 ---
 

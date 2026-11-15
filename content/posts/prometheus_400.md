@@ -154,7 +154,7 @@ Prometheus の[アクセスログ](/glossary/アクセスログ/)を[確認](/gl
 
 出力される[ログ](/glossary/ログ/)に `msg="HTTP request received"` というエントリが記録され、受け取ったクエリパラメータや[ヘッダー](/glossary/ヘッダー/)が表示されます。
 
-PromQL の複雑な式については、Prometheus 公式ドキュメント「[PromQL Examples](https://prometheus.io/docs/prometheus/latest/querying/examples/)」を参照し、標準的なクエリパターンとの比較も有効です。[GitHub](/glossary/github/) の Prometheus [リポジトリ](/glossary/リポジトリ/)でも、過去のイシューから類似した 400 [エラー](/glossary/エラー/)の事例が報告されているため、[検索](/glossary/検索/)して参考にすることもできます。
+PromQL の複雑な式については、Prometheus 公式[ドキュメント](/glossary/ドキュメント/)「[PromQL Examples](https://prometheus.io/docs/prometheus/latest/querying/examples/)」を参照し、標準的なクエリパターンとの比較も有効です。[GitHub](/glossary/github/) の Prometheus [リポジトリ](/glossary/リポジトリ/)でも、過去のイシューから類似した 400 [エラー](/glossary/エラー/)の事例が報告されているため、[検索](/glossary/検索/)して参考にすることもできます。
 
 curl で[リクエスト](/glossary/リクエスト/)を[デバッグ](/glossary/デバッグ/)する場合は、`-v` フラグを付けることで [HTTP](/glossary/http/) [ヘッダー](/glossary/ヘッダー/)とレスポンスボディの全容を[確認](/glossary/確認/)できます。
 

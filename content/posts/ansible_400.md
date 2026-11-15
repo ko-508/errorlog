@@ -118,7 +118,7 @@ Ansibleの400[エラー](/glossary/エラー/)は複合的な要因が絡むた�
 
 `ansible-playbook --syntax-check`[コマンド](/glossary/コマンド/)は基本的な[YAML](/glossary/yaml/)構文[エラー](/glossary/エラー/)を検出しますが、[パラメータ](/glossary/パラメータ/)の有効性までは検証しません。そのため、構文チェックを[パス](/glossary/パス/)しても400[エラー](/glossary/エラー/)が実行時に発生することがあります。
 
-また、`ansible-doc`[コマンド](/glossary/コマンド/)で[モジュール](/glossary/モジュール/)のドキュメントを参照する際は、現在のAnsible[バージョン](/glossary/バージョン/)に[対応](/glossary/対応/)するドキュメントが表示される点に注意してください。異なる[バージョン](/glossary/バージョン/)間で[パラメータ](/glossary/パラメータ/)が変わっている場合は、対象ノードのAnsible[バージョン](/glossary/バージョン/)と合わせる必要があります。
+また、`ansible-doc`[コマンド](/glossary/コマンド/)で[モジュール](/glossary/モジュール/)の[ドキュメント](/glossary/ドキュメント/)を参照する際は、現在のAnsible[バージョン](/glossary/バージョン/)に[対応](/glossary/対応/)する[ドキュメント](/glossary/ドキュメント/)が表示される点に注意してください。異なる[バージョン](/glossary/バージョン/)間で[パラメータ](/glossary/パラメータ/)が変わっている場合は、対象ノードのAnsible[バージョン](/glossary/バージョン/)と合わせる必要があります。
 
 リモートノードとコントロールノード（Playbook実行マシン）のAnsible[バージョン](/glossary/バージョン/)が異なる場合、[モジュール](/glossary/モジュール/)の互換性問題が発生しやすいです。特に`ansible.builtin`以外のコレクションモジュール（`community.*`や`ansible.windows`など）を使用する場合は、[インストール](/glossary/インストール/)済みコレクションの[バージョン](/glossary/バージョン/)もPlaybookの[パラメータ](/glossary/パラメータ/)指定に影響します。
 
@@ -159,7 +159,7 @@ ansible-playbook site.yml -vvv
 
 **5. 公式[リソース](/glossary/リソース/)を参照する：**
 
-Ansibleの公式ドキュメント（https://docs.ansible.com/）でモジュール仕様を確認し、お使いのAnsibleバージョンに対応したパラメータを確認してください。特にモジュールの`DEPRECATED`セクションを確認し、非推奨になったパラメータがないか確認します。
+Ansibleの公式[ドキュメント](/glossary/ドキュメント/)（https://docs.ansible.com/）でモジュール仕様を確認し、お使いのAnsibleバージョンに対応したパラメータを確認してください。特にモジュールの`DEPRECATED`セクションを確認し、非推奨になったパラメータがないか確認します。
 
 ---
 

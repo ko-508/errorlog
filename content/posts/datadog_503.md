@@ -230,7 +230,7 @@ sudo journalctl -u datadog-agent -f
 
 [ログ](/glossary/ログ/)に `Connection refused`、`Name or service not known`、`403 Forbidden` などが表示される場合は、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)または[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)を再度確認してください。
 
-[ファイアウォール](/glossary/ファイアウォール/)側で Datadog への[通信](/glossary/通信/)が遮断されている可能性もあります。以下の IP レンジと [ポート](/glossary/ポート/)443 への外向き[通信](/glossary/通信/)が許可されているか、ネットワークチーム経由で[確認](/glossary/確認/)してください。Datadog の公式ドキュメント（https://docs.datadoghq.com/ja/agent/guide/network/）に許可すべき IP レンジと ホスト名が記載されています。
+[ファイアウォール](/glossary/ファイアウォール/)側で Datadog への[通信](/glossary/通信/)が遮断されている可能性もあります。以下の IP レンジと [ポート](/glossary/ポート/)443 への外向き[通信](/glossary/通信/)が許可されているか、ネットワークチーム経由で[確認](/glossary/確認/)してください。Datadog の公式[ドキュメント](/glossary/ドキュメント/)（https://docs.datadoghq.com/ja/agent/guide/network/）に許可すべき IP レンジと ホスト名が記載されています。
 
 ## 代替ツールの検討
 
@@ -244,7 +244,7 @@ sudo journalctl -u datadog-agent -f
 
 ## Editor's Note
 
-Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を[確認](/glossary/確認/)すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式ドキュメントではステータスページ[確認](/glossary/確認/)が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
+Datadog の 503 [エラー](/glossary/エラー/)について、[GitHub](/glossary/github/) の報告を[確認](/glossary/確認/)すると、Datadog エージェント側の実装に関する問題と、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)の問題が大部分を占めています。[kumahq/kuma#11632](https://github.com/kumahq/kuma/issues/11632) では、[プロキシ](/glossary/プロキシ/)経由での通信時に[コネクション](/glossary/コネクション/)が適切に[リセット](/glossary/リセット/)されず、503 が継続的に返されるケースが報告されています。一方、[DataDog/datadog-agent#5418](https://github.com/DataDog/datadog-agent/issues/5418) では、[DNS](/glossary/dns/) 解決の失敗と Datadog [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)の[タイムアウト](/glossary/タイムアウト/)が原因になる事例が多く挙げられています。公式[ドキュメント](/glossary/ドキュメント/)ではステータスページ[確認](/glossary/確認/)が推奨されていますが、現場では [API](/glossary/api/) [キー](/glossary/キー/)の有効性確認と[ネットワーク](/glossary/ネットワーク/)到達性[テスト](/glossary/テスト/)を最初に実施するのが有効です。
 
 > **調査について**　この記事の解決策は、[GitHub](/glossary/github/) Issues への公開報告を Gemini + Google Search で[検索](/glossary/検索/)・精査し、実効性の高いものを整理したものです。参照元の [URL](/glossary/url/) は Editor's Note に記載しています。
 

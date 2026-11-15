@@ -192,7 +192,7 @@ minikube start
 
 **3. [Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)[互換性](/glossary/互換性/)による不安定性**
 
-Minikubeがサポート外の古い[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)で動作している場合や、[プラグイン](/glossary/プラグイン/)が古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)に依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
+Minikubeが[サポート](/glossary/サポート/)外の古い[Kubernetes](/glossary/kubernetes/)[バージョン](/glossary/バージョン/)で動作している場合や、[プラグイン](/glossary/プラグイン/)が古い[API](/glossary/api/)[バージョン](/glossary/バージョン/)に依存している場合、500[エラー](/glossary/エラー/)が頻発することがあります。
 
 ```bash
 # Minikube および Kubernetes バージョン確認
@@ -234,10 +234,10 @@ rm -rf ~/.minikube
 minikube start --vm-driver=<ドライバ名>
 ```
 
-**3. 公式ドキュメントとコミュニティリソース**
+**3. 公式[ドキュメント](/glossary/ドキュメント/)とコミュニティリソース**
 
 - Minikube 公式トラブルシューティング: https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/
-- [Kubernetes](/glossary/kubernetes/) 公式ドキュメント - [API](/glossary/api/)[サーバー](/glossary/サーバー/): https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
+- [Kubernetes](/glossary/kubernetes/) 公式[ドキュメント](/glossary/ドキュメント/) - [API](/glossary/api/)[サーバー](/glossary/サーバー/): https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/
 - [GitHub](/glossary/github/) Issues（Minikube）: https://github.com/kubernetes/minikube/issues
 - [Kubernetes](/glossary/kubernetes/) Slack コミュニティ（#minikube チャネル）
 

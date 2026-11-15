@@ -218,14 +218,14 @@ sudo journalctl -u jenkins -f
 
 **Java[バージョン](/glossary/バージョン/)の[確認](/glossary/確認/)：**
 
-[プラグイン](/glossary/プラグイン/)がサポートしていないJava[バージョン](/glossary/バージョン/)が使用されている場合も500[エラー](/glossary/エラー/)になります。
+[プラグイン](/glossary/プラグイン/)が[サポート](/glossary/サポート/)していないJava[バージョン](/glossary/バージョン/)が使用されている場合も500[エラー](/glossary/エラー/)になります。
 
 ```bash
 java -version
 # Jenkins 2.426以降はJava 11以上が必須
 ```
 
-公式ドキュメント（https://www.jenkins.io/doc/book/system-administration/troubleshooting/）にて、より詳細なトラブルシューティングが提供されています。プラグイン固有の問題であれば、プラグインのGitHubページやJiraで既知の不具合がないか確認してください。
+公式[ドキュメント](/glossary/ドキュメント/)（https://www.jenkins.io/doc/book/system-administration/troubleshooting/）にて、より詳細なトラブルシューティングが提供されています。プラグイン固有の問題であれば、プラグインのGitHubページやJiraで既知の不具合がないか確認してください。
 
 ---
 

@@ -214,7 +214,7 @@ API_KEY=your-test-api-key
 
 ### Node.js ランタイムのバージョン確認
 
-Vercel でサポートされる Node.js [バージョン](/glossary/バージョン/)と[プロジェクト](/glossary/プロジェクト/)の `package.json` に記載された[バージョン](/glossary/バージョン/)が異なる場合、[互換性](/glossary/互換性/)の問題が発生することがあります。以下で[確認](/glossary/確認/)・指定してください：
+Vercel で[サポート](/glossary/サポート/)される Node.js [バージョン](/glossary/バージョン/)と[プロジェクト](/glossary/プロジェクト/)の `package.json` に記載された[バージョン](/glossary/バージョン/)が異なる場合、[互換性](/glossary/互換性/)の問題が発生することがあります。以下で[確認](/glossary/確認/)・指定してください：
 
 ```json
 {
@@ -258,7 +258,7 @@ export default async function handler(req, res) {
 
 ### 公式リソース
 
-以下の公式ドキュメントを参照して、より詳しい設定方法を[確認](/glossary/確認/)してください：
+以下の公式[ドキュメント](/glossary/ドキュメント/)を参照して、より詳しい設定方法を[確認](/glossary/確認/)してください：
 
 - [Vercel Functions Documentation](https://vercel.com/docs/functions)
 - [Debugging in Vercel](https://vercel.com/docs/concepts/deployments/logs)

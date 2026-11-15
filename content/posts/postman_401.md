@@ -78,7 +78,7 @@ Add to: Header
 
 1. Postmanのリクエストタブを開き、「Authorization」タブをクリック
 2. 「Type」ドロップダウンで適切な[認証](/glossary/認証/)タイプを選択（Bearer Token、[API](/glossary/api/) Key、Basic Auth など）
-3. [API](/glossary/api/)ドキュメントに従い、正確な[トークン](/glossary/トークン/)または[キー](/glossary/キー/)を入力
+3. [API](/glossary/api/)[ドキュメント](/glossary/ドキュメント/)に従い、正確な[トークン](/glossary/トークン/)または[キー](/glossary/キー/)を入力
 4. 「Send」[ボタン](/glossary/ボタン/)で[リクエスト](/glossary/リクエスト/)を再送信
 
 ### 原因2：トークンの有効期限が切れている
@@ -193,8 +193,8 @@ Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value
 **ネットワークトラフィックを[確認](/glossary/確認/)**
 Postmanの[コンソール](/glossary/コンソール/)を開き（左下の「Console」[ボタン](/glossary/ボタン/)）、[送信](/glossary/送信/)されたリクエストヘッダーと、[API](/glossary/api/)[サーバー](/glossary/サーバー/)から返されたレスポンスヘッダーを[確認](/glossary/確認/)します。特に`Authorization`[ヘッダー](/glossary/ヘッダー/)が正しく[送信](/glossary/送信/)されているか、[レスポンス](/glossary/レスポンス/)に`WWW-Authenticate`[ヘッダー](/glossary/ヘッダー/)が含まれているかをチェック。
 
-**[API](/glossary/api/)ドキュメントを再確認**
-認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式ドキュメントで改めて[確認](/glossary/確認/)します。
+**[API](/glossary/api/)[ドキュメント](/glossary/ドキュメント/)を再確認**
+認証方式（Bearer Token、[API](/glossary/api/) Key、Basic Auth等）、[トークン](/glossary/トークン/)の取得方法、[トークン](/glossary/トークン/)に必要な[スコープ](/glossary/スコープ/)やパーミッション、ホスト名や[エンドポイント](/glossary/エンドポイント/)の[URL](/glossary/url/)形式が正確か、公式[ドキュメント](/glossary/ドキュメント/)で改めて[確認](/glossary/確認/)します。
 
 **[テスト](/glossary/テスト/)用[API](/glossary/api/)[キー](/glossary/キー/)を使用**
 [本番環境](/glossary/本番環境/)の[API](/glossary/api/)[キー](/glossary/キー/)ではなく、[テスト](/glossary/テスト/)用・開発用の[API](/glossary/api/)[キー](/glossary/キー/)が別途提供されている場合、それを使用して401が解消するか試してください。本番[キー](/glossary/キー/)に[権限](/glossary/権限/)がない可能性も考慮します。

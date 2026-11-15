@@ -233,7 +233,7 @@ vercel logs <your-domain>.vercel.app --follow
 vercel logs <deployment-id>
 ```
 
-**3. 公式ドキュメントとコミュニティ**
+**3. 公式[ドキュメント](/glossary/ドキュメント/)とコミュニティ**
 - [Vercel Docs - Troubleshooting](https://vercel.com/docs/troubleshooting)
 - [Vercel Community Discord](https://vercel.com/community)
 

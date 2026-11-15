@@ -253,7 +253,7 @@ except Exception as e:
 
 **Interactive ComponentsとSlash Commands**
 
-Slackアプリが`view.open`や`chat.postMessage`をInteractive Componentsの応答（3秒以内）として実行する場合、500[エラー](/glossary/エラー/)が返されると[ユーザー](/glossary/ユーザー/)には「Something went wrong」という汎用[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。これが[エラー](/glossary/エラー/)追跡を困難にします。
+Slack[アプリ](/glossary/アプリ/)が`view.open`や`chat.postMessage`をInteractive Componentsの応答（3秒以内）として実行する場合、500[エラー](/glossary/エラー/)が返されると[ユーザー](/glossary/ユーザー/)には「Something went wrong」という汎用[エラーメッセージ](/glossary/エラーメッセージ/)が表示されます。これが[エラー](/glossary/エラー/)追跡を困難にします。
 
 **[Webhook](/glossary/webhook/) [URL](/glossary/url/)の廃止と再認証**
 
@@ -263,7 +263,7 @@ Incoming [Webhook](/glossary/webhook/)やOutgoing [Webhook](/glossary/webhook/)�
 
 **[確認](/glossary/確認/)すべきポイント**
 
-1. Slack [API](/glossary/api/)ドキュメントの[エラーコード一覧](https://api.slack.com/methods/chat.postMessage#errors)で該当[エンドポイント](/glossary/エンドポイント/)の既知[エラー](/glossary/エラー/)を[確認](/glossary/確認/)してください。
+1. Slack [API](/glossary/api/)[ドキュメント](/glossary/ドキュメント/)の[エラーコード一覧](https://api.slack.com/methods/chat.postMessage#errors)で該当[エンドポイント](/glossary/エンドポイント/)の既知[エラー](/glossary/エラー/)を[確認](/glossary/確認/)してください。
 2. Slackアプリダッシュボードの「[API](/glossary/api/) Usage」タブで直近1時間のレート制限状況を[確認](/glossary/確認/)してください。赤色のバーが表示されている場合はスロットル状態です。
 3. `auth.test`[エンドポイント](/glossary/エンドポイント/)で[トークン](/glossary/トークン/)が有効か[確認](/glossary/確認/)してください。
 
@@ -287,7 +287,7 @@ curl -v -X POST https://slack.com/api/chat.postMessage \
 - [Slack Community Slack](https://slackcommunity.com/)：他[ユーザー](/glossary/ユーザー/)が同じ問題を報告していないか[検索](/glossary/検索/)
 - [GitHub](/glossary/github/) Issues（`slack-sdk`[リポジトリ](/glossary/リポジトリ/)）：[SDK](/glossary/sdk/)の既知[バグ](/glossary/バグ/)を[確認](/glossary/確認/)
 
-**Slackサポートへの問い合わせ**
+**Slack[サポート](/glossary/サポート/)への問い合わせ**
 
 有償のSlackプランを利用している場合、[公式サポート](https://slack.com/help/contact/support)に問い合わせる際は、以下の情報を含めてください：
 - [ワークスペース](/glossary/ワークスペース/)[ID](/glossary/id/)

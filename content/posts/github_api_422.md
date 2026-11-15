@@ -82,7 +82,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \
   -d '{"ref": "feature-x", "sha": "<コミットSHA>"}'
 ```
 
-**After（refs/heads/ を含む完全名で送る）：**
+**After（refs/heads/ を含む完全名で[送る](/glossary/送る/)）：**
 
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/git/refs \

@@ -172,7 +172,7 @@ curl -I "http://localhost:8080/job/MyBuildJob/api/json" \
 # 200が返ればジョブは存在、404なら存在しない
 ```
 
-**公式ドキュメント参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)参照：**
 
 - Jenkins [REST](/glossary/rest/) [API](/glossary/api/): https://www.jenkins.io/doc/book/using/remote-access-api/
 - ジョブの構成と[フォルダ](/glossary/フォルダ/): https://www.jenkins.io/doc/book/managing/organizing-jobs/

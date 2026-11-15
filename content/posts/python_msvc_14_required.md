@@ -30,7 +30,7 @@ setuptoolsが、CやC++の[コード](/glossary/コード/)を組み立てるた
 
 最後の[エラー](/glossary/エラー/)行だけでなく、その前にある[パッケージ](/glossary/パッケージ/)名を[確認](/glossary/確認/)してください。自分が指定した[パッケージ](/glossary/パッケージ/)ではなく、その依存先の組み立てが失敗していることもあります。
 
-実例として、[setuptoolsのIssue #4431](https://github.com/pypa/setuptools/issues/4431)では、[Windows](/glossary/windows/)上でpyvexを導入する過程でcffiのソース配布物が選ばれ、その処理中に同じMSVCの要求が出ています。報告時の[環境](/glossary/環境/)はPython 3.13の開発版とpip 24.1です。この報告だけで、現在の同じ[パッケージ](/glossary/パッケージ/)も必ず失敗するとは言えません。
+実例として、[setuptoolsのIssue #4431](https://github.com/pypa/setuptools/issues/4431)では、[Windows](/glossary/windows/)上でpyvexを導入する過程でcffiのソース配布物が選ばれ、その処理中に同じMSVCの要求が出ています。報告時の[環境](/glossary/環境/)はPython 3.13の[開発版](/glossary/開発版/)とpip 24.1です。この報告だけで、現在の同じ[パッケージ](/glossary/パッケージ/)も必ず失敗するとは言えません。
 
 実行に使うPythonの場所と版も記録します。以下は[Windows](/glossary/windows/)の[コマンドプロンプト](/glossary/コマンドプロンプト/)用です。
 

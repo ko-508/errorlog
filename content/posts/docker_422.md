@@ -105,7 +105,7 @@ docker push myregistry.example.com/myapp:v1.0.0
 
 ### 4. API リクエストのボディスキーマ不整合
 
-[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に POST [リクエスト](/glossary/リクエスト/)を送る際、必須[フィールド](/glossary/フィールド/)が欠落しているか、型が異なると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
+[Docker](/glossary/docker/) [API](/glossary/api/)（例：`/containers/create`）に [POST](/glossary/post/) [リクエスト](/glossary/リクエスト/)を[送る](/glossary/送る/)際、必須[フィールド](/glossary/フィールド/)が欠落しているか、型が異なると[バリデーション](/glossary/バリデーション/)失敗で 422 が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる例）：**
 ```bash
@@ -173,11 +173,11 @@ curl -v --unix-socket /var/run/docker.sock \
 
 ### 公式ドキュメント参照
 
-[Docker](/glossary/docker/) Compose [設定](/glossary/設定/)リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API [スキーマ](/glossary/スキーマ/)検証[エラー](/glossary/エラー/)の場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」ドキュメントの `POST /containers/create`セクションを参照します。
+[Docker](/glossary/docker/) Compose [設定](/glossary/設定/)リファレンス（https://docs.docker.com/compose/compose-file/）で、各フィールドの型と制約を確認してください。API [スキーマ](/glossary/スキーマ/)検証[エラー](/glossary/エラー/)の場合は「[Docker](/glossary/docker/) Engine [API](/glossary/api/)」[ドキュメント](/glossary/ドキュメント/)の `POST /containers/create`セクションを参照します。
 
 ### 環境別の確認ポイント
 
-- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)し、サポートされているイメージマニフェスト形式を検証します
+- **Private Registry 使用時**: [レジストリ](/glossary/レジストリ/)の [API](/glossary/api/)[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)し、[サポート](/glossary/サポート/)されているイメージマニフェスト形式を検証します
 - **[Kubernetes](/glossary/kubernetes/)経由での[デプロイ](/glossary/デプロイ/)**: `imagePullPolicy`[設定](/glossary/設定/)とイメージレジストリの [CORS](/glossary/cors/)[設定](/glossary/設定/)を[確認](/glossary/確認/)します
 - **[CI/CD](/glossary/ci-cd/)パイプライン**: [GitHub](/glossary/github/) Actions や GitLab CI のアーティファクトストレージ[設定](/glossary/設定/)を見直し、イメージダイジェストの計算[ロジック](/glossary/ロジック/)を[テスト](/glossary/テスト/)します
 

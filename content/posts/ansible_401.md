@@ -286,7 +286,7 @@ ssh ubuntu@192.168.1.10 'tail -50 /var/log/auth.log | grep -i "failed\|accepted"
 ssh ubuntu@192.168.1.10 'sudo journalctl -u sudo -n 20'
 ```
 
-**公式ドキュメント・サポート参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)・[サポート](/glossary/サポート/)参照：**
 - Ansible User Guide：https://docs.ansible.com/ansible/latest/user_guide/index.html
 - Privilege Escalation：https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_privilege_escalation.html
 - Vault：https://docs.ansible.com/ansible/latest/user_guide/vault.html

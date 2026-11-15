@@ -273,7 +273,7 @@ Stripe[ダッシュボード](/glossary/ダッシュボード/)（https://dashbo
 - 「Strong Customer Authentication」（https://stripe.com/docs/strong-customer-authentication）：3Dセキュア対応方法
 
 ### サポートへの問い合わせ
-特定のカード番号での継続的な拒否、またはテストカードでも再現する場合は、Stripe公式サポート（https://support.stripe.com）へ問い合わせてください。その際、Charge [ID](/glossary/id/)やPayment Intent [ID](/glossary/id/)を記載すれば、迅速な[対応](/glossary/対応/)が期待できます。
+特定のカード番号での継続的な拒否、またはテストカードでも再現する場合は、Stripe公式[サポート](/glossary/サポート/)（https://support.stripe.com）へ問い合わせてください。その際、Charge [ID](/glossary/id/)やPayment Intent [ID](/glossary/id/)を記載すれば、迅速な[対応](/glossary/対応/)が期待できます。
 
 ---
 

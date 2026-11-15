@@ -231,7 +231,7 @@ WHERE tablename = 'your_table_name';
 
 - [フロントエンド](/glossary/フロントエンド/)で使用している [API](/glossary/api/) [キー](/glossary/キー/)が本当に `anon キー` か `service_role キー` か再確認
 - `auth.uid()` の代わりに硬定値で[テスト](/glossary/テスト/)し、[ポリシー](/glossary/ポリシー/)評価自体は正常に機能しているか検証
-- 公式ドキュメント（https://supabase.com/docs/guides/auth/row-level-security）を参照し、最新のベストプラクティスを確認
+- 公式[ドキュメント](/glossary/ドキュメント/)（https://supabase.com/docs/guides/auth/row-level-security）を参照し、最新のベストプラクティスを確認
 
 ---
 

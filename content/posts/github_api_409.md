@@ -38,13 +38,13 @@ message の文言が、系統を見分ける最初の手がかりです。[Git](
 
 ## まず最初に：どの操作への409かで3つに分岐する
 
-[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/)（POST .../merges）や上流との[同期](/glossary/同期/)（POST .../merge-upstream）への409なら、[マージ](/glossary/マージ/)競合です（原因1）。pull request の[マージ](/glossary/マージ/)（PUT .../pulls/{n}/merge）への409は、[リクエスト](/glossary/リクエスト/)に sha を渡している場合に head の移動を検出したガードです（原因2）。[ファイル](/glossary/ファイル/)の作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)（PUT / DELETE .../contents/{path}）への409も、並行更新による sha の食い違いというガードです（原因2）。[コミット](/glossary/コミット/)一覧や [Git](/glossary/git/) [データベース](/glossary/データベース/)系（git/refs、git/commits、git/trees など）の取得・作成への409で、message が [Git](/glossary/git/) Repository is empty なら、[リポジトリ](/glossary/リポジトリ/)が空です（原因3）。
+[ブランチ](/glossary/ブランチ/)の[マージ](/glossary/マージ/)（[POST](/glossary/post/) .../merges）や上流との[同期](/glossary/同期/)（[POST](/glossary/post/) .../merge-upstream）への409なら、[マージ](/glossary/マージ/)競合です（原因1）。pull request の[マージ](/glossary/マージ/)（PUT .../pulls/{n}/merge）への409は、[リクエスト](/glossary/リクエスト/)に sha を渡している場合に head の移動を検出したガードです（原因2）。[ファイル](/glossary/ファイル/)の作成・[更新](/glossary/更新/)・[削除](/glossary/削除/)（PUT / DELETE .../contents/{path}）への409も、並行更新による sha の食い違いというガードです（原因2）。[コミット](/glossary/コミット/)一覧や [Git](/glossary/git/) [データベース](/glossary/データベース/)系（git/refs、git/commits、git/trees など）の取得・作成への409で、message が [Git](/glossary/git/) Repository is empty なら、[リポジトリ](/glossary/リポジトリ/)が空です（原因3）。
 
 ## よくある原因と解決手順
 
 ### 原因1：本当にマージ競合が起きている
 
-[ブランチ](/glossary/ブランチ/)同士を[マージ](/glossary/マージ/)する [API](/glossary/api/)（POST /repos/{owner}/{repo}/merges）は、公式定義のとおり、[マージ](/glossary/マージ/)競合があるときに409を返します。同じ定義には、すでに[マージ](/glossary/マージ/)済みなら 204、base や head が存在しなければ 404 と、結果ごとの割り当ても明記されています。フォークを上流に追随させる [API](/glossary/api/)（merge-upstream）も、競合で[同期](/glossary/同期/)できない場合は409です。
+[ブランチ](/glossary/ブランチ/)同士を[マージ](/glossary/マージ/)する [API](/glossary/api/)（[POST](/glossary/post/) /repos/{owner}/{repo}/merges）は、公式定義のとおり、[マージ](/glossary/マージ/)競合があるときに409を返します。同じ定義には、すでに[マージ](/glossary/マージ/)済みなら 204、base や head が存在しなければ 404 と、結果ごとの割り当ても明記されています。フォークを上流に追随させる [API](/glossary/api/)（merge-upstream）も、競合で[同期](/glossary/同期/)できない場合は409です。
 
 この系統の409に対して、[API](/glossary/api/) の再試行は意味を持ちません。競合の解決は [API](/glossary/api/) ではできず、作業コピーで行います。
 

@@ -235,7 +235,7 @@ curl -X POST 'https://<your-project-ref>.supabase.co/auth/v1/signup' \
 - [Supabase メール設定ガイド](https://supabase.com/docs/guides/auth/auth-smtp)
 - [Supabase GitHub Issues](https://github.com/supabase/supabase/issues)
 
-[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)や[API](/glossary/api/)[キー](/glossary/キー/)に関わる部分は、Supabaseサポートに直接問い合わせることも有効です。Dashboardの「Help」→「Support」から公式サポートチャネルにアクセスできます。
+[プロジェクト](/glossary/プロジェクト/)[設定](/glossary/設定/)や[API](/glossary/api/)[キー](/glossary/キー/)に関わる部分は、Supabase[サポート](/glossary/サポート/)に直接問い合わせることも有効です。Dashboardの「Help」→「Support」から公式サポートチャネルにアクセスできます。
 
 ---
 

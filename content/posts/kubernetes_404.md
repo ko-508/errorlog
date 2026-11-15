@@ -223,8 +223,8 @@ kubectl proxy
 # http://localhost:8001/ui にアクセス
 ```
 
-**公式ドキュメント：**
-[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を[確認](/glossary/確認/)してください。また「[RBAC](/glossary/rbac/) Authorization」ドキュメントで権限設定の詳細を参照してください。
+**公式[ドキュメント](/glossary/ドキュメント/)：**
+[Kubernetes](/glossary/kubernetes/)の公式リファレンス「[API](/glossary/api/) Resources」や「Accessing the [Kubernetes](/glossary/kubernetes/) [API](/glossary/api/)」のセクションで、各[API](/glossary/api/)[バージョン](/glossary/バージョン/)と利用可能な[エンドポイント](/glossary/エンドポイント/)を[確認](/glossary/確認/)してください。また「[RBAC](/glossary/rbac/) Authorization」[ドキュメント](/glossary/ドキュメント/)で権限設定の詳細を参照してください。
 
 **コミュニティリソース：**
 [Kubernetes](/glossary/kubernetes/) [GitHub](/glossary/github/)のIssuesセクション（`kubernetes/kubernetes`[リポジトリ](/glossary/リポジトリ/)）やStackOverflow、[Kubernetes](/glossary/kubernetes/) Slackコミュニティで類似事例を[検索](/glossary/検索/)することで、複雑な[設定](/glossary/設定/)ミスの解決策を見つけることができます。

@@ -272,7 +272,7 @@ $ kubectl apply -f deployment.yaml
 
 ### ドライバー設定の問題
 
-Minikubeは複数のドライバー（[Docker](/glossary/docker/)、VirtualBox、KVM等）をサポートしていますが、ドライバーの不具合や[設定](/glossary/設定/)ミスが503[エラー](/glossary/エラー/)を引き起こすことがあります。特に[Docker](/glossary/docker/) DesktopやPodman[互換性](/glossary/互換性/)の問題がある場合、クラスター全体が不安定になります。
+Minikubeは複数のドライバー（[Docker](/glossary/docker/)、VirtualBox、KVM等）を[サポート](/glossary/サポート/)していますが、ドライバーの不具合や[設定](/glossary/設定/)ミスが503[エラー](/glossary/エラー/)を引き起こすことがあります。特に[Docker](/glossary/docker/) DesktopやPodman[互換性](/glossary/互換性/)の問題がある場合、クラスター全体が不安定になります。
 
 ```bash
 # 現在のドライバーを確認

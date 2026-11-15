@@ -234,9 +234,9 @@ Datadog WebUI 上部の[検索](/glossary/検索/)バーから **Metrics > Explo
 
    [レスポンス](/glossary/レスポンス/)に `< HTTP/1.1 404 Not Found` と出力される場合、[リソース](/glossary/リソース/)が本当に存在しないことが確定します。
 
-3. **公式ドキュメント・サポートの[確認](/glossary/確認/)**
+3. **公式[ドキュメント](/glossary/ドキュメント/)・[サポート](/glossary/サポート/)の[確認](/glossary/確認/)**
 
-   Datadog 公式ドキュメント（[Monitors API](https://docs.datadoghq.com/api/latest/monitors/)、[Dashboards API](https://docs.datadoghq.com/api/latest/dashboards/)）を参照し、使用中の [API](/glossary/api/) [バージョン](/glossary/バージョン/)が非推奨になっていないか[確認](/glossary/確認/)してください。[API](/glossary/api/) のメジャーバージョンアップグレード後、旧[バージョン](/glossary/バージョン/)のエンドポ
+   Datadog 公式[ドキュメント](/glossary/ドキュメント/)（[Monitors API](https://docs.datadoghq.com/api/latest/monitors/)、[Dashboards API](https://docs.datadoghq.com/api/latest/dashboards/)）を参照し、使用中の [API](/glossary/api/) [バージョン](/glossary/バージョン/)が非推奨になっていないか[確認](/glossary/確認/)してください。[API](/glossary/api/) のメジャーバージョンアップグレード後、旧[バージョン](/glossary/バージョン/)のエンドポ
 
 ---
 

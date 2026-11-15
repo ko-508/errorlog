@@ -199,7 +199,7 @@ done
 
 **[API](/glossary/api/)呼び出し時の 503 [エラー](/glossary/エラー/)[対応](/glossary/対応/):**
 
-CircleCI [API](/glossary/api/)を直接呼び出す場合（[CI/CD](/glossary/ci-cd/)パイプラインからの[トリガー](/glossary/トリガー/)など）、503 [エラー](/glossary/エラー/)に[対応](/glossary/対応/)するリトライロジックを実装することが推奨されます。CircleCI公式[SDK](/glossary/sdk/)や[ライブラリ](/glossary/ライブラリ/)を使用している場合は、自動[リトライ](/glossary/リトライ/)機能が組み込まれている可能性があるため、ドキュメントを[確認](/glossary/確認/)してください。
+CircleCI [API](/glossary/api/)を直接呼び出す場合（[CI/CD](/glossary/ci-cd/)パイプラインからの[トリガー](/glossary/トリガー/)など）、503 [エラー](/glossary/エラー/)に[対応](/glossary/対応/)するリトライロジックを実装することが推奨されます。CircleCI公式[SDK](/glossary/sdk/)や[ライブラリ](/glossary/ライブラリ/)を使用している場合は、自動[リトライ](/glossary/リトライ/)機能が組み込まれている可能性があるため、[ドキュメント](/glossary/ドキュメント/)を[確認](/glossary/確認/)してください。
 
 ```bash
 # CircleCI CLIから直接実行する場合
@@ -233,9 +233,9 @@ CircleCI ダッシュボーク → Pipelines で、失敗したジョブの詳�
 
 Organization Settings → Security で、[セキュリティポリシー](/glossary/セキュリティポリシー/)やIP制限が[設定](/glossary/設定/)されていないか[確認](/glossary/確認/)してください。特に企業[ネットワーク](/glossary/ネットワーク/)を使用している場合、[ファイアウォール](/glossary/ファイアウォール/)[設定](/glossary/設定/)によってCircleCI [API](/glossary/api/)へのアクセスがブロックされている可能性があります。
 
-**[ステップ](/glossary/ステップ/)4：CircleCI公式サポートへの連絡**
+**[ステップ](/glossary/ステップ/)4：CircleCI公式[サポート](/glossary/サポート/)への連絡**
 
-上記の[確認](/glossary/確認/)を実施しても解決しない場合は、CircleCI の公式サポートに問い合わせてください。https://support.circleci.com からサポートチケットを作成できます。その際、以下の情報を含めてください：
+上記の[確認](/glossary/確認/)を実施しても解決しない場合は、CircleCI の公式[サポート](/glossary/サポート/)に問い合わせてください。https://support.circleci.com からサポートチケットを作成できます。その際、以下の情報を含めてください：
 
 - [エラー](/glossary/エラー/)が発生した日時
 - Project Slug（gh/org/repo 形式）

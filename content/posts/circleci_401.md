@@ -245,7 +245,7 @@ CircleCI [ダッシュボード](/glossary/ダッシュボード/) → Job Detai
 
 [CircleCI API v2 Reference](https://circleci.com/docs/api/v2/) で、使用している [API](/glossary/api/) [エンドポイント](/glossary/エンドポイント/)が該当トークンタイプで[対応](/glossary/対応/)しているか[確認](/glossary/確認/)します。Personal Token では呼べない[エンドポイント](/glossary/エンドポイント/)も存在します。
 
-**[ステップ](/glossary/ステップ/)4：CircleCI サポートへの問い合わせ**
+**[ステップ](/glossary/ステップ/)4：CircleCI [サポート](/glossary/サポート/)への問い合わせ**
 
 [トークン](/glossary/トークン/)生成時刻、ジョブ [ID](/glossary/id/)、[エラー](/glossary/エラー/)が発生した正確な時刻を記録した上で、CircleCI Support（support@circleci.com）に問い合わせます。[サーバー](/glossary/サーバー/)側の[トークン](/glossary/トークン/)失効・[ユーザーアカウント](/glossary/ユーザーアカウント/)問題の可能性があります。
 

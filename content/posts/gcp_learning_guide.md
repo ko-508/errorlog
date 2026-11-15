@@ -21,7 +21,7 @@ Google Cloudの[エラー](/glossary/エラー/)を[検索](/glossary/検索/)�
 
 Google Cloudの[エラー](/glossary/エラー/)の多くは、4つの境界のどこかで起きています。誰として呼んでいるかという境界、その[API](/glossary/api/)が[プロジェクト](/glossary/プロジェクト/)で有効になっているかという境界、何を許されているかという境界、そして[ネットワーク](/glossary/ネットワーク/)の到達性の境界です。[エラー](/glossary/エラー/)文はこの境界のどれで止まったかを示していますが、境界の存在を知らないと文言が読めません。
 
-他の[クラウド](/glossary/クラウド/)と比べたときの最大の違いは、2つ目です。Google Cloudでは、[権限](/glossary/権限/)があっても[API](/glossary/api/)が有効でなければ呼べません。公式ドキュメントは、ほとんどのGoogle [API](/glossary/api/)を使う前にGoogle Cloud[プロジェクト](/glossary/プロジェクト/)で有効化する必要があると明記しています（[Service Usage overview](https://cloud.google.com/service-usage/docs/overview)）。この段階を知らないと、[権限](/glossary/権限/)の[設定](/glossary/設定/)を延々と見直すことになります。
+他の[クラウド](/glossary/クラウド/)と比べたときの最大の違いは、2つ目です。Google Cloudでは、[権限](/glossary/権限/)があっても[API](/glossary/api/)が有効でなければ呼べません。公式[ドキュメント](/glossary/ドキュメント/)は、ほとんどのGoogle [API](/glossary/api/)を使う前にGoogle Cloud[プロジェクト](/glossary/プロジェクト/)で有効化する必要があると明記しています（[Service Usage overview](https://cloud.google.com/service-usage/docs/overview)）。この段階を知らないと、[権限](/glossary/権限/)の[設定](/glossary/設定/)を延々と見直すことになります。
 
 学ぶ順序は、認証情報と[プロジェクト](/glossary/プロジェクト/)、[API](/glossary/api/)の有効化、[IAM](/glossary/iam/)の評価順序、[サービスアカウント](/glossary/サービスアカウント/)、[ネットワーク](/glossary/ネットワーク/)の到達性、トラブルシューティングの6段階です。各段階には「次へ進む目安」を置きました。飛ばした段階は、後の段階の[エラー](/glossary/エラー/)として別の顔で現れます。
 
@@ -60,9 +60,9 @@ gcloud config list
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：`gcloud` では通るのに[コード](/glossary/コード/)では拒否される、という症状の大半はここです。
 
-**最低限覚える概念**：[アプリケーション](/glossary/アプリケーション/)の[デフォルト](/glossary/デフォルト/)認証情報（ADC）は、[認証](/glossary/認証/)[ライブラリ](/glossary/ライブラリ/)が実行環境に応じて自動的に認証情報を探す仕組みです。公式ドキュメントによれば、ADCは次の場所を順に探します。`GOOGLE_APPLICATION_CREDENTIALS` [環境変数](/glossary/環境変数/)、`gcloud auth application-default login` [コマンド](/glossary/コマンド/)で作られた認証情報[ファイル](/glossary/ファイル/)、そしてメタデータサーバーが返す接続済みの[サービスアカウント](/glossary/サービスアカウント/)です（[How Application Default Credentials works](https://cloud.google.com/docs/authentication/application-default-credentials)）。
+**最低限覚える概念**：[アプリケーション](/glossary/アプリケーション/)の[デフォルト](/glossary/デフォルト/)認証情報（ADC）は、[認証](/glossary/認証/)[ライブラリ](/glossary/ライブラリ/)が実行環境に応じて自動的に認証情報を探す仕組みです。公式[ドキュメント](/glossary/ドキュメント/)によれば、ADCは次の場所を順に探します。`GOOGLE_APPLICATION_CREDENTIALS` [環境変数](/glossary/環境変数/)、`gcloud auth application-default login` [コマンド](/glossary/コマンド/)で作られた認証情報[ファイル](/glossary/ファイル/)、そしてメタデータサーバーが返す接続済みの[サービスアカウント](/glossary/サービスアカウント/)です（[How Application Default Credentials works](https://cloud.google.com/docs/authentication/application-default-credentials)）。
 
-ここに重要な注意があります。公式ドキュメントは、gcloud [CLI](/glossary/cli/)自体はGoogle Cloudの資源へアクセスするためにADCを使わないと明記しています（[Set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)）。つまり `gcloud auth login` で入れた認証情報と、[ライブラリ](/glossary/ライブラリ/)が使う認証情報は別管理です。
+ここに重要な注意があります。公式[ドキュメント](/glossary/ドキュメント/)は、gcloud [CLI](/glossary/cli/)自体はGoogle Cloudの資源へアクセスするためにADCを使わないと明記しています（[Set up Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)）。つまり `gcloud auth login` で入れた認証情報と、[ライブラリ](/glossary/ライブラリ/)が使う認証情報は別管理です。
 
 この2つを混同すると、手元では `gcloud` が動くのに[コード](/glossary/コード/)だけ[認証](/glossary/認証/)[エラー](/glossary/エラー/)になる、という状況が生まれます。[コード](/glossary/コード/)を動かすなら `gcloud auth application-default login` が必要です。
 
@@ -99,11 +99,11 @@ env | grep -i "GOOGLE_"
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：この段階はGoogle Cloud固有で、他の[クラウド](/glossary/クラウド/)から来た人が最初につまずく場所です。[権限](/glossary/権限/)を疑って時間を使う前に、まずここを見ます。
 
-**最低限覚える概念**：公式ドキュメントによれば、ほとんどのGoogle [API](/glossary/api/)は使う前にGoogle Cloud[プロジェクト](/glossary/プロジェクト/)で有効化する必要があります。一部の[API](/glossary/api/)とサービスは[プロジェクト](/glossary/プロジェクト/)作成時に既定で有効になり、他のものは[コンソール](/glossary/コンソール/)で使用したときに自動で有効になります（[Service Usage overview](https://cloud.google.com/service-usage/docs/overview)）。
+**最低限覚える概念**：公式[ドキュメント](/glossary/ドキュメント/)によれば、ほとんどのGoogle [API](/glossary/api/)は使う前にGoogle Cloud[プロジェクト](/glossary/プロジェクト/)で有効化する必要があります。一部の[API](/glossary/api/)とサービスは[プロジェクト](/glossary/プロジェクト/)作成時に既定で有効になり、他のものは[コンソール](/glossary/コンソール/)で使用したときに自動で有効になります（[Service Usage overview](https://cloud.google.com/service-usage/docs/overview)）。
 
-有効化そのものにも[権限](/glossary/権限/)が要ります。公式ドキュメントは、[API](/glossary/api/)を有効化するには対象[プロジェクト](/glossary/プロジェクト/)に対する `serviceusage.services.enable` [権限](/glossary/権限/)が必要だと述べています（[Cloud APIs getting started](https://cloud.google.com/apis/docs/getting-started)）。したがって「[API](/glossary/api/)を有効にすればよい」と分かっても、自分にその[権限](/glossary/権限/)が無ければ進めません。
+有効化そのものにも[権限](/glossary/権限/)が要ります。公式[ドキュメント](/glossary/ドキュメント/)は、[API](/glossary/api/)を有効化するには対象[プロジェクト](/glossary/プロジェクト/)に対する `serviceusage.services.enable` [権限](/glossary/権限/)が必要だと述べています（[Cloud APIs getting started](https://cloud.google.com/apis/docs/getting-started)）。したがって「[API](/glossary/api/)を有効にすればよい」と分かっても、自分にその[権限](/glossary/権限/)が無ければ進めません。
 
-無効化にも注意が要ります。公式ドキュメントは、サービスの[API](/glossary/api/)アクセスを無効にしても背後のデータは[削除](/glossary/削除/)されず、課金は続くと述べています。またGKEの[API](/glossary/api/)を無効にすると、その[プロジェクト](/glossary/プロジェクト/)で動いているクラスターが停止状態になり、30日後に[削除](/glossary/削除/)されるとも明記されています（[Enable and disable services](https://cloud.google.com/service-usage/docs/enable-disable)）。整理のつもりで無効化すると、取り返しがつかなくなります。
+無効化にも注意が要ります。公式[ドキュメント](/glossary/ドキュメント/)は、サービスの[API](/glossary/api/)アクセスを無効にしても背後のデータは[削除](/glossary/削除/)されず、課金は続くと述べています。またGKEの[API](/glossary/api/)を無効にすると、その[プロジェクト](/glossary/プロジェクト/)で動いているクラスターが停止状態になり、30日後に[削除](/glossary/削除/)されるとも明記されています（[Enable and disable services](https://cloud.google.com/service-usage/docs/enable-disable)）。整理のつもりで無効化すると、取り返しがつかなくなります。
 
 **実際に試す[コマンド](/glossary/コマンド/)**：
 
@@ -133,11 +133,11 @@ gcloud services enable pubsub.googleapis.com
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：`PERMISSION_DENIED` は最も頻繁に見る[エラー](/glossary/エラー/)です。評価順序と階層を知らないと、役割を足しても通らない理由が分かりません。
 
-**最低限覚える概念**：公式ドキュメントによれば、[IAM](/glossary/iam/)はまず該当するプリンシパルアクセス境界[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)し、次に該当するすべての拒否[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)して、そのプリンシパルが[権限](/glossary/権限/)を拒否されていないかを見ます。拒否[ポリシー](/glossary/ポリシー/)が妨げていない場合にのみ、次の段階へ進んで許可[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)します（[IAM policy types](https://cloud.google.com/iam/docs/policy-types)）。つまり拒否が先に評価され、そこで止まれば許可は見られません。
+**最低限覚える概念**：公式[ドキュメント](/glossary/ドキュメント/)によれば、[IAM](/glossary/iam/)はまず該当するプリンシパルアクセス境界[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)し、次に該当するすべての拒否[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)して、そのプリンシパルが[権限](/glossary/権限/)を拒否されていないかを見ます。拒否[ポリシー](/glossary/ポリシー/)が妨げていない場合にのみ、次の段階へ進んで許可[ポリシー](/glossary/ポリシー/)を[確認](/glossary/確認/)します（[IAM policy types](https://cloud.google.com/iam/docs/policy-types)）。つまり拒否が先に評価され、そこで止まれば許可は見られません。
 
-階層の引き継ぎも押さえてください。公式ドキュメントは、資源が親の許可[ポリシー](/glossary/ポリシー/)を継承すること、そしてある資源に対する実効的な許可[ポリシー](/glossary/ポリシー/)が、その資源に[設定](/glossary/設定/)された許可[ポリシー](/glossary/ポリシー/)と親から継承した許可[ポリシー](/glossary/ポリシー/)の和集合であることを明記しています（[Using resource hierarchy for access control](https://cloud.google.com/iam/docs/resource-hierarchy-access-control)）。
+階層の引き継ぎも押さえてください。公式[ドキュメント](/glossary/ドキュメント/)は、資源が親の許可[ポリシー](/glossary/ポリシー/)を継承すること、そしてある資源に対する実効的な許可[ポリシー](/glossary/ポリシー/)が、その資源に[設定](/glossary/設定/)された許可[ポリシー](/glossary/ポリシー/)と親から継承した許可[ポリシー](/glossary/ポリシー/)の和集合であることを明記しています（[Using resource hierarchy for access control](https://cloud.google.com/iam/docs/resource-hierarchy-access-control)）。
 
-拒否[ポリシー](/glossary/ポリシー/)も同じく階層を通じて継承されます。公式ドキュメントによれば、組織の拒否[ポリシー](/glossary/ポリシー/)がある[権限](/glossary/権限/)を使えないと定めれば、その組織内のどの資源に対してもその[権限](/glossary/権限/)は使えません。これは配下の[フォルダ](/glossary/フォルダ/)や[プロジェクト](/glossary/プロジェクト/)がより緩やかな拒否[ポリシー](/glossary/ポリシー/)を持っていても適用されます（[Deny policies](https://cloud.google.com/iam/docs/deny-overview)）。
+拒否[ポリシー](/glossary/ポリシー/)も同じく階層を通じて継承されます。公式[ドキュメント](/glossary/ドキュメント/)によれば、組織の拒否[ポリシー](/glossary/ポリシー/)がある[権限](/glossary/権限/)を使えないと定めれば、その組織内のどの資源に対してもその[権限](/glossary/権限/)は使えません。これは配下の[フォルダ](/glossary/フォルダ/)や[プロジェクト](/glossary/プロジェクト/)がより緩やかな拒否[ポリシー](/glossary/ポリシー/)を持っていても適用されます（[Deny policies](https://cloud.google.com/iam/docs/deny-overview)）。
 
 ここから2つのことが言えます。[プロジェクト](/glossary/プロジェクト/)で役割を付けても、上位に拒否があれば通りません。逆に、[プロジェクト](/glossary/プロジェクト/)で役割を外しても、上位で付与されていれば通ります。
 
@@ -213,9 +213,9 @@ gcloud iam service-accounts get-iam-policy <サービスアカウントのメー
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：「繋がらない」という症状は、[権限](/glossary/権限/)の[エラー](/glossary/エラー/)と違って明示的なメッセージが出ないまま時間切れになります。既定を知らないと、どこから見ればよいか決まりません。
 
-**最低限覚える概念**：[VPC](/glossary/vpc/)には[削除](/glossary/削除/)できない暗黙の規則があります。公式ドキュメントによれば、受信方向の暗黙の動作は拒否で、送信方向の暗黙の動作は許可です（[Evaluation order for firewall policies and rules](https://cloud.google.com/firewall/docs/firewall-policies-rule-eval-order)）。つまり外から入る[通信](/glossary/通信/)は明示的に許可しない限り届かず、中から出る[通信](/glossary/通信/)は明示的に拒否しない限り通ります。
+**最低限覚える概念**：[VPC](/glossary/vpc/)には[削除](/glossary/削除/)できない暗黙の規則があります。公式[ドキュメント](/glossary/ドキュメント/)によれば、受信方向の暗黙の動作は拒否で、送信方向の暗黙の動作は許可です（[Evaluation order for firewall policies and rules](https://cloud.google.com/firewall/docs/firewall-policies-rule-eval-order)）。つまり外から入る[通信](/glossary/通信/)は明示的に許可しない限り届かず、中から出る[通信](/glossary/通信/)は明示的に拒否しない限り通ります。
 
-そして状態の扱いです。公式ドキュメントは、あるVMが送った[通信](/glossary/通信/)に対する応答が許可される理由として、[ファイアウォール](/glossary/ファイアウォール/)規則が状態を持つためだと説明しています（[VPC firewall rules](https://cloud.google.com/firewall/docs/firewalls)）。したがって、接続を開始する向きにだけ規則を書けば、戻りの[通信](/glossary/通信/)は自動的に通ります。
+そして状態の扱いです。公式[ドキュメント](/glossary/ドキュメント/)は、あるVMが送った[通信](/glossary/通信/)に対する応答が許可される理由として、[ファイアウォール](/glossary/ファイアウォール/)規則が状態を持つためだと説明しています（[VPC firewall rules](https://cloud.google.com/firewall/docs/firewalls)）。したがって、接続を開始する向きにだけ規則を書けば、戻りの[通信](/glossary/通信/)は自動的に通ります。
 
 優先順位も押さえてください。数値が小さいほど優先度が高く、同じ優先度で動作が異なる規則が両方一致した場合は拒否が適用されます。
 
@@ -298,15 +298,15 @@ gcloud services list --enabled --log-http 2> gcloud-debug.log
 
 ## 独学と動画講座の使い分け
 
-ここまでの6段階は、公式ドキュメントと手元の[プロジェクト](/glossary/プロジェクト/)だけでも進められます。実際、この記事で参照した[仕様](/glossary/仕様/)はすべて公式ドキュメントに書かれています。
+ここまでの6段階は、公式[ドキュメント](/glossary/ドキュメント/)と手元の[プロジェクト](/glossary/プロジェクト/)だけでも進められます。実際、この記事で参照した[仕様](/glossary/仕様/)はすべて公式[ドキュメント](/glossary/ドキュメント/)に書かれています。
 
-独学が向いているのは、目的が明確な場合です。特定の[エラー](/glossary/エラー/)を直す、特定の[API](/glossary/api/)の[引数](/glossary/引数/)を[確認](/glossary/確認/)する、といった作業は、公式ドキュメントを直接読むのが最短です。
+独学が向いているのは、目的が明確な場合です。特定の[エラー](/glossary/エラー/)を直す、特定の[API](/glossary/api/)の[引数](/glossary/引数/)を[確認](/glossary/確認/)する、といった作業は、公式[ドキュメント](/glossary/ドキュメント/)を直接読むのが最短です。
 
 一方でGoogle Cloudは、独学の初期に迷いやすい構造をしています。サービスの数が多いうえ、[認証](/glossary/認証/)、有効化、[権限](/glossary/権限/)という3つの関門が独立しているため、どれが原因かを切り分ける経験が要ります。加えて、手を動かして確かめると費用が発生します。
 
 動画講座は、学ぶ順序と演習用の構成がまとまっている点が違います。何をどこまで作って[確認](/glossary/確認/)するかが決まっていれば、消し忘れも減らせます。反面、自分に必要な部分だけを選んで進めるのは難しくなります。
 
-どちらが適しているかは、いま何に時間を取られているかで決まります。[仕様](/glossary/仕様/)が分からなくて止まっているなら公式ドキュメント、何から手を付けるか決められなくて止まっているなら講座、という切り分けが実際的です。
+どちらが適しているかは、いま何に時間を取られているかで決まります。[仕様](/glossary/仕様/)が分からなくて止まっているなら公式[ドキュメント](/glossary/ドキュメント/)、何から手を付けるか決められなくて止まっているなら講座、という切り分けが実際的です。
 
 ## 学習後に自力で確認できるようにしたいこと
 
@@ -324,7 +324,7 @@ Google Cloudの[エラー](/glossary/エラー/)が繰り返し起きるのは�
 
 学ぶ順序は、認証情報と[プロジェクト](/glossary/プロジェクト/)、[API](/glossary/api/)の有効化、[IAM](/glossary/iam/)の評価順序、[サービスアカウント](/glossary/サービスアカウント/)、[ネットワーク](/glossary/ネットワーク/)の到達性、トラブルシューティングです。それぞれに「次へ進む目安」を置いたのは、飛ばした段階が後から別の顔で現れるからです。
 
-公式ドキュメントは[仕様](/glossary/仕様/)の確認先として最も確実です。一方で、学ぶ順序や演習用の[環境](/glossary/環境/)を自分で組み立てる負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
+公式[ドキュメント](/glossary/ドキュメント/)は[仕様](/glossary/仕様/)の確認先として最も確実です。一方で、学ぶ順序や演習用の[環境](/glossary/環境/)を自分で組み立てる負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
 
 [Google Cloudを体系的に学べるUdemy講座を確認する（PR）](https://trk.udemy.com/1GVjKg)
 
@@ -345,4 +345,4 @@ Google Cloudの[エラー](/glossary/エラー/)が繰り返し起きるのは�
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)や講座の内容、価格、提供条件は予告なく変更されることがあります。最新の情報はGoogle Cloud公式ドキュメントおよびリンク先の講座ページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)や講座の内容、価格、提供条件は予告なく変更されることがあります。最新の情報はGoogle Cloud公式[ドキュメント](/glossary/ドキュメント/)およびリンク先の講座ページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

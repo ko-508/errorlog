@@ -35,7 +35,7 @@ top_queries:
 }
 ```
 
-message 内のバッククォートで囲まれた文字列は、その[リクエスト](/glossary/リクエスト/)を特定するための参照 [ID](/glossary/id/) です。[GitHub](/glossary/github/) サポートやコミュニティへ報告する際に必要になるため、502が続く場合は控えておきます。文言にあるとおり、この応答は時間切れ（timeout）の可能性を [GitHub](/glossary/github/) 自身が示しています。なお、[ブラウザ](/glossary/ブラウザ/)の [GitHub](/glossary/github/) 上で同種の問題が起きた場合は「We couldn't respond to your request in time.」という表示になり、これも「時間内に応答できなかった」という同じ状態を指します。
+message 内のバッククォートで囲まれた文字列は、その[リクエスト](/glossary/リクエスト/)を特定するための参照 [ID](/glossary/id/) です。[GitHub](/glossary/github/) [サポート](/glossary/サポート/)やコミュニティへ報告する際に必要になるため、502が続く場合は控えておきます。文言にあるとおり、この応答は時間切れ（timeout）の可能性を [GitHub](/glossary/github/) 自身が示しています。なお、[ブラウザ](/glossary/ブラウザ/)の [GitHub](/glossary/github/) 上で同種の問題が起きた場合は「We couldn't respond to your request in time.」という表示になり、これも「時間内に応答できなかった」という同じ状態を指します。
 
 ## まず最初に：稼働状況と操作の重さを確認する
 
@@ -106,7 +106,7 @@ query ($cursor: String) {
 1. 応答の[コード](/glossary/コード/)を[確認](/glossary/確認/)する。401・403・429・404なら、それぞれの記事の調査に切り替える。
 2. 稼働状況ページを[確認](/glossary/確認/)する。インシデント中なら[復旧](/glossary/復旧/)を待って再試行する（原因1）。書き込み系の再試行は、二重実行の[確認](/glossary/確認/)を先に行う。
 3. 操作の重さを[確認](/glossary/確認/)する。取得件数や本文を小さくして通るなら時間切れであり、分割・縮小で恒久対処する（原因2）。
-4. どちらにも該当せず502が続く場合は、応答本文の参照 [ID](/glossary/id/) を控え、[GitHub](/glossary/github/) のコミュニティまたはサポートに報告する。
+4. どちらにも該当せず502が続く場合は、応答本文の参照 [ID](/glossary/id/) を控え、[GitHub](/glossary/github/) のコミュニティまたは[サポート](/glossary/サポート/)に報告する。
 
 ## 確認コマンド集
 
@@ -131,7 +131,7 @@ curl -s -H "Authorization: Bearer <your-github-token>" \
 
 ## Editor's Note
 
-原因2の実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[Something went wrong while executing your query](https://github.com/orgs/community/discussions/24631)）。アプリの[リリース](/glossary/リリース/)作業を[自動化](/glossary/自動化/)する[ワークフロー](/glossary/ワークフロー/)の中で、[マージ](/glossary/マージ/)された全 pull request のコミットハッシュ一覧を本文に含む議論スレッドを [GraphQL](/glossary/graphql/) の mutation で作成しようとしたところ、時間切れを示す例の502応答が返り続けたという報告です。他の参加者からは、複雑で大量のデータを扱う[クエリ](/glossary/クエリ/)で同じ問題を経験しており、量を減らしてページングで分割するのが対処だという助言が寄せられ、報告者自身も最終的に、本文が大きすぎて時間内に応答できなかったのが原因であり、[リクエスト](/glossary/リクエスト/)を分割する必要があると結論づけています。なお報告者は制限時間を10秒と述べていますが、これは報告者側の観測に基づく値であり、公式文書に明記された数値ではない点に注意してください。
+原因2の実例として、[GitHub](/glossary/github/) 公式コミュニティの議論があります（[Something went wrong while executing your query](https://github.com/orgs/community/discussions/24631)）。[アプリ](/glossary/アプリ/)の[リリース](/glossary/リリース/)作業を[自動化](/glossary/自動化/)する[ワークフロー](/glossary/ワークフロー/)の中で、[マージ](/glossary/マージ/)された全 pull request のコミットハッシュ一覧を本文に含む議論スレッドを [GraphQL](/glossary/graphql/) の mutation で作成しようとしたところ、時間切れを示す例の502応答が返り続けたという報告です。他の参加者からは、複雑で大量のデータを扱う[クエリ](/glossary/クエリ/)で同じ問題を経験しており、量を減らしてページングで分割するのが対処だという助言が寄せられ、報告者自身も最終的に、本文が大きすぎて時間内に応答できなかったのが原因であり、[リクエスト](/glossary/リクエスト/)を分割する必要があると結論づけています。なお報告者は制限時間を10秒と述べていますが、これは報告者側の観測に基づく値であり、公式文書に明記された数値ではない点に注意してください。
 
 502は「[GitHub](/glossary/github/) が応答を作れなかった」という結果だけを伝える[コード](/glossary/コード/)です。自分の[リクエスト](/glossary/リクエスト/)の綴りを疑う前に、稼働状況と要求の重さという2つの観点で切り分けることが確実な近道です。
 

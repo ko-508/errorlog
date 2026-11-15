@@ -39,11 +39,11 @@ trend_incident: false
 
 先に部品の関係を押さえます。ここを飛ばすと、後のすべての段階で判断がぶれます。
 
-[Docker](/glossary/docker/)は[クライアント](/glossary/クライアント/)と[サーバー](/glossary/サーバー/)に分かれています。公式ドキュメントによれば、`docker` [コマンド](/glossary/コマンド/)が[Docker](/glossary/docker/)[クライアント](/glossary/クライアント/)で、利用者が最もよく使う操作の入口です。実際の作業は[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)（`dockerd`）が行い、[イメージ](/glossary/イメージ/)、[コンテナ](/glossary/コンテナ/)、[ネットワーク](/glossary/ネットワーク/)、ボリュームといった[オブジェクト](/glossary/オブジェクト/)を管理します。両者は[REST](/glossary/rest/) [API](/glossary/api/)を使い、UNIXソケットまたはネットワークインターフェース経由で[通信](/glossary/通信/)します。[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)は同じマシンで動かすことも、別のマシンに置くこともできます（[Docker overview](https://docs.docker.com/get-started/docker-overview/)）。
+[Docker](/glossary/docker/)は[クライアント](/glossary/クライアント/)と[サーバー](/glossary/サーバー/)に分かれています。公式[ドキュメント](/glossary/ドキュメント/)によれば、`docker` [コマンド](/glossary/コマンド/)が[Docker](/glossary/docker/)[クライアント](/glossary/クライアント/)で、利用者が最もよく使う操作の入口です。実際の作業は[Docker](/glossary/docker/)[デーモン](/glossary/デーモン/)（`dockerd`）が行い、[イメージ](/glossary/イメージ/)、[コンテナ](/glossary/コンテナ/)、[ネットワーク](/glossary/ネットワーク/)、ボリュームといった[オブジェクト](/glossary/オブジェクト/)を管理します。両者は[REST](/glossary/rest/) [API](/glossary/api/)を使い、UNIXソケットまたはネットワークインターフェース経由で[通信](/glossary/通信/)します。[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)は同じマシンで動かすことも、別のマシンに置くこともできます（[Docker overview](https://docs.docker.com/get-started/docker-overview/)）。
 
 この構造から、[エラー](/glossary/エラー/)の読み分けが1つ決まります。`Cannot connect to the Docker daemon` のような文言は、[クライアント](/glossary/クライアント/)が[デーモン](/glossary/デーモン/)へ届いていないという意味です。[コンテナ](/glossary/コンテナ/)の[設定](/glossary/設定/)を見直しても変わりません。逆に、[コンテナ](/glossary/コンテナ/)の中の[アプリケーション](/glossary/アプリケーション/)が出した[エラー](/glossary/エラー/)は、[Docker](/glossary/docker/)の[設定](/glossary/設定/)ではなく[アプリケーション](/glossary/アプリケーション/)の問題です。
 
-もう1つの軸が[イメージ](/glossary/イメージ/)と[コンテナ](/glossary/コンテナ/)の関係です。[イメージ](/glossary/イメージ/)は読み取り専用の層の集まりで、[コンテナ](/glossary/コンテナ/)はその上に書き込み可能な層を1つ載せて動かしたものです。公式ドキュメントは、[コンテナ](/glossary/コンテナ/)の中で作られた[ファイル](/glossary/ファイル/)は既定でこの書き込み可能なコンテナレイヤーに[保存](/glossary/保存/)され、そのレイヤーは[コンテナ](/glossary/コンテナ/)ごとに固有だと説明しています（[Data persistence overview](https://docs.docker.com/engine/storage/)）。
+もう1つの軸が[イメージ](/glossary/イメージ/)と[コンテナ](/glossary/コンテナ/)の関係です。[イメージ](/glossary/イメージ/)は読み取り専用の層の集まりで、[コンテナ](/glossary/コンテナ/)はその上に書き込み可能な層を1つ載せて動かしたものです。公式[ドキュメント](/glossary/ドキュメント/)は、[コンテナ](/glossary/コンテナ/)の中で作られた[ファイル](/glossary/ファイル/)は既定でこの書き込み可能なコンテナレイヤーに[保存](/glossary/保存/)され、そのレイヤーは[コンテナ](/glossary/コンテナ/)ごとに固有だと説明しています（[Data persistence overview](https://docs.docker.com/engine/storage/)）。
 
 この2つの軸、つまり[クライアント](/glossary/クライアント/)と[デーモン](/glossary/デーモン/)の関係、[イメージ](/glossary/イメージ/)と[コンテナ](/glossary/コンテナ/)の関係が、以降のすべての段階の土台になります。
 
@@ -128,7 +128,7 @@ docker build --no-cache -t myapp:dev .
 
 第一に、[コンテナ](/glossary/コンテナ/)内部の[ポート](/glossary/ポート/)です。[コンテナ](/glossary/コンテナ/)の中で動く[プロセス](/glossary/プロセス/)が待ち受けている番号で、[コンテナ](/glossary/コンテナ/)の外からは直接見えません。
 
-第二に、ホストへ公開する[ポート](/glossary/ポート/)です。公式ドキュメントによれば、`--publish` または `-p` フラグは、[コンテナ](/glossary/コンテナ/)の[ポート](/glossary/ポート/)を[Docker](/glossary/docker/)ホストの[ポート](/glossary/ポート/)へ対応付ける規則をホスト側に作ります。`-p 8080:80` はホストの8080番を[コンテナ](/glossary/コンテナ/)の80番へ対応付けるという意味で、左がホスト、右が[コンテナ](/glossary/コンテナ/)です（[Publishing and exposing ports](https://docs.docker.com/engine/network/port-publishing/)）。同じページには `-p 192.168.1.100:8080:80` のように、ホスト側の待ち受けアドレスを限定できることも記載されています。
+第二に、ホストへ公開する[ポート](/glossary/ポート/)です。公式[ドキュメント](/glossary/ドキュメント/)によれば、`--publish` または `-p` フラグは、[コンテナ](/glossary/コンテナ/)の[ポート](/glossary/ポート/)を[Docker](/glossary/docker/)ホストの[ポート](/glossary/ポート/)へ対応付ける規則をホスト側に作ります。`-p 8080:80` はホストの8080番を[コンテナ](/glossary/コンテナ/)の80番へ対応付けるという意味で、左がホスト、右が[コンテナ](/glossary/コンテナ/)です（[Publishing and exposing ports](https://docs.docker.com/engine/network/port-publishing/)）。同じページには `-p 192.168.1.100:8080:80` のように、ホスト側の待ち受けアドレスを限定できることも記載されています。
 
 第三に、Compose内のサービス間通信です。これは次の段階で扱います。
 
@@ -160,7 +160,7 @@ docker inspect web --format '{{json .NetworkSettings.Networks}}'
 
 **なぜ[エラー](/glossary/エラー/)解決に必要か**：この区別を知らないまま「作り直せば直る」という対処を続けると、いずれデータを失います。
 
-**最低限覚える概念**：既定では[コンテナ](/glossary/コンテナ/)内で作られた[ファイル](/glossary/ファイル/)は書き込み可能なコンテナレイヤーに[保存](/glossary/保存/)され、そのレイヤーは[コンテナ](/glossary/コンテナ/)ごとに固有です。公式ドキュメントは、このレイヤーからデータをホストや別の[コンテナ](/glossary/コンテナ/)へ取り出すのは容易ではないとも述べています（[Data persistence overview](https://docs.docker.com/engine/storage/)）。
+**最低限覚える概念**：既定では[コンテナ](/glossary/コンテナ/)内で作られた[ファイル](/glossary/ファイル/)は書き込み可能なコンテナレイヤーに[保存](/glossary/保存/)され、そのレイヤーは[コンテナ](/glossary/コンテナ/)ごとに固有です。公式[ドキュメント](/glossary/ドキュメント/)は、このレイヤーからデータをホストや別の[コンテナ](/glossary/コンテナ/)へ取り出すのは容易ではないとも述べています（[Data persistence overview](https://docs.docker.com/engine/storage/)）。
 
 これに対してボリュームは、[Docker](/glossary/docker/)が作成して管理する永続的なデータ保存先です。ボリュームを作ると[Docker](/glossary/docker/)ホスト上の[ディレクトリ](/glossary/ディレクトリ/)に[保存](/glossary/保存/)され、それが[コンテナ](/glossary/コンテナ/)へマウントされます（[Volumes](https://docs.docker.com/engine/storage/volumes/)）。[コンテナ](/glossary/コンテナ/)とは別に管理されるため、[コンテナ](/glossary/コンテナ/)を[削除](/glossary/削除/)してもボリュームは残ります。
 
@@ -197,7 +197,7 @@ docker volume inspect pgdata
 
 **最低限覚える概念**：`compose.yaml` は、どのサービスをどう組み合わせるかを書いたものです。Composeはこれを読んで、必要な[ネットワーク](/glossary/ネットワーク/)、ボリューム、[コンテナ](/glossary/コンテナ/)を作ります。
 
-サービス間通信の仕組みは押さえておいてください。公式ドキュメントによれば、Composeは既定で[アプリケーション](/glossary/アプリケーション/)用の[ネットワーク](/glossary/ネットワーク/)を1つ作り、各サービスの[コンテナ](/glossary/コンテナ/)をそこへ参加させます。[ネットワーク](/glossary/ネットワーク/)名は `<プロジェクト名>_default` で、各サービスは自分の名前を内部の[DNSサーバー](/glossary/dnsサーバー/)へ[登録](/glossary/登録/)するため、[コンテナ](/glossary/コンテナ/)同士はサービス名で直接到達できます。[IPアドレス](/glossary/ipアドレス/)の指定や手動の[設定](/glossary/設定/)は不要です（[Networking in Compose](https://docs.docker.com/compose/how-tos/networking/)）。
+サービス間通信の仕組みは押さえておいてください。公式[ドキュメント](/glossary/ドキュメント/)によれば、Composeは既定で[アプリケーション](/glossary/アプリケーション/)用の[ネットワーク](/glossary/ネットワーク/)を1つ作り、各サービスの[コンテナ](/glossary/コンテナ/)をそこへ参加させます。[ネットワーク](/glossary/ネットワーク/)名は `<プロジェクト名>_default` で、各サービスは自分の名前を内部の[DNSサーバー](/glossary/dnsサーバー/)へ[登録](/glossary/登録/)するため、[コンテナ](/glossary/コンテナ/)同士はサービス名で直接到達できます。[IPアドレス](/glossary/ipアドレス/)の指定や手動の[設定](/glossary/設定/)は不要です（[Networking in Compose](https://docs.docker.com/compose/how-tos/networking/)）。
 
 同じページには、`web` と `db` という2つのサービスがある場合、`web` は `postgres://db:5432` で[データベース](/glossary/データベース/)へ接続でき、ホストからは公開設定に応じて `postgres://localhost:8001` でアクセスできる、という例が示されています。ここが前段階の `localhost` の話と繋がります。[コンテナ](/glossary/コンテナ/)間はサービス名、ホストからは公開した[ポート](/glossary/ポート/)です。
 
@@ -279,15 +279,15 @@ docker version
 
 ## 独学と動画講座の使い分け
 
-ここまでの6段階は、公式ドキュメントと手元の[環境](/glossary/環境/)だけでも進められます。実際、この記事で参照した[仕様](/glossary/仕様/)はすべて公式ドキュメントに書かれています。
+ここまでの6段階は、公式[ドキュメント](/glossary/ドキュメント/)と手元の[環境](/glossary/環境/)だけでも進められます。実際、この記事で参照した[仕様](/glossary/仕様/)はすべて公式[ドキュメント](/glossary/ドキュメント/)に書かれています。
 
-独学が向いているのは、目的が明確な場合です。特定の[エラー](/glossary/エラー/)を直す、特定の機能の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)する、といった作業は、公式ドキュメントを直接読むのが最短です。
+独学が向いているのは、目的が明確な場合です。特定の[エラー](/glossary/エラー/)を直す、特定の機能の[仕様](/glossary/仕様/)を[確認](/glossary/確認/)する、といった作業は、公式[ドキュメント](/glossary/ドキュメント/)を直接読むのが最短です。
 
 一方で、独学では順序を組み立てる部分が自分の負担になります。何を先に学ぶべきか、どこまで理解したら次へ進んでよいかを、自分で判断し続ける必要があります。この記事はその順序を示すために書いていますが、実際に手を動かす部分は残ります。
 
 動画講座は、この順序と手を動かす部分がまとめて用意されている点が違います。環境構築から演習までが一続きになっているため、途中で詰まって止まる回数を減らせます。反面、自分に必要な部分だけを選んで進めるのは難しくなります。
 
-どちらが適しているかは、いま何に時間を取られているかで決まります。[仕様](/glossary/仕様/)が分からなくて止まっているなら公式ドキュメント、何から手を付けるか決められなくて止まっているなら講座、という切り分けが実際的です。
+どちらが適しているかは、いま何に時間を取られているかで決まります。[仕様](/glossary/仕様/)が分からなくて止まっているなら公式[ドキュメント](/glossary/ドキュメント/)、何から手を付けるか決められなくて止まっているなら講座、という切り分けが実際的です。
 
 ## 学習後に自力で確認できるようにしたいこと
 
@@ -303,7 +303,7 @@ docker version
 
 学ぶ順序は、[コンテナ](/glossary/コンテナ/)と[イメージ](/glossary/イメージ/)、Dockerfileとビルド、[ポート](/glossary/ポート/)と[ネットワーク](/glossary/ネットワーク/)、ボリューム、Compose、トラブルシューティングです。それぞれに「次へ進む目安」を置いたのは、飛ばした段階が後から別の顔で現れるからです。
 
-公式ドキュメントは[仕様](/glossary/仕様/)の確認先として最も確実です。一方で、学ぶ順序を自分で組み立てる負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
+公式[ドキュメント](/glossary/ドキュメント/)は[仕様](/glossary/仕様/)の確認先として最も確実です。一方で、学ぶ順序を自分で組み立てる負担が大きいと感じる場合は、順序と演習がまとまった教材を使う選択肢もあります。
 
 [Dockerを体系的に学べるUdemy講座を確認する（PR）](https://trk.udemy.com/7XQjXA)
 
@@ -319,4 +319,4 @@ docker version
 
 ---
 
-*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)や講座の内容、価格、提供条件は予告なく変更されることがあります。最新の情報は[Docker](/glossary/docker/)公式ドキュメントおよびリンク先の講座ページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*
+*免責事項：本記事の内容は、執筆時点の公開情報をもとに作成したものです。[ソフトウェア](/glossary/ソフトウェア/)や講座の内容、価格、提供条件は予告なく変更されることがあります。最新の情報は[Docker](/glossary/docker/)公式[ドキュメント](/glossary/ドキュメント/)およびリンク先の講座ページをご[確認](/glossary/確認/)ください。本記事の情報を利用した結果生じたいかなる損害についても、著者および運営者は責任を負いかねます。*

@@ -91,7 +91,7 @@ hint: 'git pull' before pushing again.
 
 読む順序は下からではありません。`!` で始まる行が先で、`error:` の行は結果の要約です。送ろうとした[ブランチ](/glossary/ブランチ/)が複数あれば、`!` の行も複数並びます。
 
-括弧に入る5語は、[git](/glossary/git/) が次の順で判定した結果です。まず送り先が[タグ](/glossary/タグ/)で相手に同名があれば `already exists`。次に相手の現在位置が指す[オブジェクト](/glossary/オブジェクト/)を手元が持っていなければ `fetch first`。次に相手の位置か送る位置のどちらかが[コミット](/glossary/コミット/)でなければ `needs force`。最後に、送る位置が相手の位置の子孫でなければ `non-fast-forward` です。`stale info` だけは別経路で、`--force-with-lease` を付けたときの照合に失敗した場合に出ます。
+括弧に入る5語は、[git](/glossary/git/) が次の順で判定した結果です。まず送り先が[タグ](/glossary/タグ/)で相手に同名があれば `already exists`。次に相手の現在位置が指す[オブジェクト](/glossary/オブジェクト/)を手元が持っていなければ `fetch first`。次に相手の位置か[送る](/glossary/送る/)位置のどちらかが[コミット](/glossary/コミット/)でなければ `needs force`。最後に、[送る](/glossary/送る/)位置が相手の位置の子孫でなければ `non-fast-forward` です。`stale info` だけは別経路で、`--force-with-lease` を付けたときの照合に失敗した場合に出ます。
 
 同じ「[更新](/glossary/更新/)を拒んだ」でも、この5語は互いに排他です。上から順に当てはまった時点で確定するため、たとえば `fetch first` と表示されているときに履歴の前後関係を調べても意味がありません。判定はそこまで進んでいません。
 

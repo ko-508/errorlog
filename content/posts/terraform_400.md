@@ -79,7 +79,7 @@ resource "aws_security_group" "example" {
 
 ### 原因 2：必須パラメーターが不足している
 
-プロバイダーが要求する必須パラメーターを定義していない場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が不完全なため 400 [エラー](/glossary/エラー/)が返されます。ドキュメントで「Required」と明記されているパラメーターは必ず指定する必要があります。
+プロバイダーが要求する必須パラメーターを定義していない場合、[API](/glossary/api/) [リクエスト](/glossary/リクエスト/)が不完全なため 400 [エラー](/glossary/エラー/)が返されます。[ドキュメント](/glossary/ドキュメント/)で「Required」と明記されているパラメーターは必ず指定する必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -182,7 +182,7 @@ Terraform の 400 [エラー](/glossary/エラー/)は、HCL の構文チェッ�
 
 [AWS](/glossary/aws/)、Azure、Google Cloud など、各クラウドプロバイダーの Terraform プロバイダーは定期的に[更新](/glossary/更新/)されます。プロバイダーの[バージョン](/glossary/バージョン/)を固定せずに `version = ">= 5.0"` のように範囲指定している場合、[CI/CD](/glossary/ci-cd/) パイプラインで異なる[バージョン](/glossary/バージョン/)が使用される可能性があります。[本番環境](/glossary/本番環境/)では `version = "= 5.12.0"` のように完全な[バージョン](/glossary/バージョン/)指定を検討してください。
 
-また、プロバイダーの公式ドキュメントには各[リソース](/glossary/リソース/)の「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、[デフォルト値](/glossary/デフォルト値/)を必ず[確認](/glossary/確認/)しましょう。
+また、プロバイダーの公式[ドキュメント](/glossary/ドキュメント/)には各[リソース](/glossary/リソース/)の「Argument Reference」（引数参照）セクションが必ず記載されています。そこで「Required」と「Optional」の区別、各パラメーターの型、[デフォルト値](/glossary/デフォルト値/)を必ず[確認](/glossary/確認/)しましょう。
 
 ## それでも解決しない場合
 
@@ -206,7 +206,7 @@ terraform state show <resource_name>
 
 3. **プロバイダードキュメントを再確認**
 
-各プロバイダーの公式ドキュメントで、該当[リソース](/glossary/リソース/)の最新仕様を[確認](/glossary/確認/)してください。
+各プロバイダーの公式[ドキュメント](/glossary/ドキュメント/)で、該当[リソース](/glossary/リソース/)の最新仕様を[確認](/glossary/確認/)してください。
 
 - [AWS](/glossary/aws/) Provider: https://registry.terraform.io/providers/hashicorp/aws/latest/docs
 - Azure Provider: https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs

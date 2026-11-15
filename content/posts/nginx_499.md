@@ -37,7 +37,7 @@ Nginx のソースコードには、499 を定義した箇所に説明が書か�
 
 ## まず最初に：処理時間をログに出す
 
-既定の combined 形式には、[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)にかかった時間が含まれません。499 の切り分けには時間の情報が不可欠なので、`log_format` に `$request_time`（[リクエスト](/glossary/リクエスト/)全体の処理時間）と `$upstream_response_time`（上流の応答にかかった時間）を加えます。どちらも公式ドキュメントに記載のある[変数](/glossary/変数/)です。
+既定の combined 形式には、[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)にかかった時間が含まれません。499 の切り分けには時間の情報が不可欠なので、`log_format` に `$request_time`（[リクエスト](/glossary/リクエスト/)全体の処理時間）と `$upstream_response_time`（上流の応答にかかった時間）を加えます。どちらも公式[ドキュメント](/glossary/ドキュメント/)に記載のある[変数](/glossary/変数/)です。
 
 ```nginx
 http {
@@ -86,7 +86,7 @@ Nginx の手前に[ロードバランサー](/glossary/ロードバランサー/
 
 ### 補足：proxy_ignore_client_abort
 
-公式ドキュメントのとおり、`proxy_ignore_client_abort` は、[クライアント](/glossary/クライアント/)が応答を待たずに接続を閉じたときに、上流（[プロキシ](/glossary/プロキシ/)先）への接続も閉じるかどうかを決める[設定](/glossary/設定/)です。既定は off で、[クライアント](/glossary/クライアント/)の切断と同時に上流への接続も閉じられ、499 が記録されます。on にすると、[クライアント](/glossary/クライアント/)が切断しても上流への[処理](/glossary/処理/)は続行されます。
+公式[ドキュメント](/glossary/ドキュメント/)のとおり、`proxy_ignore_client_abort` は、[クライアント](/glossary/クライアント/)が応答を待たずに接続を閉じたときに、上流（[プロキシ](/glossary/プロキシ/)先）への接続も閉じるかどうかを決める[設定](/glossary/設定/)です。既定は off で、[クライアント](/glossary/クライアント/)の切断と同時に上流への接続も閉じられ、499 が記録されます。on にすると、[クライアント](/glossary/クライアント/)が切断しても上流への[処理](/glossary/処理/)は続行されます。
 
 ```nginx
 location /api/long-task {

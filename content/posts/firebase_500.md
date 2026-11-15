@@ -186,9 +186,9 @@ gcloud functions logs read <function-name> --limit 50
 ```
 
 **Firebase Support への問い合わせ**  
-Firebase Console の「サポート」タブから公式サポートに問い合わせることで、[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)から原因を特定できる場合があります。
+Firebase Console の「[サポート](/glossary/サポート/)」タブから公式[サポート](/glossary/サポート/)に問い合わせることで、[サーバー](/glossary/サーバー/)側の[ログ](/glossary/ログ/)から原因を特定できる場合があります。
 
-**公式ドキュメント**  
+**公式[ドキュメント](/glossary/ドキュメント/)**  
 - [Cloud Functions トラブルシューティング](https://firebase.google.com/docs/functions/troubleshooting)
 - [Firestore セキュリティルール ガイド](https://firebase.google.com/docs/firestore/security/start)
 - [Realtime Database インデックス設定](https://firebase.google.com/docs/database/security/indexing)

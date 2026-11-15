@@ -51,7 +51,7 @@ sudo grep -i "no such file" /var/log/nginx/error.log
 
 ### 原因1：root のパスが実際のファイル配置と合っていない
 
-公式ドキュメントのとおり、`root` を使う場合のファイルパスは「root の値 + [リクエスト](/glossary/リクエスト/) URI」の単純な連結で作られます。[設定](/glossary/設定/)では `/var/www/html` を指しているのに実際の[ファイル](/glossary/ファイル/)が `/home/app/public` にある、といったずれがあれば 404 になります。
+公式[ドキュメント](/glossary/ドキュメント/)のとおり、`root` を使う場合のファイルパスは「root の値 + [リクエスト](/glossary/リクエスト/) URI」の単純な連結で作られます。[設定](/glossary/設定/)では `/var/www/html` を指しているのに実際の[ファイル](/glossary/ファイル/)が `/home/app/public` にある、といったずれがあれば 404 になります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[設定](/glossary/設定/)）：**
 
@@ -105,7 +105,7 @@ location /static/ {
 }
 ```
 
-末尾を揃えることで `/var/www/static/css/style.css` に正しく解決されます。なお公式ドキュメントは、alias の値の末尾が location と同じ文字列で終わる場合（例：`location /images/` に対して `alias /data/w3/images/`）は、`alias` ではなく `root /data/w3;` と書くほうがよいとしています。
+末尾を揃えることで `/var/www/static/css/style.css` に正しく解決されます。なお公式[ドキュメント](/glossary/ドキュメント/)は、alias の値の末尾が location と同じ文字列で終わる場合（例：`location /images/` に対して `alias /data/w3/images/`）は、`alias` ではなく `root /data/w3;` と書くほうがよいとしています。
 
 ### 原因3：try_files の誤設定
 
@@ -131,7 +131,7 @@ location / {
 }
 ```
 
-2つ目は最後の[引数](/glossary/引数/)の扱いです。公式ドキュメントのとおり、最後の[引数](/glossary/引数/)だけは存在確認の対象ではなく「どれも見つからなかったときの内部転送先」です。ここに存在しない URI（例：`/notfound.html`）を書くと、転送先でまた同じ location が[処理](/glossary/処理/)して転送し……という循環になります。Nginx は内部転送を1[リクエスト](/glossary/リクエスト/)あたり10回までに制限しており、超えると返るのは 404 ではなく 500 Internal Server Error で、[エラーログ](/glossary/エラーログ/)には `rewrite or internal redirection cycle` と記録されます。「404 対策のつもりの[設定](/glossary/設定/)が 500 を生む」典型なので、転送先の[ファイル](/glossary/ファイル/)が実在することを必ず[確認](/glossary/確認/)してください。
+2つ目は最後の[引数](/glossary/引数/)の扱いです。公式[ドキュメント](/glossary/ドキュメント/)のとおり、最後の[引数](/glossary/引数/)だけは存在確認の対象ではなく「どれも見つからなかったときの内部転送先」です。ここに存在しない URI（例：`/notfound.html`）を書くと、転送先でまた同じ location が[処理](/glossary/処理/)して転送し……という循環になります。Nginx は内部転送を1[リクエスト](/glossary/リクエスト/)あたり10回までに制限しており、超えると返るのは 404 ではなく 500 Internal Server Error で、[エラーログ](/glossary/エラーログ/)には `rewrite or internal redirection cycle` と記録されます。「404 対策のつもりの[設定](/glossary/設定/)が 500 を生む」典型なので、転送先の[ファイル](/glossary/ファイル/)が実在することを必ず[確認](/glossary/確認/)してください。
 
 ### 原因4：意図しない location ブロックがリクエストを処理している
 
@@ -156,7 +156,7 @@ location ~* \.(gif|jpg|png)$ {
 
 Nginx をリバースプロキシとして使っている場合、404 の発生源が Nginx ではなく上流（[プロキシ](/glossary/プロキシ/)先）の[アプリケーション](/glossary/アプリケーション/)であることは珍しくありません。[エラーログ](/glossary/エラーログ/)に `open()` の失敗が残っていないのに[アクセスログ](/glossary/アクセスログ/)に 404 がある、既定ページと違う本文が返っている、という場合はまずこれを疑います。上流の応答[コード](/glossary/コード/)は既定でそのまま[クライアント](/glossary/クライアント/)に中継されます（`proxy_intercept_errors` の既定は off）。
 
-このとき[確認](/glossary/確認/)すべきなのが、`proxy_pass` の[パス](/glossary/パス/)書き換えです。公式ドキュメントのとおり、`proxy_pass` に URI 部分を付けた場合、[リクエスト](/glossary/リクエスト/) URI のうち location に一致した部分がその URI に置き換えられて上流に渡ります。URI 部分を付けない場合は、[リクエスト](/glossary/リクエスト/) URI がそのまま渡ります。
+このとき[確認](/glossary/確認/)すべきなのが、`proxy_pass` の[パス](/glossary/パス/)書き換えです。公式[ドキュメント](/glossary/ドキュメント/)のとおり、`proxy_pass` に URI 部分を付けた場合、[リクエスト](/glossary/リクエスト/) URI のうち location に一致した部分がその URI に置き換えられて上流に渡ります。URI 部分を付けない場合は、[リクエスト](/glossary/リクエスト/) URI がそのまま渡ります。
 
 ```nginx
 # パターンA：/api/users へのリクエストは、上流に /users として渡る
@@ -170,7 +170,7 @@ location /api/ {
 }
 ```
 
-上流アプリのルート定義が `/users` なのに[パターン](/glossary/パターン/)Bで `/api/users` を渡していれば、アプリ側のルーティングに一致せず 404 が返ります。逆も同様です。切り分けは、上流アプリの[アクセスログ](/glossary/アクセスログ/)で「実際にどの[パス](/glossary/パス/)が届いたか」を[確認](/glossary/確認/)するのが確実です。
+上流[アプリ](/glossary/アプリ/)のルート定義が `/users` なのに[パターン](/glossary/パターン/)Bで `/api/users` を渡していれば、[アプリ](/glossary/アプリ/)側のルーティングに一致せず 404 が返ります。逆も同様です。切り分けは、上流[アプリ](/glossary/アプリ/)の[アクセスログ](/glossary/アクセスログ/)で「実際にどの[パス](/glossary/パス/)が届いたか」を[確認](/glossary/確認/)するのが確実です。
 
 ## 切り分けの順序
 
@@ -178,7 +178,7 @@ location /api/ {
 
 1. [エラーログ](/glossary/エラーログ/)を見る。`(2: No such file or directory)` の行があれば、そこに出ている[パス](/glossary/パス/)と実際の配置を突き合わせる（原因1〜3）。行がなければ 2 へ。
 2. `nginx -T` で有効な[設定](/glossary/設定/)の全体を[確認](/glossary/確認/)し、対象[リクエスト](/glossary/リクエスト/)をどの server・location が[処理](/glossary/処理/)するかを優先順位に沿って特定する（原因4）。
-3. その location が `proxy_pass` なら、上流アプリの[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答[コード](/glossary/コード/)を[確認](/glossary/確認/)する（原因5）。
+3. その location が `proxy_pass` なら、上流[アプリ](/glossary/アプリ/)の[ログ](/glossary/ログ/)で届いた[パス](/glossary/パス/)と応答[コード](/glossary/コード/)を[確認](/glossary/確認/)する（原因5）。
 4. `try_files` がある場合は、`=404` の意図と、最後の転送先の実在を[確認](/glossary/確認/)する（原因3）。
 
 [設定](/glossary/設定/)を[修正](/glossary/修正/)したら、文法確認をしてから反映します。文法[エラー](/glossary/エラー/)があると古い[設定](/glossary/設定/)のまま動き続け、[修正](/glossary/修正/)が反映されない錯覚に陥ります。
@@ -214,7 +214,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-実際の報告例として、`try_files` の[設定](/glossary/設定/)が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式ドキュメントの記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と[設定](/glossary/設定/)していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP アプリなら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを[確認](/glossary/確認/)する、という切り分けが示されています。
+実際の報告例として、`try_files` の[設定](/glossary/設定/)が原因でサイト全体が閲覧できなくなった事例があります（[DigitalOcean コミュニティの質問](https://www.digitalocean.com/community/questions/php-nginx-500-error-help-fix-please)）。なお、この議論は2015年頃の古いもので、PHP 5 時代の[環境](/glossary/環境/)を前提としていますが、ここで扱われている `try_files` の挙動は現在の Nginx 公式[ドキュメント](/glossary/ドキュメント/)の記述と変わりません。報告者の[環境](/glossary/環境/)では `try_files $uri $uri/ /index.html;` と[設定](/glossary/設定/)していたものの、転送先の `/index.html` が実在せず、[エラーログ](/glossary/エラーログ/)に `rewrite or internal redirection cycle while internally redirecting to "/index.html"` が記録されて 500 になっていました。本記事の原因3で述べた「最後の[引数](/glossary/引数/)は存在確認されない」ことの実例です。回答では、PHP [アプリ](/glossary/アプリ/)なら転送先を `/index.php` にする、静的サイトなら `index.html` が実在し読み取れることを[確認](/glossary/確認/)する、という切り分けが示されています。
 
 この事例が示すとおり、404 と try_files をめぐる[設定](/glossary/設定/)ミスは、症状が 404 ではなく 500 として現れることがあります。[エラーコード](/glossary/エラーコード/)の見た目だけで判断せず、[エラーログ](/glossary/エラーログ/)の文言から原因をたどることが確実な近道です。
 

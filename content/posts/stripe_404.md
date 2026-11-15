@@ -151,7 +151,7 @@ except stripe.error.InvalidRequestError as e:
 
 ### APIバージョンの違いによる404
 
-Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)をサポートしており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加された[リソース](/glossary/リソース/)にアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)[設定](/glossary/設定/)で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
+Stripeは複数の[API](/glossary/api/)[バージョン](/glossary/バージョン/)を[サポート](/glossary/サポート/)しており、古い[バージョン](/glossary/バージョン/)の[API](/glossary/api/)を使用していると、新しい[バージョン](/glossary/バージョン/)で追加された[リソース](/glossary/リソース/)にアクセスできません。[ダッシュボード](/glossary/ダッシュボード/)[設定](/glossary/設定/)で指定された[API](/glossary/api/)[バージョン](/glossary/バージョン/)と、[コード](/glossary/コード/)内で使用している[バージョン](/glossary/バージョン/)を統一する必要があります。
 
 ```bash
 # リクエストヘッダーでAPIバージョンを明示的に指定
@@ -213,7 +213,7 @@ Stripe[ダッシュボード](/glossary/ダッシュボード/)の「Developers�
 
 ### サポート情報の収集
 
-解決しない場合は、Stripeサポートに以下の情報を提供してください：
+解決しない場合は、Stripe[サポート](/glossary/サポート/)に以下の情報を提供してください：
 - 問題が発生した正確な日時（タイムゾーン付き）
 - 使用した[API](/glossary/api/)[キー](/glossary/キー/)（テストキーか本番[キー](/glossary/キー/)か）
 - 実際の[リクエスト](/glossary/リクエスト/)内容（個人情報を除外）

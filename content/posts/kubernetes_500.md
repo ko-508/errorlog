@@ -227,7 +227,7 @@ kubectl top pods -n kube-system
 kubectl get events -n kube-system --sort-by='.lastTimestamp'
 ```
 
-**公式ドキュメント参照**：
+**公式[ドキュメント](/glossary/ドキュメント/)参照**：
 - [Troubleshooting Kubernetes clusters](https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/)
 - [API Server Authentication and Authorization](https://kubernetes.io/docs/concepts/security/rbac-good-practices/)
 - [Admission Controllers](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)

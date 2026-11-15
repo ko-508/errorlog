@@ -82,7 +82,7 @@ const charge = await stripe.charges.create({
 
 ### 原因2：非推奨なAPIバージョンの使用
 
-Stripeは[API](/glossary/api/)[仕様](/glossary/仕様/)を定期的に[更新](/glossary/更新/)し、古い[バージョン](/glossary/バージョン/)はサポートが終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
+Stripeは[API](/glossary/api/)[仕様](/glossary/仕様/)を定期的に[更新](/glossary/更新/)し、古い[バージョン](/glossary/バージョン/)は[サポート](/glossary/サポート/)が終了します。非推奨な[バージョン](/glossary/バージョン/)への[リクエスト](/glossary/リクエスト/)は500[エラー](/glossary/エラー/)で返される場合があります。特にパラメーター形式や認証方式の変更時に発生しやすいです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -106,7 +106,7 @@ curl -X POST https://api.stripe.com/v1/charges \
 
 ### 原因3：不正なカードブランドまたはサポート外の通貨組み合わせ
 
-Stripeが内部的に[処理](/glossary/処理/)できない決済パラメーター（例：実装環境でサポートしていないカードブランド、特定国での未対応通貨）を指定すると、500[エラー](/glossary/エラー/)で応答することがあります。
+Stripeが内部的に[処理](/glossary/処理/)できない決済パラメーター（例：実装環境で[サポート](/glossary/サポート/)していないカードブランド、特定国での未対応通貨）を指定すると、500[エラー](/glossary/エラー/)で応答することがあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -183,7 +183,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 
 ### 確認すべき手順とログ
 
-1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` [フィールド](/glossary/フィールド/)をメモしておきます。これはStripeサポートへの問い合わせ時に必須です。
+1. **Request [ID](/glossary/id/)の記録**：[エラーレスポンス](/glossary/エラーレスポンス/)の `request_id` [フィールド](/glossary/フィールド/)をメモしておきます。これはStripe[サポート](/glossary/サポート/)への問い合わせ時に必須です。
 
 2. **Stripeステータスページの[確認](/glossary/確認/)**：https://status.stripe.com/ で、Stripe側に[障害](/glossary/障害/)がないか[確認](/glossary/確認/)します。インシデント進行中の場合は、[復旧](/glossary/復旧/)を待つ必要があります。
 
@@ -209,7 +209,7 @@ async function createChargeWithRetry(chargeParams, maxRetries = 3) {
 - Stripe Developer Community：https://stripe.com/docs/support
 - Stack Overflow の `stripe` [タグ](/glossary/タグ/)：実装言語固有の問題は[検索](/glossary/検索/)してみてください
 
-公式サポートに問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に[対応](/glossary/対応/)してもらえます。
+公式[サポート](/glossary/サポート/)に問い合わせる場合は、Request [ID](/glossary/id/)、使用している[SDK](/glossary/sdk/)の[バージョン](/glossary/バージョン/)、[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)した時刻（UTC）、[API](/glossary/api/)[バージョン](/glossary/バージョン/)をまとめて報告すれば、迅速に[対応](/glossary/対応/)してもらえます。
 
 ---
 

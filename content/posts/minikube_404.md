@@ -214,7 +214,7 @@ kubectl describe pod my-app
 # リソースの状態と関連イベントを確認
 ```
 
-**公式ドキュメントとコミュニティリソース**
+**公式[ドキュメント](/glossary/ドキュメント/)とコミュニティリソース**
 
 - [Kubernetes 公式ドキュメント：kubectl リファレンス](https://kubernetes.io/docs/reference/kubectl/)
 - [Minikube 公式ドキュメント：Troubleshooting](https://minikube.sigs.k8s.io/docs/handbook/troubleshooting/)

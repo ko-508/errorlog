@@ -15,7 +15,7 @@ related_services: ["kubectl"]
 
 ## 冒頭まとめ
 
-`Init:CrashLoopBackOff` は、Pod の init container が失敗して終了し、kubelet による再起動が繰り返されて[バックオフ](/glossary/バックオフ/)待ちに入っている状態を示します。[Kubernetes 公式ドキュメント](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)では、init container は必ず完了まで実行され、次の init container が始まる前に成功して終了する必要があり、init container が失敗した場合は kubelet が成功するまでその init container を繰り返し再起動すると説明されています。つまりこの[エラー](/glossary/エラー/)が出ている間、通常（アプリ）[コンテナ](/glossary/コンテナ/)は一度も起動していません。
+`Init:CrashLoopBackOff` は、Pod の init container が失敗して終了し、kubelet による再起動が繰り返されて[バックオフ](/glossary/バックオフ/)待ちに入っている状態を示します。[Kubernetes 公式ドキュメント](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)では、init container は必ず完了まで実行され、次の init container が始まる前に成功して終了する必要があり、init container が失敗した場合は kubelet が成功するまでその init container を繰り返し再起動すると説明されています。つまりこの[エラー](/glossary/エラー/)が出ている間、通常（[アプリ](/glossary/アプリ/)）[コンテナ](/glossary/コンテナ/)は一度も起動していません。
 
 調査の出発点は次の 2 つです。
 
@@ -28,7 +28,7 @@ related_services: ["kubectl"]
 
 `Init:CrashLoopBackOff` は Pod の `STATUS` 列に表示される文字列で、Pod の[初期化](/glossary/初期化/)フェーズで失敗が繰り返されていることを表します。
 
-公式ドキュメントで[確認](/glossary/確認/)できる init container の性質は次のとおりです。
+公式[ドキュメント](/glossary/ドキュメント/)で[確認](/glossary/確認/)できる init container の性質は次のとおりです。
 
 - init container は通常の[コンテナ](/glossary/コンテナ/)とほぼ同じですが、[常に完了まで実行される](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)点が異なります。各 init container は、次の init container が起動する前に成功して完了しなければなりません。
 - init container が失敗した場合、kubelet はそれが成功するまで繰り返し再起動します。ただし Pod の `restartPolicy` が `Never` で、起動中に init container が失敗した場合は、[Kubernetes](/glossary/kubernetes/) は Pod 全体を失敗として扱います。
@@ -44,7 +44,7 @@ related_services: ["kubectl"]
 | `CrashLoopBackOff`（`Init:` なし） | 通常[コンテナ](/glossary/コンテナ/)の起動後クラッシュと再起動の繰り返し | アプリコンテナ |
 | `PodInitializing` | init container はすべて完了し、通常[コンテナ](/glossary/コンテナ/)の起動処理に入っている | init container 側の問題は解消済み |
 
-`Init:CrashLoopBackOff` は「アプリが動いていない」ことの原因ではなく、「アプリが起動する前段で止まっている」ことの表示です。[Pod Lifecycle](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/) にあるとおり、Pod は Pending フェーズから始まり、主要[コンテナ](/glossary/コンテナ/)のいずれかが正常に起動すると Running へ移ります。[初期化](/glossary/初期化/)が完了しない Pod は Running へ進めません。
+`Init:CrashLoopBackOff` は「[アプリ](/glossary/アプリ/)が動いていない」ことの原因ではなく、「[アプリ](/glossary/アプリ/)が起動する前段で止まっている」ことの表示です。[Pod Lifecycle](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/) にあるとおり、Pod は Pending フェーズから始まり、主要[コンテナ](/glossary/コンテナ/)のいずれかが正常に起動すると Running へ移ります。[初期化](/glossary/初期化/)が完了しない Pod は Running へ進めません。
 
 ## まず最初に見るべき切り分け軸
 
@@ -201,9 +201,9 @@ kubectl describe node <node-name>
 ## 補足：似ているが別のもの
 
 - **`CrashLoopBackOff`（`Init:` なし）**：通常[コンテナ](/glossary/コンテナ/)が起動後にクラッシュして再起動を繰り返している状態です。init container が成功するまで通常[コンテナ](/glossary/コンテナ/)は起動しないため、`Init:CrashLoopBackOff` の原因調査に本体[コンテナ](/glossary/コンテナ/)の[ログ](/glossary/ログ/)や[設定](/glossary/設定/)を持ち込むと切り分けがずれます。両者は別々に[修正](/glossary/修正/)してください。
-- **`Init:Error`**：init container が失敗して終了した状態の表示です。`Init:CrashLoopBackOff` は、その失敗と再起動が繰り返されて[バックオフ](/glossary/バックオフ/)待ちになった状態を指します。`restartPolicy` が `Never` の場合は、公式ドキュメントの説明どおり Pod 全体が失敗として扱われるため、繰り返し再起動による[バックオフ](/glossary/バックオフ/)表示にはなりません。
+- **`Init:Error`**：init container が失敗して終了した状態の表示です。`Init:CrashLoopBackOff` は、その失敗と再起動が繰り返されて[バックオフ](/glossary/バックオフ/)待ちになった状態を指します。`restartPolicy` が `Never` の場合は、公式[ドキュメント](/glossary/ドキュメント/)の説明どおり Pod 全体が失敗として扱われるため、繰り返し再起動による[バックオフ](/glossary/バックオフ/)表示にはなりません。
 - **`FailedCreatePodSandbox`**：kubelet が Pod sandbox の作成に失敗した段階の[イベント](/glossary/イベント/)で、アプリコンテナ起動前の問題です（[Debug Pods](https://kubernetes.io/docs/tasks/debug/debug-application/debug-pods/)）。init container の[コマンド](/glossary/コマンド/)やマウント内容ではなく、[ネットワークプラグイン（CNI）とネットワーク設定](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)を優先して[確認](/glossary/確認/)します。あわせて、[container runtime](https://kubernetes.io/docs/setup/production-environment/container-runtimes/) と pause / sandbox image の[設定](/glossary/設定/)（containerd の場合は [CRI プラグインの設定](https://github.com/containerd/containerd/blob/main/docs/cri/config.md)）も切り分けの対象になります。
-- **サイドカーコンテナ**：公式ドキュメントでは、サイドカーコンテナは主アプリケーションコンテナより先に起動して動作を[継続](/glossary/継続/)する[コンテナ](/glossary/コンテナ/)と説明されており、Pod の初期化中に完了まで実行される init container とは別の扱いです。長時間動き続ける[処理](/glossary/処理/)を init container として書くと、完了しないまま[初期化](/glossary/初期化/)が止まります。自分の Pod がどちらの想定かは、[Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) の該当節で[確認](/glossary/確認/)してください。
+- **サイドカーコンテナ**：公式[ドキュメント](/glossary/ドキュメント/)では、サイドカーコンテナは主アプリケーションコンテナより先に起動して動作を[継続](/glossary/継続/)する[コンテナ](/glossary/コンテナ/)と説明されており、Pod の初期化中に完了まで実行される init container とは別の扱いです。長時間動き続ける[処理](/glossary/処理/)を init container として書くと、完了しないまま[初期化](/glossary/初期化/)が止まります。自分の Pod がどちらの想定かは、[Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) の該当節で[確認](/glossary/確認/)してください。
 
 ## 危険な対応を行う前の確認
 
@@ -274,7 +274,7 @@ kubectl describe node <node-name>
 
 ## Editor's Note
 
-init container は「アプリコンテナの前に実行され、完了してから次へ進むもの」として扱うのが切り分けの軸です。[Kubernetes](/glossary/kubernetes/) 公式ドキュメントは、現在のサイドカーコンテナを「主アプリケーションコンテナより先に起動し、実行を[継続](/glossary/継続/)する[コンテナ](/glossary/コンテナ/)」と説明し、完了まで実行される init container と分けて説明しています。[初期化](/glossary/初期化/)のために一度だけ完了すべき[処理](/glossary/処理/)なのか、Pod の生存中ずっと動く補助処理なのかを分けておくと、`Init:CrashLoopBackOff` を `CrashLoopBackOff` やサイドカーの停止と混同しにくくなります。
+init container は「アプリコンテナの前に実行され、完了してから次へ進むもの」として扱うのが切り分けの軸です。[Kubernetes](/glossary/kubernetes/) 公式[ドキュメント](/glossary/ドキュメント/)は、現在のサイドカーコンテナを「主アプリケーションコンテナより先に起動し、実行を[継続](/glossary/継続/)する[コンテナ](/glossary/コンテナ/)」と説明し、完了まで実行される init container と分けて説明しています。[初期化](/glossary/初期化/)のために一度だけ完了すべき[処理](/glossary/処理/)なのか、Pod の生存中ずっと動く補助処理なのかを分けておくと、`Init:CrashLoopBackOff` を `CrashLoopBackOff` やサイドカーの停止と混同しにくくなります。
 
 ---
 

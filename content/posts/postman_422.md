@@ -215,7 +215,7 @@ Postmanの Body タブには複数の送信方法があり、選択した方法�
 - [スコープ](/glossary/スコープ/)が無効（例：`q=user:nonexistent+repo:nonexistent`）
 - 特殊文字が[URL](/glossary/url/) [エンコード](/glossary/エンコード/)されていない
 
-Postmanの Params タブで `q` を[設定](/glossary/設定/)する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) [エンコード](/glossary/エンコード/)されます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文ドキュメントで[確認](/glossary/確認/)することを推奨します。
+Postmanの Params タブで `q` を[設定](/glossary/設定/)する場合、値に空白やコロンが含まれていれば自動的に[URL](/glossary/url/) [エンコード](/glossary/エンコード/)されます。ただし、複雑な[クエリ](/glossary/クエリ/)を手動で入力する場合は、事前に値の妥当性を[GitHub](/glossary/github/)の検索構文[ドキュメント](/glossary/ドキュメント/)で[確認](/glossary/確認/)することを推奨します。
 
 ### FastAPIの Pydantic バリデーション
 
@@ -256,11 +256,11 @@ FastAPI、Flask、Django など、[API](/glossary/api/) [サーバー](/glossary
 
 ### 公式ドキュメント参照
 
-送信先[API](/glossary/api/)の公式ドキュメントを[確認](/glossary/確認/)し、該当[エンドポイント](/glossary/エンドポイント/)の[リクエスト](/glossary/リクエスト/)[仕様](/glossary/仕様/)を再度チェックしてください。特に以下の項目を[確認](/glossary/確認/)します。
+送信先[API](/glossary/api/)の公式[ドキュメント](/glossary/ドキュメント/)を[確認](/glossary/確認/)し、該当[エンドポイント](/glossary/エンドポイント/)の[リクエスト](/glossary/リクエスト/)[仕様](/glossary/仕様/)を再度チェックしてください。特に以下の項目を[確認](/glossary/確認/)します。
 
 - 必須[ヘッダー](/glossary/ヘッダー/)（Authorization、[API](/glossary/api/)-Keyなど）
 - 必須[フィールド](/glossary/フィールド/)と省略可能[フィールド](/glossary/フィールド/)
-- サポートされる[データ型](/glossary/データ型/)と[フォーマット](/glossary/フォーマット/)
+- [サポート](/glossary/サポート/)される[データ型](/glossary/データ型/)と[フォーマット](/glossary/フォーマット/)
 - [ペイロード](/glossary/ペイロード/)例
 
 ## 代替ツールの検討

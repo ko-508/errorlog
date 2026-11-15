@@ -163,9 +163,9 @@ curl -X GET "https://circleci.com/api/v2/me" \
 
 CircleCI のステータスページ（`https://status.circleci.com`）でサービス[障害](/glossary/障害/)がないか[確認](/glossary/確認/)し、[AWS](/glossary/aws/) CloudWatch [ログ](/glossary/ログ/)（ジョブログ）に[エラー](/glossary/エラー/)詳細がないか[確認](/glossary/確認/)してください。
 
-**4. 公式ドキュメントと [API](/glossary/api/) リファレンス**
+**4. 公式[ドキュメント](/glossary/ドキュメント/)と [API](/glossary/api/) リファレンス**
 
-CircleCI [API](/glossary/api/) v2 の公式ドキュメント（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の[要件](/glossary/要件/)を[確認](/glossary/確認/)してください。
+CircleCI [API](/glossary/api/) v2 の公式[ドキュメント](/glossary/ドキュメント/)（`https://circleci.com/docs/api/v2/`）で、対象[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)を再確認し、[パラメータ](/glossary/パラメータ/)の形式や[スコープ](/glossary/スコープ/)の[要件](/glossary/要件/)を[確認](/glossary/確認/)してください。
 
 ---
 

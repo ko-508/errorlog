@@ -174,7 +174,7 @@ response = client.users_list()  # 全ユーザー情報取得（chat:writeなど
 
 ### OAuth スコープの世代管理
 
-Slack Appの[トークン](/glossary/トークン/)を再生成する際は、新しい[スコープ](/glossary/スコープ/)が即座に反映されないケースがあります。アプリを再[インストール](/glossary/インストール/)するか、Slack[ワークスペース](/glossary/ワークスペース/)内で手動でアプリを再認可することが必要な場合があります。既存の[トークン](/glossary/トークン/)を使用し続けると新[スコープ](/glossary/スコープ/)が有効にならず、403が[継続](/glossary/継続/)します。
+Slack Appの[トークン](/glossary/トークン/)を再生成する際は、新しい[スコープ](/glossary/スコープ/)が即座に反映されないケースがあります。[アプリ](/glossary/アプリ/)を再[インストール](/glossary/インストール/)するか、Slack[ワークスペース](/glossary/ワークスペース/)内で手動で[アプリ](/glossary/アプリ/)を再認可することが必要な場合があります。既存の[トークン](/glossary/トークン/)を使用し続けると新[スコープ](/glossary/スコープ/)が有効にならず、403が[継続](/glossary/継続/)します。
 
 ### チャンネルIDと略称の違い
 
@@ -213,7 +213,7 @@ Slack Appには複数の種類の[トークン](/glossary/トークン/)が存�
 
 1. **[トークン](/glossary/トークン/)の有効期限確認** - 長期間使用していないユーザートークンは期限切れになっている可能性があります。Slack App管理画面の「[OAuth](/glossary/oauth/) & Permissions」ページで[トークン](/glossary/トークン/)の発行日時を[確認](/glossary/確認/)してください。
 
-2. **[スコープ](/glossary/スコープ/)の実装ドキュメント[確認](/glossary/確認/)** - [Slack API: Method reference](https://api.slack.com/methods)の各メソッドページで、Required scopesセクションに列挙されている[スコープ](/glossary/スコープ/)をすべて[確認](/glossary/確認/)します。複数の[スコープ](/glossary/スコープ/)が必要な場合があります。
+2. **[スコープ](/glossary/スコープ/)の実装[ドキュメント](/glossary/ドキュメント/)[確認](/glossary/確認/)** - [Slack API: Method reference](https://api.slack.com/methods)の各メソッドページで、Required scopesセクションに列挙されている[スコープ](/glossary/スコープ/)をすべて[確認](/glossary/確認/)します。複数の[スコープ](/glossary/スコープ/)が必要な場合があります。
 
 3. **Slack Audit Logs** - [ワークスペース](/glossary/ワークスペース/)管理者は「Admin」→「Audit Logs」で[トークン](/glossary/トークン/)の操作履歴と[エラー](/glossary/エラー/)を[確認](/glossary/確認/)できます。どの[アクション](/glossary/アクション/)が拒否されたかが詳細に記録されています。
 

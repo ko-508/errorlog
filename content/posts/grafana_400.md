@@ -245,7 +245,7 @@ curl -X POST http://localhost:3000/api/datasources \
 
 **Grafana [バージョン](/glossary/バージョン/)差異への[対応](/glossary/対応/)**
 
-Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) ドキュメントを使用している Grafana [バージョン](/glossary/バージョン/)に合わせて[確認](/glossary/確認/)してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
+Grafana 8.0 以前と 9.0 以降では[アラート](/glossary/アラート/)[設定](/glossary/設定/)の[スキーマ](/glossary/スキーマ/)が大きく変わります。[API](/glossary/api/) [ドキュメント](/glossary/ドキュメント/)を使用している Grafana [バージョン](/glossary/バージョン/)に合わせて[確認](/glossary/確認/)してください。[バージョン](/glossary/バージョン/) 9.0 以降を使用している場合、レガシーアラートではなく新しい `Alerting` [API](/glossary/api/) を使用してください。
 
 **[エラーメッセージ](/glossary/エラーメッセージ/)の詳細確認**
 
@@ -276,9 +276,9 @@ curl -v -X POST http://localhost:3000/api/dashboards/db \
   -d @dashboard.json
 ```
 
-**3. 公式ドキュメントの[確認](/glossary/確認/)**
+**3. 公式[ドキュメント](/glossary/ドキュメント/)の[確認](/glossary/確認/)**
 
-Grafana 公式の [API](/glossary/api/) ドキュメント（https://grafana.com/docs/grafana/latest/developers/http_api/）では、各エンドポイントごとに必須フィールド、リクエスト形式、レスポンス例が詳述されています。使用しているエンドポイントに対応するセクションを確認し、自身のリクエスト形式と比較してください。
+Grafana 公式の [API](/glossary/api/) [ドキュメント](/glossary/ドキュメント/)（https://grafana.com/docs/grafana/latest/developers/http_api/）では、各エンドポイントごとに必須フィールド、リクエスト形式、レスポンス例が詳述されています。使用しているエンドポイントに対応するセクションを確認し、自身のリクエスト形式と比較してください。
 
 **4. [JSON](/glossary/json/) スキーマバリデーション**
 

@@ -30,7 +30,7 @@ FATAL:  database "myapp" does not exist
 
 [PostgreSQLの接続初期化処理](https://github.com/postgres/postgres/blob/REL_18_STABLE/src/backend/utils/init/postinit.c)には、指定した[データベース](/glossary/データベース/)が見つからないと接続を終了する[処理](/glossary/処理/)があります。SQLSTATEという5文字の[エラー](/glossary/エラー/)識別子は`3D000`です。[公式のエラーコード表](https://www.postgresql.org/docs/18/errcodes-appendix.html)では`invalid_catalog_name`に[対応](/glossary/対応/)します。
 
-`myapp`は接続時に使われた名前です。[エラー](/glossary/エラー/)に書かれた名前が、[設定](/glossary/設定/)したつもりの名前と一致するか[確認](/glossary/確認/)してください。psqlやアプリが付ける前置き、接続先の表示は[クライアント](/glossary/クライアント/)によって異なります。
+`myapp`は接続時に使われた名前です。[エラー](/glossary/エラー/)に書かれた名前が、[設定](/glossary/設定/)したつもりの名前と一致するか[確認](/glossary/確認/)してください。psqlや[アプリ](/glossary/アプリ/)が付ける前置き、接続先の表示は[クライアント](/glossary/クライアント/)によって異なります。
 
 このメッセージは、少なくともPostgreSQL[サーバー](/glossary/サーバー/)から応答を受けたことを示します。ただし、その[サーバー](/glossary/サーバー/)が意図した接続先だとは限りません。
 
@@ -38,7 +38,7 @@ FATAL:  database "myapp" does not exist
 
 ## 接続先を変えずに既存DBを一覧で確認する
 
-アプリが接続するホスト、[ポート](/glossary/ポート/)、[ユーザー名](/glossary/ユーザー名/)を[確認](/glossary/確認/)し、同じ[サーバー](/glossary/サーバー/)の既存[データベース](/glossary/データベース/)へ接続します。次はローカルの5432番[ポート](/glossary/ポート/)、管理用[ロール](/glossary/ロール/)`postgres`を使う例です。
+[アプリ](/glossary/アプリ/)が接続するホスト、[ポート](/glossary/ポート/)、[ユーザー名](/glossary/ユーザー名/)を[確認](/glossary/確認/)し、同じ[サーバー](/glossary/サーバー/)の既存[データベース](/glossary/データベース/)へ接続します。次はローカルの5432番[ポート](/glossary/ポート/)、管理用[ロール](/glossary/ロール/)`postgres`を使う例です。
 
 ```bash
 psql -h localhost -p 5432 -U postgres -d postgres -l
@@ -55,7 +55,7 @@ psql -h localhost -p 5432 -U postgres -d postgres -l
 \conninfo
 ```
 
-一覧に目的の名前があれば、アプリ側の接続先や名前の食い違いを調べます。別の[ポート](/glossary/ポート/)で動くローカルPostgreSQL、別の[Docker](/glossary/docker/)[コンテナ](/glossary/コンテナ/)、開発用と本番用などを取り違えていないかも[確認](/glossary/確認/)してください。
+一覧に目的の名前があれば、[アプリ](/glossary/アプリ/)側の接続先や名前の食い違いを調べます。別の[ポート](/glossary/ポート/)で動くローカルPostgreSQL、別の[Docker](/glossary/docker/)[コンテナ](/glossary/コンテナ/)、開発用と本番用などを取り違えていないかも[確認](/glossary/確認/)してください。
 
 [パスワード](/glossary/パスワード/)を含む接続[URL](/glossary/url/)を、調査のためにそのまま公開しないようにします。
 
@@ -75,7 +75,7 @@ psql -h localhost -p 5432 -U appuser
 psql -h localhost -p 5432 -U appuser -d myapp
 ```
 
-`PGDATABASE`などの[環境変数](/glossary/環境変数/)、接続サービスの[設定](/glossary/設定/)、アプリの接続[URL](/glossary/url/)に名前が指定されている場合もあります。省略したから必ず[OS](/glossary/os/)の[ユーザー名](/glossary/ユーザー名/)になる、と一律には判断しません。
+`PGDATABASE`などの[環境変数](/glossary/環境変数/)、接続サービスの[設定](/glossary/設定/)、[アプリ](/glossary/アプリ/)の接続[URL](/glossary/url/)に名前が指定されている場合もあります。省略したから必ず[OS](/glossary/os/)の[ユーザー名](/glossary/ユーザー名/)になる、と一律には判断しません。
 
 大文字・小文字にも注意します。[SQLの識別子の公式規則](https://www.postgresql.org/docs/18/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS)では、二重引用符で囲まない名前は小文字へ変換されます。[SQL](/glossary/sql/)で`CREATE DATABASE MyApp;`と書けば`myapp`、`CREATE DATABASE "MyApp";`なら大文字を含む`MyApp`です。
 
@@ -83,7 +83,7 @@ psql -h localhost -p 5432 -U appuser -d myapp
 
 ## 新規DBが必要な場合だけ作成する
 
-新しいアプリ用の[データベース](/glossary/データベース/)をまだ作っていない場合は、既存の[データベース](/glossary/データベース/)へ接続し、作成します。
+新しい[アプリ](/glossary/アプリ/)用の[データベース](/glossary/データベース/)をまだ作っていない場合は、既存の[データベース](/glossary/データベース/)へ接続し、作成します。
 
 ```bash
 psql -h localhost -p 5432 -U postgres -d postgres
@@ -95,7 +95,7 @@ psqlの中で、次を実行します。
 CREATE DATABASE myapp;
 ```
 
-[CREATE DATABASEの公式説明](https://www.postgresql.org/docs/18/sql-createdatabase.html)では、作成にはスーパーユーザーまたは`CREATEDB`[権限](/glossary/権限/)が必要です。通常、作成した[ロール](/glossary/ロール/)が所有者になります。アプリ用の別[ロール](/glossary/ロール/)を所有者にする場合は、その[権限](/glossary/権限/)と運用も[確認](/glossary/確認/)します。
+[CREATE DATABASEの公式説明](https://www.postgresql.org/docs/18/sql-createdatabase.html)では、作成にはスーパーユーザーまたは`CREATEDB`[権限](/glossary/権限/)が必要です。通常、作成した[ロール](/glossary/ロール/)が所有者になります。[アプリ](/glossary/アプリ/)用の別[ロール](/glossary/ロール/)を所有者にする場合は、その[権限](/glossary/権限/)と運用も[確認](/glossary/確認/)します。
 
 作成後、接続先を明示して[確認](/glossary/確認/)します。
 
@@ -103,7 +103,7 @@ CREATE DATABASE myapp;
 psql -h localhost -p 5432 -U postgres -d myapp
 ```
 
-`CREATE DATABASE`は空のアプリ用[データベース](/glossary/データベース/)を用意する操作で、失われた[テーブル](/glossary/テーブル/)やデータを[復元](/glossary/復元/)する操作ではありません。アプリに必要な[テーブル](/glossary/テーブル/)作成や、[バックアップ](/glossary/バックアップ/)からの[復元](/glossary/復元/)は別途必要です。
+`CREATE DATABASE`は空の[アプリ](/glossary/アプリ/)用[データベース](/glossary/データベース/)を用意する操作で、失われた[テーブル](/glossary/テーブル/)やデータを[復元](/glossary/復元/)する操作ではありません。[アプリ](/glossary/アプリ/)に必要な[テーブル](/glossary/テーブル/)作成や、[バックアップ](/glossary/バックアップ/)からの[復元](/glossary/復元/)は別途必要です。
 
 以前あったはずの[データベース](/glossary/データベース/)が突然見えなくなった場合は、接続先や保存領域、復旧手順を先に調べます。サーバーログに[データベース](/glossary/データベース/)の[ディレクトリ](/glossary/ディレクトリ/)欠落が示されている場合も、[ファイル](/glossary/ファイル/)を手で作って済ませないでください。
 

@@ -180,7 +180,7 @@ tail -100 /var/log/syslog
 tail -100 /var/log/messages
 ```
 
-Ansibleの公式ドキュメント（https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html）でインベントリ設定を見直し、ターゲットホストの接続情報（ホスト名、ポート、ユーザー、秘密鍵等）が正確か確認してください。
+Ansibleの公式[ドキュメント](/glossary/ドキュメント/)（https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html）でインベントリ設定を見直し、ターゲットホストの接続情報（ホスト名、ポート、ユーザー、秘密鍵等）が正確か確認してください。
 
 ---
 

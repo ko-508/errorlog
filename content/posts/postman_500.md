@@ -94,7 +94,7 @@ Postman の[クラウドサービス](/glossary/クラウドサービス/)自体
 
 ### 原因 3：リクエスト内容の不正によるサーバー側エラー
 
-Request Body に不正な [JSON](/glossary/json/)、不正な[認証](/glossary/認証/)[トークン](/glossary/トークン/)、サポートされていない[パラメータ](/glossary/パラメータ/)を[送信](/glossary/送信/)した場合、[サーバー](/glossary/サーバー/)が 500 [エラー](/glossary/エラー/)で応答することがあります。[サーバー](/glossary/サーバー/)の実装によっては入力値の[バリデーション](/glossary/バリデーション/)失敗時に 500 を返すケースもあります。
+Request Body に不正な [JSON](/glossary/json/)、不正な[認証](/glossary/認証/)[トークン](/glossary/トークン/)、[サポート](/glossary/サポート/)されていない[パラメータ](/glossary/パラメータ/)を[送信](/glossary/送信/)した場合、[サーバー](/glossary/サーバー/)が 500 [エラー](/glossary/エラー/)で応答することがあります。[サーバー](/glossary/サーバー/)の実装によっては入力値の[バリデーション](/glossary/バリデーション/)失敗時に 500 を返すケースもあります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -162,7 +162,7 @@ Postman Cloud 機能（History、Sync、Shared Collections）を使用してい�
    - curl [コマンド](/glossary/コマンド/)や他の [HTTP](/glossary/http/) [クライアント](/glossary/クライアント/)（例：cURL、HTTPie）で同じ[リクエスト](/glossary/リクエスト/)を[送信](/glossary/送信/)
    - Postman 固有の問題か、[API](/glossary/api/) [サーバー](/glossary/サーバー/)側の問題かを切り分ける
 
-5. **Postman 公式ドキュメントを参照する**
+5. **Postman 公式[ドキュメント](/glossary/ドキュメント/)を参照する**
    - https://learning.postman.com/docs/sending-requests/troubleshooting-api-requests/ 
    - Troubleshooting セクションで既知の問題と対応方法を[確認](/glossary/確認/)する
 

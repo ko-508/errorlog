@@ -161,7 +161,7 @@ podman exec frontend-container curl http://backend:8000
 
 ### 原因4：ランタイム変更によるシステムコール非互換
 
-Podman のランタイムを `krun` などに切り替えた際に、新しいランタイムが必要なシステムコール（例：`FIONREAD`、`SIOCINQ`）をサポートしていないため、I/O 操作がハングアップまたは失敗します。これにより、[コンテナ](/glossary/コンテナ/)内の[アプリケーション](/glossary/アプリケーション/)がネットワークリクエストに応答できなくなり、ホストからは 502 [エラー](/glossary/エラー/)に見えます。
+Podman のランタイムを `krun` などに切り替えた際に、新しいランタイムが必要なシステムコール（例：`FIONREAD`、`SIOCINQ`）を[サポート](/glossary/サポート/)していないため、I/O 操作がハングアップまたは失敗します。これにより、[コンテナ](/glossary/コンテナ/)内の[アプリケーション](/glossary/アプリケーション/)がネットワークリクエストに応答できなくなり、ホストからは 502 [エラー](/glossary/エラー/)に見えます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -268,7 +268,7 @@ podman run --rm alpine curl -v http://<backend-url>
 podman run --rm alpine nslookup <service-name>
 ```
 
-公式ドキュメント：[Podman Networking](https://docs.podman.io/en/latest/markdown/podman.1.html#network) および [Red Hat Solutions 6987158](https://access.redhat.com/solutions/6987158) で詳細なトラブルシューティング手順が提供されています。
+公式[ドキュメント](/glossary/ドキュメント/)：[Podman Networking](https://docs.podman.io/en/latest/markdown/podman.1.html#network) および [Red Hat Solutions 6987158](https://access.redhat.com/solutions/6987158) で詳細なトラブルシューティング手順が提供されています。
 
 Podman v4.x から v5.0 への[アップグレード](/glossary/アップグレード/)後にこの[エラー](/glossary/エラー/)が発生した場合は、`podman --version` で[バージョン](/glossary/バージョン/)を[確認](/glossary/確認/)し、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)を v5.0 に[対応](/glossary/対応/)させたかどうかを検証してください。
 

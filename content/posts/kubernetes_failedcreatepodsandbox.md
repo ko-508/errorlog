@@ -96,7 +96,7 @@ Warning  FailedCreatePodSandBox  <経過時間>  kubelet  Failed to create pod s
 | pause image を取得できない | ランタイム設定上の sandbox image 名、[レジストリ](/glossary/レジストリ/)疎通、[認証](/glossary/認証/) | ランタイム[設定](/glossary/設定/)の[修正](/glossary/修正/)、[プライベートレジストリ](/glossary/プライベートレジストリ/)へのミラー[設定](/glossary/設定/) |
 | container runtime の異常 | `systemctl status`、runtime の[ログ](/glossary/ログ/)、`crictl info` | runtime の[復旧](/glossary/復旧/)、設定不整合（cgroup [ドライバ](/glossary/ドライバ/)等）の[修正](/glossary/修正/) |
 | ノードのディスク・inode 枯渇 | `df -h` / `df -i`、ノードの `DiskPressure` | 不要[イメージ](/glossary/イメージ/)・[ログ](/glossary/ログ/)の[削除](/glossary/削除/)、容量拡張 |
-| [ネットワーク](/glossary/ネットワーク/)前提条件の欠落 | カーネルモジュールと sysctl、iptables の[バックエンド](/glossary/バックエンド/) | 公式ドキュメントの前提条件どおりに[設定](/glossary/設定/) |
+| [ネットワーク](/glossary/ネットワーク/)前提条件の欠落 | カーネルモジュールと sysctl、iptables の[バックエンド](/glossary/バックエンド/) | 公式[ドキュメント](/glossary/ドキュメント/)の前提条件どおりに[設定](/glossary/設定/) |
 
 ### 原因1：CNI プラグインまたは CNI 設定の不整合
 
@@ -123,7 +123,7 @@ sudo crictl info | grep -i -A20 cni
 
 CNI [設定](/glossary/設定/)[ディレクトリ](/glossary/ディレクトリ/)やバイナリディレクトリの場所は container runtime の[設定](/glossary/設定/)で決まります。既定値を推測せず、`crictl info` の出力やランタイムの[設定ファイル](/glossary/設定ファイル/)で実際の[パス](/glossary/パス/)を[確認](/glossary/確認/)してください。
 
-修復手順（[設定ファイル](/glossary/設定ファイル/)の内容、Pod CIDR の指定方法、必要な [RBAC](/glossary/rbac/) など）は[アドオン](/glossary/アドオン/)ごとに大きく異なります。使用している[アドオン](/glossary/アドオン/)の公式ドキュメントに従ってください。Pod CIDR は kubeadm 側の指定と[アドオン](/glossary/アドオン/)側の[設定](/glossary/設定/)が一致している必要があるため、両方を照合します。
+修復手順（[設定ファイル](/glossary/設定ファイル/)の内容、Pod CIDR の指定方法、必要な [RBAC](/glossary/rbac/) など）は[アドオン](/glossary/アドオン/)ごとに大きく異なります。使用している[アドオン](/glossary/アドオン/)の公式[ドキュメント](/glossary/ドキュメント/)に従ってください。Pod CIDR は kubeadm 側の指定と[アドオン](/glossary/アドオン/)側の[設定](/glossary/設定/)が一致している必要があるため、両方を照合します。
 
 ### 原因2：pause image または container runtime が sandbox コンテナを作れない
 
@@ -131,7 +131,7 @@ container runtime は sandbox [コンテナ](/glossary/コンテナ/)を起動�
 
 - **エアギャップ[環境](/glossary/環境/)・制限された[ネットワーク](/glossary/ネットワーク/)で pause image を取得できない**：ノードから公開[レジストリ](/glossary/レジストリ/)へ到達できない、[プロキシ](/glossary/プロキシ/)[設定](/glossary/設定/)が runtime に反映されていない、[DNS](/glossary/dns/) が引けない、といった状況です。
 - **ランタイム[設定](/glossary/設定/)の sandbox image 指定が誤っている**：存在しない[タグ](/glossary/タグ/)、到達できないミラー、アーキテクチャの異なる[イメージ](/glossary/イメージ/)を指定している場合です。
-- **[プライベートレジストリ](/glossary/プライベートレジストリ/)の[認証](/glossary/認証/)**：sandbox image の取得は container runtime 自身の[設定](/glossary/設定/)と認証情報で行われるため、Pod の `imagePullSecrets` を追加しても解決しない場合があります。ランタイム側の[レジストリ](/glossary/レジストリ/)認証設定を公式ドキュメントで[確認](/glossary/確認/)してください。
+- **[プライベートレジストリ](/glossary/プライベートレジストリ/)の[認証](/glossary/認証/)**：sandbox image の取得は container runtime 自身の[設定](/glossary/設定/)と認証情報で行われるため、Pod の `imagePullSecrets` を追加しても解決しない場合があります。ランタイム側の[レジストリ](/glossary/レジストリ/)認証設定を公式[ドキュメント](/glossary/ドキュメント/)で[確認](/glossary/確認/)してください。
 - **container runtime 本体の異常**：[プロセス](/glossary/プロセス/)が停止している、CRI ソケットが応答しない、設定変更後に再起動していない、cgroup [ドライバ](/glossary/ドライバ/)の[設定](/glossary/設定/)が kubelet と食い違っている、といった状態です。
 
 **確認方法**
@@ -155,17 +155,17 @@ sudo containerd config dump | grep -i -E 'sandbox|pause|pinned'
 sudo crictl pull <your-sandbox-image>
 ```
 
-`crictl pull` が失敗するなら、原因は[レジストリ](/glossary/レジストリ/)疎通か[認証](/glossary/認証/)か[設定値](/glossary/設定値/)です。成功するのに sandbox が作れないなら、CNI（原因1）かノード状態（原因3）を疑います。cgroup [ドライバ](/glossary/ドライバ/)やランタイムの前提設定については、[Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に記載された手順を基準にしてください。
+`crictl pull` が失敗するなら、原因は[レジストリ](/glossary/レジストリ/)疎通か[認証](/glossary/認証/)か[設定値](/glossary/設定値/)です。成功するのに sandbox が作れないなら、CNI（原因1）かノード状態（原因3）を疑います。cgroup [ドライバ](/glossary/ドライバ/)やランタイムの前提設定については、[Kubernetes](/glossary/kubernetes/) 公式[ドキュメント](/glossary/ドキュメント/)の「Container Runtimes」に記載された手順を基準にしてください。
 
 ### 原因3：ノード側の状態（ディスク・iptables・sysctl・カーネル）
 
 kubelet と container runtime はノードの [OS](/glossary/os/) 機能に強く依存します。ノード側が壊れていると、[マニフェスト](/glossary/マニフェスト/)が正しくても sandbox は作れません。
 
 - **ディスクや inode の枯渇**：`no space left on device` を含むメッセージで sandbox 作成が失敗する事例は、[クラウド](/glossary/クラウド/)提供元のトラブルシューティング文書でも紹介されています（例：[Tencent Cloud TKE のドキュメント](https://www.tencentcloud.com/document/product/457/35761)）。ランタイムのデータディレクトリ、`/var/log`、`/var/lib/kubelet` を個別に[確認](/glossary/確認/)します。
-- **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の[設定](/glossary/設定/)）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
+- **[ネットワーク](/glossary/ネットワーク/)前提条件の欠落**：ノードで必要なカーネルモジュールや sysctl（IP 転送やブリッジ関連の[設定](/glossary/設定/)）が有効でないと、Pod [ネットワーク](/glossary/ネットワーク/)の[設定](/glossary/設定/)に失敗します。必要な項目は [Kubernetes](/glossary/kubernetes/) 公式[ドキュメント](/glossary/ドキュメント/)の「Container Runtimes」に前提条件として明記されているので、その一覧と実機の状態を照合してください。
 - **iptables/nftables の不整合**：ホストの `iptables` がどの[バックエンド](/glossary/バックエンド/)（legacy / nft）で動いているかが、CNI やサービスプロキシの想定と食い違うと、ルール適用が失敗したり無効化されたりします。ノード再作成やディストリビューション[更新](/glossary/更新/)の後に起きやすい問題です。
 - **[プロセス](/glossary/プロセス/)・ファイルディスクリプタ・PID の上限**：ノードが高負荷のときに sandbox 作成だけが失敗することがあります。カーネルログ（`dmesg`）に該当メッセージが出ていないか[確認](/glossary/確認/)します。
-- **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に[対応](/glossary/対応/)する handler がノードの runtime 側に[設定](/glossary/設定/)されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を[確認](/glossary/確認/)してください（設定名や必要な runtime 側の定義は公式の RuntimeClass ドキュメントを参照）。
+- **RuntimeClass の指定**：Pod が指定した `runtimeClassName` に[対応](/glossary/対応/)する handler がノードの runtime 側に[設定](/glossary/設定/)されていないと、Pod は起動できません。特定の Pod だけが失敗する場合は、この可能性を[確認](/glossary/確認/)してください（設定名や必要な runtime 側の定義は公式の RuntimeClass [ドキュメント](/glossary/ドキュメント/)を参照）。
 
 **[確認](/glossary/確認/)[コマンド](/glossary/コマンド/)**
 
@@ -237,7 +237,7 @@ sudo crictl info
 sudo crictl pods
 ```
 
-`crictl info` の出力にはランタイムの状態（`RuntimeReady` / `NetworkReady` に相当する条件）と CNI [設定](/glossary/設定/)の読み込み状況が含まれます。`NetworkReady` が false なら原因1、ランタイム自体が応答しないなら原因2に進みます。`crictl` の使い方は [Kubernetes](/glossary/kubernetes/) 公式ドキュメントの「Debugging [Kubernetes](/glossary/kubernetes/) nodes with crictl」に説明があります。
+`crictl info` の出力にはランタイムの状態（`RuntimeReady` / `NetworkReady` に相当する条件）と CNI [設定](/glossary/設定/)の読み込み状況が含まれます。`NetworkReady` が false なら原因1、ランタイム自体が応答しないなら原因2に進みます。`crictl` の使い方は [Kubernetes](/glossary/kubernetes/) 公式[ドキュメント](/glossary/ドキュメント/)の「Debugging [Kubernetes](/glossary/kubernetes/) nodes with crictl」に説明があります。
 
 ### 手順5：仮説を1つずつ検証する
 
@@ -288,10 +288,10 @@ df -h > df.txt; df -i > df-inode.txt
 
 問い合わせ先の選び方は次のとおりです。
 
-- **CNI 由来のメッセージが出ている**：使用しているネットワークアドオンの公式[リポジトリ](/glossary/リポジトリ/)・ドキュメント
-- **container runtime 由来のメッセージが出ている**：containerd や CRI-O の公式[リポジトリ](/glossary/リポジトリ/)・ドキュメント
+- **CNI 由来のメッセージが出ている**：使用しているネットワークアドオンの公式[リポジトリ](/glossary/リポジトリ/)・[ドキュメント](/glossary/ドキュメント/)
+- **container runtime 由来のメッセージが出ている**：containerd や CRI-O の公式[リポジトリ](/glossary/リポジトリ/)・[ドキュメント](/glossary/ドキュメント/)
 - **kubelet や CRI の挙動そのものに疑問がある**：kubernetes/kubernetes の Issue を[検索](/glossary/検索/)し、同種の報告があるか[確認](/glossary/確認/)する
-- **マネージドサービス（[クラウド](/glossary/クラウド/)提供の [Kubernetes](/glossary/kubernetes/)）を利用している**：ノードイメージや[ネットワーク](/glossary/ネットワーク/)実装が提供元固有のため、提供元のサポート窓口が最短
+- **マネージドサービス（[クラウド](/glossary/クラウド/)提供の [Kubernetes](/glossary/kubernetes/)）を利用している**：ノードイメージや[ネットワーク](/glossary/ネットワーク/)実装が提供元固有のため、提供元の[サポート](/glossary/サポート/)窓口が最短
 
 報告時は、クラスタの構築方法（kubeadm、マネージドサービス、ディストリビューション）、使用しているネットワークアドオン、container runtime の種類、直前に行った変更（ノード追加、[アップグレード](/glossary/アップグレード/)、[設定変更](/glossary/設定変更/)）を添えると切り分けが早くなります。[ログ](/glossary/ログ/)を共有する際は、[トークン](/glossary/トークン/)や認証情報が含まれていないかを[確認](/glossary/確認/)し、必要に応じて `<your-token>` のような形に置き換えてください。
 

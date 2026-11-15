@@ -338,7 +338,7 @@ ssh-add ~/.ssh/id_ed25519
 ssh -vT git@github.com
 ```
 
-古い鍵形式と古いSSH[クライアント](/glossary/クライアント/)にも注意が必要です。[GitHub](/glossary/github/)は2022年3月15日からDSA鍵をサポートしていません。また、2021年11月2日以降に作られたRSA鍵はSHA-2署名を使う必要があり、古い[クライアント](/glossary/クライアント/)では[更新](/glossary/更新/)が必要な場合があります。
+古い鍵形式と古いSSH[クライアント](/glossary/クライアント/)にも注意が必要です。[GitHub](/glossary/github/)は2022年3月15日からDSA鍵を[サポート](/glossary/サポート/)していません。また、2021年11月2日以降に作られたRSA鍵はSHA-2署名を使う必要があり、古い[クライアント](/glossary/クライアント/)では[更新](/glossary/更新/)が必要な場合があります。
 
 既存の対応鍵がないと[確認](/glossary/確認/)できた場合だけ、新しい鍵を作ります。既存の既定鍵を誤って上書きしないよう、用途が分かる名前を指定します。
 
@@ -374,7 +374,7 @@ Deploy keyは個人[アカウント](/glossary/アカウント/)ではなく、�
 ssh -T -p 443 git@ssh.github.com
 ```
 
-[ポート](/glossary/ポート/)443で使うホスト名は `github.com` ではなく `ssh.github.com` です。[GitHub](/glossary/github/) Enterprise Serverと、データ所在地付きのEnterprise Cloudでは、この方法はサポートされていません。
+[ポート](/glossary/ポート/)443で使うホスト名は `github.com` ではなく `ssh.github.com` です。[GitHub](/glossary/github/) Enterprise Serverと、データ所在地付きのEnterprise Cloudでは、この方法は[サポート](/glossary/サポート/)されていません。
 
 [HTTPS](/glossary/https/)形式のremoteで出る資格情報[エラー](/glossary/エラー/)は、SSH鍵の問題ではありません。
 

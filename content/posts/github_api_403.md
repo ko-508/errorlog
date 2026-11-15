@@ -47,9 +47,9 @@ Resource protected by organization SAML enforcement なら、組織の SAML SSO 
 
 ### 原因1：レート制限の超過
 
-公式ドキュメントのとおり、[レート制限](/glossary/レート制限/)（primary）を超えると 403 または 429 が返り、x-ratelimit-remaining [ヘッダー](/glossary/ヘッダー/)が 0 になります。短時間の集中的なアクセスを抑える別枠の制限（secondary）もあり、こちらは超過した旨のメッセージ（You have exceeded a secondary rate limit）で見分けられます。
+公式[ドキュメント](/glossary/ドキュメント/)のとおり、[レート制限](/glossary/レート制限/)（primary）を超えると 403 または 429 が返り、x-ratelimit-remaining [ヘッダー](/glossary/ヘッダー/)が 0 になります。短時間の集中的なアクセスを抑える別枠の制限（secondary）もあり、こちらは超過した旨のメッセージ（You have exceeded a secondary rate limit）で見分けられます。
 
-対処も公式ドキュメントに明確な指針があります。retry-after [ヘッダー](/glossary/ヘッダー/)があれば、その秒数が経過するまで再試行しない。x-ratelimit-remaining が 0 なら、x-ratelimit-reset [ヘッダー](/glossary/ヘッダー/)が示す時刻（UTC の epoch 秒）まで再試行しない。どちらもなければ最低1分待つ。secondary の超過が続く場合は、待ち時間を指数的に増やしながら再試行し、一定回数で打ち切る、というものです。
+対処も公式[ドキュメント](/glossary/ドキュメント/)に明確な指針があります。retry-after [ヘッダー](/glossary/ヘッダー/)があれば、その秒数が経過するまで再試行しない。x-ratelimit-remaining が 0 なら、x-ratelimit-reset [ヘッダー](/glossary/ヘッダー/)が示す時刻（UTC の epoch 秒）まで再試行しない。どちらもなければ最低1分待つ。secondary の超過が続く場合は、待ち時間を指数的に増やしながら再試行し、一定回数で打ち切る、というものです。
 
 現在の状態は、利用枠を消費しない専用[エンドポイント](/glossary/エンドポイント/)で[確認](/glossary/確認/)できます。
 
@@ -58,7 +58,7 @@ curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/rate_limit
 ```
 
-自分に適用されている上限そのものは、通常の応答の x-ratelimit-limit [ヘッダー](/glossary/ヘッダー/)にも表示されます。上限の具体的な値は認証方法によって異なり、変更されることもあるため、この実測値と公式の[レート制限](/glossary/レート制限/)ドキュメントで[確認](/glossary/確認/)してください。未認証の[リクエスト](/glossary/リクエスト/)は認証済みより大幅に低い上限が適用されるため、繰り返し呼び出す[プログラム](/glossary/プログラム/)では[認証](/glossary/認証/)を付けることが第一の対策になります。
+自分に適用されている上限そのものは、通常の応答の x-ratelimit-limit [ヘッダー](/glossary/ヘッダー/)にも表示されます。上限の具体的な値は認証方法によって異なり、変更されることもあるため、この実測値と公式の[レート制限](/glossary/レート制限/)[ドキュメント](/glossary/ドキュメント/)で[確認](/glossary/確認/)してください。未認証の[リクエスト](/glossary/リクエスト/)は認証済みより大幅に低い上限が適用されるため、繰り返し呼び出す[プログラム](/glossary/プログラム/)では[認証](/glossary/認証/)を付けることが第一の対策になります。
 
 ### 原因2：GitHub App・fine-grained トークン・GITHUB_TOKEN の権限不足
 

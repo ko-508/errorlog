@@ -73,7 +73,7 @@ docker context ls
 env | grep -E '^DOCKER_(HOST|CONTEXT)='
 ```
 
-第二に、その接続先に合った方法でdaemonの稼働状態を[確認](/glossary/確認/)します。通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineなら `systemctl`、Rootless modeなら `systemctl --user`、[Docker](/glossary/docker/) Desktopならアプリ本体の状態を見ます。
+第二に、その接続先に合った方法でdaemonの稼働状態を[確認](/glossary/確認/)します。通常の[Linux](/glossary/linux/)版[Docker](/glossary/docker/) Engineなら `systemctl`、Rootless modeなら `systemctl --user`、[Docker](/glossary/docker/) Desktopなら[アプリ](/glossary/アプリ/)本体の状態を見ます。
 
 第三に、[Linux](/glossary/linux/)の `/var/run/docker.sock` へ接続している場合だけ、ソケットの所有者と現在のグループを[確認](/glossary/確認/)します。
 

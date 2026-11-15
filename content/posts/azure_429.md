@@ -282,7 +282,7 @@ azure_logger.setLevel(logging.DEBUG)
 
 ### 公式リファレンスの確認
 
-以下のドキュメントで、各 Azure サービスの具体的な[スロットリング](/glossary/スロットリング/)制限値を[確認](/glossary/確認/)してください：
+以下の[ドキュメント](/glossary/ドキュメント/)で、各 Azure サービスの具体的な[スロットリング](/glossary/スロットリング/)制限値を[確認](/glossary/確認/)してください：
 
 - **Azure Subscription and service limits, quotas, and constraints**
   https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/management/azure-subscription-service-limits

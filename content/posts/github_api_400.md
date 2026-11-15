@@ -16,7 +16,7 @@ top_queries:
 
 ## 冒頭まとめ
 
-[GitHub](/glossary/github/) [API](/glossary/api/) の 400 Bad Request は、[リクエスト](/glossary/リクエスト/)の形式そのものが壊れていて、[サーバー](/glossary/サーバー/)が中身の検証に進めない場合に返されます。公式ドキュメントが 400 として挙げているのは、[リクエスト](/glossary/リクエスト/)本文が [JSON](/glossary/json/) として読めない（Problems parsing [JSON](/glossary/json/)）、本文が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)の形になっていない（Body should be a [JSON](/glossary/json/) object）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)指定の[ヘッダー](/glossary/ヘッダー/)に存在しない値を指定した、の3つです。
+[GitHub](/glossary/github/) [API](/glossary/api/) の 400 Bad Request は、[リクエスト](/glossary/リクエスト/)の形式そのものが壊れていて、[サーバー](/glossary/サーバー/)が中身の検証に進めない場合に返されます。公式[ドキュメント](/glossary/ドキュメント/)が 400 として挙げているのは、[リクエスト](/glossary/リクエスト/)本文が [JSON](/glossary/json/) として読めない（Problems parsing [JSON](/glossary/json/)）、本文が [JSON](/glossary/json/) [オブジェクト](/glossary/オブジェクト/)の形になっていない（Body should be a [JSON](/glossary/json/) object）、[API](/glossary/api/) [バージョン](/glossary/バージョン/)指定の[ヘッダー](/glossary/ヘッダー/)に存在しない値を指定した、の3つです。
 
 一方、[JSON](/glossary/json/) としては正しく読めたうえで、必須[パラメータ](/glossary/パラメータ/)が足りない・値が[仕様](/glossary/仕様/)に合わないという場合に返るのは、400 ではなく 422 Unprocessable Entity です。400 の調査で最初にすべきことは、[設定](/glossary/設定/)や[パラメータ](/glossary/パラメータ/)の見直しではなく、応答の message を読んで 400 と 422 のどちらの問題かを確定することです。400 は形式の問題なので、同じ[リクエスト](/glossary/リクエスト/)を再試行しても結果は変わりません。[修正](/glossary/修正/)が必要です。
 
@@ -37,7 +37,7 @@ top_queries:
 
 応答の message の文言で、調べるべき場所が決まります。
 
-Problems parsing [JSON](/glossary/json/) なら、本文が [JSON](/glossary/json/) として壊れています（原因1）。Body should be a [JSON](/glossary/json/) object なら、[JSON](/glossary/json/) としては読めるものの、[オブジェクト](/glossary/オブジェクト/)（波かっこで始まる形）になっていません（原因2）。[API](/glossary/api/) [バージョン](/glossary/バージョン/)が未サポートである旨のメッセージなら、[バージョン](/glossary/バージョン/)指定[ヘッダー](/glossary/ヘッダー/)の値の問題です（原因3）。
+Problems parsing [JSON](/glossary/json/) なら、本文が [JSON](/glossary/json/) として壊れています（原因1）。Body should be a [JSON](/glossary/json/) object なら、[JSON](/glossary/json/) としては読めるものの、[オブジェクト](/glossary/オブジェクト/)（波かっこで始まる形）になっていません（原因2）。[API](/glossary/api/) [バージョン](/glossary/バージョン/)が未[サポート](/glossary/サポート/)である旨のメッセージなら、[バージョン](/glossary/バージョン/)指定[ヘッダー](/glossary/ヘッダー/)の値の問題です（原因3）。
 
 Validation Failed や Invalid request が返っているなら、それは 400 ではなく 422 の問題です。本文の形式は正しく届いており、中身が[エンドポイント](/glossary/エンドポイント/)の[仕様](/glossary/仕様/)に合っていません。[GitHub API の 422 エラー](/posts/github_api_422/)の記事を参照してください。Bad credentials なら 401 で、[トークン](/glossary/トークン/)の問題です（[GitHub API の 401 エラー](/posts/github_api_401/)）。
 
@@ -75,7 +75,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ### 原因2：本文が JSON オブジェクトの形になっていない
 
-[JSON](/glossary/json/) としては読めるものの、[エンドポイント](/glossary/エンドポイント/)が期待する[オブジェクト](/glossary/オブジェクト/)（{ } の形）ではなく、文字列や配列を送っているケースです。公式ドキュメントのとおり、この場合は Body should be a [JSON](/glossary/json/) object が返ります。
+[JSON](/glossary/json/) としては読めるものの、[エンドポイント](/glossary/エンドポイント/)が期待する[オブジェクト](/glossary/オブジェクト/)（{ } の形）ではなく、文字列や配列を送っているケースです。公式[ドキュメント](/glossary/ドキュメント/)のとおり、この場合は Body should be a [JSON](/glossary/json/) object が返ります。
 
 **Before（[JSON](/glossary/json/) の文字列を送ってしまい400になる）：**
 
@@ -85,7 +85,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
   -d '"just a string"'
 ```
 
-**After（[オブジェクト](/glossary/オブジェクト/)の形で送る）：**
+**After（[オブジェクト](/glossary/オブジェクト/)の形で[送る](/glossary/送る/)）：**
 
 ```bash
 curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
@@ -97,7 +97,7 @@ curl -X POST https://api.github.com/repos/<owner>/<repo>/issues \
 
 ### 原因3：API バージョン指定の誤り
 
-[GitHub](/glossary/github/) [API](/glossary/api/) は、リクエストヘッダー X-[GitHub](/glossary/github/)-Api-Version で [API](/glossary/api/) [バージョン](/glossary/バージョン/)を指定します。公式ドキュメントのとおり、存在しない[バージョン](/glossary/バージョン/)を指定すると、400 とともにその[バージョン](/glossary/バージョン/)がサポートされていない旨のメッセージが返ります。
+[GitHub](/glossary/github/) [API](/glossary/api/) は、リクエストヘッダー X-[GitHub](/glossary/github/)-Api-Version で [API](/glossary/api/) [バージョン](/glossary/バージョン/)を指定します。公式[ドキュメント](/glossary/ドキュメント/)のとおり、存在しない[バージョン](/glossary/バージョン/)を指定すると、400 とともにその[バージョン](/glossary/バージョン/)が[サポート](/glossary/サポート/)されていない旨のメッセージが返ります。
 
 ```bash
 curl -H "Authorization: Bearer <your-github-token>" \
@@ -105,14 +105,14 @@ curl -H "Authorization: Bearer <your-github-token>" \
   https://api.github.com/repos/<owner>/<repo>
 ```
 
-指定できる値は公式ドキュメントの [API](/glossary/api/) [バージョン](/glossary/バージョン/)一覧で[確認](/glossary/確認/)してください。日付の書式の誤記や、思い込みの値をそのまま書くことが原因になります。なお、かつて使われていた Accept [ヘッダー](/glossary/ヘッダー/)による[バージョン](/glossary/バージョン/)指定とは仕組みが異なるため、古い記事の[コード](/glossary/コード/)を流用する場合は注意が必要です。
+指定できる値は公式[ドキュメント](/glossary/ドキュメント/)の [API](/glossary/api/) [バージョン](/glossary/バージョン/)一覧で[確認](/glossary/確認/)してください。日付の書式の誤記や、思い込みの値をそのまま書くことが原因になります。なお、かつて使われていた Accept [ヘッダー](/glossary/ヘッダー/)による[バージョン](/glossary/バージョン/)指定とは仕組みが異なるため、古い記事の[コード](/glossary/コード/)を流用する場合は注意が必要です。
 
 ## 切り分けの順序
 
 1. 応答の message を読む。Validation Failed / Invalid request なら 422 の問題として切り替える（[422 の記事](/posts/github_api_422/)）。Bad credentials なら 401。
 2. Problems parsing [JSON](/glossary/json/) なら、[送信](/glossary/送信/)している本文そのものを取り出して [JSON](/glossary/json/) 検証にかける（python3 -m json.tool など）。[プログラム](/glossary/プログラム/)からの[送信](/glossary/送信/)なら、直列化の有無を[確認](/glossary/確認/)する。
 3. Body should be a [JSON](/glossary/json/) object なら、本文の先頭が { で始まる[オブジェクト](/glossary/オブジェクト/)かを[確認](/glossary/確認/)する。直列化を2回していないかを[確認](/glossary/確認/)する。
-4. [バージョン](/glossary/バージョン/)未サポートのメッセージなら、X-[GitHub](/glossary/github/)-Api-Version の値を公式の一覧と突き合わせる。
+4. [バージョン](/glossary/バージョン/)未[サポート](/glossary/サポート/)のメッセージなら、X-[GitHub](/glossary/github/)-Api-Version の値を公式の一覧と突き合わせる。
 
 ## 確認コマンド集
 

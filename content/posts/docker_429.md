@@ -85,7 +85,7 @@ jobs:
 
 ### 原因2：pull の回数自体が多すぎる
 
-[認証](/glossary/認証/)しても、クラスタの規模やジョブ数によっては枠や帯域を圧迫します。構造的な対処は、同じ[イメージ](/glossary/イメージ/)の pull を1回にまとめることです。[Docker](/glossary/docker/) はレジストリミラー（pull-through cache）を公式にサポートしており、[デーモン](/glossary/デーモン/)の[設定](/glossary/設定/)で全ノードの pull をミラー経由にできます。ミラーが一度取得した[イメージ](/glossary/イメージ/)はミラーから配られるため、[Docker](/glossary/docker/) Hub への pull は[キャッシュ](/glossary/キャッシュ/)が切れたときの1回だけになります。
+[認証](/glossary/認証/)しても、クラスタの規模やジョブ数によっては枠や帯域を圧迫します。構造的な対処は、同じ[イメージ](/glossary/イメージ/)の pull を1回にまとめることです。[Docker](/glossary/docker/) はレジストリミラー（pull-through cache）を公式に[サポート](/glossary/サポート/)しており、[デーモン](/glossary/デーモン/)の[設定](/glossary/設定/)で全ノードの pull をミラー経由にできます。ミラーが一度取得した[イメージ](/glossary/イメージ/)はミラーから配られるため、[Docker](/glossary/docker/) Hub への pull は[キャッシュ](/glossary/キャッシュ/)が切れたときの1回だけになります。
 
 **Before（全ノード・全ジョブがそれぞれ [Docker](/glossary/docker/) Hub から pull する）：**
 

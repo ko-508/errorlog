@@ -212,7 +212,7 @@ Supabase[ダッシュボード](/glossary/ダッシュボード/)の「Logs」�
 supabase projects info --project-ref <project-ref>
 ```
 
-それでも解決しない場合は、Supabaseの公式ドキュメント「[Rate Limiting](https://supabase.com/docs/guides/platform/rate-limits)」を参照するか、Supabase公式サポート（有料プランのみ）に問い合わせてください。無料プランの場合は、Discordコミュニティーでの相談も有効です。
+それでも解決しない場合は、Supabaseの公式[ドキュメント](/glossary/ドキュメント/)「[Rate Limiting](https://supabase.com/docs/guides/platform/rate-limits)」を参照するか、Supabase公式[サポート](/glossary/サポート/)（有料プランのみ）に問い合わせてください。無料プランの場合は、Discordコミュニティーでの相談も有効です。
 
 ---
 

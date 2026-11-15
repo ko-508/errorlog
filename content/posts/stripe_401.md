@@ -211,7 +211,7 @@ curl -v https://api.stripe.com/v1/charges \
 
 出力の `> Authorization` の行を[確認](/glossary/確認/)し、[キー](/glossary/キー/)が正しく[送信](/glossary/送信/)されているか[確認](/glossary/確認/)します。
 
-**Step 4：公式ドキュメントと [GitHub](/glossary/github/) Issues を[確認](/glossary/確認/)する**
+**Step 4：公式[ドキュメント](/glossary/ドキュメント/)と [GitHub](/glossary/github/) Issues を[確認](/glossary/確認/)する**
 
 [Stripe API リファレンス - Authentication](https://stripe.com/docs/api/authentication) で認証方法の最新仕様を[確認](/glossary/確認/)してください。
 

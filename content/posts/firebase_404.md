@@ -14,7 +14,7 @@ related_services: ["JavaScript", "SDK", "HTTP", "RFC 9110"]
 
 ## エラーの概要
 
-Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求した[リソース](/glossary/リソース/)（Firestoreのドキュメント、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。[開発環境](/glossary/開発環境/)から[本番環境](/glossary/本番環境/)への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
+Firebaseで404[エラー](/glossary/エラー/)が返される場合、要求した[リソース](/glossary/リソース/)（Firestoreの[ドキュメント](/glossary/ドキュメント/)、Cloud Functionsの[エンドポイント](/glossary/エンドポイント/)、Realtime Databaseの[パス](/glossary/パス/)など）がFirebase[プロジェクト](/glossary/プロジェクト/)内に存在しないことを示しています。この[エラー](/glossary/エラー/)は[HTTP](/glossary/http/)標準仕様（[RFC](/glossary/rfc/) 9110）で定義されており、Firebaseの複数のサービスで発生する可能性があります。[開発環境](/glossary/開発環境/)から[本番環境](/glossary/本番環境/)への移行時、または参照[パス](/glossary/パス/)の変更後に特に多く報告される[エラー](/glossary/エラー/)です。
 
 ## 実際のエラーメッセージ例
 
@@ -46,7 +46,7 @@ GET https://firestore.googleapis.com/v1/projects/<your-project-id>/databases/(de
 
 **原因1：Firestoreのドキュメントパスが誤っている**
 
-Firestoreはドキュメント階層が厳密です。コレクション名やドキュメント[ID](/glossary/id/)の綴り間違いが404につながります。
+Firestoreは[ドキュメント](/glossary/ドキュメント/)階層が厳密です。コレクション名や[ドキュメント](/glossary/ドキュメント/)[ID](/glossary/id/)の綴り間違いが404につながります。
 
 **Before（[エラー](/glossary/エラー/)が発生する[コード](/glossary/コード/)）:**
 ```javascript
@@ -94,9 +94,9 @@ Cloud Functionsの[デプロイ](/glossary/デプロイ/)[設定](/glossary/設�
 }
 ```
 
-**原因3：対象のコレクションやドキュメントが作成されていない**
+**原因3：対象のコレクションや[ドキュメント](/glossary/ドキュメント/)が作成されていない**
 
-Firestoreは明示的にコレクション・ドキュメントを作成する必要があります。存在しない[パス](/glossary/パス/)へのアクセスは404になります。
+Firestoreは明示的にコレクション・[ドキュメント](/glossary/ドキュメント/)を作成する必要があります。存在しない[パス](/glossary/パス/)へのアクセスは404になります。
 
 **Before（[エラー](/glossary/エラー/)が発生）:**
 ```javascript
@@ -144,7 +144,7 @@ if (snapshot.exists()) {
 
 **Firestoreセキュリティルールと404**
 
-セキュリティルールが拒否している場合も404が返されることがあります。[権限](/glossary/権限/)がないドキュメントへのアクセス試行は、情報漏洩を防ぐため意図的に404で応答します。
+セキュリティルールが拒否している場合も404が返されることがあります。[権限](/glossary/権限/)がない[ドキュメント](/glossary/ドキュメント/)へのアクセス試行は、情報漏洩を防ぐため意図的に404で応答します。
 
 ```javascript
 // firestore.rules で READ 権限がない場合
@@ -211,7 +211,7 @@ firebase functions:shell
 > getData({userId: "test_user"})
 ```
 
-**公式ドキュメント参照**
+**公式[ドキュメント](/glossary/ドキュメント/)参照**
 
 - [Firestoreのドキュメント参照](https://firebase.google.com/docs/firestore/query-data/get-data)
 - [Cloud Functionsの関数デプロイ](https://firebase.google.com/docs/functions/manage-functions)

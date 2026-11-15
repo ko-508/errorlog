@@ -18,7 +18,7 @@ top_queries:
 
 ## エラーの概要
 
-Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が 401 [エラー](/glossary/エラー/)（Unauthorized）で拒否される場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効、期限切れ、または不正な状態にあることを示します。この[エラー](/glossary/エラー/)が発生するとボットメッセージの[送信](/glossary/送信/)、[ユーザー](/glossary/ユーザー/)情報の取得、[ファイル](/glossary/ファイル/)の[アップロード](/glossary/アップロード/)などすべての [API](/glossary/api/) 操作が停止するため、早期の[対応](/glossary/対応/)が必須です。Slack アプリを運用する上で最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つです。
+Slack [API](/glossary/api/) への[リクエスト](/glossary/リクエスト/)が 401 [エラー](/glossary/エラー/)（Unauthorized）で拒否される場合、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効、期限切れ、または不正な状態にあることを示します。この[エラー](/glossary/エラー/)が発生するとボットメッセージの[送信](/glossary/送信/)、[ユーザー](/glossary/ユーザー/)情報の取得、[ファイル](/glossary/ファイル/)の[アップロード](/glossary/アップロード/)などすべての [API](/glossary/api/) 操作が停止するため、早期の[対応](/glossary/対応/)が必須です。Slack [アプリ](/glossary/アプリ/)を運用する上で最も頻繁に遭遇する[エラー](/glossary/エラー/)の一つです。
 
 ## 実際のエラーメッセージ例
 
@@ -54,7 +54,7 @@ Slack [API](/glossary/api/) が返す典型的な 401 [エラーレスポンス]
 
 ### 原因1：トークンの期限切れまたは無効化
 
-Slack の[セキュリティポリシー](/glossary/セキュリティポリシー/)変更による[トークン](/glossary/トークン/)自動失効、[ユーザー](/glossary/ユーザー/)が手動でアプリを[削除](/glossary/削除/)した、または定期的な[セキュリティ](/glossary/セキュリティ/)監査で古い[トークン](/glossary/トークン/)が無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` [エラー](/glossary/エラー/)が返されます。
+Slack の[セキュリティポリシー](/glossary/セキュリティポリシー/)変更による[トークン](/glossary/トークン/)自動失効、[ユーザー](/glossary/ユーザー/)が手動で[アプリ](/glossary/アプリ/)を[削除](/glossary/削除/)した、または定期的な[セキュリティ](/glossary/セキュリティ/)監査で古い[トークン](/glossary/トークン/)が無効化されている場合があります。このとき、`invalid_auth` または `token_revoked` [エラー](/glossary/エラー/)が返されます。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -250,13 +250,13 @@ curl -X POST https://slack.com/api/auth.test \
 
 ### ログの確認箇所
 
-- **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各アプリの[インストール](/glossary/インストール/)日時と最終使用日時を[確認](/glossary/確認/)
+- **Slack [ワークスペース](/glossary/ワークスペース/)管理画面**：「App management」→「Apps」で各[アプリ](/glossary/アプリ/)の[インストール](/glossary/インストール/)日時と最終使用日時を[確認](/glossary/確認/)
 - **Slack [API](/glossary/api/) テスター**：https://api.slack.com/methods/auth.test で直接[トークン](/glossary/トークン/)検証可能
 - **アプリケーションログ**：`SLACK_WEBHOOK_SECRET` が正しく[設定](/glossary/設定/)されているか、リクエストヘッダーに `Authorization` [フィールド](/glossary/フィールド/)が含まれているか[確認](/glossary/確認/)
 
 ### 公式リソース
 
-- Slack [API](/glossary/api/) [認証](/glossary/認証/)ドキュメント：https://api.slack.com/authentication
+- Slack [API](/glossary/api/) [認証](/glossary/認証/)[ドキュメント](/glossary/ドキュメント/)：https://api.slack.com/authentication
 - [OAuth](/glossary/oauth/) [スコープ](/glossary/スコープ/)一覧：https://api.slack.com/scopes
 - トークンローテーション詳細：https://api.slack.com/authentication/rotation
 

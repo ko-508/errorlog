@@ -195,7 +195,7 @@ except slack.errors.SlackApiError as e:
 
 ### チャンネルID確認の方法
 
-Slackアプリの[UI](/glossary/ui/)上でチャンネル名をクリックすると、パンくずリストの下部にチャンネル[ID](/glossary/id/)が表示されます。または`conversations.list`[エンドポイント](/glossary/エンドポイント/)で全チャンネル一覧を取得し、正確な[ID](/glossary/id/)を[確認](/glossary/確認/)することが推奨されます。
+Slack[アプリ](/glossary/アプリ/)の[UI](/glossary/ui/)上でチャンネル名をクリックすると、パンくずリストの下部にチャンネル[ID](/glossary/id/)が表示されます。または`conversations.list`[エンドポイント](/glossary/エンドポイント/)で全チャンネル一覧を取得し、正確な[ID](/glossary/id/)を[確認](/glossary/確認/)することが推奨されます。
 
 ```bash
 curl -X GET "https://slack.com/api/conversations.list?limit=100" \

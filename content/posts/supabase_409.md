@@ -259,7 +259,7 @@ supabase db pull
 
 この[コマンド](/glossary/コマンド/)で `supabase/migrations/` [ディレクトリ](/glossary/ディレクトリ/)に [SQL](/glossary/sql/) [スキーマ](/glossary/スキーマ/)が出力され、実際の制約定義を目視確認できます。
 
-PostgreSQL の公式ドキュメントの[整合性制約](https://www.postgresql.org/docs/current/ddl-constraints.html)セクションを参照すると、UNIQUE、PRIMARY KEY、FOREIGN KEY の詳細な動作を理解できます。
+PostgreSQL の公式[ドキュメント](/glossary/ドキュメント/)の[整合性制約](https://www.postgresql.org/docs/current/ddl-constraints.html)セクションを参照すると、UNIQUE、PRIMARY KEY、FOREIGN KEY の詳細な動作を理解できます。
 
 また、Supabase の公式ガイド「[Constraints and validations](https://supabase.com/docs/guides/database/constraints)」に制約設計のベストプラクティスが記載されていますので、[アプリケーション](/glossary/アプリケーション/)設計段階で参考にすることを推奨します。
 

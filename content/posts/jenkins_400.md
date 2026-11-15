@@ -39,7 +39,7 @@ com.google.gson.JsonSyntaxException: java.io.EOFException: End of input at line 
 
 ### 原因1：APIリクエストのJSONパラメータが不正な形式
 
-[REST](/glossary/rest/) [API](/glossary/api/)を経由してJenkinsジョブを[トリガー](/glossary/トリガー/)する際、POST[リクエスト](/glossary/リクエスト/)のボディに含まれる[JSON](/glossary/json/)が正しくパースできない形式になっていることが原因です。ダブルクォートの漏れ、末尾のカンマ、エスケープ漏れなどが典型的な問題です。
+[REST](/glossary/rest/) [API](/glossary/api/)を経由してJenkinsジョブを[トリガー](/glossary/トリガー/)する際、[POST](/glossary/post/)[リクエスト](/glossary/リクエスト/)のボディに含まれる[JSON](/glossary/json/)が正しくパースできない形式になっていることが原因です。ダブルクォートの漏れ、末尾のカンマ、エスケープ漏れなどが典型的な問題です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -182,7 +182,7 @@ curl -v -X POST \
   http://jenkins.example.com/job/<job-name>/buildWithParameters
 ```
 
-**公式ドキュメントで[エンドポイント](/glossary/エンドポイント/)[仕様](/glossary/仕様/)を[確認](/glossary/確認/)する：** Jenkins [REST](/glossary/rest/) [API](/glossary/api/)公式ドキュメント（`http://<jenkins-url>/api/`にアクセスして[JSON](/glossary/json/)形式の[API](/glossary/api/)[仕様](/glossary/仕様/)を参照）で、対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を[確認](/glossary/確認/)してください。[エンドポイント](/glossary/エンドポイント/)固有の[リクエスト](/glossary/リクエスト/)形式が記載されており、400[エラー](/glossary/エラー/)の原因特定に有効です。
+**公式[ドキュメント](/glossary/ドキュメント/)で[エンドポイント](/glossary/エンドポイント/)[仕様](/glossary/仕様/)を[確認](/glossary/確認/)する：** Jenkins [REST](/glossary/rest/) [API](/glossary/api/)公式[ドキュメント](/glossary/ドキュメント/)（`http://<jenkins-url>/api/`にアクセスして[JSON](/glossary/json/)形式の[API](/glossary/api/)[仕様](/glossary/仕様/)を参照）で、対象[エンドポイント](/glossary/エンドポイント/)の必須[パラメータ](/glossary/パラメータ/)と型定義を[確認](/glossary/確認/)してください。[エンドポイント](/glossary/エンドポイント/)固有の[リクエスト](/glossary/リクエスト/)形式が記載されており、400[エラー](/glossary/エラー/)の原因特定に有効です。
 
 **[ユーザー](/glossary/ユーザー/)[権限](/glossary/権限/)の[確認](/glossary/確認/)：** [REST](/glossary/rest/) [API](/glossary/api/)[リクエスト](/glossary/リクエスト/)に使用している[認証](/glossary/認証/)[トークン](/glossary/トークン/)・[API](/glossary/api/)[キー](/glossary/キー/)に対象ジョブの実行権限がない場合、[サーバー](/glossary/サーバー/)が400ではなく401・403[エラー](/glossary/エラー/)を返すことが多いですが、[ツール](/glossary/ツール/)の[バージョン](/glossary/バージョン/)や[セキュリティ](/glossary/セキュリティ/)[設定](/glossary/設定/)によっては400が返されることもあります。Jenkins管理画面でユーザーロールと[権限](/glossary/権限/)を再度確認してください。
 

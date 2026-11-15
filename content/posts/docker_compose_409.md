@@ -175,7 +175,7 @@ docker system prune -a --volumes
 
 ### 公式ドキュメントの確認
 
-[Docker](/glossary/docker/) Compose の公式ドキュメント（https://docs.docker.com/compose/）では、詳細な設定オプションと各エラーの詳説が提供されています。また、`docker compose config` [コマンド](/glossary/コマンド/)で現在の[設定](/glossary/設定/)を検証できます。
+[Docker](/glossary/docker/) Compose の公式[ドキュメント](/glossary/ドキュメント/)（https://docs.docker.com/compose/）では、詳細な設定オプションと各エラーの詳説が提供されています。また、`docker compose config` [コマンド](/glossary/コマンド/)で現在の[設定](/glossary/設定/)を検証できます。
 
 ```bash
 # compose.yml の構文チェック

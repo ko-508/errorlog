@@ -89,7 +89,7 @@ const { data, error } = await supabase
 
 ### 原因 2：必須リクエストヘッダーの不足
 
-Supabase [API](/glossary/api/) へのすべての[リクエスト](/glossary/リクエスト/)には `Content-Type` と `apikey` [ヘッダー](/glossary/ヘッダー/)が必須です。特に POST や PATCH [リクエスト](/glossary/リクエスト/)で [JSON](/glossary/json/) ボディを[送信](/glossary/送信/)する場合、`Content-Type: application/json` を明記しないと 400 が返ります。
+Supabase [API](/glossary/api/) へのすべての[リクエスト](/glossary/リクエスト/)には `Content-Type` と `apikey` [ヘッダー](/glossary/ヘッダー/)が必須です。特に [POST](/glossary/post/) や PATCH [リクエスト](/glossary/リクエスト/)で [JSON](/glossary/json/) ボディを[送信](/glossary/送信/)する場合、`Content-Type: application/json` を明記しないと 400 が返ります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -218,7 +218,7 @@ curl -v -X GET "https://<your-project>.supabase.co/rest/v1/users?status=eq.activ
 
 `-v` フラグにより、送受信される[ヘッダー](/glossary/ヘッダー/)と[レスポンス](/glossary/レスポンス/)全体が表示されます。
 
-また、Supabase の公式ドキュメント（https://supabase.com/docs/reference/javascript/select）で PostgREST フィルタ演算子の完全なリストを[確認](/glossary/確認/)し、使用している演算子が正しいものであることを再度確認してください。Auth [API](/glossary/api/) の[パラメータ](/glossary/パラメータ/)についても公式リファレンス（https://supabase.com/docs/reference/javascript/auth-signup）で仕様を熟読することで、型や形式の誤りを防げます。
+また、Supabase の公式[ドキュメント](/glossary/ドキュメント/)（https://supabase.com/docs/reference/javascript/select）で PostgREST フィルタ演算子の完全なリストを[確認](/glossary/確認/)し、使用している演算子が正しいものであることを再度確認してください。Auth [API](/glossary/api/) の[パラメータ](/glossary/パラメータ/)についても公式リファレンス（https://supabase.com/docs/reference/javascript/auth-signup）で仕様を熟読することで、型や形式の誤りを防げます。
 
 ---
 

@@ -52,7 +52,7 @@ http:////./pipe/docker_engine/v1.24/containers/json, check if the server
 supports the requested API version
 ```
 
-対処の第一歩は、[Docker](/glossary/docker/) Desktop の画面でエンジンの状態を[確認](/glossary/確認/)することです。画面の左下などに Engine running と表示されるまで待ちます。[Docker](/glossary/docker/) Desktop 自体を終了して起動し直すのが基本の対処です。それでもエンジンが起動しない場合は、[Docker](/glossary/docker/) Desktop のメニューにある Troubleshoot（診断機能）から[ログ](/glossary/ログ/)や診断情報を[確認](/glossary/確認/)できます。公式ドキュメントによると、[Docker](/glossary/docker/) Desktop の[デーモン](/glossary/デーモン/)関連の[ログ](/glossary/ログ/)は、仮想マシン内の各サービスの出力をまとめた init.log という[ファイル](/glossary/ファイル/)に記録されます。
+対処の第一歩は、[Docker](/glossary/docker/) Desktop の画面でエンジンの状態を[確認](/glossary/確認/)することです。画面の左下などに Engine running と表示されるまで待ちます。[Docker](/glossary/docker/) Desktop 自体を終了して起動し直すのが基本の対処です。それでもエンジンが起動しない場合は、[Docker](/glossary/docker/) Desktop のメニューにある Troubleshoot（診断機能）から[ログ](/glossary/ログ/)や診断情報を[確認](/glossary/確認/)できます。公式[ドキュメント](/glossary/ドキュメント/)によると、[Docker](/glossary/docker/) Desktop の[デーモン](/glossary/デーモン/)関連の[ログ](/glossary/ログ/)は、仮想マシン内の各サービスの出力をまとめた init.log という[ファイル](/glossary/ファイル/)に記録されます。
 
 なお、この状態は [Docker](/glossary/docker/) 側の[バージョン](/glossary/バージョン/)[更新](/glossary/更新/)の直後に発生したという報告が複数あります。エンジンが起動しない状態が続く場合は、公式[リポジトリ](/glossary/リポジトリ/)（docker/for-win）で同じ[バージョン](/glossary/バージョン/)の報告がないかを[確認](/glossary/確認/)してください。
 
@@ -87,13 +87,13 @@ docker system prune -a
 
 [削除](/glossary/削除/)は元に戻せないため、docker system df で内訳を[確認](/glossary/確認/)してから実行してください。
 
-メッセージの文言だけで原因が分からない場合は、[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)します。公式ドキュメントによると、systemd を使う [Linux](/glossary/linux/) では次の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)できます。
+メッセージの文言だけで原因が分からない場合は、[デーモン](/glossary/デーモン/)の[ログ](/glossary/ログ/)を[確認](/glossary/確認/)します。公式[ドキュメント](/glossary/ドキュメント/)によると、systemd を使う [Linux](/glossary/linux/) では次の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)できます。
 
 ```bash
 sudo journalctl -u docker.service -n 100 --no-pager
 ```
 
-さらに詳しい記録が必要な場合は、[設定ファイル](/glossary/設定ファイル/) /etc/docker/daemon.json に "debug": true を追加し、[デーモン](/glossary/デーモン/)に[設定](/glossary/設定/)を読み直させると、動作の詳細が[ログ](/glossary/ログ/)に出力されるようになります（公式ドキュメント記載の手順）。
+さらに詳しい記録が必要な場合は、[設定ファイル](/glossary/設定ファイル/) /etc/docker/daemon.json に "debug": true を追加し、[デーモン](/glossary/デーモン/)に[設定](/glossary/設定/)を読み直させると、動作の詳細が[ログ](/glossary/ログ/)に出力されるようになります（公式[ドキュメント](/glossary/ドキュメント/)記載の手順）。
 
 ## 補足：500ではない類似エラー
 

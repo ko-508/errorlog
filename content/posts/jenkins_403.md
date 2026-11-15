@@ -48,7 +48,7 @@ Authentication required
 
 ### 原因1：CSRF保護が有効なのにCrumbヘッダーを付けずにAPIを呼び出している
 
-Jenkins の CSRF 保護が有効になっていると、POST [リクエスト](/glossary/リクエスト/)（ジョブの実行、[設定変更](/glossary/設定変更/)など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部[スクリプト](/glossary/スクリプト/)から Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
+Jenkins の CSRF 保護が有効になっていると、[POST](/glossary/post/) [リクエスト](/glossary/リクエスト/)（ジョブの実行、[設定変更](/glossary/設定変更/)など）には Crumb [トークン](/glossary/トークン/)が必須です。この[トークン](/glossary/トークン/)を付けずに[リクエスト](/glossary/リクエスト/)すると 403 [エラー](/glossary/エラー/)が返されます。特に外部[スクリプト](/glossary/スクリプト/)から Jenkins [API](/glossary/api/) を呼ぶ場合、この原因が最も多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -172,9 +172,9 @@ curl -v -X POST "http://localhost:8080/job/my-job/build" \
 
 `-v` フラグでレスポンスヘッダーを[確認](/glossary/確認/)すると、Crumb の有無や権限周りの詳細がわかります。
 
-**公式ドキュメント参照：**
+**公式[ドキュメント](/glossary/ドキュメント/)参照：**
 
-Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) ドキュメントに [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を[確認](/glossary/確認/)したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) [プラグイン](/glossary/プラグイン/)のドキュメントも参照してください。
+Jenkins 公式の [Remote API](https://www.jenkins.io/doc/book/using-jenkins/remote-access-api/) [ドキュメント](/glossary/ドキュメント/)に [API](/glossary/api/) 呼び出しの詳細仕様が記載されています。また **Manage Jenkins** → **Script Console** で Groovy [スクリプト](/glossary/スクリプト/)を直接実行して[テスト](/glossary/テスト/)することもできます。権限設定を[確認](/glossary/確認/)したい場合は [Role-Based Access Control](https://plugins.jenkins.io/role-based-auth/) [プラグイン](/glossary/プラグイン/)の[ドキュメント](/glossary/ドキュメント/)も参照してください。
 
 ---
 

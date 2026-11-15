@@ -188,7 +188,7 @@ npm install -g vercel@latest
 vercel --version
 ```
 
-それでも解決しない場合は、[Vercel 公式ドキュメント](https://vercel.com/docs/api)の [API](/glossary/api/) 仕様確認と、[Vercel Community Discord](https://vercel.com/support)でのサポート相談を検討してください。[ログファイル](/glossary/ログファイル/)は `~/.vercel` ディレクトリーに[保存](/glossary/保存/)されており、詳細な情報取得に役立ちます。
+それでも解決しない場合は、[Vercel 公式ドキュメント](https://vercel.com/docs/api)の [API](/glossary/api/) 仕様確認と、[Vercel Community Discord](https://vercel.com/support)での[サポート](/glossary/サポート/)相談を検討してください。[ログファイル](/glossary/ログファイル/)は `~/.vercel` ディレクトリーに[保存](/glossary/保存/)されており、詳細な情報取得に役立ちます。
 
 ---
 

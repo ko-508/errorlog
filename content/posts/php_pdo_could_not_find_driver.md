@@ -50,7 +50,7 @@ php --ini
 
 DSNが `mysql:` なら一覧に `mysql` が必要です。`php -m` にPDOと表示されていても、それだけではMySQL用[ドライバ](/glossary/ドライバ/)が使えるとは判断できません。また、mysqliとPDO_MYSQLは別の拡張なので、mysqliの有効化だけで済ませないようにします。
 
-Webの[処理](/glossary/処理/)で失敗する場合は、対象アプリの管理者用の診断処理や[ログ](/glossary/ログ/)で[確認](/glossary/確認/)します。
+Webの[処理](/glossary/処理/)で失敗する場合は、対象[アプリ](/glossary/アプリ/)の管理者用の診断処理や[ログ](/glossary/ログ/)で[確認](/glossary/確認/)します。
 
 ```php
 <?php
@@ -69,7 +69,7 @@ PostgreSQLだから `postgresql:`、という指定にはしません。必要�
 
 [対応](/glossary/対応/)する拡張名は、MySQLなら `pdo_mysql`、PostgreSQLなら `pdo_pgsql`、SQLiteなら `pdo_sqlite` です。[設定ファイル](/glossary/設定ファイル/)に書く拡張名と、DSNに書く名前は同じ文字列ではありません。
 
-[フレームワーク](/glossary/フレームワーク/)を使っている場合は、アプリの[設定](/glossary/設定/)からどの[データベース](/glossary/データベース/)用のDSNが生成されているかを[確認](/glossary/確認/)します。[エラー](/glossary/エラー/)を消すために実際の接続先とは違う種類へ変更するのではなく、意図した接続先と[ドライバ](/glossary/ドライバ/)を合わせます。
+[フレームワーク](/glossary/フレームワーク/)を使っている場合は、[アプリ](/glossary/アプリ/)の[設定](/glossary/設定/)からどの[データベース](/glossary/データベース/)用のDSNが生成されているかを[確認](/glossary/確認/)します。[エラー](/glossary/エラー/)を消すために実際の接続先とは違う種類へ変更するのではなく、意図した接続先と[ドライバ](/glossary/ドライバ/)を合わせます。
 
 ## Windowsでは読み込むphp.iniと拡張ファイルを確認する
 
@@ -81,7 +81,7 @@ extension=pdo_mysql
 
 既存の行が `;extension=pdo_mysql` なら、先頭のセミコロンはコメントを意味します。必要な拡張[ファイル](/glossary/ファイル/)が `extension_dir` に存在することを[確認](/glossary/確認/)してから有効にしてください。行を追加するだけで、存在しない拡張[ファイル](/glossary/ファイル/)が導入されるわけではありません。
 
-[CLI](/glossary/cli/)なら `php --ini`、Webなら対象アプリでの `php_ini_loaded_file()` の結果を使い、実際に読む[ファイル](/glossary/ファイル/)を[確認](/glossary/確認/)します。[PHPの設定ファイルの説明](https://www.php.net/manual/en/configuration.file.php)には、実行方式ごとの指定と、追加ini[ファイル](/glossary/ファイル/)の読み込みがあります。名前が同じphp.iniを別の場所で編集していないかも[確認](/glossary/確認/)してください。
+[CLI](/glossary/cli/)なら `php --ini`、Webなら対象[アプリ](/glossary/アプリ/)での `php_ini_loaded_file()` の結果を使い、実際に読む[ファイル](/glossary/ファイル/)を[確認](/glossary/確認/)します。[PHPの設定ファイルの説明](https://www.php.net/manual/en/configuration.file.php)には、実行方式ごとの指定と、追加ini[ファイル](/glossary/ファイル/)の読み込みがあります。名前が同じphp.iniを別の場所で編集していないかも[確認](/glossary/確認/)してください。
 
 変更後はPHPを再起動します。Webで常駐しているPHP-FPMやApacheなどは、利用環境の管理手順に従って[設定](/glossary/設定/)を反映してください。[CLI](/glossary/cli/)は新たに起動したPHPで[確認](/glossary/確認/)します。
 

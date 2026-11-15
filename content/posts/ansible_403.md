@@ -277,9 +277,9 @@ sudo tail -f /var/log/secure   # RHEL/CentOS の場合
 ssh ansible_user@target_host "sudo systemctl restart apache2"
 ```
 
-**公式ドキュメントとサポート**
+**公式[ドキュメント](/glossary/ドキュメント/)と[サポート](/glossary/サポート/)**
 
-Ansibleの権限昇格について、公式ドキュメント（https://docs.ansible.com/ansible/latest/privilege_escalation.html）には詳細な設定方法が記載されています。また、特定の環境やツール（Docker、Kubernetes、クラウドプロバイダー）でのbecome設定パターンも参照できます。
+Ansibleの権限昇格について、公式[ドキュメント](/glossary/ドキュメント/)（https://docs.ansible.com/ansible/latest/privilege_escalation.html）には詳細な設定方法が記載されています。また、特定の環境やツール（Docker、Kubernetes、クラウドプロバイダー）でのbecome設定パターンも参照できます。
 
 ---
 

@@ -230,7 +230,7 @@ docker volume ls
 
 ### 公式ドキュメント
 
-[Docker](/glossary/docker/)の公式ドキュメント「[Container Conflicts](https://docs.docker.com/engine/reference/commandline/run/)」では、[ポート](/glossary/ポート/)割り当てと[コンテナ](/glossary/コンテナ/)名に関する詳細な説明があります。また、「[Error Handling](https://docs.docker.com/engine/api/sdk/)」では[API](/glossary/api/)経由での409[エラー](/glossary/エラー/)の詳細が記載されています。
+[Docker](/glossary/docker/)の公式[ドキュメント](/glossary/ドキュメント/)「[Container Conflicts](https://docs.docker.com/engine/reference/commandline/run/)」では、[ポート](/glossary/ポート/)割り当てと[コンテナ](/glossary/コンテナ/)名に関する詳細な説明があります。また、「[Error Handling](https://docs.docker.com/engine/api/sdk/)」では[API](/glossary/api/)経由での409[エラー](/glossary/エラー/)の詳細が記載されています。
 
 ### コミュニティリソース
 

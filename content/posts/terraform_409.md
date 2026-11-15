@@ -200,7 +200,7 @@ TF_LOG=DEBUG terraform apply 2>&1 | tee terraform_debug.log
 **3. クラウドプロバイダーの[ログ](/glossary/ログ/)を[確認](/glossary/確認/)：**
 [AWS](/glossary/aws/) の場合は CloudTrail、Google Cloud の場合は Cloud Audit Logs を[確認](/glossary/確認/)し、[リソース](/glossary/リソース/)作成の試行がどの段階で失敗したかを追跡します。
 
-**4. 公式ドキュメントの参照：**
+**4. 公式[ドキュメント](/glossary/ドキュメント/)の参照：**
 - [Terraform state コマンドリファレンス](https://www.terraform.io/cli/commands/state)
 - [terraform import 使用ガイド](https://www.terraform.io/cli/import)
 - 各クラウドプロバイダーの Terraform プロバイダードキュメント

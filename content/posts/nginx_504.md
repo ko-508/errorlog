@@ -31,7 +31,7 @@ while reading response header from upstream, client: 192.168.1.100, server: exam
 request: "GET /api/report HTTP/1.1", upstream: "http://127.0.0.1:8080/api/report"
 ```
 
-関係するタイマーの正確な[仕様](/glossary/仕様/)を押さえておくと、対処を誤りません。公式ドキュメントによると、proxy_connect_timeout（既定60秒）は上流との接続確立に対する制限で、通常75秒を超える値には[設定](/glossary/設定/)できません。proxy_read_timeout（既定60秒）は応答の読み取りに対する制限ですが、応答全体の転送時間の上限ではなく、連続する2つの読み取り操作の間隔に適用されます。つまり上流が少しずつでもデータを送り続けていれば、全体が60秒を超えても切れません。切れるのは「この時間、何も送られてこなかった」ときです。proxy_send_timeout（既定60秒）は同様に、上流への書き込み操作の間隔に適用されます。PHP-FPM などの FastCGI 構成では、[対応](/glossary/対応/)する fastcgi_read_timeout などが同じ意味を持ちます。
+関係するタイマーの正確な[仕様](/glossary/仕様/)を押さえておくと、対処を誤りません。公式[ドキュメント](/glossary/ドキュメント/)によると、proxy_connect_timeout（既定60秒）は上流との接続確立に対する制限で、通常75秒を超える値には[設定](/glossary/設定/)できません。proxy_read_timeout（既定60秒）は応答の読み取りに対する制限ですが、応答全体の転送時間の上限ではなく、連続する2つの読み取り操作の間隔に適用されます。つまり上流が少しずつでもデータを送り続けていれば、全体が60秒を超えても切れません。切れるのは「この時間、何も送られてこなかった」ときです。proxy_send_timeout（既定60秒）は同様に、上流への書き込み操作の間隔に適用されます。PHP-FPM などの FastCGI 構成では、[対応](/glossary/対応/)する fastcgi_read_timeout などが同じ意味を持ちます。
 
 なお、似た状況で別の[コード](/glossary/コード/)になる場合があります。上流への接続が即座に拒否された場合（[プロセス](/glossary/プロセス/)停止・[ポート](/glossary/ポート/)違い）は504ではなく502です。また、Nginx が待っている間に[クライアント](/glossary/クライアント/)側が先に諦めて切断した場合は、誰にも何も返らず、[アクセスログ](/glossary/アクセスログ/)に499が記録されます。
 
@@ -97,7 +97,7 @@ curl -m 5 -i http://<上流のアドレス>:<ポート>/
 
 ### 原因3：多段構成でのタイマーの不整合
 
-Nginx の手前に別の中継役（[CDN](/glossary/cdn/)、[ロードバランサー](/glossary/ロードバランサー/)、もう1段の Nginx）がいる構成では、どの段のタイマーが最初に切れるかで症状の出方が変わります。手前のタイマーが Nginx の proxy_read_timeout より短ければ、Nginx が待っている間に手前が先に504を返し（このとき Nginx 側には[クライアント](/glossary/クライアント/)切断として499が残ります）、Nginx 側だけ調整しても直りません。原則は、外側ほどタイマーを長くすることです（[クライアント](/glossary/クライアント/) > 手前の中継役 > Nginx > 上流アプリの実行制限）。この整合が取れていると、時間切れは常に最も内側で起き、調査の場所が安定します。
+Nginx の手前に別の中継役（[CDN](/glossary/cdn/)、[ロードバランサー](/glossary/ロードバランサー/)、もう1段の Nginx）がいる構成では、どの段のタイマーが最初に切れるかで症状の出方が変わります。手前のタイマーが Nginx の proxy_read_timeout より短ければ、Nginx が待っている間に手前が先に504を返し（このとき Nginx 側には[クライアント](/glossary/クライアント/)切断として499が残ります）、Nginx 側だけ調整しても直りません。原則は、外側ほどタイマーを長くすることです（[クライアント](/glossary/クライアント/) > 手前の中継役 > Nginx > 上流[アプリ](/glossary/アプリ/)の実行制限）。この整合が取れていると、時間切れは常に最も内側で起き、調査の場所が安定します。
 
 ## 切り分けの順序
 
@@ -127,7 +127,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-「[設定](/glossary/設定/)したのに効かない」の実例として、海外の技術 Q&A サイトの報告があります（[qna.habr.com の質問](https://qna.habr.com/q/156375)、2014年）。約3分かかる[スクリプト](/glossary/スクリプト/)のために fastcgi_read_timeout 600 を[設定](/glossary/設定/)したのに、[ブラウザ](/glossary/ブラウザ/)にはちょうど1分で 504 Gateway Time-out が表示され、[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) while reading response header from upstream が記録されている、という内容です。注目すべきは時間です。切れているのは[設定](/glossary/設定/)した600秒ではなく、既定値と同じ60秒です。つまりこの記録は、書いた[設定](/glossary/設定/)がその[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)に使われていない（別の location が[処理](/glossary/処理/)しているか、[設定](/glossary/設定/)が読み込まれていない）ことを、[ログ](/glossary/ログ/)の数字そのものが示している実例です。古い報告ですが、fastcgi_read_timeout と proxy_read_timeout のこの挙動は現行の公式ドキュメントの[仕様](/glossary/仕様/)と変わりません。504 の調査で値を延ばす前に実効設定を[確認](/glossary/確認/)すべき理由が、ここに凝縮されています。
+「[設定](/glossary/設定/)したのに効かない」の実例として、海外の技術 Q&A サイトの報告があります（[qna.habr.com の質問](https://qna.habr.com/q/156375)、2014年）。約3分かかる[スクリプト](/glossary/スクリプト/)のために fastcgi_read_timeout 600 を[設定](/glossary/設定/)したのに、[ブラウザ](/glossary/ブラウザ/)にはちょうど1分で 504 Gateway Time-out が表示され、[エラーログ](/glossary/エラーログ/)には upstream timed out (110: Connection timed out) while reading response header from upstream が記録されている、という内容です。注目すべきは時間です。切れているのは[設定](/glossary/設定/)した600秒ではなく、既定値と同じ60秒です。つまりこの記録は、書いた[設定](/glossary/設定/)がその[リクエスト](/glossary/リクエスト/)の[処理](/glossary/処理/)に使われていない（別の location が[処理](/glossary/処理/)しているか、[設定](/glossary/設定/)が読み込まれていない）ことを、[ログ](/glossary/ログ/)の数字そのものが示している実例です。古い報告ですが、fastcgi_read_timeout と proxy_read_timeout のこの挙動は現行の公式[ドキュメント](/glossary/ドキュメント/)の[仕様](/glossary/仕様/)と変わりません。504 の調査で値を延ばす前に実効設定を[確認](/glossary/確認/)すべき理由が、ここに凝縮されています。
 
 504 は「どのタイマーが切れたか」を[ログ](/glossary/ログ/)が名指ししてくれる[エラー](/glossary/エラー/)です。文言と実測時間を読み、経路・[処理](/glossary/処理/)・[設定](/glossary/設定/)の三択のどれかを確定してから手を打つことが確実な近道です。
 

@@ -297,7 +297,7 @@ curl -X GET "http://localhost:54321/rest/v1/users" \
 
 ### ステップ5：公式サポートへの問い合わせ
 
-Supabase公式ドキュメント（https://supabase.com/docs）または、GitHub Discussions（https://github.com/supabase/supabase/discussions）で同様の問題事例を検索します。解決しない場合は、以下の情報を添付して問い合わせます：
+Supabase公式[ドキュメント](/glossary/ドキュメント/)（https://supabase.com/docs）または、GitHub Discussions（https://github.com/supabase/supabase/discussions）で同様の問題事例を検索します。解決しない場合は、以下の情報を添付して問い合わせます：
 
 - Project [ID](/glossary/id/)
 - 発生時刻（UTC）
