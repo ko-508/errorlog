@@ -1,0 +1,24 @@
+{
+  "generated_at": "2026-11-16",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/git_not_a_git_repository/",
+      "pageTitle": "Gitリポジトリが見つからない時の対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 10.0,
+      "averageSessionDuration": 80.8963334,
+      "engagementRate": 0.3,
+      "bounceRate": 0.7
+    },
+    {
+      "pagePath": "/posts/postgresql_no_pg_hba_conf_entry/",
+      "pageTitle": "pg_hba.conf接続拒否の原因と対処法 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 12.0,
+      "averageSessionDuration": 277.86816907142855,
+      "engagementRate": 0.5,
+      "bounceRate": 0.5
+    }
+  ]
+}

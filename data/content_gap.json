@@ -1,14 +1,14 @@
 {
-  "generated_at": "2026-11-09",
+  "generated_at": "2026-11-16",
   "uncovered": [
     {
-      "query": "クレデンシャル ビジネス",
+      "query": "yaml とは",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 84.0,
+      "position": 79.0,
       "coverage": "uncovered",
-      "best_match_slug": "",
-      "match_score": 0.0,
+      "best_match_slug": "tool_docker_compose",
+      "match_score": 0.103,
       "opportunity_score": 0.0
     }
   ],
@@ -17,7 +17,7 @@
       "query": "{\"message\":\"404 not found\"}",
       "impressions": 1,
       "ctr": 0.0,
-      "position": 9.0,
+      "position": 10.0,
       "coverage": "partial",
       "best_match_slug": "aws_404",
       "match_score": 0.366,
