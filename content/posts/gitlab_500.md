@@ -67,7 +67,7 @@ GitLabの障害情報は `status.gitlab.com` で公開されています。こ�
 
 ### 原因2：リポジトリのGitオブジェクト破損
 
-GitLab内のリポジトリーが[保存](/glossary/保存/)されているディスク上の[Git](/glossary/git/)[オブジェクト](/glossary/オブジェクト/)が破損した場合、リポジトリーの読み書き[処理](/glossary/処理/)で500[エラー](/glossary/エラー/)が発生します。これはハードウェア[障害](/glossary/障害/)、不正なシャットダウン、ファイルシステムエラーなどに起因することがあります。
+GitLab内のリポジトリーが[保存](/glossary/保存/)されているディスク上の[Git](/glossary/git/)[オブジェクト](/glossary/オブジェクト/)が破損した場合、リポジトリーの読み書き[処理](/glossary/処理/)で500[エラー](/glossary/エラー/)が発生します。これは[ハードウェア](/glossary/ハードウェア/)[障害](/glossary/障害/)、不正なシャットダウン、ファイルシステムエラーなどに起因することがあります。
 
 **解決手順：**
 
@@ -110,7 +110,7 @@ sudo gitlab-ctl restart
 
 ## ツール固有の注意点
 
-**GitLab.comの場合：** GitLab.comそのものが提供するサービスで500[エラー](/glossary/エラー/)が発生している場合、まず `status.gitlab.com` を[確認](/glossary/確認/)してください。[障害](/glossary/障害/)が報告されていなければ、その[プロジェクト](/glossary/プロジェクト/)または[アカウント](/glossary/アカウント/)固有の問題です。GitLab.comのサポートリクエストは Web [UI](/glossary/ui/) の右上メニューから[送信](/glossary/送信/)できます。
+**GitLab.comの場合：** GitLab.comそのものが提供するサービスで500[エラー](/glossary/エラー/)が発生している場合、まず `status.gitlab.com` を[確認](/glossary/確認/)してください。[障害](/glossary/障害/)が報告されていなければ、その[プロジェクト](/glossary/プロジェクト/)または[アカウント](/glossary/アカウント/)固有の問題です。GitLab.comのサポートリクエストは Web [UI](/glossary/ui/) の右上[メニュー](/glossary/メニュー/)から[送信](/glossary/送信/)できます。
 
 **自社運用のGitLabの場合：** [Docker](/glossary/docker/)コンテナーで運用している場合は `docker logs <container-id>` でアプリケーションログを[確認](/glossary/確認/)してください。Omnibus GitLabの場合は `/var/log/gitlab/` ディレクトリー配下の各サービスログを[確認](/glossary/確認/)します。特に `gitlab-rails/production.log` と `sidekiq/current` には詳細な[エラー](/glossary/エラー/)情報が記録されています。
 

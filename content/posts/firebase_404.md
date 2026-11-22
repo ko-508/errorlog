@@ -196,7 +196,7 @@ const database = getDatabase(app, "https://<your-project-id>.firebaseio.com");
 
 1. **Firebase Console** → 対象[プロジェクト](/glossary/プロジェクト/) → **Logs** セクションを開く
 2. Cloud Functionsの場合は **Functions** タブで詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)
-3. Firestoreの場合は **Firestore** → **Monitoring** でリアルタイムエラーを監視
+3. Firestoreの場合は **Firestore** → **Monitoring** でリアルタイムエラーを[監視](/glossary/監視/)
 
 **デバッグコマンド**
 

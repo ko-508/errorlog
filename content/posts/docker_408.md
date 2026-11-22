@@ -125,7 +125,7 @@ docker-compose push --timeout 300
 
 ### 原因3：レジストリの認証情報が正しくない、または有効期限切れ
 
-[Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/)への[プッシュ](/glossary/プッシュ/)/プル時に、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れになっていると、Daemon が[認証](/glossary/認証/)[リトライ](/glossary/リトライ/)を試みる間に 408 [タイムアウト](/glossary/タイムアウト/)が発生します。
+[Docker](/glossary/docker/) [レジストリ](/glossary/レジストリ/)への[プッシュ](/glossary/プッシュ/)/[プル](/glossary/プル/)時に、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が無効または期限切れになっていると、Daemon が[認証](/glossary/認証/)[リトライ](/glossary/リトライ/)を試みる間に 408 [タイムアウト](/glossary/タイムアウト/)が発生します。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

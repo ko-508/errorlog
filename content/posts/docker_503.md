@@ -205,7 +205,7 @@ services:
 
 ### Docker Hubの制限とレート制限
 
-[Docker](/glossary/docker/) Hubは匿名[ユーザー](/glossary/ユーザー/)に対して1時間に100プルの[レート制限](/glossary/レート制限/)を設けています。この制限に達すると[サーバー](/glossary/サーバー/)が503（または429）を返します。
+[Docker](/glossary/docker/) Hubは匿名[ユーザー](/glossary/ユーザー/)に対して1時間に100[プル](/glossary/プル/)の[レート制限](/glossary/レート制限/)を設けています。この制限に達すると[サーバー](/glossary/サーバー/)が503（または429）を返します。
 
 ```bash
 # レート制限の状態を確認

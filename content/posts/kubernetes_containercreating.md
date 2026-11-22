@@ -353,7 +353,7 @@ kubectl get secret app-secret -n <名前空間>
 
 対象が存在し、指定名と[キー](/glossary/キー/)も正しいのに、同じノードの複数Podで同時に失敗する場合は、kubeletと[API](/glossary/api/)[サーバー](/glossary/サーバー/)間の[通信](/glossary/通信/)、kubeletの監視処理、ノードの負荷を[確認](/glossary/確認/)します。
 
-[ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの[更新](/glossary/更新/)を監視または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
+[ConfigMapの公式文書](https://kubernetes.io/docs/concepts/configuration/configmap/#mounted-configmaps-are-updated-automatically)には、kubeletがConfigMapの[更新](/glossary/更新/)を[監視](/glossary/監視/)または[キャッシュ](/glossary/キャッシュ/)し、定期的な[同期](/glossary/同期/)で内容を反映する仕組みが記載されています。`kubectl get` が成功するのは、操作端末から[API](/glossary/api/)[サーバー](/glossary/サーバー/)へ取得できたという事実です。失敗ノードのkubeletが同じ時刻に取得できた証明にはなりません。
 
 実際に、公式課題（[Kubelet reports configmaps not found even though they do exist](https://github.com/kubernetes/kubernetes/issues/90725)）では、ConfigMapが存在して `kubectl get` でも取得できる一方、複数Podが `ContainerCreating` になり、kubeletが `configmap not found` を繰り返した事例が報告されています。
 
@@ -383,7 +383,7 @@ Podが `Running` かつ `Ready` で、`FailedMount` の最終時刻が古く、�
 
 反対に、現在も `ContainerCreating` で、`FailedMount` の `Last Seen` が[更新](/glossary/更新/)され続け、回数が増えているなら未解決です。
 
-監視でも、`FailedMount` が1回出た事実だけを障害条件にすると、一時的な再試行を恒久障害として[通知](/glossary/通知/)します。Podが一定時間 `Waiting` のままか、直近の失敗が繰り返されているか、Readyになったかを合わせて判定します。
+[監視](/glossary/監視/)でも、`FailedMount` が1回出た事実だけを障害条件にすると、一時的な再試行を恒久障害として[通知](/glossary/通知/)します。Podが一定時間 `Waiting` のままか、直近の失敗が繰り返されているか、Readyになったかを合わせて判定します。
 
 ### 原因8：FailedMountではなく、別の準備処理で止まっている
 
@@ -494,7 +494,7 @@ kubectl get events -n <名前空間> \
 
 この課題に対して、同年に [SuccessfulMountVolumeを追加する変更](https://github.com/kubernetes/kubernetes/pull/43852) が取り込まれました。変更の説明にも、最初のマウントは失敗しても、複数回の再試行後に成功し得るため、失敗だけが見えると判断を誤ると書かれています。
 
-しかし、問題の構造はそれだけでは消えませんでした。2021年の報告（[False Positive: FailedMount events generated even when the pod comes up fine](https://github.com/kubernetes/kubernetes/issues/99475)）では、ServiceAccount用のボリュームで `failed to sync secret cache` が一時的に出た後、Podは正常に起動しました。報告者は、`FailedMount` だけで監視すると誤検知になるため、[イベント](/glossary/イベント/)を出す前に再試行してほしいと述べています。
+しかし、問題の構造はそれだけでは消えませんでした。2021年の報告（[False Positive: FailedMount events generated even when the pod comes up fine](https://github.com/kubernetes/kubernetes/issues/99475)）では、ServiceAccount用のボリュームで `failed to sync secret cache` が一時的に出た後、Podは正常に起動しました。報告者は、`FailedMount` だけで[監視](/glossary/監視/)すると誤検知になるため、[イベント](/glossary/イベント/)を出す前に再試行してほしいと述べています。
 
 さらに2022年の報告（[Inconsistent POD status reporting with kubectl get && describe](https://github.com/kubernetes/kubernetes/issues/109451)）では、同じPodが `kubectl get` では `ContainerCreating`、`kubectl describe` の `Status` では `Pending` と表示されました。報告内でも、前者は表示用の要約、後者はPodのphaseで、同じ項目を見ていないことが指摘されています。
 

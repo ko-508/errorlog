@@ -106,7 +106,7 @@ curl -X POST "http://localhost:8080/job/my-job/build" \
 
 ### 原因3：匿名ユーザーのアクセスが制限されているのに認証なしで API を呼んでいる
 
-Jenkins で匿名アクセスを禁止しているのに、認証情報を付けずに [API](/glossary/api/) を呼び出すと 403 [エラー](/glossary/エラー/)が返されます。外部の CD/CD [ツール](/glossary/ツール/)や監視[スクリプト](/glossary/スクリプト/)から Jenkins にアクセスする際、[API](/glossary/api/) [トークン](/glossary/トークン/)の生成や指定を忘れると発生しやすい[エラー](/glossary/エラー/)です。
+Jenkins で匿名アクセスを禁止しているのに、認証情報を付けずに [API](/glossary/api/) を呼び出すと 403 [エラー](/glossary/エラー/)が返されます。外部の CD/CD [ツール](/glossary/ツール/)や[監視](/glossary/監視/)[スクリプト](/glossary/スクリプト/)から Jenkins にアクセスする際、[API](/glossary/api/) [トークン](/glossary/トークン/)の生成や指定を忘れると発生しやすい[エラー](/glossary/エラー/)です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -127,7 +127,7 @@ curl "http://localhost:8080/api/json" \
 # → 200 OK でJSON応答が返される
 ```
 
-[API](/glossary/api/) [トークン](/glossary/トークン/)の取得方法：**Jenkins 管理画面** → **[ユーザー](/glossary/ユーザー/)一覧** → 対象[ユーザー](/glossary/ユーザー/)をクリック → **[設定](/glossary/設定/)** → **[API](/glossary/api/) Token** セクションで新しい[トークン](/glossary/トークン/)を生成してください。
+[API](/glossary/api/) [トークン](/glossary/トークン/)の取得方法：**Jenkins 管理画面** → **[ユーザー](/glossary/ユーザー/)一覧** → 対象[ユーザー](/glossary/ユーザー/)を[クリック](/glossary/クリック/) → **[設定](/glossary/設定/)** → **[API](/glossary/api/) Token** セクションで新しい[トークン](/glossary/トークン/)を生成してください。
 
 ## ツール固有の注意点
 

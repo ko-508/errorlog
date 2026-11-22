@@ -41,7 +41,7 @@ Error: Error writing blob: Error initiating layer upload to /v2/repo/image/blobs
 
 ### 原因1：コンテナレジストリとの通信障害（Quay等）
 
-Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)をプルまたは[プッシュ](/glossary/プッシュ/)する際に、[SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体が[ダウン](/glossary/ダウン/)しているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
+Quay などのコンテナレジストリに[イメージ](/glossary/イメージ/)を[プル](/glossary/プル/)または[プッシュ](/glossary/プッシュ/)する際に、[SSL](/glossary/ssl/) [証明書](/glossary/証明書/)[エラー](/glossary/エラー/)や誤ったバックエンドストレージのホスト名が原因で[通信](/glossary/通信/)が失敗します。レジストリサーバー自体が[ダウン](/glossary/ダウン/)しているか、[バックエンド](/glossary/バックエンド/) DB が応答しない状態にあることが多いです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

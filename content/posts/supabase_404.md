@@ -161,7 +161,7 @@ if (!response.ok) {
 }
 ```
 
-[プロジェクト](/glossary/プロジェクト/)の Functions セクションにアクセスし、対象の[関数](/glossary/関数/)をクリックすると、[デプロイ](/glossary/デプロイ/)済み[エンドポイント](/glossary/エンドポイント/)の正確な [URL](/glossary/url/) が表示されます。
+[プロジェクト](/glossary/プロジェクト/)の Functions セクションにアクセスし、対象の[関数](/glossary/関数/)を[クリック](/glossary/クリック/)すると、[デプロイ](/glossary/デプロイ/)済み[エンドポイント](/glossary/エンドポイント/)の正確な [URL](/glossary/url/) が表示されます。
 
 ## Supabase 固有の注意点
 
@@ -177,7 +177,7 @@ Storage の[バケット](/glossary/バケット/)削除後に古い[バケッ�
 
 **Supabase Dashboard での[確認](/glossary/確認/)：**
 
-1. ページ上部の[プロジェクト](/glossary/プロジェクト/)名をクリックし、[ダッシュボード](/glossary/ダッシュボード/)のホームに戻る
+1. ページ上部の[プロジェクト](/glossary/プロジェクト/)名を[クリック](/glossary/クリック/)し、[ダッシュボード](/glossary/ダッシュボード/)のホームに戻る
 2. 左サイドメニューの「Tables」を開き、[テーブル](/glossary/テーブル/)一覧で対象[テーブル](/glossary/テーブル/)が存在し、正確な名前を[確認](/glossary/確認/)
 3. 「Storage」セクションを開き、[バケット](/glossary/バケット/)一覧とその中身を[確認](/glossary/確認/)
 4. 「Functions」セクションで[関数](/glossary/関数/)が[デプロイ](/glossary/デプロイ/)済みか、[エンドポイント](/glossary/エンドポイント/) [URL](/glossary/url/) が表示されているか[確認](/glossary/確認/)

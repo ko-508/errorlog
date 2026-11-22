@@ -107,7 +107,7 @@ DEBUG=false
 
 1. `.env`をVSCodeで開く
 2. 右下のステータスバーで現在の[エンコード](/glossary/エンコード/)を[確認](/glossary/確認/)（「UTF-16 LE」と表示されているはず）
-3. クリックして「[エンコード](/glossary/エンコード/)付きで[保存](/glossary/保存/)」→「[UTF-8](/glossary/utf-8/)」を選択
+3. [クリック](/glossary/クリック/)して「[エンコード](/glossary/エンコード/)付きで[保存](/glossary/保存/)」→「[UTF-8](/glossary/utf-8/)」を選択
 
 ## Before / After の対比
 

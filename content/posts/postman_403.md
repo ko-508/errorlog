@@ -121,7 +121,7 @@ curl -H "Authorization: Bearer <your-api-key>" \
 # 結果: 200 OK
 ```
 
-Postman Cloudの公式[ドキュメント](/glossary/ドキュメント/)に記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」[ボタン](/glossary/ボタン/)をクリックする前に、Console タブで「Request Headers」を[確認](/glossary/確認/)し、実際のソースIPが許可されているか[確認](/glossary/確認/)します。
+Postman Cloudの公式[ドキュメント](/glossary/ドキュメント/)に記載されている送信元IP範囲を[API](/glossary/api/)提供元に[通知](/glossary/通知/)し、ホワイトリストに追加するよう依頼します。ローカル[環境](/glossary/環境/)での検証の場合は、自身の[クライアント](/glossary/クライアント/)IPをホワイトリストに追加してください。Postmanで「Send」[ボタン](/glossary/ボタン/)を[クリック](/glossary/クリック/)する前に、Console タブで「Request Headers」を[確認](/glossary/確認/)し、実際のソースIPが許可されているか[確認](/glossary/確認/)します。
 
 ### 原因3：試している操作がAPIキーの権限レベルを超えている
 

@@ -248,7 +248,7 @@ aws s3 ls s3://my-bucket --profile <cross-account-profile>
 
 **[AWS](/glossary/aws/) マネジメントコンソールでの確認方法：**
 
-S3 [コンソール](/glossary/コンソール/) → [バケット](/glossary/バケット/)名をクリック → 「[権限](/glossary/権限/)」タブで「バケットポリシー」「ACL」「Block Public Access」を[確認](/glossary/確認/)します。[ポリシー](/glossary/ポリシー/)の [JSON](/glossary/json/) は視覚的には わかりにくいため、[AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator（`https://policysim.aws.amazon.com/`）を使用して[アクション](/glossary/アクション/)実行をシミュレーションすることで、どの[ポリシー](/glossary/ポリシー/)が拒否しているか特定できます。
+S3 [コンソール](/glossary/コンソール/) → [バケット](/glossary/バケット/)名を[クリック](/glossary/クリック/) → 「[権限](/glossary/権限/)」タブで「バケットポリシー」「ACL」「Block Public Access」を[確認](/glossary/確認/)します。[ポリシー](/glossary/ポリシー/)の [JSON](/glossary/json/) は視覚的には わかりにくいため、[AWS](/glossary/aws/) [IAM](/glossary/iam/) Policy Simulator（`https://policysim.aws.amazon.com/`）を使用して[アクション](/glossary/アクション/)実行をシミュレーションすることで、どの[ポリシー](/glossary/ポリシー/)が拒否しているか特定できます。
 
 **[IAM](/glossary/iam/) [ロール](/glossary/ロール/)経由でのアクセス：**
 

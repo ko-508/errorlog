@@ -69,9 +69,9 @@ curl -u jenkins_user:<your-new-api-token> \
 Jenkins[サーバー](/glossary/サーバー/)で以下の手順を実行してください：
 
 1. Jenkins管理画面に[ログイン](/glossary/ログイン/)
-2. 左メニューから「[ユーザー](/glossary/ユーザー/)」→[ユーザー](/glossary/ユーザー/)一覧から該当[ユーザー](/glossary/ユーザー/)を選択
+2. 左[メニュー](/glossary/メニュー/)から「[ユーザー](/glossary/ユーザー/)」→[ユーザー](/glossary/ユーザー/)一覧から該当[ユーザー](/glossary/ユーザー/)を選択
 3. 「[設定](/glossary/設定/)」ページで「[API](/glossary/api/)[トークン](/glossary/トークン/)」セクションへスクロール
-4. 既存[トークン](/glossary/トークン/)が無効な場合は[削除](/glossary/削除/)し、「新しい[トークン](/glossary/トークン/)を生成」をクリック
+4. 既存[トークン](/glossary/トークン/)が無効な場合は[削除](/glossary/削除/)し、「新しい[トークン](/glossary/トークン/)を生成」を[クリック](/glossary/クリック/)
 5. 生成された[トークン](/glossary/トークン/)値をコピーして、[スクリプト](/glossary/スクリプト/)や[API](/glossary/api/)[クライアント](/glossary/クライアント/)に[設定](/glossary/設定/)
 
 ### 原因2：ユーザー名またはAPIトークンの入力ミス

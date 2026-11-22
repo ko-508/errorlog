@@ -131,7 +131,7 @@ kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}{"\n"}'
 
 `localhost:8080`や、削除済みクラスターの[IPアドレス](/glossary/ipアドレス/)が出る場合は、正しいkubeconfigを取得し直します。minikubeなどのローカルクラスターを使っている場合は、クラスター自体が起動しているかも[確認](/glossary/確認/)してください。
 
-管理対象のクラスターなら、control planeや[API](/glossary/api/)[サーバー](/glossary/サーバー/)前段の[ロードバランサー](/glossary/ロードバランサー/)が正常かを管理画面や監視から[確認](/glossary/確認/)します。利用者側から接続できないという理由だけで、control planeを再起動しないでください。VPN、接続元制限、誤ったcontextでも同じように利用不能になるためです。
+管理対象のクラスターなら、control planeや[API](/glossary/api/)[サーバー](/glossary/サーバー/)前段の[ロードバランサー](/glossary/ロードバランサー/)が正常かを管理画面や[監視](/glossary/監視/)から[確認](/glossary/確認/)します。利用者側から接続できないという理由だけで、control planeを再起動しないでください。VPN、接続元制限、誤ったcontextでも同じように利用不能になるためです。
 
 ## no such host・timeoutの対処
 

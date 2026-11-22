@@ -135,7 +135,7 @@ sudo nginx -t && sudo systemctl reload nginx
 
 ## Editor's Note
 
-手前の上限と奥の上限が別々に存在することを示す実例として、Atlassian の公開課題管理システムへの報告があります（[CONFSERVER-52301](https://jira.atlassian.com/browse/CONFSERVER-52301)、2017年）。Confluence（社内向けの情報共有[ツール](/glossary/ツール/)）を Nginx のリバースプロキシ経由で使う構成で、Nginx が既定の1MBのままだと、Confluence 側で[設定](/glossary/設定/)した添付[ファイル](/glossary/ファイル/)の上限より小さい[ファイル](/glossary/ファイル/)でも413で失敗する、という内容です。報告では、Nginx の `client_max_body_size` を Confluence 側の添付上限と揃えるべきこと、揃えれば上限超過時に Confluence 自身の分かりやすい[エラー](/glossary/エラー/)表示が機能することが指摘されています。また、添付[ファイル](/glossary/ファイル/)だけでなくページ編集の[通信](/glossary/通信/)でも、既定の1MBでは足りず413になる場合があることも記録されています。2017年の報告と古いものですが、`client_max_body_size` の[仕様](/glossary/仕様/)（既定1MB、超過で413）は現行の公式[ドキュメント](/glossary/ドキュメント/)と変わっていません。
+手前の上限と奥の上限が別々に存在することを示す実例として、Atlassian の公開課題管理システムへの報告があります（[CONFSERVER-52301](https://jira.atlassian.com/browse/CONFSERVER-52301)、2017年）。Confluence（社内向けの情報共有[ツール](/glossary/ツール/)）を Nginx のリバースプロキシ経由で使う構成で、Nginx が既定の1MBのままだと、Confluence 側で[設定](/glossary/設定/)した[添付](/glossary/添付/)[ファイル](/glossary/ファイル/)の上限より小さい[ファイル](/glossary/ファイル/)でも413で失敗する、という内容です。報告では、Nginx の `client_max_body_size` を Confluence 側の添付上限と揃えるべきこと、揃えれば上限超過時に Confluence 自身の分かりやすい[エラー](/glossary/エラー/)表示が機能することが指摘されています。また、[添付](/glossary/添付/)[ファイル](/glossary/ファイル/)だけでなくページ編集の[通信](/glossary/通信/)でも、既定の1MBでは足りず413になる場合があることも記録されています。2017年の報告と古いものですが、`client_max_body_size` の[仕様](/glossary/仕様/)（既定1MB、超過で413）は現行の公式[ドキュメント](/glossary/ドキュメント/)と変わっていません。
 
 413の対処は一見「上限を上げるだけ」ですが、実際には、どこの上限に当たったのかを特定することが本題です。[エラーログ](/glossary/エラーログ/)の実測[バイト](/glossary/バイト/)数と `nginx -T` の洗い出しを使えば、推測に頼らずに特定できます。
 

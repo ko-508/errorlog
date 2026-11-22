@@ -119,7 +119,7 @@ git commit -m "Update features"
 git push origin main
 ```
 
-接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または [GitHub](/glossary/github/) [アプリケーション](/glossary/アプリケーション/)連携ページで「Authorize」をクリックして、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
+接続直後は、Vercel [ダッシュボード](/glossary/ダッシュボード/)または [GitHub](/glossary/github/) [アプリケーション](/glossary/アプリケーション/)連携ページで「Authorize」を[クリック](/glossary/クリック/)して、最新の[権限](/glossary/権限/)で[トークン](/glossary/トークン/)を再生成してください。
 
 ## Vercel 固有の注意点
 
@@ -140,7 +140,7 @@ git push origin main
 VERCEL_DEBUG=1 vercel deploy
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/)のデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗した[デプロイ](/glossary/デプロイ/)をクリックし、Logs タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)してください。
+[ダッシュボード](/glossary/ダッシュボード/)のデプロイページでも詳細確認が可能です。https://vercel.com/dashboard/deployments/<project-name> で失敗した[デプロイ](/glossary/デプロイ/)を[クリック](/glossary/クリック/)し、Logs タブで完全な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)してください。
 
 **[GitHub](/glossary/github/) Actions 内の[ログ](/glossary/ログ/)[確認](/glossary/確認/)：**
 

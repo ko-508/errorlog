@@ -161,7 +161,7 @@ const charge = await stripe.charges.create(
 
 ### 確認すべき情報
 
-1. **[API](/glossary/api/) [キー](/glossary/キー/)の詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象[キー](/glossary/キー/)をクリックし、付与されている権限一覧を[確認](/glossary/確認/)します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか[確認](/glossary/確認/)してください。
+1. **[API](/glossary/api/) [キー](/glossary/キー/)の詳細確認**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → [API](/glossary/api/) Keys で対象[キー](/glossary/キー/)を[クリック](/glossary/クリック/)し、付与されている権限一覧を[確認](/glossary/確認/)します。`Read` / `Write` [権限](/glossary/権限/)が正しく有効になっているか[確認](/glossary/確認/)してください。
 
 2. **イベントログの[確認](/glossary/確認/)**: [ダッシュボード](/glossary/ダッシュボード/) → Developers → Events で該当の 403 [エラー](/glossary/エラー/)を[検索](/glossary/検索/)し、詳細な[エラーメッセージ](/glossary/エラーメッセージ/)を[確認](/glossary/確認/)します。`permission_error` や `restricted_api_key` などの[コード](/glossary/コード/)名がエラータイプを特定する手がかりになります。
 

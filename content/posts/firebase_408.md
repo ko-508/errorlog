@@ -277,7 +277,7 @@ Android や iOS では Firebase Crashlytics の[ログ](/glossary/ログ/)、Clo
 
 ### ネットワーク接続の検証
 
-[クライアント](/glossary/クライアント/)側の[ネットワーク](/glossary/ネットワーク/)状態を監視して、接続が確立されているか[確認](/glossary/確認/)してください。
+[クライアント](/glossary/クライアント/)側の[ネットワーク](/glossary/ネットワーク/)状態を[監視](/glossary/監視/)して、接続が確立されているか[確認](/glossary/確認/)してください。
 
 ```javascript
 // ネットワーク接続状態の監視

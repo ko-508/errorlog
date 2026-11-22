@@ -187,8 +187,8 @@ Vercel [ダッシュボード](/glossary/ダッシュボード/)で以下の手�
 Vercel [ダッシュボード](/glossary/ダッシュボード/)から詳細な[エラーログ](/glossary/エラーログ/)を[確認](/glossary/確認/)することが最初の[ステップ](/glossary/ステップ/)です。
 
 1. **[プロジェクト](/glossary/プロジェクト/)選択** → **Deployments** → **最新の[デプロイ](/glossary/デプロイ/)を選択**
-2. **Functions** タブをクリック
-3. **[エラー](/glossary/エラー/)が発生した[関数](/glossary/関数/)**を選択して **Logs** をクリック
+2. **Functions** タブを[クリック](/glossary/クリック/)
+3. **[エラー](/glossary/エラー/)が発生した[関数](/glossary/関数/)**を選択して **Logs** を[クリック](/glossary/クリック/)
 4. **Runtime logs** と **Build logs** の両方を[確認](/glossary/確認/)
 
 Build logs では、[デプロイ](/glossary/デプロイ/)時の依存パッケージインストール段階の[エラー](/glossary/エラー/)が表示されます。

@@ -105,7 +105,7 @@ sudo gitlab-ctl status
 sudo gitlab-ctl tail gitaly
 ```
 
-導入方法が異なる場合は、その[環境](/glossary/環境/)に合った監視・[ログ](/glossary/ログ/)[確認](/glossary/確認/)の方法を使ってください。掲載[コマンド](/glossary/コマンド/)の実行結果は[環境](/glossary/環境/)によって異なります。
+導入方法が異なる場合は、その[環境](/glossary/環境/)に合った[監視](/glossary/監視/)・[ログ](/glossary/ログ/)[確認](/glossary/確認/)の方法を使ってください。掲載[コマンド](/glossary/コマンド/)の実行結果は[環境](/glossary/環境/)によって異なります。
 
 ## Editor's Note
 

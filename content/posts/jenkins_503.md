@@ -98,7 +98,7 @@ sudo systemctl daemon-reload
 sudo systemctl restart jenkins
 ```
 
-[メモリ](/glossary/メモリ/)使用状況を[リアルタイム](/glossary/リアルタイム/)で監視する場合は、以下の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)します。
+[メモリ](/glossary/メモリ/)使用状況を[リアルタイム](/glossary/リアルタイム/)で[監視](/glossary/監視/)する場合は、以下の[コマンド](/glossary/コマンド/)で[確認](/glossary/確認/)します。
 
 ```bash
 # Jenkinsプロセスのメモリ使用量を確認

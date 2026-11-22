@@ -208,7 +208,7 @@ Firebase [プロジェクト](/glossary/プロジェクト/)所有者が GCP の
 ### ステップバイステップのデバッグ手順
 
 1. **Firebase Console でセキュリティルールを[確認](/glossary/確認/)**  
-   Firebase Console の「Firestore」または「Storage」メニューから、現在[デプロイ](/glossary/デプロイ/)されているルールを[確認](/glossary/確認/)します。ローカルの `firestore.rules` [ファイル](/glossary/ファイル/)と一致しているかチェックしてください。
+   Firebase Console の「Firestore」または「Storage」[メニュー](/glossary/メニュー/)から、現在[デプロイ](/glossary/デプロイ/)されているルールを[確認](/glossary/確認/)します。ローカルの `firestore.rules` [ファイル](/glossary/ファイル/)と一致しているかチェックしてください。
 
 2. **認証状態を[ログ](/glossary/ログ/)出力**  
 ```javascript

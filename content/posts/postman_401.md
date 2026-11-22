@@ -76,7 +76,7 @@ Add to: Header
 
 解決手順は以下の通りです：
 
-1. Postmanのリクエストタブを開き、「Authorization」タブをクリック
+1. Postmanのリクエストタブを開き、「Authorization」タブを[クリック](/glossary/クリック/)
 2. 「Type」ドロップダウンで適切な[認証](/glossary/認証/)タイプを選択（Bearer Token、[API](/glossary/api/) Key、Basic Auth など）
 3. [API](/glossary/api/)[ドキュメント](/glossary/ドキュメント/)に従い、正確な[トークン](/glossary/トークン/)または[キー](/glossary/キー/)を入力
 4. 「Send」[ボタン](/glossary/ボタン/)で[リクエスト](/glossary/リクエスト/)を再送信
@@ -171,7 +171,7 @@ Token: {{api_token}}
 
 解決手順：
 
-1. Postman左側の「Environments」をクリック
+1. Postman左側の「Environments」を[クリック](/glossary/クリック/)
 2. 使用している[環境](/glossary/環境/)を選択（なければ「Create」で新規作成）
 3. 認証情報を格納する[変数](/glossary/変数/)を追加（例：`api_token`、`api_key`）
 4. 「Current Value」に実際の[トークン](/glossary/トークン/)値を入力して[保存](/glossary/保存/)
@@ -182,7 +182,7 @@ Token: {{api_token}}
 
 Postmanの[環境変数](/glossary/環境変数/)はローカル（Current Value）とグローバル（Initial Value）の2段階で管理されます。[セキュリティ](/glossary/セキュリティ/)上の理由から、[API](/glossary/api/)[キー](/glossary/キー/)や[トークン](/glossary/トークン/)などの機密情報は「Initial Value」には記入せず、「Current Value」のみに[設定](/glossary/設定/)することが重要です。これにより、チームとコレクションを共有する際に機密情報が意図せず流出するのを防げます。
 
-またPostman Workspaceをチーム間で共有している場合、各自の[環境変数](/glossary/環境変数/)を「Private」に[設定](/glossary/設定/)することで、ローカル端末に限定して認証情報を管理できます。設定方法は環境編集画面で、[環境変数](/glossary/環境変数/)の右側にある目の[アイコン](/glossary/アイコン/)をクリックして「Private」を選択してください。
+またPostman Workspaceをチーム間で共有している場合、各自の[環境変数](/glossary/環境変数/)を「Private」に[設定](/glossary/設定/)することで、ローカル端末に限定して認証情報を管理できます。設定方法は環境編集画面で、[環境変数](/glossary/環境変数/)の右側にある目の[アイコン](/glossary/アイコン/)を[クリック](/glossary/クリック/)して「Private」を選択してください。
 
 さらに、Pre-request Scriptを使用する場合、[スクリプト](/glossary/スクリプト/)内で`pm.sendRequest()`を呼び出すと、同期的に別の[HTTP](/glossary/http/)[リクエスト](/glossary/リクエスト/)（[トークン](/glossary/トークン/)取得など）を実行できます。ただし、この[メソッド](/glossary/メソッド/)は[非同期](/glossary/非同期/)で動作するため、続く実[メソッド](/glossary/メソッド/)は十分な[コールバック](/glossary/コールバック/)[処理](/glossary/処理/)を含めて記述する必要があります。[コールバック](/glossary/コールバック/)内で`pm.environment.set()`を使い、取得した[トークン](/glossary/トークン/)を[環境変数](/glossary/環境変数/)に[保存](/glossary/保存/)してから、メインリクエストに参照させる[パターン](/glossary/パターン/)が一般的です。
 

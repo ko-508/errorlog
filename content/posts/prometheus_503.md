@@ -160,7 +160,7 @@ sudo systemctl restart prometheus
 
 Prometheus は [HTTP](/glossary/http/) [ステータスコード](/glossary/ステータスコード/) 503 を複数の状況で返すため、[エラーメッセージ](/glossary/エラーメッセージ/)のテキスト内容で原因を判定することが重要です。
 
-Web [UI](/glossary/ui/) の「Status」メニューから以下の情報を[確認](/glossary/確認/)できます：
+Web [UI](/glossary/ui/) の「Status」[メニュー](/glossary/メニュー/)から以下の情報を[確認](/glossary/確認/)できます：
 
 ```
 - Targets：各スクレイプターゲットの状態（UP/DOWN）

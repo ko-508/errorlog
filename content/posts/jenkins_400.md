@@ -155,7 +155,7 @@ pipeline {
 
 ## ツール固有の注意点
 
-**Jenkinsfile Linterの活用：** Jenkinsの管理画面に「Declarative: Validate」という機能があります。パイプラインジョブの設定画面で「Validate」[ボタン](/glossary/ボタン/)をクリックするか、以下のcURL[コマンド](/glossary/コマンド/)で構文チェックが可能です。この[ツール](/glossary/ツール/)はGroovy構文[エラー](/glossary/エラー/)を事前に検出し、[デプロイ](/glossary/デプロイ/)前にJenkinsfileを検証するのに非常に効果的です。
+**Jenkinsfile Linterの活用：** Jenkinsの管理画面に「Declarative: Validate」という機能があります。パイプラインジョブの設定画面で「Validate」[ボタン](/glossary/ボタン/)を[クリック](/glossary/クリック/)するか、以下のcURL[コマンド](/glossary/コマンド/)で構文チェックが可能です。この[ツール](/glossary/ツール/)はGroovy構文[エラー](/glossary/エラー/)を事前に検出し、[デプロイ](/glossary/デプロイ/)前にJenkinsfileを検証するのに非常に効果的です。
 
 ```bash
 curl -X POST \

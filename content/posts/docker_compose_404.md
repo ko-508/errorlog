@@ -13,7 +13,7 @@ top_queries:
 ---
 ## エラーの概要
 
-[Docker](/glossary/docker/) Compose の 404 [エラー](/glossary/エラー/)は、`docker-compose.yml`（または `compose.yml`）で指定された[イメージ](/glossary/イメージ/)、サービス、ボリューム、または[ネットワーク](/glossary/ネットワーク/)がシステムに見つからないときに発生します。この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)のプル失敗、ビルドコンテキストの誤設定、または依存[リソース](/glossary/リソース/)の不足が原因となることがほとんどです。[Docker](/glossary/docker/) Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、この[エラー](/glossary/エラー/)を出力して[処理](/glossary/処理/)を中断します。
+[Docker](/glossary/docker/) Compose の 404 [エラー](/glossary/エラー/)は、`docker-compose.yml`（または `compose.yml`）で指定された[イメージ](/glossary/イメージ/)、サービス、ボリューム、または[ネットワーク](/glossary/ネットワーク/)がシステムに見つからないときに発生します。この[エラー](/glossary/エラー/)は、[イメージ](/glossary/イメージ/)の[プル](/glossary/プル/)失敗、ビルドコンテキストの誤設定、または依存[リソース](/glossary/リソース/)の不足が原因となることがほとんどです。[Docker](/glossary/docker/) Compose がコンテナーの起動や構築を試みた際に、参照先が存在しないことを検出すると、この[エラー](/glossary/エラー/)を出力して[処理](/glossary/処理/)を中断します。
 
 ## 実際のエラーメッセージ例
 
@@ -40,7 +40,7 @@ ERROR: Service '<your-service-name>' failed to build : [Errno 2] No such file or
 
 ### 原因1：compose.yml 内で指定したイメージが存在しない、またはタグが間違っている
 
-[Docker](/glossary/docker/) Compose が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub やプライベートレジストリー）から[イメージ](/glossary/イメージ/)をプルしようとしても、その[イメージ](/glossary/イメージ/)が存在しない、あるいは[タグ](/glossary/タグ/)が誤っていると 404 [エラー](/glossary/エラー/)が発生します。たとえば、タイポや[バージョン](/glossary/バージョン/)番号の誤指定があると、プル対象が見つからなくなります。
+[Docker](/glossary/docker/) Compose が[レジストリ](/glossary/レジストリ/)（[Docker](/glossary/docker/) Hub やプライベートレジストリー）から[イメージ](/glossary/イメージ/)を[プル](/glossary/プル/)しようとしても、その[イメージ](/glossary/イメージ/)が存在しない、あるいは[タグ](/glossary/タグ/)が誤っていると 404 [エラー](/glossary/エラー/)が発生します。たとえば、タイポや[バージョン](/glossary/バージョン/)番号の誤指定があると、[プル](/glossary/プル/)対象が見つからなくなります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -134,7 +134,7 @@ docker volume create shared_data
 
 ## ツール固有の注意点
 
-[Docker](/glossary/docker/) Compose [環境](/glossary/環境/)では、[イメージ](/glossary/イメージ/)のプル時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)をプルする際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` [フィールド](/glossary/フィールド/)に完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
+[Docker](/glossary/docker/) Compose [環境](/glossary/環境/)では、[イメージ](/glossary/イメージ/)の[プル](/glossary/プル/)時にレジストリー[認証](/glossary/認証/)が必要な場合があります。プライベートレジストリーから[イメージ](/glossary/イメージ/)を[プル](/glossary/プル/)する際は、`docker login` でレジストリーに[認証](/glossary/認証/)してから `docker compose up` を実行してください。また、compose [ファイル](/glossary/ファイル/)の `image` [フィールド](/glossary/フィールド/)に完全修飾[イメージ](/glossary/イメージ/)名（FQDN 形式）を指定する必要があります。
 
 さらに、`docker compose build` でローカルイメージをビルドする場合は、Dockerfile が `context` で指定された[ディレクトリ](/glossary/ディレクトリ/)内に存在することを[確認](/glossary/確認/)してください。Dockerfile が見つからない場合、[Docker](/glossary/docker/) Compose は 404 相当の[エラー](/glossary/エラー/)を出力します。複数のサービスが存在する場合、各サービスの `build.context` [パス](/glossary/パス/)を個別にチェックすることも重要です。
 
@@ -175,7 +175,7 @@ docker login <your-registry-url>
 docker compose pull
 ```
 
-プライベートレジストリーを使用している場合は、事前に[ログイン](/glossary/ログイン/)してからプルを試みてください。
+プライベートレジストリーを使用している場合は、事前に[ログイン](/glossary/ログイン/)してから[プル](/glossary/プル/)を試みてください。
 
 詳細は [Docker Compose 公式ドキュメント](https://docs.docker.com/compose/) および [Docker イメージガイド](https://docs.docker.com/engine/images/) を参照してください。
 

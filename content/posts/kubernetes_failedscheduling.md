@@ -40,7 +40,7 @@ kubectl get events -n <namespace> \
 
 `FailedScheduling`はPodの状態ではなく、スケジューラーが記録する[イベント](/glossary/イベント/)のReasonです。Podの状態は`Pending`のままで、`PodScheduled`条件は`False`になります。
 
-kube-schedulerは、まだ配置先が決まっていないPodを監視し、次のような条件で候補ノードを絞り込みます。
+kube-schedulerは、まだ配置先が決まっていないPodを[監視](/glossary/監視/)し、次のような条件で候補ノードを絞り込みます。
 
 - Podが要求する[CPU](/glossary/cpu/)や[メモリ](/glossary/メモリ/)を確保できるか
 - `nodeSelector`やNode Affinityに一致するか

@@ -268,7 +268,7 @@ docker compose config
 docker compose logs <service-name> -f --tail=100
 ```
 
-`-f` フラグでリアルタイムログを監視し、`--tail=100` で直近 100 行を表示します。
+`-f` フラグでリアルタイムログを[監視](/glossary/監視/)し、`--tail=100` で直近 100 行を表示します。
 
 個別サービスの起動[テスト](/glossary/テスト/)：
 
@@ -294,7 +294,7 @@ docker compose run --rm <service-name> /bin/bash
 docker events --filter type=container
 ```
 
-でコンテナーのライフサイクルイベント（起動、停止、再起動）を監視します。
+でコンテナーのライフサイクルイベント（起動、停止、再起動）を[監視](/glossary/監視/)します。
 
 ### 公式ドキュメント参照
 

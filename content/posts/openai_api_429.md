@@ -140,7 +140,7 @@ client.chat.completions.create(model="gpt-4o-mini", max_tokens=4000, ...)
 client.chat.completions.create(model="gpt-4o-mini", max_tokens=200, ...)
 ```
 
-分類や抽出のように短い応答で足りる用途では、この1行だけで[処理](/glossary/処理/)できる件数が大きく変わります。
+分類や[抽出](/glossary/抽出/)のように短い応答で足りる用途では、この1行だけで[処理](/glossary/処理/)できる件数が大きく変わります。
 
 ### 原因4：再試行が二重になっている
 

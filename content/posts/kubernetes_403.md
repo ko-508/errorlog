@@ -285,7 +285,7 @@ spec:
 
 ### Cluster 全体に適用する権限が必要な場合は ClusterRole を使用
 
-[Namespace](/glossary/namespace/) を超えて全体的な[権限](/glossary/権限/)が必要な場合、Role と RoleBinding ではなく ClusterRole と ClusterRoleBinding を使用します。例えば、全 [Namespace](/glossary/namespace/) の Pod を監視する監視エージェントや[ログ](/glossary/ログ/)収集エージェントは ClusterRole が必須です。
+[Namespace](/glossary/namespace/) を超えて全体的な[権限](/glossary/権限/)が必要な場合、Role と RoleBinding ではなく ClusterRole と ClusterRoleBinding を使用します。例えば、全 [Namespace](/glossary/namespace/) の Pod を[監視](/glossary/監視/)する[監視](/glossary/監視/)エージェントや[ログ](/glossary/ログ/)収集エージェントは ClusterRole が必須です。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

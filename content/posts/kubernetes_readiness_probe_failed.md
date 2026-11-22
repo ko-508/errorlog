@@ -109,7 +109,7 @@ readinessProbe:
 | `successThreshold` | 1回 | 失敗後にReadyへ戻す連続成功数 |
 | `failureThreshold` | 3回 | Unreadyとする連続失敗数 |
 
-[コンテナ](/glossary/コンテナ/)がUnreadyの間、readiness probeは復帰を早く検出するため、[設定](/glossary/設定/)した `periodSeconds` 以外の時点にも実行されることがあります。したがって、常に正確な固定間隔だと仮定してprobe回数を監視しないでください。
+[コンテナ](/glossary/コンテナ/)がUnreadyの間、readiness probeは復帰を早く検出するため、[設定](/glossary/設定/)した `periodSeconds` 以外の時点にも実行されることがあります。したがって、常に正確な固定間隔だと仮定してprobe回数を[監視](/glossary/監視/)しないでください。
 
 PodのReadyは、1つのreadiness probeだけで決まるとは限りません。
 
@@ -125,7 +125,7 @@ Pod Ready=True
 
 PodがReadyになると、EndpointSlice controllerは該当Service向けのendpointへ状態を反映します。[EndpointSliceの公式資料](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/#conditions)では、`ready`、`serving`、`terminating` のconditionが定義されています。通常の実行中Podでは、PodのReadyがService endpointの `ready` と `serving` に[対応](/glossary/対応/)します。
 
-各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを監視し、Serviceの仮想IPへ来た[通信](/glossary/通信/)の転送先を[更新](/glossary/更新/)します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この監視と[同期](/glossary/同期/)の制御処理が説明されています。
+各Nodeのkube-proxy、または代替のService実装は、ServiceとEndpointSliceを[監視](/glossary/監視/)し、Serviceの仮想IPへ来た[通信](/glossary/通信/)の転送先を[更新](/glossary/更新/)します。[Serviceの仮想IPとproxyの公式資料](https://kubernetes.io/docs/reference/networking/virtual-ips/)にも、この[監視](/glossary/監視/)と[同期](/glossary/同期/)の制御処理が説明されています。
 
 ## まず最初に：Pod、condition、EndpointSliceを同じ時刻で見る
 
@@ -259,7 +259,7 @@ kubectl exec -n <名前空間> <Pod名> -c <コンテナ名> -- \
 
 readiness probeがあるPodは、最初の成功までServiceの転送先へ入りません。これは起動中の要求を防ぐ正しい動作です。
 
-一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を[障害](/glossary/障害/)として監視しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしも[アプリ](/glossary/アプリ/)異常ではありません。
+一方、起動に数分かかることが正常なのに、[イベント](/glossary/イベント/)を[障害](/glossary/障害/)として[監視](/glossary/監視/)しているなら、監視条件を見直します。起動完了前のreadiness失敗は、必ずしも[アプリ](/glossary/アプリ/)異常ではありません。
 
 起動処理と起動後の一時的な準備不足を分けたい場合は、startup probeを追加します。
 

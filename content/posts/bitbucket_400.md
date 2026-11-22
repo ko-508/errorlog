@@ -109,7 +109,7 @@ curl -X POST https://api.bitbucket.org/2.0/repositories/<workspace>/<repo_slug>/
 
 ### 原因 3：クエリパラメータの値が不正な形式
 
-[API](/glossary/api/) 呼び出しのクエリパラメータに無効な値を指定すると、400 [エラー](/glossary/エラー/)が発生します。例えば、ページネーション、フィルター条件、ソート順序で無効な値を渡す場合などです。
+[API](/glossary/api/) 呼び出しのクエリパラメータに無効な値を指定すると、400 [エラー](/glossary/エラー/)が発生します。例えば、ページネーション、フィルター条件、[ソート](/glossary/ソート/)順序で無効な値を渡す場合などです。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

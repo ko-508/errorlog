@@ -215,7 +215,7 @@ gcloud functions logs read <関数名> --limit 50
 
 **[パフォーマンス](/glossary/パフォーマンス/)分析**
 
-Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で監視できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを[確認](/glossary/確認/)し、ボトルネック箇所を特定してください。
+Cloud Profilerを有効化することで、[CPU](/glossary/cpu/)と[メモリ](/glossary/メモリ/)の使用状況を[リアルタイム](/glossary/リアルタイム/)で[監視](/glossary/監視/)できます。Firebase ConsoleまたはCloud Consoleで「[パフォーマンス](/glossary/パフォーマンス/)分析」セクションを[確認](/glossary/確認/)し、ボトルネック箇所を特定してください。
 
 **公式[ドキュメント](/glossary/ドキュメント/)**
 

@@ -16,7 +16,7 @@ lastmod: 2026-06-14
 
 ## エラーの概要
 
-Podman の 400 [エラー](/glossary/エラー/)は、Podman [API](/glossary/api/) または[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)形式が不正であることを示します。[コマンド](/glossary/コマンド/)構文の誤り、[イメージ](/glossary/イメージ/)指定の形式違反、[レジストリ](/glossary/レジストリ/)認証情報の不備などが原因として起こり、[コンテナ](/glossary/コンテナ/)の起動やプル操作が失敗します。
+Podman の 400 [エラー](/glossary/エラー/)は、Podman [API](/glossary/api/) または[レジストリ](/glossary/レジストリ/)への[リクエスト](/glossary/リクエスト/)形式が不正であることを示します。[コマンド](/glossary/コマンド/)構文の誤り、[イメージ](/glossary/イメージ/)指定の形式違反、[レジストリ](/glossary/レジストリ/)認証情報の不備などが原因として起こり、[コンテナ](/glossary/コンテナ/)の起動や[プル](/glossary/プル/)操作が失敗します。
 
 ## 実際のエラーメッセージ例
 
@@ -74,7 +74,7 @@ podman run myregistry.com:5000/app:v1
 
 **3. [レジストリ](/glossary/レジストリ/)認証情報の形式が不正である**
 
-`podman login` 時に[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/) の形式が間違っていたり、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が `auth.json` に不正な形式で[保存](/glossary/保存/)されたりすると、プル操作で 400 [エラー](/glossary/エラー/)が発生します。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、[URL](/glossary/url/) にプロトコルスキーム（`https://` など）を含める必要があります。
+`podman login` 時に[レジストリ](/glossary/レジストリ/)[URL](/glossary/url/) の形式が間違っていたり、[認証](/glossary/認証/)[トークン](/glossary/トークン/)が `auth.json` に不正な形式で[保存](/glossary/保存/)されたりすると、[プル](/glossary/プル/)操作で 400 [エラー](/glossary/エラー/)が発生します。特に[プライベートレジストリ](/glossary/プライベートレジストリ/)を使用する場合、[URL](/glossary/url/) にプロトコルスキーム（`https://` など）を含める必要があります。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 

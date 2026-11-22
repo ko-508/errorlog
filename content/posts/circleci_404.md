@@ -59,7 +59,7 @@ curl -X GET "https://circleci.com/api/v2/project/github/myorg/my-repo/pipeline" 
   -H "Circle-Token: <your-circleci-api-token>"
 ```
 
-WebUI で[確認](/glossary/確認/)した[プロジェクト](/glossary/プロジェクト/) [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを抽出して使用します。
+WebUI で[確認](/glossary/確認/)した[プロジェクト](/glossary/プロジェクト/) [URL](/glossary/url/)（例：`https://app.circleci.com/pipelines/github/myorg/my-repo`）から正確なスラッグを[抽出](/glossary/抽出/)して使用します。
 
 ### 原因2：パイプラインID またはワークフローID が存在しない
 

@@ -165,7 +165,7 @@ kubectl get pod my-app
 minikube dashboard
 ```
 
-[ダッシュボード](/glossary/ダッシュボード/)の左側メニューで [Namespace](/glossary/namespace/) を切り替え、該当する[リソース](/glossary/リソース/)が表示されるか[確認](/glossary/確認/)してください。
+[ダッシュボード](/glossary/ダッシュボード/)の左側[メニュー](/glossary/メニュー/)で [Namespace](/glossary/namespace/) を切り替え、該当する[リソース](/glossary/リソース/)が表示されるか[確認](/glossary/確認/)してください。
 
 **Minikube 内部のコンテナログを[確認](/glossary/確認/)する**
 

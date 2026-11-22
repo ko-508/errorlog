@@ -279,7 +279,7 @@ PodDisruptionBudgetに拒否された退避では、Eviction [API](/glossary/api
 kubectl delete pod <Pod名> -n <名前空間> --wait=false
 ```
 
-通常の[削除](/glossary/削除/)が完了しない原因を解消し、対象が消えるかを監視します。
+通常の[削除](/glossary/削除/)が完了しない原因を解消し、対象が消えるかを[監視](/glossary/監視/)します。
 
 ```bash
 kubectl wait --for=delete pod/<Pod名> -n <名前空間> --timeout=120s

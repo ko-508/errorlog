@@ -81,7 +81,7 @@ POST http://api.example.com/users
 
 Postmanで[修正](/glossary/修正/)するには、Bodyタブを開き、以下の手順を実行してください。
 
-1. Body内の「Code beautifier」または「format」[ボタン](/glossary/ボタン/)をクリックして[JSON](/glossary/json/)形式を自動整形する
+1. Body内の「Code beautifier」または「format」[ボタン](/glossary/ボタン/)を[クリック](/glossary/クリック/)して[JSON](/glossary/json/)形式を自動整形する
 2. 右側に表示される「Error」メッセージを[確認](/glossary/確認/)する
 3. [API](/glossary/api/)[ドキュメント](/glossary/ドキュメント/)で必須[フィールド](/glossary/フィールド/)を[確認](/glossary/確認/)し、すべて揃っているか検証する
 
@@ -159,7 +159,7 @@ Postmanで400[エラー](/glossary/エラー/)が発生した際、以下の[ツ
 
 **Postman Consoleの活用**
 
-View メニュー → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを[確認](/glossary/確認/)できます。[UI](/glossary/ui/)で[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
+View [メニュー](/glossary/メニュー/) → Show Postman Console を選択すると、[リクエスト](/glossary/リクエスト/)と[レスポンス](/glossary/レスポンス/)の詳細な[ログ](/glossary/ログ/)が表示されます。ここでは実際に[送信](/glossary/送信/)された[ヘッダー](/glossary/ヘッダー/)、ボディ、クエリパラメータを[確認](/glossary/確認/)できます。[UI](/glossary/ui/)で[設定](/glossary/設定/)した内容と実際に[送信](/glossary/送信/)された内容が異なるかどうかを把握できるため、[デバッグ](/glossary/デバッグ/)が格段に容易になります。
 
 **[環境変数](/glossary/環境変数/)とコレクション[変数](/glossary/変数/)の[確認](/glossary/確認/)**
 
@@ -183,7 +183,7 @@ Postman Consoleを開き、以下の情報を[確認](/glossary/確認/)しま�
 
 **cURL[コマンド](/glossary/コマンド/)での検証**
 
-Postmanの[リクエスト](/glossary/リクエスト/)右側にある「</> Code」[ボタン](/glossary/ボタン/)をクリックし、cURL[コマンド](/glossary/コマンド/)をコピーして[ターミナル](/glossary/ターミナル/)で実行してみてください。もし同じ[エラー](/glossary/エラー/)がcURLでも発生すれば、Postmanではなく[リクエスト](/glossary/リクエスト/)自体が不正です。反対に、cURLでは成功する場合、Postman固有の[設定](/glossary/設定/)に問題がある可能性があります。
+Postmanの[リクエスト](/glossary/リクエスト/)右側にある「</> Code」[ボタン](/glossary/ボタン/)を[クリック](/glossary/クリック/)し、cURL[コマンド](/glossary/コマンド/)をコピーして[ターミナル](/glossary/ターミナル/)で実行してみてください。もし同じ[エラー](/glossary/エラー/)がcURLでも発生すれば、Postmanではなく[リクエスト](/glossary/リクエスト/)自体が不正です。反対に、cURLでは成功する場合、Postman固有の[設定](/glossary/設定/)に問題がある可能性があります。
 
 例：
 

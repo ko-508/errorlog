@@ -101,7 +101,7 @@ Postmanのレスポンスパネルで、`status: 200` または `status: 201` �
 
 ### 原因2：コレクション実行時のファイル添付で、対象ファイルがワーキングディレクトリに存在しない
 
-Postmanのコレクションランナーで[テスト](/glossary/テスト/)を実行する際、`form-data` で[ファイル](/glossary/ファイル/)添付（File型）を指定しても、[ファイル](/glossary/ファイル/)が Postman の実行ワーキングディレクトリに配置されていないと、422[エラー](/glossary/エラー/)が発生します。[UI](/glossary/ui/)上での単発[リクエスト](/glossary/リクエスト/)実行では成功しても、Collection Run では失敗するケースが典型的です。
+Postmanのコレクションランナーで[テスト](/glossary/テスト/)を実行する際、`form-data` で[ファイル](/glossary/ファイル/)[添付](/glossary/添付/)（File型）を指定しても、[ファイル](/glossary/ファイル/)が Postman の実行ワーキングディレクトリに配置されていないと、422[エラー](/glossary/エラー/)が発生します。[UI](/glossary/ui/)上での単発[リクエスト](/glossary/リクエスト/)実行では成功しても、Collection Run では失敗するケースが典型的です。
 
 **Before（[エラー](/glossary/エラー/)が起きる[コード](/glossary/コード/)）：**
 
@@ -192,7 +192,7 @@ curl -X POST http://localhost:8000/users \
 | 解決策 | 実装難易度 | 再起動要否 | [対応](/glossary/対応/)[OS](/glossary/os/) |
 |--------|-----------|-----------|-------|
 | Content-Typeとボディ形式の一致を[確認](/glossary/確認/) | 低 | 不要 | 全[OS](/glossary/os/) |
-| [ファイル](/glossary/ファイル/)添付の[パス](/glossary/パス/)をワーキングディレクトリに[修正](/glossary/修正/) | 中 | 不要 | 全[OS](/glossary/os/) |
+| [ファイル](/glossary/ファイル/)[添付](/glossary/添付/)の[パス](/glossary/パス/)をワーキングディレクトリに[修正](/glossary/修正/) | 中 | 不要 | 全[OS](/glossary/os/) |
 | [リクエストボディ](/glossary/リクエストボディ/)を[パラメータ](/glossary/パラメータ/)から移動 | 中 | 不要 | 全[OS](/glossary/os/) |
 
 ## ツール固有の注意点

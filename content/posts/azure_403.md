@@ -114,7 +114,7 @@ $ az sql db show \
 ## ツール固有の注意点
 
 **Azure Portal での [RBAC](/glossary/rbac/) 確認方法**：
-[リソース](/glossary/リソース/)に対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を[設定](/glossary/設定/)することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal で[リソース](/glossary/リソース/)を選択し、左側メニューから「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを[確認](/glossary/確認/)」をクリックすることで、現在の割り当て状況を視覚的に[確認](/glossary/確認/)できます。
+[リソース](/glossary/リソース/)に対して直接[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）を[設定](/glossary/設定/)することで、より細粒度な[権限管理](/glossary/権限管理/)が可能です。Azure Portal で[リソース](/glossary/リソース/)を選択し、左側[メニュー](/glossary/メニュー/)から「[アクセス制御](/glossary/アクセス制御/)（[IAM](/glossary/iam/)）」を開き、「[ロール](/glossary/ロール/)の割り当てを[確認](/glossary/確認/)」を[クリック](/glossary/クリック/)することで、現在の割り当て状況を視覚的に[確認](/glossary/確認/)できます。
 
 **Azure [CLI](/glossary/cli/) での権限確認[コマンド](/glossary/コマンド/)**：
 ```bash
@@ -154,7 +154,7 @@ $ az monitor activity-log list \
   --output table
 ```
 
-Azure Portal の「監視」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、[対応](/glossary/対応/)するログエントリを[検索](/glossary/検索/)し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
+Azure Portal の「[監視](/glossary/監視/)」→「アクティビティログ」からも、[リアルタイム](/glossary/リアルタイム/)でエラーイベントを追跡できます。403 [エラー](/glossary/エラー/)が発生した時刻を基準に、[対応](/glossary/対応/)するログエントリを[検索](/glossary/検索/)し、「状態」「[リクエスト](/glossary/リクエスト/)」タブから詳細な [JSON](/glossary/json/) [レスポンス](/glossary/レスポンス/)を[確認](/glossary/確認/)することで、Policy が拒否しているのか、[RBAC](/glossary/rbac/) か、[ネットワーク](/glossary/ネットワーク/)[設定](/glossary/設定/)かを判定できます。
 
 サービスプリンシパルやマネージドアイデンティティを使用する場合、Azure AD の Application Registration から該当[オブジェクト](/glossary/オブジェクト/)の[オブジェクト](/glossary/オブジェクト/) [ID](/glossary/id/) が正しいか再確認してください。`az ad sp show --id <client-id>` で[確認](/glossary/確認/)できます。
 
