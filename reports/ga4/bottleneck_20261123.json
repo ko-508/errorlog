@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-11-23",
+  "period_days": 7,
+  "threshold_pv": 10,
+  "top_n": 10,
+  "pages": [
+    {
+      "pagePath": "/posts/postgresql_password_authentication_failed/",
+      "pageTitle": "PostgreSQL のパスワード認証失敗：原因と解決策 | ErrorLog - エラーコード解決ガイド",
+      "screenPageViews": 10.0,
+      "averageSessionDuration": 0.0,
+      "engagementRate": 0.0,
+      "bounceRate": 1.0
+    }
+  ]
+}
